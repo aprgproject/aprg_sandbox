@@ -124,10 +124,25 @@ TEST(SeriesUtilitiesTest, PerformIntegralTestWorksOnPSeriesWithPowerIsTwo)
     EXPECT_FALSE(isDivergent);
 }
 
-TEST(SeriesUtilitiesTest, PerformRatioTestWorks)
+TEST(SeriesUtilitiesTest, PerformRatioTestWorksWhenConvergent)
 {
-    Term numerator("n");
-    Term denominator(Monomial(1, {{"n", AlbaNumber::createFraction(1, 3)}}));
+    Term n("n");
+    Term numerator(n);
+    Term denominator(createExpressionIfPossible({Term(2), Term("^"), n}));
+    Term formula(createExpressionIfPossible({numerator, Term("/"), denominator}));
+    SeriesBasedOnSummation series(formula, "n");
+    bool isConvergent(false);
+    bool isDivergent(false);
+    performRatioTest(isConvergent, isDivergent, series, "n");
+
+    EXPECT_TRUE(isConvergent);
+    EXPECT_FALSE(isDivergent);
+}
+
+TEST(SeriesUtilitiesTest, PerformRatioTestWorksWhenConvergentOrDivergent)
+{
+    Term numerator(Polynomial{Monomial(1, {{"n", 1}}), Monomial(2, {})});
+    Term denominator(Polynomial{Monomial(1, {{"n", 2}}), Monomial(1, {{"n", 1}})});
     Term formula(createExpressionIfPossible({numerator, Term("/"), denominator}));
     SeriesBasedOnSummation series(formula, "n");
 
@@ -138,26 +153,25 @@ TEST(SeriesUtilitiesTest, PerformRatioTestWorks)
     EXPECT_FALSE(isConvergent);
     EXPECT_FALSE(isDivergent);
 }
-
 TEST(SeriesUtilitiesTest, PerformRootTestWorks)
 {
-    Term numerator("n");
-    Term denominator(Monomial(1, {{"n", AlbaNumber::createFraction(1, 3)}}));
+    Term n("n");
+    Term exponentNumerator(Polynomial{Monomial(2, {{"n", 1}}), Monomial(1, {})});
+    Term exponentDenominator(Polynomial{Monomial(2, {{"n", 1}})});
+    Term numerator(createExpressionIfPossible({Term(3), Term("^"), exponentNumerator}));
+    Term denominator(createExpressionIfPossible({n, Term("^"), exponentDenominator}));
     Term formula(createExpressionIfPossible({numerator, Term("/"), denominator}));
     SeriesBasedOnSummation series(formula, "n");
-
     bool isConvergent(false);
     bool isDivergent(false);
     performRootTest(isConvergent, isDivergent, series, "n");
 
-    EXPECT_FALSE(isConvergent);
+    EXPECT_TRUE(isConvergent);
     EXPECT_FALSE(isDivergent);
 }
-
 TEST(SeriesUtilitiesTest, GetSumOfArithmeticSeriesUsingFirstAndLastTermWorksWithValues)
 {
-    EXPECT_EQ(Term(60), getSumOfArithmeticSeriesUsingFirstAndLastTerm(Term(12), Term(18), Term(4)));
-}
+    EXPECT_EQ(Term(60), getSumOfArithmeticSeriesUsingFirstAndLastTerm(Term(12), Term(18), Term(4)));}
 
 TEST(SeriesUtilitiesTest, GetSumOfArithmeticSeriesUsingFirstAndLastTermWorksWithExample1)
 {

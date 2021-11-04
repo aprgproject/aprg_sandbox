@@ -304,15 +304,13 @@ TEST(IntegrationTest, IntegrateExpressionWorks)
     {Term(sin(Term(Monomial(1, {{"x", 2}})))), Term("/"), Term(2)}));
     Term termToExpect6(Monomial(AlbaNumber::createFraction(16, 5), {{"x", 5}}));
     Term termToExpect7(createExpressionIfPossible(
-    {Term(4), Term("^"), Term("x"), Term("^"), Term(2), Term("/"), Term(2.772588722239781)}));
+    {Term(4), Term("^"), Term(Monomial(2, {{"x", 1}})), Term("/"), Term(2.772588722239781)}));
     EXPECT_EQ(termToExpect1, termToVerify1);
     EXPECT_EQ(termToExpect2, termToVerify2);
-    EXPECT_EQ(termToExpect3, termToVerify3);
-    EXPECT_EQ(termToExpect4, termToVerify4);
+    EXPECT_EQ(termToExpect3, termToVerify3);    EXPECT_EQ(termToExpect4, termToVerify4);
     EXPECT_EQ(termToExpect5, termToVerify5);
     EXPECT_EQ(termToExpect6, termToVerify6);
-    EXPECT_EQ(termToExpect7, termToVerify7);
-    EXPECT_TRUE(isNotANumber(termToVerify8));
+    EXPECT_EQ(termToExpect7, termToVerify7);    EXPECT_TRUE(isNotANumber(termToVerify8));
 }
 
 TEST(IntegrationTest, IntegrateFunctionWorksWithDifferentFunctions)

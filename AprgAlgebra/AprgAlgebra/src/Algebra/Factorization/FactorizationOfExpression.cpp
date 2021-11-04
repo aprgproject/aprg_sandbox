@@ -54,13 +54,12 @@ TermsRaiseToNumbers factorizeToTermsRaiseToNumbersForAdditionAndSubtraction(
     TermsRaiseToNumbers result;
     vector<TermsRaiseToNumbers> nonConstantFactorsPerAddends;
     AlbaNumbers constantFactorsPerAddends;
-    retrieveConstantAndNonConstantFactors(nonConstantFactorsPerAddends, constantFactorsPerAddends, expression);
+    TermsWithDetails const& originalTermsWithDetails(expression.getTermsWithAssociation().getTermsWithDetails());
+    retrieveConstantAndNonConstantFactors(nonConstantFactorsPerAddends, constantFactorsPerAddends, originalTermsWithDetails);
 
     AlbaNumber constantGcf(getGcfOfConstants(constantFactorsPerAddends));
-
     TermsRaiseToNumbers commonNonConstantFactors;
     retrieveCommonNonConstantFactors(commonNonConstantFactors, nonConstantFactorsPerAddends);
-
     result = getFactorizedItemsForAdditionAndSubtraction(expression, constantFactorsPerAddends, nonConstantFactorsPerAddends, constantGcf, commonNonConstantFactors);
 
     return result;
@@ -108,28 +107,24 @@ TermsRaiseToNumbers factorizeToTermsRaiseToNumbersForRaiseToPower(
     {
         Terms factorizedBases(factorizeTerm(base));
         result.putTerms(factorizedBases, TermAssociationType::Positive);
-        result.multiplyNumberToExponents(mainBaseToExponent.getExponent());
+        result.multiplyToExponents(mainBaseToExponent.getExponent());
     }
     return result;
 }
-
 void retrieveConstantAndNonConstantFactors(
         vector<TermsRaiseToNumbers> & nonConstantFactorsPerAddends,
         AlbaNumbers & constantFactors,
-        Expression const& expression)
+        TermsWithDetails const& originalTermsWithDetails)
 {
-    TermsWithDetails const& termsWithDetails(expression.getTermsWithAssociation().getTermsWithDetails());
-    for(TermWithDetails const& termWithDetails : termsWithDetails)
+    for(TermWithDetails const& originalTermWithDetails : originalTermsWithDetails)
     {
-        Term const& term(getTermConstReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer));
+        Term const& term(getTermConstReferenceFromSharedPointer(originalTermWithDetails.baseTermSharedPointer));
         Terms factors(factorizeTerm(term));
 
-        AlbaNumber constantFactor(1);
-        TermsRaiseToNumbers nonConstantRaiseToExponent;
+        AlbaNumber constantFactor(1);        TermsRaiseToNumbers nonConstantRaiseToExponent;
         for(Term const& factor : factors)
         {
-            if(factor.isConstant())
-            {
+            if(factor.isConstant())            {
                 constantFactor *= factor.getConstantValueConstReference();
             }
             else
@@ -216,15 +211,12 @@ TermsRaiseToNumbers getFactorizedItemsForAdditionAndSubtraction(
         TermsWithDetails innerMultipliers;
         putRemainingConstantFactorAsAnInnerMultiplier(innerMultipliers, constantFactorsPerAddends.at(i), constantGcf);
         putRemainingNonConstantFactorsAsInnerMultipliers(innerMultipliers, nonConstantFactorsPerAddends.at(i), commonNonConstantFactors);
-
         putRemainingInnerMultipliersAsOuterAddend(outerAddends, innerMultipliers, originalAddends.at(i));
     }
-    return getFactorizedItemsBasedFromCollectedData(constantGcf, commonNonConstantFactors, outerAddends);
-}
+    return getFactorizedItemsBasedFromCollectedData(constantGcf, commonNonConstantFactors, outerAddends);}
 
 void putRemainingConstantFactorAsAnInnerMultiplier(
-        TermsWithDetails & innerMultipliers,
-        AlbaNumber const& constantFactorOfOriginalAddend,
+        TermsWithDetails & innerMultipliers,        AlbaNumber const& constantFactorOfOriginalAddend,
         AlbaNumber const& constantGcf)
 {
     AlbaNumber remainingConstant(constantFactorOfOriginalAddend/constantGcf);

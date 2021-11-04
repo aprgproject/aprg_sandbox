@@ -24,23 +24,22 @@ public:
     AlbaNumber getExponentOfBase(Term const& base) const;
     Terms getTermsInMultiplicationOperation() const;
     TermsWithDetails getTermWithDetailsInMultiplicationAndDivisionOperation() const;
+    Term getCombinedTerm() const;
 
     void addExponents(TermsRaiseToNumbers const& termsRaiseToNumbers);
     void subtractExponents(TermsRaiseToNumbers const& termsRaiseToNumbers);
-    void multiplyNumberToExponents(AlbaNumber const& number);
+    void multiplyToExponents(AlbaNumber const& number);
     void putTerm(Term const& term, TermAssociationType const association);
     void putTerms(Terms const& terms, TermAssociationType const association);
-
     void setBaseAndExponent(Term const& base, AlbaNumber const& exponent);
     void removeItemWithBase(Term const& base);
 
+    void clear();
     void simplify();
 
 private:
-
     void removeItemsWithExponentsZero();
     Term convertToTerm(Term const& base, AlbaNumber const& exponent) const;
-
     BaseToExponentMap m_baseToExponentMap;
 };
 

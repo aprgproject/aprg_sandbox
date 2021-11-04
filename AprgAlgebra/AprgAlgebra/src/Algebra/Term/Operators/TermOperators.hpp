@@ -76,14 +76,13 @@ Term operator+(Term const& term, Polynomial const& polynomial);
 Term operator+(Term const& term, Expression const& expression);
 Term operator+(Term const& term, Function const& functionObject);
 Term operator+(Term const& term1, Term const& term2);
+Term & operator+=(Term & term1, Term const& term2);
 
 //Subtraction: a - b
-Term operator-(Constant const& constant1, Constant const& constant2);
-Term operator-(Constant const& constant, Variable const& variable);
+Term operator-(Constant const& constant1, Constant const& constant2);Term operator-(Constant const& constant, Variable const& variable);
 Term operator-(Constant const& constant, Monomial const& monomial);
 Term operator-(Constant const& constant, Polynomial const& polynomial);
-Term operator-(Constant const& constant, Expression const& expression);
-Term operator-(Constant const& constant, Function const& functionObject);
+Term operator-(Constant const& constant, Expression const& expression);Term operator-(Constant const& constant, Function const& functionObject);
 Term operator-(Constant const& constant, Term const& term);
 Term operator-(Variable const& variable, Constant const& constant);
 Term operator-(Variable const& variable1, Variable const& variable2);
@@ -127,14 +126,13 @@ Term operator-(Term const& term, Polynomial const& polynomial);
 Term operator-(Term const& term, Expression const& expression);
 Term operator-(Term const& term, Function const& functionObject);
 Term operator-(Term const& term1, Term const& term2);
+Term & operator-=(Term & term1, Term const& term2);
 
 //Multiplication: a * b
-Term operator*(Constant const& constant1, Constant const& constant2);
-Term operator*(Constant const& constant, Variable const& variable);
+Term operator*(Constant const& constant1, Constant const& constant2);Term operator*(Constant const& constant, Variable const& variable);
 Term operator*(Constant const& constant, Monomial const& monomial);
 Term operator*(Constant const& constant, Polynomial const& polynomial);
-Term operator*(Constant const& constant, Expression const& expression);
-Term operator*(Constant const& constant, Function const& functionObject);
+Term operator*(Constant const& constant, Expression const& expression);Term operator*(Constant const& constant, Function const& functionObject);
 Term operator*(Constant const& constant, Term const& term);
 Term operator*(Variable const& variable, Constant const& constant);
 Term operator*(Variable const& variable1, Variable const& variable2);
@@ -178,14 +176,13 @@ Term operator*(Term const& term, Polynomial const& polynomial);
 Term operator*(Term const& term, Expression const& expression);
 Term operator*(Term const& term, Function const& functionObject);
 Term operator*(Term const& term1, Term const& term2);
+Term & operator*=(Term & term1, Term const& term2);
 
 //Divsion: a / b
-Term operator/(Constant const& constant1, Constant const& constant2);
-Term operator/(Constant const& constant, Variable const& variable);
+Term operator/(Constant const& constant1, Constant const& constant2);Term operator/(Constant const& constant, Variable const& variable);
 Term operator/(Constant const& constant, Monomial const& monomial);
 Term operator/(Constant const& constant, Polynomial const& polynomial);
-Term operator/(Constant const& constant, Expression const& expression);
-Term operator/(Constant const& constant, Function const& functionObject);
+Term operator/(Constant const& constant, Expression const& expression);Term operator/(Constant const& constant, Function const& functionObject);
 Term operator/(Constant const& constant, Term const& term);
 Term operator/(Variable const& variable, Constant const& constant);
 Term operator/(Variable const& variable1, Variable const& variable2);
@@ -229,14 +226,13 @@ Term operator/(Term const& term, Polynomial const& polynomial);
 Term operator/(Term const& term, Expression const& expression);
 Term operator/(Term const& term, Function const& functionObject);
 Term operator/(Term const& term1, Term const& term2);
+Term & operator/=(Term & term1, Term const& term2);
 
 //RaiseToThePower: a ^ b
-Term operator^(Constant const& constant1, Constant const& constant2);
-Term operator^(Constant const& constant, Variable const& variable);
+Term operator^(Constant const& constant1, Constant const& constant2);Term operator^(Constant const& constant, Variable const& variable);
 Term operator^(Constant const& constant, Monomial const& monomial);
 Term operator^(Constant const& constant, Polynomial const& polynomial);
-Term operator^(Constant const& constant, Expression const& expression);
-Term operator^(Constant const& constant, Function const& functionObject);
+Term operator^(Constant const& constant, Expression const& expression);Term operator^(Constant const& constant, Function const& functionObject);
 Term operator^(Constant const& constant, Term const& term);
 Term operator^(Variable const& variable, Constant const& constant);
 Term operator^(Variable const& variable1, Variable const& variable2);
@@ -280,7 +276,7 @@ Term operator^(Term const& term, Polynomial const& polynomial);
 Term operator^(Term const& term, Expression const& expression);
 Term operator^(Term const& term, Function const& functionObject);
 Term operator^(Term const& term1, Term const& term2);
+Term & operator^=(Term & term1, Term const& term2);
 
 }
-
 }

@@ -1,12 +1,11 @@
 #include "SeriesUtilities.hpp"
 
+#include <Algebra/Constructs/ConstructUtilities.hpp>
 #include <Algebra/Integration/Integration.hpp>
 #include <Algebra/Limit/Limit.hpp>
-#include <Algebra/Substitution/SubstitutionOfVariablesToTerms.hpp>
-#include <Algebra/Term/Operators/TermOperators.hpp>
+#include <Algebra/Substitution/SubstitutionOfVariablesToTerms.hpp>#include <Algebra/Term/Operators/TermOperators.hpp>
 #include <Algebra/Term/Utilities/TermUtilities.hpp>
 #include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>
-
 using namespace std;
 
 namespace alba
@@ -175,16 +174,16 @@ void performRootTest(
         string const& variableName)
 {
     Term formulaForEachTerm(series.getFormulaForEachTermInSummation());
-    Term exponent(Term(1) / Term(variableName));
-    Term termForLimit(formulaForEachTerm^exponent);
+    TermsOverTerms termsOverTerms(createTermsOverTermsFromTerm(formulaForEachTerm));
+    TermsRaiseToTerms termsRaiseToTerms(termsOverTerms.getTermsRaiseToTerms());
+    termsRaiseToTerms.multiplyToExponents(Term(1)/Term(variableName));
+    Term termForLimit(termsRaiseToTerms.getCombinedTerm());
     Term limitTerm(getLimit(termForLimit, variableName, AlbaNumber(AlbaNumber::Value::PositiveInfinity)));
     if(limitTerm.isConstant())
-    {
-        AlbaNumber limitValue(limitTerm.getConstantValueConstReference());
+    {        AlbaNumber limitValue(limitTerm.getConstantValueConstReference());
         if(limitValue < 1)
         {
-            isConvergent = true;
-        }
+            isConvergent = true;        }
         else if(limitValue > 1)
         {
             isDivergent = true;

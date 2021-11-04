@@ -22,46 +22,55 @@ TEST(TermRaiseToTermsTest, ConstructionWithNoArgumentWorks)
     EXPECT_TRUE(termRaiseToTerms.getExponents().empty());
 }
 
-TEST(TermRaiseToTermsTest, ConstructionWithTermRaiseToTermsWithDetailsWorks)
-{
-    Term base("x");
-    TermsWithDetails exponents{TermWithDetails(Term("y"), TermAssociationType::Positive)};
-    TermRaiseToTerms termRaiseToTerms(base, exponents);
-
-    EXPECT_EQ(base, termRaiseToTerms.getBase());
-    EXPECT_EQ(exponents, termRaiseToTerms.getExponents());
-}
-
-TEST(TermRaiseToTermsTest, ConstructionWithTermsInRaiseToPowerExpressionWorks)
+TEST(TermRaiseToTermsTest, ConstructionWithTermsWithDetailsWorks)
 {
     TermsWithDetails termsInRaiseToPowerExpression;
     termsInRaiseToPowerExpression.emplace_back(Term("x"), TermAssociationType::Positive);
-    termsInRaiseToPowerExpression.emplace_back(Term("y"), TermAssociationType::Positive);
-    TermRaiseToTerms termRaiseToTerms(termsInRaiseToPowerExpression);
+    termsInRaiseToPowerExpression.emplace_back(Term("y"), TermAssociationType::Positive);    TermRaiseToTerms termRaiseToTerms(termsInRaiseToPowerExpression);
 
     TermsWithDetails expectedExponents{TermWithDetails(Term("y"), TermAssociationType::Positive)};
     EXPECT_EQ(Term("x"), termRaiseToTerms.getBase());
     EXPECT_EQ(expectedExponents, termRaiseToTerms.getExponents());
 }
 
-TEST(TermRaiseToTermsTest, ConstructionWithTermRaiseToTermsWorks)
+TEST(TermRaiseToTermsTest, ConstructionWithBaseAndExponentsWithDetailsWorks)
 {
     Term base("x");
-    TermRaiseToTerms termRaiseToTerms(base, {Term("y")});
+    TermsWithDetails exponentsWithDetails{TermWithDetails(Term("y"), TermAssociationType::Positive)};
+    TermRaiseToTerms termRaiseToTerms(base, exponentsWithDetails);
+
+    EXPECT_EQ(base, termRaiseToTerms.getBase());
+    EXPECT_EQ(exponentsWithDetails, termRaiseToTerms.getExponents());
+}
+
+TEST(TermRaiseToTermsTest, ConstructionWithBaseAndExponentsWorks)
+{
+    Term base("x");
+    Terms exponents{Term("y")};
+    TermRaiseToTerms termRaiseToTerms(base, exponents);
 
     EXPECT_EQ(base, termRaiseToTerms.getBase());
     TermsWithDetails expectedExponents{TermWithDetails(Term("y"), TermAssociationType::Positive)};
     EXPECT_EQ(expectedExponents, termRaiseToTerms.getExponents());
 }
 
+TEST(TermRaiseToTermsTest, ConstructionWithBaseAndExponentWorks)
+{
+    Term base("x");
+    Term exponent("y");
+    TermRaiseToTerms termRaiseToTerms(base, exponent);
+
+    EXPECT_EQ(base, termRaiseToTerms.getBase());
+    TermsWithDetails expectedExponents{TermWithDetails(exponent, TermAssociationType::Positive)};
+    EXPECT_EQ(expectedExponents, termRaiseToTerms.getExponents());
+}
+
 TEST(TermRaiseToTermsTest, DoesEvenExponentCancellationHappenWorks)
 {
-    TermRaiseToTerms termRaiseToTerms1(Term("base"), {Term(3), Term(5)});
-    TermRaiseToTerms termRaiseToTerms2(Term("base"), {Term(3), Term(AlbaNumber::createFraction(1, 3))});
+    TermRaiseToTerms termRaiseToTerms1(Term("base"), {Term(3), Term(5)});    TermRaiseToTerms termRaiseToTerms2(Term("base"), {Term(3), Term(AlbaNumber::createFraction(1, 3))});
     TermRaiseToTerms termRaiseToTerms3(Term("base"), {Term(AlbaNumber::createFraction(4, 3)), Term(AlbaNumber::createFraction(1, 3))});
     TermRaiseToTerms termRaiseToTerms4(Term("base"), {Term(AlbaNumber::createFraction(1, 3)), Term(AlbaNumber::createFraction(1, 6))});
     TermRaiseToTerms termRaiseToTerms5(Term("base"), {Term(AlbaNumber::createFraction(4, 3)), Term(AlbaNumber::createFraction(1, 6))});
-
     EXPECT_FALSE(termRaiseToTerms1.doesEvenExponentCancellationHappen());
     EXPECT_FALSE(termRaiseToTerms2.doesEvenExponentCancellationHappen());
     EXPECT_FALSE(termRaiseToTerms3.doesEvenExponentCancellationHappen());
@@ -161,14 +170,12 @@ TEST(TermRaiseToTermsTest, SimplifyWorksWhenBaseIsMonomialAndExponentIsNumber)
 TEST(TermRaiseToTermsTest, SimplifyWorksWhenBaseIsPolynomialAndExponentIsNumber)
 {
     Term base(Polynomial{Monomial(1, {{"x", 1}}), Monomial(1, {})});
-    TermRaiseToTerms termRaiseToTerms(base, {Term(2)});
+    TermRaiseToTerms termRaiseToTerms(base, Term(2));
 
     termRaiseToTerms.simplify();
-
     EXPECT_EQ(Term(Polynomial{Monomial(1, {{"x", 2}}), Monomial(2, {{"x", 1}}), Monomial(1, {})}), termRaiseToTerms.getBase());
     EXPECT_TRUE(termRaiseToTerms.getExponents().empty());
-    EXPECT_EQ(Term(Polynomial{Monomial(1, {{"x", 2}}), Monomial(2, {{"x", 1}}), Monomial(1, {})}), termRaiseToTerms.getCombinedTerm());
-}
+    EXPECT_EQ(Term(Polynomial{Monomial(1, {{"x", 2}}), Monomial(2, {{"x", 1}}), Monomial(1, {})}), termRaiseToTerms.getCombinedTerm());}
 
 TEST(TermRaiseToTermsTest, SimplifyWorksWhenExponentsResultsInAnMultiplicationExpression)
 {
@@ -220,28 +227,24 @@ TEST(TermRaiseToTermsTest, SimplifyWithEvenExponentsCancellationAndPutAbsoluteVa
 TEST(TermRaiseToTermsTest, SimplifyByCheckingPolynomialRaiseToAnUnsignedIntWorks)
 {
     Term base(Polynomial{Monomial(1, {{"x", 2}}), Monomial(2, {{"x", 1}}), Monomial(1, {})});
-    TermRaiseToTerms termRaiseToTerms(base, {Term("x")});
+    TermRaiseToTerms termRaiseToTerms(base, Term("x"));
     termRaiseToTerms.setAsShouldSimplifyByCheckingPolynomialRaiseToAnUnsignedInt(true);
 
     termRaiseToTerms.simplify();
-
     EXPECT_EQ(Term(Polynomial{Monomial(1, {{"x", 1}}), Monomial(1, {})}), termRaiseToTerms.getBase());
     TermsWithDetails expectedExponents{TermWithDetails(Term(Monomial(2, {{"x", 1}})), TermAssociationType::Positive)};
-    EXPECT_EQ(expectedExponents, termRaiseToTerms.getExponents());
-}
+    EXPECT_EQ(expectedExponents, termRaiseToTerms.getExponents());}
 
 TEST(TermRaiseToTermsTest, SimplifyWorksWithSimplifyingToFactors)
 {
     Term base(Polynomial{Monomial(1, {{"x", 1}}), Monomial(1, {})});
-    TermRaiseToTerms termRaiseToTerms(base, {Term(5)});
+    TermRaiseToTerms termRaiseToTerms(base, Term(5));
     termRaiseToTerms.setAsShouldSimplifyToFactors(true);
 
     termRaiseToTerms.simplify();
-
     EXPECT_EQ(Term(Polynomial{Monomial(1, {{"x", 1}}), Monomial(1, {})}), termRaiseToTerms.getBase());
     TermsWithDetails expectedExponents{TermWithDetails(Term(5), TermAssociationType::Positive)};
-    EXPECT_EQ(expectedExponents, termRaiseToTerms.getExponents());
-    Term expectedCombinedTerm(createExpressionIfPossible({Term(Polynomial{Monomial(1, {{"x", 1}}), Monomial(1, {})}), Term("^"), Term(5)}));
+    EXPECT_EQ(expectedExponents, termRaiseToTerms.getExponents());    Term expectedCombinedTerm(createExpressionIfPossible({Term(Polynomial{Monomial(1, {{"x", 1}}), Monomial(1, {})}), Term("^"), Term(5)}));
     EXPECT_EQ(expectedCombinedTerm, termRaiseToTerms.getCombinedTerm());
 }
 
@@ -250,14 +253,12 @@ TEST(TermRaiseToTermsTest, SimplifyWorksWithReducingExponentialToLogarithmic)
     Term polynomialTerm(Polynomial{Monomial(1, {{"x", 1}}), Monomial(1, {})});
     Term base(getEAsTerm());
     Term exponent(ln(polynomialTerm));
-    TermRaiseToTerms termRaiseToTerms(base, {exponent});
+    TermRaiseToTerms termRaiseToTerms(base, exponent);
 
     termRaiseToTerms.simplify();
-
     EXPECT_EQ(Term(Polynomial{Monomial(1, {{"x", 1}}), Monomial(1, {})}), termRaiseToTerms.getBase());
     EXPECT_TRUE(termRaiseToTerms.getExponents().empty());
-    Term expectedCombinedTerm(polynomialTerm);
-    EXPECT_EQ(expectedCombinedTerm, termRaiseToTerms.getCombinedTerm());
+    Term expectedCombinedTerm(polynomialTerm);    EXPECT_EQ(expectedCombinedTerm, termRaiseToTerms.getCombinedTerm());
 }
 
 TEST(TermRaiseToTermsTest, SimplifyWorksWithReducingExponentialToLogarithmicWithMultipleExponents)
@@ -280,14 +281,12 @@ TEST(TermRaiseToTermsTest, SimplifyWorksWithNegativeNumberRaiseToInfinity)
 {
     Term base(-1);
     Term exponent(AlbaNumber(AlbaNumber::Value::PositiveInfinity));
-    TermRaiseToTerms termRaiseToTerms(base, {exponent});
+    TermRaiseToTerms termRaiseToTerms(base, exponent);
 
     termRaiseToTerms.simplify();
-
     EXPECT_TRUE(isNotANumber(termRaiseToTerms.getBase()));
     EXPECT_TRUE(termRaiseToTerms.getExponents().empty());
-    EXPECT_TRUE(isNotANumber(termRaiseToTerms.getCombinedTerm()));
-}
+    EXPECT_TRUE(isNotANumber(termRaiseToTerms.getCombinedTerm()));}
 
 }
 

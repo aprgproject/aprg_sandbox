@@ -2,14 +2,13 @@
 
 #include <Algebra/Constructs/PolynomialOverPolynomial.hpp>
 #include <Algebra/Constructs/TermRaiseToANumber.hpp>
+#include <Algebra/Constructs/TermRaiseToTerms.hpp>
 #include <Algebra/Factorization/FactorizationConfiguration.hpp>
 #include <Algebra/Factorization/FactorizationOfTerm.hpp>
-#include <Algebra/Operations/AccumulateOperations.hpp>
-#include <Algebra/Term/Operators/TermOperators.hpp>
+#include <Algebra/Operations/AccumulateOperations.hpp>#include <Algebra/Term/Operators/TermOperators.hpp>
 #include <Algebra/Term/Utilities/BaseTermHelpers.hpp>
 #include <Algebra/Term/Utilities/ConvertHelpers.hpp>
-#include <Algebra/Term/Utilities/CreateHelpers.hpp>
-#include <Algebra/Term/Utilities/RetrieveHelpers.hpp>
+#include <Algebra/Term/Utilities/CreateHelpers.hpp>#include <Algebra/Term/Utilities/RetrieveHelpers.hpp>
 #include <Algebra/Term/Utilities/SegregateHelpers.hpp>
 #include <Algebra/Term/Utilities/TermUtilities.hpp>
 #include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>
@@ -167,15 +166,24 @@ TermsRaiseToNumbers TermsOverTerms::getTermsRaiseToNumbers() const
     return result;
 }
 
+TermsRaiseToTerms TermsOverTerms::getTermsRaiseToTerms() const
+{
+    TermsRaiseToTerms result;
+    Terms factorizedNumerators(factorizeTermsAsNeeded(m_numerators));
+    Terms factorizedDenominators(factorizeTermsAsNeeded(m_denominators));
+
+    result.putTerms(factorizedNumerators, TermAssociationType::Positive);
+    result.putTerms(factorizedDenominators, TermAssociationType::Negative);
+    return result;
+}
+
 void TermsOverTerms::flip()
 {
-    swap(m_numerators, m_denominators);
-}
+    swap(m_numerators, m_denominators);}
 
 string TermsOverTerms::getDisplayableString() const
 {
-    stringstream result;
-    result << "Numerators:" << endl;
+    stringstream result;    result << "Numerators:" << endl;
     for(Term const& numerator : m_numerators)
     {
         result << "[" << numerator.getDisplayableString() << "]" << endl;
@@ -350,24 +358,58 @@ void TermsOverTerms::calculateBasesAndExponentsAndPutThatToNumeratorsAndDenomina
         Terms & numeratorTerms,
         Terms & denominatorTerms)
 {
-    TermsRaiseToNumbers basesAndExponents;
+    TermsRaiseToTerms basesAndExponents;
     basesAndExponents.putTerms(numeratorTerms, TermAssociationType::Positive);
     basesAndExponents.putTerms(denominatorTerms, TermAssociationType::Negative);
-
     numeratorTerms.clear();
     denominatorTerms.clear();
 
-    putTermsOnNumeratorAndDenominatorBasedFromTermsRaiseToNumbers(numeratorTerms, denominatorTerms, basesAndExponents);
+    putTermsOnNumeratorAndDenominatorBasedFromTermsRaiseToTerms(numeratorTerms, denominatorTerms, basesAndExponents);
+}
+
+void TermsOverTerms::putTermsOnNumeratorAndDenominatorBasedFromTermsRaiseToTerms(
+        Terms & numeratorTerms,
+        Terms & denominatorTerms,
+        TermsRaiseToTerms const& termsRaiseToTerms)
+{
+    for(auto const& baseExponentPair : termsRaiseToTerms.getBaseToExponentMap())
+    {
+        Term const& base(baseExponentPair.first);
+        Term const& exponent(baseExponentPair.second);
+        if(!isIntegerConstant(exponent) || m_shouldSimplifyToFactors)
+        {
+            if(isANegativeTerm(exponent))
+            {
+                TermRaiseToTerms termRaiseToTerms(base, exponent*-1);
+                denominatorTerms.emplace_back(termRaiseToTerms.getCombinedTerm());
+            }
+            else if(!isTheValue(exponent, 0))
+            {
+                TermRaiseToTerms termRaiseToTerms(base, exponent);
+                numeratorTerms.emplace_back(termRaiseToTerms.getCombinedTerm());
+            }
+        }
+        else
+        {
+            AlbaNumber const& exponentValue(exponent.getConstantValueConstReference());
+            if(isANegativeTerm(exponent))
+            {
+                populateTermsWithBase(denominatorTerms, base, exponentValue);
+            }
+            else if(!isTheValue(exponent, 0))
+            {
+                populateTermsWithBase(numeratorTerms, base, exponentValue);
+            }
+        }
+    }
 }
 
 void TermsOverTerms::putTermsOnNumeratorAndDenominatorBasedFromTermsRaiseToNumbers(
         Terms & numeratorTerms,
-        Terms & denominatorTerms,
-        TermsRaiseToNumbers const& termsRaiseToNumbers)
+        Terms & denominatorTerms,        TermsRaiseToNumbers const& termsRaiseToNumbers)
 {
     for(auto const& baseExponentPair : termsRaiseToNumbers.getBaseToExponentMap())
-    {
-        Term const& base(baseExponentPair.first);
+    {        Term const& base(baseExponentPair.first);
         AlbaNumber const& exponent(baseExponentPair.second);
         if(!exponent.isIntegerType() || m_shouldSimplifyToFactors)
         {

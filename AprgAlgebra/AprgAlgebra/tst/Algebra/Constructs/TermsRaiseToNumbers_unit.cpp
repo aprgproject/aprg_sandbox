@@ -115,15 +115,13 @@ TEST(TermsRaiseToNumbersTest, AddExponentsWorks)
 
 TEST(TermsRaiseToNumbersTest, SubtractExponentsWorks)
 {
-    TermsRaiseToNumbers termsRaiseToNumbersToSubtract({{Term("x"), 1}, {Term("y"), -2}, {Term("z"), 3}});
     TermsRaiseToNumbers termsRaiseToNumbers({{Term("x"), 4}, {Term("y"), -5}, {Term("z"), 6}});
+    TermsRaiseToNumbers termsRaiseToNumbersToSubtract({{Term("x"), 1}, {Term("y"), -2}, {Term("z"), 3}});
 
     termsRaiseToNumbers.subtractExponents(termsRaiseToNumbersToSubtract);
-
     TermsRaiseToNumbers::BaseToExponentMap const mapToVerify(termsRaiseToNumbers.getBaseToExponentMap());
     ASSERT_EQ(3U, mapToVerify.size());
-    auto itToVerify = mapToVerify.cbegin();
-    EXPECT_EQ(Term("x"), itToVerify->first);
+    auto itToVerify = mapToVerify.cbegin();    EXPECT_EQ(Term("x"), itToVerify->first);
     EXPECT_EQ(AlbaNumber(3), itToVerify->second);
     itToVerify++;
     EXPECT_EQ(Term("y"), itToVerify->first);
@@ -137,15 +135,13 @@ TEST(TermsRaiseToNumbersTest, MultiplyNumberToExponentsWorks)
 {
     TermsRaiseToNumbers termsRaiseToNumbers({{Term("x"), 4}, {Term("y"), -5}, {Term("z"), 6}});
 
-    termsRaiseToNumbers.multiplyNumberToExponents(5);
+    termsRaiseToNumbers.multiplyToExponents(5);
 
     TermsRaiseToNumbers::BaseToExponentMap const mapToVerify(termsRaiseToNumbers.getBaseToExponentMap());
-    ASSERT_EQ(3U, mapToVerify.size());
-    auto itToVerify = mapToVerify.cbegin();
+    ASSERT_EQ(3U, mapToVerify.size());    auto itToVerify = mapToVerify.cbegin();
     EXPECT_EQ(Term("x"), itToVerify->first);
     EXPECT_EQ(AlbaNumber(20), itToVerify->second);
-    itToVerify++;
-    EXPECT_EQ(Term("y"), itToVerify->first);
+    itToVerify++;    EXPECT_EQ(Term("y"), itToVerify->first);
     EXPECT_EQ(AlbaNumber(-25), itToVerify->second);
     itToVerify++;
     EXPECT_EQ(Term("z"), itToVerify->first);

@@ -364,14 +364,20 @@ TEST(ValueCheckingHelpersTest, IsANegativeExpressionWorks)
     EXPECT_FALSE(isANegativeExpression(createExpressionIfPossible({Term(5), Term("^"), x})));
 }
 
+TEST(ValueCheckingHelpersTest, IsIntegerConstantWorks)
+{
+    EXPECT_FALSE(isIntegerConstant(Term("x")));
+    EXPECT_TRUE(isIntegerConstant(Term(1)));
+    EXPECT_TRUE(isIntegerConstant(Term(-1)));
+    EXPECT_FALSE(isIntegerConstant(Term(NAN)));
+}
+
 TEST(ValueCheckingHelpersTest, IsPositiveIntegerConstantWorks)
 {
-    EXPECT_FALSE(isPositiveIntegerConstant(Term("x")));
-    EXPECT_TRUE(isPositiveIntegerConstant(Term(1)));
+    EXPECT_FALSE(isPositiveIntegerConstant(Term("x")));    EXPECT_TRUE(isPositiveIntegerConstant(Term(1)));
     EXPECT_FALSE(isPositiveIntegerConstant(Term(-1)));
     EXPECT_FALSE(isPositiveIntegerConstant(Term(NAN)));
 }
-
 TEST(ValueCheckingHelpersTest, IsAFiniteConstantWorks)
 {
     EXPECT_FALSE(isAFiniteConstant(Term("x")));

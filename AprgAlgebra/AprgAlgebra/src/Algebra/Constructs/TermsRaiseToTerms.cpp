@@ -1,8 +1,10 @@
-#include "TermsRaiseToNumbers.hpp"
+#include "TermsRaiseToTerms.hpp"
 
 #include <Algebra/Constructs/ConstructUtilities.hpp>
-#include <Algebra/Term/Utilities/ConvertHelpers.hpp>
+#include <Algebra/Term/Operators/TermOperators.hpp>
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
+#include <Algebra/Term/Utilities/ConvertHelpers.hpp>
+#include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>
 
 namespace alba
 {
@@ -10,23 +12,23 @@ namespace alba
 namespace algebra
 {
 
-TermsRaiseToNumbers::TermsRaiseToNumbers()
+TermsRaiseToTerms::TermsRaiseToTerms()
 {}
 
-TermsRaiseToNumbers::TermsRaiseToNumbers(
+TermsRaiseToTerms::TermsRaiseToTerms(
         BaseToExponentMap const& baseToExponentMap)
     : m_baseToExponentMap(baseToExponentMap)
 {}
 
-TermsRaiseToNumbers::BaseToExponentMap const& TermsRaiseToNumbers::getBaseToExponentMap() const
+TermsRaiseToTerms::BaseToExponentMap const& TermsRaiseToTerms::getBaseToExponentMap() const
 {
     return m_baseToExponentMap;
 }
 
-AlbaNumber TermsRaiseToNumbers::getExponentOfBase(
+Term TermsRaiseToTerms::getExponentOfBase(
         Term const& base) const
 {
-    AlbaNumber result;
+    Term result;
     auto const& it = m_baseToExponentMap.find(base);
     if(it != m_baseToExponentMap.cend())
     {
@@ -35,38 +37,38 @@ AlbaNumber TermsRaiseToNumbers::getExponentOfBase(
     return result;
 }
 
-Terms TermsRaiseToNumbers::getTermsInMultiplicationOperation() const
+Terms TermsRaiseToTerms::getTermsInMultiplicationOperation() const
 {
     Terms result;
     for(auto const& baseExponentPair : m_baseToExponentMap)
     {
         Term const& base(baseExponentPair.first);
-        AlbaNumber const& exponent(baseExponentPair.second);
+        Term const& exponent(baseExponentPair.second);
         result.emplace_back(convertToTerm(base, exponent));
     }
     return result;
 }
 
-TermsWithDetails TermsRaiseToNumbers::getTermWithDetailsInMultiplicationAndDivisionOperation() const
+TermsWithDetails TermsRaiseToTerms::getTermWithDetailsInMultiplicationAndDivisionOperation() const
 {
     TermsWithDetails result;
     for(auto const& baseExponentPair : m_baseToExponentMap)
     {
         Term const& base(baseExponentPair.first);
-        AlbaNumber const& exponent(baseExponentPair.second);
-        if(exponent >= 0)
+        Term const& exponent(baseExponentPair.second);
+        if(isANegativeTerm(exponent))
         {
-            result.emplace_back(convertToTerm(base, exponent), TermAssociationType::Positive);
+            result.emplace_back(convertToTerm(base, exponent*-1), TermAssociationType::Negative);
         }
         else
         {
-            result.emplace_back(convertToTerm(base, exponent*-1), TermAssociationType::Negative);
+            result.emplace_back(convertToTerm(base, exponent), TermAssociationType::Positive);
         }
     }
     return result;
 }
 
-Term TermsRaiseToNumbers::getCombinedTerm() const
+Term TermsRaiseToTerms::getCombinedTerm() const
 {
     TermsWithDetails termsWithDetails(getTermWithDetailsInMultiplicationAndDivisionOperation());
     if(termsWithDetails.empty())
@@ -76,15 +78,17 @@ Term TermsRaiseToNumbers::getCombinedTerm() const
     return convertExpressionToSimplestTerm(Expression(OperatorLevel::MultiplicationAndDivision, termsWithDetails));
 }
 
-void TermsRaiseToNumbers::addExponents(
-        TermsRaiseToNumbers const& termsRaiseToNumbers)
-{    for(auto const& baseExponentPair : termsRaiseToNumbers.m_baseToExponentMap)
+void TermsRaiseToTerms::addExponents(
+        TermsRaiseToTerms const& termsRaiseToNumbers)
+{
+    for(auto const& baseExponentPair : termsRaiseToNumbers.m_baseToExponentMap)
     {
         m_baseToExponentMap[baseExponentPair.first] += baseExponentPair.second;
-    }}
+    }
+}
 
-void TermsRaiseToNumbers::subtractExponents(
-        TermsRaiseToNumbers const& termsRaiseToNumbers)
+void TermsRaiseToTerms::subtractExponents(
+        TermsRaiseToTerms const& termsRaiseToNumbers)
 {
     for(auto const& baseExponentPair : termsRaiseToNumbers.m_baseToExponentMap)
     {
@@ -92,14 +96,16 @@ void TermsRaiseToNumbers::subtractExponents(
     }
 }
 
-void TermsRaiseToNumbers::multiplyToExponents(
-        AlbaNumber const& number)
+void TermsRaiseToTerms::multiplyToExponents(
+        Term const& term)
 {
-    for(auto& baseExponentPair : m_baseToExponentMap)    {
-        baseExponentPair.second *= number;
+    for(auto& baseExponentPair : m_baseToExponentMap)
+    {
+        baseExponentPair.second *= term;
     }
 }
-void TermsRaiseToNumbers::putTerm(
+
+void TermsRaiseToTerms::putTerm(
         Term const& term,
         TermAssociationType const association)
 {
@@ -110,52 +116,53 @@ void TermsRaiseToNumbers::putTerm(
         AlbaNumber const& constant(monomial.getConstantConstReference());
         if(constant != 1)
         {
-            m_baseToExponentMap[Term(constant)] += sign;        }
+            m_baseToExponentMap[Term(constant)] += Term(sign);
+        }
         for(auto const& variableExponentPair : monomial.getVariablesToExponentsMapConstReference())
         {
-            m_baseToExponentMap[Term(variableExponentPair.first)] += (variableExponentPair.second * sign);        }
+            m_baseToExponentMap[Term(variableExponentPair.first)] += Term(variableExponentPair.second * sign);
+        }
     }
     else
     {
-        TermRaiseToANumber termRaiseToANumber(createTermRaiseToANumberFromTerm(term));
-        m_baseToExponentMap[termRaiseToANumber.getBase()] += (termRaiseToANumber.getExponent() * sign);
+        TermRaiseToTerms termRaiseTerms(createTermRaiseToTermsFromTerm(term));
+        m_baseToExponentMap[termRaiseTerms.getBase()] += Term(termRaiseTerms.getCombinedExponents() * sign);
     }
 }
-void TermsRaiseToNumbers::putTerms(
+
+void TermsRaiseToTerms::putTerms(
         Terms const& terms,
-        TermAssociationType const association){
+        TermAssociationType const association)
+{
     for(Term const& term : terms)
     {
         putTerm(term, association);
     }
 }
 
-void TermsRaiseToNumbers::setBaseAndExponent(
+void TermsRaiseToTerms::setBaseAndExponent(
         Term const& base,
-        AlbaNumber const& exponent)
+        Term const& exponent)
 {
     m_baseToExponentMap[base] = exponent;
 }
 
-void TermsRaiseToNumbers::removeItemWithBase(
+void TermsRaiseToTerms::removeItemWithBase(
         Term const& base)
 {
     m_baseToExponentMap.erase(base);
 }
 
-void TermsRaiseToNumbers::clear()
+void TermsRaiseToTerms::simplify()
 {
-    m_baseToExponentMap.clear();
+    removeItemsWithExponentsZero();
 }
 
-void TermsRaiseToNumbers::simplify()
+void TermsRaiseToTerms::removeItemsWithExponentsZero()
 {
-    removeItemsWithExponentsZero();}
-
-void TermsRaiseToNumbers::removeItemsWithExponentsZero()
-{
-    for(auto it = m_baseToExponentMap.begin(); it!=m_baseToExponentMap.end(); )    {
-        if(it->second == 0)
+    for(auto it = m_baseToExponentMap.begin(); it!=m_baseToExponentMap.end(); )
+    {
+        if(isTheValue(it->second, 0))
         {
             m_baseToExponentMap.erase(it);
             it = m_baseToExponentMap.begin();
@@ -167,21 +174,23 @@ void TermsRaiseToNumbers::removeItemsWithExponentsZero()
     }
 }
 
-Term TermsRaiseToNumbers::convertToTerm(
+Term TermsRaiseToTerms::convertToTerm(
         Term const& base,
-        AlbaNumber const& exponent) const
+        Term const& exponent) const
 {
     Term result;
-    if(exponent == 1)
+    if(exponent == Term(1))
     {
         result = base;
     }
     else
     {
-        result = TermRaiseToANumber(base, exponent).getCombinedTerm();
+        result = TermRaiseToTerms(base, exponent).getCombinedTerm();
     }
+    result.simplify();
     return result;
 }
+
 
 }
 

@@ -387,13 +387,17 @@ bool isANegativeExpression(Expression const& expression)
     return result;
 }
 
-bool isPositiveIntegerConstant(Term const& term)
+bool isIntegerConstant(Term const& term)
 {
     return term.isConstant()
-            && term.getConstantValueConstReference().isIntegerType()
-            && term.getConstantValueConstReference() >= 0;
+            && term.getConstantValueConstReference().isIntegerType();
 }
 
+bool isPositiveIntegerConstant(Term const& term)
+{
+    return term.isConstant()            && term.getConstantValueConstReference().isIntegerType()
+            && term.getConstantValueConstReference() >= 0;
+}
 bool isAFiniteConstant(Term const& term)
 {
     bool result(false);

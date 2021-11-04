@@ -53,20 +53,13 @@ TEST(SimplificationUtilitiesTest, SimplifyToACommonDenominatorWorks_OnExponentPl
 
     bool didItOccurOnTopLevelExpression = simplifyToACommonDenominatorForExpressionAndReturnIfAdditionOrSubtractionOfTermsOverTermsOccurred(expression);
 
-    Polynomial polynomialToExpect{Monomial(1, {{"x", 1}}), Monomial(2, {})};
-    Expression subExpression1(createExpressionIfPossible({Term(2), Term("^"), Term("x")}));
-    Expression subExpression2(createExpressionIfPossible({Term("x"), Term("*"), Term(subExpression1)}));
-    Expression subExpression3(createExpressionIfPossible({Term(2), Term("*"), Term(subExpression1)}));
-    Expression subExpression4(createExpressionIfPossible({Term(1), Term("+"), Term(subExpression2), Term("+"), Term(subExpression3)}));
-    Expression expressionToExpect(createExpressionIfPossible({Term(subExpression4), Term("/"), Term(polynomialToExpect)}));
-    EXPECT_EQ(expressionToExpect, expression);
+    string stringToExpect("((1+(x*(2^x))+(2^(1[x] + 1)))/(1[x] + 2))");
+    EXPECT_EQ(stringToExpect, expression.getDisplayableString());
     EXPECT_TRUE(didItOccurOnTopLevelExpression);
 }
-
 TEST(SimplificationUtilitiesTest, SimplifyToACommonDenominatorWorks_OnExponentWithFractionExpressions)
 {
     Expression expression(createExpressionIfPossible(tokenizeToTerms("2^(((1)/(x+2))+((1)/(x-2)))")));
-
     bool didItOccurOnTopLevelExpression = simplifyToACommonDenominatorForExpressionAndReturnIfAdditionOrSubtractionOfTermsOverTermsOccurred(expression);
 
     Polynomial polynomialToExpect{Monomial(1, {{"x", 2}}), Monomial(-4, {})};
