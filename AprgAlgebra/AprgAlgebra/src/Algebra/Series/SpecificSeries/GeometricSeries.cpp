@@ -12,7 +12,7 @@ namespace algebra
 GeometricSeries::GeometricSeries(
         AlbaNumber const& firstValue,
         AlbaNumber const& commonMultiplier)
-    : SeriesBasedOnTerm(getFormula(firstValue, commonMultiplier), n)
+    : SeriesBasedOnFormula(getFormula(firstValue, commonMultiplier), n)
 {}
 
 GeometricSeries::GeometricSeries(
@@ -20,7 +20,7 @@ GeometricSeries::GeometricSeries(
         int const nthIndex1,
         AlbaNumber const& valueAtNthIndex2,
         int const nthIndex2)
-    : SeriesBasedOnTerm(getFormula(valueAtNthIndex1, nthIndex1, valueAtNthIndex2, nthIndex2), n)
+    : SeriesBasedOnFormula(getFormula(valueAtNthIndex1, nthIndex1, valueAtNthIndex2, nthIndex2), n)
 {}
 
 Term GeometricSeries::getInfiniteSumStartingFrom(

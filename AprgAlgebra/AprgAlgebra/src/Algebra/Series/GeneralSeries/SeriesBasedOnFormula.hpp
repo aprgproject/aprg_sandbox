@@ -11,11 +11,11 @@ namespace alba
 namespace algebra
 {
 
-class SeriesBasedOnTerm
+class SeriesBasedOnFormula
 {
 public:
 
-    SeriesBasedOnTerm(Term const& formulaForSeries, std::string const& nameForVariableInFormula);
+    SeriesBasedOnFormula(Term const& formulaForSeries, std::string const& nameForVariableInFormula);
     virtual bool isConvergent() const;
     virtual bool isIncreasing() const;
     virtual bool isDecreasing() const;
@@ -35,10 +35,12 @@ public:
 
 private:
     AlbaNumbers getBoundValues() const;
-    AlbaNumbers getExtremaIndexes() const;    Term getSignDerivativeForFiniteCalculus() const;
+    AlbaNumbers getExtremaIndexes() const;
+    Term getSignDerivativeForFiniteCalculus() const;
     Term m_formulaForSeries;
     std::string m_nameForVariableInFormula;
 };
+
 }
 
 }

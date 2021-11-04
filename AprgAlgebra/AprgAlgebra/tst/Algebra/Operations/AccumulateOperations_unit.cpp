@@ -3,9 +3,11 @@
 #include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>
 
 #include <gtest/gtest.h>
+
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 namespace algebra
 {
@@ -76,10 +78,12 @@ TEST(AccumulateOperationsTest, AccumulateTermsForAdditionAndSubtractionWorksWith
 
 TEST(AccumulateOperationsTest, AccumulateTermsForMultiplicationAndDivisionWorks)
 {
-    Term termToTest(1);    Term xToTheY(createExpressionIfPossible({Term("x"), Term("^"), Term("y")}));
+    Term termToTest(1);
+    Term xToTheY(createExpressionIfPossible({Term("x"), Term("^"), Term("y")}));
     Term term1(createExpressionIfPossible({Term(11), Term("*"), xToTheY}));
     Term term2(createExpressionIfPossible({Term(13), Term("*"), xToTheY}));
-    Term term3(1);    TermsWithDetails termsWithDetails
+    Term term3(1);
+    TermsWithDetails termsWithDetails
     {TermWithDetails(term1, TermAssociationType::Negative),
                 TermWithDetails(term2, TermAssociationType::Positive),
                 TermWithDetails(term3, TermAssociationType::Negative)};

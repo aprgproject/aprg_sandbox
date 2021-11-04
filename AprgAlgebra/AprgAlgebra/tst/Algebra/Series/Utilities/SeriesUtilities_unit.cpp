@@ -2,9 +2,11 @@
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
 
 #include <gtest/gtest.h>
+
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 namespace algebra
 {
@@ -15,7 +17,7 @@ TEST(SeriesUtilitiesTest, IsAxiomOfCompletenessTrueWorks)
     Term numerator(n);
     Term denominator(Polynomial{Monomial(2, {{"n", 1}}), Monomial(1, {})});
     Term formula(createExpressionIfPossible({numerator, Term("/"), denominator}));
-    SeriesBasedOnTerm series(formula, "n");
+    SeriesBasedOnFormula series(formula, "n");
 
     EXPECT_TRUE(isAxiomOfCompletenessTrue(series));
 }
@@ -26,7 +28,7 @@ TEST(SeriesUtilitiesTest, IsBoundedMonotonicSeriesConvergentWorks)
     Term numerator(n);
     Term denominator(Polynomial{Monomial(2, {{"n", 1}}), Monomial(1, {})});
     Term formula(createExpressionIfPossible({numerator, Term("/"), denominator}));
-    SeriesBasedOnTerm series(formula, "n");
+    SeriesBasedOnFormula series(formula, "n");
 
     EXPECT_TRUE(isBoundedMonotonicSeriesConvergent(series));
 }
@@ -37,7 +39,7 @@ TEST(SeriesUtilitiesTest, IsConvergentMonotonicSeriesBoundedWorks)
     Term numerator(n);
     Term denominator(Polynomial{Monomial(2, {{"n", 1}}), Monomial(1, {})});
     Term formula(createExpressionIfPossible({numerator, Term("/"), denominator}));
-    SeriesBasedOnTerm series(formula, "n");
+    SeriesBasedOnFormula series(formula, "n");
 
     EXPECT_TRUE(isConvergentMonotonicSeriesBounded(series));
 }
@@ -154,11 +156,13 @@ TEST(SeriesUtilitiesTest, PerformRootTestWorks)
 
 TEST(SeriesUtilitiesTest, GetSumOfArithmeticSeriesUsingFirstAndLastTermWorksWithValues)
 {
-    EXPECT_EQ(Term(60), getSumOfArithmeticSeriesUsingFirstAndLastTerm(Term(12), Term(18), Term(4)));}
+    EXPECT_EQ(Term(60), getSumOfArithmeticSeriesUsingFirstAndLastTerm(Term(12), Term(18), Term(4)));
+}
 
 TEST(SeriesUtilitiesTest, GetSumOfArithmeticSeriesUsingFirstAndLastTermWorksWithExample1)
 {
-    Term firstTerm(1);    Term lastTerm("n");
+    Term firstTerm(1);
+    Term lastTerm("n");
     Term count("n");
 
     Term expectedSum(Polynomial{Monomial(AlbaNumber(1)/2, {{"n", 2}}), Monomial(AlbaNumber(1)/2, {{"n", 1}})});

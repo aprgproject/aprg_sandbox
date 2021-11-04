@@ -4,8 +4,10 @@
 
 namespace alba
 {
+
 namespace algebra
 {
+
 class SummationSeriesOfGeometricSeries : public SeriesBasedOnSummation
 {
 public:

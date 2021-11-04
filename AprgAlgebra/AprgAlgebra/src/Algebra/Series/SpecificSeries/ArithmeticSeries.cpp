@@ -12,7 +12,7 @@ namespace algebra
 ArithmeticSeries::ArithmeticSeries(
         AlbaNumber const& firstValue,
         AlbaNumber const& commonDifference)
-    : SeriesBasedOnTerm(getFormula(firstValue, commonDifference), n)
+    : SeriesBasedOnFormula(getFormula(firstValue, commonDifference), n)
 {}
 
 ArithmeticSeries::ArithmeticSeries(
@@ -20,7 +20,7 @@ ArithmeticSeries::ArithmeticSeries(
         int const index1,
         AlbaNumber const& valueAtIndex2,
         int const index2)
-    : SeriesBasedOnTerm(getFormula(valueAtIndex1, index1, valueAtIndex2, index2), n)
+    : SeriesBasedOnFormula(getFormula(valueAtIndex1, index1, valueAtIndex2, index2), n)
 {}
 
 Term ArithmeticSeries::getFormula(

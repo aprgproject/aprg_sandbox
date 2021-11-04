@@ -1,12 +1,14 @@
 #pragma once
 
-#include <Algebra/Series/GeneralSeries/SeriesBasedOnTerm.hpp>
+#include <Algebra/Series/GeneralSeries/SeriesBasedOnFormula.hpp>
 
 namespace alba
 {
+
 namespace algebra
 {
-class ArithmeticSeries : public SeriesBasedOnTerm
+
+class ArithmeticSeries : public SeriesBasedOnFormula
 {
 public:
     ArithmeticSeries(

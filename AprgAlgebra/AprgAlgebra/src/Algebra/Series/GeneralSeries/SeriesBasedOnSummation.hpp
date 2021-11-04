@@ -1,13 +1,15 @@
 #pragma once
 
-#include <Algebra/Series/GeneralSeries/SeriesBasedOnTerm.hpp>
+#include <Algebra/Series/GeneralSeries/SeriesBasedOnFormula.hpp>
 #include <Algebra/Summation/Summation.hpp>
 
 namespace alba
 {
+
 namespace algebra
 {
-class SeriesBasedOnSummation : public SeriesBasedOnTerm
+
+class SeriesBasedOnSummation : public SeriesBasedOnFormula
 {
 public:
     SeriesBasedOnSummation(Term const& formulaForEachTermInSummation, std::string const& nameForVariableInFormula);
@@ -30,6 +32,7 @@ private:
     Summation m_summation;
     bool m_isSummationModelValid;
 };
+
 }
 
 }

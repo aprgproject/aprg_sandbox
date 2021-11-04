@@ -8,13 +8,15 @@
 #include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>
 
 using namespace std;
+
 namespace alba
 {
+
 namespace algebra
 {
 
 bool isAxiomOfCompletenessTrue(
-        SeriesBasedOnTerm const& series)
+        SeriesBasedOnFormula const& series)
 {
     // Axiom of completeness
     // Every non empty set of real numbers that has a lower bound has a greatest lower bound.
@@ -27,13 +29,13 @@ bool isAxiomOfCompletenessTrue(
 }
 
 bool isBoundedMonotonicSeriesConvergent(
-        SeriesBasedOnTerm const& series)
+        SeriesBasedOnFormula const& series)
 {
     return (series.isBounded() && series.isMonotonic()) == series.isConvergent();
 }
 
 bool isConvergentMonotonicSeriesBounded(
-        SeriesBasedOnTerm const& series)
+        SeriesBasedOnFormula const& series)
 {
     return (series.isConvergent() && series.isMonotonic()) == series.isBounded();
 }
@@ -192,10 +194,12 @@ void performRootTest(
 
 Term getSumOfArithmeticSeriesUsingFirstAndLastTerm(
         Term const& firstTerm,
-        Term const& lastTerm,        Term const& count)
+        Term const& lastTerm,
+        Term const& count)
 {
     return (firstTerm + lastTerm) * count / 2;
 }
+
 Term getSumOfGeometricSeriesUsingFirstValueAndCommonMultiplier(
         Term const& firstValue,
         Term const& commonMultiplier,

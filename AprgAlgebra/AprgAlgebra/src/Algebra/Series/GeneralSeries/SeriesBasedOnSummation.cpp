@@ -8,14 +8,16 @@
 using namespace alba::algebra::Functions;
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 namespace algebra
 {
+
 SeriesBasedOnSummation::SeriesBasedOnSummation(
         Term const& formulaForEachTermInSummation,
         string const& nameForVariableInFormula)
-    : SeriesBasedOnTerm(getFormulaForSummation(formulaForEachTermInSummation, nameForVariableInFormula), nameForVariableInFormula)
+    : SeriesBasedOnFormula(getFormulaForSummation(formulaForEachTermInSummation, nameForVariableInFormula), nameForVariableInFormula)
     , m_formulaForEachTermInSummation(formulaForEachTermInSummation)
     , m_nameForVariableInFormula(nameForVariableInFormula)
     , m_summation(getSummation(formulaForEachTermInSummation, nameForVariableInFormula))
@@ -26,11 +28,13 @@ bool SeriesBasedOnSummation::isSummationModelValid() const
 {
     return m_isSummationModelValid;
 }
+
 bool SeriesBasedOnSummation::isConvergent() const
 {
-    bool result(false);    if(m_isSummationModelValid)
+    bool result(false);
+    if(m_isSummationModelValid)
     {
-        result = SeriesBasedOnTerm::isConvergent();
+        result = SeriesBasedOnFormula::isConvergent();
     }
     else
     {
@@ -44,7 +48,7 @@ Term SeriesBasedOnSummation::getValueAtIndex(int const index) const
     Term result;
     if(m_isSummationModelValid)
     {
-        result = SeriesBasedOnTerm::getValueAtIndex(index);
+        result = SeriesBasedOnFormula::getValueAtIndex(index);
     }
     else
     {
@@ -68,10 +72,12 @@ bool SeriesBasedOnSummation::isConditionallyConvergent() const
 
 Term SeriesBasedOnSummation::getTermValueAtIndex(int const index) const
 {
-    SubstitutionOfVariablesToValues substitution{{m_nameForVariableInFormula, index}};    return substitution.performSubstitutionTo(m_formulaForEachTermInSummation);
+    SubstitutionOfVariablesToValues substitution{{m_nameForVariableInFormula, index}};
+    return substitution.performSubstitutionTo(m_formulaForEachTermInSummation);
 }
 
-Term SeriesBasedOnSummation::getFormulaForEachTermInSummation() const{
+Term SeriesBasedOnSummation::getFormulaForEachTermInSummation() const
+{
     return m_formulaForEachTermInSummation;
 }
 

@@ -76,10 +76,12 @@ void accumulateTermsForAdditionAndSubtraction(
         {
             continue;
         }
-        else if(isFirst)        {
+        else if(isFirst)
+        {
             if(termWithDetails.hasPositiveAssociation())
             {
-                combinedTerm = term;            }
+                combinedTerm = term;
+            }
             else if(termWithDetails.hasNegativeAssociation())
             {
                 combinedTerm = negateTerm(term);

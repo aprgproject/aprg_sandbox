@@ -32,7 +32,7 @@ Term AlternatingSeries::getRemainderAtIndex(int const index) const
     }
     else
     {
-        result = SeriesBasedOnTerm::getRemainderAtIndex(index);
+        result = SeriesBasedOnFormula::getRemainderAtIndex(index);
     }
     return result;
 }

@@ -2,9 +2,11 @@
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
 
 #include <gtest/gtest.h>
+
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 namespace algebra
 {
@@ -27,7 +29,8 @@ TEST(SeriesBasedOnSummationTest, IsConvergentWorksWhenSummationModelIsValid)
 TEST(SeriesBasedOnSummationTest, IsConvergentWorksWhenSummationModelIsInvalid)
 {
     Term numerator(Polynomial{Monomial(1, {{"n", 2}}), Monomial(1, {})});
-    Term denominator(Monomial(1, {{"n", 2}}));    Term formula(createExpressionIfPossible({numerator, Term("/"), denominator}));
+    Term denominator(Monomial(1, {{"n", 2}}));
+    Term formula(createExpressionIfPossible({numerator, Term("/"), denominator}));
     SeriesBasedOnSummation series(formula, "n");
 
     EXPECT_FALSE(series.isSummationModelValid());

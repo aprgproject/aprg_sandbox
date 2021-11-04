@@ -1,22 +1,24 @@
 #pragma once
 
 #include <Algebra/Series/GeneralSeries/SeriesBasedOnSummation.hpp>
-#include <Algebra/Series/GeneralSeries/SeriesBasedOnTerm.hpp>
+#include <Algebra/Series/GeneralSeries/SeriesBasedOnFormula.hpp>
 #include <Algebra/Series/SpecificSeries/AlternatingSeries.hpp>
 #include <Algebra/Term/TermTypes/Term.hpp>
 
-namespace alba{
+namespace alba
+{
 
 namespace algebra
 {
+
 bool isAxiomOfCompletenessTrue(
-        SeriesBasedOnTerm const& series);
+        SeriesBasedOnFormula const& series);
 
 bool isBoundedMonotonicSeriesConvergent(
-        SeriesBasedOnTerm const& series);
+        SeriesBasedOnFormula const& series);
 
 bool isConvergentMonotonicSeriesBounded(
-        SeriesBasedOnTerm const& series);
+        SeriesBasedOnFormula const& series);
 
 bool isConvergentUsingComparisonTest(
         SeriesBasedOnSummation const& seriesToCheck,
@@ -55,10 +57,12 @@ void performRootTest(
 
 Term getSumOfArithmeticSeriesUsingFirstAndLastTerm(
         Term const& firstTerm,
-        Term const& lastTerm,        Term const& count);
+        Term const& lastTerm,
+        Term const& count);
 
 Term getSumOfGeometricSeriesUsingFirstValueAndCommonMultiplier(
-        Term const& firstValue,        Term const& commonMultiplier,
+        Term const& firstValue,
+        Term const& commonMultiplier,
         int const count);
 
 Term getInfiniteSumOfGeometricSeriesIfCommonMultiplierIsFractional(

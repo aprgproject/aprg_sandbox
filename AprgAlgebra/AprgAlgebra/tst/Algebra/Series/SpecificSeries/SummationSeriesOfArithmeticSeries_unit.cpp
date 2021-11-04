@@ -2,9 +2,11 @@
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
 
 #include <gtest/gtest.h>
+
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 namespace algebra
 {
@@ -17,6 +19,7 @@ TEST(SummationSeriesOfArithmeticSeriesTest, IsConvergentWorks)
     EXPECT_TRUE(seriesWithDifferenceLessThanOne.isSummationModelValid());
     EXPECT_FALSE(seriesWithDifferenceLessThanOne.isConvergent());
 }
+
 }
 
 }

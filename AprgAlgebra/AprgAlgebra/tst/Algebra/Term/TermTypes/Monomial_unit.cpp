@@ -297,7 +297,8 @@ TEST(MonomialTest, SimplifyWorks)
     Monomial monomial6(58, {{"x", 7}, {"y", AlbaNumber(AlbaNumber::Value::NotANumber)}});
 
     monomial1.simplify();
-    monomial2.simplify();    monomial3.simplify();
+    monomial2.simplify();
+    monomial3.simplify();
     monomial4.simplify();
     monomial5.simplify();
     monomial6.simplify();
@@ -310,7 +311,8 @@ TEST(MonomialTest, SimplifyWorks)
     EXPECT_TRUE(variableMap2.empty());
     EXPECT_DOUBLE_EQ(1, monomial3.getConstantConstReference().getDouble());
     Monomial::VariablesToExponentsMap const& variableMap3(monomial3.getVariablesToExponentsMapConstReference());
-    ASSERT_EQ(1U, variableMap3.size());    EXPECT_DOUBLE_EQ(1, variableMap3.at("x").getDouble());
+    ASSERT_EQ(1U, variableMap3.size());
+    EXPECT_DOUBLE_EQ(1, variableMap3.at("x").getDouble());
     EXPECT_DOUBLE_EQ(10, monomial4.getConstantConstReference().getDouble());
     Monomial::VariablesToExponentsMap const& variableMap4(monomial4.getVariablesToExponentsMapConstReference());
     EXPECT_TRUE(variableMap4.empty());
@@ -323,9 +325,11 @@ TEST(MonomialTest, SimplifyWorks)
     EXPECT_TRUE(variableMap6.empty());
 }
 
-TEST(MonomialTest, MultiplyNumberWorks){
+TEST(MonomialTest, MultiplyNumberWorks)
+{
     Monomial monomial1(16, {{"x", 5}});
     Monomial monomial2(20, {{"x", 7}});
+
     monomial1.multiplyNumber(3);
     monomial2.multiplyNumber(5);
 

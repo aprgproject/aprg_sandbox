@@ -3,10 +3,12 @@
 #include <Algebra/Series/SpecificSeries/ArithmeticSeries.hpp>
 #include <Algebra/Utilities/KnownNames.hpp>
 
-namespace alba{
+namespace alba
+{
 
 namespace algebra
 {
+
 SummationSeriesOfArithmeticSeries::SummationSeriesOfArithmeticSeries(
         AlbaNumber const& firstValue,
         AlbaNumber const& commonDifference)
