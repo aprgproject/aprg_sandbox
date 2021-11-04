@@ -24,7 +24,7 @@ public:
     void differentiate();
     void integrate();
 
-private:
+protected:
     Term getFormula(
             Term const& multiplierForEachTerm,
             std::string const& nName,

@@ -45,6 +45,24 @@ TEST(CommonFunctionLibraryTest, SignumFunctionWorks)
     EXPECT_EQ(AlbaNumber(-1), signumFunctionObject.performFunctionAndReturnResultIfPossible());
 }
 
+TEST(CommonFunctionLibraryTest, FactorialFunctionWorks)
+{
+    Function signumFunctionObject(factorial(Term(5)));
+
+    EXPECT_EQ("factorial", signumFunctionObject.getFunctionName());
+    EXPECT_EQ(Term(5), getTermConstReferenceFromBaseTerm(signumFunctionObject.getInputTermConstReference()));
+    EXPECT_EQ(AlbaNumber(120), signumFunctionObject.performFunctionAndReturnResultIfPossible());
+}
+
+TEST(CommonFunctionLibraryTest, FactorialFunctionWorksWhenInputIsZero)
+{
+    Function signumFunctionObject(factorial(Term(Constant(0))));
+
+    EXPECT_EQ("factorial", signumFunctionObject.getFunctionName());
+    EXPECT_EQ(Term(Constant(0)), getTermConstReferenceFromBaseTerm(signumFunctionObject.getInputTermConstReference()));
+    EXPECT_EQ(AlbaNumber(1), signumFunctionObject.performFunctionAndReturnResultIfPossible());
+}
+
 TEST(CommonFunctionLibraryTest, NaturalLogarithmFunctionWorks)
 {
     Function naturalLogarithmFunctionObject(ln(Term(5)));

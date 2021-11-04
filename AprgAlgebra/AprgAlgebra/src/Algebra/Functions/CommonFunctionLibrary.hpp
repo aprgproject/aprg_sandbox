@@ -14,6 +14,7 @@ namespace Functions
 Function abs(Term const& term);
 Function greatestIntegerFunction(Term const& term);
 Function sgn(Term const& term);
+Function factorial(Term const& term);
 
 Function ln(Term const& term);
 Function log(Term const& term);

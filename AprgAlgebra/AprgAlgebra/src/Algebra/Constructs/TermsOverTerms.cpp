@@ -5,10 +5,12 @@
 #include <Algebra/Constructs/TermRaiseToTerms.hpp>
 #include <Algebra/Factorization/FactorizationConfiguration.hpp>
 #include <Algebra/Factorization/FactorizationOfTerm.hpp>
-#include <Algebra/Operations/AccumulateOperations.hpp>#include <Algebra/Term/Operators/TermOperators.hpp>
+#include <Algebra/Operations/AccumulateOperations.hpp>
+#include <Algebra/Term/Operators/TermOperators.hpp>
 #include <Algebra/Term/Utilities/BaseTermHelpers.hpp>
 #include <Algebra/Term/Utilities/ConvertHelpers.hpp>
-#include <Algebra/Term/Utilities/CreateHelpers.hpp>#include <Algebra/Term/Utilities/RetrieveHelpers.hpp>
+#include <Algebra/Term/Utilities/CreateHelpers.hpp>
+#include <Algebra/Term/Utilities/RetrieveHelpers.hpp>
 #include <Algebra/Term/Utilities/SegregateHelpers.hpp>
 #include <Algebra/Term/Utilities/TermUtilities.hpp>
 #include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>
@@ -179,11 +181,13 @@ TermsRaiseToTerms TermsOverTerms::getTermsRaiseToTerms() const
 
 void TermsOverTerms::flip()
 {
-    swap(m_numerators, m_denominators);}
+    swap(m_numerators, m_denominators);
+}
 
 string TermsOverTerms::getDisplayableString() const
 {
-    stringstream result;    result << "Numerators:" << endl;
+    stringstream result;
+    result << "Numerators:" << endl;
     for(Term const& numerator : m_numerators)
     {
         result << "[" << numerator.getDisplayableString() << "]" << endl;
@@ -361,6 +365,7 @@ void TermsOverTerms::calculateBasesAndExponentsAndPutThatToNumeratorsAndDenomina
     TermsRaiseToTerms basesAndExponents;
     basesAndExponents.putTerms(numeratorTerms, TermAssociationType::Positive);
     basesAndExponents.putTerms(denominatorTerms, TermAssociationType::Negative);
+
     numeratorTerms.clear();
     denominatorTerms.clear();
 
@@ -406,10 +411,12 @@ void TermsOverTerms::putTermsOnNumeratorAndDenominatorBasedFromTermsRaiseToTerms
 
 void TermsOverTerms::putTermsOnNumeratorAndDenominatorBasedFromTermsRaiseToNumbers(
         Terms & numeratorTerms,
-        Terms & denominatorTerms,        TermsRaiseToNumbers const& termsRaiseToNumbers)
+        Terms & denominatorTerms,
+        TermsRaiseToNumbers const& termsRaiseToNumbers)
 {
     for(auto const& baseExponentPair : termsRaiseToNumbers.getBaseToExponentMap())
-    {        Term const& base(baseExponentPair.first);
+    {
+        Term const& base(baseExponentPair.first);
         AlbaNumber const& exponent(baseExponentPair.second);
         if(!exponent.isIntegerType() || m_shouldSimplifyToFactors)
         {

@@ -27,10 +27,12 @@ public:
 protected:
     Summation getSummation(Term const& formulaForEachTermInSummation, std::string const& nameForVariableInFormula) const;
     Term getFormulaForSummation(Term const& formulaForEachTermInSummation, std::string const& nameForVariableInFormula) const;
-    Term m_formulaForEachTermInSummation;    std::string m_nameForVariableInFormula;
+    Term m_formulaForEachTermInSummation;
+    std::string m_nameForVariableInFormula;
     Summation m_summation;
     bool m_isSummationModelValid;
 };
+
 }
 
 }

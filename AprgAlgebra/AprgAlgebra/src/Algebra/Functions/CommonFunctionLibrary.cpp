@@ -36,7 +36,7 @@ Function sgn(Term const& term)
 {
     return Function("sgn", term, [](AlbaNumber const&  number) -> AlbaNumber
     {
-        AlbaNumber result(0);
+        AlbaNumber result;
         if(number > 0)
         {
             result = 1;
@@ -44,6 +44,19 @@ Function sgn(Term const& term)
         else if(number < 0)
         {
             result = -1;
+        }
+        return result;
+    });
+}
+
+Function factorial(Term const& term)
+{
+    return Function("factorial", term, [](AlbaNumber const&  number) -> AlbaNumber
+    {
+        AlbaNumber result;
+        if(number.isIntegerType() && number >= 0)
+        {
+            result = AlbaNumber(getFactorial(static_cast<unsigned int>(number.getInteger())));
         }
         return result;
     });

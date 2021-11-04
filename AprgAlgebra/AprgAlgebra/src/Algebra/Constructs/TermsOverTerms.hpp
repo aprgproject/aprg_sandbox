@@ -5,8 +5,10 @@
 
 #include <string>
 #include <vector>
+
 namespace alba
 {
+
 namespace algebra
 {
 
@@ -35,9 +37,11 @@ public:
     std::string getDisplayableString() const;
 
     void flip();
+
     void setAsShouldSimplifyToFactors(bool const shouldSimplifyToFactors);
     void setAsShouldNotFactorizeIfItWouldYieldToPolynomialsWithDoubleValue(
             bool const shouldNotFactorizeIfItWouldYieldToPolynomialsWithDoubleValue);
+
     void simplify();
 
 private:
@@ -54,10 +58,12 @@ private:
             Terms & denominators);
     void clearTermsThenEmplacePolynomialAndRemainingTerms(
             Polynomial const& polynomialNumerator,
-            Terms const& remainingNumerators,            Terms & termsToUpdate) const;
+            Terms const& remainingNumerators,
+            Terms & termsToUpdate) const;
     void emplacePolynomialIfNeeded(Terms & termsResult, Polynomial const& polynomialNumerator) const;
     void retrievePolynomialAndNonPolynomialsTerms(
-            Terms const& termsToCheck,            Polynomial & polynomial,
+            Terms const& termsToCheck,
+            Polynomial & polynomial,
             Terms & nonPolynomialTerms) const;
     void calculateBasesAndExponentsAndPutThatToNumeratorsAndDenominators(
             Terms & numeratorTerms,
@@ -72,10 +78,12 @@ private:
             TermsRaiseToNumbers const& termsRaiseToNumbers);
     void handleZerosInNumeratorOrDenominator(
             Terms& denominators,
-            Terms& numerators);    void populateTermsWithBase(
+            Terms& numerators);
+    void populateTermsWithBase(
             Terms & termsToUpdate,
             Term const& base,
-            AlbaNumber const& exponent);    void removeTermsThatHaveNoEffect(Terms & terms) const;
+            AlbaNumber const& exponent);
+    void removeTermsThatHaveNoEffect(Terms & terms) const;
     void putTermsOnNumeratorAndDenominatorCorrectly(
             Terms & numerators,
             Terms & denominators);

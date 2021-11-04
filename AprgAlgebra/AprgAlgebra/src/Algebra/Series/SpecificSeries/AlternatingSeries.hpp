@@ -16,7 +16,7 @@ public:
     bool isConvergent() const override;
     Term getRemainderAtIndex(int const index) const override;
 
-private:
+protected:
     Term getFormula(Term const& formulaForEachTermWithoutSign, std::string const& nameForVariableInFormula) const;
     Term m_formulaForEachTermWithoutSign;
 };

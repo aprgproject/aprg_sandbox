@@ -237,11 +237,11 @@ Term getApproximationUsingTaylorsFormula(
     for(unsigned int n=1; n<=numberOfTimes; n++)
     {
         currentDerivative = differentiation.differentiate(currentDerivative);
-        differenceRaiseToPower = differenceRaiseToPower * difference;
+        differenceRaiseToPower *= difference;
         factorialValue *= n;
         Term currentDerivativeValue(evaluateAtDefiniteTerm(currentDerivative, variableName, startingValue));
-        Term currentTerm(currentDerivativeValue*differenceRaiseToPower/factorialValue);
-        result = result + currentTerm;
+        Term currentTerm(currentDerivativeValue * differenceRaiseToPower / factorialValue);
+        result += currentTerm;
     }
     result.simplify();
     return result;

@@ -131,6 +131,7 @@ TEST(SeriesUtilitiesTest, PerformRatioTestWorksWhenConvergent)
     Term denominator(createExpressionIfPossible({Term(2), Term("^"), n}));
     Term formula(createExpressionIfPossible({numerator, Term("/"), denominator}));
     SeriesBasedOnSummation series(formula, "n");
+
     bool isConvergent(false);
     bool isDivergent(false);
     performRatioTest(isConvergent, isDivergent, series, "n");
@@ -153,6 +154,7 @@ TEST(SeriesUtilitiesTest, PerformRatioTestWorksWhenConvergentOrDivergent)
     EXPECT_FALSE(isConvergent);
     EXPECT_FALSE(isDivergent);
 }
+
 TEST(SeriesUtilitiesTest, PerformRootTestWorks)
 {
     Term n("n");
@@ -162,6 +164,7 @@ TEST(SeriesUtilitiesTest, PerformRootTestWorks)
     Term denominator(createExpressionIfPossible({n, Term("^"), exponentDenominator}));
     Term formula(createExpressionIfPossible({numerator, Term("/"), denominator}));
     SeriesBasedOnSummation series(formula, "n");
+
     bool isConvergent(false);
     bool isDivergent(false);
     performRootTest(isConvergent, isDivergent, series, "n");
@@ -169,9 +172,11 @@ TEST(SeriesUtilitiesTest, PerformRootTestWorks)
     EXPECT_TRUE(isConvergent);
     EXPECT_FALSE(isDivergent);
 }
+
 TEST(SeriesUtilitiesTest, GetSumOfArithmeticSeriesUsingFirstAndLastTermWorksWithValues)
 {
-    EXPECT_EQ(Term(60), getSumOfArithmeticSeriesUsingFirstAndLastTerm(Term(12), Term(18), Term(4)));}
+    EXPECT_EQ(Term(60), getSumOfArithmeticSeriesUsingFirstAndLastTerm(Term(12), Term(18), Term(4)));
+}
 
 TEST(SeriesUtilitiesTest, GetSumOfArithmeticSeriesUsingFirstAndLastTermWorksWithExample1)
 {
@@ -211,6 +216,23 @@ TEST(SeriesUtilitiesTest, GetSumOfGeometricSeriesUsingFirstValueAndCommonMultipl
 TEST(SeriesUtilitiesTest, GetInfiniteSumOfGeometricSeriesIfCommonMultiplierIsFractionalWorksWithValues)
 {
     EXPECT_EQ(Term(20), getInfiniteSumOfGeometricSeriesIfCommonMultiplierIsFractional(Term(10), Term(AlbaNumber::createFraction(1, 2))));
+}
+
+TEST(SeriesUtilitiesTest, GetEToTheXPowerSeriesWorks)
+{
+    PowerSeries series(getEToTheXPowerSeries());
+
+    string stringToExpect1("1");
+    string stringToExpect2("(1[x] + 1)");
+    string stringToExpect3("((1/2)[x^2] + 1[x] + 1)");
+    string stringToExpect4("((1/6)[x^3] + (1/2)[x^2] + 1[x] + 1)");
+    string stringToExpect5("(1/factorial(n)*(x^n))");
+    EXPECT_FALSE(series.isSummationModelValid());
+    EXPECT_EQ(stringToExpect1, series.getValueAtIndex(0).getDisplayableString());
+    EXPECT_EQ(stringToExpect2, series.getValueAtIndex(1).getDisplayableString());
+    EXPECT_EQ(stringToExpect3, series.getValueAtIndex(2).getDisplayableString());
+    EXPECT_EQ(stringToExpect4, series.getValueAtIndex(3).getDisplayableString());
+    EXPECT_EQ(stringToExpect5, series.getFormulaForEachTermInSummation().getDisplayableString());
 }
 
 }

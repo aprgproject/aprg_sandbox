@@ -13,7 +13,7 @@ class HarmonicSeries : public SeriesBasedOnSummation
 public:
     HarmonicSeries();
 
-private:
+protected:
     Term getFormula() const;
 
 };

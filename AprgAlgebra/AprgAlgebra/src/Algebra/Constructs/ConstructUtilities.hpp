@@ -5,7 +5,8 @@
 #include <Algebra/Constructs/TermRaiseToTerms.hpp>
 #include <Algebra/Constructs/TermsOverTerms.hpp>
 
-namespace alba{
+namespace alba
+{
 
 namespace algebra
 {
@@ -16,10 +17,12 @@ TermsOverTerms createTermsOverTermsFromTerm(Term const& term);
 
 TermRaiseToANumber createTermRaiseToANumberFromTerm(Term const& term);
 TermRaiseToANumber createTermRaiseToANumberFromMonomial(Monomial const& monomial);
-TermRaiseToANumber createTermRaiseToANumberFromPolynomial(Polynomial const& polynomial);TermRaiseToANumber createTermRaiseToANumberFromExpression(Expression const& expression);
+TermRaiseToANumber createTermRaiseToANumberFromPolynomial(Polynomial const& polynomial);
+TermRaiseToANumber createTermRaiseToANumberFromExpression(Expression const& expression);
 void createTermRaiseToANumberFromRaiseToPowerExpression(
         TermRaiseToANumber & result,
-        Expression const& expression);void createTermRaiseToANumberFromMultiplicationAndDivisionExpression(
+        Expression const& expression);
+void createTermRaiseToANumberFromMultiplicationAndDivisionExpression(
         TermRaiseToANumber & result,
         Expression const& expression);
 

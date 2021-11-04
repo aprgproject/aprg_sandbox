@@ -1,11 +1,18 @@
 #include "SeriesUtilities.hpp"
 
 #include <Algebra/Constructs/ConstructUtilities.hpp>
+#include <Algebra/Functions/CommonFunctionLibrary.hpp>
 #include <Algebra/Integration/Integration.hpp>
 #include <Algebra/Limit/Limit.hpp>
-#include <Algebra/Substitution/SubstitutionOfVariablesToTerms.hpp>#include <Algebra/Term/Operators/TermOperators.hpp>
+#include <Algebra/Substitution/SubstitutionOfVariablesToTerms.hpp>
+#include <Algebra/Term/Utilities/ConvertHelpers.hpp>
+#include <Algebra/Term/Utilities/CreateHelpers.hpp>
+#include <Algebra/Term/Operators/TermOperators.hpp>
 #include <Algebra/Term/Utilities/TermUtilities.hpp>
 #include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>
+#include <Algebra/Utilities/KnownNames.hpp>
+
+using namespace alba::algebra::Functions;
 using namespace std;
 
 namespace alba
@@ -150,10 +157,12 @@ void performRatioTest(
     Term limitTerm(getLimitForRatioTest(series, variableName));
     if(limitTerm.isConstant())
     {
-        AlbaNumber limitValue(limitTerm.getConstantValueConstReference());        if(limitValue < 1)
+        AlbaNumber limitValue(limitTerm.getConstantValueConstReference());
+        if(limitValue < 1)
         {
             isConvergent = true;
-        }        else if(limitValue > 1)
+        }
+        else if(limitValue > 1)
         {
             isDivergent = true;
         }
@@ -173,10 +182,12 @@ void performRootTest(
     Term termForLimit(termsRaiseToTerms.getCombinedTerm());
     Term limitTerm(getLimit(termForLimit, variableName, AlbaNumber(AlbaNumber::Value::PositiveInfinity)));
     if(limitTerm.isConstant())
-    {        AlbaNumber limitValue(limitTerm.getConstantValueConstReference());
+    {
+        AlbaNumber limitValue(limitTerm.getConstantValueConstReference());
         if(limitValue < 1)
         {
-            isConvergent = true;        }
+            isConvergent = true;
+        }
         else if(limitValue > 1)
         {
             isDivergent = true;
@@ -198,10 +209,12 @@ Term getLimitForRatioTest(
 
 Term getSumOfArithmeticSeriesUsingFirstAndLastTerm(
         Term const& firstTerm,
-        Term const& lastTerm,        Term const& count)
+        Term const& lastTerm,
+        Term const& count)
 {
     return (firstTerm + lastTerm) * count / 2;
 }
+
 Term getSumOfGeometricSeriesUsingFirstValueAndCommonMultiplier(
         Term const& firstValue,
         Term const& commonMultiplier,
@@ -215,6 +228,12 @@ Term getInfiniteSumOfGeometricSeriesIfCommonMultiplierIsFractional(
         Term const& commonMultiplier)
 {
     return firstValue/(Term(1) - commonMultiplier);
+}
+
+PowerSeries getEToTheXPowerSeries()
+{
+    Term formula(convertExpressionToSimplestTerm(createExpressionIfPossible({Term(1), Term("/"), Term(factorial(Term(n)))})));
+    return PowerSeries(formula, n, x, 0);
 }
 
 }

@@ -21,7 +21,7 @@ public:
             AlbaNumber const& valueAtNthIndex2,
             int const nthIndex2);
 
-private:
+protected:
 
 };
 

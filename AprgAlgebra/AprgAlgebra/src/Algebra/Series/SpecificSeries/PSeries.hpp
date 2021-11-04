@@ -13,7 +13,7 @@ class PSeries : public SeriesBasedOnSummation
 public:
     PSeries(AlbaNumber const& power);
 
-private:
+protected:
     Term getFormula(AlbaNumber const& power) const;
 
 };

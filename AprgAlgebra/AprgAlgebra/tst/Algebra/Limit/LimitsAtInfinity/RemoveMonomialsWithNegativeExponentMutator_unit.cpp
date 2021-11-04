@@ -33,7 +33,7 @@ TEST(RemoveMonomialsWithNegativeExponentMutatorTest, MutateTermWorks)
     Term variableTerm(Variable("x"));
     Term monomialTerm(Monomial(34, {{"x", -5}}));
     Term polynomialTerm(Polynomial{Monomial(516, {{"x", -7}}), Monomial(643, {{"x", 8}})});
-    Term expressionTerm(Expression(createExpressionIfPossible({Term(678), Term("+"), Term(Monomial(576, {{"x", -9}}))})));
+    Term expressionTerm(createExpressionIfPossible({Term(678), Term("+"), Term(Monomial(576, {{"x", -9}}))}));
     Term functionTerm(Function(
                 "functionName",
                 Term(createExpressionIfPossible({Term(4516), Term("+"), Term(Monomial(7895, {{"x", -10}}))})),
