@@ -52,14 +52,41 @@ bool doesOnePolynomialHaveADoubleValue(Polynomials const& polynomials)
     {return doesThePolynomialHaveDoubleValue(polynomial);});
 }
 
+bool hasAMonomialWithMultipleVariables(Polynomial const& polynomial)
+{
+    bool result(false);
+    for(Monomial const& monomial : polynomial.getMonomialsConstReference())
+    {
+        if(monomial.getVariablesToExponentsMapConstReference().size() >= 2)
+        {
+            result = true;
+            break;
+        }
+    }
+    return result;
+}
+
+bool hasAMonomialWithDegreeMoreThanOneOrFractional(Polynomial const& polynomial)
+{
+    bool result(false);
+    for(Monomial const& monomial : polynomial.getMonomialsConstReference())
+    {
+        AlbaNumber degree(monomial.getDegree());
+        if(degree > 1 || !degree.isIntegerType())
+        {
+            result = true;
+            break;
+        }
+    }
+    return result;
+}
+
 AlbaNumber getRemainderForOneVariablePolynomialDividedByVariableMinusConstantValue(
         Polynomial const& polynomial,
-        AlbaNumber const& value)
-{
+        AlbaNumber const& value){
     //remainder theorem
     AlbaNumber remainder;
-    VariableNamesRetriever variableNamesRetriever;
-    variableNamesRetriever.retrieveFromPolynomial(polynomial);
+    VariableNamesRetriever variableNamesRetriever;    variableNamesRetriever.retrieveFromPolynomial(polynomial);
     VariableNamesSet const& variableNames(variableNamesRetriever.getSavedData());
     if(variableNames.size() == 1)
     {
