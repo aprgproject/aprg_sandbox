@@ -41,14 +41,25 @@ TEST(PolynomialHelpersTest, DoesOnePolynomialHaveADoubleValueWorks)
     EXPECT_TRUE(doesOnePolynomialHaveADoubleValue(polynomials3));
 }
 
+TEST(PolynomialHelpersTest, HasAMonomialWithMultipleVariablesWorks)
+{
+    EXPECT_FALSE(hasAMonomialWithMultipleVariables(Polynomial{Monomial(1, {{"x", 3}}), Monomial(-16, {})}));
+    EXPECT_TRUE(hasAMonomialWithMultipleVariables(Polynomial{Monomial(1, {{"x", 3}, {"y", 4}}), Monomial(-16, {})}));
+}
+
+TEST(PolynomialHelpersTest, HasAMonomialWithDegreeMoreThanOneOrFractionalWorks)
+{
+    EXPECT_FALSE(hasAMonomialWithDegreeMoreThanOneOrFractional(Polynomial{Monomial(1, {{"x", 1}}), Monomial(-16, {})}));
+    EXPECT_TRUE(hasAMonomialWithDegreeMoreThanOneOrFractional(Polynomial{Monomial(1, {{"x", 2}}), Monomial(-16, {})}));
+    EXPECT_TRUE(hasAMonomialWithDegreeMoreThanOneOrFractional(Polynomial{Monomial(1, {{"x", AlbaNumber::createFraction(1, 2)}}), Monomial(-16, {})}));
+}
+
 TEST(PolynomialHelpersTest, IsOneMonomialWorks)
 {
-    Polynomial polynomial1;
-    Polynomial polynomial2{Monomial(6, {})};
+    Polynomial polynomial1;    Polynomial polynomial2{Monomial(6, {})};
     Polynomial polynomial3{Monomial(6, {}), Monomial(-7, {{"x", 2}, {"y", 3}, {"z", 4}})};
 
-    EXPECT_FALSE(isOneMonomial(polynomial1));
-    EXPECT_TRUE(isOneMonomial(polynomial2));
+    EXPECT_FALSE(isOneMonomial(polynomial1));    EXPECT_TRUE(isOneMonomial(polynomial2));
     EXPECT_FALSE(isOneMonomial(polynomial3));
 }
 
@@ -194,6 +205,22 @@ TEST(PolynomialHelpersTest, RaiseBinomialToAPowerUsingBinomialExpansionWorks)
                 Monomial(1, {{"y", 4}})
     };
     EXPECT_EQ(expectedExpansion, actualExpansion);
+}
+
+TEST(PolynomialHelpersTest, RemoveEmptyPolynomialsWorks)
+{
+    Polynomial polynomial1;
+    Polynomial polynomial2{Monomial(1, {{"x", 1}}), Monomial(1, {{"y", 1}})};
+    Polynomial polynomial3;
+    Polynomial polynomial4{Monomial(1, {{"a", 1}}), Monomial(1, {{"b", 1}})};
+    Polynomial polynomial5;
+    Polynomials polynomials{polynomial1, polynomial2, polynomial3, polynomial4, polynomial5};
+
+    removeEmptyPolynomials(polynomials);
+
+    ASSERT_EQ(2U, polynomials.size());
+    EXPECT_EQ(polynomial2, polynomials.at(0));
+    EXPECT_EQ(polynomial4, polynomials.at(1));
 }
 
 }
