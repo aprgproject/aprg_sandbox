@@ -7,6 +7,7 @@
 #include <Algebra/Simplification/SimplificationUtilities.hpp>
 #include <Algebra/Substitution/SubstitutionOfVariablesToValues.hpp>
 #include <Algebra/Term/Operators/TermOperators.hpp>
+#include <Algebra/Term/Utilities/PolynomialHelpers.hpp>
 #include <Algebra/Term/Utilities/RetrieveHelpers.hpp>
 #include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>
 #include <Math/AlbaMathHelper.hpp>
@@ -411,14 +412,14 @@ Term getObliqueAsymptote(Term const& term)
     PolynomialOverPolynomialOptional popOptional(createPolynomialOverPolynomialFromTermIfPossible(term));
     if(popOptional.hasContent())
     {
-        if(popOptional.getConstReference().getDenominator().getMaxDegree() > 0)
+        if(getMaxDegree(popOptional.getConstReference().getDenominator()) > 0)
         {
             PolynomialOverPolynomial::QuotientAndRemainder quotientAndRemainder(popOptional.getReference().simplifyAndDivide());
             Polynomial const& quotient(quotientAndRemainder.quotient);
             VariableNamesRetriever retriever;
             retriever.retrieveFromPolynomial(quotient);
             VariableNamesSet const& variableNames(retriever.getSavedData());
-            if(1U == variableNames.size() && AlbaNumber(1) == quotient.getMaxDegree())
+            if(1U == variableNames.size() && AlbaNumber(1) == getMaxDegree(quotient))
             {
                 result = Term(quotient);
             }

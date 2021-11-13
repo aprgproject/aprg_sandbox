@@ -187,7 +187,7 @@ Term operator+(Constant const& constant, Variable const& variable)
 
 Term operator+(Constant const& constant, Monomial const& monomial)
 {
-    if(monomial.isConstantOnly())
+    if(isConstantOnly(monomial))
     {
         return Term(constant.getNumberConstReference() + monomial.getConstantConstReference());
     }
@@ -290,7 +290,7 @@ Term operator+(Variable const& variable, Term const& term)
 
 Term operator+(Monomial const& monomial, Constant const& constant)
 {
-    if(monomial.isConstantOnly())
+    if(isConstantOnly(monomial))
     {
         return Term(monomial.getConstantConstReference() + constant.getNumberConstReference());
     }
@@ -530,7 +530,7 @@ Term operator-(Constant const& constant, Variable const& variable)
 
 Term operator-(Constant const& constant, Monomial const& monomial)
 {
-    if(monomial.isConstantOnly())
+    if(isConstantOnly(monomial))
     {
         return Term(constant.getNumberConstReference() - monomial.getConstantConstReference());
     }
@@ -635,7 +635,7 @@ Term operator-(Variable const& variable, Term const& term)
 
 Term operator-(Monomial const& monomial, Constant const& constant)
 {
-    if(monomial.isConstantOnly())
+    if(isConstantOnly(monomial))
     {
         return Term(monomial.getConstantConstReference() - constant.getNumberConstReference());
     }
@@ -1478,7 +1478,7 @@ Term operator^(Constant const& constant, Variable const& variable)
 
 Term operator^(Constant const& constant, Monomial const& monomial)
 {
-    if(monomial.isConstantOnly())
+    if(isConstantOnly(monomial))
     {
         return Term(constant.getNumberConstReference() ^ monomial.getConstantConstReference());
     }

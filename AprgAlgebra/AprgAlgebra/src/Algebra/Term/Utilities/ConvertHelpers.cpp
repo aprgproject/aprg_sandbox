@@ -1,6 +1,8 @@
 #include "ConvertHelpers.hpp"
 
 #include <Algebra/Simplification/SimplificationOfFunctionToTerm.hpp>
+#include <Algebra/Term/Utilities/MonomialHelpers.hpp>
+#include <Algebra/Term/Utilities/PolynomialHelpers.hpp>
 #include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>
 
 using namespace alba::algebra::Simplification;
@@ -14,7 +16,7 @@ namespace algebra
 
 bool canBeConvertedToConstant(Polynomial const& polynomial)
 {
-    return polynomial.isEmpty() || (polynomial.isOneMonomial() && polynomial.getFirstMonomial().isConstantOnly());
+    return polynomial.isEmpty() || (isOneMonomial(polynomial) && isConstantOnly(getFirstMonomial(polynomial)));
 }
 
 bool canBeConvertedToMonomial(Term const& term)
@@ -23,7 +25,7 @@ bool canBeConvertedToMonomial(Term const& term)
     bool isPolynomialWithOneMonomial(false);
     if(term.isPolynomial())
     {
-        isPolynomialWithOneMonomial = term.getPolynomialConstReference().isOneMonomial();
+        isPolynomialWithOneMonomial = isOneMonomial(term.getPolynomialConstReference());
     }
     return TermType::Constant==termType
             || TermType::Variable==termType
@@ -75,13 +77,13 @@ Term convertMonomialToSimplestTerm(Monomial const& monomial)
     {
         newTerm = Term(Constant(0));
     }
-    else if(monomial.isConstantOnly())
+    else if(isConstantOnly(monomial))
     {
         newTerm = Term(monomial.getConstantConstReference());
     }
-    else if(monomial.isVariableOnly())
+    else if(isVariableOnly(monomial))
     {
-        newTerm = Term(monomial.getFirstVariableName());
+        newTerm = Term(getFirstVariableName(monomial));
     }
     return newTerm;
 }
@@ -93,9 +95,9 @@ Term convertPolynomialToSimplestTerm(Polynomial const& polynomial)
     {
         newTerm = Term(Constant(0));
     }
-    else if(polynomial.isOneMonomial())
+    else if(isOneMonomial(polynomial))
     {
-        newTerm = simplifyAndConvertMonomialToSimplestTerm(polynomial.getFirstMonomial());
+        newTerm = simplifyAndConvertMonomialToSimplestTerm(getFirstMonomial(polynomial));
     }
     return newTerm;
 }

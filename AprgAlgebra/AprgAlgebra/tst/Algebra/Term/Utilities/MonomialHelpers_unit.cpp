@@ -83,6 +83,108 @@ TEST(MonomialHelpersTest, HasNegativeExponentsWorks)
     EXPECT_TRUE(hasNegativeExponents(Monomial(-54, {{"x", -6}, {"y", -1.25}})));
 }
 
+TEST(MonomialHelpersTest, IsConstantOnlyFunctionWorks)
+{
+    Monomial monomial1;
+    Monomial monomial2(-54, {{"x", 6}, {"y", -1.25}});
+    Monomial monomial3(23, {});
+
+    EXPECT_TRUE(isConstantOnly(monomial1));
+    EXPECT_FALSE(isConstantOnly(monomial2));
+    EXPECT_TRUE(isConstantOnly(monomial3));
+}
+
+TEST(MonomialHelpersTest, IsVariableOnlyFunctionWorks)
+{
+    Monomial monomial1;
+    Monomial monomial2(-54, {{"x", 6}, {"y", -1.25}});
+    Monomial monomial3(-54, {{"x", 6}});
+    Monomial monomial4(-54, {{"x", 1}});
+    Monomial monomial5(0, {{"x", 1}});
+    Monomial monomial6(1, {{"x", 1}, {"y", 1}});
+    Monomial monomial7(1, {{"x", 1}});
+
+    EXPECT_FALSE(isVariableOnly(monomial1));
+    EXPECT_FALSE(isVariableOnly(monomial2));
+    EXPECT_FALSE(isVariableOnly(monomial3));
+    EXPECT_FALSE(isVariableOnly(monomial4));
+    EXPECT_FALSE(isVariableOnly(monomial5));
+    EXPECT_FALSE(isVariableOnly(monomial6));
+    EXPECT_TRUE(isVariableOnly(monomial7));
+}
+
+TEST(MonomialHelpersTest, HasASingleVariableWorks)
+{
+    Monomial monomial1;
+    Monomial monomial2(-54, {{"x", 6}, {"y", -1.25}});
+    Monomial monomial3(-54, {{"x", 6}});
+
+    EXPECT_FALSE(hasASingleVariable(monomial1));
+    EXPECT_FALSE(hasASingleVariable(monomial2));
+    EXPECT_TRUE(hasASingleVariable(monomial3));
+}
+
+TEST(MonomialHelpersTest, GetFirstVariableNameFunctionWorks)
+{
+    Monomial monomial1;
+    Monomial monomial2(-54, {{"x1", 6}, {"y1", -1.25}});
+    Monomial monomial3(-54, {{"x2", 6}});
+    Monomial monomial4(-54, {{"x3", 1}});
+    Monomial monomial5(0, {{"x4", 1}});
+    Monomial monomial6(1, {{"x5", 1}});
+    Monomial monomial7(1, {});
+
+    EXPECT_TRUE(getFirstVariableName(monomial1).empty());
+    EXPECT_EQ("x1", getFirstVariableName(monomial2));
+    EXPECT_EQ("x2", getFirstVariableName(monomial3));
+    EXPECT_EQ("x3", getFirstVariableName(monomial4));
+    EXPECT_EQ("x4", getFirstVariableName(monomial5));
+    EXPECT_EQ("x5", getFirstVariableName(monomial6));
+    EXPECT_TRUE(getFirstVariableName(monomial7).empty());
+}
+
+TEST(MonomialHelpersTest, GetDegreeWorks)
+{
+    Monomial monomial1;
+    Monomial monomial2(-54, {{"x", 6}, {"y1", -1.25}});
+    Monomial monomial3(-54, {{"x", 1}});
+    Monomial monomial4(-54, {{"x", 2}});
+    Monomial monomial5(0, {{"x", 3}});
+    Monomial monomial6(1, {{"x", 4}});
+    Monomial monomial7(1, {});
+
+    EXPECT_DOUBLE_EQ(0, getDegree(monomial1).getDouble());
+    EXPECT_DOUBLE_EQ(4.75, getDegree(monomial2).getDouble());
+    EXPECT_DOUBLE_EQ(1, getDegree(monomial3).getDouble());
+    EXPECT_DOUBLE_EQ(2, getDegree(monomial4).getDouble());
+    EXPECT_DOUBLE_EQ(3, getDegree(monomial5).getDouble());
+    EXPECT_DOUBLE_EQ(4, getDegree(monomial6).getDouble());
+    EXPECT_DOUBLE_EQ(0, getDegree(monomial7).getDouble());
+}
+
+TEST(MonomialHelpersTest, GetMaxExponentWorks)
+{
+    Monomial monomial1;
+    Monomial monomial2(23, {});
+    Monomial monomial3(-23, {});
+    Monomial monomial4(-54, {{"x", 6}});
+    Monomial monomial5(-54, {{"x", -6}});
+    Monomial monomial6(-54, {{"x", 6}, {"y", 1.25}});
+    Monomial monomial7(-54, {{"x", 6}, {"y", -1.25}});
+    Monomial monomial8(-54, {{"x", -6}, {"y", 1.25}});
+    Monomial monomial9(-54, {{"x", -6}, {"y", -1.25}});
+
+    EXPECT_DOUBLE_EQ(0, getMaxExponent(monomial1).getDouble());
+    EXPECT_DOUBLE_EQ(0, getMaxExponent(monomial2).getDouble());
+    EXPECT_DOUBLE_EQ(0, getMaxExponent(monomial3).getDouble());
+    EXPECT_DOUBLE_EQ(6, getMaxExponent(monomial4).getDouble());
+    EXPECT_DOUBLE_EQ(-6, getMaxExponent(monomial5).getDouble());
+    EXPECT_DOUBLE_EQ(6, getMaxExponent(monomial6).getDouble());
+    EXPECT_DOUBLE_EQ(6, getMaxExponent(monomial7).getDouble());
+    EXPECT_DOUBLE_EQ(1.25, getMaxExponent(monomial8).getDouble());
+    EXPECT_DOUBLE_EQ(-1.25, getMaxExponent(monomial9).getDouble());
+}
+
 TEST(MonomialHelpersTest, GetGcfOfExponentsInMonomialWorks)
 {
     Monomial monomial(1,

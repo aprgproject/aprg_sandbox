@@ -6,6 +6,7 @@
 #include <Algebra/Term/Operators/TermOperators.hpp>
 #include <Algebra/Term/Utilities/ConvertHelpers.hpp>
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
+#include <Algebra/Term/Utilities/MonomialHelpers.hpp>
 #include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>
 
 using namespace alba::algebra::Simplification;
@@ -102,7 +103,7 @@ AlbaNumber LimitsAtInfinity::getMaxDegree(Term const& term)
     AlbaNumber degree;
     if(canBeConvertedToMonomial(degreeOnlyTerm))
     {
-        degree = createMonomialIfPossible(degreeOnlyTerm).getDegree();
+        degree = getDegree(createMonomialIfPossible(degreeOnlyTerm));
     }
     return degree;
 }

@@ -118,47 +118,6 @@ TEST(MonomialTest, LessThanOperatorWorks)
     EXPECT_TRUE(Monomial(54, {{"x", 6}}) < Monomial(54, {{"x", 3}, {"y", 4}}));
 }
 
-TEST(MonomialTest, IsConstantOnlyFunctionWorks)
-{
-    Monomial monomial1;
-    Monomial monomial2(-54, {{"x", 6}, {"y", -1.25}});
-    Monomial monomial3(23, {});
-
-    EXPECT_TRUE(monomial1.isConstantOnly());
-    EXPECT_FALSE(monomial2.isConstantOnly());
-    EXPECT_TRUE(monomial3.isConstantOnly());
-}
-
-TEST(MonomialTest, IsVariableOnlyFunctionWorks)
-{
-    Monomial monomial1;
-    Monomial monomial2(-54, {{"x", 6}, {"y", -1.25}});
-    Monomial monomial3(-54, {{"x", 6}});
-    Monomial monomial4(-54, {{"x", 1}});
-    Monomial monomial5(0, {{"x", 1}});
-    Monomial monomial6(1, {{"x", 1}, {"y", 1}});
-    Monomial monomial7(1, {{"x", 1}});
-
-    EXPECT_FALSE(monomial1.isVariableOnly());
-    EXPECT_FALSE(monomial2.isVariableOnly());
-    EXPECT_FALSE(monomial3.isVariableOnly());
-    EXPECT_FALSE(monomial4.isVariableOnly());
-    EXPECT_FALSE(monomial5.isVariableOnly());
-    EXPECT_FALSE(monomial6.isVariableOnly());
-    EXPECT_TRUE(monomial7.isVariableOnly());
-}
-
-TEST(MonomialTest, HasASingleVariableWorks)
-{
-    Monomial monomial1;
-    Monomial monomial2(-54, {{"x", 6}, {"y", -1.25}});
-    Monomial monomial3(-54, {{"x", 6}});
-
-    EXPECT_FALSE(monomial1.hasASingleVariable());
-    EXPECT_FALSE(monomial2.hasASingleVariable());
-    EXPECT_TRUE(monomial3.hasASingleVariable());
-}
-
 TEST(MonomialTest, GetConstantConstReferenceWorks)
 {
     Monomial monomial1;
@@ -178,67 +137,6 @@ TEST(MonomialTest, GetVariablesToExponentsMapConstReferenceWorks)
     ASSERT_EQ(2U, variableMap1.size());
     EXPECT_DOUBLE_EQ(6, variableMap1.at("x").getDouble());
     EXPECT_DOUBLE_EQ(-1.25, variableMap1.at("y").getDouble());
-}
-
-TEST(MonomialTest, GetFirstVariableNameFunctionWorks)
-{
-    Monomial monomial1;
-    Monomial monomial2(-54, {{"x1", 6}, {"y1", -1.25}});
-    Monomial monomial3(-54, {{"x2", 6}});
-    Monomial monomial4(-54, {{"x3", 1}});
-    Monomial monomial5(0, {{"x4", 1}});
-    Monomial monomial6(1, {{"x5", 1}});
-    Monomial monomial7(1, {});
-
-    EXPECT_TRUE(monomial1.getFirstVariableName().empty());
-    EXPECT_EQ("x1", monomial2.getFirstVariableName());
-    EXPECT_EQ("x2", monomial3.getFirstVariableName());
-    EXPECT_EQ("x3", monomial4.getFirstVariableName());
-    EXPECT_EQ("x4", monomial5.getFirstVariableName());
-    EXPECT_EQ("x5", monomial6.getFirstVariableName());
-    EXPECT_TRUE(monomial7.getFirstVariableName().empty());
-}
-
-TEST(MonomialTest, GetDegreeWorks)
-{
-    Monomial monomial1;
-    Monomial monomial2(-54, {{"x", 6}, {"y1", -1.25}});
-    Monomial monomial3(-54, {{"x", 1}});
-    Monomial monomial4(-54, {{"x", 2}});
-    Monomial monomial5(0, {{"x", 3}});
-    Monomial monomial6(1, {{"x", 4}});
-    Monomial monomial7(1, {});
-
-    EXPECT_DOUBLE_EQ(0, monomial1.getDegree().getDouble());
-    EXPECT_DOUBLE_EQ(4.75, monomial2.getDegree().getDouble());
-    EXPECT_DOUBLE_EQ(1, monomial3.getDegree().getDouble());
-    EXPECT_DOUBLE_EQ(2, monomial4.getDegree().getDouble());
-    EXPECT_DOUBLE_EQ(3, monomial5.getDegree().getDouble());
-    EXPECT_DOUBLE_EQ(4, monomial6.getDegree().getDouble());
-    EXPECT_DOUBLE_EQ(0, monomial7.getDegree().getDouble());
-}
-
-TEST(MonomialTest, GetMaxExponentWorks)
-{
-    Monomial monomial1;
-    Monomial monomial2(23, {});
-    Monomial monomial3(-23, {});
-    Monomial monomial4(-54, {{"x", 6}});
-    Monomial monomial5(-54, {{"x", -6}});
-    Monomial monomial6(-54, {{"x", 6}, {"y", 1.25}});
-    Monomial monomial7(-54, {{"x", 6}, {"y", -1.25}});
-    Monomial monomial8(-54, {{"x", -6}, {"y", 1.25}});
-    Monomial monomial9(-54, {{"x", -6}, {"y", -1.25}});
-
-    EXPECT_DOUBLE_EQ(0, monomial1.getMaxExponent().getDouble());
-    EXPECT_DOUBLE_EQ(0, monomial2.getMaxExponent().getDouble());
-    EXPECT_DOUBLE_EQ(0, monomial3.getMaxExponent().getDouble());
-    EXPECT_DOUBLE_EQ(6, monomial4.getMaxExponent().getDouble());
-    EXPECT_DOUBLE_EQ(-6, monomial5.getMaxExponent().getDouble());
-    EXPECT_DOUBLE_EQ(6, monomial6.getMaxExponent().getDouble());
-    EXPECT_DOUBLE_EQ(6, monomial7.getMaxExponent().getDouble());
-    EXPECT_DOUBLE_EQ(1.25, monomial8.getMaxExponent().getDouble());
-    EXPECT_DOUBLE_EQ(-1.25, monomial9.getMaxExponent().getDouble());
 }
 
 TEST(MonomialTest, GetExponentForVariableWorks)
@@ -325,6 +223,17 @@ TEST(MonomialTest, SimplifyWorks)
     EXPECT_TRUE(variableMap6.empty());
 }
 
+TEST(MonomialTest, SettingANewConstantWorks)
+{
+    Monomial monomial1;
+    Monomial monomial2;
+
+    monomial2.setConstant(512);
+
+    EXPECT_DOUBLE_EQ(0, monomial1.getConstantConstReference().getDouble());
+    EXPECT_DOUBLE_EQ(512, monomial2.getConstantConstReference().getDouble());
+}
+
 TEST(MonomialTest, MultiplyNumberWorks)
 {
     Monomial monomial1(16, {{"x", 5}});
@@ -393,17 +302,6 @@ TEST(MonomialTest, DivideMonomialWorks)
     ASSERT_EQ(2U, variableMap2.size());
     EXPECT_DOUBLE_EQ(7, variableMap2.at("x").getDouble());
     EXPECT_DOUBLE_EQ(-4, variableMap2.at("y").getDouble());
-}
-
-TEST(MonomialTest, SettingANewConstantWorks)
-{
-    Monomial monomial1;
-    Monomial monomial2;
-
-    monomial2.setConstant(512);
-
-    EXPECT_DOUBLE_EQ(0, monomial1.getConstantConstReference().getDouble());
-    EXPECT_DOUBLE_EQ(512, monomial2.getConstantConstReference().getDouble());
 }
 
 TEST(MonomialTest, PuttingANewVariableWithExponentWorks)

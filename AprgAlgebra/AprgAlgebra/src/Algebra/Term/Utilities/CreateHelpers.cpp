@@ -3,6 +3,7 @@
 #include <Algebra/Constructs/TermsAggregator.hpp>
 #include <Algebra/Functions/CommonFunctionLibrary.hpp>
 #include <Algebra/Term/Utilities/ConvertHelpers.hpp>
+#include <Algebra/Term/Utilities/PolynomialHelpers.hpp>
 
 using namespace alba::algebra::Functions;
 using namespace std;
@@ -44,9 +45,9 @@ Monomial createMonomialIfPossible(
     else if(term.isPolynomial())
     {
         Polynomial const& polynomial(term.getPolynomialConstReference());
-        if(polynomial.isOneMonomial())
+        if(isOneMonomial(polynomial))
         {
-            result = polynomial.getFirstMonomial();
+            result = getFirstMonomial(polynomial);
         }
     }
     return result;

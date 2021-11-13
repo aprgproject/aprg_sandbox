@@ -1,6 +1,8 @@
 #include "ValueCheckingHelpers.hpp"
 
 #include <Algebra/Term/Utilities/BaseTermHelpers.hpp>
+#include <Algebra/Term/Utilities/MonomialHelpers.hpp>
+#include <Algebra/Term/Utilities/PolynomialHelpers.hpp>
 
 #include <algorithm>
 
@@ -70,7 +72,7 @@ bool isValueSatisfyTheCondition(
         Monomial const& monomial,
         NumberCheckingCondition const& condition)
 {
-    return monomial.isConstantOnly()
+    return isConstantOnly(monomial)
             && isValueSatisfyTheCondition(monomial.getConstantConstReference(), condition);
 }
 
@@ -78,8 +80,8 @@ bool isValueSatisfyTheCondition(
         Polynomial const& polynomial,
         NumberCheckingCondition const& condition)
 {
-    return polynomial.isOneMonomial()
-            && isValueSatisfyTheCondition(polynomial.getFirstMonomial(), condition);
+    return isOneMonomial(polynomial)
+            && isValueSatisfyTheCondition(getFirstMonomial(polynomial), condition);
 }
 
 bool isValueSatisfyTheCondition(
@@ -233,7 +235,7 @@ bool isTheValue(Monomial const& monomial, AlbaNumber const& number)
     }
     else
     {
-        result = monomial.isConstantOnly() && monomial.getConstantConstReference() == number;
+        result = isConstantOnly(monomial) && monomial.getConstantConstReference() == number;
     }
     return result;
 }
@@ -243,11 +245,11 @@ bool isTheValue(Polynomial const& polynomial, AlbaNumber const& number)
     bool result(false);
     if(number == 0)
     {
-        result = polynomial.getMonomialsConstReference().empty();
+        result = polynomial.isEmpty();
     }
     else
     {
-        result = polynomial.isOneMonomial() && isTheValue(polynomial.getFirstMonomial(), number);
+        result = isOneMonomial(polynomial) && isTheValue(getFirstMonomial(polynomial), number);
     }
     return result;
 }

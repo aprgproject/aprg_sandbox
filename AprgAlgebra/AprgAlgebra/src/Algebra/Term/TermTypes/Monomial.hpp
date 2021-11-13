@@ -38,29 +38,26 @@ public:
     bool operator==(Monomial const& second) const;
     bool operator!=(Monomial const& second) const;
     bool operator<(Monomial const& second) const;
-    bool isConstantOnly() const;
-    bool isVariableOnly() const;
-    bool hasASingleVariable() const;
 
     AlbaNumber const& getConstantConstReference() const;
     VariablesToExponentsMap const& getVariablesToExponentsMapConstReference() const;
-    std::string getFirstVariableName() const;
-    AlbaNumber getDegree() const;
-    AlbaNumber getMaxExponent() const;
     AlbaNumber getExponentForVariable(std::string const& variableName) const;
     std::string getDisplayableString() const;
 
     void clear();
     void simplify();
+    void setConstant(AlbaNumber const& constant);
     void multiplyNumber(AlbaNumber const& number);
     void divideNumber(AlbaNumber const& number);
     void raiseToPowerNumber(AlbaNumber const& number);
     void multiplyMonomial(Monomial const& monomial);
     void divideMonomial(Monomial const& monomial);
-    void setConstant(AlbaNumber const& constant);
     void putVariablesWithExponents(std::initializer_list<VariableExponentPair> const& variablesWithExponents);
     void putVariablesWithExponents(VariablesToExponentsMap const& variablesWithExponents);
     void putVariableWithExponent(std::string const& variable, AlbaNumber const& exponent);
+
+    void setAsSimplified();
+    void clearInternalFlags();
 
 private:
     bool isLessThanByComparingVariableNameMaps(
@@ -70,6 +67,7 @@ private:
     void removeZeroExponents();
     AlbaNumber m_constant;
     VariablesToExponentsMap m_variablesToExponentsMap;
+    bool m_isSimplified;
 };
 
 using Monomials=std::vector<Monomial>;

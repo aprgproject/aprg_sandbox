@@ -268,7 +268,8 @@ TEST(TermTest, TermsAsPolynomialsCanBeChanged)
     term.getPolynomialReference().addMonomial(Monomial(53, {}));
 
     ASSERT_EQ(TermType::Polynomial, term.getTermType());
-    EXPECT_EQ(Monomial(53, {}), term.getPolynomialConstReference().getFirstMonomial());
+    Polynomial expectedPolynomial{Monomial(53, {})};
+    EXPECT_EQ(expectedPolynomial, term.getPolynomialConstReference());
 }
 
 TEST(TermTest, TermsAsExpressionsCanBeChanged)

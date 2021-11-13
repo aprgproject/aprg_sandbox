@@ -2,6 +2,7 @@
 
 #include <Algebra/Factorization/FactorizationConfiguration.hpp>
 #include <Algebra/Retrieval/ExponentsRetriever.hpp>
+#include <Algebra/Term/Utilities/MonomialHelpers.hpp>
 #include <Algebra/Term/Utilities/PolynomialHelpers.hpp>
 #include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>
 #include <Math/AlbaMathHelper.hpp>
@@ -81,7 +82,7 @@ bool doesNotNeedToBeFactorized(Polynomial const& polynomial)
         {
             return exponent == 0 || exponent == 1;
         });
-        bool areBothDegreeLessThanOne = first.getDegree() <= 1 && second.getDegree() <= 1;
+        bool areBothDegreeLessThanOne = getDegree(first) <= 1 && getDegree(second) <= 1;
         result = areBothConstantIntegers && areEitherConstantOne && areAllExponentsOneOrZero && areBothDegreeLessThanOne;
     }
     return result;

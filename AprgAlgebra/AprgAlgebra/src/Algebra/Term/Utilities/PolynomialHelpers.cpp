@@ -4,6 +4,8 @@
 #include <Algebra/Retrieval/NumbersRetriever.hpp>
 #include <Algebra/Retrieval/VariableNamesRetriever.hpp>
 #include <Algebra/Substitution/SubstitutionOfVariablesToValues.hpp>
+#include <Algebra/Term/Utilities/MonomialHelpers.hpp>
+#include <Algebra/Term/Utilities/PolynomialHelpers.hpp>
 #include <Math/AlbaMathHelper.hpp>
 
 #include <algorithm>
@@ -18,24 +20,27 @@ namespace alba
 namespace algebra
 {
 
-bool doesThePolynomialHaveOnlyOneConstant(Polynomial const& polynomial)
+bool doesThePolynomialHaveOnlyOneConstant(
+        Polynomial const& polynomial)
 {
     bool result(false);
-    if(polynomial.isOneMonomial())
+    if(isOneMonomial(polynomial))
     {
-        result = polynomial.getFirstMonomial().isConstantOnly();
+        result = isConstantOnly(getFirstMonomial(polynomial));
     }
     return result;
 }
 
-bool doesThePolynomialHaveOnlyOneVariable(Polynomial const& polynomial)
+bool doesThePolynomialHaveOnlyOneVariable(
+        Polynomial const& polynomial)
 {
     VariableNamesRetriever variableNamesRetriever;
     variableNamesRetriever.retrieveFromPolynomial(polynomial);
     return variableNamesRetriever.getSavedData().size() == 1;
 }
 
-bool doesThePolynomialHaveDoubleValue(Polynomial const& polynomial)
+bool doesThePolynomialHaveDoubleValue(
+        Polynomial const& polynomial)
 {
     bool result(false);
     NumbersRetriever retriever;
@@ -46,13 +51,15 @@ bool doesThePolynomialHaveDoubleValue(Polynomial const& polynomial)
     return result;
 }
 
-bool doesOnePolynomialHaveADoubleValue(Polynomials const& polynomials)
+bool doesOnePolynomialHaveADoubleValue(
+        Polynomials const& polynomials)
 {
     return any_of(polynomials.cbegin(), polynomials.cend(), [](Polynomial const& polynomial)
     {return doesThePolynomialHaveDoubleValue(polynomial);});
 }
 
-bool hasAMonomialWithMultipleVariables(Polynomial const& polynomial)
+bool hasAMonomialWithMultipleVariables(
+        Polynomial const& polynomial)
 {
     bool result(false);
     for(Monomial const& monomial : polynomial.getMonomialsConstReference())
@@ -66,12 +73,13 @@ bool hasAMonomialWithMultipleVariables(Polynomial const& polynomial)
     return result;
 }
 
-bool hasAMonomialWithDegreeMoreThanOneOrFractional(Polynomial const& polynomial)
+bool hasAMonomialWithDegreeMoreThanOneOrFractional(
+        Polynomial const& polynomial)
 {
     bool result(false);
     for(Monomial const& monomial : polynomial.getMonomialsConstReference())
     {
-        AlbaNumber degree(monomial.getDegree());
+        AlbaNumber degree(getDegree(monomial));
         if(degree > 1 || !degree.isIntegerType())
         {
             result = true;
@@ -81,12 +89,106 @@ bool hasAMonomialWithDegreeMoreThanOneOrFractional(Polynomial const& polynomial)
     return result;
 }
 
+bool isOneMonomial(Polynomial const& polynomial)
+{
+    return polynomial.getMonomialsConstReference().size() == 1;
+}
+
+bool isVariableExponentInMonomialFound(
+        Polynomial const& polynomial,
+        Monomial const& monomial)
+{
+    bool result(false);
+    for(Monomial const& monomialInternal : polynomial.getMonomialsConstReference())
+    {
+        if(monomial.getVariablesToExponentsMapConstReference()
+                == monomialInternal.getVariablesToExponentsMapConstReference())
+        {
+            result = true;
+            break;
+        }
+    }
+    return result;
+}
+
+Monomial getFirstMonomial(
+        Polynomial const& polynomial)
+{
+    Monomial result;
+    Monomials const& monomials(polynomial.getMonomialsConstReference());
+    if(!monomials.empty())
+    {
+        result = monomials.front();
+    }
+    return result;
+}
+
+AlbaNumber getMaxDegree(
+        Polynomial const& polynomial)
+{
+    bool isFirst(true);
+    AlbaNumber maxDegree(0);
+    for(Monomial const& monomial : polynomial.getMonomialsConstReference())
+    {
+        if(isFirst)
+        {
+            maxDegree = getDegree(monomial);
+            isFirst=false;
+        }
+        else
+        {
+            maxDegree = max(maxDegree, getDegree(monomial));
+        }
+    }
+    return maxDegree;
+}
+
+AlbaNumber getDegreeForVariable(
+        Polynomial const& polynomial,
+        string const& variableName)
+{
+    bool isFirst(true);
+    AlbaNumber maxDegree(0);
+    for(Monomial const& monomial : polynomial.getMonomialsConstReference())
+    {
+        if(isFirst)
+        {
+            maxDegree = monomial.getExponentForVariable(variableName);
+            isFirst=false;
+        }
+        else
+        {
+            maxDegree = max(maxDegree, monomial.getExponentForVariable(variableName));
+        }
+    }
+    return maxDegree;
+}
+
+AlbaNumber getCoefficientOfVariableExponent(
+        Polynomial const& polynomial,
+        Monomial const& monomial)
+{
+    AlbaNumber coefficient;
+    for(Monomial const& monomialInternal : polynomial.getMonomialsConstReference())
+    {
+        if(monomial.getVariablesToExponentsMapConstReference()
+                == monomialInternal.getVariablesToExponentsMapConstReference())
+        {
+            coefficient = monomialInternal.getConstantConstReference();
+            break;
+        }
+    }
+    return coefficient;
+}
+
 AlbaNumber getRemainderForOneVariablePolynomialDividedByVariableMinusConstantValue(
         Polynomial const& polynomial,
-        AlbaNumber const& value){
+        AlbaNumber const& value)
+{
     //remainder theorem
     AlbaNumber remainder;
-    VariableNamesRetriever variableNamesRetriever;    variableNamesRetriever.retrieveFromPolynomial(polynomial);
+    VariableNamesRetriever variableNamesRetriever;
+    variableNamesRetriever.retrieveFromPolynomial(polynomial);
     VariableNamesSet const& variableNames(variableNamesRetriever.getSavedData());
     if(variableNames.size() == 1)
     {
@@ -103,7 +205,9 @@ AlbaNumber getRemainderForOneVariablePolynomialDividedByVariableMinusConstantVal
 }
 
 
-AlbaNumbers getRoots(RootType const rootType, Polynomial const& polynomial)
+AlbaNumbers getRoots(
+        RootType const rootType,
+        Polynomial const& polynomial)
 {
     AlbaNumbers result;
     if(doesThePolynomialHaveOnlyOneVariable(polynomial))
@@ -113,7 +217,7 @@ AlbaNumbers getRoots(RootType const rootType, Polynomial const& polynomial)
         for(Polynomial const& factorizedPolynomial : factorizedPolynomials)
         {
             Monomials const& monomialsToCheck(factorizedPolynomial.getMonomialsConstReference());
-            AlbaNumber maxDegree(factorizedPolynomial.getMaxDegree());
+            AlbaNumber maxDegree(getMaxDegree(factorizedPolynomial));
             if(monomialsToCheck.size() == 1 && maxDegree > 0)
             {
                 result.emplace_back(AlbaNumber(0));
@@ -122,11 +226,11 @@ AlbaNumbers getRoots(RootType const rootType, Polynomial const& polynomial)
             {
                 Monomial firstMonomial(monomialsToCheck.at(0));
                 Monomial secondMonomial(monomialsToCheck.at(1));
-                if(secondMonomial.isConstantOnly())
+                if(isConstantOnly(secondMonomial))
                 {
                     AlbaNumber constant(-secondMonomial.getConstantConstReference());
                     constant = constant/firstMonomial.getConstantConstReference();
-                    constant = constant^(AlbaNumber(1)/firstMonomial.getMaxExponent());
+                    constant = constant^(AlbaNumber(1)/getMaxExponent(firstMonomial));
 
                     if(constant.isAFiniteValue())
                     {
@@ -177,7 +281,8 @@ Polynomial raiseBinomialToAPowerUsingBinomialExpansion(
     return result;
 }
 
-void removeEmptyPolynomials(Polynomials & polynomials)
+void removeEmptyPolynomials(
+        Polynomials & polynomials)
 {
     polynomials.erase(remove_if(polynomials.begin(), polynomials.end(), [](
                                 Polynomial const& polynomial)

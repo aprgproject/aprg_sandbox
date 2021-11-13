@@ -14,6 +14,7 @@
 #include <Algebra/Term/Operators/TermOperators.hpp>
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
 #include <Algebra/Term/Utilities/ConvertHelpers.hpp>
+#include <Algebra/Term/Utilities/PolynomialHelpers.hpp>
 #include <Algebra/Term/Utilities/RetrieveHelpers.hpp>
 #include <Algebra/Term/Utilities/StringHelpers.hpp>
 #include <Algebra/Term/Utilities/TermUtilities.hpp>
@@ -1145,7 +1146,7 @@ void Integration::retrievePartialFractions(
         if(negatedExponent.isIntegerType() && negatedExponent > 0 && canBeConvertedToPolynomial(factorsToProcess))
         {
             Polynomial polynomialFactor(createPolynomialIfPossible(factorsToProcess));
-            unsigned int maxDegreeOfFactor = static_cast<unsigned int>(polynomialFactor.getMaxDegree().getInteger());
+            unsigned int maxDegreeOfFactor = static_cast<unsigned int>(getMaxDegree(polynomialFactor).getInteger());
             unsigned int denominatorExponent = static_cast<unsigned int>(negatedExponent.getInteger());
             for(unsigned int i=1; i<=denominatorExponent; i++)
             {
@@ -2132,7 +2133,7 @@ bool Integration::wouldDifferentiationYieldToAConstant(
     }
     else if(term.isPolynomial())
     {
-        result = term.getPolynomialConstReference().getDegreeForVariable(m_nameOfVariableToIntegrate) == 1;
+        result = getDegreeForVariable(term.getPolynomialConstReference(), m_nameOfVariableToIntegrate) == 1;
     }
     return result;
 }

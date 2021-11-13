@@ -9,6 +9,7 @@
 #include <Algebra/Substitution/SubstitutionOfVariablesToTerms.hpp>
 #include <Algebra/Substitution/SubstitutionOfVariablesToValues.hpp>
 #include <Algebra/Term/Operators/TermOperators.hpp>
+#include <Algebra/Term/Utilities/PolynomialHelpers.hpp>
 #include <Algebra/Term/Utilities/StringHelpers.hpp>
 #include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>
 
@@ -77,9 +78,9 @@ AlbaNumber getConstantFactor(Term const& term)
         Polynomials factors(factorizeCommonMonomial(term.getPolynomialConstReference()));
         for(Polynomial const& factor : factors)
         {
-            if(factor.isOneMonomial())
+            if(isOneMonomial(factor))
             {
-                result *= factor.getFirstMonomial().getConstantConstReference();
+                result *= getFirstMonomial(factor).getConstantConstReference();
             }
         }
     }

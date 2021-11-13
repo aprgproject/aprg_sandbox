@@ -8,9 +8,11 @@
 #include <Algebra/Retrieval/VariableNamesRetriever.hpp>
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
 #include <Algebra/Term/Utilities/MonomialHelpers.hpp>
-#include <Algebra/Term/Utilities/PolynomialHelpers.hpp>#include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>
+#include <Algebra/Term/Utilities/PolynomialHelpers.hpp>
+#include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>
 
 #include <algorithm>
+
 using namespace std;
 
 namespace alba
@@ -46,7 +48,7 @@ Polynomials factorizeCommonMonomial(Polynomial const& polynomial)
 
 void factorizeCommonMonomialIfPossible(Polynomials & result, Polynomial const& polynomial)
 {
-    if(!polynomial.isOneMonomial())
+    if(!isOneMonomial(polynomial))
     {
         Monomial gcfMonomial(getGcfMonomialInMonomials(polynomial.getMonomialsConstReference()));
         if(!isTheValue(gcfMonomial, 1))
@@ -82,10 +84,12 @@ void factorizePolynomialsAndPutToResult(Polynomials & result, Polynomials const&
             tryToFactorizeBySplittingToSmallerPolynomials(polynomialsToFactorize, deltaSize, simplifiedPolynomial, originalSize);
 
             if(deltaSize == 0)
-            {                result.emplace_back(simplifiedPolynomial);
+            {
+                result.emplace_back(simplifiedPolynomial);
             }
             else if(deltaSize == 1)
-            {                polynomialsToFactorize.pop_back();
+            {
+                polynomialsToFactorize.pop_back();
             }
         }
     }
@@ -153,10 +157,12 @@ void tryToFactorizeBySplittingToSmallerPolynomials(
 
 void putFactorizedPolynomialsIfPossible(
         Polynomials & result,
-        Polynomials const& factorizedPolynomials){
+        Polynomials const& factorizedPolynomials)
+{
     bool shouldPutFactorizedPolynomials =
             !(shouldNotFactorizeIfItWouldYieldToPolynomialsWithDoubleValue() && doesOnePolynomialHaveADoubleValue(factorizedPolynomials));
-    if(shouldPutFactorizedPolynomials)    {
+    if(shouldPutFactorizedPolynomials)
+    {
         result.reserve(result.size() + factorizedPolynomials.size());
         copy(factorizedPolynomials.cbegin(), factorizedPolynomials.cend(), back_inserter(result));
     }

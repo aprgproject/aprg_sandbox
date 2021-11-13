@@ -1,6 +1,7 @@
 #include "PolynomialRaiseToAnUnsignedInt.hpp"
 
 #include <Algebra/Factorization/FactorizationOfPolynomial.hpp>
+#include <Algebra/Term/Utilities/PolynomialHelpers.hpp>
 #include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>
 #include <Math/AlbaMathHelper.hpp>
 
@@ -62,9 +63,9 @@ void PolynomialRaiseToAnUnsignedInt::factorizeAndUpdateCommonMonomialAndFactorsT
     Polynomials factors(factorizeAPolynomial(polynomial));
     for(Polynomial const& factor : factors)
     {
-        if(factor.isOneMonomial())
+        if(isOneMonomial(factor))
         {
-            commonMonomialInBase.multiplyMonomial(factor.getFirstMonomial());
+            commonMonomialInBase.multiplyMonomial(getFirstMonomial(factor));
         }
         else
         {

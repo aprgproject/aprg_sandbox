@@ -18,9 +18,12 @@ Polynomial::Polynomial()
 
 Polynomial::Polynomial(Monomials const& monomials)
     : m_monomials(monomials)
+    , m_isSimplified(false)
 {}
 
 Polynomial::Polynomial(initializer_list<Monomial> const& monomials)
+    : m_monomials()
+    , m_isSimplified(false)
 {
     m_monomials.reserve(monomials.size());
     copy(monomials.begin(), monomials.end(), back_inserter(m_monomials));
@@ -77,92 +80,9 @@ bool Polynomial::isEmpty() const
     return m_monomials.empty();
 }
 
-bool Polynomial::isOneMonomial() const
-{
-    return m_monomials.size() == 1;
-}
-
-bool Polynomial::isVariableExponentInMonomialFound(Monomial const& monomial) const
-{
-    bool result(false);
-    for(Monomial const& monomialInternal : m_monomials)
-    {
-        if(monomial.getVariablesToExponentsMapConstReference()
-                == monomialInternal.getVariablesToExponentsMapConstReference())
-        {
-            result = true;
-            break;
-        }
-    }
-    return result;
-}
-
-AlbaNumber Polynomial::getCoefficientOfVariableExponent(Monomial const& monomial) const
-{
-    AlbaNumber coefficient;
-    for(Monomial const& monomialInternal : m_monomials)
-    {
-        if(monomial.getVariablesToExponentsMapConstReference()
-                == monomialInternal.getVariablesToExponentsMapConstReference())
-        {
-            coefficient = monomialInternal.getConstantConstReference();
-            break;
-        }
-    }
-    return coefficient;
-}
-
-Monomial Polynomial::getFirstMonomial() const
-{
-    Monomial result;
-    if(!m_monomials.empty())
-    {
-        result = m_monomials.front();
-    }
-    return result;
-}
-
 Monomials const& Polynomial::getMonomialsConstReference() const
 {
     return m_monomials;
-}
-
-AlbaNumber Polynomial::getMaxDegree() const
-{
-    bool isFirst(true);
-    AlbaNumber maxDegree(0);
-    for(Monomial const& monomial : m_monomials)
-    {
-        if(isFirst)
-        {
-            maxDegree = monomial.getDegree();
-            isFirst=false;
-        }
-        else
-        {
-            maxDegree = max(maxDegree, monomial.getDegree());
-        }
-    }
-    return maxDegree;
-}
-
-AlbaNumber Polynomial::getDegreeForVariable(string const& variableName) const
-{
-    bool isFirst(true);
-    AlbaNumber maxDegree(0);
-    for(Monomial const& monomial : m_monomials)
-    {
-        if(isFirst)
-        {
-            maxDegree = monomial.getExponentForVariable(variableName);
-            isFirst=false;
-        }
-        else
-        {
-            maxDegree = max(maxDegree, monomial.getExponentForVariable(variableName));
-        }
-    }
-    return maxDegree;
 }
 
 string Polynomial::getDisplayableString() const
@@ -192,27 +112,30 @@ string Polynomial::getDisplayableString() const
 
 Monomials & Polynomial::getMonomialsReference()
 {
+    clearInternalFlags();
     return m_monomials;
 }
 
 void Polynomial::clear()
 {
     m_monomials.clear();
+    clearInternalFlags();
 }
 
 void Polynomial::simplify()
 {
-    setNanIfNeeded();
-    Polynomial beforeSimplify;
-    Polynomial afterSimplify;
-    do
+    if(!m_isSimplified)
     {
-        beforeSimplify=*this;
-        simplifyMonomialsAndReAdd();
-        sortMonomialsWithInversePriority();
-        afterSimplify=*this;
+        if(hasNotANumber(*this))
+        {
+            setNan();
+        }
+        else
+        {
+            simplifyContinuouslyIfChanged();
+        }
+        setAsSimplified();
     }
-    while(isFurtherSimplificationNeeded(beforeSimplify, afterSimplify));
 }
 
 void Polynomial::sortMonomialsWithInversePriority()
@@ -221,6 +144,7 @@ void Polynomial::sortMonomialsWithInversePriority()
     {
         return monomial2 < monomial1;
     });
+    clearInternalFlags();
 }
 
 void Polynomial::addMonomial(Monomial const& monomial)
@@ -238,6 +162,7 @@ void Polynomial::addMonomial(Monomial const& monomial)
     {
         m_monomials.emplace_back(monomial);
     }
+    clearInternalFlags();
 }
 
 void Polynomial::addPolynomial(Polynomial const& polynomial)
@@ -246,6 +171,7 @@ void Polynomial::addPolynomial(Polynomial const& polynomial)
     {
         addMonomial(monomial);
     }
+    clearInternalFlags();
 }
 
 void Polynomial::multiplyNumber(AlbaNumber const& number)
@@ -254,6 +180,7 @@ void Polynomial::multiplyNumber(AlbaNumber const& number)
     {
         monomial.setConstant(monomial.getConstantConstReference()*number);
     }
+    clearInternalFlags();
 }
 
 void Polynomial::divideNumber(AlbaNumber const& number)
@@ -262,6 +189,7 @@ void Polynomial::divideNumber(AlbaNumber const& number)
     {
         monomial.setConstant(monomial.getConstantConstReference()/number);
     }
+    clearInternalFlags();
 }
 
 void Polynomial::multiplyMonomial(Monomial const& monomial)
@@ -270,6 +198,7 @@ void Polynomial::multiplyMonomial(Monomial const& monomial)
     {
         monomialInternal.multiplyMonomial(monomial);
     }
+    clearInternalFlags();
 }
 
 void Polynomial::multiplyPolynomial(Polynomial const& polynomial)
@@ -285,6 +214,7 @@ void Polynomial::multiplyPolynomial(Polynomial const& polynomial)
             addMonomial(newMonomial);
         }
     }
+    clearInternalFlags();
 }
 
 void Polynomial::divideMonomial(Monomial const& monomial)
@@ -293,6 +223,7 @@ void Polynomial::divideMonomial(Monomial const& monomial)
     {
         monomialInternal.divideMonomial(monomial);
     }
+    clearInternalFlags();
 }
 
 void Polynomial::raiseToUnsignedInteger(unsigned int const exponent)
@@ -302,6 +233,17 @@ void Polynomial::raiseToUnsignedInteger(unsigned int const exponent)
     {
         multiplyPolynomial(base);
     }
+    clearInternalFlags();
+}
+
+void Polynomial::setAsSimplified()
+{
+    m_isSimplified = true;
+}
+
+void Polynomial::clearInternalFlags()
+{
+    m_isSimplified = false;
 }
 
 bool Polynomial::isFurtherSimplificationNeeded(
@@ -311,13 +253,24 @@ bool Polynomial::isFurtherSimplificationNeeded(
     return beforeSimplify != afterSimplify && !hasNotANumber(afterSimplify);
 }
 
-void Polynomial::setNanIfNeeded()
+void Polynomial::setNan()
 {
-    if(hasNotANumber(*this))
+    m_monomials.clear();
+    addMonomial(Monomial(AlbaNumber(AlbaNumber::Value::NotANumber), {}));
+}
+
+void Polynomial::simplifyContinuouslyIfChanged()
+{
+    Polynomial beforeSimplify;
+    Polynomial afterSimplify;
+    do
     {
-        m_monomials.clear();
-        addMonomial(Monomial(AlbaNumber(AlbaNumber::Value::NotANumber), {}));
+        beforeSimplify=*this;
+        simplifyMonomialsAndReAdd();
+        sortMonomialsWithInversePriority();
+        afterSimplify=*this;
     }
+    while(isFurtherSimplificationNeeded(beforeSimplify, afterSimplify));
 }
 
 void Polynomial::simplifyMonomialsAndReAdd()

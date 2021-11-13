@@ -93,6 +93,70 @@ bool hasNegativeExponents(Monomial const& monomial)
     return result;
 }
 
+bool isConstantOnly(Monomial const& monomial)
+{
+    Monomial::VariablesToExponentsMap const& variableToExponentMap(
+                monomial.getVariablesToExponentsMapConstReference());
+    return variableToExponentMap.empty();
+}
+
+bool isVariableOnly(Monomial const& monomial)
+{
+    Monomial::VariablesToExponentsMap const& variableToExponentMap(
+                monomial.getVariablesToExponentsMapConstReference());
+    return monomial.getConstantConstReference() == 1 &&
+            variableToExponentMap.size() == 1 &&
+            (variableToExponentMap.cbegin())->second == 1;
+}
+
+bool hasASingleVariable(Monomial const& monomial)
+{
+    Monomial::VariablesToExponentsMap const& variableToExponentMap(
+                monomial.getVariablesToExponentsMapConstReference());
+    return variableToExponentMap.size() == 1;
+}
+
+string getFirstVariableName(Monomial const& monomial)
+{
+    Monomial::VariablesToExponentsMap const& variableToExponentMap(
+                monomial.getVariablesToExponentsMapConstReference());
+    string variableName;
+    if(!variableToExponentMap.empty())
+    {
+        variableName = (variableToExponentMap.cbegin())->first;
+    }
+    return variableName;
+}
+
+AlbaNumber getDegree(Monomial const& monomial)
+{
+    AlbaNumber degree;
+    for(auto const& variableExponentPair : monomial.getVariablesToExponentsMapConstReference())
+    {
+        degree = degree + variableExponentPair.second;
+    }
+    return degree;
+}
+
+AlbaNumber getMaxExponent(Monomial const& monomial)
+{
+    AlbaNumber maxExponent;
+    bool isFirst(true);
+    for(auto const& variableExponentPair : monomial.getVariablesToExponentsMapConstReference())
+    {
+        if(isFirst)
+        {
+            maxExponent = variableExponentPair.second;
+            isFirst = false;
+        }
+        else
+        {
+            maxExponent = max(maxExponent, variableExponentPair.second);
+        }
+    }
+    return maxExponent;
+}
+
 AlbaNumber getGcfOfExponentsInMonomial(Monomial const& monomial)
 {
     AlbaNumber commonExponent(1);

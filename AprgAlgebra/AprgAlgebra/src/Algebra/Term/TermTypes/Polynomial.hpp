@@ -23,14 +23,8 @@ public:
     bool operator!=(Polynomial const& second) const;
     bool operator<(Polynomial const& second) const;
     bool isEmpty() const;
-    bool isOneMonomial() const;
-    bool isVariableExponentInMonomialFound(Monomial const& monomial) const;
 
-    AlbaNumber getCoefficientOfVariableExponent(Monomial const& monomial) const;
-    Monomial getFirstMonomial() const;
     Monomials const& getMonomialsConstReference() const;
-    AlbaNumber getMaxDegree() const;
-    AlbaNumber getDegreeForVariable(std::string const& variableName) const;
     std::string getDisplayableString() const;
 
     Monomials & getMonomialsReference();
@@ -47,11 +41,16 @@ public:
     void divideMonomial(Monomial const& monomial);
     void raiseToUnsignedInteger(unsigned int const exponent);
 
+    void setAsSimplified();
+    void clearInternalFlags();
+
 private:
     bool isFurtherSimplificationNeeded(Polynomial const& beforeSimplify, Polynomial const& afterSimplify) const;
-    void setNanIfNeeded();
+    void setNan();
+    void simplifyContinuouslyIfChanged();
     void simplifyMonomialsAndReAdd();
     Monomials m_monomials;
+    bool m_isSimplified;
 };
 
 using Polynomials=std::vector<Polynomial>;

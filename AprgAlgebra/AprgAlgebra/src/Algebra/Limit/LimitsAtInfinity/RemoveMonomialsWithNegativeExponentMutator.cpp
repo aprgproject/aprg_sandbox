@@ -1,5 +1,7 @@
 #include "RemoveMonomialsWithNegativeExponentMutator.hpp"
 
+#include <Algebra/Term/Utilities/MonomialHelpers.hpp>
+
 #include <algorithm>
 
 using namespace std;
@@ -54,7 +56,7 @@ void RemoveMonomialsWithNegativeExponentMutator::mutateFunction(Function & funct
 bool RemoveMonomialsWithNegativeExponentMutator::isMonomialToBeRemoved(Monomial const& monomial) const
 {
     bool result(false);
-    if(monomial.hasASingleVariable()
+    if(hasASingleVariable(monomial)
             && monomial.getExponentForVariable(m_variableName) < 0)
     {
         result=true;

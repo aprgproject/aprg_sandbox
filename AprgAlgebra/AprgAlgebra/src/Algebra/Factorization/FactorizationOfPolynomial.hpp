@@ -49,4 +49,5 @@ bool isFactorizeBySplittingToSmallerPolynomialsNeeded(Polynomial const& polynomi
 }
 
 }
+
 }

@@ -5,6 +5,7 @@
 #include <Algebra/Term/Utilities/ConvertHelpers.hpp>
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
 #include <Algebra/Term/Utilities/MonomialHelpers.hpp>
+#include <Algebra/Term/Utilities/PolynomialHelpers.hpp>
 #include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>
 #include <Math/AlbaMathHelper.hpp>
 
@@ -75,8 +76,8 @@ PolynomialOverPolynomial::QuotientAndRemainder PolynomialOverPolynomial::divide(
     Polynomial currentRemainder(m_numerator);
     while(!isTheValue(currentRemainder, 0) && !isNotANumber(currentRemainder))
     {
-        Monomial const& dividendMonomial(currentRemainder.getFirstMonomial());
-        Monomial const& divisorMonomial(m_denominator.getFirstMonomial());
+        Monomial const& dividendMonomial(getFirstMonomial(currentRemainder));
+        Monomial const& divisorMonomial(getFirstMonomial(m_denominator));
         Monomial currentQuotientMonomial(dividendMonomial);
         currentQuotientMonomial.divideMonomial(divisorMonomial);
         if(!hasNegativeExponents(currentQuotientMonomial))
@@ -222,7 +223,7 @@ bool PolynomialOverPolynomial::removeCommonFactorsAndReturnIfSomeFactorsAreRemov
         {
             Polynomial const& numerator(*numeratorIterator);
             Polynomial const& denominator(*denominatorIterator);
-            if(!(numerator.isOneMonomial() && denominator.isOneMonomial()))
+            if(!(isOneMonomial(numerator) && isOneMonomial(denominator)))
             {
                 if(numerator == denominator)
                 {

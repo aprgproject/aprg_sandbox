@@ -5,6 +5,7 @@
 #include <Algebra/Factorization/FactorizationUtilities.hpp>
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
 #include <Algebra/Term/Utilities/MonomialHelpers.hpp>
+#include <Algebra/Term/Utilities/PolynomialHelpers.hpp>
 #include <Algebra/Term/Utilities/StringHelpers.hpp>
 #include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>
 
@@ -69,7 +70,7 @@ void splitPolynomialsByPolynomialDegree(Polynomials & result, Polynomial const& 
     bool isFirst(true);
     for(Monomial const& monomial : monomials)
     {
-        AlbaNumber monomialDegree(monomial.getDegree());
+        AlbaNumber monomialDegree(getDegree(monomial));
         if(isFirst)
         {
             currentDegree = monomialDegree;
@@ -89,7 +90,7 @@ void splitPolynomialsByPolynomialDegree(Polynomials & result, Polynomial const& 
 void splitPolynomialsByDivisibilityOfExponents(Polynomials & result, Polynomial const& polynomial)
 {
     Polynomials collectedPolynomials;
-    AlbaNumber polynomialDegree(polynomial.getMaxDegree());
+    AlbaNumber polynomialDegree(getMaxDegree(polynomial));
     if(polynomialDegree.isIntegerType() && polynomialDegree > 0)
     {
         Monomials remainingMonomials = polynomial.getMonomialsConstReference();
@@ -128,7 +129,7 @@ void splitPolynomialsByFirstVariable(Polynomials & result, Polynomial const& pol
     bool isFirst(true);
     for(Monomial const& monomial : monomials)
     {
-        string monomialFirstVariableName(monomial.getFirstVariableName());
+        string monomialFirstVariableName(getFirstVariableName(monomial));
         if(!monomialFirstVariableName.empty())
         {
             if(isFirst)
@@ -238,9 +239,9 @@ Polynomial getNewPolynomialWithNewVariables(
         Polynomials factors(factorizeAPolynomial(smallerPolynomial));
         for(Polynomial const& factor : factors)
         {
-            if(factor.isOneMonomial())
+            if(isOneMonomial(factor))
             {
-                newSmallerPolynomialWithVariables.multiplyMonomial(factor.getFirstMonomial());
+                newSmallerPolynomialWithVariables.multiplyMonomial(getFirstMonomial(factor));
             }
             else
             {
@@ -284,9 +285,9 @@ void updateToGetSubsetOfFactors(Polynomials & commonFactors, Polynomials const& 
         for(unsigned int j=0; j<currentCommonFactors.size(); j++)
         {
             Polynomial const& currentCommonFactor(currentCommonFactors.at(j));
-            if(previousCommonFactor.isOneMonomial() && currentCommonFactor.isOneMonomial())
+            if(isOneMonomial(previousCommonFactor) && isOneMonomial(currentCommonFactor))
             {
-                Monomial gcfMonomial(getGcfMonomialInMonomials({previousCommonFactor.getFirstMonomial(), currentCommonFactor.getFirstMonomial()}));
+                Monomial gcfMonomial(getGcfMonomialInMonomials({getFirstMonomial(previousCommonFactor), getFirstMonomial(currentCommonFactor)}));
                 gcfMonomial.simplify();
                 if(!isTheValue(gcfMonomial, 1))
                 {

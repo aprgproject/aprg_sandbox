@@ -4,6 +4,8 @@
 #include <Algebra/Factorization/BrentMethod.hpp>
 #include <Algebra/Factorization/FactorizationConfiguration.hpp>
 #include <Algebra/Factorization/FactorizationUtilities.hpp>
+#include <Algebra/Term/Utilities/MonomialHelpers.hpp>
+#include <Algebra/Term/Utilities/PolynomialHelpers.hpp>
 #include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>
 #include <Math/AlbaMathHelper.hpp>
 
@@ -85,7 +87,7 @@ void factorizePolynomialForm(
         {
             AlbaNumber rootFirstCoefficient(1);
             AlbaNumber rootSecondCoefficient(rootValue*-1);
-            AlbaNumber aCoefficient(remainingPolynomial.getFirstMonomial().getConstantConstReference());
+            AlbaNumber aCoefficient(getFirstMonomial(remainingPolynomial).getConstantConstReference());
             if(aCoefficient.isIntegerOrFractionType() && rootSecondCoefficient.isIntegerOrFractionType())
             {
                 fixCoefficientsOfFactors(aCoefficient, rootFirstCoefficient, rootSecondCoefficient);
@@ -126,7 +128,7 @@ bool areAllMonomialsFoundInMonomialsWithExponentsInOrder(
     bool areAllMonomialsFoundInPolynomialWithExponentsInOrder(true);
     for(Monomial const& monomialToCheck : monomialsToCheck)
     {
-        if(!polynomialWithExponentsInOrder.isVariableExponentInMonomialFound(monomialToCheck))
+        if(!isVariableExponentInMonomialFound(polynomialWithExponentsInOrder, monomialToCheck))
         {
             areAllMonomialsFoundInPolynomialWithExponentsInOrder = false;
             break;
@@ -139,7 +141,7 @@ unsigned int calculateMaxExponentDivisor(
         Monomial const& firstMonomial,
         Monomial const& lastMonomial)
 {
-    AlbaNumber maxExponent = max(firstMonomial.getMaxExponent(), lastMonomial.getMaxExponent());
+    AlbaNumber maxExponent = max(getMaxExponent(firstMonomial), getMaxExponent(lastMonomial));
     unsigned int maxExponentDivisor = getAbsoluteValue(maxExponent.getInteger());
     return maxExponentDivisor;
 }
@@ -151,10 +153,8 @@ AlbaNumbers getCoefficientsInMonomialsWithExponentsInOrder(
     AlbaNumbers coefficients;
     for(Monomial const& monomialWithExponentInOrder : monomialsWithExponentsInOrder)
     {
-        coefficients.emplace_back(
-                    polynomial.getCoefficientOfVariableExponent(monomialWithExponentInOrder));
+        coefficients.emplace_back(getCoefficientOfVariableExponent(polynomial, monomialWithExponentInOrder));
     }
-
     return coefficients;
 }
 
@@ -163,7 +163,7 @@ AlbaNumbers calculatePolynomialRoots(AlbaNumbers const& coefficients)
     AlbaNumbers result;
     if(coefficients.size() == 3)
     {
-        result = getQuadraticRoots(RootType::RealRootsOnly, coefficients.at(0), coefficients.at(1), coefficients.at(2));
+        result = getQuadraticRoots(mathHelper::RootType::RealRootsOnly, coefficients.at(0), coefficients.at(1), coefficients.at(2));
     }
     else
     {

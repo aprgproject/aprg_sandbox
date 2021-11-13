@@ -14,11 +14,19 @@ bool canBeMergedInAMonomialByAdditionOrSubtraction(Monomial const& monomial, Var
 bool canBeMergedInAMonomialByAdditionOrSubtraction(Variable const& variable1, Variable const& variable2);
 bool doesCoefficientsHaveSameSign(Monomial const& monomial1, Monomial const& monomial2);
 bool hasNegativeExponents(Monomial const& monomial);
+bool isConstantOnly(Monomial const& monomial);
+bool isVariableOnly(Monomial const& monomial);
+bool hasASingleVariable(Monomial const& monomial);
 
+std::string getFirstVariableName(Monomial const& monomial);
+
+AlbaNumber getDegree(Monomial const& monomial);
+AlbaNumber getMaxExponent(Monomial const& monomial);
 AlbaNumber getGcfOfExponentsInMonomial(Monomial const& monomial);
 AlbaNumber getGcfOfCoefficientsInMonomials(Monomials const& monomials);
 AlbaNumber getLcmOfCoefficientsInMonomials(Monomials const& monomials);
 AlbaNumber getCommonSignInMonomials(Monomials const& monomials);
+
 Monomial getGcfMonomialInMonomials(Monomials const& monomials);
 Monomial getLcmMonomialInMonomials(Monomials const& monomials);
 Monomial compareMonomialsAndSaveMinimumExponentsForEachVariable(Monomial const& firstMonomial, Monomial const& secondMonomial);

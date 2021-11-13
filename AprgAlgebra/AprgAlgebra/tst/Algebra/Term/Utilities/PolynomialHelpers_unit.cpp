@@ -41,6 +41,83 @@ TEST(PolynomialHelpersTest, DoesOnePolynomialHaveADoubleValueWorks)
     EXPECT_TRUE(doesOnePolynomialHaveADoubleValue(polynomials3));
 }
 
+TEST(PolynomialHelpersTest, IsOneMonomialWorks)
+{
+    Polynomial polynomial1;
+    Polynomial polynomial2{Monomial(6, {})};
+    Polynomial polynomial3{Monomial(6, {}), Monomial(-7, {{"x", 2}, {"y", 3}, {"z", 4}})};
+
+    EXPECT_FALSE(isOneMonomial(polynomial1));
+    EXPECT_TRUE(isOneMonomial(polynomial2));
+    EXPECT_FALSE(isOneMonomial(polynomial3));
+}
+
+TEST(PolynomialHelpersTest, IsVariableExponentMapContentFoundWorks)
+{
+    Polynomial polynomial1;
+    Polynomial polynomial2{Monomial(6, {{"x", 1}})};
+    Polynomial polynomial3{Monomial(6, {{"x", 1}}), Monomial(-7, {{"x", 2}, {"y", 3}, {"z", 4}})};
+
+    EXPECT_FALSE(isVariableExponentInMonomialFound(polynomial1, Monomial(98, {{"x", 2}, {"y", 3}, {"z", 4}})));
+    EXPECT_FALSE(isVariableExponentInMonomialFound(polynomial2, Monomial(98, {{"x", 2}, {"y", 3}, {"z", 4}})));
+    EXPECT_TRUE(isVariableExponentInMonomialFound(polynomial3, Monomial(98, {{"x", 2}, {"y", 3}, {"z", 4}})));
+}
+
+TEST(PolynomialHelpersTest, GetFirstMonomialWorks)
+{
+    Polynomial polynomial1;
+    Polynomial polynomial2{Monomial(6, {})};
+    Polynomial polynomial3{Monomial(6, {}), Monomial(-7, {{"x", 2}, {"y", 3}, {"z", 4}})};
+
+    Monomial monomial1(getFirstMonomial(polynomial1));
+    Monomial monomial2(getFirstMonomial(polynomial2));
+    Monomial monomial3(getFirstMonomial(polynomial3));
+
+    EXPECT_DOUBLE_EQ(0, monomial1.getConstantConstReference().getDouble());
+    Monomial::VariablesToExponentsMap const& variableMap1(monomial1.getVariablesToExponentsMapConstReference());
+    ASSERT_TRUE(variableMap1.empty());
+
+    EXPECT_DOUBLE_EQ(6, monomial2.getConstantConstReference().getDouble());
+    Monomial::VariablesToExponentsMap const& variableMap2(monomial2.getVariablesToExponentsMapConstReference());
+    ASSERT_TRUE(variableMap2.empty());
+
+    EXPECT_DOUBLE_EQ(6, monomial3.getConstantConstReference().getDouble());
+    Monomial::VariablesToExponentsMap const& variableMap3(monomial3.getVariablesToExponentsMapConstReference());
+    ASSERT_TRUE(variableMap3.empty());
+}
+
+TEST(PolynomialHelpersTest, GetMaxDegreeWorks)
+{
+    Polynomial polynomial1;
+    Polynomial polynomial2{Monomial(6, {})};
+    Polynomial polynomial3{Monomial(6, {}), Monomial(-7, {{"x", 2}, {"y", 3}, {"z", 4}})};
+
+    EXPECT_DOUBLE_EQ(0, getMaxDegree(polynomial1).getDouble());
+    EXPECT_DOUBLE_EQ(0, getMaxDegree(polynomial2).getDouble());
+    EXPECT_DOUBLE_EQ(9, getMaxDegree(polynomial3).getDouble());
+}
+
+TEST(PolynomialHelpersTest, GetDegreeForVariableWorks)
+{
+    Polynomial polynomial{Monomial(6, {}), Monomial(-7, {{"x", 2}, {"y", 3}, {"z", 4}})};
+
+    EXPECT_DOUBLE_EQ(0, getDegreeForVariable(polynomial, "a").getDouble());
+    EXPECT_DOUBLE_EQ(2, getDegreeForVariable(polynomial, "x").getDouble());
+    EXPECT_DOUBLE_EQ(3, getDegreeForVariable(polynomial, "y").getDouble());
+    EXPECT_DOUBLE_EQ(4, getDegreeForVariable(polynomial, "z").getDouble());
+}
+
+TEST(PolynomialHelpersTest, GetCoefficientOfVariableExponentWorks)
+{
+    Polynomial polynomial1;
+    Polynomial polynomial2{Monomial(6, {{"x", 1}})};
+    Polynomial polynomial3{Monomial(6, {{"x", 1}}), Monomial(-7, {{"x", 2}, {"y", 3}, {"z", 4}})};
+
+    EXPECT_DOUBLE_EQ(0, getCoefficientOfVariableExponent(polynomial1, Monomial(98, {{"x", 2}, {"y", 3}, {"z", 4}})).getDouble());
+    EXPECT_DOUBLE_EQ(0, getCoefficientOfVariableExponent(polynomial2, Monomial(98, {{"x", 2}, {"y", 3}, {"z", 4}})).getDouble());
+    EXPECT_DOUBLE_EQ(-7, getCoefficientOfVariableExponent(polynomial3, Monomial(98, {{"x", 2}, {"y", 3}, {"z", 4}})).getDouble());
+}
+
 TEST(PolynomialHelpersTest, GetRemainderForOneVariablePolynomialDividedByVariableMinusConstantValueWorks)
 {
     Polynomial polynomial{Monomial(5, {{"x", 3}}), Monomial(-8, {{"x", 2}}), Monomial(6, {{"x", 1}}), Monomial(4, {})};
