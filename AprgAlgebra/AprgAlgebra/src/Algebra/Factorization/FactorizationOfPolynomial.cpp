@@ -26,39 +26,27 @@ namespace Factorization
 Polynomials factorizeAPolynomial(Polynomial const& polynomial)
 {
     Polynomials result;
-    factorizeAPolynomialAndPutToResult(result, polynomial);
+    factorizePolynomialsAndPutToResult(result, {polynomial});
     return result;
 }
 
 Polynomials factorizePolynomials(Polynomials const& polynomials)
 {
     Polynomials result;
-    for(Polynomial const& polynomial : polynomials)
-    {
-        Polynomials factorizedPolynomials(factorizeAPolynomial(polynomial));
-        if(factorizedPolynomials.size() == 1)
-        {
-            simplifyPolynomialThenEmplaceBackIfNotEmpty(result, polynomial);
-        }
-        else
-        {
-            result.reserve(result.size()+factorizedPolynomials.size());
-            copy(factorizedPolynomials.cbegin(), factorizedPolynomials.cend(), back_inserter(result));
-        }
-    }
+    factorizePolynomialsAndPutToResult(result, polynomials);
     return result;
 }
 
 Polynomials factorizeCommonMonomial(Polynomial const& polynomial)
 {
-    return returnPolynomialsOrSinglePolynomialIfEmpty(
-                factorizeCommonMonomialIfPossible(polynomial),
-                polynomial);
+    Polynomials result;
+    factorizeCommonMonomialIfPossible(result, polynomial);
+    simplifyAndEmplaceBackPolynomialIfListIsEmpty(result, polynomial);
+    return result;
 }
 
-Polynomials factorizeCommonMonomialIfPossible(Polynomial const& polynomial)
+void factorizeCommonMonomialIfPossible(Polynomials & result, Polynomial const& polynomial)
 {
-    Polynomials result;
     if(!polynomial.isOneMonomial())
     {
         Monomial gcfMonomial(getGcfMonomialInMonomials(polynomial.getMonomialsConstReference()));
@@ -67,48 +55,65 @@ Polynomials factorizeCommonMonomialIfPossible(Polynomial const& polynomial)
             Polynomial reducedPolynomial(polynomial);
             reducedPolynomial.divideMonomial(gcfMonomial);
             reducedPolynomial.simplify();
-            simplifyPolynomialThenEmplaceBackIfNotEmpty(result, createPolynomialFromMonomial(gcfMonomial));
-            simplifyPolynomialThenEmplaceBackIfNotEmpty(result, reducedPolynomial);
+            simplifyThenEmplaceBackIfPolynomialIsNotEmpty(result, createPolynomialFromMonomial(gcfMonomial));
+            simplifyThenEmplaceBackIfPolynomialIsNotEmpty(result, reducedPolynomial);
         }
     }
-    return result;
 }
 
-void factorizeAPolynomialAndPutToResult(Polynomials & result, Polynomial const& polynomial)
+void factorizePolynomialsAndPutToResult(Polynomials & result, Polynomials const& polynomials)
 {
-    Polynomial polynomialToFactorize(polynomial);
-    polynomialToFactorize.simplify();
-    if(doesNotNeedToBeFactorized(polynomial))
+    Polynomials polynomialsToFactorize(polynomials);
+    for(unsigned int i=0; i<polynomialsToFactorize.size(); i++)
     {
-        result.emplace_back(polynomialToFactorize);
-    }
-    else
-    {
-        result = factorizeCommonMonomialIfPossible(polynomialToFactorize);
+        Polynomial const& polynomial(polynomialsToFactorize.at(i));
+        Polynomial simplifiedPolynomial(polynomial);
+        simplifiedPolynomial.simplify();
+        if(doesNotNeedToBeFactorized(polynomial))
+        {
+            result.emplace_back(simplifiedPolynomial);
+        }
+        else
+        {
+            auto const originalSize(polynomialsToFactorize.size());
+            auto deltaSize = polynomialsToFactorize.size() - originalSize;
+            if(deltaSize == 0)
+            {
+                Polynomials factorizedPolynomials;
+                factorizeCommonMonomialIfPossible(factorizedPolynomials, simplifiedPolynomial);
+                putFactorizedPolynomialsIfPossible(polynomialsToFactorize, factorizedPolynomials);
+                deltaSize = polynomialsToFactorize.size() - originalSize;
+            }
+            if(deltaSize == 0)
+            {
+                Polynomials factorizedPolynomials;
+                factorizeUsingPatternsIfPossible(factorizedPolynomials, simplifiedPolynomial);
+                putFactorizedPolynomialsIfPossible(polynomialsToFactorize, factorizedPolynomials);
+                deltaSize = polynomialsToFactorize.size() - originalSize;
+            }
+            if(deltaSize == 0)
+            {
+                Polynomials factorizedPolynomials;
+                factorizeIncreasingAndDecreasingExponentsFormIfPossible(factorizedPolynomials, simplifiedPolynomial);
+                putFactorizedPolynomialsIfPossible(polynomialsToFactorize, factorizedPolynomials);
+                deltaSize = polynomialsToFactorize.size() - originalSize;
+            }
+            if(deltaSize == 0 && simplifiedPolynomial.getMonomialsConstReference().size() > 2)
+            {
+                Polynomials factorizedPolynomials;
+                factorizeBySplittingToSmallerPolynomialsIfPossible(factorizedPolynomials, simplifiedPolynomial);
+                putFactorizedPolynomialsIfPossible(polynomialsToFactorize, factorizedPolynomials);
+                deltaSize = polynomialsToFactorize.size() - originalSize;
+            }
 
-        if(result.empty())
-        {
-            Polynomials factorizedPolynomials(factorizeUsingPatternsIfPossible(polynomialToFactorize));
-            putFactorizedPolynomialsIfPossible(result, factorizedPolynomials);
-        }
-        if(result.empty())
-        {
-            Polynomials factorizedPolynomials(factorizeIncreasingAndDecreasingExponentsFormIfPossible(polynomialToFactorize));
-            putFactorizedPolynomialsIfPossible(result, factorizedPolynomials);
-        }
-        if(result.empty() && polynomialToFactorize.getMonomialsConstReference().size() > 2)
-        {
-            Polynomials factorizedPolynomials(factorizeBySplittingToSmallerPolynomialsIfPossible(polynomialToFactorize));
-            putFactorizedPolynomialsIfPossible(result, factorizedPolynomials);
-        }
-
-        if(result.empty())
-        {
-            result.emplace_back(polynomialToFactorize);
-        }
-        else if(result.size() > 1)
-        {
-            result = factorizePolynomials(result);
+            if(deltaSize == 0)
+            {
+                result.emplace_back(simplifiedPolynomial);
+            }
+            else if(deltaSize == 1)
+            {
+                polynomialsToFactorize.pop_back();
+            }
         }
     }
 }
@@ -135,8 +140,8 @@ void simplifyAndRemoveEmptyPolynomials(
     }
     polynomials.erase(remove_if(polynomials.begin(), polynomials.end(), [](Polynomial const& polynomial)
     {
-        return polynomial.isEmpty();
-    }), polynomials.end());
+                          return polynomial.isEmpty();
+                      }), polynomials.end());
 }
 
 

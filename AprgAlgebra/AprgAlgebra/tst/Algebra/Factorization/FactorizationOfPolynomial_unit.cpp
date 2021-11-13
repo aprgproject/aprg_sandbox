@@ -502,7 +502,8 @@ TEST(FactorizationOfPolynomialsTest, FactorizeCommonMonomialIfPossible_IsEmptyWh
 {
     Polynomial polynomialToTest{Monomial(1, {{"x", 1}}), Monomial(13, {})};
 
-    Polynomials polynomialsToVerify(factorizeCommonMonomialIfPossible(polynomialToTest));
+    Polynomials polynomialsToVerify;
+    factorizeCommonMonomialIfPossible(polynomialsToVerify, polynomialToTest);
 
     EXPECT_TRUE(polynomialsToVerify.empty());
 }
@@ -511,7 +512,8 @@ TEST(FactorizationOfPolynomialsTest, FactorizeCommonMonomialIfPossible_IsEmptyWh
 {
     Polynomial polynomialToTest{Monomial(7, {{"x", 7}})};
 
-    Polynomials polynomialsToVerify(factorizeCommonMonomialIfPossible(polynomialToTest));
+    Polynomials polynomialsToVerify;
+    factorizeCommonMonomialIfPossible(polynomialsToVerify, polynomialToTest);
 
     EXPECT_TRUE(polynomialsToVerify.empty());
 }
@@ -520,7 +522,8 @@ TEST(FactorizationOfPolynomialsTest, FactorizeCommonMonomialIfPossible_WorksWhen
 {
     Polynomial polynomialToTest{Monomial(9, {{"x", 1}, {"y", 2}}), Monomial(6, {{"x", 3}})};
 
-    Polynomials polynomialsToVerify(factorizeCommonMonomialIfPossible(polynomialToTest));
+    Polynomials polynomialsToVerify;
+    factorizeCommonMonomialIfPossible(polynomialsToVerify, polynomialToTest);
 
     ASSERT_EQ(2U, polynomialsToVerify.size());
     Polynomial polynomialToExpect1{Monomial(3, {{"x", 1}})};

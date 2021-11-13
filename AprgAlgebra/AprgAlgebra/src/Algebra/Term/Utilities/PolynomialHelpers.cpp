@@ -1,6 +1,6 @@
 #include "PolynomialHelpers.hpp"
 
-#include <Algebra/Factorization/Factorization.hpp>
+#include <Algebra/Factorization/FactorizationOfPolynomial.hpp>
 #include <Algebra/Retrieval/NumbersRetriever.hpp>
 #include <Algebra/Retrieval/VariableNamesRetriever.hpp>
 #include <Algebra/Substitution/SubstitutionOfVariablesToValues.hpp>
@@ -82,7 +82,7 @@ AlbaNumbers getRoots(RootType const rootType, Polynomial const& polynomial)
     if(doesThePolynomialHaveOnlyOneVariable(polynomial))
     {
         Polynomial const& polynomialToFactorize(polynomial);
-        Polynomials factorizedPolynomials(factorize(polynomialToFactorize));
+        Polynomials factorizedPolynomials(factorizeAPolynomial(polynomialToFactorize));
         for(Polynomial const& factorizedPolynomial : factorizedPolynomials)
         {
             Monomials const& monomialsToCheck(factorizedPolynomial.getMonomialsConstReference());

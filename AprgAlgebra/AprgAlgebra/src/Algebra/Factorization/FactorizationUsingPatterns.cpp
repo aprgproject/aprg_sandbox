@@ -16,54 +16,47 @@ namespace Factorization
 
 Polynomials factorizeUsingPatterns(Polynomial const& polynomial)
 {
-    return returnPolynomialsOrSinglePolynomialIfEmpty(
-                factorizeUsingPatternsIfPossible(polynomial),
-                polynomial);
-}
-
-Polynomials factorizeUsingPatternsIfPossible(Polynomial const& polynomial)
-{
     Polynomials result;
-    result = factorizeDifferenceOfSquaresIfPossible(polynomial);
-    if(result.empty())
-    {
-        result = factorizeDifferenceOfCubesIfPossible(polynomial);
-        if(result.empty())
-        {
-            result = factorizeSumOfCubesIfPossible(polynomial);
-        }
-    }
+    factorizeUsingPatternsIfPossible(result, polynomial);
+    simplifyAndEmplaceBackPolynomialIfListIsEmpty(result, polynomial);
     return result;
 }
 
-Polynomials factorizeDifferenceOfSquaresIfPossible(Polynomial const& polynomial)
+void factorizeUsingPatternsIfPossible(Polynomials & result, Polynomial const& polynomial)
 {
-    Polynomials result;
+    factorizeDifferenceOfSquaresIfPossible(result, polynomial);
+    if(result.empty())
+    {
+        factorizeDifferenceOfCubesIfPossible(result, polynomial);
+        if(result.empty())
+        {
+            factorizeSumOfCubesIfPossible(result, polynomial);
+        }
+    }
+}
+
+void factorizeDifferenceOfSquaresIfPossible(Polynomials & result, Polynomial const& polynomial)
+{
     if(isDifferenceOfSquares(polynomial))
     {
         addFactorsOfDifferenceOfSquares(result, polynomial);
     }
-    return result;
 }
 
-Polynomials factorizeDifferenceOfCubesIfPossible(Polynomial const& polynomial)
+void factorizeDifferenceOfCubesIfPossible(Polynomials & result, Polynomial const& polynomial)
 {
-    Polynomials result;
     if(isDifferenceOfCubes(polynomial))
     {
         addFactorsOfDifferenceOfCubes(result, polynomial);
     }
-    return result;
 }
 
-Polynomials factorizeSumOfCubesIfPossible(Polynomial const& polynomial)
+void factorizeSumOfCubesIfPossible(Polynomials & result, Polynomial const& polynomial)
 {
-    Polynomials result;
     if(isSumOfCubes(polynomial))
     {
         addFactorsOfSumOfCubes(result, polynomial);
     }
-    return result;
 }
 
 void addFactorsOfDifferenceOfSquares(Polynomials & result, Polynomial const& polynomial)
@@ -78,13 +71,13 @@ void addFactorsOfDifferenceOfSquares(Polynomials & result, Polynomial const& pol
     else if(firstMonomial.getConstantConstReference() < 0 && secondMonomial.getConstantConstReference() > 0)
     {
         firstMonomial.multiplyNumber(-1);
-        simplifyPolynomialThenEmplaceBackIfNotEmpty(result, createPolynomialFromConstant(Constant(-1)));
+        simplifyThenEmplaceBackIfPolynomialIsNotEmpty(result, createPolynomialFromConstant(Constant(-1)));
     }
     firstMonomial.raiseToPowerNumber(AlbaNumber::createFraction(1, 2));
     secondMonomial.raiseToPowerNumber(AlbaNumber::createFraction(1, 2));
-    simplifyPolynomialThenEmplaceBackIfNotEmpty(result, Polynomial{firstMonomial, secondMonomial});
+    simplifyThenEmplaceBackIfPolynomialIsNotEmpty(result, Polynomial{firstMonomial, secondMonomial});
     secondMonomial.multiplyNumber(-1);
-    simplifyPolynomialThenEmplaceBackIfNotEmpty(result, Polynomial{firstMonomial, secondMonomial});
+    simplifyThenEmplaceBackIfPolynomialIsNotEmpty(result, Polynomial{firstMonomial, secondMonomial});
 }
 
 void addFactorsOfDifferenceOfCubes(Polynomials & result, Polynomial const& polynomial)
@@ -99,7 +92,7 @@ void addFactorsOfDifferenceOfCubes(Polynomials & result, Polynomial const& polyn
     else if(firstMonomial.getConstantConstReference() < 0 && secondMonomial.getConstantConstReference() > 0)
     {
         firstMonomial.multiplyNumber(-1);
-        simplifyPolynomialThenEmplaceBackIfNotEmpty(result, createPolynomialFromConstant(Constant(-1)));
+        simplifyThenEmplaceBackIfPolynomialIsNotEmpty(result, createPolynomialFromConstant(Constant(-1)));
     }
     firstMonomial.raiseToPowerNumber(AlbaNumber::createFraction(1, 3));
     secondMonomial.raiseToPowerNumber(AlbaNumber::createFraction(1, 3));
@@ -110,8 +103,8 @@ void addFactorsOfDifferenceOfCubes(Polynomials & result, Polynomial const& polyn
     secondMonomialSquared.raiseToPowerNumber(2);
     productOfFirstAndSecond.multiplyMonomial(secondMonomial);
     secondMonomial.multiplyNumber(-1);
-    simplifyPolynomialThenEmplaceBackIfNotEmpty(result, Polynomial{firstMonomial, secondMonomial});
-    simplifyPolynomialThenEmplaceBackIfNotEmpty(result, Polynomial{firstMonomialSquared, productOfFirstAndSecond, secondMonomialSquared});
+    simplifyThenEmplaceBackIfPolynomialIsNotEmpty(result, Polynomial{firstMonomial, secondMonomial});
+    simplifyThenEmplaceBackIfPolynomialIsNotEmpty(result, Polynomial{firstMonomialSquared, productOfFirstAndSecond, secondMonomialSquared});
 }
 
 void addFactorsOfSumOfCubes(Polynomials & result, Polynomial const& polynomial)
@@ -123,7 +116,7 @@ void addFactorsOfSumOfCubes(Polynomials & result, Polynomial const& polynomial)
     {
         firstMonomial.multiplyNumber(-1);
         secondMonomial.multiplyNumber(-1);
-        simplifyPolynomialThenEmplaceBackIfNotEmpty(result, createPolynomialFromConstant(Constant(-1)));
+        simplifyThenEmplaceBackIfPolynomialIsNotEmpty(result, createPolynomialFromConstant(Constant(-1)));
     }
     firstMonomial.raiseToPowerNumber(AlbaNumber::createFraction(1, 3));
     secondMonomial.raiseToPowerNumber(AlbaNumber::createFraction(1, 3));
@@ -134,8 +127,8 @@ void addFactorsOfSumOfCubes(Polynomials & result, Polynomial const& polynomial)
     secondMonomialSquared.raiseToPowerNumber(2);
     productOfFirstAndSecond.multiplyMonomial(secondMonomial);
     productOfFirstAndSecond.multiplyNumber(-1);
-    simplifyPolynomialThenEmplaceBackIfNotEmpty(result, Polynomial{firstMonomial, secondMonomial});
-    simplifyPolynomialThenEmplaceBackIfNotEmpty(result, Polynomial{firstMonomialSquared, productOfFirstAndSecond, secondMonomialSquared});
+    simplifyThenEmplaceBackIfPolynomialIsNotEmpty(result, Polynomial{firstMonomial, secondMonomial});
+    simplifyThenEmplaceBackIfPolynomialIsNotEmpty(result, Polynomial{firstMonomialSquared, productOfFirstAndSecond, secondMonomialSquared});
 }
 
 bool isDifferenceOfSquares(Polynomial const& polynomial)

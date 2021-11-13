@@ -52,9 +52,11 @@ TEST(AlbaMathVectorUtilitiesTest, IsDotProductEqualToProductOfMagnitudesWithCosi
 
 TEST(AlbaMathVectorUtilitiesTest, CreateZeroVectorWorks)
 {
-    EXPECT_EQ((AlbaMathVector<double, 1>{0}), (createZeroVector<double, 1>()));    EXPECT_EQ((AlbaMathVector<double, 2>{0, 0}), (createZeroVector<double, 2>()));
+    EXPECT_EQ((AlbaMathVector<double, 1>{0}), (createZeroVector<double, 1>()));
+    EXPECT_EQ((AlbaMathVector<double, 2>{0, 0}), (createZeroVector<double, 2>()));
     EXPECT_EQ((AlbaMathVector<double, 3>{0, 0, 0}), (createZeroVector<double, 3>()));
 }
+
 TEST(AlbaMathVectorUtilitiesTest, GetUnitVectorWorks)
 {
     EXPECT_EQ((VectorTwoElements{0, 1}), (getUnitVector(VectorTwoElements{0, 5})));
@@ -74,10 +76,12 @@ TEST(AlbaMathVectorUtilitiesTest, GetVectorProjectionWorks)
 
 TEST(AlbaMathVectorUtilitiesTest, GetDotProductWorks)
 {
-    VectorTwoElements mathVector1{2, 4};    VectorTwoElements mathVector2{-1, 2};
+    VectorTwoElements mathVector1{2, 4};
+    VectorTwoElements mathVector2{-1, 2};
 
     EXPECT_DOUBLE_EQ(6, getDotProduct(mathVector1, mathVector2));
 }
+
 TEST(AlbaMathVectorUtilitiesTest, GetAngleBetweenTwoVectorsWorks)
 {
     VectorTwoElements mathVector1{0, 4};

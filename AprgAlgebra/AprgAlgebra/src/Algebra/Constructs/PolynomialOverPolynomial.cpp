@@ -1,6 +1,6 @@
 #include "PolynomialOverPolynomial.hpp"
 
-#include <Algebra/Factorization/Factorization.hpp>
+#include <Algebra/Factorization/FactorizationOfPolynomial.hpp>
 #include <Algebra/Factorization/FactorizationConfiguration.hpp>
 #include <Algebra/Term/Utilities/ConvertHelpers.hpp>
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
@@ -155,8 +155,8 @@ void PolynomialOverPolynomial::factorizeRemoveCommonFactorsInNumeratorAndDenomin
 
     if(shouldPerformFactorization())
     {
-        Polynomials numeratorFactors(factorize(m_numerator));
-        Polynomials denominatorFactors(factorize(m_denominator));
+        Polynomials numeratorFactors(factorizeAPolynomial(m_numerator));
+        Polynomials denominatorFactors(factorizeAPolynomial(m_denominator));
         bool areSomeFactorsRemoved(removeCommonFactorsAndReturnIfSomeFactorsAreRemoved(numeratorFactors, denominatorFactors));
         if(areSomeFactorsRemoved)
         {

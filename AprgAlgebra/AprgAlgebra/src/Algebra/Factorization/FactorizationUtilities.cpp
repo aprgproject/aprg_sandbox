@@ -1,5 +1,6 @@
 #include "FactorizationUtilities.hpp"
 
+#include <Algebra/Factorization/FactorizationConfiguration.hpp>
 #include <Algebra/Retrieval/ExponentsRetriever.hpp>
 #include <Algebra/Term/Utilities/PolynomialHelpers.hpp>
 #include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>
@@ -94,7 +95,7 @@ bool doesContainOnlyConstants(Polynomials const& polynomials)
     });
 }
 
-bool doesContainConstantsOrOnlyOneNonConstant(Polynomials const& polynomials)
+bool IsEmptyOrContainConstantsOrOneNonConstant(Polynomials const& polynomials)
 {
     bool result(true);
     unsigned int nonConstantsCount=0;
@@ -113,14 +114,14 @@ bool doesContainConstantsOrOnlyOneNonConstant(Polynomials const& polynomials)
     return result;
 }
 
-void simplifyPolynomialThenEmplaceBackIfNotEmpty(Polynomials & polynomials, Polynomial const& polynomial)
+void simplifyThenEmplaceBackIfPolynomialIsNotEmpty(Polynomials & polynomials, Polynomial const& polynomial)
 {
     Polynomial simplifiedPolynomial(polynomial);
     simplifiedPolynomial.simplify();
-    emplaceBackIfNotEmpty(polynomials, simplifiedPolynomial);
+    emplaceBackIfPolynomialIsNotEmpty(polynomials, simplifiedPolynomial);
 }
 
-void emplaceBackIfNotEmpty(Polynomials & polynomials, Polynomial const& polynomial)
+void emplaceBackIfPolynomialIsNotEmpty(Polynomials & polynomials, Polynomial const& polynomial)
 {
     if(!polynomial.isEmpty())
     {
@@ -128,16 +129,14 @@ void emplaceBackIfNotEmpty(Polynomials & polynomials, Polynomial const& polynomi
     }
 }
 
-Polynomials returnPolynomialsOrSinglePolynomialIfEmpty(
-        Polynomials const& polynomials,
+void simplifyAndEmplaceBackPolynomialIfListIsEmpty(
+        Polynomials & existingPolynomials,
         Polynomial const& polynomial)
 {
-    Polynomials result(polynomials);
-    if(result.empty())
+    if(existingPolynomials.empty())
     {
-        simplifyPolynomialThenEmplaceBackIfNotEmpty(result, polynomial);
+        simplifyThenEmplaceBackIfPolynomialIsNotEmpty(existingPolynomials, polynomial);
     }
-    return result;
 }
 
 }

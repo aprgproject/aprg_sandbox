@@ -41,7 +41,8 @@ TEST(FactorizationOfIncreasingAndDecreasingExponentFormTest, FactorizeIfPossible
 {
     Polynomial polynomialToTest{Monomial(1, {{"x", 1}}), Monomial(13, {})};
 
-    Polynomials polynomialsToVerify(factorizeIncreasingAndDecreasingExponentsFormIfPossible(polynomialToTest));
+    Polynomials polynomialsToVerify;
+    factorizeIncreasingAndDecreasingExponentsFormIfPossible(polynomialsToVerify, polynomialToTest);
 
     EXPECT_TRUE(polynomialsToVerify.empty());
 }
@@ -50,7 +51,8 @@ TEST(FactorizationOfIncreasingAndDecreasingExponentFormTest, FactorizeIfPossible
 {
     Polynomial polynomialToTest{Monomial(1, {{"x", 1}})};
 
-    Polynomials polynomialsToVerify(factorizeIncreasingAndDecreasingExponentsFormIfPossible(polynomialToTest));
+    Polynomials polynomialsToVerify;
+    factorizeIncreasingAndDecreasingExponentsFormIfPossible(polynomialsToVerify, polynomialToTest);
 
     EXPECT_TRUE(polynomialsToVerify.empty());
 }
@@ -59,7 +61,8 @@ TEST(FactorizationOfIncreasingAndDecreasingExponentFormTest, FactorizeIfPossible
 {
     Polynomial polynomialToTest{Monomial(1, {{"x", 13}}), Monomial(1, {{"x", 17}}),};
 
-    Polynomials polynomialsToVerify(factorizeIncreasingAndDecreasingExponentsFormIfPossible(polynomialToTest));
+    Polynomials polynomialsToVerify;
+    factorizeIncreasingAndDecreasingExponentsFormIfPossible(polynomialsToVerify, polynomialToTest);
 
     EXPECT_TRUE(polynomialsToVerify.empty());
 }
@@ -68,7 +71,8 @@ TEST(FactorizationOfIncreasingAndDecreasingExponentFormTest, FactorizeIfPossible
 {
     Polynomial polynomialToTest{Monomial(1, {{"x", 2}}), Monomial(1, {{"y", 2}}), Monomial(144, {})};
 
-    Polynomials polynomialsToVerify(factorizeIncreasingAndDecreasingExponentsFormIfPossible(polynomialToTest));
+    Polynomials polynomialsToVerify;
+    factorizeIncreasingAndDecreasingExponentsFormIfPossible(polynomialsToVerify, polynomialToTest);
 
     EXPECT_TRUE(polynomialsToVerify.empty());
 }
@@ -77,7 +81,8 @@ TEST(FactorizationOfIncreasingAndDecreasingExponentFormTest, FactorizeIfPossible
 {
     Polynomial polynomialToTest{Monomial(9, {{"x", 2}}), Monomial(-30, {{"x", 1}}), Monomial(25, {})};
 
-    Polynomials polynomialsToVerify(factorizeIncreasingAndDecreasingExponentsFormIfPossible(polynomialToTest));
+    Polynomials polynomialsToVerify;
+    factorizeIncreasingAndDecreasingExponentsFormIfPossible(polynomialsToVerify, polynomialToTest);
 
     ASSERT_EQ(2U, polynomialsToVerify.size());
     Polynomial polynomialToExpect1{Monomial(3, {{"x", 1}}), Monomial(-5, {})};
@@ -93,7 +98,8 @@ TEST(FactorizationOfIncreasingAndDecreasingExponentFormTest, FactorizeIfPossible
                 Monomial(AlbaNumber::createFraction(5, 2), {{"x", 1}}),
                 Monomial(25, {})};
 
-    Polynomials polynomialsToVerify(factorizeIncreasingAndDecreasingExponentsFormIfPossible(polynomialToTest));
+    Polynomials polynomialsToVerify;
+    factorizeIncreasingAndDecreasingExponentsFormIfPossible(polynomialsToVerify, polynomialToTest);
 
     ASSERT_EQ(3U, polynomialsToVerify.size());
     Polynomial polynomialToExpect1{Monomial(1, {{"x", 1}}), Monomial(20, {})};
@@ -111,7 +117,8 @@ TEST(FactorizationOfIncreasingAndDecreasingExponentFormTest, FactorizeIfPossible
                 Monomial(AlbaNumber::createFraction(5, 2), {{"x", 1}}),
                 Monomial(AlbaNumber::createFraction(1, 16), {})};
 
-    Polynomials polynomialsToVerify(factorizeIncreasingAndDecreasingExponentsFormIfPossible(polynomialToTest));
+    Polynomials polynomialsToVerify;
+    factorizeIncreasingAndDecreasingExponentsFormIfPossible(polynomialsToVerify, polynomialToTest);
 
     ASSERT_EQ(2U, polynomialsToVerify.size());
     Polynomial polynomialToExpect1{Monomial(5, {{"x", 1}}), Monomial(AlbaNumber::createFraction(1, 4), {})};
@@ -124,7 +131,8 @@ TEST(FactorizationOfIncreasingAndDecreasingExponentFormTest, FactorizeIfPossible
 {
     Polynomial polynomialToTest{Monomial(2, {{"x", 2}}), Monomial(-23, {{"x", 1}, {"y", 1}}), Monomial(-39, {{"y", 2}})};
 
-    Polynomials polynomialsToVerify(factorizeIncreasingAndDecreasingExponentsFormIfPossible(polynomialToTest));
+    Polynomials polynomialsToVerify;
+    factorizeIncreasingAndDecreasingExponentsFormIfPossible(polynomialsToVerify, polynomialToTest);
 
     ASSERT_EQ(2U, polynomialsToVerify.size());
     Polynomial polynomialToExpect1{Monomial(1, {{"x", 1}}), Monomial(-13, {{"y", 1}})};
@@ -137,7 +145,8 @@ TEST(FactorizationOfIncreasingAndDecreasingExponentFormTest, FactorizeIfPossible
 {
     Polynomial polynomialToTest{Monomial(192, {{"x", 3}}), Monomial(200, {{"x", 2}}), Monomial(-298, {{"x", 1}}), Monomial(-315, {})};
 
-    Polynomials polynomialsToVerify(factorizeIncreasingAndDecreasingExponentsFormIfPossible(polynomialToTest));
+    Polynomials polynomialsToVerify;
+    factorizeIncreasingAndDecreasingExponentsFormIfPossible(polynomialsToVerify, polynomialToTest);
 
     ASSERT_EQ(3U, polynomialsToVerify.size());
     Polynomial polynomialToExpect1{Monomial(6, {{"x", 1}}), Monomial(7, {})};
@@ -152,7 +161,8 @@ TEST(FactorizationOfIncreasingAndDecreasingExponentFormTest, FactorizeIfPossible
 {
     Polynomial polynomialToTest{Monomial(1, {{"x", 2}}), Monomial(3, {{"x", 1}}), Monomial(-4, {})};
 
-    Polynomials polynomialsToVerify(factorizeIncreasingAndDecreasingExponentsFormIfPossible(polynomialToTest));
+    Polynomials polynomialsToVerify;
+    factorizeIncreasingAndDecreasingExponentsFormIfPossible(polynomialsToVerify, polynomialToTest);
 
     ASSERT_EQ(2U, polynomialsToVerify.size());
     Polynomial polynomialToExpect1{Monomial(1, {{"x", 1}}), Monomial(-1, {})};
@@ -165,7 +175,8 @@ TEST(FactorizationOfIncreasingAndDecreasingExponentFormTest, FactorizeIfPossible
 {
     Polynomial polynomialToTest{Monomial(1, {{"x", 64}}), Monomial(-1, {{"y", 16}})};
 
-    Polynomials polynomialsToVerify(factorizeIncreasingAndDecreasingExponentsFormIfPossible(polynomialToTest));
+    Polynomials polynomialsToVerify;
+    factorizeIncreasingAndDecreasingExponentsFormIfPossible(polynomialsToVerify, polynomialToTest);
 
     ASSERT_EQ(2U, polynomialsToVerify.size());
     Polynomial polynomialToExpect1{Monomial(1, {{"x", 32}}), Monomial(-1, {{"y", 8}})};
@@ -183,7 +194,8 @@ TEST(FactorizationOfIncreasingAndDecreasingExponentFormTest, FactorizeIfPossible
                 Monomial(409, {{"x", 1}}),
                 Monomial(4095, {})};
 
-    Polynomials polynomialsToVerify(factorizeIncreasingAndDecreasingExponentsFormIfPossible(polynomialToTest));
+    Polynomials polynomialsToVerify;
+    factorizeIncreasingAndDecreasingExponentsFormIfPossible(polynomialsToVerify, polynomialToTest);
 
     ASSERT_EQ(4U, polynomialsToVerify.size());
     Polynomial polynomialToExpect1{Monomial(6, {{"x", 1}}), Monomial(7, {})};
@@ -201,12 +213,13 @@ TEST(FactorizationOfIncreasingAndDecreasingExponentFormTest, FactorizePolynomial
     Polynomial polynomialToTest{Monomial(1, {{"x", 3}}), Monomial(3, {{"x", 2}}), Monomial(3, {{"x", 1}}), Monomial(1, {})};
     AlbaNumbers coefficients({1, 3, 3, 1});
 
-    Polynomials polynomialsToVerify(
-                factorizePolynomialForm(
-                    polynomialToTest,
-                    coefficients,
-                    Monomial::VariablesToExponentsMap{{"x", 1}},
-                    Monomial::VariablesToExponentsMap{}));
+    Polynomials polynomialsToVerify;
+    factorizePolynomialForm(
+                polynomialsToVerify,
+                polynomialToTest,
+                coefficients,
+                Monomial::VariablesToExponentsMap{{"x", 1}},
+                Monomial::VariablesToExponentsMap{});
 
     ASSERT_EQ(3U, polynomialsToVerify.size());
     Polynomial polynomialToExpect{Monomial(1, {{"x", 1}}), Monomial(1, {})};

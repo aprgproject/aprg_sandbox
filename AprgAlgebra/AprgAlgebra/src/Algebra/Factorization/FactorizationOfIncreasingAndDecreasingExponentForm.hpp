@@ -13,8 +13,9 @@ namespace Factorization
 {
 
 Polynomials factorizeIncreasingAndDecreasingExponentsForm(Polynomial const& polynomial);
-Polynomials factorizeIncreasingAndDecreasingExponentsFormIfPossible(Polynomial const& polynomial);
-Polynomials factorizePolynomialForm(
+void factorizeIncreasingAndDecreasingExponentsFormIfPossible(Polynomials & result, Polynomial const& polynomial);
+void factorizePolynomialForm(
+        Polynomials & result,
         Polynomial const& polynomial,
         AlbaNumbers const& coefficients,
         Monomial::VariablesToExponentsMap const& firstVariableExponent,
@@ -36,7 +37,7 @@ Monomials getMonomialsWithExponentsInOrder(
         unsigned int const exponentDivisor,
         Monomial const& firstInPolynomial,
         Monomial const& lastInPolynomial);
-
+bool areRootsAcceptable(AlbaNumbers const& rootValues);
 }
 
 }

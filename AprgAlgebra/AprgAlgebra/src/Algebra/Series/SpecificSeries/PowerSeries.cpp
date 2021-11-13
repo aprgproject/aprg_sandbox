@@ -8,6 +8,8 @@
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
 #include <Math/AlbaMathHelper.hpp>
 
+#include <numeric>
+
 using namespace alba::algebra::Functions;
 using namespace alba::mathHelper;
 using namespace std;
@@ -39,13 +41,14 @@ AlbaNumberIntervals PowerSeries::getIntervalsOfConvergence() const
 
 AlbaNumber PowerSeries::getRadiusOfConvergence() const
 {
-    AlbaNumber result;
     AlbaNumberIntervals intervals(getIntervalsOfConvergence());
-    for(AlbaNumberInterval const& interval : intervals)
+    AlbaNumber result = accumulate(intervals.cbegin(), intervals.cend(), AlbaNumber(), [](
+                                   AlbaNumber const& partialSum,
+                                   AlbaNumberInterval const& nextInterval)
     {
-        result += getAbsoluteValueForAlbaNumber(interval.getHigherEndpoint().getValue() - interval.getLowerEndpoint().getValue());
-    }
-    result = result/intervals.size()/2;
+        return partialSum + getAbsoluteValueForAlbaNumber(nextInterval.getHigherEndpoint().getValue() - nextInterval.getLowerEndpoint().getValue());
+    });
+    result = result/static_cast<long long int>(intervals.size())/2;
     return result;
 }
 

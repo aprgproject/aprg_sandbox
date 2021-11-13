@@ -17,13 +17,13 @@ bool isPerfectCube(Monomial const& monomial);
 bool isPerfectNthPower(Monomial const& monomial, unsigned int const nthPower);
 bool doesNotNeedToBeFactorized(Polynomial const& polynomial);
 bool doesContainOnlyConstants(Polynomials const& polynomials);
-bool doesContainConstantsOrOnlyOneNonConstant(Polynomials const& polynomials);
+bool IsEmptyOrContainConstantsOrOneNonConstant(Polynomials const& polynomials);
 
-void simplifyPolynomialThenEmplaceBackIfNotEmpty(Polynomials & polynomials, Polynomial const& polynomial);
-void emplaceBackIfNotEmpty(Polynomials & polynomials, Polynomial const& polynomial);
+void simplifyThenEmplaceBackIfPolynomialIsNotEmpty(Polynomials & polynomials, Polynomial const& polynomial);
+void emplaceBackIfPolynomialIsNotEmpty(Polynomials & polynomials, Polynomial const& polynomial);
 
-Polynomials returnPolynomialsOrSinglePolynomialIfEmpty(
-        Polynomials const& polynomials,
+void simplifyAndEmplaceBackPolynomialIfListIsEmpty(
+        Polynomials & existingPolynomials,
         Polynomial const& polynomial);
 
 }
