@@ -26,35 +26,41 @@ void simplifyTermToACommonDenominator(Term & term)
     SimplificationOfExpression::ScopeObject scopeObject;
     scopeObject.setInThisScopeThisConfiguration(configurationDetails);
 
-    term.clearInternalFlags();
+    term.clearAllInnerInternalFlags();
     term.simplify();
 }
+
 void simplifyTermByCombiningRadicals(Term & term)
 {
-    SimplificationOfExpression::ConfigurationDetails configurationDetails(                SimplificationOfExpression::Configuration::getInstance().getConfigurationDetails());
+    SimplificationOfExpression::ConfigurationDetails configurationDetails(
+                SimplificationOfExpression::Configuration::getInstance().getConfigurationDetails());
     configurationDetails.shouldSimplifyByCombiningRadicalsInMultiplicationAndDivision = true;
 
     SimplificationOfExpression::ScopeObject scopeObject;
     scopeObject.setInThisScopeThisConfiguration(configurationDetails);
 
-    term.clearInternalFlags();
+    term.clearAllInnerInternalFlags();
     term.simplify();
 }
+
 void simplifyTermByFactoringToNonDoubleFactors(Term & term)
 {
-    SimplificationOfExpression::ConfigurationDetails configurationDetails(                SimplificationOfExpression::Configuration::getInstance().getConfigurationDetails());
+    SimplificationOfExpression::ConfigurationDetails configurationDetails(
+                SimplificationOfExpression::Configuration::getInstance().getConfigurationDetails());
     configurationDetails.shouldSimplifyToFactors = true;
     configurationDetails.shouldNotFactorizeIfItWouldYieldToPolynomialsWithDoubleValue = true;
 
     SimplificationOfExpression::ScopeObject scopeObject;
     scopeObject.setInThisScopeThisConfiguration(configurationDetails);
 
-    term.clearInternalFlags();
+    term.clearAllInnerInternalFlags();
     term.simplify();
 }
+
 void simplifyTermByFactoringToNonDoubleFactorsToACommonDenominator(Term & term)
 {
-    SimplificationOfExpression::ConfigurationDetails configurationDetails(                SimplificationOfExpression::Configuration::getInstance().getConfigurationDetails());
+    SimplificationOfExpression::ConfigurationDetails configurationDetails(
+                SimplificationOfExpression::Configuration::getInstance().getConfigurationDetails());
     configurationDetails.shouldSimplifyToACommonDenominator = true;
     configurationDetails.shouldSimplifyToFactors = true;
     configurationDetails.shouldNotFactorizeIfItWouldYieldToPolynomialsWithDoubleValue = true;
@@ -62,12 +68,14 @@ void simplifyTermByFactoringToNonDoubleFactorsToACommonDenominator(Term & term)
     SimplificationOfExpression::ScopeObject scopeObject;
     scopeObject.setInThisScopeThisConfiguration(configurationDetails);
 
-    term.clearInternalFlags();
+    term.clearAllInnerInternalFlags();
     term.simplify();
 }
+
 bool simplifyToACommonDenominatorForExpressionAndReturnIfAdditionOrSubtractionOfTermsOverTermsOccurred(
         Expression & expression)
-{    bool isChanged(false);
+{
+    bool isChanged(false);
     if(expression.getCommonOperatorLevel() == OperatorLevel::AdditionAndSubtraction)
     {
         isChanged = tryToAddSubtractTermsOverTermsAndReturnIfChanged(expression);

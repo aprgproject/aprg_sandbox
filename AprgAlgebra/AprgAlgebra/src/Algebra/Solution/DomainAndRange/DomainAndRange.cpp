@@ -30,9 +30,9 @@ SolutionSet calculateDomainUsingTransitionValues(
     collectAndUniqueValuesAndSort(sortedValues, domainValuesToCheck);
     collectMinAndMaxValues(collectedValues, sortedValues);
     appendTransitionValues(collectedValues, sortedValues, functionToCheck);
-    AlbaNumbers numbersWithTransitionValues(getNumbers(collectedValues));
+    AlbaNumbers transitionValues(getNumbers(collectedValues));
 
-    domain.determineAndAddAcceptedIntervals(numbersWithTransitionValues, [&](AlbaNumber const& value)
+    domain.determineAndAddAcceptedIntervals(transitionValues, [&](AlbaNumber const& value)
     {
         AlbaNumber computedValue(functionToCheck(value));
         return computedValue.isARealFiniteValue();
@@ -175,7 +175,7 @@ void collectMinAndMaxValues(
 }
 
 void appendTransitionValues(
-        AlbaNumbersSet & collectedValues,
+        AlbaNumbersSet & transitionValues,
         AlbaNumbersSet const& sortedValues,
         FunctionToCheck const& functionToCheck)
 {
@@ -191,11 +191,11 @@ void appendTransitionValues(
         }
         else if(previousOutputValue.isARealFiniteValue() && !outputValue.isARealFiniteValue())
         {
-            collectedValues.emplace(getTransitionValue(previousInputValue, inputValue, functionToCheck));
+            transitionValues.emplace(getTransitionValue(previousInputValue, inputValue, functionToCheck));
         }
         else if(!previousOutputValue.isARealFiniteValue() && outputValue.isARealFiniteValue())
         {
-            collectedValues.emplace(getTransitionValue(inputValue, previousInputValue, functionToCheck));
+            transitionValues.emplace(getTransitionValue(inputValue, previousInputValue, functionToCheck));
         }
         previousInputValue = inputValue;
         previousOutputValue = outputValue;
@@ -212,8 +212,8 @@ AlbaNumber getTransitionValue(
         AlbaNumber const& inputValueYieldsToNonFiniteValue,
         FunctionToCheck const& functionToCheck)
 {
-    AlbaNumber currentValueToRealFiniteValue = inputValueYieldsToFiniteValue;
-    AlbaNumber currentValueToNonRealFiniteValue = inputValueYieldsToNonFiniteValue;
+    AlbaNumber currentValueToRealFiniteValue(inputValueYieldsToFiniteValue);
+    AlbaNumber currentValueToNonRealFiniteValue(inputValueYieldsToNonFiniteValue);
     AlbaNumber newInputValue(inputValueYieldsToFiniteValue);
     AlbaNumber previousInputValue(inputValueYieldsToNonFiniteValue);
     while(previousInputValue != newInputValue)

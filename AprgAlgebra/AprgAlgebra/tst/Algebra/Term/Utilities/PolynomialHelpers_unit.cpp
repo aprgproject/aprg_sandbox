@@ -56,10 +56,12 @@ TEST(PolynomialHelpersTest, HasAMonomialWithDegreeMoreThanOneOrFractionalWorks)
 
 TEST(PolynomialHelpersTest, IsOneMonomialWorks)
 {
-    Polynomial polynomial1;    Polynomial polynomial2{Monomial(6, {})};
+    Polynomial polynomial1;
+    Polynomial polynomial2{Monomial(6, {})};
     Polynomial polynomial3{Monomial(6, {}), Monomial(-7, {{"x", 2}, {"y", 3}, {"z", 4}})};
 
-    EXPECT_FALSE(isOneMonomial(polynomial1));    EXPECT_TRUE(isOneMonomial(polynomial2));
+    EXPECT_FALSE(isOneMonomial(polynomial1));
+    EXPECT_TRUE(isOneMonomial(polynomial2));
     EXPECT_FALSE(isOneMonomial(polynomial3));
 }
 

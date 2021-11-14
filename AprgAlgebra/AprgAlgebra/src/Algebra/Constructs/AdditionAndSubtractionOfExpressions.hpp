@@ -25,26 +25,28 @@ public:
     void putAsSubtraction(Expression const& expression);
     void putAsAddOrSubtraction(Expression const& expression, TermAssociationType const association);
     void putTermsWithDetails(TermsWithDetails const& termsWithDetails);
+
     void combineExpressionsIfPossible();
 
 private:
-    bool mergeForAdditionAndSubtractionAndReturnIfMerged(
-            unsigned int const index1,
-            unsigned int const index2);
-    void retrieveUniqueExpressionsAndMergeTerms(
-            Expression & uniqueExpression1,
-            Expression & uniqueExpression2,
-            Term & mergeTerm1,
-            Term & mergeTerm2,
-            Expression const& expression1,
-            Expression const& expression2);
-    Expression getUniqueExpressionForAdditionOrSubtractionMergeChecking(Expression const& expression);
-    void accumulateMergeTermForAdditionOrSubtractionMergeChecking(Term & combinedTerm, Expression const& expression);
-    bool canBeMergedForAdditionAndSubtraction(
-            Expression const& uniqueExpression1,
-            Expression const& uniqueExpression2,
-            Term const& mergeTerm1,
-            Term const& mergeTerm2);
+    void mergeExpressionsByCheckingTwoTermsAtATime(Terms & mergeParts, Terms & commonParts);
+    void mergeTerms(
+            Term & mergedTerm,
+            Term const& mergePart1,
+            Term const& mergePart2,
+            TermAssociationType const association1,
+            TermAssociationType const association2);
+    void prepareCommonParts(Terms & commonParts);
+    void retrieveMergeParts(Terms & mergeParts);
+    void retrieveCommonParts(Terms & commonParts);
+    void retrieveMergePart(Term & combinedTerm, Expression const& expression);
+    void retrieveCommonPart(Term & commonPart, Expression const& expression);
+    bool doAllSizesMatch(Terms const& mergeParts, Terms const& commonParts) const;
+    bool canBeMerged(
+            Term const& mergePart1,
+            Term const& mergePart2,
+            Term const& commonPart1,
+            Term const& commonPart2);
     void putItem(Expression const& expression, TermAssociationType const association);
     Expressions m_expressions;
     TermAssociationTypes m_associations;

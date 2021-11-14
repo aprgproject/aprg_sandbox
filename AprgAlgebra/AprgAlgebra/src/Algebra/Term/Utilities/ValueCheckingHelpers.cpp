@@ -143,6 +143,7 @@ bool doAnyNumbersSatisfyTheCondition(
     }
     return result;
 }
+
 bool doAnyNumbersSatisfyTheCondition(
         Polynomial const& polynomial,
         NumberCheckingCondition const& condition)
@@ -154,7 +155,8 @@ bool doAnyNumbersSatisfyTheCondition(
     });
 }
 
-bool doAnyNumbersSatisfyTheCondition(        Expression const& expression,
+bool doAnyNumbersSatisfyTheCondition(
+        Expression const& expression,
         NumberCheckingCondition const& condition)
 {
     TermsWithDetails const& termsWithDetails(expression.getTermsWithAssociation().getTermsWithDetails());
@@ -166,10 +168,12 @@ bool doAnyNumbersSatisfyTheCondition(        Expression const& expression,
     });
 }
 
-bool doAnyNumbersSatisfyTheCondition(        Function const& function,
+bool doAnyNumbersSatisfyTheCondition(
+        Function const& function,
         NumberCheckingCondition const& condition)
 {
-    return doAnyNumbersSatisfyTheCondition(function.getInputTermConstReference(), condition);}
+    return doAnyNumbersSatisfyTheCondition(function.getInputTermConstReference(), condition);
+}
 
 bool willHaveNoEffectOnAdditionOrSubtraction(Term const& term)
 {

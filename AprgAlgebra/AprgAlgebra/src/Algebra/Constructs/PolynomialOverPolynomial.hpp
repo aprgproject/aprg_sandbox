@@ -35,10 +35,12 @@ public:
     QuotientAndRemainder simplifyAndDivide();
     QuotientAndRemainder divide() const;
 
-private:    bool shouldPerformFactorization() const;
+private:
+    bool shouldPerformFactorization() const;
     void convertFractionCoefficientsToInteger();
     void convertNegativeExponentsToPositive();
-    void removeCommonMonomialOnAllMonomialsInNumeratorAndDenominator();    void factorizeRemoveCommonFactorsInNumeratorAndDenominatorAndCombineRemainingFactors();
+    void removeCommonMonomialOnAllMonomialsInNumeratorAndDenominator();
+    void factorizeRemoveCommonFactorsInNumeratorAndDenominatorAndCombineRemainingFactors();
     unsigned int getLcmForDenominatorCoefficients(Polynomial const& polynomial);
     Monomial getMonomialWithMaxNegativeExponentsAndConvertItToPositive(Polynomial const& polynomial);
     bool removeCommonFactorsAndReturnIfSomeFactorsAreRemoved(

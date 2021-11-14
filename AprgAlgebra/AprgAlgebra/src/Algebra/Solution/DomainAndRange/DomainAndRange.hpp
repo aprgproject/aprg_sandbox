@@ -55,7 +55,7 @@ void collectMinAndMaxValues(
         AlbaNumbersSet & collectedValues,
         AlbaNumbersSet const& sortedValues);
 void appendTransitionValues(
-        AlbaNumbersSet & collectedValues,
+        AlbaNumbersSet & transitionValues,
         AlbaNumbersSet const& sortedValues,
         FunctionToCheck const& functionToCheck);
 AlbaNumbers getNumbers(AlbaNumbersSet const& collectedValues);

@@ -310,6 +310,7 @@ void calculateTermAndLimitUsingLhopitalsRule(
     Differentiation differentiation(variableName);
     newTerm = term;
     simplifyTermByFactoringToNonDoubleFactorsToACommonDenominator(newTerm);
+    newTerm.clearAllInnerInternalFlags();
     TermsOverTerms termsOverTerms(createTermsOverTermsFromTerm(newTerm));
     Term numerator(termsOverTerms.getCombinedNumerator());
     Term denominator(termsOverTerms.getCombinedDenominator());
@@ -326,6 +327,7 @@ void calculateTermAndLimitUsingLhopitalsRule(
         denominator = differentiation.differentiate(denominator);
         newTerm = Term(numerator/denominator);
         simplifyTermByFactoringToNonDoubleFactorsToACommonDenominator(newTerm);
+        newTerm.clearAllInnerInternalFlags();
         TermsOverTerms newTermsOverTerms(createTermsOverTermsFromTerm(newTerm));
         numerator = newTermsOverTerms.getCombinedNumerator();
         denominator = newTermsOverTerms.getCombinedDenominator();

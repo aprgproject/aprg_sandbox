@@ -56,7 +56,8 @@ void PolynomialOverPolynomial::setAsShouldNotFactorizeIfItWouldYieldToPolynomial
 
 void PolynomialOverPolynomial::simplify()
 {
-    convertFractionCoefficientsToInteger();    convertNegativeExponentsToPositive();
+    convertFractionCoefficientsToInteger();
+    convertNegativeExponentsToPositive();
     removeCommonMonomialOnAllMonomialsInNumeratorAndDenominator();
     m_numerator.simplify();
     m_denominator.simplify();
@@ -66,7 +67,8 @@ void PolynomialOverPolynomial::simplify()
 void PolynomialOverPolynomial::simplifyWithoutFactorization()
 {
     convertFractionCoefficientsToInteger();
-    convertNegativeExponentsToPositive();    removeCommonMonomialOnAllMonomialsInNumeratorAndDenominator();
+    convertNegativeExponentsToPositive();
+    removeCommonMonomialOnAllMonomialsInNumeratorAndDenominator();
     m_numerator.simplify();
     m_denominator.simplify();
 }
@@ -79,10 +81,12 @@ PolynomialOverPolynomial::QuotientAndRemainder PolynomialOverPolynomial::simplif
 
 PolynomialOverPolynomial::QuotientAndRemainder PolynomialOverPolynomial::divide() const
 {
-    Polynomial currentQuotient;    Polynomial currentRemainder(m_numerator);
+    Polynomial currentQuotient;
+    Polynomial currentRemainder(m_numerator);
     while(!isTheValue(currentRemainder, 0) && !isNotANumber(currentRemainder))
     {
-        Monomial const& dividendMonomial(getFirstMonomial(currentRemainder));        Monomial const& divisorMonomial(getFirstMonomial(m_denominator));
+        Monomial const& dividendMonomial(getFirstMonomial(currentRemainder));
+        Monomial const& divisorMonomial(getFirstMonomial(m_denominator));
         Monomial currentQuotientMonomial(dividendMonomial);
         currentQuotientMonomial.divideMonomial(divisorMonomial);
         if(!hasNegativeExponents(currentQuotientMonomial))

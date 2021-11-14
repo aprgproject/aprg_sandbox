@@ -128,10 +128,10 @@ void SolutionSet::addValue(
 }
 
 void SolutionSet::determineAndAddAcceptedIntervals(
-        AlbaNumbers const& addedValuesToCheck,
+        AlbaNumbers const& additionalValuesToCheck,
         FunctionForCheckingValues const& isValueAcceptedFunction)
 {
-    AlbaNumbers valuesToCheck(addedValuesToCheck);
+    AlbaNumbers valuesToCheck(additionalValuesToCheck);
     prepareValuesToCheck(valuesToCheck);
     checkValuesAndPutIntervals(valuesToCheck, isValueAcceptedFunction);
     combineAcceptedIntervalsIfPossible();

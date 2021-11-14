@@ -22,17 +22,17 @@ namespace algebra
 namespace
 {
 
-ConditionFunctionForTermsWithDetails isUniquePartOfTerm
+ConditionFunctionForTermsWithDetails isCommonPart
 = [](TermWithDetails const& termWithDetails) -> bool
 {
     Term const& term(getTermConstReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer));
     return termWithDetails.hasNegativeAssociation() || term.isExpression()  || term.isFunction();
 };
 
-ConditionFunctionForTermsWithDetails isNotUniquePartOfTerm
+ConditionFunctionForTermsWithDetails isMergePart
 = [](TermWithDetails const& termWithDetails) -> bool
 {
-    return !isUniquePartOfTerm(termWithDetails);
+    return !isCommonPart(termWithDetails);
 };
 
 }
@@ -110,113 +110,150 @@ void AdditionAndSubtractionOfExpressions::putTermsWithDetails(TermsWithDetails c
 
 void AdditionAndSubtractionOfExpressions::combineExpressionsIfPossible()
 {
-    unsigned int size = getSize();
-    for(unsigned int firstIndex=0; firstIndex<size; firstIndex++)
+    Terms mergeParts;
+    Terms commonParts;
+    retrieveMergeParts(mergeParts);
+    retrieveCommonParts(commonParts);
+    if(doAllSizesMatch(mergeParts, commonParts))
     {
-        for(unsigned int secondIndex=firstIndex+1; secondIndex<size; secondIndex++)
+        prepareCommonParts(commonParts);
+        mergeExpressionsByCheckingTwoTermsAtATime(mergeParts, commonParts);
+    }
+}
+
+void AdditionAndSubtractionOfExpressions::mergeExpressionsByCheckingTwoTermsAtATime(
+        Terms & mergeParts,
+        Terms & commonParts)
+{
+    unsigned int size = mergeParts.size();
+    for(unsigned int i=0; i<size; i++)
+    {
+        for(unsigned int j=i+1; j<size; j++)
         {
-            if(mergeForAdditionAndSubtractionAndReturnIfMerged(firstIndex, secondIndex))
+            if(canBeMerged(mergeParts.at(i), mergeParts.at(j), commonParts.at(i), commonParts.at(j)))
             {
-                m_expressions.erase(m_expressions.begin()+secondIndex);
-                m_associations.erase(m_associations.begin()+secondIndex);
-                size = getSize();
-                m_associations[firstIndex]=TermAssociationType::Positive;
-                secondIndex=firstIndex;
+                Term mergedTerm;
+                mergeTerms(mergedTerm, mergeParts.at(i), mergeParts.at(j), m_associations.at(i), m_associations.at(j));
+                Term const& commonPart(commonParts.at(i));
+                mergeParts[i] = mergedTerm;
+                m_expressions[i] = createOrCopyExpressionFromATerm(mergedTerm*commonPart);
+                m_associations[i] = TermAssociationType::Positive;
+
+                mergeParts.erase(mergeParts.begin()+j);
+                commonParts.erase(commonParts.begin()+j);
+                m_expressions.erase(m_expressions.begin()+j);
+                m_associations.erase(m_associations.begin()+j);
+
+                size = mergeParts.size();
+                j=i;
             }
         }
     }
 }
 
-bool AdditionAndSubtractionOfExpressions::mergeForAdditionAndSubtractionAndReturnIfMerged(
-        unsigned int const index1,
-        unsigned int const index2)
+void AdditionAndSubtractionOfExpressions::mergeTerms(
+        Term & mergedTerm,
+        Term const& mergePart1,
+        Term const& mergePart2,
+        TermAssociationType const association1,
+        TermAssociationType const association2)
 {
-    bool isMerged(false);
-    Expression & expression1(m_expressions.at(index1));
-    Expression & expression2(m_expressions.at(index2));
-    Expression uniqueExpression1, uniqueExpression2;
-    Term mergeTerm1, mergeTerm2;
-
-    retrieveUniqueExpressionsAndMergeTerms(uniqueExpression1, uniqueExpression2, mergeTerm1, mergeTerm2, expression1, expression2);
-    if(canBeMergedForAdditionAndSubtraction(uniqueExpression1, uniqueExpression2, mergeTerm1, mergeTerm2))
-    {
-        Term resultMergeTerm;
-        TermsWithDetails termsToMerge;
-        termsToMerge.emplace_back(mergeTerm1, m_associations.at(index1));
-        termsToMerge.emplace_back(mergeTerm2, m_associations.at(index2));
-        accumulateTermsForAdditionAndSubtraction(resultMergeTerm, termsToMerge);
-        expression1 = createOrCopyExpressionFromATerm(resultMergeTerm*Term(uniqueExpression1));
-        expression2.clear();
-
-        isMerged = true;
-    }
-    return isMerged;
+    TermsWithDetails termsWithDetailsToMerge;
+    termsWithDetailsToMerge.emplace_back(mergePart1, association1);
+    termsWithDetailsToMerge.emplace_back(mergePart2, association2);
+    accumulateTermsForAdditionAndSubtraction(mergedTerm, termsWithDetailsToMerge);
 }
 
-void AdditionAndSubtractionOfExpressions::retrieveUniqueExpressionsAndMergeTerms(
-        Expression & uniqueExpression1,
-        Expression & uniqueExpression2,
-        Term & mergeTerm1,
-        Term & mergeTerm2,
-        Expression const& expression1,
-        Expression const& expression2)
+void AdditionAndSubtractionOfExpressions::prepareCommonParts(
+        Terms & commonParts)
 {
-    uniqueExpression1 = getUniqueExpressionForAdditionOrSubtractionMergeChecking(expression1);
-    uniqueExpression2 = getUniqueExpressionForAdditionOrSubtractionMergeChecking(expression2);
-    if(OperatorLevel::RaiseToPower != uniqueExpression1.getCommonOperatorLevel())
+    for(Term & commonPart : commonParts)
     {
-        uniqueExpression1.sort();
+        commonPart.simplify();
+        if(commonPart.isExpression()
+                && OperatorLevel::RaiseToPower != commonPart.getExpressionConstReference().getCommonOperatorLevel())
+        {
+            commonPart.getExpressionReference().sort();
+        }
     }
-    if(OperatorLevel::RaiseToPower != uniqueExpression1.getCommonOperatorLevel())
-    {
-        uniqueExpression2.sort();
-    }
-    accumulateMergeTermForAdditionOrSubtractionMergeChecking(mergeTerm1, expression1);
-    accumulateMergeTermForAdditionOrSubtractionMergeChecking(mergeTerm2, expression2);
 }
 
-Expression AdditionAndSubtractionOfExpressions::getUniqueExpressionForAdditionOrSubtractionMergeChecking(Expression const& expression)
+void AdditionAndSubtractionOfExpressions::retrieveMergeParts(
+        Terms & mergeParts)
 {
-    Expression result;
-    if(OperatorLevel::MultiplicationAndDivision == expression.getCommonOperatorLevel())
+    for(Expression const& expression : m_expressions)
     {
-        TermsWithDetails uniqueExpressions
-                = retrieveTermsWithDetailsThatSatisfiesCondition(
-                    expression.getTermsWithAssociation().getTermsWithDetails(),
-                    isUniquePartOfTerm);
-        result = Expression(OperatorLevel::MultiplicationAndDivision, uniqueExpressions);
-        result.simplify();
+        mergeParts.emplace_back();
+        retrieveMergePart(mergeParts.back(), expression);
     }
-    else if(OperatorLevel::RaiseToPower == expression.getCommonOperatorLevel())    {
-        result = expression;
-    }
-    return result;}
+}
 
-void AdditionAndSubtractionOfExpressions::accumulateMergeTermForAdditionOrSubtractionMergeChecking(Term & combinedTerm, Expression const& expression)
+void AdditionAndSubtractionOfExpressions::retrieveCommonParts(
+        Terms & commonParts)
+{
+    for(Expression const& expression : m_expressions)
+    {
+        commonParts.emplace_back();
+        retrieveCommonPart(commonParts.back(), expression);
+    }
+}
+
+void AdditionAndSubtractionOfExpressions::retrieveMergePart(
+        Term & mergePart,
+        Expression const& expression)
 {
     if(OperatorLevel::MultiplicationAndDivision == expression.getCommonOperatorLevel())
     {
-        combinedTerm = Term(1);
+        mergePart = Term(1);
         TermsWithDetails termsToBeMerged
                 = retrieveTermsWithDetailsThatSatisfiesCondition(
                     expression.getTermsWithAssociation().getTermsWithDetails(),
-                    isNotUniquePartOfTerm);
+                    isMergePart);
 
-        accumulateTermsForMultiplicationAndDivision(combinedTerm, termsToBeMerged);
+        accumulateTermsForMultiplicationAndDivision(mergePart, termsToBeMerged);
     }
-    else if(OperatorLevel::RaiseToPower == expression.getCommonOperatorLevel())
+    else
     {
-        combinedTerm = Term(1);
+        mergePart = Term(1);
     }
 }
 
-bool AdditionAndSubtractionOfExpressions::canBeMergedForAdditionAndSubtraction(
-        Expression const& uniqueExpression1,
-        Expression const& uniqueExpression2,
-        Term const& mergeTerm1,
-        Term const& mergeTerm2)
+void AdditionAndSubtractionOfExpressions::retrieveCommonPart(
+        Term & commonPart,
+        Expression const& expression)
 {
-    return uniqueExpression1 == uniqueExpression2 && canBeMergedInAMonomialByAdditionOrSubtraction(mergeTerm1, mergeTerm2);
+    if(OperatorLevel::MultiplicationAndDivision == expression.getCommonOperatorLevel())
+    {
+        commonPart = Term(1);
+        TermsWithDetails termsToBeMerged
+                = retrieveTermsWithDetailsThatSatisfiesCondition(
+                    expression.getTermsWithAssociation().getTermsWithDetails(),
+                    isCommonPart);
+
+        accumulateTermsForMultiplicationAndDivision(commonPart, termsToBeMerged);
+    }
+    else
+    {
+        commonPart = convertExpressionToSimplestTerm(expression);
+    }
+}
+
+bool AdditionAndSubtractionOfExpressions::doAllSizesMatch(
+        Terms const& mergeParts,
+        Terms const& commonParts) const
+{
+    return mergeParts.size() == commonParts.size()
+                && mergeParts.size() == m_expressions.size()
+                && mergeParts.size() == m_associations.size();
+}
+
+bool AdditionAndSubtractionOfExpressions::canBeMerged(
+        Term const& mergePart1,
+        Term const& mergePart2,
+        Term const& commonPart1,
+        Term const& commonPart2)
+{
+    return commonPart1 == commonPart2 && canBeMergedInAMonomialByAdditionOrSubtraction(mergePart1, mergePart2);
 }
 
 void AdditionAndSubtractionOfExpressions::putItem(Expression const& expression, TermAssociationType const association)

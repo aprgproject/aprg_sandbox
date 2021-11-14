@@ -38,11 +38,13 @@ public:
     AlbaNumber performFunctionAndReturnResultIfPossible() const;
     BaseTerm const& getInputTermConstReference() const;
     FunctionToPerform const& getFunctionToPerform() const;
+
     BaseTerm & getInputTermReference();
     void simplify();
 
     void setAsSimplified();
     void clearInternalFlags();
+    void clearAllInnerInternalFlags();
 
 private:
     std::string m_functionName;
@@ -52,6 +54,7 @@ private:
 };
 
 std::ostream & operator<<(std::ostream & out, Function const& functionObject);
+
 }
 
 }

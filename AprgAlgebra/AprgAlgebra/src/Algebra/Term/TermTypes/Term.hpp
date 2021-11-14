@@ -48,6 +48,7 @@ public:
     bool isPolynomial() const;
     bool isExpression() const;
     bool isFunction() const;
+    bool isSimplified() const;
 
     TermType getTermType() const;
     Constant const& getConstantConstReference() const;
@@ -75,7 +76,7 @@ public:
 
     void setAsSimplified();
     void clearInternalFlags();
-    void clearInternalFlagsIncludingUnderlyingTermType();
+    void clearAllInnerInternalFlags();
 
 private:
     void resetBaseDataTermPointerBasedFromTerm(Term const& term);
@@ -85,7 +86,9 @@ private:
 };
 
 using Terms = std::vector<Term>;
+
 std::ostream & operator<<(std::ostream & out, Term const& term);
 
 }
+
 }

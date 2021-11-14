@@ -26,16 +26,13 @@ PolynomialOverPolynomialOptional createPolynomialOverPolynomialFromTermIfPossibl
         Term const& term)
 {
     PolynomialOverPolynomialOptional result;
-    Term simplifiedTerm(term);
-    simplifiedTerm.simplify();
-    
-    if(canBeConvertedToPolynomial(simplifiedTerm))
+    if(canBeConvertedToPolynomial(term))
     {
-        result.setConstReference(PolynomialOverPolynomial(createPolynomialIfPossible(simplifiedTerm), createPolynomialFromConstant(1)));
+        result.setConstReference(PolynomialOverPolynomial(createPolynomialIfPossible(term), createPolynomialFromConstant(1)));
     }
-    else if(simplifiedTerm.isExpression())
+    else if(term.isExpression())
     {
-        Expression const& expression(simplifiedTerm.getExpressionConstReference());
+        Expression const& expression(term.getExpressionConstReference());
         if(OperatorLevel::MultiplicationAndDivision == expression.getCommonOperatorLevel())
         {
             bool canBeConvertedToPolynomialOverPolynomial(true);
@@ -78,13 +75,10 @@ PolynomialOverPolynomialOptional createPolynomialOverPolynomialFromTermIfPossibl
 TermsOverTerms createTermsOverTermsFromTerm(Term const& term)
 {
     TermsOverTerms result;
-    Term simplifiedTerm(term);
-    simplifiedTerm.simplify();
-    
     bool isResultUpdatedWithContent(false);
-    if(simplifiedTerm.isExpression())
+    if(term.isExpression())
     {
-        Expression const& expression(simplifiedTerm.getExpressionConstReference());
+        Expression const& expression(term.getExpressionConstReference());
         if(OperatorLevel::MultiplicationAndDivision == expression.getCommonOperatorLevel())
         {
             result = TermsOverTerms(expression.getTermsWithAssociation().getTermsWithDetails());
@@ -93,7 +87,7 @@ TermsOverTerms createTermsOverTermsFromTerm(Term const& term)
     }
     if(!isResultUpdatedWithContent)
     {
-        result = TermsOverTerms({simplifiedTerm}, {Term(1)});
+        result = TermsOverTerms({term}, {Term(1)});
     }
     result.simplify();
     return result;

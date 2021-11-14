@@ -1042,7 +1042,10 @@ void Integration::integrateAsPolynomialOverPolynomialIfPossible(
     VariableNamesSet const& variableNames(retriever.getSavedData());
     if(variableNames.size() == 1)
     {
-        PolynomialOverPolynomialOptional popOptional(createPolynomialOverPolynomialFromTermIfPossible(term));
+        Term simplifiedTerm(term);
+        simplifiedTerm.clearAllInnerInternalFlags();
+        simplifiedTerm.simplify();
+        PolynomialOverPolynomialOptional popOptional(createPolynomialOverPolynomialFromTermIfPossible(simplifiedTerm));
         if(popOptional.hasContent())
         {
             integrateAsPolynomialOverPolynomial(result, popOptional.getConstReference(), *(variableNames.begin()), canProceedToPartialPolynomialFractions);
@@ -1985,18 +1988,20 @@ void Integration::simplifyForIntegration(
         Configuration const& configuration) const
 {
     simplifyAndFixTrigonometricFunctions(term, configuration.shouldFixTrigonometricFunctions);
-    term.clearInternalFlagsIncludingUnderlyingTermType();
+    term.clearAllInnerInternalFlags();
     term.simplify();
     {
         SimplificationOfExpression::ScopeObject scopeObject;
         scopeObject.setInThisScopeThisConfiguration(configuration.expressionSimplification);
-        term.clearInternalFlagsIncludingUnderlyingTermType();
+        term.clearAllInnerInternalFlags();
         term.simplify();
     }
 }
+
 void Integration::simplifyAndFixTrigonometricFunctions(
         Term & term,
-        bool const shouldFixTrigonometricFunctions) const{
+        bool const shouldFixTrigonometricFunctions) const
+{
     if(shouldFixTrigonometricFunctions)
     {
         TermsOverTerms termsOverTerms(createTermsOverTermsFromTerm(term));

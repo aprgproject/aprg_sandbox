@@ -36,7 +36,7 @@ public:
             AlbaNumber const& value,
             FunctionForCheckingValues const& isValueAcceptedFunction);
     void determineAndAddAcceptedIntervals(
-            AlbaNumbers const& valuesToCheck,
+            AlbaNumbers const& additionalValuesToCheck,
             FunctionForCheckingValues const& isValueAcceptedFunction);
 
 private:

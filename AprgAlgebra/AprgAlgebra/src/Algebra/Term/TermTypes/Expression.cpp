@@ -23,19 +23,21 @@ Expression::Expression()
     , m_isSimplified(false)
 {}
 
-Expression::Expression(        Expression const& expression)
+Expression::Expression(
+        Expression const& expression)
     : m_commonOperatorLevel(expression.m_commonOperatorLevel)
     , m_termsWithAssociation(expression.m_termsWithAssociation)
-    , m_isSimplified(false)
+    , m_isSimplified(expression.m_isSimplified)
 {}
 
 Expression::Expression(BaseTerm const& baseTerm)
     : m_commonOperatorLevel(OperatorLevel::Unknown)
     , m_termsWithAssociation()
-    , m_isSimplified(false)
+    , m_isSimplified(getTermConstReferenceFromBaseTerm(baseTerm).isSimplified())
 {
     m_termsWithAssociation.putTermWithPositiveAssociation(baseTerm);
 }
+
 Expression::Expression(
         OperatorLevel const operatorLevel,
         TermsWithDetails const& termsWithDetails)
@@ -44,9 +46,11 @@ Expression::Expression(
     , m_isSimplified(false)
 {
     if(termsWithDetails.empty())
-    {        m_commonOperatorLevel = OperatorLevel::Unknown;
+    {
+        m_commonOperatorLevel = OperatorLevel::Unknown;
     }
 }
+
 Expression::~Expression()
 {}
 
@@ -109,10 +113,12 @@ TermsWithAssociation const& Expression::getTermsWithAssociation() const
 
 string Expression::getDisplayableString() const
 {
-    bool isFirst(true);    stringstream result;
+    bool isFirst(true);
+    stringstream result;
     TermsWithDetails const& termsWithDetails(m_termsWithAssociation.getTermsWithDetails());
     result << "(";
-    for(TermWithDetails const& termWithDetails : termsWithDetails)    {
+    for(TermWithDetails const& termWithDetails : termsWithDetails)
+    {
         Term const& term(getTermConstReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer));
         if(isFirst)
         {
@@ -166,16 +172,19 @@ void Expression::clear()
     clearInternalFlags();
 }
 
-void Expression::clearAndPutTermInTermsWithAssociation(BaseTerm const& baseTerm){
+void Expression::clearAndPutTermInTermsWithAssociation(BaseTerm const& baseTerm)
+{
     clear();
     m_termsWithAssociation.putTermWithPositiveAssociation(baseTerm);
     clearInternalFlags();
 }
 
-void Expression::putTermWithAdditionIfNeeded(BaseTerm const& baseTerm){
+void Expression::putTermWithAdditionIfNeeded(BaseTerm const& baseTerm)
+{
     Term const& term(getTermConstReferenceFromBaseTerm(baseTerm));
     if(willHaveNoEffectOnAdditionOrSubtraction(term))
-    {        if(this->isEmpty())
+    {
+        if(this->isEmpty())
         {
             setTerm(Term(Constant(0)));
         }
@@ -196,10 +205,12 @@ void Expression::putTermWithAdditionIfNeeded(BaseTerm const& baseTerm){
     clearInternalFlags();
 }
 
-void Expression::putTermWithSubtractionIfNeeded(BaseTerm const& baseTerm){
+void Expression::putTermWithSubtractionIfNeeded(BaseTerm const& baseTerm)
+{
     Term const& term(getTermConstReferenceFromBaseTerm(baseTerm));
     if(willHaveNoEffectOnAdditionOrSubtraction(term))
-    {        if(this->isEmpty())
+    {
+        if(this->isEmpty())
         {
             setTerm(Term(Constant(0)));
         }
@@ -222,10 +233,12 @@ void Expression::putTermWithSubtractionIfNeeded(BaseTerm const& baseTerm){
     clearInternalFlags();
 }
 
-void Expression::putTermWithMultiplicationIfNeeded(BaseTerm const& baseTerm){
+void Expression::putTermWithMultiplicationIfNeeded(BaseTerm const& baseTerm)
+{
     Term const& term(getTermConstReferenceFromBaseTerm(baseTerm));
     if(term.isExpression())
-    {        putExpressionWithMultiplication(term.getExpressionConstReference());
+    {
+        putExpressionWithMultiplication(term.getExpressionConstReference());
     }
     else
     {
@@ -234,10 +247,12 @@ void Expression::putTermWithMultiplicationIfNeeded(BaseTerm const& baseTerm){
     clearInternalFlags();
 }
 
-void Expression::putTermWithDivisionIfNeeded(BaseTerm const& baseTerm){
+void Expression::putTermWithDivisionIfNeeded(BaseTerm const& baseTerm)
+{
     Term const& term(getTermConstReferenceFromBaseTerm(baseTerm));
     if(willHaveNoEffectOnMultiplicationOrDivisionOrRaiseToPower(term))
-    {        if(this->isEmpty())
+    {
+        if(this->isEmpty())
         {
             setTerm(Term(1));
         }
@@ -260,10 +275,12 @@ void Expression::putTermWithDivisionIfNeeded(BaseTerm const& baseTerm){
     clearInternalFlags();
 }
 
-void Expression::putTermWithRaiseToPowerIfNeeded(BaseTerm const& baseTerm){
+void Expression::putTermWithRaiseToPowerIfNeeded(BaseTerm const& baseTerm)
+{
     Term const& term(getTermConstReferenceFromBaseTerm(baseTerm));
     if(!willHaveNoEffectOnMultiplicationOrDivisionOrRaiseToPower(term))
-    {        if(isEmpty())
+    {
+        if(isEmpty())
         {
             setTerm(baseTerm);
         }
@@ -275,10 +292,12 @@ void Expression::putTermWithRaiseToPowerIfNeeded(BaseTerm const& baseTerm){
     clearInternalFlags();
 }
 
-void Expression::putPolynomialFirstWithMultiplication(Polynomial const& polynomial){
+void Expression::putPolynomialFirstWithMultiplication(Polynomial const& polynomial)
+{
     if(OperatorLevel::AdditionAndSubtraction == m_commonOperatorLevel)
     {
-        TermsWithDetails termsWithDetails(m_termsWithAssociation.getTermsWithDetails());        clear();
+        TermsWithDetails termsWithDetails(m_termsWithAssociation.getTermsWithDetails());
+        clear();
         distributeAndMultiply(polynomial, termsWithDetails);
     }
     else
@@ -290,10 +309,12 @@ void Expression::putPolynomialFirstWithMultiplication(Polynomial const& polynomi
     clearInternalFlags();
 }
 
-void Expression::putPolynomialSecondWithMultiplication(Polynomial const& polynomial){
+void Expression::putPolynomialSecondWithMultiplication(Polynomial const& polynomial)
+{
     if(OperatorLevel::AdditionAndSubtraction == m_commonOperatorLevel)
     {
-        TermsWithDetails termsWithDetails(m_termsWithAssociation.getTermsWithDetails());        clear();
+        TermsWithDetails termsWithDetails(m_termsWithAssociation.getTermsWithDetails());
+        clear();
         distributeAndMultiply(termsWithDetails, polynomial);
     }
     else
@@ -305,10 +326,12 @@ void Expression::putPolynomialSecondWithMultiplication(Polynomial const& polynom
     clearInternalFlags();
 }
 
-void Expression::putExpressionWithMultiplication(Expression const& secondExpression){
+void Expression::putExpressionWithMultiplication(Expression const& secondExpression)
+{
     if(isEmpty()
             || (containsOnlyOnePositivelyAssociatedTerm()
-                && willHaveNoEffectOnMultiplicationOrDivisionOrRaiseToPower(getTermConstReferenceFromBaseTerm(getFirstTermConstReference()))))    {
+                && willHaveNoEffectOnMultiplicationOrDivisionOrRaiseToPower(getTermConstReferenceFromBaseTerm(getFirstTermConstReference()))))
+    {
         putOnlyTermWithMultiplicationIfNeeded(Term(secondExpression));
     }
     else if(OperatorLevel::AdditionAndSubtraction == m_commonOperatorLevel
@@ -346,7 +369,8 @@ void Expression::putTermWithDetails(TermWithDetails const& termToSave)
     clearInternalFlags();
 }
 
-void Expression::putTermsWithDetails(TermsWithDetails const& termsToSave){
+void Expression::putTermsWithDetails(TermsWithDetails const& termsToSave)
+{
     for(TermWithDetails const& termWithDetails : termsToSave)
     {
         m_termsWithAssociation.putTermWithDetails(termWithDetails);
@@ -354,10 +378,12 @@ void Expression::putTermsWithDetails(TermsWithDetails const& termsToSave){
     clearInternalFlags();
 }
 
-void Expression::putTerm(BaseTerm const& baseTerm, TermAssociationType const overallAssociation){
+void Expression::putTerm(BaseTerm const& baseTerm, TermAssociationType const overallAssociation)
+{
     if(TermAssociationType::Positive == overallAssociation)
     {
-        m_termsWithAssociation.putTermWithPositiveAssociation(baseTerm);    }
+        m_termsWithAssociation.putTermWithPositiveAssociation(baseTerm);
+    }
     else if(TermAssociationType::Negative == overallAssociation)
     {
         m_termsWithAssociation.putTermWithNegativeAssociation(baseTerm);
@@ -371,13 +397,15 @@ void Expression::reverseTheAssociationOfTheTerms()
     clearInternalFlags();
 }
 
-void Expression::set(OperatorLevel const operatorLevel, TermsWithDetails const& termsWithDetails){
+void Expression::set(OperatorLevel const operatorLevel, TermsWithDetails const& termsWithDetails)
+{
     m_commonOperatorLevel = operatorLevel;
     m_termsWithAssociation.putTermsWithDetails(termsWithDetails);
     clearInternalFlags();
 }
 
-void Expression::setTerm(BaseTerm const& baseTerm){
+void Expression::setTerm(BaseTerm const& baseTerm)
+{
     *this = createOrCopyExpressionFromATerm(
                 getTermConstReferenceFromBaseTerm(baseTerm));
     clearInternalFlags();
@@ -389,7 +417,8 @@ void Expression::setCommonOperatorLevel(OperatorLevel const operatorLevel)
     clearInternalFlags();
 }
 
-void Expression::setCommonOperatorLevelIfStillUnknown(OperatorLevel const operatorLevel){
+void Expression::setCommonOperatorLevelIfStillUnknown(OperatorLevel const operatorLevel)
+{
     if(OperatorLevel::Unknown == m_commonOperatorLevel)
     {
         m_commonOperatorLevel = operatorLevel;
@@ -424,12 +453,24 @@ void Expression::clearInternalFlags()
     m_isSimplified = false;
 }
 
+void Expression::clearAllInnerInternalFlags()
+{
+    for(TermWithDetails & termWithDetails : m_termsWithAssociation.getTermsWithDetailsReference())
+    {
+        Term & term(getTermReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer));
+        term.clearAllInnerInternalFlags();
+    }
+    clearInternalFlags();
+}
+
 void Expression::putTermWithAddition(BaseTerm const& baseTerm)
 {
-    switch(m_commonOperatorLevel)    {
+    switch(m_commonOperatorLevel)
+    {
     case OperatorLevel::Unknown:
     case OperatorLevel::AdditionAndSubtraction:
-    {        m_commonOperatorLevel = OperatorLevel::AdditionAndSubtraction;
+    {
+        m_commonOperatorLevel = OperatorLevel::AdditionAndSubtraction;
         putTermForExpressionAndNonExpressions(baseTerm, TermAssociationType::Positive);
         break;
     }

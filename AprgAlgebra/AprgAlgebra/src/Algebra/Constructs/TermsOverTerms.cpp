@@ -528,9 +528,11 @@ void TermsOverTerms::simplifyPolynomialNumeratorAndPolynomialDenominator(
     polynomialDenominator = numeratorAndDenominator.getDenominator();
 }
 
+
 void TermsOverTerms::simplifyMonomialsToPolynomialOverPolynomial()
 {
-    Terms monomialsNumerators, nonMonomialNumerators, monomialDenominators, nonMonomialDenominators;    segregateMonomialsAndNonMonomials(m_numerators, monomialsNumerators, nonMonomialNumerators);
+    Terms monomialsNumerators, nonMonomialNumerators, monomialDenominators, nonMonomialDenominators;
+    segregateMonomialsAndNonMonomials(m_numerators, monomialsNumerators, nonMonomialNumerators);
     segregateMonomialsAndNonMonomials(m_denominators, monomialDenominators, nonMonomialDenominators);
     Polynomial polynomialNumerator(multiplyPolynomialTerms(monomialsNumerators));
     Polynomial polynomialDenominator(multiplyPolynomialTerms(monomialDenominators));
