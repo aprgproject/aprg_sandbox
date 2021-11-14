@@ -414,7 +414,7 @@ TEST(TermTest, LessThanOperatorWorks)
 TEST(TermTest, IsEmptyWorks)
 {
     Term term1;
-    Term term2(Constant(0));
+    Term term2(0);
     Term term3(1);
     Term term4(Variable("length"));
     Term term5(Operator("+"));
@@ -598,7 +598,7 @@ TEST(TermTest, IsSimplifiedWorks)
 TEST(TermTest, GetTermTypeWorks)
 {
     Term term1;
-    Term term2(Constant(0));
+    Term term2(0);
     Term term3(Variable("length"));
     Term term4(Operator("+"));
     Term term5(Monomial(1, {}));
@@ -619,7 +619,7 @@ TEST(TermTest, GetTermTypeWorks)
 TEST(TermTest, GetDisplayableStringWorks)
 {
     Term term1;
-    Term term2(Constant(0));
+    Term term2(0);
     Term term3(Variable("length"));
     Term term4(Operator("+"));
     Term term5(Monomial(-1.5, {{"distance", -3.75}, {"power", 4.5}}));
@@ -644,7 +644,7 @@ TEST(TermTest, GetDisplayableStringWorks)
 TEST(TermTest, GetDebugStringWorks)
 {
     Term term1;
-    Term term2(Constant(0));
+    Term term2(0);
     Term term3(Variable("length"));
     Term term4(Operator("+"));
     Term term5(Monomial(-1.5, {{"distance", -3.75}, {"power", 4.5}}));

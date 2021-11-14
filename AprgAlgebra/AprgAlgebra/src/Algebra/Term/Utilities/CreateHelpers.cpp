@@ -175,7 +175,7 @@ Function createFunctionInAnFunction(
 Term createTermWithAdditionAndSubtractionTermsWithDetails(
         TermsWithDetails const& termsWithDetails)
 {
-    Term result(Constant(0));
+    Term result(0);
     if(!termsWithDetails.empty())
     {
         result = convertExpressionToSimplestTerm(Expression(OperatorLevel::AdditionAndSubtraction, termsWithDetails));

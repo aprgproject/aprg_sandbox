@@ -454,9 +454,11 @@ int getStirlingNumberOfTheSecondKind(unsigned int const n, unsigned int const k)
     return static_cast<int>(sum.getInteger());
 }
 
-double getCumulativeStandardDistributionApproximation(double const z){
+double getCumulativeStandardDistributionApproximation(double const z)
+{
     return 0.5 * erfc(-z * pow(0.5, 0.5));
 }
+
 double getInverseCumulativeStandardDistributionApproximation(double const probability, unsigned int const numberOfIterations)
 {
     double lowestZ=-10, highestZ=10, z(0);

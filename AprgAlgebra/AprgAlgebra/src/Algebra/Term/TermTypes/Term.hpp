@@ -26,8 +26,11 @@ class Term : public BaseTerm
 public:
     Term();
     Term(Term const& term);
-    Term(Constant const& constant);
+    explicit Term(int const signedValue);
+    explicit Term(unsigned int const unsignedValue);
+    explicit Term(double const doubleValue);
     Term(std::string const& stringTerm);
+    Term(Constant const& constant);
     Term(Variable const& variable);
     Term(Operator const& operatorTerm);
     Term(Monomial const& monomial);
@@ -86,7 +89,9 @@ private:
 };
 
 using Terms = std::vector<Term>;
+
 std::ostream & operator<<(std::ostream & out, Term const& term);
 
 }
+
 }

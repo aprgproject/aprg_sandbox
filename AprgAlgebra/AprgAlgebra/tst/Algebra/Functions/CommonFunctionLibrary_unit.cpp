@@ -56,10 +56,10 @@ TEST(CommonFunctionLibraryTest, FactorialFunctionWorks)
 
 TEST(CommonFunctionLibraryTest, FactorialFunctionWorksWhenInputIsZero)
 {
-    Function signumFunctionObject(factorial(Term(Constant(0))));
+    Function signumFunctionObject(factorial(Term(0)));
 
     EXPECT_EQ("factorial", signumFunctionObject.getFunctionName());
-    EXPECT_EQ(Term(Constant(0)), getTermConstReferenceFromBaseTerm(signumFunctionObject.getInputTermConstReference()));
+    EXPECT_EQ(Term(0), getTermConstReferenceFromBaseTerm(signumFunctionObject.getInputTermConstReference()));
     EXPECT_EQ(AlbaNumber(1), signumFunctionObject.performFunctionAndReturnResultIfPossible());
 }
 
@@ -164,10 +164,10 @@ TEST(CommonFunctionLibraryTest, ArcCosineFunctionWorks)
 
 TEST(CommonFunctionLibraryTest, ArcTangentFunctionWorks)
 {
-    Function arcTangentFunction(arctan(Term(Constant(0))));
+    Function arcTangentFunction(arctan(Term(0)));
 
     EXPECT_EQ("arctan", arcTangentFunction.getFunctionName());
-    EXPECT_EQ(Term(Constant(0)), getTermConstReferenceFromBaseTerm(arcTangentFunction.getInputTermConstReference()));
+    EXPECT_EQ(Term(0), getTermConstReferenceFromBaseTerm(arcTangentFunction.getInputTermConstReference()));
     EXPECT_EQ(AlbaNumber(0), arcTangentFunction.performFunctionAndReturnResultIfPossible());
 }
 
@@ -191,10 +191,10 @@ TEST(CommonFunctionLibraryTest, ArcSecantFunctionWorks)
 
 TEST(CommonFunctionLibraryTest, ArcCotangentFunctionWorks)
 {
-    Function arcCotangentFunction(arccot(Term(Constant(0))));
+    Function arcCotangentFunction(arccot(Term(0)));
 
     EXPECT_EQ("arccot", arcCotangentFunction.getFunctionName());
-    EXPECT_EQ(Term(Constant(0)), getTermConstReferenceFromBaseTerm(arcCotangentFunction.getInputTermConstReference()));
+    EXPECT_EQ(Term(0), getTermConstReferenceFromBaseTerm(arcCotangentFunction.getInputTermConstReference()));
     EXPECT_EQ(AlbaNumber(getPi()/2), arcCotangentFunction.performFunctionAndReturnResultIfPossible());
 }
 

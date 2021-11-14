@@ -23,7 +23,7 @@ TEST(SimplificationOfEquationTest, SimplifyWorksOnEqualityOperator)
     Equation simplifiedEquation(simplification.getEquation());
     EXPECT_EQ(Term(Polynomial{Monomial(1, {{"x", 1}}), Monomial(-1, {{"y", 1}})}), simplifiedEquation.getLeftHandTerm());
     EXPECT_EQ("=", simplifiedEquation.getEquationOperator().getOperatorString());
-    EXPECT_EQ(Term(Constant(0)), simplifiedEquation.getRightHandTerm());
+    EXPECT_EQ(Term(0), simplifiedEquation.getRightHandTerm());
 }
 
 TEST(SimplificationOfEquationTest, SimplifyWorksOnLessThanOperator)
@@ -35,7 +35,7 @@ TEST(SimplificationOfEquationTest, SimplifyWorksOnLessThanOperator)
     Equation simplifiedEquation(simplification.getEquation());
     EXPECT_EQ(Term(Polynomial{Monomial(1, {{"x", 1}}), Monomial(-1, {{"y", 1}})}), simplifiedEquation.getLeftHandTerm());
     EXPECT_EQ("<", simplifiedEquation.getEquationOperator().getOperatorString());
-    EXPECT_EQ(Term(Constant(0)), simplifiedEquation.getRightHandTerm());
+    EXPECT_EQ(Term(0), simplifiedEquation.getRightHandTerm());
 }
 
 TEST(SimplificationOfEquationTest, SimplifyWorksOnGreaterThanOperator)
@@ -47,7 +47,7 @@ TEST(SimplificationOfEquationTest, SimplifyWorksOnGreaterThanOperator)
     Equation simplifiedEquation(simplification.getEquation());
     EXPECT_EQ(Term(Polynomial{Monomial(1, {{"x", 1}}), Monomial(-1, {{"y", 1}})}), simplifiedEquation.getLeftHandTerm());
     EXPECT_EQ(">", simplifiedEquation.getEquationOperator().getOperatorString());
-    EXPECT_EQ(Term(Constant(0)), simplifiedEquation.getRightHandTerm());
+    EXPECT_EQ(Term(0), simplifiedEquation.getRightHandTerm());
 }
 
 TEST(SimplificationOfEquationTest, SimplifyWorksOnLessThanOrEqualOperator)
@@ -59,7 +59,7 @@ TEST(SimplificationOfEquationTest, SimplifyWorksOnLessThanOrEqualOperator)
     Equation simplifiedEquation(simplification.getEquation());
     EXPECT_EQ(Term(Polynomial{Monomial(1, {{"x", 1}}), Monomial(-1, {{"y", 1}})}), simplifiedEquation.getLeftHandTerm());
     EXPECT_EQ("<=", simplifiedEquation.getEquationOperator().getOperatorString());
-    EXPECT_EQ(Term(Constant(0)), simplifiedEquation.getRightHandTerm());
+    EXPECT_EQ(Term(0), simplifiedEquation.getRightHandTerm());
 }
 
 TEST(SimplificationOfEquationTest, SimplifyWorksToHaveCommonDenominator)
@@ -78,13 +78,13 @@ TEST(SimplificationOfEquationTest, SimplifyWorksToHaveCommonDenominator)
     Term expectedTerm(createExpressionIfPossible({Term(expectedNumerator), Term("/"), Term(expectedDenominator)}));
     EXPECT_EQ(expectedTerm, simplifiedEquation.getLeftHandTerm());
     EXPECT_EQ("=", simplifiedEquation.getEquationOperator().getOperatorString());
-    EXPECT_EQ(Term(Constant(0)), simplifiedEquation.getRightHandTerm());
+    EXPECT_EQ(Term(0), simplifiedEquation.getRightHandTerm());
 }
 
 TEST(SimplificationOfEquationTest, SimplifyWorksOnSimplifyingAnExpression)
 {
     Expression expression(createExpressionIfPossible({Term(451), Term("/"), Term(523)}));
-    SimplificationOfEquation simplification(Equation(Term(expression), "=", Term(Constant(0))));
+    SimplificationOfEquation simplification(Equation(Term(expression), "=", Term(0)));
 
     simplification.simplify();
 
@@ -92,7 +92,7 @@ TEST(SimplificationOfEquationTest, SimplifyWorksOnSimplifyingAnExpression)
     Term expectedTerm(AlbaNumber::createFraction(451, 523));
     EXPECT_EQ(expectedTerm, simplifiedEquation.getLeftHandTerm());
     EXPECT_EQ("=", simplifiedEquation.getEquationOperator().getOperatorString());
-    EXPECT_EQ(Term(Constant(0)), simplifiedEquation.getRightHandTerm());
+    EXPECT_EQ(Term(0), simplifiedEquation.getRightHandTerm());
 }
 
 TEST(SimplificationOfEquationTest, SimplifyWorksOnNegatingTermIfNeeded)
@@ -106,25 +106,25 @@ TEST(SimplificationOfEquationTest, SimplifyWorksOnNegatingTermIfNeeded)
     Equation simplifiedEquation1(simplification1.getEquation());
     EXPECT_EQ(Term(Polynomial{Monomial(1, {{"x", 1}}), Monomial(-1, {{"y", 1}})}), simplifiedEquation1.getLeftHandTerm());
     EXPECT_EQ("=", simplifiedEquation1.getEquationOperator().getOperatorString());
-    EXPECT_EQ(Term(Constant(0)), simplifiedEquation1.getRightHandTerm());
+    EXPECT_EQ(Term(0), simplifiedEquation1.getRightHandTerm());
     Equation simplifiedEquation2(simplification2.getEquation());
     EXPECT_EQ(Term(Polynomial{Monomial(1, {{"x", 1}}), Monomial(-1, {{"y", 1}})}), simplifiedEquation2.getLeftHandTerm());
     EXPECT_EQ("=", simplifiedEquation2.getEquationOperator().getOperatorString());
-    EXPECT_EQ(Term(Constant(0)), simplifiedEquation2.getRightHandTerm());
+    EXPECT_EQ(Term(0), simplifiedEquation2.getRightHandTerm());
 }
 
 TEST(SimplificationOfEquationTest, SimplifyWorksOnRemovingExponentIfNeeded)
 {
     Polynomial polynomial{Monomial(1, {{"x", 1}}), Monomial(1, {})};
     Expression expression(createExpressionIfPossible({Term(polynomial), Term("^"), Term("x")}));
-    SimplificationOfEquation simplification(Equation(Term(expression), "=", Term(Constant(0))));
+    SimplificationOfEquation simplification(Equation(Term(expression), "=", Term(0)));
 
     simplification.simplify();
 
     Equation simplifiedEquation(simplification.getEquation());
     EXPECT_EQ(Term(polynomial), simplifiedEquation.getLeftHandTerm());
     EXPECT_EQ("=", simplifiedEquation.getEquationOperator().getOperatorString());
-    EXPECT_EQ(Term(Constant(0)), simplifiedEquation.getRightHandTerm());
+    EXPECT_EQ(Term(0), simplifiedEquation.getRightHandTerm());
 }
 
 TEST(SimplificationOfEquationTest, SimplifyWorksOnCompletingExpressionWithFractionalExponentsIfNeeded)
@@ -135,7 +135,7 @@ TEST(SimplificationOfEquationTest, SimplifyWorksOnCompletingExpressionWithFracti
     {Term(polynomial1), Term("^"), Term(AlbaNumber::createFraction(1, 2)),
      Term("-"),
      Term(polynomial2), Term("^"), Term(AlbaNumber::createFraction(1, 3))}));
-    SimplificationOfEquation simplification(Equation(Term(expression), "=", Term(Constant(0))));
+    SimplificationOfEquation simplification(Equation(Term(expression), "=", Term(0)));
 
     simplification.simplify();
 
@@ -143,7 +143,7 @@ TEST(SimplificationOfEquationTest, SimplifyWorksOnCompletingExpressionWithFracti
     Equation simplifiedEquation(simplification.getEquation());
     EXPECT_EQ(Term(expectedPolynomial), simplifiedEquation.getLeftHandTerm());
     EXPECT_EQ("=", simplifiedEquation.getEquationOperator().getOperatorString());
-    EXPECT_EQ(Term(Constant(0)), simplifiedEquation.getRightHandTerm());
+    EXPECT_EQ(Term(0), simplifiedEquation.getRightHandTerm());
 }
 
 TEST(SimplificationOfEquationTest, SimplifyWorksXPlusOneToTheOneHalf)
@@ -158,7 +158,7 @@ TEST(SimplificationOfEquationTest, SimplifyWorksXPlusOneToTheOneHalf)
     Equation simplifiedEquation(simplification.getEquation());
     EXPECT_EQ(Term(expectedPolynomial), simplifiedEquation.getLeftHandTerm());
     EXPECT_EQ("=", simplifiedEquation.getEquationOperator().getOperatorString());
-    EXPECT_EQ(Term(Constant(0)), simplifiedEquation.getRightHandTerm());
+    EXPECT_EQ(Term(0), simplifiedEquation.getRightHandTerm());
 }
 
 }

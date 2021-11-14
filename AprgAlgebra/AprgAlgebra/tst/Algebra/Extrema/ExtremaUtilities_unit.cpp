@@ -110,7 +110,7 @@ TEST(ExtremaUtilitiesTest, IsConcaveUpwardAtWorks)
 
 TEST(ExtremaUtilitiesTest, HasPointOfInflectionAtWorks)
 {
-    EXPECT_FALSE(hasPointOfInflectionAt(Term(Constant(0)), "x", 0));
+    EXPECT_FALSE(hasPointOfInflectionAt(Term(0), "x", 0));
     EXPECT_FALSE(hasPointOfInflectionAt(Term(Monomial(1, {{"x", 3}})), "x", -3));
     EXPECT_TRUE(hasPointOfInflectionAt(Term(Monomial(1, {{"x", 3}})), "x", 0));
     EXPECT_FALSE(hasPointOfInflectionAt(Term(Monomial(1, {{"x", 3}})), "x", 3));

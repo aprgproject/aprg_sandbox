@@ -677,7 +677,7 @@ TEST(TermOperatorsTest, BinaryMinusOperator_VariableSubtractVariableWithSameVari
 {
     Term term(Variable("i") - Variable("i"));
 
-    EXPECT_EQ(Term(Constant(0)), term);
+    EXPECT_EQ(Term(0), term);
 }
 
 TEST(TermOperatorsTest, BinaryMinusOperator_VariableSubtractVariableWithDifferentVariableOperationWorks)
@@ -767,7 +767,7 @@ TEST(TermOperatorsTest, BinaryMinusOperator_MonomialSubtractMonomialThatResultsI
 {
     Term term(Monomial(4, {{"x", 2}}) - Monomial(4, {{"x", 2}}));
 
-    EXPECT_EQ(Term(Constant(0)), term);
+    EXPECT_EQ(Term(0), term);
 }
 
 TEST(TermOperatorsTest, BinaryMinusOperator_MonomialSubtractMonomialWithSameMonomialOperationWorks)
@@ -843,7 +843,7 @@ TEST(TermOperatorsTest, BinaryMinusOperator_PolynomialSubtractPolynomialThatResu
 {
     Term term(Polynomial{Monomial(5, {}), Monomial(2, {{"x", 1}})} - Polynomial{Monomial(5, {}), Monomial(2, {{"x", 1}})});
 
-    EXPECT_EQ(Term(Constant(0)), term);
+    EXPECT_EQ(Term(0), term);
 }
 
 TEST(TermOperatorsTest, BinaryMinusOperator_PolynomialSubtractPolynomialOperationWorks)
@@ -1081,14 +1081,14 @@ TEST(TermOperatorsTest, BinaryMultiplyOperator_EmptyAddConstantOperationWorks)
 {
     Term term(Term() * Constant(2));
 
-    EXPECT_EQ(Term(Constant(0)), term);
+    EXPECT_EQ(Term(0), term);
 }
 
 TEST(TermOperatorsTest, BinaryMultiplyOperator_ConstantAddEmptyOperationWorks)
 {
     Term term(Constant(6) * Term());
 
-    EXPECT_EQ(Term(Constant(0)), term);
+    EXPECT_EQ(Term(0), term);
 }
 
 TEST(TermOperatorsTest, BinaryMultiplyOperator_ConstantMultiplyConstantOperationWorks)
@@ -1562,7 +1562,7 @@ TEST(TermOperatorsTest, BinaryDivideOperator_EmptyAddConstantOperationWorks)
 {
     Term term(Term() / Constant(2));
 
-    EXPECT_EQ(Term(Constant(0)), term);
+    EXPECT_EQ(Term(0), term);
 }
 
 TEST(TermOperatorsTest, BinaryDivideOperator_ConstantAddEmptyOperationWorks)
@@ -2062,7 +2062,7 @@ TEST(TermOperatorsTest, BinaryRaiseToPowerOperator_EmptyAddConstantOperationWork
 {
     Term term(Term() ^ Constant(2));
 
-    EXPECT_EQ(Term(Constant(0)), term);
+    EXPECT_EQ(Term(0), term);
 }
 
 TEST(TermOperatorsTest, BinaryRaiseToPowerOperator_ConstantAddEmptyOperationWorks)
@@ -2674,56 +2674,56 @@ TEST(TermOperatorsTest, ValueIsZeroWhenSubtractingSameConstant)
 {
     Term term(Constant(24) - Constant(24));
 
-    EXPECT_EQ(Term(Constant(0)), term);
+    EXPECT_EQ(Term(0), term);
 }
 
 TEST(TermOperatorsTest, ValueIsZeroWhenSubtractingSameVariable)
 {
     Term term(Variable("power") - Variable("power"));
 
-    EXPECT_EQ(Term(Constant(0)), term);
+    EXPECT_EQ(Term(0), term);
 }
 
 TEST(TermOperatorsTest, ValueIsZeroWhenSubtractingSameMonomial)
 {
     Term term(Monomial(15, {{"x", 4}}) - Monomial(15, {{"x", 4}}));
 
-    EXPECT_EQ(Term(Constant(0)), term);
+    EXPECT_EQ(Term(0), term);
 }
 
 TEST(TermOperatorsTest, ValueIsZeroWhenSubtractingSamePolynomial)
 {
     Term term(Polynomial{Monomial(5, {}), Monomial(6, {{"x", 7}})} - Polynomial{Monomial(5, {}), Monomial(6, {{"x", 7}})});
 
-    EXPECT_EQ(Term(Constant(0)), term);
+    EXPECT_EQ(Term(0), term);
 }
 
 TEST(TermOperatorsTest, ValueIsZeroWhenMultiplyingZeroToConstant)
 {
-    Term term(Constant(0) * Constant(24));
+    Term term(0 * Constant(24));
 
-    EXPECT_EQ(Term(Constant(0)), term);
+    EXPECT_EQ(Term(0), term);
 }
 
 TEST(TermOperatorsTest, ValueIsZeroWhenMultiplyingZeroToVariable)
 {
-    Term term(Constant(0) * Variable("power"));
+    Term term(0 * Variable("power"));
 
-    EXPECT_EQ(Term(Constant(0)), term);
+    EXPECT_EQ(Term(0), term);
 }
 
 TEST(TermOperatorsTest, ValueIsZeroWhenMultiplyingZeroToMonomial)
 {
-    Term term(Constant(0) * Monomial(15, {{"x", 4}}));
+    Term term(0 * Monomial(15, {{"x", 4}}));
 
-    EXPECT_EQ(Term(Constant(0)), term);
+    EXPECT_EQ(Term(0), term);
 }
 
 TEST(TermOperatorsTest, ValueIsZeroWhenMultiplyingZeroToPolynomial)
 {
-    Term term(Constant(0) * Polynomial{Monomial(5, {}), Monomial(6, {{"x", 7}})});
+    Term term(0 * Polynomial{Monomial(5, {}), Monomial(6, {{"x", 7}})});
 
-    EXPECT_EQ(Term(Constant(0)), term);
+    EXPECT_EQ(Term(0), term);
 }
 
 TEST(TermOperatorsTest, ValueIsSameWhenMultiplyingOneToConstant)

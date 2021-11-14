@@ -40,7 +40,7 @@ TEST(NumericalIntegrationUtilitiesTest, GetActualTruncationErrorInTrapezoidalRul
     Term termToTest2(Monomial(1, {{"x", 2}}));
     Term termToTest3(Monomial(1, {{"x", 3}}));
 
-    EXPECT_EQ(Term(Constant(0)), getActualTruncationErrorInTrapezoidalRule(termToTest1, "x", 5, 10, 200));
+    EXPECT_EQ(Term(0), getActualTruncationErrorInTrapezoidalRule(termToTest1, "x", 5, 10, 200));
     EXPECT_EQ(Term(AlbaNumber::createFraction(-1, 1920)), getActualTruncationErrorInTrapezoidalRule(termToTest2, "x", 5, 10, 200));
     EXPECT_EQ(Term(-0.01171875), getActualTruncationErrorInTrapezoidalRule(termToTest3, "x", 5, 10, 200));
 }
@@ -52,9 +52,9 @@ TEST(NumericalIntegrationUtilitiesTest, GetActualTruncationErrorInSimpsonRuleWor
     Term termToTest3(Monomial(1, {{"x", 3}}));
     Term termToTest4(Monomial(1, {{"x", 4}}));
 
-    EXPECT_EQ(Term(Constant(0)), getActualTruncationErrorInSimpsonRule(termToTest1, "x", 5, 10, 200));
-    EXPECT_EQ(Term(Constant(0)), getActualTruncationErrorInSimpsonRule(termToTest2, "x", 5, 10, 200));
-    EXPECT_EQ(Term(Constant(0)), getActualTruncationErrorInSimpsonRule(termToTest3, "x", 5, 10, 200));
+    EXPECT_EQ(Term(0), getActualTruncationErrorInSimpsonRule(termToTest1, "x", 5, 10, 200));
+    EXPECT_EQ(Term(0), getActualTruncationErrorInSimpsonRule(termToTest2, "x", 5, 10, 200));
+    EXPECT_EQ(Term(0), getActualTruncationErrorInSimpsonRule(termToTest3, "x", 5, 10, 200));
     EXPECT_EQ(Term(-2.604210749268532e-007), getActualTruncationErrorInSimpsonRule(termToTest4, "x", 5, 10, 200));
 }
 
@@ -64,7 +64,7 @@ TEST(NumericalIntegrationUtilitiesTest, GetAnApproximateOfTruncationErrorInTrape
     Term termToTest2(Monomial(1, {{"x", 2}}));
     Term termToTest3(Monomial(1, {{"x", 3}}));
 
-    EXPECT_EQ(Term(Constant(0)), getAnApproximateOfTruncationErrorInTrapezoidalRuleAt(termToTest1, "x", 5, 10, 7.5, 0.025));
+    EXPECT_EQ(Term(0), getAnApproximateOfTruncationErrorInTrapezoidalRuleAt(termToTest1, "x", 5, 10, 7.5, 0.025));
     EXPECT_EQ(Term(-0.0005208333333333334), getAnApproximateOfTruncationErrorInTrapezoidalRuleAt(termToTest2, "x", 5, 10, 7.5, 0.025));
     EXPECT_EQ(Term(-0.01171875), getAnApproximateOfTruncationErrorInTrapezoidalRuleAt(termToTest3, "x", 5, 10, 7.5, 0.025));
 }
@@ -76,9 +76,9 @@ TEST(NumericalIntegrationUtilitiesTest, GetAnApproximateOfTruncationErrorInSimps
     Term termToTest3(Monomial(1, {{"x", 3}}));
     Term termToTest4(Monomial(1, {{"x", 4}}));
 
-    EXPECT_EQ(Term(Constant(0)), getAnApproximateOfTruncationErrorInSimpsonRuleAt(termToTest1, "x", 5, 10, 7.5, 0.025));
-    EXPECT_EQ(Term(Constant(0)), getAnApproximateOfTruncationErrorInSimpsonRuleAt(termToTest2, "x", 5, 10, 7.5, 0.025));
-    EXPECT_EQ(Term(Constant(0)), getAnApproximateOfTruncationErrorInSimpsonRuleAt(termToTest3, "x", 5, 10, 7.5, 0.025));
+    EXPECT_EQ(Term(0), getAnApproximateOfTruncationErrorInSimpsonRuleAt(termToTest1, "x", 5, 10, 7.5, 0.025));
+    EXPECT_EQ(Term(0), getAnApproximateOfTruncationErrorInSimpsonRuleAt(termToTest2, "x", 5, 10, 7.5, 0.025));
+    EXPECT_EQ(Term(0), getAnApproximateOfTruncationErrorInSimpsonRuleAt(termToTest3, "x", 5, 10, 7.5, 0.025));
     EXPECT_EQ(Term(-0.0004166666666666667), getAnApproximateOfTruncationErrorInSimpsonRuleAt(termToTest4, "x", 5, 10, 7.5, 0.025));
 }
 

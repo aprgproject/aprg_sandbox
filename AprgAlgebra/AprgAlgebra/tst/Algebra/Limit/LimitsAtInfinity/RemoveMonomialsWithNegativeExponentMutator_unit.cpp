@@ -21,7 +21,7 @@ TEST(RemoveMonomialsWithNegativeExponentMutatorTest, MutateEquationWorks)
     mutator.mutateEquation(equation);
 
     Term expectedLeftHandTerm(Monomial(34, {{"x", 5}}));
-    Term expectedRightHandTerm(Constant(0));
+    Term expectedRightHandTerm(0);
     Equation expectedEquation(expectedLeftHandTerm, "=", expectedRightHandTerm);
     EXPECT_EQ(expectedEquation, equation);
 }
@@ -51,7 +51,7 @@ TEST(RemoveMonomialsWithNegativeExponentMutatorTest, MutateTermWorks)
 
     EXPECT_EQ(Term(110), constantTerm);
     EXPECT_EQ(Term("x"), variableTerm);
-    EXPECT_EQ(Term(Constant(0)), monomialTerm);
+    EXPECT_EQ(Term(0), monomialTerm);
     EXPECT_EQ(Term(Monomial(643, {{"x", 8}})), polynomialTerm);
     EXPECT_EQ(Term(678), expressionTerm);
     EXPECT_EQ(Term(4516), functionTerm);

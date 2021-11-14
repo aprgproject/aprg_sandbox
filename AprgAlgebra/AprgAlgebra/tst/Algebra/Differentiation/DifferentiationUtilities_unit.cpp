@@ -35,6 +35,14 @@ TEST(DifferentiationUtilitiesTest, IsDifferentiableAtWorks)
     EXPECT_TRUE(isDifferentiableAt(termToTest, "x", 2));
 }
 
+TEST(DifferentiationUtilitiesTest, IsDifferentiableAtUsingDerivativeDefinitionWorks)
+{
+    Term termToTest(Monomial(1, {{"x", AlbaNumber::createFraction(1, 3)}}));
+
+    EXPECT_FALSE(isDifferentiableAtUsingDerivativeDefinition(termToTest, "x", 0));
+    EXPECT_TRUE(isDifferentiableAtUsingDerivativeDefinition(termToTest, "x", 2));
+}
+
 TEST(DifferentiationUtilitiesTest, GetDerivativeDefinitionWorks)
 {
     Term termToTest(Polynomial{Monomial(1, {{"a", 2}}), Monomial(1, {})});
@@ -61,7 +69,7 @@ TEST(DifferentiationUtilitiesTest, GetDerivativeAtUsingLimitWorksWhenInputIsACon
 
     Term derivative(getDerivativeAtUsingLimit(termToTest, "x", Term(2), LimitAtAValueApproachType::BothSides));
 
-    EXPECT_EQ(Term(Constant(0)), derivative);
+    EXPECT_EQ(Term(0), derivative);
 }
 
 TEST(DifferentiationUtilitiesTest, GetDerivativeAtUsingLimitWorksWhenXIsAValue)
@@ -156,7 +164,7 @@ TEST(DifferentiationUtilitiesTest, GetRelationshipOfDerivativeOfTheInverseAndThe
 TEST(DifferentiationUtilitiesTest, GetIntegralEquationForFirstOrderDifferentialEquationWorks)
 {
     Term leftHandSide(Polynomial{Monomial(1, {{"d[y]/d[x]", 1}}), Monomial(-2, {{"x", 1}, {"y", 1}}), Monomial(-3, {{"x", 1}})});
-    Equation equationToTest(leftHandSide, "=", Term(Constant(0)));
+    Equation equationToTest(leftHandSide, "=", Term(0));
 
     Equation equationToVerify(getIntegralEquationForFirstOrderDifferentialEquation(equationToTest, "x", "y"));
 
@@ -205,7 +213,7 @@ TEST(DifferentiationUtilitiesTest, GetApproximationUsingTaylorsFormulaWorksForET
     Term x("x");
     Term termToTest(createExpressionIfPossible({getEAsTerm(), Term("^"), x}));
 
-    Term termToVerify(getApproximationUsingTaylorsFormula(termToTest, "x", Term(Constant(0)), Term("q"), 3));
+    Term termToVerify(getApproximationUsingTaylorsFormula(termToTest, "x", Term(0), Term("q"), 3));
 
     string stringToExpect("((1/6)[q^3] + (1/2)[q^2] + 1[q] + 1)");
     EXPECT_EQ(stringToExpect, termToVerify.getDisplayableString());
@@ -216,7 +224,7 @@ TEST(DifferentiationUtilitiesTest, GetApproximationUsingTaylorsFormulaWorksForSi
     Term x("x");
     Term termToTest(sin(x));
 
-    Term termToVerify(getApproximationUsingTaylorsFormula(termToTest, "x", Term(Constant(0)), Term("q"), 8));
+    Term termToVerify(getApproximationUsingTaylorsFormula(termToTest, "x", Term(0), Term("q"), 8));
 
     string stringToExpect("((-1/5040)[q^7] + (1/120)[q^5] + (-1/6)[q^3] + 1[q])");
     EXPECT_EQ(stringToExpect, termToVerify.getDisplayableString());
@@ -227,7 +235,7 @@ TEST(DifferentiationUtilitiesTest, GetApproximationUsingTaylorsRemainderWorks)
     Term x("x");
     Term termToTest(createExpressionIfPossible({getEAsTerm(), Term("^"), x}));
 
-    Term termToVerify(getApproximationUsingTaylorsRemainder(termToTest, "x", Term(Constant(0)), Term(AlbaNumber::createFraction(1, 2)), Term(Constant(0)), 5));
+    Term termToVerify(getApproximationUsingTaylorsRemainder(termToTest, "x", Term(0), Term(AlbaNumber::createFraction(1, 2)), Term(0), 5));
 
     EXPECT_EQ(Term(AlbaNumber::createFraction(1, 46080)), termToVerify);
     // this means the when n=5 the square root of e is accurate up to 4 decimal places.

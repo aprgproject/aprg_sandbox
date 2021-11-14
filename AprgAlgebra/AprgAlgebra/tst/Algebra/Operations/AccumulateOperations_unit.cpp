@@ -28,11 +28,11 @@ TEST(AccumulateOperationsTest, AccumulateAndDoOperationOnTermDetailsWorks)
 
 TEST(AccumulateOperationsTest, AccumulateTermsForAdditionAndSubtractionWorks)
 {
-    Term termToTest(Constant(0));
+    Term termToTest(0);
     Term xToTheY(createExpressionIfPossible({Term("x"), Term("^"), Term("y")}));
     Term term1(createExpressionIfPossible({Term(11), Term("*"), xToTheY}));
     Term term2(createExpressionIfPossible({Term(13), Term("*"), xToTheY}));
-    Term term3(Constant(0));
+    Term term3(0);
     TermsWithDetails termsWithDetails
     {TermWithDetails(term1, TermAssociationType::Negative),
                 TermWithDetails(term2, TermAssociationType::Positive),
@@ -50,14 +50,14 @@ TEST(AccumulateOperationsTest, AccumulateTermsForAdditionAndSubtractionWorksWith
 {
     Term termToTest;
     Term term1;
-    Term term2(Constant(0));
+    Term term2(0);
     TermsWithDetails termsWithDetails
     {TermWithDetails(term1, TermAssociationType::Positive),
                 TermWithDetails(term2, TermAssociationType::Positive)};
 
     accumulateTermsForAdditionAndSubtraction(termToTest, termsWithDetails);
 
-    EXPECT_EQ(Term(Constant(0)), termToTest);
+    EXPECT_EQ(Term(0), termToTest);
 }
 
 TEST(AccumulateOperationsTest, AccumulateTermsForAdditionAndSubtractionWorksWithNan)

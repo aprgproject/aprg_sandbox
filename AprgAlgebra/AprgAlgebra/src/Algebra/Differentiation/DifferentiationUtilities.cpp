@@ -60,6 +60,23 @@ bool isDifferentiableAt(
         AlbaNumber const& value)
 {
     bool result(false);
+    Differentiation differentiation(variableName);
+    Term derivative(differentiation.differentiate(term));
+    SubstitutionOfVariablesToValues substitution{{"x", value}};
+    Term derivativeValue(substitution.performSubstitutionTo(derivative));
+    if(derivativeValue.isConstant())
+    {
+        result = derivativeValue.getConstantValueConstReference().isARealFiniteValue();
+    }
+    return result;
+}
+
+bool isDifferentiableAtUsingDerivativeDefinition(
+        Term const& term,
+        string const& variableName,
+        AlbaNumber const& value)
+{
+    bool result(false);
     Term derivative(getDerivativeAtUsingLimit(term, variableName, Term("x"), LimitAtAValueApproachType::BothSides));
     SubstitutionOfVariablesToValues substitution{{"x", value}};
     Term derivativeValue(substitution.performSubstitutionTo(derivative));

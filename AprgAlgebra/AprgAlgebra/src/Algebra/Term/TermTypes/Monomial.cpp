@@ -19,10 +19,12 @@ Monomial::Monomial()
     , m_isSimplified(false)
 {}
 
-Monomial::Monomial(AlbaNumber const& constant, initializer_list<VariableExponentPair> const& variablesWithExponents)    : m_constant(constant)
+Monomial::Monomial(AlbaNumber const& constant, initializer_list<VariableExponentPair> const& variablesWithExponents)
+    : m_constant(constant)
     , m_variablesToExponentsMap()
     , m_isSimplified(false)
-{    putVariablesWithExponents(variablesWithExponents);
+{
+    putVariablesWithExponents(variablesWithExponents);
 }
 
 Monomial::Monomial(AlbaNumber const& constant, VariablesToExponentsMap const& variablesWithExponents)

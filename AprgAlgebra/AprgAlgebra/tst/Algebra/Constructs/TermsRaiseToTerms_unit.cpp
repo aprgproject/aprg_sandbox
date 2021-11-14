@@ -22,10 +22,12 @@ TEST(TermsRaiseToTermsTest, ConstructionWorks)
     TermsRaiseToTerms::BaseToExponentMap const& mapToVerify(termsRaiseToTerms2.getBaseToExponentMap());
     ASSERT_EQ(3U, mapToVerify.size());
     auto itToVerify = mapToVerify.cbegin();
-    EXPECT_EQ(Term("x"), itToVerify->first);    EXPECT_EQ(Term(1), itToVerify->second);
+    EXPECT_EQ(Term("x"), itToVerify->first);
+    EXPECT_EQ(Term(1), itToVerify->second);
     itToVerify++;
     EXPECT_EQ(Term("y"), itToVerify->first);
-    EXPECT_EQ(Term(-2), itToVerify->second);    itToVerify++;
+    EXPECT_EQ(Term(-2), itToVerify->second);
+    itToVerify++;
     EXPECT_EQ(Term("z"), itToVerify->first);
     EXPECT_EQ(Term(3), itToVerify->second);
 }
@@ -37,10 +39,12 @@ TEST(TermsRaiseToTermsTest, GetBaseToExponentMapWorks)
     TermsRaiseToTerms::BaseToExponentMap const& mapToVerify(termsRaiseToTerms.getBaseToExponentMap());
 
     ASSERT_EQ(3U, mapToVerify.size());
-    auto itToVerify = mapToVerify.cbegin();    EXPECT_EQ(Term("x"), itToVerify->first);
+    auto itToVerify = mapToVerify.cbegin();
+    EXPECT_EQ(Term("x"), itToVerify->first);
     EXPECT_EQ(Term(1), itToVerify->second);
     itToVerify++;
-    EXPECT_EQ(Term("y"), itToVerify->first);    EXPECT_EQ(Term(-2), itToVerify->second);
+    EXPECT_EQ(Term("y"), itToVerify->first);
+    EXPECT_EQ(Term(-2), itToVerify->second);
     itToVerify++;
     EXPECT_EQ(Term("z"), itToVerify->first);
     EXPECT_EQ(Term(3), itToVerify->second);
@@ -252,7 +256,7 @@ TEST(TermsRaiseToTermsTest, RemoveItemWithBaseWorks)
 
 TEST(TermsRaiseToTermsTest, SimplifyWorks)
 {
-    TermsRaiseToTerms termsRaiseToTerms({{Term("x"), Term(1)}, {Term("y"), Term(Constant(0))}, {Term("z"), Term(Constant(0))}});
+    TermsRaiseToTerms termsRaiseToTerms({{Term("x"), Term(1)}, {Term("y"), Term(0)}, {Term("z"), Term(0)}});
 
     termsRaiseToTerms.simplify();
 

@@ -176,7 +176,7 @@ TEST(SignMutatorTest, MutateExpressionWorksOnRaiseToPower)
     mutator.putVariableWithSign("b", TermAssociationType::Negative);
     Expression expression1(createExpressionIfPossible({Term(25), Term("^"), Term("a")}));
     Expression expression2(createExpressionIfPossible({Term(25), Term("^"), Term("b")}));
-    Expression expression3(createExpressionIfPossible({Term("b"), Term("^"), Term(Constant(0))}));
+    Expression expression3(createExpressionIfPossible({Term("b"), Term("^"), Term(0)}));
     Expression expression4(createExpressionIfPossible({Term("b"), Term("^"), Term(2)}));
     Expression expression5(createExpressionIfPossible({Term("b"), Term("^"), Term(3)}));
 

@@ -38,7 +38,7 @@ TEST(TaylorSeriesTest, GetValueAtIndexWorks)
     string stringToExpect1("1");
     string stringToExpect2("(e)[x]");
     string stringToExpect3("(3.694528049465325[x^2] + -7.38905609893065[x] + 7.38905609893065)");
-    EXPECT_EQ(stringToExpect1, series.getValueAtIndex(0, Term(Constant(0))).getDisplayableString());
+    EXPECT_EQ(stringToExpect1, series.getValueAtIndex(0, Term(0)).getDisplayableString());
     EXPECT_EQ(stringToExpect2, series.getValueAtIndex(1, Term(1)).getDisplayableString());
     EXPECT_EQ(stringToExpect3, series.getValueAtIndex(2, Term(2)).getDisplayableString());
 }

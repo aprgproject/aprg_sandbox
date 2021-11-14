@@ -232,7 +232,7 @@ TEST(TrigonometricEquationsTest, GetSineOfSumOrDifferenceOfTwoTermsWorks)
     substitution.putVariableWithValue("x", getPi()/12);
     substitution.putVariableWithValue("y", getPi()/12);
     EXPECT_EQ(Term(AlbaNumber::createFraction(1, 2)), substitution.performSubstitutionTo(actualSineOfSumOfValues));
-    EXPECT_EQ(Term(Constant(0)), substitution.performSubstitutionTo(actualSineOfDifferenceOfValues));
+    EXPECT_EQ(Term(0), substitution.performSubstitutionTo(actualSineOfDifferenceOfValues));
 }
 
 TEST(TrigonometricEquationsTest, GetCosineOfSumOrDifferenceOfTwoTermsWorks)
@@ -280,7 +280,7 @@ TEST(TrigonometricEquationsTest, GetTangentOfSumOrDifferenceOfTwoTermsWorks)
     substitution.putVariableWithValue("x", getPi()/8);
     substitution.putVariableWithValue("y", getPi()/8);
     EXPECT_EQ(Term(1), substitution.performSubstitutionTo(actualTangentOfSumOfValues));
-    EXPECT_EQ(Term(Constant(0)), substitution.performSubstitutionTo(actualTangentOfDifferenceOfValues));
+    EXPECT_EQ(Term(0), substitution.performSubstitutionTo(actualTangentOfDifferenceOfValues));
 }
 
 TEST(TrigonometricEquationsTest, GetSineOfDoubledValueWorks)
@@ -394,7 +394,7 @@ TEST(TrigonometricEquationsTest, GetCosineSquaredOfHalvedValueWorks)
 
     SubstitutionOfVariablesToValues substitution;
     substitution.putVariableWithValue("x", getPi());
-    EXPECT_EQ(Term(Constant(0)), substitution.performSubstitutionTo(termToVerify));
+    EXPECT_EQ(Term(0), substitution.performSubstitutionTo(termToVerify));
 }
 
 }

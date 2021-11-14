@@ -124,7 +124,7 @@ TEST(SimplificationOfExpressionTest, SimplifyWorksOnAddingAndSubtractingNullExpr
 TEST(SimplificationOfExpressionTest, SimplifyWorksOnZeroForAddingAndSubtracting)
 {
     Expression expressionToTest(
-                createExpressionIfPossible({Term(Constant(0)), Term("-"), Term(200), Term("-"), Term(50), Term("-"), Term(Constant(0))}));
+                createExpressionIfPossible({Term(0), Term("-"), Term(200), Term("-"), Term(50), Term("-"), Term(0)}));
     SimplificationOfExpression simplification(expressionToTest);
 
     simplification.simplify();
@@ -136,49 +136,49 @@ TEST(SimplificationOfExpressionTest, SimplifyWorksOnZeroForAddingAndSubtracting)
 
 TEST(SimplificationOfExpressionTest, SimplifyWorksOnZeroForMultiplying)
 {
-    Expression expressionToTest(createExpressionIfPossible({Term(Constant(0)), Term("*"), Term(200), Term("*"), Term(50)}));
+    Expression expressionToTest(createExpressionIfPossible({Term(0), Term("*"), Term(200), Term("*"), Term(50)}));
     SimplificationOfExpression simplification(expressionToTest);
 
     simplification.simplify();
 
     Expression expressionToVerify(simplification.getExpression());
-    Expression expressionToExpect(createOrCopyExpressionFromATerm(Term(Constant(0))));
+    Expression expressionToExpect(createOrCopyExpressionFromATerm(Term(0)));
     EXPECT_EQ(expressionToExpect, expressionToVerify);
 }
 
 TEST(SimplificationOfExpressionTest, SimplifyWorksOnZeroForMultiplyingWithRaiseToPowerExpression)
 {
-    Expression expressionToTest(createExpressionIfPossible({Term(Constant(0)), Term("*"), Term("z"), Term("^"), Term("z")}));
+    Expression expressionToTest(createExpressionIfPossible({Term(0), Term("*"), Term("z"), Term("^"), Term("z")}));
     SimplificationOfExpression simplification(expressionToTest);
 
     simplification.simplify();
 
     Expression expressionToVerify(simplification.getExpression());
-    Expression expressionToExpect(createOrCopyExpressionFromATerm(Term(Constant(0))));
+    Expression expressionToExpect(createOrCopyExpressionFromATerm(Term(0)));
     EXPECT_EQ(expressionToExpect, expressionToVerify);
 }
 
 TEST(SimplificationOfExpressionTest, SimplifyWorksOnZeroForDividing)
 {
-    Expression expressionToTest(createExpressionIfPossible({Term(Constant(0)), Term("/"), Term(1.17157287525381)}));
+    Expression expressionToTest(createExpressionIfPossible({Term(0), Term("/"), Term(1.17157287525381)}));
     SimplificationOfExpression simplification(expressionToTest);
 
     simplification.simplify();
 
     Expression expressionToVerify(simplification.getExpression());
-    Expression expressionToExpect(createOrCopyExpressionFromATerm(Term(Constant(0))));
+    Expression expressionToExpect(createOrCopyExpressionFromATerm(Term(0)));
     EXPECT_EQ(expressionToExpect, expressionToVerify);
 }
 
 TEST(SimplificationOfExpressionTest, SimplifyWorksOnZeroForDividingWithRaiseToPowerExpression)
 {
-    Expression expressionToTest(createExpressionIfPossible({Term(Constant(0)), Term("/"), Term("z"), Term("^"), Term("z")}));
+    Expression expressionToTest(createExpressionIfPossible({Term(0), Term("/"), Term("z"), Term("^"), Term("z")}));
     SimplificationOfExpression simplification(expressionToTest);
 
     simplification.simplify();
 
     Expression expressionToVerify(simplification.getExpression());
-    Expression expressionToExpect(createOrCopyExpressionFromATerm(Term(Constant(0))));
+    Expression expressionToExpect(createOrCopyExpressionFromATerm(Term(0)));
     EXPECT_EQ(expressionToExpect, expressionToVerify);
 }
 
@@ -248,9 +248,9 @@ TEST(SimplificationOfExpressionTest, SimplifyWorksOnAddingAndSubtractingZerosWit
     Expression expressionToTest(
                 createExpressionIfPossible(
     {
-                        Term(Constant(0)),
+                        Term(0),
                         Term("+"), Term("y"), Term("^"), Term("y"),
-                        Term("-"),  Term(Constant(0))
+                        Term("-"),  Term(0)
                     }));
     SimplificationOfExpression simplification(expressionToTest);
 
@@ -552,7 +552,7 @@ TEST(ExpressionTest, SimplifyWorksOnAddingMonomialAndExponentialTerms)
 TEST(SimplificationOfExpressionTest, ZeroOverZeroResultsToNanAndDoesNotCrash)
 {
     Expression expression(createExpressionIfPossible(
-    {Term(Constant(0)), Term("/"), Term(Constant(0))}));
+    {Term(0), Term("/"), Term(0)}));
     SimplificationOfExpression simplification(expression);
 
     simplification.simplify();

@@ -23,7 +23,7 @@ TEST(ConvertHelpersTest, CanBeConvertedToConstantWorks)
 TEST(ConvertHelpersTest, CanBeConvertedToMonomialWorks)
 {
     EXPECT_FALSE(canBeConvertedToMonomial(Term()));
-    EXPECT_TRUE(canBeConvertedToMonomial(Term(Constant(0))));
+    EXPECT_TRUE(canBeConvertedToMonomial(Term(0)));
     EXPECT_TRUE(canBeConvertedToMonomial(Term(15)));
     EXPECT_TRUE(canBeConvertedToMonomial(Term(Variable("x"))));
     EXPECT_TRUE(canBeConvertedToMonomial(Term(Monomial(96, {{"x", 1}}))));
@@ -36,7 +36,7 @@ TEST(ConvertHelpersTest, CanBeConvertedToMonomialWorks)
 TEST(ConvertHelpersTest, CanBeConvertedToPolynomialWorks)
 {
     EXPECT_FALSE(canBeConvertedToPolynomial(Term()));
-    EXPECT_TRUE(canBeConvertedToPolynomial(Term(Constant(0))));
+    EXPECT_TRUE(canBeConvertedToPolynomial(Term(0)));
     EXPECT_TRUE(canBeConvertedToPolynomial(Term(15)));
     EXPECT_TRUE(canBeConvertedToPolynomial(Term(Variable("x"))));
     EXPECT_TRUE(canBeConvertedToPolynomial(Term(Monomial(96, {{"x", 1}}))));

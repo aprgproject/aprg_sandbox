@@ -22,10 +22,12 @@ TEST(TermsRaiseToNumbersTest, ConstructionWorks)
     TermsRaiseToNumbers::BaseToExponentMap const& mapToVerify(termsRaiseToNumbers2.getBaseToExponentMap());
     ASSERT_EQ(3U, mapToVerify.size());
     auto itToVerify = mapToVerify.cbegin();
-    EXPECT_EQ(Term("x"), itToVerify->first);    EXPECT_EQ(AlbaNumber(1), itToVerify->second);
+    EXPECT_EQ(Term("x"), itToVerify->first);
+    EXPECT_EQ(AlbaNumber(1), itToVerify->second);
     itToVerify++;
     EXPECT_EQ(Term("y"), itToVerify->first);
-    EXPECT_EQ(AlbaNumber(-2), itToVerify->second);    itToVerify++;
+    EXPECT_EQ(AlbaNumber(-2), itToVerify->second);
+    itToVerify++;
     EXPECT_EQ(Term("z"), itToVerify->first);
     EXPECT_EQ(AlbaNumber(3), itToVerify->second);
 }
@@ -37,10 +39,12 @@ TEST(TermsRaiseToNumbersTest, GetBaseToExponentMapWorks)
     TermsRaiseToNumbers::BaseToExponentMap const& mapToVerify(termsRaiseToNumbers.getBaseToExponentMap());
 
     ASSERT_EQ(3U, mapToVerify.size());
-    auto itToVerify = mapToVerify.cbegin();    EXPECT_EQ(Term("x"), itToVerify->first);
+    auto itToVerify = mapToVerify.cbegin();
+    EXPECT_EQ(Term("x"), itToVerify->first);
     EXPECT_EQ(AlbaNumber(1), itToVerify->second);
     itToVerify++;
-    EXPECT_EQ(Term("y"), itToVerify->first);    EXPECT_EQ(AlbaNumber(-2), itToVerify->second);
+    EXPECT_EQ(Term("y"), itToVerify->first);
+    EXPECT_EQ(AlbaNumber(-2), itToVerify->second);
     itToVerify++;
     EXPECT_EQ(Term("z"), itToVerify->first);
     EXPECT_EQ(AlbaNumber(3), itToVerify->second);

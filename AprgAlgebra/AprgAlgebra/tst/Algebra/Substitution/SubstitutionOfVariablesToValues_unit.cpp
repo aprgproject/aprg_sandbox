@@ -96,7 +96,7 @@ TEST(SubstitutionOfVariablesToValuesTest, PerformSubstitutionToWorksOnMonomial)
     Term verifyTerm2(substitution.performSubstitutionTo(monomial2));
     Term verifyTerm3(substitution.performSubstitutionTo(monomial3));
 
-    Term expectTerm1(Constant(0));
+    Term expectTerm1(0);
     Term expectTerm2(56);
     Term expectTerm3(Monomial(88, {{"y", 4}}));
     EXPECT_EQ(expectTerm1, verifyTerm1);
@@ -115,7 +115,7 @@ TEST(SubstitutionOfVariablesToValuesTest, PerformSubstitutionToWorksOnPolynomial
     Term verifyTerm2(substitution.performSubstitutionTo(polynomial2));
     Term verifyTerm3(substitution.performSubstitutionTo(polynomial3));
 
-    Term expectTerm1(Constant(0));
+    Term expectTerm1(0);
     Term expectTerm2(Polynomial{Monomial(2500, {{"z", 4}}), Monomial(2414, {})});
     Term expectTerm3(235);
     EXPECT_EQ(expectTerm1, verifyTerm1);

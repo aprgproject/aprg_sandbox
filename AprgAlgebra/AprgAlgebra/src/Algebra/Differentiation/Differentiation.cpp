@@ -361,7 +361,7 @@ Term Differentiation::differentiateTermsInAdditionOrSubtraction(
         Expression const& expression) const
 {
     TermsWithDetails const& termsWithDetails(expression.getTermsWithAssociation().getTermsWithDetails());
-    Expression accumulatedExpression(createOrCopyExpressionFromATerm(Constant(0)));
+    Expression accumulatedExpression(createOrCopyExpressionFromATerm(Term(0)));
     for(TermWithDetails const& termWithDetails : termsWithDetails)
     {
         Term const& currentTerm(getTermConstReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer));
@@ -450,7 +450,7 @@ Term Differentiation::differentiateTermsInRaiseToPower(
     bool isSecondAChangingTerm = isChangingTerm(secondTerm);
     if(!isFirstAChangingTerm && !isSecondAChangingTerm)
     {
-        result = Term(Constant(0));
+        result = Term(0);
     }
     else if(!isFirstAChangingTerm && isSecondAChangingTerm)
     {

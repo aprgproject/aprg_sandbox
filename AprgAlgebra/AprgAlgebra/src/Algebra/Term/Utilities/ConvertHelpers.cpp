@@ -75,7 +75,7 @@ Term convertMonomialToSimplestTerm(Monomial const& monomial)
     Term newTerm(monomial);
     if(isTheValue(monomial, 0))
     {
-        newTerm = Term(Constant(0));
+        newTerm = Term(0);
     }
     else if(isConstantOnly(monomial))
     {
@@ -93,7 +93,7 @@ Term convertPolynomialToSimplestTerm(Polynomial const& polynomial)
     Term newTerm(polynomial);
     if(isTheValue(polynomial, 0))
     {
-        newTerm = Term(Constant(0));
+        newTerm = Term(0);
     }
     else if(isOneMonomial(polynomial))
     {

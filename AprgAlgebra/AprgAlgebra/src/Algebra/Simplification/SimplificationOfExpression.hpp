@@ -95,9 +95,11 @@ private:
             TermsWithDetails & termsInMultiplicationAndDivision) const;
     Term getCombinedTermAndSimplifyByRationalizingNumeratorOrDenominatorIfNeeded(
             TermsOverTerms const& termsOverTerms) const;
+
     //functions for raise to power
     Term getCombinedTermUsingTermsRaiseToTerms(
-            TermRaiseToTerms const& termRaiseToTerms);    Term getEachBasesRaisedToConstantIfPossible(
+            TermRaiseToTerms const& termRaiseToTerms);
+    Term getEachBasesRaisedToConstantIfPossible(
             TermRaiseToTerms const& termRaiseToTerms);
 
     // other functions

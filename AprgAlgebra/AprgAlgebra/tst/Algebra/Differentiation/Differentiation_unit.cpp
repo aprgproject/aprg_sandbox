@@ -28,7 +28,7 @@ TEST(DifferentiationTest, DifferentiateWorksForTerm)
     Term termToVerify5(differentiationForX.differentiate(expressionTerm));
     Term termToVerify6(differentiationForX.differentiate(Term(sin(x))));
 
-    Term termToExpect1(Constant(0));
+    Term termToExpect1(0);
     Term termToExpect2(1);
     Term termToExpect3(Monomial(8, {{"x", 7}}));
     Term termToExpect4(Polynomial{Monomial(28, {{"x", 3}}), Monomial(-6, {{"x", 2}}), Monomial(8, {})});
@@ -46,7 +46,7 @@ TEST(DifferentiationTest, DifferentiateWorksForConstant)
 {
     Differentiation differentiationForX("x");
 
-    EXPECT_EQ(Term(Constant(0)), differentiationForX.differentiate(Constant(5)));
+    EXPECT_EQ(Term(0), differentiationForX.differentiate(Constant(5)));
 }
 
 TEST(DifferentiationTest, DifferentiateWorksForVariable)
@@ -59,7 +59,7 @@ TEST(DifferentiationTest, DifferentiateWorksForVariable)
 
     Term termToExpect1(1);
     Term termToExpect2(Variable("d[y]/d[x]"));
-    Term termToExpect3(Constant(0));
+    Term termToExpect3(0);
     EXPECT_EQ(termToExpect1, termToVerify1);
     EXPECT_EQ(termToExpect2, termToVerify2);
     EXPECT_EQ(termToExpect3, termToVerify3);
@@ -72,7 +72,7 @@ TEST(DifferentiationTest, DifferentiateWorksForMonomial)
     Term termToVerify1(differentiationForXWithY.differentiate(Monomial(13, {})));
     Term termToVerify2(differentiationForXWithY.differentiate(Monomial(5, {{"d[y]/d[x]", 6}, {"x", 7}, {"y", 8}, {"z", 9}})));
 
-    Term termToExpect1(Constant(0));
+    Term termToExpect1(0);
     Term termToExpect2(Polynomial(
     {Monomial(30, {{"d2[y]/d[x]2", 1}, {"d[y]/d[x]", 5}, {"x", 7}, {"y", 8}, {"z", 9}}),
      Monomial(35, {{"d[y]/d[x]", 6}, {"x", 6}, {"y", 8}, {"z", 9}}),
@@ -90,7 +90,7 @@ TEST(DifferentiationTest, DifferentiateWorksForPolynomial)
     Term termToVerify1(differentiationForXWithY.differentiate(polynomial1));
     Term termToVerify2(differentiationForXWithY.differentiate(polynomial2));
 
-    Term termToExpect1(Constant(0));
+    Term termToExpect1(0);
     Term termToExpect2(
                 Polynomial{
                     Monomial(3, {{"d[y]/d[x]", 1}, {"x", -2}, {"y", -4}}),
@@ -182,8 +182,8 @@ TEST(DifferentiationTest, DifferentiateMultipleTimesWorksForEquation)
     Equation equationToVerify3(differentiationForX.differentiateMultipleTimes(equationToTest, 2));
 
     Equation equationToExpect1(Term(Monomial(3, {{"x", 4}})), "=", Term(Monomial(5, {{"x", 6}})));
-    Equation equationToExpect2(Term(Polynomial{Monomial(30, {{"x", 5}}), Monomial(-12, {{"x", 3}})}), "=", Term(Constant(0)));
-    Equation equationToExpect3(Term(Polynomial{Monomial(150, {{"x", 4}}), Monomial(-36, {{"x", 2}})}), "=", Term(Constant(0)));
+    Equation equationToExpect2(Term(Polynomial{Monomial(30, {{"x", 5}}), Monomial(-12, {{"x", 3}})}), "=", Term(0));
+    Equation equationToExpect3(Term(Polynomial{Monomial(150, {{"x", 4}}), Monomial(-36, {{"x", 2}})}), "=", Term(0));
     EXPECT_EQ(equationToExpect1, equationToVerify1);
     EXPECT_EQ(equationToExpect2, equationToVerify2);
     EXPECT_EQ(equationToExpect3, equationToVerify3);
@@ -490,7 +490,7 @@ TEST(DifferentiationTest, DifferentiateWorksWithTermRaiseToTerm)
     Term termToVerify3(differentiationForX.differentiate(termToTest3));
     Term termToVerify4(differentiationForX.differentiate(termToTest4));
 
-    Term termToExpect1(Constant(0));
+    Term termToExpect1(0);
     Term termToExpect2(createExpressionIfPossible({n, Term("^"), x, Term("*"), Term(ln(n))}));
     Term exponentForTerm3(Polynomial{Monomial(1, {{"n", 1}}), Monomial(-1, {})});
     Term termToExpect3(createExpressionIfPossible({n, Term("*"), x, Term("^"), exponentForTerm3}));

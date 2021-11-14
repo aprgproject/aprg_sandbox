@@ -191,7 +191,7 @@ void Expression::putTermWithAdditionIfNeeded(BaseTerm const& baseTerm)
     {
         if(this->isEmpty())
         {
-            setTerm(Term(Constant(0)));
+            setTerm(Term(0));
         }
     }
     else
@@ -217,7 +217,7 @@ void Expression::putTermWithSubtractionIfNeeded(BaseTerm const& baseTerm)
     {
         if(this->isEmpty())
         {
-            setTerm(Term(Constant(0)));
+            setTerm(Term(0));
         }
     }
     else

@@ -22,6 +22,11 @@ bool isDifferentiableAt(
         std::string const& variableName,
         AlbaNumber const& value);
 
+bool isDifferentiableAtUsingDerivativeDefinition(
+        Term const& term,
+        std::string const& variableName,
+        AlbaNumber const& value);
+
 bool isFirstOrderDifferentialEquation(
         Term const& dyOverDx,
         Term const& p,

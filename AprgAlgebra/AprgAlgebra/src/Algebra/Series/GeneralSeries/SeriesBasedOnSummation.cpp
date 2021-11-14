@@ -38,7 +38,7 @@ bool SeriesBasedOnSummation::isConvergent() const
     }
     else
     {
-        result = getLimit(m_formulaForEachTermInSummation, m_nameForVariableInFormula, AlbaNumber(AlbaNumber::Value::PositiveInfinity)) == Term(Constant(0));
+        result = getLimit(m_formulaForEachTermInSummation, m_nameForVariableInFormula, AlbaNumber(AlbaNumber::Value::PositiveInfinity)) == Term(0);
     }
     return result;
 }
@@ -52,7 +52,7 @@ Term SeriesBasedOnSummation::getValueAtIndex(int const index) const
     }
     else
     {
-        result = m_summation.getSum(Term(Constant(0)), Term(index));
+        result = m_summation.getSum(Term(0), Term(index));
     }
     return result;
 }

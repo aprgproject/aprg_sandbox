@@ -320,12 +320,12 @@ void TermsOverTerms::handleZerosInNumeratorOrDenominator(
     {
         numerators.clear();
         denominators.clear();
-        numerators.emplace_back(Term(Constant(0)));
+        numerators.emplace_back(Term(0));
     }
     else if(hasZeroOnDenominators)
     {
         denominators.clear();
-        denominators.emplace_back(Term(Constant(0)));
+        denominators.emplace_back(Term(0));
     }
 }
 
@@ -344,7 +344,7 @@ void TermsOverTerms::emplacePolynomialIfNeeded(Terms & termsResult, Polynomial c
 {
     if(isTheValue(polynomial, 0))
     {
-        termsResult.emplace_back(Term(Constant(0)));
+        termsResult.emplace_back(Term(0));
     }
     else if(!isTheValue(polynomial, 1))
     {

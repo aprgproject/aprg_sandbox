@@ -95,7 +95,7 @@ void accumulateTermsForAdditionAndSubtraction(
     }
     if(combinedTerm.isEmpty())
     {
-        combinedTerm = Term(Constant(0));
+        combinedTerm = Term(0);
     }
 }
 
@@ -106,7 +106,7 @@ void accumulateTermsForMultiplicationAndDivision(
     bool isFirst(willHaveNoEffectOnMultiplicationOrDivisionOrRaiseToPower(combinedTerm));
     if(isTheValue(combinedTerm, 0))
     {
-        combinedTerm = Term(Constant(0));
+        combinedTerm = Term(0);
     }
     else
     {
@@ -115,7 +115,7 @@ void accumulateTermsForMultiplicationAndDivision(
             Term const& term(getTermConstReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer));
             if(isTheValue(term, 0) && termWithDetails.hasPositiveAssociation())
             {
-                combinedTerm = Term(Constant(0));
+                combinedTerm = Term(0);
                 break;
             }
             if(willHaveNoEffectOnMultiplicationOrDivisionOrRaiseToPower(term))

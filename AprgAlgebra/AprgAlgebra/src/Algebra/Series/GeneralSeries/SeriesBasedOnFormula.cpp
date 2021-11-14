@@ -170,7 +170,7 @@ AlbaNumbers SeriesBasedOnFormula::getExtremaIndexes() const
     Term firstDerivative(differentiation.differentiate(m_formulaForSeries));
     OneEquationOneVariableEqualitySolver solver;
     simplifyTermToACommonDenominator(firstDerivative);
-    SolutionSet solutionSet(solver.calculateSolutionAndReturnSolutionSet(Equation(firstDerivative, "=", Term(Constant(0)))));
+    SolutionSet solutionSet(solver.calculateSolutionAndReturnSolutionSet(Equation(firstDerivative, "=", Term(0))));
     return solutionSet.getAcceptedValues();
 }
 

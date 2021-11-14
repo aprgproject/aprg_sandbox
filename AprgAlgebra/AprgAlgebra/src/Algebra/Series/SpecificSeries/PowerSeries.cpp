@@ -35,10 +35,12 @@ AlbaNumberIntervals PowerSeries::getIntervalsOfConvergence() const
     Term limitForRatioTest(getLimitForRatioTest(dynamic_cast<SeriesBasedOnSummation const&>(*this), getNameForVariableInFormula()));
     Term limitWithAbsoluteValue(abs(limitForRatioTest));
     OneEquationOneVariableNonEqualitySolver solver;
-    SolutionSet solutionSet(solver.calculateSolutionAndReturnSolutionSet(Equation(limitWithAbsoluteValue, "<", Term(1))));    return solutionSet.getAcceptedIntervals();
+    SolutionSet solutionSet(solver.calculateSolutionAndReturnSolutionSet(Equation(limitWithAbsoluteValue, "<", Term(1))));
+    return solutionSet.getAcceptedIntervals();
 }
 
-AlbaNumber PowerSeries::getRadiusOfConvergence() const{
+AlbaNumber PowerSeries::getRadiusOfConvergence() const
+{
     AlbaNumberIntervals intervals(getIntervalsOfConvergence());
     AlbaNumber result = accumulate(intervals.cbegin(), intervals.cend(), AlbaNumber(), [](
                                    AlbaNumber const& partialSum,

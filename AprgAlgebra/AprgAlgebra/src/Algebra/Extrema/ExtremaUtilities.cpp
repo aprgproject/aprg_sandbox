@@ -395,7 +395,7 @@ AlbaNumbers getCriticalNumbers(
 
     Differentiation differentiation(variableName);
     Term firstDerivative(differentiation.differentiate(term));
-    Equation derivativeEqualsZeroEquation(firstDerivative, "=", Term(Constant(0)));
+    Equation derivativeEqualsZeroEquation(firstDerivative, "=", Term(0));
     OneEquationOneVariableEqualitySolver solver;
     SolutionSet solutionSet(solver.calculateSolutionAndReturnSolutionSet(derivativeEqualsZeroEquation));
     AlbaNumbers result;
@@ -416,7 +416,7 @@ AlbaNumbers getInputValuesAtPointsOfInflection(
     AlbaNumbers result;
     if(!secondDerivative.isConstant())
     {
-        Equation derivativeEqualsZeroEquation(secondDerivative, "=", Term(Constant(0)));
+        Equation derivativeEqualsZeroEquation(secondDerivative, "=", Term(0));
         OneEquationOneVariableEqualitySolver solver;
         SolutionSet solutionSet(solver.calculateSolutionAndReturnSolutionSet(derivativeEqualsZeroEquation));
         AlbaNumbers const& acceptedValues(solutionSet.getAcceptedValues());
@@ -495,7 +495,7 @@ Extrema getRelativeExtrema(
     Differentiation differentiation(variableName);
     Term firstDerivative(differentiation.differentiate(term));
     Term secondDerivative(differentiation.differentiateMultipleTimes(term, 2U));
-    Equation firstDerivativeEqualsZeroEquation(firstDerivative, "=", Term(Constant(0)));
+    Equation firstDerivativeEqualsZeroEquation(firstDerivative, "=", Term(0));
     OneEquationOneVariableEqualitySolver solver;
     SolutionSet solutionSet(solver.calculateSolutionAndReturnSolutionSet(firstDerivativeEqualsZeroEquation));
     AlbaNumbers const& valuesWhenFirstDerivativeIsZero(solutionSet.getAcceptedValues());

@@ -41,7 +41,7 @@ TEST(PolynomialOverPolynomialTest, IsEmptyWorks)
 
 TEST(PolynomialOverPolynomialTest, SimplifyWorksWithZeroOverDouble)
 {
-    Polynomial numerator(createPolynomialFromConstant(Constant(0)));
+    Polynomial numerator(createPolynomialFromConstant(0));
     Polynomial denominator(createPolynomialFromConstant(Constant(1.17157287525381)));
     PolynomialOverPolynomial polynomialOverPolynomial(numerator, denominator);
 
@@ -53,8 +53,8 @@ TEST(PolynomialOverPolynomialTest, SimplifyWorksWithZeroOverDouble)
 
 TEST(PolynomialOverPolynomialTest, SimplifyWorksWithZeroOverZero)
 {
-    Polynomial numerator(createPolynomialFromConstant(Constant(0)));
-    Polynomial denominator(createPolynomialFromConstant(Constant(0)));
+    Polynomial numerator(createPolynomialFromConstant(0));
+    Polynomial denominator(createPolynomialFromConstant(0));
     PolynomialOverPolynomial polynomialOverPolynomial(numerator, denominator);
 
     polynomialOverPolynomial.simplify();
@@ -226,7 +226,7 @@ TEST(PolynomialOverPolynomialTest, SimplifyWorksOnCancellingFactorsExample4)
 
 TEST(PolynomialOverPolynomialTest, SimplifyAndDivideWorksWithZeroOverDouble)
 {
-    Polynomial numerator(createPolynomialFromConstant(Constant(0)));
+    Polynomial numerator(createPolynomialFromConstant(0));
     Polynomial denominator(createPolynomialFromConstant(Constant(1.17157287525381)));
     PolynomialOverPolynomial polynomialOverPolynomial(numerator, denominator);
 
@@ -238,8 +238,8 @@ TEST(PolynomialOverPolynomialTest, SimplifyAndDivideWorksWithZeroOverDouble)
 
 TEST(PolynomialOverPolynomialTest, SimplifyAndDivideWorksWithZeroOverZero)
 {
-    Polynomial numerator(createPolynomialFromConstant(Constant(0)));
-    Polynomial denominator(createPolynomialFromConstant(Constant(0)));
+    Polynomial numerator(createPolynomialFromConstant(0));
+    Polynomial denominator(createPolynomialFromConstant(0));
     PolynomialOverPolynomial polynomialOverPolynomial(numerator, denominator);
 
     PolynomialOverPolynomial::QuotientAndRemainder quotientAndRemainder(polynomialOverPolynomial.simplifyAndDivide());

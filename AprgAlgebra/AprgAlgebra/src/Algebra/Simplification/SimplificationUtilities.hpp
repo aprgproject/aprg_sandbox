@@ -32,7 +32,9 @@ void simplifyAndCopyTermsFromAnExpressionAndChangeOperatorLevelIfNeeded(
 TermsWithAssociation getTermsWithAssociationAndReverseIfNeeded(
         Expression const& expression,
         TermAssociationType const overallAssociation);
+
 }
 
 }
+
 }

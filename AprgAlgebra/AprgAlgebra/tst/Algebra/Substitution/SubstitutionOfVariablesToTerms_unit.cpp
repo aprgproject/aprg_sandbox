@@ -95,7 +95,7 @@ TEST(SubstitutionOfVariablesToTermsTest, PerformSubstitutionToWorksOnMonomial)
     Term verifyTerm2(substitution.performSubstitutionTo(monomial2));
     Term verifyTerm3(substitution.performSubstitutionTo(monomial3));
 
-    Term expectTerm1(Constant(0));
+    Term expectTerm1(0);
     Term expectTerm2(Monomial(7, {{"y", 3}}));
     Term expectTerm3(Monomial(11, {{"y", 7}}));
     EXPECT_EQ(expectTerm1, verifyTerm1);

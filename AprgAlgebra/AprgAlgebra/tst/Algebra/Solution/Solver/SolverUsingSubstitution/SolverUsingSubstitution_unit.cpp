@@ -107,7 +107,7 @@ TEST(SolverUsingSubstitutionTest, CalculateSolutionAndReturnSolutionSetWorksForL
     Equations equations;
     Polynomial polynomial1{Monomial(1, {{"x", 2}}), Monomial(-5, {{"x", 1}}), Monomial(-1, {{"y", 1}}), Monomial(4, {})};
     Polynomial polynomial2{Monomial(1, {{"x", 1}}), Monomial(-4, {{"y", 1}})};
-    equations.emplace_back(Term(polynomial1), "=", Term(Constant(0)));
+    equations.emplace_back(Term(polynomial1), "=", Term(0));
     equations.emplace_back(Term(polynomial2), "=", Term(1));
 
     MultipleVariableSolutionSets solutionSets(solver.calculateSolutionAndReturnSolutionSet(equations));

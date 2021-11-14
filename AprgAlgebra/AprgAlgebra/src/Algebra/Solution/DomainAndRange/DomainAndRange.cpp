@@ -135,7 +135,7 @@ SolutionSet calculateDomainForEquationWithVariableToSubstitute(
     {
             substitution.putVariableWithValue(variableNameToSubstitute, value);
             Equation simplifiedEquation(substitution.performSubstitutionTo(equation));
-            Equation equationToSolve(simplifiedEquation.getLeftHandTerm(), "=", Term(Constant(0)));
+            Equation equationToSolve(simplifiedEquation.getLeftHandTerm(), "=", Term(0));
             SolutionSet solutionSet(solver.calculateSolutionAndReturnSolutionSet(equationToSolve));
             AlbaNumber computedValue(AlbaNumber::Value::NotANumber);
             AlbaNumbers acceptedValues(solutionSet.getAcceptedValues());

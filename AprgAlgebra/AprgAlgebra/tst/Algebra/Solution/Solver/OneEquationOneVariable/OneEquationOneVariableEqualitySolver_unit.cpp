@@ -76,7 +76,7 @@ TEST(OneEquationOneVariableEqualitySolverTest, PolynomialOverPolynomialAreSolved
     Expression expression(createExpressionIfPossible({Term(numerator), Term("/"), Term(denominator)}));
     OneEquationOneVariableEqualitySolver solver;
 
-    SolutionSet solutionSet(solver.calculateSolutionAndReturnSolutionSet(Equation(Term(expression), "=", Term(Constant(0)))));
+    SolutionSet solutionSet(solver.calculateSolutionAndReturnSolutionSet(Equation(Term(expression), "=", Term(0))));
 
     EXPECT_TRUE(solver.isSolved());
     EXPECT_TRUE(solver.isACompleteSolution());
@@ -207,7 +207,7 @@ TEST(OneEquationOneVariableEqualitySolverTest, RadicalOverRadicalInEquationAreSo
     Expression radicalOverRadical(createExpressionIfPossible({Term(numerator), Term("/"), Term(denominator)}));
     OneEquationOneVariableEqualitySolver solver;
 
-    SolutionSet solutionSet(solver.calculateSolutionAndReturnSolutionSet(Equation(Term(radicalOverRadical), "=", Term(Constant(0)))));
+    SolutionSet solutionSet(solver.calculateSolutionAndReturnSolutionSet(Equation(Term(radicalOverRadical), "=", Term(0))));
 
     EXPECT_TRUE(solver.isSolved());
     EXPECT_FALSE(solver.isACompleteSolution());

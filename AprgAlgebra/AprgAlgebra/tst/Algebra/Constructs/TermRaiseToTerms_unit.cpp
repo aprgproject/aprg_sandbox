@@ -100,14 +100,14 @@ TEST(TermRaiseToTermsTest, GetCombinedExponentsWorks)
 
 TEST(TermRaiseToTermsTest, SimplifyWorksWhenBaseIsZero)
 {
-    Term base(Constant(0));
+    Term base(0);
     TermRaiseToTerms termRaiseToTerms(base, {Term("a"), Term("b")});
 
     termRaiseToTerms.simplify();
 
-    EXPECT_EQ(Term(Constant(0)), termRaiseToTerms.getBase());
+    EXPECT_EQ(Term(0), termRaiseToTerms.getBase());
     EXPECT_TRUE(termRaiseToTerms.getExponents().empty());
-    EXPECT_EQ(Term(Constant(0)), termRaiseToTerms.getCombinedTerm());
+    EXPECT_EQ(Term(0), termRaiseToTerms.getCombinedTerm());
 }
 
 TEST(TermRaiseToTermsTest, SimplifyWorksWhenBaseIsOne)
@@ -137,7 +137,7 @@ TEST(TermRaiseToTermsTest, SimplifyWorksWhenThereAreNoExponents)
 TEST(TermRaiseToTermsTest, SimplifyWorksWhenExponentIsZero)
 {
     Term base("base");
-    TermRaiseToTerms termRaiseToTerms(base, {Term(Constant(0)), Term("anotherExponent")});
+    TermRaiseToTerms termRaiseToTerms(base, {Term(0), Term("anotherExponent")});
 
     termRaiseToTerms.simplify();
 

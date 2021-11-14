@@ -50,7 +50,7 @@ void SimplificationOfEquation::simplify()
     simplifyLeftHandSide(newLeftHandSide);
     negateTermIfNeeded(newLeftHandSide, equationOperatorString);
 
-    m_equation = Equation(newLeftHandSide, equationOperatorString, Term(Constant(0)));
+    m_equation = Equation(newLeftHandSide, equationOperatorString, Term(0));
 }
 
 void SimplificationOfEquation::simplifyLeftHandSideAndRightHandSide(

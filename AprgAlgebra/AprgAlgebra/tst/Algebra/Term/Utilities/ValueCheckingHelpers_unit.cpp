@@ -112,7 +112,7 @@ TEST(ValueCheckingHelpersTest, DoAnyNumbersSatisfyTheConditionWorksForFunction)
 TEST(ValueCheckingHelpersTest, WillHaveNoEffectOnAdditionOrSubtractionWorks)
 {
     EXPECT_TRUE(willHaveNoEffectOnAdditionOrSubtraction(Term()));
-    EXPECT_TRUE(willHaveNoEffectOnAdditionOrSubtraction(Term(Constant(0))));
+    EXPECT_TRUE(willHaveNoEffectOnAdditionOrSubtraction(Term(0)));
     EXPECT_FALSE(willHaveNoEffectOnAdditionOrSubtraction(Term(15)));
     EXPECT_FALSE(willHaveNoEffectOnAdditionOrSubtraction(Term(Variable("x"))));
     EXPECT_FALSE(willHaveNoEffectOnAdditionOrSubtraction(Term(Monomial(96, {{"x", 1}}))));
@@ -124,7 +124,7 @@ TEST(ValueCheckingHelpersTest, WillHaveNoEffectOnAdditionOrSubtractionWorks)
 TEST(ValueCheckingHelpersTest, WillHaveNoEffectOnMultiplicationOrDivisionOrRaiseToPowerWorks)
 {
     EXPECT_TRUE(willHaveNoEffectOnMultiplicationOrDivisionOrRaiseToPower(Term()));
-    EXPECT_FALSE(willHaveNoEffectOnMultiplicationOrDivisionOrRaiseToPower(Term(Constant(0))));
+    EXPECT_FALSE(willHaveNoEffectOnMultiplicationOrDivisionOrRaiseToPower(Term(0)));
     EXPECT_FALSE(willHaveNoEffectOnMultiplicationOrDivisionOrRaiseToPower(Term(15)));
     EXPECT_TRUE(willHaveNoEffectOnMultiplicationOrDivisionOrRaiseToPower(Term(1)));
     EXPECT_FALSE(willHaveNoEffectOnMultiplicationOrDivisionOrRaiseToPower(Term(Variable("x"))));
@@ -138,7 +138,7 @@ TEST(ValueCheckingHelpersTest, WillHaveNoEffectOnMultiplicationOrDivisionOrRaise
 TEST(ValueCheckingHelpersTest, IsTheValueWorksWithTerm)
 {
     Term term1;
-    Term term2(Constant(0));
+    Term term2(0);
     Term term3(1);
     Term term4(Variable("length"));
     Term term5(Operator("+"));
@@ -464,7 +464,7 @@ TEST(ValueCheckingHelpersTest, HasNonFiniteNumbersForFunction)
 TEST(ValueCheckingHelpersTest, HasZeroWorks)
 {
     EXPECT_FALSE(hasZero({Term(1), Term(2), Term(3)}));
-    EXPECT_TRUE(hasZero({Term(1), Term(Constant(0)), Term(3)}));
+    EXPECT_TRUE(hasZero({Term(1), Term(0), Term(3)}));
 }
 
 TEST(ValueCheckingHelpersTest, HasNegativeExponentsWithVariableWorks)

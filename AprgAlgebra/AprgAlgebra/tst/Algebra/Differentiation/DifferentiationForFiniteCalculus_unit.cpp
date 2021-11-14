@@ -17,14 +17,14 @@ TEST(DifferentiationForFiniteCalculusTest, DifferentiateWorksForTerm)
 {
     DifferentiationForFiniteCalculus differentiationForX("x");
 
-    EXPECT_EQ(Term(Constant(0)), differentiationForX.differentiate(Term(5)));
+    EXPECT_EQ(Term(0), differentiationForX.differentiate(Term(5)));
 }
 
 TEST(DifferentiationForFiniteCalculusTest, DifferentiateWorksForConstant)
 {
     DifferentiationForFiniteCalculus differentiationForX("x");
 
-    EXPECT_EQ(Term(Constant(0)), differentiationForX.differentiate(Constant(5)));
+    EXPECT_EQ(Term(0), differentiationForX.differentiate(Constant(5)));
 }
 
 TEST(DifferentiationForFiniteCalculusTest, DifferentiateWorksForVariable)
@@ -33,7 +33,7 @@ TEST(DifferentiationForFiniteCalculusTest, DifferentiateWorksForVariable)
     Polynomial xPlusOne{Monomial(1, {{"x", 1}}), Monomial(1, {})};
 
     EXPECT_EQ(Term(xPlusOne), differentiationForX.differentiate(Variable("x")));
-    EXPECT_EQ(Term(Constant(0)), differentiationForX.differentiate(Variable("y")));
+    EXPECT_EQ(Term(0), differentiationForX.differentiate(Variable("y")));
 }
 
 TEST(DifferentiationForFiniteCalculusTest, DifferentiateWorksForMonomial)
@@ -44,7 +44,7 @@ TEST(DifferentiationForFiniteCalculusTest, DifferentiateWorksForMonomial)
     Term termToVerify2(differentiationForX.differentiate(Monomial(5, {{"x", 7}, {"y", 8}, {"z", 9}})));
     Term termToVerify3(differentiationForX.differentiate(Monomial(5, {{"x", -2}, {"y", 8}, {"z", 9}})));
 
-    Term termToExpect1(Constant(0));
+    Term termToExpect1(0);
     Term termToExpect2(Polynomial(
     {Monomial(35, {{"x", 6}, {"y", 8}, {"z", 9}}),
      Monomial(105, {{"x", 5}, {"y", 8}, {"z", 9}}),
@@ -77,7 +77,7 @@ TEST(DifferentiationForFiniteCalculusTest, DifferentiateWorksForPolynomial)
     Term termToVerify2(differentiationForX.differentiate(polynomial2));
     Term termToVerify3(differentiationForX.differentiate(polynomial3));
 
-    Term termToExpect1(Constant(0));
+    Term termToExpect1(0);
     Term termToExpect2(Polynomial
     {Monomial(-2, {{"x", 1}, {"y", -3}}),
      Monomial(-1, {{"y", -3}}),
@@ -214,7 +214,7 @@ TEST(DifferentiationForFiniteCalculusTest, DifferentiateTermWorks)
     Term termToVerify4(differentiationForX.differentiateTerm(polynomialTerm));
     Term termToVerify5(differentiationForX.differentiateTerm(expressionTerm));
 
-    Term termToExpect1(Constant(0));
+    Term termToExpect1(0);
     Term termToExpect2(xPlusOne);
     Term termToExpect3(Polynomial{Monomial(15, {{"x", 2}}), Monomial(15, {{"x", 1}}), Monomial(5, {})});
     Term termToExpect4(Polynomial{Monomial(-4, {{"x", 1}}), Monomial(6, {})});
@@ -251,7 +251,7 @@ TEST(DifferentiationForFiniteCalculusTest, DifferentiateMonomialWorks)
     Term termToVerify2(differentiationForX.differentiateMonomial(Monomial(5, {{"x", 7}, {"y", 8}, {"z", 9}})));
     Term termToVerify3(differentiationForX.differentiateMonomial(Monomial(5, {{"x", -2}, {"y", 8}, {"z", 9}})));
 
-    Term termToExpect1(Constant(0));
+    Term termToExpect1(0);
     Term termToExpect2(Polynomial(
     {Monomial(35, {{"x", 6}, {"y", 8}, {"z", 9}}),
      Monomial(105, {{"x", 5}, {"y", 8}, {"z", 9}}),
@@ -284,7 +284,7 @@ TEST(DifferentiationForFiniteCalculusTest, DifferentiatePolynomialWorks)
     Term termToVerify2(differentiationForX.differentiatePolynomial(polynomial2));
     Term termToVerify3(differentiationForX.differentiatePolynomial(polynomial3));
 
-    Term termToExpect1(Constant(0));
+    Term termToExpect1(0);
     Term termToExpect2(Polynomial
     {Monomial(-2, {{"x", 1}, {"y", -3}}),
      Monomial(-1, {{"y", -3}}),
@@ -356,7 +356,7 @@ TEST(DifferentiationForFiniteCalculusTest, DifferentiateWorksWithTermRaiseToTerm
     Term termToVerify3(differentiationForX.differentiate(termToTest3));
     Term termToVerify4(differentiationForX.differentiate(termToTest4));
 
-    Term termToExpect1(Constant(0));
+    Term termToExpect1(0);
     string stringToExpect2("((n^(1[x] + 1))-(n^x))");
     string stringToExpect3("(((1[x] + 1)^n)-(x^n))");
     string stringToExpect4("(((1[x] + 1)^(1[x] + 1))-(x^x))");

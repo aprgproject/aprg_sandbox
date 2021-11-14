@@ -26,7 +26,7 @@ Term getAnApproximateOfDefiniteIntegralUsingTrapezoidalRule(
     AlbaNumber lengthOfInterval(higherValueInInterval-lowerValueInInterval);
     AlbaNumber incrementInX(lengthOfInterval/numberOfSamples);
     SubstitutionOfVariablesToValues substitution;
-    Term sum(Constant(0));
+    Term sum(0);
     for(unsigned int i=0; i<=numberOfSamples; i++)
     {
         AlbaNumber currentX(lowerValueInInterval + incrementInX*i);
@@ -55,7 +55,7 @@ Term getAnApproximateOfDefiniteIntegralUsingSimpsonRule(
     AlbaNumber lengthOfInterval(higherValueInInterval-lowerValueInInterval);
     AlbaNumber incrementInX(lengthOfInterval/numberOfSamples);
     SubstitutionOfVariablesToValues substitution;
-    Term sum(Constant(0));
+    Term sum(0);
     for(unsigned int i=0; i<=numberOfSamples; i++)
     {
         AlbaNumber currentX(lowerValueInInterval + incrementInX*i);
