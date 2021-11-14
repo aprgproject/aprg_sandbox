@@ -4,6 +4,7 @@
 #include <Algebra/Constructs/MultiplicationAndDivisionOfRadicals.hpp>
 #include <Algebra/Constructs/PolynomialOverPolynomial.hpp>
 #include <Algebra/Constructs/RationalizeTermOverTerm.hpp>
+#include <Algebra/Factorization/FactorizationOfTerm.hpp>
 #include <Algebra/Operations/AccumulateOperations.hpp>
 #include <Algebra/Simplification/SimplificationUtilities.hpp>
 #include <Algebra/Substitution/SubstitutionOfTermsToTerms.hpp>
@@ -15,6 +16,7 @@
 #include <Algebra/Term/Utilities/StringHelpers.hpp>
 #include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>
 
+using namespace alba::algebra::Factorization;
 using namespace std;
 
 namespace alba
@@ -226,13 +228,15 @@ void SimplificationOfExpression::processAndSaveTermsForMultiplicationAndDivision
 
     TermsOverTerms termsOverTerms(termsInMultiplicationAndDivision);
     termsOverTerms.setAsShouldSimplifyToFactors(shouldSimplifyToFactors());
-    termsOverTerms.setFactorizationConfigurationDetails(getFactorizationConfigurationForTermsOverTerms());
+    termsOverTerms.setFactorizationConfigurationDetails(getFactorizationConfiguration());
     termsOverTerms.simplify();
 
-    Term combinedTerm(getCombinedTermAndSimplifyByRationalizingNumeratorOrDenominatorIfNeeded(termsOverTerms));    expression.setTerm(combinedTerm);
+    Term combinedTerm(getCombinedTermAndSimplifyByRationalizingNumeratorOrDenominatorIfNeeded(termsOverTerms));
+    expression.setTerm(combinedTerm);
 }
 
-void SimplificationOfExpression::processAndSaveTermsForRaiseToPower(        Expression & expression,
+void SimplificationOfExpression::processAndSaveTermsForRaiseToPower(
+        Expression & expression,
         TermsWithDetails const& termsToProcess)
 {
     TermRaiseToTerms termRaiseToTerms(termsToProcess);
@@ -313,24 +317,23 @@ Term SimplificationOfExpression::getEachBasesRaisedToConstantIfPossible(
     if(shouldDistributeExponentConstantToEachBase())
     {
         Term const& base(termRaiseToTerms.getBase());
-        TermsWithDetails const& exponents(termRaiseToTerms.getExponents());
-        if(base.isExpression() && exponents.size() == 1)
+        Term exponent(termRaiseToTerms.getCombinedExponents());
+        if(exponent.isConstant() && !isTheValue(exponent, 1))
         {
-            Expression const& baseExpression(base.getExpressionConstReference());
-            Term const& exponentTerm(getTermConstReferenceFromSharedPointer(exponents.front().baseTermSharedPointer));
-            if(baseExpression.getCommonOperatorLevel() == OperatorLevel::MultiplicationAndDivision
-                    && exponentTerm.isConstant())
+            Factorization::ScopeObject scopeObject;
+            scopeObject.setInThisScopeThisConfiguration(getFactorizationConfiguration());
+
+            Terms bases(factorizeTerm(base));
+            if(bases.size() > 1)
             {
-                Expression subBasesEachRaiseToConstant;
-                subBasesEachRaiseToConstant.setCommonOperatorLevel(OperatorLevel::MultiplicationAndDivision);
-                for(TermWithDetails const& subBaseWithDetails
-                    : baseExpression.getTermsWithAssociation().getTermsWithDetails())
+                TermsRaiseToNumbers termsRaiseToNumbers;
+                termsRaiseToNumbers.putTerms(bases, TermAssociationType::Positive);
+                termsRaiseToNumbers.multiplyToExponents(exponent.getConstantValueConstReference());
+                Term combinedTerm(termsRaiseToNumbers.getCombinedTerm());
+                if(!hasDoubleValues(combinedTerm) && !hasNonRealFiniteNumbers(combinedTerm))
                 {
-                    Term const& subBase(getTermConstReferenceFromSharedPointer(subBaseWithDetails.baseTermSharedPointer));
-                    Term newSubBase(createExpressionIfPossible({subBase, Term("^"), exponentTerm}));
-                    subBasesEachRaiseToConstant.putTerm(newSubBase, subBaseWithDetails.association);
+                    result = combinedTerm;
                 }
-                result = Term(subBasesEachRaiseToConstant);
             }
         }
     }
@@ -343,7 +346,7 @@ bool SimplificationOfExpression::shouldDistributeExponentConstantToEachBase() co
             && !shouldSimplifyByCombiningRadicalsInMultiplicationAndDivision();
 }
 
-Factorization::ConfigurationDetails SimplificationOfExpression::getFactorizationConfigurationForTermsOverTerms() const
+Factorization::ConfigurationDetails SimplificationOfExpression::getFactorizationConfiguration() const
 {
     Factorization::ConfigurationDetails configurationDetails(
                 Factorization::Configuration::getInstance().getConfigurationDetails());
@@ -355,10 +358,12 @@ Factorization::ConfigurationDetails SimplificationOfExpression::getFactorization
 
 bool SimplificationOfExpression::tryToSubstituteSubExpressionOrSubFunctionAndReturnIfContinue(
         Expression const& expression)
-{    bool continueToTryToSubstitute = false;
+{
+    bool continueToTryToSubstitute = false;
     unsigned int oldNumberOfTerms = expression.getTermsWithAssociation().getTermsWithDetails().size();
     Terms expressionAndFunctionTerms(retrieveSubExpressionsAndSubFunctions(Term(expression)));
-    for(Term const& expressionOrFunctionTerm : expressionAndFunctionTerms)    {
+    for(Term const& expressionOrFunctionTerm : expressionAndFunctionTerms)
+    {
         Expression newExpression(getNewExpressionWithSubstitutedVariableForTerm(m_expression, expressionOrFunctionTerm));
         unsigned int newNumberOfTerms = newExpression.getTermsWithAssociation().getTermsWithDetails().size();
         if(expression.getCommonOperatorLevel() != newExpression.getCommonOperatorLevel()

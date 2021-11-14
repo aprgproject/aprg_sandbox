@@ -1104,10 +1104,12 @@ void Integration::integrateUsingPartialFractionPolynomials(
         oneOverDenominator.setAsShouldSimplifyToFactors(true);
         oneOverDenominator.simplify();
 
-        if(oneOverDenominator.getDenominators().size() > 1)        {
+        if(oneOverDenominator.getDenominators().size() > 1)
+        {
             TermsRaiseToNumbers factorsWithExponents(oneOverDenominator.getTermsRaiseToNumbers());
 
-            Polynomials partialNumerators;            Polynomials partialDenominators;
+            Polynomials partialNumerators;
+            Polynomials partialDenominators;
             retrievePartialFractions(partialNumerators, partialDenominators, originalVariableName, factorsWithExponents);
 
             Polynomial numeratorWithNewVariables(getTotalNumeratorWithNewVariables(denominator, partialNumerators, partialDenominators));

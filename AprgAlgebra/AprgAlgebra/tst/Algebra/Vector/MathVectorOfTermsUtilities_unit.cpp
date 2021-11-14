@@ -56,12 +56,14 @@ TEST(MathVectorOfTermsUtilitiesTest, GetDyOverDxWorks)
     EXPECT_EQ(stringToExpect, dyOverDx.getDisplayableString());
 }
 
-TEST(MathVectorOfTermsUtilitiesTest, DISABLED_GetLengthOfArcWorks)
+TEST(MathVectorOfTermsUtilitiesTest, GetLengthOfArcWorks)
 {
     Term x(Monomial(1, {{"t", 3}}));
-    Term y(Monomial(2, {{"t", 2}}));    MathVectorOfTwoTerms termVector{x, y};
+    Term y(Monomial(2, {{"t", 2}}));
+    MathVectorOfTwoTerms termVector{x, y};
 
     Term dyOverDx(getLengthOfArc(termVector, "t"));
+
     string stringToExpect("(((9[t^2] + 16)^(3/2))/27)");
     EXPECT_EQ(stringToExpect, dyOverDx.getDisplayableString());
 }
@@ -81,7 +83,8 @@ TEST(MathVectorOfTermsUtilitiesTest, GetLimitWorks)
 
 TEST(MathVectorOfTermsUtilitiesTest, DifferentiateWorks)
 {
-    Term t("t");    Term x(createExpressionIfPossible({Term(2), Term("+"), Term(sin(t))}));
+    Term t("t");
+    Term x(createExpressionIfPossible({Term(2), Term("+"), Term(sin(t))}));
     Term y(cos(t));
     MathVectorOfTwoTerms termVector{x, y};
 
@@ -107,4 +110,5 @@ TEST(MathVectorOfTermsUtilitiesTest, IntegrateWorks)
 }
 
 }
+
 }

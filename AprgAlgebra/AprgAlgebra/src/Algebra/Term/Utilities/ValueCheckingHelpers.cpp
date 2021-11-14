@@ -17,16 +17,22 @@ namespace algebra
 namespace
 {
 
+NumberCheckingCondition IsDoubleCondition = [](
+        AlbaNumber const& numberToCheck) -> bool
+{
+    return numberToCheck.isDoubleType();
+};
+
 NumberCheckingCondition IsNotANumberCondition = [](
         AlbaNumber const& numberToCheck) -> bool
 {
     return numberToCheck.isNotANumber();
 };
 
-NumberCheckingCondition IsNotAFiniteNumberCondition = [](
+NumberCheckingCondition IsNotARealFiniteNumberCondition = [](
         AlbaNumber const& numberToCheck) -> bool
 {
-    return !numberToCheck.isAFiniteValue();
+    return !numberToCheck.isARealFiniteValue();
 };
 
 NumberCheckingCondition IsPositiveOrNegativeInfinityCondition = [](
@@ -398,6 +404,31 @@ bool isAFiniteConstant(Term const& term)
     return result;
 }
 
+bool hasDoubleValues(Term const& term)
+{
+    return doAnyNumbersSatisfyTheCondition(term, IsDoubleCondition);
+}
+
+bool hasDoubleValues(Monomial const& monomial)
+{
+    return doAnyNumbersSatisfyTheCondition(monomial, IsDoubleCondition);
+}
+
+bool hasDoubleValues(Polynomial const& polynomial)
+{
+    return doAnyNumbersSatisfyTheCondition(polynomial, IsDoubleCondition);
+}
+
+bool hasDoubleValues(Expression const& expression)
+{
+    return doAnyNumbersSatisfyTheCondition(expression, IsDoubleCondition);
+}
+
+bool hasDoubleValues(Function const& function)
+{
+    return doAnyNumbersSatisfyTheCondition(function, IsDoubleCondition);
+}
+
 bool hasNotANumber(Term const& term)
 {
     return doAnyNumbersSatisfyTheCondition(term, IsNotANumberCondition);
@@ -423,29 +454,29 @@ bool hasNotANumber(Function const& function)
     return doAnyNumbersSatisfyTheCondition(function, IsNotANumberCondition);
 }
 
-bool hasNonFiniteNumbers(Term const& term)
+bool hasNonRealFiniteNumbers(Term const& term)
 {
-    return doAnyNumbersSatisfyTheCondition(term, IsNotAFiniteNumberCondition);
+    return doAnyNumbersSatisfyTheCondition(term, IsNotARealFiniteNumberCondition);
 }
 
-bool hasNonFiniteNumbers(Monomial const& monomial)
+bool hasNonRealFiniteNumbers(Monomial const& monomial)
 {
-    return doAnyNumbersSatisfyTheCondition(monomial, IsNotAFiniteNumberCondition);
+    return doAnyNumbersSatisfyTheCondition(monomial, IsNotARealFiniteNumberCondition);
 }
 
-bool hasNonFiniteNumbers(Polynomial const& polynomial)
+bool hasNonRealFiniteNumbers(Polynomial const& polynomial)
 {
-    return doAnyNumbersSatisfyTheCondition(polynomial, IsNotAFiniteNumberCondition);
+    return doAnyNumbersSatisfyTheCondition(polynomial, IsNotARealFiniteNumberCondition);
 }
 
-bool hasNonFiniteNumbers(Expression const& expression)
+bool hasNonRealFiniteNumbers(Expression const& expression)
 {
-    return doAnyNumbersSatisfyTheCondition(expression, IsNotAFiniteNumberCondition);
+    return doAnyNumbersSatisfyTheCondition(expression, IsNotARealFiniteNumberCondition);
 }
 
-bool hasNonFiniteNumbers(Function const& function)
+bool hasNonRealFiniteNumbers(Function const& function)
 {
-    return doAnyNumbersSatisfyTheCondition(function, IsNotAFiniteNumberCondition);
+    return doAnyNumbersSatisfyTheCondition(function, IsNotARealFiniteNumberCondition);
 }
 
 bool hasZero(Terms const& terms)

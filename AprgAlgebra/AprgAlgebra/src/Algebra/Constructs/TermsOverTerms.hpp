@@ -6,8 +6,10 @@
 
 #include <string>
 #include <vector>
+
 namespace alba
 {
+
 namespace algebra
 {
 
@@ -41,9 +43,11 @@ public:
     void setFactorizationConfigurationDetails(Factorization::ConfigurationDetails const& configurationDetails);
 
     void simplify();
+
 private:
     Terms factorizeIfNeeded(Terms const& terms) const;
-    Terms factorize(Terms const& terms) const;    void continueToSimplifyToFactors(
+    Terms factorize(Terms const& terms) const;
+    void continueToSimplifyToFactors(
             Terms & factorizedNumerators,
             Terms & factorizedDenominators);
     void continueToSimplifyAndCombineFactors(
@@ -101,6 +105,7 @@ private:
 };
 
 using VectorOfTermsOverTerms = std::vector<TermsOverTerms>;
+
 }
 
 }

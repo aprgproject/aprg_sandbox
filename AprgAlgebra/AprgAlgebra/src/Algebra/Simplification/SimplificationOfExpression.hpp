@@ -5,8 +5,10 @@
 #include <Algebra/Factorization/FactorizationConfiguration.hpp>
 #include <Algebra/Term/TermTypes/Term.hpp>
 #include <Container/AlbaConfigurationHolder.hpp>
+
 namespace alba
 {
+
 namespace algebra
 {
 
@@ -103,13 +105,15 @@ private:
 
     // other functions
     bool shouldDistributeExponentConstantToEachBase() const;
-    Factorization::ConfigurationDetails getFactorizationConfigurationForTermsOverTerms() const;
+    Factorization::ConfigurationDetails getFactorizationConfiguration() const;
     bool tryToSubstituteSubExpressionOrSubFunctionAndReturnIfContinue(Expression const& expression);
     Expression getNewExpressionWithSubstitutedVariableForTerm(Term const& mainExpression, Term const& termToSubstitute);
-    void convertPolynomialOverPolynomialIfNeeded();    void convertPolynomialToPolynomialOverPolynomial(Term & term);
+    void convertPolynomialOverPolynomialIfNeeded();
+    void convertPolynomialToPolynomialOverPolynomial(Term & term);
     void convertPolynomialToPolynomialOverPolynomial(Expression & expression);
 
-    Expression m_expression;};
+    Expression m_expression;
+};
 
 }
 

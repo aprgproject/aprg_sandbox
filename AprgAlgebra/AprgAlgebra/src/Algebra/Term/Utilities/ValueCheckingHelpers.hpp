@@ -49,16 +49,21 @@ bool isIntegerConstant(Term const& term);
 bool isPositiveIntegerConstant(Term const& term);
 bool isAFiniteConstant(Term const& term);
 
+bool hasDoubleValues(Term const& term);
+bool hasDoubleValues(Monomial const& monomial);
+bool hasDoubleValues(Polynomial const& polynomial);
+bool hasDoubleValues(Expression const& expression);
+bool hasDoubleValues(Function const& function);
 bool hasNotANumber(Term const& term);
 bool hasNotANumber(Monomial const& monomial);
 bool hasNotANumber(Polynomial const& polynomial);
 bool hasNotANumber(Expression const& expression);
 bool hasNotANumber(Function const& function);
-bool hasNonFiniteNumbers(Term const& term);
-bool hasNonFiniteNumbers(Monomial const& monomial);
-bool hasNonFiniteNumbers(Polynomial const& polynomial);
-bool hasNonFiniteNumbers(Expression const& expression);
-bool hasNonFiniteNumbers(Function const& function);
+bool hasNonRealFiniteNumbers(Term const& term);
+bool hasNonRealFiniteNumbers(Monomial const& monomial);
+bool hasNonRealFiniteNumbers(Polynomial const& polynomial);
+bool hasNonRealFiniteNumbers(Expression const& expression);
+bool hasNonRealFiniteNumbers(Function const& function);
 bool hasZero(Terms const& terms);
 bool hasNegativeExponentsWithVariable(Polynomial const& polynomial, std::string const& variableName);
 

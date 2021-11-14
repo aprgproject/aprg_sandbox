@@ -56,4 +56,5 @@ bool dontFactorizeBecauseThereIsSquareRootOfNegativeNumber(Term const& base, Alb
 }
 
 }
+
 }

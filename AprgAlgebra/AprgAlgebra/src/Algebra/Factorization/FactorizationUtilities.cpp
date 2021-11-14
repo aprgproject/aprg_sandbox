@@ -61,7 +61,7 @@ bool doesNotNeedToBeFactorized(Polynomial const& polynomial)
 {
     Monomials const& monomials(polynomial.getMonomialsConstReference());
     bool result(false);
-    if(hasNonFiniteNumbers(polynomial))
+    if(hasNonRealFiniteNumbers(polynomial))
     {
         result = true;
     }

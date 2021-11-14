@@ -10,11 +10,9 @@
 
 #include <algorithm>
 
-
-#include <Debug/AlbaDebug.hpp>
-
 namespace alba
 {
+
 namespace algebra
 {
 
@@ -78,7 +76,6 @@ Term getLengthOfArc(
 {
     MathVectorOfTerms<SIZE> derivative(differentiate(termVector, variableName));
     Integration integration(variableName);
-    ALBA_PRINT2(derivative, derivative.getMagnitude());
     return integration.integrate(derivative.getMagnitude());
 }
 
@@ -86,7 +83,8 @@ template <unsigned int SIZE>
 Term getLengthOfArcFromStartToEnd(
         MathVectorOfTerms<SIZE> const& termVector,
         std::string const& variableName,
-        Term const& lowerValueTerm,        Term const& higherValueTerm)
+        Term const& lowerValueTerm,
+        Term const& higherValueTerm)
 {
     return evaluateTermsAndGetDifference(
                 getLengthOfArc(termVector, variableName),
@@ -142,6 +140,7 @@ MathVectorOfTerms<SIZE> integrate(
     });
     return result;
 }
+
 }
 
 }

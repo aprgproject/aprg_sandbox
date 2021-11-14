@@ -132,10 +132,12 @@ void TermsRaiseToNumbers::putTerm(
             }
         }
         for(auto const& variableExponentPair : monomial.getVariablesToExponentsMapConstReference())
-        {            m_baseToExponentMap[Term(variableExponentPair.first)] += (variableExponentPair.second * sign);
+        {
+            m_baseToExponentMap[Term(variableExponentPair.first)] += (variableExponentPair.second * sign);
         }
     }
-    else    {
+    else
+    {
         TermRaiseToANumber termRaiseToANumber(createTermRaiseToANumberFromTerm(term));
         m_baseToExponentMap[termRaiseToANumber.getBase()] += (termRaiseToANumber.getExponent() * sign);
     }

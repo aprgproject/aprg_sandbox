@@ -210,10 +210,12 @@ void createTermRaiseToANumberFromMultiplicationAndDivisionExpression(
     originalTot.setAsShouldSimplifyToFactors(true);
     TermsRaiseToNumbers termsRaiseToNumbers(originalTot.getTermsRaiseToNumbers());
 
-    bool isFirst(true);    AlbaNumber commonExponent(1);
+    bool isFirst(true);
+    AlbaNumber commonExponent(1);
     bool areAllExponentsNegative(true);
     for(auto const& baseExponentPair : termsRaiseToNumbers.getBaseToExponentMap())
-    {        Term const& base(baseExponentPair.first);
+    {
+        Term const& base(baseExponentPair.first);
         AlbaNumber const& exponent(baseExponentPair.second);
         if(!base.isConstant())
         {
@@ -245,9 +247,11 @@ void createTermRaiseToANumberFromMultiplicationAndDivisionExpression(
     totWithoutCommonExponent.setAsShouldSimplifyToFactors(true);
     result = TermRaiseToANumber(totWithoutCommonExponent.getCombinedTerm(), commonExponent);
 }
+
 TermRaiseToTerms createTermRaiseToTermsFromTerm(Term const& term)
 {
-    TermRaiseToTerms result;    if(term.isMonomial())
+    TermRaiseToTerms result;
+    if(term.isMonomial())
     {
         TermRaiseToANumber termRaiseToANumber(createTermRaiseToANumberFromMonomial(term.getMonomialConstReference()));
         result.setBaseAndExponent(termRaiseToANumber.getBase(), Term(termRaiseToANumber.getExponent()));
@@ -308,10 +312,12 @@ void createTermRaiseToTermsFromMultiplicationAndDivisionExpression(
     originalTot.setAsShouldSimplifyToFactors(true);
     TermsRaiseToTerms originalTermsRaiseToTerms(originalTot.getTermsRaiseToTerms());
 
-    AlbaNumbers originalConstants;    TermsWithDetails originalExponentsWithDetails;
+    AlbaNumbers originalConstants;
+    TermsWithDetails originalExponentsWithDetails;
     for(auto const& baseExponentPair : originalTermsRaiseToTerms.getBaseToExponentMap())
     {
-        Term const& base(baseExponentPair.first);        Term const& exponent(baseExponentPair.second);
+        Term const& base(baseExponentPair.first);
+        Term const& exponent(baseExponentPair.second);
         if(base.isConstant() && exponent.isConstant())
         {
             originalConstants.emplace_back(base.getConstantValueConstReference()^exponent.getConstantValueConstReference());
@@ -329,9 +335,11 @@ void createTermRaiseToTermsFromMultiplicationAndDivisionExpression(
                                        }));
     AlbaNumber constantGcf(getGcfOfConstants(constantFactorsOfExponents));
     if(areAllConstantFactorsNegative)
-    {        constantGcf = constantGcf*-1;
+    {
+        constantGcf = constantGcf*-1;
     }
     retrieveCommonNonConstantFactors(commonNonConstantFactorsOfExponents, nonConstantFactorsOfExponents);
+
     if(!originalConstants.empty())
     {
         commonNonConstantFactorsOfExponents.clear();

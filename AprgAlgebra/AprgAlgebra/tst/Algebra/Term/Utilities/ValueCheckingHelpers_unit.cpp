@@ -426,39 +426,39 @@ TEST(ValueCheckingHelpersTest, HasNotANumberWorksForFunction)
 
 TEST(ValueCheckingHelpersTest, HasNonFiniteNumbersForTerm)
 {
-    EXPECT_TRUE(hasNonFiniteNumbers(Term(NAN)));
-    EXPECT_FALSE(hasNonFiniteNumbers(Term("x")));
-    EXPECT_TRUE(hasNonFiniteNumbers(Term(Monomial(NAN, {}))));
-    EXPECT_TRUE(hasNonFiniteNumbers(Term(Polynomial{Monomial(NAN, {})})));
-    EXPECT_TRUE(hasNonFiniteNumbers(Term(createExpressionIfPossible({Term(NAN)}))));
-    EXPECT_TRUE(hasNonFiniteNumbers(Term(createExpressionIfPossible({Term(5.12), Term("+"), Term(NAN)}))));
+    EXPECT_TRUE(hasNonRealFiniteNumbers(Term(NAN)));
+    EXPECT_FALSE(hasNonRealFiniteNumbers(Term("x")));
+    EXPECT_TRUE(hasNonRealFiniteNumbers(Term(Monomial(NAN, {}))));
+    EXPECT_TRUE(hasNonRealFiniteNumbers(Term(Polynomial{Monomial(NAN, {})})));
+    EXPECT_TRUE(hasNonRealFiniteNumbers(Term(createExpressionIfPossible({Term(NAN)}))));
+    EXPECT_TRUE(hasNonRealFiniteNumbers(Term(createExpressionIfPossible({Term(5.12), Term("+"), Term(NAN)}))));
 }
 
 TEST(ValueCheckingHelpersTest, HasNonFiniteNumbersForMonomial)
 {
-    EXPECT_TRUE(hasNonFiniteNumbers(Monomial(NAN, {})));
-    EXPECT_TRUE(hasNonFiniteNumbers(Monomial(NAN, {{"x", 1}})));
-    EXPECT_FALSE(hasNonFiniteNumbers(Monomial(15, {})));
-    EXPECT_TRUE(hasNonFiniteNumbers(Monomial(15, {{"x", NAN}})));
+    EXPECT_TRUE(hasNonRealFiniteNumbers(Monomial(NAN, {})));
+    EXPECT_TRUE(hasNonRealFiniteNumbers(Monomial(NAN, {{"x", 1}})));
+    EXPECT_FALSE(hasNonRealFiniteNumbers(Monomial(15, {})));
+    EXPECT_TRUE(hasNonRealFiniteNumbers(Monomial(15, {{"x", NAN}})));
 }
 
 TEST(ValueCheckingHelpersTest, HasNonFiniteNumbersForPolynomial)
 {
-    EXPECT_TRUE(hasNonFiniteNumbers(Polynomial{Monomial(NAN, {})}));
-    EXPECT_TRUE(hasNonFiniteNumbers(Polynomial{Monomial(NAN, {}), Monomial(5, {{"x", 1}})}));
-    EXPECT_FALSE(hasNonFiniteNumbers(Polynomial{Monomial(15, {})}));
+    EXPECT_TRUE(hasNonRealFiniteNumbers(Polynomial{Monomial(NAN, {})}));
+    EXPECT_TRUE(hasNonRealFiniteNumbers(Polynomial{Monomial(NAN, {}), Monomial(5, {{"x", 1}})}));
+    EXPECT_FALSE(hasNonRealFiniteNumbers(Polynomial{Monomial(15, {})}));
 }
 
 TEST(ValueCheckingHelpersTest, HasNonFiniteNumbersForExpression)
 {
-    EXPECT_TRUE(hasNonFiniteNumbers(createExpressionIfPossible({Term(NAN)})));
-    EXPECT_TRUE(hasNonFiniteNumbers(createExpressionIfPossible({Term(5.12), Term("+"), Term(NAN)})));
+    EXPECT_TRUE(hasNonRealFiniteNumbers(createExpressionIfPossible({Term(NAN)})));
+    EXPECT_TRUE(hasNonRealFiniteNumbers(createExpressionIfPossible({Term(5.12), Term("+"), Term(NAN)})));
 }
 
 TEST(ValueCheckingHelpersTest, HasNonFiniteNumbersForFunction)
 {
     Function absoluteValueFunction(Functions::abs(createExpressionIfPossible({Term(5.12), Term("+"), Term(NAN)})));
-    EXPECT_TRUE(hasNonFiniteNumbers(absoluteValueFunction));
+    EXPECT_TRUE(hasNonRealFiniteNumbers(absoluteValueFunction));
 }
 
 TEST(ValueCheckingHelpersTest, HasZeroWorks)
