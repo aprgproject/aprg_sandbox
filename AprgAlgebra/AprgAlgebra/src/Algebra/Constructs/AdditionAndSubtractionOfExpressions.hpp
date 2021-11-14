@@ -39,15 +39,13 @@ private:
     void prepareCommonParts(Terms & commonParts);
     void retrieveMergeParts(Terms & mergeParts);
     void retrieveCommonParts(Terms & commonParts);
-    void retrieveMergePart(Term & combinedTerm, Expression const& expression);
+    void retrieveMergePart(Term & mergePart, Expression const& expression);
     void retrieveCommonPart(Term & commonPart, Expression const& expression);
     bool doAllSizesMatch(Terms const& mergeParts, Terms const& commonParts) const;
-    bool canBeMerged(
-            Term const& mergePart1,
+    bool canBeMerged(            Term const& mergePart1,
             Term const& mergePart2,
             Term const& commonPart1,
-            Term const& commonPart2);
-    void putItem(Expression const& expression, TermAssociationType const association);
+            Term const& commonPart2);    void putItem(Expression const& expression, TermAssociationType const association);
     Expressions m_expressions;
     TermAssociationTypes m_associations;
 };

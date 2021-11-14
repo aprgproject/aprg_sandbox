@@ -136,15 +136,13 @@ TEST(TermsOverTermsTest, GetTermsRaiseToNumbersWorks)
 
     TermsRaiseToNumbers termsRaiseToNumbers(termsOverTerms.getTermsRaiseToNumbers());
 
-    TermsRaiseToNumbers::BaseToExponentMap baseToExponentMap(termsRaiseToNumbers.getBaseToExponentMap());
+    TermsRaiseToNumbers::BaseToExponentMap const& baseToExponentMap(termsRaiseToNumbers.getBaseToExponentMap());
     ASSERT_EQ(4U, baseToExponentMap.size());
     auto itVerify=baseToExponentMap.cbegin();
-    EXPECT_EQ(Term("a"), itVerify->first);
-    EXPECT_EQ(AlbaNumber(1), itVerify->second);
+    EXPECT_EQ(Term("a"), itVerify->first);    EXPECT_EQ(AlbaNumber(1), itVerify->second);
     itVerify++;
     EXPECT_EQ(Term("b"), itVerify->first);
-    EXPECT_EQ(AlbaNumber(1), itVerify->second);
-    itVerify++;
+    EXPECT_EQ(AlbaNumber(1), itVerify->second);    itVerify++;
     EXPECT_EQ(Term("x"), itVerify->first);
     EXPECT_EQ(AlbaNumber(-1), itVerify->second);
     itVerify++;

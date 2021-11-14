@@ -45,15 +45,13 @@ bool willYieldToAbsoluteMaximumValue(
 bool willYieldToRelativeMinimumValue(
         Term const& term,
         std::string const& variableName,
-        AlbaNumber const& minimumValueToTest,
-        AlbaNumberInterval const& openInterval);
-
-bool willYieldToRelativeMaximumValue(
-        Term const& term,
-        std::string const& variableName,
         AlbaNumber const& valueForEvaluation,
         AlbaNumberInterval const& openInterval);
 
+bool willYieldToRelativeMaximumValue(        Term const& term,
+        std::string const& variableName,
+        AlbaNumber const& valueForEvaluation,
+        AlbaNumberInterval const& openInterval);
 bool willYieldToExtremumValue(
         ExtremumType const extremumType,
         Term const& term,
@@ -64,14 +62,12 @@ bool willYieldToExtremumValue(
 bool isDerivativeZeroOnPossibleExtremum(
         Term const& term,
         std::string const& variableName,
-        AlbaNumber const& valueForEvaluation,
+        AlbaNumber const& valueAtPossibleExtremum,
         AlbaNumberInterval const& interval);
 
-bool isDecreasingAt(
-        Term const& term,
+bool isDecreasingAt(        Term const& term,
         std::string const& variableName,
         AlbaNumber const& value);
-
 bool isIncreasingAt(
         Term const& term,
         std::string const& variableName,

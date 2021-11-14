@@ -55,15 +55,13 @@ bool isConvergentUsingComparisonTest(
     if(convergentSeries.isConvergent())
     {
         bool areAllValuesSatisfied(true);
-        for(unsigned int i=0; i<numberOfIndexesToTest; i++)
+        for(int i=0; i<static_cast<int>(numberOfIndexesToTest); i++)
         {
             Term termToCheck(seriesToCheck.getTermValueAtIndex(i));
-            Term convergentTerm(convergentSeries.getTermValueAtIndex(i));
-            if(termToCheck.isConstant() && convergentTerm.isConstant())
+            Term convergentTerm(convergentSeries.getTermValueAtIndex(i));            if(termToCheck.isConstant() && convergentTerm.isConstant())
             {
                 areAllValuesSatisfied
-                        = (termToCheck.getConstantValueConstReference() <= convergentTerm.getConstantValueConstReference());
-                if(!areAllValuesSatisfied)
+                        = (termToCheck.getConstantValueConstReference() <= convergentTerm.getConstantValueConstReference());                if(!areAllValuesSatisfied)
                 {
                     break;
                 }
@@ -83,15 +81,13 @@ bool isDivergentUsingComparisonTest(
     if(!divergentSeries.isConvergent())
     {
         bool areAllValuesSatisfied(true);
-        for(unsigned int i=0; i<numberOfIndexesToTest; i++)
+        for(int i=0; i<static_cast<int>(numberOfIndexesToTest); i++)
         {
             Term termToCheck(seriesToCheck.getTermValueAtIndex(i));
-            Term divergentTerm(divergentSeries.getTermValueAtIndex(i));
-            if(termToCheck.isConstant() &&  divergentTerm.isConstant())
+            Term divergentTerm(divergentSeries.getTermValueAtIndex(i));            if(termToCheck.isConstant() &&  divergentTerm.isConstant())
             {
                 areAllValuesSatisfied
-                        = (termToCheck.getConstantValueConstReference() >=  divergentTerm.getConstantValueConstReference());
-                if(!areAllValuesSatisfied)
+                        = (termToCheck.getConstantValueConstReference() >=  divergentTerm.getConstantValueConstReference());                if(!areAllValuesSatisfied)
                 {
                     break;
                 }

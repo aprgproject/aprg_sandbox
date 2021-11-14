@@ -135,26 +135,22 @@ TEST(LimitTest, GetValueUsingLinearInterpolationWorks)
 TEST(LimitTest, GetLimitWorks)
 {
     Term x("x");
-    Term termToTest1(x);
 
-    Term termToVerify1(getLimit(termToTest1, "x", 5));
+    Term termToVerify1(getLimit(x, "x", 5));
 
     EXPECT_EQ(Term(5), termToVerify1);
 }
-
 TEST(LimitTest, GetLimitUsingLhopitalsRuleWorks)
 {
     Term x("x");
     Term oneMinusEToTheX(createExpressionIfPossible({Term(1), Term("-"), Term(AlbaNumber(AlbaNumber::Value::e)), Term("^"), x}));
     Term oneOverX(createExpressionIfPossible({Term(1), Term("/"), x}));
-    Term termToTest1(x);
+    Term termToTest1("x");
     Term termToTest2(createExpressionIfPossible({x, Term("/"), oneMinusEToTheX}));
     Term termToTest3(createExpressionIfPossible({Term(sin(oneOverX)), Term("/"), Term(arctan(oneOverX))}));
-
     Term termToVerify1(getLimitUsingLhopitalsRule(termToTest1, "x", 5));
     Term termToVerify2(getLimitUsingLhopitalsRule(termToTest2, "x", 0));
     Term termToVerify3(getLimitUsingLhopitalsRule(termToTest3, "x", AlbaNumber(AlbaNumber::Value::PositiveInfinity)));
-
     EXPECT_EQ(Term(5), termToVerify1);
     EXPECT_EQ(Term(-1), termToVerify2);
     EXPECT_EQ(Term(1), termToVerify3);
@@ -165,14 +161,12 @@ TEST(LimitTest, GetTermUsingLhopitalsRuleWorks)
     Term x("x");
     Term oneMinusEToTheX(createExpressionIfPossible({Term(1), Term("-"), Term(AlbaNumber(AlbaNumber::Value::e)), Term("^"), x}));
     Term oneOverX(createExpressionIfPossible({Term(1), Term("/"), x}));
-    Term termToTest1(x);
+    Term termToTest1("x");
     Term termToTest2(createExpressionIfPossible({x, Term("/"), oneMinusEToTheX}));
     Term termToTest3(createExpressionIfPossible({Term(sin(oneOverX)), Term("/"), Term(arctan(oneOverX))}));
-
     Term termToVerify1(getTermUsingLhopitalsRule(termToTest1, "x", 5));
     Term termToVerify2(getTermUsingLhopitalsRule(termToTest2, "x", 0));
     Term termToVerify3(getTermUsingLhopitalsRule(termToTest3, "x", AlbaNumber(AlbaNumber::Value::PositiveInfinity)));
-
     string stringToExpect1("x");
     string stringToExpect2("(-1/((e)^x))");
     string stringToExpect3("((1[x^2] + 1)*cos((1/x))/1[x^2])");

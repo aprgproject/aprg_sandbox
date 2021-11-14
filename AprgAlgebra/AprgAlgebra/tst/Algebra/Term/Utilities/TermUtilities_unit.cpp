@@ -69,15 +69,13 @@ TEST(TermUtilitiesTest, IsNonEmptyOrNonOperatorOrNonExpressionTypeWorks)
 TEST(TermUtilitiesTest, IsARadicalTermWorks)
 {
     Term x("x");
-    Term nonMonomialOrExpressionTerm(x);
+    Term nonMonomialOrExpressionTerm("x");
     Term monomialWithIntegerExponent(Monomial(1, {{"x", 34}}));
     Term monomialWithDoubleExponent(Monomial(1, {{"x", 3.4}}));
-    Term nonRaiseToPowerExpressionTerm(createExpressionIfPossible({x, Term("*"), x}));
-    Term raiseToIntegerExpressionTerm(createExpressionIfPossible({x, Term("^"), Term(5)}));
+    Term nonRaiseToPowerExpressionTerm(createExpressionIfPossible({x, Term("*"), x}));    Term raiseToIntegerExpressionTerm(createExpressionIfPossible({x, Term("^"), Term(5)}));
     Term raiseToDoubleExpressionTerm(createExpressionIfPossible({x, Term("^"), Term(1.79)}));
     Term multipleRaiseToPowerExpressionTerm(createExpressionIfPossible({x, Term("^"), Term(1.79), Term("^"), Term("y")}));
     Term raiseToMonomialWithDoubleExpressionTerm(createExpressionIfPossible({x, Term("^"), Term(Monomial(2.84, {{"x", 2}, {"y", 3}}))}));
-
     EXPECT_FALSE(isARadicalTerm(nonMonomialOrExpressionTerm));
     EXPECT_FALSE(isARadicalTerm(monomialWithIntegerExponent));
     EXPECT_TRUE(isARadicalTerm(monomialWithDoubleExponent));

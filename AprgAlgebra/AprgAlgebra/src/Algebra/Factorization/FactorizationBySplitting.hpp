@@ -30,14 +30,12 @@ void factorizePolynomialWithNewVariables(
         Polynomials & result,
         Polynomial const& newPolynomialWithVariables,
         SubstitutionOfVariablesToTerms const& variableSubstitution);
-void getCommonFactorsInThesePolynomials(Polynomials & result, Polynomials const& smallerPolynomials);
+void getCommonFactorsInThesePolynomials(Polynomials & commonFactors, Polynomials const& smallerPolynomials);
 Polynomial getNewPolynomialWithNewVariables(
         SubstitutionOfVariablesToTerms & variableSubstitution,
-        Polynomials const& smallerPolynomials);
-void getPolynomialsWithRemovedCommonFactors(Polynomials & result, Polynomials const& polynomialsWithCommonFactors, Polynomials const& commonFactors);
+        Polynomials const& smallerPolynomials);void getPolynomialsWithRemovedCommonFactors(Polynomials & result, Polynomials const& polynomialsWithCommonFactors, Polynomials const& commonFactors);
 void updateToGetSubsetOfFactors(Polynomials & commonFactors, Polynomials const& commonFactorsOfAPolynomial);
 void combinePolynomialsByAdditionThenEmplaceFactoredPolynomialIfNeeded(Polynomials & result, Polynomials const& smallerPolynomials);
-
 }
 
 }

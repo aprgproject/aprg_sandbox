@@ -17,36 +17,33 @@ namespace algebra
 
 Term::Term()
     : m_type(TermType::Empty)
-    , m_baseDataTermPointer(nullptr)
     , m_isSimplified(false)
+    , m_baseDataTermPointer(nullptr)
 {}
 
 Term::Term(Term const& term)
     : m_type(term.getTermType())
-    , m_baseDataTermPointer(nullptr)
     , m_isSimplified(term.m_isSimplified)
+    , m_baseDataTermPointer(nullptr)
 {
     resetBaseDataTermPointerBasedFromTerm(term);
 }
-
 Term::Term(Constant const& constant)
     : m_type(TermType::Constant)
-    , m_baseDataTermPointer(make_unique<Constant>(constant))
     , m_isSimplified(false)
+    , m_baseDataTermPointer(make_unique<Constant>(constant))
 {}
 
 Term::Term(string const& stringTerm)
     : m_type(TermType::Empty)
-    , m_baseDataTermPointer(nullptr)
     , m_isSimplified(false)
+    , m_baseDataTermPointer(nullptr)
 {
     if(algebra::isOperator(stringTerm))
-    {
-        m_type=TermType::Operator;
+    {        m_type=TermType::Operator;
         m_baseDataTermPointer = make_unique<Operator>(stringTerm);
     }
-    else if(algebra::isFunction(stringTerm))
-    {
+    else if(algebra::isFunction(stringTerm))    {
         m_type=TermType::Function;
         m_baseDataTermPointer = make_unique<Function>(createFunctionWithEmptyInputExpression(stringTerm));
     }
@@ -59,56 +56,52 @@ Term::Term(string const& stringTerm)
 
 Term::Term(Variable const& variable)
     : m_type(TermType::Variable)
-    , m_baseDataTermPointer(nullptr)
     , m_isSimplified(false)
+    , m_baseDataTermPointer(nullptr)
 {
     m_baseDataTermPointer = make_unique<Variable>(variable);
 }
-
 Term::Term(Operator const& operatorTerm)
     : m_type(TermType::Operator)
-    , m_baseDataTermPointer(nullptr)
     , m_isSimplified(false)
+    , m_baseDataTermPointer(nullptr)
 {
     m_baseDataTermPointer = make_unique<Operator>(operatorTerm);
 }
-
 Term::Term(Monomial const& monomial)
     : m_type(TermType::Monomial)
-    , m_baseDataTermPointer(make_unique<Monomial>(monomial))
     , m_isSimplified(false)
+    , m_baseDataTermPointer(make_unique<Monomial>(monomial))
 {}
 
 Term::Term(Polynomial const& polynomial)
     : m_type(TermType::Polynomial)
-    , m_baseDataTermPointer(make_unique<Polynomial>(polynomial))
     , m_isSimplified(false)
+    , m_baseDataTermPointer(make_unique<Polynomial>(polynomial))
 {}
 
 Term::Term(Expression const& expression)
     : m_type(TermType::Expression)
-    , m_baseDataTermPointer(make_unique<Expression>(expression))
     , m_isSimplified(false)
+    , m_baseDataTermPointer(make_unique<Expression>(expression))
 {}
 
 Term::Term(Function const& function)
     : m_type(TermType::Function)
-    , m_baseDataTermPointer(make_unique<Function>(function))
     , m_isSimplified(false)
+    , m_baseDataTermPointer(make_unique<Function>(function))
 {}
 
 Term& Term::operator=(Term const& term)
 {
     m_type = term.m_type;
-    resetBaseDataTermPointerBasedFromTerm(term);
     m_isSimplified = term.m_isSimplified;
+    resetBaseDataTermPointerBasedFromTerm(term);
     return *this;
 }
-
 bool Term::operator==(Term const& second) const
 {
-    bool result(false);
-    if(m_type==second.m_type)
+    bool result(false);    if(m_type==second.m_type)
     {
         if(m_type==TermType::Empty)
         {

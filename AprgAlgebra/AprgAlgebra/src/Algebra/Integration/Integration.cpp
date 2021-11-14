@@ -707,17 +707,13 @@ Term Integration::substituteToNewVariable(
             || termForNewVariable.isExpression()
             || termForNewVariable.isFunction())
     {
-        Term leftHandSide(newVariable);
-        Term rightHandSide(termForNewVariable);
-        IsolationOfOneVariableOnEqualityEquation isolationForOldVariable(Equation(leftHandSide, "=", rightHandSide));
+        IsolationOfOneVariableOnEqualityEquation isolationForOldVariable(Equation(newVariable, "=", termForNewVariable));
         Term termWithOldVariable;
         Term newVariableInTermsOfOldVariable;
-        isolationForOldVariable.isolateTermWithVariable(m_nameOfVariableToIntegrate, termWithOldVariable, newVariableInTermsOfOldVariable);
-        if(canBeConvertedToMonomial(termWithOldVariable))
+        isolationForOldVariable.isolateTermWithVariable(m_nameOfVariableToIntegrate, termWithOldVariable, newVariableInTermsOfOldVariable);        if(canBeConvertedToMonomial(termWithOldVariable))
         {
             Monomial monomialWithOldVariable(createMonomialIfPossible(termWithOldVariable));
-            AlbaNumber exponentForOldVariable(monomialWithOldVariable.getExponentForVariable(m_nameOfVariableToIntegrate));
-            monomialWithOldVariable.putVariableWithExponent(m_nameOfVariableToIntegrate, AlbaNumber(0));
+            AlbaNumber exponentForOldVariable(monomialWithOldVariable.getExponentForVariable(m_nameOfVariableToIntegrate));            monomialWithOldVariable.putVariableWithExponent(m_nameOfVariableToIntegrate, AlbaNumber(0));
             Term isolatedTermWithNewVariable((newVariableInTermsOfOldVariable/monomialWithOldVariable)^(AlbaNumber(1)/exponentForOldVariable));
             isolatedTermWithNewVariable.simplify();
             SubstitutionOfVariablesToTerms substitutionFromOldVariableToNewVariable({{m_nameOfVariableToIntegrate, isolatedTermWithNewVariable}});
@@ -815,15 +811,13 @@ void Integration::integrateUsingTrigonometricSubstitutionWithDeterminedTerms(
     if(AlbaNumber(2) == uToANumber.getExponent())
     {
         Term a(createExpressionIfPossible({aSquared, Term("^"), Term(AlbaNumber::createFraction(1, 2))}));
-        Term u(uToANumber.getBase());
+        Term const& u(uToANumber.getBase());
         a.simplify();
 
-        TrigonometricSubstitutionDetails details(calculateTrigonometricSubstitutionDetails(a, u, aSquaredAndUSquared, isANegative, isUNegative));
-        if(details.isTrigonometricSubstitutionPossible)
+        TrigonometricSubstitutionDetails details(calculateTrigonometricSubstitutionDetails(a, u, aSquaredAndUSquared, isANegative, isUNegative));        if(details.isTrigonometricSubstitutionPossible)
         {
             Term termToIntegrateWithTrigSub(substituteToTrigonometricFunctions(mainTerm, details));
-            if(!termToIntegrateWithTrigSub.isEmpty())
-            {
+            if(!termToIntegrateWithTrigSub.isEmpty())            {
                 simplifyForIntegration(termToIntegrateWithTrigSub, getConfigurationWithCommonDenominator());
                 if(!isChangingTerm(termToIntegrateWithTrigSub))
                 {
@@ -997,15 +991,13 @@ void Integration::findInnerAndOuterTermForChainRule(
         if(OperatorLevel::RaiseToPower == expression.getCommonOperatorLevel())
         {
             TermRaiseToTerms termRaiseToTerms(expression.getTermsWithAssociation().getTermsWithDetails());
-            Term base(termRaiseToTerms.getBase());
+            Term const& base(termRaiseToTerms.getBase());
             Term exponent(termRaiseToTerms.getCombinedExponents());
             Term combinedBaseAndExponent(termRaiseToTerms.getCombinedTerm());
-            if(!isChangingTerm(exponent))
-            {
+            if(!isChangingTerm(exponent))            {
                 outerTerm = combinedBaseAndExponent;
                 innerTerm = base;
-            }
-            else if(!isChangingTerm(base))
+            }            else if(!isChangingTerm(base))
             {
                 outerTerm = combinedBaseAndExponent;
                 innerTerm = exponent;
@@ -1145,15 +1137,13 @@ void Integration::retrievePartialFractions(
         Term const& factor(factorExponentPair.first);
         TermRaiseToANumber termRaiseToANumber(createTermRaiseToANumberFromTerm(factor));
         AlbaNumber const& negatedExponent(factorExponentPair.second * -1 * termRaiseToANumber.getExponent());
-        Term factorsToProcess(termRaiseToANumber.getBase());
+        Term const& factorsToProcess(termRaiseToANumber.getBase());
         if(negatedExponent.isIntegerType() && negatedExponent > 0 && canBeConvertedToPolynomial(factorsToProcess))
         {
-            Polynomial polynomialFactor(createPolynomialIfPossible(factorsToProcess));
-            unsigned int maxDegreeOfFactor = static_cast<unsigned int>(getMaxDegree(polynomialFactor).getInteger());
+            Polynomial polynomialFactor(createPolynomialIfPossible(factorsToProcess));            unsigned int maxDegreeOfFactor = static_cast<unsigned int>(getMaxDegree(polynomialFactor).getInteger());
             unsigned int denominatorExponent = static_cast<unsigned int>(negatedExponent.getInteger());
             for(unsigned int i=1; i<=denominatorExponent; i++)
-            {
-                Polynomial partialDenominator(polynomialFactor);
+            {                Polynomial partialDenominator(polynomialFactor);
                 partialDenominator.raiseToUnsignedInteger(i);
                 partialDenominators.emplace_back(partialDenominator);
                 partialNumerators.emplace_back(getPartialNumeratorForPartialFractions(maxDegreeOfFactor, originalVariableName));
@@ -1940,47 +1930,42 @@ void Integration::putCotangentSquaredToCosecantSquaredTerms(
 
 Integration::Configuration Integration::getConfigurationWithFactors() const
 {
-    Configuration configuration;
+    Configuration configuration{};
     configuration.shouldFixTrigonometricFunctions = true;
     configuration.expressionSimplification = SimplificationOfExpression::Configuration::getInstance().getConfigurationDetails();
-    configuration.expressionSimplification.shouldSimplifyToFactors = true;
-    configuration.expressionSimplification.shouldNotFactorizeIfItWouldYieldToPolynomialsWithDoubleValue = true;
+    configuration.expressionSimplification.shouldSimplifyToFactors = true;    configuration.expressionSimplification.shouldNotFactorizeIfItWouldYieldToPolynomialsWithDoubleValue = true;
     return configuration;
 }
 
 Integration::Configuration Integration::getConfigurationWithCommonDenominator() const
 {
-    Configuration configuration;
+    Configuration configuration{};
     configuration.shouldFixTrigonometricFunctions = true;
     configuration.expressionSimplification = SimplificationOfExpression::Configuration::getInstance().getConfigurationDetails();
-    configuration.expressionSimplification.shouldSimplifyToFactors = true;
-    configuration.expressionSimplification.shouldNotFactorizeIfItWouldYieldToPolynomialsWithDoubleValue = true;
+    configuration.expressionSimplification.shouldSimplifyToFactors = true;    configuration.expressionSimplification.shouldNotFactorizeIfItWouldYieldToPolynomialsWithDoubleValue = true;
     configuration.expressionSimplification.shouldSimplifyToACommonDenominator = true;
     return configuration;
 }
 
 Integration::Configuration Integration::getConfigurationWithoutFactors() const
 {
-    Configuration configuration;
+    Configuration configuration{};
     configuration.shouldFixTrigonometricFunctions = true;
     configuration.expressionSimplification = SimplificationOfExpression::Configuration::getInstance().getConfigurationDetails();
-    configuration.expressionSimplification.shouldSimplifyToFactors = false;
-    configuration.expressionSimplification.shouldNotFactorizeIfItWouldYieldToPolynomialsWithDoubleValue = true;
+    configuration.expressionSimplification.shouldSimplifyToFactors = false;    configuration.expressionSimplification.shouldNotFactorizeIfItWouldYieldToPolynomialsWithDoubleValue = true;
     configuration.expressionSimplification.shouldSimplifyToACommonDenominator = false;
     return configuration;
 }
 
 Integration::Configuration Integration::getConfigurationWithCombiningRadicals() const
 {
-    Configuration configuration;
+    Configuration configuration{};
     configuration.shouldFixTrigonometricFunctions = true;
     configuration.expressionSimplification = SimplificationOfExpression::Configuration::getInstance().getConfigurationDetails();
-    configuration.expressionSimplification.shouldSimplifyToFactors = false;
-    configuration.expressionSimplification.shouldNotFactorizeIfItWouldYieldToPolynomialsWithDoubleValue = true;
+    configuration.expressionSimplification.shouldSimplifyToFactors = false;    configuration.expressionSimplification.shouldNotFactorizeIfItWouldYieldToPolynomialsWithDoubleValue = true;
     configuration.expressionSimplification.shouldSimplifyToACommonDenominator = false;
     configuration.expressionSimplification.shouldSimplifyByCombiningRadicalsInMultiplicationAndDivision = true;
-    return configuration;
-}
+    return configuration;}
 
 void Integration::simplifyForIntegration(
         Term & term,
@@ -2125,15 +2110,13 @@ bool Integration::hasNonChangingTermRaiseToChangingTerm(Term const& term) const
 bool Integration::wouldDifferentiationYieldToAConstant(
         Term const& term) const
 {
-    bool result(0);
+    bool result(false);
     if(term.isVariable() && isVariableToIntegrate(term.getVariableConstReference().getVariableName()))
     {
-        result = true;
-    }
+        result = true;    }
     else if(term.isMonomial())
     {
-        result = term.getMonomialConstReference().getExponentForVariable(m_nameOfVariableToIntegrate) == 1;
-    }
+        result = term.getMonomialConstReference().getExponentForVariable(m_nameOfVariableToIntegrate) == 1;    }
     else if(term.isPolynomial())
     {
         result = getDegreeForVariable(term.getPolynomialConstReference(), m_nameOfVariableToIntegrate) == 1;

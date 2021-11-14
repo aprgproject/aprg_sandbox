@@ -89,15 +89,13 @@ private:
             Terms & numerators,
             Terms & denominators);
     void putTermsToRetainAndOnTheOtherSide(
-            Terms const& termsToSegregate,
+            Terms const& termsToCheck,
             Terms & termsToRetain,
             Terms & termsToPutOnTheOtherSide) const;
-    void simplifyPolynomialNumeratorAndPolynomialDenominator(
-            Polynomial & polynomialNumerator,
+    void simplifyPolynomialNumeratorAndPolynomialDenominator(            Polynomial & polynomialNumerator,
             Polynomial & polynomialDenominator) const;
     void simplifyMonomialsToPolynomialOverPolynomial();
-    void simplifyPolynomialsToPolynomialOverPolynomial();
-    bool isPolynomialAndhasDoubleValue(Term const& term) const;
+    void simplifyPolynomialsToPolynomialOverPolynomial();    bool isPolynomialAndhasDoubleValue(Term const& term) const;
     Terms m_numerators;
     Terms m_denominators;
     bool m_shouldSimplifyToFactors;

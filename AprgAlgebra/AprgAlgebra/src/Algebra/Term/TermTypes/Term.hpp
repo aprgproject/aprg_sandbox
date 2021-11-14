@@ -81,14 +81,12 @@ public:
 private:
     void resetBaseDataTermPointerBasedFromTerm(Term const& term);
     TermType m_type;
-    std::unique_ptr<BaseTermData> m_baseDataTermPointer;
     bool m_isSimplified;
+    std::unique_ptr<BaseTermData> m_baseDataTermPointer;
 };
 
 using Terms = std::vector<Term>;
-
 std::ostream & operator<<(std::ostream & out, Term const& term);
 
 }
-
 }
