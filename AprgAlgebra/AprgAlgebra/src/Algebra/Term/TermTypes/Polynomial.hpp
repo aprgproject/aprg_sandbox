@@ -23,6 +23,7 @@ public:
     bool operator!=(Polynomial const& second) const;
     bool operator<(Polynomial const& second) const;
     bool isEmpty() const;
+    bool isSimplified() const;
 
     Monomials const& getMonomialsConstReference() const;
     std::string getDisplayableString() const;
@@ -42,7 +43,7 @@ public:
     void raiseToUnsignedInteger(unsigned int const exponent);
 
     void setAsSimplified();
-    void clearInternalFlags();
+    void clearSimplifiedFlag();
 
 private:
     bool isFurtherSimplificationNeeded(Polynomial const& beforeSimplify, Polynomial const& afterSimplify) const;

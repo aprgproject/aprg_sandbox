@@ -80,6 +80,11 @@ bool Polynomial::isEmpty() const
     return m_monomials.empty();
 }
 
+bool Polynomial::isSimplified() const
+{
+    return m_isSimplified;
+}
+
 Monomials const& Polynomial::getMonomialsConstReference() const
 {
     return m_monomials;
@@ -112,14 +117,14 @@ string Polynomial::getDisplayableString() const
 
 Monomials & Polynomial::getMonomialsReference()
 {
-    clearInternalFlags();
+    clearSimplifiedFlag();
     return m_monomials;
 }
 
 void Polynomial::clear()
 {
     m_monomials.clear();
-    clearInternalFlags();
+    clearSimplifiedFlag();
 }
 
 void Polynomial::simplify()
@@ -144,7 +149,7 @@ void Polynomial::sortMonomialsWithInversePriority()
     {
         return monomial2 < monomial1;
     });
-    clearInternalFlags();
+    clearSimplifiedFlag();
 }
 
 void Polynomial::addMonomial(Monomial const& monomial)
@@ -162,7 +167,7 @@ void Polynomial::addMonomial(Monomial const& monomial)
     {
         m_monomials.emplace_back(monomial);
     }
-    clearInternalFlags();
+    clearSimplifiedFlag();
 }
 
 void Polynomial::addPolynomial(Polynomial const& polynomial)
@@ -171,7 +176,7 @@ void Polynomial::addPolynomial(Polynomial const& polynomial)
     {
         addMonomial(monomial);
     }
-    clearInternalFlags();
+    clearSimplifiedFlag();
 }
 
 void Polynomial::multiplyNumber(AlbaNumber const& number)
@@ -180,7 +185,7 @@ void Polynomial::multiplyNumber(AlbaNumber const& number)
     {
         monomial.setConstant(monomial.getConstantConstReference()*number);
     }
-    clearInternalFlags();
+    clearSimplifiedFlag();
 }
 
 void Polynomial::divideNumber(AlbaNumber const& number)
@@ -189,7 +194,7 @@ void Polynomial::divideNumber(AlbaNumber const& number)
     {
         monomial.setConstant(monomial.getConstantConstReference()/number);
     }
-    clearInternalFlags();
+    clearSimplifiedFlag();
 }
 
 void Polynomial::multiplyMonomial(Monomial const& monomial)
@@ -198,7 +203,7 @@ void Polynomial::multiplyMonomial(Monomial const& monomial)
     {
         monomialInternal.multiplyMonomial(monomial);
     }
-    clearInternalFlags();
+    clearSimplifiedFlag();
 }
 
 void Polynomial::multiplyPolynomial(Polynomial const& polynomial)
@@ -214,7 +219,7 @@ void Polynomial::multiplyPolynomial(Polynomial const& polynomial)
             addMonomial(newMonomial);
         }
     }
-    clearInternalFlags();
+    clearSimplifiedFlag();
 }
 
 void Polynomial::divideMonomial(Monomial const& monomial)
@@ -223,7 +228,7 @@ void Polynomial::divideMonomial(Monomial const& monomial)
     {
         monomialInternal.divideMonomial(monomial);
     }
-    clearInternalFlags();
+    clearSimplifiedFlag();
 }
 
 void Polynomial::raiseToUnsignedInteger(unsigned int const exponent)
@@ -233,7 +238,7 @@ void Polynomial::raiseToUnsignedInteger(unsigned int const exponent)
     {
         multiplyPolynomial(base);
     }
-    clearInternalFlags();
+    clearSimplifiedFlag();
 }
 
 void Polynomial::setAsSimplified()
@@ -241,7 +246,7 @@ void Polynomial::setAsSimplified()
     m_isSimplified = true;
 }
 
-void Polynomial::clearInternalFlags()
+void Polynomial::clearSimplifiedFlag()
 {
     m_isSimplified = false;
 }

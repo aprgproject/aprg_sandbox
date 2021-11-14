@@ -38,6 +38,7 @@ public:
     bool operator==(Monomial const& second) const;
     bool operator!=(Monomial const& second) const;
     bool operator<(Monomial const& second) const;
+    bool isSimplified() const;
 
     AlbaNumber const& getConstantConstReference() const;
     VariablesToExponentsMap const& getVariablesToExponentsMapConstReference() const;
@@ -57,7 +58,7 @@ public:
     void putVariableWithExponent(std::string const& variable, AlbaNumber const& exponent);
 
     void setAsSimplified();
-    void clearInternalFlags();
+    void clearSimplifiedFlag();
 
 private:
     bool isLessThanByComparingVariableNameMaps(

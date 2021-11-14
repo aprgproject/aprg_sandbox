@@ -14,82 +14,82 @@ namespace algebra
 
 TEST(TermTest, TermsAsConstantsWorks)
 {
-    Term constant1(4353);
-    Term constant2(-3248);
-    Term constant3(AlbaNumber::createFraction(3498, 3459));
-    Term constant4(-34.8767);
+    Term constantTerm1(4353);
+    Term constantTerm2(-3248);
+    Term constantTerm3(AlbaNumber::createFraction(3498, 3459));
+    Term constantTerm4(-34.8767);
 
-    ASSERT_EQ(TermType::Constant, constant1.getTermType());
-    EXPECT_DOUBLE_EQ(4353, constant1.getConstantConstReference().getNumberConstReference().getDouble());
+    ASSERT_EQ(TermType::Constant, constantTerm1.getTermType());
+    EXPECT_DOUBLE_EQ(4353, constantTerm1.getConstantConstReference().getNumberConstReference().getDouble());
 
-    ASSERT_EQ(TermType::Constant, constant2.getTermType());
-    EXPECT_DOUBLE_EQ(-3248, constant2.getConstantConstReference().getNumberConstReference().getDouble());
+    ASSERT_EQ(TermType::Constant, constantTerm2.getTermType());
+    EXPECT_DOUBLE_EQ(-3248, constantTerm2.getConstantConstReference().getNumberConstReference().getDouble());
 
-    ASSERT_EQ(TermType::Constant, constant3.getTermType());
-    EXPECT_DOUBLE_EQ(1.0112749349522983, constant3.getConstantConstReference().getNumberConstReference().getDouble());
+    ASSERT_EQ(TermType::Constant, constantTerm3.getTermType());
+    EXPECT_DOUBLE_EQ(1.0112749349522983, constantTerm3.getConstantConstReference().getNumberConstReference().getDouble());
 
-    ASSERT_EQ(TermType::Constant, constant4.getTermType());
-    EXPECT_DOUBLE_EQ(-34.8767, constant4.getConstantConstReference().getNumberConstReference().getDouble());
+    ASSERT_EQ(TermType::Constant, constantTerm4.getTermType());
+    EXPECT_DOUBLE_EQ(-34.8767, constantTerm4.getConstantConstReference().getNumberConstReference().getDouble());
 }
 
 TEST(TermTest, TermsAsVariablesWorks)
 {
-    Term variable1("");
-    Term variable2("x");
-    Term variable3("power");
+    Term variableTerm1("");
+    Term variableTerm2("x");
+    Term variableTerm3("power");
 
-    ASSERT_EQ(TermType::Variable, variable1.getTermType());
-    EXPECT_EQ("", variable1.getVariableConstReference().getVariableName());
+    ASSERT_EQ(TermType::Variable, variableTerm1.getTermType());
+    EXPECT_EQ("", variableTerm1.getVariableConstReference().getVariableName());
 
-    ASSERT_EQ(TermType::Variable, variable2.getTermType());
-    EXPECT_EQ("x", variable2.getVariableConstReference().getVariableName());
+    ASSERT_EQ(TermType::Variable, variableTerm2.getTermType());
+    EXPECT_EQ("x", variableTerm2.getVariableConstReference().getVariableName());
 
-    ASSERT_EQ(TermType::Variable, variable3.getTermType());
-    EXPECT_EQ("power", variable3.getVariableConstReference().getVariableName());
+    ASSERT_EQ(TermType::Variable, variableTerm3.getTermType());
+    EXPECT_EQ("power", variableTerm3.getVariableConstReference().getVariableName());
 }
 
 TEST(TermTest, TermsAsOperatorsWorks)
 {
-    Term operator1("+");
-    Term operator2("-");
-    Term operator3("*");
-    Term operator4("/");
+    Term operatorTerm1("+");
+    Term operatorTerm2("-");
+    Term operatorTerm3("*");
+    Term operatorTerm4("/");
 
-    ASSERT_EQ(TermType::Operator, operator1.getTermType());
-    EXPECT_EQ("+", operator1.getOperatorConstReference().getOperatorString());
+    ASSERT_EQ(TermType::Operator, operatorTerm1.getTermType());
+    EXPECT_EQ("+", operatorTerm1.getOperatorConstReference().getOperatorString());
 
-    ASSERT_EQ(TermType::Operator, operator2.getTermType());
-    EXPECT_EQ("-", operator2.getOperatorConstReference().getOperatorString());
+    ASSERT_EQ(TermType::Operator, operatorTerm2.getTermType());
+    EXPECT_EQ("-", operatorTerm2.getOperatorConstReference().getOperatorString());
 
-    ASSERT_EQ(TermType::Operator, operator3.getTermType());
-    EXPECT_EQ("*", operator3.getOperatorConstReference().getOperatorString());
+    ASSERT_EQ(TermType::Operator, operatorTerm3.getTermType());
+    EXPECT_EQ("*", operatorTerm3.getOperatorConstReference().getOperatorString());
 
-    ASSERT_EQ(TermType::Operator, operator4.getTermType());
-    EXPECT_EQ("/", operator4.getOperatorConstReference().getOperatorString());
+    ASSERT_EQ(TermType::Operator, operatorTerm4.getTermType());
+    EXPECT_EQ("/", operatorTerm4.getOperatorConstReference().getOperatorString());
 }
 
 TEST(TermTest, TermsAsMonomialsWorks)
 {
-    Term monomial1(Monomial(3, {}));
-    Term monomial2(Monomial(1.5, {{"distance", 3.75}}));
-    Term monomial3(Monomial(-1.5, {{"distance", -3.75}, {"power", 4.5}}));
+    Term monomialTerm1(Monomial(3, {}));
+    Term monomialTerm2(Monomial(1.5, {{"distance", 3.75}}));
+    Term monomialTerm3(Monomial(-1.5, {{"distance", -3.75}, {"power", 4.5}}));
 
-    ASSERT_EQ(TermType::Monomial, monomial1.getTermType());
-    EXPECT_DOUBLE_EQ(3, monomial1.getMonomialConstReference().getConstantConstReference().getDouble());
-    Monomial::VariablesToExponentsMap const& variableMap1(monomial1.getMonomialConstReference().getVariablesToExponentsMapConstReference());
+    ASSERT_EQ(TermType::Monomial, monomialTerm1.getTermType());
+    EXPECT_DOUBLE_EQ(3, monomialTerm1.getMonomialConstReference().getConstantConstReference().getDouble());
+    Monomial::VariablesToExponentsMap const& variableMap1(monomialTerm1.getMonomialConstReference().getVariablesToExponentsMapConstReference());
     ASSERT_TRUE(variableMap1.empty());
 
-    ASSERT_EQ(TermType::Monomial, monomial2.getTermType());
-    EXPECT_DOUBLE_EQ(1.5, monomial2.getMonomialConstReference().getConstantConstReference().getDouble());
-    Monomial::VariablesToExponentsMap const& variableMap2(monomial2.getMonomialConstReference().getVariablesToExponentsMapConstReference());
+    ASSERT_EQ(TermType::Monomial, monomialTerm2.getTermType());
+    EXPECT_DOUBLE_EQ(1.5, monomialTerm2.getMonomialConstReference().getConstantConstReference().getDouble());
+    Monomial::VariablesToExponentsMap const& variableMap2(monomialTerm2.getMonomialConstReference().getVariablesToExponentsMapConstReference());
     ASSERT_EQ(1U, variableMap2.size());
     Monomial::VariableExponentPair const& variable2(*variableMap2.begin());
     EXPECT_EQ("distance", variable2.first);
     EXPECT_DOUBLE_EQ(3.75, variable2.second.getDouble());
 
-    ASSERT_EQ(TermType::Monomial, monomial3.getTermType());
-    EXPECT_DOUBLE_EQ(-1.5, monomial3.getMonomialConstReference().getConstantConstReference().getDouble());
-    Monomial::VariablesToExponentsMap const& variableMap3(monomial3.getMonomialConstReference().getVariablesToExponentsMapConstReference());
+    ASSERT_EQ(TermType::Monomial, monomialTerm3.getTermType());
+    EXPECT_DOUBLE_EQ(-1.5, monomialTerm3.getMonomialConstReference().getConstantConstReference().getDouble());
+    Monomial::VariablesToExponentsMap const& variableMap3(monomialTerm3.getMonomialConstReference().getVariablesToExponentsMapConstReference());
     ASSERT_EQ(2U, variableMap3.size());
     Monomial::VariablesToExponentsMap::const_iterator variableMap3It = variableMap3.cbegin();
     Monomial::VariableExponentPair const& variable3_1(*variableMap3It);
@@ -103,18 +103,18 @@ TEST(TermTest, TermsAsMonomialsWorks)
 
 TEST(TermTest, TermsAsPolynomialsWorks)
 {
-    Term polynomial1(Polynomial{});
-    Term polynomial2(Polynomial{Monomial(3, {})});
-    Term polynomial3(Polynomial{Monomial(3, {}), Monomial(-1.5, {{"distance", -3.75}, {"power", 4.5}})});
+    Term polynomialTerm1(Polynomial{});
+    Term polynomialTerm2(Polynomial{Monomial(3, {})});
+    Term polynomialTerm3(Polynomial{Monomial(3, {}), Monomial(-1.5, {{"distance", -3.75}, {"power", 4.5}})});
 
     //For polynomial1
-    ASSERT_EQ(TermType::Polynomial, polynomial1.getTermType());
-    Monomials const& monomials1(polynomial1.getPolynomialConstReference().getMonomialsConstReference());
+    ASSERT_EQ(TermType::Polynomial, polynomialTerm1.getTermType());
+    Monomials const& monomials1(polynomialTerm1.getPolynomialConstReference().getMonomialsConstReference());
     ASSERT_TRUE(monomials1.empty());
 
     //For polynomial2
-    ASSERT_EQ(TermType::Polynomial, polynomial2.getTermType());
-    Monomials const& monomials2(polynomial2.getPolynomialConstReference().getMonomialsConstReference());
+    ASSERT_EQ(TermType::Polynomial, polynomialTerm2.getTermType());
+    Monomials const& monomials2(polynomialTerm2.getPolynomialConstReference().getMonomialsConstReference());
     ASSERT_EQ(1U, monomials2.size());
     Monomial const& monomial2(monomials2.front());
     EXPECT_DOUBLE_EQ(3, monomial2.getConstantConstReference().getDouble());
@@ -122,8 +122,8 @@ TEST(TermTest, TermsAsPolynomialsWorks)
     ASSERT_TRUE(variableMap2.empty());
 
     //For polynomial3
-    ASSERT_EQ(TermType::Polynomial, polynomial3.getTermType());
-    Monomials const& monomials3(polynomial3.getPolynomialConstReference().getMonomialsConstReference());
+    ASSERT_EQ(TermType::Polynomial, polynomialTerm3.getTermType());
+    Monomials const& monomials3(polynomialTerm3.getPolynomialConstReference().getMonomialsConstReference());
     ASSERT_EQ(2U, monomials3.size());
 
     Monomial const& monomial3_1(monomials3.front());
@@ -199,6 +199,45 @@ TEST(TermTest, TermsAsFunctionsWorks)
     Function const& functionToVerify3(functionTerm3.getFunctionConstReference());
     EXPECT_EQ("abs", functionToVerify3.getFunctionName());
     EXPECT_TRUE(getTermConstReferenceFromBaseTerm(functionToVerify3.getInputTermConstReference()).isEmpty());
+}
+
+TEST(TermTest, TermThatIsDefaultConstructedHasIsSimplifiedFlagNotSet)
+{
+    Term term;
+
+    EXPECT_FALSE(term.isSimplified());
+}
+
+TEST(TermTest, TermThatIsCopyConstructedHasIsSimplifiedFlagCopied)
+{
+    Term termWithSimplifiedNotSet;
+    Term termWithSimplifiedSet;
+    termWithSimplifiedSet.setAsSimplified();
+
+    Term term1(termWithSimplifiedNotSet);
+    Term term2(termWithSimplifiedSet);
+
+    EXPECT_FALSE(term1.isSimplified());
+    EXPECT_TRUE(term2.isSimplified());
+}
+
+TEST(TermTest, TermThatIsConstructedWithTermTypeHasIsSimplifiedFlagNotSet)
+{
+    Term constantTerm(4353);
+    Term variableTerm("");
+    Term operatorTerm("+");
+    Term monomialTerm(Monomial{});
+    Term polynomialTerm(Polynomial{});
+    Term expressionTerm(Expression{});
+    Term functionTerm(Function{});
+
+    EXPECT_FALSE(constantTerm.isSimplified());
+    EXPECT_FALSE(variableTerm.isSimplified());
+    EXPECT_FALSE(operatorTerm.isSimplified());
+    EXPECT_FALSE(monomialTerm.isSimplified());
+    EXPECT_FALSE(polynomialTerm.isSimplified());
+    EXPECT_FALSE(expressionTerm.isSimplified());
+    EXPECT_FALSE(functionTerm.isSimplified());
 }
 
 TEST(TermTest, GetConstantValueConstReferenceWorks)
@@ -306,6 +345,21 @@ TEST(TermTest, AssignmentOperatorWorks)
     EXPECT_EQ(7, term2.getConstantValueConstReference().getInteger());
     ASSERT_EQ(TermType::Constant, term3.getTermType());
     EXPECT_EQ(8, term3.getConstantValueConstReference().getInteger());
+}
+
+TEST(TermTest, TermThatIsAssignedHasIsSimplifiedFlagCopied)
+{
+    Term termWithSimplifiedNotSet;
+    Term termWithSimplifiedSet;
+    termWithSimplifiedSet.setAsSimplified();
+    Term term1(1);
+    Term term2(1);
+
+    term1 = termWithSimplifiedNotSet;
+    term2 = termWithSimplifiedSet;
+
+    EXPECT_FALSE(term1.isSimplified());
+    EXPECT_TRUE(term2.isSimplified());
 }
 
 TEST(TermTest, EqualityOperatorWorks)
@@ -531,6 +585,16 @@ TEST(TermTest, IsFunctionWorks)
     EXPECT_TRUE(term8.isFunction());
 }
 
+TEST(TermTest, IsSimplifiedWorks)
+{
+    Term term1;
+    Term term2;
+    term2.setAsSimplified();
+
+    EXPECT_FALSE(term1.isSimplified());
+    EXPECT_TRUE(term2.isSimplified());
+}
+
 TEST(TermTest, GetTermTypeWorks)
 {
     Term term1;
@@ -658,6 +722,25 @@ TEST(TermTest, SimplifyWorks)
     EXPECT_EQ(Term(1475), functionTerm);
 }
 
+TEST(TermTest, SimplifyWorksWhenIsSimplifiedIsNotSet)
+{
+    Term term(Monomial(1475,{}));
+
+    term.simplify();
+
+    EXPECT_EQ(Term(1475), term);
+}
+
+TEST(TermTest, SimplifyWorksAsSkippedWhenIsSimplifiedIsSet)
+{
+    Term term(Monomial(1475,{}));
+    term.setAsSimplified();
+
+    term.simplify();
+
+    EXPECT_EQ(Term(Monomial(1475,{})), term);
+}
+
 TEST(TermTest, SortWorks)
 {
     Term term1;
@@ -682,6 +765,40 @@ TEST(TermTest, SortWorks)
     EXPECT_EQ(expectTerm3, term3);
     EXPECT_EQ(expectTerm4, term4);
     EXPECT_EQ(expectTerm5, term5);
+}
+
+TEST(TermTest, SetAsSimplifiedWorks)
+{
+    Term term;
+
+    term.setAsSimplified();
+
+    EXPECT_TRUE(term.isSimplified());
+}
+
+TEST(TermTest, ClearSimplifiedFlagWorks)
+{
+    Term term;
+    term.setAsSimplified();
+
+    term.clearSimplifiedFlag();
+
+    EXPECT_FALSE(term.isSimplified());
+}
+
+TEST(TermTest, ClearAllInnerSimplifiedFlagsWorks)
+{
+    Monomial innerMonomial;
+    innerMonomial.setAsSimplified();
+    Term term(innerMonomial);
+    term.setAsSimplified();
+    EXPECT_TRUE(term.isSimplified());
+    EXPECT_TRUE(term.getMonomialConstReference().isSimplified());
+
+    term.clearAllInnerSimplifiedFlags();
+
+    EXPECT_FALSE(term.isSimplified());
+    EXPECT_FALSE(term.getMonomialConstReference().isSimplified());
 }
 
 }

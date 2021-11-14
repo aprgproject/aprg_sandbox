@@ -29,6 +29,7 @@ public:
     bool operator<(Expression const& second) const;
     bool isEmpty() const;
     bool containsOnlyOnePositivelyAssociatedTerm() const;
+    bool isSimplified() const;
 
     OperatorLevel getCommonOperatorLevel() const;
     BaseTerm const& getFirstTermConstReference() const;
@@ -66,8 +67,8 @@ public:
     void sort();
 
     void setAsSimplified();
-    void clearInternalFlags();
-    void clearAllInnerInternalFlags();
+    void clearSimplifiedFlag();
+    void clearAllInnerSimplifiedFlags();
 
 private:
 

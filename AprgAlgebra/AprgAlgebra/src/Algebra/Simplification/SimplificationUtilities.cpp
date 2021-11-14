@@ -26,7 +26,7 @@ void simplifyTermToACommonDenominator(Term & term)
     SimplificationOfExpression::ScopeObject scopeObject;
     scopeObject.setInThisScopeThisConfiguration(configurationDetails);
 
-    term.clearAllInnerInternalFlags();
+    term.clearAllInnerSimplifiedFlags();
     term.simplify();
 }
 
@@ -39,7 +39,7 @@ void simplifyTermByCombiningRadicals(Term & term)
     SimplificationOfExpression::ScopeObject scopeObject;
     scopeObject.setInThisScopeThisConfiguration(configurationDetails);
 
-    term.clearAllInnerInternalFlags();
+    term.clearAllInnerSimplifiedFlags();
     term.simplify();
 }
 
@@ -53,7 +53,7 @@ void simplifyTermByFactoringToNonDoubleFactors(Term & term)
     SimplificationOfExpression::ScopeObject scopeObject;
     scopeObject.setInThisScopeThisConfiguration(configurationDetails);
 
-    term.clearAllInnerInternalFlags();
+    term.clearAllInnerSimplifiedFlags();
     term.simplify();
 }
 
@@ -68,7 +68,7 @@ void simplifyTermByFactoringToNonDoubleFactorsToACommonDenominator(Term & term)
     SimplificationOfExpression::ScopeObject scopeObject;
     scopeObject.setInThisScopeThisConfiguration(configurationDetails);
 
-    term.clearAllInnerInternalFlags();
+    term.clearAllInnerSimplifiedFlags();
     term.simplify();
 }
 

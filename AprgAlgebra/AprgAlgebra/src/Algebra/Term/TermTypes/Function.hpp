@@ -17,39 +17,40 @@ namespace algebra
 class Function : public BaseTermData
 {
 public:
-    using FunctionToPerform=std::function<AlbaNumber(AlbaNumber const&)>;
+    using EvaluationFunction=std::function<AlbaNumber(AlbaNumber const&)>;
 
     Function();
     Function(Function const& functionObject);
     Function(
             std::string const& functionName,
             BaseTerm const& baseTerm,
-            FunctionToPerform const& functionToPerform);
+            EvaluationFunction const& evaluationFunction);
 
     Function & operator=(Function const& functionObject);
 
     bool operator==(Function const& second) const;
     bool operator!=(Function const& second) const;
     bool operator<(Function const& second) const;
+    bool isSimplified() const;
 
     std::string getFunctionName() const;
     std::string getDisplayableString() const;
     std::string getDebugString() const;
     AlbaNumber performFunctionAndReturnResultIfPossible() const;
     BaseTerm const& getInputTermConstReference() const;
-    FunctionToPerform const& getFunctionToPerform() const;
+    EvaluationFunction const& getEvaluationFunction() const;
 
     BaseTerm & getInputTermReference();
     void simplify();
 
     void setAsSimplified();
-    void clearInternalFlags();
-    void clearAllInnerInternalFlags();
+    void clearSimplifiedFlag();
+    void clearAllInnerSimplifiedFlags();
 
 private:
     std::string m_functionName;
     BaseTermUniquePointer m_inputTermPointer;
-    FunctionToPerform m_functionToPerform;
+    EvaluationFunction m_evaluationFunction;
     bool m_isSimplified;
 };
 

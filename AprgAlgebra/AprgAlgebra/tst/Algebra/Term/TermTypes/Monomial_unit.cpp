@@ -32,6 +32,18 @@ TEST(MonomialTest, MonomialsAreConstructedCorrectly)
     EXPECT_DOUBLE_EQ(-7, variableMap2.at("i").getDouble());
 }
 
+TEST(MonomialTest, ConstructedMonomialsHaveIsSimplifiedFlagNotSet)
+{
+    Monomial monomial1;
+    Monomial monomial2(-54, {{"x", 6}, {"y", -1.25}});
+    Monomial::VariablesToExponentsMap variablesToExponents{{"i", -7}};
+    Monomial monomial3(23, variablesToExponents);
+
+    EXPECT_FALSE(monomial1.isSimplified());
+    EXPECT_FALSE(monomial2.isSimplified());
+    EXPECT_FALSE(monomial3.isSimplified());
+}
+
 TEST(MonomialTest, CombineVariableExponentMapByMultiplicationWorks)
 {
     Monomial::VariablesToExponentsMap variableMap1{{"x", 7}, {"y", 8}};
@@ -116,6 +128,16 @@ TEST(MonomialTest, LessThanOperatorWorks)
     EXPECT_TRUE(Monomial(54, {{"y", 6}}) < Monomial(54, {{"x", 6}}));
     EXPECT_FALSE(Monomial(54, {{"x", 6}}) < Monomial(54, {{"x", 3}, {"y", 2}}));
     EXPECT_TRUE(Monomial(54, {{"x", 6}}) < Monomial(54, {{"x", 3}, {"y", 4}}));
+}
+
+TEST(MonomialTest, IsSimplifiedWorks)
+{
+    Monomial monomial1;
+    Monomial monomial2;
+    monomial2.setAsSimplified();
+
+    EXPECT_FALSE(monomial1.isSimplified());
+    EXPECT_TRUE(monomial2.isSimplified());
 }
 
 TEST(MonomialTest, GetConstantConstReferenceWorks)
@@ -221,6 +243,32 @@ TEST(MonomialTest, SimplifyWorks)
     EXPECT_TRUE(monomial6.getConstantConstReference().isNotANumber());
     Monomial::VariablesToExponentsMap const& variableMap6(monomial6.getVariablesToExponentsMapConstReference());
     EXPECT_TRUE(variableMap6.empty());
+}
+
+TEST(MonomialTest, SimplifyWorksWhenIsSimplifiedIsNotSet)
+{
+    Monomial monomial(58, {{"x", 7}, {"y", 0}});
+
+    monomial.simplify();
+
+    EXPECT_DOUBLE_EQ(58, monomial.getConstantConstReference().getDouble());
+    Monomial::VariablesToExponentsMap const& variableMap(monomial.getVariablesToExponentsMapConstReference());
+    ASSERT_EQ(1U, variableMap.size());
+    EXPECT_DOUBLE_EQ(7, variableMap.at("x").getDouble());
+}
+
+TEST(MonomialTest, SimplifyWorksAsSkippedWhenIsSimplifiedIsSet)
+{
+    Monomial monomial(58, {{"x", 7}, {"y", 0}});
+    monomial.setAsSimplified();
+
+    monomial.simplify();
+
+    EXPECT_DOUBLE_EQ(58, monomial.getConstantConstReference().getDouble());
+    Monomial::VariablesToExponentsMap const& variableMap(monomial.getVariablesToExponentsMapConstReference());
+    ASSERT_EQ(2U, variableMap.size());
+    EXPECT_DOUBLE_EQ(7, variableMap.at("x").getDouble());
+    EXPECT_DOUBLE_EQ(0, variableMap.at("y").getDouble());
 }
 
 TEST(MonomialTest, SettingANewConstantWorks)
@@ -351,6 +399,25 @@ TEST(MonomialTest, PuttingVariableWithExponentWorks)
     Monomial::VariablesToExponentsMap const& variableMapToVerify(monomial.getVariablesToExponentsMapConstReference());
     ASSERT_EQ(1U, variableMapToVerify.size());
     EXPECT_DOUBLE_EQ(67, variableMapToVerify.at("a").getDouble());
+}
+
+TEST(MonomialTest, SetAsSimplifiedWorks)
+{
+    Monomial monomial;
+
+    monomial.setAsSimplified();
+
+    EXPECT_TRUE(monomial.isSimplified());
+}
+
+TEST(MonomialTest, ClearSimplifiedFlagWorks)
+{
+    Monomial monomial;
+    monomial.setAsSimplified();
+
+    monomial.clearSimplifiedFlag();
+
+    EXPECT_FALSE(monomial.isSimplified());
 }
 
 }

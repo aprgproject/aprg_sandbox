@@ -1043,7 +1043,7 @@ void Integration::integrateAsPolynomialOverPolynomialIfPossible(
     if(variableNames.size() == 1)
     {
         Term simplifiedTerm(term);
-        simplifiedTerm.clearAllInnerInternalFlags();
+        simplifiedTerm.clearAllInnerSimplifiedFlags();
         simplifiedTerm.simplify();
         PolynomialOverPolynomialOptional popOptional(createPolynomialOverPolynomialFromTermIfPossible(simplifiedTerm));
         if(popOptional.hasContent())
@@ -1496,10 +1496,12 @@ void Integration::integrateUsingPreviousIntegrationByPartsTerms(
     {
         result = accumulatedUTimesV * ratio / Term(accumulatedCoefficient+1);
         result.simplify();
-    }}
+    }
+}
 
 void Integration::integrateUsingIntegrationByParts(
-        Term & result,        ListOfIntegrationByPartsTerms & listOfIntegrationByPartsTerms,
+        Term & result,
+        ListOfIntegrationByPartsTerms & listOfIntegrationByPartsTerms,
         Term const& term,
         Term const& u,
         Term const& dv) const
@@ -1985,12 +1987,12 @@ void Integration::simplifyForIntegration(
         Configuration const& configuration) const
 {
     simplifyAndFixTrigonometricFunctions(term, configuration.shouldFixTrigonometricFunctions);
-    term.clearAllInnerInternalFlags();
+    term.clearAllInnerSimplifiedFlags();
     term.simplify();
     {
         SimplificationOfExpression::ScopeObject scopeObject;
         scopeObject.setInThisScopeThisConfiguration(configuration.expressionSimplification);
-        term.clearAllInnerInternalFlags();
+        term.clearAllInnerSimplifiedFlags();
         term.simplify();
     }
 }

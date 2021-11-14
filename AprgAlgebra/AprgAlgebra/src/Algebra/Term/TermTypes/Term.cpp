@@ -383,49 +383,49 @@ string Term::getDebugString() const
 
 Constant & Term::getConstantReference()
 {
-    clearInternalFlags();
+    clearSimplifiedFlag();
     assert(m_type==TermType::Constant);
     return *dynamic_cast<Constant*>(m_baseDataTermPointer.get());
 }
 
 Variable & Term::getVariableReference()
 {
-    clearInternalFlags();
+    clearSimplifiedFlag();
     assert(m_type==TermType::Variable);
     return *dynamic_cast<Variable*>(m_baseDataTermPointer.get());
 }
 
 Operator & Term::getOperatorReference()
 {
-    clearInternalFlags();
+    clearSimplifiedFlag();
     assert(m_type==TermType::Operator);
     return *dynamic_cast<Operator*>(m_baseDataTermPointer.get());
 }
 
 Monomial & Term::getMonomialReference()
 {
-    clearInternalFlags();
+    clearSimplifiedFlag();
     assert(m_type==TermType::Monomial);
     return *dynamic_cast<Monomial*>(m_baseDataTermPointer.get());
 }
 
 Polynomial & Term::getPolynomialReference()
 {
-    clearInternalFlags();
+    clearSimplifiedFlag();
     assert(m_type==TermType::Polynomial);
     return *dynamic_cast<Polynomial*>(m_baseDataTermPointer.get());
 }
 
 Expression & Term::getExpressionReference()
 {
-    clearInternalFlags();
+    clearSimplifiedFlag();
     assert((m_type==TermType::Expression));
     return *dynamic_cast<Expression*>(m_baseDataTermPointer.get());
 }
 
 Function & Term::getFunctionReference()
 {
-    clearInternalFlags();
+    clearSimplifiedFlag();
     assert((m_type==TermType::Function));
     return *dynamic_cast<Function*>(m_baseDataTermPointer.get());
 }
@@ -434,7 +434,7 @@ void Term::clear()
 {
     m_type=TermType::Empty;
     m_baseDataTermPointer.reset();
-    clearInternalFlags();
+    clearSimplifiedFlag();
 }
 
 void Term::simplify()
@@ -471,7 +471,7 @@ void Term::sort()
     {
         getExpressionReference().sort();
     }
-    clearAllInnerInternalFlags();
+    clearAllInnerSimplifiedFlags();
 }
 
 void Term::setAsSimplified()
@@ -479,30 +479,30 @@ void Term::setAsSimplified()
     m_isSimplified = true;
 }
 
-void Term::clearInternalFlags()
+void Term::clearSimplifiedFlag()
 {
     m_isSimplified = false;
 }
 
-void Term::clearAllInnerInternalFlags()
+void Term::clearAllInnerSimplifiedFlags()
 {
     if(m_type==TermType::Monomial)
     {
-        getMonomialReference().clearInternalFlags();
+        getMonomialReference().clearSimplifiedFlag();
     }
     else if(m_type==TermType::Polynomial)
     {
-        getPolynomialReference().clearInternalFlags();
+        getPolynomialReference().clearSimplifiedFlag();
     }
     else if(m_type==TermType::Expression)
     {
-        getExpressionReference().clearAllInnerInternalFlags();
+        getExpressionReference().clearAllInnerSimplifiedFlags();
     }
     else if(m_type==TermType::Function)
     {
-        getFunctionReference().clearAllInnerInternalFlags();
+        getFunctionReference().clearAllInnerSimplifiedFlags();
     }
-    clearInternalFlags();
+    clearSimplifiedFlag();
 }
 
 void Term::resetBaseDataTermPointerBasedFromTerm(Term const& term)

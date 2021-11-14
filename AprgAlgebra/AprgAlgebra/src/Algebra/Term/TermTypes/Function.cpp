@@ -15,33 +15,33 @@ namespace algebra
 Function::Function()
     : m_functionName()
     , m_inputTermPointer(make_unique<Term>())
-    , m_functionToPerform()
+    , m_evaluationFunction()
     , m_isSimplified(false)
 {}
 
 Function::Function(Function const& functionObject)
     : m_functionName(functionObject.m_functionName)
     , m_inputTermPointer(make_unique<Term>(getTermConstReferenceFromUniquePointer(functionObject.m_inputTermPointer)))
-    , m_functionToPerform(functionObject.m_functionToPerform)
-    , m_isSimplified(false)
+    , m_evaluationFunction(functionObject.m_evaluationFunction)
+    , m_isSimplified(functionObject.isSimplified())
 {}
 
 Function::Function(
         string const& functionName,
         BaseTerm const& baseTerm,
-        FunctionToPerform const& functionToPerform)
+        EvaluationFunction const& evaluationFunction)
     : m_functionName(functionName)
     , m_inputTermPointer(make_unique<Term>(getTermConstReferenceFromBaseTerm(baseTerm)))
-    , m_functionToPerform(functionToPerform)
-    , m_isSimplified(false)
+    , m_evaluationFunction(evaluationFunction)
+    , m_isSimplified(getTermConstReferenceFromBaseTerm(baseTerm).isSimplified())
 {}
 
 Function& Function::operator=(Function const& functionObject)
 {
     m_functionName = functionObject.m_functionName;
     m_inputTermPointer= make_unique<Term>(getTermConstReferenceFromBaseTerm(functionObject.getInputTermConstReference()));
-    m_functionToPerform = functionObject.m_functionToPerform;
-    clearInternalFlags();
+    m_evaluationFunction = functionObject.m_evaluationFunction;
+    clearSimplifiedFlag();
     return *this;
 }
 
@@ -72,6 +72,11 @@ bool Function::operator<(Function const& second) const
     return result;
 }
 
+bool Function::isSimplified() const
+{
+    return m_isSimplified;
+}
+
 string Function::getFunctionName() const
 {
     return m_functionName;
@@ -93,7 +98,7 @@ AlbaNumber Function::performFunctionAndReturnResultIfPossible() const
     Term const& term(getTermConstReferenceFromBaseTerm(getInputTermConstReference()));
     if(term.isConstant())
     {
-        result = m_functionToPerform(term.getConstantValueConstReference());
+        result = m_evaluationFunction(term.getConstantValueConstReference());
     }
     return result;
 }
@@ -103,14 +108,14 @@ BaseTerm const& Function::getInputTermConstReference() const
     return getBaseTermConstReferenceFromUniquePointer(m_inputTermPointer);
 }
 
-Function::FunctionToPerform const& Function::getFunctionToPerform() const
+Function::EvaluationFunction const& Function::getEvaluationFunction() const
 {
-    return m_functionToPerform;
+    return m_evaluationFunction;
 }
 
 BaseTerm & Function::getInputTermReference()
 {
-    clearInternalFlags();
+    clearSimplifiedFlag();
     return getBaseTermReferenceFromUniquePointer(m_inputTermPointer);
 }
 
@@ -130,16 +135,16 @@ void Function::setAsSimplified()
     m_isSimplified = true;
 }
 
-void Function::clearInternalFlags()
+void Function::clearSimplifiedFlag()
 {
     m_isSimplified = false;
 }
 
-void Function::clearAllInnerInternalFlags()
+void Function::clearAllInnerSimplifiedFlags()
 {
     Term & term(getTermReferenceFromUniquePointer(m_inputTermPointer));
-    term.clearAllInnerInternalFlags();
-    clearInternalFlags();
+    term.clearAllInnerSimplifiedFlags();
+    clearSimplifiedFlag();
 }
 
 ostream & operator<<(ostream & out, Function const& functionObject)

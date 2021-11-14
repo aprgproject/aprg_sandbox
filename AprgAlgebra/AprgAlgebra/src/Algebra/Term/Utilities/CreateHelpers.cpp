@@ -169,7 +169,7 @@ Function createFunctionInAnFunction(
     return Function(
                 functionObject.getFunctionName(),
                 Term(functionObject),
-                functionObject.getFunctionToPerform());
+                functionObject.getEvaluationFunction());
 }
 
 Term createTermWithAdditionAndSubtractionTermsWithDetails(

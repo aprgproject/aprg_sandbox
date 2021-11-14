@@ -44,6 +44,48 @@ TEST(ExpressionTest, ConstructionWorks)
     EXPECT_EQ(Term(20), termToVerify3);
 }
 
+TEST(ExpressionTest, ExpressionThatIsDefaultConstructedHasIsSimplifiedFlagNotSet)
+{
+    Expression expression;
+
+    EXPECT_FALSE(expression.isSimplified());
+}
+
+TEST(ExpressionTest, ExpressionThatIsCopyConstructedHasIsSimplifiedFlagCopied)
+{
+    Expression expressionWithSimplifiedNotSet;
+    Expression expressionWithSimplifiedSet;
+    expressionWithSimplifiedSet.setAsSimplified();
+
+    Expression expression1(expressionWithSimplifiedNotSet);
+    Expression expression2(expressionWithSimplifiedSet);
+
+    EXPECT_FALSE(expression1.isSimplified());
+    EXPECT_TRUE(expression2.isSimplified());
+}
+
+TEST(ExpressionTest, ExpressionThatIsConstructedWithTermHasIsSimplifiedFlagCopied)
+{
+    Term termWithSimplifiedNotSet;
+    Term termWithSimplifiedSet;
+    termWithSimplifiedSet.setAsSimplified();
+
+    Expression expression1(termWithSimplifiedNotSet);
+    Expression expression2(termWithSimplifiedSet);
+
+    EXPECT_FALSE(expression1.isSimplified());
+    EXPECT_TRUE(expression2.isSimplified());
+}
+
+TEST(ExpressionTest, ExpressionThatIsConstructedWithTermsWithDetailsHasIsSimplifiedFlagNotSet)
+{
+    TermWithDetails termWithDetails1(Term(10), TermAssociationType::Positive);
+    TermWithDetails termWithDetails2(Term(20), TermAssociationType::Negative);
+    Expression expression(OperatorLevel::AdditionAndSubtraction, {termWithDetails1, termWithDetails2});
+
+    EXPECT_FALSE(expression.isSimplified());
+}
+
 TEST(ExpressionTest, EqualityOperatorWorks)
 {
     Expression expression1;
@@ -119,6 +161,16 @@ TEST(ExpressionTest, ContainsOnlyOneTermWorks)
     EXPECT_TRUE(expression2.containsOnlyOnePositivelyAssociatedTerm());
     EXPECT_FALSE(expression3.containsOnlyOnePositivelyAssociatedTerm());
     EXPECT_FALSE(expression4.containsOnlyOnePositivelyAssociatedTerm());
+}
+
+TEST(ExpressionTest, IsSimplifiedWorks)
+{
+    Expression expression1;
+    Expression expression2;
+    expression2.setAsSimplified();
+
+    EXPECT_FALSE(expression1.isSimplified());
+    EXPECT_TRUE(expression2.isSimplified());
 }
 
 TEST(ExpressionTest, GetCommonOperatorLevelWorks)
@@ -1353,6 +1405,27 @@ TEST(ExpressionTest, SimplifyWorks)
     EXPECT_EQ(expressionToExpect, expressionToTest);
 }
 
+TEST(ExpressionTest, SimplifyWorksWhenIsSimplifiedIsNotSet)
+{
+    Expression expressionToTest(createExpressionIfPossible({Term(100), Term("+"), Term(200), Term("-"), Term(50)}));
+
+    expressionToTest.simplify();
+
+    Expression expressionToExpect(createOrCopyExpressionFromATerm(Term(250)));
+    EXPECT_EQ(expressionToExpect, expressionToTest);
+}
+
+TEST(ExpressionTest, SimplifyWorksAsSkippedWhenIsSimplifiedIsSet)
+{
+    Expression expressionToTest(createExpressionIfPossible({Term(100), Term("+"), Term(200), Term("-"), Term(50)}));
+    expressionToTest.setAsSimplified();
+
+    expressionToTest.simplify();
+
+    Expression expressionToExpect(createExpressionIfPossible({Term(100), Term("+"), Term(200), Term("-"), Term(50)}));
+    EXPECT_EQ(expressionToExpect, expressionToTest);
+}
+
 TEST(ExpressionTest, SimplifyWorksOnPutPolynomialFirstWithMultiplication)
 {
     Expression expression1;
@@ -1536,6 +1609,40 @@ TEST(ExpressionTest, SortWorks)
                             Monomial(10, {})})
                     }));
     EXPECT_EQ(expressionToExpect, expression);
+}
+
+TEST(ExpressionTest, SetAsSimplifiedWorks)
+{
+    Expression expression;
+
+    expression.setAsSimplified();
+
+    EXPECT_TRUE(expression.isSimplified());
+}
+
+TEST(ExpressionTest, ClearSimplifiedFlagWorks)
+{
+    Expression expression;
+    expression.setAsSimplified();
+
+    expression.clearSimplifiedFlag();
+
+    EXPECT_FALSE(expression.isSimplified());
+}
+
+TEST(ExpressionTest, ClearAllInnerSimplifiedFlagsWorks)
+{
+    Term innerTerm;
+    innerTerm.setAsSimplified();
+    Expression expression(innerTerm);
+    expression.setAsSimplified();
+    EXPECT_TRUE(expression.isSimplified());
+    EXPECT_TRUE(getTermConstReferenceFromBaseTerm(expression.getFirstTermConstReference()).isSimplified());
+
+    expression.clearAllInnerSimplifiedFlags();
+
+    EXPECT_FALSE(expression.isSimplified());
+    EXPECT_FALSE(getTermConstReferenceFromBaseTerm(expression.getFirstTermConstReference()).isSimplified());
 }
 
 }

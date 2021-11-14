@@ -75,8 +75,8 @@ public:
     void sort();
 
     void setAsSimplified();
-    void clearInternalFlags();
-    void clearAllInnerInternalFlags();
+    void clearSimplifiedFlag();
+    void clearAllInnerSimplifiedFlags();
 
 private:
     void resetBaseDataTermPointerBasedFromTerm(Term const& term);

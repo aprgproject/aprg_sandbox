@@ -13,8 +13,10 @@
 #include <Algebra/Term/Utilities/PolynomialHelpers.hpp>
 #include <Algebra/Term/Utilities/StringHelpers.hpp>
 #include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>
+
 using namespace alba::algebra::Factorization;
 using namespace std;
+
 namespace alba
 {
 
@@ -150,10 +152,12 @@ AlbaNumber getDegree(Term const& term)
 
 AlbaNumberPairs evaluateAndGetInputOutputPair(
         AlbaNumbers const& numbers,
-        string const& variableName,        Term const& term)
+        string const& variableName,
+        Term const& term)
 {
     AlbaNumberPairs result;
-    SubstitutionOfVariablesToValues substitution;    for(AlbaNumber const& number : numbers)
+    SubstitutionOfVariablesToValues substitution;
+    for(AlbaNumber const& number : numbers)
     {
         substitution.putVariableWithValue(variableName, number);
         Term substituteTerm(substitution.performSubstitutionTo(term));

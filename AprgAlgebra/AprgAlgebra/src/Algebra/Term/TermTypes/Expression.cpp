@@ -91,6 +91,11 @@ bool Expression::containsOnlyOnePositivelyAssociatedTerm() const
             && getFirstAssociationType() == TermAssociationType::Positive;
 }
 
+bool Expression::isSimplified() const
+{
+    return m_isSimplified;
+}
+
 OperatorLevel Expression::getCommonOperatorLevel() const
 {
     return m_commonOperatorLevel;
@@ -161,7 +166,7 @@ string Expression::getDebugString() const
 
 TermsWithAssociation & Expression::getTermsWithAssociationReference()
 {
-    clearInternalFlags();
+    clearSimplifiedFlag();
     return m_termsWithAssociation;
 }
 
@@ -169,14 +174,14 @@ void Expression::clear()
 {
     m_termsWithAssociation.clear();
     m_commonOperatorLevel = OperatorLevel::Unknown;
-    clearInternalFlags();
+    clearSimplifiedFlag();
 }
 
 void Expression::clearAndPutTermInTermsWithAssociation(BaseTerm const& baseTerm)
 {
     clear();
     m_termsWithAssociation.putTermWithPositiveAssociation(baseTerm);
-    clearInternalFlags();
+    clearSimplifiedFlag();
 }
 
 void Expression::putTermWithAdditionIfNeeded(BaseTerm const& baseTerm)
@@ -202,7 +207,7 @@ void Expression::putTermWithAdditionIfNeeded(BaseTerm const& baseTerm)
             putTermWithAddition(baseTerm);
         }
     }
-    clearInternalFlags();
+    clearSimplifiedFlag();
 }
 
 void Expression::putTermWithSubtractionIfNeeded(BaseTerm const& baseTerm)
@@ -230,7 +235,7 @@ void Expression::putTermWithSubtractionIfNeeded(BaseTerm const& baseTerm)
             putTermWithSubtraction(baseTerm);
         }
     }
-    clearInternalFlags();
+    clearSimplifiedFlag();
 }
 
 void Expression::putTermWithMultiplicationIfNeeded(BaseTerm const& baseTerm)
@@ -244,7 +249,7 @@ void Expression::putTermWithMultiplicationIfNeeded(BaseTerm const& baseTerm)
     {
         putOnlyTermWithMultiplicationIfNeeded(baseTerm);
     }
-    clearInternalFlags();
+    clearSimplifiedFlag();
 }
 
 void Expression::putTermWithDivisionIfNeeded(BaseTerm const& baseTerm)
@@ -272,7 +277,7 @@ void Expression::putTermWithDivisionIfNeeded(BaseTerm const& baseTerm)
             putTermWithDivision(baseTerm);
         }
     }
-    clearInternalFlags();
+    clearSimplifiedFlag();
 }
 
 void Expression::putTermWithRaiseToPowerIfNeeded(BaseTerm const& baseTerm)
@@ -289,7 +294,7 @@ void Expression::putTermWithRaiseToPowerIfNeeded(BaseTerm const& baseTerm)
             putTermWithRaiseToPower(baseTerm);
         }
     }
-    clearInternalFlags();
+    clearSimplifiedFlag();
 }
 
 void Expression::putPolynomialFirstWithMultiplication(Polynomial const& polynomial)
@@ -306,7 +311,7 @@ void Expression::putPolynomialFirstWithMultiplication(Polynomial const& polynomi
         clear();
         distributeAndMultiply(polynomial, expressionCopy);
     }
-    clearInternalFlags();
+    clearSimplifiedFlag();
 }
 
 void Expression::putPolynomialSecondWithMultiplication(Polynomial const& polynomial)
@@ -323,7 +328,7 @@ void Expression::putPolynomialSecondWithMultiplication(Polynomial const& polynom
         clear();
         distributeAndMultiply(expressionCopy, polynomial);
     }
-    clearInternalFlags();
+    clearSimplifiedFlag();
 }
 
 void Expression::putExpressionWithMultiplication(Expression const& secondExpression)
@@ -360,13 +365,13 @@ void Expression::putExpressionWithMultiplication(Expression const& secondExpress
     {
         putOnlyTermWithMultiplicationIfNeeded(Term(secondExpression));
     }
-    clearInternalFlags();
+    clearSimplifiedFlag();
 }
 
 void Expression::putTermWithDetails(TermWithDetails const& termToSave)
 {
     m_termsWithAssociation.putTermWithDetails(termToSave);
-    clearInternalFlags();
+    clearSimplifiedFlag();
 }
 
 void Expression::putTermsWithDetails(TermsWithDetails const& termsToSave)
@@ -375,7 +380,7 @@ void Expression::putTermsWithDetails(TermsWithDetails const& termsToSave)
     {
         m_termsWithAssociation.putTermWithDetails(termWithDetails);
     }
-    clearInternalFlags();
+    clearSimplifiedFlag();
 }
 
 void Expression::putTerm(BaseTerm const& baseTerm, TermAssociationType const overallAssociation)
@@ -388,33 +393,33 @@ void Expression::putTerm(BaseTerm const& baseTerm, TermAssociationType const ove
     {
         m_termsWithAssociation.putTermWithNegativeAssociation(baseTerm);
     }
-    clearInternalFlags();
+    clearSimplifiedFlag();
 }
 
 void Expression::reverseTheAssociationOfTheTerms()
 {
     m_termsWithAssociation.reverseTheAssociationOfTheTerms();
-    clearInternalFlags();
+    clearSimplifiedFlag();
 }
 
 void Expression::set(OperatorLevel const operatorLevel, TermsWithDetails const& termsWithDetails)
 {
     m_commonOperatorLevel = operatorLevel;
     m_termsWithAssociation.putTermsWithDetails(termsWithDetails);
-    clearInternalFlags();
+    clearSimplifiedFlag();
 }
 
 void Expression::setTerm(BaseTerm const& baseTerm)
 {
     *this = createOrCopyExpressionFromATerm(
                 getTermConstReferenceFromBaseTerm(baseTerm));
-    clearInternalFlags();
+    clearSimplifiedFlag();
 }
 
 void Expression::setCommonOperatorLevel(OperatorLevel const operatorLevel)
 {
     m_commonOperatorLevel = operatorLevel;
-    clearInternalFlags();
+    clearSimplifiedFlag();
 }
 
 void Expression::setCommonOperatorLevelIfStillUnknown(OperatorLevel const operatorLevel)
@@ -423,7 +428,7 @@ void Expression::setCommonOperatorLevelIfStillUnknown(OperatorLevel const operat
     {
         m_commonOperatorLevel = operatorLevel;
     }
-    clearInternalFlags();
+    clearSimplifiedFlag();
 }
 
 void Expression::simplify()
@@ -440,7 +445,7 @@ void Expression::simplify()
 void Expression::sort()
 {
     m_termsWithAssociation.sort();
-    clearInternalFlags();
+    clearSimplifiedFlag();
 }
 
 void Expression::setAsSimplified()
@@ -448,19 +453,19 @@ void Expression::setAsSimplified()
     m_isSimplified = true;
 }
 
-void Expression::clearInternalFlags()
+void Expression::clearSimplifiedFlag()
 {
     m_isSimplified = false;
 }
 
-void Expression::clearAllInnerInternalFlags()
+void Expression::clearAllInnerSimplifiedFlags()
 {
     for(TermWithDetails & termWithDetails : m_termsWithAssociation.getTermsWithDetailsReference())
     {
         Term & term(getTermReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer));
-        term.clearAllInnerInternalFlags();
+        term.clearAllInnerSimplifiedFlags();
     }
-    clearInternalFlags();
+    clearSimplifiedFlag();
 }
 
 void Expression::putTermWithAddition(BaseTerm const& baseTerm)

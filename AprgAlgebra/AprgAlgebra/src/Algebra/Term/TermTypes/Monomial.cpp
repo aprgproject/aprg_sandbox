@@ -96,6 +96,11 @@ bool Monomial::operator<(Monomial const& second) const
     return result;
 }
 
+bool Monomial::isSimplified() const
+{
+    return m_isSimplified;
+}
+
 AlbaNumber const& Monomial::getConstantConstReference() const
 {
     return m_constant;
@@ -137,7 +142,7 @@ void Monomial::clear()
 {
     m_constant = AlbaNumber(0);
     m_variablesToExponentsMap.clear();
-    clearInternalFlags();
+    clearSimplifiedFlag();
 }
 
 void Monomial::simplify()
@@ -153,19 +158,19 @@ void Monomial::simplify()
 void Monomial::setConstant(AlbaNumber const& constant)
 {
     m_constant = constant;
-    clearInternalFlags();
+    clearSimplifiedFlag();
 }
 
 void Monomial::multiplyNumber(AlbaNumber const& number)
 {
     m_constant = m_constant * number;
-    clearInternalFlags();
+    clearSimplifiedFlag();
 }
 
 void Monomial::divideNumber(AlbaNumber const& number)
 {
     m_constant = m_constant / number;
-    clearInternalFlags();
+    clearSimplifiedFlag();
 }
 
 void Monomial::raiseToPowerNumber(AlbaNumber const& number)
@@ -176,7 +181,7 @@ void Monomial::raiseToPowerNumber(AlbaNumber const& number)
         AlbaNumber & exponent(variableExponentsPair.second);
         exponent=exponent*number;
     }
-    clearInternalFlags();
+    clearSimplifiedFlag();
 }
 
 void Monomial::multiplyMonomial(Monomial const& monomial)
@@ -187,7 +192,7 @@ void Monomial::multiplyMonomial(Monomial const& monomial)
                     monomial.m_variablesToExponentsMap));
     m_constant = m_constant * monomial.m_constant;
     m_variablesToExponentsMap = newVariablesMap;
-    clearInternalFlags();
+    clearSimplifiedFlag();
 }
 
 void Monomial::divideMonomial(Monomial const& monomial)
@@ -198,7 +203,7 @@ void Monomial::divideMonomial(Monomial const& monomial)
                     monomial.m_variablesToExponentsMap));
     m_constant = m_constant / monomial.m_constant;
     m_variablesToExponentsMap = newVariablesMap;
-    clearInternalFlags();
+    clearSimplifiedFlag();
 }
 
 void Monomial::putVariablesWithExponents(initializer_list<VariableExponentPair> const& variablesWithExponents)
@@ -207,7 +212,7 @@ void Monomial::putVariablesWithExponents(initializer_list<VariableExponentPair> 
     {
         putVariableWithExponent(variableExponentsPair.first, variableExponentsPair.second);
     }
-    clearInternalFlags();
+    clearSimplifiedFlag();
 }
 
 void Monomial::putVariablesWithExponents(VariablesToExponentsMap const& variablesWithExponents)
@@ -216,13 +221,13 @@ void Monomial::putVariablesWithExponents(VariablesToExponentsMap const& variable
     {
         putVariableWithExponent(variableExponentsPair.first, variableExponentsPair.second);
     }
-    clearInternalFlags();
+    clearSimplifiedFlag();
 }
 
 void Monomial::putVariableWithExponent(string const& variable, AlbaNumber const& exponent)
 {
     m_variablesToExponentsMap[variable] = exponent;
-    clearInternalFlags();
+    clearSimplifiedFlag();
 }
 
 void Monomial::setAsSimplified()
@@ -230,7 +235,7 @@ void Monomial::setAsSimplified()
     m_isSimplified = true;
 }
 
-void Monomial::clearInternalFlags()
+void Monomial::clearSimplifiedFlag()
 {
     m_isSimplified = false;
 }
