@@ -5,16 +5,14 @@
 #include <Algebra/Integration/Integration.hpp>
 #include <Algebra/Limit/Limit.hpp>
 #include <Algebra/Substitution/SubstitutionOfVariablesToTerms.hpp>
+#include <Algebra/Term/Operators/TermOperators.hpp>
 #include <Algebra/Term/Utilities/ConvertHelpers.hpp>
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
-#include <Algebra/Term/Operators/TermOperators.hpp>
 #include <Algebra/Term/Utilities/TermUtilities.hpp>
 #include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>
 #include <Algebra/Utilities/KnownNames.hpp>
-
 using namespace alba::algebra::Functions;
 using namespace std;
-
 namespace alba
 {
 
