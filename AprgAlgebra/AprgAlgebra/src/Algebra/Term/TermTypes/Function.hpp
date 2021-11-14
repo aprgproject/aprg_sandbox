@@ -35,22 +35,23 @@ public:
     std::string getFunctionName() const;
     std::string getDisplayableString() const;
     std::string getDebugString() const;
-
     AlbaNumber performFunctionAndReturnResultIfPossible() const;
     BaseTerm const& getInputTermConstReference() const;
     FunctionToPerform const& getFunctionToPerform() const;
-
     BaseTerm & getInputTermReference();
     void simplify();
+
+    void setAsSimplified();
+    void clearInternalFlags();
 
 private:
     std::string m_functionName;
     BaseTermUniquePointer m_inputTermPointer;
     FunctionToPerform m_functionToPerform;
+    bool m_isSimplified;
 };
 
 std::ostream & operator<<(std::ostream & out, Function const& functionObject);
-
 }
 
 }

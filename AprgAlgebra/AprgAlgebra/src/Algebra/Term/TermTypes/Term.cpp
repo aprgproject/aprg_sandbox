@@ -18,31 +18,32 @@ namespace algebra
 Term::Term()
     : m_type(TermType::Empty)
     , m_baseDataTermPointer(nullptr)
+    , m_isSimplified(false)
 {}
 
 Term::Term(Term const& term)
     : m_type(term.getTermType())
     , m_baseDataTermPointer(nullptr)
+    , m_isSimplified(false)
 {
     resetBaseDataTermPointerBasedFromTerm(term);
 }
-
 Term::Term(Constant const& constant)
     : m_type(TermType::Constant)
     , m_baseDataTermPointer(make_unique<Constant>(constant))
+    , m_isSimplified(false)
 {}
 
 Term::Term(string const& stringTerm)
     : m_type(TermType::Empty)
     , m_baseDataTermPointer(nullptr)
+    , m_isSimplified(false)
 {
     if(algebra::isOperator(stringTerm))
-    {
-        m_type=TermType::Operator;
+    {        m_type=TermType::Operator;
         m_baseDataTermPointer = make_unique<Operator>(stringTerm);
     }
-    else if(algebra::isFunction(stringTerm))
-    {
+    else if(algebra::isFunction(stringTerm))    {
         m_type=TermType::Function;
         m_baseDataTermPointer = make_unique<Function>(createFunctionWithEmptyInputExpression(stringTerm));
     }
@@ -56,48 +57,50 @@ Term::Term(string const& stringTerm)
 Term::Term(Variable const& variable)
     : m_type(TermType::Variable)
     , m_baseDataTermPointer(nullptr)
+    , m_isSimplified(false)
 {
     m_baseDataTermPointer = make_unique<Variable>(variable);
 }
-
 Term::Term(Operator const& operatorTerm)
     : m_type(TermType::Operator)
     , m_baseDataTermPointer(nullptr)
+    , m_isSimplified(false)
 {
     m_baseDataTermPointer = make_unique<Operator>(operatorTerm);
 }
-
 Term::Term(Monomial const& monomial)
     : m_type(TermType::Monomial)
     , m_baseDataTermPointer(make_unique<Monomial>(monomial))
+    , m_isSimplified(false)
 {}
 
 Term::Term(Polynomial const& polynomial)
     : m_type(TermType::Polynomial)
     , m_baseDataTermPointer(make_unique<Polynomial>(polynomial))
+    , m_isSimplified(false)
 {}
 
 Term::Term(Expression const& expression)
     : m_type(TermType::Expression)
     , m_baseDataTermPointer(make_unique<Expression>(expression))
+    , m_isSimplified(false)
 {}
 
 Term::Term(Function const& function)
     : m_type(TermType::Function)
     , m_baseDataTermPointer(make_unique<Function>(function))
+    , m_isSimplified(false)
 {}
 
-Term& Term::operator=(Term const& term)
-{
+Term& Term::operator=(Term const& term){
     m_type = term.getTermType();
     resetBaseDataTermPointerBasedFromTerm(term);
+    clearInternalFlagsIncludingUnderlyingTermType();
     return *this;
 }
-
 bool Term::operator==(Term const& second) const
 {
-    bool result(false);
-    if(m_type==second.m_type)
+    bool result(false);    if(m_type==second.m_type)
     {
         if(m_type==TermType::Empty)
         {
@@ -367,74 +370,78 @@ string Term::getDebugString() const
 
 Constant & Term::getConstantReference()
 {
+    clearInternalFlags();
     assert(m_type==TermType::Constant);
     return *dynamic_cast<Constant*>(m_baseDataTermPointer.get());
 }
-
 Variable & Term::getVariableReference()
 {
+    clearInternalFlags();
     assert(m_type==TermType::Variable);
     return *dynamic_cast<Variable*>(m_baseDataTermPointer.get());
 }
-
 Operator & Term::getOperatorReference()
 {
+    clearInternalFlags();
     assert(m_type==TermType::Operator);
     return *dynamic_cast<Operator*>(m_baseDataTermPointer.get());
 }
-
 Monomial & Term::getMonomialReference()
 {
+    clearInternalFlags();
     assert(m_type==TermType::Monomial);
     return *dynamic_cast<Monomial*>(m_baseDataTermPointer.get());
 }
-
 Polynomial & Term::getPolynomialReference()
 {
+    clearInternalFlags();
     assert(m_type==TermType::Polynomial);
     return *dynamic_cast<Polynomial*>(m_baseDataTermPointer.get());
 }
-
 Expression & Term::getExpressionReference()
 {
+    clearInternalFlags();
     assert((m_type==TermType::Expression));
     return *dynamic_cast<Expression*>(m_baseDataTermPointer.get());
 }
-
 Function & Term::getFunctionReference()
 {
+    clearInternalFlags();
     assert((m_type==TermType::Function));
     return *dynamic_cast<Function*>(m_baseDataTermPointer.get());
 }
-
 void Term::clear()
 {
     m_type=TermType::Empty;
     m_baseDataTermPointer.reset();
+    clearInternalFlags();
 }
 
 void Term::simplify()
 {
-    if(m_type==TermType::Monomial)
+    if(!m_isSimplified)
     {
-        *this = simplifyAndConvertMonomialToSimplestTerm(getMonomialConstReference());
-    }
-    else if(m_type==TermType::Polynomial)
-    {
-        *this = simplifyAndConvertPolynomialToSimplestTerm(getPolynomialConstReference());
-    }
-    else if(m_type==TermType::Expression)
-    {
-        *this = simplifyAndConvertExpressionToSimplestTerm(getExpressionConstReference());
-    }
-    else if(m_type==TermType::Function)
-    {
-        *this = simplifyAndConvertFunctionToSimplestTerm(getFunctionConstReference());
+        if(m_type==TermType::Monomial)
+        {
+            *this = simplifyAndConvertMonomialToSimplestTerm(getMonomialConstReference());
+        }
+        else if(m_type==TermType::Polynomial)
+        {
+            *this = simplifyAndConvertPolynomialToSimplestTerm(getPolynomialConstReference());
+        }
+        else if(m_type==TermType::Expression)
+        {
+            *this = simplifyAndConvertExpressionToSimplestTerm(getExpressionConstReference());
+        }
+        else if(m_type==TermType::Function)
+        {
+            *this = simplifyAndConvertFunctionToSimplestTerm(getFunctionConstReference());
+        }
+        setAsSimplified();
     }
 }
 
-void Term::sort()
-{
+void Term::sort(){
     if(isPolynomial())
     {
         getPolynomialReference().sortMonomialsWithInversePriority();
@@ -443,16 +450,46 @@ void Term::sort()
     {
         getExpressionReference().sort();
     }
+    clearInternalFlagsIncludingUnderlyingTermType();
+}
+
+void Term::setAsSimplified()
+{
+    m_isSimplified = true;
+}
+
+void Term::clearInternalFlags()
+{
+    m_isSimplified = false;
+}
+
+void Term::clearInternalFlagsIncludingUnderlyingTermType()
+{
+    if(m_type==TermType::Monomial)
+    {
+        getMonomialReference().clearInternalFlags();
+    }
+    else if(m_type==TermType::Polynomial)
+    {
+        getPolynomialReference().clearInternalFlags();
+    }
+    else if(m_type==TermType::Expression)
+    {
+        getExpressionReference().clearInternalFlags();
+    }
+    else if(m_type==TermType::Function)
+    {
+        getFunctionReference().clearInternalFlags();
+    }
+    m_isSimplified = false;
 }
 
 void Term::resetBaseDataTermPointerBasedFromTerm(Term const& term)
 {
-    switch(term.getTermType())
-    {
+    switch(term.getTermType())    {
     case TermType::Empty:
         break;
-    case TermType::Constant:
-        m_baseDataTermPointer = make_unique<Constant>(term.getConstantConstReference());
+    case TermType::Constant:        m_baseDataTermPointer = make_unique<Constant>(term.getConstantConstReference());
         break;
     case TermType::Variable:
         m_baseDataTermPointer = make_unique<Variable>(term.getVariableConstReference());

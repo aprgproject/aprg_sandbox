@@ -1985,19 +1985,18 @@ void Integration::simplifyForIntegration(
         Configuration const& configuration) const
 {
     simplifyAndFixTrigonometricFunctions(term, configuration.shouldFixTrigonometricFunctions);
+    term.clearInternalFlagsIncludingUnderlyingTermType();
     term.simplify();
     {
         SimplificationOfExpression::ScopeObject scopeObject;
         scopeObject.setInThisScopeThisConfiguration(configuration.expressionSimplification);
-
+        term.clearInternalFlagsIncludingUnderlyingTermType();
         term.simplify();
     }
 }
-
 void Integration::simplifyAndFixTrigonometricFunctions(
         Term & term,
-        bool const shouldFixTrigonometricFunctions) const
-{
+        bool const shouldFixTrigonometricFunctions) const{
     if(shouldFixTrigonometricFunctions)
     {
         TermsOverTerms termsOverTerms(createTermsOverTermsFromTerm(term));
