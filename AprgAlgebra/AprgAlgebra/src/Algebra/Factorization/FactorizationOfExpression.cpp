@@ -88,29 +88,15 @@ TermsRaiseToNumbers factorizeToTermsRaiseToNumbersForRaiseToPower(
     Term const& base(mainBaseToExponent.getBase());
     AlbaNumber const& exponent(mainBaseToExponent.getExponent());
 
-    OperatorLevel operatorLevelOfBase(OperatorLevel::Unknown);
-    bool hasEvenDenominatorExponents(false);
-
-    if(base.isExpression())
-    {
-        operatorLevelOfBase = base.getExpressionConstReference().getCommonOperatorLevel();
-    }
-    if(exponent.isFractionType())
-    {
-        hasEvenDenominatorExponents = isEven(exponent.getFractionData().denominator);
-    }
-
-    if(OperatorLevel::RaiseToPower == operatorLevelOfBase
-            || (isANegativeTerm(base) && hasEvenDenominatorExponents))
+    if(dontFactorizeBaseBecauseBaseIsARaiseToPowerExpression(base)
+            || dontFactorizeBecauseThereIsSquareRootOfNegativeNumber(base, exponent))
     {
         result.setBaseAndExponent(base, mainBaseToExponent.getExponent());
     }
-    else
-    {
+    else    {
         Terms factorizedBases(factorizeTerm(base));
         result.putTerms(factorizedBases, TermAssociationType::Positive);
-        result.multiplyToExponents(mainBaseToExponent.getExponent());
-    }
+        result.multiplyToExponents(mainBaseToExponent.getExponent());    }
     return result;
 }
 
@@ -273,6 +259,35 @@ TermsRaiseToNumbers getFactorizedItemsBasedFromCollectedData(
         result.putTerm(nonFactoredTerm, TermAssociationType::Positive);
     }
     return result;
+}
+
+bool dontFactorizeBaseBecauseBaseIsARaiseToPowerExpression(
+        Term const& base)
+{
+    bool result(false);
+    if(base.isExpression())
+    {
+        result = OperatorLevel::RaiseToPower == base.getExpressionConstReference().getCommonOperatorLevel();
+    }
+    return result;
+}
+
+/*bool dontFactorizeBecauseItsRadical(
+        TermRaiseToANumber const& mainBaseToExponent)
+{
+    return mainBaseToExponent.isRadical() && shouldNotFactorizeRadicals();
+}*/
+
+bool dontFactorizeBecauseThereIsSquareRootOfNegativeNumber(
+        Term const& base,
+        AlbaNumber const& exponent)
+{
+    bool hasEvenDenominatorExponents(false);
+    if(exponent.isFractionType())
+    {
+        hasEvenDenominatorExponents = isEven(exponent.getFractionData().denominator);
+    }
+    return hasEvenDenominatorExponents && isANegativeTerm(base);
 }
 
 }

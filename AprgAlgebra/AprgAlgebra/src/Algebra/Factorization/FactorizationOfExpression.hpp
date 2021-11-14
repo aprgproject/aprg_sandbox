@@ -51,8 +51,9 @@ TermsRaiseToNumbers getFactorizedItemsBasedFromCollectedData(
         TermsRaiseToNumbers const& commonNonConstantFactors,
         TermsWithDetails const& outerAddends);
 
+bool dontFactorizeBaseBecauseBaseIsARaiseToPowerExpression(Term const& base);
+bool dontFactorizeBecauseThereIsSquareRootOfNegativeNumber(Term const& base, AlbaNumber const& exponent);
 }
 
 }
-
 }
