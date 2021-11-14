@@ -30,16 +30,15 @@ public:
     void setAsShouldNotFactorizeIfItWouldYieldToPolynomialsWithDoubleValue(
             bool const shouldNotFactorizeIfItWouldYieldToPolynomialsWithDoubleValue);
 
-    QuotientAndRemainder simplifyAndDivide();
     void simplify();
+    void simplifyWithoutFactorization();
+    QuotientAndRemainder simplifyAndDivide();
     QuotientAndRemainder divide() const;
 
-private:
-    bool shouldPerformFactorization() const;
+private:    bool shouldPerformFactorization() const;
     void convertFractionCoefficientsToInteger();
     void convertNegativeExponentsToPositive();
-    void removeCommonMonomialOnAllMonomialsInNumeratorAndDenominator();
-    void factorizeRemoveCommonFactorsInNumeratorAndDenominatorAndCombineRemainingFactors();
+    void removeCommonMonomialOnAllMonomialsInNumeratorAndDenominator();    void factorizeRemoveCommonFactorsInNumeratorAndDenominatorAndCombineRemainingFactors();
     unsigned int getLcmForDenominatorCoefficients(Polynomial const& polynomial);
     Monomial getMonomialWithMaxNegativeExponentsAndConvertItToPositive(Polynomial const& polynomial);
     bool removeCommonFactorsAndReturnIfSomeFactorsAreRemoved(

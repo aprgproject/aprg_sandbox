@@ -134,60 +134,42 @@ bool doAnyNumbersSatisfyTheCondition(
     bool result(condition(monomial.getConstantConstReference()));
     if(!result)
     {
-        for(auto const& variableExponentsPair
-            : monomial.getVariablesToExponentsMapConstReference())
+        Monomial::VariablesToExponentsMap const& variableExponentMap(
+                    monomial.getVariablesToExponentsMapConstReference());
+        result = any_of(variableExponentMap.cbegin(), variableExponentMap.cend(), [&](auto const& variableExponentsPair)
         {
-            result |= condition(variableExponentsPair.second);
-            if(result)
-            {
-                break;
-            }
-        }
+            return condition(variableExponentsPair.second);
+        });
     }
     return result;
 }
-
 bool doAnyNumbersSatisfyTheCondition(
         Polynomial const& polynomial,
         NumberCheckingCondition const& condition)
 {
-    bool result(false);
-    for(Monomial const& monomial : polynomial.getMonomialsConstReference())
+    Monomials const& monomials(polynomial.getMonomialsConstReference());
+    return any_of(monomials.cbegin(), monomials.cend(), [&](Monomial const& monomial)
     {
-        result |= doAnyNumbersSatisfyTheCondition(monomial, condition);
-        if(result)
-        {
-            break;
-        }
-    }
-    return result;
+        return doAnyNumbersSatisfyTheCondition(monomial, condition);
+    });
 }
 
-bool doAnyNumbersSatisfyTheCondition(
-        Expression const& expression,
+bool doAnyNumbersSatisfyTheCondition(        Expression const& expression,
         NumberCheckingCondition const& condition)
 {
-    bool result(false);
     TermsWithDetails const& termsWithDetails(expression.getTermsWithAssociation().getTermsWithDetails());
-    for(TermWithDetails const& termWithDetails : termsWithDetails)
+    return any_of(termsWithDetails.cbegin(), termsWithDetails.cend(), [&](TermWithDetails const& termWithDetails)
     {
-        result |= doAnyNumbersSatisfyTheCondition(
+        return doAnyNumbersSatisfyTheCondition(
                     getTermConstReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer),
                     condition);
-        if(result)
-        {
-            break;
-        }
-    }
-    return result;
+    });
 }
 
-bool doAnyNumbersSatisfyTheCondition(
-        Function const& function,
+bool doAnyNumbersSatisfyTheCondition(        Function const& function,
         NumberCheckingCondition const& condition)
 {
-    return doAnyNumbersSatisfyTheCondition(function.getInputTermConstReference(), condition);
-}
+    return doAnyNumbersSatisfyTheCondition(function.getInputTermConstReference(), condition);}
 
 bool willHaveNoEffectOnAdditionOrSubtraction(Term const& term)
 {
