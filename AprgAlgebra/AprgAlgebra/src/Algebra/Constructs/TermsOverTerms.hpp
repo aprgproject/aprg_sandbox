@@ -45,15 +45,14 @@ public:
     void simplify();
 
 private:
-    Terms factorizeTermsAsNeeded(Terms const& terms) const;
+    Terms factorizeIfNeeded(Terms const& terms) const;
+    Terms factorize(Terms const& terms) const;
     void continueToSimplifyToFactors(
             Terms & factorizedNumerators,
-            Terms & factorizedDenominators);
-    void continueToSimplifyAndCombineFactors(
+            Terms & factorizedDenominators);    void continueToSimplifyAndCombineFactors(
             Terms & factorizedNumerators,
             Terms & factorizedDenominators);
-    Polynomial multiplyPolynomialTerms(Terms const& polynomialTerms) const;
-    bool removeTermsIfNeededAndReturnIfSomeTermsAreRemoved(
+    Polynomial multiplyPolynomialTerms(Terms const& polynomialTerms) const;    bool removeTermsIfNeededAndReturnIfSomeTermsAreRemoved(
             Terms & numerators,
             Terms & denominators);
     void clearTermsThenEmplacePolynomialAndRemainingTerms(

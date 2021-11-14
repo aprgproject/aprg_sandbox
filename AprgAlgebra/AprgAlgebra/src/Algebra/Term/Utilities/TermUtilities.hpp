@@ -18,13 +18,12 @@ bool isARadicalTerm(Term const& term);
 unsigned int getNumberOfTerms(Term const& term);
 
 AlbaNumber getConstantFactor(Term const& term);
+AlbaNumber getDegree(Term const& term);
 
 AlbaNumberPairs evaluateAndGetInputOutputPair(AlbaNumbers const& numbers, std::string const& variableName, Term const& term);
-
 Term getPiAsTerm();
 Term getEAsTerm();
-Term convertPositiveTermIfNegative(Term const& term);
-Term negateTerm(Term const& term);
+Term convertPositiveTermIfNegative(Term const& term);Term negateTerm(Term const& term);
 Term flipTerm(Term const& term);
 Term negateTermIfHasNegativeAssociation(TermWithDetails const& termWithDetails);
 Term flipTermIfHasNegativeAssociation(TermWithDetails const& termWithDetails);

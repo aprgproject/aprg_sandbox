@@ -193,15 +193,13 @@ TEST(IsolationOfOneVariableOnEqualityEquationTest, IsolateTermWithVariableWorksO
     EXPECT_EQ("((2^z)/1[y^2])", termWithoutVariable.getDisplayableString());
 }
 
-TEST(IsolationOfOneVariableOnEqualityEquationTest, IsolateTermWithVariableWorkssOnPolynomialEquation_Example1UsingDerivatives)
+TEST(IsolationOfOneVariableOnEqualityEquationTest, IsolateTermWithVariableWorksOnPolynomialEquation_Example1UsingDerivatives)
 {
     Polynomial leftHandSide{
-        Monomial(18, {{"dy/dx", 1}, {"y", 5}}),
-                Monomial(5, {{"dy/dx", 1}, {"y", 4}}),
+        Monomial(18, {{"dy/dx", 1}, {"y", 5}}),                Monomial(5, {{"dy/dx", 1}, {"y", 4}}),
                 Monomial(-6, {{"x", 5}}),
                 Monomial(-2, {{"dy/dx", 1}, {"y", 1}}),
-                Monomial(2, {{}})};
-    Polynomial rightHandSide{Monomial(0, {})};
+                Monomial(2, {{}})};    Polynomial rightHandSide{Monomial(0, {})};
     Equation equation(Term(leftHandSide), "=", Term(rightHandSide));
     IsolationOfOneVariableOnEqualityEquation isolation(equation);
 

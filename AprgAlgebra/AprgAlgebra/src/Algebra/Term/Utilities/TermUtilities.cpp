@@ -9,13 +9,12 @@
 #include <Algebra/Substitution/SubstitutionOfVariablesToTerms.hpp>
 #include <Algebra/Substitution/SubstitutionOfVariablesToValues.hpp>
 #include <Algebra/Term/Operators/TermOperators.hpp>
+#include <Algebra/Term/Utilities/MonomialHelpers.hpp>
 #include <Algebra/Term/Utilities/PolynomialHelpers.hpp>
 #include <Algebra/Term/Utilities/StringHelpers.hpp>
 #include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>
-
 using namespace alba::algebra::Factorization;
 using namespace std;
-
 namespace alba
 {
 
@@ -87,14 +86,74 @@ AlbaNumber getConstantFactor(Term const& term)
     return result;
 }
 
+AlbaNumber getDegree(Term const& term)
+{
+    AlbaNumber result;
+    if(term.isConstant())
+    {
+        result = 0;
+    }
+    if(term.isVariable())
+    {
+        result = 1;
+    }
+    else if(term.isMonomial())
+    {
+        result = getDegree(term.getMonomialConstReference());
+    }
+    else if(term.isPolynomial())
+    {
+        result = getMaxDegree(term.getPolynomialConstReference());
+    }
+    else if(term.isExpression())
+    {
+        Expression const& expression(term.getExpressionConstReference());
+        TermsWithDetails const& termsWithDetails(expression.getTermsWithAssociation().getTermsWithDetails());
+        if(OperatorLevel::AdditionAndSubtraction == expression.getCommonOperatorLevel())
+        {
+            AlbaNumber maxDegree(0);
+            for(TermWithDetails const& termWithDetails : termsWithDetails)
+            {
+                Term const& term(getTermConstReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer));
+                maxDegree = max(maxDegree, getDegree(term));
+            }
+            result = maxDegree;
+        }
+        else if(OperatorLevel::MultiplicationAndDivision == expression.getCommonOperatorLevel())
+        {
+            AlbaNumber sumDegree(0);
+            for(TermWithDetails const& termWithDetails : termsWithDetails)
+            {
+                Term const& term(getTermConstReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer));
+                sumDegree += getDegree(term);
+            }
+            result = sumDegree;
+        }
+        else if(OperatorLevel::RaiseToPower == expression.getCommonOperatorLevel())
+        {
+            result = AlbaNumber(AlbaNumber::Value::PositiveInfinity);
+        }
+    }
+    else if(term.isFunction())
+    {
+        if("ln" == term.getFunctionConstReference().getFunctionName())
+        {
+            result = AlbaNumber(AlbaNumber::Value::NegativeInfinity);
+        }
+        else
+        {
+            result = 0;
+        }
+    }
+    return result;
+}
+
 AlbaNumberPairs evaluateAndGetInputOutputPair(
         AlbaNumbers const& numbers,
-        string const& variableName,
-        Term const& term)
+        string const& variableName,        Term const& term)
 {
     AlbaNumberPairs result;
-    SubstitutionOfVariablesToValues substitution;
-    for(AlbaNumber const& number : numbers)
+    SubstitutionOfVariablesToValues substitution;    for(AlbaNumber const& number : numbers)
     {
         substitution.putVariableWithValue(variableName, number);
         Term substituteTerm(substitution.performSubstitutionTo(term));

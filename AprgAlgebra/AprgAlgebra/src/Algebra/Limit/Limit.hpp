@@ -111,6 +111,12 @@ Term getLimitAtInfinity(
 
 Term getObliqueAsymptote(Term const& term);
 
+bool continueToDifferentiateForLhopitalsRule(
+        Term const& numerator,
+        Term const& denominator,
+        Term const& numeratorValue,
+        Term const& denominatorValue);
+
 }
 
 }

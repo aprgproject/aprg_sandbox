@@ -248,15 +248,14 @@ Monomials getMonomialsWithExponentsInOrder(
 
 bool areRootsAcceptable(AlbaNumbers const& rootValues)
 {
-    bool doesAnyRootsHaveDoubleValues = any_of(rootValues.cbegin(), rootValues.cend(), [](AlbaNumber const& root)
+    bool doAnyRootsHaveDoubleValues = any_of(rootValues.cbegin(), rootValues.cend(), [](AlbaNumber const& root)
     {
         return root.isDoubleType();
     });
-    return !(shouldNotFactorizeIfItWouldYieldToPolynomialsWithDoubleValue() && doesAnyRootsHaveDoubleValues);
+    return !(shouldNotFactorizeIfItWouldYieldToPolynomialsWithDoubleValue() && doAnyRootsHaveDoubleValues);
 }
 
 }
-
 }
 
 }

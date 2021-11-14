@@ -160,27 +160,24 @@ void TermsOverTerms::retrievePolynomialAndNonPolynomialsDenominators(
 TermsRaiseToNumbers TermsOverTerms::getTermsRaiseToNumbers() const
 {
     TermsRaiseToNumbers result;
-    Terms factorizedNumerators(factorizeTermsAsNeeded(m_numerators));
-    Terms factorizedDenominators(factorizeTermsAsNeeded(m_denominators));
+    Terms factorizedNumerators(factorizeTerms(m_numerators));
+    Terms factorizedDenominators(factorizeTerms(m_denominators));
 
     result.putTerms(factorizedNumerators, TermAssociationType::Positive);
-    result.putTerms(factorizedDenominators, TermAssociationType::Negative);
-    return result;
+    result.putTerms(factorizedDenominators, TermAssociationType::Negative);    return result;
 }
 
 TermsRaiseToTerms TermsOverTerms::getTermsRaiseToTerms() const
 {
     TermsRaiseToTerms result;
-    Terms factorizedNumerators(factorizeTermsAsNeeded(m_numerators));
-    Terms factorizedDenominators(factorizeTermsAsNeeded(m_denominators));
+    Terms factorizedNumerators(factorizeTerms(m_numerators));
+    Terms factorizedDenominators(factorizeTerms(m_denominators));
 
     result.putTerms(factorizedNumerators, TermAssociationType::Positive);
-    result.putTerms(factorizedDenominators, TermAssociationType::Negative);
-    return result;
+    result.putTerms(factorizedDenominators, TermAssociationType::Negative);    return result;
 }
 
-void TermsOverTerms::flip()
-{
+void TermsOverTerms::flip(){
     swap(m_numerators, m_denominators);
 }
 
@@ -215,28 +212,38 @@ void TermsOverTerms::setAsShouldNotFactorizeIfItWouldYieldToPolynomialsWithDoubl
 void TermsOverTerms::simplify()
 {
     putTermsOnNumeratorAndDenominatorCorrectly(m_numerators, m_denominators);
-    Terms newNumerators = factorizeTermsAsNeeded(m_numerators);
-    Terms newDenominators = factorizeTermsAsNeeded(m_denominators);
+    Terms newNumerators(factorize(m_numerators));
+    Terms newDenominators(factorize(m_denominators));
     if(m_shouldSimplifyToFactors)
     {
-        continueToSimplifyToFactors(newNumerators, newDenominators);
-    }
+        continueToSimplifyToFactors(newNumerators, newDenominators);    }
     else
     {
         continueToSimplifyAndCombineFactors(newNumerators, newDenominators);
     }
 }
 
-Terms TermsOverTerms::factorizeTermsAsNeeded(Terms const& terms) const
+Terms TermsOverTerms::factorizeIfNeeded(Terms const& terms) const
+{
+    if(m_shouldSimplifyToFactors
+            || !(m_numerators.empty() && m_denominators.empty()))
+    {
+        return factorize(terms);
+    }
+    else
+    {
+        return terms;
+    }
+}
+
+Terms TermsOverTerms::factorize(Terms const& terms) const
 {
     ConfigurationDetails configurationDetails(
                 Factorization::Configuration::getInstance().getConfigurationDetails());
-    configurationDetails.shouldSimplifyExpressionsToFactors = m_shouldSimplifyToFactors;
-    configurationDetails.shouldNotFactorizeIfItWouldYieldToPolynomialsWithDoubleValue
+    configurationDetails.shouldSimplifyExpressionsToFactors = m_shouldSimplifyToFactors;    configurationDetails.shouldNotFactorizeIfItWouldYieldToPolynomialsWithDoubleValue
             = m_shouldNotFactorizeIfItWouldYieldToPolynomialsWithDoubleValue;
     ScopeObject scopeObject;
     scopeObject.setInThisScopeThisConfiguration(configurationDetails);
-
     return factorizeTerms(terms);
 }
 
@@ -492,15 +499,13 @@ void TermsOverTerms::putTermsToRetainAndOnTheOtherSide(
     for(Term const& termToCheck : termsToCheck)
     {
         bool isNeededToPutOnTheOtherSide(false);
-        Term transformedTermOnTheOtherSide(termToCheck);
+        Term transformedTermOnTheOtherSide;
         if(termToCheck.isExpression())
         {
-            Expression const& expression(termToCheck.getExpressionConstReference());
-            TermsWithDetails const& termsWithDetails(expression.getTermsWithAssociation().getTermsWithDetails());
+            Expression const& expression(termToCheck.getExpressionConstReference());            TermsWithDetails const& termsWithDetails(expression.getTermsWithAssociation().getTermsWithDetails());
             if(OperatorLevel::RaiseToPower == expression.getCommonOperatorLevel()
                     && termsWithDetails.size() == 2)
-            {
-                Term const& base(getTermConstReferenceFromSharedPointer(termsWithDetails.at(0).baseTermSharedPointer));
+            {                Term const& base(getTermConstReferenceFromSharedPointer(termsWithDetails.at(0).baseTermSharedPointer));
                 Term const& exponent(getTermConstReferenceFromSharedPointer(termsWithDetails.at(1).baseTermSharedPointer));
                 isNeededToPutOnTheOtherSide = isANegativeTerm(exponent);
                 transformedTermOnTheOtherSide = Term(createExpressionIfPossible({base, Term("^"), negateTerm(exponent)}));

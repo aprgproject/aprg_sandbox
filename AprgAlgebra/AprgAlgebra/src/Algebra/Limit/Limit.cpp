@@ -9,13 +9,12 @@
 #include <Algebra/Term/Operators/TermOperators.hpp>
 #include <Algebra/Term/Utilities/PolynomialHelpers.hpp>
 #include <Algebra/Term/Utilities/RetrieveHelpers.hpp>
+#include <Algebra/Term/Utilities/TermUtilities.hpp>
 #include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>
 #include <Math/AlbaMathHelper.hpp>
-
 using namespace alba::algebra::Simplification;
 using namespace alba::mathHelper;
 using namespace std;
-
 namespace alba
 {
 
@@ -317,33 +316,26 @@ void calculateTermAndLimitUsingLhopitalsRule(
     SubstitutionOfVariablesToValues substitution{{variableName, valueToApproach}};
     Term numeratorValue(substitution.performSubstitutionTo(numerator));
     Term denominatorValue(substitution.performSubstitutionTo(denominator));
-    constexpr unsigned int MAX_ITERATIONS = 10;
-    for(unsigned int i=0;
-          i < MAX_ITERATIONS && ((isTheValue(numeratorValue, 0) && isTheValue(denominatorValue, 0))
-              || (isPositiveOrNegativeInfinity(numeratorValue) && isPositiveOrNegativeInfinity(denominatorValue)));
-        i++)
+    while(continueToDifferentiateForLhopitalsRule(numerator, denominator, numeratorValue, denominatorValue))
     {
         numerator = differentiation.differentiate(numerator);
-        denominator = differentiation.differentiate(denominator);
-        newTerm = Term(numerator/denominator);
+        denominator = differentiation.differentiate(denominator);        newTerm = Term(numerator/denominator);
         simplifyTermByFactoringToNonDoubleFactorsToACommonDenominator(newTerm);
         newTerm.clearAllInnerInternalFlags();
-        TermsOverTerms newTermsOverTerms(createTermsOverTermsFromTerm(newTerm));
-        numerator = newTermsOverTerms.getCombinedNumerator();
+        TermsOverTerms newTermsOverTerms(createTermsOverTermsFromTerm(newTerm));        numerator = newTermsOverTerms.getCombinedNumerator();
         denominator = newTermsOverTerms.getCombinedDenominator();
         numeratorValue = substitution.performSubstitutionTo(numerator);
         denominatorValue = substitution.performSubstitutionTo(denominator);
     }
     Term outputValue(substitution.performSubstitutionTo(newTerm));
-    if(isNotANumber(outputValue))
+    if(isNotANumber(outputValue)
+            || (isPositiveOrNegativeInfinity(numeratorValue) && isPositiveOrNegativeInfinity(denominatorValue)))
     {
         limitValue = getLimitAtAValueOrInfinity(newTerm, variableName, valueToApproach);
-    }
-    else
+    }    else
     {
         limitValue = outputValue;
-    }
-}
+    }}
 
 Term getLimitAtAValueOrInfinity(
         Term const& term,
@@ -428,6 +420,28 @@ Term getObliqueAsymptote(Term const& term)
         }
     }
     return result;
+}
+
+bool continueToDifferentiateForLhopitalsRule(
+        Term const& numerator,
+        Term const& denominator,
+        Term const& numeratorValue,
+        Term const& denominatorValue)
+{
+    AlbaNumber numeratorDegree(getDegree(numerator));
+    AlbaNumber denominatorDegree(getDegree(denominator));
+
+    bool areBothDegreesZero = numeratorDegree == 0 && denominatorDegree == 0;
+    bool areDegreesEitherZeroOrNonZero = (numeratorDegree == 0 && denominatorDegree != 0)
+            || (numeratorDegree != 0 && denominatorDegree == 0);
+    bool areDegreesEitherNonZeroOrInfinite = (numeratorDegree != 0 && denominatorDegree.isPositiveOrNegativeInfinity())
+            || (numeratorDegree.isPositiveOrNegativeInfinity() && denominatorDegree != 0);
+    bool continueBasedOnDegrees = areBothDegreesZero || areDegreesEitherZeroOrNonZero || areDegreesEitherNonZeroOrInfinite;
+
+    bool areBothValuesZero = isTheValue(numeratorValue, 0) && isTheValue(denominatorValue, 0);
+    bool areBothValuesInfinite = isPositiveOrNegativeInfinity(numeratorValue) && isPositiveOrNegativeInfinity(denominatorValue);
+    bool continueBasedOnValues = areBothValuesZero || areBothValuesInfinite;
+    return continueBasedOnDegrees && continueBasedOnValues;
 }
 
 }
