@@ -226,16 +226,13 @@ void SimplificationOfExpression::processAndSaveTermsForMultiplicationAndDivision
 
     TermsOverTerms termsOverTerms(termsInMultiplicationAndDivision);
     termsOverTerms.setAsShouldSimplifyToFactors(shouldSimplifyToFactors());
-    termsOverTerms.setAsShouldNotFactorizeIfItWouldYieldToPolynomialsWithDoubleValue(
-                shouldNotFactorizeIfItWouldYieldToPolynomialsWithDoubleValue());
+    termsOverTerms.setFactorizationConfigurationDetails(getFactorizationConfigurationForTermsOverTerms());
     termsOverTerms.simplify();
 
-    Term combinedTerm(getCombinedTermAndSimplifyByRationalizingNumeratorOrDenominatorIfNeeded(termsOverTerms));
-    expression.setTerm(combinedTerm);
+    Term combinedTerm(getCombinedTermAndSimplifyByRationalizingNumeratorOrDenominatorIfNeeded(termsOverTerms));    expression.setTerm(combinedTerm);
 }
 
-void SimplificationOfExpression::processAndSaveTermsForRaiseToPower(
-        Expression & expression,
+void SimplificationOfExpression::processAndSaveTermsForRaiseToPower(        Expression & expression,
         TermsWithDetails const& termsToProcess)
 {
     TermRaiseToTerms termRaiseToTerms(termsToProcess);
@@ -346,14 +343,22 @@ bool SimplificationOfExpression::shouldDistributeExponentConstantToEachBase() co
             && !shouldSimplifyByCombiningRadicalsInMultiplicationAndDivision();
 }
 
+Factorization::ConfigurationDetails SimplificationOfExpression::getFactorizationConfigurationForTermsOverTerms() const
+{
+    Factorization::ConfigurationDetails configurationDetails(
+                Factorization::Configuration::getInstance().getConfigurationDetails());
+    configurationDetails.shouldSimplifyExpressionsToFactors = shouldSimplifyToFactors();
+    configurationDetails.shouldNotFactorizeIfItWouldYieldToPolynomialsWithDoubleValue
+            = shouldNotFactorizeIfItWouldYieldToPolynomialsWithDoubleValue();
+    return configurationDetails;
+}
+
 bool SimplificationOfExpression::tryToSubstituteSubExpressionOrSubFunctionAndReturnIfContinue(
         Expression const& expression)
-{
-    bool continueToTryToSubstitute = false;
+{    bool continueToTryToSubstitute = false;
     unsigned int oldNumberOfTerms = expression.getTermsWithAssociation().getTermsWithDetails().size();
     Terms expressionAndFunctionTerms(retrieveSubExpressionsAndSubFunctions(Term(expression)));
-    for(Term const& expressionOrFunctionTerm : expressionAndFunctionTerms)
-    {
+    for(Term const& expressionOrFunctionTerm : expressionAndFunctionTerms)    {
         Expression newExpression(getNewExpressionWithSubstitutedVariableForTerm(m_expression, expressionOrFunctionTerm));
         unsigned int newNumberOfTerms = newExpression.getTermsWithAssociation().getTermsWithDetails().size();
         if(expression.getCommonOperatorLevel() != newExpression.getCommonOperatorLevel()

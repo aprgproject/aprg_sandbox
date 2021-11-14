@@ -502,14 +502,11 @@ TEST(TermsOverTermsTest, SimplifyWorksWithSimplifyingToFactorsAndFactorsAreCance
     Term denominator(createExpressionIfPossible({polynomialTerm, Term("^"), Term(8)}));
     TermsOverTerms termsOverTerms({numerator}, {denominator});
     termsOverTerms.setAsShouldSimplifyToFactors(true);
-    termsOverTerms.setAsShouldNotFactorizeIfItWouldYieldToPolynomialsWithDoubleValue(true);
 
     termsOverTerms.simplify();
-
     Terms numeratorsToVerify(termsOverTerms.getNumerators());
     EXPECT_TRUE(numeratorsToVerify.empty());
-    Term expectedDenominator(createExpressionIfPossible({polynomialTerm, Term("^"), Term(6)}));
-    Terms denominatorsToVerify(termsOverTerms.getDenominators());
+    Term expectedDenominator(createExpressionIfPossible({polynomialTerm, Term("^"), Term(6)}));    Terms denominatorsToVerify(termsOverTerms.getDenominators());
     ASSERT_EQ(1U, denominatorsToVerify.size());
     EXPECT_EQ(expectedDenominator, denominatorsToVerify.at(0));
 }
@@ -543,14 +540,16 @@ TEST(TermsOverTermsTest, SimplifyWorksWhenShouldNotFactorizeIfItWouldYieldToPoly
     Term denominator(Polynomial{Monomial(1, {{"x", 2}}), Monomial(-7, {})});
     TermsOverTerms termsOverTerms({numerator}, {denominator});
     termsOverTerms.setAsShouldSimplifyToFactors(true);
-    termsOverTerms.setAsShouldNotFactorizeIfItWouldYieldToPolynomialsWithDoubleValue(true);
+    Factorization::ConfigurationDetails configurationDetails(
+                Factorization::Configuration::getInstance().getConfigurationDetails());
+    configurationDetails.shouldSimplifyExpressionsToFactors = true;
+    configurationDetails.shouldNotFactorizeIfItWouldYieldToPolynomialsWithDoubleValue = true;
+    termsOverTerms.setFactorizationConfigurationDetails(configurationDetails);
 
     termsOverTerms.simplify();
-
     Term expectedNumerator(Polynomial{Monomial(1, {{"x", 2}}), Monomial(-5, {})});
     Terms numeratorsToVerify(termsOverTerms.getNumerators());
-    ASSERT_EQ(1U, numeratorsToVerify.size());
-    EXPECT_EQ(expectedNumerator, numeratorsToVerify.at(0));
+    ASSERT_EQ(1U, numeratorsToVerify.size());    EXPECT_EQ(expectedNumerator, numeratorsToVerify.at(0));
     Term expectedDenominator(Polynomial{Monomial(1, {{"x", 2}}), Monomial(-7, {})});
     Terms denominatorsToVerify(termsOverTerms.getDenominators());
     ASSERT_EQ(1U, denominatorsToVerify.size());
@@ -566,14 +565,16 @@ TEST(TermsOverTermsTest, SimplifyWorksAndFactorizeTrigonometricFunctions)
     Term denominator(createExpressionIfPossible({denominatorPart1, Term("+"), denominatorPart2}));
     TermsOverTerms termsOverTerms({numerator}, {denominator});
     termsOverTerms.setAsShouldSimplifyToFactors(true);
-    termsOverTerms.setAsShouldNotFactorizeIfItWouldYieldToPolynomialsWithDoubleValue(true);
+    Factorization::ConfigurationDetails configurationDetails(
+                Factorization::Configuration::getInstance().getConfigurationDetails());
+    configurationDetails.shouldSimplifyExpressionsToFactors = true;
+    configurationDetails.shouldNotFactorizeIfItWouldYieldToPolynomialsWithDoubleValue = true;
+    termsOverTerms.setFactorizationConfigurationDetails(configurationDetails);
 
     termsOverTerms.simplify();
-
     Term expectedNumerator(tan(x));
     Terms numeratorsToVerify(termsOverTerms.getNumerators());
-    ASSERT_EQ(1U, numeratorsToVerify.size());
-    EXPECT_EQ(expectedNumerator, numeratorsToVerify.at(0));
+    ASSERT_EQ(1U, numeratorsToVerify.size());    EXPECT_EQ(expectedNumerator, numeratorsToVerify.at(0));
     Term expectedDenominator1(x);
     Term expectedDenominator2(createExpressionIfPossible({Term(2), Term("+"), Term(x), Term("*"), Term(tan(x))}));
     Terms denominatorsToVerify(termsOverTerms.getDenominators());

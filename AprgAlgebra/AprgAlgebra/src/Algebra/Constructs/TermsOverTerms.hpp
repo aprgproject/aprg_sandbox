@@ -2,13 +2,12 @@
 
 #include <Algebra/Constructs/TermsRaiseToNumbers.hpp>
 #include <Algebra/Constructs/TermsRaiseToTerms.hpp>
+#include <Algebra/Factorization/FactorizationConfiguration.hpp>
 
 #include <string>
 #include <vector>
-
 namespace alba
 {
-
 namespace algebra
 {
 
@@ -39,15 +38,12 @@ public:
     void flip();
 
     void setAsShouldSimplifyToFactors(bool const shouldSimplifyToFactors);
-    void setAsShouldNotFactorizeIfItWouldYieldToPolynomialsWithDoubleValue(
-            bool const shouldNotFactorizeIfItWouldYieldToPolynomialsWithDoubleValue);
+    void setFactorizationConfigurationDetails(Factorization::ConfigurationDetails const& configurationDetails);
 
     void simplify();
-
 private:
     Terms factorizeIfNeeded(Terms const& terms) const;
-    Terms factorize(Terms const& terms) const;
-    void continueToSimplifyToFactors(
+    Terms factorize(Terms const& terms) const;    void continueToSimplifyToFactors(
             Terms & factorizedNumerators,
             Terms & factorizedDenominators);
     void continueToSimplifyAndCombineFactors(
@@ -101,11 +97,10 @@ private:
     Terms m_numerators;
     Terms m_denominators;
     bool m_shouldSimplifyToFactors;
-    bool m_shouldNotFactorizeIfItWouldYieldToPolynomialsWithDoubleValue;
+    Factorization::ConfigurationDetails m_factorizationConfiguration;
 };
 
 using VectorOfTermsOverTerms = std::vector<TermsOverTerms>;
-
 }
 
 }
