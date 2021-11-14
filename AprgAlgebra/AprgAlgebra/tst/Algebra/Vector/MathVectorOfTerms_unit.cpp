@@ -23,10 +23,9 @@ TEST(MathVectorOfTermsTest, GettingMagnitudeWorks)
     Term magnitude(termVector.getMagnitude());
     magnitude.simplify();
 
-    string stringToExpect("(((4*cos(t)*cos(t))+(4*sin(t)*sin(t)))^(1/2))");
+    string stringToExpect("((((2*cos(t))^2)+((2*sin(t))^2))^(1/2))");
     EXPECT_EQ(stringToExpect, magnitude.getDisplayableString());
 }
-
 }
 
 }

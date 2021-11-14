@@ -10,9 +10,11 @@
 
 #include <algorithm>
 
+
+#include <Debug/AlbaDebug.hpp>
+
 namespace alba
 {
-
 namespace algebra
 {
 
@@ -76,21 +78,37 @@ Term getLengthOfArc(
 {
     MathVectorOfTerms<SIZE> derivative(differentiate(termVector, variableName));
     Integration integration(variableName);
+    ALBA_PRINT2(derivative, derivative.getMagnitude());
     return integration.integrate(derivative.getMagnitude());
 }
 
 template <unsigned int SIZE>
-Term getLengthOfArcFromStartValueToEndValue(
+Term getLengthOfArcFromStartToEnd(
         MathVectorOfTerms<SIZE> const& termVector,
         std::string const& variableName,
-        Term const& lowerValueTerm,
-        Term const& higherValueTerm)
+        Term const& lowerValueTerm,        Term const& higherValueTerm)
 {
     return evaluateTermsAndGetDifference(
                 getLengthOfArc(termVector, variableName),
                 variableName,
                 lowerValueTerm,
                 higherValueTerm);
+}
+
+template <unsigned int SIZE>
+MathVectorOfTerms<SIZE> getLimit(
+        MathVectorOfTerms<SIZE> const& termVector,
+        std::string const& variableName,
+        AlbaNumber const& valueToApproach)
+{
+    using Values = typename MathVectorOfTerms<SIZE>::ValuesInArray;
+    MathVectorOfTerms<SIZE> result;
+    Values const& values(termVector.getValues());
+    std::transform(values.cbegin(), values.cend(), result.getValuesReference().begin(), [&](Term const& term)
+    {
+        return getLimit(term, variableName, valueToApproach);
+    });
+    return result;
 }
 
 template <unsigned int SIZE>
@@ -124,23 +142,6 @@ MathVectorOfTerms<SIZE> integrate(
     });
     return result;
 }
-
-template <unsigned int SIZE>
-MathVectorOfTerms<SIZE> getLimit(
-        MathVectorOfTerms<SIZE> const& termVector,
-        std::string const& variableName,
-        AlbaNumber const& valueToApproach)
-{
-    using Values = typename MathVectorOfTerms<SIZE>::ValuesInArray;
-    MathVectorOfTerms<SIZE> result;
-    Values const& values(termVector.getValues());
-    std::transform(values.cbegin(), values.cend(), result.getValuesReference().begin(), [&](Term const& term)
-    {
-        return getLimit(term, variableName, valueToApproach);
-    });
-    return result;
-}
-
 }
 
 }
