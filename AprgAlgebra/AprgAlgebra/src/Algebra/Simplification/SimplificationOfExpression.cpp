@@ -82,16 +82,14 @@ bool SimplificationOfExpression::shouldNotFactorizeIfItWouldYieldToPolynomialsWi
     return Configuration::getInstance().getConfigurationDetails().shouldNotFactorizeIfItWouldYieldToPolynomialsWithDoubleValue;
 }
 
-bool SimplificationOfExpression::shouldNotSimplifyExpressionRaiseToAConstantByDistributingConstantToEachBase()
+bool SimplificationOfExpression::shouldNotSimplifyByDistributingConstantExponentToEachBase()
 {
-    return Configuration::getInstance().getConfigurationDetails().shouldNotSimplifyExpressionRaiseToAConstantByDistributingConstantToEachBase;
+    return Configuration::getInstance().getConfigurationDetails().shouldNotSimplifyByDistributingConstantExponentToEachBase;
 }
 
-bool SimplificationOfExpression::shouldPerformDebug()
-{
+bool SimplificationOfExpression::shouldPerformDebug(){
     return Configuration::getInstance().getConfigurationDetails().shouldPerformDebug;
 }
-
 Expression SimplificationOfExpression::getExpression() const
 {
     return m_expression;
@@ -342,14 +340,12 @@ Term SimplificationOfExpression::getEachBasesRaisedToConstantIfPossible(
 
 bool SimplificationOfExpression::shouldDistributeExponentConstantToEachBase() const
 {
-    return !shouldNotSimplifyExpressionRaiseToAConstantByDistributingConstantToEachBase()
+    return !shouldNotSimplifyByDistributingConstantExponentToEachBase()
             && !shouldSimplifyByCombiningRadicalsInMultiplicationAndDivision();
 }
-
 Factorization::ConfigurationDetails SimplificationOfExpression::getFactorizationConfiguration() const
 {
-    Factorization::ConfigurationDetails configurationDetails(
-                Factorization::Configuration::getInstance().getConfigurationDetails());
+    Factorization::ConfigurationDetails configurationDetails(                Factorization::Configuration::getInstance().getConfigurationDetails());
     configurationDetails.shouldSimplifyExpressionsToFactors = shouldSimplifyToFactors();
     configurationDetails.shouldNotFactorizeIfItWouldYieldToPolynomialsWithDoubleValue
             = shouldNotFactorizeIfItWouldYieldToPolynomialsWithDoubleValue();
