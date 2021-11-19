@@ -12,165 +12,161 @@
 namespace alba
 {
 
+template <typename DataType>
+DataType raiseToPowerForMathVectorDataType(DataType const& value1, DataType const& value2);
+
 template <typename DataType, unsigned int SIZE>
 class AlbaMathVector
 {
 public:
-    using MathVector=AlbaMathVector<DataType, SIZE>;
-    using Values=std::array<double, SIZE>;
+    using AlbaMathVectorType=AlbaMathVector<DataType, SIZE>;
+    using ValuesInArray=std::array<DataType, SIZE>;
 
     AlbaMathVector()
     {
-        std::fill(m_values.begin(), m_values.end(), 0);
+        std::fill(m_values.begin(), m_values.end(), DataType(0));
     }
 
-    AlbaMathVector(Values const& values)
+    AlbaMathVector(ValuesInArray const& values)
     {
         std::copy(values.begin(), values.end(), m_values.begin());
     }
-
     AlbaMathVector(std::initializer_list<DataType> const& values)
     {
         static_assert(SIZE>0, "The SIZE of AlbaMathVector should be positive.");
         unsigned int limit = std::min(SIZE, static_cast<unsigned int>(values.size()));
         std::copy(values.begin(), values.begin()+limit, m_values.begin());
-        std::fill(m_values.begin()+limit, m_values.end(), 0);
+        std::fill(m_values.begin()+limit, m_values.end(), DataType(0));
     }
 
-    bool operator==(MathVector const& second) const
+    bool operator==(AlbaMathVectorType const& second) const
     {
         return std::equal(m_values.cbegin(), m_values.cend(), second.m_values.cbegin(),
-                          [](DataType const first, DataType const second)
-        {
+                          [](DataType const first, DataType const second)        {
             return mathHelper::isAlmostEqual(first, second);
         });
     }
 
-    bool operator!=(MathVector const& second) const
+    bool operator!=(AlbaMathVectorType const& second) const
     {
-        MathVector const& first(*this);
+        AlbaMathVectorType const& first(*this);
         return !(first==second);
     }
 
-    bool operator<(MathVector const& second) const // this is added so it can be used in map
+    bool operator<(AlbaMathVectorType const& second) const // this is added so it can be used in map
     {
         auto mismatchPair = std::mismatch(m_values.cbegin(), m_values.cend(), second.m_values.cbegin());
-        bool result(false);
-        if(mismatchPair.first != m_values.cend())
+        bool result(false);        if(mismatchPair.first != m_values.cend())
         {
             result = *(mismatchPair.first) < *(mismatchPair.second);
         }
         return result;
     }
 
-    MathVector operator+(MathVector const& second) const
+    AlbaMathVectorType operator+(AlbaMathVectorType const& second) const
     {
-        MathVector result;
-        Values const& firstValues(m_values);
-        Values const& secondValues(second.m_values);
-        Values & resultValues(result.m_values);
+        AlbaMathVectorType result;
+        ValuesInArray const& firstValues(m_values);
+        ValuesInArray const& secondValues(second.m_values);
+        ValuesInArray & resultValues(result.m_values);
         std::transform(firstValues.begin(), firstValues.end(), secondValues.begin(), resultValues.begin(), std::plus<DataType>());
         return result;
     }
 
-    MathVector operator-(MathVector const& second) const
+    AlbaMathVectorType operator-(AlbaMathVectorType const& second) const
     {
-        MathVector result;
-        Values const& firstValues(m_values);
-        Values const& secondValues(second.m_values);
-        Values & resultValues(result.m_values);
+        AlbaMathVectorType result;
+        ValuesInArray const& firstValues(m_values);
+        ValuesInArray const& secondValues(second.m_values);
+        ValuesInArray & resultValues(result.m_values);
         std::transform(firstValues.begin(), firstValues.end(), secondValues.begin(), resultValues.begin(), std::minus<DataType>());
         return result;
     }
 
-    MathVector operator+() const
+    AlbaMathVectorType operator+() const
     {
         return *this;
     }
 
-    MathVector operator-() const
+    AlbaMathVectorType operator-() const
     {
-        MathVector result;
-        Values & resultValues(result.m_values);
+        AlbaMathVectorType result;
+        ValuesInArray & resultValues(result.m_values);
         std::transform(m_values.begin(), m_values.end(), resultValues.begin(), std::negate<DataType>());
         return result;
     }
 
-    MathVector operator*(DataType const scalarValue) const
+    AlbaMathVectorType operator*(DataType const scalarValue) const
     {
-        MathVector result;
-        Values & resultValues(result.m_values);
+        AlbaMathVectorType result;
+        ValuesInArray & resultValues(result.m_values);
         std::transform(m_values.begin(), m_values.end(), resultValues.begin(), [&](DataType const value)
         {
-            return value*scalarValue;
-        });
+            return value*scalarValue;        });
         return result;
     }
 
-    MathVector operator/(DataType const scalarValue) const
+    AlbaMathVectorType operator/(DataType const scalarValue) const
     {
-        MathVector result;
-        Values & resultValues(result.m_values);
+        AlbaMathVectorType result;
+        ValuesInArray & resultValues(result.m_values);
         std::transform(m_values.begin(), m_values.end(), resultValues.begin(), [&](DataType const value)
         {
-            return value/scalarValue;
-        });
+            return value/scalarValue;        });
         return result;
     }
 
-    MathVector& operator+=(MathVector const& second)
+    AlbaMathVectorType& operator+=(AlbaMathVectorType const& second)
     {
-        Values const& secondValues(second.m_values);
+        ValuesInArray const& secondValues(second.m_values);
         std::transform(m_values.begin(), m_values.end(), secondValues.begin(), m_values.begin(), std::plus<DataType>());
         return *this;
     }
 
-    MathVector& operator-=(MathVector const& second)
+    AlbaMathVectorType& operator-=(AlbaMathVectorType const& second)
     {
-        Values const& secondValues(second.m_values);
+        ValuesInArray const& secondValues(second.m_values);
         std::transform(m_values.begin(), m_values.end(), secondValues.begin(), m_values.begin(), std::minus<DataType>());
         return *this;
     }
-
     unsigned int getSize() const
     {
         return SIZE;
     }
 
-    DataType getValueAt(unsigned int const index) const
+    DataType const& getValueAt(unsigned int const index) const
     {
         assert(index<SIZE);
-        return m_values.at(index);
-    }
+        return m_values.at(index);    }
 
     DataType getMagnitude() const
     {
-        return static_cast<DataType>(sqrt(std::accumulate(m_values.cbegin(), m_values.cend(), 0, [](
-                                                          DataType const partialResult, DataType const currentValue)
+        DataType sumOfSquaredTerms = std::accumulate(
+                    m_values.cbegin(), m_values.cend(), DataType(0), [](
+                    DataType const partialResult,
+                    DataType const currentValue)
         {
-            return partialResult + static_cast<DataType>(pow(currentValue, 2));
-        })));
+            return partialResult + static_cast<DataType>(raiseToPowerForMathVectorDataType(currentValue, DataType(2)));
+        });
+        return static_cast<DataType>(raiseToPowerForMathVectorDataType(sumOfSquaredTerms, DataType(1)/DataType(2)));
     }
 
-    Values const& getValues() const
+    ValuesInArray const& getValues() const
     {
         return m_values;
     }
-
     std::string getDisplayableString() const
     {
         std::stringstream ss;
         bool isFirst(true);
         ss << "{";
-        for(AlbaNumber const& value : m_values)
+        for(auto const& value : m_values)
         {
             if(isFirst)
-            {
-                isFirst = false;
+            {                isFirst = false;
             }
             else
-            {
-                ss << ", ";
+            {                ss << ", ";
             }
             ss << value;
         }
@@ -178,20 +174,18 @@ public:
         return ss.str();
     }
 
-    Values & getValuesReference()
+    ValuesInArray & getValuesReference()
     {
         return m_values;
     }
 
 private:
-    Values m_values;
+    ValuesInArray m_values;
 };
 
-template <typename DataType, unsigned int SIZE>
-std::ostream & operator<<(std::ostream & out, AlbaMathVector<DataType, SIZE> const& mathVector)
+template <typename DataType, unsigned int SIZE>std::ostream & operator<<(std::ostream & out, AlbaMathVector<DataType, SIZE> const& mathVector)
 {
     out << mathVector.getDisplayableString();
-    return out;
-}
+    return out;}
 
 }
