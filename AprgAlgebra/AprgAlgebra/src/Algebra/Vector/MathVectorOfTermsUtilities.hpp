@@ -20,21 +20,17 @@ namespace algebra
 namespace VectorUtilities
 {
 
-void simplifyForTermInVector(Term & term)
-{
-    Simplification::simplifyTermByFactoringToNonDoubleFactorsToACommonDenominator(term);
-    term.clearAllInnerSimplifiedFlags();
-    term.simplify();
-}
+void simplifyForTermInVector(Term & term);
+
+Term getDyOverDx(MathVectorOfTwoTerms const& termVector, std::string const& variableName);
+
 
 template <unsigned int SIZE>
 void simplifyForTermVector(
-        MathVectorOfTerms<SIZE> & termVector)
-{
+        MathVectorOfTerms<SIZE> & termVector){
     for(Term & term : termVector.getValuesReference())
     {
-        simplifyForTermInVector(term);
-    }
+        simplifyForTermInVector(term);    }
 }
 
 template <unsigned int SIZE> bool isContinuousAt(MathVectorOfTerms<SIZE> const& termVector, std::string const& variableName, AlbaNumber const& value);
@@ -88,24 +84,12 @@ bool areOriginalAndDerivativeVectorsOrthogonal(
     return termVector.getMagnitude().isConstant();
 }
 
-Term getDyOverDx(
-        MathVectorOfTwoTerms const& termVector,
-        std::string const& variableName)
-{
-    MathVectorOfTwoTerms derivative(differentiate<2U>(termVector, variableName));
-    Term result(derivative.getValueAt(1)/derivative.getValueAt(0));
-    result.simplify();
-    return result;
-}
-
 template <unsigned int SIZE>
 Term getLengthOfArcDerivative(
-        MathVectorOfTerms<SIZE> const& termVector,
-        std::string const& variableName)
+        MathVectorOfTerms<SIZE> const& termVector,        std::string const& variableName)
 {
     return differentiate(termVector, variableName).getMagnitude();
 }
-
 template <unsigned int SIZE>
 Term getLengthOfArc(
         MathVectorOfTerms<SIZE> const& termVector,
@@ -173,17 +157,32 @@ MathVectorOfTerms<SIZE> differentiate(
 }
 
 template <unsigned int SIZE>
+MathVectorOfTerms<SIZE> differentiateMultipleTimes(
+        MathVectorOfTerms<SIZE> const& termVector,
+        std::string const& variableName,
+        unsigned int const numberOfTimes)
+{
+    using Values = typename MathVectorOfTerms<SIZE>::ValuesInArray;
+    MathVectorOfTerms<SIZE> result;
+    Values const& values(termVector.getValues());
+    Differentiation differentiation(variableName);
+    std::transform(values.cbegin(), values.cend(), result.getValuesReference().begin(), [&](Term const& term)
+    {
+        return differentiation.differentiateMultipleTimes(term, numberOfTimes);
+    });
+    return result;
+}
+
+template <unsigned int SIZE>
 MathVectorOfTerms<SIZE> integrate(
         MathVectorOfTerms<SIZE> const& termVector,
-        std::string const& variableName)
-{
+        std::string const& variableName){
     using Values = typename MathVectorOfTerms<SIZE>::ValuesInArray;
     MathVectorOfTerms<SIZE> result;
     Values const& values(termVector.getValues());
     Integration integration(variableName);
     std::transform(values.cbegin(), values.cend(), result.getValuesReference().begin(), [&](Term const& term)
-    {
-        return integration.integrate(term);
+    {        return integration.integrate(term);
     });
     return result;
 }
