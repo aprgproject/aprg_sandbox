@@ -234,10 +234,12 @@ void IsolationOfOneVariableOnEqualityEquation::simplifyForIsolation(
         configurationDetails.shouldNotFactorizeIfItWouldYieldToPolynomialsWithDoubleValue = true;
         configurationDetails.shouldSimplifyToACommonDenominator = true;
 
-        SimplificationOfExpression::ScopeObject scopeObject;        scopeObject.setInThisScopeThisConfiguration(configurationDetails);
+        SimplificationOfExpression::ScopeObject scopeObject;
+        scopeObject.setInThisScopeThisConfiguration(configurationDetails);
 
         expression.simplify();
-    }}
+    }
+}
 
 }
 

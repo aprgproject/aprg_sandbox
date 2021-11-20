@@ -31,7 +31,7 @@ public:
     TermsWithDetails & getTermsWithDetailsReference();
 
     void clear();
-    void sort();
+    void sort(bool const dontSortFirstItem);
     void putTermWithDetails(TermWithDetails const& termWithDetails);
     void putTermsWithDetails(std::initializer_list<TermWithDetails> const& termsWithDetails);
     void putTermsWithDetails(TermsWithDetails const& termsWithDetails);

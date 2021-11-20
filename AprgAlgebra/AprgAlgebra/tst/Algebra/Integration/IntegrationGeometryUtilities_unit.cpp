@@ -96,9 +96,11 @@ TEST(IntegrationGeometryUtilitiesTest, GetLengthOfArcInPolarCoordinatesWorks)
 
 TEST(IntegrationGeometryUtilitiesTest, GetTotalMassOfARodWorks)
 {
-    Term l("l");    Term termToTest(Monomial(1, {{"x", 2}}));
+    Term l("l");
+    Term termToTest(Monomial(1, {{"x", 2}}));
 
     Term termToVerify(getTotalMassOfARod(termToTest, "x", Term(0), l));
+
     Term termToExpect(Monomial(AlbaNumber::createFraction(1, 3), {{"l", 3}}));
     EXPECT_EQ(termToExpect, termToVerify);
 }

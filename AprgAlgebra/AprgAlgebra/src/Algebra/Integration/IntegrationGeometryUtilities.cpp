@@ -94,10 +94,12 @@ Term getVolumeUsingCylindricalShells(
 Term getLengthOfArc(
         Term const& term,
         string const& variableName,
-        Term const& lowerValueTerm,        Term const& higherValueTerm)
+        Term const& lowerValueTerm,
+        Term const& higherValueTerm)
 {
     // If the function f and its derivative fPrime are continuous on the closed interval [a, b],
     // then the length of arc of the curve y=f(x) from the point (a, f(a) to the point (b, f(b)) is given by:
+
     // The length is equal to the the definite integral of the square root of (1+fPrime^2) from a to b.
 
     Differentiation differentiation(variableName);
@@ -124,10 +126,12 @@ Term getLengthOfArcInPolarCoordinates(
 
 Term getTotalMassOfARod(
         Term const& term,
-        string const& variableName,        Term const& lowerValueTerm,
+        string const& variableName,
+        Term const& lowerValueTerm,
         Term const& higherValueTerm)
 {
-    // A rod of length L meters has its left endpoint at the origin.    // If p(x) kilograms per meter is the linear density at a point x meters from the origin, where p is continuous on [0, L], then:
+    // A rod of length L meters has its left endpoint at the origin.
+    // If p(x) kilograms per meter is the linear density at a point x meters from the origin, where p is continuous on [0, L], then:
 
     // The total mass of the rod is the definite integral of p(x) from 0 to L.
 
@@ -249,4 +253,5 @@ Term integrateInPolarCoordinates(
 }
 
 }
+
 }

@@ -18,7 +18,8 @@ namespace alba
 
 namespace
 {
-using VectorTwoElements = AlbaMathVector<double, 2>;}
+using VectorTwoElements = AlbaMathVector<double, 2>;
+}
 
 TEST(AlbaMathVectorTest, ConstructionWorks)
 {
@@ -26,9 +27,11 @@ TEST(AlbaMathVectorTest, ConstructionWorks)
     VectorTwoElements::ValuesInArray values{6, 7};
     VectorTwoElements mathVector2(values);
     VectorTwoElements mathVector3{3, 4};
+
     ASSERT_EQ(2U, mathVector1.getSize());
     EXPECT_DOUBLE_EQ(0, mathVector1.getValueAt(0));
-    EXPECT_DOUBLE_EQ(0, mathVector1.getValueAt(1));    ASSERT_EQ(2U, mathVector2.getSize());
+    EXPECT_DOUBLE_EQ(0, mathVector1.getValueAt(1));
+    ASSERT_EQ(2U, mathVector2.getSize());
     EXPECT_DOUBLE_EQ(6, mathVector2.getValueAt(0));
     EXPECT_DOUBLE_EQ(7, mathVector2.getValueAt(1));
     ASSERT_EQ(2U, mathVector3.getSize());
@@ -206,10 +209,12 @@ TEST(AlbaMathVectorTest, GetValuesWorks)
     VectorTwoElements::ValuesInArray values(mathVector.getValues());
 
     ASSERT_EQ(2U, values.size());
-    EXPECT_DOUBLE_EQ(3.5, values.at(0));    EXPECT_DOUBLE_EQ(4.5, values.at(1));
+    EXPECT_DOUBLE_EQ(3.5, values.at(0));
+    EXPECT_DOUBLE_EQ(4.5, values.at(1));
 }
 
-TEST(AlbaMathVectorTest, GetDisplayableStringWorks){
+TEST(AlbaMathVectorTest, GetDisplayableStringWorks)
+{
     VectorTwoElements mathVector{3.5, 4.5};
 
     EXPECT_EQ("{3.5, 4.5}", mathVector.getDisplayableString());

@@ -32,9 +32,11 @@ public:
         bool shouldNotSimplifyByDistributingConstantExponentToEachBase;
         bool shouldPerformDebug;
     };
+
     class Configuration
             : public AlbaConfigurationHolder<ConfigurationDetails>
     {};
+
     class ScopeObject : public AlbaConfigurationScopeObject<ConfigurationDetails>
     {};
 
@@ -54,9 +56,11 @@ public:
     static bool shouldPerformDebug();
 
     Expression getExpression() const;
+
     void setExpression(Expression const& expression);
 
     void simplify();
+
 private:
     bool isChangeDetected(
             Expression const& expression1,

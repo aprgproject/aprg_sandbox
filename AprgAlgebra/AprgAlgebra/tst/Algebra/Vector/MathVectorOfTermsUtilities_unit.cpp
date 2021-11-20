@@ -70,7 +70,8 @@ TEST(MathVectorOfTermsUtilitiesTest, GetLengthOfArcDerivativeWorks)
 
 TEST(MathVectorOfTermsUtilitiesTest, GetLengthOfArcWorks)
 {
-    Term x(Monomial(1, {{"t", 3}}));    Term y(Monomial(2, {{"t", 2}}));
+    Term x(Monomial(1, {{"t", 3}}));
+    Term y(Monomial(2, {{"t", 2}}));
     MathVectorOfTwoTerms termVector{x, y};
 
     Term termToVerify(getLengthOfArc(termVector, "t"));
@@ -90,11 +91,25 @@ TEST(MathVectorOfTermsUtilitiesTest, GetLengthOfArcFromStartToEndWorks)
     EXPECT_EQ(Term(-11.5176789869724), termToVerify);
 }
 
+TEST(MathVectorOfTermsUtilitiesTest, GetCurvatureWorks)
+{
+    Term x(Polynomial{Monomial(1, {{"t", 3}}), Monomial(-3, {{"t", 1}})});
+    Term y(Polynomial{Monomial(3, {{"t", 2}})});
+    MathVectorOfTwoTerms termVector{x, y};
+
+    Term termToVerify(getCurvature(termVector, "t"));
+
+    string stringToExpect("(2/(3[t^4] + 6[t^2] + 3))");
+    EXPECT_EQ(stringToExpect, termToVerify.getDisplayableString());
+}
+
 TEST(MathVectorOfTermsUtilitiesTest, GetLimitWorks)
 {
-    Term t("t");    Term x(cos(t));
+    Term t("t");
+    Term x(cos(t));
     Term y(createExpressionIfPossible({Term(2), Term("*"), getEAsTerm(), Term("^"), t}));
     MathVectorOfTwoTerms termVector{x, y};
+
     MathVectorOfTwoTerms vectorToVerify(getLimit(termVector, "t", 0));
 
     string stringToExpect("{1, 2}");
@@ -124,6 +139,42 @@ TEST(MathVectorOfTermsUtilitiesTest, IntegrateWorks)
     MathVectorOfTwoTerms vectorToVerify(integrate(termVector, "t"));
 
     string stringToExpect("{(-1*cos(t)), (-3*sin(t))}");
+    EXPECT_EQ(stringToExpect, vectorToVerify.getDisplayableString());
+}
+
+TEST(MathVectorOfTermsUtilitiesTest, GetUnitTangentVectorWorks)
+{
+    Term x(Polynomial{Monomial(1, {{"t", 3}}), Monomial(-3, {{"t", 1}})});
+    Term y(Polynomial{Monomial(3, {{"t", 2}})});
+    MathVectorOfTwoTerms termVector{x, y};
+
+    MathVectorOfTwoTerms vectorToVerify(getUnitTangentVector(termVector, "t"));
+
+    string stringToExpect("{((1[t^2] + -1)/(1[t^2] + 1)), (2[t]/(1[t^2] + 1))}");
+    EXPECT_EQ(stringToExpect, vectorToVerify.getDisplayableString());
+}
+
+TEST(MathVectorOfTermsUtilitiesTest, GetUnitNormalVectorWorks)
+{
+    Term x(Polynomial{Monomial(1, {{"t", 3}}), Monomial(-3, {{"t", 1}})});
+    Term y(Polynomial{Monomial(3, {{"t", 2}})});
+    MathVectorOfTwoTerms termVector{x, y};
+
+    MathVectorOfTwoTerms vectorToVerify(getUnitNormalVector(termVector, "t"));
+
+    string stringToExpect("{(2[t]/(1[t^2] + 1)), ((-1[t^2] + 1)/(1[t^2] + 1))}");
+    EXPECT_EQ(stringToExpect, vectorToVerify.getDisplayableString());
+}
+
+TEST(MathVectorOfTermsUtilitiesTest, GetCurvatureVectorWorks)
+{
+    Term x(Polynomial{Monomial(1, {{"t", 3}}), Monomial(-3, {{"t", 1}})});
+    Term y(Polynomial{Monomial(3, {{"t", 2}})});
+    MathVectorOfTwoTerms termVector{x, y};
+
+    MathVectorOfTwoTerms vectorToVerify(getCurvatureVector(termVector, "t"));
+
+    string stringToExpect("{(4[t]/(3[t^6] + 9[t^4] + 9[t^2] + 3)), ((-2[t^2] + 2)/(3[t^6] + 9[t^4] + 9[t^2] + 3))}");
     EXPECT_EQ(stringToExpect, vectorToVerify.getDisplayableString());
 }
 

@@ -170,8 +170,7 @@ void AdditionAndSubtractionOfExpressions::prepareCommonParts(
     for(Term & commonPart : commonParts)
     {
         commonPart.simplify();
-        if(commonPart.isExpression()
-                && OperatorLevel::RaiseToPower != commonPart.getExpressionConstReference().getCommonOperatorLevel())
+        if(commonPart.isExpression())
         {
             commonPart.getExpressionReference().sort();
         }

@@ -31,6 +31,7 @@ public:
     {
         std::copy(values.begin(), values.end(), m_values.begin());
     }
+
     AlbaMathVector(std::initializer_list<DataType> const& values)
     {
         static_assert(SIZE>0, "The SIZE of AlbaMathVector should be positive.");
@@ -42,7 +43,8 @@ public:
     bool operator==(AlbaMathVectorType const& second) const
     {
         return std::equal(m_values.cbegin(), m_values.cend(), second.m_values.cbegin(),
-                          [](DataType const first, DataType const second)        {
+                          [](DataType const first, DataType const second)
+        {
             return mathHelper::isAlmostEqual(first, second);
         });
     }
@@ -56,7 +58,8 @@ public:
     bool operator<(AlbaMathVectorType const& second) const // this is added so it can be used in map
     {
         auto mismatchPair = std::mismatch(m_values.cbegin(), m_values.cend(), second.m_values.cbegin());
-        bool result(false);        if(mismatchPair.first != m_values.cend())
+        bool result(false);
+        if(mismatchPair.first != m_values.cend())
         {
             result = *(mismatchPair.first) < *(mismatchPair.second);
         }
@@ -102,7 +105,8 @@ public:
         ValuesInArray & resultValues(result.m_values);
         std::transform(m_values.begin(), m_values.end(), resultValues.begin(), [&](DataType const value)
         {
-            return value*scalarValue;        });
+            return value*scalarValue;
+        });
         return result;
     }
 
@@ -112,7 +116,8 @@ public:
         ValuesInArray & resultValues(result.m_values);
         std::transform(m_values.begin(), m_values.end(), resultValues.begin(), [&](DataType const value)
         {
-            return value/scalarValue;        });
+            return value/scalarValue;
+        });
         return result;
     }
 
@@ -129,6 +134,7 @@ public:
         std::transform(m_values.begin(), m_values.end(), secondValues.begin(), m_values.begin(), std::minus<DataType>());
         return *this;
     }
+
     unsigned int getSize() const
     {
         return SIZE;
@@ -137,7 +143,8 @@ public:
     DataType const& getValueAt(unsigned int const index) const
     {
         assert(index<SIZE);
-        return m_values.at(index);    }
+        return m_values.at(index);
+    }
 
     DataType getMagnitude() const
     {
@@ -155,6 +162,7 @@ public:
     {
         return m_values;
     }
+
     std::string getDisplayableString() const
     {
         std::stringstream ss;
@@ -163,10 +171,12 @@ public:
         for(auto const& value : m_values)
         {
             if(isFirst)
-            {                isFirst = false;
+            {
+                isFirst = false;
             }
             else
-            {                ss << ", ";
+            {
+                ss << ", ";
             }
             ss << value;
         }
@@ -183,9 +193,11 @@ private:
     ValuesInArray m_values;
 };
 
-template <typename DataType, unsigned int SIZE>std::ostream & operator<<(std::ostream & out, AlbaMathVector<DataType, SIZE> const& mathVector)
+template <typename DataType, unsigned int SIZE>
+std::ostream & operator<<(std::ostream & out, AlbaMathVector<DataType, SIZE> const& mathVector)
 {
     out << mathVector.getDisplayableString();
-    return out;}
+    return out;
+}
 
 }

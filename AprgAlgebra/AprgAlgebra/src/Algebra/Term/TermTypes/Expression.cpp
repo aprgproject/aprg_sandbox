@@ -444,7 +444,7 @@ void Expression::simplify()
 
 void Expression::sort()
 {
-    m_termsWithAssociation.sort();
+    m_termsWithAssociation.sort(OperatorLevel::RaiseToPower == m_commonOperatorLevel);
     clearSimplifiedFlag();
 }
 

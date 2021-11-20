@@ -6,6 +6,7 @@
 #include <Algebra/Integration/IntegrationUtilities.hpp>
 #include <Algebra/Limit/Continuity.hpp>
 #include <Algebra/Limit/Limit.hpp>
+#include <Algebra/Simplification/SimplificationUtilities.hpp>
 #include <Algebra/Vector/MathVectorOfTerms.hpp>
 
 #include <algorithm>
@@ -19,9 +20,37 @@ namespace algebra
 namespace VectorUtilities
 {
 
+void simplifyForTermInVector(Term & term)
+{
+    Simplification::simplifyTermByFactoringToNonDoubleFactorsToACommonDenominator(term);
+    term.clearAllInnerSimplifiedFlags();
+    term.simplify();
+}
+
+template <unsigned int SIZE>
+void simplifyForTermVector(
+        MathVectorOfTerms<SIZE> & termVector)
+{
+    for(Term & term : termVector.getValuesReference())
+    {
+        simplifyForTermInVector(term);
+    }
+}
+
+template <unsigned int SIZE> bool isContinuousAt(MathVectorOfTerms<SIZE> const& termVector, std::string const& variableName, AlbaNumber const& value);
+template <unsigned int SIZE> bool isDifferentiableAt(MathVectorOfTerms<SIZE> const& termVector, std::string const& variableName, AlbaNumber const& value);
+template <unsigned int SIZE> bool areOriginalAndDerivativeVectorsOrthogonal( MathVectorOfTerms<SIZE> const& termVector);
 Term getDyOverDx(MathVectorOfTwoTerms const& termVector, std::string const& variableName);
-template <unsigned int SIZE> MathVectorOfTerms<SIZE> differentiate(MathVectorOfTerms<SIZE> const& termVector, std::string const& variableName);
+template <unsigned int SIZE> Term getLengthOfArcDerivative(MathVectorOfTerms<SIZE> const& termVector, std::string const& variableName);
+template <unsigned int SIZE> Term getLengthOfArc(MathVectorOfTerms<SIZE> const& termVector, std::string const& variableName);
+template <unsigned int SIZE> Term getLengthOfArcFromStartToEnd(MathVectorOfTerms<SIZE> const& termVector, std::string const& variableName, Term const& lowerValueTerm, Term const& higherValueTerm);
+template <unsigned int SIZE> Term getCurvature(MathVectorOfTerms<SIZE> const& termVector, std::string const& variableName);
 template <unsigned int SIZE> MathVectorOfTerms<SIZE> getLimit(MathVectorOfTerms<SIZE> const& termVector, std::string const& variableName, AlbaNumber const& valueToApproach);
+template <unsigned int SIZE> MathVectorOfTerms<SIZE> differentiate(MathVectorOfTerms<SIZE> const& termVector, std::string const& variableName);
+template <unsigned int SIZE> MathVectorOfTerms<SIZE> integrate(MathVectorOfTerms<SIZE> const& termVector, std::string const& variableName);
+template <unsigned int SIZE> MathVectorOfTerms<SIZE> getUnitTangentVector(MathVectorOfTerms<SIZE> const& termVector, std::string const& variableName);
+template <unsigned int SIZE> MathVectorOfTerms<SIZE> getUnitNormalVector(MathVectorOfTerms<SIZE> const& termVector, std::string const& variableName);
+template <unsigned int SIZE> MathVectorOfTerms<SIZE> getCurvatureVector(MathVectorOfTerms<SIZE> const& termVector, std::string const& variableName);
 
 
 template <unsigned int SIZE>
@@ -86,16 +115,29 @@ Term getLengthOfArc(
     return integration.integrate(getLengthOfArcDerivative(termVector, variableName));
 }
 
-template <unsigned int SIZE>Term getLengthOfArcFromStartToEnd(
+template <unsigned int SIZE>
+Term getLengthOfArcFromStartToEnd(
         MathVectorOfTerms<SIZE> const& termVector,
         std::string const& variableName,
-        Term const& lowerValueTerm,        Term const& higherValueTerm)
+        Term const& lowerValueTerm,
+        Term const& higherValueTerm)
 {
     return evaluateTermsAndGetDifference(
                 getLengthOfArc(termVector, variableName),
                 variableName,
                 lowerValueTerm,
                 higherValueTerm);
+}
+
+template <unsigned int SIZE>
+Term getCurvature(
+        MathVectorOfTerms<SIZE> const& termVector,
+        std::string const& variableName)
+{
+    MathVectorOfTerms<SIZE> curvatureVector(getCurvatureVector(termVector, variableName));
+    Term result(curvatureVector.getMagnitude());
+    simplifyForTermInVector(result);
+    return result;
 }
 
 template <unsigned int SIZE>
@@ -143,6 +185,40 @@ MathVectorOfTerms<SIZE> integrate(
     {
         return integration.integrate(term);
     });
+    return result;
+}
+
+template <unsigned int SIZE>
+MathVectorOfTerms<SIZE> getUnitTangentVector(
+        MathVectorOfTerms<SIZE> const& termVector,
+        std::string const& variableName)
+{
+    MathVectorOfTerms<SIZE> result(differentiate(termVector, variableName));
+    result /= result.getMagnitude();
+    simplifyForTermVector(result);
+    return result;
+}
+
+template <unsigned int SIZE>
+MathVectorOfTerms<SIZE> getUnitNormalVector(
+        MathVectorOfTerms<SIZE> const& termVector,
+        std::string const& variableName)
+{
+    MathVectorOfTerms<SIZE> result(differentiate(getUnitTangentVector(termVector, variableName), variableName));
+    result /= result.getMagnitude();
+    simplifyForTermVector(result);
+    return result;
+}
+
+template <unsigned int SIZE>
+MathVectorOfTerms<SIZE> getCurvatureVector(
+        MathVectorOfTerms<SIZE> const& termVector,
+        std::string const& variableName)
+{
+    MathVectorOfTerms<SIZE> derivativeOfTermVector(differentiate(termVector, variableName));
+    MathVectorOfTerms<SIZE> result(differentiate(getUnitTangentVector(termVector, variableName), variableName));
+    result /= derivativeOfTermVector.getMagnitude();
+    simplifyForTermVector(result);
     return result;
 }
 

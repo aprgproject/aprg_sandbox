@@ -57,10 +57,12 @@ Term getLengthOfArcInPolarCoordinates(
 
 Term getTotalMassOfARod(
         Term const& term,
-        std::string const& variableName,        Term const& lowerValueTerm,
+        std::string const& variableName,
+        Term const& lowerValueTerm,
         Term const& higherValueTerm);
 
-Term getMomentOfMassOfARod(        Term const& term,
+Term getMomentOfMassOfARod(
+        Term const& term,
         std::string const& variableName,
         Term const& lowerValueTerm,
         Term const& higherValueTerm);

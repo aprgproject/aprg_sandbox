@@ -87,9 +87,11 @@ bool SimplificationOfExpression::shouldNotSimplifyByDistributingConstantExponent
     return Configuration::getInstance().getConfigurationDetails().shouldNotSimplifyByDistributingConstantExponentToEachBase;
 }
 
-bool SimplificationOfExpression::shouldPerformDebug(){
+bool SimplificationOfExpression::shouldPerformDebug()
+{
     return Configuration::getInstance().getConfigurationDetails().shouldPerformDebug;
 }
+
 Expression SimplificationOfExpression::getExpression() const
 {
     return m_expression;
@@ -244,6 +246,7 @@ void SimplificationOfExpression::processAndSaveTermsForRaiseToPower(
                 shouldSimplifyWithEvenExponentsCancellationAndPutAbsoluteValueAtBase());
     termRaiseToTerms.setAsShouldSimplifyToFactors(shouldSimplifyToFactors());
     termRaiseToTerms.simplify();
+
     expression.setTerm(getCombinedTermUsingTermsRaiseToTerms(termRaiseToTerms));
 }
 
@@ -343,9 +346,11 @@ bool SimplificationOfExpression::shouldDistributeExponentConstantToEachBase() co
     return !shouldNotSimplifyByDistributingConstantExponentToEachBase()
             && !shouldSimplifyByCombiningRadicalsInMultiplicationAndDivision();
 }
+
 Factorization::ConfigurationDetails SimplificationOfExpression::getFactorizationConfiguration() const
 {
-    Factorization::ConfigurationDetails configurationDetails(                Factorization::Configuration::getInstance().getConfigurationDetails());
+    Factorization::ConfigurationDetails configurationDetails(
+                Factorization::Configuration::getInstance().getConfigurationDetails());
     configurationDetails.shouldSimplifyExpressionsToFactors = shouldSimplifyToFactors();
     configurationDetails.shouldNotFactorizeIfItWouldYieldToPolynomialsWithDoubleValue
             = shouldNotFactorizeIfItWouldYieldToPolynomialsWithDoubleValue();
