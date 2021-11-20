@@ -73,23 +73,32 @@ TEST(IntegrationGeometryUtilitiesTest, GetVolumeUsingCylindricalShellsWorksOnPar
     EXPECT_EQ(termToExpect, termToVerify);
 }
 
-TEST(IntegrationGeometryUtilitiesTest, GetLengthOfTheEdgeWorks)
+TEST(IntegrationGeometryUtilitiesTest, GetLengthOfArcWorks)
 {
     Term termToTest(Monomial(1, {{"x", AlbaNumber::createFraction(2, 3)}}));
 
-    Term termToVerify(getLengthOfTheEdge(termToTest, "x", Term(1), Term(8)));
+    Term termToVerify(getLengthOfArc(termToTest, "x", Term(1), Term(8)));
 
     Term termToExpect(7.63370541601624);
     EXPECT_EQ(termToExpect, termToVerify);
 }
 
+TEST(IntegrationGeometryUtilitiesTest, GetLengthOfArcInPolarCoordinatesWorks)
+{
+    string thetaName("theta");
+    Term radiusOfLimacon(Monomial(2, {{"theta", 1}}));
+
+    Term termToVerify(getLengthOfArcInPolarCoordinates(radiusOfLimacon, thetaName, Term(0), Term(AlbaNumber(AlbaNumber::Value::pi))));
+
+    Term termToExpect(12.21983866791859);
+    EXPECT_EQ(termToExpect, termToVerify);
+}
+
 TEST(IntegrationGeometryUtilitiesTest, GetTotalMassOfARodWorks)
 {
-    Term l("l");
-    Term termToTest(Monomial(1, {{"x", 2}}));
+    Term l("l");    Term termToTest(Monomial(1, {{"x", 2}}));
 
     Term termToVerify(getTotalMassOfARod(termToTest, "x", Term(0), l));
-
     Term termToExpect(Monomial(AlbaNumber::createFraction(1, 3), {{"l", 3}}));
     EXPECT_EQ(termToExpect, termToVerify);
 }

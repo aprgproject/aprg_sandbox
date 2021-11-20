@@ -50,31 +50,51 @@ TEST(MathVectorOfTermsUtilitiesTest, GetDyOverDxWorks)
     Term y(Polynomial{Monomial(1, {{"t", 2}}), Monomial(4, {{"t", 1}})});
     MathVectorOfTwoTerms termVector{x, y};
 
-    Term dyOverDx(getDyOverDx(termVector, "t"));
+    Term termToVerify(getDyOverDx(termVector, "t"));
 
     string stringToExpect("(-1 + -2[t^-1])");
-    EXPECT_EQ(stringToExpect, dyOverDx.getDisplayableString());
+    EXPECT_EQ(stringToExpect, termToVerify.getDisplayableString());
 }
 
-TEST(MathVectorOfTermsUtilitiesTest, GetLengthOfArcWorks)
+TEST(MathVectorOfTermsUtilitiesTest, GetLengthOfArcDerivativeWorks)
 {
     Term x(Monomial(1, {{"t", 3}}));
     Term y(Monomial(2, {{"t", 2}}));
     MathVectorOfTwoTerms termVector{x, y};
 
-    Term dyOverDx(getLengthOfArc(termVector, "t"));
+    Term termToVerify(getLengthOfArcDerivative(termVector, "t"));
+
+    string stringToExpect("((9[t^4] + 16[t^2])^(1/2))");
+    EXPECT_EQ(stringToExpect, termToVerify.getDisplayableString());
+}
+
+TEST(MathVectorOfTermsUtilitiesTest, GetLengthOfArcWorks)
+{
+    Term x(Monomial(1, {{"t", 3}}));    Term y(Monomial(2, {{"t", 2}}));
+    MathVectorOfTwoTerms termVector{x, y};
+
+    Term termToVerify(getLengthOfArc(termVector, "t"));
 
     string stringToExpect("(((9[t^2] + 16)^(3/2))/27)");
-    EXPECT_EQ(stringToExpect, dyOverDx.getDisplayableString());
+    EXPECT_EQ(stringToExpect, termToVerify.getDisplayableString());
+}
+
+TEST(MathVectorOfTermsUtilitiesTest, GetLengthOfArcFromStartToEndWorks)
+{
+    Term x(Monomial(1, {{"t", 3}}));
+    Term y(Monomial(2, {{"t", 2}}));
+    MathVectorOfTwoTerms termVector{x, y};
+
+    Term termToVerify(getLengthOfArcFromStartToEnd(termVector, "t", Term(-2), Term(0)));
+
+    EXPECT_EQ(Term(-11.5176789869724), termToVerify);
 }
 
 TEST(MathVectorOfTermsUtilitiesTest, GetLimitWorks)
 {
-    Term t("t");
-    Term x(cos(t));
+    Term t("t");    Term x(cos(t));
     Term y(createExpressionIfPossible({Term(2), Term("*"), getEAsTerm(), Term("^"), t}));
     MathVectorOfTwoTerms termVector{x, y};
-
     MathVectorOfTwoTerms vectorToVerify(getLimit(termVector, "t", 0));
 
     string stringToExpect("{1, 2}");
