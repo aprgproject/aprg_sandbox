@@ -14,16 +14,14 @@ public:
     using TraverseOperation = std::function<void(Point const&)>;
     Sphere();
     Sphere(Point const& center, double const radius);
-    bool operator==(Sphere const& circle) const;
-    bool operator!=(Sphere const& circle) const;
-    bool operator<(Sphere const& circle) const;
+    bool operator==(Sphere const& sphere) const;
+    bool operator!=(Sphere const& sphere) const;
+    bool operator<(Sphere const& sphere) const;
     Point getCenter() const;
     double getRadius() const;
-    bool isInside(Point const& point) const;
-    AlbaOptional<double> calculateXFromYAndZ(double const y, double const z, double const signOfRoot) const;
+    bool isInside(Point const& point) const;    AlbaOptional<double> calculateXFromYAndZ(double const y, double const z, double const signOfRoot) const;
     AlbaOptional<double> calculateYFromXAndZ(double const x, double const z, double const signOfRoot) const;
     AlbaOptional<double> calculateZFromXAndY(double const x, double const y, double const signOfRoot) const;
-
     std::string getDisplayableString() const;
 
 private:
@@ -34,7 +32,7 @@ private:
 
 using Spheres = std::vector<Sphere>;
 
-std::ostream & operator<<(std::ostream & out, Sphere const& circle);
+std::ostream & operator<<(std::ostream & out, Sphere const& sphere);
 
 }
 }

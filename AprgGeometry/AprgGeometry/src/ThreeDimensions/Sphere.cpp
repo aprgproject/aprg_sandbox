@@ -25,34 +25,32 @@ Sphere::Sphere(Point const& center, double const radius)
     , m_radiusSquared(radius*radius)
 {}
 
-bool Sphere::operator==(Sphere const& circle) const
+bool Sphere::operator==(Sphere const& sphere) const
 {
-    return (m_center == circle.m_center) && isAlmostEqual(m_radius, circle.m_radius);
+    return (m_center == sphere.m_center) && isAlmostEqual(m_radius, sphere.m_radius);
 }
 
-bool Sphere::operator!=(Sphere const& circle) const
+bool Sphere::operator!=(Sphere const& sphere) const
 {
-    return !((*this)==circle);
+    return !((*this)==sphere);
 }
 
-bool Sphere::operator<(Sphere const& circle) const
+bool Sphere::operator<(Sphere const& sphere) const
 {
     bool result(false);
-    if(m_center == circle.m_center)
+    if(m_center == sphere.m_center)
     {
-        return m_radius < circle.m_radius;
+        return m_radius < sphere.m_radius;
     }
     else
     {
-        return m_center < circle.m_center;
+        return m_center < sphere.m_center;
     }
     return result;
 }
-
 Point Sphere::getCenter() const
 {
-    return m_center;
-}
+    return m_center;}
 
 double Sphere::getRadius() const
 {
@@ -104,11 +102,10 @@ string Sphere::getDisplayableString() const
     return ss.str();
 }
 
-ostream & operator<<(ostream & out, Sphere const& circle)
+ostream & operator<<(ostream & out, Sphere const& sphere)
 {
-    out << circle.getDisplayableString();
+    out << sphere.getDisplayableString();
     return out;
 }
-
 }
 }
