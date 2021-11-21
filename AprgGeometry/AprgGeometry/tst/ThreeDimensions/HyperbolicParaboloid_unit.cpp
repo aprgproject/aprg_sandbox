@@ -44,11 +44,10 @@ TEST(HyperbolicParaboloidTest, HyperbolicParaboloidNotAtOriginWithRadius)
     EXPECT_DOUBLE_EQ(10, hyperbolicParaboloid.getAValue());
     EXPECT_DOUBLE_EQ(5, hyperbolicParaboloid.getBValue());
     EXPECT_DOUBLE_EQ(10, hyperbolicParaboloid.getCValue());
-    EXPECT_DOUBLE_EQ(3, hyperbolicParaboloid.calculateXFromYAndZ(1, 0, 1));
-    EXPECT_DOUBLE_EQ(5.3166247903553998, hyperbolicParaboloid.calculateYFromXAndZ(3, 4, 1));
-    EXPECT_DOUBLE_EQ(4.8000000000000007, hyperbolicParaboloid.calculateZFromXAndY(5, 6));
+    EXPECT_DOUBLE_EQ(6.8309518948453007, hyperbolicParaboloid.calculateXFromYAndZ(1, 0, 1));
+    EXPECT_DOUBLE_EQ(3.8708286933869709, hyperbolicParaboloid.calculateYFromXAndZ(3, 4, 1));
+    EXPECT_DOUBLE_EQ(7.8000000000000007, hyperbolicParaboloid.calculateZFromXAndY(5, 6));
 }
 
 }
-
 }

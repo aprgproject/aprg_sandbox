@@ -44,11 +44,10 @@ TEST(EllipticParaboloidTest, EllipticParaboloidNotAtOriginWithRadius)
     EXPECT_DOUBLE_EQ(10, ellipticParaboloid.getAValue());
     EXPECT_DOUBLE_EQ(11, ellipticParaboloid.getBValue());
     EXPECT_DOUBLE_EQ(12, ellipticParaboloid.getCValue());
-    EXPECT_DOUBLE_EQ(-2.9799774353223323, ellipticParaboloid.calculateXFromYAndZ(1, 2, -1));
-    EXPECT_DOUBLE_EQ(-3.9576281633997041, ellipticParaboloid.calculateYFromXAndZ(3, 4, -1));
-    EXPECT_DOUBLE_EQ(3.5067768595041326, ellipticParaboloid.calculateZFromXAndY(5, 6));
+    EXPECT_DOUBLE_EQ(1, ellipticParaboloid.calculateXFromYAndZ(2, 3, 1));
+    EXPECT_DOUBLE_EQ(2, ellipticParaboloid.calculateYFromXAndZ(1, 3, 1));
+    EXPECT_DOUBLE_EQ(3, ellipticParaboloid.calculateZFromXAndY(1, 2));
 }
 
 }
-
 }

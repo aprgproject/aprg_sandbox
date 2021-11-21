@@ -60,25 +60,23 @@ double EllipticParaboloid::getCValue() const
 
 double EllipticParaboloid::calculateXFromYAndZ(double const y, double const z, double const signOfRoot) const
 {
-    return pow(z/m_cValue - pow((y-m_center.getY())/m_bValue, 2), 0.5) * signOfRoot * m_aValue + m_center.getX();
+    return pow((z-m_center.getZ())/m_cValue - pow((y-m_center.getY())/m_bValue, 2), 0.5) * signOfRoot * m_aValue + m_center.getX();
 }
 
 double EllipticParaboloid::calculateYFromXAndZ(double const x, double const z, double const signOfRoot) const
 {
-    return pow(z/m_cValue - pow((x-m_center.getX())/m_aValue, 2), 0.5) * signOfRoot * m_bValue + m_center.getY();
+    return pow((z-m_center.getZ())/m_cValue - pow((x-m_center.getX())/m_aValue, 2), 0.5) * signOfRoot * m_bValue + m_center.getY();
 }
 
 double EllipticParaboloid::calculateZFromXAndY(double const x, double const y) const
 {
-    return (pow((x-m_center.getX())/m_aValue, 2) + pow((y-m_center.getY())/m_bValue, 2)) * m_cValue;
+    return (pow((x-m_center.getX())/m_aValue, 2) + pow((y-m_center.getY())/m_bValue, 2)) * m_cValue + m_center.getZ();
 }
 
-string EllipticParaboloid::getDisplayableString() const
-{
+string EllipticParaboloid::getDisplayableString() const{
     std::stringstream ss;
     ss << "(center: " << m_center.getDisplayableString() << " a: " << m_aValue << " b: " << m_bValue << " c: " << m_cValue << ")";
-    return ss.str();
-}
+    return ss.str();}
 
 ostream & operator<<(ostream & out, EllipticParaboloid const& ellipsoid)
 {

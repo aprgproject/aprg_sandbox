@@ -16,15 +16,13 @@ class Circle
 public:
     using TraverseOperation = std::function<void(Point const&)>;
     Circle();
-    Circle(Point const& center, double const radius);
+    Circle(Point const& center, double const radius); // (x-center.x)^2 + (y-center.y)^2 = r^2
     Circle(double const a, double const d, double const e, double const f); //ax2+ay2+dx+ey+f=0
     bool operator==(Circle const& circle) const;
-    bool operator!=(Circle const& circle) const;
-    bool operator<(Circle const& circle) const;
+    bool operator!=(Circle const& circle) const;    bool operator<(Circle const& circle) const;
     Point getCenter() const;
     double getRadius() const;
-    double getArea() const;
-    double getCircumference() const;
+    double getArea() const;    double getCircumference() const;
     double getEccentricity() const;
     bool isInside(Point const& point) const;
     Points getLocus(double const interval) const;
