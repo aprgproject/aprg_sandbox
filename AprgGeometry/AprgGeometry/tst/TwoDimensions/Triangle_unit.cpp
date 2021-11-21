@@ -46,15 +46,13 @@ TEST(TriangleTest, GetSumOfAnglesIsCorrect)
     EXPECT_DOUBLE_EQ(180, triangle.getSumOfAngles().getDegrees());
 }
 
-TEST(TriangleTest, IsEquilateralWorksCorrectly)
+TEST(TriangleTest, IsEquilateralWorks)
 {
     Triangle regularTriangle(Point(1,0), Point(-1,0), Point(0,sqrt(3)));
     Triangle nonRegularTriangle(Point(0,0), Point(0,4), Point(4,0));
-
     EXPECT_TRUE(regularTriangle.isEquilateral());
     EXPECT_FALSE(nonRegularTriangle.isEquilateral());
 }
-
 TEST(TriangleTest, IsEquiangularWorksCorrect)
 {
     Triangle regularTriangle(Point(1,0), Point(-1,0), Point(0,sqrt(3)));

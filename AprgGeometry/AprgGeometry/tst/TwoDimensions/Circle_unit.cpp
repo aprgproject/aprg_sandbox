@@ -67,13 +67,19 @@ TEST(CircleTest, CircleAtOriginWithRadius)
     EXPECT_EQ(Point(2.8284271247461902909,-1), points.at(19));
 }
 
+TEST(CircleTest, IsInsideWorks)
+{
+    Circle circle(Point(0,0), 3);
+
+    EXPECT_TRUE(circle.isInside(Point(1, 1)));
+    EXPECT_FALSE(circle.isInside(Point(100, 100)));
+}
+
 TEST(CircleTest, GetEccentricityWorks)
 {
     Circle circle(1, 6, -2, -15);
-
     EXPECT_DOUBLE_EQ(0, circle.getEccentricity());
 }
-
 TEST(CircleTest, GetPointAtAngleWorks)
 {
     Circle circle(Point(1,2), 3);

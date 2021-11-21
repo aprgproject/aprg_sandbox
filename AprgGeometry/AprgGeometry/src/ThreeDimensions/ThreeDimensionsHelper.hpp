@@ -34,32 +34,33 @@ double getCosineOfAngleUsing2Deltas(Coefficients const& c1, Coefficients const& 
 
 bool areLinesParallel(Line const& line1, Line const& line2);
 bool arePlanesParallel(Plane const& plane1, Plane const& plane2);
+bool areLinesPerpendicular(Line const& line1, Line const& line2);
+bool arePlanesPerpendicular(Plane const& plane1, Plane const& plane2);
 bool areCoefficientsRatiosParallel(CoefficientRatios const& coefficientRatios);
+bool areCoefficientsProductPerpendicular(Coefficients const& coefficients);
 
 double getDotProduct(Coefficients const coefficients1, Coefficients const coefficients2);
 Coefficients getCrossProduct(Coefficients const coefficients1, Coefficients const coefficients2);
 
 CoefficientRatios getRatioOfEachCoefficient(Coefficients const& first, Coefficients const& second);
+Coefficients getProductOfEachCoefficient(Coefficients const& first, Coefficients const& second);
 
 Dimensionless::Angle getTheInnerAngleUsingThreePoints(Point const& pointA, Point const& pointB, Point const& pointC);
-Dimensionless::Angle getTheSmallerAngleBetweenTwoLines(Line const& line1, Line const& line2);
-Dimensionless::Angle getTheLargerAngleBetweenTwoLines(Line const& line1, Line const& line2);
+Dimensionless::Angle getTheSmallerAngleBetweenTwoLines(Line const& line1, Line const& line2);Dimensionless::Angle getTheLargerAngleBetweenTwoLines(Line const& line1, Line const& line2);
 Dimensionless::Angle getTheSmallerDihedralAngleBetweenTwoPlanes(Plane const& plane1, Plane const& plane2);
 Dimensionless::Angle getTheLargerDihedralAngleBetweenTwoPlanes(Plane const& plane1, Plane const& plane2);
-
 Point getMidpoint(Point const& point1, Point const& point2);
 Point getPointOfIntersectionOfTwoLines(Line const& line1, Line const& line2);
 Point getPointOfIntersectionOfAPlaneAndALine(Plane const& plane, Line const& line);
 
 Line getLineWithSameSlope(Line const& line, Point const& point);
 Line getLineOfIntersectionOfTwoPlanes(Plane const& plane1, Plane const& plane2);
+Line getPerpendicularLineOfPlaneWithAPoint(Plane const& plane, Point const& point);
 Line getProjectedLineInPlaneOfASkewedPlaneAndLine(Plane const& plane, Line const& line);
 
-Plane getPlaneWithContainsALineAndAPoint(Line const& line, Point const& point);
-Plane getPlaneWithTwoIntersectingLines(Line const& line1, Line const& line2);
+Plane getPlaneWithContainsALineAndAPoint(Line const& line, Point const& point);Plane getPlaneWithTwoIntersectingLines(Line const& line1, Line const& line2);
 Plane getPlaneOfTwoDifferentLinesWithSameSlope(Line const& line1, Line const& line2);
 Plane getPerpendicularPlaneOfALineAndUsingAPointInThePlane(Line const& line, Point const& pointInPerpendicularPlane);
-
 }
 
 }

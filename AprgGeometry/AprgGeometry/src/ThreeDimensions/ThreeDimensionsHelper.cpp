@@ -148,14 +148,32 @@ bool arePlanesParallel(Plane const& plane1, Plane const& plane2)
     return areCoefficientsRatiosParallel(coefficientRatios);
 }
 
+bool areLinesPerpendicular(Line const& line1, Line const& line2)
+{
+    Coefficients coefficients(
+                getProductOfEachCoefficient(
+                Coefficients(line1.getACoefficient(), line1.getBCoefficient(), line1.getCCoefficient()),
+                Coefficients(line2.getACoefficient(), line2.getBCoefficient(), line2.getCCoefficient())));
+
+    return areCoefficientsProductPerpendicular(coefficients);
+}
+
+bool arePlanesPerpendicular(Plane const& plane1, Plane const& plane2)
+{
+    Coefficients coefficients(
+                getProductOfEachCoefficient(
+                Coefficients(plane1.getACoefficient(), plane1.getBCoefficient(), plane1.getCCoefficient()),
+                Coefficients(plane2.getACoefficient(), plane2.getBCoefficient(), plane2.getCCoefficient())));
+
+    return areCoefficientsProductPerpendicular(coefficients);
+}
+
 bool areCoefficientsRatiosParallel(CoefficientRatios const& coefficientRatios)
 {
-    vector<AlbaRatio> coefficientRatiosInVector{coefficientRatios.getX(), coefficientRatios.getY(), coefficientRatios.getZ()};
-    AlbaOptional<double> previousRatioOfCoefficient;
+    vector<AlbaRatio> coefficientRatiosInVector{coefficientRatios.getX(), coefficientRatios.getY(), coefficientRatios.getZ()};    AlbaOptional<double> previousRatioOfCoefficient;
     bool isParallel(true);
     for(AlbaRatio const coefficientRatio : coefficientRatiosInVector)
-    {
-        if(coefficientRatio.isOnlyOneValueZero())
+    {        if(coefficientRatio.isOnlyOneValueZero())
         {
             isParallel=false;
         }
@@ -176,14 +194,17 @@ bool areCoefficientsRatiosParallel(CoefficientRatios const& coefficientRatios)
     return isParallel;
 }
 
-double getDistance(Point const& point1, Point const& point2)
+bool areCoefficientsProductPerpendicular(Coefficients const& coefficients)
 {
-    Point delta(point2 - point1);
-    return getSquareRootOfXSquaredPlusYSquaredPlusZSquared<double>(delta.getX(), delta.getY(), delta.getZ());
+    return coefficients.getX() + coefficients.getY() + coefficients.getZ() == 0;
 }
 
-double getDistance(Line const& line, Point const& point)
+double getDistance(Point const& point1, Point const& point2)
 {
+    Point delta(point2 - point1);    return getSquareRootOfXSquaredPlusYSquaredPlusZSquared<double>(delta.getX(), delta.getY(), delta.getZ());
+}
+
+double getDistance(Line const& line, Point const& point){
     Plane perpendicularPlane(getPerpendicularPlaneOfALineAndUsingAPointInThePlane(line, point));
     Point nearestPoint(getPointOfIntersectionOfAPlaneAndALine(perpendicularPlane, line));
     return getDistance(point, nearestPoint);
@@ -277,14 +298,17 @@ CoefficientRatios getRatioOfEachCoefficient(Coefficients const& first, Coefficie
     return CoefficientRatios(AlbaRatio(first.getX(), second.getX()), AlbaRatio(first.getY(), second.getY()), AlbaRatio(first.getZ(), second.getZ()));
 }
 
+Coefficients getProductOfEachCoefficient(Coefficients const& first, Coefficients const& second)
+{
+    return Coefficients(first.getX() * second.getX(), first.getY() * second.getY(), first.getZ() * second.getZ());
+}
+
 Angle getTheInnerAngleUsingThreePoints(Point const& pointA, Point const& pointB, Point const& pointC)
 {
-    Point deltaBA(pointB-pointA);
-    Point deltaCA(pointC-pointA);
+    Point deltaBA(pointB-pointA);    Point deltaCA(pointC-pointA);
     Coefficients c1(deltaBA.getX(), deltaBA.getY(), deltaBA.getZ());
     Coefficients c2(deltaCA.getX(), deltaCA.getY(), deltaCA.getZ());
-    return Angle(AngleUnitType::Radians, acos(getCosineOfAngleUsing2Deltas(c1,c2)));
-}
+    return Angle(AngleUnitType::Radians, acos(getCosineOfAngleUsing2Deltas(c1,c2)));}
 
 Angle getTheSmallerAngleBetweenTwoLines(Line const& line1, Line const& line2)
 {
@@ -386,14 +410,17 @@ Line getLineOfIntersectionOfTwoPlanes(Plane const& plane1, Plane const& plane2)
     return Line(point1, point2);
 }
 
+Line getPerpendicularLineOfPlaneWithAPoint(Plane const& plane, Point const& point)
+{
+    return Line(plane.getACoefficient(), plane.getBCoefficient(), plane.getCCoefficient(), point.getX(), point.getY(), point.getZ());
+}
+
 Line getProjectedLineInPlaneOfASkewedPlaneAndLine(Plane const& plane, Line const& line)
 {
-    Coefficients planeCoefficients(plane.getACoefficient(), plane.getBCoefficient(), plane.getCCoefficient());
-    Coefficients lineCoefficients(line.getACoefficient(), line.getBCoefficient(), line.getCCoefficient());
+    Coefficients planeCoefficients(plane.getACoefficient(), plane.getBCoefficient(), plane.getCCoefficient());    Coefficients lineCoefficients(line.getACoefficient(), line.getBCoefficient(), line.getCCoefficient());
     Coefficients perpendicularCoefficientsPlaneAndLine(getCrossProduct(planeCoefficients, lineCoefficients));
     Coefficients directionCoefficients(getCrossProduct(planeCoefficients, perpendicularCoefficientsPlaneAndLine));
-    Point pointInLine(getPointOfIntersectionOfAPlaneAndALine(plane, line));
-    return Line(directionCoefficients.getX(), directionCoefficients.getY(), directionCoefficients.getZ(), pointInLine);
+    Point pointInLine(getPointOfIntersectionOfAPlaneAndALine(plane, line));    return Line(directionCoefficients.getX(), directionCoefficients.getY(), directionCoefficients.getZ(), pointInLine);
 }
 
 Plane getPlaneWithContainsALineAndAPoint(Line const& line, Point const& point)
