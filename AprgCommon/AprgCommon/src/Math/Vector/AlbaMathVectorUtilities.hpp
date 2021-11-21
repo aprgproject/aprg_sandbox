@@ -97,14 +97,23 @@ DataType getDotProduct(
     return result;
 }
 
+template <typename DataType>
+AlbaMathVector<DataType, 3> getCrossProduct(
+        AlbaMathVector<DataType, 3> const& vector1,
+        AlbaMathVector<DataType, 3> const& vector2)
+{
+    return AlbaMathVector<DataType, 3>{
+                vector1.getValueAt(1)*vector2.getValueAt(2) - vector1.getValueAt(2)*vector2.getValueAt(1),
+                vector1.getValueAt(2)*vector2.getValueAt(0) - vector1.getValueAt(0)*vector2.getValueAt(2),
+                vector1.getValueAt(0)*vector2.getValueAt(1) - vector1.getValueAt(1)*vector2.getValueAt(0)};
+}
+
 template <typename DataType, unsigned int SIZE>
 DataType getAngleBetweenTwoVectors(
-        AlbaMathVector<DataType, SIZE> const& vector1,
-        AlbaMathVector<DataType, SIZE> const& vector2)
+        AlbaMathVector<DataType, SIZE> const& vector1,        AlbaMathVector<DataType, SIZE> const& vector2)
 {
     return acos(getDotProduct(vector1, vector2) / (vector1.getMagnitude() * vector2.getMagnitude()));
 }
-
 template <typename DataType, unsigned int SIZE>
 DataType getScalarProjection(
         AlbaMathVector<DataType, SIZE> const& vectorToProjectTo,
