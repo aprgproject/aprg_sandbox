@@ -31,18 +31,19 @@ TEST(ThreeDimensionsUtilitiesTest, GetEllipticConeEquationWorks)
 
 TEST(ThreeDimensionsUtilitiesTest, GetEllipticHyperboloidEquationEquationWorks)
 {
-    Equation equationToVerify(getEllipticHyperboloidEquation());
+    Equation equationToVerify1(getEllipticHyperboloidEquation(false));
+    Equation equationToVerify2(getEllipticHyperboloidEquation(true));
 
-    string stringToExpect("((((x-x0)^2)/(a^2))+(((y-y0)^2)/(b^2))-(((z-z0)^2)/(c^2))) = 1");
-    EXPECT_EQ(stringToExpect, equationToVerify.getDisplayableString());
+    string stringToExpect1("((((x-x0)^2)/(a^2))+(((y-y0)^2)/(b^2))-(((z-z0)^2)/(c^2))) = 1");
+    string stringToExpect2("((((x-x0)^2)/(a^2))+(((y-y0)^2)/(b^2))-(((z-z0)^2)/(c^2))) = -1");
+    EXPECT_EQ(stringToExpect1, equationToVerify1.getDisplayableString());
+    EXPECT_EQ(stringToExpect2, equationToVerify2.getDisplayableString());
 }
 
-TEST(ThreeDimensionsUtilitiesTest, GetEllipticParaboloidEquationEquationWorks)
-{
+TEST(ThreeDimensionsUtilitiesTest, GetEllipticParaboloidEquationEquationWorks){
     Equation equationToVerify(getEllipticParaboloidEquation());
 
-    string stringToExpect("((((x-x0)^2)/(a^2))+(((y-y0)^2)/(b^2))) = ((z-z0)/c)");
-    EXPECT_EQ(stringToExpect, equationToVerify.getDisplayableString());
+    string stringToExpect("((((x-x0)^2)/(a^2))+(((y-y0)^2)/(b^2))) = ((z-z0)/c)");    EXPECT_EQ(stringToExpect, equationToVerify.getDisplayableString());
 }
 
 TEST(ThreeDimensionsUtilitiesTest, GetHyperbolicParaboloidEquationEquationWorks)

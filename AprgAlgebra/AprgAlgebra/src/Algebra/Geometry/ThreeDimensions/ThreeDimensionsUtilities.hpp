@@ -13,15 +13,13 @@ namespace ThreeDimensions
 
 Equation getEllipsoidEquation();
 Equation getEllipticConeEquation();
-Equation getEllipticHyperboloidEquation();
+Equation getEllipticHyperboloidEquation(bool const isOneNegative);
 Equation getEllipticParaboloidEquation();
 Equation getHyperbolicParaboloidEquation();
-Equations getLineEquations();
-Equation getPlaneEquation();
+Equations getLineEquations();Equation getPlaneEquation();
 Equation getSphereEquation();
 
 }
-
 }
 
 }
