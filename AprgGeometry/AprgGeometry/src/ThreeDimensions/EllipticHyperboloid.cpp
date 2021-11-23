@@ -19,20 +19,18 @@ EllipticHyperboloid::EllipticHyperboloid()
     , m_oneWithSign(0)
 {}
 
-EllipticHyperboloid::EllipticHyperboloid(Point const& center, double const aCoefficient, double const bCoefficient, double const cCoefficient, bool const signOfOne)
+EllipticHyperboloid::EllipticHyperboloid(Point const& center, double const aCoefficient, double const bCoefficient, double const cCoefficient, bool const isOneNegative)
     : m_center(center)
     , m_aValue(aCoefficient)
     , m_bValue(bCoefficient)
     , m_cValue(cCoefficient)
-    , m_oneWithSign(signOfOne ? -1 : 1)
+    , m_oneWithSign(isOneNegative ? -1 : 1)
 {}
 
-bool EllipticHyperboloid::operator==(EllipticHyperboloid const& ellipsoid) const
-{
+bool EllipticHyperboloid::operator==(EllipticHyperboloid const& ellipsoid) const{
     return (m_center == ellipsoid.m_center)
             && isAlmostEqual(m_aValue, ellipsoid.m_aValue)
-            && isAlmostEqual(m_bValue, ellipsoid.m_bValue)
-            && isAlmostEqual(m_cValue, ellipsoid.m_cValue);
+            && isAlmostEqual(m_bValue, ellipsoid.m_bValue)            && isAlmostEqual(m_cValue, ellipsoid.m_cValue);
 }
 
 bool EllipticHyperboloid::operator!=(EllipticHyperboloid const& ellipsoid) const
