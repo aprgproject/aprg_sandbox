@@ -3,59 +3,82 @@
 #include <Algebra/Limit/Limit.hpp>
 #include <Algebra/Solution/DomainAndRange/DomainAndRange.hpp>
 #include <Algebra/Substitution/SubstitutionOfVariablesToValues.hpp>
+#include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>
 #include <Math/Number/Interval/AlbaNumberIntervalHelpers.hpp>
 
-using namespace alba::algebra::DomainAndRange;
-using namespace std;
+using namespace alba::algebra::DomainAndRange;using namespace std;
 
 namespace alba
 {
-
 namespace algebra
 {
 
 bool isContinuousAt(
         Term const& term,
         string const& variableName,
-        AlbaNumber const& value,
-        LimitAtAValueApproachType const limitApproachType)
+        AlbaNumber const& valueToApproach)
 {
-    bool result(false);
-    SubstitutionOfVariablesToValues substitution{{variableName, value}};
+    SubstitutionOfVariablesToValues substitution{{variableName, valueToApproach}};
     Term subtitutedResult(substitution.performSubstitutionTo(term));
-    if(subtitutedResult.isConstant())
-    {
-        AlbaNumber limitAtValue(getLimitAtAValueByApproachType(term, variableName, value, limitApproachType));
-        AlbaNumber const& subtitutedResultValue(subtitutedResult.getConstantValueConstReference());
-        result = isAlmostEqualForLimitChecking(subtitutedResultValue, limitAtValue);
-    }
-    return result;
+    Term limitAtValue(getLimit(term, variableName, valueToApproach));
+    return subtitutedResult == limitAtValue && isAFiniteConstant(subtitutedResult);
 }
 
 bool isContinuousAt(
         Term const& term,
         string const& variableName,
-        AlbaNumber const& value,
+        AlbaNumber const& valueToApproach,
+        LimitAtAValueApproachType const limitApproachType)
+{
+    bool result(false);
+    SubstitutionOfVariablesToValues substitution{{variableName, valueToApproach}};
+    Term subtitutedResult(substitution.performSubstitutionTo(term));
+    if(subtitutedResult.isConstant())
+    {
+        AlbaNumber limitAtValue(getLimitAtAValueByApproachType(term, variableName, valueToApproach, limitApproachType));
+        AlbaNumber const& subtitutedResultValue(subtitutedResult.getConstantValueConstReference());
+        result = isAlmostEqualForLimitChecking(subtitutedResultValue, limitAtValue);
+    }    return result;
+}
+
+bool isContinuousAt(
+        Term const& term,
+        string const& variableName,
+        AlbaNumber const& valueToApproach,
         LimitAtAValueApproachType const limitApproachType,
         bool const isDifferentiableAtValue)
-{
-    //If a function is differentiable at X, then f is continuous at X.
+{    //If a function is differentiable at X, then f is continuous at X.
     bool result(true);
     if(!isDifferentiableAtValue)
     {
-        result = isContinuousAt(term, variableName, value, limitApproachType);
+        result = isContinuousAt(term, variableName, valueToApproach, limitApproachType);
     }
     return result;
 }
 
-bool isIntermediateValueTheoremSatisfied(
+bool isContinuousAtWithMultipleVariablesWithDifferentApproaches(
         Term const& term,
         string const& variableName,
-        AlbaNumber const& firstValue,
+        AlbaNumber const& valueToApproach,
+        SubstitutionsOfVariablesToTerms const& substitutionsForApproaches)
+{
+    SubstitutionOfVariablesToValues substitution{{variableName, valueToApproach}};
+    Term subtitutedResult;
+    if(!substitutionsForApproaches.empty())
+    {
+        subtitutedResult = substitution.performSubstitutionTo(
+                    substitutionsForApproaches.at(0).performSubstitutionTo(term));
+    }
+    Term limitAtValue(getLimitWithMultipleVariablesWithDifferentApproaches(term, variableName, valueToApproach, substitutionsForApproaches));
+    return subtitutedResult == limitAtValue && isAFiniteConstant(subtitutedResult);
+}
+
+bool isIntermediateValueTheoremSatisfied(
+        Term const& term,
+        string const& variableName,        AlbaNumber const& firstValue,
         AlbaNumber const& secondValue,
         AlbaNumber const& valueToTest)
-{
-    // Theorem: If the function f is continuous on the closed interval [v1, v2] and if f(v1) != f(v2),
+{    // Theorem: If the function f is continuous on the closed interval [v1, v2] and if f(v1) != f(v2),
     // then for any number k between f(v1) and f(v2) there exists a number v3 between v1 and v2 such that f(v3) = k
 
     bool result(false);

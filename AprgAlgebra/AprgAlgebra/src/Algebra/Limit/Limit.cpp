@@ -281,14 +281,43 @@ Term getLimit(
     return getLimitUsingLhopitalsRule(term, variableName, valueToApproach);
 }
 
-Term getLimitUsingLhopitalsRule(
+Term getLimitWithMultipleVariablesWithDifferentApproaches(
         Term const& term,
         string const& variableName,
-        AlbaNumber const& valueToApproach)
+        AlbaNumber const& valueToApproach,
+        SubstitutionsOfVariablesToTerms const& substitutionsForApproaches)
+{
+    Terms limitValues;
+    for(auto const& substitution : substitutionsForApproaches)
+    {
+        Term limitTermUsingApproach(substitution.performSubstitutionTo(term));
+        limitValues.emplace_back(getLimit(limitTermUsingApproach, variableName, valueToApproach));
+    }
+    Term result;
+    bool isFirst(true);
+    for(Term const& limitValue : limitValues)
+    {
+        if(isFirst)
+        {
+            result = limitValue;
+            isFirst = false;
+        }
+        else if(result != limitValue)
+        {
+            result = Term(AlbaNumber(AlbaNumber::Value::NotANumber));
+            break;
+        }
+    }
+    return result;
+}
+
+
+Term getLimitUsingLhopitalsRule(
+        Term const& term,
+        string const& variableName,        AlbaNumber const& valueToApproach)
 {
     Term newTerm, limitValue;
-    calculateTermAndLimitUsingLhopitalsRule(newTerm, limitValue, term, variableName, valueToApproach);
-    return limitValue;
+    calculateTermAndLimitUsingLhopitalsRule(newTerm, limitValue, term, variableName, valueToApproach);    return limitValue;
 }
 
 Term getTermUsingLhopitalsRule(

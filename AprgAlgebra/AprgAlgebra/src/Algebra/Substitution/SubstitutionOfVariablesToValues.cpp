@@ -50,14 +50,17 @@ AlbaNumber SubstitutionOfVariablesToValues::getValueForVariable(string const& va
     return result;
 }
 
+VariablesToValuesMap const& SubstitutionOfVariablesToValues::getVariableToValuesMap() const
+{
+    return m_variableToValuesMap;
+}
+
 Term SubstitutionOfVariablesToValues::performSubstitutionTo(Variable const& variable) const
 {
-    Term result;
-    string variableName(variable.getVariableName());
+    Term result;    string variableName(variable.getVariableName());
     if(isVariableFound(variableName))
     {
-        result = Term(getValueForVariable(variableName));
-    }
+        result = Term(getValueForVariable(variableName));    }
     else
     {
         result = Term(variable);
