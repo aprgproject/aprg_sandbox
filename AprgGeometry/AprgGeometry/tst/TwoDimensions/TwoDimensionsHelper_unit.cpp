@@ -6,13 +6,10 @@
 
 #include <cmath>
 
-using namespace alba::Dimensionless;
 using namespace alba::TwoDimensions::twoDimensionsHelper;
 using namespace std;
-
 namespace alba
 {
-
 namespace TwoDimensions
 {
 
@@ -78,16 +75,14 @@ TEST(TwoDimensionsHelperTest, GetConsineOfAngleUsing2DeltasWorks)
 
 TEST(TwoDimensionsHelperTest, GetArcLengthWorks)
 {
-    EXPECT_DOUBLE_EQ(314.15926535897933, getArcLength(Angle(AngleUnitType::Degrees, 180), 100));
-    EXPECT_DOUBLE_EQ(1000, getArcLength(Angle(AngleUnitType::Radians, 10), 100));
+    EXPECT_DOUBLE_EQ(314.15926535897933, getArcLength(AlbaAngle(AngleUnitType::Degrees, 180), 100));
+    EXPECT_DOUBLE_EQ(1000, getArcLength(AlbaAngle(AngleUnitType::Radians, 10), 100));
 }
 
-TEST(TwoDimensionsHelperTest, GetAreaForPolygonWorksForTriangle)
-{
+TEST(TwoDimensionsHelperTest, GetAreaForPolygonWorksForTriangle){
     Triangle triangle(Point(0,0), Point(0,4), Point(4,0));
     EXPECT_DOUBLE_EQ(8, getArea<3>(triangle));
 }
-
 TEST(TwoDimensionsHelperTest, GetAreaForPolygonWorksForRectangle)
 {
     Rectangle rectangle(Point(0,5), Point(4,0));
@@ -166,51 +161,48 @@ TEST(TwoDimensionsHelperTest, PopNearestPointWorks)
 
 TEST(TwoDimensionsHelperTest, RotateAxisByAngleWorks)
 {
-    EXPECT_EQ(Point(1,-1), rotateAxisByAngle(Point(1, 1), Angle(AngleUnitType::Degrees, 90)));
-    EXPECT_EQ(Point(-1,-1), rotateAxisByAngle(Point(1, 1), Angle(AngleUnitType::Degrees, 180)));
-    EXPECT_EQ(Point(-1,1), rotateAxisByAngle(Point(1, 1), Angle(AngleUnitType::Degrees, 270)));
-    EXPECT_EQ(Point(1,1), rotateAxisByAngle(Point(1, 1), Angle(AngleUnitType::Degrees, 360)));
+    EXPECT_EQ(Point(1,-1), rotateAxisByAngle(Point(1, 1), AlbaAngle(AngleUnitType::Degrees, 90)));
+    EXPECT_EQ(Point(-1,-1), rotateAxisByAngle(Point(1, 1), AlbaAngle(AngleUnitType::Degrees, 180)));
+    EXPECT_EQ(Point(-1,1), rotateAxisByAngle(Point(1, 1), AlbaAngle(AngleUnitType::Degrees, 270)));
+    EXPECT_EQ(Point(1,1), rotateAxisByAngle(Point(1, 1), AlbaAngle(AngleUnitType::Degrees, 360)));
 }
 
 TEST(TwoDimensionsHelperTest, RotateAxisBackByAngleWorks)
 {
-    EXPECT_EQ(Point(-1,1), rotateAxisBackByAngle(Point(1, 1), Angle(AngleUnitType::Degrees, 90)));
-    EXPECT_EQ(Point(-1,-1), rotateAxisBackByAngle(Point(1, 1), Angle(AngleUnitType::Degrees, 180)));
-    EXPECT_EQ(Point(1,-1), rotateAxisBackByAngle(Point(1, 1), Angle(AngleUnitType::Degrees, 270)));
-    EXPECT_EQ(Point(1,1), rotateAxisBackByAngle(Point(1, 1), Angle(AngleUnitType::Degrees, 360)));
+    EXPECT_EQ(Point(-1,1), rotateAxisBackByAngle(Point(1, 1), AlbaAngle(AngleUnitType::Degrees, 90)));
+    EXPECT_EQ(Point(-1,-1), rotateAxisBackByAngle(Point(1, 1), AlbaAngle(AngleUnitType::Degrees, 180)));
+    EXPECT_EQ(Point(1,-1), rotateAxisBackByAngle(Point(1, 1), AlbaAngle(AngleUnitType::Degrees, 270)));
+    EXPECT_EQ(Point(1,1), rotateAxisBackByAngle(Point(1, 1), AlbaAngle(AngleUnitType::Degrees, 360)));
 }
 
 TEST(TwoDimensionsHelperTest, ConvertFromPolarCoordinatesWorks)
 {
-    EXPECT_EQ(Point(0,5), convertFromPolarCoordinates(PolarCoordinate{5, Angle(AngleUnitType::Degrees, 90)}));
-    EXPECT_EQ(Point(-10,0), convertFromPolarCoordinates(PolarCoordinate{10, Angle(AngleUnitType::Degrees, 180)}));
-    EXPECT_EQ(Point(0,-15), convertFromPolarCoordinates(PolarCoordinate{15, Angle(AngleUnitType::Degrees, 270)}));
-    EXPECT_EQ(Point(20,0), convertFromPolarCoordinates(PolarCoordinate{20, Angle(AngleUnitType::Degrees, 360)}));
+    EXPECT_EQ(Point(0,5), convertFromPolarCoordinates(PolarCoordinate{5, AlbaAngle(AngleUnitType::Degrees, 90)}));
+    EXPECT_EQ(Point(-10,0), convertFromPolarCoordinates(PolarCoordinate{10, AlbaAngle(AngleUnitType::Degrees, 180)}));
+    EXPECT_EQ(Point(0,-15), convertFromPolarCoordinates(PolarCoordinate{15, AlbaAngle(AngleUnitType::Degrees, 270)}));
+    EXPECT_EQ(Point(20,0), convertFromPolarCoordinates(PolarCoordinate{20, AlbaAngle(AngleUnitType::Degrees, 360)}));
 }
 
-TEST(TwoDimensionsHelperTest, ConvertToPolarCoordinateWorks)
-{
+TEST(TwoDimensionsHelperTest, ConvertToPolarCoordinateWorks){
     PolarCoordinate polarCoordinate1(convertToPolarCoordinate(Point(0,5)));
     PolarCoordinate polarCoordinate2(convertToPolarCoordinate(Point(-10,0)));
     PolarCoordinate polarCoordinate3(convertToPolarCoordinate(Point(0,-15)));
     PolarCoordinate polarCoordinate4(convertToPolarCoordinate(Point(20,0)));
 
     EXPECT_DOUBLE_EQ(5, polarCoordinate1.radius);
-    EXPECT_EQ(Angle(AngleUnitType::Degrees, 90), polarCoordinate1.angle);
+    EXPECT_EQ(AlbaAngle(AngleUnitType::Degrees, 90), polarCoordinate1.angle);
     EXPECT_DOUBLE_EQ(10, polarCoordinate2.radius);
-    EXPECT_EQ(Angle(AngleUnitType::Degrees, 180), polarCoordinate2.angle);
+    EXPECT_EQ(AlbaAngle(AngleUnitType::Degrees, 180), polarCoordinate2.angle);
     EXPECT_DOUBLE_EQ(15, polarCoordinate3.radius);
-    EXPECT_EQ(Angle(AngleUnitType::Degrees, 270), polarCoordinate3.angle);
+    EXPECT_EQ(AlbaAngle(AngleUnitType::Degrees, 270), polarCoordinate3.angle);
     EXPECT_DOUBLE_EQ(20, polarCoordinate4.radius);
-    EXPECT_EQ(Angle(AngleUnitType::Degrees, 0), polarCoordinate4.angle);
+    EXPECT_EQ(AlbaAngle(AngleUnitType::Degrees, 0), polarCoordinate4.angle);
 }
 
-TEST(TwoDimensionsHelperTest, GetConicSectionBasedOnEccentricityWorks)
-{
+TEST(TwoDimensionsHelperTest, GetConicSectionBasedOnEccentricityWorks){
     Circle circle(Point(1, 1), 1);
     Parabola<ParabolaOrientation::PolynomialX> parabola(1, 1, 1);
-    Ellipse ellipse(Point(1, 1), 2, 3);
-    Hyperbola hyperbola(Point(1, 1), 2, 3);
+    Ellipse ellipse(Point(1, 1), 2, 3);    Hyperbola hyperbola(Point(1, 1), 2, 3);
 
     EXPECT_EQ(ConicSectionType::Circle, getConicSectionBasedOnEccentricity(circle.getEccentricity()));
     EXPECT_EQ(ConicSectionType::Parabola, getConicSectionBasedOnEccentricity(parabola.getEccentricity()));

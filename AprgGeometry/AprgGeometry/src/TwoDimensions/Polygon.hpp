@@ -1,13 +1,11 @@
 #pragma once
 
-#include <Dimensionless/Angle.hpp>
+#include <Math/Angle/AlbaAngle.hpp>
 #include <TwoDimensions/Line.hpp>
 #include <TwoDimensions/Point.hpp>
-
 #include <array>
 
-namespace alba
-{
+namespace alba{
 
 namespace TwoDimensions
 {
@@ -28,16 +26,14 @@ public:
     Lines getLines() const;
     Points getVertices() const;
     Distances getLengthOfSides() const;
-    Dimensionless::Angles getAnglesAtVertices() const;
-    Dimensionless::Angle getSumOfAngles() const;
+    AlbaAngles getAnglesAtVertices() const;
+    AlbaAngle getSumOfAngles() const;
 
     Points getPoints(double const interval) const;
     void getPointsFromVerticesWithoutLastPoint(Points & points, double const interval, unsigned int vertexIndex1, unsigned int vertexIndex2) const;
-
 protected:
     std::array<Point, numberOfVertices> m_vertices;
 };
-
 template class Polygon<3>;
 template class Polygon<4>;
 

@@ -6,13 +6,10 @@
 #include <cassert>
 #include <cmath>
 
-using namespace alba::Dimensionless;
 using namespace alba::mathHelper;
 using namespace std;
-
 namespace alba
 {
-
 namespace ThreeDimensions
 {
 
@@ -307,66 +304,63 @@ Coefficients getProductOfEachCoefficient(Coefficients const& first, Coefficients
     return Coefficients(first.getX() * second.getX(), first.getY() * second.getY(), first.getZ() * second.getZ());
 }
 
-Angle getTheInnerAngleUsingThreePoints(Point const& pointA, Point const& pointB, Point const& pointC)
+AlbaAngle getTheInnerAngleUsingThreePoints(Point const& pointA, Point const& pointB, Point const& pointC)
 {
     Point deltaBA(pointB-pointA);
     Point deltaCA(pointC-pointA);
     Coefficients c1(deltaBA.getX(), deltaBA.getY(), deltaBA.getZ());
     Coefficients c2(deltaCA.getX(), deltaCA.getY(), deltaCA.getZ());
-    return Angle(AngleUnitType::Radians, acos(getCosineOfAngleUsing2Deltas(c1,c2)));
+    return AlbaAngle(AngleUnitType::Radians, acos(getCosineOfAngleUsing2Deltas(c1,c2)));
 }
 
-Angle getTheSmallerAngleBetweenTwoLines(Line const& line1, Line const& line2)
+AlbaAngle getTheSmallerAngleBetweenTwoLines(Line const& line1, Line const& line2)
 {
-    Angle smallerAngle;
+    AlbaAngle smallerAngle;
     if(areLinesParallel(line1, line2))
     {
-        smallerAngle = Angle(AngleUnitType::Degrees, 0);
+        smallerAngle = AlbaAngle(AngleUnitType::Degrees, 0);
     }
     else
-    {
-        //absolute value is used to ensure lower angle
+    {        //absolute value is used to ensure lower angle
         //from cos theta = (dotproduct of coefficients v1 and v2)/(magnitude of v1 * magnitude of v2)
         Coefficients c1(line1.getACoefficient(), line1.getBCoefficient(), line1.getCCoefficient());
         Coefficients c2(line2.getACoefficient(), line2.getBCoefficient(), line2.getCCoefficient());
-        smallerAngle = Angle(AngleUnitType::Radians, acos(getAbsoluteValue(getCosineOfAngleUsing2Deltas(c1,c2))));
+        smallerAngle = AlbaAngle(AngleUnitType::Radians, acos(getAbsoluteValue(getCosineOfAngleUsing2Deltas(c1,c2))));
     }
     return smallerAngle;
 }
 
-Angle getTheLargerAngleBetweenTwoLines(Line const& line1, Line const& line2)
+AlbaAngle getTheLargerAngleBetweenTwoLines(Line const& line1, Line const& line2)
 {
-    Angle smallerAngle(getTheSmallerAngleBetweenTwoLines(line1, line2));
-    return Angle(AngleUnitType::Degrees, 180-smallerAngle.getDegrees());
+    AlbaAngle smallerAngle(getTheSmallerAngleBetweenTwoLines(line1, line2));
+    return AlbaAngle(AngleUnitType::Degrees, 180-smallerAngle.getDegrees());
 }
 
-Angle getTheSmallerDihedralAngleBetweenTwoPlanes(Plane const& plane1, Plane const& plane2)
+AlbaAngle getTheSmallerDihedralAngleBetweenTwoPlanes(Plane const& plane1, Plane const& plane2)
 {
-    Angle smallerAngle;
+    AlbaAngle smallerAngle;
     if(arePlanesParallel(plane1, plane2))
     {
-        smallerAngle = Angle(AngleUnitType::Degrees, 0);
+        smallerAngle = AlbaAngle(AngleUnitType::Degrees, 0);
     }
     else
     {
         Coefficients c1(plane1.getACoefficient(), plane1.getBCoefficient(), plane1.getCCoefficient());
         Coefficients c2(plane2.getACoefficient(), plane2.getBCoefficient(), plane2.getCCoefficient());
-        smallerAngle = Angle(AngleUnitType::Radians, acos(getAbsoluteValue(getCosineOfAngleUsing2Deltas(c1,c2))));
+        smallerAngle = AlbaAngle(AngleUnitType::Radians, acos(getAbsoluteValue(getCosineOfAngleUsing2Deltas(c1,c2))));
     }
     return smallerAngle;
 }
 
-Angle getTheLargerDihedralAngleBetweenTwoPlanes(Plane const& plane1, Plane const& plane2)
+AlbaAngle getTheLargerDihedralAngleBetweenTwoPlanes(Plane const& plane1, Plane const& plane2)
 {
-    Angle smallerAngle(getTheSmallerDihedralAngleBetweenTwoPlanes(plane1, plane2));
-    return Angle(AngleUnitType::Degrees, 180-smallerAngle.getDegrees());
+    AlbaAngle smallerAngle(getTheSmallerDihedralAngleBetweenTwoPlanes(plane1, plane2));
+    return AlbaAngle(AngleUnitType::Degrees, 180-smallerAngle.getDegrees());
 }
 
-Point getMidpoint(Point const& point1, Point const& point2)
-{
+Point getMidpoint(Point const& point1, Point const& point2){
     return Point((point1.getX()+point2.getX())/2, (point1.getY()+point2.getY())/2, (point1.getZ()+point2.getZ())/2);
 }
-
 Point getPointOfIntersectionOfTwoLines(Line const& line1, Line const& line2)
 {
     double multiplier1 = calculateMultiplierForIntersection(line1.getACoefficient(), line2.getACoefficient(), line1.getBCoefficient(), line2.getBCoefficient(), line1.getXInitialValue(), line2.getXInitialValue(), line1.getYInitialValue(), line2.getYInitialValue());

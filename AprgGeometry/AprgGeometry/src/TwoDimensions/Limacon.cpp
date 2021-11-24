@@ -6,14 +6,11 @@
 
 #include <cmath>
 
-using namespace alba::Dimensionless;
 using namespace alba::mathHelper;
 using namespace alba::TwoDimensions::twoDimensionsHelper;
 using namespace std;
-
 namespace alba
 {
-
 namespace TwoDimensions
 {
 
@@ -82,34 +79,31 @@ LimaconType Limacon::getLimaconType() const
     return result;
 }
 
-Points Limacon::getPointsForShape(Angle const& angleInterval) const
+Points Limacon::getPointsForShape(AlbaAngle const& angleInterval) const
 {
     Points result;
     if(!isAlmostEqual(m_aValue, 0) && !isAlmostEqual(m_bValue, 0))
     {
-        Angle limit(AngleUnitType::Degrees, 360);
-        for(Angle theta(AngleUnitType::Degrees, 0); theta<limit; theta+=angleInterval)
+        AlbaAngle limit(AngleUnitType::Degrees, 360);
+        for(AlbaAngle theta(AngleUnitType::Degrees, 0); theta<limit; theta+=angleInterval)
         {
             result.emplace_back(convertFromPolarCoordinates(PolarCoordinate{calculateRadiusFromTheta(theta), theta}));
-        }
-    }
+        }    }
     return result;
 }
 
-double Limacon::calculateRadiusFromTheta(Angle const& theta) const
+double Limacon::calculateRadiusFromTheta(AlbaAngle const& theta) const
 {
     return m_aValue + m_bValue * performTrigonometricFunction(theta);
 }
 
-Angle Limacon::calculateThetaFromRadius(double const radius) const
+AlbaAngle Limacon::calculateThetaFromRadius(double const radius) const
 {
     return performInverseTrigonometricFunction((radius-m_aValue)/m_bValue);
 }
-
 string Limacon::getDisplayableString() const
 {
-    std::stringstream ss;
-    ss << "(a: " << m_aValue << " b: " << m_bValue << " ";
+    std::stringstream ss;    ss << "(a: " << m_aValue << " b: " << m_bValue << " ";
     if(LimaconTrigonometricFunctionType::Sine == m_trigonometricFunctionType)
     {
         ss << "Sine";
@@ -122,38 +116,34 @@ string Limacon::getDisplayableString() const
     return ss.str();
 }
 
-double Limacon::performTrigonometricFunction(Angle const& theta) const
+double Limacon::performTrigonometricFunction(AlbaAngle const& theta) const
 {
     double result(0);
-    if(LimaconTrigonometricFunctionType::Sine == m_trigonometricFunctionType)
-    {
+    if(LimaconTrigonometricFunctionType::Sine == m_trigonometricFunctionType)    {
         result = sin(theta.getRadians());
     }
-    else if(LimaconTrigonometricFunctionType::Cosine == m_trigonometricFunctionType)
-    {
+    else if(LimaconTrigonometricFunctionType::Cosine == m_trigonometricFunctionType)    {
         result = cos(theta.getRadians());
     }
     return result;
 }
 
-Angle Limacon::performInverseTrigonometricFunction(double const ratio) const
+AlbaAngle Limacon::performInverseTrigonometricFunction(double const ratio) const
 {
-    Angle result;
+    AlbaAngle result;
     if(LimaconTrigonometricFunctionType::Sine == m_trigonometricFunctionType)
     {
-        result = Angle(AngleUnitType::Radians, asin(ratio));
+        result = AlbaAngle(AngleUnitType::Radians, asin(ratio));
     }
     else if(LimaconTrigonometricFunctionType::Cosine == m_trigonometricFunctionType)
     {
-        result = Angle(AngleUnitType::Radians, acos(ratio));
+        result = AlbaAngle(AngleUnitType::Radians, acos(ratio));
     }
     return result;
 }
-
 ostream & operator<<(ostream & out, Limacon const& limacon)
 {
-    out << limacon.getDisplayableString();
-    return out;
+    out << limacon.getDisplayableString();    return out;
 }
 
 }

@@ -1,18 +1,16 @@
 #pragma once
 
-#include <Dimensionless/Angle.hpp>
+#include <Math/Angle/AlbaAngle.hpp>
 
 namespace alba
 {
-
 namespace TwoDimensions
 {
 
 struct PolarCoordinate
 {
     double radius;
-    Dimensionless::Angle angle;
+    AlbaAngle angle;
 };
 
-}
-}
+}}

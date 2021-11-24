@@ -7,13 +7,10 @@
 #include <cmath>
 #include <stack>
 
-using namespace alba::Dimensionless;
 using namespace alba::mathHelper;
 using namespace std;
-
 namespace alba
 {
-
 namespace TwoDimensions
 {
 
@@ -38,15 +35,13 @@ bool isPointInLine(Point const& point, Line const& line)
 
 bool isCongruent(Triangle const& triangle1, Triangle const& triangle2)
 {
-    Dimensionless::Angles anglesInTriangle1(triangle1.getAnglesAtVertices());
-    Dimensionless::Angles anglesInTriangle2(triangle2.getAnglesAtVertices());
+    AlbaAngles anglesInTriangle1(triangle1.getAnglesAtVertices());
+    AlbaAngles anglesInTriangle2(triangle2.getAnglesAtVertices());
     sort(anglesInTriangle1.begin(), anglesInTriangle1.end());
     sort(anglesInTriangle2.begin(), anglesInTriangle2.end());
-    return (anglesInTriangle1[0]==anglesInTriangle2[0]) &&
-            (anglesInTriangle1[1]==anglesInTriangle2[1]) &&
+    return (anglesInTriangle1[0]==anglesInTriangle2[0]) &&            (anglesInTriangle1[1]==anglesInTriangle2[1]) &&
             (anglesInTriangle1[2]==anglesInTriangle2[2]);
 }
-
 bool areLinesParallel(Line const& line1, Line const& line2)
 {
     return (line1.getType()==LineType::Horizontal && line2.getType()==LineType::Horizontal) ||
@@ -107,15 +102,13 @@ double getCosineOfAngleUsing2Deltas(
     return numeratorPart/denominatorPart;
 }
 
-double getArcLength(Dimensionless::Angle const& angle, double const radius)
+double getArcLength(AlbaAngle const& angle, double const radius)
 {
     return angle.getRadians() * radius;
 }
-
 template<unsigned int numberOfVertices>
 double getArea(Polygon<numberOfVertices> const& polygon)
-{
-    //shoelace formula
+{    //shoelace formula
     //https://en.wikipedia.org/wiki/Shoelace_formula
     //check also: https://en.wikipedia.org/wiki/Green%27s_theorem
     double area(0);
@@ -270,81 +263,76 @@ RotationDirection getRotationDirectionTraversing3Points(Point const a, Point con
     return result;
 }
 
-Angle getAngleBasedOnAPointAndOrigin(Point const& point)
+AlbaAngle getAngleBasedOnAPointAndOrigin(Point const& point)
 {
-    Angle angle;
+    AlbaAngle angle;
     if(!isOrigin(point))
     {
         Quadrant quadrant(getQuadrantOfAPoint(point));
-        angle = Angle(AngleUnitType::Radians, acos(getAbsoluteValue(getCosineOfAngleUsing1Delta(point.getX(), point.getY()))));
-        if(angle == Angle(AngleUnitType::Degrees, 90))
+        angle = AlbaAngle(AngleUnitType::Radians, acos(getAbsoluteValue(getCosineOfAngleUsing1Delta(point.getX(), point.getY()))));
+        if(angle == AlbaAngle(AngleUnitType::Degrees, 90))
         {
-            angle = Angle(AngleUnitType::Degrees, 0);
+            angle = AlbaAngle(AngleUnitType::Degrees, 0);
         }
         if(Quadrant::IV == quadrant)
         {
-            angle += Angle(AngleUnitType::Degrees, 270);
+            angle += AlbaAngle(AngleUnitType::Degrees, 270);
         }
         else if(Quadrant::III == quadrant)
         {
-            angle += Angle(AngleUnitType::Degrees, 180);
+            angle += AlbaAngle(AngleUnitType::Degrees, 180);
         }
         else if(Quadrant::II == quadrant)
         {
-            angle += Angle(AngleUnitType::Degrees, 90);
+            angle += AlbaAngle(AngleUnitType::Degrees, 90);
         }
     }
     return angle;
 }
 
-Angle getTheInnerAngleUsingThreePoints(
+AlbaAngle getTheInnerAngleUsingThreePoints(
         Point const& commonPoint,
         Point const& firstPoint,
-        Point const& secondPoint)
-{
+        Point const& secondPoint){
     Point deltaBA(firstPoint-commonPoint);
     Point deltaCA(secondPoint-commonPoint);
-    return Angle(AngleUnitType::Radians, acos(getCosineOfAngleUsing2Deltas(deltaBA.getX(), deltaBA.getY(), deltaCA.getX(), deltaCA.getY())));
+    return AlbaAngle(AngleUnitType::Radians, acos(getCosineOfAngleUsing2Deltas(deltaBA.getX(), deltaBA.getY(), deltaCA.getX(), deltaCA.getY())));
 }
 
-Angle getTheSmallerAngleBetweenTwoLines(Line const& line1, Line const& line2)
+AlbaAngle getTheSmallerAngleBetweenTwoLines(Line const& line1, Line const& line2)
 {
-    Angle angle;
+    AlbaAngle angle;
     if(areLinesParallel(line1, line2))
     {
-        angle = Angle(AngleUnitType::Degrees, 0);
+        angle = AlbaAngle(AngleUnitType::Degrees, 0);
     }
     else if(areLinesPerpendicular(line1, line2))
     {
-        angle = Angle(AngleUnitType::Degrees, 90);
+        angle = AlbaAngle(AngleUnitType::Degrees, 90);
     }
     else
     {
         //absolute value is used to ensure lower angle
-        return Angle(AngleUnitType::Radians,
+        return AlbaAngle(AngleUnitType::Radians,
                      acos(
                          getAbsoluteValue(
-                             getCosineOfAngleUsing2Deltas(
-                                 line1.getAUnitIncreaseInX(),
+                             getCosineOfAngleUsing2Deltas(                                 line1.getAUnitIncreaseInX(),
                                  line1.getAUnitIncreaseInY(),
                                  line2.getAUnitIncreaseInX(),
-                                 line2.getAUnitIncreaseInY()))));
-    }
+                                 line2.getAUnitIncreaseInY()))));    }
     return angle;
 }
 
-Angle getTheLargerAngleBetweenTwoLines(Line const& line1, Line const& line2)
+AlbaAngle getTheLargerAngleBetweenTwoLines(Line const& line1, Line const& line2)
 {
-    Angle smallerAngle(getTheSmallerAngleBetweenTwoLines(line1, line2));
-    return Angle(AngleUnitType::Degrees, 180-smallerAngle.getDegrees());
+    AlbaAngle smallerAngle(getTheSmallerAngleBetweenTwoLines(line1, line2));
+    return AlbaAngle(AngleUnitType::Degrees, 180-smallerAngle.getDegrees());
 }
 
-Point getIntersectionOfTwoLines(Line const& line1, Line const& line2)
-{
+Point getIntersectionOfTwoLines(Line const& line1, Line const& line2){
     double xOfIntersection = ((line2.getCCoefficient()*line1.getBCoefficient())-(line1.getCCoefficient()*line2.getBCoefficient()))
             /((line1.getACoefficient()*line2.getBCoefficient())-(line2.getACoefficient()*line1.getBCoefficient()));
-    double yOfIntersection = ((line2.getCCoefficient()*line1.getACoefficient())-(line1.getCCoefficient()*line2.getACoefficient()))
-            /((line1.getBCoefficient()*line2.getACoefficient())-(line2.getBCoefficient()*line1.getACoefficient()));
+    double yOfIntersection = ((line2.getCCoefficient()*line1.getACoefficient())-(line1.getCCoefficient()*line2.getACoefficient()))            /((line1.getBCoefficient()*line2.getACoefficient())-(line2.getBCoefficient()*line1.getACoefficient()));
     return Point(xOfIntersection, yOfIntersection);
 }
 
@@ -437,24 +425,21 @@ Point popNearestPoint(Points & points, Point const& point)
     return result;
 }
 
-Point rotateAxisByAngle(Point const& point, Dimensionless::Angle const& angle)
+Point rotateAxisByAngle(Point const& point, AlbaAngle const& angle)
 {
     double sinTheta = sin(angle.getRadians());
-    double cosTheta = cos(angle.getRadians());
-    double newX = point.getX()*cosTheta + point.getY()*sinTheta;
+    double cosTheta = cos(angle.getRadians());    double newX = point.getX()*cosTheta + point.getY()*sinTheta;
     double newY = -point.getX()*sinTheta + point.getY()*cosTheta;
     return Point(newX, newY);
 }
 
-Point rotateAxisBackByAngle(Point const& point, Dimensionless::Angle const& angle)
+Point rotateAxisBackByAngle(Point const& point, AlbaAngle const& angle)
 {
     double sinTheta = sin(angle.getRadians());
-    double cosTheta = cos(angle.getRadians());
-    double newX = point.getX()*cosTheta - point.getY()*sinTheta;
+    double cosTheta = cos(angle.getRadians());    double newX = point.getX()*cosTheta - point.getY()*sinTheta;
     double newY = point.getX()*sinTheta + point.getY()*cosTheta;
     return Point(newX, newY);
 }
-
 Point convertFromPolarCoordinates(PolarCoordinate const& coordinate)
 {
     return Point(coordinate.radius*cos(coordinate.angle.getRadians()), coordinate.radius*sin(coordinate.angle.getRadians()));

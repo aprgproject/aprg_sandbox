@@ -2,15 +2,12 @@
 
 #include <gtest/gtest.h>
 
-using namespace alba::Dimensionless;
 using namespace std;
 
-namespace alba
-{
+namespace alba{
 
 namespace TwoDimensions
 {
-
 TEST(RectangleTest, GetPointsWorks)
 {
     Rectangle retangle(Point(-1,1), Point(1,-1));

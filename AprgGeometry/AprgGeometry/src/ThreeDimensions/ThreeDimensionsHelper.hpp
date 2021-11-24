@@ -1,15 +1,13 @@
 #pragma once
 
-#include <Dimensionless/Angle.hpp>
-#include <Math/AlbaRatio.hpp>
+#include <Math/Angle/AlbaAngle.hpp>
+#include <Math/Ratio/AlbaRatio.hpp>
 #include <ThreeDimensions/Line.hpp>
 #include <ThreeDimensions/Plane.hpp>
 #include <ThreeDimensions/Point.hpp>
-
 #include <functional>
 
-namespace alba
-{
+namespace alba{
 
 namespace ThreeDimensions
 {
@@ -45,19 +43,17 @@ Coefficients getCrossProduct(Coefficients const coefficients1, Coefficients cons
 CoefficientRatios getRatioOfEachCoefficient(Coefficients const& first, Coefficients const& second);
 Coefficients getProductOfEachCoefficient(Coefficients const& first, Coefficients const& second);
 
-Dimensionless::Angle getTheInnerAngleUsingThreePoints(Point const& pointA, Point const& pointB, Point const& pointC);
-Dimensionless::Angle getTheSmallerAngleBetweenTwoLines(Line const& line1, Line const& line2);
-Dimensionless::Angle getTheLargerAngleBetweenTwoLines(Line const& line1, Line const& line2);
-Dimensionless::Angle getTheSmallerDihedralAngleBetweenTwoPlanes(Plane const& plane1, Plane const& plane2);
-Dimensionless::Angle getTheLargerDihedralAngleBetweenTwoPlanes(Plane const& plane1, Plane const& plane2);
+AlbaAngle getTheInnerAngleUsingThreePoints(Point const& pointA, Point const& pointB, Point const& pointC);
+AlbaAngle getTheSmallerAngleBetweenTwoLines(Line const& line1, Line const& line2);
+AlbaAngle getTheLargerAngleBetweenTwoLines(Line const& line1, Line const& line2);
+AlbaAngle getTheSmallerDihedralAngleBetweenTwoPlanes(Plane const& plane1, Plane const& plane2);
+AlbaAngle getTheLargerDihedralAngleBetweenTwoPlanes(Plane const& plane1, Plane const& plane2);
 
 Point getMidpoint(Point const& point1, Point const& point2);
-Point getPointOfIntersectionOfTwoLines(Line const& line1, Line const& line2);
-Point getPointOfIntersectionOfAPlaneAndALine(Plane const& plane, Line const& line);
+Point getPointOfIntersectionOfTwoLines(Line const& line1, Line const& line2);Point getPointOfIntersectionOfAPlaneAndALine(Plane const& plane, Line const& line);
 
 Line getLineWithSameSlope(Line const& line, Point const& point);
-Line getLineOfIntersectionOfTwoPlanes(Plane const& plane1, Plane const& plane2);
-Line getPerpendicularLineOfPlaneWithAPoint(Plane const& plane, Point const& point);
+Line getLineOfIntersectionOfTwoPlanes(Plane const& plane1, Plane const& plane2);Line getPerpendicularLineOfPlaneWithAPoint(Plane const& plane, Point const& point);
 Line getProjectedLineInPlaneOfASkewedPlaneAndLine(Plane const& plane, Line const& line);
 
 Plane getPlaneWithContainsALineAndAPoint(Line const& line, Point const& point);

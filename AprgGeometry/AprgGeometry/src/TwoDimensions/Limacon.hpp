@@ -1,13 +1,11 @@
 #pragma once
 
-#include <Dimensionless/Angle.hpp>
+#include <Math/Angle/AlbaAngle.hpp>
 #include <TwoDimensions/Point.hpp>
 
 #include <functional>
-
 namespace alba
 {
-
 namespace TwoDimensions
 {
 
@@ -39,22 +37,20 @@ public:
     double getBValue() const;
     LimaconTrigonometricFunctionType getTrigonometricFunctionType() const;
     LimaconType getLimaconType() const;
-    Points getPointsForShape(Dimensionless::Angle const& angleInterval) const;
-    double calculateRadiusFromTheta(Dimensionless::Angle const& theta) const;
-    Dimensionless::Angle calculateThetaFromRadius(double const radius) const;
+    Points getPointsForShape(AlbaAngle const& angleInterval) const;
+    double calculateRadiusFromTheta(AlbaAngle const& theta) const;
+    AlbaAngle calculateThetaFromRadius(double const radius) const;
 
     std::string getDisplayableString() const;
 
 private:
-    double performTrigonometricFunction(Dimensionless::Angle const& theta) const;
-    Dimensionless::Angle performInverseTrigonometricFunction(double const ratio) const;
+    double performTrigonometricFunction(AlbaAngle const& theta) const;
+    AlbaAngle performInverseTrigonometricFunction(double const ratio) const;
     double m_aValue;
     double m_bValue;
-    LimaconTrigonometricFunctionType m_trigonometricFunctionType;
-};
+    LimaconTrigonometricFunctionType m_trigonometricFunctionType;};
 
 using Limacons = std::vector<Limacon>;
-
 std::ostream & operator<<(std::ostream & out, Limacon const& limacon);
 
 }

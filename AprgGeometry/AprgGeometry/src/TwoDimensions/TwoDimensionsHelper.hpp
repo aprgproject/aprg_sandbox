@@ -1,14 +1,12 @@
 #pragma once
 
-#include <Dimensionless/Angle.hpp>
+#include <Math/Angle/AlbaAngle.hpp>
 #include <TwoDimensions/Circle.hpp>
 #include <TwoDimensions/ConicSectionTypes.hpp>
-#include <TwoDimensions/Ellipse.hpp>
-#include <TwoDimensions/Hyperbola.hpp>
+#include <TwoDimensions/Ellipse.hpp>#include <TwoDimensions/Hyperbola.hpp>
 #include <TwoDimensions/Line.hpp>
 #include <TwoDimensions/Parabola.hpp>
-#include <TwoDimensions/Point.hpp>
-#include <TwoDimensions/PolarCoordinate.hpp>
+#include <TwoDimensions/Point.hpp>#include <TwoDimensions/PolarCoordinate.hpp>
 #include <TwoDimensions/Polygon.hpp>
 #include <TwoDimensions/Polynomial.hpp>
 #include <TwoDimensions/Quadrants.hpp>
@@ -38,33 +36,30 @@ double getDistance(Line const& line, Point const& point);
 double getDistance(Line const& line1, Line const& line2);
 double getCosineOfAngleUsing1Delta(double const deltaX1, double const deltaY1);
 double getCosineOfAngleUsing2Deltas(double const deltaX1, double const deltaY1, double const deltaX2, double const deltaY2);
-double getArcLength(Dimensionless::Angle const& angle, double const radius);
+double getArcLength(AlbaAngle const& angle, double const radius);
 template<unsigned int numberOfVertices> double getArea(Polygon<numberOfVertices> const& polygon);
 
-ConicSectionType getConicSectionBasedOnEccentricity(double const eccentricity);
-ConicSectionType getConicSectionBasedOnGeneralForm(double const a, double const b, double const c, double const e, double const f);
+ConicSectionType getConicSectionBasedOnEccentricity(double const eccentricity);ConicSectionType getConicSectionBasedOnGeneralForm(double const a, double const b, double const c, double const e, double const f);
 Quadrant getQuadrantOfAPoint(Point const& point);
 RotationDirection getRotationDirectionTraversing3Points(Point const a, Point const b, Point const c);
 
-Dimensionless::Angle getAngleBasedOnAPointAndOrigin(Point const& point);
-Dimensionless::Angle getTheInnerAngleUsingThreePoints(Point const& commonPoint, Point const& firstPoint, Point const& secondPoint);
-Dimensionless::Angle getTheSmallerAngleBetweenTwoLines(Line const& line1, Line const& line2);
-Dimensionless::Angle getTheLargerAngleBetweenTwoLines(Line const& line1, Line const& line2);
+AlbaAngle getAngleBasedOnAPointAndOrigin(Point const& point);
+AlbaAngle getTheInnerAngleUsingThreePoints(Point const& commonPoint, Point const& firstPoint, Point const& secondPoint);
+AlbaAngle getTheSmallerAngleBetweenTwoLines(Line const& line1, Line const& line2);
+AlbaAngle getTheLargerAngleBetweenTwoLines(Line const& line1, Line const& line2);
 
 Point getIntersectionOfTwoLines(Line const& line1, Line const& line2);
 Point getMidpoint(Point const& point1, Point const& point2);
 Point getPointAlongALineWithDistanceFromAPoint(Line const& line, Point const& referencePoint, double const distance, bool const isIncreasedOnX);
 Point popNearestPoint(Points & points, Point const& point);
-Point rotateAxisByAngle(Point const& point, Dimensionless::Angle const& angle);
-Point rotateAxisBackByAngle(Point const& point, Dimensionless::Angle const& angle);
+Point rotateAxisByAngle(Point const& point, AlbaAngle const& angle);
+Point rotateAxisBackByAngle(Point const& point, AlbaAngle const& angle);
 
 Point convertFromPolarCoordinates(PolarCoordinate const& coordinate);
 PolarCoordinate convertToPolarCoordinate(Point const& point);
-
 template<ParabolaOrientation parabolaOrientation> Points getIntersectionsOfParabolaAndLine(Parabola<parabolaOrientation> const& parabola, Line const& line);
 template<> Points getIntersectionsOfParabolaAndLine(Parabola<ParabolaOrientation::PolynomialX> const& parabola, Line const& line);
 template<> Points getIntersectionsOfParabolaAndLine(Parabola<ParabolaOrientation::PolynomialY> const& parabola, Line const& line);
-
 Points getConnectedPointsUsingALine(Points const& inputPoints, double const interval);
 Points getMergedPointsInIncreasingX(Points const& firstPointsToBeMerged, Points const& secondPointsToBeMerged);//UT
 Points getMergedPointsInDecreasingX(Points const& firstPointsToBeMerged, Points const& secondPointsToBeMerged);
