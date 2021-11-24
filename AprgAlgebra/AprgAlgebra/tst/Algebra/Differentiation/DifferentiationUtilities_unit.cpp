@@ -241,14 +241,65 @@ TEST(DifferentiationUtilitiesTest, GetApproximationUsingTaylorsRemainderWorks)
     // this means the when n=5 the square root of e is accurate up to 4 decimal places.
 }
 
+TEST(DifferentiationUtilitiesTest, GetTotalDerivativeWithInnerTermsUsingChainRuleWorks)
+{
+    Term t("t");
+    Term termToTest(Polynomial{Monomial(1, {{"x", 2}}), Monomial(2, {{"x", 1}, {"y", 1}}), Monomial(1, {{"y", 2}})});
+    Term x(createExpressionIfPossible({t, Term("*"), Term(cos(t))}));
+    Term y(createExpressionIfPossible({t, Term("*"), Term(sin(t))}));
+    SubstitutionOfVariablesToTerms substitution;
+    substitution.putVariableWithTerm("x", x);
+    substitution.putVariableWithTerm("y", y);
+
+    Term termToVerify(getTotalDerivativeWithInnerTermsUsingChainRule(termToTest, substitution, "t"));
+
+    string stringToExpect1("((2[t]*(cos(t)^2))+(4[t]*cos(t)*sin(t))-(2[t^2]*(sin(t)^2))+(2[t^2]*(cos(t)^2))+(2[t]*(sin(t)^2)))");
+    EXPECT_EQ(stringToExpect1, termToVerify.getDisplayableString());
+}
+
+TEST(DifferentiationUtilitiesTest, GetTotalDerivativeWorks)
+{
+    Term termToTest(Polynomial{Monomial(1, {{"x", 3}}), Monomial(3, {{"x", 1}, {"y", 1}}), Monomial(-5, {{"y", 3}})});
+
+    Term termToVerify(getTotalDerivative(termToTest, {"x", "y"}));
+
+    string stringToExpect1("(3[x^2] + -15[y^2] + 3[x] + 3[y])");
+    EXPECT_EQ(stringToExpect1, termToVerify.getDisplayableString());
+}
+
+TEST(DifferentiationUtilitiesTest, GetPartialDerivativeWorks)
+{
+    Term termToTest(Polynomial{Monomial(1, {{"x", 3}}), Monomial(3, {{"x", 1}, {"y", 1}}), Monomial(-5, {{"y", 3}})});
+
+    Term termToVerify1(getPartialDerivative(termToTest, "x"));
+    Term termToVerify2(getPartialDerivative(termToTest, "y"));
+
+    string stringToExpect1("(3[x^2] + 3[y])");
+    string stringToExpect2("(-15[y^2] + 3[x])");
+    EXPECT_EQ(stringToExpect1, termToVerify1.getDisplayableString());
+    EXPECT_EQ(stringToExpect2, termToVerify2.getDisplayableString());
+}
+
+TEST(DifferentiationUtilitiesTest, GetPartialDerivativeContinuouslyWorks)
+{
+    Term x("x");
+    Term y("y");
+    Term part1(createExpressionIfPossible({getEAsTerm(), Term("^"), x, Term("*"), Term(sin(y))}));
+    Term part2(ln(Monomial(1, {{"x", 1}, {"y", 1}})));
+    Term termToTest(createExpressionIfPossible({part1, Term("+"), part2}));
+
+    Term termToVerify(getPartialDerivative(getPartialDerivative(getPartialDerivative(termToTest, "y"), "y"), "x"));
+
+    string stringToExpect("(-1*((e)^x)*sin(y))");
+    EXPECT_EQ(stringToExpect, termToVerify.getDisplayableString());
+}
+
 TEST(DifferentiationUtilitiesTest, GetDifferentiabilityDomainWorks)
 {
-    Polynomial numerator{Monomial(1, {{"x", 1}}), Monomial(3, {})};
-    Polynomial denominator{Monomial(1, {{"x", 1}}), Monomial(-1, {})};
+    Polynomial numerator{Monomial(1, {{"x", 1}}), Monomial(3, {})};    Polynomial denominator{Monomial(1, {{"x", 1}}), Monomial(-1, {})};
     Term termToTest(createExpressionIfPossible({Term(numerator), Term("/"), Term(denominator)}));
 
     SolutionSet differentiabilityDomain(getDifferentiabilityDomain(termToTest, "x"));
-
     AlbaNumberIntervals const& intervalToVerify(differentiabilityDomain.getAcceptedIntervals());
     ASSERT_EQ(2U, intervalToVerify.size());
     EXPECT_EQ(AlbaNumberInterval(createNegativeInfinityOpenEndpoint(), createCloseEndpoint(0.9999979999999644)),

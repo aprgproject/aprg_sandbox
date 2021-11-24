@@ -29,37 +29,39 @@ SubstitutionOfVariablesToTerms::SubstitutionOfVariablesToTerms(
 
 bool SubstitutionOfVariablesToTerms::isEmpty() const
 {
-    return m_variableToExpressionsMap.empty();
+    return m_variableToTermsMap.empty();
 }
 
 bool SubstitutionOfVariablesToTerms::isVariableFound(string const& variable) const
 {
-    return m_variableToExpressionsMap.find(variable) != m_variableToExpressionsMap.cend();
+    return m_variableToTermsMap.find(variable) != m_variableToTermsMap.cend();
 }
 
 unsigned int SubstitutionOfVariablesToTerms::getSize() const
 {
-    return m_variableToExpressionsMap.size();
+    return m_variableToTermsMap.size();
 }
 
-Term SubstitutionOfVariablesToTerms::getTermForVariable(string const& variable) const
-{
+Term SubstitutionOfVariablesToTerms::getTermForVariable(string const& variable) const{
     Term result;
     if(isVariableFound(variable))
     {
-        result = m_variableToExpressionsMap.at(variable);
+        result = m_variableToTermsMap.at(variable);
     }
     return result;
 }
 
+VariablesToTermsMap const& SubstitutionOfVariablesToTerms::getVariablesToTermsMap() const
+{
+    return m_variableToTermsMap;
+}
+
 Term SubstitutionOfVariablesToTerms::performSubstitutionTo(Variable const& variable) const
 {
-    Term result;
-    string variableName(variable.getVariableName());
+    Term result;    string variableName(variable.getVariableName());
     if(isVariableFound(variableName))
     {
-        result = getTermForVariable(variableName);
-    }
+        result = getTermForVariable(variableName);    }
     else
     {
         result = Term(variable);
@@ -194,16 +196,14 @@ void SubstitutionOfVariablesToTerms::putVariableWithTerm(
         string const& variable,
         Term const& term)
 {
-    m_variableToExpressionsMap[variable]=term;
-    m_variableToExpressionsMap.at(variable).simplify();
+    m_variableToTermsMap[variable]=term;
+    m_variableToTermsMap.at(variable).simplify();
 }
 
-void SubstitutionOfVariablesToTerms::performSubstitutionForTermsWithAssociation(TermsWithAssociation & termsWithAssociation) const
-{
+void SubstitutionOfVariablesToTerms::performSubstitutionForTermsWithAssociation(TermsWithAssociation & termsWithAssociation) const{
     for(TermWithDetails & termWithDetails : termsWithAssociation.getTermsWithDetailsReference())
     {
-        Term & term(getTermReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer));
-        term = performSubstitutionTo(term);
+        Term & term(getTermReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer));        term = performSubstitutionTo(term);
     }
 }
 

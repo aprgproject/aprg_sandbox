@@ -78,15 +78,12 @@ private:
             Term const& secondTerm) const;
     Term differentiateFunctionOnly(
             Function const& functionObject) const;
-    void simplifyForDifferentiation(Term& term) const;
     bool isVariableToDifferentiate(std::string const& variableName) const;
     bool isDependentVariable(std::string const& variableName) const;
-    bool isDerivativeVariableNameAndAffectedByThisDifferentiation(
-            DerivativeVariableName const& derivativeVariable) const;
+    bool isDerivativeVariableNameAndAffectedByThisDifferentiation(            DerivativeVariableName const& derivativeVariable) const;
     bool isChangingVariableName(std::string const& variableName) const;
     bool isChangingTerm(Term const& term) const;
-    std::string m_nameOfVariableToDifferentiate;
-    VariableNamesSet m_namesOfDependentVariables;
+    std::string m_nameOfVariableToDifferentiate;    VariableNamesSet m_namesOfDependentVariables;
 };
 
 }

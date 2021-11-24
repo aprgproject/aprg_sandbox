@@ -455,32 +455,25 @@ TEST(DifferentiationTest, DifferentiateTwoMultipliedTermsWorks)
 
     Term termToVerify(differentiationForX.differentiateTwoMultipliedTerms(term1, term2));
 
-    Term termToExpect(Polynomial{Monomial(24, {{"x", 3}}), Monomial(6, {{"x", 2}}), Monomial(-56, {{"x", 1}})});
-    EXPECT_EQ(termToExpect, termToVerify);
+    string stringToExpect("(((2[x^2] + -4[x])*(6[x] + 7))+((3[x^2] + 7[x])*(4[x] + -4)))");
+    EXPECT_EQ(stringToExpect, termToVerify.getDisplayableString());
 }
 
-TEST(DifferentiationTest, DifferentiateTwoDividedTermsWorks)
-{
+TEST(DifferentiationTest, DifferentiateTwoDividedTermsWorks){
     Differentiation differentiationForX("x");
     Term numerator(Polynomial{Monomial(2, {{"x", 3}}), Monomial(4, {})});
     Term denominator(Polynomial{Monomial(1, {{"x", 2}}), Monomial(-4, {{"x", 1}}), Monomial(1, {})});
 
     Term termToVerify(differentiationForX.differentiateTwoDividedTerms(numerator, denominator));
 
-    Term expectedNumeratorPart(Polynomial{Monomial(1, {{"x", 4}}), Monomial(-8, {{"x", 3}}), Monomial(3, {{"x", 2}}), Monomial(-4, {{"x", 1}}), Monomial(8, {})});
-    Term expectedNumerator(createExpressionIfPossible({Term(2), Term("*"), expectedNumeratorPart}));
-    Term expectedDenominatorPart(Polynomial{Monomial(1, {{"x", 2}}), Monomial(-4, {{"x", 1}}), Monomial(1, {})});
-    Term expectedDenominator(createExpressionIfPossible({expectedDenominatorPart, Term("^"), Term(2)}));
-    Term termToExpect(createExpressionIfPossible({expectedNumerator, Term("/"), expectedDenominator}));
-    EXPECT_EQ(termToExpect, termToVerify);
+    string stringToExpect("((((1[x^2] + -4[x] + 1)*6[x^2])-((2[x^3] + 4)*(2[x] + -4)))/((1[x^2] + -4[x] + 1)^2))");
+    EXPECT_EQ(stringToExpect, termToVerify.getDisplayableString());
 }
 
-TEST(DifferentiationTest, DifferentiateWorksWithTermRaiseToTerm)
-{
+TEST(DifferentiationTest, DifferentiateWorksWithTermRaiseToTerm){
     Differentiation differentiationForX("x");
     Term n("n");
-    Term x("x");
-    Term termToTest1(createExpressionIfPossible({n, Term("^"), n}));
+    Term x("x");    Term termToTest1(createExpressionIfPossible({n, Term("^"), n}));
     Term termToTest2(createExpressionIfPossible({n, Term("^"), x}));
     Term termToTest3(createExpressionIfPossible({x, Term("^"), n}));
     Term termToTest4(createExpressionIfPossible({x, Term("^"), x}));

@@ -21,14 +21,13 @@ using namespace alba::algebra::DomainAndRange;
 using namespace alba::algebra::Functions;
 using namespace alba::algebra::Simplification;
 using namespace alba::mathHelper;
+using namespace alba::stringHelper;
 using namespace std;
 
-namespace
-{
+namespace{
 
 constexpr char const*const X_NAME = "x";
 constexpr char const*const DELTA_X_NAME = "deltaX";
-
 }
 
 namespace alba
@@ -204,15 +203,13 @@ Term getLogarithmicDifferentiationToYieldDyOverDx(
         Term logarithm(ln(yInTermsOfX));
         logarithm.simplify();
         result = yInTermsOfX * differentiation.differentiate(logarithm);
-        simplifyToNonDoubleFactors(result);
+        simplifyTermByFactoringToNonDoubleFactors(result);
     }
     return result;
 }
-
 Term getCartesianDerivativeOfTermInPolarCoordinates(
         Term const& radiusInTermsOfTheta,
-        string const& thetaName)
-{
+        string const& thetaName){
     // dy/dx = (dr/dt*sin(t) + r(t)*cos(t)) / (dr/dt*cos(t) - r(t)*sin(t))
     Term theta(thetaName);
     Differentiation differentiation(thetaName);
@@ -287,14 +284,49 @@ Term getApproximationUsingTaylorsRemainder(
     return result;
 }
 
-SolutionSet getDifferentiabilityDomain(
+Term getTotalDerivativeWithInnerTermsUsingChainRule(
+        Term const& term,
+        SubstitutionOfVariablesToTerms const& substitution,
+        string const& commonVariable)
+{
+    Term result;
+    Differentiation commonVariableDifferentiation(commonVariable);
+    for(auto const& innerVariableTermPair : substitution.getVariablesToTermsMap())
+    {
+        result += substitution.performSubstitutionTo(getPartialDerivative(term, innerVariableTermPair.first))
+                * commonVariableDifferentiation.differentiate(innerVariableTermPair.second);
+    }
+    simplifyForDifferentiation(result);
+    return result;
+}
+
+Term getTotalDerivative(
+        Term const& term,
+        strings const& variableNames)
+{
+    Term result;
+    for(string const& variableName : variableNames)
+    {
+        result += getPartialDerivative(term, variableName);
+    }
+    simplifyForDifferentiation(result);
+    return result;
+}
+
+Term getPartialDerivative(
         Term const& term,
         string const& variableName)
 {
+    Differentiation differentiation(variableName);
+    return differentiation.differentiate(term);
+}
+
+SolutionSet getDifferentiabilityDomain(
+        Term const& term,
+        string const& variableName){
     // This code is not accurate.
     // How about piecewise function?
     // How about absolute value function?
-
     Differentiation differentiation(variableName);
     Term derivativeTerm(differentiation.differentiate(term));
     return calculateDomainForTermWithOneVariable(derivativeTerm);
@@ -390,12 +422,11 @@ void simplifyDerivativeByDefinition(Term & term)
     term.simplify();
 }
 
-void simplifyToNonDoubleFactors(
-        Term& term)
+void simplifyForDifferentiation(Term& term)
 {
+    term.simplify();
     simplifyTermByFactoringToNonDoubleFactors(term);
 }
-
 
 }
 
