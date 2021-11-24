@@ -13,10 +13,12 @@ using VectorTwoElements = AlbaMathVector<double, 2>;
 using VectorThreeElements = AlbaMathVector<double, 3>;
 }
 
-TEST(AlbaMathVectorUtilitiesTest, AreVectorsPerpendicularWorks){
+TEST(AlbaMathVectorUtilitiesTest, AreVectorsPerpendicularWorks)
+{
     EXPECT_TRUE(areVectorsPerpendicular(VectorTwoElements{0, 5}, VectorTwoElements{10, 0}));
     EXPECT_FALSE(areVectorsPerpendicular(VectorTwoElements{0, 5}, VectorTwoElements{0, 10}));
-    EXPECT_FALSE(areVectorsPerpendicular(VectorTwoElements{2, 3}, VectorTwoElements{4, 5}));}
+    EXPECT_FALSE(areVectorsPerpendicular(VectorTwoElements{2, 3}, VectorTwoElements{4, 5}));
+}
 
 TEST(AlbaMathVectorUtilitiesTest, AreVectorsParallelWorks)
 {
@@ -84,7 +86,8 @@ TEST(AlbaMathVectorUtilitiesTest, GetVectorProjectionWorksForThreeDimensions)
 
 TEST(AlbaMathVectorUtilitiesTest, GetDotProductWorks)
 {
-    VectorTwoElements mathVector1{2, 4};    VectorTwoElements mathVector2{-1, 2};
+    VectorTwoElements mathVector1{2, 4};
+    VectorTwoElements mathVector2{-1, 2};
 
     EXPECT_DOUBLE_EQ(6, getDotProduct(mathVector1, mathVector2));
 }
@@ -100,10 +103,12 @@ TEST(AlbaMathVectorUtilitiesTest, GetCrossProductWorks)
 
 TEST(AlbaMathVectorUtilitiesTest, GetAngleBetweenTwoVectorsWorks)
 {
-    VectorTwoElements mathVector1{0, 4};    VectorTwoElements mathVector2{10, 0};
+    VectorTwoElements mathVector1{0, 4};
+    VectorTwoElements mathVector2{10, 0};
 
     EXPECT_DOUBLE_EQ(getPi()/2, getAngleBetweenTwoVectors(mathVector1, mathVector2));
 }
+
 TEST(AlbaMathVectorUtilitiesTest, GetScalarProjectionWorks)
 {
     VectorTwoElements vectorToProjectTo{0, 5};

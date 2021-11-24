@@ -102,9 +102,11 @@ TEST(MathVectorOfTermsUtilitiesTest, GetCurvatureWorks)
     string stringToExpect("(12[t^-1]/((9[t^2] + 16)^(3/2)))");
     EXPECT_EQ(stringToExpect, termToVerify.getDisplayableString());
 }
+
 TEST(MathVectorOfTermsUtilitiesTest, GetLimitWorks)
 {
-    Term t("t");    Term x(cos(t));
+    Term t("t");
+    Term x(cos(t));
     Term y(createExpressionIfPossible({Term(2), Term("*"), getEAsTerm(), Term("^"), t}));
     MathVectorOfTwoTerms termVector{x, y};
 
@@ -175,7 +177,9 @@ TEST(MathVectorOfTermsUtilitiesTest, GetCurvatureVectorWorks)
     string stringToExpect("{(48/(81[t^5] + 288[t^3] + 256[t])), (-36/(81[t^4] + 288[t^2] + 256))}");
     EXPECT_EQ(stringToExpect, vectorToVerify.getDisplayableString());
 }
+
 }
 
 }
+
 }

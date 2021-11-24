@@ -280,10 +280,12 @@ Term TermsRaiseToExponents<ExponentType, BaseRaiseToExponentType>::convertToTerm
     }
     return result;
 }
-template Term TermsRaiseToExponents<AlbaNumber, TermRaiseToANumber>::convertToTerm(Term const& base, AlbaNumber const& exponent) const;template Term TermsRaiseToExponents<Term, TermRaiseToTerms>::convertToTerm(Term const& base, Term const& exponent) const;
+template Term TermsRaiseToExponents<AlbaNumber, TermRaiseToANumber>::convertToTerm(Term const& base, AlbaNumber const& exponent) const;
+template Term TermsRaiseToExponents<Term, TermRaiseToTerms>::convertToTerm(Term const& base, Term const& exponent) const;
 
 
-template <typename ExponentType, typename BaseRaiseToExponentType>void TermsRaiseToExponents<ExponentType, BaseRaiseToExponentType>::putTermUsingBaseToExponentType(
+template <typename ExponentType, typename BaseRaiseToExponentType>
+void TermsRaiseToExponents<ExponentType, BaseRaiseToExponentType>::putTermUsingBaseToExponentType(
         Term const& term,
         int const sign)
 {}

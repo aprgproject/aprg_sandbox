@@ -16,10 +16,12 @@ Equation getEllipticConeEquation();
 Equation getEllipticHyperboloidEquation(bool const isOneNegative);
 Equation getEllipticParaboloidEquation();
 Equation getHyperbolicParaboloidEquation();
-Equations getLineEquations();Equation getPlaneEquation();
+Equations getLineEquations();
+Equation getPlaneEquation();
 Equation getSphereEquation();
 
 }
+
 }
 
 }

@@ -57,10 +57,12 @@ VariablesToValuesMap const& SubstitutionOfVariablesToValues::getVariableToValues
 
 Term SubstitutionOfVariablesToValues::performSubstitutionTo(Variable const& variable) const
 {
-    Term result;    string variableName(variable.getVariableName());
+    Term result;
+    string variableName(variable.getVariableName());
     if(isVariableFound(variableName))
     {
-        result = Term(getValueForVariable(variableName));    }
+        result = Term(getValueForVariable(variableName));
+    }
     else
     {
         result = Term(variable);

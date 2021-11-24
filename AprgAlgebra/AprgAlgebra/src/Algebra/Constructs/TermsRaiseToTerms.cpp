@@ -2,6 +2,7 @@
 
 namespace alba
 {
+
 namespace algebra
 {
 

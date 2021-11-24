@@ -27,10 +27,12 @@ Term getDyOverDx(MathVectorOfTwoTerms const& termVector, std::string const& vari
 
 template <unsigned int SIZE>
 void simplifyForTermVector(
-        MathVectorOfTerms<SIZE> & termVector){
+        MathVectorOfTerms<SIZE> & termVector)
+{
     for(Term & term : termVector.getValuesReference())
     {
-        simplifyForTermInVector(term);    }
+        simplifyForTermInVector(term);
+    }
 }
 
 template <unsigned int SIZE> bool isContinuousAt(MathVectorOfTerms<SIZE> const& termVector, std::string const& variableName, AlbaNumber const& value);
@@ -86,10 +88,12 @@ bool areOriginalAndDerivativeVectorsOrthogonal(
 
 template <unsigned int SIZE>
 Term getLengthOfArcDerivative(
-        MathVectorOfTerms<SIZE> const& termVector,        std::string const& variableName)
+        MathVectorOfTerms<SIZE> const& termVector,
+        std::string const& variableName)
 {
     return differentiate(termVector, variableName).getMagnitude();
 }
+
 template <unsigned int SIZE>
 Term getLengthOfArc(
         MathVectorOfTerms<SIZE> const& termVector,
@@ -176,13 +180,15 @@ MathVectorOfTerms<SIZE> differentiateMultipleTimes(
 template <unsigned int SIZE>
 MathVectorOfTerms<SIZE> integrate(
         MathVectorOfTerms<SIZE> const& termVector,
-        std::string const& variableName){
+        std::string const& variableName)
+{
     using Values = typename MathVectorOfTerms<SIZE>::ValuesInArray;
     MathVectorOfTerms<SIZE> result;
     Values const& values(termVector.getValues());
     Integration integration(variableName);
     std::transform(values.cbegin(), values.cend(), result.getValuesReference().begin(), [&](Term const& term)
-    {        return integration.integrate(term);
+    {
+        return integration.integrate(term);
     });
     return result;
 }

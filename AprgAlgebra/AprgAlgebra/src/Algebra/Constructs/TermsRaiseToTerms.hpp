@@ -5,6 +5,7 @@
 
 namespace alba
 {
+
 namespace algebra
 {
 
@@ -17,4 +18,5 @@ public:
 };
 
 }
+
 }

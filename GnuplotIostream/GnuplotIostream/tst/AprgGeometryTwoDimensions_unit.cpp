@@ -18,10 +18,12 @@ namespace
 
 void graphPoints(Gnuplot & gp, Points const& points, string const& nameOfGraph)
 {
-    vector<pair<double, double>> pts;    for(unsigned int i=0; i<points.size(); i++)
+    vector<pair<double, double>> pts;
+    for(unsigned int i=0; i<points.size(); i++)
     {
         pts.emplace_back(make_pair(points[i].getX(), points[i].getY()));
-    }    gp << gp.binFile1d(pts, "record") << "with lines title '"<< nameOfGraph <<"'";
+    }
+    gp << gp.binFile1d(pts, "record") << "with lines title '"<< nameOfGraph <<"'";
     gp << ", ";
 }
 
@@ -33,10 +35,12 @@ namespace alba
 
 TEST(AprgGeometryTwoDimensionsTest, DISABLED_CircleAtOriginWithRadius)
 {
-    Gnuplot gp;    gp << "plot ";
+    Gnuplot gp;
+    gp << "plot ";
     Circle circle(Point(0,0), 3);
     Points points(circle.getLocus(0.001));
-    graphPoints(gp, points, "CircleAtOriginWithRadius");    gp << endl;
+    graphPoints(gp, points, "CircleAtOriginWithRadius");
+    gp << endl;
 }
 
 TEST(AprgGeometryTwoDimensionsTest, DISABLED_HyperbolaAtOriginWithRadius)

@@ -2,6 +2,7 @@
 
 namespace alba
 {
+
 namespace algebra
 {
 
@@ -16,4 +17,5 @@ TermsRaiseToNumbers::TermsRaiseToNumbers(
 
 
 }
+
 }

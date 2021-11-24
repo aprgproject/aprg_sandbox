@@ -6,10 +6,12 @@
 #include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>
 #include <Math/Number/Interval/AlbaNumberIntervalHelpers.hpp>
 
-using namespace alba::algebra::DomainAndRange;using namespace std;
+using namespace alba::algebra::DomainAndRange;
+using namespace std;
 
 namespace alba
 {
+
 namespace algebra
 {
 
@@ -19,9 +21,9 @@ bool isContinuousAt(
         AlbaNumber const& valueToApproach)
 {
     SubstitutionOfVariablesToValues substitution{{variableName, valueToApproach}};
-    Term subtitutedResult(substitution.performSubstitutionTo(term));
+    Term substitutedResult(substitution.performSubstitutionTo(term));
     Term limitAtValue(getLimit(term, variableName, valueToApproach));
-    return subtitutedResult == limitAtValue && isAFiniteConstant(subtitutedResult);
+    return substitutedResult == limitAtValue && isAFiniteConstant(substitutedResult);
 }
 
 bool isContinuousAt(
@@ -32,13 +34,14 @@ bool isContinuousAt(
 {
     bool result(false);
     SubstitutionOfVariablesToValues substitution{{variableName, valueToApproach}};
-    Term subtitutedResult(substitution.performSubstitutionTo(term));
-    if(subtitutedResult.isConstant())
+    Term substitutedResult(substitution.performSubstitutionTo(term));
+    if(substitutedResult.isConstant())
     {
         AlbaNumber limitAtValue(getLimitAtAValueByApproachType(term, variableName, valueToApproach, limitApproachType));
-        AlbaNumber const& subtitutedResultValue(subtitutedResult.getConstantValueConstReference());
-        result = isAlmostEqualForLimitChecking(subtitutedResultValue, limitAtValue);
-    }    return result;
+        AlbaNumber const& substitutedResultValue(substitutedResult.getConstantValueConstReference());
+        result = isAlmostEqualForLimitChecking(substitutedResultValue, limitAtValue);
+    }
+    return result;
 }
 
 bool isContinuousAt(
@@ -47,7 +50,8 @@ bool isContinuousAt(
         AlbaNumber const& valueToApproach,
         LimitAtAValueApproachType const limitApproachType,
         bool const isDifferentiableAtValue)
-{    //If a function is differentiable at X, then f is continuous at X.
+{
+    //If a function is differentiable at X, then f is continuous at X.
     bool result(true);
     if(!isDifferentiableAtValue)
     {
@@ -63,22 +67,24 @@ bool isContinuousAtWithMultipleVariablesWithDifferentApproaches(
         SubstitutionsOfVariablesToTerms const& substitutionsForApproaches)
 {
     SubstitutionOfVariablesToValues substitution{{variableName, valueToApproach}};
-    Term subtitutedResult;
+    Term substitutedResult;
     if(!substitutionsForApproaches.empty())
     {
-        subtitutedResult = substitution.performSubstitutionTo(
+        substitutedResult = substitution.performSubstitutionTo(
                     substitutionsForApproaches.at(0).performSubstitutionTo(term));
     }
     Term limitAtValue(getLimitWithMultipleVariablesWithDifferentApproaches(term, variableName, valueToApproach, substitutionsForApproaches));
-    return subtitutedResult == limitAtValue && isAFiniteConstant(subtitutedResult);
+    return substitutedResult == limitAtValue && isAFiniteConstant(substitutedResult);
 }
 
 bool isIntermediateValueTheoremSatisfied(
         Term const& term,
-        string const& variableName,        AlbaNumber const& firstValue,
+        string const& variableName,
+        AlbaNumber const& firstValue,
         AlbaNumber const& secondValue,
         AlbaNumber const& valueToTest)
-{    // Theorem: If the function f is continuous on the closed interval [v1, v2] and if f(v1) != f(v2),
+{
+    // Theorem: If the function f is continuous on the closed interval [v1, v2] and if f(v1) != f(v2),
     // then for any number k between f(v1) and f(v2) there exists a number v3 between v1 and v2 such that f(v3) = k
 
     bool result(false);
@@ -109,15 +115,15 @@ ContinuityType getContinuityTypeAt(
 {
     ContinuityType result(ContinuityType::Unknown);
     SubstitutionOfVariablesToValues substitution{{variableName, value}};
-    Term subtitutedResult(substitution.performSubstitutionTo(term));
-    if(subtitutedResult.isConstant())
+    Term substitutedResult(substitution.performSubstitutionTo(term));
+    if(substitutedResult.isConstant())
     {
         AlbaNumber limitAtValueInPositiveSide(getLimitAtAValueInThePositiveSide(term, variableName, value));
         AlbaNumber limitAtValueInNegativeSide(getLimitAtAValueInTheNegativeSide(term, variableName, value));
         if(isAlmostEqualForLimitChecking(limitAtValueInPositiveSide, limitAtValueInNegativeSide))
         {
-            AlbaNumber const& subtitutedResultValue(subtitutedResult.getConstantValueConstReference());
-            if(isAlmostEqualForLimitChecking(limitAtValueInPositiveSide, subtitutedResultValue))
+            AlbaNumber const& substitutedResultValue(substitutedResult.getConstantValueConstReference());
+            if(isAlmostEqualForLimitChecking(limitAtValueInPositiveSide, substitutedResultValue))
             {
                 result = ContinuityType::ContinuousAtBothSides;
             }

@@ -17,10 +17,12 @@ public:
     // ((y-center.y)^2/bCoefficient^2) - ((x-center.x)^2/aCoefficient^2) = (z-center.z)/c
     bool operator==(HyperbolicParaboloid const& ellipsoid) const;
     bool operator!=(HyperbolicParaboloid const& ellipsoid) const;
-    Point getCenter() const;    double getAValue() const;
+    Point getCenter() const;
+    double getAValue() const;
     double getBValue() const;
     double getCValue() const;
-    double calculateXFromYAndZ(double const y, double const z, double const signOfRoot) const;    double calculateYFromXAndZ(double const x, double const z, double const signOfRoot) const;
+    double calculateXFromYAndZ(double const y, double const z, double const signOfRoot) const;
+    double calculateYFromXAndZ(double const x, double const z, double const signOfRoot) const;
     double calculateZFromXAndY(double const x, double const y) const;
 
     std::string getDisplayableString() const;

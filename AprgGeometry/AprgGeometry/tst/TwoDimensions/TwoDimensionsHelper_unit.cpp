@@ -19,9 +19,11 @@ namespace TwoDimensions
 TEST(TwoDimensionsHelperTest, IsOriginWorks)
 {
     EXPECT_FALSE(isOrigin(Point(-3,-3)));
-    EXPECT_FALSE(isOrigin(Point(5,0)));    EXPECT_FALSE(isOrigin(Point(0,10)));
+    EXPECT_FALSE(isOrigin(Point(5,0)));
+    EXPECT_FALSE(isOrigin(Point(0,10)));
     EXPECT_TRUE(isOrigin(Point(0,0)));
 }
+
 TEST(TwoDimensionsHelperTest, IsInsideTwoPointsWorks)
 {
     Points points;
@@ -77,10 +79,12 @@ TEST(TwoDimensionsHelperTest, GetConsineOfAngleUsing2DeltasWorks)
 TEST(TwoDimensionsHelperTest, GetArcLengthWorks)
 {
     EXPECT_DOUBLE_EQ(314.15926535897933, getArcLength(Angle(AngleUnitType::Degrees, 180), 100));
-    EXPECT_DOUBLE_EQ(1000, getArcLength(Angle(AngleUnitType::Radians, 10), 100));}
+    EXPECT_DOUBLE_EQ(1000, getArcLength(Angle(AngleUnitType::Radians, 10), 100));
+}
 
 TEST(TwoDimensionsHelperTest, GetAreaForPolygonWorksForTriangle)
-{    Triangle triangle(Point(0,0), Point(0,4), Point(4,0));
+{
+    Triangle triangle(Point(0,0), Point(0,4), Point(4,0));
     EXPECT_DOUBLE_EQ(8, getArea<3>(triangle));
 }
 
@@ -115,9 +119,11 @@ TEST(TwoDimensionsHelperTest, MidpointBetweenTwoPointsCanBeCalculated)
 TEST(TwoDimensionsHelperTest, GetPointAlongALineWithDistanceFromAPointWorks)
 {
     EXPECT_EQ(Point(2,2), getPointAlongALineWithDistanceFromAPoint(Line(Point(0,0), Point(1,1)), Point(1,1), sqrt(2), true));
-    EXPECT_EQ(Point(2,-2), getPointAlongALineWithDistanceFromAPoint(Line(Point(0,0), Point(1,-1)), Point(1,-1), sqrt(2), true));    EXPECT_EQ(Point(-2,2), getPointAlongALineWithDistanceFromAPoint(Line(Point(0,0), Point(-1,1)), Point(-1,1), sqrt(2), false));
+    EXPECT_EQ(Point(2,-2), getPointAlongALineWithDistanceFromAPoint(Line(Point(0,0), Point(1,-1)), Point(1,-1), sqrt(2), true));
+    EXPECT_EQ(Point(-2,2), getPointAlongALineWithDistanceFromAPoint(Line(Point(0,0), Point(-1,1)), Point(-1,1), sqrt(2), false));
     EXPECT_EQ(Point(-2,-2), getPointAlongALineWithDistanceFromAPoint(Line(Point(0,0), Point(-1,-1)), Point(-1,-1), sqrt(2), false));
 }
+
 TEST(TwoDimensionsHelperTest, GetIntersectionsOfParabolaAndLineWorksOnParabolaWithPolynomialX)
 {
     Parabola<ParabolaOrientation::PolynomialX> parabola(1, -5, 4);
@@ -227,10 +233,12 @@ TEST(TwoDimensionsHelperTest, GetConicSectionBasedOnGeneralFormWorks)
 TEST(TwoDimensionsHelperTest, GetQuadrantOfAPointWorks)
 {
     EXPECT_EQ(Quadrant::Invalid, getQuadrantOfAPoint(Point(0,0)));
-    EXPECT_EQ(Quadrant::I, getQuadrantOfAPoint(Point(1,1)));    EXPECT_EQ(Quadrant::II, getQuadrantOfAPoint(Point(-1,1)));
+    EXPECT_EQ(Quadrant::I, getQuadrantOfAPoint(Point(1,1)));
+    EXPECT_EQ(Quadrant::II, getQuadrantOfAPoint(Point(-1,1)));
     EXPECT_EQ(Quadrant::III, getQuadrantOfAPoint(Point(-1,-1)));
     EXPECT_EQ(Quadrant::IV, getQuadrantOfAPoint(Point(1,-1)));
-    EXPECT_EQ(Quadrant::II, getQuadrantOfAPoint(Point(0,1)));    EXPECT_EQ(Quadrant::IV, getQuadrantOfAPoint(Point(0,-1)));
+    EXPECT_EQ(Quadrant::II, getQuadrantOfAPoint(Point(0,1)));
+    EXPECT_EQ(Quadrant::IV, getQuadrantOfAPoint(Point(0,-1)));
     EXPECT_EQ(Quadrant::I, getQuadrantOfAPoint(Point(1,0)));
     EXPECT_EQ(Quadrant::III, getQuadrantOfAPoint(Point(-1,0)));
 }
@@ -238,10 +246,12 @@ TEST(TwoDimensionsHelperTest, GetQuadrantOfAPointWorks)
 TEST(TwoDimensionsHelperTest, GetAngleBasedOnAPointAndOriginWorks)
 {
     EXPECT_EQ(0, getAngleBasedOnAPointAndOrigin(Point(0,0)).getDegrees());
-    EXPECT_DOUBLE_EQ(45, getAngleBasedOnAPointAndOrigin(Point(1,1)).getDegrees());    EXPECT_DOUBLE_EQ(135, getAngleBasedOnAPointAndOrigin(Point(-1,1)).getDegrees());
+    EXPECT_DOUBLE_EQ(45, getAngleBasedOnAPointAndOrigin(Point(1,1)).getDegrees());
+    EXPECT_DOUBLE_EQ(135, getAngleBasedOnAPointAndOrigin(Point(-1,1)).getDegrees());
     EXPECT_DOUBLE_EQ(225, getAngleBasedOnAPointAndOrigin(Point(-1,-1)).getDegrees());
     EXPECT_DOUBLE_EQ(315, getAngleBasedOnAPointAndOrigin(Point(1,-1)).getDegrees());
-    EXPECT_DOUBLE_EQ(90, getAngleBasedOnAPointAndOrigin(Point(0,1)).getDegrees());    EXPECT_DOUBLE_EQ(270, getAngleBasedOnAPointAndOrigin(Point(0,-1)).getDegrees());
+    EXPECT_DOUBLE_EQ(90, getAngleBasedOnAPointAndOrigin(Point(0,1)).getDegrees());
+    EXPECT_DOUBLE_EQ(270, getAngleBasedOnAPointAndOrigin(Point(0,-1)).getDegrees());
     EXPECT_DOUBLE_EQ(0, getAngleBasedOnAPointAndOrigin(Point(1,0)).getDegrees());
     EXPECT_DOUBLE_EQ(180, getAngleBasedOnAPointAndOrigin(Point(-1,0)).getDegrees());
 }
@@ -249,22 +259,26 @@ TEST(TwoDimensionsHelperTest, GetAngleBasedOnAPointAndOriginWorks)
 TEST(TwoDimensionsHelperTest, getTheInnerAngleUsingThreePointsWorks)
 {
     EXPECT_EQ(0, getTheInnerAngleUsingThreePoints(Point(0,0), Point(0,1), Point(0,1)).getDegrees());
-    EXPECT_EQ(90, getTheInnerAngleUsingThreePoints(Point(0,0), Point(0,1), Point(1,0)).getDegrees());    EXPECT_DOUBLE_EQ(45, getTheInnerAngleUsingThreePoints(Point(0,0), Point(0,1), Point(1,1)).getDegrees());
+    EXPECT_EQ(90, getTheInnerAngleUsingThreePoints(Point(0,0), Point(0,1), Point(1,0)).getDegrees());
+    EXPECT_DOUBLE_EQ(45, getTheInnerAngleUsingThreePoints(Point(0,0), Point(0,1), Point(1,1)).getDegrees());
 }
 
 TEST(TwoDimensionsHelperTest, GetSmallerAngleBetweenTwoLinesWorks)
 {
     EXPECT_EQ(0, getTheSmallerAngleBetweenTwoLines(Line(Point(0,0), Point(0,1)), Line(Point(0,0), Point(0,1))).getDegrees());
-    EXPECT_EQ(90, getTheSmallerAngleBetweenTwoLines(Line(Point(0,0), Point(0,1)), Line(Point(0,0), Point(1,0))).getDegrees());    EXPECT_DOUBLE_EQ(45, getTheSmallerAngleBetweenTwoLines(Line(Point(0,0), Point(0,1)), Line(Point(0,0), Point(1,1))).getDegrees());
+    EXPECT_EQ(90, getTheSmallerAngleBetweenTwoLines(Line(Point(0,0), Point(0,1)), Line(Point(0,0), Point(1,0))).getDegrees());
+    EXPECT_DOUBLE_EQ(45, getTheSmallerAngleBetweenTwoLines(Line(Point(0,0), Point(0,1)), Line(Point(0,0), Point(1,1))).getDegrees());
 }
 
 TEST(TwoDimensionsHelperTest, GetLargerAngleBetweenTwoLinesWorks)
 {
     EXPECT_EQ(180, getTheLargerAngleBetweenTwoLines(Line(Point(0,0), Point(0,1)), Line(Point(0,0), Point(0,1))).getDegrees());
-    EXPECT_EQ(90, getTheLargerAngleBetweenTwoLines(Line(Point(0,0), Point(0,1)), Line(Point(0,0), Point(1,0))).getDegrees());    EXPECT_DOUBLE_EQ(135, getTheLargerAngleBetweenTwoLines(Line(Point(0,0), Point(0,1)), Line(Point(0,0), Point(1,1))).getDegrees());
+    EXPECT_EQ(90, getTheLargerAngleBetweenTwoLines(Line(Point(0,0), Point(0,1)), Line(Point(0,0), Point(1,0))).getDegrees());
+    EXPECT_DOUBLE_EQ(135, getTheLargerAngleBetweenTwoLines(Line(Point(0,0), Point(0,1)), Line(Point(0,0), Point(1,1))).getDegrees());
 }
 
-TEST(TwoDimensionsHelperTest, PointsInParabolaCanBeConnected){
+TEST(TwoDimensionsHelperTest, PointsInParabolaCanBeConnected)
+{
     Parabola<ParabolaOrientation::PolynomialX> parabola{1,2,3};
     Points parabolaPoints(parabola.getPoints(-2, 2, 1));
     Points connectedPoints(getConnectedPointsUsingALine(parabolaPoints, 1));
@@ -286,10 +300,12 @@ TEST(TwoDimensionsHelperTest, PointsInParabolaCanBeConnected){
 TEST(TwoDimensionsHelperTest, GetConvexHullPointsUsingGrahamScanWorks)
 {
     Points inputPoints{{-7,8},{-4,6},{2,6},{6,4},{8,6},{7,-2},{4,-6},{8,-7},{0,0},
-                       {3,-2},{6,-10},{0,-6},{-9,-5},{-8,-2},{-8,0},{-10,3},{-2,2},{-10,4}};    Points convexHullPoints(getConvexHullPointsUsingGrahamScan(inputPoints));
+                       {3,-2},{6,-10},{0,-6},{-9,-5},{-8,-2},{-8,0},{-10,3},{-2,2},{-10,4}};
+    Points convexHullPoints(getConvexHullPointsUsingGrahamScan(inputPoints));
 
     ASSERT_EQ(7U, convexHullPoints.size());
-    EXPECT_EQ(Point(-9,-5), convexHullPoints.at(0));    EXPECT_EQ(Point(-10,3), convexHullPoints.at(1));
+    EXPECT_EQ(Point(-9,-5), convexHullPoints.at(0));
+    EXPECT_EQ(Point(-10,3), convexHullPoints.at(1));
     EXPECT_EQ(Point(-10,4), convexHullPoints.at(2));
     EXPECT_EQ(Point(-7,8), convexHullPoints.at(3));
     EXPECT_EQ(Point(8,6), convexHullPoints.at(4));
@@ -391,9 +407,11 @@ TEST(TwoDimensionsHelperTest, GetPointsFromTwoPointsUsingALineWithoutLastPointWo
 {
     Points pointsWithoutLastPoint;
     savePointsFromTwoPointsUsingALineWithoutLastPoint(pointsWithoutLastPoint, Point(0,0), Point(-5,-5), 1);
+
     ASSERT_EQ(5U, pointsWithoutLastPoint.size());
     EXPECT_EQ(Point(0,0), pointsWithoutLastPoint.at(0));
-    EXPECT_EQ(Point(-1,-1), pointsWithoutLastPoint.at(1));    EXPECT_EQ(Point(-2,-2), pointsWithoutLastPoint.at(2));
+    EXPECT_EQ(Point(-1,-1), pointsWithoutLastPoint.at(1));
+    EXPECT_EQ(Point(-2,-2), pointsWithoutLastPoint.at(2));
     EXPECT_EQ(Point(-3,-3), pointsWithoutLastPoint.at(3));
     EXPECT_EQ(Point(-4,-4), pointsWithoutLastPoint.at(4));
 }

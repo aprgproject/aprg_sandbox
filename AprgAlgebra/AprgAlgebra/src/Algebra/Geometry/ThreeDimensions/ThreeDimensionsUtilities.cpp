@@ -45,10 +45,12 @@ Equation getEllipticConeEquation()
 Equation getEllipticHyperboloidEquation(bool const isOneNegative)
 {
     Term xMinusX0(createExpressionIfPossible({Term(x), Term("-"), Term(x0)}));
-    Term yMinusY0(createExpressionIfPossible({Term(y), Term("-"), Term(y0)}));    Term zMinusZ0(createExpressionIfPossible({Term(z), Term("-"), Term(z0)}));
+    Term yMinusY0(createExpressionIfPossible({Term(y), Term("-"), Term(y0)}));
+    Term zMinusZ0(createExpressionIfPossible({Term(z), Term("-"), Term(z0)}));
     Term xSquared(createExpressionIfPossible({xMinusX0, Term("^"), Term(2)}));
     Term ySquared(createExpressionIfPossible({yMinusY0, Term("^"), Term(2)}));
-    Term zSquared(createExpressionIfPossible({zMinusZ0, Term("^"), Term(2)}));    Term aSquared(createExpressionIfPossible({Term(a), Term("^"), Term(2)}));
+    Term zSquared(createExpressionIfPossible({zMinusZ0, Term("^"), Term(2)}));
+    Term aSquared(createExpressionIfPossible({Term(a), Term("^"), Term(2)}));
     Term bSquared(createExpressionIfPossible({Term(b), Term("^"), Term(2)}));
     Term cSquared(createExpressionIfPossible({Term(c), Term("^"), Term(2)}));
     Term leftHandSide(createExpressionIfPossible({xSquared, Term("/"), aSquared, Term("+"), ySquared, Term("/"), bSquared, Term("-"), zSquared, Term("/"), cSquared}));
@@ -56,10 +58,12 @@ Equation getEllipticHyperboloidEquation(bool const isOneNegative)
     return Equation(leftHandSide, "=", oneWithSign);
 }
 
-Equation getEllipticParaboloidEquation(){
+Equation getEllipticParaboloidEquation()
+{
     Term xMinusX0(createExpressionIfPossible({Term(x), Term("-"), Term(x0)}));
     Term yMinusY0(createExpressionIfPossible({Term(y), Term("-"), Term(y0)}));
-    Term zMinusZ0(createExpressionIfPossible({Term(z), Term("-"), Term(z0)}));    Term xSquared(createExpressionIfPossible({xMinusX0, Term("^"), Term(2)}));
+    Term zMinusZ0(createExpressionIfPossible({Term(z), Term("-"), Term(z0)}));
+    Term xSquared(createExpressionIfPossible({xMinusX0, Term("^"), Term(2)}));
     Term ySquared(createExpressionIfPossible({yMinusY0, Term("^"), Term(2)}));
     Term aSquared(createExpressionIfPossible({Term(a), Term("^"), Term(2)}));
     Term bSquared(createExpressionIfPossible({Term(b), Term("^"), Term(2)}));

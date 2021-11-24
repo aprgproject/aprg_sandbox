@@ -102,7 +102,8 @@ public:
     AlbaMathVectorType operator*(DataType const& scalarValue) const
     {
         AlbaMathVectorType result;
-        ValuesInArray & resultValues(result.m_values);        std::transform(m_values.begin(), m_values.end(), resultValues.begin(), [&](DataType const value)
+        ValuesInArray & resultValues(result.m_values);
+        std::transform(m_values.begin(), m_values.end(), resultValues.begin(), [&](DataType const value)
         {
             return value*scalarValue;
         });
@@ -112,10 +113,12 @@ public:
     AlbaMathVectorType operator/(DataType const& scalarValue) const
     {
         AlbaMathVectorType result;
-        ValuesInArray & resultValues(result.m_values);        std::transform(m_values.begin(), m_values.end(), resultValues.begin(), [&](DataType const value)
+        ValuesInArray & resultValues(result.m_values);
+        std::transform(m_values.begin(), m_values.end(), resultValues.begin(), [&](DataType const value)
         {
             return value/scalarValue;
-        });        return result;
+        });
+        return result;
     }
 
     AlbaMathVectorType& operator+=(AlbaMathVectorType const& second)
@@ -152,11 +155,13 @@ public:
 
     unsigned int getSize() const
     {
-        return SIZE;    }
+        return SIZE;
+    }
 
     DataType const& getValueAt(unsigned int const index) const
     {
-        assert(index<SIZE);        return m_values.at(index);
+        assert(index<SIZE);
+        return m_values.at(index);
     }
 
     DataType getMagnitude() const

@@ -27,10 +27,12 @@ TEST(ContinuityTest, IsContinuousAtWorks)
 
 TEST(ContinuityTest, IsContinuousAtWorksForContinuousPieceWiseFunction)
 {
-    Function functionToTest(                "functionToTest",
+    Function functionToTest(
+                "functionToTest",
                 getBaseTermConstReferenceFromTerm(Term("x")),
                 [](AlbaNumber const& number)
-    {        AlbaNumber result;
+    {
+        AlbaNumber result;
         if(number <= 10)
         {
             result = number;
@@ -117,10 +119,12 @@ TEST(LimitTest, GetLimitWithMultipleVariablesWithDifferentApproachesWorksWhenDoe
 
 TEST(ContinuityTest, IsIntermediateValueTheoremSatisfiedWorks)
 {
-    Polynomial numerator{Monomial(2, {})};    Polynomial denominator{Monomial(1, {{"x", 1}}), Monomial(-4, {})};
+    Polynomial numerator{Monomial(2, {})};
+    Polynomial denominator{Monomial(1, {{"x", 1}}), Monomial(-4, {})};
     Term termToTest(createExpressionIfPossible({Term(numerator), Term("/"), Term(denominator)}));
 
-    EXPECT_FALSE(isIntermediateValueTheoremSatisfied(termToTest, "x", 2, 5, 4));    EXPECT_TRUE(isIntermediateValueTheoremSatisfied(termToTest, "x", 5, 7, 6));
+    EXPECT_FALSE(isIntermediateValueTheoremSatisfied(termToTest, "x", 2, 5, 4));
+    EXPECT_TRUE(isIntermediateValueTheoremSatisfied(termToTest, "x", 5, 7, 6));
 }
 
 TEST(ContinuityTest, GetContinuityTypeAtWorksForRemovableDiscontinuityFunction)

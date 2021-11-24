@@ -73,10 +73,12 @@ double HyperbolicParaboloid::calculateZFromXAndY(double const x, double const y)
     return (pow((y-m_center.getY())/m_bValue, 2) - pow((x-m_center.getX())/m_aValue, 2)) * m_cValue + m_center.getZ();
 }
 
-string HyperbolicParaboloid::getDisplayableString() const{
+string HyperbolicParaboloid::getDisplayableString() const
+{
     std::stringstream ss;
     ss << "(center: " << m_center.getDisplayableString() << " a: " << m_aValue << " b: " << m_bValue << " c: " << m_cValue << ")";
-    return ss.str();}
+    return ss.str();
+}
 
 ostream & operator<<(ostream & out, HyperbolicParaboloid const& ellipsoid)
 {

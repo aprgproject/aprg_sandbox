@@ -40,10 +40,12 @@ TEST(ThreeDimensionsUtilitiesTest, GetEllipticHyperboloidEquationEquationWorks)
     EXPECT_EQ(stringToExpect2, equationToVerify2.getDisplayableString());
 }
 
-TEST(ThreeDimensionsUtilitiesTest, GetEllipticParaboloidEquationEquationWorks){
+TEST(ThreeDimensionsUtilitiesTest, GetEllipticParaboloidEquationEquationWorks)
+{
     Equation equationToVerify(getEllipticParaboloidEquation());
 
-    string stringToExpect("((((x-x0)^2)/(a^2))+(((y-y0)^2)/(b^2))) = ((z-z0)/c)");    EXPECT_EQ(stringToExpect, equationToVerify.getDisplayableString());
+    string stringToExpect("((((x-x0)^2)/(a^2))+(((y-y0)^2)/(b^2))) = ((z-z0)/c)");
+    EXPECT_EQ(stringToExpect, equationToVerify.getDisplayableString());
 }
 
 TEST(ThreeDimensionsUtilitiesTest, GetHyperbolicParaboloidEquationEquationWorks)

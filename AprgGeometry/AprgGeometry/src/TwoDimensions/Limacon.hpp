@@ -34,9 +34,11 @@ public:
 
     bool operator==(Limacon const& limacon) const;
     bool operator!=(Limacon const& limacon) const;
+
     double getAValue() const;
     double getBValue() const;
-    LimaconTrigonometricFunctionType getTrigonometricFunctionType() const;    LimaconType getLimaconType() const;
+    LimaconTrigonometricFunctionType getTrigonometricFunctionType() const;
+    LimaconType getLimaconType() const;
     Points getPointsForShape(Dimensionless::Angle const& angleInterval) const;
     double calculateRadiusFromTheta(Dimensionless::Angle const& theta) const;
     Dimensionless::Angle calculateThetaFromRadius(double const radius) const;

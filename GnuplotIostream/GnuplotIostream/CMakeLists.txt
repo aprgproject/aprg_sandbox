@@ -30,6 +30,7 @@ include(${APRG_DIR}/AprgAlgebra/AprgCmakeInclude/AprgAlgebra.cmake)
 
 #Include AprgGeometry, this needs APRG Directory
 include(${APRG_DIR}/AprgGeometry/AprgCmakeInclude/AprgGeometry.cmake)
+
 #Add files and directories
 include(${GNUPLOT_IOSTREAM_DIR}/cmake/FilesAndDirectories.cmake)
 
