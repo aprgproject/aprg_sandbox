@@ -37,8 +37,7 @@ private:
     double m_angleValueInDegrees;
 };
 
-using Angles = std::vector<AlbaAngle>;
+using AlbaAngles = std::vector<AlbaAngle>;
 
 std::ostream & operator<<(std::ostream & out, AlbaAngle const& angle);
-
 }
