@@ -9,10 +9,12 @@ using namespace alba::algebra::Functions;
 using namespace alba::mathHelper;
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 namespace algebra
 {
+
 namespace VectorUtilities
 {
 
@@ -55,9 +57,11 @@ TEST(MathVectorOfTermsUtilitiesTest, GetDirectionalDerivativeInThreeDimensionsWo
 
 TEST(MathVectorOfTermsUtilitiesTest, IsContinuousAtWorks)
 {
-    Term t("t");    Term x(cos(t));
+    Term t("t");
+    Term x(cos(t));
     Term y(createExpressionIfPossible({Term(2), Term("*"), getEAsTerm(), Term("^"), t}));
     MathVectorOfTwoTerms termVector{x, y};
+
     EXPECT_TRUE(isContinuousAt(termVector, "t", 0));
 }
 
@@ -80,10 +84,12 @@ TEST(MathVectorOfTermsUtilitiesTest, AreOriginalAndDerivativeVectorsOrthogonalWo
 
 TEST(MathVectorOfTermsUtilitiesTest, GetLengthOfArcDerivativeWorks)
 {
-    Term x(Monomial(1, {{"t", 3}}));    Term y(Monomial(2, {{"t", 2}}));
+    Term x(Monomial(1, {{"t", 3}}));
+    Term y(Monomial(2, {{"t", 2}}));
     MathVectorOfTwoTerms termVector{x, y};
 
     Term termToVerify(getLengthOfArcDerivative(termVector, "t"));
+
     string stringToExpect("((9[t^4] + 16[t^2])^(1/2))");
     EXPECT_EQ(stringToExpect, termToVerify.getDisplayableString());
 }

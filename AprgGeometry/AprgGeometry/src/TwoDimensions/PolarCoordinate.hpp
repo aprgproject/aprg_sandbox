@@ -4,6 +4,7 @@
 
 namespace alba
 {
+
 namespace TwoDimensions
 {
 
@@ -13,4 +14,5 @@ struct PolarCoordinate
     AlbaAngle angle;
 };
 
-}}
+}
+}

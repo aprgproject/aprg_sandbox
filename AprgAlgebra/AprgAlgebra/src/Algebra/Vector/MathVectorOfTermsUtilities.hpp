@@ -7,12 +7,14 @@
 #include <Algebra/Limit/Continuity.hpp>
 #include <Algebra/Limit/Limit.hpp>
 #include <Algebra/Simplification/SimplificationUtilities.hpp>
-#include <Algebra/Vector/MathVectorOfTerms.hpp>
+#include <Algebra/Vector/VectorTypes.hpp>
 #include <Math/Angle/AlbaAngle.hpp>
 
 #include <algorithm>
+
 namespace alba
 {
+
 namespace algebra
 {
 
@@ -28,10 +30,12 @@ Term getTangentPlaneOnAPoint(Term const& surface, MathVectorOfNumbers<3> const& 
 
 template <unsigned int SIZE>
 void simplifyForTermVector(
-        MathVectorOfTerms<SIZE> & termVector){
+        MathVectorOfTerms<SIZE> & termVector)
+{
     for(Term & term : termVector.getValuesReference())
     {
-        simplifyForTermInVector(term);    }
+        simplifyForTermInVector(term);
+    }
 }
 
 template <unsigned int SIZE> bool isContinuousAt(MathVectorOfTerms<SIZE> const& termVector, std::string const& variableName, AlbaNumber const& value);

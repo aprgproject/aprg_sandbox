@@ -5,10 +5,12 @@
 #include <Math/Angle/AlbaAngle.hpp>
 #include <Math/Vector/AlbaMathVector.hpp>
 
-namespace alba{
+namespace alba
+{
 
 template<>
 algebra::Term raiseToPowerForMathVectorDataType(algebra::Term const& value1, algebra::Term const& value2);
+
 }
 
 namespace alba
@@ -32,6 +34,7 @@ using MathVectorOfThreeAngles = MathVectorOfAngles<3>;
 template <unsigned int SIZE> using MathVectorOfTerms = AlbaMathVector<Term, SIZE>;
 using MathVectorOfTwoTerms = MathVectorOfTerms<2>;
 using MathVectorOfThreeTerms = MathVectorOfTerms<3>;
+
 }
 
 }

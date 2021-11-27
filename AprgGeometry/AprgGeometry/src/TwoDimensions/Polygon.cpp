@@ -5,8 +5,10 @@
 using namespace alba::mathHelper;
 using namespace alba::TwoDimensions::twoDimensionsHelper;
 using namespace std;
+
 namespace alba
 {
+
 namespace TwoDimensions
 {
 
@@ -39,10 +41,12 @@ bool Polygon<numberOfVertices>::isEquiangular() const
     return adjacent_find(anglesAtVertices.cbegin(), anglesAtVertices.cend(), [](AlbaAngle const& angle1, AlbaAngle const& angle2)
     {
         return !isAlmostEqual(angle1.getDegrees(), angle2.getDegrees());
-    }) == anglesAtVertices.cend();}
+    }) == anglesAtVertices.cend();
+}
 
 template<unsigned int numberOfVertices>
-bool Polygon<numberOfVertices>::isRegular() const{
+bool Polygon<numberOfVertices>::isRegular() const
+{
     return isEquilateral() && isEquiangular();
 }
 
@@ -84,10 +88,12 @@ AlbaAngles Polygon<numberOfVertices>::getAnglesAtVertices() const
     AlbaAngles anglesAtVertices;
     int sizeMinusOne = static_cast<int>(m_vertices.size())-1;
     anglesAtVertices.emplace_back(getTheInnerAngleUsingThreePoints(m_vertices[0], m_vertices[sizeMinusOne], m_vertices[1]));
-    for(int i=1; i<sizeMinusOne; i++)    {
+    for(int i=1; i<sizeMinusOne; i++)
+    {
         anglesAtVertices.emplace_back(getTheInnerAngleUsingThreePoints(m_vertices[i], m_vertices[i-1], m_vertices[i+1]));
     }
-    anglesAtVertices.emplace_back(getTheInnerAngleUsingThreePoints(m_vertices[sizeMinusOne], m_vertices[sizeMinusOne-1], m_vertices[0]));    return anglesAtVertices; //RVO
+    anglesAtVertices.emplace_back(getTheInnerAngleUsingThreePoints(m_vertices[sizeMinusOne], m_vertices[sizeMinusOne-1], m_vertices[0]));
+    return anglesAtVertices; //RVO
 }
 
 template<unsigned int numberOfVertices>
@@ -96,10 +102,12 @@ AlbaAngle Polygon<numberOfVertices>::getSumOfAngles() const
     return AlbaAngle(AngleUnitType::Degrees, (numberOfVertices - 2) * 180);
 }
 
-template<unsigned int numberOfVertices>Points Polygon<numberOfVertices>::getPoints(double const interval) const
+template<unsigned int numberOfVertices>
+Points Polygon<numberOfVertices>::getPoints(double const interval) const
 {
     Points points;
-    int sizeMinusOne = static_cast<int>(m_vertices.size())-1;    for(int i=0; i<sizeMinusOne; i++)
+    int sizeMinusOne = static_cast<int>(m_vertices.size())-1;
+    for(int i=0; i<sizeMinusOne; i++)
     {
         getPointsFromVerticesWithoutLastPoint(points, interval, i, i+1);
     }

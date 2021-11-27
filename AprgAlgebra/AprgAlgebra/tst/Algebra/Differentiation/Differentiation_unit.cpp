@@ -459,7 +459,8 @@ TEST(DifferentiationTest, DifferentiateTwoMultipliedTermsWorks)
     EXPECT_EQ(stringToExpect, termToVerify.getDisplayableString());
 }
 
-TEST(DifferentiationTest, DifferentiateTwoDividedTermsWorks){
+TEST(DifferentiationTest, DifferentiateTwoDividedTermsWorks)
+{
     Differentiation differentiationForX("x");
     Term numerator(Polynomial{Monomial(2, {{"x", 3}}), Monomial(4, {})});
     Term denominator(Polynomial{Monomial(1, {{"x", 2}}), Monomial(-4, {{"x", 1}}), Monomial(1, {})});
@@ -470,10 +471,12 @@ TEST(DifferentiationTest, DifferentiateTwoDividedTermsWorks){
     EXPECT_EQ(stringToExpect, termToVerify.getDisplayableString());
 }
 
-TEST(DifferentiationTest, DifferentiateWorksWithTermRaiseToTerm){
+TEST(DifferentiationTest, DifferentiateWorksWithTermRaiseToTerm)
+{
     Differentiation differentiationForX("x");
     Term n("n");
-    Term x("x");    Term termToTest1(createExpressionIfPossible({n, Term("^"), n}));
+    Term x("x");
+    Term termToTest1(createExpressionIfPossible({n, Term("^"), n}));
     Term termToTest2(createExpressionIfPossible({n, Term("^"), x}));
     Term termToTest3(createExpressionIfPossible({x, Term("^"), n}));
     Term termToTest4(createExpressionIfPossible({x, Term("^"), x}));

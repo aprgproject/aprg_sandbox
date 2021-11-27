@@ -1,6 +1,7 @@
 #include <Math/Ratio/AlbaRatio.hpp>
 
 #include <gtest/gtest.h>
+
 namespace alba
 {
 

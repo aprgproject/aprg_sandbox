@@ -4,8 +4,10 @@
 #include <TwoDimensions/Point.hpp>
 
 #include <functional>
+
 namespace alba
 {
+
 namespace TwoDimensions
 {
 
@@ -48,9 +50,11 @@ private:
     AlbaAngle performInverseTrigonometricFunction(double const ratio) const;
     double m_aValue;
     double m_bValue;
-    LimaconTrigonometricFunctionType m_trigonometricFunctionType;};
+    LimaconTrigonometricFunctionType m_trigonometricFunctionType;
+};
 
 using Limacons = std::vector<Limacon>;
+
 std::ostream & operator<<(std::ostream & out, Limacon const& limacon);
 
 }

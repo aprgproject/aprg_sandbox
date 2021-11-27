@@ -5,10 +5,12 @@
 using namespace alba::mathHelper;
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 namespace TwoDimensions
 {
+
 Triangle::Triangle()
     : TrianglePolygonParent()
 {}
@@ -32,10 +34,12 @@ bool Triangle::isRightTriangle() const
     return any_of(anglesAtVertices.cbegin(), anglesAtVertices.cend(), [](AlbaAngle const& angleAtVertex)
     {
         return isAlmostEqual(angleAtVertex.getDegrees(), static_cast<double>(90));
-    });}
+    });
+}
 
 string Triangle::getDisplayableString() const
-{    std::stringstream ss;
+{
+    std::stringstream ss;
     ss << "[" << m_vertices[0] << "][" << m_vertices[1] << "][" << m_vertices[2] << "]";
     return ss.str();
 }

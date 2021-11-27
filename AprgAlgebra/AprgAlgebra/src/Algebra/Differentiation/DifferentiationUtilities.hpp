@@ -8,8 +8,10 @@
 #include <String/AlbaStringHelper.hpp>
 
 #include <string>
+
 namespace alba
 {
+
 namespace algebra
 {
 
@@ -103,9 +105,11 @@ Term getPartialDerivative(
 SolutionSet getDifferentiabilityDomain(
         Term const& term,
         std::string const& variableName);
+
 Equation getRelationshipOfDerivativeOfTheInverseAndTheDerivative(
         Term const& term,
-        std::string const& variableName,        std::string const& variableForNonInverse,
+        std::string const& variableName,
+        std::string const& variableForNonInverse,
         std::string const& variableForInverse);
 
 Equation getIntegralEquationForFirstOrderDifferentialEquation(

@@ -1,6 +1,6 @@
 #include <Algebra/Functions/CommonFunctionLibrary.hpp>
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
-#include <Algebra/Vector/MathVectorOfTerms.hpp>
+#include <Algebra/Vector/VectorTypes.hpp>
 
 #include <gtest/gtest.h>
 
@@ -13,7 +13,7 @@ namespace alba
 namespace algebra
 {
 
-TEST(MathVectorOfTermsTest, GettingMagnitudeWorks)
+TEST(VectorTypesTest, GettingMagnitudeWorks)
 {
     Term t("t");
     Term x(createExpressionIfPossible({Term(2), Term("*"), Term(cos(t))}));

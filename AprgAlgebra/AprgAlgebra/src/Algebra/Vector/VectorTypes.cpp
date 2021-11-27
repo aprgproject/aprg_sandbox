@@ -1,4 +1,4 @@
-#include "MathVectorOfTerms.hpp"
+#include "VectorTypes.hpp"
 
 using namespace alba::algebra;
 

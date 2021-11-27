@@ -29,10 +29,12 @@ public:
 
     Term performSubstitutionTo(Variable const& variable) const;
     Term performSubstitutionTo(Monomial const& monomial) const;
-    Term performSubstitutionTo(Polynomial const& polynomial) const;    Term performSubstitutionTo(Expression const& expression) const;
+    Term performSubstitutionTo(Polynomial const& polynomial) const;
+    Term performSubstitutionTo(Expression const& expression) const;
     Term performSubstitutionTo(Function const& functionObject) const;
     Term performSubstitutionTo(Term const& term) const;
     Equation performSubstitutionTo(Equation const& equation) const;
+
     Expression performSubstitutionForMonomial(Monomial const& monomial) const;
     Expression performSubstitutionForPolynomial(Polynomial const& polynomial) const;
     Expression performSubstitutionForExpression(Expression const& expression) const;
@@ -48,6 +50,7 @@ private:
 };
 
 using SubstitutionsOfVariablesToTerms=std::vector<SubstitutionOfVariablesToTerms>;
+
 }
 
 }

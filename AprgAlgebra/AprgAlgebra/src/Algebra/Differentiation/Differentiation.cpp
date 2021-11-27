@@ -243,10 +243,12 @@ Term Differentiation::differentiateTwoMultipliedTerms(
     return Term(createExpressionIfPossible({firstPart, Term("+"), secondPart}));
 }
 
-Term Differentiation::differentiateTwoDividedTerms(        Term const& numerator,
+Term Differentiation::differentiateTwoDividedTerms(
+        Term const& numerator,
         Term const& denominator) const
 {
-    Term numeratorDerivative(differentiate(numerator));    Term denominatorDerivative(differentiate(denominator));
+    Term numeratorDerivative(differentiate(numerator));
+    Term denominatorDerivative(differentiate(denominator));
     Expression resultNumeratorPart1(createExpressionIfPossible({denominator, Term("*"), numeratorDerivative}));
     Expression resultNumeratorPart2(createExpressionIfPossible({numerator, Term("*"), denominatorDerivative}));
     Expression resultNumerator(createExpressionIfPossible({resultNumeratorPart1, Term("-"), resultNumeratorPart2}));
@@ -254,10 +256,12 @@ Term Differentiation::differentiateTwoDividedTerms(        Term const& numerator
     return Term(createExpressionIfPossible({resultNumerator, Term("/"), resultDenominator}));
 }
 
-void Differentiation::separateNonChangingAndChangingVariables(        Monomial & nonChangingVariablesAndConstant,
+void Differentiation::separateNonChangingAndChangingVariables(
+        Monomial & nonChangingVariablesAndConstant,
         Monomial & changingVariables,
         Monomial const& monomial) const
-{    nonChangingVariablesAndConstant = Monomial(monomial.getConstantConstReference(), {});
+{
+    nonChangingVariablesAndConstant = Monomial(monomial.getConstantConstReference(), {});
     changingVariables = Monomial(1, {});
     for(auto const& variableExponentPair :
         monomial.getVariablesToExponentsMapConstReference())
@@ -586,10 +590,12 @@ Term Differentiation::differentiateFunctionOnly(
 
 bool Differentiation::isVariableToDifferentiate(
         string const& variableName) const
-{    return variableName == m_nameOfVariableToDifferentiate;
+{
+    return variableName == m_nameOfVariableToDifferentiate;
 }
 
-bool Differentiation::isDependentVariable(        string const& variableName) const
+bool Differentiation::isDependentVariable(
+        string const& variableName) const
 {
     return m_namesOfDependentVariables.find(variableName) != m_namesOfDependentVariables.cend();
 }

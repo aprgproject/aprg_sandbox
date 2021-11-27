@@ -4,10 +4,12 @@
 
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 namespace TwoDimensions
 {
+
 TEST(LimaconTest, ConstructionWorks)
 {
     Limacon(1, 1, LimaconTrigonometricFunctionType::Sine);
@@ -70,9 +72,11 @@ TEST(LimaconTest, GetPointsForShapeWorks)
     Points points(limacon.getPointsForShape(AlbaAngle(AngleUnitType::Degrees, 90)));
     ASSERT_EQ(4U, points.size());
     EXPECT_EQ(Point(23,0), points.at(0));
-    EXPECT_EQ(Point(0,10), points.at(1));    EXPECT_EQ(Point(3,0), points.at(2));
+    EXPECT_EQ(Point(0,10), points.at(1));
+    EXPECT_EQ(Point(3,0), points.at(2));
     EXPECT_EQ(Point(0,-10), points.at(3));
 }
+
 TEST(LimaconTest, CalculateRadiusFromThetaWorks)
 {
     Limacon limacon(10, 13, LimaconTrigonometricFunctionType::Cosine);
@@ -83,10 +87,12 @@ TEST(LimaconTest, CalculateRadiusFromThetaWorks)
     EXPECT_DOUBLE_EQ(23, limacon.calculateRadiusFromTheta(AlbaAngle(AngleUnitType::Degrees, 360)));
 }
 
-TEST(LimaconTest, CalculateThetaFromRadiusWorks){
+TEST(LimaconTest, CalculateThetaFromRadiusWorks)
+{
     Limacon limacon(10, 13, LimaconTrigonometricFunctionType::Cosine);
 
-    EXPECT_DOUBLE_EQ(90, limacon.calculateThetaFromRadius(10).getDegrees());    EXPECT_DOUBLE_EQ(57.421029607195877, limacon.calculateThetaFromRadius(17).getDegrees());
+    EXPECT_DOUBLE_EQ(90, limacon.calculateThetaFromRadius(10).getDegrees());
+    EXPECT_DOUBLE_EQ(57.421029607195877, limacon.calculateThetaFromRadius(17).getDegrees());
     EXPECT_DOUBLE_EQ(0, limacon.calculateThetaFromRadius(23).getDegrees());
 }
 
