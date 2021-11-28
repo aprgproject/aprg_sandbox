@@ -387,10 +387,12 @@ TEST(ValueCheckingHelpersTest, IsAFiniteConstantWorks)
     EXPECT_FALSE(isARealFiniteConstant(Term(NAN)));
 }
 
-TEST(ValueCheckingHelpersTest, HasNotANumberWorksForTerm){
+TEST(ValueCheckingHelpersTest, HasNotANumberWorksForTerm)
+{
     EXPECT_TRUE(hasNotANumber(Term(NAN)));
     EXPECT_FALSE(hasNotANumber(Term("x")));
-    EXPECT_TRUE(hasNotANumber(Term(Monomial(NAN, {}))));    EXPECT_TRUE(hasNotANumber(Term(Polynomial{Monomial(NAN, {})})));
+    EXPECT_TRUE(hasNotANumber(Term(Monomial(NAN, {}))));
+    EXPECT_TRUE(hasNotANumber(Term(Polynomial{Monomial(NAN, {})})));
     EXPECT_TRUE(hasNotANumber(Term(createExpressionIfPossible({Term(NAN)}))));
     EXPECT_TRUE(hasNotANumber(Term(createExpressionIfPossible({Term(5.12), Term("+"), Term(NAN)}))));
 }

@@ -268,10 +268,12 @@ Term getApproximationUsingTaylorsFormula(
 Term getApproximationOfErrorUsingTaylorsRemainder(
         Term const& term,
         string const& variableName,
-        Term const& startingValue,        Term const& valueToApproach,
+        Term const& startingValue,
+        Term const& valueToApproach,
         Term const& valueForEstimation,
         unsigned int const numberOfTimes)
-{    // taylors formula:
+{
+    // taylors formula:
     // R(x) = f(n+1)(E) * (x-a)^(n+1) / (n+1)!
     // E or valueForEstimation should be between startingValue and valueToApproach
     Differentiation differentiation(variableName);
@@ -313,10 +315,12 @@ Term getTotalDerivative(
         result += getPartialDerivative(term, variableName)*Term(derivativeOfVariable.getNameInLeibnizNotation());
     }
     simplifyForDifferentiation(result);
-    return result;}
+    return result;
+}
 
 Term getPartialDerivative(
-        Term const& term,        string const& variableName)
+        Term const& term,
+        string const& variableName)
 {
     Differentiation differentiation(variableName);
     return differentiation.differentiate(term);

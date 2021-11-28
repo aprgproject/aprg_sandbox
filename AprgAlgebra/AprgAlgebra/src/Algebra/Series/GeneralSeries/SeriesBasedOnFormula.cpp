@@ -33,10 +33,12 @@ bool SeriesBasedOnFormula::isConvergent() const
     return isARealFiniteConstant(getValueAtInfinity());
 }
 
-bool SeriesBasedOnFormula::isIncreasing() const{
+bool SeriesBasedOnFormula::isIncreasing() const
+{
     Term sign(getSignDerivativeForFiniteCalculus());
     return isTheValue(sign, 1);
 }
+
 bool SeriesBasedOnFormula::isDecreasing() const
 {
     Term sign(getSignDerivativeForFiniteCalculus());
@@ -158,10 +160,12 @@ AlbaNumbers SeriesBasedOnFormula::getBoundValues() const
     if(isARealFiniteConstant(valueTermAtInfinity))
     {
         boundValues.emplace_back(valueTermAtInfinity.getConstantValueConstReference());
-    }    return boundValues;
+    }
+    return boundValues;
 }
 
-AlbaNumbers SeriesBasedOnFormula::getExtremaIndexes() const{
+AlbaNumbers SeriesBasedOnFormula::getExtremaIndexes() const
+{
     DifferentiationForFiniteCalculus differentiation(m_nameForVariableInFormula);
     Term firstDerivative(differentiation.differentiate(m_formulaForSeries));
     OneEquationOneVariableEqualitySolver solver;

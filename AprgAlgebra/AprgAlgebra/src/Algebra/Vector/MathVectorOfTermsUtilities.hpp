@@ -31,10 +31,12 @@ Equation getTangentPlaneOnAPointOfASurface(Equation const& surface, ArrayOfThree
 Equations getPerpendicularLineOnAPointOfASurface(Equation const& surface, ArrayOfThreeStrings const& coordinateVariables, MathVectorOfThreeNumbers const& point);
 
 template <unsigned int SIZE>
-void simplifyForTermVector(        MathVectorOfTerms<SIZE> & termVector)
+void simplifyForTermVector(
+        MathVectorOfTerms<SIZE> & termVector)
 {
     for(Term & term : termVector.getValuesReference())
-    {        simplifyForTermInVector(term);
+    {
+        simplifyForTermInVector(term);
     }
 }
 
@@ -158,9 +160,11 @@ MathVectorOfTerms<SIZE> differentiate(
     Values const& values(termVector.getValues());
     std::transform(values.cbegin(), values.cend(), result.getValuesReference().begin(), [&](Term const& term)
     {
-        return differentiation.differentiate(term);    });
+        return differentiation.differentiate(term);
+    });
     return result;
 }
+
 template <unsigned int SIZE>
 MathVectorOfTerms<SIZE> differentiateMultipleTimes(
         MathVectorOfTerms<SIZE> const& termVector,
@@ -173,9 +177,11 @@ MathVectorOfTerms<SIZE> differentiateMultipleTimes(
     Values const& values(termVector.getValues());
     std::transform(values.cbegin(), values.cend(), result.getValuesReference().begin(), [&](Term const& term)
     {
-        return differentiation.differentiateMultipleTimes(term, numberOfTimes);    });
+        return differentiation.differentiateMultipleTimes(term, numberOfTimes);
+    });
     return result;
 }
+
 template <unsigned int SIZE>
 MathVectorOfTerms<SIZE> integrate(
         MathVectorOfTerms<SIZE> const& termVector,
@@ -187,9 +193,11 @@ MathVectorOfTerms<SIZE> integrate(
     Values const& values(termVector.getValues());
     std::transform(values.cbegin(), values.cend(), result.getValuesReference().begin(), [&](Term const& term)
     {
-        return integration.integrate(term);    });
+        return integration.integrate(term);
+    });
     return result;
 }
+
 template <unsigned int SIZE>
 MathVectorOfTerms<SIZE> getUnitTangentVector(
         MathVectorOfTerms<SIZE> const& termVector,

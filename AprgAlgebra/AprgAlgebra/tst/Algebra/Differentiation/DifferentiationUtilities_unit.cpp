@@ -238,10 +238,12 @@ TEST(DifferentiationUtilitiesTest, GetApproximationUsingTaylorsRemainderWorks)
     Term termToVerify(getApproximationOfErrorUsingTaylorsRemainder(termToTest, "x", Term(0), Term(AlbaNumber::createFraction(1, 2)), Term(0), 5));
 
     EXPECT_EQ(Term(AlbaNumber::createFraction(1, 46080)), termToVerify);
-    // this means the when n=5 the square root of e is accurate up to 4 decimal places.}
+    // this means the when n=5 the square root of e is accurate up to 4 decimal places.
+}
 
 TEST(DifferentiationUtilitiesTest, GetTotalDerivativeWithInnerTermsUsingChainRuleWorks)
-{    Term t("t");
+{
+    Term t("t");
     Term termToTest(Polynomial{Monomial(1, {{"x", 2}}), Monomial(2, {{"x", 1}, {"y", 1}}), Monomial(1, {{"y", 2}})});
     Term x(createExpressionIfPossible({t, Term("*"), Term(cos(t))}));
     Term y(createExpressionIfPossible({t, Term("*"), Term(sin(t))}));
@@ -264,9 +266,11 @@ TEST(DifferentiationUtilitiesTest, GetTotalDerivativeWorks)
     string stringToExpect1("(3[d[x]][x^2] + -15[d[y]][y^2] + 3[d[x]][y] + 3[d[y]][x])");
     EXPECT_EQ(stringToExpect1, termToVerify.getDisplayableString());
 }
+
 TEST(DifferentiationUtilitiesTest, GetPartialDerivativeWorks)
 {
     Term termToTest(Polynomial{Monomial(1, {{"x", 3}}), Monomial(3, {{"x", 1}, {"y", 1}}), Monomial(-5, {{"y", 3}})});
+
     Term termToVerify1(getPartialDerivative(termToTest, "x"));
     Term termToVerify2(getPartialDerivative(termToTest, "y"));
 

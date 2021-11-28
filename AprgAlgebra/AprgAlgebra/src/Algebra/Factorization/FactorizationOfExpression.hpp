@@ -14,6 +14,7 @@ namespace Factorization
 {
 
 Terms factorizeAnExpression(Expression const& expression);
+Terms factorizeAnExpressionWithConfigurationChanged(Expression const& expression);
 
 TermsRaiseToNumbers factorizeToTermsRaiseToNumbers(Expression const& expression);
 TermsRaiseToNumbers factorizeToTermsRaiseToNumbersForAdditionAndSubtraction(Expression const& expression);

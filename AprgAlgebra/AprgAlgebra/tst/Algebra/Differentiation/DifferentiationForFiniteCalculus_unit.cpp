@@ -197,10 +197,12 @@ TEST(DifferentiationForFiniteCalculusTest, DifferentiateMultipleTimesWorksForEqu
     string stringToExpect3("(75[x^4] + 300[x^3] + 507[x^2] + 414[x] + 134) = 0");
     EXPECT_EQ(stringToExpect1, equationToVerify1.getDisplayableString());
     EXPECT_EQ(stringToExpect2, equationToVerify2.getDisplayableString());
-    EXPECT_EQ(stringToExpect3, equationToVerify3.getDisplayableString());}
+    EXPECT_EQ(stringToExpect3, equationToVerify3.getDisplayableString());
+}
 
 TEST(DifferentiationForFiniteCalculusTest, DifferentiateTermWorks)
-{    DifferentiationForFiniteCalculus differentiationForX("x");
+{
+    DifferentiationForFiniteCalculus differentiationForX("x");
     Term x("x");
     Term xPlusOne(Polynomial{Monomial(1, {{"x", 1}}), Monomial(1, {})});
     Term polynomialTerm(Polynomial{Monomial(-2, {{"x", 2}}), Monomial(8, {{"x", 1}}), Monomial(5, {})});

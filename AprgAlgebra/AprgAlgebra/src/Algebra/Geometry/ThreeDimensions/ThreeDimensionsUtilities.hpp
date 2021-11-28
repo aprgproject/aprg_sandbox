@@ -22,6 +22,7 @@ Equation getPlaneEquationWithPointCoordinates();
 Equation getSphereEquation();
 
 }
+
 }
 
 }

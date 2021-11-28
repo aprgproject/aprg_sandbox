@@ -6,8 +6,10 @@
 #include <Math/Vector/AlbaMathVectorUtilities.hpp>
 
 using namespace std;
+
 namespace alba
 {
+
 namespace algebra
 {
 
@@ -28,7 +30,8 @@ Term getDyOverDx(
     MathVectorOfTwoTerms derivative(differentiate(termVector, variableName));
     Term result(derivative.getValueAt(1)/derivative.getValueAt(0));
     result.simplify();
-    return result;}
+    return result;
+}
 
 Term getDirectionalDerivativeInTwoDimensions(
         Term const& term,
@@ -38,7 +41,8 @@ Term getDirectionalDerivativeInTwoDimensions(
     MathVectorOfTwoTerms gradient(getGradient(term, coordinateVariables));
     MathVectorOfTwoTerms unitDirection(
     {Term(::cos(angleOfDirection.getRadians())), Term(::sin(angleOfDirection.getRadians()))});
-    Term result(getDotProduct(gradient, unitDirection));    simplifyForTermInVector(result);
+    Term result(getDotProduct(gradient, unitDirection));
+    simplifyForTermInVector(result);
     return result;
 }
 
@@ -50,7 +54,8 @@ Term getDirectionalDerivativeInThreeDimensions(
     MathVectorOfThreeTerms gradient(getGradient(term, coordinateVariables));
     MathVectorOfThreeTerms unitDirection(
     {Term(::cos(coordinateAngles.getValueAt(0).getRadians())),
-     Term(::cos(coordinateAngles.getValueAt(1).getRadians())),     Term(::cos(coordinateAngles.getValueAt(2).getRadians()))});
+     Term(::cos(coordinateAngles.getValueAt(1).getRadians())),
+     Term(::cos(coordinateAngles.getValueAt(2).getRadians()))});
     Term result(getDotProduct(gradient, unitDirection));
     simplifyForTermInVector(result);
     return result;

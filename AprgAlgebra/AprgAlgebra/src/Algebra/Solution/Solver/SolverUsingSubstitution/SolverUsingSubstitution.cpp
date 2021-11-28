@@ -75,10 +75,12 @@ bool SolverUsingSubstitution::isSolutionCorrect(
                 && isARealFiniteConstant(potentialSolvedEquation.getRightHandTerm())
                 && potentialSolvedEquation.isEquationSatisfied();
         if(!result)
-        {            break;
+        {
+            break;
         }
     }
-    return result;}
+    return result;
+}
 
 SubstitutionOfVariablesToValues SolverUsingSubstitution::getSubstitutionFromSolutionSet(
         MultipleVariableSolutionSet const& solutionSet) const

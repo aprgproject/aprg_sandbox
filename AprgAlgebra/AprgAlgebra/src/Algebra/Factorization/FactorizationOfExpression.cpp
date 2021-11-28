@@ -26,6 +26,18 @@ Terms factorizeAnExpression(Expression const& expression)
     return termsRaiseToNumbers.getTermsInMultiplicationOperation();
 }
 
+Terms factorizeAnExpressionWithConfigurationChanged(
+       Expression const& expression)
+{
+    ConfigurationDetails configurationDetails(
+                Factorization::Configuration::getInstance().getConfigurationDetails());
+    configurationDetails.shouldSimplifyExpressionsToFactors = true;
+    ScopeObject scopeObject;
+    scopeObject.setInThisScopeThisConfiguration(configurationDetails);
+
+    return factorizeAnExpression(expression);
+}
+
 TermsRaiseToNumbers factorizeToTermsRaiseToNumbers(Expression const& expression)
 {
     TermsRaiseToNumbers result;
