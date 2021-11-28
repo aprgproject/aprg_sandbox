@@ -18,10 +18,10 @@ Equation getEllipticParaboloidEquation();
 Equation getHyperbolicParaboloidEquation();
 Equations getLineEquations();
 Equation getPlaneEquation();
+Equation getPlaneEquationWithPointCoordinates();
 Equation getSphereEquation();
 
 }
-
 }
 
 }

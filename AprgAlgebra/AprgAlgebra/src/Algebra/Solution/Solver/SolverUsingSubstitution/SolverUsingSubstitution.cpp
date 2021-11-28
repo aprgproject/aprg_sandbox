@@ -71,16 +71,14 @@ bool SolverUsingSubstitution::isSolutionCorrect(
     for(Equation const& equation : equations)
     {
         Equation potentialSolvedEquation(substitution.performSubstitutionTo(equation));
-        result = result && isAFiniteConstant(potentialSolvedEquation.getLeftHandTerm())
-                && isAFiniteConstant(potentialSolvedEquation.getRightHandTerm())
+        result = result && isARealFiniteConstant(potentialSolvedEquation.getLeftHandTerm())
+                && isARealFiniteConstant(potentialSolvedEquation.getRightHandTerm())
                 && potentialSolvedEquation.isEquationSatisfied();
         if(!result)
-        {
-            break;
+        {            break;
         }
     }
-    return result;
-}
+    return result;}
 
 SubstitutionOfVariablesToValues SolverUsingSubstitution::getSubstitutionFromSolutionSet(
         MultipleVariableSolutionSet const& solutionSet) const

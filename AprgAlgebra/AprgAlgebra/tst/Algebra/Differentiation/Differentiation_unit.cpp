@@ -182,16 +182,14 @@ TEST(DifferentiationTest, DifferentiateMultipleTimesWorksForEquation)
     Equation equationToVerify3(differentiationForX.differentiateMultipleTimes(equationToTest, 2));
 
     Equation equationToExpect1(Term(Monomial(3, {{"x", 4}})), "=", Term(Monomial(5, {{"x", 6}})));
-    Equation equationToExpect2(Term(Polynomial{Monomial(30, {{"x", 5}}), Monomial(-12, {{"x", 3}})}), "=", Term(0));
-    Equation equationToExpect3(Term(Polynomial{Monomial(150, {{"x", 4}}), Monomial(-36, {{"x", 2}})}), "=", Term(0));
+    Equation equationToExpect2(Term(Polynomial{Monomial(5, {{"x", 5}}), Monomial(-2, {{"x", 3}})}), "=", Term(0));
+    Equation equationToExpect3(Term(Polynomial{Monomial(25, {{"x", 4}}), Monomial(-6, {{"x", 2}})}), "=", Term(0));
     EXPECT_EQ(equationToExpect1, equationToVerify1);
     EXPECT_EQ(equationToExpect2, equationToVerify2);
-    EXPECT_EQ(equationToExpect3, equationToVerify3);
-}
+    EXPECT_EQ(equationToExpect3, equationToVerify3);}
 
 TEST(DifferentiationTest, DifferentiateConstantWorks)
-{
-    Differentiation differentiationForX("x");
+{    Differentiation differentiationForX("x");
 
     EXPECT_EQ(AlbaNumber(0), differentiationForX.differentiateConstant(Constant(5)));
 }

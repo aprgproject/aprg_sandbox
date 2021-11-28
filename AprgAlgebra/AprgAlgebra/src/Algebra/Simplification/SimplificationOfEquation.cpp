@@ -3,23 +3,27 @@
 #include <Algebra/Constructs/ConstructUtilities.hpp>
 #include <Algebra/Constructs/TermRaiseToTerms.hpp>
 #include <Algebra/Equation/EquationUtilities.hpp>
+#include <Algebra/Factorization/FactorizationOfExpression.hpp>
+#include <Algebra/Factorization/FactorizationOfPolynomial.hpp>
 #include <Algebra/Functions/FunctionUtilities.hpp>
 #include <Algebra/Simplification/SimplificationUtilities.hpp>
-#include <Algebra/Term/Operators/TermOperators.hpp>
-#include <Algebra/Term/Utilities/BaseTermHelpers.hpp>
+#include <Algebra/Term/Operators/TermOperators.hpp>#include <Algebra/Term/Utilities/BaseTermHelpers.hpp>
 #include <Algebra/Term/Utilities/ConvertHelpers.hpp>
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
+#include <Algebra/Term/Utilities/PolynomialHelpers.hpp>
 #include <Algebra/Term/Utilities/TermUtilities.hpp>
 #include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>
 #include <Math/AlbaMathHelper.hpp>
 
+
+#include <Debug/AlbaDebug.hpp>
+
+using namespace alba::algebra::Factorization;
 using namespace alba::algebra::Functions;
 using namespace alba::mathHelper;
 using namespace std;
-
 namespace alba
 {
-
 namespace algebra
 {
 
@@ -47,12 +51,11 @@ void SimplificationOfEquation::simplify()
 
     removeExponentIfNeeded(newLeftHandSide);
     completeExpressionWithFractionalExponentsIfNeeded(newLeftHandSide);
+    removeCommonConstant(newLeftHandSide);
     simplifyLeftHandSide(newLeftHandSide);
     negateTermIfNeeded(newLeftHandSide, equationOperatorString);
-
     m_equation = Equation(newLeftHandSide, equationOperatorString, Term(0));
 }
-
 void SimplificationOfEquation::simplifyLeftHandSideAndRightHandSide(
         Term & leftHandSide,
         Term & rightHandSide)
@@ -155,14 +158,86 @@ void SimplificationOfEquation::completeExpressionWithFractionalExponentsIfNeeded
     }
 }
 
-void SimplificationOfEquation::simplifyLeftHandSide(
-        Term & term)
+void SimplificationOfEquation::removeCommonConstant(
+        Term & leftHandSide)
 {
-    simplifyTermToACommonDenominator(term);
+    if(!isTheValue(leftHandSide, 0) && !isPositiveOrNegativeInfinity(leftHandSide))
+    {
+        if(canBeConvertedToMonomial(leftHandSide))
+        {
+            Monomial monomial(createMonomialIfPossible(leftHandSide));
+            monomial.setConstant(getSignForAlbaNumber(monomial.getConstantConstReference()));
+            leftHandSide = simplifyAndConvertMonomialToSimplestTerm(monomial);
+        }
+        else if(leftHandSide.isPolynomial())
+        {
+            bool isLeftHandSideChanged(false);
+            Polynomials factors(factorizeCommonMonomial(leftHandSide.getPolynomialConstReference()));
+            for(Polynomial & factor : factors)
+            {
+                Monomials & monomials(factor.getMonomialsReference());
+                if(monomials.size() == 1)
+                {
+                    Monomial & onlyMonomial(monomials.at(0));
+                    onlyMonomial.setConstant(getSignForAlbaNumber(onlyMonomial.getConstantConstReference()));
+                    isLeftHandSideChanged=true;
+                }
+            }
+            if(isLeftHandSideChanged)
+            {
+                Polynomial combinedPolynomial(createPolynomialFromConstant(1));
+                for(Polynomial const& factor : factors)
+                {
+                    combinedPolynomial.multiplyPolynomial(factor);
+                }
+                leftHandSide = Term(combinedPolynomial);
+            }
+        }
+        else if(leftHandSide.isExpression())
+        {
+            bool isLeftHandSideChanged(false);
+            Terms factors(factorizeExpressionForRemovingConstant(leftHandSide.getExpressionConstReference()));
+            for(Term & factor : factors)
+            {
+                if(canBeConvertedToMonomial(factor))
+                {
+                    Monomial monomialFactor(createMonomialIfPossible(factor));
+                    monomialFactor.setConstant(getSignForAlbaNumber(monomialFactor.getConstantConstReference()));
+                    factor = simplifyAndConvertMonomialToSimplestTerm(monomialFactor);
+                    isLeftHandSideChanged=true;
+                }
+            }
+            if(isLeftHandSideChanged)
+            {
+                Term combinedTerm(1);
+                for(Term & factor : factors)
+                {
+                    combinedTerm *= factor;
+                }
+                leftHandSide = combinedTerm;
+            }
+        }
+    }
 }
 
-bool SimplificationOfEquation::areTheSignsOfTwoTermsDifferent(
-        TermWithDetails const& firstTerm,
+Terms SimplificationOfEquation::factorizeExpressionForRemovingConstant(
+       Expression const& expression)
+{
+    ConfigurationDetails configurationDetails(
+                Factorization::Configuration::getInstance().getConfigurationDetails());
+    configurationDetails.shouldSimplifyExpressionsToFactors = true;
+    ScopeObject scopeObject;
+    scopeObject.setInThisScopeThisConfiguration(configurationDetails);
+
+    return factorizeAnExpression(expression);
+}
+
+void SimplificationOfEquation::simplifyLeftHandSide(
+        Term & term)
+{    simplifyTermToACommonDenominator(term);
+}
+
+bool SimplificationOfEquation::areTheSignsOfTwoTermsDifferent(        TermWithDetails const& firstTerm,
         TermWithDetails const& secondTerm)
 {
     return firstTerm.hasNegativeAssociation() ^ secondTerm.hasNegativeAssociation();

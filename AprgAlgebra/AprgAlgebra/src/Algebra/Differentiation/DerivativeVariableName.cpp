@@ -59,19 +59,25 @@ string DerivativeVariableName::getNameInLeibnizNotation() const
     stringstream ss;
     if(m_differentiationLevel == 1)
     {
-        ss << "d[" << m_dependentVariable << "]/d[" << m_baseVariable << "]";
+        ss << "d[" << m_dependentVariable << "]";
+        if(!m_baseVariable.empty())
+        {
+            ss <<"/d[" << m_baseVariable << "]";
+        }
     }
     else
     {
-        ss << "d" << m_differentiationLevel << "[" << m_dependentVariable << "]/d[" << m_baseVariable << "]" << m_differentiationLevel;
+        ss << "d" << m_differentiationLevel << "[" << m_dependentVariable << "]";
+        if(!m_baseVariable.empty())
+        {
+            ss <<"/d[" << m_baseVariable << "]" << m_differentiationLevel;
+        }
     }
     return ss.str();
 }
-
 void DerivativeVariableName::differentiate()
 {
-    m_differentiationLevel++;
-}
+    m_differentiationLevel++;}
 
 void DerivativeVariableName::processNumerator(
         string const& numerator)

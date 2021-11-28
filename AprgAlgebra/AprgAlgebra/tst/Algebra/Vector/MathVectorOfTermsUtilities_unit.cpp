@@ -55,13 +55,47 @@ TEST(MathVectorOfTermsUtilitiesTest, GetDirectionalDerivativeInThreeDimensionsWo
     EXPECT_EQ(stringToExpect, termToVerify.getDisplayableString());
 }
 
+TEST(MathVectorOfTermsUtilitiesTest, GetNormalOfASurfaceOnAPointWorks)
+{
+    Term surfaceLeftPart(Polynomial{Monomial(4, {{"x", 2}}), Monomial(1, {{"y", 2}}), Monomial(-16, {{"z", 1}})});
+    Equation equationToTest(surfaceLeftPart, "=", Term(0));
+
+    MathVectorOfThreeTerms vectorToVerify(getNormalOfASurfaceOnAPoint(equationToTest, {"x", "y", "z"}, {2, 4, 2}));
+
+    string stringToExpect("{16, 8, -16}");
+    EXPECT_EQ(stringToExpect, vectorToVerify.getDisplayableString());
+}
+
+TEST(MathVectorOfTermsUtilitiesTest, GetTangentPlaneOnAPointOfASurfaceWorks)
+{
+    Term surfaceLeftPart(Polynomial{Monomial(4, {{"x", 2}}), Monomial(1, {{"y", 2}}), Monomial(-16, {{"z", 1}})});
+    Equation equationToTest(surfaceLeftPart, "=", Term(0));
+
+    Equation equationToVerify(getTangentPlaneOnAPointOfASurface(equationToTest, {"x", "y", "z"}, {2, 4, 2}));
+
+    string stringToExpect("(2[x] + 1[y] + -2[z] + -4) = 0");
+    EXPECT_EQ(stringToExpect, equationToVerify.getDisplayableString());
+}
+
+TEST(MathVectorOfTermsUtilitiesTest, GetPerpendicularLineOnAPointOfASurfaceWorks)
+{
+    Term surfaceLeftPart(Polynomial{Monomial(4, {{"x", 2}}), Monomial(1, {{"y", 2}}), Monomial(-16, {{"z", 1}})});
+    Equation equationToTest(surfaceLeftPart, "=", Term(0));
+
+    Equations equationsToVerify(getPerpendicularLineOnAPointOfASurface(equationToTest, {"x", "y", "z"}, {2, 4, 2}));
+
+    string stringToExpect1("(1[x] + -2[y] + 6) = 0");
+    string stringToExpect2("(1[x] + 1[z] + -4) = 0");
+    ASSERT_EQ(2U, equationsToVerify.size());
+    EXPECT_EQ(stringToExpect1, equationsToVerify.at(0).getDisplayableString());
+    EXPECT_EQ(stringToExpect2, equationsToVerify.at(1).getDisplayableString());
+}
+
 TEST(MathVectorOfTermsUtilitiesTest, IsContinuousAtWorks)
 {
-    Term t("t");
-    Term x(cos(t));
+    Term t("t");    Term x(cos(t));
     Term y(createExpressionIfPossible({Term(2), Term("*"), getEAsTerm(), Term("^"), t}));
     MathVectorOfTwoTerms termVector{x, y};
-
     EXPECT_TRUE(isContinuousAt(termVector, "t", 0));
 }
 

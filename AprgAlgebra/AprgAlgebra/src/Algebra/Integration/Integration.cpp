@@ -46,14 +46,12 @@ bool Integration::isConvergent(
         AlbaNumber const& higherValueInInterval)
 {
     Term integratedTerm(integrateAtDefiniteValues(term, lowerValueInInterval, higherValueInInterval));
-    return isAFiniteConstant(integratedTerm);
+    return isARealFiniteConstant(integratedTerm);
 }
 
-Term Integration::integrate(
-        Term const& term) const
+Term Integration::integrate(        Term const& term) const
 {
     IntegrationHistory::getInstance().clear();
-
     return integrateIntenally(term);
 }
 

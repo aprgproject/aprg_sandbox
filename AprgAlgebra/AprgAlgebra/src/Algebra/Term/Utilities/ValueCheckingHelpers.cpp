@@ -394,20 +394,18 @@ bool isPositiveIntegerConstant(Term const& term)
             && term.getConstantValueConstReference() >= 0;
 }
 
-bool isAFiniteConstant(Term const& term)
+bool isARealFiniteConstant(Term const& term)
 {
     bool result(false);
     if(term.isConstant())
     {
-        result = term.getConstantValueConstReference().isAFiniteValue();
+        result = term.getConstantValueConstReference().isARealFiniteValue();
     }
     return result;
 }
-
 bool hasDoubleValues(Term const& term)
 {
-    return doAnyNumbersSatisfyTheCondition(term, IsDoubleCondition);
-}
+    return doAnyNumbersSatisfyTheCondition(term, IsDoubleCondition);}
 
 bool hasDoubleValues(Monomial const& monomial)
 {

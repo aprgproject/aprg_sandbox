@@ -83,21 +83,19 @@ TEST(SimplificationOfEquationTest, SimplifyWorksToHaveCommonDenominator)
 
 TEST(SimplificationOfEquationTest, SimplifyWorksOnSimplifyingAnExpression)
 {
-    Expression expression(createExpressionIfPossible({Term(451), Term("/"), Term(523)}));
+    Expression expression(createExpressionIfPossible({Term("x"), Term("/"), Term(523)}));
     SimplificationOfEquation simplification(Equation(Term(expression), "=", Term(0)));
 
     simplification.simplify();
 
     Equation simplifiedEquation(simplification.getEquation());
-    Term expectedTerm(AlbaNumber::createFraction(451, 523));
+    Term expectedTerm("x");
     EXPECT_EQ(expectedTerm, simplifiedEquation.getLeftHandTerm());
     EXPECT_EQ("=", simplifiedEquation.getEquationOperator().getOperatorString());
-    EXPECT_EQ(Term(0), simplifiedEquation.getRightHandTerm());
-}
+    EXPECT_EQ(Term(0), simplifiedEquation.getRightHandTerm());}
 
 TEST(SimplificationOfEquationTest, SimplifyWorksOnNegatingTermIfNeeded)
-{
-    SimplificationOfEquation simplification1(Equation(Term("x"), "=", Term("y")));
+{    SimplificationOfEquation simplification1(Equation(Term("x"), "=", Term("y")));
     SimplificationOfEquation simplification2(Equation(Term("x"), "=", Term("y")));
 
     simplification1.simplify();
@@ -157,6 +155,50 @@ TEST(SimplificationOfEquationTest, SimplifyWorksXPlusOneToTheOneHalf)
     Polynomial expectedPolynomial{Monomial(1, {{"y", 2}}), Monomial(-1, {{"x", 1}}), Monomial(-1, {})};
     Equation simplifiedEquation(simplification.getEquation());
     EXPECT_EQ(Term(expectedPolynomial), simplifiedEquation.getLeftHandTerm());
+    EXPECT_EQ("=", simplifiedEquation.getEquationOperator().getOperatorString());
+    EXPECT_EQ(Term(0), simplifiedEquation.getRightHandTerm());
+}
+
+TEST(SimplificationOfEquationTest, SimplifyWorksOnRemovingCommonConstantsInMonomial)
+{
+    Monomial monomial(24, {{"x", 2}, {"y", 2}});
+    SimplificationOfEquation simplification(Equation(Term(monomial), "=", Term(0)));
+
+    simplification.simplify();
+
+    Monomial expectedMonomial(1, {{"x", 2}, {"y", 2}});
+    Equation simplifiedEquation(simplification.getEquation());
+    EXPECT_EQ(Term(expectedMonomial), simplifiedEquation.getLeftHandTerm());
+    EXPECT_EQ("=", simplifiedEquation.getEquationOperator().getOperatorString());
+    EXPECT_EQ(Term(0), simplifiedEquation.getRightHandTerm());
+}
+
+TEST(SimplificationOfEquationTest, SimplifyWorksOnRemovingCommonConstantsInPolynomial)
+{
+    Polynomial polynomial{Monomial(24, {{"x", 2}, {"y", 2}}), Monomial(18, {{"x", 2}})};
+    SimplificationOfEquation simplification(Equation(Term(polynomial), "=", Term(0)));
+
+    simplification.simplify();
+
+    Polynomial expectedPolynomial{Monomial(4, {{"x", 2}, {"y", 2}}), Monomial(3, {{"x", 2}})};
+    Equation simplifiedEquation(simplification.getEquation());
+    EXPECT_EQ(Term(expectedPolynomial), simplifiedEquation.getLeftHandTerm());
+    EXPECT_EQ("=", simplifiedEquation.getEquationOperator().getOperatorString());
+    EXPECT_EQ(Term(0), simplifiedEquation.getRightHandTerm());
+}
+
+TEST(SimplificationOfEquationTest, SimplifyWorksOnRemovingCommonConstantsInExpression)
+{
+    Term xToTheX(createExpressionIfPossible({Term("x"), Term("^"), Term("x")}));
+    Term yToTheY(createExpressionIfPossible({Term("y"), Term("^"), Term("y")}));
+    Term expression(createExpressionIfPossible({Term(18), Term("*"), xToTheX, Term("+"), Term(24), Term("*"), yToTheY}));
+    SimplificationOfEquation simplification(Equation(Term(expression), "=", Term(0)));
+
+    simplification.simplify();
+
+    Term expectedExpression(createExpressionIfPossible({Term(3), Term("*"), xToTheX, Term("+"), Term(4), Term("*"), yToTheY}));
+    Equation simplifiedEquation(simplification.getEquation());
+    EXPECT_EQ(Term(expectedExpression), simplifiedEquation.getLeftHandTerm());
     EXPECT_EQ("=", simplifiedEquation.getEquationOperator().getOperatorString());
     EXPECT_EQ(Term(0), simplifiedEquation.getRightHandTerm());
 }
