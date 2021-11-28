@@ -75,14 +75,20 @@ TEST(ThreeDimensionsUtilitiesTest, GetPlaneEquationWorks)
     EXPECT_EQ(stringToExpect, equationToVerify.getDisplayableString());
 }
 
-TEST(ThreeDimensionsUtilitiesTest, GetSphereEquationWorks)
+TEST(ThreeDimensionsUtilitiesTest, GetPlaneEquationWithPointCoordinatesWorks)
 {
-    Equation equationToVerify(getSphereEquation());
+    Equation equationToVerify(getPlaneEquationWithPointCoordinates());
 
-    string stringToExpect("(((x-x0)^2)+((y-y0)^2)+((z-z0)^2)) = (r^2)");
+    string stringToExpect("((a*x)-(a*x0)+(b*y)-(b*y0)+(c*z)-(c*z0)) = 0");
     EXPECT_EQ(stringToExpect, equationToVerify.getDisplayableString());
 }
 
+TEST(ThreeDimensionsUtilitiesTest, GetSphereEquationWorks)
+{
+    Equation equationToVerify(getSphereEquation());
+    string stringToExpect("(((x-x0)^2)+((y-y0)^2)+((z-z0)^2)) = (r^2)");
+    EXPECT_EQ(stringToExpect, equationToVerify.getDisplayableString());
+}
 }
 
 }
