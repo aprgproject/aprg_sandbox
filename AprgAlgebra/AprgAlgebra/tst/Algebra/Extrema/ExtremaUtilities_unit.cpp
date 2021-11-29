@@ -234,9 +234,11 @@ TEST(ExtremaUtilitiesTest, GetCriticalNumbersWithMultipleVariablesWorksWithExamp
 TEST(ExtremaUtilitiesTest, GetInputValuesAtPointsOfInflectionWorksWithExample1)
 {
     Term termToTest(Monomial(1, {{"x", 3}}));
+
     AlbaNumbers values(getInputValuesAtPointsOfInflection(termToTest, "x"));
 
-    ASSERT_EQ(1U, values.size());    EXPECT_EQ(AlbaNumber(0), values.at(0));
+    ASSERT_EQ(1U, values.size());
+    EXPECT_EQ(AlbaNumber(0), values.at(0));
 }
 
 TEST(ExtremaUtilitiesTest, GetInputValuesAtPointsOfInflectionWorksWithExample2)

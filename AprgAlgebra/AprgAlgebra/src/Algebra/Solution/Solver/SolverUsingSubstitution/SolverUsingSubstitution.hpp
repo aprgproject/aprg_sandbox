@@ -43,7 +43,6 @@ private:
     void substituteSolutionSetValuesToEquations(
             Equations & substitutedEquations,
             MultipleVariableSolutionSet const& multipleVariableSolutionSet);
-    void isolateAndSubstituteUntilOneUnknown(Equations & substitutedEquations);
     void solveForTheFirstOneVariableEquationAndUpdate(
             MultipleVariableSolutionSet & multipleVariableSolutionSet,
             Equations const& substitutedEquations);
@@ -51,17 +50,6 @@ private:
             MultipleVariableSolutionSet & solutionSet,
             Equation const& equationToSolve,
             std::string const& variableNameToSolve);
-    void selectVariableNameAndEquationNumber(
-            bool & areVariableAndEquationSelected,
-            std::string & selectedVariableName,
-            unsigned int & selectedEquationIndex,
-            Equations const& equations);
-    void substituteEquationForSelectedEquationIndex(
-            Equations & substitutedEquations,
-            bool const areVariableAndEquationSelected,
-            std::string const& selectedVariableName,
-            unsigned int const selectedEquationIndex);
-    void removeEquationsWithoutUnknowns(Equations& substitutedEquations);
 
     MultipleVariableSolutionSets m_solutionsWithAllVariables;
     MultipleVariableSolutionSets m_solutionsWithSomeVariables;

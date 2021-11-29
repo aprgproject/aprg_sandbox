@@ -234,7 +234,7 @@ Term invertTerm(Term const& term, string const& variableName)
     Equation equationToIsolate(Term(newVariableName), "=", term);
     IsolationOfOneVariableOnEqualityEquation isolation(equationToIsolate);
     SubstitutionOfVariablesToTerms substitution{{newVariableName, Term(variableName)}};
-    return substitution.performSubstitutionTo(isolation.getTermByIsolatingVariable(variableName));
+    return substitution.performSubstitutionTo(isolation.getEquivalentTermByIsolatingAVariable(variableName));
 }
 
 Expression negateExpression(Expression const& expression)

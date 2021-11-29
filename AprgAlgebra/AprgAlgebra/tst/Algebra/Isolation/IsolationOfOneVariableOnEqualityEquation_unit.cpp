@@ -110,10 +110,10 @@ TEST(IsolationOfOneVariableOnEqualityEquationTest, GetTermByIsolatingVariableWor
     Term expectedTermForY(createExpressionIfPossible({Term(polynomialForY), Term("^"), Term(AlbaNumber::createFraction(1, 2))}));
     Term expectedTermForA(createExpressionIfPossible({Term(polynomialForA), Term("^"), Term(AlbaNumber::createFraction(1, 3))}));
     Term expectedTermForB(createExpressionIfPossible({Term(polynomialForB), Term("^"), Term(AlbaNumber::createFraction(1, 4))}));
-    EXPECT_EQ(expectedTermForX, isolation.getTermByIsolatingVariable("x"));
-    EXPECT_EQ(expectedTermForY, isolation.getTermByIsolatingVariable("y"));
-    EXPECT_EQ(expectedTermForA, isolation.getTermByIsolatingVariable("a"));
-    EXPECT_EQ(expectedTermForB, isolation.getTermByIsolatingVariable("b"));
+    EXPECT_EQ(expectedTermForX, isolation.getEquivalentTermByIsolatingAVariable("x"));
+    EXPECT_EQ(expectedTermForY, isolation.getEquivalentTermByIsolatingAVariable("y"));
+    EXPECT_EQ(expectedTermForA, isolation.getEquivalentTermByIsolatingAVariable("a"));
+    EXPECT_EQ(expectedTermForB, isolation.getEquivalentTermByIsolatingAVariable("b"));
 }
 
 TEST(IsolationOfOneVariableOnEqualityEquationTest, IsolateTermWithVariableWorksOnPolynomialEquation)

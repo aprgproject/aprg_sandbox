@@ -1,7 +1,10 @@
 #include "EquationUtilities.hpp"
 
 #include <Algebra/Equation/EquationBuilder.hpp>
+#include <Algebra/Retrieval/VariableNamesRetriever.hpp>
 #include <Algebra/Substitution/SubstitutionOfVariablesToTerms.hpp>
+#include <Algebra/Term/Operators/TermOperators.hpp>
+#include <Algebra/Term/Utilities/TermUtilities.hpp>
 
 #include <algorithm>
 
@@ -137,6 +140,11 @@ bool doesAllEquationsHaveEqualityOperator(Equations const& equations)
     });
 }
 
+AlbaNumber getDegree(Equation const& equation)
+{
+    return max(getDegree(equation.getLeftHandTerm()), getDegree(equation.getRightHandTerm()));
+}
+
 string getEquationOperatorCharacters()
 {
     return "!=<>";
@@ -164,10 +172,52 @@ string getReverseEquationOperatorString(string const& equationOperatorString)
     return result;
 }
 
+Term getEquivalentTermByReducingItToAVariable(
+        string const& variableName,
+        Term const& termWithVariable,
+        Term const& termWithWithoutVariable)
+{
+    Term result;
+    if(termWithVariable.isVariable())
+    {
+        result = termWithWithoutVariable;
+    }
+    else if(termWithVariable.isMonomial())
+    {
+        Monomial const& monomialWithVariable(termWithVariable.getMonomialConstReference());
+        AlbaNumber exponent(monomialWithVariable.getExponentForVariable(variableName));
+        exponent = exponent^(-1);
+        result = termWithWithoutVariable^Term(exponent);
+    }
+    return result;
+}
+
 Equation buildEquationIfPossible(string const& equationString)
 {
     EquationBuilder builder(equationString);
     return builder.getEquation();
+}
+
+void segregateEquationsWithAndWithoutVariable(
+        Equations const& equationsToSegregate,
+        string const& variableName,
+        Equations & equationsWithVariable,
+        Equations & equationsWithoutVariable)
+{
+    for(Equation const& equationToSegregate : equationsToSegregate)
+    {
+        VariableNamesRetriever namesRetriever;
+        namesRetriever.retrieveFromEquation(equationToSegregate);
+        VariableNamesSet const& names(namesRetriever.getSavedData());
+        if(names.find(variableName) != names.cend())
+        {
+            equationsWithVariable.emplace_back(equationToSegregate);
+        }
+        else
+        {
+            equationsWithoutVariable.emplace_back(equationToSegregate);
+        }
+    }
 }
 
 

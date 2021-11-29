@@ -1,5 +1,6 @@
 #include "IsolationOfOneVariableOnEqualityEquation.hpp"
 
+#include <Algebra/Equation/EquationUtilities.hpp>
 #include <Algebra/Simplification/SimplificationOfExpression.hpp>
 #include <Algebra/Term/Operators/TermOperators.hpp>
 #include <Algebra/Term/Utilities/ConvertHelpers.hpp>
@@ -46,25 +47,13 @@ AlbaNumber IsolationOfOneVariableOnEqualityEquation::getIdenticalExponentForVari
     return exponent;
 }
 
-Term IsolationOfOneVariableOnEqualityEquation::getTermByIsolatingVariable(
+Term IsolationOfOneVariableOnEqualityEquation::getEquivalentTermByIsolatingAVariable(
         string const& variableName) const
 {
-    Term result;
     Term termWithVariable;
     Term termWithWithoutVariable;
     isolateTermWithVariable(variableName, termWithVariable, termWithWithoutVariable);
-    if(termWithVariable.isVariable())
-    {
-        result = termWithWithoutVariable;
-    }
-    else if(termWithVariable.isMonomial())
-    {
-        Monomial const& monomialWithVariable(termWithVariable.getMonomialConstReference());
-        AlbaNumber exponent(monomialWithVariable.getExponentForVariable(variableName));
-        exponent = exponent^(-1);
-        result = termWithWithoutVariable^Term(exponent);
-    }
-    return result;
+    return getEquivalentTermByReducingItToAVariable(variableName, termWithVariable, termWithWithoutVariable);
 }
 
 Equation IsolationOfOneVariableOnEqualityEquation::isolateTermWithVariableOnLeftSideOfEquation(

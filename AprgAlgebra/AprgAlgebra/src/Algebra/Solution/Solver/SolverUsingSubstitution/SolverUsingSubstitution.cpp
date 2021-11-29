@@ -1,13 +1,10 @@
 #include "SolverUsingSubstitution.hpp"
 
 #include <Algebra/Equation/EquationUtilities.hpp>
-#include <Algebra/Isolation/IsolationOfOneVariableOnEqualityEquation.hpp>
 #include <Algebra/Retrieval/VariableNamesRetriever.hpp>
 #include <Algebra/Solution/Solver/OneEquationOneVariable/OneEquationOneVariableEqualitySolver.hpp>
-#include <Algebra/Substitution/SubstitutionOfVariablesToTerms.hpp>
+#include <Algebra/Solution/Solver/SolverUsingSubstitution/ReduceEquationsBySubstitution.hpp>
 #include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>
-
-#include <algorithm>
 
 using namespace std;
 
@@ -160,7 +157,7 @@ void SolverUsingSubstitution::calculateASolutionForOneVariable(
 {
     Equations substitutedEquations(equations);
     substituteSolutionSetValuesToEquations(substitutedEquations, solutionSet);
-    isolateAndSubstituteUntilOneUnknown(substitutedEquations);
+    reduceEquationsBySubstitution(substitutedEquations, {});
     solveForTheFirstOneVariableEquationAndUpdate(solutionSet, substitutedEquations);
 }
 
@@ -174,24 +171,6 @@ void SolverUsingSubstitution::substituteSolutionSetValuesToEquations(
         substitutedEquation = substitution.performSubstitutionTo(substitutedEquation);
     }
     removeEquationsWithoutUnknowns(substitutedEquations);
-}
-
-void SolverUsingSubstitution::isolateAndSubstituteUntilOneUnknown(
-        Equations & substitutedEquations)
-{
-    VariableNamesRetriever unknownsRetriever;
-    unknownsRetriever.retrieveFromEquations(substitutedEquations);
-    while(unknownsRetriever.getSavedData().size() > 1)
-    {
-        bool areVariableAndEquationSelected(false);
-        string selectedVariableName;
-        unsigned int selectedEquationIndex(0U);
-        selectVariableNameAndEquationNumber(areVariableAndEquationSelected, selectedVariableName, selectedEquationIndex, substitutedEquations);
-        substituteEquationForSelectedEquationIndex(substitutedEquations, areVariableAndEquationSelected, selectedVariableName, selectedEquationIndex);
-        removeEquationsWithoutUnknowns(substitutedEquations);
-        unknownsRetriever.getSavedDataReference().clear();
-        unknownsRetriever.retrieveFromEquations(substitutedEquations);
-    }
 }
 
 void SolverUsingSubstitution::solveForTheFirstOneVariableEquationAndUpdate(
@@ -239,68 +218,6 @@ void SolverUsingSubstitution::solveAndUpdate(
             m_solutionsWithSomeVariables.emplace_back(multipleVariableSolutionSet);
         }
     }
-}
-
-void SolverUsingSubstitution::selectVariableNameAndEquationNumber(
-        bool & areVariableAndEquationSelected,
-        string & selectedVariableName,
-        unsigned int & selectedEquationIndex,
-        Equations const& equations)
-{
-    areVariableAndEquationSelected = false;
-    selectedVariableName.clear();
-    selectedEquationIndex = 0U;
-    VariableNamesRetriever variableNamesRetriever;
-    variableNamesRetriever.retrieveFromEquations(equations);
-    unsigned int equationIndex=0;
-    for(Equation const& equation : equations)
-    {
-        IsolationOfOneVariableOnEqualityEquation isolation(equation);
-        for(string const& variableName : variableNamesRetriever.getSavedData())
-        {
-            if(isolation.canBeIsolated(variableName)
-                    && isolation.getIdenticalExponentForVariableIfPossible(variableName) == 1)
-            {
-                areVariableAndEquationSelected = true;
-                selectedVariableName = variableName;
-                selectedEquationIndex = equationIndex;
-                break;
-            }
-        }
-        equationIndex++;
-    }
-}
-
-void SolverUsingSubstitution::substituteEquationForSelectedEquationIndex(
-        Equations & substitutedEquations,
-        bool const areVariableAndEquationSelected,
-        string const& selectedVariableName,
-        unsigned int const selectedEquationIndex)
-{
-    if(areVariableAndEquationSelected)
-    {
-        IsolationOfOneVariableOnEqualityEquation isolation(substitutedEquations.at(selectedEquationIndex));
-        substitutedEquations.erase(substitutedEquations.begin() + selectedEquationIndex);
-        SubstitutionOfVariablesToTerms substitution;
-        substitution.putVariableWithTerm(selectedVariableName, isolation.getTermByIsolatingVariable(selectedVariableName));
-        for(Equation & substitutedEquation : substitutedEquations)
-        {
-            substitutedEquation = substitution.performSubstitutionTo(substitutedEquation);
-        }
-    }
-}
-
-void SolverUsingSubstitution::removeEquationsWithoutUnknowns(Equations& substitutedEquations)
-{
-    substitutedEquations.erase(
-                remove_if(substitutedEquations.begin(), substitutedEquations.end(), [](Equation const& equation)
-    {
-
-                    VariableNamesRetriever unknownsRetriever;
-                    unknownsRetriever.retrieveFromEquation(equation);
-                    return unknownsRetriever.getSavedData().empty();
-                }),
-            substitutedEquations.end());
 }
 
 }

@@ -18,10 +18,12 @@ using namespace alba::mathHelper;
 using namespace alba::stringHelper;
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 namespace algebra
 {
+
 //functions for this file only
 namespace
 {
@@ -33,9 +35,11 @@ void retrieveSubstitutionsFromCriticalNumbers(SubstitutionsOfVariablesToValues &
 void determineExtrema(ExtremaWithMultipleVariables & extrema, Terms const& secondDerivatives, SubstitutionsOfVariablesToValues const& substitutions);
 
 }
+
 bool willYieldToAbsoluteMaximumValue(
         Term const& term,
-        string const& variableName,        AlbaNumber const& valueForEvaluation)
+        string const& variableName,
+        AlbaNumber const& valueForEvaluation)
 {
     // f(c) is said to be the absolute maximum value of the f if c is in the domain of f and if f(c) >= f(x) for all values of x in the domain of f.
 
@@ -438,10 +442,12 @@ VariableNameToCriticalNumbersMap getCriticalNumbersWithMultipleVariables(
 
 AlbaNumbers getInputValuesAtPointsOfInflection(
         Term const& term,
-        string const& variableName){
+        string const& variableName)
+{
     Differentiation differentiation(variableName);
     Term secondDerivative(differentiation.differentiateMultipleTimes(term, 2));
-    AlbaNumbers result;    if(!secondDerivative.isConstant())
+    AlbaNumbers result;
+    if(!secondDerivative.isConstant())
     {
         Equation derivativeEqualsZeroEquation(secondDerivative, "=", Term(0));
         OneEquationOneVariableEqualitySolver solver;
@@ -569,9 +575,11 @@ ExtremaWithMultipleVariables getRelativeExtremaWithMultipleVariables(
 
 namespace
 {
+
 void putArbitiaryValuesFromInterval(
         AlbaNumbers & arbitiaryValues,
-        AlbaNumberInterval const& interval){
+        AlbaNumberInterval const& interval)
+{
     AlbaNumberIntervalEndpoint lowEndpoint(interval.getLowerEndpoint());
     AlbaNumberIntervalEndpoint highEndpoint(interval.getHigherEndpoint());
     AlbaNumber lowValue(convertIfInfinityToNearestFiniteValue(lowEndpoint.getValue()));

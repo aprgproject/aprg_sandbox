@@ -15,7 +15,7 @@ public:
 
     bool canBeIsolated(std::string const& variableName) const;
     AlbaNumber getIdenticalExponentForVariableIfPossible(std::string const& variableName) const;
-    Term getTermByIsolatingVariable(std::string const& variableName) const;
+    Term getEquivalentTermByIsolatingAVariable(std::string const& variableName) const;
     Equation isolateTermWithVariableOnLeftSideOfEquation(std::string const& variableName) const;
     Equation isolateTermWithVariableOnRightSideOfEquation(std::string const& variableName) const;
 

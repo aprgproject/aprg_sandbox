@@ -315,10 +315,12 @@ Term getTotalDerivative(
         result += getPartialDerivative(term, variableName) * Term(derivativeOfVariable.getNameInLeibnizNotation());
     }
     simplifyForDifferentiation(result);
-    return result;}
+    return result;
+}
 
 Term getPartialDerivative(
-        Term const& term,        string const& variableName)
+        Term const& term,
+        string const& variableName)
 {
     Differentiation differentiation(variableName);
     return differentiation.differentiate(term);
