@@ -47,6 +47,8 @@ private:
     VariablesToValuesMap m_variableToValuesMap;
 };
 
+using SubstitutionsOfVariablesToValues=std::vector<SubstitutionOfVariablesToValues>;
+
 }
 
 }

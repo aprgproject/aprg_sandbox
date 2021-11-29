@@ -7,34 +7,35 @@
 #include <Algebra/Substitution/SubstitutionOfVariablesToValues.hpp>
 #include <Algebra/Solution/DomainAndRange/DomainAndRange.hpp>
 #include <Algebra/Solution/Solver/OneEquationOneVariable/OneEquationOneVariableEqualitySolver.hpp>
+#include <Algebra/Solution/Solver/SolverUsingSubstitution/SolverUsingSubstitution.hpp>
 #include <Algebra/Term/Operators/TermOperators.hpp>
 #include <Math/AlbaMathHelper.hpp>
 #include <Math/Number/Interval/AlbaNumberInterval.hpp>
 #include <Math/Number/Interval/AlbaNumberIntervalHelpers.hpp>
 
-using namespace alba::mathHelper;
 using namespace alba::algebra::DomainAndRange;
+using namespace alba::mathHelper;
+using namespace alba::stringHelper;
 using namespace std;
 
-namespace alba
-{
+namespace alba{
 
 namespace algebra
 {
-
 //functions for this file only
 namespace
 {
 
 void putArbitiaryValuesFromInterval(AlbaNumbers & arbitiaryValues, AlbaNumberInterval const& interval);
 void putArbitiaryValuesBasedFromDomainOfTerm(AlbaNumbers & arbitiaryValues, Term const& term);
+void retrieveSecondDerivatives(Terms & secondDerivatives, Term const& term, strings const& variableNames);
+void retrieveSubstitutionsFromCriticalNumbers(SubstitutionsOfVariablesToValues & substitutions, VariableNameToCriticalNumbersMap const& nameToCriticalNumbersMap);
+void determineExtrema(ExtremaWithMultipleVariables & extrema, Terms const& secondDerivatives, SubstitutionsOfVariablesToValues const& substitutions);
 
 }
-
 bool willYieldToAbsoluteMaximumValue(
         Term const& term,
-        string const& variableName,
-        AlbaNumber const& valueForEvaluation)
+        string const& variableName,        AlbaNumber const& valueForEvaluation)
 {
     // f(c) is said to be the absolute maximum value of the f if c is in the domain of f and if f(c) >= f(x) for all values of x in the domain of f.
 
@@ -407,14 +408,40 @@ AlbaNumbers getCriticalNumbers(
     return result;
 }
 
+VariableNameToCriticalNumbersMap getCriticalNumbersWithMultipleVariables(
+        Term const& term,
+        strings const& variableNames)
+{
+    VariableNameToCriticalNumbersMap result;
+    Equations equationsWithPartialDerivatives;
+    for(string const& variableName : variableNames)
+    {
+        equationsWithPartialDerivatives.emplace_back(getPartialDerivative(term, variableName), "=", Term(0));
+    }
+    SolverUsingSubstitution solver;
+    MultipleVariableSolutionSets solutionSets(solver.calculateSolutionAndReturnSolutionSet(equationsWithPartialDerivatives));
+    for(MultipleVariableSolutionSet const& solutionSet : solutionSets)
+    {
+        for(auto const& variableNameAndSolutionSetPair : solutionSet.getVariableNameToSolutionSetMap())
+        {
+            AlbaNumbers & criticalNumbers(result[variableNameAndSolutionSetPair.first]);
+            SolutionSet const& solutionSet(variableNameAndSolutionSetPair.second);
+            AlbaNumbers const& acceptedValues(solutionSet.getAcceptedValues());
+            AlbaNumbers const& rejectedValues(solutionSet.getRejectedValues());
+            criticalNumbers.reserve(acceptedValues.size() + rejectedValues.size());
+            copy(acceptedValues.cbegin(), acceptedValues.cend(), back_inserter(criticalNumbers));
+            copy(rejectedValues.cbegin(), rejectedValues.cend(), back_inserter(criticalNumbers));
+        }
+    }
+    return result;
+}
+
 AlbaNumbers getInputValuesAtPointsOfInflection(
         Term const& term,
-        string const& variableName)
-{
+        string const& variableName){
     Differentiation differentiation(variableName);
     Term secondDerivative(differentiation.differentiateMultipleTimes(term, 2));
-    AlbaNumbers result;
-    if(!secondDerivative.isConstant())
+    AlbaNumbers result;    if(!secondDerivative.isConstant())
     {
         Equation derivativeEqualsZeroEquation(secondDerivative, "=", Term(0));
         OneEquationOneVariableEqualitySolver solver;
@@ -524,15 +551,27 @@ Extrema getRelativeExtrema(
     return result;
 }
 
+ExtremaWithMultipleVariables getRelativeExtremaWithMultipleVariables(
+        Term const& term,
+        strings const& variableNames)
+{
+    ExtremaWithMultipleVariables result;
+    VariableNameToCriticalNumbersMap nameToCriticalNumbersMap(getCriticalNumbersWithMultipleVariables(term, variableNames));
+    Terms secondDerivatives;
+    retrieveSecondDerivatives(secondDerivatives, term, variableNames);
+    SubstitutionsOfVariablesToValues substitutions;
+    retrieveSubstitutionsFromCriticalNumbers(substitutions, nameToCriticalNumbersMap);
+    determineExtrema(result, secondDerivatives, substitutions);
+    return result;
+}
+
 
 
 namespace
 {
-
 void putArbitiaryValuesFromInterval(
         AlbaNumbers & arbitiaryValues,
-        AlbaNumberInterval const& interval)
-{
+        AlbaNumberInterval const& interval){
     AlbaNumberIntervalEndpoint lowEndpoint(interval.getLowerEndpoint());
     AlbaNumberIntervalEndpoint highEndpoint(interval.getHigherEndpoint());
     AlbaNumber lowValue(convertIfInfinityToNearestFiniteValue(lowEndpoint.getValue()));
@@ -565,6 +604,89 @@ void putArbitiaryValuesBasedFromDomainOfTerm(
     for(AlbaNumberInterval const domain : domains)
     {
         putArbitiaryValuesFromInterval(arbitiaryValues, domain);
+    }
+}
+
+void retrieveSecondDerivatives(
+        Terms & secondDerivatives,
+        Term const& term,
+        strings const& variableNames)
+{
+    for(string const& variableName : variableNames)
+    {
+        secondDerivatives.emplace_back(getPartialDerivative(getPartialDerivative(term, variableName), variableName));
+    }
+}
+
+void retrieveSubstitutionsFromCriticalNumbers(
+        SubstitutionsOfVariablesToValues & substitutions,
+        VariableNameToCriticalNumbersMap const& nameToCriticalNumbersMap)
+{
+    for(auto const& nameAndCriticalNumbersPair : nameToCriticalNumbersMap)
+    {
+        unsigned int i=0;
+        AlbaNumbers const& criticalNumbers(nameAndCriticalNumbersPair.second);
+        for(AlbaNumber const& criticalNumber : criticalNumbers)
+        {
+            if(substitutions.size() <= i)
+            {
+                substitutions.emplace_back();
+            }
+            substitutions.at(i++).putVariableWithValue(nameAndCriticalNumbersPair.first, criticalNumber);
+        }
+    }
+}
+
+void determineExtrema(
+        ExtremaWithMultipleVariables & extrema,
+        Terms const& secondDerivatives,
+        SubstitutionsOfVariablesToValues const& substitutions)
+{
+    for(SubstitutionOfVariablesToValues const& substitution : substitutions)
+    {
+        ExtremumWithMultipleVariables extremum;
+        ExtremumType extremumType(ExtremumType::Unknown);
+        for(Term const& secondDerivative : secondDerivatives)
+        {
+            Term secondDerivativeSubstituted(substitution.performSubstitutionTo(secondDerivative));
+            if(secondDerivativeSubstituted.isConstant())
+            {
+                AlbaNumber const& secondDerivativeValue(secondDerivativeSubstituted.getConstantValueConstReference());
+                if(ExtremumType::Maximum == extremumType)
+                {
+                    if(secondDerivativeValue > 0)
+                    {
+                        extremumType = ExtremumType::SaddlePoint;
+                        break;
+                    }
+                }
+                else if(ExtremumType::Minimum == extremumType)
+                {
+                    if(secondDerivativeValue < 0)
+                    {
+                        extremumType = ExtremumType::SaddlePoint;
+                        break;
+                    }
+                }
+                else
+                {
+                    if(secondDerivativeValue < 0)
+                    {
+                        extremumType = ExtremumType::Maximum;
+                    }
+                    else if(secondDerivativeValue > 0)
+                    {
+                        extremumType = ExtremumType::Minimum;
+                    }
+                }
+            }
+        }
+        extremum.extremumType = extremumType;
+        for(auto const& variableValuePair : substitution.getVariableToValuesMap())
+        {
+            extremum.variableNamesToValues[variableValuePair.first] = variableValuePair.second;
+        }
+        extrema.emplace_back(extremum);
     }
 }
 

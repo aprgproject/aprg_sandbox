@@ -184,14 +184,59 @@ TEST(ExtremaUtilitiesTest, GetCriticalNumbersWorks)
     EXPECT_EQ(AlbaNumber(0), criticalNumbers.at(1));
 }
 
+TEST(ExtremaUtilitiesTest, GetCriticalNumbersWithMultipleVariablesWorksWithExample1)
+{
+    // z = y^2 - x^2
+    Term termToTest(Polynomial({Monomial(1, {{"y", 2}}), Monomial(-1, {{"x", 2}})}));
+
+    VariableNameToCriticalNumbersMap variableToCriticalNumbersMap(
+                getCriticalNumbersWithMultipleVariables(termToTest, {"x", "y"}));
+
+    ASSERT_EQ(2U, variableToCriticalNumbersMap.size());
+    auto it = variableToCriticalNumbersMap.cbegin();
+    string const& firstVariableName(it->first);
+    AlbaNumbers const& firstCriticalNumbers(it->second);
+    EXPECT_EQ("x", firstVariableName);
+    EXPECT_EQ(1U, firstCriticalNumbers.size());
+    EXPECT_EQ(AlbaNumber(0), firstCriticalNumbers.at(0));
+    it++;
+    string const& secondVariableName(it->first);
+    AlbaNumbers const& secondCriticalNumbers(it->second);
+    EXPECT_EQ("y", secondVariableName);
+    EXPECT_EQ(1U, secondCriticalNumbers.size());
+    EXPECT_EQ(AlbaNumber(0), secondCriticalNumbers.at(0));
+}
+
+TEST(ExtremaUtilitiesTest, GetCriticalNumbersWithMultipleVariablesWorksWithExample2)
+{
+    // z = 6x - 4y - x^2 - 2*y^2
+    Term termToTest(Polynomial({Monomial(6, {{"x", 1}}), Monomial(-4, {{"y", 1}}), Monomial(-1, {{"x", 2}}), Monomial(-2, {{"y", 2}})}));
+
+    VariableNameToCriticalNumbersMap variableToCriticalNumbersMap(
+                getCriticalNumbersWithMultipleVariables(termToTest, {"x", "y"}));
+
+    ASSERT_EQ(2U, variableToCriticalNumbersMap.size());
+    auto it = variableToCriticalNumbersMap.cbegin();
+    string const& firstVariableName(it->first);
+    AlbaNumbers const& firstCriticalNumbers(it->second);
+    EXPECT_EQ("x", firstVariableName);
+    EXPECT_EQ(1U, firstCriticalNumbers.size());
+    EXPECT_EQ(AlbaNumber(3), firstCriticalNumbers.at(0));
+    it++;
+    string const& secondVariableName(it->first);
+    AlbaNumbers const& secondCriticalNumbers(it->second);
+    EXPECT_EQ("y", secondVariableName);
+    EXPECT_EQ(1U, secondCriticalNumbers.size());
+    EXPECT_EQ(AlbaNumber(-1), secondCriticalNumbers.at(0));
+}
+
+
 TEST(ExtremaUtilitiesTest, GetInputValuesAtPointsOfInflectionWorksWithExample1)
 {
     Term termToTest(Monomial(1, {{"x", 3}}));
-
     AlbaNumbers values(getInputValuesAtPointsOfInflection(termToTest, "x"));
 
-    ASSERT_EQ(1U, values.size());
-    EXPECT_EQ(AlbaNumber(0), values.at(0));
+    ASSERT_EQ(1U, values.size());    EXPECT_EQ(AlbaNumber(0), values.at(0));
 }
 
 TEST(ExtremaUtilitiesTest, GetInputValuesAtPointsOfInflectionWorksWithExample2)
@@ -271,6 +316,91 @@ TEST(ExtremaUtilitiesTest, GetRelativeExtremaWorksOnExample2)
     EXPECT_EQ(ExtremumType::Minimum, extrema.at(0).extremumType);
     EXPECT_EQ(AlbaNumber(1), extrema.at(0).inputOutputValues.first);
     EXPECT_EQ(AlbaNumber(-1), extrema.at(0).inputOutputValues.second);
+}
+
+TEST(ExtremaUtilitiesTest, GetRelativeExtremaWithMultipleVariablesWithExample1)
+{
+    // z = y^2 - x^2
+    Term termToTest(Polynomial({Monomial(1, {{"y", 2}}), Monomial(-1, {{"x", 2}})}));
+
+    ExtremaWithMultipleVariables extrema(
+                getRelativeExtremaWithMultipleVariables(termToTest, {"x", "y"}));
+
+    ASSERT_EQ(1U, extrema.size());
+    ExtremumWithMultipleVariables const& extremum(extrema.at(0));
+    EXPECT_EQ(ExtremumType::SaddlePoint, extremum.extremumType);
+    auto const& variableNamesToValues(extremum.variableNamesToValues);
+    ASSERT_EQ(2U, variableNamesToValues.size());
+    auto it = variableNamesToValues.cbegin();
+    EXPECT_EQ("x", it->first);
+    EXPECT_EQ(AlbaNumber(0), it->second);
+    it++;
+    EXPECT_EQ("y", it->first);
+    EXPECT_EQ(AlbaNumber(0), it->second);
+}
+
+TEST(ExtremaUtilitiesTest, GetRelativeExtremaWithMultipleVariablesWithExample2)
+{
+    // z = 6x - 4y - x^2 - 2*y^2
+    Term termToTest(Polynomial({Monomial(6, {{"x", 1}}), Monomial(-4, {{"y", 1}}), Monomial(-1, {{"x", 2}}), Monomial(-2, {{"y", 2}})}));
+
+    ExtremaWithMultipleVariables extrema(
+                getRelativeExtremaWithMultipleVariables(termToTest, {"x", "y"}));
+
+    ASSERT_EQ(1U, extrema.size());
+    ExtremumWithMultipleVariables const& extremum(extrema.at(0));
+    EXPECT_EQ(ExtremumType::Maximum, extremum.extremumType);
+    auto const& variableNamesToValues(extremum.variableNamesToValues);
+    ASSERT_EQ(2U, variableNamesToValues.size());
+    auto it = variableNamesToValues.cbegin();
+    EXPECT_EQ("x", it->first);
+    EXPECT_EQ(AlbaNumber(3), it->second);
+    it++;
+    EXPECT_EQ("y", it->first);
+    EXPECT_EQ(AlbaNumber(-1), it->second);
+}
+
+TEST(ExtremaUtilitiesTest, GetRelativeExtremaWithMultipleVariablesWithExample3)
+{
+    // z = 2*x^4 + y^2 - x^2 - 2*y
+    Term termToTest(Polynomial({Monomial(2, {{"x", 4}}), Monomial(1, {{"y", 2}}), Monomial(-1, {{"x", 2}}), Monomial(-2, {{"y", 1}})}));
+
+    ExtremaWithMultipleVariables extrema(
+                getRelativeExtremaWithMultipleVariables(termToTest, {"x", "y"}));
+
+    ASSERT_EQ(3U, extrema.size());
+    ExtremumWithMultipleVariables const& extremum1(extrema.at(0));
+    EXPECT_EQ(ExtremumType::Minimum, extremum1.extremumType);
+    auto const& variableNamesToValues1(extremum1.variableNamesToValues);
+    ASSERT_EQ(2U, variableNamesToValues1.size());
+    auto it = variableNamesToValues1.cbegin();
+    EXPECT_EQ("x", it->first);
+    EXPECT_EQ(AlbaNumber::createFraction(-1, 2), it->second);
+    it++;
+    EXPECT_EQ("y", it->first);
+    EXPECT_EQ(AlbaNumber(1), it->second);
+
+    ExtremumWithMultipleVariables const& extremum2(extrema.at(1));
+    EXPECT_EQ(ExtremumType::Minimum, extremum2.extremumType);
+    auto const& variableNamesToValues2(extremum2.variableNamesToValues);
+    ASSERT_EQ(2U, variableNamesToValues2.size());
+    it = variableNamesToValues2.cbegin();
+    EXPECT_EQ("x", it->first);
+    EXPECT_EQ(AlbaNumber::createFraction(1, 2), it->second);
+    it++;
+    EXPECT_EQ("y", it->first);
+    EXPECT_EQ(AlbaNumber(1), it->second);
+
+    ExtremumWithMultipleVariables const& extremum3(extrema.at(2));
+    EXPECT_EQ(ExtremumType::SaddlePoint, extremum3.extremumType);
+    auto const& variableNamesToValues3(extremum3.variableNamesToValues);
+    ASSERT_EQ(2U, variableNamesToValues3.size());
+    it = variableNamesToValues3.cbegin();
+    EXPECT_EQ("x", it->first);
+    EXPECT_EQ(AlbaNumber(0), it->second);
+    it++;
+    EXPECT_EQ("y", it->first);
+    EXPECT_EQ(AlbaNumber(1), it->second);
 }
 
 }
