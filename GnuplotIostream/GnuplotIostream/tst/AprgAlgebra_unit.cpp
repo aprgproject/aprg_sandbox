@@ -57,32 +57,41 @@ TEST(AprgAlgebraTest, DISABLED_ThreeDimensionsGeometricEquationCanBeShown)
 
 TEST(AprgAlgebraTest, DISABLED_EquationCanBeShown)
 {
-    Term leftHandSize(createExpressionIfPossible({Term(cos(Term(x))), Term("+"), Term(cos(Term(y)))}));
+    Term leftHandSize(Polynomial({Monomial(2, {{"x", 4}}), Monomial(1, {{"y", 2}}), Monomial(-1, {{"x", 2}}), Monomial(-2, {{"y", 1}})}));
     Term rightHandSize(z);
     Equation equation(leftHandSize, "=", rightHandSize);
 
-    string nameOfGraph("Ellipsoid");
+    string nameOfGraph("Equation");
     Gnuplot gp;
     gp << "splot ";
     vector<pair<pair<double, double>, double>> pts;
-    for(double x=-10; x<=10; x+=0.5)
+    for(double x=-2; x<=2; x+=0.1)
     {
-        for(double y=-10; y<=10; y+=0.5)
+        for(double y=-2; y<=2; y+=0.1)
         {
             SubstitutionOfVariablesToValues substitution{{"x", x}, {"y", y}};
-            Equation equationWithZ(substitution.performSubstitutionTo(equation));
-            OneEquationOneVariableEqualitySolver solver;
+            Equation equationWithZ(substitution.performSubstitutionTo(equation));            OneEquationOneVariableEqualitySolver solver;
             SolutionSet solutionSet(solver.calculateSolutionAndReturnSolutionSet(equationWithZ));
             AlbaNumbers zValues(solutionSet.getAcceptedValues());
-            for(AlbaNumber const& z : zValues)
-            {
+            for(AlbaNumber const& z : zValues)            {
                 pts.emplace_back(make_pair(make_pair(x, y), z.getDouble()));
             }
         }
     }
     gp << gp.binFile1d(pts, "record") << "with points palette pointsize 1 pointtype 1 title '"<< nameOfGraph <<"'";
     gp << ", ";
+
+
+    {
+        // put points
+        vector<pair<pair<double, double>, double>> pts;
+        pts.emplace_back(make_pair(make_pair(-0.5, 1), static_cast<double>(-9)/8));
+        pts.emplace_back(make_pair(make_pair(0, 1), -1));
+        pts.emplace_back(make_pair(make_pair(0.5, 1), static_cast<double>(-9)/8));
+        gp << gp.binFile1d(pts, "record") << "with points palette pointsize 2 pointtype 2 title '"<< nameOfGraph <<"'";
+        gp << ", ";
+    }
+
     gp << endl;
 }
-
 }
