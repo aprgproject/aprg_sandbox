@@ -414,19 +414,17 @@ AlbaNumbers getCriticalNumbers(
 
 VariableNameToCriticalNumbersMap getCriticalNumbersWithMultipleVariables(
         Term const& term,
-        strings const& variableNames)
+        strings const& coordinateNames)
 {
     VariableNameToCriticalNumbersMap result;
     Equations equationsWithPartialDerivatives;
-    for(string const& variableName : variableNames)
+    for(string const& variableName : coordinateNames)
     {
         equationsWithPartialDerivatives.emplace_back(getPartialDerivative(term, variableName), "=", Term(0));
-    }
-    SolverUsingSubstitution solver;
+    }    SolverUsingSubstitution solver;
     MultipleVariableSolutionSets solutionSets(solver.calculateSolutionAndReturnSolutionSet(equationsWithPartialDerivatives));
     for(MultipleVariableSolutionSet const& solutionSet : solutionSets)
-    {
-        for(auto const& variableNameAndSolutionSetPair : solutionSet.getVariableNameToSolutionSetMap())
+    {        for(auto const& variableNameAndSolutionSetPair : solutionSet.getVariableNameToSolutionSetMap())
         {
             AlbaNumbers & criticalNumbers(result[variableNameAndSolutionSetPair.first]);
             SolutionSet const& solutionSet(variableNameAndSolutionSetPair.second);
@@ -559,18 +557,16 @@ Extrema getRelativeExtrema(
 
 ExtremaWithMultipleVariables getRelativeExtremaWithMultipleVariables(
         Term const& term,
-        strings const& variableNames)
+        strings const& coordinateNames)
 {
     ExtremaWithMultipleVariables result;
-    VariableNameToCriticalNumbersMap nameToCriticalNumbersMap(getCriticalNumbersWithMultipleVariables(term, variableNames));
+    VariableNameToCriticalNumbersMap nameToCriticalNumbersMap(getCriticalNumbersWithMultipleVariables(term, coordinateNames));
     Terms secondDerivatives;
-    retrieveSecondDerivatives(secondDerivatives, term, variableNames);
+    retrieveSecondDerivatives(secondDerivatives, term, coordinateNames);
     SubstitutionsOfVariablesToValues substitutions;
     retrieveSubstitutionsFromCriticalNumbers(substitutions, nameToCriticalNumbersMap);
-    determineExtrema(result, secondDerivatives, substitutions);
-    return result;
+    determineExtrema(result, secondDerivatives, substitutions);    return result;
 }
-
 
 
 namespace

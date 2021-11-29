@@ -132,15 +132,13 @@ AlbaNumbers getCriticalNumbers(
 
 VariableNameToCriticalNumbersMap getCriticalNumbersWithMultipleVariables(
         Term const& term,
-        stringHelper::strings const& variableNames);
+        stringHelper::strings const& coordinateNames);
 
 AlbaNumbers getInputValuesAtPointsOfInflection(
-        Term const& term,
-        std::string const& variableName);
+        Term const& term,        std::string const& variableName);
 
 MinimumAndMaximum getMinimumAndMaximumAtClosedInterval(
-        Term const& term,
-        std::string const& variableName,
+        Term const& term,        std::string const& variableName,
         AlbaNumberInterval const& closedInterval);
 
 Extrema getRelativeExtrema(
@@ -149,8 +147,7 @@ Extrema getRelativeExtrema(
 
 ExtremaWithMultipleVariables getRelativeExtremaWithMultipleVariables(
         Term const& term,
-        stringHelper::strings const& variableNames);
+        stringHelper::strings const& coordinateNames);
 
 }
-
 }
