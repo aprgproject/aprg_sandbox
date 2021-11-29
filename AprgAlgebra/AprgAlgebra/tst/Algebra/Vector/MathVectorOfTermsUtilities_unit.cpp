@@ -165,13 +165,56 @@ TEST(MathVectorOfTermsUtilitiesTest, GetCurvatureWorks)
     EXPECT_EQ(stringToExpect, termToVerify.getDisplayableString());
 }
 
+TEST(MathVectorOfTermsUtilitiesTest, GetTermWithGradientWorksWithExample1)
+{
+    Term x(Polynomial{Monomial(1, {{"y", 2}}), Monomial(2, {{"x", 1}}), Monomial(4, {})});
+    Term y(Polynomial{Monomial(2, {{"x", 1}, {"y", 1}}), Monomial(4, {{"y", 1}}), Monomial(-5, {})});
+    MathVectorOfTwoTerms gradient{x, y};
+
+    bool isExactDifferential(false);
+    Term termToVerify(getTermWithGradient(gradient, {"x", "y"}, isExactDifferential));
+
+    string stringToExpect("(1[x][y^2] + 1[x^2] + 2[y^2] + 4[x] + -5[y])");
+    EXPECT_EQ(stringToExpect, termToVerify.getDisplayableString());
+    EXPECT_TRUE(isExactDifferential);
+}
+
+TEST(MathVectorOfTermsUtilitiesTest, GetTermWithGradientWorksWithExample2)
+{
+    Term x(Polynomial{Monomial(1, {{"y", 2}}), Monomial(2, {{"x", 1}}), Monomial(4, {})});
+    Term y(5);
+    MathVectorOfTwoTerms gradient{x, y};
+
+    bool isExactDifferential(false);
+    Term termToVerify(getTermWithGradient(gradient, {"x", "y"}, isExactDifferential));
+
+    string stringToExpect("{EmptyTerm}");
+    EXPECT_EQ(stringToExpect, termToVerify.getDisplayableString());
+    EXPECT_FALSE(isExactDifferential);
+}
+
+TEST(MathVectorOfTermsUtilitiesTest, GetTermWithGradientWorksWithExample3)
+{
+    Term eToTheX(createExpressionIfPossible({getEAsTerm(), Term("^"), Term("x")}));
+    Term x(createExpressionIfPossible({eToTheX, Term("*"), Term(sin(Term("z"))), Term("+"), Term(Monomial(2, {{"y", 1}, {"z", 1}}))}));
+    Term y(Polynomial{Monomial(2, {{"x", 1}, {"z", 1}}), Monomial(2, {{"y", 1}})});
+    Term z(createExpressionIfPossible(
+    {eToTheX, Term("*"), Term(cos(Term("z"))), Term("+"), Term(Polynomial{Monomial(2, {{"x", 1}, {"y", 1}}), Monomial(3, {{"z", 2}})})}));
+    MathVectorOfThreeTerms gradient{x, y, z};
+
+    bool isExactDifferential(false);
+    Term termToVerify(getTermWithGradient(gradient, {"x", "y", "z"}, isExactDifferential));
+
+    string stringToExpect("((2[x][y][z] + 1[z^3] + 1[y^2])+(((e)^x)*sin(z)))");
+    EXPECT_EQ(stringToExpect, termToVerify.getDisplayableString());
+    EXPECT_TRUE(isExactDifferential);
+}
+
 TEST(MathVectorOfTermsUtilitiesTest, GetLimitWorks)
 {
-    Term t("t");
-    Term x(cos(t));
+    Term t("t");    Term x(cos(t));
     Term y(createExpressionIfPossible({Term(2), Term("*"), getEAsTerm(), Term("^"), t}));
     MathVectorOfTwoTerms termVector{x, y};
-
     MathVectorOfTwoTerms vectorToVerify(getLimit(termVector, "t", 0));
 
     string stringToExpect("{1, 2}");

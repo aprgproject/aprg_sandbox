@@ -1,240 +1,197 @@
 #include "SegregateTermsByVariableNamesInAdditionAndSubtractionRetriever.hpp"
 
 #include <Algebra/Retrieval/VariableNamesRetriever.hpp>
-#include <Algebra/Term/Utilities/EnumHelpers.hpp>
+#include <Algebra/Term/Operators/TermOperators.hpp>
+#include <Algebra/Term/Utilities/TermUtilities.hpp>
 
 using namespace alba::stringHelper;
 using namespace std;
-
 namespace alba
 {
 
 namespace algebra
 {
 
-SegregateTermsByVariableNamesInAdditionAndSubtractionRetriever::SegregateTermsByVariableNamesInAdditionAndSubtractionRetriever()
-    : m_variableNameExpressionMap()
-    , m_remainingTermsExpression()
-{}
-
-SegregateTermsByVariableNamesInAdditionAndSubtractionRetriever::VariableNameToExpressionMap const&
-SegregateTermsByVariableNamesInAdditionAndSubtractionRetriever::getVariableNameToExpressionMap() const
+SegregateTermsByVariableNamesInAdditionAndSubtractionRetriever::SegregateTermsByVariableNamesInAdditionAndSubtractionRetriever(strings const& variableNames)
+    : m_variableNameToTermMap()
+    , m_termWithMultipleVariableNames()
+    , m_remainingTerm()
 {
-    return m_variableNameExpressionMap;
+    initializeWithVariableNames(variableNames);
 }
 
-Expression const& SegregateTermsByVariableNamesInAdditionAndSubtractionRetriever::getRemainingTermsExpression() const
+SegregateTermsByVariableNamesInAdditionAndSubtractionRetriever::VariableNameToTermMap const&
+SegregateTermsByVariableNamesInAdditionAndSubtractionRetriever::getVariableNameToTermMap() const
 {
-    return m_remainingTermsExpression;
+    return m_variableNameToTermMap;
 }
 
-void SegregateTermsByVariableNamesInAdditionAndSubtractionRetriever::putVariableNamesToCheckInOrder(
-        strings const& namesInOrder)
+Term const& SegregateTermsByVariableNamesInAdditionAndSubtractionRetriever::getTermWithMultipleVariableNames() const
 {
-    for(string const& name : namesInOrder)
-    {
-        m_variableNameExpressionMap.emplace(name, Expression());
-    }
+    return m_termWithMultipleVariableNames;
+}
+
+Term const& SegregateTermsByVariableNamesInAdditionAndSubtractionRetriever::getRemainingTerm() const
+{
+    return m_remainingTerm;
 }
 
 void SegregateTermsByVariableNamesInAdditionAndSubtractionRetriever::retrieveFromConstant(
         Constant const& constant)
 {
-    retrieveFromConstant(constant, TermAssociationType::Positive);
+    m_remainingTerm += Term(constant);
 }
 
 void SegregateTermsByVariableNamesInAdditionAndSubtractionRetriever::retrieveFromVariable(
         Variable const& variable)
 {
-    retrieveFromVariable(variable, TermAssociationType::Positive);
+    unsigned int numberOfTimesFound(0);
+    string lastVariableNameFound;
+    for(auto & variableNameAndTermPair : m_variableNameToTermMap)
+    {
+        if(variableNameAndTermPair.first == variable.getVariableName())
+        {
+            lastVariableNameFound = variableNameAndTermPair.first;
+            numberOfTimesFound++;
+        }
+    }
+    saveTerm(Term(variable), numberOfTimesFound, lastVariableNameFound);
 }
 
 void SegregateTermsByVariableNamesInAdditionAndSubtractionRetriever::retrieveFromMonomial(
         Monomial const& monomial)
 {
-    retrieveFromMonomial(monomial, TermAssociationType::Positive);
+    unsigned int numberOfTimesFound(0);
+    string lastVariableNameFound;
+    for(auto & variableNameAndTermPair : m_variableNameToTermMap)
+    {
+        if(monomial.getExponentForVariable(variableNameAndTermPair.first) != 0)
+        {
+            lastVariableNameFound = variableNameAndTermPair.first;
+            numberOfTimesFound++;
+        }
+    }
+    saveTerm(Term(monomial), numberOfTimesFound, lastVariableNameFound);
 }
 
 void SegregateTermsByVariableNamesInAdditionAndSubtractionRetriever::retrieveFromPolynomial(
         Polynomial const& polynomial)
 {
-    retrieveFromPolynomial(polynomial, TermAssociationType::Positive);
+    for(Monomial const& monomial : polynomial.getMonomialsConstReference())
+    {
+        retrieveFromMonomial(monomial);
+    }
 }
 
 void SegregateTermsByVariableNamesInAdditionAndSubtractionRetriever::retrieveFromExpression(
         Expression const& expression)
 {
-    retrieveFromExpression(expression, TermAssociationType::Positive);
+    if(OperatorLevel::AdditionAndSubtraction == expression.getCommonOperatorLevel())
+    {        for(TermWithDetails const& termWithDetails
+            : expression.getTermsWithAssociation().getTermsWithDetails())
+        {
+            if(termWithDetails.hasPositiveAssociation())
+            {
+                retrieveFromTerm(getTermConstReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer));
+            }
+            else
+            {
+                retrieveFromTerm(negateTerm(getTermConstReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer)));
+            }
+        }
+    }
+    else
+    {
+        unsigned int numberOfTimesFound(0);
+        string lastVariableNameFound;
+        VariableNamesRetriever variableNamesRetriever;
+        variableNamesRetriever.retrieveFromExpression(expression);
+        VariableNamesSet const& namesInExpression(variableNamesRetriever.getSavedData());
+        for(auto & variableNameAndTermPair : m_variableNameToTermMap)
+        {
+            if(namesInExpression.find(variableNameAndTermPair.first) != namesInExpression.cend())
+            {
+                lastVariableNameFound = variableNameAndTermPair.first;
+                numberOfTimesFound++;
+            }
+        }
+        saveTerm(Term(expression), numberOfTimesFound, lastVariableNameFound);
+    }
 }
 
 void SegregateTermsByVariableNamesInAdditionAndSubtractionRetriever::retrieveFromFunction(
         Function const& functionObject)
 {
-    retrieveFromFunction(functionObject, TermAssociationType::Positive);
+    unsigned int numberOfTimesFound(0);
+    string lastVariableNameFound;
+    VariableNamesRetriever variableNamesRetriever;
+    variableNamesRetriever.retrieveFromFunction(functionObject);
+    VariableNamesSet const& namesInFunction(variableNamesRetriever.getSavedData());
+    for(auto & variableNameAndTermPair : m_variableNameToTermMap)
+    {
+        if(namesInFunction.find(variableNameAndTermPair.first) != namesInFunction.cend())
+        {
+            lastVariableNameFound = variableNameAndTermPair.first;
+            numberOfTimesFound++;
+        }
+    }
+    saveTerm(Term(functionObject), numberOfTimesFound, lastVariableNameFound);
 }
 
 void SegregateTermsByVariableNamesInAdditionAndSubtractionRetriever::retrieveFromTerm(
         Term const& term)
 {
-    retrieveFromTerm(term, TermAssociationType::Positive);
-}
-
-void SegregateTermsByVariableNamesInAdditionAndSubtractionRetriever::retrieveFromConstant(
-        Constant const& constant,
-        TermAssociationType const overallAssociation)
-{
-    m_remainingTermsExpression.putTerm(Term(constant), overallAssociation);
-}
-
-void SegregateTermsByVariableNamesInAdditionAndSubtractionRetriever::retrieveFromVariable(
-        Variable const& variable,
-        TermAssociationType const overallAssociation)
-{
-    bool isFound(false);
-    for(auto & variableNameExpression : m_variableNameExpressionMap)
-    {
-        string const& savedVariableName(variableNameExpression.first);
-        Expression & savedExpression(variableNameExpression.second);
-        if(savedVariableName == variable.getVariableName())
-        {
-            savedExpression.putTerm(Term(variable), overallAssociation);
-            isFound=true;
-            break;
-        }
-    }
-    if(!isFound)
-    {
-        m_remainingTermsExpression.putTerm(Term(variable), overallAssociation);
-    }
-}
-
-void SegregateTermsByVariableNamesInAdditionAndSubtractionRetriever::retrieveFromMonomial(
-        Monomial const& monomial,
-        TermAssociationType const overallAssociation)
-{
-    bool isFound(false);
-    for(auto & variableNameExpression : m_variableNameExpressionMap)
-    {
-        string const& savedVariableName(variableNameExpression.first);
-        Expression & savedExpression(variableNameExpression.second);
-        if(monomial.getExponentForVariable(savedVariableName) != 0)
-        {
-            savedExpression.putTerm(Term(monomial), overallAssociation);
-            isFound=true;
-            break;
-        }
-    }
-    if(!isFound)
-    {
-        m_remainingTermsExpression.putTerm(Term(monomial), overallAssociation);
-    }
-}
-
-void SegregateTermsByVariableNamesInAdditionAndSubtractionRetriever::retrieveFromPolynomial(
-        Polynomial const& polynomial,
-        TermAssociationType const overallAssociation)
-{
-    for(Monomial const& monomial : polynomial.getMonomialsConstReference())
-    {
-        retrieveFromMonomial(monomial, overallAssociation);
-    }
-}
-
-void SegregateTermsByVariableNamesInAdditionAndSubtractionRetriever::retrieveFromExpression(
-        Expression const& expression,
-        TermAssociationType const overallAssociation)
-{
-    if(OperatorLevel::AdditionAndSubtraction == expression.getCommonOperatorLevel())
-    {
-        for(TermWithDetails const& termWithDetails
-            : expression.getTermsWithAssociation().getTermsWithDetails())
-        {
-            TermAssociationType termAssociation;
-            if(termWithDetails.hasPositiveAssociation())
-            {
-                termAssociation = overallAssociation;
-            }
-            else
-            {
-                termAssociation = getReversedAssociationType(overallAssociation);
-            }
-            retrieveFromTerm(getTermConstReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer), termAssociation);
-        }
-    }
-    else
-    {
-        bool isFound(false);
-        VariableNamesRetriever variableNamesRetriever;
-        variableNamesRetriever.retrieveFromExpression(expression);
-        VariableNamesSet const& namesInExpression(variableNamesRetriever.getSavedData());
-        for(auto & variableNameExpression : m_variableNameExpressionMap)
-        {
-            string const& savedVariableName(variableNameExpression.first);
-            Expression & savedExpression(variableNameExpression.second);
-            if(namesInExpression.find(savedVariableName) != namesInExpression.cend())
-            {
-                savedExpression.putTerm(Term(expression), overallAssociation);
-                isFound=true;
-            }
-        }
-        if(!isFound)
-        {
-            m_remainingTermsExpression.putTerm(Term(expression), overallAssociation);
-        }
-    }
-}
-
-void SegregateTermsByVariableNamesInAdditionAndSubtractionRetriever::retrieveFromFunction(
-        Function const& functionObject,
-        TermAssociationType const overallAssociation)
-{
-    bool isFound(false);
-    VariableNamesRetriever variableNamesRetriever;
-    variableNamesRetriever.retrieveFromFunction(functionObject);
-    VariableNamesSet const& namesInFunction(variableNamesRetriever.getSavedData());
-    for(auto & variableNameExpression : m_variableNameExpressionMap)
-    {
-        string const& savedVariableName(variableNameExpression.first);
-        Expression & savedExpression(variableNameExpression.second);
-        if(namesInFunction.find(savedVariableName) != namesInFunction.cend())
-        {
-            savedExpression.putTerm(Term(functionObject), overallAssociation);
-            isFound=true;
-        }
-    }
-    if(!isFound)
-    {
-        m_remainingTermsExpression.putTerm(Term(functionObject), overallAssociation);
-    }
-}
-
-void SegregateTermsByVariableNamesInAdditionAndSubtractionRetriever::retrieveFromTerm(
-        Term const& term,
-        TermAssociationType const overallAssociation)
-{
     if(term.isConstant())
     {
-        retrieveFromConstant(term.getConstantConstReference(), overallAssociation);
+        retrieveFromConstant(term.getConstantConstReference());
     }
     else if(term.isVariable())
     {
-        retrieveFromVariable(term.getVariableConstReference(), overallAssociation);
+        retrieveFromVariable(term.getVariableConstReference());
     }
     else if(term.isMonomial())
     {
-        retrieveFromMonomial(term.getMonomialConstReference(), overallAssociation);
+        retrieveFromMonomial(term.getMonomialConstReference());
     }
     else if(term.isPolynomial())
     {
-        retrieveFromPolynomial(term.getPolynomialConstReference(), overallAssociation);
+        retrieveFromPolynomial(term.getPolynomialConstReference());
     }
     else if(term.isExpression())
     {
-        retrieveFromExpression(term.getExpressionConstReference(), overallAssociation);
+        retrieveFromExpression(term.getExpressionConstReference());
     }
     else if(term.isFunction())
     {
-        retrieveFromFunction(term.getFunctionConstReference(), overallAssociation);
+        retrieveFromFunction(term.getFunctionConstReference());
+    }
+}
+
+void SegregateTermsByVariableNamesInAdditionAndSubtractionRetriever::initializeWithVariableNames(
+        strings const& namesInOrder)
+{
+    for(string const& name : namesInOrder)
+    {
+        m_variableNameToTermMap.emplace(name, Term());
+    }
+}
+
+void SegregateTermsByVariableNamesInAdditionAndSubtractionRetriever::saveTerm(
+        Term const& term,
+        unsigned int numberOfTimesFound,
+        string const& variableName)
+{
+    if(numberOfTimesFound == 0)
+    {
+        m_remainingTerm += term;
+    }
+    else if(numberOfTimesFound == 1)
+    {
+        m_variableNameToTermMap.at(variableName) += term;
+    }
+    else
+    {
+        m_termWithMultipleVariableNames += term;
     }
 }
 

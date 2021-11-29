@@ -15,33 +15,27 @@ namespace algebra
 class SegregateTermsByVariableNamesInAdditionAndSubtractionRetriever
 {
 public:
-    using VariableNameToExpressionMap=std::unordered_map<std::string, Expression>;
+    using VariableNameToTermMap=std::unordered_map<std::string, Term>;
 
-    SegregateTermsByVariableNamesInAdditionAndSubtractionRetriever();
+    SegregateTermsByVariableNamesInAdditionAndSubtractionRetriever(stringHelper::strings const& variableNames);
 
-    VariableNameToExpressionMap const& getVariableNameToExpressionMap() const;
-    Expression const& getRemainingTermsExpression() const;
+    VariableNameToTermMap const& getVariableNameToTermMap() const;
+    Term const& getTermWithMultipleVariableNames() const;
+    Term const& getRemainingTerm() const;
 
-    void putVariableNamesToCheckInOrder(stringHelper::strings const& namesInOrder);
     void retrieveFromConstant(Constant const& constant);
     void retrieveFromVariable(Variable const& variable);
-    void retrieveFromMonomial(Monomial const& monomial);
-    void retrieveFromPolynomial(Polynomial const& polynomial);
+    void retrieveFromMonomial(Monomial const& monomial);    void retrieveFromPolynomial(Polynomial const& polynomial);
     void retrieveFromExpression(Expression const& expression);
     void retrieveFromFunction(Function const& functionObject);
     void retrieveFromTerm(Term const& term);
 private:
-    void retrieveFromConstant(Constant const& constant, TermAssociationType const overallAssociation);
-    void retrieveFromVariable(Variable const& variable, TermAssociationType const overallAssociation);
-    void retrieveFromMonomial(Monomial const& monomial, TermAssociationType const overallAssociation);
-    void retrieveFromPolynomial(Polynomial const& polynomial, TermAssociationType const overallAssociation);
-    void retrieveFromExpression(Expression const& expression, TermAssociationType const overallAssociation);
-    void retrieveFromFunction(Function const& functionObject, TermAssociationType const overallAssociation);
-    void retrieveFromTerm(Term const& term, TermAssociationType const overallAssociation);
-    VariableNameToExpressionMap m_variableNameExpressionMap;
-    Expression m_remainingTermsExpression;
+    void initializeWithVariableNames(stringHelper::strings const& namesInOrder);
+    void saveTerm(Term const& term, unsigned int numberOfTimesFound, std::string const& variableName);
+    VariableNameToTermMap m_variableNameToTermMap;
+    Term m_termWithMultipleVariableNames;
+    Term m_remainingTerm;
 };
 
 }
-
 }

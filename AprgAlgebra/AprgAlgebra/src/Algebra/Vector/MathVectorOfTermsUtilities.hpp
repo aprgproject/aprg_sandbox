@@ -6,14 +6,13 @@
 #include <Algebra/Integration/IntegrationUtilities.hpp>
 #include <Algebra/Limit/Continuity.hpp>
 #include <Algebra/Limit/Limit.hpp>
+#include <Algebra/Retrieval/SegregateTermsByVariableNamesInAdditionAndSubtractionRetriever.hpp>
 #include <Algebra/Simplification/SimplificationUtilities.hpp>
 #include <Algebra/Vector/VectorTypes.hpp>
 #include <Math/Angle/AlbaAngle.hpp>
-
 #include <algorithm>
 
-namespace alba
-{
+namespace alba{
 
 namespace algebra
 {
@@ -48,20 +47,19 @@ template <unsigned int SIZE> Term getLengthOfArcDerivative(MathVectorOfTerms<SIZ
 template <unsigned int SIZE> Term getLengthOfArc(MathVectorOfTerms<SIZE> const& termVector, std::string const& variableName);
 template <unsigned int SIZE> Term getLengthOfArcFromStartToEnd(MathVectorOfTerms<SIZE> const& termVector, std::string const& variableName, Term const& lowerValueTerm, Term const& higherValueTerm);
 template <unsigned int SIZE> Term getCurvature(MathVectorOfTerms<SIZE> const& termVector, std::string const& variableName);
+template <unsigned int SIZE> Term getTermWithGradient(MathVectorOfTerms<SIZE> const& gradient, ArrayOfStrings<SIZE> const& coordinateVariables);
 template <unsigned int SIZE> MathVectorOfTerms<SIZE> getLimit(MathVectorOfTerms<SIZE> const& termVector, std::string const& variableName, AlbaNumber const& valueToApproach);
 template <unsigned int SIZE> MathVectorOfTerms<SIZE> differentiate(MathVectorOfTerms<SIZE> const& termVector, std::string const& variableName);
-template <unsigned int SIZE> MathVectorOfTerms<SIZE> integrate(MathVectorOfTerms<SIZE> const& termVector, std::string const& variableName);
-template <unsigned int SIZE> MathVectorOfTerms<SIZE> getUnitTangentVector(MathVectorOfTerms<SIZE> const& termVector, std::string const& variableName);
+template <unsigned int SIZE> MathVectorOfTerms<SIZE> integrate(MathVectorOfTerms<SIZE> const& termVector, std::string const& variableName);template <unsigned int SIZE> MathVectorOfTerms<SIZE> getUnitTangentVector(MathVectorOfTerms<SIZE> const& termVector, std::string const& variableName);
 template <unsigned int SIZE> MathVectorOfTerms<SIZE> getUnitNormalVector(MathVectorOfTerms<SIZE> const& termVector, std::string const& variableName);
 template <unsigned int SIZE> MathVectorOfTerms<SIZE> getCurvatureVector(MathVectorOfTerms<SIZE> const& termVector, std::string const& variableName);
+template <unsigned int SIZE> MathVectorOfTerms<SIZE> getGradient( Term const& term, ArrayOfStrings<SIZE> const& coordinateVariables);
 
 
-template <unsigned int SIZE>
-bool isContinuousAt(
+template <unsigned int SIZE>bool isContinuousAt(
         MathVectorOfTerms<SIZE> const& termVector,
         std::string const& variableName,
-        AlbaNumber const& value)
-{
+        AlbaNumber const& value){
     using Values = typename MathVectorOfTerms<SIZE>::ValuesInArray;
     Values const& values(termVector.getValues());
     return std::all_of(values.cbegin(), values.cend(), [&](Term const& term)
@@ -134,14 +132,78 @@ Term getCurvature(
 }
 
 template <unsigned int SIZE>
+Term getTermWithGradient(
+        MathVectorOfTerms<SIZE> const& gradient,
+        ArrayOfStrings<SIZE> const& coordinateVariables,
+        bool & isExactDifferential)
+{
+    Term result;
+    bool isFirst(true);
+    isExactDifferential = true;
+    Term termToCompare;
+    for(unsigned int i=0; isExactDifferential && i<SIZE; i++)
+    {
+        std::string const& coordinateVariableName(coordinateVariables.at(i));
+        SegregateTermsByVariableNamesInAdditionAndSubtractionRetriever retrieverWithAllCoordinates(
+                    stringHelper::strings(coordinateVariables.cbegin(), coordinateVariables.cend()));
+        retrieverWithAllCoordinates.retrieveFromTerm(gradient.getValueAt(i));
+        Term uniquePart(retrieverWithAllCoordinates.getRemainingTerm());
+        Term commonPart(retrieverWithAllCoordinates.getTermWithMultipleVariableNames());
+        for(auto const& variableNameAndTermPair : retrieverWithAllCoordinates.getVariableNameToTermMap())
+        {
+            if(variableNameAndTermPair.first == coordinateVariableName)
+            {
+                uniquePart += variableNameAndTermPair.second;
+            }
+            else
+            {
+                commonPart += variableNameAndTermPair.second;
+            }
+        }
+        Integration integration(coordinateVariableName);
+        if(isFirst)
+        {
+            termToCompare = integration.integrate(commonPart);
+            isFirst = false;
+        }
+        else
+        {
+            Term currentTermToCompare(integration.integrate(commonPart));
+            SegregateTermsByVariableNamesInAdditionAndSubtractionRetriever retriever1({coordinateVariableName});
+            SegregateTermsByVariableNamesInAdditionAndSubtractionRetriever retriever2({coordinateVariableName});
+            retriever1.retrieveFromTerm(termToCompare);
+            retriever2.retrieveFromTerm(currentTermToCompare);
+            Term term1WithVariableName(retriever1.getVariableNameToTermMap().at(coordinateVariableName));
+            Term term2WithVariableName(retriever2.getVariableNameToTermMap().at(coordinateVariableName));
+            Term term1WithoutVariableName(retriever1.getTermWithMultipleVariableNames() + retriever1.getRemainingTerm());
+            Term term2WithoutVariableName(retriever2.getTermWithMultipleVariableNames() + retriever2.getRemainingTerm());
+            if(term1WithoutVariableName.isEmpty() && !term2WithoutVariableName.isEmpty())
+            {
+                termToCompare = term2WithVariableName + term2WithoutVariableName;
+            }
+            isExactDifferential = term1WithVariableName == term2WithVariableName;
+        }
+        result += integration.integrate(uniquePart);
+    }
+    if(isExactDifferential)
+    {
+        result += termToCompare;
+    }
+    else
+    {
+        result.clear();
+    }
+    simplifyForTermInVector(result);
+    return result;
+}
+
+template <unsigned int SIZE>
 MathVectorOfTerms<SIZE> getLimit(
         MathVectorOfTerms<SIZE> const& termVector,
-        std::string const& variableName,
-        AlbaNumber const& valueToApproach)
+        std::string const& variableName,        AlbaNumber const& valueToApproach)
 {
     using Values = typename MathVectorOfTerms<SIZE>::ValuesInArray;
-    MathVectorOfTerms<SIZE> result;
-    Values const& values(termVector.getValues());
+    MathVectorOfTerms<SIZE> result;    Values const& values(termVector.getValues());
     std::transform(values.cbegin(), values.cend(), result.getValuesReference().begin(), [&](Term const& term)
     {
         return getLimit(term, variableName, valueToApproach);

@@ -375,22 +375,19 @@ Equation getIntegralEquationForFirstOrderDifferentialEquation(
     Term termWithDerivative;
     Term termWithoutDerivative;
     isolation.isolateTermWithVariable(derivativeName, termWithDerivative, termWithoutDerivative);
-    SegregateTermsByVariableNamesInAdditionAndSubtractionRetriever retriever;
-    retriever.putVariableNamesToCheckInOrder({derivativeName, yVariableName});
+    SegregateTermsByVariableNamesInAdditionAndSubtractionRetriever retriever({derivativeName, yVariableName});
     retriever.retrieveFromTerm(termWithoutDerivative);
-    SegregateTermsByVariableNamesInAdditionAndSubtractionRetriever::VariableNameToExpressionMap const& variableNameToExpressionMap(
-                retriever.getVariableNameToExpressionMap());
+    SegregateTermsByVariableNamesInAdditionAndSubtractionRetriever::VariableNameToTermMap const& variableNameToTermMap(
+                retriever.getVariableNameToTermMap());
     Term dyOverDx = termWithDerivative;
-    Term p = -Term(variableNameToExpressionMap.at(yVariableName));
-    Term q = retriever.getRemainingTermsExpression();
+    Term p = negateTerm(variableNameToTermMap.at(yVariableName));
+    Term q = retriever.getTermWithMultipleVariableNames() + retriever.getRemainingTerm();
 
     dyOverDx.simplify();
-    p.simplify();
-    q.simplify();
+    p.simplify();    q.simplify();
     if(isFirstOrderDifferentialEquation(dyOverDx, p, q, xVariableName, yVariableName))
     {
-        result = getIntegralEquationForFirstOrderDifferentialEquation(p, q, xVariableName, yVariableName);
-    }
+        result = getIntegralEquationForFirstOrderDifferentialEquation(p, q, xVariableName, yVariableName);    }
     return result;
 }
 
