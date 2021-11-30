@@ -18,14 +18,22 @@ namespace algebra
 namespace VectorUtilities
 {
 
+TEST(MathVectorOfTermsUtilitiesTest, IsDivergenceOfCurlZeroWorks)
+{
+    Term x(createExpressionIfPossible({getEAsTerm(), Term("^"), Term(Monomial(2, {{"x", 1}}))}));
+    Term y(Monomial(3, {{"x", 2}, {"y", 1}, {"z", 1}}));
+    Term z(Polynomial{Monomial(2, {{"y", 2}, {"z", 1}}), Monomial(1, {{"x", 1}})});
+    MathVectorOfThreeTerms vectorField{x, y, z};
+
+    EXPECT_TRUE(isDivergenceOfCurlZero(vectorField, {"x", "y", "z"}));
+}
+
 TEST(MathVectorOfTermsUtilitiesTest, GetDyOverDxWorks)
 {
-    Term x(Polynomial{Monomial(4, {}), Monomial(-1, {{"t", 2}})});
-    Term y(Polynomial{Monomial(1, {{"t", 2}}), Monomial(4, {{"t", 1}})});
+    Term x(Polynomial{Monomial(4, {}), Monomial(-1, {{"t", 2}})});    Term y(Polynomial{Monomial(1, {{"t", 2}}), Monomial(4, {{"t", 1}})});
     MathVectorOfTwoTerms termVector{x, y};
 
     Term termToVerify(getDyOverDx(termVector, "t"));
-
     string stringToExpect("(-1 + -2[t^-1])");
     EXPECT_EQ(stringToExpect, termToVerify.getDisplayableString());
 }
@@ -91,13 +99,24 @@ TEST(MathVectorOfTermsUtilitiesTest, GetPerpendicularLineOnAPointOfASurfaceWorks
     EXPECT_EQ(stringToExpect2, equationsToVerify.at(1).getDisplayableString());
 }
 
+TEST(MathVectorOfTermsUtilitiesTest, GetCurlWorks)
+{
+    Term x(createExpressionIfPossible({getEAsTerm(), Term("^"), Term(Monomial(2, {{"x", 1}}))}));
+    Term y(Monomial(3, {{"x", 2}, {"y", 1}, {"z", 1}}));
+    Term z(Polynomial{Monomial(2, {{"y", 2}, {"z", 1}}), Monomial(1, {{"x", 1}})});
+    MathVectorOfThreeTerms vectorField{x, y, z};
+
+    MathVectorOfThreeTerms vectorToVerify(getCurl(vectorField, {"x", "y", "z"}));
+
+    string stringToExpect("{(-3[x^2][y] + 4[y][z]), -1, 6[x][y][z]}");
+    EXPECT_EQ(stringToExpect, vectorToVerify.getDisplayableString());
+}
+
 TEST(MathVectorOfTermsUtilitiesTest, IsContinuousAtWorks)
 {
-    Term t("t");
-    Term x(cos(t));
+    Term t("t");    Term x(cos(t));
     Term y(createExpressionIfPossible({Term(2), Term("*"), getEAsTerm(), Term("^"), t}));
     MathVectorOfTwoTerms termVector{x, y};
-
     EXPECT_TRUE(isContinuousAt(termVector, "t", 0));
 }
 
@@ -210,13 +229,51 @@ TEST(MathVectorOfTermsUtilitiesTest, GetTermWithGradientWorksWithExample3)
     EXPECT_TRUE(isExactDifferential);
 }
 
+TEST(MathVectorOfTermsUtilitiesTest, GetPotentialFunctionForVectorFieldGradientWorks)
+{
+    Term x(Monomial(1, {{"y", -1}}));
+    Term y(Monomial(-1, {{"x", 1}, {"y", -2}}));
+    MathVectorOfTwoTerms gradient{x, y};
+
+    bool isConservative(false);
+    Term termToVerify(getPotentialFunctionForVectorFieldGradient(gradient, {"x", "y"}, isConservative));
+
+    string stringToExpect("1[x][y^-1]");
+    EXPECT_EQ(stringToExpect, termToVerify.getDisplayableString());
+    EXPECT_TRUE(isConservative);
+}
+
+TEST(MathVectorOfTermsUtilitiesTest, GetDivergenceWorks)
+{
+    Term x(createExpressionIfPossible({getEAsTerm(), Term("^"), Term(Monomial(2, {{"x", 1}}))}));
+    Term y(Monomial(3, {{"x", 2}, {"y", 1}, {"z", 1}}));
+    Term z(Polynomial{Monomial(2, {{"y", 2}, {"z", 1}}), Monomial(1, {{"x", 1}})});
+    MathVectorOfThreeTerms vectorField{x, y, z};
+
+    Term termToVerify(getDivergence(vectorField, {"x", "y", "z"}));
+
+    string stringToExpect("((2*((e)^2[x]))+3[x^2][z]+2[y^2])");
+    EXPECT_EQ(stringToExpect, termToVerify.getDisplayableString());
+}
+
+TEST(MathVectorOfTermsUtilitiesTest, GetLaplaceTermWorks)
+{
+    Term x(createExpressionIfPossible({getEAsTerm(), Term("^"), Term(Monomial(2, {{"x", 1}}))}));
+    Term y(Monomial(3, {{"x", 2}, {"y", 2}, {"z", 1}}));
+    Term z(Polynomial{Monomial(2, {{"y", 2}, {"z", 2}}), Monomial(1, {{"x", 1}})});
+    MathVectorOfThreeTerms vectorField{x, y, z};
+
+    Term termToVerify(getLaplaceTerm(vectorField, {"x", "y", "z"}));
+
+    string stringToExpect("((4*((e)^2[x]))+6[x^2][z]+4[y^2])");
+    EXPECT_EQ(stringToExpect, termToVerify.getDisplayableString());
+}
+
 TEST(MathVectorOfTermsUtilitiesTest, GetLimitWorks)
 {
-    Term t("t");
-    Term x(cos(t));
+    Term t("t");    Term x(cos(t));
     Term y(createExpressionIfPossible({Term(2), Term("*"), getEAsTerm(), Term("^"), t}));
     MathVectorOfTwoTerms termVector{x, y};
-
     MathVectorOfTwoTerms vectorToVerify(getLimit(termVector, "t", 0));
 
     string stringToExpect("{1, 2}");
@@ -282,6 +339,28 @@ TEST(MathVectorOfTermsUtilitiesTest, GetCurvatureVectorWorks)
     MathVectorOfTwoTerms vectorToVerify(getCurvatureVector(termVector, "t"));
 
     string stringToExpect("{(48/(81[t^5] + 288[t^3] + 256[t])), (-36/(81[t^4] + 288[t^2] + 256))}");
+    EXPECT_EQ(stringToExpect, vectorToVerify.getDisplayableString());
+}
+
+TEST(MathVectorOfTermsUtilitiesTest, GetGradientWorks)
+{
+    Term termToTest(Polynomial{Monomial(AlbaNumber::createFraction(1, 16), {{"x", 2}}), Monomial(AlbaNumber::createFraction(1, 9), {{"y", 2}})});
+
+    MathVectorOfTwoTerms vectorToVerify(getGradient<2U>(termToTest, {"x", "y"}));
+
+    string stringToExpect("{(1/8)[x], (2/9)[y]}");
+    EXPECT_EQ(stringToExpect, vectorToVerify.getDisplayableString());
+}
+
+TEST(MathVectorOfTermsUtilitiesTest, GetDelWorks)
+{
+    Term x(Monomial(1, {{"x", 1}, {"y", 2}}));
+    Term y(Monomial(1, {{"x", 3}, {"y", 4}}));
+    MathVectorOfTwoTerms termVector{x, y};
+
+    MathVectorOfTwoTerms vectorToVerify(getDel(termVector, {"x", "y"}));
+
+    string stringToExpect("{1[y^2], 4[x^3][y^3]}");
     EXPECT_EQ(stringToExpect, vectorToVerify.getDisplayableString());
 }
 
