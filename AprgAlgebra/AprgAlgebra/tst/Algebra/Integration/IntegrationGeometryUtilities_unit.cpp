@@ -413,6 +413,36 @@ TEST(IntegrationGeometryUtilitiesTest, GetTripleIntegralInCartesianCoordinatesWo
     EXPECT_EQ(termToExpect, termToVerify);
 }
 
+TEST(IntegrationGeometryUtilitiesTest, GetTripleIntegralInCylindricalCoordinatesWorks)
+{
+    // Get volume of cylinder with radius=2 and height=3
+
+    Term termToTest(1);
+    CoordinateDetailsForIntegral radiusDetails{"r", Term(0), Term(2)};
+    CoordinateDetailsForIntegral thetaDetails{"theta", Term(0), getPiAsTerm()*Term(2)};
+    CoordinateDetailsForIntegral zDetails{"z", Term(0), Term(3)};
+
+    Term termToVerify(getTripleIntegralInCylindricalCoordinates(termToTest, radiusDetails, thetaDetails, zDetails));
+
+    Term termToExpect(37.69911184307752);
+    EXPECT_EQ(termToExpect, termToVerify);
+}
+
+TEST(IntegrationGeometryUtilitiesTest, GetTripleIntegralInSphericalCoordinatesWorks)
+{
+    // Get volume of sphere with raw=2
+
+    Term termToTest(8); // integrate a sphere on each quadrant
+    CoordinateDetailsForIntegral rawDetails{"raw", Term(0), Term(2)};
+    CoordinateDetailsForIntegral thetaDetails{"theta", Term(0), getPiAsTerm()/Term(2)};
+    CoordinateDetailsForIntegral phiDetails{"phi", Term(0), getPiAsTerm()/Term(2)};
+
+    Term termToVerify(getTripleIntegralInSphericalCoordinates(termToTest, rawDetails, thetaDetails, phiDetails));
+
+    Term termToExpect(33.51032163829112);
+    EXPECT_EQ(termToExpect, termToVerify);
+}
+
 }
 
 }
