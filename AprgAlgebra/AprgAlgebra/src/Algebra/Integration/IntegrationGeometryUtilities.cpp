@@ -2,12 +2,16 @@
 
 #include <Algebra/Differentiation/Differentiation.hpp>
 #include <Algebra/Differentiation/DifferentiationUtilities.hpp>
+#include <Algebra/Functions/CommonFunctionLibrary.hpp>
 #include <Algebra/Integration/Integration.hpp>
 #include <Algebra/Term/Operators/TermOperators.hpp>
 #include <Algebra/Term/Utilities/TermUtilities.hpp>
+
+using namespace alba::algebra::Functions;
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 namespace algebra
 {
@@ -366,7 +370,7 @@ Term getSurfaceAreaWithZInCartesianCoordinates(
 }
 
 Term getTripleIntegralInCartesianCoordinates(
-        Term const& termWithXAndYWithZ,
+        Term const& termWithXAndYAndZ,
         CoordinateDetailsForIntegral const& xDetails,
         CoordinateDetailsForIntegral const& yDetails,
         CoordinateDetailsForIntegral const& zDetails)
@@ -374,9 +378,39 @@ Term getTripleIntegralInCartesianCoordinates(
     Integration integrationInX(xDetails.variableName);
     Integration integrationInY(yDetails.variableName);
     Integration integrationInZ(zDetails.variableName);
-    Term integratedInZ(integrationInZ.integrateAtDefiniteTerms(termWithXAndYWithZ, zDetails.lowerValueTerm, zDetails.higherValueTerm));
+    Term integratedInZ(integrationInZ.integrateAtDefiniteTerms(termWithXAndYAndZ, zDetails.lowerValueTerm, zDetails.higherValueTerm));
     Term integratedInY(integrationInY.integrateAtDefiniteTerms(integratedInZ, yDetails.lowerValueTerm, yDetails.higherValueTerm));
     return (integrationInX.integrateAtDefiniteTerms(integratedInY, xDetails.lowerValueTerm, xDetails.higherValueTerm));
+}
+
+Term getTripleIntegralInCylindricalCoordinates(
+        Term const& termWithRadiusAndThetaAndZ,
+        CoordinateDetailsForIntegral const& radiusDetails,
+        CoordinateDetailsForIntegral const& thetaDetails,
+        CoordinateDetailsForIntegral const& zDetails)
+{
+    Term termToIntegrate(termWithRadiusAndThetaAndZ * Term(radiusDetails.variableName));
+    Integration integrationInRadius(radiusDetails.variableName);
+    Integration integrationInTheta(thetaDetails.variableName);
+    Integration integrationInZ(zDetails.variableName);
+    Term integratedInRadius(integrationInRadius.integrateAtDefiniteTerms(termToIntegrate, radiusDetails.lowerValueTerm, radiusDetails.higherValueTerm));
+    Term integratedInTheta(integrationInTheta.integrateAtDefiniteTerms(integratedInRadius, thetaDetails.lowerValueTerm, thetaDetails.higherValueTerm));
+    return (integrationInZ.integrateAtDefiniteTerms(integratedInTheta, zDetails.lowerValueTerm, zDetails.higherValueTerm));
+}
+
+Term getTripleIntegralInSphericalCoordinates(
+        Term const& termWithRawAndThetaAndPhi,
+        CoordinateDetailsForIntegral const& rawDetails,
+        CoordinateDetailsForIntegral const& thetaDetails,
+        CoordinateDetailsForIntegral const& phiDetails)
+{
+    Term termToIntegrate(termWithRawAndThetaAndPhi * (Term(rawDetails.variableName)^Term(2)) * Term(sin(Term(phiDetails.variableName))));
+    Integration integrationInRadius(rawDetails.variableName);
+    Integration integrationInTheta(thetaDetails.variableName);
+    Integration integrationInPhi(phiDetails.variableName);
+    Term integratedInRadius(integrationInRadius.integrateAtDefiniteTerms(termToIntegrate, rawDetails.lowerValueTerm, rawDetails.higherValueTerm));
+    Term integratedInTheta(integrationInTheta.integrateAtDefiniteTerms(integratedInRadius, thetaDetails.lowerValueTerm, thetaDetails.higherValueTerm));
+    return (integrationInPhi.integrateAtDefiniteTerms(integratedInTheta, phiDetails.lowerValueTerm, phiDetails.higherValueTerm));
 }
 
 }

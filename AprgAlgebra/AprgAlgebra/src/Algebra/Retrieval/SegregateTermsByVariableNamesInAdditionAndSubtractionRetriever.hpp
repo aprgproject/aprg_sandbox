@@ -25,7 +25,8 @@ public:
 
     void retrieveFromConstant(Constant const& constant);
     void retrieveFromVariable(Variable const& variable);
-    void retrieveFromMonomial(Monomial const& monomial);    void retrieveFromPolynomial(Polynomial const& polynomial);
+    void retrieveFromMonomial(Monomial const& monomial);
+    void retrieveFromPolynomial(Polynomial const& polynomial);
     void retrieveFromExpression(Expression const& expression);
     void retrieveFromFunction(Function const& functionObject);
     void retrieveFromTerm(Term const& term);
@@ -38,4 +39,5 @@ private:
 };
 
 }
+
 }

@@ -20,9 +20,11 @@ struct CoordinateDetailsForIntegral
 
 Term getAreaInBetweenTwoTermsInAnInterval(
         Term const& lowerTerm,
-        Term const& higherTerm,        std::string const& variableName,
+        Term const& higherTerm,
+        std::string const& variableName,
         AlbaNumber const& lowerValueInInterval,
         AlbaNumber const& higherValueInInterval);
+
 Term getVolumeUsingOnCrossSectionalArea(
         Term const& crossSectionalArea,
         std::string const& variableName,
@@ -177,10 +179,22 @@ Term getSurfaceAreaWithZInCartesianCoordinates(
         CoordinateDetailsForIntegral const& yDetails);
 
 Term getTripleIntegralInCartesianCoordinates(
-        Term const& termWithXAndYWithZ,
+        Term const& termWithXAndYAndZ,
         CoordinateDetailsForIntegral const& xDetails,
         CoordinateDetailsForIntegral const& yDetails,
         CoordinateDetailsForIntegral const& zDetails);
+
+Term getTripleIntegralInCylindricalCoordinates(
+        Term const& termWithRadiusAndThetaAndZ,
+        CoordinateDetailsForIntegral const& radiusDetails,
+        CoordinateDetailsForIntegral const& thetaDetails,
+        CoordinateDetailsForIntegral const& zDetails);
+
+Term getTripleIntegralInSphericalCoordinates(
+        Term const& termWithRawAndThetaAndPhi,
+        CoordinateDetailsForIntegral const& rawDetails,
+        CoordinateDetailsForIntegral const& thetaDetails,
+        CoordinateDetailsForIntegral const& phiDetails);
 
 }
 

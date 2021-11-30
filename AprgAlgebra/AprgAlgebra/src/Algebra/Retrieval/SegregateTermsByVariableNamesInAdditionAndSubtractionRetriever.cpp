@@ -6,6 +6,7 @@
 
 using namespace alba::stringHelper;
 using namespace std;
+
 namespace alba
 {
 
@@ -87,7 +88,8 @@ void SegregateTermsByVariableNamesInAdditionAndSubtractionRetriever::retrieveFro
         Expression const& expression)
 {
     if(OperatorLevel::AdditionAndSubtraction == expression.getCommonOperatorLevel())
-    {        for(TermWithDetails const& termWithDetails
+    {
+        for(TermWithDetails const& termWithDetails
             : expression.getTermsWithAssociation().getTermsWithDetails())
         {
             if(termWithDetails.hasPositiveAssociation())
