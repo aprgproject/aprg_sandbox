@@ -1,14 +1,13 @@
 #include "IntegrationGeometryUtilities.hpp"
 
 #include <Algebra/Differentiation/Differentiation.hpp>
+#include <Algebra/Differentiation/DifferentiationUtilities.hpp>
 #include <Algebra/Integration/Integration.hpp>
 #include <Algebra/Term/Operators/TermOperators.hpp>
 #include <Algebra/Term/Utilities/TermUtilities.hpp>
-
 using namespace std;
 
-namespace alba
-{
+namespace alba{
 
 namespace algebra
 {
@@ -250,6 +249,134 @@ Term integrateInPolarCoordinates(
     Term radiusSquared(radiusInTermsOfTheta^2);
     radiusSquared.simplify();
     return integration.integrateAtDefiniteTerms(radiusSquared, lowerValueTermInTheta, higherValueTermInTheta);
+}
+
+Term getDoubleIntegralInCartesianCoordinates(
+        Term const& termWithXAndY,
+        CoordinateDetailsForIntegral const& xDetails,
+        CoordinateDetailsForIntegral const& yDetails)
+{
+    Integration integrationInX(xDetails.variableName);
+    Integration integrationInY(yDetails.variableName);
+    return integrationInY.integrateAtDefiniteTerms(
+                integrationInX.integrateAtDefiniteTerms(termWithXAndY, xDetails.lowerValueTerm, xDetails.higherValueTerm),
+                yDetails.lowerValueTerm,
+                yDetails.higherValueTerm);
+}
+
+Term getTotalMassOfALamina(
+        Term const& areaDensityAtPointInXAndY,
+        CoordinateDetailsForIntegral const& xDetails,
+        CoordinateDetailsForIntegral const& yDetails)
+{
+    return getDoubleIntegralInCartesianCoordinates(areaDensityAtPointInXAndY, xDetails, yDetails);
+}
+
+Term getMomentOfMassOfALaminaWithRespectToXAxis(
+        Term const& areaDensityAtPointInXAndY,
+        CoordinateDetailsForIntegral const& xDetails,
+        CoordinateDetailsForIntegral const& yDetails)
+{
+    Term termToIntegrate(areaDensityAtPointInXAndY * Term(yDetails.variableName));
+    return getDoubleIntegralInCartesianCoordinates(termToIntegrate, xDetails, yDetails);
+}
+
+Term getMomentOfMassOfALaminaWithRespectToYAxis(
+        Term const& areaDensityAtPointInXAndY,
+        CoordinateDetailsForIntegral const& xDetails,
+        CoordinateDetailsForIntegral const& yDetails)
+{
+    Term termToIntegrate(areaDensityAtPointInXAndY * Term(xDetails.variableName));
+    return getDoubleIntegralInCartesianCoordinates(termToIntegrate, xDetails, yDetails);
+}
+
+TermPair getCenterOfMassOfALamina(
+        Term const& areaDensityAtPointInXAndY,
+        CoordinateDetailsForIntegral const& xDetails,
+        CoordinateDetailsForIntegral const& yDetails)
+{
+    Term totalMass = getTotalMassOfALamina(areaDensityAtPointInXAndY, xDetails, yDetails);
+    Term centerOfMassInX = getMomentOfMassOfALaminaWithRespectToYAxis(areaDensityAtPointInXAndY, xDetails, yDetails) / totalMass;
+    Term centerOfMassInY = getMomentOfMassOfALaminaWithRespectToXAxis(areaDensityAtPointInXAndY, xDetails, yDetails) / totalMass;
+    return TermPair{centerOfMassInX, centerOfMassInY};
+}
+
+Term getMomentOfInertiaAboutTheXAxis(
+        Term const& areaDensityAtPointInXAndY,
+        CoordinateDetailsForIntegral const& xDetails,
+        CoordinateDetailsForIntegral const& yDetails)
+{
+    Term termToIntegrate(areaDensityAtPointInXAndY * (Term(yDetails.variableName)^2));
+    return getDoubleIntegralInCartesianCoordinates(termToIntegrate, xDetails, yDetails);
+}
+
+Term getMomentOfInertiaAboutTheYAxis(
+        Term const& areaDensityAtPointInXAndY,
+        CoordinateDetailsForIntegral const& xDetails,
+        CoordinateDetailsForIntegral const& yDetails)
+{
+    Term termToIntegrate(areaDensityAtPointInXAndY * (Term(xDetails.variableName)^2));
+    return getDoubleIntegralInCartesianCoordinates(termToIntegrate, xDetails, yDetails);
+}
+
+Term getMomentOfInertiaAboutTheOrigin(
+        Term const& areaDensityAtPointInXAndY,
+        CoordinateDetailsForIntegral const& xDetails,
+        CoordinateDetailsForIntegral const& yDetails)
+{
+    Term termToIntegrate(areaDensityAtPointInXAndY * ((Term(xDetails.variableName)^2) + (Term(yDetails.variableName)^2)));
+    return getDoubleIntegralInCartesianCoordinates(termToIntegrate, xDetails, yDetails);
+}
+
+Term getRadiusOfGyration(
+        Term const& momentOfInertia,
+        Term const& totalMass)
+{
+    // Radius of gyration or gyradius of a body about an axis of rotation is defined
+    // as the radial distance to a point which would have a moment of inertia the same as the body's actual distribution of mass,
+    // if the total mass of the body were concentrated there.
+    // This is applicable to any type of moment of inertia (x axis, y axis, origin)
+    return (momentOfInertia/totalMass)^AlbaNumber::createFraction(1, 2);
+}
+
+Term getDoubleIntegralInPolarCoordinates(
+        Term const& termWithRadiusAndTheta,
+        CoordinateDetailsForIntegral const& radiusDetails,
+        CoordinateDetailsForIntegral const& thetaDetails)
+{
+    Term termToIntegrate(termWithRadiusAndTheta * Term(radiusDetails.variableName));
+    Integration integrationInRadius(radiusDetails.variableName);
+    Integration integrationInTheta(thetaDetails.variableName);
+    return integrationInTheta.integrateAtDefiniteTerms(
+                integrationInRadius.integrateAtDefiniteTerms(termToIntegrate, radiusDetails.lowerValueTerm, radiusDetails.higherValueTerm),
+                thetaDetails.lowerValueTerm,
+                thetaDetails.higherValueTerm);
+}
+
+Term getSurfaceAreaWithZInCartesianCoordinates(
+        Term const& z,
+        CoordinateDetailsForIntegral const& xDetails,
+        CoordinateDetailsForIntegral const& yDetails)
+{
+    Term derivativeInX(getPartialDerivative(z, xDetails.variableName));
+    Term derivativeInY(getPartialDerivative(z, yDetails.variableName));
+    Term termInsideSquareRoot((derivativeInX^Term(2)) + (derivativeInY^Term(2)) + 1);
+    Term termToIntegrate(termInsideSquareRoot^Term(AlbaNumber::createFraction(1, 2)));
+    return getDoubleIntegralInCartesianCoordinates(termToIntegrate, xDetails, yDetails);
+}
+
+Term getTripleIntegralInCartesianCoordinates(
+        Term const& termWithXAndYWithZ,
+        CoordinateDetailsForIntegral const& xDetails,
+        CoordinateDetailsForIntegral const& yDetails,
+        CoordinateDetailsForIntegral const& zDetails)
+{
+    Integration integrationInX(xDetails.variableName);
+    Integration integrationInY(yDetails.variableName);
+    Integration integrationInZ(zDetails.variableName);
+    Term integratedInZ(integrationInZ.integrateAtDefiniteTerms(termWithXAndYWithZ, zDetails.lowerValueTerm, zDetails.higherValueTerm));
+    Term integratedInY(integrationInY.integrateAtDefiniteTerms(integratedInZ, yDetails.lowerValueTerm, yDetails.higherValueTerm));
+    return (integrationInX.integrateAtDefiniteTerms(integratedInY, xDetails.lowerValueTerm, xDetails.higherValueTerm));
 }
 
 }

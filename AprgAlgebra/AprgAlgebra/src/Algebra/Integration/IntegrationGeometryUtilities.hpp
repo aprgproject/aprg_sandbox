@@ -11,13 +11,18 @@ namespace alba
 namespace algebra
 {
 
+struct CoordinateDetailsForIntegral
+{
+    std::string variableName;
+    Term lowerValueTerm;
+    Term higherValueTerm;
+};
+
 Term getAreaInBetweenTwoTermsInAnInterval(
         Term const& lowerTerm,
-        Term const& higherTerm,
-        std::string const& variableName,
+        Term const& higherTerm,        std::string const& variableName,
         AlbaNumber const& lowerValueInInterval,
         AlbaNumber const& higherValueInInterval);
-
 Term getVolumeUsingOnCrossSectionalArea(
         Term const& crossSectionalArea,
         std::string const& variableName,
@@ -116,6 +121,67 @@ Term integrateInPolarCoordinates(
         std::string const& thetaName,
         Term const& lowerValueTermInTheta,
         Term const& higherValueTermInTheta);
+
+Term getDoubleIntegralInCartesianCoordinates(
+        Term const& termWithXAndY,
+        CoordinateDetailsForIntegral const& xDetails,
+        CoordinateDetailsForIntegral const& yDetails);
+
+Term getTotalMassOfALamina(
+        Term const& areaDensityAtPointInXAndY,
+        CoordinateDetailsForIntegral const& xDetails,
+        CoordinateDetailsForIntegral const& yDetails);
+
+Term getMomentOfMassOfALaminaWithRespectToXAxis(
+        Term const& areaDensityAtPointInXAndY,
+        CoordinateDetailsForIntegral const& xDetails,
+        CoordinateDetailsForIntegral const& yDetails);
+
+Term getMomentOfMassOfALaminaWithRespectToYAxis(
+        Term const& areaDensityAtPointInXAndY,
+        CoordinateDetailsForIntegral const& xDetails,
+        CoordinateDetailsForIntegral const& yDetails);
+
+TermPair getCenterOfMassOfALamina(
+        Term const& areaDensityAtPointInXAndY,
+        CoordinateDetailsForIntegral const& xDetails,
+        CoordinateDetailsForIntegral const& yDetails);
+
+Term getMomentOfInertiaAboutTheXAxis(
+        Term const& areaDensityAtPointInXAndY,
+        CoordinateDetailsForIntegral const& xDetails,
+        CoordinateDetailsForIntegral const& yDetails);
+
+Term getMomentOfInertiaAboutTheYAxis(
+        Term const& areaDensityAtPointInXAndY,
+        CoordinateDetailsForIntegral const& xDetails,
+        CoordinateDetailsForIntegral const& yDetails);
+
+Term getMomentOfInertiaAboutTheOrigin(
+        Term const& areaDensityAtPointInXAndY,
+        CoordinateDetailsForIntegral const& xDetails,
+        CoordinateDetailsForIntegral const& yDetails);
+
+Term getRadiusOfGyration(
+        Term const& momentOfInertia,
+        Term const& totalMass);
+
+Term getDoubleIntegralInPolarCoordinates(
+        Term const& termWithRadiusAndTheta,
+        CoordinateDetailsForIntegral const& radiusDetails,
+        CoordinateDetailsForIntegral const& thetaDetails);
+
+Term getSurfaceAreaWithZInCartesianCoordinates(
+        Term const& z,
+        CoordinateDetailsForIntegral const& xDetails,
+        CoordinateDetailsForIntegral const& yDetails);
+
+Term getTripleIntegralInCartesianCoordinates(
+        Term const& termWithXAndYWithZ,
+        CoordinateDetailsForIntegral const& xDetails,
+        CoordinateDetailsForIntegral const& yDetails,
+        CoordinateDetailsForIntegral const& zDetails);
+
 }
 
 }
