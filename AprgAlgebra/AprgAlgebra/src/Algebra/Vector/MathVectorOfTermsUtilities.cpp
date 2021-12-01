@@ -24,41 +24,60 @@ void simplifyForTermInVector(Term & term)
 }
 
 SegregateTermsByConditionInAdditionAndSubtractionRetriever getRetrieverForComparison(
-        Term const& partWithMultipleCoordinates,
-        string const& coordinateVariableName,
+        Term const& termToAnalyze,
+        std::string const& coordinateVariableName,
         stringHelper::strings const& processedCoordinates)
 {
-    static SegregateTermsByConditionInAdditionAndSubtractionRetriever::ConditionFunction condition = [&](Term const& term) -> bool
+    SegregateTermsByConditionInAdditionAndSubtractionRetriever::ConditionFunction condition = [&](Term const& term) -> bool
     {
         VariableNamesRetriever retriever;
-        retriever.retrieveFromTerm(term);
-        VariableNamesSet const& names(retriever.getSavedData());
+        retriever.retrieveFromTerm(term);        VariableNamesSet const& names(retriever.getSavedData());
         bool isCurrentCoordinateFound = names.find(coordinateVariableName) != names.cend();
         bool isOneOfTheOtherPreviousCoordinatesFound(false);
-        for(string const& processedCoordinate : processedCoordinates)
+        for(std::string const& processedCoordinate : processedCoordinates)
         {
             if(processedCoordinate != coordinateVariableName
-                    && names.find(processedCoordinate) != names.cend())
-            {
+                    && names.find(processedCoordinate) != names.cend())            {
                 isOneOfTheOtherPreviousCoordinatesFound=true;
                 break;
-            }
-        }
+            }        }
         return isCurrentCoordinateFound && isOneOfTheOtherPreviousCoordinatesFound;
     };
     SegregateTermsByConditionInAdditionAndSubtractionRetriever retriever(condition);
-    retriever.retrieveFromTerm(partWithMultipleCoordinates);
+    retriever.retrieveFromTerm(termToAnalyze);
     return retriever;
+}
+
+void retrieveTermWithAndWithoutCoordinates(
+        Term & termWithoutCoordinates,
+        Term & termWithMultipleCoordinates,
+        Term const& coordinateGradient,
+        std::string const& coordinateVariableName,
+        stringHelper::strings const& allCoordinates)
+{
+    SegregateTermsByVariableNamesInAdditionAndSubtractionRetriever retrieverWithAllCoordinates(allCoordinates);
+    retrieverWithAllCoordinates.retrieveFromTerm(coordinateGradient);
+    termWithoutCoordinates = retrieverWithAllCoordinates.getRemainingTerm();
+    termWithMultipleCoordinates = retrieverWithAllCoordinates.getTermWithMultipleVariableNames();
+    for(auto const& variableNameAndTermPair : retrieverWithAllCoordinates.getVariableNameToTermMap())
+    {
+        if(variableNameAndTermPair.first == coordinateVariableName)
+        {
+            termWithoutCoordinates += variableNameAndTermPair.second;
+        }
+        else
+        {
+            termWithMultipleCoordinates += variableNameAndTermPair.second;
+        }
+    }
 }
 
 bool isDivergenceOfCurlZero(
         MathVectorOfThreeTerms const& termVector,
-        ArrayOfThreeStrings const& coordinateVariables)
-{
+        ArrayOfThreeStrings const& coordinateVariables){
     //This is always true
     return getDivergence(getCurl(termVector, coordinateVariables), coordinateVariables) == Term(0);
 }
-
 Term getDyOverDx(
         MathVectorOfTwoTerms const& termVector,
         string const& variableName)

@@ -27,14 +27,19 @@ namespace VectorUtilities
 {
 
 void simplifyForTermInVector(Term & term);
+SegregateTermsByConditionInAdditionAndSubtractionRetriever getRetrieverForComparison(Term const& termToAnalyze, std::string const& coordinateVariableName, stringHelper::strings const& processedCoordinates);
+void retrieveTermWithAndWithoutCoordinates(
+        Term & termWithoutCoordinates,
+        Term & termWithMultipleCoordinates,
+        Term const& coordinateGradient,
+        std::string const& coordinateVariableName,
+        stringHelper::strings const& allCoordinates);
 
 bool isDivergenceOfCurlZero(MathVectorOfThreeTerms const& termVector, ArrayOfThreeStrings const& coordinateVariables);
-Term getDyOverDx(MathVectorOfTwoTerms const& termVector, std::string const& variableName);
-Term getDirectionalDerivativeInTwoDimensions(Term const& term, ArrayOfTwoStrings const& coordinateVariables, AlbaAngle const& angleOfDirection);
+Term getDyOverDx(MathVectorOfTwoTerms const& termVector, std::string const& variableName);Term getDirectionalDerivativeInTwoDimensions(Term const& term, ArrayOfTwoStrings const& coordinateVariables, AlbaAngle const& angleOfDirection);
 Term getDirectionalDerivativeInThreeDimensions(Term const& term, ArrayOfThreeStrings const& coordinateVariables, MathVectorOfThreeAngles const& coordinateAngles);
 MathVectorOfThreeTerms getNormalOfASurfaceOnAPoint(Equation const& surface, ArrayOfThreeStrings const& coordinateVariables, MathVectorOfThreeNumbers const& point);
-Equation getTangentPlaneOnAPointOfASurface(Equation const& surface, ArrayOfThreeStrings const& coordinateVariables, MathVectorOfThreeNumbers const& point);
-Equations getPerpendicularLineOnAPointOfASurface(Equation const& surface, ArrayOfThreeStrings const& coordinateVariables, MathVectorOfThreeNumbers const& point);
+Equation getTangentPlaneOnAPointOfASurface(Equation const& surface, ArrayOfThreeStrings const& coordinateVariables, MathVectorOfThreeNumbers const& point);Equations getPerpendicularLineOnAPointOfASurface(Equation const& surface, ArrayOfThreeStrings const& coordinateVariables, MathVectorOfThreeNumbers const& point);
 MathVectorOfThreeTerms getCurl(MathVectorOfThreeTerms const& termVector, ArrayOfThreeStrings const& coordinateVariables);
 
 template <unsigned int SIZE>
@@ -155,65 +160,29 @@ Term getTermThatYieldsToThisGradient(
     isExactDifferential = true;
     Term resultPartWithMultipleCoordinates;
     stringHelper::strings processedCoordinates;
+    stringHelper::strings allCoordinates(coordinateVariables.cbegin(), coordinateVariables.cend());
     for(unsigned int i=0; isExactDifferential && i<SIZE; i++)
     {
         std::string const& coordinateVariableName(coordinateVariables.at(i));
-        SegregateTermsByVariableNamesInAdditionAndSubtractionRetriever retrieverWithAllCoordinates(
-                    stringHelper::strings(coordinateVariables.cbegin(), coordinateVariables.cend()));
-        retrieverWithAllCoordinates.retrieveFromTerm(gradient.getValueAt(i));
-        Term termWithoutCoordinates(retrieverWithAllCoordinates.getRemainingTerm());
-        Term termWithMultipleCoordinates(retrieverWithAllCoordinates.getTermWithMultipleVariableNames());
-        for(auto const& variableNameAndTermPair : retrieverWithAllCoordinates.getVariableNameToTermMap())
-        {
-            if(variableNameAndTermPair.first == coordinateVariableName)
-            {
-                termWithoutCoordinates += variableNameAndTermPair.second;
-            }
-            else
-            {
-                termWithMultipleCoordinates += variableNameAndTermPair.second;
-            }
-        }
+        Term termWithoutCoordinates, termWithMultipleCoordinates;
+        retrieveTermWithAndWithoutCoordinates(termWithoutCoordinates, termWithMultipleCoordinates, gradient.getValueAt(i), coordinateVariableName, allCoordinates);
         processedCoordinates.emplace_back(coordinateVariableName);
         Integration integration(coordinateVariableName);
-        if(isFirst)
-        {
+        if(isFirst)        {
             resultPartWithMultipleCoordinates = integration.integrate(termWithMultipleCoordinates);
             isFirst = false;
         }
         else
         {
             Term currentPartWithMultipleCoordinates(integration.integrate(termWithMultipleCoordinates));
-            SegregateTermsByConditionInAdditionAndSubtractionRetriever::ConditionFunction condition = [&](Term const& term) -> bool
-            {
-                VariableNamesRetriever retriever;
-                retriever.retrieveFromTerm(term);
-                VariableNamesSet const& names(retriever.getSavedData());
-                bool isCurrentCoordinateFound = names.find(coordinateVariableName) != names.cend();
-                bool isOneOfTheOtherPreviousCoordinatesFound(false);
-                for(std::string const& processedCoordinate : processedCoordinates)
-                {
-                    if(processedCoordinate != coordinateVariableName
-                            && names.find(processedCoordinate) != names.cend())
-                    {
-                        isOneOfTheOtherPreviousCoordinatesFound=true;
-                        break;
-                    }
-                }
-                return isCurrentCoordinateFound && isOneOfTheOtherPreviousCoordinatesFound;
-            };
-            SegregateTermsByConditionInAdditionAndSubtractionRetriever retriever1(condition);
-            SegregateTermsByConditionInAdditionAndSubtractionRetriever retriever2(condition);
-            retriever1.retrieveFromTerm(resultPartWithMultipleCoordinates);
-            retriever2.retrieveFromTerm(currentPartWithMultipleCoordinates);
+            SegregateTermsByConditionInAdditionAndSubtractionRetriever retriever1(getRetrieverForComparison(resultPartWithMultipleCoordinates, coordinateVariableName, processedCoordinates));
+            SegregateTermsByConditionInAdditionAndSubtractionRetriever retriever2(getRetrieverForComparison(currentPartWithMultipleCoordinates, coordinateVariableName, processedCoordinates));
             isExactDifferential = retriever1.getTermWithCondition() == retriever2.getTermWithCondition();
             if(isExactDifferential)
-            {
-                resultPartWithMultipleCoordinates = retriever1.getTermWithCondition() + retriever1.getTermWithoutCondition() + retriever2.getTermWithoutCondition();
+            {                resultPartWithMultipleCoordinates = retriever1.getTermWithCondition() + retriever1.getTermWithoutCondition() + retriever2.getTermWithoutCondition();
             }
             else
-            {
-                break;
+            {                break;
             }
         }
         result += integration.integrate(termWithoutCoordinates);
