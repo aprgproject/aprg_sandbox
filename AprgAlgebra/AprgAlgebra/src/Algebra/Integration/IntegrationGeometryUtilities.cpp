@@ -12,8 +12,10 @@
 
 using namespace alba::algebra::Functions;
 using namespace std;
+
 namespace alba
 {
+
 namespace algebra
 {
 
@@ -264,10 +266,12 @@ Term getDoubleIntegralInCartesianCoordinates(
     return integrateWithCoordinateDetails(termWithXAndY, {xDetails, yDetails});
 }
 
-Term getTotalMassOfALamina(        Term const& areaDensityAtPointInXAndY,
+Term getTotalMassOfALamina(
+        Term const& areaDensityAtPointInXAndY,
         CoordinateDetailsForIntegral const& xDetails,
         CoordinateDetailsForIntegral const& yDetails)
-{    return getDoubleIntegralInCartesianCoordinates(areaDensityAtPointInXAndY, xDetails, yDetails);
+{
+    return getDoubleIntegralInCartesianCoordinates(areaDensityAtPointInXAndY, xDetails, yDetails);
 }
 
 Term getMomentOfMassOfALaminaWithRespectToXAxis(
@@ -346,10 +350,12 @@ Term getDoubleIntegralInPolarCoordinates(
     return integrateWithCoordinateDetails(termToIntegrate, {radiusDetails, thetaDetails});
 }
 
-Term getSurfaceAreaWithZInCartesianCoordinates(        Term const& z,
+Term getSurfaceAreaWithZInCartesianCoordinates(
+        Term const& z,
         CoordinateDetailsForIntegral const& xDetails,
         CoordinateDetailsForIntegral const& yDetails)
-{    Term derivativeInX(getPartialDerivative(z, xDetails.variableName));
+{
+    Term derivativeInX(getPartialDerivative(z, xDetails.variableName));
     Term derivativeInY(getPartialDerivative(z, yDetails.variableName));
     Term termInsideSquareRoot((derivativeInX^Term(2)) + (derivativeInY^Term(2)) + 1);
     Term termToIntegrate(termInsideSquareRoot^Term(AlbaNumber::createFraction(1, 2)));
@@ -365,7 +371,8 @@ Term getTripleIntegralInCartesianCoordinates(
     return integrateWithCoordinateDetails(termWithXAndYAndZ, {xDetails, yDetails, zDetails});
 }
 
-Term getTripleIntegralInCylindricalCoordinates(        Term const& termWithRadiusAndThetaAndZ,
+Term getTripleIntegralInCylindricalCoordinates(
+        Term const& termWithRadiusAndThetaAndZ,
         CoordinateDetailsForIntegral const& radiusDetails,
         CoordinateDetailsForIntegral const& thetaDetails,
         CoordinateDetailsForIntegral const& zDetails)
@@ -374,7 +381,8 @@ Term getTripleIntegralInCylindricalCoordinates(        Term const& termWithRadiu
     return integrateWithCoordinateDetails(termToIntegrate, {radiusDetails, thetaDetails, zDetails});
 }
 
-Term getTripleIntegralInSphericalCoordinates(        Term const& termWithRawAndThetaAndPhi,
+Term getTripleIntegralInSphericalCoordinates(
+        Term const& termWithRawAndThetaAndPhi,
         CoordinateDetailsForIntegral const& rawDetails,
         CoordinateDetailsForIntegral const& thetaDetails,
         CoordinateDetailsForIntegral const& phiDetails)

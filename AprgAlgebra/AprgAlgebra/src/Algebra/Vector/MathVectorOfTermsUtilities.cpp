@@ -5,17 +5,51 @@
 #include <Algebra/Utilities/KnownNames.hpp>
 #include <Math/Vector/AlbaMathVectorUtilities.hpp>
 
-
-#include <Debug/AlbaDebug.hpp>
-
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 namespace algebra
 {
+
 namespace VectorUtilities
 {
+
+void simplifyForTermInVector(Term & term)
+{
+    Simplification::simplifyTermByFactoringToNonDoubleFactorsToACommonDenominator(term);
+    term.clearAllInnerSimplifiedFlags();
+    term.simplify();
+}
+
+SegregateTermsByConditionInAdditionAndSubtractionRetriever getRetrieverForComparison(
+        Term const& partWithMultipleCoordinates,
+        string const& coordinateVariableName,
+        stringHelper::strings const& processedCoordinates)
+{
+    static SegregateTermsByConditionInAdditionAndSubtractionRetriever::ConditionFunction condition = [&](Term const& term) -> bool
+    {
+        VariableNamesRetriever retriever;
+        retriever.retrieveFromTerm(term);
+        VariableNamesSet const& names(retriever.getSavedData());
+        bool isCurrentCoordinateFound = names.find(coordinateVariableName) != names.cend();
+        bool isOneOfTheOtherPreviousCoordinatesFound(false);
+        for(string const& processedCoordinate : processedCoordinates)
+        {
+            if(processedCoordinate != coordinateVariableName
+                    && names.find(processedCoordinate) != names.cend())
+            {
+                isOneOfTheOtherPreviousCoordinatesFound=true;
+                break;
+            }
+        }
+        return isCurrentCoordinateFound && isOneOfTheOtherPreviousCoordinatesFound;
+    };
+    SegregateTermsByConditionInAdditionAndSubtractionRetriever retriever(condition);
+    retriever.retrieveFromTerm(partWithMultipleCoordinates);
+    return retriever;
+}
 
 bool isDivergenceOfCurlZero(
         MathVectorOfThreeTerms const& termVector,
@@ -25,11 +59,6 @@ bool isDivergenceOfCurlZero(
     return getDivergence(getCurl(termVector, coordinateVariables), coordinateVariables) == Term(0);
 }
 
-void simplifyForTermInVector(Term & term)
-{
-    Simplification::simplifyTermByFactoringToNonDoubleFactorsToACommonDenominator(term);    term.clearAllInnerSimplifiedFlags();
-    term.simplify();
-}
 Term getDyOverDx(
         MathVectorOfTwoTerms const& termVector,
         string const& variableName)

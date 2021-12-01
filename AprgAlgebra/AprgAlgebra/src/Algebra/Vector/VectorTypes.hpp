@@ -12,8 +12,10 @@ template<> bool isEqualForMathVectorDataType(algebra::Term const& value1, algebr
 template<> algebra::Term raiseToPowerForMathVectorDataType(algebra::Term const& value1, algebra::Term const& value2);
 
 }
+
 namespace alba
 {
+
 namespace algebra
 {
 

@@ -30,10 +30,12 @@ TEST(MathVectorOfTermsUtilitiesTest, IsDivergenceOfCurlZeroWorks)
 
 TEST(MathVectorOfTermsUtilitiesTest, GetDyOverDxWorks)
 {
-    Term x(Polynomial{Monomial(4, {}), Monomial(-1, {{"t", 2}})});    Term y(Polynomial{Monomial(1, {{"t", 2}}), Monomial(4, {{"t", 1}})});
+    Term x(Polynomial{Monomial(4, {}), Monomial(-1, {{"t", 2}})});
+    Term y(Polynomial{Monomial(1, {{"t", 2}}), Monomial(4, {{"t", 1}})});
     MathVectorOfTwoTerms termVector{x, y};
 
     Term termToVerify(getDyOverDx(termVector, "t"));
+
     string stringToExpect("(-1 + -2[t^-1])");
     EXPECT_EQ(stringToExpect, termToVerify.getDisplayableString());
 }
@@ -114,9 +116,11 @@ TEST(MathVectorOfTermsUtilitiesTest, GetCurlWorks)
 
 TEST(MathVectorOfTermsUtilitiesTest, IsContinuousAtWorks)
 {
-    Term t("t");    Term x(cos(t));
+    Term t("t");
+    Term x(cos(t));
     Term y(createExpressionIfPossible({Term(2), Term("*"), getEAsTerm(), Term("^"), t}));
     MathVectorOfTwoTerms termVector{x, y};
+
     EXPECT_TRUE(isContinuousAt(termVector, "t", 0));
 }
 
@@ -184,35 +188,35 @@ TEST(MathVectorOfTermsUtilitiesTest, GetCurvatureWorks)
     EXPECT_EQ(stringToExpect, termToVerify.getDisplayableString());
 }
 
-TEST(MathVectorOfTermsUtilitiesTest, GetTermWithGradientWorksWithExample1)
+TEST(MathVectorOfTermsUtilitiesTest, GetTermThatYieldsToThisGradientWorksWithExample1)
 {
     Term x(Polynomial{Monomial(1, {{"y", 2}}), Monomial(2, {{"x", 1}}), Monomial(4, {})});
     Term y(Polynomial{Monomial(2, {{"x", 1}, {"y", 1}}), Monomial(4, {{"y", 1}}), Monomial(-5, {})});
     MathVectorOfTwoTerms gradient{x, y};
 
     bool isExactDifferential(false);
-    Term termToVerify(getTermWithGradient(gradient, {"x", "y"}, isExactDifferential));
+    Term termToVerify(getTermThatYieldsToThisGradient(gradient, {"x", "y"}, isExactDifferential));
 
     string stringToExpect("(1[x][y^2] + 1[x^2] + 2[y^2] + 4[x] + -5[y])");
     EXPECT_EQ(stringToExpect, termToVerify.getDisplayableString());
     EXPECT_TRUE(isExactDifferential);
 }
 
-TEST(MathVectorOfTermsUtilitiesTest, GetTermWithGradientWorksWithExample2)
+TEST(MathVectorOfTermsUtilitiesTest, GetTermThatYieldsToThisGradientWorksWithExample2)
 {
     Term x(Polynomial{Monomial(1, {{"y", 2}}), Monomial(2, {{"x", 1}}), Monomial(4, {})});
     Term y(5);
     MathVectorOfTwoTerms gradient{x, y};
 
     bool isExactDifferential(false);
-    Term termToVerify(getTermWithGradient(gradient, {"x", "y"}, isExactDifferential));
+    Term termToVerify(getTermThatYieldsToThisGradient(gradient, {"x", "y"}, isExactDifferential));
 
     string stringToExpect("{EmptyTerm}");
     EXPECT_EQ(stringToExpect, termToVerify.getDisplayableString());
     EXPECT_FALSE(isExactDifferential);
 }
 
-TEST(MathVectorOfTermsUtilitiesTest, GetTermWithGradientWorksWithExample3)
+TEST(MathVectorOfTermsUtilitiesTest, GetTermThatYieldsToThisGradientWorksWithExample3)
 {
     Term eToTheX(createExpressionIfPossible({getEAsTerm(), Term("^"), Term("x")}));
     Term x(createExpressionIfPossible({eToTheX, Term("*"), Term(sin(Term("z"))), Term("+"), Term(Monomial(2, {{"y", 1}, {"z", 1}}))}));
@@ -222,7 +226,7 @@ TEST(MathVectorOfTermsUtilitiesTest, GetTermWithGradientWorksWithExample3)
     MathVectorOfThreeTerms gradient{x, y, z};
 
     bool isExactDifferential(false);
-    Term termToVerify(getTermWithGradient(gradient, {"x", "y", "z"}, isExactDifferential));
+    Term termToVerify(getTermThatYieldsToThisGradient(gradient, {"x", "y", "z"}, isExactDifferential));
 
     string stringToExpect("((2[x][y][z] + 1[z^3] + 1[y^2])+(((e)^x)*sin(z)))");
     EXPECT_EQ(stringToExpect, termToVerify.getDisplayableString());
@@ -269,11 +273,69 @@ TEST(MathVectorOfTermsUtilitiesTest, GetLaplaceTermWorks)
     EXPECT_EQ(stringToExpect, termToVerify.getDisplayableString());
 }
 
+TEST(MathVectorOfTermsUtilitiesTest, GetLineIntegralWorksOnExample1)
+{
+    // Suppose a particle moves along the parabola y=x^2 from the point (-1,1) to the point (2,4).
+    // Find the total work done if the motion is caused by the force field F(x, y) = (x^2 + y^2)i + (3*x^2*y)j
+
+    Term forceInX(Polynomial{Monomial(1, {{"x", 2}}), Monomial(1, {{"y", 2}})});
+    Term forceInY(Monomial(3, {{"x", 2}, {"y", 1}}));
+    MathVectorOfTwoTerms vectorField{forceInX, forceInY};
+    MathVectorOfTwoTerms linePath{Term("t"), Term(Monomial(1, {{"t", 2}}))}; // this is a parabola
+
+    Term termToVerify(getLineIntegral(vectorField, {"x", "y"}, linePath, "t", Term(-1), Term(2)));
+
+    string stringToExpect("(363/5)");
+    EXPECT_EQ(stringToExpect, termToVerify.getDisplayableString());
+}
+
+TEST(MathVectorOfTermsUtilitiesTest, GetLineIntegralWorksOnExample2)
+{
+    Term t("t");
+    Term fieldInX(Monomial(3, {{"x", 1}, {"d[x]", 1}}));
+    Term fieldInY(Monomial(2, {{"x", 1}, {"y", 1}, {"d[y]", 1}}));
+    Term fieldInZ(Monomial(1, {{"z", 1}, {"d[z]", 1}}));
+    MathVectorOfThreeTerms vectorField{fieldInX, fieldInY, fieldInZ};
+    MathVectorOfThreeTerms linePath{Term(cos(t)), Term(sin(t)), t}; // this is a parabola
+
+    Term termToVerify(getLineIntegral(vectorField, {"x", "y", "z"}, linePath, "t", Term(0), Term(2)*getPiAsTerm()));
+
+    string stringToExpect("19.73920880217872");
+    EXPECT_EQ(stringToExpect, termToVerify.getDisplayableString());
+}
+
+TEST(MathVectorOfTermsUtilitiesTest, GetLineIntegralIndependentOfPathWorksOnExample1)
+{
+    Term x(Polynomial{Monomial(1, {{"y", 2}}), Monomial(2, {{"x", 1}}), Monomial(4, {})});
+    Term y(Polynomial{Monomial(2, {{"x", 1}, {"y", 1}}), Monomial(4, {{"y", 1}}), Monomial(-5, {})});
+    MathVectorOfTwoTerms vectorField{x, y};
+
+    Term termToVerify(getLineIntegralIndependentOfPath(vectorField, {"x", "y"}, {0, 0}, {1, 1}));
+
+    string stringToExpect("3");
+    EXPECT_EQ(stringToExpect, termToVerify.getDisplayableString());
+}
+
+TEST(MathVectorOfTermsUtilitiesTest, GetLineIntegralIndependentOfPathWorksOnExample2)
+{
+    Term x(Polynomial{Monomial(4, {{"x", 1}}), Monomial(2, {{"y", 1}}), Monomial(-1, {{"z", 1}})});
+    Term y(Polynomial{Monomial(2, {{"x", 1}}), Monomial(-2, {{"y", 1}}), Monomial(1, {{"z", 1}})});
+    Term z(Polynomial{Monomial(-1, {{"x", 1}}), Monomial(1, {{"y", 1}}), Monomial(2, {{"z", 1}})});
+    MathVectorOfThreeTerms vectorField{x, y, z};
+
+    Term termToVerify(getLineIntegralIndependentOfPath(vectorField, {"x", "y", "z"}, {4, -2, 1}, {-1, 2, 0}));
+
+    string stringToExpect("-13");
+    EXPECT_EQ(stringToExpect, termToVerify.getDisplayableString());
+}
+
 TEST(MathVectorOfTermsUtilitiesTest, GetLimitWorks)
 {
-    Term t("t");    Term x(cos(t));
+    Term t("t");
+    Term x(cos(t));
     Term y(createExpressionIfPossible({Term(2), Term("*"), getEAsTerm(), Term("^"), t}));
     MathVectorOfTwoTerms termVector{x, y};
+
     MathVectorOfTwoTerms vectorToVerify(getLimit(termVector, "t", 0));
 
     string stringToExpect("{1, 2}");
