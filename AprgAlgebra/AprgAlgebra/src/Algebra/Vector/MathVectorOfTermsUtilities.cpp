@@ -5,6 +5,7 @@
 #include <Algebra/Utilities/KnownNames.hpp>
 #include <Math/Vector/AlbaMathVectorUtilities.hpp>
 
+using namespace alba::stringHelper;
 using namespace std;
 
 namespace alba
@@ -25,22 +26,25 @@ void simplifyForTermInVector(Term & term)
 
 SegregateTermsByConditionInAdditionAndSubtractionRetriever getRetrieverForComparison(
         Term const& termToAnalyze,
-        std::string const& coordinateVariableName,
-        stringHelper::strings const& processedCoordinates)
+        string const& coordinateVariableName,
+        strings const& processedCoordinates)
 {
     SegregateTermsByConditionInAdditionAndSubtractionRetriever::ConditionFunction condition = [&](Term const& term) -> bool
     {
         VariableNamesRetriever retriever;
-        retriever.retrieveFromTerm(term);        VariableNamesSet const& names(retriever.getSavedData());
+        retriever.retrieveFromTerm(term);
+        VariableNamesSet const& names(retriever.getSavedData());
         bool isCurrentCoordinateFound = names.find(coordinateVariableName) != names.cend();
         bool isOneOfTheOtherPreviousCoordinatesFound(false);
-        for(std::string const& processedCoordinate : processedCoordinates)
+        for(string const& processedCoordinate : processedCoordinates)
         {
             if(processedCoordinate != coordinateVariableName
-                    && names.find(processedCoordinate) != names.cend())            {
+                    && names.find(processedCoordinate) != names.cend())
+            {
                 isOneOfTheOtherPreviousCoordinatesFound=true;
                 break;
-            }        }
+            }
+        }
         return isCurrentCoordinateFound && isOneOfTheOtherPreviousCoordinatesFound;
     };
     SegregateTermsByConditionInAdditionAndSubtractionRetriever retriever(condition);
@@ -49,35 +53,37 @@ SegregateTermsByConditionInAdditionAndSubtractionRetriever getRetrieverForCompar
 }
 
 void retrieveTermWithAndWithoutCoordinates(
-        Term & termWithoutCoordinates,
-        Term & termWithMultipleCoordinates,
+        Term & termWithOtherCoordinates,
+        Term & termWithoutOtherCoordinates,
         Term const& coordinateGradient,
-        std::string const& coordinateVariableName,
-        stringHelper::strings const& allCoordinates)
+        string const& coordinateVariableName,
+        strings const& allCoordinates)
 {
-    SegregateTermsByVariableNamesInAdditionAndSubtractionRetriever retrieverWithAllCoordinates(allCoordinates);
-    retrieverWithAllCoordinates.retrieveFromTerm(coordinateGradient);
-    termWithoutCoordinates = retrieverWithAllCoordinates.getRemainingTerm();
-    termWithMultipleCoordinates = retrieverWithAllCoordinates.getTermWithMultipleVariableNames();
-    for(auto const& variableNameAndTermPair : retrieverWithAllCoordinates.getVariableNameToTermMap())
+    SegregateTermsByVariableNamesInAdditionAndSubtractionRetriever retriever(allCoordinates);
+    retriever.retrieveFromTerm(coordinateGradient);
+    termWithoutOtherCoordinates = retriever.getRemainingTerm();
+    termWithOtherCoordinates = retriever.getTermWithMultipleVariableNames();
+    for(auto const& variableNameAndTermPair : retriever.getVariableNameToTermMap())
     {
         if(variableNameAndTermPair.first == coordinateVariableName)
         {
-            termWithoutCoordinates += variableNameAndTermPair.second;
+            termWithoutOtherCoordinates += variableNameAndTermPair.second;
         }
         else
         {
-            termWithMultipleCoordinates += variableNameAndTermPair.second;
+            termWithOtherCoordinates += variableNameAndTermPair.second;
         }
     }
 }
 
 bool isDivergenceOfCurlZero(
         MathVectorOfThreeTerms const& termVector,
-        ArrayOfThreeStrings const& coordinateVariables){
+        ArrayOfThreeStrings const& coordinateVariables)
+{
     //This is always true
     return getDivergence(getCurl(termVector, coordinateVariables), coordinateVariables) == Term(0);
 }
+
 Term getDyOverDx(
         MathVectorOfTwoTerms const& termVector,
         string const& variableName)
@@ -132,7 +138,7 @@ MathVectorOfThreeTerms getNormalOfASurfaceOnAPoint(
 
     MathVectorOfThreeTerms result;
     Values const& values(gradient.getValues());
-    std::transform(values.cbegin(), values.cend(), result.getValuesReference().begin(), [&](Term const& term)
+    transform(values.cbegin(), values.cend(), result.getValuesReference().begin(), [&](Term const& term)
     {
         return substitution.performSubstitutionTo(term);
     });
