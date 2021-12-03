@@ -329,13 +329,25 @@ TEST(MathVectorOfTermsUtilitiesTest, GetLineIntegralIndependentOfPathWorksOnExam
     EXPECT_EQ(stringToExpect, termToVerify.getDisplayableString());
 }
 
-TEST(MathVectorOfTermsUtilitiesTest, GetLimitWorks)
+TEST(MathVectorOfTermsUtilitiesTest, GetLineIntegralEqualsGetLineIntegralIndependentOfPath)
 {
     Term t("t");
-    Term x(cos(t));
+    Term x(Polynomial{Monomial(1, {{"y", 2}}), Monomial(2, {{"x", 1}}), Monomial(4, {})});
+    Term y(Polynomial{Monomial(2, {{"x", 1}, {"y", 1}}), Monomial(4, {{"y", 1}}), Monomial(-5, {})});
+    MathVectorOfTwoTerms vectorField{x, y};
+    MathVectorOfTwoTerms linePath{t, t};
+
+    Term lineIntegral(getLineIntegral(vectorField, {"x", "y"}, linePath, "t", Term(0), Term(1)));
+    Term lineIntegralIndependentOfPath(getLineIntegralIndependentOfPath(vectorField, {"x", "y"}, {0, 0}, {1, 1}));
+
+    EXPECT_EQ(lineIntegral, lineIntegralIndependentOfPath);
+}
+
+TEST(MathVectorOfTermsUtilitiesTest, GetLimitWorks)
+{
+    Term t("t");    Term x(cos(t));
     Term y(createExpressionIfPossible({Term(2), Term("*"), getEAsTerm(), Term("^"), t}));
     MathVectorOfTwoTerms termVector{x, y};
-
     MathVectorOfTwoTerms vectorToVerify(getLimit(termVector, "t", 0));
 
     string stringToExpect("{1, 2}");
