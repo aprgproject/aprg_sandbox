@@ -67,17 +67,15 @@ TEST(IntegrationUtilitiesTest, GetAverageValueInBetweenTwoValuesWorks)
     Term termToTest2(Monomial(1, {{"x", 2}}));
     Term termToTest3(Monomial(1, {{"x", 3}}));
 
-    EXPECT_EQ(Term(AlbaNumber::createFraction(15, 2)), getAverageValueInBetweenTwoValues(termToTest1, "x", 5, 10));
-    EXPECT_EQ(Term(AlbaNumber::createFraction(175, 3)), getAverageValueInBetweenTwoValues(termToTest2, "x", 5, 10));
-    EXPECT_EQ(Term(AlbaNumber::createFraction(1875, 4)), getAverageValueInBetweenTwoValues(termToTest3, "x", 5, 10));
+    EXPECT_EQ(Term(AlbaNumber::createFraction(15, 2)), getAverageValueInBetweenTwoValues(termToTest1, {"x", 5, 10}));
+    EXPECT_EQ(Term(AlbaNumber::createFraction(175, 3)), getAverageValueInBetweenTwoValues(termToTest2, {"x", 5, 10}));
+    EXPECT_EQ(Term(AlbaNumber::createFraction(1875, 4)), getAverageValueInBetweenTwoValues(termToTest3, {"x", 5, 10}));
 }
 
-TEST(IntegrationUtilitiesTest, EvaluateValuesAndGetDifferenceWorks)
-{
+TEST(IntegrationUtilitiesTest, EvaluateValuesAndGetDifferenceWorks){
     Term termToTest1(Monomial(1, {{"x", 1}}));
     Term termToTest2(Monomial(1, {{"x", 2}}));
     Term termToTest3(Monomial(1, {{"x", 3}}));
-
     EXPECT_EQ(Term(5), evaluateValuesAndGetDifference(termToTest1, "x", 5, 10));
     EXPECT_EQ(Term(75), evaluateValuesAndGetDifference(termToTest2, "x", 5, 10));
     EXPECT_EQ(Term(875), evaluateValuesAndGetDifference(termToTest3, "x", 5, 10));

@@ -72,60 +72,54 @@ bool isAreaUnderTheCurveEqualToDefiniteIntegral(
 AlbaNumbers getInputForAverageValueInBetweenTwoValues(
         Term const& term,
         string const& variableName,
-        AlbaNumber const& lowerValueInInterval,
-        AlbaNumber const& higherValueInInterval)
+        AlbaNumber const& lowerEndInInterval,
+        AlbaNumber const& higherEndInInterval)
 {
     // Mean-Value theorem for integrals:
-    // If the function f is continuous on the closed interval [a, b],
-    // there exists a number "average" in [a, b] such that:
+    // If the function f is continuous on the closed interval [a, b],    // there exists a number "average" in [a, b] such that:
     // The definite integral in [a, b] = f("average") * (b-a)
 
-    Equation meanValueTheoremEquation(term, "=", getAverageValueInBetweenTwoValues(term, variableName, lowerValueInInterval, higherValueInInterval));
+    Equation meanValueTheoremEquation(term, "=", getAverageValueInBetweenTwoValues(term, {variableName, lowerEndInInterval, higherEndInInterval}));
     OneEquationOneVariableEqualitySolver solver;
     SolutionSet solutionSet(solver.calculateSolutionAndReturnSolutionSet(meanValueTheoremEquation));
-    AlbaNumberInterval openInterval(createOpenEndpoint(lowerValueInInterval), createOpenEndpoint(higherValueInInterval));
+    AlbaNumberInterval openInterval(createOpenEndpoint(lowerEndInInterval), createOpenEndpoint(higherEndInInterval));
     return getNumbersInsideTheInterval(solutionSet.getAcceptedValues(), openInterval);
 }
 
 Term getAverageValueInBetweenTwoValues(
         Term const& term,
-        string const& variableName,
-        AlbaNumber const& lowerValueInInterval,
-        AlbaNumber const& higherValueInInterval)
+        DetailsForDefiniteIntegralWithValues const& integralDetails)
 {
-    Integration integration(variableName);
-    return integration.integrateAtDefiniteValues(term, lowerValueInInterval, higherValueInInterval)
-            / Term(higherValueInInterval-lowerValueInInterval);
+    Integration integration(integralDetails.variableName);
+    return integration.integrateAtDefiniteValues(term, integralDetails.lowerEnd, integralDetails.higherEnd)
+            / Term(integralDetails.higherEnd-integralDetails.lowerEnd);
 }
 
 Term evaluateValuesAndGetDifference(
         Term const& term,
         string const& variableName,
-        AlbaNumber const& lowerValueInInterval,
-        AlbaNumber const& higherValueInInterval)
+        AlbaNumber const& lowerEnd,
+        AlbaNumber const& higherEnd)
 {
-    Term result(evaluate(term, variableName, Term(higherValueInInterval))
-                - evaluate(term, variableName, Term(lowerValueInInterval)));
+    Term result(evaluate(term, variableName, Term(higherEnd))
+                - evaluate(term, variableName, Term(lowerEnd)));
     result.simplify();
     return result;
 }
-
 Term evaluateTermsAndGetDifference(
         Term const& term,
         string const& variableName,
-        Term const& lowerValueTerm,
-        Term const& higherValueTerm)
+        Term const& lowerEnd,
+        Term const& higherEnd)
 {
-    Term result(evaluate(term, variableName, higherValueTerm)
-                - evaluate(term, variableName, lowerValueTerm));
+    Term result(evaluate(term, variableName, higherEnd)
+                - evaluate(term, variableName, lowerEnd));
     result.simplify();
     return result;
 }
-
 Term evaluate(
         Term const& term,
-        string const& variableName,
-        Term const& value)
+        string const& variableName,        Term const& value)
 {
     Term result;
     if(isTheValue(value, AlbaNumber(AlbaNumber::Value::PositiveInfinity)))
@@ -147,36 +141,32 @@ Term evaluate(
 Term getAreaUnderACurveUsingReimannSums(
         Term const& term,
         string const& variableName,
-        AlbaNumber const& lowerValueInInterval,
-        AlbaNumber const& higherValueInInterval)
+        AlbaNumber const& lowerEndInInterval,
+        AlbaNumber const& higherEndInInterval)
 {
-    AlbaNumber deltaOfValues(higherValueInInterval-lowerValueInInterval);
-    Term inputForHeight(Polynomial{Monomial(lowerValueInInterval, {}), Monomial(deltaOfValues, {{"n", -1}, {variableName, 1}})});
+    AlbaNumber deltaOfValues(higherEndInInterval-lowerEndInInterval);
+    Term inputForHeight(Polynomial{Monomial(lowerEndInInterval, {}), Monomial(deltaOfValues, {{"n", -1}, {variableName, 1}})});
     SubstitutionOfVariablesToTerms substitution({{variableName, inputForHeight}});
     Term heightOfARectangle(substitution.performSubstitutionTo(term));
-    Term widthOfARectangle(Monomial(deltaOfValues, {{"n", -1}}));
-    Term areaOfARectangle(heightOfARectangle * widthOfARectangle);
+    Term widthOfARectangle(Monomial(deltaOfValues, {{"n", -1}}));    Term areaOfARectangle(heightOfARectangle * widthOfARectangle);
     Summation summation(areaOfARectangle, variableName);
     Term sumOfAreaOfAllRectangles(summation.getSum(Term(1), Term("n")));
-    LimitsAtInfinity limits(sumOfAreaOfAllRectangles, "n");
-    return limits.getValueAtInfinity(AlbaNumber::Value::PositiveInfinity); // Let number of rectangles approach infinity
+    LimitsAtInfinity limits(sumOfAreaOfAllRectangles, "n");    return limits.getValueAtInfinity(AlbaNumber::Value::PositiveInfinity); // Let number of rectangles approach infinity
 }
 
 LowerAndHigherValues getApproximateValuesForDefiniteIntegral(
         Term const& term,
         string const& variableName,
-        AlbaNumber const& lowerValueInInterval,
-        AlbaNumber const& higherValueInInterval)
+        AlbaNumber const& lowerEndInInterval,
+        AlbaNumber const& higherEndInInterval)
 {
-    AlbaNumberInterval closedInterval(createCloseEndpoint(lowerValueInInterval), createCloseEndpoint(higherValueInInterval));
+    AlbaNumberInterval closedInterval(createCloseEndpoint(lowerEndInInterval), createCloseEndpoint(higherEndInInterval));
     MinimumAndMaximum minMaxValues(getMinimumAndMaximumAtClosedInterval(term, variableName, closedInterval));
-    AlbaNumber delta(higherValueInInterval-lowerValueInInterval);
+    AlbaNumber delta(higherEndInInterval-lowerEndInInterval);
     LowerAndHigherValues result;
     result.higherValue = minMaxValues.maximumInputOutputValues.second * delta;
-    result.lowerValue = minMaxValues.minimumInputOutputValues.second * delta;
-    return result;
+    result.lowerValue = minMaxValues.minimumInputOutputValues.second * delta;    return result;
 }
 
 }
-
 }

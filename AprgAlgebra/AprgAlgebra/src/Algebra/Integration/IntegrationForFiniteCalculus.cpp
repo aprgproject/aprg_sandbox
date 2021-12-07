@@ -86,22 +86,20 @@ Term IntegrationForFiniteCalculus::integrateWithPlusC(
 
 Term IntegrationForFiniteCalculus::integrateAtDefiniteValues(
         Term const& term,
-        AlbaNumber const& lowerValueInInterval,
-        AlbaNumber const& higherValueInInterval) const
+        AlbaNumber const& lowerEnd,
+        AlbaNumber const& higherEnd) const
 {
     return evaluateValuesAndGetDifference(
                 integrateTerm(term),
                 m_nameOfVariableToIntegrate,
-                lowerValueInInterval,
-                higherValueInInterval);
+                lowerEnd,
+                higherEnd);
 }
 
-Term IntegrationForFiniteCalculus::integrateTerm(Term const& term) const
-{
+Term IntegrationForFiniteCalculus::integrateTerm(Term const& term) const{
     Term result;
     if(term.isConstant())
-    {
-        result = integrate(term.getConstantConstReference());
+    {        result = integrate(term.getConstantConstReference());
     }
     else if(term.isVariable())
     {

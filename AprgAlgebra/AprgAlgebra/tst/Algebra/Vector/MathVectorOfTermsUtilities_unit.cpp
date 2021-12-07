@@ -171,15 +171,13 @@ TEST(MathVectorOfTermsUtilitiesTest, GetLengthOfArcFromStartToEndWorks)
     Term y(Monomial(2, {{"t", 2}}));
     MathVectorOfTwoTerms termVector{x, y};
 
-    Term termToVerify(getLengthOfArcFromStartToEnd(termVector, "t", Term(-2), Term(0)));
+    Term termToVerify(getLengthOfArcFromStartToEnd(termVector, {"t", Term(-2), Term(0)}));
 
     EXPECT_EQ(Term(-11.5176789869724), termToVerify);
 }
-
 TEST(MathVectorOfTermsUtilitiesTest, GetCurvatureWorks)
 {
-    Term x(Monomial(1, {{"t", 3}}));
-    Term y(Monomial(2, {{"t", 2}}));
+    Term x(Monomial(1, {{"t", 3}}));    Term y(Monomial(2, {{"t", 2}}));
     MathVectorOfTwoTerms termVector{x, y};
 
     Term termToVerify(getCurvature(termVector, "t"));
@@ -283,30 +281,26 @@ TEST(MathVectorOfTermsUtilitiesTest, GetLineIntegralWorksOnExample1)
     MathVectorOfTwoTerms vectorField{forceInX, forceInY};
     MathVectorOfTwoTerms linePath{Term("t"), Term(Monomial(1, {{"t", 2}}))}; // this is a parabola
 
-    Term termToVerify(getLineIntegral(vectorField, {"x", "y"}, linePath, "t", Term(-1), Term(2)));
+    Term termToVerify(getLineIntegral(vectorField, {"x", "y"}, linePath, {"t", Term(-1), Term(2)}));
 
     string stringToExpect("(363/5)");
-    EXPECT_EQ(stringToExpect, termToVerify.getDisplayableString());
-}
+    EXPECT_EQ(stringToExpect, termToVerify.getDisplayableString());}
 
 TEST(MathVectorOfTermsUtilitiesTest, GetLineIntegralWorksOnExample2)
-{
-    Term t("t");
+{    Term t("t");
     Term fieldInX(Monomial(3, {{"x", 1}, {"d[x]", 1}}));
     Term fieldInY(Monomial(2, {{"x", 1}, {"y", 1}, {"d[y]", 1}}));
     Term fieldInZ(Monomial(1, {{"z", 1}, {"d[z]", 1}}));
     MathVectorOfThreeTerms vectorField{fieldInX, fieldInY, fieldInZ};
     MathVectorOfThreeTerms linePath{Term(cos(t)), Term(sin(t)), t}; // this is a parabola
 
-    Term termToVerify(getLineIntegral(vectorField, {"x", "y", "z"}, linePath, "t", Term(0), Term(2)*getPiAsTerm()));
+    Term termToVerify(getLineIntegral(vectorField, {"x", "y", "z"}, linePath, {"t", Term(0), Term(2)*getPiAsTerm()}));
 
     string stringToExpect("19.73920880217872");
-    EXPECT_EQ(stringToExpect, termToVerify.getDisplayableString());
-}
+    EXPECT_EQ(stringToExpect, termToVerify.getDisplayableString());}
 
 TEST(MathVectorOfTermsUtilitiesTest, GetLineIntegralIndependentOfPathWorksOnExample1)
-{
-    Term x(Polynomial{Monomial(1, {{"y", 2}}), Monomial(2, {{"x", 1}}), Monomial(4, {})});
+{    Term x(Polynomial{Monomial(1, {{"y", 2}}), Monomial(2, {{"x", 1}}), Monomial(4, {})});
     Term y(Polynomial{Monomial(2, {{"x", 1}, {"y", 1}}), Monomial(4, {{"y", 1}}), Monomial(-5, {})});
     MathVectorOfTwoTerms vectorField{x, y};
 
@@ -337,15 +331,13 @@ TEST(MathVectorOfTermsUtilitiesTest, GetLineIntegralEqualsGetLineIntegralIndepen
     MathVectorOfTwoTerms vectorField{x, y};
     MathVectorOfTwoTerms linePath{t, t};
 
-    Term lineIntegral(getLineIntegral(vectorField, {"x", "y"}, linePath, "t", Term(0), Term(1)));
+    Term lineIntegral(getLineIntegral(vectorField, {"x", "y"}, linePath, {"t", Term(0), Term(1)}));
     Term lineIntegralIndependentOfPath(getLineIntegralIndependentOfPath(vectorField, {"x", "y"}, {0, 0}, {1, 1}));
 
-    EXPECT_EQ(lineIntegral, lineIntegralIndependentOfPath);
-}
+    EXPECT_EQ(lineIntegral, lineIntegralIndependentOfPath);}
 
 TEST(MathVectorOfTermsUtilitiesTest, GetLimitWorks)
-{
-    Term t("t");    Term x(cos(t));
+{    Term t("t");    Term x(cos(t));
     Term y(createExpressionIfPossible({Term(2), Term("*"), getEAsTerm(), Term("^"), t}));
     MathVectorOfTwoTerms termVector{x, y};
     MathVectorOfTwoTerms vectorToVerify(getLimit(termVector, "t", 0));
