@@ -5,10 +5,12 @@
 #include <Algebra/Integration/DetailsForDefiniteIntegralWithTerms.hpp>
 #include <Algebra/Integration/Integration.hpp>
 #include <Algebra/Integration/IntegrationUtilities.hpp>
-#include <Algebra/Limit/Continuity.hpp>#include <Algebra/Limit/Limit.hpp>
+#include <Algebra/Limit/Continuity.hpp>
+#include <Algebra/Limit/Limit.hpp>
 #include <Algebra/Retrieval/SegregateTermsByVariableNamesInAdditionAndSubtractionRetriever.hpp>
 #include <Algebra/Retrieval/SegregateTermsByConditionInAdditionAndSubtractionRetriever.hpp>
-#include <Algebra/Retrieval/VariableNamesRetriever.hpp>#include <Algebra/Simplification/SimplificationUtilities.hpp>
+#include <Algebra/Retrieval/VariableNamesRetriever.hpp>
+#include <Algebra/Simplification/SimplificationUtilities.hpp>
 #include <Algebra/Substitution/SubstitutionOfVariablesToValues.hpp>
 #include <Algebra/Vector/VectorTypes.hpp>
 #include <Math/Angle/AlbaAngle.hpp>
@@ -25,43 +27,59 @@ namespace algebra
 namespace VectorUtilities
 {
 
+bool isDivergenceOfCurlZero(MathVectorOfThreeTerms const& termVector, ArrayOfThreeStrings const& coordinateVariables);
+bool isGaussDivergenceTheoremInAPlaneTrue(
+        MathVectorOfTwoTerms const& vectorField,
+        MathVectorOfTwoTerms const& regionOfLineIntegral,
+        MathVectorOfTwoTerms const& unitOutwardNormal,
+        DetailsForDefiniteIntegralWithTerms const& unitOutwardNormalDetails,
+        DetailsForDefiniteIntegralWithTerms const& areaDetailsInX,
+        DetailsForDefiniteIntegralWithTerms const& areaDetailsInY,
+        ArrayOfTwoStrings const& coordinateVariables);
+bool isStokesTheoremInAPlaneTrue(
+        MathVectorOfTwoTerms const& vectorField,
+        MathVectorOfTwoTerms const& regionOfLineIntegral,
+        MathVectorOfTwoTerms const& unitTangentVector,
+        DetailsForDefiniteIntegralWithTerms const& lineIntegralDetails,
+        DetailsForDefiniteIntegralWithTerms const& areaDetailsInX,
+        DetailsForDefiniteIntegralWithTerms const& areaDetailsInY,
+        ArrayOfTwoStrings const& coordinateVariables);
+Term getDyOverDx(MathVectorOfTwoTerms const& termVector, std::string const& variableName);
+Term getDirectionalDerivativeInTwoDimensions(Term const& term, ArrayOfTwoStrings const& coordinateVariables, AlbaAngle const& angleOfDirection);
+Term getDirectionalDerivativeInThreeDimensions(Term const& term, ArrayOfThreeStrings const& coordinateVariables, MathVectorOfThreeAngles const& coordinateAngles);
+Term getLineIntegralOfAClosedNonIntersectingPathUsingGreensTheorem(MathVectorOfTwoTerms const& vectorField, ArrayOfTwoStrings const& coordinateVariables, DetailsForDefiniteIntegralWithTerms const& xDetailsForLinePath, DetailsForDefiniteIntegralWithTerms const& yDetailsForLinePath);
+Term getAreaOfAClosedNonIntersectingPathUsingGreensTheorem(ArrayOfTwoStrings const& coordinateVariables, MathVectorOfTwoTerms const& linePath, DetailsForDefiniteIntegralWithTerms const& linePathIntegralDetails);
+MathVectorOfThreeTerms getNormalOfASurfaceOnAPoint(Equation const& surface, ArrayOfThreeStrings const& coordinateVariables, MathVectorOfThreeNumbers const& point);
+Equation getTangentPlaneOnAPointOfASurface(Equation const& surface, ArrayOfThreeStrings const& coordinateVariables, MathVectorOfThreeNumbers const& point);
+Equations getPerpendicularLineOnAPointOfASurface(Equation const& surface, ArrayOfThreeStrings const& coordinateVariables, MathVectorOfThreeNumbers const& point);
+MathVectorOfThreeTerms getCurl(MathVectorOfThreeTerms const& termVector, ArrayOfThreeStrings const& coordinateVariables);
+
+// utilities function
 void simplifyForTermInVector(Term & term);
 SegregateTermsByConditionInAdditionAndSubtractionRetriever getRetrieverForComparison(Term const& termToAnalyze, std::string const& coordinateVariableName, stringHelper::strings const& processedCoordinates);
 void retrieveWithAndWithoutOtherCoordinates(Term & termWithOtherCoordinates, Term & termWithoutOtherCoordinates, Term const& termToAnalyze, std::string const& coordinateVariableName, stringHelper::strings const& allCoordinates);
 
-bool isDivergenceOfCurlZero(MathVectorOfThreeTerms const& termVector, ArrayOfThreeStrings const& coordinateVariables);
-Term getDyOverDx(MathVectorOfTwoTerms const& termVector, std::string const& variableName);Term getDirectionalDerivativeInTwoDimensions(Term const& term, ArrayOfTwoStrings const& coordinateVariables, AlbaAngle const& angleOfDirection);
-Term getDirectionalDerivativeInThreeDimensions(Term const& term, ArrayOfThreeStrings const& coordinateVariables, MathVectorOfThreeAngles const& coordinateAngles);
-MathVectorOfThreeTerms getNormalOfASurfaceOnAPoint(Equation const& surface, ArrayOfThreeStrings const& coordinateVariables, MathVectorOfThreeNumbers const& point);
-Equation getTangentPlaneOnAPointOfASurface(Equation const& surface, ArrayOfThreeStrings const& coordinateVariables, MathVectorOfThreeNumbers const& point);Equations getPerpendicularLineOnAPointOfASurface(Equation const& surface, ArrayOfThreeStrings const& coordinateVariables, MathVectorOfThreeNumbers const& point);
-MathVectorOfThreeTerms getCurl(MathVectorOfThreeTerms const& termVector, ArrayOfThreeStrings const& coordinateVariables);
-
-template <unsigned int SIZE>
-void simplifyForTermVector(
-        MathVectorOfTerms<SIZE> & termVector)
-{
-    for(Term & term : termVector.getValuesReference())
-    {
-        simplifyForTermInVector(term);
-    }
-}
 
 template <unsigned int SIZE> bool isContinuousAt(MathVectorOfTerms<SIZE> const& termVector, std::string const& variableName, AlbaNumber const& value);
 template <unsigned int SIZE> bool isDifferentiableAt(MathVectorOfTerms<SIZE> const& termVector, std::string const& variableName, AlbaNumber const& value);
 template <unsigned int SIZE> bool areOriginalAndDerivativeVectorsOrthogonal( MathVectorOfTerms<SIZE> const& termVector);
-Term getDyOverDx(MathVectorOfTwoTerms const& termVector, std::string const& variableName);
 template <unsigned int SIZE> Term getLengthOfArcDerivative(MathVectorOfTerms<SIZE> const& termVector, std::string const& variableName);
 template <unsigned int SIZE> Term getLengthOfArc(MathVectorOfTerms<SIZE> const& termVector, std::string const& variableName);
 template <unsigned int SIZE> Term getLengthOfArcFromStartToEnd(MathVectorOfTerms<SIZE> const& termVector, DetailsForDefiniteIntegralWithTerms const& integralDetails);
 template <unsigned int SIZE> Term getCurvature(MathVectorOfTerms<SIZE> const& termVector, std::string const& variableName);
 template <unsigned int SIZE> Term getTermThatYieldsToThisGradient(MathVectorOfTerms<SIZE> const& gradient, ArrayOfStrings<SIZE> const& coordinateVariables);
-template <unsigned int SIZE> MathVectorOfTerms<SIZE> getLimit(MathVectorOfTerms<SIZE> const& termVector, std::string const& variableName, AlbaNumber const& valueToApproach);template <unsigned int SIZE> MathVectorOfTerms<SIZE> differentiate(MathVectorOfTerms<SIZE> const& termVector, std::string const& variableName);
+template <unsigned int SIZE> MathVectorOfTerms<SIZE> getLimit(MathVectorOfTerms<SIZE> const& termVector, std::string const& variableName, AlbaNumber const& valueToApproach);
+template <unsigned int SIZE> MathVectorOfTerms<SIZE> differentiate(MathVectorOfTerms<SIZE> const& termVector, std::string const& variableName);
 template <unsigned int SIZE> MathVectorOfTerms<SIZE> integrate(MathVectorOfTerms<SIZE> const& termVector, std::string const& variableName);
 template <unsigned int SIZE> MathVectorOfTerms<SIZE> getUnitTangentVector(MathVectorOfTerms<SIZE> const& termVector, std::string const& variableName);
-template <unsigned int SIZE> MathVectorOfTerms<SIZE> getUnitNormalVector(MathVectorOfTerms<SIZE> const& termVector, std::string const& variableName);template <unsigned int SIZE> MathVectorOfTerms<SIZE> getCurvatureVector(MathVectorOfTerms<SIZE> const& termVector, std::string const& variableName);
+template <unsigned int SIZE> MathVectorOfTerms<SIZE> getUnitNormalVector(MathVectorOfTerms<SIZE> const& termVector, std::string const& variableName);
+template <unsigned int SIZE> MathVectorOfTerms<SIZE> getCurvatureVector(MathVectorOfTerms<SIZE> const& termVector, std::string const& variableName);
 template <unsigned int SIZE> MathVectorOfTerms<SIZE> getGradient( Term const& term, ArrayOfStrings<SIZE> const& coordinateVariables);
 template <unsigned int SIZE> MathVectorOfTerms<SIZE> getDel(MathVectorOfTerms<SIZE> const& termVector, ArrayOfStrings<SIZE> const& coordinateVariables);
 template <unsigned int SIZE> MathVectorOfTerms<SIZE> getDoubleDel(MathVectorOfTerms<SIZE> const& termVector, ArrayOfStrings<SIZE> const& coordinateVariables);
+
+// utilities function
+template <unsigned int SIZE> void simplifyForTermVector(MathVectorOfTerms<SIZE> & termVector);
 
 
 template <unsigned int SIZE>
@@ -128,10 +146,12 @@ Term getLengthOfArcFromStartToEnd(
                 integralDetails.higherEnd);
 }
 
-template <unsigned int SIZE>Term getCurvature(
+template <unsigned int SIZE>
+Term getCurvature(
         MathVectorOfTerms<SIZE> const& termVector,
         std::string const& variableName)
-{    MathVectorOfTerms<SIZE> curvatureVector(getCurvatureVector(termVector, variableName));
+{
+    MathVectorOfTerms<SIZE> curvatureVector(getCurvatureVector(termVector, variableName));
     Term result(curvatureVector.getMagnitude());
     simplifyForTermInVector(result);
     return result;
@@ -156,10 +176,12 @@ Term getTermThatYieldsToThisGradient(
         retrieveWithAndWithoutOtherCoordinates(termWithOtherCoordinates, termWithoutOtherCoordinates, gradient.getValueAt(i), coordinateVariableName, allCoordinates);
         processedCoordinates.emplace_back(coordinateVariableName);
         Integration integration(coordinateVariableName);
-        if(isFirst)        {
+        if(isFirst)
+        {
             partForComparison = integration.integrate(termWithOtherCoordinates);
             isFirst = false;
-        }        else
+        }
+        else
         {
             Term currentPartForComparison(integration.integrate(termWithOtherCoordinates));
             SegregateTermsByConditionInAdditionAndSubtractionRetriever retriever1(getRetrieverForComparison(partForComparison, coordinateVariableName, processedCoordinates));
@@ -224,29 +246,33 @@ Term getLineIntegral(
         MathVectorOfTerms<SIZE> const& vectorField,
         ArrayOfStrings<SIZE> const& coordinateVariables,
         MathVectorOfTerms<SIZE> const& linePath,
-        DetailsForDefiniteIntegralWithTerms const& integralDetails)
+        DetailsForDefiniteIntegralWithTerms const& linePathIntegralDetails)
 {
     SubstitutionOfVariablesToTerms substitution;
-    Differentiation differentiation(integralDetails.variableName);
+    Differentiation differentiation(linePathIntegralDetails.variableName);
     for(unsigned int i=0; i<SIZE; i++)
     {
-        substitution.putVariableWithTerm(coordinateVariables.at(i), linePath.getValueAt(i));        DerivativeVariableName derivativeVariableName(1, "", coordinateVariables.at(i));
+        substitution.putVariableWithTerm(coordinateVariables.at(i), linePath.getValueAt(i));
+        DerivativeVariableName derivativeVariableName(1, "", coordinateVariables.at(i));
         substitution.putVariableWithTerm(derivativeVariableName.getNameInLeibnizNotation(), differentiation.differentiate(linePath.getValueAt(i)));
     }
-    MathVectorOfTerms<SIZE> linePathInVectorField;    for(unsigned int i=0; i<SIZE; i++)
+    MathVectorOfTerms<SIZE> linePathInVectorField;
+    for(unsigned int i=0; i<SIZE; i++)
     {
         linePathInVectorField.getValueReferenceAt(i) = substitution.performSubstitutionTo(vectorField.getValueAt(i));
     }
-    MathVectorOfTerms<SIZE> differentiatedLinePath(differentiate(linePath, integralDetails.variableName));
+    MathVectorOfTerms<SIZE> differentiatedLinePath(differentiate(linePath, linePathIntegralDetails.variableName));
     Term termIntegrate(getDotProduct(linePathInVectorField, differentiatedLinePath));
-    Integration integration(integralDetails.variableName);
-    return integration.integrateAtDefiniteTerms(termIntegrate, integralDetails.lowerEnd, integralDetails.higherEnd);
+    Integration integration(linePathIntegralDetails.variableName);
+    return integration.integrateAtDefiniteTerms(termIntegrate, linePathIntegralDetails.lowerEnd, linePathIntegralDetails.higherEnd);
 }
 
-template <unsigned int SIZE>Term getLineIntegralIndependentOfPath(
+template <unsigned int SIZE>
+Term getLineIntegralIndependentOfPath(
         MathVectorOfTerms<SIZE> const& vectorField,
         ArrayOfStrings<SIZE> const& coordinateVariables,
-        MathVectorOfNumbers<SIZE> const& lowerValues,        MathVectorOfNumbers<SIZE> const& higherValues)
+        MathVectorOfNumbers<SIZE> const& lowerValues,
+        MathVectorOfNumbers<SIZE> const& higherValues)
 {
     bool isConservative(false);
     Term potential(getPotentialFunctionForVectorFieldGradient(vectorField, coordinateVariables, isConservative));
@@ -402,6 +428,16 @@ MathVectorOfTerms<SIZE> getDoubleDel(
         result.getValueReferenceAt(i) = getPartialDerivative(getPartialDerivative(termVector.getValueAt(i), coordinateVariables.at(i)), coordinateVariables.at(i));
     }
     return result;
+}
+
+template <unsigned int SIZE>
+void simplifyForTermVector(
+        MathVectorOfTerms<SIZE> & termVector)
+{
+    for(Term & term : termVector.getValuesReference())
+    {
+        simplifyForTermInVector(term);
+    }
 }
 
 }

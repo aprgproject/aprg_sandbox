@@ -5,9 +5,11 @@
 #include <Algebra/Term/TermTypes/Term.hpp>
 #include <Algebra/Utilities/LowerAndHigherValues.hpp>
 #include <Math/Number/AlbaNumberTypes.hpp>
+
 #include <string>
 
-namespace alba{
+namespace alba
+{
 
 namespace algebra
 {
@@ -53,7 +55,8 @@ Term evaluateTermsAndGetDifference(
         Term const& higherEnd);
 
 Term evaluate(
-        Term const& term,        std::string const& variableName,
+        Term const& term,
+        std::string const& variableName,
         Term const& value);
 
 Term getAreaUnderACurveUsingReimannSums(

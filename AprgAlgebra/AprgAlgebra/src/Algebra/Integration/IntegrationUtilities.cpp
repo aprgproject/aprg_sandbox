@@ -76,7 +76,8 @@ AlbaNumbers getInputForAverageValueInBetweenTwoValues(
         AlbaNumber const& higherEndInInterval)
 {
     // Mean-Value theorem for integrals:
-    // If the function f is continuous on the closed interval [a, b],    // there exists a number "average" in [a, b] such that:
+    // If the function f is continuous on the closed interval [a, b],
+    // there exists a number "average" in [a, b] such that:
     // The definite integral in [a, b] = f("average") * (b-a)
 
     Equation meanValueTheoremEquation(term, "=", getAverageValueInBetweenTwoValues(term, {variableName, lowerEndInInterval, higherEndInInterval}));
@@ -106,6 +107,7 @@ Term evaluateValuesAndGetDifference(
     result.simplify();
     return result;
 }
+
 Term evaluateTermsAndGetDifference(
         Term const& term,
         string const& variableName,
@@ -117,9 +119,11 @@ Term evaluateTermsAndGetDifference(
     result.simplify();
     return result;
 }
+
 Term evaluate(
         Term const& term,
-        string const& variableName,        Term const& value)
+        string const& variableName,
+        Term const& value)
 {
     Term result;
     if(isTheValue(value, AlbaNumber(AlbaNumber::Value::PositiveInfinity)))
@@ -148,10 +152,12 @@ Term getAreaUnderACurveUsingReimannSums(
     Term inputForHeight(Polynomial{Monomial(lowerEndInInterval, {}), Monomial(deltaOfValues, {{"n", -1}, {variableName, 1}})});
     SubstitutionOfVariablesToTerms substitution({{variableName, inputForHeight}});
     Term heightOfARectangle(substitution.performSubstitutionTo(term));
-    Term widthOfARectangle(Monomial(deltaOfValues, {{"n", -1}}));    Term areaOfARectangle(heightOfARectangle * widthOfARectangle);
+    Term widthOfARectangle(Monomial(deltaOfValues, {{"n", -1}}));
+    Term areaOfARectangle(heightOfARectangle * widthOfARectangle);
     Summation summation(areaOfARectangle, variableName);
     Term sumOfAreaOfAllRectangles(summation.getSum(Term(1), Term("n")));
-    LimitsAtInfinity limits(sumOfAreaOfAllRectangles, "n");    return limits.getValueAtInfinity(AlbaNumber::Value::PositiveInfinity); // Let number of rectangles approach infinity
+    LimitsAtInfinity limits(sumOfAreaOfAllRectangles, "n");
+    return limits.getValueAtInfinity(AlbaNumber::Value::PositiveInfinity); // Let number of rectangles approach infinity
 }
 
 LowerAndHigherValues getApproximateValuesForDefiniteIntegral(
@@ -165,8 +171,10 @@ LowerAndHigherValues getApproximateValuesForDefiniteIntegral(
     AlbaNumber delta(higherEndInInterval-lowerEndInInterval);
     LowerAndHigherValues result;
     result.higherValue = minMaxValues.maximumInputOutputValues.second * delta;
-    result.lowerValue = minMaxValues.minimumInputOutputValues.second * delta;    return result;
+    result.lowerValue = minMaxValues.minimumInputOutputValues.second * delta;
+    return result;
 }
 
 }
+
 }

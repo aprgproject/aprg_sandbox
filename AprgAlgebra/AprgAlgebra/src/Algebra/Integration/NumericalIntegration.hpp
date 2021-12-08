@@ -4,8 +4,10 @@
 #include <Algebra/Term/TermTypes/Term.hpp>
 
 #include <string>
+
 namespace alba
 {
+
 namespace algebra
 {
 
@@ -40,9 +42,11 @@ Term getAnApproximateOfTruncationErrorInSimpsonRuleAt(
         DetailsForDefiniteIntegralWithValues const& integralDetails,
         AlbaNumber const& valueToCheckAt,
         AlbaNumber const& deltaX);
+
 AlbaNumber getAnApproximateOfNaturalLogarithmUsingTrapezoidRule(
         AlbaNumber const& input,
         unsigned int const numberOfSamples);
+
 AlbaNumber getAnApproximateOfNaturalLogarithmUsingSimpsonRule(
         AlbaNumber const& input,
         unsigned int const numberOfSamples);

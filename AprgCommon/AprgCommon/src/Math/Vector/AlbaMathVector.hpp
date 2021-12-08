@@ -18,10 +18,12 @@ bool isEqualForMathVectorDataType(DataType const& value1, DataType const& value2
 template <typename DataType>
 DataType raiseToPowerForMathVectorDataType(DataType const& value1, DataType const& value2);
 
-template <typename DataType, unsigned int SIZE>class AlbaMathVector
+template <typename DataType, unsigned int SIZE>
+class AlbaMathVector
 {
 public:
-    using AlbaMathVectorType=AlbaMathVector<DataType, SIZE>;    using ValuesInArray=std::array<DataType, SIZE>;
+    using AlbaMathVectorType=AlbaMathVector<DataType, SIZE>;
+    using ValuesInArray=std::array<DataType, SIZE>;
 
     AlbaMathVector()
     {
@@ -49,9 +51,11 @@ public:
             return isEqualForMathVectorDataType(first, second);
         });
     }
+
     bool operator!=(AlbaMathVectorType const& second) const
     {
-        AlbaMathVectorType const& first(*this);        return !(first==second);
+        AlbaMathVectorType const& first(*this);
+        return !(first==second);
     }
 
     bool operator<(AlbaMathVectorType const& second) const // this is added so it can be used in map
@@ -209,11 +213,13 @@ public:
 
     ValuesInArray & getValuesReference()
     {
-        return m_values;    }
+        return m_values;
+    }
 
 private:
     ValuesInArray m_values;
 };
+
 template <typename DataType, unsigned int SIZE>
 std::ostream & operator<<(std::ostream & out, AlbaMathVector<DataType, SIZE> const& mathVector)
 {

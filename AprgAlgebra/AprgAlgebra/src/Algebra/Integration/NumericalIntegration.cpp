@@ -31,10 +31,12 @@ Term getAnApproximateOfDefiniteIntegralUsingTrapezoidalRule(
         substitution.putVariableWithValue(integralDetails.variableName, currentX);
         Term currentY(substitution.performSubstitutionTo(term));
         if(i==0 || i==numberOfSamples)
-        {            sum = sum + currentY;
+        {
+            sum = sum + currentY;
         }
         else
-        {            sum = sum + (currentY * 2);
+        {
+            sum = sum + (currentY * 2);
         }
     }
     return lengthOfInterval / 2 / numberOfSamples * sum;
@@ -56,10 +58,12 @@ Term getAnApproximateOfDefiniteIntegralUsingSimpsonRule(
         substitution.putVariableWithValue(integralDetails.variableName, currentX);
         Term currentY(substitution.performSubstitutionTo(term));
         if(i==0 || i==numberOfSamples)
-        {            sum = sum + currentY;
+        {
+            sum = sum + currentY;
         }
         else if(isOdd(i))
-        {            sum = sum + (currentY * 4);
+        {
+            sum = sum + (currentY * 4);
         }
         else
         {
@@ -116,9 +120,11 @@ Term getAnApproximateOfTruncationErrorInSimpsonRuleAt(
     AlbaNumber lengthOfInterval(integralDetails.higherEnd-integralDetails.lowerEnd);
     return lengthOfInterval / -180 * (deltaX ^ 2) * termDoublePrimeValue;
 }
+
 AlbaNumber getAnApproximateOfNaturalLogarithmUsingTrapezoidRule(
         AlbaNumber const& input,
-        unsigned int const numberOfSamples){
+        unsigned int const numberOfSamples)
+{
     AlbaNumber result;
     if(input > 0)
     {
@@ -126,10 +132,12 @@ AlbaNumber getAnApproximateOfNaturalLogarithmUsingTrapezoidRule(
         Term approximateValue(getAnApproximateOfDefiniteIntegralUsingTrapezoidalRule(oneOverX, {"x", AlbaNumber(1), input}, numberOfSamples));
         if(approximateValue.isConstant())
         {
-            result = approximateValue.getConstantValueConstReference();        }
+            result = approximateValue.getConstantValueConstReference();
+        }
     }
     return result;
 }
+
 AlbaNumber getAnApproximateOfNaturalLogarithmUsingSimpsonRule(
         AlbaNumber const& input,
         unsigned int const numberOfSamples)
@@ -141,10 +149,12 @@ AlbaNumber getAnApproximateOfNaturalLogarithmUsingSimpsonRule(
         Term approximateValue(getAnApproximateOfDefiniteIntegralUsingSimpsonRule(oneOverX, {"x", AlbaNumber(1), input}, numberOfSamples));
         if(approximateValue.isConstant())
         {
-            result = approximateValue.getConstantValueConstReference();        }
+            result = approximateValue.getConstantValueConstReference();
+        }
     }
     return result;
 }
+
 }
 
 }

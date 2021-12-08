@@ -4,9 +4,11 @@
 #include <Algebra/Integration/DetailsForDefiniteIntegralWithTerms.hpp>
 #include <Algebra/Term/TermTypes/Term.hpp>
 #include <Algebra/Term/TermTypes/TermContainerTypes.hpp>
+
 #include <string>
 
-namespace alba{
+namespace alba
+{
 
 namespace algebra
 {
@@ -124,7 +126,8 @@ Term getMomentOfInertiaAboutTheOrigin(
         DetailsForDefiniteIntegralWithTerms const& yDetails);
 
 Term getRadiusOfGyration(
-        Term const& momentOfInertia,        Term const& totalMass);
+        Term const& momentOfInertia,
+        Term const& totalMass);
 
 Term getDoubleIntegralInPolarCoordinates(
         Term const& termWithRadiusAndTheta,
@@ -158,4 +161,5 @@ Term integrateWithCoordinateDetails(Term const& term,  DetailsForDefiniteIntegra
 void sortIntegralsDetailsToEvaluate(DetailsForDefiniteIntegralsWithTerms & integrals);
 
 }
+
 }
