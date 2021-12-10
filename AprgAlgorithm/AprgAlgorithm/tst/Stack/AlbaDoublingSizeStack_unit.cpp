@@ -50,9 +50,14 @@ TEST(AlbaDoublingSizeStackTest, PushWorks)
 {
     StackForTest stack;
 
-    stack.push(5U);
+    stack.push(1U);
+    stack.push(2U);
+    stack.push(3U);
 
-    EXPECT_EQ(5U, stack.pop());
+    EXPECT_EQ(3U, stack.getStackSize());
+    EXPECT_EQ(3U, stack.pop());
+    EXPECT_EQ(2U, stack.pop());
+    EXPECT_EQ(1U, stack.pop());
 }
 
 TEST(AlbaDoublingSizeStackTest, PushWorksWithDoublingContainerSize)
@@ -75,9 +80,14 @@ TEST(AlbaDoublingSizeStackTest, PushWorksWithDoublingContainerSize)
 TEST(AlbaDoublingSizeStackTest, PopWorks)
 {
     StackForTest stack;
-    stack.push(5U);
+    stack.push(1U);
+    stack.push(2U);
+    stack.push(3U);
 
-    EXPECT_EQ(5U, stack.pop());
+    EXPECT_EQ(3U, stack.pop());
+    EXPECT_EQ(2U, stack.pop());
+    EXPECT_EQ(1U, stack.pop());
+    EXPECT_EQ(0U, stack.getStackSize());
 }
 
 TEST(AlbaDoublingSizeStackTest, PopWorksWithHalvingContainerSize)

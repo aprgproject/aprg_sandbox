@@ -6,7 +6,7 @@ namespace alba
 {
 
 template <typename ObjectType>
-class AlbaLinkedListStack
+class AlbaLinkedListQueue
 {
 public:
     struct Node
@@ -15,7 +15,7 @@ public:
         Node* next;
     };
 
-    AlbaLinkedListStack()
+    AlbaLinkedListQueue()
         : m_currentSize(0)
         , m_first(nullptr)
     {}
@@ -30,17 +30,29 @@ public:
         return m_currentSize;
     }
 
-    void push(ObjectType const& object)
+    void enqueue(ObjectType const& object)
     {
-        Node* newNext = m_first;
-        m_first = new Node{};
-        m_first->object = object;
-        m_first->next = newNext;
+        //Add item to the end of the list
+        if(isEmpty())
+        {
+            m_first = new Node{};
+            m_first->object = object;
+            m_first->next = nullptr;
+            m_last = m_first;
+        }
+        else
+        {
+            m_last->next = new Node{};
+            m_last = m_last->next;
+            m_last->object = object;
+            m_last->next = nullptr;
+        }
         m_currentSize++;
     }
 
-    ObjectType pop()
+    ObjectType dequeue()
     {
+        // Remove item from the beginning of the list
         assert(m_first != nullptr);
         ObjectType result{};
         if(m_first != nullptr)
@@ -50,6 +62,10 @@ public:
             delete m_first;
             m_first = newHead;
             m_currentSize--;
+        }
+        if(isEmpty())
+        {
+            m_last = nullptr;
         }
         return result;
     }
@@ -68,6 +84,7 @@ private:
 
     unsigned int m_currentSize;
     Node* m_first;
+    Node* m_last;
 };
 
 }
