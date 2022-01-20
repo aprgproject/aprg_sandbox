@@ -11,30 +11,26 @@ namespace algebra
 Constant::Constant()
 {}
 
-Constant::Constant(AlbaNumber const& constantValue)
-    : m_constantValue(constantValue)
-{}
-
 Constant::Constant(int const signedValue)
     : m_constantValue(signedValue)
 {}
-
 Constant::Constant(unsigned int const unsignedValue)
     : m_constantValue(unsignedValue)
 {}
-
 Constant::Constant(double const doubleValue)
     : m_constantValue(doubleValue)
 {}
 
+Constant::Constant(AlbaNumber const& constantValue)
+    : m_constantValue(constantValue)
+{}
+
 bool Constant::operator==(Constant const& second) const
 {
-   return  m_constantValue == second.m_constantValue;
-}
+   return  m_constantValue == second.m_constantValue;}
 
 bool Constant::operator!=(Constant const& second) const
-{
-   return  m_constantValue != second.m_constantValue;
+{   return  m_constantValue != second.m_constantValue;
 }
 
 bool Constant::operator<(Constant const& second) const

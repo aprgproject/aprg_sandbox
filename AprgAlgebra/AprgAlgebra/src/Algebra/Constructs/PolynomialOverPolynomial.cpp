@@ -148,16 +148,14 @@ void PolynomialOverPolynomial::removeCommonMonomialOnAllMonomialsInNumeratorAndD
         bool isDenominatorHasNegativeSign = getCommonSignInMonomials(m_denominator.getMonomialsConstReference()) == -1;
         if(isDenominatorHasNegativeSign)
         {
-            m_numerator.divideMonomial(createMonomialFromConstant(-1));
-            m_denominator.divideMonomial(createMonomialFromConstant(-1));
+            m_numerator.divideMonomial(createMonomialFromNumber(-1));
+            m_denominator.divideMonomial(createMonomialFromNumber(-1));
         }
     }
 }
-
 void PolynomialOverPolynomial::factorizeRemoveCommonFactorsInNumeratorAndDenominatorAndCombineRemainingFactors()
 {
-    ConfigurationDetails configurationDetails(
-                Factorization::Configuration::getInstance().getConfigurationDetails());
+    ConfigurationDetails configurationDetails(                Factorization::Configuration::getInstance().getConfigurationDetails());
     configurationDetails.shouldNotFactorizeIfItWouldYieldToPolynomialsWithDoubleValue
             = m_shouldNotFactorizeIfItWouldYieldToPolynomialsWithDoubleValue;
     ScopeObject scopeObject;

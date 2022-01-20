@@ -235,15 +235,13 @@ Polynomial getNewPolynomialWithNewVariables(
     Polynomial newPolynomialWithVariables;
     for(Polynomial const& smallerPolynomial : smallerPolynomials)
     {
-        Polynomial newSmallerPolynomialWithVariables(createPolynomialFromConstant(1));
+        Polynomial newSmallerPolynomialWithVariables(createPolynomialFromNumber(1));
         Polynomials factors(factorizeAPolynomial(smallerPolynomial));
         for(Polynomial const& factor : factors)
-        {
-            if(isOneMonomial(factor))
+        {            if(isOneMonomial(factor))
             {
                 newSmallerPolynomialWithVariables.multiplyMonomial(getFirstMonomial(factor));
-            }
-            else
+            }            else
             {
                 string variableNameForSubstitution(createVariableNameForSubstitution(Term(factor)));
                 variableSubstitution.putVariableWithTerm(variableNameForSubstitution, factor);

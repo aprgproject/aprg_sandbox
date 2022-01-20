@@ -26,17 +26,16 @@ class Term : public BaseTerm
 public:
     Term();
     Term(Term const& term);
-    explicit Term(int const signedValue);
-    explicit Term(unsigned int const unsignedValue);
-    explicit Term(double const doubleValue);
+    Term(int const signedValue);
+    Term(unsigned int const unsignedValue);
+    Term(double const doubleValue);
+    Term(AlbaNumber const& number);
     Term(std::string const& stringTerm);
     Term(Constant const& constant);
-    Term(Variable const& variable);
-    Term(Operator const& operatorTerm);
+    Term(Variable const& variable);    Term(Operator const& operatorTerm);
     Term(Monomial const& monomial);
     Term(Polynomial const& polynomial);
-    Term(Expression const& expression);
-    Term(Function const& function);
+    Term(Expression const& expression);    Term(Function const& function);
 
     Term & operator=(Term const& term);
 

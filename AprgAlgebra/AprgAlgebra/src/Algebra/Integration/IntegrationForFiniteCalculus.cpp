@@ -306,15 +306,13 @@ Polynomial IntegrationForFiniteCalculus::convertMonomialWithPositiveExponentsFro
     if(exponent > 0)
     {
         unsigned int exponentUnsigned = static_cast<unsigned int>(exponent);
-        result = createPolynomialFromConstant(1);
+        result = createPolynomialFromNumber(1);
         Monomial monomialToRetain(monomial);
         monomialToRetain.putVariableWithExponent(m_nameOfVariableToIntegrate, 0);
-        for(unsigned int i=0; i<exponentUnsigned; i++)
-        {
+        for(unsigned int i=0; i<exponentUnsigned; i++)        {
             result.multiplyPolynomial(Polynomial
             {Monomial(1, {{m_nameOfVariableToIntegrate, 1}}), Monomial(-AlbaNumber(i), {})});
-        }
-        result.multiplyMonomial(monomialToRetain);
+        }        result.multiplyMonomial(monomialToRetain);
     }
     result.simplify();
     return result;

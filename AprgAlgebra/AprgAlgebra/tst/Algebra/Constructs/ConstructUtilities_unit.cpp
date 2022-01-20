@@ -23,15 +23,13 @@ TEST(ConstructUtilitiesTest, CreatePolynomialOverPolynomialFromTermIfPossibleWor
     ASSERT_TRUE(popOptional.hasContent());
     PolynomialOverPolynomial const& pop(popOptional.getConstReference());
     EXPECT_EQ(polynomial, pop.getNumerator());
-    EXPECT_EQ(createPolynomialFromConstant(1), pop.getDenominator());
+    EXPECT_EQ(createPolynomialFromNumber(1), pop.getDenominator());
 }
 
-TEST(ConstructUtilitiesTest, CreatePolynomialOverPolynomialFromTermIfPossibleWorksForExpressionThatHaveMonomialsOnMultiplyAndDivide)
-{
+TEST(ConstructUtilitiesTest, CreatePolynomialOverPolynomialFromTermIfPossibleWorksForExpressionThatHaveMonomialsOnMultiplyAndDivide){
     Expression expression(
                 createExpressionIfPossible({
-                                               Term(Monomial(1, {{"x", 9}})),
-                                               Term("*"),
+                                               Term(Monomial(1, {{"x", 9}})),                                               Term("*"),
                                                Term(Monomial(2, {{"y", 8}})),
                                                Term("/"),
                                                Term(Monomial(3, {{"z", 7}}))

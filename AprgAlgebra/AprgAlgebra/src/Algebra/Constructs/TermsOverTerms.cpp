@@ -272,15 +272,13 @@ void TermsOverTerms::continueToSimplifyAndCombineFactors(
 
 Polynomial TermsOverTerms::multiplyPolynomialTerms(Terms const& polynomialTerms) const
 {
-    Polynomial polynomialResult(createPolynomialFromConstant(1));
+    Polynomial polynomialResult(createPolynomialFromNumber(1));
     for(Term const& polynomialTerm : polynomialTerms)
     {
-        if(canBeConvertedToPolynomial(polynomialTerm))
-        {
+        if(canBeConvertedToPolynomial(polynomialTerm))        {
             polynomialResult.multiplyPolynomial(createPolynomialIfPossible(polynomialTerm));
         }
-    }
-    return polynomialResult;
+    }    return polynomialResult;
 }
 
 bool TermsOverTerms::removeTermsIfNeededAndReturnIfSomeTermsAreRemoved(
@@ -351,15 +349,13 @@ void TermsOverTerms::retrievePolynomialAndNonPolynomialsTerms(
         Polynomial & polynomial,
         Terms & nonPolynomialTerms) const
 {
-    polynomial = (createPolynomialFromConstant(1));
+    polynomial = (createPolynomialFromNumber(1));
     for(Term const& termToCheck : termsToCheck)
     {
-        if(canBeConvertedToPolynomial(termToCheck))
-        {
+        if(canBeConvertedToPolynomial(termToCheck))        {
             polynomial.multiplyPolynomial(createPolynomialIfPossible(termToCheck));
         }
-        else
-        {
+        else        {
             nonPolynomialTerms.emplace_back(termToCheck);
         }
     }

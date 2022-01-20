@@ -133,14 +133,12 @@ AlbaNumber DifferentiationForFiniteCalculus::differentiateConstant(
 Polynomial DifferentiationForFiniteCalculus::differentiateVariable(
         Variable const& variable) const
 {
-    Polynomial result(createPolynomialFromConstant(0));
+    Polynomial result(createPolynomialFromNumber(0));
     if(isVariableToDifferentiate(variable.getVariableName()))
     {
-        result = Polynomial{Monomial(1, {{m_nameOfVariableToDifferentiate, 1}}), Monomial(1, {})};
-    }
+        result = Polynomial{Monomial(1, {{m_nameOfVariableToDifferentiate, 1}}), Monomial(1, {})};    }
     return result;
 }
-
 Term DifferentiationForFiniteCalculus::differentiateMonomial(
         Monomial const& monomial) const
 {

@@ -57,15 +57,13 @@ void MultiplicationAndDivisionOfRadicals::simplify()
     SimplificationOfExpression::ScopeObject scopeObject;
     scopeObject.setInThisScopeThisConfiguration(radicalSimplificationConfigurationDetails);
 
-    Monomial combinedMonomial(createMonomialFromConstant(1));
+    Monomial combinedMonomial(createMonomialFromNumber(1));
     RadicalDetails radicalDetails;
     TermsWithDetails remainingTerms;
     gatherDetails(radicalDetails, combinedMonomial, remainingTerms);
-
     AlbaNumber gcfOfExponents(getGcfOfExponents(radicalDetails));
 
-    if(shouldBeCombined(radicalDetails, combinedMonomial, gcfOfExponents))
-    {
+    if(shouldBeCombined(radicalDetails, combinedMonomial, gcfOfExponents))    {
         m_termsWithDetails.clear();
         combineMonomialAndRadicalsAndSave(radicalDetails, combinedMonomial, gcfOfExponents);
         saveRemainingTerms(remainingTerms);

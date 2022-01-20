@@ -406,15 +406,13 @@ void SimplificationOfExpression::convertPolynomialToPolynomialOverPolynomial(
 {
     if(term.isPolynomial())
     {
-        PolynomialOverPolynomial pop(term.getPolynomialConstReference(), createPolynomialFromConstant(1));
+        PolynomialOverPolynomial pop(term.getPolynomialConstReference(), createPolynomialFromNumber(1));
         pop.simplify();
         if(!isTheValue(pop.getDenominator(), 1))
-        {
-            term = Term(createExpressionIfPossible({Term(pop.getNumerator()), Term("/"), Term(pop.getDenominator())}));
+        {            term = Term(createExpressionIfPossible({Term(pop.getNumerator()), Term("/"), Term(pop.getDenominator())}));
         }
     }
-    else if(term.isExpression())
-    {
+    else if(term.isExpression())    {
         convertPolynomialToPolynomialOverPolynomial(term.getExpressionReference());
     }
     else if(term.isFunction())

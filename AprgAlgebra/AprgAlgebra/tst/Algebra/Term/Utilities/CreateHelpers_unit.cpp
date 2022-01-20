@@ -10,16 +10,14 @@ namespace alba
 namespace algebra
 {
 
-TEST(CreateHelpersTest, CreateMonomialFromConstantWorks)
+TEST(CreateHelpersTest, CreateMonomialFromNumberWorks)
 {
-    EXPECT_EQ(Monomial(5648, {}), createMonomialFromConstant(Constant(5648)));
+    EXPECT_EQ(Monomial(5648, {}), createMonomialFromNumber(5648));
 }
 
-TEST(CreateHelpersTest, CreateMonomialFromVariableWorks)
-{
+TEST(CreateHelpersTest, CreateMonomialFromVariableWorks){
     EXPECT_EQ(Monomial(1, {{"weight", 1}}), createMonomialFromVariable(Variable("weight")));
 }
-
 TEST(CreateHelpersTest, CreateMonomialIfPossibleWorks)
 {
     EXPECT_EQ(Monomial(0, {}), createMonomialIfPossible(Term{}));
@@ -31,16 +29,14 @@ TEST(CreateHelpersTest, CreateMonomialIfPossibleWorks)
     EXPECT_EQ(Monomial(0, {}), createMonomialIfPossible(Term(createExpressionIfPossible({Term(5), Term("+"), Term("interest")}))));
 }
 
-TEST(CreateHelpersTest, CreatePolynomialFromConstantWorks)
+TEST(CreateHelpersTest, CreatePolynomialFromNumberWorks)
 {
-    EXPECT_EQ(Polynomial{Monomial(5648, {})}, createPolynomialFromConstant(Constant(5648)));
+    EXPECT_EQ(Polynomial{Monomial(5648, {})}, createPolynomialFromNumber(5648));
 }
 
-TEST(CreateHelpersTest, CreatePolynomialFromVariableWorks)
-{
+TEST(CreateHelpersTest, CreatePolynomialFromVariableWorks){
     EXPECT_EQ(Polynomial{Monomial(1, {{"weight", 1}})}, createPolynomialFromVariable(Variable("weight")));
 }
-
 TEST(CreateHelpersTest, CreatePolynomialFromMonomialWorks)
 {
     EXPECT_EQ(Polynomial{Monomial(2, {{"weight", 3}})}, createPolynomialFromMonomial(Monomial(2, {{"weight", 3}})));

@@ -15,18 +15,16 @@ class Constant : public BaseTermData
 {
 public:
     Constant();
-    Constant(AlbaNumber const& constantValue);
-    Constant(int const signedValue);
-    Constant(unsigned int const unsignedValue);
-    Constant(double const doubleValue);
+    explicit Constant(int const signedValue);
+    explicit Constant(unsigned int const unsignedValue);
+    explicit Constant(double const doubleValue);
+    explicit Constant(AlbaNumber const& constantValue);
 
     bool operator==(Constant const& second) const;
-    bool operator!=(Constant const& second) const;
-    bool operator<(Constant const& second) const;
+    bool operator!=(Constant const& second) const;    bool operator<(Constant const& second) const;
 
     AlbaNumber const& getNumberConstReference() const;
     std::string getDisplayableString() const;
-
     void setNumber(AlbaNumber const& constantValue);
 
 private:

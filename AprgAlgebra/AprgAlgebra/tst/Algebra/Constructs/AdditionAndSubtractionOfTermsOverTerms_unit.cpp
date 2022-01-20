@@ -276,17 +276,15 @@ TEST(AdditionAndSubtractionOfTermsOverTermsTest, GetCombinedExpressionForLcmDeno
 
     Expression expressionToVerify(additionAndSubtraction.getCombinedExpression());
 
-    Expression subExpression1(createExpressionIfPossible({Term(createMonomialFromConstant(6))}));
-    Expression subExpression2(createExpressionIfPossible({Term(createMonomialFromConstant(4))}));
-    Expression subExpression3(createExpressionIfPossible({Term(createMonomialFromConstant(3))}));
+    Expression subExpression1(createExpressionIfPossible({Term(createMonomialFromNumber(6))}));
+    Expression subExpression2(createExpressionIfPossible({Term(createMonomialFromNumber(4))}));
+    Expression subExpression3(createExpressionIfPossible({Term(createMonomialFromNumber(3))}));
     Expression subExpression4(createExpressionIfPossible({Term(subExpression1), Term("+"), Term(subExpression2), Term("+"), Term(subExpression3)}));
     Expression expressionToExpect(createExpressionIfPossible({Term(subExpression4), Term("/"), Term(12)}));
-    EXPECT_EQ(expressionToExpect, expressionToVerify);
-}
+    EXPECT_EQ(expressionToExpect, expressionToVerify);}
 
 TEST(AdditionAndSubtractionOfTermsOverTermsTest, GetCombinedExpressionForRevisedNumeratorTermsWorks)
-{
-    AdditionAndSubtractionOfTermsOverTerms additionAndSubtraction;
+{    AdditionAndSubtractionOfTermsOverTerms additionAndSubtraction;
     TermsOverTerms fraction1({Term(7)}, {Term(2)});
     TermsOverTerms fraction2({Term(11)}, {Term(3)});
     TermsOverTerms fraction3({Term(13)}, {Term(4)});
@@ -296,17 +294,15 @@ TEST(AdditionAndSubtractionOfTermsOverTermsTest, GetCombinedExpressionForRevised
 
     Expression expressionToVerify(additionAndSubtraction.getCombinedExpression());
 
-    Expression subExpression1(createExpressionIfPossible({Term(7), Term("*"), Term(createMonomialFromConstant(6))}));
-    Expression subExpression2(createExpressionIfPossible({Term(11), Term("*"), Term(createMonomialFromConstant(4))}));
-    Expression subExpression3(createExpressionIfPossible({Term(13), Term("*"), Term(createMonomialFromConstant(3))}));
+    Expression subExpression1(createExpressionIfPossible({Term(7), Term("*"), Term(createMonomialFromNumber(6))}));
+    Expression subExpression2(createExpressionIfPossible({Term(11), Term("*"), Term(createMonomialFromNumber(4))}));
+    Expression subExpression3(createExpressionIfPossible({Term(13), Term("*"), Term(createMonomialFromNumber(3))}));
     Expression subExpression4(createExpressionIfPossible({Term(subExpression1), Term("-"), Term(subExpression2), Term("+"), Term(subExpression3)}));
     Expression expressionToExpect(createExpressionIfPossible({Term(subExpression4), Term("/"), Term(12)}));
-    EXPECT_EQ(expressionToExpect, expressionToVerify);
-}
+    EXPECT_EQ(expressionToExpect, expressionToVerify);}
 
 TEST(AdditionAndSubtractionOfTermsOverTermsTest, GetCombinedExpressionUsingExample1Works)
-{
-    AdditionAndSubtractionOfTermsOverTerms additionAndSubtraction;
+{    AdditionAndSubtractionOfTermsOverTerms additionAndSubtraction;
     TermsOverTerms fraction1({Term(4)}, {Term(Polynomial{Monomial(1, {{"x", 1}}), Monomial(2, {})})});
     TermsOverTerms fraction2({Term(Polynomial{Monomial(1, {{"x", 1}}), Monomial(3, {})})}, {Term(Polynomial{Monomial(1, {{"x", 2}}), Monomial(-4, {})})});
     TermsOverTerms fraction3({Term(Polynomial{Monomial(2, {{"x", 1}}), Monomial(1, {})})}, {Term(Polynomial{Monomial(1, {{"x", 1}}), Monomial(-2, {})})});
