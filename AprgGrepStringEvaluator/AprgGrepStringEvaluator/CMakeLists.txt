@@ -19,9 +19,11 @@ include(${APRG_DIR}/gtest/AprgCmakeInclude/gtest.cmake)
 #Include AprgCommon, this needs APRG Directory
 include(${APRG_DIR}/AprgCommon/AprgCmakeInclude/AprgCommon.cmake)
 
+#Include AprgAlgorithm, this needs APRG Directory
+include(${APRG_DIR}/AprgAlgorithm/AprgCmakeInclude/AprgAlgorithm.cmake)
+
 #Add files and directories
 include(${APRG_GREP_STRING_EVALUATOR_DIR}/cmake/FilesAndDirectories.cmake)
-
 add_executable(${OUTFILE} ${APRG_GREP_STRING_EVALUATOR_SOURCES_AND_TESTS})
 include_directories(${APRG_GREP_STRING_EVALUATOR_INCLUDE_DIRECTORIES} ${APRG_GREP_STRING_EVALUATOR_TEST_INCLUDE_DIRECTORIES} ${GTEST_INCLUDE_DIRS})
 target_link_libraries(${OUTFILE} ${CMAKE_THREAD_LIBS_INIT} APRG_COMMON gtest ${CMAKE_THREAD_LIBS_INIT})

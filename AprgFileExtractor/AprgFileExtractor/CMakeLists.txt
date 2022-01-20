@@ -30,20 +30,20 @@ include(${APRG_DIR}/AprgCommon/AprgCmakeInclude/AprgCommon.cmake)
 #Include AprgAlgorithm, this needs APRG Directory
 include(${APRG_DIR}/AprgAlgorithm/AprgCmakeInclude/AprgAlgorithm.cmake)
 
+#Include AprgGrepStringEvaluator, this needs APRG Directory
+include(${APRG_DIR}/AprgGrepStringEvaluator/AprgCmakeInclude/AprgGrepStringEvaluator.cmake)
+
 #Add files and directories
 include(${APRG_FILE_EXTRACTOR_DIR}/cmake/FilesAndDirectories.cmake)
-
 if (TEST_MODE)
     add_executable(${OUTFILE} ${APRG_FILE_EXTRACTOR_SOURCES_AND_TESTS})
     include_directories(${APRG_FILE_EXTRACTOR_INCLUDE_DIRECTORIES} ${APRG_FILE_EXTRACTOR_TEST_INCLUDE_DIRECTORIES} ${GTEST_INCLUDE_DIRS})
-    target_link_libraries(${OUTFILE} gtest APRG_COMMON APRG_ALGORITHM ${CMAKE_THREAD_LIBS_INIT})
+    target_link_libraries(${OUTFILE} gtest APRG_COMMON APRG_GREP_STRING_EVALUATOR ${CMAKE_THREAD_LIBS_INIT})
     add_test(${OUTFILE} ${OUTFILE})
 else()
-    set(CMAKE_FIND_LIBRARY_SUFFIXES ".a")
-    set(BUILD_SHARED_LIBRARIES OFF)
+    set(CMAKE_FIND_LIBRARY_SUFFIXES ".a")    set(BUILD_SHARED_LIBRARIES OFF)
     set(CMAKE_EXE_LINKER_FLAGS "-static")
     add_executable(${OUTFILE} ${APRG_FILE_EXTRACTOR_SOURCES} ${APRG_FILE_EXTRACTOR_MAIN_SOURCES})
     include_directories(${APRG_FILE_EXTRACTOR_INCLUDE_DIRECTORIES})
-    target_link_libraries(${OUTFILE} APRG_COMMON APRG_ALGORITHM)
+    target_link_libraries(${OUTFILE} APRG_COMMON APRG_GREP_STRING_EVALUATOR)
 endif()
-
