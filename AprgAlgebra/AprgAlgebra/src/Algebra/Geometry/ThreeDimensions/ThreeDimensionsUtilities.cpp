@@ -57,6 +57,7 @@ Equation getEllipticHyperboloidEquation(bool const isOneNegative)
     Term oneWithSign = isOneNegative ? -1 : 1;
     return Equation(leftHandSide, "=", oneWithSign);
 }
+
 Equation getEllipticParaboloidEquation()
 {
     Term xMinusX0(createExpressionIfPossible({x, "-", x0}));
@@ -71,6 +72,7 @@ Equation getEllipticParaboloidEquation()
     Term rightHandSide(zOverC);
     return Equation(leftHandSide, "=", rightHandSide);
 }
+
 Equation getHyperbolicParaboloidEquation()
 {
     Term xMinusX0(createExpressionIfPossible({x, "-", x0}));
@@ -85,6 +87,7 @@ Equation getHyperbolicParaboloidEquation()
     Term rightHandSide(zOverC);
     return Equation(leftHandSide, "=", rightHandSide);
 }
+
 Equations getLineEquations()
 {
     Equations result;
@@ -96,7 +99,8 @@ Equations getLineEquations()
     Term zSide(createExpressionIfPossible({zMinusZ0, "/", c}));
     result.emplace_back(xSide, "=", ySide);
     result.emplace_back(xSide, "=", zSide);
-    return result;}
+    return result;
+}
 
 Equation getPlaneEquation()
 {
@@ -128,7 +132,9 @@ Equation getSphereEquation()
     Term rightHandSide(rSquared);
     return Equation(leftHandSide, "=", rightHandSide);
 }
+
 }
 
 }
+
 }

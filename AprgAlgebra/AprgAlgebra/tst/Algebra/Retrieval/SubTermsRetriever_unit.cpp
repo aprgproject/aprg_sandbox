@@ -12,8 +12,8 @@ namespace algebra
 TEST(SubTermsRetrieverTest, RetrieveFromEquationsWorks)
 {
     SubTermsRetriever retriever;
-    Equation equation1(Term(Monomial(34, {{"x", 5}})), "=", Term(Monomial(41, {{"y", 6}})));
-    Equation equation2(Term(Monomial(95, {{"x", 7}})), "=", Term(Monomial(18, {{"y", 8}})));
+    Equation equation1(Monomial(34, {{"x", 5}}), "=", Monomial(41, {{"y", 6}}));
+    Equation equation2(Monomial(95, {{"x", 7}}), "=", Monomial(18, {{"y", 8}}));
 
     retriever.retrieveFromEquations({equation1, equation2});
 
@@ -45,8 +45,8 @@ TEST(SubTermsRetrieverTest, RetrieveFromEquationWorks)
 TEST(SubTermsRetrieverTest, RetrieveFromTermWorks)
 {
     SubTermsRetriever retriever;
-    Term expesssionTerm1(createExpressionIfPossible({Term("a"), Term("^"), Term(2)}));
-    Term expesssionTerm2(createExpressionIfPossible({Term(678), Term("+"), Term(Monomial(576, {{"g", 9}}))}));
+    Term expesssionTerm1(createExpressionIfPossible({"a", "^", 2}));
+    Term expesssionTerm2(createExpressionIfPossible({678, "+", Monomial(576, {{"g", 9}})}));
     Function functionObject(
                 "functionName",
                 expesssionTerm1,
@@ -130,7 +130,7 @@ TEST(SubTermsRetrieverTest, RetrieveFromPolynomialWorks)
 TEST(SubTermsRetrieverTest, RetrieveFromExpressionWorks)
 {
     SubTermsRetriever retriever;
-    Expression expression(createExpressionIfPossible({Term(678), Term("+"), Term(Monomial(576, {{"g", 9}}))}));
+    Expression expression(createExpressionIfPossible({678, "+", Monomial(576, {{"g", 9}})}));
 
     retriever.retrieveFromExpression(expression);
 
@@ -145,7 +145,7 @@ TEST(SubTermsRetrieverTest, RetrieveFromExpressionWorks)
 TEST(SubTermsRetrieverTest, RetrieveFromFunctionWorks)
 {
     SubTermsRetriever retriever;
-    Expression expression(createExpressionIfPossible({Term(4516), Term("+"), Term(Monomial(7895, {{"x", 10}}))}));
+    Expression expression(createExpressionIfPossible({4516, "+", Monomial(7895, {{"x", 10}})}));
     Function functionObject(
                 "functionName",
                 Term(expression),

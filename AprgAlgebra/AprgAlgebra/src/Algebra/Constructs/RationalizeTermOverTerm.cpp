@@ -149,14 +149,14 @@ void RationalizeTermOverTerm::retrieveTermsForRationalizationForPolynomialWhenEx
 {
     Monomial newSecondMonomialOfRemainder(secondMonomial);
     newSecondMonomialOfRemainder.multiplyNumber(-1);
-    multiplier = Term(Polynomial{firstMonomial, newSecondMonomialOfRemainder});
+    multiplier = Polynomial{firstMonomial, newSecondMonomialOfRemainder};
 
     Monomial rationalizedFirstMonomial(firstMonomial);
     rationalizedFirstMonomial.raiseToPowerNumber(2);
     Monomial rationalizedSecondMonomial(secondMonomial);
     rationalizedSecondMonomial.raiseToPowerNumber(2);
     rationalizedSecondMonomial.multiplyNumber(-1);
-    rationalizedTerm = Term(Polynomial{rationalizedFirstMonomial, rationalizedSecondMonomial});
+    rationalizedTerm = Polynomial{rationalizedFirstMonomial, rationalizedSecondMonomial};
 }
 
 void RationalizeTermOverTerm::retrieveTermsForRationalizationForPolynomialWhenExponentIsDivisibleByThree(
@@ -172,13 +172,13 @@ void RationalizeTermOverTerm::retrieveTermsForRationalizationForPolynomialWhenEx
     Monomial newSecondMonomial(firstMonomial);
     newSecondMonomial.multiplyMonomial(secondMonomial);
     newSecondMonomial.multiplyNumber(-1);
-    multiplier = Term(Polynomial{newFirstMonomial, newSecondMonomial, newThirdMonomial});
+    multiplier = Polynomial{newFirstMonomial, newSecondMonomial, newThirdMonomial};
 
     Monomial rationalizedFirstMonomial(firstMonomial);
     rationalizedFirstMonomial.raiseToPowerNumber(3);
     Monomial rationalizedSecondMonomial(secondMonomial);
     rationalizedSecondMonomial.raiseToPowerNumber(3);
-    rationalizedTerm = Term(Polynomial{rationalizedFirstMonomial, rationalizedSecondMonomial});
+    rationalizedTerm = Polynomial{rationalizedFirstMonomial, rationalizedSecondMonomial};
 }
 
 void RationalizeTermOverTerm::retrieveTermsForRationalizationForExpression(
@@ -250,8 +250,8 @@ void RationalizeTermOverTerm::retrieveTermsForRationalizationForExpressionWhenEx
     TermsWithDetails multiplierTermsWithDetails{firstTermWithDetails, secondMultiplierTerm};
     multiplier = createTermWithAdditionAndSubtractionTermsWithDetails(multiplierTermsWithDetails);
 
-    Term firstRationalizedTerm(firstTerm ^ Term(2));
-    Term secondRationalizedTerm(secondTerm ^ Term(2));
+    Term firstRationalizedTerm(firstTerm ^ 2);
+    Term secondRationalizedTerm(secondTerm ^ 2);
     TermWithDetails firstRationalizedTermWithDetails(firstRationalizedTerm, TermAssociationType::Positive);
     TermWithDetails secondRationalizedTermTermWithDetails(secondRationalizedTerm, TermAssociationType::Negative);
     TermsWithDetails rationalizedTermsWithDetails{firstRationalizedTermWithDetails, secondRationalizedTermTermWithDetails};
@@ -267,9 +267,9 @@ void RationalizeTermOverTerm::retrieveTermsForRationalizationForExpressionWhenEx
     Term const& firstTerm(getTermConstReferenceFromSharedPointer(firstTermWithDetails.baseTermSharedPointer));
     Term const& secondTerm(getTermConstReferenceFromSharedPointer(secondTermWithDetails.baseTermSharedPointer));
 
-    Term firstMultiplierTerm(firstTerm ^ Term(2));
+    Term firstMultiplierTerm(firstTerm ^ 2);
     Term secondMultiplierTerm(firstTerm * secondTerm);
-    Term thirdMultiplierTerm(secondTerm ^ Term(2));
+    Term thirdMultiplierTerm(secondTerm ^ 2);
     TermAssociationType newSecondAssociationType =
             secondTermWithDetails.hasPositiveAssociation() ?
                 TermAssociationType::Negative :
@@ -280,8 +280,8 @@ void RationalizeTermOverTerm::retrieveTermsForRationalizationForExpressionWhenEx
     TermsWithDetails multiplierTermsWithDetails{firstMultiplierTermWithDetails, secondMultiplierTermWithDetails, thirdMultiplierTermWithDetails};
     multiplier = createTermWithAdditionAndSubtractionTermsWithDetails(multiplierTermsWithDetails);
 
-    Term firstRationalizedTerm(firstTerm ^ Term(3));
-    Term secondRationalizedTerm(secondTerm ^ Term(3));
+    Term firstRationalizedTerm(firstTerm ^ 3);
+    Term secondRationalizedTerm(secondTerm ^ 3);
     TermWithDetails firstRationalizedTermWithDetails(firstRationalizedTerm, firstTermWithDetails.association);
     TermWithDetails secondRationalizedTermTermWithDetails(secondRationalizedTerm, secondTermWithDetails.association);
     TermsWithDetails rationalizedTermsWithDetails{firstRationalizedTermWithDetails, secondRationalizedTermTermWithDetails};

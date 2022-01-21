@@ -13,13 +13,13 @@ namespace algebra
 
 TEST(SeriesBasedOnSummationTest, ConstructionWorks)
 {
-    SeriesBasedOnSummation(Term("n"), "n");
+    SeriesBasedOnSummation("n", "n");
 }
 
 TEST(SeriesBasedOnSummationTest, IsConvergentWorksWhenSummationModelIsValid)
 {
     Term exponent(Polynomial{Monomial(1, {}), Monomial(-1, {{"n", 1}})});
-    Term formula(createExpressionIfPossible({Term(2), Term("^"), exponent}));
+    Term formula(createExpressionIfPossible({2, "^", exponent}));
     SeriesBasedOnSummation series(formula, "n");
 
     EXPECT_TRUE(series.isSummationModelValid());
@@ -30,7 +30,7 @@ TEST(SeriesBasedOnSummationTest, IsConvergentWorksWhenSummationModelIsInvalid)
 {
     Term numerator(Polynomial{Monomial(1, {{"n", 2}}), Monomial(1, {})});
     Term denominator(Monomial(1, {{"n", 2}}));
-    Term formula(createExpressionIfPossible({numerator, Term("/"), denominator}));
+    Term formula(createExpressionIfPossible({numerator, "/", denominator}));
     SeriesBasedOnSummation series(formula, "n");
 
     EXPECT_FALSE(series.isSummationModelValid());
@@ -40,7 +40,7 @@ TEST(SeriesBasedOnSummationTest, IsConvergentWorksWhenSummationModelIsInvalid)
 TEST(SeriesBasedOnSummationTest, IsAbsolutelyConvergentWorksWhenSummationModelIsValid)
 {
     Term exponent(Polynomial{Monomial(1, {}), Monomial(-1, {{"n", 1}})});
-    Term formula(createExpressionIfPossible({Term(2), Term("^"), exponent}));
+    Term formula(createExpressionIfPossible({2, "^", exponent}));
     SeriesBasedOnSummation series(formula, "n");
 
     EXPECT_TRUE(series.isSummationModelValid());
@@ -51,7 +51,7 @@ TEST(SeriesBasedOnSummationTest, IsAbsolutelyConvergentWorksWhenSummationModelIs
 {
     Term numerator(Polynomial{Monomial(1, {{"n", 2}}), Monomial(1, {})});
     Term denominator(Monomial(1, {{"n", 2}}));
-    Term formula(createExpressionIfPossible({numerator, Term("/"), denominator}));
+    Term formula(createExpressionIfPossible({numerator, "/", denominator}));
     SeriesBasedOnSummation series(formula, "n");
 
     EXPECT_FALSE(series.isSummationModelValid());
@@ -61,7 +61,7 @@ TEST(SeriesBasedOnSummationTest, IsAbsolutelyConvergentWorksWhenSummationModelIs
 TEST(SeriesBasedOnSummationTest, IsConditionallyConvergentWorksWhenSummationModelIsValid)
 {
     Term exponent(Polynomial{Monomial(1, {}), Monomial(-1, {{"n", 1}})});
-    Term formula(createExpressionIfPossible({Term(2), Term("^"), exponent}));
+    Term formula(createExpressionIfPossible({2, "^", exponent}));
     SeriesBasedOnSummation series(formula, "n");
 
     EXPECT_TRUE(series.isSummationModelValid());
@@ -72,7 +72,7 @@ TEST(SeriesBasedOnSummationTest, IsConditionallyConvergentWorksWhenSummationMode
 {
     Term numerator(Polynomial{Monomial(1, {{"n", 2}}), Monomial(1, {})});
     Term denominator(Monomial(1, {{"n", 2}}));
-    Term formula(createExpressionIfPossible({numerator, Term("/"), denominator}));
+    Term formula(createExpressionIfPossible({numerator, "/", denominator}));
     SeriesBasedOnSummation series(formula, "n");
 
     EXPECT_FALSE(series.isSummationModelValid());

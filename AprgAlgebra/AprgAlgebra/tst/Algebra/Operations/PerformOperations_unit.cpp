@@ -16,7 +16,8 @@ TEST(PerformOperationsTest, PerformOperationUnaryOperationWorks)
     Term termToVerify2(performOperation(Operator("-"), 215));
 
     EXPECT_EQ(Term(215), termToVerify1);
-    EXPECT_EQ(Term(-215), termToVerify2);}
+    EXPECT_EQ(Term(-215), termToVerify2);
+}
 
 TEST(PerformOperationsTest, PerformOperationBinaryOperationWorks)
 {
@@ -27,10 +28,12 @@ TEST(PerformOperationsTest, PerformOperationBinaryOperationWorks)
     Term termToVerify5(performOperation(Operator("^"), 25, 2));
 
     EXPECT_EQ(Term(27), termToVerify1);
-    EXPECT_EQ(Term(23), termToVerify2);    EXPECT_EQ(Term(50), termToVerify3);
+    EXPECT_EQ(Term(23), termToVerify2);
+    EXPECT_EQ(Term(50), termToVerify3);
     EXPECT_EQ(Term(12.5), termToVerify4);
     EXPECT_EQ(Term(625), termToVerify5);
 }
+
 
 }
 

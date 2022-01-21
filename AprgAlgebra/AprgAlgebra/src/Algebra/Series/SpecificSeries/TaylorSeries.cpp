@@ -37,6 +37,7 @@ Term TaylorSeries::getValueForMaclaurinSeriesAtIndex(int const index) const
     return getValueAtIndex(index, 0);
 }
 
+
 }
 
 }

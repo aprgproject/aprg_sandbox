@@ -12,9 +12,9 @@ namespace algebra
 TEST(VariableNamesRetrieverTest, RetrieveFromEquationsWorks)
 {
     VariableNamesRetriever retriever;
-    Equation equation1(Term("a"), "=", Term("b"));
-    Equation equation2(Term("x"), "=", Term("y"));
-    Equation equation3(Term("r"), "!=", Term("p"));
+    Equation equation1("a", "=", "b");
+    Equation equation2("x", "=", "y");
+    Equation equation3("r", "!=", "p");
 
     retriever.retrieveFromEquations(Equations{equation1, equation2, equation3});
 
@@ -50,7 +50,7 @@ TEST(VariableNamesRetrieverTest, RetrieveFromTermWorks)
     VariableNamesRetriever retriever;
     Function functionObject(
                 "functionName",
-                Term(createExpressionIfPossible({Term("a"), Term("^"), Term(2)})),
+                Term(createExpressionIfPossible({"a", "^", 2})),
                 [](AlbaNumber const&  number) -> AlbaNumber
     {
         return number;
@@ -60,7 +60,7 @@ TEST(VariableNamesRetrieverTest, RetrieveFromTermWorks)
     retriever.retrieveFromTerm(Term(Variable("b")));
     retriever.retrieveFromTerm(Term(Monomial(34, {{"c", 5}, {"d", 6}})));
     retriever.retrieveFromTerm(Term(Polynomial{Monomial(516, {{"e", 7}}), Monomial(643, {{"f", 8}})}));
-    retriever.retrieveFromTerm(Term(createExpressionIfPossible({Term(678), Term("+"), Term(Monomial(576, {{"g", 9}}))})));
+    retriever.retrieveFromTerm(Term(createExpressionIfPossible({678, "+", Monomial(576, {{"g", 9}})})));
     retriever.retrieveFromTerm(Term(functionObject));
 
     VariableNamesSet const& variableNamesSet(retriever.getSavedData());
@@ -127,7 +127,7 @@ TEST(VariableNamesRetrieverTest, RetrieveFromExpressionWorks)
 {
     VariableNamesRetriever retriever;
 
-    retriever.retrieveFromExpression(createExpressionIfPossible({Term(678), Term("+"), Term(Monomial(576, {{"x", 9}}))}));
+    retriever.retrieveFromExpression(createExpressionIfPossible({678, "+", Monomial(576, {{"x", 9}})}));
 
     VariableNamesSet const& variableNamesSet(retriever.getSavedData());
     ASSERT_EQ(1U, variableNamesSet.size());
@@ -140,7 +140,7 @@ TEST(VariableNamesRetrieverTest, RetrieveFromFunctionWorks)
     VariableNamesRetriever retriever;
     Function functionObject(
                 "functionName",
-                Term(createExpressionIfPossible({Term(4516), Term("+"), Term(Monomial(7895, {{"x", 10}}))})),
+                Term(createExpressionIfPossible({4516, "+", Monomial(7895, {{"x", 10}})})),
                 [](AlbaNumber const&  number) -> AlbaNumber
     {
         return number;

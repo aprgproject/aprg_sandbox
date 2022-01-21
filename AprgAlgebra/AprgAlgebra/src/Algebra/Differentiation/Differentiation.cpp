@@ -70,10 +70,12 @@ Term Differentiation::differentiate(
     return differentiateConstant(constant);
 }
 
-Term Differentiation::differentiate(        Variable const& variable) const
+Term Differentiation::differentiate(
+        Variable const& variable) const
 {
     Term result(differentiateVariable(variable));
-    result.simplify();    return result;
+    result.simplify();
+    return result;
 }
 
 Term Differentiation::differentiate(
@@ -241,10 +243,12 @@ Term Differentiation::differentiateTwoMultipliedTerms(
     return createExpressionIfPossible({firstPart, "+", secondPart});
 }
 
-Term Differentiation::differentiateTwoDividedTerms(        Term const& numerator,
+Term Differentiation::differentiateTwoDividedTerms(
+        Term const& numerator,
         Term const& denominator) const
 {
-    Term numeratorDerivative(differentiate(numerator));    Term denominatorDerivative(differentiate(denominator));
+    Term numeratorDerivative(differentiate(numerator));
+    Term denominatorDerivative(differentiate(denominator));
     Expression resultNumeratorPart1(createExpressionIfPossible({denominator, "*", numeratorDerivative}));
     Expression resultNumeratorPart2(createExpressionIfPossible({numerator, "*", denominatorDerivative}));
     Expression resultNumerator(createExpressionIfPossible({resultNumeratorPart1, "-", resultNumeratorPart2}));
@@ -252,10 +256,12 @@ Term Differentiation::differentiateTwoDividedTerms(        Term const& numerator
     return createExpressionIfPossible({resultNumerator, "/", resultDenominator});
 }
 
-void Differentiation::separateNonChangingAndChangingVariables(        Monomial & nonChangingVariablesAndConstant,
+void Differentiation::separateNonChangingAndChangingVariables(
+        Monomial & nonChangingVariablesAndConstant,
         Monomial & changingVariables,
         Monomial const& monomial) const
-{    nonChangingVariablesAndConstant = Monomial(monomial.getConstantConstReference(), {});
+{
+    nonChangingVariablesAndConstant = Monomial(monomial.getConstantConstReference(), {});
     changingVariables = Monomial(1, {});
     for(auto const& variableExponentPair :
         monomial.getVariablesToExponentsMapConstReference())
@@ -368,15 +374,18 @@ Term Differentiation::differentiateTermsInAdditionOrSubtraction(
     return accumulatedExpression;
 }
 
-Term Differentiation::differentiateTermsInMultiplicationOrDivision(        Expression const& expression) const
+Term Differentiation::differentiateTermsInMultiplicationOrDivision(
+        Expression const& expression) const
 {
     TermsWithDetails const& termsWithDetails(expression.getTermsWithAssociation().getTermsWithDetails());
     Term result(differentiateByProcessingAsPolynomialsOverPolynomials(expression));
     if(result.isEmpty())
     {
-        result = differentiateTermsInMultiplicationOrDivisionTermByTerm(termsWithDetails);    }
+        result = differentiateTermsInMultiplicationOrDivisionTermByTerm(termsWithDetails);
+    }
     return result;
 }
+
 Term Differentiation::differentiateByProcessingAsPolynomialsOverPolynomials(
         Term const& term) const
 {
@@ -393,10 +402,12 @@ Term Differentiation::differentiateByProcessingAsPolynomialsOverPolynomials(
                     + differentiate(quotientAndRemainder.remainder / pop.getDenominator());
         }
     }
-    return result;}
+    return result;
+}
 
 Term Differentiation::differentiateTermsInMultiplicationOrDivisionTermByTerm(
-        TermsWithDetails const& termsWithDetails) const{
+        TermsWithDetails const& termsWithDetails) const
+{
     bool isFirst(true);
     Term accumulatedTerm(1);
     for(TermWithDetails const& termWithDetails : termsWithDetails)
@@ -460,20 +471,23 @@ Term Differentiation::differentiateNonChangingTermRaiseToChangingTerm(
     return createExpressionIfPossible({base, "^", exponent, "*", ln(base), "*", derivativeCauseOfChainRule});
 }
 
-Term Differentiation::differentiateChangingTermRaiseToNonChangingTerm(        Term const& base,
+Term Differentiation::differentiateChangingTermRaiseToNonChangingTerm(
+        Term const& base,
         Term const& exponent) const
 {
     Term derivativeCauseOfChainRule(differentiate(base));
     return createExpressionIfPossible({base, "^", exponent-1, "*", exponent, "*", derivativeCauseOfChainRule});
 }
 
-Term Differentiation::differentiateChangingTermRaiseToChangingTerm(        Term const& ,
+Term Differentiation::differentiateChangingTermRaiseToChangingTerm(
+        Term const& ,
         Term const& ) const
 {
     return AlbaNumber(AlbaNumber::Value::NotANumber);
 }
 
-Term Differentiation::differentiateFunctionOnly(        Function const& functionObject) const
+Term Differentiation::differentiateFunctionOnly(
+        Function const& functionObject) const
 {
     Term derivativeOfFunction(AlbaNumber(AlbaNumber::Value::NotANumber));
     Term const& inputTerm(getTermConstReferenceFromBaseTerm(functionObject.getInputTermConstReference()));
@@ -573,9 +587,11 @@ Term Differentiation::differentiateFunctionOnly(        Function const& function
     }
     return derivativeOfFunction;
 }
+
 bool Differentiation::isVariableToDifferentiate(
         string const& variableName) const
-{    return variableName == m_nameOfVariableToDifferentiate;
+{
+    return variableName == m_nameOfVariableToDifferentiate;
 }
 
 bool Differentiation::isDependentVariable(

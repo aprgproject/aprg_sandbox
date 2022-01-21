@@ -325,7 +325,7 @@ TEST(TermTest, TermsAsFunctionsCanBeChanged)
 {
     Term term(Function{});
 
-    getTermReferenceFromBaseTerm(term.getFunctionReference().getInputTermReference()) = Term(7);
+    getTermReferenceFromBaseTerm(term.getFunctionReference().getInputTermReference()) = 7;
 
     ASSERT_EQ(TermType::Function, term.getTermType());
     EXPECT_EQ(Term(7), getTermConstReferenceFromBaseTerm(term.getFunctionConstReference().getInputTermConstReference()));
@@ -333,9 +333,9 @@ TEST(TermTest, TermsAsFunctionsCanBeChanged)
 
 TEST(TermTest, AssignmentOperatorWorks)
 {
-    Term term1 = Term(2);
+    Term term1 = 2;
     Term term2(5);
-    term2 = Term(7);
+    term2 = 7;
     Term term3(8);
     term3 = term3;
 

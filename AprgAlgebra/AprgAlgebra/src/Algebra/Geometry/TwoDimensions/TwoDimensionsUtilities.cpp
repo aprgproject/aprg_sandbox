@@ -26,6 +26,7 @@ Equation getCircleEquation()
     Term rightHandSide(rSquared);
     return Equation(leftHandSide, "=", rightHandSide);
 }
+
 Equation getEllipseEquation()
 {
     Term xMinusX0(createExpressionIfPossible({x, "-", x0}));
@@ -49,6 +50,7 @@ Equation getHyperbolaEquation()
     Term leftHandSide(createExpressionIfPossible({xSquared, "/", aSquared, "-", ySquared, "/", bSquared}));
     return Equation(leftHandSide, "=", 1);
 }
+
 Equation getLimaconEquation(LimaconTrigonometricFunctionType const type)
 {
     Term trigPart;
@@ -64,13 +66,15 @@ Equation getLimaconEquation(LimaconTrigonometricFunctionType const type)
     Term rightHandSide(r);
     return Equation(leftHandSide, "=", rightHandSide);
 }
+
 Equation getLineEquation()
 {
     Term leftHandSide(createExpressionIfPossible({a, "*", x, "+", b, "*", y, "+", c}));
     return Equation(leftHandSide, "=", 0);
 }
 
-Equation getParabolaEquation(ParabolaOrientation const parabolaOrientation){
+Equation getParabolaEquation(ParabolaOrientation const parabolaOrientation)
+{
     Equation result;
     if(ParabolaOrientation::PolynomialX == parabolaOrientation)
     {
@@ -85,10 +89,12 @@ Equation getParabolaEquation(ParabolaOrientation const parabolaOrientation){
         Term leftHandSide(createExpressionIfPossible({a, "*", ySquared, "+", b, "*", y, "+", c}));
         Term rightHandSide(x);
         result = Equation(leftHandSide, "=", rightHandSide);
-    }    return result;
+    }
+    return result;
 }
 
 }
+
 }
 
 }

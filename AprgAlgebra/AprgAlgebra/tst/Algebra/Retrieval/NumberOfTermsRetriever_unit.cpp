@@ -12,8 +12,8 @@ namespace algebra
 TEST(NumberOfTermsRetrieverTest, RetrieveFromEquationsWorks)
 {
     NumberOfTermsRetriever retriever;
-    Equation equation1(Term(Monomial(34, {{"x", 5}})), "=", Term(Monomial(41, {{"y", 6}})));
-    Equation equation2(Term(Monomial(95, {{"x", 7}})), "=", Term(Monomial(18, {{"y", 8}})));
+    Equation equation1(Monomial(34, {{"x", 5}}), "=", Monomial(41, {{"y", 6}}));
+    Equation equation2(Monomial(95, {{"x", 7}}), "=", Monomial(18, {{"y", 8}}));
 
     retriever.retrieveFromEquations({equation1, equation2});
 
@@ -37,7 +37,7 @@ TEST(NumberOfTermsRetrieverTest, RetrieveFromTermWorks)
     NumberOfTermsRetriever retriever;
     Function functionObject(
                 "functionName",
-                Term(createExpressionIfPossible({Term("a"), Term("^"), Term(2)})),
+                Term(createExpressionIfPossible({"a", "^", 2})),
                 [](AlbaNumber const&  number) -> AlbaNumber
     {
         return number;
@@ -47,7 +47,7 @@ TEST(NumberOfTermsRetrieverTest, RetrieveFromTermWorks)
     retriever.retrieveFromTerm(Term(Variable("b")));
     retriever.retrieveFromTerm(Term(Monomial(34, {{"c", 5}, {"d", 6}})));
     retriever.retrieveFromTerm(Term(Polynomial{Monomial(516, {{"e", 7}}), Monomial(643, {{"f", 8}})}));
-    retriever.retrieveFromTerm(Term(createExpressionIfPossible({Term(678), Term("+"), Term(Monomial(576, {{"g", 9}}))})));
+    retriever.retrieveFromTerm(Term(createExpressionIfPossible({678, "+", Monomial(576, {{"g", 9}})})));
     retriever.retrieveFromTerm(Term(functionObject));
 
     EXPECT_EQ(12U, retriever.getSavedData());
@@ -93,7 +93,7 @@ TEST(NumberOfTermsRetrieverTest, RetrieveFromExpressionWorks)
 {
     NumberOfTermsRetriever retriever;
 
-    retriever.retrieveFromExpression(createExpressionIfPossible({Term(678), Term("+"), Term(Monomial(576, {{"x", 9}}))}));
+    retriever.retrieveFromExpression(createExpressionIfPossible({678, "+", Monomial(576, {{"x", 9}})}));
 
     EXPECT_EQ(3U, retriever.getSavedData());
 }
@@ -103,7 +103,7 @@ TEST(NumberOfTermsRetrieverTest, RetrieveFromFunctionWorks)
     NumberOfTermsRetriever retriever;
     Function functionObject(
                 "functionName",
-                Term(createExpressionIfPossible({Term(4516), Term("+"), Term(Monomial(7895, {{"x", 10}}))})),
+                Term(createExpressionIfPossible({4516, "+", Monomial(7895, {{"x", 10}})})),
                 [](AlbaNumber const&  number) -> AlbaNumber
     {
         return number;

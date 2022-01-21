@@ -49,7 +49,7 @@ Term getVolumeUsingOnSolidOfRevolution(
     // This method uses disks.
 
     Integration integration(integralDetails.variableName);
-    Term termToIntegrate = getPiAsTerm()*(term^Term(2));
+    Term termToIntegrate = getPiAsTerm()*(term^2);
     return integration.integrateAtDefiniteTerms(termToIntegrate, integralDetails.lowerEnd, integralDetails.higherEnd);
 }
 
@@ -66,7 +66,7 @@ Term getVolumeUsingOnSolidOfRevolution(
     // This method uses washers(disks with holes).
 
     Integration integration(integralDetails.variableName);
-    Term termToIntegrate = getPiAsTerm()*((higherFunctionTerm-lowerFunctionTerm)^Term(2));
+    Term termToIntegrate = getPiAsTerm()*((higherFunctionTerm-lowerFunctionTerm)^2);
     return integration.integrateAtDefiniteTerms(termToIntegrate, integralDetails.lowerEnd, integralDetails.higherEnd);
 }
 
@@ -83,7 +83,7 @@ Term getVolumeUsingCylindricalShells(
     // This method uses cylindrical shells (like a can without the top and bottom)
 
     Integration integration(integralDetails.variableName);
-    Term termToIntegrate = Term(2)*getPiAsTerm()*(Term(integralDetails.variableName)*term);
+    Term termToIntegrate = 2 * getPiAsTerm() * integralDetails.variableName * term;
     return integration.integrateAtDefiniteTerms(termToIntegrate, integralDetails.lowerEnd, integralDetails.higherEnd);
 }
 
@@ -111,7 +111,7 @@ Term getLengthOfArcInPolarCoordinates(
     Differentiation differentiation(thetaDetails.variableName);
     Integration integration(thetaDetails.variableName);
     Term drOverDTheta(differentiation.differentiate(radiusInTermsOfTheta));
-    Term termToIntegrate = ((drOverDTheta^Term(2))+(radiusInTermsOfTheta^Term(2)))^Term(AlbaNumber::createFraction(1, 2));
+    Term termToIntegrate = ((drOverDTheta^2)+(radiusInTermsOfTheta^2)) ^ AlbaNumber::createFraction(1, 2);
     termToIntegrate.simplify();
     return integration.integrateAtDefiniteTerms(termToIntegrate, thetaDetails.lowerEnd, thetaDetails.higherEnd);
 }
@@ -139,7 +139,7 @@ Term getMomentOfMassOfARod(
     // The moment of mass of the rod is the definite integral of x*p(x) from 0 to L.
 
     Integration integration(integralDetails.variableName);
-    Term termToIntegrate = Term(integralDetails.variableName)*term;
+    Term termToIntegrate = integralDetails.variableName * term;
     return integration.integrateAtDefiniteTerms(termToIntegrate, integralDetails.lowerEnd, integralDetails.higherEnd);
 }
 
@@ -164,8 +164,8 @@ TermPair getMomentOfMassOfALamina(
         DetailsForDefiniteIntegralWithTerms const& integralDetails)
 {
     Integration integration(integralDetails.variableName);
-    Term termToIntegrateInX = Term(AlbaNumber::createFraction(1, 2)) * Term(term^2);
-    Term termToIntegrateInY = Term(integralDetails.variableName) * Term(term);
+    Term termToIntegrateInX = AlbaNumber::createFraction(1, 2) * (term^2);
+    Term termToIntegrateInY = integralDetails.variableName * term;
     TermPair xyPair;
     xyPair.first = integration.integrateAtDefiniteTerms(termToIntegrateInX, integralDetails.lowerEnd, integralDetails.higherEnd);
     xyPair.second = integration.integrateAtDefiniteTerms(termToIntegrateInY, integralDetails.lowerEnd, integralDetails.higherEnd);
@@ -210,7 +210,7 @@ Term getLiquidPressure(
         DetailsForDefiniteIntegralWithTerms const& depthDetails)
 {
     Integration integration(depthDetails.variableName);
-    Term termToIntegrate = massDensity*accelerationDueToGravity*Term(depthDetails.variableName)*length;
+    Term termToIntegrate = massDensity * accelerationDueToGravity * depthDetails.variableName * length;
     return integration.integrateAtDefiniteTerms(termToIntegrate, depthDetails.lowerEnd, depthDetails.higherEnd);
 }
 
@@ -245,7 +245,7 @@ Term getMomentOfMassOfALaminaWithRespectToXAxis(
         DetailsForDefiniteIntegralWithTerms const& xDetails,
         DetailsForDefiniteIntegralWithTerms const& yDetails)
 {
-    Term termToIntegrate(areaDensityAtPointInXAndY * Term(yDetails.variableName));
+    Term termToIntegrate(areaDensityAtPointInXAndY * yDetails.variableName);
     return getDoubleIntegralInCartesianCoordinates(termToIntegrate, xDetails, yDetails);
 }
 
@@ -254,7 +254,7 @@ Term getMomentOfMassOfALaminaWithRespectToYAxis(
         DetailsForDefiniteIntegralWithTerms const& xDetails,
         DetailsForDefiniteIntegralWithTerms const& yDetails)
 {
-    Term termToIntegrate(areaDensityAtPointInXAndY * Term(xDetails.variableName));
+    Term termToIntegrate(areaDensityAtPointInXAndY * xDetails.variableName);
     return getDoubleIntegralInCartesianCoordinates(termToIntegrate, xDetails, yDetails);
 }
 
@@ -274,7 +274,7 @@ Term getMomentOfInertiaAboutTheXAxis(
         DetailsForDefiniteIntegralWithTerms const& xDetails,
         DetailsForDefiniteIntegralWithTerms const& yDetails)
 {
-    Term termToIntegrate(areaDensityAtPointInXAndY * (Term(yDetails.variableName)^2));
+    Term termToIntegrate(areaDensityAtPointInXAndY * (yDetails.variableName^2));
     return getDoubleIntegralInCartesianCoordinates(termToIntegrate, xDetails, yDetails);
 }
 
@@ -283,7 +283,7 @@ Term getMomentOfInertiaAboutTheYAxis(
         DetailsForDefiniteIntegralWithTerms const& xDetails,
         DetailsForDefiniteIntegralWithTerms const& yDetails)
 {
-    Term termToIntegrate(areaDensityAtPointInXAndY * (Term(xDetails.variableName)^2));
+    Term termToIntegrate(areaDensityAtPointInXAndY * (xDetails.variableName^2));
     return getDoubleIntegralInCartesianCoordinates(termToIntegrate, xDetails, yDetails);
 }
 
@@ -292,7 +292,7 @@ Term getMomentOfInertiaAboutTheOrigin(
         DetailsForDefiniteIntegralWithTerms const& xDetails,
         DetailsForDefiniteIntegralWithTerms const& yDetails)
 {
-    Term termToIntegrate(areaDensityAtPointInXAndY * ((Term(xDetails.variableName)^2) + (Term(yDetails.variableName)^2)));
+    Term termToIntegrate(areaDensityAtPointInXAndY * ((xDetails.variableName^2) + (yDetails.variableName^2)));
     return getDoubleIntegralInCartesianCoordinates(termToIntegrate, xDetails, yDetails);
 }
 
@@ -312,7 +312,7 @@ Term getDoubleIntegralInPolarCoordinates(
         DetailsForDefiniteIntegralWithTerms const& radiusDetails,
         DetailsForDefiniteIntegralWithTerms const& thetaDetails)
 {
-    Term termToIntegrate(termWithRadiusAndTheta * Term(radiusDetails.variableName));
+    Term termToIntegrate(termWithRadiusAndTheta * radiusDetails.variableName);
     return integrateWithCoordinateDetails(termToIntegrate, {radiusDetails, thetaDetails});
 }
 
@@ -323,8 +323,8 @@ Term getSurfaceAreaWithZInCartesianCoordinates(
 {
     Term derivativeInX(getPartialDerivative(z, xDetails.variableName));
     Term derivativeInY(getPartialDerivative(z, yDetails.variableName));
-    Term termInsideSquareRoot((derivativeInX^Term(2)) + (derivativeInY^Term(2)) + 1);
-    Term termToIntegrate(termInsideSquareRoot^Term(AlbaNumber::createFraction(1, 2)));
+    Term termInsideSquareRoot((derivativeInX^2) + (derivativeInY^2) + 1);
+    Term termToIntegrate(termInsideSquareRoot^AlbaNumber::createFraction(1, 2));
     return getDoubleIntegralInCartesianCoordinates(termToIntegrate, xDetails, yDetails);
 }
 
@@ -343,7 +343,7 @@ Term getTripleIntegralInCylindricalCoordinates(
         DetailsForDefiniteIntegralWithTerms const& thetaDetails,
         DetailsForDefiniteIntegralWithTerms const& zDetails)
 {
-    Term termToIntegrate(termWithRadiusAndThetaAndZ * Term(radiusDetails.variableName));
+    Term termToIntegrate(termWithRadiusAndThetaAndZ * radiusDetails.variableName);
     return integrateWithCoordinateDetails(termToIntegrate, {radiusDetails, thetaDetails, zDetails});
 }
 
@@ -353,7 +353,7 @@ Term getTripleIntegralInSphericalCoordinates(
         DetailsForDefiniteIntegralWithTerms const& thetaDetails,
         DetailsForDefiniteIntegralWithTerms const& phiDetails)
 {
-    Term termToIntegrate(termWithRawAndThetaAndPhi * (Term(rawDetails.variableName)^Term(2)) * Term(sin(Term(phiDetails.variableName))));
+    Term termToIntegrate(termWithRawAndThetaAndPhi * (rawDetails.variableName^2) * sin(phiDetails.variableName));
     return integrateWithCoordinateDetails(termToIntegrate, {rawDetails, thetaDetails, phiDetails});
 }
 

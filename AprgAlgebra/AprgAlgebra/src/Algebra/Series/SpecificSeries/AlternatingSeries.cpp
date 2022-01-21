@@ -44,4 +44,5 @@ Term AlternatingSeries::getFormula(Term const& formulaForEachTermWithoutSign, st
 }
 
 }
+
 }

@@ -34,7 +34,7 @@ TEST(SegregateHelpersTest, SegregateMonomialsAndNonMonomialsWorksForTerms)
     Terms nonMonomialTerms;
     Term termExpression(createExpressionIfPossible({"x", "^", "x"}));
 
-    segregateMonomialsAndNonMonomials({Term(234), termExpression}, monomialTerms, nonMonomialTerms);
+    segregateMonomialsAndNonMonomials({234, termExpression}, monomialTerms, nonMonomialTerms);
 
     ASSERT_EQ(1U, monomialTerms.size());
     EXPECT_EQ(Term(234), monomialTerms.at(0));
@@ -69,7 +69,7 @@ TEST(SegregateHelpersTest, SegregatePolynomialAndNonPolynomialsWorks)
     Terms nonPolynomialTerms;
     Term termExpression(createExpressionIfPossible({"x", "^", "x"}));
 
-    segregatePolynomialAndNonPolynomials({Term(234), termExpression}, polynomialTerms, nonPolynomialTerms);
+    segregatePolynomialAndNonPolynomials({234, termExpression}, polynomialTerms, nonPolynomialTerms);
 
     ASSERT_EQ(1U, polynomialTerms.size());
     EXPECT_EQ(Term(234), polynomialTerms.at(0));

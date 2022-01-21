@@ -61,7 +61,7 @@ TEST(RetrieveHelpersTest, GetCoefficientsForVariablesOnlyWorks)
 
     ASSERT_EQ(4U, variableToValueMap.size());
     VariableToValueMap::const_iterator it = variableToValueMap.cbegin();
-    EXPECT_EQ(Term("a"), it->first);
+    EXPECT_EQ("a", it->first);
     EXPECT_EQ(AlbaNumber(516), it->second);
     it++;
     EXPECT_EQ("b", it->first);

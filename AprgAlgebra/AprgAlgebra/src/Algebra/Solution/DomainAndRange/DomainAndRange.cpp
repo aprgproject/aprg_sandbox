@@ -138,10 +138,12 @@ SolutionSet calculateDomainForEquationWithVariableToSubstitute(
             Equation equationToSolve(simplifiedEquation.getLeftHandTerm(), "=", 0);
             SolutionSet solutionSet(solver.calculateSolutionAndReturnSolutionSet(equationToSolve));
             AlbaNumber computedValue(AlbaNumber::Value::NotANumber);
-            AlbaNumbers acceptedValues(solutionSet.getAcceptedValues());            if(!acceptedValues.empty()){computedValue = acceptedValues.back();}
+            AlbaNumbers acceptedValues(solutionSet.getAcceptedValues());
+            if(!acceptedValues.empty()){computedValue = acceptedValues.back();}
             return computedValue;});
     return domain;
 }
+
 void collectAndUniqueValuesAndSort(
         AlbaNumbersSet & sortedValues,
         AlbaNumbers const& valuesToCheck)

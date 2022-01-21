@@ -312,9 +312,11 @@ void TermsOverTerms::handleZerosInNumeratorOrDenominator(
         denominators.emplace_back(0);
     }
 }
+
 void TermsOverTerms::clearTermsThenEmplacePolynomialAndRemainingTerms(
         Polynomial const& polynomialNumerator,
-        Terms const& remainingNumerators,        Terms & termsToUpdate) const
+        Terms const& remainingNumerators,
+        Terms & termsToUpdate) const
 {
     termsToUpdate.clear();
     emplacePolynomialIfNeeded(termsToUpdate, polynomialNumerator);
@@ -329,9 +331,11 @@ void TermsOverTerms::emplacePolynomialIfNeeded(Terms & termsResult, Polynomial c
         termsResult.emplace_back(0);
     }
     else if(!isTheValue(polynomial, 1))
-    {        termsResult.emplace_back(simplifyAndConvertPolynomialToSimplestTerm(polynomial));
+    {
+        termsResult.emplace_back(simplifyAndConvertPolynomialToSimplestTerm(polynomial));
     }
 }
+
 void TermsOverTerms::retrievePolynomialAndNonPolynomialsTerms(
         Terms const& termsToCheck,
         Polynomial & polynomial,

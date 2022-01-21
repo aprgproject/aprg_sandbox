@@ -12,8 +12,8 @@ namespace algebra
 TEST(NumbersRetrieverTest, RetrieveFromEquationsWorks)
 {
     NumbersRetriever retriever;
-    Equation equation1(Term(Monomial(34, {{"x", 5}})), "=", Term(Monomial(41, {{"y", 6}})));
-    Equation equation2(Term(Monomial(95, {{"x", 7}})), "=", Term(Monomial(18, {{"y", 8}})));
+    Equation equation1(Monomial(34, {{"x", 5}}), "=", Monomial(41, {{"y", 6}}));
+    Equation equation2(Monomial(95, {{"x", 7}}), "=", Monomial(18, {{"y", 8}}));
 
     retriever.retrieveFromEquations({equation1, equation2});
 
@@ -53,7 +53,7 @@ TEST(NumbersRetrieverTest, RetrieveFromTermWorks)
     NumbersRetriever retriever;
     Function functionObject(
                 "functionName",
-                Term(createExpressionIfPossible({Term("x"), Term("^"), Term(2)})),
+                Term(createExpressionIfPossible({"x", "^", 2})),
                 [](AlbaNumber const&  number) -> AlbaNumber
     {
         return number;
@@ -63,7 +63,7 @@ TEST(NumbersRetrieverTest, RetrieveFromTermWorks)
     retriever.retrieveFromTerm(Term(Variable("x")));
     retriever.retrieveFromTerm(Term(Monomial(34, {{"x", 5}, {"y", 6}})));
     retriever.retrieveFromTerm(Term(Polynomial{Monomial(516, {{"x", 7}}), Monomial(643, {{"y", 8}})}));
-    retriever.retrieveFromTerm(Term(createExpressionIfPossible({Term(678), Term("+"), Term(Monomial(576, {{"x", 9}}))})));
+    retriever.retrieveFromTerm(Term(createExpressionIfPossible({678, "+", Term(Monomial(576, {{"x", 9}}))})));
     retriever.retrieveFromTerm(Term(functionObject));
 
     AlbaNumbersSet const& numbersSet(retriever.getSavedData());
@@ -141,7 +141,7 @@ TEST(NumbersRetrieverTest, RetrieveFromExpressionWorks)
 {
     NumbersRetriever retriever;
 
-    retriever.retrieveFromExpression(createExpressionIfPossible({Term(678), Term("+"), Term(Monomial(576, {{"x", 9}}))}));
+    retriever.retrieveFromExpression(createExpressionIfPossible({678, "+", Monomial(576, {{"x", 9}})}));
 
     AlbaNumbersSet const& numbersSet(retriever.getSavedData());
     ASSERT_EQ(3U, numbersSet.size());
@@ -156,7 +156,7 @@ TEST(NumbersRetrieverTest, RetrieveFromFunctionWorks)
     NumbersRetriever retriever;
     Function functionObject(
                 "functionName",
-                Term(createExpressionIfPossible({Term(4516), Term("+"), Term(Monomial(7895, {{"x", 10}}))})),
+                Term(createExpressionIfPossible({4516, "+", Monomial(7895, {{"x", 10}})})),
                 [](AlbaNumber const&  number) -> AlbaNumber
     {
         return number;

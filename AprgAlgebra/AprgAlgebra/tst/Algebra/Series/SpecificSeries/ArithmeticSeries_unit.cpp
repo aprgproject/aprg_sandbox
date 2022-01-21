@@ -52,6 +52,7 @@ TEST(ArithmeticSeriesTest, GetSumIsEqualToFormulaInUtilities)
 
     EXPECT_EQ(sumFromSeries, sumFromFormula);
 }
+
 }
 
 }

@@ -29,7 +29,7 @@ TEST(ConvertHelpersTest, CanBeConvertedToMonomialWorks)
     EXPECT_TRUE(canBeConvertedToMonomial(Term(Monomial(96, {{"x", 1}}))));
     EXPECT_TRUE(canBeConvertedToMonomial(Term(Polynomial{Monomial(96, {{"x", 1}})})));
     EXPECT_FALSE(canBeConvertedToMonomial(Term(Polynomial{Monomial(96, {{"x", 1}}), Monomial(73, {{"y", 1}})})));
-    EXPECT_FALSE(canBeConvertedToMonomial(Term(createExpressionIfPossible({Term(254)}))));
+    EXPECT_FALSE(canBeConvertedToMonomial(Term(createExpressionIfPossible({254}))));
     EXPECT_FALSE(canBeConvertedToMonomial(Term(Expression())));
 }
 
@@ -41,7 +41,7 @@ TEST(ConvertHelpersTest, CanBeConvertedToPolynomialWorks)
     EXPECT_TRUE(canBeConvertedToPolynomial(Term(Variable("x"))));
     EXPECT_TRUE(canBeConvertedToPolynomial(Term(Monomial(96, {{"x", 1}}))));
     EXPECT_TRUE(canBeConvertedToPolynomial(Term(Polynomial{Monomial(96, {{"x", 1}})})));
-    EXPECT_FALSE(canBeConvertedToPolynomial(Term(createExpressionIfPossible({Term(254)}))));
+    EXPECT_FALSE(canBeConvertedToPolynomial(Term(createExpressionIfPossible({254}))));
     EXPECT_FALSE(canBeConvertedToPolynomial(Term(Expression())));
 }
 
