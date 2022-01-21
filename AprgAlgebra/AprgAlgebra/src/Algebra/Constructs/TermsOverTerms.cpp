@@ -298,25 +298,23 @@ void TermsOverTerms::handleZerosInNumeratorOrDenominator(
     {
         numerators.clear();
         denominators.clear();
-        numerators.emplace_back(Term(AlbaNumber(AlbaNumber::Value::NotANumber)));
+        numerators.emplace_back(AlbaNumber(AlbaNumber::Value::NotANumber));
     }
     else if(hasZeroOnNumerators)
     {
         numerators.clear();
         denominators.clear();
-        numerators.emplace_back(Term(0));
+        numerators.emplace_back(0);
     }
     else if(hasZeroOnDenominators)
     {
         denominators.clear();
-        denominators.emplace_back(Term(0));
+        denominators.emplace_back(0);
     }
 }
-
 void TermsOverTerms::clearTermsThenEmplacePolynomialAndRemainingTerms(
         Polynomial const& polynomialNumerator,
-        Terms const& remainingNumerators,
-        Terms & termsToUpdate) const
+        Terms const& remainingNumerators,        Terms & termsToUpdate) const
 {
     termsToUpdate.clear();
     emplacePolynomialIfNeeded(termsToUpdate, polynomialNumerator);
@@ -328,14 +326,12 @@ void TermsOverTerms::emplacePolynomialIfNeeded(Terms & termsResult, Polynomial c
 {
     if(isTheValue(polynomial, 0))
     {
-        termsResult.emplace_back(Term(0));
+        termsResult.emplace_back(0);
     }
     else if(!isTheValue(polynomial, 1))
-    {
-        termsResult.emplace_back(simplifyAndConvertPolynomialToSimplestTerm(polynomial));
+    {        termsResult.emplace_back(simplifyAndConvertPolynomialToSimplestTerm(polynomial));
     }
 }
-
 void TermsOverTerms::retrievePolynomialAndNonPolynomialsTerms(
         Terms const& termsToCheck,
         Polynomial & polynomial,

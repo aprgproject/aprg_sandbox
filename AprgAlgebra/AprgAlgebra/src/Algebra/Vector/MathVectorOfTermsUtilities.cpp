@@ -23,15 +23,13 @@ bool isDivergenceOfCurlZero(
         ArrayOfThreeStrings const& coordinateVariables)
 {
     //This is always true
-    return getDivergence(getCurl(termVector, coordinateVariables), coordinateVariables) == Term(0);
+    return getDivergence(getCurl(termVector, coordinateVariables), coordinateVariables) == 0;
 }
 
-bool isGaussDivergenceTheoremInAPlaneTrue(
-        MathVectorOfTwoTerms const& vectorField,
+bool isGaussDivergenceTheoremInAPlaneTrue(        MathVectorOfTwoTerms const& vectorField,
         MathVectorOfTwoTerms const& regionOfLineIntegral,
         MathVectorOfTwoTerms const& unitOutwardNormal,
-        DetailsForDefiniteIntegralWithTerms const& lineIntegralDetails,
-        DetailsForDefiniteIntegralWithTerms const& areaDetailsInX,
+        DetailsForDefiniteIntegralWithTerms const& lineIntegralDetails,        DetailsForDefiniteIntegralWithTerms const& areaDetailsInX,
         DetailsForDefiniteIntegralWithTerms const& areaDetailsInY,
         ArrayOfTwoStrings const& coordinateVariables)
 {
@@ -114,30 +112,26 @@ Term getDirectionalDerivativeInTwoDimensions(
 {
     MathVectorOfTwoTerms gradient(getGradient(term, coordinateVariables));
     MathVectorOfTwoTerms unitDirection(
-    {Term(::cos(angleOfDirection.getRadians())), Term(::sin(angleOfDirection.getRadians()))});
+    {::cos(angleOfDirection.getRadians()), ::sin(angleOfDirection.getRadians())});
     Term result(getDotProduct(gradient, unitDirection));
     simplifyForTermInVector(result);
-    return result;
-}
+    return result;}
 
 Term getDirectionalDerivativeInThreeDimensions(
-        Term const& term,
-        ArrayOfThreeStrings const& coordinateVariables,
+        Term const& term,        ArrayOfThreeStrings const& coordinateVariables,
         MathVectorOfThreeAngles const& coordinateAngles)
 {
     MathVectorOfThreeTerms gradient(getGradient(term, coordinateVariables));
     MathVectorOfThreeTerms unitDirection(
-    {Term(::cos(coordinateAngles.getValueAt(0).getRadians())),
-     Term(::cos(coordinateAngles.getValueAt(1).getRadians())),
-     Term(::cos(coordinateAngles.getValueAt(2).getRadians()))});
+    {::cos(coordinateAngles.getValueAt(0).getRadians()),
+     ::cos(coordinateAngles.getValueAt(1).getRadians()),
+     ::cos(coordinateAngles.getValueAt(2).getRadians())});
     Term result(getDotProduct(gradient, unitDirection));
     simplifyForTermInVector(result);
-    return result;
-}
+    return result;}
 
 Term getLineIntegralOfAClosedNonIntersectingPathUsingGreensTheorem(
-        MathVectorOfTwoTerms const& vectorField,
-        ArrayOfTwoStrings const& coordinateVariables,
+        MathVectorOfTwoTerms const& vectorField,        ArrayOfTwoStrings const& coordinateVariables,
         DetailsForDefiniteIntegralWithTerms const& xDetailsForLinePath,
         DetailsForDefiniteIntegralWithTerms const& yDetailsForLinePath)
 {
@@ -158,16 +152,14 @@ Term getAreaOfAClosedNonIntersectingPathUsingGreensTheorem(
     // Green's Theorem is only usable on a line path that is closed and simple (non intersecting)
     // Green's Theorem relates area to line integral
 
-    MathVectorOfTwoTerms vectorField{Term(coordinateVariables.at(1)) * Term(-1), Term(coordinateVariables.at(0))};
-    return getLineIntegral(vectorField, coordinateVariables, linePath, linePathIntegralDetails)/Term(2);
+    MathVectorOfTwoTerms vectorField{coordinateVariables.at(1) * -1, coordinateVariables.at(0)};
+    return getLineIntegral(vectorField, coordinateVariables, linePath, linePathIntegralDetails)/2;
 }
 
-MathVectorOfThreeTerms getNormalOfASurfaceOnAPoint(
-        Equation const& surface,
+MathVectorOfThreeTerms getNormalOfASurfaceOnAPoint(        Equation const& surface,
         ArrayOfThreeStrings const& coordinateVariables,
         MathVectorOfThreeNumbers const& point)
-{
-    using Values = typename MathVectorOfThreeTerms::ValuesInArray;
+{    using Values = typename MathVectorOfThreeTerms::ValuesInArray;
     Equation simplifiedSurface(surface);
     simplifiedSurface.simplify();
     MathVectorOfThreeTerms gradient(getGradient(simplifiedSurface.getLeftHandTerm(), coordinateVariables));
@@ -195,17 +187,15 @@ Equation getTangentPlaneOnAPointOfASurface(
     substitution.putVariableWithTerm(a, normalOfASurface.getValueAt(0));
     substitution.putVariableWithTerm(b, normalOfASurface.getValueAt(1));
     substitution.putVariableWithTerm(c, normalOfASurface.getValueAt(2));
-    substitution.putVariableWithTerm(x0, Term(point.getValueAt(0)));
-    substitution.putVariableWithTerm(y0, Term(point.getValueAt(1)));
-    substitution.putVariableWithTerm(z0, Term(point.getValueAt(2)));
+    substitution.putVariableWithTerm(x0, point.getValueAt(0));
+    substitution.putVariableWithTerm(y0, point.getValueAt(1));
+    substitution.putVariableWithTerm(z0, point.getValueAt(2));
 
     Equation generalPlane(ThreeDimensions::getPlaneEquationWithPointCoordinates());
-    return substitution.performSubstitutionTo(generalPlane);
-}
+    return substitution.performSubstitutionTo(generalPlane);}
 
 Equations getPerpendicularLineOnAPointOfASurface(
-        Equation const& surface,
-        ArrayOfThreeStrings const& coordinateVariables,
+        Equation const& surface,        ArrayOfThreeStrings const& coordinateVariables,
         MathVectorOfThreeNumbers const& point)
 {
     MathVectorOfThreeTerms normalOfASurface(getNormalOfASurfaceOnAPoint(surface, coordinateVariables, point));
@@ -213,17 +203,15 @@ Equations getPerpendicularLineOnAPointOfASurface(
     substitution.putVariableWithTerm(a, normalOfASurface.getValueAt(0));
     substitution.putVariableWithTerm(b, normalOfASurface.getValueAt(1));
     substitution.putVariableWithTerm(c, normalOfASurface.getValueAt(2));
-    substitution.putVariableWithTerm(x0, Term(point.getValueAt(0)));
-    substitution.putVariableWithTerm(y0, Term(point.getValueAt(1)));
-    substitution.putVariableWithTerm(z0, Term(point.getValueAt(2)));
+    substitution.putVariableWithTerm(x0, point.getValueAt(0));
+    substitution.putVariableWithTerm(y0, point.getValueAt(1));
+    substitution.putVariableWithTerm(z0, point.getValueAt(2));
 
     Equations lineEquations(ThreeDimensions::getLineEquations());
-    for(Equation & lineEquation : lineEquations)
-    {
+    for(Equation & lineEquation : lineEquations)    {
         lineEquation = substitution.performSubstitutionTo(lineEquation);
     }
-    return lineEquations;
-}
+    return lineEquations;}
 
 MathVectorOfThreeTerms getCurl(
         MathVectorOfThreeTerms const& termVector,

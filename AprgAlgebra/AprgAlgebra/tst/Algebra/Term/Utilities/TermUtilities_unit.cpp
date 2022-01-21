@@ -95,15 +95,13 @@ TEST(TermUtilitiesTest, GetNumberOfTermsWorks)
     Term y("y");
     Term z("z");
 
-    EXPECT_EQ(7U, getNumberOfTerms(Term(createExpressionIfPossible({w, "+", x, "*", y, "^", z}))));
+    EXPECT_EQ(7U, getNumberOfTerms(createExpressionIfPossible({w, "+", x, "*", y, "^", z})));
 }
 
-TEST(TermUtilitiesTest, GetConstantFactorWorks)
-{
+TEST(TermUtilitiesTest, GetConstantFactorWorks){
     Term x("x");
     EXPECT_EQ(AlbaNumber(5), getConstantFactor(5));
-    EXPECT_EQ(AlbaNumber(6), getConstantFactor(Monomial(6, {{"x", 7}})));
-    EXPECT_EQ(AlbaNumber(4), getConstantFactor(Polynomial{Monomial(8, {{"x", 3}}), Monomial(12, {{"x", 4}})}));
+    EXPECT_EQ(AlbaNumber(6), getConstantFactor(Monomial(6, {{"x", 7}})));    EXPECT_EQ(AlbaNumber(4), getConstantFactor(Polynomial{Monomial(8, {{"x", 3}}), Monomial(12, {{"x", 4}})}));
     EXPECT_EQ(AlbaNumber(1), getConstantFactor(x));
 }
 

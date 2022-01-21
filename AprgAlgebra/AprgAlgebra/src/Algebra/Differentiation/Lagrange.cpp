@@ -40,18 +40,16 @@ void calculateLagrangeEquations(
 {
     for(string const& coordinateName : coordinateNames)
     {
-        lagrangeEquations.emplace_back(getPartialDerivative(termWithLagrangeFunctions, coordinateName), "=", Term(0));
+        lagrangeEquations.emplace_back(getPartialDerivative(termWithLagrangeFunctions, coordinateName), "=", 0);
     }
     for(string const& lagrangeMultiplierName : lagrangeMultiplierNames)
     {
-        lagrangeEquations.emplace_back(getPartialDerivative(termWithLagrangeFunctions, lagrangeMultiplierName), "=", Term(0));
+        lagrangeEquations.emplace_back(getPartialDerivative(termWithLagrangeFunctions, lagrangeMultiplierName), "=", 0);
     }
 }
-
 Term getTermWithLagrangeFunctions(
         Term const& term,
-        Terms const& lagrangeFunctions,
-        strings const& lagrangeMultiplierNames)
+        Terms const& lagrangeFunctions,        strings const& lagrangeMultiplierNames)
 {
     unsigned int size(min(lagrangeFunctions.size(), lagrangeMultiplierNames.size()));
     Term result(term);

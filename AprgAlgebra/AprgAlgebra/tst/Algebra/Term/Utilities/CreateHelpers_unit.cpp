@@ -25,17 +25,15 @@ TEST(CreateHelpersTest, CreateMonomialIfPossibleWorks)
     EXPECT_EQ(Monomial(0, {}), createMonomialIfPossible(Term{}));
     EXPECT_EQ(Monomial(42, {}), createMonomialIfPossible(Term(42)));
     EXPECT_EQ(Monomial(1, {{"weight", 1}}), createMonomialIfPossible(Term("weight")));
-    EXPECT_EQ(Monomial(0, {}), createMonomialIfPossible(Term("+")));
+    EXPECT_EQ(Monomial(0, {}), createMonomialIfPossible("+"));
     EXPECT_EQ(Monomial(-1.5, {{"r", -3.75}}), createMonomialIfPossible(Term(Monomial(-1.5, {{"r", -3.75}}))));
     EXPECT_EQ(Monomial(0, {}), createMonomialIfPossible(Term(Polynomial{Monomial(3, {}), Monomial(-1.5, {{"distance", -3.75}, {"power", 4.5}})})));
-    EXPECT_EQ(Monomial(0, {}), createMonomialIfPossible(Term(createExpressionIfPossible({Term(5), Term("+"), Term("interest")}))));
+    EXPECT_EQ(Monomial(0, {}), createMonomialIfPossible(Term(createExpressionIfPossible({Term(5), "+", Term("interest")}))));
 }
 
-TEST(CreateHelpersTest, CreatePolynomialFromNumberWorks)
-{
+TEST(CreateHelpersTest, CreatePolynomialFromNumberWorks){
     EXPECT_EQ(Polynomial{Monomial(5648, {})}, createPolynomialFromNumber(5648));
 }
-
 TEST(CreateHelpersTest, CreatePolynomialFromVariableWorks)
 {
     EXPECT_EQ(Polynomial{Monomial(1, {{"weight", 1}})}, createPolynomialFromVariable(Variable("weight")));
@@ -167,27 +165,23 @@ TEST(CreateHelpersTest, CreateExpressionIfPossibleReturnsEmptyIfListOfTermsAreWr
 
 TEST(CreateHelpersTest, CreateSimplifiedExpressionIfPossibleWorks)
 {
-    Expression expressionToTest(createSimplifiedExpressionIfPossible({Term(7.625), Term("+"), Term(2.375)}));
+    Expression expressionToTest(createSimplifiedExpressionIfPossible({7.625, "+", 2.375}));
 
     EXPECT_EQ(OperatorLevel::Unknown, expressionToTest.getCommonOperatorLevel());
-    TermsWithDetails const& termsToVerify(expressionToTest.getTermsWithAssociation().getTermsWithDetails());
-    ASSERT_EQ(1U, termsToVerify.size());
+    TermsWithDetails const& termsToVerify(expressionToTest.getTermsWithAssociation().getTermsWithDetails());    ASSERT_EQ(1U, termsToVerify.size());
     EXPECT_EQ(TermAssociationType::Positive, termsToVerify.at(0).association);
     Term const& termToVerify1(getTermConstReferenceFromSharedPointer(termsToVerify.at(0).baseTermSharedPointer));
-    EXPECT_EQ(Term(10), termToVerify1);
-}
+    EXPECT_EQ(Term(10), termToVerify1);}
 
 TEST(CreateHelpersTest, CreateSimplifiedExpressionIfPossibleReturnsEmptyIfListOfTermsAreWrong)
 {
-    Expression expressionToTest(createSimplifiedExpressionIfPossible({Term("+"), Term("+"), Term("+")}));
+    Expression expressionToTest(createSimplifiedExpressionIfPossible({"+", "+", "+"}));
 
     EXPECT_EQ(OperatorLevel::Unknown, expressionToTest.getCommonOperatorLevel());
-    TermsWithDetails const& termsToVerify(expressionToTest.getTermsWithAssociation().getTermsWithDetails());
-    ASSERT_TRUE(termsToVerify.empty());
+    TermsWithDetails const& termsToVerify(expressionToTest.getTermsWithAssociation().getTermsWithDetails());    ASSERT_TRUE(termsToVerify.empty());
 }
 
-TEST(CreateHelpersTest, CreateFunctionWithEmptyInputExpressionWorks)
-{
+TEST(CreateHelpersTest, CreateFunctionWithEmptyInputExpressionWorks){
     Function absoluteValueFunction(createFunctionWithEmptyInputExpression("abs"));
 
     EXPECT_EQ("abs", absoluteValueFunction.getFunctionName());
@@ -196,17 +190,15 @@ TEST(CreateHelpersTest, CreateFunctionWithEmptyInputExpressionWorks)
 
 TEST(CreateHelpersTest, CreateFunctionInAnFunctionWorks)
 {
-    Function absFunction(Functions::abs(Term(-5)));
-    Function absInAbsFunction(Functions::abs(Term(absFunction)));
-    Function absInAbsInAbsFunction(Functions::abs(Term(absInAbsFunction)));
+    Function absFunction(Functions::abs(-5));
+    Function absInAbsFunction(Functions::abs(absFunction));
+    Function absInAbsInAbsFunction(Functions::abs(absInAbsFunction));
 
     Function functionToVerify1(createFunctionInAnFunction(absFunction));
     Function functionToVerify2(createFunctionInAnFunction(absInAbsFunction));
-
     EXPECT_EQ(absInAbsFunction, functionToVerify1);
     EXPECT_EQ(absInAbsInAbsFunction, functionToVerify2);
 }
-
 TEST(CreateHelpersTest, CreateTermWithAdditionAndSubtractionTermsWithDetailsWorksWithASingleTerm)
 {
     TermsWithDetails termsWithDetails{{Term("x"), TermAssociationType::Positive}};

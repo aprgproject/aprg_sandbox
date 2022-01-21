@@ -59,14 +59,12 @@ TEST(SimplificationOfExpressionTest, SimplifyWorksOnDifferentAdditionExpressionL
     Expression expressionToVerify(simplification.getExpression());
     Expression expressionToExpect(
                 createAndWrapExpressionFromATerm(
-                    Term(Polynomial{Monomial(1, {{"a", 1}}), Monomial(1, {{"b", 1}}), Monomial(1, {{"c", 1}}), Monomial(1, {{"d", 1}})})));
+                    Polynomial{Monomial(1, {{"a", 1}}), Monomial(1, {{"b", 1}}), Monomial(1, {{"c", 1}}), Monomial(1, {{"d", 1}})}));
     EXPECT_EQ(expressionToExpect, expressionToVerify);
 }
-
 TEST(SimplificationOfExpressionTest, SimplifyWorksOnDifferentMultiplicationExpressionLevels)
 {
-    Term expressionTermLevel1(createExpressionIfPossible({"c", "*", "d"}));
-    Term expressionTermLevel2(createExpressionIfPossible({"b", "*", expressionTermLevel1}));
+    Term expressionTermLevel1(createExpressionIfPossible({"c", "*", "d"}));    Term expressionTermLevel2(createExpressionIfPossible({"b", "*", expressionTermLevel1}));
     Term expressionTermLevel3(createExpressionIfPossible({"a", "*", expressionTermLevel2}));
     Expression expressionToTest(createExpressionIfPossible({expressionTermLevel3}));
     SimplificationOfExpression simplification(expressionToTest);
@@ -74,14 +72,12 @@ TEST(SimplificationOfExpressionTest, SimplifyWorksOnDifferentMultiplicationExpre
     simplification.simplify();
 
     Expression expressionToVerify(simplification.getExpression());
-    Expression expressionToExpect(createAndWrapExpressionFromATerm(Term(Monomial(1, {{"a", 1}, {"b", 1}, {"c", 1}, {"d", 1}}))));
+    Expression expressionToExpect(createAndWrapExpressionFromATerm(Monomial(1, {{"a", 1}, {"b", 1}, {"c", 1}, {"d", 1}})));
     EXPECT_EQ(expressionToExpect, expressionToVerify);
 }
-
 TEST(SimplificationOfExpressionTest, SimplifyWorksOnDifferentRaiseToPowerExpressionLevels)
 {
-    Term expressionTermLevel1(createExpressionIfPossible({"c", "^", "d"}));
-    Term expressionTermLevel2(createExpressionIfPossible({"b", "^", expressionTermLevel1}));
+    Term expressionTermLevel1(createExpressionIfPossible({"c", "^", "d"}));    Term expressionTermLevel2(createExpressionIfPossible({"b", "^", expressionTermLevel1}));
     Term expressionTermLevel3(createExpressionIfPossible({"a", "^", expressionTermLevel2}));
     Expression expressionToTest(createExpressionIfPossible({expressionTermLevel3}));
     SimplificationOfExpression simplification(expressionToTest);
@@ -130,14 +126,12 @@ TEST(SimplificationOfExpressionTest, SimplifyWorksOnZeroForAddingAndSubtracting)
     simplification.simplify();
 
     Expression expressionToVerify(simplification.getExpression());
-    Expression expressionToExpect(createOrCopyExpressionFromATerm(Term(-250)));
+    Expression expressionToExpect(createOrCopyExpressionFromATerm(-250));
     EXPECT_EQ(expressionToExpect, expressionToVerify);
 }
-
 TEST(SimplificationOfExpressionTest, SimplifyWorksOnZeroForMultiplying)
 {
-    Expression expressionToTest(createExpressionIfPossible({0, "*", 200, "*", 50}));
-    SimplificationOfExpression simplification(expressionToTest);
+    Expression expressionToTest(createExpressionIfPossible({0, "*", 200, "*", 50}));    SimplificationOfExpression simplification(expressionToTest);
 
     simplification.simplify();
 

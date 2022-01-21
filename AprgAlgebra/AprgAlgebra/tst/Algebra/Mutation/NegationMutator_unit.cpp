@@ -20,30 +20,26 @@ TEST(NegationMutatorTest, MutateTermWorks)
     Term term2("a");
     Term term3(Monomial(7, {{"a", 1}}));
     Term term4(Polynomial{Monomial(9, {{"a", 1}}), Monomial(11, {{"b", 1}})});
-    Term term5(createExpressionIfPossible({Term("a"), Term("^"), Term("b")}));
-    Term term6(sin(Term("a")));
+    Term term5(createExpressionIfPossible({"a", "^", "b"}));
+    Term term6(sin("a"));
 
     mutator.mutateTerm(term1);
-    mutator.mutateTerm(term2);
-    mutator.mutateTerm(term3);
+    mutator.mutateTerm(term2);    mutator.mutateTerm(term3);
     mutator.mutateTerm(term4);
     mutator.mutateTerm(term5);
     mutator.mutateTerm(term6);
-
     Term termToExpect1(-5);
     Term termToExpect2(Monomial(-1, {{"a", 1}}));
     Term termToExpect3(Monomial(-7, {{"a", 1}}));
     Term termToExpect4(Polynomial{Monomial(-9, {{"a", 1}}), Monomial(-11, {{"b", 1}})});
-    Term termToExpect5(createExpressionIfPossible({Term(-1), Term("*"), Term("a"), Term("^"), Term("b")}));
-    Term termToExpect6(createExpressionIfPossible({Term(-1), Term("*"), Term(sin(Term("a")))}));
+    Term termToExpect5(createExpressionIfPossible({-1, "*", "a", "^", "b"}));
+    Term termToExpect6(createExpressionIfPossible({-1, "*", sin("a")}));
     EXPECT_EQ(termToExpect1, term1);
     EXPECT_EQ(termToExpect2, term2);
-    EXPECT_EQ(termToExpect3, term3);
-    EXPECT_EQ(termToExpect4, term4);
+    EXPECT_EQ(termToExpect3, term3);    EXPECT_EQ(termToExpect4, term4);
     EXPECT_EQ(termToExpect5, term5);
     EXPECT_EQ(termToExpect6, term6);
 }
-
 TEST(NegationMutatorTest, MutateConstantWorks)
 {
     NegationMutator mutator;
@@ -91,25 +87,23 @@ TEST(NegationMutatorTest, MutatePolynomialWorks)
 TEST(NegationMutatorTest, MutateExpressionWorks)
 {
     NegationMutator mutator;
-    Expression expression(createExpressionIfPossible({Term("a"), Term("^"), Term("b")}));
+    Expression expression(createExpressionIfPossible({"a", "^", "b"}));
 
     mutator.mutateExpression(expression);
 
-    Expression expressionToExpect(createExpressionIfPossible({Term(-1), Term("*"), Term("a"), Term("^"), Term("b")}));
+    Expression expressionToExpect(createExpressionIfPossible({-1, "*", "a", "^", "b"}));
     EXPECT_EQ(expressionToExpect, expression);
 }
-
 TEST(NegationMutatorTest, MutateFunctionWorks)
 {
     NegationMutator mutator;
-    Function functionObject(sin(Term("a")));
+    Function functionObject(sin("a"));
 
     mutator.mutateFunction(functionObject);
 
-    Function functionToExpect(sin(Term("a")));
+    Function functionToExpect(sin("a"));
     EXPECT_EQ(functionToExpect, functionObject);
 }
-
 }
 
 }

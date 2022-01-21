@@ -75,23 +75,21 @@ Term convertMonomialToSimplestTerm(Monomial const& monomial)
     Term newTerm(monomial);
     if(isTheValue(monomial, 0))
     {
-        newTerm = Term(0);
+        newTerm = 0;
     }
     else if(isConstantOnly(monomial))
     {
-        newTerm = Term(monomial.getConstantConstReference());
+        newTerm = monomial.getConstantConstReference();
     }
     else if(isVariableOnly(monomial))
     {
-        newTerm = Term(getFirstVariableName(monomial));
+        newTerm = getFirstVariableName(monomial);
     }
     return newTerm;
 }
-
 Term convertPolynomialToSimplestTerm(Polynomial const& polynomial)
 {
-    Term newTerm(polynomial);
-    if(isTheValue(polynomial, 0))
+    Term newTerm(polynomial);    if(isTheValue(polynomial, 0))
     {
         newTerm = Term(0);
     }

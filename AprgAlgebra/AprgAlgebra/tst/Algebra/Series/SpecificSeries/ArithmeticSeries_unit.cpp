@@ -48,11 +48,10 @@ TEST(ArithmeticSeriesTest, GetSumIsEqualToFormulaInUtilities)
     ArithmeticSeries series(-15, 2);
 
     Term sumFromSeries(series.getSum(0, 29));
-    Term sumFromFormula(getSumOfArithmeticSeriesUsingFirstAndLastTerm(Term(-15), Term(43), Term(30)));
+    Term sumFromFormula(getSumOfArithmeticSeriesUsingFirstAndLastTerm(-15, 43, 30));
 
     EXPECT_EQ(sumFromSeries, sumFromFormula);
 }
-
 }
 
 }

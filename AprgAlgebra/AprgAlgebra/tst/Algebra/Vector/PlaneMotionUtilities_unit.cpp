@@ -20,29 +20,25 @@ namespace VectorUtilities
 TEST(PlaneMotionUtilitiesTest, GetInstantaneousVelocityWorks)
 {
     Term t("t");
-    Term x(createExpressionIfPossible({getEAsTerm(), Term("^"), Term("("), Term(-2), Term("*"), t, Term(")")}));
-    Term y(createExpressionIfPossible({Term(3), Term("*"), getEAsTerm(), Term("^"), t}));
+    Term x(createExpressionIfPossible({getEAsTerm(), "^", "(", -2, "*", t, ")"}));
+    Term y(createExpressionIfPossible({3, "*", getEAsTerm(), "^", t}));
     MathVectorOfTwoTerms termVector{x, y};
 
     MathVectorOfTwoTerms vectorToVerify(getInstantaneousVelocity(termVector, "t"));
-
     string stringToExpect("{(-2/((e)^2[t])), (3*((e)^t))}");
     EXPECT_EQ(stringToExpect, vectorToVerify.getDisplayableString());
 }
-
 TEST(PlaneMotionUtilitiesTest, GetInstantaneousAccelerationFromVelocityWorks)
 {
     Term t("t");
-    Term x(createExpressionIfPossible({getEAsTerm(), Term("^"), Term("("), Term(-2), Term("*"), t, Term(")")}));
-    Term y(createExpressionIfPossible({Term(3), Term("*"), getEAsTerm(), Term("^"), t}));
+    Term x(createExpressionIfPossible({getEAsTerm(), "^", "(", -2, "*", t, ")"}));
+    Term y(createExpressionIfPossible({3, "*", getEAsTerm(), "^", t}));
     MathVectorOfTwoTerms termVector{x, y};
 
     MathVectorOfTwoTerms vectorToVerify(getInstantaneousAccelerationFromVelocity(termVector, "t"));
-
     string stringToExpect("{(-2/((e)^2[t])), (3*((e)^t))}");
     EXPECT_EQ(stringToExpect, vectorToVerify.getDisplayableString());
 }
-
 TEST(PlaneMotionUtilitiesTest, GetInstantaneousAccelerationFromPathWorks)
 {
     Term x(Monomial(2, {{"t", 3}}));

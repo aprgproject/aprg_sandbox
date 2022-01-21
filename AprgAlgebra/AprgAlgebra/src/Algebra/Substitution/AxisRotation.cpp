@@ -67,18 +67,16 @@ void AxisRotation::initializeSubstitution(
     Term newX, newY;
     if(doRotationBack)
     {
-        newX = Term(oldX*cosTheta - oldY*sinTheta);
-        newY = Term(oldX*sinTheta + oldY*cosTheta);
+        newX = oldX*cosTheta - oldY*sinTheta;
+        newY = oldX*sinTheta + oldY*cosTheta;
     }
     else
     {
-        newX = Term(oldX*cosTheta + oldY*sinTheta);
-        newY = Term(-oldX*sinTheta + oldY*cosTheta);
+        newX = oldX*cosTheta + oldY*sinTheta;
+        newY = -oldX*sinTheta + oldY*cosTheta;
     }
     m_substitution.putVariableWithTerm(xName, newX);
-    m_substitution.putVariableWithTerm(yName, newY);
-}
+    m_substitution.putVariableWithTerm(yName, newY);}
 
 }
-
 }

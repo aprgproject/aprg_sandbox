@@ -32,15 +32,13 @@ TEST(DifferentiationTest, DifferentiateWorksForTerm)
     Term termToExpect2(1);
     Term termToExpect3(Monomial(8, {{"x", 7}}));
     Term termToExpect4(Polynomial{Monomial(28, {{"x", 3}}), Monomial(-6, {{"x", 2}}), Monomial(8, {})});
-    Term termToExpect5(createExpressionIfPossible({Term(-1), Term("*"), sin(x)}));
+    Term termToExpect5(createExpressionIfPossible({-1, "*", sin(x)}));
     Term termToExpect6(cos(x));
     EXPECT_EQ(termToExpect1, termToVerify1);
-    EXPECT_EQ(termToExpect2, termToVerify2);
-    EXPECT_EQ(termToExpect3, termToVerify3);
+    EXPECT_EQ(termToExpect2, termToVerify2);    EXPECT_EQ(termToExpect3, termToVerify3);
     EXPECT_EQ(termToExpect4, termToVerify4);
     EXPECT_EQ(termToExpect5, termToVerify5);
-    EXPECT_EQ(termToExpect6, termToVerify6);
-}
+    EXPECT_EQ(termToExpect6, termToVerify6);}
 
 TEST(DifferentiationTest, DifferentiateWorksForConstant)
 {
@@ -105,22 +103,20 @@ TEST(DifferentiationTest, DifferentiateWorksForExpression)
     Differentiation differentiationForX("x");
     Term x("x");
     Expression expression01{createExpressionIfPossible({x})};
-    Expression expression02{createExpressionIfPossible({cos(x), Term("^"), Term(3)})};
+    Expression expression02{createExpressionIfPossible({cos(x), "^", 3})};
 
     Term termToVerify1(differentiationForX.differentiate(expression01));
     Term termToVerify2(differentiationForX.differentiate(expression02));
 
-    Term cosSquared{createExpressionIfPossible({cos(x), Term("^"), Term(2)})};
+    Term cosSquared{createExpressionIfPossible({cos(x), "^", 2})};
     Term termToExpect01(1);
-    Term termToExpect02(createExpressionIfPossible({Term(-3), Term("*"), cosSquared, Term("*"), sin(x)}));
+    Term termToExpect02(createExpressionIfPossible({-3, "*", cosSquared, "*", sin(x)}));
     EXPECT_EQ(termToExpect01, termToVerify1);
     EXPECT_EQ(termToExpect02, termToVerify2);
 }
-
 TEST(DifferentiationTest, DifferentiateWorksForFunction)
 {
     Differentiation differentiationForX("x");
-
     Term x("x");
     EXPECT_EQ(Term(cos(x)), differentiationForX.differentiate(sin(x)));
 }
@@ -175,23 +171,21 @@ TEST(DifferentiationTest, DifferentiateMultipleTimesWorksForTerm)
 TEST(DifferentiationTest, DifferentiateMultipleTimesWorksForEquation)
 {
     Differentiation differentiationForX("x");
-    Equation equationToTest(Term(Monomial(3, {{"x", 4}})), "=", Term(Monomial(5, {{"x", 6}})));
+    Equation equationToTest(Monomial(3, {{"x", 4}}), "=", Monomial(5, {{"x", 6}}));
 
     Equation equationToVerify1(differentiationForX.differentiateMultipleTimes(equationToTest, 0));
     Equation equationToVerify2(differentiationForX.differentiateMultipleTimes(equationToTest, 1));
     Equation equationToVerify3(differentiationForX.differentiateMultipleTimes(equationToTest, 2));
 
-    Equation equationToExpect1(Term(Monomial(3, {{"x", 4}})), "=", Term(Monomial(5, {{"x", 6}})));
-    Equation equationToExpect2(Term(Polynomial{Monomial(5, {{"x", 5}}), Monomial(-2, {{"x", 3}})}), "=", Term(0));
-    Equation equationToExpect3(Term(Polynomial{Monomial(25, {{"x", 4}}), Monomial(-6, {{"x", 2}})}), "=", Term(0));
+    Equation equationToExpect1(Monomial(3, {{"x", 4}}), "=", Monomial(5, {{"x", 6}}));
+    Equation equationToExpect2(Polynomial{Monomial(5, {{"x", 5}}), Monomial(-2, {{"x", 3}})}, "=", 0);
+    Equation equationToExpect3(Polynomial{Monomial(25, {{"x", 4}}), Monomial(-6, {{"x", 2}})}, "=", 0);
     EXPECT_EQ(equationToExpect1, equationToVerify1);
     EXPECT_EQ(equationToExpect2, equationToVerify2);
-    EXPECT_EQ(equationToExpect3, equationToVerify3);
-}
+    EXPECT_EQ(equationToExpect3, equationToVerify3);}
 
 TEST(DifferentiationTest, DifferentiateConstantWorks)
-{
-    Differentiation differentiationForX("x");
+{    Differentiation differentiationForX("x");
 
     EXPECT_EQ(AlbaNumber(0), differentiationForX.differentiateConstant(Constant(5)));
 }
@@ -281,46 +275,42 @@ TEST(DifferentiationTest, DifferentiateExpressionWorks)
     Expression expression01{createExpressionIfPossible({x})};
     Expression expression02{createExpressionIfPossible({cos(x)})};
     Expression expression03{createExpressionIfPossible({cos(y)})};
-    Expression expression04{createExpressionIfPossible({sin(x), Term("+"), cos(x)})};
-    Expression expression05{createExpressionIfPossible({sin(x), Term("-"), cos(x)})};
-    Expression expression06{createExpressionIfPossible({sin(x), Term("*"), cos(x)})};
-    Expression expression07{createExpressionIfPossible({sin(x), Term("/"), cos(x)})};
-    Expression expression08{createExpressionIfPossible({cos(x), Term("^"), Term(3)})};
-    Expression expression09{createExpressionIfPossible({Term(3), Term("^"), cos(x)})};
-    Expression expression10{createExpressionIfPossible({sin(x), Term("^"), cos(x)})};
+    Expression expression04{createExpressionIfPossible({sin(x), "+", cos(x)})};
+    Expression expression05{createExpressionIfPossible({sin(x), "-", cos(x)})};
+    Expression expression06{createExpressionIfPossible({sin(x), "*", cos(x)})};
+    Expression expression07{createExpressionIfPossible({sin(x), "/", cos(x)})};
+    Expression expression08{createExpressionIfPossible({cos(x), "^", 3})};
+    Expression expression09{createExpressionIfPossible({3, "^", cos(x)})};
+    Expression expression10{createExpressionIfPossible({sin(x), "^", cos(x)})};
 
     Term expressionToVerify01(differentiationForXWithY.differentiateExpression(expression01));
-    Term expressionToVerify02(differentiationForXWithY.differentiateExpression(expression02));
-    Term expressionToVerify03(differentiationForXWithY.differentiateExpression(expression03));
+    Term expressionToVerify02(differentiationForXWithY.differentiateExpression(expression02));    Term expressionToVerify03(differentiationForXWithY.differentiateExpression(expression03));
     Term expressionToVerify04(differentiationForXWithY.differentiateExpression(expression04));
     Term expressionToVerify05(differentiationForXWithY.differentiateExpression(expression05));
-    Term expressionToVerify06(differentiationForXWithY.differentiateExpression(expression06));
-    Term expressionToVerify07(differentiationForXWithY.differentiateExpression(expression07));
+    Term expressionToVerify06(differentiationForXWithY.differentiateExpression(expression06));    Term expressionToVerify07(differentiationForXWithY.differentiateExpression(expression07));
     Term expressionToVerify08(differentiationForXWithY.differentiateExpression(expression08));
     Term expressionToVerify09(differentiationForXWithY.differentiateExpression(expression09));
     Term expressionToVerify10(differentiationForXWithY.differentiateExpression(expression10));
 
-    Term sinSquared{createExpressionIfPossible({sin(x), Term("^"), Term(2)})};
-    Term cosSquared{createExpressionIfPossible({cos(x), Term("^"), Term(2)})};
+    Term sinSquared{createExpressionIfPossible({sin(x), "^", 2})};
+    Term cosSquared{createExpressionIfPossible({cos(x), "^", 2})};
     Term termToExpect01(1);
-    Term termToExpect02(createExpressionIfPossible({Term(-1), Term("*"), sin(x)}));
-    Term termToExpect03(createExpressionIfPossible({Term(Monomial(-1, {{"d[y]/d[x]", 1}})), Term("*"), sin(y)}));
-    Term termToExpect04(createExpressionIfPossible({cos(x), Term("-"), sin(x)}));
-    Term termToExpect05(createExpressionIfPossible({cos(x), Term("+"), sin(x)}));
-    Term termToExpect06(createExpressionIfPossible({cosSquared, Term("-"), sinSquared}));
-    Term expectedNumerator07(createExpressionIfPossible({cosSquared, Term("+"), sinSquared}));
+    Term termToExpect02(createExpressionIfPossible({-1, "*", sin(x)}));
+    Term termToExpect03(createExpressionIfPossible({Monomial(-1, {{"d[y]/d[x]", 1}}), "*", sin(y)}));
+    Term termToExpect04(createExpressionIfPossible({cos(x), "-", sin(x)}));
+    Term termToExpect05(createExpressionIfPossible({cos(x), "+", sin(x)}));
+    Term termToExpect06(createExpressionIfPossible({cosSquared, "-", sinSquared}));
+    Term expectedNumerator07(createExpressionIfPossible({cosSquared, "+", sinSquared}));
     Term expectedDenominator07(createExpressionIfPossible({cosSquared}));
-    Term termToExpect07(createExpressionIfPossible({expectedNumerator07, Term("/"), expectedDenominator07}));
-    Term termToExpect08(createExpressionIfPossible({Term(-3), Term("*"), cosSquared, Term("*"), sin(x)}));
-    Term termToExpect09(createExpressionIfPossible({Term(-1.09861228866811), Term("*"), Term(3), Term("^"), cos(x), Term("*"), sin(x)}));
+    Term termToExpect07(createExpressionIfPossible({expectedNumerator07, "/", expectedDenominator07}));
+    Term termToExpect08(createExpressionIfPossible({-3, "*", cosSquared, "*", sin(x)}));
+    Term termToExpect09(createExpressionIfPossible({-1.09861228866811, "*", 3, "^", cos(x), "*", sin(x)}));
     EXPECT_EQ(termToExpect01, expressionToVerify01);
     EXPECT_EQ(termToExpect02, expressionToVerify02);
-    EXPECT_EQ(termToExpect03, expressionToVerify03);
-    EXPECT_EQ(termToExpect04, expressionToVerify04);
+    EXPECT_EQ(termToExpect03, expressionToVerify03);    EXPECT_EQ(termToExpect04, expressionToVerify04);
     EXPECT_EQ(termToExpect05, expressionToVerify05);
     EXPECT_EQ(termToExpect06, expressionToVerify06);
-    EXPECT_EQ(termToExpect07, expressionToVerify07);
-    EXPECT_EQ(termToExpect08, expressionToVerify08);
+    EXPECT_EQ(termToExpect07, expressionToVerify07);    EXPECT_EQ(termToExpect08, expressionToVerify08);
     EXPECT_EQ(termToExpect09, expressionToVerify09);
     EXPECT_TRUE(isNotANumber(expressionToVerify10));
 }
@@ -354,25 +344,23 @@ TEST(DifferentiationTest, DifferentiateFunctionWorksWithFunctionsInCommonFunctio
     Term termToVerify21(differentiationForXWithY.differentiateFunction(sech(x)));
     Term termToVerify22(differentiationForXWithY.differentiateFunction(coth(x)));
 
-    Term cscSquared(createExpressionIfPossible({csc(x), Term("^"), Term(2)}));
+    Term cscSquared(createExpressionIfPossible({csc(x), "^", 2}));
     Term termToExpect01(sgn(x));
     Term termToExpect02(Monomial(1, {{"x", -1}}));
     Term termToExpect03(Monomial(2.302585092994046, {{"x", -1}}));
     Term termToExpect04(cos(x));
-    Term termToExpect05(createExpressionIfPossible({Term(-1), Term("*"), sin(x)}));
-    Term termToExpect06(createExpressionIfPossible({Term(Monomial(-1, {{"d[y]/d[x]", 1}})), Term("*"), sin(y)}));
-    Term termToExpect07(createExpressionIfPossible({sec(x), Term("^"), Term(2)}));
-    Term termToExpect08(createExpressionIfPossible({Term(-1), Term("*"), cot(x), Term("*"), csc(x)}));
-    Term termToExpect09(createExpressionIfPossible({sec(x), Term("*"), tan(x)}));
-    Term termToExpect10(createExpressionIfPossible({Term(-1), Term("*"), cscSquared}));
+    Term termToExpect05(createExpressionIfPossible({-1, "*", sin(x)}));
+    Term termToExpect06(createExpressionIfPossible({Monomial(-1, {{"d[y]/d[x]", 1}}), "*", sin(y)}));
+    Term termToExpect07(createExpressionIfPossible({sec(x), "^", 2}));
+    Term termToExpect08(createExpressionIfPossible({-1, "*", cot(x), "*", csc(x)}));
+    Term termToExpect09(createExpressionIfPossible({sec(x), "*", tan(x)}));
+    Term termToExpect10(createExpressionIfPossible({-1, "*", cscSquared}));
     string stringToExpect11("(1/((-1[x^2] + 1)^(1/2)))");
     string stringToExpect12("(-1/((-1[x^2] + 1)^(1/2)))");
-    string stringToExpect13("(1/(1[x^2] + 1))");
-    string stringToExpect14("(-1/x/((1[x] + -1)^(1/2))/((1[x] + 1)^(1/2)))");
+    string stringToExpect13("(1/(1[x^2] + 1))");    string stringToExpect14("(-1/x/((1[x] + -1)^(1/2))/((1[x] + 1)^(1/2)))");
     string stringToExpect15("(1/x/((1[x] + -1)^(1/2))/((1[x] + 1)^(1/2)))");
     string stringToExpect16("(-1/(1[x^2] + 1))");
-    string stringToExpect17("cosh(x)");
-    string stringToExpect18("sinh(x)");
+    string stringToExpect17("cosh(x)");    string stringToExpect18("sinh(x)");
     string stringToExpect19("(sech(x)^2)");
     string stringToExpect20("(-1*coth(x)*csch(x))");
     string stringToExpect21("(-1*sech(x)*tanh(x))");
@@ -404,18 +392,16 @@ TEST(DifferentiationTest, DifferentiateFunctionWorksWithFunctionsInCommonFunctio
 TEST(DifferentiationTest, DifferentiateFunctionWorksWithChainRule)
 {
     Differentiation differentiationForX("x");
-    Function functionToTest(sin(Term(Monomial(10, {{"x", 8}}))));
+    Function functionToTest(sin(Monomial(10, {{"x", 8}})));
 
     Term termToVerify(differentiationForX.differentiateFunction(functionToTest));
 
-    Term termToExpect(createExpressionIfPossible({Term(Monomial(80, {{"x", 7}})), Term("*"), cos(Term(Monomial(10, {{"x", 8}})))}));
+    Term termToExpect(createExpressionIfPossible({Monomial(80, {{"x", 7}}), "*", cos(Monomial(10, {{"x", 8}}))}));
     EXPECT_EQ(termToExpect, termToVerify);
 }
-
 TEST(DifferentiationTest, DifferentiateEquationWorks)
 {
-    Differentiation differentiationForXWithY("x", {"y"});
-    Term term1ForEquation1(Polynomial{Monomial(1, {{"x", 6}}), Monomial(-2, {{"x", 1}})});
+    Differentiation differentiationForXWithY("x", {"y"});    Term term1ForEquation1(Polynomial{Monomial(1, {{"x", 6}}), Monomial(-2, {{"x", 1}})});
     Term term2ForEquation1(Polynomial{Monomial(3, {{"y", 6}}), Monomial(1, {{"y", 5}}), Monomial(-1, {{"y", 2}})});
     Equation equation1(term1ForEquation1, "=", term2ForEquation1);
     Term term1ForEquation2(Polynomial{Monomial(3, {{"x", 4}, {"y", 2}}), Monomial(-7, {{"x", 1}, {"y", 3}})});
@@ -436,21 +422,19 @@ TEST(DifferentiationTest, DifferentiateWorksOnOneOverPolynomial)
     Differentiation differentiationForX("x");
     Term numerator(1);
     Term denominator(Polynomial{Monomial(1, {{"x", 2}}), Monomial(2, {{"x", 1}}), Monomial(2, {})});
-    Term termToTest(createExpressionIfPossible({numerator, Term("/"), denominator}));
+    Term termToTest(createExpressionIfPossible({numerator, "/", denominator}));
 
     Term termToVerify(differentiationForX.differentiate(termToTest));
 
     Term expectedNumeratorPart(Polynomial{Monomial(1, {{"x", 1}}), Monomial(1, {})});
-    Term expectedNumerator(createExpressionIfPossible({Term(-2), Term("*"), expectedNumeratorPart}));
+    Term expectedNumerator(createExpressionIfPossible({-2, "*", expectedNumeratorPart}));
     Term expectedDenominator(Polynomial{Monomial(1, {{"x", 4}}), Monomial(4, {{"x", 3}}), Monomial(8, {{"x", 2}}), Monomial(8, {{"x", 1}}), Monomial(4, {})});
-    Term termToExpect(createExpressionIfPossible({expectedNumerator, Term("/"), expectedDenominator}));
+    Term termToExpect(createExpressionIfPossible({expectedNumerator, "/", expectedDenominator}));
     EXPECT_EQ(termToExpect, termToVerify);
 }
-
 TEST(DifferentiationTest, DifferentiateTwoMultipliedTermsWorks)
 {
-    Differentiation differentiationForX("x");
-    Term term1(Polynomial{Monomial(2, {{"x", 2}}), Monomial(-4, {{"x", 1}})});
+    Differentiation differentiationForX("x");    Term term1(Polynomial{Monomial(2, {{"x", 2}}), Monomial(-4, {{"x", 1}})});
     Term term2(Polynomial{Monomial(3, {{"x", 2}}), Monomial(7, {{"x", 1}})});
 
     Term termToVerify(differentiationForX.differentiateTwoMultipliedTerms(term1, term2));
@@ -476,61 +460,53 @@ TEST(DifferentiationTest, DifferentiateWorksWithTermRaiseToTerm)
     Differentiation differentiationForX("x");
     Term n("n");
     Term x("x");
-    Term termToTest1(createExpressionIfPossible({n, Term("^"), n}));
-    Term termToTest2(createExpressionIfPossible({n, Term("^"), x}));
-    Term termToTest3(createExpressionIfPossible({x, Term("^"), n}));
-    Term termToTest4(createExpressionIfPossible({x, Term("^"), x}));
+    Term termToTest1(createExpressionIfPossible({n, "^", n}));
+    Term termToTest2(createExpressionIfPossible({n, "^", x}));
+    Term termToTest3(createExpressionIfPossible({x, "^", n}));
+    Term termToTest4(createExpressionIfPossible({x, "^", x}));
 
     Term termToVerify1(differentiationForX.differentiate(termToTest1));
-    Term termToVerify2(differentiationForX.differentiate(termToTest2));
-    Term termToVerify3(differentiationForX.differentiate(termToTest3));
+    Term termToVerify2(differentiationForX.differentiate(termToTest2));    Term termToVerify3(differentiationForX.differentiate(termToTest3));
     Term termToVerify4(differentiationForX.differentiate(termToTest4));
 
     Term termToExpect1(0);
-    Term termToExpect2(createExpressionIfPossible({n, Term("^"), x, Term("*"), Term(ln(n))}));
+    Term termToExpect2(createExpressionIfPossible({n, "^", x, "*", ln(n)}));
     Term exponentForTerm3(Polynomial{Monomial(1, {{"n", 1}}), Monomial(-1, {})});
-    Term termToExpect3(createExpressionIfPossible({n, Term("*"), x, Term("^"), exponentForTerm3}));
+    Term termToExpect3(createExpressionIfPossible({n, "*", x, "^", exponentForTerm3}));
     EXPECT_EQ(termToExpect1, termToVerify1);
     EXPECT_EQ(termToExpect2, termToVerify2);
-    EXPECT_EQ(termToExpect3, termToVerify3);
-    EXPECT_TRUE(isNotANumber(termToVerify4));
+    EXPECT_EQ(termToExpect3, termToVerify3);    EXPECT_TRUE(isNotANumber(termToVerify4));
 }
 
 TEST(DifferentiationTest, DifferentiateWorksWithDivisionExpressionRaiseToAConstant)
 {
     Differentiation differentiationForX("x");
-    Term subTerm1(createExpressionIfPossible({Term(2), Term("/"), Term(Polynomial{Monomial(1, {{"x", 1}}), Monomial(-1, {})})}));
-    Term termToTest(createExpressionIfPossible({subTerm1, Term("^"), Term(5)}));
+    Term subTerm1(createExpressionIfPossible({2, "/", Polynomial{Monomial(1, {{"x", 1}}), Monomial(-1, {})}}));
+    Term termToTest(createExpressionIfPossible({subTerm1, "^", 5}));
 
     Term termToVerify(differentiationForX.differentiate(termToTest));
-
     string stringToExpect("(-160/((1[x] + -1)^6))");
     EXPECT_EQ(stringToExpect, termToVerify.getDisplayableString());
 }
-
 TEST(DifferentiationTest, DifferentiateWorksWithChainRule)
 {
     Differentiation differentiationForX("x");
-    Term termToTest(createExpressionIfPossible({sec(Term(Monomial(2, {{"x", 2}}))), Term("^"), Term(4)}));
+    Term termToTest(createExpressionIfPossible({sec(Monomial(2, {{"x", 2}})), "^", 4}));
 
     Term termToVerify(differentiationForX.differentiate(termToTest));
-
     string stringToExpect("(16[x]*(sec(2[x^2])^4)*tan(2[x^2]))");
     EXPECT_EQ(stringToExpect, termToVerify.getDisplayableString());
 }
-
 TEST(DifferentiationTest, DifferentiateWorksWithSquareRootOfAPolynomial)
 {
     Differentiation differentiationForX("x");
     Polynomial subPolynomial{Monomial(2, {{"x", 3}}), Monomial(-4, {{"x", 1}}), Monomial(5, {})};
-    Term termToTest(createExpressionIfPossible({Term(subPolynomial), Term("^"), Term(AlbaNumber::createFraction(1, 2))}));
+    Term termToTest(createExpressionIfPossible({subPolynomial, "^", AlbaNumber::createFraction(1, 2)}));
 
     Term termToVerify(differentiationForX.differentiate(termToTest));
-
     string stringToExpect("((3[x^2] + -2)/((2[x^3] + -4[x] + 5)^(1/2)))");
     EXPECT_EQ(stringToExpect, termToVerify.getDisplayableString());
 }
-
 }
 
 }

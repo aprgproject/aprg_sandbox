@@ -34,9 +34,8 @@ Term TaylorSeries::getValueAtIndex(int const index, Term const& startingValue) c
 
 Term TaylorSeries::getValueForMaclaurinSeriesAtIndex(int const index) const
 {
-    return getValueAtIndex(index, Term(0));
+    return getValueAtIndex(index, 0);
 }
-
 
 }
 

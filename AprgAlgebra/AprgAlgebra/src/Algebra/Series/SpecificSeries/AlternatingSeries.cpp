@@ -39,10 +39,9 @@ Term AlternatingSeries::getRemainderAtIndex(int const index) const
 
 Term AlternatingSeries::getFormula(Term const& formulaForEachTermWithoutSign, string const& nameForVariableInFormula) const
 {
-    Term sign(createExpressionIfPossible({Term(-1), Term("^"), Term(nameForVariableInFormula)}));
-    return Term(createExpressionIfPossible({sign, Term("*"), formulaForEachTermWithoutSign}));
+    Term sign(createExpressionIfPossible({-1, "^", nameForVariableInFormula}));
+    return createExpressionIfPossible({sign, "*", formulaForEachTermWithoutSign});
 }
 
 }
-
 }

@@ -388,15 +388,13 @@ Term IntegrationForFiniteCalculus::integrateTermsInAdditionOrSubtraction(
         Expression const& expression) const
 {
     TermsWithDetails const& termsWithDetails(expression.getTermsWithAssociation().getTermsWithDetails());
-    Expression accumulatedExpression(createOrCopyExpressionFromATerm(Term(0)));
+    Expression accumulatedExpression(createOrCopyExpressionFromATerm(0));
     for(TermWithDetails const& termWithDetails : termsWithDetails)
     {
-        Term const& currentTerm(getTermConstReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer));
-        Term integratedTerm(integrate(currentTerm));
+        Term const& currentTerm(getTermConstReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer));        Term integratedTerm(integrate(currentTerm));
         if(termWithDetails.hasPositiveAssociation())
         {
-            accumulatedExpression.putTermWithAdditionIfNeeded(integratedTerm);
-        }
+            accumulatedExpression.putTermWithAdditionIfNeeded(integratedTerm);        }
         else
         {
             accumulatedExpression.putTermWithSubtractionIfNeeded(integratedTerm);

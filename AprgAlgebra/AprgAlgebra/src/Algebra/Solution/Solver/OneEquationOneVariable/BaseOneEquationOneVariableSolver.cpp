@@ -93,16 +93,13 @@ void BaseOneEquationOneVariableSolver::calculateAndSubstituteAbsoluteValueFuncti
             }
             else
             {
-                termToReplace
-                        = Term(createExpressionIfPossible({Term(-1), Term("*"), absFunctionInputTerm}));
+                termToReplace = createExpressionIfPossible({-1, "*", absFunctionInputTerm});
             }
             substitution.putTermToTermMapping(absFunctionTerm, termToReplace);
-            itFunctionSet++;
-        }
+            itFunctionSet++;        }
         Term termAfterSubstitution(substitution.performSubstitutionTo(term));
         calculateForTermAndVariable(termAfterSubstitution, variableName);
-    }
-}
+    }}
 
 }
 

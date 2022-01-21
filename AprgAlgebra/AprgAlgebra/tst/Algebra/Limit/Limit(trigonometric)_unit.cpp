@@ -69,21 +69,18 @@ TEST(LimitTest, GetLimitAtAValueWorksForTangentExpression)
 
 TEST(LimitTest, GetLimitAtAValueWorksForComplicatedSinOverX)
 {
-    Term numerator(sin(Term(Monomial(PI_DOUBLE_VALUE, {{"x", 1}}))));
+    Term numerator(sin(Monomial(PI_DOUBLE_VALUE, {{"x", 1}})));
     Term denominator(Polynomial{Monomial(1, {{"x", 2}}), Monomial(-1, {{"x", 1}})});
     Term termToTest(createExpressionIfPossible({numerator, "/", denominator}));
-
     EXPECT_EQ(Term(-3.141592653589794), getLimitAtAValue(termToTest, "x", 0, LimitAtAValueApproachType::BothSides));
     EXPECT_EQ(Term(-3.141592653589794), getLimitAtAValue(termToTest, "x", 0, LimitAtAValueApproachType::PositiveSide));
     EXPECT_EQ(Term(-3.141592653589794), getLimitAtAValue(termToTest, "x", 0, LimitAtAValueApproachType::NegativeSide));
-
     // The limit in 1 should not be negative infinity (it should be negative pi)
     // but the calculation of sin of pi is not zero (its only near zero) for some reason.
     EXPECT_EQ(Term(AlbaNumber(AlbaNumber::Value::NegativeInfinity)), getLimitAtAValue(termToTest, "x", 1, LimitAtAValueApproachType::BothSides));
     EXPECT_EQ(Term(AlbaNumber(AlbaNumber::Value::NegativeInfinity)), getLimitAtAValue(termToTest, "x", 1, LimitAtAValueApproachType::PositiveSide));
     EXPECT_EQ(Term(AlbaNumber(AlbaNumber::Value::NegativeInfinity)), getLimitAtAValue(termToTest, "x", 1, LimitAtAValueApproachType::NegativeSide));
 }
-
 
 }
 
