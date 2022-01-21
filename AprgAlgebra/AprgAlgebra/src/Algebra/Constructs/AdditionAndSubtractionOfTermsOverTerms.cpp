@@ -67,7 +67,7 @@ Terms AdditionAndSubtractionOfTermsOverTerms::getLcmOfDenominatorTerms() const
     }
     if(lcmTerms.empty())
     {
-        lcmTerms.emplace_back(Term(1));
+        lcmTerms.emplace_back(1);
     }
     return lcmTerms;
 }

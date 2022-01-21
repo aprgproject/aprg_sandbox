@@ -20,7 +20,7 @@ TEST(SolverUsingSubstitutionTest, CalculateSolutionAndReturnSolutionSetWorksAsDo
     SolverUsingSubstitution solver;
     Equations equations;
     Polynomial polynomial{Monomial(1, {{"x", 1}})};
-    equations.emplace_back(Term(polynomial), ">", Term(4));
+    equations.emplace_back(polynomial, ">", 4);
 
     MultipleVariableSolutionSets solutionSets(solver.calculateSolutionAndReturnSolutionSet(equations));
 
@@ -34,7 +34,7 @@ TEST(SolverUsingSubstitutionTest, CalculateSolutionAndReturnSolutionSetWorksFor1
     SolverUsingSubstitution solver;
     Equations equations;
     Polynomial polynomial{Monomial(1, {{"x", 1}})};
-    equations.emplace_back(Term(polynomial), "=", Term(4));
+    equations.emplace_back(polynomial, "=", 4);
 
     MultipleVariableSolutionSets solutionSets(solver.calculateSolutionAndReturnSolutionSet(equations));
 
@@ -54,8 +54,8 @@ TEST(SolverUsingSubstitutionTest, CalculateSolutionAndReturnSolutionSetWorksFor2
     Equations equations;
     Polynomial polynomial1{Monomial(1, {{"x", 1}}), Monomial(2, {{"y", 1}})};
     Polynomial polynomial2{Monomial(3, {{"x", 1}}), Monomial(-2, {{"y", 1}})};
-    equations.emplace_back(Term(polynomial1), "=", Term(4));
-    equations.emplace_back(Term(polynomial2), "=", Term(-12));
+    equations.emplace_back(polynomial1, "=", 4);
+    equations.emplace_back(polynomial2, "=", -12);
 
     MultipleVariableSolutionSets solutionSets(solver.calculateSolutionAndReturnSolutionSet(equations));
 
@@ -79,9 +79,9 @@ TEST(SolverUsingSubstitutionTest, CalculateSolutionAndReturnSolutionSetWorksFor3
     Polynomial polynomial1{Monomial(2, {{"x", 1}}), Monomial(-1, {{"y", 1}}), Monomial(1, {{"z", 1}})};
     Polynomial polynomial2{Monomial(1, {{"x", 1}}), Monomial(2, {{"y", 1}}), Monomial(3, {{"z", 1}})};
     Polynomial polynomial3{Monomial(4, {{"x", 1}}), Monomial(1, {{"y", 1}}), Monomial(-2, {{"z", 1}})};
-    equations.emplace_back(Term(polynomial1), "=", Term(8));
-    equations.emplace_back(Term(polynomial2), "=", Term(9));
-    equations.emplace_back(Term(polynomial3), "=", Term(1));
+    equations.emplace_back(polynomial1, "=", 8);
+    equations.emplace_back(polynomial2, "=", 9);
+    equations.emplace_back(polynomial3, "=", 1);
 
     MultipleVariableSolutionSets solutionSets(solver.calculateSolutionAndReturnSolutionSet(equations));
 
@@ -107,8 +107,8 @@ TEST(SolverUsingSubstitutionTest, CalculateSolutionAndReturnSolutionSetWorksForL
     Equations equations;
     Polynomial polynomial1{Monomial(1, {{"x", 2}}), Monomial(-5, {{"x", 1}}), Monomial(-1, {{"y", 1}}), Monomial(4, {})};
     Polynomial polynomial2{Monomial(1, {{"x", 1}}), Monomial(-4, {{"y", 1}})};
-    equations.emplace_back(Term(polynomial1), "=", Term(0));
-    equations.emplace_back(Term(polynomial2), "=", Term(1));
+    equations.emplace_back(polynomial1, "=", 0);
+    equations.emplace_back(polynomial2, "=", 1);
 
     MultipleVariableSolutionSets solutionSets(solver.calculateSolutionAndReturnSolutionSet(equations));
 

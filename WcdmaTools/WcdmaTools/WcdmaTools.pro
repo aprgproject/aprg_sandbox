@@ -29,7 +29,8 @@ src/WcdmaToolsConfiguration.cpp\
 ../WcdmaToolsBackend/src/BtsPrintReaderWithRollback.cpp\
 ../../AprgCommon/AprgCommon/src/File/AlbaFileParameterReader.cpp\
 ../../AprgCommon/AprgCommon/src/File/AlbaFileParameterWriter.cpp\
-../../AprgCommon/AprgCommon/src/File/AlbaFileReader.cpp\../../AprgCommon/AprgCommon/src/Math/AlbaMathHelper.cpp\
+../../AprgCommon/AprgCommon/src/File/AlbaFileReader.cpp\
+../../AprgCommon/AprgCommon/src/Math/AlbaMathHelper.cpp\
 ../../AprgCommon/AprgCommon/src/Math/Number/AlbaComplexNumber.cpp\
 ../../AprgCommon/AprgCommon/src/Math/Number/AlbaNumber.cpp\
 ../../AprgCommon/AprgCommon/src/Memory/AlbaMemoryBuffer.cpp\
@@ -51,6 +52,7 @@ src/WcdmaToolsConfiguration.cpp\
 ../../AprgGrepStringEvaluator/AprgGrepStringEvaluator/src/GrepStringEvaluator/AlbaGrepStringToken.cpp\
 ../../AprgProcessFiles/AprgProcessFiles/src/CropFile/AlbaCropFile.cpp\
 ../../AprgProcessFiles/AprgProcessFiles/src/GrepFile/AlbaGrepFile.cpp
+
 HEADERS += \
 src/ProgressCounters.hpp\
 src/ProgressBarThread.hpp\
@@ -66,7 +68,8 @@ src/WcdmaToolsConfiguration.hpp\
 ../../AprgAlgorithm/AprgAlgorithm/src/ExpressionEvaluator/ExpressionEvaluator.hpp\
 ../../AprgCommon/AprgCommon/src/File/AlbaFileParameterReader.hpp\
 ../../AprgCommon/AprgCommon/src/File/AlbaFileParameterWriter.hpp\
-../../AprgCommon/AprgCommon/src/File/AlbaFileReader.hpp\../../AprgCommon/AprgCommon/src/Memory/AlbaMemoryBuffer.hpp\
+../../AprgCommon/AprgCommon/src/File/AlbaFileReader.hpp\
+../../AprgCommon/AprgCommon/src/Memory/AlbaMemoryBuffer.hpp\
 ../../AprgCommon/AprgCommon/src/Optional/AlbaOptional.hpp\
 ../../AprgCommon/AprgCommon/src/PathHandlers/AlbaPathHandler.hpp\
 ../../AprgCommon/AprgCommon/src/PathHandlers/AlbaLocalPathHandler.hpp\
@@ -87,6 +90,7 @@ src/WcdmaToolsConfiguration.hpp\
 ../../AprgGrepStringEvaluator/AprgGrepStringEvaluator/src/GrepStringEvaluator/AlbaGrepStringToken.hpp\
 ../../AprgProcessFiles/AprgProcessFiles/src/CropFile/AlbaCropFile.hpp\
 ../../AprgProcessFiles/AprgProcessFiles/src/GrepFile/AlbaGrepFile.hpp
+
 FORMS += src/WcdmaTools.ui
 
 QMAKE_INCDIR += \
@@ -98,6 +102,7 @@ src\
 ../../AprgFileExtractor/AprgFileExtractor/src\
 ../../AprgGrepStringEvaluator/AprgGrepStringEvaluator/src\
 ../../AprgProcessFiles/AprgProcessFiles/src
+
 
 win32 {
      QMAKE_LFLAGS += -Wl,-subsystem,windows -static -static-libgcc -static-libstdc++

@@ -55,7 +55,7 @@ void SimplificationOfEquation::simplify()
     simplifyLeftHandSide(newLeftHandSide);
     negateTermIfNeeded(newLeftHandSide, equationOperatorString);
 
-    m_equation = Equation(newLeftHandSide, equationOperatorString, Term(0));
+    m_equation = Equation(newLeftHandSide, equationOperatorString, 0);
 }
 
 void SimplificationOfEquation::simplifyLeftHandSideAndRightHandSide(
@@ -74,11 +74,11 @@ void SimplificationOfEquation::raiseLeftHandSideAndRightHandSideToPowerIfLogarit
         Function const& functionObject(rightHandSide.getFunctionConstReference());
         if("log" == functionObject.getFunctionName())
         {
-            leftHandSide = Term(createExpressionIfPossible({Term(10), Term("^"), leftHandSide}));
+            leftHandSide = Term(createExpressionIfPossible({10, "^", leftHandSide}));
         }
         else if("ln" == functionObject.getFunctionName())
         {
-            leftHandSide = Term(createExpressionIfPossible({getEAsTerm(), Term("^"), leftHandSide}));
+            leftHandSide = Term(createExpressionIfPossible({getEAsTerm(), "^", leftHandSide}));
         }
         rightHandSide = getTermConstReferenceFromBaseTerm(functionObject.getInputTermConstReference());
     }
@@ -99,7 +99,7 @@ Term SimplificationOfEquation::getNewCombinedTerm(
     }
     else
     {
-        combinedTerm = Term(createExpressionIfPossible(Terms{leftHandSide, Term("-"), rightHandSide}));
+        combinedTerm = Term(createExpressionIfPossible(Terms{leftHandSide, "-", rightHandSide}));
     }
     return combinedTerm;
 }
@@ -190,10 +190,12 @@ void SimplificationOfEquation::removeCommonConstant(
                 Polynomial combinedPolynomial(createPolynomialFromNumber(1));
                 for(Polynomial const& factor : factors)
                 {
-                    combinedPolynomial.multiplyPolynomial(factor);                }
+                    combinedPolynomial.multiplyPolynomial(factor);
+                }
                 leftHandSide = Term(combinedPolynomial);
             }
-        }        else if(leftHandSide.isExpression())
+        }
+        else if(leftHandSide.isExpression())
         {
             bool isLeftHandSideChanged(false);
             Terms factors(factorizeAnExpressionWithConfigurationChanged(leftHandSide.getExpressionConstReference()));

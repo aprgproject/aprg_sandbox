@@ -16,7 +16,7 @@ HarmonicSeries::HarmonicSeries()
 Term HarmonicSeries::getFormula() const
 {
     Term denominator(Polynomial{Monomial(1, {{n, 1}}), Monomial(1, {})});
-    return Term(createExpressionIfPossible({Term(1), Term("/"), denominator}));
+    return Term(createExpressionIfPossible({1, "/", denominator}));
 }
 
 }

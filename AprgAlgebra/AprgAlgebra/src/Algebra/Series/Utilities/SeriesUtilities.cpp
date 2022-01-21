@@ -137,7 +137,7 @@ void performIntegralTest(
 {
     Integration integration(variableName);
     Term integratedTerm(integration.integrateAtDefiniteTerms(
-              series.getFormulaForEachTermInSummation(), Term(1), Term(AlbaNumber(AlbaNumber::Value::PositiveInfinity))));
+              series.getFormulaForEachTermInSummation(), 1, AlbaNumber(AlbaNumber::Value::PositiveInfinity)));
     if(isTheValue(integratedTerm, AlbaNumber(AlbaNumber::Value::PositiveInfinity)))
     {
         isDivergent = true;
@@ -178,7 +178,7 @@ void performRootTest(
     Term formulaForEachTerm(series.getFormulaForEachTermInSummation());
     TermsOverTerms termsOverTerms(createTermsOverTermsFromTerm(formulaForEachTerm));
     TermsRaiseToTerms termsRaiseToTerms(termsOverTerms.getTermsRaiseToTerms());
-    termsRaiseToTerms.multiplyToExponents(Term(1)/Term(variableName));
+    termsRaiseToTerms.multiplyToExponents(Term(Monomial(1, {{variableName, -1}})));
     Term termForLimit(termsRaiseToTerms.getCombinedTerm());
     Term limitTerm(getLimit(termForLimit, variableName, AlbaNumber(AlbaNumber::Value::PositiveInfinity)));
     if(limitTerm.isConstant())
@@ -220,19 +220,19 @@ Term getSumOfGeometricSeriesUsingFirstValueAndCommonMultiplier(
         Term const& commonMultiplier,
         int const count)
 {
-    return firstValue * (Term(1)-(commonMultiplier^count)) / (Term(1)-commonMultiplier);
+    return firstValue * (1-(commonMultiplier^count)) / (1-commonMultiplier);
 }
 
 Term getInfiniteSumOfGeometricSeriesIfCommonMultiplierIsFractional(
         Term const& firstValue,
         Term const& commonMultiplier)
 {
-    return firstValue/(Term(1) - commonMultiplier);
+    return firstValue/(1 - commonMultiplier);
 }
 
 PowerSeries getEToTheXPowerSeries()
 {
-    Term formula(convertExpressionToSimplestTerm(createExpressionIfPossible({Term(1), Term("/"), Term(factorial(Term(n)))})));
+    Term formula(convertExpressionToSimplestTerm(createExpressionIfPossible({1, "/", factorial(n)})));
     return PowerSeries(formula, n, x, 0);
 }
 

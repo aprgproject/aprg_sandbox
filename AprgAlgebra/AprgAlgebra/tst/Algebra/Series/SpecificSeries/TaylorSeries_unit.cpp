@@ -15,14 +15,14 @@ namespace algebra
 TEST(TaylorSeriesTest, ConstructionWorks)
 {
     Term x("x");
-    Term formula(createExpressionIfPossible({getEAsTerm(), Term("^"), x}));
+    Term formula(createExpressionIfPossible({getEAsTerm(), "^", x}));
     TaylorSeries(formula, "x");
 }
 
 TEST(TaylorSeriesTest, GetFormulaForTaylorSeriesWorks)
 {
     Term x("x");
-    Term formula(createExpressionIfPossible({getEAsTerm(), Term("^"), x}));
+    Term formula(createExpressionIfPossible({getEAsTerm(), "^", x}));
     TaylorSeries series(formula, "x");
 
     string stringToExpect("((e)^x)");
@@ -32,21 +32,21 @@ TEST(TaylorSeriesTest, GetFormulaForTaylorSeriesWorks)
 TEST(TaylorSeriesTest, GetValueAtIndexWorks)
 {
     Term x("x");
-    Term formula(createExpressionIfPossible({getEAsTerm(), Term("^"), x}));
+    Term formula(createExpressionIfPossible({getEAsTerm(), "^", x}));
     TaylorSeries series(formula, "x");
 
     string stringToExpect1("1");
     string stringToExpect2("(e)[x]");
     string stringToExpect3("(3.694528049465325[x^2] + -7.38905609893065[x] + 7.38905609893065)");
-    EXPECT_EQ(stringToExpect1, series.getValueAtIndex(0, Term(0)).getDisplayableString());
-    EXPECT_EQ(stringToExpect2, series.getValueAtIndex(1, Term(1)).getDisplayableString());
-    EXPECT_EQ(stringToExpect3, series.getValueAtIndex(2, Term(2)).getDisplayableString());
+    EXPECT_EQ(stringToExpect1, series.getValueAtIndex(0, 0).getDisplayableString());
+    EXPECT_EQ(stringToExpect2, series.getValueAtIndex(1, 1).getDisplayableString());
+    EXPECT_EQ(stringToExpect3, series.getValueAtIndex(2, 2).getDisplayableString());
 }
 
 TEST(TaylorSeriesTest, GetValueForMaclaurinSeriesAtIndexWorks)
 {
     Term x("x");
-    Term formula(createExpressionIfPossible({getEAsTerm(), Term("^"), x}));
+    Term formula(createExpressionIfPossible({getEAsTerm(), "^", x}));
     TaylorSeries series(formula, "x");
 
     string stringToExpect1("1");

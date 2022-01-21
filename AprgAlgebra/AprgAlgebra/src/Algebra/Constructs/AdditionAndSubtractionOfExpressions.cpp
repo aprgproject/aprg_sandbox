@@ -203,7 +203,7 @@ void AdditionAndSubtractionOfExpressions::retrieveMergePart(
 {
     if(OperatorLevel::MultiplicationAndDivision == expression.getCommonOperatorLevel())
     {
-        mergePart = Term(1);
+        mergePart = 1;
         TermsWithDetails termsToBeMerged
                 = retrieveTermsWithDetailsThatSatisfiesCondition(
                     expression.getTermsWithAssociation().getTermsWithDetails(),
@@ -213,7 +213,7 @@ void AdditionAndSubtractionOfExpressions::retrieveMergePart(
     }
     else
     {
-        mergePart = Term(1);
+        mergePart = 1;
     }
 }
 
@@ -223,7 +223,7 @@ void AdditionAndSubtractionOfExpressions::retrieveCommonPart(
 {
     if(OperatorLevel::MultiplicationAndDivision == expression.getCommonOperatorLevel())
     {
-        commonPart = Term(1);
+        commonPart = 1;
         TermsWithDetails termsToBeMerged
                 = retrieveTermsWithDetailsThatSatisfiesCondition(
                     expression.getTermsWithAssociation().getTermsWithDetails(),

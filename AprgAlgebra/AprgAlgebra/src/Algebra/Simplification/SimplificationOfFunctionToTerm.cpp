@@ -68,19 +68,19 @@ Term SimplificationOfFunctionToTerm::simplifyTrigometricFunctionToExpression(
         Term const& inputTerm(getTermConstReferenceFromBaseTerm(functionObject.getInputTermConstReference()));
         if("tan" == functionName)
         {
-            result = Term(createExpressionIfPossible({Term(sin(inputTerm)), Term("/"), Term(cos(inputTerm))}));
+            result = Term(createExpressionIfPossible({sin(inputTerm), "/", cos(inputTerm)}));
         }
         else if("csc" == functionName)
         {
-            result = Term(createExpressionIfPossible({Term(1), Term("/"), Term(sin(inputTerm))}));
+            result = Term(createExpressionIfPossible({1, "/", sin(inputTerm)}));
         }
         else if("sec" == functionName)
         {
-            result = Term(createExpressionIfPossible({Term(1), Term("/"), Term(cos(inputTerm))}));
+            result = Term(createExpressionIfPossible({1, "/", cos(inputTerm)}));
         }
         else if("cot" == functionName)
         {
-            result = Term(createExpressionIfPossible({Term(cos(inputTerm)), Term("/"), Term(sin(inputTerm))}));
+            result = Term(createExpressionIfPossible({cos(inputTerm), "/", sin(inputTerm)}));
         }
     }
     return result;
@@ -112,7 +112,7 @@ Term SimplificationOfFunctionToTerm::simplifyLogarithmicFunctionToExpression(
                 TermRaiseToTerms termRaiseToTerms(inputExpression.getTermsWithAssociation().getTermsWithDetails());
                 TermsWithDetails newTermsWithDetails(termRaiseToTerms.getExponents());
                 Term logarithmicBase(getLogarithmicOfTermBasedFromName(termRaiseToTerms.getBase(), functionObject.getFunctionName()));
-                newTermsWithDetails.emplace_back(getBaseTermConstReferenceFromTerm(logarithmicBase), TermAssociationType::Positive);
+                newTermsWithDetails.emplace_back(logarithmicBase, TermAssociationType::Positive);
                 resultExpression.set(OperatorLevel::MultiplicationAndDivision, newTermsWithDetails);
             }
             result = Term(resultExpression);

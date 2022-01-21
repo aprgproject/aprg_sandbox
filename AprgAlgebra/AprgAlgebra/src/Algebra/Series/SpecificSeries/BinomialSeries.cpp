@@ -50,7 +50,7 @@ Term BinomialSeries::getBinomialSeriesApproximation(
     for(unsigned int n=1; n<=numberOfTimes; n++)
     {
         monomialPartRaiseToPower *= monomialPart;
-        Term multiplier(exponent - Term(n) + Term(1));
+        Term multiplier(exponent - n + 1);
         partialProduct *= multiplier;
         factorialValue *= n;
         Term currentTerm(partialProduct * monomialPartRaiseToPower / factorialValue);

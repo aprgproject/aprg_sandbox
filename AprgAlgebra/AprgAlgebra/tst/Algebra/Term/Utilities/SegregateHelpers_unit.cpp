@@ -32,7 +32,7 @@ TEST(SegregateHelpersTest, SegregateMonomialsAndNonMonomialsWorksForTerms)
 {
     Terms monomialTerms;
     Terms nonMonomialTerms;
-    Term termExpression(createExpressionIfPossible({Term("x"), Term("^"), Term("x")}));
+    Term termExpression(createExpressionIfPossible({"x", "^", "x"}));
 
     segregateMonomialsAndNonMonomials({Term(234), termExpression}, monomialTerms, nonMonomialTerms);
 
@@ -47,7 +47,7 @@ TEST(SegregateHelpersTest, SegregateMonomialsAndNonMonomialsWorksForTermsWithDet
     TermsWithAssociation termsWithAssociation;
     TermsWithDetails monomialTerms;
     TermsWithDetails nonMonomialTerms;
-    Term termExpression(createExpressionIfPossible({Term("x"), Term("^"), Term("x")}));
+    Term termExpression(createExpressionIfPossible({"x", "^", "x"}));
     termsWithAssociation.putTermWithNegativeAssociation(Term(753));
     termsWithAssociation.putTermWithPositiveAssociation(termExpression);
 
@@ -67,7 +67,7 @@ TEST(SegregateHelpersTest, SegregatePolynomialAndNonPolynomialsWorks)
 {
     Terms polynomialTerms;
     Terms nonPolynomialTerms;
-    Term termExpression(createExpressionIfPossible({Term("x"), Term("^"), Term("x")}));
+    Term termExpression(createExpressionIfPossible({"x", "^", "x"}));
 
     segregatePolynomialAndNonPolynomials({Term(234), termExpression}, polynomialTerms, nonPolynomialTerms);
 
@@ -82,7 +82,7 @@ TEST(SegregateHelpersTest, SegregateNonExpressionsAndExpressionsWorks)
     TermsWithAssociation termsWithAssociation;
     TermsWithDetails termsWithNonExpressions;
     TermsWithDetails termsWithExpressions;
-    Term termExpression(createExpressionIfPossible({Term("x"), Term("^"), Term("x")}));
+    Term termExpression(createExpressionIfPossible({"x", "^", "x"}));
     termsWithAssociation.putTermWithNegativeAssociation(Term(753));
     termsWithAssociation.putTermWithPositiveAssociation(termExpression);
 

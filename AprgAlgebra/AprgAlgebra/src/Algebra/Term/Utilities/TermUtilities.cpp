@@ -203,7 +203,7 @@ Term negateTerm(Term const& term)
 
 Term flipTerm(Term const& term)
 {
-    return Term(1)/term;
+    return 1/term;
 }
 
 Term negateTermIfHasNegativeAssociation(
@@ -223,7 +223,7 @@ Term flipTermIfHasNegativeAssociation(
     Term result(getTermConstReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer));
     if(termWithDetails.hasNegativeAssociation())
     {
-        result = Term(1)/result;
+        result = 1/result;
     }
     return result;
 }

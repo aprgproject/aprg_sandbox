@@ -15,8 +15,8 @@ TEST(FunctionsRetrieverTest, RetrieveFromEquationsWorks)
     {
         return false;
     });
-    Equation equation1(Term(Monomial(34, {{"x", 5}})), "=", Term(Monomial(41, {{"y", 6}})));
-    Equation equation2(Term(Monomial(95, {{"x", 7}})), "=", Term(Monomial(18, {{"y", 8}})));
+    Equation equation1(Monomial(34, {{"x", 5}}), "=", Monomial(41, {{"y", 6}}));
+    Equation equation2(Monomial(95, {{"x", 7}}), "=", Monomial(18, {{"y", 8}}));
 
     retriever.retrieveFromEquations({equation1, equation2});
 
@@ -38,7 +38,7 @@ TEST(FunctionsRetrieverTest, RetrieveFromEquationWorks)
     FunctionsRetriever retriever2(conditionThatWillNotMatch);
     Function functionObject(
                 "functionName",
-                Term(createExpressionIfPossible({Term("x"), Term("^"), Term("y")})),
+                Term(createExpressionIfPossible({"x", "^", "y"})),
                 [](AlbaNumber const&  number) -> AlbaNumber
     {
         return number;
@@ -75,12 +75,12 @@ TEST(FunctionsRetrieverTest, RetrieveFromTermWorks)
     FunctionsRetriever retriever6(conditionThatWillNotMatch);
     Function functionObject(
                 "functionName",
-                Term(createExpressionIfPossible({Term("x"), Term("^"), Term("y")})),
+                Term(createExpressionIfPossible({"x", "^", "y"})),
                 [](AlbaNumber const&  number) -> AlbaNumber
     {
         return number;
     });
-    Expression expression(createExpressionIfPossible({Term(1), Term("+"), Term(functionObject)}));
+    Expression expression(createExpressionIfPossible({1, "+", functionObject}));
     Term constantTerm(4756);
     Term expressionTerm(expression);
     Term functionTerm(functionObject);
@@ -174,12 +174,12 @@ TEST(FunctionsRetrieverTest, RetrieveFromExpressionWorks)
     FunctionsRetriever retriever2(conditionThatWillNotMatch);
     Function functionObject(
                 "functionName",
-                Term(createExpressionIfPossible({Term("x"), Term("^"), Term("y")})),
+                Term(createExpressionIfPossible({"x", "^", "y"})),
                 [](AlbaNumber const&  number) -> AlbaNumber
     {
         return number;
     });
-    Expression expression(createExpressionIfPossible({Term(1), Term("+"), Term(functionObject)}));
+    Expression expression(createExpressionIfPossible({1, "+", functionObject}));
 
     retriever1.retrieveFromExpression(expression);
     retriever2.retrieveFromExpression(expression);
@@ -205,7 +205,7 @@ TEST(FunctionsRetrieverTest, RetrieveFromFunctionWorks)
     FunctionsRetriever retriever2(conditionThatWillNotMatch);
     Function functionObject(
                 "functionName",
-                Term(createExpressionIfPossible({Term("x"), Term("^"), Term("y")})),
+                Term(createExpressionIfPossible({"x", "^", "y"})),
                 [](AlbaNumber const&  number) -> AlbaNumber
     {
         return number;

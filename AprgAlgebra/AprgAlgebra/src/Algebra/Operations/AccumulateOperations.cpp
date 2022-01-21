@@ -130,7 +130,7 @@ void accumulateTermsForMultiplicationAndDivision(
                 }
                 else if(termWithDetails.hasNegativeAssociation())
                 {
-                    combinedTerm = Term(1)/term;
+                    combinedTerm = 1/term;
                 }
                 isFirst=false;
             }
@@ -142,7 +142,7 @@ void accumulateTermsForMultiplicationAndDivision(
     }
     if(combinedTerm.isEmpty())
     {
-        combinedTerm = Term(1);
+        combinedTerm = 1;
     }
 }
 
@@ -170,7 +170,7 @@ void accumulateTermsForRaiseToPower(
     }
     if(combinedTerm.isEmpty())
     {
-        combinedTerm = Term(1);
+        combinedTerm = 1;
     }
 }
 

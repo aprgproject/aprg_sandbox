@@ -21,14 +21,14 @@ TEST(FactorizationOfExpressionTest, FactorizeAnExpressionWorksOnMultiplicationAn
 {
     Term x("x");
     Polynomial polynomial({Monomial(1, {{"x", 2}}), Monomial(-4, {})});
-    Expression expressionToTest(createExpressionIfPossible({Term(polynomial), Term("*"), Term(ln(x)), Term("/"), Term(sin(x))}));
+    Expression expressionToTest(createExpressionIfPossible({polynomial, "*", ln(x), "/", sin(x)}));
 
     Terms termsToVerify(factorizeAnExpression(expressionToTest));
 
     Term termToExpect1(Polynomial{Monomial(1, {{"x", 1}}), Monomial(-2, {})});
     Term termToExpect2(Polynomial{Monomial(1, {{"x", 1}}), Monomial(2, {})});
     Term termToExpect3(ln(x));
-    Term termToExpect4(createExpressionIfPossible({Term(sin(x)), Term("^"), Term(-1)}));
+    Term termToExpect4(createExpressionIfPossible({sin(x), "^", -1}));
     ASSERT_EQ(4U, termsToVerify.size());
     EXPECT_EQ(termToExpect1, termsToVerify.at(0));
     EXPECT_EQ(termToExpect2, termsToVerify.at(1));
@@ -45,17 +45,17 @@ TEST(FactorizationOfExpressionTest, FactorizeAnExpressionWorksOnAdditionAndSubtr
     scopeObject.setInThisScopeThisConfiguration(configurationDetails);
 
     Term x("x");
-    Term part1(createExpressionIfPossible({Term(Monomial(12, {{"x", 5}})), Term("*"), Term(sin(x))}));
-    Term part2(createExpressionIfPossible({Term(Monomial(4, {{"x", 7}})), Term("*"), Term(sin(x)), Term("*"), Term(cos(x))}));
-    Term part3(createExpressionIfPossible({Term(Monomial(8, {{"x", 9}})), Term("*"), Term(sin(x)), Term("*"), Term(sin(x))}));
-    Expression expressionToTest(createExpressionIfPossible({part1, Term("+"), part2, Term("-"), part3}));
+    Term part1(createExpressionIfPossible({Monomial(12, {{"x", 5}}), "*", sin(x)}));
+    Term part2(createExpressionIfPossible({Monomial(4, {{"x", 7}}), "*", sin(x), "*", cos(x)}));
+    Term part3(createExpressionIfPossible({Monomial(8, {{"x", 9}}), "*", sin(x), "*", sin(x)}));
+    Expression expressionToTest(createExpressionIfPossible({part1, "+", part2, "-", part3}));
 
     Terms termsToVerify(factorizeAnExpression(expressionToTest));
 
     Term termToExpect1(4);
     Term termToExpect2(Monomial(1, {{"x", 5}}));
     Term termToExpect3(createExpressionIfPossible(
-    {Term(3), Term("+"), Term(Monomial(1, {{"x", 2}})), Term("*"), Term(cos(x)), Term("-"), Term(Monomial(2, {{"x", 4}})), Term("*"), Term(sin(x))}));
+    {3, "+", Monomial(1, {{"x", 2}}), "*", cos(x), "-", Monomial(2, {{"x", 4}}), "*", sin(x)}));
     Term termToExpect4(sin(x));
     ASSERT_EQ(4U, termsToVerify.size());
     EXPECT_EQ(termToExpect1, termsToVerify.at(0));
@@ -73,13 +73,13 @@ TEST(FactorizationOfExpressionTest, FactorizeAnExpressionWorksOnRaiseToPowerExpr
     scopeObject.setInThisScopeThisConfiguration(configurationDetails);
 
     Term x("x");
-    Term base(createExpressionIfPossible({Term(sin(x)), Term("*"), Term(cos(x))}));
-    Expression expressionToTest(createExpressionIfPossible({base, Term("^"), Term(17)}));
+    Term base(createExpressionIfPossible({sin(x), "*", cos(x)}));
+    Expression expressionToTest(createExpressionIfPossible({base, "^", 17}));
 
     Terms termsToVerify(factorizeAnExpression(expressionToTest));
 
-    Term termToExpect1(createExpressionIfPossible({Term(cos(x)), Term("^"), Term(17)}));
-    Term termToExpect2(createExpressionIfPossible({Term(sin(x)), Term("^"), Term(17)}));
+    Term termToExpect1(createExpressionIfPossible({cos(x), "^", 17}));
+    Term termToExpect2(createExpressionIfPossible({sin(x), "^", 17}));
     ASSERT_EQ(2U, termsToVerify.size());
     EXPECT_EQ(termToExpect1, termsToVerify.at(0));
     EXPECT_EQ(termToExpect2, termsToVerify.at(1));
@@ -94,11 +94,11 @@ TEST(FactorizationOfExpressionTest, FactorizeAnExpressionWorksOnXToTheX)
     scopeObject.setInThisScopeThisConfiguration(configurationDetails);
 
     Term x("x");
-    Expression expressionToTest(createExpressionIfPossible({x, Term("^"), x}));
+    Expression expressionToTest(createExpressionIfPossible({x, "^", x}));
 
     Terms termsToVerify(factorizeAnExpression(expressionToTest));
 
-    Term termToExpect(createExpressionIfPossible({x, Term("^"), x}));
+    Term termToExpect(createExpressionIfPossible({x, "^", x}));
     ASSERT_EQ(1U, termsToVerify.size());
     EXPECT_EQ(termToExpect, termsToVerify.at(0));
 }
@@ -115,9 +115,9 @@ TEST(FactorizationOfExpressionTest, FactorizeAnExpressionWorksDerivativeDefiniti
     Term deltaXPlusX(Polynomial{Monomial(1, {{"deltaX", 1}}), Monomial(1, {{"x", 1}})});
     Term part1(Monomial(1, {{"deltaX", 1}, {"x", AlbaNumber::createFraction(1, 3)}}));
     Term addend1(Monomial(1, {{"deltaX", 1}, {"x", AlbaNumber::createFraction(2, 3)}}));
-    Term addend2(createExpressionIfPossible({part1, Term("*"), deltaXPlusX, Term("^"), Term(AlbaNumber::createFraction(1, 3))}));
-    Term addend3(createExpressionIfPossible({deltaX, Term("*"), deltaXPlusX, Term("^"), Term(AlbaNumber::createFraction(2, 3))}));
-    Expression expressionToTest(createExpressionIfPossible({addend1, Term("+"), addend2, Term("+"), addend3}));
+    Term addend2(createExpressionIfPossible({part1, "*", deltaXPlusX, "^", AlbaNumber::createFraction(1, 3)}));
+    Term addend3(createExpressionIfPossible({deltaX, "*", deltaXPlusX, "^", AlbaNumber::createFraction(2, 3)}));
+    Expression expressionToTest(createExpressionIfPossible({addend1, "+", addend2, "+", addend3}));
 
     Terms termsToVerify(factorizeAnExpression(expressionToTest));
 
@@ -138,10 +138,10 @@ TEST(FactorizationOfExpressionTest, FactorizeAnExpressionWorksWhenSomeAddendsAre
 
     Term twoX(Monomial(2, {{"x", 1}}));
     Term cos2X(cos(twoX));
-    Term addend1(createExpressionIfPossible({Term(3), Term("*"), cos2X, Term("^"), Term(2)}));
-    Term addend2(createExpressionIfPossible({cos2X, Term("^"), Term(3)}));
+    Term addend1(createExpressionIfPossible({3, "*", cos2X, "^", 2}));
+    Term addend2(createExpressionIfPossible({cos2X, "^", 3}));
     Expression expressionToTest(createExpressionIfPossible(
-    {Term(1), Term("+"), cos2X, Term("+"), cos2X, Term("+"), cos2X, Term("+"), addend1, Term("+"), addend2}));
+    {1, "+", cos2X, "+", cos2X, "+", cos2X, "+", addend1, "+", addend2}));
 
     Terms termsToVerify(factorizeAnExpression(expressionToTest));
 

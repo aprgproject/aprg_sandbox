@@ -23,8 +23,8 @@ TEST(SignMutatorTest, MutateTermWorks)
     Term term2("a");
     Term term3(Monomial(7, {{"a", 1}}));
     Term term4(Polynomial{Monomial(9, {{"a", 1}}), Monomial(-11, {{"b", 1}})});
-    Term term5(createExpressionIfPossible({Term("a"), Term("^"), Term("b")}));
-    Term term6(sin(Term("a")));
+    Term term5(createExpressionIfPossible({"a", "^", "b"}));
+    Term term6(sin("a"));
 
     mutator.mutateTerm(term1);
     mutator.mutateTerm(term2);
@@ -62,8 +62,8 @@ TEST(SignMutatorTest, MutateTermWorksOnVariable)
 TEST(SignMutatorTest, MutateTermWorksOnFunction)
 {
     SignMutator mutator;
-    Term functionTerm1(abs(Term("a")));
-    Term functionTerm2(sin(Term("a")));
+    Term functionTerm1(abs("a"));
+    Term functionTerm2(sin("a"));
 
     mutator.mutateTerm(functionTerm1);
     mutator.mutateTerm(functionTerm2);
@@ -133,19 +133,19 @@ TEST(SignMutatorTest, MutateExpressionWorksOnAdditionAndSubtraction)
     SignMutator mutator;
     mutator.putVariableWithSign("a", TermAssociationType::Positive);
     mutator.putVariableWithSign("b", TermAssociationType::Negative);
-    Expression expression1(createExpressionIfPossible({Term(25), Term("+"), Term("a")}));
-    Expression expression2(createExpressionIfPossible({Term(-25), Term("+"), Term("b")}));
-    Expression expression3(createExpressionIfPossible({Term("a"), Term("+"), Term("b")}));
-    Expression expression4(createExpressionIfPossible({Term("a"), Term("+"), Term(abs(Term("b")))}));
+    Expression expression1(createExpressionIfPossible({25, "+", "a"}));
+    Expression expression2(createExpressionIfPossible({-25, "+", "b"}));
+    Expression expression3(createExpressionIfPossible({"a", "+", "b"}));
+    Expression expression4(createExpressionIfPossible({"a", "+", abs("b")}));
 
     mutator.mutateExpression(expression1);
     mutator.mutateExpression(expression2);
     mutator.mutateExpression(expression3);
     mutator.mutateExpression(expression4);
 
-    Expression expressionToExpect1(createOrCopyExpressionFromATerm(Term(1)));
-    Expression expressionToExpect2(createOrCopyExpressionFromATerm(Term(-1)));
-    Expression expressionToExpect4(createOrCopyExpressionFromATerm(Term(1)));
+    Expression expressionToExpect1(createOrCopyExpressionFromATerm(1));
+    Expression expressionToExpect2(createOrCopyExpressionFromATerm(-1));
+    Expression expressionToExpect4(createOrCopyExpressionFromATerm(1));
     EXPECT_EQ(expressionToExpect1, expression1);
     EXPECT_EQ(expressionToExpect2, expression2);
     EXPECT_TRUE(isNotANumber(expression3));
@@ -157,14 +157,14 @@ TEST(SignMutatorTest, MutateExpressionWorksOnMultiplicationAndDivision)
     SignMutator mutator;
     mutator.putVariableWithSign("a", TermAssociationType::Positive);
     mutator.putVariableWithSign("b", TermAssociationType::Negative);
-    Expression expression1(createExpressionIfPossible({Term("a"), Term("*"), Term("b")}));
-    Expression expression2(createExpressionIfPossible({Term("a"), Term("/"), Term("b")}));
+    Expression expression1(createExpressionIfPossible({"a", "*", "b"}));
+    Expression expression2(createExpressionIfPossible({"a", "/", "b"}));
 
     mutator.mutateExpression(expression1);
     mutator.mutateExpression(expression2);
 
-    Expression expressionToExpect1(createOrCopyExpressionFromATerm(Term(-1)));
-    Expression expressionToExpect2(createOrCopyExpressionFromATerm(Term(-1)));
+    Expression expressionToExpect1(createOrCopyExpressionFromATerm(-1));
+    Expression expressionToExpect2(createOrCopyExpressionFromATerm(-1));
     EXPECT_EQ(expressionToExpect1, expression1);
     EXPECT_EQ(expressionToExpect2, expression2);
 }
@@ -174,11 +174,11 @@ TEST(SignMutatorTest, MutateExpressionWorksOnRaiseToPower)
     SignMutator mutator;
     mutator.putVariableWithSign("a", TermAssociationType::Positive);
     mutator.putVariableWithSign("b", TermAssociationType::Negative);
-    Expression expression1(createExpressionIfPossible({Term(25), Term("^"), Term("a")}));
-    Expression expression2(createExpressionIfPossible({Term(25), Term("^"), Term("b")}));
-    Expression expression3(createExpressionIfPossible({Term("b"), Term("^"), Term(0)}));
-    Expression expression4(createExpressionIfPossible({Term("b"), Term("^"), Term(2)}));
-    Expression expression5(createExpressionIfPossible({Term("b"), Term("^"), Term(3)}));
+    Expression expression1(createExpressionIfPossible({25, "^", "a"}));
+    Expression expression2(createExpressionIfPossible({25, "^", "b"}));
+    Expression expression3(createExpressionIfPossible({"b", "^", 0}));
+    Expression expression4(createExpressionIfPossible({"b", "^", 2}));
+    Expression expression5(createExpressionIfPossible({"b", "^", 3}));
 
     mutator.mutateExpression(expression1);
     mutator.mutateExpression(expression2);
@@ -186,11 +186,11 @@ TEST(SignMutatorTest, MutateExpressionWorksOnRaiseToPower)
     mutator.mutateExpression(expression4);
     mutator.mutateExpression(expression5);
 
-    Expression expressionToExpect1(createOrCopyExpressionFromATerm(Term(1)));
-    Expression expressionToExpect2(createOrCopyExpressionFromATerm(Term(1)));
-    Expression expressionToExpect3(createOrCopyExpressionFromATerm(Term(1)));
-    Expression expressionToExpect4(createOrCopyExpressionFromATerm(Term(1)));
-    Expression expressionToExpect5(createOrCopyExpressionFromATerm(Term(-1)));
+    Expression expressionToExpect1(createOrCopyExpressionFromATerm(1));
+    Expression expressionToExpect2(createOrCopyExpressionFromATerm(1));
+    Expression expressionToExpect3(createOrCopyExpressionFromATerm(1));
+    Expression expressionToExpect4(createOrCopyExpressionFromATerm(1));
+    Expression expressionToExpect5(createOrCopyExpressionFromATerm(-1));
     EXPECT_EQ(expressionToExpect1, expression1);
     EXPECT_EQ(expressionToExpect2, expression2);
     EXPECT_EQ(expressionToExpect3, expression3);
@@ -202,11 +202,11 @@ TEST(SignMutatorTest, MutateFunctionWorks)
 {
     SignMutator mutator;
     mutator.putVariableWithSign("a", TermAssociationType::Positive);
-    Function functionObject(sin(Term("a")));
+    Function functionObject(sin("a"));
 
     mutator.mutateFunction(functionObject);
 
-    Function functionToExpect(sin(Term("a")));
+    Function functionToExpect(sin("a"));
     EXPECT_EQ(functionToExpect, functionObject);
 }
 

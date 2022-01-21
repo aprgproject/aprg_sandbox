@@ -185,7 +185,7 @@ Term IntegrationForFiniteCalculus::integrateMonomial(
             monomialWithOneLessExponent.putVariableWithExponent(m_nameOfVariableToIntegrate, exponentAbsoluteValue-1);
             Polynomial denominatorInFallingPower(
                         convertMonomialWithPositiveExponentsFromRegularPowerToFallingPower(monomialWithOneLessExponent));
-            Term termToIntegrate(createExpressionIfPossible({Term(1), Term("/"), Term(denominatorInFallingPower)}));
+            Term termToIntegrate(createExpressionIfPossible({1, "/", Term(denominatorInFallingPower)}));
             Term integratedTermInFallingPower(integrateTerm(termToIntegrate));
             if(!isNotANumber(integratedTermInFallingPower)
                     && canBeConvertedToPolynomial(integratedTermInFallingPower))
@@ -309,10 +309,12 @@ Polynomial IntegrationForFiniteCalculus::convertMonomialWithPositiveExponentsFro
         result = createPolynomialFromNumber(1);
         Monomial monomialToRetain(monomial);
         monomialToRetain.putVariableWithExponent(m_nameOfVariableToIntegrate, 0);
-        for(unsigned int i=0; i<exponentUnsigned; i++)        {
+        for(unsigned int i=0; i<exponentUnsigned; i++)
+        {
             result.multiplyPolynomial(Polynomial
             {Monomial(1, {{m_nameOfVariableToIntegrate, 1}}), Monomial(-AlbaNumber(i), {})});
-        }        result.multiplyMonomial(monomialToRetain);
+        }
+        result.multiplyMonomial(monomialToRetain);
     }
     result.simplify();
     return result;
@@ -463,9 +465,9 @@ Term IntegrationForFiniteCalculus::integrateNonChangingTermRaiseToChangingTerm(
 
     if(!isChangingTerm(exponentDifference)) // if exponentDifference can be factored out
     {
-        Term denominator(createExpressionIfPossible({base, Term("^"), exponentDifference, Term("-"), Term(1)}));
+        Term denominator(createExpressionIfPossible({base, "^", exponentDifference, "-", 1}));
         denominator.simplify();
-        result = Term(createExpressionIfPossible({base, Term("^"), exponent, Term("/"), denominator}));
+        result = Term(createExpressionIfPossible({base, "^", exponent, "/", denominator}));
     }
     return result;
 }

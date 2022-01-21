@@ -15,7 +15,7 @@ TEST(AlternatingSeriesTest, IsSummationModelValidWorks)
 {
     Term numerator(1);
     Term denominator(Polynomial{Monomial(1, {{"n", 1}}), Monomial(1, {})});
-    Term formula(createExpressionIfPossible({numerator, Term("/"), denominator}));
+    Term formula(createExpressionIfPossible({numerator, "/", denominator}));
     AlternatingSeries series(formula, "n");
 
     EXPECT_FALSE(series.isSummationModelValid());
@@ -25,7 +25,7 @@ TEST(AlternatingSeriesTest, GetValueAtIndexWorks)
 {
     Term numerator(1);
     Term denominator(Polynomial{Monomial(1, {{"n", 1}}), Monomial(1, {})});
-    Term formula(createExpressionIfPossible({numerator, Term("/"), denominator}));
+    Term formula(createExpressionIfPossible({numerator, "/", denominator}));
     AlternatingSeries series(formula, "n");
 
     EXPECT_EQ(Term(1), series.getValueAtIndex(0));
@@ -38,7 +38,7 @@ TEST(AlternatingSeriesTest, IsConvergentWorks)
 {
     Term numerator(1);
     Term denominator(Polynomial{Monomial(1, {{"n", 1}}), Monomial(1, {})});
-    Term formula(createExpressionIfPossible({numerator, Term("/"), denominator}));
+    Term formula(createExpressionIfPossible({numerator, "/", denominator}));
     AlternatingSeries series(formula, "n");
 
     EXPECT_TRUE(series.isConvergent());
@@ -48,7 +48,7 @@ TEST(AlternatingSeriesTest, GetRemainderAtIndexWorks)
 {
     Term numerator(1);
     Term denominator(Polynomial{Monomial(1, {{"n", 1}}), Monomial(1, {})});
-    Term formula(createExpressionIfPossible({numerator, Term("/"), denominator}));
+    Term formula(createExpressionIfPossible({numerator, "/", denominator}));
     AlternatingSeries series(formula, "n");
 
     EXPECT_EQ(Term(1), series.getRemainderAtIndex(0));

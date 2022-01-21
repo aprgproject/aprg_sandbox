@@ -232,7 +232,7 @@ TEST(FunctionTest, SimplifyWorks)
     {
         return number;
     };
-    Function functionObject("functionName", Term(createExpressionIfPossible({Term(5), Term("+"), Term(5)})), evaluationFunction);
+    Function functionObject("functionName", Term(createExpressionIfPossible({5, "+", 5})), evaluationFunction);
 
     functionObject.simplify();
 
@@ -248,7 +248,7 @@ TEST(FunctionTest, SimplifyWorksWhenIsSimplifiedIsNotSet)
     {
         return number;
     };
-    Function functionObject("functionName", Term(createExpressionIfPossible({Term(5), Term("+"), Term(5)})), evaluationFunction);
+    Function functionObject("functionName", Term(createExpressionIfPossible({5, "+", 5})), evaluationFunction);
 
     functionObject.simplify();
 
@@ -264,12 +264,12 @@ TEST(FunctionTest, SimplifyWorksAsSkippedWhenIsSimplifiedIsSet)
     {
         return number;
     };
-    Function functionObject("functionName", Term(createExpressionIfPossible({Term(5), Term("+"), Term(5)})), evaluationFunction);
+    Function functionObject("functionName", Term(createExpressionIfPossible({5, "+", 5})), evaluationFunction);
     functionObject.setAsSimplified();
 
     functionObject.simplify();
 
-    Term inputTermToExpect(createExpressionIfPossible({Term(5), Term("+"), Term(5)}));
+    Term inputTermToExpect(createExpressionIfPossible({5, "+", 5}));
     EXPECT_EQ("functionName", functionObject.getFunctionName());
     EXPECT_EQ(inputTermToExpect, getTermConstReferenceFromBaseTerm(functionObject.getInputTermConstReference()));
     Function::EvaluationFunction const& evaluationFunctionToVerify(functionObject.getEvaluationFunction());

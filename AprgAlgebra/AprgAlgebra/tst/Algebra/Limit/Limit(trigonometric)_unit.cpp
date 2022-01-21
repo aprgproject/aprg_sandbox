@@ -16,7 +16,7 @@ namespace algebra
 
 TEST(LimitTest, GetLimitAtAValueWorksForSinXOverX)
 {
-    Term sinXOverX(createExpressionIfPossible({Term(sin(Term("x"))), Term("/"), Term("x")}));
+    Term sinXOverX(createExpressionIfPossible({sin("x"), "/", "x"}));
 
     EXPECT_EQ(Term(1), getLimitAtAValue(sinXOverX, "x", 0, LimitAtAValueApproachType::BothSides));
     EXPECT_EQ(Term(1), getLimitAtAValue(sinXOverX, "x", 0, LimitAtAValueApproachType::PositiveSide));
@@ -27,7 +27,7 @@ TEST(LimitTest, GetLimitAtAValueWorksForSinXHarmonicOverSinXHarmonic)
 {
     Term numerator(sin(Monomial(3, {{"x", 1}})));
     Term denominator(sin(Monomial(5, {{"x", 1}})));
-    Term termToTest(createExpressionIfPossible({numerator, Term("/"), denominator}));
+    Term termToTest(createExpressionIfPossible({numerator, "/", denominator}));
 
     EXPECT_EQ(Term(0.6), getLimitAtAValue(termToTest, "x", 0, LimitAtAValueApproachType::BothSides));
     EXPECT_EQ(Term(0.6), getLimitAtAValue(termToTest, "x", 0, LimitAtAValueApproachType::PositiveSide));
@@ -36,9 +36,9 @@ TEST(LimitTest, GetLimitAtAValueWorksForSinXHarmonicOverSinXHarmonic)
 
 TEST(LimitTest, GetLimitAtAValueWorksForCosineExpression)
 {
-    Term numerator(createExpressionIfPossible({Term(1), Term("-"), Term(cos(Term("x")))}));
+    Term numerator(createExpressionIfPossible({1, "-", cos("x")}));
     Term denominator("x");
-    Term termToTest(createExpressionIfPossible({numerator, Term("/"), denominator}));
+    Term termToTest(createExpressionIfPossible({numerator, "/", denominator}));
 
     EXPECT_EQ(Term(0), getLimitAtAValue(termToTest, "x", 0, LimitAtAValueApproachType::BothSides));
     EXPECT_EQ(Term(0), getLimitAtAValue(termToTest, "x", 0, LimitAtAValueApproachType::PositiveSide));
@@ -47,9 +47,9 @@ TEST(LimitTest, GetLimitAtAValueWorksForCosineExpression)
 
 TEST(LimitTest, GetLimitAtAValueWorksForCosineAndSineExpression)
 {
-    Term numerator(createExpressionIfPossible({Term(1), Term("-"), Term(cos(Term("x")))}));
-    Term denominator(sin(Term("x")));
-    Term termToTest(createExpressionIfPossible({numerator, Term("/"), denominator}));
+    Term numerator(createExpressionIfPossible({1, "-", cos("x")}));
+    Term denominator(sin("x"));
+    Term termToTest(createExpressionIfPossible({numerator, "/", denominator}));
 
     EXPECT_EQ(Term(0), getLimitAtAValue(termToTest, "x", 0, LimitAtAValueApproachType::BothSides));
     EXPECT_EQ(Term(0), getLimitAtAValue(termToTest, "x", 0, LimitAtAValueApproachType::PositiveSide));
@@ -58,9 +58,9 @@ TEST(LimitTest, GetLimitAtAValueWorksForCosineAndSineExpression)
 
 TEST(LimitTest, GetLimitAtAValueWorksForTangentExpression)
 {
-    Term numerator(createExpressionIfPossible({Term(2), Term("*"), Term(tan(Term("x"))), Term("^"), Term(2)}));
+    Term numerator(createExpressionIfPossible({2, "*", tan("x"), "^", 2}));
     Term denominator(Monomial(1, {{"x", 2}}));
-    Term termToTest(createExpressionIfPossible({numerator, Term("/"), denominator}));
+    Term termToTest(createExpressionIfPossible({numerator, "/", denominator}));
 
     EXPECT_EQ(Term(2), getLimitAtAValue(termToTest, "x", 0, LimitAtAValueApproachType::BothSides));
     EXPECT_EQ(Term(2), getLimitAtAValue(termToTest, "x", 0, LimitAtAValueApproachType::PositiveSide));
@@ -71,7 +71,7 @@ TEST(LimitTest, GetLimitAtAValueWorksForComplicatedSinOverX)
 {
     Term numerator(sin(Term(Monomial(PI_DOUBLE_VALUE, {{"x", 1}}))));
     Term denominator(Polynomial{Monomial(1, {{"x", 2}}), Monomial(-1, {{"x", 1}})});
-    Term termToTest(createExpressionIfPossible({numerator, Term("/"), denominator}));
+    Term termToTest(createExpressionIfPossible({numerator, "/", denominator}));
 
     EXPECT_EQ(Term(-3.141592653589794), getLimitAtAValue(termToTest, "x", 0, LimitAtAValueApproachType::BothSides));
     EXPECT_EQ(Term(-3.141592653589794), getLimitAtAValue(termToTest, "x", 0, LimitAtAValueApproachType::PositiveSide));

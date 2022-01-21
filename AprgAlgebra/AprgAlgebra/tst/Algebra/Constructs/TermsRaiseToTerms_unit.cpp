@@ -16,7 +16,7 @@ namespace algebra
 TEST(TermsRaiseToTermsTest, ConstructionWorks)
 {
     TermsRaiseToTerms termsRaiseToTerms1;
-    TermsRaiseToTerms termsRaiseToTerms2({{Term("x"), Term(1)}, {Term("y"), Term(-2)}, {Term("z"), Term(3)}});
+    TermsRaiseToTerms termsRaiseToTerms2({{"x", 1}, {"y", -2}, {"z", 3}});
 
     EXPECT_TRUE(termsRaiseToTerms1.getBaseToExponentMap().empty());
     TermsRaiseToTerms::BaseToExponentMap const& mapToVerify(termsRaiseToTerms2.getBaseToExponentMap());
@@ -34,7 +34,7 @@ TEST(TermsRaiseToTermsTest, ConstructionWorks)
 
 TEST(TermsRaiseToTermsTest, GetBaseToExponentMapWorks)
 {
-    TermsRaiseToTerms termsRaiseToTerms({{Term("x"), Term(1)}, {Term("y"), Term(-2)}, {Term("z"), Term(3)}});
+    TermsRaiseToTerms termsRaiseToTerms({{"x", 1}, {"y", -2}, {"z", 3}});
 
     TermsRaiseToTerms::BaseToExponentMap const& mapToVerify(termsRaiseToTerms.getBaseToExponentMap());
 
@@ -52,17 +52,17 @@ TEST(TermsRaiseToTermsTest, GetBaseToExponentMapWorks)
 
 TEST(TermsRaiseToTermsTest, GetExponentOfBaseWorks)
 {
-    TermsRaiseToTerms termsRaiseToTerms({{Term("x"), Term(1)}, {Term("y"), Term(-2)}, {Term("z"), Term(3)}});
+    TermsRaiseToTerms termsRaiseToTerms({{"x", 1}, {"y", -2}, {"z", 3}});
 
-    EXPECT_EQ(Term(1), termsRaiseToTerms.getExponentOfBase(Term("x")));
-    EXPECT_EQ(Term(-2), termsRaiseToTerms.getExponentOfBase(Term("y")));
-    EXPECT_EQ(Term(3), termsRaiseToTerms.getExponentOfBase(Term("z")));
-    EXPECT_EQ(Term(), termsRaiseToTerms.getExponentOfBase(Term("NotFound")));
+    EXPECT_EQ(Term(1), termsRaiseToTerms.getExponentOfBase("x"));
+    EXPECT_EQ(Term(-2), termsRaiseToTerms.getExponentOfBase("y"));
+    EXPECT_EQ(Term(3), termsRaiseToTerms.getExponentOfBase("z"));
+    EXPECT_EQ(Term(), termsRaiseToTerms.getExponentOfBase("NotFound"));
 }
 
 TEST(TermsRaiseToTermsTest, GetTermsInMultiplicationOperationWorks)
 {
-    TermsRaiseToTerms termsRaiseToTerms({{Term("x"), Term(1)}, {Term("y"), Term(-2)}, {Term("z"), Term(3)}});
+    TermsRaiseToTerms termsRaiseToTerms({{"x", 1}, {"y", -2}, {"z", 3}});
 
     Terms const termsToVerify(termsRaiseToTerms.getTermsInMultiplicationOperation());
 
@@ -77,7 +77,7 @@ TEST(TermsRaiseToTermsTest, GetTermsInMultiplicationOperationWorks)
 
 TEST(TermsRaiseToTermsTest, GetTermWithDetailsInMultiplicationAndDivisionOperationWorks)
 {
-    TermsRaiseToTerms termsRaiseToTerms({{Term("x"), Term(1)}, {Term("y"), Term(-2)}, {Term("z"), Term(3)}});
+    TermsRaiseToTerms termsRaiseToTerms({{"x", 1}, {"y", -2}, {"z", 3}});
 
     TermsWithDetails const termsToVerify(termsRaiseToTerms.getTermWithDetailsInMultiplicationAndDivisionOperation());
 
@@ -95,8 +95,8 @@ TEST(TermsRaiseToTermsTest, GetTermWithDetailsInMultiplicationAndDivisionOperati
 
 TEST(TermsRaiseToTermsTest, AddExponentsWorks)
 {
-    TermsRaiseToTerms termsRaiseToTermsToAdd({{Term("x"), Term(1)}, {Term("y"), Term(-2)}, {Term("z"), Term(3)}});
-    TermsRaiseToTerms termsRaiseToTerms({{Term("x"), Term(4)}, {Term("y"), Term(-5)}, {Term("z"), Term(6)}});
+    TermsRaiseToTerms termsRaiseToTermsToAdd({{"x", 1}, {"y", -2}, {"z", 3}});
+    TermsRaiseToTerms termsRaiseToTerms({{"x", 4}, {"y", -5}, {"z", 6}});
 
     termsRaiseToTerms.addExponents(termsRaiseToTermsToAdd);
 
@@ -115,8 +115,8 @@ TEST(TermsRaiseToTermsTest, AddExponentsWorks)
 
 TEST(TermsRaiseToTermsTest, SubtractExponentsWorks)
 {
-    TermsRaiseToTerms termsRaiseToTerms({{Term("x"), Term(4)}, {Term("y"), Term(-5)}, {Term("z"), Term(6)}});
-    TermsRaiseToTerms termsRaiseToTermsToSubtract({{Term("x"), Term(1)}, {Term("y"), Term(-2)}, {Term("z"), Term(3)}});
+    TermsRaiseToTerms termsRaiseToTerms({{"x", 4}, {"y", -5}, {"z", 6}});
+    TermsRaiseToTerms termsRaiseToTermsToSubtract({{"x", 1}, {"y", -2}, {"z", 3}});
 
     termsRaiseToTerms.subtractExponents(termsRaiseToTermsToSubtract);
 
@@ -135,9 +135,9 @@ TEST(TermsRaiseToTermsTest, SubtractExponentsWorks)
 
 TEST(TermsRaiseToTermsTest, MultiplyNumberToExponentsWorks)
 {
-    TermsRaiseToTerms termsRaiseToTerms({{Term("x"), Term(4)}, {Term("y"), Term(-5)}, {Term("z"), Term(6)}});
+    TermsRaiseToTerms termsRaiseToTerms({{"x", 4}, {"y", -5}, {"z", 6}});
 
-    termsRaiseToTerms.multiplyToExponents(Term(5));
+    termsRaiseToTerms.multiplyToExponents(5);
 
     TermsRaiseToTerms::BaseToExponentMap const mapToVerify(termsRaiseToTerms.getBaseToExponentMap());
     ASSERT_EQ(3U, mapToVerify.size());
@@ -154,7 +154,7 @@ TEST(TermsRaiseToTermsTest, MultiplyNumberToExponentsWorks)
 
 TEST(TermsRaiseToTermsTest, PutTermWorksOnMonomial)
 {
-    TermsRaiseToTerms termsRaiseToTerms({{Term("x"), Term(1)}, {Term("y"), Term(-2)}, {Term("z"), Term(3)}});
+    TermsRaiseToTerms termsRaiseToTerms({{"x", 1}, {"y", -2}, {"z", 3}});
     Term termWithPositive(Monomial(5, {{"x", 6}}));
     Term termWithNegative(Monomial(7, {{"y", 8}}));
     Term termWithHaveNoEffect(Monomial(1, {{"z", 0}}));
@@ -185,9 +185,9 @@ TEST(TermsRaiseToTermsTest, PutTermWorksOnMonomial)
 TEST(TermsRaiseToTermsTest, PutTermWorksOnOtherTermTypes)
 {
     Term x("x");
-    TermsRaiseToTerms termsRaiseToTerms({{Term(cos(x)), Term(1)}, {Term(sin(x)), Term(-2)}, {Term(tan(x)), Term(3)}});
-    Term termWithPositive(createExpressionIfPossible({Term(cos(x)), Term("^"), Term(6)}));
-    Term termWithNegative(createExpressionIfPossible({Term(sin(x)), Term("^"), Term(8)}));
+    TermsRaiseToTerms termsRaiseToTerms({{cos(x), 1}, {sin(x), -2}, {tan(x), 3}});
+    Term termWithPositive(createExpressionIfPossible({cos(x), "^", 6}));
+    Term termWithNegative(createExpressionIfPossible({sin(x), "^", 8}));
 
     termsRaiseToTerms.putTerm(termWithPositive, TermAssociationType::Positive);
     termsRaiseToTerms.putTerm(termWithNegative, TermAssociationType::Negative);
@@ -207,10 +207,10 @@ TEST(TermsRaiseToTermsTest, PutTermWorksOnOtherTermTypes)
 
 TEST(TermsRaiseToTermsTest, PutTermsWorks)
 {
-    TermsRaiseToTerms termsRaiseToTerms({{Term("x"), Term(1)}, {Term("y"), Term(-2)}, {Term("z"), Term(3)}});
+    TermsRaiseToTerms termsRaiseToTerms({{"x", 1}, {"y", -2}, {"z", 3}});
 
     termsRaiseToTerms.putTerms(
-    {Term(Monomial(1, {{"x", 5}})), Term(Monomial(1, {{"y", 6}})), Term(Monomial(1, {{"z", 7}}))}, TermAssociationType::Positive);
+    {Monomial(1, {{"x", 5}}), Monomial(1, {{"y", 6}}), Monomial(1, {{"z", 7}})}, TermAssociationType::Positive);
 
     TermsRaiseToTerms::BaseToExponentMap const mapToVerify(termsRaiseToTerms.getBaseToExponentMap());
     ASSERT_EQ(3U, mapToVerify.size());
@@ -229,7 +229,7 @@ TEST(TermsRaiseToTermsTest, SetBaseAndExponentWorks)
 {
     TermsRaiseToTerms termsRaiseToTerms;
 
-    termsRaiseToTerms.setBaseAndExponent(Term("x"), Term(9));
+    termsRaiseToTerms.setBaseAndExponent("x", 9);
 
     TermsRaiseToTerms::BaseToExponentMap const mapToVerify(termsRaiseToTerms.getBaseToExponentMap());
     ASSERT_EQ(1U, mapToVerify.size());
@@ -240,9 +240,9 @@ TEST(TermsRaiseToTermsTest, SetBaseAndExponentWorks)
 
 TEST(TermsRaiseToTermsTest, RemoveItemWithBaseWorks)
 {
-    TermsRaiseToTerms termsRaiseToTerms({{Term("x"), Term(1)}, {Term("y"), Term(-2)}, {Term("z"), Term(3)}});
+    TermsRaiseToTerms termsRaiseToTerms({{"x", 1}, {"y", -2}, {"z", 3}});
 
-    termsRaiseToTerms.removeItemWithBase(Term("x"));
+    termsRaiseToTerms.removeItemWithBase("x");
 
     TermsRaiseToTerms::BaseToExponentMap const mapToVerify(termsRaiseToTerms.getBaseToExponentMap());
     ASSERT_EQ(2U, mapToVerify.size());
@@ -256,7 +256,7 @@ TEST(TermsRaiseToTermsTest, RemoveItemWithBaseWorks)
 
 TEST(TermsRaiseToTermsTest, SimplifyWorks)
 {
-    TermsRaiseToTerms termsRaiseToTerms({{Term("x"), Term(1)}, {Term("y"), Term(0)}, {Term("z"), Term(0)}});
+    TermsRaiseToTerms termsRaiseToTerms({{"x", 1}, {"y", 0}, {"z", 0}});
 
     termsRaiseToTerms.simplify();
 

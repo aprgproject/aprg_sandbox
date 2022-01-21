@@ -107,7 +107,7 @@ TEST(ConvertHelpersTest, SimplifyAndConvertFunctionToSimplestTermWorks)
     {
         return number;
     });
-    Function function3("functionName", Term(createExpressionIfPossible({Term(5), Term("+"), Term(5)})), [](AlbaNumber const&  number) -> AlbaNumber
+    Function function3("functionName", Term(createExpressionIfPossible({5, "+", 5})), [](AlbaNumber const&  number) -> AlbaNumber
     {
         return number;
     });
@@ -158,14 +158,14 @@ TEST(ConvertHelpersTest, ConvertPolynomialToSimplestTermWorks)
 TEST(ConvertHelpersTest, ConvertExpressionToSimplestTermWorks)
 {
     Term termToVerify1(convertExpressionToSimplestTerm(createExpressionIfPossible({})));
-    Term termToVerify2(convertExpressionToSimplestTerm(createExpressionIfPossible({Term(156)})));
-    Term termToVerify3(convertExpressionToSimplestTerm(createExpressionIfPossible({Term(Monomial(444, {}))})));
-    Term termToVerify4(convertExpressionToSimplestTerm(createExpressionIfPossible({Term(1), Term("/"), Term(Monomial(444, {}))})));
+    Term termToVerify2(convertExpressionToSimplestTerm(createExpressionIfPossible({156})));
+    Term termToVerify3(convertExpressionToSimplestTerm(createExpressionIfPossible({Monomial(444, {})})));
+    Term termToVerify4(convertExpressionToSimplestTerm(createExpressionIfPossible({1, "/", Monomial(444, {})})));
 
     EXPECT_EQ(Term(), termToVerify1);
     EXPECT_EQ(Term(156), termToVerify2);
     EXPECT_EQ(Term(444), termToVerify3);
-    Term termToExpect4(createExpressionIfPossible({Term(1), Term("/"), Term(Monomial(444, {}))}));
+    Term termToExpect4(createExpressionIfPossible({1, "/", Monomial(444, {})}));
     EXPECT_EQ(termToExpect4, termToVerify4);
 }
 
@@ -183,14 +183,14 @@ TEST(ConvertHelpersTest, ConvertFunctionToSimplestTermWorks)
     Term x("x");
     Term y("y");
     Term z("z");
-    Term multiplicationAndDivisionExpression(createExpressionIfPossible({x, Term("*"), y, Term("/"), z}));
+    Term multiplicationAndDivisionExpression(createExpressionIfPossible({x, "*", y, "/", z}));
 
     Term termToVerify1(convertFunctionToSimplestTerm(function1));
     Term termToVerify2(convertFunctionToSimplestTerm(function2));
     Term termToVerify3(convertFunctionToSimplestTerm(function3));
     Term termToVerify4(convertFunctionToSimplestTerm(ln(multiplicationAndDivisionExpression)));
 
-    Term termToExpect(createExpressionIfPossible({Term(ln(x)), Term("+"), Term(ln(y)), Term("-"), Term(ln(z))}));
+    Term termToExpect(createExpressionIfPossible({ln(x), "+", ln(y), "-", ln(z)}));
     ASSERT_TRUE(termToVerify1.isFunction());
     EXPECT_EQ(function1, termToVerify1.getFunctionConstReference());
     EXPECT_EQ(Term(5), termToVerify2);

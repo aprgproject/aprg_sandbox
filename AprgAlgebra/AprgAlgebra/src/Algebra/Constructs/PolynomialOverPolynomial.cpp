@@ -153,9 +153,11 @@ void PolynomialOverPolynomial::removeCommonMonomialOnAllMonomialsInNumeratorAndD
         }
     }
 }
+
 void PolynomialOverPolynomial::factorizeRemoveCommonFactorsInNumeratorAndDenominatorAndCombineRemainingFactors()
 {
-    ConfigurationDetails configurationDetails(                Factorization::Configuration::getInstance().getConfigurationDetails());
+    ConfigurationDetails configurationDetails(
+                Factorization::Configuration::getInstance().getConfigurationDetails());
     configurationDetails.shouldNotFactorizeIfItWouldYieldToPolynomialsWithDoubleValue
             = m_shouldNotFactorizeIfItWouldYieldToPolynomialsWithDoubleValue;
     ScopeObject scopeObject;

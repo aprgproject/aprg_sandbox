@@ -19,7 +19,7 @@ namespace algebra
 TEST(ContinuityTest, IsContinuousAtWorks)
 {
     Polynomial denominator{Monomial(1, {{"x", 1}}), Monomial(-2, {})};
-    Term termToTest(createExpressionIfPossible({Term(1), Term("/"), Term(denominator)}));
+    Term termToTest(createExpressionIfPossible({1, "/", denominator}));
 
     EXPECT_FALSE(isContinuousAt(termToTest, "x", 2));
     EXPECT_TRUE(isContinuousAt(termToTest, "x", 3));
@@ -29,7 +29,7 @@ TEST(ContinuityTest, IsContinuousAtWorksForContinuousPieceWiseFunction)
 {
     Function functionToTest(
                 "functionToTest",
-                getBaseTermConstReferenceFromTerm(Term("x")),
+                getBaseTermConstReferenceFromTerm("x"),
                 [](AlbaNumber const& number)
     {
         AlbaNumber result;
@@ -52,7 +52,7 @@ TEST(ContinuityTest, IsContinuousAtWorksForDiscontinuousPieceWiseFunction)
 {
     Function functionToTest(
                 "functionToTest",
-                getBaseTermConstReferenceFromTerm(Term("x")),
+                getBaseTermConstReferenceFromTerm("x"),
                 [](AlbaNumber const& number)
     {
         AlbaNumber result;
@@ -74,7 +74,7 @@ TEST(ContinuityTest, IsContinuousAtWorksForDiscontinuousPieceWiseFunction)
 TEST(ContinuityTest, IsContinuousAtWorksOnTheEdgesOfSquareRootOfPolynomial)
 {
     Term polynomialTerm(Polynomial{Monomial(-1, {{"x", 2}}), Monomial(4, {})});
-    Term termToTest(createExpressionIfPossible({polynomialTerm, Term("^"), Term(AlbaNumber::createFraction(1, 2))}));
+    Term termToTest(createExpressionIfPossible({polynomialTerm, "^", AlbaNumber::createFraction(1, 2)}));
 
     EXPECT_FALSE(isContinuousAt(termToTest, "x", -2, LimitAtAValueApproachType::BothSides));
     EXPECT_TRUE(isContinuousAt(termToTest, "x", -2, LimitAtAValueApproachType::PositiveSide));
@@ -87,7 +87,7 @@ TEST(ContinuityTest, IsContinuousAtWorksOnTheEdgesOfSquareRootOfPolynomial)
 TEST(ContinuityTest, IsContinuousAtWorksWithIsDifferentiableAtValue)
 {
     Term polynomialTerm(Polynomial{Monomial(-1, {{"x", 2}}), Monomial(4, {})});
-    Term termToTest(createExpressionIfPossible({polynomialTerm, Term("^"), Term(AlbaNumber::createFraction(1, 2))}));
+    Term termToTest(createExpressionIfPossible({polynomialTerm, "^", AlbaNumber::createFraction(1, 2)}));
 
     EXPECT_FALSE(isContinuousAt(termToTest, "x", -2, LimitAtAValueApproachType::BothSides, false));
     EXPECT_TRUE(isContinuousAt(termToTest, "x", -2, LimitAtAValueApproachType::BothSides, true));
@@ -97,10 +97,10 @@ TEST(LimitTest, GetLimitWithMultipleVariablesWithDifferentApproachesWorksWhenItE
 {
     Term numerator(Polynomial{Monomial(1, {{"x", 4}}), Monomial(-1, {{"y", 4}})});
     Term denominator(Polynomial{Monomial(1, {{"x", 2}}), Monomial(1, {{"y", 2}})});
-    Term termToTest(createExpressionIfPossible({numerator, Term("/"), denominator}));
+    Term termToTest(createExpressionIfPossible({numerator, "/", denominator}));
     SubstitutionsOfVariablesToTerms substitutions;
-    substitutions.emplace_back(SubstitutionOfVariablesToTerms{{"y", Term("x")}});
-    substitutions.emplace_back(SubstitutionOfVariablesToTerms{{"y", Term(Monomial(1, {{"x", 2}}))}});
+    substitutions.emplace_back(SubstitutionOfVariablesToTerms{{"y", "x"}});
+    substitutions.emplace_back(SubstitutionOfVariablesToTerms{{"y", Monomial(1, {{"x", 2}})}});
 
     EXPECT_TRUE(isContinuousAtWithMultipleVariablesWithDifferentApproaches(termToTest, "x", 0, substitutions));
 }
@@ -109,10 +109,10 @@ TEST(LimitTest, GetLimitWithMultipleVariablesWithDifferentApproachesWorksWhenDoe
 {
     Term numerator(Monomial(1, {{"x", 1}, {"y", 1}}));
     Term denominator(Polynomial{Monomial(1, {{"x", 2}}), Monomial(1, {{"y", 2}})});
-    Term termToTest(createExpressionIfPossible({numerator, Term("/"), denominator}));
+    Term termToTest(createExpressionIfPossible({numerator, "/", denominator}));
     SubstitutionsOfVariablesToTerms substitutions;
-    substitutions.emplace_back(SubstitutionOfVariablesToTerms{{"y", Term("x")}});
-    substitutions.emplace_back(SubstitutionOfVariablesToTerms{{"y", Term(Monomial(1, {{"x", 2}}))}});
+    substitutions.emplace_back(SubstitutionOfVariablesToTerms{{"y", "x"}});
+    substitutions.emplace_back(SubstitutionOfVariablesToTerms{{"y", Monomial(1, {{"x", 2}})}});
 
     EXPECT_FALSE(isContinuousAtWithMultipleVariablesWithDifferentApproaches(termToTest, "x", 0, substitutions));
 }
@@ -121,7 +121,7 @@ TEST(ContinuityTest, IsIntermediateValueTheoremSatisfiedWorks)
 {
     Polynomial numerator{Monomial(2, {})};
     Polynomial denominator{Monomial(1, {{"x", 1}}), Monomial(-4, {})};
-    Term termToTest(createExpressionIfPossible({Term(numerator), Term("/"), Term(denominator)}));
+    Term termToTest(createExpressionIfPossible({numerator, "/", denominator}));
 
     EXPECT_FALSE(isIntermediateValueTheoremSatisfied(termToTest, "x", 2, 5, 4));
     EXPECT_TRUE(isIntermediateValueTheoremSatisfied(termToTest, "x", 5, 7, 6));
@@ -131,7 +131,7 @@ TEST(ContinuityTest, GetContinuityTypeAtWorksForRemovableDiscontinuityFunction)
 {
     Function functionToTest(
                 "functionToTest",
-                getBaseTermConstReferenceFromTerm(Term("x")),
+                getBaseTermConstReferenceFromTerm("x"),
                 [](AlbaNumber const& number)
     {
         AlbaNumber result;
@@ -155,7 +155,7 @@ TEST(ContinuityTest, GetContinuityTypeAtWorksForEssentialDiscontinuityFunction)
 {
     Function functionToTest(
                 "functionToTest",
-                getBaseTermConstReferenceFromTerm(Term("x")),
+                getBaseTermConstReferenceFromTerm("x"),
                 [](AlbaNumber const& number)
     {
         AlbaNumber result;
@@ -179,7 +179,7 @@ TEST(ContinuityTest, GetContinuityTypeAtWorksForPolynomialOverPolynomial)
 {
     Polynomial numerator{Monomial(1, {{"x", AlbaNumber::createFraction(1, 2)}}), Monomial(-2, {})};
     Polynomial denominator{Monomial(1, {{"x", 1}}), Monomial(-4, {})};
-    Term termToTest(createExpressionIfPossible({Term(numerator), Term("/"), Term(denominator)}));
+    Term termToTest(createExpressionIfPossible({numerator, "/", denominator}));
 
     EXPECT_EQ(ContinuityType::DiscontinuousWithRemovableDiscontinuity,
               getContinuityTypeAt(termToTest, "x", 4));
@@ -200,7 +200,7 @@ TEST(ContinuityTest, GetContinuityDomainWorksOnPolynomialOverPolynomial)
 {
     Polynomial numerator{Monomial(1, {{"x", 3}}), Monomial(1, {})};
     Polynomial denominator{Monomial(1, {{"x", 2}}), Monomial(-9, {})};
-    Term termToTest(createExpressionIfPossible({Term(numerator), Term("/"), Term(denominator)}));
+    Term termToTest(createExpressionIfPossible({numerator, "/", denominator}));
 
     SolutionSet continuityDomain(getContinuityDomain(termToTest));
 
@@ -217,7 +217,7 @@ TEST(ContinuityTest, GetContinuityDomainWorksOnPolynomialOverPolynomial)
 TEST(ContinuityTest, GetContinuityDomainWorksOnSquareRootOfPolynomial)
 {
     Term polynomialTerm(Polynomial{Monomial(-1, {{"x", 2}}), Monomial(4, {})});
-    Term termToTest(createExpressionIfPossible({polynomialTerm, Term("^"), Term(AlbaNumber::createFraction(1, 2))}));
+    Term termToTest(createExpressionIfPossible({polynomialTerm, "^", AlbaNumber::createFraction(1, 2)}));
 
     SolutionSet continuityDomain(getContinuityDomain(termToTest));
 
@@ -228,10 +228,10 @@ TEST(ContinuityTest, GetContinuityDomainWorksOnSquareRootOfPolynomial)
 
 TEST(ContinuityTest, GetContinuityDomainWorksOnFunctions)
 {
-    SolutionSet continuityDomain1(getContinuityDomain(Functions::abs(Term("x"))));
-    SolutionSet continuityDomain2(getContinuityDomain(Functions::sin(Term("x"))));
-    SolutionSet continuityDomain3(getContinuityDomain(Functions::cos(Term("x"))));
-    SolutionSet continuityDomain4(getContinuityDomain(Functions::tan(Term("x"))));
+    SolutionSet continuityDomain1(getContinuityDomain(Functions::abs("x")));
+    SolutionSet continuityDomain2(getContinuityDomain(Functions::sin("x")));
+    SolutionSet continuityDomain3(getContinuityDomain(Functions::cos("x")));
+    SolutionSet continuityDomain4(getContinuityDomain(Functions::tan("x")));
 
     AlbaNumberIntervals const& intervalToVerify1(continuityDomain1.getAcceptedIntervals());
     ASSERT_EQ(1U, intervalToVerify1.size());

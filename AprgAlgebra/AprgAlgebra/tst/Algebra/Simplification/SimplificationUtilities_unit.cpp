@@ -19,14 +19,14 @@ TEST(SimplificationUtilitiesTest, SimplifyTermToACommonDenominatorWorks)
 {
     Term denominator1(Polynomial{Monomial(1, {{"x", 1}}), Monomial(2, {})});
     Term denominator2(Polynomial{Monomial(-1, {{"x", 1}}), Monomial(3, {})});
-    Term firstTerm(createExpressionIfPossible({Term(1), Term("/"), denominator1}));
-    Term secondTerm(createExpressionIfPossible({Term(1), Term("/"), denominator2}));
+    Term firstTerm(createExpressionIfPossible({1, "/", denominator1}));
+    Term secondTerm(createExpressionIfPossible({1, "/", denominator2}));
 
-    Term termToTest(createExpressionIfPossible({firstTerm, Term("+"), secondTerm}));
+    Term termToTest(createExpressionIfPossible({firstTerm, "+", secondTerm}));
     simplifyTermToACommonDenominator(termToTest);
 
     Term expectedDenominator(Polynomial{Monomial(1, {{"x", 2}}), Monomial(-1, {{"x", 1}}), Monomial(-6, {})});
-    Term expectedTerm(createExpressionIfPossible({Term(-5), Term("/"), expectedDenominator}));
+    Term expectedTerm(createExpressionIfPossible({-5, "/", expectedDenominator}));
     EXPECT_EQ(expectedTerm, termToTest);
 }
 
@@ -38,11 +38,9 @@ TEST(SimplificationUtilitiesTest, SimplifyToACommonDenominatorWorks)
 
     Expression expressionToExpect(
                 createExpressionIfPossible(
-    {
-                        Term(Polynomial{Monomial(2, {{"x", 2}}), Monomial(10, {{"x", 1}}), Monomial(-3, {})}),
-                        Term("/"),
-                        Term(Polynomial{Monomial(1, {{"x", 2}}), Monomial(-4, {})}),
-                    }));
+    {Polynomial{Monomial(2, {{"x", 2}}), Monomial(10, {{"x", 1}}), Monomial(-3, {})},
+     "/",
+     Polynomial{Monomial(1, {{"x", 2}}), Monomial(-4, {})}}));
     EXPECT_EQ(expressionToExpect, expression);
     EXPECT_TRUE(didItOccurOnTopLevelExpression);
 }
@@ -65,8 +63,8 @@ TEST(SimplificationUtilitiesTest, SimplifyToACommonDenominatorWorks_OnExponentWi
     bool didItOccurOnTopLevelExpression = simplifyToACommonDenominatorForExpressionAndReturnIfAdditionOrSubtractionOfTermsOverTermsOccurred(expression);
 
     Polynomial polynomialToExpect{Monomial(1, {{"x", 2}}), Monomial(-4, {})};
-    Expression subExpression(createExpressionIfPossible({Term(Monomial(2, {{"x", 1}})), Term("/"), Term(polynomialToExpect)}));
-    Expression expressionToExpect(createExpressionIfPossible({Term(2), Term("^"), Term(subExpression)}));
+    Expression subExpression(createExpressionIfPossible({Monomial(2, {{"x", 1}}), "/", polynomialToExpect}));
+    Expression expressionToExpect(createExpressionIfPossible({2, "^", subExpression}));
     EXPECT_EQ(expressionToExpect, expression);
     EXPECT_FALSE(didItOccurOnTopLevelExpression);
 }
@@ -87,7 +85,7 @@ TEST(SimplificationUtilitiesTest, SimplifyAndCopyTermsAndChangeOperatorLevelIfNe
 
 TEST(SimplificationUtilitiesTest, SimplifyAndCopyTermsAndChangeOperatorLevelIfNeededWorksForOneTermWithManyExpressions)
 {
-    Term oneTerm(createExpressionInAnExpression(createExpressionInAnExpression(createAndWrapExpressionFromATerm(Term(Monomial(5, {{}}))))));
+    Term oneTerm(createExpressionInAnExpression(createExpressionInAnExpression(createAndWrapExpressionFromATerm(Monomial(5, {{}})))));
     TermsWithDetails inputTermWithDetails;
     inputTermWithDetails.emplace_back(oneTerm, TermAssociationType::Positive);
     OperatorLevel operatorLevel(OperatorLevel::Unknown);

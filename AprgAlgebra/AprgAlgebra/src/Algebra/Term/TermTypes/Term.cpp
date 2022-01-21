@@ -53,24 +53,20 @@ Term::Term(AlbaNumber const& number)
     , m_baseDataTermPointer(make_unique<Constant>(number))
 {}
 
-Term::Term(string const& stringTerm)
+Term::Term(char const* const characterString)
     : m_type(TermType::Empty)
-    , m_isSimplified(false)    , m_baseDataTermPointer(nullptr)
+    , m_isSimplified(false)
+    , m_baseDataTermPointer(nullptr)
 {
-    if(algebra::isOperator(stringTerm))
-    {        m_type=TermType::Operator;
-        m_baseDataTermPointer = make_unique<Operator>(stringTerm);
-    }
-    else if(algebra::isFunction(stringTerm))
-    {
-        m_type=TermType::Function;
-        m_baseDataTermPointer = make_unique<Function>(createFunctionWithEmptyInputExpression(stringTerm));
-    }
-    else
-    {
-        m_type=TermType::Variable;
-        m_baseDataTermPointer = make_unique<Variable>(stringTerm);
-    }
+    initializeBasedOnString(string(characterString));
+}
+
+Term::Term(string const& stringAsParameter)
+    : m_type(TermType::Empty)
+    , m_isSimplified(false)
+    , m_baseDataTermPointer(nullptr)
+{
+    initializeBasedOnString(stringAsParameter);
 }
 
 Term::Term(Constant const& constant)
@@ -554,6 +550,25 @@ void Term::resetBaseDataTermPointerBasedFromTerm(Term const& term)
     case TermType::Function:
         m_baseDataTermPointer = make_unique<Function>(term.getFunctionConstReference());
         break;
+    }
+}
+
+void Term::initializeBasedOnString(string const& stringAsParameter)
+{
+    if(algebra::isOperator(stringAsParameter))
+    {
+        m_type=TermType::Operator;
+        m_baseDataTermPointer = make_unique<Operator>(stringAsParameter);
+    }
+    else if(algebra::isFunction(stringAsParameter))
+    {
+        m_type=TermType::Function;
+        m_baseDataTermPointer = make_unique<Function>(createFunctionWithEmptyInputExpression(stringAsParameter));
+    }
+    else
+    {
+        m_type=TermType::Variable;
+        m_baseDataTermPointer = make_unique<Variable>(stringAsParameter);
     }
 }
 

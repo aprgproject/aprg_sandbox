@@ -19,7 +19,6 @@ public:
     TermsOverTerms();
     TermsOverTerms(TermsWithDetails const& termsInMultiplicationAndDivision);
     TermsOverTerms(Terms const& numerators, Terms const& denominators);
-    TermsOverTerms(TermsWithDetails const& numerators, TermsWithDetails const& denominators);
 
     Terms const& getNumerators() const;
     Terms const& getDenominators() const;

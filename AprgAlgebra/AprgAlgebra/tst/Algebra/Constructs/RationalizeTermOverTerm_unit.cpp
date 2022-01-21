@@ -14,7 +14,7 @@ namespace algebra
 TEST(RationalizeTermOverTermTest, ConstructionWorks)
 {
     RationalizeTermOverTerm rationalizeTermOverTerm1;
-    RationalizeTermOverTerm rationalizeTermOverTerm2(Term("x"), Term("y"));
+    RationalizeTermOverTerm rationalizeTermOverTerm2("x", "y");
 
     EXPECT_TRUE(rationalizeTermOverTerm1.getNumerator().isEmpty());
     EXPECT_TRUE(rationalizeTermOverTerm1.getDenominator().isEmpty());
@@ -160,14 +160,14 @@ TEST(RationalizeTermOverTermTest, RationalizeNumeratorWorksForExpressionOverExpr
 {
     Term numeratorPart1(Polynomial{Monomial(1, {{"x", 1}}), Monomial(-2, {})});
     Term numeratorPart2(Polynomial{Monomial(1, {{"x", 1}}), Monomial(-3, {})});
-    Term numeratorPart1Radical(createExpressionIfPossible({numeratorPart1, Term("^"), Term(AlbaNumber::createFraction(1, 2))}));
-    Term numeratorPart2Radical(createExpressionIfPossible({numeratorPart2, Term("^"), Term(AlbaNumber::createFraction(1, 2))}));
-    Term numerator(createExpressionIfPossible({numeratorPart1Radical, Term("+"), numeratorPart2Radical}));
+    Term numeratorPart1Radical(createExpressionIfPossible({numeratorPart1, "^", AlbaNumber::createFraction(1, 2)}));
+    Term numeratorPart2Radical(createExpressionIfPossible({numeratorPart2, "^", AlbaNumber::createFraction(1, 2)}));
+    Term numerator(createExpressionIfPossible({numeratorPart1Radical, "+", numeratorPart2Radical}));
     Term denominatorPart1(Polynomial{Monomial(1, {{"x", 1}}), Monomial(-4, {})});
     Term denominatorPart2(Polynomial{Monomial(1, {{"x", 1}}), Monomial(-5, {})});
-    Term denominatorPart1Radical(createExpressionIfPossible({denominatorPart1, Term("^"), Term(AlbaNumber::createFraction(1, 2))}));
-    Term denominatorPart2Radical(createExpressionIfPossible({denominatorPart2, Term("^"), Term(AlbaNumber::createFraction(1, 2))}));
-    Term denominator(createExpressionIfPossible({denominatorPart1Radical, Term("+"), denominatorPart2Radical}));
+    Term denominatorPart1Radical(createExpressionIfPossible({denominatorPart1, "^", AlbaNumber::createFraction(1, 2)}));
+    Term denominatorPart2Radical(createExpressionIfPossible({denominatorPart2, "^", AlbaNumber::createFraction(1, 2)}));
+    Term denominator(createExpressionIfPossible({denominatorPart1Radical, "+", denominatorPart2Radical}));
     RationalizeTermOverTerm rationalizeTermOverTerm(numerator, denominator);
 
     rationalizeTermOverTerm.rationalizeNumerator();
@@ -183,14 +183,14 @@ TEST(RationalizeTermOverTermTest, RationalizeDenominatorWorksForExpressionOverEx
 {
     Term numeratorPart1(Polynomial{Monomial(1, {{"x", 1}}), Monomial(-2, {})});
     Term numeratorPart2(Polynomial{Monomial(1, {{"x", 1}}), Monomial(-3, {})});
-    Term numeratorPart1Radical(createExpressionIfPossible({numeratorPart1, Term("^"), Term(AlbaNumber::createFraction(1, 2))}));
-    Term numeratorPart2Radical(createExpressionIfPossible({numeratorPart2, Term("^"), Term(AlbaNumber::createFraction(1, 2))}));
-    Term numerator(createExpressionIfPossible({numeratorPart1Radical, Term("+"), numeratorPart2Radical}));
+    Term numeratorPart1Radical(createExpressionIfPossible({numeratorPart1, "^", AlbaNumber::createFraction(1, 2)}));
+    Term numeratorPart2Radical(createExpressionIfPossible({numeratorPart2, "^", AlbaNumber::createFraction(1, 2)}));
+    Term numerator(createExpressionIfPossible({numeratorPart1Radical, "+", numeratorPart2Radical}));
     Term denominatorPart1(Polynomial{Monomial(1, {{"x", 1}}), Monomial(-4, {})});
     Term denominatorPart2(Polynomial{Monomial(1, {{"x", 1}}), Monomial(-5, {})});
-    Term denominatorPart1Radical(createExpressionIfPossible({denominatorPart1, Term("^"), Term(AlbaNumber::createFraction(1, 2))}));
-    Term denominatorPart2Radical(createExpressionIfPossible({denominatorPart2, Term("^"), Term(AlbaNumber::createFraction(1, 2))}));
-    Term denominator(createExpressionIfPossible({denominatorPart1Radical, Term("+"), denominatorPart2Radical}));
+    Term denominatorPart1Radical(createExpressionIfPossible({denominatorPart1, "^", AlbaNumber::createFraction(1, 2)}));
+    Term denominatorPart2Radical(createExpressionIfPossible({denominatorPart2, "^", AlbaNumber::createFraction(1, 2)}));
+    Term denominator(createExpressionIfPossible({denominatorPart1Radical, "+", denominatorPart2Radical}));
     RationalizeTermOverTerm rationalizeTermOverTerm(numerator, denominator);
 
     rationalizeTermOverTerm.rationalizeDenominator();
@@ -206,14 +206,14 @@ TEST(RationalizeTermOverTermTest, RationalizeNumeratorWorksForExpressionOverExpr
 {
     Term numeratorPart1(Polynomial{Monomial(1, {{"x", 1}}), Monomial(-2, {})});
     Term numeratorPart2(Polynomial{Monomial(1, {{"x", 1}}), Monomial(-3, {})});
-    Term numeratorPart1Radical(createExpressionIfPossible({numeratorPart1, Term("^"), Term(AlbaNumber::createFraction(1, 3))}));
-    Term numeratorPart2Radical(createExpressionIfPossible({numeratorPart2, Term("^"), Term(AlbaNumber::createFraction(1, 3))}));
-    Term numerator(createExpressionIfPossible({numeratorPart1Radical, Term("+"), numeratorPart2Radical}));
+    Term numeratorPart1Radical(createExpressionIfPossible({numeratorPart1, "^", AlbaNumber::createFraction(1, 3)}));
+    Term numeratorPart2Radical(createExpressionIfPossible({numeratorPart2, "^", AlbaNumber::createFraction(1, 3)}));
+    Term numerator(createExpressionIfPossible({numeratorPart1Radical, "+", numeratorPart2Radical}));
     Term denominatorPart1(Polynomial{Monomial(1, {{"x", 1}}), Monomial(-4, {})});
     Term denominatorPart2(Polynomial{Monomial(1, {{"x", 1}}), Monomial(-5, {})});
-    Term denominatorPart1Radical(createExpressionIfPossible({denominatorPart1, Term("^"), Term(AlbaNumber::createFraction(1, 3))}));
-    Term denominatorPart2Radical(createExpressionIfPossible({denominatorPart2, Term("^"), Term(AlbaNumber::createFraction(1, 3))}));
-    Term denominator(createExpressionIfPossible({denominatorPart1Radical, Term("+"), denominatorPart2Radical}));
+    Term denominatorPart1Radical(createExpressionIfPossible({denominatorPart1, "^", AlbaNumber::createFraction(1, 3)}));
+    Term denominatorPart2Radical(createExpressionIfPossible({denominatorPart2, "^", AlbaNumber::createFraction(1, 3)}));
+    Term denominator(createExpressionIfPossible({denominatorPart1Radical, "+", denominatorPart2Radical}));
     RationalizeTermOverTerm rationalizeTermOverTerm(numerator, denominator);
 
     rationalizeTermOverTerm.rationalizeNumerator();
@@ -229,14 +229,14 @@ TEST(RationalizeTermOverTermTest, RationalizeDenominatorWorksForExpressionOverEx
 {
     Term numeratorPart1(Polynomial{Monomial(1, {{"x", 1}}), Monomial(-2, {})});
     Term numeratorPart2(Polynomial{Monomial(1, {{"x", 1}}), Monomial(-3, {})});
-    Term numeratorPart1Radical(createExpressionIfPossible({numeratorPart1, Term("^"), Term(AlbaNumber::createFraction(1, 3))}));
-    Term numeratorPart2Radical(createExpressionIfPossible({numeratorPart2, Term("^"), Term(AlbaNumber::createFraction(1, 3))}));
-    Term numerator(createExpressionIfPossible({numeratorPart1Radical, Term("+"), numeratorPart2Radical}));
+    Term numeratorPart1Radical(createExpressionIfPossible({numeratorPart1, "^", AlbaNumber::createFraction(1, 3)}));
+    Term numeratorPart2Radical(createExpressionIfPossible({numeratorPart2, "^", AlbaNumber::createFraction(1, 3)}));
+    Term numerator(createExpressionIfPossible({numeratorPart1Radical, "+", numeratorPart2Radical}));
     Term denominatorPart1(Polynomial{Monomial(1, {{"x", 1}}), Monomial(-4, {})});
     Term denominatorPart2(Polynomial{Monomial(1, {{"x", 1}}), Monomial(-5, {})});
-    Term denominatorPart1Radical(createExpressionIfPossible({denominatorPart1, Term("^"), Term(AlbaNumber::createFraction(1, 3))}));
-    Term denominatorPart2Radical(createExpressionIfPossible({denominatorPart2, Term("^"), Term(AlbaNumber::createFraction(1, 3))}));
-    Term denominator(createExpressionIfPossible({denominatorPart1Radical, Term("+"), denominatorPart2Radical}));
+    Term denominatorPart1Radical(createExpressionIfPossible({denominatorPart1, "^", AlbaNumber::createFraction(1, 3)}));
+    Term denominatorPart2Radical(createExpressionIfPossible({denominatorPart2, "^", AlbaNumber::createFraction(1, 3)}));
+    Term denominator(createExpressionIfPossible({denominatorPart1Radical, "+", denominatorPart2Radical}));
     RationalizeTermOverTerm rationalizeTermOverTerm(numerator, denominator);
 
     rationalizeTermOverTerm.rationalizeDenominator();
@@ -251,8 +251,8 @@ TEST(RationalizeTermOverTermTest, RationalizeDenominatorWorksForExpressionOverEx
 TEST(RationalizeTermOverTermTest, RationalizeNumeratorForExample1)
 {
     Term numeratorPart1(Polynomial{Monomial(1, {{"deltaX", 1}}), Monomial(-2, {})});
-    Term numeratorPart1Radical(createExpressionIfPossible({numeratorPart1, Term("^"), Term(AlbaNumber::createFraction(1, 3))}));
-    Term numerator(createExpressionIfPossible({numeratorPart1Radical, Term("-"), Term(1.259921049894873)}));
+    Term numeratorPart1Radical(createExpressionIfPossible({numeratorPart1, "^", AlbaNumber::createFraction(1, 3)}));
+    Term numerator(createExpressionIfPossible({numeratorPart1Radical, "-", 1.259921049894873}));
     Term denominator("deltaX");
     RationalizeTermOverTerm rationalizeTermOverTerm(numerator, denominator);
 
@@ -268,8 +268,8 @@ TEST(RationalizeTermOverTermTest, RationalizeNumeratorWorksOnWithInnerAndOuterFr
 {
     Term innerNumerator(Polynomial{Monomial(1, {{"x", AlbaNumber::createFraction(1, 2)}}), Monomial(-2, {})});
     Term innerDenominator(Polynomial{Monomial(1, {{"x", AlbaNumber::createFraction(1, 2)}}), Monomial(-3, {})});
-    Term innerFraction(createExpressionIfPossible({innerNumerator, Term("/"), innerDenominator}));
-    Term outerNumerator(createExpressionIfPossible({innerFraction, Term("^"), Term(AlbaNumber::createFraction(1, 2)), Term("-"), Term(2)}));
+    Term innerFraction(createExpressionIfPossible({innerNumerator, "/", innerDenominator}));
+    Term outerNumerator(createExpressionIfPossible({innerFraction, "^", AlbaNumber::createFraction(1, 2), "-", 2}));
     Term outerDenominator(Polynomial{Monomial(1, {{"x", AlbaNumber::createFraction(1, 2)}}), Monomial(-3, {})});
     RationalizeTermOverTerm rationalizeTermOverTerm(outerNumerator, outerDenominator);
 

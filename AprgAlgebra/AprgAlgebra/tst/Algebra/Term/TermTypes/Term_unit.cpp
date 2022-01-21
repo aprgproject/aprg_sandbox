@@ -148,7 +148,7 @@ TEST(TermTest, TermsAsPolynomialsWorks)
 TEST(TermTest, TermsAsExpressionsWorks)
 {
     Term expressionTerm1(Expression{});
-    Term expressionTerm2(createExpressionIfPossible({Term(5), Term("+"), Term("interest")}));
+    Term expressionTerm2(createExpressionIfPossible({5, "+", "interest"}));
 
     //For expression1
     ASSERT_EQ(TermType::Expression, expressionTerm1.getTermType());
@@ -624,7 +624,7 @@ TEST(TermTest, GetDisplayableStringWorks)
     Term term4(Operator("+"));
     Term term5(Monomial(-1.5, {{"distance", -3.75}, {"power", 4.5}}));
     Term term6(Polynomial{Monomial(3, {}), Monomial(-1.5, {{"distance", -3.75}, {"power", 4.5}})});
-    Term term7(createExpressionIfPossible({Term(5), Term("+"), Term("interest")}));
+    Term term7(createExpressionIfPossible({5, "+", "interest"}));
     Function function1("functionName", Term(5), [](AlbaNumber const&  number) -> AlbaNumber
     {
         return number;
@@ -649,7 +649,7 @@ TEST(TermTest, GetDebugStringWorks)
     Term term4(Operator("+"));
     Term term5(Monomial(-1.5, {{"distance", -3.75}, {"power", 4.5}}));
     Term term6(Polynomial{Monomial(3, {}), Monomial(-1.5, {{"distance", -3.75}, {"power", 4.5}})});
-    Term term7(createExpressionIfPossible({Term(5), Term("+"), Term("interest")}));
+    Term term7(createExpressionIfPossible({5, "+", "interest"}));
     Function function1("functionName", Term(5), [](AlbaNumber const&  number) -> AlbaNumber
     {
         return number;
@@ -672,7 +672,7 @@ TEST(TermTest, ClearWorks)
     Term variableTerm("x");
     Term monomialTerm(Monomial(1475,{}));
     Term polynomialTerm(Polynomial{Monomial(1475,{})});
-    Term expressionTerm(Expression{createExpressionIfPossible({Term(1475)})});
+    Term expressionTerm(Expression{createExpressionIfPossible({1475})});
     Function functionObject("functionName", Term(1475), [](AlbaNumber const&  number) -> AlbaNumber
     {
         return number;
@@ -700,7 +700,7 @@ TEST(TermTest, SimplifyWorks)
     Term variableTerm("x");
     Term monomialTerm(Monomial(1475,{}));
     Term polynomialTerm(Polynomial{Monomial(1475,{})});
-    Term expressionTerm(Expression{createExpressionIfPossible({Term(1475)})});
+    Term expressionTerm(Expression{createExpressionIfPossible({1475})});
     Function functionObject("functionName", Term(1475), [](AlbaNumber const&  number) -> AlbaNumber
     {
         return number;
@@ -747,7 +747,7 @@ TEST(TermTest, SortWorks)
     Term term2(Polynomial{});
     Term term3(Expression{});
     Term term4(Polynomial{Monomial(100, {}), Monomial(5, {{"x", 2}, {"y", 3}, {"z", 4}}), Monomial(9, {{"x", 8}}), Monomial(10, {})});
-    Term term5(createExpressionIfPossible({Term(1), Term("-"), Term(3), Term("-"), Term(2), Term("+"), Term(5), Term("+"), Term(4)}));
+    Term term5(createExpressionIfPossible({1, "-", 3, "-", 2, "+", 5, "+", 4}));
 
     term1.sort();
     term2.sort();
@@ -759,7 +759,7 @@ TEST(TermTest, SortWorks)
     Term expectTerm2(Polynomial{});
     Term expectTerm3(Expression{});
     Term expectTerm4(Polynomial{Monomial(5, {{"x", 2}, {"y", 3}, {"z", 4}}), Monomial(9, {{"x", 8}}), Monomial(100, {}), Monomial(10, {})});
-    Term expectTerm5(createExpressionIfPossible({Term(1), Term("+"), Term(4), Term("+"), Term(5), Term("-"), Term(2), Term("-"), Term(3)}));
+    Term expectTerm5(createExpressionIfPossible({1, "+", 4, "+", 5, "-", 2, "-", 3}));
     EXPECT_EQ(expectTerm1, term1);
     EXPECT_EQ(expectTerm2, term2);
     EXPECT_EQ(expectTerm3, term3);

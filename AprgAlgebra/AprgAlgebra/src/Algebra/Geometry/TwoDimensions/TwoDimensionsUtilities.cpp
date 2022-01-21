@@ -36,7 +36,7 @@ Equation getEllipseEquation()
     Term aSquared(createExpressionIfPossible({Term(a), Term("^"), Term(2)}));
     Term bSquared(createExpressionIfPossible({Term(b), Term("^"), Term(2)}));
     Term leftHandSide(createExpressionIfPossible({xSquared, Term("/"), aSquared, Term("+"), ySquared, Term("/"), bSquared}));
-    return Equation(leftHandSide, "=", Term(1));
+    return Equation(leftHandSide, "=", 1);
 }
 
 Equation getHyperbolaEquation()
@@ -48,7 +48,7 @@ Equation getHyperbolaEquation()
     Term aSquared(createExpressionIfPossible({Term(a), Term("^"), Term(2)}));
     Term bSquared(createExpressionIfPossible({Term(b), Term("^"), Term(2)}));
     Term leftHandSide(createExpressionIfPossible({xSquared, Term("/"), aSquared, Term("-"), ySquared, Term("/"), bSquared}));
-    return Equation(leftHandSide, "=", Term(1));
+    return Equation(leftHandSide, "=", 1);
 }
 
 Equation getLimaconEquation(LimaconTrigonometricFunctionType const type)

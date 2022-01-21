@@ -58,9 +58,11 @@ TEST(PolynomialOverPolynomialTest, SimplifyWorksWithZeroOverZero)
     PolynomialOverPolynomial polynomialOverPolynomial(numerator, denominator);
 
     polynomialOverPolynomial.simplify();
+
     EXPECT_EQ(Polynomial(), polynomialOverPolynomial.getNumerator());
     EXPECT_EQ(Polynomial(), polynomialOverPolynomial.getDenominator());
 }
+
 TEST(PolynomialOverPolynomialTest, SimplifyWorksOnConvertingFractionCoefficientsToInteger)
 {
     Polynomial numerator{Monomial(AlbaNumber::createFraction(1, 2), {{"x", 1}}), Monomial(AlbaNumber::createFraction(1, 3), {{"y", 1}})};
@@ -229,6 +231,7 @@ TEST(PolynomialOverPolynomialTest, SimplifyAndDivideWorksWithZeroOverDouble)
     PolynomialOverPolynomial polynomialOverPolynomial(numerator, denominator);
 
     PolynomialOverPolynomial::QuotientAndRemainder quotientAndRemainder(polynomialOverPolynomial.simplifyAndDivide());
+
     EXPECT_EQ(Polynomial(), quotientAndRemainder.quotient);
     EXPECT_EQ(Polynomial(), quotientAndRemainder.remainder);
 }
@@ -240,9 +243,11 @@ TEST(PolynomialOverPolynomialTest, SimplifyAndDivideWorksWithZeroOverZero)
     PolynomialOverPolynomial polynomialOverPolynomial(numerator, denominator);
 
     PolynomialOverPolynomial::QuotientAndRemainder quotientAndRemainder(polynomialOverPolynomial.simplifyAndDivide());
+
     EXPECT_EQ(Polynomial(), quotientAndRemainder.quotient);
     EXPECT_EQ(Polynomial(), quotientAndRemainder.remainder);
 }
+
 TEST(PolynomialOverPolynomialTest, SimplifyAndDivideWorksWithNoRemainder)
 {
     Polynomial numerator{Monomial(3, {{"x", 3}}), Monomial(-4, {{"x", 2}, {"y", 1}}), Monomial(5, {{"x", 1}, {"y", 2}}), Monomial(6, {{"y", 3}})};

@@ -37,33 +37,33 @@ TEST(EquationUtilitiesTest, IsEquationOperatorCharacterStringWorks)
 
 TEST(EquationUtilitiesTest, DoesNegativeVariableSubstitutionYieldsToTheSameEquationWorks)
 {
-    EXPECT_TRUE(doesNegativeVariableSubstitutionYieldsToTheSameEquation(Equation(Term("a"), "=", Term("b")), {"x"}));
-    EXPECT_FALSE(doesNegativeVariableSubstitutionYieldsToTheSameEquation(Equation(Term("a"), "=", Term("b")), {"a"}));
-    EXPECT_FALSE(doesNegativeVariableSubstitutionYieldsToTheSameEquation(Equation(Term("a"), "=", Term("b")), {"b"}));
-    EXPECT_TRUE(doesNegativeVariableSubstitutionYieldsToTheSameEquation(Equation(Term("a"), "=", Term("b")), {"a", "b"}));
+    EXPECT_TRUE(doesNegativeVariableSubstitutionYieldsToTheSameEquation(Equation("a", "=", "b"), {"x"}));
+    EXPECT_FALSE(doesNegativeVariableSubstitutionYieldsToTheSameEquation(Equation("a", "=", "b"), {"a"}));
+    EXPECT_FALSE(doesNegativeVariableSubstitutionYieldsToTheSameEquation(Equation("a", "=", "b"), {"b"}));
+    EXPECT_TRUE(doesNegativeVariableSubstitutionYieldsToTheSameEquation(Equation("a", "=", "b"), {"a", "b"}));
 }
 
 TEST(EquationUtilitiesTest, IsSymmetricAlongXAxisWorks)
 {
-    EXPECT_FALSE(isSymmetricAlongXAxis(Equation(Term("x"), "=", Term("y"))));
-    EXPECT_TRUE(isSymmetricAlongXAxis(Equation(Term("x"), "=", Term(Monomial(1, {{"y", 2}})))));
-    EXPECT_TRUE(isSymmetricAlongXAxis(Equation(Term("x"), "=", Term(abs(Term("y"))))));
+    EXPECT_FALSE(isSymmetricAlongXAxis(Equation("x", "=", "y")));
+    EXPECT_TRUE(isSymmetricAlongXAxis(Equation("x", "=", Monomial(1, {{"y", 2}}))));
+    EXPECT_TRUE(isSymmetricAlongXAxis(Equation("x", "=", abs("y"))));
 }
 
 TEST(EquationUtilitiesTest, IsSymmetricAlongYAxisWorks)
 {
-    EXPECT_FALSE(isSymmetricAlongYAxis(Equation(Term("y"), "=", Term("x"))));
-    EXPECT_TRUE(isSymmetricAlongYAxis(Equation(Term("y"), "=", Term(Monomial(1, {{"x", 2}})))));
-    EXPECT_TRUE(isSymmetricAlongYAxis(Equation(Term("y"), "=", Term(abs(Term("x"))))));
+    EXPECT_FALSE(isSymmetricAlongYAxis(Equation("y", "=", "x")));
+    EXPECT_TRUE(isSymmetricAlongYAxis(Equation("y", "=", Monomial(1, {{"x", 2}}))));
+    EXPECT_TRUE(isSymmetricAlongYAxis(Equation("y", "=", abs("x"))));
 }
 
 TEST(EquationUtilitiesTest, IsSymmetricOnOriginWorks)
 {
-    EXPECT_TRUE(isSymmetricOnOrigin(Equation(Term("y"), "=", Term("x"))));
-    EXPECT_FALSE(isSymmetricOnOrigin(Equation(Term("y"), "=", Term(Monomial(1, {{"x", 2}})))));
-    EXPECT_TRUE(isSymmetricOnOrigin(Equation(Term("y"), "=", Term(Monomial(1, {{"x", 3}})))));
-    EXPECT_FALSE(isSymmetricOnOrigin(Equation(Term("y"), "=", Term(abs(Term("x"))))));
-    EXPECT_TRUE(isSymmetricOnOrigin(Equation(Term(Monomial(1, {{"x", 1}, {"y", 1}})), "=", Term(1))));
+    EXPECT_TRUE(isSymmetricOnOrigin(Equation("y", "=", "x")));
+    EXPECT_FALSE(isSymmetricOnOrigin(Equation("y", "=", Monomial(1, {{"x", 2}}))));
+    EXPECT_TRUE(isSymmetricOnOrigin(Equation("y", "=", Monomial(1, {{"x", 3}}))));
+    EXPECT_FALSE(isSymmetricOnOrigin(Equation("y", "=", abs("x"))));
+    EXPECT_TRUE(isSymmetricOnOrigin(Equation(Monomial(1, {{"x", 1}, {"y", 1}}), "=", 1)));
 }
 
 TEST(EquationUtilitiesTest, IsEqualWorks)
@@ -198,9 +198,9 @@ TEST(EquationUtilitiesTest, IsEquationOperationSatisfiedWorks)
 
 TEST(EquationUtilitiesTest, DoesAllEquationsHaveEqualityOperatorWorks)
 {
-    Equation equation1(Term("a"), "=", Term("b"));
-    Equation equation2(Term("x"), "=", Term("y"));
-    Equation equation3(Term("r"), "!=", Term("p"));
+    Equation equation1("a", "=", "b");
+    Equation equation2("x", "=", "y");
+    Equation equation3("r", "!=", "p");
 
     EXPECT_TRUE(doesAllEquationsHaveEqualityOperator(Equations{}));
     EXPECT_FALSE(doesAllEquationsHaveEqualityOperator(Equations{equation1, equation2, equation3}));
@@ -229,7 +229,7 @@ TEST(EquationUtilitiesTest, GetReverseEquationOperatorStringWorks)
 
 TEST(EquationUtilitiesTest, BuildEquationIfPossibleWorks)
 {
-    Equation expectedEquation(Term("a"), "=", Term("b"));
+    Equation expectedEquation("a", "=", "b");
 
     EXPECT_EQ(expectedEquation, buildEquationIfPossible("a=b"));
 }

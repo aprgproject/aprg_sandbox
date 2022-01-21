@@ -90,9 +90,11 @@ void SignMutator::mutatePolynomial(Polynomial & polynomial)
         polynomial = createPolynomialFromNumber(AlbaNumber(AlbaNumber::Value::NotANumber));
     }
 }
+
 void SignMutator::mutateExpression(Expression & expression)
 {
-    Term simplifiedTerm(expression);    simplifyTermToACommonDenominator(simplifiedTerm);
+    Term simplifiedTerm(expression);
+    simplifyTermToACommonDenominator(simplifiedTerm);
     if(simplifiedTerm.isExpression())
     {
         expression = simplifiedTerm.getExpressionConstReference();
@@ -140,7 +142,7 @@ Term SignMutator::getTermForMutationOfVariable(
     Term result(m_substitution.performSubstitutionTo(variable));
     if(!isTheValue(result, 1) && !isTheValue(result, -1))
     {
-        result = Term(AlbaNumber(AlbaNumber::Value::NotANumber));
+        result = AlbaNumber(AlbaNumber::Value::NotANumber);
     }
     return result;
 }
@@ -160,16 +162,16 @@ Term SignMutator::getTermForMutationOfFunction(
                 || "arccosh" == simplifiedFunctionName
                 || "arcsech" == simplifiedFunctionName)
         {
-            result = Term(1);
+            result = 1;
         }
         else
         {
-            result = Term(AlbaNumber(AlbaNumber::Value::NotANumber));
+            result = AlbaNumber(AlbaNumber::Value::NotANumber);
         }
     }
     else if(!result.isConstant())
     {
-        result = Term(AlbaNumber(AlbaNumber::Value::NotANumber));
+        result = AlbaNumber(AlbaNumber::Value::NotANumber);
     }
     return result;
 }
@@ -193,15 +195,15 @@ void SignMutator::mutateExpressionWithAdditionAndSubtraction(
     }
     if(areAllTheValuesOne)
     {
-        expression = createOrCopyExpressionFromATerm(Term(1));
+        expression = createOrCopyExpressionFromATerm(1);
     }
     else if(areAllTheValuesNegativeOne)
     {
-        expression = createOrCopyExpressionFromATerm(Term(-1));
+        expression = createOrCopyExpressionFromATerm(-1);
     }
     else
     {
-        expression = createOrCopyExpressionFromATerm(Term(AlbaNumber(AlbaNumber::Value::NotANumber)));
+        expression = createOrCopyExpressionFromATerm(AlbaNumber(AlbaNumber::Value::NotANumber));
     }
 }
 
@@ -217,7 +219,7 @@ void SignMutator::mutateExpressionWithMultiplicationAndDivision(
     expression.simplify();
     if(!isTheValue(expression, 1) && !isTheValue(expression, -1))
     {
-        expression = createOrCopyExpressionFromATerm(Term(AlbaNumber(AlbaNumber::Value::NotANumber)));
+        expression = createOrCopyExpressionFromATerm(AlbaNumber(AlbaNumber::Value::NotANumber));
     }
 }
 
@@ -230,7 +232,7 @@ void SignMutator::mutateExpressionWithRaiseToPower(
     mutateTerm(mutatedBase);
     if(isTheValue(mutatedBase, 1))
     {
-        expression = createOrCopyExpressionFromATerm(Term(1));
+        expression = createOrCopyExpressionFromATerm(1);
         isExpressionSignKnown=true;
     }
     else if(isTheValue(mutatedBase, -1))
@@ -240,12 +242,12 @@ void SignMutator::mutateExpressionWithRaiseToPower(
         if(mutatedExponent.isConstant())
         {
             AlbaNumber const& exponentValue(mutatedExponent.getConstantValueConstReference());
-            expression = createOrCopyExpressionFromATerm(Term(AlbaNumber(-1)^exponentValue));
+            expression = createOrCopyExpressionFromATerm(AlbaNumber(-1)^exponentValue);
         }
     }
     if(!isExpressionSignKnown)
     {
-        expression = createOrCopyExpressionFromATerm(Term(AlbaNumber(AlbaNumber::Value::NotANumber)));
+        expression = createOrCopyExpressionFromATerm(AlbaNumber(AlbaNumber::Value::NotANumber));
     }
 }
 

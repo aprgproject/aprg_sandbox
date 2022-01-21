@@ -128,7 +128,7 @@ AlbaNumber getAnApproximateOfNaturalLogarithmUsingTrapezoidRule(
     AlbaNumber result;
     if(input > 0)
     {
-        Term oneOverX(Term(1)/Term("x"));
+        Term oneOverX(Monomial(1, {{"x", -1}}));
         Term approximateValue(getAnApproximateOfDefiniteIntegralUsingTrapezoidalRule(oneOverX, {"x", AlbaNumber(1), input}, numberOfSamples));
         if(approximateValue.isConstant())
         {
@@ -145,7 +145,7 @@ AlbaNumber getAnApproximateOfNaturalLogarithmUsingSimpsonRule(
     AlbaNumber result;
     if(input > 0)
     {
-        Term oneOverX(Term(1)/Term("x"));
+        Term oneOverX(Monomial(1, {{"x", -1}}));
         Term approximateValue(getAnApproximateOfDefiniteIntegralUsingSimpsonRule(oneOverX, {"x", AlbaNumber(1), input}, numberOfSamples));
         if(approximateValue.isConstant())
         {

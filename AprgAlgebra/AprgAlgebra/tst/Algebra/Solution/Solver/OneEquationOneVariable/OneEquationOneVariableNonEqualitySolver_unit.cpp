@@ -22,7 +22,7 @@ TEST(OneEquationOneVariableNonEqualitySolverTest, EqualityOperatorsAreNotSolved)
 {
     OneEquationOneVariableNonEqualitySolver solver;
 
-    SolutionSet solutionSet(solver.calculateSolutionAndReturnSolutionSet(Equation(Term("x"), "=", Term("x"))));
+    SolutionSet solutionSet(solver.calculateSolutionAndReturnSolutionSet(Equation("x", "=", "x")));
 
     EXPECT_FALSE(solver.isSolved());
     EXPECT_FALSE(solver.isACompleteSolution());
@@ -33,7 +33,7 @@ TEST(OneEquationOneVariableNonEqualitySolverTest, MultipleVariableEquationsAreNo
 {
     OneEquationOneVariableNonEqualitySolver solver;
 
-    SolutionSet solutionSet(solver.calculateSolutionAndReturnSolutionSet(Equation(Term("x"), "<", Term("y"))));
+    SolutionSet solutionSet(solver.calculateSolutionAndReturnSolutionSet(Equation("x", "<", "y")));
 
     EXPECT_FALSE(solver.isSolved());
     EXPECT_FALSE(solver.isACompleteSolution());
@@ -44,7 +44,7 @@ TEST(OneEquationOneVariableNonEqualitySolverTest, EquationsThatAreAlwaysSatisfie
 {
     OneEquationOneVariableNonEqualitySolver solver;
 
-    SolutionSet solutionSet(solver.calculateSolutionAndReturnSolutionSet(Equation(Term(2), "<", Term(3))));
+    SolutionSet solutionSet(solver.calculateSolutionAndReturnSolutionSet(Equation(2, "<", 3)));
 
     EXPECT_TRUE(solver.isSolved());
     EXPECT_TRUE(solver.isACompleteSolution());
@@ -57,7 +57,7 @@ TEST(OneEquationOneVariableNonEqualitySolverTest, PolynomialAreSolvedCorrectly)
 {
     OneEquationOneVariableNonEqualitySolver solver;
 
-    SolutionSet solutionSet(solver.calculateSolutionAndReturnSolutionSet(Equation(Term(Monomial(1, {{"x", 4}})), "<", Term(16))));
+    SolutionSet solutionSet(solver.calculateSolutionAndReturnSolutionSet(Equation(Monomial(1, {{"x", 4}}), "<", 16)));
 
     EXPECT_TRUE(solver.isSolved());
     EXPECT_TRUE(solver.isACompleteSolution());
@@ -70,10 +70,10 @@ TEST(OneEquationOneVariableNonEqualitySolverTest, PolynomialOverPolynomialAreSol
 {
     Polynomial numerator{Monomial(1, {{"x", 2}}), Monomial(-25, {})};
     Polynomial denominator{Monomial(1, {{"x", 2}}), Monomial(-36, {})};
-    Expression expression(createExpressionIfPossible({Term(numerator), Term("/"), Term(denominator)}));
+    Expression expression(createExpressionIfPossible({numerator, "/", denominator}));
     OneEquationOneVariableNonEqualitySolver solver;
 
-    SolutionSet solutionSet(solver.calculateSolutionAndReturnSolutionSet(Equation(Term(expression), ">=", Term(0))));
+    SolutionSet solutionSet(solver.calculateSolutionAndReturnSolutionSet(Equation(expression, ">=", 0)));
 
     EXPECT_TRUE(solver.isSolved());
     EXPECT_TRUE(solver.isACompleteSolution());
@@ -86,10 +86,10 @@ TEST(OneEquationOneVariableNonEqualitySolverTest, PolynomialOverPolynomialAreSol
 
 TEST(OneEquationOneVariableNonEqualitySolverTest, XToTheXAreNotSolved)
 {
-    Expression expression(createExpressionIfPossible({Term("x"), Term("^"), Term("x")}));
+    Expression expression(createExpressionIfPossible({"x", "^", "x"}));
     OneEquationOneVariableNonEqualitySolver solver;
 
-    SolutionSet solutionSet(solver.calculateSolutionAndReturnSolutionSet(Equation(Term(expression), ">", Term(823543))));
+    SolutionSet solutionSet(solver.calculateSolutionAndReturnSolutionSet(Equation(expression, ">", 823543)));
 
     EXPECT_FALSE(solver.isSolved());
     EXPECT_FALSE(solver.isACompleteSolution());
@@ -99,10 +99,10 @@ TEST(OneEquationOneVariableNonEqualitySolverTest, XToTheXAreNotSolved)
 
 TEST(OneEquationOneVariableNonEqualitySolverTest, XToTheXWithNegativeSolutionAreNotSolved)
 {
-    Expression expression(createExpressionIfPossible({Term("x"), Term("^"), Term("x")}));
+    Expression expression(createExpressionIfPossible({"x", "^", "x"}));
     OneEquationOneVariableNonEqualitySolver solver;
 
-    SolutionSet solutionSet(solver.calculateSolutionAndReturnSolutionSet(Equation(Term(expression), ">", Term(-823543))));
+    SolutionSet solutionSet(solver.calculateSolutionAndReturnSolutionSet(Equation(expression, ">", -823543)));
 
     EXPECT_FALSE(solver.isSolved());
     EXPECT_FALSE(solver.isACompleteSolution());
@@ -112,10 +112,10 @@ TEST(OneEquationOneVariableNonEqualitySolverTest, XToTheXWithNegativeSolutionAre
 
 TEST(OneEquationOneVariableNonEqualitySolverTest, AbsoluteValueFunctionsAreSolved)
 {
-    Term functionTerm(Functions::abs(createExpressionIfPossible({Term("x")})));
+    Term functionTerm(Functions::abs(createExpressionIfPossible({"x"})));
     OneEquationOneVariableNonEqualitySolver solver;
 
-    SolutionSet solutionSet(solver.calculateSolutionAndReturnSolutionSet(Equation(functionTerm, "<", Term(526))));
+    SolutionSet solutionSet(solver.calculateSolutionAndReturnSolutionSet(Equation(functionTerm, "<", 526)));
 
     EXPECT_TRUE(solver.isSolved());
     EXPECT_TRUE(solver.isACompleteSolution());
@@ -126,10 +126,10 @@ TEST(OneEquationOneVariableNonEqualitySolverTest, AbsoluteValueFunctionsAreSolve
 
 TEST(OneEquationOneVariableNonEqualitySolverTest, AbsoluteValueFunctionWithInputExpressionAreSolved)
 {
-    Term functionTerm(Functions::abs(createExpressionIfPossible({Term("x"), Term("+"), Term(100)})));
+    Term functionTerm(Functions::abs(createExpressionIfPossible({"x", "+", 100})));
     OneEquationOneVariableNonEqualitySolver solver;
 
-    SolutionSet solutionSet(solver.calculateSolutionAndReturnSolutionSet(Equation(functionTerm, ">=", Term(526))));
+    SolutionSet solutionSet(solver.calculateSolutionAndReturnSolutionSet(Equation(functionTerm, ">=", 526)));
 
     EXPECT_TRUE(solver.isSolved());
     EXPECT_TRUE(solver.isACompleteSolution());
@@ -142,13 +142,13 @@ TEST(OneEquationOneVariableNonEqualitySolverTest, AbsoluteValueFunctionWithInput
 TEST(OneEquationOneVariableNonEqualitySolverTest, AbsoluteValueFunctionInDenominatorAreSolved)
 {
     Term functionTerm(Functions::abs(
-                          createExpressionIfPossible({Term(Polynomial{Monomial(2, {{"x", 1}}), Monomial(3, {})}) })));
-    Term fractionTerm(createExpressionIfPossible({Term(1), Term("/"), functionTerm}));
+                          createExpressionIfPossible({Polynomial{Monomial(2, {{"x", 1}}), Monomial(3, {})}})));
+    Term fractionTerm(createExpressionIfPossible({1, "/", functionTerm}));
     OneEquationOneVariableNonEqualitySolver solver;
 
     SolutionSet solutionSet(
                 solver.calculateSolutionAndReturnSolutionSet(
-                    Equation(fractionTerm, "<", Term(AlbaNumber::createFraction(1, 4)))));
+                    Equation(fractionTerm, "<", AlbaNumber::createFraction(1, 4))));
 
     EXPECT_TRUE(solver.isSolved());
     EXPECT_TRUE(solver.isACompleteSolution());
@@ -172,7 +172,7 @@ TEST(OneEquationOneVariableNonEqualitySolverTest, PolynomialsInEquationAreSolved
     Polynomial polynomialRight{Monomial(5, {{"x", 1}}), Monomial(9, {})};
     OneEquationOneVariableNonEqualitySolver solver;
 
-    SolutionSet solutionSet(solver.calculateSolutionAndReturnSolutionSet(Equation(Term(polynomialLeft), "<", Term(polynomialRight))));
+    SolutionSet solutionSet(solver.calculateSolutionAndReturnSolutionSet(Equation(polynomialLeft, "<", polynomialRight)));
 
     EXPECT_TRUE(solver.isSolved());
     EXPECT_TRUE(solver.isACompleteSolution());
@@ -186,12 +186,12 @@ TEST(OneEquationOneVariableNonEqualitySolverTest, PolynomialsInEquationAreSolved
 //{
 //    Polynomial polynomial1{Monomial(1, {{"x", 1}}), Monomial(-2, {})};
 //    Polynomial polynomial2{Monomial(1, {{"x", 1}}), Monomial(-3, {})};
-//    Expression numerator(createExpressionIfPossible({Term(polynomial1), Term("^"), Term(AlbaNumber::createFraction(1, 3))}));
-//    Expression denominator(createExpressionIfPossible({Term(polynomial2), Term("^"), Term(AlbaNumber::createFraction(1, 5))}));
-//    Expression radicalOverRadical(createExpressionIfPossible({Term(numerator), Term("/"), Term(denominator)}));
+//    Expression numerator(createExpressionIfPossible({polynomial1, "^", AlbaNumber::createFraction(1, 3)}));
+//    Expression denominator(createExpressionIfPossible({polynomial2, "^", AlbaNumber::createFraction(1, 5)}));
+//    Expression radicalOverRadical(createExpressionIfPossible({numerator, "/", denominator}));
 //    OneEquationOneVariableNonEqualitySolver solver;
 
-//    SolutionSet solutionSet(solver.calculateSolutionAndReturnSolutionSet(Equation(Term(radicalOverRadical), "<=", Term(0))));
+//    SolutionSet solutionSet(solver.calculateSolutionAndReturnSolutionSet(Equation(radicalOverRadical, "<=", 0)));
 
 //    EXPECT_TRUE(solver.isSolved());
 //    EXPECT_TRUE(solver.isACompleteSolution());

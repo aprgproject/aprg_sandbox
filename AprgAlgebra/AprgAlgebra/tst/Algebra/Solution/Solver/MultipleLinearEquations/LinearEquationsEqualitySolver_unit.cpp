@@ -20,7 +20,7 @@ TEST(LinearEquationsEqualitySolverTest, CalculateSolutionAndReturnSolutionSetWor
     LinearEquationsEqualitySolver solver;
     Equations equations;
     Polynomial polynomial{Monomial(1, {{"x", 1}})};
-    equations.emplace_back(Term(polynomial), ">", Term(4));
+    equations.emplace_back(polynomial, ">", 4);
 
     MultipleVariableSolutionSet solutionSet(solver.calculateSolutionAndReturnSolutionSet(equations));
 
@@ -34,7 +34,7 @@ TEST(LinearEquationsEqualitySolverTest, CalculateSolutionAndReturnSolutionSetWor
     LinearEquationsEqualitySolver solver;
     Equations equations;
     Polynomial polynomial{Monomial(1, {{"x", 1}})};
-    equations.emplace_back(Term(polynomial), "=", Term(4));
+    equations.emplace_back(polynomial, "=", 4);
 
     MultipleVariableSolutionSet solutionSet(solver.calculateSolutionAndReturnSolutionSet(equations));
 
@@ -52,8 +52,8 @@ TEST(LinearEquationsEqualitySolverTest, CalculateSolutionAndReturnSolutionSetWor
     Equations equations;
     Polynomial polynomial1{Monomial(1, {{"x", 1}}), Monomial(2, {{"y", 1}})};
     Polynomial polynomial2{Monomial(3, {{"x", 1}}), Monomial(-2, {{"y", 1}})};
-    equations.emplace_back(Term(polynomial1), "=", Term(4));
-    equations.emplace_back(Term(polynomial2), "=", Term(-12));
+    equations.emplace_back(polynomial1, "=", 4);
+    equations.emplace_back(polynomial2, "=", -12);
 
     MultipleVariableSolutionSet solutionSet(solver.calculateSolutionAndReturnSolutionSet(equations));
 
@@ -75,9 +75,9 @@ TEST(LinearEquationsEqualitySolverTest, CalculateSolutionAndReturnSolutionSetWor
     Polynomial polynomial1{Monomial(2, {{"x", 1}}), Monomial(-1, {{"y", 1}}), Monomial(1, {{"z", 1}})};
     Polynomial polynomial2{Monomial(1, {{"x", 1}}), Monomial(2, {{"y", 1}}), Monomial(3, {{"z", 1}})};
     Polynomial polynomial3{Monomial(4, {{"x", 1}}), Monomial(1, {{"y", 1}}), Monomial(-2, {{"z", 1}})};
-    equations.emplace_back(Term(polynomial1), "=", Term(8));
-    equations.emplace_back(Term(polynomial2), "=", Term(9));
-    equations.emplace_back(Term(polynomial3), "=", Term(1));
+    equations.emplace_back(polynomial1, "=", 8);
+    equations.emplace_back(polynomial2, "=", 9);
+    equations.emplace_back(polynomial3, "=", 1);
 
     MultipleVariableSolutionSet solutionSet(solver.calculateSolutionAndReturnSolutionSet(equations));
 

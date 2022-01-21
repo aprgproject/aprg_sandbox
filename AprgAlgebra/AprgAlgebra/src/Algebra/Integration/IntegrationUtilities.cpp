@@ -155,7 +155,7 @@ Term getAreaUnderACurveUsingReimannSums(
     Term widthOfARectangle(Monomial(deltaOfValues, {{"n", -1}}));
     Term areaOfARectangle(heightOfARectangle * widthOfARectangle);
     Summation summation(areaOfARectangle, variableName);
-    Term sumOfAreaOfAllRectangles(summation.getSum(Term(1), Term("n")));
+    Term sumOfAreaOfAllRectangles(summation.getSum(1, "n"));
     LimitsAtInfinity limits(sumOfAreaOfAllRectangles, "n");
     return limits.getValueAtInfinity(AlbaNumber::Value::PositiveInfinity); // Let number of rectangles approach infinity
 }

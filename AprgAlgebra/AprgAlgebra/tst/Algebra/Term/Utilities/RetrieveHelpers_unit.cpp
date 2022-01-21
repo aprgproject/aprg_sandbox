@@ -16,7 +16,7 @@ namespace algebra
 TEST(RetrieveHelpersTest, HasAnyFunctionsWorks)
 {
     Term term1(5);
-    Term term2(abs(Term(5)));
+    Term term2(Functions::abs(5));
 
     EXPECT_FALSE(hasAnyFunctions(term1));
     EXPECT_TRUE(hasAnyFunctions(term2));
@@ -61,7 +61,7 @@ TEST(RetrieveHelpersTest, GetCoefficientsForVariablesOnlyWorks)
 
     ASSERT_EQ(4U, variableToValueMap.size());
     VariableToValueMap::const_iterator it = variableToValueMap.cbegin();
-    EXPECT_EQ("a", it->first);
+    EXPECT_EQ(Term("a"), it->first);
     EXPECT_EQ(AlbaNumber(516), it->second);
     it++;
     EXPECT_EQ("b", it->first);
@@ -93,7 +93,7 @@ TEST(RetrieveHelpersTest, RetrieveTermsFromTermsWithDetailsWorks)
 
 TEST(RetrieveHelpersTest, RetrieveSubExpressionsAndSubFunctionsWorks)
 {
-    Term expesssionTerm(createExpressionIfPossible({Term("a"), Term("^"), Term(2)}));
+    Term expesssionTerm(createExpressionIfPossible({"a", "^", 2}));
     Function functionObject(
                 "functionName",
                 expesssionTerm,
@@ -111,7 +111,7 @@ TEST(RetrieveHelpersTest, RetrieveSubExpressionsAndSubFunctionsWorks)
 
 TEST(RetrieveHelpersTest, RetrieveSubTermsWorks)
 {
-    Term expesssionTerm(createExpressionIfPossible({Term("a"), Term("^"), Term(2)}));
+    Term expesssionTerm(createExpressionIfPossible({"a", "^", 2}));
     Function functionObject(
                 "functionName",
                 expesssionTerm,

@@ -16,8 +16,8 @@ Equation getTrigonometricPythagoreanIdentity(Term const& term)
 {
     // sin(x)^2 + cos(x)^2 = 1
 
-    Term leftSideTerm(createExpressionIfPossible({getSineSquared(term), Term("+"), getCosineSquared(term)}));
-    return Equation(leftSideTerm, "=", Term(1));
+    Term leftSideTerm(createExpressionIfPossible({getSineSquared(term), "+", getCosineSquared(term)}));
+    return Equation(leftSideTerm, "=", 1);
 }
 
 Equation getSineEquationOfRightTriangle(
@@ -28,8 +28,8 @@ Equation getSineEquationOfRightTriangle(
     // sin(x) = o/h
 
     Term leftSideTerm(sin(angle));
-    Term rightSideTerm(createExpressionIfPossible({oppositeSideOfAngle, Term("/"), hypotenuse}));
-    return Equation(leftSideTerm, "=", Term(rightSideTerm));
+    Term rightSideTerm(createExpressionIfPossible({oppositeSideOfAngle, "/", hypotenuse}));
+    return Equation(leftSideTerm, "=", rightSideTerm);
 }
 
 Equation getCosineEquationOfRightTriangle(
@@ -40,8 +40,8 @@ Equation getCosineEquationOfRightTriangle(
     // cos(x) = a/h
 
     Term leftSideTerm(cos(angle));
-    Term rightSideTerm(createExpressionIfPossible({adjacentSideOfAngle, Term("/"), hypotenuse}));
-    return Equation(leftSideTerm, "=", Term(rightSideTerm));
+    Term rightSideTerm(createExpressionIfPossible({adjacentSideOfAngle, "/", hypotenuse}));
+    return Equation(leftSideTerm, "=", rightSideTerm);
 }
 
 Equation getTangentEquationOfRightTriangle(
@@ -52,8 +52,8 @@ Equation getTangentEquationOfRightTriangle(
     // (x) = o/a
 
     Term leftSideTerm(tan(angle));
-    Term rightSideTerm(createExpressionIfPossible({oppositeSideOfAngle, Term("/"), adjacentSideOfAngle}));
-    return Equation(leftSideTerm, "=", Term(rightSideTerm));
+    Term rightSideTerm(createExpressionIfPossible({oppositeSideOfAngle, "/", adjacentSideOfAngle}));
+    return Equation(leftSideTerm, "=", rightSideTerm);
 }
 
 Equation getLawOfSineEquation(
@@ -64,9 +64,9 @@ Equation getLawOfSineEquation(
 {
     // x/sin(angleOppositeOfX) = y/sin(angleOppositeOfY) = z/sin(angleOppositeOfZ)
 
-    Term leftSideTerm(createExpressionIfPossible({side1, Term("/"), sin(oppositeAngleOfSide1)}));
-    Term rightSideTerm(createExpressionIfPossible({side2, Term("/"), sin(oppositeAngleOfSide2)}));
-    return Equation(leftSideTerm, "=", Term(rightSideTerm));
+    Term leftSideTerm(createExpressionIfPossible({side1, "/", sin(oppositeAngleOfSide1)}));
+    Term rightSideTerm(createExpressionIfPossible({side2, "/", sin(oppositeAngleOfSide2)}));
+    return Equation(leftSideTerm, "=", rightSideTerm);
 }
 
 Equation getLawOfCosineEquation(
@@ -77,97 +77,97 @@ Equation getLawOfCosineEquation(
 {
     // x^2 = y^2 + z^2 - 2*y*z*cos(angleOppositeOfX)
 
-    Term side1Squared(createExpressionIfPossible({side1, Term("^"), Term(2)}));
-    Term side2Squared(createExpressionIfPossible({side2, Term("^"), Term(2)}));
-    Term side3Squared(createExpressionIfPossible({side3, Term("^"), Term(2)}));
-    Term cosinePart(createExpressionIfPossible({Term(2), Term("*"), side2, Term("*"), side3, Term("*"), Term(cos(oppositeAngleOfSide1))}));
+    Term side1Squared(createExpressionIfPossible({side1, "^", 2}));
+    Term side2Squared(createExpressionIfPossible({side2, "^", 2}));
+    Term side3Squared(createExpressionIfPossible({side3, "^", 2}));
+    Term cosinePart(createExpressionIfPossible({2, "*", side2, "*", side3, "*", cos(oppositeAngleOfSide1)}));
     Term const& leftSideTerm(side1Squared);
-    Term rightSideTerm(createExpressionIfPossible({side2Squared, Term("+"), side3Squared, Term("-"), cosinePart}));
-    return Equation(leftSideTerm, "=", Term(rightSideTerm));
+    Term rightSideTerm(createExpressionIfPossible({side2Squared, "+", side3Squared, "-", cosinePart}));
+    return Equation(leftSideTerm, "=", rightSideTerm);
 }
 
 Term getSineSquared(Term const& term)
 {
     // sin(x)^2
 
-    return Term(createExpressionIfPossible({Term(sin(term)), Term("^"), Term(2)}));
+    return Term(createExpressionIfPossible({sin(term), "^", 2}));
 }
 
 Term getSineSquaredInCosine(Term const& term)
 {
     // sin(x)^2 = 1 - cos(x)^2
 
-    return Term(createExpressionIfPossible({Term(1), Term("-"), cos(term), Term("^"), Term(2)}));
+    return Term(createExpressionIfPossible({1, "-", cos(term), "^", 2}));
 }
 
 Term getCosineSquared(Term const& term)
 {
     // cos(x)^2
 
-    return Term(createExpressionIfPossible({Term(cos(term)), Term("^"), Term(2)}));
+    return Term(createExpressionIfPossible({cos(term), "^", 2}));
 }
 
 Term getCosineSquaredInSine(Term const& term)
 {
     // cos(x)^2 = 1 - sin(x)^2
 
-    return Term(createExpressionIfPossible({Term(1), Term("-"), sin(term), Term("^"), Term(2)}));
+    return Term(createExpressionIfPossible({1, "-", sin(term), "^", 2}));
 }
 
 Term getTangentSquared(Term const& term)
 {
     // tan(x)^2
 
-    return Term(createExpressionIfPossible({Term(tan(term)), Term("^"), Term(2)}));
+    return Term(createExpressionIfPossible({tan(term), "^", 2}));
 }
 
 Term getTangentSquaredInSecant(Term const& term)
 {
     // tan(x)^2 = sec(x)^2 - 1
 
-    return Term(createExpressionIfPossible({Term(sec(term)), Term("^"), Term(2), Term("-"), Term(1)}));
+    return Term(createExpressionIfPossible({sec(term), "^", 2, "-", 1}));
 }
 
 Term getCosecantSquared(Term const& term)
 {
     // csc(x)^2
 
-    return Term(createExpressionIfPossible({Term(csc(term)), Term("^"), Term(2)}));
+    return Term(createExpressionIfPossible({csc(term), "^", 2}));
 }
 
 Term getCosecantSquaredInCotangent(Term const& term)
 {
     // csc(x)^2 = cot(x)^2 + 1
 
-    return Term(createExpressionIfPossible({Term(cot(term)), Term("^"), Term(2), Term("+"), Term(1)}));
+    return Term(createExpressionIfPossible({cot(term), "^", 2, "+", 1}));
 }
 
 Term getSecantSquared(Term const& term)
 {
     // sec(x)^2
 
-    return Term(createExpressionIfPossible({Term(sec(term)), Term("^"), Term(2)}));
+    return Term(createExpressionIfPossible({sec(term), "^", 2}));
 }
 
 Term getSecantSquaredInTangent(Term const& term)
 {
     // sec(x)^2 = tan(x)^2 + 1
 
-    return Term(createExpressionIfPossible({Term(tan(term)), Term("^"), Term(2), Term("+"), Term(1)}));
+    return Term(createExpressionIfPossible({tan(term), "^", 2, "+", 1}));
 }
 
 Term getCotangentSquared(Term const& term)
 {
     // cot(x)^2
 
-    return Term(createExpressionIfPossible({Term(cot(term)), Term("^"), Term(2)}));
+    return Term(createExpressionIfPossible({cot(term), "^", 2}));
 }
 
 Term getCotangentSquaredInCosecant(Term const& term)
 {
     // cot(x)^2 = csc(x)^2 - 1
 
-    return Term(createExpressionIfPossible({Term(csc(term)), Term("^"), Term(2), Term("-"), Term(1)}));
+    return Term(createExpressionIfPossible({csc(term), "^", 2, "-", 1}));
 }
 
 Term getSineOfSumOrDifferenceOfTwoTerms(
@@ -180,9 +180,9 @@ Term getSineOfSumOrDifferenceOfTwoTerms(
     Term result;
     if(operatorObject.isAddition() || operatorObject.isSubtraction())
     {
-        Term firstPart(createExpressionIfPossible({Term(sin(term1)), Term("*"), Term(cos(term2))}));
-        Term secondPart(createExpressionIfPossible({Term(cos(term1)), Term("*"), Term(sin(term2))}));
-        result = Term(createExpressionIfPossible({firstPart, Term(operatorObject), secondPart}));
+        Term firstPart(createExpressionIfPossible({sin(term1), "*", cos(term2)}));
+        Term secondPart(createExpressionIfPossible({cos(term1), "*", sin(term2)}));
+        result = Term(createExpressionIfPossible({firstPart, operatorObject, secondPart}));
     }
     return result;
 }
@@ -197,11 +197,11 @@ Term getCosineOfSumOrDifferenceOfTwoTerms(
     Term result;
     if(operatorObject.isAddition() || operatorObject.isSubtraction())
     {
-        Term firstPart(createExpressionIfPossible({Term(cos(term1)), Term("*"), Term(cos(term2))}));
-        Term secondPart(createExpressionIfPossible({Term(sin(term1)), Term("*"), Term(sin(term2))}));
+        Term firstPart(createExpressionIfPossible({cos(term1), "*", cos(term2)}));
+        Term secondPart(createExpressionIfPossible({sin(term1), "*", sin(term2)}));
         Operator reverseOperator(operatorObject);
         reverseOperator.reverseOperation();
-        result = Term(createExpressionIfPossible({firstPart, Term(reverseOperator), secondPart}));
+        result = Term(createExpressionIfPossible({firstPart, reverseOperator, secondPart}));
     }
     return result;
 }
@@ -218,10 +218,10 @@ Term getTangentOfSumOrDifferenceOfTwoTerms(
     {
         Operator reverseOperator(operatorObject);
         reverseOperator.reverseOperation();
-        Term numerator(createExpressionIfPossible({Term(tan(term1)), Term(operatorObject), Term(tan(term2))}));
+        Term numerator(createExpressionIfPossible({tan(term1), operatorObject, tan(term2)}));
         Term denominator(createExpressionIfPossible(
-        {Term(1), Term(reverseOperator), Term(createExpressionIfPossible({Term(tan(term1)), Term("*"), Term(tan(term2))}))}));
-        result = Term(createExpressionIfPossible({numerator, Term("/"), denominator}));
+        {1, reverseOperator, Term(createExpressionIfPossible({tan(term1), "*", tan(term2)}))}));
+        result = Term(createExpressionIfPossible({numerator, "/", denominator}));
     }
     return result;
 }
@@ -230,33 +230,33 @@ Term getSineOfDoubledValue(Term const& term)
 {
     // sin(2*x) =  2*sin(x)*cos(x)
 
-    return Term(createExpressionIfPossible({Term(2), Term("*"), Term(sin(term)), Term("*"), Term(cos(term))}));
+    return Term(createExpressionIfPossible({2, "*", sin(term), "*", cos(term)}));
 }
 
 Term getCosineOfDoubledValue(Term const& term)
 {
     // cos(2*x) =  cos(x)^2 - sin(x)^2
 
-    return Term(createExpressionIfPossible({getCosineSquared(term), Term("-"), getSineSquared(term)}));
+    return Term(createExpressionIfPossible({getCosineSquared(term), "-", getSineSquared(term)}));
 }
 
 Term getTangentOfDoubledValue(Term const& term)
 {
     // tan(2*x) =  (2*tan(x)) / (1-tan(x)^2)
 
-    Term numerator(createExpressionIfPossible({Term(2), Term("*"), Term(tan(term))}));
-    Term denominator(createExpressionIfPossible({Term(1), Term("-"), getTangentSquared(term)}));
-    return Term(createExpressionIfPossible({numerator, Term("/"), denominator}));
+    Term numerator(createExpressionIfPossible({2, "*", tan(term)}));
+    Term denominator(createExpressionIfPossible({1, "-", getTangentSquared(term)}));
+    return Term(createExpressionIfPossible({numerator, "/", denominator}));
 }
 
 Term getSineOfHalvedValue(Term const& term, bool const isPositiveRoot)
 {
     // sin(x/2) =  +- ((1-cos(x))/2)^(1/2)
 
-    Term result(createExpressionIfPossible({getSineSquaredOfHalvedValue(term), Term("^"), Term(AlbaNumber::createFraction(1, 2))}));
+    Term result(createExpressionIfPossible({getSineSquaredOfHalvedValue(term), "^", AlbaNumber::createFraction(1, 2)}));
     if(!isPositiveRoot)
     {
-        result = Term(createExpressionIfPossible({Term(-1), Term("*"), Term(result)}));
+        result = Term(createExpressionIfPossible({-1, "*", result}));
     }
     return result;
 }
@@ -265,10 +265,10 @@ Term getCosineOfHalvedValue(Term const& term, bool const isPositiveRoot)
 {
     // cos(x/2) =  +- ((1+cos(x))/2)^(1/2)
 
-    Term result(createExpressionIfPossible({getCosineSquaredOfHalvedValue(term), Term("^"), Term(AlbaNumber::createFraction(1, 2))}));
+    Term result(createExpressionIfPossible({getCosineSquaredOfHalvedValue(term), "^", AlbaNumber::createFraction(1, 2)}));
     if(!isPositiveRoot)
     {
-        result = Term(createExpressionIfPossible({Term(-1), Term("*"), Term(result)}));
+        result = Term(createExpressionIfPossible({-1, "*", result}));
     }
     return result;
 }
@@ -277,16 +277,16 @@ Term getSineSquaredOfHalvedValue(Term const& term)
 {
     // sin(x/2)^2 =  +- ((1-cos(x))/2)
 
-    Term numerator(createExpressionIfPossible({Term(1), Term("-"), Term(cos(term))}));
-    return Term(createExpressionIfPossible({numerator, Term("/"), Term(2)}));
+    Term numerator(createExpressionIfPossible({1, "-", cos(term)}));
+    return Term(createExpressionIfPossible({numerator, "/", 2}));
 }
 
 Term getCosineSquaredOfHalvedValue(Term const& term)
 {
     // cos(x/2)^2 =  +- ((1+cos(x))/2)
 
-    Term numerator(createExpressionIfPossible({Term(1), Term("+"), Term(cos(term))}));
-    return Term(createExpressionIfPossible({numerator, Term("/"), Term(2)}));
+    Term numerator(createExpressionIfPossible({1, "+", cos(term)}));
+    return Term(createExpressionIfPossible({numerator, "/", 2}));
 }
 
 }

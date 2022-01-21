@@ -24,10 +24,10 @@ TEST(TrigonometricEquationsTest, GetTrigonometricPythagoreanIdentityWorks)
 
     Equation actualEquation(getTrigonometricPythagoreanIdentity(x));
 
-    Term expectedSineSquaredTerm(createExpressionIfPossible({Term(sin(x)), Term("^"), Term(2)}));
-    Term expectedCosineSquaredTerm(createExpressionIfPossible({Term(cos(x)), Term("^"), Term(2)}));
-    Term leftHandSide(createExpressionIfPossible({expectedSineSquaredTerm, Term("+"), expectedCosineSquaredTerm}));
-    Equation expectedEquation(leftHandSide, "=", Term(1));
+    Term expectedSineSquaredTerm(createExpressionIfPossible({sin(x), "^", 2}));
+    Term expectedCosineSquaredTerm(createExpressionIfPossible({cos(x), "^", 2}));
+    Term leftHandSide(createExpressionIfPossible({expectedSineSquaredTerm, "+", expectedCosineSquaredTerm}));
+    Equation expectedEquation(leftHandSide, "=", 1);
     EXPECT_EQ(expectedEquation, actualEquation);
 
     SubstitutionOfVariablesToValues substitution;
@@ -44,7 +44,7 @@ TEST(TrigonometricEquationsTest, GetSineEquationOfRightTriangleWorks)
     Equation actualEquation(getSineEquationOfRightTriangle(x, o, h));
 
     Term leftHandSide(sin(x));
-    Term rightHandSide(createExpressionIfPossible({o, Term("/"), h}));
+    Term rightHandSide(createExpressionIfPossible({o, "/", h}));
     Equation expectedEquation(leftHandSide, "=", rightHandSide);
     EXPECT_EQ(expectedEquation, actualEquation);
 
@@ -64,7 +64,7 @@ TEST(TrigonometricEquationsTest, GetCosineEquationOfRightTriangleWorks)
     Equation actualEquation(getCosineEquationOfRightTriangle(x, a, h));
 
     Term leftHandSide(cos(x));
-    Term rightHandSide(createExpressionIfPossible({a, Term("/"), h}));
+    Term rightHandSide(createExpressionIfPossible({a, "/", h}));
     Equation expectedEquation(leftHandSide, "=", rightHandSide);
     EXPECT_EQ(expectedEquation, actualEquation);
 
@@ -84,7 +84,7 @@ TEST(TrigonometricEquationsTest, GetTangentEquationOfRightTriangleWorks)
     Equation actualEquation(getTangentEquationOfRightTriangle(x, o, a));
 
     Term leftHandSide(tan(x));
-    Term rightHandSide(createExpressionIfPossible({o, Term("/"), a}));
+    Term rightHandSide(createExpressionIfPossible({o, "/", a}));
     Equation expectedEquation(leftHandSide, "=", rightHandSide);
     EXPECT_EQ(expectedEquation, actualEquation);
 
@@ -104,8 +104,8 @@ TEST(TrigonometricEquationsTest, GetLawOfSineEquationWorks)
 
     Equation actualEquation(getLawOfSineEquation(s1, a1, s2, a2));
 
-    Term leftHandSide(createExpressionIfPossible({s1, Term("/"), Term(sin(a1))}));
-    Term rightHandSide(createExpressionIfPossible({s2, Term("/"), Term(sin(a2))}));
+    Term leftHandSide(createExpressionIfPossible({s1, "/", sin(a1)}));
+    Term rightHandSide(createExpressionIfPossible({s2, "/", sin(a2)}));
     Equation expectedEquation(leftHandSide, "=", rightHandSide);
     EXPECT_EQ(expectedEquation, actualEquation);
 
@@ -126,12 +126,12 @@ TEST(TrigonometricEquationsTest, GetLawOfCosineEquationWorks)
 
     Equation actualEquation(getLawOfCosineEquation(s1, s2, s3, a1));
 
-    Term side1Squared(createExpressionIfPossible({s1, Term("^"), Term(2)}));
-    Term side2Squared(createExpressionIfPossible({s2, Term("^"), Term(2)}));
-    Term side3Squared(createExpressionIfPossible({s3, Term("^"), Term(2)}));
-    Term cosinePart(createExpressionIfPossible({Term(2), Term("*"), s2, Term("*"), s3, Term("*"), Term(cos(a1))}));
+    Term side1Squared(createExpressionIfPossible({s1, "^", 2}));
+    Term side2Squared(createExpressionIfPossible({s2, "^", 2}));
+    Term side3Squared(createExpressionIfPossible({s3, "^", 2}));
+    Term cosinePart(createExpressionIfPossible({2, "*", s2, "*", s3, "*", cos(a1)}));
     Term const& leftHandSide(side1Squared);
-    Term rightHandSide(createExpressionIfPossible({side2Squared, Term("+"), side3Squared, Term("-"), cosinePart}));
+    Term rightHandSide(createExpressionIfPossible({side2Squared, "+", side3Squared, "-", cosinePart}));
     Equation expectedEquation(leftHandSide, "=", rightHandSide);
     EXPECT_EQ(expectedEquation, actualEquation);
 
@@ -149,7 +149,7 @@ TEST(TrigonometricEquationsTest, GetSineSquaredWorks)
 
     Term actualTerm(getSineSquared(x));
 
-    Term expectedTerm(createExpressionIfPossible({Term(sin(x)), Term("^"), Term(2)}));
+    Term expectedTerm(createExpressionIfPossible({sin(x), "^", 2}));
     EXPECT_EQ(expectedTerm, actualTerm);
 
     SubstitutionOfVariablesToValues substitution;
@@ -163,7 +163,7 @@ TEST(TrigonometricEquationsTest, GetSineSquaredInCosineWorks)
 
     Term actualTerm(getSineSquaredInCosine(x));
 
-    Term expectedTerm(createExpressionIfPossible({Term(1), Term("-"), Term(cos(x)), Term("^"), Term(2)}));
+    Term expectedTerm(createExpressionIfPossible({1, "-", cos(x), "^", 2}));
     EXPECT_EQ(expectedTerm, actualTerm);
 
     SubstitutionOfVariablesToValues substitution;
@@ -177,7 +177,7 @@ TEST(TrigonometricEquationsTest, GetCosineSquaredWorks)
 
     Term actualTerm(getCosineSquared(x));
 
-    Term expectedTerm(createExpressionIfPossible({Term(cos(x)), Term("^"), Term(2)}));
+    Term expectedTerm(createExpressionIfPossible({cos(x), "^", 2}));
     EXPECT_EQ(expectedTerm, actualTerm);
 
     SubstitutionOfVariablesToValues substitution;
@@ -191,7 +191,7 @@ TEST(TrigonometricEquationsTest, GetCosineSquaredInSineWorks)
 
     Term actualTerm(getCosineSquaredInSine(x));
 
-    Term expectedTerm(createExpressionIfPossible({Term(1), Term("-"), Term(sin(x)), Term("^"), Term(2)}));
+    Term expectedTerm(createExpressionIfPossible({1, "-", sin(x), "^", 2}));
     EXPECT_EQ(expectedTerm, actualTerm);
 
     SubstitutionOfVariablesToValues substitution;
@@ -205,7 +205,7 @@ TEST(TrigonometricEquationsTest, GetTangentSquaredWorks)
 
     Term actualTerm(getTangentSquared(x));
 
-    Term expectedTerm(createExpressionIfPossible({Term(tan(x)), Term("^"), Term(2)}));
+    Term expectedTerm(createExpressionIfPossible({tan(x), "^", 2}));
     EXPECT_EQ(expectedTerm, actualTerm);
 
     SubstitutionOfVariablesToValues substitution;
@@ -221,10 +221,10 @@ TEST(TrigonometricEquationsTest, GetSineOfSumOrDifferenceOfTwoTermsWorks)
     Term actualSineOfSumOfValues(getSineOfSumOrDifferenceOfTwoTerms(x, Operator("+"), y));
     Term actualSineOfDifferenceOfValues(getSineOfSumOrDifferenceOfTwoTerms(x, Operator("-"), y));
 
-    Expression firstPart(createExpressionIfPossible({Term(sin(x)), Term("*"), Term(cos(y))}));
-    Expression secondPart(createExpressionIfPossible({Term(cos(x)), Term("*"), Term(sin(y))}));
-    Term expectedSineOfSumOfValues(createExpressionIfPossible({Term(firstPart), Term("+"), Term(secondPart)}));
-    Term expectedSineOfDifferenceOfValues(createExpressionIfPossible({Term(firstPart), Term("-"), Term(secondPart)}));
+    Term firstPart(createExpressionIfPossible({sin(x), "*", cos(y)}));
+    Term secondPart(createExpressionIfPossible({cos(x), "*", sin(y)}));
+    Term expectedSineOfSumOfValues(createExpressionIfPossible({firstPart, "+", secondPart}));
+    Term expectedSineOfDifferenceOfValues(createExpressionIfPossible({firstPart, "-", secondPart}));
     EXPECT_EQ(expectedSineOfSumOfValues, actualSineOfSumOfValues);
     EXPECT_EQ(expectedSineOfDifferenceOfValues, actualSineOfDifferenceOfValues);
 
@@ -243,10 +243,10 @@ TEST(TrigonometricEquationsTest, GetCosineOfSumOrDifferenceOfTwoTermsWorks)
     Term actualCosineOfSumOfValues(getCosineOfSumOrDifferenceOfTwoTerms(x, Operator("+"), y));
     Term actualCosineOfDifferenceOfValues(getCosineOfSumOrDifferenceOfTwoTerms(x, Operator("-"), y));
 
-    Expression firstPart(createExpressionIfPossible({Term(cos(x)), Term("*"), Term(cos(y))}));
-    Expression secondPart(createExpressionIfPossible({Term(sin(x)), Term("*"), Term(sin(y))}));
-    Term expectedCosineOfSumOfValues(createExpressionIfPossible({Term(firstPart), Term("-"), Term(secondPart)}));
-    Term expectedCosineOfDifferenceOfValues(createExpressionIfPossible({Term(firstPart), Term("+"), Term(secondPart)}));
+    Term firstPart(createExpressionIfPossible({cos(x), "*", cos(y)}));
+    Term secondPart(createExpressionIfPossible({sin(x), "*", sin(y)}));
+    Term expectedCosineOfSumOfValues(createExpressionIfPossible({firstPart, "-", secondPart}));
+    Term expectedCosineOfDifferenceOfValues(createExpressionIfPossible({firstPart, "+", secondPart}));
     EXPECT_EQ(expectedCosineOfSumOfValues, actualCosineOfSumOfValues);
     EXPECT_EQ(expectedCosineOfDifferenceOfValues, actualCosineOfDifferenceOfValues);
 
@@ -265,14 +265,14 @@ TEST(TrigonometricEquationsTest, GetTangentOfSumOrDifferenceOfTwoTermsWorks)
     Term actualTangentOfSumOfValues(getTangentOfSumOrDifferenceOfTwoTerms(x, Operator("+"), y));
     Term actualTangentOfDifferenceOfValues(getTangentOfSumOrDifferenceOfTwoTerms(x, Operator("-"), y));
 
-    Expression numeratorSum(createExpressionIfPossible({Term(tan(x)), Term("+"), Term(tan(y))}));
-    Expression denominatorSum(createExpressionIfPossible(
-    {Term(1), Term("-"), Term(createExpressionIfPossible({Term(tan(x)), Term("*"), Term(tan(y))}))}));
-    Expression numeratorDifference(createExpressionIfPossible({Term(tan(x)), Term("-"), Term(tan(y))}));
-    Expression denominatorDifference(createExpressionIfPossible(
-    {Term(1), Term("+"), Term(createExpressionIfPossible({Term(tan(x)), Term("*"), Term(tan(y))}))}));
-    Term expectedTangentOfSumOfValues(createExpressionIfPossible({Term(numeratorSum), Term("/"), Term(denominatorSum)}));
-    Term expectedTangentOfDifferenceOfValues(createExpressionIfPossible({Term(numeratorDifference), Term("/"), Term(denominatorDifference)}));
+    Term numeratorSum(createExpressionIfPossible({tan(x), "+", tan(y)}));
+    Term denominatorSum(createExpressionIfPossible(
+    {1, "-", Term(createExpressionIfPossible({tan(x), "*", tan(y)}))}));
+    Term numeratorDifference(createExpressionIfPossible({tan(x), "-", tan(y)}));
+    Term denominatorDifference(createExpressionIfPossible(
+    {1, "+", Term(createExpressionIfPossible({tan(x), "*", tan(y)}))}));
+    Term expectedTangentOfSumOfValues(createExpressionIfPossible({numeratorSum, "/", denominatorSum}));
+    Term expectedTangentOfDifferenceOfValues(createExpressionIfPossible({numeratorDifference, "/", denominatorDifference}));
     EXPECT_EQ(expectedTangentOfSumOfValues, actualTangentOfSumOfValues);
     EXPECT_EQ(expectedTangentOfDifferenceOfValues, actualTangentOfDifferenceOfValues);
 
@@ -289,7 +289,7 @@ TEST(TrigonometricEquationsTest, GetSineOfDoubledValueWorks)
 
     Term actualSineOfDoubledValue(getSineOfDoubledValue(x));
 
-    Term expectedSineOfDoubledValue(createExpressionIfPossible({Term(2), Term("*"), Term(sin(x)), Term("*"), Term(cos(x))}));
+    Term expectedSineOfDoubledValue(createExpressionIfPossible({2, "*", sin(x), "*", cos(x)}));
     EXPECT_EQ(expectedSineOfDoubledValue, actualSineOfDoubledValue);
 
     SubstitutionOfVariablesToValues substitution;
@@ -303,7 +303,7 @@ TEST(TrigonometricEquationsTest, GetCosineOfDoubledValueWorks)
 
     Term actualCosineOfDoubledValue(getCosineOfDoubledValue(x));
 
-    Term expectedCosineOfDoubledValue(createExpressionIfPossible({getCosineSquared(x), Term("-"), getSineSquared(x)}));
+    Term expectedCosineOfDoubledValue(createExpressionIfPossible({getCosineSquared(x), "-", getSineSquared(x)}));
     EXPECT_EQ(expectedCosineOfDoubledValue, actualCosineOfDoubledValue);
 
     SubstitutionOfVariablesToValues substitution;
@@ -317,9 +317,9 @@ TEST(TrigonometricEquationsTest, GetTangentOfDoubledValueWorks)
 
     Term actualTangentOfDoubledValue(getTangentOfDoubledValue(x));
 
-    Term expectedNumerator(createExpressionIfPossible({Term(2), Term("*"), Term(tan(x))}));
-    Term expectedDenominator(createExpressionIfPossible({Term(1), Term("-"), getTangentSquared(x)}));
-    Term expectedTangentOfDoubledValue(createExpressionIfPossible({expectedNumerator, Term("/"), expectedDenominator}));
+    Term expectedNumerator(createExpressionIfPossible({2, "*", tan(x)}));
+    Term expectedDenominator(createExpressionIfPossible({1, "-", getTangentSquared(x)}));
+    Term expectedTangentOfDoubledValue(createExpressionIfPossible({expectedNumerator, "/", expectedDenominator}));
     EXPECT_EQ(expectedTangentOfDoubledValue, actualTangentOfDoubledValue);
 
     SubstitutionOfVariablesToValues substitution;
@@ -334,10 +334,10 @@ TEST(TrigonometricEquationsTest, GetSineOfHalvedValueWorks)
     Term actualPositiveRoot(getSineOfHalvedValue(x, true));
     Term actualNegativeRoot(getSineOfHalvedValue(x, false));
 
-    Term numerator(createExpressionIfPossible({Term(1), Term("-"), Term(cos(x))}));
-    Term squaredValue(createExpressionIfPossible({numerator, Term("/"), Term(2)}));
-    Term expectedPositiveRoot(createExpressionIfPossible({squaredValue, Term("^"), Term(AlbaNumber::createFraction(1, 2))}));
-    Term expectedNegativeRoot(createExpressionIfPossible({Term(-1), Term("*"), Term(expectedPositiveRoot)}));
+    Term numerator(createExpressionIfPossible({1, "-", cos(x)}));
+    Term squaredValue(createExpressionIfPossible({numerator, "/", 2}));
+    Term expectedPositiveRoot(createExpressionIfPossible({squaredValue, "^", AlbaNumber::createFraction(1, 2)}));
+    Term expectedNegativeRoot(createExpressionIfPossible({-1, "*", expectedPositiveRoot}));
     EXPECT_EQ(expectedPositiveRoot, actualPositiveRoot);
     EXPECT_EQ(expectedNegativeRoot, actualNegativeRoot);
 
@@ -354,10 +354,10 @@ TEST(TrigonometricEquationsTest, GetCosineOfHalvedValueWorks)
     Term actualPositiveRoot(getCosineOfHalvedValue(x, true));
     Term actualNegativeRoot(getCosineOfHalvedValue(x, false));
 
-    Term numerator(createExpressionIfPossible({Term(1), Term("+"), Term(cos(x))}));
-    Term squaredValue(createExpressionIfPossible({numerator, Term("/"), Term(2)}));
-    Term expectedPositiveRoot(createExpressionIfPossible({squaredValue, Term("^"), Term(AlbaNumber::createFraction(1, 2))}));
-    Term expectedNegativeRoot(createExpressionIfPossible({Term(-1), Term("*"), Term(expectedPositiveRoot)}));
+    Term numerator(createExpressionIfPossible({1, "+", cos(x)}));
+    Term squaredValue(createExpressionIfPossible({numerator, "/", 2}));
+    Term expectedPositiveRoot(createExpressionIfPossible({squaredValue, "^", AlbaNumber::createFraction(1, 2)}));
+    Term expectedNegativeRoot(createExpressionIfPossible({-1, "*", expectedPositiveRoot}));
     EXPECT_EQ(expectedPositiveRoot, actualPositiveRoot);
     EXPECT_EQ(expectedNegativeRoot, actualNegativeRoot);
 
@@ -373,8 +373,8 @@ TEST(TrigonometricEquationsTest, GetSineSquaredOfHalvedValueWorks)
 
     Term termToVerify(getSineSquaredOfHalvedValue(x));
 
-    Term numerator(createExpressionIfPossible({Term(1), Term("-"), Term(cos(x))}));
-    Term termToExpect(createExpressionIfPossible({numerator, Term("/"), Term(2)}));
+    Term numerator(createExpressionIfPossible({1, "-", cos(x)}));
+    Term termToExpect(createExpressionIfPossible({numerator, "/", 2}));
     EXPECT_EQ(termToExpect, termToVerify);
 
     SubstitutionOfVariablesToValues substitution;
@@ -388,8 +388,8 @@ TEST(TrigonometricEquationsTest, GetCosineSquaredOfHalvedValueWorks)
 
     Term termToVerify(getCosineSquaredOfHalvedValue(x));
 
-    Term numerator(createExpressionIfPossible({Term(1), Term("+"), Term(cos(x))}));
-    Term termToExpect(createExpressionIfPossible({numerator, Term("/"), Term(2)}));
+    Term numerator(createExpressionIfPossible({1, "+", cos(x)}));
+    Term termToExpect(createExpressionIfPossible({numerator, "/", 2}));
     EXPECT_EQ(termToExpect, termToVerify);
 
     SubstitutionOfVariablesToValues substitution;

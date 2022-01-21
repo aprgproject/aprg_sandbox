@@ -15,9 +15,11 @@ TEST(CreateHelpersTest, CreateMonomialFromNumberWorks)
     EXPECT_EQ(Monomial(5648, {}), createMonomialFromNumber(5648));
 }
 
-TEST(CreateHelpersTest, CreateMonomialFromVariableWorks){
+TEST(CreateHelpersTest, CreateMonomialFromVariableWorks)
+{
     EXPECT_EQ(Monomial(1, {{"weight", 1}}), createMonomialFromVariable(Variable("weight")));
 }
+
 TEST(CreateHelpersTest, CreateMonomialIfPossibleWorks)
 {
     EXPECT_EQ(Monomial(0, {}), createMonomialIfPossible(Term{}));
@@ -34,9 +36,11 @@ TEST(CreateHelpersTest, CreatePolynomialFromNumberWorks)
     EXPECT_EQ(Polynomial{Monomial(5648, {})}, createPolynomialFromNumber(5648));
 }
 
-TEST(CreateHelpersTest, CreatePolynomialFromVariableWorks){
+TEST(CreateHelpersTest, CreatePolynomialFromVariableWorks)
+{
     EXPECT_EQ(Polynomial{Monomial(1, {{"weight", 1}})}, createPolynomialFromVariable(Variable("weight")));
 }
+
 TEST(CreateHelpersTest, CreatePolynomialFromMonomialWorks)
 {
     EXPECT_EQ(Polynomial{Monomial(2, {{"weight", 3}})}, createPolynomialFromMonomial(Monomial(2, {{"weight", 3}})));
@@ -49,13 +53,13 @@ TEST(CreateHelpersTest, CreatePolynomialIfPossibleWorks)
     EXPECT_EQ((Polynomial{Monomial(1, {{"weight", 1}})}), createPolynomialIfPossible(Term("weight")));
     EXPECT_EQ((Polynomial{Monomial(24, {{"i", 5}})}), createPolynomialIfPossible(Term(Monomial(24, {{"i", 5}}))));
     EXPECT_EQ((Polynomial{Monomial(39, {{"r", 7}})}), createPolynomialIfPossible(Term(Polynomial{Monomial(39, {{"r", 7}})})));
-    EXPECT_EQ((Polynomial{}), createPolynomialIfPossible(Term(createExpressionIfPossible({Term(5), Term("+"), Term("interest")}))));
+    EXPECT_EQ((Polynomial{}), createPolynomialIfPossible(Term(createExpressionIfPossible({5, "+", "interest"}))));
 }
 
 TEST(CreateHelpersTest, CreateExpressionInExpressionWorks)
 {
-    Expression expression1(createExpressionIfPossible({Term(254)}));
-    Expression expression2(createExpressionIfPossible({Term(4752)}));
+    Expression expression1(createExpressionIfPossible({254}));
+    Expression expression2(createExpressionIfPossible({4752}));
 
     Expression expressionToVerify1(createExpressionInAnExpression(expression1));
     Expression expressionToVerify2(createExpressionInAnExpression(createExpressionInAnExpression(expression2)));
@@ -68,8 +72,8 @@ TEST(CreateHelpersTest, CreateExpressionInExpressionWorks)
 
 TEST(CreateHelpersTest, CreateAndWrapExpressionFromATermWorks)
 {
-    Expression expression1(createExpressionIfPossible({Term(254)}));
-    Expression expression2(createExpressionIfPossible({Term(4752)}));
+    Expression expression1(createExpressionIfPossible({254}));
+    Expression expression2(createExpressionIfPossible({4752}));
 
     Expression expressionToVerify1(createAndWrapExpressionFromATerm(Term(expression1)));
     Expression expressionToVerify2(createAndWrapExpressionFromATerm(Term(4752)));
@@ -81,8 +85,8 @@ TEST(CreateHelpersTest, CreateAndWrapExpressionFromATermWorks)
 
 TEST(CreateHelpersTest, CreateOrCopyExpressionFromATermWorks)
 {
-    Expression expression1(createExpressionIfPossible({Term(254)}));
-    Expression expression2(createExpressionIfPossible({Term(4752)}));
+    Expression expression1(createExpressionIfPossible({254}));
+    Expression expression2(createExpressionIfPossible({4752}));
 
     Expression expressionToVerify1(createOrCopyExpressionFromATerm(Term(expression1)));
     Expression expressionToVerify2(createOrCopyExpressionFromATerm(Term(4752)));
@@ -93,7 +97,7 @@ TEST(CreateHelpersTest, CreateOrCopyExpressionFromATermWorks)
 
 TEST(CreateHelpersTest, CreateExpressionIfPossibleWorks)
 {
-    Expression expressionToTest(createExpressionIfPossible({Term(10), Term("/"), Term(Polynomial{Monomial(5, {}), Monomial(1, {{"x", 1}})})}));
+    Expression expressionToTest(createExpressionIfPossible({10, "/", Polynomial{Monomial(5, {}), Monomial(1, {{"x", 1}})}}));
 
     EXPECT_EQ(OperatorLevel::MultiplicationAndDivision, expressionToTest.getCommonOperatorLevel());
     TermsWithDetails const& termsToVerify(expressionToTest.getTermsWithAssociation().getTermsWithDetails());
@@ -108,7 +112,7 @@ TEST(CreateHelpersTest, CreateExpressionIfPossibleWorks)
 
 TEST(CreateHelpersTest, CreateExpressionIfPossibleDoesNotSimplifyExpressionInAExpression)
 {
-    Expression expression1(createExpressionIfPossible({Term(88)}));
+    Expression expression1(createExpressionIfPossible({88}));
     Expression expression2(createExpressionInAnExpression(expression1));
     Expression expression3(createExpressionInAnExpression(expression2));
 
@@ -139,7 +143,7 @@ TEST(CreateHelpersTest, CreateExpressionIfPossibleDoesNotSimplifyExpressionInAEx
 
 TEST(CreateHelpersTest, CreateExpressionIfPossibleDoesNotSimplify)
 {
-    Expression expressionToTest(createExpressionIfPossible({Term(7.625), Term("+"), Term(2.375)}));
+    Expression expressionToTest(createExpressionIfPossible({7.625, "+", 2.375}));
 
     EXPECT_EQ(OperatorLevel::AdditionAndSubtraction, expressionToTest.getCommonOperatorLevel());
     TermsWithDetails const& termsToVerify(expressionToTest.getTermsWithAssociation().getTermsWithDetails());
@@ -154,7 +158,7 @@ TEST(CreateHelpersTest, CreateExpressionIfPossibleDoesNotSimplify)
 
 TEST(CreateHelpersTest, CreateExpressionIfPossibleReturnsEmptyIfListOfTermsAreWrong)
 {
-    Expression expressionToTest(createExpressionIfPossible({Term(7.625), Term("+"), Term("/"), Term(2.375)}));
+    Expression expressionToTest(createExpressionIfPossible({7.625, "+", "/", 2.375}));
 
     EXPECT_EQ(OperatorLevel::Unknown, expressionToTest.getCommonOperatorLevel());
     TermsWithDetails const& termsToVerify(expressionToTest.getTermsWithAssociation().getTermsWithDetails());
@@ -222,7 +226,7 @@ TEST(CreateHelpersTest, CreateTermWithAdditionAndSubtractionTermsWithDetailsWork
 
     Term termToExpect(createTermWithAdditionAndSubtractionTermsWithDetails(termsWithDetails));
 
-    Term termToVerify(createExpressionIfPossible({Term("x"), Term("-"), Term("y"), Term("+"), Term("z")}));
+    Term termToVerify(createExpressionIfPossible({"x", "-", "y", "+", "z"}));
     EXPECT_EQ(termToVerify, termToExpect);
 }
 
@@ -245,7 +249,7 @@ TEST(CreateHelpersTest, CreateTermWithMultiplicationAndDivisionTermsWithDetailsW
 
     Term termToExpect(createTermWithMultiplicationAndDivisionTermsWithDetails(termsWithDetails));
 
-    Term termToVerify(createExpressionIfPossible({Term("x"), Term("/"), Term("y"), Term("*"), Term("z")}));
+    Term termToVerify(createExpressionIfPossible({"x", "/", "y", "*", "z"}));
     EXPECT_EQ(termToVerify, termToExpect);
 }
 
@@ -268,7 +272,7 @@ TEST(CreateHelpersTest, CreateTermWithRaiseToPowerTermsWithDetailsWorksWithMulti
 
     Term termToExpect(createTermWithRaiseToPowerTermsWithDetails(termsWithDetails));
 
-    Term termToVerify(createExpressionIfPossible({Term("x"), Term("^"), Term("y"), Term("^"), Term("z")}));
+    Term termToVerify(createExpressionIfPossible({"x", "^", "y", "^", "z"}));
     EXPECT_EQ(termToVerify, termToExpect);
 }
 

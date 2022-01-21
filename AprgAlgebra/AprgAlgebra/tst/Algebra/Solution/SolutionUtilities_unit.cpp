@@ -12,13 +12,13 @@ namespace algebra
 
 TEST(SolutionUtilitiesTest, GetPositiveLogarithmOfLargestNumberWorks)
 {
-    EXPECT_EQ(AlbaNumber(6.90775527898214), getPositiveLogarithmOfLargestNumber(Term(1000)));
-    EXPECT_EQ(AlbaNumber(0), getPositiveLogarithmOfLargestNumber(Term("x")));
+    EXPECT_EQ(AlbaNumber(6.90775527898214), getPositiveLogarithmOfLargestNumber(1000));
+    EXPECT_EQ(AlbaNumber(0), getPositiveLogarithmOfLargestNumber("x"));
 }
 
 TEST(SolutionUtilitiesTest, GetInitialValuesForIteratingMethodsWorksForTerm)
 {
-    AlbaNumbers actualValues(getInitialValuesForIteratingMethods(Term(Monomial(123, {{"x", 456}}))));
+    AlbaNumbers actualValues(getInitialValuesForIteratingMethods(Monomial(123, {{"x", 456}})));
 
     ASSERT_EQ(8U, actualValues.size());
     EXPECT_DOUBLE_EQ(-456, actualValues.at(0).getDouble());
@@ -35,7 +35,7 @@ TEST(SolutionUtilitiesTest, GetInitialValuesForIteratingMethodsWorksForEquation)
 {
     AlbaNumbers actualValues(
                 getInitialValuesForIteratingMethods(
-                    Equation(Term(Monomial(1, {{"x", 123}})), "=", Term(Monomial(1, {{"x", 456}})))));
+                    Equation(Monomial(1, {{"x", 123}}), "=", Monomial(1, {{"x", 456}}))));
 
     ASSERT_EQ(11U, actualValues.size());
     EXPECT_DOUBLE_EQ(-456, actualValues.at(0).getDouble());

@@ -30,12 +30,15 @@ public:
     Term(unsigned int const unsignedValue);
     Term(double const doubleValue);
     Term(AlbaNumber const& number);
-    Term(std::string const& stringTerm);
+    Term(char const* const characterString);
+    Term(std::string const& stringAsParameter);
     Term(Constant const& constant);
-    Term(Variable const& variable);    Term(Operator const& operatorTerm);
+    Term(Variable const& variable);
+    Term(Operator const& operatorTerm);
     Term(Monomial const& monomial);
     Term(Polynomial const& polynomial);
-    Term(Expression const& expression);    Term(Function const& function);
+    Term(Expression const& expression);
+    Term(Function const& function);
 
     Term & operator=(Term const& term);
 
@@ -82,6 +85,7 @@ public:
 
 private:
     void resetBaseDataTermPointerBasedFromTerm(Term const& term);
+    void initializeBasedOnString(std::string const& stringAsParameter);
     TermType m_type;
     bool m_isSimplified;
     std::unique_ptr<BaseTermData> m_baseDataTermPointer;

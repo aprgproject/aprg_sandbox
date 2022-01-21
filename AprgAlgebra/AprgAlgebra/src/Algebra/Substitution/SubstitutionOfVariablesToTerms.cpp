@@ -134,10 +134,12 @@ Expression SubstitutionOfVariablesToTerms::performSubstitutionForMonomial(Monomi
     Monomial remainingMonomial(createMonomialFromNumber(monomial.getConstantConstReference()));
     Monomial::VariablesToExponentsMap previousVariableExponentMap(monomial.getVariablesToExponentsMapConstReference());
     Expression substitutedExpressions;
-    for(auto const& variableExponentPair : previousVariableExponentMap)    {
+    for(auto const& variableExponentPair : previousVariableExponentMap)
+    {
         if(isVariableFound(variableExponentPair.first))
         {
-            Expression substitutedExpression(getTermForVariable(variableExponentPair.first));            substitutedExpression.putTermWithRaiseToPowerIfNeeded(Term(variableExponentPair.second));
+            Expression substitutedExpression(getTermForVariable(variableExponentPair.first));
+            substitutedExpression.putTermWithRaiseToPowerIfNeeded(Term(variableExponentPair.second));
             substitutedExpressions.putTermWithMultiplicationIfNeeded(Term(substitutedExpression));
         }
         else

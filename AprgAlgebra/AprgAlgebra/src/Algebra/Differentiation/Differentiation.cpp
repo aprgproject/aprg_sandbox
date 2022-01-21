@@ -216,7 +216,7 @@ Term Differentiation::differentiateFunction(
     Term derivativeOfFunctionOnly(differentiateFunctionOnly(functionObject));
     Term const& inputTerm(getTermConstReferenceFromBaseTerm(functionObject.getInputTermConstReference()));
     Term derivativeOfInputTermOfFunction(differentiate(inputTerm));
-    Term result(createExpressionIfPossible({derivativeOfFunctionOnly, Term("*"), derivativeOfInputTermOfFunction}));
+    Term result(createExpressionIfPossible({derivativeOfFunctionOnly, "*", derivativeOfInputTermOfFunction}));
     simplifyForDifferentiation(result);
     return result;
 }
@@ -238,9 +238,9 @@ Term Differentiation::differentiateTwoMultipliedTerms(
 {
     Term term1Derivative(differentiate(term1));
     Term term2Derivative(differentiate(term2));
-    Expression firstPart(createExpressionIfPossible({term1, Term("*"), term2Derivative}));
-    Expression secondPart(createExpressionIfPossible({term2, Term("*"), term1Derivative}));
-    return Term(createExpressionIfPossible({firstPart, Term("+"), secondPart}));
+    Expression firstPart(createExpressionIfPossible({term1, "*", term2Derivative}));
+    Expression secondPart(createExpressionIfPossible({term2, "*", term1Derivative}));
+    return Term(createExpressionIfPossible({firstPart, "+", secondPart}));
 }
 
 Term Differentiation::differentiateTwoDividedTerms(
@@ -249,11 +249,11 @@ Term Differentiation::differentiateTwoDividedTerms(
 {
     Term numeratorDerivative(differentiate(numerator));
     Term denominatorDerivative(differentiate(denominator));
-    Expression resultNumeratorPart1(createExpressionIfPossible({denominator, Term("*"), numeratorDerivative}));
-    Expression resultNumeratorPart2(createExpressionIfPossible({numerator, Term("*"), denominatorDerivative}));
-    Expression resultNumerator(createExpressionIfPossible({resultNumeratorPart1, Term("-"), resultNumeratorPart2}));
-    Expression resultDenominator(createExpressionIfPossible({denominator, Term("^"), Term(2)}));
-    return Term(createExpressionIfPossible({resultNumerator, Term("/"), resultDenominator}));
+    Expression resultNumeratorPart1(createExpressionIfPossible({denominator, "*", numeratorDerivative}));
+    Expression resultNumeratorPart2(createExpressionIfPossible({numerator, "*", denominatorDerivative}));
+    Expression resultNumerator(createExpressionIfPossible({resultNumeratorPart1, "-", resultNumeratorPart2}));
+    Expression resultDenominator(createExpressionIfPossible({denominator, "^", 2}));
+    return Term(createExpressionIfPossible({resultNumerator, "/", resultDenominator}));
 }
 
 void Differentiation::separateNonChangingAndChangingVariables(
@@ -357,7 +357,7 @@ Term Differentiation::differentiateTermsInAdditionOrSubtraction(
         Expression const& expression) const
 {
     TermsWithDetails const& termsWithDetails(expression.getTermsWithAssociation().getTermsWithDetails());
-    Expression accumulatedExpression(createOrCopyExpressionFromATerm(Term(0)));
+    Expression accumulatedExpression(createOrCopyExpressionFromATerm(0));
     for(TermWithDetails const& termWithDetails : termsWithDetails)
     {
         Term const& currentTerm(getTermConstReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer));
@@ -446,7 +446,7 @@ Term Differentiation::differentiateTermsInRaiseToPower(
     bool isSecondAChangingTerm = isChangingTerm(secondTerm);
     if(!isFirstAChangingTerm && !isSecondAChangingTerm)
     {
-        result = Term(0);
+        result = 0;
     }
     else if(!isFirstAChangingTerm && isSecondAChangingTerm)
     {
@@ -468,7 +468,7 @@ Term Differentiation::differentiateNonChangingTermRaiseToChangingTerm(
         Term const& exponent) const
 {
     Term derivativeCauseOfChainRule(differentiate(exponent));
-    return Term(createExpressionIfPossible({base, Term("^"), exponent, Term("*"), Term(ln(base)), Term("*"), derivativeCauseOfChainRule}));
+    return Term(createExpressionIfPossible({base, "^", exponent, "*", ln(base), "*", derivativeCauseOfChainRule}));
 }
 
 Term Differentiation::differentiateChangingTermRaiseToNonChangingTerm(
@@ -476,7 +476,7 @@ Term Differentiation::differentiateChangingTermRaiseToNonChangingTerm(
         Term const& exponent) const
 {
     Term derivativeCauseOfChainRule(differentiate(base));
-    return Term(createExpressionIfPossible({base, Term("^"), Term(exponent-Term(1)), Term("*"), exponent, Term("*"), derivativeCauseOfChainRule}));
+    return Term(createExpressionIfPossible({base, "^", exponent-1, "*", exponent, "*", derivativeCauseOfChainRule}));
 }
 
 Term Differentiation::differentiateChangingTermRaiseToChangingTerm(
@@ -497,11 +497,11 @@ Term Differentiation::differentiateFunctionOnly(
     }
     else if("ln" == functionObject.getFunctionName())
     {
-        derivativeOfFunction = Term(createExpressionIfPossible({Term(1), Term("/"), inputTerm}));
+        derivativeOfFunction = Term(createExpressionIfPossible({1, "/", inputTerm}));
     }
     else if("log" == functionObject.getFunctionName())
     {
-        derivativeOfFunction = Term(createExpressionIfPossible({Term(::log(10)), Term("/"), inputTerm}));
+        derivativeOfFunction = Term(createExpressionIfPossible({::log(10), "/", inputTerm}));
     }
     else if("sin" == functionObject.getFunctionName())
     {
@@ -509,57 +509,57 @@ Term Differentiation::differentiateFunctionOnly(
     }
     else if("cos" == functionObject.getFunctionName())
     {
-        derivativeOfFunction = Term(createExpressionIfPossible({Term(-1), Term("*"), sin(inputTerm)}));
+        derivativeOfFunction = Term(createExpressionIfPossible({-1, "*", sin(inputTerm)}));
     }
     else if("tan" == functionObject.getFunctionName())
     {
-        derivativeOfFunction = Term(createExpressionIfPossible({sec(inputTerm), Term("^"), Term(2)}));
+        derivativeOfFunction = Term(createExpressionIfPossible({sec(inputTerm), "^", 2}));
     }
     else if("csc" == functionObject.getFunctionName())
     {
-        derivativeOfFunction = Term(createExpressionIfPossible({Term(-1), Term("*"), csc(inputTerm), Term("*"), cot(inputTerm)}));
+        derivativeOfFunction = Term(createExpressionIfPossible({-1, "*", csc(inputTerm), "*", cot(inputTerm)}));
     }
     else if("sec" == functionObject.getFunctionName())
     {
-        derivativeOfFunction = Term(createExpressionIfPossible({sec(inputTerm), Term("*"), tan(inputTerm)}));
+        derivativeOfFunction = Term(createExpressionIfPossible({sec(inputTerm), "*", tan(inputTerm)}));
     }
     else if("cot" == functionObject.getFunctionName())
     {
-        derivativeOfFunction = Term(createExpressionIfPossible({Term(-1), Term("*"), csc(inputTerm), Term("^"), Term(2)}));
+        derivativeOfFunction = Term(createExpressionIfPossible({-1, "*", csc(inputTerm), "^", 2}));
     }
     else if("arcsin" == functionObject.getFunctionName())
     {
-        Term oneMinusInputSquared(createExpressionIfPossible({Term(1), Term("-"), inputTerm, Term("^"), Term(2)}));
-        Term squareRootTerm(createExpressionIfPossible({oneMinusInputSquared, Term("^"), Term(AlbaNumber::createFraction(1, 2))}));
-        derivativeOfFunction = Term(createExpressionIfPossible({Term(1), Term("/"), squareRootTerm}));
+        Term oneMinusInputSquared(createExpressionIfPossible({1, "-", inputTerm, "^", 2}));
+        Term squareRootTerm(createExpressionIfPossible({oneMinusInputSquared, "^", AlbaNumber::createFraction(1, 2)}));
+        derivativeOfFunction = Term(createExpressionIfPossible({1, "/", squareRootTerm}));
     }
     else if("arccos" == functionObject.getFunctionName())
     {
-        Term oneMinusInputSquared(createExpressionIfPossible({Term(1), Term("-"), inputTerm, Term("^"), Term(2)}));
-        Term squareRootTerm(createExpressionIfPossible({oneMinusInputSquared, Term("^"), Term(AlbaNumber::createFraction(1, 2))}));
-        derivativeOfFunction = Term(createExpressionIfPossible({Term(-1), Term("/"), squareRootTerm}));
+        Term oneMinusInputSquared(createExpressionIfPossible({1, "-", inputTerm, "^", 2}));
+        Term squareRootTerm(createExpressionIfPossible({oneMinusInputSquared, "^", AlbaNumber::createFraction(1, 2)}));
+        derivativeOfFunction = Term(createExpressionIfPossible({-1, "/", squareRootTerm}));
     }
     else if("arctan" == functionObject.getFunctionName())
     {
-        Term onePlusInputSquared(createExpressionIfPossible({Term(1), Term("+"), inputTerm, Term("^"), Term(2)}));
-        derivativeOfFunction = Term(createExpressionIfPossible({Term(1), Term("/"), onePlusInputSquared}));
+        Term onePlusInputSquared(createExpressionIfPossible({1, "+", inputTerm, "^", 2}));
+        derivativeOfFunction = Term(createExpressionIfPossible({1, "/", onePlusInputSquared}));
     }
     else if("arccsc" == functionObject.getFunctionName())
     {
-        Term inputSquaredMinusOne(createExpressionIfPossible({inputTerm, Term("^"), Term(2), Term("-"), Term(1)}));
-        Term squareRootTerm(createExpressionIfPossible({inputSquaredMinusOne, Term("^"), Term(AlbaNumber::createFraction(1, 2))}));
-        derivativeOfFunction = Term(createExpressionIfPossible({Term(-1), Term("/"), Term(inputTerm), Term("/"), squareRootTerm}));
+        Term inputSquaredMinusOne(createExpressionIfPossible({inputTerm, "^", 2, "-", 1}));
+        Term squareRootTerm(createExpressionIfPossible({inputSquaredMinusOne, "^", AlbaNumber::createFraction(1, 2)}));
+        derivativeOfFunction = Term(createExpressionIfPossible({-1, "/", inputTerm, "/", squareRootTerm}));
     }
     else if("arcsec" == functionObject.getFunctionName())
     {
-        Term inputSquaredMinusOne(createExpressionIfPossible({inputTerm, Term("^"), Term(2), Term("-"), Term(1)}));
-        Term squareRootTerm(createExpressionIfPossible({inputSquaredMinusOne, Term("^"), Term(AlbaNumber::createFraction(1, 2))}));
-        derivativeOfFunction = Term(createExpressionIfPossible({Term(1), Term("/"), Term(inputTerm), Term("/"), squareRootTerm}));
+        Term inputSquaredMinusOne(createExpressionIfPossible({inputTerm, "^", 2, "-", 1}));
+        Term squareRootTerm(createExpressionIfPossible({inputSquaredMinusOne, "^", AlbaNumber::createFraction(1, 2)}));
+        derivativeOfFunction = Term(createExpressionIfPossible({1, "/", inputTerm, "/", squareRootTerm}));
     }
     else if("arccot" == functionObject.getFunctionName())
     {
-        Term onePlusInputSquared(createExpressionIfPossible({Term(1), Term("+"), inputTerm, Term("^"), Term(2)}));
-        derivativeOfFunction = Term(createExpressionIfPossible({Term(-1), Term("/"), onePlusInputSquared}));
+        Term onePlusInputSquared(createExpressionIfPossible({1, "+", inputTerm, "^", 2}));
+        derivativeOfFunction = Term(createExpressionIfPossible({-1, "/", onePlusInputSquared}));
     }
     else if("sinh" == functionObject.getFunctionName())
     {
@@ -571,19 +571,19 @@ Term Differentiation::differentiateFunctionOnly(
     }
     else if("tanh" == functionObject.getFunctionName())
     {
-        derivativeOfFunction = Term(createExpressionIfPossible({sech(inputTerm), Term("^"), Term(2)}));
+        derivativeOfFunction = Term(createExpressionIfPossible({sech(inputTerm), "^", 2}));
     }
     else if("csch" == functionObject.getFunctionName())
     {
-        derivativeOfFunction = Term(createExpressionIfPossible({Term(-1), Term("*"), csch(inputTerm), Term("*"), coth(inputTerm)}));
+        derivativeOfFunction = Term(createExpressionIfPossible({-1, "*", csch(inputTerm), "*", coth(inputTerm)}));
     }
     else if("sech" == functionObject.getFunctionName())
     {
-        derivativeOfFunction = Term(createExpressionIfPossible({Term(-1), Term("*"), sech(inputTerm), Term("*"), tanh(inputTerm)}));
+        derivativeOfFunction = Term(createExpressionIfPossible({-1, "*", sech(inputTerm), "*", tanh(inputTerm)}));
     }
     else if("coth" == functionObject.getFunctionName())
     {
-        derivativeOfFunction = Term(createExpressionIfPossible({Term(-1), Term("*"), csch(inputTerm), Term("^"), Term(2)}));
+        derivativeOfFunction = Term(createExpressionIfPossible({-1, "*", csch(inputTerm), "^", 2}));
     }
     return derivativeOfFunction;
 }

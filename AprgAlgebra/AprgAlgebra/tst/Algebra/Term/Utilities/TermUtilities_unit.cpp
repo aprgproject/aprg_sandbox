@@ -15,13 +15,13 @@ namespace algebra
 TEST(TermUtilitiesTest, IsNegatedTermSimplerWorks)
 {
     Term x("x");
-    Term xToTheX(createExpressionIfPossible({x, Term("^"), x}));
-    Term negativeXToTheX(createExpressionIfPossible({Term(-1), Term("*"), x, Term("^"), x}));
+    Term xToTheX(createExpressionIfPossible({x, "^", x}));
+    Term negativeXToTheX(createExpressionIfPossible({-1, "*", x, "^", x}));
 
     EXPECT_FALSE(isNegatedTermSimpler(xToTheX, negativeXToTheX));
     EXPECT_TRUE(isNegatedTermSimpler(negativeXToTheX, xToTheX));
-    EXPECT_FALSE(isNegatedTermSimpler(Term(Monomial(5, {})), Term(Monomial(-5, {}))));
-    EXPECT_TRUE(isNegatedTermSimpler(Term(Monomial(-5, {})), Term(Monomial(5, {}))));
+    EXPECT_FALSE(isNegatedTermSimpler(Monomial(5, {}), Monomial(-5, {})));
+    EXPECT_TRUE(isNegatedTermSimpler(Monomial(-5, {}), Monomial(5, {})));
 }
 
 TEST(TermUtilitiesTest, IsNonEmptyOrNonOperatorTypeWorks)
@@ -72,11 +72,11 @@ TEST(TermUtilitiesTest, IsARadicalTermWorks)
     Term nonMonomialOrExpressionTerm("x");
     Term monomialWithIntegerExponent(Monomial(1, {{"x", 34}}));
     Term monomialWithDoubleExponent(Monomial(1, {{"x", 3.4}}));
-    Term nonRaiseToPowerExpressionTerm(createExpressionIfPossible({x, Term("*"), x}));
-    Term raiseToIntegerExpressionTerm(createExpressionIfPossible({x, Term("^"), Term(5)}));
-    Term raiseToDoubleExpressionTerm(createExpressionIfPossible({x, Term("^"), Term(1.79)}));
-    Term multipleRaiseToPowerExpressionTerm(createExpressionIfPossible({x, Term("^"), Term(1.79), Term("^"), Term("y")}));
-    Term raiseToMonomialWithDoubleExpressionTerm(createExpressionIfPossible({x, Term("^"), Term(Monomial(2.84, {{"x", 2}, {"y", 3}}))}));
+    Term nonRaiseToPowerExpressionTerm(createExpressionIfPossible({x, "*", x}));
+    Term raiseToIntegerExpressionTerm(createExpressionIfPossible({x, "^", 5}));
+    Term raiseToDoubleExpressionTerm(createExpressionIfPossible({x, "^", 1.79}));
+    Term multipleRaiseToPowerExpressionTerm(createExpressionIfPossible({x, "^", 1.79, "^", "y"}));
+    Term raiseToMonomialWithDoubleExpressionTerm(createExpressionIfPossible({x, "^", Monomial(2.84, {{"x", 2}, {"y", 3}})}));
 
     EXPECT_FALSE(isARadicalTerm(nonMonomialOrExpressionTerm));
     EXPECT_FALSE(isARadicalTerm(monomialWithIntegerExponent));
@@ -95,15 +95,15 @@ TEST(TermUtilitiesTest, GetNumberOfTermsWorks)
     Term y("y");
     Term z("z");
 
-    EXPECT_EQ(7U, getNumberOfTerms(Term(createExpressionIfPossible({w, Term("+"), x, Term("*"), y, Term("^"), z}))));
+    EXPECT_EQ(7U, getNumberOfTerms(Term(createExpressionIfPossible({w, "+", x, "*", y, "^", z}))));
 }
 
 TEST(TermUtilitiesTest, GetConstantFactorWorks)
 {
     Term x("x");
-    EXPECT_EQ(AlbaNumber(5), getConstantFactor(Term(5)));
-    EXPECT_EQ(AlbaNumber(6), getConstantFactor(Term(Monomial(6, {{"x", 7}}))));
-    EXPECT_EQ(AlbaNumber(4), getConstantFactor(Term(Polynomial{Monomial(8, {{"x", 3}}), Monomial(12, {{"x", 4}})})));
+    EXPECT_EQ(AlbaNumber(5), getConstantFactor(5));
+    EXPECT_EQ(AlbaNumber(6), getConstantFactor(Monomial(6, {{"x", 7}})));
+    EXPECT_EQ(AlbaNumber(4), getConstantFactor(Polynomial{Monomial(8, {{"x", 3}}), Monomial(12, {{"x", 4}})}));
     EXPECT_EQ(AlbaNumber(1), getConstantFactor(x));
 }
 
@@ -115,7 +115,7 @@ TEST(TermUtilitiesTest, EvaluateAndGetInputOutputPairWorks)
                 evaluateAndGetInputOutputPair(
                     inputNumbers,
                     "x",
-                    Term(Monomial(-2, {{"x", 3}}))
+                    Monomial(-2, {{"x", 3}})
                     ));
 
     ASSERT_EQ(5U, inputAndOutputPairs.size());
@@ -143,30 +143,30 @@ TEST(TermUtilitiesTest, GetEAsTermWorks)
 
 TEST(TermUtilitiesTest, ConvertPositiveTermIfNegativeWorks)
 {
-    EXPECT_EQ(Term(5), convertPositiveTermIfNegative(Term(-5)));
-    EXPECT_EQ(Term(5), convertPositiveTermIfNegative(Term(5)));
+    EXPECT_EQ(Term(5), convertPositiveTermIfNegative(-5));
+    EXPECT_EQ(Term(5), convertPositiveTermIfNegative(5));
 }
 
 TEST(TermUtilitiesTest, NegateTermWorks)
 {
-    Term sinX(sin(Term("x")));
-    Term sinY(sin(Term("y")));
-    Term sinZ(sin(Term("z")));
-    Term term1(createExpressionIfPossible({sinX, Term("+"), sinY, Term("-"), sinZ}));
-    Term term2(createExpressionIfPossible({sinX, Term("*"), sinY, Term("/"), sinZ}));
-    Term term3(createExpressionIfPossible({sinX, Term("^"), sinY, Term("^"), sinZ}));
+    Term sinX(sin("x"));
+    Term sinY(sin("y"));
+    Term sinZ(sin("z"));
+    Term term1(createExpressionIfPossible({sinX, "+", sinY, "-", sinZ}));
+    Term term2(createExpressionIfPossible({sinX, "*", sinY, "/", sinZ}));
+    Term term3(createExpressionIfPossible({sinX, "^", sinY, "^", sinZ}));
 
-    Term termToVerify1(negateTerm(Term(5)));
-    Term termToVerify2(negateTerm(Term("x")));
+    Term termToVerify1(negateTerm(5));
+    Term termToVerify2(negateTerm("x"));
     Term termToVerify3(negateTerm(term1));
     Term termToVerify4(negateTerm(term2));
     Term termToVerify5(negateTerm(term3));
 
     Term termToExpect1(-5);
     Term termToExpect2(Monomial(-1, {{"x", 1}}));
-    Term termToExpect3(createExpressionIfPossible({sinZ, Term("-"), sinX, Term("-"), sinY}));
-    Term termToExpect4(createExpressionIfPossible({Term(-1), Term("*"), sinX, Term("*"), sinY, Term("/"), sinZ}));
-    Term termToExpect5(createExpressionIfPossible({Term(-1), Term("*"), sinX, Term("^"), Term("("), sinY, Term("*"), sinZ, Term(")")}));
+    Term termToExpect3(createExpressionIfPossible({sinZ, "-", sinX, "-", sinY}));
+    Term termToExpect4(createExpressionIfPossible({-1, "*", sinX, "*", sinY, "/", sinZ}));
+    Term termToExpect5(createExpressionIfPossible({-1, "*", sinX, "^", "(", sinY, "*", sinZ, ")"}));
     EXPECT_EQ(termToExpect1, termToVerify1);
     EXPECT_EQ(termToExpect2, termToVerify2);
     EXPECT_EQ(termToExpect3, termToVerify3);
@@ -176,7 +176,7 @@ TEST(TermUtilitiesTest, NegateTermWorks)
 
 TEST(TermUtilitiesTest, FlipTermWorks)
 {
-    EXPECT_EQ(Term(AlbaNumber::createFraction(1, 5)), flipTerm(Term(5)));
+    EXPECT_EQ(Term(AlbaNumber::createFraction(1, 5)), flipTerm(5));
 }
 
 TEST(TermUtilitiesTest, NegateTermIfHasNegativeAssociationWorks)
@@ -197,7 +197,7 @@ TEST(TermUtilitiesTest, InvertTermWorks)
     Term termToTest2("x");
     Term termToTest3(Monomial(1, {{"x", 4}}));
     Term termToTest4(Polynomial{Monomial(1, {{"x", 2}}), Monomial(-1, {})});
-    Term termToTest5(createExpressionIfPossible({Term(Polynomial{Monomial(1, {{"x", 1}}), Monomial(1, {})}), Term("^"), Term(AlbaNumber::createFraction(1, 2))}));
+    Term termToTest5(createExpressionIfPossible({Polynomial{Monomial(1, {{"x", 1}}), Monomial(1, {})}, "^", AlbaNumber::createFraction(1, 2)}));
 
     Term termToVerify1(invertTerm(termToTest1, "x"));
     Term termToVerify2(invertTerm(termToTest2, "x"));
@@ -208,7 +208,7 @@ TEST(TermUtilitiesTest, InvertTermWorks)
     Term termToExpect1;
     Term termToExpect2("x");
     Term termToExpect3(Monomial(1, {{"x", AlbaNumber::createFraction(1, 4)}}));
-    Term termToExpect4(createExpressionIfPossible({Term(Polynomial{Monomial(1, {{"x", 1}}), Monomial(1, {})}), Term("^"), Term(AlbaNumber::createFraction(1, 2))}));
+    Term termToExpect4(createExpressionIfPossible({Polynomial{Monomial(1, {{"x", 1}}), Monomial(1, {})}, "^", AlbaNumber::createFraction(1, 2)}));
     Term termToExpect5(Polynomial{Monomial(1, {{"x", 2}}), Monomial(-1, {})});
     EXPECT_EQ(termToExpect1, termToVerify1);
     EXPECT_EQ(termToExpect2, termToVerify2);
@@ -220,11 +220,11 @@ TEST(TermUtilitiesTest, InvertTermWorks)
 TEST(TermUtilitiesTest, NegateExpressionWorks)
 {
     Term x("x");
-    Expression expression1(createExpressionIfPossible({Term(-5), Term("+"), x}));
-    Expression expression2(createExpressionIfPossible({Term(5), Term("+"), x}));
-    Expression expression3(createExpressionIfPossible({Term(-5), Term("*"), x}));
-    Expression expression4(createExpressionIfPossible({Term(-5), Term("*"), Term(-3)}));
-    Expression expression5(createExpressionIfPossible({Term(-5), Term("^"), x}));
+    Expression expression1(createExpressionIfPossible({-5, "+", x}));
+    Expression expression2(createExpressionIfPossible({5, "+", x}));
+    Expression expression3(createExpressionIfPossible({-5, "*", x}));
+    Expression expression4(createExpressionIfPossible({-5, "*", -3}));
+    Expression expression5(createExpressionIfPossible({-5, "^", x}));
 
     Expression expressionToVerify1(negateExpression(expression1));
     Expression expressionToVerify2(negateExpression(expression2));
@@ -232,12 +232,12 @@ TEST(TermUtilitiesTest, NegateExpressionWorks)
     Expression expressionToVerify4(negateExpression(expression4));
     Expression expressionToVerify5(negateExpression(expression5));
 
-    Expression expectedExpression1(createExpressionIfPossible({Term(Polynomial{Monomial(-1, {{"x", 1}}), Monomial(5, {})})}));
-    Expression expectedExpression2(createExpressionIfPossible({Term(Polynomial{Monomial(-1, {{"x", 1}}), Monomial(-5, {})})}));
-    Expression expectedExpression3(createExpressionIfPossible({Term(Monomial(5, {{"x", 1}}))}));
-    Expression expectedExpression4(createExpressionIfPossible({Term(-15)}));
-    Expression subExpression5(createExpressionIfPossible({Term(-5), Term("^"), x}));
-    Expression expectedExpression5(createExpressionIfPossible({Term(-1), Term("*"), Term(subExpression5)}));
+    Expression expectedExpression1(createExpressionIfPossible({Polynomial{Monomial(-1, {{"x", 1}}), Monomial(5, {})}}));
+    Expression expectedExpression2(createExpressionIfPossible({Polynomial{Monomial(-1, {{"x", 1}}), Monomial(-5, {})}}));
+    Expression expectedExpression3(createExpressionIfPossible({Monomial(5, {{"x", 1}})}));
+    Expression expectedExpression4(createExpressionIfPossible({-15}));
+    Expression subExpression5(createExpressionIfPossible({-5, "^", x}));
+    Expression expectedExpression5(createExpressionIfPossible({-1, "*", subExpression5}));
     EXPECT_EQ(expectedExpression1, expressionToVerify1);
     EXPECT_EQ(expectedExpression2, expressionToVerify2);
     EXPECT_EQ(expectedExpression3, expressionToVerify3);

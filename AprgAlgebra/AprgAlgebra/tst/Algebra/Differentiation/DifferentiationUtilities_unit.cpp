@@ -67,7 +67,7 @@ TEST(DifferentiationUtilitiesTest, GetDerivativeAtUsingLimitWorksWhenInputIsACon
 {
     Term termToTest(5);
 
-    Term derivative(getDerivativeAtUsingLimit(termToTest, "x", Term(2), LimitAtAValueApproachType::BothSides));
+    Term derivative(getDerivativeAtUsingLimit(termToTest, "x", 2, LimitAtAValueApproachType::BothSides));
 
     EXPECT_EQ(Term(0), derivative);
 }
@@ -76,7 +76,7 @@ TEST(DifferentiationUtilitiesTest, GetDerivativeAtUsingLimitWorksWhenXIsAValue)
 {
     Term termToTest(Monomial(1, {{"x", 2}}));
 
-    Term derivative(getDerivativeAtUsingLimit(termToTest, "x", Term(2), LimitAtAValueApproachType::BothSides));
+    Term derivative(getDerivativeAtUsingLimit(termToTest, "x", 2, LimitAtAValueApproachType::BothSides));
 
     EXPECT_EQ(Term(4), derivative);
 }
@@ -85,7 +85,7 @@ TEST(DifferentiationUtilitiesTest, GetDerivativeAtUsingLimitWorksWhenXIsAVariabl
 {
     Term termToTest(Monomial(1, {{"x", 2}}));
 
-    Term derivative(getDerivativeAtUsingLimit(termToTest, "x", Term("y"), LimitAtAValueApproachType::BothSides));
+    Term derivative(getDerivativeAtUsingLimit(termToTest, "x", "y", LimitAtAValueApproachType::BothSides));
 
     EXPECT_EQ(Term(Monomial(2, {{"y", 1}})), derivative);
 }
@@ -94,7 +94,7 @@ TEST(DifferentiationUtilitiesTest, GetDerivativeAtUsingLimitWorksWhenXIsAVariabl
 {
     Term termToTest(Monomial(1, {{"x", AlbaNumber::createFraction(1, 3)}}));
 
-    Term derivative(getDerivativeAtUsingLimit(termToTest, "x", Term("y"), LimitAtAValueApproachType::BothSides));
+    Term derivative(getDerivativeAtUsingLimit(termToTest, "x", "y", LimitAtAValueApproachType::BothSides));
 
     EXPECT_EQ(Term(Monomial(AlbaNumber::createFraction(1, 3), {{"y", AlbaNumber::createFraction(-2, 3)}})), derivative);
 }
@@ -103,7 +103,7 @@ TEST(DifferentiationUtilitiesTest, GetDerivativeAtUsingLimitWorksForPolynomialAn
 {
     Term polynomialTerm(Polynomial{Monomial(3, {{"x", 2}}), Monomial(12, {})});
 
-    Term derivative(getDerivativeAtUsingLimit(polynomialTerm, "x", Term(2), LimitAtAValueApproachType::BothSides));
+    Term derivative(getDerivativeAtUsingLimit(polynomialTerm, "x", 2, LimitAtAValueApproachType::BothSides));
 
     EXPECT_EQ(Term(12), derivative);
 }
@@ -112,7 +112,7 @@ TEST(DifferentiationUtilitiesTest, GetDerivativeAtUsingLimitWorksForPolynomialAn
 {
     Term polynomialTerm(Polynomial{Monomial(1, {{"x", 3}}), Monomial(-3, {{"x", 1}}), Monomial(4, {})});
 
-    Term derivative(getDerivativeAtUsingLimit(polynomialTerm, "x", Term("z"), LimitAtAValueApproachType::BothSides));
+    Term derivative(getDerivativeAtUsingLimit(polynomialTerm, "x", "z", LimitAtAValueApproachType::BothSides));
 
     EXPECT_EQ(Term(Polynomial{Monomial(3, {{"z", 2}}), Monomial(-3, {})}), derivative);
 }
@@ -120,13 +120,13 @@ TEST(DifferentiationUtilitiesTest, GetDerivativeAtUsingLimitWorksForPolynomialAn
 TEST(DifferentiationUtilitiesTest, GetDerivativeAtUsingLimitWorksForRadicalAndWhenXIsAVariable)
 {
     Term polynomialTerm(Polynomial{Monomial(1, {{"x", 1}}), Monomial(-3, {})});
-    Term radicalTerm(createExpressionIfPossible({polynomialTerm, Term("^"), Term(AlbaNumber::createFraction(1, 2))}));
+    Term radicalTerm(createExpressionIfPossible({polynomialTerm, "^", AlbaNumber::createFraction(1, 2)}));
 
-    Term derivative(getDerivativeAtUsingLimit(radicalTerm, "x", Term("a"), LimitAtAValueApproachType::BothSides));
+    Term derivative(getDerivativeAtUsingLimit(radicalTerm, "x", "a", LimitAtAValueApproachType::BothSides));
 
     Term expectedSubPolynomial(Polynomial{Monomial(1, {{"a", 1}}), Monomial(-3, {})});
-    Term expectedRadicalTerm(createExpressionIfPossible({expectedSubPolynomial, Term("^"), Term(AlbaNumber::createFraction(1, 2))}));
-    Term termToExpect(createExpressionIfPossible({Term(AlbaNumber::createFraction(1, 2)), Term("/"), expectedRadicalTerm}));
+    Term expectedRadicalTerm(createExpressionIfPossible({expectedSubPolynomial, "^", AlbaNumber::createFraction(1, 2)}));
+    Term termToExpect(createExpressionIfPossible({AlbaNumber::createFraction(1, 2), "/", expectedRadicalTerm}));
     EXPECT_EQ(termToExpect, derivative);
 }
 
@@ -134,12 +134,12 @@ TEST(DifferentiationUtilitiesTest, GetDerivativeAtUsingLimitWorksForPolynomialOv
 {
     Term numerator(Polynomial{Monomial(1, {{"x", 1}}), Monomial(2, {})});
     Term denominator(Polynomial{Monomial(-1, {{"x", 1}}), Monomial(3, {})});
-    Term polynomialOverPolynomialTerm(createExpressionIfPossible({numerator, Term("/"), denominator}));
+    Term polynomialOverPolynomialTerm(createExpressionIfPossible({numerator, "/", denominator}));
 
-    Term derivative(getDerivativeAtUsingLimit(polynomialOverPolynomialTerm, "x", Term("a"), LimitAtAValueApproachType::BothSides));
+    Term derivative(getDerivativeAtUsingLimit(polynomialOverPolynomialTerm, "x", "a", LimitAtAValueApproachType::BothSides));
 
     Term expectedDenominator(Polynomial{Monomial(1, {{"a", 2}}), Monomial(-6, {{"a", 1}}), Monomial(9, {})});
-    Term termToExpect(createExpressionIfPossible({Term(5), Term("/"), expectedDenominator}));
+    Term termToExpect(createExpressionIfPossible({5, "/", expectedDenominator}));
     EXPECT_EQ(termToExpect, derivative);
 }
 
@@ -164,7 +164,7 @@ TEST(DifferentiationUtilitiesTest, GetRelationshipOfDerivativeOfTheInverseAndThe
 TEST(DifferentiationUtilitiesTest, GetIntegralEquationForFirstOrderDifferentialEquationWorks)
 {
     Term leftHandSide(Polynomial{Monomial(1, {{"d[y]/d[x]", 1}}), Monomial(-2, {{"x", 1}, {"y", 1}}), Monomial(-3, {{"x", 1}})});
-    Equation equationToTest(leftHandSide, "=", Term(0));
+    Equation equationToTest(leftHandSide, "=", 0);
 
     Equation equationToVerify(getIntegralEquationForFirstOrderDifferentialEquation(equationToTest, "x", "y"));
 
@@ -175,13 +175,13 @@ TEST(DifferentiationUtilitiesTest, GetIntegralEquationForFirstOrderDifferentialE
 TEST(DifferentiationUtilitiesTest, GetLogarithmicDifferentiationToYieldDyOverDxWorks)
 {
     Polynomial xMinusOne{Monomial(1, {{"x", 1}}), Monomial(-1, {})};
-    Term termToTest(createExpressionIfPossible({Term(xMinusOne), Term("^"), Term(AlbaNumber::createFraction(1, 2))}));
+    Term termToTest(createExpressionIfPossible({xMinusOne, "^", AlbaNumber::createFraction(1, 2)}));
 
     Term dyOverDx(getLogarithmicDifferentiationToYieldDyOverDx(termToTest, "x", "y"));
 
     Term insideSquareRootTerm(Polynomial{Monomial(1, {{"x", 1}}), Monomial(-1, {})});
-    Term squareRootTerm(createExpressionIfPossible({insideSquareRootTerm, Term("^"), Term(AlbaNumber::createFraction(1, 2))}));
-    Term termToExpect(createExpressionIfPossible({Term(1), Term("/"), Term(2), Term("/"), squareRootTerm}));
+    Term squareRootTerm(createExpressionIfPossible({insideSquareRootTerm, "^", AlbaNumber::createFraction(1, 2)}));
+    Term termToExpect(createExpressionIfPossible({1, "/", 2, "/", squareRootTerm}));
     EXPECT_EQ(termToExpect, dyOverDx);
 }
 
@@ -189,7 +189,7 @@ TEST(DifferentiationUtilitiesTest, GetCartesianDerivativeOfTermInPolarCoordinate
 {
     string thetaName("theta");
     Term theta(thetaName);
-    Term radiusOfLimacon(createExpressionIfPossible({Term(3), Term("+"), Term(2), Term("*"), Term(sin(theta))}));
+    Term radiusOfLimacon(createExpressionIfPossible({3, "+", 2, "*", sin(theta)}));
 
     Term dyOverDx(getCartesianDerivativeOfTermInPolarCoordinates(radiusOfLimacon, thetaName));
 
@@ -201,7 +201,7 @@ TEST(DifferentiationUtilitiesTest, GetSlopeOfTermInPolarCoordinatesWorks)
 {
     string thetaName("theta");
     Term theta(thetaName);
-    Term radiusOfLimacon(createExpressionIfPossible({Term(3), Term("+"), Term(2), Term("*"), Term(cos(theta))}));
+    Term radiusOfLimacon(createExpressionIfPossible({3, "+", 2, "*", cos(theta)}));
 
     Term termToVerify(getSlopeOfTermInPolarCoordinates(radiusOfLimacon, thetaName, AlbaNumber(AlbaNumber::Value::pi)/2));
 
@@ -211,9 +211,9 @@ TEST(DifferentiationUtilitiesTest, GetSlopeOfTermInPolarCoordinatesWorks)
 TEST(DifferentiationUtilitiesTest, GetApproximationUsingTaylorsFormulaWorksForEToTheX)
 {
     Term x("x");
-    Term termToTest(createExpressionIfPossible({getEAsTerm(), Term("^"), x}));
+    Term termToTest(createExpressionIfPossible({getEAsTerm(), "^", x}));
 
-    Term termToVerify(getApproximationUsingTaylorsFormula(termToTest, "x", Term(0), Term("q"), 3));
+    Term termToVerify(getApproximationUsingTaylorsFormula(termToTest, "x", 0, "q", 3));
 
     string stringToExpect("((1/6)[q^3] + (1/2)[q^2] + 1[q] + 1)");
     EXPECT_EQ(stringToExpect, termToVerify.getDisplayableString());
@@ -224,7 +224,7 @@ TEST(DifferentiationUtilitiesTest, GetApproximationUsingTaylorsFormulaWorksForSi
     Term x("x");
     Term termToTest(sin(x));
 
-    Term termToVerify(getApproximationUsingTaylorsFormula(termToTest, "x", Term(0), Term("q"), 8));
+    Term termToVerify(getApproximationUsingTaylorsFormula(termToTest, "x", 0, "q", 8));
 
     string stringToExpect("((-1/5040)[q^7] + (1/120)[q^5] + (-1/6)[q^3] + 1[q])");
     EXPECT_EQ(stringToExpect, termToVerify.getDisplayableString());
@@ -233,9 +233,9 @@ TEST(DifferentiationUtilitiesTest, GetApproximationUsingTaylorsFormulaWorksForSi
 TEST(DifferentiationUtilitiesTest, GetApproximationUsingTaylorsRemainderWorks)
 {
     Term x("x");
-    Term termToTest(createExpressionIfPossible({getEAsTerm(), Term("^"), x}));
+    Term termToTest(createExpressionIfPossible({getEAsTerm(), "^", x}));
 
-    Term termToVerify(getApproximationOfErrorUsingTaylorsRemainder(termToTest, "x", Term(0), Term(AlbaNumber::createFraction(1, 2)), Term(0), 5));
+    Term termToVerify(getApproximationOfErrorUsingTaylorsRemainder(termToTest, "x", 0, AlbaNumber::createFraction(1, 2), 0, 5));
 
     EXPECT_EQ(Term(AlbaNumber::createFraction(1, 46080)), termToVerify);
     // this means the when n=5 the square root of e is accurate up to 4 decimal places.
@@ -245,8 +245,8 @@ TEST(DifferentiationUtilitiesTest, GetTotalDerivativeWithInnerTermsUsingChainRul
 {
     Term t("t");
     Term termToTest(Polynomial{Monomial(1, {{"x", 2}}), Monomial(2, {{"x", 1}, {"y", 1}}), Monomial(1, {{"y", 2}})});
-    Term x(createExpressionIfPossible({t, Term("*"), Term(cos(t))}));
-    Term y(createExpressionIfPossible({t, Term("*"), Term(sin(t))}));
+    Term x(createExpressionIfPossible({t, "*", cos(t)}));
+    Term y(createExpressionIfPossible({t, "*", sin(t)}));
     SubstitutionOfVariablesToTerms substitution;
     substitution.putVariableWithTerm("x", x);
     substitution.putVariableWithTerm("y", y);
@@ -284,9 +284,9 @@ TEST(DifferentiationUtilitiesTest, GetPartialDerivativeContinuouslyWorks)
 {
     Term x("x");
     Term y("y");
-    Term part1(createExpressionIfPossible({getEAsTerm(), Term("^"), x, Term("*"), Term(sin(y))}));
+    Term part1(createExpressionIfPossible({getEAsTerm(), "^", x, "*", sin(y)}));
     Term part2(ln(Monomial(1, {{"x", 1}, {"y", 1}})));
-    Term termToTest(createExpressionIfPossible({part1, Term("+"), part2}));
+    Term termToTest(createExpressionIfPossible({part1, "+", part2}));
 
     Term termToVerify(getPartialDerivative(getPartialDerivative(getPartialDerivative(termToTest, "y"), "y"), "x"));
 
@@ -298,7 +298,7 @@ TEST(DifferentiationUtilitiesTest, GetDifferentiabilityDomainWorks)
 {
     Polynomial numerator{Monomial(1, {{"x", 1}}), Monomial(3, {})};
     Polynomial denominator{Monomial(1, {{"x", 1}}), Monomial(-1, {})};
-    Term termToTest(createExpressionIfPossible({Term(numerator), Term("/"), Term(denominator)}));
+    Term termToTest(createExpressionIfPossible({numerator, "/", denominator}));
 
     SolutionSet differentiabilityDomain(getDifferentiabilityDomain(termToTest, "x"));
 
@@ -313,8 +313,8 @@ TEST(DifferentiationUtilitiesTest, GetDifferentiabilityDomainWorks)
 TEST(DifferentiationUtilitiesTest, SimplifyDerivativeByDefinitionWorks)
 {
     Term xPlusOneTerm(Polynomial{Monomial(1, {{"x", 1}}), Monomial(1, {})});
-    Expression squareRootOfXPlusOne(createExpressionIfPossible({xPlusOneTerm, Term("^"), Term(AlbaNumber::createFraction(1, 2))}));
-    Term termToTest(createExpressionIfPossible({Term("x"), Term("*"), Term(squareRootOfXPlusOne)}));
+    Expression squareRootOfXPlusOne(createExpressionIfPossible({xPlusOneTerm, "^", AlbaNumber::createFraction(1, 2)}));
+    Term termToTest(createExpressionIfPossible({"x", "*", squareRootOfXPlusOne}));
 
     simplifyDerivativeByDefinition(termToTest);
 

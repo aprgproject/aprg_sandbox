@@ -15,7 +15,7 @@ namespace algebra
 
 TEST(LimitsAtInfinityTest, XWorksAndSimplifiesToZero)
 {
-    LimitsAtInfinity limits(Term("x"), "x");
+    LimitsAtInfinity limits("x", "x");
 
     EXPECT_EQ(Term("x"), limits.getSimplifiedTermAtInfinity());
     EXPECT_EQ(Term(AlbaNumber(AlbaNumber::Value::NegativeInfinity)), limits.getValueAtInfinity(AlbaNumber::Value::NegativeInfinity));
@@ -24,7 +24,7 @@ TEST(LimitsAtInfinityTest, XWorksAndSimplifiesToZero)
 
 TEST(LimitsAtInfinityTest, OneOverXWorksAndSimplifiesToZero)
 {
-    Term term(createExpressionIfPossible({Term(1), Term("/"), Term("x")}));
+    Term term(createExpressionIfPossible({1, "/", "x"}));
 
     LimitsAtInfinity limits(term, "x");
 
@@ -39,7 +39,7 @@ TEST(LimitsAtInfinityTest, PolynomialOverPolynomialWithEqualDegreeWorks)
 {
     Term numerator(Polynomial{Monomial(2, {{"x", 2}})});
     Term denominator(Polynomial{Monomial(1, {{"x", 2}}), Monomial(1, {})});
-    Term term(createExpressionIfPossible({numerator, Term("/"), denominator}));
+    Term term(createExpressionIfPossible({numerator, "/", denominator}));
 
     LimitsAtInfinity limits(term, "x");
 
@@ -54,7 +54,7 @@ TEST(LimitsAtInfinityTest, PolynomialOverPolynomialWithNumeratorDegreeIsGreaterA
 {
     Term numerator(Polynomial{Monomial(1, {{"x", 2}})});
     Term denominator(Polynomial{Monomial(1, {{"x", 1}}), Monomial(1, {})});
-    Term term(createExpressionIfPossible({numerator, Term("/"), denominator}));
+    Term term(createExpressionIfPossible({numerator, "/", denominator}));
 
     LimitsAtInfinity limits(term, "x");
 
@@ -67,7 +67,7 @@ TEST(LimitsAtInfinityTest, PolynomialOverPolynomialWithNumeratorDegreeIsGreaterA
 {
     Term numerator(Polynomial{Monomial(-6, {{"x", 2}}), Monomial(2, {{"x", 1}})});
     Term denominator(Polynomial{Monomial(3, {{"x", 1}}), Monomial(5, {})});
-    Term term(createExpressionIfPossible({numerator, Term("/"), denominator}));
+    Term term(createExpressionIfPossible({numerator, "/", denominator}));
 
     LimitsAtInfinity limits(term, "x");
 
@@ -80,7 +80,7 @@ TEST(LimitsAtInfinityTest, PolynomialOverPolynomialWithDenominatorDegreeIsGreate
 {
     Term numerator(Polynomial{Monomial(2, {{"x", 2}}), Monomial(-1, {{"x", 1}}), Monomial(5, {})});
     Term denominator(Polynomial{Monomial(4, {{"x", 3}}), Monomial(-1, {})});
-    Term term(createExpressionIfPossible({numerator, Term("/"), denominator}));
+    Term term(createExpressionIfPossible({numerator, "/", denominator}));
 
     LimitsAtInfinity limits(term, "x");
 
@@ -96,7 +96,7 @@ TEST(LimitsAtInfinityTest, PolynomialOverSquareRootOfPolynomialWithEqualDegreeWo
     Term numerator("x");
     Term denominatorInSquareRoot(Polynomial{Monomial(1, {{"x", 2}}), Monomial(1, {})});
     Term denominator(createExpressionIfPossible({denominatorInSquareRoot, Term("^"), Term(AlbaNumber::createFraction(1, 2))}));
-    Term term(createExpressionIfPossible({numerator, Term("/"), denominator}));
+    Term term(createExpressionIfPossible({numerator, "/", denominator}));
 
     LimitsAtInfinity limits(term, "x");
 
@@ -111,7 +111,7 @@ TEST(LimitsAtInfinityTest, ExpressionWithTrigonometricFunctionsWorks)
 {
     Term numerator(sin(Term(Monomial(1, {{"x", -1}}))));
     Term denominator(arctan(Term(Monomial(1, {{"x", -1}}))));
-    Term term(createExpressionIfPossible({numerator, Term("/"), denominator}));
+    Term term(createExpressionIfPossible({numerator, "/", denominator}));
 
     LimitsAtInfinity limits(term, "x");
 

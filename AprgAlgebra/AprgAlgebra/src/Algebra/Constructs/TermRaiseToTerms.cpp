@@ -40,16 +40,6 @@ TermRaiseToTerms::TermRaiseToTerms(
 
 TermRaiseToTerms::TermRaiseToTerms(
         Term const& base,
-        TermsWithDetails const& exponents)
-    : m_base(base)
-    , m_exponents(exponents)
-    , m_shouldSimplifyToFactors(false)
-    , m_shouldSimplifyByCheckingPolynomialRaiseToAnUnsignedInt(false)
-    , m_shouldSimplifyWithEvenExponentsCancellationAndPutAbsoluteValueAtBase(false)
-{}
-
-TermRaiseToTerms::TermRaiseToTerms(
-        Term const& base,
         Terms const& exponents)
     : m_base(base)
     , m_exponents()
@@ -204,7 +194,7 @@ void TermRaiseToTerms::simplifyBaseAndExponents()
     {}
     else if(exponentCombinedTerm.isConstant() && exponentCombinedTerm.getConstantValueConstReference() == 0)
     {
-        m_base = Term(1);
+        m_base = 1;
     }
     else if(exponentCombinedTerm.isConstant() && exponentCombinedTerm.getConstantValueConstReference() == 1)
     {}

@@ -29,9 +29,9 @@ TEST(AccumulateOperationsTest, AccumulateAndDoOperationOnTermDetailsWorks)
 TEST(AccumulateOperationsTest, AccumulateTermsForAdditionAndSubtractionWorks)
 {
     Term termToTest(0);
-    Term xToTheY(createExpressionIfPossible({Term("x"), Term("^"), Term("y")}));
-    Term term1(createExpressionIfPossible({Term(11), Term("*"), xToTheY}));
-    Term term2(createExpressionIfPossible({Term(13), Term("*"), xToTheY}));
+    Term xToTheY(createExpressionIfPossible({"x", "^", "y"}));
+    Term term1(createExpressionIfPossible({11, "*", xToTheY}));
+    Term term2(createExpressionIfPossible({13, "*", xToTheY}));
     Term term3(0);
     TermsWithDetails termsWithDetails
     {TermWithDetails(term1, TermAssociationType::Negative),
@@ -40,9 +40,9 @@ TEST(AccumulateOperationsTest, AccumulateTermsForAdditionAndSubtractionWorks)
 
     accumulateTermsForAdditionAndSubtraction(termToTest, termsWithDetails);
 
-    Term termToExpectPart1(createExpressionIfPossible({Term(-11), Term("*"), xToTheY}));
-    Term termToExpectPart2(createExpressionIfPossible({Term(13), Term("*"), xToTheY}));
-    Term termToExpect(createExpressionIfPossible({termToExpectPart1, Term("+"), termToExpectPart2}));
+    Term termToExpectPart1(createExpressionIfPossible({-11, "*", xToTheY}));
+    Term termToExpectPart2(createExpressionIfPossible({13, "*", xToTheY}));
+    Term termToExpect(createExpressionIfPossible({termToExpectPart1, "+", termToExpectPart2}));
     EXPECT_EQ(termToExpect, termToTest);
 }
 
@@ -79,9 +79,9 @@ TEST(AccumulateOperationsTest, AccumulateTermsForAdditionAndSubtractionWorksWith
 TEST(AccumulateOperationsTest, AccumulateTermsForMultiplicationAndDivisionWorks)
 {
     Term termToTest(1);
-    Term xToTheY(createExpressionIfPossible({Term("x"), Term("^"), Term("y")}));
-    Term term1(createExpressionIfPossible({Term(11), Term("*"), xToTheY}));
-    Term term2(createExpressionIfPossible({Term(13), Term("*"), xToTheY}));
+    Term xToTheY(createExpressionIfPossible({"x", "^", "y"}));
+    Term term1(createExpressionIfPossible({11, "*", xToTheY}));
+    Term term2(createExpressionIfPossible({13, "*", xToTheY}));
     Term term3(1);
     TermsWithDetails termsWithDetails
     {TermWithDetails(term1, TermAssociationType::Negative),
@@ -90,7 +90,7 @@ TEST(AccumulateOperationsTest, AccumulateTermsForMultiplicationAndDivisionWorks)
 
     accumulateTermsForMultiplicationAndDivision(termToTest, termsWithDetails);
 
-    Term termToExpect(createExpressionIfPossible({Term(1), Term("/"), Term(11), Term("/"), xToTheY, Term("*"), Term(13), Term("*"), xToTheY}));
+    Term termToExpect(createExpressionIfPossible({1, "/", 11, "/", xToTheY, "*", 13, "*", xToTheY}));
     EXPECT_EQ(termToExpect, termToTest);
 }
 
@@ -111,9 +111,9 @@ TEST(AccumulateOperationsTest, AccumulateTermsForMultiplicationAndDivisionWorksW
 TEST(AccumulateOperationsTest, AccumulateTermsForRaiseToPowerWorks)
 {
     Term termToTest(1);
-    Term xToTheY(createExpressionIfPossible({Term("x"), Term("^"), Term("y")}));
-    Term term1(createExpressionIfPossible({Term(11), Term("*"), xToTheY}));
-    Term term2(createExpressionIfPossible({Term(13), Term("*"), xToTheY}));
+    Term xToTheY(createExpressionIfPossible({"x", "^", "y"}));
+    Term term1(createExpressionIfPossible({11, "*", xToTheY}));
+    Term term2(createExpressionIfPossible({13, "*", xToTheY}));
     Term term3(1);
     TermsWithDetails termsWithDetails
     {TermWithDetails(term1, TermAssociationType::Negative),
@@ -122,9 +122,9 @@ TEST(AccumulateOperationsTest, AccumulateTermsForRaiseToPowerWorks)
 
     accumulateTermsForRaiseToPower(termToTest, termsWithDetails);
 
-    Term termToExpectPart1(createExpressionIfPossible({Term(11), Term("*"), xToTheY}));
-    Term termToExpectPart2(createExpressionIfPossible({Term(13), Term("*"), xToTheY}));
-    Term termToExpect(createExpressionIfPossible({termToExpectPart1, Term("^"), termToExpectPart2}));
+    Term termToExpectPart1(createExpressionIfPossible({11, "*", xToTheY}));
+    Term termToExpectPart2(createExpressionIfPossible({13, "*", xToTheY}));
+    Term termToExpect(createExpressionIfPossible({termToExpectPart1, "^", termToExpectPart2}));
     EXPECT_EQ(termToExpect, termToTest);
 }
 

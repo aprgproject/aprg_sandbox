@@ -357,7 +357,7 @@ Equation getRelationshipOfDerivativeOfTheInverseAndTheDerivative(
     Term derivativeWithNewVariable(substitution.performSubstitutionTo(derivative));
     substitution.putVariableWithTerm(variableName, Term(variableForInverse));
     Term derivativeOfInverseWithNewVariable(substitution.performSubstitutionTo(derivativeOfInverse));
-    Term oneOverDerivativeWithNewVariable(createExpressionIfPossible({Term(1), Term("/"), derivativeWithNewVariable}));
+    Term oneOverDerivativeWithNewVariable(createExpressionIfPossible({1, "/", derivativeWithNewVariable}));
     derivativeOfInverseWithNewVariable.simplify();
     oneOverDerivativeWithNewVariable.simplify();
     return Equation(derivativeOfInverseWithNewVariable, "=", oneOverDerivativeWithNewVariable);

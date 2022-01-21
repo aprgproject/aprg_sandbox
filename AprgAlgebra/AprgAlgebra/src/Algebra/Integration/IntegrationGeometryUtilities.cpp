@@ -99,7 +99,7 @@ Term getLengthOfArc(
     Differentiation differentiation(integralDetails.variableName);
     Integration integration(integralDetails.variableName);
     Term differentiatedTerm(differentiation.differentiate(term));
-    Term termToIntegrate = (Term(1)+(differentiatedTerm^Term(2)))^Term(AlbaNumber::createFraction(1, 2));
+    Term termToIntegrate = (1 + (differentiatedTerm^2)) ^ AlbaNumber::createFraction(1, 2);
     termToIntegrate.simplify();
     return integration.integrateAtDefiniteTerms(termToIntegrate, integralDetails.lowerEnd, integralDetails.higherEnd);
 }

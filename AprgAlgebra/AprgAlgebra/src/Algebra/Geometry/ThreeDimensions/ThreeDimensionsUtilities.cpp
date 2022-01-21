@@ -24,7 +24,7 @@ Equation getEllipsoidEquation()
     Term bSquared(createExpressionIfPossible({Term(b), Term("^"), Term(2)}));
     Term cSquared(createExpressionIfPossible({Term(c), Term("^"), Term(2)}));
     Term leftHandSide(createExpressionIfPossible({xSquared, Term("/"), aSquared, Term("+"), ySquared, Term("/"), bSquared, Term("+"), zSquared, Term("/"), cSquared}));
-    return Equation(leftHandSide, "=", Term(1));
+    return Equation(leftHandSide, "=", 1);
 }
 
 Equation getEllipticConeEquation()
@@ -54,7 +54,7 @@ Equation getEllipticHyperboloidEquation(bool const isOneNegative)
     Term bSquared(createExpressionIfPossible({Term(b), Term("^"), Term(2)}));
     Term cSquared(createExpressionIfPossible({Term(c), Term("^"), Term(2)}));
     Term leftHandSide(createExpressionIfPossible({xSquared, Term("/"), aSquared, Term("+"), ySquared, Term("/"), bSquared, Term("-"), zSquared, Term("/"), cSquared}));
-    Term oneWithSign = isOneNegative ? Term(-1) : Term(1);
+    Term oneWithSign = isOneNegative ? -1 : 1;
     return Equation(leftHandSide, "=", oneWithSign);
 }
 

@@ -1100,7 +1100,7 @@ void Integration::integrateUsingPartialFractionPolynomials(
     // this can only be used if exponents are not fractional
     if(isIntegrationByPartialFractionAllowed())
     {
-        TermsOverTerms oneOverDenominator({Term(1)},{Term(denominator)});
+        TermsOverTerms oneOverDenominator({1},{Term(denominator)});
         oneOverDenominator.setAsShouldSimplifyToFactors(true);
         oneOverDenominator.simplify();
 
@@ -1369,7 +1369,7 @@ void Integration::integrateUsingIntegrationByPartsByOneTermAndOne(
             && isInverseTrigonometricFunction(term.getFunctionConstReference());
     if(isAnInverseTrigonometricFunction)
     {
-        integrateUsingIntegrationByPartsAndCheckingPreviousValues(result, term, term, Term(1));
+        integrateUsingIntegrationByPartsAndCheckingPreviousValues(result, term, term, 1);
     }
 }
 

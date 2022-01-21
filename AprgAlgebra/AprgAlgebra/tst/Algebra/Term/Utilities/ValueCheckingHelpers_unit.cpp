@@ -54,8 +54,8 @@ TEST(ValueCheckingHelpersTest, IsValueSatisfyTheConditionWorksForPolynomial)
 
 TEST(ValueCheckingHelpersTest, IsValueSatisfyTheConditionWorksForExpression)
 {
-    Expression expression1(createExpressionIfPossible({Term("x"), Term("+"), Term(12345)}));
-    Expression expression2(createExpressionIfPossible({Term(12345)}));
+    Expression expression1(createExpressionIfPossible({"x", "+", 12345}));
+    Expression expression2(createExpressionIfPossible({12345}));
 
     EXPECT_FALSE(isValueSatisfyTheCondition(expression1, [](AlbaNumber const& number){return AlbaNumber(12345) == number;}));
     EXPECT_FALSE(isValueSatisfyTheCondition(expression1, [](AlbaNumber const& number){return AlbaNumber(98765) == number;}));
@@ -95,7 +95,7 @@ TEST(ValueCheckingHelpersTest, DoAnyNumbersSatisfyTheConditionWorksForPolynomial
 
 TEST(ValueCheckingHelpersTest, DoAnyNumbersSatisfyTheConditionWorksForExpression)
 {
-    Expression expression(createExpressionIfPossible({Term("x"), Term("+"), Term(12345)}));
+    Expression expression(createExpressionIfPossible({"x", "+", 12345}));
 
     EXPECT_TRUE(doAnyNumbersSatisfyTheCondition(expression, [](AlbaNumber const& number){return AlbaNumber(12345) == number;}));
     EXPECT_FALSE(doAnyNumbersSatisfyTheCondition(expression, [](AlbaNumber const& number){return AlbaNumber(98765) == number;}));
@@ -103,7 +103,7 @@ TEST(ValueCheckingHelpersTest, DoAnyNumbersSatisfyTheConditionWorksForExpression
 
 TEST(ValueCheckingHelpersTest, DoAnyNumbersSatisfyTheConditionWorksForFunction)
 {
-    Function absoluteValueFunction(Functions::abs(createExpressionIfPossible({Term("x"), Term("+"), Term(12345)})));
+    Function absoluteValueFunction(Functions::abs(createExpressionIfPossible({"x", "+", 12345})));
 
     EXPECT_TRUE(doAnyNumbersSatisfyTheCondition(absoluteValueFunction, [](AlbaNumber const& number){return AlbaNumber(12345) == number;}));
     EXPECT_FALSE(doAnyNumbersSatisfyTheCondition(absoluteValueFunction, [](AlbaNumber const& number){return AlbaNumber(98765) == number;}));
@@ -117,7 +117,7 @@ TEST(ValueCheckingHelpersTest, WillHaveNoEffectOnAdditionOrSubtractionWorks)
     EXPECT_FALSE(willHaveNoEffectOnAdditionOrSubtraction(Term(Variable("x"))));
     EXPECT_FALSE(willHaveNoEffectOnAdditionOrSubtraction(Term(Monomial(96, {{"x", 1}}))));
     EXPECT_FALSE(willHaveNoEffectOnAdditionOrSubtraction(Term(Polynomial{Monomial(96, {{"x", 1}})})));
-    EXPECT_FALSE(willHaveNoEffectOnAdditionOrSubtraction(Term(createExpressionIfPossible({Term(254)}))));
+    EXPECT_FALSE(willHaveNoEffectOnAdditionOrSubtraction(Term(createExpressionIfPossible({254}))));
     EXPECT_TRUE(willHaveNoEffectOnAdditionOrSubtraction(Term(Expression())));
 }
 
@@ -131,7 +131,7 @@ TEST(ValueCheckingHelpersTest, WillHaveNoEffectOnMultiplicationOrDivisionOrRaise
     EXPECT_FALSE(willHaveNoEffectOnMultiplicationOrDivisionOrRaiseToPower(Term(Monomial(96, {{"x", 1}}))));
     EXPECT_TRUE(willHaveNoEffectOnMultiplicationOrDivisionOrRaiseToPower(Term(Monomial(1, {}))));
     EXPECT_FALSE(willHaveNoEffectOnMultiplicationOrDivisionOrRaiseToPower(Term(Polynomial{Monomial(96, {{"x", 1}})})));
-    EXPECT_FALSE(willHaveNoEffectOnMultiplicationOrDivisionOrRaiseToPower(Term(createExpressionIfPossible({Term(254)}))));
+    EXPECT_FALSE(willHaveNoEffectOnMultiplicationOrDivisionOrRaiseToPower(Term(createExpressionIfPossible({254}))));
     EXPECT_TRUE(willHaveNoEffectOnMultiplicationOrDivisionOrRaiseToPower(Term(Expression())));
 }
 
@@ -239,9 +239,9 @@ TEST(ValueCheckingHelpersTest, IsTheValueWorksWithPolynomial)
 
 TEST(ValueCheckingHelpersTest, IsTheValueWorksWithExpression)
 {
-    EXPECT_FALSE(isTheValue(createExpressionIfPossible({Term(NAN)}), 67));
-    EXPECT_TRUE(isTheValue(createExpressionIfPossible({Term(67)}), 67));
-    EXPECT_FALSE(isTheValue(createExpressionIfPossible({Term(67), Term("+"), Term("x")}), 67));
+    EXPECT_FALSE(isTheValue(createExpressionIfPossible({NAN}), 67));
+    EXPECT_TRUE(isTheValue(createExpressionIfPossible({67}), 67));
+    EXPECT_FALSE(isTheValue(createExpressionIfPossible({67, "+", "x"}), 67));
 }
 
 TEST(ValueCheckingHelpersTest, IsNotANumberWorksForTerm)
@@ -250,8 +250,8 @@ TEST(ValueCheckingHelpersTest, IsNotANumberWorksForTerm)
     EXPECT_FALSE(isNotANumber(Term("x")));
     EXPECT_TRUE(isNotANumber(Term(Monomial(NAN, {}))));
     EXPECT_TRUE(isNotANumber(Term(Polynomial{Monomial(NAN, {})})));
-    EXPECT_TRUE(isNotANumber(Term(createExpressionIfPossible({Term(NAN)}))));
-    EXPECT_FALSE(isNotANumber(Term(createExpressionIfPossible({Term(5.12), Term("+"), Term(NAN)}))));
+    EXPECT_TRUE(isNotANumber(Term(createExpressionIfPossible({NAN}))));
+    EXPECT_FALSE(isNotANumber(Term(createExpressionIfPossible({5.12, "+", NAN}))));
 }
 
 TEST(ValueCheckingHelpersTest, IsNotANumberWorksForConstant)
@@ -277,9 +277,9 @@ TEST(ValueCheckingHelpersTest, IsNotANumberWorksForPolynomial)
 
 TEST(ValueCheckingHelpersTest, IsNotANumberWorksForExpression)
 {
-    EXPECT_TRUE(isNotANumber(createExpressionIfPossible({Term(NAN)})));
-    EXPECT_FALSE(isNotANumber(createExpressionIfPossible({Term(67)})));
-    EXPECT_FALSE(isNotANumber(createExpressionIfPossible({Term(67), Term("+"), Term("x")})));
+    EXPECT_TRUE(isNotANumber(createExpressionIfPossible({NAN})));
+    EXPECT_FALSE(isNotANumber(createExpressionIfPossible({67})));
+    EXPECT_FALSE(isNotANumber(createExpressionIfPossible({67, "+", "x"})));
 }
 
 TEST(ValueCheckingHelpersTest, IsPositiveOrNegativeInfinityWorksForTerm)
@@ -288,8 +288,8 @@ TEST(ValueCheckingHelpersTest, IsPositiveOrNegativeInfinityWorksForTerm)
     EXPECT_FALSE(isPositiveOrNegativeInfinity(Term("x")));
     EXPECT_TRUE(isPositiveOrNegativeInfinity(Term(Monomial(-INFINITY, {}))));
     EXPECT_TRUE(isPositiveOrNegativeInfinity(Term(Polynomial{Monomial(INFINITY, {})})));
-    EXPECT_TRUE(isPositiveOrNegativeInfinity(Term(createExpressionIfPossible({Term(-INFINITY)}))));
-    EXPECT_FALSE(isPositiveOrNegativeInfinity(Term(createExpressionIfPossible({Term(5.12), Term("+"), Term(INFINITY)}))));
+    EXPECT_TRUE(isPositiveOrNegativeInfinity(Term(createExpressionIfPossible({-INFINITY}))));
+    EXPECT_FALSE(isPositiveOrNegativeInfinity(Term(createExpressionIfPossible({5.12, "+", INFINITY}))));
 }
 
 TEST(ValueCheckingHelpersTest, IsPositiveOrNegativeInfinityWorksForConstant)
@@ -315,9 +315,9 @@ TEST(ValueCheckingHelpersTest, IsPositiveOrNegativeInfinityWorksForPolynomial)
 
 TEST(ValueCheckingHelpersTest, IsPositiveOrNegativeInfinityWorksForExpression)
 {
-    EXPECT_TRUE(isPositiveOrNegativeInfinity(createExpressionIfPossible({Term(INFINITY)})));
-    EXPECT_FALSE(isPositiveOrNegativeInfinity(createExpressionIfPossible({Term(67)})));
-    EXPECT_FALSE(isPositiveOrNegativeInfinity(createExpressionIfPossible({Term(67), Term("+"), Term("x")})));
+    EXPECT_TRUE(isPositiveOrNegativeInfinity(createExpressionIfPossible({INFINITY})));
+    EXPECT_FALSE(isPositiveOrNegativeInfinity(createExpressionIfPossible({67})));
+    EXPECT_FALSE(isPositiveOrNegativeInfinity(createExpressionIfPossible({67, "+", "x"})));
 }
 
 TEST(ValueCheckingHelpersTest, IsANegativeTermWorks)
@@ -330,9 +330,9 @@ TEST(ValueCheckingHelpersTest, IsANegativeTermWorks)
     EXPECT_FALSE(isANegativeTerm(Term(Monomial(1, {{"x", 1}}))));
     EXPECT_TRUE(isANegativeTerm(Term(Polynomial{Monomial(-1, {{"x", 3}}), Monomial(4, {}), })));
     EXPECT_FALSE(isANegativeTerm(Term(Polynomial{Monomial(1, {{"x", 3}}), Monomial(-4, {}), })));
-    EXPECT_TRUE(isANegativeTerm(Term(createExpressionIfPossible({Term(-5), Term("+"), x}))));
-    EXPECT_FALSE(isANegativeTerm(Term(createExpressionIfPossible({Term(5), Term("+"), x}))));
-    EXPECT_FALSE(isANegativeTerm(Term(abs(Term(-5)))));
+    EXPECT_TRUE(isANegativeTerm(Term(createExpressionIfPossible({-5, "+", x}))));
+    EXPECT_FALSE(isANegativeTerm(Term(createExpressionIfPossible({5, "+", x}))));
+    EXPECT_FALSE(isANegativeTerm(Term(Functions::abs(-5))));
 }
 
 TEST(ValueCheckingHelpersTest, IsANegativeConstantWorks)
@@ -356,35 +356,35 @@ TEST(ValueCheckingHelpersTest, IsANegativePolynomialWorks)
 TEST(ValueCheckingHelpersTest, IsANegativeExpressionWorks)
 {
     Term x("x");
-    EXPECT_TRUE(isANegativeExpression(createExpressionIfPossible({Term(-5), Term("+"), x})));
-    EXPECT_FALSE(isANegativeExpression(createExpressionIfPossible({Term(5), Term("+"), x})));
-    EXPECT_TRUE(isANegativeExpression(createExpressionIfPossible({Term(-5), Term("*"), x})));
-    EXPECT_FALSE(isANegativeExpression(createExpressionIfPossible({Term(-5), Term("*"), Term(-3)})));
-    EXPECT_FALSE(isANegativeExpression(createExpressionIfPossible({Term(-5), Term("^"), x})));
-    EXPECT_FALSE(isANegativeExpression(createExpressionIfPossible({Term(5), Term("^"), x})));
+    EXPECT_TRUE(isANegativeExpression(createExpressionIfPossible({-5, "+", x})));
+    EXPECT_FALSE(isANegativeExpression(createExpressionIfPossible({5, "+", x})));
+    EXPECT_TRUE(isANegativeExpression(createExpressionIfPossible({-5, "*", x})));
+    EXPECT_FALSE(isANegativeExpression(createExpressionIfPossible({-5, "*", -3})));
+    EXPECT_FALSE(isANegativeExpression(createExpressionIfPossible({-5, "^", x})));
+    EXPECT_FALSE(isANegativeExpression(createExpressionIfPossible({5, "^", x})));
 }
 
 TEST(ValueCheckingHelpersTest, IsIntegerConstantWorks)
 {
-    EXPECT_FALSE(isIntegerConstant(Term("x")));
-    EXPECT_TRUE(isIntegerConstant(Term(1)));
-    EXPECT_TRUE(isIntegerConstant(Term(-1)));
-    EXPECT_FALSE(isIntegerConstant(Term(NAN)));
+    EXPECT_FALSE(isIntegerConstant("x"));
+    EXPECT_TRUE(isIntegerConstant(1));
+    EXPECT_TRUE(isIntegerConstant(-1));
+    EXPECT_FALSE(isIntegerConstant(NAN));
 }
 
 TEST(ValueCheckingHelpersTest, IsPositiveIntegerConstantWorks)
 {
-    EXPECT_FALSE(isPositiveIntegerConstant(Term("x")));
-    EXPECT_TRUE(isPositiveIntegerConstant(Term(1)));
-    EXPECT_FALSE(isPositiveIntegerConstant(Term(-1)));
-    EXPECT_FALSE(isPositiveIntegerConstant(Term(NAN)));
+    EXPECT_FALSE(isPositiveIntegerConstant("x"));
+    EXPECT_TRUE(isPositiveIntegerConstant(1));
+    EXPECT_FALSE(isPositiveIntegerConstant(-1));
+    EXPECT_FALSE(isPositiveIntegerConstant(NAN));
 }
 
 TEST(ValueCheckingHelpersTest, IsAFiniteConstantWorks)
 {
-    EXPECT_FALSE(isARealFiniteConstant(Term("x")));
-    EXPECT_TRUE(isARealFiniteConstant(Term(1)));
-    EXPECT_FALSE(isARealFiniteConstant(Term(NAN)));
+    EXPECT_FALSE(isARealFiniteConstant("x"));
+    EXPECT_TRUE(isARealFiniteConstant(1));
+    EXPECT_FALSE(isARealFiniteConstant(NAN));
 }
 
 TEST(ValueCheckingHelpersTest, HasNotANumberWorksForTerm)
@@ -393,8 +393,8 @@ TEST(ValueCheckingHelpersTest, HasNotANumberWorksForTerm)
     EXPECT_FALSE(hasNotANumber(Term("x")));
     EXPECT_TRUE(hasNotANumber(Term(Monomial(NAN, {}))));
     EXPECT_TRUE(hasNotANumber(Term(Polynomial{Monomial(NAN, {})})));
-    EXPECT_TRUE(hasNotANumber(Term(createExpressionIfPossible({Term(NAN)}))));
-    EXPECT_TRUE(hasNotANumber(Term(createExpressionIfPossible({Term(5.12), Term("+"), Term(NAN)}))));
+    EXPECT_TRUE(hasNotANumber(Term(createExpressionIfPossible({NAN}))));
+    EXPECT_TRUE(hasNotANumber(Term(createExpressionIfPossible({5.12, "+", NAN}))));
 }
 
 TEST(ValueCheckingHelpersTest, HasNotANumberWorksForMonomial)
@@ -414,13 +414,13 @@ TEST(ValueCheckingHelpersTest, HasNotANumberWorksForPolynomial)
 
 TEST(ValueCheckingHelpersTest, HasNotANumberWorksForExpression)
 {
-    EXPECT_TRUE(hasNotANumber(createExpressionIfPossible({Term(NAN)})));
-    EXPECT_TRUE(hasNotANumber(createExpressionIfPossible({Term(5.12), Term("+"), Term(NAN)})));
+    EXPECT_TRUE(hasNotANumber(createExpressionIfPossible({NAN})));
+    EXPECT_TRUE(hasNotANumber(createExpressionIfPossible({5.12, "+", NAN})));
 }
 
 TEST(ValueCheckingHelpersTest, HasNotANumberWorksForFunction)
 {
-    Function absoluteValueFunction(Functions::abs(createExpressionIfPossible({Term(5.12), Term("+"), Term(NAN)})));
+    Function absoluteValueFunction(Functions::abs(createExpressionIfPossible({5.12, "+", NAN})));
     EXPECT_TRUE(hasNotANumber(absoluteValueFunction));
 }
 
@@ -430,8 +430,8 @@ TEST(ValueCheckingHelpersTest, HasNonFiniteNumbersForTerm)
     EXPECT_FALSE(hasNonRealFiniteNumbers(Term("x")));
     EXPECT_TRUE(hasNonRealFiniteNumbers(Term(Monomial(NAN, {}))));
     EXPECT_TRUE(hasNonRealFiniteNumbers(Term(Polynomial{Monomial(NAN, {})})));
-    EXPECT_TRUE(hasNonRealFiniteNumbers(Term(createExpressionIfPossible({Term(NAN)}))));
-    EXPECT_TRUE(hasNonRealFiniteNumbers(Term(createExpressionIfPossible({Term(5.12), Term("+"), Term(NAN)}))));
+    EXPECT_TRUE(hasNonRealFiniteNumbers(Term(createExpressionIfPossible({NAN}))));
+    EXPECT_TRUE(hasNonRealFiniteNumbers(Term(createExpressionIfPossible({5.12, "+", NAN}))));
 }
 
 TEST(ValueCheckingHelpersTest, HasNonFiniteNumbersForMonomial)
@@ -451,20 +451,20 @@ TEST(ValueCheckingHelpersTest, HasNonFiniteNumbersForPolynomial)
 
 TEST(ValueCheckingHelpersTest, HasNonFiniteNumbersForExpression)
 {
-    EXPECT_TRUE(hasNonRealFiniteNumbers(createExpressionIfPossible({Term(NAN)})));
-    EXPECT_TRUE(hasNonRealFiniteNumbers(createExpressionIfPossible({Term(5.12), Term("+"), Term(NAN)})));
+    EXPECT_TRUE(hasNonRealFiniteNumbers(createExpressionIfPossible({NAN})));
+    EXPECT_TRUE(hasNonRealFiniteNumbers(createExpressionIfPossible({5.12, "+", NAN})));
 }
 
 TEST(ValueCheckingHelpersTest, HasNonFiniteNumbersForFunction)
 {
-    Function absoluteValueFunction(Functions::abs(createExpressionIfPossible({Term(5.12), Term("+"), Term(NAN)})));
+    Function absoluteValueFunction(Functions::abs(createExpressionIfPossible({5.12, "+", NAN})));
     EXPECT_TRUE(hasNonRealFiniteNumbers(absoluteValueFunction));
 }
 
 TEST(ValueCheckingHelpersTest, HasZeroWorks)
 {
-    EXPECT_FALSE(hasZero({Term(1), Term(2), Term(3)}));
-    EXPECT_TRUE(hasZero({Term(1), Term(0), Term(3)}));
+    EXPECT_FALSE(hasZero({1, 2, 3}));
+    EXPECT_TRUE(hasZero({1, 0, 3}));
 }
 
 TEST(ValueCheckingHelpersTest, HasNegativeExponentsWithVariableWorks)

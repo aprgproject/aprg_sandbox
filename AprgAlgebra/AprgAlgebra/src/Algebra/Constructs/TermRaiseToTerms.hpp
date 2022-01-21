@@ -17,9 +17,6 @@ public:
             TermsWithDetails const& termsInRaiseToPowerExpression);
     TermRaiseToTerms(
             Term const& base,
-            TermsWithDetails const& exponents);
-    TermRaiseToTerms(
-            Term const& base,
             Terms const& exponents);
     TermRaiseToTerms(
             Term const& base,

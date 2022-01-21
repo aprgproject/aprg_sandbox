@@ -16,7 +16,7 @@ TEST(SeriesUtilitiesTest, IsAxiomOfCompletenessTrueWorks)
     Term n("n");
     Term numerator("n");
     Term denominator(Polynomial{Monomial(2, {{"n", 1}}), Monomial(1, {})});
-    Term formula(createExpressionIfPossible({numerator, Term("/"), denominator}));
+    Term formula(createExpressionIfPossible({numerator, "/", denominator}));
     SeriesBasedOnFormula series(formula, "n");
 
     EXPECT_TRUE(isAxiomOfCompletenessTrue(series));
@@ -27,7 +27,7 @@ TEST(SeriesUtilitiesTest, IsBoundedMonotonicSeriesConvergentWorks)
     Term n("n");
     Term numerator("n");
     Term denominator(Polynomial{Monomial(2, {{"n", 1}}), Monomial(1, {})});
-    Term formula(createExpressionIfPossible({numerator, Term("/"), denominator}));
+    Term formula(createExpressionIfPossible({numerator, "/", denominator}));
     SeriesBasedOnFormula series(formula, "n");
 
     EXPECT_TRUE(isBoundedMonotonicSeriesConvergent(series));
@@ -38,7 +38,7 @@ TEST(SeriesUtilitiesTest, IsConvergentMonotonicSeriesBoundedWorks)
     Term n("n");
     Term numerator("n");
     Term denominator(Polynomial{Monomial(2, {{"n", 1}}), Monomial(1, {})});
-    Term formula(createExpressionIfPossible({numerator, Term("/"), denominator}));
+    Term formula(createExpressionIfPossible({numerator, "/", denominator}));
     SeriesBasedOnFormula series(formula, "n");
 
     EXPECT_TRUE(isConvergentMonotonicSeriesBounded(series));
@@ -48,12 +48,12 @@ TEST(SeriesUtilitiesTest, IsConvergentUsingComparisonTestWorks)
 {
     Term n("n");
     Term numeratorToTest(4);
-    Term denominatorToTest(createExpressionIfPossible({Term(3), Term("^"), n, Term("^"), Term(1)}));
-    Term formulaToTest(createExpressionIfPossible({numeratorToTest, Term("/"), denominatorToTest}));
+    Term denominatorToTest(createExpressionIfPossible({3, "^", n, "^", 1}));
+    Term formulaToTest(createExpressionIfPossible({numeratorToTest, "/", denominatorToTest}));
     SeriesBasedOnSummation seriesToTest(formulaToTest, "n");
     Term convergentNumerator(4);
-    Term convergentDenominator(createExpressionIfPossible({Term(3), Term("^"), n}));
-    Term convergentFormula(createExpressionIfPossible({convergentNumerator, Term("/"), convergentDenominator}));
+    Term convergentDenominator(createExpressionIfPossible({3, "^", n}));
+    Term convergentFormula(createExpressionIfPossible({convergentNumerator, "/", convergentDenominator}));
     SeriesBasedOnSummation convergentSeries(convergentFormula, "n");
 
     EXPECT_TRUE(isConvergentUsingComparisonTest(seriesToTest, convergentSeries, 10));
@@ -64,11 +64,11 @@ TEST(SeriesUtilitiesTest, IsDivergentUsingComparisonTestWorks)
     Term n("n");
     Term numeratorToTest(1);
     Term denominatorToTest(Monomial(1, {{"n", AlbaNumber::createFraction(1, 2)}}));
-    Term formulaToTest(createExpressionIfPossible({numeratorToTest, Term("/"), denominatorToTest}));
+    Term formulaToTest(createExpressionIfPossible({numeratorToTest, "/", denominatorToTest}));
     SeriesBasedOnSummation seriesToTest(formulaToTest, "n");
     Term divergentNumerator(1);
     Term divergentDenominator("n");
-    Term divergentFormula(createExpressionIfPossible({divergentNumerator, Term("/"), divergentDenominator}));
+    Term divergentFormula(createExpressionIfPossible({divergentNumerator, "/", divergentDenominator}));
     SeriesBasedOnSummation divergentSeries(divergentFormula, "n");
 
     EXPECT_TRUE(isDivergentUsingComparisonTest(seriesToTest, divergentSeries, 10));
@@ -79,11 +79,11 @@ TEST(SeriesUtilitiesTest, PerformLimitComparisonTestWorks)
     Term n("n");
     Term numerator1(1);
     Term denominator1(Monomial(1, {{"n", AlbaNumber::createFraction(1, 2)}}));
-    Term formula1(createExpressionIfPossible({numerator1, Term("/"), denominator1}));
+    Term formula1(createExpressionIfPossible({numerator1, "/", denominator1}));
     SeriesBasedOnSummation series1(formula1, "n");
     Term numerator2(1);
     Term denominator2("n");
-    Term formula2(createExpressionIfPossible({numerator2, Term("/"), denominator2}));
+    Term formula2(createExpressionIfPossible({numerator2, "/", denominator2}));
     SeriesBasedOnSummation series2(formula2, "n");
 
     bool isConvergent(false);
@@ -98,7 +98,7 @@ TEST(SeriesUtilitiesTest, PerformIntegralTestWorksOnPSeriesWithPowerIsOneHalf)
 {
     Term numerator(1);
     Term denominator(Monomial(1, {{"n", AlbaNumber::createFraction(1, 2)}}));
-    Term formula(createExpressionIfPossible({numerator, Term("/"), denominator}));
+    Term formula(createExpressionIfPossible({numerator, "/", denominator}));
     SeriesBasedOnSummation series(formula, "n");
 
     bool isConvergent(false);
@@ -113,7 +113,7 @@ TEST(SeriesUtilitiesTest, PerformIntegralTestWorksOnPSeriesWithPowerIsTwo)
 {
     Term numerator(1);
     Term denominator(Monomial(1, {{"n", 2}}));
-    Term formula(createExpressionIfPossible({numerator, Term("/"), denominator}));
+    Term formula(createExpressionIfPossible({numerator, "/", denominator}));
     SeriesBasedOnSummation series(formula, "n");
 
     bool isConvergent(false);
@@ -128,8 +128,8 @@ TEST(SeriesUtilitiesTest, PerformRatioTestWorksWhenConvergent)
 {
     Term n("n");
     Term numerator("n");
-    Term denominator(createExpressionIfPossible({Term(2), Term("^"), n}));
-    Term formula(createExpressionIfPossible({numerator, Term("/"), denominator}));
+    Term denominator(createExpressionIfPossible({2, "^", n}));
+    Term formula(createExpressionIfPossible({numerator, "/", denominator}));
     SeriesBasedOnSummation series(formula, "n");
 
     bool isConvergent(false);
@@ -144,7 +144,7 @@ TEST(SeriesUtilitiesTest, PerformRatioTestWorksWhenConvergentOrDivergent)
 {
     Term numerator(Polynomial{Monomial(1, {{"n", 1}}), Monomial(2, {})});
     Term denominator(Polynomial{Monomial(1, {{"n", 2}}), Monomial(1, {{"n", 1}})});
-    Term formula(createExpressionIfPossible({numerator, Term("/"), denominator}));
+    Term formula(createExpressionIfPossible({numerator, "/", denominator}));
     SeriesBasedOnSummation series(formula, "n");
 
     bool isConvergent(false);
@@ -160,9 +160,9 @@ TEST(SeriesUtilitiesTest, PerformRootTestWorks)
     Term n("n");
     Term exponentNumerator(Polynomial{Monomial(2, {{"n", 1}}), Monomial(1, {})});
     Term exponentDenominator(Polynomial{Monomial(2, {{"n", 1}})});
-    Term numerator(createExpressionIfPossible({Term(3), Term("^"), exponentNumerator}));
-    Term denominator(createExpressionIfPossible({n, Term("^"), exponentDenominator}));
-    Term formula(createExpressionIfPossible({numerator, Term("/"), denominator}));
+    Term numerator(createExpressionIfPossible({3, "^", exponentNumerator}));
+    Term denominator(createExpressionIfPossible({n, "^", exponentDenominator}));
+    Term formula(createExpressionIfPossible({numerator, "/", denominator}));
     SeriesBasedOnSummation series(formula, "n");
 
     bool isConvergent(false);
@@ -175,7 +175,7 @@ TEST(SeriesUtilitiesTest, PerformRootTestWorks)
 
 TEST(SeriesUtilitiesTest, GetSumOfArithmeticSeriesUsingFirstAndLastTermWorksWithValues)
 {
-    EXPECT_EQ(Term(60), getSumOfArithmeticSeriesUsingFirstAndLastTerm(Term(12), Term(18), Term(4)));
+    EXPECT_EQ(Term(60), getSumOfArithmeticSeriesUsingFirstAndLastTerm(12, 18, 4));
 }
 
 TEST(SeriesUtilitiesTest, GetSumOfArithmeticSeriesUsingFirstAndLastTermWorksWithExample1)
@@ -210,12 +210,12 @@ TEST(SeriesUtilitiesTest, GetSumOfArithmeticSeriesUsingFirstAndLastTermWorksWith
 
 TEST(SeriesUtilitiesTest, GetSumOfGeometricSeriesUsingFirstValueAndCommonMultiplierWorksWithValues)
 {
-    EXPECT_EQ(Term(10230), getSumOfGeometricSeriesUsingFirstValueAndCommonMultiplier(Term(10), Term(2), 10));
+    EXPECT_EQ(Term(10230), getSumOfGeometricSeriesUsingFirstValueAndCommonMultiplier(10, 2, 10));
 }
 
 TEST(SeriesUtilitiesTest, GetInfiniteSumOfGeometricSeriesIfCommonMultiplierIsFractionalWorksWithValues)
 {
-    EXPECT_EQ(Term(20), getInfiniteSumOfGeometricSeriesIfCommonMultiplierIsFractional(Term(10), Term(AlbaNumber::createFraction(1, 2))));
+    EXPECT_EQ(Term(20), getInfiniteSumOfGeometricSeriesIfCommonMultiplierIsFractional(10, AlbaNumber::createFraction(1, 2)));
 }
 
 TEST(SeriesUtilitiesTest, GetEToTheXPowerSeriesWorks)

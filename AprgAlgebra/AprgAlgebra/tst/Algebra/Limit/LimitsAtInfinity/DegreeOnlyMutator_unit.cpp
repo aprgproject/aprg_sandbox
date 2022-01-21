@@ -33,10 +33,10 @@ TEST(DegreeOnlyMutatorTest, MutateTermWorks)
     Term variableTerm(Variable("x"));
     Term monomialTerm(Monomial(34, {{"x", 5}, {"y", 6}}));
     Term polynomialTerm(Polynomial{Monomial(516, {{"x", 7}}), Monomial(643, {{"y", 8}})});
-    Term expressionTerm(createExpressionIfPossible({Term(678), Term("+"), Term(Monomial(576, {{"x", 9}}))}));
+    Term expressionTerm(createExpressionIfPossible({678, "+", Monomial(576, {{"x", 9}})}));
     Term functionTerm(Function(
                 "functionName",
-                Term(createExpressionIfPossible({Term(4516), Term("+"), Term(Monomial(7895, {{"x", 10}}))})),
+                Term(createExpressionIfPossible({4516, "+", Monomial(7895, {{"x", 10}})})),
                 [](AlbaNumber const&  number) -> AlbaNumber
     {
         return number;
@@ -109,7 +109,7 @@ TEST(DegreeOnlyMutatorTest, MutatePolynomialWorks)
 TEST(DegreeOnlyMutatorTest, MutateExpressionWorks)
 {
     DegreeOnlyMutator mutator("x");
-    Expression expression(createExpressionIfPossible({Term(678), Term("+"), Term(Monomial(576, {{"x", 9}}))}));
+    Expression expression(createExpressionIfPossible({678, "+", Monomial(576, {{"x", 9}})}));
 
     mutator.mutateExpression(expression);
 
@@ -121,7 +121,7 @@ TEST(DegreeOnlyMutatorTest, MutateExpressionWorksWhenRaiseToPowerFractionalExpon
 {
     DegreeOnlyMutator mutator("x");
     Term base(Polynomial{Monomial(516, {{"x", 16}}), Monomial(643, {{"y", 8}})});
-    Expression expression(createExpressionIfPossible({base, Term("^"), Term(AlbaNumber::createFraction(3, 4))}));
+    Expression expression(createExpressionIfPossible({base, "^", AlbaNumber::createFraction(3, 4)}));
 
     mutator.mutateExpression(expression);
 
@@ -134,7 +134,7 @@ TEST(DegreeOnlyMutatorTest, MutateFunctionWorks)
     DegreeOnlyMutator mutator("x");
     Function functionObject(
                 "functionName",
-                Term(createExpressionIfPossible({Term(4516), Term("+"), Term(Monomial(7895, {{"x", 10}}))})),
+                Term(createExpressionIfPossible({4516, "+", Monomial(7895, {{"x", 10}})})),
                 [](AlbaNumber const&  number) -> AlbaNumber
     {
         return number;

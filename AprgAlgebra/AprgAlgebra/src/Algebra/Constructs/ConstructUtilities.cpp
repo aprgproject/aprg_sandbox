@@ -31,7 +31,8 @@ PolynomialOverPolynomialOptional createPolynomialOverPolynomialFromTermIfPossibl
         result.setConstReference(PolynomialOverPolynomial(createPolynomialIfPossible(term), createPolynomialFromNumber(1)));
     }
     else if(term.isExpression())
-    {        Expression const& expression(term.getExpressionConstReference());
+    {
+        Expression const& expression(term.getExpressionConstReference());
         if(OperatorLevel::MultiplicationAndDivision == expression.getCommonOperatorLevel())
         {
             bool canBeConvertedToPolynomialOverPolynomial(true);
@@ -39,10 +40,12 @@ PolynomialOverPolynomialOptional createPolynomialOverPolynomialFromTermIfPossibl
             Polynomial denominator(createPolynomialFromNumber(1));
             for(TermWithDetails const& termWithDetails
                 : expression.getTermsWithAssociation().getTermsWithDetails())
-            {                Term const& termInExpression(getTermConstReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer));
+            {
+                Term const& termInExpression(getTermConstReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer));
                 if(canBeConvertedToPolynomial(termInExpression))
                 {
-                    if(termWithDetails.hasPositiveAssociation())                    {
+                    if(termWithDetails.hasPositiveAssociation())
+                    {
                         numerator.multiplyPolynomial(createPolynomialIfPossible(termInExpression));
                     }
                     else
@@ -84,7 +87,7 @@ TermsOverTerms createTermsOverTermsFromTerm(Term const& term)
     }
     if(!isResultUpdatedWithContent)
     {
-        result = TermsOverTerms({term}, {Term(1)});
+        result = TermsOverTerms({term}, {1});
     }
     result.simplify();
     return result;
@@ -264,7 +267,7 @@ TermRaiseToTerms createTermRaiseToTermsFromTerm(Term const& term)
     }
     if(result.isEmpty())
     {
-        result = TermRaiseToTerms(term, Term(1));
+        result = TermRaiseToTerms(term, 1);
     }
     result.getBaseReference().simplify();
     return result;
@@ -283,7 +286,7 @@ TermRaiseToTerms createTermRaiseToTermsFromExpression(Expression const& expressi
     }
     if(result.isEmpty())
     {
-        result = TermRaiseToTerms(convertExpressionToSimplestTerm(expression), Term(1));
+        result = TermRaiseToTerms(convertExpressionToSimplestTerm(expression), 1);
     }
     return result;
 }
@@ -379,7 +382,7 @@ void createTermRaiseToTermsFromMultiplicationAndDivisionExpression(
     }
     else
     {
-        result = TermRaiseToTerms(Term(expression), Term(1));
+        result = TermRaiseToTerms(Term(expression), 1);
     }
 }
 

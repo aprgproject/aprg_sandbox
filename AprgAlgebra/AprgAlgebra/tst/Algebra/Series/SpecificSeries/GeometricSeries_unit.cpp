@@ -59,7 +59,7 @@ TEST(GeometricSeriesTest, GetSumIsEqualToFormulaInUtilities)
     GeometricSeries series(1, 4);
 
     Term sumFromSeries(series.getSum(0, 7));
-    Term sumFromFormula(getSumOfGeometricSeriesUsingFirstValueAndCommonMultiplier(Term(1), Term(4), 8));
+    Term sumFromFormula(getSumOfGeometricSeriesUsingFirstValueAndCommonMultiplier(1, 4, 8));
 
     EXPECT_EQ(sumFromSeries, sumFromFormula);
 }
@@ -71,8 +71,8 @@ TEST(GeometricSeriesTest, GetInfiniteSumIsEqualToFormulaInUtilities)
     Term sumFromSeries(series.getInfiniteSumStartingFrom(2));
     Term sumFromFormula(
                 getInfiniteSumOfGeometricSeriesIfCommonMultiplierIsFractional(
-                    Term(AlbaNumber::createFraction(1, 8)),
-                    Term(AlbaNumber::createFraction(1, 2))));
+                    AlbaNumber::createFraction(1, 8),
+                    AlbaNumber::createFraction(1, 2)));
 
     EXPECT_EQ(sumFromSeries, sumFromFormula);
 }

@@ -16,7 +16,7 @@ namespace Simplification
 
 TEST(SimplificationOfEquationTest, SimplifyWorksOnEqualityOperator)
 {
-    SimplificationOfEquation simplification(Equation(Term("x"), "=", Term("y")));
+    SimplificationOfEquation simplification(Equation("x", "=", "y"));
 
     simplification.simplify();
 
@@ -28,7 +28,7 @@ TEST(SimplificationOfEquationTest, SimplifyWorksOnEqualityOperator)
 
 TEST(SimplificationOfEquationTest, SimplifyWorksOnLessThanOperator)
 {
-    SimplificationOfEquation simplification(Equation(Term("x"), "<", Term("y")));
+    SimplificationOfEquation simplification(Equation("x", "<", "y"));
 
     simplification.simplify();
 
@@ -40,7 +40,7 @@ TEST(SimplificationOfEquationTest, SimplifyWorksOnLessThanOperator)
 
 TEST(SimplificationOfEquationTest, SimplifyWorksOnGreaterThanOperator)
 {
-    SimplificationOfEquation simplification(Equation(Term("x"), ">", Term("y")));
+    SimplificationOfEquation simplification(Equation("x", ">", "y"));
 
     simplification.simplify();
 
@@ -52,7 +52,7 @@ TEST(SimplificationOfEquationTest, SimplifyWorksOnGreaterThanOperator)
 
 TEST(SimplificationOfEquationTest, SimplifyWorksOnLessThanOrEqualOperator)
 {
-    SimplificationOfEquation simplification(Equation(Term("x"), "<=", Term("y")));
+    SimplificationOfEquation simplification(Equation("x", "<=", "y"));
 
     simplification.simplify();
 
@@ -66,16 +66,16 @@ TEST(SimplificationOfEquationTest, SimplifyWorksToHaveCommonDenominator)
 {
     Polynomial denominatorLeft{Monomial(1, {{"x", 1}}), Monomial(1, {})};
     Polynomial denominatorRight{Monomial(2, {{"x", 1}}), Monomial(3, {})};
-    Expression expressionLeft(createExpressionIfPossible({Term(1), Term("/"), Term(denominatorLeft)}));
-    Expression expressionRight(createExpressionIfPossible({Term(1), Term("/"), Term(denominatorRight)}));
-    SimplificationOfEquation simplification(Equation(Term(expressionLeft), "=",  Term(expressionRight)));
+    Expression expressionLeft(createExpressionIfPossible({1, "/", denominatorLeft}));
+    Expression expressionRight(createExpressionIfPossible({1, "/", denominatorRight}));
+    SimplificationOfEquation simplification(Equation(expressionLeft, "=",  expressionRight));
 
     simplification.simplify();
 
     Polynomial expectedNumerator{Monomial(1, {{"x", 1}}), Monomial(2, {})};
     Polynomial expectedDenominator{Monomial(2, {{"x", 2}}), Monomial(5, {{"x", 1}}), Monomial(3, {})};
     Equation simplifiedEquation(simplification.getEquation());
-    Term expectedTerm(createExpressionIfPossible({Term(expectedNumerator), Term("/"), Term(expectedDenominator)}));
+    Term expectedTerm(createExpressionIfPossible({expectedNumerator, "/", expectedDenominator}));
     EXPECT_EQ(expectedTerm, simplifiedEquation.getLeftHandTerm());
     EXPECT_EQ("=", simplifiedEquation.getEquationOperator().getOperatorString());
     EXPECT_EQ(Term(0), simplifiedEquation.getRightHandTerm());
@@ -83,8 +83,8 @@ TEST(SimplificationOfEquationTest, SimplifyWorksToHaveCommonDenominator)
 
 TEST(SimplificationOfEquationTest, SimplifyWorksOnSimplifyingAnExpression)
 {
-    Expression expression(createExpressionIfPossible({Term("x"), Term("/"), Term(523)}));
-    SimplificationOfEquation simplification(Equation(Term(expression), "=", Term(0)));
+    Expression expression(createExpressionIfPossible({"x", "/", 523}));
+    SimplificationOfEquation simplification(Equation(expression, "=", 0));
 
     simplification.simplify();
 
@@ -97,8 +97,8 @@ TEST(SimplificationOfEquationTest, SimplifyWorksOnSimplifyingAnExpression)
 
 TEST(SimplificationOfEquationTest, SimplifyWorksOnNegatingTermIfNeeded)
 {
-    SimplificationOfEquation simplification1(Equation(Term("x"), "=", Term("y")));
-    SimplificationOfEquation simplification2(Equation(Term("x"), "=", Term("y")));
+    SimplificationOfEquation simplification1(Equation("x", "=", "y"));
+    SimplificationOfEquation simplification2(Equation("x", "=", "y"));
 
     simplification1.simplify();
     simplification2.simplify();
@@ -116,8 +116,8 @@ TEST(SimplificationOfEquationTest, SimplifyWorksOnNegatingTermIfNeeded)
 TEST(SimplificationOfEquationTest, SimplifyWorksOnRemovingExponentIfNeeded)
 {
     Polynomial polynomial{Monomial(1, {{"x", 1}}), Monomial(1, {})};
-    Expression expression(createExpressionIfPossible({Term(polynomial), Term("^"), Term("x")}));
-    SimplificationOfEquation simplification(Equation(Term(expression), "=", Term(0)));
+    Expression expression(createExpressionIfPossible({polynomial, "^", "x"}));
+    SimplificationOfEquation simplification(Equation(expression, "=", 0));
 
     simplification.simplify();
 
@@ -132,10 +132,8 @@ TEST(SimplificationOfEquationTest, SimplifyWorksOnCompletingExpressionWithFracti
     Polynomial polynomial1{Monomial(-1, {{"x", 1}}), Monomial(1, {})};
     Polynomial polynomial2{Monomial(1, {{"x", 1}}), Monomial(2, {})};
     Expression expression(createExpressionIfPossible(
-    {Term(polynomial1), Term("^"), Term(AlbaNumber::createFraction(1, 2)),
-     Term("-"),
-     Term(polynomial2), Term("^"), Term(AlbaNumber::createFraction(1, 3))}));
-    SimplificationOfEquation simplification(Equation(Term(expression), "=", Term(0)));
+    {polynomial1, "^", AlbaNumber::createFraction(1, 2), "-", polynomial2, "^", AlbaNumber::createFraction(1, 3)}));
+    SimplificationOfEquation simplification(Equation(expression, "=", 0));
 
     simplification.simplify();
 
@@ -149,8 +147,8 @@ TEST(SimplificationOfEquationTest, SimplifyWorksOnCompletingExpressionWithFracti
 TEST(SimplificationOfEquationTest, SimplifyWorksXPlusOneToTheOneHalf)
 {
     Polynomial polynomial{Monomial(1, {{"x", 1}}), Monomial(1, {})};
-    Expression expression(createExpressionIfPossible( {Term(polynomial), Term("^"), Term(AlbaNumber::createFraction(1, 2))}));
-    SimplificationOfEquation simplification(Equation(Term("y"), "=", Term(expression)));
+    Expression expression(createExpressionIfPossible({polynomial, "^", AlbaNumber::createFraction(1, 2)}));
+    SimplificationOfEquation simplification(Equation("y", "=", expression));
 
     simplification.simplify();
 
@@ -164,7 +162,7 @@ TEST(SimplificationOfEquationTest, SimplifyWorksXPlusOneToTheOneHalf)
 TEST(SimplificationOfEquationTest, SimplifyWorksOnRemovingCommonConstantsInMonomial)
 {
     Monomial monomial(24, {{"x", 2}, {"y", 2}});
-    SimplificationOfEquation simplification(Equation(Term(monomial), "=", Term(0)));
+    SimplificationOfEquation simplification(Equation(monomial, "=", 0));
 
     simplification.simplify();
 
@@ -178,7 +176,7 @@ TEST(SimplificationOfEquationTest, SimplifyWorksOnRemovingCommonConstantsInMonom
 TEST(SimplificationOfEquationTest, SimplifyWorksOnRemovingCommonConstantsInPolynomial)
 {
     Polynomial polynomial{Monomial(24, {{"x", 2}, {"y", 2}}), Monomial(18, {{"x", 2}})};
-    SimplificationOfEquation simplification(Equation(Term(polynomial), "=", Term(0)));
+    SimplificationOfEquation simplification(Equation(polynomial, "=", 0));
 
     simplification.simplify();
 
@@ -191,14 +189,14 @@ TEST(SimplificationOfEquationTest, SimplifyWorksOnRemovingCommonConstantsInPolyn
 
 TEST(SimplificationOfEquationTest, SimplifyWorksOnRemovingCommonConstantsInExpression)
 {
-    Term xToTheX(createExpressionIfPossible({Term("x"), Term("^"), Term("x")}));
-    Term yToTheY(createExpressionIfPossible({Term("y"), Term("^"), Term("y")}));
-    Term expression(createExpressionIfPossible({Term(18), Term("*"), xToTheX, Term("+"), Term(24), Term("*"), yToTheY}));
-    SimplificationOfEquation simplification(Equation(Term(expression), "=", Term(0)));
+    Term xToTheX(createExpressionIfPossible({"x", "^", "x"}));
+    Term yToTheY(createExpressionIfPossible({"y", "^", "y"}));
+    Term expression(createExpressionIfPossible({18, "*", xToTheX, "+", 24, "*", yToTheY}));
+    SimplificationOfEquation simplification(Equation(expression, "=", 0));
 
     simplification.simplify();
 
-    Term expectedExpression(createExpressionIfPossible({Term(3), Term("*"), xToTheX, Term("+"), Term(4), Term("*"), yToTheY}));
+    Term expectedExpression(createExpressionIfPossible({3, "*", xToTheX, "+", 4, "*", yToTheY}));
     Equation simplifiedEquation(simplification.getEquation());
     EXPECT_EQ(Term(expectedExpression), simplifiedEquation.getLeftHandTerm());
     EXPECT_EQ("=", simplifiedEquation.getEquationOperator().getOperatorString());
