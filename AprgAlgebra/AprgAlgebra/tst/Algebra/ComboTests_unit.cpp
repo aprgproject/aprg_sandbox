@@ -128,15 +128,13 @@ TEST(ComboTest, ImplicitDifferentiationAndIsolatingDerivativeWorks)
         Monomial(6, {{"x", 4}, {"y", 1}}),
                 Monomial(-21, {{"x", 1}, {"y", 2}}),
                 Monomial(8, {})};
-    Term expectedIsolatedXLeftSide(createExpressionIfPossible({Term(numerator), Term("/"), Term(denominator)}));
+    Term expectedIsolatedXLeftSide(createExpressionIfPossible({numerator, "/", denominator}));
     Term expectedIsolatedXRightSide("d[y]/d[x]");
     EXPECT_EQ(Equation(expectedIsolatedXLeftSide, "=", expectedIsolatedXRightSide), isolation.isolateTermWithVariableOnRightSideOfEquation("d[y]/d[x]"));
 }
-
 TEST(ComboTest, ImplicitDifferentiationAndIsolatingDerivativeUsingSecondDerivativeWorks)
 {
-    Differentiation differentiationForXWithY("x", {"y"});
-    Term term1ForEquation(Polynomial{Monomial(4, {{"x", 2}}), Monomial(9, {{"y", 2}})});
+    Differentiation differentiationForXWithY("x", {"y"});    Term term1ForEquation(Polynomial{Monomial(4, {{"x", 2}}), Monomial(9, {{"y", 2}})});
     Term term2ForEquation(36);
     Equation equation(term1ForEquation, "=", term2ForEquation);
     Equation differentiatedEquation(differentiationForXWithY.differentiate(equation));

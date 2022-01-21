@@ -43,20 +43,18 @@ TEST(NumberOfTermsRetrieverTest, RetrieveFromTermWorks)
         return number;
     });
 
-    retriever.retrieveFromTerm(Term(Constant(1.234)));
-    retriever.retrieveFromTerm(Term(Variable("b")));
-    retriever.retrieveFromTerm(Term(Monomial(34, {{"c", 5}, {"d", 6}})));
-    retriever.retrieveFromTerm(Term(Polynomial{Monomial(516, {{"e", 7}}), Monomial(643, {{"f", 8}})}));
-    retriever.retrieveFromTerm(Term(createExpressionIfPossible({678, "+", Monomial(576, {{"g", 9}})})));
-    retriever.retrieveFromTerm(Term(functionObject));
+    retriever.retrieveFromTerm(Constant(1.234));
+    retriever.retrieveFromTerm(Variable("b"));
+    retriever.retrieveFromTerm(Monomial(34, {{"c", 5}, {"d", 6}}));
+    retriever.retrieveFromTerm(Polynomial{Monomial(516, {{"e", 7}}), Monomial(643, {{"f", 8}})});
+    retriever.retrieveFromTerm(createExpressionIfPossible({678, "+", Monomial(576, {{"g", 9}})}));
+    retriever.retrieveFromTerm(functionObject);
 
     EXPECT_EQ(12U, retriever.getSavedData());
 }
-
 TEST(NumberOfTermsRetrieverTest, RetrieveFromConstantWorks)
 {
     NumberOfTermsRetriever retriever;
-
     retriever.retrieveFromConstant(Constant(1.234));
 
     EXPECT_EQ(1U, retriever.getSavedData());

@@ -12,15 +12,13 @@ namespace algebra
 TEST(ExponentsRetrieverTest, RetrieveFromEquationsWorks)
 {
     ExponentsRetriever retriever;
-    Equation equation1(Term(Monomial(34, {{"x", 5}})), "=", Term(Monomial(41, {{"y", 6}})));
-    Equation equation2(Term(Monomial(95, {{"x", 7}})), "=", Term(Monomial(18, {{"y", 8}})));
+    Equation equation1(Monomial(34, {{"x", 5}}), "=", Monomial(41, {{"y", 6}}));
+    Equation equation2(Monomial(95, {{"x", 7}}), "=", Monomial(18, {{"y", 8}}));
 
     retriever.retrieveFromEquations({equation1, equation2});
-
     AlbaNumbersSet const& numbersSet(retriever.getSavedData());
     ASSERT_EQ(4U, numbersSet.size());
-    AlbaNumbersSet::const_iterator it = numbersSet.cbegin();
-    EXPECT_EQ(AlbaNumber(5), *(it++));
+    AlbaNumbersSet::const_iterator it = numbersSet.cbegin();    EXPECT_EQ(AlbaNumber(5), *(it++));
     EXPECT_EQ(AlbaNumber(6), *(it++));
     EXPECT_EQ(AlbaNumber(7), *(it++));
     EXPECT_EQ(AlbaNumber(8), *(it++));
@@ -47,26 +45,24 @@ TEST(ExponentsRetrieverTest, RetrieveFromTermWorks)
     ExponentsRetriever retriever;
     Function functionObject(
                 "functionName",
-                Term(createExpressionIfPossible({Term(4516), Term("+"), Term(Monomial(7895, {{"x", 10}}))})),
+                Term(createExpressionIfPossible({4516, "+", Monomial(7895, {{"x", 10}})})),
                 [](AlbaNumber const&  number) -> AlbaNumber
     {
         return number;
     });
 
-    retriever.retrieveFromTerm(Term(Constant(1.234)));
-    retriever.retrieveFromTerm(Term(Variable("x")));
-    retriever.retrieveFromTerm(Term(Monomial(34, {{"x", 5}, {"y", 6}})));
-    retriever.retrieveFromTerm(Term(Polynomial{Monomial(516, {{"x", 7}}), Monomial(643, {{"y", 8}})}));
-    retriever.retrieveFromTerm(Term(createExpressionIfPossible({Term(678), Term("+"), Term(Monomial(576, {{"x", 9}}))})));
-    retriever.retrieveFromTerm(Term(functionObject));
+    retriever.retrieveFromTerm(Constant(1.234));
+    retriever.retrieveFromTerm(Variable("x"));
+    retriever.retrieveFromTerm(Monomial(34, {{"x", 5}, {"y", 6}}));
+    retriever.retrieveFromTerm(Polynomial{Monomial(516, {{"x", 7}}), Monomial(643, {{"y", 8}})});
+    retriever.retrieveFromTerm(createExpressionIfPossible({678, "+", Monomial(576, {{"x", 9}})}));
+    retriever.retrieveFromTerm(functionObject);
 
     AlbaNumbersSet const& numbersSet(retriever.getSavedData());
-    ASSERT_EQ(6U, numbersSet.size());
-    AlbaNumbersSet::const_iterator it = numbersSet.cbegin();
+    ASSERT_EQ(6U, numbersSet.size());    AlbaNumbersSet::const_iterator it = numbersSet.cbegin();
     EXPECT_EQ(AlbaNumber(5), *(it++));
     EXPECT_EQ(AlbaNumber(6), *(it++));
-    EXPECT_EQ(AlbaNumber(7), *(it++));
-    EXPECT_EQ(AlbaNumber(8), *(it++));
+    EXPECT_EQ(AlbaNumber(7), *(it++));    EXPECT_EQ(AlbaNumber(8), *(it++));
     EXPECT_EQ(AlbaNumber(9), *(it++));
     EXPECT_EQ(AlbaNumber(10), *(it++));
 }
@@ -121,27 +117,23 @@ TEST(ExponentsRetrieverTest, RetrieveFromExpressionWorks)
 {
     ExponentsRetriever retriever;
 
-    retriever.retrieveFromExpression(createExpressionIfPossible({Term(678), Term("+"), Term(Monomial(576, {{"x", 9}}))}));
+    retriever.retrieveFromExpression(createExpressionIfPossible({678, "+", Monomial(576, {{"x", 9}})}));
 
     AlbaNumbersSet const& numbersSet(retriever.getSavedData());
-    ASSERT_EQ(1U, numbersSet.size());
-    AlbaNumbersSet::const_iterator it = numbersSet.cbegin();
+    ASSERT_EQ(1U, numbersSet.size());    AlbaNumbersSet::const_iterator it = numbersSet.cbegin();
     EXPECT_EQ(AlbaNumber(9), *(it++));
 }
-
 TEST(ExponentsRetrieverTest, RetrieveFromFunctionWorks)
 {
     ExponentsRetriever retriever;
     Function functionObject(
                 "functionName",
-                Term(createExpressionIfPossible({Term(4516), Term("+"), Term(Monomial(7895, {{"x", 10}}))})),
+                Term(createExpressionIfPossible({4516, "+", Monomial(7895, {{"x", 10}})})),
                 [](AlbaNumber const&  number) -> AlbaNumber
     {
-        return number;
-    });
+        return number;    });
 
     retriever.retrieveFromFunction(functionObject);
-
     AlbaNumbersSet const& numbersSet(retriever.getSavedData());
     ASSERT_EQ(1U, numbersSet.size());
     AlbaNumbersSet::const_iterator it = numbersSet.cbegin();

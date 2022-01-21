@@ -56,20 +56,18 @@ TEST(VariableNamesRetrieverTest, RetrieveFromTermWorks)
         return number;
     });
 
-    retriever.retrieveFromTerm(Term(Constant(1.234)));
-    retriever.retrieveFromTerm(Term(Variable("b")));
-    retriever.retrieveFromTerm(Term(Monomial(34, {{"c", 5}, {"d", 6}})));
-    retriever.retrieveFromTerm(Term(Polynomial{Monomial(516, {{"e", 7}}), Monomial(643, {{"f", 8}})}));
-    retriever.retrieveFromTerm(Term(createExpressionIfPossible({678, "+", Monomial(576, {{"g", 9}})})));
-    retriever.retrieveFromTerm(Term(functionObject));
+    retriever.retrieveFromTerm(Constant(1.234));
+    retriever.retrieveFromTerm(Variable("b"));
+    retriever.retrieveFromTerm(Monomial(34, {{"c", 5}, {"d", 6}}));
+    retriever.retrieveFromTerm(Polynomial{Monomial(516, {{"e", 7}}), Monomial(643, {{"f", 8}})});
+    retriever.retrieveFromTerm(createExpressionIfPossible({678, "+", Monomial(576, {{"g", 9}})}));
+    retriever.retrieveFromTerm(functionObject);
 
     VariableNamesSet const& variableNamesSet(retriever.getSavedData());
-    ASSERT_EQ(7U, variableNamesSet.size());
-    VariableNamesSet::const_iterator it = variableNamesSet.cbegin();
+    ASSERT_EQ(7U, variableNamesSet.size());    VariableNamesSet::const_iterator it = variableNamesSet.cbegin();
     EXPECT_EQ("a", *(it++));
     EXPECT_EQ("b", *(it++));
-    EXPECT_EQ("c", *(it++));
-    EXPECT_EQ("d", *(it++));
+    EXPECT_EQ("c", *(it++));    EXPECT_EQ("d", *(it++));
     EXPECT_EQ("e", *(it++));
     EXPECT_EQ("f", *(it++));
     EXPECT_EQ("g", *(it++));

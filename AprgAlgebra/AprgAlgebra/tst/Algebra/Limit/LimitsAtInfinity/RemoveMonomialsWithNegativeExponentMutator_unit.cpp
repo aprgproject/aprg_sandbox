@@ -33,18 +33,16 @@ TEST(RemoveMonomialsWithNegativeExponentMutatorTest, MutateTermWorks)
     Term variableTerm(Variable("x"));
     Term monomialTerm(Monomial(34, {{"x", -5}}));
     Term polynomialTerm(Polynomial{Monomial(516, {{"x", -7}}), Monomial(643, {{"x", 8}})});
-    Term expressionTerm(createExpressionIfPossible({Term(678), Term("+"), Term(Monomial(576, {{"x", -9}}))}));
+    Term expressionTerm(createExpressionIfPossible({678, "+", Monomial(576, {{"x", -9}})}));
     Term functionTerm(Function(
                 "functionName",
-                Term(createExpressionIfPossible({Term(4516), Term("+"), Term(Monomial(7895, {{"x", -10}}))})),
+                Term(createExpressionIfPossible({4516, "+", Monomial(7895, {{"x", -10}})})),
                 [](AlbaNumber const&  number) -> AlbaNumber
     {
-        return number;
-    }));
+        return number;    }));
 
     mutator.mutateTerm(constantTerm);
-    mutator.mutateTerm(variableTerm);
-    mutator.mutateTerm(monomialTerm);
+    mutator.mutateTerm(variableTerm);    mutator.mutateTerm(monomialTerm);
     mutator.mutateTerm(polynomialTerm);
     mutator.mutateTerm(expressionTerm);
     mutator.mutateTerm(functionTerm);
@@ -106,27 +104,23 @@ TEST(RemoveMonomialsWithNegativeExponentMutatorTest, MutatePolynomialWorks)
 TEST(RemoveMonomialsWithNegativeExponentMutatorTest, MutateExpressionWorks)
 {
     RemoveMonomialsWithNegativeExponentMutator mutator("x");
-    Expression expression(createExpressionIfPossible({Term(678), Term("+"), Term(Monomial(576, {{"x", -9}}))}));
+    Expression expression(createExpressionIfPossible({678, "+", Monomial(576, {{"x", -9}})}));
 
     mutator.mutateExpression(expression);
-
     Expression expectedExpression(Term(678));
     EXPECT_EQ(expectedExpression, expression);
 }
-
 TEST(RemoveMonomialsWithNegativeExponentMutatorTest, MutateFunctionWorks)
 {
     RemoveMonomialsWithNegativeExponentMutator mutator("x");
     Function functionObject(
                 "functionName",
-                Term(createExpressionIfPossible({Term(4516), Term("+"), Term(Monomial(7895, {{"x", -10}}))})),
+                Term(createExpressionIfPossible({4516, "+", Monomial(7895, {{"x", -10}})})),
                 [](AlbaNumber const&  number) -> AlbaNumber
     {
-        return number;
-    });
+        return number;    });
 
     mutator.mutateFunction(functionObject);
-
     Function expectedFunction(
                 "functionName",
                 Term(4516),

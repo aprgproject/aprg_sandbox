@@ -43,20 +43,18 @@ TEST(FirstCoefficientRetrieverTest, RetrieveFromTermWorks)
         return number;
     });
 
-    retriever.retrieveFromTerm(Term(Constant(1.234)));
-    retriever.retrieveFromTerm(Term(Variable("x")));
-    retriever.retrieveFromTerm(Term(Monomial(34, {{"x", 5}, {"y", 6}})));
-    retriever.retrieveFromTerm(Term(Polynomial{Monomial(516, {{"x", 7}}), Monomial(643, {{"y", 8}})}));
-    retriever.retrieveFromTerm(Term(createExpressionIfPossible({678, "+", Monomial(576, {{"x", 9}})})));
-    retriever.retrieveFromTerm(Term(functionObject));
+    retriever.retrieveFromTerm(Constant(1.234));
+    retriever.retrieveFromTerm(Variable("x"));
+    retriever.retrieveFromTerm(Monomial(34, {{"x", 5}, {"y", 6}}));
+    retriever.retrieveFromTerm(Polynomial{Monomial(516, {{"x", 7}}), Monomial(643, {{"y", 8}})});
+    retriever.retrieveFromTerm(createExpressionIfPossible({678, "+", Monomial(576, {{"x", 9}})}));
+    retriever.retrieveFromTerm(functionObject);
 
     EXPECT_EQ(AlbaNumber(1.234), retriever.getSavedData());
 }
-
 TEST(FirstCoefficientRetrieverTest, RetrieveFromConstantWorks)
 {
     FirstCoefficientRetriever retriever;
-
     retriever.retrieveFromConstant(Constant(1.234));
 
     EXPECT_EQ(AlbaNumber(1.234), retriever.getSavedData());
