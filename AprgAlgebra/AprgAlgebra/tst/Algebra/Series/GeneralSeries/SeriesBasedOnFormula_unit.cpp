@@ -30,8 +30,7 @@ TEST(SeriesBasedOnFormulaTest, IsConvergentWorksOnConvergentSeries)
 
 TEST(SeriesBasedOnFormulaTest, IsConvergentWorksOnDivergentSeries)
 {
-    Term n("n");
-    Term formula(createExpressionIfPossible({-1, "^", n, "+", 1}));
+    Term formula(createExpressionIfPossible({-1, "^", "n", "+", 1}));
     SeriesBasedOnFormula series(formula, "n");
 
     EXPECT_FALSE(series.isConvergent());
@@ -51,8 +50,7 @@ TEST(SeriesBasedOnFormulaTest, IsIncreasingAndIsDecreasingAndIsMonotonicWorksOnI
 
 TEST(SeriesBasedOnFormulaTest, IsIncreasingAndIsDecreasingAndIsMonotonicWorksOnNonIncreasingAndDecreasingFunction)
 {
-    Term n("n");
-    Term formula(sin(n));
+    Term formula(sin("n"));
     SeriesBasedOnFormula series(formula, "n");
 
     EXPECT_FALSE(series.isIncreasing());
@@ -106,7 +104,6 @@ TEST(SeriesBasedOnFormulaTest, GetSumStartingAtIndexAndToInfinityWorks)
 
 TEST(SeriesBasedOnFormulaTest, GetValueAtInfinityWorks)
 {
-    Term n("n");
     Term numerator("n");
     Term denominator(Polynomial{Monomial(2, {{"n", 1}}), Monomial(1, {})});
     Term formula(createExpressionIfPossible({numerator, "/", denominator}));
@@ -117,7 +114,6 @@ TEST(SeriesBasedOnFormulaTest, GetValueAtInfinityWorks)
 
 TEST(SeriesBasedOnFormulaTest, GetRemainderAtIndexWorks)
 {
-    Term n("n");
     Term numerator("n");
     Term denominator(Polynomial{Monomial(2, {{"n", 1}}), Monomial(1, {})});
     Term formula(createExpressionIfPossible({numerator, "/", denominator}));
@@ -130,7 +126,6 @@ TEST(SeriesBasedOnFormulaTest, GetRemainderAtIndexWorks)
 
 TEST(SeriesBasedOnFormulaTest, GetGreatestLowerBoundWorks)
 {
-    Term n("n");
     Term numerator("n");
     Term denominator(Polynomial{Monomial(2, {{"n", 1}}), Monomial(1, {})});
     Term formula(createExpressionIfPossible({numerator, "/", denominator}));
@@ -144,7 +139,6 @@ TEST(SeriesBasedOnFormulaTest, GetGreatestLowerBoundWorks)
 
 TEST(SeriesBasedOnFormulaTest, GetLeastUpperBoundWorks)
 {
-    Term n("n");
     Term numerator("n");
     Term denominator(Polynomial{Monomial(2, {{"n", 1}}), Monomial(1, {})});
     Term formula(createExpressionIfPossible({numerator, "/", denominator}));

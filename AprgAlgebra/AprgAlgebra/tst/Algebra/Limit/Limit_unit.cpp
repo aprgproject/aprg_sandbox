@@ -135,9 +135,7 @@ TEST(LimitTest, GetValueUsingLinearInterpolationWorks)
 
 TEST(LimitTest, GetLimitWorksOnSingleVariable)
 {
-    Term x("x");
-
-    Term termToVerify(getLimit(x, "x", 5));
+    Term termToVerify(getLimit("x", "x", 5));
 
     EXPECT_EQ(Term(5), termToVerify);
 }
@@ -172,11 +170,10 @@ TEST(LimitTest, GetLimitWithMultipleVariablesWithDifferentApproachesWorksOnExamp
 
 TEST(LimitTest, GetLimitUsingLhopitalsRuleWorks)
 {
-    Term x("x");
-    Term oneMinusEToTheX(createExpressionIfPossible({1, "-", getEAsTerm(), "^", x}));
-    Term oneOverX(createExpressionIfPossible({1, "/", x}));
+    Term oneMinusEToTheX(createExpressionIfPossible({1, "-", getEAsTerm(), "^", "x"}));
+    Term oneOverX(createExpressionIfPossible({1, "/", "x"}));
     Term termToTest1("x");
-    Term termToTest2(createExpressionIfPossible({x, "/", oneMinusEToTheX}));
+    Term termToTest2(createExpressionIfPossible({"x", "/", oneMinusEToTheX}));
     Term termToTest3(createExpressionIfPossible({sin(oneOverX), "/", arctan(oneOverX)}));
 
     Term termToVerify1(getLimitUsingLhopitalsRule(termToTest1, "x", 5));
@@ -190,11 +187,10 @@ TEST(LimitTest, GetLimitUsingLhopitalsRuleWorks)
 
 TEST(LimitTest, GetTermUsingLhopitalsRuleWorks)
 {
-    Term x("x");
-    Term oneMinusEToTheX(createExpressionIfPossible({1, "-", getEAsTerm(), "^", x}));
-    Term oneOverX(createExpressionIfPossible({1, "/", x}));
+    Term oneMinusEToTheX(createExpressionIfPossible({1, "-", getEAsTerm(), "^", "x"}));
+    Term oneOverX(createExpressionIfPossible({1, "/", "x"}));
     Term termToTest1("x");
-    Term termToTest2(createExpressionIfPossible({x, "/", oneMinusEToTheX}));
+    Term termToTest2(createExpressionIfPossible({"x", "/", oneMinusEToTheX}));
     Term termToTest3(createExpressionIfPossible({sin(oneOverX), "/", arctan(oneOverX)}));
 
     Term termToVerify1(getTermUsingLhopitalsRule(termToTest1, "x", 5));
@@ -211,8 +207,7 @@ TEST(LimitTest, GetTermUsingLhopitalsRuleWorks)
 
 TEST(LimitTest, CalculateTermAndLimitUsingLhopitalsRuleWorksUsingTrigonometricExample)
 {
-    Term x("x");
-    Term oneOverX(createExpressionIfPossible({1, "/", x}));
+    Term oneOverX(createExpressionIfPossible({1, "/", "x"}));
     Term termToTest(createExpressionIfPossible({sin(oneOverX), "/", arctan(oneOverX)}));
 
     Term newTerm, limitValue;
@@ -225,8 +220,7 @@ TEST(LimitTest, CalculateTermAndLimitUsingLhopitalsRuleWorksUsingTrigonometricEx
 
 TEST(LimitTest, CalculateTermAndLimitUsingLhopitalsRuleWorksUsingLogarithmicAndExponentialExample)
 {
-    Term x("x");
-    Term insideLogarithm(createExpressionIfPossible({2, "+", getEAsTerm(), "^", x}));
+    Term insideLogarithm(createExpressionIfPossible({2, "+", getEAsTerm(), "^", "x"}));
     Term numerator(ln(insideLogarithm));
     Term denominator(Monomial(3, {{"x", 1}}));
     Term termToTest(createExpressionIfPossible({numerator, "/", denominator}));
@@ -241,10 +235,9 @@ TEST(LimitTest, CalculateTermAndLimitUsingLhopitalsRuleWorksUsingLogarithmicAndE
 
 TEST(LimitTest, CalculateTermAndLimitUsingLhopitalsRuleWorksUsingTrigonometricExample2)
 {
-    Term x("x");
     Term xSquared(Monomial(1, {{"x", 2}}));
     Term termToTestPart1(createExpressionIfPossible({1, "/", xSquared}));
-    Term termToTestPart2(createExpressionIfPossible({1, "/", xSquared, "/", sec(x)}));
+    Term termToTestPart2(createExpressionIfPossible({1, "/", xSquared, "/", sec("x")}));
     Term termToTest(createExpressionIfPossible({termToTestPart1, "-", termToTestPart2}));
 
     Term newTerm, limitValue;
@@ -392,10 +385,12 @@ TEST(LimitTest, GetLimitAtAValueWorksForASpecifiedFunction)
                 Term("x"),
                 [](AlbaNumber const& number)
     {
-        AlbaNumber result;        AlbaNumber numberSquared(number^2);
+        AlbaNumber result;
+        AlbaNumber numberSquared(number^2);
         if(number > 1)
         {
-            result = numberSquared + 2;        }
+            result = numberSquared + 2;
+        }
         else if(number < 1)
         {
             result = AlbaNumber(4) - numberSquared;

@@ -555,10 +555,9 @@ TEST(TermsOverTermsTest, SimplifyWorksWhenShouldNotFactorizeIfItWouldYieldToPoly
 
 TEST(TermsOverTermsTest, SimplifyWorksAndFactorizeTrigonometricFunctions)
 {
-    Term x("x");
-    Term numerator(createExpressionIfPossible({sec(x), "*", tan(x)}));
-    Term denominatorPart1(createExpressionIfPossible({Monomial(1, {{"x", 2}}), "*", sec(x), "*", tan(x)}));
-    Term denominatorPart2(createExpressionIfPossible({Monomial(2, {{"x", 1}}), "*", sec(x)}));
+    Term numerator(createExpressionIfPossible({sec("x"), "*", tan("x")}));
+    Term denominatorPart1(createExpressionIfPossible({Monomial(1, {{"x", 2}}), "*", sec("x"), "*", tan("x")}));
+    Term denominatorPart2(createExpressionIfPossible({Monomial(2, {{"x", 1}}), "*", sec("x")}));
     Term denominator(createExpressionIfPossible({denominatorPart1, "+", denominatorPart2}));
     TermsOverTerms termsOverTerms({numerator}, {denominator});
     termsOverTerms.setAsShouldSimplifyToFactors(true);
@@ -570,12 +569,12 @@ TEST(TermsOverTermsTest, SimplifyWorksAndFactorizeTrigonometricFunctions)
 
     termsOverTerms.simplify();
 
-    Term expectedNumerator(tan(x));
+    Term expectedNumerator(tan("x"));
     Terms numeratorsToVerify(termsOverTerms.getNumerators());
     ASSERT_EQ(1U, numeratorsToVerify.size());
     EXPECT_EQ(expectedNumerator, numeratorsToVerify.at(0));
-    Term expectedDenominator1(x);
-    Term expectedDenominator2(createExpressionIfPossible({2, "+", x, "*", tan(x)}));
+    Term expectedDenominator1("x");
+    Term expectedDenominator2(createExpressionIfPossible({2, "+", "x", "*", tan("x")}));
     Terms denominatorsToVerify(termsOverTerms.getDenominators());
     ASSERT_EQ(2U, denominatorsToVerify.size());
     EXPECT_EQ(expectedDenominator1, denominatorsToVerify.at(0));
@@ -584,12 +583,11 @@ TEST(TermsOverTermsTest, SimplifyWorksAndFactorizeTrigonometricFunctions)
 
 TEST(TermsOverTermsTest, SimplifyWorksOnDistributingTerms)
 {
-    Term x("x");
-    Term lnOfX(ln(x));
+    Term lnOfX(ln("x"));
     Term sinOfLnOfX(sin(lnOfX));
     Term cosOfLnOfX(cos(lnOfX));
     Term numeratorPart(createExpressionIfPossible({cosOfLnOfX, "-", sinOfLnOfX}));
-    Term numerator(createExpressionIfPossible({x, "*", numeratorPart}));
+    Term numerator(createExpressionIfPossible({"x", "*", numeratorPart}));
     Term denominator(2);
     TermsOverTerms termsOverTerms({numerator}, {denominator});
 

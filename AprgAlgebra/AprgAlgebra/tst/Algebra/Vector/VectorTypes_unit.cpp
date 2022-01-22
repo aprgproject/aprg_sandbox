@@ -15,9 +15,8 @@ namespace algebra
 
 TEST(VectorTypesTest, GettingMagnitudeWorks)
 {
-    Term t("t");
-    Term x(createExpressionIfPossible({2, "*", cos(t)}));
-    Term y(createExpressionIfPossible({2, "*", sin(t)}));
+    Term x(createExpressionIfPossible({2, "*", cos("t")}));
+    Term y(createExpressionIfPossible({2, "*", sin("t")}));
     MathVectorOfTwoTerms termVector{x, y};
 
     Term magnitude(termVector.getMagnitude());

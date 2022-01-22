@@ -58,10 +58,12 @@ bool isTheIntegralDefinitionForFiniteCalculusIsTrue(
     return integration.integrateAtDefiniteValues(term, a, b) == summation.getSum(a, b-1);
 }
 
-bool isAreaUnderTheCurveEqualToDefiniteIntegral(        Term const& term,
+bool isAreaUnderTheCurveEqualToDefiniteIntegral(
+        Term const& term,
         string const& variableName,
         AlbaNumber const& a,
-        AlbaNumber const& b){
+        AlbaNumber const& b)
+{
     Integration integration(variableName);
     return integration.integrateAtDefiniteValues(term, a, b)
             == getAreaUnderACurveUsingReimannSums(term, variableName, a, b);
@@ -94,7 +96,8 @@ Term getAverageValueInBetweenTwoValues(
             / (integralDetails.higherEnd-integralDetails.lowerEnd);
 }
 
-Term evaluateValuesAndGetDifference(        Term const& term,
+Term evaluateValuesAndGetDifference(
+        Term const& term,
         string const& variableName,
         AlbaNumber const& lowerEnd,
         AlbaNumber const& higherEnd)
@@ -104,9 +107,11 @@ Term evaluateValuesAndGetDifference(        Term const& term,
     result.simplify();
     return result;
 }
+
 Term evaluateTermsAndGetDifference(
         Term const& term,
-        string const& variableName,        Term const& lowerEnd,
+        string const& variableName,
+        Term const& lowerEnd,
         Term const& higherEnd)
 {
     Term result(evaluate(term, variableName, higherEnd)

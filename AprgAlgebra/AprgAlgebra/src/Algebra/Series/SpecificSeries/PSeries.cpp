@@ -19,6 +19,7 @@ Term PSeries::getFormula(AlbaNumber const& power) const
     Term denominator(createExpressionIfPossible({denominatorBase, "^", power}));
     return Term(createExpressionIfPossible({1, "/", denominator}));
 }
+
 }
 
 }

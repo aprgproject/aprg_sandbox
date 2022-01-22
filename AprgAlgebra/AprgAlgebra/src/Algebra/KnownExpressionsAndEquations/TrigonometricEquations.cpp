@@ -223,10 +223,12 @@ Term getTangentOfSumOrDifferenceOfTwoTerms(
         {1, reverseOperator, createExpressionIfPossible({tan(term1), "*", tan(term2)})}));
         result = Term(createExpressionIfPossible({numerator, "/", denominator}));
     }
-    return result;}
+    return result;
+}
 
 Term getSineOfDoubledValue(Term const& term)
-{    // sin(2*x) =  2*sin(x)*cos(x)
+{
+    // sin(2*x) =  2*sin(x)*cos(x)
 
     return Term(createExpressionIfPossible({2, "*", sin(term), "*", cos(term)}));
 }

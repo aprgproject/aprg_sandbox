@@ -106,10 +106,12 @@ bool TermsAggregator::combineOpeningClosingOperatorsAtStartEndIndexesAndReturnIf
                 eraseAndThenInsert(m_startIndex-1, m_endIndex, newFunction);
                 isCombined=true;
             }
-            else            {
+            else
+            {
                 eraseAndThenInsert(m_startIndex, m_endIndex, term2);
                 isCombined=true;
-            }        }
+            }
+        }
     }
     return isCombined;
 }
@@ -238,10 +240,12 @@ bool TermsAggregator::buildExpressionWithBinaryOperationAndReturnIfBuilt(unsigne
             eraseAndThenInsert(index-1, index+1, newExpression);
             isBuilt=true;
         }
-    }    return isBuilt;
+    }
+    return isBuilt;
 }
 
-bool TermsAggregator::buildExpressionWithUnaryOperationAndReturnIfBuilt(unsigned int const index){
+bool TermsAggregator::buildExpressionWithUnaryOperationAndReturnIfBuilt(unsigned int const index)
+{
     bool isBuilt(false);
     if(index+1 < m_terms.size())
     {
@@ -264,10 +268,12 @@ bool TermsAggregator::buildExpressionWithUnaryOperationAndReturnIfBuilt(unsigned
             eraseAndThenInsert(index, index+1, newExpression);
             isBuilt=true;
         }
-    }    return isBuilt;
+    }
+    return isBuilt;
 }
 
-bool TermsAggregator::simplifyBinaryOperationAndReturnIfSimplified(unsigned int const index){
+bool TermsAggregator::simplifyBinaryOperationAndReturnIfSimplified(unsigned int const index)
+{
     bool isSimplified(false);
     if(index>0 && index+1 < m_terms.size())
     {

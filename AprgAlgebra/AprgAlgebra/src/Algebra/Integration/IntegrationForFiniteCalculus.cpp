@@ -40,10 +40,12 @@ Term IntegrationForFiniteCalculus::integrate(
     return integrateConstant(constant);
 }
 
-Term IntegrationForFiniteCalculus::integrate(        Variable const& variable) const
+Term IntegrationForFiniteCalculus::integrate(
+        Variable const& variable) const
 {
     Term result(integrateVariable(variable));
-    result.simplify();    return result;
+    result.simplify();
+    return result;
 }
 
 Term IntegrationForFiniteCalculus::integrate(
@@ -81,9 +83,11 @@ Term IntegrationForFiniteCalculus::integrateWithPlusC(
     result.simplify();
     return result;
 }
+
 Term IntegrationForFiniteCalculus::integrateAtDefiniteValues(
         Term const& term,
-        AlbaNumber const& lowerEnd,        AlbaNumber const& higherEnd) const
+        AlbaNumber const& lowerEnd,
+        AlbaNumber const& higherEnd) const
 {
     return evaluateValuesAndGetDifference(
                 integrateTerm(term),
@@ -163,7 +167,8 @@ Term IntegrationForFiniteCalculus::integrateMonomial(
             result = integratedPolynomial;
         }
         else if(exponentInteger == -1)
-        {            // this is special case
+        {
+            // this is special case
             // in infinite calculus this ln(x), but in finite calculus its the summation of 1/x (this is called the harmonic number)
             // for the proof, consider doing the derivative of this
 
@@ -173,7 +178,8 @@ Term IntegrationForFiniteCalculus::integrateMonomial(
             {monomialToRetain, "*", harmonicNumber(m_nameOfVariableToIntegrate)});
             result.simplify();
         }
-        else        {
+        else
+        {
             AlbaNumber exponentAbsoluteValue(getAbsoluteValueForAlbaNumber(exponent));
             Monomial monomialWithOneLessExponent(monomial);
             monomialWithOneLessExponent.putVariableWithExponent(m_nameOfVariableToIntegrate, exponentAbsoluteValue-1);
@@ -182,17 +188,20 @@ Term IntegrationForFiniteCalculus::integrateMonomial(
             Term termToIntegrate(createExpressionIfPossible({1, "/", denominatorInFallingPower}));
             Term integratedTermInFallingPower(integrateTerm(termToIntegrate));
             if(!isNotANumber(integratedTermInFallingPower)
-                    && canBeConvertedToPolynomial(integratedTermInFallingPower))            {
+                    && canBeConvertedToPolynomial(integratedTermInFallingPower))
+            {
                 Polynomial integratedPolynomial(
                             convertPolynomialWithPositiveExponentsFromFallingPowerToRegularPower(
                                 createPolynomialIfPossible(integratedTermInFallingPower)));
                 result = integratedPolynomial;
             }
             else
-            {                result = AlbaNumber(AlbaNumber::Value::NotANumber);
+            {
+                result = AlbaNumber(AlbaNumber::Value::NotANumber);
             }
         }
-    }    else
+    }
+    else
     {
         result = AlbaNumber(AlbaNumber::Value::NotANumber);
     }
@@ -421,10 +430,12 @@ Term IntegrationForFiniteCalculus::integrateTermsInRaiseToPower(
         result = termRaiseToTerms.getCombinedTerm() * m_nameOfVariableToIntegrate;
     }
     else if(!isFirstAChangingTerm && isSecondAChangingTerm)
-    {        result = integrateNonChangingTermRaiseToChangingTerm(firstTerm, secondTerm);
+    {
+        result = integrateNonChangingTermRaiseToChangingTerm(firstTerm, secondTerm);
     }
     else if(isFirstAChangingTerm && !isSecondAChangingTerm)
-    {        result = integrateChangingTermRaiseToNonChangingTerm(firstTerm, secondTerm);
+    {
+        result = integrateChangingTermRaiseToNonChangingTerm(firstTerm, secondTerm);
     }
     else
     {
@@ -460,9 +471,11 @@ Term IntegrationForFiniteCalculus::integrateNonChangingTermRaiseToChangingTerm(
     }
     return result;
 }
+
 Term IntegrationForFiniteCalculus::integrateChangingTermRaiseToNonChangingTerm(
         Term const& ,
-        Term const& ) const{
+        Term const& ) const
+{
     return AlbaNumber(AlbaNumber::Value::NotANumber);
 }
 

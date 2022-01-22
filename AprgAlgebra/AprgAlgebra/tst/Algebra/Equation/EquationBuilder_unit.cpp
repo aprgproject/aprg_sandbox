@@ -22,6 +22,7 @@ TEST(EquationBuilderTest, GetEquationWorksWhenVariableEqualsVariable)
     Equation expectedEquation("a", "=", "b");
     EXPECT_EQ(expectedEquation, builder.getEquation());
 }
+
 TEST(EquationBuilderTest, GetEquationWorksWhenMonomialEqualsMonomial)
 {
     EquationBuilder builder("531*x^2*y^3 = 145*a^4*b^5");
@@ -29,9 +30,11 @@ TEST(EquationBuilderTest, GetEquationWorksWhenMonomialEqualsMonomial)
     Equation expectedEquation(Monomial(531, {{"x",2},{"y",3}}), "=", Monomial(145, {{"a",4},{"b",5}}));
     EXPECT_EQ(expectedEquation, builder.getEquation());
 }
+
 TEST(EquationBuilderTest, GetTermStringsWorks)
 {
     EquationBuilder builder("a=b=c=d");
+
     stringHelper::strings termStrings(builder.getTermStrings());
 
     ASSERT_EQ(4U, termStrings.size());

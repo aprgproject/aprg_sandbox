@@ -81,10 +81,12 @@ bool isDifferentiableAtUsingDerivativeDefinition(
     Term derivative(getDerivativeAtUsingLimit(term, variableName, "x", LimitAtAValueApproachType::BothSides));
     SubstitutionOfVariablesToValues substitution{{"x", value}};
     Term derivativeValue(substitution.performSubstitutionTo(derivative));
-    if(derivativeValue.isConstant())    {
+    if(derivativeValue.isConstant())
+    {
         result = derivativeValue.getConstantValueConstReference().isARealFiniteValue();
     }
-    return result;}
+    return result;
+}
 
 bool isFirstOrderDifferentialEquation(
         Term const& dyOverDx,
@@ -101,10 +103,12 @@ bool isFirstOrderDifferentialEquation(
     Term remainingTermWithoutDyOverDx = dyOverDx/derivativeVariableName.getNameInLeibnizNotation();
     remainingTermWithoutDyOverDx.simplify();
     if(Term(1) == remainingTermWithoutDyOverDx)
-    {        VariableNamesRetriever retriever;
+    {
+        VariableNamesRetriever retriever;
         retriever.retrieveFromTerm(p);
         VariableNamesSet const& namesFromP(retriever.getSavedData());
-        if(namesFromP.find(yVariableName) != namesFromP.cend())        {
+        if(namesFromP.find(yVariableName) != namesFromP.cend())
+        {
             VariableNamesRetriever retriever;
             retriever.retrieveFromTerm(q);
             VariableNamesSet const& namesFromQ(retriever.getSavedData());
@@ -149,10 +153,12 @@ Term getDerivativeDefinition(
     Term derivativeDefinition(createExpressionIfPossible({"(", fOfXPlusDeltaX, "-", fOfX, ")", "/", deltaX}));
     simplifyDerivativeByDefinition(derivativeDefinition);
 
-    return derivativeDefinition;}
+    return derivativeDefinition;
+}
 
 Term getDerivativeAtUsingLimit(
-        Term const& term,        string const& variableName,
+        Term const& term,
+        string const& variableName,
         Term const& termSubstituteToBack,
         LimitAtAValueApproachType const approachType)
 {
@@ -174,9 +180,11 @@ Term getDerivativeDefinitionForFiniteCalculus(
     discreteDerivativeDefinition.simplify();
     return discreteDerivativeDefinition;
 }
+
 Term getLogarithmicDifferentiationToYieldDyOverDx(
         Term const& yInTermsOfX,
-        string const& xVariableName,        string const& yVariableName)
+        string const& xVariableName,
+        string const& yVariableName)
 {
     // y = f(x)
     // -> ln(|y|) = ln(|f(x)|)
@@ -191,10 +199,12 @@ Term getLogarithmicDifferentiationToYieldDyOverDx(
     SolutionSet solutionSet(calculateDomainForEquation(xVariableName, Equation(yVariableName, "=", yInTermsOfX)));
     AlbaNumberIntervals const& domainOfX(solutionSet.getAcceptedIntervals());
     AlbaNumberInterval allPositiveNumbers(createCloseEndpoint(AlbaNumber(0)), createPositiveInfinityOpenEndpoint());
-    if(areTheIntervalsInsideTheInterval(domainOfX, allPositiveNumbers))    {
+    if(areTheIntervalsInsideTheInterval(domainOfX, allPositiveNumbers))
+    {
         Differentiation differentiation(xVariableName);
         Term logarithm(ln(yInTermsOfX));
-        logarithm.simplify();        result = yInTermsOfX * differentiation.differentiate(logarithm);
+        logarithm.simplify();
+        result = yInTermsOfX * differentiation.differentiate(logarithm);
         simplifyTermByFactoringToNonDoubleFactors(result);
     }
     return result;
@@ -216,9 +226,11 @@ Term getCartesianDerivativeOfTermInPolarCoordinates(
     result.simplify();
     return result;
 }
+
 Term getSlopeOfTermInPolarCoordinates(
         Term const& radiusInTermsOfTheta,
-        string const& thetaName,        AlbaNumber const& thetaValue)
+        string const& thetaName,
+        AlbaNumber const& thetaValue)
 {
     Term dyOverDx(getCartesianDerivativeOfTermInPolarCoordinates(radiusInTermsOfTheta, thetaName));
     SubstitutionOfVariablesToValues substitution{{thetaName, thetaValue}};
@@ -303,10 +315,12 @@ Term getTotalDerivative(
         result += getPartialDerivative(term, variableName) * derivativeOfVariable.getNameInLeibnizNotation();
     }
     simplifyForDifferentiation(result);
-    return result;}
+    return result;
+}
 
 Term getPartialDerivative(
-        Term const& term,        string const& variableName)
+        Term const& term,
+        string const& variableName)
 {
     Differentiation differentiation(variableName);
     return differentiation.differentiate(term);
@@ -344,9 +358,11 @@ Equation getRelationshipOfDerivativeOfTheInverseAndTheDerivative(
     substitution.putVariableWithTerm(variableName, variableForInverse);
     Term derivativeOfInverseWithNewVariable(substitution.performSubstitutionTo(derivativeOfInverse));
     Term oneOverDerivativeWithNewVariable(createExpressionIfPossible({1, "/", derivativeWithNewVariable}));
-    derivativeOfInverseWithNewVariable.simplify();    oneOverDerivativeWithNewVariable.simplify();
+    derivativeOfInverseWithNewVariable.simplify();
+    oneOverDerivativeWithNewVariable.simplify();
     return Equation(derivativeOfInverseWithNewVariable, "=", oneOverDerivativeWithNewVariable);
 }
+
 Equation getIntegralEquationForFirstOrderDifferentialEquation(
         Equation const& equation,
         string const& xVariableName,
@@ -399,10 +415,12 @@ Equation getIntegralEquationForFirstOrderDifferentialEquation(
     return Equation(yVariableName, "=", pqcExpression);
 }
 
-void simplifyDerivativeByDefinition(Term & term){
+void simplifyDerivativeByDefinition(Term & term)
+{
     SimplificationOfExpression::ConfigurationDetails rationalizeConfigurationDetails(
                 SimplificationOfExpression::Configuration::getInstance().getConfigurationDetails());
-    rationalizeConfigurationDetails.shouldSimplifyByCombiningRadicalsInMultiplicationAndDivision = true;    rationalizeConfigurationDetails.shouldSimplifyByRationalizingNumerator = true;
+    rationalizeConfigurationDetails.shouldSimplifyByCombiningRadicalsInMultiplicationAndDivision = true;
+    rationalizeConfigurationDetails.shouldSimplifyByRationalizingNumerator = true;
     rationalizeConfigurationDetails.shouldSimplifyToFactors = true;
     SimplificationOfExpression::ScopeObject scopeObject;
     scopeObject.setInThisScopeThisConfiguration(rationalizeConfigurationDetails);

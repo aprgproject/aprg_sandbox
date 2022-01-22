@@ -16,7 +16,7 @@ namespace algebra
 
 TEST(ContinuityTest, GetContinuityDomainWorksOnSine)
 {
-    Term termToTest(sin(Term("x")));
+    Term termToTest(sin("x"));
 
     SolutionSet continuityDomain(getContinuityDomain(termToTest));
 
@@ -27,7 +27,7 @@ TEST(ContinuityTest, GetContinuityDomainWorksOnSine)
 
 TEST(ContinuityTest, GetContinuityDomainWorksOnCosine)
 {
-    Term termToTest(cos(Term("x")));
+    Term termToTest(cos("x"));
 
     SolutionSet continuityDomain(getContinuityDomain(termToTest));
 

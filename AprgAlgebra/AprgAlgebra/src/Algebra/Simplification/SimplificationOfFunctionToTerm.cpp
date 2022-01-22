@@ -128,11 +128,11 @@ Term SimplificationOfFunctionToTerm::getLogarithmicOfTermBasedFromName(
     Term result;
     if("ln" == functionName)
     {
-        result = Term(ln(term));
+        result = ln(term);
     }
     else if("log" == functionName)
     {
-        result = Term(log(term));
+        result = log(term);
     }
     return result;
 }

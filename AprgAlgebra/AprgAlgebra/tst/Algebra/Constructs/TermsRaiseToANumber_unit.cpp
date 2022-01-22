@@ -16,7 +16,7 @@ namespace algebra
 
 TEST(TermRaiseToANumberTest, ConstructionWorks)
 {
-    TermRaiseToANumber termRaiseToANumber(Term("x"), 5);
+    TermRaiseToANumber termRaiseToANumber("x", 5);
 
     EXPECT_EQ(Term("x"), termRaiseToANumber.getBase());
     EXPECT_EQ(AlbaNumber(5), termRaiseToANumber.getExponent());
@@ -25,7 +25,7 @@ TEST(TermRaiseToANumberTest, ConstructionWorks)
 TEST(TermRaiseToANumberTest, IsEmptyWorks)
 {
     TermRaiseToANumber empty;
-    TermRaiseToANumber nonEmpty(Term("x"), 5);
+    TermRaiseToANumber nonEmpty("x", 5);
 
     EXPECT_TRUE(empty.isEmpty());
     EXPECT_FALSE(nonEmpty.isEmpty());
@@ -33,9 +33,9 @@ TEST(TermRaiseToANumberTest, IsEmptyWorks)
 
 TEST(TermRaiseToANumberTest, IsRadicalWorks)
 {
-    TermRaiseToANumber termWithIntegerExponent(Term("x"), 5);
-    TermRaiseToANumber termWithFractionalExponent(Term("x"), AlbaNumber::createFraction(3, 4));
-    TermRaiseToANumber termWithDoubleExponent(Term("x"), 1.693);
+    TermRaiseToANumber termWithIntegerExponent("x", 5);
+    TermRaiseToANumber termWithFractionalExponent("x", AlbaNumber::createFraction(3, 4));
+    TermRaiseToANumber termWithDoubleExponent("x", 1.693);
 
     EXPECT_FALSE(termWithIntegerExponent.isRadical());
     EXPECT_TRUE(termWithFractionalExponent.isRadical());
@@ -44,9 +44,9 @@ TEST(TermRaiseToANumberTest, IsRadicalWorks)
 
 TEST(TermRaiseToANumberTest, GetCombinedTermWorks)
 {
-    TermRaiseToANumber baseAndExponent1(Term("x"), 1);
-    TermRaiseToANumber baseAndExponent2(Term(Monomial(5, {{"x", 6}})), 7);
-    TermRaiseToANumber baseAndExponent3(Term(sin(Term("x"))), 7);
+    TermRaiseToANumber baseAndExponent1("x", 1);
+    TermRaiseToANumber baseAndExponent2(Monomial(5, {{"x", 6}}), 7);
+    TermRaiseToANumber baseAndExponent3(sin("x"), 7);
 
     string stringToExpect1("x");
     string stringToExpect2("78125[x^42]");
@@ -58,23 +58,23 @@ TEST(TermRaiseToANumberTest, GetCombinedTermWorks)
 
 TEST(TermRaiseToANumberTest, GetBaseWorks)
 {
-    TermRaiseToANumber termRaiseToANumber(Term("x"), 5);
+    TermRaiseToANumber termRaiseToANumber("x", 5);
 
     EXPECT_EQ(Term("x"), termRaiseToANumber.getBase());
 }
 
 TEST(TermRaiseToANumberTest, GetExponentWorks)
 {
-    TermRaiseToANumber termRaiseToANumber(Term("x"), 5);
+    TermRaiseToANumber termRaiseToANumber("x", 5);
 
     EXPECT_EQ(AlbaNumber(5), termRaiseToANumber.getExponent());
 }
 
 TEST(TermRaiseToANumberTest, GetBaseReferenceWorks)
 {
-    TermRaiseToANumber termRaiseToANumber(Term("x"), 5);
+    TermRaiseToANumber termRaiseToANumber("x", 5);
 
-    termRaiseToANumber.getBaseReference() = Term("y");
+    termRaiseToANumber.getBaseReference() = "y";
 
     EXPECT_EQ(Term("y"), termRaiseToANumber.getBase());
 }

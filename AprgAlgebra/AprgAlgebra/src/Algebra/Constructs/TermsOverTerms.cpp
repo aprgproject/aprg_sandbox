@@ -503,10 +503,12 @@ void TermsOverTerms::putTermsToRetainAndOnTheOtherSide(
                 transformedTermOnTheOtherSide = createExpressionIfPossible({base, "^", negateTerm(exponent)});
             }
         }
-        if(isNeededToPutOnTheOtherSide)        {
+        if(isNeededToPutOnTheOtherSide)
+        {
             transformedTermOnTheOtherSide.simplify();
             termsToPutOnTheOtherSide.emplace_back(transformedTermOnTheOtherSide);
-        }        else
+        }
+        else
         {
             termsToRetain.emplace_back(termToCheck);
         }

@@ -1139,8 +1139,7 @@ TEST(ExpressionTest, PutPolynomialSecondWithMultiplicationWorks)
 
 TEST(ExpressionTest, PutExpressionWithMultiplicationWorksOnExpressionWithEmptyExpressionAndWillNotHaveImpact)
 {
-    Term x("x");
-    Term term1(createExpressionIfPossible({2, "^", x}));
+    Term term1(createExpressionIfPossible({2, "^", "x"}));
     Term term2(Polynomial{Monomial(1, {{"x", 1}}), Monomial(1, {})});
     Term term3(1);
     Expression expressionToTest;

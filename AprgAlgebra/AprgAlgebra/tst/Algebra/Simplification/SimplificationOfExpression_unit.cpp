@@ -594,10 +594,9 @@ TEST(SimplificationOfExpressionTest, ShouldSimplifyToACommonDenominatorWorksWith
     SimplificationOfExpression::ScopeObject scopeObject;
     scopeObject.setInThisScopeThisConfiguration(configurationDetails);
 
-    Term x("x");
-    Term eToTheX(createExpressionIfPossible({getEAsTerm(), "^", x}));
-    Term eToTheXTimesSinX(createExpressionIfPossible({eToTheX, "*", sin(x)}));
-    Term eToTheXTimesCosX(createExpressionIfPossible({eToTheX, "*", cos(x)}));
+    Term eToTheX(createExpressionIfPossible({getEAsTerm(), "^", "x"}));
+    Term eToTheXTimesSinX(createExpressionIfPossible({eToTheX, "*", sin("x")}));
+    Term eToTheXTimesCosX(createExpressionIfPossible({eToTheX, "*", cos("x")}));
     Term expression1(createExpressionIfPossible({eToTheXTimesSinX, "-", eToTheXTimesCosX}));
     Term expression2(createExpressionIfPossible({expression1, "/", 2}));
     Term expressionToTest(createExpressionIfPossible({eToTheXTimesSinX, "-", eToTheXTimesCosX, "-", expression2}));

@@ -14,9 +14,8 @@ namespace algebra
 
 TEST(TermUtilitiesTest, IsNegatedTermSimplerWorks)
 {
-    Term x("x");
-    Term xToTheX(createExpressionIfPossible({x, "^", x}));
-    Term negativeXToTheX(createExpressionIfPossible({-1, "*", x, "^", x}));
+    Term xToTheX(createExpressionIfPossible({"x", "^", "x"}));
+    Term negativeXToTheX(createExpressionIfPossible({-1, "*", "x", "^", "x"}));
 
     EXPECT_FALSE(isNegatedTermSimpler(xToTheX, negativeXToTheX));
     EXPECT_TRUE(isNegatedTermSimpler(negativeXToTheX, xToTheX));
@@ -68,15 +67,14 @@ TEST(TermUtilitiesTest, IsNonEmptyOrNonOperatorOrNonExpressionTypeWorks)
 
 TEST(TermUtilitiesTest, IsARadicalTermWorks)
 {
-    Term x("x");
     Term nonMonomialOrExpressionTerm("x");
     Term monomialWithIntegerExponent(Monomial(1, {{"x", 34}}));
     Term monomialWithDoubleExponent(Monomial(1, {{"x", 3.4}}));
-    Term nonRaiseToPowerExpressionTerm(createExpressionIfPossible({x, "*", x}));
-    Term raiseToIntegerExpressionTerm(createExpressionIfPossible({x, "^", 5}));
-    Term raiseToDoubleExpressionTerm(createExpressionIfPossible({x, "^", 1.79}));
-    Term multipleRaiseToPowerExpressionTerm(createExpressionIfPossible({x, "^", 1.79, "^", "y"}));
-    Term raiseToMonomialWithDoubleExpressionTerm(createExpressionIfPossible({x, "^", Monomial(2.84, {{"x", 2}, {"y", 3}})}));
+    Term nonRaiseToPowerExpressionTerm(createExpressionIfPossible({"x", "*", "x"}));
+    Term raiseToIntegerExpressionTerm(createExpressionIfPossible({"x", "^", 5}));
+    Term raiseToDoubleExpressionTerm(createExpressionIfPossible({"x", "^", 1.79}));
+    Term multipleRaiseToPowerExpressionTerm(createExpressionIfPossible({"x", "^", 1.79, "^", "y"}));
+    Term raiseToMonomialWithDoubleExpressionTerm(createExpressionIfPossible({"x", "^", Monomial(2.84, {{"x", 2}, {"y", 3}})}));
 
     EXPECT_FALSE(isARadicalTerm(nonMonomialOrExpressionTerm));
     EXPECT_FALSE(isARadicalTerm(monomialWithIntegerExponent));
@@ -90,21 +88,16 @@ TEST(TermUtilitiesTest, IsARadicalTermWorks)
 
 TEST(TermUtilitiesTest, GetNumberOfTermsWorks)
 {
-    Term w("w");
-    Term x("x");
-    Term y("y");
-    Term z("z");
 
-    EXPECT_EQ(7U, getNumberOfTerms(createExpressionIfPossible({w, "+", x, "*", y, "^", z})));
+    EXPECT_EQ(7U, getNumberOfTerms(createExpressionIfPossible({"w", "+", "x", "*", "y", "^", "z"})));
 }
 
 TEST(TermUtilitiesTest, GetConstantFactorWorks)
 {
-    Term x("x");
     EXPECT_EQ(AlbaNumber(5), getConstantFactor(5));
     EXPECT_EQ(AlbaNumber(6), getConstantFactor(Monomial(6, {{"x", 7}})));
     EXPECT_EQ(AlbaNumber(4), getConstantFactor(Polynomial{Monomial(8, {{"x", 3}}), Monomial(12, {{"x", 4}})}));
-    EXPECT_EQ(AlbaNumber(1), getConstantFactor(x));
+    EXPECT_EQ(AlbaNumber(1), getConstantFactor("x"));
 }
 
 TEST(TermUtilitiesTest, EvaluateAndGetInputOutputPairWorks)
@@ -219,12 +212,11 @@ TEST(TermUtilitiesTest, InvertTermWorks)
 
 TEST(TermUtilitiesTest, NegateExpressionWorks)
 {
-    Term x("x");
-    Expression expression1(createExpressionIfPossible({-5, "+", x}));
-    Expression expression2(createExpressionIfPossible({5, "+", x}));
-    Expression expression3(createExpressionIfPossible({-5, "*", x}));
+    Expression expression1(createExpressionIfPossible({-5, "+", "x"}));
+    Expression expression2(createExpressionIfPossible({5, "+", "x"}));
+    Expression expression3(createExpressionIfPossible({-5, "*", "x"}));
     Expression expression4(createExpressionIfPossible({-5, "*", -3}));
-    Expression expression5(createExpressionIfPossible({-5, "^", x}));
+    Expression expression5(createExpressionIfPossible({-5, "^", "x"}));
 
     Expression expressionToVerify1(negateExpression(expression1));
     Expression expressionToVerify2(negateExpression(expression2));
@@ -236,7 +228,7 @@ TEST(TermUtilitiesTest, NegateExpressionWorks)
     Expression expectedExpression2(createExpressionIfPossible({Polynomial{Monomial(-1, {{"x", 1}}), Monomial(-5, {})}}));
     Expression expectedExpression3(createExpressionIfPossible({Monomial(5, {{"x", 1}})}));
     Expression expectedExpression4(createExpressionIfPossible({-15}));
-    Expression subExpression5(createExpressionIfPossible({-5, "^", x}));
+    Expression subExpression5(createExpressionIfPossible({-5, "^", "x"}));
     Expression expectedExpression5(createExpressionIfPossible({-1, "*", subExpression5}));
     EXPECT_EQ(expectedExpression1, expressionToVerify1);
     EXPECT_EQ(expectedExpression2, expressionToVerify2);

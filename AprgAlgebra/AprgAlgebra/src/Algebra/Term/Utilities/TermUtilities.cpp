@@ -236,9 +236,11 @@ Term invertTerm(Term const& term, string const& variableName)
     SubstitutionOfVariablesToTerms substitution{{newVariableName, variableName}};
     return substitution.performSubstitutionTo(isolation.getEquivalentTermByIsolatingAVariable(variableName));
 }
+
 Expression negateExpression(Expression const& expression)
 {
-    NegationMutator negationMutator;    Expression negatedExpression(expression);
+    NegationMutator negationMutator;
+    Expression negatedExpression(expression);
     negationMutator.mutateExpression(negatedExpression);
     return negatedExpression;
 }

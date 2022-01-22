@@ -41,10 +41,12 @@ bool doesNegativeVariableSubstitutionYieldsToTheSameEquation(
         substitution.putVariableWithTerm(variableName, Monomial(-1, {{variableName, 1}}));
     }
     Equation equation2(substitution.performSubstitutionTo(equation1));
-    return equation1 == equation2;}
+    return equation1 == equation2;
+}
 
 bool isSymmetricAlongXAxis(Equation const& equation)
-{    return doesNegativeVariableSubstitutionYieldsToTheSameEquation(equation, {"y"});
+{
+    return doesNegativeVariableSubstitutionYieldsToTheSameEquation(equation, {"y"});
 }
 
 bool isSymmetricAlongYAxis(Equation const& equation)
@@ -189,9 +191,11 @@ Term getEquivalentTermByReducingItToAVariable(
     }
     return result;
 }
+
 Equation buildEquationIfPossible(string const& equationString)
 {
-    EquationBuilder builder(equationString);    return builder.getEquation();
+    EquationBuilder builder(equationString);
+    return builder.getEquation();
 }
 
 void segregateEquationsWithAndWithoutVariable(

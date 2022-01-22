@@ -15,7 +15,6 @@ namespace algebra
 
 TEST(PowerSeriesTest, IsSummationModelValidWorks)
 {
-    Term n("n");
     Term multiplier("n");
     PowerSeries series(multiplier, "n", "x", 2);
 
@@ -24,7 +23,6 @@ TEST(PowerSeriesTest, IsSummationModelValidWorks)
 
 TEST(PowerSeriesTest, GetIntervalsOfConvergenceWorks)
 {
-    Term n("n");
     Term multiplier("n");
     PowerSeries series(multiplier, "n", "x", 2);
 
@@ -35,7 +33,6 @@ TEST(PowerSeriesTest, GetIntervalsOfConvergenceWorks)
 
 TEST(PowerSeriesTest, GetRadiusOfConvergenceWorks)
 {
-    Term n("n");
     Term multiplier("n");
     PowerSeries series(multiplier, "n", "x", 2);
 
@@ -44,7 +41,6 @@ TEST(PowerSeriesTest, GetRadiusOfConvergenceWorks)
 
 TEST(PowerSeriesTest, DifferentiateWorks)
 {
-    Term n("n");
     Term multiplier("n");
     PowerSeries series(multiplier, "n", "x", 2);
 
@@ -56,7 +52,6 @@ TEST(PowerSeriesTest, DifferentiateWorks)
 
 TEST(PowerSeriesTest, IntegrateWorks)
 {
-    Term n("n");
     Term multiplier("n");
     PowerSeries series(multiplier, "n", "x", 2);
 

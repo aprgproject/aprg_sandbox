@@ -66,10 +66,12 @@ TEST(NumbersRetrieverTest, RetrieveFromTermWorks)
     retriever.retrieveFromTerm(createExpressionIfPossible({678, "+", Monomial(576, {{"x", 9}})}));
     retriever.retrieveFromTerm(functionObject);
 
-    AlbaNumbersSet const& numbersSet(retriever.getSavedData());    ASSERT_EQ(13U, numbersSet.size());
+    AlbaNumbersSet const& numbersSet(retriever.getSavedData());
+    ASSERT_EQ(13U, numbersSet.size());
     AlbaNumbersSet::const_iterator it = numbersSet.cbegin();
     EXPECT_EQ(AlbaNumber(1), *(it++));
-    EXPECT_EQ(AlbaNumber(1.234), *(it++));    EXPECT_EQ(AlbaNumber(2), *(it++));
+    EXPECT_EQ(AlbaNumber(1.234), *(it++));
+    EXPECT_EQ(AlbaNumber(2), *(it++));
     EXPECT_EQ(AlbaNumber(5), *(it++));
     EXPECT_EQ(AlbaNumber(6), *(it++));
     EXPECT_EQ(AlbaNumber(7), *(it++));

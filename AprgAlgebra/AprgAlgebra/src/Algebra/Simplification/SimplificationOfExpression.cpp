@@ -365,10 +365,12 @@ bool SimplificationOfExpression::tryToSubstituteSubExpressionOrSubFunctionAndRet
     Terms expressionAndFunctionTerms(retrieveSubExpressionsAndSubFunctions(expression));
     for(Term const& expressionOrFunctionTerm : expressionAndFunctionTerms)
     {
-        Expression newExpression(getNewExpressionWithSubstitutedVariableForTerm(m_expression, expressionOrFunctionTerm));        unsigned int newNumberOfTerms = newExpression.getTermsWithAssociation().getTermsWithDetails().size();
+        Expression newExpression(getNewExpressionWithSubstitutedVariableForTerm(m_expression, expressionOrFunctionTerm));
+        unsigned int newNumberOfTerms = newExpression.getTermsWithAssociation().getTermsWithDetails().size();
         if(expression.getCommonOperatorLevel() != newExpression.getCommonOperatorLevel()
                 || oldNumberOfTerms != newNumberOfTerms)
-        {            m_expression = newExpression;
+        {
+            m_expression = newExpression;
             continueToTryToSubstitute = true;
             break;
         }
@@ -411,10 +413,12 @@ void SimplificationOfExpression::convertPolynomialToPolynomialOverPolynomial(
             term = createExpressionIfPossible({pop.getNumerator(), "/", pop.getDenominator()});
         }
     }
-    else if(term.isExpression())    {
+    else if(term.isExpression())
+    {
         convertPolynomialToPolynomialOverPolynomial(term.getExpressionReference());
     }
-    else if(term.isFunction())    {
+    else if(term.isFunction())
+    {
         convertPolynomialToPolynomialOverPolynomial(getTermReferenceFromBaseTerm(term.getFunctionReference().getInputTermReference()));
     }
 }

@@ -108,16 +108,15 @@ TEST(DifferentiationForFiniteCalculusTest, DifferentiateWorksForPolynomial)
 TEST(DifferentiationForFiniteCalculusTest, DifferentiateWorksForExpression)
 {
     DifferentiationForFiniteCalculus differentiationForX("x");
-    Term x("x");
     Term xPlusOne(Polynomial{Monomial(1, {{"x", 1}}), Monomial(1, {})});
-    Expression expression01{createExpressionIfPossible({x})};
-    Expression expression02{createExpressionIfPossible({3, "^", x})};
+    Expression expression01{createExpressionIfPossible({"x"})};
+    Expression expression02{createExpressionIfPossible({3, "^", "x"})};
 
     Term termToVerify1(differentiationForX.differentiate(expression01));
     Term termToVerify2(differentiationForX.differentiate(expression02));
 
     Term termToExpect1(1);
-    Term termToExpect2(createExpressionIfPossible({3, "^", xPlusOne, "-", 3, "^", x}));
+    Term termToExpect2(createExpressionIfPossible({3, "^", xPlusOne, "-", 3, "^", "x"}));
     EXPECT_EQ(termToExpect1, termToVerify1);
     EXPECT_EQ(termToExpect2, termToVerify2);
 }
@@ -125,12 +124,11 @@ TEST(DifferentiationForFiniteCalculusTest, DifferentiateWorksForExpression)
 TEST(DifferentiationForFiniteCalculusTest, DifferentiateWorksForFunction)
 {
     DifferentiationForFiniteCalculus differentiationForX("x");
-    Term x("x");
     Term xPlusOne(Polynomial{Monomial(1, {{"x", 1}}), Monomial(1, {})});
 
-    Term termToVerify(differentiationForX.differentiate(sin(x)));
+    Term termToVerify(differentiationForX.differentiate(sin("x")));
 
-    Term termToExpect(createExpressionIfPossible({sin(xPlusOne), "-", sin(x)}));
+    Term termToExpect(createExpressionIfPossible({sin(xPlusOne), "-", sin("x")}));
     EXPECT_EQ(termToExpect, termToVerify);
 }
 
@@ -191,10 +189,9 @@ TEST(DifferentiationForFiniteCalculusTest, DifferentiateMultipleTimesWorksForEqu
 TEST(DifferentiationForFiniteCalculusTest, DifferentiateTermWorks)
 {
     DifferentiationForFiniteCalculus differentiationForX("x");
-    Term x("x");
     Term xPlusOne(Polynomial{Monomial(1, {{"x", 1}}), Monomial(1, {})});
     Term polynomialTerm(Polynomial{Monomial(-2, {{"x", 2}}), Monomial(8, {{"x", 1}}), Monomial(5, {})});
-    Expression expressionTerm{createExpressionIfPossible({3, "^", x})};
+    Expression expressionTerm{createExpressionIfPossible({3, "^", "x"})};
 
     Term termToVerify1(differentiationForX.differentiateTerm(5));
     Term termToVerify2(differentiationForX.differentiateTerm("x"));
@@ -206,7 +203,7 @@ TEST(DifferentiationForFiniteCalculusTest, DifferentiateTermWorks)
     Term termToExpect2(xPlusOne);
     Term termToExpect3(Polynomial{Monomial(15, {{"x", 2}}), Monomial(15, {{"x", 1}}), Monomial(5, {})});
     Term termToExpect4(Polynomial{Monomial(-4, {{"x", 1}}), Monomial(6, {})});
-    Term termToExpect5(createExpressionIfPossible({3, "^", xPlusOne, "-", 3, "^", x}));
+    Term termToExpect5(createExpressionIfPossible({3, "^", xPlusOne, "-", 3, "^", "x"}));
     EXPECT_EQ(termToExpect1, termToVerify1);
     EXPECT_EQ(termToExpect2, termToVerify2);
     EXPECT_EQ(termToExpect3, termToVerify3);
@@ -304,16 +301,15 @@ TEST(DifferentiationForFiniteCalculusTest, DifferentiatePolynomialWorks)
 TEST(DifferentiationForFiniteCalculusTest, DifferentiateExpressionWorks)
 {
     DifferentiationForFiniteCalculus differentiationForX("x");
-    Term x("x");
     Term xPlusOne(Polynomial{Monomial(1, {{"x", 1}}), Monomial(1, {})});
-    Expression expression01{createExpressionIfPossible({x})};
-    Expression expression02{createExpressionIfPossible({3, "^", x})};
+    Expression expression01{createExpressionIfPossible({"x"})};
+    Expression expression02{createExpressionIfPossible({3, "^", "x"})};
 
     Term termToVerify1(differentiationForX.differentiateExpression(expression01));
     Term termToVerify2(differentiationForX.differentiateExpression(expression02));
 
     Term termToExpect1(1);
-    Term termToExpect2(createExpressionIfPossible({3, "^", xPlusOne, "-", 3, "^", x}));
+    Term termToExpect2(createExpressionIfPossible({3, "^", xPlusOne, "-", 3, "^", "x"}));
     EXPECT_EQ(termToExpect1, termToVerify1);
     EXPECT_EQ(termToExpect2, termToVerify2);
 }
@@ -321,12 +317,10 @@ TEST(DifferentiationForFiniteCalculusTest, DifferentiateExpressionWorks)
 TEST(DifferentiationForFiniteCalculusTest, DifferentiateWorksWithTermRaiseToTerm)
 {
     DifferentiationForFiniteCalculus differentiationForX("x");
-    Term n("n");
-    Term x("x");
-    Term termToTest1(createExpressionIfPossible({n, "^", n}));
-    Term termToTest2(createExpressionIfPossible({n, "^", x}));
-    Term termToTest3(createExpressionIfPossible({x, "^", n}));
-    Term termToTest4(createExpressionIfPossible({x, "^", x}));
+    Term termToTest1(createExpressionIfPossible({"n", "^", "n"}));
+    Term termToTest2(createExpressionIfPossible({"n", "^", "x"}));
+    Term termToTest3(createExpressionIfPossible({"x", "^", "n"}));
+    Term termToTest4(createExpressionIfPossible({"x", "^", "x"}));
 
     Term termToVerify1(differentiationForX.differentiate(termToTest1));
     Term termToVerify2(differentiationForX.differentiate(termToTest2));
@@ -346,12 +340,11 @@ TEST(DifferentiationForFiniteCalculusTest, DifferentiateWorksWithTermRaiseToTerm
 TEST(DifferentiationForFiniteCalculusTest, DifferentiateFunctionWorks)
 {
     DifferentiationForFiniteCalculus differentiationForX("x");
-    Term x("x");
     Term xPlusOne(Polynomial{Monomial(1, {{"x", 1}}), Monomial(1, {})});
 
-    Term termToVerify(differentiationForX.differentiate(sin(x)));
+    Term termToVerify(differentiationForX.differentiate(sin("x")));
 
-    Term termToExpect(createExpressionIfPossible({sin(xPlusOne), "-", sin(x)}));
+    Term termToExpect(createExpressionIfPossible({sin(xPlusOne), "-", sin("x")}));
     EXPECT_EQ(termToExpect, termToVerify);
 }
 

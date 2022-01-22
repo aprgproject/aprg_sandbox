@@ -296,17 +296,16 @@ TEST(AdditionAndSubtractionOfExpressionsTest, CombineExpressionIfPossibleWorksAn
 
 TEST(AdditionAndSubtractionOfExpressionsTest, CombineExpressionIfPossibleWorksWithNegativeTermWithTrigonometricFunctions)
 {
-    Term x("x");
-    Expression positiveCosX(createExpressionIfPossible({cos(x)}));
-    Expression negativeSinX(createExpressionIfPossible({-1, "*", sin(x)}));
+    Expression positiveCosX(createExpressionIfPossible({cos("x")}));
+    Expression negativeSinX(createExpressionIfPossible({-1, "*", sin("x")}));
     AdditionAndSubtractionOfExpressions additionAndSubtraction;
     additionAndSubtraction.putAsAddition(positiveCosX);
     additionAndSubtraction.putAsAddition(negativeSinX);
 
     additionAndSubtraction.combineExpressionsIfPossible();
 
-    Expression cosX(createExpressionIfPossible({cos(x)}));
-    Expression sinX(createExpressionIfPossible({sin(x)}));
+    Expression cosX(createExpressionIfPossible({cos("x")}));
+    Expression sinX(createExpressionIfPossible({sin("x")}));
     Expressions const& expressions(additionAndSubtraction.getExpressions());
     ASSERT_EQ(2U, expressions.size());
     EXPECT_EQ(cosX, expressions.at(0));
@@ -319,10 +318,9 @@ TEST(AdditionAndSubtractionOfExpressionsTest, CombineExpressionIfPossibleWorksWi
 
 TEST(AdditionAndSubtractionOfExpressionsTest, CombineExpressionIfPossibleWorksWithEToTheXWithTrigonometricExpressions)
 {
-    Term x("x");
-    Term eToTheX(createExpressionIfPossible({getEAsTerm(), "^", x}));
-    Term eToTheXTimesSinX(createExpressionIfPossible({eToTheX, "*", sin(x)}));
-    Term eToTheXTimesCosX(createExpressionIfPossible({eToTheX, "*", cos(x)}));
+    Term eToTheX(createExpressionIfPossible({getEAsTerm(), "^", "x"}));
+    Term eToTheXTimesSinX(createExpressionIfPossible({eToTheX, "*", sin("x")}));
+    Term eToTheXTimesCosX(createExpressionIfPossible({eToTheX, "*", cos("x")}));
     Term eToTheXTimesSinXTimes2(createExpressionIfPossible({2, "*", eToTheXTimesSinX}));
     Term eToTheXTimesCosXTimes2(createExpressionIfPossible({2, "*", eToTheXTimesCosX}));
     AdditionAndSubtractionOfExpressions additionAndSubtraction;
@@ -346,15 +344,14 @@ TEST(AdditionAndSubtractionOfExpressionsTest, CombineExpressionIfPossibleWorksWi
 
 TEST(AdditionAndSubtractionOfExpressionsTest, CombineExpressionIfPossibleWorksWithSinLogarithmicExpressions)
 {
-    Term x("x");
-    Term lnOfX(ln(x));
+    Term lnOfX(ln("x"));
     Term sinOfLnOfX(sin(lnOfX));
     Term cosOfLnOfX(cos(lnOfX));
     Term twoX(Monomial(2, {{"x", 1}}));
     Term twoXTimesSinOfLnOfX(createExpressionIfPossible({twoX, "*", sinOfLnOfX}));
     Term twoXTimesCosOfLnOfX(createExpressionIfPossible({twoX, "*", cosOfLnOfX}));
-    Term xTimesSinOfLnOfX(createExpressionIfPossible({x, "*", sinOfLnOfX}));
-    Term xTimesCosOfLnOfX(createExpressionIfPossible({x, "*", cosOfLnOfX}));
+    Term xTimesSinOfLnOfX(createExpressionIfPossible({"x", "*", sinOfLnOfX}));
+    Term xTimesCosOfLnOfX(createExpressionIfPossible({"x", "*", cosOfLnOfX}));
     AdditionAndSubtractionOfExpressions additionAndSubtraction;
     additionAndSubtraction.putAsAddition(twoXTimesSinOfLnOfX);
     additionAndSubtraction.putAsSubtraction(twoXTimesCosOfLnOfX);

@@ -31,9 +31,11 @@ Term TaylorSeries::getValueAtIndex(int const index, Term const& startingValue) c
     }
     return result;
 }
+
 Term TaylorSeries::getValueForMaclaurinSeriesAtIndex(int const index) const
 {
-    return getValueAtIndex(index, 0);}
+    return getValueAtIndex(index, 0);
+}
 
 
 }

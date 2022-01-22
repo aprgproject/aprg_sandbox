@@ -184,10 +184,9 @@ TEST(TermsRaiseToTermsTest, PutTermWorksOnMonomial)
 
 TEST(TermsRaiseToTermsTest, PutTermWorksOnOtherTermTypes)
 {
-    Term x("x");
-    TermsRaiseToTerms termsRaiseToTerms({{cos(x), 1}, {sin(x), -2}, {tan(x), 3}});
-    Term termWithPositive(createExpressionIfPossible({cos(x), "^", 6}));
-    Term termWithNegative(createExpressionIfPossible({sin(x), "^", 8}));
+    TermsRaiseToTerms termsRaiseToTerms({{cos("x"), 1}, {sin("x"), -2}, {tan("x"), 3}});
+    Term termWithPositive(createExpressionIfPossible({cos("x"), "^", 6}));
+    Term termWithNegative(createExpressionIfPossible({sin("x"), "^", 8}));
 
     termsRaiseToTerms.putTerm(termWithPositive, TermAssociationType::Positive);
     termsRaiseToTerms.putTerm(termWithNegative, TermAssociationType::Negative);
@@ -195,13 +194,13 @@ TEST(TermsRaiseToTermsTest, PutTermWorksOnOtherTermTypes)
     TermsRaiseToTerms::BaseToExponentMap const mapToVerify(termsRaiseToTerms.getBaseToExponentMap());
     ASSERT_EQ(3U, mapToVerify.size());
     auto itToVerify = mapToVerify.cbegin();
-    EXPECT_EQ(Term(cos(x)), itToVerify->first);
+    EXPECT_EQ(Term(cos("x")), itToVerify->first);
     EXPECT_EQ(Term(7), itToVerify->second);
     itToVerify++;
-    EXPECT_EQ(Term(sin(x)), itToVerify->first);
+    EXPECT_EQ(Term(sin("x")), itToVerify->first);
     EXPECT_EQ(Term(-10), itToVerify->second);
     itToVerify++;
-    EXPECT_EQ(Term(tan(x)), itToVerify->first);
+    EXPECT_EQ(Term(tan("x")), itToVerify->first);
     EXPECT_EQ(Term(3), itToVerify->second);
 }
 

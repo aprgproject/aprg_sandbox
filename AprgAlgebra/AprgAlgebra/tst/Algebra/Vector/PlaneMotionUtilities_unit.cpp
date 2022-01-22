@@ -19,9 +19,8 @@ namespace VectorUtilities
 
 TEST(PlaneMotionUtilitiesTest, GetInstantaneousVelocityWorks)
 {
-    Term t("t");
-    Term x(createExpressionIfPossible({getEAsTerm(), "^", "(", -2, "*", t, ")"}));
-    Term y(createExpressionIfPossible({3, "*", getEAsTerm(), "^", t}));
+    Term x(createExpressionIfPossible({getEAsTerm(), "^", "(", -2, "*", "t", ")"}));
+    Term y(createExpressionIfPossible({3, "*", getEAsTerm(), "^", "t"}));
     MathVectorOfTwoTerms termVector{x, y};
 
     MathVectorOfTwoTerms vectorToVerify(getInstantaneousVelocity(termVector, "t"));
@@ -32,9 +31,8 @@ TEST(PlaneMotionUtilitiesTest, GetInstantaneousVelocityWorks)
 
 TEST(PlaneMotionUtilitiesTest, GetInstantaneousAccelerationFromVelocityWorks)
 {
-    Term t("t");
-    Term x(createExpressionIfPossible({getEAsTerm(), "^", "(", -2, "*", t, ")"}));
-    Term y(createExpressionIfPossible({3, "*", getEAsTerm(), "^", t}));
+    Term x(createExpressionIfPossible({getEAsTerm(), "^", "(", -2, "*", "t", ")"}));
+    Term y(createExpressionIfPossible({3, "*", getEAsTerm(), "^", "t"}));
     MathVectorOfTwoTerms termVector{x, y};
 
     MathVectorOfTwoTerms vectorToVerify(getInstantaneousAccelerationFromVelocity(termVector, "t"));

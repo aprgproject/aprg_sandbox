@@ -13,7 +13,6 @@ namespace algebra
 
 TEST(SeriesUtilitiesTest, IsAxiomOfCompletenessTrueWorks)
 {
-    Term n("n");
     Term numerator("n");
     Term denominator(Polynomial{Monomial(2, {{"n", 1}}), Monomial(1, {})});
     Term formula(createExpressionIfPossible({numerator, "/", denominator}));
@@ -24,7 +23,6 @@ TEST(SeriesUtilitiesTest, IsAxiomOfCompletenessTrueWorks)
 
 TEST(SeriesUtilitiesTest, IsBoundedMonotonicSeriesConvergentWorks)
 {
-    Term n("n");
     Term numerator("n");
     Term denominator(Polynomial{Monomial(2, {{"n", 1}}), Monomial(1, {})});
     Term formula(createExpressionIfPossible({numerator, "/", denominator}));
@@ -35,7 +33,6 @@ TEST(SeriesUtilitiesTest, IsBoundedMonotonicSeriesConvergentWorks)
 
 TEST(SeriesUtilitiesTest, IsConvergentMonotonicSeriesBoundedWorks)
 {
-    Term n("n");
     Term numerator("n");
     Term denominator(Polynomial{Monomial(2, {{"n", 1}}), Monomial(1, {})});
     Term formula(createExpressionIfPossible({numerator, "/", denominator}));
@@ -46,13 +43,12 @@ TEST(SeriesUtilitiesTest, IsConvergentMonotonicSeriesBoundedWorks)
 
 TEST(SeriesUtilitiesTest, IsConvergentUsingComparisonTestWorks)
 {
-    Term n("n");
     Term numeratorToTest(4);
-    Term denominatorToTest(createExpressionIfPossible({3, "^", n, "^", 1}));
+    Term denominatorToTest(createExpressionIfPossible({3, "^", "n", "^", 1}));
     Term formulaToTest(createExpressionIfPossible({numeratorToTest, "/", denominatorToTest}));
     SeriesBasedOnSummation seriesToTest(formulaToTest, "n");
     Term convergentNumerator(4);
-    Term convergentDenominator(createExpressionIfPossible({3, "^", n}));
+    Term convergentDenominator(createExpressionIfPossible({3, "^", "n"}));
     Term convergentFormula(createExpressionIfPossible({convergentNumerator, "/", convergentDenominator}));
     SeriesBasedOnSummation convergentSeries(convergentFormula, "n");
 
@@ -61,7 +57,6 @@ TEST(SeriesUtilitiesTest, IsConvergentUsingComparisonTestWorks)
 
 TEST(SeriesUtilitiesTest, IsDivergentUsingComparisonTestWorks)
 {
-    Term n("n");
     Term numeratorToTest(1);
     Term denominatorToTest(Monomial(1, {{"n", AlbaNumber::createFraction(1, 2)}}));
     Term formulaToTest(createExpressionIfPossible({numeratorToTest, "/", denominatorToTest}));
@@ -76,7 +71,6 @@ TEST(SeriesUtilitiesTest, IsDivergentUsingComparisonTestWorks)
 
 TEST(SeriesUtilitiesTest, PerformLimitComparisonTestWorks)
 {
-    Term n("n");
     Term numerator1(1);
     Term denominator1(Monomial(1, {{"n", AlbaNumber::createFraction(1, 2)}}));
     Term formula1(createExpressionIfPossible({numerator1, "/", denominator1}));
@@ -126,9 +120,8 @@ TEST(SeriesUtilitiesTest, PerformIntegralTestWorksOnPSeriesWithPowerIsTwo)
 
 TEST(SeriesUtilitiesTest, PerformRatioTestWorksWhenConvergent)
 {
-    Term n("n");
     Term numerator("n");
-    Term denominator(createExpressionIfPossible({2, "^", n}));
+    Term denominator(createExpressionIfPossible({2, "^", "n"}));
     Term formula(createExpressionIfPossible({numerator, "/", denominator}));
     SeriesBasedOnSummation series(formula, "n");
 
@@ -157,11 +150,10 @@ TEST(SeriesUtilitiesTest, PerformRatioTestWorksWhenConvergentOrDivergent)
 
 TEST(SeriesUtilitiesTest, PerformRootTestWorks)
 {
-    Term n("n");
     Term exponentNumerator(Polynomial{Monomial(2, {{"n", 1}}), Monomial(1, {})});
     Term exponentDenominator(Polynomial{Monomial(2, {{"n", 1}})});
     Term numerator(createExpressionIfPossible({3, "^", exponentNumerator}));
-    Term denominator(createExpressionIfPossible({n, "^", exponentDenominator}));
+    Term denominator(createExpressionIfPossible({"n", "^", exponentDenominator}));
     Term formula(createExpressionIfPossible({numerator, "/", denominator}));
     SeriesBasedOnSummation series(formula, "n");
 

@@ -14,15 +14,13 @@ namespace algebra
 
 TEST(TaylorSeriesTest, ConstructionWorks)
 {
-    Term x("x");
-    Term formula(createExpressionIfPossible({getEAsTerm(), "^", x}));
+    Term formula(createExpressionIfPossible({getEAsTerm(), "^", "x"}));
     TaylorSeries(formula, "x");
 }
 
 TEST(TaylorSeriesTest, GetFormulaForTaylorSeriesWorks)
 {
-    Term x("x");
-    Term formula(createExpressionIfPossible({getEAsTerm(), "^", x}));
+    Term formula(createExpressionIfPossible({getEAsTerm(), "^", "x"}));
     TaylorSeries series(formula, "x");
 
     string stringToExpect("((e)^x)");
@@ -31,8 +29,7 @@ TEST(TaylorSeriesTest, GetFormulaForTaylorSeriesWorks)
 
 TEST(TaylorSeriesTest, GetValueAtIndexWorks)
 {
-    Term x("x");
-    Term formula(createExpressionIfPossible({getEAsTerm(), "^", x}));
+    Term formula(createExpressionIfPossible({getEAsTerm(), "^", "x"}));
     TaylorSeries series(formula, "x");
 
     string stringToExpect1("1");
@@ -45,8 +42,7 @@ TEST(TaylorSeriesTest, GetValueAtIndexWorks)
 
 TEST(TaylorSeriesTest, GetValueForMaclaurinSeriesAtIndexWorks)
 {
-    Term x("x");
-    Term formula(createExpressionIfPossible({getEAsTerm(), "^", x}));
+    Term formula(createExpressionIfPossible({getEAsTerm(), "^", "x"}));
     TaylorSeries series(formula, "x");
 
     string stringToExpect1("1");

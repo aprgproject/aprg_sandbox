@@ -12,30 +12,26 @@ namespace algebra
 
 TEST(BinomialSeriesTest, ConstructionWorks)
 {
-    Term x("x");
-    BinomialSeries(x, AlbaNumber::createFraction(1, 3));
+    BinomialSeries("x", AlbaNumber::createFraction(1, 3));
 }
 
 TEST(BinomialSeriesTest, GetMonomialPartWorks)
 {
-    Term x("x");
-    BinomialSeries series(x, AlbaNumber::createFraction(1, 3));
+    BinomialSeries series("x", AlbaNumber::createFraction(1, 3));
 
-    EXPECT_EQ(x, series.getMonomialPart());
+    EXPECT_EQ(Term("x"), series.getMonomialPart());
 }
 
 TEST(BinomialSeriesTest, GetExponentWorks)
 {
-    Term x("x");
-    BinomialSeries series(x, AlbaNumber::createFraction(1, 3));
+    BinomialSeries series("x", AlbaNumber::createFraction(1, 3));
 
     EXPECT_EQ(Term(AlbaNumber::createFraction(1, 3)), series.getExponent());
 }
 
 TEST(BinomialSeriesTest, GetValueAtIndexWorks)
 {
-    Term x("x");
-    BinomialSeries series(x, AlbaNumber::createFraction(1, 3));
+    BinomialSeries series("x", AlbaNumber::createFraction(1, 3));
 
     string stringToExpect1("1");
     string stringToExpect2("((1/3)[x] + 1)");

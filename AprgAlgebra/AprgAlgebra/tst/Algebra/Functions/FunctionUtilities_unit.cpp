@@ -23,10 +23,12 @@ TEST(FunctionUtilitiesTest, IsFunctionContinuousWorks)
                 Term("x"),
                 [](AlbaNumber const& number)
     {
-        return number;    });
+        return number;
+    });
 
     EXPECT_FALSE(isFunctionContinuous(unknownFunction));
-    EXPECT_TRUE(isFunctionContinuous(abs(Term("x"))));}
+    EXPECT_TRUE(isFunctionContinuous(abs("x")));
+}
 
 TEST(FunctionUtilitiesTest, EvaluateAndGetInputOutputPairWorks)
 {
@@ -39,10 +41,12 @@ TEST(FunctionUtilitiesTest, EvaluateAndGetInputOutputPairWorks)
                     abs(createExpressionIfPossible({"x"}))));
 
     ASSERT_EQ(5U, inputAndOutputPairs.size());
-    EXPECT_EQ(AlbaNumber(-2), inputAndOutputPairs.at(0).first);    EXPECT_EQ(AlbaNumber(2), inputAndOutputPairs.at(0).second);
+    EXPECT_EQ(AlbaNumber(-2), inputAndOutputPairs.at(0).first);
+    EXPECT_EQ(AlbaNumber(2), inputAndOutputPairs.at(0).second);
     EXPECT_EQ(AlbaNumber(-1), inputAndOutputPairs.at(1).first);
     EXPECT_EQ(AlbaNumber(1), inputAndOutputPairs.at(1).second);
-    EXPECT_EQ(AlbaNumber(0), inputAndOutputPairs.at(2).first);    EXPECT_EQ(AlbaNumber(0), inputAndOutputPairs.at(2).second);
+    EXPECT_EQ(AlbaNumber(0), inputAndOutputPairs.at(2).first);
+    EXPECT_EQ(AlbaNumber(0), inputAndOutputPairs.at(2).second);
     EXPECT_EQ(AlbaNumber(1), inputAndOutputPairs.at(3).first);
     EXPECT_EQ(AlbaNumber(1), inputAndOutputPairs.at(3).second);
     EXPECT_EQ(AlbaNumber(2), inputAndOutputPairs.at(4).first);

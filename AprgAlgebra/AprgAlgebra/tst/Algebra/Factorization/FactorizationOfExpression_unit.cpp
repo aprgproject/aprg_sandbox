@@ -19,16 +19,15 @@ namespace Factorization
 
 TEST(FactorizationOfExpressionTest, FactorizeAnExpressionWorksOnMultiplicationAndDivisionExpression)
 {
-    Term x("x");
     Polynomial polynomial({Monomial(1, {{"x", 2}}), Monomial(-4, {})});
-    Expression expressionToTest(createExpressionIfPossible({polynomial, "*", ln(x), "/", sin(x)}));
+    Expression expressionToTest(createExpressionIfPossible({polynomial, "*", ln("x"), "/", sin("x")}));
 
     Terms termsToVerify(factorizeAnExpression(expressionToTest));
 
     Term termToExpect1(Polynomial{Monomial(1, {{"x", 1}}), Monomial(-2, {})});
     Term termToExpect2(Polynomial{Monomial(1, {{"x", 1}}), Monomial(2, {})});
-    Term termToExpect3(ln(x));
-    Term termToExpect4(createExpressionIfPossible({sin(x), "^", -1}));
+    Term termToExpect3(ln("x"));
+    Term termToExpect4(createExpressionIfPossible({sin("x"), "^", -1}));
     ASSERT_EQ(4U, termsToVerify.size());
     EXPECT_EQ(termToExpect1, termsToVerify.at(0));
     EXPECT_EQ(termToExpect2, termsToVerify.at(1));
@@ -44,10 +43,9 @@ TEST(FactorizationOfExpressionTest, FactorizeAnExpressionWorksOnAdditionAndSubtr
     ScopeObject scopeObject;
     scopeObject.setInThisScopeThisConfiguration(configurationDetails);
 
-    Term x("x");
-    Term part1(createExpressionIfPossible({Monomial(12, {{"x", 5}}), "*", sin(x)}));
-    Term part2(createExpressionIfPossible({Monomial(4, {{"x", 7}}), "*", sin(x), "*", cos(x)}));
-    Term part3(createExpressionIfPossible({Monomial(8, {{"x", 9}}), "*", sin(x), "*", sin(x)}));
+    Term part1(createExpressionIfPossible({Monomial(12, {{"x", 5}}), "*", sin("x")}));
+    Term part2(createExpressionIfPossible({Monomial(4, {{"x", 7}}), "*", sin("x"), "*", cos("x")}));
+    Term part3(createExpressionIfPossible({Monomial(8, {{"x", 9}}), "*", sin("x"), "*", sin("x")}));
     Expression expressionToTest(createExpressionIfPossible({part1, "+", part2, "-", part3}));
 
     Terms termsToVerify(factorizeAnExpression(expressionToTest));
@@ -55,8 +53,8 @@ TEST(FactorizationOfExpressionTest, FactorizeAnExpressionWorksOnAdditionAndSubtr
     Term termToExpect1(4);
     Term termToExpect2(Monomial(1, {{"x", 5}}));
     Term termToExpect3(createExpressionIfPossible(
-    {3, "+", Monomial(1, {{"x", 2}}), "*", cos(x), "-", Monomial(2, {{"x", 4}}), "*", sin(x)}));
-    Term termToExpect4(sin(x));
+    {3, "+", Monomial(1, {{"x", 2}}), "*", cos("x"), "-", Monomial(2, {{"x", 4}}), "*", sin("x")}));
+    Term termToExpect4(sin("x"));
     ASSERT_EQ(4U, termsToVerify.size());
     EXPECT_EQ(termToExpect1, termsToVerify.at(0));
     EXPECT_EQ(termToExpect2, termsToVerify.at(1));
@@ -72,14 +70,13 @@ TEST(FactorizationOfExpressionTest, FactorizeAnExpressionWorksOnRaiseToPowerExpr
     ScopeObject scopeObject;
     scopeObject.setInThisScopeThisConfiguration(configurationDetails);
 
-    Term x("x");
-    Term base(createExpressionIfPossible({sin(x), "*", cos(x)}));
+    Term base(createExpressionIfPossible({sin("x"), "*", cos("x")}));
     Expression expressionToTest(createExpressionIfPossible({base, "^", 17}));
 
     Terms termsToVerify(factorizeAnExpression(expressionToTest));
 
-    Term termToExpect1(createExpressionIfPossible({cos(x), "^", 17}));
-    Term termToExpect2(createExpressionIfPossible({sin(x), "^", 17}));
+    Term termToExpect1(createExpressionIfPossible({cos("x"), "^", 17}));
+    Term termToExpect2(createExpressionIfPossible({sin("x"), "^", 17}));
     ASSERT_EQ(2U, termsToVerify.size());
     EXPECT_EQ(termToExpect1, termsToVerify.at(0));
     EXPECT_EQ(termToExpect2, termsToVerify.at(1));
@@ -93,12 +90,11 @@ TEST(FactorizationOfExpressionTest, FactorizeAnExpressionWorksOnXToTheX)
     ScopeObject scopeObject;
     scopeObject.setInThisScopeThisConfiguration(configurationDetails);
 
-    Term x("x");
-    Expression expressionToTest(createExpressionIfPossible({x, "^", x}));
+    Expression expressionToTest(createExpressionIfPossible({"x", "^", "x"}));
 
     Terms termsToVerify(factorizeAnExpression(expressionToTest));
 
-    Term termToExpect(createExpressionIfPossible({x, "^", x}));
+    Term termToExpect(createExpressionIfPossible({"x", "^", "x"}));
     ASSERT_EQ(1U, termsToVerify.size());
     EXPECT_EQ(termToExpect, termsToVerify.at(0));
 }

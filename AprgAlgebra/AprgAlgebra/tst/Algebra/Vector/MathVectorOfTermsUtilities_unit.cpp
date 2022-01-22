@@ -30,12 +30,11 @@ TEST(MathVectorOfTermsUtilitiesTest, IsDivergenceOfCurlZeroWorks)
 
 TEST(MathVectorOfTermsUtilitiesTest, IsGaussDivergenceTheoremInAPlaneTrueWorks)
 {
-    Term t("t");
     Term xInVectorField(Monomial(2, {{"y", 1}}));
     Term yInVectorField(Monomial(5, {{"x", 1}}));
     MathVectorOfTwoTerms vectorField{xInVectorField, yInVectorField};
-    MathVectorOfTwoTerms regionOfLineIntegral{cos(t), sin(t)};
-    MathVectorOfTwoTerms unitOutwardNormal{cos(t), sin(t)};
+    MathVectorOfTwoTerms regionOfLineIntegral{cos("t"), sin("t")};
+    MathVectorOfTwoTerms unitOutwardNormal{cos("t"), sin("t")};
     DetailsForDefiniteIntegralWithTerms lineIntegralDetails{"t", 0, 2*getPiAsTerm()};
     DetailsForDefiniteIntegralWithTerms xDetails{"x", -1, 1};
     DetailsForDefiniteIntegralWithTerms yDetails{"y", -1, 1};
@@ -45,12 +44,11 @@ TEST(MathVectorOfTermsUtilitiesTest, IsGaussDivergenceTheoremInAPlaneTrueWorks)
 
 TEST(MathVectorOfTermsUtilitiesTest, IsStokesTheoremInAPlaneTrueWorks)
 {
-    Term t("t");
     Term xInVectorField(Monomial(2, {{"y", 1}}));
     Term yInVectorField(Monomial(5, {{"x", 1}}));
     MathVectorOfTwoTerms vectorField{xInVectorField, yInVectorField};
-    MathVectorOfTwoTerms regionOfLineIntegral{cos(t), sin(t)};
-    MathVectorOfTwoTerms unitTangent{sin(t) * -1, cos(t)};
+    MathVectorOfTwoTerms regionOfLineIntegral{cos("t"), sin("t")};
+    MathVectorOfTwoTerms unitTangent{sin("t") * -1, cos("t")};
     DetailsForDefiniteIntegralWithTerms lineIntegralDetails{"t", 0, 2*getPiAsTerm()};
     DetailsForDefiniteIntegralWithTerms xDetails{"x", 0, 1};
     DetailsForDefiniteIntegralWithTerms yDetails{"y", 0, getPiAsTerm()};
@@ -112,11 +110,8 @@ TEST(MathVectorOfTermsUtilitiesTest, GetLineIntegralOfAClosedNonIntersectingPath
 TEST(MathVectorOfTermsUtilitiesTest, GetAreaOfAClosedNonIntersectingPathUsingGreensTheoremWorks)
 {
     // Get area of ellipse
-    Term t("t");
-    Term a("a");
-    Term b("b");
-    Term xInLinePath(a*cos(t)); // ellipse parameterized in X
-    Term yInLinePath(b*sin(t)); // ellipse parameterized in Y
+    Term xInLinePath("a" * cos("t")); // ellipse parameterized in X
+    Term yInLinePath("b" * sin("t")); // ellipse parameterized in Y
     MathVectorOfTwoTerms linePath{xInLinePath, yInLinePath};
 
     Term termToVerify(getAreaOfAClosedNonIntersectingPathUsingGreensTheorem({"x", "y"}, linePath, {"t", 0, 2*getPiAsTerm()}));
@@ -176,9 +171,8 @@ TEST(MathVectorOfTermsUtilitiesTest, GetCurlWorks)
 
 TEST(MathVectorOfTermsUtilitiesTest, IsContinuousAtWorks)
 {
-    Term t("t");
-    Term x(cos(t));
-    Term y(createExpressionIfPossible({2, "*", getEAsTerm(), "^", t}));
+    Term x(cos("t"));
+    Term y(createExpressionIfPossible({2, "*", getEAsTerm(), "^", "t"}));
     MathVectorOfTwoTerms termVector{x, y};
 
     EXPECT_TRUE(isContinuousAt(termVector, "t", 0));
@@ -186,9 +180,8 @@ TEST(MathVectorOfTermsUtilitiesTest, IsContinuousAtWorks)
 
 TEST(MathVectorOfTermsUtilitiesTest, IsDifferentiableAtWorks)
 {
-    Term t("t");
-    Term x(t);
-    Term y(t);
+    Term x("t");
+    Term y("t");
     MathVectorOfTwoTerms termVector{x, y};
 
     EXPECT_TRUE(isDifferentiableAt(termVector, "t", 0));
@@ -351,12 +344,11 @@ TEST(MathVectorOfTermsUtilitiesTest, GetLineIntegralWorksOnExample1)
 
 TEST(MathVectorOfTermsUtilitiesTest, GetLineIntegralWorksOnExample2)
 {
-    Term t("t");
     Term fieldInX(Monomial(3, {{"x", 1}, {"d[x]", 1}}));
     Term fieldInY(Monomial(2, {{"x", 1}, {"y", 1}, {"d[y]", 1}}));
     Term fieldInZ(Monomial(1, {{"z", 1}, {"d[z]", 1}}));
     MathVectorOfThreeTerms vectorField{fieldInX, fieldInY, fieldInZ};
-    MathVectorOfThreeTerms linePath{cos(t), sin(t), t}; // this is a parabola
+    MathVectorOfThreeTerms linePath{cos("t"), sin("t"), "t"};
 
     Term termToVerify(getLineIntegral(vectorField, {"x", "y", "z"}, linePath, {"t", 0, 2*getPiAsTerm()}));
 
@@ -391,11 +383,10 @@ TEST(MathVectorOfTermsUtilitiesTest, GetLineIntegralIndependentOfPathWorksOnExam
 
 TEST(MathVectorOfTermsUtilitiesTest, GetLineIntegralEqualsGetLineIntegralIndependentOfPath)
 {
-    Term t("t");
     Term x(Polynomial{Monomial(1, {{"y", 2}}), Monomial(2, {{"x", 1}}), Monomial(4, {})});
     Term y(Polynomial{Monomial(2, {{"x", 1}, {"y", 1}}), Monomial(4, {{"y", 1}}), Monomial(-5, {})});
     MathVectorOfTwoTerms vectorField{x, y};
-    MathVectorOfTwoTerms linePath{t, t};
+    MathVectorOfTwoTerms linePath{"t", "t"};
 
     Term lineIntegral(getLineIntegral(vectorField, {"x", "y"}, linePath, {"t", 0, 1}));
     Term lineIntegralIndependentOfPath(getLineIntegralIndependentOfPath(vectorField, {"x", "y"}, {0, 0}, {1, 1}));
@@ -405,9 +396,8 @@ TEST(MathVectorOfTermsUtilitiesTest, GetLineIntegralEqualsGetLineIntegralIndepen
 
 TEST(MathVectorOfTermsUtilitiesTest, GetLimitWorks)
 {
-    Term t("t");
-    Term x(cos(t));
-    Term y(createExpressionIfPossible({2, "*", getEAsTerm(), "^", t}));
+    Term x(cos("t"));
+    Term y(createExpressionIfPossible({2, "*", getEAsTerm(), "^", "t"}));
     MathVectorOfTwoTerms termVector{x, y};
 
     MathVectorOfTwoTerms vectorToVerify(getLimit(termVector, "t", 0));
@@ -418,9 +408,8 @@ TEST(MathVectorOfTermsUtilitiesTest, GetLimitWorks)
 
 TEST(MathVectorOfTermsUtilitiesTest, DifferentiateWorks)
 {
-    Term t("t");
-    Term x(createExpressionIfPossible({2, "+", sin(t)}));
-    Term y(cos(t));
+    Term x(createExpressionIfPossible({2, "+", sin("t")}));
+    Term y(cos("t"));
     MathVectorOfTwoTerms termVector{x, y};
 
     MathVectorOfTwoTerms vectorToVerify(differentiate(termVector, "t"));
@@ -431,9 +420,8 @@ TEST(MathVectorOfTermsUtilitiesTest, DifferentiateWorks)
 
 TEST(MathVectorOfTermsUtilitiesTest, IntegrateWorks)
 {
-    Term t("t");
-    Term x(sin(t));
-    Term y(createExpressionIfPossible({-3, "*", cos(t)}));
+    Term x(sin("t"));
+    Term y(createExpressionIfPossible({-3, "*", cos("t")}));
     MathVectorOfTwoTerms termVector{x, y};
 
     MathVectorOfTwoTerms vectorToVerify(integrate(termVector, "t"));

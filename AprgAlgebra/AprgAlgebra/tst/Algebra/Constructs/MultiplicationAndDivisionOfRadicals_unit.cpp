@@ -131,9 +131,8 @@ TEST(MultiplicationAndDivisionOfRadicalsTest, CombiningMonomialWithCubeRootAndRa
 
 TEST(MultiplicationAndDivisionOfRadicalsTest, CombiningVariableAndMonomialWorks)
 {
-    Term x("x");
     TermsWithDetails termsWithDetails
-    {{x, TermAssociationType::Positive},
+    {{Term("x"), TermAssociationType::Positive},
         {Term(Monomial(1, {{"x", AlbaNumber::createFraction(3, 2)}})), TermAssociationType::Positive}};
     MultiplicationAndDivisionOfRadicals radicalConstruct(termsWithDetails);
 

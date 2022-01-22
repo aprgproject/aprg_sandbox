@@ -7,10 +7,12 @@
 using namespace alba::algebra::Functions;
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 namespace algebra
 {
+
 TEST(SubstitutionOfVariablesToValuesTest, ConstructionWorks)
 {
     SubstitutionOfVariablesToValues substitution1;
@@ -130,9 +132,11 @@ TEST(SubstitutionOfVariablesToValuesTest, PerformSubstitutionToWorksOnExpression
 
     Term verifyTerm1(substitution.performSubstitutionTo(expression1));
     Term verifyTerm2(substitution.performSubstitutionTo(expression2));
+
     Term expectTerm1;
     Term expectTerm2(32);
-    EXPECT_EQ(expectTerm1, verifyTerm1);    EXPECT_EQ(expectTerm2, verifyTerm2);
+    EXPECT_EQ(expectTerm1, verifyTerm1);
+    EXPECT_EQ(expectTerm2, verifyTerm2);
 }
 
 TEST(SubstitutionOfVariablesToValuesTest, PerformSubstitutionToWorksOnFunction)
@@ -143,9 +147,11 @@ TEST(SubstitutionOfVariablesToValuesTest, PerformSubstitutionToWorksOnFunction)
 
     Term verifyTerm1(substitution.performSubstitutionTo(function1));
     Term verifyTerm2(substitution.performSubstitutionTo(function2));
+
     Term expectTerm1(Function{});
     Term expectTerm2(2);
-    EXPECT_EQ(expectTerm1, verifyTerm1);    EXPECT_EQ(expectTerm2, verifyTerm2);
+    EXPECT_EQ(expectTerm1, verifyTerm1);
+    EXPECT_EQ(expectTerm2, verifyTerm2);
 }
 
 TEST(SubstitutionOfVariablesToValuesTest, PerformSubstitutionToWorksOnTerm)
@@ -158,10 +164,12 @@ TEST(SubstitutionOfVariablesToValuesTest, PerformSubstitutionToWorksOnTerm)
     Term term5(createExpressionIfPossible({"x", "^", "y"}));
     Term term6(10);
 
-    Term verifyTerm1(substitution.performSubstitutionTo(term1));    Term verifyTerm2(substitution.performSubstitutionTo(term2));
+    Term verifyTerm1(substitution.performSubstitutionTo(term1));
+    Term verifyTerm2(substitution.performSubstitutionTo(term2));
     Term verifyTerm3(substitution.performSubstitutionTo(term3));
     Term verifyTerm4(substitution.performSubstitutionTo(term4));
-    Term verifyTerm5(substitution.performSubstitutionTo(term5));    Term verifyTerm6(substitution.performSubstitutionTo(term6));
+    Term verifyTerm5(substitution.performSubstitutionTo(term5));
+    Term verifyTerm6(substitution.performSubstitutionTo(term6));
 
     Term expectTerm1;
     Term expectTerm2(2);

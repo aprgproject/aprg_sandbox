@@ -36,12 +36,11 @@ TEST(FactorizationOfTermTest, FactorizeTermWorksOnPolynomialTerm)
 
 TEST(FactorizationOfTermTest, FactorizeTermWorksOnExpressionTermWhenshouldSimplifyExpressionsToFactorsAsDefault)
 {
-    Term x("x");
-    Expression expressionToTest(createExpressionIfPossible({cos(x), "*", sin(x), "*", tan(x)}));
+    Expression expressionToTest(createExpressionIfPossible({cos("x"), "*", sin("x"), "*", tan("x")}));
 
     Terms factorizedTerms(factorizeTerm(expressionToTest));
 
-    Term termToExpect1(createExpressionIfPossible({cos(x), "*", sin(x), "*", tan(x)}));
+    Term termToExpect1(createExpressionIfPossible({cos("x"), "*", sin("x"), "*", tan("x")}));
     EXPECT_EQ(1U, factorizedTerms.size());
     EXPECT_EQ(termToExpect1, factorizedTerms.at(0));
 }
@@ -54,15 +53,13 @@ TEST(FactorizationOfTermTest, FactorizeTermWorksOnExpressionTermWhenShouldSimpli
     ScopeObject scopeObject;
     scopeObject.setInThisScopeThisConfiguration(configurationDetails);
 
-    Term x("x");
-    Expression expressionToTest(createExpressionIfPossible({cos(x), "*", sin(x), "*", tan(x)}));
+    Expression expressionToTest(createExpressionIfPossible({cos("x"), "*", sin("x"), "*", tan("x")}));
 
     Terms factorizedTerms(factorizeTerm(expressionToTest));
-
     EXPECT_EQ(3U, factorizedTerms.size());
-    EXPECT_EQ(Term(cos(x)), factorizedTerms.at(0));
-    EXPECT_EQ(Term(sin(x)), factorizedTerms.at(1));
-    EXPECT_EQ(Term(tan(x)), factorizedTerms.at(2));
+    EXPECT_EQ(Term(cos("x")), factorizedTerms.at(0));
+    EXPECT_EQ(Term(sin("x")), factorizedTerms.at(1));
+    EXPECT_EQ(Term(tan("x")), factorizedTerms.at(2));
 }
 
 TEST(FactorizationOfTermTest, FactorizeTermsWorks)

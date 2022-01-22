@@ -180,17 +180,14 @@ TEST(ConvertHelpersTest, ConvertFunctionToSimplestTermWorks)
     {
         return number;
     });
-    Term x("x");
-    Term y("y");
-    Term z("z");
-    Term multiplicationAndDivisionExpression(createExpressionIfPossible({x, "*", y, "/", z}));
+    Term multiplicationAndDivisionExpression(createExpressionIfPossible({"x", "*", "y", "/", "z"}));
 
     Term termToVerify1(convertFunctionToSimplestTerm(function1));
     Term termToVerify2(convertFunctionToSimplestTerm(function2));
     Term termToVerify3(convertFunctionToSimplestTerm(function3));
     Term termToVerify4(convertFunctionToSimplestTerm(ln(multiplicationAndDivisionExpression)));
 
-    Term termToExpect(createExpressionIfPossible({ln(x), "+", ln(y), "-", ln(z)}));
+    Term termToExpect(createExpressionIfPossible({ln("x"), "+", ln("y"), "-", ln("z")}));
     ASSERT_TRUE(termToVerify1.isFunction());
     EXPECT_EQ(function1, termToVerify1.getFunctionConstReference());
     EXPECT_EQ(Term(5), termToVerify2);

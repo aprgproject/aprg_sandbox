@@ -73,7 +73,7 @@ AlbaNumberPairs evaluateAndGetInputOutputPair(
 Term getNaturalLogarithmOfTheAbsoluteValueOfTerm(
         Term const& term)
 {
-    return Term(ln(Term(abs(term))));
+    return ln(abs(term));
 }
 
 }

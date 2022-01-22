@@ -210,8 +210,7 @@ TEST(DifferentiationUtilitiesTest, GetSlopeOfTermInPolarCoordinatesWorks)
 
 TEST(DifferentiationUtilitiesTest, GetApproximationUsingTaylorsFormulaWorksForEToTheX)
 {
-    Term x("x");
-    Term termToTest(createExpressionIfPossible({getEAsTerm(), "^", x}));
+    Term termToTest(createExpressionIfPossible({getEAsTerm(), "^", "x"}));
 
     Term termToVerify(getApproximationUsingTaylorsFormula(termToTest, "x", 0, "q", 3));
 
@@ -221,8 +220,7 @@ TEST(DifferentiationUtilitiesTest, GetApproximationUsingTaylorsFormulaWorksForET
 
 TEST(DifferentiationUtilitiesTest, GetApproximationUsingTaylorsFormulaWorksForSin)
 {
-    Term x("x");
-    Term termToTest(sin(x));
+    Term termToTest(sin("x"));
 
     Term termToVerify(getApproximationUsingTaylorsFormula(termToTest, "x", 0, "q", 8));
 
@@ -232,8 +230,7 @@ TEST(DifferentiationUtilitiesTest, GetApproximationUsingTaylorsFormulaWorksForSi
 
 TEST(DifferentiationUtilitiesTest, GetApproximationUsingTaylorsRemainderWorks)
 {
-    Term x("x");
-    Term termToTest(createExpressionIfPossible({getEAsTerm(), "^", x}));
+    Term termToTest(createExpressionIfPossible({getEAsTerm(), "^", "x"}));
 
     Term termToVerify(getApproximationOfErrorUsingTaylorsRemainder(termToTest, "x", 0, AlbaNumber::createFraction(1, 2), 0, 5));
 
@@ -243,10 +240,9 @@ TEST(DifferentiationUtilitiesTest, GetApproximationUsingTaylorsRemainderWorks)
 
 TEST(DifferentiationUtilitiesTest, GetTotalDerivativeWithInnerTermsUsingChainRuleWorks)
 {
-    Term t("t");
     Term termToTest(Polynomial{Monomial(1, {{"x", 2}}), Monomial(2, {{"x", 1}, {"y", 1}}), Monomial(1, {{"y", 2}})});
-    Term x(createExpressionIfPossible({t, "*", cos(t)}));
-    Term y(createExpressionIfPossible({t, "*", sin(t)}));
+    Term x(createExpressionIfPossible({"t", "*", cos("t")}));
+    Term y(createExpressionIfPossible({"t", "*", sin("t")}));
     SubstitutionOfVariablesToTerms substitution;
     substitution.putVariableWithTerm("x", x);
     substitution.putVariableWithTerm("y", y);
@@ -282,9 +278,7 @@ TEST(DifferentiationUtilitiesTest, GetPartialDerivativeWorks)
 
 TEST(DifferentiationUtilitiesTest, GetPartialDerivativeContinuouslyWorks)
 {
-    Term x("x");
-    Term y("y");
-    Term part1(createExpressionIfPossible({getEAsTerm(), "^", x, "*", sin(y)}));
+    Term part1(createExpressionIfPossible({getEAsTerm(), "^", "x", "*", sin("y")}));
     Term part2(ln(Monomial(1, {{"x", 1}, {"y", 1}})));
     Term termToTest(createExpressionIfPossible({part1, "+", part2}));
 

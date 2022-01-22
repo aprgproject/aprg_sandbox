@@ -60,7 +60,7 @@ Term SeriesBasedOnSummation::getValueAtIndex(int const index) const
 bool SeriesBasedOnSummation::isAbsolutelyConvergent() const
 {
     SeriesBasedOnSummation summation(
-                Term(abs(m_formulaForEachTermInSummation)),
+                abs(m_formulaForEachTermInSummation),
                 m_nameForVariableInFormula);
     return summation.isConvergent();
 }

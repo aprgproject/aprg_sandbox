@@ -322,16 +322,15 @@ TEST(ValueCheckingHelpersTest, IsPositiveOrNegativeInfinityWorksForExpression)
 
 TEST(ValueCheckingHelpersTest, IsANegativeTermWorks)
 {
-    Term x("x");
     EXPECT_TRUE(isANegativeTerm(-1));
     EXPECT_FALSE(isANegativeTerm(1));
-    EXPECT_FALSE(isANegativeTerm(x));
+    EXPECT_FALSE(isANegativeTerm("x"));
     EXPECT_TRUE(isANegativeTerm(Monomial(-1, {{"x", 1}})));
     EXPECT_FALSE(isANegativeTerm(Monomial(1, {{"x", 1}})));
     EXPECT_TRUE(isANegativeTerm(Polynomial{Monomial(-1, {{"x", 3}}), Monomial(4, {}), }));
     EXPECT_FALSE(isANegativeTerm(Polynomial{Monomial(1, {{"x", 3}}), Monomial(-4, {}), }));
-    EXPECT_TRUE(isANegativeTerm(createExpressionIfPossible({-5, "+", x})));
-    EXPECT_FALSE(isANegativeTerm(createExpressionIfPossible({5, "+", x})));
+    EXPECT_TRUE(isANegativeTerm(createExpressionIfPossible({-5, "+", "x"})));
+    EXPECT_FALSE(isANegativeTerm(createExpressionIfPossible({5, "+", "x"})));
     EXPECT_FALSE(isANegativeTerm(Functions::abs(-5)));
 }
 
@@ -355,13 +354,12 @@ TEST(ValueCheckingHelpersTest, IsANegativePolynomialWorks)
 
 TEST(ValueCheckingHelpersTest, IsANegativeExpressionWorks)
 {
-    Term x("x");
-    EXPECT_TRUE(isANegativeExpression(createExpressionIfPossible({-5, "+", x})));
-    EXPECT_FALSE(isANegativeExpression(createExpressionIfPossible({5, "+", x})));
-    EXPECT_TRUE(isANegativeExpression(createExpressionIfPossible({-5, "*", x})));
+    EXPECT_TRUE(isANegativeExpression(createExpressionIfPossible({-5, "+", "x"})));
+    EXPECT_FALSE(isANegativeExpression(createExpressionIfPossible({5, "+", "x"})));
+    EXPECT_TRUE(isANegativeExpression(createExpressionIfPossible({-5, "*", "x"})));
     EXPECT_FALSE(isANegativeExpression(createExpressionIfPossible({-5, "*", -3})));
-    EXPECT_FALSE(isANegativeExpression(createExpressionIfPossible({-5, "^", x})));
-    EXPECT_FALSE(isANegativeExpression(createExpressionIfPossible({5, "^", x})));
+    EXPECT_FALSE(isANegativeExpression(createExpressionIfPossible({-5, "^", "x"})));
+    EXPECT_FALSE(isANegativeExpression(createExpressionIfPossible({5, "^", "x"})));
 }
 
 TEST(ValueCheckingHelpersTest, IsIntegerConstantWorks)

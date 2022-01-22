@@ -181,10 +181,12 @@ void performRootTest(
     termsRaiseToTerms.multiplyToExponents(Monomial(1, {{variableName, -1}}));
     Term termForLimit(termsRaiseToTerms.getCombinedTerm());
     Term limitTerm(getLimit(termForLimit, variableName, AlbaNumber(AlbaNumber::Value::PositiveInfinity)));
-    if(limitTerm.isConstant())    {
+    if(limitTerm.isConstant())
+    {
         AlbaNumber limitValue(limitTerm.getConstantValueConstReference());
         if(limitValue < 1)
-        {            isConvergent = true;
+        {
+            isConvergent = true;
         }
         else if(limitValue > 1)
         {
@@ -201,10 +203,12 @@ Term getLimitForRatioTest(
     {{variableName, Polynomial{Monomial(1, {{variableName, 1}}), Monomial(1, {})}}};
     Term formulaForEachTerm(series.getFormulaForEachTermInSummation());
     Term formulaForEachTermWithPlusOne(substitution.performSubstitutionTo(formulaForEachTerm));
-    Term termForLimit(convertPositiveTermIfNegative(formulaForEachTermWithPlusOne) / convertPositiveTermIfNegative(formulaForEachTerm));    return getLimit(termForLimit, variableName, AlbaNumber(AlbaNumber::Value::PositiveInfinity));
+    Term termForLimit(convertPositiveTermIfNegative(formulaForEachTermWithPlusOne) / convertPositiveTermIfNegative(formulaForEachTerm));
+    return getLimit(termForLimit, variableName, AlbaNumber(AlbaNumber::Value::PositiveInfinity));
 }
 
-Term getSumOfArithmeticSeriesUsingFirstAndLastTerm(        Term const& firstTerm,
+Term getSumOfArithmeticSeriesUsingFirstAndLastTerm(
+        Term const& firstTerm,
         Term const& lastTerm,
         Term const& count)
 {

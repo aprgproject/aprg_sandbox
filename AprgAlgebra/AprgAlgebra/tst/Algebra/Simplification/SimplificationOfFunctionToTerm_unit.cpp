@@ -38,21 +38,20 @@ TEST(SimplificationOfFunctionToTermTest, SimplifyOfTrigonometricFunctionsWorksWh
     scopeObject.setInThisScopeThisConfiguration(configurationDetails);
 
     SimplificationOfFunctionToTerm simplification;
-    Term x("x");
 
-    Term termToVerify1(simplification.simplifyToTerm(sin(x)));
-    Term termToVerify2(simplification.simplifyToTerm(cos(x)));
-    Term termToVerify3(simplification.simplifyToTerm(tan(x)));
-    Term termToVerify4(simplification.simplifyToTerm(csc(x)));
-    Term termToVerify5(simplification.simplifyToTerm(sec(x)));
-    Term termToVerify6(simplification.simplifyToTerm(cot(x)));
+    Term termToVerify1(simplification.simplifyToTerm(sin("x")));
+    Term termToVerify2(simplification.simplifyToTerm(cos("x")));
+    Term termToVerify3(simplification.simplifyToTerm(tan("x")));
+    Term termToVerify4(simplification.simplifyToTerm(csc("x")));
+    Term termToVerify5(simplification.simplifyToTerm(sec("x")));
+    Term termToVerify6(simplification.simplifyToTerm(cot("x")));
 
-    Term termToExpect1(sin(x));
-    Term termToExpect2(cos(x));
-    Term termToExpect3(tan(x));
-    Term termToExpect4(csc(x));
-    Term termToExpect5(sec(x));
-    Term termToExpect6(cot(x));
+    Term termToExpect1(sin("x"));
+    Term termToExpect2(cos("x"));
+    Term termToExpect3(tan("x"));
+    Term termToExpect4(csc("x"));
+    Term termToExpect5(sec("x"));
+    Term termToExpect6(cot("x"));
     EXPECT_EQ(termToExpect1, termToVerify1);
     EXPECT_EQ(termToExpect2, termToVerify2);
     EXPECT_EQ(termToExpect3, termToVerify3);
@@ -70,21 +69,20 @@ TEST(SimplificationOfFunctionToTermTest, SimplifyOfTrigonometricFunctionsWorksWh
     scopeObject.setInThisScopeThisConfiguration(configurationDetails);
 
     SimplificationOfFunctionToTerm simplification;
-    Term x("x");
 
-    Term termToVerify1(simplification.simplifyToTerm(sin(x)));
-    Term termToVerify2(simplification.simplifyToTerm(cos(x)));
-    Term termToVerify3(simplification.simplifyToTerm(tan(x)));
-    Term termToVerify4(simplification.simplifyToTerm(csc(x)));
-    Term termToVerify5(simplification.simplifyToTerm(sec(x)));
-    Term termToVerify6(simplification.simplifyToTerm(cot(x)));
+    Term termToVerify1(simplification.simplifyToTerm(sin("x")));
+    Term termToVerify2(simplification.simplifyToTerm(cos("x")));
+    Term termToVerify3(simplification.simplifyToTerm(tan("x")));
+    Term termToVerify4(simplification.simplifyToTerm(csc("x")));
+    Term termToVerify5(simplification.simplifyToTerm(sec("x")));
+    Term termToVerify6(simplification.simplifyToTerm(cot("x")));
 
-    Term termToExpect1(sin(x));
-    Term termToExpect2(cos(x));
-    Term termToExpect3(createExpressionIfPossible({sin(x), "/", cos(x)}));
-    Term termToExpect4(createExpressionIfPossible({1, "/", sin(x)}));
-    Term termToExpect5(createExpressionIfPossible({1, "/", cos(x)}));
-    Term termToExpect6(createExpressionIfPossible({cos(x), "/", sin(x)}));
+    Term termToExpect1(sin("x"));
+    Term termToExpect2(cos("x"));
+    Term termToExpect3(createExpressionIfPossible({sin("x"), "/", cos("x")}));
+    Term termToExpect4(createExpressionIfPossible({1, "/", sin("x")}));
+    Term termToExpect5(createExpressionIfPossible({1, "/", cos("x")}));
+    Term termToExpect6(createExpressionIfPossible({cos("x"), "/", sin("x")}));
     EXPECT_EQ(termToExpect1, termToVerify1);
     EXPECT_EQ(termToExpect2, termToVerify2);
     EXPECT_EQ(termToExpect3, termToVerify3);
@@ -102,30 +100,27 @@ TEST(SimplificationOfFunctionToTermTest, SimplifyOfLogarithmicFunctionsWorksWhen
     scopeObject.setInThisScopeThisConfiguration(configurationDetails);
 
     SimplificationOfFunctionToTerm simplification;
-    Term x("x");
-    Term y("y");
-    Term z("z");
-    Term addAndSubtractExpression(createExpressionIfPossible({x, "+", y, "-", z}));
-    Term multiplicationAndDivisionExpression(createExpressionIfPossible({x, "*", y, "/", z}));
-    Term raiseToPowerExpression(createExpressionIfPossible({x, "^", y, "^", z}));
+    Term addAndSubtractExpression(createExpressionIfPossible({"x", "+", "y", "-", "z"}));
+    Term multiplicationAndDivisionExpression(createExpressionIfPossible({"x", "*", "y", "/", "z"}));
+    Term raiseToPowerExpression(createExpressionIfPossible({"x", "^", "y", "^", "z"}));
 
-    Term termToVerify1(simplification.simplifyToTerm(ln(x)));
+    Term termToVerify1(simplification.simplifyToTerm(ln("x")));
     Term termToVerify2(simplification.simplifyToTerm(ln(addAndSubtractExpression)));
     Term termToVerify3(simplification.simplifyToTerm(ln(multiplicationAndDivisionExpression)));
     Term termToVerify4(simplification.simplifyToTerm(ln(raiseToPowerExpression)));
-    Term termToVerify5(simplification.simplifyToTerm(log(x)));
+    Term termToVerify5(simplification.simplifyToTerm(log("x")));
     Term termToVerify6(simplification.simplifyToTerm(log(addAndSubtractExpression)));
     Term termToVerify7(simplification.simplifyToTerm(log(multiplicationAndDivisionExpression)));
     Term termToVerify8(simplification.simplifyToTerm(log(raiseToPowerExpression)));
 
-    Term termToExpect1(ln(x));
+    Term termToExpect1(ln("x"));
     Term termToExpect2(ln(addAndSubtractExpression));
-    Term termToExpect3(createExpressionIfPossible({ln(x), "+", ln(y), "-", ln(z)}));
-    Term termToExpect4(createExpressionIfPossible({Monomial(1, {{"y", 1}, {"z", 1}}), "*", ln(x)}));
-    Term termToExpect5(log(x));
+    Term termToExpect3(createExpressionIfPossible({ln("x"), "+", ln("y"), "-", ln("z")}));
+    Term termToExpect4(createExpressionIfPossible({Monomial(1, {{"y", 1}, {"z", 1}}), "*", ln("x")}));
+    Term termToExpect5(log("x"));
     Term termToExpect6(log(addAndSubtractExpression));
-    Term termToExpect7(createExpressionIfPossible({log(x), "+", log(y), "-", log(z)}));
-    Term termToExpect8(createExpressionIfPossible({Monomial(1, {{"y", 1}, {"z", 1}}), "*", log(x)}));
+    Term termToExpect7(createExpressionIfPossible({log("x"), "+", log("y"), "-", log("z")}));
+    Term termToExpect8(createExpressionIfPossible({Monomial(1, {{"y", 1}, {"z", 1}}), "*", log("x")}));
     EXPECT_EQ(termToExpect1, termToVerify1);
     EXPECT_EQ(termToExpect2, termToVerify2);
     EXPECT_EQ(termToExpect3, termToVerify3);
@@ -145,27 +140,24 @@ TEST(SimplificationOfFunctionToTermTest, SimplifyOfLogarithmicFunctionsWorksWhen
     scopeObject.setInThisScopeThisConfiguration(configurationDetails);
 
     SimplificationOfFunctionToTerm simplification;
-    Term x("x");
-    Term y("y");
-    Term z("z");
-    Term addAndSubtractExpression(createExpressionIfPossible({x, "+", y, "-", z}));
-    Term multiplicationAndDivisionExpression(createExpressionIfPossible({x, "*", y, "/", z}));
-    Term raiseToPowerExpression(createExpressionIfPossible({x, "^", y, "^", z}));
+    Term addAndSubtractExpression(createExpressionIfPossible({"x", "+", "y", "-", "z"}));
+    Term multiplicationAndDivisionExpression(createExpressionIfPossible({"x", "*", "y", "/", "z"}));
+    Term raiseToPowerExpression(createExpressionIfPossible({"x", "^", "y", "^", "z"}));
 
-    Term termToVerify1(simplification.simplifyToTerm(ln(x)));
+    Term termToVerify1(simplification.simplifyToTerm(ln("x")));
     Term termToVerify2(simplification.simplifyToTerm(ln(addAndSubtractExpression)));
     Term termToVerify3(simplification.simplifyToTerm(ln(multiplicationAndDivisionExpression)));
     Term termToVerify4(simplification.simplifyToTerm(ln(raiseToPowerExpression)));
-    Term termToVerify5(simplification.simplifyToTerm(log(x)));
+    Term termToVerify5(simplification.simplifyToTerm(log("x")));
     Term termToVerify6(simplification.simplifyToTerm(log(addAndSubtractExpression)));
     Term termToVerify7(simplification.simplifyToTerm(log(multiplicationAndDivisionExpression)));
     Term termToVerify8(simplification.simplifyToTerm(log(raiseToPowerExpression)));
 
-    Term termToExpect1(ln(x));
+    Term termToExpect1(ln("x"));
     Term termToExpect2(ln(addAndSubtractExpression));
     Term termToExpect3(ln(multiplicationAndDivisionExpression));
     Term termToExpect4(ln(raiseToPowerExpression));
-    Term termToExpect5(log(x));
+    Term termToExpect5(log("x"));
     Term termToExpect6(log(addAndSubtractExpression));
     Term termToExpect7(log(multiplicationAndDivisionExpression));
     Term termToExpect8(log(raiseToPowerExpression));

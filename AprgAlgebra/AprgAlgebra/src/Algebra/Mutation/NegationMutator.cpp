@@ -67,8 +67,10 @@ void NegationMutator::mutateExpression(Expression & expression)
     }
     expression.simplify();
 }
+
 void NegationMutator::mutateFunction(Function &)
 {}
+
 }
 
 }
