@@ -55,15 +55,13 @@ bool isTheIntegralDefinitionForFiniteCalculusIsTrue(
     // The summation of terms from a to b-1.
     IntegrationForFiniteCalculus integration(variableName);
     Summation summation(term, variableName);
-    return integration.integrateAtDefiniteValues(term, a, b) == summation.getSum(Term(a), Term(b-1));
+    return integration.integrateAtDefiniteValues(term, a, b) == summation.getSum(a, b-1);
 }
 
-bool isAreaUnderTheCurveEqualToDefiniteIntegral(
-        Term const& term,
+bool isAreaUnderTheCurveEqualToDefiniteIntegral(        Term const& term,
         string const& variableName,
         AlbaNumber const& a,
-        AlbaNumber const& b)
-{
+        AlbaNumber const& b){
     Integration integration(variableName);
     return integration.integrateAtDefiniteValues(term, a, b)
             == getAreaUnderACurveUsingReimannSums(term, variableName, a, b);
@@ -93,25 +91,22 @@ Term getAverageValueInBetweenTwoValues(
 {
     Integration integration(integralDetails.variableName);
     return integration.integrateAtDefiniteValues(term, integralDetails.lowerEnd, integralDetails.higherEnd)
-            / Term(integralDetails.higherEnd-integralDetails.lowerEnd);
+            / (integralDetails.higherEnd-integralDetails.lowerEnd);
 }
 
-Term evaluateValuesAndGetDifference(
-        Term const& term,
+Term evaluateValuesAndGetDifference(        Term const& term,
         string const& variableName,
         AlbaNumber const& lowerEnd,
         AlbaNumber const& higherEnd)
 {
-    Term result(evaluate(term, variableName, Term(higherEnd))
-                - evaluate(term, variableName, Term(lowerEnd)));
+    Term result(evaluate(term, variableName, higherEnd)
+                - evaluate(term, variableName, lowerEnd));
     result.simplify();
     return result;
 }
-
 Term evaluateTermsAndGetDifference(
         Term const& term,
-        string const& variableName,
-        Term const& lowerEnd,
+        string const& variableName,        Term const& lowerEnd,
         Term const& higherEnd)
 {
     Term result(evaluate(term, variableName, higherEnd)

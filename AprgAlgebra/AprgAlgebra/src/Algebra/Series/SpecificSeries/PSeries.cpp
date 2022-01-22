@@ -16,10 +16,9 @@ PSeries::PSeries(AlbaNumber const& power)
 Term PSeries::getFormula(AlbaNumber const& power) const
 {
     Term denominatorBase(Polynomial{Monomial(1, {{n, 1}}), Monomial(1, {})});
-    Term denominator(createExpressionIfPossible({denominatorBase, Term("^"), Term(power)}));
+    Term denominator(createExpressionIfPossible({denominatorBase, "^", power}));
     return Term(createExpressionIfPossible({1, "/", denominator}));
 }
-
 }
 
 }

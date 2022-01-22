@@ -2408,24 +2408,21 @@ TEST(TermOperatorsTest, BinaryRaiseToPowerOperator_ExpressionRaiseToPowerMonomia
 
     Expression expressionToExpect(
                 createExpressionIfPossible(
-    {54, "^", Term(Monomial(3, {{"x", 1}}))}));
+    {54, "^", Monomial(3, {{"x", 1}})}));
     EXPECT_EQ(Term(expressionToExpect), term);
 }
-
 TEST(TermOperatorsTest, BinaryRaiseToPowerOperator_ExpressionRaiseToPowerPolynomialOperationWorks)
 {
     Term term(createExpressionIfPossible({54}) ^ Polynomial{Monomial(5, {}), Monomial(1, {{"x", 1}})});
 
     Expression expressionToExpect(
                 createExpressionIfPossible(
-    {54, "^", Term(Polynomial{Monomial(5, {}), Monomial(1, {{"x", 1}})})}));
+    {54, "^", Polynomial{Monomial(5, {}), Monomial(1, {{"x", 1}})}}));
     EXPECT_EQ(Term(expressionToExpect), term);
 }
-
 TEST(TermOperatorsTest, BinaryRaiseToPowerOperator_ExpressionRaiseToPowerExpressionOperationWorks)
 {
     Term term(createExpressionIfPossible({54}) ^ createExpressionIfPossible({87}));
-
     Expression expressionToExpect(
                 createExpressionIfPossible({54, "^", 87}));
     EXPECT_EQ(Term(expressionToExpect), term);

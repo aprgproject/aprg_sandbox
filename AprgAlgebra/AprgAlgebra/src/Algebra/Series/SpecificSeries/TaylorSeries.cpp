@@ -27,15 +27,13 @@ Term TaylorSeries::getValueAtIndex(int const index, Term const& startingValue) c
     {
         unsigned int positiveIndex(static_cast<unsigned int>(index));
         result = getApproximationUsingTaylorsFormula(
-                    m_formulaForTaylorSeries, m_variableName, startingValue, Term(m_variableName), positiveIndex);
+                    m_formulaForTaylorSeries, m_variableName, startingValue, m_variableName, positiveIndex);
     }
     return result;
 }
-
 Term TaylorSeries::getValueForMaclaurinSeriesAtIndex(int const index) const
 {
-    return getValueAtIndex(index, 0);
-}
+    return getValueAtIndex(index, 0);}
 
 
 }

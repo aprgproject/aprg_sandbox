@@ -37,15 +37,13 @@ Term IntegrationForFiniteCalculus::integrate(
 Term IntegrationForFiniteCalculus::integrate(
         Constant const& constant) const
 {
-    return Term(integrateConstant(constant));
+    return integrateConstant(constant);
 }
 
-Term IntegrationForFiniteCalculus::integrate(
-        Variable const& variable) const
+Term IntegrationForFiniteCalculus::integrate(        Variable const& variable) const
 {
     Term result(integrateVariable(variable));
-    result.simplify();
-    return result;
+    result.simplify();    return result;
 }
 
 Term IntegrationForFiniteCalculus::integrate(
@@ -79,15 +77,13 @@ Term IntegrationForFiniteCalculus::integrate(
 Term IntegrationForFiniteCalculus::integrateWithPlusC(
         Term const& term) const
 {
-    Term result(createExpressionIfPossible({integrateTerm(term), Term("+"), Term(C)}));
+    Term result(createExpressionIfPossible({integrateTerm(term), "+", C}));
     result.simplify();
     return result;
 }
-
 Term IntegrationForFiniteCalculus::integrateAtDefiniteValues(
         Term const& term,
-        AlbaNumber const& lowerEnd,
-        AlbaNumber const& higherEnd) const
+        AlbaNumber const& lowerEnd,        AlbaNumber const& higherEnd) const
 {
     return evaluateValuesAndGetDifference(
                 integrateTerm(term),
@@ -164,44 +160,39 @@ Term IntegrationForFiniteCalculus::integrateMonomial(
                         convertMonomialWithPositiveExponentsFromRegularPowerToFallingPower(monomial));
             Polynomial integratedPolynomialInFallingPower(integratePolynomialInFallingPower(polynomialInFallingPower));
             Polynomial integratedPolynomial(convertPolynomialWithPositiveExponentsFromFallingPowerToRegularPower(integratedPolynomialInFallingPower));
-            result = Term(integratedPolynomial);
+            result = integratedPolynomial;
         }
         else if(exponentInteger == -1)
-        {
-            // this is special case
+        {            // this is special case
             // in infinite calculus this ln(x), but in finite calculus its the summation of 1/x (this is called the harmonic number)
             // for the proof, consider doing the derivative of this
 
             Monomial monomialToRetain(monomial);
             monomialToRetain.putVariableWithExponent(m_nameOfVariableToIntegrate, 0);
-            result = Term(createExpressionIfPossible(
-            {Term(monomialToRetain), Term("*"), Term(harmonicNumber(Term(m_nameOfVariableToIntegrate)))}));
+            result = createExpressionIfPossible(
+            {monomialToRetain, "*", harmonicNumber(m_nameOfVariableToIntegrate)});
             result.simplify();
         }
-        else
-        {
+        else        {
             AlbaNumber exponentAbsoluteValue(getAbsoluteValueForAlbaNumber(exponent));
             Monomial monomialWithOneLessExponent(monomial);
             monomialWithOneLessExponent.putVariableWithExponent(m_nameOfVariableToIntegrate, exponentAbsoluteValue-1);
             Polynomial denominatorInFallingPower(
                         convertMonomialWithPositiveExponentsFromRegularPowerToFallingPower(monomialWithOneLessExponent));
-            Term termToIntegrate(createExpressionIfPossible({1, "/", Term(denominatorInFallingPower)}));
+            Term termToIntegrate(createExpressionIfPossible({1, "/", denominatorInFallingPower}));
             Term integratedTermInFallingPower(integrateTerm(termToIntegrate));
             if(!isNotANumber(integratedTermInFallingPower)
-                    && canBeConvertedToPolynomial(integratedTermInFallingPower))
-            {
+                    && canBeConvertedToPolynomial(integratedTermInFallingPower))            {
                 Polynomial integratedPolynomial(
                             convertPolynomialWithPositiveExponentsFromFallingPowerToRegularPower(
                                 createPolynomialIfPossible(integratedTermInFallingPower)));
-                result = Term(integratedPolynomial);
+                result = integratedPolynomial;
             }
             else
-            {
-                result = AlbaNumber(AlbaNumber::Value::NotANumber);
+            {                result = AlbaNumber(AlbaNumber::Value::NotANumber);
             }
         }
-    }
-    else
+    }    else
     {
         result = AlbaNumber(AlbaNumber::Value::NotANumber);
     }
@@ -427,15 +418,13 @@ Term IntegrationForFiniteCalculus::integrateTermsInRaiseToPower(
     bool isSecondAChangingTerm = isChangingTerm(secondTerm);
     if(!isFirstAChangingTerm && !isSecondAChangingTerm)
     {
-        result = termRaiseToTerms.getCombinedTerm() * Term(m_nameOfVariableToIntegrate);
+        result = termRaiseToTerms.getCombinedTerm() * m_nameOfVariableToIntegrate;
     }
     else if(!isFirstAChangingTerm && isSecondAChangingTerm)
-    {
-        result = integrateNonChangingTermRaiseToChangingTerm(firstTerm, secondTerm);
+    {        result = integrateNonChangingTermRaiseToChangingTerm(firstTerm, secondTerm);
     }
     else if(isFirstAChangingTerm && !isSecondAChangingTerm)
-    {
-        result = integrateChangingTermRaiseToNonChangingTerm(firstTerm, secondTerm);
+    {        result = integrateChangingTermRaiseToNonChangingTerm(firstTerm, secondTerm);
     }
     else
     {
@@ -467,15 +456,13 @@ Term IntegrationForFiniteCalculus::integrateNonChangingTermRaiseToChangingTerm(
     {
         Term denominator(createExpressionIfPossible({base, "^", exponentDifference, "-", 1}));
         denominator.simplify();
-        result = Term(createExpressionIfPossible({base, "^", exponent, "/", denominator}));
+        result = createExpressionIfPossible({base, "^", exponent, "/", denominator});
     }
     return result;
 }
-
 Term IntegrationForFiniteCalculus::integrateChangingTermRaiseToNonChangingTerm(
         Term const& ,
-        Term const& ) const
-{
+        Term const& ) const{
     return AlbaNumber(AlbaNumber::Value::NotANumber);
 }
 

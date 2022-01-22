@@ -145,15 +145,13 @@ bool isDerivativeZeroOnPossibleExtremum(
     // If f(x) exists for all values of x in the open interval (a, b),
     // and if f has a relative extremum at c, where a<c<b and if f'(c) exists, then f'(c) = 0.
 
-    Term derivative(getDerivativeAtUsingLimit(term, variableName, Term(valueAtPossibleExtremum), LimitAtAValueApproachType::BothSides));
+    Term derivative(getDerivativeAtUsingLimit(term, variableName, valueAtPossibleExtremum, LimitAtAValueApproachType::BothSides));
     bool hasRelativeExtremum =
             willYieldToRelativeMaximumValue(term, variableName, valueAtPossibleExtremum, interval)
-            || willYieldToRelativeMinimumValue(term, variableName, valueAtPossibleExtremum, interval);
-    return hasRelativeExtremum
+            || willYieldToRelativeMinimumValue(term, variableName, valueAtPossibleExtremum, interval);    return hasRelativeExtremum
             && derivative.isConstant()
             && derivative.getConstantValueConstReference() == 0;
 }
-
 bool isDecreasingAt(
         Term const& term,
         string const& variableName,
@@ -314,15 +312,13 @@ AlbaNumbers getInputValuesInIntervalWithSameAsMeanOfInterval(
         AlbaNumber mean = (fb.getConstantValueConstReference()-fa.getConstantValueConstReference())/(b-a);
         Differentiation differentiation(variableName);
         Term fPrime(differentiation.differentiate(term));
-        Equation derivativeEqualsMeanEquation(fPrime, "=", Term(mean));
+        Equation derivativeEqualsMeanEquation(fPrime, "=", mean);
         OneEquationOneVariableEqualitySolver solver;
         SolutionSet solutionSet(solver.calculateSolutionAndReturnSolutionSet(derivativeEqualsMeanEquation));
-        AlbaNumberInterval abOpenInterval(createOpenEndpoint(a), createOpenEndpoint(b));
-        result = getNumbersInsideTheInterval(solutionSet.getAcceptedValues(), abOpenInterval);
+        AlbaNumberInterval abOpenInterval(createOpenEndpoint(a), createOpenEndpoint(b));        result = getNumbersInsideTheInterval(solutionSet.getAcceptedValues(), abOpenInterval);
     }
     return result;
 }
-
 AlbaNumbers getInputValuesForCauchyMeanValueTheorem(
         Term const& term,
         string const& variableName,
@@ -350,15 +346,13 @@ AlbaNumbers getInputValuesForCauchyMeanValueTheorem(
         Term fPrime(differentiation.differentiate(numerator));
         Term gPrime(differentiation.differentiate(denominator));
         Term cauchyExpression(fPrime/gPrime);
-        Equation cauchyEquation(cauchyExpression, "=", Term(cauchyValue));
+        Equation cauchyEquation(cauchyExpression, "=", cauchyValue);
         OneEquationOneVariableEqualitySolver solver;
         SolutionSet solutionSet(solver.calculateSolutionAndReturnSolutionSet(cauchyEquation));
-        AlbaNumberInterval abOpenInterval(createOpenEndpoint(a), createOpenEndpoint(b));
-        result = getNumbersInsideTheInterval(solutionSet.getAcceptedValues(), abOpenInterval);
+        AlbaNumberInterval abOpenInterval(createOpenEndpoint(a), createOpenEndpoint(b));        result = getNumbersInsideTheInterval(solutionSet.getAcceptedValues(), abOpenInterval);
     }
     return result;
 }
-
 Extremum getAbsoluteExtremumBasedOnRelativeExtremaOnInterval(
         Extrema const& relativeExtrema,
         AlbaNumberInterval const& interval)

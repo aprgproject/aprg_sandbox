@@ -147,15 +147,13 @@ Expression SubstitutionOfVariablesToTerms::performSubstitutionForMonomial(Monomi
             remainingMonomial.putVariableWithExponent(variableExponentPair.first, variableExponentPair.second);
         }
     }
-    Expression finalExpression(getBaseTermConstReferenceFromTerm(Term(remainingMonomial)));
+    Expression finalExpression(getBaseTermConstReferenceFromTerm(remainingMonomial));
     finalExpression.putTermWithMultiplicationIfNeeded(Term(substitutedExpressions));
     return finalExpression;
 }
-
 Expression SubstitutionOfVariablesToTerms::performSubstitutionForPolynomial(Polynomial const& polynomial) const
 {
-    Expression newExpression;
-    for(Monomial const& monomial : polynomial.getMonomialsConstReference())
+    Expression newExpression;    for(Monomial const& monomial : polynomial.getMonomialsConstReference())
     {
         newExpression.putTermWithAdditionIfNeeded(Term(performSubstitutionForMonomial(monomial)));
     }

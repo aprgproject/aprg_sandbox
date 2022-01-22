@@ -78,15 +78,13 @@ bool isDifferentiableAtUsingDerivativeDefinition(
         AlbaNumber const& value)
 {
     bool result(false);
-    Term derivative(getDerivativeAtUsingLimit(term, variableName, Term("x"), LimitAtAValueApproachType::BothSides));
+    Term derivative(getDerivativeAtUsingLimit(term, variableName, "x", LimitAtAValueApproachType::BothSides));
     SubstitutionOfVariablesToValues substitution{{"x", value}};
     Term derivativeValue(substitution.performSubstitutionTo(derivative));
-    if(derivativeValue.isConstant())
-    {
+    if(derivativeValue.isConstant())    {
         result = derivativeValue.getConstantValueConstReference().isARealFiniteValue();
     }
-    return result;
-}
+    return result;}
 
 bool isFirstOrderDifferentialEquation(
         Term const& dyOverDx,
@@ -100,15 +98,13 @@ bool isFirstOrderDifferentialEquation(
 
     bool result(false);
     DerivativeVariableName derivativeVariableName(1, xVariableName, yVariableName);
-    Term remainingTermWithoutDyOverDx = dyOverDx/Term(derivativeVariableName.getNameInLeibnizNotation());
+    Term remainingTermWithoutDyOverDx = dyOverDx/derivativeVariableName.getNameInLeibnizNotation();
     remainingTermWithoutDyOverDx.simplify();
     if(Term(1) == remainingTermWithoutDyOverDx)
-    {
-        VariableNamesRetriever retriever;
+    {        VariableNamesRetriever retriever;
         retriever.retrieveFromTerm(p);
         VariableNamesSet const& namesFromP(retriever.getSavedData());
-        if(namesFromP.find(yVariableName) != namesFromP.cend())
-        {
+        if(namesFromP.find(yVariableName) != namesFromP.cend())        {
             VariableNamesRetriever retriever;
             retriever.retrieveFromTerm(q);
             VariableNamesSet const& namesFromQ(retriever.getSavedData());
@@ -145,20 +141,18 @@ Term getDerivativeDefinition(
 {
     Term x(X_NAME);
     Term deltaX(DELTA_X_NAME);
-    Term xPlusDeltaX(createExpressionIfPossible({x, Term("+"), deltaX}));
+    Term xPlusDeltaX(createExpressionIfPossible({x, "+", deltaX}));
     SubstitutionOfVariablesToTerms substitution{{variableName, xPlusDeltaX}};
     Term fOfXPlusDeltaX(substitution.performSubstitutionTo(term));
     substitution.putVariableWithTerm(variableName, x);
     Term fOfX(substitution.performSubstitutionTo(term));
-    Term derivativeDefinition(createExpressionIfPossible({Term("("), fOfXPlusDeltaX, Term("-"), fOfX, Term(")"), Term("/"), deltaX}));
+    Term derivativeDefinition(createExpressionIfPossible({"(", fOfXPlusDeltaX, "-", fOfX, ")", "/", deltaX}));
     simplifyDerivativeByDefinition(derivativeDefinition);
 
-    return derivativeDefinition;
-}
+    return derivativeDefinition;}
 
 Term getDerivativeAtUsingLimit(
-        Term const& term,
-        string const& variableName,
+        Term const& term,        string const& variableName,
         Term const& termSubstituteToBack,
         LimitAtAValueApproachType const approachType)
 {
@@ -175,16 +169,14 @@ Term getDerivativeDefinitionForFiniteCalculus(
 {
     // Discrete derivative
     Polynomial variableNamePlusOne{Monomial(1, {{variableName, 1}}), Monomial(1, {})};
-    SubstitutionOfVariablesToTerms substitution{{variableName, Term(variableNamePlusOne)}};
-    Term discreteDerivativeDefinition(createExpressionIfPossible({substitution.performSubstitutionTo(term), Term("-"), term}));
+    SubstitutionOfVariablesToTerms substitution{{variableName, variableNamePlusOne}};
+    Term discreteDerivativeDefinition(createExpressionIfPossible({substitution.performSubstitutionTo(term), "-", term}));
     discreteDerivativeDefinition.simplify();
     return discreteDerivativeDefinition;
 }
-
 Term getLogarithmicDifferentiationToYieldDyOverDx(
         Term const& yInTermsOfX,
-        string const& xVariableName,
-        string const& yVariableName)
+        string const& xVariableName,        string const& yVariableName)
 {
     // y = f(x)
     // -> ln(|y|) = ln(|f(x)|)
@@ -196,15 +188,13 @@ Term getLogarithmicDifferentiationToYieldDyOverDx(
     // dy/dx = f(x) * Dx(ln|f(x)|)
     // if domain is inside positive, then absolute value can be removed
     Term result;
-    SolutionSet solutionSet(calculateDomainForEquation(xVariableName, Equation(Term(yVariableName), "=", yInTermsOfX)));
+    SolutionSet solutionSet(calculateDomainForEquation(xVariableName, Equation(yVariableName, "=", yInTermsOfX)));
     AlbaNumberIntervals const& domainOfX(solutionSet.getAcceptedIntervals());
     AlbaNumberInterval allPositiveNumbers(createCloseEndpoint(AlbaNumber(0)), createPositiveInfinityOpenEndpoint());
-    if(areTheIntervalsInsideTheInterval(domainOfX, allPositiveNumbers))
-    {
+    if(areTheIntervalsInsideTheInterval(domainOfX, allPositiveNumbers))    {
         Differentiation differentiation(xVariableName);
         Term logarithm(ln(yInTermsOfX));
-        logarithm.simplify();
-        result = yInTermsOfX * differentiation.differentiate(logarithm);
+        logarithm.simplify();        result = yInTermsOfX * differentiation.differentiate(logarithm);
         simplifyTermByFactoringToNonDoubleFactors(result);
     }
     return result;
@@ -220,17 +210,15 @@ Term getCartesianDerivativeOfTermInPolarCoordinates(
     Term drOverDTheta(differentiation.differentiate(radiusInTermsOfTheta));
     Term sinTheta(sin(theta));
     Term cosTheta(cos(theta));
-    Term numerator(createExpressionIfPossible({drOverDTheta, Term("*"), sinTheta, Term("+"), radiusInTermsOfTheta, Term("*"), cosTheta}));
-    Term denominator(createExpressionIfPossible({drOverDTheta, Term("*"), cosTheta, Term("-"), radiusInTermsOfTheta, Term("*"), sinTheta}));
-    Term result(createExpressionIfPossible({numerator, Term("/"), denominator}));
+    Term numerator(createExpressionIfPossible({drOverDTheta, "*", sinTheta, "+", radiusInTermsOfTheta, "*", cosTheta}));
+    Term denominator(createExpressionIfPossible({drOverDTheta, "*", cosTheta, "-", radiusInTermsOfTheta, "*", sinTheta}));
+    Term result(createExpressionIfPossible({numerator, "/", denominator}));
     result.simplify();
     return result;
 }
-
 Term getSlopeOfTermInPolarCoordinates(
         Term const& radiusInTermsOfTheta,
-        string const& thetaName,
-        AlbaNumber const& thetaValue)
+        string const& thetaName,        AlbaNumber const& thetaValue)
 {
     Term dyOverDx(getCartesianDerivativeOfTermInPolarCoordinates(radiusInTermsOfTheta, thetaName));
     SubstitutionOfVariablesToValues substitution{{thetaName, thetaValue}};
@@ -312,15 +300,13 @@ Term getTotalDerivative(
     for(string const& variableName : variableNames)
     {
         DerivativeVariableName derivativeOfVariable(1, "", variableName);
-        result += getPartialDerivative(term, variableName) * Term(derivativeOfVariable.getNameInLeibnizNotation());
+        result += getPartialDerivative(term, variableName) * derivativeOfVariable.getNameInLeibnizNotation();
     }
     simplifyForDifferentiation(result);
-    return result;
-}
+    return result;}
 
 Term getPartialDerivative(
-        Term const& term,
-        string const& variableName)
+        Term const& term,        string const& variableName)
 {
     Differentiation differentiation(variableName);
     return differentiation.differentiate(term);
@@ -353,16 +339,14 @@ Equation getRelationshipOfDerivativeOfTheInverseAndTheDerivative(
     Term inverseOfTerm(invertTerm(term, variableName));
     Term derivative(differentiation.differentiate(term));
     Term derivativeOfInverse(differentiation.differentiate(inverseOfTerm));
-    SubstitutionOfVariablesToTerms substitution{{variableName, Term(variableForNonInverse)}};
+    SubstitutionOfVariablesToTerms substitution{{variableName, variableForNonInverse}};
     Term derivativeWithNewVariable(substitution.performSubstitutionTo(derivative));
-    substitution.putVariableWithTerm(variableName, Term(variableForInverse));
+    substitution.putVariableWithTerm(variableName, variableForInverse);
     Term derivativeOfInverseWithNewVariable(substitution.performSubstitutionTo(derivativeOfInverse));
     Term oneOverDerivativeWithNewVariable(createExpressionIfPossible({1, "/", derivativeWithNewVariable}));
-    derivativeOfInverseWithNewVariable.simplify();
-    oneOverDerivativeWithNewVariable.simplify();
+    derivativeOfInverseWithNewVariable.simplify();    oneOverDerivativeWithNewVariable.simplify();
     return Equation(derivativeOfInverseWithNewVariable, "=", oneOverDerivativeWithNewVariable);
 }
-
 Equation getIntegralEquationForFirstOrderDifferentialEquation(
         Equation const& equation,
         string const& xVariableName,
@@ -404,23 +388,21 @@ Equation getIntegralEquationForFirstOrderDifferentialEquation(
 
     Integration integration(xVariableName);
     Term integralOfP(integration.integrate(p));
-    Term eToTheIntegralOfP(createExpressionIfPossible({getEAsTerm(), Term("^"), integralOfP}));
-    Term eToTheNegativeIntegralOfP(createExpressionIfPossible({getEAsTerm(), Term("^"), -integralOfP}));
-    Term qWithoutY(q/Term(yVariableName));
-    Term qExpression(createExpressionIfPossible({qWithoutY, Term("*"), eToTheIntegralOfP}));
-    Term cExpression(createExpressionIfPossible({getEAsTerm(), Term("*"), eToTheNegativeIntegralOfP}));
+    Term eToTheIntegralOfP(createExpressionIfPossible({getEAsTerm(), "^", integralOfP}));
+    Term eToTheNegativeIntegralOfP(createExpressionIfPossible({getEAsTerm(), "^", -integralOfP}));
+    Term qWithoutY(q/yVariableName);
+    Term qExpression(createExpressionIfPossible({qWithoutY, "*", eToTheIntegralOfP}));
+    Term cExpression(createExpressionIfPossible({getEAsTerm(), "*", eToTheNegativeIntegralOfP}));
     Term integralOfQExpression(integration.integrate(qExpression));
-    Term qcExpression(createExpressionIfPossible({integralOfQExpression, Term("+"), cExpression}));
-    Term pqcExpression(createExpressionIfPossible({eToTheNegativeIntegralOfP, Term("*"), qcExpression}));
-    return Equation(Term(yVariableName), "=", pqcExpression);
+    Term qcExpression(createExpressionIfPossible({integralOfQExpression, "+", cExpression}));
+    Term pqcExpression(createExpressionIfPossible({eToTheNegativeIntegralOfP, "*", qcExpression}));
+    return Equation(yVariableName, "=", pqcExpression);
 }
 
-void simplifyDerivativeByDefinition(Term & term)
-{
+void simplifyDerivativeByDefinition(Term & term){
     SimplificationOfExpression::ConfigurationDetails rationalizeConfigurationDetails(
                 SimplificationOfExpression::Configuration::getInstance().getConfigurationDetails());
-    rationalizeConfigurationDetails.shouldSimplifyByCombiningRadicalsInMultiplicationAndDivision = true;
-    rationalizeConfigurationDetails.shouldSimplifyByRationalizingNumerator = true;
+    rationalizeConfigurationDetails.shouldSimplifyByCombiningRadicalsInMultiplicationAndDivision = true;    rationalizeConfigurationDetails.shouldSimplifyByRationalizingNumerator = true;
     rationalizeConfigurationDetails.shouldSimplifyToFactors = true;
     SimplificationOfExpression::ScopeObject scopeObject;
     scopeObject.setInThisScopeThisConfiguration(rationalizeConfigurationDetails);

@@ -72,10 +72,9 @@ Term PowerSeries::getFormula(
         string const& xName,
         AlbaNumber const& aValue) const
 {
-    Term subTerm(createExpressionIfPossible({Term(xName), Term("-"), Term(aValue)}));
-    return Term(createExpressionIfPossible({multiplierForEachTerm, Term("*"), subTerm, Term("^"), Term(nName)}));
+    Term subTerm(createExpressionIfPossible({xName, "-", aValue}));
+    return createExpressionIfPossible({multiplierForEachTerm, "*", subTerm, "^", nName});
 }
 
 }
-
 }

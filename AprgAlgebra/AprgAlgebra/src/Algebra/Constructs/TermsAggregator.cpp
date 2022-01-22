@@ -103,15 +103,13 @@ bool TermsAggregator::combineOpeningClosingOperatorsAtStartEndIndexesAndReturnIf
             {
                 Function newFunction(termBeforeStart.getFunctionConstReference());
                 getTermReferenceFromBaseTerm(newFunction.getInputTermReference()) = term2;
-                eraseAndThenInsert(m_startIndex-1, m_endIndex, Term(newFunction));
+                eraseAndThenInsert(m_startIndex-1, m_endIndex, newFunction);
                 isCombined=true;
             }
-            else
-            {
+            else            {
                 eraseAndThenInsert(m_startIndex, m_endIndex, term2);
                 isCombined=true;
-            }
-        }
+            }        }
     }
     return isCombined;
 }
@@ -237,15 +235,13 @@ bool TermsAggregator::buildExpressionWithBinaryOperationAndReturnIfBuilt(unsigne
             {
                 newExpression.putTermWithRaiseToPowerIfNeeded(term3);
             }
-            eraseAndThenInsert(index-1, index+1, Term(newExpression));
+            eraseAndThenInsert(index-1, index+1, newExpression);
             isBuilt=true;
         }
-    }
-    return isBuilt;
+    }    return isBuilt;
 }
 
-bool TermsAggregator::buildExpressionWithUnaryOperationAndReturnIfBuilt(unsigned int const index)
-{
+bool TermsAggregator::buildExpressionWithUnaryOperationAndReturnIfBuilt(unsigned int const index){
     bool isBuilt(false);
     if(index+1 < m_terms.size())
     {
@@ -265,15 +261,13 @@ bool TermsAggregator::buildExpressionWithUnaryOperationAndReturnIfBuilt(unsigned
             {
                 newExpression.putTermWithSubtractionIfNeeded(term2);
             }
-            eraseAndThenInsert(index, index+1, Term(newExpression));
+            eraseAndThenInsert(index, index+1, newExpression);
             isBuilt=true;
         }
-    }
-    return isBuilt;
+    }    return isBuilt;
 }
 
-bool TermsAggregator::simplifyBinaryOperationAndReturnIfSimplified(unsigned int const index)
-{
+bool TermsAggregator::simplifyBinaryOperationAndReturnIfSimplified(unsigned int const index){
     bool isSimplified(false);
     if(index>0 && index+1 < m_terms.size())
     {

@@ -500,15 +500,13 @@ void TermsOverTerms::putTermsToRetainAndOnTheOtherSide(
                 Term const& base(getTermConstReferenceFromSharedPointer(termsWithDetails.at(0).baseTermSharedPointer));
                 Term const& exponent(getTermConstReferenceFromSharedPointer(termsWithDetails.at(1).baseTermSharedPointer));
                 isNeededToPutOnTheOtherSide = isANegativeTerm(exponent);
-                transformedTermOnTheOtherSide = Term(createExpressionIfPossible({base, Term("^"), negateTerm(exponent)}));
+                transformedTermOnTheOtherSide = createExpressionIfPossible({base, "^", negateTerm(exponent)});
             }
         }
-        if(isNeededToPutOnTheOtherSide)
-        {
+        if(isNeededToPutOnTheOtherSide)        {
             transformedTermOnTheOtherSide.simplify();
             termsToPutOnTheOtherSide.emplace_back(transformedTermOnTheOtherSide);
-        }
-        else
+        }        else
         {
             termsToRetain.emplace_back(termToCheck);
         }

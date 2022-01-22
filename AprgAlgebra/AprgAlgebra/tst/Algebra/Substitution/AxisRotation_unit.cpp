@@ -20,16 +20,14 @@ TEST(AxisRotationTest, RotateTermByAngleWorks)
     Term term2("x");
     Term term3(Monomial(7, {{"x", 1}}));
     Term term4(Polynomial{Monomial(9, {{"x", 1}}), Monomial(11, {{"y", 1}})});
-    Term term5(createExpressionIfPossible({Term("x"), Term("^"), Term("y")}));
-    Term term6(sin(Term("x")));
+    Term term5(createExpressionIfPossible({"x", "^", "y"}));
+    Term term6(sin("x"));
 
     Term termToVerify1(rotation.rotateTermByAngle(term1));
-    Term termToVerify2(rotation.rotateTermByAngle(term2));
-    Term termToVerify3(rotation.rotateTermByAngle(term3));
+    Term termToVerify2(rotation.rotateTermByAngle(term2));    Term termToVerify3(rotation.rotateTermByAngle(term3));
     Term termToVerify4(rotation.rotateTermByAngle(term4));
     Term termToVerify5(rotation.rotateTermByAngle(term5));
     Term termToVerify6(rotation.rotateTermByAngle(term6));
-
     string stringToExpect1("5");
     string stringToExpect2("-1[x]");
     string stringToExpect3("-7[x]");
@@ -91,25 +89,21 @@ TEST(AxisRotationTest, RotatePolynomialByAngleWorks)
 TEST(AxisRotationTest, RotateExpressionByAngleWorks)
 {
     AxisRotation rotation("x", "y", AlbaNumber(AlbaNumber::Value::pi).getDouble(), false);
-    Expression expression(createExpressionIfPossible({Term("x"), Term("^"), Term("y")}));
+    Expression expression(createExpressionIfPossible({"x", "^", "y"}));
 
     Term termToVerify(rotation.rotateExpressionByAngle(expression));
-
     string stringToExpect("(-1[x]^-1[y])");
     EXPECT_EQ(stringToExpect, termToVerify.getDisplayableString());
 }
-
 TEST(AxisRotationTest, RotateFunctionByAngleWorks)
 {
     AxisRotation rotation("x", "y", AlbaNumber(AlbaNumber::Value::pi).getDouble(), false);
-    Function functionObject(sin(Term("x")));
+    Function functionObject(sin("x"));
 
     Term termToVerify(rotation.rotateFunctionByAngle(functionObject));
-
     string stringToExpect("sin(-1[x])");
     EXPECT_EQ(stringToExpect, termToVerify.getDisplayableString());
 }
-
 }
 
 }

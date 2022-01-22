@@ -63,15 +63,13 @@ TEST(NumbersRetrieverTest, RetrieveFromTermWorks)
     retriever.retrieveFromTerm(Variable("x"));
     retriever.retrieveFromTerm(Monomial(34, {{"x", 5}, {"y", 6}}));
     retriever.retrieveFromTerm(Polynomial{Monomial(516, {{"x", 7}}), Monomial(643, {{"y", 8}})});
-    retriever.retrieveFromTerm(createExpressionIfPossible({678, "+", Term(Monomial(576, {{"x", 9}}))}));
+    retriever.retrieveFromTerm(createExpressionIfPossible({678, "+", Monomial(576, {{"x", 9}})}));
     retriever.retrieveFromTerm(functionObject);
 
-    AlbaNumbersSet const& numbersSet(retriever.getSavedData());
-    ASSERT_EQ(13U, numbersSet.size());
+    AlbaNumbersSet const& numbersSet(retriever.getSavedData());    ASSERT_EQ(13U, numbersSet.size());
     AlbaNumbersSet::const_iterator it = numbersSet.cbegin();
     EXPECT_EQ(AlbaNumber(1), *(it++));
-    EXPECT_EQ(AlbaNumber(1.234), *(it++));
-    EXPECT_EQ(AlbaNumber(2), *(it++));
+    EXPECT_EQ(AlbaNumber(1.234), *(it++));    EXPECT_EQ(AlbaNumber(2), *(it++));
     EXPECT_EQ(AlbaNumber(5), *(it++));
     EXPECT_EQ(AlbaNumber(6), *(it++));
     EXPECT_EQ(AlbaNumber(7), *(it++));

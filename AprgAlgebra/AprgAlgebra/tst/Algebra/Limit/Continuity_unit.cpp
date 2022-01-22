@@ -29,15 +29,13 @@ TEST(ContinuityTest, IsContinuousAtWorksForContinuousPieceWiseFunction)
 {
     Function functionToTest(
                 "functionToTest",
-                getBaseTermConstReferenceFromTerm("x"),
+                Term("x"),
                 [](AlbaNumber const& number)
     {
-        AlbaNumber result;
-        if(number <= 10)
+        AlbaNumber result;        if(number <= 10)
         {
             result = number;
-        }
-        else
+        }        else
         {
             result = number*0.7 + 3;
         }
@@ -52,15 +50,13 @@ TEST(ContinuityTest, IsContinuousAtWorksForDiscontinuousPieceWiseFunction)
 {
     Function functionToTest(
                 "functionToTest",
-                getBaseTermConstReferenceFromTerm("x"),
+                Term("x"),
                 [](AlbaNumber const& number)
     {
-        AlbaNumber result;
-        if(number == 1)
+        AlbaNumber result;        if(number == 1)
         {
             result = 2;
-        }
-        else
+        }        else
         {
             result = number*2 + 3;
         }
@@ -131,15 +127,13 @@ TEST(ContinuityTest, GetContinuityTypeAtWorksForRemovableDiscontinuityFunction)
 {
     Function functionToTest(
                 "functionToTest",
-                getBaseTermConstReferenceFromTerm("x"),
+                Term("x"),
                 [](AlbaNumber const& number)
     {
-        AlbaNumber result;
-        if(number == 3)
+        AlbaNumber result;        if(number == 3)
         {
             result = 2;
-        }
-        else
+        }        else
         {
             result = getAbsoluteValueForAlbaNumber(number - 3);
         }
@@ -155,15 +149,13 @@ TEST(ContinuityTest, GetContinuityTypeAtWorksForEssentialDiscontinuityFunction)
 {
     Function functionToTest(
                 "functionToTest",
-                getBaseTermConstReferenceFromTerm("x"),
+                Term("x"),
                 [](AlbaNumber const& number)
     {
-        AlbaNumber result;
-        if(number <= 1)
+        AlbaNumber result;        if(number <= 1)
         {
             result = number + 3;
-        }
-        else
+        }        else
         {
             result = number - 3;
         }

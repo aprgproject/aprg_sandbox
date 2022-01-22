@@ -389,15 +389,13 @@ TEST(LimitTest, GetLimitAtAValueWorksForASpecifiedFunction)
 {
     Function functionToTest(
                 "functionToTest",
-                getBaseTermConstReferenceFromTerm("x"),
+                Term("x"),
                 [](AlbaNumber const& number)
     {
-        AlbaNumber result;
-        AlbaNumber numberSquared(number^2);
+        AlbaNumber result;        AlbaNumber numberSquared(number^2);
         if(number > 1)
         {
-            result = numberSquared + 2;
-        }
+            result = numberSquared + 2;        }
         else if(number < 1)
         {
             result = AlbaNumber(4) - numberSquared;

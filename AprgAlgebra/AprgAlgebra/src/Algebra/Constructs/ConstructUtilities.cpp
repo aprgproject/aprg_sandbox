@@ -254,20 +254,18 @@ TermRaiseToTerms createTermRaiseToTermsFromTerm(Term const& term)
     if(term.isMonomial())
     {
         TermRaiseToANumber termRaiseToANumber(createTermRaiseToANumberFromMonomial(term.getMonomialConstReference()));
-        result.setBaseAndExponent(termRaiseToANumber.getBase(), Term(termRaiseToANumber.getExponent()));
+        result.setBaseAndExponent(termRaiseToANumber.getBase(), termRaiseToANumber.getExponent());
     }
     else if(term.isPolynomial())
     {
         TermRaiseToANumber termRaiseToANumber(createTermRaiseToANumberFromPolynomial(term.getPolynomialConstReference()));
-        result.setBaseAndExponent(termRaiseToANumber.getBase(), Term(termRaiseToANumber.getExponent()));
+        result.setBaseAndExponent(termRaiseToANumber.getBase(), termRaiseToANumber.getExponent());
     }
     else if(term.isExpression())
-    {
-        result = createTermRaiseToTermsFromExpression(term.getExpressionConstReference());
+    {        result = createTermRaiseToTermsFromExpression(term.getExpressionConstReference());
     }
     if(result.isEmpty())
-    {
-        result = TermRaiseToTerms(term, 1);
+    {        result = TermRaiseToTerms(term, 1);
     }
     result.getBaseReference().simplify();
     return result;
