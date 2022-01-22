@@ -304,7 +304,7 @@ Term getLimitWithMultipleVariablesWithDifferentApproaches(
         }
         else if(result != limitValue)
         {
-            result = Term(AlbaNumber(AlbaNumber::Value::NotANumber));
+            result = AlbaNumber(AlbaNumber::Value::NotANumber);
             break;
         }
     }

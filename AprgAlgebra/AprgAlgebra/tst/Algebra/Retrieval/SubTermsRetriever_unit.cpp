@@ -62,9 +62,11 @@ TEST(SubTermsRetrieverTest, RetrieveFromTermWorks)
     retriever.retrieveFromTerm(Polynomial{Monomial(516, {{"e", 7}}), Monomial(643, {{"f", 8}})});
     retriever.retrieveFromTerm(expesssionTerm2);
     retriever.retrieveFromTerm(functionTerm1);
+
     TermSet const& termsSet(retriever.getSavedData());
     ASSERT_EQ(11U, termsSet.size());
-    TermSet::const_iterator it = termsSet.cbegin();    EXPECT_EQ(Term(1.234), *(it++));
+    TermSet::const_iterator it = termsSet.cbegin();
+    EXPECT_EQ(Term(1.234), *(it++));
     EXPECT_EQ(Term(2), *(it++));
     EXPECT_EQ(Term(678), *(it++));
     EXPECT_EQ(Term("a"), *(it++));

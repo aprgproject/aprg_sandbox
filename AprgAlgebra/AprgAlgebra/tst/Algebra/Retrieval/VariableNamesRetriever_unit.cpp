@@ -64,10 +64,12 @@ TEST(VariableNamesRetrieverTest, RetrieveFromTermWorks)
     retriever.retrieveFromTerm(functionObject);
 
     VariableNamesSet const& variableNamesSet(retriever.getSavedData());
-    ASSERT_EQ(7U, variableNamesSet.size());    VariableNamesSet::const_iterator it = variableNamesSet.cbegin();
+    ASSERT_EQ(7U, variableNamesSet.size());
+    VariableNamesSet::const_iterator it = variableNamesSet.cbegin();
     EXPECT_EQ("a", *(it++));
     EXPECT_EQ("b", *(it++));
-    EXPECT_EQ("c", *(it++));    EXPECT_EQ("d", *(it++));
+    EXPECT_EQ("c", *(it++));
+    EXPECT_EQ("d", *(it++));
     EXPECT_EQ("e", *(it++));
     EXPECT_EQ("f", *(it++));
     EXPECT_EQ("g", *(it++));

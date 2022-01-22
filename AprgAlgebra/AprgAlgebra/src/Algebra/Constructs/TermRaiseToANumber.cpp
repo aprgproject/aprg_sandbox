@@ -29,11 +29,11 @@ Term TermRaiseToANumber::getCombinedTerm() const
     }
     else if(canBeConvertedToMonomial(m_base))
     {
-        combinedTerm = m_base ^ Term(m_exponent);
+        combinedTerm = m_base ^ m_exponent;
     }
     else
     {
-        combinedTerm = Term(createExpressionIfPossible({m_base, Term("^"), Term(m_exponent)}));
+        combinedTerm = createExpressionIfPossible({m_base, "^", m_exponent});
     }
     return combinedTerm;
 }

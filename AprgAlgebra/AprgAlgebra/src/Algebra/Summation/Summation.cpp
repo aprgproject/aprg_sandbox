@@ -58,7 +58,7 @@ Term Summation::getSum(
     }
     else
     {
-        result = Term(AlbaNumber(AlbaNumber::Value::NotANumber));
+        result = AlbaNumber(AlbaNumber::Value::NotANumber);
     }
     return result;
 }
@@ -83,7 +83,7 @@ void Summation::calculateSumFromANumberToANumber(
     }
     else
     {
-        result = Term(AlbaNumber(AlbaNumber::Value::NotANumber));
+        result = AlbaNumber(AlbaNumber::Value::NotANumber);
     }
 }
 
@@ -108,7 +108,7 @@ void Summation::calculateSumStartingFromANumber(
     }
     else
     {
-        result = Term(AlbaNumber(AlbaNumber::Value::NotANumber));
+        result = AlbaNumber(AlbaNumber::Value::NotANumber);
     }
 }
 

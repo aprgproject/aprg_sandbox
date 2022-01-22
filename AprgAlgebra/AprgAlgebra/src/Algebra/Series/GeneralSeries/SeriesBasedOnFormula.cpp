@@ -74,14 +74,14 @@ Term SeriesBasedOnFormula::getSum(
         int const endingIndex) const
 {
     Summation summation(m_formulaForSeries, m_nameForVariableInFormula);
-    return summation.getSum(Term(startingIndex), Term(endingIndex));
+    return summation.getSum(startingIndex, endingIndex);
 }
 
 Term SeriesBasedOnFormula::getSumStartingAtIndexAndToInfinity(
         int const startingIndex) const
 {
     Summation summation(m_formulaForSeries, m_nameForVariableInFormula);
-    return summation.getSum(Term(startingIndex), Term(AlbaNumber(AlbaNumber::Value::PositiveInfinity)));
+    return summation.getSum(startingIndex, AlbaNumber(AlbaNumber::Value::PositiveInfinity));
 }
 
 Term SeriesBasedOnFormula::getValueAtInfinity() const

@@ -28,8 +28,8 @@ TEST(LimitsAtInfinityTest, OneOverXWorksAndSimplifiesToZero)
 
     LimitsAtInfinity limits(term, "x");
 
-    Term expectedTerm(AlbaNumber(0));
-    Term expectedValueTerm(AlbaNumber(0));
+    Term expectedTerm(0);
+    Term expectedValueTerm(0);
     EXPECT_EQ(expectedTerm, limits.getSimplifiedTermAtInfinity());
     EXPECT_EQ(expectedValueTerm, limits.getValueAtInfinity(AlbaNumber::Value::NegativeInfinity));
     EXPECT_EQ(expectedValueTerm, limits.getValueAtInfinity(AlbaNumber::Value::PositiveInfinity));
@@ -43,8 +43,8 @@ TEST(LimitsAtInfinityTest, PolynomialOverPolynomialWithEqualDegreeWorks)
 
     LimitsAtInfinity limits(term, "x");
 
-    Term expectedTerm(AlbaNumber(2));
-    Term expectedValueTerm(AlbaNumber(2));
+    Term expectedTerm(2);
+    Term expectedValueTerm(2);
     EXPECT_EQ(expectedTerm, limits.getSimplifiedTermAtInfinity());
     EXPECT_EQ(expectedValueTerm, limits.getValueAtInfinity(AlbaNumber::Value::NegativeInfinity));
     EXPECT_EQ(expectedValueTerm, limits.getValueAtInfinity(AlbaNumber::Value::PositiveInfinity));
@@ -84,8 +84,8 @@ TEST(LimitsAtInfinityTest, PolynomialOverPolynomialWithDenominatorDegreeIsGreate
 
     LimitsAtInfinity limits(term, "x");
 
-    Term expectedTerm(AlbaNumber(0));
-    Term expectedValueTerm(AlbaNumber(0));
+    Term expectedTerm(0);
+    Term expectedValueTerm(0);
     EXPECT_EQ(expectedTerm, limits.getSimplifiedTermAtInfinity());
     EXPECT_EQ(expectedValueTerm, limits.getValueAtInfinity(AlbaNumber::Value::NegativeInfinity));
     EXPECT_EQ(expectedValueTerm, limits.getValueAtInfinity(AlbaNumber::Value::PositiveInfinity));
@@ -95,13 +95,13 @@ TEST(LimitsAtInfinityTest, PolynomialOverSquareRootOfPolynomialWithEqualDegreeWo
 {
     Term numerator("x");
     Term denominatorInSquareRoot(Polynomial{Monomial(1, {{"x", 2}}), Monomial(1, {})});
-    Term denominator(createExpressionIfPossible({denominatorInSquareRoot, Term("^"), Term(AlbaNumber::createFraction(1, 2))}));
+    Term denominator(createExpressionIfPossible({denominatorInSquareRoot, "^", AlbaNumber::createFraction(1, 2)}));
     Term term(createExpressionIfPossible({numerator, "/", denominator}));
 
     LimitsAtInfinity limits(term, "x");
 
-    Term expectedTerm(AlbaNumber(1));
-    Term expectedValueTerm(AlbaNumber(1));
+    Term expectedTerm(1);
+    Term expectedValueTerm(1);
     EXPECT_EQ(expectedTerm, limits.getSimplifiedTermAtInfinity());
     EXPECT_EQ(expectedValueTerm, limits.getValueAtInfinity(AlbaNumber::Value::NegativeInfinity));
     EXPECT_EQ(expectedValueTerm, limits.getValueAtInfinity(AlbaNumber::Value::PositiveInfinity));
@@ -109,8 +109,8 @@ TEST(LimitsAtInfinityTest, PolynomialOverSquareRootOfPolynomialWithEqualDegreeWo
 
 TEST(LimitsAtInfinityTest, ExpressionWithTrigonometricFunctionsWorks)
 {
-    Term numerator(sin(Term(Monomial(1, {{"x", -1}}))));
-    Term denominator(arctan(Term(Monomial(1, {{"x", -1}}))));
+    Term numerator(sin(Monomial(1, {{"x", -1}})));
+    Term denominator(arctan(Monomial(1, {{"x", -1}})));
     Term term(createExpressionIfPossible({numerator, "/", denominator}));
 
     LimitsAtInfinity limits(term, "x");

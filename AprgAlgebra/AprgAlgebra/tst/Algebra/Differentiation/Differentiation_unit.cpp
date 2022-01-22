@@ -18,15 +18,19 @@ TEST(DifferentiationTest, DifferentiateWorksForTerm)
 {
     Differentiation differentiationForX("x");
     Term x("x");
+    Term constantTerm(5);
+    Term variableTerm("x");
+    Term monomialTerm(Monomial(1, {{"x", 8}}));
     Term polynomialTerm(Polynomial{Monomial(7, {{"x", 4}}), Monomial(-2, {{"x", 3}}), Monomial(8, {{"x", 1}}), Monomial(5, {})});
     Term expressionTerm(createExpressionIfPossible({cos(x)}));
+    Term functionTerm(sin(x));
 
-    Term termToVerify1(differentiationForX.differentiate(Term(5)));
-    Term termToVerify2(differentiationForX.differentiate(Term("x")));
-    Term termToVerify3(differentiationForX.differentiate(Term(Monomial(1, {{"x", 8}}))));
+    Term termToVerify1(differentiationForX.differentiate(constantTerm));
+    Term termToVerify2(differentiationForX.differentiate(variableTerm));
+    Term termToVerify3(differentiationForX.differentiate(monomialTerm));
     Term termToVerify4(differentiationForX.differentiate(polynomialTerm));
     Term termToVerify5(differentiationForX.differentiate(expressionTerm));
-    Term termToVerify6(differentiationForX.differentiate(Term(sin(x))));
+    Term termToVerify6(differentiationForX.differentiate(functionTerm));
 
     Term termToExpect1(0);
     Term termToExpect2(1);

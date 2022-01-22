@@ -171,12 +171,12 @@ AlbaNumberPairs evaluateAndGetInputOutputPair(
 
 Term getPiAsTerm()
 {
-    return Term(AlbaNumber(AlbaNumber::Value::pi));
+    return AlbaNumber(AlbaNumber::Value::pi);
 }
 
 Term getEAsTerm()
 {
-    return Term(AlbaNumber(AlbaNumber::Value::e));
+    return AlbaNumber(AlbaNumber::Value::e);
 }
 
 Term convertPositiveTermIfNegative(Term const& term)

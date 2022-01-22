@@ -31,16 +31,20 @@ TEST(IntegrationTest, IsConvergentWorks)
 TEST(IntegrationTest, IntegrateWorksForTerm)
 {
     Integration integrationForX("x");
-    Polynomial polynomial{Monomial(28, {{"x", 3}}), Monomial(-6, {{"x", 2}}), Monomial(8, {})};
-    Expression expression(createExpressionIfPossible(
-    {Polynomial{Monomial(3, {{"x", 1}}), Monomial(4, {})}, "^", AlbaNumber::createFraction(1, 2)}));
 
-    Term termToVerify1(integrationForX.integrate(5));
-    Term termToVerify2(integrationForX.integrate(5));
-    Term termToVerify3(integrationForX.integrate(Term("x")));
-    Term termToVerify4(integrationForX.integrate(Monomial(2, {{"x", 1}, {"y", 3}})));
-    Term termToVerify5(integrationForX.integrate(Term(polynomial)));
-    Term termToVerify6(integrationForX.integrate(expression));
+    Term term(5);
+    Term constantTerm(5);
+    Term variableTerm("x");
+    Term monomialTerm(Monomial(2, {{"x", 1}, {"y", 3}}));
+    Term polynomialTerm(Polynomial{Monomial(28, {{"x", 3}}), Monomial(-6, {{"x", 2}}), Monomial(8, {})});
+    Term expressionTerm(createExpressionIfPossible({Polynomial{Monomial(3, {{"x", 1}}), Monomial(4, {})}, "^", AlbaNumber::createFraction(1, 2)}));
+
+    Term termToVerify1(integrationForX.integrate(term));
+    Term termToVerify2(integrationForX.integrate(constantTerm));
+    Term termToVerify3(integrationForX.integrate(variableTerm));
+    Term termToVerify4(integrationForX.integrate(monomialTerm));
+    Term termToVerify5(integrationForX.integrate(polynomialTerm));
+    Term termToVerify6(integrationForX.integrate(expressionTerm));
 
     Term termToExpect1(Monomial(5, {{"x", 1}}));
     Term termToExpect2(Monomial(5, {{"x", 1}}));

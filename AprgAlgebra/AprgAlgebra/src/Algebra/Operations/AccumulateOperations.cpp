@@ -69,7 +69,7 @@ void accumulateTermsForAdditionAndSubtraction(
         Term const& term(getTermConstReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer));
         if(isNotANumber(combinedTerm) || isNotANumber(term))
         {
-            combinedTerm = Term(AlbaNumber(AlbaNumber::Value::NotANumber));
+            combinedTerm = AlbaNumber(AlbaNumber::Value::NotANumber);
             break;
         }
         else if(willHaveNoEffectOnAdditionOrSubtraction(term))

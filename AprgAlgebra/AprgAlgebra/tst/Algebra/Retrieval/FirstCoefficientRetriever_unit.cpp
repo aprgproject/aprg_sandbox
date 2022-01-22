@@ -52,9 +52,11 @@ TEST(FirstCoefficientRetrieverTest, RetrieveFromTermWorks)
 
     EXPECT_EQ(AlbaNumber(1.234), retriever.getSavedData());
 }
+
 TEST(FirstCoefficientRetrieverTest, RetrieveFromConstantWorks)
 {
     FirstCoefficientRetriever retriever;
+
     retriever.retrieveFromConstant(Constant(1.234));
 
     EXPECT_EQ(AlbaNumber(1.234), retriever.getSavedData());
