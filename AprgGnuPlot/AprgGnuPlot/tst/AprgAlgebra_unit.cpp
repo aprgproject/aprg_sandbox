@@ -16,15 +16,13 @@ using namespace std;
 namespace alba
 {
 
-TEST(AprgAlgebraTest, DISABLED_ThreeDimensionsGeometricEquationCanBeShown)
+TEST(AprgAlgebraTest, ThreeDimensionsGeometricEquationCanBeShown)
 {
     Equation generalEquation(getHyperbolicParaboloidEquation());
-    SubstitutionOfVariablesToValues initialSubstitution;
-    initialSubstitution.putVariableWithValue("a", 1);
+    SubstitutionOfVariablesToValues initialSubstitution;    initialSubstitution.putVariableWithValue("a", 1);
     initialSubstitution.putVariableWithValue("b", 2);
     initialSubstitution.putVariableWithValue("c", 3);
-    initialSubstitution.putVariableWithValue("x0", 1);
-    initialSubstitution.putVariableWithValue("y0", 2);
+    initialSubstitution.putVariableWithValue("x0", 1);    initialSubstitution.putVariableWithValue("y0", 2);
     initialSubstitution.putVariableWithValue("z0", 3);
     Equation equationWithValues(initialSubstitution.performSubstitutionTo(generalEquation));
     AprgGnuPlot3D::PointsInGraph pointsOfEquation;
