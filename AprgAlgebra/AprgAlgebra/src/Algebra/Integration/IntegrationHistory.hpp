@@ -17,13 +17,12 @@ enum class IntegrationPurpose
     NotSet,
     IntegrationByParts,
     Trigonometric,
+    TrigonometricSubstitution,
     Substitution,
     PartialFraction,
-    NoChange
-};
+    NoChange};
 
 using IntegrationPurposes = std::vector<IntegrationPurpose>;
-
 class IntegrationHistory : public AlbaSingleton<IntegrationHistory>
 {
 private:
@@ -32,17 +31,16 @@ private:
 
 public:
     IntegrationHistory();
+    bool didThisIntegrationPurposeAlreadyHappened(IntegrationPurpose const purpose) const;
     unsigned int getDepth() const;
     IntegrationPurpose getLastIntegrationPurpose() const;
-    std::string getEnumShortString(IntegrationPurpose const purpose);
+    std::string getEnumShortString(IntegrationPurpose const purpose) const;
 
     void addIntegrationPurpose(IntegrationPurpose const purpose);
     void clear();
-
     void logBefore(Term const& input, IntegrationPurpose const purpose);
     void logAfter(Term const& input, IntegrationPurpose const purpose, Term const& output);
-    void performStepsBeforeIntegration(IntegrationPurpose const purpose);
-    void performStepsAfterIntegration();
+    void performStepsBeforeIntegration(IntegrationPurpose const purpose);    void performStepsAfterIntegration();
 
 private:
     IntegrationPurposes m_recordOfIntegrationPurposes;

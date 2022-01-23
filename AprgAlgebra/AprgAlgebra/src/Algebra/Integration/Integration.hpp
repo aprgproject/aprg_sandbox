@@ -43,14 +43,13 @@ public:
         std::string thetaName;
         Term a;
         Term u;
+        std::string aSquaredAndUSquaredName;
         Term aSquaredAndUSquared;
         Term uEquivalent;
-        Term thetaEquivalent;
-        Term aSquaredAndUSquaredEquivalent;
+        Term thetaEquivalent;        Term aSquaredAndUSquaredEquivalent;
         Term theta;
         Term opposite, adjacent, hypotenuse;
     };
-
     struct Configuration
     {
         bool shouldFixTrigonometricFunctions;
@@ -122,16 +121,16 @@ private:
 
     //Trignometric Substitution
     void integrateTermUsingTrigonometricSubstitution(Term & result, Term const& term) const;
-    void integrateUsingTrigonometricSubstitutionByFindingTwoTerms(Term & result, Term const& mainTerm, Term const& termToSubstitute) const;
-    void integrateUsingTrigonometricSubstitutionWithDeterminedTerms(Term & result, Term const& mainTerm, Term const& aSquaredAndUSquared, Term const& aSquaredWithSign, Term const& uSquaredWithSign) const;
-    TrigonometricSubstitutionDetails calculateTrigonometricSubstitutionDetails(Term const& a, Term const& u, Term const& aSquaredAndUSquared, bool const isANegative, bool const isUNegative) const;
+    void integrateUsingTrigonometricSubstitutionByFindingTwoTerms(Term & result, Term const& mainTerm, Term const& termToSubstitute) const;    
+    void retrieveImportantTermsForTrigonometricSubstitutionInExpression(bool & shouldProceedToTrigSub, Term & commonFactor, Term & firstAndSecondTerm, Term & firstTerm, Term & secondTerm, Expression const& expression)  const;
+    void retrieveImportantTermsForTrigonometricSubstitutionInPolynomial(bool & shouldProceedToTrigSub, Term & commonFactor, Term & firstAndSecondTerm, Term & firstTerm, Term & secondTerm, Polynomial const& polynomial)  const;
+    void integrateUsingTrigonometricSubstitutionWithDeterminedTerms(Term & result, Term const& mainTerm, std::string const& aSquaredAndUSquaredName, Term const& aSquaredAndUSquared, Term const& aSquaredWithSign, Term const& uSquaredWithSign) const;
+    TrigonometricSubstitutionDetails calculateTrigonometricSubstitutionDetails(Term const& a, Term const& u, std::string const& aSquaredAndUSquaredName, Term const& aSquaredAndUSquared, bool const isANegative, bool const isUNegative) const;
     Term substituteToTrigonometricFunctions(Term const& mainTerm, TrigonometricSubstitutionDetails const& details) const;
     Term substituteFromTrigonometricFunctionsBackToNormal(Term const& mainTerm, TrigonometricSubstitutionDetails const& details) const;
-
     //Reverse chain rule
     void integrateInMultiplicationOrDivisionByTryingReverseChainRule(Term & result, TermsWithDetails const& termsWithDetailsInMultiplicationOrDivision) const;
-    void integrateUsingReverseChainRule(Term & result, Term const& firstOuterTerm, Term const& firstInnerTerm, Term const& secondTerm) const;
-    void findInnerAndOuterTermForChainRule(Term & innerTerm, Term & outerTerm) const;
+    void integrateUsingReverseChainRule(Term & result, Term const& firstOuterTerm, Term const& firstInnerTerm, Term const& secondTerm) const;    void findInnerAndOuterTermForChainRule(Term & innerTerm, Term & outerTerm) const;
     Term divideFirstTermAndDerivativeOfSecondTerm(Term const& firstTerm, Term const& secondTerm) const;
 
     //Polynomial over polynomial
@@ -193,22 +192,21 @@ private:
     Configuration getConfigurationWithoutFactors() const;
     Configuration getConfigurationWithCombiningRadicals() const;
 
-    //Finalize steps
+    //Initialize and Finalize steps
+    void clearIntegrationHistory() const;
     void finalizeTermForIntegration(Term & term) const;
 
-    //Miscellaneous
-    bool isVariableToIntegrate(std::string const& variableName) const;
+    //Miscellaneous    bool isVariableToIntegrate(std::string const& variableName) const;
     bool isChangingTerm(Term const& term) const;
     bool hasNonChangingTermRaiseToChangingTerm(Term const& term) const;
     bool wouldDifferentiationYieldToAConstant(Term const& term) const;
     bool areExponentsSame(TrigonometryFunctionExponents const& exponents1, TrigonometryFunctionExponents const& exponents2) const;
     bool isIntegrationUsingSubstitutionAllowed(Term const& term) const;
     bool isIntegrationByPartsAllowed(Term const& term) const;
+    bool isTrigonometricSubstitutionAllowed() const;
     bool isIntegrationByPartialFractionAllowed() const;
     std::string m_nameOfVariableToIntegrate;
-    IntegrationHistory & m_history;
-};
+    IntegrationHistory & m_history;};
 
 }
-
 }

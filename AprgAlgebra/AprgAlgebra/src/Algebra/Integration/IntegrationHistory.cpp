@@ -2,26 +2,30 @@
 
 #include <Macros/AlbaMacros.hpp>
 
+#include <algorithm>
+
 using namespace std;
 
-namespace alba
-{
+namespace alba{
 
 namespace algebra
 {
-
 IntegrationHistory::IntegrationHistory()
 {}
 
+bool IntegrationHistory::didThisIntegrationPurposeAlreadyHappened(
+        IntegrationPurpose const purpose) const
+{
+    return find(m_recordOfIntegrationPurposes.cbegin(), m_recordOfIntegrationPurposes.cend(), purpose) != m_recordOfIntegrationPurposes.cend();
+}
+
 unsigned int IntegrationHistory::getDepth() const
 {
-    return m_recordOfIntegrationPurposes.size();
-}
+    return m_recordOfIntegrationPurposes.size();}
 
 IntegrationPurpose IntegrationHistory::getLastIntegrationPurpose() const
 {
-    IntegrationPurpose result(IntegrationPurpose::NotSet);
-    if(!m_recordOfIntegrationPurposes.empty())
+    IntegrationPurpose result(IntegrationPurpose::NotSet);    if(!m_recordOfIntegrationPurposes.empty())
     {
         result = m_recordOfIntegrationPurposes.back();
     }
@@ -29,21 +33,19 @@ IntegrationPurpose IntegrationHistory::getLastIntegrationPurpose() const
 }
 
 string IntegrationHistory::getEnumShortString(
-        IntegrationPurpose const purpose)
+        IntegrationPurpose const purpose) const
 {
     switch(purpose)
-    {
-    ALBA_MACROS_CASE_ENUM_SHORT_STRING(IntegrationPurpose::NotSet, "NotSet")
+    {    ALBA_MACROS_CASE_ENUM_SHORT_STRING(IntegrationPurpose::NotSet, "NotSet")
             ALBA_MACROS_CASE_ENUM_SHORT_STRING(IntegrationPurpose::IntegrationByParts, "IntegrationByParts")
             ALBA_MACROS_CASE_ENUM_SHORT_STRING(IntegrationPurpose::Trigonometric, "Trigonometric")
+            ALBA_MACROS_CASE_ENUM_SHORT_STRING(IntegrationPurpose::TrigonometricSubstitution, "TrigonometricSubstitution")
             ALBA_MACROS_CASE_ENUM_SHORT_STRING(IntegrationPurpose::Substitution, "Substitution")
             ALBA_MACROS_CASE_ENUM_SHORT_STRING(IntegrationPurpose::PartialFraction, "PartialFraction")
-            ALBA_MACROS_CASE_ENUM_SHORT_STRING(IntegrationPurpose::NoChange, "NoChange")
-            default:
+            ALBA_MACROS_CASE_ENUM_SHORT_STRING(IntegrationPurpose::NoChange, "NoChange")            default:
         return "default";
     }
 }
-
 void IntegrationHistory::addIntegrationPurpose(
         IntegrationPurpose const purpose)
 {
@@ -61,20 +63,20 @@ void IntegrationHistory::clear()
 void IntegrationHistory::logBefore(
         Term const& , //input,
         IntegrationPurpose const ) //purpose)
-{}
+{
+}
 
 void IntegrationHistory::logAfter(
         Term const& , //input,
         IntegrationPurpose const , //purpose,
         Term const& ) //output)
-{}
-
-void IntegrationHistory::performStepsBeforeIntegration(
-        IntegrationPurpose const purpose)
 {
-    addIntegrationPurpose(purpose);
 }
 
+void IntegrationHistory::performStepsBeforeIntegration(
+        IntegrationPurpose const purpose){
+    addIntegrationPurpose(purpose);
+}
 void IntegrationHistory::performStepsAfterIntegration()
 {
     if(!m_recordOfIntegrationPurposes.empty())

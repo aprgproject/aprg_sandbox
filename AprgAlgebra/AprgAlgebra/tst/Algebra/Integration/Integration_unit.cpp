@@ -563,14 +563,12 @@ TEST(IntegrationTest, IntegrateWorksUsingTrigonometricSubstitutionUsingSinSubsti
 
     Term termToVerify(integrationForX.integrate(termToTest));
 
-    string stringToExpect("(arcsin((((-1[x^2] + 9)^(1/2))/3))-(((-1[x^2] + 9)^(1/2))/x))");
+    string stringToExpect("((-1*arcsin((1/3)[x]))-(((-1[x^2] + 9)^(1/2))/x))");
     EXPECT_EQ(stringToExpect, termToVerify.getDisplayableString());
 }
-
 TEST(IntegrationTest, IntegrateWorksUsingTrigonometricSubstitutionUsingSecSubstitution)
 {
-    Integration integrationForX("x");
-    Term denominator(createExpressionIfPossible(
+    Integration integrationForX("x");    Term denominator(createExpressionIfPossible(
     {Polynomial{Monomial(-25, {}), Monomial(1, {{"x", 2}})}, "^", AlbaNumber::createFraction(1, 2)}));
     Term termToTest(createExpressionIfPossible({1, "/", denominator}));
 
