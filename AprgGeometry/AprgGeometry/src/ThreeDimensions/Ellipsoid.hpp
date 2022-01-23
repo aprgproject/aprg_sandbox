@@ -11,15 +11,12 @@ namespace ThreeDimensions
 class Ellipsoid
 {
 public:
-    using TraverseOperation = std::function<void(Point const&)>;
     Ellipsoid();
     Ellipsoid(Point const& center, double const aCoefficient, double const bCoefficient, double const cCoefficient);
-    // ((x-center.x)^2/aCoefficient^2) + ((y-center.y)^2/bCoefficient^2) + ((z-center.z)^2/cCoefficient^2) = 1
-    bool operator==(Ellipsoid const& ellipsoid) const;
+    // ((x-center.x)^2/aCoefficient^2) + ((y-center.y)^2/bCoefficient^2) + ((z-center.z)^2/cCoefficient^2) = 1    bool operator==(Ellipsoid const& ellipsoid) const;
     bool operator!=(Ellipsoid const& ellipsoid) const;
     Point getCenter() const;
-    double getAValue() const;
-    double getBValue() const;
+    double getAValue() const;    double getBValue() const;
     double getCValue() const;
     bool isInside(Point const& point) const;
     double calculateXFromYAndZ(double const y, double const z, double const signOfRoot) const;
