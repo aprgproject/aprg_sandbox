@@ -1,0 +1,9 @@
+1) http://www.gnuplot.info/documentation.html
+There should be this part:
+Official gnuplot online documentation
+The following official documentation is available online:
+    Version 5.4 (English) PDF format.
+
+
+2) Direct link for PDF:
+http://www.gnuplot.info/docs_5.4/Gnuplot_5_4.pdf
