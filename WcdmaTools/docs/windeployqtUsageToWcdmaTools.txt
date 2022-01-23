@@ -1,0 +1,6 @@
+1) Find windeployqt.exe in QT installation
+1.1) In previous case, the full path is: "C:\Qt\Qt5.9.2\5.9.2\mingw53_32\bin\windeployqt.exe"
+2) Go to location of WcdmaTools.exe
+3) Using full path, call windeployqt.exe and pass WcdmaTools.exe
+3.1) C:\Qt\Qt5.9.2\5.9.2\mingw53_32\bin\windeployqt.exe WcdmaTools.exe
+4) QT libraries (Qt5Core.dll, libwinpthread-1.dll ... etc) now should be available in the same folder as WcdmaTools.exe
