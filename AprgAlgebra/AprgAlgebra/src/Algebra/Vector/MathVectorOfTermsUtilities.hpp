@@ -216,35 +216,31 @@ Term getPotentialFunctionForVectorFieldGradient(
         ArrayOfStrings<SIZE> const& coordinateVariables,
         bool & isConservative)
 {
-    return getTermThatYieldsToThisGradient(gradient, coordinateVariables, isConservative);
+    return getTermThatYieldsToThisGradient<SIZE>(gradient, coordinateVariables, isConservative);
 }
 
-template <unsigned int SIZE>
-Term getDivergence(
+template <unsigned int SIZE>Term getDivergence(
         MathVectorOfTerms<SIZE> const& termVector,
         ArrayOfStrings<SIZE> const& coordinateVariables)
 {
     using Values = typename MathVectorOfTerms<SIZE>::ValuesInArray;
-    MathVectorOfTerms<SIZE> del(getDel(termVector, coordinateVariables));
+    MathVectorOfTerms<SIZE> del(getDel<SIZE>(termVector, coordinateVariables));
     Values const& values(del.getValues());
     return std::accumulate(values.cbegin(), values.cend(), Term(0), std::plus<Term>());
 }
-
 template <unsigned int SIZE>
 Term getLaplaceTerm(
         MathVectorOfTerms<SIZE> const& termVector,
         ArrayOfStrings<SIZE> const& coordinateVariables)
 {
     using Values = typename MathVectorOfTerms<SIZE>::ValuesInArray;
-    MathVectorOfTerms<SIZE> del(getDoubleDel(termVector, coordinateVariables));
+    MathVectorOfTerms<SIZE> del(getDoubleDel<SIZE>(termVector, coordinateVariables));
     Values const& values(del.getValues());
     return std::accumulate(values.cbegin(), values.cend(), Term(0), std::plus<Term>());
 }
-
 template <unsigned int SIZE>
 Term getLineIntegral(
-        MathVectorOfTerms<SIZE> const& vectorField,
-        ArrayOfStrings<SIZE> const& coordinateVariables,
+        MathVectorOfTerms<SIZE> const& vectorField,        ArrayOfStrings<SIZE> const& coordinateVariables,
         MathVectorOfTerms<SIZE> const& linePath,
         DetailsForDefiniteIntegralWithTerms const& linePathIntegralDetails)
 {
@@ -275,15 +271,13 @@ Term getLineIntegralIndependentOfPath(
         MathVectorOfNumbers<SIZE> const& higherValues)
 {
     bool isConservative(false);
-    Term potential(getPotentialFunctionForVectorFieldGradient(vectorField, coordinateVariables, isConservative));
+    Term potential(getPotentialFunctionForVectorFieldGradient<SIZE>(vectorField, coordinateVariables, isConservative));
 
     Term result;
-    if(isConservative)
-    {
+    if(isConservative)    {
         SubstitutionOfVariablesToValues substitutionForLowerValues;
         SubstitutionOfVariablesToValues substitutionForHigherValues;
-        for(unsigned int i=0; i<SIZE; i++)
-        {
+        for(unsigned int i=0; i<SIZE; i++)        {
             substitutionForLowerValues.putVariableWithValue(coordinateVariables.at(i), lowerValues.getValueAt(i));
             substitutionForHigherValues.putVariableWithValue(coordinateVariables.at(i), higherValues.getValueAt(i));
         }
