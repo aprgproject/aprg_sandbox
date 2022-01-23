@@ -1,0 +1,5 @@
+
+Install boost in linux:
+
+sudo apt-get install libboost-all-dev
+
