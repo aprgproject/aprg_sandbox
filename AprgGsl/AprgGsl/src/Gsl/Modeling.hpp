@@ -8,11 +8,10 @@
 namespace alba
 {
 
-class AprgModeling
+class Modeling
 {
 public:
-    struct ValidationResult
-    {
+    struct ValidationResult    {
         double totalSquareError;
         double resultSize;
         double meanSquareError;
@@ -20,11 +19,10 @@ public:
     };
     using VectorOfDoubles = std::vector<double>;
     using MatrixOfDoubles = AlbaMatrix<double>;
-    AprgModeling();
+    Modeling();
     unsigned int getNumberOfSamples() const;
     MatrixOfDoubles getCoefficients() const;
-    void retrieveDataFromFileWithFileFormat1(std::string const& filePath);
-    void retrieveDataFromFileWithFileFormat2(std::string const& filePath);
+    void retrieveDataFromFileWithFileFormat1(std::string const& filePath);    void retrieveDataFromFileWithFileFormat2(std::string const& filePath);
     void saveRetrievedDataForXAndY(
             unsigned int numberOfIndicators,
             unsigned int numberOfSamples,
