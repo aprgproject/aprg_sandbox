@@ -1,7 +1,8 @@
 #include "Modeling.hpp"
 
 #include <File/AlbaFileReader.hpp>
-#include <PathHandlers/AlbaLocalPathHandler.hpp>#include <Randomizer/AlbaRandomizer.hpp>
+#include <PathHandlers/AlbaLocalPathHandler.hpp>
+#include <Randomizer/AlbaRandomizer.hpp>
 #include <String/AlbaStringHelper.hpp>
 #include <gsl/gsl_multifit.h>
 
@@ -29,7 +30,8 @@ Modeling::MatrixOfDoubles Modeling::getCoefficients() const
 void Modeling::retrieveDataFromFileWithFileFormat1(string const& filePath)
 {
     VectorOfDoubles retrievedDataForX, retrievedDataForY;
-    unsigned int columnsForX = 0, numberOfSamples = 0;    ifstream inputFile(filePath);
+    unsigned int columnsForX = 0, numberOfSamples = 0;
+    ifstream inputFile(filePath);
     AlbaFileReader fileReader(inputFile);
     fileReader.getLineAndIgnoreWhiteSpaces(); // Get Headers
     while(fileReader.isNotFinished())
@@ -57,7 +59,8 @@ void Modeling::retrieveDataFromFileWithFileFormat1(string const& filePath)
 void Modeling::retrieveDataFromFileWithFileFormat2(string const& filePath)
 {
     VectorOfDoubles retrievedDataForX, retrievedDataForY;
-    unsigned int columnsForX = 0, numberOfSamples = 0;    bool isLineWithYValues(true);
+    unsigned int columnsForX = 0, numberOfSamples = 0;
+    bool isLineWithYValues(true);
     VectorOfDoubles reversedCoordinates;
     unsigned int reversedCoordinatesColumns(0);
     unsigned int reversedCoordinatesRows(0);
@@ -111,7 +114,8 @@ void Modeling::retrieveDataFromFileWithFileFormat2(string const& filePath)
 void Modeling::saveRetrievedDataForXAndY(
         unsigned int numberOfIndicators,
         unsigned int numberOfSamples,
-        VectorOfDoubles const& retrievedDataForX,        VectorOfDoubles const& retrievedDataForY)
+        VectorOfDoubles const& retrievedDataForX,
+        VectorOfDoubles const& retrievedDataForY)
 {
     copyVectorToMatrix(numberOfIndicators, numberOfSamples, retrievedDataForX, m_retrievedDataForX);
     copyVectorToMatrix(1, numberOfSamples, retrievedDataForY, m_retrievedDataForY);
@@ -146,6 +150,7 @@ Modeling::ValidationResult Modeling::validate()
 {
     ValidationResult result;
     vector<double> calculationDataBuffer;
+
     unsigned int dataHeight = m_validationDataForY.getRows();
     unsigned int dataWidthForX = m_validationDataForX.getColumns();//why minus 1 lets remove it
     unsigned int index=0;
@@ -207,7 +212,8 @@ void Modeling::printValidationData()
 void Modeling::printData(MatrixOfDoubles & matrixInX, MatrixOfDoubles & matrixInY)
 {
     for(unsigned int j=0; j<matrixInY.getRows(); j++)
-    {        cout<<matrixInY.getEntry(0, j)<<" <- ";
+    {
+        cout<<matrixInY.getEntry(0, j)<<" <- ";
         for(unsigned int i=0; i<matrixInX.getColumns(); i++)
         {
             cout<<matrixInX.getEntry(i, j)<<", ";
@@ -219,7 +225,8 @@ void Modeling::printData(MatrixOfDoubles & matrixInX, MatrixOfDoubles & matrixIn
 void Modeling::copyVectorToMatrix(unsigned int const numberOfColumns, unsigned int const numberOfRows, VectorOfDoubles const& retrievedDataForX, MatrixOfDoubles & matrixOfDoubles)
 {
     matrixOfDoubles.clearAndResize(numberOfColumns, numberOfRows);
-    unsigned int x=0, y=0;    for(double const value : retrievedDataForX)
+    unsigned int x=0, y=0;
+    for(double const value : retrievedDataForX)
     {
         matrixOfDoubles.setEntry(x, y, value);
         x++;
@@ -234,7 +241,8 @@ void Modeling::copyVectorToMatrix(unsigned int const numberOfColumns, unsigned i
 void Modeling::saveRetrievedDataToMatrixRandomly(MatrixOfDoubles & matrixInX, MatrixOfDoubles & matrixInY, unsigned int numberOfSamples)
 {
     matrixInX.clearAndResize(m_retrievedDataForX.getColumns(), numberOfSamples);
-    matrixInY.clearAndResize(1, numberOfSamples);    AlbaRandomizer randomizer;
+    matrixInY.clearAndResize(1, numberOfSamples);
+    AlbaRandomizer randomizer;
     for(unsigned int j=0; j<numberOfSamples; j++)
     {
         unsigned int randomRow((unsigned int)randomizer.getRandomValueInUniformDistribution(0, m_retrievedDataForY.getRows()-1));
@@ -249,7 +257,8 @@ void Modeling::saveRetrievedDataToMatrixRandomly(MatrixOfDoubles & matrixInX, Ma
 void Modeling::saveRetrievedDataToMatrix(MatrixOfDoubles & matrixInX, MatrixOfDoubles & matrixInY, unsigned int numberOfSamples)
 {
     matrixInX.clearAndResize(m_retrievedDataForX.getColumns(), numberOfSamples);
-    matrixInY.clearAndResize(1, numberOfSamples);    for(unsigned int j=0; j<numberOfSamples; j++)
+    matrixInY.clearAndResize(1, numberOfSamples);
+    for(unsigned int j=0; j<numberOfSamples; j++)
     {
         matrixInY.setEntry(0, j, m_retrievedDataForY.getEntry(0, j));
         for(unsigned int i=0; i<m_retrievedDataForX.getColumns(); i++)
@@ -262,7 +271,8 @@ void Modeling::saveRetrievedDataToMatrix(MatrixOfDoubles & matrixInX, MatrixOfDo
 void Modeling::calculateCoefficientsUsingLeastSquares()
 {
     unsigned int dataHeight = m_modelingDataForY.getRows();
-    unsigned int dataWidth = m_modelingDataForX.getColumns();    double chisq;
+    unsigned int dataWidth = m_modelingDataForX.getColumns();
+    double chisq;
 
     gsl_matrix *xModelingData, *calculatedCovariance;
     gsl_vector *yModelingData, *calculatedCoefficients;
@@ -307,4 +317,5 @@ unsigned int Modeling::getIndex(unsigned int const i, unsigned int const j, unsi
 {
     return (j*numberOfColumns)+i;
 }
+
 }

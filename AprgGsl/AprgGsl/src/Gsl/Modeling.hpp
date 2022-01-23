@@ -11,7 +11,8 @@ namespace alba
 class Modeling
 {
 public:
-    struct ValidationResult    {
+    struct ValidationResult
+    {
         double totalSquareError;
         double resultSize;
         double meanSquareError;
@@ -22,7 +23,8 @@ public:
     Modeling();
     unsigned int getNumberOfSamples() const;
     MatrixOfDoubles getCoefficients() const;
-    void retrieveDataFromFileWithFileFormat1(std::string const& filePath);    void retrieveDataFromFileWithFileFormat2(std::string const& filePath);
+    void retrieveDataFromFileWithFileFormat1(std::string const& filePath);
+    void retrieveDataFromFileWithFileFormat2(std::string const& filePath);
     void saveRetrievedDataForXAndY(
             unsigned int numberOfIndicators,
             unsigned int numberOfSamples,

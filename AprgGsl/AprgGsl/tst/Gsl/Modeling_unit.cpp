@@ -16,7 +16,8 @@ TEST(SampleTest, TestForDataSet)
     Modeling modeling;
     modeling.retrieveDataFromFileWithFileFormat1(ALBA_MODELING_DATA_SET_WITH_FILE_FORMAT1_FILE1);
     modeling.printRetrievedData();
-    unsigned int numberOfSamples (modeling.getNumberOfSamples());    modeling.saveRetrievedDataToModelingDataRandomly(numberOfSamples/2);
+    unsigned int numberOfSamples (modeling.getNumberOfSamples());
+    modeling.saveRetrievedDataToModelingDataRandomly(numberOfSamples/2);
     modeling.saveRetrievedDataToValidationDataRandomly(numberOfSamples/2);
     modeling.modelUsingLeastSquares();
     modeling.printModelingData();
@@ -37,7 +38,8 @@ TEST(SampleTest, DISABLED_TestForDataSet3_FileFormat2)
     Modeling modeling;
     modeling.retrieveDataFromFileWithFileFormat2(ALBA_MODELING_DATA_SET_WITH_FILE_FORMAT2_FILE3);
     modeling.printRetrievedData();
-    unsigned int numberOfSamples (modeling.getNumberOfSamples());    modeling.saveRetrievedDataToModelingData(numberOfSamples);
+    unsigned int numberOfSamples (modeling.getNumberOfSamples());
+    modeling.saveRetrievedDataToModelingData(numberOfSamples);
     modeling.saveRetrievedDataToValidationData(numberOfSamples);
     modeling.modelUsingLeastSquares();
     modeling.printModelingData();
@@ -52,4 +54,5 @@ TEST(SampleTest, DISABLED_TestForDataSet3_FileFormat2)
     cout<<"Coefficients:"<<endl;
     cout<<coefficients<<endl;
 }
+
 }

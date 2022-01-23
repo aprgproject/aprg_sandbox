@@ -1,7 +1,8 @@
 #include <AprgGnuPlot3D.hpp>
 #include <ThreeDimensions/Line.hpp>
 #include <ThreeDimensions/Plane.hpp>
-#include <ThreeDimensions/Point.hpp>#include <ThreeDimensions/ThreeDimensionsHelper.hpp>
+#include <ThreeDimensions/Point.hpp>
+#include <ThreeDimensions/ThreeDimensionsHelper.hpp>
 
 #include <gtest/gtest.h>
 
@@ -87,10 +88,12 @@ TEST(AprgGeometryThreeDimensionsTest, DISABLED_PlaneConstructedWithThreePoints)
     gnuPlot3D.endGraph();
 }
 
-TEST(AprgGeometryThreeDimensionsTest, DISABLED_LineOfIntersectionOfTwoPlanes){
+TEST(AprgGeometryThreeDimensionsTest, DISABLED_LineOfIntersectionOfTwoPlanes)
+{
     Point point1OfPlane1(1,0,0);
     Point point2OfPlane1(0,1,0);
-    Point point3OfPlane1(0,0,1);    Point point1OfPlane2(0,0,0);
+    Point point3OfPlane1(0,0,1);
+    Point point1OfPlane2(0,0,0);
     Point point2OfPlane2(1,1,1);
     Point point3OfPlane2(0,1,1);
     Plane plane1(point1OfPlane1, point2OfPlane1, point3OfPlane1);

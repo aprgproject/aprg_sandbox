@@ -1,7 +1,8 @@
 #include <AprgGnuPlot3D.hpp>
 #include <Algebra/Functions/CommonFunctionLibrary.hpp>
 #include <Algebra/Geometry/ThreeDimensions/ThreeDimensionsUtilities.hpp>
-#include <Algebra/Substitution/SubstitutionOfVariablesToValues.hpp>#include <Algebra/Solution/Solver/OneEquationOneVariable/OneEquationOneVariableEqualitySolver.hpp>
+#include <Algebra/Substitution/SubstitutionOfVariablesToValues.hpp>
+#include <Algebra/Solution/Solver/OneEquationOneVariable/OneEquationOneVariableEqualitySolver.hpp>
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
 #include <Algebra/Utilities/KnownNames.hpp>
 
@@ -9,10 +10,12 @@
 
 using namespace alba::algebra;
 using namespace alba::algebra::Functions;
-using namespace alba::algebra::ThreeDimensions;using namespace std;
+using namespace alba::algebra::ThreeDimensions;
+using namespace std;
 
 namespace alba
 {
+
 TEST(AprgAlgebraTest, DISABLED_ThreeDimensionsGeometricEquationCanBeShown)
 {
     Equation generalEquation(getHyperbolicParaboloidEquation());
@@ -27,7 +30,8 @@ TEST(AprgAlgebraTest, DISABLED_ThreeDimensionsGeometricEquationCanBeShown)
     AprgGnuPlot3D::PointsInGraph pointsOfEquation;
     for(double x=-100; x<=100; x+=5)
     {
-        for(double y=-100; y<=100; y+=5)        {
+        for(double y=-100; y<=100; y+=5)
+        {
             SubstitutionOfVariablesToValues substitution{{"x", x}, {"y", y}};
             Equation equationWithZ(substitution.performSubstitutionTo(equationWithValues));
             OneEquationOneVariableEqualitySolver solver;
@@ -50,14 +54,16 @@ TEST(AprgAlgebraTest, DISABLED_ThreeDimensionsGeometricEquationCanBeShown)
     gnuPlot3D.endGraph();
 }
 
-TEST(AprgAlgebraTest, DISABLED_EquationCanBeShown){
+TEST(AprgAlgebraTest, DISABLED_EquationCanBeShown)
+{
     Term leftHandSize(Polynomial({Monomial(2, {{"x", 4}}), Monomial(1, {{"y", 2}}), Monomial(-1, {{"x", 2}}), Monomial(-2, {{"y", 1}})}));
     Term rightHandSize(z);
     Equation equation(leftHandSize, "=", rightHandSize);
     AprgGnuPlot3D::PointsInGraph pointsOfEquation;
     for(double x=-2; x<=2; x+=0.1)
     {
-        for(double y=-2; y<=2; y+=0.1)        {
+        for(double y=-2; y<=2; y+=0.1)
+        {
             SubstitutionOfVariablesToValues substitution{{"x", x}, {"y", y}};
             Equation equationWithZ(substitution.performSubstitutionTo(equation));
             OneEquationOneVariableEqualitySolver solver;

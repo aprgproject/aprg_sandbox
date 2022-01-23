@@ -1,0 +1,14 @@
+1) https://www.gnu.org/software/gsl/
+There should be this part:
+Documentation
+
+GSL includes a reference manual in reStructuredText format. You can view the manual in HTML and PDF, or read it on your system using the shell command info gsl-ref (if the library is installed).
+
+The GSL Reference Manual is available online,
+
+    GSL Reference Manual - HTML
+    GSL Reference Manual - PDF
+
+
+2) Direct link for PDF:
+https://www.gnu.org/software/gsl/doc/latex/gsl-ref.pdf

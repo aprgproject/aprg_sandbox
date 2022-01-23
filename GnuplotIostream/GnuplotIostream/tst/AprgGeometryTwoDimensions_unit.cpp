@@ -1,7 +1,8 @@
 #include <AprgGnuPlot2D.hpp>
 #include <TwoDimensions/Circle.hpp>
 #include <TwoDimensions/Hyperbola.hpp>
-#include <TwoDimensions/Line.hpp>#include <TwoDimensions/TwoDimensionsHelper.hpp>
+#include <TwoDimensions/Line.hpp>
+#include <TwoDimensions/TwoDimensionsHelper.hpp>
 
 #include <gtest/gtest.h>
 
