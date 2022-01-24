@@ -4,9 +4,11 @@
 #include <PathHandlers/AlbaLocalPathHandler.hpp>
 
 #include <gtest/gtest.h>
+
 #include <array>
 #include <map>
-#include <set>#include <string>
+#include <set>
+#include <string>
 #include <vector>
 
 using namespace alba::containerHelper;
@@ -170,10 +172,12 @@ TEST(ContainerTest, SaveVectorOfIntegersToFile)
     ifstream inputTestFile(testFilePath.getFullPath());
     ASSERT_TRUE(inputTestFile.is_open());
 
-    AlbaFileReader fileReader(inputTestFile);    ASSERT_TRUE(inputTestFile.good());
+    AlbaFileReader fileReader(inputTestFile);
+    ASSERT_TRUE(inputTestFile.good());
     ASSERT_FALSE(inputTestFile.eof());
     EXPECT_TRUE(fileReader.isNotFinished());
-    EXPECT_EQ("0", fileReader.getLine());    EXPECT_EQ("-23", fileReader.getLine());
+    EXPECT_EQ("0", fileReader.getLine());
+    EXPECT_EQ("-23", fileReader.getLine());
     EXPECT_EQ("4", fileReader.getLine());
     EXPECT_EQ("379", fileReader.getLine());
     EXPECT_EQ("-482", fileReader.getLine());
@@ -189,16 +193,19 @@ TEST(ContainerTest, RetrieveVectorOfIntegersFromFile)
     ofstream outputTestFile(testFilePath.getFullPath());
     outputTestFile<<"18723"<<endl;
     outputTestFile<<"-608"<<endl;
-    outputTestFile<<"-43735"<<endl;    outputTestFile<<"23234"<<endl;
+    outputTestFile<<"-43735"<<endl;
+    outputTestFile<<"23234"<<endl;
     outputTestFile.close();
 
     ifstream inputTestFile(testFilePath.getFullPath());
     ASSERT_TRUE(inputTestFile.is_open());
 
     retrieveContentsOfContainerFromFile(inputTestFile, temporaryArray);
+
     ASSERT_EQ(4U, temporaryArray.size());
     auto it = temporaryArray.begin();
-    EXPECT_EQ(18723, *(it++));    EXPECT_EQ(-608, *(it++));
+    EXPECT_EQ(18723, *(it++));
+    EXPECT_EQ(-608, *(it++));
     EXPECT_EQ(-43735, *(it++));
     EXPECT_EQ(23234, *(it++));
 }
@@ -222,10 +229,12 @@ TEST(ContainerTest, SaveArrayOfIntegersToFile)
     ifstream inputTestFile(testFilePath.getFullPath());
     ASSERT_TRUE(inputTestFile.is_open());
 
-    AlbaFileReader fileReader(inputTestFile);    ASSERT_TRUE(inputTestFile.good());
+    AlbaFileReader fileReader(inputTestFile);
+    ASSERT_TRUE(inputTestFile.good());
     ASSERT_FALSE(inputTestFile.eof());
     EXPECT_TRUE(fileReader.isNotFinished());
-    EXPECT_EQ("0", fileReader.getLine());    EXPECT_EQ("-23", fileReader.getLine());
+    EXPECT_EQ("0", fileReader.getLine());
+    EXPECT_EQ("-23", fileReader.getLine());
     EXPECT_EQ("4", fileReader.getLine());
     EXPECT_EQ("379", fileReader.getLine());
     EXPECT_EQ("-482", fileReader.getLine());
@@ -241,16 +250,19 @@ TEST(ContainerTest, RetrieveArrayOfIntegersFromFile)
     ofstream outputTestFile(testFilePath.getFullPath());
     outputTestFile<<"18723"<<endl;
     outputTestFile<<"-608"<<endl;
-    outputTestFile<<"-43735"<<endl;    outputTestFile<<"23234"<<endl;
+    outputTestFile<<"-43735"<<endl;
+    outputTestFile<<"23234"<<endl;
     outputTestFile.close();
 
     ifstream inputTestFile(testFilePath.getFullPath());
     ASSERT_TRUE(inputTestFile.is_open());
 
     retrieveContentsOfContainerFromFile(inputTestFile, temporaryVector);
+
     ASSERT_EQ(4U, temporaryVector.size());
     auto it = temporaryVector.begin();
-    EXPECT_EQ(18723, *(it++));    EXPECT_EQ(-608, *(it++));
+    EXPECT_EQ(18723, *(it++));
+    EXPECT_EQ(-608, *(it++));
     EXPECT_EQ(-43735, *(it++));
     EXPECT_EQ(23234, *(it++));
 }
@@ -273,10 +285,12 @@ TEST(ContainerTest, SaveSetOfIntegersToFile)
     ifstream inputTestFile(testFilePath.getFullPath());
     ASSERT_TRUE(inputTestFile.is_open());
 
-    AlbaFileReader fileReader(inputTestFile);    ASSERT_TRUE(inputTestFile.good());
+    AlbaFileReader fileReader(inputTestFile);
+    ASSERT_TRUE(inputTestFile.good());
     ASSERT_FALSE(inputTestFile.eof());
     EXPECT_TRUE(fileReader.isNotFinished());
-    EXPECT_EQ("-482", fileReader.getLine());    EXPECT_EQ("-23", fileReader.getLine());
+    EXPECT_EQ("-482", fileReader.getLine());
+    EXPECT_EQ("-23", fileReader.getLine());
     EXPECT_EQ("0", fileReader.getLine());
     EXPECT_EQ("4", fileReader.getLine());
     EXPECT_EQ("37", fileReader.getLine());
@@ -292,16 +306,19 @@ TEST(ContainerTest, RetrieveSetOfIntegersFromFile)
     ofstream outputTestFile(testFilePath.getFullPath());
     outputTestFile<<"18723"<<endl;
     outputTestFile<<"-608"<<endl;
-    outputTestFile<<"-43735"<<endl;    outputTestFile<<"23234"<<endl;
+    outputTestFile<<"-43735"<<endl;
+    outputTestFile<<"23234"<<endl;
     outputTestFile.close();
 
     ifstream inputTestFile(testFilePath.getFullPath());
     ASSERT_TRUE(inputTestFile.is_open());
 
     retrieveContentsOfContainerFromFile(inputTestFile, temporarySet);
+
     ASSERT_EQ(4U, temporarySet.size());
     auto it = temporarySet.begin();
-    EXPECT_EQ(-43735, *(it++));    EXPECT_EQ(-608, *(it++));
+    EXPECT_EQ(-43735, *(it++));
+    EXPECT_EQ(-608, *(it++));
     EXPECT_EQ(18723, *(it++));
     EXPECT_EQ(23234, *(it++));
 }
@@ -328,10 +345,12 @@ TEST(ContainerTest, SaveMapOfIntegersToFile)
     ifstream inputTestFile(testFilePath.getFullPath());
     ASSERT_TRUE(inputTestFile.is_open());
 
-    AlbaFileReader fileReader(inputTestFile);    ASSERT_TRUE(inputTestFile.good());
+    AlbaFileReader fileReader(inputTestFile);
+    ASSERT_TRUE(inputTestFile.good());
     ASSERT_FALSE(inputTestFile.eof());
     EXPECT_TRUE(fileReader.isNotFinished());
-    EXPECT_EQ("-76", fileReader.getLine());    EXPECT_EQ("74", fileReader.getLine());
+    EXPECT_EQ("-76", fileReader.getLine());
+    EXPECT_EQ("74", fileReader.getLine());
     EXPECT_EQ("83", fileReader.getLine());
     EXPECT_EQ("95", fileReader.getLine());
     EXPECT_EQ("2348", fileReader.getLine());
@@ -347,16 +366,19 @@ TEST(ContainerTest, RetrieveMapOfIntegersFromFile)
     ofstream outputTestFile(testFilePath.getFullPath());
     outputTestFile<<"1"<<endl;
     outputTestFile<<"2"<<endl;
-    outputTestFile<<"3"<<endl;    outputTestFile<<"4"<<endl;
+    outputTestFile<<"3"<<endl;
+    outputTestFile<<"4"<<endl;
     outputTestFile.close();
 
     ifstream inputTestFile(testFilePath.getFullPath());
     ASSERT_TRUE(inputTestFile.is_open());
 
     retrieveContentsOfContainerFromFile(inputTestFile, temporaryMap);
+
     ASSERT_EQ(2U, temporaryMap.size());
     auto it = temporaryMap.begin();
-    EXPECT_EQ(1, it->first);    EXPECT_EQ(2, it->second);
+    EXPECT_EQ(1, it->first);
+    EXPECT_EQ(2, it->second);
     it++;
     EXPECT_EQ(3, it->first);
     EXPECT_EQ(4, it->second);

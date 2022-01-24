@@ -1,4 +1,5 @@
-#include <Gsl/Modeling.hpp>
+#include <AprgGsl/Modeling.hpp>
+#include <PathHandlers/AlbaLocalPathHandler.hpp>
 
 #include <gtest/gtest.h>
 
@@ -13,8 +14,9 @@ namespace alba
 
 TEST(SampleTest, TestForDataSet)
 {
+    AlbaLocalPathHandler testFilePath(ALBA_MODELING_DATA_SET_WITH_FILE_FORMAT1_FILE1);
     Modeling modeling;
-    modeling.retrieveDataFromFileWithFileFormat1(ALBA_MODELING_DATA_SET_WITH_FILE_FORMAT1_FILE1);
+    modeling.retrieveDataFromFileWithFileFormat1(testFilePath.getFullPath());
     modeling.printRetrievedData();
     unsigned int numberOfSamples (modeling.getNumberOfSamples());
     modeling.saveRetrievedDataToModelingDataRandomly(numberOfSamples/2);
@@ -35,8 +37,9 @@ TEST(SampleTest, TestForDataSet)
 
 TEST(SampleTest, DISABLED_TestForDataSet3_FileFormat2)
 {
+    AlbaLocalPathHandler testFilePath(ALBA_MODELING_DATA_SET_WITH_FILE_FORMAT2_FILE3);
     Modeling modeling;
-    modeling.retrieveDataFromFileWithFileFormat2(ALBA_MODELING_DATA_SET_WITH_FILE_FORMAT2_FILE3);
+    modeling.retrieveDataFromFileWithFileFormat2(testFilePath.getFullPath());
     modeling.printRetrievedData();
     unsigned int numberOfSamples (modeling.getNumberOfSamples());
     modeling.saveRetrievedDataToModelingData(numberOfSamples);

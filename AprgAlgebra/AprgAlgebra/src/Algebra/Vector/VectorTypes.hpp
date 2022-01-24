@@ -36,4 +36,5 @@ using MathVectorOfTwoTerms = MathVectorOfTerms<2U>;
 using MathVectorOfThreeTerms = MathVectorOfTerms<3U>;
 
 }
+
 }
