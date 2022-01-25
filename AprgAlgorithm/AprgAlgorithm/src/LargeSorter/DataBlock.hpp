@@ -36,10 +36,12 @@ public:
         , m_lowestValue{}
     {
         switch(blockType)
-        {        case DataBlockType::Empty:
+        {
+        case DataBlockType::Empty:
             break;
         case DataBlockType::File:
-            createFileHandlerIfNeeded();            break;
+            createFileHandlerIfNeeded();
+            break;
         case DataBlockType::Memory:
             createMemoryHandlerIfNeeded();
             break;

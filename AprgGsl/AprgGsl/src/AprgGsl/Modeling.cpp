@@ -155,10 +155,12 @@ Modeling::ValidationResult Modeling::validate()
     unsigned int dataWidthForX = m_validationDataForX.getColumns();
     unsigned int index=0;
     for(unsigned int j=0; j<dataHeight; j++)
-    {        double yPredicted=0;
+    {
+        double yPredicted=0;
         for (unsigned int i=0; i < dataWidthForX; i++)
         {
-            yPredicted += m_validationDataForX.getEntry(i, j)*m_coefficients.getEntry(i, 0);            index++;
+            yPredicted += m_validationDataForX.getEntry(i, j)*m_coefficients.getEntry(i, 0);
+            index++;
         }
         calculationDataBuffer.emplace_back(yPredicted);
     }

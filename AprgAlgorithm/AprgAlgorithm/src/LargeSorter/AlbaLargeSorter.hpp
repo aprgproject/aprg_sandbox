@@ -79,10 +79,12 @@ private:
         if(blockIterator->getNumberOfObjects() >= m_configuration.m_maximumNumberOfObjectsPerBlock)
         {
             splitToSmallestBlocks(blockIterator, DataBlockType::Memory);
-        }    }
+        }
+    }
 
     //nth element implementation // comment this out because nth element is not stable
-    /*    void splitToSmallestBlocks(BlockIterator const & blockIterator, DataBlockType const blockTypeForNewBlocks)
+    /*
+    void splitToSmallestBlocks(BlockIterator const & blockIterator, DataBlockType const blockTypeForNewBlocks)
     {
         BlockIterator iteratorAfterBlockToSplit(blockIterator);
         iteratorAfterBlockToSplit++;
@@ -134,9 +136,11 @@ private:
         });
         m_blocks.deleteBlock(blockIterator);
     }
+
     void limitMemoryConsumption()
     {
-        unsigned int totalMemoryConsumption = calculateTotalMemoryConsumption();        transferMemoryBlocksToFileIfNeeded(totalMemoryConsumption);
+        unsigned int totalMemoryConsumption = calculateTotalMemoryConsumption();
+        transferMemoryBlocksToFileIfNeeded(totalMemoryConsumption);
     }
     unsigned int calculateTotalMemoryConsumption()
     {

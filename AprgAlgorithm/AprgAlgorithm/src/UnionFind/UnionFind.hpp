@@ -5,9 +5,11 @@
 
 namespace alba
 {
+
 template <unsigned int SIZE>
 class UnionFind
-{public:
+{
+public:
     UnionFind()
         : m_ids()
         , m_count(SIZE)

@@ -5,18 +5,22 @@
 
 namespace alba
 {
+
 template <typename ObjectType>
 class AlbaLinkedListStack
-{public:
+{
+public:
     struct Node
     {
         ObjectType object;
         std::unique_ptr<Node> next;
     };
 
-    AlbaLinkedListStack()        : m_currentSize(0)
+    AlbaLinkedListStack()
+        : m_currentSize(0)
         , m_first(nullptr)
     {}
+
     bool isEmpty() const
     {
         return m_currentSize == 0;
@@ -46,7 +50,8 @@ class AlbaLinkedListStack
             m_first = std::move(m_first->next);
             m_currentSize--;
         }
-        return result;    }
+        return result;
+    }
 
 private:
 
