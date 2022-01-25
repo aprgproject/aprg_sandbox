@@ -1,25 +1,22 @@
 #pragma once
 
 #include <cassert>
+#include <memory>
 
 namespace alba
 {
-
 template <typename ObjectType>
 class AlbaLinkedListQueue
-{
-public:
+{public:
     struct Node
     {
         ObjectType object;
-        Node* next;
+        std::unique_ptr<Node> next;
     };
 
-    AlbaLinkedListQueue()
-        : m_currentSize(0)
+    AlbaLinkedListQueue()        : m_currentSize(0)
         , m_first(nullptr)
     {}
-
     bool isEmpty() const
     {
         return m_currentSize == 0;
@@ -35,56 +32,39 @@ public:
         //Add item to the end of the list
         if(isEmpty())
         {
-            m_first = new Node{};
+            m_first.reset(new Node{});
             m_first->object = object;
-            m_first->next = nullptr;
-            m_last = m_first;
+            m_last = m_first.get();
         }
         else
         {
-            m_last->next = new Node{};
-            m_last = m_last->next;
+            m_last->next.reset(new Node{});
+            m_last = m_last->next.get();
             m_last->object = object;
-            m_last->next = nullptr;
         }
         m_currentSize++;
     }
-
     ObjectType dequeue()
     {
         // Remove item from the beginning of the list
-        assert(m_first != nullptr);
+        assert(m_first);
         ObjectType result{};
-        if(m_first != nullptr)
+        if(m_first)
         {
             result = m_first->object;
-            Node* newHead = m_first->next;
-            delete m_first;
-            m_first = newHead;
+            m_first = std::move(m_first->next);
             m_currentSize--;
         }
-        if(isEmpty())
-        {
+        if(isEmpty())        {
             m_last = nullptr;
         }
         return result;
     }
 
 private:
-    void deleteAllObjects()
-    {
-        Node* currentPointer = m_first;
-        while(currentPointer != nullptr)
-        {
-            Node* nextPointer = currentPointer->next;
-            delete currentPointer;
-            currentPointer = nextPointer;
-        }
-    }
 
     unsigned int m_currentSize;
-    Node* m_first;
+    std::unique_ptr<Node> m_first;
     Node* m_last;
 };
-
 }

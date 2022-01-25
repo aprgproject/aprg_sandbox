@@ -76,15 +76,13 @@ public:
 private:
     void splitToSmallestBlocksIfOverflow(BlockIterator const & blockIterator)
     {
-        while(blockIterator->getNumberOfObjects() >= m_configuration.m_maximumNumberOfObjectsPerBlock)
+        if(blockIterator->getNumberOfObjects() >= m_configuration.m_maximumNumberOfObjectsPerBlock)
         {
             splitToSmallestBlocks(blockIterator, DataBlockType::Memory);
-        }
-    }
+        }    }
 
     //nth element implementation // comment this out because nth element is not stable
-    /*
-    void splitToSmallestBlocks(BlockIterator const & blockIterator, DataBlockType const blockTypeForNewBlocks)
+    /*    void splitToSmallestBlocks(BlockIterator const & blockIterator, DataBlockType const blockTypeForNewBlocks)
     {
         BlockIterator iteratorAfterBlockToSplit(blockIterator);
         iteratorAfterBlockToSplit++;
@@ -129,15 +127,16 @@ private:
             }
             m_blocks.addObjectToBlock(newBlockIterator, objectToSort);
             numberOfObjectsInCurrentBlock++;
-            numberOfObjectsInCurrentBlock = (numberOfObjectsInCurrentBlock < static_cast<int>(m_configuration.m_minimumNumberOfObjectsPerBlock)) ? numberOfObjectsInCurrentBlock : 0;
+            if(numberOfObjectsInCurrentBlock >= static_cast<int>(m_configuration.m_minimumNumberOfObjectsPerBlock))
+            {
+                numberOfObjectsInCurrentBlock = 0;
+            }
         });
         m_blocks.deleteBlock(blockIterator);
     }
-
     void limitMemoryConsumption()
     {
-        unsigned int totalMemoryConsumption = calculateTotalMemoryConsumption();
-        transferMemoryBlocksToFileIfNeeded(totalMemoryConsumption);
+        unsigned int totalMemoryConsumption = calculateTotalMemoryConsumption();        transferMemoryBlocksToFileIfNeeded(totalMemoryConsumption);
     }
     unsigned int calculateTotalMemoryConsumption()
     {

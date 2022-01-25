@@ -76,15 +76,13 @@ ostream& operator<<(ostream & out, TestObject const& testObject)
 
 istream& operator>>(istream & in, TestObject& testObject)
 {
-    bool isEmpty;
+    bool isEmpty(false);
     in >> testObject.m_valueInteger;
     in >> testObject.m_valueDouble;
-    in >> testObject.m_valueCharacter;
-    in >> isEmpty;
+    in >> testObject.m_valueCharacter;    in >> isEmpty;
     if(!isEmpty)
     {
-        in >> testObject.m_valueString;
-    }
+        in >> testObject.m_valueString;    }
     return in;
 }
 

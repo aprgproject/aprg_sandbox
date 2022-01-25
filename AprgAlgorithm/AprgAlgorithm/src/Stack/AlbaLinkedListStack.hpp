@@ -1,25 +1,22 @@
 #pragma once
 
 #include <cassert>
+#include <memory>
 
 namespace alba
 {
-
 template <typename ObjectType>
 class AlbaLinkedListStack
-{
-public:
+{public:
     struct Node
     {
         ObjectType object;
-        Node* next;
+        std::unique_ptr<Node> next;
     };
 
-    AlbaLinkedListStack()
-        : m_currentSize(0)
+    AlbaLinkedListStack()        : m_currentSize(0)
         , m_first(nullptr)
     {}
-
     bool isEmpty() const
     {
         return m_currentSize == 0;
@@ -32,42 +29,29 @@ public:
 
     void push(ObjectType const& object)
     {
-        Node* newNext = m_first;
-        m_first = new Node{};
+        std::unique_ptr<Node> newNext = std::move(m_first);
+        m_first.reset(new Node{});
         m_first->object = object;
-        m_first->next = newNext;
+        m_first->next = std::move(newNext);
         m_currentSize++;
     }
 
     ObjectType pop()
     {
-        assert(m_first != nullptr);
+        assert(m_first);
         ObjectType result{};
-        if(m_first != nullptr)
+        if(m_first)
         {
             result = m_first->object;
-            Node* newHead = m_first->next;
-            delete m_first;
-            m_first = newHead;
+            m_first = std::move(m_first->next);
             m_currentSize--;
         }
-        return result;
-    }
+        return result;    }
 
 private:
-    void deleteAllObjects()
-    {
-        Node* currentPointer = m_first;
-        while(currentPointer != nullptr)
-        {
-            Node* nextPointer = currentPointer->next;
-            delete currentPointer;
-            currentPointer = nextPointer;
-        }
-    }
 
     unsigned int m_currentSize;
-    Node* m_first;
+    std::unique_ptr<Node> m_first;
 };
 
 }

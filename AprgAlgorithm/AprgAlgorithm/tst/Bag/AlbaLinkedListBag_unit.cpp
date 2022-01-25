@@ -44,17 +44,24 @@ TEST(AlbaLinkedListBagTest, TraverseWorks)
     unsigned int i=0;
     bag.traverse([&](unsigned int const& object)
     {
-        if(i==0) EXPECT_EQ(3U, object);
-        else if(i==1) EXPECT_EQ(2U, object);
-        else if(i==2) EXPECT_EQ(1U, object);
+        if(i==0)
+        {
+            EXPECT_EQ(3U, object);
+        }
+        else if(i==1)
+        {
+            EXPECT_EQ(2U, object);
+        }
+        else if(i==2)
+        {
+            EXPECT_EQ(1U, object);
+        }
         i++;
     });
 }
-
 TEST(AlbaLinkedListBagTest, AddWorks)
 {
     BagForTest bag;
-
     bag.add(1U);
     bag.add(2U);
     bag.add(3U);
@@ -63,11 +70,19 @@ TEST(AlbaLinkedListBagTest, AddWorks)
     unsigned int i=0;
     bag.traverse([&](unsigned int const& object)
     {
-        if(i==0) EXPECT_EQ(3U, object);
-        else if(i==1) EXPECT_EQ(2U, object);
-        else if(i==2) EXPECT_EQ(1U, object);
+        if(i==0)
+        {
+            EXPECT_EQ(3U, object);
+        }
+        else if(i==1)
+        {
+            EXPECT_EQ(2U, object);
+        }
+        else if(i==2)
+        {
+            EXPECT_EQ(1U, object);
+        }
         i++;
     });
 }
-
 }
