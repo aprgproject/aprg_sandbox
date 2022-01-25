@@ -41,51 +41,49 @@ public:
     Sample getSum()
     {
         calculateSumIfNeeded();
-        return m_sum.getReference();
+        return m_sum.getConstReference();
     }
 
     Sample getMean()
     {
         calculateMeanIfNeeded();
-        return m_mean.getReference();
+        return m_mean.getConstReference();
     }
 
     Sample getSampleVariance()
     {
         calculateSampleVarianceIfNeeded();
-        return m_sampleVariance.getReference();
+        return m_sampleVariance.getConstReference();
     }
 
     Sample getSampleStandardDeviation()
     {
         calculateSampleStandardDeviationIfNeeded();
-        return m_sampleStandardDeviation.getReference();
+        return m_sampleStandardDeviation.getConstReference();
     }
 
     Sample getPopulationVariance()
     {
         calculatePopulationVarianceIfNeeded();
-        return m_populationVariance.getReference();
+        return m_populationVariance.getConstReference();
     }
 
     Sample getPopulationStandardDeviation()
     {
         calculatePopulationStandardDeviationIfNeeded();
-        return m_populationStandardDeviation.getReference();
+        return m_populationStandardDeviation.getConstReference();
     }
 
     double getDispersionAroundTheCentroid()
     {
         calculateDispersionAroundTheCentroidIfNeeded();
-        return m_dispersionAroundTheCentroid.getReference();
+        return m_dispersionAroundTheCentroid.getConstReference();
     }
 
-protected:
-    void calculateSumIfNeeded()
+protected:    void calculateSumIfNeeded()
     {
         if(!m_sum)
-        {
-            m_sum.setValue(StatisticsUtilities::calculateSum(m_samples));
+        {            m_sum.setValue(StatisticsUtilities::calculateSum(m_samples));
         }
     }
 
@@ -95,14 +93,12 @@ protected:
         {
             calculateSumIfNeeded();
             unsigned int sampleSize(m_samples.empty() ? 1 : m_samples.size());
-            m_mean.setValue(m_sum.getReference()/sampleSize);
+            m_mean.setValue(m_sum.getConstReference()/sampleSize);
         }
     }
-
     void calculateSampleVarianceIfNeeded()
     {
-        calculateVarianceIfNeeded(m_sampleVariance, m_samples.size()-1);
-    }
+        calculateVarianceIfNeeded(m_sampleVariance, m_samples.size()-1);    }
 
     void calculateSampleStandardDeviationIfNeeded()
     {
@@ -129,15 +125,13 @@ protected:
                 calculateMeanIfNeeded();
                 for(Sample & sample: varianceCalculationTemp)
                 {
-                    sample = sample-m_mean.getReference();
+                    sample = sample-m_mean.getConstReference();
                     sample = sample.calculateRaiseToPower(2);
                 }
-                variance.setValue(StatisticsUtilities::calculateSum(varianceCalculationTemp)/sampleSize);
-            }
+                variance.setValue(StatisticsUtilities::calculateSum(varianceCalculationTemp)/sampleSize);            }
             else
             {
-                variance.setValue(Sample{});
-            }
+                variance.setValue(Sample{});            }
         }
     }
 
@@ -146,26 +140,23 @@ protected:
         if(!standardDeviation)
         {
             calculateVarianceIfNeeded(variance, sampleSize);
-            Sample standardDeviationTemp(variance.getReference());
+            Sample standardDeviationTemp(variance.getConstReference());
             standardDeviationTemp = standardDeviationTemp.calculateRaiseToInversePower(2);
             standardDeviation.setValue(standardDeviationTemp);
-        }
-    }
+        }    }
 
     void calculateDispersionAroundTheCentroidIfNeeded()
     {
         if(!m_dispersionAroundTheCentroid)
         {
             calculateSampleStandardDeviationIfNeeded();
-            Sample dispersionCalculationTemp(m_sampleStandardDeviation.getReference());
+            Sample dispersionCalculationTemp(m_sampleStandardDeviation.getConstReference());
             dispersionCalculationTemp = dispersionCalculationTemp.calculateRaiseToPower(2);
             m_dispersionAroundTheCentroid.setValue(pow((double)dispersionCalculationTemp.getSum(), 0.5));
-        }
-    }
+        }    }
 
     SampleOptional m_sum;
-    SampleOptional m_mean;
-    SampleOptional m_sampleVariance;
+    SampleOptional m_mean;    SampleOptional m_sampleVariance;
     SampleOptional m_sampleStandardDeviation;
     SampleOptional m_populationVariance;
     SampleOptional m_populationStandardDeviation;

@@ -9,44 +9,40 @@ namespace alba
 
 TwoDimensionsStatistics::LineModel TwoDimensionsStatistics::calculateLineModelUsingLeastSquares(Samples const& samples)
 {
-    bool isDifferenceForXNotZero(false);
-    bool isDifferenceForYNotZero(false);
+    bool areAllDifferenceForXZero(true);
+    bool areAllDifferenceForYZero(true);
     double xMinusXmeanSquared(0); //Xi-mean(X)
     double yMinusYmeanSquared(0); //Yi-mean(Y)
     double xMinusXmeanTimesYMinusYmean(0);// (Xi-mean(X))*(Yi-mean(Y))
-
     LineModel lineModel;
     Statistics statistics(samples);
-    Sample mean(statistics.getMean());
-    for(Sample const& sample : samples)
+    Sample mean(statistics.getMean());    for(Sample const& sample : samples)
     {
         double differenceInMeanInX(sample.getValueAt(0)-mean.getValueAt(0));
         double differenceInMeanInY(sample.getValueAt(1)-mean.getValueAt(1));
-        isDifferenceForXNotZero = (differenceInMeanInX!=0)|isDifferenceForXNotZero;
-        isDifferenceForYNotZero = (differenceInMeanInY!=0)|isDifferenceForYNotZero;
+        areAllDifferenceForXZero = areAllDifferenceForXZero && (differenceInMeanInX==0);
+        areAllDifferenceForYZero = areAllDifferenceForYZero && (differenceInMeanInY==0);
         xMinusXmeanSquared += (differenceInMeanInX*differenceInMeanInX);
         yMinusYmeanSquared += (differenceInMeanInY*differenceInMeanInY);
         xMinusXmeanTimesYMinusYmean += differenceInMeanInX*differenceInMeanInY;
     }
-    if(!isDifferenceForXNotZero && !isDifferenceForYNotZero)
+    if(areAllDifferenceForXZero && areAllDifferenceForYZero)
     {
         lineModel.aCoefficient = 0;
         lineModel.bCoefficient = 0;
     }
-    else if(!isDifferenceForXNotZero)
+    else if(areAllDifferenceForXZero)
     {
         lineModel.aCoefficient = 1;
         lineModel.bCoefficient = 0;
     }
-    else if(!isDifferenceForYNotZero)
+    else if(areAllDifferenceForYZero)
     {
         lineModel.aCoefficient = 0;
-        lineModel.bCoefficient = 1;
-    }
+        lineModel.bCoefficient = 1;    }
     else
     {
-        double slopeInX(xMinusXmeanTimesYMinusYmean/xMinusXmeanSquared);
-        double slopeInY(xMinusXmeanTimesYMinusYmean/yMinusYmeanSquared);
+        double slopeInX(xMinusXmeanTimesYMinusYmean/xMinusXmeanSquared);        double slopeInY(xMinusXmeanTimesYMinusYmean/yMinusYmeanSquared);
         if(mathHelper::getAbsoluteValue(slopeInY)<mathHelper::getAbsoluteValue(slopeInX))
         {
             lineModel.aCoefficient = 1;
