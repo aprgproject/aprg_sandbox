@@ -1,51 +1,32 @@
 #pragma once
 
+#include <PriorityQueue/HeapTreeAdapter.hpp>
+
+#include <functional>
 #include <utility>
 
 namespace alba
 {
 
-template <typename Values>
+template <typename Value, typename Values>
 class HeapSorter
 {
 public:
     void sort(Values & valuesToSort) const
     {
+        constexpr unsigned int NUMBER_OF_CHILDREN_IN_HEAP_TREE=2U;
+        HeapTreeAdapter<Value, Values, NUMBER_OF_CHILDREN_IN_HEAP_TREE, std::less> heapTreeAdapter(valuesToSort);
+
         unsigned int size = valuesToSort.size();
-        for(unsigned int treeIndex=size/2; treeIndex>=1; treeIndex--)
+        for(unsigned int treeIndex=size/NUMBER_OF_CHILDREN_IN_HEAP_TREE; treeIndex>=1; treeIndex--)
         {
-            sink(valuesToSort, treeIndex, size);
+            heapTreeAdapter.sink(treeIndex, size);
         }
         while(size > 1)
         {
             std::swap(valuesToSort[0], valuesToSort[size-1]);
             size--;
-            sink(valuesToSort, 1, size);
-        }
-    }
-
-private:
-    void sink(
-            Values & valuesToSort,
-            unsigned int const startTreeIndex,
-            unsigned int const size) const
-    {
-        //Sink is "top down reheapify"
-        unsigned int treeIndex(startTreeIndex);
-        while(treeIndex*2 < size)
-        {
-            unsigned int doubleIndex(treeIndex*2);
-            if(doubleIndex < size
-                    && valuesToSort.at(doubleIndex-1) < valuesToSort.at(doubleIndex))
-            {
-                doubleIndex++;
-            }
-            if(valuesToSort.at(treeIndex-1) >= valuesToSort.at(doubleIndex-1))
-            {
-                break;
-            }
-            std::swap(valuesToSort[treeIndex-1], valuesToSort[doubleIndex-1]);
-            treeIndex=doubleIndex;
+            heapTreeAdapter.sink(1U, size);
         }
     }
 };
