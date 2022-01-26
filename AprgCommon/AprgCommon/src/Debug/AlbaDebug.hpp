@@ -53,15 +53,13 @@ static std::ofstream debugStream(ALBA_PRINT_OUTPUT_STREAM_FILE_PATH);
 #define ALBA_PRINT6(...) ALBA_PRINT_OUTPUT_STREAM << "ALBA_PRINT6 in " << __FUNCTION__ << "(...) in line:" << __LINE__ << " || " << Z_ALBA_PRIVATE_GET_STRING_PRINT6(__VA_ARGS__) << endl
 
 #define ALBA_PRINT_CONTAINER(container)  \
-    ALBA_PRINT_OUTPUT_STREAM << "ALBA_PRINT_CONTAINER in " << __FUNCTION__ << "(...): " \
+    ALBA_PRINT_OUTPUT_STREAM << "ALBA_PRINT_CONTAINER in " << __FUNCTION__ << "(...) in line:" << __LINE__ << " || " \
     << ALBA_MACROS_GET_STRING_LITERAL(container) \
     << " (with size " << container.size() <<")" \
-    << " : {"; \
-    for(auto const& item : container) \
+    << " : {"; \    for(auto const& item : container) \
 { \
     ALBA_PRINT_OUTPUT_STREAM << "[" << item << "], "; \
-} \
-    ALBA_PRINT_OUTPUT_STREAM << "}" << endl;
+} \    ALBA_PRINT_OUTPUT_STREAM << "}" << endl;
 
 
 }//namespace alba
