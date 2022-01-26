@@ -4,10 +4,12 @@
 
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 TEST(WeightedUnionFindTest, WeightedUnionFindCanBeCreated)
-{    WeightedUnionFind<10>();
+{
+    WeightedUnionFind<10>();
 }
 
 TEST(WeightedUnionFindTest, GetCountWorks)

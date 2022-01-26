@@ -6,13 +6,13 @@
 namespace alba
 {
 
-template <typename ObjectType>
+template <typename Object>
 class AlbaLinkedListStack
 {
 public:
     struct Node
     {
-        ObjectType object;
+        Object object;
         std::unique_ptr<Node> next;
     };
 
@@ -31,7 +31,7 @@ public:
         return m_currentSize;
     }
 
-    void push(ObjectType const& object)
+    void push(Object const& object)
     {
         std::unique_ptr<Node> newNext = std::move(m_first);
         m_first.reset(new Node{});
@@ -40,10 +40,10 @@ public:
         m_currentSize++;
     }
 
-    ObjectType pop()
+    Object pop()
     {
         assert(m_first);
-        ObjectType result{};
+        Object result{};
         if(m_first)
         {
             result = m_first->object;

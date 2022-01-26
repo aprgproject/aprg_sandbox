@@ -6,11 +6,11 @@
 namespace alba
 {
 
-template <typename ObjectType, unsigned int SIZE>
+template <typename Object, unsigned int SIZE>
 class AlbaFixedSizeStack
 {
 public:
-    using Objects = std::array<ObjectType, SIZE>;
+    using Objects = std::array<Object, SIZE>;
 
     AlbaFixedSizeStack()
         : m_currentSize(0)
@@ -31,13 +31,13 @@ public:
         return m_objects;
     }
 
-    void push(ObjectType const& object)
+    void push(Object const& object)
     {
         assert(m_currentSize < SIZE);
         m_objects[m_currentSize++] = object;
     }
 
-    ObjectType pop()
+    Object pop()
     {
         assert(m_currentSize > 0);
         return m_objects[--m_currentSize];

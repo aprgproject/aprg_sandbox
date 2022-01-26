@@ -7,16 +7,16 @@
 namespace alba
 {
 
-template <typename ObjectType>
+template <typename Object>
 class AlbaLinkedListBag
 {
 public:
     struct Node
     {
-        ObjectType object;
+        Object object;
         std::unique_ptr<Node> next;
     };
-    using TraverseFunction = std::function<void(ObjectType const& object)>;
+    using TraverseFunction = std::function<void(Object const& object)>;
 
     AlbaLinkedListBag()
         : m_currentSize(0)
@@ -33,7 +33,7 @@ public:
         return m_currentSize;
     }
 
-    void add(ObjectType const& object)
+    void add(Object const& object)
     {
         std::unique_ptr<Node> newNext(std::move(m_first));
         m_first.reset(new Node{});

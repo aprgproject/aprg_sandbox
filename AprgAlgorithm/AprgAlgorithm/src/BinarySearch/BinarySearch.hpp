@@ -8,22 +8,22 @@
 namespace alba
 {
 
-template <typename ObjectType>
+template <typename Object>
 class BinarySearch
 {
-    using Objects = std::vector<ObjectType>;
+    using Objects = std::vector<Object>;
 public:
     BinarySearch()
         : m_indexOfLowest{0}
         , m_indexOfHighest{0}
     {}
-    BinarySearch(std::initializer_list<ObjectType> const& initialObjects)
+    BinarySearch(std::initializer_list<Object> const& initialObjects)
         : m_indexOfLowest{0}
         , m_indexOfHighest{0}
     {
         add(initialObjects);
     }
-    ObjectType findNearestValue(ObjectType const& value)
+    Object findNearestValue(Object const& value)
     {
         while(m_indexOfHighest - m_indexOfLowest > 2)
         {
@@ -31,25 +31,25 @@ public:
         }
         return getNearestValueFromLowestMiddleHighest(value);
     }
-    ObjectType getLowestValue() const
+    Object getLowestValue() const
     {
         return getValueIndex(m_indexOfLowest);
     }
-    ObjectType getMiddleValue() const
+    Object getMiddleValue() const
     {
         return getValueIndex(getMiddleIndex());
     }
-    ObjectType getHighestValue() const
+    Object getHighestValue() const
     {
         return getValueIndex(m_indexOfHighest);
     }
-    ObjectType getNearestValueFromLowestMiddleHighest(ObjectType const& value) const
+    Object getNearestValueFromLowestMiddleHighest(Object const& value) const
     {
-        ObjectType distanceFromLowestValue(mathHelper::getPositiveDelta(value, getLowestValue()));
-        ObjectType distanceFromMiddleValue(mathHelper::getPositiveDelta(value, getMiddleValue()));
-        ObjectType distanceFromHighestValue(mathHelper::getPositiveDelta(value, getHighestValue()));
-        ObjectType lowestDistance(std::min(std::min(distanceFromLowestValue, distanceFromMiddleValue), distanceFromHighestValue));
-        ObjectType result;
+        Object distanceFromLowestValue(mathHelper::getPositiveDelta(value, getLowestValue()));
+        Object distanceFromMiddleValue(mathHelper::getPositiveDelta(value, getMiddleValue()));
+        Object distanceFromHighestValue(mathHelper::getPositiveDelta(value, getHighestValue()));
+        Object lowestDistance(std::min(std::min(distanceFromLowestValue, distanceFromMiddleValue), distanceFromHighestValue));
+        Object result;
         if(lowestDistance==distanceFromLowestValue)
         {
             result = getLowestValue();
@@ -64,22 +64,22 @@ public:
         }
         return result;
     }
-    void add(std::initializer_list<ObjectType> const& initialObjects)
+    void add(std::initializer_list<Object> const& initialObjects)
     {
-        for(ObjectType const& object : initialObjects)
+        for(Object const& object : initialObjects)
         {
             add(object);
         }
     }
-    void add(ObjectType const& value)
+    void add(Object const& value)
     {
         m_objects.insert(std::upper_bound(m_objects.begin(), m_objects.end(), value), value);
         updateIndexes();
     }
-    void findValueForOneIteration(ObjectType const& value)
+    void findValueForOneIteration(Object const& value)
     {
          unsigned int middleIndex(getMiddleIndex());
-         ObjectType middleValue(getValueIndex(middleIndex));
+         Object middleValue(getValueIndex(middleIndex));
          if(value>middleValue)
          {
              m_indexOfLowest = middleIndex+1;
@@ -96,9 +96,9 @@ public:
     }
 
 private:
-    ObjectType getValueIndex(unsigned int const index) const
+    Object getValueIndex(unsigned int const index) const
     {
-        ObjectType object{0};
+        Object object{0};
         if(index<m_objects.size())
         {
             object = m_objects[index];

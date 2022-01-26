@@ -8,10 +8,10 @@ namespace alba
 class TreeNode;
 using TreeNodeIndexes = std::vector<unsigned int>;
 
-template <typename ObjectType>
+template <typename Object>
 class TreeNode
 {
-    using ObjectInNode = std::unique_ptr<ObjectType>;
+    using ObjectInNode = std::unique_ptr<Object>;
 public:
     TreeNode(Tree & tree)
         : m_tree(tree)

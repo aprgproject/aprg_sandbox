@@ -4,10 +4,12 @@
 
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 TEST(BinarySearchTest, BinarySearchCanBeCreatedUsingDefaultConstructor)
-{    BinarySearch<unsigned int> binarySearch;
+{
+    BinarySearch<unsigned int> binarySearch;
     EXPECT_EQ(0U, binarySearch.getHighestValue());
     EXPECT_EQ(0U, binarySearch.getMiddleValue());
     EXPECT_EQ(0U, binarySearch.getLowestValue());

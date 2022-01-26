@@ -6,7 +6,7 @@
 namespace alba
 {
 
-template <typename ObjectType>
+template <typename Object>
 class AlbaDoublingSizeStack
 {
 public:
@@ -42,7 +42,7 @@ public:
 
     void resize(unsigned int const newSize)
     {
-        ObjectType* newObjects = new ObjectType[newSize]{};
+        Object* newObjects = new Object[newSize]{};
         if(m_objects != nullptr)
         {
             std::copy(m_objects, m_objects + std::min(m_stackSize, newSize), newObjects);
@@ -52,7 +52,7 @@ public:
         m_containerSize = newSize;
     }
 
-    void push(ObjectType const& object)
+    void push(Object const& object)
     {
         if(m_stackSize == m_containerSize)
         {
@@ -61,10 +61,10 @@ public:
         m_objects[m_stackSize++] = object;
     }
 
-    ObjectType pop()
+    Object pop()
     {
         assert(m_stackSize > 0);
-        ObjectType result(m_objects[--m_stackSize]);
+        Object result(m_objects[--m_stackSize]);
         if(m_containerSize > 0 && m_stackSize == m_containerSize/4)
         {
             resize(m_containerSize/2);
@@ -83,7 +83,7 @@ private:
 
     unsigned int m_stackSize;
     unsigned int m_containerSize;
-    ObjectType* m_objects;
+    Object* m_objects;
 };
 
 }

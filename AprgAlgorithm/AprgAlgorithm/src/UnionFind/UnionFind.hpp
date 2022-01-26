@@ -29,10 +29,12 @@ public:
 
     unsigned int getIdEquivalent(unsigned int const id) const
     {
-        return m_ids.at(id);    }
+        return m_ids.at(id);
+    }
 
     void connect(unsigned int const id1, unsigned int const id2)
-    {        unsigned int id1Equivalent(getIdEquivalent(id1));
+    {
+        unsigned int id1Equivalent(getIdEquivalent(id1));
         unsigned int id2Equivalent(getIdEquivalent(id2));
         if(id1Equivalent != id2Equivalent)
         {

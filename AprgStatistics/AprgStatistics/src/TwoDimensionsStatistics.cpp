@@ -14,9 +14,11 @@ TwoDimensionsStatistics::LineModel TwoDimensionsStatistics::calculateLineModelUs
     double xMinusXmeanSquared(0); //Xi-mean(X)
     double yMinusYmeanSquared(0); //Yi-mean(Y)
     double xMinusXmeanTimesYMinusYmean(0);// (Xi-mean(X))*(Yi-mean(Y))
+
     LineModel lineModel;
     Statistics statistics(samples);
-    Sample mean(statistics.getMean());    for(Sample const& sample : samples)
+    Sample mean(statistics.getMean());
+    for(Sample const& sample : samples)
     {
         double differenceInMeanInX(sample.getValueAt(0)-mean.getValueAt(0));
         double differenceInMeanInY(sample.getValueAt(1)-mean.getValueAt(1));
@@ -39,10 +41,12 @@ TwoDimensionsStatistics::LineModel TwoDimensionsStatistics::calculateLineModelUs
     else if(areAllDifferenceForYZero)
     {
         lineModel.aCoefficient = 0;
-        lineModel.bCoefficient = 1;    }
+        lineModel.bCoefficient = 1;
+    }
     else
     {
-        double slopeInX(xMinusXmeanTimesYMinusYmean/xMinusXmeanSquared);        double slopeInY(xMinusXmeanTimesYMinusYmean/yMinusYmeanSquared);
+        double slopeInX(xMinusXmeanTimesYMinusYmean/xMinusXmeanSquared);
+        double slopeInY(xMinusXmeanTimesYMinusYmean/yMinusYmeanSquared);
         if(mathHelper::getAbsoluteValue(slopeInY)<mathHelper::getAbsoluteValue(slopeInX))
         {
             lineModel.aCoefficient = 1;

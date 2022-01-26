@@ -6,13 +6,13 @@
 namespace alba
 {
 
-template <typename ObjectType>
+template <typename Object>
 class AlbaLinkedListQueue
 {
 public:
     struct Node
     {
-        ObjectType object;
+        Object object;
         std::unique_ptr<Node> next;
     };
 
@@ -31,7 +31,7 @@ public:
         return m_currentSize;
     }
 
-    void enqueue(ObjectType const& object)
+    void enqueue(Object const& object)
     {
         //Add item to the end of the list
         if(isEmpty())
@@ -49,11 +49,11 @@ public:
         m_currentSize++;
     }
 
-    ObjectType dequeue()
+    Object dequeue()
     {
         // Remove item from the beginning of the list
         assert(m_first);
-        ObjectType result{};
+        Object result{};
         if(m_first)
         {
             result = m_first->object;

@@ -7,32 +7,32 @@
 namespace alba
 {
 
-template <typename ObjectType>
+template <typename Object>
 class Tree
 {
     using ObjectIndexes = std::vector<unsigned int>;
-    using ObjectPtrs = std::vector<std::unique_ptr<ObjectType>>;
+    using ObjectPointers = std::vector<std::unique_ptr<Object>>;
 public:
     Tree()
     {}
 
-    ObjectType const & getObjectReference(unsigned int const objectIndex)
+    Object const & getObjectReference(unsigned int const objectIndex)
     {
         m_objectPtrs.at(objectIndex);
     }
 
-    unsigned int createNewObjectAndReturnObjectIndex(ObjectType const& object)
+    unsigned int createNewObjectAndReturnObjectIndex(Object const& object)
     {
         unsigned int objectIndex(0);
         if(m_emptyObjectIndexes.empty())
         {
             objectIndex = m_emptyObjectIndexes.size();
-            m_objectPtrs.emplace_back(new ObjectType(object));
+            m_objectPtrs.emplace_back(new Object(object));
         }
         else
         {
             objectIndex = m_emptyObjectIndexes.front();
-            m_objectPtrs[objectIndex].reset(new ObjectType(object));
+            m_objectPtrs[objectIndex].reset(new Object(object));
         }
         return objectIndex;
     }
@@ -72,7 +72,7 @@ public:
 
 private:
     ObjectIndexes m_emptyObjectIndexes;
-    ObjectPtrs m_objectPtrs;
+    ObjectPointers m_objectPtrs;
 };
 
 }

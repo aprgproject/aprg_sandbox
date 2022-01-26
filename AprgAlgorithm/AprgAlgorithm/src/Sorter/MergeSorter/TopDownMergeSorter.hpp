@@ -21,10 +21,12 @@ public:
 private:
     void sort(
             Values & valuesToSort,
-            Values & temp,            unsigned int const low,
+            Values & temp,
+            unsigned int const low,
             unsigned int const high) const
     {
-        if(low < high)        {
+        if(low < high)
+        {
             unsigned int const mid = (low + high)/2;
             sort(valuesToSort, temp, low, mid);
             sort(valuesToSort, temp, mid+1, high);
