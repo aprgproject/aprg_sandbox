@@ -25,14 +25,13 @@ public:
             h /= 3;
         }
     }
+
 private:
     unsigned int getH(unsigned int const size) const
-    {
-        // This returns: 1, 4, 13, 40, 121, 364, 1093
+    {        // This returns: 1, 4, 13, 40, 121, 364, 1093
         unsigned int h(1);
         while(h < size/3)
-        {
-            h = 3*h + 1;
+        {            h = 3*h + 1;
         }
         return h;
     }
