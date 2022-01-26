@@ -34,16 +34,12 @@ public:
     void push(Object const& object)
     {
         std::unique_ptr<Node> newNext = std::move(m_first);
-        m_first.reset(new Node{});
-        m_first->object = object;
-        m_first->next = std::move(newNext);
+        m_first.reset(new Node{object, std::move(newNext)});
         m_currentSize++;
     }
-
     Object pop()
     {
-        assert(m_first);
-        Object result{};
+        assert(m_first);        Object result{};
         if(m_first)
         {
             result = m_first->object;

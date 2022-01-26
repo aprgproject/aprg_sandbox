@@ -36,16 +36,12 @@ public:
     void add(Object const& object)
     {
         std::unique_ptr<Node> newNext(std::move(m_first));
-        m_first.reset(new Node{});
-        m_first->object = object;
-        m_first->next = std::move(newNext);
+        m_first.reset(new Node{object, std::move(newNext)});
         m_currentSize++;
     }
-
     void traverse(TraverseFunction const& traverseFunction)
     {
-        Node* currentPointer = m_first.get();
-        while(currentPointer != nullptr)
+        Node* currentPointer = m_first.get();        while(currentPointer != nullptr)
         {
             traverseFunction(currentPointer->object);
             currentPointer = currentPointer->next.get();

@@ -36,23 +36,19 @@ public:
         //Add item to the end of the list
         if(isEmpty())
         {
-            m_first.reset(new Node{});
-            m_first->object = object;
+            m_first.reset(new Node{object, nullptr});
             m_last = m_first.get();
         }
         else
         {
-            m_last->next.reset(new Node{});
+            m_last->next.reset(new Node{object, nullptr});
             m_last = m_last->next.get();
-            m_last->object = object;
         }
         m_currentSize++;
     }
-
     Object dequeue()
     {
-        // Remove item from the beginning of the list
-        assert(m_first);
+        // Remove item from the beginning of the list        assert(m_first);
         Object result{};
         if(m_first)
         {
