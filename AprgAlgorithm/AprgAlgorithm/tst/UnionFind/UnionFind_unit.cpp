@@ -2,16 +2,12 @@
 
 #include <gtest/gtest.h>
 
-#include <iostream>
-
 using namespace std;
 
-namespace alba
-{
+namespace alba{
 
 TEST(UnionFindTest, UnionFindCanBeCreated)
-{
-    UnionFind<10>();
+{    UnionFind<10>();
 }
 
 TEST(UnionFindTest, GetCountWorks)

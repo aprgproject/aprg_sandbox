@@ -2,16 +2,12 @@
 
 #include <gtest/gtest.h>
 
-#include <iostream>
-
 using namespace std;
 
-namespace alba
-{
+namespace alba{
 
 TEST(UnionFindUsingMapTest, UnionFindUsingMapCanBeCreated)
-{
-    UnionFindUsingMap<unsigned int>();
+{    UnionFindUsingMap<unsigned int>();
 }
 
 TEST(UnionFindUsingMapTest, GetRootWorks)
