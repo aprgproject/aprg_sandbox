@@ -7,7 +7,7 @@ namespace alba
 {
 
 template <typename Object>
-class AlbaLinkedListQueue
+class LinkedListQueue
 {
 public:
     struct Node
@@ -16,7 +16,7 @@ public:
         std::unique_ptr<Node> next;
     };
 
-    AlbaLinkedListQueue()
+    LinkedListQueue()
         : m_currentSize(0)
         , m_first(nullptr)
     {}
@@ -46,9 +46,11 @@ public:
         }
         m_currentSize++;
     }
+
     Object dequeue()
     {
-        // Remove item from the beginning of the list        assert(m_first);
+        // Remove item from the beginning of the list
+        assert(m_first);
         Object result{};
         if(m_first)
         {

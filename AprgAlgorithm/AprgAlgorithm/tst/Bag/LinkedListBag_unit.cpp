@@ -1,4 +1,4 @@
-#include <Bag/AlbaLinkedListBag.hpp>
+#include <Bag/LinkedListBag.hpp>
 
 #include <gtest/gtest.h>
 
@@ -9,10 +9,10 @@ namespace alba
 
 namespace
 {
-using BagForTest = AlbaLinkedListBag<unsigned int>;
+using BagForTest = LinkedListBag<unsigned int>;
 }
 
-TEST(AlbaLinkedListBagTest, IsEmptyWorks)
+TEST(LinkedListBagTest, IsEmptyWorks)
 {
     BagForTest bag1;
     BagForTest bag2;
@@ -22,7 +22,7 @@ TEST(AlbaLinkedListBagTest, IsEmptyWorks)
     EXPECT_FALSE(bag2.isEmpty());
 }
 
-TEST(AlbaLinkedListBagTest, GetSizeWorks)
+TEST(LinkedListBagTest, GetSizeWorks)
 {
     BagForTest bag1;
     BagForTest bag2;
@@ -34,7 +34,7 @@ TEST(AlbaLinkedListBagTest, GetSizeWorks)
     EXPECT_EQ(3U, bag2.getSize());
 }
 
-TEST(AlbaLinkedListBagTest, TraverseWorks)
+TEST(LinkedListBagTest, TraverseWorks)
 {
     BagForTest bag;
     bag.add(1U);
@@ -60,7 +60,7 @@ TEST(AlbaLinkedListBagTest, TraverseWorks)
     });
 }
 
-TEST(AlbaLinkedListBagTest, AddWorks)
+TEST(LinkedListBagTest, AddWorks)
 {
     BagForTest bag;
 

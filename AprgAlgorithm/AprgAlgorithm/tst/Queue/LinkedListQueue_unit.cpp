@@ -1,4 +1,4 @@
-#include <Queue/AlbaLinkedListQueue.hpp>
+#include <Queue/LinkedListQueue.hpp>
 
 #include <gtest/gtest.h>
 
@@ -9,10 +9,10 @@ namespace alba
 
 namespace
 {
-using QueueForTest = AlbaLinkedListQueue<unsigned int>;
+using QueueForTest = LinkedListQueue<unsigned int>;
 }
 
-TEST(AlbaLinkedListQueueTest, IsEmptyWorks)
+TEST(LinkedListQueueTest, IsEmptyWorks)
 {
     QueueForTest queue1;
     QueueForTest queue2;
@@ -22,7 +22,7 @@ TEST(AlbaLinkedListQueueTest, IsEmptyWorks)
     EXPECT_FALSE(queue2.isEmpty());
 }
 
-TEST(AlbaLinkedListQueueTest, GetSizeWorks)
+TEST(LinkedListQueueTest, GetSizeWorks)
 {
     QueueForTest queue1;
     QueueForTest queue2;
@@ -34,7 +34,7 @@ TEST(AlbaLinkedListQueueTest, GetSizeWorks)
     EXPECT_EQ(3U, queue2.getSize());
 }
 
-TEST(AlbaLinkedListQueueTest, EnqueueWorks)
+TEST(LinkedListQueueTest, EnqueueWorks)
 {
     QueueForTest queue;
 
@@ -48,7 +48,7 @@ TEST(AlbaLinkedListQueueTest, EnqueueWorks)
     EXPECT_EQ(3U, queue.dequeue());
 }
 
-TEST(AlbaLinkedListQueueTest, DequeueWorks)
+TEST(LinkedListQueueTest, DequeueWorks)
 {
     QueueForTest queue;
     queue.enqueue(1U);
@@ -61,7 +61,7 @@ TEST(AlbaLinkedListQueueTest, DequeueWorks)
     EXPECT_EQ(0U, queue.getSize());
 }
 
-TEST(AlbaLinkedListQueueTest, DISABLED_PopWorksWithAssertionWhenItsEmpty) //disabled because it takes too long
+TEST(LinkedListQueueTest, DISABLED_PopWorksWithAssertionWhenItsEmpty) //disabled because it takes too long
 {
     QueueForTest queue;
 

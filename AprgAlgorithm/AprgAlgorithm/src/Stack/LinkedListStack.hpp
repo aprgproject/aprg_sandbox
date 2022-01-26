@@ -7,7 +7,7 @@ namespace alba
 {
 
 template <typename Object>
-class AlbaLinkedListStack
+class LinkedListStack
 {
 public:
     struct Node
@@ -16,7 +16,7 @@ public:
         std::unique_ptr<Node> next;
     };
 
-    AlbaLinkedListStack()
+    LinkedListStack()
         : m_currentSize(0)
         , m_first(nullptr)
     {}
@@ -37,9 +37,11 @@ public:
         m_first.reset(new Node{object, std::move(newNext)});
         m_currentSize++;
     }
+
     Object pop()
     {
-        assert(m_first);        Object result{};
+        assert(m_first);
+        Object result{};
         if(m_first)
         {
             result = m_first->object;

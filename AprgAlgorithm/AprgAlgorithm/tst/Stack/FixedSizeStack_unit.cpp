@@ -1,4 +1,4 @@
-#include <Stack/AlbaFixedSizeStack.hpp>
+#include <Stack/FixedSizeStack.hpp>
 
 #include <gtest/gtest.h>
 
@@ -9,10 +9,10 @@ namespace alba
 
 namespace
 {
-using StackForTest = AlbaFixedSizeStack<unsigned int, 10U>;
+using StackForTest = FixedSizeStack<unsigned int, 10U>;
 }
 
-TEST(AlbaFixedSizeStackTest, IsEmptyWorks)
+TEST(FixedSizeStackTest, IsEmptyWorks)
 {
     StackForTest stack1;
     StackForTest stack2;
@@ -22,7 +22,7 @@ TEST(AlbaFixedSizeStackTest, IsEmptyWorks)
     EXPECT_FALSE(stack2.isEmpty());
 }
 
-TEST(AlbaFixedSizeStackTest, GetSizeWorks)
+TEST(FixedSizeStackTest, GetSizeWorks)
 {
     StackForTest stack1;
     StackForTest stack2;
@@ -34,7 +34,7 @@ TEST(AlbaFixedSizeStackTest, GetSizeWorks)
     EXPECT_EQ(3U, stack2.getSize());
 }
 
-TEST(AlbaFixedSizeStackTest, GetObjectsWorks)
+TEST(FixedSizeStackTest, GetObjectsWorks)
 {
     StackForTest stack;
     stack.push(10U);
@@ -48,7 +48,7 @@ TEST(AlbaFixedSizeStackTest, GetObjectsWorks)
     EXPECT_EQ(4U, objectsToVerify.at(2));
 }
 
-TEST(AlbaFixedSizeStackTest, PushWorks)
+TEST(FixedSizeStackTest, PushWorks)
 {
     StackForTest stack;
 
@@ -59,7 +59,7 @@ TEST(AlbaFixedSizeStackTest, PushWorks)
     EXPECT_EQ(10U, objectsToVerify.at(0));
 }
 
-TEST(AlbaFixedSizeStackTest, PopWorks)
+TEST(FixedSizeStackTest, PopWorks)
 {
     StackForTest stack;
     stack.push(10U);
@@ -73,7 +73,7 @@ TEST(AlbaFixedSizeStackTest, PopWorks)
     EXPECT_EQ(5U, objectsToVerify.at(1));
 }
 
-TEST(AlbaFixedSizeStackTest, DISABLED_PushWorksWithAssertionWhenItReachesMaximumSize) //disabled because it takes too long
+TEST(FixedSizeStackTest, DISABLED_PushWorksWithAssertionWhenItReachesMaximumSize) //disabled because it takes too long
 {
     StackForTest stack;
 
@@ -84,7 +84,7 @@ TEST(AlbaFixedSizeStackTest, DISABLED_PushWorksWithAssertionWhenItReachesMaximum
     EXPECT_DEATH(stack.push(100), "Assertion failed!");
 }
 
-TEST(AlbaFixedSizeStackTest, DISABLED_PopWorksWithAssertionWhenItsEmpty) //disabled because it takes too long
+TEST(FixedSizeStackTest, DISABLED_PopWorksWithAssertionWhenItsEmpty) //disabled because it takes too long
 {
     StackForTest stack;
 

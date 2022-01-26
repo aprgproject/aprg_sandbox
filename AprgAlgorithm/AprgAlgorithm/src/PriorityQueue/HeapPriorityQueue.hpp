@@ -4,8 +4,10 @@
 
 #include <utility>
 #include <vector>
+
 namespace alba
 {
+
 template <typename Object, template<class> class ComparisonTemplateType>
 class HeapPriorityQueue
 {
@@ -17,9 +19,11 @@ public:
         , m_heapTreeAdapter(m_objects)
     {}
 
-    bool isEmpty() const    {
+    bool isEmpty() const
+    {
         return getSize() == 0;
     }
+
     unsigned int getSize() const
     {
         return m_objects.size();

@@ -1,4 +1,4 @@
-#include <Stack/AlbaDoublingSizeStack.hpp>
+#include <Stack/DoublingSizeStack.hpp>
 
 #include <gtest/gtest.h>
 
@@ -9,10 +9,10 @@ namespace alba
 
 namespace
 {
-using StackForTest = AlbaDoublingSizeStack<unsigned int>;
+using StackForTest = DoublingSizeStack<unsigned int>;
 }
 
-TEST(AlbaDoublingSizeStackTest, IsEmptyWorks)
+TEST(DoublingSizeStackTest, IsEmptyWorks)
 {
     StackForTest stack1;
     StackForTest stack2;
@@ -22,7 +22,7 @@ TEST(AlbaDoublingSizeStackTest, IsEmptyWorks)
     EXPECT_FALSE(stack2.isEmpty());
 }
 
-TEST(AlbaDoublingSizeStackTest, GetStackSizeWorks)
+TEST(DoublingSizeStackTest, GetStackSizeWorks)
 {
     StackForTest stack1;
     StackForTest stack2;
@@ -34,7 +34,7 @@ TEST(AlbaDoublingSizeStackTest, GetStackSizeWorks)
     EXPECT_EQ(3U, stack2.getStackSize());
 }
 
-TEST(AlbaDoublingSizeStackTest, GetContainerSizeWorks)
+TEST(DoublingSizeStackTest, GetContainerSizeWorks)
 {
     StackForTest stack1;
     StackForTest stack2;
@@ -46,7 +46,7 @@ TEST(AlbaDoublingSizeStackTest, GetContainerSizeWorks)
     EXPECT_EQ(4U, stack2.getContainerSize());
 }
 
-TEST(AlbaDoublingSizeStackTest, PushWorks)
+TEST(DoublingSizeStackTest, PushWorks)
 {
     StackForTest stack;
 
@@ -60,7 +60,7 @@ TEST(AlbaDoublingSizeStackTest, PushWorks)
     EXPECT_EQ(1U, stack.pop());
 }
 
-TEST(AlbaDoublingSizeStackTest, PushWorksWithDoublingContainerSize)
+TEST(DoublingSizeStackTest, PushWorksWithDoublingContainerSize)
 {
     StackForTest stack;
     EXPECT_EQ(1U, stack.getContainerSize());
@@ -77,7 +77,7 @@ TEST(AlbaDoublingSizeStackTest, PushWorksWithDoublingContainerSize)
     EXPECT_EQ(8U, stack.getContainerSize());
 }
 
-TEST(AlbaDoublingSizeStackTest, PopWorks)
+TEST(DoublingSizeStackTest, PopWorks)
 {
     StackForTest stack;
     stack.push(1U);
@@ -90,7 +90,7 @@ TEST(AlbaDoublingSizeStackTest, PopWorks)
     EXPECT_EQ(0U, stack.getStackSize());
 }
 
-TEST(AlbaDoublingSizeStackTest, PopWorksWithHalvingContainerSize)
+TEST(DoublingSizeStackTest, PopWorksWithHalvingContainerSize)
 {
     StackForTest stack;
 
@@ -113,7 +113,7 @@ TEST(AlbaDoublingSizeStackTest, PopWorksWithHalvingContainerSize)
     EXPECT_EQ(1U, stack.getContainerSize());
 }
 
-TEST(AlbaDoublingSizeStackTest, DISABLED_PopWorksWithAssertionWhenItsEmpty) //disabled because it takes too long
+TEST(DoublingSizeStackTest, DISABLED_PopWorksWithAssertionWhenItsEmpty) //disabled because it takes too long
 {
     StackForTest stack;
 

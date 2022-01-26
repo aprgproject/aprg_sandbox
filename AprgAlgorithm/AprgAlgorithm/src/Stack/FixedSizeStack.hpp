@@ -7,12 +7,12 @@ namespace alba
 {
 
 template <typename Object, unsigned int SIZE>
-class AlbaFixedSizeStack
+class FixedSizeStack
 {
 public:
     using Objects = std::array<Object, SIZE>;
 
-    AlbaFixedSizeStack()
+    FixedSizeStack()
         : m_currentSize(0)
     {}
 

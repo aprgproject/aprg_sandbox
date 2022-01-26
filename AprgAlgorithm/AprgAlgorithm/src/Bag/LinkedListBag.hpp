@@ -8,7 +8,7 @@ namespace alba
 {
 
 template <typename Object>
-class AlbaLinkedListBag
+class LinkedListBag
 {
 public:
     struct Node
@@ -18,7 +18,7 @@ public:
     };
     using TraverseFunction = std::function<void(Object const& object)>;
 
-    AlbaLinkedListBag()
+    LinkedListBag()
         : m_currentSize(0)
         , m_first(nullptr)
     {}
@@ -39,9 +39,11 @@ public:
         m_first.reset(new Node{object, std::move(newNext)});
         m_currentSize++;
     }
+
     void traverse(TraverseFunction const& traverseFunction)
     {
-        Node* currentPointer = m_first.get();        while(currentPointer != nullptr)
+        Node* currentPointer = m_first.get();
+        while(currentPointer != nullptr)
         {
             traverseFunction(currentPointer->object);
             currentPointer = currentPointer->next.get();

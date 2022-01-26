@@ -7,12 +7,12 @@ namespace alba
 {
 
 template <typename Object>
-class AlbaDoublingSizeStack
+class DoublingSizeStack
 {
 public:
     static constexpr unsigned int INITIAL_SIZE = 1U;
 
-    AlbaDoublingSizeStack()
+    DoublingSizeStack()
         : m_stackSize(0)
         , m_containerSize(0)
         , m_objects(nullptr)
@@ -20,7 +20,7 @@ public:
         resize(INITIAL_SIZE);
     }
 
-    ~AlbaDoublingSizeStack()
+    ~DoublingSizeStack()
     {
         deleteAllObjects();
     }
