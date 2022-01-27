@@ -6,11 +6,11 @@ namespace alba
 {
 
 template <typename Key, typename Object>
-class BinarySearchSymbolTable
+class OrderedArraySymbolTable
 {
 public:
 
-    BinarySearchSymbolTable()
+    OrderedArraySymbolTable()
         : m_currentSize(0)
     {}
 

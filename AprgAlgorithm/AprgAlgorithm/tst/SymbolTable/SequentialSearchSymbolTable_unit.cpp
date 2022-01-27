@@ -1,4 +1,4 @@
-#include <SymbolTable/SequentialSearchSymbolTable.hpp>
+#include <SymbolTable/LinkedListSymbolTable.hpp>
 
 #include <gtest/gtest.h>
 
@@ -9,10 +9,10 @@ namespace alba
 
 namespace
 {
-using SymbolTableForTest = SequentialSearchSymbolTable<unsigned int, char>;
+using SymbolTableForTest = LinkedListSymbolTable<unsigned int, char>;
 }
 
-TEST(SequentialSearchSymbolTableTest, IsEmptyWorks)
+TEST(LinkedListSymbolTableTest, IsEmptyWorks)
 {
     SymbolTableForTest symbolTable1;
     SymbolTableForTest symbolTable2;
@@ -22,7 +22,7 @@ TEST(SequentialSearchSymbolTableTest, IsEmptyWorks)
     EXPECT_FALSE(symbolTable2.isEmpty());
 }
 
-TEST(SequentialSearchSymbolTableTest, GetSizeWorks)
+TEST(LinkedListSymbolTableTest, GetSizeWorks)
 {
     SymbolTableForTest symbolTable1;
     SymbolTableForTest symbolTable2;
@@ -34,7 +34,7 @@ TEST(SequentialSearchSymbolTableTest, GetSizeWorks)
     EXPECT_EQ(3U, symbolTable2.getSize());
 }
 
-TEST(SequentialSearchSymbolTableTest, GetWorks)
+TEST(LinkedListSymbolTableTest, GetWorks)
 {
     SymbolTableForTest symbolTable;
     symbolTable.put(5U, 'E');
@@ -47,7 +47,7 @@ TEST(SequentialSearchSymbolTableTest, GetWorks)
     EXPECT_EQ('\0', symbolTable.get(8U));
 }
 
-TEST(SequentialSearchSymbolTableTest, PutWorks)
+TEST(LinkedListSymbolTableTest, PutWorks)
 {
     SymbolTableForTest symbolTable;
 

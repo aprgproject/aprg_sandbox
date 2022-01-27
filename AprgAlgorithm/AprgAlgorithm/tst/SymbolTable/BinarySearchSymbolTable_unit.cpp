@@ -1,4 +1,4 @@
-#include <SymbolTable/BinarySearchSymbolTable.hpp>
+#include <SymbolTable/OrderedArraySymbolTable.hpp>
 
 #include <gtest/gtest.h>
 
@@ -9,10 +9,10 @@ namespace alba
 
 namespace
 {
-using SymbolTableForTest = BinarySearchSymbolTable<unsigned int, char>;
+using SymbolTableForTest = OrderedArraySymbolTable<unsigned int, char>;
 }
 
-TEST(BinarySearchSymbolTableTest, IsEmptyWorks)
+TEST(OrderedArraySymbolTableTest, IsEmptyWorks)
 {
     SymbolTableForTest symbolTable1;
     SymbolTableForTest symbolTable2;
@@ -22,7 +22,7 @@ TEST(BinarySearchSymbolTableTest, IsEmptyWorks)
     EXPECT_FALSE(symbolTable2.isEmpty());
 }
 
-TEST(BinarySearchSymbolTableTest, GetSizeWorks)
+TEST(OrderedArraySymbolTableTest, GetSizeWorks)
 {
     SymbolTableForTest symbolTable1;
     SymbolTableForTest symbolTable2;
@@ -34,7 +34,7 @@ TEST(BinarySearchSymbolTableTest, GetSizeWorks)
     EXPECT_EQ(3U, symbolTable2.getSize());
 }
 
-TEST(BinarySearchSymbolTableTest, GetWorks)
+TEST(OrderedArraySymbolTableTest, GetWorks)
 {
     SymbolTableForTest symbolTable;
     symbolTable.put(5U, 'E');
@@ -47,7 +47,7 @@ TEST(BinarySearchSymbolTableTest, GetWorks)
     EXPECT_EQ('\0', symbolTable.get(8U));
 }
 
-TEST(BinarySearchSymbolTableTest, GetRankWorks)
+TEST(OrderedArraySymbolTableTest, GetRankWorks)
 {
     SymbolTableForTest symbolTable;
     symbolTable.put(4U, 'D');
@@ -64,7 +64,7 @@ TEST(BinarySearchSymbolTableTest, GetRankWorks)
     EXPECT_EQ(4U, symbolTable.getRank(9U));
 }
 
-TEST(BinarySearchSymbolTableTest, GetMinimumWorks)
+TEST(OrderedArraySymbolTableTest, GetMinimumWorks)
 {
     SymbolTableForTest symbolTable;
     symbolTable.put(4U, 'D');
@@ -75,7 +75,7 @@ TEST(BinarySearchSymbolTableTest, GetMinimumWorks)
     EXPECT_EQ('D', symbolTable.getMinimum());
 }
 
-TEST(BinarySearchSymbolTableTest, GetMaximumWorks)
+TEST(OrderedArraySymbolTableTest, GetMaximumWorks)
 {
     SymbolTableForTest symbolTable;
     symbolTable.put(4U, 'D');
@@ -86,7 +86,7 @@ TEST(BinarySearchSymbolTableTest, GetMaximumWorks)
     EXPECT_EQ('H', symbolTable.getMaximum());
 }
 
-TEST(BinarySearchSymbolTableTest, SelectAtWorks)
+TEST(OrderedArraySymbolTableTest, SelectAtWorks)
 {
     SymbolTableForTest symbolTable;
     symbolTable.put(4U, 'D');
@@ -100,7 +100,7 @@ TEST(BinarySearchSymbolTableTest, SelectAtWorks)
     EXPECT_EQ(8U, symbolTable.selectAt(3U));
 }
 
-TEST(BinarySearchSymbolTableTest, GetFloorWorks)
+TEST(OrderedArraySymbolTableTest, GetFloorWorks)
 {
     SymbolTableForTest symbolTable;
     symbolTable.put(4U, 'D');
@@ -117,7 +117,7 @@ TEST(BinarySearchSymbolTableTest, GetFloorWorks)
     EXPECT_EQ(8U, symbolTable.getFloor(9U));
 }
 
-TEST(BinarySearchSymbolTableTest, GetCeilingWorks)
+TEST(OrderedArraySymbolTableTest, GetCeilingWorks)
 {
     SymbolTableForTest symbolTable;
     symbolTable.put(4U, 'D');
@@ -134,7 +134,7 @@ TEST(BinarySearchSymbolTableTest, GetCeilingWorks)
     EXPECT_EQ(0U, symbolTable.getCeiling(9U));
 }
 
-TEST(BinarySearchSymbolTableTest, PutWorks)
+TEST(OrderedArraySymbolTableTest, PutWorks)
 {
     SymbolTableForTest symbolTable;
 
@@ -148,7 +148,7 @@ TEST(BinarySearchSymbolTableTest, PutWorks)
     EXPECT_EQ('G', symbolTable.get(7U));
 }
 
-TEST(BinarySearchSymbolTableTest, DeleteBasedOnKeyWorks)
+TEST(OrderedArraySymbolTableTest, DeleteBasedOnKeyWorks)
 {
     SymbolTableForTest symbolTable;
     symbolTable.put(5U, 'E');
