@@ -1,14 +1,11 @@
 #pragma once
 
-#include <cassert>
 #include <memory>
 
-namespace alba
-{
+namespace alba{
 
 template <typename Key, typename Object>
-class SequentialSearchSymbolTable
-{
+class SequentialSearchSymbolTable{
 public:
     struct Node
     {
