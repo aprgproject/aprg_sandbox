@@ -28,14 +28,13 @@ public:
 
     Object getRoot(Object const& object) const override
     {
+        //Continuously find relative root until its equal to the previous root
         Object result(object);
         Object currentRoot(m_relativeRoots.at(object));
-        while(result != currentRoot)
-        {
+        while(result != currentRoot)        {
             result = currentRoot;
             currentRoot = m_relativeRoots.at(result);
-        }
-        return result;
+        }        return result;
     }
 
     void connect(Object const& object1, Object const& object2) override
