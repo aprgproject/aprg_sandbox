@@ -11,12 +11,14 @@ namespace alba
 
 TEST(QuickSorterWith3WayPartitioningTest, SortWorksOnCharactersUsingExample1)
 {
-    sortCharactersUsingExample1(make_unique<QuickSorterWith3WayPartitioning<Characters>>());
+    QuickSorterWith3WayPartitioning<Characters> sorter;
+    performSortTestUsingExample1(sorter);
 }
 
 TEST(QuickSorterWith3WayPartitioningTest, SortWorksOnCharactersUsingExample2)
 {
-    sortCharactersUsingExample2(make_unique<QuickSorterWith3WayPartitioning<Characters>>());
+    QuickSorterWith3WayPartitioning<Characters> sorter;
+    performSortTestUsingExample2(sorter);
 }
 
 }

@@ -11,13 +11,14 @@ namespace alba
 
 TEST(SelectionSorterTest, SortWorksOnCharactersUsingExample1)
 {
-    sortCharactersUsingExample1(make_unique<SelectionSorter<Characters>>());
+    SelectionSorter<Characters> sorter;
+    performSortTestUsingExample1(sorter);
 }
 
 TEST(SelectionSorterTest, SortWorksOnCharactersUsingExample2)
 {
-    sortCharactersUsingExample2(make_unique<SelectionSorter<Characters>>());
+    SelectionSorter<Characters> sorter;
+    performSortTestUsingExample2(sorter);
 }
 
 }
-

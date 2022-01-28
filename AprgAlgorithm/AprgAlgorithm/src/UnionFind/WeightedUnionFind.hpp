@@ -1,72 +1,79 @@
 #pragma once
 
+#include <UnionFind/BaseUnionFind.hpp>
+
 #include <algorithm>
 #include <array>
 #include <numeric>
-
 namespace alba
 {
 
-template <unsigned int SIZE>
-class WeightedUnionFind
+template <typename Object, unsigned int SIZE>
+class WeightedUnionFind : public BaseUnionFind<Object>
 {
 public:
     WeightedUnionFind()
-        : m_ids()
+        : m_relativeRoots()
         , m_sizesOfRoots()
-        , m_count(SIZE)
+        , m_numberOfUnconnected(SIZE)
     {
-        std::iota(m_ids.begin(), m_ids.end(), 0U);
+        std::iota(m_relativeRoots.begin(), m_relativeRoots.end(), 0);
         std::fill(m_sizesOfRoots.begin(), m_sizesOfRoots.end(), 1U);
     }
 
-    unsigned int getCount() const
+    bool isConnected(Object const& object1, Object const& object2) const override
     {
-        return m_count;
+        return getRoot(object1) == getRoot(object2);
     }
 
-    bool isConnected(unsigned int const id1, unsigned int const id2) const
+    Object getRoot(Object const& object) const override
     {
-        return getRoot(id1) == getRoot(id2);
-    }
-
-    unsigned int getRoot(unsigned int const id) const
-    {
-        unsigned int root(id);
-        unsigned int currentRoot(m_ids.at(id));
-        while(root != currentRoot)
+        Object result(object);
+        Object currentRoot(m_relativeRoots.at(object));
+        while(result != currentRoot)
         {
-            currentRoot = m_ids.at(id);
-            root = currentRoot;
+            result = currentRoot;
+            currentRoot = m_relativeRoots.at(result);
         }
-        return root;
+        return result;
     }
 
-    void connect(unsigned int const id1, unsigned int const id2)
+    void connect(Object const& object1, Object const& object2) override
     {
-        unsigned int root1(getRoot(id1));
-        unsigned int root2(getRoot(id2));
+        Object root1(getRoot(object1));
+        Object root2(getRoot(object2));
         if(root1 != root2)
         {
-            // make smaller root point to larger one
-            if(m_sizesOfRoots.at(root1) < m_sizesOfRoots.at(root2))
-            {
-                m_ids[root1] = root2;
-                m_sizesOfRoots[root2] += m_sizesOfRoots.at(root1);
-            }
-            else
-            {
-                m_ids[root2] = root1;
-                m_sizesOfRoots[root1] += m_sizesOfRoots.at(root2);
-            }
-            m_count--;
+            connectRootsBasedOnSize(root2, root1);
+            m_numberOfUnconnected--;
         }
+    }
+
+    unsigned int getNumberOfUnconnected() const
+    {
+        return m_numberOfUnconnected;
     }
 
 private:
-    std::array<unsigned int, SIZE> m_ids;
+
+    void connectRootsBasedOnSize(Object root2, Object root1)
+    {
+        // assign the root of the smaller root to the larger root (to make it flatter)
+        if(m_sizesOfRoots.at(root1) < m_sizesOfRoots.at(root2))
+        {
+            m_relativeRoots[root1] = root2;
+            m_sizesOfRoots[root2] += m_sizesOfRoots.at(root1);
+        }
+        else
+        {
+            m_relativeRoots[root2] = root1;
+            m_sizesOfRoots[root1] += m_sizesOfRoots.at(root2);
+        }
+    }
+
+    std::array<Object, SIZE> m_relativeRoots;
     std::array<unsigned int, SIZE> m_sizesOfRoots;
-    unsigned int m_count;
+    unsigned int m_numberOfUnconnected;
 };
 
 }

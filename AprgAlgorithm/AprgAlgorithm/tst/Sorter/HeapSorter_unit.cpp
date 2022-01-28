@@ -11,12 +11,14 @@ namespace alba
 
 TEST(HeapSorterTest, SortWorksOnCharactersUsingExample1)
 {
-    sortCharactersUsingExample1(make_unique<HeapSorter<Characters>>());
+    HeapSorter<Characters> sorter;
+    performSortTestUsingExample1(sorter);
 }
 
 TEST(HeapSorterTest, SortWorksOnCharactersUsingExample2)
 {
-    sortCharactersUsingExample2(make_unique<HeapSorter<Characters>>());
+    HeapSorter<Characters> sorter;
+    performSortTestUsingExample2(sorter);
 }
 
 }

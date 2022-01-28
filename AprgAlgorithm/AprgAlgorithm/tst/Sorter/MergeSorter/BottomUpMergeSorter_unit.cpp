@@ -11,12 +11,14 @@ namespace alba
 
 TEST(BottomUpMergeSorterTest, SortWorksOnCharactersUsingExample1)
 {
-    sortCharactersUsingExample1(make_unique<BottomUpMergeSorter<Characters>>());
+    BottomUpMergeSorter<Characters> sorter;
+    performSortTestUsingExample1(sorter);
 }
 
 TEST(BottomUpMergeSorterTest, SortWorksOnCharactersUsingExample2)
 {
-    sortCharactersUsingExample2(make_unique<BottomUpMergeSorter<Characters>>());
+    BottomUpMergeSorter<Characters> sorter;
+    performSortTestUsingExample2(sorter);
 }
 
 }

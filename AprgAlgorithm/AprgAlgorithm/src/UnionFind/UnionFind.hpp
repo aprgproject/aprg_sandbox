@@ -1,57 +1,65 @@
 #pragma once
 
+#include <UnionFind/BaseUnionFind.hpp>
+
 #include <array>
 #include <numeric>
 
 namespace alba
 {
 
-template <unsigned int SIZE>
-class UnionFind
+template <typename Object, unsigned int SIZE>
+class UnionFind : public BaseUnionFind<Object>
 {
 public:
     UnionFind()
-        : m_ids()
-        , m_count(SIZE)
+        : m_roots()
+        , m_numberOfUnconnected(SIZE)
     {
-        std::iota(m_ids.begin(), m_ids.end(), 0U);
+        std::iota(m_roots.begin(), m_roots.end(), 0);
     }
 
-    unsigned int getCount() const
+    bool isConnected(Object const& object1, Object const& object2) const override
     {
-        return m_count;
+        return getRoot(object1) == getRoot(object2);
     }
 
-    bool isConnected(unsigned int const id1, unsigned int const id2) const
+    Object getRoot(Object const& object) const override
     {
-        return getIdEquivalent(id1) == getIdEquivalent(id2);
+        return m_roots.at(object);
     }
 
-    unsigned int getIdEquivalent(unsigned int const id) const
+    void connect(Object const& object1, Object const& object2) override
     {
-        return m_ids.at(id);
-    }
-
-    void connect(unsigned int const id1, unsigned int const id2)
-    {
-        unsigned int id1Equivalent(getIdEquivalent(id1));
-        unsigned int id2Equivalent(getIdEquivalent(id2));
-        if(id1Equivalent != id2Equivalent)
+        Object root1(getRoot(object1));
+        Object root2(getRoot(object2));
+        if(root1 != root2)
         {
-            for(unsigned int i=0; i<SIZE; i++)
-            {
-                if(m_ids[i] == id2Equivalent)
-                {
-                    m_ids[i] = id1Equivalent;
-                }
-            }
-            m_count--;
+            replaceWithNewRoot(root2, root1);
+            m_numberOfUnconnected--;
         }
     }
 
+    unsigned int getNumberOfUnconnected() const
+    {
+        return m_numberOfUnconnected;
+    }
+
 private:
-    std::array<unsigned int, SIZE> m_ids;
-    unsigned int m_count;
+
+    void replaceWithNewRoot(Object const& oldRoot, Object const& newRoot)
+    {
+        for(unsigned int i=0; i<SIZE; i++)
+        {
+            if(m_roots[i] == oldRoot)
+            {
+                m_roots[i] = newRoot;
+            }
+        }
+    }
+
+    std::array<Object, SIZE> m_roots;
+    unsigned int m_numberOfUnconnected;
 };
 
 }

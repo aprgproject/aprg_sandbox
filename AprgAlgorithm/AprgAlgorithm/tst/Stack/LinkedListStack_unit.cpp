@@ -1,71 +1,58 @@
 #include <Stack/LinkedListStack.hpp>
+#include <Stack/Utilities/CommonTestsWithBaseStack.hpp>
 
 #include <gtest/gtest.h>
 
+using namespace alba::CommonTestsWithBaseStack;
 using namespace std;
 
-namespace alba
-{
+namespace alba{
 
 namespace
 {
-using StackForTest = LinkedListStack<unsigned int>;
+using StackForUnsignedInt = LinkedListStack<unsigned int>;
 }
 
-TEST(LinkedListStackTest, IsEmptyWorks)
+TEST(LinkedListStackTest, IsEmptyWorksWhenEmpty)
 {
-    StackForTest stack1;
-    StackForTest stack2;
-    stack2.push(10U);
-
-    EXPECT_TRUE(stack1.isEmpty());
-    EXPECT_FALSE(stack2.isEmpty());
+    StackForUnsignedInt stack;
+    performIsEmptyTestWhenEmpty(stack);
 }
 
-TEST(LinkedListStackTest, GetSizeWorks)
+TEST(LinkedListStackTest, IsEmptyWorksWhenNotEmpty)
 {
-    StackForTest stack1;
-    StackForTest stack2;
-    stack2.push(10U);
-    stack2.push(5U);
-    stack2.push(4U);
+    StackForUnsignedInt stack;
+    performIsEmptyTestWhenNotEmpty(stack);
+}
 
-    EXPECT_EQ(0U, stack1.getSize());
-    EXPECT_EQ(3U, stack2.getSize());
+TEST(LinkedListStackTest, GetSizeWorksWhenEmpty)
+{
+    StackForUnsignedInt stack;
+    performGetSizeTestWhenEmpty(stack);
+}
+
+TEST(LinkedListStackTest, GetSizeWorksWhenNotEmpty)
+{
+    StackForUnsignedInt stack;
+    performGetSizeTestWhenNotEmpty(stack);
 }
 
 TEST(LinkedListStackTest, PushWorks)
 {
-    StackForTest stack;
-
-    stack.push(1U);
-    stack.push(2U);
-    stack.push(3U);
-
-    EXPECT_EQ(3U, stack.getSize());
-    EXPECT_EQ(3U, stack.pop());
-    EXPECT_EQ(2U, stack.pop());
-    EXPECT_EQ(1U, stack.pop());
+    StackForUnsignedInt stack;
+    performPushTest(stack);
 }
 
 TEST(LinkedListStackTest, PopWorks)
 {
-    StackForTest stack;
-    stack.push(1U);
-    stack.push(2U);
-    stack.push(3U);
-
-    EXPECT_EQ(3U, stack.pop());
-    EXPECT_EQ(2U, stack.pop());
-    EXPECT_EQ(1U, stack.pop());
-    EXPECT_EQ(0U, stack.getSize());
+    StackForUnsignedInt stack;
+    performPopTest(stack);
 }
 
 TEST(LinkedListStackTest, DISABLED_PopWorksWithAssertionWhenItsEmpty) //disabled because it takes too long
 {
-    StackForTest stack;
-
-    EXPECT_DEATH(stack.pop(), "Assertion failed!");
+    StackForUnsignedInt stack;
+    performPopAssertionTestWhenEmpty(stack);
 }
 
 }

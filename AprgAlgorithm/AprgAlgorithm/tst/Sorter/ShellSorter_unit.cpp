@@ -11,12 +11,14 @@ namespace alba
 
 TEST(ShellSorterTest, SortWorksOnCharactersUsingExample1)
 {
-    sortCharactersUsingExample1(make_unique<ShellSorter<Characters>>());
+    ShellSorter<Characters> sorter;
+    performSortTestUsingExample1(sorter);
 }
 
 TEST(ShellSorterTest, SortWorksOnCharactersUsingExample2)
 {
-    sortCharactersUsingExample2(make_unique<ShellSorter<Characters>>());
+    ShellSorter<Characters> sorter;
+    performSortTestUsingExample2(sorter);
 }
 
 }

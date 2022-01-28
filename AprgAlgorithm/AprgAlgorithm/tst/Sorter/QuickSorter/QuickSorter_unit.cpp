@@ -11,14 +11,15 @@ namespace alba
 
 TEST(QuickSorterTest, SortWorksOnCharactersUsingExample1)
 {
-    sortCharactersUsingExample1(make_unique<QuickSorter<Characters>>());
+    QuickSorter<Characters> sorter;
+    performSortTestUsingExample1(sorter);
 }
 
 TEST(QuickSorterTest, SortWorksOnCharactersUsingExample2)
 {
-    sortCharactersUsingExample2(make_unique<QuickSorter<Characters>>());
+    QuickSorter<Characters> sorter;
+    performSortTestUsingExample2(sorter);
 }
 
 }
-
 

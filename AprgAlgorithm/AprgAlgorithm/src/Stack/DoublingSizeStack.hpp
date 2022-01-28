@@ -1,17 +1,17 @@
 #pragma once
 
+#include <Stack/BaseStack.hpp>
+
 #include <algorithm>
 #include <cassert>
-
 namespace alba
 {
 
 template <typename Object>
-class DoublingSizeStack
+class DoublingSizeStack : public BaseStack<Object>
 {
 public:
     static constexpr unsigned int INITIAL_SIZE = 1U;
-
     DoublingSizeStack()
         : m_stackSize(0)
         , m_containerSize(0)
@@ -25,20 +25,40 @@ public:
         deleteAllObjects();
     }
 
-    bool isEmpty() const
+    bool isEmpty() const override
     {
         return m_stackSize == 0;
     }
 
-    unsigned int getStackSize() const
+    unsigned int getSize() const override
     {
         return m_stackSize;
+    }
+
+    void push(Object const& object) override
+    {
+        if(m_stackSize == m_containerSize)
+        {            resize(m_containerSize*2);
+        }
+        m_objects[m_stackSize++] = object;
+    }
+
+    Object pop() override
+    {
+        assert(m_stackSize > 0);
+        Object result(m_objects[--m_stackSize]);        if(m_containerSize > 0 && m_stackSize == m_containerSize/4)
+        {
+            resize(m_containerSize/2);
+        }
+        return result;
     }
 
     unsigned int getContainerSize() const
     {
         return m_containerSize;
     }
+
+private:
 
     void resize(unsigned int const newSize)
     {
@@ -52,31 +72,9 @@ public:
         m_containerSize = newSize;
     }
 
-    void push(Object const& object)
-    {
-        if(m_stackSize == m_containerSize)
-        {
-            resize(m_containerSize*2);
-        }
-        m_objects[m_stackSize++] = object;
-    }
-
-    Object pop()
-    {
-        assert(m_stackSize > 0);
-        Object result(m_objects[--m_stackSize]);
-        if(m_containerSize > 0 && m_stackSize == m_containerSize/4)
-        {
-            resize(m_containerSize/2);
-        }
-        return result;
-    }
-
-private:
     void deleteAllObjects()
     {
-        if(m_objects != nullptr)
-        {
+        if(m_objects != nullptr)        {
             delete[](m_objects);
         }
     }

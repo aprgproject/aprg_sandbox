@@ -1,10 +1,7 @@
 #pragma once
 
-#include <utility>
-
 namespace alba
 {
-
 template <typename Values>
 class BaseSorter
 {
