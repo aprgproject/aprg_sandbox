@@ -204,10 +204,10 @@ public:
                     m_currentSize--;
                     break;
                 }
-            }            previousNodePointer = currentNodePointer;
+            }
+            previousNodePointer = currentNodePointer;
         }
     }
-
     void deleteMinimum() override
     {
         deleteBasedOnKey(getMinimum());

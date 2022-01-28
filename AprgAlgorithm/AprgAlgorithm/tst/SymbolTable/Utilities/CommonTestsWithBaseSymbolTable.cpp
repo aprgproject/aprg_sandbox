@@ -140,11 +140,11 @@ void performPutTest(BaseSymbolTableForUnsignedInt & symbolTable)
     ASSERT_EQ(3U, symbolTable.getSize());
     EXPECT_EQ('E', symbolTable.get(5U));
     EXPECT_EQ('F', symbolTable.get(6U));
-    EXPECT_EQ('G', symbolTable.get(7U));}
+    EXPECT_EQ('G', symbolTable.get(7U));
+}
 
 void performDeleteBasedOnKeyTest(BaseSymbolTableForUnsignedInt & symbolTable)
-{
-    symbolTable.put(7U, 'G');
+{    symbolTable.put(7U, 'G');
     symbolTable.put(5U, 'E');
     symbolTable.put(6U, 'F');
 
@@ -157,11 +157,11 @@ void performDeleteBasedOnKeyTest(BaseSymbolTableForUnsignedInt & symbolTable)
     ASSERT_EQ(1U, symbolTable.getSize());
     EXPECT_EQ('G', symbolTable.get(7U));
 
-    symbolTable.deleteBasedOnKey(7U);    EXPECT_TRUE(symbolTable.isEmpty());
+    symbolTable.deleteBasedOnKey(7U);
+    EXPECT_TRUE(symbolTable.isEmpty());
 }
 
-void performDeleteMinimumTest(BaseSymbolTableForUnsignedInt & symbolTable)
-{
+void performDeleteMinimumTest(BaseSymbolTableForUnsignedInt & symbolTable){
     symbolTable.put(7U, 'G');
     symbolTable.put(5U, 'E');
     symbolTable.put(6U, 'F');
@@ -171,10 +171,10 @@ void performDeleteMinimumTest(BaseSymbolTableForUnsignedInt & symbolTable)
     EXPECT_EQ('F', symbolTable.get(6U));
     EXPECT_EQ('G', symbolTable.get(7U));
 }
+
 void performDeleteMaximumTest(BaseSymbolTableForUnsignedInt & symbolTable)
 {
-    symbolTable.put(7U, 'G');
-    symbolTable.put(5U, 'E');
+    symbolTable.put(7U, 'G');    symbolTable.put(5U, 'E');
     symbolTable.put(6U, 'F');
 
     symbolTable.deleteMaximum();
@@ -182,6 +182,7 @@ void performDeleteMaximumTest(BaseSymbolTableForUnsignedInt & symbolTable)
     EXPECT_EQ('E', symbolTable.get(5U));
     EXPECT_EQ('F', symbolTable.get(6U));
 }
+
 }
 
 }

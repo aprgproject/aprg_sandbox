@@ -4,16 +4,12 @@
 
 #include <memory>
 
-
-
-#include <Debug/AlbaDebug.hpp>
-
 namespace alba
 {
+
 template <typename Key, typename Value>
 class BinarySearchTreeSymbolTable : public BaseSymbolTable<Key, Value>
-{
-public:
+{public:
     struct Node;
     using NodeUniquePointer = std::unique_ptr<Node>;
     struct Node
@@ -115,27 +111,27 @@ public:
 
     void deleteMinimum() override
     {
-        m_root = deleteMinimumOnThisNodeAndReturnChangedNode(m_root);
+        deleteMinimumOnThisNode(m_root);
     }
 
     void deleteMaximum() override
     {
-        m_root = deleteMaximumOnThisNodeAndReturnChangedNode(m_root);
+        deleteMaximumOnThisNode(m_root);
     }
 
     template <typename Container>
-    void retrieveKeysInRange(Container & keys, Key const& low, Key const& high)
+    void retrieveKeysInRangeInclusive(Container & keys, Key const& low, Key const& high)
     {
-        retrieveKeysInRangeOnThisNode(keys, m_root.get(), low, high);
+        retrieveKeysInRangeInclusiveOnThisNode(keys, m_root.get(), low, high);
     }
 
 private:
 
-    unsigned int getSizeOnThisNode(Node const*const nodePointer) const    {
+    unsigned int getSizeOnThisNode(Node const*const nodePointer) const
+    {
         unsigned int size(0);
         if(nodePointer)
-        {
-            size = nodePointer->numberOfSubNodes;
+        {            size = nodePointer->numberOfSubNodes;
         }
         return size;
     }
@@ -147,11 +143,11 @@ private:
 
     Value getOnThisNode(Node const*const nodePointer, Key const& key) const
     {
-        Value result{};        if(nodePointer != nullptr)
+        Value result{};
+        if(nodePointer != nullptr)
         {
             Key const& currentKey(nodePointer->key);
-            if(key < currentKey)
-            {
+            if(key < currentKey)            {
                 result = getOnThisNode(nodePointer->left.get(), key);
             }
             else if(key > currentKey)
@@ -353,71 +349,67 @@ private:
                 {
                     nodePointer->key = minimumNodePointer->key;
                     nodePointer->value = minimumNodePointer->value;
-                    nodePointer->right = deleteMinimumOnThisNodeAndReturnChangedNode(nodePointer->right);
+                    deleteMinimumOnThisNode(nodePointer->right);
                 }
             }
-            if(nodePointer)
-            {
+            if(nodePointer)            {
                 nodePointer->numberOfSubNodes = calculateSizeOfNodeBasedFromLeftAndRight(*(nodePointer.get()));
             }
         }
     }
-    NodeUniquePointer deleteMinimumOnThisNodeAndReturnChangedNode(NodeUniquePointer & nodePointer)
+
+    void deleteMinimumOnThisNode(NodeUniquePointer & nodePointer)
     {
         if(nodePointer)
         {
             if(nodePointer->left)
             {
-                nodePointer->left = std::move(deleteMinimumOnThisNodeAndReturnChangedNode(nodePointer->left));
+                deleteMinimumOnThisNode(nodePointer->left);
                 nodePointer->numberOfSubNodes = calculateSizeOfNodeBasedFromLeftAndRight(*(nodePointer.get()));
-                return std::move(nodePointer);
             }
             else
             {
-                return std::move(nodePointer->right);
+                nodePointer = std::move(nodePointer->right);
             }
         }
-        return nullptr;
     }
 
-    NodeUniquePointer deleteMaximumOnThisNodeAndReturnChangedNode(NodeUniquePointer & nodePointer)
+    void deleteMaximumOnThisNode(NodeUniquePointer & nodePointer)
     {
         if(nodePointer)
         {
             if(nodePointer->right)
             {
-                nodePointer->right = std::move(deleteMaximumOnThisNodeAndReturnChangedNode(nodePointer->right));
+                deleteMaximumOnThisNode(nodePointer->right);
                 nodePointer->numberOfSubNodes = calculateSizeOfNodeBasedFromLeftAndRight(*(nodePointer.get()));
-                return std::move(nodePointer);
             }
             else
             {
-                return std::move(nodePointer->left);
+                nodePointer = std::move(nodePointer->left);
             }
         }
-        return nullptr;
     }
 
     template <typename Container>
-    void retrieveKeysInRangeOnThisNode(Container & keys, Node const*const nodePointer, Key const& low, Key const& high)
+    void retrieveKeysInRangeInclusiveOnThisNode(Container & keys, Node const*const nodePointer, Key const& low, Key const& high)
     {
         if(nodePointer)
         {
             if(low < nodePointer->key)
             {
-                retrieveKeysInRange(keys, nodePointer->left, low, high);
+                retrieveKeysInRangeInclusiveOnThisNode(keys, nodePointer->left.get(), low, high);
             }
             if(low <= nodePointer->key && high >= nodePointer->key)
-            {
-                keys.emplace(nodePointer->key);
+            {                keys.emplace(nodePointer->key);
             }
             if(high > nodePointer->key)
             {
-                retrieveKeysInRange(keys, nodePointer->right, low, high);
+                retrieveKeysInRangeInclusiveOnThisNode(keys, nodePointer->right.get(), low, high);
             }
         }
     }
 
-    NodeUniquePointer m_root;};
+    NodeUniquePointer m_root;
+};
 
 }
