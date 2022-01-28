@@ -23,7 +23,8 @@ public:
     Object getRoot(Object const& object) const override
     {
         Object currentObject(object);
-        while(isExistingInConnectionMap(currentObject))        {
+        while(isExistingInConnectionMap(currentObject))
+        {
             Object const& tempRoot(m_connectionMap.at(currentObject));
             if(tempRoot==currentObject)
             {
@@ -37,7 +38,8 @@ public:
     void connect(Object const& object1, Object const& object2) override
     {
         bool isObject1LowerThanObject2(object1<object2);
-        Object lowerValueObject(isObject1LowerThanObject2 ? object1 : object2);        Object higherValueObject(isObject1LowerThanObject2 ? object2 : object1);
+        Object lowerValueObject(isObject1LowerThanObject2 ? object1 : object2);
+        Object higherValueObject(isObject1LowerThanObject2 ? object2 : object1);
         initializeToConnectionMapIfNeeded(object1);
         initializeToConnectionMapIfNeeded(object2);
         Object root(getRoot(lowerValueObject));

@@ -4,6 +4,7 @@
 
 #include <array>
 #include <cassert>
+
 namespace alba
 {
 
@@ -12,6 +13,7 @@ class FixedSizeStack : public BaseStack<Object>
 {
 public:
     using Objects = std::array<Object, SIZE>;
+
     FixedSizeStack()
         : m_currentSize(0)
     {}
@@ -45,7 +47,8 @@ public:
 
 private:
 
-    unsigned int m_currentSize;    Objects m_objects;
+    unsigned int m_currentSize;
+    Objects m_objects;
 };
 
 }

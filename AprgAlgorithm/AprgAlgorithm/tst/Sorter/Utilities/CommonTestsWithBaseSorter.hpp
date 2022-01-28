@@ -4,7 +4,8 @@
 
 #include <vector>
 
-namespace alba{
+namespace alba
+{
 
 namespace CommonTestsWithBaseSorter
 {
@@ -16,4 +17,5 @@ void performSortTestUsingExample1(BaseSorterForCharacters & sorter);
 void performSortTestUsingExample2(BaseSorterForCharacters & sorter);
 
 }
+
 }

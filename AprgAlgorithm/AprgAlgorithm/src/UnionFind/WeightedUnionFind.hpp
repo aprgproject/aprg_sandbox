@@ -5,6 +5,7 @@
 #include <algorithm>
 #include <array>
 #include <numeric>
+
 namespace alba
 {
 
@@ -34,7 +35,8 @@ public:
         while(result != currentRoot)        {
             result = currentRoot;
             currentRoot = m_relativeRoots.at(result);
-        }        return result;
+        }
+        return result;
     }
 
     void connect(Object const& object1, Object const& object2) override

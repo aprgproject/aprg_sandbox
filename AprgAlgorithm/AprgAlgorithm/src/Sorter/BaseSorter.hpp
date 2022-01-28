@@ -2,6 +2,7 @@
 
 namespace alba
 {
+
 template <typename Values>
 class BaseSorter
 {

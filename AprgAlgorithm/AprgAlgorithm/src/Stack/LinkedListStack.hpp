@@ -4,6 +4,7 @@
 
 #include <cassert>
 #include <memory>
+
 namespace alba
 {
 
@@ -11,7 +12,8 @@ template <typename Object>
 class LinkedListStack : public BaseStack<Object>
 {
 public:
-    struct Node;    using NodeUniquePointer = std::unique_ptr<Node>;
+    struct Node;
+    using NodeUniquePointer = std::unique_ptr<Node>;
     struct Node
     {
         Object object;
@@ -43,7 +45,8 @@ public:
     Object pop() override
     {
         assert(m_first);
-        Object result{};        if(m_first)
+        Object result{};
+        if(m_first)
         {
             result = m_first->object;
             m_first = std::move(m_first->next);

@@ -1,4 +1,4 @@
-#include <Queue/LinkedListQueue.hpp>
+#include <Queue/DoublingSizeQueue.hpp>
 #include <Queue/Utilities/CommonTestsWithBaseQueue.hpp>
 
 #include <gtest/gtest.h>
@@ -6,50 +6,51 @@
 using namespace alba::CommonTestsWithBaseQueue;
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 namespace
 {
-using QueueForUnsignedInt = LinkedListQueue<unsigned int>;
+using QueueForUnsignedInt = DoublingSizeQueue<unsigned int>;
 }
 
-TEST(LinkedListQueueTest, IsEmptyWorksWhenEmpty)
+TEST(DoublingSizeQueueTest, IsEmptyWorksWhenEmpty)
 {
     QueueForUnsignedInt queue;
     performIsEmptyTestWhenEmpty(queue);
 }
 
-TEST(LinkedListQueueTest, IsEmptyWorksWhenNotEmpty)
+TEST(DoublingSizeQueueTest, IsEmptyWorksWhenNotEmpty)
 {
     QueueForUnsignedInt queue;
     performIsEmptyTestWhenNotEmpty(queue);
 }
 
-TEST(LinkedListQueueTest, GetSizeWorksWhenEmpty)
+TEST(DoublingSizeQueueTest, GetSizeWorksWhenEmpty)
 {
     QueueForUnsignedInt queue;
     performGetSizeTestWhenEmpty(queue);
 }
 
-TEST(LinkedListQueueTest, GetSizeWorksWhenNotEmpty)
+TEST(DoublingSizeQueueTest, GetSizeWorksWhenNotEmpty)
 {
     QueueForUnsignedInt queue;
     performGetSizeTestWhenNotEmpty(queue);
 }
 
-TEST(LinkedListQueueTest, EnqueueWorks)
+TEST(DoublingSizeQueueTest, EnqueueWorks)
 {
     QueueForUnsignedInt queue;
     performEnqueueTest(queue);
 }
 
-TEST(LinkedListQueueTest, DequeueWorks)
+TEST(DoublingSizeQueueTest, DequeueWorks)
 {
     QueueForUnsignedInt queue;
     performDequeueTest(queue);
 }
 
-TEST(LinkedListQueueTest, DISABLED_DequeueWorksWithAssertionWhenItsEmpty) //disabled because it takes too long
+TEST(DoublingSizeQueueTest, DISABLED_DequeueWorksWithAssertionWhenItsEmpty) //disabled because it takes too long
 {
     QueueForUnsignedInt queue;
     performDequeueAssertionTestWhenEmpty(queue);

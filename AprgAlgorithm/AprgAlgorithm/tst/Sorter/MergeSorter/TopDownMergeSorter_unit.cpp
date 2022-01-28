@@ -22,3 +22,4 @@ TEST(TopDownMergeSorterTest, SortWorksOnCharactersUsingExample2)
 }
 
 }
+

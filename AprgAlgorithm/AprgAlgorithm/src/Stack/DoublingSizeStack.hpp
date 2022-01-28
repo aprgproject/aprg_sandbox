@@ -4,6 +4,7 @@
 
 #include <algorithm>
 #include <cassert>
+
 namespace alba
 {
 
@@ -11,17 +12,15 @@ template <typename Object>
 class DoublingSizeStack : public BaseStack<Object>
 {
 public:
-    static constexpr unsigned int INITIAL_SIZE = 1U;
+
     DoublingSizeStack()
-        : m_stackSize(0)
-        , m_containerSize(0)
+        : m_stackSize(0)        , m_containerSize(0)
         , m_objects(nullptr)
     {
-        resize(INITIAL_SIZE);
+        initialize(INITIAL_SIZE);
     }
 
-    ~DoublingSizeStack()
-    {
+    ~DoublingSizeStack()    {
         deleteAllObjects();
     }
 
@@ -38,7 +37,8 @@ public:
     void push(Object const& object) override
     {
         if(m_stackSize == m_containerSize)
-        {            resize(m_containerSize*2);
+        {
+            resize(m_containerSize*2);
         }
         m_objects[m_stackSize++] = object;
     }
@@ -46,7 +46,8 @@ public:
     Object pop() override
     {
         assert(m_stackSize > 0);
-        Object result(m_objects[--m_stackSize]);        if(m_containerSize > 0 && m_stackSize == m_containerSize/4)
+        Object result(m_objects[--m_stackSize]);
+        if(m_containerSize > 0 && m_stackSize == m_containerSize/4)
         {
             resize(m_containerSize/2);
         }
@@ -60,10 +61,18 @@ public:
 
 private:
 
+    void initialize(unsigned int const initialSize)
+    {
+        if(m_objects == nullptr)
+        {
+            m_objects = new Object[initialSize]{};
+            m_containerSize = initialSize;
+        }
+    }
+
     void resize(unsigned int const newSize)
     {
-        Object* newObjects = new Object[newSize]{};
-        if(m_objects != nullptr)
+        Object* newObjects = new Object[newSize]{};        if(m_objects != nullptr)
         {
             std::copy(m_objects, m_objects + std::min(m_stackSize, newSize), newObjects);
             delete[](m_objects);
@@ -74,14 +83,15 @@ private:
 
     void deleteAllObjects()
     {
-        if(m_objects != nullptr)        {
+        if(m_objects != nullptr)
+        {
             delete[](m_objects);
         }
     }
 
+    static constexpr unsigned int INITIAL_SIZE = 1U;
     unsigned int m_stackSize;
     unsigned int m_containerSize;
-    Object* m_objects;
-};
+    Object* m_objects;};
 
 }

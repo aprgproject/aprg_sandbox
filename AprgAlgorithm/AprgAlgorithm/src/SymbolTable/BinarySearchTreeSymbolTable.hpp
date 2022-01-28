@@ -93,7 +93,8 @@ public:
     }
 private:
 
-    unsigned int getSizeOnThisNode(Node const*const nodePointer) const    {
+    unsigned int getSizeOnThisNode(Node const*const nodePointer) const
+    {
         unsigned int size(0);
         if(nodePointer)
         {
@@ -123,7 +124,8 @@ private:
         return result;    }
 
     Key getMinimumOnThisNode(Node const*const nodePointer) const
-    {        Key result{};
+    {
+        Key result{};
         if(nodePointer != nullptr)
         {
             if(nodePointer->left)
@@ -166,7 +168,8 @@ private:
                 result = nodePointer->key;            }
             else if(key < currentKey)
             {
-                result = getNodeWithFloorOnThisNode(nodePointer->left.get(), key);            }
+                result = getNodeWithFloorOnThisNode(nodePointer->left.get(), key);
+            }
             else
             {
                 Node const*const nodeWithFloorAtRight(getNodeWithFloorOnThisNode(nodePointer->right.get(), key));
@@ -194,7 +197,8 @@ private:
                 result = nodePointer->key;            }
             else if(key > currentKey)
             {
-                result = getNodeWithFloorOnThisNode(nodePointer->right.get(), key);            }
+                result = getNodeWithFloorOnThisNode(nodePointer->right.get(), key);
+            }
             else
             {
                 Node const*const nodeWithCeilingAtLeft(getNodeWithCeilingOnThisNode(nodePointer->left.get(), key));
@@ -244,7 +248,8 @@ private:
                 result = getRankOnThisNode(nodePointer->left.get(), key);            }
             else if(key > currentKey)
             {
-                result = 1 + getSizeOnThisNode(nodePointer->left.get()) + getRankOnThisNode(nodePointer->right.get(), key);            }
+                result = 1 + getSizeOnThisNode(nodePointer->left.get()) + getRankOnThisNode(nodePointer->right.get(), key);
+            }
             else
             {
                 result = getSizeOnThisNode(nodePointer->left.get());

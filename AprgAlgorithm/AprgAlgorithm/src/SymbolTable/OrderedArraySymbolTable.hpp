@@ -32,7 +32,8 @@ public:
         while(lowIndex <= highIndex)        {
             int midIndex=(lowIndex+highIndex)/2;
             Key const& keyAtMidIndex(m_keys.at(midIndex));
-            if(key < keyAtMidIndex)            {
+            if(key < keyAtMidIndex)
+            {
                 highIndex = midIndex-1;
             }
             else if(key > keyAtMidIndex)
@@ -97,7 +98,8 @@ public:
         if(rank < m_currentSize && m_keys.at(rank) == key)        {
             result = key;
         }
-        else if(rank-1 < m_currentSize && m_keys.at(rank-1) < key)        {
+        else if(rank-1 < m_currentSize && m_keys.at(rank-1) < key)
+        {
             result = m_keys.at(rank-1);
         }
         return result;

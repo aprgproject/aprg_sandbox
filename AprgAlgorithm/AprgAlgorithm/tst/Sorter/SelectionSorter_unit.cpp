@@ -22,3 +22,4 @@ TEST(SelectionSorterTest, SortWorksOnCharactersUsingExample2)
 }
 
 }
+
