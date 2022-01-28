@@ -12,17 +12,18 @@ template <typename Key, typename Value>
 class LinkedListSymbolTable : public BaseSymbolTable<Key, Value>
 {
 public:
-    struct Node;    using NodeUniquePointer = std::unique_ptr<Node>;
+    struct Node;
+    using NodeUniquePointer = std::unique_ptr<Node>;
     struct Node
     {
         Key key;
         Value value;
         NodeUniquePointer next;
     };
+
     LinkedListSymbolTable()
         : m_currentSize(0)
-        , m_first(nullptr)
-    {}
+        , m_first(nullptr)    {}
 
     bool isEmpty() const override
     {
@@ -243,4 +244,5 @@ private:
     unsigned int m_currentSize;
     NodeUniquePointer m_first;
 };
+
 }

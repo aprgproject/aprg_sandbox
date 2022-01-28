@@ -6,11 +6,11 @@
 using namespace alba::CommonTestsWithBaseQueue;
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 namespace
-{
-using QueueForUnsignedInt = LinkedListQueue<unsigned int>;
+{using QueueForUnsignedInt = LinkedListQueue<unsigned int>;
 }
 
 TEST(LinkedListQueueTest, IsEmptyWorksWhenEmpty)

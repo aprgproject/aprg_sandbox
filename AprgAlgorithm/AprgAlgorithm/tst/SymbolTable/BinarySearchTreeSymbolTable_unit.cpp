@@ -1,4 +1,4 @@
-#include <SymbolTable/OrderedArraySymbolTable.hpp>
+#include <SymbolTable/BinarySearchTreeSymbolTable.hpp>
 #include <SymbolTable/Utilities/CommonTestsWithBaseSymbolTable.hpp>
 
 #include <gtest/gtest.h>
@@ -6,101 +6,85 @@
 using namespace alba::CommonTestsWithBaseSymbolTable;
 using namespace std;
 
+
 namespace alba
 {
 
 namespace
-{using SymbolTableWithUnsignedIntToChar = OrderedArraySymbolTable<unsigned int, char>;
+{
+using SymbolTableWithUnsignedIntToChar = BinarySearchTreeSymbolTable<unsigned int, char>;
 }
 
-TEST(OrderedArraySymbolTableTest, IsEmptyWorksWhenEmpty)
+TEST(BinarySearchTreeSymbolTableTest, IsEmptyWorksWhenEmpty)
 {
     SymbolTableWithUnsignedIntToChar symbolTable;
     performIsEmptyTestWhenEmpty(symbolTable);
 }
 
-TEST(OrderedArraySymbolTableTest, IsEmptyWorksWhenNotEmpty)
+TEST(BinarySearchTreeSymbolTableTest, IsEmptyWorksWhenNotEmpty)
 {
     SymbolTableWithUnsignedIntToChar symbolTable;
     performIsEmptyTestWhenNotEmpty(symbolTable);
 }
 
-TEST(OrderedArraySymbolTableTest, GetSizeWorksWhenEmpty)
+TEST(BinarySearchTreeSymbolTableTest, GetSizeWorksWhenEmpty)
 {
     SymbolTableWithUnsignedIntToChar symbolTable;
     performGetSizeTestWhenEmpty(symbolTable);
 }
 
-TEST(OrderedArraySymbolTableTest, GetSizeWorksWhenNotEmpty)
+TEST(BinarySearchTreeSymbolTableTest, GetSizeWorksWhenNotEmpty)
 {
     SymbolTableWithUnsignedIntToChar symbolTable;
     performGetSizeTestWhenNotEmpty(symbolTable);
 }
 
-TEST(OrderedArraySymbolTableTest, GetWorks)
+TEST(BinarySearchTreeSymbolTableTest, GetWorks)
 {
     SymbolTableWithUnsignedIntToChar symbolTable;
     performGetTest(symbolTable);
 }
 
-TEST(OrderedArraySymbolTableTest, GetRankWorks)
+TEST(BinarySearchTreeSymbolTableTest, GetRankWorks)
 {
     SymbolTableWithUnsignedIntToChar symbolTable;
     performGetRankTest(symbolTable);
 }
 
-TEST(OrderedArraySymbolTableTest, GetMinimumWorks)
+TEST(BinarySearchTreeSymbolTableTest, GetMinimumWorks)
 {
     SymbolTableWithUnsignedIntToChar symbolTable;
     performGetMinimumTest(symbolTable);
 }
 
-TEST(OrderedArraySymbolTableTest, GetMaximumWorks)
+TEST(BinarySearchTreeSymbolTableTest, GetMaximumWorks)
 {
     SymbolTableWithUnsignedIntToChar symbolTable;
     performGetMaximumTest(symbolTable);
 }
 
-TEST(OrderedArraySymbolTableTest, SelectAtWorks)
+TEST(BinarySearchTreeSymbolTableTest, SelectAtWorks)
 {
     SymbolTableWithUnsignedIntToChar symbolTable;
     performSelectAtTest(symbolTable);
 }
 
-TEST(OrderedArraySymbolTableTest, GetFloorWorks)
+TEST(BinarySearchTreeSymbolTableTest, GetFloorWorks)
 {
     SymbolTableWithUnsignedIntToChar symbolTable;
     performGetFloorTest(symbolTable);
 }
 
-TEST(OrderedArraySymbolTableTest, GetCeilingWorks)
+TEST(BinarySearchTreeSymbolTableTest, GetCeilingWorks)
 {
     SymbolTableWithUnsignedIntToChar symbolTable;
     performGetCeilingTest(symbolTable);
 }
 
-TEST(OrderedArraySymbolTableTest, PutWorks)
+TEST(BinarySearchTreeSymbolTableTest, PutWorks)
 {
     SymbolTableWithUnsignedIntToChar symbolTable;
     performPutTest(symbolTable);
-}
-
-TEST(OrderedArraySymbolTableTest, DeleteBasedOnKeyWorks)
-{
-    SymbolTableWithUnsignedIntToChar symbolTable;
-    performDeleteBasedOnKeyTest(symbolTable);
-}
-
-TEST(OrderedArraySymbolTableTest, DeleteMinimumWorks)
-{
-    SymbolTableWithUnsignedIntToChar symbolTable;
-    performDeleteMinimumTest(symbolTable);
-}
-
-TEST(OrderedArraySymbolTableTest, DeleteMaximumWorks)
-{
-    SymbolTableWithUnsignedIntToChar symbolTable;
-    performDeleteMaximumTest(symbolTable);
 }
 
 }
