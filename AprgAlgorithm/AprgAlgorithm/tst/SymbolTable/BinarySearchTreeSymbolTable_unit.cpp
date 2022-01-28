@@ -3,7 +3,7 @@
 
 #include <gtest/gtest.h>
 
-#include <set>
+#include <vector>
 
 using namespace alba::CommonTestsWithBaseSymbolTable;
 using namespace std;
@@ -109,18 +109,19 @@ TEST(BinarySearchTreeSymbolTableTest, DeleteMaximumWorks)
 TEST(BinarySearchTreeSymbolTableTest, RetrieveKeysInRangeWorks)
 {
     SymbolTableWithUnsignedIntToChar symbolTable;
-    set<unsigned int> keys;
+    vector<unsigned int> keys;
     symbolTable.put(8U, 'H');
+    symbolTable.put(9U, 'I');
     symbolTable.put(5U, 'E');
     symbolTable.put(4U, 'D');
     symbolTable.put(7U, 'G');
+    symbolTable.put(3U, 'C');
 
-    symbolTable.retrieveKeysInRangeInclusive(keys, 5U, 7U);
+    symbolTable.retrieveKeysInRangeInclusive(keys, 5U, 8U);
 
-    set<unsigned int> expectedKeys{5U, 7U};
+    vector<unsigned int> expectedKeys{5U, 7U, 8U};
     EXPECT_EQ(expectedKeys, keys);
 }
-
 
 
 }

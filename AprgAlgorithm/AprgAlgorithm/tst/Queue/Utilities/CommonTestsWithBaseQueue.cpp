@@ -51,7 +51,8 @@ void performEnqueueTest(BaseQueueForUnsignedInt & queue)
 }
 
 void performDequeueTest(BaseQueueForUnsignedInt & queue)
-{    queue.enqueue(1U);
+{
+    queue.enqueue(1U);
     queue.enqueue(2U);
     queue.enqueue(3U);
 
@@ -65,6 +66,7 @@ void performDequeueAssertionTestWhenEmpty(BaseQueueForUnsignedInt & queue)
 {
     EXPECT_DEATH(queue.dequeue(), "Assertion failed!");
 }
+
 }
 
 }

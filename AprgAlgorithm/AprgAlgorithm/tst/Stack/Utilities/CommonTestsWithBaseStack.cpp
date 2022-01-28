@@ -51,7 +51,8 @@ void performPushTest(BaseStackForUnsignedInt & stack)
 }
 
 void performPopTest(BaseStackForUnsignedInt & stack)
-{    stack.push(1U);
+{
+    stack.push(1U);
     stack.push(2U);
     stack.push(3U);
 
@@ -65,6 +66,7 @@ void performPopAssertionTestWhenEmpty(BaseStackForUnsignedInt & stack)
 {
     EXPECT_DEATH(stack.pop(), "Assertion failed!");
 }
+
 }
 
 }

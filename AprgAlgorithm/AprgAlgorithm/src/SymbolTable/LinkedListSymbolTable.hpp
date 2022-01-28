@@ -208,6 +208,7 @@ public:
             previousNodePointer = currentNodePointer;
         }
     }
+
     void deleteMinimum() override
     {
         deleteBasedOnKey(getMinimum());
