@@ -15,6 +15,7 @@ public:
     OrderedArraySymbolTable()
         : m_currentSize(0)
     {}
+
     bool isEmpty() const override
     {
         return m_currentSize == 0;
@@ -33,7 +34,8 @@ public:
         {
             int midIndex=(lowIndex+highIndex)/2;
             Key const& keyAtMidIndex(m_keys.at(midIndex));
-            if(key < keyAtMidIndex)            {
+            if(key < keyAtMidIndex)
+            {
                 highIndex = midIndex-1;
             }
             else if(key > keyAtMidIndex)
@@ -86,6 +88,7 @@ public:
         }
         return result;
     }
+
     Key selectAt(unsigned int const index) const override
     {
         return m_keys.at(index);
@@ -99,7 +102,8 @@ public:
         {
             result = key;
         }
-        else if(rank-1 < m_currentSize && m_keys.at(rank-1) < key)        {
+        else if(rank-1 < m_currentSize && m_keys.at(rank-1) < key)
+        {
             result = m_keys.at(rank-1);
         }
         return result;
@@ -113,7 +117,8 @@ public:
         {
             result = m_keys.at(rank);
         }
-        return result;    }
+        return result;
+    }
 
     void put(Key const& key, Value const& value) override
     {
@@ -146,7 +151,8 @@ public:
         {
             if(m_currentSize >= 2)
             {
-                for(unsigned int i=rank; i<m_currentSize-1; i++)                {
+                for(unsigned int i=rank; i<m_currentSize-1; i++)
+                {
                     m_keys[i] = m_keys.at(i+1);
                     m_values[i] = m_values.at(i+1);
                 }

@@ -4,9 +4,12 @@
 
 #include <memory>
 
+
+
+#include <Debug/AlbaDebug.hpp>
+
 namespace alba
 {
-
 template <typename Key, typename Value>
 class BinarySearchTreeSymbolTable : public BaseSymbolTable<Key, Value>
 {
@@ -24,6 +27,7 @@ public:
 
     BinarySearchTreeSymbolTable()
     {}
+
     bool isEmpty() const override
     {
         return getSize() == 0;
@@ -34,7 +38,8 @@ public:
         return getSizeOnThisNode(m_root.get());
     }
 
-    unsigned int getRank(Key const& key) const override    {
+    unsigned int getRank(Key const& key) const override
+    {
         return getRankOnThisNode(m_root.get(), key);
     }
 
@@ -72,7 +77,8 @@ public:
         if(nodePointer != nullptr)
         {
             result = nodePointer->key;
-        }        return result;
+        }
+        return result;
     }
 
     Key getFloor(Key const& key) const override
@@ -82,7 +88,8 @@ public:
         if(nodePointer != nullptr)
         {
             result = nodePointer->key;
-        }        return result;
+        }
+        return result;
     }
 
     Key getCeiling(Key const& key) const override
@@ -116,6 +123,12 @@ public:
         m_root = deleteMaximumOnThisNodeAndReturnChangedNode(m_root);
     }
 
+    template <typename Container>
+    void retrieveKeysInRange(Container & keys, Key const& low, Key const& high)
+    {
+        retrieveKeysInRangeOnThisNode(keys, m_root.get(), low, high);
+    }
+
 private:
 
     unsigned int getSizeOnThisNode(Node const*const nodePointer) const    {
@@ -127,10 +140,14 @@ private:
         return size;
     }
 
+    unsigned int calculateSizeOfNodeBasedFromLeftAndRight(Node const& node) const
+    {
+        return getSizeOnThisNode(node.left.get()) + getSizeOnThisNode(node.right.get()) + 1;
+    }
+
     Value getOnThisNode(Node const*const nodePointer, Key const& key) const
     {
-        Value result{};
-        if(nodePointer != nullptr)
+        Value result{};        if(nodePointer != nullptr)
         {
             Key const& currentKey(nodePointer->key);
             if(key < currentKey)
@@ -139,7 +156,8 @@ private:
             }
             else if(key > currentKey)
             {
-                result = getOnThisNode(nodePointer->right.get(), key);            }
+                result = getOnThisNode(nodePointer->right.get(), key);
+            }
             else
             {
                 result = nodePointer->value;
@@ -194,7 +212,8 @@ private:
             }
             else if(key < currentKey)
             {
-                result = getNodeWithFloorOnThisNode(nodePointer->left.get(), key);            }
+                result = getNodeWithFloorOnThisNode(nodePointer->left.get(), key);
+            }
             else
             {
                 Node const*const nodeWithFloorAtRight(getNodeWithFloorOnThisNode(nodePointer->right.get(), key));
@@ -226,7 +245,8 @@ private:
                 result = getNodeWithCeilingOnThisNode(nodePointer->right.get(), key);
             }
             else
-            {                Node const*const nodeWithCeilingAtLeft(getNodeWithCeilingOnThisNode(nodePointer->left.get(), key));
+            {
+                Node const*const nodeWithCeilingAtLeft(getNodeWithCeilingOnThisNode(nodePointer->left.get(), key));
                 if(nodeWithCeilingAtLeft != nullptr)
                 {
                     result = nodeWithCeilingAtLeft;
@@ -248,7 +268,8 @@ private:
             unsigned int numberOfSubNodes = getSizeOnThisNode(nodePointer->left.get());
             if(numberOfSubNodes > index)
             {
-                result = selectNodeWithIndexOnThisNode(nodePointer->left.get(), index);            }
+                result = selectNodeWithIndexOnThisNode(nodePointer->left.get(), index);
+            }
             else if(numberOfSubNodes < index)
             {
                 result = selectNodeWithIndexOnThisNode(nodePointer->right.get(), index-numberOfSubNodes-1);
@@ -273,7 +294,8 @@ private:
             }
             else if(key > currentKey)
             {
-                result = 1 + getSizeOnThisNode(nodePointer->left.get()) + getRankOnThisNode(nodePointer->right.get(), key);            }
+                result = 1 + getSizeOnThisNode(nodePointer->left.get()) + getRankOnThisNode(nodePointer->right.get(), key);
+            }
             else
             {
                 result = getSizeOnThisNode(nodePointer->left.get());
@@ -298,7 +320,8 @@ private:
                 nodePointer->numberOfSubNodes = calculateSizeOfNodeBasedFromLeftAndRight(*(nodePointer.get()));
             }
             else
-            {                nodePointer->value = value;
+            {
+                nodePointer->value = value;
             }
         }
         else
@@ -322,17 +345,23 @@ private:
             else
             {
                 Node const*const minimumNodePointer(getMinimumNodeOnThisNode(nodePointer->right.get()));
-                if(minimumNodePointer!=nullptr)
+                if(minimumNodePointer==nullptr)
+                {
+                    nodePointer = nullptr;
+                }
+                else
                 {
                     nodePointer->key = minimumNodePointer->key;
                     nodePointer->value = minimumNodePointer->value;
+                    nodePointer->right = deleteMinimumOnThisNodeAndReturnChangedNode(nodePointer->right);
                 }
-                nodePointer->right = deleteMinimumOnThisNodeAndReturnChangedNode(nodePointer->right);
             }
-            nodePointer->numberOfSubNodes = calculateSizeOfNodeBasedFromLeftAndRight(*(nodePointer.get()));
+            if(nodePointer)
+            {
+                nodePointer->numberOfSubNodes = calculateSizeOfNodeBasedFromLeftAndRight(*(nodePointer.get()));
+            }
         }
     }
-
     NodeUniquePointer deleteMinimumOnThisNodeAndReturnChangedNode(NodeUniquePointer & nodePointer)
     {
         if(nodePointer)
@@ -357,24 +386,38 @@ private:
         {
             if(nodePointer->right)
             {
-                return std::move(nodePointer->right);
-            }
-            else
-            {
                 nodePointer->right = std::move(deleteMaximumOnThisNodeAndReturnChangedNode(nodePointer->right));
                 nodePointer->numberOfSubNodes = calculateSizeOfNodeBasedFromLeftAndRight(*(nodePointer.get()));
                 return std::move(nodePointer);
+            }
+            else
+            {
+                return std::move(nodePointer->left);
             }
         }
         return nullptr;
     }
 
-    unsigned int calculateSizeOfNodeBasedFromLeftAndRight(Node const& node) const
+    template <typename Container>
+    void retrieveKeysInRangeOnThisNode(Container & keys, Node const*const nodePointer, Key const& low, Key const& high)
     {
-        return getSizeOnThisNode(node.left.get()) + getSizeOnThisNode(node.right.get()) + 1;
+        if(nodePointer)
+        {
+            if(low < nodePointer->key)
+            {
+                retrieveKeysInRange(keys, nodePointer->left, low, high);
+            }
+            if(low <= nodePointer->key && high >= nodePointer->key)
+            {
+                keys.emplace(nodePointer->key);
+            }
+            if(high > nodePointer->key)
+            {
+                retrieveKeysInRange(keys, nodePointer->right, low, high);
+            }
+        }
     }
 
-    NodeUniquePointer m_root;
-};
+    NodeUniquePointer m_root;};
 
 }

@@ -10,7 +10,8 @@ namespace alba
 {
 
 namespace
-{using SymbolTableWithUnsignedIntToChar = OrderedArraySymbolTable<unsigned int, char>;
+{
+using SymbolTableWithUnsignedIntToChar = OrderedArraySymbolTable<unsigned int, char>;
 }
 
 TEST(OrderedArraySymbolTableTest, IsEmptyWorksWhenEmpty)

@@ -44,11 +44,10 @@ void performPushTest(BaseStackForUnsignedInt & stack)
     stack.push(2U);
     stack.push(3U);
 
-    EXPECT_EQ(3U, stack.getSize());
+    ASSERT_EQ(3U, stack.getSize());
     EXPECT_EQ(3U, stack.pop());
     EXPECT_EQ(2U, stack.pop());
-    EXPECT_EQ(1U, stack.pop());
-}
+    EXPECT_EQ(1U, stack.pop());}
 
 void performPopTest(BaseStackForUnsignedInt & stack)
 {
@@ -59,11 +58,10 @@ void performPopTest(BaseStackForUnsignedInt & stack)
     EXPECT_EQ(3U, stack.pop());
     EXPECT_EQ(2U, stack.pop());
     EXPECT_EQ(1U, stack.pop());
-    EXPECT_EQ(0U, stack.getSize());
+    ASSERT_EQ(0U, stack.getSize());
 }
 
-void performPopAssertionTestWhenEmpty(BaseStackForUnsignedInt & stack)
-{
+void performPopAssertionTestWhenEmpty(BaseStackForUnsignedInt & stack){
     EXPECT_DEATH(stack.pop(), "Assertion failed!");
 }
 

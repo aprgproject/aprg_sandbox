@@ -87,4 +87,22 @@ TEST(LinkedListSymbolTableTest, PutWorks)
     performPutTest(symbolTable);
 }
 
+TEST(LinkedListSymbolTableTest, DeleteBasedOnKeyWorks)
+{
+    SymbolTableWithUnsignedIntToChar symbolTable;
+    performDeleteBasedOnKeyTest(symbolTable);
+}
+
+TEST(LinkedListSymbolTableTest, DeleteMinimumWorks)
+{
+    SymbolTableWithUnsignedIntToChar symbolTable;
+    performDeleteMinimumTest(symbolTable);
+}
+
+TEST(LinkedListSymbolTableTest, DeleteMaximumWorks)
+{
+    SymbolTableWithUnsignedIntToChar symbolTable;
+    performDeleteMaximumTest(symbolTable);
+}
+
 }

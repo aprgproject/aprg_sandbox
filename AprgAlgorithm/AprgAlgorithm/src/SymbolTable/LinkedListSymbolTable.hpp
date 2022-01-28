@@ -23,7 +23,8 @@ public:
 
     LinkedListSymbolTable()
         : m_currentSize(0)
-        , m_first(nullptr)    {}
+        , m_first(nullptr)
+    {}
 
     bool isEmpty() const override
     {
@@ -192,11 +193,18 @@ public:
             {
                 if(key == currentNodePointer->key)
                 {
-                    previousNodePointer->next = std::move(currentNodePointer->next);
+                    if(previousNodePointer == nullptr)
+                    {
+                        m_first = std::move(currentNodePointer->next);
+                    }
+                    else
+                    {
+                        previousNodePointer->next = std::move(currentNodePointer->next);
+                    }
+                    m_currentSize--;
                     break;
                 }
-            }
-            previousNodePointer = currentNodePointer;
+            }            previousNodePointer = currentNodePointer;
         }
     }
 

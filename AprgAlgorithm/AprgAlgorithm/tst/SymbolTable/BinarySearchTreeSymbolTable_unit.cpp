@@ -87,4 +87,22 @@ TEST(BinarySearchTreeSymbolTableTest, PutWorks)
     performPutTest(symbolTable);
 }
 
+TEST(BinarySearchTreeSymbolTableTest, DeleteBasedOnKeyWorks)
+{
+    SymbolTableWithUnsignedIntToChar symbolTable;
+    performDeleteBasedOnKeyTest(symbolTable);
+}
+
+TEST(BinarySearchTreeSymbolTableTest, DeleteMinimumWorks)
+{
+    SymbolTableWithUnsignedIntToChar symbolTable;
+    performDeleteMinimumTest(symbolTable);
+}
+
+TEST(BinarySearchTreeSymbolTableTest, DeleteMaximumWorks)
+{
+    SymbolTableWithUnsignedIntToChar symbolTable;
+    performDeleteMaximumTest(symbolTable);
+}
+
 }

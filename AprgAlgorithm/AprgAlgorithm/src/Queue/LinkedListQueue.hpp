@@ -7,6 +7,7 @@
 
 namespace alba
 {
+
 template <typename Object>
 class LinkedListQueue : public BaseQueue<Object>
 {
@@ -15,7 +16,8 @@ public:
     using NodeUniquePointer = std::unique_ptr<Node>;
     struct Node
     {
-        Object object;        NodeUniquePointer next;
+        Object object;
+        NodeUniquePointer next;
     };
 
     LinkedListQueue()
@@ -41,7 +43,8 @@ public:
             m_last = m_first.get();
         }
         else
-        {            m_last->next.reset(new Node{object, nullptr});
+        {
+            m_last->next.reset(new Node{object, nullptr});
             m_last = m_last->next.get();
         }
         m_currentSize++;
@@ -55,7 +58,8 @@ public:
         {
             result = m_first->object;
             m_first = std::move(m_first->next);
-            m_currentSize--;        }
+            m_currentSize--;
+        }
         if(isEmpty())
         {
             m_last = nullptr;
