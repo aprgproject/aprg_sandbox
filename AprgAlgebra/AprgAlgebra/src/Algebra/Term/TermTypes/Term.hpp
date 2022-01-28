@@ -88,13 +88,11 @@ private:
     void initializeBasedOnString(std::string const& stringAsParameter);
     TermType m_type;
     bool m_isSimplified;
-    std::unique_ptr<BaseTermData> m_baseDataTermPointer;
+    std::unique_ptr<BaseTermData> m_baseTermDataPointer;
 };
 
 using Terms = std::vector<Term>;
-
 std::ostream & operator<<(std::ostream & out, Term const& term);
 
 }
-
 }
