@@ -68,22 +68,22 @@ public:
         return result;
     }
 
-    Object getMinimum() const
+    Key getMinimum() const
     {
         Object result{};
         if(!isEmpty())
         {
-            result = m_objects.at(0);
+            result = m_keys.at(0);
         }
         return result;
     }
 
-    Object getMaximum() const
+    Key getMaximum() const
     {
         Object result{};
         if(!isEmpty())
         {
-            result = m_objects.at(m_currentSize-1);
+            result = m_keys.at(m_currentSize-1);
         }
         return result;
     }

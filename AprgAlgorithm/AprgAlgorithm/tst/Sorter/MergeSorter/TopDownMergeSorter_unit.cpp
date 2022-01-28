@@ -1,36 +1,23 @@
 #include <Sorter/MergeSorter/TopDownMergeSorter.hpp>
+#include <Sorter/Utilities/CommonTestsWithBaseSorter.hpp>
 
 #include <gtest/gtest.h>
 
-#include <vector>
-
+using namespace alba::CommonTestsWithBaseSorter;
 using namespace std;
 
 namespace alba
 {
 
-TEST(TopDownMergeSorterTest, SortWorksOnExample1)
+TEST(TopDownMergeSorterTest, SortWorksOnCharactersUsingExample1)
 {
-    using Values=vector<char>;
-    Values valuesToTest{'S', 'O', 'R', 'T', 'E', 'X', 'A', 'M', 'P', 'L', 'E'};
-    TopDownMergeSorter<Values> sorter;
-
-    sorter.sort(valuesToTest);
-
-    Values valuesToExpect{'A', 'E', 'E', 'L', 'M', 'O', 'P', 'R', 'S', 'T', 'X'};
-    EXPECT_EQ(valuesToExpect, valuesToTest);
+    sortCharactersUsingExample1(make_unique<TopDownMergeSorter<Characters>>());
 }
 
-TEST(TopDownMergeSorterTest, SortWorksOnExample2)
+TEST(TopDownMergeSorterTest, SortWorksOnCharactersUsingExample2)
 {
-    using Values=vector<char>;
-    Values valuesToTest{'M', 'E', 'R', 'G', 'E', 'S', 'O', 'R', 'T', 'E', 'X', 'A', 'M', 'P', 'L', 'E'};
-    TopDownMergeSorter<Values> sorter;
-
-    sorter.sort(valuesToTest);
-
-    Values valuesToExpect{'A', 'E', 'E', 'E', 'E', 'G', 'L', 'M', 'M', 'O', 'P', 'R', 'R', 'S', 'T', 'X'};
-    EXPECT_EQ(valuesToExpect, valuesToTest);
+    sortCharactersUsingExample2(make_unique<TopDownMergeSorter<Characters>>());
 }
 
 }
+

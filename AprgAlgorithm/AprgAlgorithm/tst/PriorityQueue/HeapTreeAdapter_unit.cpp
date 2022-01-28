@@ -10,7 +10,7 @@ namespace alba
 namespace
 {
 using ContainerForTest = std::vector<char>;
-using AdapterForTest = HeapTreeAdapter<char, ContainerForTest, 2U, std::less>;
+using AdapterForTest = HeapTreeAdapter<ContainerForTest, 2U, std::less>;
 }
 
 TEST(HeapTreeAdapterTest, GetObjectConstReferenceOnTreeWorks)

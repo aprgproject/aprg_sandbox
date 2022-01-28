@@ -1,15 +1,16 @@
 #pragma once
 
 #include <Sorter/MergeSorter/MergeSorterUtilities.hpp>
+#include <Sorter/BaseSorter.hpp>
 
 namespace alba
 {
 
 template <typename Values>
-class TopDownMergeSorter
+class TopDownMergeSorter : public BaseSorter<Values>
 {
 public:
-    void sort(Values & valuesToSort) const
+    void sort(Values & valuesToSort) const override
     {
         if(!valuesToSort.empty())
         {

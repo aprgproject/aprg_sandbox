@@ -10,10 +10,12 @@ template <typename Object>
 class LinkedListStack
 {
 public:
+    struct Node;
+    using NodeUniquePointer = std::unique_ptr<Node>;
     struct Node
     {
         Object object;
-        std::unique_ptr<Node> next;
+        NodeUniquePointer next;
     };
 
     LinkedListStack()
@@ -33,7 +35,7 @@ public:
 
     void push(Object const& object)
     {
-        std::unique_ptr<Node> newNext = std::move(m_first);
+        NodeUniquePointer newNext(std::move(m_first));
         m_first.reset(new Node{object, std::move(newNext)});
         m_currentSize++;
     }
@@ -54,7 +56,7 @@ public:
 private:
 
     unsigned int m_currentSize;
-    std::unique_ptr<Node> m_first;
+    NodeUniquePointer m_first;
 };
 
 }

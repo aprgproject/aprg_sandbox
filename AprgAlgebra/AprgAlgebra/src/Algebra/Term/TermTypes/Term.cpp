@@ -28,6 +28,7 @@ Term::Term(Term const& term)
 {
     resetBaseDataTermPointerBasedFromTerm(term);
 }
+
 Term::Term(int const signedValue)
     : m_type(TermType::Constant)
     , m_isSimplified(false)
@@ -59,6 +60,7 @@ Term::Term(char const* const characterString)
 {
     initializeBasedOnString(string(characterString));
 }
+
 Term::Term(string const& stringAsParameter)
     : m_type(TermType::Empty)
     , m_isSimplified(false)
@@ -66,6 +68,7 @@ Term::Term(string const& stringAsParameter)
 {
     initializeBasedOnString(stringAsParameter);
 }
+
 Term::Term(Constant const& constant)
     : m_type(TermType::Constant)
     , m_isSimplified(false)
@@ -112,10 +115,12 @@ Term::Term(Function const& function)
     , m_baseTermDataPointer(make_unique<Function>(function))
 {}
 
-Term& Term::operator=(Term const& term){
+Term& Term::operator=(Term const& term)
+{
     m_type = term.m_type;
     m_isSimplified = term.m_isSimplified;
-    resetBaseDataTermPointerBasedFromTerm(term);    return *this;
+    resetBaseDataTermPointerBasedFromTerm(term);
+    return *this;
 }
 
 bool Term::operator==(Term const& second) const
@@ -314,9 +319,11 @@ Function const& Term::getFunctionConstReference() const
     return *dynamic_cast<Function const * const>(m_baseTermDataPointer.get());
 }
 
-AlbaNumber const& Term::getConstantValueConstReference() const{
+AlbaNumber const& Term::getConstantValueConstReference() const
+{
     return getConstantConstReference().getNumberConstReference();
 }
+
 string Term::getDisplayableString() const
 {
     string result;
@@ -399,37 +406,43 @@ Constant & Term::getConstantReference()
     return *dynamic_cast<Constant*>(m_baseTermDataPointer.get());
 }
 
-Variable & Term::getVariableReference(){
+Variable & Term::getVariableReference()
+{
     clearSimplifiedFlag();
     assert(m_type==TermType::Variable);
     return *dynamic_cast<Variable*>(m_baseTermDataPointer.get());
 }
 
-Operator & Term::getOperatorReference(){
+Operator & Term::getOperatorReference()
+{
     clearSimplifiedFlag();
     assert(m_type==TermType::Operator);
     return *dynamic_cast<Operator*>(m_baseTermDataPointer.get());
 }
 
-Monomial & Term::getMonomialReference(){
+Monomial & Term::getMonomialReference()
+{
     clearSimplifiedFlag();
     assert(m_type==TermType::Monomial);
     return *dynamic_cast<Monomial*>(m_baseTermDataPointer.get());
 }
 
-Polynomial & Term::getPolynomialReference(){
+Polynomial & Term::getPolynomialReference()
+{
     clearSimplifiedFlag();
     assert(m_type==TermType::Polynomial);
     return *dynamic_cast<Polynomial*>(m_baseTermDataPointer.get());
 }
 
-Expression & Term::getExpressionReference(){
+Expression & Term::getExpressionReference()
+{
     clearSimplifiedFlag();
     assert((m_type==TermType::Expression));
     return *dynamic_cast<Expression*>(m_baseTermDataPointer.get());
 }
 
-Function & Term::getFunctionReference(){
+Function & Term::getFunctionReference()
+{
     clearSimplifiedFlag();
     assert((m_type==TermType::Function));
     return *dynamic_cast<Function*>(m_baseTermDataPointer.get());
@@ -441,9 +454,11 @@ void Term::clear()
     m_baseTermDataPointer.reset();
     clearSimplifiedFlag();
 }
+
 void Term::simplify()
 {
-    if(!m_isSimplified)    {
+    if(!m_isSimplified)
+    {
         if(m_type==TermType::Monomial)
         {
             *this = simplifyAndConvertMonomialToSimplestTerm(getMonomialConstReference());
@@ -537,6 +552,7 @@ void Term::resetBaseDataTermPointerBasedFromTerm(Term const& term)
         break;
     }
 }
+
 void Term::initializeBasedOnString(string const& stringAsParameter)
 {
     if(algebra::isOperator(stringAsParameter))
@@ -555,9 +571,11 @@ void Term::initializeBasedOnString(string const& stringAsParameter)
         m_baseTermDataPointer = make_unique<Variable>(stringAsParameter);
     }
 }
+
 ostream & operator<<(ostream & out, Term const& term)
 {
-    out << term.getDisplayableString();    return out;
+    out << term.getDisplayableString();
+    return out;
 }
 
 

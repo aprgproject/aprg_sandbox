@@ -10,10 +10,12 @@ template <typename Object>
 class LinkedListQueue
 {
 public:
+    struct Node;
+    using NodeUniquePointer = std::unique_ptr<Node>;
     struct Node
     {
         Object object;
-        std::unique_ptr<Node> next;
+        NodeUniquePointer next;
     };
 
     LinkedListQueue()
@@ -68,7 +70,7 @@ public:
 private:
 
     unsigned int m_currentSize;
-    std::unique_ptr<Node> m_first;
+    NodeUniquePointer m_first;
     Node* m_last;
 };
 

@@ -58,7 +58,7 @@ private:
 
     static constexpr unsigned int INDEX_OF_TOP_TREE=1U;
     Objects m_objects;
-    HeapTreeAdapter<Object, Objects, 2U, ComparisonTemplateType> m_heapTreeAdapter;
+    HeapTreeAdapter<Objects, 2U, ComparisonTemplateType> m_heapTreeAdapter;
 };
 
 }

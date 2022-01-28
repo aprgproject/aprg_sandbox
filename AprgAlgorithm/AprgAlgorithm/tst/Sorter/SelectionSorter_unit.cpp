@@ -1,24 +1,23 @@
 #include <Sorter/SelectionSorter.hpp>
+#include <Sorter/Utilities/CommonTestsWithBaseSorter.hpp>
 
 #include <gtest/gtest.h>
 
-#include <vector>
-
+using namespace alba::CommonTestsWithBaseSorter;
 using namespace std;
 
 namespace alba
 {
 
-TEST(SelectionSorterTest, SortWorks)
+TEST(SelectionSorterTest, SortWorksOnCharactersUsingExample1)
 {
-    using Values=vector<char>;
-    Values valuesToTest{'S', 'O', 'R', 'T', 'E', 'X', 'A', 'M', 'P', 'L', 'E'};
-    SelectionSorter<Values> sorter;
+    sortCharactersUsingExample1(make_unique<SelectionSorter<Characters>>());
+}
 
-    sorter.sort(valuesToTest);
-
-    Values valuesToExpect{'A', 'E', 'E', 'L', 'M', 'O', 'P', 'R', 'S', 'T', 'X'};
-    EXPECT_EQ(valuesToExpect, valuesToTest);
+TEST(SelectionSorterTest, SortWorksOnCharactersUsingExample2)
+{
+    sortCharactersUsingExample2(make_unique<SelectionSorter<Characters>>());
 }
 
 }
+

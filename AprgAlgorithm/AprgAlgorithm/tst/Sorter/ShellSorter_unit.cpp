@@ -1,36 +1,22 @@
 #include <Sorter/ShellSorter.hpp>
+#include <Sorter/Utilities/CommonTestsWithBaseSorter.hpp>
 
 #include <gtest/gtest.h>
 
-#include <vector>
-
+using namespace alba::CommonTestsWithBaseSorter;
 using namespace std;
 
 namespace alba
 {
 
-TEST(ShellSorterTest, SortWorksOnExample1)
+TEST(ShellSorterTest, SortWorksOnCharactersUsingExample1)
 {
-    using Values=vector<char>;
-    Values valuesToTest{'S', 'O', 'R', 'T', 'E', 'X', 'A', 'M', 'P', 'L', 'E'};
-    ShellSorter<Values> sorter;
-
-    sorter.sort(valuesToTest);
-
-    Values valuesToExpect{'A', 'E', 'E', 'L', 'M', 'O', 'P', 'R', 'S', 'T', 'X'};
-    EXPECT_EQ(valuesToExpect, valuesToTest);
+    sortCharactersUsingExample1(make_unique<ShellSorter<Characters>>());
 }
 
-TEST(ShellSorterTest, SortWorksOnExample2)
+TEST(ShellSorterTest, SortWorksOnCharactersUsingExample2)
 {
-    using Values=vector<char>;
-    Values valuesToTest{'S', 'H', 'E', 'L', 'L', 'S', 'O', 'R', 'T', 'E', 'X', 'A', 'M', 'P', 'L', 'E'};
-    ShellSorter<Values> sorter;
-
-    sorter.sort(valuesToTest);
-
-    Values valuesToExpect{'A', 'E', 'E', 'E', 'H', 'L', 'L', 'L', 'M', 'O', 'P', 'R', 'S', 'S', 'T', 'X'};
-    EXPECT_EQ(valuesToExpect, valuesToTest);
+    sortCharactersUsingExample2(make_unique<ShellSorter<Characters>>());
 }
 
 }

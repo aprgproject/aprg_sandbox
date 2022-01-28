@@ -1,24 +1,22 @@
 #include <Sorter/InsertionSorter.hpp>
+#include <Sorter/Utilities/CommonTestsWithBaseSorter.hpp>
 
 #include <gtest/gtest.h>
 
-#include <vector>
-
+using namespace alba::CommonTestsWithBaseSorter;
 using namespace std;
 
 namespace alba
 {
 
-TEST(InsertionSorterTest, SortWorks)
+TEST(InsertionSorterTest, SortWorksOnCharactersUsingExample1)
 {
-    using Values=vector<char>;
-    Values valuesToTest{'S', 'O', 'R', 'T', 'E', 'X', 'A', 'M', 'P', 'L', 'E'};
-    InsertionSorter<Values> sorter;
+    sortCharactersUsingExample1(make_unique<InsertionSorter<Characters>>());
+}
 
-    sorter.sort(valuesToTest);
-
-    Values valuesToExpect{'A', 'E', 'E', 'L', 'M', 'O', 'P', 'R', 'S', 'T', 'X'};
-    EXPECT_EQ(valuesToExpect, valuesToTest);
+TEST(InsertionSorterTest, SortWorksOnCharactersUsingExample2)
+{
+    sortCharactersUsingExample2(make_unique<InsertionSorter<Characters>>());
 }
 
 }

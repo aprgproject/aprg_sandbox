@@ -72,7 +72,7 @@ TEST(OrderedArraySymbolTableTest, GetMinimumWorks)
     symbolTable.put(7U, 'G');
     symbolTable.put(8U, 'H');
 
-    EXPECT_EQ('D', symbolTable.getMinimum());
+    EXPECT_EQ(4U, symbolTable.getMinimum());
 }
 
 TEST(OrderedArraySymbolTableTest, GetMaximumWorks)
@@ -83,7 +83,7 @@ TEST(OrderedArraySymbolTableTest, GetMaximumWorks)
     symbolTable.put(7U, 'G');
     symbolTable.put(8U, 'H');
 
-    EXPECT_EQ('H', symbolTable.getMaximum());
+    EXPECT_EQ(8U, symbolTable.getMaximum());
 }
 
 TEST(OrderedArraySymbolTableTest, SelectAtWorks)

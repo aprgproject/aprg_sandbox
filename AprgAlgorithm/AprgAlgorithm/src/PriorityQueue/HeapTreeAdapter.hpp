@@ -5,10 +5,11 @@
 namespace alba
 {
 
-template <typename Object, typename Objects, unsigned int NUMBER_OF_CHILDREN, template<class> class ComparisonTemplateType>
+template <typename Objects, unsigned int NUMBER_OF_CHILDREN, template<class> class ComparisonTemplateType>
 class HeapTreeAdapter
 {
 public:
+    using Object = typename Objects::value_type;
     using ComparisonClass=ComparisonTemplateType<Object>;
 
     HeapTreeAdapter(Objects & objects)

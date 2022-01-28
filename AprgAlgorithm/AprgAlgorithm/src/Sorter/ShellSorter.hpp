@@ -1,15 +1,17 @@
 #pragma once
 
+#include <Sorter/BaseSorter.hpp>
+
 #include <utility>
 
 namespace alba
 {
 
 template <typename Values>
-class ShellSorter
+class ShellSorter : public BaseSorter<Values>
 {
 public:
-    void sort(Values & valuesToSort) const
+    void sort(Values & valuesToSort) const override
     {
         unsigned int const size = valuesToSort.size();
         unsigned int skipNumber(getSkipNumber(size));
