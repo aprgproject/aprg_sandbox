@@ -9,11 +9,10 @@ namespace alba
 {
 
 template <typename Key, typename Value>
-class LinkedListSymbolTable : public BaseSymbolTable<Key, Value>
+class UnorderedLinkedListSymbolTable : public BaseSymbolTable<Key, Value>
 {
 public:
-    struct Node;
-    using NodeUniquePointer = std::unique_ptr<Node>;
+    struct Node;    using NodeUniquePointer = std::unique_ptr<Node>;
     struct Node
     {
         Key key;
@@ -21,11 +20,10 @@ public:
         NodeUniquePointer next;
     };
 
-    LinkedListSymbolTable()
+    UnorderedLinkedListSymbolTable()
         : m_currentSize(0)
         , m_first(nullptr)
     {}
-
     bool isEmpty() const override
     {
         return m_currentSize == 0;
