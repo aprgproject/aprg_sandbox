@@ -1,16 +1,15 @@
-#include <SymbolTable/BinarySearchTreeSymbolTable.hpp>
+#include <SymbolTable/BinarySearchTree/BinarySearchTreeSymbolTable.hpp>
 #include <SymbolTable/Utilities/CommonTestsWithBaseSymbolTable.hpp>
 
 #include <gtest/gtest.h>
-
 #include <vector>
 
 using namespace alba::CommonTestsWithBaseSymbolTable;
 using namespace std;
 
+
 namespace alba
 {
-
 namespace
 {
 using SymbolTableWithUnsignedIntToChar = BinarySearchTreeSymbolTable<unsigned int, char>;
@@ -122,6 +121,7 @@ TEST(BinarySearchTreeSymbolTableTest, RetrieveKeysInRangeWorks)
     vector<unsigned int> expectedKeys{5U, 7U, 8U};
     EXPECT_EQ(expectedKeys, keys);
 }
+
 
 
 }

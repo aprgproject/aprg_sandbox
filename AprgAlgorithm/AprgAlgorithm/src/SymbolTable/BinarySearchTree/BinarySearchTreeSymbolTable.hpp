@@ -22,11 +22,11 @@ public:
         unsigned int numberOfNodesOnThisSubTree;
     };
 
-    BinarySearchTreeSymbolTable()    {}
+    BinarySearchTreeSymbolTable()
+    {}
 
     bool isEmpty() const override
-    {
-        return getSize() == 0;
+    {        return getSize() == 0;
     }
 
     unsigned int getSize() const override
@@ -136,10 +136,10 @@ private:
         }
         return size;
     }
+
     unsigned int calculateSizeOfNodeBasedFromLeftAndRight(Node const& node) const
     {
-        return getSizeOnThisNode(node.left.get()) + getSizeOnThisNode(node.right.get()) + 1;
-    }
+        return getSizeOnThisNode(node.left.get()) + getSizeOnThisNode(node.right.get()) + 1;    }
 
     Value getOnThisNode(Node const*const nodePointer, Key const& key) const
     {
@@ -272,11 +272,11 @@ private:
                 result = selectNodeWithIndexOnThisNode(nodePointer->right.get(), index-numberOfNodesOnThisSubTree-1);
             }
             else
-            {                result = nodePointer;
+            {
+                result = nodePointer;
             }
         }
-        return result;
-    }
+        return result;    }
 
     unsigned int getRankOnThisNode(Node const*const nodePointer, Key const& key) const
     {
@@ -316,11 +316,11 @@ private:
                 nodePointer->numberOfNodesOnThisSubTree = calculateSizeOfNodeBasedFromLeftAndRight(*(nodePointer.get()));
             }
             else
-            {                nodePointer->value = value;
+            {
+                nodePointer->value = value;
             }
         }
-        else
-        {
+        else        {
             nodePointer.reset(new Node{key, value, nullptr, nullptr, 1U});
         }
     }
@@ -357,21 +357,21 @@ private:
             }
         }
     }
+
     void deleteMinimumOnThisNode(NodeUniquePointer & nodePointer)
     {
-        if(nodePointer)
-        {
+        if(nodePointer)        {
             if(nodePointer->left)
             {
                 deleteMinimumOnThisNode(nodePointer->left);
                 nodePointer->numberOfNodesOnThisSubTree = calculateSizeOfNodeBasedFromLeftAndRight(*(nodePointer.get()));
             }
             else
-            {                nodePointer = std::move(nodePointer->right);
+            {
+                nodePointer = std::move(nodePointer->right);
             }
         }
     }
-
     void deleteMaximumOnThisNode(NodeUniquePointer & nodePointer)
     {
         if(nodePointer)
@@ -382,11 +382,11 @@ private:
                 nodePointer->numberOfNodesOnThisSubTree = calculateSizeOfNodeBasedFromLeftAndRight(*(nodePointer.get()));
             }
             else
-            {                nodePointer = std::move(nodePointer->left);
+            {
+                nodePointer = std::move(nodePointer->left);
             }
         }
     }
-
     template <typename Container>
     void retrieveKeysInRangeInclusiveOnThisNode(Container & keys, Node const*const nodePointer, Key const& low, Key const& high)
     {
@@ -401,11 +401,11 @@ private:
                 keys.emplace_back(nodePointer->key);
             }
             if(high > nodePointer->key)
-            {                retrieveKeysInRangeInclusiveOnThisNode(keys, nodePointer->right.get(), low, high);
+            {
+                retrieveKeysInRangeInclusiveOnThisNode(keys, nodePointer->right.get(), low, high);
             }
         }
     }
-
     NodeUniquePointer m_root;
 };
 
