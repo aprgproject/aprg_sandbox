@@ -281,14 +281,38 @@ protected:
         return result;
     }
 
-    void deleteBasedOnKeyStartingOnThisNode(NodeUniquePointer & nodePointer, Key const& key)
+    void putStartingOnThisNode(NodeUniquePointer & nodePointer, Key const& key, Value const& value)
     {
         if(nodePointer)
         {
+            Key const& currentKey(nodePointer->key);
+            if(key < currentKey)
+            {
+                putStartingOnThisNode(nodePointer->left, key, value);
+                nodePointer->numberOfNodesOnThisSubTree = this->calculateSizeOfNodeBasedFromLeftAndRight(nodePointer);
+            }
+            else if(key > currentKey)
+            {
+                putStartingOnThisNode(nodePointer->right, key, value);
+                nodePointer->numberOfNodesOnThisSubTree = this->calculateSizeOfNodeBasedFromLeftAndRight(nodePointer);
+            }
+            else
+            {
+                nodePointer->value = value;
+            }
+        }
+        else
+        {
+            nodePointer.reset(new Node{key, value, nullptr, nullptr, 1U});
+        }
+    }
+
+    void deleteBasedOnKeyStartingOnThisNode(NodeUniquePointer & nodePointer, Key const& key)
+    {
+        if(nodePointer)        {
             if(key < nodePointer->key)
             {
-                deleteBasedOnKeyStartingOnThisNode(nodePointer->left, key);
-            }
+                deleteBasedOnKeyStartingOnThisNode(nodePointer->left, key);            }
             else if(key > nodePointer->key)
             {
                 deleteBasedOnKeyStartingOnThisNode(nodePointer->right, key);
