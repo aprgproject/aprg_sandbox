@@ -1,7 +1,9 @@
-#include <SymbolTable/UnorderedLinkedListSymbolTable.hpp>
+#include <SymbolTable/BinarySearchTree/RedBlackBinarySearchTreeSymbolTable.hpp>
 #include <SymbolTable/Utilities/CommonTestsWithBaseSymbolTable.hpp>
 
 #include <gtest/gtest.h>
+
+#include <vector>
 
 using namespace alba::CommonTestsWithBaseSymbolTable;
 using namespace std;
@@ -12,97 +14,116 @@ namespace alba
 
 namespace
 {
-using SymbolTableWithUnsignedIntToChar = UnorderedLinkedListSymbolTable<unsigned int, char>;
+using SymbolTableWithUnsignedIntToChar = RedBlackBinarySearchTreeSymbolTable<unsigned int, char>;
 }
 
-TEST(UnorderedLinkedListSymbolTableTest, IsEmptyWorksWhenEmpty)
+TEST(RedBlackBinarySearchTreeSymbolTableTest, IsEmptyWorksWhenEmpty)
 {
     SymbolTableWithUnsignedIntToChar symbolTable;
     performIsEmptyTestWhenEmpty(symbolTable);
 }
 
-TEST(UnorderedLinkedListSymbolTableTest, IsEmptyWorksWhenNotEmpty)
+TEST(RedBlackBinarySearchTreeSymbolTableTest, IsEmptyWorksWhenNotEmpty)
 {
     SymbolTableWithUnsignedIntToChar symbolTable;
     performIsEmptyTestWhenNotEmpty(symbolTable);
 }
 
-TEST(UnorderedLinkedListSymbolTableTest, GetSizeWorksWhenEmpty)
+TEST(RedBlackBinarySearchTreeSymbolTableTest, GetSizeWorksWhenEmpty)
 {
     SymbolTableWithUnsignedIntToChar symbolTable;
     performGetSizeTestWhenEmpty(symbolTable);
 }
 
-TEST(UnorderedLinkedListSymbolTableTest, GetSizeWorksWhenNotEmpty)
+TEST(RedBlackBinarySearchTreeSymbolTableTest, GetSizeWorksWhenNotEmpty)
 {
     SymbolTableWithUnsignedIntToChar symbolTable;
     performGetSizeTestWhenNotEmpty(symbolTable);
 }
 
-TEST(UnorderedLinkedListSymbolTableTest, GetWorks)
+TEST(RedBlackBinarySearchTreeSymbolTableTest, GetWorks)
 {
     SymbolTableWithUnsignedIntToChar symbolTable;
     performGetTest(symbolTable);
 }
 
-TEST(UnorderedLinkedListSymbolTableTest, GetRankWorks)
+TEST(RedBlackBinarySearchTreeSymbolTableTest, GetRankWorks)
 {
     SymbolTableWithUnsignedIntToChar symbolTable;
     performGetRankTest(symbolTable);
 }
 
-TEST(UnorderedLinkedListSymbolTableTest, GetMinimumWorks)
+TEST(RedBlackBinarySearchTreeSymbolTableTest, GetMinimumWorks)
 {
     SymbolTableWithUnsignedIntToChar symbolTable;
     performGetMinimumTest(symbolTable);
 }
 
-TEST(UnorderedLinkedListSymbolTableTest, GetMaximumWorks)
+TEST(RedBlackBinarySearchTreeSymbolTableTest, GetMaximumWorks)
 {
     SymbolTableWithUnsignedIntToChar symbolTable;
     performGetMaximumTest(symbolTable);
 }
 
-TEST(UnorderedLinkedListSymbolTableTest, SelectAtWorks)
+TEST(RedBlackBinarySearchTreeSymbolTableTest, SelectAtWorks)
 {
     SymbolTableWithUnsignedIntToChar symbolTable;
     performSelectAtTest(symbolTable);
 }
 
-TEST(UnorderedLinkedListSymbolTableTest, GetFloorWorks)
+TEST(RedBlackBinarySearchTreeSymbolTableTest, GetFloorWorks)
 {
     SymbolTableWithUnsignedIntToChar symbolTable;
     performGetFloorTest(symbolTable);
 }
 
-TEST(UnorderedLinkedListSymbolTableTest, GetCeilingWorks)
+TEST(RedBlackBinarySearchTreeSymbolTableTest, GetCeilingWorks)
 {
     SymbolTableWithUnsignedIntToChar symbolTable;
     performGetCeilingTest(symbolTable);
 }
 
-TEST(UnorderedLinkedListSymbolTableTest, PutWorks)
+TEST(RedBlackBinarySearchTreeSymbolTableTest, PutWorks)
 {
     SymbolTableWithUnsignedIntToChar symbolTable;
     performPutTest(symbolTable);
 }
 
-TEST(UnorderedLinkedListSymbolTableTest, DeleteBasedOnKeyWorks)
+TEST(RedBlackBinarySearchTreeSymbolTableTest, DeleteBasedOnKeyWorks)
 {
     SymbolTableWithUnsignedIntToChar symbolTable;
     performDeleteBasedOnKeyTest(symbolTable);
 }
 
-TEST(UnorderedLinkedListSymbolTableTest, DeleteMinimumWorks)
+TEST(RedBlackBinarySearchTreeSymbolTableTest, DeleteMinimumWorks)
 {
     SymbolTableWithUnsignedIntToChar symbolTable;
     performDeleteMinimumTest(symbolTable);
 }
 
-TEST(UnorderedLinkedListSymbolTableTest, DeleteMaximumWorks)
+TEST(RedBlackBinarySearchTreeSymbolTableTest, DeleteMaximumWorks)
 {
     SymbolTableWithUnsignedIntToChar symbolTable;
     performDeleteMaximumTest(symbolTable);
 }
+
+TEST(RedBlackBinarySearchTreeSymbolTableTest, RetrieveKeysInRangeWorks)
+{
+    SymbolTableWithUnsignedIntToChar symbolTable;
+    vector<unsigned int> keys;
+    symbolTable.put(8U, 'H');
+    symbolTable.put(9U, 'I');
+    symbolTable.put(5U, 'E');
+    symbolTable.put(4U, 'D');
+    symbolTable.put(7U, 'G');
+    symbolTable.put(3U, 'C');
+
+    symbolTable.retrieveKeysInRangeInclusive(keys, 5U, 8U);
+
+    vector<unsigned int> expectedKeys{5U, 7U, 8U};
+    EXPECT_EQ(expectedKeys, keys);
+}
+
+
 
 }

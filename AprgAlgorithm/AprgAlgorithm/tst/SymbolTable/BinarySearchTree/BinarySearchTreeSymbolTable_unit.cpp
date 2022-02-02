@@ -2,6 +2,7 @@
 #include <SymbolTable/Utilities/CommonTestsWithBaseSymbolTable.hpp>
 
 #include <gtest/gtest.h>
+
 #include <vector>
 
 using namespace alba::CommonTestsWithBaseSymbolTable;
@@ -10,6 +11,7 @@ using namespace std;
 
 namespace alba
 {
+
 namespace
 {
 using SymbolTableWithUnsignedIntToChar = BinarySearchTreeSymbolTable<unsigned int, char>;
