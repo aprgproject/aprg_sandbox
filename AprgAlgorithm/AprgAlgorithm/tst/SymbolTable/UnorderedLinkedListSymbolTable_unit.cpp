@@ -105,4 +105,16 @@ TEST(UnorderedLinkedListSymbolTableTest, DeleteMaximumWorks)
     performDeleteMaximumTest(symbolTable);
 }
 
+TEST(UnorderedLinkedListSymbolTableTest, GetKeys)
+{
+    SymbolTableWithUnsignedIntToChar symbolTable;
+    performGetKeysTest(symbolTable);
+}
+
+TEST(UnorderedLinkedListSymbolTableTest, GetKeysInRangeWorks)
+{
+    SymbolTableWithUnsignedIntToChar symbolTable;
+    performGetKeysInRangeInclusiveTest(symbolTable);
+}
+
 }

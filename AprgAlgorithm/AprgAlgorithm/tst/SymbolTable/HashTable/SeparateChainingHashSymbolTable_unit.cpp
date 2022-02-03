@@ -1,119 +1,116 @@
-#include <SymbolTable/BinarySearchTree/BinarySearchTreeSymbolTable.hpp>
+#include <SymbolTable/HashTable/SeparateChainingHashSymbolTable.hpp>
 #include <SymbolTable/Utilities/CommonTestsWithBaseSymbolTable.hpp>
 
 #include <gtest/gtest.h>
 
-#include <vector>
-
 using namespace alba::CommonTestsWithBaseSymbolTable;
 using namespace std;
-
 
 namespace alba
 {
 
 namespace
 {
-using SymbolTableWithUnsignedIntToChar = BinarySearchTreeSymbolTable<unsigned int, char>;
+using SymbolTableWithUnsignedIntToChar = SeparateChainingHashSymbolTable<unsigned int, char, 2>;
 }
 
-TEST(BinarySearchTreeSymbolTableTest, IsEmptyWorksWhenEmpty)
+TEST(SeparateChainingHashSymbolTableTest, IsEmptyWorksWhenEmpty)
 {
     SymbolTableWithUnsignedIntToChar symbolTable;
     performIsEmptyTestWhenEmpty(symbolTable);
 }
 
-TEST(BinarySearchTreeSymbolTableTest, IsEmptyWorksWhenNotEmpty)
+TEST(SeparateChainingHashSymbolTableTest, IsEmptyWorksWhenNotEmpty)
 {
     SymbolTableWithUnsignedIntToChar symbolTable;
     performIsEmptyTestWhenNotEmpty(symbolTable);
 }
 
-TEST(BinarySearchTreeSymbolTableTest, GetSizeWorksWhenEmpty)
+TEST(SeparateChainingHashSymbolTableTest, GetSizeWorksWhenEmpty)
 {
     SymbolTableWithUnsignedIntToChar symbolTable;
     performGetSizeTestWhenEmpty(symbolTable);
 }
 
-TEST(BinarySearchTreeSymbolTableTest, GetSizeWorksWhenNotEmpty)
+TEST(SeparateChainingHashSymbolTableTest, GetSizeWorksWhenNotEmpty)
 {
     SymbolTableWithUnsignedIntToChar symbolTable;
     performGetSizeTestWhenNotEmpty(symbolTable);
 }
 
-TEST(BinarySearchTreeSymbolTableTest, GetWorks)
+TEST(SeparateChainingHashSymbolTableTest, GetWorks)
 {
     SymbolTableWithUnsignedIntToChar symbolTable;
     performGetTest(symbolTable);
 }
 
-TEST(BinarySearchTreeSymbolTableTest, GetRankWorks)
+TEST(SeparateChainingHashSymbolTableTest, GetRankWorks)
 {
     SymbolTableWithUnsignedIntToChar symbolTable;
     performGetRankTest(symbolTable);
 }
 
-TEST(BinarySearchTreeSymbolTableTest, GetMinimumWorks)
+TEST(SeparateChainingHashSymbolTableTest, GetMinimumWorks)
 {
     SymbolTableWithUnsignedIntToChar symbolTable;
     performGetMinimumTest(symbolTable);
 }
 
-TEST(BinarySearchTreeSymbolTableTest, GetMaximumWorks)
+TEST(SeparateChainingHashSymbolTableTest, GetMaximumWorks)
 {
     SymbolTableWithUnsignedIntToChar symbolTable;
     performGetMaximumTest(symbolTable);
 }
 
-TEST(BinarySearchTreeSymbolTableTest, SelectAtWorks)
+TEST(SeparateChainingHashSymbolTableTest, SelectAtWorks)
 {
     SymbolTableWithUnsignedIntToChar symbolTable;
     performSelectAtTest(symbolTable);
 }
 
-TEST(BinarySearchTreeSymbolTableTest, GetFloorWorks)
+TEST(SeparateChainingHashSymbolTableTest, GetFloorWorks)
 {
     SymbolTableWithUnsignedIntToChar symbolTable;
     performGetFloorTest(symbolTable);
 }
 
-TEST(BinarySearchTreeSymbolTableTest, GetCeilingWorks)
+TEST(SeparateChainingHashSymbolTableTest, GetCeilingWorks)
 {
     SymbolTableWithUnsignedIntToChar symbolTable;
     performGetCeilingTest(symbolTable);
 }
 
-TEST(BinarySearchTreeSymbolTableTest, PutWorks)
+TEST(SeparateChainingHashSymbolTableTest, PutWorks)
 {
     SymbolTableWithUnsignedIntToChar symbolTable;
     performPutTest(symbolTable);
 }
 
-TEST(BinarySearchTreeSymbolTableTest, DeleteBasedOnKeyWorks)
+TEST(SeparateChainingHashSymbolTableTest, DeleteBasedOnKeyWorks)
 {
     SymbolTableWithUnsignedIntToChar symbolTable;
     performDeleteBasedOnKeyTest(symbolTable);
 }
 
-TEST(BinarySearchTreeSymbolTableTest, DeleteMinimumWorks)
+TEST(SeparateChainingHashSymbolTableTest, DeleteMinimumWorks)
 {
     SymbolTableWithUnsignedIntToChar symbolTable;
     performDeleteMinimumTest(symbolTable);
 }
 
-TEST(BinarySearchTreeSymbolTableTest, DeleteMaximumWorks)
+TEST(SeparateChainingHashSymbolTableTest, DeleteMaximumWorks)
 {
     SymbolTableWithUnsignedIntToChar symbolTable;
     performDeleteMaximumTest(symbolTable);
 }
 
-TEST(BinarySearchTreeSymbolTableTest, GetKeys)
+TEST(SeparateChainingHashSymbolTableTest, GetKeys)
 {
     SymbolTableWithUnsignedIntToChar symbolTable;
     performGetKeysTest(symbolTable);
 }
 
-TEST(BinarySearchTreeSymbolTableTest, GetKeysInRangeWorks)
+TEST(SeparateChainingHashSymbolTableTest, GetKeysInRangeWorks)
 {
     SymbolTableWithUnsignedIntToChar symbolTable;
     performGetKeysInRangeInclusiveTest(symbolTable);

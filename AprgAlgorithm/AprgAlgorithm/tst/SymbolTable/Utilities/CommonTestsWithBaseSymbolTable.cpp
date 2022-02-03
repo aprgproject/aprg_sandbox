@@ -186,6 +186,36 @@ void performDeleteMaximumTest(BaseSymbolTableForUnsignedInt & symbolTable)
     EXPECT_EQ('F', symbolTable.get(6U));
 }
 
+void performGetKeysTest(BaseSymbolTableForUnsignedInt & symbolTable)
+{
+    symbolTable.put(8U, 'H');
+    symbolTable.put(9U, 'I');
+    symbolTable.put(5U, 'E');
+    symbolTable.put(4U, 'D');
+    symbolTable.put(7U, 'G');
+    symbolTable.put(3U, 'C');
+
+    vector<unsigned int> keysToVerify(symbolTable.getKeys());
+
+    vector<unsigned int> expectedKeys{3U, 4U, 5U, 7U, 8U, 9U};
+    EXPECT_EQ(expectedKeys, keysToVerify);
+}
+
+void performGetKeysInRangeInclusiveTest(BaseSymbolTableForUnsignedInt & symbolTable)
+{
+    symbolTable.put(8U, 'H');
+    symbolTable.put(9U, 'I');
+    symbolTable.put(5U, 'E');
+    symbolTable.put(4U, 'D');
+    symbolTable.put(7U, 'G');
+    symbolTable.put(3U, 'C');
+
+    vector<unsigned int> keysToVerify(symbolTable.getKeysInRangeInclusive(5U, 8U));
+
+    vector<unsigned int> expectedKeys{5U, 7U, 8U};
+    EXPECT_EQ(expectedKeys, keysToVerify);
+}
+
 }
 
 }

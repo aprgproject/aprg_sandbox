@@ -3,23 +3,22 @@
 #include <SymbolTable/BaseSymbolTable.hpp>
 
 #include <memory>
+#include <vector>
 
 namespace alba
 {
-
 template <typename Key, typename Value, typename Node>
 class BaseBinarySearchTreeSymbolTable : public BaseSymbolTable<Key, Value>
 {
 public:
     using NodeUniquePointer = std::unique_ptr<Node>;
+    using Keys = std::vector<Key>;
 
     BaseBinarySearchTreeSymbolTable()
     {}
-
     bool isEmpty() const override
     {
-        return getSize() == 0;
-    }
+        return getSize() == 0;    }
 
     unsigned int getSize() const override
     {
@@ -101,20 +100,26 @@ public:
         deleteMaximumStartingOnThisNode(m_root);
     }
 
-    template <typename Container>
-    void retrieveKeysInRangeInclusive(Container & keys, Key const& low, Key const& high)
+    Keys getKeys() const override
     {
-        retrieveKeysInRangeInclusiveStartingOnThisNode(keys, m_root, low, high);
+        Keys result;
+        retrieveKeysStartingOnThisNode(result, m_root);
+        return result;
+    }
+
+    Keys getKeysInRangeInclusive(Key const& low, Key const& high) const override
+    {
+        Keys result;
+        retrieveKeysInRangeInclusiveStartingOnThisNode(result, m_root, low, high);
+        return result;
     }
 
 protected:
 
-    unsigned int getSizeOnThisNode(NodeUniquePointer const& nodePointer) const
-    {
+    unsigned int getSizeOnThisNode(NodeUniquePointer const& nodePointer) const    {
         unsigned int size(0);
         if(nodePointer)        {
-            size = nodePointer->numberOfNodesOnThisSubTree;
-        }
+            size = nodePointer->numberOfNodesOnThisSubTree;        }
         return size;
     }
 
@@ -368,19 +373,26 @@ protected:
         }
     }
 
-    template <typename Container>
-    void retrieveKeysInRangeInclusiveStartingOnThisNode(Container & keys, NodeUniquePointer const& nodePointer, Key const& low, Key const& high)
+    void retrieveKeysStartingOnThisNode(Keys & keys, NodeUniquePointer const& nodePointer) const
+    {
+        if(nodePointer)
+        {
+            retrieveKeysStartingOnThisNode(keys, nodePointer->left);
+            keys.emplace_back(nodePointer->key);
+            retrieveKeysStartingOnThisNode(keys, nodePointer->right);
+        }
+    }
+
+    void retrieveKeysInRangeInclusiveStartingOnThisNode(Keys & keys, NodeUniquePointer const& nodePointer, Key const& low, Key const& high) const
     {
         if(nodePointer)
         {
             if(low < nodePointer->key)
             {
-                retrieveKeysInRangeInclusiveStartingOnThisNode(keys, nodePointer->left, low, high);
-            }
+                retrieveKeysInRangeInclusiveStartingOnThisNode(keys, nodePointer->left, low, high);            }
             if(low <= nodePointer->key && high >= nodePointer->key)
             {                keys.emplace_back(nodePointer->key);
-            }
-            if(high > nodePointer->key)
+            }            if(high > nodePointer->key)
             {
                 retrieveKeysInRangeInclusiveStartingOnThisNode(keys, nodePointer->right, low, high);
             }

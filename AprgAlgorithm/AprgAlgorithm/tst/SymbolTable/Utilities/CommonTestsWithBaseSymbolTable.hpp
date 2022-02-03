@@ -25,7 +25,8 @@ void performPutTest(BaseSymbolTableForUnsignedInt & symbolTable);
 void performDeleteBasedOnKeyTest(BaseSymbolTableForUnsignedInt & symbolTable);
 void performDeleteMinimumTest(BaseSymbolTableForUnsignedInt & symbolTable);
 void performDeleteMaximumTest(BaseSymbolTableForUnsignedInt & symbolTable);
+void performGetKeysTest(BaseSymbolTableForUnsignedInt & symbolTable);
+void performGetKeysInRangeInclusiveTest(BaseSymbolTableForUnsignedInt & symbolTable);
 
 }
-
 }

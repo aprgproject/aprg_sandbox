@@ -104,4 +104,16 @@ TEST(OrderedArraySymbolTableTest, DeleteMaximumWorks)
     performDeleteMaximumTest(symbolTable);
 }
 
+TEST(OrderedArraySymbolTableTest, GetKeys)
+{
+    SymbolTableWithUnsignedIntToChar symbolTable;
+    performGetKeysTest(symbolTable);
+}
+
+TEST(OrderedArraySymbolTableTest, GetKeysInRangeWorks)
+{
+    SymbolTableWithUnsignedIntToChar symbolTable;
+    performGetKeysInRangeInclusiveTest(symbolTable);
+}
+
 }

@@ -107,23 +107,17 @@ TEST(RedBlackBinarySearchTreeSymbolTableTest, DeleteMaximumWorks)
     performDeleteMaximumTest(symbolTable);
 }
 
-TEST(RedBlackBinarySearchTreeSymbolTableTest, RetrieveKeysInRangeWorks)
+TEST(RedBlackBinarySearchTreeSymbolTableTest, GetKeys)
 {
     SymbolTableWithUnsignedIntToChar symbolTable;
-    vector<unsigned int> keys;
-    symbolTable.put(8U, 'H');
-    symbolTable.put(9U, 'I');
-    symbolTable.put(5U, 'E');
-    symbolTable.put(4U, 'D');
-    symbolTable.put(7U, 'G');
-    symbolTable.put(3U, 'C');
-
-    symbolTable.retrieveKeysInRangeInclusive(keys, 5U, 8U);
-
-    vector<unsigned int> expectedKeys{5U, 7U, 8U};
-    EXPECT_EQ(expectedKeys, keys);
+    performGetKeysTest(symbolTable);
 }
 
+TEST(RedBlackBinarySearchTreeSymbolTableTest, GetKeysInRangeWorks)
+{
+    SymbolTableWithUnsignedIntToChar symbolTable;
+    performGetKeysInRangeInclusiveTest(symbolTable);
+}
 
 
 }

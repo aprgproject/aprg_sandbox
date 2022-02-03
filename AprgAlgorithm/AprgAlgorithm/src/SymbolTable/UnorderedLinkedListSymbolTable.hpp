@@ -2,12 +2,11 @@
 
 #include <SymbolTable/BaseSymbolTable.hpp>
 
+#include <algorithm>
 #include <functional>
 #include <memory>
-
 namespace alba
 {
-
 template <typename Key, typename Value>
 class UnorderedLinkedListSymbolTable : public BaseSymbolTable<Key, Value>
 {
@@ -20,14 +19,13 @@ public:
         Value value;
         NodeUniquePointer next;
     };
+    using Keys = std::vector<Key>;
 
     UnorderedLinkedListSymbolTable()
-        : m_currentSize(0)
-        , m_first(nullptr)
+        : m_currentSize(0)        , m_first(nullptr)
     {}
 
-    bool isEmpty() const override
-    {
+    bool isEmpty() const override    {
         return m_currentSize == 0;
     }
 
@@ -219,14 +217,37 @@ public:
         deleteBasedOnKey(getMaximum());
     }
 
+    Keys getKeys() const override
+    {
+        Keys result;
+        traverseWithNoChange([&](Node const& node, bool &)
+        {
+            result.emplace_back(node.key);
+        });
+        std::sort(result.begin(), result.end());
+        return result;
+    }
+
+    Keys getKeysInRangeInclusive(Key const& low, Key const& high) const override
+    {
+        Keys result;
+        traverseWithNoChange([&](Node const& node, bool &)
+        {
+            if(node.key >= low && node.key <= high)
+            {
+                result.emplace_back(node.key);
+            }
+        });
+        std::sort(result.begin(), result.end());
+        return result;
+    }
+
 private:
 
-    using TraverseFunctionWithNoChange=std::function<void(Node const&, bool &)>;
-    using TraverseFunctionWithChange=std::function<void(Node &, bool &)>;
+    using TraverseFunctionWithNoChange=std::function<void(Node const&, bool &)>;    using TraverseFunctionWithChange=std::function<void(Node &, bool &)>;
 
     void traverseWithNoChange(TraverseFunctionWithNoChange const& traverseFunction) const
-    {
-        for(Node const* currentNodePointer=m_first.get(); currentNodePointer!=nullptr; currentNodePointer=currentNodePointer->next.get())
+    {        for(Node const* currentNodePointer=m_first.get(); currentNodePointer!=nullptr; currentNodePointer=currentNodePointer->next.get())
         {
             bool shouldBreak(false);
             traverseFunction(*currentNodePointer, shouldBreak);

@@ -34,7 +34,35 @@ void mergeTwoSortedSequences(
             valuesToSort[k] = temp.at(i++);
         }
     }
+}
 
+template <typename Values>
+Values mergeTwoSortedSequences(
+        Values const& sortedValues1,
+        Values const& sortedValues2)
+{
+    Values result;
+    unsigned int i=0, j=0;
+    while(i<sortedValues1.size() || j<sortedValues2.size())
+    {
+        if(i >= sortedValues1.size())
+        {
+            result.emplace_back(sortedValues2.at(j++));
+        }
+        else if(j >= sortedValues2.size())
+        {
+            result.emplace_back(sortedValues1.at(i++));
+        }
+        else if(sortedValues2.at(j) < sortedValues1.at(i))
+        {
+            result.emplace_back(sortedValues2.at(j++));
+        }
+        else
+        {
+            result.emplace_back(sortedValues1.at(i++));
+        }
+    }
+    return result;
 }
 
 }

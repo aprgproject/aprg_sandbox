@@ -11,14 +11,13 @@ template <typename Key, typename Value>
 class OrderedArraySymbolTable : public BaseSymbolTable<Key, Value>
 {
 public:
+    using Keys = std::vector<Key>;
 
     OrderedArraySymbolTable()
-        : m_currentSize(0)
-    {}
+        : m_currentSize(0)    {}
 
     bool isEmpty() const override
-    {
-        return m_currentSize == 0;
+    {        return m_currentSize == 0;
     }
 
     unsigned int getSize() const override
@@ -28,39 +27,13 @@ public:
 
     unsigned int getRank(Key const& key) const override
     {
-        unsigned int result(0);
-        int lowIndex=0, highIndex=m_currentSize-1;
-        while(lowIndex <= highIndex)
-        {
-            int midIndex=(lowIndex+highIndex)/2;
-            Key const& keyAtMidIndex(m_keys.at(midIndex));
-            if(key < keyAtMidIndex)
-            {
-                highIndex = midIndex-1;
-            }
-            else if(key > keyAtMidIndex)
-            {
-                lowIndex = midIndex+1;
-            }
-            else
-            {
-                result = static_cast<unsigned int>(midIndex);
-                break;
-            }
-        }
-        if(result == 0)
-        {
-            result = static_cast<unsigned int>(lowIndex);
-        }
-        return result;
+        return getRank(key, m_keys);
     }
 
-    Value get(Key const& key) const override
-    {
+    Value get(Key const& key) const override    {
         Value result{};
         if(!isEmpty())
-        {
-            unsigned int rank(getRank(key));
+        {            unsigned int rank(getRank(key));
             if(rank < m_currentSize && m_keys.at(rank) == key)
             {
                 result = m_values.at(rank);
@@ -91,41 +64,23 @@ public:
 
     Key selectAt(unsigned int const index) const override
     {
-        return m_keys.at(index);
+        return selectAt(index, m_keys);
     }
 
     Key getFloor(Key const& key) const override
     {
-        Key result{};
-        unsigned int rank(getRank(key));
-        if(rank < m_currentSize && m_keys.at(rank) == key)
-        {
-            result = key;
-        }
-        else if(rank-1 < m_currentSize && m_keys.at(rank-1) < key)
-        {
-            result = m_keys.at(rank-1);
-        }
-        return result;
+        return getFloor(key, m_keys);
     }
 
     Key getCeiling(Key const& key) const override
     {
-        Key result{};
-        unsigned int rank(getRank(key));
-        if(rank < m_currentSize)
-        {
-            result = m_keys.at(rank);
-        }
-        return result;
+        return getCeiling(key, m_keys);
     }
 
-    void put(Key const& key, Value const& value) override
-    {
+    void put(Key const& key, Value const& value) override    {
         bool isKeyFound(false);
         unsigned int rank(getRank(key));
-        if(rank < m_currentSize && m_keys.at(rank) == key)
-        {
+        if(rank < m_currentSize && m_keys.at(rank) == key)        {
             m_values[rank] = value;
             isKeyFound = true;
         }
@@ -182,10 +137,92 @@ public:
         m_currentSize--;
     }
 
+    Keys getKeys() const override
+    {
+        return m_keys;
+    }
+
+    Keys getKeysInRangeInclusive(Key const& low, Key const& high) const override
+    {
+        Keys result;
+        for(Key const& currentKey : m_keys)
+        {
+            if(currentKey >= low && currentKey <= high)
+            {
+                result.emplace_back(currentKey);
+            }
+        }
+        return result;
+    }
+
+    static unsigned int getRank(Key const& key, Keys const& keys)
+    {
+        unsigned int result(0);
+        int lowIndex=0, highIndex=keys.size()-1;
+        while(lowIndex <= highIndex)
+        {
+            int midIndex=(lowIndex+highIndex)/2;
+            Key const& keyAtMidIndex(keys.at(midIndex));
+            if(key < keyAtMidIndex)
+            {
+                highIndex = midIndex-1;
+            }
+            else if(key > keyAtMidIndex)
+            {
+                lowIndex = midIndex+1;
+            }
+            else
+            {
+                result = static_cast<unsigned int>(midIndex);
+                break;
+            }
+        }
+        if(result == 0)
+        {
+            result = static_cast<unsigned int>(lowIndex);
+        }
+        return result;
+    }
+
+    static Key selectAt(unsigned int const index, Keys const& keys)
+    {
+        Key result{};
+        if(index < keys.size())
+        {
+            result = keys.at(index);
+        }
+        return result;
+    }
+
+    static Key getFloor(Key const& key, Keys const& keys)
+    {
+        Key result{};
+        unsigned int rank(getRank(key, keys));
+        if(rank < keys.size() && keys.at(rank) == key)
+        {
+            result = key;
+        }
+        else if(rank-1 < keys.size() && keys.at(rank-1) < key)
+        {
+            result = keys.at(rank-1);
+        }
+        return result;
+    }
+
+    static Key getCeiling(Key const& key, Keys const& keys)
+    {
+        Key result{};
+        unsigned int rank(getRank(key, keys));
+        if(rank < keys.size())
+        {
+            result = keys.at(rank);
+        }
+        return result;
+    }
+
 private:
     unsigned int m_currentSize;
-    std::vector<Key> m_keys;
-    std::vector<Value> m_values;
+    std::vector<Key> m_keys;    std::vector<Value> m_values;
 };
 
 }
