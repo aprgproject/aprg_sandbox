@@ -23,15 +23,18 @@ public:
         return getSize() == 0;
     }
 
+    bool doesContain(Key const& key) const override
+    {
+        return doesContainStartingOnThisNode(m_root, key);
+    }
+
     unsigned int getSize() const override
     {
-        return getSizeOnThisNode(m_root);
-    }
+        return getSizeOnThisNode(m_root);    }
 
     unsigned int getRank(Key const& key) const override
     {
-        return getRankStartingOnThisNode(m_root, key);
-    }
+        return getRankStartingOnThisNode(m_root, key);    }
 
     Value get(Key const& key) const override
     {
@@ -139,14 +142,34 @@ protected:
         return getSizeOnThisNode(nodePointer->left) + getSizeOnThisNode(nodePointer->right) + 1;
     }
 
-    Value getStartingOnThisNode(NodeUniquePointer const& nodePointer, Key const& key) const
+    bool doesContainStartingOnThisNode(NodeUniquePointer const& nodePointer, Key const& key) const
     {
-        Value result{};
+        bool result(false);
         if(nodePointer)
         {
             Key const& currentKey(nodePointer->key);
             if(key < currentKey)
             {
+                result = doesContainStartingOnThisNode(nodePointer->left, key);
+            }
+            else if(key > currentKey)
+            {
+                result = doesContainStartingOnThisNode(nodePointer->right, key);
+            }
+            else
+            {
+                result = true;
+            }
+        }
+        return result;
+    }
+
+    Value getStartingOnThisNode(NodeUniquePointer const& nodePointer, Key const& key) const
+    {
+        Value result{};        if(nodePointer)
+        {
+            Key const& currentKey(nodePointer->key);
+            if(key < currentKey)            {
                 result = getStartingOnThisNode(nodePointer->left, key);
             }
             else if(key > currentKey)

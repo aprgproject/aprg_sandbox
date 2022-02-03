@@ -25,15 +25,18 @@ public:
         return m_size == 0;
     }
 
+    bool doesContain(Key const& key) const override
+    {
+        return m_smallerSymbolTables.at(getHash(key)).doesContain(key);
+    }
+
     unsigned int getSize() const override
     {
-        return m_size;
-    }
+        return m_size;    }
 
     unsigned int getRank(Key const& key) const override
     {
-        Keys keys(getKeys());
-        return OrderedArraySymbolTable<Key, Value>::getRank(key, keys);
+        Keys keys(getKeys());        return OrderedArraySymbolTable<Key, Value>::getRank(key, keys);
     }
 
     Value get(Key const& key) const override

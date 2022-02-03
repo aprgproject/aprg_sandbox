@@ -46,27 +46,38 @@ public:
         return m_size;
     }
 
-    unsigned int getRank(Key const& key) const override
+    bool doesContain(Key const& key) const override
     {
-        Keys keys(getKeys());
-        return OrderedArraySymbolTable<Key, Value>::getRank(key, keys);
-    }
-
-    Value get(Key const& key) const override
-    {
-        Value result{};
+        bool result(false);
         for(unsigned int i(getHash(key)); m_entryPointers[i]; incrementHashTableIndexWithWrapAround(i))
         {
             HashTableEntryUniquePointer const& entryPointer(m_entryPointers[i]);
-            if(entryPointer->key == key)
+            if(key == entryPointer->key)
             {
-                result = entryPointer->value;
+                result = true;
                 break;
             }
         }
         return result;
     }
 
+    unsigned int getRank(Key const& key) const override
+    {
+        Keys keys(getKeys());        return OrderedArraySymbolTable<Key, Value>::getRank(key, keys);
+    }
+
+    Value get(Key const& key) const override    {
+        Value result{};
+        for(unsigned int i(getHash(key)); m_entryPointers[i]; incrementHashTableIndexWithWrapAround(i))
+        {
+            HashTableEntryUniquePointer const& entryPointer(m_entryPointers[i]);
+            if(key == entryPointer->key)
+            {
+                result = entryPointer->value;
+                break;            }
+        }
+        return result;
+    }
     Key getMinimum() const override
     {
         Key result{};
@@ -139,15 +150,13 @@ public:
         for(; m_entryPointers[i]; incrementHashTableIndexWithWrapAround(i))
         {
             HashTableEntryUniquePointer & entryPointer(m_entryPointers[i]);
-            if(entryPointer->key == key)
+            if(key == entryPointer->key)
             {
                 entryPointer->value = value;
-                isFound = true;
-                break;
+                isFound = true;                break;
             }
         }
-        if(!isFound)
-        {
+        if(!isFound)        {
             m_entryPointers[i].reset(new HashTableEntry{key, value});
         }
         m_size++;

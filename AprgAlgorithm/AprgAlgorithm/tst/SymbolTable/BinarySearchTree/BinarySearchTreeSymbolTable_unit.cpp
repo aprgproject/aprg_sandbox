@@ -29,14 +29,18 @@ TEST(BinarySearchTreeSymbolTableTest, IsEmptyWorksWhenNotEmpty)
     performIsEmptyTestWhenNotEmpty(symbolTable);
 }
 
-TEST(BinarySearchTreeSymbolTableTest, GetSizeWorksWhenEmpty)
+TEST(BinarySearchTreeSymbolTableTest, DoesContainWorks)
 {
     SymbolTableWithUnsignedIntToChar symbolTable;
-    performGetSizeTestWhenEmpty(symbolTable);
+    performDoesContainTest(symbolTable);
 }
 
-TEST(BinarySearchTreeSymbolTableTest, GetSizeWorksWhenNotEmpty)
+TEST(BinarySearchTreeSymbolTableTest, GetSizeWorksWhenEmpty)
 {
+    SymbolTableWithUnsignedIntToChar symbolTable;    performGetSizeTestWhenEmpty(symbolTable);
+}
+
+TEST(BinarySearchTreeSymbolTableTest, GetSizeWorksWhenNotEmpty){
     SymbolTableWithUnsignedIntToChar symbolTable;
     performGetSizeTestWhenNotEmpty(symbolTable);
 }

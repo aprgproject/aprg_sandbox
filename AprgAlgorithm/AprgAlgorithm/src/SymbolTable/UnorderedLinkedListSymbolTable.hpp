@@ -33,15 +33,27 @@ public:
         return m_size == 0;
     }
 
+    bool doesContain(Key const& key) const override
+    {
+        bool result(false);
+        traverseWithNoChange([&](Node const& node, bool & shouldBreak)
+        {
+            if(key == node.key)
+            {
+                result = true;
+                shouldBreak = true;
+            }
+        });
+        return result;
+    }
+
     unsigned int getSize() const override
     {
-        return m_size;
-    }
+        return m_size;    }
 
     unsigned int getRank(Key const& key) const override
     {
-        unsigned int result(0);
-        traverseWithNoChange([&](Node const& node, bool &)
+        unsigned int result(0);        traverseWithNoChange([&](Node const& node, bool &)
         {
             if(key > node.key)
             {
