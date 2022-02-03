@@ -18,7 +18,7 @@ public:
         , m_containerSize(0)
         , m_objects(nullptr)
     {
-        initialize(INITIAL_SIZE);
+        initialize(INITIAL_CONTAINER_SIZE);
     }
 
     ~DoublingSizeQueue()
@@ -38,10 +38,7 @@ public:
 
     void enqueue(Object const& object) override
     {
-        if(m_queueSize == m_containerSize)
-        {
-            resize(m_containerSize*2, 0U);
-        }
+        resizeOnEnqueueIfNeeded();
         m_objects[m_queueSize++] = object;
     }
 
@@ -71,6 +68,14 @@ public:
 
 private:
 
+    void deleteAllObjects()
+    {
+        if(m_objects != nullptr)
+        {
+            delete[](m_objects);
+        }
+    }
+
     void initialize(unsigned int const initialSize)
     {
         if(m_objects == nullptr)
@@ -92,15 +97,15 @@ private:
         m_containerSize = newSize;
     }
 
-    void deleteAllObjects()
+    void resizeOnEnqueueIfNeeded()
     {
-        if(m_objects != nullptr)
+        if(m_queueSize == m_containerSize)
         {
-            delete[](m_objects);
+            resize(m_containerSize*2, 0U);
         }
     }
 
-    static constexpr unsigned int INITIAL_SIZE = 1U;
+    static constexpr unsigned int INITIAL_CONTAINER_SIZE = 1U;
     unsigned int m_queueSize;
     unsigned int m_containerSize;
     Object* m_objects;

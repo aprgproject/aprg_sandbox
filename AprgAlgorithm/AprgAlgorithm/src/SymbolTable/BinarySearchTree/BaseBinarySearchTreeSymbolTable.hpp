@@ -7,6 +7,7 @@
 
 namespace alba
 {
+
 template <typename Key, typename Value, typename Node>
 class BaseBinarySearchTreeSymbolTable : public BaseSymbolTable<Key, Value>
 {
@@ -16,9 +17,11 @@ public:
 
     BaseBinarySearchTreeSymbolTable()
     {}
+
     bool isEmpty() const override
     {
-        return getSize() == 0;    }
+        return getSize() == 0;
+    }
 
     unsigned int getSize() const override
     {
@@ -41,7 +44,8 @@ public:
         Node const*const nodePointer(getMinimumNodeStartingOnThisNode(m_root));
         if(nodePointer != nullptr)
         {
-            result = nodePointer->key;        }
+            result = nodePointer->key;
+        }
         return result;
     }
 
@@ -51,7 +55,8 @@ public:
         Node const*const nodePointer(getMaximumNodeStartingOnThisNode(m_root));
         if(nodePointer != nullptr)
         {
-            result = nodePointer->key;        }
+            result = nodePointer->key;
+        }
         return result;
     }
 
@@ -61,7 +66,8 @@ public:
         Node const*const nodePointer(selectNodeWithIndexStartingOnThisNode(m_root, index));
         if(nodePointer != nullptr)
         {
-            result = nodePointer->key;        }
+            result = nodePointer->key;
+        }
         return result;
     }
 
@@ -71,7 +77,8 @@ public:
         Node const*const nodePointer(getNodeWithFloorStartingOnThisNode(m_root, key));
         if(nodePointer != nullptr)
         {
-            result = nodePointer->key;        }
+            result = nodePointer->key;
+        }
         return result;
     }
 
@@ -81,7 +88,8 @@ public:
         Node const*const nodePointer(getNodeWithCeilingStartingOnThisNode(m_root, key));
         if(nodePointer != nullptr)
         {
-            result = nodePointer->key;        }
+            result = nodePointer->key;
+        }
         return result;
     }
 
@@ -116,10 +124,13 @@ public:
 
 protected:
 
-    unsigned int getSizeOnThisNode(NodeUniquePointer const& nodePointer) const    {
+    unsigned int getSizeOnThisNode(NodeUniquePointer const& nodePointer) const
+    {
         unsigned int size(0);
-        if(nodePointer)        {
-            size = nodePointer->numberOfNodesOnThisSubTree;        }
+        if(nodePointer)
+        {
+            size = nodePointer->numberOfNodesOnThisSubTree;
+        }
         return size;
     }
 
@@ -143,7 +154,8 @@ protected:
                 result = getStartingOnThisNode(nodePointer->right, key);
             }
             else
-            {                result = nodePointer->value;
+            {
+                result = nodePointer->value;
             }
         }
         return result;
@@ -231,7 +243,8 @@ protected:
                     result = nodePointer.get();
                 }
             }
-        }        return result;
+        }
+        return result;
     }
 
     Node const* getNodeWithCeilingStartingOnThisNode(NodeUniquePointer const& nodePointer, Key const& key) const
@@ -314,10 +327,12 @@ protected:
 
     void deleteBasedOnKeyStartingOnThisNode(NodeUniquePointer & nodePointer, Key const& key)
     {
-        if(nodePointer)        {
+        if(nodePointer)
+        {
             if(key < nodePointer->key)
             {
-                deleteBasedOnKeyStartingOnThisNode(nodePointer->left, key);            }
+                deleteBasedOnKeyStartingOnThisNode(nodePointer->left, key);
+            }
             else if(key > nodePointer->key)
             {
                 deleteBasedOnKeyStartingOnThisNode(nodePointer->right, key);
@@ -353,7 +368,8 @@ protected:
                 nodePointer->numberOfNodesOnThisSubTree = calculateSizeOfNodeBasedFromLeftAndRight(nodePointer);
             }
             else
-            {                nodePointer = std::move(nodePointer->right);
+            {
+                nodePointer = std::move(nodePointer->right);
             }
         }
     }
@@ -368,7 +384,8 @@ protected:
                 nodePointer->numberOfNodesOnThisSubTree = calculateSizeOfNodeBasedFromLeftAndRight(nodePointer);
             }
             else
-            {                nodePointer = std::move(nodePointer->left);
+            {
+                nodePointer = std::move(nodePointer->left);
             }
         }
     }
@@ -389,15 +406,20 @@ protected:
         {
             if(low < nodePointer->key)
             {
-                retrieveKeysInRangeInclusiveStartingOnThisNode(keys, nodePointer->left, low, high);            }
+                retrieveKeysInRangeInclusiveStartingOnThisNode(keys, nodePointer->left, low, high);
+            }
             if(low <= nodePointer->key && high >= nodePointer->key)
-            {                keys.emplace_back(nodePointer->key);
-            }            if(high > nodePointer->key)
+            {
+                keys.emplace_back(nodePointer->key);
+            }
+            if(high > nodePointer->key)
             {
                 retrieveKeysInRangeInclusiveStartingOnThisNode(keys, nodePointer->right, low, high);
             }
         }
     }
+
     NodeUniquePointer m_root;
 };
+
 }

@@ -18,7 +18,7 @@ public:
         , m_containerSize(0)
         , m_objects(nullptr)
     {
-        initialize(INITIAL_SIZE);
+        initialize(INITIAL_CONTAINER_SIZE);
     }
 
     ~DoublingSizeStack()
@@ -38,10 +38,7 @@ public:
 
     void push(Object const& object) override
     {
-        if(m_stackSize == m_containerSize)
-        {
-            resize(m_containerSize*2);
-        }
+        resizeOnPushIfNeeded();
         m_objects[m_stackSize++] = object;
     }
 
@@ -49,10 +46,7 @@ public:
     {
         assert(m_stackSize > 0);
         Object result(m_objects[--m_stackSize]);
-        if(m_containerSize > 0 && m_stackSize == m_containerSize/4)
-        {
-            resize(m_containerSize/2);
-        }
+        resizeOnPopIfNeeded();
         return result;
     }
 
@@ -62,6 +56,14 @@ public:
     }
 
 private:
+
+    void deleteAllObjects()
+    {
+        if(m_objects != nullptr)
+        {
+            delete[](m_objects);
+        }
+    }
 
     void initialize(unsigned int const initialSize)
     {
@@ -84,15 +86,23 @@ private:
         m_containerSize = newSize;
     }
 
-    void deleteAllObjects()
+    void resizeOnPushIfNeeded()
     {
-        if(m_objects != nullptr)
+        if(m_stackSize == m_containerSize)
         {
-            delete[](m_objects);
+            resize(m_containerSize*2);
         }
     }
 
-    static constexpr unsigned int INITIAL_SIZE = 1U;
+    void resizeOnPopIfNeeded()
+    {
+        if(m_containerSize > 0 && m_stackSize == m_containerSize/4)
+        {
+            resize(m_containerSize/2);
+        }
+    }
+
+    static constexpr unsigned int INITIAL_CONTAINER_SIZE = 1U;
     unsigned int m_stackSize;
     unsigned int m_containerSize;
     Object* m_objects;

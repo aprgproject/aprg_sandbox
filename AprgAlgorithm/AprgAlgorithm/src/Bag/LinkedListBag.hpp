@@ -21,25 +21,25 @@ public:
     };
 
     LinkedListBag()
-        : m_currentSize(0)
+        : m_size(0)
         , m_first(nullptr)
     {}
 
     bool isEmpty() const
     {
-        return m_currentSize == 0;
+        return m_size == 0;
     }
 
     unsigned int getSize() const
     {
-        return m_currentSize;
+        return m_size;
     }
 
     void add(Object const& object)
     {
         NodeUniquePointer newNext(std::move(m_first));
         m_first.reset(new Node{object, std::move(newNext)});
-        m_currentSize++;
+        m_size++;
     }
 
     void traverse(TraverseFunction const& traverseFunction)
@@ -54,7 +54,7 @@ public:
 
 private:
 
-    unsigned int m_currentSize;
+    unsigned int m_size;
     NodeUniquePointer m_first;
 };
 

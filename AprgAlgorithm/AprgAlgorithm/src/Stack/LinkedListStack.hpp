@@ -21,25 +21,25 @@ public:
     };
 
     LinkedListStack()
-        : m_currentSize(0)
+        : m_size(0)
         , m_first(nullptr)
     {}
 
     bool isEmpty() const override
     {
-        return m_currentSize == 0;
+        return m_size == 0;
     }
 
     unsigned int getSize() const override
     {
-        return m_currentSize;
+        return m_size;
     }
 
     void push(Object const& object) override
     {
         NodeUniquePointer newNext(std::move(m_first));
         m_first.reset(new Node{object, std::move(newNext)});
-        m_currentSize++;
+        m_size++;
     }
 
     Object pop() override
@@ -50,14 +50,14 @@ public:
         {
             result = m_first->object;
             m_first = std::move(m_first->next);
-            m_currentSize--;
+            m_size--;
         }
         return result;
     }
 
 private:
 
-    unsigned int m_currentSize;
+    unsigned int m_size;
     NodeUniquePointer m_first;
 };
 

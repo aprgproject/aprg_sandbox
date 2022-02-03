@@ -14,15 +14,17 @@ public:
     using Keys = std::vector<Key>;
 
     OrderedArraySymbolTable()
-        : m_currentSize(0)    {}
+        : m_size(0)
+    {}
 
     bool isEmpty() const override
-    {        return m_currentSize == 0;
+    {
+        return m_size == 0;
     }
 
     unsigned int getSize() const override
     {
-        return m_currentSize;
+        return m_size;
     }
 
     unsigned int getRank(Key const& key) const override
@@ -30,11 +32,13 @@ public:
         return getRank(key, m_keys);
     }
 
-    Value get(Key const& key) const override    {
+    Value get(Key const& key) const override
+    {
         Value result{};
         if(!isEmpty())
-        {            unsigned int rank(getRank(key));
-            if(rank < m_currentSize && m_keys.at(rank) == key)
+        {
+            unsigned int rank(getRank(key));
+            if(rank < m_size && m_keys.at(rank) == key)
             {
                 result = m_values.at(rank);
             }
@@ -57,7 +61,7 @@ public:
         Value result{};
         if(!isEmpty())
         {
-            result = m_keys.at(m_currentSize-1);
+            result = m_keys.at(m_size-1);
         }
         return result;
     }
@@ -77,10 +81,12 @@ public:
         return getCeiling(key, m_keys);
     }
 
-    void put(Key const& key, Value const& value) override    {
+    void put(Key const& key, Value const& value) override
+    {
         bool isKeyFound(false);
         unsigned int rank(getRank(key));
-        if(rank < m_currentSize && m_keys.at(rank) == key)        {
+        if(rank < m_size && m_keys.at(rank) == key)
+        {
             m_values[rank] = value;
             isKeyFound = true;
         }
@@ -88,25 +94,25 @@ public:
         {
             m_keys.emplace_back();
             m_values.emplace_back();
-            for(unsigned int i=m_currentSize; i>rank; i--)
+            for(unsigned int i=m_size; i>rank; i--)
             {
                 m_keys[i] = m_keys.at(i-1);
                 m_values[i] = m_values.at(i-1);
             }
             m_keys[rank] = key;
             m_values[rank] = value;
-            m_currentSize++;
+            m_size++;
         }
     }
 
     void deleteBasedOnKey(Key const& key) override
     {
         unsigned int rank(getRank(key));
-        if(rank < m_currentSize && m_keys.at(rank) == key)
+        if(rank < m_size && m_keys.at(rank) == key)
         {
-            if(m_currentSize >= 2)
+            if(m_size >= 2)
             {
-                for(unsigned int i=rank; i<m_currentSize-1; i++)
+                for(unsigned int i=rank; i<m_size-1; i++)
                 {
                     m_keys[i] = m_keys.at(i+1);
                     m_values[i] = m_values.at(i+1);
@@ -114,27 +120,27 @@ public:
             }
             m_keys.pop_back();
             m_values.pop_back();
-            m_currentSize--;
+            m_size--;
         }
     }
 
     void deleteMinimum() override
     {
-        for(unsigned int i=0; i<m_currentSize-1; i++)
+        for(unsigned int i=0; i<m_size-1; i++)
         {
             m_keys[i] = m_keys.at(i+1);
             m_values[i] = m_values.at(i+1);
         }
         m_keys.pop_back();
         m_values.pop_back();
-        m_currentSize--;
+        m_size--;
     }
 
     void deleteMaximum() override
     {
         m_keys.pop_back();
         m_values.pop_back();
-        m_currentSize--;
+        m_size--;
     }
 
     Keys getKeys() const override
@@ -221,8 +227,9 @@ public:
     }
 
 private:
-    unsigned int m_currentSize;
-    std::vector<Key> m_keys;    std::vector<Value> m_values;
+    unsigned int m_size;
+    std::vector<Key> m_keys;
+    std::vector<Value> m_values;
 };
 
 }

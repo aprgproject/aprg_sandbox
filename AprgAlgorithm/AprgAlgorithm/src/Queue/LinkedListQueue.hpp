@@ -21,18 +21,18 @@ public:
     };
 
     LinkedListQueue()
-        : m_currentSize(0)
+        : m_size(0)
         , m_first(nullptr)
     {}
 
     bool isEmpty() const override
     {
-        return m_currentSize == 0;
+        return m_size == 0;
     }
 
     unsigned int getSize() const override
     {
-        return m_currentSize;
+        return m_size;
     }
 
     void enqueue(Object const& object) override
@@ -47,7 +47,7 @@ public:
             m_last->next.reset(new Node{object, nullptr});
             m_last = m_last->next.get();
         }
-        m_currentSize++;
+        m_size++;
     }
 
     Object dequeue() override
@@ -58,7 +58,7 @@ public:
         {
             result = m_first->object;
             m_first = std::move(m_first->next);
-            m_currentSize--;
+            m_size--;
         }
         if(isEmpty())
         {
@@ -69,7 +69,7 @@ public:
 
 private:
 
-    unsigned int m_currentSize;
+    unsigned int m_size;
     NodeUniquePointer m_first;
     Node* m_last;
 };

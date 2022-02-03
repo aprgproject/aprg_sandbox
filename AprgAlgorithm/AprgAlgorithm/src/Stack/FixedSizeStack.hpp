@@ -15,29 +15,29 @@ public:
     using Objects = std::array<Object, SIZE>;
 
     FixedSizeStack()
-        : m_currentSize(0)
+        : m_size(0)
     {}
 
     bool isEmpty() const override
     {
-        return m_currentSize == 0;
+        return m_size == 0;
     }
 
     unsigned int getSize() const override
     {
-        return m_currentSize;
+        return m_size;
     }
 
     void push(Object const& object) override
     {
-        assert(m_currentSize < SIZE);
-        m_objects[m_currentSize++] = object;
+        assert(m_size < SIZE);
+        m_objects[m_size++] = object;
     }
 
     Object pop() override
     {
-        assert(m_currentSize > 0);
-        return m_objects[--m_currentSize];
+        assert(m_size > 0);
+        return m_objects[--m_size];
     }
 
     Objects const& getObjects() const
@@ -46,8 +46,7 @@ public:
     }
 
 private:
-
-    unsigned int m_currentSize;
+    unsigned int m_size;
     Objects m_objects;
 };
 
