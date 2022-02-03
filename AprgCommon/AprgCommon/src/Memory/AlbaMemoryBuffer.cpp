@@ -78,8 +78,7 @@ void AlbaMemoryBuffer::addData(void const* sourcePointer, unsigned int const add
 
 string AlbaMemoryBuffer::getDisplayableString() const
 {
-    return containerHelper::getStringFromContentsOfContainerWithNumberFormat(m_buffer, ", ");
+    return containerHelper::getStringFromContentsWithNumberFormat(m_buffer);
 }
-
 
 }//namespace alba
