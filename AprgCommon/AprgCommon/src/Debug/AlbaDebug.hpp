@@ -71,11 +71,13 @@ void printParameter(ostream & outputStream, string const& parameterName, weak_pt
 template <typename ParameterType>
 void printParameter(ostream & outputStream, string const& parameterName, ParameterType const& parameter)
 {
-    outputStream << parameterName << " : [" << parameter << "] ";}
+    outputStream << parameterName << " : [" << parameter << "] ";
+}
 
 template <typename ValueType, size_t SIZE,
           template<typename, size_t> class Container>
-void printParameter(ostream & outputStream, string const& parameterName, Container<ValueType, SIZE> const& container){
+void printParameter(ostream & outputStream, string const& parameterName, Container<ValueType, SIZE> const& container)
+{
     outputStream << parameterName << "(with size " << container.size() << "):{";
     saveContentsToStream(outputStream, container, StreamFormat::String);
     outputStream << "} ";
@@ -130,6 +132,8 @@ void printParameter(ostream & outputStream, string const& parameterName, Contain
 #define ALBA_PRINT6(...) ALBA_PRINT_DETAILS Z_ALBA_PRIVATE_PRINT6(__VA_ARGS__) ALBA_PRINT_OUTPUT_STREAM << endl
 
 #define ALBA_PRINT_PRECISION(parameter) ALBA_PRINT_OUTPUT_STREAM.precision(parameter)
+
 #define ALBA_EXIT exit(0)
+
 
 }//namespace alba

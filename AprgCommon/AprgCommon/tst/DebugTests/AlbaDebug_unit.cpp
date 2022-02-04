@@ -8,6 +8,7 @@
 #include <memory>
 
 using namespace std;
+
 namespace alba
 {
 
