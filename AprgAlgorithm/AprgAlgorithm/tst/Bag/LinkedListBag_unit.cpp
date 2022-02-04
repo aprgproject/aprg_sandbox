@@ -7,14 +7,15 @@ using namespace std;
 namespace alba
 {
 
+namespace algorithm
+{
+
 namespace
 {
-using BagForTest = LinkedListBag<unsigned int>;
-}
+using BagForTest = LinkedListBag<unsigned int>;}
 
 TEST(LinkedListBagTest, IsEmptyWorks)
-{
-    BagForTest bag1;
+{    BagForTest bag1;
     BagForTest bag2;
     bag2.add(10U);
 
@@ -86,6 +87,8 @@ TEST(LinkedListBagTest, AddWorks)
         }
         i++;
     });
+}
+
 }
 
 }

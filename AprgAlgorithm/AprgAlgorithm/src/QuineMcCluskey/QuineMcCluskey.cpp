@@ -9,14 +9,15 @@ using namespace std;
 namespace alba
 {
 
+namespace algorithm
+{
+
 Implicant Implicant::operator+(Implicant const& implicant) const
 {
-    Implicant result;
-    for(unsigned int minterm : m_minterms)
+    Implicant result;    for(unsigned int minterm : m_minterms)
     {
         result.addMinterm(minterm);
-    }
-    for(unsigned int minterm : implicant.m_minterms)
+    }    for(unsigned int minterm : implicant.m_minterms)
     {
         result.addMinterm(minterm);
     }
@@ -420,6 +421,8 @@ void QuineMcCluskey::addMintermForZeroCube(unsigned int minterm)
     Implicant implicant;
     implicant.addMinterm(minterm);
     m_computationalTable[numberOfOnes][0].addImplicant(implicant);
+}
+
 }
 
 }

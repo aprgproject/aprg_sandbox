@@ -8,14 +8,15 @@
 namespace alba
 {
 
+namespace algorithm
+{
+
 template <typename Object, template<class> class ComparisonTemplateType>
 class HeapPriorityQueue
-{
-public:
+{public:
     using Objects=std::vector<Object>;
 
-    HeapPriorityQueue()
-        : m_objects()
+    HeapPriorityQueue()        : m_objects()
         , m_heapTreeAdapter(m_objects)
     {}
 
@@ -60,5 +61,7 @@ private:
     Objects m_objects;
     HeapTreeAdapter<Objects, 2U, ComparisonTemplateType> m_heapTreeAdapter;
 };
+
+}
 
 }

@@ -7,14 +7,15 @@
 namespace alba
 {
 
+namespace algorithm
+{
+
 template <typename Values>
 class QuickSorterWith3WayPartitioning : public BaseSorter<Values>
 {
-
 public:
     void sort(Values & valuesToSort) const override
-    {
-        // You can randomize inputs here to remove dependence on input (quick sort works best if input is not sorted)
+    {        // You can randomize inputs here to remove dependence on input (quick sort works best if input is not sorted)
         sort(valuesToSort, 0U, valuesToSort.size()-1);
     }
 
@@ -54,5 +55,7 @@ private:
         }
     }
 };
+
+}
 
 }

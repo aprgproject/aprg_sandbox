@@ -4,13 +4,15 @@
 
 namespace alba
 {
+
+namespace algorithm
+{
+
 template <typename ObjectToSort> using DataBlockMemoryContainer = std::deque<ObjectToSort>;
 
-template <typename ObjectToSort>
-class DataBlockMemoryHandler
+template <typename ObjectToSort>class DataBlockMemoryHandler
 {
     typedef DataBlockMemoryContainer<ObjectToSort> MemoryContainer;
-
 public:
     void add(ObjectToSort const& objectToSort)
     {
@@ -32,5 +34,7 @@ public:
 private:
     MemoryContainer m_DataBlockMemoryContainer;
 };
+
+}
 
 }//namespace alba

@@ -5,13 +5,14 @@
 namespace alba
 {
 
-namespace BinarySearchTreeNode
+namespace algorithm
 {
 
+namespace BinarySearchTreeNode
+{
 enum class Color
 {
-    Red,
-    Black
+    Red,    Black
 };
 
 template <typename Key, typename Value>
@@ -34,6 +35,8 @@ struct RedBlackTreeNode
     unsigned int numberOfNodesOnThisSubTree;
     Color color;
 };
+
+}
 
 }
 

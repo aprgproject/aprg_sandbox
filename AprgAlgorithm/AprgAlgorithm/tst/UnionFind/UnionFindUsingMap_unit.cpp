@@ -3,20 +3,21 @@
 
 #include <gtest/gtest.h>
 
-using namespace alba::CommonTestsWithBaseUnionFind;
+using namespace alba::algorithm::CommonTestsWithBaseUnionFind;
 using namespace std;
 
 namespace alba
 {
 
+namespace algorithm
+{
+
 namespace
 {
-using UnionFindForUnsignedInt = UnionFindUsingMap<unsigned int>;
-}
+using UnionFindForUnsignedInt = UnionFindUsingMap<unsigned int>;}
 
 TEST(UnionFindUsingMapTest, IsConnectedWorks)
-{
-    UnionFindForUnsignedInt unionFind;
+{    UnionFindForUnsignedInt unionFind;
     performIsConnectedTest(unionFind);
 }
 
@@ -51,6 +52,8 @@ TEST(UnionFindUsingMapTest, GetRootWorks)
     EXPECT_EQ(7U, unionFind.getRoot(7));
     EXPECT_EQ(3U, unionFind.getRoot(8));
     EXPECT_EQ(3U, unionFind.getRoot(9));
+}
+
 }
 
 }

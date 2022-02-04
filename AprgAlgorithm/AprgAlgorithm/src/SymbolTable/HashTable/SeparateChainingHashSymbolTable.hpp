@@ -10,14 +10,15 @@
 namespace alba
 {
 
+namespace algorithm
+{
+
 template <typename Key, typename Value, unsigned int HASH_TABLE_SIZE>
 class SeparateChainingHashSymbolTable : public BaseSymbolTable<Key, Value>
-{
-public:
+{public:
     using Keys = std::vector<Key>;
 
-    SeparateChainingHashSymbolTable()
-        : m_size(0)
+    SeparateChainingHashSymbolTable()        : m_size(0)
     {}
 
     bool isEmpty() const override
@@ -165,5 +166,7 @@ protected:
     unsigned int m_size;
     std::array<UnorderedLinkedListSymbolTable<Key, Value>, HASH_TABLE_SIZE> m_smallerSymbolTables;
 };
+
+}
 
 }

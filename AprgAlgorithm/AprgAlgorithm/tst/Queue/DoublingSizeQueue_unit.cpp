@@ -3,20 +3,21 @@
 
 #include <gtest/gtest.h>
 
-using namespace alba::CommonTestsWithBaseQueue;
+using namespace alba::algorithm::CommonTestsWithBaseQueue;
 using namespace std;
 
 namespace alba
 {
 
+namespace algorithm
+{
+
 namespace
 {
-using QueueForUnsignedInt = DoublingSizeQueue<unsigned int>;
-}
+using QueueForUnsignedInt = DoublingSizeQueue<unsigned int>;}
 
 TEST(DoublingSizeQueueTest, IsEmptyWorksWhenEmpty)
-{
-    QueueForUnsignedInt queue;
+{    QueueForUnsignedInt queue;
     performIsEmptyTestWhenEmpty(queue);
 }
 
@@ -54,6 +55,8 @@ TEST(DoublingSizeQueueTest, DISABLED_DequeueWorksWithAssertionWhenItsEmpty) //di
 {
     QueueForUnsignedInt queue;
     performDequeueAssertionTestWhenEmpty(queue);
+}
+
 }
 
 }

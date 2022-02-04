@@ -12,14 +12,15 @@
 namespace alba
 {
 
+namespace algorithm
+{
+
 template <typename ObjectToSort>
 class AlbaLargeSorter
-{
-    using BlockType = AlbaLargeSorterBlockType<ObjectToSort>;
+{    using BlockType = AlbaLargeSorterBlockType<ObjectToSort>;
     using BlockIterator = AlbaLargeSorterBlockIterator<ObjectToSort>;
 
-    using BlockCache = AlbaLargeSorterBlockCache<BlockIterator>;
-    using BlockCacheEntry = AlbaLargeSorterBlockCacheEntry<BlockIterator>;
+    using BlockCache = AlbaLargeSorterBlockCache<BlockIterator>;    using BlockCacheEntry = AlbaLargeSorterBlockCacheEntry<BlockIterator>;
     using BlockCacheContainer = AlbaLargeSorterBlockCacheContainer<BlockIterator>;
 
 public:
@@ -203,5 +204,7 @@ private:
     BlockCache m_fileStreamOpenedCache;
     DataBlocks<ObjectToSort> m_blocks;
 };
+
+}
 
 }//namespace alba

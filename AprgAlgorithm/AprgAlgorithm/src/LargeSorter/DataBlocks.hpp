@@ -12,14 +12,15 @@
 namespace alba
 {
 
+namespace algorithm
+{
+
 template <typename ObjectToSort>
 class DataBlocks
-{
-    using BlockType = AlbaLargeSorterBlockType<ObjectToSort>;
+{    using BlockType = AlbaLargeSorterBlockType<ObjectToSort>;
     using BlockContainer = AlbaLargeSorterBlockContainer<ObjectToSort>;
     using BlockIterator = AlbaLargeSorterBlockIterator<ObjectToSort>;
     using BlockCache = AlbaLargeSorterBlockCache<BlockIterator>;
-
 public:
     DataBlocks(
             AlbaLargeSorterConfiguration const& configuration,
@@ -139,5 +140,7 @@ private:
     BlockContainer m_blocks;
     BlockIterator m_mainIterator;
 };
+
+}
 
 }//namespace alba

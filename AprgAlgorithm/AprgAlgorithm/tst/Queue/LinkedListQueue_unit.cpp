@@ -3,20 +3,21 @@
 
 #include <gtest/gtest.h>
 
-using namespace alba::CommonTestsWithBaseQueue;
+using namespace alba::algorithm::CommonTestsWithBaseQueue;
 using namespace std;
 
 namespace alba
 {
 
+namespace algorithm
+{
+
 namespace
 {
-using QueueForUnsignedInt = LinkedListQueue<unsigned int>;
-}
+using QueueForUnsignedInt = LinkedListQueue<unsigned int>;}
 
 TEST(LinkedListQueueTest, IsEmptyWorksWhenEmpty)
-{
-    QueueForUnsignedInt queue;
+{    QueueForUnsignedInt queue;
     performIsEmptyTestWhenEmpty(queue);
 }
 
@@ -54,6 +55,8 @@ TEST(LinkedListQueueTest, DISABLED_DequeueWorksWithAssertionWhenItsEmpty) //disa
 {
     QueueForUnsignedInt queue;
     performDequeueAssertionTestWhenEmpty(queue);
+}
+
 }
 
 }

@@ -9,13 +9,14 @@ using namespace std;
 namespace alba
 {
 
-namespace CommonTestsWithBaseQueue
+namespace algorithm
 {
 
+namespace CommonTestsWithBaseQueue
+{
 void performIsEmptyTestWhenEmpty(BaseQueueForUnsignedInt & queue)
 {
-    EXPECT_TRUE(queue.isEmpty());
-}
+    EXPECT_TRUE(queue.isEmpty());}
 
 void performIsEmptyTestWhenNotEmpty(BaseQueueForUnsignedInt & queue)
 {
@@ -65,6 +66,8 @@ void performDequeueTest(BaseQueueForUnsignedInt & queue)
 void performDequeueAssertionTestWhenEmpty(BaseQueueForUnsignedInt & queue)
 {
     EXPECT_DEATH(queue.dequeue(), "Assertion failed!");
+}
+
 }
 
 }

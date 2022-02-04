@@ -5,21 +5,21 @@
 
 #include <vector>
 
-using namespace alba::CommonTestsWithBaseSymbolTable;
+using namespace alba::algorithm::CommonTestsWithBaseSymbolTable;
 using namespace std;
-
 
 namespace alba
 {
 
+namespace algorithm
+{
+
 namespace
 {
-using SymbolTableWithUnsignedIntToChar = BinarySearchTreeSymbolTable<unsigned int, char>;
-}
+using SymbolTableWithUnsignedIntToChar = BinarySearchTreeSymbolTable<unsigned int, char>;}
 
 TEST(BinarySearchTreeSymbolTableTest, IsEmptyWorksWhenEmpty)
-{
-    SymbolTableWithUnsignedIntToChar symbolTable;
+{    SymbolTableWithUnsignedIntToChar symbolTable;
     performIsEmptyTestWhenEmpty(symbolTable);
 }
 
@@ -123,6 +123,8 @@ TEST(BinarySearchTreeSymbolTableTest, GetKeysInRangeWorks)
 {
     SymbolTableWithUnsignedIntToChar symbolTable;
     performGetKeysInRangeInclusiveTest(symbolTable);
+}
+
 }
 
 }

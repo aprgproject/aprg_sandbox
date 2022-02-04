@@ -3,20 +3,21 @@
 
 #include <gtest/gtest.h>
 
-using namespace alba::CommonTestsWithBaseStack;
+using namespace alba::algorithm::CommonTestsWithBaseStack;
 using namespace std;
 
 namespace alba
 {
 
+namespace algorithm
+{
+
 namespace
 {
-using StackForUnsignedInt = DoublingSizeStack<unsigned int>;
-}
+using StackForUnsignedInt = DoublingSizeStack<unsigned int>;}
 
 TEST(DoublingSizeStackTest, IsEmptyWorksWhenEmpty)
-{
-    StackForUnsignedInt stack;
+{    StackForUnsignedInt stack;
     performIsEmptyTestWhenEmpty(stack);
 }
 
@@ -106,6 +107,8 @@ TEST(DoublingSizeStackTest, DISABLED_PopWorksWithAssertionWhenItsEmpty) //disabl
 {
     StackForUnsignedInt stack;
     performPopAssertionTestWhenEmpty(stack);
+}
+
 }
 
 }

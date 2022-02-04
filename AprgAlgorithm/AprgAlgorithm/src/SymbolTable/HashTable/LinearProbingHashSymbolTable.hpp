@@ -10,14 +10,15 @@
 namespace alba
 {
 
+namespace algorithm
+{
+
 template <typename Key, typename Value>
 class LinearProbingHashSymbolTable : public BaseSymbolTable<Key, Value>
-{
-public:
+{public:
     using Keys = std::vector<Key>;
     struct HashTableEntry
-    {
-        Key key;
+    {        Key key;
         Value value;
     };
     using HashTableEntryUniquePointer = std::unique_ptr<HashTableEntry>;
@@ -313,5 +314,7 @@ protected:
     unsigned int m_hashTableSize;
     HashTableEntryPointers m_entryPointers;
 };
+
+}
 
 }

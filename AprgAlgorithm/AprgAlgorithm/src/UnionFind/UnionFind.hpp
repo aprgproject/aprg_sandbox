@@ -8,14 +8,15 @@
 namespace alba
 {
 
+namespace algorithm
+{
+
 template <typename Object, unsigned int SIZE>
 class UnionFind : public BaseUnionFind<Object>
-{
-public:
+{public:
     UnionFind()
         : m_roots()
-        , m_numberOfUnconnected(SIZE)
-    {
+        , m_numberOfUnconnected(SIZE)    {
         std::iota(m_roots.begin(), m_roots.end(), 0);
     }
 
@@ -61,5 +62,7 @@ private:
     std::array<Object, SIZE> m_roots;
     unsigned int m_numberOfUnconnected;
 };
+
+}
 
 }

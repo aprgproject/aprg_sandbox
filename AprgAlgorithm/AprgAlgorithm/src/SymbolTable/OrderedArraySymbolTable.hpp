@@ -7,14 +7,15 @@
 namespace alba
 {
 
+namespace algorithm
+{
+
 template <typename Key, typename Value>
 class OrderedArraySymbolTable : public BaseSymbolTable<Key, Value>
-{
-public:
+{public:
     using Keys = std::vector<Key>;
 
-    OrderedArraySymbolTable()
-        : m_size(0)
+    OrderedArraySymbolTable()        : m_size(0)
     {}
 
     bool isEmpty() const override
@@ -245,5 +246,7 @@ private:
     std::vector<Key> m_keys;
     std::vector<Value> m_values;
 };
+
+}
 
 }

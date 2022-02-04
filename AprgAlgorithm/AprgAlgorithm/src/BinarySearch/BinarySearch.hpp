@@ -8,14 +8,15 @@
 namespace alba
 {
 
+namespace algorithm
+{
+
 template <typename Object>
 class BinarySearch
-{
-    using Objects = std::vector<Object>;
+{    using Objects = std::vector<Object>;
 public:
     BinarySearch()
-        : m_indexOfLowest{0}
-        , m_indexOfHighest{0}
+        : m_indexOfLowest{0}        , m_indexOfHighest{0}
     {}
     BinarySearch(std::initializer_list<Object> const& initialObjects)
         : m_indexOfLowest{0}
@@ -119,5 +120,7 @@ private:
     unsigned int m_indexOfHighest;
     Objects m_objects;
 };
+
+}
 
 }

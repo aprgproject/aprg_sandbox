@@ -8,13 +8,14 @@
 namespace alba
 {
 
-namespace ExpressionEvaluator
+namespace algorithm
 {
 
+namespace ExpressionEvaluator
+{
 //Operations
 template <typename ValueTemplateType, typename OperatorTemplateType>
 ValueTemplateType performUnaryOperation(OperatorTemplateType const& operatorObject, ValueTemplateType const& value);
-
 template <typename ValueTemplateType, typename OperatorTemplateType>
 ValueTemplateType performBinaryOperation(ValueTemplateType const& value1, OperatorTemplateType const& operatorObject, ValueTemplateType const& value2);
 
@@ -438,6 +439,8 @@ private:
         }
     }
 };
+
+}
 
 }
 

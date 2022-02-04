@@ -7,14 +7,15 @@
 namespace alba
 {
 
+namespace algorithm
+{
+
 template <typename Values>
 class ShellSorter : public BaseSorter<Values>
-{
-public:
+{public:
     void sort(Values & valuesToSort) const override
     {
-        unsigned int const size = valuesToSort.size();
-        unsigned int skipNumber(getSkipNumber(size));
+        unsigned int const size = valuesToSort.size();        unsigned int skipNumber(getSkipNumber(size));
         while(skipNumber >= 1)
         {
             for(unsigned int i=skipNumber; i<size; i++)
@@ -40,5 +41,7 @@ private:
         return h;
     }
 };
+
+}
 
 }

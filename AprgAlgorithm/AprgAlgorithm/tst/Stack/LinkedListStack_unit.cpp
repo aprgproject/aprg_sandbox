@@ -3,20 +3,21 @@
 
 #include <gtest/gtest.h>
 
-using namespace alba::CommonTestsWithBaseStack;
+using namespace alba::algorithm::CommonTestsWithBaseStack;
 using namespace std;
 
 namespace alba
 {
 
+namespace algorithm
+{
+
 namespace
 {
-using StackForUnsignedInt = LinkedListStack<unsigned int>;
-}
+using StackForUnsignedInt = LinkedListStack<unsigned int>;}
 
 TEST(LinkedListStackTest, IsEmptyWorksWhenEmpty)
-{
-    StackForUnsignedInt stack;
+{    StackForUnsignedInt stack;
     performIsEmptyTestWhenEmpty(stack);
 }
 
@@ -54,6 +55,8 @@ TEST(LinkedListStackTest, DISABLED_PopWorksWithAssertionWhenItsEmpty) //disabled
 {
     StackForUnsignedInt stack;
     performPopAssertionTestWhenEmpty(stack);
+}
+
 }
 
 }

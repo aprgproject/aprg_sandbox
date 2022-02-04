@@ -8,14 +8,15 @@
 namespace alba
 {
 
+namespace algorithm
+{
+
 struct AlbaLargeSorterConfiguration
 {
-    AlbaLargeSorterConfiguration()
-        : m_directoryForBlocks()
+    AlbaLargeSorterConfiguration()        : m_directoryForBlocks()
         , m_minimumNumberOfObjectsPerBlock(100)
         , m_maximumNumberOfObjectsPerBlock(1000)
-        , m_maximumNumberOfObjectsInMemory(2000)
-        , m_maximumFileStreams(100)
+        , m_maximumNumberOfObjectsInMemory(2000)        , m_maximumFileStreams(100)
     {}
     AlbaLargeSorterConfiguration(
             std::string const& directoryForBlocks,
@@ -61,5 +62,7 @@ struct AlbaLargeSorterConfiguration
         return AlbaLocalPathHandler(path).getFullPath();
     }
 };
+
+}
 
 }

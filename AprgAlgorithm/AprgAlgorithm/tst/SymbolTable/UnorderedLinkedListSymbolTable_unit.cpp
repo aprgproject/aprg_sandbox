@@ -3,21 +3,21 @@
 
 #include <gtest/gtest.h>
 
-using namespace alba::CommonTestsWithBaseSymbolTable;
+using namespace alba::algorithm::CommonTestsWithBaseSymbolTable;
 using namespace std;
-
 
 namespace alba
 {
 
+namespace algorithm
+{
+
 namespace
 {
-using SymbolTableWithUnsignedIntToChar = UnorderedLinkedListSymbolTable<unsigned int, char>;
-}
+using SymbolTableWithUnsignedIntToChar = UnorderedLinkedListSymbolTable<unsigned int, char>;}
 
 TEST(UnorderedLinkedListSymbolTableTest, IsEmptyWorksWhenEmpty)
-{
-    SymbolTableWithUnsignedIntToChar symbolTable;
+{    SymbolTableWithUnsignedIntToChar symbolTable;
     performIsEmptyTestWhenEmpty(symbolTable);
 }
 
@@ -121,6 +121,8 @@ TEST(UnorderedLinkedListSymbolTableTest, GetKeysInRangeWorks)
 {
     SymbolTableWithUnsignedIntToChar symbolTable;
     performGetKeysInRangeInclusiveTest(symbolTable);
+}
+
 }
 
 }

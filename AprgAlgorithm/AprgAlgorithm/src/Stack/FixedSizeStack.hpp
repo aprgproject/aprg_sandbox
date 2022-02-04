@@ -8,14 +8,15 @@
 namespace alba
 {
 
+namespace algorithm
+{
+
 template <typename Object, unsigned int SIZE>
 class FixedSizeStack : public BaseStack<Object>
-{
-public:
+{public:
     using Objects = std::array<Object, SIZE>;
 
-    FixedSizeStack()
-        : m_size(0)
+    FixedSizeStack()        : m_size(0)
     {}
 
     bool isEmpty() const override
@@ -49,5 +50,7 @@ private:
     unsigned int m_size;
     Objects m_objects;
 };
+
+}
 
 }

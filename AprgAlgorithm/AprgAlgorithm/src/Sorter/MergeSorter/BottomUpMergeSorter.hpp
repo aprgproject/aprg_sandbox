@@ -6,14 +6,15 @@
 namespace alba
 {
 
+namespace algorithm
+{
+
 template <typename Values>
 class BottomUpMergeSorter : public BaseSorter<Values>
 {
-
 public:
     void sort(Values & valuesToSort) const override
-    {
-        Values temp(valuesToSort);
+    {        Values temp(valuesToSort);
         unsigned int const size = valuesToSort.size();
         for(unsigned int sizeToSort=1; sizeToSort<size; sizeToSort+=sizeToSort)
         {
@@ -26,5 +27,7 @@ public:
         }
     }
 };
+
+}
 
 }

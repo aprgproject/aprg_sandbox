@@ -8,14 +8,15 @@
 namespace alba
 {
 
+namespace algorithm
+{
+
 template <typename Key, typename Value>
 class RedBlackBinarySearchTreeSymbolTable
-        : public BaseBinarySearchTreeSymbolTable<Key, Value, BinarySearchTreeNode::RedBlackTreeNode<Key, Value>>
-{
+        : public BaseBinarySearchTreeSymbolTable<Key, Value, BinarySearchTreeNode::RedBlackTreeNode<Key, Value>>{
 public:
     using Node = BinarySearchTreeNode::RedBlackTreeNode<Key, Value>;
     using NodeUniquePointer = std::unique_ptr<Node>;
-
     void put(Key const& key, Value const& value) override
     {
         putStartingOnThisNode(this->m_root, key, value);
@@ -124,5 +125,7 @@ protected:
         }
     }
 };
+
+}
 
 }

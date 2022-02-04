@@ -8,14 +8,15 @@
 namespace alba
 {
 
+namespace algorithm
+{
+
 template <typename Object>
 class LinkedListQueue : public BaseQueue<Object>
-{
-public:
+{public:
     struct Node;
     using NodeUniquePointer = std::unique_ptr<Node>;
-    struct Node
-    {
+    struct Node    {
         Object object;
         NodeUniquePointer next;
     };
@@ -73,5 +74,7 @@ private:
     NodeUniquePointer m_first;
     Node* m_last;
 };
+
+}
 
 }

@@ -9,14 +9,15 @@
 namespace alba
 {
 
+namespace algorithm
+{
+
 template <typename Object, unsigned int SIZE>
 class WeightedUnionFind : public BaseUnionFind<Object>
-{
-public:
+{public:
     WeightedUnionFind()
         : m_relativeRoots()
-        , m_sizesOfRoots()
-        , m_numberOfUnconnected(SIZE)
+        , m_sizesOfRoots()        , m_numberOfUnconnected(SIZE)
     {
         std::iota(m_relativeRoots.begin(), m_relativeRoots.end(), 0);
         std::fill(m_sizesOfRoots.begin(), m_sizesOfRoots.end(), 1U);
@@ -77,5 +78,7 @@ private:
     std::array<unsigned int, SIZE> m_sizesOfRoots;
     unsigned int m_numberOfUnconnected;
 };
+
+}
 
 }

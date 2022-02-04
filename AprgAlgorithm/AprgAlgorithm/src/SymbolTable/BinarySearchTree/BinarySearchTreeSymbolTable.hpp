@@ -8,14 +8,15 @@
 namespace alba
 {
 
-template <typename Key, typename Value>
-class BinarySearchTreeSymbolTable
-        : public BaseBinarySearchTreeSymbolTable<Key, Value, BinarySearchTreeNode::BasicTreeNode<Key, Value>>
+namespace algorithm
 {
 
+template <typename Key, typename Value>
+class BinarySearchTreeSymbolTable
+        : public BaseBinarySearchTreeSymbolTable<Key, Value, BinarySearchTreeNode::BasicTreeNode<Key, Value>>{
+
 public:
-    using Node = BinarySearchTreeNode::BasicTreeNode<Key, Value>;
-    using NodeUniquePointer = std::unique_ptr<Node>;
+    using Node = BinarySearchTreeNode::BasicTreeNode<Key, Value>;    using NodeUniquePointer = std::unique_ptr<Node>;
 
     void put(Key const& key, Value const& value) override
     {
@@ -49,5 +50,7 @@ protected:
         }
     }
 };
+
+}
 
 }

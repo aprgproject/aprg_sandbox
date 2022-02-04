@@ -7,14 +7,15 @@ using namespace std;
 namespace alba
 {
 
+namespace algorithm
+{
+
 namespace
 {
-using ContainerForTest = std::vector<char>;
-using AdapterForTest = HeapTreeAdapter<ContainerForTest, 2U, std::less>;
+using ContainerForTest = std::vector<char>;using AdapterForTest = HeapTreeAdapter<ContainerForTest, 2U, std::less>;
 }
 
-TEST(HeapTreeAdapterTest, GetObjectConstReferenceOnTreeWorks)
-{
+TEST(HeapTreeAdapterTest, GetObjectConstReferenceOnTreeWorks){
     ContainerForTest objects{'H', 'E', 'A', 'P', 'O', 'B', 'J', 'E', 'C', 'T', 'S'};
     AdapterForTest adapter(objects);
 
@@ -58,6 +59,8 @@ TEST(HeapTreeAdapterTest, SinkWorks)
 
     ContainerForTest objectsToExpect{'D', 'T', 'A', 'P', 'R', 'E', 'R', 'F', 'O', 'A', 'H', 'E', 'A', 'P'};
     EXPECT_EQ(objectsToExpect, objects);
+}
+
 }
 
 }

@@ -8,13 +8,14 @@
 namespace alba
 {
 
+namespace algorithm
+{
+
 template <typename Key, typename Value, typename Node>
 class BaseBinarySearchTreeSymbolTable : public BaseSymbolTable<Key, Value>
-{
-public:
+{public:
     using NodeUniquePointer = std::unique_ptr<Node>;
     using Keys = std::vector<Key>;
-
     BaseBinarySearchTreeSymbolTable()
     {}
 
@@ -448,5 +449,7 @@ protected:
 
     NodeUniquePointer m_root;
 };
+
+}
 
 }

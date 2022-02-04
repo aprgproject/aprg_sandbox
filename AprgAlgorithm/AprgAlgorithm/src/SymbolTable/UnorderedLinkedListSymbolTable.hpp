@@ -9,14 +9,15 @@
 namespace alba
 {
 
+namespace algorithm
+{
+
 template <typename Key, typename Value>
 class UnorderedLinkedListSymbolTable : public BaseSymbolTable<Key, Value>
-{
-public:
+{public:
     struct Node;
     using NodeUniquePointer = std::unique_ptr<Node>;
-    struct Node
-    {
+    struct Node    {
         Key key;
         Value value;
         NodeUniquePointer next;
@@ -294,5 +295,7 @@ private:
     unsigned int m_size;
     NodeUniquePointer m_first;
 };
+
+}
 
 }

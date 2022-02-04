@@ -5,14 +5,15 @@
 namespace alba
 {
 
+namespace algorithm
+{
+
 template <typename Key, typename Value>
 class BaseSymbolTable
-{
-public:
+{public:
     using Keys = std::vector<Key>;
 
-    virtual ~BaseSymbolTable()
-    {}
+    virtual ~BaseSymbolTable()    {}
 
     virtual bool isEmpty() const = 0; // is the symbol table empty
     virtual bool doesContain(Key const& key) const = 0; // is key exists on symbol table
@@ -36,5 +37,7 @@ public:
     virtual Keys getKeys() const = 0; // get all keys in sorted order
     virtual Keys getKeysInRangeInclusive(Key const& low, Key const& high) const = 0; // get all keys that fall in range in sorted order
 };
+
+}
 
 }

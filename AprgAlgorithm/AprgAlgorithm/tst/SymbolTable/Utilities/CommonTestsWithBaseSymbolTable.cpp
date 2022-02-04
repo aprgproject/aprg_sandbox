@@ -9,13 +9,14 @@ using namespace std;
 namespace alba
 {
 
-namespace CommonTestsWithBaseSymbolTable
+namespace algorithm
 {
 
+namespace CommonTestsWithBaseSymbolTable
+{
 void performIsEmptyTestWhenEmpty(BaseSymbolTableForUnsignedInt & symbolTable)
 {
-    EXPECT_TRUE(symbolTable.isEmpty());
-}
+    EXPECT_TRUE(symbolTable.isEmpty());}
 
 void performIsEmptyTestWhenNotEmpty(BaseSymbolTableForUnsignedInt & symbolTable)
 {
@@ -222,6 +223,8 @@ void performGetKeysInRangeInclusiveTest(BaseSymbolTableForUnsignedInt & symbolTa
 
     vector<unsigned int> expectedKeys{5U, 7U, 8U};
     EXPECT_EQ(expectedKeys, keysToVerify);
+}
+
 }
 
 }

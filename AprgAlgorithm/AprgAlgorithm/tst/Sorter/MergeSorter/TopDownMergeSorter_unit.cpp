@@ -3,23 +3,25 @@
 
 #include <gtest/gtest.h>
 
-using namespace alba::CommonTestsWithBaseSorter;
+using namespace alba::algorithm::CommonTestsWithBaseSorter;
 using namespace std;
 
 namespace alba
 {
 
+namespace algorithm
+{
+
 TEST(TopDownMergeSorterTest, SortWorksOnCharactersUsingExample1)
 {
-    TopDownMergeSorter<Characters> sorter;
-    performSortTestUsingExample1(sorter);
+    TopDownMergeSorter<Characters> sorter;    performSortTestUsingExample1(sorter);
 }
 
-TEST(TopDownMergeSorterTest, SortWorksOnCharactersUsingExample2)
-{
+TEST(TopDownMergeSorterTest, SortWorksOnCharactersUsingExample2){
     TopDownMergeSorter<Characters> sorter;
     performSortTestUsingExample2(sorter);
 }
 
 }
 
+}

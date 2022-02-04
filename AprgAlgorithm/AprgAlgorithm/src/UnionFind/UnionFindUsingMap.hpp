@@ -7,14 +7,15 @@
 namespace alba
 {
 
+namespace algorithm
+{
+
 template <typename Object>
 class UnionFindUsingMap : public BaseUnionFind<Object>
-{
-    using ConnectionMap = std::map<Object, Object>; // you are using map, so log N but this should to be near constant (boo!)
+{    using ConnectionMap = std::map<Object, Object>; // you are using map, so log N but this should to be near constant (boo!)
 public:
     UnionFindUsingMap()
     {}
-
     bool isConnected(Object const& object1, Object const& object2) const override
     {
         return getRoot(object1) == getRoot(object2);
@@ -62,5 +63,7 @@ private:
     }
     ConnectionMap m_connectionMap;
 };
+
+}
 
 }
