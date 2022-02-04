@@ -1,14 +1,12 @@
 #pragma once
 
-#include <Optional/AlbaOptional.hpp>
-#include <PathHandlers/AlbaLocalPathHandler.hpp>
+#include <Common/Optional/AlbaOptional.hpp>
+#include <Common/PathHandlers/AlbaLocalPathHandler.hpp>
 
 #include <fstream>
 #include <string>
-
 namespace alba
 {
-
 namespace algorithm
 {
 

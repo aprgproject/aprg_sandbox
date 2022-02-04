@@ -1,14 +1,12 @@
 #include <Algorithm/LargeSorter/AlbaLargeSorter.hpp>
-#include <String/AlbaStringHelper.hpp>
-#include <Time/AlbaLocalTimer.hpp>
-#include <User/AlbaUserInterface.hpp>
+#include <Common/String/AlbaStringHelper.hpp>
+#include <Common/Time/AlbaLocalTimer.hpp>
+#include <Common/User/AlbaUserInterface.hpp>
 
 #include <gtest/gtest.h>
-
 #include <algorithm>
 #include <iostream>
-#include <string>
-#include <vector>
+#include <string>#include <vector>
 
 using namespace std;
 
