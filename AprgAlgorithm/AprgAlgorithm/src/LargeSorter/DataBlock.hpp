@@ -144,28 +144,24 @@ public:
             MemoryContainer const & contents(m_memoryBlockHandler.getReference().getContainerReference());
             m_blockFileHandler.getReference().openFileIfNeeded(m_fileDumpPath);
             std::ofstream & fileDump = m_blockFileHandler.getReference().getFileDumpStreamReference();
-            containerHelper::saveContentsOfContainerToFile(fileDump, contents);
+            containerHelper::saveContentsToStream(fileDump, contents, containerHelper::StreamFormat::File);
         }
         m_memoryBlockHandler.clear();
-        m_blockType = DataBlockType::File;
-    }
+        m_blockType = DataBlockType::File;    }
     void switchToMemoryMode()
     {
-        createMemoryHandlerIfNeeded();
-        if(m_blockFileHandler)
+        createMemoryHandlerIfNeeded();        if(m_blockFileHandler)
         {
             m_blockFileHandler.getReference().releaseFileStream();
             MemoryContainer & contents(m_memoryBlockHandler.getReference().getContainerReference());
             std::ifstream inputFileStream(m_fileDumpPath);
-            containerHelper::retrieveContentsOfContainerFromFile(inputFileStream, contents);
+            containerHelper::retrieveContentsFromStream(inputFileStream, contents);
             assert(contents.size() == m_numberOfObjects);
         }
-        m_blockFileHandler.clear();
-        m_blockType = DataBlockType::Memory;
+        m_blockFileHandler.clear();        m_blockType = DataBlockType::Memory;
     }
     void releaseFileStream()
-    {
-        m_blockFileHandler.getReference().releaseFileStream();
+    {        m_blockFileHandler.getReference().releaseFileStream();
     }
 
 private:
