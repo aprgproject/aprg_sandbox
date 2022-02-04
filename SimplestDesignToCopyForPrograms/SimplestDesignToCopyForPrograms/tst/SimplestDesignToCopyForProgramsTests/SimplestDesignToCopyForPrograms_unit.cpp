@@ -1,7 +1,6 @@
-#include <SimplestDesignToCopyForPrograms.hpp>
+#include <SimplestDesignToCopyForPrograms/SimplestDesignToCopyForPrograms.hpp>
 
 #include <gtest/gtest.h>
-
 using namespace std;
 
 namespace alba
