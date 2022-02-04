@@ -8,19 +8,15 @@
 
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 TEST(AlbaDebugTest, DISABLED_PrintTest)
-{    unsigned int Mark=0,Earvin=0,Alba=0;
-
-    ALBA_PRINT3(Mark, Earvin, Alba);
-}
-
-TEST(AlbaDebugTest, DISABLED_PrintContainerTest)
 {
     map<unsigned int, char> container{{1U, 'A'}, {5U, 'E'}, {7U, 'G'}, {8U, 'H'}};
+    unsigned int singleParameter1=75, singleParameter2=76, singleParameter3=77;
 
-    ALBA_PRINT_CONTAINER(container);
+    ALBA_PRINT5("Const char* string literal", container, singleParameter1, singleParameter2, singleParameter3);
 }
 
 }

@@ -81,4 +81,5 @@ string AlbaMemoryBuffer::getDisplayableString() const
     return containerHelper::getStringFromContentsWithNumberFormat(m_buffer);
 }
 
+
 }//namespace alba

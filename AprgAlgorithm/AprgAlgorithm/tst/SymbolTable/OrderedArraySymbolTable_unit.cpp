@@ -34,10 +34,12 @@ TEST(OrderedArraySymbolTableTest, DoesContainWorks)
 
 TEST(OrderedArraySymbolTableTest, GetSizeWorksWhenEmpty)
 {
-    SymbolTableWithUnsignedIntToChar symbolTable;    performGetSizeTestWhenEmpty(symbolTable);
+    SymbolTableWithUnsignedIntToChar symbolTable;
+    performGetSizeTestWhenEmpty(symbolTable);
 }
 
-TEST(OrderedArraySymbolTableTest, GetSizeWorksWhenNotEmpty){
+TEST(OrderedArraySymbolTableTest, GetSizeWorksWhenNotEmpty)
+{
     SymbolTableWithUnsignedIntToChar symbolTable;
     performGetSizeTestWhenNotEmpty(symbolTable);
 }

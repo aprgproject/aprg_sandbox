@@ -63,10 +63,12 @@ public:
 
     unsigned int getRank(Key const& key) const override
     {
-        Keys keys(getKeys());        return OrderedArraySymbolTable<Key, Value>::getRank(key, keys);
+        Keys keys(getKeys());
+        return OrderedArraySymbolTable<Key, Value>::getRank(key, keys);
     }
 
-    Value get(Key const& key) const override    {
+    Value get(Key const& key) const override
+    {
         Value result{};
         for(unsigned int i(getHash(key)); m_entryPointers[i]; incrementHashTableIndexWithWrapAround(i))
         {
@@ -74,10 +76,12 @@ public:
             if(key == entryPointer->key)
             {
                 result = entryPointer->value;
-                break;            }
+                break;
+            }
         }
         return result;
     }
+
     Key getMinimum() const override
     {
         Key result{};
@@ -153,10 +157,12 @@ public:
             if(key == entryPointer->key)
             {
                 entryPointer->value = value;
-                isFound = true;                break;
+                isFound = true;
+                break;
             }
         }
-        if(!isFound)        {
+        if(!isFound)
+        {
             m_entryPointers[i].reset(new HashTableEntry{key, value});
         }
         m_size++;

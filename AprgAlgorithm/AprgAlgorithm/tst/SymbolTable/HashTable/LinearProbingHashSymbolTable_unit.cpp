@@ -34,10 +34,12 @@ TEST(LinearProbingHashSymbolTableTest, DoesContainWorks)
 
 TEST(LinearProbingHashSymbolTableTest, GetSizeWorksWhenEmpty)
 {
-    SymbolTableWithUnsignedIntToChar symbolTable;    performGetSizeTestWhenEmpty(symbolTable);
+    SymbolTableWithUnsignedIntToChar symbolTable;
+    performGetSizeTestWhenEmpty(symbolTable);
 }
 
-TEST(LinearProbingHashSymbolTableTest, GetSizeWorksWhenNotEmpty){
+TEST(LinearProbingHashSymbolTableTest, GetSizeWorksWhenNotEmpty)
+{
     SymbolTableWithUnsignedIntToChar symbolTable;
     performGetSizeTestWhenNotEmpty(symbolTable);
 }

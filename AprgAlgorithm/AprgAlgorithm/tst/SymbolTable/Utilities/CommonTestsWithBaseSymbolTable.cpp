@@ -34,11 +34,13 @@ void performDoesContainTest(BaseSymbolTableForUnsignedInt & symbolTable)
 
 void performGetSizeTestWhenEmpty(BaseSymbolTableForUnsignedInt & symbolTable)
 {
-    EXPECT_EQ(0U, symbolTable.getSize());}
+    EXPECT_EQ(0U, symbolTable.getSize());
+}
 
 void performGetSizeTestWhenNotEmpty(BaseSymbolTableForUnsignedInt & symbolTable)
 {
-    symbolTable.put(7U, 'G');    symbolTable.put(5U, 'E');
+    symbolTable.put(7U, 'G');
+    symbolTable.put(5U, 'E');
     symbolTable.put(6U, 'F');
 
     EXPECT_EQ(3U, symbolTable.getSize());

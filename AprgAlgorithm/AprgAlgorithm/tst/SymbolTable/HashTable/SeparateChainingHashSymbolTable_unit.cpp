@@ -34,10 +34,12 @@ TEST(SeparateChainingHashSymbolTableTest, DoesContainWorks)
 
 TEST(SeparateChainingHashSymbolTableTest, GetSizeWorksWhenEmpty)
 {
-    SymbolTableWithUnsignedIntToChar symbolTable;    performGetSizeTestWhenEmpty(symbolTable);
+    SymbolTableWithUnsignedIntToChar symbolTable;
+    performGetSizeTestWhenEmpty(symbolTable);
 }
 
-TEST(SeparateChainingHashSymbolTableTest, GetSizeWorksWhenNotEmpty){
+TEST(SeparateChainingHashSymbolTableTest, GetSizeWorksWhenNotEmpty)
+{
     SymbolTableWithUnsignedIntToChar symbolTable;
     performGetSizeTestWhenNotEmpty(symbolTable);
 }

@@ -19,9 +19,11 @@ public:
 
     virtual unsigned int getSize() const = 0; // get number of key-value pairs
     virtual unsigned int getRank(Key const& key) const = 0; // get number of keys less than key
+
     virtual Value get(Key const& key) const = 0; // get value paired with key
 
-    virtual Key getMinimum() const = 0; // get smallest key    virtual Key getMaximum() const = 0; // get largest key
+    virtual Key getMinimum() const = 0; // get smallest key
+    virtual Key getMaximum() const = 0; // get largest key
     virtual Key selectAt(unsigned int const rank) const = 0; // get key at rank
     virtual Key getFloor(Key const& key) const = 0; // get largest key less than or equal to key
     virtual Key getCeiling(Key const& key) const = 0; // get smallest key greater than or equal to key
