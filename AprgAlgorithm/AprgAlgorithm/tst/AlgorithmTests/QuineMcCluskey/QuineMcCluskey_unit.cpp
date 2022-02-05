@@ -1,14 +1,12 @@
 #include <Algorithm/QuineMcCluskey/QuineMcCluskey.hpp>
 #include <Common/File/AlbaFileReader.hpp>
-#include <Common/PathHandlers/AlbaLocalPathHandler.hpp>
+#include <Common/PathHandler/AlbaLocalPathHandler.hpp>
 #include <Common/String/AlbaStringHelper.hpp>
 
 #include <gtest/gtest.h>
-
 #include <iostream>
 
 using namespace std;
-
 namespace alba
 {
 

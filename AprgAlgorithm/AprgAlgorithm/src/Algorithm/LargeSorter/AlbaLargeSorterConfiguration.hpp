@@ -1,13 +1,11 @@
 #pragma once
 
 #include <Algorithm/LargeSorter/DataBlock.hpp>
-#include <Common/PathHandlers/AlbaLocalPathHandler.hpp>
+#include <Common/PathHandler/AlbaLocalPathHandler.hpp>
 
 #include <string>
-
 namespace alba
 {
-
 namespace algorithm
 {
 
