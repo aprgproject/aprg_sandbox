@@ -1,11 +1,9 @@
-#include <Common/PathHandlers/AlbaLinuxPathHandler.hpp>
+#include <Common/PathHandler/AlbaLinuxPathHandler.hpp>
 #include <CommonTests/DirectoryConstants.hpp>
 #include <CommonTests/PathHandler/AlbaLinuxPathHandlerTest.hpp>
-
 #include <gtest/gtest.h>
 
-#include <fstream>
-#include <string>
+#include <fstream>#include <string>
 
 using namespace std;
 

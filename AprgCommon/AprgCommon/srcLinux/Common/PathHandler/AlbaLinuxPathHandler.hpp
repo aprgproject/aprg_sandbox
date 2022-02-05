@@ -1,14 +1,12 @@
 #pragma once
 
-#include <Common/PathHandlers/AlbaPathHandler.hpp>
-#include <Common/PathHandlers/PathContantsAndTypes.hpp>
+#include <Common/PathHandler/AlbaPathHandler.hpp>
+#include <Common/PathHandler/PathContantsAndTypes.hpp>
 #include <Common/Time/AlbaDateTime.hpp>
 
 #include <dirent.h>
-
 #include <functional>
 #include <string>
-
 namespace alba
 {
 
