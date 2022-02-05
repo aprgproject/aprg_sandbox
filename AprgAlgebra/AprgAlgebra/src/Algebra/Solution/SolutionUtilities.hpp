@@ -7,8 +7,10 @@
 
 namespace alba
 {
+
 namespace algebra
 {
+
 AlbaNumber getPositiveLogarithmOfLargestNumber(Term const& term);
 
 AlbaNumbers getInitialValuesForIteratingMethods(Term const& term);

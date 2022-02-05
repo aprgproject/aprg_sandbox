@@ -8,8 +8,10 @@
 
 namespace alba
 {
+
 namespace algebra
 {
+
 namespace Simplification
 {
 

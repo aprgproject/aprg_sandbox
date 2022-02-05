@@ -17,8 +17,10 @@
 #include <Common/Math/Vector/AlbaMathVectorUtilities.hpp>
 
 #include <algorithm>
+
 namespace alba
 {
+
 namespace algebra
 {
 

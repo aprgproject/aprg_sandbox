@@ -4,8 +4,10 @@
 
 #include <algorithm>
 #include <vector>
+
 namespace alba
 {
+
 namespace algorithm
 {
 

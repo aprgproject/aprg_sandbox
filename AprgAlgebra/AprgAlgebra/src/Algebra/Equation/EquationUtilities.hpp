@@ -8,8 +8,10 @@
 
 namespace alba
 {
+
 namespace algebra
 {
+
 bool isEquationOperatorString(std::string const& stringToCheck);
 bool isEquationOperatorCharacterString(std::string const& stringToCheck);
 bool doesNegativeVariableSubstitutionYieldsToTheSameEquation(

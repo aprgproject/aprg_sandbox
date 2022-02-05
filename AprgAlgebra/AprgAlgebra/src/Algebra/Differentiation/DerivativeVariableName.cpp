@@ -4,9 +4,11 @@
 
 using namespace alba::stringHelper;
 using namespace std;
+
 namespace alba
 {
-namespace algebra{
+namespace algebra
+{
 
 DerivativeVariableName::DerivativeVariableName(
         unsigned int const differentiationLevel,

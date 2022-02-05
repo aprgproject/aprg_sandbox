@@ -3,8 +3,10 @@
 #include <Common/Math/Number/AlbaNumberTypes.hpp>
 
 #include <vector>
+
 namespace alba
 {
+
 namespace algebra
 {
 

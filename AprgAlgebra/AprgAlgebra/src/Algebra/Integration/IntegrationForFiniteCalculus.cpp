@@ -13,9 +13,11 @@
 #include <Common/Math/AlbaMathHelper.hpp>
 
 #include <algorithm>
+
 using namespace alba::algebra::Functions;
 using namespace alba::mathHelper;
 using namespace std;
+
 namespace alba
 {
 namespace algebra

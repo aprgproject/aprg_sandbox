@@ -9,9 +9,11 @@
 #include <Common/Math/AlbaMathHelper.hpp>
 
 #include <numeric>
+
 using namespace alba::algebra::Functions;
 using namespace alba::mathHelper;
 using namespace std;
+
 namespace alba
 {
 

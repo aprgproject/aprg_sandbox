@@ -17,9 +17,11 @@
 
 #include <algorithm>
 #include <sstream>
+
 using namespace alba::algebra::Factorization;
 using namespace alba::mathHelper;
 using namespace std;
+
 namespace alba
 {
 

@@ -5,8 +5,10 @@
 
 namespace alba
 {
+
 namespace algebra
 {
+
 using BaseFirstCoefficientRetriever = BaseRetriever<AlbaNumber>;
 
 class FirstCoefficientRetriever final : public BaseFirstCoefficientRetriever

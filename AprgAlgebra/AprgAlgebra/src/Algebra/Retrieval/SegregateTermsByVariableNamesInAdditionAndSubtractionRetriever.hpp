@@ -5,8 +5,10 @@
 
 #include <unordered_map>
 #include <string>
+
 namespace alba
 {
+
 namespace algebra
 {
 

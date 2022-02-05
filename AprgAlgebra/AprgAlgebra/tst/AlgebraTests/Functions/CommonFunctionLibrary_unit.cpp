@@ -5,8 +5,10 @@
 #include <Common/Math/AlbaMathHelper.hpp>
 
 #include <gtest/gtest.h>
+
 using namespace alba::mathHelper;
 using namespace std;
+
 namespace alba
 {
 

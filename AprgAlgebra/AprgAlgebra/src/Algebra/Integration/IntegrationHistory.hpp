@@ -4,8 +4,10 @@
 
 #include <string>
 #include <vector>
+
 namespace alba
 {
+
 namespace algebra
 {
 

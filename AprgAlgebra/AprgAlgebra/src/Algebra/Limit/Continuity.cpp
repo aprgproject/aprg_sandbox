@@ -8,8 +8,10 @@
 
 using namespace alba::algebra::DomainAndRange;
 using namespace std;
+
 namespace alba
 {
+
 namespace algebra
 {
 

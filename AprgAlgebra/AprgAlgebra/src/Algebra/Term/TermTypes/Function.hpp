@@ -7,8 +7,10 @@
 
 #include <functional>
 #include <string>
+
 namespace alba
 {
+
 namespace algebra
 {
 

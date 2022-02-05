@@ -12,10 +12,12 @@
 #include <Common/Math/Number/AlbaNumber.hpp>
 
 #include <memory>
-#include <string>#include <vector>
+#include <string>
+#include <vector>
 
 namespace alba
 {
+
 namespace algebra
 {
 

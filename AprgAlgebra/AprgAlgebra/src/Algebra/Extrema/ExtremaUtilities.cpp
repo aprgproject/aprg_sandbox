@@ -14,10 +14,12 @@
 #include <Common/Math/Number/Interval/AlbaNumberIntervalHelpers.hpp>
 
 using namespace alba::algebra::DomainAndRange;
-using namespace alba::mathHelper;using namespace alba::stringHelper;
+using namespace alba::mathHelper;
+using namespace alba::stringHelper;
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 namespace algebra
 {

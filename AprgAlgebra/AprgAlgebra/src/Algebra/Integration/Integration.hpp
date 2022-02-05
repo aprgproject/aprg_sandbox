@@ -11,8 +11,10 @@
 #include <Common/String/AlbaStringHelper.hpp>
 
 #include <vector>
+
 namespace alba
 {
+
 namespace algebra
 {
 

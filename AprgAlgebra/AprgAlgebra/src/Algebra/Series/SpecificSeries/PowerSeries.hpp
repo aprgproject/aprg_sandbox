@@ -5,8 +5,10 @@
 
 namespace alba
 {
+
 namespace algebra
 {
+
 class PowerSeries : public SeriesBasedOnSummation
 {
 public:

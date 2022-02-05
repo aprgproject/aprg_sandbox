@@ -11,8 +11,10 @@
 
 using namespace alba::algebra::Simplification;
 using namespace alba::mathHelper;
+
 namespace alba
 {
+
 namespace algebra
 {
 

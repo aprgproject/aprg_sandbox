@@ -6,8 +6,10 @@
 #include <Common/Math/Number/Interval/AlbaNumberIntervalHelpers.hpp>
 
 #include <gtest/gtest.h>
+
 using namespace alba::mathHelper;
 using namespace std;
+
 namespace alba
 {
 

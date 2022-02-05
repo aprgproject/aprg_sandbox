@@ -3,9 +3,11 @@
 #include <Common/User/DisplayTable.hpp>
 
 #include <sstream>
+
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 namespace algorithm
 {

@@ -5,8 +5,10 @@
 
 namespace alba
 {
+
 namespace algebra
 {
+
 using BaseExponentsRetriever = BaseRetriever<AlbaNumbersSet>;
 
 class ExponentsRetriever final : public BaseExponentsRetriever

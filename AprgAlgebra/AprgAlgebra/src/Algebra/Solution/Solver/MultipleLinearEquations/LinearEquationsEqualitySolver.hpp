@@ -7,8 +7,10 @@
 
 namespace alba
 {
+
 namespace algebra
 {
+
 class LinearEquationsEqualitySolver : public BaseSolver
 {
 public:

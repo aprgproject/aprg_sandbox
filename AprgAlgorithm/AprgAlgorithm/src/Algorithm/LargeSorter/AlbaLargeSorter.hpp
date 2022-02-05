@@ -8,8 +8,10 @@
 
 #include <functional>
 #include <numeric>
+
 namespace alba
 {
+
 namespace algorithm
 {
 
