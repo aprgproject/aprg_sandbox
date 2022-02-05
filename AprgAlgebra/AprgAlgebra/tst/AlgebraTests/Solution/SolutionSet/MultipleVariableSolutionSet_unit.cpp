@@ -1,12 +1,10 @@
 #include <Algebra/Solution/SolutionSet/MultipleVariableSolutionSet.hpp>
-#include <Math/Number/Interval/AlbaNumberIntervalHelpers.hpp>
+#include <Common/Math/Number/Interval/AlbaNumberIntervalHelpers.hpp>
 
 #include <gtest/gtest.h>
-
 using namespace std;
 
-namespace alba
-{
+namespace alba{
 
 namespace algebra
 {

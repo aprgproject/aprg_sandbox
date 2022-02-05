@@ -4,13 +4,11 @@
 #include <Algebra/Integration/DetailsForDefiniteIntegralWithValues.hpp>
 #include <Algebra/Term/TermTypes/Term.hpp>
 #include <Algebra/Utilities/LowerAndHigherValues.hpp>
-#include <Math/Number/AlbaNumberTypes.hpp>
+#include <Common/Math/Number/AlbaNumberTypes.hpp>
 
 #include <string>
-
 namespace alba
 {
-
 namespace algebra
 {
 

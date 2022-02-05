@@ -6,15 +6,13 @@
 #include <Algebra/Simplification/SimplificationOfExpression.hpp>
 #include <Algebra/Term/TermTypes/Term.hpp>
 #include <Algebra/Term/TermTypes/TermContainerTypes.hpp>
-#include <Math/Matrix/AlbaMatrix.hpp>
-#include <Math/Number/AlbaNumberTypes.hpp>
-#include <String/AlbaStringHelper.hpp>
+#include <Common/Math/Matrix/AlbaMatrix.hpp>
+#include <Common/Math/Number/AlbaNumberTypes.hpp>
+#include <Common/String/AlbaStringHelper.hpp>
 
 #include <vector>
-
 namespace alba
 {
-
 namespace algebra
 {
 

@@ -2,15 +2,13 @@
 
 #include <Algebra/Term/Operators/TermOperators.hpp>
 #include <Algebra/Term/TermTypes/Term.hpp>
-#include <Math/Angle/AlbaAngle.hpp>
-#include <Math/Vector/AlbaMathVector.hpp>
+#include <Common/Math/Angle/AlbaAngle.hpp>
+#include <Common/Math/Vector/AlbaMathVector.hpp>
 
 namespace alba
 {
-
 template<> bool isEqualForMathVectorDataType(algebra::Term const& value1, algebra::Term const& value2);
 template<> algebra::Term raiseToPowerForMathVectorDataType(algebra::Term const& value1, algebra::Term const& value2);
-
 }
 
 namespace alba

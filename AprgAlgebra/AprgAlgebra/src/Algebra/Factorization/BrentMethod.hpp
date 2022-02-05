@@ -1,13 +1,10 @@
 #pragma once
 
-#include <Math/Number/AlbaNumber.hpp>
-#include <Math/Number/AlbaNumberTypes.hpp>
+#include <Common/Math/Number/AlbaNumberTypes.hpp>
 
 #include <vector>
-
 namespace alba
 {
-
 namespace algebra
 {
 

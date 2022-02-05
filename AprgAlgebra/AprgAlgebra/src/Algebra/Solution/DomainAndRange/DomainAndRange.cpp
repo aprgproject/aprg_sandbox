@@ -4,15 +4,13 @@
 #include <Algebra/Solution/SolutionUtilities.hpp>
 #include <Algebra/Solution/Solver/OneEquationOneVariable/OneEquationOneVariableEqualitySolver.hpp>
 #include <Algebra/Substitution/SubstitutionOfVariablesToValues.hpp>
-#include <Math/AlbaMathHelper.hpp>
-#include <Math/Number/Interval/AlbaNumberIntervalHelpers.hpp>
+#include <Common/Math/AlbaMathHelper.hpp>
+#include <Common/Math/Number/Interval/AlbaNumberIntervalHelpers.hpp>
 
 using namespace alba::mathHelper;
 using namespace std;
-
 namespace alba
 {
-
 namespace algebra
 {
 

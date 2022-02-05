@@ -13,14 +13,12 @@
 #include <Algebra/Simplification/SimplificationUtilities.hpp>
 #include <Algebra/Substitution/SubstitutionOfVariablesToValues.hpp>
 #include <Algebra/Vector/VectorTypes.hpp>
-#include <Math/Angle/AlbaAngle.hpp>
-#include <Math/Vector/AlbaMathVectorUtilities.hpp>
+#include <Common/Math/Angle/AlbaAngle.hpp>
+#include <Common/Math/Vector/AlbaMathVectorUtilities.hpp>
 
 #include <algorithm>
-
 namespace alba
 {
-
 namespace algebra
 {
 

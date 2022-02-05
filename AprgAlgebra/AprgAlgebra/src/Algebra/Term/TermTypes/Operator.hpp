@@ -3,13 +3,11 @@
 #include <Algebra/Term/TermTypes/BaseTermData.hpp>
 #include <Algebra/Term/TermTypes/OperatorInputType.hpp>
 #include <Algebra/Term/TermTypes/OperatorLevel.hpp>
-#include <Math/Number/AlbaNumber.hpp>
+#include <Common/Math/Number/AlbaNumber.hpp>
 
 #include <string>
-
 namespace alba
 {
-
 namespace algebra
 {
 

@@ -4,14 +4,12 @@
 #include <Algebra/Solution/DomainAndRange/DomainAndRange.hpp>
 #include <Algebra/Substitution/SubstitutionOfVariablesToValues.hpp>
 #include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>
-#include <Math/Number/Interval/AlbaNumberIntervalHelpers.hpp>
+#include <Common/Math/Number/Interval/AlbaNumberIntervalHelpers.hpp>
 
 using namespace alba::algebra::DomainAndRange;
 using namespace std;
-
 namespace alba
 {
-
 namespace algebra
 {
 

@@ -4,13 +4,11 @@
 #include <Algebra/Solution/SolutionSet/SolutionSet.hpp>
 #include <Algebra/Substitution/SubstitutionOfVariablesToTerms.hpp>
 #include <Algebra/Term/TermTypes/Term.hpp>
-#include <Math/Number/AlbaNumber.hpp>
+#include <Common/Math/Number/AlbaNumber.hpp>
 
 #include <string>
-
 namespace alba
 {
-
 namespace algebra
 {
 

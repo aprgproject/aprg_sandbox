@@ -11,15 +11,13 @@
 #include <Algebra/Term/Utilities/RetrieveHelpers.hpp>
 #include <Algebra/Term/Utilities/TermUtilities.hpp>
 #include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>
-#include <Math/AlbaMathHelper.hpp>
+#include <Common/Math/AlbaMathHelper.hpp>
 
 using namespace alba::algebra::Simplification;
-using namespace alba::mathHelper;
-using namespace std;
+using namespace alba::mathHelper;using namespace std;
 
 namespace alba
 {
-
 namespace algebra
 {
 

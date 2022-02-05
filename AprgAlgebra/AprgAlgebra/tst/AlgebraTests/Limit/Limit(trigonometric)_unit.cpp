@@ -1,13 +1,11 @@
 #include <Algebra/Functions/CommonFunctionLibrary.hpp>
 #include <Algebra/Limit/Limit.hpp>
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
-#include <Math/AlbaMathConstants.hpp>
+#include <Common/Math/AlbaMathConstants.hpp>
 
 #include <gtest/gtest.h>
-
 using namespace alba::algebra::Functions;
 using namespace std;
-
 namespace alba
 {
 

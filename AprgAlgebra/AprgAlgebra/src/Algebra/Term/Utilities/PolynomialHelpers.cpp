@@ -6,14 +6,12 @@
 #include <Algebra/Substitution/SubstitutionOfVariablesToValues.hpp>
 #include <Algebra/Term/Utilities/MonomialHelpers.hpp>
 #include <Algebra/Term/Utilities/PolynomialHelpers.hpp>
-#include <Math/AlbaMathHelper.hpp>
+#include <Common/Math/AlbaMathHelper.hpp>
 
 #include <algorithm>
-
 using namespace alba::algebra::Factorization;
 using namespace alba::mathHelper;
 using namespace std;
-
 namespace alba
 {
 

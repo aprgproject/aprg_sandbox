@@ -14,16 +14,14 @@
 #include <Algebra/Term/Operators/TermOperators.hpp>
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
 #include <Algebra/Term/Utilities/TermUtilities.hpp>
-#include <Math/AlbaMathHelper.hpp>
-#include <Math/Number/Interval/AlbaNumberIntervalHelpers.hpp>
+#include <Common/Math/AlbaMathHelper.hpp>
+#include <Common/Math/Number/Interval/AlbaNumberIntervalHelpers.hpp>
 
 using namespace alba::algebra::DomainAndRange;
-using namespace alba::algebra::Functions;
-using namespace alba::algebra::Simplification;
+using namespace alba::algebra::Functions;using namespace alba::algebra::Simplification;
 using namespace alba::mathHelper;
 using namespace alba::stringHelper;
 using namespace std;
-
 namespace
 {
 

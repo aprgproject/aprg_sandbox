@@ -11,13 +11,11 @@
 #include <Algebra/Summation/Summation.hpp>
 #include <Algebra/Term/Operators/TermOperators.hpp>
 #include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>
-#include <Math/Number/Interval/AlbaNumberIntervalHelpers.hpp>
+#include <Common/Math/Number/Interval/AlbaNumberIntervalHelpers.hpp>
 
 using namespace std;
-
 namespace alba
 {
-
 namespace algebra
 {
 

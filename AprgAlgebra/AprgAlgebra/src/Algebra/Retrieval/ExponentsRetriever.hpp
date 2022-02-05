@@ -1,14 +1,12 @@
 #pragma once
 
 #include <Algebra/Retrieval/BaseRetriever.hpp>
-#include <Math/Number/AlbaNumberTypes.hpp>
+#include <Common/Math/Number/AlbaNumberTypes.hpp>
 
 namespace alba
 {
-
 namespace algebra
 {
-
 using BaseExponentsRetriever = BaseRetriever<AlbaNumbersSet>;
 
 class ExponentsRetriever final : public BaseExponentsRetriever

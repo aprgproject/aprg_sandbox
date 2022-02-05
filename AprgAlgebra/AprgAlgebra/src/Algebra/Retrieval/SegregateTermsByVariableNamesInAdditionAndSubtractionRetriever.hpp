@@ -1,14 +1,12 @@
 #pragma once
 
 #include <Algebra/Term/TermTypes/Term.hpp>
-#include <String/AlbaStringHelper.hpp>
+#include <Common/String/AlbaStringHelper.hpp>
 
 #include <unordered_map>
 #include <string>
-
 namespace alba
 {
-
 namespace algebra
 {
 

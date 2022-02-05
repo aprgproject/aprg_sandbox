@@ -2,14 +2,12 @@
 
 #include <Algebra/Constructs/TermsAggregator.hpp>
 #include <Algebra/Term/Utilities/EnumHelpers.hpp>
-#include <String/AlbaStringHelper.hpp>
+#include <Common/String/AlbaStringHelper.hpp>
 
 using namespace alba::stringHelper;
 using namespace std;
-
 namespace alba
 {
-
 namespace algebra
 {
 

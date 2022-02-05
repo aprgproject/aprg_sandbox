@@ -1,12 +1,10 @@
 #include "CommonFunctionLibrary.hpp"
 
-#include <Math/AlbaMathHelper.hpp>
+#include <Common/Math/AlbaMathHelper.hpp>
 
 #include <cmath>
-
 using namespace alba::mathHelper;
 using namespace std;
-
 namespace alba
 {
 

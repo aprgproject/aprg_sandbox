@@ -1,14 +1,12 @@
 #pragma once
 
 #include <Algebra/Term/TermTypes/Term.hpp>
-#include <Math/Number/AlbaNumberTypes.hpp>
+#include <Common/Math/Number/AlbaNumberTypes.hpp>
 
 namespace alba
 {
-
 namespace algebra
 {
-
 bool isTermSimpler(Term const& supposeToBeComplicatedTerm, Term const& supposeToBeSimpleTerm);
 bool isNegatedTermSimpler(Term const& term, Term const& negatedTerm);
 bool isNonEmptyOrNonOperatorType(Term const& term);

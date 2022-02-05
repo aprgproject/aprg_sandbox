@@ -1,12 +1,10 @@
 #include "EnumHelpers.hpp"
 
-#include <Macros/AlbaMacros.hpp>
+#include <Common/Macros/AlbaMacros.hpp>
 
 using namespace std;
-
 namespace alba
 {
-
 namespace algebra
 {
 

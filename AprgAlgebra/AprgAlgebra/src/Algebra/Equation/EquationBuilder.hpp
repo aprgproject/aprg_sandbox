@@ -1,13 +1,11 @@
 #pragma once
 
 #include <Algebra/Equation/Equation.hpp>
-#include <String/AlbaStringHelper.hpp>
+#include <Common/String/AlbaStringHelper.hpp>
 
 #include <string>
-
 namespace alba
 {
-
 namespace algebra
 {
 
