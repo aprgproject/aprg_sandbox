@@ -400,4 +400,4 @@ TEST_F(AlbaLinuxPathHandlerTest, SetCurrentDirectoryFromDetectedLocalPath)
     ASSERT_TRUE(pathHandler.isFoundInLocalSystem());
 }
 
-}
+}

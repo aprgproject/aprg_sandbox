@@ -1,9 +1,8 @@
 #pragma once
 
-#include <Common/PathHandlers/AlbaPathHandler.hpp>
+#include <Common/PathHandler/AlbaPathHandler.hpp>
 
 #include <string>
-
 namespace alba
 {
 

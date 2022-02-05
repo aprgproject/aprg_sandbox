@@ -11,4 +11,4 @@ struct AlbaLinuxPathHandlerTest : public testing::Test
     std::string convertToSimplestPath(std::string const& path);
 };
 
-}
+}

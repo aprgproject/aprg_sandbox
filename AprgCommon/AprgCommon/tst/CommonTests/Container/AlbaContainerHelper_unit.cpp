@@ -1,10 +1,9 @@
 #include <Common/Container/AlbaContainerHelper.hpp>
 #include <Common/File/AlbaFileReader.hpp>
-#include <Common/PathHandlers/AlbaLocalPathHandler.hpp>
+#include <Common/PathHandler/AlbaLocalPathHandler.hpp>
 #include <CommonTests/DirectoryConstants.hpp>
 
 #include <gtest/gtest.h>
-
 #include <array>
 #include <map>
 #include <set>

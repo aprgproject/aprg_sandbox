@@ -1,26 +1,25 @@
-#include <Common/Time/AlbaLinuxTimer.hpp>
+#include <Common/Time/AlbaWindowsTimer.hpp>
 
 #include <gtest/gtest.h>
-#include <unistd.h>
 
 namespace alba
 {
 
-TEST(AlbaLinuxTimer, DISABLED_TimerCanBeInitialized)
+TEST(AlbaWindowsTimer, DISABLED_TimerCanBeInitialized)
 {
-    AlbaLinuxTimer timer;
-    usleep(2000000);
+    AlbaWindowsTimer timer;
+    Sleep(2000);
     timer.stopTimer();
     unsigned int secondsElapsed = timer.getElapsedTimeInSeconds();
     EXPECT_EQ(2U, secondsElapsed);
 }
 
-TEST(AlbaLinuxTimer, DISABLED_TimerCanBeRestarted)
+TEST(AlbaWindowsTimer, DISABLED_TimerCanBeRestarted)
 {
-    AlbaLinuxTimer timer;
-    usleep(1000000);
+    AlbaWindowsTimer timer;
+    Sleep(1000);
     timer.resetTimer();
-    usleep(1000000);
+    Sleep(1000);
     timer.stopTimer();
     unsigned int secondsElapsed = timer.getElapsedTimeInSeconds();
     EXPECT_EQ(1U, secondsElapsed);

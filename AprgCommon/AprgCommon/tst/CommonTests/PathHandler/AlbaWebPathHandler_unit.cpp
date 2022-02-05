@@ -1,7 +1,6 @@
-#include <Common/PathHandlers/AlbaWebPathHandler.hpp>
+#include <Common/PathHandler/AlbaWebPathHandler.hpp>
 
 #include <gtest/gtest.h>
-
 #include <fstream>
 #include <string>
 
