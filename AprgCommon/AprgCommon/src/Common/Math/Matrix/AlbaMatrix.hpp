@@ -28,15 +28,13 @@ public:
     using UnaryFunction = std::function<DataType(DataType const&)>;
     using LoopFunction = std::function<void(unsigned int const x, unsigned int const y)>;
     using LoopWithValueFunction = std::function<void(unsigned int const x, unsigned int const y,DataType const& value)>;
-    using MatrixIndexRange = AlbaRange<unsigned int>;
+    using MatrixIndexRange = AlbaValueRange<unsigned int>;
 
     AlbaMatrix()
-        : m_numberOfColumns(0) // can we make this as template parameter?
-        , m_numberOfRows(0)
+        : m_numberOfColumns(0) // can we make this as template parameter?        , m_numberOfRows(0)
     {}
 
-    AlbaMatrix(
-            unsigned int const numberOfColumns,
+    AlbaMatrix(            unsigned int const numberOfColumns,
             unsigned int const numberOfRows)
         : m_numberOfColumns(numberOfColumns)
         , m_numberOfRows(numberOfRows)

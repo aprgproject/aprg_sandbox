@@ -9,35 +9,32 @@
 namespace alba
 {
 
-enum class AlbaRangeType
+enum class AlbaValueRangeType
 {
     Unknown,
-    Once,
-    Forward,
+    Once,    Forward,
     Backward
 };
 
 template <typename DataType>
-class AlbaRange
+class AlbaValueRange
 {
 public:
     using TerminationCondition = std::function<bool(DataType,DataType)>;
     using TraverseOperation = std::function<void(DataType)>;
-    AlbaRange()
+    AlbaValueRange()
         : m_startValue(0)
         , m_endValue(0)
         , m_intervalMagnitude(0)
     {}
 
-    AlbaRange(DataType const startValue, DataType const endValue, DataType const intervalMagnitude)
+    AlbaValueRange(DataType const startValue, DataType const endValue, DataType const intervalMagnitude)
         : m_startValue(startValue)
         , m_endValue(endValue)
-        , m_intervalMagnitude(mathHelper::getAbsoluteValue(intervalMagnitude))
-    {}
+        , m_intervalMagnitude(mathHelper::getAbsoluteValue(intervalMagnitude))    {}
 
     bool isEmpty() const
-    {
-        return m_startValue==0 && m_endValue==0 && m_intervalMagnitude==0;
+    {        return m_startValue==0 && m_endValue==0 && m_intervalMagnitude==0;
     }
 
     bool isValueInsideInclusive(DataType const value) const
@@ -70,15 +67,13 @@ public:
         return std::max(m_startValue, m_endValue);
     }
 
-    AlbaRangeType getRangeType() const
+    AlbaValueRangeType getRangeType() const
     {
         return getRangeTypeFromStartAndEnd(m_startValue, m_endValue);
     }
-
     DataType getInterval() const
     {
-        return getIntervalWithSign(m_intervalMagnitude, getRangeType());
-    }
+        return getIntervalWithSign(m_intervalMagnitude, getRangeType());    }
 
     DataType getIntervalMagnitude() const
     {
@@ -134,15 +129,13 @@ public:
     {
         if(!isEmpty())
         {
-            if(AlbaRangeType::Once == getRangeType())
+            if(AlbaValueRangeType::Once == getRangeType())
             {
                 traverseOperation(m_startValue);
-            }
-            else
+            }            else
             {
                 TerminationCondition terminationCondition(getTerminationCondition());
-                DataType interval(getInterval());
-                DataType traverseValue = m_startValue;
+                DataType interval(getInterval());                DataType traverseValue = m_startValue;
                 for(; terminationCondition(traverseValue, m_endValue); traverseValue+=interval)
                 {
                     traverseOperation(traverseValue);
@@ -164,66 +157,61 @@ public:
 
 private:
 
-    TerminationCondition getTerminationCondition(AlbaRangeType const rangeType) const
+    TerminationCondition getTerminationCondition(AlbaValueRangeType const rangeType) const
     {
         TerminationCondition terminationCondition;
         switch(rangeType)
         {
-        case AlbaRangeType::Forward:
+        case AlbaValueRangeType::Forward:
             terminationCondition = std::less_equal<DataType>();
             break;
-        case AlbaRangeType::Backward:
+        case AlbaValueRangeType::Backward:
             terminationCondition = std::greater_equal<DataType>();
             break;
-        default:
-            terminationCondition = [](DataType,DataType)->bool
+        default:            terminationCondition = [](DataType,DataType)->bool
             {
                 return false;
-            };
-            break;
+            };            break;
         }
         return terminationCondition;
     }
 
-    DataType getIntervalWithSign(DataType const interval, AlbaRangeType const rangeType) const
+    DataType getIntervalWithSign(DataType const interval, AlbaValueRangeType const rangeType) const
     {
         DataType intervalWithSign(0);
         DataType intervalMagnitude((interval<0) ? interval*-1 : interval);
         switch(rangeType)
         {
-        case AlbaRangeType::Forward:
+        case AlbaValueRangeType::Forward:
             intervalWithSign = intervalMagnitude;
             break;
-        case AlbaRangeType::Backward:
+        case AlbaValueRangeType::Backward:
             intervalWithSign = intervalMagnitude*-1;
             break;
-        default:
-            break;
+        default:            break;
         }
         return intervalWithSign;
     }
 
-    AlbaRangeType getRangeTypeFromStartAndEnd(DataType const startValue, DataType const endValue) const
+    AlbaValueRangeType getRangeTypeFromStartAndEnd(DataType const startValue, DataType const endValue) const
     {
-        AlbaRangeType rangeType(AlbaRangeType::Unknown);
+        AlbaValueRangeType rangeType(AlbaValueRangeType::Unknown);
         if(startValue == endValue)
         {
-            rangeType = AlbaRangeType::Once;
+            rangeType = AlbaValueRangeType::Once;
         }
         else if(startValue < endValue)
         {
-            rangeType = AlbaRangeType::Forward;
+            rangeType = AlbaValueRangeType::Forward;
         }
         else
         {
-            rangeType = AlbaRangeType::Backward;
+            rangeType = AlbaValueRangeType::Backward;
         }
         return rangeType;
     }
-
     DataType m_startValue;
     DataType m_endValue;
-    DataType m_intervalMagnitude;
-};
+    DataType m_intervalMagnitude;};
 
 }
