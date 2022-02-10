@@ -1,10 +1,9 @@
 #pragma once
 
-#include <Audio/CommonTypes.hpp>
+#include <AudioManipulator/CommonTypes.hpp>
 
 namespace alba
 {
-
 namespace AprgAudio
 {
 

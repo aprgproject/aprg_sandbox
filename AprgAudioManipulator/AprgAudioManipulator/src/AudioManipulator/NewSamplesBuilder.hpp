@@ -1,9 +1,8 @@
 #pragma once
 
-#include <Audio/CommonTypes.hpp>
+#include <AudioManipulator/CommonTypes.hpp>
 
 #include <map>
-
 namespace alba
 {
 
