@@ -1,15 +1,13 @@
 #include "BitmapConfiguration.hpp"
 
-#include <Bit/AlbaBitConstants.hpp>
-#include <Bit/AlbaBitManipulation.hpp>
-#include <Math/AlbaMathHelper.hpp>
-#include <PathHandlers/AlbaLocalPathHandler.hpp>
+#include <Common/Bit/AlbaBitConstants.hpp>
+#include <Common/Bit/AlbaBitManipulation.hpp>
+#include <Common/Math/AlbaMathHelper.hpp>
+#include <Common/PathHandler/AlbaLocalPathHandler.hpp>
 
 #include <cmath>
-
 using namespace alba::mathHelper;
 using namespace std;
-
 namespace alba
 {
 

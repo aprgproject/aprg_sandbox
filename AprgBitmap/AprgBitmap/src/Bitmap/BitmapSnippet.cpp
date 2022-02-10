@@ -1,13 +1,11 @@
 #include "BitmapSnippet.hpp"
 
-#include <Bit/AlbaBitConstants.hpp>
-#include <Bit/AlbaBitManipulation.hpp>
+#include <Common/Bit/AlbaBitConstants.hpp>
+#include <Common/Bit/AlbaBitManipulation.hpp>
 
 using namespace std;
-
 namespace alba
 {
-
 namespace AprgBitmap
 {
 

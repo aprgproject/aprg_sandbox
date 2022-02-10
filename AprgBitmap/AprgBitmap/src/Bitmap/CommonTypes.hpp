@@ -1,13 +1,11 @@
 #pragma once
 
-#include <Container/AlbaXY.hpp>
-#include <Memory/AlbaMemoryBuffer.hpp>
+#include <Common/Container/AlbaXY.hpp>
+#include <Common/Memory/AlbaMemoryBuffer.hpp>
 
 #include <vector>
-
 namespace alba
 {
-
 namespace AprgBitmap
 {
 
