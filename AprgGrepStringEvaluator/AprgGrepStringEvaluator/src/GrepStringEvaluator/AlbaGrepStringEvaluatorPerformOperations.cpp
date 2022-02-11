@@ -5,13 +5,14 @@ using namespace std;
 namespace alba
 {
 
-namespace ExpressionEvaluator
+namespace algorithm
 {
 
+namespace ExpressionEvaluator
+{
 template <>
 AlbaGrepStringEvaluatorTerm performUnaryOperation<AlbaGrepStringEvaluatorTerm, AlbaGrepStringOperatorType>
-(AlbaGrepStringOperatorType const& operatorObject, AlbaGrepStringEvaluatorTerm const& value)
-{
+(AlbaGrepStringOperatorType const& operatorObject, AlbaGrepStringEvaluatorTerm const& value){
     using OperatorType = AlbaGrepStringOperatorType;
     bool outputValue(false);
     switch (operatorObject)
@@ -51,6 +52,8 @@ AlbaGrepStringEvaluatorTerm performBinaryOperation<AlbaGrepStringEvaluatorTerm, 
         break;
     }
     return AlbaGrepStringEvaluatorTerm(outputValue);
+}
+
 }
 
 }

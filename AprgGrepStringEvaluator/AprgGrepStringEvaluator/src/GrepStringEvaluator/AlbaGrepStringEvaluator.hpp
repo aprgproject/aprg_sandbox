@@ -1,14 +1,12 @@
 #pragma once
 
-#include <ExpressionEvaluator/ExpressionEvaluator.hpp>
+#include <Algorithm/ExpressionEvaluator/ExpressionEvaluator.hpp>
 #include <GrepStringEvaluator/AlbaGrepStringEvaluatorPerformOperations.hpp>
 #include <GrepStringEvaluator/AlbaGrepStringEvaluatorTerm.hpp>
-#include <GrepStringEvaluator/AlbaGrepStringOperatorType.hpp>
-#include <GrepStringEvaluator/AlbaGrepStringToken.hpp>
+#include <GrepStringEvaluator/AlbaGrepStringOperatorType.hpp>#include <GrepStringEvaluator/AlbaGrepStringToken.hpp>
 
 #include <functional>
-#include <stack>
-#include <string>
+#include <stack>#include <string>
 #include <vector>
 
 namespace alba
@@ -17,17 +15,15 @@ namespace alba
 class AlbaGrepStringEvaluator
 {
     using VectorOfTokens = std::vector<AlbaGrepStringToken>;
-    using InfixEvaluator = ExpressionEvaluator::ExpressionInfixEvaluator<AlbaGrepStringEvaluatorTerm, AlbaGrepStringOperatorType>;
-    using PostfixEvaluator = ExpressionEvaluator::ExpressionPostfixEvaluator<AlbaGrepStringEvaluatorTerm, AlbaGrepStringOperatorType>;
-    using EvaluatorTerm = ExpressionEvaluator::ExpressionEvaluatorTerm<AlbaGrepStringEvaluatorTerm, AlbaGrepStringOperatorType>;
-    using EvaluatorConverter = ExpressionEvaluator::ExpressionEvaluatorConverter<AlbaGrepStringEvaluatorTerm, AlbaGrepStringOperatorType>;
+    using InfixEvaluator = algorithm::ExpressionEvaluator::ExpressionInfixEvaluator<AlbaGrepStringEvaluatorTerm, AlbaGrepStringOperatorType>;
+    using PostfixEvaluator = algorithm::ExpressionEvaluator::ExpressionPostfixEvaluator<AlbaGrepStringEvaluatorTerm, AlbaGrepStringOperatorType>;
+    using EvaluatorTerm = algorithm::ExpressionEvaluator::ExpressionEvaluatorTerm<AlbaGrepStringEvaluatorTerm, AlbaGrepStringOperatorType>;
+    using EvaluatorConverter = algorithm::ExpressionEvaluator::ExpressionEvaluatorConverter<AlbaGrepStringEvaluatorTerm, AlbaGrepStringOperatorType>;
 
 public:
-    AlbaGrepStringEvaluator(std::string const& condition);
-    bool evaluate(std::string const& stringToEvaluate);
+    AlbaGrepStringEvaluator(std::string const& condition);    bool evaluate(std::string const& stringToEvaluate);
     bool isInvalid() const;
     std::string getErrorMessage() const;
-
 private:
     void extractTokens(std::string const& condition);
     void extractTokensWhileOnString(bool& isOnString, std::string & stringToBuild, char const& currentCharacter);

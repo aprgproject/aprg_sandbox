@@ -1,12 +1,10 @@
 #include "AlbaGrepStringEvaluatorTerm.hpp"
 
-#include <String/AlbaStringHelper.hpp>
+#include <Common/String/AlbaStringHelper.hpp>
 
 using namespace std;
-
 namespace alba
 {
-
 string AlbaGrepStringEvaluatorTerm::s_mainString;
 
 void AlbaGrepStringEvaluatorTerm::setMainString(std::string const& mainString)

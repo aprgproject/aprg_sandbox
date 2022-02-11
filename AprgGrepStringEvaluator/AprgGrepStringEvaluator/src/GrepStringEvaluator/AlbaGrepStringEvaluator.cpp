@@ -1,13 +1,11 @@
 #include "AlbaGrepStringEvaluator.hpp"
 
-#include <String/AlbaStringHelper.hpp>
+#include <Common/String/AlbaStringHelper.hpp>
 
 #include <algorithm>
-
 using namespace std;
 
-namespace alba
-{
+namespace alba{
 
 AlbaGrepStringEvaluator::AlbaGrepStringEvaluator(string const& condition)
     : m_isEvaluatorInvalid(false)
