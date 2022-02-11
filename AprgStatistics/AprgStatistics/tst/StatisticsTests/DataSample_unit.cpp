@@ -1,7 +1,6 @@
-#include <DataSample.hpp>
+#include <Statistics/DataSample.hpp>
 
 #include <gtest/gtest.h>
-
 using namespace std;
 
 namespace alba

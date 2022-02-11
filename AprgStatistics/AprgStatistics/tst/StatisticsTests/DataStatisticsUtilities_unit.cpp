@@ -1,7 +1,6 @@
-#include <DataStatisticsUtilities.hpp>
+#include <Statistics/DataStatisticsUtilities.hpp>
 
 #include <gtest/gtest.h>
-
 #include <iostream>
 
 using namespace std;

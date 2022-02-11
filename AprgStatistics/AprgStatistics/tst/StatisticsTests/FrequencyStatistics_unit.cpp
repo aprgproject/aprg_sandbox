@@ -1,7 +1,6 @@
-#include <FrequencyStatistics.hpp>
+#include <Statistics/FrequencyStatistics.hpp>
 
 #include <gtest/gtest.h>
-
 #include <iostream>
 
 using namespace std;

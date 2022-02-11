@@ -1,8 +1,7 @@
-#include <FrequencyStatistics.hpp>
+#include <Statistics/FrequencyStatistics.hpp>
 
 #include <algorithm>
-#include <iterator>
-#include <numeric>
+#include <iterator>#include <numeric>
 
 using namespace std;
 

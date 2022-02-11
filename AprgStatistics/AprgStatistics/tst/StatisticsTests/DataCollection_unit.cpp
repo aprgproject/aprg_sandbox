@@ -1,7 +1,6 @@
-#include <DataCollection.hpp>
+#include <Statistics/DataCollection.hpp>
 
 #include <gtest/gtest.h>
-
 #include <iostream>
 
 using namespace std;

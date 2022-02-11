@@ -1,7 +1,6 @@
-#include <KMeansClustering.hpp>
+#include <Statistics/KMeansClustering.hpp>
 
 #include <gtest/gtest.h>
-
 using namespace std;
 
 namespace alba

@@ -1,7 +1,6 @@
-#include <OutlierStatistics.hpp>
+#include <Statistics/OutlierStatistics.hpp>
 
 #include <gtest/gtest.h>
-
 #include <iostream>
 
 using namespace std;

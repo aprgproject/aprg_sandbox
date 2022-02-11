@@ -1,11 +1,10 @@
 #pragma once
 
-#include <DataSample.hpp>
-#include <DataStatistics.hpp>
+#include <Statistics/DataSample.hpp>
+#include <Statistics/DataStatistics.hpp>
 
 namespace alba
 {
-
 namespace OneDimensionsStatistics
 {
     using Sample = DataSample<1>;

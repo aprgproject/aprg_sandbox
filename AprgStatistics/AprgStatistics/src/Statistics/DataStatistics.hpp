@@ -1,12 +1,11 @@
 #pragma once
 
-#include <DataSample.hpp>
-#include <DataStatisticsUtilities.hpp>
-#include <Optional/AlbaOptional.hpp>
+#include <Common/Optional/AlbaOptional.hpp>
+#include <Statistics/DataSample.hpp>
+#include <Statistics/DataStatisticsUtilities.hpp>
 
 #include <algorithm>
 #include <functional>
-
 namespace alba
 {
 
