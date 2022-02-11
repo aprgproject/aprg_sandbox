@@ -2,16 +2,14 @@
 
 #include <BitmapFilters/AnimizeColor.hpp>
 #include <BitmapFilters/Utilities.hpp>
-#include <PathHandlers/AlbaLocalPathHandler.hpp>
-#include <String/AlbaStringHelper.hpp>
+#include <Common/PathHandler/AlbaLocalPathHandler.hpp>
+#include <Common/String/AlbaStringHelper.hpp>
 
 #include <iostream>
 #include <sstream>
-
 using namespace std;
 
-namespace alba
-{
+namespace alba{
 
 namespace AprgBitmap
 {

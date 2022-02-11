@@ -2,14 +2,12 @@
 
 #include <Bitmap/BitmapSnippet.hpp>
 #include <Bitmap/CommonTypes.hpp>
-#include <TwoDimensions/Circle.hpp>
-#include <TwoDimensions/Quadrilateral.hpp>
+#include <Geometry/TwoDimensions/Circle.hpp>
+#include <Geometry/TwoDimensions/Quadrilateral.hpp>
 
 #include <functional>
-
 namespace alba
 {
-
 namespace AprgBitmap
 {
 

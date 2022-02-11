@@ -1,12 +1,10 @@
 #include "PenCircles.hpp"
 
-#include <Math/AlbaMathHelper.hpp>
+#include <Common/Math/AlbaMathHelper.hpp>
 
 using namespace alba::mathHelper;
-
 namespace alba
 {
-
 namespace AprgBitmap
 {
 

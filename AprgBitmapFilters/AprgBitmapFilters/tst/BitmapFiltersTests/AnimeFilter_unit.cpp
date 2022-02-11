@@ -1,8 +1,7 @@
 #include <BitmapFilters/AnimeFilter.hpp>
-#include <PathHandlers/AlbaLocalPathHandler.hpp>
+#include <Common/PathHandler/AlbaLocalPathHandler.hpp>
 
 #include <gtest/gtest.h>
-
 #include <iostream>
 
 using namespace std;

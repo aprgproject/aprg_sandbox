@@ -3,16 +3,14 @@
 #include <Bitmap/Bitmap.hpp>
 #include <Bitmap/BitmapSnippet.hpp>
 #include <BitmapFilters/ColorUtilities.hpp>
-#include <Container/AlbaContainerHelper.hpp>
-#include <PathHandlers/AlbaLocalPathHandler.hpp>
+#include <Common/Container/AlbaContainerHelper.hpp>
+#include <Common/PathHandler/AlbaLocalPathHandler.hpp>
 
 using namespace alba::AprgBitmap;
-using namespace alba::AprgBitmap::ColorUtilities;
-using namespace std;
+using namespace alba::AprgBitmap::ColorUtilities;using namespace std;
 
 namespace alba
 {
-
 namespace AprgBitmap
 {
 

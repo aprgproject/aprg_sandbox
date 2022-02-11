@@ -1,22 +1,19 @@
 #pragma once
 
+#include <Algorithm/UnionFind/UnionFindUsingMap.hpp>
 #include <Bitmap/Bitmap.hpp>
 #include <Bitmap/BitmapSnippet.hpp>
-#include <BitmapFilters/AnimizeColor.hpp>
-#include <BitmapFilters/LabelForPoints.hpp>
+#include <BitmapFilters/AnimizeColor.hpp>#include <BitmapFilters/LabelForPoints.hpp>
 #include <BitmapFilters/PenCircles.hpp>
 #include <BitmapFilters/PenPoints.hpp>
 #include <BitmapTraversal/BitmapSnippetTraversal.hpp>
-#include <TwoDimensions/Circle.hpp>
-#include <TwoDimensions/Point.hpp>
-#include <UnionFind/UnionFind.hpp>
+#include <Geometry/TwoDimensions/Circle.hpp>
+#include <Geometry/TwoDimensions/Point.hpp>
 
 #include <deque>
 #include <functional>
-
 namespace alba
 {
-
 namespace AprgBitmap
 {
 
@@ -24,14 +21,12 @@ class BitmapFilters
 {
 public:
     using BlurCondition = std::function<bool(uint32_t const, uint32_t const, BitmapXY const&)>;
-    using UnionFindForLabels = UnionFindUsingMap<unsigned int>;
+    using UnionFindForLabels = algorithm::UnionFindUsingMap<unsigned int>;
     using PointToColorMap = std::map<BitmapXY, uint32_t>;
     using PointAndColorPair = std::pair<BitmapXY, uint32_t>;
-    using PenPointToPenCircleMap = std::map<BitmapXY, TwoDimensions::Circle>;
-    using PenPointAndPenCirclePair = std::pair<BitmapXY, TwoDimensions::Circle>;
+    using PenPointToPenCircleMap = std::map<BitmapXY, TwoDimensions::Circle>;    using PenPointAndPenCirclePair = std::pair<BitmapXY, TwoDimensions::Circle>;
 
     BitmapFilters(std::string const& path);
-
     bool isBackgroundColor(uint32_t const color) const;
     bool isNotBackgroundColor(uint32_t const color) const;
 
