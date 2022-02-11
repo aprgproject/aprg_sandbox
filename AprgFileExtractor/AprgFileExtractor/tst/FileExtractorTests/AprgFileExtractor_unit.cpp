@@ -81,27 +81,13 @@ TEST(AprgFileExtractorTest, AllFilesAreExtractedSuccessfully)
     string outputDirectoryPath = fileExtractor.extractOnceForAllFiles(PATH_OF_SAMPLE_ZIP_1);
 
     EXPECT_EQ(directoryPathHandler.getFullPath(), outputDirectoryPath);
-    AlbaLocalPathHandler outputFilePathHandler(APRG_DIR R"(AprgFileExtractor\AprgFileExtractor\tst\FileExtractorTests\FilesForTests\DirectoryTest\DIR1\File1.log)");
-    //EXPECT_TRUE(outputFilePathHandler.isFoundInLocalSystem());
-    outputFilePathHandler.input(APRG_DIR R"(AprgFileExtractor\AprgFileExtractor\tst\FileExtractorTests\FilesForTests\DirectoryTest\DIR2\File2.txt)");
-    //EXPECT_TRUE(outputFilePathHandler.isFoundInLocalSystem());
-    outputFilePathHandler.input(APRG_DIR R"(AprgFileExtractor\AprgFileExtractor\tst\FileExtractorTests\FilesForTests\DirectoryTest\DIR3\File3)");
-    //EXPECT_TRUE(outputFilePathHandler.isFoundInLocalSystem());
-    outputFilePathHandler.input(APRG_DIR R"(AprgFileExtractor\AprgFileExtractor\tst\FileExtractorTests\FilesForTests\DirectoryTest\DIR4\File4.mp3)");
-    //EXPECT_TRUE(outputFilePathHandler.isFoundInLocalSystem());
-    outputFilePathHandler.input(APRG_DIR R"(AprgFileExtractor\AprgFileExtractor\tst\FileExtractorTests\FilesForTests\DirectoryTest\DIR5\File5.avi)");
-    //EXPECT_TRUE(outputFilePathHandler.isFoundInLocalSystem());
-    outputFilePathHandler.input(APRG_DIR R"(AprgFileExtractor\AprgFileExtractor\tst\FileExtractorTests\FilesForTests\DirectoryTest\DIR6\SUBDIR1\File6.jpg)");
-    //EXPECT_TRUE(outputFilePathHandler.isFoundInLocalSystem());
-    outputFilePathHandler.input(APRG_DIR R"(AprgFileExtractor\AprgFileExtractor\tst\FileExtractorTests\FilesForTests\DirectoryTest\File1.log)");
+    AlbaLocalPathHandler outputFilePathHandler(APRG_DIR R"(AprgFileExtractor\AprgFileExtractor\tst\FileExtractorTests\FilesForTests\DirectoryTest\File1.log)");
     EXPECT_TRUE(outputFilePathHandler.isFoundInLocalSystem());
     outputFilePathHandler.input(APRG_DIR R"(AprgFileExtractor\AprgFileExtractor\tst\FileExtractorTests\FilesForTests\DirectoryTest\File2.txt)");
-    EXPECT_TRUE(outputFilePathHandler.isFoundInLocalSystem());
-    outputFilePathHandler.input(APRG_DIR R"(AprgFileExtractor\AprgFileExtractor\tst\FileExtractorTests\FilesForTests\DirectoryTest\File3)");
+    EXPECT_TRUE(outputFilePathHandler.isFoundInLocalSystem());    outputFilePathHandler.input(APRG_DIR R"(AprgFileExtractor\AprgFileExtractor\tst\FileExtractorTests\FilesForTests\DirectoryTest\File3)");
     EXPECT_TRUE(outputFilePathHandler.isFoundInLocalSystem());
     outputFilePathHandler.input(APRG_DIR R"(AprgFileExtractor\AprgFileExtractor\tst\FileExtractorTests\FilesForTests\DirectoryTest\File4.mp3)");
-    EXPECT_TRUE(outputFilePathHandler.isFoundInLocalSystem());
-    outputFilePathHandler.input(APRG_DIR R"(AprgFileExtractor\AprgFileExtractor\tst\FileExtractorTests\FilesForTests\DirectoryTest\File5.avi)");
+    EXPECT_TRUE(outputFilePathHandler.isFoundInLocalSystem());    outputFilePathHandler.input(APRG_DIR R"(AprgFileExtractor\AprgFileExtractor\tst\FileExtractorTests\FilesForTests\DirectoryTest\File5.avi)");
     EXPECT_TRUE(outputFilePathHandler.isFoundInLocalSystem());
 }
 
