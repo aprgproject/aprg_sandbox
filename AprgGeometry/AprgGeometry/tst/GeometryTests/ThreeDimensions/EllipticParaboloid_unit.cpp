@@ -1,6 +1,7 @@
 #include <Geometry/ThreeDimensions/EllipticParaboloid.hpp>
 
 #include <gtest/gtest.h>
+
 #include <cmath>
 
 using namespace alba::mathHelper;

@@ -1,6 +1,7 @@
 #include <Geometry/TwoDimensions/Triangle.hpp>
 
 #include <gtest/gtest.h>
+
 #include <cmath>
 
 using namespace std;

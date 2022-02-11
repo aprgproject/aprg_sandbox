@@ -5,6 +5,7 @@
 #include <Geometry/TwoDimensions/TwoDimensionsHelper.hpp>
 
 #include <cmath>
+
 using namespace alba::mathHelper;
 using namespace alba::TwoDimensions::twoDimensionsHelper;
 using namespace std;
@@ -187,7 +188,8 @@ Points Hyperbola::getPointsInTraversingY(double const signOfX, double const sign
     AlbaValueRange<double> yRange(m_center.getY(), m_center.getY()+(m_bValue*signOfY), interval);
     yRange.traverse([&](double const yValue)
     {
-        result.emplace_back(calculateXFromY(yValue, signOfX), yValue);    });
+        result.emplace_back(calculateXFromY(yValue, signOfX), yValue);
+    });
     return result;
 }
 
@@ -198,7 +200,8 @@ Points Hyperbola::getPointsInTraversingX(double const signOfX, double const sign
     AlbaValueRange<double> xRange(m_center.getX()+stepValue, m_center.getX()+2*stepValue, interval); // whats with the 2 step value? it should configurable
     xRange.traverse([&](double const xValue)
     {
-        result.emplace_back(xValue, calculateYFromX(xValue, signOfY));    });
+        result.emplace_back(xValue, calculateYFromX(xValue, signOfY));
+    });
     return result;
 }
 

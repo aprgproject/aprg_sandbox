@@ -2,6 +2,7 @@
 #include <Common/PathHandler/AlbaLocalPathHandler.hpp>
 
 #include <gtest/gtest.h>
+
 #include <iostream>
 
 using namespace std;

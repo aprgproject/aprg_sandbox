@@ -15,7 +15,8 @@ static_assert(false, "WINDOWS and LINUX are the only supported OS yet.");
 #include <Common/PathHandler/PathContantsAndTypes.hpp>
 
 #include <functional>
-#include <set>#include <string>
+#include <set>
+#include <string>
 
 namespace alba
 {

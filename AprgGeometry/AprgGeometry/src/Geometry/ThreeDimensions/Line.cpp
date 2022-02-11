@@ -5,6 +5,7 @@
 
 #include <algorithm>
 #include <cmath>
+
 using namespace alba::mathHelper;
 using namespace std;
 

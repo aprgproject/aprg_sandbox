@@ -5,6 +5,7 @@
 #include <Geometry/TwoDimensions/TwoDimensionsHelper.hpp>
 
 #include <cmath>
+
 using namespace alba::mathHelper;
 using namespace alba::TwoDimensions::twoDimensionsHelper;
 using namespace std;
@@ -306,7 +307,8 @@ Points Ellipse::getPointsInTraversingY(double const signOfX, double const signOf
     AlbaValueRange<double> yRange(m_center.getY(), m_center.getY()+(m_bValue*signOfY), interval);
     yRange.traverse([&](double const yValue)
     {
-        result.emplace_back(calculateXFromY(yValue, signOfX), yValue);    });
+        result.emplace_back(calculateXFromY(yValue, signOfX), yValue);
+    });
     return result;
 }
 
@@ -316,7 +318,8 @@ Points Ellipse::getPointsInTraversingX(double const signOfX, double const signOf
     AlbaValueRange<double> xRange(m_center.getX(), m_center.getX()+(m_aValue*signOfX), interval);
     xRange.traverse([&](double const xValue)
     {
-        result.emplace_back(xValue, calculateYFromX(xValue, signOfY));    });
+        result.emplace_back(xValue, calculateYFromX(xValue, signOfY));
+    });
     return result;
 }
 

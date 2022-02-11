@@ -5,7 +5,8 @@
 #include <Geometry/TwoDimensions/TwoDimensionsHelper.hpp>
 
 #include <algorithm>
-#include <cmath>#include <iterator>
+#include <cmath>
+#include <iterator>
 
 using namespace alba::mathHelper;
 using namespace alba::TwoDimensions::twoDimensionsHelper;
@@ -212,7 +213,8 @@ void Line::getPointsForVerticalLine(Points & points, Point const& first, Point c
     AlbaValueRange<double> range(first.getY(), second.getY(), interval);
     double xIntercept(getXIntercept());
     range.traverse([&](double const traverseValue)
-    {        points.emplace_back(xIntercept, traverseValue);
+    {
+        points.emplace_back(xIntercept, traverseValue);
     });
 }
 
@@ -221,7 +223,8 @@ void Line::getPointsForHorizontalLine(Points & points, Point const& first, Point
     AlbaValueRange<double> range(first.getX(), second.getX(), interval);
     double yIntercept(getYIntercept());
     range.traverse([&](double const traverseValue)
-    {        points.emplace_back(traverseValue, yIntercept);
+    {
+        points.emplace_back(traverseValue, yIntercept);
     });
 }
 
@@ -255,7 +258,8 @@ void Line::getPointsForLineWithSlope(Points & points, Point const& first, Point 
         AlbaValueRange<double> rangeForY(startingPoint.getY(), endPoint.getY(), interval);
         rangeForY.traverse([&](double const traverseValueOfY)
         {
-            pointsFromYCoordinate.emplace_back(calculateXFromY(traverseValueOfY), traverseValueOfY);        });
+            pointsFromYCoordinate.emplace_back(calculateXFromY(traverseValueOfY), traverseValueOfY);
+        });
 
         if(isDirectionAscendingForX)
         {

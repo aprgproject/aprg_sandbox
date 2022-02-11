@@ -4,7 +4,8 @@
 #include <Geometry/TwoDimensions/TwoDimensionsHelper.hpp>
 
 using namespace alba::mathHelper;
-using namespace alba::TwoDimensions::twoDimensionsHelper;using namespace std;
+using namespace alba::TwoDimensions::twoDimensionsHelper;
+using namespace std;
 
 namespace alba
 {
@@ -40,7 +41,8 @@ void Quadrilateral::traverseArea(
         AlbaValueRange<double> rangeForX(startEndOfXAndY.xStart, startEndOfXAndY.xEnd, interval);
         rangeForX.traverse([&](double const x)
         {
-            traverseOperation(Point(x, startEndOfXAndY.y));        });
+            traverseOperation(Point(x, startEndOfXAndY.y));
+        });
     }
 }
 
@@ -153,7 +155,8 @@ Quadrilateral::ListOfStartEndOfXAndY Quadrilateral::getStartEndForXsFor2Points(
         AlbaValueRange<double> rangeForY(point1.getY(), point21.getY(), interval);
         rangeForY.traverse([&](double const y)
         {
-            result.emplace_back(line1To21.calculateXFromY(y), line1To23.calculateXFromY(y), y);        });
+            result.emplace_back(line1To21.calculateXFromY(y), line1To23.calculateXFromY(y), y);
+        });
     }
     else if(points1Size==2 && points2Size==2)
     {
@@ -166,7 +169,8 @@ Quadrilateral::ListOfStartEndOfXAndY Quadrilateral::getStartEndForXsFor2Points(
         AlbaValueRange<double> rangeForY(point11.getY(), point21.getY(), interval);
         rangeForY.traverse([&](double const y)
         {
-            result.emplace_back(line11To21.calculateXFromY(y), line12To22.calculateXFromY(y), y);        });
+            result.emplace_back(line11To21.calculateXFromY(y), line12To22.calculateXFromY(y), y);
+        });
     }
     else if(points1Size==3 && points2Size==1)
     {
@@ -178,7 +182,8 @@ Quadrilateral::ListOfStartEndOfXAndY Quadrilateral::getStartEndForXsFor2Points(
         AlbaValueRange<double> rangeForY(point11.getY(), point2.getY(), interval);
         rangeForY.traverse([&](double const y)
         {
-            result.emplace_back(line11To2.calculateXFromY(y), line13To2.calculateXFromY(y), y);        });
+            result.emplace_back(line11To2.calculateXFromY(y), line13To2.calculateXFromY(y), y);
+        });
     }
     return result;
 }
@@ -212,7 +217,8 @@ Quadrilateral::ListOfStartEndOfXAndY Quadrilateral::getStartEndForXsFor3Points(
             rangeForY=AlbaValueRange<double>(point2.getY()+interval, point31.getY(), interval);
             rangeForY.traverse([&](double const y)
             {
-                result.emplace_back(line1To31.calculateXFromY(y), line2To32.calculateXFromY(y), y);            });
+                result.emplace_back(line1To31.calculateXFromY(y), line2To32.calculateXFromY(y), y);
+            });
         }
         else
         {
@@ -227,7 +233,8 @@ Quadrilateral::ListOfStartEndOfXAndY Quadrilateral::getStartEndForXsFor3Points(
             rangeForY=AlbaValueRange<double>(point2.getY()+interval, point31.getY(), interval);
             rangeForY.traverse([&](double const y)
             {
-                result.emplace_back(line2To31.calculateXFromY(y), line1To32.calculateXFromY(y), y);            });
+                result.emplace_back(line2To31.calculateXFromY(y), line1To32.calculateXFromY(y), y);
+            });
         }
     }
     else if(points1Size==1 && points2Size==2 && points3Size==1)
@@ -248,7 +255,8 @@ Quadrilateral::ListOfStartEndOfXAndY Quadrilateral::getStartEndForXsFor3Points(
         rangeForY=AlbaValueRange<double>(point21.getY()+interval, point3.getY(), interval);
         rangeForY.traverse([&](double const y)
         {
-            result.emplace_back(line21To3.calculateXFromY(y), line22To3.calculateXFromY(y), y);        });
+            result.emplace_back(line21To3.calculateXFromY(y), line22To3.calculateXFromY(y), y);
+        });
     }
     else if(points1Size==2 && points2Size==1 && points3Size==1)
     {
@@ -269,7 +277,8 @@ Quadrilateral::ListOfStartEndOfXAndY Quadrilateral::getStartEndForXsFor3Points(
             rangeForY=AlbaValueRange<double>(point2.getY()+interval, point3.getY(), interval);
             rangeForY.traverse([&](double const y)
             {
-                result.emplace_back(line2To3.calculateXFromY(y), line12To3.calculateXFromY(y), y);            });
+                result.emplace_back(line2To3.calculateXFromY(y), line12To3.calculateXFromY(y), y);
+            });
         }
         else
         {
@@ -284,7 +293,8 @@ Quadrilateral::ListOfStartEndOfXAndY Quadrilateral::getStartEndForXsFor3Points(
             rangeForY=AlbaValueRange<double>(point2.getY()+interval, point3.getY(), interval);
             rangeForY.traverse([&](double const y)
             {
-                result.emplace_back(line11To3.calculateXFromY(y), line2To3.calculateXFromY(y), y);            });
+                result.emplace_back(line11To3.calculateXFromY(y), line2To3.calculateXFromY(y), y);
+            });
         }
     }
     return result;
@@ -323,7 +333,8 @@ Quadrilateral::ListOfStartEndOfXAndY Quadrilateral::getStartEndForXsFor4Points(
             rangeForY=AlbaValueRange<double>(point3.getY()+interval, point4.getY(), interval);
             rangeForY.traverse([&](double const y)
             {
-                result.emplace_back(line2To4.calculateXFromY(y), line3To4.calculateXFromY(y), y);            });
+                result.emplace_back(line2To4.calculateXFromY(y), line3To4.calculateXFromY(y), y);
+            });
         }
         else
         {
@@ -340,7 +351,8 @@ Quadrilateral::ListOfStartEndOfXAndY Quadrilateral::getStartEndForXsFor4Points(
             rangeForY=AlbaValueRange<double>(point3.getY()+interval, point4.getY(), interval);
             rangeForY.traverse([&](double const y)
             {
-                result.emplace_back(line3To4.calculateXFromY(y), line2To4.calculateXFromY(y), y);            });
+                result.emplace_back(line3To4.calculateXFromY(y), line2To4.calculateXFromY(y), y);
+            });
         }
     }
     return result;

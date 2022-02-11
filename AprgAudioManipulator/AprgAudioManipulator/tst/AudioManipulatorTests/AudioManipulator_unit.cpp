@@ -1,6 +1,7 @@
 #include <AudioManipulator/AudioManipulator.hpp>
 
 #include <gtest/gtest.h>
+
 using namespace std;
 
 #define SAMPLE_AUDIO_FILES_DIRECTORY APRG_DIR R"(\AprgAudioManipulator\SampleAudioFiles\)"

@@ -12,7 +12,8 @@ namespace alba
 enum class AlbaValueRangeType
 {
     Unknown,
-    Once,    Forward,
+    Once,
+    Forward,
     Backward
 };
 
@@ -31,10 +32,12 @@ public:
     AlbaValueRange(DataType const startValue, DataType const endValue, DataType const intervalMagnitude)
         : m_startValue(startValue)
         , m_endValue(endValue)
-        , m_intervalMagnitude(mathHelper::getAbsoluteValue(intervalMagnitude))    {}
+        , m_intervalMagnitude(mathHelper::getAbsoluteValue(intervalMagnitude))
+    {}
 
     bool isEmpty() const
-    {        return m_startValue==0 && m_endValue==0 && m_intervalMagnitude==0;
+    {
+        return m_startValue==0 && m_endValue==0 && m_intervalMagnitude==0;
     }
 
     bool isValueInsideInclusive(DataType const value) const
@@ -71,9 +74,11 @@ public:
     {
         return getRangeTypeFromStartAndEnd(m_startValue, m_endValue);
     }
+
     DataType getInterval() const
     {
-        return getIntervalWithSign(m_intervalMagnitude, getRangeType());    }
+        return getIntervalWithSign(m_intervalMagnitude, getRangeType());
+    }
 
     DataType getIntervalMagnitude() const
     {
@@ -132,10 +137,12 @@ public:
             if(AlbaValueRangeType::Once == getRangeType())
             {
                 traverseOperation(m_startValue);
-            }            else
+            }
+            else
             {
                 TerminationCondition terminationCondition(getTerminationCondition());
-                DataType interval(getInterval());                DataType traverseValue = m_startValue;
+                DataType interval(getInterval());
+                DataType traverseValue = m_startValue;
                 for(; terminationCondition(traverseValue, m_endValue); traverseValue+=interval)
                 {
                     traverseOperation(traverseValue);
@@ -168,10 +175,12 @@ private:
         case AlbaValueRangeType::Backward:
             terminationCondition = std::greater_equal<DataType>();
             break;
-        default:            terminationCondition = [](DataType,DataType)->bool
+        default:
+            terminationCondition = [](DataType,DataType)->bool
             {
                 return false;
-            };            break;
+            };
+            break;
         }
         return terminationCondition;
     }
@@ -188,7 +197,8 @@ private:
         case AlbaValueRangeType::Backward:
             intervalWithSign = intervalMagnitude*-1;
             break;
-        default:            break;
+        default:
+            break;
         }
         return intervalWithSign;
     }
@@ -210,8 +220,10 @@ private:
         }
         return rangeType;
     }
+
     DataType m_startValue;
     DataType m_endValue;
-    DataType m_intervalMagnitude;};
+    DataType m_intervalMagnitude;
+};
 
 }

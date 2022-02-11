@@ -4,6 +4,7 @@
 
 namespace alba
 {
+
 namespace TwoDimensions
 {
 
@@ -26,7 +27,8 @@ public:
         AlbaValueRange<double> range(startValueOfY, endValueOfY, interval);
         range.traverse([&](double const traverseValueOfY)
         {
-            points.emplace_back(calculateXfromY(traverseValueOfY), traverseValueOfY);        });
+            points.emplace_back(calculateXfromY(traverseValueOfY), traverseValueOfY);
+        });
         return points;
     }
 

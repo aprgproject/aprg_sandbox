@@ -1,6 +1,7 @@
 #include <Geometry/ThreeDimensions/Point.hpp>
 
 #include <gtest/gtest.h>
+
 using namespace alba::ThreeDimensions;
 using namespace std;
 

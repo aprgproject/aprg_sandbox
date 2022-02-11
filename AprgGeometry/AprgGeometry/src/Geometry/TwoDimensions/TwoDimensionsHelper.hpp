@@ -16,6 +16,7 @@
 #include <Geometry/TwoDimensions/Triangle.hpp>
 
 #include <functional>
+
 namespace alba
 {
 

@@ -1,6 +1,7 @@
 #include <Geometry/TwoDimensions/Line.hpp>
 
 #include <gtest/gtest.h>
+
 #include <cmath>
 
 using namespace std;

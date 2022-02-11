@@ -5,8 +5,10 @@
 
 #include <cstdint>
 #include <string>
+
 namespace alba
 {
+
 namespace AprgBitmap
 {
 

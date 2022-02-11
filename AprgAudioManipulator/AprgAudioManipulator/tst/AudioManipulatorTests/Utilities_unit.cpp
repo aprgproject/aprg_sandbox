@@ -4,6 +4,7 @@
 #include <Common/Math/AlbaMathHelper.hpp>
 
 #include <gtest/gtest.h>
+
 using namespace alba::mathHelper;
 using namespace std;
 
@@ -18,7 +19,8 @@ namespace AprgAudio
 TEST(UtilitiesTest, RetrieveDeltasWorks)
 {
     AlbaLocalPathHandler audioDirectoryPathHandler(SAMPLE_AUDIO_FILES_DIRECTORY);
-    AlbaLocalPathHandler audioFilePathHandler(audioDirectoryPathHandler.getDirectory()+"AChannel_AOpeningSong_001.wav");    AudioManipulator audioManipulator(audioFilePathHandler.getFullPath());
+    AlbaLocalPathHandler audioFilePathHandler(audioDirectoryPathHandler.getDirectory()+"AChannel_AOpeningSong_001.wav");
+    AudioManipulator audioManipulator(audioFilePathHandler.getFullPath());
 
     AudioInDouble const& audio(audioManipulator.getAudio());
     Samples deltaSamplesInChannel0;
@@ -93,7 +95,8 @@ TEST(UtilitiesTest, DISABLED_SearchAndTryToReplicateWorks)
 TEST(UtilitiesTest, DISABLED_SearchAndTryToReplicateTwoFilesWorks)
 {
     AlbaLocalPathHandler audioDirectoryPathHandler(SAMPLE_AUDIO_FILES_DIRECTORY);
-    AlbaLocalPathHandler audioToReplicateFilePathHandler(audioDirectoryPathHandler.getDirectory()+"John Mayer-Neon.wav");    AlbaLocalPathHandler audioToSearch1FilePathHandler(audioDirectoryPathHandler.getDirectory()+"AChannel_AOpeningSong_001.wav");
+    AlbaLocalPathHandler audioToReplicateFilePathHandler(audioDirectoryPathHandler.getDirectory()+"John Mayer-Neon.wav");
+    AlbaLocalPathHandler audioToSearch1FilePathHandler(audioDirectoryPathHandler.getDirectory()+"AChannel_AOpeningSong_001.wav");
     AlbaLocalPathHandler audioToSearch2FilePathHandler(audioDirectoryPathHandler.getDirectory()+"FullMetalAlchemistBrotherhood_AOpeningSong_003.wav");
     AlbaLocalPathHandler audioToChangeFilePathHandler(audioDirectoryPathHandler.getDirectory()+"output.wav");
 

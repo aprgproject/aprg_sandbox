@@ -7,9 +7,11 @@
 
 #include <iostream>
 #include <sstream>
+
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 namespace AprgBitmap
 {

@@ -3,6 +3,7 @@
 #include <Geometry/TwoDimensions/TwoDimensionsHelper.hpp>
 
 #include <gtest/gtest.h>
+
 #include <cmath>
 
 using namespace alba::TwoDimensions::twoDimensionsHelper;

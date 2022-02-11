@@ -4,7 +4,8 @@
 #include <Geometry/TwoDimensions/Rectangle.hpp>
 
 #include <algorithm>
-#include <cmath>#include <stack>
+#include <cmath>
+#include <stack>
 
 using namespace alba::mathHelper;
 using namespace std;

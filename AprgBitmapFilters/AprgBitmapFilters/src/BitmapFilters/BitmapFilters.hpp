@@ -3,7 +3,8 @@
 #include <Algorithm/UnionFind/UnionFindUsingMap.hpp>
 #include <Bitmap/Bitmap.hpp>
 #include <Bitmap/BitmapSnippet.hpp>
-#include <BitmapFilters/AnimizeColor.hpp>#include <BitmapFilters/LabelForPoints.hpp>
+#include <BitmapFilters/AnimizeColor.hpp>
+#include <BitmapFilters/LabelForPoints.hpp>
 #include <BitmapFilters/PenCircles.hpp>
 #include <BitmapFilters/PenPoints.hpp>
 #include <BitmapTraversal/BitmapSnippetTraversal.hpp>
@@ -12,8 +13,10 @@
 
 #include <deque>
 #include <functional>
+
 namespace alba
 {
+
 namespace AprgBitmap
 {
 
@@ -24,9 +27,11 @@ public:
     using UnionFindForLabels = algorithm::UnionFindUsingMap<unsigned int>;
     using PointToColorMap = std::map<BitmapXY, uint32_t>;
     using PointAndColorPair = std::pair<BitmapXY, uint32_t>;
-    using PenPointToPenCircleMap = std::map<BitmapXY, TwoDimensions::Circle>;    using PenPointAndPenCirclePair = std::pair<BitmapXY, TwoDimensions::Circle>;
+    using PenPointToPenCircleMap = std::map<BitmapXY, TwoDimensions::Circle>;
+    using PenPointAndPenCirclePair = std::pair<BitmapXY, TwoDimensions::Circle>;
 
     BitmapFilters(std::string const& path);
+
     bool isBackgroundColor(uint32_t const color) const;
     bool isNotBackgroundColor(uint32_t const color) const;
 

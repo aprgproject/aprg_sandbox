@@ -5,6 +5,7 @@
 
 namespace alba
 {
+
 namespace OneDimensionsStatistics
 {
     using Sample = DataSample<1>;

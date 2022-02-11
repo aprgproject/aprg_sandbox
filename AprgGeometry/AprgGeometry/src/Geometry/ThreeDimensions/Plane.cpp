@@ -5,6 +5,7 @@
 #include <Geometry/ThreeDimensions/ThreeDimensionsHelper.hpp>
 
 #include <cmath>
+
 using namespace alba::mathHelper;
 using namespace alba::ThreeDimensions::threeDimensionsHelper;
 using namespace std;

@@ -4,7 +4,8 @@
 #include <Common/PathHandler/PathContantsAndTypes.hpp>
 #include <Common/Time/AlbaDateTime.hpp>
 
-#include <functional>#include <string>
+#include <functional>
+#include <string>
 
 namespace alba
 {

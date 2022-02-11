@@ -3,6 +3,7 @@
 #include <Common/PathHandler/AlbaLocalPathHandler.hpp>
 
 #include <gtest/gtest.h>
+
 using namespace alba::AprgBitmap;
 using namespace std;
 

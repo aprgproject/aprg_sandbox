@@ -3,6 +3,7 @@
 #include <AudioManipulator/CommonTypes.hpp>
 
 #include <map>
+
 namespace alba
 {
 

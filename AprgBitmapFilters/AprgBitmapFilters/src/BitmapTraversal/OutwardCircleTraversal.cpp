@@ -3,9 +3,11 @@
 #include <Common/Math/AlbaMathHelper.hpp>
 
 using namespace std;
+
 using namespace alba::mathHelper;
 
-namespace alba{
+namespace alba
+{
 
 namespace AprgBitmap
 {

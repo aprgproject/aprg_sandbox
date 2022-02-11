@@ -1,6 +1,7 @@
 #include <Geometry/TwoDimensions/Polynomial.hpp>
 
 #include <gtest/gtest.h>
+
 using namespace std;
 
 namespace alba

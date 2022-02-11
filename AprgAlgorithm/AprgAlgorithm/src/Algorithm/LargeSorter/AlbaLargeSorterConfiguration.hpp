@@ -4,8 +4,10 @@
 #include <Common/PathHandler/AlbaLocalPathHandler.hpp>
 
 #include <string>
+
 namespace alba
 {
+
 namespace algorithm
 {
 

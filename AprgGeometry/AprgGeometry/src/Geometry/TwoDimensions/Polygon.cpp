@@ -1,6 +1,7 @@
 #include <Geometry/TwoDimensions/TwoDimensionsHelper.hpp>
 
 #include <algorithm>
+
 using namespace alba::mathHelper;
 using namespace alba::TwoDimensions::twoDimensionsHelper;
 using namespace std;

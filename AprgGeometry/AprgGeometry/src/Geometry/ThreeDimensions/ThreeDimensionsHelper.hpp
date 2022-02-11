@@ -7,6 +7,7 @@
 #include <Geometry/ThreeDimensions/Point.hpp>
 
 #include <functional>
+
 namespace alba
 {
 

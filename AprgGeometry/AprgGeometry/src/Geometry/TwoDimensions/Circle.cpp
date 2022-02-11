@@ -5,6 +5,7 @@
 #include <Geometry/TwoDimensions/TwoDimensionsHelper.hpp>
 
 #include <cmath>
+
 using namespace alba::mathHelper;
 using namespace alba::TwoDimensions::twoDimensionsHelper;
 using namespace std;
@@ -250,7 +251,8 @@ Points Circle::getPointsInTraversingY(double const signOfX, double const signOfY
     AlbaValueRange<double> yRange(m_center.getY(), m_center.getY()+(m_radius*signOfY), interval);
     yRange.traverse([&](double const yValue)
     {
-        AlbaOptional<double> xCoordinate = calculateXFromY(yValue, signOfX);        if(xCoordinate.hasContent())
+        AlbaOptional<double> xCoordinate = calculateXFromY(yValue, signOfX);
+        if(xCoordinate.hasContent())
         {
             result.emplace_back(xCoordinate.getConstReference(), yValue);
         }
@@ -264,7 +266,8 @@ Points Circle::getPointsInTraversingX(double const signOfX, double const signOfY
     AlbaValueRange<double> xRange(m_center.getX(), m_center.getX()+(m_radius*signOfX), interval);
     xRange.traverse([&](double const xValue)
     {
-        AlbaOptional<double> yCoordinate = calculateYFromX(xValue, signOfY);        if(yCoordinate.hasContent())
+        AlbaOptional<double> yCoordinate = calculateYFromX(xValue, signOfY);
+        if(yCoordinate.hasContent())
         {
             result.emplace_back(xValue, yCoordinate.getConstReference());
         }

@@ -1,6 +1,7 @@
 #include <Statistics/OneDimensionsStatistics.hpp>
 
 #include <algorithm>
+
 namespace alba
 {
 

@@ -1,6 +1,7 @@
 #include <Geometry/ThreeDimensions/ThreeDimensionsHelper.hpp>
 
 #include <gtest/gtest.h>
+
 #include <cmath>
 
 using namespace alba::ThreeDimensions::threeDimensionsHelper;
