@@ -4,17 +4,16 @@
 #include <Algebra/Term/TermTypes/Term.hpp>
 #include <Bitmap/Bitmap.hpp>
 #include <Bitmap/BitmapSnippet.hpp>
-#include <Container/AlbaRange.hpp>
-#include <String/AlbaStringHelper.hpp>
-#include <TwoDimensions/Circle.hpp>
-#include <TwoDimensions/Ellipse.hpp>
-#include <TwoDimensions/Hyperbola.hpp>
-#include <TwoDimensions/Line.hpp>
-#include <TwoDimensions/Point.hpp>
+#include <Common/Container/AlbaValueRange.hpp>
+#include <Common/String/AlbaStringHelper.hpp>
+#include <Geometry/TwoDimensions/Circle.hpp>
+#include <Geometry/TwoDimensions/Ellipse.hpp>
+#include <Geometry/TwoDimensions/Hyperbola.hpp>
+#include <Geometry/TwoDimensions/Line.hpp>
+#include <Geometry/TwoDimensions/Point.hpp>
 
 #include <functional>
 #include <string>
-
 namespace alba
 {
 
@@ -27,11 +26,10 @@ public:
         HorizontalLabel,
         OriginLabel
     };
-    using RangeWithDoubles=AlbaRange<double>;
+    using RangeWithDoubles=AlbaValueRange<double>;
     using FunctionWithDoubles = std::function<double(double)>;
 
     AprgGraph(std::string const& bitmapPath, AprgBitmap::BitmapXY const& originInBitmap, AprgBitmap::BitmapDoubleXY const& magnification);
-
     void drawPoint(TwoDimensions::Point const& point, unsigned int const color);
     void drawDiscontinuousPoints(TwoDimensions::Points const& points, unsigned int const color);
     void drawContinuousPoints(TwoDimensions::Points const& points, unsigned int const color);

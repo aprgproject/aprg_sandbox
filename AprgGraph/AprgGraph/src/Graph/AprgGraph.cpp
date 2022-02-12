@@ -5,12 +5,11 @@
 #include <Algebra/Term/Utilities/ConvertHelpers.hpp>
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
 #include <Algebra/Term/Utilities/PolynomialHelpers.hpp>
-#include <PathHandlers/AlbaLocalPathHandler.hpp>
-#include <TwoDimensions/TwoDimensionsHelper.hpp>
+#include <Common/PathHandler/AlbaLocalPathHandler.hpp>
+#include <Geometry/TwoDimensions/TwoDimensionsHelper.hpp>
 
 #include <algorithm>
 #include <cmath>
-
 using namespace std;
 
 using namespace alba::algebra;
