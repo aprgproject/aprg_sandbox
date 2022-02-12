@@ -6,7 +6,8 @@
 #include <GrepStringEvaluator/AlbaGrepStringOperatorType.hpp>#include <GrepStringEvaluator/AlbaGrepStringToken.hpp>
 
 #include <functional>
-#include <stack>#include <string>
+#include <stack>
+#include <string>
 #include <vector>
 
 namespace alba
@@ -24,6 +25,7 @@ public:
     AlbaGrepStringEvaluator(std::string const& condition);    bool evaluate(std::string const& stringToEvaluate);
     bool isInvalid() const;
     std::string getErrorMessage() const;
+
 private:
     void extractTokens(std::string const& condition);
     void extractTokensWhileOnString(bool& isOnString, std::string & stringToBuild, char const& currentCharacter);

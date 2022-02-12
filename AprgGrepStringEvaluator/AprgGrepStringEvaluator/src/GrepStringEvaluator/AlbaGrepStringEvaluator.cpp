@@ -5,7 +5,8 @@
 #include <algorithm>
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 AlbaGrepStringEvaluator::AlbaGrepStringEvaluator(string const& condition)
     : m_isEvaluatorInvalid(false)
