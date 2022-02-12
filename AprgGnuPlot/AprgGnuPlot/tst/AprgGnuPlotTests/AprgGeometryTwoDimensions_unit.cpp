@@ -1,11 +1,10 @@
-#include <AprgGnuPlot2D.hpp>
-#include <TwoDimensions/Circle.hpp>
-#include <TwoDimensions/Hyperbola.hpp>
-#include <TwoDimensions/Line.hpp>
-#include <TwoDimensions/TwoDimensionsHelper.hpp>
+#include <AprgGnuPlot/AprgGnuPlot2D.hpp>
+#include <Geometry/TwoDimensions/Circle.hpp>
+#include <Geometry/TwoDimensions/Hyperbola.hpp>
+#include <Geometry/TwoDimensions/Line.hpp>
+#include <Geometry/TwoDimensions/TwoDimensionsHelper.hpp>
 
 #include <gtest/gtest.h>
-
 using namespace alba::TwoDimensions;
 using namespace alba::TwoDimensions::twoDimensionsHelper;
 using namespace std;

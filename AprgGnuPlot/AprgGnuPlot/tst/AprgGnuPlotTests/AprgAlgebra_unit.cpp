@@ -1,13 +1,12 @@
-#include <AprgGnuPlot3D.hpp>
 #include <Algebra/Functions/CommonFunctionLibrary.hpp>
 #include <Algebra/Geometry/ThreeDimensions/ThreeDimensionsUtilities.hpp>
 #include <Algebra/Substitution/SubstitutionOfVariablesToValues.hpp>
 #include <Algebra/Solution/Solver/OneEquationOneVariable/OneEquationOneVariableEqualitySolver.hpp>
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
 #include <Algebra/Utilities/KnownNames.hpp>
+#include <AprgGnuPlot/AprgGnuPlot3D.hpp>
 
 #include <gtest/gtest.h>
-
 using namespace alba::algebra;
 using namespace alba::algebra::Functions;
 using namespace alba::algebra::ThreeDimensions;

@@ -1,11 +1,10 @@
-#include <AprgGnuPlot3D.hpp>
-#include <ThreeDimensions/Line.hpp>
-#include <ThreeDimensions/Plane.hpp>
-#include <ThreeDimensions/Point.hpp>
-#include <ThreeDimensions/ThreeDimensionsHelper.hpp>
+#include <AprgGnuPlot/AprgGnuPlot3D.hpp>
+#include <Geometry/ThreeDimensions/Line.hpp>
+#include <Geometry/ThreeDimensions/Plane.hpp>
+#include <Geometry/ThreeDimensions/Point.hpp>
+#include <Geometry/ThreeDimensions/ThreeDimensionsHelper.hpp>
 
 #include <gtest/gtest.h>
-
 using namespace alba::ThreeDimensions;
 using namespace alba::ThreeDimensions::threeDimensionsHelper;
 using namespace std;

@@ -1,8 +1,7 @@
-#include <AprgGnuPlot2D.hpp>
+#include <AprgGnuPlot/AprgGnuPlot2D.hpp>
 
 using namespace alba::TwoDimensions;
 using namespace std;
-
 namespace alba
 {
 

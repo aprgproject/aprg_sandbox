@@ -1,10 +1,9 @@
 #pragma once
 
-#include <ThreeDimensions/Point.hpp>
+#include <Geometry/ThreeDimensions/Point.hpp>
 #include <gnuplot-iostream.h>
 
-namespace alba
-{
+namespace alba{
 
 class AprgGnuPlotBase
 {

@@ -1,7 +1,6 @@
-#include <AprgGnuPlotBase.hpp>
+#include <AprgGnuPlot/AprgGnuPlotBase.hpp>
 
 using namespace std;
-
 namespace alba
 {
 

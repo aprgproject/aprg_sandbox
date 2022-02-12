@@ -1,8 +1,7 @@
-#include <AprgGnuPlot3D.hpp>
+#include <AprgGnuPlot/AprgGnuPlot3D.hpp>
 
 using namespace alba::ThreeDimensions;
 using namespace std;
-
 namespace alba
 {
 
