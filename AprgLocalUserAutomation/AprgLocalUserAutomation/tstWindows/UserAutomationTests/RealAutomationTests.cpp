@@ -1,11 +1,10 @@
-#include <AlbaLocalUserAutomation.hpp>
-#include <PathHandlers/AlbaLocalPathHandler.hpp>
-#include <File/AlbaFileReader.hpp>
-#include <String/AlbaStringHelper.hpp>
+#include <Common/PathHandler/AlbaLocalPathHandler.hpp>
+#include <Common/File/AlbaFileReader.hpp>
+#include <Common/String/AlbaStringHelper.hpp>
+#include <UserAutomation/AlbaLocalUserAutomation.hpp>
 
 #include <gtest/gtest.h>
 #include <windows.h>
-
 #include <sstream>
 
 using namespace alba::stringHelper;
@@ -14,11 +13,10 @@ using namespace std;
 namespace alba
 {
 
-TEST(RealAutomationTest, TraverseTalonRoShops)//DISABLED_
+TEST(RealAutomationTest, DISABLED_TraverseTalonRoShops)//DISABLED_
 {
     AlbaWindowsUserAutomation userAutomation;
-    //AlbaLocalPathHandler itemDatabaseFolder(R"(C:\Users\detectivemark7\Desktop\RO\TalonRO\BuyingShops\)");
-    AlbaLocalPathHandler itemDatabaseFolder(R"(C:\Users\detectivemark7\Desktop\RO\TalonRO\SellingShops\)");
+    //AlbaLocalPathHandler itemDatabaseFolder(R"(C:\Users\detectivemark7\Desktop\RO\TalonRO\BuyingShops\)");    AlbaLocalPathHandler itemDatabaseFolder(R"(C:\Users\detectivemark7\Desktop\RO\TalonRO\SellingShops\)");
 
     userAutomation.doLeftClickAt(MousePosition(2368,52));
 
