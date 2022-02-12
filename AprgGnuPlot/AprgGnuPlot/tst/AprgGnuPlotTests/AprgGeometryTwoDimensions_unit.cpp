@@ -5,6 +5,7 @@
 #include <Geometry/TwoDimensions/TwoDimensionsHelper.hpp>
 
 #include <gtest/gtest.h>
+
 using namespace alba::TwoDimensions;
 using namespace alba::TwoDimensions::twoDimensionsHelper;
 using namespace std;
@@ -21,13 +22,13 @@ TEST(AprgGeometryTwoDimensionsTest, DISABLED_CircleAtOriginWithRadius)
     gnuPlot2D.setTitle("Circle graph", R"("font ",22")");
     gnuPlot2D.setXAxis("X", R"("font ",15")");
     gnuPlot2D.setYAxis("Y", R"("font ",15")");
-    gnuPlot2D.startGraph();
-    gnuPlot2D.graph(points, "CircleAtOriginWithRadius", "with lines linetype 2 linewidth 4");
-    gnuPlot2D.endGraph();
+    gnuPlot2D.doGraphs([&]()
+    {
+        gnuPlot2D.graph(points, "CircleAtOriginWithRadius", "with lines linetype 2 linewidth 4");
+    });
 }
 
-TEST(AprgGeometryTwoDimensionsTest, DISABLED_HyperbolaAtOriginWithRadius)
-{
+TEST(AprgGeometryTwoDimensionsTest, DISABLED_HyperbolaAtOriginWithRadius){
     Hyperbola hyperbola(Point(0, 0), 3, 2);
     Points points(hyperbola.getPointsForShape(0.1));
 
@@ -35,13 +36,13 @@ TEST(AprgGeometryTwoDimensionsTest, DISABLED_HyperbolaAtOriginWithRadius)
     gnuPlot2D.setTitle("Hyperbola graph", R"("font ",22")");
     gnuPlot2D.setXAxis("X", R"("font ",15")");
     gnuPlot2D.setYAxis("Y", R"("font ",15")");
-    gnuPlot2D.startGraph();
-    gnuPlot2D.graph(points, "HyperbolaAtOriginWithRadius", "with points pointsize 1 pointtype 1");
-    gnuPlot2D.endGraph();
+    gnuPlot2D.doGraphs([&]()
+    {
+        gnuPlot2D.graph(points, "HyperbolaAtOriginWithRadius", "with points pointsize 1 pointtype 1");
+    });
 }
 
-TEST(AprgGeometryTwoDimensionsTest, DISABLED_MultipleGraphs)
-{
+TEST(AprgGeometryTwoDimensionsTest, DISABLED_MultipleGraphs){
     Circle circle(Point(1,2), 3);
     Line expectedLine1(getTangentLineAt(circle, Point(1,5)));
     Line expectedLine2(getTangentLineAt(circle, Point(4,2)));
@@ -55,12 +56,13 @@ TEST(AprgGeometryTwoDimensionsTest, DISABLED_MultipleGraphs)
     gnuPlot2D.setTitle("Multiple graphs", R"("font ",22")");
     gnuPlot2D.setXAxis("X", R"("font ",15")");
     gnuPlot2D.setYAxis("Y", R"("font ",15")");
-    gnuPlot2D.startGraph();
-    gnuPlot2D.graph(pointsCircle, "Circle", "with lines linetype 1 linewidth 1");
-    gnuPlot2D.graph(pointsLine1, "Line1", "with lines linetype 2 linewidth 1");
-    gnuPlot2D.graph(pointsLine2, "Line2", "with lines linetype 2 linewidth 1");
-    gnuPlot2D.graph(pointsLine3, "Line3", "with lines linetype 2 linewidth 1");
-    gnuPlot2D.endGraph();
+    gnuPlot2D.doGraphs([&]()
+    {
+        gnuPlot2D.graph(pointsCircle, "Circle", "with lines linetype 1 linewidth 1");
+        gnuPlot2D.graph(pointsLine1, "Line1", "with lines linetype 2 linewidth 1");
+        gnuPlot2D.graph(pointsLine2, "Line2", "with lines linetype 2 linewidth 1");
+        gnuPlot2D.graph(pointsLine3, "Line3", "with lines linetype 2 linewidth 1");
+    });
 }
 
 }

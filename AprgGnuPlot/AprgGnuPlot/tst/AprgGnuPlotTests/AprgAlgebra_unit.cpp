@@ -7,6 +7,7 @@
 #include <AprgGnuPlot/AprgGnuPlot3D.hpp>
 
 #include <gtest/gtest.h>
+
 using namespace alba::algebra;
 using namespace alba::algebra::Functions;
 using namespace alba::algebra::ThreeDimensions;
@@ -48,13 +49,13 @@ TEST(AprgAlgebraTest, ThreeDimensionsGeometricEquationCanBeShown)
     gnuPlot3D.setXAxis("X", R"("font ",15")");
     gnuPlot3D.setYAxis("Y", R"("font ",15")");
     gnuPlot3D.setZAxis("Z", R"("font ",15")");
-    gnuPlot3D.startGraph();
-    gnuPlot3D.graph(pointsOfEquation, "equation", "with points palette pointsize 1 pointtype 1");
-    gnuPlot3D.endGraph();
+    gnuPlot3D.doGraphs([&]()
+    {
+        gnuPlot3D.graph(pointsOfEquation, "equation", "with points palette pointsize 1 pointtype 1");
+    });
 }
 
-TEST(AprgAlgebraTest, DISABLED_EquationCanBeShown)
-{
+TEST(AprgAlgebraTest, DISABLED_EquationCanBeShown){
     Term leftHandSize(Polynomial({Monomial(2, {{"x", 4}}), Monomial(1, {{"y", 2}}), Monomial(-1, {{"x", 2}}), Monomial(-2, {{"y", 1}})}));
     Term rightHandSize(z);
     Equation equation(leftHandSize, "=", rightHandSize);
@@ -80,12 +81,13 @@ TEST(AprgAlgebraTest, DISABLED_EquationCanBeShown)
     gnuPlot3D.setXAxis("X", R"("font ",15")");
     gnuPlot3D.setYAxis("Y", R"("font ",15")");
     gnuPlot3D.setZAxis("Z", R"("font ",15")");
-    gnuPlot3D.startGraph();
-    gnuPlot3D.graph(pointsOfEquation, "equation", "with points palette pointsize 1 pointtype 1");
-    gnuPlot3D.graph({AprgGnuPlot3D::getPoint(-0.5, 1, static_cast<double>(-9)/8)}, "point1", "with points palette pointsize 2 pointtype 2");
-    gnuPlot3D.graph({AprgGnuPlot3D::getPoint(0, 1, -1)}, "point3", "with points palette pointsize 2 pointtype 3");
-    gnuPlot3D.graph({AprgGnuPlot3D::getPoint(0.5, 1, static_cast<double>(-9)/8)}, "point4", "with points palette pointsize 2 pointtype 4");
-    gnuPlot3D.endGraph();
+    gnuPlot3D.doGraphs([&]()
+    {
+        gnuPlot3D.graph(pointsOfEquation, "equation", "with points palette pointsize 1 pointtype 1");
+        gnuPlot3D.graph({AprgGnuPlot3D::getPoint(-0.5, 1, static_cast<double>(-9)/8)}, "point1", "with points palette pointsize 2 pointtype 2");
+        gnuPlot3D.graph({AprgGnuPlot3D::getPoint(0, 1, -1)}, "point3", "with points palette pointsize 2 pointtype 3");
+        gnuPlot3D.graph({AprgGnuPlot3D::getPoint(0.5, 1, static_cast<double>(-9)/8)}, "point4", "with points palette pointsize 2 pointtype 4");
+    });
 }
 
 }

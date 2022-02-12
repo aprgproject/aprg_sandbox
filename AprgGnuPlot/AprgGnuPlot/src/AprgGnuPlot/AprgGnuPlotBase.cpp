@@ -1,6 +1,7 @@
 #include <AprgGnuPlot/AprgGnuPlotBase.hpp>
 
 using namespace std;
+
 namespace alba
 {
 
@@ -27,9 +28,15 @@ void AprgGnuPlotBase::setZAxis(string const& zAxisName, string const& configurat
     m_gnuPlot << R"(set ztics font ",15")" << endl;
 }
 
+void AprgGnuPlotBase::doGraphs(GraphingSteps const& graphingSteps)
+{
+    startGraph();
+    graphingSteps();
+    endGraph();
+}
+
 void AprgGnuPlotBase::endGraph()
 {
-    m_gnuPlot << endl;
-}
+    m_gnuPlot << endl;}
 
 }
