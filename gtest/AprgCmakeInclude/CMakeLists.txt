@@ -1,14 +1,12 @@
 #This does not work improve on this later on
 
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 3.20)
 project(gtest)
 
-set(GTEST_DIR ${APRG_DIR}/gtest/gtest/)
-set(GOOGLE_MOCK_DIR ${GTEST_DIR}/googlemock)
+set(GTEST_DIR ${APRG_DIR}/gtest/gtest/)set(GOOGLE_MOCK_DIR ${GTEST_DIR}/googlemock)
 set(GOOGLE_TEST_DIR ${GTEST_DIR}/googletest)
 
-include_directories(
-    ${GOOGLE_TEST_DIR}/include
+include_directories(    ${GOOGLE_TEST_DIR}/include
     ${GOOGLE_MOCK_DIR}/include
     ${GOOGLE_TEST_DIR}/
     ${GOOGLE_MOCK_DIR}/

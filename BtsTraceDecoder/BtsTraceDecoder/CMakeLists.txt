@@ -1,11 +1,9 @@
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 3.20)
 project(BtsTraceDecoder C CXX)
 
 set(OUTFILE ${PROJECT_NAME})
-
 #Comment out TEST_MODE to build static executable
 set(TEST_MODE "ON")
-
 #Assign APRG Directory
 set(APRG_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../../)
 set(BTS_TRACE_DECODER_DIR ${CMAKE_CURRENT_SOURCE_DIR})

@@ -1,12 +1,10 @@
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 3.20)
 project(AprgAlgorithm C CXX)
 
 set(OUTFILE ${PROJECT_NAME})
-
 #Assign APRG Directory
 set(APRG_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../../)
 set(APRG_ALGORITHM_DIR ${CMAKE_CURRENT_SOURCE_DIR})
-
 #Assign Flags
 include(${APRG_DIR}/AprgCMakeHelpers/CommonFlags.cmake)
 
