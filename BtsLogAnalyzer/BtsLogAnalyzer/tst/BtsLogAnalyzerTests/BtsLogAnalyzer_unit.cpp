@@ -1,10 +1,9 @@
 #include "gtest/gtest.h"
 
-#include <BtsLogAnalyzer.hpp>
-#include <String/AlbaStringHelper.hpp>
+#include <BtsLogAnalyzer/BtsLogAnalyzer.hpp>
+#include <Common/String/AlbaStringHelper.hpp>
 
 #include <iostream>
-
 using namespace std;
 
 namespace alba

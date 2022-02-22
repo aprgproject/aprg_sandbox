@@ -1,13 +1,12 @@
 #include "BtsLogAnalyzer.hpp"
 
-#include <BtsLogPrint.hpp>
-#include <File/AlbaFileReader.hpp>
-#include <PathHandlers/AlbaLocalPathHandler.hpp>
-#include <String/AlbaStringHelper.hpp>
+#include <Common/File/AlbaFileReader.hpp>
+#include <Common/PathHandler/AlbaLocalPathHandler.hpp>
+#include <Common/String/AlbaStringHelper.hpp>
+#include <WcdmaToolsBackend/BtsLogPrint.hpp>
 
 #include <iomanip>
-#include <iostream>
-#include <set>
+#include <iostream>#include <set>
 
 using namespace std;
 using namespace wcdmaToolsBackend;
