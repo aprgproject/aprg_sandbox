@@ -1,21 +1,19 @@
 #include "StepHandler.hpp"
 
-#include <AprgFileExtractor.hpp>
-#include <BtsLogSorter.hpp>
-#include <CropFile/AlbaCropFile.hpp>
-#include <File/AlbaFileReader.hpp>
-#include <GrepFile/AlbaGrepFile.hpp>
+#include <Common/File/AlbaFileReader.hpp>
+#include <Common/PathHandler/AlbaLocalPathHandler.hpp>
+#include <Common/String/AlbaStringHelper.hpp>
+#include <FileExtractor/AprgFileExtractor.hpp>
 #include <GrepStringEvaluator/AlbaGrepStringEvaluator.hpp>
-#include <PathHandlers/AlbaLocalPathHandler.hpp>
-#include <String/AlbaStringHelper.hpp>
+#include <ProcessFiles/CropFile/AlbaCropFile.hpp>
+#include <ProcessFiles/GrepFile/AlbaGrepFile.hpp>
+#include <WcdmaToolsBackend/BtsLogSorter.hpp>
 
 #include <fstream>
-#include <iostream>
-#include <string>
+#include <iostream>#include <string>
 
 namespace alba
-{
-namespace ProgressCounters
+{namespace ProgressCounters
 {
 extern int grepProcessProgress;
 extern int cropProcessProgress;

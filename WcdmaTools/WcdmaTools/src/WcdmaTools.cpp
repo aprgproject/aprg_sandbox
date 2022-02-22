@@ -1,16 +1,14 @@
 #include "WcdmaTools.h"
 #include "ui_wcdmatools.h"
 
-#include <PathHandlers/AlbaLocalPathHandler.hpp>
-#include <String/AlbaStringHelper.hpp>
+#include <Common/PathHandler/AlbaLocalPathHandler.hpp>
+#include <Common/String/AlbaStringHelper.hpp>
 
 #include <QFileDialog>
-#include <QMessageBox>
-#include <QPixmap>
+#include <QMessageBox>#include <QPixmap>
 
 using namespace alba;
 using namespace std;
-
 namespace alba
 {
 

@@ -1,14 +1,12 @@
 #include "WcdmaTools.h"
 
+#include <Common/String/AlbaStringHelper.hpp>
 #include <ProgressCounters.hpp>
-#include <String/AlbaStringHelper.hpp>
 
 #include <QApplication>
-
 #include <iostream>
 
 using namespace std;
-
 int main(int argc, char *argv[])
 {
     cout<<"WcdmaTools created by APRG"<<endl;
