@@ -1,19 +1,19 @@
 #include "BtsLogSorter.hpp"
 
-#include <File/AlbaFileReader.hpp>
-#include <PathHandlers/AlbaLocalPathHandler.hpp>
-#include <String/AlbaStringHelper.hpp>
-#include <Time/AlbaDateTime.hpp>
-#include <Time/AlbaLocalTimeHelper.hpp>
+#include <Common/File/AlbaFileReader.hpp>
+#include <Common/PathHandler/AlbaLocalPathHandler.hpp>
+#include <Common/String/AlbaStringHelper.hpp>
+#include <Common/Time/AlbaDateTime.hpp>
+#include <Common/Time/AlbaLocalTimeHelper.hpp>
 
 #include <iostream>
 #include <map>
 
 using namespace alba;
+using namespace alba::algorithm;
 using namespace std;
 
-namespace alba
-{
+namespace alba{
 
 namespace ProgressCounters
 {

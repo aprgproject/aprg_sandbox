@@ -1,11 +1,10 @@
 #include "BtsLogPrint.hpp"
 
-#include <File/AlbaFileParameterReader.hpp>
-#include <File/AlbaFileParameterWriter.hpp>
-#include <String/AlbaStringHelper.hpp>
+#include <Common/File/AlbaFileParameterReader.hpp>
+#include <Common/File/AlbaFileParameterWriter.hpp>
+#include <Common/String/AlbaStringHelper.hpp>
 
 #include <iostream>
-
 using namespace alba;
 using namespace std;
 

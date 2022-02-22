@@ -1,7 +1,6 @@
-#include <BtsLogPrint.hpp>
+#include <WcdmaToolsBackend/BtsLogPrint.hpp>
 
 #include <gtest/gtest.h>
-
 #include <algorithm>
 #include <fstream>
 #include <vector>
@@ -326,11 +325,10 @@ TEST(BtsLogPrintTest, SortingTestWithAndWithoutPcTime2)
 
 TEST(BtsLogPrintTest, DISABLED_InputStreamWorks)
 {
-    ifstream inputFileStream(APRG_DIR R"(WcdmaTools\WcdmaToolsBackend\tst\ProblemFiles\BLOCK_701.txt)");
+    ifstream inputFileStream(APRG_DIR R"(WcdmaTools\WcdmaToolsBackend\tst\WcdmaToolsBackendTests\ProblemFiles\BLOCK_701.txt)");
     int count(0);
     while(inputFileStream.good())
-    {
-        BtsLogPrint logPrint;
+    {        BtsLogPrint logPrint;
         inputFileStream>>logPrint;
         count++;
     }
