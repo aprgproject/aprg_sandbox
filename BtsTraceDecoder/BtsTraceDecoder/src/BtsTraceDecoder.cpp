@@ -1,14 +1,12 @@
 #include "BtsTraceDecoder.hpp"
 
-#include <File/AlbaFileReader.hpp>
-#include <PathHandlers/AlbaLocalPathHandler.hpp>
-#include <String/AlbaStringHelper.hpp>
+#include <Common/File/AlbaFileReader.hpp>
+#include <Common/PathHandler/AlbaLocalPathHandler.hpp>
+#include <Common/String/AlbaStringHelper.hpp>
 
 #include <iostream>
-
 using namespace std;
 using namespace alba::stringHelper;
-
 namespace alba
 {
 
