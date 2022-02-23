@@ -1,12 +1,10 @@
 #include <AsilBasebandPooling.hpp>
-#include <User/DisplayTable.hpp>
+#include <Common/User/DisplayTable.hpp>
 
 #include <gtest/gtest.h>
-
 #include <iostream>
 
 using namespace std;
-
 namespace alba
 {
 
@@ -17,14 +15,12 @@ TEST(KeplerTest, KeplerWorksCorrectly)
 
     EXPECT_TRUE(kepler1.operator<(kepler2));
     EXPECT_FALSE(kepler2.operator<(kepler1));
-    EXPECT_EQ(0x1450, kepler1.getNid());
+    EXPECT_EQ(0x1450U, kepler1.getNid());
 }
 
-TEST(BasebandCardTest, BasebandCardWorksCorrectly)
-{
+TEST(BasebandCardTest, BasebandCardWorksCorrectly){
     BasebandCard basebandCard1(0x12, {0x1230, 0x1240});
     BasebandCard basebandCard2(0x14, {0x1430, 0x1440, 0x1450, 0x1460});
-
     EXPECT_TRUE(basebandCard1.operator<(basebandCard2));
     EXPECT_FALSE(basebandCard2.operator<(basebandCard1));
 
@@ -45,16 +41,14 @@ TEST(BasebandCardTest, LcgWorksCorrectly)
     EXPECT_TRUE(lcg1.operator<(lcg2));
     EXPECT_FALSE(lcg2.operator<(lcg1));
 
-    EXPECT_EQ(1, lcg1.getLcgId());
-    EXPECT_EQ(40, lcg1.getPercentageShare());
+    EXPECT_EQ(1U, lcg1.getLcgId());
+    EXPECT_EQ(40U, lcg1.getPercentageShare());
 }
 
-TEST(AsilBasebandPoolingTest, AreLcgAndBasebandCardsValidIsCorrect)
-{
+TEST(AsilBasebandPoolingTest, AreLcgAndBasebandCardsValidIsCorrect){
     EXPECT_FALSE(AsilBasebandPooling(
     {Lcg(1, 40), Lcg(2, 60)},
-    {BasebandCard(0x12, {0x1230, 0x1240})})
-                 .areLcgAndBasebandCardsValid());
+    {BasebandCard(0x12, {0x1230, 0x1240})})                 .areLcgAndBasebandCardsValid());
 
     EXPECT_TRUE(AsilBasebandPooling(
     {Lcg(1, 40), Lcg(2, 60)},
