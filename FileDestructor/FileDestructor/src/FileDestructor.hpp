@@ -1,14 +1,12 @@
 #pragma once
 
-#include <PathHandlers/AlbaLocalPathHandler.hpp>
+#include <Common/PathHandler/AlbaLocalPathHandler.hpp>
 
 namespace alba
 {
-
 class FileDestructor
 {
-public:
-    FileDestructor();
+public:    FileDestructor();
     void destroy() const;
     void destroy(std::string const& path) const;
     void renameDirectoriesUnderneath(std::string const& directoryPath) const;
