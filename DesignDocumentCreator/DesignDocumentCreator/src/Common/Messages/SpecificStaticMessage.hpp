@@ -1,16 +1,14 @@
 #pragma once
 
+#include <Common/Memory/AlbaMemoryBuffer.hpp>
 #include <Common/Messages/Message.hpp>
 #include <Common/Messages/MessageWrapper.hpp>
-#include <Memory/AlbaMemoryBuffer.hpp>
 
 namespace DesignDocumentCreator
 {
-
 template<MessageName messageName>
 class SpecificStaticMessage : public Message
-{
-public:
+{public:
     typedef MessageWrapper<messageName> SpecificStaticMessageWrapper;
     typedef typename SpecificStaticMessageWrapper::MessageStaticSackType SackType;
     SpecificStaticMessage()

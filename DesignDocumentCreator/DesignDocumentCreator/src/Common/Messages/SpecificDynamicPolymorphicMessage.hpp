@@ -1,16 +1,14 @@
 #pragma once
 
+#include <Common/Memory/AlbaMemoryBuffer.hpp>
 #include <Common/Messages/Message.hpp>
 #include <Common/Messages/MessageWrapper.hpp>
-#include <Memory/AlbaMemoryBuffer.hpp>
 
 namespace DesignDocumentCreator
 {
-
 template<MessageName messageName, typename DynamicPartSackType>
 class SpecificDynamicPolymorphicMessage : public Message
-{
-public:
+{public:
     typedef MessageWrapper<messageName> SpecificDynamicPolymorphicMessageWrapper;
     typedef typename SpecificDynamicPolymorphicMessageWrapper::MessageDynamicPolymorphicSackType SackType;
     typedef typename SpecificDynamicPolymorphicMessageWrapper::DynamicPlaceHolderSackType DynamicPlaceHolderSackType;

@@ -1,16 +1,14 @@
 #pragma once
 
+#include <Common/Memory/AlbaMemoryBuffer.hpp>
 #include <Common/Messages/Message.hpp>
 #include <Common/Messages/MessageName.hpp>
-#include <Memory/AlbaMemoryBuffer.hpp>
 
 namespace DesignDocumentCreator
 {
-
 class GenericMessage : public Message
 {
-public:
-    GenericMessage()
+public:    GenericMessage()
         : Message(MessageName::Empty)
     {}
     GenericMessage(MessageName const messageName, void* payloadBuffer, unsigned int const payloadSize)
