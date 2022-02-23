@@ -1,14 +1,12 @@
 #pragma once
 
+#include <Common/PathHandler/AlbaLocalPathHandler.hpp>
+#include <Common/PathHandler/AlbaWebPathHandler.hpp>
 #include <DownloadType.hpp>
-#include <PathHandlers/AlbaLocalPathHandler.hpp>
-#include <PathHandlers/AlbaWebPathHandler.hpp>
 
 #include <string>
-
 namespace curl
 {
-
 namespace CurlInterface
 {
 
