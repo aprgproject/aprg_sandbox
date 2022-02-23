@@ -1,13 +1,11 @@
 #include "HardwareConfiguration.hpp"
 
-#include <User/DisplayTable.hpp>
+#include <Common/User/DisplayTable.hpp>
 
 #include <cassert>
-#include <iostream>
-#include <sstream>
+#include <iostream>#include <sstream>
 
 using namespace std;
-
 namespace alba
 {
 
