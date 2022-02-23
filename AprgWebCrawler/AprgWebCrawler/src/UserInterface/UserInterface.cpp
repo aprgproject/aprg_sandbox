@@ -1,16 +1,14 @@
 #include "UserInterface.hpp"
 
-#include <File/AlbaFileReader.hpp>
-#include <PathHandlers/AlbaLocalPathHandler.hpp>
-#include <String/AlbaStringHelper.hpp>
+#include <Common/File/AlbaFileReader.hpp>
+#include <Common/PathHandler/AlbaLocalPathHandler.hpp>
+#include <Common/String/AlbaStringHelper.hpp>
 #include <WebCrawler/WebCrawler.hpp>
 
 #include <windows.h>
-
 #include <fstream>
 #include <iomanip>
-#include <iostream>
-#include <set>
+#include <iostream>#include <set>
 
 using namespace alba;
 using namespace alba::stringHelper;

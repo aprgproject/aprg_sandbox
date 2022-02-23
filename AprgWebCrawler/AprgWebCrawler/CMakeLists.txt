@@ -22,16 +22,17 @@ include(${APRG_DIR}/AprgCommon/AprgCmakeInclude/AprgCommon.cmake)
 #Include CurlCpp, this needs APRG Directory
 include(${APRG_DIR}/CurlCpp/AprgCmakeInclude/CurlCpp.cmake)
 
+#Include AprgLocalUserAutomation, this needs APRG Directory
+include(${APRG_DIR}/AprgLocalUserAutomation/AprgCmakeInclude/AprgLocalUserAutomation.cmake)
+
 #Add files and directories
 include(${APRG_WEB_CRAWLER_DIR}/cmake/FilesAndDirectories.cmake)
-
 set(INCLUDE_DIRECTORIES
     ${APRG_WEB_CRAWLER_INCLUDE_DIRECTORIES}
 )
-
 set(CMAKE_FIND_LIBRARY_SUFFIXES ".a")
 set(BUILD_SHARED_LIBRARIES OFF)
 set(CMAKE_EXE_LINKER_FLAGS "-static")
 add_executable(${OUTFILE} ${APRG_WEB_CRAWLER_SOURCES})
 include_directories(${APRG_WEB_CRAWLER_INCLUDE_DIRECTORIES} ${GTEST_INCLUDE_DIRS})
-target_link_libraries(${OUTFILE} ${CMAKE_THREAD_LIBS_INIT} CURL_CPP APRG_COMMON)
+target_link_libraries(${OUTFILE} ${CMAKE_THREAD_LIBS_INIT} APRG_LOCAL_USER_AUTOMATION CURL_CPP APRG_COMMON)
