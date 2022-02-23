@@ -2,9 +2,11 @@
 #include <Common/String/AlbaStringHelper.hpp>
 #include <WebCrawler/WebCrawler.hpp>
 
-#include <deque>#include <fstream>
+#include <deque>
+#include <fstream>
 #include <iostream>
 #include <unordered_set>
+
 using namespace alba;
 using namespace std;
 
@@ -14,9 +16,11 @@ using alba::stringHelper::isStringFoundInsideTheOtherStringCaseSensitive;
 /*
 namespace aprgWebCrawler
 {
+
 void WebCrawler::saveImageListFromGoogleImages()
 {
-    AlbaLocalPathHandler downloadPathHandler(m_downloadDirectoryPathHandler.getDirectory() + R"(\temp.html)");    AlbaLocalPathHandler listPathHandler(m_downloadDirectoryPathHandler.getDirectory() + R"(\ListOfImages.txt)");
+    AlbaLocalPathHandler downloadPathHandler(m_downloadDirectoryPathHandler.getDirectory() + R"(\temp.html)");
+    AlbaLocalPathHandler listPathHandler(m_downloadDirectoryPathHandler.getDirectory() + R"(\ListOfImages.txt)");
     ifstream htmlFileStream(downloadPathHandler.getFullPath());
     if(!htmlFileStream.is_open())
     {

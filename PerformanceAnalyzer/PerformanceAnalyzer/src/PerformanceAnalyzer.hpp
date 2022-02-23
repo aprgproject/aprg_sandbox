@@ -5,8 +5,10 @@
 #include <WcdmaToolsBackend/BtsLogTime.hpp>
 
 #include <string>
+
 namespace alba
 {
+
 class PerformanceAnalyzer
 {
 private:

@@ -10,6 +10,7 @@
 
 #include <algorithm>
 #include <cmath>
+
 using namespace std;
 
 using namespace alba::algebra;

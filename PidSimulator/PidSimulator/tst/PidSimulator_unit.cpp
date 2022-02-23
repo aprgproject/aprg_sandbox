@@ -9,7 +9,7 @@ namespace alba
 
 TEST(SampleTest, DISABLED_SampleTest1)
 {
-    PidSimulator entity;
+    PidSimulator({"This", "is", "just", "a", "test"});
 }
 
 }

@@ -13,7 +13,8 @@ using namespace alba;
 using namespace alba::algorithm;
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 namespace ProgressCounters
 {

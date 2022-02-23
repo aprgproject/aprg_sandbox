@@ -7,6 +7,7 @@
 
 namespace alba
 {
+
 class AprgGnuPlotBase
 {
 public:
@@ -22,4 +23,5 @@ protected:
     void endGraph();
     Gnuplot m_gnuPlot;
 };
+
 }

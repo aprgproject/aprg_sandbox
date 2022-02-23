@@ -11,8 +11,10 @@
 #include <Common/String/AlbaStringHelper.hpp>
 
 #include <windows.h>
+
 #include <fstream>
 #include <iostream>
+
 #define VK_CONTROL 0x11
 #define VK_MENU 0x12
 #define VK_RETURN 0x0D

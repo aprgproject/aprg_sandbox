@@ -5,10 +5,12 @@
 #include <Statistics/DataCollection.hpp>
 
 #include <map>
-#include <string>#include <vector>
+#include <string>
+#include <vector>
 
 namespace alba
 {
+
 enum class TopLogAnalyzerState
 {
     BeforeColumnHeaders,

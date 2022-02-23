@@ -1,6 +1,7 @@
 #include <ProcessFiles/CombineAndGrepFiles/AlbaCombineAndGrepFiles.hpp>
 
 #include <gtest/gtest.h>
+
 #include <string>
 
 namespace alba

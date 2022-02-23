@@ -3,7 +3,8 @@
 #include <ProcessFiles/SackReader/AlbaSackReaderParameter.hpp>
 
 #include <set>
-#include <string>#include <vector>
+#include <string>
+#include <vector>
 
 namespace alba
 {

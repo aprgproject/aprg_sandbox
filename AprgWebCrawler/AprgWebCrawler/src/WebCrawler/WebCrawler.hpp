@@ -4,9 +4,11 @@
 #include <Common/PathHandler/AlbaWebPathHandler.hpp>
 #include <WebCrawler/CrawlMode.hpp>
 #include <WebCrawler/CrawlState.hpp>
+
 #include <deque>
 #include <fstream>
 #include <string>
+
 namespace aprgWebCrawler
 {
 

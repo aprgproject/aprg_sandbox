@@ -4,6 +4,7 @@
 #include <ProcessFilesTests/DirectoryConstants.hpp>
 
 #include <gtest/gtest.h>
+
 #include <fstream>
 #include <string>
 

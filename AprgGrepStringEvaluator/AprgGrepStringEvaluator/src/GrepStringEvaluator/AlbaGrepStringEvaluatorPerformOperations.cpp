@@ -10,6 +10,7 @@ namespace algorithm
 
 namespace ExpressionEvaluator
 {
+
 template <>
 AlbaGrepStringEvaluatorTerm performUnaryOperation<AlbaGrepStringEvaluatorTerm, AlbaGrepStringOperatorType>
 (AlbaGrepStringOperatorType const& operatorObject, AlbaGrepStringEvaluatorTerm const& value)

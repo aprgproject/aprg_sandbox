@@ -5,7 +5,8 @@
 #include <Common/String/AlbaStringHelper.hpp>
 
 #include <algorithm>
-#include <fstream>#include <iostream>
+#include <fstream>
+#include <iostream>
 #include <set>
 
 using namespace alba::stringHelper;

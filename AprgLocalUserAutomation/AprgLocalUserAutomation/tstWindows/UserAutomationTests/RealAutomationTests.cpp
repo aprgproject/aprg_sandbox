@@ -5,6 +5,7 @@
 
 #include <gtest/gtest.h>
 #include <windows.h>
+
 #include <sstream>
 
 using namespace alba::stringHelper;
@@ -16,7 +17,8 @@ namespace alba
 TEST(RealAutomationTest, DISABLED_TraverseTalonRoShops)//DISABLED_
 {
     AlbaWindowsUserAutomation userAutomation;
-    //AlbaLocalPathHandler itemDatabaseFolder(R"(C:\Users\detectivemark7\Desktop\RO\TalonRO\BuyingShops\)");    AlbaLocalPathHandler itemDatabaseFolder(R"(C:\Users\detectivemark7\Desktop\RO\TalonRO\SellingShops\)");
+    //AlbaLocalPathHandler itemDatabaseFolder(R"(C:\Users\detectivemark7\Desktop\RO\TalonRO\BuyingShops\)");
+    AlbaLocalPathHandler itemDatabaseFolder(R"(C:\Users\detectivemark7\Desktop\RO\TalonRO\SellingShops\)");
 
     userAutomation.doLeftClickAt(MousePosition(2368,52));
 

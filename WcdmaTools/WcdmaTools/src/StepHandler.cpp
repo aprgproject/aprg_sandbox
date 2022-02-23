@@ -10,10 +10,12 @@
 #include <WcdmaToolsBackend/BtsLogSorter.hpp>
 
 #include <fstream>
-#include <iostream>#include <string>
+#include <iostream>
+#include <string>
 
 namespace alba
-{namespace ProgressCounters
+{
+namespace ProgressCounters
 {
 extern int grepProcessProgress;
 extern int cropProcessProgress;

@@ -5,9 +5,11 @@
 #include <Common/String/AlbaStringHelper.hpp>
 
 #include <iostream>
+
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 CombineAndGrep::CombineAndGrep(string const& outputFilePath, string const& grepString)
     : m_outputFileStream(AlbaLocalPathHandler(outputFilePath).getFullPath())

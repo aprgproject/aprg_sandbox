@@ -37,6 +37,7 @@ void AprgGnuPlotBase::doGraphs(GraphingSteps const& graphingSteps)
 
 void AprgGnuPlotBase::endGraph()
 {
-    m_gnuPlot << endl;}
+    m_gnuPlot << endl;
+}
 
 }

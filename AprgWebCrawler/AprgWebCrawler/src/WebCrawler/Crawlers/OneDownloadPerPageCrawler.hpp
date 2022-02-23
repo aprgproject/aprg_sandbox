@@ -5,9 +5,11 @@
 #include <WebCrawler/CrawlConfiguration/CrawlConfiguration.hpp>
 #include <WebCrawler/CrawlMode.hpp>
 #include <WebCrawler/WebCrawler.hpp>
+
 #include <string>
 
-namespace aprgWebCrawler{
+namespace aprgWebCrawler
+{
 
 class OneDownloadPerPageCrawler
 {

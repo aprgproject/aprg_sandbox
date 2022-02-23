@@ -28,7 +28,8 @@ TEST(AprgGeometryTwoDimensionsTest, DISABLED_CircleAtOriginWithRadius)
     });
 }
 
-TEST(AprgGeometryTwoDimensionsTest, DISABLED_HyperbolaAtOriginWithRadius){
+TEST(AprgGeometryTwoDimensionsTest, DISABLED_HyperbolaAtOriginWithRadius)
+{
     Hyperbola hyperbola(Point(0, 0), 3, 2);
     Points points(hyperbola.getPointsForShape(0.1));
 
@@ -42,7 +43,8 @@ TEST(AprgGeometryTwoDimensionsTest, DISABLED_HyperbolaAtOriginWithRadius){
     });
 }
 
-TEST(AprgGeometryTwoDimensionsTest, DISABLED_MultipleGraphs){
+TEST(AprgGeometryTwoDimensionsTest, DISABLED_MultipleGraphs)
+{
     Circle circle(Point(1,2), 3);
     Line expectedLine1(getTangentLineAt(circle, Point(1,5)));
     Line expectedLine2(getTangentLineAt(circle, Point(4,2)));

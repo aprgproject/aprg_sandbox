@@ -2,6 +2,7 @@
 
 using namespace alba;
 using namespace std;
+
 namespace wcdmaToolsBackend
 {
 
@@ -19,7 +20,8 @@ BtsLogSorterTest::BtsLogSorterTest()
     m_configuration.m_configurationWithoutPcTime.m_directoryForBlocks = APRG_DIR R"(WcdmaTools\WcdmaToolsBackend\tst\WcdmaToolsBackendTests\TempFiles\WithoutPcTimeBlocks)";
     m_configuration.m_configurationWithoutPcTime.m_minimumNumberOfObjectsPerBlock = 10000;
     m_configuration.m_configurationWithoutPcTime.m_maximumNumberOfObjectsPerBlock = 100000;
-    m_configuration.m_configurationWithoutPcTime.m_maximumNumberOfObjectsInMemory = 200000;    m_configuration.m_configurationWithoutPcTime.m_maximumFileStreams = 70;
+    m_configuration.m_configurationWithoutPcTime.m_maximumNumberOfObjectsInMemory = 200000;
+    m_configuration.m_configurationWithoutPcTime.m_maximumFileStreams = 70;
 }
 
 }

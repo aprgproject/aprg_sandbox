@@ -1,7 +1,7 @@
 #pragma once
 
+#include <Common/Randomizer/AlbaRandomizer.hpp>
 #include <PidSimulatorConfiguration.hpp>
-#include <Randomizer/AlbaRandomizer.hpp>
 
 #include <vector>
 

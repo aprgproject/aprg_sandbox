@@ -9,6 +9,7 @@
 #ifndef PATH_OF_7Z_TEMP_FILE
     static_assert(false, "PATH_OF_7Z_TEMP_FILE is not set in cmake");
 #endif
+
 #define PATH_OF_SAMPLE_ZIP_1 APRG_DIR R"(AprgFileExtractor\AprgFileExtractor\tst\FileExtractorTests\FilesForTests\DirectoryTest.zip)"
 #define PATH_OF_SAMPLE_ZIP_2 APRG_DIR R"(AprgFileExtractor\AprgFileExtractor\tst\FileExtractorTests\FilesForTests\DirectoryTest2.zip)"
 
@@ -39,13 +40,15 @@ void deleteAllFilesOnDirectory(string const& directoryPath)
 
 namespace ProgressCounters
 {
-int numberOfFilesToBeAnalyzedForExtraction;int numberOfFilesAnalyzedForExtraction;
+int numberOfFilesToBeAnalyzedForExtraction;
+int numberOfFilesAnalyzedForExtraction;
 }
 
 TEST(AprgFileExtractorTest, DISABLED_ActualTest)
 {
     AprgFileExtractor fileExtractor(R"([LRM] || [alarm] || [UDP] || [CPU] || [syslog] || [ccns] || [tcom] || [startup] || [runtime] || [system] || [radparam] || ([bts]&&([.log]||[.zip]||[.tar])) || [snapshot] || ([tech]&&[report]) || [BTSLogFiles])");
-    fileExtractor.extractAllRelevantFiles(R"(D:\W\ZZZ_Useless_Logs\PR103380\New folder\)");}
+    fileExtractor.extractAllRelevantFiles(R"(D:\W\ZZZ_Useless_Logs\PR103380\New folder\)");
+}
 
 TEST(AprgFileExtractorTest, ListOfFilesFromZipFileAreCorrectlyRetrieved)
 {
@@ -83,17 +86,20 @@ TEST(AprgFileExtractorTest, OneFileIsExtractedSuccessfully)
     deleteAllFilesOnDirectory(directoryPathHandler.getFullPath());
 }
 
-TEST(AprgFileExtractorTest, AllFilesAreExtractedSuccessfully){
+TEST(AprgFileExtractorTest, AllFilesAreExtractedSuccessfully)
+{
     AprgFileExtractor fileExtractor;
     AlbaLocalPathHandler directoryPathHandler(APRG_DIR R"(AprgFileExtractor\AprgFileExtractor\tst\FileExtractorTests\FilesForTests\DirectoryTest\)");
     deleteAllFilesOnDirectory(directoryPathHandler.getFullPath());
 
     string outputDirectoryPath = fileExtractor.extractOnceForAllFiles(PATH_OF_SAMPLE_ZIP_1);
+
     EXPECT_EQ(directoryPathHandler.getFullPath(), outputDirectoryPath);
     AlbaLocalPathHandler outputFilePathHandler(APRG_DIR R"(AprgFileExtractor\AprgFileExtractor\tst\FileExtractorTests\FilesForTests\DirectoryTest\File1.log)");
     EXPECT_TRUE(outputFilePathHandler.isFoundInLocalSystem());
     outputFilePathHandler.input(APRG_DIR R"(AprgFileExtractor\AprgFileExtractor\tst\FileExtractorTests\FilesForTests\DirectoryTest\File2.txt)");
-    EXPECT_TRUE(outputFilePathHandler.isFoundInLocalSystem());    outputFilePathHandler.input(APRG_DIR R"(AprgFileExtractor\AprgFileExtractor\tst\FileExtractorTests\FilesForTests\DirectoryTest\File3)");
+    EXPECT_TRUE(outputFilePathHandler.isFoundInLocalSystem());
+    outputFilePathHandler.input(APRG_DIR R"(AprgFileExtractor\AprgFileExtractor\tst\FileExtractorTests\FilesForTests\DirectoryTest\File3)");
     EXPECT_TRUE(outputFilePathHandler.isFoundInLocalSystem());
     outputFilePathHandler.input(APRG_DIR R"(AprgFileExtractor\AprgFileExtractor\tst\FileExtractorTests\FilesForTests\DirectoryTest\File4.mp3)");
     EXPECT_TRUE(outputFilePathHandler.isFoundInLocalSystem());

@@ -55,7 +55,8 @@ src/WcdmaToolsConfiguration.cpp\
 ../../AprgProcessFiles/AprgProcessFiles/src/ProcessFiles/GrepFile/AlbaGrepFile.cpp
 
 HEADERS += \
-src/ProgressCounters.hpp\src/ProgressBarThread.hpp\
+src/ProgressCounters.hpp\
+src/ProgressBarThread.hpp\
 src/StepHandler.hpp\
 src/StepHandlerThread.hpp\
 src/WcdmaTools.h\
@@ -93,9 +94,11 @@ src/WcdmaToolsConfiguration.hpp\
 ../../AprgProcessFiles/AprgProcessFiles/src/ProcessFiles/GrepFile/AlbaGrepFile.hpp
 
 FORMS += src/WcdmaTools.ui
+
 QMAKE_INCDIR += \
 src\
-../WcdmaToolsBackend/src\../../AprgAlgorithm/AprgAlgorithm/src\
+../WcdmaToolsBackend/src\
+../../AprgAlgorithm/AprgAlgorithm/src\
 ../../AprgCommon/AprgCommon/src\
 ../../AprgCommon/AprgCommon/srcWindows\
 ../../AprgFileExtractor/AprgFileExtractor/src\

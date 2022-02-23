@@ -2,8 +2,10 @@ cmake_minimum_required(VERSION 3.20)
 project(PidSimulator C CXX)
 
 set(OUTFILE ${PROJECT_NAME})
+
 #Comment out TEST_MODE to build static executable
-#set(TEST_MODE "ON")
+set(TEST_MODE "ON")
+
 #Assign APRG Directory
 set(APRG_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../../)
 set(PID_SIMULATOR_DIR ${CMAKE_CURRENT_SOURCE_DIR})

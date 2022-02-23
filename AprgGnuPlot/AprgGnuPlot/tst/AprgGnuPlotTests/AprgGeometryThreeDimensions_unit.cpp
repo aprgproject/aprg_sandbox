@@ -34,7 +34,8 @@ TEST(AprgGeometryThreeDimensionsTest, DISABLED_LineWithSlope)
     });
 }
 
-TEST(AprgGeometryThreeDimensionsTest, DISABLED_MultipleLinesAndPoints){
+TEST(AprgGeometryThreeDimensionsTest, DISABLED_MultipleLinesAndPoints)
+{
     Line line1(Point(5,-2,6), Point(1,1,1));
     Line line2(Point(1,1,1), Point(2,3,-4));
     Line line3(Point(5,-2,6), Point(2,3,-4));
@@ -64,7 +65,8 @@ TEST(AprgGeometryThreeDimensionsTest, DISABLED_MultipleLinesAndPoints){
     });
 }
 
-TEST(AprgGeometryThreeDimensionsTest, DISABLED_PlaneConstructedWithThreePoints){
+TEST(AprgGeometryThreeDimensionsTest, DISABLED_PlaneConstructedWithThreePoints)
+{
     Point point1(1,0,1);
     Point point2(-2,0,2);
     Point point3(2,0,-1);
@@ -89,7 +91,8 @@ TEST(AprgGeometryThreeDimensionsTest, DISABLED_PlaneConstructedWithThreePoints){
     });
 }
 
-TEST(AprgGeometryThreeDimensionsTest, DISABLED_LineOfIntersectionOfTwoPlanes){
+TEST(AprgGeometryThreeDimensionsTest, DISABLED_LineOfIntersectionOfTwoPlanes)
+{
     Point point1OfPlane1(1,0,0);
     Point point2OfPlane1(0,1,0);
     Point point3OfPlane1(0,0,1);

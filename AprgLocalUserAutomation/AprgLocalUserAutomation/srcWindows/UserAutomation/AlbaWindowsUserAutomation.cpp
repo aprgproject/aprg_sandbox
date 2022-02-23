@@ -4,6 +4,7 @@
 #include <Common/Windows/AlbaWindowsHelper.hpp>
 
 #include <windows.h>
+
 #include <cctype>
 #include <iostream>
 

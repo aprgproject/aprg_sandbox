@@ -5,8 +5,10 @@
 #include <DownloadType.hpp>
 
 #include <string>
+
 namespace curl
 {
+
 namespace CurlInterface
 {
 

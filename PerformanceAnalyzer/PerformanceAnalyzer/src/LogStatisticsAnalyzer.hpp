@@ -7,10 +7,12 @@
 #include <WcdmaToolsBackend/BtsLogTime.hpp>
 
 #include <fstream>
-#include <string>#include <vector>
+#include <string>
+#include <vector>
 
 namespace alba
 {
+
 struct LogDetails
 {
      stringHelper::strings logStrings;

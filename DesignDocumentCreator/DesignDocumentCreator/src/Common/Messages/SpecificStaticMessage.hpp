@@ -6,9 +6,11 @@
 
 namespace DesignDocumentCreator
 {
+
 template<MessageName messageName>
 class SpecificStaticMessage : public Message
-{public:
+{
+public:
     typedef MessageWrapper<messageName> SpecificStaticMessageWrapper;
     typedef typename SpecificStaticMessageWrapper::MessageStaticSackType SackType;
     SpecificStaticMessage()

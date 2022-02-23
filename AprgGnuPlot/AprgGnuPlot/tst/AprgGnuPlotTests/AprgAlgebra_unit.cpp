@@ -55,7 +55,8 @@ TEST(AprgAlgebraTest, ThreeDimensionsGeometricEquationCanBeShown)
     });
 }
 
-TEST(AprgAlgebraTest, DISABLED_EquationCanBeShown){
+TEST(AprgAlgebraTest, DISABLED_EquationCanBeShown)
+{
     Term leftHandSize(Polynomial({Monomial(2, {{"x", 4}}), Monomial(1, {{"y", 2}}), Monomial(-1, {{"x", 2}}), Monomial(-2, {{"y", 1}})}));
     Term rightHandSize(z);
     Equation equation(leftHandSize, "=", rightHandSize);

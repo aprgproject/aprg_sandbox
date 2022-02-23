@@ -6,9 +6,11 @@
 #include <Common/String/AlbaStringHelper.hpp>
 
 #include <iostream>
+
 using namespace alba::stringHelper;
 using namespace std;
-using wcdmaToolsBackend::BtsLogPrint;using wcdmaToolsBackend::BtsLogTime;
+using wcdmaToolsBackend::BtsLogPrint;
+using wcdmaToolsBackend::BtsLogTime;
 using wcdmaToolsBackend::BtsLogTimeType;
 
 namespace alba

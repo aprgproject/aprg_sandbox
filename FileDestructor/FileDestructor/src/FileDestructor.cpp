@@ -3,9 +3,11 @@
 #include <Common/String/AlbaStringHelper.hpp>
 
 #include <iostream>
+
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 FileDestructor::FileDestructor()
     : m_pathToDestroy(PathInitialValueSource::DetectedLocalPath)

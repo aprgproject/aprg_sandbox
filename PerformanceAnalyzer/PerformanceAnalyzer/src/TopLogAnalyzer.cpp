@@ -4,9 +4,11 @@
 #include <Common/PathHandler/AlbaLocalPathHandler.hpp>
 
 #include <algorithm>
+
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 void TopLogAnalyzer::DataEntry::clear()
 {

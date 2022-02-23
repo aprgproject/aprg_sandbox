@@ -3,7 +3,8 @@
 #include <Algorithm/ExpressionEvaluator/ExpressionEvaluator.hpp>
 #include <GrepStringEvaluator/AlbaGrepStringEvaluatorPerformOperations.hpp>
 #include <GrepStringEvaluator/AlbaGrepStringEvaluatorTerm.hpp>
-#include <GrepStringEvaluator/AlbaGrepStringOperatorType.hpp>#include <GrepStringEvaluator/AlbaGrepStringToken.hpp>
+#include <GrepStringEvaluator/AlbaGrepStringOperatorType.hpp>
+#include <GrepStringEvaluator/AlbaGrepStringToken.hpp>
 
 #include <functional>
 #include <stack>
@@ -22,7 +23,8 @@ class AlbaGrepStringEvaluator
     using EvaluatorConverter = algorithm::ExpressionEvaluator::ExpressionEvaluatorConverter<AlbaGrepStringEvaluatorTerm, AlbaGrepStringOperatorType>;
 
 public:
-    AlbaGrepStringEvaluator(std::string const& condition);    bool evaluate(std::string const& stringToEvaluate);
+    AlbaGrepStringEvaluator(std::string const& condition);
+    bool evaluate(std::string const& stringToEvaluate);
     bool isInvalid() const;
     std::string getErrorMessage() const;
 

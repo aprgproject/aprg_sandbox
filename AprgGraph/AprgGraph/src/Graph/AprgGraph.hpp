@@ -14,6 +14,7 @@
 
 #include <functional>
 #include <string>
+
 namespace alba
 {
 
@@ -30,6 +31,7 @@ public:
     using FunctionWithDoubles = std::function<double(double)>;
 
     AprgGraph(std::string const& bitmapPath, AprgBitmap::BitmapXY const& originInBitmap, AprgBitmap::BitmapDoubleXY const& magnification);
+
     void drawPoint(TwoDimensions::Point const& point, unsigned int const color);
     void drawDiscontinuousPoints(TwoDimensions::Points const& points, unsigned int const color);
     void drawContinuousPoints(TwoDimensions::Points const& points, unsigned int const color);

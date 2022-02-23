@@ -7,7 +7,8 @@
 #include <WcdmaToolsBackend/BtsPrintReaderWithRollback.hpp>
 
 #include <fstream>
-#include <set>#include <string>
+#include <set>
+#include <string>
 
 namespace wcdmaToolsBackend
 {
@@ -52,7 +53,8 @@ private:
     alba::algorithm::AlbaLargeSorter<BtsLogPrint> m_sorterWithoutPcTime;
     std::string m_directoryOfLogsWithoutPcTime;
     std::string m_pathOfStartupLog;
-    alba::AlbaOptional<std::ofstream> m_startupLogStreamOptional;    BtsLogPrint m_currentPrintToWrite;
+    alba::AlbaOptional<std::ofstream> m_startupLogStreamOptional;
+    BtsLogPrint m_currentPrintToWrite;
     std::set<std::string> m_foundHardwareAddresses;
 };
 

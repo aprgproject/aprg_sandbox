@@ -5,8 +5,10 @@
 #include <Common/Messages/MessageWrapper.hpp>
 
 #include <vector>
+
 namespace DesignDocumentCreator
 {
+
 template<MessageName messageName>
 class SpecificDynamicArrayMessage : public Message
 {

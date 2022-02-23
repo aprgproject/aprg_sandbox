@@ -3,8 +3,10 @@
 #include <Common/Optional/AlbaOptional.hpp>
 
 #include <string>
+
 namespace alba
 {
+
 struct UserIdentifiers
 {
     UserIdentifiers();

@@ -6,9 +6,11 @@
 
 namespace DesignDocumentCreator
 {
+
 template<MessageName messageName, typename DynamicPartSackType>
 class SpecificDynamicPolymorphicMessage : public Message
-{public:
+{
+public:
     typedef MessageWrapper<messageName> SpecificDynamicPolymorphicMessageWrapper;
     typedef typename SpecificDynamicPolymorphicMessageWrapper::MessageDynamicPolymorphicSackType SackType;
     typedef typename SpecificDynamicPolymorphicMessageWrapper::DynamicPlaceHolderSackType DynamicPlaceHolderSackType;

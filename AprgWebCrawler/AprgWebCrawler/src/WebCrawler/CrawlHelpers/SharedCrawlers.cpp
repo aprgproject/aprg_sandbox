@@ -2,6 +2,7 @@
 #include <Common/String/AlbaStringHelper.hpp>
 #include <WebCrawler/CrawlConfiguration/CrawlConfiguration.hpp>
 #include <WebCrawler/WebCrawler.hpp>
+
 #include <iostream>
 
 using namespace alba;
@@ -11,9 +12,11 @@ using namespace std;
 /*
 namespace aprgWebCrawler
 {
+
 void WebCrawler::crawlOneHtmlAndOneFileToDownload()
 {
-    for(string & webLink : m_webLinks)    {
+    for(string & webLink : m_webLinks)
+    {
         crawlOneHtmlAndOneFileToDownload(webLink);
     }
 }

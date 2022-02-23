@@ -2,8 +2,10 @@ cmake_minimum_required(VERSION 3.20)
 project(PerformanceAnalyzer C CXX)
 
 set(OUTFILE ${PROJECT_NAME})
+
 #Comment out TEST_MODE to build static executable
 set(TEST_MODE "ON")
+
 #Assign APRG Directory
 set(APRG_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../../)
 set(PERFORMANCE_ANALYZER_DIR ${CMAKE_CURRENT_SOURCE_DIR})
@@ -42,6 +44,7 @@ include(${APRG_DIR}/AprgGrepStringEvaluator/AprgCmakeInclude/AprgGrepStringEvalu
 
 #Add files and directories
 include(${PERFORMANCE_ANALYZER_DIR}/cmake/FilesAndDirectories.cmake)
+
 add_executable(${OUTFILE} ${PERFORMANCE_ANALYZER_SOURCES_AND_TESTS})
 include_directories(${PERFORMANCE_ANALYZER_INCLUDE_DIRECTORIES} ${GTEST_INCLUDE_DIRS})
 target_link_libraries(APRG_FILE_EXTRACTOR APRG_ALGORITHM APRG_COMMON)

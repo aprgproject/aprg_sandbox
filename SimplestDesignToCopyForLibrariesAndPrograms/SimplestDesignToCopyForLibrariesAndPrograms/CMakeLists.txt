@@ -2,8 +2,10 @@ cmake_minimum_required(VERSION 3.20)
 project(SimplestDesignToCopyForLibrariesAndPrograms C CXX)
 
 set(OUTFILE ${PROJECT_NAME})
+
 #Comment out TEST_MODE to build static executable
 set(TEST_MODE "ON")
+
 #Assign APRG Directory
 set(APRG_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../../)
 set(SIMPLEST_DESIGN_TO_COPY_FOR_LIBRARIES_AND_PROGRAMS_DIR ${CMAKE_CURRENT_SOURCE_DIR})

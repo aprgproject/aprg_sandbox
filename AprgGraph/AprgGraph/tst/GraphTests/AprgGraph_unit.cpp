@@ -4,6 +4,7 @@
 #include <Graph/AprgGraph.hpp>
 
 #include <gtest/gtest.h>
+
 #include <cmath>
 
 using namespace alba::algebra;
