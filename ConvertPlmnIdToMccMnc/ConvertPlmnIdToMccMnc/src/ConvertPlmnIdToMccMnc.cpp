@@ -1,13 +1,11 @@
 #include "ConvertPlmnIdToMccMnc.hpp"
 
-#include <Bit/AlbaBitManipulation.hpp>
+#include <Common/Bit/AlbaBitManipulation.hpp>
 
 using BitManipulator = alba::AlbaBitManipulation<alba::u32>;
-
 namespace alba
 {
-/*
-MccMncPair convertPlmnIdToMccMnc(u32 const plmnId)
+/*MccMncPair convertPlmnIdToMccMnc(u32 const plmnId)
 {
     constexpr unsigned char fillerDigitValue = 0x0F;
     using BitManipulator = AlbaBitManipulation<u32>;
