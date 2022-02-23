@@ -1,18 +1,16 @@
 #include "PerformanceAnalyzer.hpp"
 
-#include <AprgFileExtractor.hpp>
-#include <BtsLogSorter.hpp>
-#include <File/AlbaFileReader.hpp>
-#include <PathHandlers/AlbaLocalPathHandler.hpp>
-#include <String/AlbaStringHelper.hpp>
+#include <Common/File/AlbaFileReader.hpp>
+#include <Common/PathHandler/AlbaLocalPathHandler.hpp>
+#include <Common/String/AlbaStringHelper.hpp>
+#include <FileExtractor/AprgFileExtractor.hpp>
+#include <WcdmaToolsBackend/BtsLogSorter.hpp>
 
 #include <iomanip>
-#include <iostream>
-#include <map>
+#include <iostream>#include <map>
 #include <unordered_map>
 
-using namespace alba::stringHelper;
-using namespace std;
+using namespace alba::stringHelper;using namespace std;
 using wcdmaToolsBackend::BtsLogPrint;
 using wcdmaToolsBackend::BtsLogTime;
 using wcdmaToolsBackend::BtsLogTimeType;

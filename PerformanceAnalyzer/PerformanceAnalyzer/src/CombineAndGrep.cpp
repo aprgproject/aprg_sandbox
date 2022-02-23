@@ -1,15 +1,13 @@
 #include "CombineAndGrep.hpp"
 
-#include <File/AlbaFileReader.hpp>
-#include <PathHandlers/AlbaLocalPathHandler.hpp>
-#include <String/AlbaStringHelper.hpp>
+#include <Common/File/AlbaFileReader.hpp>
+#include <Common/PathHandler/AlbaLocalPathHandler.hpp>
+#include <Common/String/AlbaStringHelper.hpp>
 
 #include <iostream>
-
 using namespace std;
 
-namespace alba
-{
+namespace alba{
 
 CombineAndGrep::CombineAndGrep(string const& outputFilePath, string const& grepString)
     : m_outputFileStream(AlbaLocalPathHandler(outputFilePath).getFullPath())

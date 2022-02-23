@@ -1,16 +1,14 @@
 #include "BtsLogAnalyzer.hpp"
 
-#include <Container/AlbaRange.hpp>
-#include <File/AlbaFileReader.hpp>
-#include <PathHandlers/AlbaLocalPathHandler.hpp>
-#include <String/AlbaStringHelper.hpp>
+#include <Common/Container/AlbaValueRange.hpp>
+#include <Common/File/AlbaFileReader.hpp>
+#include <Common/PathHandler/AlbaLocalPathHandler.hpp>
+#include <Common/String/AlbaStringHelper.hpp>
 
 #include <iostream>
-
 using namespace alba::stringHelper;
 using namespace std;
-using wcdmaToolsBackend::BtsLogPrint;
-using wcdmaToolsBackend::BtsLogTime;
+using wcdmaToolsBackend::BtsLogPrint;using wcdmaToolsBackend::BtsLogTime;
 using wcdmaToolsBackend::BtsLogTimeType;
 
 namespace alba

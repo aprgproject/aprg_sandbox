@@ -1,14 +1,12 @@
 #pragma once
 
-#include <BtsLogSorterConfiguration.hpp>
-#include <BtsLogTime.hpp>
-#include <Optional/AlbaOptional.hpp>
+#include <Common/Optional/AlbaOptional.hpp>
+#include <WcdmaToolsBackend/BtsLogSorterConfiguration.hpp>
+#include <WcdmaToolsBackend/BtsLogTime.hpp>
 
 #include <string>
-
 namespace alba
 {
-
 class PerformanceAnalyzer
 {
 private:

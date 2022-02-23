@@ -37,11 +37,13 @@ include(${APRG_DIR}/AprgFileExtractor/AprgCmakeInclude/AprgFileExtractor.cmake)
 #Include WcdmaToolsBackend, this needs APRG Directory
 include(${APRG_DIR}/WcdmaTools/AprgCmakeInclude/WcdmaToolsBackend.cmake)
 
+#Include AprgGrepStringEvaluator, this needs APRG Directory
+include(${APRG_DIR}/AprgGrepStringEvaluator/AprgCmakeInclude/AprgGrepStringEvaluator.cmake)
+
 #Add files and directories
 include(${PERFORMANCE_ANALYZER_DIR}/cmake/FilesAndDirectories.cmake)
-
 add_executable(${OUTFILE} ${PERFORMANCE_ANALYZER_SOURCES_AND_TESTS})
 include_directories(${PERFORMANCE_ANALYZER_INCLUDE_DIRECTORIES} ${GTEST_INCLUDE_DIRS})
 target_link_libraries(APRG_FILE_EXTRACTOR APRG_ALGORITHM APRG_COMMON)
-target_link_libraries(${OUTFILE} ${CMAKE_THREAD_LIBS_INIT} WCDMA_TOOLS_BACKEND APRG_FILE_EXTRACTOR APRG_ALGORITHM APRG_COMMON gtest ${CMAKE_THREAD_LIBS_INIT})
+target_link_libraries(${OUTFILE} ${CMAKE_THREAD_LIBS_INIT} WCDMA_TOOLS_BACKEND APRG_FILE_EXTRACTOR APRG_GREP_STRING_EVALUATOR APRG_ALGORITHM APRG_COMMON gtest ${CMAKE_THREAD_LIBS_INIT})
 add_test(${OUTFILE} ${OUTFILE})
