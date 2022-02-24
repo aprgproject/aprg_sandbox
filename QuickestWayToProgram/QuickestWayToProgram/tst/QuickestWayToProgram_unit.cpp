@@ -1,24 +1,22 @@
-#include <AprgFileExtractor.hpp>
-#include <Debug/AlbaDebug.hpp>
-#include <File/AlbaFileReader.hpp>
-#include <Math/AlbaMathHelper.hpp>
+#include <Common/Debug/AlbaDebug.hpp>
+#include <Common/File/AlbaFileReader.hpp>
+#include <Common/Math/AlbaMathHelper.hpp>
+#include <Common/PathHandler/AlbaLocalPathHandler.hpp>
+#include <Common/String/AlbaStringHelper.hpp>
+#include <FileExtractor/AprgFileExtractor.hpp>
 #include <NsapHelper.hpp>
-#include <PathHandlers/AlbaLocalPathHandler.hpp>
 #include <QuickestWayToProgram.hpp>
-#include <String/AlbaStringHelper.hpp>
 
 #include <gtest/gtest.h>
-#include <stdio.h>
 #include <windows.h>
 
 #include <algorithm>
+#include <cstdio>
 #include <iostream>
 #include <iterator>
-#include <map>
-#include <string>
+#include <map>#include <string>
 
 using namespace std;
-
 namespace alba
 {
 
