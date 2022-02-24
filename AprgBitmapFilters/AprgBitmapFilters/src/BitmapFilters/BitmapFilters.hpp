@@ -7,13 +7,11 @@
 #include <BitmapFilters/LabelForPoints.hpp>
 #include <BitmapFilters/PenCircles.hpp>
 #include <BitmapFilters/PenPoints.hpp>
-#include <BitmapTraversal/BitmapSnippetTraversal.hpp>
+#include <BitmapFilters/Traversal/BitmapSnippetTraversal.hpp>
 #include <Geometry/TwoDimensions/Circle.hpp>
 #include <Geometry/TwoDimensions/Point.hpp>
-
 #include <deque>
 #include <functional>
-
 namespace alba
 {
 

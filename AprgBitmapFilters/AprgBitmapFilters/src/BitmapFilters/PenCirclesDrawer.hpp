@@ -2,14 +2,12 @@
 
 #include <Bitmap/BitmapSnippet.hpp>
 #include <BitmapFilters/PenCircles.hpp>
-#include <BitmapTraversal/BitmapSnippetTraversal.hpp>
+#include <BitmapFilters/Traversal/BitmapSnippetTraversal.hpp>
 
 namespace alba
 {
-
 namespace AprgBitmap
 {
-
 class PenCirclesDrawer
 {
 public:
