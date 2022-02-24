@@ -4,8 +4,10 @@
 #include <Common/File/AlbaFileParameterWriter.hpp>
 
 using namespace std;
+
 namespace alba
 {
+
 ostream& operator<<(ostream & out, ConstantDetails const& constantDetails)
 {
     AlbaFileParameterWriter writer(out);
@@ -77,7 +79,8 @@ ostream& operator<<(ostream & out, EnumDetails const& enumDetails)
     writer.writeMapData(enumDetails.parameters);
     writer.writeData<string>(enumDetails.path);
     writer.writeData<bool>(enumDetails.isUsedInIfs);
-    return out;}
+    return out;
+}
 
 istream& operator>>(istream & in, EnumDetails& enumDetails)
 {
@@ -86,10 +89,12 @@ istream& operator>>(istream & in, EnumDetails& enumDetails)
     reader.readMapData(enumDetails.parameters);
     enumDetails.path = reader.readData<string>();
     enumDetails.isUsedInIfs = reader.readData<bool>();
-    return in;}
+    return in;
+}
 
 ostream& operator<<(ostream & out, ParameterDetails const& parameterDetails)
-{    AlbaFileParameterWriter writer(out);
+{
+    AlbaFileParameterWriter writer(out);
     writer.writeData<string>(parameterDetails.type);
     writer.writeData<string>(parameterDetails.name);
     writer.writeData<string>(parameterDetails.description);
@@ -119,7 +124,8 @@ ostream& operator<<(ostream & out, StructureDetails const& structureDetails)
     writer.writeVectorData(structureDetails.parametersWithCorrectOrder);
     writer.writeData(structureDetails.path);
     writer.writeData<bool>(structureDetails.isMessage);
-    writer.writeData<bool>(structureDetails.isUsedInIfs);    return out;
+    writer.writeData<bool>(structureDetails.isUsedInIfs);
+    return out;
 }
 
 istream& operator>>(istream & in, StructureDetails& structureDetails)
@@ -130,7 +136,8 @@ istream& operator>>(istream & in, StructureDetails& structureDetails)
     reader.readVectorData(structureDetails.parametersWithCorrectOrder);
     structureDetails.path = reader.readData<string>();
     structureDetails.isMessage = reader.readData<bool>();
-    structureDetails.isUsedInIfs = reader.readData<bool>();    return in;
+    structureDetails.isUsedInIfs = reader.readData<bool>();
+    return in;
 }
 
 ostream& operator<<(ostream & out, UnionDetails const& unionDetails)
@@ -141,7 +148,8 @@ ostream& operator<<(ostream & out, UnionDetails const& unionDetails)
     writer.writeVectorData(unionDetails.parametersWithCorrectOrder);
     writer.writeData(unionDetails.path);
     writer.writeData<bool>(unionDetails.isUsedInIfs);
-    return out;}
+    return out;
+}
 
 istream& operator>>(istream & in, UnionDetails& unionDetails)
 {
@@ -151,10 +159,12 @@ istream& operator>>(istream & in, UnionDetails& unionDetails)
     reader.readVectorData(unionDetails.parametersWithCorrectOrder);
     unionDetails.path = reader.readData<string>();
     unionDetails.isUsedInIfs = reader.readData<bool>();
-    return in;}
+    return in;
+}
 
 ostream& operator<<(ostream & out, TypedefDetails const& typedefDetails)
-{    AlbaFileParameterWriter writer(out);
+{
+    AlbaFileParameterWriter writer(out);
     writer.writeData<string>(typedefDetails.name);
     writer.writeData<string>(typedefDetails.typedefDerivedName);
     writer.writeData<string>(typedefDetails.description);

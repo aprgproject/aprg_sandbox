@@ -3,8 +3,8 @@
 #include <Algebra/Term/TermTypes/Term.hpp>
 #include <Common/String/AlbaStringHelper.hpp>
 
-#include <unordered_map>
 #include <string>
+#include <unordered_map>
 
 namespace alba
 {

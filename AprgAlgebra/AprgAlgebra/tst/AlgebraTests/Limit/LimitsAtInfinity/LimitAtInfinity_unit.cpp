@@ -2,6 +2,7 @@
 #include <Algebra/Limit/LimitsAtInfinity/LimitsAtInfinity.hpp>
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
 #include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>
+
 #include <gtest/gtest.h>
 
 using namespace alba::algebra::Functions;

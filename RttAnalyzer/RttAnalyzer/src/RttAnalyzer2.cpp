@@ -6,8 +6,10 @@
 
 using namespace alba::stringHelper;
 using namespace std;
+
 namespace alba
 {
+
 RttAnalyzer2::RttAnalyzer2(string const& outputFilePath)
     : m_outputLogStream(outputFilePath)
 {}

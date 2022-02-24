@@ -6,9 +6,11 @@
 
 #include <fstream>
 #include <iostream>
+
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 namespace ProgressCounters
 {

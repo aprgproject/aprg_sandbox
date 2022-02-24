@@ -1,5 +1,5 @@
-#include <Common/Math/AlbaMathHelper.hpp>
 #include <Common/Math/AlbaMathConstants.hpp>
+#include <Common/Math/AlbaMathHelper.hpp>
 
 #include <gtest/gtest.h>
 

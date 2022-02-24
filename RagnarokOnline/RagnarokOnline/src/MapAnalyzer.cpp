@@ -8,8 +8,10 @@
 
 using namespace alba::stringHelper;
 using namespace std;
+
 namespace alba
 {
+
 MapAnalyzer::MapAnalyzer()
 {}
 

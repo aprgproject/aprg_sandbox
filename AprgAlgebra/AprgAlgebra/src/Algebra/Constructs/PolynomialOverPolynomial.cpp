@@ -1,7 +1,7 @@
 #include "PolynomialOverPolynomial.hpp"
 
-#include <Algebra/Factorization/FactorizationOfPolynomial.hpp>
 #include <Algebra/Factorization/FactorizationConfiguration.hpp>
+#include <Algebra/Factorization/FactorizationOfPolynomial.hpp>
 #include <Algebra/Term/Utilities/ConvertHelpers.hpp>
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
 #include <Algebra/Term/Utilities/MonomialHelpers.hpp>

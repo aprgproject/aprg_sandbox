@@ -1,7 +1,7 @@
 #pragma once
 
-#include <Algebra/Integration/DetailsForDefiniteIntegralWithValues.hpp>
 #include <Algebra/Integration/DetailsForDefiniteIntegralWithTerms.hpp>
+#include <Algebra/Integration/DetailsForDefiniteIntegralWithValues.hpp>
 #include <Algebra/Term/TermTypes/Term.hpp>
 #include <Algebra/Term/TermTypes/TermContainerTypes.hpp>
 

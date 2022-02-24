@@ -96,16 +96,19 @@ TEST(AlbaLargeSorterTest, ObjectsCanBeSavedAndLoadFromFile)
     ofstream outputTestFile(AlbaLocalPathHandler(ALBA_LARGE_SORTER_TEST_FILE).getFullPath());
     outputTestFile<<TestObject(0, 0, '0', "")<<endl;
     outputTestFile<<TestObject(1, 1.1, 'a', "firstString")<<endl;
-    outputTestFile<<TestObject(2000, 1.222, 'b', "secondString")<<endl;    outputTestFile<<TestObject(333333, 3.3, 'c', "thirdString")<<endl;
+    outputTestFile<<TestObject(2000, 1.222, 'b', "secondString")<<endl;
+    outputTestFile<<TestObject(333333, 3.3, 'c', "thirdString")<<endl;
     outputTestFile.close();
 
     ifstream inputTestFile(AlbaLocalPathHandler(ALBA_LARGE_SORTER_TEST_FILE).getFullPath());
     TestObject testObject;
 
-    inputTestFile>>testObject;    EXPECT_EQ(0, testObject.m_valueInteger);
+    inputTestFile>>testObject;
+    EXPECT_EQ(0, testObject.m_valueInteger);
     EXPECT_DOUBLE_EQ(0, testObject.m_valueDouble);
     EXPECT_EQ('0', testObject.m_valueCharacter);
     EXPECT_EQ("", testObject.m_valueString);
+
     inputTestFile>>testObject;
     EXPECT_EQ(1, testObject.m_valueInteger);
     EXPECT_DOUBLE_EQ(1.1, testObject.m_valueDouble);

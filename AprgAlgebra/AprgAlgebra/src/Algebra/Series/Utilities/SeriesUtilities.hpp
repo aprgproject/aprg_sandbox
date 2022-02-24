@@ -1,7 +1,7 @@
 #pragma once
 
-#include <Algebra/Series/GeneralSeries/SeriesBasedOnSummation.hpp>
 #include <Algebra/Series/GeneralSeries/SeriesBasedOnFormula.hpp>
+#include <Algebra/Series/GeneralSeries/SeriesBasedOnSummation.hpp>
 #include <Algebra/Series/SpecificSeries/AlternatingSeries.hpp>
 #include <Algebra/Series/SpecificSeries/PowerSeries.hpp>
 #include <Algebra/Term/TermTypes/Term.hpp>

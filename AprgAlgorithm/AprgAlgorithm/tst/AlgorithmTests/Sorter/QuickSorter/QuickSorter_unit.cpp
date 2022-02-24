@@ -27,5 +27,3 @@ TEST(QuickSorterTest, SortWorksOnCharactersUsingExample2)
 }
 
 }
-
-

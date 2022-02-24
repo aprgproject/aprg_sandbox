@@ -9,8 +9,10 @@
 
 using namespace alba::stringHelper;
 using namespace std;
+
 namespace alba
 {
+
 bool Monster::isAggressive() const
 {
     bool result(false);

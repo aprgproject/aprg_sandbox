@@ -12,10 +12,12 @@
 #include <Statistics/TwoDimensionsStatistics.hpp>
 
 #include <array>
-#include <deque>#include <fstream>
+#include <deque>
+#include <fstream>
 #include <map>
 #include <string>
 #include <vector>
+
 #define NUMBER_OF_CHOICES 5
 
 namespace alba
@@ -70,10 +72,12 @@ public:
     using RangeOfDoubles = AlbaValueRange<double>;
     using VectorOfDoubles = std::vector<double>;
     using QuestionBarCoordinate = std::pair<TwoDimensions::Point, TwoDimensions::Point>;
-    using QuestionBarCoordinates = std::vector<QuestionBarCoordinate>;    using VectorOfPointAndWidth = std::vector<PointAndWidth>;
+    using QuestionBarCoordinates = std::vector<QuestionBarCoordinate>;
+    using VectorOfPointAndWidth = std::vector<PointAndWidth>;
     using OneDimensionKMeans = KMeansClustering<1>;
     using TwoDimensionKMeans = KMeansClustering<2>;
-    using OneDimensionStatistics = DataStatistics<1>;    using DequeOfPoints = std::deque<TwoDimensions::Point>;
+    using OneDimensionStatistics = DataStatistics<1>;
+    using DequeOfPoints = std::deque<TwoDimensions::Point>;
 
     SOOSA(SoosaConfiguration const& configuration);
     unsigned int getNumberOfAnswers() const;

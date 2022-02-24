@@ -3,8 +3,8 @@
 #include <Algebra/Differentiation/Differentiation.hpp>
 #include <Algebra/Functions/CommonFunctionLibrary.hpp>
 #include <Algebra/Integration/Integration.hpp>
-#include <Algebra/Solution/Solver/OneEquationOneVariable/OneEquationOneVariableNonEqualitySolver.hpp>
 #include <Algebra/Series/Utilities/SeriesUtilities.hpp>
+#include <Algebra/Solution/Solver/OneEquationOneVariable/OneEquationOneVariableNonEqualitySolver.hpp>
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
 #include <Common/Math/AlbaMathHelper.hpp>
 

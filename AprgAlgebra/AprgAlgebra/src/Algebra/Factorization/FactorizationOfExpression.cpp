@@ -3,8 +3,8 @@
 #include <Algebra/Constructs/ConstructUtilities.hpp>
 #include <Algebra/Factorization/FactorizationOfTerm.hpp>
 #include <Algebra/Term/Utilities/BaseTermHelpers.hpp>
-#include <Algebra/Term/Utilities/CreateHelpers.hpp>
 #include <Algebra/Term/Utilities/ConvertHelpers.hpp>
+#include <Algebra/Term/Utilities/CreateHelpers.hpp>
 #include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>
 #include <Common/Math/AlbaMathHelper.hpp>
 

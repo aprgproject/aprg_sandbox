@@ -1,7 +1,7 @@
 #include "HarmonicSeries.hpp"
 
-#include <Algebra/Utilities/KnownNames.hpp>
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
+#include <Algebra/Utilities/KnownNames.hpp>
 
 namespace alba
 {

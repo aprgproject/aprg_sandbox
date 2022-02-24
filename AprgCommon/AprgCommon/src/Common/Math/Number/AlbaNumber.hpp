@@ -5,8 +5,8 @@
 #include <Common/Math/Number/AlbaComplexNumber.hpp>
 
 #include <ostream>
-#include <string>
 #include <sstream>
+#include <string>
 
 namespace alba
 {

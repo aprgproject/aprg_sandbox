@@ -5,9 +5,11 @@
 #include <Common/User/AlbaUserInterface.hpp>
 
 #include <iostream>
+
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 SoosaConfiguration SoosaUi::getSavedConfiguration() const
 {

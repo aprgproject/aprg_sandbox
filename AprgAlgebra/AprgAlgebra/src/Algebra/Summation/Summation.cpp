@@ -1,7 +1,7 @@
 #include "Summation.hpp"
 
-#include <Algebra/Limit/Limit.hpp>
 #include <Algebra/Integration/IntegrationForFiniteCalculus.hpp>
+#include <Algebra/Limit/Limit.hpp>
 #include <Algebra/Substitution/SubstitutionOfVariablesToTerms.hpp>
 #include <Algebra/Substitution/SubstitutionOfVariablesToValues.hpp>
 #include <Algebra/Term/Operators/TermOperators.hpp>

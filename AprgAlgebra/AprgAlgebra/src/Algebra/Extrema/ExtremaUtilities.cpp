@@ -4,10 +4,10 @@
 #include <Algebra/Differentiation/Differentiation.hpp>
 #include <Algebra/Differentiation/DifferentiationUtilities.hpp>
 #include <Algebra/Limit/Continuity.hpp>
-#include <Algebra/Substitution/SubstitutionOfVariablesToValues.hpp>
 #include <Algebra/Solution/DomainAndRange/DomainAndRange.hpp>
 #include <Algebra/Solution/Solver/OneEquationOneVariable/OneEquationOneVariableEqualitySolver.hpp>
 #include <Algebra/Solution/Solver/SolverUsingSubstitution/SolverUsingSubstitution.hpp>
+#include <Algebra/Substitution/SubstitutionOfVariablesToValues.hpp>
 #include <Algebra/Term/Operators/TermOperators.hpp>
 #include <Common/Math/AlbaMathHelper.hpp>
 #include <Common/Math/Number/Interval/AlbaNumberInterval.hpp>

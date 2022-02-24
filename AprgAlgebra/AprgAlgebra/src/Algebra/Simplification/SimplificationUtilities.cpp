@@ -1,8 +1,8 @@
 #include "SimplificationUtilities.hpp"
 
-#include <Algebra/Simplification/SimplificationOfExpression.hpp>
 #include <Algebra/Constructs/AdditionAndSubtractionOfTermsOverTerms.hpp>
 #include <Algebra/Constructs/ConstructUtilities.hpp>
+#include <Algebra/Simplification/SimplificationOfExpression.hpp>
 #include <Algebra/Term/Utilities/BaseTermHelpers.hpp>
 #include <Algebra/Term/Utilities/TermUtilities.hpp>
 

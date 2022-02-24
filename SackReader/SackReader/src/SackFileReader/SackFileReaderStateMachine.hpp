@@ -7,8 +7,10 @@
 
 namespace alba
 {
+
 namespace SackFileReaderStateMachineNamespace
 {
+
 enum class State
 {
     Idle,

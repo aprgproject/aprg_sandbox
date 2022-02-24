@@ -11,9 +11,11 @@
 
 #include <iostream>
 #include <sstream>
+
 #define ALLOWABLE_LINE_DEVIATION_FOR_LINE_MODEL 2
 #define ALLOWABLE_HALF_LINE_WIDTH_DEVIATION 2
-#define ALLOWABLE_HALF_BAR_WIDTH_DEVIATION 4#define ALLOWABLE_LINE_WIDTH_DEVIATION ALLOWABLE_HALF_LINE_WIDTH_DEVIATION*2
+#define ALLOWABLE_HALF_BAR_WIDTH_DEVIATION 4
+#define ALLOWABLE_LINE_WIDTH_DEVIATION ALLOWABLE_HALF_LINE_WIDTH_DEVIATION*2
 #define ALLOWABLE_BAR_WIDTH_DEVIATION ALLOWABLE_HALF_BAR_WIDTH_DEVIATION*2
 #define ALLOWABLE_BAR_HEIGHT_DEVIATION 10
 #define MINIMUM_NUMBER_OF_LINE_SAMPLES 10
@@ -393,10 +395,12 @@ Line SOOSA::findVerticalLine(BitmapSnippet const& snippet, RangeOfInts const& ra
         AlbaValueRange<double> consecutiveBlackPixels;
         for(unsigned int x=rangeForX.getStartValue(); conditionForX(x, rangeForX.getEndValue()); x+=rangeForX.getInterval())
         {
-            if(snippet.isBlackAt(BitmapXY(x, y)))            {
+            if(snippet.isBlackAt(BitmapXY(x, y)))
+            {
                 if(consecutiveBlackPixels.isEmpty())
                 {
-                    consecutiveBlackPixels.setStartValue((double)x);                }
+                    consecutiveBlackPixels.setStartValue((double)x);
+                }
                 consecutiveBlackPixels.setEndValue((double)x);
             }
             else if(!consecutiveBlackPixels.isEmpty())
@@ -418,10 +422,12 @@ Line SOOSA::findHorizontalLine(BitmapSnippet const& snippet, RangeOfInts const& 
         AlbaValueRange<double> consecutiveBlackPixels;
         for(unsigned int y=rangeForY.getStartValue(); conditionForY(y, rangeForY.getEndValue()); y+=rangeForY.getInterval())
         {
-            if(snippet.isBlackAt(BitmapXY(x, y)))            {
+            if(snippet.isBlackAt(BitmapXY(x, y)))
+            {
                 if(consecutiveBlackPixels.isEmpty())
                 {
-                    consecutiveBlackPixels.setStartValue((double)y);                }
+                    consecutiveBlackPixels.setStartValue((double)y);
+                }
                 consecutiveBlackPixels.setEndValue((double)y);
             }
             else if(!consecutiveBlackPixels.isEmpty())
@@ -455,10 +461,12 @@ Line SOOSA::findVerticalLineUsingStartingLine(BitmapSnippet const& snippet, Line
         AlbaValueRange<double> consecutiveBlackPixels;
         double xInLine = round(startingLine.calculateXFromY(y));
         for(int x=(int)xInLine; conditionForX(x, rangeForX.getEndValue()); x+=rangeForX.getInterval())
-        {            if(snippet.isBlackAt(BitmapXY(x, y)))
+        {
+            if(snippet.isBlackAt(BitmapXY(x, y)))
             {
                 if(consecutiveBlackPixels.isEmpty())
-                {                    consecutiveBlackPixels.setStartValue((double)x);
+                {
+                    consecutiveBlackPixels.setStartValue((double)x);
                 }
                 consecutiveBlackPixels.setEndValue((double)x);
             }

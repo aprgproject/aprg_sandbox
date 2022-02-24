@@ -5,8 +5,10 @@
 
 #include <fstream>
 #include <string>
+
 namespace alba
 {
+
 class LyxGenerator
 {
 public:

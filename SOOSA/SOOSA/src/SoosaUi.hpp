@@ -4,8 +4,10 @@
 #include <SoosaConfiguration.hpp>
 
 #include <string>
+
 namespace alba
 {
+
 class SoosaUi
 {
 public:

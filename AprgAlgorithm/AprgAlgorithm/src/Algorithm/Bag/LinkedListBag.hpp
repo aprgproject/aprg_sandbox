@@ -1,7 +1,7 @@
 #pragma once
 
-#include <functional>
 #include <cassert>
+#include <functional>
 #include <memory>
 
 namespace alba

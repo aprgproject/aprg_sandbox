@@ -1,9 +1,9 @@
 #include "FactorizationOfPolynomial.hpp"
 
 #include <Algebra/Factorization/FactorizationBySplitting.hpp>
+#include <Algebra/Factorization/FactorizationConfiguration.hpp>
 #include <Algebra/Factorization/FactorizationOfIncreasingAndDecreasingExponentForm.hpp>
 #include <Algebra/Factorization/FactorizationUsingPatterns.hpp>
-#include <Algebra/Factorization/FactorizationConfiguration.hpp>
 #include <Algebra/Factorization/FactorizationUtilities.hpp>
 #include <Algebra/Retrieval/VariableNamesRetriever.hpp>
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>

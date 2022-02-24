@@ -1,8 +1,8 @@
 #pragma once
 
+#include <Common/Math/Number/AlbaNumberTypes.hpp>
 #include <Common/Math/Number/Interval/AlbaNumberInterval.hpp>
 #include <Common/Math/Number/Interval/AlbaNumberIntervalEndpoint.hpp>
-#include <Common/Math/Number/AlbaNumberTypes.hpp>
 
 namespace alba
 {

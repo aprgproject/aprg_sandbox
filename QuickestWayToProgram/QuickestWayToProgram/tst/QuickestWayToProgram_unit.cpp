@@ -14,9 +14,11 @@
 #include <cstdio>
 #include <iostream>
 #include <iterator>
-#include <map>#include <string>
+#include <map>
+#include <string>
 
 using namespace std;
+
 namespace alba
 {
 

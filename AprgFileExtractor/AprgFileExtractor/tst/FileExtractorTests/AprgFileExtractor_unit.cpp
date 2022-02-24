@@ -1,10 +1,7 @@
-#include <FileExtractor/AprgFileExtractor.hpp>
 #include <Common/PathHandler/AlbaLocalPathHandler.hpp>
+#include <FileExtractor/AprgFileExtractor.hpp>
 
 #include <gtest/gtest.h>
-
-
-#include <Common/Debug/AlbaDebug.hpp>
 
 #ifndef PATH_OF_7Z_TEMP_FILE
     static_assert(false, "PATH_OF_7Z_TEMP_FILE is not set in cmake");

@@ -2,10 +2,10 @@
 
 #include <Algebra/Differentiation/Differentiation.hpp>
 #include <Algebra/Extrema/ExtremaUtilities.hpp>
-#include <Algebra/Limit/Limit.hpp>
-#include <Algebra/Limit/LimitsAtInfinity/LimitsAtInfinity.hpp>
 #include <Algebra/Integration/Integration.hpp>
 #include <Algebra/Integration/IntegrationForFiniteCalculus.hpp>
+#include <Algebra/Limit/Limit.hpp>
+#include <Algebra/Limit/LimitsAtInfinity/LimitsAtInfinity.hpp>
 #include <Algebra/Solution/Solver/OneEquationOneVariable/OneEquationOneVariableEqualitySolver.hpp>
 #include <Algebra/Substitution/SubstitutionOfVariablesToTerms.hpp>
 #include <Algebra/Summation/Summation.hpp>

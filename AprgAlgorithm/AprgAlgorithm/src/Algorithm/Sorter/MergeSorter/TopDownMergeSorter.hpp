@@ -1,7 +1,7 @@
 #pragma once
 
-#include <Algorithm/Sorter/MergeSorter/MergeSorterUtilities.hpp>
 #include <Algorithm/Sorter/BaseSorter.hpp>
+#include <Algorithm/Sorter/MergeSorter/MergeSorterUtilities.hpp>
 
 namespace alba
 {
