@@ -1,14 +1,12 @@
 #include "LyxGenerator.hpp"
 
-#include <File/AlbaFileReader.hpp>
-#include <String/AlbaStringHelper.hpp>
+#include <Common/File/AlbaFileReader.hpp>
+#include <Common/String/AlbaStringHelper.hpp>
 
 #include <algorithm>
 #include <fstream>
-
 using namespace alba::stringHelper;
 using namespace std;
-
 namespace alba
 {
 

@@ -1,16 +1,14 @@
 #pragma once
 
+#include <Common/PathHandler/AlbaLocalPathHandler.hpp>
+#include <Common/State/AlbaBaseStateMachine.hpp>
 #include <CommonTypes.hpp>
 #include <Database.hpp>
-#include <PathHandlers/AlbaLocalPathHandler.hpp>
-#include <State/AlbaBaseStateMachine.hpp>
 
 namespace alba
 {
-
 namespace SackFileReaderStateMachineNamespace
 {
-
 enum class State
 {
     Idle,

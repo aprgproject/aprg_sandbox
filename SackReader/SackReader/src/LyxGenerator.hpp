@@ -1,14 +1,12 @@
 #pragma once
 
+#include <Common/User/DisplayTable.hpp>
 #include <Database.hpp>
-#include <User/DisplayTable.hpp>
 
 #include <fstream>
 #include <string>
-
 namespace alba
 {
-
 class LyxGenerator
 {
 public:

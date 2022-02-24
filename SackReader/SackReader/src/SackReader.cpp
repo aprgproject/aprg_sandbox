@@ -1,16 +1,14 @@
 #include "SackReader.hpp"
 
-#include <File/AlbaFileReader.hpp>
+#include <Common/File/AlbaFileReader.hpp>
+#include <Common/PathHandler/AlbaLocalPathHandler.hpp>
+#include <Common/String/AlbaStringHelper.hpp>
 #include <LyxGenerator.hpp>
-#include <PathHandlers/AlbaLocalPathHandler.hpp>
 #include <SackFileReader/SackFileReader.hpp>
-#include <String/AlbaStringHelper.hpp>
 
 #include <fstream>
-
 using namespace alba::stringHelper;
 using namespace std;
-
 namespace alba
 {
 

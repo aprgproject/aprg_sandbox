@@ -1,17 +1,15 @@
 #include "SackFileReader.hpp"
 
-#include <File/AlbaFileReader.hpp>
-#include <PathHandlers/AlbaLocalPathHandler.hpp>
+#include <Common/File/AlbaFileReader.hpp>
+#include <Common/PathHandler/AlbaLocalPathHandler.hpp>
+#include <Common/String/AlbaStringHelper.hpp>
 #include <SackFileReader/CommentStateMachine.hpp>
 #include <SackFileReader/SackFileReaderStateMachine.hpp>
-#include <String/AlbaStringHelper.hpp>
 
 #include <fstream>
-
 using namespace alba::CommentStateMachineNamespace;
 using namespace alba::SackFileReaderStateMachineNamespace;
-using namespace alba::stringHelper;
-using namespace std;
+using namespace alba::stringHelper;using namespace std;
 
 namespace alba
 {

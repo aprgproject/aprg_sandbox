@@ -1,13 +1,11 @@
 #include "SackFileReaderStateMachine.hpp"
 
-#include <String/AlbaStringHelper.hpp>
+#include <Common/String/AlbaStringHelper.hpp>
 
 using namespace alba::stringHelper;
 using namespace std;
-
 namespace alba
 {
-
 namespace SackFileReaderStateMachineNamespace
 {
 

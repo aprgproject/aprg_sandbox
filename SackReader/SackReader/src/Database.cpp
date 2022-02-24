@@ -1,49 +1,44 @@
 #include "Database.hpp"
 
-#include <File/AlbaFileParameterReader.hpp>
-#include <File/AlbaFileParameterWriter.hpp>
+#include <Common/File/AlbaFileParameterReader.hpp>
+#include <Common/File/AlbaFileParameterWriter.hpp>
 
 #include <algorithm>
-
 using namespace std;
 
-namespace alba
-{
+namespace alba{
 
 void Database::saveDatabaseToFile(string const& path)
 {
     ofstream fileStream(path);
     AlbaFileParameterWriter writer(fileStream);
-    writer.writeData(fileToPathMap);
-    writer.writeData(constantNameToConstantDetailsMap);
-    writer.writeData(messageNameToMessageDetailsMap);
-    writer.writeData(structureNameToStructureDetailsMap);
-    writer.writeData(unionNameToUnionDetailsMap);
-    writer.writeData(enumNameToEnumDetailsMap);
-    writer.writeData(typedefNameToTypedefDetailsMap);
-    writer.writeData(messagesToGenerate);
+    writer.writeMapData(fileToPathMap);
+    writer.writeMapData(constantNameToConstantDetailsMap);
+    writer.writeMapData(messageNameToMessageDetailsMap);
+    writer.writeMapData(structureNameToStructureDetailsMap);
+    writer.writeMapData(unionNameToUnionDetailsMap);
+    writer.writeMapData(enumNameToEnumDetailsMap);
+    writer.writeMapData(typedefNameToTypedefDetailsMap);
+    writer.writeSetData(messagesToGenerate);
 }
 
-void Database::loadDatabaseFromFile(string const& path)
-{
+void Database::loadDatabaseFromFile(string const& path){
     ifstream fileStream(path);
     AlbaFileParameterReader reader(fileStream);
-    reader.readData(fileToPathMap);
-    reader.readData(constantNameToConstantDetailsMap);
-    reader.readData(messageNameToMessageDetailsMap);
-    reader.readData(structureNameToStructureDetailsMap);
-    reader.readData(unionNameToUnionDetailsMap);
-    reader.readData(enumNameToEnumDetailsMap);
-    reader.readData(typedefNameToTypedefDetailsMap);
-    reader.readData(messagesToGenerate);
+    reader.readMapData(fileToPathMap);
+    reader.readMapData(constantNameToConstantDetailsMap);
+    reader.readMapData(messageNameToMessageDetailsMap);
+    reader.readMapData(structureNameToStructureDetailsMap);
+    reader.readMapData(unionNameToUnionDetailsMap);
+    reader.readMapData(enumNameToEnumDetailsMap);
+    reader.readMapData(typedefNameToTypedefDetailsMap);
+    reader.readSetData(messagesToGenerate);
 }
 
-string Database::getFileFullPath(string const& fileName) const
-{
+string Database::getFileFullPath(string const& fileName) const{
     string result;
     if(fileToPathMap.find(fileName)!=fileToPathMap.cend())
-    {
-        result = fileToPathMap.at(fileName);
+    {        result = fileToPathMap.at(fileName);
     }
     return result;
 }
