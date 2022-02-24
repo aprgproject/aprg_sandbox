@@ -1,14 +1,12 @@
 #pragma once
 
-#include <String/AlbaStringHelper.hpp>
+#include <Common/String/AlbaStringHelper.hpp>
 
 #include <iostream>
-#include <map>
-#include <string>
+#include <map>#include <string>
 #include <vector>
 
-namespace alba
-{
+namespace alba{
 
 enum class ShopType
 {

@@ -1,19 +1,15 @@
 #include "MapAnalyzer.hpp"
 
-#include <String/AlbaStringHelper.hpp>
+#include <Common/Debug/AlbaDebug.hpp>
+#include <Common/String/AlbaStringHelper.hpp>
 
 #include <algorithm>
 #include <iostream>
 
-
-#include <Debug/AlbaDebug.hpp>
-
 using namespace alba::stringHelper;
 using namespace std;
-
 namespace alba
 {
-
 MapAnalyzer::MapAnalyzer()
 {}
 
