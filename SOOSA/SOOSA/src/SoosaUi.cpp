@@ -1,15 +1,13 @@
 #include "SoosaUi.hpp"
 
-#include <File/AlbaFileReader.hpp>
-#include <PathHandlers/AlbaLocalPathHandler.hpp>
-#include <User/AlbaUserInterface.hpp>
+#include <Common/File/AlbaFileReader.hpp>
+#include <Common/PathHandler/AlbaLocalPathHandler.hpp>
+#include <Common/User/AlbaUserInterface.hpp>
 
 #include <iostream>
-
 using namespace std;
 
-namespace alba
-{
+namespace alba{
 
 SoosaConfiguration SoosaUi::getSavedConfiguration() const
 {

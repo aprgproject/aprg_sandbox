@@ -1,21 +1,19 @@
 #include "SOOSA.hpp"
 
-#include <DataStatistics.hpp>
-#include <File/AlbaFileReader.hpp>
-#include <FrequencyStatistics.hpp>
-#include <Math/AlbaMathHelper.hpp>
-#include <PathHandlers/AlbaLocalPathHandler.hpp>
-#include <TwoDimensions/Circle.hpp>
-#include <TwoDimensions/TwoDimensionsHelper.hpp>
-#include <User/AlbaUserInterface.hpp>
+#include <Common/File/AlbaFileReader.hpp>
+#include <Common/Math/AlbaMathHelper.hpp>
+#include <Common/PathHandler/AlbaLocalPathHandler.hpp>
+#include <Common/User/AlbaUserInterface.hpp>
+#include <Geometry/TwoDimensions/Circle.hpp>
+#include <Geometry/TwoDimensions/TwoDimensionsHelper.hpp>
+#include <Statistics/DataStatistics.hpp>
+#include <Statistics/FrequencyStatistics.hpp>
 
 #include <iostream>
 #include <sstream>
-
 #define ALLOWABLE_LINE_DEVIATION_FOR_LINE_MODEL 2
 #define ALLOWABLE_HALF_LINE_WIDTH_DEVIATION 2
-#define ALLOWABLE_HALF_BAR_WIDTH_DEVIATION 4
-#define ALLOWABLE_LINE_WIDTH_DEVIATION ALLOWABLE_HALF_LINE_WIDTH_DEVIATION*2
+#define ALLOWABLE_HALF_BAR_WIDTH_DEVIATION 4#define ALLOWABLE_LINE_WIDTH_DEVIATION ALLOWABLE_HALF_LINE_WIDTH_DEVIATION*2
 #define ALLOWABLE_BAR_WIDTH_DEVIATION ALLOWABLE_HALF_BAR_WIDTH_DEVIATION*2
 #define ALLOWABLE_BAR_HEIGHT_DEVIATION 10
 #define MINIMUM_NUMBER_OF_LINE_SAMPLES 10
@@ -392,15 +390,13 @@ Line SOOSA::findVerticalLine(BitmapSnippet const& snippet, RangeOfInts const& ra
     TwoDimensionsStatistics::Samples samples;
     for(unsigned int y=snippet.getTopLeftCorner().getY(); y<=snippet.getBottomRightCorner().getY(); y++)
     {
-        AlbaRange<double> consecutiveBlackPixels;
+        AlbaValueRange<double> consecutiveBlackPixels;
         for(unsigned int x=rangeForX.getStartValue(); conditionForX(x, rangeForX.getEndValue()); x+=rangeForX.getInterval())
         {
-            if(snippet.isBlackAt(BitmapXY(x, y)))
-            {
+            if(snippet.isBlackAt(BitmapXY(x, y)))            {
                 if(consecutiveBlackPixels.isEmpty())
                 {
-                    consecutiveBlackPixels.setStartValue((double)x);
-                }
+                    consecutiveBlackPixels.setStartValue((double)x);                }
                 consecutiveBlackPixels.setEndValue((double)x);
             }
             else if(!consecutiveBlackPixels.isEmpty())
@@ -419,15 +415,13 @@ Line SOOSA::findHorizontalLine(BitmapSnippet const& snippet, RangeOfInts const& 
     TwoDimensionsStatistics::Samples samples;
     for(unsigned int x=snippet.getTopLeftCorner().getX(); x<=snippet.getBottomRightCorner().getX(); x++)
     {
-        AlbaRange<double> consecutiveBlackPixels;
+        AlbaValueRange<double> consecutiveBlackPixels;
         for(unsigned int y=rangeForY.getStartValue(); conditionForY(y, rangeForY.getEndValue()); y+=rangeForY.getInterval())
         {
-            if(snippet.isBlackAt(BitmapXY(x, y)))
-            {
+            if(snippet.isBlackAt(BitmapXY(x, y)))            {
                 if(consecutiveBlackPixels.isEmpty())
                 {
-                    consecutiveBlackPixels.setStartValue((double)y);
-                }
+                    consecutiveBlackPixels.setStartValue((double)y);                }
                 consecutiveBlackPixels.setEndValue((double)y);
             }
             else if(!consecutiveBlackPixels.isEmpty())
@@ -458,15 +452,13 @@ Line SOOSA::findVerticalLineUsingStartingLine(BitmapSnippet const& snippet, Line
     TwoDimensionsStatistics::Samples samples;
     for(unsigned int y=snippet.getTopLeftCorner().getY(); y<=snippet.getBottomRightCorner().getY(); y++)
     {
-        AlbaRange<double> consecutiveBlackPixels;
+        AlbaValueRange<double> consecutiveBlackPixels;
         double xInLine = round(startingLine.calculateXFromY(y));
         for(int x=(int)xInLine; conditionForX(x, rangeForX.getEndValue()); x+=rangeForX.getInterval())
-        {
-            if(snippet.isBlackAt(BitmapXY(x, y)))
+        {            if(snippet.isBlackAt(BitmapXY(x, y)))
             {
                 if(consecutiveBlackPixels.isEmpty())
-                {
-                    consecutiveBlackPixels.setStartValue((double)x);
+                {                    consecutiveBlackPixels.setStartValue((double)x);
                 }
                 consecutiveBlackPixels.setEndValue((double)x);
             }
