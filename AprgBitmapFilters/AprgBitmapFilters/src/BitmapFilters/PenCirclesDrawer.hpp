@@ -6,8 +6,10 @@
 
 namespace alba
 {
+
 namespace AprgBitmap
 {
+
 class PenCirclesDrawer
 {
 public:
