@@ -2,24 +2,19 @@
 
 #include <Algebra/Differentiation/Differentiation.hpp>
 #include <Algebra/Differentiation/DifferentiationUtilities.hpp>
-#include <Algebra/Integration/DetailsForDefiniteIntegralWithTerms.hpp>
 #include <Algebra/Integration/Integration.hpp>
 #include <Algebra/Integration/IntegrationUtilities.hpp>
 #include <Algebra/Limit/Continuity.hpp>
 #include <Algebra/Limit/Limit.hpp>
-#include <Algebra/Retrieval/SegregateTermsByConditionInAdditionAndSubtractionRetriever.hpp>
-#include <Algebra/Retrieval/SegregateTermsByVariableNamesInAdditionAndSubtractionRetriever.hpp>
 #include <Algebra/Retrieval/VariableNamesRetriever.hpp>
 #include <Algebra/Simplification/SimplificationUtilities.hpp>
 #include <Algebra/Substitution/SubstitutionOfVariablesToValues.hpp>
-#include <Algebra/Vector/VectorTypes.hpp>
+#include <Algebra/Vector/MathVectorOfTermsUtilitiesTemplateHeaders.hpp>
 #include <Common/Math/Angle/AlbaAngle.hpp>
 #include <Common/Math/Vector/AlbaMathVectorUtilities.hpp>
-
 #include <algorithm>
 
-namespace alba
-{
+namespace alba{
 
 namespace algebra
 {
@@ -60,36 +55,12 @@ SegregateTermsByConditionInAdditionAndSubtractionRetriever getRetrieverForCompar
 void retrieveWithAndWithoutOtherCoordinates(Term & termWithOtherCoordinates, Term & termWithoutOtherCoordinates, Term const& termToAnalyze, std::string const& coordinateVariableName, stringHelper::strings const& allCoordinates);
 
 
-template <unsigned int SIZE> bool isContinuousAt(MathVectorOfTerms<SIZE> const& termVector, std::string const& variableName, AlbaNumber const& value);
-template <unsigned int SIZE> bool isDifferentiableAt(MathVectorOfTerms<SIZE> const& termVector, std::string const& variableName, AlbaNumber const& value);
-template <unsigned int SIZE> bool areOriginalAndDerivativeVectorsOrthogonal( MathVectorOfTerms<SIZE> const& termVector);
-template <unsigned int SIZE> Term getLengthOfArcDerivative(MathVectorOfTerms<SIZE> const& termVector, std::string const& variableName);
-template <unsigned int SIZE> Term getLengthOfArc(MathVectorOfTerms<SIZE> const& termVector, std::string const& variableName);
-template <unsigned int SIZE> Term getLengthOfArcFromStartToEnd(MathVectorOfTerms<SIZE> const& termVector, DetailsForDefiniteIntegralWithTerms const& integralDetails);
-template <unsigned int SIZE> Term getCurvature(MathVectorOfTerms<SIZE> const& termVector, std::string const& variableName);
-template <unsigned int SIZE> Term getTermThatYieldsToThisGradient(MathVectorOfTerms<SIZE> const& gradient, ArrayOfStrings<SIZE> const& coordinateVariables);
-template <unsigned int SIZE> MathVectorOfTerms<SIZE> getLimit(MathVectorOfTerms<SIZE> const& termVector, std::string const& variableName, AlbaNumber const& valueToApproach);
-template <unsigned int SIZE> MathVectorOfTerms<SIZE> differentiate(MathVectorOfTerms<SIZE> const& termVector, std::string const& variableName);
-template <unsigned int SIZE> MathVectorOfTerms<SIZE> integrate(MathVectorOfTerms<SIZE> const& termVector, std::string const& variableName);
-template <unsigned int SIZE> MathVectorOfTerms<SIZE> getUnitTangentVector(MathVectorOfTerms<SIZE> const& termVector, std::string const& variableName);
-template <unsigned int SIZE> MathVectorOfTerms<SIZE> getUnitNormalVector(MathVectorOfTerms<SIZE> const& termVector, std::string const& variableName);
-template <unsigned int SIZE> MathVectorOfTerms<SIZE> getCurvatureVector(MathVectorOfTerms<SIZE> const& termVector, std::string const& variableName);
-template <unsigned int SIZE> MathVectorOfTerms<SIZE> getGradient( Term const& term, ArrayOfStrings<SIZE> const& coordinateVariables);
-template <unsigned int SIZE> MathVectorOfTerms<SIZE> getDel(MathVectorOfTerms<SIZE> const& termVector, ArrayOfStrings<SIZE> const& coordinateVariables);
-template <unsigned int SIZE> MathVectorOfTerms<SIZE> getDoubleDel(MathVectorOfTerms<SIZE> const& termVector, ArrayOfStrings<SIZE> const& coordinateVariables);
-
-// utilities function
-template <unsigned int SIZE> void simplifyForTermVector(MathVectorOfTerms<SIZE> & termVector);
-
-
 template <unsigned int SIZE>
 bool isContinuousAt(
-        MathVectorOfTerms<SIZE> const& termVector,
-        std::string const& variableName,
+        MathVectorOfTerms<SIZE> const& termVector,        std::string const& variableName,
         AlbaNumber const& value)
 {
-    using Values = typename MathVectorOfTerms<SIZE>::ValuesInArray;
-    Values const& values(termVector.getValues());
+    using Values = typename MathVectorOfTerms<SIZE>::ValuesInArray;    Values const& values(termVector.getValues());
     return std::all_of(values.cbegin(), values.cend(), [&](Term const& term)
     {
         return isContinuousAt(term, variableName, value, LimitAtAValueApproachType::BothSides);

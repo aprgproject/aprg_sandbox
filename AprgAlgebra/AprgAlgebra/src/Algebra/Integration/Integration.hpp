@@ -149,17 +149,15 @@ private:
     Polynomial getTotalNumeratorWithNewVariables(Polynomial const& originalDenominator, Polynomials const& partialNumerators, Polynomials const& partialDenominators) const;
     VariableNamesSet getNamesOfNewVariablesForPartialFraction(std::string const& originalVariableName, Polynomial const& numeratorWithNewVariables) const;
     AlbaNumbersSet getExponentsForPartialFraction(std::string const& originalVariableName, Polynomial const& numeratorWithNewVariables) const;
-    void fillInMatrixForPartialFractions(AlbaMatrix<AlbaNumber> & matrixWithNewVariables, std::string const& originalVariableName, VariableNamesSet const& newVariableNames, AlbaNumbersSet const& exponents, Polynomial const& originalNumerator, Polynomial const& numeratorWithNewVariables) const;
-    void fillInMatrixForPartialFractionsWithVariableValues(AlbaMatrix<AlbaNumber> & matrixWithNewVariables, std::string const& originalVariableName, VariableNamesSet const& newVariableNames, AlbaNumbersSet const& exponents, Polynomial const& numeratorWithNewVariables) const;
-    void fillInMatrixForPartialFractionsWithOutputValues(AlbaMatrix<AlbaNumber> & matrixWithNewVariables, std::string const& originalVariableName, VariableNamesSet const& newVariableNames, AlbaNumbersSet const& exponents, Polynomial const& originalNumerator) const;
-    void integratePartialFractionsBasedOnSolvedMatrix(Term & result, AlbaMatrix<AlbaNumber> const& solvedMatrix, VariableNamesSet const& newVariableNames, Polynomials const& partialNumerators, Polynomials const& partialDenominators);
+    void fillInMatrixForPartialFractions(matrix::AlbaMatrix<AlbaNumber> & matrixWithNewVariables, std::string const& originalVariableName, VariableNamesSet const& newVariableNames, AlbaNumbersSet const& exponents, Polynomial const& originalNumerator, Polynomial const& numeratorWithNewVariables) const;
+    void fillInMatrixForPartialFractionsWithVariableValues(matrix::AlbaMatrix<AlbaNumber> & matrixWithNewVariables, std::string const& originalVariableName, VariableNamesSet const& newVariableNames, AlbaNumbersSet const& exponents, Polynomial const& numeratorWithNewVariables) const;
+    void fillInMatrixForPartialFractionsWithOutputValues(matrix::AlbaMatrix<AlbaNumber> & matrixWithNewVariables, std::string const& originalVariableName, VariableNamesSet const& newVariableNames, AlbaNumbersSet const& exponents, Polynomial const& originalNumerator) const;
+    void integratePartialFractionsBasedOnSolvedMatrix(Term & result, matrix::AlbaMatrix<AlbaNumber> const& solvedMatrix, VariableNamesSet const& newVariableNames, Polynomials const& partialNumerators, Polynomials const& partialDenominators);
     Polynomial getPartialNumeratorForPartialFractions(unsigned int const degree, std::string const& variableName) const;
     std::string getNewVariableNameForPartialFractions() const;
-
     // Integration by parts
     void integrateByTryingIntegrationByParts(Term & result, Term const& term);
-    void integrateUsingIntegrationByPartsByOneTermAndOne(Term & result, Term const& term);
-    void integrateUsingIntegrationByPartsByTryingTwoTerms(Term & result, Term const& term);
+    void integrateUsingIntegrationByPartsByOneTermAndOne(Term & result, Term const& term);    void integrateUsingIntegrationByPartsByTryingTwoTerms(Term & result, Term const& term);
     void integrateUsingIntegrationByPartsByTryingTwoTermsWithDifferentOrder(Term & result, Term const& term, Term const& firstTerm, Term const& secondTerm);
     void integrateUsingIntegrationByPartsAndCheckingPreviousValues(Term & result, Term const& term, Term const& u, Term const& dv);
     void integrateUsingPreviousIntegrationByPartsTerms(Term & result, ListOfIntegrationByPartsTerms const& listOfIntegrationByPartsTerms, Term const& termToIntegrate);

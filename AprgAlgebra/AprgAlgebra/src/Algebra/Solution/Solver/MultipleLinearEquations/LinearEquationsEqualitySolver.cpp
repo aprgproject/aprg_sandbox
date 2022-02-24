@@ -7,14 +7,13 @@
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
 #include <Algebra/Term/Utilities/RetrieveHelpers.hpp>
 
+using namespace alba::matrix;
 using namespace std;
 
-namespace alba
-{
+namespace alba{
 
 namespace algebra
 {
-
 LinearEquationsEqualitySolver::LinearEquationsEqualitySolver()
     : BaseSolver()
 {}
@@ -71,15 +70,13 @@ void LinearEquationsEqualitySolver::calculateSolution(
     {
         NumberMatrix coefficientsMatrix(variables.size()+1, polynomials.size());
         setMatrixCoefficients(coefficientsMatrix, variables, polynomials);
-        coefficientsMatrix.transformToReducedEchelonFormUsingGaussJordanReduction();
-        if(coefficientsMatrix.isReducedRowEchelonForm())
+        transformToReducedEchelonFormUsingGaussJordanReduction(coefficientsMatrix);
+        if(isReducedRowEchelonForm(coefficientsMatrix))
         {
             saveSolutionSetsFromTheCoefficientMatrix(solutionSet, coefficientsMatrix, variables);
-            setAsCompleteSolution();
-        }
+            setAsCompleteSolution();        }
     }
 }
-
 bool LinearEquationsEqualitySolver::areExponentsEqualToOneAndZero(
         AlbaNumbersSet const& exponents) const
 {
