@@ -1,15 +1,13 @@
 #pragma once
 
-#include <Optional/AlbaOptional.hpp>
-#include <String/AlbaStringHelper.hpp>
+#include <Common/Optional/AlbaOptional.hpp>
+#include <Common/String/AlbaStringHelper.hpp>
 
 #include <fstream>
-#include <string>
-#include <vector>
+#include <string>#include <vector>
 
 namespace alba
 {
-
 struct RttDetails
 {
     std::string dateTime;
