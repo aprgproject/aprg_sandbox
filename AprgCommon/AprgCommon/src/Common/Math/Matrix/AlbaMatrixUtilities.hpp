@@ -7,11 +7,11 @@
 
 namespace alba
 {
-namespace Matrix
+
+namespace matrix
 {
 
-template <typename DataType>
-bool areRowsWithAllZerosInTheBottom(
+template <typename DataType>bool areRowsWithAllZerosInTheBottom(
         AlbaMatrix<DataType> const& matrix)
 {
     unsigned int numberOfRows(matrix.getNumberOfRows());

@@ -14,11 +14,10 @@
 namespace alba
 {
 
-namespace Matrix
+namespace matrix
 {
 
-template <typename DataType>
-class AlbaMatrix
+template <typename DataType>class AlbaMatrix
 {
 public:
     using MatrixData = AlbaMatrixData<DataType>;

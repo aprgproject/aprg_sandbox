@@ -8,6 +8,7 @@
 #include <Common/Math/Vector/AlbaMathVectorUtilities.hpp>
 using namespace alba::stringHelper;
 using namespace std;
+
 namespace alba
 {
 

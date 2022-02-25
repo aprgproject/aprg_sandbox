@@ -14,7 +14,8 @@
 #include <Common/Math/Vector/AlbaMathVectorUtilities.hpp>
 #include <algorithm>
 
-namespace alba{
+namespace alba
+{
 
 namespace algebra
 {
@@ -60,7 +61,8 @@ bool isContinuousAt(
         MathVectorOfTerms<SIZE> const& termVector,        std::string const& variableName,
         AlbaNumber const& value)
 {
-    using Values = typename MathVectorOfTerms<SIZE>::ValuesInArray;    Values const& values(termVector.getValues());
+    using Values = typename MathVectorOfTerms<SIZE>::ValuesInArray;
+    Values const& values(termVector.getValues());
     return std::all_of(values.cbegin(), values.cend(), [&](Term const& term)
     {
         return isContinuousAt(term, variableName, value, LimitAtAValueApproachType::BothSides);

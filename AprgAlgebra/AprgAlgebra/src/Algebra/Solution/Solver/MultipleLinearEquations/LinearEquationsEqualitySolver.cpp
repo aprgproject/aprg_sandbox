@@ -14,6 +14,7 @@ namespace alba{
 
 namespace algebra
 {
+
 LinearEquationsEqualitySolver::LinearEquationsEqualitySolver()
     : BaseSolver()
 {}
@@ -77,6 +78,7 @@ void LinearEquationsEqualitySolver::calculateSolution(
             setAsCompleteSolution();        }
     }
 }
+
 bool LinearEquationsEqualitySolver::areExponentsEqualToOneAndZero(
         AlbaNumbersSet const& exponents) const
 {

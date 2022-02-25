@@ -33,7 +33,8 @@ using namespace alba::stringHelper;
 using namespace std;
 namespace alba
 {
-namespace algebra{
+namespace algebra
+{
 
 Integration::Integration(
         string const& nameOfVariableToIntegrate)
@@ -1206,6 +1207,7 @@ void Integration::integrateUsingPartialFractionPolynomials(
         }
     }
 }
+
 void Integration::retrievePartialFractions(
         Polynomials & partialNumerators,
         Polynomials & partialDenominators,
@@ -1375,7 +1377,8 @@ void Integration::integratePartialFractionsBasedOnSolvedMatrix(
         it++;    }
     Term partialResult;
     for(unsigned int i=0; i<partialNumerators.size(); i++)
-    {        Polynomial const& partialNumerator(partialNumerators.at(i));
+    {
+        Polynomial const& partialNumerator(partialNumerators.at(i));
         Polynomial const& partialDenominator(partialDenominators.at(i));
         Term termToIntegrate = substitution.performSubstitutionTo(partialNumerator)/partialDenominator;
         termToIntegrate.simplify();

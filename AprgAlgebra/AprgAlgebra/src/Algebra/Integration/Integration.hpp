@@ -157,7 +157,8 @@ private:
     std::string getNewVariableNameForPartialFractions() const;
     // Integration by parts
     void integrateByTryingIntegrationByParts(Term & result, Term const& term);
-    void integrateUsingIntegrationByPartsByOneTermAndOne(Term & result, Term const& term);    void integrateUsingIntegrationByPartsByTryingTwoTerms(Term & result, Term const& term);
+    void integrateUsingIntegrationByPartsByOneTermAndOne(Term & result, Term const& term);
+    void integrateUsingIntegrationByPartsByTryingTwoTerms(Term & result, Term const& term);
     void integrateUsingIntegrationByPartsByTryingTwoTermsWithDifferentOrder(Term & result, Term const& term, Term const& firstTerm, Term const& secondTerm);
     void integrateUsingIntegrationByPartsAndCheckingPreviousValues(Term & result, Term const& term, Term const& u, Term const& dv);
     void integrateUsingPreviousIntegrationByPartsTerms(Term & result, ListOfIntegrationByPartsTerms const& listOfIntegrationByPartsTerms, Term const& termToIntegrate);
