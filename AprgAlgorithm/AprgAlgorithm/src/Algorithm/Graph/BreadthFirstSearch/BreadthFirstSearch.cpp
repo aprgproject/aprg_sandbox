@@ -1,13 +1,16 @@
-#include "DepthFirstSearch.hpp"
+#include "BreadthFirstSearch.hpp"
+
+#include <deque>
 
 using namespace std;
 
 namespace alba
 {
+
 namespace algorithm
 {
 
-DepthFirstSearch::DepthFirstSearch(
+BreadthFirstSearch::BreadthFirstSearch(
         BaseUndirectedGraph const& graph,
         Vertex const startVertex)
     : m_graph(graph)
@@ -18,7 +21,7 @@ DepthFirstSearch::DepthFirstSearch(
     reinitializeStartingFrom(startVertex);
 }
 
-bool DepthFirstSearch::hasPathTo(Vertex const endVertex)
+bool BreadthFirstSearch::hasPathTo(Vertex const endVertex) const
 {
     bool result(false);
     auto it = m_isProcessed.find(endVertex);
@@ -29,7 +32,7 @@ bool DepthFirstSearch::hasPathTo(Vertex const endVertex)
     return result;
 }
 
-Path DepthFirstSearch::getOrderedPathTo(Vertex const endVertex)
+Path BreadthFirstSearch::getShortestPathTo(Vertex const endVertex) const
 {
     bool isSuccessful(true);
     Vertex currentVertex = endVertex;
@@ -57,35 +60,42 @@ Path DepthFirstSearch::getOrderedPathTo(Vertex const endVertex)
     return result;
 }
 
-void DepthFirstSearch::reinitializeStartingFrom(Vertex const startVertex)
+void BreadthFirstSearch::reinitializeStartingFrom(Vertex const startVertex)
 {
     clear();
     m_startVertex = startVertex;
-    continueTraversal(startVertex);
-}
+    deque<Vertex> queueOfVerticesToProcess{startVertex};
+    m_isProcessed[startVertex] = true;
 
-void DepthFirstSearch::continueTraversal(Vertex const vertex)
-{
-    m_isProcessed[vertex] = true;
-    Vertices adjacentVertices(m_graph.getAdjacentVerticesAt(vertex));
-    for(Vertex const adjacentVertex : adjacentVertices)
+    while(!queueOfVerticesToProcess.empty())
     {
-        if(!m_isProcessed.at(adjacentVertex))
+        Vertex vertex(queueOfVerticesToProcess.back());
+        queueOfVerticesToProcess.pop_back();
+        Vertices adjacentVertices(m_graph.getAdjacentVerticesAt(vertex));
+        for(Vertex const adjacentVertex : adjacentVertices)
         {
-            m_vertexToNextVertex[adjacentVertex] = vertex;
-            continueTraversal(adjacentVertex);
+            if(!m_isProcessed.at(adjacentVertex))
+            {
+                m_vertexToNextVertex[adjacentVertex] = vertex;
+                m_isProcessed[adjacentVertex] = true;
+                queueOfVerticesToProcess.emplace_front(adjacentVertex);
+            }
         }
+
     }
 }
 
-void DepthFirstSearch::clear()
+
+void BreadthFirstSearch::clear()
 {
     m_vertexToNextVertex.clear();
     Vertices vertices(m_graph.getVertices());
     for(Vertex const vertex : vertices)
-    {        m_isProcessed[vertex] = false;
+    {
+        m_isProcessed[vertex] = false;
     }
 }
+
 }
 
 }
