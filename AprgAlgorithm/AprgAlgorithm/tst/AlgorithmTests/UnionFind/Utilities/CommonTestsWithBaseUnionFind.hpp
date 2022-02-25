@@ -19,6 +19,7 @@ void performConnectTestWithExample1(BaseUnionFindForUnsignedInt & unionFind);
 void performConnectTestWithExample2(BaseUnionFindForUnsignedInt & unionFind);
 
 }
+
 }
 
 }

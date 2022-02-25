@@ -2,8 +2,10 @@ cmake_minimum_required(VERSION 3.16)
 project(AprgGsl C CXX)
 
 set(OUTFILE ${PROJECT_NAME})
+
 #Comment out TEST_MODE to build static executable
 set(TEST_MODE "ON")
+
 #Assign APRG Directory
 set(APRG_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../../)
 set(APRG_GSL_DIR ${CMAKE_CURRENT_SOURCE_DIR})

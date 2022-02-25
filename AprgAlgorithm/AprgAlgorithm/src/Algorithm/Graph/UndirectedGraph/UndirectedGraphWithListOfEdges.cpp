@@ -55,9 +55,11 @@ Vertices UndirectedGraphWithListOfEdges::getAdjacentVerticesAt(Vertex const vert
     auto itUpper = m_edges.lower_bound(EdgeInSet(vertex+1, 0));
     std::for_each(itLower, itUpper, [&](EdgeInSet const& edgeInSet)
     {
-        result.emplace_back(edgeInSet.second);    });
+        result.emplace_back(edgeInSet.second);
+    });
     return result;
 }
+
 Vertices UndirectedGraphWithListOfEdges::getVertices() const
 {
     Vertices result;

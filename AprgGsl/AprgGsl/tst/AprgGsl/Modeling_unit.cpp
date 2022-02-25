@@ -2,9 +2,11 @@
 #include <Common/PathHandler/AlbaLocalPathHandler.hpp>
 
 #include <gtest/gtest.h>
+
 using namespace std;
 
-#define ALBA_MODELING_DATA_SET_WITH_FILE_FORMAT1_FILE1 APRG_DIR R"(AprgGsl\AprgGsl\tst\DataSets\DataSet1.csv)"#define ALBA_MODELING_DATA_SET_WITH_FILE_FORMAT1_FILE2 APRG_DIR R"(AprgGsl\AprgGsl\tst\DataSets\DataSet2.csv)"
+#define ALBA_MODELING_DATA_SET_WITH_FILE_FORMAT1_FILE1 APRG_DIR R"(AprgGsl\AprgGsl\tst\DataSets\DataSet1.csv)"
+#define ALBA_MODELING_DATA_SET_WITH_FILE_FORMAT1_FILE2 APRG_DIR R"(AprgGsl\AprgGsl\tst\DataSets\DataSet2.csv)"
 #define ALBA_MODELING_DATA_SET_WITH_FILE_FORMAT2_FILE3 APRG_DIR R"(AprgGsl\AprgGsl\tst\DataSets\DataSet3_FileFormat2.csv)"
 
 namespace alba

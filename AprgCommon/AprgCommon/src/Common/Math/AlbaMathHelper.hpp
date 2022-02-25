@@ -100,9 +100,11 @@ bool isOdd(unsigned int const number);
 bool isPrime(unsigned int const number);
 unsigned int getGreatestCommonFactor(unsigned int const firstNumber, unsigned int const secondNumber);
 unsigned int getLeastCommonMultiple(unsigned int const firstNumber, unsigned int const secondNumber);
-double getLeastCommonMultipleInDouble(unsigned int const firstNumber, unsigned int const secondNumber);unsigned int getDifferenceFromGreaterMultiple(unsigned int const multiple, unsigned int const number);
+double getLeastCommonMultipleInDouble(unsigned int const firstNumber, unsigned int const secondNumber);
+unsigned int getDifferenceFromGreaterMultiple(unsigned int const multiple, unsigned int const number);
 AlbaNumber getGreatestCommonFactorForAlbaNumber(AlbaNumber const& firstNumber, AlbaNumber const& secondNumber);
 AlbaNumber getLeastCommonMultipleForAlbaNumber(AlbaNumber const& firstNumber, AlbaNumber const& secondNumber);
+
 
 //Fraction related functions
 template <typename NumberType1, typename NumberType2>

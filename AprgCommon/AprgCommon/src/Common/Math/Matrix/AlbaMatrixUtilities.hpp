@@ -3,7 +3,8 @@
 #include <Common/Math/Matrix/AlbaMatrixUtilitiesHeaders.hpp>
 #include <Common/Math/Matrix/AlbaMatrix.hpp>
 
-#include <algorithm>#include <cassert>
+#include <algorithm>
+#include <cassert>
 
 namespace alba
 {
@@ -11,7 +12,8 @@ namespace alba
 namespace matrix
 {
 
-template <typename DataType>bool areRowsWithAllZerosInTheBottom(
+template <typename DataType>
+bool areRowsWithAllZerosInTheBottom(
         AlbaMatrix<DataType> const& matrix)
 {
     unsigned int numberOfRows(matrix.getNumberOfRows());

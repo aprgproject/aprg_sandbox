@@ -2,9 +2,11 @@ cmake_minimum_required(VERSION 3.16)
 project(AprgWebCrawler C CXX)
 
 set(OUTFILE ${PROJECT_NAME})
+
 #Assign APRG Directory
 set(APRG_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../../)
 set(APRG_WEB_CRAWLER_DIR ${CMAKE_CURRENT_SOURCE_DIR})
+
 #Assign Flags
 include(${APRG_DIR}/AprgCMakeHelpers/CommonFlags.cmake)
 

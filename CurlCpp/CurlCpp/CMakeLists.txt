@@ -2,9 +2,11 @@ cmake_minimum_required(VERSION 3.16)
 
 # Setting up project
 project(CurlCpp)
+
 set(OUTFILE ${PROJECT_NAME})
 
-#Assign APRG Directoryset(APRG_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../../)
+#Assign APRG Directory
+set(APRG_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../../)
 set(CURL_CPP_DIR ${CMAKE_CURRENT_SOURCE_DIR})
 
 #Assign Flags

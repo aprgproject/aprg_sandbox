@@ -31,6 +31,7 @@ private:
     std::map<Vertex, Vertex> m_vertexToNextVertex;
     std::map<Vertex, bool> m_isProcessed;
 };
+
 }
 
 }

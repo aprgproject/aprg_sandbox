@@ -10,7 +10,8 @@ namespace alba
 namespace matrix
 {
 
-TEST(AlbaMatrixUtilitiesTest, AreRowsWithAllZerosInTheBottomWorks){
+TEST(AlbaMatrixUtilitiesTest, AreRowsWithAllZerosInTheBottomWorks)
+{
     AlbaMatrix<unsigned int> matrix1(3, 3,
     {1, 2, 3,
      0, 0, 0,

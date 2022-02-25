@@ -1,10 +1,12 @@
 cmake_minimum_required(VERSION 3.16)
 project(AprgCommon C CXX)
 
-#set project nameset(OUTFILE ${PROJECT_NAME})
+#set project name
+set(OUTFILE ${PROJECT_NAME})
 
 #Assign APRG Directory
-set(APRG_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../../)set(APRG_COMMON_DIR ${CMAKE_CURRENT_SOURCE_DIR})
+set(APRG_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../../)
+set(APRG_COMMON_DIR ${CMAKE_CURRENT_SOURCE_DIR})
 
 #Assign Flags
 include(${APRG_DIR}/AprgCMakeHelpers/CommonFlags.cmake)

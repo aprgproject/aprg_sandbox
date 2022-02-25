@@ -10,7 +10,8 @@
 using namespace alba::matrix;
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 namespace algebra
 {
@@ -75,7 +76,8 @@ void LinearEquationsEqualitySolver::calculateSolution(
         if(isReducedRowEchelonForm(coefficientsMatrix))
         {
             saveSolutionSetsFromTheCoefficientMatrix(solutionSet, coefficientsMatrix, variables);
-            setAsCompleteSolution();        }
+            setAsCompleteSolution();
+        }
     }
 }
 

@@ -3,9 +3,11 @@
 #include <Algorithm/Graph/UndirectedGraph/BaseUndirectedGraph.hpp>
 #include <Common/Math/Matrix/AlbaMatrix.hpp>
 #include <Common/String/AlbaStringHelper.hpp>
+
 #include <algorithm>
 
-namespace alba{
+namespace alba
+{
 
 namespace algorithm
 {

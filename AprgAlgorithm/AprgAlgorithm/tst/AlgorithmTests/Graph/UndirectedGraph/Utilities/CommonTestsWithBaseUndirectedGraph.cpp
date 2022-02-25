@@ -62,10 +62,12 @@ void performGetAdjacentVerticesAtTestWhenNotEmpty(BaseUndirectedGraph & graph)
     EXPECT_EQ(adjacentVerticesAt2ToExpect, adjacentVerticesAt2ToVerify);
 }
 
-void performGetVerticesTestWhenEmpty(BaseUndirectedGraph & graph){
+void performGetVerticesTestWhenEmpty(BaseUndirectedGraph & graph)
+{
     Vertices verticesToVerify(graph.getVertices());
     EXPECT_TRUE(verticesToVerify.empty());
 }
+
 void performGetVerticesTestWhenNotEmpty(BaseUndirectedGraph & graph)
 {
     graph.connect(0U, 1U);

@@ -48,9 +48,11 @@ template <>
 void printParameter(ostream & outputStream, string const& , char const*const parameter);
 
 template <typename ParameterType>
-void printParameter(ostream & outputStream, string const& parameterName, unique_ptr<ParameterType> const& parameterPointer){
+void printParameter(ostream & outputStream, string const& parameterName, unique_ptr<ParameterType> const& parameterPointer)
+{
     printParameter(outputStream, parameterName, parameterPointer.get());
 }
+
 template <typename ParameterType>
 void printParameter(ostream & outputStream, string const& parameterName, shared_ptr<ParameterType> const& parameterPointer)
 {

@@ -12,6 +12,7 @@
 #include <Algebra/Vector/MathVectorOfTermsUtilitiesTemplateHeaders.hpp>
 #include <Common/Math/Angle/AlbaAngle.hpp>
 #include <Common/Math/Vector/AlbaMathVectorUtilities.hpp>
+
 #include <algorithm>
 
 namespace alba
@@ -58,7 +59,8 @@ void retrieveWithAndWithoutOtherCoordinates(Term & termWithOtherCoordinates, Ter
 
 template <unsigned int SIZE>
 bool isContinuousAt(
-        MathVectorOfTerms<SIZE> const& termVector,        std::string const& variableName,
+        MathVectorOfTerms<SIZE> const& termVector,
+        std::string const& variableName,
         AlbaNumber const& value)
 {
     using Values = typename MathVectorOfTerms<SIZE>::ValuesInArray;

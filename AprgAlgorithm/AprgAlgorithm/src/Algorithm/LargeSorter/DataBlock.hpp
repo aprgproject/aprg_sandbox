@@ -13,8 +13,10 @@
 
 namespace alba
 {
+
 namespace algorithm
 {
+
 enum class DataBlockType
 {
     Empty,

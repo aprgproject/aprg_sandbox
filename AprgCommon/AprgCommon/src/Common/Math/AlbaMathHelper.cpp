@@ -562,10 +562,12 @@ bool isPrime(unsigned int const number)
 
 unsigned int getGreatestCommonFactor(unsigned int const firstNumber, unsigned int const secondNumber)
 {
-    unsigned int result(0);    unsigned int temporaryFirstValue(firstNumber);
+    unsigned int result(0);
+    unsigned int temporaryFirstValue(firstNumber);
     unsigned int temporarySecondValue(secondNumber);
     while(true)
-    {        if(temporaryFirstValue==0)
+    {
+        if(temporaryFirstValue==0)
         {
             result = temporarySecondValue;
             break;

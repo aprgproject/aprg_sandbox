@@ -6,6 +6,7 @@
 #include <Algebra/Substitution/SubstitutionOfVariablesToValues.hpp>
 #include <Algebra/Utilities/KnownNames.hpp>
 #include <Common/Math/Vector/AlbaMathVectorUtilities.hpp>
+
 using namespace alba::stringHelper;
 using namespace std;
 

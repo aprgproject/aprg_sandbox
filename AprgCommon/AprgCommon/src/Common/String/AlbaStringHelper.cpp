@@ -1022,7 +1022,9 @@ void NumberToStringConverter::setMaximumLength(unsigned int const maximumLength)
 template string NumberToStringConverter::convert<bool>(bool boolValue);
 template string NumberToStringConverter::convert<int>(int number);
 template string NumberToStringConverter::convert<unsigned int>(unsigned int number);
-template string NumberToStringConverter::convert<float>(float number);template string NumberToStringConverter::convert<double>(double number);
+template string NumberToStringConverter::convert<float>(float number);
+template string NumberToStringConverter::convert<double>(double number);
 
 }//namespace stringHelper
+
 }//namespace alba

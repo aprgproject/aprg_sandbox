@@ -31,6 +31,7 @@ using namespace alba::mathHelper;
 using namespace alba::matrix;
 using namespace alba::stringHelper;
 using namespace std;
+
 namespace alba
 {
 namespace algebra
@@ -1203,7 +1204,8 @@ void Integration::integrateUsingPartialFractionPolynomials(
                 if(isReducedRowEchelonForm(matrixForPartialFractions))
                 {
                     integratePartialFractionsBasedOnSolvedMatrix(result, matrixForPartialFractions, newVariableNames, partialNumerators, partialDenominators);
-                }            }
+                }
+            }
         }
     }
 }
@@ -1374,7 +1376,8 @@ void Integration::integratePartialFractionsBasedOnSolvedMatrix(
     for(unsigned int i=0; i<solvedMatrix.getNumberOfRows() && it!=newVariableNames.cend(); i++)
     {
         substitution.putVariableWithTerm(*it, solvedMatrix.getEntry(newVariableNames.size(), i));
-        it++;    }
+        it++;
+    }
     Term partialResult;
     for(unsigned int i=0; i<partialNumerators.size(); i++)
     {

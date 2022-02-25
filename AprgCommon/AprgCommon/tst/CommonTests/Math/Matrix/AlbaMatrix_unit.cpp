@@ -10,7 +10,8 @@ namespace alba
 namespace matrix
 {
 
-TEST(AlbaMatrixTest, MatrixConstructor_AlbaMatrixCanBeCreatedByDefaultConstructor){
+TEST(AlbaMatrixTest, MatrixConstructor_AlbaMatrixCanBeCreatedByDefaultConstructor)
+{
     AlbaMatrix<unsigned int> matrix;
 
     EXPECT_EQ(0U, matrix.getNumberOfColumns());
