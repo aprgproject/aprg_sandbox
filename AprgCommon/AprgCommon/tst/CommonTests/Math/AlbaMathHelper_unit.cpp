@@ -484,14 +484,24 @@ TEST(AlbaMathHelperTest, IsOddWorks)
     EXPECT_TRUE(isOdd(255U));
 }
 
+TEST(AlbaMathHelperTest, IsPrimeWorks)
+{
+    EXPECT_FALSE(isPrime(0U));
+    EXPECT_FALSE(isPrime(1U));
+    EXPECT_TRUE(isPrime(2U));
+    EXPECT_TRUE(isPrime(3U));
+    EXPECT_FALSE(isPrime(4U));
+    EXPECT_TRUE(isPrime(5U));
+    EXPECT_FALSE(isPrime(24U));
+    EXPECT_TRUE(isPrime(67U));
+}
+
 TEST(AlbaMathHelperTest, GetGreatestCommonFactorWorksForUnsignedInteger)
 {
-    EXPECT_EQ(0U, getGreatestCommonFactor(0, 0));
-    EXPECT_EQ(8U, getGreatestCommonFactor(0, 8));
+    EXPECT_EQ(0U, getGreatestCommonFactor(0, 0));    EXPECT_EQ(8U, getGreatestCommonFactor(0, 8));
     EXPECT_EQ(8U, getGreatestCommonFactor(8, 0));
     EXPECT_EQ(1U, getGreatestCommonFactor(1, 8));
-    EXPECT_EQ(1U, getGreatestCommonFactor(8, 1));
-    EXPECT_EQ(1U, getGreatestCommonFactor(1, 1));
+    EXPECT_EQ(1U, getGreatestCommonFactor(8, 1));    EXPECT_EQ(1U, getGreatestCommonFactor(1, 1));
     EXPECT_EQ(16U, getGreatestCommonFactor(16, 32));
     EXPECT_EQ(14U, getGreatestCommonFactor(98, 56));
     EXPECT_EQ(1U, getGreatestCommonFactor(1234567891, 3));

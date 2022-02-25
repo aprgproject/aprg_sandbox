@@ -540,14 +540,32 @@ bool isOdd(unsigned int const number)
     return !isDivisible(number, 2U);
 }
 
+bool isPrime(unsigned int const number)
+{
+    // Non prime would have: a * b = nonPrimeNumber, where a and b are integers
+    // To have less iterations:
+    // When a = b, then we can test if divisible until nonPrimeNumber^0.5
+    // When a > b, then we can test if divisible until b. Since b < nonPrimeNumber^0.5, then we can test until nonPrimeNumber^0.5.
+    // When a < b, then we can test if divisible until a. Since a < nonPrimeNumber^0.5, then we can test until nonPrimeNumber^0.5.
+    bool result(number>=2);
+    unsigned int limit(pow(number, 0.5));
+    for(unsigned int i=2; i<=limit; i++)
+    {
+        if(isDivisible(number, i))
+        {
+            result = false;
+            break;
+        }
+    }
+    return result;
+}
+
 unsigned int getGreatestCommonFactor(unsigned int const firstNumber, unsigned int const secondNumber)
 {
-    unsigned int result(0);
-    unsigned int temporaryFirstValue(firstNumber);
+    unsigned int result(0);    unsigned int temporaryFirstValue(firstNumber);
     unsigned int temporarySecondValue(secondNumber);
     while(true)
-    {
-        if(temporaryFirstValue==0)
+    {        if(temporaryFirstValue==0)
         {
             result = temporarySecondValue;
             break;
