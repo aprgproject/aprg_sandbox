@@ -35,14 +35,18 @@ TEST(UnionFindUsingMapTest, ConnectWorksWithExample1)
     performConnectTestWithExample1(unionFind);
 }
 
-TEST(UnionFindUsingMapTest, GetRootWorks)
+TEST(UnionFindUsingMapTest, ConnectWorksWithExample2)
 {
     UnionFindForUnsignedInt unionFind;
-    unionFind.connect(4, 3);
+    performConnectTestWithExample2(unionFind);
+}
+
+TEST(UnionFindUsingMapTest, GetRootWorks)
+{
+    UnionFindForUnsignedInt unionFind;    unionFind.connect(4, 3);
     unionFind.connect(3, 8);
     unionFind.connect(6, 5);
-    unionFind.connect(9, 4);
-    unionFind.connect(2, 1);
+    unionFind.connect(9, 4);    unionFind.connect(2, 1);
 
     EXPECT_EQ(0U, unionFind.getRoot(0));
     EXPECT_EQ(1U, unionFind.getRoot(1));

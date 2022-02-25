@@ -52,18 +52,12 @@ Vertices UndirectedGraphWithListOfEdges::getAdjacentVerticesAt(Vertex const vert
 {
     Vertices result;
     auto itLower = m_edges.lower_bound(EdgeInSet(vertex, 0));
-    auto itUpper = m_edges.upper_bound(EdgeInSet(vertex+1, 0));
-    if(itUpper != m_edges.cend() && itUpper->first != vertex)
-    {
-        itUpper--;
-    }
+    auto itUpper = m_edges.lower_bound(EdgeInSet(vertex+1, 0));
     std::for_each(itLower, itUpper, [&](EdgeInSet const& edgeInSet)
     {
-        result.emplace_back(edgeInSet.second);
-    });
+        result.emplace_back(edgeInSet.second);    });
     return result;
 }
-
 Vertices UndirectedGraphWithListOfEdges::getVertices() const
 {
     Vertices result;

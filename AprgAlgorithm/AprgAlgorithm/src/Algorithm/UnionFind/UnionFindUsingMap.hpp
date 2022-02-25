@@ -40,31 +40,23 @@ public:
 
     void connect(Object const& object1, Object const& object2) override
     {
-        bool isObject1LowerThanObject2(object1<object2);
-        Object lowerValueObject(isObject1LowerThanObject2 ? object1 : object2);
-        Object higherValueObject(isObject1LowerThanObject2 ? object2 : object1);
         initializeToConnectionMapIfNeeded(object1);
         initializeToConnectionMapIfNeeded(object2);
-        Object root(getRoot(lowerValueObject));
-        m_connectionMap[lowerValueObject] = root;
-        m_connectionMap[higherValueObject] = root;
+        Object root(std::min(getRoot(object1), getRoot(object2)));
+        m_connectionMap[object1] = root;
+        m_connectionMap[object2] = root;
     }
 
 private:
     void initializeToConnectionMapIfNeeded(Object const& object)
     {
-        if(!isExistingInConnectionMap(object))
-        {
-            m_connectionMap[object] = object;
-        }
+        m_connectionMap.emplace(object, object);
     }
 
-    bool isExistingInConnectionMap(Object const& object) const
-    {
+    bool isExistingInConnectionMap(Object const& object) const    {
         return m_connectionMap.find(object) != m_connectionMap.end();
     }
-    ConnectionMap m_connectionMap;
-};
+    ConnectionMap m_connectionMap;};
 
 }
 

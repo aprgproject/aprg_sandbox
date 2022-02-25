@@ -14,15 +14,13 @@ namespace algorithm
 
 namespace
 {
-using UnionFindForUnsignedInt = UnionFind<unsigned int, 10>;
+using UnionFindForUnsignedInt = UnionFind<unsigned int, 13>;
 }
 
-TEST(UnionFindTest, IsConnectedWorks)
-{
+TEST(UnionFindTest, IsConnectedWorks){
     UnionFindForUnsignedInt unionFind;
     performIsConnectedTest(unionFind);
 }
-
 TEST(UnionFindTest, ConnectWorks)
 {
     UnionFindForUnsignedInt unionFind;
@@ -35,14 +33,18 @@ TEST(UnionFindTest, ConnectWorksWithExample1)
     performConnectTestWithExample1(unionFind);
 }
 
-TEST(UnionFindTest, GetRootWorks)
+TEST(UnionFindTest, ConnectWorksWithExample2)
 {
     UnionFindForUnsignedInt unionFind;
-    unionFind.connect(4, 3);
+    performConnectTestWithExample2(unionFind);
+}
+
+TEST(UnionFindTest, GetRootWorks)
+{
+    UnionFindForUnsignedInt unionFind;    unionFind.connect(4, 3);
     unionFind.connect(3, 8);
     unionFind.connect(6, 5);
-    unionFind.connect(9, 4);
-    unionFind.connect(2, 1);
+    unionFind.connect(9, 4);    unionFind.connect(2, 1);
 
     EXPECT_EQ(0U, unionFind.getRoot(0));
     EXPECT_EQ(2U, unionFind.getRoot(1));
@@ -59,16 +61,14 @@ TEST(UnionFindTest, GetRootWorks)
 TEST(UnionFindTest, GetNumberOfUnconnectedWorks)
 {
     UnionFindForUnsignedInt unionFind;
-    EXPECT_EQ(10U, unionFind.getNumberOfUnconnected());
+    EXPECT_EQ(13U, unionFind.getNumberOfUnconnected());
 
     unionFind.connect(4, 3);
-    unionFind.connect(3, 8);
-    unionFind.connect(6, 5);
+    unionFind.connect(3, 8);    unionFind.connect(6, 5);
     unionFind.connect(9, 4);
     unionFind.connect(2, 1);
-    EXPECT_EQ(5U, unionFind.getNumberOfUnconnected());
+    EXPECT_EQ(8U, unionFind.getNumberOfUnconnected());
 }
 
 }
-
 }

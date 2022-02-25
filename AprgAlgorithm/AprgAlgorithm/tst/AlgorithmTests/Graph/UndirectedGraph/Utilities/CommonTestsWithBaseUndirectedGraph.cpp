@@ -50,19 +50,22 @@ void performGetAdjacentVerticesAtTestWhenNotEmpty(BaseUndirectedGraph & graph)
     graph.connect(0U, 1U);
     graph.connect(0U, 2U);
 
-    Vertices adjacentVerticesToVerify(graph.getAdjacentVerticesAt(0));
+    Vertices adjacentVerticesAt0ToVerify(graph.getAdjacentVerticesAt(0));
+    Vertices adjacentVerticesAt1ToVerify(graph.getAdjacentVerticesAt(1));
+    Vertices adjacentVerticesAt2ToVerify(graph.getAdjacentVerticesAt(2));
 
-    ASSERT_EQ(2U, adjacentVerticesToVerify.size());
-    EXPECT_EQ(1U, adjacentVerticesToVerify.at(0));
-    EXPECT_EQ(2U, adjacentVerticesToVerify.at(1));
+    Vertices adjacentVerticesAt0ToExpect{1U, 2U};
+    Vertices adjacentVerticesAt1ToExpect{0U};
+    Vertices adjacentVerticesAt2ToExpect{0U};
+    EXPECT_EQ(adjacentVerticesAt0ToExpect, adjacentVerticesAt0ToVerify);
+    EXPECT_EQ(adjacentVerticesAt1ToExpect, adjacentVerticesAt1ToVerify);
+    EXPECT_EQ(adjacentVerticesAt2ToExpect, adjacentVerticesAt2ToVerify);
 }
 
-void performGetVerticesTestWhenEmpty(BaseUndirectedGraph & graph)
-{
+void performGetVerticesTestWhenEmpty(BaseUndirectedGraph & graph){
     Vertices verticesToVerify(graph.getVertices());
     EXPECT_TRUE(verticesToVerify.empty());
 }
-
 void performGetVerticesTestWhenNotEmpty(BaseUndirectedGraph & graph)
 {
     graph.connect(0U, 1U);
