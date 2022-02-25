@@ -12,6 +12,10 @@ using Vertex = unsigned int;
 using Vertices = std::vector<Vertex>;
 using Path = std::vector<Vertex>;
 
+using Edge = std::pair<Vertex, Vertex>;
+using Edges = std::vector<Edge>;
+using ListOfEdges = std::vector<Edges>;
+
 }
 
 }

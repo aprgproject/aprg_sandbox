@@ -10,14 +10,11 @@
 #include <fstream>
 #include <functional>
 #include <string>
-#include <vector>
 
 namespace alba
 {
-
 namespace algorithm
 {
-
 enum class DataBlockType
 {
     Empty,

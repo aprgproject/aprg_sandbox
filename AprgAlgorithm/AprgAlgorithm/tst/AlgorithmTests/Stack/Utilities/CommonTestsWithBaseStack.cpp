@@ -2,16 +2,12 @@
 
 #include <gtest/gtest.h>
 
-#include <vector>
-
 using namespace std;
 
-namespace alba
-{
+namespace alba{
 
 namespace algorithm
 {
-
 namespace CommonTestsWithBaseStack
 {
 

@@ -3,15 +3,11 @@
 
 #include <gtest/gtest.h>
 
-#include <vector>
-
 using namespace alba::algorithm::CommonTestsWithBaseSymbolTable;
 using namespace std;
 
-
 namespace alba
 {
-
 namespace algorithm
 {
 
