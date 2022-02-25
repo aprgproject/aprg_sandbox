@@ -1,13 +1,11 @@
 #pragma once
 
-#include <Math/Matrix/AlbaMatrix.hpp>
+#include <Common/Math/Matrix/AlbaMatrix.hpp>
 
 #include <string>
 #include <vector>
-
 namespace alba
 {
-
 class Modeling
 {
 public:
@@ -19,15 +17,13 @@ public:
         double rootMeanSquareError;
     };
     using VectorOfDoubles = std::vector<double>;
-    using MatrixOfDoubles = AlbaMatrix<double>;
+    using MatrixOfDoubles = matrix::AlbaMatrix<double>;
     Modeling();
     unsigned int getNumberOfSamples() const;
-    MatrixOfDoubles getCoefficients() const;
-    void retrieveDataFromFileWithFileFormat1(std::string const& filePath);
+    MatrixOfDoubles getCoefficients() const;    void retrieveDataFromFileWithFileFormat1(std::string const& filePath);
     void retrieveDataFromFileWithFileFormat2(std::string const& filePath);
     void saveRetrievedDataForXAndY(
-            unsigned int numberOfIndicators,
-            unsigned int numberOfSamples,
+            unsigned int numberOfIndicators,            unsigned int numberOfSamples,
             VectorOfDoubles const& retrievedDataForX,
             VectorOfDoubles const& retrievedDataForY);
     void saveRetrievedDataToModelingDataRandomly(unsigned int numberOfSamples);

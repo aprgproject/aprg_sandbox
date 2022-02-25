@@ -1,32 +1,30 @@
 #include "Modeling.hpp"
 
-#include <File/AlbaFileReader.hpp>
-#include <PathHandlers/AlbaLocalPathHandler.hpp>
-#include <Randomizer/AlbaRandomizer.hpp>
-#include <String/AlbaStringHelper.hpp>
+#include <Common/File/AlbaFileReader.hpp>
+#include <Common/PathHandler/AlbaLocalPathHandler.hpp>
+#include <Common/Randomizer/AlbaRandomizer.hpp>
+#include <Common/String/AlbaStringHelper.hpp>
 #include <gsl/gsl_multifit.h>
 
 #include <algorithm>
 #include <iostream>
 
+using namespace alba::matrix;
 using namespace std;
 
-namespace alba
-{
+namespace alba{
 
 Modeling::Modeling()
 {}
 
 unsigned int Modeling::getNumberOfSamples() const
 {
-    return m_retrievedDataForY.getRows();
+    return m_retrievedDataForY.getNumberOfRows();
 }
 
-Modeling::MatrixOfDoubles Modeling::getCoefficients() const
-{
+Modeling::MatrixOfDoubles Modeling::getCoefficients() const{
     return m_coefficients;
 }
-
 void Modeling::retrieveDataFromFileWithFileFormat1(string const& filePath)
 {
     VectorOfDoubles retrievedDataForX, retrievedDataForY;
@@ -151,16 +149,14 @@ Modeling::ValidationResult Modeling::validate()
     ValidationResult result;
     vector<double> calculationDataBuffer;
 
-    unsigned int dataHeight = m_validationDataForY.getRows();
-    unsigned int dataWidthForX = m_validationDataForX.getColumns();
+    unsigned int dataHeight = m_validationDataForY.getNumberOfRows();
+    unsigned int dataWidthForX = m_validationDataForX.getNumberOfColumns();
     unsigned int index=0;
     for(unsigned int j=0; j<dataHeight; j++)
-    {
-        double yPredicted=0;
+    {        double yPredicted=0;
         for (unsigned int i=0; i < dataWidthForX; i++)
         {
-            yPredicted += m_validationDataForX.getEntry(i, j)*m_coefficients.getEntry(i, 0);
-            index++;
+            yPredicted += m_validationDataForX.getEntry(i, j)*m_coefficients.getEntry(i, 0);            index++;
         }
         calculationDataBuffer.emplace_back(yPredicted);
     }
@@ -211,17 +207,15 @@ void Modeling::printValidationData()
 
 void Modeling::printData(MatrixOfDoubles & matrixInX, MatrixOfDoubles & matrixInY)
 {
-    for(unsigned int j=0; j<matrixInY.getRows(); j++)
+    for(unsigned int j=0; j<matrixInY.getNumberOfRows(); j++)
     {
         cout<<matrixInY.getEntry(0, j)<<" <- ";
-        for(unsigned int i=0; i<matrixInX.getColumns(); i++)
+        for(unsigned int i=0; i<matrixInX.getNumberOfColumns(); i++)
         {
             cout<<matrixInX.getEntry(i, j)<<", ";
-        }
-        cout<<endl;
+        }        cout<<endl;
     }
 }
-
 void Modeling::copyVectorToMatrix(unsigned int const numberOfColumns, unsigned int const numberOfRows, VectorOfDoubles const& retrievedDataForX, MatrixOfDoubles & matrixOfDoubles)
 {
     matrixOfDoubles.clearAndResize(numberOfColumns, numberOfRows);
@@ -240,66 +234,61 @@ void Modeling::copyVectorToMatrix(unsigned int const numberOfColumns, unsigned i
 
 void Modeling::saveRetrievedDataToMatrixRandomly(MatrixOfDoubles & matrixInX, MatrixOfDoubles & matrixInY, unsigned int numberOfSamples)
 {
-    matrixInX.clearAndResize(m_retrievedDataForX.getColumns(), numberOfSamples);
+    matrixInX.clearAndResize(m_retrievedDataForX.getNumberOfColumns(), numberOfSamples);
     matrixInY.clearAndResize(1, numberOfSamples);
     AlbaRandomizer randomizer;
     for(unsigned int j=0; j<numberOfSamples; j++)
     {
-        unsigned int randomRow((unsigned int)randomizer.getRandomValueInUniformDistribution(0, m_retrievedDataForY.getRows()-1));
+        unsigned int randomRow((unsigned int)randomizer.getRandomValueInUniformDistribution(0, m_retrievedDataForY.getNumberOfRows()-1));
         matrixInY.setEntry(0, j, m_retrievedDataForY.getEntry(0, randomRow));
-        for(unsigned int i=0; i<m_retrievedDataForX.getColumns(); i++)
+        for(unsigned int i=0; i<m_retrievedDataForX.getNumberOfColumns(); i++)
         {
             matrixInX.setEntry(i, j, m_retrievedDataForX.getEntry(i, randomRow));
-        }
-    }
+        }    }
 }
 
 void Modeling::saveRetrievedDataToMatrix(MatrixOfDoubles & matrixInX, MatrixOfDoubles & matrixInY, unsigned int numberOfSamples)
 {
-    matrixInX.clearAndResize(m_retrievedDataForX.getColumns(), numberOfSamples);
+    matrixInX.clearAndResize(m_retrievedDataForX.getNumberOfColumns(), numberOfSamples);
     matrixInY.clearAndResize(1, numberOfSamples);
     for(unsigned int j=0; j<numberOfSamples; j++)
     {
         matrixInY.setEntry(0, j, m_retrievedDataForY.getEntry(0, j));
-        for(unsigned int i=0; i<m_retrievedDataForX.getColumns(); i++)
+        for(unsigned int i=0; i<m_retrievedDataForX.getNumberOfColumns(); i++)
         {
             matrixInX.setEntry(i, j, m_retrievedDataForX.getEntry(i,j));
-        }
-    }
+        }    }
 }
 
 void Modeling::calculateCoefficientsUsingLeastSquares()
 {
-    unsigned int dataHeight = m_modelingDataForY.getRows();
-    unsigned int dataWidth = m_modelingDataForX.getColumns();
+    unsigned int dataHeight = m_modelingDataForY.getNumberOfRows();
+    unsigned int dataWidth = m_modelingDataForX.getNumberOfColumns();
     double chisq;
 
-    gsl_matrix *xModelingData, *calculatedCovariance;
-    gsl_vector *yModelingData, *calculatedCoefficients;
+    gsl_matrix *xModelingData, *calculatedCovariance;    gsl_vector *yModelingData, *calculatedCoefficients;
 
     xModelingData = gsl_matrix_alloc(dataHeight, dataWidth);
     yModelingData = gsl_vector_alloc(dataHeight);
     calculatedCoefficients = gsl_vector_alloc(dataWidth);
     calculatedCovariance = gsl_matrix_alloc(dataWidth, dataWidth);
 
-    for(unsigned int y=0; y<m_modelingDataForY.getRows(); y++)
+    for(unsigned int y=0; y<m_modelingDataForY.getNumberOfRows(); y++)
     {
-        for(unsigned int x=1; x<m_modelingDataForY.getColumns(); x++)
+        for(unsigned int x=1; x<m_modelingDataForY.getNumberOfColumns(); x++)
         {
             gsl_vector_set(yModelingData, y, m_modelingDataForY.getEntry(x, y));
         }
     }
-    for(unsigned int x=1; x<m_modelingDataForX.getColumns(); x++)
+    for(unsigned int x=1; x<m_modelingDataForX.getNumberOfColumns(); x++)
     {
-        for(unsigned int y=0; y<m_modelingDataForX.getRows(); y++)
+        for(unsigned int y=0; y<m_modelingDataForX.getNumberOfRows(); y++)
         {
             gsl_matrix_set(xModelingData, y, x, m_modelingDataForX.getEntry(x, y));
-        }
-    }
+        }    }
 
     gsl_multifit_linear_workspace *work = gsl_multifit_linear_alloc(dataHeight, dataWidth);
     gsl_multifit_linear(xModelingData, yModelingData, calculatedCoefficients, calculatedCovariance, &chisq, work);
-
     m_coefficients.clearAndResize(dataWidth, 1);
     for(unsigned int i=0; i<dataWidth; i++)
     {
