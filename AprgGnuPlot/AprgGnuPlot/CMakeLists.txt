@@ -1,11 +1,9 @@
-cmake_minimum_required(VERSION 3.20)
+cmake_minimum_required(VERSION 3.16)
 project(AprgGnuPlot C CXX)
 
 set(OUTFILE ${PROJECT_NAME})
-
 #Comment out TEST_MODE to build static executable
 set(TEST_MODE "ON")
-
 #Assign APRG Directory
 set(APRG_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../../)
 set(APRG_GNU_PLOT_DIR ${CMAKE_CURRENT_SOURCE_DIR})

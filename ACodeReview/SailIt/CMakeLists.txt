@@ -1,11 +1,9 @@
-cmake_minimum_required(VERSION 3.20)
+cmake_minimum_required(VERSION 3.16)
 project(SailIt C CXX)
 
 set(TEST_MODE "ON")
-
 #Assign APRG Directory
 set(APRG_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../../)
-
 #Assign Flags
 include(${APRG_DIR}/AprgCMakeHelpers/CommonFlags.cmake)
 

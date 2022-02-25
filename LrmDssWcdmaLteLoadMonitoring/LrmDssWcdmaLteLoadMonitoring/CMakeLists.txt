@@ -1,11 +1,9 @@
-cmake_minimum_required(VERSION 3.20)
+cmake_minimum_required(VERSION 3.16)
 project(LrmDssWcdmaLteLoadMonitoring C CXX)
 
 set(OUTFILE ${PROJECT_NAME})
-
 #Comment out TEST_MODE to build static executable
 set(TEST_MODE "ON")
-
 #Assign APRG Directory
 set(APRG_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../../)
 set(LRM_DSS_WCDMA_LTE_LOAD_MONITORING_DIR ${CMAKE_CURRENT_SOURCE_DIR})
