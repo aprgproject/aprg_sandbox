@@ -1,13 +1,10 @@
 #pragma once
 
-#include <Algorithm/Graph/GraphTypes.hpp>
 #include <Algorithm/Graph/UndirectedGraph/BaseUndirectedGraph.hpp>
 #include <Common/Container/AlbaContainerHelper.hpp>
-
 #include <algorithm>
 #include <array>
 #include <set>
-
 namespace alba
 {
 
