@@ -21,7 +21,8 @@ Path DepthFirstSearch::getOrderedPathTo(Vertex const endVertex)
     return getPathTo(endVertex);
 }
 
-void DepthFirstSearch::reinitializeStartingFrom(Vertex const startVertex){
+void DepthFirstSearch::reinitializeStartingFrom(Vertex const startVertex)
+{
     clear();
     m_startVertex = startVertex;
     continueTraversal(startVertex);
@@ -35,11 +36,10 @@ void DepthFirstSearch::continueTraversal(Vertex const vertex)
     {
         if(!m_isProcessed.at(adjacentVertex))
         {
-            m_vertexToNextVertexMap[adjacentVertex] = vertex;
+            m_vertexToPreviousVertexMap[adjacentVertex] = vertex;
             continueTraversal(adjacentVertex);
         }
-    }
-}
+    }}
 
 }
 

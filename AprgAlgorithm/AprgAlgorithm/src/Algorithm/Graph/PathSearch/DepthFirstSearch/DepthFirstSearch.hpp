@@ -4,6 +4,7 @@
 
 namespace alba
 {
+
 namespace algorithm
 {
 
@@ -21,4 +22,5 @@ private:
 };
 
 }
+
 }

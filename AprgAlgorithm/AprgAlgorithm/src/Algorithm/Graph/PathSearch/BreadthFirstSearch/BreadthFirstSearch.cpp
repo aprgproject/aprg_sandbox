@@ -23,7 +23,8 @@ Path BreadthFirstSearch::getShortestPathTo(Vertex const endVertex) const
     return getPathTo(endVertex);
 }
 
-void BreadthFirstSearch::reinitializeStartingFrom(Vertex const startVertex){
+void BreadthFirstSearch::reinitializeStartingFrom(Vertex const startVertex)
+{
     clear();
     m_startVertex = startVertex;
     deque<Vertex> queueOfVerticesToProcess{startVertex};
@@ -38,7 +39,7 @@ void BreadthFirstSearch::reinitializeStartingFrom(Vertex const startVertex){
         {
             if(!m_isProcessed.at(adjacentVertex))
             {
-                m_vertexToNextVertexMap[adjacentVertex] = vertex;
+                m_vertexToPreviousVertexMap[adjacentVertex] = vertex;
                 m_isProcessed[adjacentVertex] = true;
                 queueOfVerticesToProcess.emplace_front(adjacentVertex);
             }        }
