@@ -39,7 +39,8 @@ void DepthFirstSearch::continueTraversal(Vertex const vertex)
             m_vertexToPreviousVertexMap[adjacentVertex] = vertex;
             continueTraversal(adjacentVertex);
         }
-    }}
+    }
+}
 
 }
 

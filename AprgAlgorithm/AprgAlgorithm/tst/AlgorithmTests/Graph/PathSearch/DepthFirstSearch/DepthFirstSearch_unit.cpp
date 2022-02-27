@@ -17,7 +17,8 @@ void putConnectionsForTest(SampleGraphForTest & graph)
 {
     graph.connect(0U, 1U);
     graph.connect(0U, 2U);
-    graph.connect(0U, 5U);    graph.connect(1U, 2U);
+    graph.connect(0U, 5U);
+    graph.connect(1U, 2U);
     graph.connect(2U, 3U);
     graph.connect(2U, 4U);
     graph.connect(3U, 4U);
@@ -31,7 +32,8 @@ TEST(DepthFirstSearchTest, HasPathToWorks)
     putConnectionsForTest(graph);
     DepthFirstSearch dfs(graph, 0U);
 
-    EXPECT_TRUE(dfs.hasPathTo(0U));    EXPECT_TRUE(dfs.hasPathTo(1U));
+    EXPECT_TRUE(dfs.hasPathTo(0U));
+    EXPECT_TRUE(dfs.hasPathTo(1U));
     EXPECT_TRUE(dfs.hasPathTo(2U));
     EXPECT_TRUE(dfs.hasPathTo(3U));
     EXPECT_TRUE(dfs.hasPathTo(4U));
@@ -45,7 +47,8 @@ TEST(DepthFirstSearchTest, GetOrderedPathToWorks)
     putConnectionsForTest(graph);
     DepthFirstSearch dfs(graph, 0U);
 
-    Path pathWith0{0U};    Path pathWith1{0U, 1U};
+    Path pathWith0{0U};
+    Path pathWith1{0U, 1U};
     Path pathWith2{0U, 1U, 2U};
     Path pathWith3{0U, 1U, 2U, 3U};
     Path pathWith4{0U, 1U, 2U, 3U, 4U};
@@ -66,9 +69,9 @@ TEST(DepthFirstSearchTest, GetIsProcessedMapWorks)
     putConnectionsForTest(graph);
     DepthFirstSearch dfs(graph, 0U);
 
-    DepthFirstSearch::IsProcessedMap const& mapToVerify(dfs.getIsProcessedMap());
+    VertexToBoolMap const& mapToVerify(dfs.getIsProcessedMap());
 
-    DepthFirstSearch::IsProcessedMap mapToExpect{{0U, true}, {1U, true}, {2U, true}, {3U, true}, {4U, true}, {5U, true}};
+    VertexToBoolMap mapToExpect{{0U, true}, {1U, true}, {2U, true}, {3U, true}, {4U, true}, {5U, true}};
     EXPECT_EQ(mapToExpect, mapToVerify);
 }
 
@@ -79,6 +82,7 @@ TEST(DepthFirstSearchTest, ReinitializeStartingFromWorks)
     DepthFirstSearch dfs(graph, 0U);
 
     dfs.reinitializeStartingFrom(3U);
+
     Path pathWith0{3U, 2U, 0U};
     Path pathWith1{3U, 2U, 0U, 1U};
     Path pathWith2{3U, 2U};

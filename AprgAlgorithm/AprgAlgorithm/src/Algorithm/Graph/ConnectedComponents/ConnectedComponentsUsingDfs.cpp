@@ -44,8 +44,8 @@ void ConnectedComponentsUsingDfs::initialize()
     {
         if(!m_isProcessed.at(vertex))
         {
-            DepthFirstSearch dfs(m_graph, vertex);
-            DepthFirstSearch::IsProcessedMap const& isProcessedMap(dfs.getIsProcessedMap());
+            DepthFirstSearch dfsAtVertex(m_graph, vertex);
+            VertexToBoolMap const& isProcessedMap(dfsAtVertex.getIsProcessedMap());
             for(auto const& vertexAndIsProcessedPair : isProcessedMap)
             {
                 if(vertexAndIsProcessedPair.second)

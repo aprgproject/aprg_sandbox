@@ -42,7 +42,8 @@ void BreadthFirstSearch::reinitializeStartingFrom(Vertex const startVertex)
                 m_vertexToPreviousVertexMap[adjacentVertex] = vertex;
                 m_isProcessed[adjacentVertex] = true;
                 queueOfVerticesToProcess.emplace_front(adjacentVertex);
-            }        }
+            }
+        }
 
     }
 }

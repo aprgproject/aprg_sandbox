@@ -93,6 +93,20 @@ TEST(GraphUtilitiesTest, IsGraphConnectedWorks)
     EXPECT_FALSE(isGraphConnected(nonConnectedGraph));
 }
 
+TEST(GraphUtilitiesTest, IsBipartiteWorks)
+{
+    // This is wrong
+    SampleGraphForTest bipartiteWorks;
+    bipartiteWorks.connect(0U, 1U);
+    bipartiteWorks.connect(0U, 2U);
+    bipartiteWorks.connect(0U, 3U);
+    bipartiteWorks.connect(3U, 4U);
+    bipartiteWorks.connect(3U, 5U);
+    bipartiteWorks.connect(4U, 5U);
+
+    EXPECT_FALSE(isBipartite(bipartiteWorks));
+}
+
 TEST(GraphUtilitiesTest, GetDegreeAtWorks)
 {
     SampleGraphForTest graph;

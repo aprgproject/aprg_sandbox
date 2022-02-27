@@ -29,6 +29,33 @@ void putGraphToUnionFind(BaseUnionFind<Vertex> & unionFind, BaseUndirectedGraph 
     putEdgesToUnionFind(unionFind, graph.getEdges());
 }
 
+void checkIsBipartiteUsingDfs(
+        BaseUndirectedGraph const& graph,
+        Vertex const vertex,
+        VertexToBoolMap & isProcessedMap,
+        VertexToBoolMap & colorMap,
+        bool & isTwoColorable)
+{
+    isProcessedMap[vertex] = true;
+    Vertices adjacentVertices(graph.getAdjacentVerticesAt(vertex));
+    for(Vertex const adjacentVertex : adjacentVertices)
+    {
+        if(!isProcessedMap.at(adjacentVertex))
+        {
+            colorMap[adjacentVertex] = !colorMap.at(vertex);
+            checkIsBipartiteUsingDfs(graph, adjacentVertex, isProcessedMap, colorMap, isTwoColorable);
+        }
+        else if(colorMap.at(adjacentVertex) == colorMap.at(vertex))
+        {
+            isTwoColorable = false;
+        }
+        if(!isTwoColorable)
+        {
+            break;
+        }
+    }
+}
+
 }
 
 
@@ -114,6 +141,35 @@ bool isGraphConnected(BaseUndirectedGraph const& graph)
         }
     }
     return result;
+}
+
+bool isBipartite(BaseUndirectedGraph const& graph)
+{
+    // A bipartite is a graph whose vertices we can divide into two sets
+    // such that all edges connect a vertex in one set with a vertex in the other set.
+    // So there is only one edge connecting both sets, and if that edge is removed the graph is no longer connected
+
+    VertexToBoolMap isProcessedMap;
+    VertexToBoolMap colorMap;
+    Vertices vertices(graph.getVertices());
+    for(Vertex const vertex : vertices)
+    {
+        isProcessedMap[vertex] = false;
+        colorMap[vertex] = false;
+    }
+    bool isTwoColorable(true);
+    for(Vertex const vertex : vertices)
+    {
+        if(!isProcessedMap.at(vertex))
+        {
+            checkIsBipartiteUsingDfs(graph, vertex, isProcessedMap, colorMap, isTwoColorable);
+        }
+        if(!isTwoColorable)
+        {
+            break;
+        }
+    }
+    return isTwoColorable;
 }
 
 unsigned int getDegreeAt(

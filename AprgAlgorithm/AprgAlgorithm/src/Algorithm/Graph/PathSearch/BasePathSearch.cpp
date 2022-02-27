@@ -18,6 +18,7 @@ BasePathSearch::BasePathSearch(
     , m_vertexToPreviousVertexMap()
     , m_isProcessed()
 {}
+
 bool BasePathSearch::hasPathTo(Vertex const endVertex) const
 {
     bool result(false);
@@ -41,7 +42,8 @@ Path BasePathSearch::getPathTo(Vertex const endVertex) const
         if(it != m_vertexToPreviousVertexMap.cend())
         {
             currentVertex = it->second;
-        }        else
+        }
+        else
         {
             isSuccessful = false;
             break;
@@ -57,7 +59,7 @@ Path BasePathSearch::getPathTo(Vertex const endVertex) const
     return result;
 }
 
-BasePathSearch::IsProcessedMap const& BasePathSearch::getIsProcessedMap()
+VertexToBoolMap const& BasePathSearch::getIsProcessedMap()
 {
     return m_isProcessed;
 }
@@ -67,7 +69,8 @@ void BasePathSearch::clear()
     m_vertexToPreviousVertexMap.clear();
     Vertices vertices(m_graph.getVertices());
     for(Vertex const vertex : vertices)
-    {        m_isProcessed[vertex] = false;
+    {
+        m_isProcessed[vertex] = false;
     }
 }
 

@@ -15,6 +15,7 @@ bool isASimpleCycle(Path const& path);
 bool isATree(BaseUndirectedGraph const& graph);
 bool hasAnyCyclesOnGraph(BaseUndirectedGraph const& graph);
 bool isGraphConnected(BaseUndirectedGraph const& graph);
+bool isBipartite(BaseUndirectedGraph const& graph);
 
 unsigned int getDegreeAt(BaseUndirectedGraph const& graph, Vertex const vertex);
 unsigned int getMaxDegree(BaseUndirectedGraph const& graph);
