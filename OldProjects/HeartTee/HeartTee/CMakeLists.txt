@@ -1,12 +1,12 @@
 cmake_minimum_required(VERSION 3.16)
-project(AprgAudio C CXX)
+project(HeartTee C CXX)
 
 #Comment out TEST_MODE to build static executable
 set(TEST_MODE "ON")
 
 #set project details
 set(OUTFILE ${PROJECT_NAME})
-set(APRG_AUDIO_DIR ${CMAKE_CURRENT_SOURCE_DIR})
+set(HEART_TEE_DIR ${CMAKE_CURRENT_SOURCE_DIR})
 
 #Locate APRG Directory first because its used on other cmakes
 set(APRG_DIR ${CMAKE_CURRENT_SOURCE_DIR})
@@ -24,22 +24,26 @@ include(${APRG_DIR}/AprgCMakeHelpers/CommonDefinitions.cmake)
 
 #Include other projects
 include(${APRG_DIR}/gtest/AprgCmakeInclude/gtest.cmake)
-include(${APRG_DIR}/AprgCommon/AprgCmakeInclude/AprgCommon.cmake)
 
-#Add files and directoriesinclude(${APRG_AUDIO_DIR}/cmake/FilesAndDirectories.cmake)
+#Add files and directoriesinclude(${HEART_TEE_DIR}/cmake/FilesAndDirectories.cmake)
 
-#Add Audio Directory as definition
-add_definitions(-DAPRG_AUDIO_DIR="${APRG_AUDIO_DIR}")
+set(SPECIAL_INCLUDE_DIRECTORIES
+    src/HeartTee
+    src/SerialPort
+    src/SqlConnect
+    src/Fourier
+)
 
 #Do final steps
 if (TEST_MODE)
-    add_executable(${OUTFILE} ${APRG_AUDIO_SOURCES_AND_TESTS})
-    include_directories(${APRG_AUDIO_INCLUDE_DIRECTORIES} ${APRG_AUDIO_TEST_INCLUDE_DIRECTORIES} ${GTEST_INCLUDE_DIRS})    target_link_libraries(${OUTFILE} ${CMAKE_THREAD_LIBS_INIT} APRG_COMMON gtest ${CMAKE_THREAD_LIBS_INIT})
+    add_executable(${OUTFILE} ${HEART_TEE_SOURCES_AND_TESTS})
+    include_directories(${HEART_TEE_INCLUDE_DIRECTORIES} ${HEART_TEE_TEST_INCLUDE_DIRECTORIES} ${SPECIAL_INCLUDE_DIRECTORIES} ${GTEST_INCLUDE_DIRS})    target_link_libraries(${OUTFILE} gtest ${CMAKE_THREAD_LIBS_INIT} mysqlclient)
     add_test(${OUTFILE} ${OUTFILE})
 else()
-    set(CMAKE_FIND_LIBRARY_SUFFIXES ".a")    set(BUILD_SHARED_LIBRARIES OFF)
-    set(CMAKE_EXE_LINKER_FLAGS "-static")
-    add_executable(${OUTFILE} ${APRG_AUDIO_SOURCES} ${APRG_AUDIO_MAIN_SOURCES})
-    include_directories(${APRG_AUDIO_INCLUDE_DIRECTORIES})
-    target_link_libraries(${OUTFILE} APRG_COMMON)
+    set(CMAKE_FIND_LIBRARY_SUFFIXES ".a")
+    set(BUILD_SHARED_LIBRARIES OFF)
+    #set(CMAKE_EXE_LINKER_FLAGS "-static")
+    add_executable(${OUTFILE} ${HEART_TEE_SOURCES} ${HEART_TEE_MAIN_SOURCES})
+    include_directories(${HEART_TEE_INCLUDE_DIRECTORIES} ${SPECIAL_INCLUDE_DIRECTORIES})
+    target_link_libraries(${OUTFILE} mysqlclient)
 endif()

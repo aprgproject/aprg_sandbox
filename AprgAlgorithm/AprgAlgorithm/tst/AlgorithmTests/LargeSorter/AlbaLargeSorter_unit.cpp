@@ -13,15 +13,13 @@
 
 using namespace std;
 
-#define ALBA_LARGE_SORTER_TEST_FILE APRG_DIR R"(AprgAlgorithm\AprgAlgorithm\tst\AlgorithmTests\FilesForTests\LargeSorterTest\Test1.txt)"
-#define ALBA_LARGE_SORTER_BLOCK_DIR APRG_DIR R"(AprgAlgorithm\AprgAlgorithm\tst\AlgorithmTests\FilesForTests\LargeSorterTest\blocks\)"
+#define ALBA_LARGE_SORTER_TEST_FILE APRG_DIR R"(\AprgAlgorithm\AprgAlgorithm\tst\AlgorithmTests\FilesForTests\LargeSorterTest\Test1.txt)"
+#define ALBA_LARGE_SORTER_BLOCK_DIR APRG_DIR R"(\AprgAlgorithm\AprgAlgorithm\tst\AlgorithmTests\FilesForTests\LargeSorterTest\blocks\)"
 
 namespace alba
 {
-
 namespace algorithm
 {
-
 class TestObject
 {
 public:
