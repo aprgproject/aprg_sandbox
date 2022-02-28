@@ -1,0 +1,3 @@
+<row>
+\begin{comment} LYX_TABLE_ROW_REPLACE \end{comment}
+</row>
