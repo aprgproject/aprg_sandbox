@@ -1,9 +1,9 @@
 #include "UmlLogger.hpp"
 
+#include <Common/PathHandler/AlbaLocalPathHandler.hpp>
+#include <Common/Math/AlbaMathHelper.hpp>
 #include <Common/Uml/UmlArrow.hpp>
 #include <Common/Utils/StringHelpers.hpp>
-#include <PathHandlers/AlbaLocalPathHandler.hpp>
-#include <math/AlbaMathHelper.hpp>
 
 #include <fstream>
 #include <iostream>

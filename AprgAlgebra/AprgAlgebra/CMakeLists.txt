@@ -1,15 +1,11 @@
 cmake_minimum_required(VERSION 3.16)
-project(AprgAlgebra C CXX)
-
-#Comment out TEST_MODE to build static executable
-set(TEST_MODE "ON")
 
 #set project details
+project(AprgAlgebra C CXX)
 set(OUTFILE ${PROJECT_NAME})
 set(APRG_ALGEBRA_DIR ${CMAKE_CURRENT_SOURCE_DIR})
 
 #Locate APRG Directory first because its used on other cmakes
-set(APRG_DIR ${CMAKE_CURRENT_SOURCE_DIR})
 get_filename_component(ABSOLUTE_CURRENT_DIR "${CMAKE_CURRENT_LIST_DIR}" ABSOLUTE)
 get_filename_component(CURRENT_DIR_NAME "$${ABSOLUTE_CURRENT_DIR}" NAME)
 while(NOT ${CURRENT_DIR_NAME} MATCHES "APRG")
@@ -32,4 +28,5 @@ include(${APRG_ALGEBRA_DIR}/cmake/FilesAndDirectories.cmake)
 #Do final steps
 add_executable(${OUTFILE} ${APRG_ALGEBRA_SOURCES_AND_TESTS})
 include_directories(${APRG_ALGEBRA_INCLUDE_DIRECTORIES} ${APRG_ALGEBRA_TEST_INCLUDE_DIRECTORIES} ${GTEST_INCLUDE_DIRS})
-target_link_libraries(${OUTFILE} ${CMAKE_THREAD_LIBS_INIT} APRG_COMMON gtest ${CMAKE_THREAD_LIBS_INIT})add_test(${OUTFILE} ${OUTFILE})
+target_link_libraries(${OUTFILE} ${CMAKE_THREAD_LIBS_INIT} APRG_COMMON gtest ${CMAKE_THREAD_LIBS_INIT})
+add_test(${OUTFILE} ${OUTFILE})

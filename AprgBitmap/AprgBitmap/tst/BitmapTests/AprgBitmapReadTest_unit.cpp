@@ -6,11 +6,11 @@
 
 using namespace std;
 
-#define APRG_BITMAP_MONOCHROME_TEST_FILE APRG_DIR R"(AprgBitmap\AprgBitmap\tst\SampleBitmaps\Monochrome.bmp)"
-#define APRG_BITMAP_16_COLOR_TEST_FILE APRG_DIR R"(AprgBitmap\AprgBitmap\tst\SampleBitmaps\16ColorBitmap.bmp)"
-#define APRG_BITMAP_256_COLOR_TEST_FILE APRG_DIR R"(AprgBitmap\AprgBitmap\tst\SampleBitmaps\256ColorBitmap.bmp)"
-#define APRG_BITMAP_24_BIT_TEST_FILE APRG_DIR R"(AprgBitmap\AprgBitmap\tst\SampleBitmaps\24BitBitmap.bmp)"
-#define APRG_BITMAP_32_BIT_TEST_FILE APRG_DIR R"(AprgBitmap\AprgBitmap\tst\SampleBitmaps\32BitBitmap.bmp)"
+#define APRG_BITMAP_MONOCHROME_TEST_FILE APRG_DIR R"(\AprgBitmap\AprgBitmap\tst\SampleBitmaps\Monochrome.bmp)"
+#define APRG_BITMAP_16_COLOR_TEST_FILE APRG_DIR R"(\AprgBitmap\AprgBitmap\tst\SampleBitmaps\16ColorBitmap.bmp)"
+#define APRG_BITMAP_256_COLOR_TEST_FILE APRG_DIR R"(\AprgBitmap\AprgBitmap\tst\SampleBitmaps\256ColorBitmap.bmp)"
+#define APRG_BITMAP_24_BIT_TEST_FILE APRG_DIR R"(\AprgBitmap\AprgBitmap\tst\SampleBitmaps\24BitBitmap.bmp)"
+#define APRG_BITMAP_32_BIT_TEST_FILE APRG_DIR R"(\AprgBitmap\AprgBitmap\tst\SampleBitmaps\32BitBitmap.bmp)"
 
 namespace alba
 {

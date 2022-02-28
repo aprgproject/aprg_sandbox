@@ -1,6 +1,6 @@
 #pragma once
 
-#include <User/AlbaLocalUserAutomation.hpp>
+#include <UserAutomation/AlbaLocalUserAutomation.hpp>
 
 #include <fstream>
 #include <string>

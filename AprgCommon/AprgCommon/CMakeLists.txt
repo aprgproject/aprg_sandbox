@@ -1,12 +1,11 @@
 cmake_minimum_required(VERSION 3.16)
-project(AprgCommon C CXX)
 
 #set project details
+project(AprgCommon C CXX)
 set(OUTFILE ${PROJECT_NAME})
 set(APRG_COMMON_DIR ${CMAKE_CURRENT_SOURCE_DIR})
 
 #Locate APRG Directory first because its used on other cmakes
-set(APRG_DIR ${CMAKE_CURRENT_SOURCE_DIR})
 get_filename_component(ABSOLUTE_CURRENT_DIR "${CMAKE_CURRENT_LIST_DIR}" ABSOLUTE)
 get_filename_component(CURRENT_DIR_NAME "$${ABSOLUTE_CURRENT_DIR}" NAME)
 while(NOT ${CURRENT_DIR_NAME} MATCHES "APRG")
@@ -28,4 +27,5 @@ include(${APRG_COMMON_DIR}/cmake/FilesAndDirectories.cmake)
 #Do final steps
 add_executable(${OUTFILE} ${APRG_COMMON_SOURCES_AND_TESTS})
 include_directories(${APRG_COMMON_INCLUDE_DIRECTORIES} ${APRG_COMMON_TEST_INCLUDE_DIRECTORIES} ${GTEST_INCLUDE_DIRS})
-target_link_libraries(${OUTFILE} gtest ${CMAKE_THREAD_LIBS_INIT})add_test(${OUTFILE} ${OUTFILE})
+target_link_libraries(${OUTFILE} gtest ${CMAKE_THREAD_LIBS_INIT})
+add_test(${OUTFILE} ${OUTFILE})

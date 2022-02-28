@@ -12,8 +12,8 @@ using namespace alba::AprgBitmap;
 using namespace alba::TwoDimensions;
 using namespace std;
 
-#define APRG_GRAPH_24_BIT_DEFAULT_FILE APRG_DIR R"(AprgGraph\AprgGraph\tst\Bitmaps\Default24Bit.bmp)"
-#define APRG_GRAPH_24_BIT_GRAPH_OUTPUT_FILE APRG_DIR R"(AprgGraph\AprgGraph\tst\Bitmaps\GraphOutput.bmp)"
+#define APRG_GRAPH_24_BIT_DEFAULT_FILE APRG_DIR R"(\AprgGraph\AprgGraph\tst\Bitmaps\Default24Bit.bmp)"
+#define APRG_GRAPH_24_BIT_GRAPH_OUTPUT_FILE APRG_DIR R"(\AprgGraph\AprgGraph\tst\Bitmaps\GraphOutput.bmp)"
 
 namespace alba
 {

@@ -8,7 +8,7 @@ using namespace std;
 namespace alba
 {
 
-/*TEST(SampleTest, PerformanceAccessTestWithRandomValues)
+TEST(SampleTest, DISABLED_PerformanceAccessTestWithRandomValues)
 {
     constexpr unsigned int initialSize=2500;
     constexpr unsigned int accessIterations=1000000;
@@ -31,7 +31,7 @@ namespace alba
     }
 }
 
-TEST(SampleTest, PerformanceAddTestWithRandomValues)
+TEST(SampleTest, DISABLED_PerformanceAddTestWithRandomValues)
 {
     constexpr unsigned int initialSize=1000000;
 
@@ -44,6 +44,6 @@ TEST(SampleTest, PerformanceAddTestWithRandomValues)
         crnccIds.emplace_back(crnccId);
         setCrnccIdMapping(crnccId, nbccId);
     }
-}*/
+}
 
 }

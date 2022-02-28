@@ -11,8 +11,8 @@ namespace alba
 
 TEST(SoosaTest, SampleTest1)
 {
-    AlbaLocalPathHandler fileToTest(APRG_DIR R"(SOOSA\SOOSA\tst\FilesForTests\TestSoosaBasicScenario.bmp)");
-    AlbaLocalPathHandler fileForSoosa(APRG_DIR R"(SOOSA\SOOSA\tst\FilesForTests\TestSoosa.bmp)");
+    AlbaLocalPathHandler fileToTest(APRG_DIR R"(\SOOSA\SOOSA\tst\FilesForTests\TestSoosaBasicScenario.bmp)");
+    AlbaLocalPathHandler fileForSoosa(APRG_DIR R"(\SOOSA\SOOSA\tst\FilesForTests\TestSoosa.bmp)");
     fileForSoosa.deleteFile();
     fileToTest.copyToNewFile(fileForSoosa.getFullPath());
 

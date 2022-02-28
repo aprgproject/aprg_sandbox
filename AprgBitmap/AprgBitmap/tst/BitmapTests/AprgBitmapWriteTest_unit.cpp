@@ -6,7 +6,7 @@
 
 using namespace std;
 
-#define APRG_BITMAP_WRITE_TEST_FILE APRG_DIR R"(AprgBitmap\AprgBitmap\tst\SampleBitmaps\WriteTestFile.bmp)"
+#define APRG_BITMAP_WRITE_TEST_FILE APRG_DIR R"(\AprgBitmap\AprgBitmap\tst\SampleBitmaps\WriteTestFile.bmp)"
 
 namespace alba
 {

@@ -1,6 +1,6 @@
 #include "UmlParticipant.hpp"
 
-#include <String/AlbaStringHelper.hpp>
+#include <Common/String/AlbaStringHelper.hpp>
 
 #include <string>
 

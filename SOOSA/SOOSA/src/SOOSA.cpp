@@ -24,7 +24,7 @@
 #define MINIMUM_NUMBER_OF_BAR_WIDTHS_TO_BE_A_BAR 20
 #define BAR_HEIGHT_TO_DIAMETER_RATIO 0.5
 #define MINIMUM_PERCENTAGE_OF_BLACK_POINTS_FOR_FILLED_CIRCLE 0.7
-#define FILE_PATH_BASIS_HTML APRG_DIR R"(SOOSA2014\basis.html)"
+#define FILE_PATH_BASIS_HTML APRG_DIR R"(\SOOSA2014\basis.html)"
 
 using namespace alba::AprgBitmap;
 using namespace alba::TwoDimensions;

@@ -1,15 +1,11 @@
 cmake_minimum_required(VERSION 3.16)
-project(AprgAudio C CXX)
-
-#Comment out TEST_MODE to build static executable
-set(TEST_MODE "ON")
 
 #set project details
+project(AprgAudio C CXX)
 set(OUTFILE ${PROJECT_NAME})
 set(APRG_AUDIO_DIR ${CMAKE_CURRENT_SOURCE_DIR})
 
 #Locate APRG Directory first because its used on other cmakes
-set(APRG_DIR ${CMAKE_CURRENT_SOURCE_DIR})
 get_filename_component(ABSOLUTE_CURRENT_DIR "${CMAKE_CURRENT_LIST_DIR}" ABSOLUTE)
 get_filename_component(CURRENT_DIR_NAME "$${ABSOLUTE_CURRENT_DIR}" NAME)
 while(NOT ${CURRENT_DIR_NAME} MATCHES "APRG")
@@ -22,22 +18,28 @@ set(APRG_DIR ${ABSOLUTE_CURRENT_DIR})
 include(${APRG_DIR}/AprgCMakeHelpers/CommonFlags.cmake)
 include(${APRG_DIR}/AprgCMakeHelpers/CommonDefinitions.cmake)
 
+#Add Audio Directory as definition
+add_definitions(-DAPRG_AUDIO_DIR="${APRG_AUDIO_DIR}")
+
 #Include other projects
 include(${APRG_DIR}/gtest/AprgCmakeInclude/gtest.cmake)
 include(${APRG_DIR}/AprgCommon/AprgCmakeInclude/AprgCommon.cmake)
 
-#Add files and directoriesinclude(${APRG_AUDIO_DIR}/cmake/FilesAndDirectories.cmake)
+#Add files and directories
+include(${APRG_AUDIO_DIR}/cmake/FilesAndDirectories.cmake)
 
-#Add Audio Directory as definition
-add_definitions(-DAPRG_AUDIO_DIR="${APRG_AUDIO_DIR}")
+#Comment out TEST_MODE to build static executable
+set(TEST_MODE "ON")
 
 #Do final steps
 if (TEST_MODE)
     add_executable(${OUTFILE} ${APRG_AUDIO_SOURCES_AND_TESTS})
-    include_directories(${APRG_AUDIO_INCLUDE_DIRECTORIES} ${APRG_AUDIO_TEST_INCLUDE_DIRECTORIES} ${GTEST_INCLUDE_DIRS})    target_link_libraries(${OUTFILE} ${CMAKE_THREAD_LIBS_INIT} APRG_COMMON gtest ${CMAKE_THREAD_LIBS_INIT})
+    include_directories(${APRG_AUDIO_INCLUDE_DIRECTORIES} ${APRG_AUDIO_TEST_INCLUDE_DIRECTORIES} ${GTEST_INCLUDE_DIRS})
+    target_link_libraries(${OUTFILE} ${CMAKE_THREAD_LIBS_INIT} APRG_COMMON gtest ${CMAKE_THREAD_LIBS_INIT})
     add_test(${OUTFILE} ${OUTFILE})
 else()
-    set(CMAKE_FIND_LIBRARY_SUFFIXES ".a")    set(BUILD_SHARED_LIBRARIES OFF)
+    set(CMAKE_FIND_LIBRARY_SUFFIXES ".a")
+    set(BUILD_SHARED_LIBRARIES OFF)
     set(CMAKE_EXE_LINKER_FLAGS "-static")
     add_executable(${OUTFILE} ${APRG_AUDIO_SOURCES} ${APRG_AUDIO_MAIN_SOURCES})
     include_directories(${APRG_AUDIO_INCLUDE_DIRECTORIES})

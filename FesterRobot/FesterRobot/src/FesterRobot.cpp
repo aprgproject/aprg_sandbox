@@ -1,7 +1,7 @@
 #include "FesterRobot.hpp"
 
-#include <String/AlbaStringHelper.hpp>
-#include <User/AlbaLocalUserAutomation.hpp>
+#include <Common/String/AlbaStringHelper.hpp>
+#include <UserAutomation/AlbaLocalUserAutomation.hpp>
 
 #include <iostream>
 #include <sstream>

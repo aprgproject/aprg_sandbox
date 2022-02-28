@@ -25,7 +25,8 @@ include(${APRG_DIR}/AprgCMakeHelpers/CommonDefinitions.cmake)
 #Include other projects
 include(${APRG_DIR}/gtest/AprgCmakeInclude/gtest.cmake)
 
-#Add files and directoriesinclude(${HEART_TEE_DIR}/cmake/FilesAndDirectories.cmake)
+#Add files and directories
+include(${HEART_TEE_DIR}/cmake/FilesAndDirectories.cmake)
 
 set(SPECIAL_INCLUDE_DIRECTORIES
     src/HeartTee
@@ -37,7 +38,8 @@ set(SPECIAL_INCLUDE_DIRECTORIES
 #Do final steps
 if (TEST_MODE)
     add_executable(${OUTFILE} ${HEART_TEE_SOURCES_AND_TESTS})
-    include_directories(${HEART_TEE_INCLUDE_DIRECTORIES} ${HEART_TEE_TEST_INCLUDE_DIRECTORIES} ${SPECIAL_INCLUDE_DIRECTORIES} ${GTEST_INCLUDE_DIRS})    target_link_libraries(${OUTFILE} gtest ${CMAKE_THREAD_LIBS_INIT} mysqlclient)
+    include_directories(${HEART_TEE_INCLUDE_DIRECTORIES} ${HEART_TEE_TEST_INCLUDE_DIRECTORIES} ${SPECIAL_INCLUDE_DIRECTORIES} ${GTEST_INCLUDE_DIRS})
+    target_link_libraries(${OUTFILE} gtest ${CMAKE_THREAD_LIBS_INIT} mysqlclient)
     add_test(${OUTFILE} ${OUTFILE})
 else()
     set(CMAKE_FIND_LIBRARY_SUFFIXES ".a")

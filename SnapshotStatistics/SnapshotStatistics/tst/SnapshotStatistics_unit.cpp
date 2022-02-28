@@ -141,7 +141,7 @@ TEST(SnapshotStatisticsTest, DISABLED_RomUsageRel3)
     statistics.saveStatisticsToFile(R"(C:\Work\CP\Features\CNI-31516\LogsForStatistics\CNI 31516_AP_REL3\results\outputRomStatistics.csv)");
 }
 
-TEST(SnapshotStatisticsTest, RamUsageRel3)
+TEST(SnapshotStatisticsTest, DISABLED_RamUsageRel3)
 {
     SnapshotStatistics statistics;
 

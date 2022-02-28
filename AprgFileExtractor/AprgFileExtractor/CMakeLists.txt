@@ -1,41 +1,41 @@
 cmake_minimum_required(VERSION 3.16)
+
+#set project details
 project(AprgFileExtractor C CXX)
-
 set(OUTFILE ${PROJECT_NAME})
-
-#Comment out TEST_MODE to build static executable
-set(TEST_MODE "ON")
-
-#Assign APRG Directory
-set(APRG_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../../)
 set(APRG_FILE_EXTRACTOR_DIR ${CMAKE_CURRENT_SOURCE_DIR})
 
-#Assign Flags
-include(${APRG_DIR}/AprgCMakeHelpers/CommonFlags.cmake)
+#Locate APRG Directory first because its used on other cmakes
+get_filename_component(ABSOLUTE_CURRENT_DIR "${CMAKE_CURRENT_LIST_DIR}" ABSOLUTE)
+get_filename_component(CURRENT_DIR_NAME "$${ABSOLUTE_CURRENT_DIR}" NAME)
+while(NOT ${CURRENT_DIR_NAME} MATCHES "APRG")
+    get_filename_component(ABSOLUTE_CURRENT_DIR "${ABSOLUTE_CURRENT_DIR}/.." ABSOLUTE)
+    get_filename_component(CURRENT_DIR_NAME "$${ABSOLUTE_CURRENT_DIR}" NAME)
+endwhile()
+set(APRG_DIR ${ABSOLUTE_CURRENT_DIR})
 
-#Assign Definitions
+#Assign common flags, definitions and macros
+include(${APRG_DIR}/AprgCMakeHelpers/CommonFlags.cmake)
 include(${APRG_DIR}/AprgCMakeHelpers/CommonDefinitions.cmake)
 if(WIN32)
     #set for path of 7Zip for windows 32
-    add_definitions(-DPATH_OF_7Z_EXECUTABLE="${APRG_DIR}AprgFileExtractor/7z32/7z.exe")
-    add_definitions(-DPATH_OF_7Z_TEMP_FILE="${APRG_DIR}AprgFileExtractor/7z32/TempFile.txt")
+    add_definitions(-DPATH_OF_7Z_EXECUTABLE="${APRG_DIR}/AprgFileExtractor/7z32/7z.exe")
+    add_definitions(-DPATH_OF_7Z_TEMP_FILE="${APRG_DIR}/AprgFileExtractor/7z32/TempFile.txt")
 endif()
 
-#Include gtest, this needs APRG Directory
+#Include other projects
 include(${APRG_DIR}/gtest/AprgCmakeInclude/gtest.cmake)
-
-#Include AprgCommon, this needs APRG Directory
 include(${APRG_DIR}/AprgCommon/AprgCmakeInclude/AprgCommon.cmake)
-
-#Include AprgAlgorithm, this needs APRG Directory
 include(${APRG_DIR}/AprgAlgorithm/AprgCmakeInclude/AprgAlgorithm.cmake)
-
-#Include AprgGrepStringEvaluator, this needs APRG Directory
 include(${APRG_DIR}/AprgGrepStringEvaluator/AprgCmakeInclude/AprgGrepStringEvaluator.cmake)
 
 #Add files and directories
 include(${APRG_FILE_EXTRACTOR_DIR}/cmake/FilesAndDirectories.cmake)
 
+#Comment out TEST_MODE to build static executable
+set(TEST_MODE "ON")
+
+#Do final steps
 if (TEST_MODE)
     add_executable(${OUTFILE} ${APRG_FILE_EXTRACTOR_SOURCES_AND_TESTS})
     include_directories(${APRG_FILE_EXTRACTOR_INCLUDE_DIRECTORIES} ${APRG_FILE_EXTRACTOR_TEST_INCLUDE_DIRECTORIES} ${GTEST_INCLUDE_DIRS})

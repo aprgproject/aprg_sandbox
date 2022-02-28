@@ -255,7 +255,7 @@ double MapAnalyzer::getMultiplierForExperience(
 }
 
 bool MapAnalyzer::isDropRateAcceptable(
-        double const dropRate) const
+        double const /*dropRate*/) const
 {
     return true;
     //return dropRate >= 1; // This removes hard farming

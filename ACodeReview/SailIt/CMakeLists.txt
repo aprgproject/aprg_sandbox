@@ -1,15 +1,11 @@
 cmake_minimum_required(VERSION 3.16)
-project(SailIt C CXX)
-
-#Comment out TEST_MODE to build static executable
-set(TEST_MODE "ON")
 
 #set project details
+project(SailIt C CXX)
 set(OUTFILE ${PROJECT_NAME})
 set(APRG_ALGEBRA_DIR ${CMAKE_CURRENT_SOURCE_DIR})
 
 #Locate APRG Directory first because its used on other cmakes
-set(APRG_DIR ${CMAKE_CURRENT_SOURCE_DIR})
 get_filename_component(ABSOLUTE_CURRENT_DIR "${CMAKE_CURRENT_LIST_DIR}" ABSOLUTE)
 get_filename_component(CURRENT_DIR_NAME "$${ABSOLUTE_CURRENT_DIR}" NAME)
 while(NOT ${CURRENT_DIR_NAME} MATCHES "APRG")
@@ -26,10 +22,12 @@ include(${APRG_DIR}/AprgCMakeHelpers/CommonDefinitions.cmake)
 include(${APRG_DIR}/gtest/AprgCmakeInclude/gtest.cmake)
 include(${APRG_DIR}/AprgCommon/AprgCmakeInclude/AprgCommon.cmake)
 
-set(CODE_SOURCES    src/SailIt.cpp
+set(CODE_SOURCES
+    src/SailIt.cpp
     src/SailIt.hpp
     src/CPlusPlus/Analyzer/Analyzers/Classes.cpp
-    src/CPlusPlus/Analyzer/Analyzers/ControlStructures.cpp    src/CPlusPlus/Analyzer/Analyzers/Expressions.cpp
+    src/CPlusPlus/Analyzer/Analyzers/ControlStructures.cpp
+    src/CPlusPlus/Analyzer/Analyzers/Expressions.cpp
     src/CPlusPlus/Analyzer/Analyzers/Functions.cpp
     src/CPlusPlus/Analyzer/Analyzers/Macros.cpp
     src/CPlusPlus/Analyzer/Analyzers/Namespaces.cpp
@@ -124,6 +122,9 @@ set(MAIN_SOURCES
 )
 
 set(PROJECT_NAME_SCT ${PROJECT_NAME}_TEST)
+
+#Comment out TEST_MODE to build static executable
+set(TEST_MODE "ON")
 
 if (TEST_MODE)
     add_executable(${PROJECT_NAME_SCT} ${CODE_SOURCES} ${TEST_SOURCES})

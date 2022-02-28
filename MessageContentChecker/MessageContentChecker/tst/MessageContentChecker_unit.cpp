@@ -1,5 +1,5 @@
 #include <BB_2_RlSetupReq.h>
-#include <Bit/AlbaBitManipulation.hpp>
+#include <Common/Bit/AlbaBitManipulation.hpp>
 #include <MessageContentChecker.hpp>
 #include <SAddiEdchRlMappingInfo.h>
 #include <SAdditionalEdchCellInfo.h>

@@ -1,8 +1,8 @@
 #pragma once
 
 #include <Common/Components/ComponentName.hpp>
+#include <Common/String/AlbaStringHelper.hpp>
 #include <Common/Uml/UmlParticipant.hpp>
-#include <string/AlbaStringHelper.hpp>
 
 #include <sstream>
 #include <string>

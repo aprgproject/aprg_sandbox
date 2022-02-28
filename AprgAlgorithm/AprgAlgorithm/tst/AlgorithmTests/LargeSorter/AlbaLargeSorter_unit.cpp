@@ -18,8 +18,10 @@ using namespace std;
 
 namespace alba
 {
+
 namespace algorithm
 {
+
 class TestObject
 {
 public:

@@ -81,21 +81,25 @@ void FileDestructor::renameDirectory(string const& directoryPath) const
 
 void FileDestructor::destroyFile(string const& filePath) const
 {
+    constexpr unsigned int MAX_CHARACTERS_ON_PATH=100;
     cout<<"Destroying File: ["<<filePath<<"]"<<endl;
     AlbaLocalPathHandler filePathHandler(filePath);
     unsigned int retries=10;
     bool isNotSuccessful = true;
     while(retries>0 && isNotSuccessful)
     {
-        isNotSuccessful = !filePathHandler.renameFile(stringHelper::getRandomAlphaNumericString(10));
-        if(!isNotSuccessful)
+        if(filePathHandler.getFullPath().length() > MAX_CHARACTERS_ON_PATH)
         {
-            cout<<"Renamed File: ["<<filePathHandler.getFullPath()<<"]"<<endl;
-            isNotSuccessful = isNotSuccessful || !filePathHandler.deleteFile();
+            isNotSuccessful = !filePathHandler.renameFile(stringHelper::getRandomAlphaNumericString(10));
             if(!isNotSuccessful)
             {
-                cout<<"Destroyed File: ["<<filePathHandler.getFullPath()<<"]"<<endl;
+                cout<<"Renamed File: ["<<filePathHandler.getFullPath()<<"]"<<endl;
             }
+        }
+        isNotSuccessful = !filePathHandler.deleteFile();
+        if(!isNotSuccessful)
+        {
+            cout<<"Destroyed File: ["<<filePathHandler.getFullPath()<<"]"<<endl;
         }
         retries--;
     }
