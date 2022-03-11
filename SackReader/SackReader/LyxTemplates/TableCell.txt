@@ -1,9 +1,0 @@
-<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin{comment} LYX_TABLE_CELL_REPLACE \end{comment}
-\end_layout
-
-\end_inset
-</cell>

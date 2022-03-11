@@ -1,4 +1,0 @@
-\begin_layout Subsection
-LYX_SUBSECTION_NAME_REPLACE
-\end_layout
-

@@ -1,4 +1,0 @@
-cd /var/www/html/pidsimulator/APRG/AprgPidCopy/PidSimulator/BUILD
-cmake -DCMAKE_BUILD_TYPE=Release ../PidSimulator/
-make -j10
-cp PidSimulator ../../../../
