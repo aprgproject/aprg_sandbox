@@ -9,28 +9,24 @@ using namespace std;
 namespace alba
 {
 
-TEST(AlbaRandomizer, RandomUniformValuesAreWithinLimits)
+TEST(AlbaRandomizerTest, RandomUniformValuesAreWithinLimits)
 {
     AlbaRandomizer randomizer;
-    int const minimumRandomValue(0);
-    int const maximumRandomValue(9);
+    int const minimumRandomValue(0);    int const maximumRandomValue(9);
     for(int i=0; i<1000; i++)
     {
-        int random(randomizer.getRandomValueInUniformDistribution(minimumRandomValue, maximumRandomValue));
-        bool isWithinLimits = random>=minimumRandomValue && random<=maximumRandomValue;
+        int random(randomizer.getRandomValueInUniformDistribution(minimumRandomValue, maximumRandomValue));        bool isWithinLimits = random>=minimumRandomValue && random<=maximumRandomValue;
         EXPECT_TRUE(isWithinLimits);
     }
 }
 
-TEST(AlbaRandomizer, RandomValuesAreUniformlyDistributed)
+TEST(AlbaRandomizerTest, RandomValuesAreUniformlyDistributed)
 {
     AlbaRandomizer randomizer;
-    int const minimumRandomValue(0);
-    int const maximumRandomValue(9);
+    int const minimumRandomValue(0);    int const maximumRandomValue(9);
     int numberOfRandomValues(maximumRandomValue-minimumRandomValue+1);
     int const iterations(10000);
-    int const allowedDeviation(static_cast<int>(iterations*0.1));
-    vector<int> hitsForEachValue(static_cast<unsigned long>(numberOfRandomValues), 0);
+    int const allowedDeviation(static_cast<int>(iterations*0.1));    vector<int> hitsForEachValue(static_cast<unsigned long>(numberOfRandomValues), 0);
     for(int i=0; i<iterations; i++)
     {
         int random(randomizer.getRandomValueInUniformDistribution(minimumRandomValue, maximumRandomValue));

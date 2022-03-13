@@ -8,14 +8,12 @@ namespace alba
 {
 
 AlbaWindowsPathHandlerTest::AlbaWindowsPathHandlerTest()
-    : pathOfAprgDirectory(APRG_DIR)
+    : pathOfAprgDirectory(APRG_DIR R"(\)")
 {}
 
-string AlbaWindowsPathHandlerTest::convertToSimplestPath(string const& path)
-{
+string AlbaWindowsPathHandlerTest::convertToSimplestPath(string const& path){
     return getCorrectPathWithoutDoublePeriod<'\\'>(getCorrectPathWithReplacedSlashCharacters<'\\'>(path));
 }
-
 string AlbaWindowsPathHandlerTest::getDriveOfAprgDir()
 {
     return getStringBeforeThisString(pathOfAprgDirectory, ":");
