@@ -100,7 +100,8 @@ TEST(GraphUtilitiesTest, IsBipartiteWorks)
     GraphForTest bipartiteWorks;
     bipartiteWorks.connect(0U, 1U);
     bipartiteWorks.connect(0U, 2U);
-    bipartiteWorks.connect(0U, 3U);    bipartiteWorks.connect(3U, 4U);
+    bipartiteWorks.connect(0U, 3U);
+    bipartiteWorks.connect(3U, 4U);
     bipartiteWorks.connect(3U, 5U);
     bipartiteWorks.connect(4U, 5U);
 
@@ -145,7 +146,8 @@ TEST(GraphUtilitiesTest, GetNumberOfSelfLoopsWorks)
     GraphForTest graph;
 
     graph.connect(0U, 1U);
-    graph.connect(0U, 2U);    graph.connect(0U, 3U);
+    graph.connect(0U, 2U);
+    graph.connect(0U, 3U);
     graph.connect(1U, 1U);
     graph.connect(2U, 2U);
 
@@ -157,10 +159,12 @@ TEST(GraphUtilitiesTest, GetEdgesOfMaximalConnectedSubgraphsWorks)
     GraphForTest graph;
     graph.connect(0U, 5U);
     graph.connect(4U, 3U);
-    graph.connect(0U, 1U);    graph.connect(9U, 12U);
+    graph.connect(0U, 1U);
+    graph.connect(9U, 12U);
     graph.connect(6U, 4U);
     graph.connect(5U, 4U);
-    graph.connect(0U, 2U);    graph.connect(11U, 12U);
+    graph.connect(0U, 2U);
+    graph.connect(11U, 12U);
     graph.connect(9U, 10U);
     graph.connect(0U, 6U);
     graph.connect(7U, 8U);
@@ -175,6 +179,7 @@ TEST(GraphUtilitiesTest, GetEdgesOfMaximalConnectedSubgraphsWorks)
     listOfEdgesToExpect.emplace_back(GraphUtilitiesForTest::Edges{{9, 10}, {9, 11}, {9, 12}, {11, 12}});
     EXPECT_EQ(listOfEdgesToExpect, listOfEdgesToVerify);
 }
+
 
 }
 

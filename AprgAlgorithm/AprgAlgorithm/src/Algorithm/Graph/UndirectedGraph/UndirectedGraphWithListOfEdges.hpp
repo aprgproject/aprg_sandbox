@@ -6,7 +6,8 @@
 #include <sstream>
 #include <set>
 
-namespace alba{
+namespace alba
+{
 
 namespace algorithm
 {
@@ -169,8 +170,10 @@ public:
 private:
 
     unsigned int m_numberOfVertices;
-    unsigned int m_numberOfEdges;    SetOfEdges m_edges;
+    unsigned int m_numberOfEdges;
+    SetOfEdges m_edges;
 };
 
 }
+
 }

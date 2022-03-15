@@ -6,6 +6,7 @@
 
 namespace alba
 {
+
 namespace algorithm
 {
 
@@ -13,7 +14,7 @@ namespace CommonTestsWithBaseUndirectedGraph
 {
 
 template<typename Graph>
-void performHasAnyConnectionOnUnsignedIntVertexTestWhenEmpty()
+void testHasAnyConnectionWhenEmptyWithVertexAsUnsignedInt()
 {
     Graph graph;
 
@@ -24,7 +25,7 @@ void performHasAnyConnectionOnUnsignedIntVertexTestWhenEmpty()
 }
 
 template<typename Graph>
-void performHasAnyConnectionOnUnsignedIntVertexTestWhenNotEmpty()
+void testHasAnyConnectionWhenNotEmptyWithVertexAsUnsignedInt()
 {
     Graph graph;
     graph.connect(0U, 1U);
@@ -37,7 +38,7 @@ void performHasAnyConnectionOnUnsignedIntVertexTestWhenNotEmpty()
 }
 
 template<typename Graph>
-void performIsConnectedOnUnsignedIntVertexTestWhenEmpty()
+void testIsConnectedWhenEmptyWithVertexAsUnsignedInt()
 {
     Graph graph;
 
@@ -48,7 +49,7 @@ void performIsConnectedOnUnsignedIntVertexTestWhenEmpty()
 }
 
 template<typename Graph>
-void performIsConnectedOnUnsignedIntVertexTestWhenNotEmpty()
+void testIsConnectedWhenNotEmptyWithVertexAsUnsignedInt()
 {
     Graph graph;
     graph.connect(0U, 1U);
@@ -61,7 +62,7 @@ void performIsConnectedOnUnsignedIntVertexTestWhenNotEmpty()
 }
 
 template<typename Graph>
-void performGetNumberOfVerticesOnUnsignedIntVertexTestWhenEmpty()
+void testGetNumberOfVerticesWhenEmptyWithVertexAsUnsignedInt()
 {
     Graph graph;
 
@@ -69,7 +70,7 @@ void performGetNumberOfVerticesOnUnsignedIntVertexTestWhenEmpty()
 }
 
 template<typename Graph>
-void performGetNumberOfVerticesOnUnsignedIntVertexTestWhenNotEmpty()
+void testGetNumberOfVerticesWhenNotEmptyWithVertexAsUnsignedInt()
 {
     Graph graph;
     graph.connect(0U, 1U);
@@ -79,7 +80,7 @@ void performGetNumberOfVerticesOnUnsignedIntVertexTestWhenNotEmpty()
 }
 
 template<typename Graph>
-void performGetNumberOfEdgesOnUnsignedIntVertexTestWhenEmpty()
+void testGetNumberOfEdgesWhenEmptyWithVertexAsUnsignedInt()
 {
     Graph graph;
 
@@ -87,7 +88,7 @@ void performGetNumberOfEdgesOnUnsignedIntVertexTestWhenEmpty()
 }
 
 template<typename Graph>
-void performGetNumberOfEdgesOnUnsignedIntVertexTestWhenNotEmpty()
+void testGetNumberOfEdgesWhenNotEmptyWithVertexAsUnsignedInt()
 {
     Graph graph;
     graph.connect(0U, 1U);
@@ -97,7 +98,7 @@ void performGetNumberOfEdgesOnUnsignedIntVertexTestWhenNotEmpty()
 }
 
 template<typename Graph>
-void performGetAdjacentVerticesAtOnUnsignedIntVertexTestWhenEmpty()
+void testGetAdjacentVerticesAtWhenEmptyWithVertexAsUnsignedInt()
 {
     using Vertices = typename Graph::Vertices;
     Graph graph;
@@ -108,7 +109,7 @@ void performGetAdjacentVerticesAtOnUnsignedIntVertexTestWhenEmpty()
 }
 
 template<typename Graph>
-void performGetAdjacentVerticesAtOnUnsignedIntVertexTestWhenNotEmpty()
+void testGetAdjacentVerticesAtWhenNotEmptyWithVertexAsUnsignedInt()
 {
     using Vertices = typename Graph::Vertices;
     Graph graph;
@@ -128,7 +129,7 @@ void performGetAdjacentVerticesAtOnUnsignedIntVertexTestWhenNotEmpty()
 }
 
 template<typename Graph>
-void performGetVerticesOnUnsignedIntVertexTestWhenEmpty()
+void testGetVerticesWhenEmptyWithVertexAsUnsignedInt()
 {
     using Vertices = typename Graph::Vertices;
     Graph graph;
@@ -139,7 +140,7 @@ void performGetVerticesOnUnsignedIntVertexTestWhenEmpty()
 }
 
 template<typename Graph>
-void performGetVerticesOnUnsignedIntVertexTestWhenNotEmpty()
+void testGetVerticesWhenNotEmptyWithVertexAsUnsignedInt()
 {
     using Vertices = typename Graph::Vertices;
     Graph graph;
@@ -153,7 +154,7 @@ void performGetVerticesOnUnsignedIntVertexTestWhenNotEmpty()
 }
 
 template<typename Graph>
-void performGetEdgesOnUnsignedIntVertexTestWhenEmpty()
+void testGetEdgesWhenEmptyWithVertexAsUnsignedInt()
 {
     using Edges = typename Graph::Edges;
     Graph graph;
@@ -164,7 +165,7 @@ void performGetEdgesOnUnsignedIntVertexTestWhenEmpty()
 }
 
 template<typename Graph>
-void performGetEdgesOnUnsignedIntVertexTestWhenNotEmpty()
+void testGetEdgesWhenNotEmptyWithVertexAsUnsignedInt()
 {
     using Edges = typename Graph::Edges;
     Graph graph;
@@ -178,7 +179,7 @@ void performGetEdgesOnUnsignedIntVertexTestWhenNotEmpty()
 }
 
 template<typename Graph>
-void performConnectOnUnsignedIntVertexTest()
+void testConnectWithVertexAsUnsignedInt()
 {
     using Edges = typename Graph::Edges;
     Graph graph;
@@ -193,7 +194,7 @@ void performConnectOnUnsignedIntVertexTest()
 }
 
 template<typename Graph>
-void performDisconnectOnUnsignedIntVertexTest()
+void testDisconnectWithVertexAsUnsignedInt()
 {
     using Edges = typename Graph::Edges;
     Graph graph;
@@ -210,7 +211,7 @@ void performDisconnectOnUnsignedIntVertexTest()
 }
 
 template<typename Graph>
-void performUnsignedIntVertexComplicatedTest()
+void testWithComplicatedExampleWithVertexAsUnsignedInt()
 {
     using Edges = typename Graph::Edges;
     Graph graph;

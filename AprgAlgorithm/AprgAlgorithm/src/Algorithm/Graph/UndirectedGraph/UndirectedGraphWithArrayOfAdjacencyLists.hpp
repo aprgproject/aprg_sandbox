@@ -23,7 +23,8 @@ public:
     using Edges = typename GraphTypes<Vertex>::Edges;
 
     UndirectedGraphWithArrayOfAdjacencyLists()
-        : m_numberOfVertices(0U)        , m_numberOfEdges(0U)
+        : m_numberOfVertices(0U)
+        , m_numberOfEdges(0U)
         , m_adjacencyLists{}
     {}
 
@@ -37,9 +38,11 @@ public:
         AdjacencyList const& adjacencyList(m_adjacencyLists.at(vertex1));
         return adjacencyList.find(vertex2) != adjacencyList.cend();
     }
+
     unsigned int getNumberOfVertices() const override
     {
-        return m_numberOfVertices;    }
+        return m_numberOfVertices;
+    }
 
     unsigned int getNumberOfEdges() const override
     {
@@ -49,10 +52,12 @@ public:
     Vertices getAdjacentVerticesAt(Vertex const& vertex) const override
     {
         AdjacencyList const& adjacencyList(m_adjacencyLists.at(vertex));
-        return Vertices(adjacencyList.cbegin(), adjacencyList.cend());    }
+        return Vertices(adjacencyList.cbegin(), adjacencyList.cend());
+    }
 
     Vertices getVertices() const override
-    {        Vertices result;
+    {
+        Vertices result;
         for(Vertex vertex=0; vertex<m_adjacencyLists.size(); vertex++)
         {
             if(!m_adjacencyLists.at(vertex).empty())
@@ -74,10 +79,12 @@ public:
                 std::for_each(adjacencyList.lower_bound(vertex1), adjacencyList.cend(), [&](Vertex const& vertex2)
                 {
                     result.emplace_back(vertex1, vertex2);
-                });            }
+                });
+            }
         }
         return result;
     }
+
     std::string getDisplayableString() const override
     {
         std::stringstream ss;
@@ -106,7 +113,8 @@ public:
             if(!hasAnyConnection(vertex2))
             {
                 m_numberOfVertices++;
-            }            m_numberOfEdges++;
+            }
+            m_numberOfEdges++;
             m_adjacencyLists[vertex1].emplace(vertex2);
             m_adjacencyLists[vertex2].emplace(vertex1);
         }
@@ -115,7 +123,8 @@ public:
     void disconnect(Vertex const& vertex1, Vertex const& vertex2) override
     {
         if(isConnected(vertex1, vertex2))
-        {            m_numberOfEdges--;
+        {
+            m_numberOfEdges--;
             m_adjacencyLists[vertex1].erase(vertex2);
             m_adjacencyLists[vertex2].erase(vertex1);
             if(!hasAnyConnection(vertex1))
@@ -125,13 +134,16 @@ public:
             if(!hasAnyConnection(vertex2))
             {
                 m_numberOfVertices--;
-            }        }
+            }
+        }
     }
 
 private:
     unsigned int m_numberOfVertices;
     unsigned int m_numberOfEdges;
-    AdjacencyLists m_adjacencyLists;};
+    AdjacencyLists m_adjacencyLists;
+};
 
 }
+
 }

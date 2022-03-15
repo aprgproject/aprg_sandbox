@@ -5,6 +5,7 @@
 #include <Algorithm/Graph/UndirectedGraph/BaseUndirectedGraph.hpp>
 
 #include <map>
+
 namespace alba
 {
 
@@ -70,6 +71,7 @@ private:
     VertexToUnsignedIntMap m_vertexToComponentIdMap;
     VertexToBoolMap m_isProcessed;
 };
+
 }
 
 }

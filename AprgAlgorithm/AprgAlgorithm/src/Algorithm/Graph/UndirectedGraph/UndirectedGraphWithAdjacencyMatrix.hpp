@@ -21,7 +21,8 @@ public:
     using Edges = typename GraphTypes<Vertex>::Edges;
 
     UndirectedGraphWithAdjacencyMatrix()
-        : m_numberOfVertices(0U)        , m_numberOfEdges(0U)
+        : m_numberOfVertices(0U)
+        , m_numberOfEdges(0U)
         , m_adjacencyMatrix(MAX_VERTEX_VALUE, MAX_VERTEX_VALUE)
     {}
 
@@ -39,9 +40,11 @@ public:
     {
         return m_adjacencyMatrix.getEntry(vertex1, vertex2);
     }
+
     unsigned int getNumberOfVertices() const override
     {
-        return m_numberOfVertices;    }
+        return m_numberOfVertices;
+    }
 
     unsigned int getNumberOfEdges() const override
     {
@@ -55,10 +58,12 @@ public:
         for(Vertex possibleAdjacentVertex=0; possibleAdjacentVertex<numberOfRows; possibleAdjacentVertex++)
         {
             if(isConnected(vertex, possibleAdjacentVertex))
-            {                result.emplace_back(possibleAdjacentVertex);
+            {
+                result.emplace_back(possibleAdjacentVertex);
             }
         }
-        return result;    }
+        return result;
+    }
 
     Vertices getVertices() const override
     {
@@ -69,9 +74,11 @@ public:
             if(hasAnyConnection(vertex))
             {
                 result.emplace_back(vertex);
-            }        }
+            }
+        }
         return result;
     }
+
     Edges getEdges() const override
     {
         Edges result;
@@ -119,7 +126,8 @@ public:
             if(!hasAnyConnection(vertex2))
             {
                 m_numberOfVertices++;
-            }            m_numberOfEdges++;
+            }
+            m_numberOfEdges++;
             m_adjacencyMatrix.setEntry(vertex1, vertex2, true);
             m_adjacencyMatrix.setEntry(vertex2, vertex1, true);
         }
@@ -128,7 +136,8 @@ public:
     void disconnect(Vertex const& vertex1, Vertex const& vertex2) override
     {
         if(isConnected(vertex1, vertex2))
-        {            m_numberOfEdges--;
+        {
+            m_numberOfEdges--;
             m_adjacencyMatrix.setEntry(vertex1, vertex2, false);
             m_adjacencyMatrix.setEntry(vertex2, vertex1, false);
             if(!hasAnyConnection(vertex1))
@@ -138,13 +147,16 @@ public:
             if(!hasAnyConnection(vertex2))
             {
                 m_numberOfVertices--;
-            }        }
+            }
+        }
     }
 
 private:
     unsigned int m_numberOfVertices;
     unsigned int m_numberOfEdges;
-    AdjacencyMatrix m_adjacencyMatrix;};
+    AdjacencyMatrix m_adjacencyMatrix;
+};
 
 }
+
 }

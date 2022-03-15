@@ -20,13 +20,14 @@ using GraphForTest = UndirectedGraphWithListOfEdges<unsigned int>;
 
 TEST(ConnectedComponentsUsingDfsTest, IsConnectedWorksWhenEmpty)
 {
-    performIsConnectedTestWhenEmpty<ConnectedComponentsForTest, GraphForTest>();
+    testIsConnectedWhenEmptyWithVertexAsUnsignedInt<ConnectedComponentsForTest, GraphForTest>();
 }
 
 TEST(ConnectedComponentsUsingDfsTest, IsConnectedWorksWhenNotEmpty)
 {
-    performIsConnectedTestWhenNotEmpty<ConnectedComponentsForTest, GraphForTest>();
+    testIsConnectedWhenNotEmptyWithVertexAsUnsignedInt<ConnectedComponentsForTest, GraphForTest>();
 }
 
 }
+
 }

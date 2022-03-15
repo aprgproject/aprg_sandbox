@@ -88,7 +88,9 @@ protected:
     BaseUndirectedGraphWithVertex const& m_graph;
     Vertex m_startVertex;
     VertexToVertexMap m_vertexToPreviousVertexMap;
-    VertexToBoolMap m_isProcessed;};
+    VertexToBoolMap m_isProcessed;
+};
 
 }
+
 }

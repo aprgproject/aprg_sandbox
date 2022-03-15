@@ -40,6 +40,7 @@ private:
     BaseUndirectedGraphWithVertex const& m_graph;
     UnionFindUsingMap<Vertex> m_unionFind;
 };
+
 }
 
 }

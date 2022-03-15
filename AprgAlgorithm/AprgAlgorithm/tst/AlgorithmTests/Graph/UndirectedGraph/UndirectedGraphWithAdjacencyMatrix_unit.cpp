@@ -18,87 +18,87 @@ using GraphForTest = UndirectedGraphWithAdjacencyMatrix<unsigned int, 13>;
 
 TEST(UndirectedGraphWithAdjacencyMatrixTest, HasAnyConnectionWorksWhenEmpty)
 {
-    performHasAnyConnectionOnUnsignedIntVertexTestWhenEmpty<GraphForTest>();
+    testHasAnyConnectionWhenEmptyWithVertexAsUnsignedInt<GraphForTest>();
 }
 
 TEST(UndirectedGraphWithAdjacencyMatrixTest, HasAnyConnectionWorksWhenNotEmpty)
 {
-    performHasAnyConnectionOnUnsignedIntVertexTestWhenNotEmpty<GraphForTest>();
+    testHasAnyConnectionWhenNotEmptyWithVertexAsUnsignedInt<GraphForTest>();
 }
 
 TEST(UndirectedGraphWithAdjacencyMatrixTest, IsConnectedWorksWhenEmpty)
 {
-    performIsConnectedOnUnsignedIntVertexTestWhenEmpty<GraphForTest>();
+    testIsConnectedWhenEmptyWithVertexAsUnsignedInt<GraphForTest>();
 }
 
 TEST(UndirectedGraphWithAdjacencyMatrixTest, IsConnectedWorksWhenNotEmpty)
 {
-    performIsConnectedOnUnsignedIntVertexTestWhenNotEmpty<GraphForTest>();
+    testIsConnectedWhenNotEmptyWithVertexAsUnsignedInt<GraphForTest>();
 }
 
 TEST(UndirectedGraphWithAdjacencyMatrixTest, GetNumberOfVerticesWorksWhenEmpty)
 {
-    performGetNumberOfVerticesOnUnsignedIntVertexTestWhenEmpty<GraphForTest>();
+    testGetNumberOfVerticesWhenEmptyWithVertexAsUnsignedInt<GraphForTest>();
 }
 
 TEST(UndirectedGraphWithAdjacencyMatrixTest, GetNumberOfVerticesWorksWhenNotEmpty)
 {
-    performGetNumberOfVerticesOnUnsignedIntVertexTestWhenNotEmpty<GraphForTest>();
+    testGetNumberOfVerticesWhenNotEmptyWithVertexAsUnsignedInt<GraphForTest>();
 }
 
 TEST(UndirectedGraphWithAdjacencyMatrixTest, GetNumberOfEdgesWorksWhenEmpty)
 {
-    performGetNumberOfEdgesOnUnsignedIntVertexTestWhenEmpty<GraphForTest>();
+    testGetNumberOfEdgesWhenEmptyWithVertexAsUnsignedInt<GraphForTest>();
 }
 
 TEST(UndirectedGraphWithAdjacencyMatrixTest, GetNumberOfEdgesWorksWhenNotEmpty)
 {
-    performGetNumberOfEdgesOnUnsignedIntVertexTestWhenNotEmpty<GraphForTest>();
+    testGetNumberOfEdgesWhenNotEmptyWithVertexAsUnsignedInt<GraphForTest>();
 }
 
 TEST(UndirectedGraphWithAdjacencyMatrixTest, GetAdjacentVerticesAtWorksWhenEmpty)
 {
-    performGetAdjacentVerticesAtOnUnsignedIntVertexTestWhenEmpty<GraphForTest>();
+    testGetAdjacentVerticesAtWhenEmptyWithVertexAsUnsignedInt<GraphForTest>();
 }
 
 TEST(UndirectedGraphWithAdjacencyMatrixTest, GetAdjacentVerticesAtWorksWhenNotEmpty)
 {
-    performGetAdjacentVerticesAtOnUnsignedIntVertexTestWhenNotEmpty<GraphForTest>();
+    testGetAdjacentVerticesAtWhenNotEmptyWithVertexAsUnsignedInt<GraphForTest>();
 }
 
 TEST(UndirectedGraphWithAdjacencyMatrixTest, GetVerticesWorksWhenEmpty)
 {
-    performGetVerticesOnUnsignedIntVertexTestWhenEmpty<GraphForTest>();
+    testGetVerticesWhenEmptyWithVertexAsUnsignedInt<GraphForTest>();
 }
 
 TEST(UndirectedGraphWithAdjacencyMatrixTest, GetVerticesWorksWhenNotEmpty)
 {
-    performGetVerticesOnUnsignedIntVertexTestWhenNotEmpty<GraphForTest>();
+    testGetVerticesWhenNotEmptyWithVertexAsUnsignedInt<GraphForTest>();
 }
 
 TEST(UndirectedGraphWithAdjacencyMatrixTest, GetEdgesWorksWhenEmpty)
 {
-    performGetEdgesOnUnsignedIntVertexTestWhenEmpty<GraphForTest>();
+    testGetEdgesWhenEmptyWithVertexAsUnsignedInt<GraphForTest>();
 }
 
 TEST(UndirectedGraphWithAdjacencyMatrixTest, GetEdgesWorksWhenNotEmpty)
 {
-    performGetEdgesOnUnsignedIntVertexTestWhenNotEmpty<GraphForTest>();
+    testGetEdgesWhenNotEmptyWithVertexAsUnsignedInt<GraphForTest>();
 }
 
 TEST(UndirectedGraphWithAdjacencyMatrixTest, ConnectWorks)
 {
-    performConnectOnUnsignedIntVertexTest<GraphForTest>();
+    testConnectWithVertexAsUnsignedInt<GraphForTest>();
 }
 
 TEST(UndirectedGraphWithAdjacencyMatrixTest, DisonnectWorks)
 {
-    performDisconnectOnUnsignedIntVertexTest<GraphForTest>();
+    testDisconnectWithVertexAsUnsignedInt<GraphForTest>();
 }
 
 TEST(UndirectedGraphWithAdjacencyMatrixTest, ComplicatedTestWorks)
 {
-    performUnsignedIntVertexComplicatedTest<GraphForTest>();
+    testWithComplicatedExampleWithVertexAsUnsignedInt<GraphForTest>();
 }
 
 TEST(UndirectedGraphWithAdjacencyMatrixTest, GetDisplayableStringWorks)
@@ -107,9 +107,11 @@ TEST(UndirectedGraphWithAdjacencyMatrixTest, GetDisplayableStringWorks)
 
     graph.connect(0U, 1U);
     graph.connect(0U, 2U);
+
     EXPECT_EQ("Adjacency Matrix output:\n-----------------\n| X |[0]|[1]|[2]|\n-----------------\n|[0]| 0 | 1 | 1 |\n-----------------\n"
               "|[1]| 1 | 0 | 0 |\n-----------------\n|[2]| 1 | 0 | 0 |\n-----------------\n",
-              graph.getDisplayableString());}
+              graph.getDisplayableString());
+}
 
 }
 

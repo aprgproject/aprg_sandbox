@@ -18,87 +18,87 @@ using GraphForTest = UndirectedGraphWithListOfEdges<unsigned int>;
 
 TEST(UndirectedGraphWithListOfEdgesTest, HasAnyConnectionWorksWhenEmpty)
 {
-    performHasAnyConnectionOnUnsignedIntVertexTestWhenEmpty<GraphForTest>();
+    testHasAnyConnectionWhenEmptyWithVertexAsUnsignedInt<GraphForTest>();
 }
 
 TEST(UndirectedGraphWithListOfEdgesTest, HasAnyConnectionWorksWhenNotEmpty)
 {
-    performHasAnyConnectionOnUnsignedIntVertexTestWhenNotEmpty<GraphForTest>();
+    testHasAnyConnectionWhenNotEmptyWithVertexAsUnsignedInt<GraphForTest>();
 }
 
 TEST(UndirectedGraphWithListOfEdgesTest, IsConnectedWorksWhenEmpty)
 {
-    performIsConnectedOnUnsignedIntVertexTestWhenEmpty<GraphForTest>();
+    testIsConnectedWhenEmptyWithVertexAsUnsignedInt<GraphForTest>();
 }
 
 TEST(UndirectedGraphWithListOfEdgesTest, IsConnectedWorksWhenNotEmpty)
 {
-    performIsConnectedOnUnsignedIntVertexTestWhenNotEmpty<GraphForTest>();
+    testIsConnectedWhenNotEmptyWithVertexAsUnsignedInt<GraphForTest>();
 }
 
 TEST(UndirectedGraphWithListOfEdgesTest, GetNumberOfVerticesWorksWhenEmpty)
 {
-    performGetNumberOfVerticesOnUnsignedIntVertexTestWhenEmpty<GraphForTest>();
+    testGetNumberOfVerticesWhenEmptyWithVertexAsUnsignedInt<GraphForTest>();
 }
 
 TEST(UndirectedGraphWithListOfEdgesTest, GetNumberOfVerticesWorksWhenNotEmpty)
 {
-    performGetNumberOfVerticesOnUnsignedIntVertexTestWhenNotEmpty<GraphForTest>();
+    testGetNumberOfVerticesWhenNotEmptyWithVertexAsUnsignedInt<GraphForTest>();
 }
 
 TEST(UndirectedGraphWithListOfEdgesTest, GetNumberOfEdgesWorksWhenEmpty)
 {
-    performGetNumberOfEdgesOnUnsignedIntVertexTestWhenEmpty<GraphForTest>();
+    testGetNumberOfEdgesWhenEmptyWithVertexAsUnsignedInt<GraphForTest>();
 }
 
 TEST(UndirectedGraphWithListOfEdgesTest, GetNumberOfEdgesWorksWhenNotEmpty)
 {
-    performGetNumberOfEdgesOnUnsignedIntVertexTestWhenNotEmpty<GraphForTest>();
+    testGetNumberOfEdgesWhenNotEmptyWithVertexAsUnsignedInt<GraphForTest>();
 }
 
 TEST(UndirectedGraphWithListOfEdgesTest, GetAdjacentVerticesAtWorksWhenEmpty)
 {
-    performGetAdjacentVerticesAtOnUnsignedIntVertexTestWhenEmpty<GraphForTest>();
+    testGetAdjacentVerticesAtWhenEmptyWithVertexAsUnsignedInt<GraphForTest>();
 }
 
 TEST(UndirectedGraphWithListOfEdgesTest, GetAdjacentVerticesAtWorksWhenNotEmpty)
 {
-    performGetAdjacentVerticesAtOnUnsignedIntVertexTestWhenNotEmpty<GraphForTest>();
+    testGetAdjacentVerticesAtWhenNotEmptyWithVertexAsUnsignedInt<GraphForTest>();
 }
 
 TEST(UndirectedGraphWithListOfEdgesTest, GetVerticesWorksWhenEmpty)
 {
-    performGetVerticesOnUnsignedIntVertexTestWhenEmpty<GraphForTest>();
+    testGetVerticesWhenEmptyWithVertexAsUnsignedInt<GraphForTest>();
 }
 
 TEST(UndirectedGraphWithListOfEdgesTest, GetVerticesWorksWhenNotEmpty)
 {
-    performGetVerticesOnUnsignedIntVertexTestWhenNotEmpty<GraphForTest>();
+    testGetVerticesWhenNotEmptyWithVertexAsUnsignedInt<GraphForTest>();
 }
 
 TEST(UndirectedGraphWithListOfEdgesTest, GetEdgesWorksWhenEmpty)
 {
-    performGetEdgesOnUnsignedIntVertexTestWhenEmpty<GraphForTest>();
+    testGetEdgesWhenEmptyWithVertexAsUnsignedInt<GraphForTest>();
 }
 
 TEST(UndirectedGraphWithListOfEdgesTest, GetEdgesWorksWhenNotEmpty)
 {
-    performGetEdgesOnUnsignedIntVertexTestWhenNotEmpty<GraphForTest>();
+    testGetEdgesWhenNotEmptyWithVertexAsUnsignedInt<GraphForTest>();
 }
 
 TEST(UndirectedGraphWithListOfEdgesTest, ConnectWorks)
 {
-    performConnectOnUnsignedIntVertexTest<GraphForTest>();
+    testConnectWithVertexAsUnsignedInt<GraphForTest>();
 }
 
 TEST(UndirectedGraphWithListOfEdgesTest, DisonnectWorks)
 {
-    performDisconnectOnUnsignedIntVertexTest<GraphForTest>();
+    testDisconnectWithVertexAsUnsignedInt<GraphForTest>();
 }
 
 TEST(UndirectedGraphWithListOfEdgesTest, ComplicatedTestWorks)
 {
-    performUnsignedIntVertexComplicatedTest<GraphForTest>();
+    testWithComplicatedExampleWithVertexAsUnsignedInt<GraphForTest>();
 }
 
 TEST(UndirectedGraphWithListOfEdgesTest, GetDisplayableStringWorks)
@@ -107,8 +107,10 @@ TEST(UndirectedGraphWithListOfEdgesTest, GetDisplayableStringWorks)
 
     graph.connect(0U, 1U);
     graph.connect(0U, 2U);
+
     EXPECT_EQ("Edges: {0<->1, 0<->2, 1<->0, 2<->0, }", graph.getDisplayableString());
 }
+
 }
 
 }

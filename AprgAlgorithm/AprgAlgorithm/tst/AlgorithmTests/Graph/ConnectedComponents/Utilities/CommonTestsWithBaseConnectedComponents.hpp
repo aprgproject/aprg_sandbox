@@ -15,7 +15,7 @@ namespace CommonTestsWithBaseConnectedComponents
 {
 
 template<typename ConnectedComponentType, typename GraphType>
-void performIsConnectedTestWhenEmpty()
+void testIsConnectedWhenEmptyWithVertexAsUnsignedInt()
 {
     GraphType graph;
     ConnectedComponentType connectedComponents(graph);
@@ -34,7 +34,8 @@ void performIsConnectedTestWhenEmpty()
     EXPECT_FALSE(connectedComponents.isConnected(0U, 12U));
 }
 
-template<typename ConnectedComponentType, typename GraphType>void performIsConnectedTestWhenNotEmpty()
+template<typename ConnectedComponentType, typename GraphType>
+void testIsConnectedWhenNotEmptyWithVertexAsUnsignedInt()
 {
     GraphType graph;
     graph.connect(0U, 1U);
@@ -68,6 +69,7 @@ template<typename ConnectedComponentType, typename GraphType>void performIsConne
 }
 
 }
+
 }
 
 }

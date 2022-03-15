@@ -8,4 +8,5 @@ set(CURL_CPP_DIR ${APRG_DIR}/CurlCpp/CurlCpp/)
 include(${CURL_CPP_DIR}/CMake/FilesAndDirectories.cmake)
 
 include_directories(${CURL_CPP_INCLUDE_DIRECTORIES})
-add_library(CURL_CPP ${CURL_CPP_SOURCES})target_link_libraries(CURL_CPP CURL_LIB)
+add_library(CURL_CPP ${CURL_CPP_SOURCES})
+target_link_libraries(CURL_CPP CURL_LIB)
