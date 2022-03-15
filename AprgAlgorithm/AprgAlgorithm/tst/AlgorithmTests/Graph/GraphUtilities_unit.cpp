@@ -13,172 +13,168 @@ namespace algorithm
 
 namespace
 {
-using SampleGraphForTest = UndirectedGraphWithListOfEdges;
+using GraphUtilitiesForTest = GraphUtilities<unsigned int>;
+using GraphForTest = UndirectedGraphWithListOfEdges<unsigned int>;
 }
 
 TEST(GraphUtilitiesTest, IsASimplePathWorks)
 {
-    Path simplePath{1U, 2U, 3U};
-    Path nonSimplePath{1U, 2U, 3U, 2U, 4U};
+    GraphUtilitiesForTest::Path simplePath{1U, 2U, 3U};
+    GraphUtilitiesForTest::Path nonSimplePath{1U, 2U, 3U, 2U, 4U};
 
-    EXPECT_TRUE(isASimplePath(simplePath));
-    EXPECT_FALSE(isASimplePath(nonSimplePath));
+    EXPECT_TRUE(GraphUtilitiesForTest::isASimplePath(simplePath));
+    EXPECT_FALSE(GraphUtilitiesForTest::isASimplePath(nonSimplePath));
 }
 
 TEST(GraphUtilitiesTest, IsACycleWorks)
 {
-    Path cyclePath{1U, 2U, 3U, 1U};
-    Path nonCyclePath{1U, 2U, 3U, 1U, 4U};
+    GraphUtilitiesForTest::Path cyclePath{1U, 2U, 3U, 1U};
+    GraphUtilitiesForTest::Path nonCyclePath{1U, 2U, 3U, 1U, 4U};
 
-    EXPECT_TRUE(isACycle(cyclePath));
-    EXPECT_FALSE(isACycle(nonCyclePath));
+    EXPECT_TRUE(GraphUtilitiesForTest::isACycle(cyclePath));
+    EXPECT_FALSE(GraphUtilitiesForTest::isACycle(nonCyclePath));
 }
 
 TEST(GraphUtilitiesTest, IsASimpleCycleWorks)
 {
-    Path cycleSimplePath{1U, 2U, 3U, 1U};
-    Path nonCycleSimplePath{1U, 2U, 3U, 2U, 1U};
+    GraphUtilitiesForTest::Path cycleSimplePath{1U, 2U, 3U, 1U};
+    GraphUtilitiesForTest::Path nonCycleSimplePath{1U, 2U, 3U, 2U, 1U};
 
-    EXPECT_TRUE(isASimpleCycle(cycleSimplePath));
-    EXPECT_FALSE(isASimpleCycle(nonCycleSimplePath));
+    EXPECT_TRUE(GraphUtilitiesForTest::isASimpleCycle(cycleSimplePath));
+    EXPECT_FALSE(GraphUtilitiesForTest::isASimpleCycle(nonCycleSimplePath));
 }
 
 TEST(GraphUtilitiesTest, IsATreeWorks)
 {
-    SampleGraphForTest treeGraph;
+    GraphForTest treeGraph;
     treeGraph.connect(0U, 1U);
     treeGraph.connect(0U, 2U);
     treeGraph.connect(0U, 3U);
-    SampleGraphForTest nonTreeGraphWithCycle;
+    GraphForTest nonTreeGraphWithCycle;
     nonTreeGraphWithCycle.connect(0U, 1U);
     nonTreeGraphWithCycle.connect(1U, 2U);
     nonTreeGraphWithCycle.connect(2U, 0U);
-    SampleGraphForTest nonTreeGraphAndItsNotConnected;
+    GraphForTest nonTreeGraphAndItsNotConnected;
     nonTreeGraphAndItsNotConnected.connect(0U, 1U);
     nonTreeGraphAndItsNotConnected.connect(0U, 2U);
     nonTreeGraphAndItsNotConnected.connect(3U, 4U);
 
-    EXPECT_TRUE(isATree(treeGraph));
-    EXPECT_FALSE(isATree(nonTreeGraphWithCycle));
-    EXPECT_FALSE(isATree(nonTreeGraphAndItsNotConnected));
+    EXPECT_TRUE(GraphUtilitiesForTest::isATree(treeGraph));
+    EXPECT_FALSE(GraphUtilitiesForTest::isATree(nonTreeGraphWithCycle));
+    EXPECT_FALSE(GraphUtilitiesForTest::isATree(nonTreeGraphAndItsNotConnected));
 }
 
 TEST(GraphUtilitiesTest, HasAnyCyclesOnGraphWorks)
 {
-    SampleGraphForTest graphWithoutCycle;
+    GraphForTest graphWithoutCycle;
     graphWithoutCycle.connect(0U, 1U);
     graphWithoutCycle.connect(0U, 2U);
     graphWithoutCycle.connect(0U, 3U);
-    SampleGraphForTest graphWithCycle;
+    GraphForTest graphWithCycle;
     graphWithCycle.connect(0U, 1U);
     graphWithCycle.connect(1U, 2U);
     graphWithCycle.connect(2U, 0U);
 
-    EXPECT_FALSE(hasAnyCyclesOnGraph(graphWithoutCycle));
-    EXPECT_TRUE(hasAnyCyclesOnGraph(graphWithCycle));
+    EXPECT_FALSE(GraphUtilitiesForTest::hasAnyCyclesOnGraph(graphWithoutCycle));
+    EXPECT_TRUE(GraphUtilitiesForTest::hasAnyCyclesOnGraph(graphWithCycle));
 }
 
 TEST(GraphUtilitiesTest, IsGraphConnectedWorks)
 {
-    SampleGraphForTest connectedGraph;
+    GraphForTest connectedGraph;
     connectedGraph.connect(0U, 1U);
     connectedGraph.connect(0U, 2U);
     connectedGraph.connect(0U, 3U);
-    SampleGraphForTest nonConnectedGraph;
+    GraphForTest nonConnectedGraph;
     nonConnectedGraph.connect(0U, 1U);
     nonConnectedGraph.connect(0U, 2U);
     nonConnectedGraph.connect(3U, 4U);
 
-    EXPECT_TRUE(isGraphConnected(connectedGraph));
-    EXPECT_FALSE(isGraphConnected(nonConnectedGraph));
+    EXPECT_TRUE(GraphUtilitiesForTest::isGraphConnected(connectedGraph));
+    EXPECT_FALSE(GraphUtilitiesForTest::isGraphConnected(nonConnectedGraph));
 }
 
 TEST(GraphUtilitiesTest, IsBipartiteWorks)
 {
     // This is wrong
-    SampleGraphForTest bipartiteWorks;
+    GraphForTest bipartiteWorks;
     bipartiteWorks.connect(0U, 1U);
     bipartiteWorks.connect(0U, 2U);
-    bipartiteWorks.connect(0U, 3U);
-    bipartiteWorks.connect(3U, 4U);
+    bipartiteWorks.connect(0U, 3U);    bipartiteWorks.connect(3U, 4U);
     bipartiteWorks.connect(3U, 5U);
     bipartiteWorks.connect(4U, 5U);
 
-    EXPECT_FALSE(isBipartite(bipartiteWorks));
+    EXPECT_FALSE(GraphUtilitiesForTest::isBipartite(bipartiteWorks));
 }
 
 TEST(GraphUtilitiesTest, GetDegreeAtWorks)
 {
-    SampleGraphForTest graph;
+    GraphForTest graph;
 
     graph.connect(0U, 1U);
     graph.connect(0U, 2U);
 
-    EXPECT_EQ(2U, getDegreeAt(graph, 0U));
-    EXPECT_EQ(1U, getDegreeAt(graph, 1U));
-    EXPECT_EQ(1U, getDegreeAt(graph, 2U));
+    EXPECT_EQ(2U, GraphUtilitiesForTest::getDegreeAt(graph, 0U));
+    EXPECT_EQ(1U, GraphUtilitiesForTest::getDegreeAt(graph, 1U));
+    EXPECT_EQ(1U, GraphUtilitiesForTest::getDegreeAt(graph, 2U));
 }
 
 TEST(GraphUtilitiesTest, GetMaxDegreeAtWorks)
 {
-    SampleGraphForTest graph;
+    GraphForTest graph;
 
     graph.connect(0U, 1U);
     graph.connect(0U, 2U);
 
-    EXPECT_EQ(2U, getMaxDegree(graph));
+    EXPECT_EQ(2U, GraphUtilitiesForTest::getMaxDegree(graph));
 }
 
 TEST(GraphUtilitiesTest, GetAverageDegreeWorks)
 {
-    SampleGraphForTest graph;
+    GraphForTest graph;
 
     graph.connect(0U, 1U);
     graph.connect(0U, 2U);
     graph.connect(0U, 3U);
 
-    EXPECT_EQ(1.5, getAverageDegree(graph));
+    EXPECT_EQ(1.5, GraphUtilitiesForTest::getAverageDegree(graph));
 }
 
 TEST(GraphUtilitiesTest, GetNumberOfSelfLoopsWorks)
 {
-    SampleGraphForTest graph;
+    GraphForTest graph;
 
     graph.connect(0U, 1U);
-    graph.connect(0U, 2U);
-    graph.connect(0U, 3U);
+    graph.connect(0U, 2U);    graph.connect(0U, 3U);
     graph.connect(1U, 1U);
     graph.connect(2U, 2U);
 
-    EXPECT_EQ(2U, getNumberOfSelfLoops(graph));
+    EXPECT_EQ(2U, GraphUtilitiesForTest::getNumberOfSelfLoops(graph));
 }
 
 TEST(GraphUtilitiesTest, GetEdgesOfMaximalConnectedSubgraphsWorks)
 {
-    SampleGraphForTest graph;
+    GraphForTest graph;
     graph.connect(0U, 5U);
     graph.connect(4U, 3U);
-    graph.connect(0U, 1U);
-    graph.connect(9U, 12U);
+    graph.connect(0U, 1U);    graph.connect(9U, 12U);
     graph.connect(6U, 4U);
     graph.connect(5U, 4U);
-    graph.connect(0U, 2U);
-    graph.connect(11U, 12U);
+    graph.connect(0U, 2U);    graph.connect(11U, 12U);
     graph.connect(9U, 10U);
     graph.connect(0U, 6U);
     graph.connect(7U, 8U);
     graph.connect(9U, 11U);
     graph.connect(5U, 3U);
 
-    ListOfEdges listOfEdgesToVerify(getEdgesOfMaximalConnectedSubgraphs(graph));
+    GraphUtilitiesForTest::ListOfEdges listOfEdgesToVerify(GraphUtilitiesForTest::getEdgesOfMaximalConnectedSubgraphs(graph));
 
-    ListOfEdges listOfEdgesToExpect;
-    listOfEdgesToExpect.emplace_back(Edges{{0, 1}, {0, 2}, {0, 5}, {0, 6}, {3, 4}, {3, 5}, {4, 5}, {4, 6}});
-    listOfEdgesToExpect.emplace_back(Edges{{7, 8}});
-    listOfEdgesToExpect.emplace_back(Edges{{9, 10}, {9, 11}, {9, 12}, {11, 12}});
+    GraphUtilitiesForTest::ListOfEdges listOfEdgesToExpect;
+    listOfEdgesToExpect.emplace_back(GraphUtilitiesForTest::Edges{{0, 1}, {0, 2}, {0, 5}, {0, 6}, {3, 4}, {3, 5}, {4, 5}, {4, 6}});
+    listOfEdgesToExpect.emplace_back(GraphUtilitiesForTest::Edges{{7, 8}});
+    listOfEdgesToExpect.emplace_back(GraphUtilitiesForTest::Edges{{9, 10}, {9, 11}, {9, 12}, {11, 12}});
     EXPECT_EQ(listOfEdgesToExpect, listOfEdgesToVerify);
 }
-
 
 }
 

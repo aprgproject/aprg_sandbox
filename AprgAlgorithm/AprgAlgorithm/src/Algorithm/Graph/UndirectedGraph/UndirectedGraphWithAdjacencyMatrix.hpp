@@ -12,46 +12,53 @@ namespace alba
 namespace algorithm
 {
 
-template <unsigned int MAX_VERTEX_VALUE>
-class UndirectedGraphWithAdjacencyMatrix : public BaseUndirectedGraph
+template <typename Vertex, unsigned int MAX_VERTEX_VALUE>
+class UndirectedGraphWithAdjacencyMatrix : public BaseUndirectedGraph<Vertex>
 {
 public:
     using AdjacencyMatrix = matrix::AlbaMatrix<bool>;
+    using Vertices = typename GraphTypes<Vertex>::Vertices;
+    using Edges = typename GraphTypes<Vertex>::Edges;
 
     UndirectedGraphWithAdjacencyMatrix()
-        : m_numberOfVertices(0U)
-        , m_numberOfEdges(0U)
+        : m_numberOfVertices(0U)        , m_numberOfEdges(0U)
         , m_adjacencyMatrix(MAX_VERTEX_VALUE, MAX_VERTEX_VALUE)
     {}
 
-    bool isConnected(Vertex const vertex1, Vertex const vertex2) const override
+    bool hasAnyConnection(Vertex const& vertex) const override
+    {
+        AdjacencyMatrix::MatrixData column;
+        m_adjacencyMatrix.retrieveColumn(column, vertex);
+        return std::any_of(column.cbegin(), column.cend(), [](bool const isConnected)
+        {
+            return isConnected;
+        });
+    }
+
+    bool isConnected(Vertex const& vertex1, Vertex const& vertex2) const override
     {
         return m_adjacencyMatrix.getEntry(vertex1, vertex2);
     }
-
     unsigned int getNumberOfVertices() const override
     {
-        return m_numberOfVertices;
-    }
+        return m_numberOfVertices;    }
 
     unsigned int getNumberOfEdges() const override
     {
         return m_numberOfEdges;
     }
 
-    Vertices getAdjacentVerticesAt(Vertex const vertex) const override
+    Vertices getAdjacentVerticesAt(Vertex const& vertex) const override
     {
         Vertices result;
         unsigned int numberOfRows(m_adjacencyMatrix.getNumberOfRows());
-        for(unsigned int possibleAdjacentVertex=0; possibleAdjacentVertex<numberOfRows; possibleAdjacentVertex++)
+        for(Vertex possibleAdjacentVertex=0; possibleAdjacentVertex<numberOfRows; possibleAdjacentVertex++)
         {
             if(isConnected(vertex, possibleAdjacentVertex))
-            {
-                result.emplace_back(possibleAdjacentVertex);
+            {                result.emplace_back(possibleAdjacentVertex);
             }
         }
-        return result;
-    }
+        return result;    }
 
     Vertices getVertices() const override
     {
@@ -59,14 +66,12 @@ public:
         unsigned int numberOfColumns(m_adjacencyMatrix.getNumberOfColumns());
         for(Vertex vertex=0; vertex<numberOfColumns; vertex++)
         {
-            if(isAnyVertexConnectedAtThisVertex(vertex))
+            if(hasAnyConnection(vertex))
             {
                 result.emplace_back(vertex);
-            }
-        }
+            }        }
         return result;
     }
-
     Edges getEdges() const override
     {
         Edges result;
@@ -103,58 +108,43 @@ public:
         return firstPartOfString + matrixToDisplay.getString();
     }
 
-    void connect(Vertex const vertex1, Vertex const vertex2) override
+    void connect(Vertex const& vertex1, Vertex const& vertex2) override
     {
         if(!isConnected(vertex1, vertex2))
         {
-            if(!isAnyVertexConnectedAtThisVertex(vertex1))
+            if(!hasAnyConnection(vertex1))
             {
                 m_numberOfVertices++;
             }
-            if(!isAnyVertexConnectedAtThisVertex(vertex2))
+            if(!hasAnyConnection(vertex2))
             {
                 m_numberOfVertices++;
-            }
-            m_numberOfEdges++;
+            }            m_numberOfEdges++;
             m_adjacencyMatrix.setEntry(vertex1, vertex2, true);
             m_adjacencyMatrix.setEntry(vertex2, vertex1, true);
         }
     }
 
-    void disconnect(Vertex const vertex1, Vertex const vertex2) override
+    void disconnect(Vertex const& vertex1, Vertex const& vertex2) override
     {
         if(isConnected(vertex1, vertex2))
-        {
-            m_numberOfEdges--;
+        {            m_numberOfEdges--;
             m_adjacencyMatrix.setEntry(vertex1, vertex2, false);
             m_adjacencyMatrix.setEntry(vertex2, vertex1, false);
-            if(!isAnyVertexConnectedAtThisVertex(vertex1))
+            if(!hasAnyConnection(vertex1))
             {
                 m_numberOfVertices--;
             }
-            if(!isAnyVertexConnectedAtThisVertex(vertex2))
+            if(!hasAnyConnection(vertex2))
             {
                 m_numberOfVertices--;
-            }
-        }
+            }        }
     }
 
 private:
-
-    bool isAnyVertexConnectedAtThisVertex(Vertex const vertex) const
-    {
-        AdjacencyMatrix::MatrixData column;
-        m_adjacencyMatrix.retrieveColumn(column, vertex);
-        return std::any_of(column.cbegin(), column.cend(), [](bool const isConnected)
-        {
-            return isConnected;
-        });
-    }
     unsigned int m_numberOfVertices;
     unsigned int m_numberOfEdges;
-    AdjacencyMatrix m_adjacencyMatrix;
-};
+    AdjacencyMatrix m_adjacencyMatrix;};
 
 }
-
 }

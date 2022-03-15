@@ -14,19 +14,19 @@ namespace algorithm
 
 namespace
 {
-using SampleGraphForTest = UndirectedGraphWithListOfEdges;
+using ConnectedComponentsForTest = ConnectedComponentsUsingUnionFind<unsigned int>;
+using GraphForTest = UndirectedGraphWithListOfEdges<unsigned int>;
 }
 
 TEST(ConnectedComponentsUsingUnionFindTest, IsConnectedWorksWhenEmpty)
 {
-    performIsConnectedTestWhenEmpty<ConnectedComponentsUsingUnionFind, SampleGraphForTest>();
+    performIsConnectedTestWhenEmpty<ConnectedComponentsForTest, GraphForTest>();
 }
 
 TEST(ConnectedComponentsUsingUnionFindTest, IsConnectedWorksWhenNotEmpty)
 {
-    performIsConnectedTestWhenNotEmpty<ConnectedComponentsUsingUnionFind, SampleGraphForTest>();
+    performIsConnectedTestWhenNotEmpty<ConnectedComponentsForTest, GraphForTest>();
 }
 
 }
-
 }

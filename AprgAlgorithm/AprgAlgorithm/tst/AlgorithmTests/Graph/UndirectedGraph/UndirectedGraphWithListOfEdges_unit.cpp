@@ -11,94 +11,104 @@ namespace alba
 namespace algorithm
 {
 
+namespace
+{
+using GraphForTest = UndirectedGraphWithListOfEdges<unsigned int>;
+}
+
+TEST(UndirectedGraphWithListOfEdgesTest, HasAnyConnectionWorksWhenEmpty)
+{
+    performHasAnyConnectionOnUnsignedIntVertexTestWhenEmpty<GraphForTest>();
+}
+
+TEST(UndirectedGraphWithListOfEdgesTest, HasAnyConnectionWorksWhenNotEmpty)
+{
+    performHasAnyConnectionOnUnsignedIntVertexTestWhenNotEmpty<GraphForTest>();
+}
+
+TEST(UndirectedGraphWithListOfEdgesTest, IsConnectedWorksWhenEmpty)
+{
+    performIsConnectedOnUnsignedIntVertexTestWhenEmpty<GraphForTest>();
+}
+
+TEST(UndirectedGraphWithListOfEdgesTest, IsConnectedWorksWhenNotEmpty)
+{
+    performIsConnectedOnUnsignedIntVertexTestWhenNotEmpty<GraphForTest>();
+}
+
 TEST(UndirectedGraphWithListOfEdgesTest, GetNumberOfVerticesWorksWhenEmpty)
 {
-    UndirectedGraphWithListOfEdges graph;
-    performGetNumberOfVerticesTestWhenEmpty(graph);
+    performGetNumberOfVerticesOnUnsignedIntVertexTestWhenEmpty<GraphForTest>();
 }
 
 TEST(UndirectedGraphWithListOfEdgesTest, GetNumberOfVerticesWorksWhenNotEmpty)
 {
-    UndirectedGraphWithListOfEdges graph;
-    performGetNumberOfVerticesTestWhenNotEmpty(graph);
+    performGetNumberOfVerticesOnUnsignedIntVertexTestWhenNotEmpty<GraphForTest>();
 }
 
 TEST(UndirectedGraphWithListOfEdgesTest, GetNumberOfEdgesWorksWhenEmpty)
 {
-    UndirectedGraphWithListOfEdges graph;
-    performGetNumberOfEdgesTestWhenEmpty(graph);
+    performGetNumberOfEdgesOnUnsignedIntVertexTestWhenEmpty<GraphForTest>();
 }
 
 TEST(UndirectedGraphWithListOfEdgesTest, GetNumberOfEdgesWorksWhenNotEmpty)
 {
-    UndirectedGraphWithListOfEdges graph;
-    performGetNumberOfEdgesTestWhenNotEmpty(graph);
+    performGetNumberOfEdgesOnUnsignedIntVertexTestWhenNotEmpty<GraphForTest>();
 }
 
 TEST(UndirectedGraphWithListOfEdgesTest, GetAdjacentVerticesAtWorksWhenEmpty)
 {
-    UndirectedGraphWithListOfEdges graph;
-    performGetAdjacentVerticesAtTestWhenEmpty(graph);
+    performGetAdjacentVerticesAtOnUnsignedIntVertexTestWhenEmpty<GraphForTest>();
 }
 
 TEST(UndirectedGraphWithListOfEdgesTest, GetAdjacentVerticesAtWorksWhenNotEmpty)
 {
-    UndirectedGraphWithListOfEdges graph;
-    performGetAdjacentVerticesAtTestWhenNotEmpty(graph);
+    performGetAdjacentVerticesAtOnUnsignedIntVertexTestWhenNotEmpty<GraphForTest>();
 }
 
 TEST(UndirectedGraphWithListOfEdgesTest, GetVerticesWorksWhenEmpty)
 {
-    UndirectedGraphWithListOfEdges graph;
-    performGetVerticesTestWhenEmpty(graph);
+    performGetVerticesOnUnsignedIntVertexTestWhenEmpty<GraphForTest>();
 }
 
 TEST(UndirectedGraphWithListOfEdgesTest, GetVerticesWorksWhenNotEmpty)
 {
-    UndirectedGraphWithListOfEdges graph;
-    performGetVerticesTestWhenNotEmpty(graph);
+    performGetVerticesOnUnsignedIntVertexTestWhenNotEmpty<GraphForTest>();
 }
 
 TEST(UndirectedGraphWithListOfEdgesTest, GetEdgesWorksWhenEmpty)
 {
-    UndirectedGraphWithListOfEdges graph;
-    performGetEdgesTestWhenEmpty(graph);
+    performGetEdgesOnUnsignedIntVertexTestWhenEmpty<GraphForTest>();
 }
 
 TEST(UndirectedGraphWithListOfEdgesTest, GetEdgesWorksWhenNotEmpty)
 {
-    UndirectedGraphWithListOfEdges graph;
-    performGetEdgesTestWhenNotEmpty(graph);
+    performGetEdgesOnUnsignedIntVertexTestWhenNotEmpty<GraphForTest>();
 }
 
 TEST(UndirectedGraphWithListOfEdgesTest, ConnectWorks)
 {
-    UndirectedGraphWithListOfEdges graph;
-    performConnectTest(graph);
+    performConnectOnUnsignedIntVertexTest<GraphForTest>();
 }
 
 TEST(UndirectedGraphWithListOfEdgesTest, DisonnectWorks)
 {
-    UndirectedGraphWithListOfEdges graph;
-    performDisconnectTest(graph);
+    performDisconnectOnUnsignedIntVertexTest<GraphForTest>();
 }
 
 TEST(UndirectedGraphWithListOfEdgesTest, ComplicatedTestWorks)
 {
-    UndirectedGraphWithListOfEdges graph;
-    performComplicatedTest(graph);
+    performUnsignedIntVertexComplicatedTest<GraphForTest>();
 }
 
 TEST(UndirectedGraphWithListOfEdgesTest, GetDisplayableStringWorks)
 {
-    UndirectedGraphWithListOfEdges graph;
+    GraphForTest graph;
 
     graph.connect(0U, 1U);
     graph.connect(0U, 2U);
-
     EXPECT_EQ("Edges: {0<->1, 0<->2, 1<->0, 2<->0, }", graph.getDisplayableString());
 }
-
 }
 
 }

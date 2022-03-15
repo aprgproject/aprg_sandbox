@@ -11,94 +11,104 @@ namespace alba
 namespace algorithm
 {
 
+namespace
+{
+using GraphForTest = UndirectedGraphWithVertexToAdjacencyListsMap<unsigned int>;
+}
+
+TEST(UndirectedGraphWithVertexToAdjacencyListsMapTest, HasAnyConnectionWorksWhenEmpty)
+{
+    performHasAnyConnectionOnUnsignedIntVertexTestWhenEmpty<GraphForTest>();
+}
+
+TEST(UndirectedGraphWithVertexToAdjacencyListsMapTest, HasAnyConnectionWorksWhenNotEmpty)
+{
+    performHasAnyConnectionOnUnsignedIntVertexTestWhenNotEmpty<GraphForTest>();
+}
+
+TEST(UndirectedGraphWithVertexToAdjacencyListsMapTest, IsConnectedWorksWhenEmpty)
+{
+    performIsConnectedOnUnsignedIntVertexTestWhenEmpty<GraphForTest>();
+}
+
+TEST(UndirectedGraphWithVertexToAdjacencyListsMapTest, IsConnectedWorksWhenNotEmpty)
+{
+    performIsConnectedOnUnsignedIntVertexTestWhenNotEmpty<GraphForTest>();
+}
+
 TEST(UndirectedGraphWithVertexToAdjacencyListsMapTest, GetNumberOfVerticesWorksWhenEmpty)
 {
-    UndirectedGraphWithVertexToAdjacencyListsMap graph;
-    performGetNumberOfVerticesTestWhenEmpty(graph);
+    performGetNumberOfVerticesOnUnsignedIntVertexTestWhenEmpty<GraphForTest>();
 }
 
 TEST(UndirectedGraphWithVertexToAdjacencyListsMapTest, GetNumberOfVerticesWorksWhenNotEmpty)
 {
-    UndirectedGraphWithVertexToAdjacencyListsMap graph;
-    performGetNumberOfVerticesTestWhenNotEmpty(graph);
+    performGetNumberOfVerticesOnUnsignedIntVertexTestWhenNotEmpty<GraphForTest>();
 }
 
 TEST(UndirectedGraphWithVertexToAdjacencyListsMapTest, GetNumberOfEdgesWorksWhenEmpty)
 {
-    UndirectedGraphWithVertexToAdjacencyListsMap graph;
-    performGetNumberOfEdgesTestWhenEmpty(graph);
+    performGetNumberOfEdgesOnUnsignedIntVertexTestWhenEmpty<GraphForTest>();
 }
 
 TEST(UndirectedGraphWithVertexToAdjacencyListsMapTest, GetNumberOfEdgesWorksWhenNotEmpty)
 {
-    UndirectedGraphWithVertexToAdjacencyListsMap graph;
-    performGetNumberOfEdgesTestWhenNotEmpty(graph);
+    performGetNumberOfEdgesOnUnsignedIntVertexTestWhenNotEmpty<GraphForTest>();
 }
 
 TEST(UndirectedGraphWithVertexToAdjacencyListsMapTest, GetAdjacentVerticesAtWorksWhenEmpty)
 {
-    UndirectedGraphWithVertexToAdjacencyListsMap graph;
-    performGetAdjacentVerticesAtTestWhenEmpty(graph);
+    performGetAdjacentVerticesAtOnUnsignedIntVertexTestWhenEmpty<GraphForTest>();
 }
 
 TEST(UndirectedGraphWithVertexToAdjacencyListsMapTest, GetAdjacentVerticesAtWorksWhenNotEmpty)
 {
-    UndirectedGraphWithVertexToAdjacencyListsMap graph;
-    performGetAdjacentVerticesAtTestWhenNotEmpty(graph);
+    performGetAdjacentVerticesAtOnUnsignedIntVertexTestWhenNotEmpty<GraphForTest>();
 }
 
 TEST(UndirectedGraphWithVertexToAdjacencyListsMapTest, GetVerticesWorksWhenEmpty)
 {
-    UndirectedGraphWithVertexToAdjacencyListsMap graph;
-    performGetVerticesTestWhenEmpty(graph);
+    performGetVerticesOnUnsignedIntVertexTestWhenEmpty<GraphForTest>();
 }
 
 TEST(UndirectedGraphWithVertexToAdjacencyListsMapTest, GetVerticesWorksWhenNotEmpty)
 {
-    UndirectedGraphWithVertexToAdjacencyListsMap graph;
-    performGetVerticesTestWhenNotEmpty(graph);
+    performGetVerticesOnUnsignedIntVertexTestWhenNotEmpty<GraphForTest>();
 }
 
 TEST(UndirectedGraphWithVertexToAdjacencyListsMapTest, GetEdgesWorksWhenEmpty)
 {
-    UndirectedGraphWithVertexToAdjacencyListsMap graph;
-    performGetEdgesTestWhenEmpty(graph);
+    performGetEdgesOnUnsignedIntVertexTestWhenEmpty<GraphForTest>();
 }
 
 TEST(UndirectedGraphWithVertexToAdjacencyListsMapTest, GetEdgesWorksWhenNotEmpty)
 {
-    UndirectedGraphWithVertexToAdjacencyListsMap graph;
-    performGetEdgesTestWhenNotEmpty(graph);
+    performGetEdgesOnUnsignedIntVertexTestWhenNotEmpty<GraphForTest>();
 }
 
 TEST(UndirectedGraphWithVertexToAdjacencyListsMapTest, ConnectWorks)
 {
-    UndirectedGraphWithVertexToAdjacencyListsMap graph;
-    performConnectTest(graph);
+    performConnectOnUnsignedIntVertexTest<GraphForTest>();
 }
 
 TEST(UndirectedGraphWithVertexToAdjacencyListsMapTest, DisonnectWorks)
 {
-    UndirectedGraphWithVertexToAdjacencyListsMap graph;
-    performDisconnectTest(graph);
+    performDisconnectOnUnsignedIntVertexTest<GraphForTest>();
 }
 
 TEST(UndirectedGraphWithVertexToAdjacencyListsMapTest, ComplicatedTestWorks)
 {
-    UndirectedGraphWithVertexToAdjacencyListsMap graph;
-    performComplicatedTest(graph);
+    performUnsignedIntVertexComplicatedTest<GraphForTest>();
 }
 
 TEST(UndirectedGraphWithVertexToAdjacencyListsMapTest, GetDisplayableStringWorks)
 {
-    UndirectedGraphWithVertexToAdjacencyListsMap graph;
+    GraphForTest graph;
 
     graph.connect(0U, 1U);
     graph.connect(0U, 2U);
-
     EXPECT_EQ("Adjacency Lists: \nAdjacent with vertex 0: {1, 2, } \nAdjacent with vertex 1: {0, } \nAdjacent with vertex 2: {0, } \n", graph.getDisplayableString());
 }
-
 }
 
 }

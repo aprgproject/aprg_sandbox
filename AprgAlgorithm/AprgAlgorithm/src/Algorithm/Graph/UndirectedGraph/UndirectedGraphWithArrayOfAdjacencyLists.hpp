@@ -13,44 +13,46 @@ namespace alba
 namespace algorithm
 {
 
-template <unsigned int MAX_VERTEX_VALUE>
-class UndirectedGraphWithArrayOfAdjacencyLists : public BaseUndirectedGraph
+template <typename Vertex, unsigned int MAX_VERTEX_VALUE>
+class UndirectedGraphWithArrayOfAdjacencyLists : public BaseUndirectedGraph<Vertex>
 {
 public:
     using AdjacencyList = std::set<Vertex>;
     using AdjacencyLists = std::array<AdjacencyList, MAX_VERTEX_VALUE>;
+    using Vertices = typename GraphTypes<Vertex>::Vertices;
+    using Edges = typename GraphTypes<Vertex>::Edges;
 
     UndirectedGraphWithArrayOfAdjacencyLists()
-        : m_numberOfVertices(0U)
-        , m_numberOfEdges(0U)
+        : m_numberOfVertices(0U)        , m_numberOfEdges(0U)
         , m_adjacencyLists{}
     {}
 
-    bool isConnected(Vertex const vertex1, Vertex const vertex2) const override
+    bool hasAnyConnection(Vertex const& vertex) const override
+    {
+        return !m_adjacencyLists.at(vertex).empty();
+    }
+
+    bool isConnected(Vertex const& vertex1, Vertex const& vertex2) const override
     {
         AdjacencyList const& adjacencyList(m_adjacencyLists.at(vertex1));
         return adjacencyList.find(vertex2) != adjacencyList.cend();
     }
-
     unsigned int getNumberOfVertices() const override
     {
-        return m_numberOfVertices;
-    }
+        return m_numberOfVertices;    }
 
     unsigned int getNumberOfEdges() const override
     {
         return m_numberOfEdges;
     }
 
-    Vertices getAdjacentVerticesAt(Vertex const vertex) const override
+    Vertices getAdjacentVerticesAt(Vertex const& vertex) const override
     {
         AdjacencyList const& adjacencyList(m_adjacencyLists.at(vertex));
-        return Vertices(adjacencyList.cbegin(), adjacencyList.cend());
-    }
+        return Vertices(adjacencyList.cbegin(), adjacencyList.cend());    }
 
     Vertices getVertices() const override
-    {
-        Vertices result;
+    {        Vertices result;
         for(Vertex vertex=0; vertex<m_adjacencyLists.size(); vertex++)
         {
             if(!m_adjacencyLists.at(vertex).empty())
@@ -69,15 +71,13 @@ public:
             AdjacencyList const& adjacencyList(m_adjacencyLists.at(vertex1));
             if(!adjacencyList.empty())
             {
-                std::for_each(adjacencyList.lower_bound(vertex1), adjacencyList.cend(), [&](Vertex const vertex2)
+                std::for_each(adjacencyList.lower_bound(vertex1), adjacencyList.cend(), [&](Vertex const& vertex2)
                 {
                     result.emplace_back(vertex1, vertex2);
-                });
-            }
+                });            }
         }
         return result;
     }
-
     std::string getDisplayableString() const override
     {
         std::stringstream ss;
@@ -95,53 +95,43 @@ public:
         return ss.str();
     }
 
-    void connect(Vertex const vertex1, Vertex const vertex2) override
+    void connect(Vertex const& vertex1, Vertex const& vertex2) override
     {
         if(!isConnected(vertex1, vertex2))
         {
-            if(!isAnyVertexConnectedAtThisVertex(vertex1))
+            if(!hasAnyConnection(vertex1))
             {
                 m_numberOfVertices++;
             }
-            if(!isAnyVertexConnectedAtThisVertex(vertex2))
+            if(!hasAnyConnection(vertex2))
             {
                 m_numberOfVertices++;
-            }
-            m_numberOfEdges++;
+            }            m_numberOfEdges++;
             m_adjacencyLists[vertex1].emplace(vertex2);
             m_adjacencyLists[vertex2].emplace(vertex1);
         }
     }
 
-    void disconnect(Vertex const vertex1, Vertex const vertex2) override
+    void disconnect(Vertex const& vertex1, Vertex const& vertex2) override
     {
         if(isConnected(vertex1, vertex2))
-        {
-            m_numberOfEdges--;
+        {            m_numberOfEdges--;
             m_adjacencyLists[vertex1].erase(vertex2);
             m_adjacencyLists[vertex2].erase(vertex1);
-            if(!isAnyVertexConnectedAtThisVertex(vertex1))
+            if(!hasAnyConnection(vertex1))
             {
                 m_numberOfVertices--;
             }
-            if(!isAnyVertexConnectedAtThisVertex(vertex2))
+            if(!hasAnyConnection(vertex2))
             {
                 m_numberOfVertices--;
-            }
-        }
+            }        }
     }
 
 private:
-
-    bool isAnyVertexConnectedAtThisVertex(Vertex const vertex) const
-    {
-        return !m_adjacencyLists.at(vertex).empty();
-    }
     unsigned int m_numberOfVertices;
     unsigned int m_numberOfEdges;
-    AdjacencyLists m_adjacencyLists;
-};
+    AdjacencyLists m_adjacencyLists;};
 
 }
-
 }

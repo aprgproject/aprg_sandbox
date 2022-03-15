@@ -8,19 +8,48 @@ namespace alba
 namespace algorithm
 {
 
-class DepthFirstSearch : public BasePathSearch
+template<typename Vertex>
+class DepthFirstSearch : public BasePathSearch<Vertex>
 {
 public:
-    DepthFirstSearch(BaseUndirectedGraph const& graph, Vertex const startVertex);
+    using BaseUndirectedGraphWithVertex = BaseUndirectedGraph<Vertex>;
+    using BaseClass = BasePathSearch<Vertex>;
+    using Vertices = typename GraphTypes<Vertex>::Vertices;
+    using Path = typename GraphTypes<Vertex>::Path;
 
-    Path getOrderedPathTo(Vertex const endVertex);
+    DepthFirstSearch(BaseUndirectedGraphWithVertex const& graph, Vertex const& startVertex)
+        : BaseClass(graph, startVertex)
+    {
+        reinitializeStartingFrom(startVertex);
+    }
 
-    void reinitializeStartingFrom(Vertex const startVertex) override;
+    Path getOrderedPathTo(Vertex const& endVertex) const
+    {
+        return BaseClass::getPathTo(endVertex);
+    }
+
+    void reinitializeStartingFrom(Vertex const& startVertex) override
+    {
+        BaseClass::clear();
+        BaseClass::m_startVertex = startVertex;
+        continueTraversal(startVertex);
+    }
 
 private:
-    void continueTraversal(Vertex const vertex);
+    void continueTraversal(Vertex const& vertex)
+    {
+        BaseClass::m_isProcessed[vertex] = true;
+        Vertices adjacentVertices(BaseClass::m_graph.getAdjacentVerticesAt(vertex));
+        for(Vertex const& adjacentVertex : adjacentVertices)
+        {
+            if(!BaseClass::m_isProcessed.at(adjacentVertex))
+            {
+                BaseClass::m_vertexToPreviousVertexMap[adjacentVertex] = vertex;
+                continueTraversal(adjacentVertex);
+            }
+        }
+    }
 };
 
 }
-
 }

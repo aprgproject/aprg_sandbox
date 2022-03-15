@@ -13,98 +13,103 @@ namespace algorithm
 
 namespace
 {
-using UndirectedGraphWithAdjacencyMatrixWithMax13 = UndirectedGraphWithAdjacencyMatrix<13>;
+using GraphForTest = UndirectedGraphWithAdjacencyMatrix<unsigned int, 13>;
+}
+
+TEST(UndirectedGraphWithAdjacencyMatrixTest, HasAnyConnectionWorksWhenEmpty)
+{
+    performHasAnyConnectionOnUnsignedIntVertexTestWhenEmpty<GraphForTest>();
+}
+
+TEST(UndirectedGraphWithAdjacencyMatrixTest, HasAnyConnectionWorksWhenNotEmpty)
+{
+    performHasAnyConnectionOnUnsignedIntVertexTestWhenNotEmpty<GraphForTest>();
+}
+
+TEST(UndirectedGraphWithAdjacencyMatrixTest, IsConnectedWorksWhenEmpty)
+{
+    performIsConnectedOnUnsignedIntVertexTestWhenEmpty<GraphForTest>();
+}
+
+TEST(UndirectedGraphWithAdjacencyMatrixTest, IsConnectedWorksWhenNotEmpty)
+{
+    performIsConnectedOnUnsignedIntVertexTestWhenNotEmpty<GraphForTest>();
 }
 
 TEST(UndirectedGraphWithAdjacencyMatrixTest, GetNumberOfVerticesWorksWhenEmpty)
 {
-    UndirectedGraphWithAdjacencyMatrixWithMax13 graph;
-    performGetNumberOfVerticesTestWhenEmpty(graph);
+    performGetNumberOfVerticesOnUnsignedIntVertexTestWhenEmpty<GraphForTest>();
 }
 
 TEST(UndirectedGraphWithAdjacencyMatrixTest, GetNumberOfVerticesWorksWhenNotEmpty)
 {
-    UndirectedGraphWithAdjacencyMatrixWithMax13 graph;
-    performGetNumberOfVerticesTestWhenNotEmpty(graph);
+    performGetNumberOfVerticesOnUnsignedIntVertexTestWhenNotEmpty<GraphForTest>();
 }
 
 TEST(UndirectedGraphWithAdjacencyMatrixTest, GetNumberOfEdgesWorksWhenEmpty)
 {
-    UndirectedGraphWithAdjacencyMatrixWithMax13 graph;
-    performGetNumberOfEdgesTestWhenEmpty(graph);
+    performGetNumberOfEdgesOnUnsignedIntVertexTestWhenEmpty<GraphForTest>();
 }
 
 TEST(UndirectedGraphWithAdjacencyMatrixTest, GetNumberOfEdgesWorksWhenNotEmpty)
 {
-    UndirectedGraphWithAdjacencyMatrixWithMax13 graph;
-    performGetNumberOfEdgesTestWhenNotEmpty(graph);
+    performGetNumberOfEdgesOnUnsignedIntVertexTestWhenNotEmpty<GraphForTest>();
 }
 
 TEST(UndirectedGraphWithAdjacencyMatrixTest, GetAdjacentVerticesAtWorksWhenEmpty)
 {
-    UndirectedGraphWithAdjacencyMatrixWithMax13 graph;
-    performGetAdjacentVerticesAtTestWhenEmpty(graph);
+    performGetAdjacentVerticesAtOnUnsignedIntVertexTestWhenEmpty<GraphForTest>();
 }
 
 TEST(UndirectedGraphWithAdjacencyMatrixTest, GetAdjacentVerticesAtWorksWhenNotEmpty)
 {
-    UndirectedGraphWithAdjacencyMatrixWithMax13 graph;
-    performGetAdjacentVerticesAtTestWhenNotEmpty(graph);
+    performGetAdjacentVerticesAtOnUnsignedIntVertexTestWhenNotEmpty<GraphForTest>();
 }
 
 TEST(UndirectedGraphWithAdjacencyMatrixTest, GetVerticesWorksWhenEmpty)
 {
-    UndirectedGraphWithAdjacencyMatrixWithMax13 graph;
-    performGetVerticesTestWhenEmpty(graph);
+    performGetVerticesOnUnsignedIntVertexTestWhenEmpty<GraphForTest>();
 }
 
 TEST(UndirectedGraphWithAdjacencyMatrixTest, GetVerticesWorksWhenNotEmpty)
 {
-    UndirectedGraphWithAdjacencyMatrixWithMax13 graph;
-    performGetVerticesTestWhenNotEmpty(graph);
+    performGetVerticesOnUnsignedIntVertexTestWhenNotEmpty<GraphForTest>();
 }
 
 TEST(UndirectedGraphWithAdjacencyMatrixTest, GetEdgesWorksWhenEmpty)
 {
-    UndirectedGraphWithAdjacencyMatrixWithMax13 graph;
-    performGetEdgesTestWhenEmpty(graph);
+    performGetEdgesOnUnsignedIntVertexTestWhenEmpty<GraphForTest>();
 }
 
 TEST(UndirectedGraphWithAdjacencyMatrixTest, GetEdgesWorksWhenNotEmpty)
 {
-    UndirectedGraphWithAdjacencyMatrixWithMax13 graph;
-    performGetEdgesTestWhenNotEmpty(graph);
+    performGetEdgesOnUnsignedIntVertexTestWhenNotEmpty<GraphForTest>();
 }
 
 TEST(UndirectedGraphWithAdjacencyMatrixTest, ConnectWorks)
 {
-    UndirectedGraphWithAdjacencyMatrixWithMax13 graph;
-    performConnectTest(graph);
+    performConnectOnUnsignedIntVertexTest<GraphForTest>();
 }
 
 TEST(UndirectedGraphWithAdjacencyMatrixTest, DisonnectWorks)
 {
-    UndirectedGraphWithAdjacencyMatrixWithMax13 graph;
-    performDisconnectTest(graph);
+    performDisconnectOnUnsignedIntVertexTest<GraphForTest>();
 }
 
 TEST(UndirectedGraphWithAdjacencyMatrixTest, ComplicatedTestWorks)
 {
-    UndirectedGraphWithAdjacencyMatrixWithMax13 graph;
-    performComplicatedTest(graph);
+    performUnsignedIntVertexComplicatedTest<GraphForTest>();
 }
 
 TEST(UndirectedGraphWithAdjacencyMatrixTest, GetDisplayableStringWorks)
 {
-    UndirectedGraphWithAdjacencyMatrix<3> graph;
+    UndirectedGraphWithAdjacencyMatrix<unsigned int, 3> graph;
 
     graph.connect(0U, 1U);
     graph.connect(0U, 2U);
-
     EXPECT_EQ("Adjacency Matrix output:\n-----------------\n| X |[0]|[1]|[2]|\n-----------------\n|[0]| 0 | 1 | 1 |\n-----------------\n"
               "|[1]| 1 | 0 | 0 |\n-----------------\n|[2]| 1 | 0 | 0 |\n-----------------\n",
-              graph.getDisplayableString());
-}
+              graph.getDisplayableString());}
 
 }
 

@@ -13,97 +13,102 @@ namespace algorithm
 
 namespace
 {
-using UndirectedGraphWithArrayOfAdjacencyListsWithMax13 = UndirectedGraphWithArrayOfAdjacencyLists<13>;
+using GraphForTest = UndirectedGraphWithArrayOfAdjacencyLists<unsigned int, 13>;
+}
+
+TEST(UndirectedGraphWithArrayOfAdjacencyListsTest, HasAnyConnectionWorksWhenEmpty)
+{
+    performHasAnyConnectionOnUnsignedIntVertexTestWhenEmpty<GraphForTest>();
+}
+
+TEST(UndirectedGraphWithArrayOfAdjacencyListsTest, HasAnyConnectionWorksWhenNotEmpty)
+{
+    performHasAnyConnectionOnUnsignedIntVertexTestWhenNotEmpty<GraphForTest>();
+}
+
+TEST(UndirectedGraphWithArrayOfAdjacencyListsTest, IsConnectedWorksWhenEmpty)
+{
+    performIsConnectedOnUnsignedIntVertexTestWhenEmpty<GraphForTest>();
+}
+
+TEST(UndirectedGraphWithArrayOfAdjacencyListsTest, IsConnectedWorksWhenNotEmpty)
+{
+    performIsConnectedOnUnsignedIntVertexTestWhenNotEmpty<GraphForTest>();
 }
 
 TEST(UndirectedGraphWithArrayOfAdjacencyListsTest, GetNumberOfVerticesWorksWhenEmpty)
 {
-    UndirectedGraphWithArrayOfAdjacencyListsWithMax13 graph;
-    performGetNumberOfVerticesTestWhenEmpty(graph);
+    performGetNumberOfVerticesOnUnsignedIntVertexTestWhenEmpty<GraphForTest>();
 }
 
 TEST(UndirectedGraphWithArrayOfAdjacencyListsTest, GetNumberOfVerticesWorksWhenNotEmpty)
 {
-    UndirectedGraphWithArrayOfAdjacencyListsWithMax13 graph;
-    performGetNumberOfVerticesTestWhenNotEmpty(graph);
+    performGetNumberOfVerticesOnUnsignedIntVertexTestWhenNotEmpty<GraphForTest>();
 }
 
 TEST(UndirectedGraphWithArrayOfAdjacencyListsTest, GetNumberOfEdgesWorksWhenEmpty)
 {
-    UndirectedGraphWithArrayOfAdjacencyListsWithMax13 graph;
-    performGetNumberOfEdgesTestWhenEmpty(graph);
+    performGetNumberOfEdgesOnUnsignedIntVertexTestWhenEmpty<GraphForTest>();
 }
 
 TEST(UndirectedGraphWithArrayOfAdjacencyListsTest, GetNumberOfEdgesWorksWhenNotEmpty)
 {
-    UndirectedGraphWithArrayOfAdjacencyListsWithMax13 graph;
-    performGetNumberOfEdgesTestWhenNotEmpty(graph);
+    performGetNumberOfEdgesOnUnsignedIntVertexTestWhenNotEmpty<GraphForTest>();
 }
 
 TEST(UndirectedGraphWithArrayOfAdjacencyListsTest, GetAdjacentVerticesAtWorksWhenEmpty)
 {
-    UndirectedGraphWithArrayOfAdjacencyListsWithMax13 graph;
-    performGetAdjacentVerticesAtTestWhenEmpty(graph);
+    performGetAdjacentVerticesAtOnUnsignedIntVertexTestWhenEmpty<GraphForTest>();
 }
 
 TEST(UndirectedGraphWithArrayOfAdjacencyListsTest, GetAdjacentVerticesAtWorksWhenNotEmpty)
 {
-    UndirectedGraphWithArrayOfAdjacencyListsWithMax13 graph;
-    performGetAdjacentVerticesAtTestWhenNotEmpty(graph);
+    performGetAdjacentVerticesAtOnUnsignedIntVertexTestWhenNotEmpty<GraphForTest>();
 }
 
 TEST(UndirectedGraphWithArrayOfAdjacencyListsTest, GetVerticesWorksWhenEmpty)
 {
-    UndirectedGraphWithArrayOfAdjacencyListsWithMax13 graph;
-    performGetVerticesTestWhenEmpty(graph);
+    performGetVerticesOnUnsignedIntVertexTestWhenEmpty<GraphForTest>();
 }
 
 TEST(UndirectedGraphWithArrayOfAdjacencyListsTest, GetVerticesWorksWhenNotEmpty)
 {
-    UndirectedGraphWithArrayOfAdjacencyListsWithMax13 graph;
-    performGetVerticesTestWhenNotEmpty(graph);
+    performGetVerticesOnUnsignedIntVertexTestWhenNotEmpty<GraphForTest>();
 }
 
 TEST(UndirectedGraphWithArrayOfAdjacencyListsTest, GetEdgesWorksWhenEmpty)
 {
-    UndirectedGraphWithArrayOfAdjacencyListsWithMax13 graph;
-    performGetEdgesTestWhenEmpty(graph);
+    performGetEdgesOnUnsignedIntVertexTestWhenEmpty<GraphForTest>();
 }
 
 TEST(UndirectedGraphWithArrayOfAdjacencyListsTest, GetEdgesWorksWhenNotEmpty)
 {
-    UndirectedGraphWithArrayOfAdjacencyListsWithMax13 graph;
-    performGetEdgesTestWhenNotEmpty(graph);
+    performGetEdgesOnUnsignedIntVertexTestWhenNotEmpty<GraphForTest>();
 }
 
 TEST(UndirectedGraphWithArrayOfAdjacencyListsTest, ConnectWorks)
 {
-    UndirectedGraphWithArrayOfAdjacencyListsWithMax13 graph;
-    performConnectTest(graph);
+    performConnectOnUnsignedIntVertexTest<GraphForTest>();
 }
 
 TEST(UndirectedGraphWithArrayOfAdjacencyListsTest, DisonnectWorks)
 {
-    UndirectedGraphWithArrayOfAdjacencyListsWithMax13 graph;
-    performDisconnectTest(graph);
+    performDisconnectOnUnsignedIntVertexTest<GraphForTest>();
 }
 
 TEST(UndirectedGraphWithArrayOfAdjacencyListsTest, ComplicatedTestWorks)
 {
-    UndirectedGraphWithArrayOfAdjacencyListsWithMax13 graph;
-    performComplicatedTest(graph);
+    performUnsignedIntVertexComplicatedTest<GraphForTest>();
 }
 
 TEST(UndirectedGraphWithArrayOfAdjacencyListsTest, GetDisplayableStringWorks)
 {
-    UndirectedGraphWithArrayOfAdjacencyListsWithMax13 graph;
+    GraphForTest graph;
 
     graph.connect(0U, 1U);
     graph.connect(0U, 2U);
-
     EXPECT_EQ("Adjacency Lists: \nAdjacent with vertex 0: {1, 2, } \nAdjacent with vertex 1: {0, } \nAdjacent with vertex 2: {0, } \n", graph.getDisplayableString());
 }
-
 }
 
 }
