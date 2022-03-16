@@ -20,62 +20,29 @@ public:
     using Vertices = typename GraphTypes<Vertex>::Vertices;
     using Edge = typename GraphTypes<Vertex>::Edge;
     using Edges = typename GraphTypes<Vertex>::Edges;
+    using SetOfVertices = typename GraphTypes<Vertex>::SetOfVertices;
+    using EdgeInSet = typename GraphTypes<Vertex>::EdgeInSet;
+    using SetOfEdges = typename GraphTypes<Vertex>::SetOfEdges;
 
-    struct EdgeInSet : public Edge
-    {
-        EdgeInSet(Vertex const& vertex1, Vertex const& vertex2)
-            : Edge{vertex1, vertex2}
-        {}
-
-        bool operator<(EdgeInSet const& otherEdge) const
-        {
-            bool result(false);
-            if(Edge::first != otherEdge.first)
-            {
-                result = Edge::first < otherEdge.first;
-            }
-            else
-            {
-                result = Edge::second < otherEdge.second;
-            }
-            return result;
-        }
-    };
-
-    using SetOfEdges = std::set<EdgeInSet>;
 
     DirectedGraphWithListOfEdges()
-        : m_numberOfVertices(0U)
-        , m_numberOfEdges(0U)
+        : m_numberOfEdges(0U)
         , m_edges{}
     {}
 
-    bool hasAnyConnection(Vertex const& vertex) const override
-    {
-        bool result(false);
-        auto itLower = m_edges.lower_bound({vertex, 0});
-        if(itLower != m_edges.cend())
-        {
-            result = itLower->first == vertex;
-        }
-        return result;
-    }
-
-    bool isConnected(Vertex const& vertex1, Vertex const& vertex2) const override
+    bool isConnected(Vertex const& sourceVertex, Vertex const& destinationVertex) const override
     {
         return m_edges.find(EdgeInSet(vertex1, vertex2)) != m_edges.cend();
     }
 
     unsigned int getNumberOfVertices() const override
     {
-        return m_numberOfVertices;
+        return getUniqueVertices().size();
     }
 
-    unsigned int getNumberOfEdges() const override
-    {
+    unsigned int getNumberOfEdges() const override    {
         return m_numberOfEdges;
     }
-
     Vertices getAdjacentVerticesAt(Vertex const& vertex) const override
     {
         Vertices result;
@@ -90,90 +57,64 @@ public:
 
     Vertices getVertices() const override
     {
-        Vertices result;
-        for(auto const& edge : m_edges)
-        {
-            Vertex const& vertex(edge.first);
-            if(result.empty())
-            {
-                result.emplace_back(vertex);
-            }
-            else if(result.back() != vertex)
-            {
-                result.emplace_back(vertex);
-            }
-        }
-        return result;
+        SetOfVertices uniqueVertices(getUniqueVertices());
+        return Vertices(uniqueVertices.cbegin(), uniqueVertices.cend());
     }
 
     Edges getEdges() const override
     {
         Edges result;
-        for(auto const& edgeInSet : m_edges)
+        result.reserve(m_edges.size());
+        std::transform(m_edges.cbegin(), m_edges.cend(), std::back_inserter(result), [](EdgeInSet const& edgeInSet)
         {
-            if(edgeInSet.first <= edgeInSet.second)
-            {
-                result.emplace_back(static_cast<Edge>(edgeInSet));
-            }
-        }
+            return static_cast<Edge>(edgeInSet);
+        });
         return result;
     }
-
     std::string getDisplayableString() const override
     {
         std::stringstream ss;
         ss << "Edges: {";
         for(auto const& edge : m_edges)
         {
-            ss << edge.first << "<->" << edge.second << ", ";
+            ss << edge.first << "->" << edge.second << ", ";
         }
         ss << "}";
         return ss.str();
     }
 
-    void connect(Vertex const& vertex1, Vertex const& vertex2) override
+    void connect(Vertex const& sourceVertex, Vertex const& destinationVertex) override
     {
-        if(!isConnected(vertex1, vertex2))
+        if(!isConnected(sourceVertex, destinationVertex))
         {
-            if(!hasAnyConnection(vertex1))
-            {
-                m_numberOfVertices++;
-            }
-            if(!hasAnyConnection(vertex2))
-            {
-                m_numberOfVertices++;
-            }
             m_numberOfEdges++;
-            m_edges.emplace(vertex1, vertex2);
-            m_edges.emplace(vertex2, vertex1);
+            m_edges.emplace(sourceVertex, destinationVertex);
         }
     }
 
-    void disconnect(Vertex const& vertex1, Vertex const& vertex2) override
+    void disconnect(Vertex const& sourceVertex, Vertex const& destinationVertex) override
     {
-        if(isConnected(vertex1, vertex2))
+        if(isConnected(sourceVertex, destinationVertex))
         {
             m_numberOfEdges--;
-            m_edges.erase({vertex1, vertex2});
-            m_edges.erase({vertex2, vertex1});
-            if(!hasAnyConnection(vertex1))
-            {
-                m_numberOfVertices--;
-            }
-            if(!hasAnyConnection(vertex2))
-            {
-                m_numberOfVertices--;
-            }
+            m_edges.erase({sourceVertex, destinationVertex});
         }
     }
 
 private:
-
-    unsigned int m_numberOfVertices;
+    SetOfVertices getUniqueVertices()
+    {
+        SetOfVertices uniqueVertices;
+        for(auto const& edge : m_edges)
+        {
+            uniqueVertices.emplace(edge.first);
+            uniqueVertices.emplace(edge.second);
+        }
+        return uniqueVertices;
+    }
     unsigned int m_numberOfEdges;
     SetOfEdges m_edges;
 };
-
 }
 
 }

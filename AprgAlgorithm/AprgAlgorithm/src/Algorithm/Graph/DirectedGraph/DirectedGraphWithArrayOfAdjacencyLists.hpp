@@ -20,34 +20,27 @@ public:
     using AdjacencyLists = std::array<AdjacencyList, MAX_VERTEX_VALUE>;
     using Vertices = typename GraphTypes<Vertex>::Vertices;
     using Edges = typename GraphTypes<Vertex>::Edges;
+    using SetOfVertices = typename GraphTypes<Vertex>::SetOfVertices;
 
     DirectedGraphWithArrayOfAdjacencyLists()
-        : m_numberOfVertices(0U)
-        , m_numberOfEdges(0U)
+        : m_numberOfEdges(0U)
         , m_adjacencyLists{}
     {}
 
-    bool hasAnyConnection(Vertex const& vertex) const override
+    bool isConnected(Vertex const& sourceVertex, Vertex const& destinationVertex) const override
     {
-        return !m_adjacencyLists.at(vertex).empty();
-    }
-
-    bool isConnected(Vertex const& vertex1, Vertex const& vertex2) const override
-    {
-        AdjacencyList const& adjacencyList(m_adjacencyLists.at(vertex1));
-        return adjacencyList.find(vertex2) != adjacencyList.cend();
+        AdjacencyList const& adjacencyList(m_adjacencyLists.at(sourceVertex));
+        return adjacencyList.find(destinationVertex) != adjacencyList.cend();
     }
 
     unsigned int getNumberOfVertices() const override
     {
-        return m_numberOfVertices;
+        return getUniqueVertices().size();
     }
 
-    unsigned int getNumberOfEdges() const override
-    {
+    unsigned int getNumberOfEdges() const override    {
         return m_numberOfEdges;
     }
-
     Vertices getAdjacentVerticesAt(Vertex const& vertex) const override
     {
         AdjacencyList const& adjacencyList(m_adjacencyLists.at(vertex));
@@ -56,23 +49,14 @@ public:
 
     Vertices getVertices() const override
     {
-        Vertices result;
-        for(Vertex vertex=0; vertex<m_adjacencyLists.size(); vertex++)
-        {
-            if(!m_adjacencyLists.at(vertex).empty())
-            {
-                result.emplace_back(vertex);
-            }
-        }
-        return result;
+        SetOfVertices uniqueVertices(getUniqueVertices());
+        return Vertices(uniqueVertices.cbegin(), uniqueVertices.cend());
     }
 
-    Edges getEdges() const override
-    {
+    Edges getEdges() const override    {
         Edges result;
         for(Vertex vertex1=0; vertex1<m_adjacencyLists.size(); vertex1++)
-        {
-            AdjacencyList const& adjacencyList(m_adjacencyLists.at(vertex1));
+        {            AdjacencyList const& adjacencyList(m_adjacencyLists.at(vertex1));
             for(Vertex const& vertex2 : adjacencyList)
             {
                 result.emplace_back(vertex1, vertex2);
@@ -98,46 +82,46 @@ public:
         return ss.str();
     }
 
-    void connect(Vertex const& vertex1, Vertex const& vertex2) override
+    void connect(Vertex const& sourceVertex, Vertex const& destinationVertex) override
     {
-        if(!isConnected(vertex1, vertex2))
+        if(!isConnected(sourceVertex, destinationVertex))
         {
-            if(!hasAnyConnection(vertex1))
-            {
-                m_numberOfVertices++;
-            }
-            if(!hasAnyConnection(vertex2))
-            {
-                m_numberOfVertices++;
-            }
             m_numberOfEdges++;
-            m_adjacencyLists[vertex1].emplace(vertex2);
+            m_adjacencyLists[sourceVertex].emplace(destinationVertex);
         }
     }
 
-    void disconnect(Vertex const& vertex1, Vertex const& vertex2) override
+    void disconnect(Vertex const& sourceVertex, Vertex const& destinationVertex) override
     {
-        if(isConnected(vertex1, vertex2))
+        if(isConnected(sourceVertex, destinationVertex))
         {
             m_numberOfEdges--;
-            m_adjacencyLists[vertex1].erase(vertex2);
-            if(!hasAnyConnection(vertex1))
-            {
-                m_numberOfVertices--;
-            }
-            if(!hasAnyConnection(vertex2))
-            {
-                m_numberOfVertices--;
-            }
+            m_adjacencyLists[sourceVertex].erase(destinationVertex);
         }
     }
 
 private:
-    unsigned int m_numberOfVertices;
+    SetOfVertices getUniqueVertices()
+    {
+        SetOfVertices uniqueVertices;
+        for(Vertex sourceVertex=0; sourceVertex<m_adjacencyLists.size(); sourceVertex++)
+        {
+            AdjacencyList const& adjacencyList(m_adjacencyLists.at(sourceVertex));
+            if(!adjacencyList.empty())
+            {
+                uniqueVertices.emplace(sourceVertex);
+                for(Vertex const& destinationVertex : adjacencyList)
+                {
+                    uniqueVertices.emplace(destinationVertex);
+                }
+            }
+        }
+        return uniqueVertices;
+    }
+
     unsigned int m_numberOfEdges;
     AdjacencyLists m_adjacencyLists;
 };
-
 }
 
 }

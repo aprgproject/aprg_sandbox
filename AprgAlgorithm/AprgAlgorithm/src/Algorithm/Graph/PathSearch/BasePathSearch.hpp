@@ -62,15 +62,13 @@ public:
         {
             reversedPath.emplace_back(m_startVertex);
             result.reserve(reversedPath.size());
-            copy(reversedPath.crbegin(), reversedPath.crend(), back_inserter(result));
+            std::copy(reversedPath.crbegin(), reversedPath.crend(), std::back_inserter(result));
         }
         return result;
     }
-
     VertexToBoolMap const& getIsProcessedMap()
     {
-        return m_isProcessed;
-    }
+        return m_isProcessed;    }
 
     virtual void reinitializeStartingFrom(Vertex const& startVertex) = 0;
 

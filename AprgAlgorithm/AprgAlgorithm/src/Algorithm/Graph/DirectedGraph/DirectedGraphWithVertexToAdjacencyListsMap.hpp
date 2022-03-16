@@ -22,47 +22,33 @@ public:
     using AdjacencyLists = std::map<Vertex, AdjacencyList>;
     using Vertices = typename GraphTypes<Vertex>::Vertices;
     using Edges = typename GraphTypes<Vertex>::Edges;
+    using SetOfVertices = typename GraphTypes<Vertex>::SetOfVertices;
 
     DirectedGraphWithVertexToAdjacencyListsMap()
-        : m_numberOfVertices(0U)
-        , m_numberOfEdges(0U)
+        : m_numberOfEdges(0U)
         , m_adjacencyLists{}
     {}
 
-    bool hasAnyConnection(Vertex const& vertex) const override
+    bool isConnected(Vertex const& sourceVertex, Vertex const& destinationVertex) const override
     {
         bool result(false);
-        auto it = m_adjacencyLists.find(vertex);
+        auto it = m_adjacencyLists.find(sourceVertex);
         if(it != m_adjacencyLists.cend())
         {
             AdjacencyList const& adjacencyList(it->second);
-            result = !adjacencyList.empty();
-        }
-        return result;
-    }
-
-    bool isConnected(Vertex const& vertex1, Vertex const& vertex2) const override
-    {
-        bool result(false);
-        auto it = m_adjacencyLists.find(vertex1);
-        if(it != m_adjacencyLists.cend())
-        {
-            AdjacencyList const& adjacencyList(it->second);
-            result = adjacencyList.find(vertex2) != adjacencyList.cend();
+            result = adjacencyList.find(destinationVertex) != adjacencyList.cend();
         }
         return result;
     }
 
     unsigned int getNumberOfVertices() const override
     {
-        return m_numberOfVertices;
+        return getUniqueVertices().size();
     }
 
-    unsigned int getNumberOfEdges() const override
-    {
+    unsigned int getNumberOfEdges() const override    {
         return m_numberOfEdges;
     }
-
     Vertices getAdjacentVerticesAt(Vertex const& vertex) const override
     {
         Vertices result(false);
@@ -71,47 +57,31 @@ public:
         {
             AdjacencyList const& adjacencyList(it->second);
             result.reserve(adjacencyList.size());
-            copy(adjacencyList.cbegin(), adjacencyList.cend(), back_inserter(result));
+            std::copy(adjacencyList.cbegin(), adjacencyList.cend(), std::back_inserter(result));
         }
         return result;
     }
-
     Vertices getVertices() const override
     {
-        Vertices result;
-        for(auto const& vertexAndAdjacencyListPair : m_adjacencyLists)
-        {
-            Vertex const& vertex(vertexAndAdjacencyListPair.first);
-            AdjacencyList const& adjacencyList(vertexAndAdjacencyListPair.second);
-            if(!adjacencyList.empty())
-            {
-                result.emplace_back(vertex);
-            }
-        }
-        return result;
+        SetOfVertices uniqueVertices(getUniqueVertices());
+        return Vertices(uniqueVertices.cbegin(), uniqueVertices.cend());
     }
 
-    Edges getEdges() const override
-    {
+    Edges getEdges() const override    {
         Edges result;
         for(auto const& vertexAndAdjacencyListPair : m_adjacencyLists)
         {
-            Vertex const& vertex1(vertexAndAdjacencyListPair.first);
+            Vertex const& sourceVertex(vertexAndAdjacencyListPair.first);
             AdjacencyList const& adjacencyList(vertexAndAdjacencyListPair.second);
-            if(!adjacencyList.empty())
+            for(Vertex const& destinationVertex : adjacencyList)
             {
-                for_each(adjacencyList.lower_bound(vertex1), adjacencyList.cend(), [&](Vertex const& vertex2)
-                {
-                    result.emplace_back(vertex1, vertex2);
-                });
+                result.emplace_back(sourceVertex, destinationVertex);
             }
         }
-        return result;
-    }
+        return result;    }
 
     std::string getDisplayableString() const override
-    {
-        std::stringstream ss;
+    {        std::stringstream ss;
         ss << "Adjacency Lists: \n";
         for(auto const& vertexAndAdjacencyListPair : m_adjacencyLists)
         {
@@ -127,48 +97,43 @@ public:
         return ss.str();
     }
 
-    void connect(Vertex const& vertex1, Vertex const& vertex2) override
+    void connect(Vertex const& sourceVertex, Vertex const& destinationVertex) override
     {
-        if(!isConnected(vertex1, vertex2))
+        if(!isConnected(sourceVertex, destinationVertex))
         {
-            if(!hasAnyConnection(vertex1))
-            {
-                m_numberOfVertices++;
-            }
-            if(!hasAnyConnection(vertex2))
-            {
-                m_numberOfVertices++;
-            }
             m_numberOfEdges++;
-            m_adjacencyLists[vertex1].emplace(vertex2);
-            m_adjacencyLists[vertex2].emplace(vertex1);
+            m_adjacencyLists[sourceVertex].emplace(destinationVertex);
         }
     }
 
-    void disconnect(Vertex const& vertex1, Vertex const& vertex2) override
+    void disconnect(Vertex const& sourceVertex, Vertex const& destinationVertex) override
     {
-        if(isConnected(vertex1, vertex2))
+        if(isConnected(sourceVertex, destinationVertex))
         {
             m_numberOfEdges--;
-            m_adjacencyLists[vertex1].erase(vertex2);
-            m_adjacencyLists[vertex2].erase(vertex1);
-            if(!hasAnyConnection(vertex1))
-            {
-                m_numberOfVertices--;
-            }
-            if(!hasAnyConnection(vertex2))
-            {
-                m_numberOfVertices--;
-            }
+            m_adjacencyLists[sourceVertex].erase(destinationVertex);
         }
     }
 
 private:
-    unsigned int m_numberOfVertices;
+    SetOfVertices getUniqueVertices()
+    {
+        SetOfVertices uniqueVertices;
+        for(auto const& vertexAndAdjacencyListPair : m_adjacencyLists)
+        {
+            Vertex const& sourceVertex(vertexAndAdjacencyListPair.first);
+            AdjacencyList const& adjacencyList(vertexAndAdjacencyListPair.second);
+            uniqueVertices.emplace(sourceVertex);
+            for(Vertex const& destinationVertex : adjacencyList)
+            {
+                uniqueVertices.emplace(destinationVertex);
+            }
+        }
+        return uniqueVertices;
+    }
     unsigned int m_numberOfEdges;
     AdjacencyLists m_adjacencyLists;
 };
-
 }
 
 }
