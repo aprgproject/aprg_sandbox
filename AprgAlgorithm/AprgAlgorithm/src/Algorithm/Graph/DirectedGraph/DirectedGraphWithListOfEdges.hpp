@@ -32,14 +32,12 @@ public:
 
     bool isConnected(Vertex const& sourceVertex, Vertex const& destinationVertex) const override
     {
-        return m_edges.find(EdgeInSet(vertex1, vertex2)) != m_edges.cend();
+        return m_edges.find(EdgeInSet(sourceVertex, destinationVertex)) != m_edges.cend();
     }
 
-    unsigned int getNumberOfVertices() const override
-    {
+    unsigned int getNumberOfVertices() const override    {
         return getUniqueVertices().size();
     }
-
     unsigned int getNumberOfEdges() const override    {
         return m_numberOfEdges;
     }
@@ -102,15 +100,13 @@ public:
     }
 
 private:
-    SetOfVertices getUniqueVertices()
+    SetOfVertices getUniqueVertices() const
     {
         SetOfVertices uniqueVertices;
-        for(auto const& edge : m_edges)
-        {
+        for(auto const& edge : m_edges)        {
             uniqueVertices.emplace(edge.first);
             uniqueVertices.emplace(edge.second);
-        }
-        return uniqueVertices;
+        }        return uniqueVertices;
     }
     unsigned int m_numberOfEdges;
     SetOfEdges m_edges;

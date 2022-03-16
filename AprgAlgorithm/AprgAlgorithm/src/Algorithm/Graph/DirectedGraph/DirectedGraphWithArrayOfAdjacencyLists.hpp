@@ -101,15 +101,13 @@ public:
     }
 
 private:
-    SetOfVertices getUniqueVertices()
+    SetOfVertices getUniqueVertices() const
     {
         SetOfVertices uniqueVertices;
-        for(Vertex sourceVertex=0; sourceVertex<m_adjacencyLists.size(); sourceVertex++)
-        {
+        for(Vertex sourceVertex=0; sourceVertex<m_adjacencyLists.size(); sourceVertex++)        {
             AdjacencyList const& adjacencyList(m_adjacencyLists.at(sourceVertex));
             if(!adjacencyList.empty())
-            {
-                uniqueVertices.emplace(sourceVertex);
+            {                uniqueVertices.emplace(sourceVertex);
                 for(Vertex const& destinationVertex : adjacencyList)
                 {
                     uniqueVertices.emplace(destinationVertex);

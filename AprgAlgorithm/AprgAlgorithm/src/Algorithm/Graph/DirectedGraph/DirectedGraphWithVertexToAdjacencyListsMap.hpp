@@ -116,15 +116,13 @@ public:
     }
 
 private:
-    SetOfVertices getUniqueVertices()
+    SetOfVertices getUniqueVertices() const
     {
         SetOfVertices uniqueVertices;
-        for(auto const& vertexAndAdjacencyListPair : m_adjacencyLists)
-        {
+        for(auto const& vertexAndAdjacencyListPair : m_adjacencyLists)        {
             Vertex const& sourceVertex(vertexAndAdjacencyListPair.first);
             AdjacencyList const& adjacencyList(vertexAndAdjacencyListPair.second);
-            uniqueVertices.emplace(sourceVertex);
-            for(Vertex const& destinationVertex : adjacencyList)
+            uniqueVertices.emplace(sourceVertex);            for(Vertex const& destinationVertex : adjacencyList)
             {
                 uniqueVertices.emplace(destinationVertex);
             }
