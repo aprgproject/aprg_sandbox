@@ -3,13 +3,15 @@
 #include <Algorithm/Graph/Types/GraphTypes.hpp>
 
 #include <string>
+
 namespace alba
 {
+
 namespace algorithm
 {
 
 template<typename Vertex>
-class BaseUndirectedGraph
+class BaseDirectedGraph
 {
 public:
     using Vertices = typename GraphTypes<Vertex>::Vertices;
