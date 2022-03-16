@@ -14,8 +14,8 @@ namespace algorithm
 
 namespace
 {
-using ConnectedComponentsForTest = ConnectedComponentsUsingDfs<unsigned int>;
 using GraphForTest = UndirectedGraphWithListOfEdges<unsigned int>;
+using ConnectedComponentsForTest = ConnectedComponentsUsingDfs<unsigned int>;
 }
 
 TEST(ConnectedComponentsUsingDfsTest, IsConnectedWorksWhenEmpty)

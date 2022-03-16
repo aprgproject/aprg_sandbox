@@ -38,9 +38,11 @@ public:
         return getUniqueVertices().size();
     }
 
-    unsigned int getNumberOfEdges() const override    {
+    unsigned int getNumberOfEdges() const override
+    {
         return m_numberOfEdges;
     }
+
     Vertices getAdjacentVerticesAt(Vertex const& vertex) const override
     {
         AdjacencyList const& adjacencyList(m_adjacencyLists.at(vertex));
@@ -53,10 +55,12 @@ public:
         return Vertices(uniqueVertices.cbegin(), uniqueVertices.cend());
     }
 
-    Edges getEdges() const override    {
+    Edges getEdges() const override
+    {
         Edges result;
         for(Vertex vertex1=0; vertex1<m_adjacencyLists.size(); vertex1++)
-        {            AdjacencyList const& adjacencyList(m_adjacencyLists.at(vertex1));
+        {
+            AdjacencyList const& adjacencyList(m_adjacencyLists.at(vertex1));
             for(Vertex const& vertex2 : adjacencyList)
             {
                 result.emplace_back(vertex1, vertex2);
@@ -104,10 +108,12 @@ private:
     SetOfVertices getUniqueVertices() const
     {
         SetOfVertices uniqueVertices;
-        for(Vertex sourceVertex=0; sourceVertex<m_adjacencyLists.size(); sourceVertex++)        {
+        for(Vertex sourceVertex=0; sourceVertex<m_adjacencyLists.size(); sourceVertex++)
+        {
             AdjacencyList const& adjacencyList(m_adjacencyLists.at(sourceVertex));
             if(!adjacencyList.empty())
-            {                uniqueVertices.emplace(sourceVertex);
+            {
+                uniqueVertices.emplace(sourceVertex);
                 for(Vertex const& destinationVertex : adjacencyList)
                 {
                     uniqueVertices.emplace(destinationVertex);
@@ -120,6 +126,7 @@ private:
     unsigned int m_numberOfEdges;
     AdjacencyLists m_adjacencyLists;
 };
+
 }
 
 }

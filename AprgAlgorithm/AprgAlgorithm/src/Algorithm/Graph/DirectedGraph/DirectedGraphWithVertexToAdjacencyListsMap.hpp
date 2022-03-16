@@ -46,9 +46,11 @@ public:
         return getUniqueVertices().size();
     }
 
-    unsigned int getNumberOfEdges() const override    {
+    unsigned int getNumberOfEdges() const override
+    {
         return m_numberOfEdges;
     }
+
     Vertices getAdjacentVerticesAt(Vertex const& vertex) const override
     {
         Vertices result(false);
@@ -61,13 +63,15 @@ public:
         }
         return result;
     }
+
     Vertices getVertices() const override
     {
         SetOfVertices uniqueVertices(getUniqueVertices());
         return Vertices(uniqueVertices.cbegin(), uniqueVertices.cend());
     }
 
-    Edges getEdges() const override    {
+    Edges getEdges() const override
+    {
         Edges result;
         for(auto const& vertexAndAdjacencyListPair : m_adjacencyLists)
         {
@@ -78,10 +82,12 @@ public:
                 result.emplace_back(sourceVertex, destinationVertex);
             }
         }
-        return result;    }
+        return result;
+    }
 
     std::string getDisplayableString() const override
-    {        std::stringstream ss;
+    {
+        std::stringstream ss;
         ss << "Adjacency Lists: \n";
         for(auto const& vertexAndAdjacencyListPair : m_adjacencyLists)
         {
@@ -119,10 +125,12 @@ private:
     SetOfVertices getUniqueVertices() const
     {
         SetOfVertices uniqueVertices;
-        for(auto const& vertexAndAdjacencyListPair : m_adjacencyLists)        {
+        for(auto const& vertexAndAdjacencyListPair : m_adjacencyLists)
+        {
             Vertex const& sourceVertex(vertexAndAdjacencyListPair.first);
             AdjacencyList const& adjacencyList(vertexAndAdjacencyListPair.second);
-            uniqueVertices.emplace(sourceVertex);            for(Vertex const& destinationVertex : adjacencyList)
+            uniqueVertices.emplace(sourceVertex);
+            for(Vertex const& destinationVertex : adjacencyList)
             {
                 uniqueVertices.emplace(destinationVertex);
             }
@@ -132,6 +140,7 @@ private:
     unsigned int m_numberOfEdges;
     AdjacencyLists m_adjacencyLists;
 };
+
 }
 
 }

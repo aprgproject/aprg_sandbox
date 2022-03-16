@@ -1,6 +1,6 @@
 #pragma once
 
-#include <Algorithm/Graph/Types/GraphTypes.hpp>
+#include <Algorithm/Graph/BaseGraph.hpp>
 
 #include <string>
 
@@ -11,22 +11,10 @@ namespace algorithm
 {
 
 template<typename Vertex>
-class BaseDirectedGraph
+class BaseDirectedGraph : public BaseGraph<Vertex>
 {
-public:
-    using Vertices = typename GraphTypes<Vertex>::Vertices;
-    using Edges = typename GraphTypes<Vertex>::Edges;
-
-    virtual bool isConnected(Vertex const& sourceVertex, Vertex const& destinationVertex) const = 0;
-    virtual unsigned int getNumberOfVertices() const = 0;
-    virtual unsigned int getNumberOfEdges() const = 0;
-    virtual Vertices getAdjacentVerticesAt(Vertex const& vertex) const = 0;    virtual Vertices getVertices() const = 0;
-    virtual Edges getEdges() const = 0;
-    virtual std::string getDisplayableString() const = 0;
-
-    virtual void connect(Vertex const& sourceVertex, Vertex const& destinationVertex) = 0;
-    virtual void disconnect(Vertex const& sourceVertex, Vertex const& destinationVertex) = 0;
 };
 
 }
+
 }

@@ -14,8 +14,8 @@ namespace algorithm
 
 namespace
 {
-using ConnectedComponentsForTest = ConnectedComponentsUsingUnionFind<unsigned int>;
 using GraphForTest = UndirectedGraphWithListOfEdges<unsigned int>;
+using ConnectedComponentsForTest = ConnectedComponentsUsingUnionFind<unsigned int>;
 }
 
 TEST(ConnectedComponentsUsingUnionFindTest, IsConnectedWorksWhenEmpty)

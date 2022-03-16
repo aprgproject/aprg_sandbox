@@ -12,12 +12,12 @@ template<typename Vertex>
 class DepthFirstSearch : public BasePathSearch<Vertex>
 {
 public:
-    using BaseUndirectedGraphWithVertex = BaseUndirectedGraph<Vertex>;
+    using BaseGraphWithVertex = BaseGraph<Vertex>;
     using BaseClass = BasePathSearch<Vertex>;
     using Vertices = typename GraphTypes<Vertex>::Vertices;
     using Path = typename GraphTypes<Vertex>::Path;
 
-    DepthFirstSearch(BaseUndirectedGraphWithVertex const& graph, Vertex const& startVertex)
+    DepthFirstSearch(BaseGraphWithVertex const& graph, Vertex const& startVertex)
         : BaseClass(graph, startVertex)
     {
         reinitializeStartingFrom(startVertex);

@@ -1,7 +1,7 @@
 #pragma once
 
+#include <Algorithm/Graph/BaseGraph.hpp>
 #include <Algorithm/Graph/ConnectedComponents/BaseConnectedComponents.hpp>
-#include <Algorithm/Graph/UndirectedGraph/BaseUndirectedGraph.hpp>
 #include <Algorithm/UnionFind/UnionFindUsingMap.hpp>
 
 namespace alba
@@ -14,10 +14,10 @@ template<typename Vertex>
 class ConnectedComponentsUsingUnionFind : public BaseConnectedComponents<Vertex>
 {
 public:
-    using BaseUndirectedGraphWithVertex = BaseUndirectedGraph<Vertex>;
+    using BaseGraphWithVertex = BaseGraph<Vertex>;
     using Edge = typename GraphTypes<Vertex>::Edge;
 
-    ConnectedComponentsUsingUnionFind(BaseUndirectedGraphWithVertex const& graph)
+    ConnectedComponentsUsingUnionFind(BaseGraphWithVertex const& graph)
         : m_graph(graph)
         , m_unionFind()
     {
@@ -37,7 +37,7 @@ private:
             m_unionFind.connect(edge.first, edge.second);
         }
     }
-    BaseUndirectedGraphWithVertex const& m_graph;
+    BaseGraphWithVertex const& m_graph;
     UnionFindUsingMap<Vertex> m_unionFind;
 };
 

@@ -4,10 +4,12 @@
 #include <set>
 #include <vector>
 
-namespace alba{
+namespace alba
+{
 
 namespace algorithm
 {
+
 template<typename Vertex>
 struct GraphTypes
 {
@@ -48,4 +50,5 @@ struct GraphTypes
 };
 
 }
+
 }

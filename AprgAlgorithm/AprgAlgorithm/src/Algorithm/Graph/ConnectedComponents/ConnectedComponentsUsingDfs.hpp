@@ -1,8 +1,8 @@
 #pragma once
 
+#include <Algorithm/Graph/BaseGraph.hpp>
 #include <Algorithm/Graph/ConnectedComponents/BaseConnectedComponents.hpp>
 #include <Algorithm/Graph/PathSearch/DepthFirstSearch/DepthFirstSearch.hpp>
-#include <Algorithm/Graph/UndirectedGraph/BaseUndirectedGraph.hpp>
 
 #include <map>
 
@@ -16,18 +16,18 @@ template<typename Vertex>
 class ConnectedComponentsUsingDfs : public BaseConnectedComponents<Vertex>
 {
 public:
-    using BaseUndirectedGraphWithVertex = BaseUndirectedGraph<Vertex>;
+    using BaseGraphWithVertex = BaseGraph<Vertex>;
     using Vertices = typename GraphTypes<Vertex>::Vertices;
     using VertexToUnsignedIntMap = typename GraphTypes<Vertex>::VertexToUnsignedIntMap;
     using VertexToBoolMap = typename GraphTypes<Vertex>::VertexToBoolMap;
 
-    ConnectedComponentsUsingDfs(BaseUndirectedGraphWithVertex const& graph)
+    ConnectedComponentsUsingDfs(BaseGraphWithVertex const& graph)
         : m_graph(graph)
     {
         initialize();
     }
 
-    bool isConnected(Vertex const& vertex1, Vertex const& vertex2) const
+    bool isConnected(Vertex const& vertex1, Vertex const& vertex2) const override
     {
         auto it1 = m_vertexToComponentIdMap.find(vertex1);
         auto it2 = m_vertexToComponentIdMap.find(vertex2);
@@ -67,7 +67,7 @@ private:
             }
         }
     }
-    BaseUndirectedGraphWithVertex const& m_graph;
+    BaseGraphWithVertex const& m_graph;
     VertexToUnsignedIntMap m_vertexToComponentIdMap;
     VertexToBoolMap m_isProcessed;
 };

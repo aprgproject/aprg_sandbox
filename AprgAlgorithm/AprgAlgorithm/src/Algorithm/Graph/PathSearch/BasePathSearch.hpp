@@ -1,6 +1,6 @@
 #pragma once
 
-#include <Algorithm/Graph/UndirectedGraph/BaseUndirectedGraph.hpp>
+#include <Algorithm/Graph/BaseGraph.hpp>
 
 #include <map>
 
@@ -14,13 +14,13 @@ template<typename Vertex>
 class BasePathSearch
 {
 public:
-    using BaseUndirectedGraphWithVertex = BaseUndirectedGraph<Vertex>;
+    using BaseGraphWithVertex = BaseGraph<Vertex>;
     using Vertices = typename GraphTypes<Vertex>::Vertices;
     using Path = typename GraphTypes<Vertex>::Path;
     using VertexToVertexMap = typename GraphTypes<Vertex>::VertexToVertexMap;
     using VertexToBoolMap = typename GraphTypes<Vertex>::VertexToBoolMap;
 
-    BasePathSearch(BaseUndirectedGraphWithVertex const& graph, Vertex const& startVertex)
+    BasePathSearch(BaseGraphWithVertex const& graph, Vertex const& startVertex)
         : m_graph(graph)
         , m_startVertex(startVertex)
         , m_vertexToPreviousVertexMap()
@@ -66,9 +66,11 @@ public:
         }
         return result;
     }
+
     VertexToBoolMap const& getIsProcessedMap()
     {
-        return m_isProcessed;    }
+        return m_isProcessed;
+    }
 
     virtual void reinitializeStartingFrom(Vertex const& startVertex) = 0;
 
@@ -83,7 +85,7 @@ protected:
         }
     }
 
-    BaseUndirectedGraphWithVertex const& m_graph;
+    BaseGraphWithVertex const& m_graph;
     Vertex m_startVertex;
     VertexToVertexMap m_vertexToPreviousVertexMap;
     VertexToBoolMap m_isProcessed;

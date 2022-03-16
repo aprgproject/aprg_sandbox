@@ -1,6 +1,6 @@
 #pragma once
 
-#include <Algorithm/Graph/UndirectedGraph/BaseUndirectedGraph.hpp>
+#include <Algorithm/Graph/BaseGraph.hpp>
 #include <Algorithm/UnionFind/BaseUnionFind.hpp>
 #include <Algorithm/UnionFind/UnionFindUsingMap.hpp>
 
@@ -16,7 +16,7 @@ namespace algorithm
 template<typename Vertex>
 struct GraphUtilities
 {
-    using BaseUndirectedGraphWithVertex = BaseUndirectedGraph<Vertex>;
+    using BaseGraphWithVertex = BaseGraph<Vertex>;
     using BaseUnionFindWithVertex = BaseUnionFind<Vertex>;
     using Vertices = typename GraphTypes<Vertex>::Vertices;
     using Path = typename GraphTypes<Vertex>::Path;
@@ -58,13 +58,13 @@ struct GraphUtilities
         return result;
     }
 
-    static bool isATree(BaseUndirectedGraphWithVertex const& graph)
+    static bool isATree(BaseGraphWithVertex const& graph)
     {
         // A tree is an acyclic connected graph.
         return !hasAnyCyclesOnGraph(graph) && isGraphConnected(graph);
     }
 
-    static bool hasAnyCyclesOnGraph(BaseUndirectedGraphWithVertex const& graph)
+    static bool hasAnyCyclesOnGraph(BaseGraphWithVertex const& graph)
     {
         bool result(false);
         Edges edges(graph.getEdges());
@@ -84,7 +84,7 @@ struct GraphUtilities
         return result;
     }
 
-    static bool isGraphConnected(BaseUndirectedGraphWithVertex const& graph)
+    static bool isGraphConnected(BaseGraphWithVertex const& graph)
     {
         // A graph is connected if there is a path from every vertex to every other vertex in the graph.
 
@@ -109,7 +109,7 @@ struct GraphUtilities
         return result;
     }
 
-    static bool isBipartite(BaseUndirectedGraphWithVertex const& graph)
+    static bool isBipartite(BaseGraphWithVertex const& graph)
     {
         // A bipartite is a graph whose vertices we can divide into two sets
         // such that all edges connect a vertex in one set with a vertex in the other set.
@@ -138,12 +138,12 @@ struct GraphUtilities
         return isTwoColorable;
     }
 
-    static unsigned int getDegreeAt(BaseUndirectedGraphWithVertex const& graph, Vertex const& vertex)
+    static unsigned int getDegreeAt(BaseGraphWithVertex const& graph, Vertex const& vertex)
     {
         return graph.getAdjacentVerticesAt(vertex).size();
     }
 
-    static unsigned int getMaxDegree(BaseUndirectedGraphWithVertex const& graph)
+    static unsigned int getMaxDegree(BaseGraphWithVertex const& graph)
     {
         unsigned int result(0);
         for(Vertex const& vertex : graph.getVertices())
@@ -153,12 +153,12 @@ struct GraphUtilities
         return result;
     }
 
-    static double getAverageDegree(BaseUndirectedGraphWithVertex const& graph)
+    static double getAverageDegree(BaseGraphWithVertex const& graph)
     {
         return static_cast<double>(graph.getNumberOfEdges()) / graph.getNumberOfVertices() * 2;
     }
 
-    static unsigned int getNumberOfSelfLoops(BaseUndirectedGraphWithVertex const& graph)
+    static unsigned int getNumberOfSelfLoops(BaseGraphWithVertex const& graph)
     {
         unsigned int count(0);
         for(Edge const& edge : graph.getEdges())
@@ -171,7 +171,7 @@ struct GraphUtilities
         return count;
     }
 
-    static ListOfEdges getEdgesOfMaximalConnectedSubgraphs(BaseUndirectedGraphWithVertex const& graph)
+    static ListOfEdges getEdgesOfMaximalConnectedSubgraphs(BaseGraphWithVertex const& graph)
     {
         // A graph that is not connected (see isGraphConnected) consists of a set of connected components which are maximal connected subgraphs.
 
@@ -207,13 +207,13 @@ private:
         }
     }
 
-    static void putGraphToUnionFind(BaseUnionFindWithVertex & unionFind, BaseUndirectedGraphWithVertex const& graph)
+    static void putGraphToUnionFind(BaseUnionFindWithVertex & unionFind, BaseGraphWithVertex const& graph)
     {
         putEdgesToUnionFind(unionFind, graph.getEdges());
     }
 
     static void checkIsBipartiteUsingDfs(
-            BaseUndirectedGraphWithVertex const& graph,
+            BaseGraphWithVertex const& graph,
             Vertex const& vertex,
             VertexToBoolMap & isProcessedMap,
             VertexToBoolMap & colorMap,
