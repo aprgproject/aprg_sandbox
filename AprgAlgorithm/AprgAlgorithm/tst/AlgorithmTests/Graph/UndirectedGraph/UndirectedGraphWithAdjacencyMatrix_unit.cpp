@@ -91,9 +91,14 @@ TEST(UndirectedGraphWithAdjacencyMatrixTest, ConnectWorks)
     testConnectWithVertexAsUnsignedInt<GraphForTest>();
 }
 
-TEST(UndirectedGraphWithAdjacencyMatrixTest, DisonnectWorks)
+TEST(UndirectedGraphWithAdjacencyMatrixTest, DisconnectWorks)
 {
     testDisconnectWithVertexAsUnsignedInt<GraphForTest>();
+}
+
+TEST(UndirectedGraphWithAdjacencyMatrixTest, ClearWorks)
+{
+    testClearWithVertexAsUnsignedInt<GraphForTest>();
 }
 
 TEST(UndirectedGraphWithAdjacencyMatrixTest, ComplicatedTestWorks)
@@ -101,13 +106,30 @@ TEST(UndirectedGraphWithAdjacencyMatrixTest, ComplicatedTestWorks)
     testWithComplicatedExampleWithVertexAsUnsignedInt<GraphForTest>();
 }
 
+TEST(UndirectedGraphWithAdjacencyMatrixTest, GraphWorksAfterClear)
+{
+    using Edges = typename GraphForTest::Edges;
+    GraphForTest graph;
+    graph.connect(0U, 1U);
+    graph.connect(0U, 2U);
+    graph.clear();
+
+    graph.connect(3U, 4U);
+    graph.connect(4U, 5U);
+    graph.connect(5U, 6U);
+
+    EXPECT_EQ(4U, graph.getNumberOfVertices());
+    EXPECT_EQ(3U, graph.getNumberOfEdges());
+    Edges edgesToVerify(graph.getEdges());
+    Edges edgesToExpect{{3U, 4U}, {4U, 5U}, {5U, 6U}};
+    EXPECT_EQ(edgesToExpect, edgesToVerify);
+}
+
 TEST(UndirectedGraphWithAdjacencyMatrixTest, GetDisplayableStringWorks)
 {
     UndirectedGraphWithAdjacencyMatrix<unsigned int, 3> graph;
-
     graph.connect(0U, 1U);
     graph.connect(0U, 2U);
-
     EXPECT_EQ("Adjacency Matrix output:\n-----------------\n| X |[0]|[1]|[2]|\n-----------------\n|[0]| 0 | 1 | 1 |\n-----------------\n"
               "|[1]| 1 | 0 | 0 |\n-----------------\n|[2]| 1 | 0 | 0 |\n-----------------\n",
               graph.getDisplayableString());

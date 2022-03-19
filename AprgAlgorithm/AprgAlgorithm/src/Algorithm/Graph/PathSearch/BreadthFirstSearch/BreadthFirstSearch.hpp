@@ -27,35 +27,33 @@ public:
 
     Path getShortestPathTo(Vertex const& endVertex) const
     {
-        return BaseClass::getPathTo(endVertex);
+        return this->getPathTo(endVertex);
     }
 
     void reinitializeStartingFrom(Vertex const& startVertex) override
     {
-        BaseClass::clear();
-        BaseClass::m_startVertex = startVertex;
+        this->clear();
+        this->m_startVertex = startVertex;
         std::deque<Vertex> queueOfVerticesToProcess{startVertex};
-        BaseClass::m_isProcessed[startVertex] = true;
+        this->m_isProcessed[startVertex] = true;
 
         while(!queueOfVerticesToProcess.empty())
         {
             Vertex vertex(queueOfVerticesToProcess.back());
             queueOfVerticesToProcess.pop_back();
-            Vertices adjacentVertices(BaseClass::m_graph.getAdjacentVerticesAt(vertex));
+            Vertices adjacentVertices(this->m_graph.getAdjacentVerticesAt(vertex));
             for(Vertex const& adjacentVertex : adjacentVertices)
             {
-                if(!BaseClass::m_isProcessed.at(adjacentVertex))
+                if(!this->m_isProcessed.at(adjacentVertex))
                 {
-                    BaseClass::m_vertexToPreviousVertexMap[adjacentVertex] = vertex;
-                    BaseClass::m_isProcessed[adjacentVertex] = true;
+                    this->m_vertexToPreviousVertexMap[adjacentVertex] = vertex;
+                    this->m_isProcessed[adjacentVertex] = true;
                     queueOfVerticesToProcess.emplace_front(adjacentVertex);
                 }
             }
-
         }
     }
 };
-
 }
 
 }

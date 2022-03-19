@@ -155,11 +155,15 @@ public:
         }
     }
 
+    void clear()
+    {
+        m_numberOfEdges = 0;
+        m_adjacencyLists.clear();
+    }
+
 private:
     unsigned int m_numberOfEdges;
-    AdjacencyLists m_adjacencyLists;
-};
+    AdjacencyLists m_adjacencyLists;};
 
 }
-
 }

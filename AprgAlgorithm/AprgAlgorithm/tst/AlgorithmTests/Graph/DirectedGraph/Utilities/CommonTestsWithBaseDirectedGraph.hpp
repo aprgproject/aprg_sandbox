@@ -188,15 +188,44 @@ void testDisconnectWithVertexAsUnsignedInt()
 }
 
 template<typename Graph>
-void testWithComplicatedExampleWithVertexAsUnsignedInt()
+void testClearWithVertexAsUnsignedInt()
+{
+    Graph graph;
+    graph.connect(0U, 1U);
+    graph.connect(2U, 0U);
+
+    graph.clear();
+
+    EXPECT_EQ(0U, graph.getNumberOfVertices());
+    EXPECT_EQ(0U, graph.getNumberOfEdges());
+    EXPECT_TRUE(graph.getEdges().empty());
+}
+
+template<typename Graph>
+void testReverseDirectionsWithVertexAsUnsignedInt()
 {
     using Edges = typename Graph::Edges;
     Graph graph;
     graph.connect(0U, 1U);
+    graph.connect(2U, 0U);
+
+    graph.reverseDirections();
+
+    EXPECT_EQ(3U, graph.getNumberOfVertices());
+    EXPECT_EQ(2U, graph.getNumberOfEdges());
+    Edges edgesToVerify(graph.getEdges());
+    Edges edgesToExpect{{0U, 2U}, {1U, 0U}};
+    EXPECT_EQ(edgesToExpect, edgesToVerify);
+}
+
+template<typename Graph>
+void testWithComplicatedExampleWithVertexAsUnsignedInt()
+{
+    using Edges = typename Graph::Edges;    Graph graph;
+    graph.connect(0U, 1U);
     graph.connect(0U, 5U);
     graph.connect(2U, 0U);
-    graph.connect(2U, 3U);
-    graph.connect(3U, 2U);
+    graph.connect(2U, 3U);    graph.connect(3U, 2U);
     graph.connect(3U, 5U);
     graph.connect(4U, 2U);
     graph.connect(4U, 3U);

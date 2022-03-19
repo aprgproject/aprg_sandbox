@@ -104,14 +104,21 @@ public:
         }
     }
 
-private:
-    SetOfVertices getUniqueVertices() const
+    void clear()
     {
-        SetOfVertices uniqueVertices;
+        m_numberOfEdges = 0;
         for(Vertex sourceVertex=0; sourceVertex<m_adjacencyLists.size(); sourceVertex++)
         {
-            AdjacencyList const& adjacencyList(m_adjacencyLists.at(sourceVertex));
-            if(!adjacencyList.empty())
+            m_adjacencyLists[sourceVertex].clear();
+        }
+    }
+
+private:
+    SetOfVertices getUniqueVertices() const
+    {        SetOfVertices uniqueVertices;
+        for(Vertex sourceVertex=0; sourceVertex<m_adjacencyLists.size(); sourceVertex++)
+        {
+            AdjacencyList const& adjacencyList(m_adjacencyLists.at(sourceVertex));            if(!adjacencyList.empty())
             {
                 uniqueVertices.emplace(sourceVertex);
                 for(Vertex const& destinationVertex : adjacencyList)

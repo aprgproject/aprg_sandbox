@@ -25,32 +25,29 @@ public:
 
     Path getOrderedPathTo(Vertex const& endVertex) const
     {
-        return BaseClass::getPathTo(endVertex);
+        return this->getPathTo(endVertex);
     }
 
     void reinitializeStartingFrom(Vertex const& startVertex) override
     {
-        BaseClass::clear();
-        BaseClass::m_startVertex = startVertex;
+        this->clear();
+        this->m_startVertex = startVertex;
         continueTraversal(startVertex);
     }
-
 private:
     void continueTraversal(Vertex const& vertex)
     {
-        BaseClass::m_isProcessed[vertex] = true;
-        Vertices adjacentVertices(BaseClass::m_graph.getAdjacentVerticesAt(vertex));
+        this->m_isProcessed[vertex] = true;
+        Vertices adjacentVertices(this->m_graph.getAdjacentVerticesAt(vertex));
         for(Vertex const& adjacentVertex : adjacentVertices)
         {
-            if(!BaseClass::m_isProcessed.at(adjacentVertex))
+            if(!this->m_isProcessed.at(adjacentVertex))
             {
-                BaseClass::m_vertexToPreviousVertexMap[adjacentVertex] = vertex;
+                this->m_vertexToPreviousVertexMap[adjacentVertex] = vertex;
                 continueTraversal(adjacentVertex);
             }
-        }
-    }
+        }    }
 };
 
 }
-
 }

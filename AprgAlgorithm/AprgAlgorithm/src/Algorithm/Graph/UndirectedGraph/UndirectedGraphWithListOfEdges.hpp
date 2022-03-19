@@ -129,12 +129,16 @@ public:
         }
     }
 
+    void clear()
+    {
+        m_numberOfEdges = 0;
+        m_edges.clear();
+    }
+
 private:
 
-    unsigned int m_numberOfEdges;
-    SetOfEdges m_edges;
+    unsigned int m_numberOfEdges;    SetOfEdges m_edges;
 };
 
 }
-
 }

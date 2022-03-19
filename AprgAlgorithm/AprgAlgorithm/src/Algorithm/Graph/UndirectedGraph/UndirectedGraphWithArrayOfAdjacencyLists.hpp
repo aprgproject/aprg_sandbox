@@ -138,12 +138,20 @@ public:
         }
     }
 
+    void clear()
+    {
+        m_numberOfVertices = 0;
+        m_numberOfEdges = 0;
+        for(Vertex vertex=0; vertex<m_adjacencyLists.size(); vertex++)
+        {
+            m_adjacencyLists[vertex].clear();
+        }
+    }
+
 private:
     unsigned int m_numberOfVertices;
-    unsigned int m_numberOfEdges;
-    AdjacencyLists m_adjacencyLists;
+    unsigned int m_numberOfEdges;    AdjacencyLists m_adjacencyLists;
 };
 
 }
-
 }

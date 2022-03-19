@@ -148,11 +148,15 @@ public:
         }
     }
 
+    void clear()
+    {
+        m_numberOfEdges = 0;
+        m_adjacencyMatrix.clearAndResize(MAX_VERTEX_VALUE, MAX_VERTEX_VALUE);
+    }
+
 private:
     unsigned int m_numberOfEdges;
-    AdjacencyMatrix m_adjacencyMatrix;
-};
+    AdjacencyMatrix m_adjacencyMatrix;};
 
 }
-
 }

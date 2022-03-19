@@ -121,14 +121,18 @@ public:
         }
     }
 
+    void clear()
+    {
+        m_numberOfEdges = 0;
+        m_adjacencyLists.clear();
+    }
+
 private:
     SetOfVertices getUniqueVertices() const
-    {
-        SetOfVertices uniqueVertices;
+    {        SetOfVertices uniqueVertices;
         for(auto const& vertexAndAdjacencyListPair : m_adjacencyLists)
         {
-            Vertex const& sourceVertex(vertexAndAdjacencyListPair.first);
-            AdjacencyList const& adjacencyList(vertexAndAdjacencyListPair.second);
+            Vertex const& sourceVertex(vertexAndAdjacencyListPair.first);            AdjacencyList const& adjacencyList(vertexAndAdjacencyListPair.second);
             uniqueVertices.emplace(sourceVertex);
             for(Vertex const& destinationVertex : adjacencyList)
             {
