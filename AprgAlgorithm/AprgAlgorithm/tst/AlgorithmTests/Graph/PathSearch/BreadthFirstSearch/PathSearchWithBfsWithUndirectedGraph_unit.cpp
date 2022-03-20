@@ -1,4 +1,4 @@
-#include <Algorithm/Graph/PathSearch/BreadthFirstSearch/BreadthFirstSearch.hpp>
+#include <Algorithm/Graph/PathSearch/BreadthFirstSearch/PathSearchUsingBfs.hpp>
 #include <Algorithm/Graph/UndirectedGraph/UndirectedGraphWithListOfEdges.hpp>
 
 #include <gtest/gtest.h>
@@ -15,7 +15,7 @@ using VertexForTest = unsigned int;
 using VertexToBoolMapForTest = GraphTypes<VertexForTest>::VertexToBoolMap;
 using PathForTest = GraphTypes<VertexForTest>::Path;
 using GraphForTest = UndirectedGraphWithListOfEdges<VertexForTest>;
-using BfsForTest = BreadthFirstSearch<VertexForTest>;
+using BfsForTest = PathSearchUsingBfs<VertexForTest>;
 
 void putConnectionsForTest(GraphForTest & graph)
 {
@@ -30,7 +30,7 @@ void putConnectionsForTest(GraphForTest & graph)
 }
 }
 
-TEST(BreadthFirstSearchTest, HasPathToWorksWithUndirectedGraph)
+TEST(PathSearchUsingBfsTest, HasPathToWorksWithUndirectedGraph)
 {
     GraphForTest graph;
     putConnectionsForTest(graph);
@@ -45,14 +45,15 @@ TEST(BreadthFirstSearchTest, HasPathToWorksWithUndirectedGraph)
     EXPECT_FALSE(bfs.hasPathTo(6U));
 }
 
-TEST(BreadthFirstSearchTest, GetOrderedPathToWorksWithUndirectedGraph)
+TEST(PathSearchUsingBfsTest, GetOrderedPathToWorksWithUndirectedGraph)
 {
     GraphForTest graph;
     putConnectionsForTest(graph);
     BfsForTest bfs(graph, 0U);
 
     PathForTest pathWith0{0U};
-    PathForTest pathWith1{0U, 1U};    PathForTest pathWith2{0U, 2U};
+    PathForTest pathWith1{0U, 1U};
+    PathForTest pathWith2{0U, 2U};
     PathForTest pathWith3{0U, 2U, 3U};
     PathForTest pathWith4{0U, 2U, 4U};
     PathForTest pathWith5{0U, 5U};
@@ -66,7 +67,7 @@ TEST(BreadthFirstSearchTest, GetOrderedPathToWorksWithUndirectedGraph)
     EXPECT_EQ(pathWith6, bfs.getShortestPathTo(6U));
 }
 
-TEST(BreadthFirstSearchTest, GetIsProcessedMapWorksWithUndirectedGraph)
+TEST(PathSearchUsingBfsTest, GetIsProcessedMapWorksWithUndirectedGraph)
 {
     GraphForTest graph;
     putConnectionsForTest(graph);
@@ -78,7 +79,7 @@ TEST(BreadthFirstSearchTest, GetIsProcessedMapWorksWithUndirectedGraph)
     EXPECT_EQ(mapToExpect, mapToVerify);
 }
 
-TEST(BreadthFirstSearchTest, ReinitializeStartingFromWorksWithUndirectedGraph)
+TEST(PathSearchUsingBfsTest, ReinitializeStartingFromWorksWithUndirectedGraph)
 {
     GraphForTest graph;
     putConnectionsForTest(graph);
@@ -87,7 +88,8 @@ TEST(BreadthFirstSearchTest, ReinitializeStartingFromWorksWithUndirectedGraph)
     bfs.reinitializeStartingFrom(3U);
 
     PathForTest pathWith0{3U, 2U, 0U};
-    PathForTest pathWith1{3U, 2U, 1U};    PathForTest pathWith2{3U, 2U};
+    PathForTest pathWith1{3U, 2U, 1U};
+    PathForTest pathWith2{3U, 2U};
     PathForTest pathWith3{3U};
     PathForTest pathWith4{3U, 4U};
     PathForTest pathWith5{3U, 5U};
@@ -101,4 +103,5 @@ TEST(BreadthFirstSearchTest, ReinitializeStartingFromWorksWithUndirectedGraph)
 }
 
 }
+
 }

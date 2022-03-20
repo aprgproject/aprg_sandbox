@@ -2,7 +2,7 @@
 
 #include <Algorithm/Graph/BaseGraph.hpp>
 #include <Algorithm/Graph/ConnectedComponents/BaseConnectedComponents.hpp>
-#include <Algorithm/Graph/PathSearch/DepthFirstSearch/DepthFirstSearch.hpp>
+#include <Algorithm/Graph/PathSearch/DepthFirstSearch/PathSearchUsingDfs.hpp>
 
 #include <map>
 
@@ -53,7 +53,7 @@ private:
         {
             if(!m_isProcessed.at(vertex))
             {
-                DepthFirstSearch<Vertex> dfsAtVertex(m_graph, vertex);
+                PathSearchUsingDfs<Vertex> dfsAtVertex(m_graph, vertex);
                 VertexToBoolMap const& isProcessedMap(dfsAtVertex.getIsProcessedMap());
                 for(auto const& vertexAndIsProcessedPair : isProcessedMap)
                 {

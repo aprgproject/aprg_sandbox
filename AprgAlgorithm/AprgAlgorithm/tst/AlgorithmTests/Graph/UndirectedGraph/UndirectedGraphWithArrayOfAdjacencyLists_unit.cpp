@@ -103,11 +103,13 @@ TEST(UndirectedGraphWithArrayOfAdjacencyListsTest, ClearWorks)
 
 TEST(UndirectedGraphWithArrayOfAdjacencyListsTest, ComplicatedTestWorks)
 {
-    testWithComplicatedExampleWithVertexAsUnsignedInt<GraphForTest>();}
+    testWithComplicatedExampleWithVertexAsUnsignedInt<GraphForTest>();
+}
 
 TEST(UndirectedGraphWithArrayOfAdjacencyListsTest, GetDisplayableStringWorks)
 {
     GraphForTest graph;
+
     graph.connect(0U, 1U);
     graph.connect(0U, 2U);
 

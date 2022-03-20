@@ -112,10 +112,12 @@ public:
 
 private:
     SetOfVertices getUniqueVertices() const
-    {        SetOfVertices uniqueVertices;
+    {
+        SetOfVertices uniqueVertices;
         for(auto const& edge : m_edges)
         {
-            uniqueVertices.emplace(edge.first);            uniqueVertices.emplace(edge.second);
+            uniqueVertices.emplace(edge.first);
+            uniqueVertices.emplace(edge.second);
         }
         return uniqueVertices;
     }

@@ -163,7 +163,9 @@ public:
 
 private:
     unsigned int m_numberOfEdges;
-    AdjacencyLists m_adjacencyLists;};
+    AdjacencyLists m_adjacencyLists;
+};
 
 }
+
 }

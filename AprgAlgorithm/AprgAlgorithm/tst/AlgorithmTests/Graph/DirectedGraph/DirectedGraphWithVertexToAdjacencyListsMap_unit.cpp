@@ -98,11 +98,13 @@ TEST(DirectedGraphWithVertexToAdjacencyListsMapTest, ReverseDirectionsWorks)
 
 TEST(DirectedGraphWithVertexToAdjacencyListsMapTest, ComplicatedTestWorks)
 {
-    testWithComplicatedExampleWithVertexAsUnsignedInt<GraphForTest>();}
+    testWithComplicatedExampleWithVertexAsUnsignedInt<GraphForTest>();
+}
 
 TEST(DirectedGraphWithVertexToAdjacencyListsMapTest, GetDisplayableStringWorks)
 {
     GraphForTest graph;
+
     graph.connect(0U, 1U);
     graph.connect(2U, 0U);
 

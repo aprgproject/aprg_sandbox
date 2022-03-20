@@ -150,8 +150,10 @@ public:
 
 private:
     unsigned int m_numberOfVertices;
-    unsigned int m_numberOfEdges;    AdjacencyLists m_adjacencyLists;
+    unsigned int m_numberOfEdges;
+    AdjacencyLists m_adjacencyLists;
 };
 
 }
+
 }

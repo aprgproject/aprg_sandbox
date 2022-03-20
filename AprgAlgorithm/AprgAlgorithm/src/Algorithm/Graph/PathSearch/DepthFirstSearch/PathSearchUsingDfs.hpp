@@ -9,7 +9,7 @@ namespace algorithm
 {
 
 template<typename Vertex>
-class DepthFirstSearch : public BasePathSearch<Vertex>
+class PathSearchUsingDfs : public BasePathSearch<Vertex>
 {
 public:
     using BaseGraphWithVertex = BaseGraph<Vertex>;
@@ -17,7 +17,7 @@ public:
     using Vertices = typename GraphTypes<Vertex>::Vertices;
     using Path = typename GraphTypes<Vertex>::Path;
 
-    DepthFirstSearch(BaseGraphWithVertex const& graph, Vertex const& startVertex)
+    PathSearchUsingDfs(BaseGraphWithVertex const& graph, Vertex const& startVertex)
         : BaseClass(graph, startVertex)
     {
         reinitializeStartingFrom(startVertex);
@@ -34,6 +34,7 @@ public:
         this->m_startVertex = startVertex;
         continueTraversal(startVertex);
     }
+
 private:
     void continueTraversal(Vertex const& vertex)
     {
@@ -46,8 +47,10 @@ private:
                 this->m_vertexToPreviousVertexMap[adjacentVertex] = vertex;
                 continueTraversal(adjacentVertex);
             }
-        }    }
+        }
+    }
 };
 
 }
+
 }

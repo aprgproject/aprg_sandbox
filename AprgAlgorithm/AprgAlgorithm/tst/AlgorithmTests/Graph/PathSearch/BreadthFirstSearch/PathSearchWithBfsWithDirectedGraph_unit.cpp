@@ -1,4 +1,4 @@
-#include <Algorithm/Graph/PathSearch/BreadthFirstSearch/BreadthFirstSearch.hpp>
+#include <Algorithm/Graph/PathSearch/BreadthFirstSearch/PathSearchUsingBfs.hpp>
 #include <Algorithm/Graph/DirectedGraph/DirectedGraphWithListOfEdges.hpp>
 
 #include <gtest/gtest.h>
@@ -15,7 +15,7 @@ using VertexForTest = unsigned int;
 using VertexToBoolMapForTest = GraphTypes<VertexForTest>::VertexToBoolMap;
 using PathForTest = GraphTypes<VertexForTest>::Path;
 using GraphForTest = DirectedGraphWithListOfEdges<VertexForTest>;
-using BfsForTest = BreadthFirstSearch<VertexForTest>;
+using BfsForTest = PathSearchUsingBfs<VertexForTest>;
 
 void putConnectionsForTest(GraphForTest & graph)
 {
@@ -30,7 +30,7 @@ void putConnectionsForTest(GraphForTest & graph)
 }
 }
 
-TEST(BreadthFirstSearchTest, HasPathToWorksWithDirectedGraph)
+TEST(PathSearchUsingBfsTest, HasPathToWorksWithDirectedGraph)
 {
     GraphForTest graph;
     putConnectionsForTest(graph);
@@ -45,7 +45,7 @@ TEST(BreadthFirstSearchTest, HasPathToWorksWithDirectedGraph)
     EXPECT_FALSE(bfs.hasPathTo(6U));
 }
 
-TEST(BreadthFirstSearchTest, GetOrderedPathToWorksWithDirectedGraph)
+TEST(PathSearchUsingBfsTest, GetOrderedPathToWorksWithDirectedGraph)
 {
     GraphForTest graph;
     putConnectionsForTest(graph);
@@ -67,7 +67,7 @@ TEST(BreadthFirstSearchTest, GetOrderedPathToWorksWithDirectedGraph)
     EXPECT_EQ(pathWith6, bfs.getShortestPathTo(6U));
 }
 
-TEST(BreadthFirstSearchTest, GetIsProcessedMapWorksWithDirectedGraph)
+TEST(PathSearchUsingBfsTest, GetIsProcessedMapWorksWithDirectedGraph)
 {
     GraphForTest graph;
     putConnectionsForTest(graph);
@@ -79,7 +79,7 @@ TEST(BreadthFirstSearchTest, GetIsProcessedMapWorksWithDirectedGraph)
     EXPECT_EQ(mapToExpect, mapToVerify);
 }
 
-TEST(BreadthFirstSearchTest, ReinitializeStartingFromWorksWithDirectedGraph)
+TEST(PathSearchUsingBfsTest, ReinitializeStartingFromWorksWithDirectedGraph)
 {
     GraphForTest graph;
     putConnectionsForTest(graph);

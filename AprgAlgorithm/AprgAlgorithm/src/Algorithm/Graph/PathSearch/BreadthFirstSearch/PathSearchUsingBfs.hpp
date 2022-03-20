@@ -11,7 +11,7 @@ namespace algorithm
 {
 
 template<typename Vertex>
-class BreadthFirstSearch : public BasePathSearch<Vertex>
+class PathSearchUsingBfs : public BasePathSearch<Vertex>
 {
 public:
     using BaseGraphWithVertex = BaseGraph<Vertex>;
@@ -19,7 +19,7 @@ public:
     using Vertices = typename GraphTypes<Vertex>::Vertices;
     using Path = typename GraphTypes<Vertex>::Path;
 
-    BreadthFirstSearch(BaseGraphWithVertex const& graph, Vertex const& startVertex)
+    PathSearchUsingBfs(BaseGraphWithVertex const& graph, Vertex const& startVertex)
         : BaseClass(graph, startVertex)
     {
         reinitializeStartingFrom(startVertex);
@@ -51,9 +51,11 @@ public:
                     queueOfVerticesToProcess.emplace_front(adjacentVertex);
                 }
             }
+
         }
     }
 };
+
 }
 
 }

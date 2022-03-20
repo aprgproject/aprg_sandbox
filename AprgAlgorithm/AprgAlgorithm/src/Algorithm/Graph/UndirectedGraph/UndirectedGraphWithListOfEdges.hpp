@@ -137,8 +137,10 @@ public:
 
 private:
 
-    unsigned int m_numberOfEdges;    SetOfEdges m_edges;
+    unsigned int m_numberOfEdges;
+    SetOfEdges m_edges;
 };
 
 }
+
 }

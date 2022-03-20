@@ -156,7 +156,9 @@ public:
 
 private:
     unsigned int m_numberOfEdges;
-    AdjacencyMatrix m_adjacencyMatrix;};
+    AdjacencyMatrix m_adjacencyMatrix;
+};
 
 }
+
 }
