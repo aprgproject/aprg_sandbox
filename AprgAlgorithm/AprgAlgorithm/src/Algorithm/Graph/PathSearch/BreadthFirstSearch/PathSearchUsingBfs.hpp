@@ -18,13 +18,12 @@ public:
     using BaseClass = BasePathSearch<Vertex>;
     using Vertices = typename GraphTypes<Vertex>::Vertices;
     using Path = typename GraphTypes<Vertex>::Path;
+    using VertexToBoolMap = typename GraphTypes<Vertex>::VertexToBoolMap;
 
     PathSearchUsingBfs(BaseGraphWithVertex const& graph, Vertex const& startVertex)
-        : BaseClass(graph, startVertex)
-    {
+        : BaseClass(graph, startVertex)    {
         reinitializeStartingFrom(startVertex);
     }
-
     Path getShortestPathTo(Vertex const& endVertex) const
     {
         return this->getPathTo(endVertex);
@@ -35,27 +34,25 @@ public:
         this->clear();
         this->m_startVertex = startVertex;
         std::deque<Vertex> queueOfVerticesToProcess{startVertex};
-        this->m_isProcessed[startVertex] = true;
+        VertexToBoolMap & isProcessedMap(this->m_isProcessedMap);
+        isProcessedMap[startVertex] = true;
 
         while(!queueOfVerticesToProcess.empty())
-        {
-            Vertex vertex(queueOfVerticesToProcess.back());
+        {            Vertex vertex(queueOfVerticesToProcess.back());
             queueOfVerticesToProcess.pop_back();
             Vertices adjacentVertices(this->m_graph.getAdjacentVerticesAt(vertex));
             for(Vertex const& adjacentVertex : adjacentVertices)
             {
-                if(!this->m_isProcessed.at(adjacentVertex))
+                if(this->isNotProcessed(adjacentVertex))
                 {
                     this->m_vertexToPreviousVertexMap[adjacentVertex] = vertex;
-                    this->m_isProcessed[adjacentVertex] = true;
+                    isProcessedMap[adjacentVertex] = true;
                     queueOfVerticesToProcess.emplace_front(adjacentVertex);
                 }
             }
-
         }
     }
 };
-
 }
 
 }

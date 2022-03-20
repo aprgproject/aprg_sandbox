@@ -23,23 +23,21 @@ public:
     BasePathSearch(BaseGraphWithVertex const& graph, Vertex const& startVertex)
         : m_graph(graph)
         , m_startVertex(startVertex)
+        , m_isProcessedMap()
         , m_vertexToPreviousVertexMap()
-        , m_isProcessed()
     {}
 
     bool hasPathTo(Vertex const& endVertex) const
     {
         bool result(false);
-        auto it = m_isProcessed.find(endVertex);
-        if(it != m_isProcessed.cend())
+        auto it = m_isProcessedMap.find(endVertex);
+        if(it != m_isProcessedMap.cend())
         {
             result = it->second;
-        }
-        return result;
+        }        return result;
     }
 
-    Path getPathTo(Vertex const& endVertex) const
-    {
+    Path getPathTo(Vertex const& endVertex) const    {
         bool isSuccessful(true);
         Vertex currentVertex = endVertex;
         Path reversedPath;
@@ -69,28 +67,30 @@ public:
 
     VertexToBoolMap const& getIsProcessedMap()
     {
-        return m_isProcessed;
+        return m_isProcessedMap;
     }
 
     virtual void reinitializeStartingFrom(Vertex const& startVertex) = 0;
 
 protected:
+
+    bool isNotProcessed(Vertex const& vertex) const
+    {
+        auto it = m_isProcessedMap.find(vertex);
+        return it == m_isProcessedMap.cend() || !it->second;
+    }
+
     void clear()
     {
         m_vertexToPreviousVertexMap.clear();
-        Vertices vertices(m_graph.getVertices());
-        for(Vertex const& vertex : vertices)
-        {
-            m_isProcessed[vertex] = false;
-        }
+        m_isProcessedMap.clear();
     }
 
     BaseGraphWithVertex const& m_graph;
     Vertex m_startVertex;
+    VertexToBoolMap m_isProcessedMap;
     VertexToVertexMap m_vertexToPreviousVertexMap;
-    VertexToBoolMap m_isProcessed;
 };
 
 }
-
 }

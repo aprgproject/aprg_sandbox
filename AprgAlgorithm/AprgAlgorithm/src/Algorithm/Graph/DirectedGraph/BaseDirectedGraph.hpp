@@ -16,14 +16,17 @@ class BaseDirectedGraph : public BaseGraph<Vertex>
 public:
     using Edges = typename GraphTypes<Vertex>::Edges;
 
+    GraphDirectionType getGraphDirectionType() const
+    {
+        return GraphDirectionType::Directed;
+    }
+
     void reverseDirections()
     {
-        Edges originalEdges(this->getEdges());
-        this->clear();
+        Edges originalEdges(this->getEdges());        this->clear();
         for(auto const& originalEdge : originalEdges)
         {
-            this->connect(originalEdge.second, originalEdge.first);
-        }
+            this->connect(originalEdge.second, originalEdge.first);        }
     }
 };
 

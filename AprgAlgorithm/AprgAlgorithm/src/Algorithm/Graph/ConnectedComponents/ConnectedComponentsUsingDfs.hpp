@@ -46,32 +46,29 @@ private:
         Vertices vertices(m_graph.getVertices());
         for(Vertex const& vertex : vertices)
         {
-            m_isProcessed[vertex] = false;
+            m_isProcessedMap[vertex] = false;
         }
         unsigned int componentId(0U);
         for(Vertex const& vertex : vertices)
         {
-            if(!m_isProcessed.at(vertex))
+            if(!m_isProcessedMap.at(vertex))
             {
                 PathSearchUsingDfs<Vertex> dfsAtVertex(m_graph, vertex);
-                VertexToBoolMap const& isProcessedMap(dfsAtVertex.getIsProcessedMap());
-                for(auto const& vertexAndIsProcessedPair : isProcessedMap)
+                VertexToBoolMap const& isProcessedMap(dfsAtVertex.getIsProcessedMap());                for(auto const& vertexAndIsProcessedPair : isProcessedMap)
                 {
                     if(vertexAndIsProcessedPair.second)
                     {
                         m_vertexToComponentIdMap[vertexAndIsProcessedPair.first] = componentId;
-                        m_isProcessed[vertexAndIsProcessedPair.first] = true;
+                        m_isProcessedMap[vertexAndIsProcessedPair.first] = true;
                     }
                 }
-                componentId++;
-            }
+                componentId++;            }
         }
     }
     BaseGraphWithVertex const& m_graph;
     VertexToUnsignedIntMap m_vertexToComponentIdMap;
-    VertexToBoolMap m_isProcessed;
+    VertexToBoolMap m_isProcessedMap;
 };
 
 }
-
 }

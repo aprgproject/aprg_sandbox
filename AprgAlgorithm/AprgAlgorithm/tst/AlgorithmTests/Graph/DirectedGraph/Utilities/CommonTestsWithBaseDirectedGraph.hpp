@@ -14,14 +14,20 @@ namespace CommonTestsWithBaseDirectedGraph
 {
 
 template<typename Graph>
-void testIsConnectedWhenEmptyWithVertexAsUnsignedInt()
+void testGetGraphDirectionTypeWithVertexAsUnsignedInt()
 {
     Graph graph;
 
+    EXPECT_EQ(GraphDirectionType::Directed, graph.getGraphDirectionType());
+}
+
+template<typename Graph>
+void testIsConnectedWhenEmptyWithVertexAsUnsignedInt()
+{
+    Graph graph;
     EXPECT_FALSE(graph.isConnected(0U, 1U));
     EXPECT_FALSE(graph.isConnected(0U, 2U));
-    EXPECT_FALSE(graph.isConnected(1U, 2U));
-    EXPECT_FALSE(graph.isConnected(0U, 3U));
+    EXPECT_FALSE(graph.isConnected(1U, 2U));    EXPECT_FALSE(graph.isConnected(0U, 3U));
 }
 
 template<typename Graph>
