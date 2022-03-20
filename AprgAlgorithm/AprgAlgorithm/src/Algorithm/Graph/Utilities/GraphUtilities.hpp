@@ -1,12 +1,11 @@
 #pragma once
 
 #include <Algorithm/Graph/BaseGraph.hpp>
+#include <Algorithm/Graph/CycleDetection/CycleDetectionUsingDfs.hpp>
 #include <Algorithm/UnionFind/BaseUnionFind.hpp>
 #include <Algorithm/UnionFind/UnionFindUsingMap.hpp>
-
 #include <algorithm>
 #include <set>
-
 namespace alba
 {
 
@@ -64,32 +63,24 @@ struct GraphUtilities
         return !hasAnyCyclesOnGraph(graph) && isGraphConnected(graph);
     }
 
-    static bool hasAnyCyclesOnGraph(BaseGraphWithVertex const& graph)
+    static bool isDirectedAcyclicGraph(BaseGraphWithVertex const& graph)
     {
-        bool result(false);
-        Edges edges(graph.getEdges());
-        for(unsigned int i=0; i<edges.size(); i++)
-        {
-            Edge removedEdge(edges.at(i));
-            Edges edgesWithoutOneEdge(edges);
-            edgesWithoutOneEdge.erase(edgesWithoutOneEdge.cbegin()+i);
-            UnionFindUsingMap<Vertex> unionFind;
-            putEdgesToUnionFind(unionFind, edgesWithoutOneEdge);
-            if(unionFind.isConnected(removedEdge.first, removedEdge.second))
-            {
-                result = true;
-                break;
-            }
-        }
-        return result;
+        // A directed acyclic graph (DAG) is a digraph with no directed cycles
+        return GraphDirectionType::Directed == graph.getGraphDirectionType()
+                 && hasAnyCyclesOnGraph(graph);
     }
 
-    static bool isGraphConnected(BaseGraphWithVertex const& graph)
+    static bool hasAnyCyclesOnGraph(BaseGraphWithVertex const& graph)
     {
+        CycleDetectionUsingDfs<Vertex> cycleDetection(graph);
+        cycleDetection.checkForCycles();
+        return cycleDetection.hasCycle();
+    }
+
+    static bool isGraphConnected(BaseGraphWithVertex const& graph)    {
         // A graph is connected if there is a path from every vertex to every other vertex in the graph.
 
-        bool result(true);
-        UnionFindUsingMap<Vertex> unionFind;
+        bool result(true);        UnionFindUsingMap<Vertex> unionFind;
         putGraphToUnionFind(unionFind, graph);
         bool isFirst(true);
         Vertex commonRoot;
