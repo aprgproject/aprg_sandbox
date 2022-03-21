@@ -46,34 +46,12 @@ TEST(GraphUtilitiesTest, IsASimpleCycleWorks)
     EXPECT_FALSE(GraphUtilitiesForTest::isASimpleCycle(nonCycleSimplePath));
 }
 
-TEST(GraphUtilitiesTest, IsATreeWorks)
-{
-    UndirectedGraphForTest treeGraph;
-    treeGraph.connect(0U, 1U);
-    treeGraph.connect(0U, 2U);
-    treeGraph.connect(0U, 3U);
-    UndirectedGraphForTest nonTreeGraphWithCycle;
-    nonTreeGraphWithCycle.connect(0U, 1U);
-    nonTreeGraphWithCycle.connect(1U, 2U);
-    nonTreeGraphWithCycle.connect(2U, 0U);
-    UndirectedGraphForTest nonTreeGraphAndItsNotConnected;
-    nonTreeGraphAndItsNotConnected.connect(0U, 1U);
-    nonTreeGraphAndItsNotConnected.connect(0U, 2U);
-    nonTreeGraphAndItsNotConnected.connect(3U, 4U);
-
-    EXPECT_TRUE(GraphUtilitiesForTest::isATree(treeGraph));
-    EXPECT_FALSE(GraphUtilitiesForTest::isATree(nonTreeGraphWithCycle));
-    EXPECT_FALSE(GraphUtilitiesForTest::isATree(nonTreeGraphAndItsNotConnected));
-}
-
 TEST(GraphUtilitiesTest, IsDirectedAcyclicGraphWorks)
 {
-    UndirectedGraphForTest undirectedGraph;
-    undirectedGraph.connect(0U, 1U);
+    UndirectedGraphForTest undirectedGraph;    undirectedGraph.connect(0U, 1U);
     undirectedGraph.connect(1U, 2U);
     undirectedGraph.connect(2U, 0U);
-    DirectedGraphForTest graphWithoutCycle;
-    graphWithoutCycle.connect(0U, 1U);
+    DirectedGraphForTest graphWithoutCycle;    graphWithoutCycle.connect(0U, 1U);
     graphWithoutCycle.connect(0U, 2U);
     graphWithoutCycle.connect(0U, 3U);
     DirectedGraphForTest graphWithCycle;
@@ -101,14 +79,32 @@ TEST(GraphUtilitiesTest, HasAnyCyclesOnGraphWorks)
     EXPECT_TRUE(GraphUtilitiesForTest::hasAnyCyclesOnGraph(graphWithCycle));
 }
 
+TEST(GraphUtilitiesTest, IsATreeWorks)
+{
+    UndirectedGraphForTest treeGraph;
+    treeGraph.connect(0U, 1U);
+    treeGraph.connect(0U, 2U);
+    treeGraph.connect(0U, 3U);
+    UndirectedGraphForTest nonTreeGraphWithCycle;
+    nonTreeGraphWithCycle.connect(0U, 1U);
+    nonTreeGraphWithCycle.connect(1U, 2U);
+    nonTreeGraphWithCycle.connect(2U, 0U);
+    UndirectedGraphForTest nonTreeGraphAndItsNotConnected;
+    nonTreeGraphAndItsNotConnected.connect(0U, 1U);
+    nonTreeGraphAndItsNotConnected.connect(0U, 2U);
+    nonTreeGraphAndItsNotConnected.connect(3U, 4U);
+
+    EXPECT_TRUE(GraphUtilitiesForTest::isATree(treeGraph));
+    EXPECT_FALSE(GraphUtilitiesForTest::isATree(nonTreeGraphWithCycle));
+    EXPECT_FALSE(GraphUtilitiesForTest::isATree(nonTreeGraphAndItsNotConnected));
+}
+
 TEST(GraphUtilitiesTest, IsGraphConnectedWorks)
 {
-    UndirectedGraphForTest connectedGraph;
-    connectedGraph.connect(0U, 1U);
+    UndirectedGraphForTest connectedGraph;    connectedGraph.connect(0U, 1U);
     connectedGraph.connect(0U, 2U);
     connectedGraph.connect(0U, 3U);
-    UndirectedGraphForTest nonConnectedGraph;
-    nonConnectedGraph.connect(0U, 1U);
+    UndirectedGraphForTest nonConnectedGraph;    nonConnectedGraph.connect(0U, 1U);
     nonConnectedGraph.connect(0U, 2U);
     nonConnectedGraph.connect(3U, 4U);
 

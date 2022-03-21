@@ -1,31 +1,27 @@
 #pragma once
 
-#include <Algorithm/Graph/BaseGraph.hpp>
 #include <Algorithm/Graph/ConnectedComponents/BaseConnectedComponents.hpp>
+#include <Algorithm/Graph/UndirectedGraph/BaseUndirectedGraph.hpp>
 #include <Algorithm/UnionFind/UnionFindUsingMap.hpp>
 
-namespace alba
-{
+namespace alba{
 
 namespace algorithm
 {
-
 template<typename Vertex>
 class ConnectedComponentsUsingUnionFind : public BaseConnectedComponents<Vertex>
 {
 public:
-    using BaseGraphWithVertex = BaseGraph<Vertex>;
+    using BaseUndirectedGraphWithVertex = BaseUndirectedGraph<Vertex>;
     using Edge = typename GraphTypes<Vertex>::Edge;
 
-    ConnectedComponentsUsingUnionFind(BaseGraphWithVertex const& graph)
+    ConnectedComponentsUsingUnionFind(BaseUndirectedGraphWithVertex const& graph)
         : m_graph(graph)
         , m_unionFind()
-    {
-        initialize();
+    {        initialize();
     }
 
-    bool isConnected(Vertex const& vertex1, Vertex const& vertex2) const override
-    {
+    bool isConnected(Vertex const& vertex1, Vertex const& vertex2) const override    {
         return m_unionFind.isConnected(vertex1, vertex2);
     }
 
@@ -37,10 +33,9 @@ private:
             m_unionFind.connect(edge.first, edge.second);
         }
     }
-    BaseGraphWithVertex const& m_graph;
+    BaseUndirectedGraphWithVertex const& m_graph;
     UnionFindUsingMap<Vertex> m_unionFind;
 };
-
 }
 
 }
