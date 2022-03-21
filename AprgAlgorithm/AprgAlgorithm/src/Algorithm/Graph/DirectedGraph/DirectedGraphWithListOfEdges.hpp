@@ -18,23 +18,19 @@ class DirectedGraphWithListOfEdges : public BaseDirectedGraph<Vertex>
 public:
     using BaseDirectedGraphWithVertex = BaseDirectedGraph<Vertex>;
     using Vertices = typename GraphTypes<Vertex>::Vertices;
+    using SetOfVertices = typename GraphTypes<Vertex>::SetOfVertices;
     using Edge = typename GraphTypes<Vertex>::Edge;
     using Edges = typename GraphTypes<Vertex>::Edges;
-    using SetOfVertices = typename GraphTypes<Vertex>::SetOfVertices;
     using EdgeInSet = typename GraphTypes<Vertex>::EdgeInSet;
     using SetOfEdges = typename GraphTypes<Vertex>::SetOfEdges;
 
-
     DirectedGraphWithListOfEdges()
         : m_numberOfEdges(0U)
-        , m_edges{}
     {}
 
-    bool isConnected(Vertex const& sourceVertex, Vertex const& destinationVertex) const override
-    {
+    bool isConnected(Vertex const& sourceVertex, Vertex const& destinationVertex) const override    {
         return m_edges.find(EdgeInSet(sourceVertex, destinationVertex)) != m_edges.cend();
     }
-
     unsigned int getNumberOfVertices() const override
     {
         return getUniqueVertices().size();

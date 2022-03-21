@@ -1,11 +1,9 @@
-#include <Algorithm/Graph/VertexOrdering/VertexOrderingUsingDfs.hpp>
 #include <Algorithm/Graph/UndirectedGraph/UndirectedGraphWithListOfEdges.hpp>
+#include <Algorithm/Graph/VertexOrdering/VertexOrderingUsingDfs.hpp>
 
 #include <gtest/gtest.h>
-
 namespace alba
 {
-
 namespace algorithm
 {
 

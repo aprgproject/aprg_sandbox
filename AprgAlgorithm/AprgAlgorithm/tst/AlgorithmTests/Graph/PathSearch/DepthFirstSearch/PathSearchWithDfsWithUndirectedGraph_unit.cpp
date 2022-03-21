@@ -12,15 +12,12 @@ namespace algorithm
 namespace
 {
 using VertexForTest = unsigned int;
-using VertexToBoolMapForTest = GraphTypes<VertexForTest>::VertexToBoolMap;
 using PathForTest = GraphTypes<VertexForTest>::Path;
 using GraphForTest = UndirectedGraphWithListOfEdges<VertexForTest>;
 using PathSearchForTest = PathSearchUsingDfs<VertexForTest>;
-
 void putConnectionsForTest(GraphForTest & graph)
 {
-    graph.connect(0U, 1U);
-    graph.connect(0U, 2U);
+    graph.connect(0U, 1U);    graph.connect(0U, 2U);
     graph.connect(0U, 5U);
     graph.connect(1U, 2U);
     graph.connect(2U, 3U);
@@ -67,26 +64,12 @@ TEST(PathSearchUsingDfsTest, GetOrderedPathToWorksWithUndirectedGraph)
     EXPECT_EQ(pathWith6, pathSearchWithDfs.getOrderedPathTo(6U));
 }
 
-TEST(PathSearchUsingDfsTest, GetIsProcessedMapWorksWithUndirectedGraph)
-{
-    GraphForTest graph;
-    putConnectionsForTest(graph);
-    PathSearchForTest pathSearchWithDfs(graph, 0U);
-
-    VertexToBoolMapForTest const& mapToVerify(pathSearchWithDfs.getIsProcessedMap());
-
-    VertexToBoolMapForTest mapToExpect{{0U, true}, {1U, true}, {2U, true}, {3U, true}, {4U, true}, {5U, true}};
-    EXPECT_EQ(mapToExpect, mapToVerify);
-}
-
 TEST(PathSearchUsingDfsTest, ReinitializeStartingFromWorksWithUndirectedGraph)
 {
-    GraphForTest graph;
-    putConnectionsForTest(graph);
+    GraphForTest graph;    putConnectionsForTest(graph);
     PathSearchForTest pathSearchWithDfs(graph, 0U);
 
     pathSearchWithDfs.reinitializeStartingFrom(3U);
-
     PathForTest pathWith0{3U, 2U, 0U};
     PathForTest pathWith1{3U, 2U, 0U, 1U};
     PathForTest pathWith2{3U, 2U};

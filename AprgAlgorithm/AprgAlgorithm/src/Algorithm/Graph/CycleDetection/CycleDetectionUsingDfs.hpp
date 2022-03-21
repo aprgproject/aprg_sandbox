@@ -14,21 +14,17 @@ class CycleDetectionUsingDfs
 public:
     using BaseGraphWithVertex = BaseGraph<Vertex>;
     using Vertices = typename GraphTypes<Vertex>::Vertices;
+    using SetOfVertices = typename GraphTypes<Vertex>::SetOfVertices;
     using Path = typename GraphTypes<Vertex>::Path;
-    using VertexToBoolMap = typename GraphTypes<Vertex>::VertexToBoolMap;
     using VertexToVertexMap = typename GraphTypes<Vertex>::VertexToVertexMap;
 
     CycleDetectionUsingDfs(BaseGraphWithVertex const& graph)
         : m_graph(graph)
-        , m_isProcessedMap()
-        , m_vertexToPreviousVertexMap()
     {}
 
-    bool hasCycle() const
-    {
+    bool hasCycle() const    {
         return !m_pathWithCycle.empty();
     }
-
     Path getPathWithCycle()
     {
         return m_pathWithCycle;
@@ -49,27 +45,18 @@ private:
 
     bool isNotProcessed(Vertex const& vertex) const
     {
-        auto it = m_isProcessedMap.find(vertex);
-        return it == m_isProcessedMap.cend() || !it->second;
+        return m_processedVertices.find(vertex) == m_processedVertices.cend();
     }
 
     bool isPartOfCycle(Vertex const& vertex) const
     {
-        bool result(false);
-        auto it = m_isPartOfCycle.find(vertex);
-        if(it != m_isPartOfCycle.cend())
-        {
-            result = it->second;
-        }
-        return result;
+        return m_verticesInCycle.find(vertex) != m_verticesInCycle.cend();
     }
 
-    Path getPathWithCycle(Vertex const& secondToTheLastVertex, Vertex const& lastVertex) const
-    {
+    Path getPathWithCycle(Vertex const& secondToTheLastVertex, Vertex const& lastVertex) const    {
         bool isSuccessful(true);
         Path reversedPath{lastVertex};
-        Vertex currentVertex = secondToTheLastVertex;
-        while(currentVertex != lastVertex)
+        Vertex currentVertex = secondToTheLastVertex;        while(currentVertex != lastVertex)
         {
             reversedPath.emplace_back(currentVertex);
             auto it = m_vertexToPreviousVertexMap.find(currentVertex);
@@ -112,16 +99,14 @@ private:
 
     void checkForCyclesUsingDfsWithDirectedGraph(Vertex const& startVertex)
     {
-        m_isPartOfCycle[startVertex] = true;
-        m_isProcessedMap[startVertex] = true;
+        m_verticesInCycle.emplace(startVertex);
+        m_processedVertices.emplace(startVertex);
         for(Vertex const& adjacentVertex : m_graph.getAdjacentVerticesAt(startVertex))
         {
-            if(hasCycle())
-            {
+            if(hasCycle())            {
                 break;
             }
-            else if(isNotProcessed(adjacentVertex))
-            {
+            else if(isNotProcessed(adjacentVertex))            {
                 m_vertexToPreviousVertexMap[adjacentVertex] = startVertex;
                 checkForCyclesUsingDfsWithDirectedGraph(adjacentVertex);
             }
@@ -130,21 +115,19 @@ private:
                 m_pathWithCycle = getPathWithCycle(startVertex, adjacentVertex);
             }
         }
-        m_isPartOfCycle.erase(startVertex);
+        m_verticesInCycle.erase(startVertex);
     }
 
     void checkForCyclesUsingDfsWithUndirectedGraph(Vertex const& startVertex, Vertex const& previousVertex)
     {
-        m_isPartOfCycle[startVertex] = true;
-        m_isProcessedMap[startVertex] = true;
+        m_verticesInCycle.emplace(startVertex);
+        m_processedVertices.emplace(startVertex);
         for(Vertex const& adjacentVertex : m_graph.getAdjacentVerticesAt(startVertex))
         {
-            if(hasCycle())
-            {
+            if(hasCycle())            {
                 break;
             }
-            else if(isNotProcessed(adjacentVertex))
-            {
+            else if(isNotProcessed(adjacentVertex))            {
                 m_vertexToPreviousVertexMap[adjacentVertex] = startVertex;
                 checkForCyclesUsingDfsWithUndirectedGraph(adjacentVertex, startVertex);
             }
@@ -153,16 +136,15 @@ private:
                 m_pathWithCycle = getPathWithCycle(startVertex, adjacentVertex);
             }
         }
-        m_isPartOfCycle.erase(startVertex);
+        m_verticesInCycle.erase(startVertex);
     }
 
     BaseGraphWithVertex const& m_graph;
-    VertexToBoolMap m_isProcessedMap;
+    SetOfVertices m_processedVertices;
     VertexToVertexMap m_vertexToPreviousVertexMap;
-    VertexToBoolMap m_isPartOfCycle;
+    SetOfVertices m_verticesInCycle;
     Path m_pathWithCycle;
 };
-
 }
 
 }

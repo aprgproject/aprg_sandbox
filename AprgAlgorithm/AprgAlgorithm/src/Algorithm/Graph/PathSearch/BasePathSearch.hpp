@@ -17,33 +17,23 @@ public:
     using BaseGraphWithVertex = BaseGraph<Vertex>;
     using Vertices = typename GraphTypes<Vertex>::Vertices;
     using Path = typename GraphTypes<Vertex>::Path;
+    using SetOfVertices = typename GraphTypes<Vertex>::SetOfVertices;
     using VertexToVertexMap = typename GraphTypes<Vertex>::VertexToVertexMap;
-    using VertexToBoolMap = typename GraphTypes<Vertex>::VertexToBoolMap;
 
     BasePathSearch(BaseGraphWithVertex const& graph, Vertex const& startVertex)
         : m_graph(graph)
         , m_startVertex(startVertex)
-        , m_isProcessedMap()
-        , m_vertexToPreviousVertexMap()
     {}
 
     bool hasPathTo(Vertex const& endVertex) const
     {
-        bool result(false);
-        auto it = m_isProcessedMap.find(endVertex);
-        if(it != m_isProcessedMap.cend())
-        {
-            result = it->second;
-        }
-        return result;
+        return m_processedVertices.find(endVertex) != m_processedVertices.cend();
     }
 
-    Path getPathTo(Vertex const& endVertex) const
-    {
+    Path getPathTo(Vertex const& endVertex) const    {
         bool isSuccessful(true);
         Vertex currentVertex = endVertex;
-        Path reversedPath;
-        while(currentVertex != m_startVertex)
+        Path reversedPath;        while(currentVertex != m_startVertex)
         {
             reversedPath.emplace_back(currentVertex);
             auto it = m_vertexToPreviousVertexMap.find(currentVertex);
@@ -67,33 +57,25 @@ public:
         return result;
     }
 
-    VertexToBoolMap const& getIsProcessedMap()
-    {
-        return m_isProcessedMap;
-    }
-
     virtual void reinitializeStartingFrom(Vertex const& startVertex) = 0;
 
 protected:
-
     bool isNotProcessed(Vertex const& vertex) const
     {
-        auto it = m_isProcessedMap.find(vertex);
-        return it == m_isProcessedMap.cend() || !it->second;
+        return m_processedVertices.find(vertex) == m_processedVertices.cend();
     }
 
     void clear()
     {
         m_vertexToPreviousVertexMap.clear();
-        m_isProcessedMap.clear();
+        m_processedVertices.clear();
     }
 
     BaseGraphWithVertex const& m_graph;
     Vertex m_startVertex;
-    VertexToBoolMap m_isProcessedMap;
+    SetOfVertices m_processedVertices;
     VertexToVertexMap m_vertexToPreviousVertexMap;
 };
-
 }
 
 }
