@@ -9,6 +9,7 @@ namespace alba
 {
 namespace algorithm
 {
+
 namespace
 {
 using GraphForTest = UndirectedGraphWithArrayOfAdjacencyLists<unsigned int, 13>;

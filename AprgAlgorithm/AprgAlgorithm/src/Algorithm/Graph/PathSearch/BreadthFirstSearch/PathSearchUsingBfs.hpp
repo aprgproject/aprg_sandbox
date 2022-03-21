@@ -24,6 +24,7 @@ public:
         : BaseClass(graph, startVertex)    {
         reinitializeStartingFrom(startVertex);
     }
+
     Path getShortestPathTo(Vertex const& endVertex) const
     {
         return this->getPathTo(endVertex);

@@ -33,7 +33,8 @@ public:
     Path getPathTo(Vertex const& endVertex) const    {
         bool isSuccessful(true);
         Vertex currentVertex = endVertex;
-        Path reversedPath;        while(currentVertex != m_startVertex)
+        Path reversedPath;
+        while(currentVertex != m_startVertex)
         {
             reversedPath.emplace_back(currentVertex);
             auto it = m_vertexToPreviousVertexMap.find(currentVertex);

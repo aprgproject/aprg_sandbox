@@ -2,7 +2,8 @@
 
 #include <gtest/gtest.h>
 
-namespace alba{
+namespace alba
+{
 
 namespace algorithm
 {
@@ -11,6 +12,7 @@ namespace CommonTestsWithConnectedComponents
 {
 
 //UndirectedGraph
+
 template<typename ConnectedComponentType, typename GraphType>
 void testGetNumberOfComponentIdsWhenEmptyWithVertexAsUnsignedIntWithUndirectedGraph()
 {

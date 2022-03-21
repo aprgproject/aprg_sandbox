@@ -13,7 +13,8 @@ namespace algorithm
 namespace CommonTestsWithUndirectedGraph
 {
 
-template<typename Graph>void testGetGraphDirectionTypeWithVertexAsUnsignedInt()
+template<typename Graph>
+void testGetGraphDirectionTypeWithVertexAsUnsignedInt()
 {
     Graph graph;
 

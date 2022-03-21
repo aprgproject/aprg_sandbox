@@ -25,6 +25,7 @@ public:
     bool hasCycle() const    {
         return !m_pathWithCycle.empty();
     }
+
     Path getPathWithCycle()
     {
         return m_pathWithCycle;
@@ -56,7 +57,8 @@ private:
     Path getPathWithCycle(Vertex const& secondToTheLastVertex, Vertex const& lastVertex) const    {
         bool isSuccessful(true);
         Path reversedPath{lastVertex};
-        Vertex currentVertex = secondToTheLastVertex;        while(currentVertex != lastVertex)
+        Vertex currentVertex = secondToTheLastVertex;
+        while(currentVertex != lastVertex)
         {
             reversedPath.emplace_back(currentVertex);
             auto it = m_vertexToPreviousVertexMap.find(currentVertex);
@@ -106,7 +108,8 @@ private:
             if(hasCycle())            {
                 break;
             }
-            else if(isNotProcessed(adjacentVertex))            {
+            else if(isNotProcessed(adjacentVertex))
+            {
                 m_vertexToPreviousVertexMap[adjacentVertex] = startVertex;
                 checkForCyclesUsingDfsWithDirectedGraph(adjacentVertex);
             }
@@ -127,7 +130,8 @@ private:
             if(hasCycle())            {
                 break;
             }
-            else if(isNotProcessed(adjacentVertex))            {
+            else if(isNotProcessed(adjacentVertex))
+            {
                 m_vertexToPreviousVertexMap[adjacentVertex] = startVertex;
                 checkForCyclesUsingDfsWithUndirectedGraph(adjacentVertex, startVertex);
             }

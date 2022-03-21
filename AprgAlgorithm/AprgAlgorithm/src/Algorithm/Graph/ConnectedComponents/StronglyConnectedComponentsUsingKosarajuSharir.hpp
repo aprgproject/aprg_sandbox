@@ -33,7 +33,8 @@ public:
     }
     bool isConnected(Vertex const& vertex1, Vertex const& vertex2) const override
     {
-        // Two vertices v and w are strongly connected if they are mutually reachable (so there is a v to w and w to v)        auto it1 = m_vertexToComponentIdMap.find(vertex1);
+        // Two vertices v and w are strongly connected if they are mutually reachable (so there is a v to w and w to v)
+        auto it1 = m_vertexToComponentIdMap.find(vertex1);
         auto it2 = m_vertexToComponentIdMap.find(vertex2);
         bool result(false);
         if(it1 != m_vertexToComponentIdMap.cend()
@@ -59,7 +60,8 @@ private:
     DirectedGraphWithListOfEdgesWithVertex getReversedGraph(BaseDirectedGraphWithVertex const& graph) const    {
         DirectedGraphWithListOfEdgesWithVertex result;
         Edges edges(graph.getEdges());
-        for(Edge const& edge : edges)        {
+        for(Edge const& edge : edges)
+        {
             result.connect(edge.second, edge.first);
         }
         return result;
@@ -91,7 +93,8 @@ private:
         {            if(isNotProcessed(adjacentVertex))
             {
                 traverseUsingDfs(adjacentVertex);
-            }        }
+            }
+        }
     }
 
     BaseDirectedGraphWithVertex const& m_graph;

@@ -31,6 +31,7 @@ public:
     bool isConnected(Vertex const& sourceVertex, Vertex const& destinationVertex) const override    {
         return m_edges.find(EdgeInSet(sourceVertex, destinationVertex)) != m_edges.cend();
     }
+
     unsigned int getNumberOfVertices() const override
     {
         return getUniqueVertices().size();

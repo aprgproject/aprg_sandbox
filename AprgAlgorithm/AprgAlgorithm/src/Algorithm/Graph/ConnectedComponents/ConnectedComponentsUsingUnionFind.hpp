@@ -26,7 +26,8 @@ public:
     }
     bool isConnected(Vertex const& vertex1, Vertex const& vertex2) const override
     {
-        return m_unionFind.isConnected(vertex1, vertex2);    }
+        return m_unionFind.isConnected(vertex1, vertex2);
+    }
 
     unsigned int getNumberOfComponentIds() const override
     {
