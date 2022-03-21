@@ -18,14 +18,24 @@ using GraphForTest = UndirectedGraphWithListOfEdges<unsigned int>;
 using ConnectedComponentsForTest = ConnectedComponentsUsingDfs<unsigned int>;
 }
 
+TEST(ConnectedComponentsUsingDfsTest, GetNumberOfComponentIdsWorksWhenEmpty)
+{
+    testGetNumberOfComponentIdsWhenEmptyWithVertexAsUnsignedIntWithUndirectedGraph<ConnectedComponentsForTest, GraphForTest>();
+}
+
+TEST(ConnectedComponentsUsingDfsTest, GetNumberOfComponentIdsWorksWhenNotEmpty)
+{
+    testGetNumberOfComponentIdsWhenNotEmptyWithVertexAsUnsignedIntWithUndirectedGraph<ConnectedComponentsForTest, GraphForTest>();
+}
+
 TEST(ConnectedComponentsUsingDfsTest, IsConnectedWorksWhenEmpty)
 {
-    testIsConnectedWhenEmptyWithVertexAsUnsignedInt<ConnectedComponentsForTest, GraphForTest>();
+    testIsConnectedWhenEmptyWithVertexAsUnsignedIntWithUndirectedGraph<ConnectedComponentsForTest, GraphForTest>();
 }
 
 TEST(ConnectedComponentsUsingDfsTest, IsConnectedWorksWhenNotEmpty)
 {
-    testIsConnectedWhenNotEmptyWithVertexAsUnsignedInt<ConnectedComponentsForTest, GraphForTest>();
+    testIsConnectedWhenNotEmptyWithVertexAsUnsignedIntWithUndirectedGraph<ConnectedComponentsForTest, GraphForTest>();
 }
 
 }

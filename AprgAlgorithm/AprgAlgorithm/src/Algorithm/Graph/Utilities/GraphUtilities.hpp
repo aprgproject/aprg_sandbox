@@ -2,11 +2,16 @@
 
 #include <Algorithm/Graph/BaseGraph.hpp>
 #include <Algorithm/Graph/CycleDetection/CycleDetectionUsingDfs.hpp>
+#include <Algorithm/Graph/ConnectedComponents/ConnectedComponentsUsingDfs.hpp>
+#include <Algorithm/Graph/ConnectedComponents/StronglyConnectedComponentsUsingKosarajuSharir.hpp>
+#include <Algorithm/Graph/DirectedGraph/BaseDirectedGraph.hpp>
 #include <Algorithm/Graph/UndirectedGraph/BaseUndirectedGraph.hpp>
 #include <Algorithm/UnionFind/BaseUnionFind.hpp>
 #include <Algorithm/UnionFind/UnionFindUsingMap.hpp>
+
 #include <algorithm>
 #include <set>
+
 namespace alba
 {
 
@@ -17,16 +22,20 @@ template<typename Vertex>
 struct GraphUtilities
 {
     using BaseGraphWithVertex = BaseGraph<Vertex>;
+    using BaseDirectedGraphWithVertex = BaseDirectedGraph<Vertex>;
     using BaseUndirectedGraphWithVertex = BaseUndirectedGraph<Vertex>;
     using BaseUnionFindWithVertex = BaseUnionFind<Vertex>;
     using Vertices = typename GraphTypes<Vertex>::Vertices;
-    using Path = typename GraphTypes<Vertex>::Path;    using Edge = typename GraphTypes<Vertex>::Edge;
+    using Path = typename GraphTypes<Vertex>::Path;
+    using Edge = typename GraphTypes<Vertex>::Edge;
     using Edges = typename GraphTypes<Vertex>::Edges;
     using ListOfEdges = typename GraphTypes<Vertex>::ListOfEdges;
     using VertexToBoolMap = typename GraphTypes<Vertex>::VertexToBoolMap;
+
     static bool isASimplePath(Path const& path)
     {
         // A simple path is one with no repeated vertices;
+
         std::set<Vertex> uniqueVertices;
         copy(path.cbegin(), path.cend(), inserter(uniqueVertices, uniqueVertices.cbegin()));
         return uniqueVertices.size() == path.size();
@@ -35,6 +44,7 @@ struct GraphUtilities
     static bool isACycle(Path const& path)
     {
         // A cycle is a path with at least one edge whose first and last vertices are the same.
+
         bool result(false);
         if(!path.empty())
         {
@@ -48,6 +58,7 @@ struct GraphUtilities
     static bool isASimpleCycle(Path const& path)
     {
         // A simple cycle is a cycle with no repeated edges or vertices (except the requisite repetition of the first and last vertices).
+
         bool result(false);
         if(!path.empty() && isACycle(path))
         {
@@ -59,9 +70,12 @@ struct GraphUtilities
 
     static bool isDirectedAcyclicGraph(BaseGraphWithVertex const& graph)
     {
-        // A directed acyclic graph (DAG) is a digraph with no directed cycles        return GraphDirectionType::Directed == graph.getGraphDirectionType()
+        // A directed acyclic graph (DAG) is a digraph with no directed cycles
+
+        return GraphDirectionType::Directed == graph.getGraphDirectionType()
                  && hasAnyCyclesOnGraph(graph);
     }
+
     static bool hasAnyCyclesOnGraph(BaseGraphWithVertex const& graph)
     {
         CycleDetectionUsingDfs<Vertex> cycleDetection(graph);
@@ -72,39 +86,37 @@ struct GraphUtilities
     static bool isATree(BaseUndirectedGraphWithVertex const& graph)
     {
         // A tree is an acyclic connected graph.
+
         return !hasAnyCyclesOnGraph(graph) && isGraphConnected(graph);
     }
 
     static bool isGraphConnected(BaseUndirectedGraphWithVertex const& graph)
     {
         // A graph is connected if there is a path from every vertex to every other vertex in the graph.
+        // This is used for undirected graphs.
 
-        bool result(true);        UnionFindUsingMap<Vertex> unionFind;
-        putGraphToUnionFind(unionFind, graph);
-        bool isFirst(true);
-        Vertex commonRoot;        for(Vertex const& vertex : graph.getVertices())
-        {
-            if(isFirst)
-            {
-                commonRoot = unionFind.getRoot(vertex);
-                isFirst = false;
-            }
-            else if(commonRoot != unionFind.getRoot(vertex))
-            {
-                result = false;
-                break;
-            }
-        }
-        return result;
+        ConnectedComponentsUsingDfs<Vertex> connectedComponents(graph);
+        return 1U == connectedComponents.getNumberOfComponentIds();
+    }
+
+    static bool isGraphStronglyConnected(BaseDirectedGraphWithVertex const& graph)
+    {
+        // Two vertices v and w are strongly connected if they are mutually reachable (so there is a v to w and w to v)
+        // A directed graph is strongly connected if all its vertices are strongly connected to one another
+
+        StronglyConnectedComponentsUsingKosarajuSharir<Vertex> connectedComponents(graph);
+        return 1U == connectedComponents.getNumberOfComponentIds();
     }
 
     static bool isBipartite(BaseUndirectedGraphWithVertex const& graph)
     {
         // A bipartite is a graph whose vertices we can divide into two sets
-        // such that all edges connect a vertex in one set with a vertex in the other set.        // So there is only one edge connecting both sets, and if that edge is removed the graph is no longer connected
+        // such that all edges connect a vertex in one set with a vertex in the other set.
+        // So there is only one edge connecting both sets, and if that edge is removed the graph is no longer connected
 
         VertexToBoolMap isProcessedMap;
-        VertexToBoolMap colorMap;        Vertices vertices(graph.getVertices());
+        VertexToBoolMap colorMap;
+        Vertices vertices(graph.getVertices());
         for(Vertex const& vertex : vertices)
         {
             isProcessedMap[vertex] = false;
@@ -161,9 +173,11 @@ struct GraphUtilities
     static ListOfEdges getEdgesOfMaximalConnectedSubgraphs(BaseUndirectedGraphWithVertex const& graph)
     {
         // A graph that is not connected (see isGraphConnected) consists of a set of connected components which are maximal connected subgraphs.
+
         UnionFindUsingMap<Vertex> unionFind;
         putGraphToUnionFind(unionFind, graph);
-        std::map<Vertex, Edges> rootToEdgeMap;        for(Vertex const& vertex : graph.getVertices())
+        std::map<Vertex, Edges> rootToEdgeMap;
+        for(Vertex const& vertex : graph.getVertices())
         {
             Vertex root(unionFind.getRoot(vertex));
             for(Vertex const& adjacentVertex : graph.getAdjacentVerticesAt(vertex))

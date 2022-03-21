@@ -4,25 +4,41 @@
 #include <Algorithm/Graph/UndirectedGraph/BaseUndirectedGraph.hpp>
 #include <Algorithm/UnionFind/UnionFindUsingMap.hpp>
 
-namespace alba{
+namespace alba
+{
 
 namespace algorithm
 {
+
 template<typename Vertex>
 class ConnectedComponentsUsingUnionFind : public BaseConnectedComponents<Vertex>
 {
 public:
     using BaseUndirectedGraphWithVertex = BaseUndirectedGraph<Vertex>;
+    using Vertices = typename GraphTypes<Vertex>::Vertices;
     using Edge = typename GraphTypes<Vertex>::Edge;
+    using SetOfVertices = typename GraphTypes<Vertex>::SetOfVertices;
 
     ConnectedComponentsUsingUnionFind(BaseUndirectedGraphWithVertex const& graph)
         : m_graph(graph)
         , m_unionFind()
-    {        initialize();
+    {
+        initialize();
     }
 
-    bool isConnected(Vertex const& vertex1, Vertex const& vertex2) const override    {
+    bool isConnected(Vertex const& vertex1, Vertex const& vertex2) const override
+    {
         return m_unionFind.isConnected(vertex1, vertex2);
+    }
+
+    unsigned int getNumberOfComponentIds() const override
+    {
+        SetOfVertices uniqueRoots;
+        for(Vertex const& vertex : m_graph.getVertices())
+        {
+            uniqueRoots.emplace(m_unionFind.getRoot(vertex));
+        }
+        return uniqueRoots.size();
     }
 
 private:
@@ -36,6 +52,7 @@ private:
     BaseUndirectedGraphWithVertex const& m_graph;
     UnionFindUsingMap<Vertex> m_unionFind;
 };
+
 }
 
 }

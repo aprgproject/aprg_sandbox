@@ -1,7 +1,9 @@
 #pragma once
 
 #include <Algorithm/Graph/ConnectedComponents/BaseConnectedComponents.hpp>
-#include <Algorithm/Graph/UndirectedGraph/BaseUndirectedGraph.hpp>
+#include <Algorithm/Graph/DirectedGraph/BaseDirectedGraph.hpp>
+#include <Algorithm/Graph/DirectedGraph/DirectedGraphWithListOfEdges.hpp>
+#include <Algorithm/Graph/VertexOrdering/VertexOrderingUsingDfs.hpp>
 
 #include <map>
 
@@ -12,15 +14,18 @@ namespace algorithm
 {
 
 template<typename Vertex>
-class ConnectedComponentsUsingDfs : public BaseConnectedComponents<Vertex>
+class StronglyConnectedComponentsUsingKosarajuSharir : public BaseConnectedComponents<Vertex>
 {
 public:
-    using BaseUndirectedGraphWithVertex = BaseUndirectedGraph<Vertex>;
+    using BaseDirectedGraphWithVertex = BaseDirectedGraph<Vertex>;
+    using DirectedGraphWithListOfEdgesWithVertex = DirectedGraphWithListOfEdges<Vertex>;
     using Vertices = typename GraphTypes<Vertex>::Vertices;
+    using Edge = typename GraphTypes<Vertex>::Edge;
+    using Edges = typename GraphTypes<Vertex>::Edges;
     using VertexToBoolMap = typename GraphTypes<Vertex>::VertexToBoolMap;
     using VertexToUnsignedIntMap = typename GraphTypes<Vertex>::VertexToUnsignedIntMap;
 
-    ConnectedComponentsUsingDfs(BaseUndirectedGraphWithVertex const& graph)
+    StronglyConnectedComponentsUsingKosarajuSharir(BaseDirectedGraphWithVertex const& graph)
         : m_graph(graph)
         , m_numberOfComponentIds(0U)
         , m_isProcessedMap()
@@ -31,6 +36,7 @@ public:
 
     bool isConnected(Vertex const& vertex1, Vertex const& vertex2) const override
     {
+        // Two vertices v and w are strongly connected if they are mutually reachable (so there is a v to w and w to v)
         auto it1 = m_vertexToComponentIdMap.find(vertex1);
         auto it2 = m_vertexToComponentIdMap.find(vertex2);
         bool result(false);
@@ -55,10 +61,26 @@ private:
         return it == m_isProcessedMap.cend() || !it->second;
     }
 
+    DirectedGraphWithListOfEdgesWithVertex getReversedGraph(BaseDirectedGraphWithVertex const& graph) const
+    {
+        DirectedGraphWithListOfEdgesWithVertex result;
+        Edges edges(graph.getEdges());
+        for(Edge const& edge : edges)
+        {
+            result.connect(edge.second, edge.first);
+        }
+        return result;
+    }
+
     void initialize()
     {
+        // Kosaraju Sharir algorithm works on reversing directions and iterating vertices in topological order
+        // and iterating that vertices using DFS on the original graph with orginial directions
+
         m_numberOfComponentIds = 0U;
-        for(Vertex const& vertex : m_graph.getVertices())
+        DirectedGraphWithListOfEdgesWithVertex reversedGraph(getReversedGraph(m_graph));
+        VertexOrderingUsingDfs<Vertex> vertexOrdering(reversedGraph);
+        for(Vertex const& vertex : vertexOrdering.getPathInTopologicalOrder())
         {
             if(isNotProcessed(vertex))
             {
@@ -81,7 +103,7 @@ private:
         }
     }
 
-    BaseUndirectedGraphWithVertex const& m_graph;
+    BaseDirectedGraphWithVertex const& m_graph;
     unsigned int m_numberOfComponentIds;
     VertexToBoolMap m_isProcessedMap;
     VertexToUnsignedIntMap m_vertexToComponentIdMap;
