@@ -34,10 +34,12 @@ public:
         if(it != m_isProcessedMap.cend())
         {
             result = it->second;
-        }        return result;
+        }
+        return result;
     }
 
-    Path getPathTo(Vertex const& endVertex) const    {
+    Path getPathTo(Vertex const& endVertex) const
+    {
         bool isSuccessful(true);
         Vertex currentVertex = endVertex;
         Path reversedPath;
@@ -93,4 +95,5 @@ protected:
 };
 
 }
+
 }

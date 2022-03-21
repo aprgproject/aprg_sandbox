@@ -1,6 +1,6 @@
 #pragma once
 
-#include <Algorithm/Graph/PathSearch/BasePathSearch.hpp>
+#include <Algorithm/Graph/BaseGraph.hpp>
 
 namespace alba
 {
@@ -36,8 +36,7 @@ public:
 
     void checkForCycles()
     {
-        Vertices vertices(m_graph.getVertices());
-        for(Vertex const& vertex : vertices)
+        for(Vertex const& vertex : m_graph.getVertices())
         {
             if(isNotProcessed(vertex))
             {
@@ -47,71 +46,6 @@ public:
     }
 
 private:
-
-    void checkForCyclesUsingDfs(Vertex const& startVertex)
-    {
-        switch(m_graph.getGraphDirectionType())
-        {
-        case GraphDirectionType::Directed:
-        {
-            checkForCyclesUsingDfsWithDirectedGraph(startVertex);
-            break;
-        }
-        case GraphDirectionType::Undirected:
-        {
-            checkForCyclesUsingDfsWithUndirectedGraph(startVertex, startVertex);
-            break;
-        }
-        }
-    }
-
-    void checkForCyclesUsingDfsWithDirectedGraph(Vertex const& startVertex)
-    {
-        m_isPartOfCycle[startVertex] = true;
-        m_isProcessedMap[startVertex] = true;
-        Vertices adjacentVertices(m_graph.getAdjacentVerticesAt(startVertex));
-        for(Vertex const& adjacentVertex : adjacentVertices)
-        {
-            if(hasCycle())
-            {
-                break;
-            }
-            else if(isNotProcessed(adjacentVertex))
-            {
-                m_vertexToPreviousVertexMap[adjacentVertex] = startVertex;
-                checkForCyclesUsingDfsWithDirectedGraph(adjacentVertex);
-            }
-            else if(isPartOfCycle(adjacentVertex))
-            {
-                m_pathWithCycle = getPathWithCycle(startVertex, adjacentVertex);
-            }
-        }
-        m_isPartOfCycle.erase(startVertex);
-    }
-
-    void checkForCyclesUsingDfsWithUndirectedGraph(Vertex const& startVertex, Vertex const& previousVertex)
-    {
-        m_isPartOfCycle[startVertex] = true;
-        m_isProcessedMap[startVertex] = true;
-        Vertices adjacentVertices(m_graph.getAdjacentVerticesAt(startVertex));
-        for(Vertex const& adjacentVertex : adjacentVertices)
-        {
-            if(hasCycle())
-            {
-                break;
-            }
-            else if(isNotProcessed(adjacentVertex))
-            {
-                m_vertexToPreviousVertexMap[adjacentVertex] = startVertex;
-                checkForCyclesUsingDfsWithUndirectedGraph(adjacentVertex, startVertex);
-            }
-            else if(previousVertex != adjacentVertex && isPartOfCycle(adjacentVertex))
-            {
-                m_pathWithCycle = getPathWithCycle(startVertex, adjacentVertex);
-            }
-        }
-        m_isPartOfCycle.erase(startVertex);
-    }
 
     bool isNotProcessed(Vertex const& vertex) const
     {
@@ -157,6 +91,69 @@ private:
             std::copy(reversedPath.crbegin(), reversedPath.crend(), std::back_inserter(result));
         }
         return result;
+    }
+
+    void checkForCyclesUsingDfs(Vertex const& startVertex)
+    {
+        switch(m_graph.getGraphDirectionType())
+        {
+        case GraphDirectionType::Directed:
+        {
+            checkForCyclesUsingDfsWithDirectedGraph(startVertex);
+            break;
+        }
+        case GraphDirectionType::Undirected:
+        {
+            checkForCyclesUsingDfsWithUndirectedGraph(startVertex, startVertex);
+            break;
+        }
+        }
+    }
+
+    void checkForCyclesUsingDfsWithDirectedGraph(Vertex const& startVertex)
+    {
+        m_isPartOfCycle[startVertex] = true;
+        m_isProcessedMap[startVertex] = true;
+        for(Vertex const& adjacentVertex : m_graph.getAdjacentVerticesAt(startVertex))
+        {
+            if(hasCycle())
+            {
+                break;
+            }
+            else if(isNotProcessed(adjacentVertex))
+            {
+                m_vertexToPreviousVertexMap[adjacentVertex] = startVertex;
+                checkForCyclesUsingDfsWithDirectedGraph(adjacentVertex);
+            }
+            else if(isPartOfCycle(adjacentVertex))
+            {
+                m_pathWithCycle = getPathWithCycle(startVertex, adjacentVertex);
+            }
+        }
+        m_isPartOfCycle.erase(startVertex);
+    }
+
+    void checkForCyclesUsingDfsWithUndirectedGraph(Vertex const& startVertex, Vertex const& previousVertex)
+    {
+        m_isPartOfCycle[startVertex] = true;
+        m_isProcessedMap[startVertex] = true;
+        for(Vertex const& adjacentVertex : m_graph.getAdjacentVerticesAt(startVertex))
+        {
+            if(hasCycle())
+            {
+                break;
+            }
+            else if(isNotProcessed(adjacentVertex))
+            {
+                m_vertexToPreviousVertexMap[adjacentVertex] = startVertex;
+                checkForCyclesUsingDfsWithUndirectedGraph(adjacentVertex, startVertex);
+            }
+            else if(previousVertex != adjacentVertex && isPartOfCycle(adjacentVertex))
+            {
+                m_pathWithCycle = getPathWithCycle(startVertex, adjacentVertex);
+            }
+        }
+        m_isPartOfCycle.erase(startVertex);
     }
 
     BaseGraphWithVertex const& m_graph;

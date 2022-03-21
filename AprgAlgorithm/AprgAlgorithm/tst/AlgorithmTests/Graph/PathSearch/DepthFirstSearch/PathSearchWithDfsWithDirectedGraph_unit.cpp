@@ -2,8 +2,10 @@
 #include <Algorithm/Graph/PathSearch/DepthFirstSearch/PathSearchUsingDfs.hpp>
 
 #include <gtest/gtest.h>
+
 namespace alba
 {
+
 namespace algorithm
 {
 
@@ -16,10 +18,12 @@ using GraphForTest = DirectedGraphWithListOfEdges<VertexForTest>;
 using PathSearchForTest = PathSearchUsingDfs<VertexForTest>;
 
 void putConnectionsForTest(GraphForTest & graph)
-{    graph.connect(0U, 1U);
+{
+    graph.connect(0U, 1U);
     graph.connect(0U, 2U);
     graph.connect(0U, 5U);
-    graph.connect(2U, 1U);    graph.connect(2U, 3U);
+    graph.connect(2U, 1U);
+    graph.connect(2U, 3U);
     graph.connect(2U, 4U);
     graph.connect(3U, 4U);
     graph.connect(3U, 5U);
@@ -41,13 +45,15 @@ TEST(PathSearchUsingDfsTest, HasPathToWorksWithDirectedGraph)
     EXPECT_FALSE(pathSearchWithDfs.hasPathTo(6U));
 }
 
-TEST(PathSearchUsingDfsTest, GetOrderedPathToWorksWithDirectedGraph){
+TEST(PathSearchUsingDfsTest, GetOrderedPathToWorksWithDirectedGraph)
+{
     GraphForTest graph;
     putConnectionsForTest(graph);
     PathSearchForTest pathSearchWithDfs(graph, 0U);
 
     PathForTest pathWith0{0U};
-    PathForTest pathWith1{0U, 1U};    PathForTest pathWith2{0U, 2U};
+    PathForTest pathWith1{0U, 1U};
+    PathForTest pathWith2{0U, 2U};
     PathForTest pathWith3{0U, 2U, 3U};
     PathForTest pathWith4{0U, 2U, 3U, 4U};
     PathForTest pathWith5{0U, 2U, 3U, 5U};
@@ -61,7 +67,8 @@ TEST(PathSearchUsingDfsTest, GetOrderedPathToWorksWithDirectedGraph){
     EXPECT_EQ(pathWith6, pathSearchWithDfs.getOrderedPathTo(6U));
 }
 
-TEST(PathSearchUsingDfsTest, GetIsProcessedMapWorksWithDirectedGraph){
+TEST(PathSearchUsingDfsTest, GetIsProcessedMapWorksWithDirectedGraph)
+{
     GraphForTest graph;
     putConnectionsForTest(graph);
     PathSearchForTest pathSearchWithDfs(graph, 0U);
@@ -69,7 +76,8 @@ TEST(PathSearchUsingDfsTest, GetIsProcessedMapWorksWithDirectedGraph){
     VertexToBoolMapForTest const& mapToVerify(pathSearchWithDfs.getIsProcessedMap());
 
     VertexToBoolMapForTest mapToExpect{{0U, true}, {1U, true}, {2U, true}, {3U, true}, {4U, true}, {5U, true}};
-    EXPECT_EQ(mapToExpect, mapToVerify);}
+    EXPECT_EQ(mapToExpect, mapToVerify);
+}
 
 TEST(PathSearchUsingDfsTest, ReinitializeStartingFromWorksWithDirectedGraph)
 {
@@ -80,7 +88,8 @@ TEST(PathSearchUsingDfsTest, ReinitializeStartingFromWorksWithDirectedGraph)
     pathSearchWithDfs.reinitializeStartingFrom(2U);
 
     PathForTest pathWith1{2U, 1U};
-    PathForTest pathWith2{2U};    PathForTest pathWith3{2U, 3U};
+    PathForTest pathWith2{2U};
+    PathForTest pathWith3{2U, 3U};
     PathForTest pathWith4{2U, 3U, 4U};
     PathForTest pathWith5{2U, 3U, 5U};
     EXPECT_TRUE(pathSearchWithDfs.getOrderedPathTo(0U).empty());
@@ -93,4 +102,5 @@ TEST(PathSearchUsingDfsTest, ReinitializeStartingFromWorksWithDirectedGraph)
 }
 
 }
+
 }

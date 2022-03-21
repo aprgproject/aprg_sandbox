@@ -23,6 +23,8 @@ public:
 
     ConnectedComponentsUsingDfs(BaseGraphWithVertex const& graph)
         : m_graph(graph)
+        , m_isProcessedMap()
+        , m_vertexToComponentIdMap()
     {
         initialize();
     }
@@ -54,7 +56,8 @@ private:
             if(!m_isProcessedMap.at(vertex))
             {
                 PathSearchUsingDfs<Vertex> dfsAtVertex(m_graph, vertex);
-                VertexToBoolMap const& isProcessedMap(dfsAtVertex.getIsProcessedMap());                for(auto const& vertexAndIsProcessedPair : isProcessedMap)
+                VertexToBoolMap const& isProcessedMap(dfsAtVertex.getIsProcessedMap());
+                for(auto const& vertexAndIsProcessedPair : isProcessedMap)
                 {
                     if(vertexAndIsProcessedPair.second)
                     {
@@ -62,13 +65,15 @@ private:
                         m_isProcessedMap[vertexAndIsProcessedPair.first] = true;
                     }
                 }
-                componentId++;            }
+                componentId++;
+            }
         }
     }
     BaseGraphWithVertex const& m_graph;
-    VertexToUnsignedIntMap m_vertexToComponentIdMap;
     VertexToBoolMap m_isProcessedMap;
+    VertexToUnsignedIntMap m_vertexToComponentIdMap;
 };
 
 }
+
 }

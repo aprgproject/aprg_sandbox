@@ -73,7 +73,6 @@ TEST(CycleDetectionUsingDfsTest, CycleDetectionWorksUsingExample2WithUndirectedG
     graph.connect(7U, 8U);
     graph.connect(9U, 11U);
     graph.connect(5U, 3U);
-
     CycleDetectionForTest cycleDetectionWithDfs(graph);
 
     cycleDetectionWithDfs.checkForCycles();
@@ -91,7 +90,6 @@ TEST(CycleDetectionUsingDfsTest, CycleDetectionWorksUsingExample3WithUndirectedG
     graph.connect(2U, 3U);
     graph.connect(3U, 4U);
     graph.connect(4U, 0U);
-
     CycleDetectionForTest cycleDetectionWithDfs(graph);
 
     cycleDetectionWithDfs.checkForCycles();

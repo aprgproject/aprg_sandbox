@@ -19,9 +19,11 @@ public:
     using VertexToBoolMap = typename GraphTypes<Vertex>::VertexToBoolMap;
 
     PathSearchUsingDfs(BaseGraphWithVertex const& graph, Vertex const& startVertex)
-        : BaseClass(graph, startVertex)    {
+        : BaseClass(graph, startVertex)
+    {
         reinitializeStartingFrom(startVertex);
     }
+
     Path getOrderedPathTo(Vertex const& endVertex) const
     {
         return this->getPathTo(endVertex);
@@ -39,16 +41,17 @@ private:
     {
         VertexToBoolMap & isProcessedMap(this->m_isProcessedMap);
         isProcessedMap[vertex] = true;
-        Vertices adjacentVertices(this->m_graph.getAdjacentVerticesAt(vertex));
-        for(Vertex const& adjacentVertex : adjacentVertices)
+        for(Vertex const& adjacentVertex : this->m_graph.getAdjacentVerticesAt(vertex))
         {
             if(this->isNotProcessed(adjacentVertex))
             {
                 this->m_vertexToPreviousVertexMap[adjacentVertex] = vertex;
-                continueTraversal(adjacentVertex);            }
+                continueTraversal(adjacentVertex);
+            }
         }
     }
 };
+
 }
 
 }
