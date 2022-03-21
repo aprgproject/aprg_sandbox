@@ -1,17 +1,15 @@
 #include <Algorithm/Graph/ConnectedComponents/StronglyConnectedComponentsUsingKosarajuSharir.hpp>
 #include <Algorithm/Graph/DirectedGraph/DirectedGraphWithListOfEdges.hpp>
-#include <AlgorithmTests/Graph/ConnectedComponents/Utilities/CommonTestsWithBaseConnectedComponents.hpp>
+#include <AlgorithmTests/Graph/ConnectedComponents/Utilities/CommonTestsWithConnectedComponents.hpp>
 
 #include <gtest/gtest.h>
 
-using namespace alba::algorithm::CommonTestsWithBaseConnectedComponents;
+using namespace alba::algorithm::CommonTestsWithConnectedComponents;
 
 namespace alba
 {
-
 namespace algorithm
 {
-
 namespace
 {
 using GraphForTest = DirectedGraphWithListOfEdges<unsigned int>;

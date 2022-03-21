@@ -1,16 +1,14 @@
 #include <Algorithm/Graph/DirectedGraph/DirectedGraphWithVertexToAdjacencyListsMap.hpp>
-#include <AlgorithmTests/Graph/DirectedGraph/Utilities/CommonTestsWithBaseDirectedGraph.hpp>
+#include <AlgorithmTests/Graph/DirectedGraph/Utilities/CommonTestsWithDirectedGraph.hpp>
 
 #include <gtest/gtest.h>
 
-using namespace alba::algorithm::CommonTestsWithBaseDirectedGraph;
+using namespace alba::algorithm::CommonTestsWithDirectedGraph;
 
 namespace alba
 {
-
 namespace algorithm
 {
-
 namespace
 {
 using GraphForTest = DirectedGraphWithVertexToAdjacencyListsMap<unsigned int>;

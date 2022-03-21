@@ -10,11 +10,10 @@ namespace alba
 namespace algorithm
 {
 
-namespace CommonTestsWithBaseUndirectedGraph
+namespace CommonTestsWithUndirectedGraph
 {
 
-template<typename Graph>
-void testGetGraphDirectionTypeWithVertexAsUnsignedInt()
+template<typename Graph>void testGetGraphDirectionTypeWithVertexAsUnsignedInt()
 {
     Graph graph;
 

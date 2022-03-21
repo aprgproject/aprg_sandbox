@@ -1,21 +1,16 @@
 #pragma once
 
-#include <Algorithm/Graph/ConnectedComponents/BaseConnectedComponents.hpp>
-#include <Algorithm/Graph/UndirectedGraph/BaseUndirectedGraph.hpp>
-
 #include <gtest/gtest.h>
 
-namespace alba
-{
+namespace alba{
 
 namespace algorithm
 {
 
-namespace CommonTestsWithBaseConnectedComponents
+namespace CommonTestsWithConnectedComponents
 {
 
 //UndirectedGraph
-
 template<typename ConnectedComponentType, typename GraphType>
 void testGetNumberOfComponentIdsWhenEmptyWithVertexAsUnsignedIntWithUndirectedGraph()
 {
