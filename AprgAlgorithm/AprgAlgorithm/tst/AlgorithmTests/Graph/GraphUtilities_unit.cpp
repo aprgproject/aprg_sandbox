@@ -134,24 +134,30 @@ TEST(GraphUtilitiesTest, IsGraphStronglyConnectedWorks)
 
 TEST(GraphUtilitiesTest, IsBipartiteWorks)
 {
-    // This is wrong
-    UndirectedGraphForTest bipartiteWorks;
-    bipartiteWorks.connect(0U, 1U);
-    bipartiteWorks.connect(0U, 2U);
-    bipartiteWorks.connect(0U, 3U);
-    bipartiteWorks.connect(3U, 4U);
-    bipartiteWorks.connect(3U, 5U);
-    bipartiteWorks.connect(4U, 5U);
+    UndirectedGraphForTest bipartiteGraph;
+    bipartiteGraph.connect(0U, 1U);
+    bipartiteGraph.connect(0U, 2U);
+    bipartiteGraph.connect(0U, 3U);
+    bipartiteGraph.connect(3U, 4U);
+    bipartiteGraph.connect(3U, 6U);
+    bipartiteGraph.connect(4U, 5U);
+    bipartiteGraph.connect(5U, 6U);
+    UndirectedGraphForTest nonBipartiteGraph;
+    nonBipartiteGraph.connect(0U, 1U);
+    nonBipartiteGraph.connect(0U, 2U);
+    nonBipartiteGraph.connect(0U, 3U);
+    nonBipartiteGraph.connect(3U, 4U);
+    nonBipartiteGraph.connect(3U, 5U);
+    nonBipartiteGraph.connect(4U, 5U);
 
-    EXPECT_FALSE(GraphUtilitiesForTest::isBipartite(bipartiteWorks));
+    EXPECT_TRUE(GraphUtilitiesForTest::isBipartite(bipartiteGraph));
+    EXPECT_FALSE(GraphUtilitiesForTest::isBipartite(nonBipartiteGraph));
 }
 
-TEST(GraphUtilitiesTest, GetDegreeAtWorks)
-{
+TEST(GraphUtilitiesTest, GetDegreeAtWorks){
     UndirectedGraphForTest graph;
 
-    graph.connect(0U, 1U);
-    graph.connect(0U, 2U);
+    graph.connect(0U, 1U);    graph.connect(0U, 2U);
 
     EXPECT_EQ(2U, GraphUtilitiesForTest::getDegreeAt(graph, 0U));
     EXPECT_EQ(1U, GraphUtilitiesForTest::getDegreeAt(graph, 1U));

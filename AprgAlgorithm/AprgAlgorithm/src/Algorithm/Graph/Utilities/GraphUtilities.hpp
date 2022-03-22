@@ -6,12 +6,11 @@
 #include <Algorithm/Graph/ConnectedComponents/StronglyConnectedComponentsUsingKosarajuSharir.hpp>
 #include <Algorithm/Graph/DirectedGraph/BaseDirectedGraph.hpp>
 #include <Algorithm/Graph/UndirectedGraph/BaseUndirectedGraph.hpp>
+#include <Algorithm/Graph/Utilities/BipartiteCheckerUsingDfs.hpp>
 #include <Algorithm/UnionFind/BaseUnionFind.hpp>
 #include <Algorithm/UnionFind/UnionFindUsingMap.hpp>
-
 #include <algorithm>
 #include <set>
-
 namespace alba
 {
 
@@ -112,34 +111,14 @@ struct GraphUtilities
     {
         // A bipartite is a graph whose vertices we can divide into two sets
         // such that all edges connect a vertex in one set with a vertex in the other set.
-        // So there is only one edge connecting both sets, and if that edge is removed the graph is no longer connected
+        // In short, you can split the vertices in two groups and all edges should bridge the two groups
 
-        /*SetOfVertices processedVertices;
-        Vertices vertices(graph.getVertices());
-        for(Vertex const& vertex : vertices)
-        {
-            colorMap[vertex] = false;
-        }
-        bool isTwoColorable(true);
-        for(Vertex const& vertex : vertices)
-        {
-            if(!isProcessedMap.at(vertex))
-            {
-                checkIsBipartiteUsingDfs(graph, vertex, isProcessedMap, colorMap, isTwoColorable);
-            }
-            if(!isTwoColorable)
-            {
-                break;
-            }
-        }*/
-        return false;
+        return BipartiteCheckerUsingDfs<Vertex>(graph).isBipartite();
     }
 
-    static unsigned int getDegreeAt(BaseGraphWithVertex const& graph, Vertex const& vertex)
-    {
+    static unsigned int getDegreeAt(BaseGraphWithVertex const& graph, Vertex const& vertex)    {
         return graph.getAdjacentVerticesAt(vertex).size();
     }
-
     static unsigned int getMaxDegree(BaseGraphWithVertex const& graph)
     {
         unsigned int result(0);
