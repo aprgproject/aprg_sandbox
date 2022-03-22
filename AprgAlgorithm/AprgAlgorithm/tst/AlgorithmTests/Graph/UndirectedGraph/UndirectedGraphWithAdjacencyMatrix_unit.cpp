@@ -7,9 +7,9 @@ using namespace alba::algorithm::CommonTestsWithUndirectedGraph;
 
 namespace alba
 {
+
 namespace algorithm
 {
-
 namespace
 {
 using GraphForTest = UndirectedGraphWithAdjacencyMatrix<unsigned int, 13>;

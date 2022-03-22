@@ -8,9 +8,9 @@ using namespace alba::algorithm::CommonTestsWithConnectedComponents;
 
 namespace alba
 {
+
 namespace algorithm
 {
-
 namespace
 {
 using GraphForTest = DirectedGraphWithListOfEdges<unsigned int>;

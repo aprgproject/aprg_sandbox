@@ -15,11 +15,9 @@ class BasePathSearch
 {
 public:
     using BaseGraphWithVertex = BaseGraph<Vertex>;
-    using Vertices = typename GraphTypes<Vertex>::Vertices;
     using Path = typename GraphTypes<Vertex>::Path;
     using SetOfVertices = typename GraphTypes<Vertex>::SetOfVertices;
     using VertexToVertexMap = typename GraphTypes<Vertex>::VertexToVertexMap;
-
     BasePathSearch(BaseGraphWithVertex const& graph, Vertex const& startVertex)
         : m_graph(graph)
         , m_startVertex(startVertex)
@@ -30,11 +28,11 @@ public:
         return m_processedVertices.find(endVertex) != m_processedVertices.cend();
     }
 
-    Path getPathTo(Vertex const& endVertex) const    {
+    Path getPathTo(Vertex const& endVertex) const
+    {
         bool isSuccessful(true);
         Vertex currentVertex = endVertex;
-        Path reversedPath;
-        while(currentVertex != m_startVertex)
+        Path reversedPath;        while(currentVertex != m_startVertex)
         {
             reversedPath.emplace_back(currentVertex);
             auto it = m_vertexToPreviousVertexMap.find(currentVertex);
@@ -61,10 +59,10 @@ public:
     virtual void reinitializeStartingFrom(Vertex const& startVertex) = 0;
 
 protected:
+
     bool isNotProcessed(Vertex const& vertex) const
     {
-        return m_processedVertices.find(vertex) == m_processedVertices.cend();
-    }
+        return m_processedVertices.find(vertex) == m_processedVertices.cend();    }
 
     void clear()
     {
@@ -77,6 +75,7 @@ protected:
     SetOfVertices m_processedVertices;
     VertexToVertexMap m_vertexToPreviousVertexMap;
 };
+
 }
 
 }

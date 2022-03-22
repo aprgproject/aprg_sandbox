@@ -29,11 +29,11 @@ struct GraphTypes
     using ListOfEdges = std::vector<Edges>;
     struct EdgeInSet : public Edge
     {
-        EdgeInSet(Vertex const& vertex1, Vertex const& vertex2)            : Edge{vertex1, vertex2}
+        EdgeInSet(Vertex const& vertex1, Vertex const& vertex2)
+            : Edge{vertex1, vertex2}
         {}
 
-        bool operator<(EdgeInSet const& otherEdge) const
-        {
+        bool operator<(EdgeInSet const& otherEdge) const        {
             bool result(false);
             if(Edge::first != otherEdge.first)
             {
@@ -59,4 +59,5 @@ struct GraphTypes
 };
 
 }
+
 }

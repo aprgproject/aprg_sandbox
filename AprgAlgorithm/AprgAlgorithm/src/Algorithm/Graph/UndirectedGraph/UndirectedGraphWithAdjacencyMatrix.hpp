@@ -21,11 +21,11 @@ public:
     using AdjacencyMatrix = matrix::AlbaMatrix<bool>;
 
     UndirectedGraphWithAdjacencyMatrix()
-        : m_numberOfEdges(0U)        , m_adjacencyMatrix(MAX_VERTEX_VALUE, MAX_VERTEX_VALUE)
+        : m_numberOfEdges(0U)
+        , m_adjacencyMatrix(MAX_VERTEX_VALUE, MAX_VERTEX_VALUE)
     {}
 
-    bool hasAnyConnection(Vertex const& vertex) const override
-    {
+    bool hasAnyConnection(Vertex const& vertex) const override    {
         bool result(false);
         unsigned int numberOfRows(m_adjacencyMatrix.getNumberOfRows());
         for(Vertex adjacentVertex=0; adjacentVertex<numberOfRows; adjacentVertex++)

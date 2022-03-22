@@ -25,11 +25,11 @@ public:
     using Edges = typename GraphTypes<Vertex>::Edges;
 
     DirectedGraphWithVertexToAdjacencyListsMap()
-        : m_numberOfEdges(0U)        , m_adjacencyLists{}
+        : m_numberOfEdges(0U)
+        , m_adjacencyLists{}
     {}
 
-    bool isConnected(Vertex const& sourceVertex, Vertex const& destinationVertex) const override
-    {
+    bool isConnected(Vertex const& sourceVertex, Vertex const& destinationVertex) const override    {
         bool result(false);
         auto it = m_adjacencyLists.find(sourceVertex);
         if(it != m_adjacencyLists.cend())
@@ -138,10 +138,10 @@ private:
             std::copy(adjacencyList.cbegin(), adjacencyList.cend(), std::inserter(uniqueVertices, uniqueVertices.cbegin()));
         }
         return uniqueVertices;
-    }    unsigned int m_numberOfEdges;
+    }
+    unsigned int m_numberOfEdges;
     AdjacencyLists m_adjacencyLists;
 };
-
 }
 
 }

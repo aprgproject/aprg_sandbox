@@ -7,11 +7,11 @@ if(WIN32)
     PRINT_VARIABLE(BOOST_DIR)
     set(Boost_USE_STATIC_LIBS        ON)
     set(Boost_USE_MULTITHREADED      ON)
-    set(Boost_USE_STATIC_RUNTIME    OFF)    set(BOOST_INCLUDEDIR    ${BOOST_DIR}/)
+    set(Boost_USE_STATIC_RUNTIME    OFF)
+    set(BOOST_INCLUDEDIR    ${BOOST_DIR}/)
     set(BOOST_LIBRARYDIR    ${BOOST_DIR}/boost/lib)
     set(BOOST_ROOT          ${BOOST_DIR}/boost)
-endif()
-#Linux boost is installed as a library so no need to update location
+endif()#Linux boost is installed as a library so no need to update location
 
 find_package(Boost COMPONENTS system locale filesystem iostreams REQUIRED)
 

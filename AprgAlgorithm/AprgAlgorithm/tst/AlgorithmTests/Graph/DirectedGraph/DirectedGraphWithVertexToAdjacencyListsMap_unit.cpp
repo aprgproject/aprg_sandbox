@@ -7,9 +7,9 @@ using namespace alba::algorithm::CommonTestsWithDirectedGraph;
 
 namespace alba
 {
+
 namespace algorithm
 {
-
 namespace
 {
 using GraphForTest = DirectedGraphWithVertexToAdjacencyListsMap<unsigned int>;

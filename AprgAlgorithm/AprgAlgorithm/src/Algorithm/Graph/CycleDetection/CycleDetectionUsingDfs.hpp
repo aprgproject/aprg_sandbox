@@ -13,19 +13,17 @@ class CycleDetectionUsingDfs
 {
 public:
     using BaseGraphWithVertex = BaseGraph<Vertex>;
-    using Vertices = typename GraphTypes<Vertex>::Vertices;
     using SetOfVertices = typename GraphTypes<Vertex>::SetOfVertices;
     using Path = typename GraphTypes<Vertex>::Path;
     using VertexToVertexMap = typename GraphTypes<Vertex>::VertexToVertexMap;
-
     CycleDetectionUsingDfs(BaseGraphWithVertex const& graph)
         : m_graph(graph)
     {}
 
-    bool hasCycle() const    {
+    bool hasCycle() const
+    {
         return !m_pathWithCycle.empty();
     }
-
     Path getPathWithCycle()
     {
         return m_pathWithCycle;
@@ -54,11 +52,11 @@ private:
         return m_verticesInCycle.find(vertex) != m_verticesInCycle.cend();
     }
 
-    Path getPathWithCycle(Vertex const& secondToTheLastVertex, Vertex const& lastVertex) const    {
+    Path getPathWithCycle(Vertex const& secondToTheLastVertex, Vertex const& lastVertex) const
+    {
         bool isSuccessful(true);
         Path reversedPath{lastVertex};
-        Vertex currentVertex = secondToTheLastVertex;
-        while(currentVertex != lastVertex)
+        Vertex currentVertex = secondToTheLastVertex;        while(currentVertex != lastVertex)
         {
             reversedPath.emplace_back(currentVertex);
             auto it = m_vertexToPreviousVertexMap.find(currentVertex);
@@ -105,11 +103,11 @@ private:
         m_processedVertices.emplace(startVertex);
         for(Vertex const& adjacentVertex : m_graph.getAdjacentVerticesAt(startVertex))
         {
-            if(hasCycle())            {
+            if(hasCycle())
+            {
                 break;
             }
-            else if(isNotProcessed(adjacentVertex))
-            {
+            else if(isNotProcessed(adjacentVertex))            {
                 m_vertexToPreviousVertexMap[adjacentVertex] = startVertex;
                 checkForCyclesUsingDfsWithDirectedGraph(adjacentVertex);
             }
@@ -127,11 +125,11 @@ private:
         m_processedVertices.emplace(startVertex);
         for(Vertex const& adjacentVertex : m_graph.getAdjacentVerticesAt(startVertex))
         {
-            if(hasCycle())            {
+            if(hasCycle())
+            {
                 break;
             }
-            else if(isNotProcessed(adjacentVertex))
-            {
+            else if(isNotProcessed(adjacentVertex))            {
                 m_vertexToPreviousVertexMap[adjacentVertex] = startVertex;
                 checkForCyclesUsingDfsWithUndirectedGraph(adjacentVertex, startVertex);
             }
@@ -149,6 +147,7 @@ private:
     SetOfVertices m_verticesInCycle;
     Path m_pathWithCycle;
 };
+
 }
 
 }

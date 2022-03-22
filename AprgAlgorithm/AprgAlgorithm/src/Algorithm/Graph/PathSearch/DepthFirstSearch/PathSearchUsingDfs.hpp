@@ -14,15 +14,14 @@ class PathSearchUsingDfs : public BasePathSearch<Vertex>
 public:
     using BaseGraphWithVertex = BaseGraph<Vertex>;
     using BaseClass = BasePathSearch<Vertex>;
-    using Vertices = typename GraphTypes<Vertex>::Vertices;
     using SetOfVertices = typename GraphTypes<Vertex>::SetOfVertices;
     using Path = typename GraphTypes<Vertex>::Path;
 
     PathSearchUsingDfs(BaseGraphWithVertex const& graph, Vertex const& startVertex)
-        : BaseClass(graph, startVertex)    {
+        : BaseClass(graph, startVertex)
+    {
         reinitializeStartingFrom(startVertex);
     }
-
     Path getOrderedPathTo(Vertex const& endVertex) const
     {
         return this->getPathTo(endVertex);
@@ -48,8 +47,8 @@ private:
                 traverseUsingDfs(adjacentVertex);
             }
         }
-    }};
+    }
+};
 
 }
-
 }

@@ -19,22 +19,19 @@ class StronglyConnectedComponentsUsingKosarajuSharir : public BaseConnectedCompo
 public:
     using BaseDirectedGraphWithVertex = BaseDirectedGraph<Vertex>;
     using DirectedGraphWithListOfEdgesWithVertex = DirectedGraphWithListOfEdges<Vertex>;
-    using Vertices = typename GraphTypes<Vertex>::Vertices;
     using SetOfVertices = typename GraphTypes<Vertex>::SetOfVertices;
     using Edge = typename GraphTypes<Vertex>::Edge;
-    using Edges = typename GraphTypes<Vertex>::Edges;
     using VertexToUnsignedIntMap = typename GraphTypes<Vertex>::VertexToUnsignedIntMap;
 
-    StronglyConnectedComponentsUsingKosarajuSharir(BaseDirectedGraphWithVertex const& graph)
-        : m_graph(graph)
+    StronglyConnectedComponentsUsingKosarajuSharir(BaseDirectedGraphWithVertex const& graph)        : m_graph(graph)
         , m_numberOfComponentIds(0U)
     {
         initialize();
     }
+
     bool isConnected(Vertex const& vertex1, Vertex const& vertex2) const override
     {
-        // Two vertices v and w are strongly connected if they are mutually reachable (so there is a v to w and w to v)
-        auto it1 = m_vertexToComponentIdMap.find(vertex1);
+        // Two vertices v and w are strongly connected if they are mutually reachable (so there is a v to w and w to v)        auto it1 = m_vertexToComponentIdMap.find(vertex1);
         auto it2 = m_vertexToComponentIdMap.find(vertex2);
         bool result(false);
         if(it1 != m_vertexToComponentIdMap.cend()
@@ -57,14 +54,13 @@ private:
         return m_processedVertices.find(vertex) == m_processedVertices.cend();
     }
 
-    DirectedGraphWithListOfEdgesWithVertex getReversedGraph(BaseDirectedGraphWithVertex const& graph) const    {
+    DirectedGraphWithListOfEdgesWithVertex getReversedGraph(BaseDirectedGraphWithVertex const& graph) const
+    {
         DirectedGraphWithListOfEdgesWithVertex result;
-        Edges edges(graph.getEdges());
-        for(Edge const& edge : edges)
+        for(Edge const& edge : graph.getEdges())
         {
             result.connect(edge.second, edge.first);
-        }
-        return result;
+        }        return result;
     }
 
     void initialize()
@@ -90,11 +86,11 @@ private:
         m_processedVertices.emplace(vertex);
         m_vertexToComponentIdMap[vertex] = m_numberOfComponentIds;
         for(Vertex const& adjacentVertex : m_graph.getAdjacentVerticesAt(vertex))
-        {            if(isNotProcessed(adjacentVertex))
+        {
+            if(isNotProcessed(adjacentVertex))
             {
                 traverseUsingDfs(adjacentVertex);
-            }
-        }
+            }        }
     }
 
     BaseDirectedGraphWithVertex const& m_graph;
@@ -102,6 +98,7 @@ private:
     SetOfVertices m_processedVertices;
     VertexToUnsignedIntMap m_vertexToComponentIdMap;
 };
+
 }
 
 }
