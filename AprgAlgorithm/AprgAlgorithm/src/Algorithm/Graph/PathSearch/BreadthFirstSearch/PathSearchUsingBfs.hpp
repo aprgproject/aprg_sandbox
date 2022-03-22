@@ -24,6 +24,7 @@ public:
     {
         reinitializeStartingFrom(startVertex);
     }
+
     Path getShortestPathTo(Vertex const& endVertex) const
     {
         return this->getPathTo(endVertex);
@@ -43,7 +44,8 @@ public:
             queueOfVerticesToProcess.pop_back();
             for(Vertex const& adjacentVertex : this->m_graph.getAdjacentVerticesAt(vertex))
             {
-                if(this->isNotProcessed(adjacentVertex))                {
+                if(this->isNotProcessed(adjacentVertex))
+                {
                     processedVertices.emplace(adjacentVertex);
                     this->m_vertexToPreviousVertexMap[adjacentVertex] = vertex;
                     queueOfVerticesToProcess.emplace_front(adjacentVertex);

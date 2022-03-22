@@ -37,7 +37,8 @@ struct GraphUtilities
         // A simple path is one with no repeated vertices;
 
         std::set<Vertex> uniqueVertices;
-        copy(path.cbegin(), path.cend(), inserter(uniqueVertices, uniqueVertices.cbegin()));        return uniqueVertices.size() == path.size();
+        copy(path.cbegin(), path.cend(), inserter(uniqueVertices, uniqueVertices.cbegin()));
+        return uniqueVertices.size() == path.size();
     }
 
     static bool isACycle(Path const& path)
@@ -123,7 +124,8 @@ struct GraphUtilities
         for(Vertex const& vertex : vertices)
         {
             if(!isProcessedMap.at(vertex))
-            {                checkIsBipartiteUsingDfs(graph, vertex, isProcessedMap, colorMap, isTwoColorable);
+            {
+                checkIsBipartiteUsingDfs(graph, vertex, isProcessedMap, colorMap, isTwoColorable);
             }
             if(!isTwoColorable)
             {
@@ -137,6 +139,7 @@ struct GraphUtilities
     {
         return graph.getAdjacentVerticesAt(vertex).size();
     }
+
     static unsigned int getMaxDegree(BaseGraphWithVertex const& graph)
     {
         unsigned int result(0);

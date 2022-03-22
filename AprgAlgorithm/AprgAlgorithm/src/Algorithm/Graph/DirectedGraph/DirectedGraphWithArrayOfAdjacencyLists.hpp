@@ -27,7 +27,8 @@ public:
         , m_adjacencyLists{}
     {}
 
-    bool isConnected(Vertex const& sourceVertex, Vertex const& destinationVertex) const override    {
+    bool isConnected(Vertex const& sourceVertex, Vertex const& destinationVertex) const override
+    {
         AdjacencyList const& adjacencyList(m_adjacencyLists.at(sourceVertex));
         return adjacencyList.find(destinationVertex) != adjacencyList.cend();
     }
@@ -129,7 +130,8 @@ private:
     }
 
     unsigned int m_numberOfEdges;
-    AdjacencyLists m_adjacencyLists;};
+    AdjacencyLists m_adjacencyLists;
+};
 
 }
 

@@ -1,5 +1,5 @@
 #include <Algorithm/Graph/DirectedGraph/DirectedGraphWithListOfEdges.hpp>
-#include <Algorithm/Graph/Reachability/TransitiveClosureWithArray.hpp>
+#include <Algorithm/Graph/Reachability/TransitiveClosure/TransitiveClosureWithMap.hpp>
 #include <AlgorithmTests/Graph/Reachability/Utilities/CommonTestsWithTransitiveClosure.hpp>
 
 #include <gtest/gtest.h>
@@ -15,15 +15,15 @@ namespace algorithm
 namespace
 {
 using GraphForTest = DirectedGraphWithListOfEdges<unsigned int>;
-using ReachabilityForTest = TransitiveClosureWithArray<unsigned int, 13>;
+using ReachabilityForTest = TransitiveClosureWithMap<unsigned int>;
 }
 
-TEST(TransitiveClosureWithArrayTest, IsReachableWorksWhenEmpty)
+TEST(TransitiveClosureWithMapTest, IsReachableWorksWhenEmpty)
 {
     testIsReachableWhenEmptyWithVertexAsUnsignedInt<ReachabilityForTest, GraphForTest>();
 }
 
-TEST(TransitiveClosureWithArrayTest, IsReachableWorksWhenNotEmpty)
+TEST(TransitiveClosureWithMapTest, IsReachableWorksWhenNotEmpty)
 {
     testIsReachableWhenNotEmptyWithVertexAsUnsignedInt<ReachabilityForTest, GraphForTest>();
 }

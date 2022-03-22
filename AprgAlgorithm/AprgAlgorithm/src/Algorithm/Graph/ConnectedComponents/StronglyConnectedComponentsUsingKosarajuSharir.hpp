@@ -23,7 +23,8 @@ public:
     using Edge = typename GraphTypes<Vertex>::Edge;
     using VertexToUnsignedIntMap = typename GraphTypes<Vertex>::VertexToUnsignedIntMap;
 
-    StronglyConnectedComponentsUsingKosarajuSharir(BaseDirectedGraphWithVertex const& graph)        : m_graph(graph)
+    StronglyConnectedComponentsUsingKosarajuSharir(BaseDirectedGraphWithVertex const& graph)
+        : m_graph(graph)
         , m_numberOfComponentIds(0U)
     {
         initialize();
@@ -31,7 +32,8 @@ public:
 
     bool isConnected(Vertex const& vertex1, Vertex const& vertex2) const override
     {
-        // Two vertices v and w are strongly connected if they are mutually reachable (so there is a v to w and w to v)        auto it1 = m_vertexToComponentIdMap.find(vertex1);
+        // Two vertices v and w are strongly connected if they are mutually reachable (so there is a v to w and w to v)
+        auto it1 = m_vertexToComponentIdMap.find(vertex1);
         auto it2 = m_vertexToComponentIdMap.find(vertex2);
         bool result(false);
         if(it1 != m_vertexToComponentIdMap.cend()
@@ -60,7 +62,8 @@ private:
         for(Edge const& edge : graph.getEdges())
         {
             result.connect(edge.second, edge.first);
-        }        return result;
+        }
+        return result;
     }
 
     void initialize()
@@ -90,7 +93,8 @@ private:
             if(isNotProcessed(adjacentVertex))
             {
                 traverseUsingDfs(adjacentVertex);
-            }        }
+            }
+        }
     }
 
     BaseDirectedGraphWithVertex const& m_graph;

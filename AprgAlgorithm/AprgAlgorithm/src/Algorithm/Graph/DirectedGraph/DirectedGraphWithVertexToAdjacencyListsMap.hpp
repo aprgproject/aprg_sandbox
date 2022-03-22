@@ -29,7 +29,8 @@ public:
         , m_adjacencyLists{}
     {}
 
-    bool isConnected(Vertex const& sourceVertex, Vertex const& destinationVertex) const override    {
+    bool isConnected(Vertex const& sourceVertex, Vertex const& destinationVertex) const override
+    {
         bool result(false);
         auto it = m_adjacencyLists.find(sourceVertex);
         if(it != m_adjacencyLists.cend())
@@ -142,6 +143,7 @@ private:
     unsigned int m_numberOfEdges;
     AdjacencyLists m_adjacencyLists;
 };
+
 }
 
 }

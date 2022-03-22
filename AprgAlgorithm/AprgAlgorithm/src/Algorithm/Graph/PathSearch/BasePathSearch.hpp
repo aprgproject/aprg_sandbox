@@ -18,6 +18,7 @@ public:
     using Path = typename GraphTypes<Vertex>::Path;
     using SetOfVertices = typename GraphTypes<Vertex>::SetOfVertices;
     using VertexToVertexMap = typename GraphTypes<Vertex>::VertexToVertexMap;
+
     BasePathSearch(BaseGraphWithVertex const& graph, Vertex const& startVertex)
         : m_graph(graph)
         , m_startVertex(startVertex)
@@ -32,7 +33,8 @@ public:
     {
         bool isSuccessful(true);
         Vertex currentVertex = endVertex;
-        Path reversedPath;        while(currentVertex != m_startVertex)
+        Path reversedPath;
+        while(currentVertex != m_startVertex)
         {
             reversedPath.emplace_back(currentVertex);
             auto it = m_vertexToPreviousVertexMap.find(currentVertex);
@@ -62,7 +64,8 @@ protected:
 
     bool isNotProcessed(Vertex const& vertex) const
     {
-        return m_processedVertices.find(vertex) == m_processedVertices.cend();    }
+        return m_processedVertices.find(vertex) == m_processedVertices.cend();
+    }
 
     void clear()
     {

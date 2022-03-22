@@ -1,5 +1,5 @@
-#include <Algorithm/Graph/Reachability/ReachabilityInDigraphWithSetUsingDfs.hpp>
 #include <Algorithm/Graph/DirectedGraph/DirectedGraphWithListOfEdges.hpp>
+#include <Algorithm/Graph/Reachability/Reachability/ReachabilityInDigraphWithArrayUsingDfs.hpp>
 #include <AlgorithmTests/Graph/Reachability/Utilities/CommonTestsWithReachability.hpp>
 
 #include <gtest/gtest.h>
@@ -15,15 +15,15 @@ namespace algorithm
 namespace
 {
 using GraphForTest = DirectedGraphWithListOfEdges<unsigned int>;
-using ReachabilityForTest = ReachabilityInDigraphWithSetUsingDfs<unsigned int>;
+using ReachabilityForTest = ReachabilityInDigraphWithArrayUsingDfs<unsigned int, 13U>;
 }
 
-TEST(ReachabilityInDigraphWithSetUsingDfsTest, IsReachableWorksWhenEmpty)
+TEST(ReachabilityInDigraphWithArrayUsingDfsTest, IsReachableWorksWhenEmpty)
 {
     testIsReachableWhenEmptyWithVertexAsUnsignedInt<ReachabilityForTest, GraphForTest>();
 }
 
-TEST(ReachabilityInDigraphWithSetUsingDfsTest, IsReachableWorksWhenNotEmpty)
+TEST(ReachabilityInDigraphWithArrayUsingDfsTest, IsReachableWorksWhenNotEmpty)
 {
     testIsReachableWhenNotEmptyWithVertexAsUnsignedInt<ReachabilityForTest, GraphForTest>();
 }

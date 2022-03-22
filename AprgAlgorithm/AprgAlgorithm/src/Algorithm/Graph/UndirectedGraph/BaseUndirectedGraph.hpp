@@ -2,11 +2,8 @@
 
 #include <Algorithm/Graph/BaseGraph.hpp>
 
-#include <string>
-
 namespace alba
 {
-
 namespace algorithm
 {
 

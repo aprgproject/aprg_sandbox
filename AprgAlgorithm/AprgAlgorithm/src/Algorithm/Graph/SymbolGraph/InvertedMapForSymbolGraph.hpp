@@ -23,7 +23,8 @@ public:
         return m_invertedMap;
     }
 
-    Vertices const& getUnusedVertices() const    {
+    Vertices const& getUnusedVertices() const
+    {
         return m_unusedVertices;
     }
 

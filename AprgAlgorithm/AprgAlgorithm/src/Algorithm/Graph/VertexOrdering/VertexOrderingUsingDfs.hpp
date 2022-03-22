@@ -24,6 +24,7 @@ public:
         PostOrder,
         ReversePostOrder,
     };
+
     VertexOrderingUsingDfs(BaseGraphWithVertex const& graph)
         : m_graph(graph)
     {}
@@ -32,7 +33,8 @@ public:
     {
         Path traversedPath;
         traverseStartingFromAllVertices(traversedPath, traverseOrder);
-        reversePathIfNeeded(traversedPath, traverseOrder);        return traversedPath;
+        reversePathIfNeeded(traversedPath, traverseOrder);
+        return traversedPath;
     }
 
     Path getPathInTopologicalOrder()
@@ -57,7 +59,8 @@ private:
     {
         if(TraverseOrder::ReversePostOrder == traverseOrder)
         {
-            Path reversedPath(traversedPath.crbegin(), traversedPath.crend());            traversedPath = reversedPath;
+            Path reversedPath(traversedPath.crbegin(), traversedPath.crend());
+            traversedPath = reversedPath;
         }
     }
 
@@ -106,7 +109,8 @@ private:
             {
                 traversePreOrderAt(traversedPath, adjacentVertex);
             }
-        }    }
+        }
+    }
 
     void traversePostOrderAt(Path & traversedPath, Vertex const& startVertex)
     {
@@ -118,6 +122,7 @@ private:
                 traversePostOrderAt(traversedPath, adjacentVertex);
             }
         }
+
         traversedPath.emplace_back(startVertex);
     }
 
@@ -130,7 +135,8 @@ private:
         // Vertices adjacentVertices(m_graph.getAdjacentVerticesAt(startVertex));
         // std::for_each(adjacentVertices.crbegin(), adjacentVertices.crend(), [&](Vertex const& adjacentVertex)
 
-        for(Vertex const& adjacentVertex : m_graph.getAdjacentVerticesAt(startVertex))        {
+        for(Vertex const& adjacentVertex : m_graph.getAdjacentVerticesAt(startVertex))
+        {
             if(isNotProcessed(adjacentVertex))
             {
                 traverseReversePostOrderAt(traversedPath, adjacentVertex);

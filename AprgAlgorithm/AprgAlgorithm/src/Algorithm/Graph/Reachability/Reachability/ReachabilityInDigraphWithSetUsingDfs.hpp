@@ -1,14 +1,16 @@
 #pragma once
 
 #include <Algorithm/Graph/DirectedGraph/BaseDirectedGraph.hpp>
+#include <Algorithm/Graph/Reachability/Reachability/BaseReachabilityInDigraph.hpp>
 
 namespace alba
 {
+
 namespace algorithm
 {
 
 template<typename Vertex>
-class ReachabilityInDigraphWithSetUsingDfs
+class ReachabilityInDigraphWithSetUsingDfs : public BaseReachabilityInDigraph<Vertex>
 {
 public:
     using BaseDirectedGraphWithVertex = BaseDirectedGraph<Vertex>;
@@ -17,10 +19,11 @@ public:
     ReachabilityInDigraphWithSetUsingDfs(BaseDirectedGraphWithVertex const& graph, Vertex const& sourceVertex)
         : m_graph(graph)
         , m_sourceVertex(sourceVertex)
-    {        initialize();
+    {
+        initialize();
     }
 
-    bool isReachable(Vertex const& destinationVertex) const
+    bool isReachable(Vertex const& destinationVertex) const override
     {
         return m_processedVertices.find(destinationVertex) != m_processedVertices.cend();
     }
@@ -53,6 +56,7 @@ private:
     Vertex m_sourceVertex;
     SetOfVertices m_processedVertices;
 };
+
 }
 
 }

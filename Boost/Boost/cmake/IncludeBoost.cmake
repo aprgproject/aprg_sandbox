@@ -11,7 +11,8 @@ if(WIN32)
     set(BOOST_INCLUDEDIR    ${BOOST_DIR}/)
     set(BOOST_LIBRARYDIR    ${BOOST_DIR}/boost/lib)
     set(BOOST_ROOT          ${BOOST_DIR}/boost)
-endif()#Linux boost is installed as a library so no need to update location
+endif()
+#Linux boost is installed as a library so no need to update location
 
 find_package(Boost COMPONENTS system locale filesystem iostreams REQUIRED)
 
@@ -21,3 +22,4 @@ if(Boost_FOUND)
 else()
     message(WARNING "cmake cannot find boost. Please set Boost_DEBUG to ON for more info. Try checking: FindBoost.cmake to investigate further.")
 endif()
+

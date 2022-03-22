@@ -31,7 +31,8 @@ public:
     {
         bool result(false);
         auto it = m_adjacencyLists.find(vertex);
-        if(it != m_adjacencyLists.cend())        {
+        if(it != m_adjacencyLists.cend())
+        {
             AdjacencyList const& adjacencyList(it->second);
             result = !adjacencyList.empty();
         }
@@ -114,6 +115,7 @@ public:
         }
         return result;
     }
+
     std::string getDisplayableString() const override
     {
         std::stringstream ss;

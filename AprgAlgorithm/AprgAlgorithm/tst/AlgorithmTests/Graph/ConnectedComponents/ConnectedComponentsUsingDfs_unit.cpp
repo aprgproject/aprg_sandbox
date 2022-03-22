@@ -11,6 +11,7 @@ namespace alba
 
 namespace algorithm
 {
+
 namespace
 {
 using GraphForTest = UndirectedGraphWithListOfEdges<unsigned int>;

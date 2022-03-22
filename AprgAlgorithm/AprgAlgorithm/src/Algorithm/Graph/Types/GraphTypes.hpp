@@ -33,7 +33,8 @@ struct GraphTypes
             : Edge{vertex1, vertex2}
         {}
 
-        bool operator<(EdgeInSet const& otherEdge) const        {
+        bool operator<(EdgeInSet const& otherEdge) const
+        {
             bool result(false);
             if(Edge::first != otherEdge.first)
             {

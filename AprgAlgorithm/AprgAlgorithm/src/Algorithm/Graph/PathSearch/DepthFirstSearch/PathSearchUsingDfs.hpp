@@ -22,6 +22,7 @@ public:
     {
         reinitializeStartingFrom(startVertex);
     }
+
     Path getOrderedPathTo(Vertex const& endVertex) const
     {
         return this->getPathTo(endVertex);
@@ -51,4 +52,5 @@ private:
 };
 
 }
+
 }

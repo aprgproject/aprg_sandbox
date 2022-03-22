@@ -33,6 +33,7 @@ public:
     {
         return m_edges.find(EdgeInSet(sourceVertex, destinationVertex)) != m_edges.cend();
     }
+
     unsigned int getNumberOfVertices() const override
     {
         return getUniqueVertices().size();

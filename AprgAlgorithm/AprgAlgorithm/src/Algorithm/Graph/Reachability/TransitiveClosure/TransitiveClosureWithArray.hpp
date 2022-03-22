@@ -1,7 +1,8 @@
 #pragma once
 
 #include <Algorithm/Graph/DirectedGraph/BaseDirectedGraph.hpp>
-#include <Algorithm/Graph/Reachability/ReachabilityInDigraphWithArrayUsingDfs.hpp>
+#include <Algorithm/Graph/Reachability/Reachability/ReachabilityInDigraphWithArrayUsingDfs.hpp>
+#include <Algorithm/Graph/Reachability/TransitiveClosure/BaseTransitiveClosure.hpp>
 
 #include <array>
 #include <memory>
@@ -13,7 +14,7 @@ namespace algorithm
 {
 
 template<typename Vertex, unsigned int MAX_VERTEX_VALUE>
-class TransitiveClosureWithArray
+class TransitiveClosureWithArray : public BaseTransitiveClosure<Vertex>
 {
 public:
     using BaseDirectedGraphWithVertex = BaseDirectedGraph<Vertex>;
@@ -29,7 +30,7 @@ public:
         initialize();
     }
 
-    bool isReachable(Vertex const& sourceVertex, Vertex const& destinationVertex) const
+    bool isReachable(Vertex const& sourceVertex, Vertex const& destinationVertex) const override
     {
         bool result(false);
         ReachabilityPointer const& pointer(m_reachabilityPointerArray.at(sourceVertex));

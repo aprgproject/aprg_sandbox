@@ -27,6 +27,7 @@ public:
         , m_numberOfEdges(0U)
         , m_adjacencyLists{}
     {}
+
     bool hasAnyConnection(Vertex const& vertex) const override
     {
         return !m_adjacencyLists.at(vertex).empty();

@@ -1,7 +1,8 @@
 #pragma once
 
 #include <Algorithm/Graph/DirectedGraph/BaseDirectedGraph.hpp>
-#include <Algorithm/Graph/Reachability/ReachabilityInDigraphWithSetUsingDfs.hpp>
+#include <Algorithm/Graph/Reachability/Reachability/ReachabilityInDigraphWithSetUsingDfs.hpp>
+#include <Algorithm/Graph/Reachability/TransitiveClosure/BaseTransitiveClosure.hpp>
 
 #include <map>
 
@@ -12,7 +13,7 @@ namespace algorithm
 {
 
 template<typename Vertex>
-class TransitiveClosureWithMap
+class TransitiveClosureWithMap : public BaseTransitiveClosure<Vertex>
 {
 public:
     using BaseDirectedGraphWithVertex = BaseDirectedGraph<Vertex>;
@@ -24,7 +25,7 @@ public:
         initialize();
     }
 
-    bool isReachable(Vertex const& sourceVertex, Vertex const& destinationVertex) const
+    bool isReachable(Vertex const& sourceVertex, Vertex const& destinationVertex) const override
     {
         bool result(false);
         auto it = m_vertexToReachabilityMap.find(sourceVertex);

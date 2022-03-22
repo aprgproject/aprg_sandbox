@@ -16,6 +16,7 @@ public:
     using SetOfVertices = typename GraphTypes<Vertex>::SetOfVertices;
     using Path = typename GraphTypes<Vertex>::Path;
     using VertexToVertexMap = typename GraphTypes<Vertex>::VertexToVertexMap;
+
     CycleDetectionUsingDfs(BaseGraphWithVertex const& graph)
         : m_graph(graph)
     {}
@@ -24,6 +25,7 @@ public:
     {
         return !m_pathWithCycle.empty();
     }
+
     Path getPathWithCycle()
     {
         return m_pathWithCycle;
@@ -56,7 +58,8 @@ private:
     {
         bool isSuccessful(true);
         Path reversedPath{lastVertex};
-        Vertex currentVertex = secondToTheLastVertex;        while(currentVertex != lastVertex)
+        Vertex currentVertex = secondToTheLastVertex;
+        while(currentVertex != lastVertex)
         {
             reversedPath.emplace_back(currentVertex);
             auto it = m_vertexToPreviousVertexMap.find(currentVertex);
@@ -107,7 +110,8 @@ private:
             {
                 break;
             }
-            else if(isNotProcessed(adjacentVertex))            {
+            else if(isNotProcessed(adjacentVertex))
+            {
                 m_vertexToPreviousVertexMap[adjacentVertex] = startVertex;
                 checkForCyclesUsingDfsWithDirectedGraph(adjacentVertex);
             }
@@ -129,7 +133,8 @@ private:
             {
                 break;
             }
-            else if(isNotProcessed(adjacentVertex))            {
+            else if(isNotProcessed(adjacentVertex))
+            {
                 m_vertexToPreviousVertexMap[adjacentVertex] = startVertex;
                 checkForCyclesUsingDfsWithUndirectedGraph(adjacentVertex, startVertex);
             }

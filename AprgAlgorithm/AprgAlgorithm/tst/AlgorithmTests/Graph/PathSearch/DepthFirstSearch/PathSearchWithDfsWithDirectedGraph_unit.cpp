@@ -18,7 +18,8 @@ using PathSearchForTest = PathSearchUsingDfs<VertexForTest>;
 
 void putConnectionsForTest(GraphForTest & graph)
 {
-    graph.connect(0U, 1U);    graph.connect(0U, 2U);
+    graph.connect(0U, 1U);
+    graph.connect(0U, 2U);
     graph.connect(0U, 5U);
     graph.connect(2U, 1U);
     graph.connect(2U, 3U);
@@ -72,6 +73,7 @@ TEST(PathSearchUsingDfsTest, ReinitializeStartingFromWorksWithDirectedGraph)
     PathSearchForTest pathSearchWithDfs(graph, 0U);
 
     pathSearchWithDfs.reinitializeStartingFrom(2U);
+
     PathForTest pathWith1{2U, 1U};
     PathForTest pathWith2{2U};
     PathForTest pathWith3{2U, 3U};
