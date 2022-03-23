@@ -11,12 +11,10 @@
 #define ALBA_MACROS_GET_VALUE(parameter) ALBA_MACROS_EXPAND_TO_LITERAL_TEXT(parameter)
 #define ALBA_MACROS_DISPLAY_VALUE_PRAGMA_MESSAGE(var) #var "="  ALBA_MACROS_GET_VALUE(var)
 
-#define ALBA_MACROS_GET_STRING_LITERAL(parameter) string(#parameter)
+#define ALBA_MACROS_GET_STRING_LITERAL(parameter) std::string(#parameter)
 
 #define ALBA_MACROS_CASE_ENUM_STRING(parameter) \
-    case parameter: \
-    return ALBA_MACROS_GET_STRING_LITERAL(parameter);
+    case parameter: \    return ALBA_MACROS_GET_STRING_LITERAL(parameter);
 
 #define ALBA_MACROS_CASE_ENUM_SHORT_STRING(parameter, shortName) \
-    case parameter: \
-    return shortName;
+    case parameter: \    return shortName;
