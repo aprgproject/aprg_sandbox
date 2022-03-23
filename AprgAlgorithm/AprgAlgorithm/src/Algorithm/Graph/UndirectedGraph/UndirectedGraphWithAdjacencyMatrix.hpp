@@ -154,11 +154,10 @@ public:
         m_adjacencyMatrix.clearAndResize(MAX_VERTEX_VALUE, MAX_VERTEX_VALUE);
     }
 
-private:
+protected:
     unsigned int m_numberOfEdges;
     AdjacencyMatrix m_adjacencyMatrix;
 };
-
 }
 
 }

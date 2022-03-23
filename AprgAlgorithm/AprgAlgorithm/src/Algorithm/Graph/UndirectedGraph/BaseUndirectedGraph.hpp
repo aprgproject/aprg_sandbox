@@ -16,10 +16,10 @@ public:
 
     GraphDirectionType getGraphDirectionType() const
     {
-        return GraphDirectionType::Undirected;
+        return DIRECTION_TYPE;
     }
+    static constexpr GraphDirectionType DIRECTION_TYPE = GraphDirectionType::Undirected;
 };
 
 }
-
 }

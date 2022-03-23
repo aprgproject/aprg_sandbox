@@ -27,35 +27,31 @@ struct GraphTypes
     using Edge = std::pair<Vertex, Vertex>;
     using Edges = std::vector<Edge>;
     using ListOfEdges = std::vector<Edges>;
-    struct EdgeInSet : public Edge
+    struct EdgeWithCompare : public Edge
     {
-        EdgeInSet(Vertex const& vertex1, Vertex const& vertex2)
+        EdgeWithCompare(Vertex const& vertex1, Vertex const& vertex2)
             : Edge{vertex1, vertex2}
         {}
 
-        bool operator<(EdgeInSet const& otherEdge) const
+        bool operator<(EdgeWithCompare const& otherEdge) const
         {
             bool result(false);
-            if(Edge::first != otherEdge.first)
-            {
+            if(Edge::first != otherEdge.first)            {
                 result = Edge::first < otherEdge.first;
             }
-            else
-            {
+            else            {
                 result = Edge::second < otherEdge.second;
             }
             return result;
         }
     };
-    using SetOfEdges = std::set<EdgeInSet>;
+    using SetOfEdges = std::set<EdgeWithCompare>;
 
     //Path
-    using Path = std::vector<Vertex>;
-    using Paths = std::vector<Path>;
+    using Path = std::vector<Vertex>;    using Paths = std::vector<Path>;
 
     //Complicated types
-    using VertexToUnsignedIntMap = std::map<Vertex, unsigned int>;
-    using VertexToVertexMap = std::map<Vertex, Vertex>;
+    using VertexToUnsignedIntMap = std::map<Vertex, unsigned int>;    using VertexToVertexMap = std::map<Vertex, Vertex>;
 
 };
 
