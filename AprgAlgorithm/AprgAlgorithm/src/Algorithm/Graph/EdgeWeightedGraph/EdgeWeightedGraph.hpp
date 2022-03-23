@@ -2,14 +2,13 @@
 
 #include <Algorithm/Graph/Types/GraphTypes.hpp>
 
+#include <algorithm>
 #include <sstream>
 
-namespace alba
-{
+namespace alba{
 
 namespace algorithm
 {
-
 template<typename Vertex, typename Weight, typename Graph>
 class EdgeWeightedGraph : public Graph
 {
@@ -17,19 +16,26 @@ public:
     using BaseClass = Graph;
     using EdgeWithCompare = typename GraphTypes<Vertex>::EdgeWithCompare;
     using EdgeToWeightMap = std::map<EdgeWithCompare, Weight>;
+    using Weights = std::vector<Weight>;
+    using UniqueWeights = std::set<Weight>;
 
     EdgeWeightedGraph()
         : Graph()
     {}
 
+    bool hasAUniqueMinimumSpanningTree() const
+    {
+        Weights weights(getAllWeights());
+        UniqueWeights uniqueWeights(weights.cbegin(), weights.cend());
+        return weights.size() == uniqueWeights.size();
+    }
+
     Weight getWeight(Vertex const& vertex1, Vertex const& vertex2) const
     {
-        Weight result{};
-        auto it = m_edgeToWeightMap.find(createEdgeInMap(vertex1, vertex2));
+        Weight result{};        auto it = m_edgeToWeightMap.find(createEdgeInMap(vertex1, vertex2));
         if(it != m_edgeToWeightMap.cend())
         {
-            result = it->second;
-        }
+            result = it->second;        }
         return result;
     }
 
@@ -70,14 +76,22 @@ private:
         BaseClass::connect(vertex1, vertex2);
     }
 
+    Weights getAllWeights() const
+    {
+        Weights result;
+        std::transform(m_edgeToWeightMap.cbegin(), m_edgeToWeightMap.cend(), std::back_inserter(result), [&](auto const& edgeAndWeightPair)
+        {
+            return edgeAndWeightPair.second;
+        });
+        return result;
+    }
+
     EdgeWithCompare createEdgeInMap(Vertex const& vertex1, Vertex const& vertex2) const
     {
-        if(this->DIRECTION_TYPE == GraphDirectionType::Undirected)
-        {
+        if(this->DIRECTION_TYPE == GraphDirectionType::Undirected)        {
             return createSortedEdge(vertex2, vertex1);
         }
-        else
-        {
+        else        {
             return EdgeWithCompare(vertex1, vertex2);
         }
     }
