@@ -101,6 +101,64 @@ TEST(GraphUtilitiesTest, IsATreeWorks)
     EXPECT_FALSE(GraphUtilitiesForTest::isATree(nonTreeGraphAndItsNotConnected));
 }
 
+TEST(GraphUtilitiesTest, IsAForestWorks)
+{
+    UndirectedGraphForTest forestGraph;
+    forestGraph.connect(0U, 1U);
+    forestGraph.connect(0U, 2U);
+    forestGraph.connect(3U, 4U);
+    UndirectedGraphForTest nonForestGraphButTree;
+    nonForestGraphButTree.connect(0U, 1U);
+    nonForestGraphButTree.connect(0U, 2U);
+    nonForestGraphButTree.connect(0U, 3U);
+    UndirectedGraphForTest nonForestGraphGraphWithCycle;
+    nonForestGraphGraphWithCycle.connect(0U, 1U);
+    nonForestGraphGraphWithCycle.connect(1U, 2U);
+    nonForestGraphGraphWithCycle.connect(2U, 0U);
+
+    EXPECT_TRUE(GraphUtilitiesForTest::isAForest(forestGraph));
+    EXPECT_FALSE(GraphUtilitiesForTest::isAForest(nonForestGraphButTree));
+    EXPECT_FALSE(GraphUtilitiesForTest::isAForest(nonForestGraphGraphWithCycle));
+}
+
+TEST(GraphUtilitiesTest, IsASpanningTreeWorks)
+{
+    UndirectedGraphForTest mainGraph;
+    mainGraph.connect(0U, 1U);
+    mainGraph.connect(0U, 3U);
+    mainGraph.connect(1U, 2U);
+    mainGraph.connect(2U, 3U);
+    UndirectedGraphForTest spanningTree;
+    spanningTree.connect(0U, 1U);
+    spanningTree.connect(0U, 2U);
+    spanningTree.connect(0U, 3U);
+    UndirectedGraphForTest nonSpanningTree;
+    nonSpanningTree.connect(0U, 1U);
+    nonSpanningTree.connect(0U, 2U);
+    nonSpanningTree.connect(0U, 9U);
+
+    EXPECT_TRUE(GraphUtilitiesForTest::isASpanningTree(mainGraph, spanningTree));
+    EXPECT_FALSE(GraphUtilitiesForTest::isASpanningTree(mainGraph, nonSpanningTree));
+}
+
+TEST(GraphUtilitiesTest, IsASpanningForestWorks)
+{
+    UndirectedGraphForTest mainGraph;
+    mainGraph.connect(0U, 1U);
+    mainGraph.connect(0U, 3U);
+    mainGraph.connect(1U, 2U);
+    mainGraph.connect(2U, 3U);
+    UndirectedGraphForTest spanningForest;
+    spanningForest.connect(0U, 1U);
+    spanningForest.connect(2U, 3U);
+    UndirectedGraphForTest nonSpanningForest;
+    nonSpanningForest.connect(0U, 1U);
+    nonSpanningForest.connect(2U, 9U);
+
+    EXPECT_TRUE(GraphUtilitiesForTest::isASpanningForest(mainGraph, spanningForest));
+    EXPECT_FALSE(GraphUtilitiesForTest::isASpanningForest(mainGraph, nonSpanningForest));
+}
+
 TEST(GraphUtilitiesTest, IsGraphConnectedWorks)
 {
     UndirectedGraphForTest connectedGraph;
@@ -154,10 +212,12 @@ TEST(GraphUtilitiesTest, IsBipartiteWorks)
     EXPECT_FALSE(GraphUtilitiesForTest::isBipartite(nonBipartiteGraph));
 }
 
-TEST(GraphUtilitiesTest, GetDegreeAtWorks){
+TEST(GraphUtilitiesTest, GetDegreeAtWorks)
+{
     UndirectedGraphForTest graph;
 
-    graph.connect(0U, 1U);    graph.connect(0U, 2U);
+    graph.connect(0U, 1U);
+    graph.connect(0U, 2U);
 
     EXPECT_EQ(2U, GraphUtilitiesForTest::getDegreeAt(graph, 0U));
     EXPECT_EQ(1U, GraphUtilitiesForTest::getDegreeAt(graph, 1U));

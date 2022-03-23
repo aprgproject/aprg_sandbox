@@ -9,8 +9,10 @@
 #include <Algorithm/Graph/Utilities/BipartiteCheckerUsingDfs.hpp>
 #include <Algorithm/UnionFind/BaseUnionFind.hpp>
 #include <Algorithm/UnionFind/UnionFindUsingMap.hpp>
+
 #include <algorithm>
 #include <set>
+
 namespace alba
 {
 
@@ -89,6 +91,35 @@ struct GraphUtilities
         return !hasAnyCyclesOnGraph(graph) && isGraphConnected(graph);
     }
 
+    static bool isAForest(BaseUndirectedGraphWithVertex const& graph)
+    {
+        // A disjoint set of trees is called a forest
+
+        return !hasAnyCyclesOnGraph(graph) && !isGraphConnected(graph);
+    }
+
+    static bool isASpanningTree(
+            BaseUndirectedGraphWithVertex const& mainGraph,
+            BaseUndirectedGraphWithVertex const& subGraphToCheck)
+    {
+        // A spanning tree of a connected graph is a subgraph that contains all fo the graphs' vertices and is a single tree
+        // Note: It should be a subgraph.
+
+        return isATree(subGraphToCheck)
+                && mainGraph.getVertices() == subGraphToCheck.getVertices();
+    }
+
+    static bool isASpanningForest(
+            BaseUndirectedGraphWithVertex const& mainGraph,
+            BaseUndirectedGraphWithVertex const& subGraphToCheck)
+    {
+        // A spanning forest of graph is the union of spanning trees of its connected components
+        // Note: It should be a subgraph.
+
+        return isAForest(subGraphToCheck)
+                && mainGraph.getVertices() == subGraphToCheck.getVertices();
+    }
+
     static bool isGraphConnected(BaseUndirectedGraphWithVertex const& graph)
     {
         // A graph is connected if there is a path from every vertex to every other vertex in the graph.
@@ -116,9 +147,11 @@ struct GraphUtilities
         return BipartiteCheckerUsingDfs<Vertex>(graph).isBipartite();
     }
 
-    static unsigned int getDegreeAt(BaseGraphWithVertex const& graph, Vertex const& vertex)    {
+    static unsigned int getDegreeAt(BaseGraphWithVertex const& graph, Vertex const& vertex)
+    {
         return graph.getAdjacentVerticesAt(vertex).size();
     }
+
     static unsigned int getMaxDegree(BaseGraphWithVertex const& graph)
     {
         unsigned int result(0);
