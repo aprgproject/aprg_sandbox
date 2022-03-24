@@ -27,6 +27,7 @@ public:
     DirectedGraphWithListOfEdges()
         : m_numberOfEdges(0U)
     {}
+
     bool isConnected(Vertex const& sourceVertex, Vertex const& destinationVertex) const override
     {
         return m_edges.find(EdgeInSet(sourceVertex, destinationVertex)) != m_edges.cend();
@@ -113,7 +114,8 @@ protected:
         SetOfVertices uniqueVertices;        for(auto const& edge : m_edges)
         {
             uniqueVertices.emplace(edge.first);
-            uniqueVertices.emplace(edge.second);        }
+            uniqueVertices.emplace(edge.second);
+        }
         return uniqueVertices;
     }
     unsigned int m_numberOfEdges;

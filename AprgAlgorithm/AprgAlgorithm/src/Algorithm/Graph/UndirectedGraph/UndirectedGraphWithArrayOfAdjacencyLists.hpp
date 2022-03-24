@@ -154,4 +154,5 @@ protected:
     AdjacencyLists m_adjacencyLists;};
 
 }
+
 }

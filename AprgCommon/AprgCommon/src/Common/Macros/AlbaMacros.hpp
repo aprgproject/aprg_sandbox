@@ -17,4 +17,5 @@
     case parameter: \    return ALBA_MACROS_GET_STRING_LITERAL(parameter);
 
 #define ALBA_MACROS_CASE_ENUM_SHORT_STRING(parameter, shortName) \
-    case parameter: \    return shortName;
+    case parameter: \
+    return shortName;

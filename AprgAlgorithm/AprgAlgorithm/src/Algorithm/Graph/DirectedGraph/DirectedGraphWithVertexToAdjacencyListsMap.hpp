@@ -133,7 +133,8 @@ protected:
         SetOfVertices uniqueVertices;        for(auto const& vertexAndAdjacencyListPair : m_adjacencyLists)
         {
             Vertex const& sourceVertex(vertexAndAdjacencyListPair.first);
-            AdjacencyList const& adjacencyList(vertexAndAdjacencyListPair.second);            uniqueVertices.emplace(sourceVertex);
+            AdjacencyList const& adjacencyList(vertexAndAdjacencyListPair.second);
+            uniqueVertices.emplace(sourceVertex);
             std::copy(adjacencyList.cbegin(), adjacencyList.cend(), std::inserter(uniqueVertices, uniqueVertices.cbegin()));
         }
         return uniqueVertices;

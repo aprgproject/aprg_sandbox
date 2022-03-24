@@ -9,6 +9,7 @@ namespace alba{
 
 namespace algorithm
 {
+
 template<typename Vertex, typename Weight, typename Graph>
 class EdgeWeightedGraph : public Graph
 {
@@ -35,7 +36,8 @@ public:
         Weight result{};        auto it = m_edgeToWeightMap.find(createEdgeInMap(vertex1, vertex2));
         if(it != m_edgeToWeightMap.cend())
         {
-            result = it->second;        }
+            result = it->second;
+        }
         return result;
     }
 
@@ -91,7 +93,8 @@ private:
         if(this->DIRECTION_TYPE == GraphDirectionType::Undirected)        {
             return createSortedEdge(vertex2, vertex1);
         }
-        else        {
+        else
+        {
             return EdgeWithCompare(vertex1, vertex2);
         }
     }

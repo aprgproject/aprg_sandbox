@@ -119,7 +119,8 @@ protected:
         SetOfVertices uniqueVertices;        for(Vertex sourceVertex=0; sourceVertex<m_adjacencyLists.size(); sourceVertex++)
         {
             AdjacencyList const& adjacencyList(m_adjacencyLists.at(sourceVertex));
-            if(!adjacencyList.empty())            {
+            if(!adjacencyList.empty())
+            {
                 uniqueVertices.emplace(sourceVertex);
                 std::copy(adjacencyList.cbegin(), adjacencyList.cend(), std::inserter(uniqueVertices, uniqueVertices.cbegin()));
             }

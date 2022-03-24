@@ -26,6 +26,7 @@ public:
     UndirectedGraphWithListOfEdges()        : m_numberOfEdges(0U)
         , m_edges{}
     {}
+
     bool hasAnyConnection(Vertex const& vertex) const override
     {
         bool result(false);
@@ -139,4 +140,5 @@ protected:
     SetOfEdges m_edges;};
 
 }
+
 }

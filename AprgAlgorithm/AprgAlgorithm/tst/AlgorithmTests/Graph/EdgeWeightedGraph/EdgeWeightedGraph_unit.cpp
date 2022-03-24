@@ -36,7 +36,8 @@ TEST(EdgeWeightedGraphTest, GetWeightWorksOnUndirectedGraph)
     EdgeWeightedUndirectedGraphForTest graph;    graph.connect(0U, 1U, 3.5);
     graph.connect(0U, 2U, 4.5);
 
-    EXPECT_EQ(3.5, graph.getWeight(0U, 1U));    EXPECT_EQ(4.5, graph.getWeight(0U, 2U));
+    EXPECT_EQ(3.5, graph.getWeight(0U, 1U));
+    EXPECT_EQ(4.5, graph.getWeight(0U, 2U));
     EXPECT_EQ(3.5, graph.getWeight(1U, 0U));
     EXPECT_EQ(4.5, graph.getWeight(2U, 0U));
 }
