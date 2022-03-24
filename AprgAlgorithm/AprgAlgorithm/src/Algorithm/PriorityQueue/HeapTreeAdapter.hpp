@@ -21,15 +21,13 @@ public:
     {}
 
     Object const& getObjectConstReferenceOnTree(
-            unsigned int const treeIndex)
+            unsigned int const treeIndex) const
     {
         return m_objects.at(getContainerIndex(treeIndex));
     }
-
     Object & getObjectReferenceOnTree(
             unsigned int const treeIndex)
-    {
-        return m_objects[getContainerIndex(treeIndex)];
+    {        return m_objects[getContainerIndex(treeIndex)];
     }
 
     void swim(unsigned int const startTreeIndex)
@@ -55,40 +53,36 @@ public:
         unsigned int treeIndex(startTreeIndex);
         while(treeIndex*NUMBER_OF_CHILDREN < treeSize)
         {
-            unsigned int doubleIndex(treeIndex*NUMBER_OF_CHILDREN);
-            if(doubleIndex < treeSize
-                    && isComparisonSatisfied(getObjectConstReferenceOnTree(doubleIndex), getObjectConstReferenceOnTree(doubleIndex+1)))
+            unsigned int multipliedIndex(treeIndex*NUMBER_OF_CHILDREN);
+            if(multipliedIndex < treeSize
+                    && isComparisonSatisfied(getObjectConstReferenceOnTree(multipliedIndex), getObjectConstReferenceOnTree(multipliedIndex+1)))
             {
-                doubleIndex++;
+                multipliedIndex++;
             }
-            if(!isComparisonSatisfied(getObjectConstReferenceOnTree(treeIndex), getObjectConstReferenceOnTree(doubleIndex)))
+            if(!isComparisonSatisfied(getObjectConstReferenceOnTree(treeIndex), getObjectConstReferenceOnTree(multipliedIndex)))
             {
                 break;
             }
-            std::swap(getObjectReferenceOnTree(treeIndex), getObjectReferenceOnTree(doubleIndex));
-            treeIndex=doubleIndex;
+            std::swap(getObjectReferenceOnTree(treeIndex), getObjectReferenceOnTree(multipliedIndex));
+            treeIndex=multipliedIndex;
         }
     }
-
 private:
 
     unsigned int getContainerIndex(
-            unsigned int const treeIndex)
+            unsigned int const treeIndex) const
     {
         return treeIndex-1;
     }
-
     bool isComparisonSatisfied(
             Object const& object1,
-            Object const& object2)
+            Object const& object2) const
     {
         return m_comparisonObject(object1, object2);
     }
-
     ComparisonClass m_comparisonObject;
     Objects & m_objects;
 };
-
 }
 
 }

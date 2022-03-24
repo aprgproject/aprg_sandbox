@@ -32,37 +32,33 @@ public:
         return m_objects.size();
     }
 
-    Objects getObjects() const
+    Objects const& getObjects() const
     {
         return m_objects;
     }
-
     void insert(Object const& object)
     {
         m_objects.emplace_back(object);
         m_heapTreeAdapter.swim(getIndexOfLastItemOfTheTree());
     }
 
-    Object deleteAndGetMax()
+    Object deleteAndGetTopObject()
     {
         Object max(m_heapTreeAdapter.getObjectConstReferenceOnTree(INDEX_OF_TOP_TREE));
-        std::swap(m_heapTreeAdapter.getObjectReferenceOnTree(INDEX_OF_TOP_TREE), m_objects.back());
-        m_objects.pop_back();
+        std::swap(m_heapTreeAdapter.getObjectReferenceOnTree(INDEX_OF_TOP_TREE), m_objects.back());        m_objects.pop_back();
         m_heapTreeAdapter.sink(INDEX_OF_TOP_TREE);
         return max;
     }
 
 private:
 
-    unsigned int getIndexOfLastItemOfTheTree()
+    unsigned int getIndexOfLastItemOfTheTree() const
     {
         return getSize();
     }
-
     static constexpr unsigned int INDEX_OF_TOP_TREE=1U;
     Objects m_objects;
-    HeapTreeAdapter<Objects, 2U, ComparisonTemplateType> m_heapTreeAdapter;
-};
+    HeapTreeAdapter<Objects, 2U, ComparisonTemplateType> m_heapTreeAdapter;};
 
 }
 

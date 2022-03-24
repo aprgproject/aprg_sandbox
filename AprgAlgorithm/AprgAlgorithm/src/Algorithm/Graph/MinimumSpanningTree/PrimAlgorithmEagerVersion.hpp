@@ -14,13 +14,14 @@ class PrimAlgorithmEagerVersion
 public:
     using Graph = EdgeWeightedGraph;
     using SetOfVertices = typename GraphTypes<Vertex>::SetOfVertices;
+    using Edges = typename GraphTypes<Vertex>::Edges;
 
 private:
     Graph const& m_graph;
+    Edges m_edges;
     SetOfVertices m_processedVertices;
 
 };
-
 }
 
 }
