@@ -19,7 +19,8 @@ public:
         return DIRECTION_TYPE;
     }
 
-    void reverseDirections()    {
+    void reverseDirections()
+    {
         Edges originalEdges(this->getEdges());
         this->clear();
         for(auto const& originalEdge : originalEdges)
@@ -32,4 +33,5 @@ public:
 };
 
 }
+
 }

@@ -33,7 +33,8 @@ TEST(EdgeWeightedGraphTest, HasAUniqueMinimumSpanningTreeWorksOnUndirectedGraph)
 
 TEST(EdgeWeightedGraphTest, GetWeightWorksOnUndirectedGraph)
 {
-    EdgeWeightedUndirectedGraphForTest graph;    graph.connect(0U, 1U, 3.5);
+    EdgeWeightedUndirectedGraphForTest graph;
+    graph.connect(0U, 1U, 3.5);
     graph.connect(0U, 2U, 4.5);
 
     EXPECT_EQ(3.5, graph.getWeight(0U, 1U));
@@ -51,6 +52,17 @@ TEST(EdgeWeightedGraphTest, GetEdgeToWeightMapWorksOnUndirectedGraph)
     EdgeWeightedUndirectedGraphForTest::EdgeToWeightMap expectedEdgesToWeight
     {{{0U, 1U}, 3.5}, {{0U, 2U}, 4.5}};
     EXPECT_EQ(expectedEdgesToWeight, graph.getEdgeToWeightMap());
+}
+
+TEST(EdgeWeightedGraphTest, GetEdgesWithWeightWorksOnUndirectedGraph)
+{
+    EdgeWeightedUndirectedGraphForTest graph;
+    graph.connect(0U, 1U, 3.5);
+    graph.connect(0U, 2U, 4.5);
+
+    EdgeWeightedUndirectedGraphForTest::EdgesWithWeight expectedEdgesWithWeight
+    {{0U, 1U, 3.5}, {0U, 2U, 4.5}};
+    EXPECT_EQ(expectedEdgesWithWeight, graph.getEdgesWithWeight());
 }
 
 TEST(EdgeWeightedGraphTest, ConnectWorksOnUndirectedGraph)

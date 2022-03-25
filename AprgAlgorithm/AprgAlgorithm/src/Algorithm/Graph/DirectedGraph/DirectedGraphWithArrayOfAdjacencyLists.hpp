@@ -116,7 +116,8 @@ public:
 protected:
     SetOfVertices getUniqueVertices() const
     {
-        SetOfVertices uniqueVertices;        for(Vertex sourceVertex=0; sourceVertex<m_adjacencyLists.size(); sourceVertex++)
+        SetOfVertices uniqueVertices;
+        for(Vertex sourceVertex=0; sourceVertex<m_adjacencyLists.size(); sourceVertex++)
         {
             AdjacencyList const& adjacencyList(m_adjacencyLists.at(sourceVertex));
             if(!adjacencyList.empty())

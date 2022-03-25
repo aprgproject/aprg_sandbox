@@ -55,11 +55,11 @@ private:
 
     void searchForMinimumSpanningTree()
     {
-        searchTheAdjacentVertices(m_startVertex);
-        while(!m_edgeWithWeightsPriorityQueue.empty())
+        searchTheAdjacentVerticesAt(m_startVertex);
+        while(!m_adjacentEdgesInOrder.empty())
         {
-            EdgeWithWeight edgeWithWeight(m_edgeWithWeightsPriorityQueue.top());
-            m_edgeWithWeightsPriorityQueue.pop();
+            EdgeWithWeight edgeWithWeight(m_adjacentEdgesInOrder.top());
+            m_adjacentEdgesInOrder.pop();
             Vertex const& vertex1(edgeWithWeight.first);
             Vertex const& vertex2(edgeWithWeight.second);
             bool isVertex1NotProcessed(isNotProcessed(vertex1));
@@ -69,24 +69,24 @@ private:
                 m_minimumSpanningTreeEdges.emplace_back(createSortedEdge(vertex1, vertex2));
                 if(isVertex1NotProcessed)
                 {
-                    searchTheAdjacentVertices(vertex1);
+                    searchTheAdjacentVerticesAt(vertex1);
                 }
                 if(isVertex2NotProcessed)
                 {
-                    searchTheAdjacentVertices(vertex2);
+                    searchTheAdjacentVerticesAt(vertex2);
                 }
             }
         }
     }
 
-    void searchTheAdjacentVertices(Vertex const& vertex)
+    void searchTheAdjacentVerticesAt(Vertex const& vertex)
     {
         m_processedVertices.emplace(vertex);
         for(Vertex const& adjacentVertex : m_graph.getAdjacentVerticesAt(vertex))
         {
             if(isNotProcessed(adjacentVertex))
             {
-                m_edgeWithWeightsPriorityQueue.emplace(vertex, adjacentVertex, m_graph.getWeight(vertex, adjacentVertex));
+                m_adjacentEdgesInOrder.emplace(vertex, adjacentVertex, m_graph.getWeight(vertex, adjacentVertex));
             }
         }
     }
@@ -95,7 +95,7 @@ private:
     Vertex m_startVertex;
     SetOfVertices m_processedVertices;
     Edges m_minimumSpanningTreeEdges;
-    EdgeWithWeightsPriorityQueue m_edgeWithWeightsPriorityQueue;
+    EdgeWithWeightsPriorityQueue m_adjacentEdgesInOrder;
 
 };
 

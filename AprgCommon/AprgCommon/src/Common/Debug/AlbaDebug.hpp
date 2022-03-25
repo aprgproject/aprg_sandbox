@@ -7,6 +7,7 @@
 
 namespace alba
 {
+
 #pragma warning("The class AlbaDebug is used. Please remove after your done debugging.")
 
 #ifdef ALBA_PRINT_OUTPUT_STREAM_FILE_PATH
@@ -37,6 +38,7 @@ static ofstream debugStream(ALBA_PRINT_OUTPUT_STREAM_FILE_PATH);
 #define ALBA_PRINT6(...) Z_ALBA_PRINT_DETAILS Z_ALBA_PRIVATE_PRINT6(__VA_ARGS__) ALBA_PRINT_OUTPUT_STREAM << std::endl
 
 #define ALBA_PRINT_PRECISION(parameter) ALBA_PRINT_OUTPUT_STREAM.precision(parameter)
+
 #define ALBA_EXIT exit(0)
 
 

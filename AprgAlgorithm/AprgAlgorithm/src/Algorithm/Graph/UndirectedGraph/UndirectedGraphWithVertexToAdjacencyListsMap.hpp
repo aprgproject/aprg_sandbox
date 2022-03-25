@@ -164,6 +164,7 @@ protected:
     unsigned int m_numberOfEdges;
     AdjacencyLists m_adjacencyLists;
 };
+
 }
 
 }

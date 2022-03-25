@@ -5,7 +5,8 @@
 #include <algorithm>
 #include <sstream>
 
-namespace alba{
+namespace alba
+{
 
 namespace algorithm
 {
@@ -17,6 +18,8 @@ public:
     using BaseClass = Graph;
     using EdgeWithCompare = typename GraphTypes<Vertex>::EdgeWithCompare;
     using EdgeToWeightMap = std::map<EdgeWithCompare, Weight>;
+    using EdgeWithWeight = typename GraphTypesWithWeights<Vertex, Weight>::EdgeWithWeight;
+    using EdgesWithWeight = typename GraphTypesWithWeights<Vertex, Weight>::EdgesWithWeight;
     using Weights = std::vector<Weight>;
     using UniqueWeights = std::set<Weight>;
 
@@ -33,7 +36,8 @@ public:
 
     Weight getWeight(Vertex const& vertex1, Vertex const& vertex2) const
     {
-        Weight result{};        auto it = m_edgeToWeightMap.find(createEdgeInMap(vertex1, vertex2));
+        Weight result{};
+        auto it = m_edgeToWeightMap.find(createEdgeInMap(vertex1, vertex2));
         if(it != m_edgeToWeightMap.cend())
         {
             result = it->second;
@@ -44,6 +48,16 @@ public:
     EdgeToWeightMap const& getEdgeToWeightMap() const
     {
         return m_edgeToWeightMap;
+    }
+
+    EdgesWithWeight getEdgesWithWeight() const
+    {
+        EdgesWithWeight result;
+        std::transform(m_edgeToWeightMap.cbegin(), m_edgeToWeightMap.cend(), std::back_inserter(result), [](auto const& edgeAndWeightPair)
+        {
+            return EdgeWithWeight(edgeAndWeightPair.first.first, edgeAndWeightPair.first.second, edgeAndWeightPair.second);
+        });
+        return result;
     }
 
     std::string getDisplayableString() const override
@@ -90,7 +104,8 @@ private:
 
     EdgeWithCompare createEdgeInMap(Vertex const& vertex1, Vertex const& vertex2) const
     {
-        if(this->DIRECTION_TYPE == GraphDirectionType::Undirected)        {
+        if(this->DIRECTION_TYPE == GraphDirectionType::Undirected)
+        {
             return createSortedEdge(vertex2, vertex1);
         }
         else

@@ -158,6 +158,7 @@ protected:
     unsigned int m_numberOfEdges;
     AdjacencyMatrix m_adjacencyMatrix;
 };
+
 }
 
 }

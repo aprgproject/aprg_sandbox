@@ -23,7 +23,8 @@ public:
     using EdgeInSet = typename GraphTypes<Vertex>::EdgeWithCompare;
     using SetOfEdges = typename GraphTypes<Vertex>::SetOfEdges;
 
-    UndirectedGraphWithListOfEdges()        : m_numberOfEdges(0U)
+    UndirectedGraphWithListOfEdges()
+        : m_numberOfEdges(0U)
         , m_edges{}
     {}
 
@@ -137,7 +138,8 @@ public:
 protected:
 
     unsigned int m_numberOfEdges;
-    SetOfEdges m_edges;};
+    SetOfEdges m_edges;
+};
 
 }
 
