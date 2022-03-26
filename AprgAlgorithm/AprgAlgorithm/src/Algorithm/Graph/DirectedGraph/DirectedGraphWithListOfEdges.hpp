@@ -21,7 +21,7 @@ public:
     using SetOfVertices = typename GraphTypes<Vertex>::SetOfVertices;
     using Edge = typename GraphTypes<Vertex>::Edge;
     using Edges = typename GraphTypes<Vertex>::Edges;
-    using EdgeInSet = typename GraphTypes<Vertex>::EdgeWithCompare;
+    using EdgeInSet = typename GraphTypes<Vertex>::EdgeWithVertexComparison;
     using SetOfEdges = typename GraphTypes<Vertex>::SetOfEdges;
 
 

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <Algorithm/Graph/UndirectedGraph/BaseUndirectedGraph.hpp>
+#include <Algorithm/Graph/Utilities/ProcessedVertices.hpp>
 
 namespace alba
 {
@@ -17,6 +18,7 @@ public:
     using SetOfVertices = typename GraphTypes<Vertex>::SetOfVertices;
     using Path = typename GraphTypes<Vertex>::Path;
     using VertexToColorMap = std::map<Vertex, bool>;
+    using ProcessedVerticesWithVertex = ProcessedVertices<Vertex>;
 
     BipartiteCheckerUsingDfs(BaseUndirectedGraphWithVertex const& graph)
         : m_graph(graph)
@@ -31,11 +33,6 @@ public:
     }
 
 private:
-
-    bool isNotProcessed(Vertex const& vertex) const
-    {
-        return m_processedVertices.find(vertex) == m_processedVertices.cend();
-    }
 
     bool areColorsEqualOnVertices(Vertex const& vertex1, Vertex const& vertex2) const
     {
@@ -58,7 +55,7 @@ private:
         }
         for(Vertex const& vertex : vertices)
         {
-            if(isNotProcessed(vertex))
+            if(m_processedVertices.isNotProcessed(vertex))
             {
                 checkUsingDfs(vertex);
             }
@@ -67,14 +64,14 @@ private:
 
     void checkUsingDfs(Vertex const& vertex)
     {
-        m_processedVertices.emplace(vertex);
+        m_processedVertices.putVertexAsProcessed(vertex);
         for(Vertex const& adjacentVertex : m_graph.getAdjacentVerticesAt(vertex))
         {
             if(!m_hasTwoColors)
             {
                 break;
             }
-            else if(isNotProcessed(adjacentVertex))
+            else if(m_processedVertices.isNotProcessed(adjacentVertex))
             {
                 m_vertexToColorMap[adjacentVertex] = getTheOtherColor(m_vertexToColorMap.at(vertex));
                 checkUsingDfs(adjacentVertex);
@@ -94,7 +91,7 @@ private:
 
     BaseUndirectedGraphWithVertex const& m_graph;
     bool m_hasTwoColors;
-    SetOfVertices m_processedVertices;
+    ProcessedVerticesWithVertex m_processedVertices;
     VertexToColorMap m_vertexToColorMap;
 };
 

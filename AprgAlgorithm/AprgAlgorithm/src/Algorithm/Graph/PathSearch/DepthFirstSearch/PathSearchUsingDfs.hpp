@@ -1,6 +1,6 @@
 #pragma once
 
-#include <Algorithm/Graph/PathSearch/BasePathSearch.hpp>
+#include <Algorithm/Graph/PathSearch/Common/BasePathSearchWithBfsAndDfs.hpp>
 
 namespace alba
 {
@@ -9,13 +9,14 @@ namespace algorithm
 {
 
 template<typename Vertex>
-class PathSearchUsingDfs : public BasePathSearch<Vertex>
+class PathSearchUsingDfs : public BasePathSearchWithBfsAndDfs<Vertex>
 {
 public:
     using BaseGraphWithVertex = BaseGraph<Vertex>;
-    using BaseClass = BasePathSearch<Vertex>;
+    using BaseClass = BasePathSearchWithBfsAndDfs<Vertex>;
     using SetOfVertices = typename GraphTypes<Vertex>::SetOfVertices;
     using Path = typename GraphTypes<Vertex>::Path;
+    using ProcessedVerticesWithVertex = ProcessedVertices<Vertex>;
 
     PathSearchUsingDfs(BaseGraphWithVertex const& graph, Vertex const& startVertex)
         : BaseClass(graph, startVertex)
@@ -38,11 +39,11 @@ public:
 private:
     void traverseUsingDfs(Vertex const& vertex)
     {
-        SetOfVertices & processedVertices(this->m_processedVertices);
-        processedVertices.emplace(vertex);
+        ProcessedVerticesWithVertex & processedVertices(this->m_processedVertices);
+        processedVertices.putVertexAsProcessed(vertex);
         for(Vertex const& adjacentVertex : this->m_graph.getAdjacentVerticesAt(vertex))
         {
-            if(this->isNotProcessed(adjacentVertex))
+            if(processedVertices.isNotProcessed(adjacentVertex))
             {
                 this->m_vertexToPreviousVertexMap[adjacentVertex] = vertex;
                 traverseUsingDfs(adjacentVertex);

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <Algorithm/Graph/BaseGraph.hpp>
+#include <Algorithm/Graph/Utilities/ProcessedVertices.hpp>
 
 namespace alba
 {
@@ -16,6 +17,7 @@ public:
     using SetOfVertices = typename GraphTypes<Vertex>::SetOfVertices;
     using Path = typename GraphTypes<Vertex>::Path;
     using VertexToVertexMap = typename GraphTypes<Vertex>::VertexToVertexMap;
+    using ProcessedVerticesWithVertex = ProcessedVertices<Vertex>;
 
     CycleDetectionUsingDfs(BaseGraphWithVertex const& graph)
         : m_graph(graph)
@@ -35,7 +37,7 @@ public:
     {
         for(Vertex const& vertex : m_graph.getVertices())
         {
-            if(isNotProcessed(vertex))
+            if(m_processedVertices.isNotProcessed(vertex))
             {
                 checkForCyclesUsingDfs(vertex);
             }
@@ -43,11 +45,6 @@ public:
     }
 
 private:
-
-    bool isNotProcessed(Vertex const& vertex) const
-    {
-        return m_processedVertices.find(vertex) == m_processedVertices.cend();
-    }
 
     bool isPartOfCycle(Vertex const& vertex) const
     {
@@ -103,14 +100,14 @@ private:
     void checkForCyclesUsingDfsWithDirectedGraph(Vertex const& startVertex)
     {
         m_verticesInCycle.emplace(startVertex);
-        m_processedVertices.emplace(startVertex);
+        m_processedVertices.putVertexAsProcessed(startVertex);
         for(Vertex const& adjacentVertex : m_graph.getAdjacentVerticesAt(startVertex))
         {
             if(hasCycle())
             {
                 break;
             }
-            else if(isNotProcessed(adjacentVertex))
+            else if(m_processedVertices.isNotProcessed(adjacentVertex))
             {
                 m_vertexToPreviousVertexMap[adjacentVertex] = startVertex;
                 checkForCyclesUsingDfsWithDirectedGraph(adjacentVertex);
@@ -126,14 +123,14 @@ private:
     void checkForCyclesUsingDfsWithUndirectedGraph(Vertex const& startVertex, Vertex const& previousVertex)
     {
         m_verticesInCycle.emplace(startVertex);
-        m_processedVertices.emplace(startVertex);
+        m_processedVertices.putVertexAsProcessed(startVertex);
         for(Vertex const& adjacentVertex : m_graph.getAdjacentVerticesAt(startVertex))
         {
             if(hasCycle())
             {
                 break;
             }
-            else if(isNotProcessed(adjacentVertex))
+            else if(m_processedVertices.isNotProcessed(adjacentVertex))
             {
                 m_vertexToPreviousVertexMap[adjacentVertex] = startVertex;
                 checkForCyclesUsingDfsWithUndirectedGraph(adjacentVertex, startVertex);
@@ -147,7 +144,7 @@ private:
     }
 
     BaseGraphWithVertex const& m_graph;
-    SetOfVertices m_processedVertices;
+    ProcessedVerticesWithVertex m_processedVertices;
     VertexToVertexMap m_vertexToPreviousVertexMap;
     SetOfVertices m_verticesInCycle;
     Path m_pathWithCycle;

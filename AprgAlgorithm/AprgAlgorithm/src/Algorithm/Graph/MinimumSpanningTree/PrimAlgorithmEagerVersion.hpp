@@ -1,6 +1,7 @@
 #pragma once
 
 #include <Algorithm/Graph/Types/GraphTypes.hpp>
+#include <Algorithm/Graph/Utilities/ProcessedVertices.hpp>
 
 #include <algorithm>
 
@@ -22,6 +23,7 @@ public:
     using VertexWithWeight = typename GraphTypesWithWeights<Vertex, Weight>::VertexWithWeight;
     using SetOfVerticesWithWeight = typename GraphTypesWithWeights<Vertex, Weight>::SetOfVerticesWithWeight;
     using VertexToEdgeWithWeight = std::map<Vertex, EdgeWithWeight>;
+    using ProcessedVerticesWithVertex = ProcessedVertices<Vertex>;
 
     PrimAlgorithmEagerVersion(EdgeWeightedGraph const& graph, Vertex const& startVertex)
         : m_graph(graph)
@@ -42,11 +44,6 @@ public:
     }
 
 private:
-
-    bool isNotProcessed(Vertex const& vertex) const
-    {
-        return m_processedVertices.find(vertex) == m_processedVertices.cend();
-    }
 
     bool hasNoWeightSaved(Vertex const& vertex) const
     {
@@ -76,11 +73,13 @@ private:
             searchTheAdjacentVerticesAt(nearestVertex.vertex); //search nearest vertex on tree
         }
     }
+
     void searchTheAdjacentVerticesAt(Vertex const& vertex)
     {
-        m_processedVertices.emplace(vertex);        for(Vertex const& adjacentVertex : m_graph.getAdjacentVerticesAt(vertex))
+        m_processedVertices.putVertexAsProcessed(vertex);
+        for(Vertex const& adjacentVertex : m_graph.getAdjacentVerticesAt(vertex))
         {
-            if(isNotProcessed(adjacentVertex))
+            if(m_processedVertices.isNotProcessed(adjacentVertex))
             {
                 Weight weightForAdjacentVertex(m_graph.getWeight(vertex, adjacentVertex));
                 if(hasNoWeightSaved(adjacentVertex)
@@ -89,13 +88,15 @@ private:
                     // save edge with lower weight and add it to vertices to check
                     m_vertexToEdgeWithMinimumWeight[adjacentVertex] = createSortedEdgeWithWeight(vertex, adjacentVertex, weightForAdjacentVertex);
                     m_verticesAdjacentToTree.emplace(adjacentVertex, weightForAdjacentVertex);
-                }            }
+                }
+            }
         }
 
     }
+
     Graph const& m_graph;
     Vertex m_startVertex;
-    SetOfVertices m_processedVertices;
+    ProcessedVerticesWithVertex m_processedVertices;
     VertexToEdgeWithWeight m_vertexToEdgeWithMinimumWeight;
     SetOfVerticesWithWeight m_verticesAdjacentToTree;
 

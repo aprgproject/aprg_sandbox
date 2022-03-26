@@ -16,7 +16,7 @@ class EdgeWeightedGraph : public Graph
 {
 public:
     using BaseClass = Graph;
-    using EdgeWithCompare = typename GraphTypes<Vertex>::EdgeWithCompare;
+    using EdgeWithCompare = typename GraphTypes<Vertex>::EdgeWithVertexComparison;
     using EdgeToWeightMap = std::map<EdgeWithCompare, Weight>;
     using EdgeWithWeight = typename GraphTypesWithWeights<Vertex, Weight>::EdgeWithWeight;
     using EdgesWithWeight = typename GraphTypesWithWeights<Vertex, Weight>::EdgesWithWeight;

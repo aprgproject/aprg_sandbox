@@ -1,6 +1,7 @@
 #pragma once
 
 #include <Algorithm/Graph/Types/GraphTypes.hpp>
+#include <Algorithm/Graph/Utilities/ProcessedVertices.hpp>
 
 #include <queue>
 
@@ -21,6 +22,7 @@ public:
     using EdgeWithWeight = typename GraphTypesWithWeights<Vertex, Weight>::EdgeWithWeight;
     using EdgesWithWeight = typename GraphTypesWithWeights<Vertex, Weight>::EdgesWithWeight;
     using EdgeWithWeightsPriorityQueue = std::priority_queue<EdgeWithWeight, EdgesWithWeight, std::greater<EdgeWithWeight>>;
+    using ProcessedVerticesWithVertex = ProcessedVertices<Vertex>;
 
     PrimAlgorithmLazyVersion(EdgeWeightedGraph const& graph, Vertex const& startVertex)
         : m_graph(graph)
@@ -35,11 +37,6 @@ public:
     }
 
 private:
-
-    bool isNotProcessed(Vertex const& vertex) const
-    {
-        return m_processedVertices.find(vertex) == m_processedVertices.cend();
-    }
 
     Edge createSortedEdge(Vertex const& vertex1, Vertex const& vertex2) const
     {
@@ -62,8 +59,8 @@ private:
             m_adjacentEdgesInOrder.pop();
             Vertex const& vertex1(edgeWithWeight.first);
             Vertex const& vertex2(edgeWithWeight.second);
-            bool isVertex1NotProcessed(isNotProcessed(vertex1));
-            bool isVertex2NotProcessed(isNotProcessed(vertex2));
+            bool isVertex1NotProcessed(m_processedVertices.isNotProcessed(vertex1));
+            bool isVertex2NotProcessed(m_processedVertices.isNotProcessed(vertex2));
             if(isVertex1NotProcessed || isVertex2NotProcessed)
             {
                 m_minimumSpanningTreeEdges.emplace_back(createSortedEdge(vertex1, vertex2));
@@ -81,10 +78,10 @@ private:
 
     void searchTheAdjacentVerticesAt(Vertex const& vertex)
     {
-        m_processedVertices.emplace(vertex);
+        m_processedVertices.putVertexAsProcessed(vertex);
         for(Vertex const& adjacentVertex : m_graph.getAdjacentVerticesAt(vertex))
         {
-            if(isNotProcessed(adjacentVertex))
+            if(m_processedVertices.isNotProcessed(adjacentVertex))
             {
                 m_adjacentEdgesInOrder.emplace(vertex, adjacentVertex, m_graph.getWeight(vertex, adjacentVertex));
             }
@@ -93,7 +90,7 @@ private:
 
     Graph const& m_graph;
     Vertex m_startVertex;
-    SetOfVertices m_processedVertices;
+    ProcessedVerticesWithVertex m_processedVertices;
     Edges m_minimumSpanningTreeEdges;
     EdgeWithWeightsPriorityQueue m_adjacentEdgesInOrder;
 

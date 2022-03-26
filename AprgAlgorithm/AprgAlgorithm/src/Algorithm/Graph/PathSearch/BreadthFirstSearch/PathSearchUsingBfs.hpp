@@ -1,6 +1,6 @@
 #pragma once
 
-#include <Algorithm/Graph/PathSearch/BasePathSearch.hpp>
+#include <Algorithm/Graph/PathSearch/Common/BasePathSearchWithBfsAndDfs.hpp>
 
 #include <deque>
 
@@ -11,13 +11,14 @@ namespace algorithm
 {
 
 template<typename Vertex>
-class PathSearchUsingBfs : public BasePathSearch<Vertex>
+class PathSearchUsingBfs : public BasePathSearchWithBfsAndDfs<Vertex>
 {
 public:
     using BaseGraphWithVertex = BaseGraph<Vertex>;
-    using BaseClass = BasePathSearch<Vertex>;
+    using BaseClass = BasePathSearchWithBfsAndDfs<Vertex>;
     using SetOfVertices = typename GraphTypes<Vertex>::SetOfVertices;
     using Path = typename GraphTypes<Vertex>::Path;
+    using ProcessedVerticesWithVertex = ProcessedVertices<Vertex>;
 
     PathSearchUsingBfs(BaseGraphWithVertex const& graph, Vertex const& startVertex)
         : BaseClass(graph, startVertex)
@@ -34,8 +35,8 @@ public:
     {
         this->clear();
         this->m_startVertex = startVertex;
-        SetOfVertices & processedVertices(this->m_processedVertices);
-        processedVertices.emplace(startVertex);
+        ProcessedVerticesWithVertex & processedVertices(this->m_processedVertices);
+        processedVertices.putVertexAsProcessed(startVertex);
 
         std::deque<Vertex> queueOfVerticesToProcess{startVertex};
         while(!queueOfVerticesToProcess.empty())
@@ -44,9 +45,9 @@ public:
             queueOfVerticesToProcess.pop_back();
             for(Vertex const& adjacentVertex : this->m_graph.getAdjacentVerticesAt(vertex))
             {
-                if(this->isNotProcessed(adjacentVertex))
+                if(processedVertices.isNotProcessed(adjacentVertex))
                 {
-                    processedVertices.emplace(adjacentVertex);
+                    processedVertices.putVertexAsProcessed(adjacentVertex);
                     this->m_vertexToPreviousVertexMap[adjacentVertex] = vertex;
                     queueOfVerticesToProcess.emplace_front(adjacentVertex);
                 }

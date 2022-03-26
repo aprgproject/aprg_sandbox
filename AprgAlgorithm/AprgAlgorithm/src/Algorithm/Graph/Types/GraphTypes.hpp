@@ -27,13 +27,13 @@ struct GraphTypes
     using Edge = std::pair<Vertex, Vertex>;
     using Edges = std::vector<Edge>;
     using ListOfEdges = std::vector<Edges>;
-    struct EdgeWithCompare : public Edge
+    struct EdgeWithVertexComparison : public Edge
     {
-        EdgeWithCompare(Vertex const& vertex1, Vertex const& vertex2)
+        EdgeWithVertexComparison(Vertex const& vertex1, Vertex const& vertex2)
             : Edge{vertex1, vertex2}
         {}
 
-        bool operator<(EdgeWithCompare const& otherEdge) const
+        bool operator<(EdgeWithVertexComparison const& otherEdge) const
         {
             bool result(false);
             if(Edge::first != otherEdge.first)
@@ -47,7 +47,7 @@ struct GraphTypes
             return result;
         }
     };
-    using SetOfEdges = std::set<EdgeWithCompare>;
+    using SetOfEdges = std::set<EdgeWithVertexComparison>;
 
     //Path
     using Path = std::vector<Vertex>;

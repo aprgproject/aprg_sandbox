@@ -1,6 +1,7 @@
 #pragma once
 
 #include <Algorithm/Graph/BaseGraph.hpp>
+#include <Algorithm/Graph/Utilities/ProcessedVertices.hpp>
 
 #include <algorithm>
 
@@ -17,6 +18,7 @@ public:
     using BaseGraphWithVertex = BaseGraph<Vertex>;
     using SetOfVertices = typename GraphTypes<Vertex>::SetOfVertices;
     using Path = typename GraphTypes<Vertex>::Path;
+    using ProcessedVerticesWithVertex = ProcessedVertices<Vertex>;
 
     enum class TraverseOrder
     {
@@ -45,11 +47,6 @@ public:
 
 private:
 
-    bool isNotProcessed(Vertex const& vertex) const
-    {
-        return m_processedVertices.find(vertex) == m_processedVertices.cend();
-    }
-
     void clear()
     {
         m_processedVertices.clear();
@@ -69,7 +66,7 @@ private:
         clear();
         for(Vertex const& vertex : m_graph.getVertices())
         {
-            if(isNotProcessed(vertex) && !m_graph.getAdjacentVerticesAt(vertex).empty())
+            if(m_processedVertices.isNotProcessed(vertex) && !m_graph.getAdjacentVerticesAt(vertex).empty())
             {
                 traverseAt(traversedPath, traverseOrder, vertex);
             }
@@ -102,10 +99,10 @@ private:
     {
         traversedPath.emplace_back(startVertex);
 
-        m_processedVertices.emplace(startVertex);
+        m_processedVertices.putVertexAsProcessed(startVertex);
         for(Vertex const& adjacentVertex : m_graph.getAdjacentVerticesAt(startVertex))
         {
-            if(isNotProcessed(adjacentVertex))
+            if(m_processedVertices.isNotProcessed(adjacentVertex))
             {
                 traversePreOrderAt(traversedPath, adjacentVertex);
             }
@@ -114,10 +111,10 @@ private:
 
     void traversePostOrderAt(Path & traversedPath, Vertex const& startVertex)
     {
-        m_processedVertices.emplace(startVertex);
+        m_processedVertices.putVertexAsProcessed(startVertex);
         for(Vertex const& adjacentVertex : m_graph.getAdjacentVerticesAt(startVertex))
         {
-            if(isNotProcessed(adjacentVertex))
+            if(m_processedVertices.isNotProcessed(adjacentVertex))
             {
                 traversePostOrderAt(traversedPath, adjacentVertex);
             }
@@ -128,7 +125,7 @@ private:
 
     void traverseReversePostOrderAt(Path & traversedPath, Vertex const& startVertex)
     {
-        m_processedVertices.emplace(startVertex);
+        m_processedVertices.putVertexAsProcessed(startVertex);
 
         // Traversing adjacents in order results in higher vertices to be first in the list after reversal
         // Reverse the traversal of adjacents is not fine either
@@ -137,7 +134,7 @@ private:
 
         for(Vertex const& adjacentVertex : m_graph.getAdjacentVerticesAt(startVertex))
         {
-            if(isNotProcessed(adjacentVertex))
+            if(m_processedVertices.isNotProcessed(adjacentVertex))
             {
                 traverseReversePostOrderAt(traversedPath, adjacentVertex);
             }
@@ -147,7 +144,7 @@ private:
     }
 
     BaseGraphWithVertex const& m_graph;
-    SetOfVertices m_processedVertices;
+    ProcessedVerticesWithVertex m_processedVertices;
 };
 
 }
