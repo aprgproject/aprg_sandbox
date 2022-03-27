@@ -5,8 +5,10 @@
 
 #include <algorithm>
 #include <sstream>
+
 namespace alba
 {
+
 namespace algorithm
 {
 
@@ -19,10 +21,12 @@ public:
     using EdgeToWeightMap = std::map<EdgeWithVertexComparison, Weight>;
     using EdgeWithWeight = typename GraphTypesWithWeights<Vertex, Weight>::EdgeWithWeight;
     using EdgesWithWeight = typename GraphTypesWithWeights<Vertex, Weight>::EdgesWithWeight;
-    using Weights = std::vector<Weight>;    using UniqueWeights = std::set<Weight>;
+    using Weights = std::vector<Weight>;
+    using UniqueWeights = std::set<Weight>;
 
     EdgeWeightedGraph()
-        : Graph()    {}
+        : Graph()
+    {}
 
     bool hasAUniqueMinimumSpanningTree() const
     {
@@ -113,6 +117,7 @@ private:
 
     EdgeToWeightMap m_edgeToWeightMap;
 };
+
 }
 
 }

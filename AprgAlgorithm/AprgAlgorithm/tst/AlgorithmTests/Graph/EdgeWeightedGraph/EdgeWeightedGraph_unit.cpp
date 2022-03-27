@@ -11,10 +11,11 @@ namespace algorithm
 
 namespace
 {
-using Vertex = unsigned int;
-using UndirectedGraphForTest = UndirectedGraphWithListOfEdges<Vertex>;
-using EdgeWeightedUndirectedGraphForTest = EdgeWeightedGraph<Vertex, double, UndirectedGraphForTest>;
-using Edges = GraphTypes<Vertex>::Edges;
+using VertexForTest = unsigned int;
+using WeightForTest = double;
+using UndirectedGraphForTest = UndirectedGraphWithListOfEdges<VertexForTest>;
+using EdgeWeightedUndirectedGraphForTest = EdgeWeightedGraph<VertexForTest, WeightForTest, UndirectedGraphForTest>;
+using Edges = GraphTypes<VertexForTest>::Edges;
 using EdgeToWeightMap = EdgeWeightedUndirectedGraphForTest::EdgeToWeightMap;
 }
 

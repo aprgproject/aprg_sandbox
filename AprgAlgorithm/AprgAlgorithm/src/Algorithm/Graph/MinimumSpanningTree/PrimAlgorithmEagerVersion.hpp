@@ -5,8 +5,10 @@
 #include <Algorithm/Graph/Utilities/SortedEdge.hpp>
 
 #include <algorithm>
+
 namespace alba
 {
+
 namespace algorithm
 {
 
@@ -15,11 +17,9 @@ class PrimAlgorithmEagerVersion
 {
 public:
     using Graph = EdgeWeightedGraph;
-    using SetOfVertices = typename GraphTypes<Vertex>::SetOfVertices;
     using Edge = typename GraphTypes<Vertex>::Edge;
     using Edges = typename GraphTypes<Vertex>::Edges;
     using EdgeWithWeight = typename GraphTypesWithWeights<Vertex, Weight>::EdgeWithWeight;
-    using VertexWithWeight = typename GraphTypesWithWeights<Vertex, Weight>::VertexWithWeight;
     using SetOfVerticesWithWeight = typename GraphTypesWithWeights<Vertex, Weight>::SetOfVerticesWithWeight;
     using VertexToEdgeWithWeight = std::map<Vertex, EdgeWithWeight>;
     using ProcessedVerticesWithVertex = ProcessedVertices<Vertex>;
@@ -51,15 +51,18 @@ private:
 
     void searchForMinimumSpanningTree()
     {
-        m_verticesAdjacentToTree.emplace(m_startVertex, Weight{}); // start vertex with weight zero for start        while(!m_verticesAdjacentToTree.empty())
+        m_verticesAdjacentToTreeOrderedByWeight.emplace(m_startVertex, Weight{}); // start vertex with weight zero for start
+        while(!m_verticesAdjacentToTreeOrderedByWeight.empty())
         {
-            auto nearestVertexIt(m_verticesAdjacentToTree.cbegin());
-            auto nearestVertex(*nearestVertexIt);            m_verticesAdjacentToTree.erase(nearestVertexIt);
-            searchTheAdjacentVerticesAt(nearestVertex.vertex); //search nearest vertex on tree
+            auto nearestVertexIt(m_verticesAdjacentToTreeOrderedByWeight.cbegin());
+            auto nearestVertex(*nearestVertexIt);
+            m_verticesAdjacentToTreeOrderedByWeight.erase(nearestVertexIt);
+            checkAdjacentVerticesWithLowestWeightOfVertex(nearestVertex.vertex);
         }
     }
 
-    void searchTheAdjacentVerticesAt(Vertex const& vertex)
+    void checkAdjacentVerticesWithLowestWeightOfVertex(
+            Vertex const& vertex)
     {
         m_processedVertices.putVertexAsProcessed(vertex);
         for(Vertex const& adjacentVertex : m_graph.getAdjacentVerticesAt(vertex))
@@ -70,19 +73,27 @@ private:
                 if(hasNoWeightSaved(adjacentVertex)
                         || weightForAdjacentVertex < m_vertexToEdgeWithMinimumWeight.at(adjacentVertex).weight)
                 {
-                    // save edge with lower weight and add it to vertices to check
-                    m_vertexToEdgeWithMinimumWeight[adjacentVertex]
-                            = createSortedEdgeWithWeight<Vertex, Weight, EdgeWithWeight>(vertex, adjacentVertex, weightForAdjacentVertex);
-                    m_verticesAdjacentToTree.emplace(adjacentVertex, weightForAdjacentVertex);
+                    saveVertexAndEdgeOfLowestWeight(vertex, adjacentVertex, weightForAdjacentVertex);
                 }
-            }        }
-
+            }
+        }
     }
+
+    void saveVertexAndEdgeOfLowestWeight(
+            Vertex const& vertex,
+            Vertex const& adjacentVertex,
+            Weight const& lowestWeight)
+    {
+        m_vertexToEdgeWithMinimumWeight[adjacentVertex]
+                = createSortedEdgeWithWeight<Vertex, Weight, EdgeWithWeight>(vertex, adjacentVertex, lowestWeight);
+        m_verticesAdjacentToTreeOrderedByWeight.emplace(adjacentVertex, lowestWeight);
+    }
+
     Graph const& m_graph;
     Vertex m_startVertex;
     ProcessedVerticesWithVertex m_processedVertices;
     VertexToEdgeWithWeight m_vertexToEdgeWithMinimumWeight;
-    SetOfVerticesWithWeight m_verticesAdjacentToTree;
+    SetOfVerticesWithWeight m_verticesAdjacentToTreeOrderedByWeight;
 
 };
 

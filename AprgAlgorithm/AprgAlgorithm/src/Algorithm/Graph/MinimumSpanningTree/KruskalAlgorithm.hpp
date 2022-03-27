@@ -5,8 +5,10 @@
 #include <Algorithm/UnionFind/UnionFindUsingMap.hpp>
 
 #include <queue>
+
 namespace alba
 {
+
 namespace algorithm
 {
 
@@ -38,24 +40,33 @@ private:
 
     void searchForMinimumSpanningTree()
     {
-        putAllEdgesToPriorityQueue();        unsigned int maxNumberOfEdgesInSpanningTree(m_graph.getNumberOfVertices()-1);
+        putAllEdgesToPriorityQueue();
+        unsigned int maxNumberOfEdgesInSpanningTree(m_graph.getNumberOfVertices()-1);
         UnionFindUsingMap<Vertex> unionFind;
         while(!m_edgesInOrder.empty() && m_minimumSpanningTreeEdges.size() < maxNumberOfEdgesInSpanningTree)
-        {            EdgeWithWeight edgeWithWeight(m_edgesInOrder.top());
+        {
+            EdgeWithWeight shortestEdge(m_edgesInOrder.top());
             m_edgesInOrder.pop();
-            Vertex const& vertex1(edgeWithWeight.first);
-            Vertex const& vertex2(edgeWithWeight.second);
-            if(!unionFind.isConnected(vertex1, vertex2))
-            {
-                unionFind.connect(vertex1, vertex2);
-                m_minimumSpanningTreeEdges.emplace_back(createSortedEdge<Vertex, Edge>(vertex1, vertex2));
-            }
+            addEdgeToMstIfNotYetConnected(unionFind, shortestEdge);
         }
     }
+
     void putAllEdgesToPriorityQueue()
     {
-        for(Edge const& edge : m_graph.getEdges())        {
+        for(Edge const& edge : m_graph.getEdges())
+        {
             m_edgesInOrder.emplace(edge.first, edge.second, m_graph.getWeight(edge.first, edge.second));
+        }
+    }
+
+    void addEdgeToMstIfNotYetConnected(UnionFindUsingMap<Vertex> & unionFind, EdgeWithWeight const& edge)
+    {
+        Vertex const& vertex1(edge.first);
+        Vertex const& vertex2(edge.second);
+        if(!unionFind.isConnected(vertex1, vertex2))
+        {
+            unionFind.connect(vertex1, vertex2);
+            m_minimumSpanningTreeEdges.emplace_back(createSortedEdge<Vertex, Edge>(vertex1, vertex2));
         }
     }
 

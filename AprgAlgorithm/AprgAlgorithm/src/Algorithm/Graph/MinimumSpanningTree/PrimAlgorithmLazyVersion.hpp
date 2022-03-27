@@ -5,8 +5,10 @@
 #include <Algorithm/Graph/Utilities/SortedEdge.hpp>
 
 #include <queue>
+
 namespace alba
 {
+
 namespace algorithm
 {
 
@@ -39,27 +41,36 @@ private:
 
     void searchForMinimumSpanningTree()
     {
-        searchTheAdjacentVerticesAt(m_startVertex);        while(!m_adjacentEdgesInOrder.empty())
+        checkAdjacentEdgesOfVertex(m_startVertex);
+        while(!m_adjacentEdgesInOrder.empty())
         {
-            EdgeWithWeight edgeWithWeight(m_adjacentEdgesInOrder.top());
-            m_adjacentEdgesInOrder.pop();            Vertex const& vertex1(edgeWithWeight.first);
-            Vertex const& vertex2(edgeWithWeight.second);
-            bool isVertex1NotProcessed(m_processedVertices.isNotProcessed(vertex1));
-            bool isVertex2NotProcessed(m_processedVertices.isNotProcessed(vertex2));
-            if(isVertex1NotProcessed || isVertex2NotProcessed)
+            EdgeWithWeight adjacentEdgeWithLowestWeight(m_adjacentEdgesInOrder.top());
+            m_adjacentEdgesInOrder.pop();
+            checkAdjacentEdgesOfEdgeAndAddToMstIfNeeded(adjacentEdgeWithLowestWeight);
+        }
+    }
+
+    void checkAdjacentEdgesOfEdgeAndAddToMstIfNeeded(EdgeWithWeight const& edgeWithWeight)
+    {
+        Vertex const& vertex1(edgeWithWeight.first);
+        Vertex const& vertex2(edgeWithWeight.second);
+        bool isVertex1NotProcessed(m_processedVertices.isNotProcessed(vertex1));
+        bool isVertex2NotProcessed(m_processedVertices.isNotProcessed(vertex2));
+        if(isVertex1NotProcessed || isVertex2NotProcessed)
+        {
+            m_minimumSpanningTreeEdges.emplace_back(createSortedEdge<Vertex, Edge>(vertex1, vertex2));
+            if(isVertex1NotProcessed)
             {
-                m_minimumSpanningTreeEdges.emplace_back(createSortedEdge<Vertex, Edge>(vertex1, vertex2));
-                if(isVertex1NotProcessed)
-                {
-                    searchTheAdjacentVerticesAt(vertex1);                }
-                if(isVertex2NotProcessed)
-                {
-                    searchTheAdjacentVerticesAt(vertex2);                }
+                checkAdjacentEdgesOfVertex(vertex1);
+            }
+            if(isVertex2NotProcessed)
+            {
+                checkAdjacentEdgesOfVertex(vertex2);
             }
         }
     }
 
-    void searchTheAdjacentVerticesAt(Vertex const& vertex)
+    void checkAdjacentEdgesOfVertex(Vertex const& vertex)
     {
         m_processedVertices.putVertexAsProcessed(vertex);
         for(Vertex const& adjacentVertex : m_graph.getAdjacentVerticesAt(vertex))
