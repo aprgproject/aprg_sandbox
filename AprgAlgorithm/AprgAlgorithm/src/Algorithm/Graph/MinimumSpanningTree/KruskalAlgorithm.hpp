@@ -1,13 +1,12 @@
 #pragma once
 
 #include <Algorithm/Graph/Types/GraphTypes.hpp>
+#include <Algorithm/Graph/Utilities/SortedEdge.hpp>
 #include <Algorithm/UnionFind/UnionFindUsingMap.hpp>
 
 #include <queue>
-
 namespace alba
 {
-
 namespace algorithm
 {
 
@@ -37,41 +36,25 @@ public:
 
 private:
 
-    Edge createSortedEdge(Vertex const& vertex1, Vertex const& vertex2) const
-    {
-        if(vertex1 <= vertex2)
-        {
-            return Edge(vertex1, vertex2);
-        }
-        else
-        {
-            return Edge(vertex2, vertex1);
-        }
-    }
-
     void searchForMinimumSpanningTree()
     {
-        putAllEdgesToPriorityQueue();
-        unsigned int maxNumberOfEdgesInSpanningTree(m_graph.getNumberOfVertices()-1);
+        putAllEdgesToPriorityQueue();        unsigned int maxNumberOfEdgesInSpanningTree(m_graph.getNumberOfVertices()-1);
         UnionFindUsingMap<Vertex> unionFind;
         while(!m_edgesInOrder.empty() && m_minimumSpanningTreeEdges.size() < maxNumberOfEdgesInSpanningTree)
-        {
-            EdgeWithWeight edgeWithWeight(m_edgesInOrder.top());
+        {            EdgeWithWeight edgeWithWeight(m_edgesInOrder.top());
             m_edgesInOrder.pop();
             Vertex const& vertex1(edgeWithWeight.first);
             Vertex const& vertex2(edgeWithWeight.second);
             if(!unionFind.isConnected(vertex1, vertex2))
             {
                 unionFind.connect(vertex1, vertex2);
-                m_minimumSpanningTreeEdges.emplace_back(createSortedEdge(vertex1, vertex2));
+                m_minimumSpanningTreeEdges.emplace_back(createSortedEdge<Vertex, Edge>(vertex1, vertex2));
             }
         }
     }
-
     void putAllEdgesToPriorityQueue()
     {
-        for(Edge const& edge : m_graph.getEdges())
-        {
+        for(Edge const& edge : m_graph.getEdges())        {
             m_edgesInOrder.emplace(edge.first, edge.second, m_graph.getWeight(edge.first, edge.second));
         }
     }

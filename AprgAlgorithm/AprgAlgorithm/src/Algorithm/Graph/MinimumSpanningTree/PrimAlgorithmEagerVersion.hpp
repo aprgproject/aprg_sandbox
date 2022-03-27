@@ -2,12 +2,11 @@
 
 #include <Algorithm/Graph/Types/GraphTypes.hpp>
 #include <Algorithm/Graph/Utilities/ProcessedVertices.hpp>
+#include <Algorithm/Graph/Utilities/SortedEdge.hpp>
 
 #include <algorithm>
-
 namespace alba
 {
-
 namespace algorithm
 {
 
@@ -50,26 +49,12 @@ private:
         return m_vertexToEdgeWithMinimumWeight.find(vertex) == m_vertexToEdgeWithMinimumWeight.cend();
     }
 
-    EdgeWithWeight createSortedEdgeWithWeight(Vertex const& vertex1, Vertex const& vertex2, Weight const& weight) const
-    {
-        if(vertex1 <= vertex2)
-        {
-            return EdgeWithWeight(vertex1, vertex2, weight);
-        }
-        else
-        {
-            return EdgeWithWeight(vertex2, vertex1, weight);
-        }
-    }
-
     void searchForMinimumSpanningTree()
     {
-        m_verticesAdjacentToTree.emplace(m_startVertex, Weight{}); // start vertex with weight zero for start
-        while(!m_verticesAdjacentToTree.empty())
+        m_verticesAdjacentToTree.emplace(m_startVertex, Weight{}); // start vertex with weight zero for start        while(!m_verticesAdjacentToTree.empty())
         {
             auto nearestVertexIt(m_verticesAdjacentToTree.cbegin());
-            auto nearestVertex(*nearestVertexIt);
-            m_verticesAdjacentToTree.erase(nearestVertexIt);
+            auto nearestVertex(*nearestVertexIt);            m_verticesAdjacentToTree.erase(nearestVertexIt);
             searchTheAdjacentVerticesAt(nearestVertex.vertex); //search nearest vertex on tree
         }
     }
@@ -86,14 +71,13 @@ private:
                         || weightForAdjacentVertex < m_vertexToEdgeWithMinimumWeight.at(adjacentVertex).weight)
                 {
                     // save edge with lower weight and add it to vertices to check
-                    m_vertexToEdgeWithMinimumWeight[adjacentVertex] = createSortedEdgeWithWeight(vertex, adjacentVertex, weightForAdjacentVertex);
+                    m_vertexToEdgeWithMinimumWeight[adjacentVertex]
+                            = createSortedEdgeWithWeight<Vertex, Weight, EdgeWithWeight>(vertex, adjacentVertex, weightForAdjacentVertex);
                     m_verticesAdjacentToTree.emplace(adjacentVertex, weightForAdjacentVertex);
                 }
-            }
-        }
+            }        }
 
     }
-
     Graph const& m_graph;
     Vertex m_startVertex;
     ProcessedVerticesWithVertex m_processedVertices;
