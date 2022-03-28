@@ -1,6 +1,6 @@
 #include <Algorithm/Graph/DirectedGraph/DirectedGraphWithListOfEdges.hpp>
 #include <Algorithm/Graph/EdgeWeightedGraph/EdgeWeightedGraph.hpp>
-#include <Algorithm/Graph/PathSearch/DijkstraAlgorithm/PathSearchUsingDijkstraAlgorithm.hpp>
+#include <Algorithm/Graph/PathSearch/ForDirectedAcyclicGraph/PathSearchForDirectedAcyclicGraph.hpp>
 
 #include <gtest/gtest.h>
 
@@ -17,7 +17,7 @@ using WeightForTest = double;
 using PathForTest = GraphTypes<VertexForTest>::Path;
 using DirectedGraphForTest = DirectedGraphWithListOfEdges<VertexForTest>;
 using EdgeWeightedDirectedGraphForTest = EdgeWeightedGraph<VertexForTest, WeightForTest, DirectedGraphForTest>;
-using PathSearchForTest = PathSearchUsingDijkstraAlgorithm<VertexForTest, WeightForTest, EdgeWeightedDirectedGraphForTest>;
+using PathSearchForTest = PathSearchForDirectedAcyclicGraph<VertexForTest, WeightForTest, EdgeWeightedDirectedGraphForTest>;
 
 void putConnectionsForTest(EdgeWeightedDirectedGraphForTest & graph)
 {
@@ -39,10 +39,12 @@ void putConnectionsForTest(EdgeWeightedDirectedGraphForTest & graph)
 }
 }
 
-TEST(PathSearchUsingDijkstraAlgorithmTest, HasPathToWorksWithEdgeWeightedDirectedGraph){
+TEST(PathSearchForDirectedAcyclicGraphTest, HasPathToWorksWithEdgeWeightedDirectedGraph)
+{
     EdgeWeightedDirectedGraphForTest graph;
     putConnectionsForTest(graph);
     PathSearchForTest pathSearch(graph, 0U);
+
     EXPECT_TRUE(pathSearch.hasPathTo(0U));
     EXPECT_TRUE(pathSearch.hasPathTo(1U));
     EXPECT_TRUE(pathSearch.hasPathTo(2U));
@@ -54,7 +56,7 @@ TEST(PathSearchUsingDijkstraAlgorithmTest, HasPathToWorksWithEdgeWeightedDirecte
     EXPECT_FALSE(pathSearch.hasPathTo(8U));
 }
 
-TEST(PathSearchUsingDijkstraAlgorithmTest, GetPathToWorksWithEdgeWeightedDirectedGraph)
+TEST(PathSearchForDirectedAcyclicGraphTest, GetPathToWorksWithEdgeWeightedDirectedGraph)
 {
     EdgeWeightedDirectedGraphForTest graph;
     putConnectionsForTest(graph);

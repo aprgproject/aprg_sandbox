@@ -12,52 +12,47 @@ namespace algorithm
 namespace
 {
 using VertexForTest = unsigned int;
-using PathForTest = GraphTypes<VertexForTest>::Path;
+using VerticesForTest = GraphTypes<VertexForTest>::Vertices;
 using GraphForTest = DirectedGraphWithListOfEdges<VertexForTest>;
 using VertexOrderingForTest = VertexOrderingUsingDfs<VertexForTest>;
 }
-
 TEST(VertexOrderingUsingDfsTest, VertexOrderingWorksWhenGraphIsEmptyWithDirectedGraph)
 {
     GraphForTest graph;
     VertexOrderingForTest vertexOrderingWithDfs(graph);
 
-    PathForTest preOrderPathToVerify(vertexOrderingWithDfs.traverseAndGetPath(VertexOrderingForTest::TraverseOrder::PreOrder));
-    PathForTest postOrderPathToVerify(vertexOrderingWithDfs.traverseAndGetPath(VertexOrderingForTest::TraverseOrder::PostOrder));
-    PathForTest reversePostOrderPathToVerify(vertexOrderingWithDfs.traverseAndGetPath(VertexOrderingForTest::TraverseOrder::ReversePostOrder));
+    VerticesForTest preOrderVerticesToVerify(vertexOrderingWithDfs.traverseAndGetVertices(VertexOrderingForTest::TraverseOrder::PreOrder));
+    VerticesForTest postOrderVerticesToVerify(vertexOrderingWithDfs.traverseAndGetVertices(VertexOrderingForTest::TraverseOrder::PostOrder));
+    VerticesForTest reversePostOrderVerticesToVerify(vertexOrderingWithDfs.traverseAndGetVertices(VertexOrderingForTest::TraverseOrder::ReversePostOrder));
 
-    EXPECT_TRUE(preOrderPathToVerify.empty());
-    EXPECT_TRUE(postOrderPathToVerify.empty());
-    EXPECT_TRUE(reversePostOrderPathToVerify.empty());
+    EXPECT_TRUE(preOrderVerticesToVerify.empty());
+    EXPECT_TRUE(postOrderVerticesToVerify.empty());
+    EXPECT_TRUE(reversePostOrderVerticesToVerify.empty());
 }
 
-TEST(VertexOrderingUsingDfsTest, VertexOrderingWorksUsingExample1WithDirectedGraph)
-{
+TEST(VertexOrderingUsingDfsTest, VertexOrderingWorksUsingExample1WithDirectedGraph){
     GraphForTest graph;
     graph.connect(2U, 0U);
-    graph.connect(2U, 1U);
-    graph.connect(2U, 3U);
+    graph.connect(2U, 1U);    graph.connect(2U, 3U);
     graph.connect(2U, 4U);
     VertexOrderingForTest vertexOrderingWithDfs(graph);
 
-    PathForTest preOrderPathToVerify(vertexOrderingWithDfs.traverseAndGetPath(VertexOrderingForTest::TraverseOrder::PreOrder));
-    PathForTest postOrderPathToVerify(vertexOrderingWithDfs.traverseAndGetPath(VertexOrderingForTest::TraverseOrder::PostOrder));
-    PathForTest reversePostOrderPathToVerify(vertexOrderingWithDfs.traverseAndGetPath(VertexOrderingForTest::TraverseOrder::ReversePostOrder));
+    VerticesForTest preOrderVerticesToVerify(vertexOrderingWithDfs.traverseAndGetVertices(VertexOrderingForTest::TraverseOrder::PreOrder));
+    VerticesForTest postOrderVerticesToVerify(vertexOrderingWithDfs.traverseAndGetVertices(VertexOrderingForTest::TraverseOrder::PostOrder));
+    VerticesForTest reversePostOrderVerticesToVerify(vertexOrderingWithDfs.traverseAndGetVertices(VertexOrderingForTest::TraverseOrder::ReversePostOrder));
 
-    PathForTest expectedPreOrderPath{2U, 0U, 1U, 3U, 4U};
-    PathForTest expectedPostOrderPath{0U, 1U, 3U, 4U, 2U};
-    PathForTest expectedReversePostOrderPath{2U, 4U, 3U, 1U, 0U};
-    EXPECT_EQ(expectedPreOrderPath, preOrderPathToVerify);
-    EXPECT_EQ(expectedPostOrderPath, postOrderPathToVerify);
-    EXPECT_EQ(expectedReversePostOrderPath, reversePostOrderPathToVerify);
+    VerticesForTest expectedPreOrderVertices{2U, 0U, 1U, 3U, 4U};
+    VerticesForTest expectedPostOrderVertices{0U, 1U, 3U, 4U, 2U};
+    VerticesForTest expectedReversePostOrderVertices{2U, 4U, 3U, 1U, 0U};
+    EXPECT_EQ(expectedPreOrderVertices, preOrderVerticesToVerify);
+    EXPECT_EQ(expectedPostOrderVertices, postOrderVerticesToVerify);
+    EXPECT_EQ(expectedReversePostOrderVertices, reversePostOrderVerticesToVerify);
 }
 
-TEST(VertexOrderingUsingDfsTest, VertexOrderingWorksUsingExample2WithDirectedGraph)
-{
+TEST(VertexOrderingUsingDfsTest, VertexOrderingWorksUsingExample2WithDirectedGraph){
     GraphForTest graph;
     graph.connect(0U, 1U);
-    graph.connect(0U, 5U);
-    graph.connect(0U, 6U);
+    graph.connect(0U, 5U);    graph.connect(0U, 6U);
     graph.connect(2U, 0U);
     graph.connect(2U, 3U);
     graph.connect(3U, 5U);
@@ -72,27 +67,25 @@ TEST(VertexOrderingUsingDfsTest, VertexOrderingWorksUsingExample2WithDirectedGra
     graph.connect(11U, 12U);
     VertexOrderingForTest vertexOrderingWithDfs(graph);
 
-    PathForTest preOrderPathToVerify(vertexOrderingWithDfs.traverseAndGetPath(VertexOrderingForTest::TraverseOrder::PreOrder));
-    PathForTest postOrderPathToVerify(vertexOrderingWithDfs.traverseAndGetPath(VertexOrderingForTest::TraverseOrder::PostOrder));
-    PathForTest reversePostOrderPathToVerify(vertexOrderingWithDfs.traverseAndGetPath(VertexOrderingForTest::TraverseOrder::ReversePostOrder));
+    VerticesForTest preOrderVerticesToVerify(vertexOrderingWithDfs.traverseAndGetVertices(VertexOrderingForTest::TraverseOrder::PreOrder));
+    VerticesForTest postOrderVerticesToVerify(vertexOrderingWithDfs.traverseAndGetVertices(VertexOrderingForTest::TraverseOrder::PostOrder));
+    VerticesForTest reversePostOrderVerticesToVerify(vertexOrderingWithDfs.traverseAndGetVertices(VertexOrderingForTest::TraverseOrder::ReversePostOrder));
 
-    PathForTest expectedPreOrderPath{0U, 1U, 5U, 4U, 6U, 9U, 10U, 11U, 12U, 2U, 3U, 7U, 8U};
-    PathForTest expectedPostOrderPath{1U, 4U, 5U, 10U, 12U, 11U, 9U, 6U, 0U, 3U, 2U, 7U, 8U};
-    PathForTest expectedReversePostOrderPath{8U, 7U, 2U, 3U, 0U, 6U, 9U, 11U, 12U, 10U, 5U, 4U, 1U};
-    EXPECT_EQ(expectedPreOrderPath, preOrderPathToVerify);
-    EXPECT_EQ(expectedPostOrderPath, postOrderPathToVerify);
-    EXPECT_EQ(expectedReversePostOrderPath, reversePostOrderPathToVerify);
+    VerticesForTest expectedPreOrderVertices{0U, 1U, 5U, 4U, 6U, 9U, 10U, 11U, 12U, 2U, 3U, 7U, 8U};
+    VerticesForTest expectedPostOrderVertices{1U, 4U, 5U, 10U, 12U, 11U, 9U, 6U, 0U, 3U, 2U, 7U, 8U};
+    VerticesForTest expectedReversePostOrderVertices{8U, 7U, 2U, 3U, 0U, 6U, 9U, 11U, 12U, 10U, 5U, 4U, 1U};
+    EXPECT_EQ(expectedPreOrderVertices, preOrderVerticesToVerify);
+    EXPECT_EQ(expectedPostOrderVertices, postOrderVerticesToVerify);
+    EXPECT_EQ(expectedReversePostOrderVertices, reversePostOrderVerticesToVerify);
 }
 
-TEST(VertexOrderingUsingDfsTest, GetPathInTopologicalOrderWorksAsInReversePostOrderWithDirectedGraph)
+TEST(VertexOrderingUsingDfsTest, GetVerticesInTopologicalOrderWorksAsInReversePostOrderWithDirectedGraph)
 {
     GraphForTest graph;
-    graph.connect(0U, 1U);
-    graph.connect(0U, 5U);
+    graph.connect(0U, 1U);    graph.connect(0U, 5U);
     graph.connect(0U, 6U);
     graph.connect(2U, 0U);
-    graph.connect(2U, 3U);
-    graph.connect(3U, 5U);
+    graph.connect(2U, 3U);    graph.connect(3U, 5U);
     graph.connect(5U, 4U);
     graph.connect(6U, 4U);
     graph.connect(6U, 9U);
@@ -104,12 +97,11 @@ TEST(VertexOrderingUsingDfsTest, GetPathInTopologicalOrderWorksAsInReversePostOr
     graph.connect(11U, 12U);
     VertexOrderingForTest vertexOrderingWithDfs(graph);
 
-    PathForTest pathToVerify(vertexOrderingWithDfs.getPathInTopologicalOrder());
+    VerticesForTest pathToVerify(vertexOrderingWithDfs.getVerticesInTopologicalOrder());
 
-    PathForTest expectedPath{8U, 7U, 2U, 3U, 0U, 6U, 9U, 11U, 12U, 10U, 5U, 4U, 1U};
-    EXPECT_EQ(expectedPath, pathToVerify);
+    VerticesForTest expectedVertices{8U, 7U, 2U, 3U, 0U, 6U, 9U, 11U, 12U, 10U, 5U, 4U, 1U};
+    EXPECT_EQ(expectedVertices, pathToVerify);
 }
 
 }
-
 }

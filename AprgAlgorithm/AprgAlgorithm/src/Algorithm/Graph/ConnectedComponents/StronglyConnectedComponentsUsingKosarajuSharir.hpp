@@ -71,15 +71,13 @@ private:
         m_numberOfComponentIds = 0U;
         DirectedGraphWithListOfEdgesWithVertex reversedGraph(getReversedGraph(m_graph));
         VertexOrderingUsingDfs<Vertex> vertexOrdering(reversedGraph);
-        for(Vertex const& vertex : vertexOrdering.getPathInTopologicalOrder())
+        for(Vertex const& vertex : vertexOrdering.getVerticesInTopologicalOrder())
         {
             if(m_processedVertices.isNotProcessed(vertex))
-            {
-                traverseUsingDfs(vertex);
+            {                traverseUsingDfs(vertex);
                 m_numberOfComponentIds++;
             }
-        }
-    }
+        }    }
 
     void traverseUsingDfs(Vertex const& vertex)
     {

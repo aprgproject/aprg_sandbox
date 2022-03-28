@@ -16,137 +16,127 @@ class VertexOrderingUsingDfs
 {
 public:
     using BaseGraphWithVertex = BaseGraph<Vertex>;
+    using Vertices = typename GraphTypes<Vertex>::Vertices;
     using SetOfVertices = typename GraphTypes<Vertex>::SetOfVertices;
-    using Path = typename GraphTypes<Vertex>::Path;
     using ProcessedVerticesWithVertex = ProcessedVertices<Vertex>;
 
-    enum class TraverseOrder
-    {
+    enum class TraverseOrder    {
         PreOrder,
         PostOrder,
-        ReversePostOrder,
-    };
+        ReversePostOrder,    };
 
     VertexOrderingUsingDfs(BaseGraphWithVertex const& graph)
         : m_graph(graph)
     {}
 
-    Path traverseAndGetPath(TraverseOrder const traverseOrder)
+    Vertices traverseAndGetVertices(TraverseOrder const traverseOrder)
     {
-        Path traversedPath;
-        traverseStartingFromAllVertices(traversedPath, traverseOrder);
-        reversePathIfNeeded(traversedPath, traverseOrder);
-        return traversedPath;
+        Vertices traversedVertices;
+        traverseStartingFromAllVertices(traversedVertices, traverseOrder);
+        reverseVerticesIfNeeded(traversedVertices, traverseOrder);
+        return traversedVertices;
     }
 
-    Path getPathInTopologicalOrder()
+    Vertices getVerticesInTopologicalOrder()
     {
         //Useful on determining path that checks prerequisites
-        return traverseAndGetPath(TraverseOrder::ReversePostOrder);
+        return traverseAndGetVertices(TraverseOrder::ReversePostOrder);
     }
 
 private:
-
     void clear()
     {
         m_processedVertices.clear();
     }
 
-    void reversePathIfNeeded(Path & traversedPath, TraverseOrder const traverseOrder) const
+    void reverseVerticesIfNeeded(Vertices & traversedVertices, TraverseOrder const traverseOrder) const
     {
         if(TraverseOrder::ReversePostOrder == traverseOrder)
         {
-            Path reversedPath(traversedPath.crbegin(), traversedPath.crend());
-            traversedPath = reversedPath;
+            Vertices reversedVertices(traversedVertices.crbegin(), traversedVertices.crend());
+            traversedVertices = reversedVertices;
         }
     }
 
-    void traverseStartingFromAllVertices(Path & traversedPath, TraverseOrder const traverseOrder)
+    void traverseStartingFromAllVertices(Vertices & traversedVertices, TraverseOrder const traverseOrder)
     {
         clear();
-        for(Vertex const& vertex : m_graph.getVertices())
-        {
+        for(Vertex const& vertex : m_graph.getVertices())        {
             if(m_processedVertices.isNotProcessed(vertex) && !m_graph.getAdjacentVerticesAt(vertex).empty())
             {
-                traverseAt(traversedPath, traverseOrder, vertex);
+                traverseAt(traversedVertices, traverseOrder, vertex);
             }
         }
     }
 
-    void traverseAt(Path & traversedPath, TraverseOrder const traverseOrder, Vertex const& startVertex)
+    void traverseAt(Vertices & traversedVertices, TraverseOrder const traverseOrder, Vertex const& startVertex)
     {
         switch(traverseOrder)
         {
         case TraverseOrder::PreOrder:
         {
-            traversePreOrderAt(traversedPath, startVertex);
+            traversePreOrderAt(traversedVertices, startVertex);
             break;
         }
         case TraverseOrder::PostOrder:
         {
-            traversePostOrderAt(traversedPath, startVertex);
+            traversePostOrderAt(traversedVertices, startVertex);
             break;
         }
         case TraverseOrder::ReversePostOrder:
         {
-            traverseReversePostOrderAt(traversedPath, startVertex);
+            traverseReversePostOrderAt(traversedVertices, startVertex);
             break;
         }
         }
     }
 
-    void traversePreOrderAt(Path & traversedPath, Vertex const& startVertex)
+    void traversePreOrderAt(Vertices & traversedVertices, Vertex const& startVertex)
     {
-        traversedPath.emplace_back(startVertex);
+        traversedVertices.emplace_back(startVertex);
 
         m_processedVertices.putVertexAsProcessed(startVertex);
-        for(Vertex const& adjacentVertex : m_graph.getAdjacentVerticesAt(startVertex))
-        {
+        for(Vertex const& adjacentVertex : m_graph.getAdjacentVerticesAt(startVertex))        {
             if(m_processedVertices.isNotProcessed(adjacentVertex))
             {
-                traversePreOrderAt(traversedPath, adjacentVertex);
+                traversePreOrderAt(traversedVertices, adjacentVertex);
             }
         }
     }
 
-    void traversePostOrderAt(Path & traversedPath, Vertex const& startVertex)
+    void traversePostOrderAt(Vertices & traversedVertices, Vertex const& startVertex)
     {
         m_processedVertices.putVertexAsProcessed(startVertex);
-        for(Vertex const& adjacentVertex : m_graph.getAdjacentVerticesAt(startVertex))
-        {
+        for(Vertex const& adjacentVertex : m_graph.getAdjacentVerticesAt(startVertex))        {
             if(m_processedVertices.isNotProcessed(adjacentVertex))
             {
-                traversePostOrderAt(traversedPath, adjacentVertex);
+                traversePostOrderAt(traversedVertices, adjacentVertex);
             }
         }
 
-        traversedPath.emplace_back(startVertex);
+        traversedVertices.emplace_back(startVertex);
     }
 
-    void traverseReversePostOrderAt(Path & traversedPath, Vertex const& startVertex)
+    void traverseReversePostOrderAt(Vertices & traversedVertices, Vertex const& startVertex)
     {
         m_processedVertices.putVertexAsProcessed(startVertex);
-
         // Traversing adjacents in order results in higher vertices to be first in the list after reversal
         // Reverse the traversal of adjacents is not fine either
-        // Vertices adjacentVertices(m_graph.getAdjacentVerticesAt(startVertex));
-        // std::for_each(adjacentVertices.crbegin(), adjacentVertices.crend(), [&](Vertex const& adjacentVertex)
+        // Vertices adjacentVertices(m_graph.getAdjacentVerticesAt(startVertex));        // std::for_each(adjacentVertices.crbegin(), adjacentVertices.crend(), [&](Vertex const& adjacentVertex)
 
         for(Vertex const& adjacentVertex : m_graph.getAdjacentVerticesAt(startVertex))
         {
             if(m_processedVertices.isNotProcessed(adjacentVertex))
             {
-                traverseReversePostOrderAt(traversedPath, adjacentVertex);
+                traverseReversePostOrderAt(traversedVertices, adjacentVertex);
             }
         }
 
-        traversedPath.emplace_back(startVertex);
+        traversedVertices.emplace_back(startVertex);
     }
 
-    BaseGraphWithVertex const& m_graph;
-    ProcessedVerticesWithVertex m_processedVertices;
+    BaseGraphWithVertex const& m_graph;    ProcessedVerticesWithVertex m_processedVertices;
 };
 
 }
-
 }

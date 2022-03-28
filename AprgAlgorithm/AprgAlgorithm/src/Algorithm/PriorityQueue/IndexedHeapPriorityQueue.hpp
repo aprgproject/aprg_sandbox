@@ -5,15 +5,10 @@
 #include <utility>
 #include <vector>
 
-
-#include <Common/Debug/AlbaDebug.hpp>
-
 namespace alba
 {
-
 namespace algorithm
 {
-
 namespace IndexedHeapPriorityQueueConstants
 {
 constexpr unsigned int INDEX_OF_TOP_TREE=1U;
