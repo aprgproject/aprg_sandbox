@@ -26,18 +26,21 @@ private:
     void searchForShortestPath()
     {
         Vertex const& startVertex(this->m_startVertex);
-        SetOfVerticesWithWeight & foundVerticesOrderedByWeight(this->m_foundVerticesOrderedByWeight);
-        foundVerticesOrderedByWeight.emplace(startVertex, Weight{}); // start vertex with weight zero for start
-        while(!foundVerticesOrderedByWeight.empty())
+        m_foundVerticesOrderedByWeight.emplace(startVertex, Weight{}); // start vertex with weight zero for start
+        while(!m_foundVerticesOrderedByWeight.empty())
         {
-            auto nearestVertexIt(foundVerticesOrderedByWeight.cbegin());
+            auto nearestVertexIt(m_foundVerticesOrderedByWeight.cbegin());
             auto nearestVertex(*nearestVertexIt);
-            foundVerticesOrderedByWeight.erase(nearestVertexIt);
-            this->relaxAt(nearestVertex.vertex);
+            m_foundVerticesOrderedByWeight.erase(nearestVertexIt);
+            this->relaxAt(nearestVertex.vertex, [&](Vertex const&, Vertex const& destinationVertex, Weight const& lowestWeight)
+            {
+                m_foundVerticesOrderedByWeight.emplace(destinationVertex, lowestWeight);
+            });
         }
     }
 
+    SetOfVerticesWithWeight m_foundVerticesOrderedByWeight;
+
 };
 
-}
-}
+}}
