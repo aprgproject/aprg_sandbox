@@ -16,6 +16,7 @@ using VerticesForTest = GraphTypes<VertexForTest>::Vertices;
 using GraphForTest = DirectedGraphWithListOfEdges<VertexForTest>;
 using VertexOrderingForTest = VertexOrderingUsingDfs<VertexForTest>;
 }
+
 TEST(VertexOrderingUsingDfsTest, VertexOrderingWorksWhenGraphIsEmptyWithDirectedGraph)
 {
     GraphForTest graph;
@@ -30,10 +31,12 @@ TEST(VertexOrderingUsingDfsTest, VertexOrderingWorksWhenGraphIsEmptyWithDirected
     EXPECT_TRUE(reversePostOrderVerticesToVerify.empty());
 }
 
-TEST(VertexOrderingUsingDfsTest, VertexOrderingWorksUsingExample1WithDirectedGraph){
+TEST(VertexOrderingUsingDfsTest, VertexOrderingWorksUsingExample1WithDirectedGraph)
+{
     GraphForTest graph;
     graph.connect(2U, 0U);
-    graph.connect(2U, 1U);    graph.connect(2U, 3U);
+    graph.connect(2U, 1U);
+    graph.connect(2U, 3U);
     graph.connect(2U, 4U);
     VertexOrderingForTest vertexOrderingWithDfs(graph);
 
@@ -49,10 +52,12 @@ TEST(VertexOrderingUsingDfsTest, VertexOrderingWorksUsingExample1WithDirectedGra
     EXPECT_EQ(expectedReversePostOrderVertices, reversePostOrderVerticesToVerify);
 }
 
-TEST(VertexOrderingUsingDfsTest, VertexOrderingWorksUsingExample2WithDirectedGraph){
+TEST(VertexOrderingUsingDfsTest, VertexOrderingWorksUsingExample2WithDirectedGraph)
+{
     GraphForTest graph;
     graph.connect(0U, 1U);
-    graph.connect(0U, 5U);    graph.connect(0U, 6U);
+    graph.connect(0U, 5U);
+    graph.connect(0U, 6U);
     graph.connect(2U, 0U);
     graph.connect(2U, 3U);
     graph.connect(3U, 5U);
@@ -82,10 +87,12 @@ TEST(VertexOrderingUsingDfsTest, VertexOrderingWorksUsingExample2WithDirectedGra
 TEST(VertexOrderingUsingDfsTest, GetVerticesInTopologicalOrderWorksAsInReversePostOrderWithDirectedGraph)
 {
     GraphForTest graph;
-    graph.connect(0U, 1U);    graph.connect(0U, 5U);
+    graph.connect(0U, 1U);
+    graph.connect(0U, 5U);
     graph.connect(0U, 6U);
     graph.connect(2U, 0U);
-    graph.connect(2U, 3U);    graph.connect(3U, 5U);
+    graph.connect(2U, 3U);
+    graph.connect(3U, 5U);
     graph.connect(5U, 4U);
     graph.connect(6U, 4U);
     graph.connect(6U, 9U);
@@ -104,4 +111,5 @@ TEST(VertexOrderingUsingDfsTest, GetVerticesInTopologicalOrderWorksAsInReversePo
 }
 
 }
+
 }

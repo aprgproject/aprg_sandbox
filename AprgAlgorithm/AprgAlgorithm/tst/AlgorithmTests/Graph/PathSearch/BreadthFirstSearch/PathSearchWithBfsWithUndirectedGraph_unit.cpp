@@ -50,7 +50,7 @@ TEST(PathSearchUsingBfsTest, GetOrderedPathToWorksWithUndirectedGraph)
     putConnectionsForTest(graph);
     PathSearchForTest pathSearch(graph, 0U);
 
-    PathForTest pathWith0{0U};
+    PathForTest pathWith0;
     PathForTest pathWith1{0U, 1U};
     PathForTest pathWith2{0U, 2U};
     PathForTest pathWith3{0U, 2U, 3U};
@@ -77,7 +77,7 @@ TEST(PathSearchUsingBfsTest, ReinitializeStartingFromWorksWithUndirectedGraph)
     PathForTest pathWith0{3U, 2U, 0U};
     PathForTest pathWith1{3U, 2U, 1U};
     PathForTest pathWith2{3U, 2U};
-    PathForTest pathWith3{3U};
+    PathForTest pathWith3;
     PathForTest pathWith4{3U, 4U};
     PathForTest pathWith5{3U, 5U};
     EXPECT_EQ(pathWith0, pathSearch.getShortestPathTo(0U));

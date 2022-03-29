@@ -52,18 +52,18 @@ TEST(GraphUtilitiesTest, IsDirectedAcyclicGraphWorks)
     undirectedGraph.connect(0U, 1U);
     undirectedGraph.connect(1U, 2U);
     undirectedGraph.connect(2U, 0U);
-    DirectedGraphForTest graphWithoutCycle;
-    graphWithoutCycle.connect(0U, 1U);
-    graphWithoutCycle.connect(0U, 2U);
-    graphWithoutCycle.connect(0U, 3U);
     DirectedGraphForTest graphWithCycle;
     graphWithCycle.connect(0U, 1U);
     graphWithCycle.connect(1U, 2U);
     graphWithCycle.connect(2U, 0U);
+    DirectedGraphForTest graphWithoutCycle;
+    graphWithoutCycle.connect(0U, 1U);
+    graphWithoutCycle.connect(0U, 2U);
+    graphWithoutCycle.connect(0U, 3U);
 
     EXPECT_FALSE(GraphUtilitiesForTest::isDirectedAcyclicGraph(undirectedGraph));
-    EXPECT_FALSE(GraphUtilitiesForTest::isDirectedAcyclicGraph(graphWithoutCycle));
-    EXPECT_TRUE(GraphUtilitiesForTest::isDirectedAcyclicGraph(graphWithCycle));
+    EXPECT_FALSE(GraphUtilitiesForTest::isDirectedAcyclicGraph(graphWithCycle));
+    EXPECT_TRUE(GraphUtilitiesForTest::isDirectedAcyclicGraph(graphWithoutCycle));
 }
 
 TEST(GraphUtilitiesTest, HasAnyCyclesOnGraphWorks)

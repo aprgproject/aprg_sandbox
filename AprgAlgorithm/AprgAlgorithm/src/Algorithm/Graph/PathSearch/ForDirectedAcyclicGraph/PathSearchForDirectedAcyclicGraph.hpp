@@ -11,11 +11,11 @@ namespace alba
 namespace algorithm
 {
 
-template <typename Vertex, typename Weight, typename EdgeWeightedGraph>
-class PathSearchForDirectedAcyclicGraph : public BasePathSearchForDijkstraAndDag<Vertex, Weight, EdgeWeightedGraph>
+template <typename Vertex, typename Weight, typename EdgeWeightedGraph, template<class> class ComparisonTemplateType>
+class PathSearchForDirectedAcyclicGraph : public BasePathSearchForDijkstraAndDag<Vertex, Weight, EdgeWeightedGraph, ComparisonTemplateType>
 {
 public:
-    using BaseClass = BasePathSearchForDijkstraAndDag<Vertex, Weight, EdgeWeightedGraph>;
+    using BaseClass = BasePathSearchForDijkstraAndDag<Vertex, Weight, EdgeWeightedGraph, ComparisonTemplateType>;
     using Vertices = typename GraphTypes<Vertex>::Vertices;
     using GraphUtilitiesWithVertex = GraphUtilities<Vertex>;
     using VertexOrderingUsingDfsWithVertex = VertexOrderingUsingDfs<Vertex>;
@@ -23,20 +23,20 @@ public:
     PathSearchForDirectedAcyclicGraph(EdgeWeightedGraph const& graph, Vertex const& startVertex)
         : BaseClass(graph, startVertex)
     {
-        searchForShortestPathIfPossible();
+        searchForPathIfPossible();
     }
 
 private:
 
-    void searchForShortestPathIfPossible()
+    void searchForPathIfPossible()
     {
         if(GraphUtilitiesWithVertex::isDirectedAcyclicGraph(this->m_graph))
         {
-            searchForShortestPath();
+            searchForPath();
         }
     }
 
-    void searchForShortestPath()
+    void searchForPath()
     {
         VertexOrderingUsingDfsWithVertex vertexOrdering(this->m_graph);
         Vertices verticesInTopologicalOrder(vertexOrdering.getVerticesInTopologicalOrder());

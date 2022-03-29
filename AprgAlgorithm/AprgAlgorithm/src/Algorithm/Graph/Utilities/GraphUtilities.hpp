@@ -75,7 +75,7 @@ struct GraphUtilities
         // A directed acyclic graph (DAG) is a digraph with no directed cycles
 
         return GraphDirectionType::Directed == graph.getGraphDirectionType()
-                 && hasAnyCyclesOnGraph(graph);
+                 && !hasAnyCyclesOnGraph(graph);
     }
 
     static bool hasAnyCyclesOnGraph(BaseGraphWithVertex const& graph)

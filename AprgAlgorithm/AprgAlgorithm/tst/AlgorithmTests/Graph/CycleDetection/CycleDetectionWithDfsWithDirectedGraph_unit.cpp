@@ -111,6 +111,54 @@ TEST(CycleDetectionUsingDfsTest, CycleDetectionWorksUsingExample3WithDirectedGra
     EXPECT_EQ(expectedCyclePath, cycleDetectionWithDfs.getPathWithCycle());
 }
 
+TEST(CycleDetectionUsingDfsTest, CycleDetectionWorksUsingExample4WithDirectedGraph)
+{
+    GraphForTest graph;
+    graph.connect(0U, 2U);
+    graph.connect(0U, 4U);
+    graph.connect(1U, 3U);
+    graph.connect(2U, 7U);
+    graph.connect(3U, 6U);
+    graph.connect(4U, 5U);
+    graph.connect(4U, 7U);
+    graph.connect(5U, 1U);
+    graph.connect(5U, 4U);
+    graph.connect(5U, 7U);
+    graph.connect(6U, 0U);
+    graph.connect(6U, 2U);
+    graph.connect(6U, 4U);
+    graph.connect(7U, 3U);
+    graph.connect(7U, 5U);
+    CycleDetectionForTest cycleDetectionWithDfs(graph);
+
+    cycleDetectionWithDfs.checkForCycles();
+
+    EXPECT_TRUE(cycleDetectionWithDfs.hasCycle());
+    PathForTest expectedCyclePath{0U, 2U, 7U, 3U, 6U, 0U};
+    EXPECT_EQ(expectedCyclePath, cycleDetectionWithDfs.getPathWithCycle());
+}
+
+TEST(CycleDetectionUsingDfsTest, CycleDetectionWorksUsingExample5WithDirectedGraph)
+{
+    GraphForTest graph;
+    graph.connect(0U, 2U);
+    graph.connect(0U, 4U);
+    graph.connect(1U, 3U);
+    graph.connect(2U, 7U);
+    graph.connect(3U, 6U);
+    graph.connect(4U, 5U);
+    graph.connect(4U, 7U);
+    graph.connect(5U, 1U);
+    graph.connect(5U, 7U);
+    graph.connect(7U, 3U);
+    CycleDetectionForTest cycleDetectionWithDfs(graph);
+
+    cycleDetectionWithDfs.checkForCycles();
+
+    EXPECT_FALSE(cycleDetectionWithDfs.hasCycle());
+    EXPECT_TRUE(cycleDetectionWithDfs.getPathWithCycle().empty());
+}
+
 }
 
 }

@@ -33,7 +33,7 @@ public:
 
     Path getPathTo(Vertex const& endVertex) const
     {
-        bool isSuccessful(true);
+        bool shouldReverse(endVertex != m_startVertex);
         Vertex currentVertex = endVertex;
         Path reversedPath;
         while(currentVertex != m_startVertex)
@@ -46,12 +46,12 @@ public:
             }
             else
             {
-                isSuccessful = false;
+                shouldReverse = false;
                 break;
             }
         }
         Path result;
-        if(isSuccessful)
+        if(shouldReverse)
         {
             reversedPath.emplace_back(m_startVertex);
             result.reserve(reversedPath.size());

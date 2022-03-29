@@ -50,7 +50,7 @@ TEST(PathSearchUsingBfsTest, GetOrderedPathToWorksWithDirectedGraph)
     putConnectionsForTest(graph);
     PathSearchForTest pathSearch(graph, 0U);
 
-    PathForTest pathWith0{0U};
+    PathForTest pathWith0;
     PathForTest pathWith1{0U, 1U};
     PathForTest pathWith2{0U, 2U};
     PathForTest pathWith3{0U, 2U, 3U};
@@ -75,7 +75,7 @@ TEST(PathSearchUsingBfsTest, ReinitializeStartingFromWorksWithDirectedGraph)
     pathSearch.reinitializeStartingFrom(2U);
 
     PathForTest pathWith1{2U, 1U};
-    PathForTest pathWith2{2U};
+    PathForTest pathWith2;
     PathForTest pathWith3{2U, 3U};
     PathForTest pathWith4{2U, 4U};
     PathForTest pathWith5{2U, 3U, 5U};

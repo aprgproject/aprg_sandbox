@@ -7,8 +7,10 @@
 
 namespace alba
 {
+
 namespace algorithm
 {
+
 namespace IndexedHeapPriorityQueueConstants
 {
 constexpr unsigned int INDEX_OF_TOP_TREE=1U;
