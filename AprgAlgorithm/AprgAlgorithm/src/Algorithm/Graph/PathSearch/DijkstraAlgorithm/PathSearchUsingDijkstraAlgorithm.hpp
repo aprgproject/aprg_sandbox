@@ -2,28 +2,23 @@
 
 #include <Algorithm/Graph/PathSearch/Common/BasePathSearchForDijkstraAndDag.hpp>
 #include <Algorithm/Graph/Types/GraphTypes.hpp>
-#include <Algorithm/Graph/Utilities/GraphUtilities.hpp>
+#include <Algorithm/Graph/Utilities/GraphUtilitiesHeaders.hpp>
 
 namespace alba
 {
-
 namespace algorithm
 {
-
 template <typename Vertex, typename Weight, typename EdgeWeightedGraph, template<class> class ComparisonTemplateType>
 class PathSearchUsingDijkstraAlgorithm : public BasePathSearchForDijkstraAndDag<Vertex, Weight, EdgeWeightedGraph, ComparisonTemplateType>
 {
 public:
     using BaseClass = BasePathSearchForDijkstraAndDag<Vertex, Weight, EdgeWeightedGraph, ComparisonTemplateType>;
     using SetOfVerticesWithWeight = typename GraphTypesWithWeights<Vertex, Weight>::SetOfVerticesWithWeight;
-    using GraphUtilitiesWithVertex = GraphUtilities<Vertex>;
 
     PathSearchUsingDijkstraAlgorithm(EdgeWeightedGraph const& graph, Vertex const& startVertex)
-        : BaseClass(graph, startVertex)
-    {
+        : BaseClass(graph, startVertex)    {
         searchForPathIfPossible();
     }
-
 private:
 
     bool isComparisonLessThan() const
@@ -35,15 +30,13 @@ private:
     void searchForPathIfPossible()
     {
         if(isComparisonLessThan()
-                || GraphUtilitiesWithVertex::isDirectedAcyclicGraph(this->m_graph))
+                || GraphUtilities::isDirectedAcyclicGraph(this->m_graph))
         {
             searchForPath();
-        }
-    }
+        }    }
 
     void searchForPath()
-    {
-        Vertex const& startVertex(this->m_startVertex);
+    {        Vertex const& startVertex(this->m_startVertex);
         m_foundVerticesOrderedByWeight.emplace(startVertex, Weight{}); // start vertex with weight zero for start
         while(!m_foundVerticesOrderedByWeight.empty())
         {

@@ -1,227 +1,260 @@
 #pragma once
 
-#include <Algorithm/Graph/BaseGraph.hpp>
 #include <Algorithm/Graph/CycleDetection/CycleDetectionUsingDfs.hpp>
 #include <Algorithm/Graph/ConnectedComponents/ConnectedComponentsUsingDfs.hpp>
 #include <Algorithm/Graph/ConnectedComponents/StronglyConnectedComponentsUsingKosarajuSharir.hpp>
-#include <Algorithm/Graph/DirectedGraph/BaseDirectedGraph.hpp>
 #include <Algorithm/Graph/EdgeWeightedGraph/EdgeWeightedGraph.hpp>
-#include <Algorithm/Graph/UndirectedGraph/BaseUndirectedGraph.hpp>
+#include <Algorithm/Graph/PathSearch/ForDirectedAcyclicGraph/PathSearchForDirectedAcyclicGraph.hpp>
 #include <Algorithm/Graph/Utilities/BipartiteCheckerUsingDfs.hpp>
+#include <Algorithm/Graph/Utilities/GraphUtilitiesHeaders.hpp>
 #include <Algorithm/UnionFind/BaseUnionFind.hpp>
 #include <Algorithm/UnionFind/UnionFindUsingMap.hpp>
-
 #include <algorithm>
 #include <set>
-
 namespace alba
 {
 
 namespace algorithm
 {
 
-template<typename Vertex>
-struct GraphUtilities
+namespace GraphUtilities
 {
-    using BaseGraphWithVertex = BaseGraph<Vertex>;
-    using BaseDirectedGraphWithVertex = BaseDirectedGraph<Vertex>;
-    using BaseUndirectedGraphWithVertex = BaseUndirectedGraph<Vertex>;
-    using BaseUnionFindWithVertex = BaseUnionFind<Vertex>;
-    using Vertices = typename GraphTypes<Vertex>::Vertices;
-    using SetOfVertices = typename GraphTypes<Vertex>::SetOfVertices;
+
+namespace
+{
+// utilities in utilities
+template <typename Vertex>
+void putEdgesToUnionFind(BaseUnionFind<Vertex> & unionFind, typename GraphTypes<Vertex>::Edges const& edges)
+{
     using Edge = typename GraphTypes<Vertex>::Edge;
-    using Edges = typename GraphTypes<Vertex>::Edges;
-    using ListOfEdges = typename GraphTypes<Vertex>::ListOfEdges;
+    for(Edge const& edge : edges)
+    {
+        unionFind.connect(edge.first, edge.second);
+    }
+}
+
+template <typename Vertex>
+void putGraphToUnionFind(BaseUnionFind<Vertex> & unionFind, BaseGraph<Vertex> const& graph)
+{
+    putEdgesToUnionFind(unionFind, graph.getEdges());
+}
+}
+
+template <typename Vertex>
+bool isASimplePath(typename GraphTypes<Vertex>::Path const& path)
+{
+    // A simple path is one with no repeated vertices;
+
+    std::set<Vertex> uniqueVertices;
+    copy(path.cbegin(), path.cend(), inserter(uniqueVertices, uniqueVertices.cbegin()));
+    return uniqueVertices.size() == path.size();
+}
+
+template <typename Vertex>
+bool isACycle(typename GraphTypes<Vertex>::Path const& path)
+{
+    // A cycle is a path with at least one edge whose first and last vertices are the same.
+
+    bool result(false);
+    if(!path.empty())
+    {
+        Vertex const& first(path.front());
+        Vertex const& last(path.back());
+        result = first == last;
+    }
+    return result;
+}
+
+template <typename Vertex>
+bool isASimpleCycle(typename GraphTypes<Vertex>::Path const& path)
+{
+    // A simple cycle is a cycle with no repeated edges or vertices (except the requisite repetition of the first and last vertices).
+
     using Path = typename GraphTypes<Vertex>::Path;
 
-    static bool isASimplePath(Path const& path)
+    bool result(false);
+    if(!path.empty() && isACycle<Vertex>(path))
     {
-        // A simple path is one with no repeated vertices;
-
-        std::set<Vertex> uniqueVertices;
-        copy(path.cbegin(), path.cend(), inserter(uniqueVertices, uniqueVertices.cbegin()));
-        return uniqueVertices.size() == path.size();
+        Path pathWithOutEnd(path.cbegin(), path.cbegin()+path.size()-1);
+        result = isASimplePath<Vertex>(pathWithOutEnd);
     }
+    return result;
+}
 
-    static bool isACycle(Path const& path)
+template <typename Vertex>
+bool isDirectedAcyclicGraph(BaseGraph<Vertex> const& graph)
+{
+    // A directed acyclic graph (DAG) is a digraph with no directed cycles
+
+    return GraphDirectionType::Directed == graph.getGraphDirectionType()
+            && !hasAnyCyclesOnGraph(graph);
+}
+
+template <typename Vertex>
+bool hasAnyCyclesOnGraph(BaseGraph<Vertex> const& graph)
+{
+    CycleDetectionUsingDfs<Vertex> cycleDetection(graph);
+    cycleDetection.checkForCycles();
+    return cycleDetection.hasCycle();
+}
+
+template <typename Vertex>
+bool isATree(BaseUndirectedGraph<Vertex> const& graph)
+{
+    // A tree is an acyclic connected graph.
+
+    return !hasAnyCyclesOnGraph(graph) && isGraphConnected(graph);
+}
+
+template <typename Vertex>
+bool isAForest(BaseUndirectedGraph<Vertex> const& graph)
+{
+    // A disjoint set of trees is called a forest
+
+    return !hasAnyCyclesOnGraph(graph) && !isGraphConnected(graph);
+}
+
+template <typename Vertex>
+bool isASpanningTree(
+        BaseUndirectedGraph<Vertex> const& mainGraph,
+        BaseUndirectedGraph<Vertex> const& subGraphToCheck)
+{
+    // A spanning tree of a connected graph is a subgraph that contains all fo the graphs' vertices and is a single tree
+    // Note: It should be a subgraph.
+
+    return isATree(subGraphToCheck)
+            && mainGraph.getVertices() == subGraphToCheck.getVertices();
+}
+
+template <typename Vertex>
+bool isASpanningForest(
+        BaseUndirectedGraph<Vertex> const& mainGraph,
+        BaseUndirectedGraph<Vertex> const& subGraphToCheck)
+{
+    // A spanning forest of graph is the union of spanning trees of its connected components
+    // Note: It should be a subgraph.
+
+    return isAForest(subGraphToCheck)
+            && mainGraph.getVertices() == subGraphToCheck.getVertices();
+}
+
+template <typename Vertex>
+bool isGraphConnected(BaseUndirectedGraph<Vertex> const& graph)
+{
+    // A graph is connected if there is a path from every vertex to every other vertex in the graph.
+    // This is used for undirected graphs.
+
+    ConnectedComponentsUsingDfs<Vertex> connectedComponents(graph);
+    return 1U == connectedComponents.getNumberOfComponentIds();
+}
+
+template <typename Vertex>
+bool isGraphStronglyConnected(BaseDirectedGraph<Vertex> const& graph)
+{
+    // Two vertices v and w are strongly connected if they are mutually reachable (so there is a v to w and w to v)
+    // A directed graph is strongly connected if all its vertices are strongly connected to one another
+
+    StronglyConnectedComponentsUsingKosarajuSharir<Vertex> connectedComponents(graph);
+    return 1U == connectedComponents.getNumberOfComponentIds();
+}
+
+template <typename Vertex>
+bool isBipartite(BaseUndirectedGraph<Vertex> const& graph)
+{
+    // A bipartite is a graph whose vertices we can divide into two sets
+    // such that all edges connect a vertex in one set with a vertex in the other set.
+    // In short, you can split the vertices in two groups and all edges should bridge the two groups
+
+    return BipartiteCheckerUsingDfs<Vertex>(graph).isBipartite();
+}
+
+template <typename Vertex>
+unsigned int getDegreeAt(BaseGraph<Vertex> const& graph, Vertex const& vertex)
+{
+    return graph.getAdjacentVerticesAt(vertex).size();
+}
+
+template <typename Vertex>
+unsigned int getMaxDegree(BaseGraph<Vertex> const& graph)
+{
+    unsigned int result(0);
+    for(Vertex const& vertex : graph.getVertices())
     {
-        // A cycle is a path with at least one edge whose first and last vertices are the same.
+        result = std::max(result, getDegreeAt(graph, vertex));
+    }
+    return result;
+}
 
-        bool result(false);
-        if(!path.empty())
+template <typename Vertex>
+double getAverageDegree(BaseGraph<Vertex> const& graph)
+{
+    return static_cast<double>(graph.getNumberOfEdges()) / graph.getNumberOfVertices() * 2;
+}
+
+template <typename Vertex>
+unsigned int getNumberOfSelfLoops(BaseGraph<Vertex> const& graph)
+{
+    using Edge = typename GraphTypes<Vertex>::Edge;
+    unsigned int count(0);
+    for(Edge const& edge : graph.getEdges())
+    {
+        if(edge.first == edge.second)
         {
-            Vertex const& first(path.front());
-            Vertex const& last(path.back());
-            result = first == last;
+            count++;
         }
-        return result;
     }
+    return count;
+}
 
-    static bool isASimpleCycle(Path const& path)
+template<typename Vertex, typename Weight, typename EdgeWeightedGraphType>
+typename GraphTypes<Vertex>::Path getCriticalPath(
+        EdgeWeightedGraphType const& graph,
+        Vertex const& sourceVertex,
+        Vertex const& destinationVertex)
+{
+    using Path = typename GraphTypes<Vertex>::Path;
+
+    Path result;
+    if(isDirectedAcyclicGraph(graph))
     {
-        // A simple cycle is a cycle with no repeated edges or vertices (except the requisite repetition of the first and last vertices).
+        // Longest path using greater comparison
+        PathSearchForDirectedAcyclicGraph<Vertex, Weight, EdgeWeightedGraphType, std::greater> pathSearch(graph, sourceVertex);
+        result = pathSearch.getPathTo(destinationVertex);
+    }
+    return result;
+}
 
-        bool result(false);
-        if(!path.empty() && isACycle(path))
+template <typename Vertex>
+typename GraphTypes<Vertex>::ListOfEdges getEdgesOfMaximalConnectedSubgraphs(BaseUndirectedGraph<Vertex> const& graph)
+{
+    // A graph that is not connected (see isGraphConnected) consists of a set of connected components which are maximal connected subgraphs.
+
+    using Edges = typename GraphTypes<Vertex>::Edges;
+    using ListOfEdges = typename GraphTypes<Vertex>::ListOfEdges;
+
+    UnionFindUsingMap<Vertex> unionFind;
+    putGraphToUnionFind(unionFind, graph);
+    std::map<Vertex, Edges> rootToEdgeMap;
+    for(Vertex const& vertex : graph.getVertices())
+    {
+        Vertex root(unionFind.getRoot(vertex));
+        for(Vertex const& adjacentVertex : graph.getAdjacentVerticesAt(vertex))
         {
-            Path pathWithOutEnd(path.cbegin(), path.cbegin()+path.size()-1);
-            result = isASimplePath(pathWithOutEnd);
-        }
-        return result;
-    }
-
-    static bool isDirectedAcyclicGraph(BaseGraphWithVertex const& graph)
-    {
-        // A directed acyclic graph (DAG) is a digraph with no directed cycles
-
-        return GraphDirectionType::Directed == graph.getGraphDirectionType()
-                 && !hasAnyCyclesOnGraph(graph);
-    }
-
-    static bool hasAnyCyclesOnGraph(BaseGraphWithVertex const& graph)
-    {
-        CycleDetectionUsingDfs<Vertex> cycleDetection(graph);
-        cycleDetection.checkForCycles();
-        return cycleDetection.hasCycle();
-    }
-
-    static bool isATree(BaseUndirectedGraphWithVertex const& graph)
-    {
-        // A tree is an acyclic connected graph.
-
-        return !hasAnyCyclesOnGraph(graph) && isGraphConnected(graph);
-    }
-
-    static bool isAForest(BaseUndirectedGraphWithVertex const& graph)
-    {
-        // A disjoint set of trees is called a forest
-
-        return !hasAnyCyclesOnGraph(graph) && !isGraphConnected(graph);
-    }
-
-    static bool isASpanningTree(
-            BaseUndirectedGraphWithVertex const& mainGraph,
-            BaseUndirectedGraphWithVertex const& subGraphToCheck)
-    {
-        // A spanning tree of a connected graph is a subgraph that contains all fo the graphs' vertices and is a single tree
-        // Note: It should be a subgraph.
-
-        return isATree(subGraphToCheck)
-                && mainGraph.getVertices() == subGraphToCheck.getVertices();
-    }
-
-    static bool isASpanningForest(
-            BaseUndirectedGraphWithVertex const& mainGraph,
-            BaseUndirectedGraphWithVertex const& subGraphToCheck)
-    {
-        // A spanning forest of graph is the union of spanning trees of its connected components
-        // Note: It should be a subgraph.
-
-        return isAForest(subGraphToCheck)
-                && mainGraph.getVertices() == subGraphToCheck.getVertices();
-    }
-
-    static bool isGraphConnected(BaseUndirectedGraphWithVertex const& graph)
-    {
-        // A graph is connected if there is a path from every vertex to every other vertex in the graph.
-        // This is used for undirected graphs.
-
-        ConnectedComponentsUsingDfs<Vertex> connectedComponents(graph);
-        return 1U == connectedComponents.getNumberOfComponentIds();
-    }
-
-    static bool isGraphStronglyConnected(BaseDirectedGraphWithVertex const& graph)
-    {
-        // Two vertices v and w are strongly connected if they are mutually reachable (so there is a v to w and w to v)
-        // A directed graph is strongly connected if all its vertices are strongly connected to one another
-
-        StronglyConnectedComponentsUsingKosarajuSharir<Vertex> connectedComponents(graph);
-        return 1U == connectedComponents.getNumberOfComponentIds();
-    }
-
-    static bool isBipartite(BaseUndirectedGraphWithVertex const& graph)
-    {
-        // A bipartite is a graph whose vertices we can divide into two sets
-        // such that all edges connect a vertex in one set with a vertex in the other set.
-        // In short, you can split the vertices in two groups and all edges should bridge the two groups
-
-        return BipartiteCheckerUsingDfs<Vertex>(graph).isBipartite();
-    }
-
-    static unsigned int getDegreeAt(BaseGraphWithVertex const& graph, Vertex const& vertex)
-    {
-        return graph.getAdjacentVerticesAt(vertex).size();
-    }
-
-    static unsigned int getMaxDegree(BaseGraphWithVertex const& graph)
-    {
-        unsigned int result(0);
-        for(Vertex const& vertex : graph.getVertices())
-        {
-            result = std::max(result, getDegreeAt(graph, vertex));
-        }
-        return result;
-    }
-
-    static double getAverageDegree(BaseGraphWithVertex const& graph)
-    {
-        return static_cast<double>(graph.getNumberOfEdges()) / graph.getNumberOfVertices() * 2;
-    }
-
-    static unsigned int getNumberOfSelfLoops(BaseGraphWithVertex const& graph)
-    {
-        unsigned int count(0);
-        for(Edge const& edge : graph.getEdges())
-        {
-            if(edge.first == edge.second)
+            if(vertex <= adjacentVertex)
             {
-                count++;
+                rootToEdgeMap[root].emplace_back(vertex, adjacentVertex);
             }
         }
-        return count;
     }
-
-    static ListOfEdges getEdgesOfMaximalConnectedSubgraphs(BaseUndirectedGraphWithVertex const& graph)
+    ListOfEdges result;
+    for(auto const& rootAndEdgesPair : rootToEdgeMap)
     {
-        // A graph that is not connected (see isGraphConnected) consists of a set of connected components which are maximal connected subgraphs.
-
-        UnionFindUsingMap<Vertex> unionFind;
-        putGraphToUnionFind(unionFind, graph);
-        std::map<Vertex, Edges> rootToEdgeMap;
-        for(Vertex const& vertex : graph.getVertices())
-        {
-            Vertex root(unionFind.getRoot(vertex));
-            for(Vertex const& adjacentVertex : graph.getAdjacentVerticesAt(vertex))
-            {
-                if(vertex <= adjacentVertex)
-                {
-                    rootToEdgeMap[root].emplace_back(vertex, adjacentVertex);
-                }
-            }
-        }
-        ListOfEdges result;
-        for(auto const& rootAndEdgesPair : rootToEdgeMap)
-        {
-            result.emplace_back(rootAndEdgesPair.second);
-        }
-        return result;
+        result.emplace_back(rootAndEdgesPair.second);
     }
-
-private:
-    static void putEdgesToUnionFind(BaseUnionFindWithVertex & unionFind, Edges const& edges)
-    {
-        for(Edge const& edge : edges)
-        {
-            unionFind.connect(edge.first, edge.second);
-        }
-    }
-
-    static void putGraphToUnionFind(BaseUnionFindWithVertex & unionFind, BaseGraphWithVertex const& graph)
-    {
-        putEdgesToUnionFind(unionFind, graph.getEdges());
-    }
-};
+    return result;
+}
 
 }
 
+}
 }
