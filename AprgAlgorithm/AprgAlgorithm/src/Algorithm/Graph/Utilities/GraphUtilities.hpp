@@ -215,17 +215,16 @@ typename GraphTypes<Vertex>::Path getCriticalPath(
     using Path = typename GraphTypes<Vertex>::Path;
 
     Path result;
+    // Needs to be a directed acyclic path because if not the maximum path will be forever loop around the cycle
     if(isDirectedAcyclicGraph(graph))
     {
-        // Longest path using greater comparison
+        // Use greater comparison for longest path
         PathSearchForDirectedAcyclicGraph<Vertex, Weight, EdgeWeightedGraphType, std::greater> pathSearch(graph, sourceVertex);
         result = pathSearch.getPathTo(destinationVertex);
-    }
-    return result;
+    }    return result;
 }
 
-template <typename Vertex>
-typename GraphTypes<Vertex>::ListOfEdges getEdgesOfMaximalConnectedSubgraphs(BaseUndirectedGraph<Vertex> const& graph)
+template <typename Vertex>typename GraphTypes<Vertex>::ListOfEdges getEdgesOfMaximalConnectedSubgraphs(BaseUndirectedGraph<Vertex> const& graph)
 {
     // A graph that is not connected (see isGraphConnected) consists of a set of connected components which are maximal connected subgraphs.
 
