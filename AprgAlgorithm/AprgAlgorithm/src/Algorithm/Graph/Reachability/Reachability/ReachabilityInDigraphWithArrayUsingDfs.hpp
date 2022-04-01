@@ -31,7 +31,7 @@ public:
 
 private:
 
-    bool isNotProcessed(Vertex const& vertex) const
+    bool isNotFound(Vertex const& vertex) const
     {
         return !m_isReachableArray.at(vertex);
     }
@@ -47,7 +47,7 @@ private:
         m_isReachableArray[vertex] = true;
         for(Vertex const& adjacentVertex : m_graph.getAdjacentVerticesAt(vertex))
         {
-            if(isNotProcessed(adjacentVertex))
+            if(isNotFound(adjacentVertex))
             {
                 traverseUsingDfs(adjacentVertex);
             }

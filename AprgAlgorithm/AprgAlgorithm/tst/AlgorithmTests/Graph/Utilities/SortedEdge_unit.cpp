@@ -15,7 +15,7 @@ using VertexForTest = unsigned int;
 using WeightForTest = double;
 }
 
-TEST(ProcessedVerticesTest, CreateSortedEdgeWorks)
+TEST(SortedEdgeTest, CreateSortedEdgeWorks)
 {
     using EdgeForTest = GraphTypes<VertexForTest>::Edge;
 
@@ -27,7 +27,7 @@ TEST(ProcessedVerticesTest, CreateSortedEdgeWorks)
     EXPECT_EQ(expectedSortedEdge, sortedEdge2ToVerify);
 }
 
-TEST(ProcessedVerticesTest, CreateSortedEdgeWithWeightWorks)
+TEST(SortedEdgeTest, CreateSortedEdgeWithWeightWorks)
 {
     using EdgeForTest = GraphTypesWithWeights<VertexForTest, WeightForTest>::EdgeWithWeight;
 

@@ -2,6 +2,7 @@
 
 #include <Common/Print/AlbaPrintFunctions.hpp>
 
+#include <deque>
 #include <map>
 #include <set>
 #include <vector>
@@ -23,6 +24,7 @@ struct GraphTypes
 {
     // Vertex
     using Vertices = std::vector<Vertex>;
+    using DequeOfVertices = std::deque<Vertex>;
     using SetOfVertices = std::set<Vertex>;
 
     //Edge
@@ -123,6 +125,9 @@ struct GraphTypesWithWeights
     };
     using EdgesWithWeight = std::vector<EdgeWithWeight>;
     using SetOfEdgesWithWeight = std::set<EdgeWithWeight>;
+
+    //Complicated Types
+    using VertexToEdgeWithWeightMap = std::map<Vertex, EdgeWithWeight>;
 };
 
 }

@@ -3,7 +3,7 @@
 #include <Algorithm/Graph/ConnectedComponents/BaseConnectedComponents.hpp>
 #include <Algorithm/Graph/DirectedGraph/BaseDirectedGraph.hpp>
 #include <Algorithm/Graph/DirectedGraph/DirectedGraphWithListOfEdges.hpp>
-#include <Algorithm/Graph/Utilities/ProcessedVertices.hpp>
+#include <Algorithm/Graph/Utilities/CheckableVertices.hpp>
 #include <Algorithm/Graph/VertexOrdering/VertexOrderingUsingDfs.hpp>
 
 #include <map>
@@ -23,7 +23,7 @@ public:
     using SetOfVertices = typename GraphTypes<Vertex>::SetOfVertices;
     using Edge = typename GraphTypes<Vertex>::Edge;
     using VertexToUnsignedIntMap = typename GraphTypes<Vertex>::VertexToUnsignedIntMap;
-    using ProcessedVerticesWithVertex = ProcessedVertices<Vertex>;
+    using CheckableVerticesWithVertex = CheckableVertices<Vertex>;
 
     StronglyConnectedComponentsUsingKosarajuSharir(BaseDirectedGraphWithVertex const& graph)
         : m_graph(graph)
@@ -73,7 +73,7 @@ private:
         VertexOrderingUsingDfs<Vertex> vertexOrdering(reversedGraph);
         for(Vertex const& vertex : vertexOrdering.getVerticesInTopologicalOrder())
         {
-            if(m_processedVertices.isNotProcessed(vertex))
+            if(m_processedVertices.isNotFound(vertex))
             {
                 traverseUsingDfs(vertex);
                 m_numberOfComponentIds++;
@@ -83,11 +83,11 @@ private:
 
     void traverseUsingDfs(Vertex const& vertex)
     {
-        m_processedVertices.putVertexAsProcessed(vertex);
+        m_processedVertices.putVertex(vertex);
         m_vertexToComponentIdMap[vertex] = m_numberOfComponentIds;
         for(Vertex const& adjacentVertex : m_graph.getAdjacentVerticesAt(vertex))
         {
-            if(m_processedVertices.isNotProcessed(adjacentVertex))
+            if(m_processedVertices.isNotFound(adjacentVertex))
             {
                 traverseUsingDfs(adjacentVertex);
             }
@@ -96,7 +96,7 @@ private:
 
     BaseDirectedGraphWithVertex const& m_graph;
     unsigned int m_numberOfComponentIds;
-    ProcessedVerticesWithVertex m_processedVertices;
+    CheckableVerticesWithVertex m_processedVertices;
     VertexToUnsignedIntMap m_vertexToComponentIdMap;
 };
 

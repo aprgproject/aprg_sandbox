@@ -1,7 +1,7 @@
 #pragma once
 
 #include <Algorithm/Graph/BaseGraph.hpp>
-#include <Algorithm/Graph/Utilities/ProcessedVertices.hpp>
+#include <Algorithm/Graph/Utilities/CheckableVertices.hpp>
 
 namespace alba
 {
@@ -17,7 +17,7 @@ public:
     using SetOfVertices = typename GraphTypes<Vertex>::SetOfVertices;
     using Path = typename GraphTypes<Vertex>::Path;
     using VertexToVertexMap = typename GraphTypes<Vertex>::VertexToVertexMap;
-    using ProcessedVerticesWithVertex = ProcessedVertices<Vertex>;
+    using CheckableVerticesWithVertex = CheckableVertices<Vertex>;
 
     CycleDetectionUsingDfs(BaseGraphWithVertex const& graph)
         : m_graph(graph)
@@ -37,7 +37,7 @@ public:
     {
         for(Vertex const& vertex : m_graph.getVertices())
         {
-            if(m_processedVertices.isNotProcessed(vertex))
+            if(m_processedVertices.isNotFound(vertex))
             {
                 checkForCyclesUsingDfs(vertex);
             }
@@ -100,14 +100,14 @@ private:
     void checkForCyclesUsingDfsWithDirectedGraph(Vertex const& startVertex)
     {
         m_verticesInCycle.emplace(startVertex);
-        m_processedVertices.putVertexAsProcessed(startVertex);
+        m_processedVertices.putVertex(startVertex);
         for(Vertex const& adjacentVertex : m_graph.getAdjacentVerticesAt(startVertex))
         {
             if(hasCycle())
             {
                 break;
             }
-            else if(m_processedVertices.isNotProcessed(adjacentVertex))
+            else if(m_processedVertices.isNotFound(adjacentVertex))
             {
                 m_vertexToPreviousVertexMap[adjacentVertex] = startVertex;
                 checkForCyclesUsingDfsWithDirectedGraph(adjacentVertex);
@@ -123,14 +123,14 @@ private:
     void checkForCyclesUsingDfsWithUndirectedGraph(Vertex const& startVertex, Vertex const& previousVertex)
     {
         m_verticesInCycle.emplace(startVertex);
-        m_processedVertices.putVertexAsProcessed(startVertex);
+        m_processedVertices.putVertex(startVertex);
         for(Vertex const& adjacentVertex : m_graph.getAdjacentVerticesAt(startVertex))
         {
             if(hasCycle())
             {
                 break;
             }
-            else if(m_processedVertices.isNotProcessed(adjacentVertex))
+            else if(m_processedVertices.isNotFound(adjacentVertex))
             {
                 m_vertexToPreviousVertexMap[adjacentVertex] = startVertex;
                 checkForCyclesUsingDfsWithUndirectedGraph(adjacentVertex, startVertex);
@@ -144,7 +144,7 @@ private:
     }
 
     BaseGraphWithVertex const& m_graph;
-    ProcessedVerticesWithVertex m_processedVertices;
+    CheckableVerticesWithVertex m_processedVertices;
     VertexToVertexMap m_vertexToPreviousVertexMap;
     SetOfVertices m_verticesInCycle;
     Path m_pathWithCycle;

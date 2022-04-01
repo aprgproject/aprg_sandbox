@@ -18,7 +18,7 @@ public:
     using BaseClass = BasePathSearchWithBfsAndDfs<Vertex>;
     using SetOfVertices = typename GraphTypes<Vertex>::SetOfVertices;
     using Path = typename GraphTypes<Vertex>::Path;
-    using ProcessedVerticesWithVertex = ProcessedVertices<Vertex>;
+    using CheckableVerticesWithVertex = CheckableVertices<Vertex>;
 
     PathSearchUsingBfs(BaseGraphWithVertex const& graph, Vertex const& startVertex)
         : BaseClass(graph, startVertex)
@@ -35,8 +35,8 @@ public:
     {
         this->clear();
         this->m_startVertex = startVertex;
-        ProcessedVerticesWithVertex & processedVertices(this->m_processedVertices);
-        processedVertices.putVertexAsProcessed(startVertex);
+        CheckableVerticesWithVertex & processedVertices(this->m_processedVertices);
+        processedVertices.putVertex(startVertex);
 
         std::deque<Vertex> queueOfVerticesToProcess{startVertex};
         while(!queueOfVerticesToProcess.empty())
@@ -45,9 +45,9 @@ public:
             queueOfVerticesToProcess.pop_back();
             for(Vertex const& adjacentVertex : this->m_graph.getAdjacentVerticesAt(vertex))
             {
-                if(processedVertices.isNotProcessed(adjacentVertex))
+                if(processedVertices.isNotFound(adjacentVertex))
                 {
-                    processedVertices.putVertexAsProcessed(adjacentVertex);
+                    processedVertices.putVertex(adjacentVertex);
                     this->m_vertexToPreviousVertexMap[adjacentVertex] = vertex;
                     queueOfVerticesToProcess.emplace_front(adjacentVertex);
                 }

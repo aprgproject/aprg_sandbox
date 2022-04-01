@@ -1,24 +1,28 @@
 #pragma once
 
-#include <Algorithm/Graph/PathSearch/Common/BasePathSearchForDijkstraAndDag.hpp>
+#include <Algorithm/Graph/PathSearch/Common/BasePathSearchWithRelax.hpp>
 #include <Algorithm/Graph/Types/GraphTypes.hpp>
 #include <Algorithm/Graph/Utilities/GraphUtilitiesHeaders.hpp>
 
 namespace alba
 {
+
 namespace algorithm
 {
+
 template <typename Vertex, typename Weight, typename EdgeWeightedGraph, template<class> class ComparisonTemplateType>
-class PathSearchUsingDijkstraAlgorithm : public BasePathSearchForDijkstraAndDag<Vertex, Weight, EdgeWeightedGraph, ComparisonTemplateType>
+class PathSearchUsingDijkstra : public BasePathSearchWithRelax<Vertex, Weight, EdgeWeightedGraph, ComparisonTemplateType>
 {
 public:
-    using BaseClass = BasePathSearchForDijkstraAndDag<Vertex, Weight, EdgeWeightedGraph, ComparisonTemplateType>;
+    using BaseClass = BasePathSearchWithRelax<Vertex, Weight, EdgeWeightedGraph, ComparisonTemplateType>;
     using SetOfVerticesWithWeight = typename GraphTypesWithWeights<Vertex, Weight>::SetOfVerticesWithWeight;
 
-    PathSearchUsingDijkstraAlgorithm(EdgeWeightedGraph const& graph, Vertex const& startVertex)
-        : BaseClass(graph, startVertex)    {
+    PathSearchUsingDijkstra(EdgeWeightedGraph const& graph, Vertex const& startVertex)
+        : BaseClass(graph, startVertex)
+    {
         searchForPathIfPossible();
     }
+
 private:
 
     bool isComparisonLessThan() const
@@ -33,24 +37,23 @@ private:
                 || GraphUtilities::isDirectedAcyclicGraph(this->m_graph))
         {
             searchForPath();
-        }    }
-
-    void searchForPath()
-    {        Vertex const& startVertex(this->m_startVertex);
-        m_foundVerticesOrderedByWeight.emplace(startVertex, Weight{}); // start vertex with weight zero for start
-        while(!m_foundVerticesOrderedByWeight.empty())
-        {
-            auto nearestVertexIt(m_foundVerticesOrderedByWeight.cbegin());
-            auto nearestVertex(*nearestVertexIt);
-            m_foundVerticesOrderedByWeight.erase(nearestVertexIt);
-            this->relaxAt(nearestVertex.vertex, [&](Vertex const&, Vertex const& destinationVertex, Weight const& lowestWeight)
-            {
-                m_foundVerticesOrderedByWeight.emplace(destinationVertex, lowestWeight);
-            });
         }
     }
 
-    SetOfVerticesWithWeight m_foundVerticesOrderedByWeight;
+    void searchForPath()
+    {
+        SetOfVerticesWithWeight foundVerticesOrderedByWeight{{this->m_startVertex, Weight{}}}; // start vertex with weight zero for start
+        while(!foundVerticesOrderedByWeight.empty())
+        {
+            auto nearestVertexIt(foundVerticesOrderedByWeight.cbegin());
+            auto nearestVertex(*nearestVertexIt);
+            foundVerticesOrderedByWeight.erase(nearestVertexIt);
+            this->relaxAt(nearestVertex.vertex, [&](Vertex const&, Vertex const& destinationVertex, Weight const& lowestWeight)
+            {
+                foundVerticesOrderedByWeight.emplace(destinationVertex, lowestWeight);
+            });
+        }
+    }
 
 };
 

@@ -1,7 +1,7 @@
 #pragma once
 
 #include <Algorithm/Graph/Types/GraphTypes.hpp>
-#include <Algorithm/Graph/Utilities/ProcessedVertices.hpp>
+#include <Algorithm/Graph/Utilities/CheckableVertices.hpp>
 #include <Algorithm/Graph/Utilities/SortedEdge.hpp>
 
 #include <algorithm>
@@ -21,8 +21,8 @@ public:
     using Edges = typename GraphTypes<Vertex>::Edges;
     using EdgeWithWeight = typename GraphTypesWithWeights<Vertex, Weight>::EdgeWithWeight;
     using SetOfVerticesWithWeight = typename GraphTypesWithWeights<Vertex, Weight>::SetOfVerticesWithWeight;
-    using VertexToEdgeWithWeight = std::map<Vertex, EdgeWithWeight>;
-    using ProcessedVerticesWithVertex = ProcessedVertices<Vertex>;
+    using VertexToEdgeWithWeightMap = typename GraphTypesWithWeights<Vertex, Weight>::VertexToEdgeWithWeightMap;
+    using CheckableVerticesWithVertex = CheckableVertices<Vertex>;
 
     PrimAlgorithmEagerVersion(EdgeWeightedGraph const& graph, Vertex const& startVertex)
         : m_graph(graph)
@@ -34,7 +34,7 @@ public:
     Edges getMinimumSpanningTreeEdges() const
     {
         Edges result;
-        std::transform(m_vertexToEdgeWithMinimumWeight.cbegin(), m_vertexToEdgeWithMinimumWeight.cend(), std::back_inserter(result),
+        std::transform(m_vertexToEdgeWithMinimumWeightMap.cbegin(), m_vertexToEdgeWithMinimumWeightMap.cend(), std::back_inserter(result),
                        [](auto const& vertexToEdgeWithWeightPair)
         {
             return static_cast<Edge>(vertexToEdgeWithWeightPair.second);
@@ -46,7 +46,7 @@ private:
 
     bool hasNoWeightSaved(Vertex const& vertex) const
     {
-        return m_vertexToEdgeWithMinimumWeight.find(vertex) == m_vertexToEdgeWithMinimumWeight.cend();
+        return m_vertexToEdgeWithMinimumWeightMap.find(vertex) == m_vertexToEdgeWithMinimumWeightMap.cend();
     }
 
     void searchForMinimumSpanningTree()
@@ -64,14 +64,14 @@ private:
     void checkAdjacentVerticesWithLowestWeightOfVertex(
             Vertex const& vertex)
     {
-        m_processedVertices.putVertexAsProcessed(vertex);
+        m_processedVertices.putVertex(vertex);
         for(Vertex const& adjacentVertex : m_graph.getAdjacentVerticesAt(vertex))
         {
-            if(m_processedVertices.isNotProcessed(adjacentVertex))
+            if(m_processedVertices.isNotFound(adjacentVertex))
             {
                 Weight weightForAdjacentVertex(m_graph.getWeight(vertex, adjacentVertex));
                 if(hasNoWeightSaved(adjacentVertex)
-                        || weightForAdjacentVertex < m_vertexToEdgeWithMinimumWeight.at(adjacentVertex).weight)
+                        || weightForAdjacentVertex < m_vertexToEdgeWithMinimumWeightMap.at(adjacentVertex).weight)
                 {
                     saveVertexAndEdgeOfLowestWeight(vertex, adjacentVertex, weightForAdjacentVertex);
                 }
@@ -84,15 +84,15 @@ private:
             Vertex const& adjacentVertex,
             Weight const& lowestWeight)
     {
-        m_vertexToEdgeWithMinimumWeight[adjacentVertex]
+        m_vertexToEdgeWithMinimumWeightMap[adjacentVertex]
                 = createSortedEdgeWithWeight<Vertex, Weight, EdgeWithWeight>(vertex, adjacentVertex, lowestWeight);
         m_verticesAdjacentToTreeOrderedByWeight.emplace(adjacentVertex, lowestWeight);
     }
 
     Graph const& m_graph;
     Vertex m_startVertex;
-    ProcessedVerticesWithVertex m_processedVertices;
-    VertexToEdgeWithWeight m_vertexToEdgeWithMinimumWeight;
+    CheckableVerticesWithVertex m_processedVertices;
+    VertexToEdgeWithWeightMap m_vertexToEdgeWithMinimumWeightMap;
     SetOfVerticesWithWeight m_verticesAdjacentToTreeOrderedByWeight;
 
 };

@@ -11,24 +11,25 @@ namespace algorithm
 {
 
 template <typename Vertex, typename Weight, typename EdgeWeightedGraph, template<class> class ComparisonTemplateType>
-class BasePathSearchForDijkstraAndDag
+class BasePathSearchWithRelax
 {
 public:
     using Graph = EdgeWeightedGraph;
     using ComparisonClass=ComparisonTemplateType<Weight>;
     using Path = typename GraphTypes<Vertex>::Path;
     using EdgeWithWeight = typename GraphTypesWithWeights<Vertex, Weight>::EdgeWithWeight;
-    using VertexToEdgeWithWeight = std::map<Vertex, EdgeWithWeight>;
-    using AdditionalRelaxationSteps = std::function<void(Vertex const&, Vertex const&, Weight const&)>;
+    using VertexToEdgeWithWeightMap = typename GraphTypesWithWeights<Vertex, Weight>::VertexToEdgeWithWeightMap;
+    using AdditionalRelaxationStepsOnLowerWeight = std::function<void(Vertex const&, Vertex const&, Weight const&)>;
+    using AdditionalRelaxationSteps = std::function<void(void)>;
 
-    BasePathSearchForDijkstraAndDag(EdgeWeightedGraph const& graph, Vertex const& startVertex)
+    BasePathSearchWithRelax(EdgeWeightedGraph const& graph, Vertex const& startVertex)
         : m_graph(graph)
         , m_startVertex(startVertex)
     {}
 
     bool hasPathTo(Vertex const& endVertex) const
     {
-        return m_vertexToEdgeWithUpdatedWeight.find(endVertex) != m_vertexToEdgeWithUpdatedWeight.cend();
+        return m_vertexToEdgeWithUpdatedWeightMap.find(endVertex) != m_vertexToEdgeWithUpdatedWeightMap.cend();
     }
 
     Path getPathTo(Vertex const& endVertex) const
@@ -36,10 +37,12 @@ public:
         bool shouldAddStartVertexAndReverse(endVertex != m_startVertex);
         Vertex currentVertex = endVertex;
         Path reversedPath;
-        while(currentVertex != m_startVertex)        {
+        while(currentVertex != m_startVertex)
+        {
             reversedPath.emplace_back(currentVertex);
-            auto it = m_vertexToEdgeWithUpdatedWeight.find(currentVertex);
-            if(it != m_vertexToEdgeWithUpdatedWeight.cend())            {
+            auto it = m_vertexToEdgeWithUpdatedWeightMap.find(currentVertex);
+            if(it != m_vertexToEdgeWithUpdatedWeightMap.cend())
+            {
                 currentVertex = it->second.first;
             }
             else
@@ -52,42 +55,39 @@ public:
         if(shouldAddStartVertexAndReverse)
         {
             reversedPath.emplace_back(m_startVertex);
-            result.reserve(reversedPath.size());            std::copy(reversedPath.crbegin(), reversedPath.crend(), std::back_inserter(result));
+            result.reserve(reversedPath.size());
+            std::copy(reversedPath.crbegin(), reversedPath.crend(), std::back_inserter(result));
         }
         return result;
     }
+
 protected:
 
     bool hasNoWeightSaved(Vertex const& vertex) const
     {
-        return m_vertexToEdgeWithUpdatedWeight.find(vertex) == m_vertexToEdgeWithUpdatedWeight.cend();
+        return m_vertexToEdgeWithUpdatedWeightMap.find(vertex) == m_vertexToEdgeWithUpdatedWeightMap.cend();
     }
 
     Weight getSavedWeightAt(Vertex const& vertex) const
     {
         Weight result{};
-        auto it = m_vertexToEdgeWithUpdatedWeight.find(vertex);
-        if(it != m_vertexToEdgeWithUpdatedWeight.cend())
+        auto it = m_vertexToEdgeWithUpdatedWeightMap.find(vertex);
+        if(it != m_vertexToEdgeWithUpdatedWeightMap.cend())
         {
             result = it->second.weight;
         }
         return result;
     }
 
-    static AdditionalRelaxationSteps getNoRelaxationSteps()
-    {
-        static AdditionalRelaxationSteps noRelaxationSteps = [](Vertex const&, Vertex const&, Weight const&){};
-        return noRelaxationSteps;
-    }
-
     void setStartVertexWeightToZero()
     {
-        m_vertexToEdgeWithUpdatedWeight[m_startVertex] = EdgeWithWeight(m_startVertex, m_startVertex, Weight{});
+        m_vertexToEdgeWithUpdatedWeightMap[m_startVertex] = EdgeWithWeight(m_startVertex, m_startVertex, Weight{});
     }
 
     void relaxAt(
             Vertex const& vertex,
-            AdditionalRelaxationSteps const& additionalRelaxationSteps = getNoRelaxationSteps())
+            AdditionalRelaxationStepsOnLowerWeight const& additionalRelaxationStepsOnLowerWeight = getNoStepsOnLowerWeight(),
+            AdditionalRelaxationSteps const& additionalRelaxationSteps = getNoSteps())
     {
         for(Vertex const& adjacentVertex : m_graph.getAdjacentVerticesAt(vertex))
         {
@@ -98,16 +98,30 @@ protected:
                     || m_comparisonObject(currentLowestWeightAtVertex + weightOfCurrentEdge, currentWeightAtAdjacentVertex))
             {
                 Weight newWeight(currentLowestWeightAtVertex + weightOfCurrentEdge);
-                m_vertexToEdgeWithUpdatedWeight[adjacentVertex] = EdgeWithWeight(vertex, adjacentVertex, newWeight);
-                additionalRelaxationSteps(vertex, adjacentVertex, newWeight);
+                m_vertexToEdgeWithUpdatedWeightMap[adjacentVertex] = EdgeWithWeight(vertex, adjacentVertex, newWeight);
+                additionalRelaxationStepsOnLowerWeight(vertex, adjacentVertex, newWeight);
             }
         }
+        additionalRelaxationSteps();
+    }
+
+    static AdditionalRelaxationStepsOnLowerWeight getNoStepsOnLowerWeight()
+    {
+        static AdditionalRelaxationStepsOnLowerWeight noRelaxationSteps
+                = [](Vertex const&, Vertex const&, Weight const&){};
+        return noRelaxationSteps;
+    }
+
+    static AdditionalRelaxationSteps getNoSteps()
+    {
+        static AdditionalRelaxationSteps noRelaxationSteps = [](){};
+        return noRelaxationSteps;
     }
 
     Graph const& m_graph;
     Vertex m_startVertex;
     ComparisonClass m_comparisonObject;
-    VertexToEdgeWithWeight m_vertexToEdgeWithUpdatedWeight;
+    VertexToEdgeWithWeightMap m_vertexToEdgeWithUpdatedWeightMap;
 };
 
 }

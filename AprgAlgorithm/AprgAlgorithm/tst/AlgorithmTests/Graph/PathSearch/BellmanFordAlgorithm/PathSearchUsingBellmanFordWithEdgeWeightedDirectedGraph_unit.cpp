@@ -1,6 +1,6 @@
 #include <Algorithm/Graph/DirectedGraph/DirectedGraphWithListOfEdges.hpp>
 #include <Algorithm/Graph/EdgeWeightedGraph/EdgeWeightedGraph.hpp>
-#include <Algorithm/Graph/PathSearch/DijkstraAlgorithm/PathSearchUsingDijkstraAlgorithm.hpp>
+#include <Algorithm/Graph/PathSearch/BellmanFordAlgorithm/PathSearchUsingBellmanFord.hpp>
 
 #include <gtest/gtest.h>
 
@@ -17,8 +17,8 @@ using WeightForTest = double;
 using PathForTest = GraphTypes<VertexForTest>::Path;
 using DirectedGraphForTest = DirectedGraphWithListOfEdges<VertexForTest>;
 using EdgeWeightedDirectedGraphForTest = EdgeWeightedGraph<VertexForTest, WeightForTest, DirectedGraphForTest>;
-using ShortestPathSearchForTest = PathSearchUsingDijkstraAlgorithm<VertexForTest, WeightForTest, EdgeWeightedDirectedGraphForTest, std::less>;
-using LongestPathSearchForTest = PathSearchUsingDijkstraAlgorithm<VertexForTest, WeightForTest, EdgeWeightedDirectedGraphForTest, std::greater>;
+using ShortestPathSearchForTest = PathSearchUsingBellmanFord<VertexForTest, WeightForTest, EdgeWeightedDirectedGraphForTest, std::less>;
+using LongestPathSearchForTest = PathSearchUsingBellmanFord<VertexForTest, WeightForTest, EdgeWeightedDirectedGraphForTest, std::greater>;
 
 void putConnectionsWithCyclesForTest(EdgeWeightedDirectedGraphForTest & graph)
 {
@@ -43,7 +43,7 @@ void putConnectionsWithNoCyclesForTest(EdgeWeightedDirectedGraphForTest & graph)
 }
 }
 
-TEST(PathSearchUsingDijkstraAlgorithmTest, StillProcessWhenThereAreCyclesInLesserComparison)
+TEST(PathSearchUsingBellmanFordTest, StillProcessWhenThereAreCycles)
 {
     EdgeWeightedDirectedGraphForTest graph;
     putConnectionsWithCyclesForTest(graph);
@@ -66,25 +66,7 @@ TEST(PathSearchUsingDijkstraAlgorithmTest, StillProcessWhenThereAreCyclesInLesse
     EXPECT_EQ(pathWith4, pathSearch.getPathTo(4U));
 }
 
-TEST(PathSearchUsingDijkstraAlgorithmTest, DoesNotProcessWhenThereAreCyclesInGreaterComparison)
-{
-    EdgeWeightedDirectedGraphForTest graph;
-    putConnectionsWithCyclesForTest(graph);
-    LongestPathSearchForTest pathSearch(graph, 0U);
-
-    EXPECT_FALSE(pathSearch.hasPathTo(0U));
-    EXPECT_FALSE(pathSearch.hasPathTo(1U));
-    EXPECT_FALSE(pathSearch.hasPathTo(2U));
-    EXPECT_FALSE(pathSearch.hasPathTo(3U));
-    EXPECT_FALSE(pathSearch.hasPathTo(4U));
-    EXPECT_TRUE(pathSearch.getPathTo(0U).empty());
-    EXPECT_TRUE(pathSearch.getPathTo(1U).empty());
-    EXPECT_TRUE(pathSearch.getPathTo(2U).empty());
-    EXPECT_TRUE(pathSearch.getPathTo(3U).empty());
-    EXPECT_TRUE(pathSearch.getPathTo(4U).empty());
-}
-
-TEST(PathSearchUsingDijkstraAlgorithmTest, HasPathToWorksWithEdgeWeightedDirectedGraphAndLesserComparison)
+TEST(PathSearchUsingBellmanFordTest, HasPathToWorksWithEdgeWeightedDirectedGraphAndLesserComparison)
 {
     EdgeWeightedDirectedGraphForTest graph;
     putConnectionsWithNoCyclesForTest(graph);
@@ -101,7 +83,7 @@ TEST(PathSearchUsingDijkstraAlgorithmTest, HasPathToWorksWithEdgeWeightedDirecte
     EXPECT_FALSE(pathSearch.hasPathTo(8U));
 }
 
-TEST(PathSearchUsingDijkstraAlgorithmTest, GetPathToWorksWithEdgeWeightedDirectedGraphAndLesserComparison)
+TEST(PathSearchUsingBellmanFordTest, GetPathToWorksWithEdgeWeightedDirectedGraphAndLesserComparison)
 {
     EdgeWeightedDirectedGraphForTest graph;
     putConnectionsWithNoCyclesForTest(graph);
@@ -127,7 +109,7 @@ TEST(PathSearchUsingDijkstraAlgorithmTest, GetPathToWorksWithEdgeWeightedDirecte
     EXPECT_EQ(pathWith8, pathSearch.getPathTo(8U));
 }
 
-TEST(PathSearchUsingDijkstraAlgorithmTest, HasPathToWorksWithEdgeWeightedDirectedGraphAndGreaterComparison)
+TEST(PathSearchUsingBellmanFordTest, HasPathToWorksWithEdgeWeightedDirectedGraphAndGreaterComparison)
 {
     EdgeWeightedDirectedGraphForTest graph;
     putConnectionsWithNoCyclesForTest(graph);
@@ -144,7 +126,7 @@ TEST(PathSearchUsingDijkstraAlgorithmTest, HasPathToWorksWithEdgeWeightedDirecte
     EXPECT_FALSE(pathSearch.hasPathTo(8U));
 }
 
-TEST(PathSearchUsingDijkstraAlgorithmTest, GetPathToWorksWithEdgeWeightedDirectedGraphAndGreaterComparison)
+TEST(PathSearchUsingBellmanFordTest, GetPathToWorksWithEdgeWeightedDirectedGraphAndGreaterComparison)
 {
     EdgeWeightedDirectedGraphForTest graph;
     putConnectionsWithNoCyclesForTest(graph);

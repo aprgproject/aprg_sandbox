@@ -9,27 +9,32 @@ namespace algorithm
 {
 
 template<typename Vertex>
-class ProcessedVertices
+class CheckableVertices
 {
 public:
     using SetOfVertices = typename GraphTypes<Vertex>::SetOfVertices;
 
-    ProcessedVertices()
+    CheckableVertices()
     {}
 
-    bool isProcessed(Vertex const& vertex) const
+    bool isFound(Vertex const& vertex) const
     {
         return m_vertices.find(vertex) != m_vertices.cend();
     }
 
-    bool isNotProcessed(Vertex const& vertex) const
+    bool isNotFound(Vertex const& vertex) const
     {
         return m_vertices.find(vertex) == m_vertices.cend();
     }
 
-    void putVertexAsProcessed(Vertex const& vertex)
+    void putVertex(Vertex const& vertex)
     {
         m_vertices.emplace(vertex);
+    }
+
+    void removeVertex(Vertex const& vertex)
+    {
+        m_vertices.erase(vertex);
     }
 
     void clear()

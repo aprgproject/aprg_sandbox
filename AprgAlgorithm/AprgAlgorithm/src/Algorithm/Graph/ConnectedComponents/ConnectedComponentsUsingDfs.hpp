@@ -2,7 +2,7 @@
 
 #include <Algorithm/Graph/ConnectedComponents/BaseConnectedComponents.hpp>
 #include <Algorithm/Graph/UndirectedGraph/BaseUndirectedGraph.hpp>
-#include <Algorithm/Graph/Utilities/ProcessedVertices.hpp>
+#include <Algorithm/Graph/Utilities/CheckableVertices.hpp>
 
 #include <map>
 
@@ -19,7 +19,7 @@ public:
     using BaseUndirectedGraphWithVertex = BaseUndirectedGraph<Vertex>;
     using SetOfVertices = typename GraphTypes<Vertex>::SetOfVertices;
     using VertexToUnsignedIntMap = typename GraphTypes<Vertex>::VertexToUnsignedIntMap;
-    using ProcessedVerticesWithVertex = ProcessedVertices<Vertex>;
+    using CheckableVerticesWithVertex = CheckableVertices<Vertex>;
 
     ConnectedComponentsUsingDfs(BaseUndirectedGraphWithVertex const& graph)
         : m_graph(graph)
@@ -53,7 +53,7 @@ private:
         m_numberOfComponentIds = 0U;
         for(Vertex const& vertex : m_graph.getVertices())
         {
-            if(m_processedVertices.isNotProcessed(vertex))
+            if(m_processedVertices.isNotFound(vertex))
             {
                 traverseUsingDfs(vertex);
                 m_numberOfComponentIds++;
@@ -63,11 +63,11 @@ private:
 
     void traverseUsingDfs(Vertex const& vertex)
     {
-        m_processedVertices.putVertexAsProcessed(vertex);
+        m_processedVertices.putVertex(vertex);
         m_vertexToComponentIdMap[vertex] = m_numberOfComponentIds;
         for(Vertex const& adjacentVertex : m_graph.getAdjacentVerticesAt(vertex))
         {
-            if(m_processedVertices.isNotProcessed(adjacentVertex))
+            if(m_processedVertices.isNotFound(adjacentVertex))
             {
                 traverseUsingDfs(adjacentVertex);
             }
@@ -76,7 +76,7 @@ private:
 
     BaseUndirectedGraphWithVertex const& m_graph;
     unsigned int m_numberOfComponentIds;
-    ProcessedVerticesWithVertex m_processedVertices;
+    CheckableVerticesWithVertex m_processedVertices;
     VertexToUnsignedIntMap m_vertexToComponentIdMap;
 };
 

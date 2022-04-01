@@ -1,7 +1,7 @@
 #pragma once
 
 #include <Algorithm/Graph/BaseGraph.hpp>
-#include <Algorithm/Graph/Utilities/ProcessedVertices.hpp>
+#include <Algorithm/Graph/Utilities/CheckableVertices.hpp>
 
 #include <map>
 
@@ -19,7 +19,7 @@ public:
     using Path = typename GraphTypes<Vertex>::Path;
     using SetOfVertices = typename GraphTypes<Vertex>::SetOfVertices;
     using VertexToVertexMap = typename GraphTypes<Vertex>::VertexToVertexMap;
-    using ProcessedVerticesWithVertex = ProcessedVertices<Vertex>;
+    using CheckableVerticesWithVertex = CheckableVertices<Vertex>;
 
     BasePathSearchWithBfsAndDfs(BaseGraphWithVertex const& graph, Vertex const& startVertex)
         : m_graph(graph)
@@ -28,7 +28,7 @@ public:
 
     bool hasPathTo(Vertex const& endVertex) const
     {
-        return m_processedVertices.isProcessed(endVertex);
+        return m_processedVertices.isFound(endVertex);
     }
 
     Path getPathTo(Vertex const& endVertex) const
@@ -36,10 +36,12 @@ public:
         bool shouldAddStartVertexAndReverse(endVertex != m_startVertex);
         Vertex currentVertex = endVertex;
         Path reversedPath;
-        while(currentVertex != m_startVertex)        {
+        while(currentVertex != m_startVertex)
+        {
             reversedPath.emplace_back(currentVertex);
             auto it = m_vertexToPreviousVertexMap.find(currentVertex);
-            if(it != m_vertexToPreviousVertexMap.cend())            {
+            if(it != m_vertexToPreviousVertexMap.cend())
+            {
                 currentVertex = it->second;
             }
             else
@@ -52,10 +54,12 @@ public:
         if(shouldAddStartVertexAndReverse)
         {
             reversedPath.emplace_back(m_startVertex);
-            result.reserve(reversedPath.size());            std::copy(reversedPath.crbegin(), reversedPath.crend(), std::back_inserter(result));
+            result.reserve(reversedPath.size());
+            std::copy(reversedPath.crbegin(), reversedPath.crend(), std::back_inserter(result));
         }
         return result;
     }
+
     virtual void reinitializeStartingFrom(Vertex const& startVertex) = 0;
 
 protected:
@@ -68,7 +72,7 @@ protected:
 
     BaseGraphWithVertex const& m_graph;
     Vertex m_startVertex;
-    ProcessedVerticesWithVertex m_processedVertices;
+    CheckableVerticesWithVertex m_processedVertices;
     VertexToVertexMap m_vertexToPreviousVertexMap;
 };
 

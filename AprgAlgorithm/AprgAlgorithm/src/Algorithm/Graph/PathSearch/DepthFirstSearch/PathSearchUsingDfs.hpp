@@ -16,7 +16,7 @@ public:
     using BaseClass = BasePathSearchWithBfsAndDfs<Vertex>;
     using SetOfVertices = typename GraphTypes<Vertex>::SetOfVertices;
     using Path = typename GraphTypes<Vertex>::Path;
-    using ProcessedVerticesWithVertex = ProcessedVertices<Vertex>;
+    using CheckableVerticesWithVertex = CheckableVertices<Vertex>;
 
     PathSearchUsingDfs(BaseGraphWithVertex const& graph, Vertex const& startVertex)
         : BaseClass(graph, startVertex)
@@ -39,11 +39,11 @@ public:
 private:
     void traverseUsingDfs(Vertex const& vertex)
     {
-        ProcessedVerticesWithVertex & processedVertices(this->m_processedVertices);
-        processedVertices.putVertexAsProcessed(vertex);
+        CheckableVerticesWithVertex & processedVertices(this->m_processedVertices);
+        processedVertices.putVertex(vertex);
         for(Vertex const& adjacentVertex : this->m_graph.getAdjacentVerticesAt(vertex))
         {
-            if(processedVertices.isNotProcessed(adjacentVertex))
+            if(processedVertices.isNotFound(adjacentVertex))
             {
                 this->m_vertexToPreviousVertexMap[adjacentVertex] = vertex;
                 traverseUsingDfs(adjacentVertex);

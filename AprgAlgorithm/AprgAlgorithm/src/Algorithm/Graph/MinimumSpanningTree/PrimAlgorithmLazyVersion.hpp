@@ -1,7 +1,7 @@
 #pragma once
 
 #include <Algorithm/Graph/Types/GraphTypes.hpp>
-#include <Algorithm/Graph/Utilities/ProcessedVertices.hpp>
+#include <Algorithm/Graph/Utilities/CheckableVertices.hpp>
 #include <Algorithm/Graph/Utilities/SortedEdge.hpp>
 
 #include <queue>
@@ -23,7 +23,7 @@ public:
     using EdgeWithWeight = typename GraphTypesWithWeights<Vertex, Weight>::EdgeWithWeight;
     using EdgesWithWeight = typename GraphTypesWithWeights<Vertex, Weight>::EdgesWithWeight;
     using EdgeWithWeightsPriorityQueue = std::priority_queue<EdgeWithWeight, EdgesWithWeight, std::greater<EdgeWithWeight>>;
-    using ProcessedVerticesWithVertex = ProcessedVertices<Vertex>;
+    using CheckableVerticesWithVertex = CheckableVertices<Vertex>;
 
     PrimAlgorithmLazyVersion(EdgeWeightedGraph const& graph, Vertex const& startVertex)
         : m_graph(graph)
@@ -54,8 +54,8 @@ private:
     {
         Vertex const& vertex1(edgeWithWeight.first);
         Vertex const& vertex2(edgeWithWeight.second);
-        bool isVertex1NotProcessed(m_processedVertices.isNotProcessed(vertex1));
-        bool isVertex2NotProcessed(m_processedVertices.isNotProcessed(vertex2));
+        bool isVertex1NotProcessed(m_processedVertices.isNotFound(vertex1));
+        bool isVertex2NotProcessed(m_processedVertices.isNotFound(vertex2));
         if(isVertex1NotProcessed || isVertex2NotProcessed)
         {
             m_minimumSpanningTreeEdges.emplace_back(createSortedEdge<Vertex, Edge>(vertex1, vertex2));
@@ -72,10 +72,10 @@ private:
 
     void checkAdjacentEdgesOfVertex(Vertex const& vertex)
     {
-        m_processedVertices.putVertexAsProcessed(vertex);
+        m_processedVertices.putVertex(vertex);
         for(Vertex const& adjacentVertex : m_graph.getAdjacentVerticesAt(vertex))
         {
-            if(m_processedVertices.isNotProcessed(adjacentVertex))
+            if(m_processedVertices.isNotFound(adjacentVertex))
             {
                 m_adjacentEdgesInOrder.emplace(vertex, adjacentVertex, m_graph.getWeight(vertex, adjacentVertex));
             }
@@ -84,7 +84,7 @@ private:
 
     Graph const& m_graph;
     Vertex m_startVertex;
-    ProcessedVerticesWithVertex m_processedVertices;
+    CheckableVerticesWithVertex m_processedVertices;
     Edges m_minimumSpanningTreeEdges;
     EdgeWithWeightsPriorityQueue m_adjacentEdgesInOrder;
 

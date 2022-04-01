@@ -9,8 +9,10 @@
 #include <Algorithm/Graph/Utilities/GraphUtilitiesHeaders.hpp>
 #include <Algorithm/UnionFind/BaseUnionFind.hpp>
 #include <Algorithm/UnionFind/UnionFindUsingMap.hpp>
+
 #include <algorithm>
 #include <set>
+
 namespace alba
 {
 
@@ -221,10 +223,12 @@ typename GraphTypes<Vertex>::Path getCriticalPath(
         // Use greater comparison for longest path
         PathSearchForDirectedAcyclicGraph<Vertex, Weight, EdgeWeightedGraphType, std::greater> pathSearch(graph, sourceVertex);
         result = pathSearch.getPathTo(destinationVertex);
-    }    return result;
+    }
+    return result;
 }
 
-template <typename Vertex>typename GraphTypes<Vertex>::ListOfEdges getEdgesOfMaximalConnectedSubgraphs(BaseUndirectedGraph<Vertex> const& graph)
+template <typename Vertex>
+typename GraphTypes<Vertex>::ListOfEdges getEdgesOfMaximalConnectedSubgraphs(BaseUndirectedGraph<Vertex> const& graph)
 {
     // A graph that is not connected (see isGraphConnected) consists of a set of connected components which are maximal connected subgraphs.
 
@@ -256,4 +260,5 @@ template <typename Vertex>typename GraphTypes<Vertex>::ListOfEdges getEdgesOfMax
 }
 
 }
+
 }
