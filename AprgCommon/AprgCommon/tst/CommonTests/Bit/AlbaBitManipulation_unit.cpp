@@ -2,15 +2,13 @@
 
 #include <gtest/gtest.h>
 
-
-
-#include <Common/Debug/AlbaDebug.hpp>
-
 namespace alba
 {
+
 TEST(AlbaBitManipulationTest, ShiftBytesToTheLeftWorks)
 {
-    EXPECT_EQ(0xA1U, AlbaBitManipulation<unsigned int>::shiftBytesToTheLeft<0>(0xA1));    EXPECT_EQ(0xA100U, AlbaBitManipulation<unsigned int>::shiftBytesToTheLeft<1>(0xA1));
+    EXPECT_EQ(0xA1U, AlbaBitManipulation<unsigned int>::shiftBytesToTheLeft<0>(0xA1));
+    EXPECT_EQ(0xA100U, AlbaBitManipulation<unsigned int>::shiftBytesToTheLeft<1>(0xA1));
     EXPECT_EQ(0xA10000U, AlbaBitManipulation<unsigned int>::shiftBytesToTheLeft<2>(0xA1));
     EXPECT_EQ(0xA1000000U, AlbaBitManipulation<unsigned int>::shiftBytesToTheLeft<3>(0xA1));
 }
@@ -100,10 +98,12 @@ TEST(AlbaBitManipulationTest, RotateBitToTheRightWithShiftValueWorks)
 TEST(AlbaBitManipulationTest, ConcatenationBytesWorksWithArgumentsSizeLessThanResult)
 {
     // Given
-    const unsigned char byte1 = 0xA1;    const unsigned char byte2 = 0xBA;
+    const unsigned char byte1 = 0xA1;
+    const unsigned char byte2 = 0xBA;
 
     // When
     unsigned int result = AlbaBitManipulation<unsigned int>::concatenateBytes(byte1, byte2);
+
     // Then
     EXPECT_EQ(0xA1BAU, result);
 }
@@ -111,10 +111,12 @@ TEST(AlbaBitManipulationTest, ConcatenationBytesWorksWithArgumentsSizeLessThanRe
 TEST(AlbaBitManipulationTest, ConcatenationBytesWorksWithArgumentsSameSizeAsResult)
 {
     // Given
-    const unsigned char byte1 = 0xA1;    const unsigned char byte2 = 0xBA;
+    const unsigned char byte1 = 0xA1;
+    const unsigned char byte2 = 0xBA;
 
     // When
     unsigned int result = AlbaBitManipulation<unsigned int>::concatenateBytes(byte1, byte2, byte1, byte2);
+
     // Then
     EXPECT_EQ(0xA1BAA1BAU, result);
 }
@@ -122,10 +124,12 @@ TEST(AlbaBitManipulationTest, ConcatenationBytesWorksWithArgumentsSameSizeAsResu
 TEST(AlbaBitManipulationTest, ConcatenationNibblesWorksWithArgumentsSizeLessThanResult)
 {
     // Given
-    const unsigned char byte1 = 0xA1;    const unsigned char byte2 = 0xBA;
+    const unsigned char byte1 = 0xA1;
+    const unsigned char byte2 = 0xBA;
 
     // When
     unsigned int result = AlbaBitManipulation<unsigned int>::concatenateNibbles(byte1, byte2);
+
     // Then
     EXPECT_EQ(0x1AU, result);
 }
@@ -133,10 +137,12 @@ TEST(AlbaBitManipulationTest, ConcatenationNibblesWorksWithArgumentsSizeLessThan
 TEST(AlbaBitManipulationTest, ConcatenationNibblesWorksWithArgumentsSameSizeAsResult)
 {
     // Given
-    const unsigned char byte1 = 0xA1;    const unsigned char byte2 = 0xBA;
+    const unsigned char byte1 = 0xA1;
+    const unsigned char byte2 = 0xBA;
 
     // When
     unsigned int result = AlbaBitManipulation<unsigned int>::concatenateNibbles(byte1, byte2, byte1, byte2, byte1, byte2, byte1, byte2);
+
     // Then
     EXPECT_EQ(0x1A1A1A1AU, result);
 }
@@ -259,6 +265,7 @@ TEST(AlbaBitManipulationTest, GenerationOfOnesWorks)
 {
     // Given
     const unsigned int input = 2;
+
     // When
 
     // Then
@@ -268,7 +275,8 @@ TEST(AlbaBitManipulationTest, GenerationOfOnesWorks)
 TEST(AlbaBitManipulationTest, GetAllBitsAssertedWorks)
 {
     EXPECT_EQ(0xFFFFU, AlbaBitManipulation<uint16_t>::getAllBitsAsserted());
-    EXPECT_EQ(0xFFFFFFFFU, AlbaBitManipulation<uint32_t>::getAllBitsAsserted());    EXPECT_EQ(0xFFFFFFFFFFFFFFFFU, AlbaBitManipulation<uint64_t>::getAllBitsAsserted());
+    EXPECT_EQ(0xFFFFFFFFU, AlbaBitManipulation<uint32_t>::getAllBitsAsserted());
+    EXPECT_EQ(0xFFFFFFFFFFFFFFFFU, AlbaBitManipulation<uint64_t>::getAllBitsAsserted());
 }
 
 TEST(AlbaBitManipulationTest, GetNumberOfBitsWorks)
@@ -283,12 +291,7 @@ TEST(AlbaBitManipulationTest, GetNumberOfBitsAssertedWorks)
 {
     EXPECT_EQ(2U, AlbaBitManipulation<uint8_t>::getNumberOfBitsAsserted(5));
     EXPECT_EQ(3U, AlbaBitManipulation<uint8_t>::getNumberOfBitsAsserted(7));
-
-    for(unsigned int i=0; i<=1000; i+=4)
-    {
-        unsigned int numberOfBits = AlbaBitManipulation<uint8_t>::getNumberOfBitsAsserted(i);
-        ALBA_PRINT2(i, numberOfBits);
-    }
+    EXPECT_EQ(4U, AlbaBitManipulation<uint8_t>::getNumberOfBitsAsserted(113));
 }
 
 }
