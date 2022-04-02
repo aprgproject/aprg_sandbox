@@ -1,14 +1,13 @@
 #pragma once
 
 #include <Common/Bit/AlbaBitConstants.hpp>
+#include <Common/Math/AlbaMathHelper.hpp>
 
 #include <cmath>
-#include <cstdint>
-#include <limits>
+#include <cstdint>#include <limits>
 
 namespace alba
 {
-
 template <typename DataTypeToManipulate>
 class AlbaBitManipulation
 {
@@ -176,15 +175,13 @@ public:
 
     static constexpr DataTypeToManipulate generateOnesWithNumberOfBits(unsigned int const numberOfOnes)
     {
-        return static_cast<DataTypeToManipulate>(round(pow(static_cast<double>(2), static_cast<double>(numberOfOnes)))-1);
+        return static_cast<DataTypeToManipulate>(round(pow(2, numberOfOnes))-1);
     }
 
-    static constexpr DataTypeToManipulate getAllBitsAsserted()
-    {
+    static constexpr DataTypeToManipulate getAllBitsAsserted()    {
         static_assert(sizeof(DataTypeToManipulate) != sizeof(DataTypeToManipulate),
                       "This size or type is not supported. Please add a specialization if needed.");
-        return 0;
-    }
+        return 0;    }
 
     static constexpr unsigned int getNumberOfBits()
     {
@@ -193,23 +190,22 @@ public:
 
     static unsigned int getNumberOfBitsAsserted(DataTypeToManipulate const value)
     {
+        // logarithm implementation
         unsigned int result(0U);
-        DataTypeToManipulate shiftedValue(value);
-        for(unsigned int i=0; i<getNumberOfBits(); i++)
+        DataTypeToManipulate valueToReduce(value);
+        while(valueToReduce != 0)
         {
-            if((shiftedValue & AlbaBitConstants::BIT_MASK) == 1)
-            {
-                result++;
-            }
-            shiftedValue >>= 1;
+            DataTypeToManipulate bitIndexWithOne(
+                        static_cast<DataTypeToManipulate>(floor(mathHelper::getLogarithm(2, valueToReduce))));
+            DataTypeToManipulate mask = ~(1 << bitIndexWithOne);
+            valueToReduce &= mask;
+            result++;
         }
         return result;
     }
-
 private:
     template <typename ArgumentType>
-    static constexpr DataTypeToManipulate concatenateBytes(ArgumentType arg)
-    {
+    static constexpr DataTypeToManipulate concatenateBytes(ArgumentType arg)    {
         static_assert(sizeof(ArgumentType) == 1, "concatenateBytes: ArgumentType size is greater than a byte");
         return arg;
     }
@@ -249,15 +245,19 @@ constexpr uint64_t AlbaBitManipulation<uint64_t>::swapWithBytes<8>(uint64_t cons
 }
 
 template <>
-constexpr uint16_t AlbaBitManipulation<uint16_t>::getAllBitsAsserted()
+constexpr uint8_t AlbaBitManipulation<uint8_t>::getAllBitsAsserted()
 {
-    return 0xFFFFU;
+    return 0xFFU;
 }
 
 template <>
-constexpr uint32_t AlbaBitManipulation<uint32_t>::getAllBitsAsserted()
+constexpr uint16_t AlbaBitManipulation<uint16_t>::getAllBitsAsserted()
 {
-    return 0xFFFFFFFFU;
+    return 0xFFFFU;}
+
+template <>
+constexpr uint32_t AlbaBitManipulation<uint32_t>::getAllBitsAsserted()
+{    return 0xFFFFFFFFU;
 }
 
 template <>
