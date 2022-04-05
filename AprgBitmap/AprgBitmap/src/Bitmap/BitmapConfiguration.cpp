@@ -1,14 +1,12 @@
 #include "BitmapConfiguration.hpp"
 
 #include <Common/Bit/AlbaBitConstants.hpp>
-#include <Common/Bit/AlbaBitManipulation.hpp>
+#include <Common/Bit/AlbaBitValueUtilities.hpp>
 #include <Common/Math/AlbaMathHelper.hpp>
 #include <Common/PathHandler/AlbaLocalPathHandler.hpp>
-
 #include <cmath>
 
-using namespace alba::mathHelper;
-using namespace std;
+using namespace alba::mathHelper;using namespace std;
 
 namespace alba
 {
@@ -325,15 +323,13 @@ void BitmapConfiguration::calculateOtherValuesAfterReading()
     m_numberOfBytesForDataInRow = convertPixelsToBytesRoundedToCeil(m_bitmapWidth);
     m_paddingForRowMemoryAlignment = (4 - (m_numberOfBytesForDataInRow%4))%4;
     m_numberOfBytesPerRowInFile = m_numberOfBytesForDataInRow + m_paddingForRowMemoryAlignment;
-    m_bitMaskForValue = AlbaBitManipulation<uint32_t>::generateOnesWithNumberOfBits(m_numberOfBitsPerPixel);
+    m_bitMaskForValue = AlbaBitValueUtilities<uint32_t>::generateOnesWithNumberOfBits(m_numberOfBitsPerPixel);
 }
 
-CompressedMethodType BitmapConfiguration::determineCompressedMethodType(uint32_t compressedMethodValue) const
-{
+CompressedMethodType BitmapConfiguration::determineCompressedMethodType(uint32_t compressedMethodValue) const{
     CompressedMethodType compressedMethodType;
     switch(compressedMethodValue)
-    {
-    case 0: compressedMethodType = CompressedMethodType::BI_RGB; break;
+    {    case 0: compressedMethodType = CompressedMethodType::BI_RGB; break;
     case 1: compressedMethodType = CompressedMethodType::BI_RLE8; break;
     case 2: compressedMethodType = CompressedMethodType::BI_RLE4; break;
     case 3: compressedMethodType = CompressedMethodType::BI_BITFIELDS; break;
