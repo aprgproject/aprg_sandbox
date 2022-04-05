@@ -18,6 +18,7 @@ public:
 
     virtual bool isReachable(Vertex const& destinationVertex) const = 0;
 };
+
 }
 
 }

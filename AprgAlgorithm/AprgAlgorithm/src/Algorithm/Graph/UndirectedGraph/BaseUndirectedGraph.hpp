@@ -18,10 +18,12 @@ public:
 
     virtual bool hasAnyConnection(Vertex const& vertex) const = 0;
 
-    GraphDirectionType getGraphDirectionType() const    {
+    GraphDirectionType getGraphDirectionType() const
+    {
         return DIRECTION_TYPE;
     }
-    static constexpr GraphDirectionType DIRECTION_TYPE = GraphDirectionType::Undirected;};
+    static constexpr GraphDirectionType DIRECTION_TYPE = GraphDirectionType::Undirected;
+};
 
 }
 

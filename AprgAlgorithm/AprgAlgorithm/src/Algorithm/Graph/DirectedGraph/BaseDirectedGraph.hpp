@@ -19,10 +19,12 @@ public:
 
     GraphDirectionType getGraphDirectionType() const
     {
-        return DIRECTION_TYPE;    }
+        return DIRECTION_TYPE;
+    }
 
     void reverseDirections()
-    {        Edges originalEdges(this->getEdges());
+    {
+        Edges originalEdges(this->getEdges());
         this->clear();
         for(auto const& originalEdge : originalEdges)
         {
