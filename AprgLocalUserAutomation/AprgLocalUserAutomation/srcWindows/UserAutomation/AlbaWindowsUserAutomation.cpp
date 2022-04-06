@@ -11,6 +11,7 @@
 #include <iostream>
 
 using namespace std;
+
 namespace alba
 {
 
@@ -30,7 +31,8 @@ However, you should not rely on this last behavior; for more information, see th
 
 MousePosition AlbaWindowsUserAutomation::getMousePosition() const
 {
-    MousePosition position;    POINT mouse;
+    MousePosition position;
+    POINT mouse;
     GetCursorPos(&mouse);
     return MousePosition(mouse.x, mouse.y);
 }
@@ -322,7 +324,8 @@ void AlbaWindowsUserAutomation::saveBitmapOnScreen(std::string const& filePath) 
 
 unsigned int AlbaWindowsUserAutomation::convertToVirtualKey(char const character) const
 {
-    int virtualKey = character;    if(stringHelper::isLetter(character))
+    int virtualKey = character;
+    if(stringHelper::isLetter(character))
     {
         virtualKey = ::toupper(character);
     }

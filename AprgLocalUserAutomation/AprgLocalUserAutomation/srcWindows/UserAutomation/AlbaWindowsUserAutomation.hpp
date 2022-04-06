@@ -20,7 +20,8 @@ public:
     bool isLetterPressed(char const letter) const;
     MousePosition getMousePosition() const;
     void setMousePosition(MousePosition const& position) const;
-    void doLeftClick() const;    void doDoubleLeftClick() const;
+    void doLeftClick() const;
+    void doDoubleLeftClick() const;
     void doLeftClickAt(MousePosition const& position) const;
     void doDoubleLeftClickAt(MousePosition const& position) const;
     void doRightClick() const;
@@ -45,7 +46,8 @@ public:
 
 private:
     unsigned int convertToVirtualKey(char const character) const;
-    void setForegroundWindowWithWindowHandle(HWND const windowHandle) const;    void doOperation(InputFunction const& inputFunction) const;
+    void setForegroundWindowWithWindowHandle(HWND const windowHandle) const;
+    void doOperation(InputFunction const& inputFunction) const;
     void doOperationWithRealisticDelay(AlbaWindowsUserAutomation::InputFunction const& inputFunction) const;
     static constexpr unsigned int REALISTIC_DELAY_IN_MILLISECONDS=1000;
 };
