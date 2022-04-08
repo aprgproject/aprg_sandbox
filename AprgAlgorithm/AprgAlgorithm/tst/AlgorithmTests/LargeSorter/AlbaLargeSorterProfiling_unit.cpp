@@ -16,8 +16,10 @@ using namespace std;
 
 namespace alba
 {
+
 namespace algorithm
 {
+
 TEST(AlbaLargeSorterPriofileTest, DISABLED_FirstTest)
 {
     unsigned int stringSize(200);
