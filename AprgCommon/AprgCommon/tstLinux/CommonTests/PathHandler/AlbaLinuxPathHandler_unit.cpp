@@ -153,19 +153,16 @@ TEST_F(AlbaLinuxPathHandlerTest, FullPathWithDirectoryAndFile_ActualLocalDirecto
 
 TEST_F(AlbaLinuxPathHandlerTest, ReInputFileThatIsToBeDeleted_ActualLocalDirectory)
 {
-    string const pathOfFileToBeDeleted(APRG_DIR R"(\AprgCommon/FilesForTests/DirectoryTest/FileToBeDeleted.log)");
-    std::ofstream fileToBeDeleted(pathOfFileToBeDeleted);
+    AlbaLinuxPathHandler pathHandler(APRG_DIR R"(\AprgCommon/FilesForTests/DirectoryTest/FileToBeDeleted.log)");
+    std::ofstream fileToBeDeleted(pathHandler.getFullPath());
     fileToBeDeleted.close();
-
-    AlbaLinuxPathHandler pathHandler(pathOfFileToBeDeleted);
+    pathHandler.reInput();
     EXPECT_EQ(convertToSimplestPath(APRG_DIR R"(\AprgCommon/FilesForTests/DirectoryTest/)"), pathHandler.getDirectory());
     EXPECT_EQ("FileToBeDeleted.log", pathHandler.getFile());
-    EXPECT_EQ("FileToBeDeleted", pathHandler.getFilenameOnly());
-    EXPECT_EQ("log", pathHandler.getExtension());    EXPECT_EQ(PathType::File, pathHandler.getPathType());
+    EXPECT_EQ("FileToBeDeleted", pathHandler.getFilenameOnly());    EXPECT_EQ("log", pathHandler.getExtension());    EXPECT_EQ(PathType::File, pathHandler.getPathType());
     EXPECT_TRUE(pathHandler.isFoundInLocalSystem());
 
     EXPECT_TRUE(pathHandler.deleteFile());
-
     EXPECT_EQ(convertToSimplestPath(APRG_DIR R"(\AprgCommon/FilesForTests/DirectoryTest/)"), pathHandler.getDirectory());
     EXPECT_EQ("FileToBeDeleted.log", pathHandler.getFile());
     EXPECT_EQ("FileToBeDeleted", pathHandler.getFilenameOnly());
@@ -175,19 +172,16 @@ TEST_F(AlbaLinuxPathHandlerTest, ReInputFileThatIsToBeDeleted_ActualLocalDirecto
 
 TEST_F(AlbaLinuxPathHandlerTest, ReInputFileThatIsToBeRenamed_ActualLocalDirectory)
 {
-    string const pathOfFileToBeRenamed(APRG_DIR R"(\AprgCommon/FilesForTests/DirectoryTest/FileToBeRenamed.log)");
-    std::ofstream fileToBeDeleted(pathOfFileToBeRenamed);
-    fileToBeDeleted.close();
-
-    AlbaLinuxPathHandler pathHandler(pathOfFileToBeRenamed);
+    AlbaLinuxPathHandler pathHandler(APRG_DIR R"(\AprgCommon/FilesForTests/DirectoryTest/FileToBeRenamed.log)");
+    std::ofstream fileToBeRenamed(pathHandler.getFullPath());
+    fileToBeRenamed.close();
+    pathHandler.reInput();
     EXPECT_EQ(convertToSimplestPath(APRG_DIR R"(\AprgCommon/FilesForTests/DirectoryTest/)"), pathHandler.getDirectory());
     EXPECT_EQ("FileToBeRenamed.log", pathHandler.getFile());
-    EXPECT_EQ("FileToBeRenamed", pathHandler.getFilenameOnly());
-    EXPECT_EQ("log", pathHandler.getExtension());    EXPECT_EQ(PathType::File, pathHandler.getPathType());
+    EXPECT_EQ("FileToBeRenamed", pathHandler.getFilenameOnly());    EXPECT_EQ("log", pathHandler.getExtension());    EXPECT_EQ(PathType::File, pathHandler.getPathType());
     EXPECT_TRUE(pathHandler.isFoundInLocalSystem());
 
     EXPECT_TRUE(pathHandler.renameFile("RenamedFile.txt"));
-
     EXPECT_EQ(convertToSimplestPath(APRG_DIR R"(\AprgCommon/FilesForTests/DirectoryTest/)"), pathHandler.getDirectory());
     EXPECT_EQ("RenamedFile.txt", pathHandler.getFile());
     EXPECT_EQ("RenamedFile", pathHandler.getFilenameOnly());
@@ -198,20 +192,17 @@ TEST_F(AlbaLinuxPathHandlerTest, ReInputFileThatIsToBeRenamed_ActualLocalDirecto
 
 TEST_F(AlbaLinuxPathHandlerTest, FileIsCopiedToNewFile_ActualLocalDirectory)
 {
-    string const pathOfFileToBeCopied(APRG_DIR R"(\AprgCommon/FilesForTests/DirectoryTest/FileToBeCopied.log)");
+    AlbaLinuxPathHandler pathHandler(APRG_DIR R"(\AprgCommon/FilesForTests/DirectoryTest/FileToBeCopied.log)");
     string const pathOfCopiedFile("CopiedFile.log");
-    std::ofstream fileToBeDeleted(pathOfFileToBeCopied);
+    std::ofstream fileToBeDeleted(pathHandler.getFullPath());
     fileToBeDeleted.close();
-
-    AlbaLinuxPathHandler pathHandler(pathOfFileToBeCopied);
+    pathHandler.reInput();
     EXPECT_EQ(convertToSimplestPath(APRG_DIR R"(\AprgCommon/FilesForTests/DirectoryTest/)"), pathHandler.getDirectory());
     EXPECT_EQ("FileToBeCopied.log", pathHandler.getFile());
-    EXPECT_EQ("FileToBeCopied", pathHandler.getFilenameOnly());
-    EXPECT_EQ("log", pathHandler.getExtension());    EXPECT_EQ(PathType::File, pathHandler.getPathType());
+    EXPECT_EQ("FileToBeCopied", pathHandler.getFilenameOnly());    EXPECT_EQ("log", pathHandler.getExtension());    EXPECT_EQ(PathType::File, pathHandler.getPathType());
     EXPECT_TRUE(pathHandler.isFoundInLocalSystem());
 
     EXPECT_TRUE(pathHandler.copyToNewFile(pathHandler.getDirectory()+pathOfCopiedFile));
-
     AlbaLinuxPathHandler pathHandlerOfCopiedFile(pathHandler.getDirectory()+pathOfCopiedFile);
     EXPECT_EQ(convertToSimplestPath(APRG_DIR R"(\AprgCommon/FilesForTests/DirectoryTest/)"), pathHandlerOfCopiedFile.getDirectory());
     EXPECT_EQ("CopiedFile.log", pathHandlerOfCopiedFile.getFile());
