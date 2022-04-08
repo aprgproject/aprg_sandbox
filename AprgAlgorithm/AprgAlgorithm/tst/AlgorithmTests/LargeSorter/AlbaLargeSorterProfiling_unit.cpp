@@ -12,14 +12,12 @@
 
 using namespace std;
 
-#define ALBA_LARGE_SORTER_BLOCK_DIR APRG_DIR "AprgAlgorithm\\AprgAlgorithm\\tst\\FilesForTests\\LargeSorterTest\\blocks"
+#define ALBA_LARGE_SORTER_BLOCK_DIR APRG_DIR R"(\AprgAlgorithm\FilesForTests\LargeSorterTest\blocks\)"
 
 namespace alba
 {
-
 namespace algorithm
 {
-
 TEST(AlbaLargeSorterPriofileTest, DISABLED_FirstTest)
 {
     unsigned int stringSize(200);
