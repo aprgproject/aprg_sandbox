@@ -4,14 +4,12 @@
 
 using namespace std;
 
-#define SAMPLE_AUDIO_FILES_DIRECTORY APRG_DIR R"(\AprgAudioManipulator\SampleAudioFiles\)"
+#define SAMPLE_AUDIO_FILES_DIRECTORY APRG_DIR R"(\AprgAudioManipulator\FilesForTests\SampleAudioFiles\)"
 
 namespace alba
 {
-
 namespace AprgAudio
 {
-
 TEST(AudioManipulatorTest, DISABLED_AddSamplesWithValueWorks)
 {
     AlbaLocalPathHandler audioDirectoryPathHandler(SAMPLE_AUDIO_FILES_DIRECTORY);
