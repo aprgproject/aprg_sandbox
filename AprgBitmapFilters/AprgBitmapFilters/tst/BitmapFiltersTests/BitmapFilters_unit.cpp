@@ -10,8 +10,10 @@ using namespace std;
 
 namespace alba
 {
+
 namespace AprgBitmap
 {
+
 TEST(BitmapFiltersTest, DISABLED_BlurringDisimilarColors)
 {
     AlbaLocalPathHandler bitmapDirectory(APRG_BITMAP_FILTERS_BITMAP_DIRECTORY);

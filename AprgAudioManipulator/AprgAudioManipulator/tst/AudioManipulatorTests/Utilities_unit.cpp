@@ -12,8 +12,10 @@ using namespace std;
 
 namespace alba
 {
+
 namespace AprgAudio
 {
+
 TEST(UtilitiesTest, RetrieveDeltasWorks)
 {
     AlbaLocalPathHandler audioDirectoryPathHandler(SAMPLE_AUDIO_FILES_DIRECTORY);

@@ -11,8 +11,10 @@ using namespace std;
 
 namespace alba
 {
+
 namespace AprgBitmap
 {
+
 TEST(AnimeFilterTest, DISABLED_AnimizeMultipleFilesTest)
 {
     AlbaLocalPathHandler bitmapDirectory(APRG_BITMAP_FILTERS_BITMAP_DIRECTORY);

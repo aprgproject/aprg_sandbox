@@ -11,8 +11,10 @@ using namespace std;
 
 namespace alba
 {
+
 namespace AprgBitmap
 {
+
 TEST(PenCirclesDrawerTest, DrawACircle)
 {
     AlbaLocalPathHandler bitmapDirectory(APRG_BITMAP_FILTERS_BITMAP_DIRECTORY);

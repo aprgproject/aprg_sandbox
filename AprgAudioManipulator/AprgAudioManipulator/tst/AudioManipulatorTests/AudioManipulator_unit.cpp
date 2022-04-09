@@ -8,8 +8,10 @@ using namespace std;
 
 namespace alba
 {
+
 namespace AprgAudio
 {
+
 TEST(AudioManipulatorTest, DISABLED_AddSamplesWithValueWorks)
 {
     AlbaLocalPathHandler audioDirectoryPathHandler(SAMPLE_AUDIO_FILES_DIRECTORY);
