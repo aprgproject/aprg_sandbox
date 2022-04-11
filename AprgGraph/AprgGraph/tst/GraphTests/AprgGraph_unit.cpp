@@ -12,16 +12,14 @@ using namespace alba::AprgBitmap;
 using namespace alba::TwoDimensions;
 using namespace std;
 
-#define APRG_GRAPH_24_BIT_DEFAULT_FILE APRG_DIR R"(\AprgGraph\AprgGraph\tst\Bitmaps\Default24Bit.bmp)"
-#define APRG_GRAPH_24_BIT_GRAPH_OUTPUT_FILE APRG_DIR R"(\AprgGraph\AprgGraph\tst\Bitmaps\GraphOutput.bmp)"
+#define APRG_GRAPH_24_BIT_DEFAULT_FILE APRG_DIR R"(\AprgGraph\FilesForTests\Bitmaps\Default24Bit.bmp)"
+#define APRG_GRAPH_24_BIT_GRAPH_OUTPUT_FILE APRG_DIR R"(\AprgGraph\FilesForTests\Bitmaps\GraphOutput.bmp)"
 
 namespace alba
 {
-
 TEST(AprgGraphTest, DISABLED_BitmapGraph24Bits)
 {
-    AlbaLocalPathHandler defaultFile(APRG_GRAPH_24_BIT_DEFAULT_FILE);
-    AlbaLocalPathHandler graphOutputFile(APRG_GRAPH_24_BIT_GRAPH_OUTPUT_FILE);
+    AlbaLocalPathHandler defaultFile(APRG_GRAPH_24_BIT_DEFAULT_FILE);    AlbaLocalPathHandler graphOutputFile(APRG_GRAPH_24_BIT_GRAPH_OUTPUT_FILE);
     graphOutputFile.deleteFile();
     defaultFile.copyToNewFile(graphOutputFile.getFullPath());
 
