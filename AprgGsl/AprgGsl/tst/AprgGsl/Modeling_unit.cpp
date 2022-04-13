@@ -5,17 +5,15 @@
 
 using namespace std;
 
-#define ALBA_MODELING_DATA_SET_WITH_FILE_FORMAT1_FILE1 APRG_DIR R"(\AprgGsl\AprgGsl\tst\DataSets\DataSet1.csv)"
-#define ALBA_MODELING_DATA_SET_WITH_FILE_FORMAT1_FILE2 APRG_DIR R"(\AprgGsl\AprgGsl\tst\DataSets\DataSet2.csv)"
-#define ALBA_MODELING_DATA_SET_WITH_FILE_FORMAT2_FILE3 APRG_DIR R"(\AprgGsl\AprgGsl\tst\DataSets\DataSet3_FileFormat2.csv)"
+#define ALBA_MODELING_DATA_SET_WITH_FILE_FORMAT1_FILE1 APRG_DIR R"(\AprgGsl\FilesForTests\DataSets\DataSet1.csv)"
+#define ALBA_MODELING_DATA_SET_WITH_FILE_FORMAT1_FILE2 APRG_DIR R"(\AprgGsl\FilesForTests\DataSets\DataSet2.csv)"
+#define ALBA_MODELING_DATA_SET_WITH_FILE_FORMAT2_FILE3 APRG_DIR R"(\AprgGsl\FilesForTests\DataSets\DataSet3_FileFormat2.csv)"
 
 namespace alba
 {
-
 TEST(SampleTest, TestForDataSet)
 {
-    AlbaLocalPathHandler testFilePath(ALBA_MODELING_DATA_SET_WITH_FILE_FORMAT1_FILE1);
-    Modeling modeling;
+    AlbaLocalPathHandler testFilePath(ALBA_MODELING_DATA_SET_WITH_FILE_FORMAT1_FILE1);    Modeling modeling;
     modeling.retrieveDataFromFileWithFileFormat1(testFilePath.getFullPath());
     modeling.printRetrievedData();
     unsigned int numberOfSamples (modeling.getNumberOfSamples());
