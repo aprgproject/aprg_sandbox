@@ -142,16 +142,14 @@ TEST(AlbaWindowsUserAutomationTest, DISABLED_SetStringFromClipboard)
 
 TEST(AlbaWindowsUserAutomationTest, DISABLED_SaveBitmapFromClipboard)
 {
-    string bitmapFilePath = APRG_DIR R"(\AprgLocalUserAutomation\TestFiles\BitmapFromClipboard.bmp)";
+    string bitmapFilePath = APRG_DIR R"(\AprgLocalUserAutomation\FilesForTests\BitmapFromClipboard.bmp)";
     AlbaWindowsUserAutomation userAutomation;
     userAutomation.saveBitmapFromClipboard(bitmapFilePath);
 }
-
 TEST(AlbaWindowsUserAutomationTest, DISABLED_SaveBitmapOnScreen)
 {
-    string bitmapFilePath = APRG_DIR R"(\AprgLocalUserAutomation\TestFiles\BitmapFromScreen.bmp)";
+    string bitmapFilePath = APRG_DIR R"(\AprgLocalUserAutomation\FilesForTests\BitmapFromScreen.bmp)";
     AlbaWindowsUserAutomation userAutomation;
     userAutomation.saveBitmapOnScreen(bitmapFilePath);
 }
-
 }
