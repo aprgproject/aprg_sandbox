@@ -33,15 +33,13 @@ TEST_F(BtsLogSorterTest, DISABLED_PerformanceTest)
 TEST_F(BtsLogSorterTest, SyslogsAndSnapshotTest_PrintsAreMerged)
 {
     BtsLogSorter btsLogSorter(m_configuration);
-    AlbaLocalPathHandler inputPathHandler(APRG_DIR R"(\WcdmaTools\WcdmaToolsBackend\tst\WcdmaToolsBackendTests\ImportantTestingFiles\SyslogsAndSnapshotTest_PrintsAreMerged\input.log)");
-    AlbaLocalPathHandler outputPathHandler(APRG_DIR R"(\WcdmaTools\WcdmaToolsBackend\tst\WcdmaToolsBackendTests\ImportantTestingFiles\SyslogsAndSnapshotTest_PrintsAreMerged\output.log)");
+    AlbaLocalPathHandler inputPathHandler(APRG_DIR R"(\WcdmaTools\WcdmaToolsBackend\FilesForTests\ImportantTestingFiles\SyslogsAndSnapshotTest_PrintsAreMerged\input.log)");
+    AlbaLocalPathHandler outputPathHandler(APRG_DIR R"(\WcdmaTools\WcdmaToolsBackend\FilesForTests\ImportantTestingFiles\SyslogsAndSnapshotTest_PrintsAreMerged\output.log)");
     btsLogSorter.processFile(inputPathHandler.getFullPath());
     btsLogSorter.saveLogsToOutputFile(outputPathHandler.getFullPath());
-
     int lines=0;
     ifstream inputLogFileStream(outputPathHandler.getFullPath());
-    AlbaFileReader fileReader(inputLogFileStream);
-    while(fileReader.isNotFinished())
+    AlbaFileReader fileReader(inputLogFileStream);    while(fileReader.isNotFinished())
     {
         fileReader.getLineAndIgnoreWhiteSpaces();
         lines++;
@@ -53,15 +51,13 @@ TEST_F(BtsLogSorterTest, SyslogsAndSnapshotTest_PrintsAreMerged)
 TEST_F(BtsLogSorterTest, SyslogsAndSnapshotTest_PrintsAreMerged2)
 {
     BtsLogSorter btsLogSorter(m_configuration);
-    AlbaLocalPathHandler inputPathHandler(APRG_DIR R"(\WcdmaTools\WcdmaToolsBackend\tst\WcdmaToolsBackendTests\ImportantTestingFiles\SyslogsAndSnapshotTest_PrintsAreMerged2\input.log)");
-    AlbaLocalPathHandler outputPathHandler(APRG_DIR R"(\WcdmaTools\WcdmaToolsBackend\tst\WcdmaToolsBackendTests\ImportantTestingFiles\SyslogsAndSnapshotTest_PrintsAreMerged2\output.log)");
+    AlbaLocalPathHandler inputPathHandler(APRG_DIR R"(\WcdmaTools\WcdmaToolsBackend\FilesForTests\ImportantTestingFiles\SyslogsAndSnapshotTest_PrintsAreMerged2\input.log)");
+    AlbaLocalPathHandler outputPathHandler(APRG_DIR R"(\WcdmaTools\WcdmaToolsBackend\FilesForTests\ImportantTestingFiles\SyslogsAndSnapshotTest_PrintsAreMerged2\output.log)");
     btsLogSorter.processFile(inputPathHandler.getFullPath());
     btsLogSorter.saveLogsToOutputFile(outputPathHandler.getFullPath());
-
     int lines=0;
     ifstream inputLogFileStream(outputPathHandler.getFullPath());
-    AlbaFileReader fileReader(inputLogFileStream);
-    while(fileReader.isNotFinished())
+    AlbaFileReader fileReader(inputLogFileStream);    while(fileReader.isNotFinished())
     {
         fileReader.getLineAndIgnoreWhiteSpaces();
         lines++;
@@ -73,15 +69,13 @@ TEST_F(BtsLogSorterTest, SyslogsAndSnapshotTest_PrintsAreMerged2)
 TEST_F(BtsLogSorterTest, SyslogsAndSnapshotTest_PrintsAreOrderedBasedOnBtsTime)
 {
     BtsLogSorter btsLogSorter(m_configuration);
-    AlbaLocalPathHandler inputPathHandler(APRG_DIR R"(\WcdmaTools\WcdmaToolsBackend\tst\WcdmaToolsBackendTests\ImportantTestingFiles\SyslogsAndSnapshotTest_PrintsAreOrderedBasedOnBtsTime\input.log)");
-    AlbaLocalPathHandler outputPathHandler(APRG_DIR R"(\WcdmaTools\WcdmaToolsBackend\tst\WcdmaToolsBackendTests\ImportantTestingFiles\SyslogsAndSnapshotTest_PrintsAreOrderedBasedOnBtsTime\output.log)");
+    AlbaLocalPathHandler inputPathHandler(APRG_DIR R"(\WcdmaTools\WcdmaToolsBackend\FilesForTests\ImportantTestingFiles\SyslogsAndSnapshotTest_PrintsAreOrderedBasedOnBtsTime\input.log)");
+    AlbaLocalPathHandler outputPathHandler(APRG_DIR R"(\WcdmaTools\WcdmaToolsBackend\FilesForTests\ImportantTestingFiles\SyslogsAndSnapshotTest_PrintsAreOrderedBasedOnBtsTime\output.log)");
     btsLogSorter.processFile(inputPathHandler.getFullPath());
     btsLogSorter.saveLogsToOutputFile(outputPathHandler.getFullPath());
-
     int lines=0;
     ifstream inputLogFileStream(outputPathHandler.getFullPath());
-    AlbaFileReader fileReader(inputLogFileStream);
-    while(fileReader.isNotFinished())
+    AlbaFileReader fileReader(inputLogFileStream);    while(fileReader.isNotFinished())
     {
         cout<<fileReader.getLineAndIgnoreWhiteSpaces()<<endl;
         lines++;
@@ -95,15 +89,13 @@ TEST_F(BtsLogSorterTest, SyslogsAndSnapshotTest_PrintsAreFiltered)
     m_configuration.m_isFilterGrepOn = true;
     m_configuration.m_filterGrepCondition = "[TCOM/NC]";
     BtsLogSorter btsLogSorter(m_configuration);
-    AlbaLocalPathHandler inputPathHandler(APRG_DIR R"(\WcdmaTools\WcdmaToolsBackend\tst\WcdmaToolsBackendTests\ImportantTestingFiles\SyslogsAndSnapshotTest_PrintsAreFiltered\input.log)");
-    AlbaLocalPathHandler outputPathHandler(APRG_DIR R"(\WcdmaTools\WcdmaToolsBackend\tst\WcdmaToolsBackendTests\ImportantTestingFiles\SyslogsAndSnapshotTest_PrintsAreFiltered\output.log)");
+    AlbaLocalPathHandler inputPathHandler(APRG_DIR R"(\WcdmaTools\WcdmaToolsBackend\FilesForTests\ImportantTestingFiles\SyslogsAndSnapshotTest_PrintsAreFiltered\input.log)");
+    AlbaLocalPathHandler outputPathHandler(APRG_DIR R"(\WcdmaTools\WcdmaToolsBackend\FilesForTests\ImportantTestingFiles\SyslogsAndSnapshotTest_PrintsAreFiltered\output.log)");
     btsLogSorter.processFile(inputPathHandler.getFullPath());
     btsLogSorter.saveLogsToOutputFile(outputPathHandler.getFullPath());
-
     int lines=0;
     ifstream inputLogFileStream(outputPathHandler.getFullPath());
-    AlbaFileReader fileReader(inputLogFileStream);
-    while(fileReader.isNotFinished())
+    AlbaFileReader fileReader(inputLogFileStream);    while(fileReader.isNotFinished())
     {
         cout<<fileReader.getLineAndIgnoreWhiteSpaces()<<endl;
         lines++;
