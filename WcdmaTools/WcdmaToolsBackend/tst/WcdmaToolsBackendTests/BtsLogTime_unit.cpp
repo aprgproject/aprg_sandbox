@@ -223,15 +223,13 @@ TEST(BtsLogTimeTest, TheDataCanBeSavedToAndRetrieveFromFile)
 {
     BtsLogTime sampleLogTime(BtsLogTimeType::BtsTimeStamp, "2000-01-01T23:59:59.999999");
     BtsLogTime testLogTime;
-    string pathOfTempFile(APRG_DIR R"(\WcdmaTools\WcdmaToolsBackend\tst\WcdmaToolsBackendTests\ImportantTestingFiles\TempTestFiles\temp.txt)");
+    string pathOfTempFile(APRG_DIR R"(\WcdmaTools\WcdmaToolsBackend\FilesForTests\ImportantTestingFiles\TempTestFiles\temp.txt)");
     {
         ofstream outputStream(pathOfTempFile);
-        outputStream<<sampleLogTime<<endl;
-    }
+        outputStream<<sampleLogTime<<endl;    }
     ASSERT_TRUE(testLogTime.isEmpty());
     {
-        ifstream inputStream(pathOfTempFile);
-        inputStream>>testLogTime;
+        ifstream inputStream(pathOfTempFile);        inputStream>>testLogTime;
     }
     EXPECT_EQ(sampleLogTime, testLogTime);
 }
