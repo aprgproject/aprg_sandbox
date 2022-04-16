@@ -4,16 +4,11 @@
 #include <Common/String/AlbaStringHelper.hpp>
 
 #include <algorithm>
-#include <cassert>
-#include <string>
-#include <vector>
 
 namespace alba
 {
-
 namespace algorithm
 {
-
 template <typename Value>
 class Alphabet
 {
