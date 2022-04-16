@@ -37,9 +37,11 @@ TEST_F(BtsLogSorterTest, SyslogsAndSnapshotTest_PrintsAreMerged)
     AlbaLocalPathHandler outputPathHandler(APRG_DIR R"(\WcdmaTools\WcdmaToolsBackend\FilesForTests\ImportantTestingFiles\SyslogsAndSnapshotTest_PrintsAreMerged\output.log)");
     btsLogSorter.processFile(inputPathHandler.getFullPath());
     btsLogSorter.saveLogsToOutputFile(outputPathHandler.getFullPath());
+
     int lines=0;
     ifstream inputLogFileStream(outputPathHandler.getFullPath());
-    AlbaFileReader fileReader(inputLogFileStream);    while(fileReader.isNotFinished())
+    AlbaFileReader fileReader(inputLogFileStream);
+    while(fileReader.isNotFinished())
     {
         fileReader.getLineAndIgnoreWhiteSpaces();
         lines++;
@@ -55,9 +57,11 @@ TEST_F(BtsLogSorterTest, SyslogsAndSnapshotTest_PrintsAreMerged2)
     AlbaLocalPathHandler outputPathHandler(APRG_DIR R"(\WcdmaTools\WcdmaToolsBackend\FilesForTests\ImportantTestingFiles\SyslogsAndSnapshotTest_PrintsAreMerged2\output.log)");
     btsLogSorter.processFile(inputPathHandler.getFullPath());
     btsLogSorter.saveLogsToOutputFile(outputPathHandler.getFullPath());
+
     int lines=0;
     ifstream inputLogFileStream(outputPathHandler.getFullPath());
-    AlbaFileReader fileReader(inputLogFileStream);    while(fileReader.isNotFinished())
+    AlbaFileReader fileReader(inputLogFileStream);
+    while(fileReader.isNotFinished())
     {
         fileReader.getLineAndIgnoreWhiteSpaces();
         lines++;
@@ -73,9 +77,11 @@ TEST_F(BtsLogSorterTest, SyslogsAndSnapshotTest_PrintsAreOrderedBasedOnBtsTime)
     AlbaLocalPathHandler outputPathHandler(APRG_DIR R"(\WcdmaTools\WcdmaToolsBackend\FilesForTests\ImportantTestingFiles\SyslogsAndSnapshotTest_PrintsAreOrderedBasedOnBtsTime\output.log)");
     btsLogSorter.processFile(inputPathHandler.getFullPath());
     btsLogSorter.saveLogsToOutputFile(outputPathHandler.getFullPath());
+
     int lines=0;
     ifstream inputLogFileStream(outputPathHandler.getFullPath());
-    AlbaFileReader fileReader(inputLogFileStream);    while(fileReader.isNotFinished())
+    AlbaFileReader fileReader(inputLogFileStream);
+    while(fileReader.isNotFinished())
     {
         cout<<fileReader.getLineAndIgnoreWhiteSpaces()<<endl;
         lines++;
@@ -93,9 +99,11 @@ TEST_F(BtsLogSorterTest, SyslogsAndSnapshotTest_PrintsAreFiltered)
     AlbaLocalPathHandler outputPathHandler(APRG_DIR R"(\WcdmaTools\WcdmaToolsBackend\FilesForTests\ImportantTestingFiles\SyslogsAndSnapshotTest_PrintsAreFiltered\output.log)");
     btsLogSorter.processFile(inputPathHandler.getFullPath());
     btsLogSorter.saveLogsToOutputFile(outputPathHandler.getFullPath());
+
     int lines=0;
     ifstream inputLogFileStream(outputPathHandler.getFullPath());
-    AlbaFileReader fileReader(inputLogFileStream);    while(fileReader.isNotFinished())
+    AlbaFileReader fileReader(inputLogFileStream);
+    while(fileReader.isNotFinished())
     {
         cout<<fileReader.getLineAndIgnoreWhiteSpaces()<<endl;
         lines++;

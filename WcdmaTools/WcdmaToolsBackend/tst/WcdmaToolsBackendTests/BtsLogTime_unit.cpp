@@ -226,10 +226,12 @@ TEST(BtsLogTimeTest, TheDataCanBeSavedToAndRetrieveFromFile)
     string pathOfTempFile(APRG_DIR R"(\WcdmaTools\WcdmaToolsBackend\FilesForTests\ImportantTestingFiles\TempTestFiles\temp.txt)");
     {
         ofstream outputStream(pathOfTempFile);
-        outputStream<<sampleLogTime<<endl;    }
+        outputStream<<sampleLogTime<<endl;
+    }
     ASSERT_TRUE(testLogTime.isEmpty());
     {
-        ifstream inputStream(pathOfTempFile);        inputStream>>testLogTime;
+        ifstream inputStream(pathOfTempFile);
+        inputStream>>testLogTime;
     }
     EXPECT_EQ(sampleLogTime, testLogTime);
 }

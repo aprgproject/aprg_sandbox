@@ -329,10 +329,12 @@ TEST(BtsLogPrintTest, DISABLED_InputStreamWorks)
     ifstream inputFileStream(APRG_DIR R"(\WcdmaTools\WcdmaToolsBackend\FilesForTests\ProblemFiles\BLOCK_701.txt)");
     int count(0);
     while(inputFileStream.good())
-    {        BtsLogPrint logPrint;
+    {
+        BtsLogPrint logPrint;
         inputFileStream>>logPrint;
         count++;
-    }    EXPECT_EQ(1001, count);
+    }
+    EXPECT_EQ(1001, count);
 }
 
 }

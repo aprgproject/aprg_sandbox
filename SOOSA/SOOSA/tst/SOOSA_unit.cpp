@@ -15,9 +15,11 @@ TEST(SoosaTest, SampleTest1)
     AlbaLocalPathHandler fileForSoosa(APRG_DIR R"(\SOOSA\FilesForTests\TestSoosa.bmp)");
     fileForSoosa.deleteFile();
     fileToTest.copyToNewFile(fileForSoosa.getFullPath());
+
     SoosaConfiguration configuration;
     configuration.setPath(fileForSoosa.getFullPath());
     configuration.setMainParameters("area", "period", 12.345);
+
     configuration.addQuestion(1, "01. Patient Admission - promptness of service");
     configuration.addQuestion(1, "02. Patient Admission - courtesy of admitting clerks");
     configuration.addQuestion(1, "03. Patient Admission - ward policies are well-explained");

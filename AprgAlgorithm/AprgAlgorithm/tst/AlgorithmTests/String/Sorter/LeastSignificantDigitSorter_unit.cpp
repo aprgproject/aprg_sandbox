@@ -1,4 +1,4 @@
-#include <Algorithm/String/Sort/LeastSignificantDigitSorter.hpp>
+#include <Algorithm/String/Sorter/LeastSignificantDigitSorter.hpp>
 
 #include <gtest/gtest.h>
 

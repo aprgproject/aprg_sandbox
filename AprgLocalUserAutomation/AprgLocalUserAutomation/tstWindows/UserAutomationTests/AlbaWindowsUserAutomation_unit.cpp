@@ -146,10 +146,12 @@ TEST(AlbaWindowsUserAutomationTest, DISABLED_SaveBitmapFromClipboard)
     AlbaWindowsUserAutomation userAutomation;
     userAutomation.saveBitmapFromClipboard(bitmapFilePath);
 }
+
 TEST(AlbaWindowsUserAutomationTest, DISABLED_SaveBitmapOnScreen)
 {
     string bitmapFilePath = APRG_DIR R"(\AprgLocalUserAutomation\FilesForTests\BitmapFromScreen.bmp)";
     AlbaWindowsUserAutomation userAutomation;
     userAutomation.saveBitmapOnScreen(bitmapFilePath);
 }
+
 }

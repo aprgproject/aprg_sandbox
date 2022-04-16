@@ -11,9 +11,11 @@ using namespace std;
 
 namespace alba
 {
+
 TEST(SampleTest, TestForDataSet)
 {
-    AlbaLocalPathHandler testFilePath(ALBA_MODELING_DATA_SET_WITH_FILE_FORMAT1_FILE1);    Modeling modeling;
+    AlbaLocalPathHandler testFilePath(ALBA_MODELING_DATA_SET_WITH_FILE_FORMAT1_FILE1);
+    Modeling modeling;
     modeling.retrieveDataFromFileWithFileFormat1(testFilePath.getFullPath());
     modeling.printRetrievedData();
     unsigned int numberOfSamples (modeling.getNumberOfSamples());

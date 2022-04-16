@@ -7,8 +7,10 @@
 
 namespace alba
 {
+
 namespace algorithm
 {
+
 template <typename Value>
 class Alphabet
 {
