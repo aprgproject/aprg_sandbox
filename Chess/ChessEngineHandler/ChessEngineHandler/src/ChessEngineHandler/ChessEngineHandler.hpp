@@ -12,25 +12,33 @@ namespace alba
 class ChessEngineHandler
 {
 public:
+    enum class LogType
+    {
+        FromEngine,
+        ToEngine,
+        HandlerStatus
+    };
+    using ProcessAStringFunction = std::function<void(std::string const&)> ;
 
     ChessEngineHandler(std::string const& enginePath);
     ~ChessEngineHandler();
 
-    HANDLE & getGuiStdout();
-
-    void sendToEngine(std::string const& stringToEngine);
-    void processFromEngine(std::string const& stringFromEngine);
+    void sendStringToEngine(std::string const& stringToEngine);
+    void processStringFromEngine(std::string const& stringFromEngine);
     void startMonitoringEngineOutput();
 
     void setLogFile(std::string const& logFilePath);
+    void setAdditionalStepsInProcessingAStringFromEngine(ProcessAStringFunction const& additionalSteps);
 
 private:
-    void log(std::string const& logString);
+    void log(LogType const logtype, std::string const& logString);
+    std::string getLogHeader(LogType const logtype) const;
     HANDLE m_engineThread;
     DWORD m_threadId;
     HANDLE m_inputStreamOnEngineThread, m_outputStreamOnEngineThread;
     HANDLE m_inputStreamOnHandler, m_outputStreamOnHandler;
     AlbaOptional<std::ofstream> m_logFileStream;
+    AlbaOptional<ProcessAStringFunction> m_additionalStepsInProcessingAStringFromEngine;
 };
 
 }

@@ -6,15 +6,13 @@ set(OUTFILE ${PROJECT_NAME})
 set(CHESS_ENGINE_HANDLER_DIR ${CMAKE_CURRENT_SOURCE_DIR})
 
 #Comment out TEST_MODE to build static executable, other cmakes check this
-#set(TEST_MODE "ON")
+set(TEST_MODE "ON")
 
 #Locate APRG Directory first because its used on other cmakes
-get_filename_component(ABSOLUTE_CURRENT_DIR "${CMAKE_CURRENT_LIST_DIR}" ABSOLUTE)
-get_filename_component(CURRENT_DIR_NAME "$${ABSOLUTE_CURRENT_DIR}" NAME)
+get_filename_component(ABSOLUTE_CURRENT_DIR "${CMAKE_CURRENT_LIST_DIR}" ABSOLUTE)get_filename_component(CURRENT_DIR_NAME "$${ABSOLUTE_CURRENT_DIR}" NAME)
 while(NOT ${CURRENT_DIR_NAME} MATCHES "APRG")
     get_filename_component(ABSOLUTE_CURRENT_DIR "${ABSOLUTE_CURRENT_DIR}/.." ABSOLUTE)
-    get_filename_component(CURRENT_DIR_NAME "$${ABSOLUTE_CURRENT_DIR}" NAME)
-endwhile()
+    get_filename_component(CURRENT_DIR_NAME "$${ABSOLUTE_CURRENT_DIR}" NAME)endwhile()
 set(APRG_DIR ${ABSOLUTE_CURRENT_DIR})
 
 #Assign common flags, definitions and macros

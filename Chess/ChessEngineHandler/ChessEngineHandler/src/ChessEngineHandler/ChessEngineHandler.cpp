@@ -7,15 +7,12 @@
 using namespace alba::stringHelper;
 using namespace std;
 
-#define MAXBUF 2000
-#define MAXHALFBUF 1000
+#define MAX_BUFFER_SIZE 2000
 
 namespace alba
 {
-
 namespace
 {
-
 typedef struct _mydata
 {
     ChessEngineHandler* epointer;
@@ -59,150 +56,169 @@ ChessEngineHandler::ChessEngineHandler(
 
     if (!CreatePipe(&(m_inputStreamOnEngineThread), &(m_inputStreamOnHandler), &securityAttributes, 0))
     {
-        log("Cannot Create Pipe");
+        log(LogType::HandlerStatus, "Cannot Create Pipe");
     }
 
     if (!CreatePipe(&(m_outputStreamOnHandler), &(m_outputStreamOnEngineThread), &securityAttributes, 0))
     {
-        log("Cannot Create Pipe");
+        log(LogType::HandlerStatus, "Cannot Create Pipe");
     }
     GetStartupInfo(&startupInfo); //set startupinfo for the spawned process
-    startupInfo.dwFlags = STARTF_USESTDHANDLES|STARTF_USESHOWWINDOW;
-    startupInfo.wShowWindow = SW_SHOWDEFAULT;//SW_HIDE;
+    startupInfo.dwFlags = STARTF_USESTDHANDLES|STARTF_USESHOWWINDOW;    startupInfo.wShowWindow = SW_SHOWDEFAULT;//SW_HIDE;
     startupInfo.hStdOutput  = m_outputStreamOnEngineThread;
     startupInfo.hStdError   = m_outputStreamOnEngineThread;
     startupInfo.hStdInput   = m_inputStreamOnEngineThread;
-
     //spawn the child process
     if (!CreateProcess(enginePath.c_str(),NULL,NULL,NULL,TRUE,CREATE_NEW_CONSOLE,NULL,NULL,&startupInfo,&processInfo))
     {
-        log("Cannot Create Process");
+        log(LogType::HandlerStatus, "Cannot Create Process");
     }
     PointerToCallBackData pData = new CallBackData();
-    pData->epointer = this;
-    m_engineThread = CreateThread(NULL, 0, engineToGuiCallbackFunction, pData, 0, &(m_threadId));
+    pData->epointer = this;    m_engineThread = CreateThread(NULL, 0, engineToGuiCallbackFunction, pData, 0, &(m_threadId));
 }
 
 ChessEngineHandler::~ChessEngineHandler()
 {
-    sendToEngine("exit\n");
+    sendStringToEngine("quit\n");
     CloseHandle(m_engineThread);
     CloseHandle(m_inputStreamOnEngineThread);
-    CloseHandle(m_outputStreamOnEngineThread);
-    CloseHandle(m_inputStreamOnHandler);
+    CloseHandle(m_outputStreamOnEngineThread);    CloseHandle(m_inputStreamOnHandler);
     CloseHandle(m_outputStreamOnHandler);
     m_logFileStream.getReference().close();
 }
 
-HANDLE & ChessEngineHandler::getGuiStdout()
-{
-    return m_outputStreamOnHandler;
-}
-
-void ChessEngineHandler::sendToEngine(std::string const& stringToEngine)
+void ChessEngineHandler::sendStringToEngine(std::string const& stringToEngine)
 {
     unsigned long bytesWritten(0U);
-    char mbuf[MAXBUF];
-    string remainingString(stringToEngine);
-    long remainingLength=0;
+    string stringToWrite(stringToEngine);
+    stringToWrite += "\n";
+    long remainingLength=stringToWrite.length();
     do
     {
-        remainingString += "\n";
-        remainingLength = remainingString.length();
-        strncpy(mbuf, remainingString.c_str(), MAXBUF-1);
-        WriteFile(m_inputStreamOnHandler, mbuf, remainingLength, &bytesWritten, NULL);
+        WriteFile(m_inputStreamOnHandler, stringToWrite.c_str(), remainingLength, &bytesWritten, NULL);
         FlushFileBuffers(m_inputStreamOnHandler);
         remainingLength = remainingLength-bytesWritten;
         if(remainingLength>0)
         {
-            remainingString.substr(bytesWritten, remainingLength);
+            stringToWrite = stringToWrite.substr(bytesWritten, remainingLength);
         }
     }
     while(remainingLength>0);
-    log(string("To engine: ") + stringToEngine);
+    log(LogType::ToEngine, stringToEngine);
 }
 
-void ChessEngineHandler::processFromEngine(std::string const& stringFromEngine)
+void ChessEngineHandler::processStringFromEngine(std::string const& stringFromEngine)
 {
-    log(string("From engine: ") + stringFromEngine);
+    if(m_additionalStepsInProcessingAStringFromEngine)
+    {
+        m_additionalStepsInProcessingAStringFromEngine.getConstReference()(stringFromEngine);
+    }
+    log(LogType::FromEngine, stringFromEngine);
 }
 
-void ChessEngineHandler::startMonitoringEngineOutput()
-{
+void ChessEngineHandler::startMonitoringEngineOutput(){
     unsigned long bytesRead; //bytes read
     unsigned long bytesAvailable; //bytes available
-    char mbuf[MAXBUF];
-    char sbuf[MAXHALFBUF];
-    unsigned int i(0U), j(0U), remainingSize(0U);
-    mbuf[0]='\0';
-    sbuf[0]='\0';
-    string stringOutput;
-    remainingSize=0;
+    char buffer[MAX_BUFFER_SIZE];
+    string stringBuffer;
     while(1)
     {
-        PeekNamedPipe(m_outputStreamOnHandler, sbuf, MAXHALFBUF-1, &bytesRead, &bytesAvailable, NULL);
-        if(bytesRead > 0)
+        PeekNamedPipe(m_outputStreamOnHandler, buffer, MAX_BUFFER_SIZE, NULL, &bytesAvailable, NULL);
+        if(bytesAvailable > 0)
         {
-            ReadFile(m_outputStreamOnHandler, sbuf, MAXHALFBUF-1, &bytesRead, NULL);
-            strncat(mbuf, sbuf, MAXBUF);
-            j=0;
-            remainingSize = remainingSize+bytesRead;
-            for(i=0; i<remainingSize; )
+            ReadFile(m_outputStreamOnHandler, buffer, MAX_BUFFER_SIZE, &bytesRead, NULL);
+            stringBuffer.reserve(stringBuffer.size() + bytesRead);
+            copy(begin(buffer), begin(buffer)+bytesRead, back_inserter(stringBuffer));
+
+            unsigned int currentIndex(0U);
+            bool shouldContinue(true);
+            while(shouldContinue)
             {
-                if(mbuf[i]=='\r' || mbuf[i]=='\n')
+                unsigned int startIndex = currentIndex;
+                unsigned int newLineIndex = stringBuffer.find_first_of("\r\n", startIndex);
+                if(isNotNpos(static_cast<int>(newLineIndex)))
                 {
-                    sbuf[j] = '\0';
-                    j=0;
-                    stringOutput = sbuf;
-                    processFromEngine(stringOutput);
-                    stringOutput += "\n";
-#ifndef APRG_TEST_MODE_ON
-    cout << stringOutput;
-#endif
-                    for(; i<remainingSize && isWhiteSpace(mbuf[i]); i++);
+                    string oneLine(stringBuffer.substr(startIndex, newLineIndex-startIndex));
+                    if(!oneLine.empty())
+                    {
+                        processStringFromEngine(oneLine);
+                    }
+                    currentIndex = newLineIndex+1;
                 }
                 else
                 {
-                    sbuf[j++]=mbuf[i++];
+                    if(currentIndex > 0)
+                    {
+                        stringBuffer = stringBuffer.substr(currentIndex);
+                    }
+                    shouldContinue = false;
                 }
             }
-            sbuf[j] = '\0';
-            strncpy(mbuf, sbuf, MAXBUF);
-            remainingSize = remainingSize-i;
-            /*(y=0;
-            for( ;x<isize; ){
-                mbuf[y++] = mbuf[x++];
-            }
-            mbuf[y] = '\0';
-            */
-            strncpy(mbuf, sbuf, MAXBUF);
-            //printf("mbuf: [%s]\n",mbuf);
-            //printf("sbuf: [%s]\n",sbuf);
+        }
+        else if(!stringBuffer.empty())
+        {
+            processStringFromEngine(stringBuffer);
+            stringBuffer.clear();
         }
         Sleep(1);
     }
 }
-
 void ChessEngineHandler::setLogFile(std::string const& logFilePath)
 {
-    m_logFileStream.createObjectUsingDefaultConstructor();
-    m_logFileStream.getReference().open(logFilePath);
+    m_logFileStream.createObjectUsingDefaultConstructor();    m_logFileStream.getReference().open(logFilePath);
 
     if(!m_logFileStream.getReference().is_open())
     {
-        log(string("Cannot open log file") + logFilePath);
+        log(LogType::HandlerStatus, string("Cannot open log file") + logFilePath);
     }
 }
 
-void ChessEngineHandler::log(std::string const& logString)
+void ChessEngineHandler::setAdditionalStepsInProcessingAStringFromEngine(
+        ProcessAStringFunction const& additionalSteps)
+{
+    m_additionalStepsInProcessingAStringFromEngine.setConstReference(additionalSteps);
+}
+
+void ChessEngineHandler::log(LogType const logtype, std::string const& logString)
 {
     if(m_logFileStream)
     {
-        m_logFileStream.getReference() << logString << endl;
+        m_logFileStream.getReference() << getLogHeader(logtype) << logString << endl;
     }
 #ifdef APRG_TEST_MODE_ON
-    cout << logString << endl;
+    cout << getLogHeader(logtype) << logString << endl;
+#else
+    if(LogType::FromEngine == logtype)
+    {
+        cout << logString << endl;
+    }
 #endif
 }
+
+string ChessEngineHandler::getLogHeader(LogType const logtype) const
+{
+    string result;
+    switch(logtype)
+    {
+    case LogType::FromEngine:
+    {
+        result="From engine: ";
+        break;
+    }
+    case LogType::ToEngine:
+    {
+        result="To engine: ";
+        break;
+    }
+    case LogType::HandlerStatus:
+    {
+        result="HandlerStatus: ";
+        break;
+    }
+    }
+    return result;
+}
+
+
 
 }
