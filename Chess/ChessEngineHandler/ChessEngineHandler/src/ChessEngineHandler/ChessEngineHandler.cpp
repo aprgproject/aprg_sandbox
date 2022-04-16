@@ -156,6 +156,9 @@ void ChessEngineHandler::startMonitoringEngineOutput()
                     stringOutput = sbuf;
                     processFromEngine(stringOutput);
                     stringOutput += "\n";
+#ifndef APRG_TEST_MODE_ON
+    cout << stringOutput;
+#endif
                     for(; i<remainingSize && isWhiteSpace(mbuf[i]); i++);
                 }
                 else
@@ -197,7 +200,9 @@ void ChessEngineHandler::log(std::string const& logString)
     {
         m_logFileStream.getReference() << logString << endl;
     }
+#ifdef APRG_TEST_MODE_ON
     cout << logString << endl;
+#endif
 }
 
 }

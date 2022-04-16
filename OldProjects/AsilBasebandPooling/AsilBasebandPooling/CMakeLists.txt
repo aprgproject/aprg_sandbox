@@ -5,6 +5,9 @@ project(AsilBasebandPooling C CXX)
 set(OUTFILE ${PROJECT_NAME})
 set(ASIL_BASEBAND_POOLING_AND_PROGRAMS_DIR ${CMAKE_CURRENT_SOURCE_DIR})
 
+#Comment out TEST_MODE to build static executable, other cmakes check this
+set(TEST_MODE "ON")
+
 #Locate APRG Directory first because its used on other cmakes
 get_filename_component(ABSOLUTE_CURRENT_DIR "${CMAKE_CURRENT_LIST_DIR}" ABSOLUTE)
 get_filename_component(CURRENT_DIR_NAME "$${ABSOLUTE_CURRENT_DIR}" NAME)
@@ -24,9 +27,6 @@ include(${APRG_DIR}/AprgCommon/AprgCmakeInclude/AprgCommon.cmake)
 
 #Add files and directories
 include(${ASIL_BASEBAND_POOLING_AND_PROGRAMS_DIR}/cmake/FilesAndDirectories.cmake)
-
-#Comment out TEST_MODE to build static executable
-set(TEST_MODE "ON")
 
 #Do final steps
 if (TEST_MODE)

@@ -18,13 +18,15 @@ class DataBlockFileHandler
 public:
     ~DataBlockFileHandler()
     {
-        m_fileOptional.clear();
+        releaseFileStream();
         AlbaLocalPathHandler(m_path).deleteFile();
     }
+
     std::ofstream & getFileDumpStreamReference()
     {
         return m_fileOptional.getReference();
     }
+
     bool isFileStreamOpened()
     {
         if(m_fileOptional)
@@ -33,6 +35,7 @@ public:
         }
         return false;
     }
+
     void openFileIfNeeded(std::string const& path)
     {
         if(!m_fileOptional)
@@ -46,12 +49,15 @@ public:
             assert(!fileStream.fail());
         }
     }
+
     void add(ObjectToSort const& objectToSort)
     {
         m_fileOptional.getReference()<<objectToSort<<std::endl;
     }
+
     void releaseFileStream()
     {
+        //m_fileOptional.getReference().close(); // close does not work why?
         m_fileOptional.clear();
     }
 

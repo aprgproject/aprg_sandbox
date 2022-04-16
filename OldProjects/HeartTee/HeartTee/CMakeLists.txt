@@ -1,12 +1,12 @@
 cmake_minimum_required(VERSION 3.16)
 project(HeartTee C CXX)
 
-#Comment out TEST_MODE to build static executable
-set(TEST_MODE "ON")
-
 #set project details
 set(OUTFILE ${PROJECT_NAME})
 set(HEART_TEE_DIR ${CMAKE_CURRENT_SOURCE_DIR})
+
+#Comment out TEST_MODE to build static executable, other cmakes check this
+set(TEST_MODE "ON")
 
 #Locate APRG Directory first because its used on other cmakes
 set(APRG_DIR ${CMAKE_CURRENT_SOURCE_DIR})

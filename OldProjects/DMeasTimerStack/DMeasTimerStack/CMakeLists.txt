@@ -5,6 +5,9 @@ project(DMeasTimerStack C CXX)
 set(OUTFILE ${PROJECT_NAME})
 set(DMEAS_TIMER_STACK_DIR ${CMAKE_CURRENT_SOURCE_DIR})
 
+#Comment out TEST_MODE to build static executable, other cmakes check this
+set(TEST_MODE "ON")
+
 #Locate APRG Directory first because its used on other cmakes
 get_filename_component(ABSOLUTE_CURRENT_DIR "${CMAKE_CURRENT_LIST_DIR}" ABSOLUTE)
 get_filename_component(CURRENT_DIR_NAME "$${ABSOLUTE_CURRENT_DIR}" NAME)
@@ -73,9 +76,6 @@ set(BTS_SACK_DIRECTORY ${SackDirectory}/I_Interface)
 PRINT_STATUS("Looking for BTS_SACKS directories in: [${BTS_SACK_DIRECTORY}]")
 GET_SUB_DIRECTORY_LIST(BTS_SACK_DIRECTORY_LIST ${BTS_SACK_DIRECTORY})
 GET_SOURCE_FILES_FROM_DIRECTORIES(BTS_SACKS BTS_SACK_DIRECTORY_LIST)
-
-#Comment out TEST_MODE to build static executable
-set(TEST_MODE "ON")
 
 #Do final steps
 if (TEST_MODE)
