@@ -26,15 +26,13 @@ include(${APRG_DIR}/AprgCommon/AprgCmakeInclude/AprgCommon.cmake)
 include(${CHESS_ENGINE_HANDLER_DIR}/cmake/FilesAndDirectories.cmake)
 
 #Comment out TEST_MODE to build static executable
-set(TEST_MODE "ON")
+#set(TEST_MODE "ON")
 
 #Do final steps
-if (TEST_MODE)
-    add_executable(${OUTFILE} ${CHESS_ENGINE_HANDLER_SOURCES_AND_TESTS})
+if (TEST_MODE)    add_executable(${OUTFILE} ${CHESS_ENGINE_HANDLER_SOURCES_AND_TESTS})
     include_directories(${CHESS_ENGINE_HANDLER_INCLUDE_DIRECTORIES} ${CHESS_ENGINE_HANDLER_TEST_INCLUDE_DIRECTORIES} ${GTEST_INCLUDE_DIRS})
     target_link_libraries(${OUTFILE} ${CMAKE_THREAD_LIBS_INIT} APRG_COMMON gtest ${CMAKE_THREAD_LIBS_INIT})
-    add_test(${OUTFILE} ${OUTFILE})
-else()
+    add_test(${OUTFILE} ${OUTFILE})else()
     set(CMAKE_FIND_LIBRARY_SUFFIXES ".a")
     set(BUILD_SHARED_LIBRARIES OFF)
     set(CMAKE_EXE_LINKER_FLAGS "-static")

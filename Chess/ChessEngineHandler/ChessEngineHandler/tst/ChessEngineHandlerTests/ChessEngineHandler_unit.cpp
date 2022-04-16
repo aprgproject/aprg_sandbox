@@ -1,15 +1,17 @@
-#include <SimplestDesignToCopyForLibrariesAndPrograms/SimplestDesignToCopyForLibrariesAndPrograms.hpp>
+#include <ChessEngineHandler/ChessEngineHandler.hpp>
 
 #include <gtest/gtest.h>
-
 using namespace std;
 
 namespace alba
 {
 
-TEST(SampleTest, DISABLED_SampleTest1)
+TEST(ChessEngineHandlerTest, ChessEngineIsRunningAfterConstruction)
 {
-    SimplestDesignToCopyForLibrariesAndPrograms entity;
+    ChessEngineHandler chessEngineHandler(APRG_DIR R"(\Chess\ChessEngineHandler\FilesForTests\RybkaTest.exe)");
+    chessEngineHandler.setLogFile(APRG_DIR R"(\Chess\ChessEngineHandler\FilesForTests\RybkaLog.log)");
+
+    chessEngineHandler.sendToEngine("uci");
 }
 
 }
