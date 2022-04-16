@@ -120,9 +120,7 @@ private:
         }
         return result;
     }
-
 };
 
 }
-
 }
