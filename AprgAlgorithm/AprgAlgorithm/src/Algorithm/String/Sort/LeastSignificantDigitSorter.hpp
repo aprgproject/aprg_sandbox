@@ -42,18 +42,15 @@ private:
             stringHelper::strings const& stringsToSort,
             unsigned int const digitIndex) const
     {
-        unsigned int numberOfStrings = stringsToSort.size();
+        unsigned int numberOfStrings(stringsToSort.size());
         for(unsigned int i=0; i<numberOfStrings; i++)
         {
-            std::string const& currentString(stringsToSort.at(i));
-            frequencyOfEachCharacter[getCharacterAtIfPossible(currentString, digitIndex)+1]++;
+            frequencyOfEachCharacter[getCharacterAtIfPossible(stringsToSort.at(i), digitIndex)+1]++;
         }
     }
-
     void convertFrequenciesToIndexes(
             ArrayOfFrequencies & newIndexes) const
-    {
-        unsigned int newIndexesSize = newIndexes.size();
+    {        unsigned int newIndexesSize = newIndexes.size();
         for(unsigned int i=0; i<newIndexesSize; i++)
         {
             newIndexes[i+1] += newIndexes.at(i);
@@ -66,18 +63,15 @@ private:
             unsigned int const digitIndex) const
     {
         stringHelper::strings copiedStrings(stringsToSort);
-        unsigned int numberOfStrings = stringsToSort.size();
+        unsigned int numberOfStrings(stringsToSort.size());
         for(unsigned int i=0; i<numberOfStrings; i++)
         {
-            std::string const& currentString(copiedStrings.at(i));
-            stringsToSort[newIndexes[getCharacterAtIfPossible(currentString, digitIndex)]++] = copiedStrings[i];
+            stringsToSort[newIndexes[getCharacterAtIfPossible(copiedStrings.at(i), digitIndex)]++] = copiedStrings.at(i);
         }
     }
-
     unsigned char getCharacterAtIfPossible(
             std::string const& currentString,
-            unsigned int const digitIndex) const
-    {
+            unsigned int const digitIndex) const    {
         unsigned char result(0U);
         if(digitIndex < currentString.length())
         {
