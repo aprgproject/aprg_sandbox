@@ -4,12 +4,14 @@
 
 #include <sstream>
 
+
+
+#include <Common/Debug/AlbaDebug.hpp>
+
 using namespace alba::stringHelper;
 using namespace std;
-
 namespace alba
 {
-
 ChessEngineControllerWithUci::ChessEngineControllerWithUci(
         ChessEngineHandler & engineHandler)
     : m_engineHandler(engineHandler)
@@ -21,117 +23,156 @@ ChessEngineControllerWithUci::ChessEngineControllerWithUci(
 void ChessEngineControllerWithUci::setupStartPosition()
 {
     sendStopIfCalculating();
-    send("position startpos");
+    send(CommandType::Position, "position startpos");
 }
 
-void ChessEngineControllerWithUci::setupMoves(string const& moves)
-{
+void ChessEngineControllerWithUci::setupMoves(string const& moves){
     sendStopIfCalculating();
     string command("position startpos moves ");
     command+=moves;
-    send(command);
+    send(CommandType::Position, command);
 }
 
-void ChessEngineControllerWithUci::setupFenString(string const& fenString)
-{
+void ChessEngineControllerWithUci::setupFenString(string const& fenString){
     sendStopIfCalculating();
     string command("position fen ");
     command+=fenString;
-    send(command);
+    send(CommandType::Position, command);
 }
 
 void ChessEngineControllerWithUci::go()
 {
     sendStopIfCalculating();
-    send("go");
+    send(CommandType::Go, "go");
 }
 
 void ChessEngineControllerWithUci::goWithPonder()
 {
     sendStopIfCalculating();
-    send("go ponder");
+    send(CommandType::Go, "go ponder");
 }
 
-void ChessEngineControllerWithUci::goWithDepth(unsigned int const depth)
-{
+void ChessEngineControllerWithUci::goWithDepth(unsigned int const depth){
     sendStopIfCalculating();
     stringstream ss;
     ss << "go depth " << depth;
-    send(ss.str());
+    send(CommandType::Go, ss.str());
 }
 
 void ChessEngineControllerWithUci::goInfinite()
 {
     sendStopIfCalculating();
-    send("go infinite");
+    send(CommandType::Go, "go infinite");
+}
+
+void ChessEngineControllerWithUci::stop()
+{
+    sendStop();
 }
 
 void ChessEngineControllerWithUci::initialize()
 {
-    m_engineHandler.setAdditionalStepsInProcessingAStringFromEngine([&](string const& stringFromEngine)
-    {
+    m_engineHandler.setAdditionalStepsInProcessingAStringFromEngine([&](string const& stringFromEngine)    {
         processAStringFromEngine(stringFromEngine);
     });
     sendUci();
-    m_state = ControllerState::WaitingForUciOkay;
 }
 
 void ChessEngineControllerWithUci::proceedToIdleAndProcessPendingCommands()
 {
     m_state = ControllerState::Idle;
-    bool hasGoCommand(false);
-    while(!m_pendingCommands.empty() && !hasGoCommand)
+    bool hasGoOnPendingCommand(false);
+    while(!m_pendingCommands.empty() && !hasGoOnPendingCommand)
     {
-        string const& pendingCommand(m_pendingCommands.back());
-        if(isStringFoundInsideTheOtherStringNotCaseSensitive(pendingCommand, "go"))
-        {
-            hasGoCommand=true;
-        }
+        Command pendingCommand(m_pendingCommands.front());
+        m_pendingCommands.pop_front();
+        hasGoOnPendingCommand = CommandType::Go == pendingCommand.commandType;
         send(pendingCommand);
-        m_pendingCommands.pop_back();
     }
-    if(hasGoCommand)
-    {
-        m_state = ControllerState::Calculating;
-    }
+}
+
+void ChessEngineControllerWithUci::clearCalculationDetails()
+{
+    m_currentCalculationDetails = CalculationDetails{};
 }
 
 void ChessEngineControllerWithUci::sendStopIfCalculating()
 {
-    if(ControllerState::Calculating == m_state)
-    {
+    if(ControllerState::Calculating == m_state)    {
         sendStop();
     }
 }
 
 void ChessEngineControllerWithUci::sendUci()
 {
-    send("uci");
+    send(CommandType::Uci, "uci");
 }
 
 void ChessEngineControllerWithUci::sendStop()
 {
-    send("stop");
+    send(CommandType::Stop, "stop");
 }
 
-void ChessEngineControllerWithUci::send(string const& command)
+void ChessEngineControllerWithUci::send(
+        CommandType const& commandType,
+        string const& commandString)
 {
-    if(ControllerState::Idle == m_state || "stop" == command)
-    {
-        m_engineHandler.sendStringToEngine(command);
-    }
-    else
-    {
-        m_pendingCommands.emplace_back(command);
-    }
+    send(Command{commandType, commandString});
 }
 
-void ChessEngineControllerWithUci::processAStringFromEngine(
-        string const& stringFromEngine)
+void ChessEngineControllerWithUci::send(
+        Command const& command)
 {
+    // all the logic are here lol
     switch(m_state)
     {
+    case ControllerState::Initializing:
+    {
+        if(CommandType::Uci == command.commandType)
+        {
+            m_engineHandler.sendStringToEngine(command.commandString);
+            m_state = ControllerState::WaitingForUciOkay;
+        }
+        else
+        {
+            m_pendingCommands.emplace_back(command);
+        }
+        break;
+    }
     case ControllerState::WaitingForUciOkay:
+    {
+        m_pendingCommands.emplace_back(command);
+        break;
+    }
+    case ControllerState::Calculating:
+    {
+        if(CommandType::Stop == command.commandType)
+        {
+            m_engineHandler.sendStringToEngine(command.commandString);
+        }
+        else
+        {
+            m_pendingCommands.emplace_back(command);
+        }
+        break;
+    }
+    case ControllerState::Idle:
+    {
+        if(CommandType::Go == command.commandType)
+        {
+            clearCalculationDetails();
+            m_state = ControllerState::Calculating;
+        }
+        m_engineHandler.sendStringToEngine(command.commandString);
+        break;
+    }
+    }
+}
+
+void ChessEngineControllerWithUci::processAStringFromEngine(        string const& stringFromEngine)
+{
+    switch(m_state)
+    {    case ControllerState::WaitingForUciOkay:
     {
         processInWaitingForUciOkay(stringFromEngine);
         break;
