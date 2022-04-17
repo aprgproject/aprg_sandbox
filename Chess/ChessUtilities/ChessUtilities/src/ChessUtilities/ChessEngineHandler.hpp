@@ -9,6 +9,9 @@
 namespace alba
 {
 
+namespace chess
+{
+
 class ChessEngineHandler
 {
 public:
@@ -40,5 +43,7 @@ private:
     AlbaOptional<std::ofstream> m_logFileStream;
     AlbaOptional<ProcessAStringFunction> m_additionalStepsInProcessingAStringFromEngine;
 };
+
+}
 
 }

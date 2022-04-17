@@ -12,6 +12,9 @@ using namespace std;
 namespace alba
 {
 
+namespace chess
+{
+
 namespace
 {
 
@@ -228,6 +231,6 @@ string ChessEngineHandler::getLogHeader(LogType const logtype) const
     return result;
 }
 
-
+}
 
 }

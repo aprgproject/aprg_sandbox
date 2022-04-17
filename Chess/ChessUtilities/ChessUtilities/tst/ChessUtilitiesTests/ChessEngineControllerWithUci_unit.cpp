@@ -7,7 +7,10 @@ using namespace std;
 namespace alba
 {
 
-TEST(ChessEngineControllerWithUciTest, WorksOnStartPosition)
+namespace chess
+{
+
+TEST(ChessEngineControllerWithUciTest, DISABLED_WorksOnStartPosition)
 {
     ChessEngineHandler chessEngineHandler(APRG_DIR R"(\Chess\ChessUtilities\FilesForTests\RybkaTest.exe)");
     chessEngineHandler.setLogFile(APRG_DIR R"(\Chess\ChessUtilities\FilesForTests\RybkaLog.log)");
@@ -19,6 +22,8 @@ TEST(ChessEngineControllerWithUciTest, WorksOnStartPosition)
 
     controller.stop();
     Sleep(1000);
+}
+
 }
 
 }

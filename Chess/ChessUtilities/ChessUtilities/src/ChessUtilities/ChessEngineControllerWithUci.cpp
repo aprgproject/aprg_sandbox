@@ -4,14 +4,15 @@
 
 #include <sstream>
 
-
-
-#include <Common/Debug/AlbaDebug.hpp>
-
 using namespace alba::stringHelper;
 using namespace std;
+
 namespace alba
 {
+
+namespace chess
+{
+
 ChessEngineControllerWithUci::ChessEngineControllerWithUci(
         ChessEngineHandler & engineHandler)
     : m_engineHandler(engineHandler)
@@ -26,14 +27,16 @@ void ChessEngineControllerWithUci::setupStartPosition()
     send(CommandType::Position, "position startpos");
 }
 
-void ChessEngineControllerWithUci::setupMoves(string const& moves){
+void ChessEngineControllerWithUci::setupMoves(string const& moves)
+{
     sendStopIfCalculating();
     string command("position startpos moves ");
     command+=moves;
     send(CommandType::Position, command);
 }
 
-void ChessEngineControllerWithUci::setupFenString(string const& fenString){
+void ChessEngineControllerWithUci::setupFenString(string const& fenString)
+{
     sendStopIfCalculating();
     string command("position fen ");
     command+=fenString;
@@ -52,7 +55,8 @@ void ChessEngineControllerWithUci::goWithPonder()
     send(CommandType::Go, "go ponder");
 }
 
-void ChessEngineControllerWithUci::goWithDepth(unsigned int const depth){
+void ChessEngineControllerWithUci::goWithDepth(unsigned int const depth)
+{
     sendStopIfCalculating();
     stringstream ss;
     ss << "go depth " << depth;
@@ -72,7 +76,8 @@ void ChessEngineControllerWithUci::stop()
 
 void ChessEngineControllerWithUci::initialize()
 {
-    m_engineHandler.setAdditionalStepsInProcessingAStringFromEngine([&](string const& stringFromEngine)    {
+    m_engineHandler.setAdditionalStepsInProcessingAStringFromEngine([&](string const& stringFromEngine)
+    {
         processAStringFromEngine(stringFromEngine);
     });
     sendUci();
@@ -98,7 +103,8 @@ void ChessEngineControllerWithUci::clearCalculationDetails()
 
 void ChessEngineControllerWithUci::sendStopIfCalculating()
 {
-    if(ControllerState::Calculating == m_state)    {
+    if(ControllerState::Calculating == m_state)
+    {
         sendStop();
     }
 }
@@ -169,10 +175,12 @@ void ChessEngineControllerWithUci::send(
     }
 }
 
-void ChessEngineControllerWithUci::processAStringFromEngine(        string const& stringFromEngine)
+void ChessEngineControllerWithUci::processAStringFromEngine(
+        string const& stringFromEngine)
 {
     switch(m_state)
-    {    case ControllerState::WaitingForUciOkay:
+    {
+    case ControllerState::WaitingForUciOkay:
     {
         processInWaitingForUciOkay(stringFromEngine);
         break;
@@ -313,6 +321,8 @@ void ChessEngineControllerWithUci::processInCalculating(
     {
         proceedToIdleAndProcessPendingCommands();
     }
+}
+
 }
 
 }
