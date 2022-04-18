@@ -15,17 +15,17 @@ struct Piece
 public:
     static PieceColor extractColor(uint16_t const value);
     static PieceType extractType(uint16_t const value);
+    static char convertToCharacter(uint16_t const value);
 
     Piece(uint16_t const underlyingValue);
     PieceColor getColor() const;
     PieceType getType() const;
+    char getCharacter() const;
 
 private:
-    uint16_t m_underlyingValue;
-};
+    uint16_t m_underlyingValue;};
 
 using Pieces = std::vector<Piece>;
-
 }
 
 }

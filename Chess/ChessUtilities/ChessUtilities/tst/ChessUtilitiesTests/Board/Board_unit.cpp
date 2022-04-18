@@ -194,6 +194,33 @@ TEST(BoardTest, GetPossibleMovesWorksWithKing)
     EXPECT_EQ(expectedMoves, moves);
 }
 
+TEST(BoardTest, GetFenStringWorks)
+{
+    Board board1(Board::Orientation::BlackUpWhiteDown);
+    Board board2(Board::Orientation::WhiteUpBlackDown);
+    Board board3(Board::Orientation::BlackUpWhiteDown,
+    {0,0,0,14,13,0,0,0,
+     12,10,11,0,0,11,10,12,
+     1,0,1,0,1,0,1,0,
+     0,1,0,1,0,1,0,1,
+     9,9,0,0,9,9,0,0,
+     0,0,9,9,0,0,9,9,
+     4,2,3,0 ,0,3,2,4,
+     0,0,0,6,5,0,0,0});
+
+
+    string actualFenString1(board1.getFenString());
+    string actualFenString2(board2.getFenString());
+    string actualFenString3(board3.getFenString());
+
+    string expectedFenString1("rnbkqbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBKQBNR");
+    string expectedFenString2("RNBKQBNR/PPPPPPPP/8/8/8/8/pppppppp/rnbkqbnr");
+    string expectedFenString3("3kq3/rnb2bnr/P1P1P1P1/1P1P1P1P/pp2pp2/2pp2pp/RNB2BNR/3KQ3");
+    EXPECT_EQ(expectedFenString1, actualFenString1);
+    EXPECT_EQ(expectedFenString2, actualFenString2);
+    EXPECT_EQ(expectedFenString3, actualFenString3);
+}
+
 }
 
 }

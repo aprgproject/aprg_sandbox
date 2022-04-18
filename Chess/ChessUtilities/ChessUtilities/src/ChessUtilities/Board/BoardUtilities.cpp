@@ -1,21 +1,42 @@
 #include "BoardUtilities.hpp"
 
+#include <sstream>
+
 using namespace std;
 
-namespace alba
-{
+namespace alba{
 
 namespace chess
 {
 
+string constructFenString(
+        Board const& board,
+        PieceColor const colorToMove,
+        string const& castlingAvailability,
+        string const& enPassantTarget,
+        unsigned int const halfMoveClock,
+        unsigned int const fullMoveNumber)
+{
+    stringstream ss;
+    ss << board.getFenString() << " ";
+    if(PieceColor::White == colorToMove)
+    {
+        ss << "w ";
+    }
+    else if(PieceColor::Black == colorToMove)
+    {
+        ss << "b ";
+    }
+    ss << castlingAvailability << " " << enPassantTarget << " " << halfMoveClock << " " << fullMoveNumber;
+    return ss.str();
+}
+
 Moves getSequenceOfMoves(
         Board const& board1,
-        Board const& board2)
-{
+        Board const& board2){
     // this is difficult
     Coordinates coordinatesWithPiecesInDifference1;
-    Coordinates coordinatesWithPiecesInDifference2;
-    for(CoordinateDataType x=0; x<8; x++)
+    Coordinates coordinatesWithPiecesInDifference2;    for(CoordinateDataType x=0; x<8; x++)
     {
         for(CoordinateDataType y=0; y<8; y++)
         {
