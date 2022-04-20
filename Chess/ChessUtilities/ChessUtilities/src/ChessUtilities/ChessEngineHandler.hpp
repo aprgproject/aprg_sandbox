@@ -43,6 +43,7 @@ private:
     AlbaOptional<std::ofstream> m_logFileStreamOptional;
     AlbaOptional<ProcessAStringFunction> m_additionalStepsInProcessingAStringFromEngine;
 };
+
 }
 
 }

@@ -17,7 +17,7 @@ namespace
 string getDisplayableString(uint64_t const value)
 {
     string bitsetString(bitset<64>(value).to_string());
-    return bitsetString.substr(0, 8)
+    return string("0B") + bitsetString.substr(0, 8)
             + "_" + bitsetString.substr(8, 8)
             + "_" + bitsetString.substr(16, 8)
             + "_" + bitsetString.substr(24, 8)
@@ -28,22 +28,37 @@ string getDisplayableString(uint64_t const value)
 }
 }
 
-TEST(ChessPeekTest, CheckScreenForBestMoveWorks)
+TEST(ChessPeekTest, CheckScreenAndSaveDetailsWorks)
 {
     ChessPeek chessPeek;
 
     chessPeek.checkScreenAndSaveDetails();
 }
 
-TEST(ChessPeekTest, AnalyzeBoardUsingEngineWorks)
+TEST(ChessPeekTest, StartNewAnalysisUsingEngineWorks)
 {
     ChessPeek chessPeek;
 
-    chessPeek.analyzeBoardUsingEngine();
+    chessPeek.startNewAnalysisUsingEngine();
     Sleep(10000);
 }
 
-TEST(ChessPeekTest, DISABLED_SavePiecesValueFromMatrixFromBasisBitmap)
+TEST(ChessPeekTest, RunOneIterationWorks)
+{
+    ChessPeek chessPeek;
+
+    chessPeek.runOneIteration();
+    Sleep(10000);
+}
+
+TEST(ChessPeekTest, RunForeverWorks)
+{
+    ChessPeek chessPeek;
+
+    chessPeek.runForever();
+}
+
+TEST(ChessPeekTest, SavePiecesValueFromMatrixFromBasisBitmap)
 {
     ChessPeek chessPeek;
     chessPeek.checkScreenAndSaveDetails();
@@ -64,13 +79,13 @@ TEST(ChessPeekTest, DISABLED_SavePiecesValueFromMatrixFromBasisBitmap)
     cout << "black pawn   in black square : [" << getDisplayableString(matrix.getEntry(2, 1)) << "]" << endl;
     cout << "black pawn   in white square : [" << getDisplayableString(matrix.getEntry(3, 1)) << "]" << endl;
     cout << "black pawn   in black square : [" << getDisplayableString(matrix.getEntry(4, 1)) << "]" << endl;
-    cout << "black pawn   in white square : [" << getDisplayableString(matrix.getEntry(5, 3)) << "]" << endl; // pawn moved
+    cout << "black pawn   in white square : [" << getDisplayableString(matrix.getEntry(5, 1)) << "]" << endl;
     cout << "black pawn   in black square : [" << getDisplayableString(matrix.getEntry(6, 1)) << "]" << endl;
     cout << "black pawn   in white square : [" << getDisplayableString(matrix.getEntry(7, 1)) << "]" << endl;
 
     cout << "white pawn   in white square : [" << getDisplayableString(matrix.getEntry(0, 6)) << "]" << endl;
     cout << "white pawn   in black square : [" << getDisplayableString(matrix.getEntry(1, 6)) << "]" << endl;
-    cout << "white pawn   in white square : [" << getDisplayableString(matrix.getEntry(2, 4)) << "]" << endl; // pawn moved
+    cout << "white pawn   in white square : [" << getDisplayableString(matrix.getEntry(2, 6)) << "]" << endl;
     cout << "white pawn   in black square : [" << getDisplayableString(matrix.getEntry(3, 6)) << "]" << endl;
     cout << "white pawn   in white square : [" << getDisplayableString(matrix.getEntry(4, 6)) << "]" << endl;
     cout << "white pawn   in black square : [" << getDisplayableString(matrix.getEntry(5, 6)) << "]" << endl;
@@ -91,6 +106,15 @@ TEST(ChessPeekTest, DISABLED_SavePiecesValueFromMatrixFromBasisBitmap)
     cout << "EmptySpace2                  : [" << getDisplayableString(matrix.getEntry(4, 5)) << "]" << endl;
     cout << "EmptySpace3                  : [" << getDisplayableString(matrix.getEntry(5, 4)) << "]" << endl;
     cout << "EmptySpace4                  : [" << getDisplayableString(matrix.getEntry(5, 5)) << "]" << endl;
+}
+
+TEST(ChessPeekTest, SavePiecesValueFromMatrixFromSpecialBitmap)
+{
+    ChessPeek chessPeek;
+    chessPeek.checkScreenAndSaveDetails();
+
+    ChessPeek::ChessCellBitValueMatrix matrix(chessPeek.getChessCellBitValueMatrix());
+    cout << "white queen  in white square : [" << getDisplayableString(matrix.getEntry(5, 4)) << "]" << endl;
 }
 
 }

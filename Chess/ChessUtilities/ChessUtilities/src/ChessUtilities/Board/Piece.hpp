@@ -7,10 +7,12 @@
 #include <ostream>
 #include <vector>
 
-namespace alba{
+namespace alba
+{
 
 namespace chess
 {
+
 struct Piece
 {
 public:
@@ -31,7 +33,8 @@ public:
     uint16_t getUnderlyingValue() const;
     char getCharacter() const;
 
-private:    uint16_t m_underlyingValue;
+private:
+    uint16_t m_underlyingValue;
 };
 
 using Pieces = std::vector<Piece>;

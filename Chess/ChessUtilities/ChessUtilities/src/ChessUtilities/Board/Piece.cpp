@@ -6,8 +6,10 @@ using namespace std;
 
 namespace alba
 {
+
 namespace chess
 {
+
 PieceColor Piece::extractColor(uint16_t const value)
 {
     return static_cast<PieceColor>(value>>3 & 0B1);
@@ -25,7 +27,8 @@ uint16_t Piece::getValueFromColorAndType(PieceColor const color, PieceType const
 
 char Piece::convertToCharacter(uint16_t const value)
 {
-    char result{};    PieceType pieceType(extractType(value));
+    char result{};
+    PieceType pieceType(extractType(value));
     switch(pieceType)
     {
     case PieceType::Empty:
@@ -35,11 +38,13 @@ char Piece::convertToCharacter(uint16_t const value)
     }
     case PieceType::Pawn:
     {
-        result = 'p';        break;
+        result = 'p';
+        break;
     }
     case PieceType::Knight:
     {
-        result = 'n';        break;
+        result = 'n';
+        break;
     }
     case PieceType::Bishop:
     {
@@ -94,7 +99,8 @@ bool Piece::operator!=(Piece const& piece) const
 
 PieceColor Piece::getColor() const
 {
-    return extractColor(m_underlyingValue);}
+    return extractColor(m_underlyingValue);
+}
 
 PieceType Piece::getType() const
 {

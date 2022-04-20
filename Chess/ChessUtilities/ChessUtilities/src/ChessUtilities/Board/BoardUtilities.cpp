@@ -5,6 +5,7 @@
 #include <sstream>
 
 using namespace std;
+
 namespace alba
 {
 
@@ -40,10 +41,12 @@ std::string getEnumString(PieceType const pieceType)
 
 string constructFenString(
         Board const& board,
-        PieceColor const colorToMove,        string const& castlingAvailability,
+        PieceColor const colorToMove,
+        string const& castlingAvailability,
         string const& enPassantTarget,
         unsigned int const halfMoveClock,
-        unsigned int const fullMoveNumber){
+        unsigned int const fullMoveNumber)
+{
     stringstream ss;
     ss << board.getFenString() << " ";
     if(PieceColor::White == colorToMove)
@@ -74,10 +77,12 @@ Moves getSequenceOfMoves(
             Piece piece2(board2.getPieceAt(coordinate));
             if(piece1 != piece2)
             {
-                if(board1.isEmpty(coordinate))                {
+                if(board1.isEmpty(coordinate))
+                {
                     coordinatesWithPiecesInDifference1.emplace_back(coordinate);
                 }
-                if(board2.isEmpty(coordinate))                {
+                if(board2.isEmpty(coordinate))
+                {
                     coordinatesWithPiecesInDifference2.emplace_back(coordinate);
                 }
             }
@@ -95,10 +100,12 @@ Moves getSequenceOfMoves(
             Piece piece2(board2.getPieceAt(coordinate2));
             Move moveFrom1To2(coordinate1, coordinate2);
             if((piece1 == piece2 && board1.isMovePossible(moveFrom1To2))
-                    || board1.isPromotionMove(moveFrom1To2))            {
+                    || board1.isPromotionMove(moveFrom1To2))
+            {
                 possibleMoves.emplace_back(moveFrom1To2);
             }
-        }    }
+        }
+    }
     return possibleMoves;
 }
 

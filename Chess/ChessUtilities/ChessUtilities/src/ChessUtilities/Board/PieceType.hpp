@@ -4,8 +4,10 @@
 
 namespace alba
 {
+
 namespace chess
 {
+
 enum class PieceType
 {
     Empty = 0,

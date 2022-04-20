@@ -4,6 +4,10 @@
 
 #include <sstream>
 
+
+
+#include <Common/Debug/AlbaDebug.hpp>
+
 using namespace alba::stringHelper;
 using namespace std;
 
@@ -19,6 +23,12 @@ ChessEngineControllerWithUci::ChessEngineControllerWithUci(
     , m_state(ControllerState::Initializing)
 {
     initialize();
+}
+
+void ChessEngineControllerWithUci::resetToNewGame()
+{
+    sendStopIfCalculating();
+    send(CommandType::Position, "ucinewgame");
 }
 
 void ChessEngineControllerWithUci::setupStartPosition()
@@ -72,6 +82,12 @@ void ChessEngineControllerWithUci::goInfinite()
 void ChessEngineControllerWithUci::stop()
 {
     sendStop();
+}
+
+void ChessEngineControllerWithUci::setAdditionalStepsInCalculationMonitoring(
+        StepsInCalculationMonitoring const& additionalSteps)
+{
+    m_additionalStepsInCalculationMonitoring.setConstReference(additionalSteps);
 }
 
 void ChessEngineControllerWithUci::initialize()
@@ -130,6 +146,7 @@ void ChessEngineControllerWithUci::send(
         Command const& command)
 {
     // all the logic are here lol
+    ALBA_PRINT2((int)m_state, command.commandString);
     switch(m_state)
     {
     case ControllerState::Initializing:
@@ -155,6 +172,7 @@ void ChessEngineControllerWithUci::send(
         if(CommandType::Stop == command.commandType)
         {
             m_engineHandler.sendStringToEngine(command.commandString);
+            m_state = ControllerState::Idle;
         }
         else
         {
@@ -227,10 +245,12 @@ void ChessEngineControllerWithUci::processInCalculating(
     strings movesInBestLine;
     string currentMove;
     string currentMoveNumber;
-    for(string const& token : tokens)    {
+    for(string const& token : tokens)
+    {
         if(TokenState::OneValueHeaderFound == state)
         {
-            if("depth" == headerToken)            {
+            if("depth" == headerToken)
+            {
                 m_currentCalculationDetails.depth = convertStringToNumber<unsigned int>(token);
             }
             else if("selectiveDepth" == headerToken)
@@ -293,13 +313,18 @@ void ChessEngineControllerWithUci::processInCalculating(
         }
         else if(TokenState::PvLineFound == state)
         {
-            movesInBestLine.emplace_back(token);
+            if(!token.empty())
+            {
+                movesInBestLine.emplace_back(token);
+            }
         }
         else if("depth" == token || "selectiveDepth" == token || "time" == token || "nodes" == token
-                || "nps" == token || "cp" == token || "mate" == token || "currmove" == token || "currmovenumber" == token                || "bestmove" == token || "ponder" == token)
+                || "nps" == token || "cp" == token || "mate" == token || "currmove" == token || "currmovenumber" == token
+                || "bestmove" == token || "ponder" == token)
         {
             state = TokenState::OneValueHeaderFound;
-            headerToken = token;        }
+            headerToken = token;
+        }
         else if("pv" == token)
         {
             state = TokenState::PvLineFound;
@@ -310,9 +335,16 @@ void ChessEngineControllerWithUci::processInCalculating(
         m_currentCalculationDetails.pvMovesInBestLine = movesInBestLine;
     }
     if(hasBestMove)
-    {        proceedToIdleAndProcessPendingCommands();
+    {
+        proceedToIdleAndProcessPendingCommands();
+    }
+
+    if(m_additionalStepsInCalculationMonitoring)
+    {
+        m_additionalStepsInCalculationMonitoring.getConstReference()(m_currentCalculationDetails);
     }
 }
+
 }
 
 }

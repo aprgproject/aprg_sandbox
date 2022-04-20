@@ -4,6 +4,10 @@
 
 #include <iostream>
 
+
+
+#include <Common/Debug/AlbaDebug.hpp>
+
 using namespace alba::stringHelper;
 using namespace std;
 
@@ -44,10 +48,12 @@ ChessEngineHandler::ChessEngineHandler(
         string const& enginePath)
 {
     SECURITY_DESCRIPTOR sd; //security information for pipes
-    static SECURITY_ATTRIBUTES securityAttributes;    static STARTUPINFO startupInfo;
+    static SECURITY_ATTRIBUTES securityAttributes;
+    static STARTUPINFO startupInfo;
     static PROCESS_INFORMATION processInfo;
 
-    if (IsWinNT())    {
+    if (IsWinNT())
+    {
         InitializeSecurityDescriptor(&sd,SECURITY_DESCRIPTOR_REVISION);
         SetSecurityDescriptorDacl(&sd, 1, NULL, 0);
         securityAttributes.lpSecurityDescriptor = &sd;
@@ -96,17 +102,24 @@ ChessEngineHandler::~ChessEngineHandler()
 
 void ChessEngineHandler::sendStringToEngine(string const& stringToEngine)
 {
+    ALBA_PRINT1(stringToEngine);
     unsigned long bytesWritten(0U);
-    string stringToWrite(stringToEngine);    stringToWrite += "\n";
+    string stringToWrite(stringToEngine);
+    stringToWrite += "\n";
     long remainingLength=stringToWrite.length();
     do
-    {        WriteFile(m_inputStreamOnHandler, stringToWrite.c_str(), remainingLength, &bytesWritten, NULL);
+    {
+        ALBA_PRINT1("before write file");
+        WriteFile(m_inputStreamOnHandler, stringToWrite.c_str(), remainingLength, &bytesWritten, NULL);
+        ALBA_PRINT1("before flush");
         FlushFileBuffers(m_inputStreamOnHandler);
         remainingLength = remainingLength-bytesWritten;
+        ALBA_PRINT1(remainingLength);
         if(remainingLength>0)
         {
             stringToWrite = stringToWrite.substr(bytesWritten, remainingLength);
         }
+        ALBA_PRINT1(stringToWrite);
     }
     while(remainingLength>0);
     log(LogType::ToEngine, stringToEngine);
@@ -121,10 +134,12 @@ void ChessEngineHandler::processStringFromEngine(string const& stringFromEngine)
     }
 }
 
-void ChessEngineHandler::startMonitoringEngineOutput(){
+void ChessEngineHandler::startMonitoringEngineOutput()
+{
     unsigned long bytesRead; //bytes read
     unsigned long bytesAvailable; //bytes available
-    char buffer[MAX_BUFFER_SIZE];    string stringBuffer;
+    char buffer[MAX_BUFFER_SIZE];
+    string stringBuffer;
     while(1)
     {
         PeekNamedPipe(m_outputStreamOnHandler, buffer, MAX_BUFFER_SIZE, NULL, &bytesAvailable, NULL);
@@ -176,10 +191,12 @@ void ChessEngineHandler::setLogFile(string const& logFilePath)
     if(!m_logFileStreamOptional.getReference().is_open())
     {
         log(LogType::HandlerStatus, string("Cannot open log file") + logFilePath);
-    }}
+    }
+}
 
 void ChessEngineHandler::setAdditionalStepsInProcessingAStringFromEngine(
-        ProcessAStringFunction const& additionalSteps){
+        ProcessAStringFunction const& additionalSteps)
+{
     m_additionalStepsInProcessingAStringFromEngine.setConstReference(additionalSteps);
 }
 
@@ -190,10 +207,12 @@ void ChessEngineHandler::log(LogType const logtype, string const& logString)
         m_logFileStreamOptional.getReference() << getLogHeader(logtype) << logString << endl;
     }
 #ifdef APRG_TEST_MODE_ON
-    cout << getLogHeader(logtype) << logString << endl;#else
+    //cout << getLogHeader(logtype) << logString << endl;
+#else
     if(LogType::FromEngine == logtype)
     {
-        cout << logString << endl;    }
+        cout << logString << endl;
+    }
 #endif
 }
 

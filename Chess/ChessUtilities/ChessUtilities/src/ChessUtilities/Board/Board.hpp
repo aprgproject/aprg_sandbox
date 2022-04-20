@@ -4,7 +4,8 @@
 #include <ChessUtilities/Board/Piece.hpp>
 #include <Common/Math/Matrix/AlbaMatrix.hpp>
 
-#include <cstdint>#include <string>
+#include <cstdint>
+#include <string>
 
 namespace alba
 {
@@ -16,6 +17,7 @@ template <> bool isEqualForMathMatrixDataType(chess::Piece const& value1, chess:
 
 namespace chess
 {
+
 struct Board
 {
 public:
@@ -32,14 +34,18 @@ public:
     Board();
     Board(Orientation const& orientation);
     Board(Orientation const& orientation, InitializerList const& initializerList);
+
     bool isCoordinateOnBoard(Coordinate const& coordinate) const;
     bool isEmpty(Coordinate const& coordinate) const;
     bool isMovePossible(Move const& move) const;
     bool isPromotionMove(Move const& move) const;
 
     PieceMatrix const& getPieceMatrix() const;
+
     Piece getPieceAt(Coordinate const& coordinate) const;
-    char getPieceCharacter(Coordinate const& coordinate) const;
+
+    Coordinate getCoordinateFromLetterNumberNotation(std::string const& letterNumber) const;
+    Move getMoveFromTwoLetterNumberNotation(std::string const& twoLetterNumber) const;
     Moves getPossibleMoves(Coordinate const& coordinate) const;
     std::string getFenString() const;
 
@@ -48,10 +54,12 @@ public:
 
 private:
     void retrievePossibleMovesBaseFromPieceType(Moves & result, Coordinate const& coordinate) const;
-    void retrievePossiblePawnMoves(Moves & result, Coordinate const& coordinate) const;    void retrievePossibleKnightMoves(Moves & result, Coordinate const& coordinate) const;
+    void retrievePossiblePawnMoves(Moves & result, Coordinate const& coordinate) const;
+    void retrievePossibleKnightMoves(Moves & result, Coordinate const& coordinate) const;
     void retrievePossibleBishopMoves(Moves & result, Coordinate const& coordinate) const;
     void retrievePossibleRookMoves(Moves & result, Coordinate const& coordinate) const;
-    void retrievePossibleQueenMoves(Moves & result, Coordinate const& coordinate) const;    void retrievePossibleKingMoves(Moves & result, Coordinate const& coordinate) const;
+    void retrievePossibleQueenMoves(Moves & result, Coordinate const& coordinate) const;
+    void retrievePossibleKingMoves(Moves & result, Coordinate const& coordinate) const;
     void retrievePossibleMovesByIncrements(
             Moves & result,
             Coordinate const& coordinate,
@@ -68,4 +76,5 @@ private:
 };
 
 }
+
 }

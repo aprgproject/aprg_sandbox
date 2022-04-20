@@ -2,6 +2,7 @@
 
 #include <ChessUtilities/Board/BoardUtilities.hpp>
 #include <Common/Bit/AlbaBitManipulation.hpp>
+#include <Common/User/DisplayTable.hpp>
 
 #include <algorithm>
 
@@ -9,9 +10,11 @@
 
 #include <Common/Debug/AlbaDebug.hpp>
 
-#define SCREEN_SHOT_PATH APRG_DIR R"(\Chess\ChessPeek\Files\ScreenShotBasis.bmp)"
-#define CHESS_BOARD_TOP_LEFT_CORNER 272, 140
-#define CHESS_BOARD_BOTTOM_RIGHT_CORNER 1103, 971
+#define SCREEN_SHOT_PATH APRG_DIR R"(\Chess\ChessPeek\Files\ScreenShot.bmp)"
+#define CHESS_BOARD_TOP_LEFT_CORNER 2195, 140
+#define CHESS_BOARD_BOTTOM_RIGHT_CORNER 3026, 971
+#define TOP_BOTTOM_INDENTION 0.05
+#define LEFT_RIGHT_INDENTION 0.03
 #define WHITE_COLOR_LIMIT 0.91
 #define BLACK_COLOR_LIMIT 0.40
 
@@ -32,6 +35,7 @@ ChessPeek::ChessPeek()
     , m_chessCellBitValueMatrix(8U, 8U)
     , m_chessBoard(Board::Orientation::BlackUpWhiteDown)
     , m_playerSideColor(PieceColor::White)
+    , m_currentMoveOnDisplay()
 {
     initialize();
 }
@@ -41,24 +45,65 @@ ChessPeek::ChessCellBitValueMatrix const& ChessPeek::getChessCellBitValueMatrix(
     return m_chessCellBitValueMatrix;
 }
 
+void ChessPeek::runForever()
+{
+    while(true)
+    {
+        runOneIteration();
+        Sleep(1);
+    }
+}
+
+void ChessPeek::runOneIteration()
+{
+    ALBA_PRINT1("runOneIteration");
+    Board::PieceMatrix previousPieceMatrix(m_chessBoard.getPieceMatrix());
+    checkScreenAndSaveDetails();
+    if(previousPieceMatrix != m_chessBoard.getPieceMatrix())
+    {
+        startNewAnalysisUsingEngine();
+    }
+}
+
 void ChessPeek::checkScreenAndSaveDetails()
 {
-    //m_userAutomation.saveBitmapOnScreen(SCREEN_SHOT_PATH);
+    ALBA_PRINT1("checkScreenAndSaveDetails");
+    m_userAutomation.saveBitmapOnScreen(SCREEN_SHOT_PATH);//
     Bitmap bitmap(SCREEN_SHOT_PATH);
     BitmapSnippet snippet(bitmap.getSnippetReadFromFile(BitmapXY(CHESS_BOARD_TOP_LEFT_CORNER), BitmapXY(CHESS_BOARD_BOTTOM_RIGHT_CORNER)));
     checkSnippetAndSaveDetails(snippet);
-    ALBA_PRINT1(m_chessBoard.getPieceMatrix().getString());
+    //bitmap.setSnippetWriteToFile(snippet);//
 }
 
-void ChessPeek::analyzeBoardUsingEngine()
+void ChessPeek::startNewAnalysisUsingEngine()
 {
-    string fenString(constructFenString(m_chessBoard, m_playerSideColor, "-", "-", 0, 1));
+    ALBA_PRINT1("startNewAnalysisUsingEngine");
+    ALBA_PRINT1("stop");
+    m_chessEngineController.stop();
+    ALBA_PRINT1("start constructFenString");
+    string fenString(constructFenString(m_chessBoard, m_playerSideColor, "KQkq", "-", 0, 1));
     ALBA_PRINT1(fenString);
+    ALBA_PRINT1("resetToNewGame");
+    m_chessEngineController.resetToNewGame();
+    ALBA_PRINT1("setupFenString");
     m_chessEngineController.setupFenString(fenString);
+    ALBA_PRINT1("goWithPonder");
     m_chessEngineController.goWithPonder();
+    ALBA_PRINT1("done");
 }
 
-void ChessPeek::checkSnippetAndSaveDetails(BitmapSnippet const& snippet)
+void ChessPeek::checkCalculationDetails(ChessEngineControllerWithUci::CalculationDetails const& calculationDetails)
+{
+    string moveToDisplay(getMoveToDisplay(calculationDetails));
+
+    printCalculationDetails(calculationDetails, moveToDisplay);
+    if(moveToDisplay != m_currentMoveOnDisplay)
+    {
+        m_currentMoveOnDisplay = moveToDisplay;
+    }
+}
+
+void ChessPeek::checkSnippetAndSaveDetails(BitmapSnippet & snippet)
 {
     double startX = snippet.getTopLeftCorner().getX();
     double startY = snippet.getTopLeftCorner().getY();
@@ -72,10 +117,10 @@ void ChessPeek::checkSnippetAndSaveDetails(BitmapSnippet const& snippet)
         for(unsigned int i=0; i<8; i++)
         {
             CoordinateSquare square{};
-            square.left = round(startX + deltaX*i);
-            square.right = round(startX + deltaX*(i+1));
-            square.top = round(startY + deltaY*j);
-            square.bottom = round(startY + deltaY*(j+1));
+            square.left = round(startX + deltaX*i + deltaX*LEFT_RIGHT_INDENTION);
+            square.right = round(startX + deltaX*(i+1) - deltaX*LEFT_RIGHT_INDENTION);
+            square.top = round(startY + deltaY*j + deltaX*TOP_BOTTOM_INDENTION);
+            square.bottom = round(startY + deltaY*(j+1) - deltaX*TOP_BOTTOM_INDENTION);
 
             BitSet64 whiteValue;
             BitSet64 blackValue;
@@ -98,10 +143,19 @@ void ChessPeek::checkSnippetAndSaveDetails(BitmapSnippet const& snippet)
 
 void ChessPeek::updatePlayerSideAndOrientation(unsigned int const pieceCount)
 {
-    Piece pieceAtKingPosition(m_chessBoard.getPieceAt(Coordinate(4, 7)));
-    if(32U == pieceCount && PieceType::King == pieceAtKingPosition.getType())
+    Piece pieceAtKingWhitePosition(m_chessBoard.getPieceAt(Coordinate(4, 7)));
+    Piece pieceAtKingBlackPosition(m_chessBoard.getPieceAt(Coordinate(3, 7)));
+    if(pieceCount >= 24U)
     {
-        PieceColor newColor(pieceAtKingPosition.getColor());
+        PieceColor newColor(m_playerSideColor);
+        if(PieceType::King == pieceAtKingWhitePosition.getType() && PieceColor::White == pieceAtKingWhitePosition.getColor())
+        {
+            newColor = PieceColor::White;
+        }
+        else if(PieceType::King == pieceAtKingBlackPosition.getType() && PieceColor::Black == pieceAtKingBlackPosition.getColor())
+        {
+            newColor = PieceColor::Black;
+        }
         if(m_playerSideColor != newColor)
         {
             m_playerSideColor = newColor;
@@ -113,14 +167,107 @@ void ChessPeek::updatePlayerSideAndOrientation(unsigned int const pieceCount)
             {
                 m_chessBoard.setOrientation(Board::Orientation::WhiteUpBlackDown);
             }
+            m_chessEngineController.resetToNewGame();
         }
     }
+}
+
+void ChessPeek::printCalculationDetails(
+        ChessEngineControllerWithUci::CalculationDetails const& calculationDetails,
+        string const& moveToDisplay) const
+{
+    string firstCurrentlySearchingMove;
+    if(!calculationDetails.currentlySearchingMoves.empty())
+    {
+        firstCurrentlySearchingMove = calculationDetails.currentlySearchingMoves.front();
+    }
+    cout << "Player side color: " << m_playerSideColor << endl;
+    cout << "CP score: " << calculationDetails.scoreInCentipawns << " Mate: " << calculationDetails.mateInNumberOfMoves << endl;
+    cout << "Best move: [" << calculationDetails.bestMove << "]" << endl;
+    cout << "Currently searching move: [" << firstCurrentlySearchingMove << "]" << endl;
+    cout << "PV: ";
+    for(string const& moveInPv : calculationDetails.pvMovesInBestLine)
+    {
+        cout << moveInPv << " ";
+    }
+    cout << endl;
+    cout << "Move to display: [" << moveToDisplay << "]" << endl;
+    Move actualMove(m_chessBoard.getMoveFromTwoLetterNumberNotation(moveToDisplay));
+    DisplayTable displayTable(getDisplayTable(actualMove));
+    displayTable.setBorders("-","|");
+    cout << "Board:" << endl;
+    cout << displayTable.drawOutput();
+    cout << endl;
+}
+
+string ChessPeek::getMoveToDisplay(
+        ChessEngineControllerWithUci::CalculationDetails const& calculationDetails) const
+{
+    string moveToDisplay(m_currentMoveOnDisplay);
+    if(!calculationDetails.pvMovesInBestLine.empty())
+    {
+        string firstMove(calculationDetails.pvMovesInBestLine.front());
+        if(!firstMove.empty())
+        {
+            moveToDisplay = firstMove;
+        }
+    }
+    if(!calculationDetails.currentlySearchingMoves.empty())
+    {
+        string firstMove(calculationDetails.currentlySearchingMoves.front());
+        if(!firstMove.empty())
+        {
+            moveToDisplay = firstMove;
+        }
+    }
+    if(!calculationDetails.bestMove.empty())
+    {
+        moveToDisplay = calculationDetails.bestMove;
+    }
+    return moveToDisplay;
+}
+
+DisplayTable ChessPeek::getDisplayTable(Move const& actualMove) const
+{
+    DisplayTable displayTable;
+    for(CoordinateDataType j=0; j<8; j++)
+    {
+        displayTable.addRow();
+        for(CoordinateDataType i=0; i<8; i++)
+        {
+            Coordinate coordinate(i, j);
+            string cell(" ");
+            cell += m_chessBoard.getPieceAt(coordinate).getCharacter();
+            cell += " ";
+            displayTable.getLastRow().addCell(cell);
+        }
+        displayTable.getLastRow().addCell("      ");
+        for(CoordinateDataType i=0; i<8; i++)
+        {
+            Coordinate coordinate(i, j);
+            string cell;
+            if(actualMove.first == coordinate || actualMove.second == coordinate)
+            {
+                cell += "[";
+                cell += m_chessBoard.getPieceAt(actualMove.first).getCharacter();
+                cell += "]";
+            }
+            else
+            {
+                cell += " ";
+                cell += m_chessBoard.getPieceAt(coordinate).getCharacter();
+                cell += " ";
+            }
+            displayTable.getLastRow().addCell(cell);
+        }
+    }
+    return displayTable;
 }
 
 void ChessPeek::retrieveChessCellBitValueAt(
         BitSet64 & whiteValue,
         BitSet64 & blackValue,
-        BitmapSnippet const& snippet,
+        BitmapSnippet & snippet,
         CoordinateSquare const& square) const
 {
     double deltaX = static_cast<double>(square.right-square.left)/9;
@@ -132,6 +279,7 @@ void ChessPeek::retrieveChessCellBitValueAt(
         {
             BitmapXY bitmapCoordinate(round(square.left + deltaX*i), round(square.top + deltaY*(j)));
             setBitsBasedFromColor(whiteValue, blackValue, 63-count, snippet, bitmapCoordinate);
+            //snippet.setPixelAt(bitmapCoordinate, 0xBB0000 | count << 8);//
             count++;
         }
     }
@@ -144,25 +292,9 @@ void ChessPeek::setBitsBasedFromColor(
         BitmapSnippet const& snippet,
         BitmapXY const& bitmapCoordinate) const
 {
-    static BitmapXYs xys
-    {BitmapXY(0, -1), BitmapXY(0, 1), BitmapXY(-1, 0), BitmapXY(1, 0)};
     double currentIntensity(calculateColorIntensityDecimal(snippet.getColorAt(bitmapCoordinate)));
-    double minimum(currentIntensity);
-    double maximum(currentIntensity);
-    for(BitmapXY const& xy : xys)
-    {
-        currentIntensity = calculateColorIntensityDecimal(snippet.getColorAt(bitmapCoordinate + xy));
-        if(minimum > currentIntensity)
-        {
-            minimum = currentIntensity;
-        }
-        if(maximum < currentIntensity)
-        {
-            maximum = currentIntensity;
-        }
-    }
-    whiteValue[index] = (maximum > WHITE_COLOR_LIMIT) ? 1 : 0;
-    blackValue[index] = (minimum < BLACK_COLOR_LIMIT) ? 1 : 0;
+    whiteValue[index] = (currentIntensity > WHITE_COLOR_LIMIT) ? 1 : 0;
+    blackValue[index] = (currentIntensity < BLACK_COLOR_LIMIT) ? 1 : 0;
 }
 
 double ChessPeek::calculateColorIntensityDecimal(uint32_t const color) const
@@ -188,6 +320,10 @@ uint8_t ChessPeek::extractBlue(uint32_t const color) const
 void ChessPeek::initialize()
 {
     m_chessEngineHandler.setLogFile(APRG_DIR R"(\Chess\ChessPeek\Files\Engine.log)");
+    m_chessEngineController.setAdditionalStepsInCalculationMonitoring([&](ChessEngineControllerWithUci::CalculationDetails const& calculationDetails)
+    {
+        checkCalculationDetails(calculationDetails);
+    });
 }
 
 }

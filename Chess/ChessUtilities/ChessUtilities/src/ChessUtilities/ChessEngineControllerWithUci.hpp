@@ -39,19 +39,24 @@ public:
         unsigned int nodes;
         unsigned int nodesPerSecond;
         stringHelper::strings pvMovesInBestLine;
-        unsigned int scoreInCentipawns;
+        int scoreInCentipawns;
         unsigned int mateInNumberOfMoves;
-        stringHelper::strings currentlySearchingMoves;        std::string bestMove;
+        stringHelper::strings currentlySearchingMoves;
+        std::string bestMove;
         std::string ponderMove;
     };
+
     struct Command
     {
         CommandType commandType;
         std::string commandString;
     };
 
+    using StepsInCalculationMonitoring = std::function<void(CalculationDetails const&)> ;
+
     ChessEngineControllerWithUci(ChessEngineHandler & engineHandler);
 
+    void resetToNewGame();
     void setupStartPosition();
     void setupMoves(std::string const& moves);
     void setupFenString(std::string const& fenString);
@@ -60,6 +65,8 @@ public:
     void goWithDepth(unsigned int const depth);
     void goInfinite();
     void stop();
+
+    void setAdditionalStepsInCalculationMonitoring(StepsInCalculationMonitoring const& additionalSteps);
 
 private:
 
@@ -81,6 +88,7 @@ private:
     ControllerState m_state;
     CalculationDetails m_currentCalculationDetails;
     std::deque<Command> m_pendingCommands;
+    AlbaOptional<StepsInCalculationMonitoring> m_additionalStepsInCalculationMonitoring;
 };
 
 }

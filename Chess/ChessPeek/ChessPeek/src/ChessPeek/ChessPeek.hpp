@@ -34,14 +34,20 @@ public:
 
     ChessCellBitValueMatrix const& getChessCellBitValueMatrix() const;
 
-    void checkScreenAndSaveDetails();
-    void analyzeBoardUsingEngine();
+    void runForever();
+    void runOneIteration();
 
+    void checkScreenAndSaveDetails();
+    void startNewAnalysisUsingEngine();
+    void checkCalculationDetails(ChessEngineControllerWithUci::CalculationDetails const& calculationDetails);
 
 private:
-    void checkSnippetAndSaveDetails(AprgBitmap::BitmapSnippet const& snippet);
+    void checkSnippetAndSaveDetails(AprgBitmap::BitmapSnippet & snippet);
     void updatePlayerSideAndOrientation(unsigned int const pieceCount);
-    void retrieveChessCellBitValueAt(BitSet64 & whiteValue, BitSet64 & blackValue, AprgBitmap::BitmapSnippet const& snippet, CoordinateSquare const& square) const;
+    void printCalculationDetails(ChessEngineControllerWithUci::CalculationDetails const& calculationDetails, std::string const& moveToDisplay) const;
+    std::string getMoveToDisplay(ChessEngineControllerWithUci::CalculationDetails const& calculationDetails) const;
+    DisplayTable getDisplayTable(Move const& actualMove) const;
+    void retrieveChessCellBitValueAt(BitSet64 & whiteValue, BitSet64 & blackValue, AprgBitmap::BitmapSnippet & snippet, CoordinateSquare const& square) const;
     void setBitsBasedFromColor(BitSet64 & whiteValue, BitSet64 & blackValue, unsigned int const index, AprgBitmap::BitmapSnippet const& snippet, AprgBitmap::BitmapXY const& bitmapCoordinate) const;
     double calculateColorIntensityDecimal(uint32_t const color) const;
     uint8_t extractRed(uint32_t const color) const;
@@ -56,6 +62,7 @@ private:
     ChessCellBitValueMatrix m_chessCellBitValueMatrix;
     Board m_chessBoard;
     PieceColor m_playerSideColor;
+    std::string m_currentMoveOnDisplay;
 };
 
 }

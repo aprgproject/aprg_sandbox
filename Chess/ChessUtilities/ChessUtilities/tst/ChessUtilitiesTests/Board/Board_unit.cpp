@@ -18,7 +18,8 @@ TEST(BoardTest, ConstructionWorks)
     Board::PieceMatrix expectedMatrix1(8U, 8U,
     {12,10,11,14,13,11,10,12,
      9,9,9,9,9,9,9,9,
-     0,0,0,0,0,0,0,0,     0,0,0,0,0,0,0,0,
+     0,0,0,0,0,0,0,0,
+     0,0,0,0,0,0,0,0,
      0,0,0,0,0,0,0,0,
      0,0,0,0,0,0,0,0,
      1,1,1,1,1,1,1,1,
@@ -26,7 +27,8 @@ TEST(BoardTest, ConstructionWorks)
     Board::PieceMatrix expectedMatrix2(8U, 8U,
     {4,2,3,6,5,3,2,4,
      1,1,1,1,1,1,1,1,
-     0,0,0,0,0,0,0,0,     0,0,0,0,0,0,0,0,
+     0,0,0,0,0,0,0,0,
+     0,0,0,0,0,0,0,0,
      0,0,0,0,0,0,0,0,
      0,0,0,0,0,0,0,0,
      9,9,9,9,9,9,9,9,
@@ -35,10 +37,12 @@ TEST(BoardTest, ConstructionWorks)
     EXPECT_EQ(expectedMatrix2, board2.getPieceMatrix());
 }
 
-TEST(BoardTest, IsCoordinateOnBoardWorks){
+TEST(BoardTest, IsCoordinateOnBoardWorks)
+{
     Board board(Board::Orientation::BlackUpWhiteDown);
     Coordinate inBoardCoordinate{4, 4};
     Coordinate outBoardCoordinate{-1, 8};
+
     EXPECT_TRUE(board.isCoordinateOnBoard(inBoardCoordinate));
     EXPECT_FALSE(board.isCoordinateOnBoard(outBoardCoordinate));
 }
@@ -203,18 +207,30 @@ TEST(BoardTest, GetFenStringWorks)
      0,0,9,9,0,0,9,9,
      4,2,3,0 ,0,3,2,4,
      0,0,0,6,5,0,0,0});
+    Board board4(Board::Orientation::WhiteUpBlackDown,
+    {4,0,3,6,5,3,0,4,
+     1,1,1,0,1,1,1,1,
+     0,0,2,0,0,2,0,0,
+     0,0,0,1,0,0,0,0,
+     0,0,0,10,0,0,0,0,
+     0,0,0,0,9,0,0,0,
+     9,9,9,9,0,9,9,9,
+     12,10,11,14,13,11,0,12});
 
 
     string actualFenString1(board1.getFenString());
     string actualFenString2(board2.getFenString());
     string actualFenString3(board3.getFenString());
+    string actualFenString4(board4.getFenString());
 
     string expectedFenString1("rnbkqbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBKQBNR");
-    string expectedFenString2("RNBKQBNR/PPPPPPPP/8/8/8/8/pppppppp/rnbkqbnr");
+    string expectedFenString2("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR");
     string expectedFenString3("3kq3/rnb2bnr/P1P1P1P1/1P1P1P1P/pp2pp2/2pp2pp/RNB2BNR/3KQ3");
+    string expectedFenString4("r1bqkbnr/ppp1pppp/3p4/4n3/4P3/2N2N2/PPPP1PPP/R1BQKB1R");
     EXPECT_EQ(expectedFenString1, actualFenString1);
     EXPECT_EQ(expectedFenString2, actualFenString2);
     EXPECT_EQ(expectedFenString3, actualFenString3);
+    EXPECT_EQ(expectedFenString4, actualFenString4);
 }
 
 }
