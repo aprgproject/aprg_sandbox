@@ -1,10 +1,8 @@
-#include <BitmapFilters/PenPoints.hpp>
+#include <BitmapManipulator/PenPoints.hpp>
 
 #include <gtest/gtest.h>
-
 using namespace alba::AprgBitmap;
 using namespace std;
-
 namespace alba
 {
 

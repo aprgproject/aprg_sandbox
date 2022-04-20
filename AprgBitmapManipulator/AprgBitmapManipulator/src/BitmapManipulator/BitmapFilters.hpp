@@ -3,17 +3,15 @@
 #include <Algorithm/UnionFind/UnionFindUsingMap.hpp>
 #include <Bitmap/Bitmap.hpp>
 #include <Bitmap/BitmapSnippet.hpp>
-#include <BitmapFilters/AnimizeColor.hpp>
-#include <BitmapFilters/LabelForPoints.hpp>
-#include <BitmapFilters/PenCircles.hpp>
-#include <BitmapFilters/PenPoints.hpp>
-#include <BitmapFilters/Traversal/BitmapSnippetTraversal.hpp>
+#include <BitmapManipulator/AnimizeColor.hpp>
+#include <BitmapManipulator/LabelForPoints.hpp>
+#include <BitmapManipulator/PenCircles.hpp>
+#include <BitmapManipulator/PenPoints.hpp>
+#include <BitmapManipulator/Traversal/BitmapSnippetTraversal.hpp>
 #include <Geometry/TwoDimensions/Circle.hpp>
 #include <Geometry/TwoDimensions/Point.hpp>
-
 #include <deque>
 #include <functional>
-
 namespace alba
 {
 

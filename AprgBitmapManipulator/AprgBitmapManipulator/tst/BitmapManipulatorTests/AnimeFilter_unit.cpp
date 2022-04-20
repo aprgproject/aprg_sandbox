@@ -1,12 +1,10 @@
-#include <BitmapFilters/AnimeFilter.hpp>
+#include <BitmapManipulator/AnimeFilter.hpp>
 #include <Common/PathHandler/AlbaLocalPathHandler.hpp>
 
 #include <gtest/gtest.h>
-
 #include <iostream>
 
 using namespace std;
-
 #define APRG_BITMAP_FILTERS_BITMAP_DIRECTORY APRG_DIR R"(\AprgBitmapFilters\FilesForTests\SampleBitmaps\)"
 
 namespace alba

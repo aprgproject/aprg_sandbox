@@ -1,19 +1,17 @@
 #include "BitmapFilters.hpp"
 
-#include <BitmapFilters/ColorStatistics.hpp>
-#include <BitmapFilters/ColorUtilities.hpp>
-#include <BitmapFilters/PenCirclesDrawer.hpp>
-#include <BitmapFilters/Utilities.hpp>
-#include <BitmapFilters/Traversal/OutwardCircleTraversal.hpp>
-#include <BitmapFilters/Traversal/OutwardSnakeLikeTraversal.hpp>
+#include <BitmapManipulator/ColorStatistics.hpp>
+#include <BitmapManipulator/ColorUtilities.hpp>
+#include <BitmapManipulator/PenCirclesDrawer.hpp>
+#include <BitmapManipulator/Utilities.hpp>
+#include <BitmapManipulator/Traversal/OutwardCircleTraversal.hpp>
+#include <BitmapManipulator/Traversal/OutwardSnakeLikeTraversal.hpp>
 #include <Common/Math/AlbaMathHelper.hpp>
 #include <Common/Optional/AlbaOptional.hpp>
-#include <Common/PathHandler/AlbaLocalPathHandler.hpp>
-#include <Geometry/TwoDimensions/TwoDimensionsHelper.hpp>
+#include <Common/PathHandler/AlbaLocalPathHandler.hpp>#include <Geometry/TwoDimensions/TwoDimensionsHelper.hpp>
 
 using namespace alba::AprgBitmap::ColorUtilities;
-using namespace alba::mathHelper;
-using namespace alba::TwoDimensions;
+using namespace alba::mathHelper;using namespace alba::TwoDimensions;
 using namespace std;
 
 namespace alba

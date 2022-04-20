@@ -1,15 +1,13 @@
 #pragma once
 
 #include <Bitmap/BitmapSnippet.hpp>
-#include <BitmapFilters/PenCircles.hpp>
-#include <BitmapFilters/Traversal/BitmapSnippetTraversal.hpp>
+#include <BitmapManipulator/PenCircles.hpp>
+#include <BitmapManipulator/Traversal/BitmapSnippetTraversal.hpp>
 
 namespace alba
 {
-
 namespace AprgBitmap
 {
-
 class PenCirclesDrawer
 {
 public:
