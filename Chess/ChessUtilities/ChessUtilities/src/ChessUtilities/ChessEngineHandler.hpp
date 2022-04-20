@@ -40,10 +40,9 @@ private:
     DWORD m_threadId;
     HANDLE m_inputStreamOnEngineThread, m_outputStreamOnEngineThread;
     HANDLE m_inputStreamOnHandler, m_outputStreamOnHandler;
-    AlbaOptional<std::ofstream> m_logFileStream;
+    AlbaOptional<std::ofstream> m_logFileStreamOptional;
     AlbaOptional<ProcessAStringFunction> m_additionalStepsInProcessingAStringFromEngine;
 };
-
 }
 
 }

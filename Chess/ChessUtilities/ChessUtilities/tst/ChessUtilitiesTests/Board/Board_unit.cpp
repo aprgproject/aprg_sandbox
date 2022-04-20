@@ -15,34 +15,30 @@ TEST(BoardTest, ConstructionWorks)
     Board board1(Board::Orientation::BlackUpWhiteDown);
     Board board2(Board::Orientation::WhiteUpBlackDown);
 
-    Board::PieceValueMatrix expectedMatrix1(8U, 8U,
+    Board::PieceMatrix expectedMatrix1(8U, 8U,
     {12,10,11,14,13,11,10,12,
      9,9,9,9,9,9,9,9,
-     0,0,0,0,0,0,0,0,
-     0,0,0,0,0,0,0,0,
+     0,0,0,0,0,0,0,0,     0,0,0,0,0,0,0,0,
      0,0,0,0,0,0,0,0,
      0,0,0,0,0,0,0,0,
      1,1,1,1,1,1,1,1,
      4,2,3,6,5,3,2,4});
-    Board::PieceValueMatrix expectedMatrix2(8U, 8U,
+    Board::PieceMatrix expectedMatrix2(8U, 8U,
     {4,2,3,6,5,3,2,4,
      1,1,1,1,1,1,1,1,
-     0,0,0,0,0,0,0,0,
-     0,0,0,0,0,0,0,0,
+     0,0,0,0,0,0,0,0,     0,0,0,0,0,0,0,0,
      0,0,0,0,0,0,0,0,
      0,0,0,0,0,0,0,0,
      9,9,9,9,9,9,9,9,
      12,10,11,14,13,11,10,12});
-    EXPECT_EQ(expectedMatrix1, board1.getPieceValueMatrix());
-    EXPECT_EQ(expectedMatrix2, board2.getPieceValueMatrix());
+    EXPECT_EQ(expectedMatrix1, board1.getPieceMatrix());
+    EXPECT_EQ(expectedMatrix2, board2.getPieceMatrix());
 }
 
-TEST(BoardTest, IsCoordinateOnBoardWorks)
-{
+TEST(BoardTest, IsCoordinateOnBoardWorks){
     Board board(Board::Orientation::BlackUpWhiteDown);
     Coordinate inBoardCoordinate{4, 4};
     Coordinate outBoardCoordinate{-1, 8};
-
     EXPECT_TRUE(board.isCoordinateOnBoard(inBoardCoordinate));
     EXPECT_FALSE(board.isCoordinateOnBoard(outBoardCoordinate));
 }

@@ -38,14 +38,12 @@ public:
         unsigned int time;
         unsigned int nodes;
         unsigned int nodesPerSecond;
-        std::string bestLinePv;
+        stringHelper::strings pvMovesInBestLine;
         unsigned int scoreInCentipawns;
         unsigned int mateInNumberOfMoves;
-        stringHelper::strings currentlySearchingMoves;
-        std::string bestMove;
+        stringHelper::strings currentlySearchingMoves;        std::string bestMove;
         std::string ponderMove;
     };
-
     struct Command
     {
         CommandType commandType;

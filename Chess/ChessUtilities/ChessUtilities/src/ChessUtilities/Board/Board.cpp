@@ -10,71 +10,77 @@ using namespace std;
 namespace alba
 {
 
+namespace matrix
+{
+template <> bool isEqualForMathMatrixDataType(chess::Piece const& value1, chess::Piece const& value2)
+{
+    return value1 == value2;
+}
+}
+
 namespace chess
 {
 
+Board::Board()
+    : m_orientation(Orientation::Unknown)
+    , m_pieceMatrix(8U, 8U)
+{}
+
 Board::Board(Orientation const& orientation)
     : m_orientation(orientation)
-    , m_pieceValueMatrix(8U, 8U, getInitializerList(orientation))
+    , m_pieceMatrix(8U, 8U, getInitialValues(orientation))
 {}
 
 Board::Board(Orientation const& orientation, InitializerList const& initializerList)
     : m_orientation(orientation)
-    , m_pieceValueMatrix(8U, 8U, initializerList)
+    , m_pieceMatrix(8U, 8U, initializerList)
 {}
 
-bool Board::isCoordinateOnBoard(Coordinate const& coordinate) const
-{
+bool Board::isCoordinateOnBoard(Coordinate const& coordinate) const{
     auto x(coordinate.getX());
     auto y(coordinate.getY());
-    return (x>=0 && x<=7) && (y>=0 && y<=7);
-}
+    return (x>=0 && x<=7) && (y>=0 && y<=7);}
 
 bool Board::isEmpty(Coordinate const& coordinate) const
 {
-    return PieceType::Empty == Piece::extractType(getPieceValue(coordinate));
+    return PieceType::Empty == getPieceAt(coordinate).getType();
 }
 
-bool Board::isMovePossible(Move const& move) const
-{
+bool Board::isMovePossible(Move const& move) const{
     Moves moves(getPossibleMoves(move.first));
     auto it = find(moves.cbegin(), moves.cend(), move);
-    return it != moves.cend();
-}
+    return it != moves.cend();}
 
 bool Board::isPromotionMove(Move const& move) const
 {
-    return PieceType::Pawn == Piece::extractType(getPieceValue(move.first))
+    return PieceType::Pawn == getPieceAt(move.first).getType()
             && (move.second.getY() == 0 || move.second.getY() == 7)
             && isMovePossible(move);
 }
 
-Board::PieceValueMatrix const& Board::getPieceValueMatrix() const
+Board::PieceMatrix const& Board::getPieceMatrix() const
 {
-    return m_pieceValueMatrix;
+    return m_pieceMatrix;
 }
 
-Board::PieceValue Board::getPieceValue(Coordinate const& coordinate) const
+Piece Board::getPieceAt(Coordinate const& coordinate) const
 {
-    PieceValue result{};
+    Piece result;
     if((isCoordinateOnBoard(coordinate)))
     {
-        result = m_pieceValueMatrix.getEntry(coordinate.getX(), coordinate.getY());
+        result = m_pieceMatrix.getEntry(coordinate.getX(), coordinate.getY());
     }
     return result;
 }
-
 char Board::getPieceCharacter(Coordinate const& coordinate) const
 {
-    return Piece::convertToCharacter(getPieceValue(coordinate));
+    return getPieceAt(coordinate).getCharacter();
 }
 
-Moves Board::getPossibleMoves(Coordinate const& coordinate) const
-{
+Moves Board::getPossibleMoves(Coordinate const& coordinate) const{
     Moves result;
     retrievePossibleMovesBaseFromPieceType(result, coordinate);
-    return result;
-}
+    return result;}
 
 std::string Board::getFenString() const
 {
@@ -113,20 +119,33 @@ std::string Board::getFenString() const
     return result;
 }
 
+void Board::setOrientation(Orientation const orientation)
+{
+    m_orientation = orientation;
+}
+
+void Board::setPieceAt(
+        Coordinate const& coordinate,
+        Piece const& piece)
+{
+    if((isCoordinateOnBoard(coordinate)))
+    {
+        m_pieceMatrix.setEntry(coordinate.getX(), coordinate.getY(), piece.getUnderlyingValue());
+    }
+}
+
 void Board::retrievePossibleMovesBaseFromPieceType(
         Moves & result,
         Coordinate const& coordinate) const
 {
-    uint16_t pieceValue(getPieceValue(coordinate));
-    PieceType pieceType = Piece::extractType(pieceValue);
+    Piece piece(getPieceAt(coordinate));
+    PieceType pieceType = piece.getType();
     switch(pieceType)
     {
-    case PieceType::Pawn:
-    {
+    case PieceType::Pawn:    {
         retrievePossiblePawnMoves(result, coordinate);
         break;
-    }
-    case PieceType::Knight:
+    }    case PieceType::Knight:
     {
         retrievePossibleKnightMoves(result, coordinate);
         break;
@@ -162,16 +181,14 @@ void Board::retrievePossiblePawnMoves(
         Moves & result,
         Coordinate const& coordinate) const
 {
-    uint16_t pieceValue(getPieceValue(coordinate));
-    if(PieceColor::White == Piece::extractColor(pieceValue))
+    Piece piece(getPieceAt(coordinate));
+    if(PieceColor::White == piece.getColor())
     {
         if(Orientation::BlackUpWhiteDown == m_orientation)
-        {
-            addMove(result, coordinate, coordinate + Coordinate(0, -1));
+        {            addMove(result, coordinate, coordinate + Coordinate(0, -1));
             if(6 == coordinate.getY())
             {
-                addMove(result, coordinate, coordinate + Coordinate(0, -2));
-            }
+                addMove(result, coordinate, coordinate + Coordinate(0, -2));            }
         }
         else if(Orientation::WhiteUpBlackDown == m_orientation)
         {
@@ -182,15 +199,13 @@ void Board::retrievePossiblePawnMoves(
             }
         }
     }
-    else if(PieceColor::Black == Piece::extractColor(pieceValue))
+    else if(PieceColor::Black == piece.getColor())
     {
         if(Orientation::BlackUpWhiteDown == m_orientation)
-        {
-            addMove(result, coordinate, coordinate + Coordinate(0, 1));
+        {            addMove(result, coordinate, coordinate + Coordinate(0, 1));
             if(1 == coordinate.getY())
             {
-                addMove(result, coordinate, coordinate + Coordinate(0, 2));
-            }
+                addMove(result, coordinate, coordinate + Coordinate(0, 2));            }
         }
         else if(Orientation::WhiteUpBlackDown == m_orientation)
         {
@@ -292,15 +307,13 @@ bool Board::haveDifferentColors(
         Coordinate const& sourceCoordinate,
         Coordinate const& destinationCoordinate) const
 {
-    return Piece::extractColor(getPieceValue(sourceCoordinate)) != Piece::extractColor(getPieceValue(destinationCoordinate));
+    return getPieceAt(sourceCoordinate).getColor() != getPieceAt(destinationCoordinate).getColor();
 }
 
-void Board::addMove(Moves & moves,
-                    Coordinate const& sourceCoordinate,
+void Board::addMove(Moves & moves,                    Coordinate const& sourceCoordinate,
                     Coordinate const& destinationCoordinate) const
 {
-    if(isCoordinateOnBoard(sourceCoordinate)
-            && isCoordinateOnBoard(destinationCoordinate))
+    if(isCoordinateOnBoard(sourceCoordinate)            && isCoordinateOnBoard(destinationCoordinate))
     {
         if(isEmpty(destinationCoordinate) || haveDifferentColors(sourceCoordinate, destinationCoordinate))
         {
@@ -310,17 +323,16 @@ void Board::addMove(Moves & moves,
 
 }
 
-Board::InitializerList Board::getInitializerList(Orientation const& inputType) const
+Board::PieceMatrix::MatrixData Board::getInitialValues(
+        Orientation const& inputType) const
 {
-    InitializerList result;
+    PieceMatrix::MatrixData result;
     if(Orientation::BlackUpWhiteDown == inputType)
     {
-        result =
-        {12,10,11,14,13,11,10,12,
+        result =        {12,10,11,14,13,11,10,12,
          9,9,9,9,9,9,9,9,
          0,0,0,0,0,0,0,0,
-         0,0,0,0,0,0,0,0,
-         0,0,0,0,0,0,0,0,
+         0,0,0,0,0,0,0,0,         0,0,0,0,0,0,0,0,
          0,0,0,0,0,0,0,0,
          1,1,1,1,1,1,1,1,
          4,2,3,6,5,3,2,4};
