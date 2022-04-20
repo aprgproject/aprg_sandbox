@@ -1,15 +1,28 @@
 #pragma once
 
+#include <ChessUtilities/ChessEngineControllerWithUci.hpp>
+#include <ChessUtilities/ChessEngineHandler.hpp>
+#include <UserAutomation/AlbaLocalUserAutomation.hpp>
+
 namespace alba
 {
 
-class SimplestDesignToCopyForLibrariesAndPrograms
+namespace chess
+{
+
+class ChessPeek
 {
 public:
-    SimplestDesignToCopyForLibrariesAndPrograms();
+    ChessPeek();
 
 private:
-    int m_sample;
+    void initialize();
+    void checkScreenForBestMove();
+    ChessEngineHandler m_chessEngineHandler;
+    ChessEngineControllerWithUci m_chessEngineController;
+    AlbaLocalUserAutomation m_userAutomation;
 };
+
+}
 
 }
