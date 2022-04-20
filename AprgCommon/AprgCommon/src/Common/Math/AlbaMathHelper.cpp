@@ -109,10 +109,12 @@ template bool isAlmostEqual<signed char>(signed char const value1, signed char c
 template bool isAlmostEqual<unsigned short int>(unsigned short int const value1, unsigned short int const value2);
 template bool isAlmostEqual<unsigned int>(unsigned int const value1, unsigned int const value2);
 template bool isAlmostEqual<int>(int const value1, int const value2);
-template <> bool isAlmostEqual<float>(float const value1, float const value2){
+template <> bool isAlmostEqual<float>(float const value1, float const value2)
+{
     return value1 == value2 || getAbsoluteValue(value1-value2) < COMPARISON_TOLERANCE_FOR_FLOAT;
 }
-template <> bool isAlmostEqual<double>(double const value1, double const value2){
+template <> bool isAlmostEqual<double>(double const value1, double const value2)
+{
     return value1 == value2 || getAbsoluteValue(value1-value2) < COMPARISON_TOLERANCE_FOR_DOUBLE;
 }
 //Commented out: This implementation is not practical when value is equal to zero

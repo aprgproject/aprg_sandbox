@@ -8,8 +8,10 @@
 
 namespace alba
 {
+
 namespace chess
 {
+
 struct Board
 {
 public:
@@ -37,10 +39,12 @@ public:
     std::string getFenString() const;
 
 private:
-    void retrievePossibleMovesBaseFromPieceType(Moves & result, Coordinate const& coordinate) const;    void retrievePossiblePawnMoves(Moves & result, Coordinate const& coordinate) const;
+    void retrievePossibleMovesBaseFromPieceType(Moves & result, Coordinate const& coordinate) const;
+    void retrievePossiblePawnMoves(Moves & result, Coordinate const& coordinate) const;
     void retrievePossibleKnightMoves(Moves & result, Coordinate const& coordinate) const;
     void retrievePossibleBishopMoves(Moves & result, Coordinate const& coordinate) const;
-    void retrievePossibleRookMoves(Moves & result, Coordinate const& coordinate) const;    void retrievePossibleQueenMoves(Moves & result, Coordinate const& coordinate) const;
+    void retrievePossibleRookMoves(Moves & result, Coordinate const& coordinate) const;
+    void retrievePossibleQueenMoves(Moves & result, Coordinate const& coordinate) const;
     void retrievePossibleKingMoves(Moves & result, Coordinate const& coordinate) const;
     void retrievePossibleMovesByIncrements(
             Moves & result,

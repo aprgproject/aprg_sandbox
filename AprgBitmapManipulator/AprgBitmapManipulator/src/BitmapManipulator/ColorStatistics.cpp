@@ -5,10 +5,12 @@
 #include <BitmapManipulator/ColorUtilities.hpp>
 #include <Common/PathHandler/AlbaLocalPathHandler.hpp>
 
-using namespace alba::AprgBitmap::ColorUtilities;using namespace std;
+using namespace alba::AprgBitmap::ColorUtilities;
+using namespace std;
 
 namespace alba
 {
+
 namespace AprgBitmap
 {
 
