@@ -1,20 +1,15 @@
 #include "ChessEngineHandler.hpp"
 
 #include <Common/String/AlbaStringHelper.hpp>
+#include <Common/Windows/AlbaWindowsHelper.hpp>
 
 #include <iostream>
 
-
-
-#include <Common/Debug/AlbaDebug.hpp>
-
 using namespace alba::stringHelper;
 using namespace std;
-
 #define MAX_BUFFER_SIZE 2000
 
-namespace alba
-{
+namespace alba{
 
 namespace chess
 {
@@ -35,100 +30,62 @@ int IsWinNT()
     return (osv.dwPlatformId == VER_PLATFORM_WIN32_NT);
 }
 
-DWORD WINAPI engineToGuiCallbackFunction(LPVOID lpParam)
+DWORD WINAPI engineMonitoringCallbackFunction(LPVOID lpParam)
 {
     PointerToCallBackData pointerToCallBackData = (PointerToCallBackData)lpParam;
-    ChessEngineHandler* chessEngineHandlerPointer = reinterpret_cast<ChessEngineHandler*>(pointerToCallBackData->epointer);
-    chessEngineHandlerPointer->startMonitoringEngineOutput();
+    ChessEngineHandler* chessEngineHandlerPointer = reinterpret_cast<ChessEngineHandler*>(pointerToCallBackData->epointer);    chessEngineHandlerPointer->startMonitoringEngineOutput();
     return 0;
 }
 }
 
-ChessEngineHandler::ChessEngineHandler(
-        string const& enginePath)
+ChessEngineHandler::ChessEngineHandler(string const& enginePath)
+    : m_enginePath(enginePath)
 {
-    SECURITY_DESCRIPTOR sd; //security information for pipes
-    static SECURITY_ATTRIBUTES securityAttributes;
-    static STARTUPINFO startupInfo;
-    static PROCESS_INFORMATION processInfo;
-
-    if (IsWinNT())
-    {
-        InitializeSecurityDescriptor(&sd,SECURITY_DESCRIPTOR_REVISION);
-        SetSecurityDescriptorDacl(&sd, 1, NULL, 0);
-        securityAttributes.lpSecurityDescriptor = &sd;
-    }
-    else securityAttributes.lpSecurityDescriptor = NULL;
-
-    securityAttributes.nLength = sizeof(SECURITY_ATTRIBUTES);
-    securityAttributes.bInheritHandle = 1; //allow inheritable handles
-
-    if (!CreatePipe(&(m_inputStreamOnEngineThread), &(m_inputStreamOnHandler), &securityAttributes, 0))
-    {
-        log(LogType::HandlerStatus, "Cannot Create Pipe");
-    }
-
-    if (!CreatePipe(&(m_outputStreamOnHandler), &(m_outputStreamOnEngineThread), &securityAttributes, 0))
-    {
-        log(LogType::HandlerStatus, "Cannot Create Pipe");
-    }
-    GetStartupInfo(&startupInfo); //set startupinfo for the spawned process
-    startupInfo.dwFlags = STARTF_USESTDHANDLES|STARTF_USESHOWWINDOW;
-    startupInfo.wShowWindow = SW_SHOWDEFAULT;//SW_HIDE;
-    startupInfo.hStdOutput  = m_outputStreamOnEngineThread;
-    startupInfo.hStdError   = m_outputStreamOnEngineThread;
-    startupInfo.hStdInput   = m_inputStreamOnEngineThread;
-
-    //spawn the child process
-    if (!CreateProcess(enginePath.c_str(),NULL,NULL,NULL,TRUE,CREATE_NEW_CONSOLE,NULL,NULL,&startupInfo,&processInfo))
-    {
-        log(LogType::HandlerStatus, "Cannot Create Process");
-    }
-    PointerToCallBackData pData = new CallBackData();
-    pData->epointer = this;
-    m_engineThread = CreateThread(NULL, 0, engineToGuiCallbackFunction, pData, 0, &(m_threadId));
+    initializeEngine();
 }
 
 ChessEngineHandler::~ChessEngineHandler()
 {
-    sendStringToEngine("quit\n");
-    CloseHandle(m_engineThread);
-    CloseHandle(m_inputStreamOnEngineThread);
-    CloseHandle(m_outputStreamOnEngineThread);
-    CloseHandle(m_inputStreamOnHandler);
-    CloseHandle(m_outputStreamOnHandler);
+    shutdownEngine();
     m_logFileStreamOptional.getReference().close();
+}
+
+void ChessEngineHandler::reset()
+{
+    log(LogType::HandlerStatus, "Resetting engine");
+    shutdownEngine();
+    initializeEngine();
 }
 
 void ChessEngineHandler::sendStringToEngine(string const& stringToEngine)
 {
-    ALBA_PRINT1(stringToEngine);
     unsigned long bytesWritten(0U);
     string stringToWrite(stringToEngine);
     stringToWrite += "\n";
     long remainingLength=stringToWrite.length();
+    bool isSuccessful(true);
     do
     {
-        ALBA_PRINT1("before write file");
-        WriteFile(m_inputStreamOnHandler, stringToWrite.c_str(), remainingLength, &bytesWritten, NULL);
-        ALBA_PRINT1("before flush");
-        FlushFileBuffers(m_inputStreamOnHandler);
-        remainingLength = remainingLength-bytesWritten;
-        ALBA_PRINT1(remainingLength);
-        if(remainingLength>0)
+        isSuccessful = WriteFile(m_inputStreamOnHandler, stringToWrite.c_str(), remainingLength, &bytesWritten, NULL);
+        if(isSuccessful)
         {
-            stringToWrite = stringToWrite.substr(bytesWritten, remainingLength);
+            remainingLength = remainingLength-bytesWritten;
+            if(remainingLength>0)
+            {
+                stringToWrite = stringToWrite.substr(bytesWritten, remainingLength);
+            }
         }
-        ALBA_PRINT1(stringToWrite);
+        else
+        {
+            cout << "Error on sendStringToEngine: " << AlbaWindowsHelper::getLastFormattedErrorMessage() << endl;
+        }
     }
-    while(remainingLength>0);
+    while(isSuccessful && remainingLength>0);
     log(LogType::ToEngine, stringToEngine);
 }
-
 void ChessEngineHandler::processStringFromEngine(string const& stringFromEngine)
 {
-    log(LogType::FromEngine, stringFromEngine);
-    if(m_additionalStepsInProcessingAStringFromEngine)
+    log(LogType::FromEngine, stringFromEngine);    if(m_additionalStepsInProcessingAStringFromEngine)
     {
         m_additionalStepsInProcessingAStringFromEngine.getConstReference()(stringFromEngine);
     }
@@ -200,14 +157,66 @@ void ChessEngineHandler::setAdditionalStepsInProcessingAStringFromEngine(
     m_additionalStepsInProcessingAStringFromEngine.setConstReference(additionalSteps);
 }
 
+void ChessEngineHandler::initializeEngine()
+{
+    SECURITY_DESCRIPTOR securityDescriptor; //security information for pipes
+    SECURITY_ATTRIBUTES securityAttributes;
+
+    if (IsWinNT())
+    {
+        InitializeSecurityDescriptor(&securityDescriptor, SECURITY_DESCRIPTOR_REVISION);
+        SetSecurityDescriptorDacl(&securityDescriptor, 1, NULL, 0);
+        securityAttributes.lpSecurityDescriptor = &securityDescriptor;
+    }
+    else securityAttributes.lpSecurityDescriptor = NULL;
+
+    securityAttributes.nLength = sizeof(SECURITY_ATTRIBUTES);
+    securityAttributes.bInheritHandle = 1; //allow inheritable handles
+
+    if (!CreatePipe(&(m_inputStreamOnEngineThread), &(m_inputStreamOnHandler), &securityAttributes, 0))
+    {
+        log(LogType::HandlerStatus, "Cannot Create Pipe");
+    }
+
+    if (!CreatePipe(&(m_outputStreamOnHandler), &(m_outputStreamOnEngineThread), &securityAttributes, 0))
+    {
+        log(LogType::HandlerStatus, "Cannot Create Pipe");
+    }
+    GetStartupInfo(&m_startupInfo); //set startupinfo for the spawned process
+    m_startupInfo.dwFlags = STARTF_USESTDHANDLES|STARTF_USESHOWWINDOW;
+    m_startupInfo.wShowWindow = SW_HIDE;//SW_SHOWDEFAULT;//
+    m_startupInfo.hStdOutput  = m_outputStreamOnEngineThread;
+    m_startupInfo.hStdError   = m_outputStreamOnEngineThread;
+    m_startupInfo.hStdInput   = m_inputStreamOnEngineThread;
+
+    //spawn the child process
+    if (!CreateProcess(m_enginePath.c_str(),NULL,NULL,NULL,TRUE,CREATE_NEW_CONSOLE,NULL,NULL,&m_startupInfo,&m_processInfo))
+    {
+        log(LogType::HandlerStatus, "Cannot Create Process");
+    }
+    PointerToCallBackData pData = new CallBackData();
+    pData->epointer = this;
+    m_engineMonitoringThread = CreateThread(NULL, 0, engineMonitoringCallbackFunction, pData, 0, &(m_threadId));
+}
+
+void ChessEngineHandler::shutdownEngine()
+{
+    sendStringToEngine("quit\n");
+    WaitForSingleObject(m_engineMonitoringThread, 1);
+    CloseHandle(m_engineMonitoringThread);
+    TerminateProcess(m_processInfo.hProcess, 0);
+    CloseHandle(m_inputStreamOnEngineThread);
+    CloseHandle(m_outputStreamOnEngineThread);
+    CloseHandle(m_inputStreamOnHandler);
+    CloseHandle(m_outputStreamOnHandler);
+}
+
 void ChessEngineHandler::log(LogType const logtype, string const& logString)
 {
-    if(m_logFileStreamOptional)
-    {
+    if(m_logFileStreamOptional)    {
         m_logFileStreamOptional.getReference() << getLogHeader(logtype) << logString << endl;
     }
-#ifdef APRG_TEST_MODE_ON
-    //cout << getLogHeader(logtype) << logString << endl;
+#ifdef APRG_TEST_MODE_ON    //cout << getLogHeader(logtype) << logString << endl;
 #else
     if(LogType::FromEngine == logtype)
     {
