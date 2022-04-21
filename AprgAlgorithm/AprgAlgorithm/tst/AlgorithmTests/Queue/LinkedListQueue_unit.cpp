@@ -1,64 +1,55 @@
 #include <Algorithm/Queue/LinkedListQueue.hpp>
-#include <AlgorithmTests/Queue/Utilities/CommonTestsWithBaseQueue.hpp>
+#include <AlgorithmTests/Queue/Utilities/CommonTestsWithQueue.hpp>
 
 #include <gtest/gtest.h>
 
-using namespace alba::algorithm::CommonTestsWithBaseQueue;
+using namespace alba::algorithm::CommonTestsWithQueue;
 using namespace std;
 
-namespace alba
-{
+namespace alba{
 
 namespace algorithm
 {
 
 namespace
 {
-using QueueForUnsignedInt = LinkedListQueue<unsigned int>;
+using QueueForTest = LinkedListQueue<unsigned int>;
 }
 
 TEST(LinkedListQueueTest, IsEmptyWorksWhenEmpty)
 {
-    QueueForUnsignedInt queue;
-    performIsEmptyTestWhenEmpty(queue);
+    testIsEmptyWhenEmptyWithUnsignedInt<QueueForTest>();
 }
 
 TEST(LinkedListQueueTest, IsEmptyWorksWhenNotEmpty)
 {
-    QueueForUnsignedInt queue;
-    performIsEmptyTestWhenNotEmpty(queue);
+    testIsEmptyWhenNotEmptyWithUnsignedInt<QueueForTest>();
 }
 
 TEST(LinkedListQueueTest, GetSizeWorksWhenEmpty)
 {
-    QueueForUnsignedInt queue;
-    performGetSizeTestWhenEmpty(queue);
+    testGetSizeWhenEmptyWithUnsignedInt<QueueForTest>();
 }
 
 TEST(LinkedListQueueTest, GetSizeWorksWhenNotEmpty)
 {
-    QueueForUnsignedInt queue;
-    performGetSizeTestWhenNotEmpty(queue);
+    testGetSizeWhenNotEmptyWithUnsignedInt<QueueForTest>();
 }
 
 TEST(LinkedListQueueTest, EnqueueWorks)
 {
-    QueueForUnsignedInt queue;
-    performEnqueueTest(queue);
+    testEnqueueWithUnsignedInt<QueueForTest>();
 }
 
 TEST(LinkedListQueueTest, DequeueWorks)
 {
-    QueueForUnsignedInt queue;
-    performDequeueTest(queue);
+    testDequeueWithUnsignedInt<QueueForTest>();
 }
 
 TEST(LinkedListQueueTest, DISABLED_DequeueWorksWithAssertionWhenItsEmpty) //disabled because it takes too long
 {
-    QueueForUnsignedInt queue;
-    performDequeueAssertionTestWhenEmpty(queue);
+    testDequeueAssertionWhenEmptyWithUnsignedInt<QueueForTest>();
 }
 
 }
-
 }

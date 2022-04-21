@@ -1,29 +1,31 @@
 #include <Algorithm/Sorter/QuickSorter/QuickSorterWith3WayPartitioning.hpp>
-#include <AlgorithmTests/Sorter/Utilities/CommonTestsWithBaseSorter.hpp>
+#include <AlgorithmTests/Sorter/Utilities/CommonTestsWithSorter.hpp>
 
 #include <gtest/gtest.h>
 
-using namespace alba::algorithm::CommonTestsWithBaseSorter;
+using namespace alba::algorithm::CommonTestsWithSorter;
 using namespace std;
 
-namespace alba
-{
+namespace alba{
 
 namespace algorithm
 {
 
+namespace
+{
+using ValuesForTest = std::vector<char>;
+using SorterForTest = QuickSorterWith3WayPartitioning<ValuesForTest>;
+}
+
 TEST(QuickSorterWith3WayPartitioningTest, SortWorksOnCharactersUsingExample1)
 {
-    QuickSorterWith3WayPartitioning<Characters> sorter;
-    performSortTestUsingExample1(sorter);
+    testSortUsingExample1WithCharacters<SorterForTest, ValuesForTest>();
 }
 
 TEST(QuickSorterWith3WayPartitioningTest, SortWorksOnCharactersUsingExample2)
 {
-    QuickSorterWith3WayPartitioning<Characters> sorter;
-    performSortTestUsingExample2(sorter);
+    testSortUsingExample2WithCharacters<SorterForTest, ValuesForTest>();
 }
 
 }
-
 }

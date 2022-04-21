@@ -1,29 +1,31 @@
 #include <Algorithm/Sorter/SelectionSorter.hpp>
-#include <AlgorithmTests/Sorter/Utilities/CommonTestsWithBaseSorter.hpp>
+#include <AlgorithmTests/Sorter/Utilities/CommonTestsWithSorter.hpp>
 
 #include <gtest/gtest.h>
 
-using namespace alba::algorithm::CommonTestsWithBaseSorter;
+using namespace alba::algorithm::CommonTestsWithSorter;
 using namespace std;
 
-namespace alba
-{
+namespace alba{
 
 namespace algorithm
 {
 
+namespace
+{
+using ValuesForTest = std::vector<char>;
+using SorterForTest = SelectionSorter<ValuesForTest>;
+}
+
 TEST(SelectionSorterTest, SortWorksOnCharactersUsingExample1)
 {
-    SelectionSorter<Characters> sorter;
-    performSortTestUsingExample1(sorter);
+    testSortUsingExample1WithCharacters<SorterForTest, ValuesForTest>();
 }
 
 TEST(SelectionSorterTest, SortWorksOnCharactersUsingExample2)
 {
-    SelectionSorter<Characters> sorter;
-    performSortTestUsingExample2(sorter);
+    testSortUsingExample2WithCharacters<SorterForTest, ValuesForTest>();
 }
 
 }
-
 }

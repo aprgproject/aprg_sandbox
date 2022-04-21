@@ -1,130 +1,110 @@
 #include <Algorithm/SymbolTable/OrderedArraySymbolTable.hpp>
-#include <AlgorithmTests/SymbolTable/Utilities/CommonTestsWithBaseSymbolTable.hpp>
+#include <AlgorithmTests/SymbolTable/Utilities/CommonTestsWithSymbolTable.hpp>
 
 #include <gtest/gtest.h>
 
-using namespace alba::algorithm::CommonTestsWithBaseSymbolTable;
+using namespace alba::algorithm::CommonTestsWithSymbolTable;
 using namespace std;
 
-namespace alba
-{
+namespace alba{
 
 namespace algorithm
 {
 
 namespace
 {
-using SymbolTableWithUnsignedIntToChar = OrderedArraySymbolTable<unsigned int, char>;
+using SymbolTableForTest = OrderedArraySymbolTable<unsigned int, char>;
 }
 
 TEST(OrderedArraySymbolTableTest, IsEmptyWorksWhenEmpty)
 {
-    SymbolTableWithUnsignedIntToChar symbolTable;
-    performIsEmptyTestWhenEmpty(symbolTable);
+    testIsEmptyWhenEmptyWithUnsignedIntAndChar<SymbolTableForTest>();
 }
 
 TEST(OrderedArraySymbolTableTest, IsEmptyWorksWhenNotEmpty)
 {
-    SymbolTableWithUnsignedIntToChar symbolTable;
-    performIsEmptyTestWhenNotEmpty(symbolTable);
+    testIsEmptyWhenNotEmptyWithUnsignedIntAndChar<SymbolTableForTest>();
 }
 
 TEST(OrderedArraySymbolTableTest, DoesContainWorks)
 {
-    SymbolTableWithUnsignedIntToChar symbolTable;
-    performDoesContainTest(symbolTable);
+    testDoesContainWithUnsignedIntAndChar<SymbolTableForTest>();
 }
 
 TEST(OrderedArraySymbolTableTest, GetSizeWorksWhenEmpty)
 {
-    SymbolTableWithUnsignedIntToChar symbolTable;
-    performGetSizeTestWhenEmpty(symbolTable);
+    testGetSizeWhenEmptyWithUnsignedIntAndChar<SymbolTableForTest>();
 }
 
 TEST(OrderedArraySymbolTableTest, GetSizeWorksWhenNotEmpty)
 {
-    SymbolTableWithUnsignedIntToChar symbolTable;
-    performGetSizeTestWhenNotEmpty(symbolTable);
+    testGetSizeWhenNotEmptyWithUnsignedIntAndChar<SymbolTableForTest>();
 }
 
 TEST(OrderedArraySymbolTableTest, GetWorks)
 {
-    SymbolTableWithUnsignedIntToChar symbolTable;
-    performGetTest(symbolTable);
+    testGetWithUnsignedIntAndChar<SymbolTableForTest>();
 }
 
 TEST(OrderedArraySymbolTableTest, GetRankWorks)
 {
-    SymbolTableWithUnsignedIntToChar symbolTable;
-    performGetRankTest(symbolTable);
+    testGetRankWithUnsignedIntAndChar<SymbolTableForTest>();
 }
 
 TEST(OrderedArraySymbolTableTest, GetMinimumWorks)
 {
-    SymbolTableWithUnsignedIntToChar symbolTable;
-    performGetMinimumTest(symbolTable);
+    testGetMinimumWithUnsignedIntAndChar<SymbolTableForTest>();
 }
 
 TEST(OrderedArraySymbolTableTest, GetMaximumWorks)
 {
-    SymbolTableWithUnsignedIntToChar symbolTable;
-    performGetMaximumTest(symbolTable);
+    testGetMaximumWithUnsignedIntAndChar<SymbolTableForTest>();
 }
 
 TEST(OrderedArraySymbolTableTest, SelectAtWorks)
 {
-    SymbolTableWithUnsignedIntToChar symbolTable;
-    performSelectAtTest(symbolTable);
+    testSelectAtWithUnsignedIntAndChar<SymbolTableForTest>();
 }
 
 TEST(OrderedArraySymbolTableTest, GetFloorWorks)
 {
-    SymbolTableWithUnsignedIntToChar symbolTable;
-    performGetFloorTest(symbolTable);
+    testGetFloorWithUnsignedIntAndChar<SymbolTableForTest>();
 }
 
 TEST(OrderedArraySymbolTableTest, GetCeilingWorks)
 {
-    SymbolTableWithUnsignedIntToChar symbolTable;
-    performGetCeilingTest(symbolTable);
+    testGetCeilingWithUnsignedIntAndChar<SymbolTableForTest>();
 }
 
 TEST(OrderedArraySymbolTableTest, PutWorks)
 {
-    SymbolTableWithUnsignedIntToChar symbolTable;
-    performPutTest(symbolTable);
+    testPutWithUnsignedIntAndChar<SymbolTableForTest>();
 }
 
 TEST(OrderedArraySymbolTableTest, DeleteBasedOnKeyWorks)
 {
-    SymbolTableWithUnsignedIntToChar symbolTable;
-    performDeleteBasedOnKeyTest(symbolTable);
+    testDeleteBasedOnKeyWithUnsignedIntAndChar<SymbolTableForTest>();
 }
 
 TEST(OrderedArraySymbolTableTest, DeleteMinimumWorks)
 {
-    SymbolTableWithUnsignedIntToChar symbolTable;
-    performDeleteMinimumTest(symbolTable);
+    testDeleteMinimumWithUnsignedIntAndChar<SymbolTableForTest>();
 }
 
 TEST(OrderedArraySymbolTableTest, DeleteMaximumWorks)
 {
-    SymbolTableWithUnsignedIntToChar symbolTable;
-    performDeleteMaximumTest(symbolTable);
+    testDeleteMaximumWithUnsignedIntAndChar<SymbolTableForTest>();
 }
 
 TEST(OrderedArraySymbolTableTest, GetKeys)
 {
-    SymbolTableWithUnsignedIntToChar symbolTable;
-    performGetKeysTest(symbolTable);
+    testGetKeysWithUnsignedIntAndChar<SymbolTableForTest>();
 }
 
 TEST(OrderedArraySymbolTableTest, GetKeysInRangeWorks)
 {
-    SymbolTableWithUnsignedIntToChar symbolTable;
-    performGetKeysInRangeInclusiveTest(symbolTable);
+    testGetKeysInRangeInclusiveWithUnsignedIntAndChar<SymbolTableForTest>();
 }
 
 }
-
 }

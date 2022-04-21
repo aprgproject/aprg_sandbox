@@ -1,64 +1,55 @@
 #include <Algorithm/Stack/LinkedListStack.hpp>
-#include <AlgorithmTests/Stack/Utilities/CommonTestsWithBaseStack.hpp>
+#include <AlgorithmTests/Stack/Utilities/CommonTestsWithStack.hpp>
 
 #include <gtest/gtest.h>
 
-using namespace alba::algorithm::CommonTestsWithBaseStack;
+using namespace alba::algorithm::CommonTestsWithStack;
 using namespace std;
 
-namespace alba
-{
+namespace alba{
 
 namespace algorithm
 {
 
 namespace
 {
-using StackForUnsignedInt = LinkedListStack<unsigned int>;
+using StackForTest = LinkedListStack<unsigned int>;
 }
 
 TEST(LinkedListStackTest, IsEmptyWorksWhenEmpty)
 {
-    StackForUnsignedInt stack;
-    performIsEmptyTestWhenEmpty(stack);
+    testIsEmptyWhenEmptyWithUnsignedInt<StackForTest>();
 }
 
 TEST(LinkedListStackTest, IsEmptyWorksWhenNotEmpty)
 {
-    StackForUnsignedInt stack;
-    performIsEmptyTestWhenNotEmpty(stack);
+    testIsEmptyWhenNotEmptyWithUnsignedInt<StackForTest>();
 }
 
 TEST(LinkedListStackTest, GetSizeWorksWhenEmpty)
 {
-    StackForUnsignedInt stack;
-    performGetSizeTestWhenEmpty(stack);
+    testGetSizeWhenEmptyWithUnsignedInt<StackForTest>();
 }
 
 TEST(LinkedListStackTest, GetSizeWorksWhenNotEmpty)
 {
-    StackForUnsignedInt stack;
-    performGetSizeTestWhenNotEmpty(stack);
+    testGetSizeWhenNotEmptyWithUnsignedInt<StackForTest>();
 }
 
 TEST(LinkedListStackTest, PushWorks)
 {
-    StackForUnsignedInt stack;
-    performPushTest(stack);
+    testPushWithUnsignedInt<StackForTest>();
 }
 
 TEST(LinkedListStackTest, PopWorks)
 {
-    StackForUnsignedInt stack;
-    performPopTest(stack);
+    testPopWithUnsignedInt<StackForTest>();
 }
 
 TEST(LinkedListStackTest, DISABLED_PopWorksWithAssertionWhenItsEmpty) //disabled because it takes too long
 {
-    StackForUnsignedInt stack;
-    performPopAssertionTestWhenEmpty(stack);
+    testPopAssertionWhenEmptyWithUnsignedInt<StackForTest>();
 }
 
 }
-
 }

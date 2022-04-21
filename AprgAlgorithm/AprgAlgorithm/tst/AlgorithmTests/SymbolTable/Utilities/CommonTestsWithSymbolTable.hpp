@@ -1,7 +1,6 @@
-#include "CommonTestsWithBaseSymbolTable.hpp"
+#pragma once
 
 #include <gtest/gtest.h>
-
 #include <vector>
 
 using namespace std;
@@ -12,61 +11,74 @@ namespace alba
 namespace algorithm
 {
 
-namespace CommonTestsWithBaseSymbolTable
+namespace CommonTestsWithSymbolTable
 {
 
-void performIsEmptyTestWhenEmpty(BaseSymbolTableForUnsignedInt & symbolTable)
+template <typename SymbolTable>
+void testIsEmptyWhenEmptyWithUnsignedIntAndChar()
 {
+    SymbolTable symbolTable;
+
     EXPECT_TRUE(symbolTable.isEmpty());
 }
 
-void performIsEmptyTestWhenNotEmpty(BaseSymbolTableForUnsignedInt & symbolTable)
+template <typename SymbolTable>
+void testIsEmptyWhenNotEmptyWithUnsignedIntAndChar()
 {
+    SymbolTable symbolTable;
     symbolTable.put(5U, 'E');
 
     EXPECT_FALSE(symbolTable.isEmpty());
 }
 
-void performDoesContainTest(BaseSymbolTableForUnsignedInt & symbolTable)
+template <typename SymbolTable>
+void testDoesContainWithUnsignedIntAndChar()
 {
+    SymbolTable symbolTable;
     symbolTable.put(5U, 'E');
 
     EXPECT_FALSE(symbolTable.doesContain(4U));
     EXPECT_TRUE(symbolTable.doesContain(5U));
 }
 
-void performGetSizeTestWhenEmpty(BaseSymbolTableForUnsignedInt & symbolTable)
+template <typename SymbolTable>
+void testGetSizeWhenEmptyWithUnsignedIntAndChar()
 {
+    SymbolTable symbolTable;
+
     EXPECT_EQ(0U, symbolTable.getSize());
 }
 
-void performGetSizeTestWhenNotEmpty(BaseSymbolTableForUnsignedInt & symbolTable)
+template <typename SymbolTable>
+void testGetSizeWhenNotEmptyWithUnsignedIntAndChar()
 {
+    SymbolTable symbolTable;
     symbolTable.put(7U, 'G');
     symbolTable.put(5U, 'E');
     symbolTable.put(6U, 'F');
-
     EXPECT_EQ(3U, symbolTable.getSize());
 }
 
-void performGetTest(BaseSymbolTableForUnsignedInt & symbolTable)
+template <typename SymbolTable>
+void testGetWithUnsignedIntAndChar()
 {
+    SymbolTable symbolTable;
     symbolTable.put(7U, 'G');
     symbolTable.put(5U, 'E');
     symbolTable.put(6U, 'F');
-
     EXPECT_EQ('E', symbolTable.get(5U));
     EXPECT_EQ('F', symbolTable.get(6U));
     EXPECT_EQ('G', symbolTable.get(7U));
     EXPECT_EQ('\0', symbolTable.get(8U));
 }
 
-void performGetRankTest(BaseSymbolTableForUnsignedInt & symbolTable)
+template <typename SymbolTable>
+void testGetRankWithUnsignedIntAndChar()
 {
+    SymbolTable symbolTable;
     symbolTable.put(8U, 'H');
     symbolTable.put(5U, 'E');
-    symbolTable.put(4U, 'D');
-    symbolTable.put(7U, 'G');
+    symbolTable.put(4U, 'D');    symbolTable.put(7U, 'G');
 
     EXPECT_EQ(0U, symbolTable.getRank(3U));
     EXPECT_EQ(0U, symbolTable.getRank(4U));
@@ -77,32 +89,35 @@ void performGetRankTest(BaseSymbolTableForUnsignedInt & symbolTable)
     EXPECT_EQ(4U, symbolTable.getRank(9U));
 }
 
-void performGetMinimumTest(BaseSymbolTableForUnsignedInt & symbolTable)
+template <typename SymbolTable>
+void testGetMinimumWithUnsignedIntAndChar()
 {
+    SymbolTable symbolTable;
     symbolTable.put(8U, 'H');
     symbolTable.put(5U, 'E');
-    symbolTable.put(4U, 'D');
-    symbolTable.put(7U, 'G');
+    symbolTable.put(4U, 'D');    symbolTable.put(7U, 'G');
 
     EXPECT_EQ(4U, symbolTable.getMinimum());
 }
 
-void performGetMaximumTest(BaseSymbolTableForUnsignedInt & symbolTable)
+template <typename SymbolTable>
+void testGetMaximumWithUnsignedIntAndChar()
 {
+    SymbolTable symbolTable;
     symbolTable.put(8U, 'H');
     symbolTable.put(5U, 'E');
-    symbolTable.put(4U, 'D');
-    symbolTable.put(7U, 'G');
+    symbolTable.put(4U, 'D');    symbolTable.put(7U, 'G');
 
     EXPECT_EQ(8U, symbolTable.getMaximum());
 }
 
-void performSelectAtTest(BaseSymbolTableForUnsignedInt & symbolTable)
+template <typename SymbolTable>
+void testSelectAtWithUnsignedIntAndChar()
 {
+    SymbolTable symbolTable;
     symbolTable.put(8U, 'H');
     symbolTable.put(5U, 'E');
-    symbolTable.put(4U, 'D');
-    symbolTable.put(7U, 'G');
+    symbolTable.put(4U, 'D');    symbolTable.put(7U, 'G');
 
     EXPECT_EQ(4U, symbolTable.selectAt(0U));
     EXPECT_EQ(5U, symbolTable.selectAt(1U));
@@ -110,12 +125,13 @@ void performSelectAtTest(BaseSymbolTableForUnsignedInt & symbolTable)
     EXPECT_EQ(8U, symbolTable.selectAt(3U));
 }
 
-void performGetFloorTest(BaseSymbolTableForUnsignedInt & symbolTable)
+template <typename SymbolTable>
+void testGetFloorWithUnsignedIntAndChar()
 {
+    SymbolTable symbolTable;
     symbolTable.put(8U, 'H');
     symbolTable.put(5U, 'E');
-    symbolTable.put(4U, 'D');
-    symbolTable.put(7U, 'G');
+    symbolTable.put(4U, 'D');    symbolTable.put(7U, 'G');
 
     EXPECT_EQ(0U, symbolTable.getFloor(3U));
     EXPECT_EQ(4U, symbolTable.getFloor(4U));
@@ -126,12 +142,13 @@ void performGetFloorTest(BaseSymbolTableForUnsignedInt & symbolTable)
     EXPECT_EQ(8U, symbolTable.getFloor(9U));
 }
 
-void performGetCeilingTest(BaseSymbolTableForUnsignedInt & symbolTable)
+template <typename SymbolTable>
+void testGetCeilingWithUnsignedIntAndChar()
 {
+    SymbolTable symbolTable;
     symbolTable.put(8U, 'H');
     symbolTable.put(5U, 'E');
-    symbolTable.put(4U, 'D');
-    symbolTable.put(7U, 'G');
+    symbolTable.put(4U, 'D');    symbolTable.put(7U, 'G');
 
     EXPECT_EQ(4U, symbolTable.getCeiling(3U));
     EXPECT_EQ(4U, symbolTable.getCeiling(4U));
@@ -142,24 +159,26 @@ void performGetCeilingTest(BaseSymbolTableForUnsignedInt & symbolTable)
     EXPECT_EQ(0U, symbolTable.getCeiling(9U));
 }
 
-void performPutTest(BaseSymbolTableForUnsignedInt & symbolTable)
+template <typename SymbolTable>
+void testPutWithUnsignedIntAndChar()
 {
+    SymbolTable symbolTable;
     symbolTable.put(7U, 'G');
     symbolTable.put(5U, 'E');
     symbolTable.put(6U, 'F');
-
     ASSERT_EQ(3U, symbolTable.getSize());
     EXPECT_EQ('E', symbolTable.get(5U));
     EXPECT_EQ('F', symbolTable.get(6U));
     EXPECT_EQ('G', symbolTable.get(7U));
 }
 
-void performDeleteBasedOnKeyTest(BaseSymbolTableForUnsignedInt & symbolTable)
+template <typename SymbolTable>
+void testDeleteBasedOnKeyWithUnsignedIntAndChar()
 {
+    SymbolTable symbolTable;
     symbolTable.put(7U, 'G');
     symbolTable.put(5U, 'E');
     symbolTable.put(6U, 'F');
-
     symbolTable.deleteBasedOnKey(5U);
     ASSERT_EQ(2U, symbolTable.getSize());
     EXPECT_EQ('F', symbolTable.get(6U));
@@ -173,36 +192,39 @@ void performDeleteBasedOnKeyTest(BaseSymbolTableForUnsignedInt & symbolTable)
     EXPECT_TRUE(symbolTable.isEmpty());
 }
 
-void performDeleteMinimumTest(BaseSymbolTableForUnsignedInt & symbolTable)
+template <typename SymbolTable>
+void testDeleteMinimumWithUnsignedIntAndChar()
 {
+    SymbolTable symbolTable;
     symbolTable.put(7U, 'G');
     symbolTable.put(5U, 'E');
     symbolTable.put(6U, 'F');
-
     symbolTable.deleteMinimum();
     ASSERT_EQ(2U, symbolTable.getSize());
     EXPECT_EQ('F', symbolTable.get(6U));
     EXPECT_EQ('G', symbolTable.get(7U));
 }
 
-void performDeleteMaximumTest(BaseSymbolTableForUnsignedInt & symbolTable)
+template <typename SymbolTable>
+void testDeleteMaximumWithUnsignedIntAndChar()
 {
+    SymbolTable symbolTable;
     symbolTable.put(7U, 'G');
     symbolTable.put(5U, 'E');
     symbolTable.put(6U, 'F');
-
     symbolTable.deleteMaximum();
     ASSERT_EQ(2U, symbolTable.getSize());
     EXPECT_EQ('E', symbolTable.get(5U));
     EXPECT_EQ('F', symbolTable.get(6U));
 }
 
-void performGetKeysTest(BaseSymbolTableForUnsignedInt & symbolTable)
+template <typename SymbolTable>
+void testGetKeysWithUnsignedIntAndChar()
 {
+    SymbolTable symbolTable;
     symbolTable.put(8U, 'H');
     symbolTable.put(9U, 'I');
-    symbolTable.put(5U, 'E');
-    symbolTable.put(4U, 'D');
+    symbolTable.put(5U, 'E');    symbolTable.put(4U, 'D');
     symbolTable.put(7U, 'G');
     symbolTable.put(3U, 'C');
 
@@ -212,12 +234,13 @@ void performGetKeysTest(BaseSymbolTableForUnsignedInt & symbolTable)
     EXPECT_EQ(expectedKeys, keysToVerify);
 }
 
-void performGetKeysInRangeInclusiveTest(BaseSymbolTableForUnsignedInt & symbolTable)
+template <typename SymbolTable>
+void testGetKeysInRangeInclusiveWithUnsignedIntAndChar()
 {
+    SymbolTable symbolTable;
     symbolTable.put(8U, 'H');
     symbolTable.put(9U, 'I');
-    symbolTable.put(5U, 'E');
-    symbolTable.put(4U, 'D');
+    symbolTable.put(5U, 'E');    symbolTable.put(4U, 'D');
     symbolTable.put(7U, 'G');
     symbolTable.put(3U, 'C');
 

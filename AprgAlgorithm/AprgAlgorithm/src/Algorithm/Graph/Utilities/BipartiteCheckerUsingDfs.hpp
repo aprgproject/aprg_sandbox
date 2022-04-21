@@ -9,15 +9,13 @@ namespace alba
 namespace algorithm
 {
 
-template<typename Vertex>
+template <typename Vertex>
 class BipartiteCheckerUsingDfs
 {
-public:
-    using BaseUndirectedGraphWithVertex = BaseUndirectedGraph<Vertex>;
+public:    using BaseUndirectedGraphWithVertex = BaseUndirectedGraph<Vertex>;
     using Vertices = typename GraphTypes<Vertex>::Vertices;
     using SetOfVertices = typename GraphTypes<Vertex>::SetOfVertices;
-    using Path = typename GraphTypes<Vertex>::Path;
-    using VertexToColorMap = std::map<Vertex, bool>;
+    using Path = typename GraphTypes<Vertex>::Path;    using VertexToColorMap = std::map<Vertex, bool>;
     using CheckableVerticesWithVertex = CheckableVertices<Vertex>;
 
     BipartiteCheckerUsingDfs(BaseUndirectedGraphWithVertex const& graph)

@@ -1,11 +1,9 @@
 #include <Algorithm/UnionFind/UnionFindUsingMap.hpp>
-#include <AlgorithmTests/UnionFind/Utilities/CommonTestsWithBaseUnionFind.hpp>
+#include <AlgorithmTests/UnionFind/Utilities/CommonTestsWithUnionFind.hpp>
 
 #include <gtest/gtest.h>
-
 using namespace alba::algorithm::CommonTestsWithBaseUnionFind;
 using namespace std;
-
 namespace alba
 {
 
@@ -14,44 +12,38 @@ namespace algorithm
 
 namespace
 {
-using UnionFindForUnsignedInt = UnionFindUsingMap<unsigned int>;
+using UnionFindForTest = UnionFindUsingMap<unsigned int>;
 }
 
 TEST(UnionFindUsingMapTest, IsConnectedWorks)
 {
-    UnionFindForUnsignedInt unionFind;
-    performIsConnectedTest(unionFind);
+    performIsConnectedTest<UnionFindForTest>();
 }
 
 TEST(UnionFindUsingMapTest, ConnectWorks)
 {
-    UnionFindForUnsignedInt unionFind;
-    performConnectTest(unionFind);
+    performConnectTest<UnionFindForTest>();
 }
 
 TEST(UnionFindUsingMapTest, ConnectWorksWithExample1)
 {
-    UnionFindForUnsignedInt unionFind;
-    performConnectTestWithExample1(unionFind);
+    performConnectTestWithExample1<UnionFindForTest>();
 }
 
 TEST(UnionFindUsingMapTest, ConnectWorksWithExample2)
 {
-    UnionFindForUnsignedInt unionFind;
-    performConnectTestWithExample2(unionFind);
+    performConnectTestWithExample2<UnionFindForTest>();
 }
 
 TEST(UnionFindUsingMapTest, GetRootWorks)
 {
-    UnionFindForUnsignedInt unionFind;
+    UnionFindForTest unionFind;
     unionFind.connect(4, 3);
     unionFind.connect(3, 8);
-    unionFind.connect(6, 5);
-    unionFind.connect(9, 4);
+    unionFind.connect(6, 5);    unionFind.connect(9, 4);
     unionFind.connect(2, 1);
 
-    EXPECT_EQ(0U, unionFind.getRoot(0));
-    EXPECT_EQ(1U, unionFind.getRoot(1));
+    EXPECT_EQ(0U, unionFind.getRoot(0));    EXPECT_EQ(1U, unionFind.getRoot(1));
     EXPECT_EQ(1U, unionFind.getRoot(2));
     EXPECT_EQ(3U, unionFind.getRoot(3));
     EXPECT_EQ(3U, unionFind.getRoot(4));

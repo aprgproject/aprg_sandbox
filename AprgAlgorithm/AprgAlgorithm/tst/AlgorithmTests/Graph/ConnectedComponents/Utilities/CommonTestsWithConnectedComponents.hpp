@@ -13,42 +13,40 @@ namespace CommonTestsWithConnectedComponents
 
 //UndirectedGraph
 
-template<typename ConnectedComponentType, typename GraphType>
+template <typename ConnectedComponent, typename Graph>
 void testGetNumberOfComponentIdsWhenEmptyWithVertexAsUnsignedIntWithUndirectedGraph()
 {
-    GraphType graph;
-    ConnectedComponentType connectedComponents(graph);
+    Graph graph;
+    ConnectedComponent connectedComponents(graph);
 
     EXPECT_EQ(0U, connectedComponents.getNumberOfComponentIds());
 }
 
-template<typename ConnectedComponentType, typename GraphType>
+template <typename ConnectedComponent, typename Graph>
 void testGetNumberOfComponentIdsWhenNotEmptyWithVertexAsUnsignedIntWithUndirectedGraph()
 {
-    GraphType graph;
+    Graph graph;
     graph.connect(0U, 1U);
     graph.connect(0U, 2U);
     graph.connect(0U, 3U);
     graph.connect(4U, 5U);
     graph.connect(6U, 7U);
-    ConnectedComponentType connectedComponents(graph);
+    ConnectedComponent connectedComponents(graph);
 
     EXPECT_EQ(3U, connectedComponents.getNumberOfComponentIds());
 }
 
-template<typename ConnectedComponentType, typename GraphType>
+template <typename ConnectedComponent, typename Graph>
 void testIsConnectedWhenEmptyWithVertexAsUnsignedIntWithUndirectedGraph()
 {
-    GraphType graph;
-    ConnectedComponentType connectedComponents(graph);
+    Graph graph;
+    ConnectedComponent connectedComponents(graph);
 
     EXPECT_FALSE(connectedComponents.isConnected(0U, 1U));
-    EXPECT_FALSE(connectedComponents.isConnected(0U, 2U));
-    EXPECT_FALSE(connectedComponents.isConnected(0U, 3U));
+    EXPECT_FALSE(connectedComponents.isConnected(0U, 2U));    EXPECT_FALSE(connectedComponents.isConnected(0U, 3U));
     EXPECT_FALSE(connectedComponents.isConnected(0U, 4U));
     EXPECT_FALSE(connectedComponents.isConnected(0U, 5U));
-    EXPECT_FALSE(connectedComponents.isConnected(0U, 6U));
-    EXPECT_FALSE(connectedComponents.isConnected(0U, 7U));
+    EXPECT_FALSE(connectedComponents.isConnected(0U, 6U));    EXPECT_FALSE(connectedComponents.isConnected(0U, 7U));
     EXPECT_FALSE(connectedComponents.isConnected(0U, 8U));
     EXPECT_FALSE(connectedComponents.isConnected(0U, 9U));
     EXPECT_FALSE(connectedComponents.isConnected(0U, 10U));
@@ -56,32 +54,28 @@ void testIsConnectedWhenEmptyWithVertexAsUnsignedIntWithUndirectedGraph()
     EXPECT_FALSE(connectedComponents.isConnected(0U, 12U));
 }
 
-template<typename ConnectedComponentType, typename GraphType>
+template <typename ConnectedComponent, typename Graph>
 void testIsConnectedWhenNotEmptyWithVertexAsUnsignedIntWithUndirectedGraph()
 {
-    GraphType graph;
+    Graph graph;
     graph.connect(0U, 1U);
     graph.connect(0U, 2U);
-    graph.connect(0U, 5U);
-    graph.connect(0U, 6U);
+    graph.connect(0U, 5U);    graph.connect(0U, 6U);
     graph.connect(3U, 5U);
     graph.connect(3U, 4U);
-    graph.connect(4U, 5U);
-    graph.connect(4U, 6U);
+    graph.connect(4U, 5U);    graph.connect(4U, 6U);
     graph.connect(7U, 8U);
     graph.connect(9U, 10U);
     graph.connect(9U, 11U);
     graph.connect(9U, 12U);
     graph.connect(11U, 12U);
-    ConnectedComponentType connectedComponents(graph);
+    ConnectedComponent connectedComponents(graph);
 
     EXPECT_FALSE(connectedComponents.isConnected(0U, 7U));
-    EXPECT_FALSE(connectedComponents.isConnected(0U, 9U));
-    EXPECT_FALSE(connectedComponents.isConnected(7U, 9U));
+    EXPECT_FALSE(connectedComponents.isConnected(0U, 9U));    EXPECT_FALSE(connectedComponents.isConnected(7U, 9U));
     EXPECT_TRUE(connectedComponents.isConnected(0U, 1U));
     EXPECT_TRUE(connectedComponents.isConnected(0U, 2U));
-    EXPECT_TRUE(connectedComponents.isConnected(0U, 3U));
-    EXPECT_TRUE(connectedComponents.isConnected(0U, 4U));
+    EXPECT_TRUE(connectedComponents.isConnected(0U, 3U));    EXPECT_TRUE(connectedComponents.isConnected(0U, 4U));
     EXPECT_TRUE(connectedComponents.isConnected(0U, 5U));
     EXPECT_TRUE(connectedComponents.isConnected(0U, 6U));
     EXPECT_TRUE(connectedComponents.isConnected(7U, 8U));
@@ -93,45 +87,42 @@ void testIsConnectedWhenNotEmptyWithVertexAsUnsignedIntWithUndirectedGraph()
 
 //DirectedGraph
 
-template<typename ConnectedComponentType, typename GraphType>
+template <typename ConnectedComponent, typename Graph>
 void testGetNumberOfComponentIdsWhenEmptyWithVertexAsUnsignedIntWithDirectedGraph()
 {
-    GraphType graph;
-    ConnectedComponentType connectedComponents(graph);
+    Graph graph;
+    ConnectedComponent connectedComponents(graph);
 
     EXPECT_EQ(0U, connectedComponents.getNumberOfComponentIds());
 }
 
-template<typename ConnectedComponentType, typename GraphType>
+template <typename ConnectedComponent, typename Graph>
 void testGetNumberOfComponentIdsWhenNotEmptyWithVertexAsUnsignedIntWithDirectedGraph()
 {
-    GraphType graph;
+    Graph graph;
     graph.connect(0U, 1U);
     graph.connect(1U, 2U);
-    graph.connect(2U, 3U);
-    graph.connect(3U, 0U);
+    graph.connect(2U, 3U);    graph.connect(3U, 0U);
     graph.connect(4U, 5U);
     graph.connect(5U, 4U);
     graph.connect(6U, 7U);
     graph.connect(7U, 6U);
-    ConnectedComponentType connectedComponents(graph);
+    ConnectedComponent connectedComponents(graph);
 
     EXPECT_EQ(3U, connectedComponents.getNumberOfComponentIds());
 }
 
-template<typename ConnectedComponentType, typename GraphType>
+template <typename ConnectedComponent, typename Graph>
 void testIsConnectedWhenEmptyWithVertexAsUnsignedIntWithDirectedGraph()
 {
-    GraphType graph;
-    ConnectedComponentType connectedComponents(graph);
+    Graph graph;
+    ConnectedComponent connectedComponents(graph);
 
     EXPECT_FALSE(connectedComponents.isConnected(0U, 1U));
-    EXPECT_FALSE(connectedComponents.isConnected(0U, 2U));
-    EXPECT_FALSE(connectedComponents.isConnected(0U, 3U));
+    EXPECT_FALSE(connectedComponents.isConnected(0U, 2U));    EXPECT_FALSE(connectedComponents.isConnected(0U, 3U));
     EXPECT_FALSE(connectedComponents.isConnected(0U, 4U));
     EXPECT_FALSE(connectedComponents.isConnected(0U, 5U));
-    EXPECT_FALSE(connectedComponents.isConnected(0U, 6U));
-    EXPECT_FALSE(connectedComponents.isConnected(0U, 7U));
+    EXPECT_FALSE(connectedComponents.isConnected(0U, 6U));    EXPECT_FALSE(connectedComponents.isConnected(0U, 7U));
     EXPECT_FALSE(connectedComponents.isConnected(0U, 8U));
     EXPECT_FALSE(connectedComponents.isConnected(0U, 9U));
     EXPECT_FALSE(connectedComponents.isConnected(0U, 10U));
@@ -139,18 +130,16 @@ void testIsConnectedWhenEmptyWithVertexAsUnsignedIntWithDirectedGraph()
     EXPECT_FALSE(connectedComponents.isConnected(0U, 12U));
 }
 
-template<typename ConnectedComponentType, typename GraphType>
+template <typename ConnectedComponent, typename Graph>
 void testIsConnectedWhenNotEmptyWithVertexAsUnsignedIntWithDirectedGraph()
 {
-    GraphType graph;
+    Graph graph;
     graph.connect(0U, 1U);
     graph.connect(0U, 5U);
-    graph.connect(2U, 0U);
-    graph.connect(2U, 3U);
+    graph.connect(2U, 0U);    graph.connect(2U, 3U);
     graph.connect(3U, 2U);
     graph.connect(3U, 5U);
-    graph.connect(4U, 2U);
-    graph.connect(4U, 3U);
+    graph.connect(4U, 2U);    graph.connect(4U, 3U);
     graph.connect(5U, 4U);
     graph.connect(6U, 0U);
     graph.connect(6U, 4U);
@@ -165,15 +154,13 @@ void testIsConnectedWhenNotEmptyWithVertexAsUnsignedIntWithDirectedGraph()
     graph.connect(11U, 4U);
     graph.connect(11U, 12U);
     graph.connect(12U, 9U);
-    ConnectedComponentType connectedComponents(graph);
+    ConnectedComponent connectedComponents(graph);
 
     EXPECT_FALSE(connectedComponents.isConnected(0U, 1U));
-    EXPECT_FALSE(connectedComponents.isConnected(0U, 6U));
-    EXPECT_FALSE(connectedComponents.isConnected(0U, 7U));
+    EXPECT_FALSE(connectedComponents.isConnected(0U, 6U));    EXPECT_FALSE(connectedComponents.isConnected(0U, 7U));
     EXPECT_FALSE(connectedComponents.isConnected(0U, 9U));
     EXPECT_TRUE(connectedComponents.isConnected(0U, 2U));
-    EXPECT_TRUE(connectedComponents.isConnected(0U, 3U));
-    EXPECT_TRUE(connectedComponents.isConnected(0U, 4U));
+    EXPECT_TRUE(connectedComponents.isConnected(0U, 3U));    EXPECT_TRUE(connectedComponents.isConnected(0U, 4U));
     EXPECT_TRUE(connectedComponents.isConnected(0U, 5U));
     EXPECT_TRUE(connectedComponents.isConnected(6U, 8U));
     EXPECT_TRUE(connectedComponents.isConnected(9U, 10U));

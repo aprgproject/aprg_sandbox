@@ -1,64 +1,55 @@
 #include <Algorithm/Queue/DoublingSizeQueue.hpp>
-#include <AlgorithmTests/Queue/Utilities/CommonTestsWithBaseQueue.hpp>
+#include <AlgorithmTests/Queue/Utilities/CommonTestsWithQueue.hpp>
 
 #include <gtest/gtest.h>
 
-using namespace alba::algorithm::CommonTestsWithBaseQueue;
+using namespace alba::algorithm::CommonTestsWithQueue;
 using namespace std;
 
-namespace alba
-{
+namespace alba{
 
 namespace algorithm
 {
 
 namespace
 {
-using QueueForUnsignedInt = DoublingSizeQueue<unsigned int>;
+using QueueForTest = DoublingSizeQueue<unsigned int>;
 }
 
 TEST(DoublingSizeQueueTest, IsEmptyWorksWhenEmpty)
 {
-    QueueForUnsignedInt queue;
-    performIsEmptyTestWhenEmpty(queue);
+    testIsEmptyWhenEmptyWithUnsignedInt<QueueForTest>();
 }
 
 TEST(DoublingSizeQueueTest, IsEmptyWorksWhenNotEmpty)
 {
-    QueueForUnsignedInt queue;
-    performIsEmptyTestWhenNotEmpty(queue);
+    testIsEmptyWhenNotEmptyWithUnsignedInt<QueueForTest>();
 }
 
 TEST(DoublingSizeQueueTest, GetSizeWorksWhenEmpty)
 {
-    QueueForUnsignedInt queue;
-    performGetSizeTestWhenEmpty(queue);
+    testGetSizeWhenEmptyWithUnsignedInt<QueueForTest>();
 }
 
 TEST(DoublingSizeQueueTest, GetSizeWorksWhenNotEmpty)
 {
-    QueueForUnsignedInt queue;
-    performGetSizeTestWhenNotEmpty(queue);
+    testGetSizeWhenNotEmptyWithUnsignedInt<QueueForTest>();
 }
 
 TEST(DoublingSizeQueueTest, EnqueueWorks)
 {
-    QueueForUnsignedInt queue;
-    performEnqueueTest(queue);
+    testEnqueueWithUnsignedInt<QueueForTest>();
 }
 
 TEST(DoublingSizeQueueTest, DequeueWorks)
 {
-    QueueForUnsignedInt queue;
-    performDequeueTest(queue);
+    testDequeueWithUnsignedInt<QueueForTest>();
 }
 
 TEST(DoublingSizeQueueTest, DISABLED_DequeueWorksWithAssertionWhenItsEmpty) //disabled because it takes too long
 {
-    QueueForUnsignedInt queue;
-    performDequeueAssertionTestWhenEmpty(queue);
+    testDequeueAssertionWhenEmptyWithUnsignedInt<QueueForTest>();
 }
 
 }
-
 }

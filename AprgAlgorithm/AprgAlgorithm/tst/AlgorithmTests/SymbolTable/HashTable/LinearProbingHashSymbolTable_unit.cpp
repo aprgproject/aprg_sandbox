@@ -1,140 +1,119 @@
 #include <Algorithm/SymbolTable/HashTable/LinearProbingHashSymbolTable.hpp>
-#include <AlgorithmTests/SymbolTable/Utilities/CommonTestsWithBaseSymbolTable.hpp>
+#include <AlgorithmTests/SymbolTable/Utilities/CommonTestsWithSymbolTable.hpp>
 
 #include <gtest/gtest.h>
 
-using namespace alba::algorithm::CommonTestsWithBaseSymbolTable;
+using namespace alba::algorithm::CommonTestsWithSymbolTable;
 using namespace std;
 
-namespace alba
-{
+namespace alba{
 
 namespace algorithm
 {
 
 namespace
 {
-using SymbolTableWithUnsignedIntToChar = LinearProbingHashSymbolTable<unsigned int, char>;
+using SymbolTableForTest = LinearProbingHashSymbolTable<unsigned int, char>;
 }
 
 TEST(LinearProbingHashSymbolTableTest, IsEmptyWorksWhenEmpty)
 {
-    SymbolTableWithUnsignedIntToChar symbolTable;
-    performIsEmptyTestWhenEmpty(symbolTable);
+    testIsEmptyWhenEmptyWithUnsignedIntAndChar<SymbolTableForTest>();
 }
 
 TEST(LinearProbingHashSymbolTableTest, IsEmptyWorksWhenNotEmpty)
 {
-    SymbolTableWithUnsignedIntToChar symbolTable;
-    performIsEmptyTestWhenNotEmpty(symbolTable);
+    testIsEmptyWhenNotEmptyWithUnsignedIntAndChar<SymbolTableForTest>();
 }
 
 TEST(LinearProbingHashSymbolTableTest, DoesContainWorks)
 {
-    SymbolTableWithUnsignedIntToChar symbolTable;
-    performDoesContainTest(symbolTable);
+    testDoesContainWithUnsignedIntAndChar<SymbolTableForTest>();
 }
 
 TEST(LinearProbingHashSymbolTableTest, GetSizeWorksWhenEmpty)
 {
-    SymbolTableWithUnsignedIntToChar symbolTable;
-    performGetSizeTestWhenEmpty(symbolTable);
+    testGetSizeWhenEmptyWithUnsignedIntAndChar<SymbolTableForTest>();
 }
 
 TEST(LinearProbingHashSymbolTableTest, GetSizeWorksWhenNotEmpty)
 {
-    SymbolTableWithUnsignedIntToChar symbolTable;
-    performGetSizeTestWhenNotEmpty(symbolTable);
+    testGetSizeWhenNotEmptyWithUnsignedIntAndChar<SymbolTableForTest>();
 }
 
 TEST(LinearProbingHashSymbolTableTest, GetWorks)
 {
-    SymbolTableWithUnsignedIntToChar symbolTable;
-    performGetTest(symbolTable);
+    testGetWithUnsignedIntAndChar<SymbolTableForTest>();
 }
 
 TEST(LinearProbingHashSymbolTableTest, GetRankWorks)
 {
-    SymbolTableWithUnsignedIntToChar symbolTable;
-    performGetRankTest(symbolTable);
+    testGetRankWithUnsignedIntAndChar<SymbolTableForTest>();
 }
 
 TEST(LinearProbingHashSymbolTableTest, GetMinimumWorks)
 {
-    SymbolTableWithUnsignedIntToChar symbolTable;
-    performGetMinimumTest(symbolTable);
+    testGetMinimumWithUnsignedIntAndChar<SymbolTableForTest>();
 }
 
 TEST(LinearProbingHashSymbolTableTest, GetMaximumWorks)
 {
-    SymbolTableWithUnsignedIntToChar symbolTable;
-    performGetMaximumTest(symbolTable);
+    testGetMaximumWithUnsignedIntAndChar<SymbolTableForTest>();
 }
 
 TEST(LinearProbingHashSymbolTableTest, SelectAtWorks)
 {
-    SymbolTableWithUnsignedIntToChar symbolTable;
-    performSelectAtTest(symbolTable);
+    testSelectAtWithUnsignedIntAndChar<SymbolTableForTest>();
 }
 
 TEST(LinearProbingHashSymbolTableTest, GetFloorWorks)
 {
-    SymbolTableWithUnsignedIntToChar symbolTable;
-    performGetFloorTest(symbolTable);
+    testGetFloorWithUnsignedIntAndChar<SymbolTableForTest>();
 }
 
 TEST(LinearProbingHashSymbolTableTest, GetCeilingWorks)
 {
-    SymbolTableWithUnsignedIntToChar symbolTable;
-    performGetCeilingTest(symbolTable);
+    testGetCeilingWithUnsignedIntAndChar<SymbolTableForTest>();
 }
 
 TEST(LinearProbingHashSymbolTableTest, PutWorks)
 {
-    SymbolTableWithUnsignedIntToChar symbolTable;
-    performPutTest(symbolTable);
+    testPutWithUnsignedIntAndChar<SymbolTableForTest>();
 }
 
 TEST(LinearProbingHashSymbolTableTest, DeleteBasedOnKeyWorks)
 {
-    SymbolTableWithUnsignedIntToChar symbolTable;
-    performDeleteBasedOnKeyTest(symbolTable);
+    testDeleteBasedOnKeyWithUnsignedIntAndChar<SymbolTableForTest>();
 }
 
 TEST(LinearProbingHashSymbolTableTest, DeleteMinimumWorks)
 {
-    SymbolTableWithUnsignedIntToChar symbolTable;
-    performDeleteMinimumTest(symbolTable);
+    testDeleteMinimumWithUnsignedIntAndChar<SymbolTableForTest>();
 }
 
 TEST(LinearProbingHashSymbolTableTest, DeleteMaximumWorks)
 {
-    SymbolTableWithUnsignedIntToChar symbolTable;
-    performDeleteMaximumTest(symbolTable);
+    testDeleteMaximumWithUnsignedIntAndChar<SymbolTableForTest>();
 }
 
 TEST(LinearProbingHashSymbolTableTest, GetKeys)
 {
-    SymbolTableWithUnsignedIntToChar symbolTable;
-    performGetKeysTest(symbolTable);
+    testGetKeysWithUnsignedIntAndChar<SymbolTableForTest>();
 }
 
 TEST(LinearProbingHashSymbolTableTest, GetKeysInRangeWorks)
 {
-    SymbolTableWithUnsignedIntToChar symbolTable;
-    performGetKeysInRangeInclusiveTest(symbolTable);
+    testGetKeysInRangeInclusiveWithUnsignedIntAndChar<SymbolTableForTest>();
 }
 
 TEST(LinearProbingHashSymbolTableTest, PutWorksWithDoublingHashTableSize)
 {
-    SymbolTableWithUnsignedIntToChar symbolTable;
+    SymbolTableForTest symbolTable;
 
     EXPECT_EQ(1U, symbolTable.getHashTableSize());
-
     symbolTable.put(8U, 'H');
     symbolTable.put(9U, 'I');
     EXPECT_EQ(4U, symbolTable.getHashTableSize());
-
     symbolTable.put(5U, 'E');
     EXPECT_EQ(8U, symbolTable.getHashTableSize());
 
@@ -148,14 +127,12 @@ TEST(LinearProbingHashSymbolTableTest, PutWorksWithDoublingHashTableSize)
 
 TEST(LinearProbingHashSymbolTableTest, DeleteBasedOnKeyWorksWithHalvingHashTableSize)
 {
-    SymbolTableWithUnsignedIntToChar symbolTable;
+    SymbolTableForTest symbolTable;
     symbolTable.put(8U, 'H');
     symbolTable.put(9U, 'I');
-    symbolTable.put(5U, 'E');
-    symbolTable.put(4U, 'D');
+    symbolTable.put(5U, 'E');    symbolTable.put(4U, 'D');
     symbolTable.put(7U, 'G');
     symbolTable.put(3U, 'C');
-
     EXPECT_EQ(16U, symbolTable.getHashTableSize());
 
     symbolTable.deleteBasedOnKey(3U);

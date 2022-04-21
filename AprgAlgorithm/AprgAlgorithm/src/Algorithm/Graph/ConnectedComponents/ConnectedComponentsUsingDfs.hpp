@@ -12,15 +12,13 @@ namespace alba
 namespace algorithm
 {
 
-template<typename Vertex>
+template <typename Vertex>
 class ConnectedComponentsUsingDfs : public BaseConnectedComponents<Vertex>
 {
-public:
-    using BaseUndirectedGraphWithVertex = BaseUndirectedGraph<Vertex>;
+public:    using BaseUndirectedGraphWithVertex = BaseUndirectedGraph<Vertex>;
     using SetOfVertices = typename GraphTypes<Vertex>::SetOfVertices;
     using VertexToUnsignedIntMap = typename GraphTypes<Vertex>::VertexToUnsignedIntMap;
     using CheckableVerticesWithVertex = CheckableVertices<Vertex>;
-
     ConnectedComponentsUsingDfs(BaseUndirectedGraphWithVertex const& graph)
         : m_graph(graph)
         , m_numberOfComponentIds(0U)

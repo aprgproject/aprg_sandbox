@@ -1,131 +1,110 @@
 #include <Algorithm/SymbolTable/BinarySearchTree/BinarySearchTreeSymbolTable.hpp>
-#include <AlgorithmTests/SymbolTable/Utilities/CommonTestsWithBaseSymbolTable.hpp>
+#include <AlgorithmTests/SymbolTable/Utilities/CommonTestsWithSymbolTable.hpp>
 
 #include <gtest/gtest.h>
 
-using namespace alba::algorithm::CommonTestsWithBaseSymbolTable;
+using namespace alba::algorithm::CommonTestsWithSymbolTable;
 using namespace std;
-
 
 namespace alba
 {
-
 namespace algorithm
 {
 
 namespace
 {
-using SymbolTableWithUnsignedIntToChar = BinarySearchTreeSymbolTable<unsigned int, char>;
+using SymbolTableForTest = BinarySearchTreeSymbolTable<unsigned int, char>;
 }
 
 TEST(BinarySearchTreeSymbolTableTest, IsEmptyWorksWhenEmpty)
 {
-    SymbolTableWithUnsignedIntToChar symbolTable;
-    performIsEmptyTestWhenEmpty(symbolTable);
+    testIsEmptyWhenEmptyWithUnsignedIntAndChar<SymbolTableForTest>();
 }
 
 TEST(BinarySearchTreeSymbolTableTest, IsEmptyWorksWhenNotEmpty)
 {
-    SymbolTableWithUnsignedIntToChar symbolTable;
-    performIsEmptyTestWhenNotEmpty(symbolTable);
+    testIsEmptyWhenNotEmptyWithUnsignedIntAndChar<SymbolTableForTest>();
 }
 
 TEST(BinarySearchTreeSymbolTableTest, DoesContainWorks)
 {
-    SymbolTableWithUnsignedIntToChar symbolTable;
-    performDoesContainTest(symbolTable);
+    testDoesContainWithUnsignedIntAndChar<SymbolTableForTest>();
 }
 
 TEST(BinarySearchTreeSymbolTableTest, GetSizeWorksWhenEmpty)
 {
-    SymbolTableWithUnsignedIntToChar symbolTable;
-    performGetSizeTestWhenEmpty(symbolTable);
+    testGetSizeWhenEmptyWithUnsignedIntAndChar<SymbolTableForTest>();
 }
 
 TEST(BinarySearchTreeSymbolTableTest, GetSizeWorksWhenNotEmpty)
 {
-    SymbolTableWithUnsignedIntToChar symbolTable;
-    performGetSizeTestWhenNotEmpty(symbolTable);
+    testGetSizeWhenNotEmptyWithUnsignedIntAndChar<SymbolTableForTest>();
 }
 
 TEST(BinarySearchTreeSymbolTableTest, GetWorks)
 {
-    SymbolTableWithUnsignedIntToChar symbolTable;
-    performGetTest(symbolTable);
+    testGetWithUnsignedIntAndChar<SymbolTableForTest>();
 }
 
 TEST(BinarySearchTreeSymbolTableTest, GetRankWorks)
 {
-    SymbolTableWithUnsignedIntToChar symbolTable;
-    performGetRankTest(symbolTable);
+    testGetRankWithUnsignedIntAndChar<SymbolTableForTest>();
 }
 
 TEST(BinarySearchTreeSymbolTableTest, GetMinimumWorks)
 {
-    SymbolTableWithUnsignedIntToChar symbolTable;
-    performGetMinimumTest(symbolTable);
+    testGetMinimumWithUnsignedIntAndChar<SymbolTableForTest>();
 }
 
 TEST(BinarySearchTreeSymbolTableTest, GetMaximumWorks)
 {
-    SymbolTableWithUnsignedIntToChar symbolTable;
-    performGetMaximumTest(symbolTable);
+    testGetMaximumWithUnsignedIntAndChar<SymbolTableForTest>();
 }
 
 TEST(BinarySearchTreeSymbolTableTest, SelectAtWorks)
 {
-    SymbolTableWithUnsignedIntToChar symbolTable;
-    performSelectAtTest(symbolTable);
+    testSelectAtWithUnsignedIntAndChar<SymbolTableForTest>();
 }
 
 TEST(BinarySearchTreeSymbolTableTest, GetFloorWorks)
 {
-    SymbolTableWithUnsignedIntToChar symbolTable;
-    performGetFloorTest(symbolTable);
+    testGetFloorWithUnsignedIntAndChar<SymbolTableForTest>();
 }
 
 TEST(BinarySearchTreeSymbolTableTest, GetCeilingWorks)
 {
-    SymbolTableWithUnsignedIntToChar symbolTable;
-    performGetCeilingTest(symbolTable);
+    testGetCeilingWithUnsignedIntAndChar<SymbolTableForTest>();
 }
 
 TEST(BinarySearchTreeSymbolTableTest, PutWorks)
 {
-    SymbolTableWithUnsignedIntToChar symbolTable;
-    performPutTest(symbolTable);
+    testPutWithUnsignedIntAndChar<SymbolTableForTest>();
 }
 
 TEST(BinarySearchTreeSymbolTableTest, DeleteBasedOnKeyWorks)
 {
-    SymbolTableWithUnsignedIntToChar symbolTable;
-    performDeleteBasedOnKeyTest(symbolTable);
+    testDeleteBasedOnKeyWithUnsignedIntAndChar<SymbolTableForTest>();
 }
 
 TEST(BinarySearchTreeSymbolTableTest, DeleteMinimumWorks)
 {
-    SymbolTableWithUnsignedIntToChar symbolTable;
-    performDeleteMinimumTest(symbolTable);
+    testDeleteMinimumWithUnsignedIntAndChar<SymbolTableForTest>();
 }
 
 TEST(BinarySearchTreeSymbolTableTest, DeleteMaximumWorks)
 {
-    SymbolTableWithUnsignedIntToChar symbolTable;
-    performDeleteMaximumTest(symbolTable);
+    testDeleteMaximumWithUnsignedIntAndChar<SymbolTableForTest>();
 }
 
 TEST(BinarySearchTreeSymbolTableTest, GetKeys)
 {
-    SymbolTableWithUnsignedIntToChar symbolTable;
-    performGetKeysTest(symbolTable);
+    testGetKeysWithUnsignedIntAndChar<SymbolTableForTest>();
 }
 
 TEST(BinarySearchTreeSymbolTableTest, GetKeysInRangeWorks)
 {
-    SymbolTableWithUnsignedIntToChar symbolTable;
-    performGetKeysInRangeInclusiveTest(symbolTable);
+    testGetKeysInRangeInclusiveWithUnsignedIntAndChar<SymbolTableForTest>();
 }
 
 }
-
 }

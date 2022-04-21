@@ -1,29 +1,33 @@
 #include <Algorithm/Sorter/HeapSorter.hpp>
-#include <AlgorithmTests/Sorter/Utilities/CommonTestsWithBaseSorter.hpp>
+#include <AlgorithmTests/Sorter/Utilities/CommonTestsWithSorter.hpp>
 
 #include <gtest/gtest.h>
 
-using namespace alba::algorithm::CommonTestsWithBaseSorter;
+#include <vector>
+
+using namespace alba::algorithm::CommonTestsWithSorter;
 using namespace std;
 
-namespace alba
-{
+namespace alba{
 
 namespace algorithm
 {
 
+namespace
+{
+using ValuesForTest = std::vector<char>;
+using SorterForTest = HeapSorter<ValuesForTest>;
+}
+
 TEST(HeapSorterTest, SortWorksOnCharactersUsingExample1)
 {
-    HeapSorter<Characters> sorter;
-    performSortTestUsingExample1(sorter);
+    testSortUsingExample1WithCharacters<SorterForTest, ValuesForTest>();
 }
 
 TEST(HeapSorterTest, SortWorksOnCharactersUsingExample2)
 {
-    HeapSorter<Characters> sorter;
-    performSortTestUsingExample2(sorter);
+    testSortUsingExample2WithCharacters<SorterForTest, ValuesForTest>();
 }
 
 }
-
 }

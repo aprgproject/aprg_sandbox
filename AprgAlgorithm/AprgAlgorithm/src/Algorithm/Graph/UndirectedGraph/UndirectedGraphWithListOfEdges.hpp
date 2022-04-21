@@ -12,15 +12,13 @@ namespace alba
 namespace algorithm
 {
 
-template<typename Vertex>
+template <typename Vertex>
 class UndirectedGraphWithListOfEdges : public BaseUndirectedGraph<Vertex>
 {
-public:
-    using BaseUndirectedGraphWithVertex = BaseUndirectedGraph<Vertex>;
+public:    using BaseUndirectedGraphWithVertex = BaseUndirectedGraph<Vertex>;
     using Vertices = typename GraphTypes<Vertex>::Vertices;
     using Edge = typename GraphTypes<Vertex>::Edge;
-    using Edges = typename GraphTypes<Vertex>::Edges;
-    using EdgeInSet = typename GraphTypes<Vertex>::EdgeWithVertexComparison;
+    using Edges = typename GraphTypes<Vertex>::Edges;    using EdgeInSet = typename GraphTypes<Vertex>::EdgeWithVertexComparison;
     using SetOfEdges = typename GraphTypes<Vertex>::SetOfEdges;
 
     UndirectedGraphWithListOfEdges()

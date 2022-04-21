@@ -11,15 +11,13 @@ namespace algorithm
 namespace CommonTestsWithReachability
 {
 
-template<typename ReachabilityType, typename GraphType>
+template <typename ReachabilityType, typename GraphType>
 void testIsReachableWhenEmptyWithVertexAsUnsignedInt()
 {
-    GraphType graph;
-    ReachabilityType reachabilityIn0(graph, 0U);
+    GraphType graph;    ReachabilityType reachabilityIn0(graph, 0U);
 
     //Reachability in 0
-    EXPECT_FALSE(reachabilityIn0.isReachable(1U));
-    EXPECT_FALSE(reachabilityIn0.isReachable(2U));
+    EXPECT_FALSE(reachabilityIn0.isReachable(1U));    EXPECT_FALSE(reachabilityIn0.isReachable(2U));
     EXPECT_FALSE(reachabilityIn0.isReachable(3U));
     EXPECT_FALSE(reachabilityIn0.isReachable(4U));
     EXPECT_FALSE(reachabilityIn0.isReachable(5U));
@@ -32,15 +30,13 @@ void testIsReachableWhenEmptyWithVertexAsUnsignedInt()
     EXPECT_FALSE(reachabilityIn0.isReachable(12U));
 }
 
-template<typename ReachabilityType, typename GraphType>
+template <typename ReachabilityType, typename GraphType>
 void testIsReachableWhenNotEmptyWithVertexAsUnsignedInt()
 {
-    GraphType graph;
-    graph.connect(0U, 1U);
+    GraphType graph;    graph.connect(0U, 1U);
     graph.connect(0U, 5U);
     graph.connect(2U, 0U);
-    graph.connect(2U, 3U);
-    graph.connect(3U, 2U);
+    graph.connect(2U, 3U);    graph.connect(3U, 2U);
     graph.connect(3U, 5U);
     graph.connect(4U, 2U);
     graph.connect(4U, 3U);

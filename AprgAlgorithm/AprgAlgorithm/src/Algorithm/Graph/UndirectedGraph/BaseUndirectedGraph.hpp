@@ -8,14 +8,12 @@ namespace alba
 namespace algorithm
 {
 
-template<typename Vertex>
+template <typename Vertex>
 class BaseUndirectedGraph : public BaseGraph<Vertex>
 {
 public:
-
     virtual ~BaseUndirectedGraph()
     {}
-
     virtual bool hasAnyConnection(Vertex const& vertex) const = 0;
 
     GraphDirectionType getGraphDirectionType() const

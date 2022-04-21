@@ -13,15 +13,13 @@ namespace alba
 namespace algorithm
 {
 
-template<typename Vertex, unsigned int MAX_VERTEX_VALUE>
+template <typename Vertex, unsigned int MAX_VERTEX_VALUE>
 class TransitiveClosureWithArray : public BaseTransitiveClosure<Vertex>
 {
-public:
-    using BaseDirectedGraphWithVertex = BaseDirectedGraph<Vertex>;
+public:    using BaseDirectedGraphWithVertex = BaseDirectedGraph<Vertex>;
     using Reachability = ReachabilityInDigraphWithArrayUsingDfs<Vertex, MAX_VERTEX_VALUE>;
     using ReachabilityPointer = std::unique_ptr<Reachability>;
-    using ReachabilityPointerArray = typename std::array<ReachabilityPointer, MAX_VERTEX_VALUE>;
-    using ReachabilityInitializerList = typename std::initializer_list<Reachability>;
+    using ReachabilityPointerArray = typename std::array<ReachabilityPointer, MAX_VERTEX_VALUE>;    using ReachabilityInitializerList = typename std::initializer_list<Reachability>;
 
     TransitiveClosureWithArray(BaseDirectedGraphWithVertex const& graph)
         : m_graph(graph)

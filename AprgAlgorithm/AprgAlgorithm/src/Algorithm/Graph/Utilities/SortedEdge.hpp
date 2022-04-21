@@ -6,28 +6,24 @@ namespace alba
 namespace algorithm
 {
 
-template<typename Vertex, typename EdgeType>
+template <typename Vertex, typename EdgeType>
 EdgeType createSortedEdge(Vertex const& vertex1, Vertex const& vertex2)
 {
-    if(vertex1 <= vertex2)
-    {
+    if(vertex1 <= vertex2)    {
         return EdgeType(vertex1, vertex2);
     }
-    else
-    {
+    else    {
         return EdgeType(vertex2, vertex1);
     }
 }
 
-template<typename Vertex, typename Weight, typename EdgeType>
+template <typename Vertex, typename Weight, typename EdgeType>
 EdgeType createSortedEdgeWithWeight(Vertex const& vertex1, Vertex const& vertex2, Weight const& weight)
 {
-    if(vertex1 <= vertex2)
-    {
+    if(vertex1 <= vertex2)    {
         return EdgeType(vertex1, vertex2, weight);
     }
-    else
-    {
+    else    {
         return EdgeType(vertex2, vertex1, weight);
     }
 }

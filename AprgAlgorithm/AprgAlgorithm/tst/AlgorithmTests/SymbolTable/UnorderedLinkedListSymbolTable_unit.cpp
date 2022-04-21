@@ -1,131 +1,110 @@
 #include <Algorithm/SymbolTable/UnorderedLinkedListSymbolTable.hpp>
-#include <AlgorithmTests/SymbolTable/Utilities/CommonTestsWithBaseSymbolTable.hpp>
+#include <AlgorithmTests/SymbolTable/Utilities/CommonTestsWithSymbolTable.hpp>
 
 #include <gtest/gtest.h>
 
-using namespace alba::algorithm::CommonTestsWithBaseSymbolTable;
+using namespace alba::algorithm::CommonTestsWithSymbolTable;
 using namespace std;
-
 
 namespace alba
 {
-
 namespace algorithm
 {
 
 namespace
 {
-using SymbolTableWithUnsignedIntToChar = UnorderedLinkedListSymbolTable<unsigned int, char>;
+using SymbolTableForTest = UnorderedLinkedListSymbolTable<unsigned int, char>;
 }
 
 TEST(UnorderedLinkedListSymbolTableTest, IsEmptyWorksWhenEmpty)
 {
-    SymbolTableWithUnsignedIntToChar symbolTable;
-    performIsEmptyTestWhenEmpty(symbolTable);
+    testIsEmptyWhenEmptyWithUnsignedIntAndChar<SymbolTableForTest>();
 }
 
 TEST(UnorderedLinkedListSymbolTableTest, IsEmptyWorksWhenNotEmpty)
 {
-    SymbolTableWithUnsignedIntToChar symbolTable;
-    performIsEmptyTestWhenNotEmpty(symbolTable);
+    testIsEmptyWhenNotEmptyWithUnsignedIntAndChar<SymbolTableForTest>();
 }
 
 TEST(UnorderedLinkedListSymbolTableTest, DoesContainWorks)
 {
-    SymbolTableWithUnsignedIntToChar symbolTable;
-    performDoesContainTest(symbolTable);
+    testDoesContainWithUnsignedIntAndChar<SymbolTableForTest>();
 }
 
 TEST(UnorderedLinkedListSymbolTableTest, GetSizeWorksWhenEmpty)
 {
-    SymbolTableWithUnsignedIntToChar symbolTable;
-    performGetSizeTestWhenEmpty(symbolTable);
+    testGetSizeWhenEmptyWithUnsignedIntAndChar<SymbolTableForTest>();
 }
 
 TEST(UnorderedLinkedListSymbolTableTest, GetSizeWorksWhenNotEmpty)
 {
-    SymbolTableWithUnsignedIntToChar symbolTable;
-    performGetSizeTestWhenNotEmpty(symbolTable);
+    testGetSizeWhenNotEmptyWithUnsignedIntAndChar<SymbolTableForTest>();
 }
 
 TEST(UnorderedLinkedListSymbolTableTest, GetWorks)
 {
-    SymbolTableWithUnsignedIntToChar symbolTable;
-    performGetTest(symbolTable);
+    testGetWithUnsignedIntAndChar<SymbolTableForTest>();
 }
 
 TEST(UnorderedLinkedListSymbolTableTest, GetRankWorks)
 {
-    SymbolTableWithUnsignedIntToChar symbolTable;
-    performGetRankTest(symbolTable);
+    testGetRankWithUnsignedIntAndChar<SymbolTableForTest>();
 }
 
 TEST(UnorderedLinkedListSymbolTableTest, GetMinimumWorks)
 {
-    SymbolTableWithUnsignedIntToChar symbolTable;
-    performGetMinimumTest(symbolTable);
+    testGetMinimumWithUnsignedIntAndChar<SymbolTableForTest>();
 }
 
 TEST(UnorderedLinkedListSymbolTableTest, GetMaximumWorks)
 {
-    SymbolTableWithUnsignedIntToChar symbolTable;
-    performGetMaximumTest(symbolTable);
+    testGetMaximumWithUnsignedIntAndChar<SymbolTableForTest>();
 }
 
 TEST(UnorderedLinkedListSymbolTableTest, SelectAtWorks)
 {
-    SymbolTableWithUnsignedIntToChar symbolTable;
-    performSelectAtTest(symbolTable);
+    testSelectAtWithUnsignedIntAndChar<SymbolTableForTest>();
 }
 
 TEST(UnorderedLinkedListSymbolTableTest, GetFloorWorks)
 {
-    SymbolTableWithUnsignedIntToChar symbolTable;
-    performGetFloorTest(symbolTable);
+    testGetFloorWithUnsignedIntAndChar<SymbolTableForTest>();
 }
 
 TEST(UnorderedLinkedListSymbolTableTest, GetCeilingWorks)
 {
-    SymbolTableWithUnsignedIntToChar symbolTable;
-    performGetCeilingTest(symbolTable);
+    testGetCeilingWithUnsignedIntAndChar<SymbolTableForTest>();
 }
 
 TEST(UnorderedLinkedListSymbolTableTest, PutWorks)
 {
-    SymbolTableWithUnsignedIntToChar symbolTable;
-    performPutTest(symbolTable);
+    testPutWithUnsignedIntAndChar<SymbolTableForTest>();
 }
 
 TEST(UnorderedLinkedListSymbolTableTest, DeleteBasedOnKeyWorks)
 {
-    SymbolTableWithUnsignedIntToChar symbolTable;
-    performDeleteBasedOnKeyTest(symbolTable);
+    testDeleteBasedOnKeyWithUnsignedIntAndChar<SymbolTableForTest>();
 }
 
 TEST(UnorderedLinkedListSymbolTableTest, DeleteMinimumWorks)
 {
-    SymbolTableWithUnsignedIntToChar symbolTable;
-    performDeleteMinimumTest(symbolTable);
+    testDeleteMinimumWithUnsignedIntAndChar<SymbolTableForTest>();
 }
 
 TEST(UnorderedLinkedListSymbolTableTest, DeleteMaximumWorks)
 {
-    SymbolTableWithUnsignedIntToChar symbolTable;
-    performDeleteMaximumTest(symbolTable);
+    testDeleteMaximumWithUnsignedIntAndChar<SymbolTableForTest>();
 }
 
 TEST(UnorderedLinkedListSymbolTableTest, GetKeys)
 {
-    SymbolTableWithUnsignedIntToChar symbolTable;
-    performGetKeysTest(symbolTable);
+    testGetKeysWithUnsignedIntAndChar<SymbolTableForTest>();
 }
 
 TEST(UnorderedLinkedListSymbolTableTest, GetKeysInRangeWorks)
 {
-    SymbolTableWithUnsignedIntToChar symbolTable;
-    performGetKeysInRangeInclusiveTest(symbolTable);
+    testGetKeysInRangeInclusiveWithUnsignedIntAndChar<SymbolTableForTest>();
 }
 
 }
-
 }

@@ -14,15 +14,13 @@ namespace alba
 namespace algorithm
 {
 
-template<typename Vertex>
+template <typename Vertex>
 class StronglyConnectedComponentsUsingKosarajuSharir : public BaseConnectedComponents<Vertex>
 {
-public:
-    using BaseDirectedGraphWithVertex = BaseDirectedGraph<Vertex>;
+public:    using BaseDirectedGraphWithVertex = BaseDirectedGraph<Vertex>;
     using DirectedGraphWithListOfEdgesWithVertex = DirectedGraphWithListOfEdges<Vertex>;
     using SetOfVertices = typename GraphTypes<Vertex>::SetOfVertices;
-    using Edge = typename GraphTypes<Vertex>::Edge;
-    using VertexToUnsignedIntMap = typename GraphTypes<Vertex>::VertexToUnsignedIntMap;
+    using Edge = typename GraphTypes<Vertex>::Edge;    using VertexToUnsignedIntMap = typename GraphTypes<Vertex>::VertexToUnsignedIntMap;
     using CheckableVerticesWithVertex = CheckableVertices<Vertex>;
 
     StronglyConnectedComponentsUsingKosarajuSharir(BaseDirectedGraphWithVertex const& graph)

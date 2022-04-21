@@ -1,130 +1,110 @@
 #include <Algorithm/SymbolTable/HashTable/SeparateChainingHashSymbolTable.hpp>
-#include <AlgorithmTests/SymbolTable/Utilities/CommonTestsWithBaseSymbolTable.hpp>
+#include <AlgorithmTests/SymbolTable/Utilities/CommonTestsWithSymbolTable.hpp>
 
 #include <gtest/gtest.h>
 
-using namespace alba::algorithm::CommonTestsWithBaseSymbolTable;
+using namespace alba::algorithm::CommonTestsWithSymbolTable;
 using namespace std;
 
-namespace alba
-{
+namespace alba{
 
 namespace algorithm
 {
 
 namespace
 {
-using SymbolTableWithUnsignedIntToChar = SeparateChainingHashSymbolTable<unsigned int, char, 2>;
+using SymbolTableForTest = SeparateChainingHashSymbolTable<unsigned int, char, 2>;
 }
 
 TEST(SeparateChainingHashSymbolTableTest, IsEmptyWorksWhenEmpty)
 {
-    SymbolTableWithUnsignedIntToChar symbolTable;
-    performIsEmptyTestWhenEmpty(symbolTable);
+    testIsEmptyWhenEmptyWithUnsignedIntAndChar<SymbolTableForTest>();
 }
 
 TEST(SeparateChainingHashSymbolTableTest, IsEmptyWorksWhenNotEmpty)
 {
-    SymbolTableWithUnsignedIntToChar symbolTable;
-    performIsEmptyTestWhenNotEmpty(symbolTable);
+    testIsEmptyWhenNotEmptyWithUnsignedIntAndChar<SymbolTableForTest>();
 }
 
 TEST(SeparateChainingHashSymbolTableTest, DoesContainWorks)
 {
-    SymbolTableWithUnsignedIntToChar symbolTable;
-    performDoesContainTest(symbolTable);
+    testDoesContainWithUnsignedIntAndChar<SymbolTableForTest>();
 }
 
 TEST(SeparateChainingHashSymbolTableTest, GetSizeWorksWhenEmpty)
 {
-    SymbolTableWithUnsignedIntToChar symbolTable;
-    performGetSizeTestWhenEmpty(symbolTable);
+    testGetSizeWhenEmptyWithUnsignedIntAndChar<SymbolTableForTest>();
 }
 
 TEST(SeparateChainingHashSymbolTableTest, GetSizeWorksWhenNotEmpty)
 {
-    SymbolTableWithUnsignedIntToChar symbolTable;
-    performGetSizeTestWhenNotEmpty(symbolTable);
+    testGetSizeWhenNotEmptyWithUnsignedIntAndChar<SymbolTableForTest>();
 }
 
 TEST(SeparateChainingHashSymbolTableTest, GetWorks)
 {
-    SymbolTableWithUnsignedIntToChar symbolTable;
-    performGetTest(symbolTable);
+    testGetWithUnsignedIntAndChar<SymbolTableForTest>();
 }
 
 TEST(SeparateChainingHashSymbolTableTest, GetRankWorks)
 {
-    SymbolTableWithUnsignedIntToChar symbolTable;
-    performGetRankTest(symbolTable);
+    testGetRankWithUnsignedIntAndChar<SymbolTableForTest>();
 }
 
 TEST(SeparateChainingHashSymbolTableTest, GetMinimumWorks)
 {
-    SymbolTableWithUnsignedIntToChar symbolTable;
-    performGetMinimumTest(symbolTable);
+    testGetMinimumWithUnsignedIntAndChar<SymbolTableForTest>();
 }
 
 TEST(SeparateChainingHashSymbolTableTest, GetMaximumWorks)
 {
-    SymbolTableWithUnsignedIntToChar symbolTable;
-    performGetMaximumTest(symbolTable);
+    testGetMaximumWithUnsignedIntAndChar<SymbolTableForTest>();
 }
 
 TEST(SeparateChainingHashSymbolTableTest, SelectAtWorks)
 {
-    SymbolTableWithUnsignedIntToChar symbolTable;
-    performSelectAtTest(symbolTable);
+    testSelectAtWithUnsignedIntAndChar<SymbolTableForTest>();
 }
 
 TEST(SeparateChainingHashSymbolTableTest, GetFloorWorks)
 {
-    SymbolTableWithUnsignedIntToChar symbolTable;
-    performGetFloorTest(symbolTable);
+    testGetFloorWithUnsignedIntAndChar<SymbolTableForTest>();
 }
 
 TEST(SeparateChainingHashSymbolTableTest, GetCeilingWorks)
 {
-    SymbolTableWithUnsignedIntToChar symbolTable;
-    performGetCeilingTest(symbolTable);
+    testGetCeilingWithUnsignedIntAndChar<SymbolTableForTest>();
 }
 
 TEST(SeparateChainingHashSymbolTableTest, PutWorks)
 {
-    SymbolTableWithUnsignedIntToChar symbolTable;
-    performPutTest(symbolTable);
+    testPutWithUnsignedIntAndChar<SymbolTableForTest>();
 }
 
 TEST(SeparateChainingHashSymbolTableTest, DeleteBasedOnKeyWorks)
 {
-    SymbolTableWithUnsignedIntToChar symbolTable;
-    performDeleteBasedOnKeyTest(symbolTable);
+    testDeleteBasedOnKeyWithUnsignedIntAndChar<SymbolTableForTest>();
 }
 
 TEST(SeparateChainingHashSymbolTableTest, DeleteMinimumWorks)
 {
-    SymbolTableWithUnsignedIntToChar symbolTable;
-    performDeleteMinimumTest(symbolTable);
+    testDeleteMinimumWithUnsignedIntAndChar<SymbolTableForTest>();
 }
 
 TEST(SeparateChainingHashSymbolTableTest, DeleteMaximumWorks)
 {
-    SymbolTableWithUnsignedIntToChar symbolTable;
-    performDeleteMaximumTest(symbolTable);
+    testDeleteMaximumWithUnsignedIntAndChar<SymbolTableForTest>();
 }
 
 TEST(SeparateChainingHashSymbolTableTest, GetKeys)
 {
-    SymbolTableWithUnsignedIntToChar symbolTable;
-    performGetKeysTest(symbolTable);
+    testGetKeysWithUnsignedIntAndChar<SymbolTableForTest>();
 }
 
 TEST(SeparateChainingHashSymbolTableTest, GetKeysInRangeWorks)
 {
-    SymbolTableWithUnsignedIntToChar symbolTable;
-    performGetKeysInRangeInclusiveTest(symbolTable);
+    testGetKeysInRangeInclusiveWithUnsignedIntAndChar<SymbolTableForTest>();
 }
 
 }
-
 }

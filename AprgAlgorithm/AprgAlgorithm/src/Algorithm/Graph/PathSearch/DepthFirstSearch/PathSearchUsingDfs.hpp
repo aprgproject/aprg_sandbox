@@ -8,15 +8,13 @@ namespace alba
 namespace algorithm
 {
 
-template<typename Vertex>
+template <typename Vertex>
 class PathSearchUsingDfs : public BasePathSearchWithBfsAndDfs<Vertex>
 {
-public:
-    using BaseGraphWithVertex = BaseGraph<Vertex>;
+public:    using BaseGraphWithVertex = BaseGraph<Vertex>;
     using BaseClass = BasePathSearchWithBfsAndDfs<Vertex>;
     using SetOfVertices = typename GraphTypes<Vertex>::SetOfVertices;
-    using Path = typename GraphTypes<Vertex>::Path;
-    using CheckableVerticesWithVertex = CheckableVertices<Vertex>;
+    using Path = typename GraphTypes<Vertex>::Path;    using CheckableVerticesWithVertex = CheckableVertices<Vertex>;
 
     PathSearchUsingDfs(BaseGraphWithVertex const& graph, Vertex const& startVertex)
         : BaseClass(graph, startVertex)

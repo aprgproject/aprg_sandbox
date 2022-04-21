@@ -14,15 +14,13 @@ namespace alba
 namespace algorithm
 {
 
-template<typename Vertex>
+template <typename Vertex>
 class DirectedGraphWithVertexToAdjacencyListsMap : public BaseDirectedGraph<Vertex>
 {
-public:
-    using AdjacencyList = std::set<Vertex>;
+public:    using AdjacencyList = std::set<Vertex>;
     using AdjacencyLists = std::map<Vertex, AdjacencyList>;
     using Vertices = typename GraphTypes<Vertex>::Vertices;
-    using SetOfVertices = typename GraphTypes<Vertex>::SetOfVertices;
-    using Edges = typename GraphTypes<Vertex>::Edges;
+    using SetOfVertices = typename GraphTypes<Vertex>::SetOfVertices;    using Edges = typename GraphTypes<Vertex>::Edges;
 
     DirectedGraphWithVertexToAdjacencyListsMap()
         : m_numberOfEdges(0U)

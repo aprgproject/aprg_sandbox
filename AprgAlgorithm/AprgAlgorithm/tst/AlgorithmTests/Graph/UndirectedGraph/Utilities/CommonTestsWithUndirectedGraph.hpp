@@ -13,117 +13,103 @@ namespace algorithm
 namespace CommonTestsWithUndirectedGraph
 {
 
-template<typename Graph>
+template <typename Graph>
 void testGetGraphDirectionTypeWithVertexAsUnsignedInt()
 {
     Graph graph;
-
     EXPECT_EQ(GraphDirectionType::Undirected, graph.getGraphDirectionType());
 }
 
-template<typename Graph>
+template <typename Graph>
 void testHasAnyConnectionWhenEmptyWithVertexAsUnsignedInt()
 {
     Graph graph;
-
     EXPECT_FALSE(graph.hasAnyConnection(0U));
     EXPECT_FALSE(graph.hasAnyConnection(1U));
     EXPECT_FALSE(graph.hasAnyConnection(2U));
     EXPECT_FALSE(graph.hasAnyConnection(3U));
 }
 
-template<typename Graph>
+template <typename Graph>
 void testHasAnyConnectionWhenNotEmptyWithVertexAsUnsignedInt()
 {
-    Graph graph;
-    graph.connect(0U, 1U);
+    Graph graph;    graph.connect(0U, 1U);
     graph.connect(0U, 2U);
 
-    EXPECT_TRUE(graph.hasAnyConnection(0U));
-    EXPECT_TRUE(graph.hasAnyConnection(1U));
+    EXPECT_TRUE(graph.hasAnyConnection(0U));    EXPECT_TRUE(graph.hasAnyConnection(1U));
     EXPECT_TRUE(graph.hasAnyConnection(2U));
     EXPECT_FALSE(graph.hasAnyConnection(3U));
 }
 
-template<typename Graph>
+template <typename Graph>
 void testIsConnectedWhenEmptyWithVertexAsUnsignedInt()
 {
     Graph graph;
-
     EXPECT_FALSE(graph.isConnected(0U, 1U));
     EXPECT_FALSE(graph.isConnected(0U, 2U));
     EXPECT_FALSE(graph.isConnected(1U, 2U));
     EXPECT_FALSE(graph.isConnected(0U, 3U));
 }
 
-template<typename Graph>
+template <typename Graph>
 void testIsConnectedWhenNotEmptyWithVertexAsUnsignedInt()
 {
-    Graph graph;
-    graph.connect(0U, 1U);
+    Graph graph;    graph.connect(0U, 1U);
     graph.connect(0U, 2U);
 
-    EXPECT_TRUE(graph.isConnected(0U, 1U));
-    EXPECT_TRUE(graph.isConnected(0U, 2U));
+    EXPECT_TRUE(graph.isConnected(0U, 1U));    EXPECT_TRUE(graph.isConnected(0U, 2U));
     EXPECT_FALSE(graph.isConnected(1U, 2U));
     EXPECT_FALSE(graph.isConnected(0U, 3U));
 }
 
-template<typename Graph>
+template <typename Graph>
 void testGetNumberOfVerticesWhenEmptyWithVertexAsUnsignedInt()
 {
     Graph graph;
-
     EXPECT_EQ(0U, graph.getNumberOfVertices());
 }
 
-template<typename Graph>
+template <typename Graph>
 void testGetNumberOfVerticesWhenNotEmptyWithVertexAsUnsignedInt()
 {
-    Graph graph;
-    graph.connect(0U, 1U);
+    Graph graph;    graph.connect(0U, 1U);
     graph.connect(0U, 2U);
 
     EXPECT_EQ(3U, graph.getNumberOfVertices());
 }
 
-template<typename Graph>
+template <typename Graph>
 void testGetNumberOfEdgesWhenEmptyWithVertexAsUnsignedInt()
 {
     Graph graph;
-
     EXPECT_EQ(0U, graph.getNumberOfEdges());
 }
 
-template<typename Graph>
+template <typename Graph>
 void testGetNumberOfEdgesWhenNotEmptyWithVertexAsUnsignedInt()
 {
-    Graph graph;
-    graph.connect(0U, 1U);
+    Graph graph;    graph.connect(0U, 1U);
     graph.connect(0U, 2U);
 
     EXPECT_EQ(2U, graph.getNumberOfEdges());
 }
 
-template<typename Graph>
+template <typename Graph>
 void testGetAdjacentVerticesAtWhenEmptyWithVertexAsUnsignedInt()
 {
-    using Vertices = typename Graph::Vertices;
-    Graph graph;
+    using Vertices = typename Graph::Vertices;    Graph graph;
 
     Vertices adjacentVerticesToVerify(graph.getAdjacentVerticesAt(0));
 
     EXPECT_TRUE(adjacentVerticesToVerify.empty());
 }
 
-template<typename Graph>
+template <typename Graph>
 void testGetAdjacentVerticesAtWhenNotEmptyWithVertexAsUnsignedInt()
 {
-    using Vertices = typename Graph::Vertices;
-    Graph graph;
+    using Vertices = typename Graph::Vertices;    Graph graph;
     graph.connect(0U, 1U);
     graph.connect(0U, 2U);
-
     Vertices adjacentVerticesAt0ToVerify(graph.getAdjacentVerticesAt(0));
     Vertices adjacentVerticesAt1ToVerify(graph.getAdjacentVerticesAt(1));
     Vertices adjacentVerticesAt2ToVerify(graph.getAdjacentVerticesAt(2));
@@ -136,64 +122,56 @@ void testGetAdjacentVerticesAtWhenNotEmptyWithVertexAsUnsignedInt()
     EXPECT_EQ(adjacentVerticesAt2ToExpect, adjacentVerticesAt2ToVerify);
 }
 
-template<typename Graph>
+template <typename Graph>
 void testGetVerticesWhenEmptyWithVertexAsUnsignedInt()
 {
-    using Vertices = typename Graph::Vertices;
-    Graph graph;
+    using Vertices = typename Graph::Vertices;    Graph graph;
 
     Vertices verticesToVerify(graph.getVertices());
 
     EXPECT_TRUE(verticesToVerify.empty());
 }
 
-template<typename Graph>
+template <typename Graph>
 void testGetVerticesWhenNotEmptyWithVertexAsUnsignedInt()
 {
-    using Vertices = typename Graph::Vertices;
-    Graph graph;
+    using Vertices = typename Graph::Vertices;    Graph graph;
     graph.connect(0U, 1U);
     graph.connect(0U, 2U);
-
     Vertices verticesToVerify(graph.getVertices());
 
     Vertices verticesToExpect{0U, 1U, 2U};
     EXPECT_EQ(verticesToExpect, verticesToVerify);
 }
 
-template<typename Graph>
+template <typename Graph>
 void testGetEdgesWhenEmptyWithVertexAsUnsignedInt()
 {
-    using Edges = typename Graph::Edges;
-    Graph graph;
+    using Edges = typename Graph::Edges;    Graph graph;
 
     Edges edgesToVerify(graph.getEdges());
 
     EXPECT_TRUE(edgesToVerify.empty());
 }
 
-template<typename Graph>
+template <typename Graph>
 void testGetEdgesWhenNotEmptyWithVertexAsUnsignedInt()
 {
-    using Edges = typename Graph::Edges;
-    Graph graph;
+    using Edges = typename Graph::Edges;    Graph graph;
     graph.connect(0U, 1U);
     graph.connect(0U, 2U);
-
     Edges edgesToVerify(graph.getEdges());
 
     Edges edgesToExpect{{0U, 1U}, {0U, 2U}};
     EXPECT_EQ(edgesToExpect, edgesToVerify);
 }
 
-template<typename Graph>
+template <typename Graph>
 void testConnectWithVertexAsUnsignedInt()
 {
-    using Edges = typename Graph::Edges;
-    Graph graph;
+    using Edges = typename Graph::Edges;    Graph graph;
     graph.connect(0U, 1U);
     graph.connect(0U, 2U);
-
     EXPECT_EQ(3U, graph.getNumberOfVertices());
     EXPECT_EQ(2U, graph.getNumberOfEdges());
     Edges edgesToVerify(graph.getEdges());
@@ -201,14 +179,12 @@ void testConnectWithVertexAsUnsignedInt()
     EXPECT_EQ(edgesToExpect, edgesToVerify);
 }
 
-template<typename Graph>
+template <typename Graph>
 void testDisconnectWithVertexAsUnsignedInt()
 {
-    using Edges = typename Graph::Edges;
-    Graph graph;
+    using Edges = typename Graph::Edges;    Graph graph;
     graph.connect(0U, 1U);
     graph.connect(0U, 2U);
-
     graph.disconnect(0U, 1U);
 
     EXPECT_EQ(2U, graph.getNumberOfVertices());
@@ -218,29 +194,25 @@ void testDisconnectWithVertexAsUnsignedInt()
     EXPECT_EQ(edgesToExpect, edgesToVerify);
 }
 
-template<typename Graph>
+template <typename Graph>
 void testClearWithVertexAsUnsignedInt()
 {
-    Graph graph;
-    graph.connect(0U, 1U);
+    Graph graph;    graph.connect(0U, 1U);
     graph.connect(0U, 2U);
 
     graph.clear();
-
     EXPECT_EQ(0U, graph.getNumberOfVertices());
     EXPECT_EQ(0U, graph.getNumberOfEdges());
     EXPECT_TRUE(graph.getEdges().empty());
 }
 
-template<typename Graph>
+template <typename Graph>
 void testWithComplicatedExampleWithVertexAsUnsignedInt()
 {
-    using Edges = typename Graph::Edges;
-    Graph graph;
+    using Edges = typename Graph::Edges;    Graph graph;
     graph.connect(0U, 5U);
     graph.connect(4U, 3U);
-    graph.connect(0U, 1U);
-    graph.connect(9U, 12U);
+    graph.connect(0U, 1U);    graph.connect(9U, 12U);
     graph.connect(6U, 4U);
     graph.connect(5U, 4U);
     graph.connect(0U, 2U);

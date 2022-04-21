@@ -1,75 +1,65 @@
 #include <Algorithm/Stack/FixedSizeStack.hpp>
-#include <AlgorithmTests/Stack/Utilities/CommonTestsWithBaseStack.hpp>
+#include <AlgorithmTests/Stack/Utilities/CommonTestsWithStack.hpp>
 
 #include <gtest/gtest.h>
 
-using namespace alba::algorithm::CommonTestsWithBaseStack;
+using namespace alba::algorithm::CommonTestsWithStack;
 using namespace std;
 
-namespace alba
-{
+namespace alba{
 
 namespace algorithm
 {
 
 namespace
 {
-using StackForUnsignedInt = FixedSizeStack<unsigned int, 10U>;
+using StackForTest = FixedSizeStack<unsigned int, 10U>;
 }
 
 TEST(FixedSizeStackTest, IsEmptyWorksWhenEmpty)
 {
-    StackForUnsignedInt stack;
-    performIsEmptyTestWhenEmpty(stack);
+    testIsEmptyWhenEmptyWithUnsignedInt<StackForTest>();
 }
 
 TEST(FixedSizeStackTest, IsEmptyWorksWhenNotEmpty)
 {
-    StackForUnsignedInt stack;
-    performIsEmptyTestWhenNotEmpty(stack);
+    testIsEmptyWhenNotEmptyWithUnsignedInt<StackForTest>();
 }
 
 TEST(FixedSizeStackTest, GetSizeWorksWhenEmpty)
 {
-    StackForUnsignedInt stack;
-    performGetSizeTestWhenEmpty(stack);
+    testGetSizeWhenEmptyWithUnsignedInt<StackForTest>();
 }
 
 TEST(FixedSizeStackTest, GetSizeWorksWhenNotEmpty)
 {
-    StackForUnsignedInt stack;
-    performGetSizeTestWhenNotEmpty(stack);
+    testGetSizeWhenNotEmptyWithUnsignedInt<StackForTest>();
 }
 
 TEST(FixedSizeStackTest, PushWorks)
 {
-    StackForUnsignedInt stack;
-    performPushTest(stack);
+    testPushWithUnsignedInt<StackForTest>();
 }
 
 TEST(FixedSizeStackTest, PopWorks)
 {
-    StackForUnsignedInt stack;
-    performPopTest(stack);
+    testPopWithUnsignedInt<StackForTest>();
 }
 
 TEST(FixedSizeStackTest, DISABLED_PopWorksWithAssertionWhenItsEmpty) //disabled because it takes too long
 {
-    StackForUnsignedInt stack;
-    performPopAssertionTestWhenEmpty(stack);
+    testPopAssertionWhenEmptyWithUnsignedInt<StackForTest>();
 }
 
 TEST(FixedSizeStackTest, DISABLED_PushWorksWithAssertionWhenItReachesMaximumSize) //disabled because it takes too long
 {
-    StackForUnsignedInt stack;
+    StackForTest stack;
 
     for(unsigned int i=0; i<10; i++)
-    {
-        stack.push(i);
+    {        stack.push(i);
     }
     EXPECT_DEATH(stack.push(100), "Assertion failed!");
 }
-
 }
 
 }
