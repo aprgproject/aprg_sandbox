@@ -6,7 +6,8 @@
 using namespace alba::algorithm::CommonTestsWithQueue;
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 namespace algorithm
 {
@@ -52,4 +53,5 @@ TEST(LinkedListQueueTest, DISABLED_DequeueWorksWithAssertionWhenItsEmpty) //disa
 }
 
 }
+
 }

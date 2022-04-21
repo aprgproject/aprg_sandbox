@@ -56,6 +56,7 @@ TEST(ChessEngineHandlerTest, DISABLED_ResetWorks)
     chessEngineHandler.sendStringToEngine("stop");
     Sleep(1000);
 }
+
 }
 
 }

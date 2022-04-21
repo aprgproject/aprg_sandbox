@@ -22,9 +22,11 @@ enum class GraphDirectionType
 template <typename Vertex>
 struct GraphTypes
 {
-    // Vertex    using Vertices = std::vector<Vertex>;
+    // Vertex
+    using Vertices = std::vector<Vertex>;
     using DequeOfVertices = std::deque<Vertex>;
     using SetOfVertices = std::set<Vertex>;
+
     //Edge
     using Edge = std::pair<Vertex, Vertex>;
     using Edges = std::vector<Edge>;
@@ -63,10 +65,12 @@ struct GraphTypes
 template <typename Vertex, typename Weight>
 struct GraphTypesWithWeights
 {
-    struct VertexWithWeight    {
+    struct VertexWithWeight
+    {
         VertexWithWeight(Vertex const& vertexParameter, Weight const& weightParameter)
             : vertex(vertexParameter)
-            , weight(weightParameter)        {}
+            , weight(weightParameter)
+        {}
 
         bool operator<(VertexWithWeight const& otherVertex) const
         {

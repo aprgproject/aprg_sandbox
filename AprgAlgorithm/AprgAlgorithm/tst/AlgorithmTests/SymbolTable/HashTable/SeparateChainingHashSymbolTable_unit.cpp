@@ -6,7 +6,8 @@
 using namespace alba::algorithm::CommonTestsWithSymbolTable;
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 namespace algorithm
 {
@@ -107,4 +108,5 @@ TEST(SeparateChainingHashSymbolTableTest, GetKeysInRangeWorks)
 }
 
 }
+
 }

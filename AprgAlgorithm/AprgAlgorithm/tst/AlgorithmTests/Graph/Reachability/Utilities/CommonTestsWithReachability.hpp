@@ -11,13 +11,15 @@ namespace algorithm
 namespace CommonTestsWithReachability
 {
 
-template <typename ReachabilityType, typename GraphType>
+template <typename Reachability, typename Graph>
 void testIsReachableWhenEmptyWithVertexAsUnsignedInt()
 {
-    GraphType graph;    ReachabilityType reachabilityIn0(graph, 0U);
+    Graph graph;
+    Reachability reachabilityIn0(graph, 0U);
 
     //Reachability in 0
-    EXPECT_FALSE(reachabilityIn0.isReachable(1U));    EXPECT_FALSE(reachabilityIn0.isReachable(2U));
+    EXPECT_FALSE(reachabilityIn0.isReachable(1U));
+    EXPECT_FALSE(reachabilityIn0.isReachable(2U));
     EXPECT_FALSE(reachabilityIn0.isReachable(3U));
     EXPECT_FALSE(reachabilityIn0.isReachable(4U));
     EXPECT_FALSE(reachabilityIn0.isReachable(5U));
@@ -30,13 +32,15 @@ void testIsReachableWhenEmptyWithVertexAsUnsignedInt()
     EXPECT_FALSE(reachabilityIn0.isReachable(12U));
 }
 
-template <typename ReachabilityType, typename GraphType>
+template <typename Reachability, typename Graph>
 void testIsReachableWhenNotEmptyWithVertexAsUnsignedInt()
 {
-    GraphType graph;    graph.connect(0U, 1U);
+    Graph graph;
+    graph.connect(0U, 1U);
     graph.connect(0U, 5U);
     graph.connect(2U, 0U);
-    graph.connect(2U, 3U);    graph.connect(3U, 2U);
+    graph.connect(2U, 3U);
+    graph.connect(3U, 2U);
     graph.connect(3U, 5U);
     graph.connect(4U, 2U);
     graph.connect(4U, 3U);
@@ -54,9 +58,9 @@ void testIsReachableWhenNotEmptyWithVertexAsUnsignedInt()
     graph.connect(11U, 4U);
     graph.connect(11U, 12U);
     graph.connect(12U, 9U);
-    ReachabilityType reachabilityIn0(graph, 0U);
-    ReachabilityType reachabilityIn6(graph, 6U);
-    ReachabilityType reachabilityIn9(graph, 9U);
+    Reachability reachabilityIn0(graph, 0U);
+    Reachability reachabilityIn6(graph, 6U);
+    Reachability reachabilityIn9(graph, 9U);
 
     //Reachability in 0
     EXPECT_TRUE(reachabilityIn0.isReachable(1U));

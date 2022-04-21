@@ -31,6 +31,7 @@ public:
     void sendStringToEngine(std::string const& stringToEngine);
     void processStringFromEngine(std::string const& stringFromEngine);
     void startMonitoringEngineOutput();
+
     void setLogFile(std::string const& logFilePath);
     void setAdditionalStepsInProcessingAStringFromEngine(ProcessAStringFunction const& additionalSteps);
 
@@ -45,9 +46,11 @@ private:
     HANDLE m_engineMonitoringThread;
     DWORD m_threadId;
     HANDLE m_inputStreamOnEngineThread, m_outputStreamOnEngineThread;
-    HANDLE m_inputStreamOnHandler, m_outputStreamOnHandler;    AlbaOptional<std::ofstream> m_logFileStreamOptional;
+    HANDLE m_inputStreamOnHandler, m_outputStreamOnHandler;
+    AlbaOptional<std::ofstream> m_logFileStreamOptional;
     AlbaOptional<ProcessAStringFunction> m_additionalStepsInProcessingAStringFromEngine;
 };
+
 }
 
 }

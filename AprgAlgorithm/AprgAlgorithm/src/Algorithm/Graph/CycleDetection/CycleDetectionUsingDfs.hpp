@@ -12,10 +12,12 @@ namespace algorithm
 template <typename Vertex>
 class CycleDetectionUsingDfs
 {
-public:    using BaseGraphWithVertex = BaseGraph<Vertex>;
+public:
+    using BaseGraphWithVertex = BaseGraph<Vertex>;
     using SetOfVertices = typename GraphTypes<Vertex>::SetOfVertices;
     using Path = typename GraphTypes<Vertex>::Path;
-    using VertexToVertexMap = typename GraphTypes<Vertex>::VertexToVertexMap;    using CheckableVerticesWithVertex = CheckableVertices<Vertex>;
+    using VertexToVertexMap = typename GraphTypes<Vertex>::VertexToVertexMap;
+    using CheckableVerticesWithVertex = CheckableVertices<Vertex>;
 
     CycleDetectionUsingDfs(BaseGraphWithVertex const& graph)
         : m_graph(graph)

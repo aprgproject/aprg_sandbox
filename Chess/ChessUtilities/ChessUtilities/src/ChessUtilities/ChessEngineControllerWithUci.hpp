@@ -68,6 +68,7 @@ public:
     void stop();
 
     void setAdditionalStepsInCalculationMonitoring(StepsInCalculationMonitoring const& additionalSteps);
+
 private:
 
     void initialize();
@@ -78,19 +79,23 @@ private:
     void forceSend(std::string const& commandString);
     void sendStopIfCalculating();
     void sendUci();
-    void sendStop();    void send(CommandType const& commandType, std::string const& commandString);
+    void sendStop();
+    void send(CommandType const& commandType, std::string const& commandString);
     void send(Command const& command);
 
     void processInWaitingForReadyOkay(std::string const& stringFromEngine);
     void processAStringFromEngine(std::string const& stringFromEngine);
     void processInWaitingForUciOkay(std::string const& stringToProcess);
     void processInCalculating(std::string const& stringToProcess);
+
     ChessEngineHandler & m_engineHandler;
     ControllerState m_state;
     bool m_waitingForReadyOkay;
     CalculationDetails m_currentCalculationDetails;
     std::deque<Command> m_pendingCommands;
-    AlbaOptional<StepsInCalculationMonitoring> m_additionalStepsInCalculationMonitoring;};
+    AlbaOptional<StepsInCalculationMonitoring> m_additionalStepsInCalculationMonitoring;
+};
 
 }
+
 }

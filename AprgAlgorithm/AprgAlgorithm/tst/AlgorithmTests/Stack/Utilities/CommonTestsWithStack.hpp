@@ -1,6 +1,7 @@
 #pragma once
 
 #include <gtest/gtest.h>
+
 using namespace std;
 
 namespace alba
@@ -44,6 +45,7 @@ void testGetSizeWhenNotEmptyWithUnsignedInt()
     stack.push(10U);
     stack.push(5U);
     stack.push(4U);
+
     EXPECT_EQ(3U, stack.getSize());
 }
 
@@ -54,6 +56,7 @@ void testPushWithUnsignedInt()
     stack.push(1U);
     stack.push(2U);
     stack.push(3U);
+
     ASSERT_EQ(3U, stack.getSize());
     EXPECT_EQ(3U, stack.pop());
     EXPECT_EQ(2U, stack.pop());
@@ -67,6 +70,7 @@ void testPopWithUnsignedInt()
     stack.push(1U);
     stack.push(2U);
     stack.push(3U);
+
     EXPECT_EQ(3U, stack.pop());
     EXPECT_EQ(2U, stack.pop());
     EXPECT_EQ(1U, stack.pop());
@@ -80,6 +84,7 @@ void testPopAssertionWhenEmptyWithUnsignedInt()
 
     EXPECT_DEATH(stack.pop(), "Assertion failed!");
 }
+
 }
 
 }

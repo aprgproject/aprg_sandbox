@@ -192,4 +192,5 @@ void ChessPieceConverter::initializeToChessDotCom()
 }
 
 }
+
 }

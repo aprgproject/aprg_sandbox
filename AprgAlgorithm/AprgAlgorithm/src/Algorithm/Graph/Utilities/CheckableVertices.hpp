@@ -11,10 +11,12 @@ namespace algorithm
 template <typename Vertex>
 class CheckableVertices
 {
-public:    using SetOfVertices = typename GraphTypes<Vertex>::SetOfVertices;
+public:
+    using SetOfVertices = typename GraphTypes<Vertex>::SetOfVertices;
 
     CheckableVertices()
     {}
+
     bool isFound(Vertex const& vertex) const
     {
         return m_vertices.find(vertex) != m_vertices.cend();

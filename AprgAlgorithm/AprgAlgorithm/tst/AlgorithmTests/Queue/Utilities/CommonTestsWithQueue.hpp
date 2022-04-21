@@ -1,6 +1,7 @@
 #pragma once
 
 #include <gtest/gtest.h>
+
 using namespace std;
 
 namespace alba
@@ -44,6 +45,7 @@ void testGetSizeWhenNotEmptyWithUnsignedInt()
     queue.enqueue(10U);
     queue.enqueue(5U);
     queue.enqueue(4U);
+
     EXPECT_EQ(3U, queue.getSize());
 }
 
@@ -54,6 +56,7 @@ void testEnqueueWithUnsignedInt()
     queue.enqueue(1U);
     queue.enqueue(2U);
     queue.enqueue(3U);
+
     ASSERT_EQ(3U, queue.getSize());
     EXPECT_EQ(1U, queue.dequeue());
     EXPECT_EQ(2U, queue.dequeue());
@@ -67,6 +70,7 @@ void testDequeueWithUnsignedInt()
     queue.enqueue(1U);
     queue.enqueue(2U);
     queue.enqueue(3U);
+
     EXPECT_EQ(1U, queue.dequeue());
     EXPECT_EQ(2U, queue.dequeue());
     EXPECT_EQ(3U, queue.dequeue());
@@ -79,6 +83,7 @@ void testDequeueAssertionWhenEmptyWithUnsignedInt()
     Queue queue;
     EXPECT_DEATH(queue.dequeue(), "Assertion failed!");
 }
+
 }
 
 }

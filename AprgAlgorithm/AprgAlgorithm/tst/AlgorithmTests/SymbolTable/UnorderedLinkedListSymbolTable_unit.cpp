@@ -6,8 +6,10 @@
 using namespace alba::algorithm::CommonTestsWithSymbolTable;
 using namespace std;
 
+
 namespace alba
 {
+
 namespace algorithm
 {
 
@@ -107,4 +109,5 @@ TEST(UnorderedLinkedListSymbolTableTest, GetKeysInRangeWorks)
 }
 
 }
+
 }

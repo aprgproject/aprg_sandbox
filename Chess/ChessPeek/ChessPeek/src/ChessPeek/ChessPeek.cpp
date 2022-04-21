@@ -10,10 +10,12 @@
 #define CHESS_ENGINE_PATH APRG_DIR R"(\Chess\ChessPeek\Files\stockfish13.exe)"
 #define SCREEN_SHOT_PATH APRG_DIR R"(\Chess\ChessPeek\Files\ScreenShot.bmp)"
 #define CHESS_BOARD_TOP_LEFT_CORNER 2195, 140
-#define CHESS_BOARD_BOTTOM_RIGHT_CORNER 3026, 971#define TOP_BOTTOM_INDENTION 0.05
+#define CHESS_BOARD_BOTTOM_RIGHT_CORNER 3026, 971
+#define TOP_BOTTOM_INDENTION 0.05
 #define LEFT_RIGHT_INDENTION 0.03
 #define WHITE_COLOR_LIMIT 0.91
 #define BLACK_COLOR_LIMIT 0.40
+
 using namespace alba::AprgBitmap;
 using namespace std;
 
@@ -27,10 +29,12 @@ ChessPeek::ChessPeek()
     : m_chessEngineHandler(CHESS_ENGINE_PATH)
     , m_chessEngineController(m_chessEngineHandler)
     , m_chessPieceConverter()
-    , m_userAutomation()    , m_chessCellBitValueMatrix(8U, 8U)
+    , m_userAutomation()
+    , m_chessCellBitValueMatrix(8U, 8U)
     , m_chessBoard(Board::Orientation::BlackUpWhiteDown)
     , m_playerSideColor(PieceColor::White)
-    , m_currentMoveOnDisplay(){
+    , m_currentMoveOnDisplay()
+{
     initialize();
 }
 
@@ -52,7 +56,8 @@ void ChessPeek::runOneIteration()
 {
     Board::PieceMatrix previousPieceMatrix(m_chessBoard.getPieceMatrix());
     checkScreenAndSaveDetails();
-    if(previousPieceMatrix != m_chessBoard.getPieceMatrix())    {
+    if(previousPieceMatrix != m_chessBoard.getPieceMatrix())
+    {
         startNewAnalysisUsingEngine();
     }
 }
@@ -61,7 +66,8 @@ void ChessPeek::checkScreenAndSaveDetails()
 {
     m_userAutomation.saveBitmapOnScreen(SCREEN_SHOT_PATH);//
     Bitmap bitmap(SCREEN_SHOT_PATH);
-    BitmapSnippet snippet(bitmap.getSnippetReadFromFile(BitmapXY(CHESS_BOARD_TOP_LEFT_CORNER), BitmapXY(CHESS_BOARD_BOTTOM_RIGHT_CORNER)));    checkSnippetAndSaveDetails(snippet);
+    BitmapSnippet snippet(bitmap.getSnippetReadFromFile(BitmapXY(CHESS_BOARD_TOP_LEFT_CORNER), BitmapXY(CHESS_BOARD_BOTTOM_RIGHT_CORNER)));
+    checkSnippetAndSaveDetails(snippet);
     //bitmap.setSnippetWriteToFile(snippet);//
 }
 
@@ -76,10 +82,12 @@ void ChessPeek::startNewAnalysisUsingEngine()
     m_chessEngineController.goWithPonder();
 }
 
-void ChessPeek::checkCalculationDetails(ChessEngineControllerWithUci::CalculationDetails const& calculationDetails){
+void ChessPeek::checkCalculationDetails(ChessEngineControllerWithUci::CalculationDetails const& calculationDetails)
+{
     string moveToDisplay(getMoveToDisplay(calculationDetails));
 
-    printCalculationDetails(calculationDetails, moveToDisplay);    if(moveToDisplay != m_currentMoveOnDisplay)
+    printCalculationDetails(calculationDetails, moveToDisplay);
+    if(moveToDisplay != m_currentMoveOnDisplay)
     {
         m_currentMoveOnDisplay = moveToDisplay;
     }
@@ -242,10 +250,12 @@ DisplayTable ChessPeek::getDisplayTable(Move const& actualMove) const
             }
             else
             {
-                cell += " ";                cell += m_chessBoard.getPieceAt(coordinate).getCharacter();
+                cell += " ";
+                cell += m_chessBoard.getPieceAt(coordinate).getCharacter();
                 cell += " ";
             }
-            displayTable.getLastRow().addCell(cell);        }
+            displayTable.getLastRow().addCell(cell);
+        }
     }
     return displayTable;
 }
@@ -299,9 +309,11 @@ void ChessPeek::setBitsBasedFromColor(
     blackValue[index] = (minimum < BLACK_COLOR_LIMIT) ? 1 : 0;
 }
 
-double ChessPeek::calculateColorIntensityDecimal(uint32_t const color) const{
+double ChessPeek::calculateColorIntensityDecimal(uint32_t const color) const
+{
     return (((double)extractRed(color)+extractGreen(color)+extractBlue(color))/0xFF)/3;
 }
+
 uint8_t ChessPeek::extractRed(uint32_t const color) const
 {
     return (AlbaBitManipulation<uint32_t>::getByteAt<2>(color));

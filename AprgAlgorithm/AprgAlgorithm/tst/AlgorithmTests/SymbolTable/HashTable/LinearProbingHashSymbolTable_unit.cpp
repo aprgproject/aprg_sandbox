@@ -6,7 +6,8 @@
 using namespace alba::algorithm::CommonTestsWithSymbolTable;
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 namespace algorithm
 {
@@ -111,9 +112,11 @@ TEST(LinearProbingHashSymbolTableTest, PutWorksWithDoublingHashTableSize)
     SymbolTableForTest symbolTable;
 
     EXPECT_EQ(1U, symbolTable.getHashTableSize());
+
     symbolTable.put(8U, 'H');
     symbolTable.put(9U, 'I');
     EXPECT_EQ(4U, symbolTable.getHashTableSize());
+
     symbolTable.put(5U, 'E');
     EXPECT_EQ(8U, symbolTable.getHashTableSize());
 
@@ -130,9 +133,11 @@ TEST(LinearProbingHashSymbolTableTest, DeleteBasedOnKeyWorksWithHalvingHashTable
     SymbolTableForTest symbolTable;
     symbolTable.put(8U, 'H');
     symbolTable.put(9U, 'I');
-    symbolTable.put(5U, 'E');    symbolTable.put(4U, 'D');
+    symbolTable.put(5U, 'E');
+    symbolTable.put(4U, 'D');
     symbolTable.put(7U, 'G');
     symbolTable.put(3U, 'C');
+
     EXPECT_EQ(16U, symbolTable.getHashTableSize());
 
     symbolTable.deleteBasedOnKey(3U);

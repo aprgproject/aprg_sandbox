@@ -9,8 +9,10 @@
 
 using namespace alba::stringHelper;
 using namespace std;
+
 namespace alba
 {
+
 namespace matrix
 {
 template <> bool isEqualForMathMatrixDataType(chess::Piece const& value1, chess::Piece const& value2)
@@ -107,10 +109,12 @@ Move Board::getMoveFromTwoLetterNumberNotation(std::string const& twoLetterNumbe
     if(twoLetterNumber.size() == 4 || twoLetterNumber.size() == 5) // 5 is for promotion
     {
         result = {getCoordinateFromLetterNumberNotation(twoLetterNumber.substr(0, 2)), getCoordinateFromLetterNumberNotation(twoLetterNumber.substr(2, 2))};
-    }    return result;
+    }
+    return result;
 }
 
-Moves Board::getPossibleMoves(Coordinate const& coordinate) const{
+Moves Board::getPossibleMoves(Coordinate const& coordinate) const
+{
     Moves result;
     retrievePossibleMovesBaseFromPieceType(result, coordinate);
     return result;

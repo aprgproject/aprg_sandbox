@@ -211,9 +211,11 @@ unsigned int getNumberOfSelfLoops(BaseGraph<Vertex> const& graph)
 template <typename Vertex, typename Weight, typename EdgeWeightedGraphType>
 typename GraphTypes<Vertex>::Path getCriticalPath(
         EdgeWeightedGraphType const& graph,
-        Vertex const& sourceVertex,        Vertex const& destinationVertex)
+        Vertex const& sourceVertex,
+        Vertex const& destinationVertex)
 {
     using Path = typename GraphTypes<Vertex>::Path;
+
     Path result;
     // Needs to be a directed acyclic path because if not the maximum path will be forever loop around the cycle
     if(isDirectedAcyclicGraph(graph))

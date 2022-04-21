@@ -17,10 +17,12 @@ namespace algorithm
 template <typename Vertex>
 class UndirectedGraphWithVertexToAdjacencyListsMap : public BaseUndirectedGraph<Vertex>
 {
-public:    using Vertices = typename GraphTypes<Vertex>::Vertices;
+public:
+    using Vertices = typename GraphTypes<Vertex>::Vertices;
     using Edges = typename GraphTypes<Vertex>::Edges;
     using AdjacencyList = typename GraphTypes<Vertex>::SetOfVertices;
     using AdjacencyLists = std::map<Vertex, AdjacencyList>;
+
     UndirectedGraphWithVertexToAdjacencyListsMap()
         : m_numberOfEdges(0U)
     {}

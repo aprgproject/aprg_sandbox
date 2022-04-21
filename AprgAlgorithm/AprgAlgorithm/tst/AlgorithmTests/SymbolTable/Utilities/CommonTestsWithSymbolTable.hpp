@@ -1,6 +1,7 @@
 #pragma once
 
 #include <gtest/gtest.h>
+
 #include <vector>
 
 using namespace std;
@@ -56,6 +57,7 @@ void testGetSizeWhenNotEmptyWithUnsignedIntAndChar()
     symbolTable.put(7U, 'G');
     symbolTable.put(5U, 'E');
     symbolTable.put(6U, 'F');
+
     EXPECT_EQ(3U, symbolTable.getSize());
 }
 
@@ -66,6 +68,7 @@ void testGetWithUnsignedIntAndChar()
     symbolTable.put(7U, 'G');
     symbolTable.put(5U, 'E');
     symbolTable.put(6U, 'F');
+
     EXPECT_EQ('E', symbolTable.get(5U));
     EXPECT_EQ('F', symbolTable.get(6U));
     EXPECT_EQ('G', symbolTable.get(7U));
@@ -78,7 +81,8 @@ void testGetRankWithUnsignedIntAndChar()
     SymbolTable symbolTable;
     symbolTable.put(8U, 'H');
     symbolTable.put(5U, 'E');
-    symbolTable.put(4U, 'D');    symbolTable.put(7U, 'G');
+    symbolTable.put(4U, 'D');
+    symbolTable.put(7U, 'G');
 
     EXPECT_EQ(0U, symbolTable.getRank(3U));
     EXPECT_EQ(0U, symbolTable.getRank(4U));
@@ -95,7 +99,8 @@ void testGetMinimumWithUnsignedIntAndChar()
     SymbolTable symbolTable;
     symbolTable.put(8U, 'H');
     symbolTable.put(5U, 'E');
-    symbolTable.put(4U, 'D');    symbolTable.put(7U, 'G');
+    symbolTable.put(4U, 'D');
+    symbolTable.put(7U, 'G');
 
     EXPECT_EQ(4U, symbolTable.getMinimum());
 }
@@ -106,7 +111,8 @@ void testGetMaximumWithUnsignedIntAndChar()
     SymbolTable symbolTable;
     symbolTable.put(8U, 'H');
     symbolTable.put(5U, 'E');
-    symbolTable.put(4U, 'D');    symbolTable.put(7U, 'G');
+    symbolTable.put(4U, 'D');
+    symbolTable.put(7U, 'G');
 
     EXPECT_EQ(8U, symbolTable.getMaximum());
 }
@@ -117,7 +123,8 @@ void testSelectAtWithUnsignedIntAndChar()
     SymbolTable symbolTable;
     symbolTable.put(8U, 'H');
     symbolTable.put(5U, 'E');
-    symbolTable.put(4U, 'D');    symbolTable.put(7U, 'G');
+    symbolTable.put(4U, 'D');
+    symbolTable.put(7U, 'G');
 
     EXPECT_EQ(4U, symbolTable.selectAt(0U));
     EXPECT_EQ(5U, symbolTable.selectAt(1U));
@@ -131,7 +138,8 @@ void testGetFloorWithUnsignedIntAndChar()
     SymbolTable symbolTable;
     symbolTable.put(8U, 'H');
     symbolTable.put(5U, 'E');
-    symbolTable.put(4U, 'D');    symbolTable.put(7U, 'G');
+    symbolTable.put(4U, 'D');
+    symbolTable.put(7U, 'G');
 
     EXPECT_EQ(0U, symbolTable.getFloor(3U));
     EXPECT_EQ(4U, symbolTable.getFloor(4U));
@@ -148,7 +156,8 @@ void testGetCeilingWithUnsignedIntAndChar()
     SymbolTable symbolTable;
     symbolTable.put(8U, 'H');
     symbolTable.put(5U, 'E');
-    symbolTable.put(4U, 'D');    symbolTable.put(7U, 'G');
+    symbolTable.put(4U, 'D');
+    symbolTable.put(7U, 'G');
 
     EXPECT_EQ(4U, symbolTable.getCeiling(3U));
     EXPECT_EQ(4U, symbolTable.getCeiling(4U));
@@ -166,6 +175,7 @@ void testPutWithUnsignedIntAndChar()
     symbolTable.put(7U, 'G');
     symbolTable.put(5U, 'E');
     symbolTable.put(6U, 'F');
+
     ASSERT_EQ(3U, symbolTable.getSize());
     EXPECT_EQ('E', symbolTable.get(5U));
     EXPECT_EQ('F', symbolTable.get(6U));
@@ -179,6 +189,7 @@ void testDeleteBasedOnKeyWithUnsignedIntAndChar()
     symbolTable.put(7U, 'G');
     symbolTable.put(5U, 'E');
     symbolTable.put(6U, 'F');
+
     symbolTable.deleteBasedOnKey(5U);
     ASSERT_EQ(2U, symbolTable.getSize());
     EXPECT_EQ('F', symbolTable.get(6U));
@@ -199,6 +210,7 @@ void testDeleteMinimumWithUnsignedIntAndChar()
     symbolTable.put(7U, 'G');
     symbolTable.put(5U, 'E');
     symbolTable.put(6U, 'F');
+
     symbolTable.deleteMinimum();
     ASSERT_EQ(2U, symbolTable.getSize());
     EXPECT_EQ('F', symbolTable.get(6U));
@@ -212,6 +224,7 @@ void testDeleteMaximumWithUnsignedIntAndChar()
     symbolTable.put(7U, 'G');
     symbolTable.put(5U, 'E');
     symbolTable.put(6U, 'F');
+
     symbolTable.deleteMaximum();
     ASSERT_EQ(2U, symbolTable.getSize());
     EXPECT_EQ('E', symbolTable.get(5U));
@@ -224,7 +237,8 @@ void testGetKeysWithUnsignedIntAndChar()
     SymbolTable symbolTable;
     symbolTable.put(8U, 'H');
     symbolTable.put(9U, 'I');
-    symbolTable.put(5U, 'E');    symbolTable.put(4U, 'D');
+    symbolTable.put(5U, 'E');
+    symbolTable.put(4U, 'D');
     symbolTable.put(7U, 'G');
     symbolTable.put(3U, 'C');
 
@@ -240,7 +254,8 @@ void testGetKeysInRangeInclusiveWithUnsignedIntAndChar()
     SymbolTable symbolTable;
     symbolTable.put(8U, 'H');
     symbolTable.put(9U, 'I');
-    symbolTable.put(5U, 'E');    symbolTable.put(4U, 'D');
+    symbolTable.put(5U, 'E');
+    symbolTable.put(4U, 'D');
     symbolTable.put(7U, 'G');
     symbolTable.put(3U, 'C');
 

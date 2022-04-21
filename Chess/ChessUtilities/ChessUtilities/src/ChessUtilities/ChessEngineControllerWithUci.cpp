@@ -7,8 +7,10 @@
 
 using namespace alba::stringHelper;
 using namespace std;
+
 namespace alba
 {
+
 namespace chess
 {
 
@@ -20,9 +22,11 @@ ChessEngineControllerWithUci::ChessEngineControllerWithUci(
 {
     initialize();
 }
+
 void ChessEngineControllerWithUci::resetToNewGame()
 {
-    sendStopIfCalculating();    send(CommandType::Position, "ucinewgame");
+    sendStopIfCalculating();
+    send(CommandType::Position, "ucinewgame");
 }
 
 void ChessEngineControllerWithUci::setupStartPosition()
@@ -100,11 +104,13 @@ void ChessEngineControllerWithUci::sendIsReadyAndWaitOrResetIfNeeded()
 
 void ChessEngineControllerWithUci::stop()
 {
-    sendStop();}
+    sendStop();
+}
 
 void ChessEngineControllerWithUci::setAdditionalStepsInCalculationMonitoring(
         StepsInCalculationMonitoring const& additionalSteps)
-{    m_additionalStepsInCalculationMonitoring.setConstReference(additionalSteps);
+{
+    m_additionalStepsInCalculationMonitoring.setConstReference(additionalSteps);
 }
 
 void ChessEngineControllerWithUci::initialize()
@@ -126,10 +132,12 @@ void ChessEngineControllerWithUci::resetEngine()
 
 void ChessEngineControllerWithUci::proceedToIdleAndProcessPendingCommands()
 {
-    m_state = ControllerState::Idle;    bool hasGoOnPendingCommand(false);
+    m_state = ControllerState::Idle;
+    bool hasGoOnPendingCommand(false);
     while(!m_pendingCommands.empty() && !hasGoOnPendingCommand)
     {
-        Command pendingCommand(m_pendingCommands.front());        m_pendingCommands.pop_front();
+        Command pendingCommand(m_pendingCommands.front());
+        m_pendingCommands.pop_front();
         hasGoOnPendingCommand = CommandType::Go == pendingCommand.commandType;
         send(pendingCommand);
     }
@@ -148,10 +156,12 @@ void ChessEngineControllerWithUci::forceSend(
 
 void ChessEngineControllerWithUci::sendStopIfCalculating()
 {
-    if(ControllerState::Calculating == m_state)    {
+    if(ControllerState::Calculating == m_state)
+    {
         sendStop();
     }
 }
+
 void ChessEngineControllerWithUci::sendUci()
 {
     send(CommandType::Uci, "uci");
@@ -175,10 +185,12 @@ void ChessEngineControllerWithUci::send(
     // all the logic are here lol
     switch(m_state)
     {
-    case ControllerState::Initializing:    {
+    case ControllerState::Initializing:
+    {
         if(CommandType::Uci == command.commandType)
         {
-            m_engineHandler.sendStringToEngine(command.commandString);            m_state = ControllerState::WaitingForUciOkay;
+            m_engineHandler.sendStringToEngine(command.commandString);
+            m_state = ControllerState::WaitingForUciOkay;
         }
         else
         {
@@ -257,10 +269,12 @@ void ChessEngineControllerWithUci::processInWaitingForReadyOkay(
     }
 }
 
-void ChessEngineControllerWithUci::processInWaitingForUciOkay(        string const& stringFromEngine)
+void ChessEngineControllerWithUci::processInWaitingForUciOkay(
+        string const& stringFromEngine)
 {
     string stringToProcess(getStringWithoutStartingAndTrailingWhiteSpace(stringFromEngine));
-    if("uciok" == stringToProcess)    {
+    if("uciok" == stringToProcess)
+    {
         proceedToIdleAndProcessPendingCommands();
     }
 }
@@ -334,10 +348,12 @@ void ChessEngineControllerWithUci::processInCalculating(
                 m_currentCalculationDetails.ponderMove = token;
             }
             if(!currentMove.empty() && !currentMoveNumber.empty())
-            {                unsigned int index = convertStringToNumber<unsigned int>(currentMoveNumber) - 1;
+            {
+                unsigned int index = convertStringToNumber<unsigned int>(currentMoveNumber) - 1;
                 if(index < 100)
                 {
-                    if(index >= m_currentCalculationDetails.currentlySearchingMoves.size())                    {
+                    if(index >= m_currentCalculationDetails.currentlySearchingMoves.size())
+                    {
                         m_currentCalculationDetails.currentlySearchingMoves.resize(index+1);
                     }
                     m_currentCalculationDetails.currentlySearchingMoves[index] = currentMove;

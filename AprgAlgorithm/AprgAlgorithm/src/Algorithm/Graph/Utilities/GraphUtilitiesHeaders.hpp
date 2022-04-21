@@ -37,10 +37,12 @@ template <typename Vertex> unsigned int getNumberOfSelfLoops(BaseGraph<Vertex> c
 template <typename Vertex, typename Weight, typename EdgeWeightedGraphType>
 typename GraphTypes<Vertex>::Path getCriticalPath(
         EdgeWeightedGraphType const& graph,
-        Vertex const& sourceVertex,        Vertex const& destinationVertex);
+        Vertex const& sourceVertex,
+        Vertex const& destinationVertex);
 
 template <typename Vertex> typename GraphTypes<Vertex>::ListOfEdges getEdgesOfMaximalConnectedSubgraphs(
         BaseUndirectedGraph<Vertex> const& graph);
+
 }
 
 }

@@ -14,10 +14,12 @@ namespace algorithm
 template <typename Vertex>
 class BasePathSearchWithBfsAndDfs
 {
-public:    using BaseGraphWithVertex = BaseGraph<Vertex>;
+public:
+    using BaseGraphWithVertex = BaseGraph<Vertex>;
     using Path = typename GraphTypes<Vertex>::Path;
     using SetOfVertices = typename GraphTypes<Vertex>::SetOfVertices;
-    using VertexToVertexMap = typename GraphTypes<Vertex>::VertexToVertexMap;    using CheckableVerticesWithVertex = CheckableVertices<Vertex>;
+    using VertexToVertexMap = typename GraphTypes<Vertex>::VertexToVertexMap;
+    using CheckableVerticesWithVertex = CheckableVertices<Vertex>;
 
     BasePathSearchWithBfsAndDfs(BaseGraphWithVertex const& graph, Vertex const& startVertex)
         : m_graph(graph)

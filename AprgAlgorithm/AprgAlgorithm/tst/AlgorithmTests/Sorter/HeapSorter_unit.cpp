@@ -8,7 +8,8 @@
 using namespace alba::algorithm::CommonTestsWithSorter;
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 namespace algorithm
 {
@@ -30,4 +31,5 @@ TEST(HeapSorterTest, SortWorksOnCharactersUsingExample2)
 }
 
 }
+
 }
