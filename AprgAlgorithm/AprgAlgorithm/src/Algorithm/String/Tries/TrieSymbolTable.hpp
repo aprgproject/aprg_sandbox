@@ -2,303 +2,274 @@
 
 #include <Algorithm/String/Tries/BaseStringSymbolTable.hpp>
 
-#include <algorithm>
-#include <functional>
+#include <array>
 #include <memory>
 
-namespace alba
-{
+namespace alba{
 
 namespace algorithm
 {
 
 template <typename Value>
-class TrieSymbolTable //: public BaseStringSymbolTable<Value>
+class TrieSymbolTable : public BaseStringSymbolTable<Value>
 {
 public:
+    static constexpr unsigned int RADIX=256U;
     using Key = std::string;
     using Keys = stringHelper::strings;
+    using ValueUniquePointer = std::unique_ptr<Value>;
     struct Node;
     using NodeUniquePointer = std::unique_ptr<Node>;
     struct Node
     {
-        Key key;
-        Value value;
-        NodeUniquePointer next;
+        ValueUniquePointer valueUniquePointer;
+        std::array<NodeUniquePointer, RADIX> next;
     };
 
-    /*TrieSymbolTable()
-        : m_size(0)
-        , m_first(nullptr)
+    TrieSymbolTable()
+        : m_root(nullptr)
     {}
 
     bool isEmpty() const override
     {
-        return m_size == 0;
+        return getSize() == 0;
     }
 
     bool doesContain(Key const& key) const override
     {
-        bool result(false);
-        traverseWithNoChange([&](Node const& node, bool & shouldBreak)
-        {
-            if(key == node.key)
-            {
-                result = true;
-                shouldBreak = true;
-            }
-        });
-        return result;
+        Node const*const nodePointer(get(m_root, key, 0));
+        return nodePointer != nullptr;
     }
 
     unsigned int getSize() const override
     {
-        return m_size;
-    }
-
-    unsigned int getRank(Key const& key) const override
-    {
-        unsigned int result(0);
-        traverseWithNoChange([&](Node const& node, bool &)
-        {
-            if(key > node.key)
-            {
-                result++;
-            }
-        });
-        return result;
+        return getSize(m_root);
     }
 
     Value get(Key const& key) const override
     {
         Value result{};
-        traverseWithNoChange([&](Node const& node, bool & shouldBreak)
+        Node const*const nodePointer(get(m_root, key, 0));
+        if(nodePointer != nullptr)
         {
-            if(key == node.key)
+            ValueUniquePointer const& valueUniquePointer(nodePointer->valueUniquePointer);
+            if(valueUniquePointer)
             {
-                result = node.value;
-                shouldBreak = true;
+                result = *valueUniquePointer;
             }
-        });
+        }
         return result;
     }
 
-    Key getMinimum() const override
+    Key getLongestPrefixOf(Key const& keyToCheck) const override
     {
-        Key result{};
-        bool isFirst(true);
-        traverseWithNoChange([&](Node const& node, bool &)
-        {
-            if(isFirst)
-            {
-                result = node.key;
-                isFirst = false;
-            }
-            else
-            {
-                result = std::min(result, node.key);
-            }
-        });
-        return result;
-    }
-
-    Key getMaximum() const override
-    {
-        Key result{};
-        bool isFirst(true);
-        traverseWithNoChange([&](Node const& node, bool &)
-        {
-            if(isFirst)
-            {
-                result = node.key;
-                isFirst = false;
-            }
-            else
-            {
-                result = std::max(result, node.key);
-            }
-        });
-        return result;
-    }
-
-    Key selectAt(unsigned int const rank) const override
-    {
-        Key result{};
-        traverseWithNoChange([&](Node const& node, bool & shouldBreak)
-        {
-            unsigned int const rankAtTraversal(getRank(node.key));
-            if(rank == rankAtTraversal)
-            {
-                result = node.key;
-                shouldBreak = true;
-            }
-        });
-        return result;
-    }
-
-    Key getFloor(Key const& key) const override
-    {
-        Key floor{};
-        bool isFirst(true);
-        traverseWithNoChange([&](Node const& node, bool & shouldBreak)
-        {
-            if(key == node.key)
-            {
-                floor = node.key;
-                shouldBreak = true;
-            }
-            else if(isFirst && key > node.key)
-            {
-                floor = node.key;
-                isFirst = false;
-            }
-            else if(!isFirst && key > node.key && key-node.key < key-floor) // less than key and nearer than key
-            {
-                floor = node.key;
-            }
-        });
-        return floor;
-    }
-
-    Key getCeiling(Key const& key) const override
-    {
-        Key ceiling{};
-        bool isFirst(true);
-        traverseWithNoChange([&](Node const& node, bool & shouldBreak)
-        {
-            if(key == node.key)
-            {
-                ceiling = node.key;
-                shouldBreak = true;
-            }
-            else if(isFirst && key < node.key)
-            {
-                ceiling = node.key;
-                isFirst = false;
-            }
-            else if(!isFirst && key < node.key && node.key-key < ceiling-key) // greater than key and nearer than key
-            {
-                ceiling = node.key;
-            }
-        });
-        return ceiling;
+        unsigned int longestPrefixLength(getLengthOfLongestPrefix(m_root.get(), keyToCheck, 0U, 0U));
+        return keyToCheck.substr(0, longestPrefixLength);
     }
 
     void put(Key const& key, Value const& value) override
     {
-        bool isKeyFound(false);
-        traverseWithChange([&](Node & node, bool & shouldBreak)
-        {
-            if(key == node.key)
-            {
-                node.value = value;
-                isKeyFound = true;
-                shouldBreak = true;
-            }
-        });
-        if(!isKeyFound)
-        {
-            NodeUniquePointer newNext(std::move(m_first));
-            m_first.reset(new Node{key, value, std::move(newNext)});
-            m_size++;
-        }
+        put(m_root, key, value, 0);
     }
 
     void deleteBasedOnKey(Key const& key) override
     {
-        Node* previousNodePointer(nullptr);
-        for(Node* currentNodePointer=m_first.get(); currentNodePointer!=nullptr; currentNodePointer=currentNodePointer->next.get())
-        {
-            if(currentNodePointer != nullptr)
-            {
-                if(key == currentNodePointer->key)
-                {
-                    if(previousNodePointer == nullptr)
-                    {
-                        m_first = std::move(currentNodePointer->next);
-                    }
-                    else
-                    {
-                        previousNodePointer->next = std::move(currentNodePointer->next);
-                    }
-                    m_size--;
-                    break;
-                }
-            }
-            previousNodePointer = currentNodePointer;
-        }
-    }
-
-    void deleteMinimum() override
-    {
-        deleteBasedOnKey(getMinimum());
-    }
-
-    void deleteMaximum() override
-    {
-        deleteBasedOnKey(getMaximum());
+       m_root = deleteBasedOnKey(m_root, key, 0);
     }
 
     Keys getKeys() const override
     {
+        return getAllKeysWithPrefix("");
+    }
+
+    Keys getAllKeysWithPrefix(Key const& prefix) const override
+    {
         Keys result;
-        traverseWithNoChange([&](Node const& node, bool &)
-        {
-            result.emplace_back(node.key);
-        });
-        std::sort(result.begin(), result.end());
+        collectAllKeysAtNode(get(m_root, prefix, 0), prefix, result);
         return result;
     }
 
-    Keys getKeysInRangeInclusive(Key const& low, Key const& high) const override
+    Keys getAllKeysThatMatch(Key const& patternToMatch) const override
     {
         Keys result;
-        traverseWithNoChange([&](Node const& node, bool &)
-        {
-            if(node.key >= low && node.key <= high)
-            {
-                result.emplace_back(node.key);
-            }
-        });
-        std::sort(result.begin(), result.end());
+        collectKeysThatMatchAtNode(m_root.get(), "", patternToMatch, result);
         return result;
     }
 
 private:
 
-    using TraverseFunctionWithNoChange=std::function<void(Node const&, bool &)>;
-    using TraverseFunctionWithChange=std::function<void(Node &, bool &)>;
-
-    void traverseWithNoChange(TraverseFunctionWithNoChange const& traverseFunction) const
+    unsigned int getSize(NodeUniquePointer const& currentNodePointer) const //override
     {
-        for(Node const* currentNodePointer=m_first.get(); currentNodePointer!=nullptr; currentNodePointer=currentNodePointer->next.get())
+        unsigned int result(0);
+        if(currentNodePointer)
         {
-            bool shouldBreak(false);
-            traverseFunction(*currentNodePointer, shouldBreak);
-            if(shouldBreak)
+            ValueUniquePointer const& valueUniquePointer(currentNodePointer->valueUniquePointer);
+            if(valueUniquePointer)
             {
-                break;
+                result++;
+            }
+            for(unsigned int c=0; c<RADIX; c++)
+            {
+                result += getSize(currentNodePointer->next.at(c));
+            }
+        }
+        return result;
+    }
+
+    Node const* get(
+            NodeUniquePointer const& currentNodePointer,
+            std::string const& key,
+            unsigned int const index) const
+    {
+        Node const* result(nullptr);
+        if(currentNodePointer)
+        {
+            if(index == key.length())
+            {
+                result = currentNodePointer.get();
+            }
+            else
+            {
+                result = get(currentNodePointer->next.at(key.at(index)), key, index+1);
+            }
+        }
+        return result;
+    }
+
+    void collectAllKeysAtNode(
+            Node const*const currentNodePointer,
+            Key const& previousPrefix,
+            Keys & collectedKeys) const
+    {
+        if(currentNodePointer != nullptr)
+        {
+            ValueUniquePointer const& valueUniquePointer(currentNodePointer->valueUniquePointer);
+            if(valueUniquePointer)
+            {
+                collectedKeys.emplace_back(previousPrefix);
+            }
+            for(unsigned int c=0; c<RADIX; c++)
+            {
+                collectAllKeysAtNode(
+                            currentNodePointer->next.at(c).get(),
+                            previousPrefix + static_cast<char>(c),
+                            collectedKeys);
             }
         }
     }
 
-    void traverseWithChange(TraverseFunctionWithChange const& traverseFunction)
+    void collectKeysThatMatchAtNode(
+            Node const*const currentNodePointer,
+            Key const& previousPrefix,
+            Key const& patternToMatch,
+            Keys & collectedKeys) const
     {
-        for(Node* currentNodePointer=m_first.get(); currentNodePointer!=nullptr; currentNodePointer=currentNodePointer->next.get())
+        if(currentNodePointer != nullptr)
         {
-            bool shouldBreak(false);
-            traverseFunction(*currentNodePointer, shouldBreak);
-            if(shouldBreak)
+            unsigned int prefixLength = previousPrefix.length();
+            if(prefixLength == patternToMatch.length() && currentNodePointer->valueUniquePointer)
             {
-                break;
+                collectedKeys.emplace_back(previousPrefix);
+            }
+            if(prefixLength < patternToMatch.length())
+            {
+                char nextChar = patternToMatch.at(prefixLength);
+                for(unsigned int c=0; c<RADIX; c++)
+                {
+                    if('.' == nextChar || nextChar == static_cast<char>(c))
+                    {
+                        collectKeysThatMatchAtNode(
+                                    currentNodePointer->next.at(c).get(),
+                                    previousPrefix + static_cast<char>(c),
+                                    patternToMatch,
+                                    collectedKeys);
+                    }
+                }
             }
         }
     }
 
-    unsigned int m_size;
-    NodeUniquePointer m_first;*/
+    unsigned int getLengthOfLongestPrefix(
+            Node const*const currentNodePointer,
+            Key const& keyToCheck,
+            unsigned int const index,
+            unsigned int const length) const
+    {
+        unsigned int currentLongestLength(length);
+        if(currentNodePointer != nullptr)
+        {
+            if(currentNodePointer->valueUniquePointer)
+            {
+                currentLongestLength = index;
+            }
+            if(index < keyToCheck.length())
+            {
+                char c = keyToCheck.at(index);
+                currentLongestLength = getLengthOfLongestPrefix(currentNodePointer->next.at(c).get(), keyToCheck, index+1, currentLongestLength);
+            }
+        }
+        return currentLongestLength;
+    }
+
+    void put(
+            NodeUniquePointer & currentNodePointer,
+            std::string const& key,
+            Value const& value,
+            unsigned int const index)
+    {
+        if(!currentNodePointer)
+        {
+            currentNodePointer = std::make_unique<Node>();
+        }
+        if(index == key.length())
+        {
+            currentNodePointer->valueUniquePointer = std::make_unique<Value>(value);
+        }
+        else
+        {
+            put(currentNodePointer->next.at(key.at(index)), key, value, index+1);
+        }
+    }
+
+    NodeUniquePointer deleteBasedOnKey(
+            NodeUniquePointer & currentNodePointer,
+            std::string const& key,
+            unsigned int const index)
+    {
+        NodeUniquePointer result;
+        if(currentNodePointer)
+        {
+            ValueUniquePointer & valueUniquePointer(currentNodePointer->valueUniquePointer);
+            if(index == key.length())
+            {
+                valueUniquePointer.reset();
+            }
+            else
+            {
+                char c = key.at(index);
+                currentNodePointer->next[c] = deleteBasedOnKey(currentNodePointer->next.at(c), key, index+1);
+            }
+            if(valueUniquePointer)
+            {
+                result = std::move(currentNodePointer);
+            }
+            else
+            {
+                for(unsigned int c=0; c<RADIX; c++)
+                {
+                    if(currentNodePointer->next.at(c))
+                    {
+                        result = std::move(currentNodePointer);
+                        break;
+                    }
+                }
+            }
+        }
+        return result;
+    }
+
+    NodeUniquePointer m_root;
 };
 
 }
-
 }

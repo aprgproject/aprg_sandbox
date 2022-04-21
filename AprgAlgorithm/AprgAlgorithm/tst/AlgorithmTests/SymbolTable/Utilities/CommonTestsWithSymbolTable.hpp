@@ -234,39 +234,36 @@ void testDeleteMaximumWithUnsignedIntAndChar()
 template <typename SymbolTable>
 void testGetKeysWithUnsignedIntAndChar()
 {
+    using Keys = typename SymbolTable::Keys;
     SymbolTable symbolTable;
     symbolTable.put(8U, 'H');
-    symbolTable.put(9U, 'I');
-    symbolTable.put(5U, 'E');
+    symbolTable.put(9U, 'I');    symbolTable.put(5U, 'E');
     symbolTable.put(4U, 'D');
     symbolTable.put(7U, 'G');
     symbolTable.put(3U, 'C');
 
-    vector<unsigned int> keysToVerify(symbolTable.getKeys());
+    Keys keysToVerify(symbolTable.getKeys());
 
-    vector<unsigned int> expectedKeys{3U, 4U, 5U, 7U, 8U, 9U};
+    Keys expectedKeys{3U, 4U, 5U, 7U, 8U, 9U};
     EXPECT_EQ(expectedKeys, keysToVerify);
 }
-
 template <typename SymbolTable>
 void testGetKeysInRangeInclusiveWithUnsignedIntAndChar()
 {
+    using Keys = typename SymbolTable::Keys;
     SymbolTable symbolTable;
     symbolTable.put(8U, 'H');
-    symbolTable.put(9U, 'I');
-    symbolTable.put(5U, 'E');
+    symbolTable.put(9U, 'I');    symbolTable.put(5U, 'E');
     symbolTable.put(4U, 'D');
     symbolTable.put(7U, 'G');
     symbolTable.put(3U, 'C');
 
-    vector<unsigned int> keysToVerify(symbolTable.getKeysInRangeInclusive(5U, 8U));
+    Keys keysToVerify(symbolTable.getKeysInRangeInclusive(5U, 8U));
 
-    vector<unsigned int> expectedKeys{5U, 7U, 8U};
+    Keys expectedKeys{5U, 7U, 8U};
     EXPECT_EQ(expectedKeys, keysToVerify);
 }
-
 }
 
 }
-
 }
