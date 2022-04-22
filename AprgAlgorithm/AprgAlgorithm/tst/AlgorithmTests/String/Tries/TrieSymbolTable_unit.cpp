@@ -47,14 +47,32 @@ TEST(TrieSymbolTableTest, GetWorks)
     testGetWithUnsignedInt<TrieForTest>();
 }
 
+TEST(TrieSymbolTableTest, GetWhenEmptyStringWorks)
+{
+    TrieForTest trie;
+
+    EXPECT_EQ(0U, trie.get(""));
+
+    trie.put("", 17U);
+    EXPECT_EQ(17U, trie.get(""));
+}
+
 TEST(TrieSymbolTableTest, GetLongestPrefixWorks)
 {
-    testGetLongestPrefixOfWithUnsignedInt<TrieForTest>();
-}
+    testGetLongestPrefixOfWithUnsignedInt<TrieForTest>();}
 
 TEST(TrieSymbolTableTest, PutWorks)
 {
     testPutWithUnsignedInt<TrieForTest>();
+}
+
+TEST(TrieSymbolTableTest, PutWhenEmptyStringWorks)
+{
+    TrieForTest trie;
+    trie.put("", 17U);
+
+    ASSERT_EQ(1U, trie.getSize());
+    EXPECT_EQ(17U, trie.get(""));
 }
 
 TEST(TrieSymbolTableTest, DeleteBasedOnKeyWorks)
@@ -62,15 +80,18 @@ TEST(TrieSymbolTableTest, DeleteBasedOnKeyWorks)
     testDeleteBasedOnKeyWithUnsignedInt<TrieForTest>();
 }
 
+TEST(TrieSymbolTableTest, DeleteBasedOnKeyWhenEmptyStringWorks)
+{
+    testDeleteBasedOnKeyWhenEmptyStringWithUnsignedInt<TrieForTest>();
+}
+
 TEST(TrieSymbolTableTest, GetKeysWorks)
 {
-    testGetKeysWithUnsignedInt<TrieForTest>();
-}
+    testGetKeysWithUnsignedInt<TrieForTest>();}
 
 TEST(TrieSymbolTableTest, GetAllKeysWithPrefixWorks)
 {
-    testGetAllKeysWithPrefixWithUnsignedInt<TrieForTest>();
-}
+    testGetAllKeysWithPrefixWithUnsignedInt<TrieForTest>();}
 
 TEST(TrieSymbolTableTest, GetAllKeysThatMatchWorks)
 {

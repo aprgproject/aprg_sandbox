@@ -79,15 +79,13 @@ public:
 
     Keys getKeys() const override
     {
-        return getAllKeysWithPrefix("");
+        return getAllKeysWithPrefix(std::string());
     }
 
-    Keys getAllKeysWithPrefix(Key const& prefix) const override
-    {
+    Keys getAllKeysWithPrefix(Key const& prefix) const override    {
         Keys result;
         collectAllKeysAtNode(get(m_root, prefix, 0), prefix, result);
-        return result;
-    }
+        return result;    }
 
     Keys getAllKeysThatMatch(Key const& patternToMatch) const override
     {
@@ -98,15 +96,13 @@ public:
 
 private:
 
-    unsigned int getSize(NodeUniquePointer const& currentNodePointer) const //override
+    unsigned int getSize(NodeUniquePointer const& currentNodePointer) const
     {
         unsigned int result(0);
-        if(currentNodePointer)
-        {
+        if(currentNodePointer)        {
             ValueUniquePointer const& valueUniquePointer(currentNodePointer->valueUniquePointer);
             if(valueUniquePointer)
-            {
-                result++;
+            {                result++;
             }
             for(unsigned int c=0; c<RADIX; c++)
             {
@@ -169,15 +165,13 @@ private:
             {
                 collectedKeys.emplace_back(previousPrefix);
             }
-            if(prefixLength < patternToMatch.length())
+            else if(prefixLength < patternToMatch.length())
             {
                 char nextChar = patternToMatch.at(prefixLength);
-                for(unsigned int c=0; c<RADIX; c++)
-                {
+                for(unsigned int c=0; c<RADIX; c++)                {
                     if('.' == nextChar || nextChar == static_cast<char>(c))
                     {
-                        collectKeysThatMatchAtNode(
-                                    currentNodePointer->next.at(c).get(),
+                        collectKeysThatMatchAtNode(                                    currentNodePointer->next.at(c).get(),
                                     previousPrefix + static_cast<char>(c),
                                     patternToMatch,
                                     collectedKeys);
@@ -240,16 +234,14 @@ private:
             }
             else
             {
-                char c = key.at(index);
-                currentNodePointer->next[c] = deleteBasedOnKey(currentNodePointer->next.at(c), key, index+1);
+                char charAtKey = key.at(index);
+                currentNodePointer->next[charAtKey] = deleteBasedOnKey(currentNodePointer->next.at(charAtKey), key, index+1);
             }
             if(valueUniquePointer)
-            {
-                result = std::move(currentNodePointer);
+            {                result = std::move(currentNodePointer);
             }
             else
-            {
-                for(unsigned int c=0; c<RADIX; c++)
+            {                for(unsigned int c=0; c<RADIX; c++)
                 {
                     if(currentNodePointer->next.at(c))
                     {
