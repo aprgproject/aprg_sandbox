@@ -1,7 +1,8 @@
-#include "VectorTypes.hpp"
+#include "AlbaMathVectorInternalFunctions.hpp"
+
+#include <Algebra/Term/Operators/TermOperators.hpp>
 
 using namespace alba::algebra;
-
 namespace alba
 {
 

@@ -91,15 +91,13 @@ bool LinearEquationsEqualitySolver::areExponentsEqualToOneAndZero(
 }
 
 void LinearEquationsEqualitySolver::setMatrixCoefficients(
-        LinearEquationsEqualitySolver::NumberMatrix & coefficientsMatrix,
+        NumberMatrix & coefficientsMatrix,
         VariableNamesSet const& variableNames,
         Polynomials const& polynomials)
-{
-    unsigned int rowIndex=0;
+{    unsigned int rowIndex=0;
     for(Polynomial const& polynomial : polynomials)
     {
-        unsigned int columnIndex=0;
-        VariableToValueMap variableToValueMap(getCoefficientsForVariablesOnly(polynomial));
+        unsigned int columnIndex=0;        VariableToValueMap variableToValueMap(getCoefficientsForVariablesOnly(polynomial));
         for(string const& variableName : variableNames)
         {
             VariableToValueMap::const_iterator it = variableToValueMap.find(variableName);
