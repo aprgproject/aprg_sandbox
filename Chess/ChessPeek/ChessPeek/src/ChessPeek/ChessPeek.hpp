@@ -63,8 +63,8 @@ private:
     Board m_chessBoard;
     PieceColor m_playerSideColor;
     std::string m_currentMoveOnDisplay;
+    bool m_isPreviousAnalysisNotSuccessful;
 };
 
 }
-
 }
