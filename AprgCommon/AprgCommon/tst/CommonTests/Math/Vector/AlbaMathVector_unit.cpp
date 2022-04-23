@@ -1,35 +1,16 @@
 #include <Common/Math/Vector/AlbaMathVector.hpp>
+#include <CommonTests/Math/Vector/AlbaMathVectorInternalFunctions.hpp>
 
 #include <gtest/gtest.h>
-
-namespace alba
-{
-
-template<>
-bool isEqualForMathVectorDataType(double const& value1, double const& value2)
-{
-    return mathHelper::isAlmostEqual(value1, value2);
-}
-
-template<>
-double raiseToPowerForMathVectorDataType(double const& value1, double const& value2)
-{
-    return pow(value1, value2);
-}
-
-}
-
 namespace alba
 {
 
 namespace
 {
-using VectorTwoElements = AlbaMathVector<double, 2>;
-}
+using VectorTwoElements = AlbaMathVector<double, 2>;}
 
 TEST(AlbaMathVectorTest, ConstructionWorks)
-{
-    VectorTwoElements mathVector1;
+{    VectorTwoElements mathVector1;
     VectorTwoElements::ValuesInArray values{6, 7};
     VectorTwoElements mathVector2(values);
     VectorTwoElements mathVector3{3, 4};

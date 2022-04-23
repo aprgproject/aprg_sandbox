@@ -1,11 +1,10 @@
 #include <Common/Math/Matrix/AlbaMatrix.hpp>
+#include <CommonTests/Math/Matrix/AlbaMatrixInternalFunctions.hpp>
 
 #include <gtest/gtest.h>
-
 using namespace std;
 
-namespace alba
-{
+namespace alba{
 
 namespace matrix
 {
