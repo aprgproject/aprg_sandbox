@@ -98,14 +98,13 @@ void ChessEngineHandler::processStringFromEngine(string const& stringFromEngine)
 
 void ChessEngineHandler::startMonitoringEngineOutput()
 {
+    std::lock_guard<std::mutex> const lockGuard(m_readMutex);
     unsigned long bytesRead; //bytes read
     unsigned long bytesAvailable; //bytes available
-    char buffer[MAX_BUFFER_SIZE];
-    string stringBuffer;
+    char buffer[MAX_BUFFER_SIZE];    string stringBuffer;
     while(1)
     {
-        PeekNamedPipe(m_outputStreamOnHandler, buffer, MAX_BUFFER_SIZE, NULL, &bytesAvailable, NULL);
-        if(bytesAvailable > 0)
+        PeekNamedPipe(m_outputStreamOnHandler, buffer, MAX_BUFFER_SIZE, NULL, &bytesAvailable, NULL);        if(bytesAvailable > 0)
         {
             ReadFile(m_outputStreamOnHandler, buffer, MAX_BUFFER_SIZE, &bytesRead, NULL);
             stringBuffer.reserve(stringBuffer.size() + bytesRead);

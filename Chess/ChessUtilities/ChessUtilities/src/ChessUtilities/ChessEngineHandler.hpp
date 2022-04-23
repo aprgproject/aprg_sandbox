@@ -2,16 +2,16 @@
 
 #include <Common/Optional/AlbaOptional.hpp>
 
-#include <fstream>
-#include <string>
 #include <windows.h>
+
+#include <fstream>
+#include <mutex>
+#include <string>
 
 namespace alba
 {
-
 namespace chess
 {
-
 class ChessEngineHandler
 {
 public:
@@ -41,14 +41,13 @@ private:
     void log(LogType const logtype, std::string const& logString);
     std::string getLogHeader(LogType const logtype) const;
     std::string m_enginePath;
+    std::mutex m_readMutex;
     STARTUPINFO m_startupInfo;
     PROCESS_INFORMATION m_processInfo;
-    HANDLE m_engineMonitoringThread;
-    DWORD m_threadId;
+    HANDLE m_engineMonitoringThread;    DWORD m_threadId;
     HANDLE m_inputStreamOnEngineThread, m_outputStreamOnEngineThread;
     HANDLE m_inputStreamOnHandler, m_outputStreamOnHandler;
-    AlbaOptional<std::ofstream> m_logFileStreamOptional;
-    AlbaOptional<ProcessAStringFunction> m_additionalStepsInProcessingAStringFromEngine;
+    AlbaOptional<std::ofstream> m_logFileStreamOptional;    AlbaOptional<ProcessAStringFunction> m_additionalStepsInProcessingAStringFromEngine;
 };
 
 }

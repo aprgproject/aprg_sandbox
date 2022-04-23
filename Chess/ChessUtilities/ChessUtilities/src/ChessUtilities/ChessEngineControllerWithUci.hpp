@@ -4,14 +4,13 @@
 #include <Common/String/AlbaStringHelper.hpp>
 
 #include <deque>
+#include <fstream>
 #include <string>
 
-namespace alba
-{
+namespace alba{
 
 namespace chess
 {
-
 class ChessEngineControllerWithUci
 {
 public:
@@ -64,21 +63,21 @@ public:
     void goWithPonder();
     void goWithDepth(unsigned int const depth);
     void goInfinite();
-    void sendIsReadyAndWaitOrResetIfNeeded();
+    bool waitTillReadyAndReturnIfResetWasPerformed();
     void stop();
 
+    void setLogFile(std::string const& logFilePath);
     void setAdditionalStepsInCalculationMonitoring(StepsInCalculationMonitoring const& additionalSteps);
 
 private:
 
+    void clearData();
     void initialize();
     void resetEngine();
-    void proceedToIdleAndProcessPendingCommands();
-    void clearCalculationDetails();
+    void proceedToIdleAndProcessPendingCommands();    void clearCalculationDetails();
 
     void forceSend(std::string const& commandString);
-    void sendStopIfCalculating();
-    void sendUci();
+    void sendStopIfCalculating();    void sendUci();
     void sendStop();
     void send(CommandType const& commandType, std::string const& commandString);
     void send(Command const& command);
@@ -88,13 +87,22 @@ private:
     void processInWaitingForUciOkay(std::string const& stringToProcess);
     void processInCalculating(std::string const& stringToProcess);
 
+    void changeState(ControllerState const state);
+
+    void log(std::string const& logString);
+
     ChessEngineHandler & m_engineHandler;
     ControllerState m_state;
     bool m_waitingForReadyOkay;
     CalculationDetails m_currentCalculationDetails;
     std::deque<Command> m_pendingCommands;
+    AlbaOptional<std::ofstream> m_logFileStreamOptional;
     AlbaOptional<StepsInCalculationMonitoring> m_additionalStepsInCalculationMonitoring;
 };
+
+std::string getEnumString(ChessEngineControllerWithUci::ControllerState const state);
+std::ostream & operator<<(std::ostream & out, ChessEngineControllerWithUci::ControllerState const state);
+
 
 }
 
