@@ -5,14 +5,17 @@
 #include <Algebra/Utilities/AlbaMathVectorInternalFunctions.hpp>
 #include <Common/Math/Angle/AlbaAngle.hpp>
 #include <Common/Math/Vector/AlbaMathVector.hpp>
+
 namespace alba
 {
 
 namespace algebra
 {
+
 template <unsigned int SIZE> using MathVectorOfNumbers = AlbaMathVector<AlbaNumber, SIZE>;
 using MathVectorOfTwoNumbers = MathVectorOfNumbers<2>;
 using MathVectorOfThreeNumbers = MathVectorOfNumbers<3>;
+
 template <unsigned int SIZE> using ArrayOfStrings = std::array<std::string, SIZE>;
 using ArrayOfTwoStrings = ArrayOfStrings<2U>;
 using ArrayOfThreeStrings = ArrayOfStrings<3U>;

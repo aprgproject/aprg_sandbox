@@ -38,9 +38,11 @@ ChessPeek::ChessPeek()
 {
     initialize();
 }
+
 ChessPeek::ChessCellBitValueMatrix const& ChessPeek::getChessCellBitValueMatrix() const
 {
-    return m_chessCellBitValueMatrix;}
+    return m_chessCellBitValueMatrix;
+}
 
 void ChessPeek::runForever()
 {
@@ -58,10 +60,12 @@ void ChessPeek::runOneIteration()
     if(m_isPreviousAnalysisNotSuccessful || previousPieceMatrix != m_chessBoard.getPieceMatrix())
     {
         startNewAnalysisUsingEngine();
-    }}
+    }
+}
 
 void ChessPeek::checkScreenAndSaveDetails()
-{    m_userAutomation.saveBitmapOnScreen(SCREEN_SHOT_PATH);//
+{
+    m_userAutomation.saveBitmapOnScreen(SCREEN_SHOT_PATH);//
     Bitmap bitmap(SCREEN_SHOT_PATH);
     BitmapSnippet snippet(bitmap.getSnippetReadFromFile(BitmapXY(CHESS_BOARD_TOP_LEFT_CORNER), BitmapXY(CHESS_BOARD_BOTTOM_RIGHT_CORNER)));
     checkSnippetAndSaveDetails(snippet);
@@ -87,10 +91,12 @@ void ChessPeek::startNewAnalysisUsingEngine()
     }
 }
 
-void ChessPeek::checkCalculationDetails(ChessEngineControllerWithUci::CalculationDetails const& calculationDetails){
+void ChessPeek::checkCalculationDetails(ChessEngineControllerWithUci::CalculationDetails const& calculationDetails)
+{
     string moveToDisplay(getMoveToDisplay(calculationDetails));
 
-    printCalculationDetails(calculationDetails, moveToDisplay);    if(moveToDisplay != m_currentMoveOnDisplay)
+    printCalculationDetails(calculationDetails, moveToDisplay);
+    if(moveToDisplay != m_currentMoveOnDisplay)
     {
         m_currentMoveOnDisplay = moveToDisplay;
     }
@@ -189,10 +195,12 @@ void ChessPeek::printCalculationDetails(
     DisplayTable displayTable(getDisplayTable(actualMove));
     cout << "Board:" << endl;
     cout << displayTable.drawOutput();
-    cout << endl;}
+    cout << endl;
+}
 
 string ChessPeek::getMoveToDisplay(
-        ChessEngineControllerWithUci::CalculationDetails const& calculationDetails) const{
+        ChessEngineControllerWithUci::CalculationDetails const& calculationDetails) const
+{
     string moveToDisplay(m_currentMoveOnDisplay);
     if(!calculationDetails.pvMovesInBestLine.empty())
     {
@@ -260,9 +268,11 @@ DisplayTable ChessPeek::getDisplayTable(Move const& actualMove) const
     displayTable.setBorders("-","|");
     return displayTable;
 }
+
 void ChessPeek::retrieveChessCellBitValueAt(
         BitSet64 & whiteValue,
-        BitSet64 & blackValue,        BitmapSnippet & snippet,
+        BitSet64 & blackValue,
+        BitmapSnippet & snippet,
         CoordinateSquare const& square) const
 {
     double deltaX = static_cast<double>(square.right-square.left)/9;
@@ -334,8 +344,10 @@ void ChessPeek::initialize()
     m_chessEngineController.setLogFile(APRG_DIR R"(\Chess\ChessPeek\Files\EngineController.log)");
     m_chessEngineController.setAdditionalStepsInCalculationMonitoring([&](ChessEngineControllerWithUci::CalculationDetails const& calculationDetails)
     {
-        checkCalculationDetails(calculationDetails);    });
+        checkCalculationDetails(calculationDetails);
+    });
 }
 
 }
+
 }

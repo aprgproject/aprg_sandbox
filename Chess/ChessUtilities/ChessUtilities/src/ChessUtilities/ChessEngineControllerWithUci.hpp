@@ -7,10 +7,12 @@
 #include <fstream>
 #include <string>
 
-namespace alba{
+namespace alba
+{
 
 namespace chess
 {
+
 class ChessEngineControllerWithUci
 {
 public:
@@ -74,10 +76,12 @@ private:
     void clearData();
     void initialize();
     void resetEngine();
-    void proceedToIdleAndProcessPendingCommands();    void clearCalculationDetails();
+    void proceedToIdleAndProcessPendingCommands();
+    void clearCalculationDetails();
 
     void forceSend(std::string const& commandString);
-    void sendStopIfCalculating();    void sendUci();
+    void sendStopIfCalculating();
+    void sendUci();
     void sendStop();
     void send(CommandType const& commandType, std::string const& commandString);
     void send(Command const& command);

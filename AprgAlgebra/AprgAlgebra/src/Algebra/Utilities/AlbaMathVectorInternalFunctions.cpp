@@ -3,6 +3,7 @@
 #include <Algebra/Term/Operators/TermOperators.hpp>
 
 using namespace alba::algebra;
+
 namespace alba
 {
 

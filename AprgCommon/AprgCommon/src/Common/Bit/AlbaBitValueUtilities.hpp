@@ -34,10 +34,12 @@ public:
         // std::bitset can be used here but it would no longer be constexpr
         static_assert(sizeof(DataTypeToManipulate) != sizeof(DataTypeToManipulate),
                       "This size or type is not supported. Please add a specialization if needed.");
-        return 0;    }
+        return 0;
+    }
 };
 
-constexpr unsigned int getNumberOfBitsAssertedForOneByte(uint8_t const value){
+constexpr unsigned int getNumberOfBitsAssertedForOneByte(uint8_t const value)
+{
     constexpr std::array<uint8_t, 256> savedValues
     {0U, 1U, 1U, 2U, 1U, 2U, 2U, 3U, 1U, 2U, 2U, 3U, 2U, 3U, 3U, 4U, 1U, 2U, 2U, 3U, 2U, 3U, 3U, 4U, 2U, 3U, 3U, 4U, 3U, 4U, 4U, 5U,
         1U, 2U, 2U, 3U, 2U, 3U, 3U, 4U, 2U, 3U, 3U, 4U, 3U, 4U, 4U, 5U, 2U, 3U, 3U, 4U, 3U, 4U, 4U, 5U, 3U, 4U, 4U, 5U, 4U, 5U, 5U, 6U,

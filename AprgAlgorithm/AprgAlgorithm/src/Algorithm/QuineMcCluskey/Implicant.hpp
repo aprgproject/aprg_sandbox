@@ -1,14 +1,17 @@
 #pragma once
 
 #include <Common/Bit/AlbaBitValueUtilities.hpp>
+#include <Common/Container/AlbaContainerHelper.hpp>
 
 #include <algorithm>
 #include <bitset>
 #include <set>
 #include <sstream>
 #include <string>
+
 namespace alba
 {
+
 namespace algorithm
 {
 
@@ -16,16 +19,30 @@ template <typename Minterm>
 class Implicant
 {
 public:
+    using MintermsInitializerList = std::initializer_list<Minterm>;
     using Minterms = std::set<Minterm>;
 
-    bool operator==(Implicant const& implicant) const
+    Implicant()
+    {}
+
+    Implicant(MintermsInitializerList const& minterms)
+        : m_minterms(minterms)
+    {}
+
+    bool operator==(Implicant const& second) const
     {
-        return m_minterms == implicant.m_minterms;
+        return m_minterms == second.m_minterms;
     }
 
-    bool operator<(Implicant const& implicant) const
+    bool operator!=(Implicant const& second) const
     {
-        return  m_minterms < implicant.m_minterms;
+        Implicant const& first(*this);
+        return !(first==second);
+    }
+
+    bool operator<(Implicant const& second) const
+    {
+        return  m_minterms < second.m_minterms;
     }
 
     Implicant operator+(Implicant const& implicant) const
@@ -38,7 +55,7 @@ public:
 
     bool isCompatible(Implicant const& implicant) const
     {
-        unsigned int commonLength(std::max(getLengthOfEquivalentString(), implicant.getLengthOfEquivalentString()));
+        unsigned int commonLength(std::max(getMaxLengthOfEquivalentString(), implicant.getMaxLengthOfEquivalentString()));
         std::string string1(getEquivalentString(commonLength));
         std::string string2(implicant.getEquivalentString(commonLength));
         bool result(true);
@@ -50,10 +67,12 @@ public:
                 if(string1.at(i) == '-' || string2.at(i) == '-')
                 {
                     result = false;
-                    break;                }
+                    break;
+                }
                 else if(difference > 1)
                 {
-                    result = false;                    break;
+                    result = false;
+                    break;
                 }
                 else
                 {
@@ -76,10 +95,12 @@ public:
                 if (it == implicant.m_minterms.cend())
                 {
                     result=false;
-                    break;                }
+                    break;
+                }
             }
         }
-        return result;    }
+        return result;
+    }
 
     bool isSuperset(Minterm const& minterm) const
     {
@@ -92,9 +113,26 @@ public:
         return result;
     }
 
+    std::string getDisplayableString() const
+    {
+        std::stringstream ss;
+        ss << getEquivalentString() << " (";
+        if(m_minterms.size() == 1)
+        {
+            ss << *(m_minterms.cbegin());
+        }
+        else
+        {
+            containerHelper::saveContentsToStream(ss, m_minterms, containerHelper::StreamFormat::String);
+        }
+        ss << ")";
+        return ss.str();
+    }
+
     std::string getEquivalentString() const
     {
-        return getEquivalentString(getLengthOfEquivalentString());    }
+        return getEquivalentString(getMaxLengthOfEquivalentString());
+    }
 
     std::string getEquivalentString(unsigned int const length) const
     {
@@ -114,13 +152,15 @@ public:
                 else if(displayBits[bitIndex])
                 {
                     booleanEquivalent.push_back('1');
-                }                else
+                }
+                else
                 {
                     booleanEquivalent.push_back('0');
                 }
             }
         }
-        return booleanEquivalent;    }
+        return booleanEquivalent;
+    }
 
     std::string getMintermString() const
     {
@@ -139,7 +179,7 @@ public:
 
 private:
 
-    unsigned int getLengthOfEquivalentString() const
+    unsigned int getMaxLengthOfEquivalentString() const
     {
         unsigned int result=0;
         unsigned int orResult(performOrOperationOfAllMinterms());
@@ -152,7 +192,8 @@ private:
 
     Minterm getFirstMinterm() const
     {
-        Minterm result(0);        if(!m_minterms.empty())
+        Minterm result(0);
+        if(!m_minterms.empty())
         {
             result = *(m_minterms.begin());
         }
@@ -179,6 +220,14 @@ private:
 
     Minterms m_minterms;
 };
+
+template <typename Minterm>
+std::ostream & operator<<(std::ostream & out, Implicant<Minterm> const& implicant)
+{
+    out << "'" << implicant.getDisplayableString() << "'";
+    return out;
+}
+
 }
 
 }

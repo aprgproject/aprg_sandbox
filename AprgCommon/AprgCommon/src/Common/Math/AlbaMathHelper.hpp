@@ -6,10 +6,12 @@
 #include <algorithm>
 #include <vector>
 
-namespace alba{
+namespace alba
+{
 
 namespace mathHelper
 {
+
 enum class RootType
 {
     RealRootsOnly,
@@ -61,6 +63,7 @@ int getIntegerPartInDouble(double const doubleValue);
 double getFractionalPartInDouble(double const doubleValue);
 AlbaNumber convertIfInfinityToNearestFiniteValue(AlbaNumber const& value);
 
+
 //Sign related functions
 template <typename NumberType> NumberType getAbsoluteValue(NumberType const value)
 {
@@ -79,7 +82,8 @@ template <typename NumberType> NumberType getPositiveDelta(NumberType const valu
 }
 int convertToIntegerThenSubtract(unsigned int const number1, unsigned int const number2);
 AlbaNumber getAbsoluteValueForAlbaNumber(AlbaNumber const& value);
-AlbaNumber getSignForAlbaNumber(AlbaNumber const& value);AlbaNumber getPositiveDeltaForAlbaNumber(AlbaNumber const& value1, AlbaNumber const& value2);
+AlbaNumber getSignForAlbaNumber(AlbaNumber const& value);
+AlbaNumber getPositiveDeltaForAlbaNumber(AlbaNumber const& value1, AlbaNumber const& value2);
 
 
 //Computation functions
@@ -107,9 +111,11 @@ double getLogarithm(double const base, double const inputForLogarithm);
 AlbaNumber getAverageForAlbaNumber(AlbaNumber const& value1, AlbaNumber const& value2);
 AlbaNumbers getQuadraticRoots(RootType const rootType, AlbaNumber const& a, AlbaNumber const& b, AlbaNumber const& c);
 
+
 //Combinatorics functions
 unsigned int getFactorial(unsigned int const number);
-unsigned int getNumberOfPermutations(unsigned int const n, unsigned int const r);unsigned int getNumberOfCombinations(unsigned int const n, unsigned int const r);
+unsigned int getNumberOfPermutations(unsigned int const n, unsigned int const r);
+unsigned int getNumberOfCombinations(unsigned int const n, unsigned int const r);
 unsigned int getValueAtPascalTriangle(unsigned int const rowIndex, unsigned int const columnIndex);
 int getStirlingNumberOfTheSecondKind(unsigned int const n, unsigned int const k);
 
@@ -130,9 +136,11 @@ template <typename NumberType> NumberType clampHigherBound(NumberType const valu
 }
 
 
-//Divisibility functionsbool isDivisible(unsigned int const dividend, unsigned int const divisor);
+//Divisibility functions
+bool isDivisible(unsigned int const dividend, unsigned int const divisor);
 bool isEven(unsigned int const number);
 bool isOdd(unsigned int const number);
+
 
 //Factor and multiple related functions
 bool isPrime(unsigned int const number);
@@ -173,9 +181,11 @@ template <typename NumberType> unsigned int getNumberOfIntegerDigits(NumberType 
 }
 bool areNumberOfDigitsOnTheIntegerLimit(unsigned int const digits);
 
+
 //Complex number related functions
 AlbaComplexNumber<float> createComplexNumberFromData(AlbaNumber::ComplexNumberData const& data);
-template <typename NumberType> AlbaNumber createNumberFromComplexNumber(AlbaComplexNumber<NumberType> const& number);void saveToComplexNumberData(AlbaNumber::ComplexNumberData & data, AlbaComplexNumber<float> const& number);
+template <typename NumberType> AlbaNumber createNumberFromComplexNumber(AlbaComplexNumber<NumberType> const& number);
+void saveToComplexNumberData(AlbaNumber::ComplexNumberData & data, AlbaComplexNumber<float> const& number);
 
 }//namespace mathHelper
 

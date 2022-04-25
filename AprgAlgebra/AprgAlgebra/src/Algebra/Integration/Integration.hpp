@@ -9,9 +9,11 @@
 #include <Algebra/Utilities/NumberMatrix.hpp>
 #include <Common/Math/Number/AlbaNumberTypes.hpp>
 #include <Common/String/AlbaStringHelper.hpp>
+
 #include <vector>
 
-namespace alba{
+namespace alba
+{
 
 namespace algebra
 {
@@ -153,9 +155,11 @@ private:
     void integratePartialFractionsBasedOnSolvedMatrix(Term & result, NumberMatrix const& solvedMatrix, VariableNamesSet const& newVariableNames, Polynomials const& partialNumerators, Polynomials const& partialDenominators);
     Polynomial getPartialNumeratorForPartialFractions(unsigned int const degree, std::string const& variableName) const;
     std::string getNewVariableNameForPartialFractions() const;
+
     // Integration by parts
     void integrateByTryingIntegrationByParts(Term & result, Term const& term);
-    void integrateUsingIntegrationByPartsByOneTermAndOne(Term & result, Term const& term);    void integrateUsingIntegrationByPartsByTryingTwoTerms(Term & result, Term const& term);
+    void integrateUsingIntegrationByPartsByOneTermAndOne(Term & result, Term const& term);
+    void integrateUsingIntegrationByPartsByTryingTwoTerms(Term & result, Term const& term);
     void integrateUsingIntegrationByPartsByTryingTwoTermsWithDifferentOrder(Term & result, Term const& term, Term const& firstTerm, Term const& secondTerm);
     void integrateUsingIntegrationByPartsAndCheckingPreviousValues(Term & result, Term const& term, Term const& u, Term const& dv);
     void integrateUsingPreviousIntegrationByPartsTerms(Term & result, ListOfIntegrationByPartsTerms const& listOfIntegrationByPartsTerms, Term const& termToIntegrate);

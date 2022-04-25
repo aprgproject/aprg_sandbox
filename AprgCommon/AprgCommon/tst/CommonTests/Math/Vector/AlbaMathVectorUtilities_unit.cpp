@@ -2,9 +2,11 @@
 #include <CommonTests/Math/Vector/AlbaMathVectorInternalFunctions.hpp>
 
 #include <gtest/gtest.h>
+
 using namespace alba::mathHelper;
 
-namespace alba{
+namespace alba
+{
 
 namespace
 {

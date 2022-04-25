@@ -5,7 +5,8 @@
 #include <array>
 #include <memory>
 
-namespace alba{
+namespace alba
+{
 
 namespace algorithm
 {
@@ -82,10 +83,12 @@ public:
         return getAllKeysWithPrefix(std::string());
     }
 
-    Keys getAllKeysWithPrefix(Key const& prefix) const override    {
+    Keys getAllKeysWithPrefix(Key const& prefix) const override
+    {
         Keys result;
         collectAllKeysAtNode(get(m_root, prefix, 0), prefix, result);
-        return result;    }
+        return result;
+    }
 
     Keys getAllKeysThatMatch(Key const& patternToMatch) const override
     {
@@ -99,10 +102,12 @@ private:
     unsigned int getSize(NodeUniquePointer const& currentNodePointer) const
     {
         unsigned int result(0);
-        if(currentNodePointer)        {
+        if(currentNodePointer)
+        {
             ValueUniquePointer const& valueUniquePointer(currentNodePointer->valueUniquePointer);
             if(valueUniquePointer)
-            {                result++;
+            {
+                result++;
             }
             for(unsigned int c=0; c<RADIX; c++)
             {
@@ -117,10 +122,12 @@ private:
             Key const& key,
             unsigned int const index) const
     {
-        Node const* result(nullptr);        if(currentNodePointer)
+        Node const* result(nullptr);
+        if(currentNodePointer)
         {
             if(index == key.length())
-            {                result = currentNodePointer.get();
+            {
+                result = currentNodePointer.get();
             }
             else
             {
@@ -168,10 +175,12 @@ private:
             else if(prefixLength < patternToMatch.length())
             {
                 char nextChar = patternToMatch.at(prefixLength);
-                for(unsigned int c=0; c<RADIX; c++)                {
+                for(unsigned int c=0; c<RADIX; c++)
+                {
                     if('.' == nextChar || nextChar == static_cast<char>(c))
                     {
-                        collectKeysThatMatchAtNode(                                    currentNodePointer->next.at(c).get(),
+                        collectKeysThatMatchAtNode(
+                                    currentNodePointer->next.at(c).get(),
                                     previousPrefix + static_cast<char>(c),
                                     patternToMatch,
                                     collectedKeys);
@@ -208,10 +217,12 @@ private:
             Key const& key,
             Value const& value,
             unsigned int const index)
-    {        if(!currentNodePointer)
+    {
+        if(!currentNodePointer)
         {
             currentNodePointer = std::make_unique<Node>();
-        }        if(index == key.length())
+        }
+        if(index == key.length())
         {
             currentNodePointer->valueUniquePointer = std::make_unique<Value>(value);
         }
@@ -226,10 +237,12 @@ private:
             Key const& key,
             unsigned int const index)
     {
-        NodeUniquePointer result;        if(currentNodePointer)
+        NodeUniquePointer result;
+        if(currentNodePointer)
         {
             ValueUniquePointer & valueUniquePointer(currentNodePointer->valueUniquePointer);
-            if(index == key.length())            {
+            if(index == key.length())
+            {
                 valueUniquePointer.reset();
             }
             else
@@ -238,10 +251,12 @@ private:
                 currentNodePointer->next[charAtKey] = deleteBasedOnKey(currentNodePointer->next.at(charAtKey), key, index+1);
             }
             if(valueUniquePointer)
-            {                result = std::move(currentNodePointer);
+            {
+                result = std::move(currentNodePointer);
             }
             else
-            {                for(unsigned int c=0; c<RADIX; c++)
+            {
+                for(unsigned int c=0; c<RADIX; c++)
                 {
                     if(currentNodePointer->next.at(c))
                     {
@@ -258,4 +273,5 @@ private:
 };
 
 }
+
 }

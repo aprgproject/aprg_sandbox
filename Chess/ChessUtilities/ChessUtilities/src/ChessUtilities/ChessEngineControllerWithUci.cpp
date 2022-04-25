@@ -7,10 +7,12 @@
 #include <iostream>
 #include <sstream>
 
-using namespace alba::stringHelper;using namespace std;
+using namespace alba::stringHelper;
+using namespace std;
 
 namespace alba
 {
+
 namespace chess
 {
 
@@ -29,18 +31,21 @@ void ChessEngineControllerWithUci::resetToNewGame()
     sendStopIfCalculating();
     send(CommandType::Position, "ucinewgame");
 }
+
 void ChessEngineControllerWithUci::setupStartPosition()
 {
     log("Setting start position");
     sendStopIfCalculating();
     send(CommandType::Position, "position startpos");
 }
+
 void ChessEngineControllerWithUci::setupMoves(string const& moves)
 {
     log("Setting position with moves");
     sendStopIfCalculating();
     string command("position startpos moves ");
-    command+=moves;    send(CommandType::Position, command);
+    command+=moves;
+    send(CommandType::Position, command);
 }
 
 void ChessEngineControllerWithUci::setupFenString(string const& fenString)
@@ -48,7 +53,8 @@ void ChessEngineControllerWithUci::setupFenString(string const& fenString)
     log("Setting position with FEN string");
     sendStopIfCalculating();
     string command("position fen ");
-    command+=fenString;    send(CommandType::Position, command);
+    command+=fenString;
+    send(CommandType::Position, command);
 }
 
 void ChessEngineControllerWithUci::go()
@@ -57,18 +63,21 @@ void ChessEngineControllerWithUci::go()
     sendStopIfCalculating();
     send(CommandType::Go, "go");
 }
+
 void ChessEngineControllerWithUci::goWithPonder()
 {
     log("Go with ponder!");
     sendStopIfCalculating();
     send(CommandType::Go, "go ponder");
 }
+
 void ChessEngineControllerWithUci::goWithDepth(unsigned int const depth)
 {
     log("Go with depth!");
     sendStopIfCalculating();
     stringstream ss;
-    ss << "go depth " << depth;    send(CommandType::Go, ss.str());
+    ss << "go depth " << depth;
+    send(CommandType::Go, ss.str());
 }
 
 void ChessEngineControllerWithUci::goInfinite()
@@ -83,9 +92,11 @@ bool ChessEngineControllerWithUci::waitTillReadyAndReturnIfResetWasPerformed()
     log("Sending \"isready\" and waiting for response");
     forceSend("isready");
     m_waitingForReadyOkay = true;
+
     bool shouldReset(false);
     AlbaLocalTimer timer;
-    unsigned int count(0U);    while(m_waitingForReadyOkay)
+    unsigned int count(0U);
+    while(m_waitingForReadyOkay)
     {
         if(count > 10) // 1 second elapsed so engine is stuck, lets reset
         {
@@ -105,7 +116,8 @@ bool ChessEngineControllerWithUci::waitTillReadyAndReturnIfResetWasPerformed()
     return shouldReset;
 }
 
-void ChessEngineControllerWithUci::stop(){
+void ChessEngineControllerWithUci::stop()
+{
     sendStop();
 }
 
@@ -122,10 +134,12 @@ void ChessEngineControllerWithUci::setLogFile(string const& logFilePath)
 
 void ChessEngineControllerWithUci::setAdditionalStepsInCalculationMonitoring(
         StepsInCalculationMonitoring const& additionalSteps)
-{    m_additionalStepsInCalculationMonitoring.setConstReference(additionalSteps);
+{
+    m_additionalStepsInCalculationMonitoring.setConstReference(additionalSteps);
 }
 
-void ChessEngineControllerWithUci::initialize(){
+void ChessEngineControllerWithUci::initialize()
+{
     m_engineHandler.setAdditionalStepsInProcessingAStringFromEngine([&](string const& stringFromEngine)
     {
         processAStringFromEngine(stringFromEngine);
@@ -154,10 +168,12 @@ void ChessEngineControllerWithUci::proceedToIdleAndProcessPendingCommands()
     changeState(ControllerState::Idle);
     bool hasGoOnPendingCommand(false);
     while(!m_pendingCommands.empty() && !hasGoOnPendingCommand)
-    {        Command pendingCommand(m_pendingCommands.front());
+    {
+        Command pendingCommand(m_pendingCommands.front());
         m_pendingCommands.pop_front();
         hasGoOnPendingCommand = CommandType::Go == pendingCommand.commandType;
-        send(pendingCommand);    }
+        send(pendingCommand);
+    }
 }
 
 void ChessEngineControllerWithUci::clearCalculationDetails()
@@ -202,7 +218,8 @@ void ChessEngineControllerWithUci::send(
     log(string("Sending command: ") + command.commandString);
     // all the logic are here lol
     switch(m_state)
-    {    case ControllerState::Initializing:
+    {
+    case ControllerState::Initializing:
     {
         if(CommandType::Uci == command.commandType)
         {
@@ -210,10 +227,12 @@ void ChessEngineControllerWithUci::send(
             changeState(ControllerState::WaitingForUciOkay);
         }
         else
-        {            m_pendingCommands.emplace_back(command);
+        {
+            m_pendingCommands.emplace_back(command);
         }
         break;
-    }    case ControllerState::WaitingForUciOkay:
+    }
+    case ControllerState::WaitingForUciOkay:
     {
         m_pendingCommands.emplace_back(command);
         break;
@@ -226,10 +245,12 @@ void ChessEngineControllerWithUci::send(
             changeState(ControllerState::Idle);
         }
         else
-        {            m_pendingCommands.emplace_back(command);
+        {
+            m_pendingCommands.emplace_back(command);
         }
         break;
-    }    case ControllerState::Idle:
+    }
+    case ControllerState::Idle:
     {
         if(CommandType::Go == command.commandType)
         {
@@ -237,9 +258,11 @@ void ChessEngineControllerWithUci::send(
             changeState(ControllerState::Calculating);
         }
         m_engineHandler.sendStringToEngine(command.commandString);
-        break;    }
+        break;
+    }
     }
 }
+
 void ChessEngineControllerWithUci::processAStringFromEngine(
         string const& stringFromEngine)
 {
@@ -266,10 +289,12 @@ void ChessEngineControllerWithUci::processAStringFromEngine(
             // idle and and other states are ignored
             break;
         }
-        }    }
+        }
+    }
 }
 
-void ChessEngineControllerWithUci::processInWaitingForReadyOkay(        string const& stringFromEngine)
+void ChessEngineControllerWithUci::processInWaitingForReadyOkay(
+        string const& stringFromEngine)
 {
     string stringToProcess(getStringWithoutStartingAndTrailingWhiteSpace(stringFromEngine));
     if("readyok" == stringToProcess)

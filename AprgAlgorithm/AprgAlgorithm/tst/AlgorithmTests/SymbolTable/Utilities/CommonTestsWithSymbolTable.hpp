@@ -237,7 +237,8 @@ void testGetKeysWithUnsignedIntAndChar()
     using Keys = typename SymbolTable::Keys;
     SymbolTable symbolTable;
     symbolTable.put(8U, 'H');
-    symbolTable.put(9U, 'I');    symbolTable.put(5U, 'E');
+    symbolTable.put(9U, 'I');
+    symbolTable.put(5U, 'E');
     symbolTable.put(4U, 'D');
     symbolTable.put(7U, 'G');
     symbolTable.put(3U, 'C');
@@ -247,13 +248,15 @@ void testGetKeysWithUnsignedIntAndChar()
     Keys expectedKeys{3U, 4U, 5U, 7U, 8U, 9U};
     EXPECT_EQ(expectedKeys, keysToVerify);
 }
+
 template <typename SymbolTable>
 void testGetKeysInRangeInclusiveWithUnsignedIntAndChar()
 {
     using Keys = typename SymbolTable::Keys;
     SymbolTable symbolTable;
     symbolTable.put(8U, 'H');
-    symbolTable.put(9U, 'I');    symbolTable.put(5U, 'E');
+    symbolTable.put(9U, 'I');
+    symbolTable.put(5U, 'E');
     symbolTable.put(4U, 'D');
     symbolTable.put(7U, 'G');
     symbolTable.put(3U, 'C');
@@ -263,7 +266,9 @@ void testGetKeysInRangeInclusiveWithUnsignedIntAndChar()
     Keys expectedKeys{5U, 7U, 8U};
     EXPECT_EQ(expectedKeys, keysToVerify);
 }
+
 }
 
 }
+
 }

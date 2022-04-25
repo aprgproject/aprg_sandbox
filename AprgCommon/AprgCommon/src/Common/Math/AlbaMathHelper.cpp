@@ -4,9 +4,11 @@
 
 #include <cmath>
 #include <limits>
+
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 namespace mathHelper
 {
@@ -99,10 +101,12 @@ double convertRadiansToDegrees(double const valueInRadians)
 //isAlmostEqual
 template <> bool isAlmostEqual<float>(float const value1, float const value2)
 {
-    return value1 == value2 || getAbsoluteValue(value1-value2) < COMPARISON_TOLERANCE_FOR_FLOAT;}
+    return value1 == value2 || getAbsoluteValue(value1-value2) < COMPARISON_TOLERANCE_FOR_FLOAT;
+}
 template <> bool isAlmostEqual<double>(double const value1, double const value2)
 {
-    return value1 == value2 || getAbsoluteValue(value1-value2) < COMPARISON_TOLERANCE_FOR_DOUBLE;}
+    return value1 == value2 || getAbsoluteValue(value1-value2) < COMPARISON_TOLERANCE_FOR_DOUBLE;
+}
 //Commented out: This implementation is not practical when value is equal to zero
 //template <> bool isAlmostEqual<double>(double const value1, double const value2)
 //{
@@ -115,16 +119,19 @@ template <> bool isAlmostEqual<double>(double const value1, double const value2)
 
 bool isAlmostEqual(double const value1, double const value2, double const differenceTolerance)
 {
-    return value1 == value2 || getAbsoluteValue(value1-value2) <= differenceTolerance;}
+    return value1 == value2 || getAbsoluteValue(value1-value2) <= differenceTolerance;
+}
 
 
 //isAlmostAnInteger
 bool isAlmostAnInteger(double const value, double const differenceTolerance)
 {
-    return isAlmostEqual(value, round(value), differenceTolerance);}
+    return isAlmostEqual(value, round(value), differenceTolerance);
+}
 
 
-//isValueBeyondLimitstemplate <typename NumberType>
+//isValueBeyondLimits
+template <typename NumberType>
 bool isValueBeyondLimits(double const value)
 {
     return value < numeric_limits<NumberType>::min()
@@ -141,10 +148,12 @@ template bool isValueBeyondLimits<unsigned long long int>(double const value);
 
 int getIntegerPartInDouble(double const doubleValue)
 {
-    return static_cast<int>(doubleValue);}
+    return static_cast<int>(doubleValue);
+}
 
 double getFractionalPartInDouble(double const doubleValue)
-{    return doubleValue-getIntegerPartInDouble(doubleValue);
+{
+    return doubleValue-getIntegerPartInDouble(doubleValue);
 }
 
 AlbaNumber convertIfInfinityToNearestFiniteValue(AlbaNumber const& value)
@@ -165,7 +174,8 @@ AlbaNumber convertIfInfinityToNearestFiniteValue(AlbaNumber const& value)
 //getAbsoluteValue
 template <> unsigned int getAbsoluteValue<unsigned int>(unsigned int const value)
 {
-    return value;}
+    return value;
+}
 
 
 //getSign
@@ -176,10 +186,12 @@ template <> unsigned int getSign<unsigned int>(unsigned int const)
 
 int convertToIntegerThenSubtract(unsigned int const number1, unsigned int const number2)
 {
-    return static_cast<int>(number1)-static_cast<int>(number2);}
+    return static_cast<int>(number1)-static_cast<int>(number2);
+}
 
 AlbaNumber getAbsoluteValueForAlbaNumber(AlbaNumber const& value)
-{    return (value<0) ? value*-1 : value;
+{
+    return (value<0) ? value*-1 : value;
 }
 
 AlbaNumber getSignForAlbaNumber(AlbaNumber const& value)
@@ -196,10 +208,12 @@ AlbaNumber getPositiveDeltaForAlbaNumber(AlbaNumber const& value1, AlbaNumber co
 
 double getLogarithm(double const base, double const inputForLogarithm)
 {
-    // change of base formula    // log a(b) = C
+    // change of base formula
+    // log a(b) = C
     // -> b = a^C
     // -> log10(b) = log10(a^C)
-    // -> log10(b) = C*log10(a)    // -> C = log10(b)/log10(a)
+    // -> log10(b) = C*log10(a)
+    // -> C = log10(b)/log10(a)
 
     // log a(b) = log10(b) / log10(a)
     return log10(inputForLogarithm)/log10(base);
@@ -364,10 +378,12 @@ double getInverseCumulativeStandardDistributionApproximation(double const probab
 
 bool isDivisible(unsigned int const dividend, unsigned int const divisor)
 {
-    bool result(false);    if(divisor != 0)
+    bool result(false);
+    if(divisor != 0)
     {
         result = (dividend % divisor)==0;
-    }    return result;
+    }
+    return result;
 }
 
 bool isEven(unsigned int const number)
@@ -625,10 +641,12 @@ bool isPerfectNthPowerForAlbaNumber(
 
 bool areNumberOfDigitsOnTheIntegerLimit(unsigned int const digits)
 {
-    return digits>=10;}
+    return digits>=10;
+}
 
 AlbaComplexNumber<float> createComplexNumberFromData(AlbaNumber::ComplexNumberData const& data)
-{    return AlbaComplexNumber<float>(data.realPart, data.imaginaryPart);
+{
+    return AlbaComplexNumber<float>(data.realPart, data.imaginaryPart);
 }
 
 
