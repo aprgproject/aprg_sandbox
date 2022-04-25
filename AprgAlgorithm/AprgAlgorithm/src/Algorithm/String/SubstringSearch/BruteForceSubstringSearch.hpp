@@ -13,17 +13,19 @@ class BruteForceSubstringSearch
 {
 public :
 
-    unsigned int search(std::string const& mainString, std::string const& subStringToSearch)
+    BruteForceSubstringSearch(std::string const& subStringToSearch)
+        : m_subStringToSearch(subStringToSearch)
+    {}
+
+    unsigned int search(std::string const& mainString)
     {
-        return searchWithLoops(mainString, subStringToSearch);
+        return searchWithLoops(mainString, m_subStringToSearch);
     }
 
 private:
-
     unsigned int searchWithLoops(std::string const& , std::string const&)
     {
-        static_assert(sizeof(BruteForceSubstringSearch) != sizeof(BruteForceSubstringSearch),
-                      "The number of loops should be one or two. Other numbers are have no implementation");
+        static_assert(sizeof(BruteForceSubstringSearch) != sizeof(BruteForceSubstringSearch),                      "The number of loops should be one or two. Other numbers are have no implementation");
         return 0;
     }
 
@@ -79,14 +81,13 @@ private:
         }
         return result;
     }
+    std::string m_subStringToSearch;
 };
 
-template <>
-unsigned int BruteForceSubstringSearch<1U>::searchWithLoops(std::string const& mainString, std::string const& subStringToSearch)
+template <>unsigned int BruteForceSubstringSearch<1U>::searchWithLoops(std::string const& mainString, std::string const& subStringToSearch)
 {
     return searchUsingOneLoop(mainString, subStringToSearch);
 }
-
 template <>
 unsigned int BruteForceSubstringSearch<2U>::searchWithLoops(std::string const& mainString, std::string const& subStringToSearch)
 {

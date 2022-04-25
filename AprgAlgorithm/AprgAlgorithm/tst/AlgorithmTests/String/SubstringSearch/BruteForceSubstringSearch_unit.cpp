@@ -14,20 +14,19 @@ namespace algorithm
 
 namespace
 {
+using Index = unsigned int;
 using BruteForceSubstringSearchWithOneLoop = BruteForceSubstringSearch<1U>;
 using BruteForceSubstringSearchWithTwoLoops = BruteForceSubstringSearch<2U>;
 }
-
 TEST(BruteForceSubstringSearchTest, SearchWorksWithOneLoopUsingExample1)
 {
-    testSearchUsingExample1<BruteForceSubstringSearchWithOneLoop>();
+    testSearchUsingExample1<BruteForceSubstringSearchWithOneLoop, Index>();
 }
 
 TEST(BruteForceSubstringSearchTest, SearchWorksWithTwoLoopsUsingExample1)
 {
-    testSearchUsingExample1<BruteForceSubstringSearchWithTwoLoops>();
+    testSearchUsingExample1<BruteForceSubstringSearchWithTwoLoops, Index>();
 }
 
 }
-
 }

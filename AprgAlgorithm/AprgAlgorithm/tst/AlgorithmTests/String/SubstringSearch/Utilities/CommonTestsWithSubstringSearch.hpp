@@ -15,18 +15,18 @@ namespace algorithm
 namespace CommonTestsWithSubstringSearch
 {
 
-template <typename SubstringSearch>
+template <typename SubstringSearch, typename Index>
 void testSearchUsingExample1()
 {
-    SubstringSearch substringSearch;
+    SubstringSearch substringSearchWithHit("AACAA");
+    SubstringSearch substringSearchWithoutHit("BBB");
     std::string mainString("AABRAACADABRAACAADABRA");
-    std::string stringToSearch("AACAA");
 
-    EXPECT_EQ(12U, substringSearch.search(mainString, stringToSearch));
+    EXPECT_EQ(Index(12), substringSearchWithHit.search(mainString));
+    EXPECT_EQ(Index(std::string::npos), substringSearchWithoutHit.search(mainString));
 }
 
 }
-
 }
 
 }

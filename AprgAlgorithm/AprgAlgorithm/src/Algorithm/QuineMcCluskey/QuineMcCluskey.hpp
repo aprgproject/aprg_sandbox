@@ -11,17 +11,10 @@
 #include <sstream>
 #include <vector>
 
-
-
-
-#include <Common/Debug/AlbaDebug.hpp>
-
 namespace alba
 {
-
 namespace algorithm
 {
-
 template <typename Minterm>
 class QuineMcCluskey
 {
