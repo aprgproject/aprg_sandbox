@@ -1,12 +1,14 @@
 #pragma once
 
+#include <Common/Bit/AlbaBitValueUtilities.hpp>
+
+#include <algorithm>
+#include <bitset>
 #include <set>
 #include <sstream>
 #include <string>
-
 namespace alba
 {
-
 namespace algorithm
 {
 
@@ -29,37 +31,29 @@ public:
     Implicant operator+(Implicant const& implicant) const
     {
         Implicant result;
-        for(Minterm const& minterm : m_minterms)
-        {
-            result.addMinterm(minterm);
-        }
-        for(Minterm const& minterm : implicant.m_minterms)
-        {
-            result.addMinterm(minterm);
-        }
+        result.m_minterms = m_minterms;
+        std::copy(implicant.m_minterms.cbegin(), implicant.m_minterms.cend(), std::inserter(result.m_minterms, result.m_minterms.begin()));
         return result;
     }
 
     bool isCompatible(Implicant const& implicant) const
     {
-        unsigned int length(std::max(getLengthOfEquivalentString(), implicant.getLengthOfEquivalentString()));
-        std::string string1(getEquivalentString(length));
-        std::string string2(implicant.getEquivalentString(length));
+        unsigned int commonLength(std::max(getLengthOfEquivalentString(), implicant.getLengthOfEquivalentString()));
+        std::string string1(getEquivalentString(commonLength));
+        std::string string2(implicant.getEquivalentString(commonLength));
         bool result(true);
         unsigned int difference=0;
-        for(unsigned int i=0; i<length; i++)
+        for(unsigned int i=0; i<commonLength; i++)
         {
-            if(string1[i] != string2[i])
+            if(string1.at(i) != string2.at(i))
             {
-                if(string1[i] == '-' || string2[i] == '-')
+                if(string1.at(i) == '-' || string2.at(i) == '-')
                 {
                     result = false;
-                    break;
-                }
+                    break;                }
                 else if(difference > 1)
                 {
-                    result = false;
-                    break;
+                    result = false;                    break;
                 }
                 else
                 {
@@ -79,15 +73,13 @@ public:
             for(Minterm const& minterm : m_minterms)
             {
                 auto it = implicant.m_minterms.find(minterm);
-                if (it == implicant.m_minterms.end())
+                if (it == implicant.m_minterms.cend())
                 {
                     result=false;
-                    break;
-                }
+                    break;                }
             }
         }
-        return result;
-    }
+        return result;    }
 
     bool isSuperset(Minterm const& minterm) const
     {
@@ -100,88 +92,44 @@ public:
         return result;
     }
 
-    unsigned int getLengthOfEquivalentString() const
-    {
-        unsigned int orResult(getOrResultOfMinterms());
-        unsigned int length=0;
-        for(; orResult > 0; orResult >>= 1)
-        {
-            length++;
-        }
-        return length;
-    }
-
     std::string getEquivalentString() const
     {
-        return getEquivalentString(getLengthOfEquivalentString());
-    }
+        return getEquivalentString(getLengthOfEquivalentString());    }
 
     std::string getEquivalentString(unsigned int const length) const
     {
         std::string booleanEquivalent;
         if(!m_minterms.empty() && length>0)
         {
-            Minterm xorResult(getAndResultOfMinterms() ^ getOrResultOfMinterms());
-            Minterm displayBits(getFirstMinterm());
-            Minterm mask = 0x01 << (length-1);
+            constexpr unsigned int NUMBER_OF_BITS(AlbaBitValueUtilities<Minterm>::getNumberOfBits());
+            std::bitset<NUMBER_OF_BITS> xorBits(performAndOperationOfAllMinterms() ^ performOrOperationOfAllMinterms());
+            std::bitset<NUMBER_OF_BITS> displayBits(getFirstMinterm());
             for(unsigned int i=0; i<length; i++)
             {
-                if(xorResult & mask)
+                unsigned int bitIndex = length-i-1;
+                if(xorBits[bitIndex])
                 {
                     booleanEquivalent.push_back('-');
                 }
-                else if(displayBits & mask)
+                else if(displayBits[bitIndex])
                 {
                     booleanEquivalent.push_back('1');
-                }
-                else
+                }                else
                 {
                     booleanEquivalent.push_back('0');
                 }
-                mask >>= 1;
             }
         }
-        return booleanEquivalent;
-    }
+        return booleanEquivalent;    }
 
     std::string getMintermString() const
     {
-        std::stringstream mintermString;
+        std::stringstream result;
         for(Minterm const& minterm : m_minterms)
         {
-            mintermString<<minterm<<"|";
+            result << minterm << "|";
         }
-        return mintermString.str();
-    }
-
-    Minterm getFirstMinterm() const
-    {
-        Minterm result(0);
-        if(!m_minterms.empty())
-        {
-            result = *(m_minterms.begin());
-        }
-        return result;
-    }
-
-    Minterm getAndResultOfMinterms() const
-    {
-        Minterm andResult(getFirstMinterm());
-        for(Minterm const& minterm : m_minterms)
-        {
-            andResult = andResult & minterm;
-        }
-        return andResult;
-    }
-
-    Minterm getOrResultOfMinterms() const
-    {
-        Minterm orResult(getFirstMinterm());
-        for(Minterm const& minterm : m_minterms)
-        {
-            orResult = orResult | minterm;
-        }
-        return orResult;
+        return result.str();
     }
 
     void addMinterm(Minterm const& minterm)
@@ -190,9 +138,47 @@ public:
     }
 
 private:
+
+    unsigned int getLengthOfEquivalentString() const
+    {
+        unsigned int result=0;
+        unsigned int orResult(performOrOperationOfAllMinterms());
+        for(; orResult > 0; orResult >>= 1)
+        {
+            result++;
+        }
+        return result;
+    }
+
+    Minterm getFirstMinterm() const
+    {
+        Minterm result(0);        if(!m_minterms.empty())
+        {
+            result = *(m_minterms.begin());
+        }
+        return result;
+    }
+
+    Minterm performAndOperationOfAllMinterms() const
+    {
+        constexpr Minterm INITIAL_VALUE(AlbaBitValueUtilities<Minterm>::getAllBitsAsserted());
+        return std::accumulate(m_minterms.cbegin(), m_minterms.cend(), INITIAL_VALUE, [](Minterm const& minterm1, Minterm const& minterm2)
+        {
+            return minterm1 & minterm2;
+        });
+    }
+
+    Minterm performOrOperationOfAllMinterms() const
+    {
+        constexpr Minterm INITIAL_VALUE(0);
+        return std::accumulate(m_minterms.cbegin(), m_minterms.cend(), INITIAL_VALUE, [](Minterm const& minterm1, Minterm const& minterm2)
+        {
+            return minterm1 | minterm2;
+        });
+    }
+
     Minterms m_minterms;
 };
-
 }
 
 }

@@ -3,14 +3,13 @@
 #include <Algorithm/QuineMcCluskey/Implicant.hpp>
 #include <Algorithm/QuineMcCluskey/Implicants.hpp>
 #include <Algorithm/QuineMcCluskey/LogicalValue.hpp>
+#include <Common/Bit/AlbaBitValueUtilities.hpp>
 #include <Common/User/DisplayTable.hpp>
 
-#include <map>
-#include <sstream>
+#include <map>#include <sstream>
 #include <vector>
 
-namespace alba
-{
+namespace alba{
 namespace algorithm
 {
 
@@ -41,72 +40,58 @@ public:
 
     unsigned int getNumberOfOnes(Minterm const value) const
     {
-        unsigned int count=0;
-        for(Minterm temp = value; temp > 0; temp >>= 1)
-        {
-            if(temp & 0x01)
-            {
-                count++;
-            }
-        }
-        return count;
+        return AlbaBitValueUtilities<Minterm>::getNumberOfBitsAsserted(value);
     }
 
     Implicants getImplicants(unsigned int degree, unsigned int cubeSize) const
     {
         Implicants result;
-        auto it = m_computationalTable.find(degree);
-        if (it != m_computationalTable.end())
+        auto degreeIt = m_computationalTable.find(degree);
+        if (degreeIt != m_computationalTable.end())
         {
-            ImplicantsMap const& implicantsMap(it->second);
-            auto it2 = implicantsMap.find(cubeSize);
-            if (it2 != implicantsMap.end())
+            ImplicantsMap const& implicantsMap(degreeIt->second);
+            auto cubeSizeIt = implicantsMap.find(cubeSize);
+            if (cubeSizeIt != implicantsMap.end())
             {
-                Implicants const& implicants(it2->second);
-                implicants.loopAllImplicants([&](Implicant const& implicant)
+                Implicants const& implicants(cubeSizeIt->second);
+                implicants.traverseAllImplicants([&](Implicant const& implicant)
                 {
                     result.addImplicant(implicant);
-                });
-            }
+                });            }
         }
         return result;
     }
-
     Implicants getAllFinalImplicants() const
     {
         Implicants result;
-        auto itFinal=m_computationalTable.end();
-        itFinal--;
-        for(auto it=m_computationalTable.begin(); it!=itFinal; it++)
+        auto lastIt=m_computationalTable.end();
+        lastIt--;
+        for(auto it=m_computationalTable.begin(); it!=lastIt; it++)
         {
             ImplicantsMap const& implicantsMap(it->second);
-            for(auto it2=implicantsMap.rbegin(); it2!=implicantsMap.rend(); it2++)
+            for(auto reverseIt=implicantsMap.rbegin(); reverseIt!=implicantsMap.rend(); reverseIt++)
             {
-                Implicants const& currentImplicants(it2->second);
-                currentImplicants.loopAllImplicants([&](Implicant const& implicant)
+                Implicants const& currentImplicants(reverseIt->second);
+                currentImplicants.traverseAllImplicants([&](Implicant const& implicant)
                 {
                     result.addFinalImplicant(implicant);
-                });
-            }
+                });            }
         }
         return result;
     }
-
     bool doImplicantsExistAt(unsigned int degree, unsigned int cubeSize) const
     {
         bool result(false);
-        auto it = m_computationalTable.find(degree);
-        if(it != m_computationalTable.end())
+        auto degreeIt = m_computationalTable.find(degree);
+        if(degreeIt != m_computationalTable.end())
         {
-            ImplicantsMap const& implicantsMap(it->second);
+            ImplicantsMap const& implicantsMap(degreeIt->second);
             result = implicantsMap.find(cubeSize) != implicantsMap.end();
         }
-        return result;
-    }
+        return result;    }
 
     void setInputOutput(Minterm const input, LogicalValue const output)
-    {
-        if(output == LogicalValue::True || output == LogicalValue::DontCare)
+    {        if(output == LogicalValue::True || output == LogicalValue::DontCare)
         {
             m_functionMap.emplace(input, output);
         }
@@ -121,21 +106,19 @@ public:
 
     void findCombinationOfImplicants(unsigned int degree, unsigned int cubeSize)
     {
-        if(degree+1<m_computationalTable.size())
+        if(degree+1 < m_computationalTable.size())
         {
             Implicants const& implicants1(m_computationalTable[degree][cubeSize]);
             Implicants const& implicants2(m_computationalTable[degree+1][cubeSize]);
-            implicants1.loopAllImplicants([&](Implicant const& implicant1)
+            implicants1.traverseAllImplicants([&](Implicant const& implicant1)
             {
-                implicants2.loopAllImplicants([&](Implicant const& implicant2)
+                implicants2.traverseAllImplicants([&](Implicant const& implicant2)
                 {
                     if(implicant1.isCompatible(implicant2))
-                    {
-                        m_computationalTable[degree][cubeSize+1].addImplicant(implicant1+implicant2);
+                    {                        m_computationalTable[degree][cubeSize+1].addImplicant(implicant1+implicant2);
                     }
                 });
-            });
-        }
+            });        }
     }
 
     void findAllCombinations()
@@ -176,15 +159,13 @@ public:
             ss<<"0x"<<input;
             displayTable.getLastRow().addCell(ss.str());
         }
-        finalImplicants.loopAllImplicants([&](Implicant const& implicant)
+        finalImplicants.traverseAllImplicants([&](Implicant const& implicant)
         {
             displayTable.addRow();
-            displayTable.getLastRow().addCell(implicant.getEquivalentString(8));
-            for(auto const& input : inputsWithTrue)
+            displayTable.getLastRow().addCell(implicant.getEquivalentString(8));            for(auto const& input : inputsWithTrue)
             {
                 if(implicant.isSuperset(input))
-                {
-                    displayTable.getLastRow().addCell("X");
+                {                    displayTable.getLastRow().addCell("X");
                 }
                 else
                 {
