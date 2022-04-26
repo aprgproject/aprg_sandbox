@@ -5,13 +5,12 @@
 
 #include <gtest/gtest.h>
 
+#include <fstream>
 #include <string>
 
 using namespace std;
-
 namespace alba
 {
-
 TEST(ReaderWriterParameterTest, EmptyFileTest)
 {
     ifstream readTestFile(AlbaLocalPathHandler(APRG_COMMON_EMPTY_TEST_FILE).getFullPath());
