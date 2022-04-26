@@ -25,23 +25,21 @@ public:
         initialize();
     }
 
-    Index search(std::string const& mainString)
+    Index search(std::string const& stringToCheck)
     {
         Index result(static_cast<Index>(std::string::npos));
-        Index mainStringLength(mainString.size());
+        Index stringToCheckLength(stringToCheck.size());
         Index substringLength(m_substringToSearch.size());
         Index i=0, j=0;
-        for(; i<mainStringLength && j<substringLength; i++)
+        for(; i<stringToCheckLength && j<substringLength; i++)
         {
-            j = m_dfaMatrix.getEntry(mainString.at(i), j);
+            j = m_dfaMatrix.getEntry(stringToCheck.at(i), j);
         }
         if(j == substringLength)
-        {
-            result = i-substringLength;
+        {            result = i-substringLength;
         }
         return result;
     }
-
 private:
 
     void initialize()

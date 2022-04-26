@@ -24,33 +24,31 @@ public:
         , m_substringHash(getHash(m_substringToSearch, m_substringLength))
     {}
 
-    Index search(std::string const& mainString)
+    Index search(std::string const& stringToCheck)
     {
         Index result(static_cast<Index>(std::string::npos));
-        Index mainStringLength(mainString.size());
-        HashValue mainStringHash(getHash(mainString, m_substringLength));
-        if(m_substringHash == mainStringHash)
+        Index stringToCheckLength(stringToCheck.size());
+        HashValue stringToCheckHash(getHash(stringToCheck, m_substringLength));
+        if(m_substringHash == stringToCheckHash)
         {
             result = 0;
         }
         else
         {
-            for(Index i=m_substringLength; i<mainStringLength; i++)
+            for(Index i=m_substringLength; i<stringToCheckLength; i++)
             {
-                mainStringHash
-                        = (mainStringHash + m_largeRandomPrime
-                           - m_startValueFromRadixAndLength * mainString.at(i-m_substringLength) % m_largeRandomPrime)
+                stringToCheckHash
+                        = (stringToCheckHash + m_largeRandomPrime
+                           - m_startValueFromRadixAndLength * stringToCheck.at(i-m_substringLength) % m_largeRandomPrime)
                         % m_largeRandomPrime;
-                mainStringHash = (mainStringHash * RADIX + mainString.at(i)) % m_largeRandomPrime;
-                if(m_substringHash == mainStringHash)
+                stringToCheckHash = (stringToCheckHash * RADIX + stringToCheck.at(i)) % m_largeRandomPrime;
+                if(m_substringHash == stringToCheckHash)
                 {
                     result = i-m_substringLength+1;
-                    break;
-                }
+                    break;                }
             }
         }
-        return result;
-    }
+        return result;    }
 
 private:
 

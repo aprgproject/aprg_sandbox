@@ -24,29 +24,27 @@ public:
         initialize();
     }
 
-    Index search(std::string const& mainString)
+    Index search(std::string const& stringToCheck)
     {
         Index result(static_cast<Index>(std::string::npos));
-        Index mainStringLength(mainString.size());
+        Index stringToCheckLength(stringToCheck.size());
         Index substringLength(m_substringToSearch.size());
         int skip(0);
-        for(Index i=0; i<mainStringLength-substringLength; i+=skip)
+        for(Index i=0; i<stringToCheckLength-substringLength; i+=skip)
         {
             skip=0;
             for(Index j=0; j<substringLength; j++)
             {
                 Index reversedJ(substringLength-j-1);
-                if(m_substringToSearch.at(reversedJ) != mainString.at(i+reversedJ))
+                if(m_substringToSearch.at(reversedJ) != stringToCheck.at(i+reversedJ))
                 {
-                    skip = reversedJ - m_right.at(mainString.at(i+reversedJ));
+                    skip = reversedJ - m_right.at(stringToCheck.at(i+reversedJ));
                     skip = (skip < 1) ? 1 : skip;
                     break;
-                }
-            }
+                }            }
             if(skip == 0)
             {
-                result = i;
-                break;
+                result = i;                break;
             }
         }
         return result;
