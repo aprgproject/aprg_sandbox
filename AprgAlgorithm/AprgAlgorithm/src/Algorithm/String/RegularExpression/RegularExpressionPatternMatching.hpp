@@ -28,65 +28,58 @@ public:
     bool isAMatch(std::string const& stringToCheck) const
     {
         bool result(false);
-        Indexes pc;
-        PathSearchUsingDfs<Index> pathSearch(m_nfaGraph, Index(0));
-        for(Index const index : m_nfaGraph.getVertices())
-        {
-            if(pathSearch.hasPathTo(index))
-            {
-                pc.emplace_back(index);
-            }
-        }
+        Indexes indexesToProcess(getIndexesToProcess(Index(0)));
         Index stringToCheckLength(stringToCheck.size());
         Index regularExpressionLength(m_regularExpression.size());
         for(Index i=0; i<stringToCheckLength; i++)
         {
             Indexes match;
-            for(Index const index : pc)
+            for(Index const index : indexesToProcess)
             {
                 if(index < regularExpressionLength)
-                {
-                    char charInRegularExpression(m_regularExpression.at(index));
+                {                    char charInRegularExpression(m_regularExpression.at(index));
                     if(charInRegularExpression == stringToCheck.at(i) || charInRegularExpression == '.')
                     {
                         match.emplace_back(index+1);
                     }
                 }
             }
-            pc.clear();
             if(!match.empty())
             {
-                PathSearchUsingDfs<Index> pathSearch(m_nfaGraph, match.front());
-                for(Index const index : m_nfaGraph.getVertices())
-                {
-                    if(pathSearch.hasPathTo(index))
-                    {
-                        pc.emplace_back(index);
-                    }
-                }
+                indexesToProcess = getIndexesToProcess(match.front());
             }
         }
-        for(Index const index : pc)
+        for(Index const index : indexesToProcess)
         {
             if(index == regularExpressionLength)
-            {
-                result = true;
+            {                result = true;
                 break;
             }
-        }
-        return result;
+        }        return result;
     }
 
 private:
 
+    Indexes getIndexesToProcess(Index const startIndex) const
+    {
+        Indexes indexesToProcess;
+        PathSearchUsingDfs<Index> pathSearch(m_nfaGraph, startIndex);
+        for(Index const index : m_nfaGraph.getVertices())
+        {
+            if(pathSearch.hasPathTo(index))
+            {
+                indexesToProcess.emplace_back(index);
+            }
+        }
+        return indexesToProcess;
+    }
+
     void initialize()
     {
-        std::stack<Index> operatorIndexes;
-        Index regularExpressionLength(m_regularExpression.length());
+        std::stack<Index> operatorIndexes;        Index regularExpressionLength(m_regularExpression.length());
         for(Index i=0; i<regularExpressionLength; i++)
         {
-            Index lp = i;
-            if(m_regularExpression.at(i) == '(' || m_regularExpression.at(i) == '|')
+            Index lp = i;            if(m_regularExpression.at(i) == '(' || m_regularExpression.at(i) == '|')
             {
                 operatorIndexes.push(i);
             }
