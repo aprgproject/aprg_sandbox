@@ -45,10 +45,12 @@ public:
                 if(m_substringHash == stringToCheckHash)
                 {
                     result = i-m_substringLength+1;
-                    break;                }
+                    break;
+                }
             }
         }
-        return result;    }
+        return result;
+    }
 
 private:
 

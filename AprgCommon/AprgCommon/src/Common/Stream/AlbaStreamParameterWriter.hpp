@@ -5,12 +5,14 @@
 #include <set>
 #include <string>
 #include <vector>
+
 namespace alba
 {
-class AlbaFileParameterWriter
+
+class AlbaStreamParameterWriter
 {
 public:
-    explicit AlbaFileParameterWriter(std::ostream& stream);
+    explicit AlbaStreamParameterWriter(std::ostream& stream);
     template<typename TypeToWrite> void writeData(TypeToWrite const& data) const;
     template<typename TypeToWrite> void writeVectorData(std::vector<TypeToWrite> const& vectorOfData) const;
     template<typename TypeToWrite> void writeSetData(std::set<TypeToWrite> const& setOfData) const;
@@ -21,16 +23,16 @@ private:
 };
 
 template<typename TypeToRetrieve>
-void AlbaFileParameterWriter::writeData(TypeToRetrieve const& data) const
+void AlbaStreamParameterWriter::writeData(TypeToRetrieve const& data) const
 {
     m_stream << data << std::endl;
 }
 
 template<>
-void AlbaFileParameterWriter::writeData(std::string const& data) const;
+void AlbaStreamParameterWriter::writeData(std::string const& data) const;
 
 template<typename TypeToWrite>
-void AlbaFileParameterWriter::writeVectorData(std::vector<TypeToWrite> const& vectorOfData) const
+void AlbaStreamParameterWriter::writeVectorData(std::vector<TypeToWrite> const& vectorOfData) const
 {
     m_stream << vectorOfData.size() << std::endl;
     for(TypeToWrite const& data : vectorOfData)
@@ -40,7 +42,7 @@ void AlbaFileParameterWriter::writeVectorData(std::vector<TypeToWrite> const& ve
 }
 
 template<typename TypeToWrite>
-void AlbaFileParameterWriter::writeSetData(std::set<TypeToWrite> const& setOfData) const //test
+void AlbaStreamParameterWriter::writeSetData(std::set<TypeToWrite> const& setOfData) const //test
 {
     m_stream << setOfData.size() << std::endl;
     for(TypeToWrite const& data : setOfData)
@@ -50,7 +52,7 @@ void AlbaFileParameterWriter::writeSetData(std::set<TypeToWrite> const& setOfDat
 }
 
 template<typename TypeToWrite1, typename TypeToWrite2>
-void AlbaFileParameterWriter::writeMapData(std::map<TypeToWrite1, TypeToWrite2> const& mapOfData) const
+void AlbaStreamParameterWriter::writeMapData(std::map<TypeToWrite1, TypeToWrite2> const& mapOfData) const
 {
     m_stream << mapOfData.size() << std::endl;
     for(std::pair<TypeToWrite1, TypeToWrite2> const& dataPair : mapOfData)

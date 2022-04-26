@@ -1,14 +1,14 @@
-#include "AlbaFileParameterReader.hpp"
+#include "AlbaStreamParameterReader.hpp"
 
 using namespace std;
 
 namespace alba
 {
 
-AlbaFileParameterReader::AlbaFileParameterReader(istream& stream) : m_stream(stream){}
+AlbaStreamParameterReader::AlbaStreamParameterReader(istream& stream) : m_stream(stream){}
 
 template <>
-string AlbaFileParameterReader::readData<string>() const
+string AlbaStreamParameterReader::readData<string>() const
 {
     string data;
     bool isExisting(false);

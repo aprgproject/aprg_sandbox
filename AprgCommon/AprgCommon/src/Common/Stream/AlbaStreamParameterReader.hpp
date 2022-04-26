@@ -3,14 +3,16 @@
 #include <istream>
 #include <map>
 #include <set>
-#include <string>#include <vector>
+#include <string>
+#include <vector>
 
 namespace alba
 {
-class AlbaFileParameterReader
+
+class AlbaStreamParameterReader
 {
 public:
-    explicit AlbaFileParameterReader(std::istream& stream);
+    explicit AlbaStreamParameterReader(std::istream& stream);
     template<typename TypeToRetrieve> TypeToRetrieve readData() const;
     template<typename TypeToRetrieve> void readVectorData(std::vector<TypeToRetrieve> & vectorOfData) const;
     template<typename TypeToRetrieve> void readSetData(std::set<TypeToRetrieve> & setOfData) const;
@@ -21,7 +23,7 @@ private:
 };
 
 template<typename TypeToRetrieve>
-TypeToRetrieve AlbaFileParameterReader::readData() const
+TypeToRetrieve AlbaStreamParameterReader::readData() const
 {
     TypeToRetrieve data{};
     m_stream >> data;
@@ -29,10 +31,10 @@ TypeToRetrieve AlbaFileParameterReader::readData() const
 }
 
 template <>
-std::string AlbaFileParameterReader::readData<std::string>() const;
+std::string AlbaStreamParameterReader::readData<std::string>() const;
 
 template<typename TypeToRetrieve>
-void AlbaFileParameterReader::readVectorData(std::vector<TypeToRetrieve> & vectorOfData) const
+void AlbaStreamParameterReader::readVectorData(std::vector<TypeToRetrieve> & vectorOfData) const
 {
     unsigned int size;
     m_stream >> size;
@@ -43,7 +45,7 @@ void AlbaFileParameterReader::readVectorData(std::vector<TypeToRetrieve> & vecto
 }
 
 template<typename TypeToRetrieve>
-void AlbaFileParameterReader::readSetData(std::set<TypeToRetrieve> & setOfData) const //test
+void AlbaStreamParameterReader::readSetData(std::set<TypeToRetrieve> & setOfData) const //test
 {
     unsigned int size;
     m_stream >> size;
@@ -54,7 +56,7 @@ void AlbaFileParameterReader::readSetData(std::set<TypeToRetrieve> & setOfData) 
 }
 
 template<typename TypeToRetrieve1, typename TypeToRetrieve2>
-void AlbaFileParameterReader::readMapData(std::map<TypeToRetrieve1, TypeToRetrieve2> & mapOfData) const
+void AlbaStreamParameterReader::readMapData(std::map<TypeToRetrieve1, TypeToRetrieve2> & mapOfData) const
 {
     unsigned int size;
     m_stream >> size;
