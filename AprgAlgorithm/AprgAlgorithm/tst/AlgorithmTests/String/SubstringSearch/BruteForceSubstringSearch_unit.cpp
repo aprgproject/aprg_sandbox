@@ -18,6 +18,7 @@ using Index = unsigned int;
 using BruteForceSubstringSearchWithOneLoop = BruteForceSubstringSearch<1U>;
 using BruteForceSubstringSearchWithTwoLoops = BruteForceSubstringSearch<2U>;
 }
+
 TEST(BruteForceSubstringSearchTest, SearchWorksWithOneLoopUsingExample1)
 {
     testSearchUsingExample1<BruteForceSubstringSearchWithOneLoop, Index>();
@@ -29,4 +30,5 @@ TEST(BruteForceSubstringSearchTest, SearchWorksWithTwoLoopsUsingExample1)
 }
 
 }
+
 }

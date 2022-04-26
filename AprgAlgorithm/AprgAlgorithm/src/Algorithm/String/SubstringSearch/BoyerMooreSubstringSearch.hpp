@@ -13,11 +13,12 @@ template <typename Index>
 class BoyerMooreSubstringSearch
 {
 public:
-    static constexpr Index RADIX=256U;
+    using RadixType = unsigned int;
+    static constexpr RadixType RADIX=256U;
     using RightArray = std::array<char, RADIX>;
 
-    BoyerMooreSubstringSearch(std::string const& subStringToSearch)
-        : m_subStringToSearch(subStringToSearch)
+    BoyerMooreSubstringSearch(std::string const& substringToSearch)
+        : m_substringToSearch(substringToSearch)
         , m_right{}
     {
         initialize();
@@ -27,16 +28,17 @@ public:
     {
         Index result(static_cast<Index>(std::string::npos));
         Index mainStringLength(mainString.size());
-        Index subStringLength(m_subStringToSearch.size());
+        Index substringLength(m_substringToSearch.size());
         int skip(0);
-        for(Index i=0; i<mainStringLength-subStringLength; i+=skip)
+        for(Index i=0; i<mainStringLength-substringLength; i+=skip)
         {
             skip=0;
-            for(int j=subStringLength-1 ; j>=0; j--)
+            for(Index j=0; j<substringLength; j++)
             {
-                if(m_subStringToSearch.at(j) != mainString.at(i+j))
+                Index reversedJ(substringLength-j-1);
+                if(m_substringToSearch.at(reversedJ) != mainString.at(i+reversedJ))
                 {
-                    skip = j - m_right.at(mainString.at(i+j));
+                    skip = reversedJ - m_right.at(mainString.at(i+reversedJ));
                     skip = (skip < 1) ? 1 : skip;
                     break;
                 }
@@ -55,13 +57,13 @@ private:
     void initialize()
     {
         char i(0U);
-        for(char const c : m_subStringToSearch)
+        for(char const c : m_substringToSearch)
         {
             m_right[c] = i++;
         }
     }
 
-    std::string m_subStringToSearch;
+    std::string m_substringToSearch;
     RightArray m_right;
 };
 

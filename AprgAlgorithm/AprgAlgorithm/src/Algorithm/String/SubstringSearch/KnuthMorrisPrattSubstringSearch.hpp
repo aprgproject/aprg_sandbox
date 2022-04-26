@@ -14,12 +14,13 @@ template <typename Index>
 class KnuthMorrisPrattSubstringSearch
 {
 public:
+    using RadixType = unsigned int;
     using DfaMatrix = matrix::AlbaMatrix<Index>;
-    static constexpr Index RADIX=256U;
+    static constexpr RadixType RADIX=256U;
 
-    KnuthMorrisPrattSubstringSearch(std::string const& subStringToSearch)
-        : m_subStringToSearch(subStringToSearch)
-        , m_dfaMatrix(RADIX, subStringToSearch.length())
+    KnuthMorrisPrattSubstringSearch(std::string const& substringToSearch)
+        : m_substringToSearch(substringToSearch)
+        , m_dfaMatrix(RADIX, substringToSearch.length())
     {
         initialize();
     }
@@ -28,15 +29,15 @@ public:
     {
         Index result(static_cast<Index>(std::string::npos));
         Index mainStringLength(mainString.size());
-        Index subStringLength(m_subStringToSearch.size());
+        Index substringLength(m_substringToSearch.size());
         Index i=0, j=0;
-        for(; i<mainStringLength && j<subStringLength; i++)
+        for(; i<mainStringLength && j<substringLength; i++)
         {
             j = m_dfaMatrix.getEntry(mainString.at(i), j);
         }
-        if(j == subStringLength)
+        if(j == substringLength)
         {
-            result = i-subStringLength;
+            result = i-substringLength;
         }
         return result;
     }
@@ -45,23 +46,23 @@ private:
 
     void initialize()
     {
-        if(!m_subStringToSearch.empty())
+        if(!m_substringToSearch.empty())
         {
-            m_dfaMatrix.setEntry(m_subStringToSearch.at(0), 0, 1);
-            Index subStringLength(m_subStringToSearch.size());
+            m_dfaMatrix.setEntry(m_substringToSearch.at(0), 0, 1);
+            Index substringLength(m_substringToSearch.size());
             Index lastIndex(0);
-            for(Index i=1; i<subStringLength; i++)
+            for(Index i=1; i<substringLength; i++)
             {
-                for(Index c=0; c<RADIX; c++) // copy mismatch cases
+                for(RadixType c=0; c<RADIX; c++) // copy mismatch cases
                 {
                     m_dfaMatrix.setEntry(c, i, m_dfaMatrix.getEntry(c, lastIndex));
                 }
-                m_dfaMatrix.setEntry(m_subStringToSearch.at(i), i, i+1); // set match case
-                lastIndex = m_dfaMatrix.getEntry(m_subStringToSearch.at(i), lastIndex); // update restart state
+                m_dfaMatrix.setEntry(m_substringToSearch.at(i), i, i+1); // set match case
+                lastIndex = m_dfaMatrix.getEntry(m_substringToSearch.at(i), lastIndex); // update restart state
             }
         }
     }
-    std::string m_subStringToSearch;
+    std::string m_substringToSearch;
     DfaMatrix m_dfaMatrix;
 };
 

@@ -13,8 +13,10 @@
 
 namespace alba
 {
+
 namespace algorithm
 {
+
 template <typename Minterm>
 class QuineMcCluskey
 {
