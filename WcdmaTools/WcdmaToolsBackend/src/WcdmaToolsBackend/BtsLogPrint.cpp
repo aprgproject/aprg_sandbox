@@ -1,14 +1,12 @@
 #include "BtsLogPrint.hpp"
 
-#include <Common/File/AlbaFileParameterReader.hpp>
-#include <Common/File/AlbaFileParameterWriter.hpp>
+#include <Common/Stream/AlbaStreamParameterReader.hpp>
+#include <Common/Stream/AlbaStreamParameterWriter.hpp>
 #include <Common/String/AlbaStringHelper.hpp>
 
 #include <iostream>
-
 using namespace alba;
 using namespace std;
-
 namespace wcdmaToolsBackend
 {
 
@@ -394,24 +392,21 @@ void BtsLogPrint::handleBtsTimeState(State & state, TransactionData & transactio
 
 ostream& operator<<(ostream & out, BtsLogPrint const& btsLogPrint)
 {
-    AlbaFileParameterWriter writer(out);
+    AlbaStreamParameterWriter writer(out);
     writer.writeData<BtsLogTime>(btsLogPrint.m_btsTime);
     writer.writeData<BtsLogTime>(btsLogPrint.m_pcTime);
-    writer.writeData<string>(btsLogPrint.m_hardwareAddress);
-    writer.writeData<string>(btsLogPrint.m_print);
+    writer.writeData<string>(btsLogPrint.m_hardwareAddress);    writer.writeData<string>(btsLogPrint.m_print);
     writer.writeData<string>(btsLogPrint.m_fileName);
     return out;
 }
 
 istream& operator>>(istream & in, BtsLogPrint& btsLogPrint)
 {
-    AlbaFileParameterReader reader(in);
+    AlbaStreamParameterReader reader(in);
     btsLogPrint.m_btsTime = reader.readData<BtsLogTime>();
     btsLogPrint.m_pcTime = reader.readData<BtsLogTime>();
-    btsLogPrint.m_hardwareAddress = reader.readData<string>();
-    btsLogPrint.m_print = reader.readData<string>();
+    btsLogPrint.m_hardwareAddress = reader.readData<string>();    btsLogPrint.m_print = reader.readData<string>();
     btsLogPrint.m_fileName = reader.readData<string>();
     return in;
 }
-
 }

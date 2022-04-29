@@ -5,4 +5,4 @@ set(APRG_ALGORITHM_DIR ${APRG_DIR}/AprgAlgorithm/AprgAlgorithm/)
 include(${APRG_ALGORITHM_DIR}/cmake/FilesAndDirectories.cmake)
 
 include_directories(${APRG_ALGORITHM_INCLUDE_DIRECTORIES})
-add_library(APRG_ALGORITHM ${APRG_ALGORITHM_SOURCES})
+#add_library(APRG_ALGORITHM ${APRG_ALGORITHM_SOURCES}) # No CPP files
