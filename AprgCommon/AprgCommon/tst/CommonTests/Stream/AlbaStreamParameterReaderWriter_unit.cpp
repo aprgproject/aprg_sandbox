@@ -57,48 +57,37 @@ TEST(ReaderWriterParameterTest, VectorTest)
     ofstream writeTestFile(testFilePath.getFullPath());
     ASSERT_TRUE(writeTestFile.is_open());
 
-    vector<unsigned int> vectorToSave{1,2,3,4,5};
+    vector<unsigned int> sampleVector{1,2,3,4,5};
     AlbaStreamParameterWriter writer(writeTestFile);
-    writer.writeVectorData(vectorToSave);
+    writer.writeVectorData(sampleVector);
 
     ifstream readTestFile(testFilePath.getFullPath());
     ASSERT_TRUE(readTestFile.is_open());
-
     vector<unsigned int> retrievedVector;
     AlbaStreamParameterReader reader(readTestFile);
     ASSERT_TRUE(readTestFile.good());
     ASSERT_FALSE(readTestFile.eof());
     reader.readVectorData(retrievedVector);
-    ASSERT_EQ(5U, retrievedVector.size());
-    EXPECT_EQ(1U, retrievedVector.at(0));
-    EXPECT_EQ(2U, retrievedVector.at(1));
-    EXPECT_EQ(3U, retrievedVector.at(2));
-    EXPECT_EQ(4U, retrievedVector.at(3));
-    EXPECT_EQ(5U, retrievedVector.at(4));
+    EXPECT_EQ(sampleVector, retrievedVector);
 }
 
-TEST(ReaderWriterParameterTest, MapTest)
-{
+TEST(ReaderWriterParameterTest, MapTest){
     AlbaLocalPathHandler testFilePath(APRG_COMMON_TEST_FILE_TO_WRITE);
     ofstream writeTestFile(testFilePath.getFullPath());
     ASSERT_TRUE(writeTestFile.is_open());
 
-    map<unsigned int, string> mapToSave{{1, "one"}, {2, "two"}, {3, "three"}};
+    map<unsigned int, string> sampleMap{{1, "one"}, {2, "two"}, {3, "three"}};
     AlbaStreamParameterWriter writer(writeTestFile);
-    writer.writeMapData(mapToSave);
+    writer.writeMapData(sampleMap);
 
     ifstream readTestFile(testFilePath.getFullPath());
     ASSERT_TRUE(readTestFile.is_open());
-
     map<unsigned int, string> retrievedmap;
     AlbaStreamParameterReader reader(readTestFile);
     ASSERT_TRUE(readTestFile.good());
     ASSERT_FALSE(readTestFile.eof());
     reader.readMapData(retrievedmap);
-    ASSERT_EQ(3U, retrievedmap.size());
-    EXPECT_EQ("one", retrievedmap.at(1));
-    EXPECT_EQ("two", retrievedmap.at(2));
-    EXPECT_EQ("three", retrievedmap.at(3));
+    EXPECT_EQ(sampleMap, retrievedmap);
 }
 
 }

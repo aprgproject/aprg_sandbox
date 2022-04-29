@@ -639,16 +639,10 @@ bool isPerfectNthPowerForAlbaNumber(
 }
 
 
-bool areNumberOfDigitsOnTheIntegerLimit(unsigned int const digits)
-{
-    return digits>=10;
-}
 
 AlbaComplexNumber<float> createComplexNumberFromData(AlbaNumber::ComplexNumberData const& data)
-{
-    return AlbaComplexNumber<float>(data.realPart, data.imaginaryPart);
+{    return AlbaComplexNumber<float>(data.realPart, data.imaginaryPart);
 }
-
 
 template <typename NumberType>
 AlbaNumber createNumberFromComplexNumber(AlbaComplexNumber<NumberType> const& complexNumber)

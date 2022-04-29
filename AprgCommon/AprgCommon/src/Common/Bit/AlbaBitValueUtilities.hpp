@@ -26,15 +26,15 @@ public:
 
     static constexpr unsigned int getNumberOfBits()
     {
-        return static_cast<unsigned int>(std::numeric_limits<DataTypeToManipulate>::digits);
+        unsigned int result(std::numeric_limits<DataTypeToManipulate>::digits);
+        result += std::numeric_limits<DataTypeToManipulate>::is_signed ? 1 : 0;
+        return result;
     }
 
-    static constexpr unsigned int getNumberOfBitsAsserted(DataTypeToManipulate const)
-    {
+    static constexpr unsigned int getNumberOfBitsAsserted(DataTypeToManipulate const)    {
         // std::bitset can be used here but it would no longer be constexpr
         static_assert(sizeof(DataTypeToManipulate) != sizeof(DataTypeToManipulate),
-                      "This size or type is not supported. Please add a specialization if needed.");
-        return 0;
+                      "This size or type is not supported. Please add a specialization if needed.");        return 0;
     }
 };
 

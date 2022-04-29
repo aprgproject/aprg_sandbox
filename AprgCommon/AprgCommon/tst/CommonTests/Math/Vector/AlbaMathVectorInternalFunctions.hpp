@@ -14,10 +14,10 @@ DataType raiseToPowerForMathVectorDataType(DataType const& value1, DataType cons
 
 // Template specialization
 
-template<>
+template <>
 bool isEqualForMathVectorDataType(double const& value1, double const& value2);
 
-template<>
+template <>
 double raiseToPowerForMathVectorDataType(double const& value1, double const& value2);
 
 }

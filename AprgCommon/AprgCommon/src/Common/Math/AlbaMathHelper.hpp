@@ -179,14 +179,16 @@ template <typename NumberType> unsigned int getNumberOfIntegerDigits(NumberType 
     }
     return result;
 }
-bool areNumberOfDigitsOnTheIntegerLimit(unsigned int const digits);
+
+template <typename NumberType> bool areNumberOfDigitsOnTheIntegerLimit(unsigned int const digits)
+{
+    return digits >= std::numeric_limits<NumberType>::digits10;
+}
 
 
 //Complex number related functions
 AlbaComplexNumber<float> createComplexNumberFromData(AlbaNumber::ComplexNumberData const& data);
-template <typename NumberType> AlbaNumber createNumberFromComplexNumber(AlbaComplexNumber<NumberType> const& number);
-void saveToComplexNumberData(AlbaNumber::ComplexNumberData & data, AlbaComplexNumber<float> const& number);
+template <typename NumberType> AlbaNumber createNumberFromComplexNumber(AlbaComplexNumber<NumberType> const& number);void saveToComplexNumberData(AlbaNumber::ComplexNumberData & data, AlbaComplexNumber<float> const& number);
 
 }//namespace mathHelper
-
 }//namespace alba

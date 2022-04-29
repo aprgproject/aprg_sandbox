@@ -26,14 +26,16 @@ TEST(AlbaBitValueUtilitiesTest, GetNumberOfBitsWorks)
     EXPECT_EQ(16U, AlbaBitValueUtilities<uint16_t>::getNumberOfBits());
     EXPECT_EQ(32U, AlbaBitValueUtilities<uint32_t>::getNumberOfBits());
     EXPECT_EQ(64U, AlbaBitValueUtilities<uint64_t>::getNumberOfBits());
+    EXPECT_EQ(8U, AlbaBitValueUtilities<int8_t>::getNumberOfBits());
+    EXPECT_EQ(16U, AlbaBitValueUtilities<int16_t>::getNumberOfBits());
+    EXPECT_EQ(32U, AlbaBitValueUtilities<int32_t>::getNumberOfBits());
+    EXPECT_EQ(64U, AlbaBitValueUtilities<int64_t>::getNumberOfBits());
 }
 
-TEST(AlbaBitValueUtilitiesTest, GetNumberOfBitsAssertedWorks)
-{
+TEST(AlbaBitValueUtilitiesTest, GetNumberOfBitsAssertedWorks){
     EXPECT_EQ(3U, AlbaBitValueUtilities<uint8_t>::getNumberOfBitsAsserted(0xA1U));
     EXPECT_EQ(8U, AlbaBitValueUtilities<uint16_t>::getNumberOfBitsAsserted(0xA1BAU));
-    EXPECT_EQ(16U, AlbaBitValueUtilities<uint32_t>::getNumberOfBitsAsserted(0xA1BAA1BAU));
-    EXPECT_EQ(32U, AlbaBitValueUtilities<uint64_t>::getNumberOfBitsAsserted(0xA1BAA1BAA1BAA1BAU));
+    EXPECT_EQ(16U, AlbaBitValueUtilities<uint32_t>::getNumberOfBitsAsserted(0xA1BAA1BAU));    EXPECT_EQ(32U, AlbaBitValueUtilities<uint64_t>::getNumberOfBitsAsserted(0xA1BAA1BAA1BAA1BAU));
 }
 
 }

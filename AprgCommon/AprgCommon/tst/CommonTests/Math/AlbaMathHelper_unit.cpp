@@ -736,19 +736,17 @@ TEST(AlbaMathHelperTest, GetNumberOfDigitsWorks)
 
 TEST(AlbaMathHelperTest, AreNumberOfDigitsOnTheIntegerLimitWorks)
 {
-    EXPECT_FALSE(areNumberOfDigitsOnTheIntegerLimit(0));
-    EXPECT_FALSE(areNumberOfDigitsOnTheIntegerLimit(1));
-    EXPECT_FALSE(areNumberOfDigitsOnTheIntegerLimit(9));
-    EXPECT_TRUE(areNumberOfDigitsOnTheIntegerLimit(10));
-    EXPECT_TRUE(areNumberOfDigitsOnTheIntegerLimit(11));
+    EXPECT_FALSE(areNumberOfDigitsOnTheIntegerLimit<int>(0));
+    EXPECT_FALSE(areNumberOfDigitsOnTheIntegerLimit<int>(1));
+    EXPECT_TRUE(areNumberOfDigitsOnTheIntegerLimit<int>(9));
+    EXPECT_TRUE(areNumberOfDigitsOnTheIntegerLimit<int>(10));
+    EXPECT_TRUE(areNumberOfDigitsOnTheIntegerLimit<int>(11));
 }
 
-TEST(AlbaMathHelperTest, CreateComplexNumberFromDataWorks)
-{
+TEST(AlbaMathHelperTest, CreateComplexNumberFromDataWorks){
     AlbaNumber::ComplexNumberData complexData{3.5, 4.5};
 
-    AlbaComplexNumber<float> expectedComplexNumber(3.5, 4.5);
-    EXPECT_EQ(expectedComplexNumber, createComplexNumberFromData(complexData));
+    AlbaComplexNumber<float> expectedComplexNumber(3.5, 4.5);    EXPECT_EQ(expectedComplexNumber, createComplexNumberFromData(complexData));
 }
 
 }
