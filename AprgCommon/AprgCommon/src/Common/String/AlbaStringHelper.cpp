@@ -835,30 +835,35 @@ string getImmediateDirectoryName(string const& mainString, string const& slashCh
 template <char slashCharacter>
 string getCorrectPathWithReplacedSlashCharacters(string const& path)
 {
-    return getCorrectPathWithReplacedSlashCharacters(path, string()+slashCharacter);}
+    return getCorrectPathWithReplacedSlashCharacters(path, string()+slashCharacter);
+}
 template string getCorrectPathWithReplacedSlashCharacters<'\\'>(string const& path);
 template string getCorrectPathWithReplacedSlashCharacters<'/'>(string const& path);
 
 template <char slashCharacter>
 string getCorrectPathWithoutDoublePeriod(string const& path)
 {
-    return getCorrectPathWithoutDoublePeriod(path, string()+slashCharacter);}
+    return getCorrectPathWithoutDoublePeriod(path, string()+slashCharacter);
+}
 template string getCorrectPathWithoutDoublePeriod<'\\'>(string const& path);
 template string getCorrectPathWithoutDoublePeriod<'/'>(string const& path);
 
 template <char slashCharacter>
 string getStringBeforeDoublePeriod(string const& path)
 {
-    return getStringBeforeDoublePeriod(path, string()+slashCharacter);}
+    return getStringBeforeDoublePeriod(path, string()+slashCharacter);
+}
 template string getStringBeforeDoublePeriod<'\\'>(string const& path);
 template string getStringBeforeDoublePeriod<'/'>(string const& path);
 
 template <char slashCharacter>
 string getImmediateDirectoryName(string const& path)
 {
-    return getImmediateDirectoryName(path, string()+slashCharacter);}
+    return getImmediateDirectoryName(path, string()+slashCharacter);
+}
 template string getImmediateDirectoryName<'\\'>(string const& path);
 template string getImmediateDirectoryName<'/'>(string const& path);
+
 bool convertStringToBool(string const& stringToConvert)
 {
     string allCapital(getStringWithCapitalLetters(stringToConvert));

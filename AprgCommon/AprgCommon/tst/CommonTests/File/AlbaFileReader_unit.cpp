@@ -219,7 +219,8 @@ TEST(FileReadTest, ReadFromTestFile_RequestToReadMultipleCharactersThatIsTheBeyo
 TEST(FileReadTest, ReadFromTestFile_ReadOneByteNumbers)
 {
     AlbaLocalPathHandler testFilePath(APRG_COMMON_TEST_FILE_TO_READ);
-    ofstream testFile(testFilePath.getFullPath());    ASSERT_TRUE(testFile.is_open());
+    ofstream testFile(testFilePath.getFullPath());
+    ASSERT_TRUE(testFile.is_open());
     testFile.put(0x01);
     testFile.put(0x23);
     testFile.put(0x45);
@@ -253,7 +254,8 @@ TEST(FileReadTest, ReadFromTestFile_ReadOneByteNumbers)
 
 TEST(FileReadTest, ReadFromTestFile_ReadTwoByteNumbers)
 {
-    AlbaLocalPathHandler testFilePath(APRG_COMMON_TEST_FILE_TO_READ);    ofstream testFile(testFilePath.getFullPath());
+    AlbaLocalPathHandler testFilePath(APRG_COMMON_TEST_FILE_TO_READ);
+    ofstream testFile(testFilePath.getFullPath());
     ASSERT_TRUE(testFile.is_open());
     testFile.put(0x01);
     testFile.put(0x23);
@@ -268,7 +270,8 @@ TEST(FileReadTest, ReadFromTestFile_ReadTwoByteNumbers)
 
     AlbaFileReader fileReader(inputTestFile);
     ASSERT_TRUE(inputTestFile.good());
-    ASSERT_FALSE(inputTestFile.eof());    EXPECT_TRUE(fileReader.isNotFinished());
+    ASSERT_FALSE(inputTestFile.eof());
+    EXPECT_TRUE(fileReader.isNotFinished());
     EXPECT_EQ(0x0123U, fileReader.getTwoByteData<uint16_t>());
     EXPECT_TRUE(fileReader.isNotFinished());
     EXPECT_EQ(0x4567U, fileReader.getTwoByteData<uint16_t>());

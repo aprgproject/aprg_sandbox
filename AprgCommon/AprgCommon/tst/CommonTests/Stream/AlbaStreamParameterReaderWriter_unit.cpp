@@ -63,6 +63,7 @@ TEST(ReaderWriterParameterTest, VectorTest)
 
     ifstream readTestFile(testFilePath.getFullPath());
     ASSERT_TRUE(readTestFile.is_open());
+
     vector<unsigned int> retrievedVector;
     AlbaStreamParameterReader reader(readTestFile);
     ASSERT_TRUE(readTestFile.good());
@@ -71,7 +72,8 @@ TEST(ReaderWriterParameterTest, VectorTest)
     EXPECT_EQ(sampleVector, retrievedVector);
 }
 
-TEST(ReaderWriterParameterTest, MapTest){
+TEST(ReaderWriterParameterTest, MapTest)
+{
     AlbaLocalPathHandler testFilePath(APRG_COMMON_TEST_FILE_TO_WRITE);
     ofstream writeTestFile(testFilePath.getFullPath());
     ASSERT_TRUE(writeTestFile.is_open());
@@ -82,6 +84,7 @@ TEST(ReaderWriterParameterTest, MapTest){
 
     ifstream readTestFile(testFilePath.getFullPath());
     ASSERT_TRUE(readTestFile.is_open());
+
     map<unsigned int, string> retrievedmap;
     AlbaStreamParameterReader reader(readTestFile);
     ASSERT_TRUE(readTestFile.good());

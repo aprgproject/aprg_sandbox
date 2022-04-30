@@ -380,8 +380,10 @@ TEST(BitmapReadTest, TestForFileThatDoesExist)
 TEST(BitmapReadTest, DISABLED_ExperimentTest)
 {
     Bitmap bitmap(APRG_DIR R"(\AprgLocalUserAutomation\TestFiles\BitmapFromClipboard.bmp)");
-    EXPECT_TRUE(bitmap.getConfiguration().isValid());    EXPECT_TRUE(bitmap.getConfiguration().isCompressedMethodSupported());
+    EXPECT_TRUE(bitmap.getConfiguration().isValid());
+    EXPECT_TRUE(bitmap.getConfiguration().isCompressedMethodSupported());
 }
 
 }
+
 }

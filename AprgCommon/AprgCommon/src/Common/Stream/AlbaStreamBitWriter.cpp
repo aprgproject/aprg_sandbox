@@ -17,23 +17,30 @@ AlbaStreamBitWriter::~AlbaStreamBitWriter()
 void AlbaStreamBitWriter::writeBoolData(bool const data)
 {
     m_bitBuffer.emplace_back(data);
-    writeAsMuchAsPossibleToStream();
+    writeBytesAsMuchAsPossibleToStream();
 }
 
 void AlbaStreamBitWriter::writeCharData(char const data)
 {
     putBigEndianNumberDataInBuffer<char>(data);
-    writeAsMuchAsPossibleToStream();
+    writeBytesAsMuchAsPossibleToStream();
 }
 
 void AlbaStreamBitWriter::writeStringData(string const& data)
 {
     for(char const c : data)
-    {        writeCharData(c);
+    {
+        writeCharData(c);
     }
-    writeAsMuchAsPossibleToStream();
+    writeBytesAsMuchAsPossibleToStream();
 }
-void AlbaStreamBitWriter::writeAsMuchAsPossibleToStream()
+
+void AlbaStreamBitWriter::flush()
+{
+    writeAllToStream();
+}
+
+void AlbaStreamBitWriter::writeBytesAsMuchAsPossibleToStream()
 {
     if(m_bitBuffer.size() >= 8)
     {
@@ -62,8 +69,8 @@ void AlbaStreamBitWriter::writeAllToStream()
     for(; i<m_bitBuffer.size();  i++)
     {
         unsigned int remainder(i%8);
-        byte.set(remainder, m_bitBuffer.at(7-remainder));
-        if(remainder)
+        byte.set(7-remainder, m_bitBuffer.at(remainder));
+        if(remainder == 7)
         {
             m_stream << static_cast<char>(byte.to_ulong());
             byte.reset();

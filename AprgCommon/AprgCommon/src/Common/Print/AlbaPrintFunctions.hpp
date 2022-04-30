@@ -55,7 +55,8 @@ template <typename ValueType, size_t SIZE,
           template <typename, size_t> class Container>
 void printParameter(std::ostream & outputStream, std::string const& parameterName, Container<ValueType, SIZE> const& container)
 {
-    outputStream << parameterName << " : [(has size " << container.size() << "):{";    saveContentsToStream(outputStream, container, StreamFormat::String);
+    outputStream << parameterName << " : [(has size " << container.size() << "):{";
+    saveContentsToStream(outputStream, container, StreamFormat::String);
     outputStream << "}]";
 }
 
@@ -63,7 +64,8 @@ template <typename ValueType,
           template <typename, typename = std::allocator<ValueType>> class Container>
 void printParameter(std::ostream & outputStream, std::string const& parameterName, Container<ValueType> const& container)
 {
-    outputStream << parameterName << " : [(has size " << container.size() << "):{";    saveContentsToStream(outputStream, container, StreamFormat::String);
+    outputStream << parameterName << " : [(has size " << container.size() << "):{";
+    saveContentsToStream(outputStream, container, StreamFormat::String);
     outputStream << "}]";
 }
 
@@ -71,7 +73,8 @@ template <typename ValueType,
           template <typename, typename = std::less<ValueType>, typename = std::allocator<ValueType>> class Container>
 void printParameter(std::ostream & outputStream, std::string const& parameterName, Container<ValueType> const& container)
 {
-    outputStream << parameterName << " : [(has size " << container.size() << "):{";    saveContentsToStream(outputStream, container, StreamFormat::String);
+    outputStream << parameterName << " : [(has size " << container.size() << "):{";
+    saveContentsToStream(outputStream, container, StreamFormat::String);
     outputStream << "}]";
 }
 
@@ -79,8 +82,10 @@ template <typename KeyType, typename ValueType,
           template <typename, typename, typename = std::less<KeyType>, typename = std::allocator<std::pair<KeyType const, ValueType>>> class Container>
 void printParameter(std::ostream & outputStream, std::string const& parameterName, Container<KeyType, ValueType> const& container)
 {
-    outputStream << parameterName << " : [(has size " << container.size() << "):{";    saveContentsToStream(outputStream, container, StreamFormat::String);
+    outputStream << parameterName << " : [(has size " << container.size() << "):{";
+    saveContentsToStream(outputStream, container, StreamFormat::String);
     outputStream << "}]";
 }
+
 
 }//namespace alba

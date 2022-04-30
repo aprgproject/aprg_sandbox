@@ -89,10 +89,12 @@ template <char slashCharacterString> std::string getStringBeforeDoublePeriod(std
 template <char slashCharacterString> std::string getImmediateDirectoryName(std::string const& path);
 
 bool convertStringToBool(std::string const& stringToConvert);
-template <typename NumberType> NumberType convertStringToNumber(std::string const& stringToConvert);template <typename NumberType> NumberType convertHexStringToNumber(std::string const& stringToConvert);
+template <typename NumberType> NumberType convertStringToNumber(std::string const& stringToConvert);
+template <typename NumberType> NumberType convertHexStringToNumber(std::string const& stringToConvert);
 AlbaNumber convertStringToAlbaNumber(std::string const& stringToConvert);
 
-class NumberToStringConverter{
+class NumberToStringConverter
+{
 public:
     template <typename NumberType> std::string convert(NumberType const number);
     std::string convert(AlbaNumber const& number);

@@ -24,4 +24,5 @@ template <>
 bool isEqualForMathMatrixDataType(double const& value1, double const& value2);
 
 }
+
 }

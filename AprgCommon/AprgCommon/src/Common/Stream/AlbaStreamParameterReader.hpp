@@ -25,7 +25,8 @@ private:
 template <typename TypeToRetrieve>
 TypeToRetrieve AlbaStreamParameterReader::readData() const
 {
-    TypeToRetrieve data{};    m_stream >> data;
+    TypeToRetrieve data{};
+    m_stream >> data;
     return data;
 }
 
@@ -35,7 +36,8 @@ std::string AlbaStreamParameterReader::readData<std::string>() const;
 template <typename TypeToRetrieve>
 void AlbaStreamParameterReader::readVectorData(std::vector<TypeToRetrieve> & vectorOfData) const
 {
-    unsigned int size;    m_stream >> size;
+    unsigned int size;
+    m_stream >> size;
     for(unsigned int i=0; i<size; i++)
     {
         vectorOfData.emplace_back(readData<TypeToRetrieve>());
@@ -45,7 +47,8 @@ void AlbaStreamParameterReader::readVectorData(std::vector<TypeToRetrieve> & vec
 template <typename TypeToRetrieve>
 void AlbaStreamParameterReader::readSetData(std::set<TypeToRetrieve> & setOfData) const //test
 {
-    unsigned int size;    m_stream >> size;
+    unsigned int size;
+    m_stream >> size;
     for(unsigned int i=0; i<size; i++)
     {
         setOfData.emplace(readData<TypeToRetrieve>());
@@ -55,10 +58,12 @@ void AlbaStreamParameterReader::readSetData(std::set<TypeToRetrieve> & setOfData
 template <typename TypeToRetrieve1, typename TypeToRetrieve2>
 void AlbaStreamParameterReader::readMapData(std::map<TypeToRetrieve1, TypeToRetrieve2> & mapOfData) const
 {
-    unsigned int size;    m_stream >> size;
+    unsigned int size;
+    m_stream >> size;
     for(unsigned int i=0; i<size; i++)
     {
-        TypeToRetrieve1 data1(readData<TypeToRetrieve1>());        TypeToRetrieve2 data2(readData<TypeToRetrieve2>());
+        TypeToRetrieve1 data1(readData<TypeToRetrieve1>());
+        TypeToRetrieve2 data2(readData<TypeToRetrieve2>());
         mapOfData.emplace(data1, data2);
     }
 }

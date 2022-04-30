@@ -31,10 +31,12 @@ public:
         return result;
     }
 
-    static constexpr unsigned int getNumberOfBitsAsserted(DataTypeToManipulate const)    {
+    static constexpr unsigned int getNumberOfBitsAsserted(DataTypeToManipulate const)
+    {
         // std::bitset can be used here but it would no longer be constexpr
         static_assert(sizeof(DataTypeToManipulate) != sizeof(DataTypeToManipulate),
-                      "This size or type is not supported. Please add a specialization if needed.");        return 0;
+                      "This size or type is not supported. Please add a specialization if needed.");
+        return 0;
     }
 };
 

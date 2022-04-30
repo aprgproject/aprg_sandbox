@@ -5,8 +5,10 @@
 #include <Common/String/AlbaStringHelper.hpp>
 
 #include <iostream>
+
 using namespace alba;
 using namespace std;
+
 namespace wcdmaToolsBackend
 {
 
@@ -395,7 +397,8 @@ ostream& operator<<(ostream & out, BtsLogPrint const& btsLogPrint)
     AlbaStreamParameterWriter writer(out);
     writer.writeData<BtsLogTime>(btsLogPrint.m_btsTime);
     writer.writeData<BtsLogTime>(btsLogPrint.m_pcTime);
-    writer.writeData<string>(btsLogPrint.m_hardwareAddress);    writer.writeData<string>(btsLogPrint.m_print);
+    writer.writeData<string>(btsLogPrint.m_hardwareAddress);
+    writer.writeData<string>(btsLogPrint.m_print);
     writer.writeData<string>(btsLogPrint.m_fileName);
     return out;
 }
@@ -405,8 +408,10 @@ istream& operator>>(istream & in, BtsLogPrint& btsLogPrint)
     AlbaStreamParameterReader reader(in);
     btsLogPrint.m_btsTime = reader.readData<BtsLogTime>();
     btsLogPrint.m_pcTime = reader.readData<BtsLogTime>();
-    btsLogPrint.m_hardwareAddress = reader.readData<string>();    btsLogPrint.m_print = reader.readData<string>();
+    btsLogPrint.m_hardwareAddress = reader.readData<string>();
+    btsLogPrint.m_print = reader.readData<string>();
     btsLogPrint.m_fileName = reader.readData<string>();
     return in;
 }
+
 }

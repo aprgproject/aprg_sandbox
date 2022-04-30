@@ -14,6 +14,7 @@ bool isEqualForMathVectorDataType(double const& value1, double const& value2)
 template <>
 double raiseToPowerForMathVectorDataType(double const& value1, double const& value2)
 {
-    return pow(value1, value2);}
+    return pow(value1, value2);
+}
 
 }
