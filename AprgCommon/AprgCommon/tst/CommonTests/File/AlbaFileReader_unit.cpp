@@ -216,11 +216,10 @@ TEST(FileReadTest, ReadFromTestFile_RequestToReadMultipleCharactersThatIsTheBeyo
     EXPECT_FALSE(fileReader.isNotFinished());
 }
 
-TEST(FileReadTest, ReadFromTestFile_ReadTwoByteNumbers)
+TEST(FileReadTest, ReadFromTestFile_ReadOneByteNumbers)
 {
     AlbaLocalPathHandler testFilePath(APRG_COMMON_TEST_FILE_TO_READ);
-    ofstream testFile(testFilePath.getFullPath());
-    ASSERT_TRUE(testFile.is_open());
+    ofstream testFile(testFilePath.getFullPath());    ASSERT_TRUE(testFile.is_open());
     testFile.put(0x01);
     testFile.put(0x23);
     testFile.put(0x45);
@@ -236,6 +235,40 @@ TEST(FileReadTest, ReadFromTestFile_ReadTwoByteNumbers)
     ASSERT_TRUE(inputTestFile.good());
     ASSERT_FALSE(inputTestFile.eof());
     EXPECT_TRUE(fileReader.isNotFinished());
+    EXPECT_EQ(0x01U, fileReader.getOneByteData<uint8_t>());
+    EXPECT_TRUE(fileReader.isNotFinished());
+    EXPECT_EQ(0x23U, fileReader.getOneByteData<uint8_t>());
+    EXPECT_TRUE(fileReader.isNotFinished());
+    EXPECT_EQ(0x45U, fileReader.getOneByteData<uint8_t>());
+    EXPECT_TRUE(fileReader.isNotFinished());
+    EXPECT_EQ(0x67U, fileReader.getOneByteData<uint8_t>());
+    EXPECT_TRUE(fileReader.isNotFinished());
+    EXPECT_EQ(0xA1U, fileReader.getOneByteData<uint8_t>());
+    EXPECT_TRUE(fileReader.isNotFinished());
+    EXPECT_EQ(0xBAU, fileReader.getOneByteData<uint8_t>());
+    EXPECT_TRUE(fileReader.isNotFinished());
+    EXPECT_EQ(0x0U, fileReader.getOneByteData<uint8_t>());
+    EXPECT_FALSE(fileReader.isNotFinished());
+}
+
+TEST(FileReadTest, ReadFromTestFile_ReadTwoByteNumbers)
+{
+    AlbaLocalPathHandler testFilePath(APRG_COMMON_TEST_FILE_TO_READ);    ofstream testFile(testFilePath.getFullPath());
+    ASSERT_TRUE(testFile.is_open());
+    testFile.put(0x01);
+    testFile.put(0x23);
+    testFile.put(0x45);
+    testFile.put(0x67);
+    testFile.put(static_cast<char>(0xA1));
+    testFile.put(static_cast<char>(0xBA));
+    testFile.close();
+
+    ifstream inputTestFile(testFilePath.getFullPath(), ios::binary);
+    ASSERT_TRUE(inputTestFile.is_open());
+
+    AlbaFileReader fileReader(inputTestFile);
+    ASSERT_TRUE(inputTestFile.good());
+    ASSERT_FALSE(inputTestFile.eof());    EXPECT_TRUE(fileReader.isNotFinished());
     EXPECT_EQ(0x0123U, fileReader.getTwoByteData<uint16_t>());
     EXPECT_TRUE(fileReader.isNotFinished());
     EXPECT_EQ(0x4567U, fileReader.getTwoByteData<uint16_t>());

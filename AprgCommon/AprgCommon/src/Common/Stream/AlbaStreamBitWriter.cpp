@@ -26,15 +26,13 @@ void AlbaStreamBitWriter::writeCharData(char const data)
     writeAsMuchAsPossibleToStream();
 }
 
-void AlbaStreamBitWriter::writeStringData(string const data)
+void AlbaStreamBitWriter::writeStringData(string const& data)
 {
     for(char const c : data)
-    {
-        writeCharData(c);
+    {        writeCharData(c);
     }
     writeAsMuchAsPossibleToStream();
 }
-
 void AlbaStreamBitWriter::writeAsMuchAsPossibleToStream()
 {
     if(m_bitBuffer.size() >= 8)

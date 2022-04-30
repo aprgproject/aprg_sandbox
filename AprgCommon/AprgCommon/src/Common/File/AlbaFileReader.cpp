@@ -1,19 +1,14 @@
 #include "AlbaFileReader.hpp"
 
-#include <Common/Bit/AlbaBitManipulation.hpp>
 #include <Common/String/AlbaStringHelper.hpp>
 
 #include <cstdint>
-#include <fstream>
-#include <numeric>
 #include <string>
 
-using namespace alba::stringHelper;
-using namespace std;
+using namespace alba::stringHelper;using namespace std;
 
 namespace alba
 {
-
 AlbaFileReader::AlbaFileReader(ifstream& stream)
     : m_characterBuffer()
     , m_stream(stream)
@@ -53,84 +48,13 @@ char* AlbaFileReader::getCharacters(unsigned int& numberOfCharacters)
     m_characterBuffer[numberOfCharacters] = '\0';
     return getCharacterBufferPointer();
 }
-template <typename NumberType>
-NumberType AlbaFileReader::getTwoByteData()
-{
-    return getData<NumberType, 2>();
-}
-
-template <typename NumberType>
-NumberType AlbaFileReader::getFourByteData()
-{
-    return getData<NumberType, 4>();
-}
-
-template <typename NumberType>
-NumberType AlbaFileReader::getEightByteData()
-{
-    return getData<NumberType, 8>();
-}
-
-template <typename NumberType>
-NumberType AlbaFileReader::getTwoByteSwappedData()
-{
-    return AlbaBitManipulation<NumberType>::swapForTwoBytes(getData<NumberType, 2>());
-}
-
-template <typename NumberType>
-NumberType AlbaFileReader::getFourByteSwappedData()
-{
-    return AlbaBitManipulation<NumberType>::swapForFourBytes(getData<NumberType, 4>());
-}
-
-template <typename NumberType>
-NumberType AlbaFileReader::getEightByteSwappedData()
-{
-    return AlbaBitManipulation<NumberType>::swapForEightBytes(getData<NumberType, 8>());
-}
-
-
-template <typename NumberType, unsigned int numberOfBytesToRead>
-NumberType AlbaFileReader::getData()
-{
-    NumberType result(0);
-    m_stream.read(getCharacterBufferPointer(), numberOfBytesToRead);
-    unsigned int numberOfCharacters = static_cast<unsigned int>(m_stream.gcount());
-    result = accumulate(m_characterBuffer.cbegin(), m_characterBuffer.cbegin()+static_cast<int>(numberOfCharacters),
-                        static_cast<NumberType>(0U),
-                        [&](NumberType partialSum, NumberType newValue)
-    {
-        partialSum = static_cast<NumberType>(partialSum << 8);
-        partialSum |= (0xFF & newValue);
-        return partialSum;
-    });
-    return result;
-}
-
-template uint16_t AlbaFileReader::getTwoByteData<uint16_t>();
-
-template uint32_t AlbaFileReader::getFourByteData<uint32_t>();
-
-template uint64_t AlbaFileReader::getEightByteData<uint64_t>();
-
-template uint16_t AlbaFileReader::getTwoByteSwappedData<uint16_t>();
-
-template uint32_t AlbaFileReader::getFourByteSwappedData<uint32_t>();
-
-template uint64_t AlbaFileReader::getEightByteSwappedData<uint64_t>();
-
-template uint16_t AlbaFileReader::getData<uint16_t, 2>();
-template uint32_t AlbaFileReader::getData<uint32_t, 4>();
-template uint64_t AlbaFileReader::getData<uint64_t, 8>();
 
 void AlbaFileReader::saveDataToMemoryBuffer(AlbaMemoryBuffer& buffer, unsigned int numberOfBytesToRead)
 {
-    char* writer = static_cast<char*>(buffer.resizeWithAdditionalSizeAndReturnBeginOfAdditionalData(numberOfBytesToRead));
-    m_stream.read(writer, static_cast<streamsize>(numberOfBytesToRead));
+    char* writer = static_cast<char*>(buffer.resizeWithAdditionalSizeAndReturnBeginOfAdditionalData(numberOfBytesToRead));    m_stream.read(writer, static_cast<streamsize>(numberOfBytesToRead));
 }
 
-string AlbaFileReader::getLineAndIgnoreWhiteSpaces()
-{
+string AlbaFileReader::getLineAndIgnoreWhiteSpaces(){
     string result;
     while(!m_stream.eof())
     {
