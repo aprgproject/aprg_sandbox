@@ -71,10 +71,10 @@ std::string getStringAndReplaceNonAlphanumericCharactersToUnderScore(std::string
 std::string getStringByRepeatingUntilDesiredLength(std::string const& stringToRepeat, unsigned int desiredLength);
 std::string getNumberAfterThisString(std::string const& mainString, std::string const& stringToSearch);
 std::string getHexNumberAfterThisString(std::string const& mainString, std::string const& stringToSearch);
+std::string getHexEquivalentOfCharacters(std::string const& stringToCheck);
 
 std::string getStringWithJustifyAlignment(std::string const& mainString, unsigned int const length);
-std::string getStringWithCenterAlignment(std::string const& mainString, unsigned int const length);
-std::string getStringWithRightAlignment(std::string const& mainString, unsigned int const length);
+std::string getStringWithCenterAlignment(std::string const& mainString, unsigned int const length);std::string getStringWithRightAlignment(std::string const& mainString, unsigned int const length);
 std::string getStringWithLeftAlignment(std::string const& mainString, unsigned int const length);
 
 std::string getCorrectPathWithoutUrlParameters(std::string const& path);

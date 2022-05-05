@@ -623,10 +623,19 @@ string getHexNumberAfterThisString(string const& mainString, string const& strin
     return result;
 }
 
+std::string getHexEquivalentOfCharacters(std::string const& stringToCheck)
+{
+    stringstream ss;
+    for(unsigned char const c : stringToCheck)
+    {
+        ss  << hex << uppercase << setfill('0') << setw(2) << static_cast<unsigned int>(c);
+    }
+    return ss.str();
+}
+
 string getStringWithJustifyAlignment(string const& mainString, unsigned int const length)
 {
-    string result;
-    string noRedundantWhiteSpace(getStringWithoutRedundantWhiteSpace(mainString));
+    string result;    string noRedundantWhiteSpace(getStringWithoutRedundantWhiteSpace(mainString));
     string noWhiteSpace(getStringWithoutWhiteSpace(mainString));
     if(mainString.empty())
     {

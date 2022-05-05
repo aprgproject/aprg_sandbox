@@ -393,51 +393,56 @@ TEST(GetNewStringFromStringTest, GetStringByRepeatingUntilDesiredLength)
 
 TEST(GetStringNumberFromStringTest, GetStringNumberAfterThisString)
 {
-    EXPECT_EQ(string("1234"), getNumberAfterThisString("INF/TCOM/R, nbccId: 1234, ", "nbccId: "));
-    EXPECT_EQ(string("5678"), getNumberAfterThisString("INF/TCOM/R, nbccId: 5678 ", "nbccId: "));
-    EXPECT_EQ(string("7890"), getNumberAfterThisString("INF/TCOM/R, nbccId: 7890", "nbccId: "));
+    EXPECT_EQ("1234", getNumberAfterThisString("INF/TCOM/R, nbccId: 1234, ", "nbccId: "));
+    EXPECT_EQ("5678", getNumberAfterThisString("INF/TCOM/R, nbccId: 5678 ", "nbccId: "));
+    EXPECT_EQ("7890", getNumberAfterThisString("INF/TCOM/R, nbccId: 7890", "nbccId: "));
 }
 
 TEST(GetStringNumberFromStringTest, GetStringHexNumberAfterThisString)
 {
-    EXPECT_EQ(string("AFBA"), getHexNumberAfterThisString("INF/TCOM/R, nbccId: AFBA, ", "nbccId: "));
-    EXPECT_EQ(string("1234"), getHexNumberAfterThisString("INF/TCOM/R, nbccId: 1234 ", "nbccId: "));
-    EXPECT_EQ(string("AC3EB434"), getHexNumberAfterThisString("INF/TCOM/R, nbccId: AC3EB434", "nbccId: "));
+    EXPECT_EQ("AFBA", getHexNumberAfterThisString("INF/TCOM/R, nbccId: AFBA, ", "nbccId: "));
+    EXPECT_EQ("1234", getHexNumberAfterThisString("INF/TCOM/R, nbccId: 1234 ", "nbccId: "));
+    EXPECT_EQ("AC3EB434", getHexNumberAfterThisString("INF/TCOM/R, nbccId: AC3EB434", "nbccId: "));
+}
+
+TEST(GetStringNumberFromStringTest, GetHexEquivalentOfCharacters)
+{
+    EXPECT_EQ("4D61726B2045617276696E20416C6261", getHexEquivalentOfCharacters("Mark Earvin Alba"));
+    EXPECT_EQ("FF", getHexEquivalentOfCharacters("\xff"));
 }
 
 TEST(GetStringWithAlignmentFromStringTest, GetStringUsingJustifyAlignment)
 {
-    EXPECT_EQ(string("                        M                         "), getStringWithJustifyAlignment("M", 50));
-    EXPECT_EQ(string("         M         a         r         k          "), getStringWithJustifyAlignment("Mark", 50));
-    EXPECT_EQ(string("Mark        Earvin        Alba        1234567890  "), getStringWithJustifyAlignment("Mark Earvin Alba 1234567890", 50));
-    EXPECT_EQ(string("Mark Earvin Alba 1234567890"), getStringWithJustifyAlignment("Mark Earvin Alba 1234567890", 1));
-    EXPECT_EQ(string("                                                  "), getStringWithJustifyAlignment(string(), 50));
+    EXPECT_EQ("                        M                         ", getStringWithJustifyAlignment("M", 50));
+    EXPECT_EQ("         M         a         r         k          ", getStringWithJustifyAlignment("Mark", 50));
+    EXPECT_EQ("Mark        Earvin        Alba        1234567890  ", getStringWithJustifyAlignment("Mark Earvin Alba 1234567890", 50));
+    EXPECT_EQ("Mark Earvin Alba 1234567890", getStringWithJustifyAlignment("Mark Earvin Alba 1234567890", 1));
+    EXPECT_EQ("                                                  ", getStringWithJustifyAlignment(string(), 50));
 }
 
 TEST(GetStringWithAlignmentFromStringTest, GetStringUsingCenterAlignment)
 {
-    EXPECT_EQ(string("                       Mark                       "), getStringWithCenterAlignment("Mark", 50));
-    EXPECT_EQ(string("           Mark Earvin Alba 1234567890            "), getStringWithCenterAlignment("Mark Earvin Alba 1234567890", 50));
-    EXPECT_EQ(string("Mark Earvin Alba 1234567890"), getStringWithCenterAlignment("Mark Earvin Alba 1234567890", 1));
-    EXPECT_EQ(string("                                                  "), getStringWithCenterAlignment(string(), 50));
+    EXPECT_EQ("                       Mark                       ", getStringWithCenterAlignment("Mark", 50));
+    EXPECT_EQ("           Mark Earvin Alba 1234567890            ", getStringWithCenterAlignment("Mark Earvin Alba 1234567890", 50));
+    EXPECT_EQ("Mark Earvin Alba 1234567890", getStringWithCenterAlignment("Mark Earvin Alba 1234567890", 1));
+    EXPECT_EQ("                                                  ", getStringWithCenterAlignment(string(), 50));
 }
 
 TEST(GetStringWithAlignmentFromStringTest, GetStringUsingRightAlignment)
 {
-    EXPECT_EQ(string("                                              Mark"), getStringWithRightAlignment("Mark", 50));
-    EXPECT_EQ(string("                       Mark Earvin Alba 1234567890"), getStringWithRightAlignment("Mark Earvin Alba 1234567890", 50));
-    EXPECT_EQ(string("Mark Earvin Alba 1234567890"), getStringWithRightAlignment("Mark Earvin Alba 1234567890", 1));
-    EXPECT_EQ(string("                                                  "), getStringWithRightAlignment(string(), 50));
+    EXPECT_EQ("                                              Mark", getStringWithRightAlignment("Mark", 50));
+    EXPECT_EQ("                       Mark Earvin Alba 1234567890", getStringWithRightAlignment("Mark Earvin Alba 1234567890", 50));
+    EXPECT_EQ("Mark Earvin Alba 1234567890", getStringWithRightAlignment("Mark Earvin Alba 1234567890", 1));
+    EXPECT_EQ("                                                  ", getStringWithRightAlignment(string(), 50));
 }
 
 TEST(GetStringWithAlignmentFromStringTest, GetStringUsingLeftAlignment)
 {
-    EXPECT_EQ(string("Mark                                              "), getStringWithLeftAlignment("Mark", 50));
-    EXPECT_EQ(string("Mark Earvin Alba 1234567890                       "), getStringWithLeftAlignment("Mark Earvin Alba 1234567890", 50));
-    EXPECT_EQ(string("Mark Earvin Alba 1234567890"), getStringWithLeftAlignment("Mark Earvin Alba 1234567890", 1));
-    EXPECT_EQ(string("                                                  "), getStringWithLeftAlignment(string(), 50));
+    EXPECT_EQ("Mark                                              ", getStringWithLeftAlignment("Mark", 50));
+    EXPECT_EQ("Mark Earvin Alba 1234567890                       ", getStringWithLeftAlignment("Mark Earvin Alba 1234567890", 50));
+    EXPECT_EQ("Mark Earvin Alba 1234567890", getStringWithLeftAlignment("Mark Earvin Alba 1234567890", 1));
+    EXPECT_EQ("                                                  ", getStringWithLeftAlignment(string(), 50));
 }
-
 
 TEST(GetNewStringFromStringTest, GetStringWithoutRedundantSlashesUsingAllLettersWithSpecialCharacters)
 {

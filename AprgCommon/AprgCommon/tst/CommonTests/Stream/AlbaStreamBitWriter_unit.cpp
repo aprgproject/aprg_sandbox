@@ -16,11 +16,10 @@ namespace alba
 TEST(AlbaStreamBitWriterTest, WriteBoolDataWorks)
 {
     AlbaLocalPathHandler testFilePath(APRG_COMMON_TEST_FILE_TO_WRITE);
-    ofstream writeTestFile(testFilePath.getFullPath(), std::ofstream::binary);
+    ofstream writeTestFile(testFilePath.getFullPath(), ofstream::binary);
     ASSERT_TRUE(writeTestFile.is_open());
 
-    AlbaStreamBitWriter writer(writeTestFile);
-    writer.writeBoolData(false);
+    AlbaStreamBitWriter writer(writeTestFile);    writer.writeBoolData(false);
     writer.writeBoolData(false);
     writer.writeBoolData(true);
     writer.writeBoolData(true);
@@ -42,11 +41,10 @@ TEST(AlbaStreamBitWriterTest, WriteBoolDataWorks)
 TEST(AlbaStreamBitWriterTest, WriteCharDataWorks)
 {
     AlbaLocalPathHandler testFilePath(APRG_COMMON_TEST_FILE_TO_WRITE);
-    ofstream writeTestFile(testFilePath.getFullPath(), std::ofstream::binary);
+    ofstream writeTestFile(testFilePath.getFullPath(), ofstream::binary);
     ASSERT_TRUE(writeTestFile.is_open());
 
-    AlbaStreamBitWriter writer(writeTestFile);
-    writer.writeCharData('.');
+    AlbaStreamBitWriter writer(writeTestFile);    writer.writeCharData('.');
     writer.writeCharData('/');
     writer.writeCharData('*');
     writeTestFile.close();
@@ -63,11 +61,10 @@ TEST(AlbaStreamBitWriterTest, WriteCharDataWorks)
 TEST(AlbaStreamBitWriterTest, WriteStringDataWorks)
 {
     AlbaLocalPathHandler testFilePath(APRG_COMMON_TEST_FILE_TO_WRITE);
-    ofstream writeTestFile(testFilePath.getFullPath(), std::ofstream::binary);
+    ofstream writeTestFile(testFilePath.getFullPath(), ofstream::binary);
     ASSERT_TRUE(writeTestFile.is_open());
 
-    AlbaStreamBitWriter writer(writeTestFile);
-    writer.writeStringData("A1BA");
+    AlbaStreamBitWriter writer(writeTestFile);    writer.writeStringData("A1BA");
     writeTestFile.close();
 
     ifstream readTestFile(testFilePath.getFullPath());
@@ -82,11 +79,10 @@ TEST(AlbaStreamBitWriterTest, WriteStringDataWorks)
 TEST(AlbaStreamBitWriterTest, WriteNumberDataWorks)
 {
     AlbaLocalPathHandler testFilePath(APRG_COMMON_TEST_FILE_TO_WRITE);
-    ofstream writeTestFile(testFilePath.getFullPath(), std::ofstream::binary);
+    ofstream writeTestFile(testFilePath.getFullPath(), ofstream::binary);
     ASSERT_TRUE(writeTestFile.is_open());
 
-    AlbaStreamBitWriter writer(writeTestFile);
-    writer.writeNumberData<unsigned int>(AlbaStreamBitEndianType::BigEndian, 0x01020304);
+    AlbaStreamBitWriter writer(writeTestFile);    writer.writeNumberData<unsigned int>(AlbaStreamBitEndianType::BigEndian, 0x01020304);
     writer.writeNumberData<unsigned int>(AlbaStreamBitEndianType::LittleEndian, 0x01020304);
     writeTestFile.close();
 
@@ -99,14 +95,32 @@ TEST(AlbaStreamBitWriterTest, WriteNumberDataWorks)
     EXPECT_FALSE(fileReader.isNotFinished());
 }
 
+TEST(AlbaStreamBitWriterTest, WriteBitsetDataWorks)
+{
+    AlbaLocalPathHandler testFilePath(APRG_COMMON_TEST_FILE_TO_WRITE);
+    ofstream writeTestFile(testFilePath.getFullPath(), ofstream::binary);
+    ASSERT_TRUE(writeTestFile.is_open());
+    bitset<32> bitsetToWrite(0x12345678);
+
+    AlbaStreamBitWriter writer(writeTestFile);
+    writer.writeBitsetData(bitsetToWrite, 15, 22);
+    writeTestFile.close();
+
+    ifstream readTestFile(testFilePath.getFullPath());
+    ASSERT_TRUE(readTestFile.is_open());
+    AlbaFileReader fileReader(readTestFile);
+    EXPECT_EQ(0x16U, fileReader.getOneByteData<unsigned char>());
+    EXPECT_TRUE(fileReader.getLine().empty());
+    EXPECT_FALSE(fileReader.isNotFinished());
+}
+
 TEST(AlbaStreamBitWriterTest, FlushWorks)
 {
     AlbaLocalPathHandler testFilePath(APRG_COMMON_TEST_FILE_TO_WRITE);
-    ofstream writeTestFile(testFilePath.getFullPath(), std::ofstream::binary);
+    ofstream writeTestFile(testFilePath.getFullPath(), ofstream::binary);
     ASSERT_TRUE(writeTestFile.is_open());
     AlbaStreamBitWriter writer(writeTestFile);
     writer.writeBoolData(true);
-
     writer.flush();
     writeTestFile.close();
 
