@@ -136,19 +136,17 @@ ConicSectionType getConicSectionBasedOnEccentricity(
         double const eccentricity)
 {
     ConicSectionType result(ConicSectionType::Unknown);
-    if(isAlmostEqual(eccentricity, 0))
+    if(isAlmostEqual(eccentricity, 0.0))
     {
         result = ConicSectionType::Circle;
     }
-    else if(isAlmostEqual(eccentricity, 1))
+    else if(isAlmostEqual(eccentricity, 1.0))
     {
         result = ConicSectionType::Parabola;
-    }
-    else if(eccentricity > 0 && eccentricity < 1)
+    }    else if(eccentricity > 0 && eccentricity < 1)
     {
         result = ConicSectionType::Ellipse;
-    }
-    else if(eccentricity > 1)
+    }    else if(eccentricity > 1)
     {
         result = ConicSectionType::Hyperbola;
     }
@@ -165,29 +163,26 @@ ConicSectionType getConicSectionBasedOnGeneralForm(
     // A*x^2 + B*x*y + C*y^2 + D*x + E*y + C
     ConicSectionType result;
 
-    if(isAlmostEqual(b, 0))
+    if(isAlmostEqual(b, 0.0))
     {
-        if(isAlmostEqual(a, 0) && isAlmostEqual(c, 0))
+        if(isAlmostEqual(a, 0.0) && isAlmostEqual(c, 0.0))
         {
-            if(isAlmostEqual(d, 0) || isAlmostEqual(e, 0))
+            if(isAlmostEqual(d, 0.0) || isAlmostEqual(e, 0.0))
             {
                 result = ConicSectionType::Point;
-            }
-            else
+            }            else
             {
                 result = ConicSectionType::Line;
             }
         }
-        else if((isAlmostEqual(a, 0) && !isAlmostEqual(c, 0))
-                || (!isAlmostEqual(a, 0) && isAlmostEqual(c, 0)))
+        else if((isAlmostEqual(a, 0.0) && !isAlmostEqual(c, 0.0))
+                || (!isAlmostEqual(a, 0.0) && isAlmostEqual(c, 0.0)))
         {
             result = ConicSectionType::Parabola;
-        }
-        else if(isAlmostEqual(a, c))
+        }        else if(isAlmostEqual(a, c))
         {
             result = ConicSectionType::Circle;
-        }
-        else if(a*c > 0)
+        }        else if(a*c > 0)
         {
             result = ConicSectionType::Ellipse;
         }
@@ -202,16 +197,14 @@ ConicSectionType getConicSectionBasedOnGeneralForm(
 Quadrant getQuadrantOfAPoint(Point const& point)
 {
     Quadrant result(Quadrant::I);
-    bool isXZero = isAlmostEqual(point.getX(), 0);
-    bool isYZero = isAlmostEqual(point.getY(), 0);
+    bool isXZero = isAlmostEqual(point.getX(), 0.0);
+    bool isYZero = isAlmostEqual(point.getY(), 0.0);
     double signOfX = getSign(point.getX());
     double signOfY = getSign(point.getY());
-    if(isXZero)
-    {
+    if(isXZero)    {
         if(isYZero)
         {
-            result = Quadrant::Invalid;
-        }
+            result = Quadrant::Invalid;        }
         else if(signOfY==1)
         {
             result = Quadrant::II;

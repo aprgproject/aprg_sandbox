@@ -213,15 +213,13 @@ Line Ellipse::getMinorAxis() const
 Points Ellipse::getPointsForCircumference(double const interval) const
 {
     Points result;
-    if(!isAlmostEqual(m_aValue, 0) && !isAlmostEqual(m_bValue, 0))
+    if(!isAlmostEqual(m_aValue, 0.0) && !isAlmostEqual(m_bValue, 0.0))
     {
         Points pointsInFirstQuarter(getPointsInTraversingXAndY(1, 1, interval));
-        Points pointsInSecondQuarter(getPointsInTraversingXAndY(-1, 1, interval));
-        Points pointsInThirdQuarter(getPointsInTraversingXAndY(-1, -1, interval));
+        Points pointsInSecondQuarter(getPointsInTraversingXAndY(-1, 1, interval));        Points pointsInThirdQuarter(getPointsInTraversingXAndY(-1, -1, interval));
         Points pointsInFourthQuarter(getPointsInTraversingXAndY(1, -1, interval));
         result.reserve(pointsInFirstQuarter.size()+pointsInSecondQuarter.size()+pointsInThirdQuarter.size()+pointsInFourthQuarter.size());
-        copy(pointsInFirstQuarter.cbegin(), pointsInFirstQuarter.cend()-1, back_inserter(result));
-        copy(pointsInSecondQuarter.cbegin(), pointsInSecondQuarter.cend()-1, back_inserter(result));
+        copy(pointsInFirstQuarter.cbegin(), pointsInFirstQuarter.cend()-1, back_inserter(result));        copy(pointsInSecondQuarter.cbegin(), pointsInSecondQuarter.cend()-1, back_inserter(result));
         copy(pointsInThirdQuarter.cbegin(), pointsInThirdQuarter.cend()-1, back_inserter(result));
         copy(pointsInFourthQuarter.cbegin(), pointsInFourthQuarter.cend()-1, back_inserter(result));
     }
@@ -235,15 +233,13 @@ void Ellipse::traverseArea(double const interval, TraverseOperation const& trave
         double xAtTheEdgeOfEllipse(calculateXFromYWithoutCenter(y, 1));
         for(double x=0; x<=xAtTheEdgeOfEllipse; x+=interval)
         {
-            if(isAlmostEqual(x, 0) && isAlmostEqual(y, 0))
+            if(isAlmostEqual(x, 0.0) && isAlmostEqual(y, 0.0))
             {
                 traverseOperation(m_center);
-            }
-            else
+            }            else
             {
                 traverseOperation(Point(m_center.getX()+x, m_center.getY()+y));
-                traverseOperation(Point(m_center.getX()-x, m_center.getY()+y));
-                traverseOperation(Point(m_center.getX()+x, m_center.getY()-y));
+                traverseOperation(Point(m_center.getX()-x, m_center.getY()+y));                traverseOperation(Point(m_center.getX()+x, m_center.getY()-y));
                 traverseOperation(Point(m_center.getX()-x, m_center.getY()-y));
             }
         }

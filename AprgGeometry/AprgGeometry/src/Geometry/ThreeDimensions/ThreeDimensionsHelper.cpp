@@ -20,26 +20,24 @@ namespace threeDimensionsHelper
 //Internal functions
 
 double calculateMultiplierForIntersection(
-        double const firstCoordinateCoefficient1,
-        double const firstCoordinateCoefficient2,
-        double const secondCoordinateCoefficient1,
-        double const secondCoordinateCoefficient2,
-        double const firstCoordinateInitialValue1,
-        double const firstCoordinateInitialValue2,
-        double const secondCoordinateInitialValue1,
-        double const secondCoordinateInitialValue2)
+        double const firstCoordinateCoefficientLine1,
+        double const firstCoordinateCoefficientLine2,
+        double const secondCoordinateCoefficientLine1,
+        double const secondCoordinateCoefficientLine2,
+        double const firstCoordinateInitialValueLine1,
+        double const firstCoordinateInitialValueLine2,
+        double const secondCoordinateInitialValueLine1,
+        double const secondCoordinateInitialValueLine2)
 {
     //put math here
-    double denominator = (firstCoordinateCoefficient2*secondCoordinateCoefficient1) - (firstCoordinateCoefficient1*secondCoordinateCoefficient2);
-    double numerator = ((firstCoordinateInitialValue1-firstCoordinateInitialValue2)*secondCoordinateCoefficient1)
-            - ((secondCoordinateInitialValue1-secondCoordinateInitialValue2)*firstCoordinateCoefficient1);
+    double denominator = (firstCoordinateCoefficientLine2*secondCoordinateCoefficientLine1) - (firstCoordinateCoefficientLine1*secondCoordinateCoefficientLine2);
+    double numerator = ((firstCoordinateInitialValueLine1-firstCoordinateInitialValueLine2)*secondCoordinateCoefficientLine1)
+            - ((secondCoordinateInitialValueLine1-secondCoordinateInitialValueLine2)*firstCoordinateCoefficientLine1);
     return numerator / denominator;
 }
-
 double calculateCrossProductTerm(
         double const firstCoordinateCoefficient1,
-        double const firstCoordinateCoefficient2,
-        double const secondCoordinateCoefficient1,
+        double const firstCoordinateCoefficient2,        double const secondCoordinateCoefficient1,
         double const secondCoordinateCoefficient2)
 {
     return (firstCoordinateCoefficient1*secondCoordinateCoefficient2)-(secondCoordinateCoefficient1*firstCoordinateCoefficient2);
@@ -129,83 +127,49 @@ bool isLineInPlane(Line const& line, Plane const& plane)
 
 bool areLinesParallel(Line const& line1, Line const& line2)
 {
-    CoefficientRatios coefficientRatios(
-                getRatioOfEachCoefficient(
-                Coefficients(line1.getACoefficient(), line1.getBCoefficient(), line1.getCCoefficient()),
-                Coefficients(line2.getACoefficient(), line2.getBCoefficient(), line2.getCCoefficient())));
+    Coefficients line1Coefficients(line1.getACoefficient(), line1.getBCoefficient(), line1.getCCoefficient());
+    Coefficients line2Coefficients(line2.getACoefficient(), line2.getBCoefficient(), line2.getCCoefficient());
 
-    return areCoefficientsRatiosParallel(coefficientRatios);
+    return areCoefficientsParallel(line1Coefficients, line2Coefficients);
 }
 
 bool arePlanesParallel(Plane const& plane1, Plane const& plane2)
 {
-    CoefficientRatios coefficientRatios(
-                getRatioOfEachCoefficient(
-                Coefficients(plane1.getACoefficient(), plane1.getBCoefficient(), plane1.getCCoefficient()),
-                Coefficients(plane2.getACoefficient(), plane2.getBCoefficient(), plane2.getCCoefficient())));
-
-    return areCoefficientsRatiosParallel(coefficientRatios);
+    Coefficients plane1Coefficients(plane1.getACoefficient(), plane1.getBCoefficient(), plane1.getCCoefficient());
+    Coefficients plane2Coefficients(plane2.getACoefficient(), plane2.getBCoefficient(), plane2.getCCoefficient());
+    return areCoefficientsParallel(plane1Coefficients, plane2Coefficients);
 }
 
 bool areLinesPerpendicular(Line const& line1, Line const& line2)
 {
-    Coefficients coefficients(
-                getProductOfEachCoefficient(
-                Coefficients(line1.getACoefficient(), line1.getBCoefficient(), line1.getCCoefficient()),
-                Coefficients(line2.getACoefficient(), line2.getBCoefficient(), line2.getCCoefficient())));
-
-    return areCoefficientsProductPerpendicular(coefficients);
+    Coefficients line1Coefficients(line1.getACoefficient(), line1.getBCoefficient(), line1.getCCoefficient());
+    Coefficients line2Coefficients(line2.getACoefficient(), line2.getBCoefficient(), line2.getCCoefficient());
+    return areCoefficientsPerpendicular(line1Coefficients, line2Coefficients);
 }
 
 bool arePlanesPerpendicular(Plane const& plane1, Plane const& plane2)
 {
-    Coefficients coefficients(
-                getProductOfEachCoefficient(
-                Coefficients(plane1.getACoefficient(), plane1.getBCoefficient(), plane1.getCCoefficient()),
-                Coefficients(plane2.getACoefficient(), plane2.getBCoefficient(), plane2.getCCoefficient())));
-
-    return areCoefficientsProductPerpendicular(coefficients);
+    Coefficients plane1Coefficients(plane1.getACoefficient(), plane1.getBCoefficient(), plane1.getCCoefficient());
+    Coefficients plane2Coefficients(plane2.getACoefficient(), plane2.getBCoefficient(), plane2.getCCoefficient());
+    return areCoefficientsPerpendicular(plane1Coefficients, plane2Coefficients);
 }
 
-bool areCoefficientsRatiosParallel(CoefficientRatios const& coefficientRatios)
+bool areCoefficientsParallel(Coefficients const& coefficients1, Coefficients const& coefficients2)
 {
-    vector<AlbaRatio> coefficientRatiosInVector{coefficientRatios.getX(), coefficientRatios.getY(), coefficientRatios.getZ()};
-    AlbaOptional<double> previousRatioOfCoefficient;
-    bool isParallel(true);
-    for(AlbaRatio const coefficientRatio : coefficientRatiosInVector)
-    {
-        if(coefficientRatio.isOnlyOneValueZero())
-        {
-            isParallel=false;
-        }
-        else if(coefficientRatio.hasValidRatio())
-        {
-            double validCoefficientRatio(coefficientRatio.getValidRatioIfPossible());
-            if(previousRatioOfCoefficient.hasContent())
-            {
-                isParallel = isAlmostEqual(previousRatioOfCoefficient.getConstReference(), validCoefficientRatio);
-            }
-            previousRatioOfCoefficient.setValue(validCoefficientRatio);
-        }
-        if(!isParallel)
-        {
-            break;
-        }
-    }
-    return isParallel;
+    return isAlmostEqual(
+                getDotProduct(coefficients1, coefficients2),
+                getMagnitudeOfCoefficients(coefficients1) * getMagnitudeOfCoefficients(coefficients2));
 }
 
-bool areCoefficientsProductPerpendicular(Coefficients const& coefficients)
+bool areCoefficientsPerpendicular(Coefficients const& coefficients1, Coefficients const& coefficients2)
 {
-    return coefficients.getX() + coefficients.getY() + coefficients.getZ() == 0;
+    return isAlmostEqual(getDotProduct(coefficients1, coefficients2), 0.0);
 }
 
-double getDistance(Point const& point1, Point const& point2)
-{
+double getDistance(Point const& point1, Point const& point2){
     Point delta(point2 - point1);
     return getSquareRootOfXSquaredPlusYSquaredPlusZSquared<double>(delta.getX(), delta.getY(), delta.getZ());
 }
-
 double getDistance(Line const& line, Point const& point)
 {
     Plane perpendicularPlane(getPerpendicularPlaneOfALineAndUsingAPointInThePlane(line, point));
@@ -245,48 +209,31 @@ double getDistance(Plane const& plane1, Plane const& plane2)
     double distance(0);
     if(arePlanesParallel(plane1, plane2))
     {
-        CoefficientRatios coefficientRatios(
-                    getRatioOfEachCoefficient(
-                    Coefficients(plane1.getACoefficient(), plane1.getBCoefficient(), plane1.getCCoefficient()),
-                    Coefficients(plane2.getACoefficient(), plane2.getBCoefficient(), plane2.getCCoefficient())));
-        vector<AlbaRatio> coefficientRatiosInVector{coefficientRatios.getX(), coefficientRatios.getY(), coefficientRatios.getZ()};
-        AlbaOptional<double> commonRatioOptional;
-        for(AlbaRatio const coefficientRatio : coefficientRatiosInVector)
-        {
-            if(coefficientRatio.hasValidRatio())
-            {
-                commonRatioOptional.setValue(coefficientRatio.getValidRatioIfPossible());
-                break;
-            }
-        }
-        if(commonRatioOptional.hasContent())
-        {
-            double commonRatio = commonRatioOptional.getConstReference();
-            Plane reducedFormPlane1(plane1.getACoefficient()/commonRatio, plane1.getBCoefficient()/commonRatio, plane1.getCCoefficient()/commonRatio, plane1.getDCoefficient()/commonRatio);
-            Plane reducedFormPlane2(plane2.getACoefficient()/commonRatio, plane2.getBCoefficient()/commonRatio, plane2.getCCoefficient()/commonRatio, plane2.getDCoefficient()/commonRatio);
-            distance = getAbsoluteValue(reducedFormPlane1.getDCoefficient()-reducedFormPlane2.getDCoefficient())
-                    /getSquareRootOfXSquaredPlusYSquaredPlusZSquared(reducedFormPlane1.getACoefficient(), reducedFormPlane1.getBCoefficient(), reducedFormPlane1.getCCoefficient());
-        }
+        Line perpendicularLine(plane1.getACoefficient(), plane1.getBCoefficient(), plane1.getCCoefficient(), Point(0, 0, 0));
+        Point point1(getPointOfIntersectionOfAPlaneAndALine(plane1, perpendicularLine));
+        Point point2(getPointOfIntersectionOfAPlaneAndALine(plane2, perpendicularLine));
+        distance = getDistance(point1, point2);
     }
     return distance;
 }
-
 double getCosineOfAngleUsing2Deltas(Coefficients const& c1, Coefficients const& c2)
 {
     //from cos theta = (dotproduct of coefficients v1 and v2)/(magnitude of v1 * magnitude of v2)
     double numeratorPart = getDotProduct(c1, c2);
-    double denominatorPart = getSquareRootOfXSquaredPlusYSquaredPlusZSquared(c1.getX(), c1.getY(), c1.getZ()) *
-            getSquareRootOfXSquaredPlusYSquaredPlusZSquared(c2.getX(), c2.getY(), c2.getZ());
+    double denominatorPart = getMagnitudeOfCoefficients(c1) * getMagnitudeOfCoefficients(c2);
     return numeratorPart/denominatorPart;
+}
+
+double getMagnitudeOfCoefficients(Coefficients const coefficients)
+{
+    return getSquareRootOfXSquaredPlusYSquaredPlusZSquared(coefficients.getX(), coefficients.getY(), coefficients.getZ());
 }
 
 double getDotProduct(Coefficients const coefficients1, Coefficients const coefficients2)
 {
-    return coefficients1.getX()*coefficients2.getX()+
-            coefficients1.getY()*coefficients2.getY()+
+    return coefficients1.getX()*coefficients2.getX()+            coefficients1.getY()*coefficients2.getY()+
             coefficients1.getZ()*coefficients2.getZ();
 }
-
 Coefficients getCrossProduct(Coefficients const coefficients1, Coefficients const coefficients2)
 {
     return Coefficients(
@@ -296,19 +243,12 @@ Coefficients getCrossProduct(Coefficients const coefficients1, Coefficients cons
                 );
 }
 
-CoefficientRatios getRatioOfEachCoefficient(Coefficients const& first, Coefficients const& second)
-{
-    return CoefficientRatios(AlbaRatio(first.getX(), second.getX()), AlbaRatio(first.getY(), second.getY()), AlbaRatio(first.getZ(), second.getZ()));
-}
-
 Coefficients getProductOfEachCoefficient(Coefficients const& first, Coefficients const& second)
 {
-    return Coefficients(first.getX() * second.getX(), first.getY() * second.getY(), first.getZ() * second.getZ());
-}
+    return Coefficients(first.getX() * second.getX(), first.getY() * second.getY(), first.getZ() * second.getZ());}
 
 AlbaAngle getTheInnerAngleUsingThreePoints(Point const& pointA, Point const& pointB, Point const& pointC)
-{
-    Point deltaBA(pointB-pointA);
+{    Point deltaBA(pointB-pointA);
     Point deltaCA(pointC-pointA);
     Coefficients c1(deltaBA.getX(), deltaBA.getY(), deltaBA.getZ());
     Coefficients c2(deltaCA.getX(), deltaCA.getY(), deltaCA.getZ());
