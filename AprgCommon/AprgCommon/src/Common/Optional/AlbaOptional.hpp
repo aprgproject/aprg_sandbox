@@ -9,152 +9,133 @@ namespace alba
 
 template <typename ContentType> class AlbaOptional
 {
+    // This requires copy constructor and default constructor on ContentType
 public:
+
     AlbaOptional()
-        : m_hasContent(false)
     {}
 
     AlbaOptional(ContentType content)
-        : m_hasContent(true)
-        , m_contentPointer(new ContentType(content))
+        : m_contentPointer(std::make_unique<ContentType>(content))
     {}
 
     AlbaOptional(ContentType& content)
-        : m_hasContent(true)
-        , m_contentPointer(new ContentType(content))
+        : m_contentPointer(std::make_unique<ContentType>(content))
     {}
 
     AlbaOptional(AlbaOptional<ContentType> const& optional)
-        : m_hasContent(optional.m_hasContent)
-        , m_contentPointer(nullptr)
     {
-        if(m_hasContent)
+        if(optional.m_contentPointer)
         {
-            m_contentPointer.reset(new ContentType(optional.get()));
+            m_contentPointer = std::make_unique<ContentType>(*(optional.m_contentPointer));
         }
     }
 
     AlbaOptional(AlbaOptional<ContentType>&& optional)
-        : m_hasContent(optional.m_hasContent)
-        , m_contentPointer(nullptr)
-    {
-        if(m_hasContent)
-        {
-            m_contentPointer = std::move(optional.m_contentPointer);
-            optional.m_hasContent = false;
-        }
-    }
+        : m_contentPointer(std::move(optional.m_contentPointer))
+    {}
 
     void operator=(AlbaOptional<ContentType> const& optional)
     {
-        m_hasContent = optional.m_hasContent;
-        if(m_hasContent)
+        if(optional.m_contentPointer)
         {
-            m_contentPointer.reset(new ContentType(optional.get()));
+            m_contentPointer = std::make_unique<ContentType>(*(optional.m_contentPointer));
         }
     }
 
     void operator=(AlbaOptional<ContentType>&& optional)
     {
-        m_hasContent = optional.m_hasContent;
-        if(m_hasContent)
-        {
-            m_contentPointer = std::move(optional.m_contentPointer);
-            optional.m_hasContent = false;
-        }
+        m_contentPointer = std::move(optional.m_contentPointer);
     }
 
     operator bool() const
     {
-        return m_hasContent;
+        return hasContent();
     }
 
     operator ContentType() const
     {
-        assert(m_hasContent); //we will not allow mistakes
-        if(m_hasContent)
-        {
-            return *(m_contentPointer.get());
-        }
-        else
-        {
-            return ContentType();
-        }
+        return get();
     }
 
     void createObjectUsingDefaultConstructor()
     {
-        m_hasContent = true;
-        m_contentPointer.reset(new ContentType);
+        m_contentPointer = std::make_unique<ContentType>();
     }
 
     void setValue(ContentType content)
     {
-        m_hasContent = true;
-        m_contentPointer.reset(new ContentType(content));
+        if(m_contentPointer)
+        {
+            *m_contentPointer = content;
+        }
+        else
+        {
+            m_contentPointer = std::make_unique<ContentType>(content);
+        }
     }
 
     void setConstReference(ContentType const& content)
     {
-        m_hasContent = true;
-        m_contentPointer.reset(new ContentType(content));
+        if(m_contentPointer)
+        {
+            *m_contentPointer = content;
+        }
+        else
+        {
+            m_contentPointer = std::make_unique<ContentType>(content);
+        }
     }
 
     void clear()
     {
-        m_hasContent = false;
         m_contentPointer.reset();
     }
 
     bool hasContent() const
     {
-        return m_hasContent;
+        return static_cast<bool>(m_contentPointer);
     }
 
     ContentType get() const
     {
-        assert(m_hasContent); //we will not allow mistakes
-        if(m_hasContent)
+        assert(m_contentPointer); //we will not allow mistakes
+        if(m_contentPointer)
         {
-            return *(m_contentPointer.get());
+            return *(m_contentPointer);
         }
         else
-        {
-            return ContentType();
+        {            return ContentType();
         }
     }
 
     ContentType& getReference()
     {
-        assert(m_hasContent); //we will not allow mistakes
-        return *(m_contentPointer.get());
+        assert(m_contentPointer); //we will not allow mistakes
+        return *(m_contentPointer);
     }
 
     ContentType const& getConstReference() const
     {
-        assert(m_hasContent); //we will not allow mistakes
-        return *(m_contentPointer.get());
+        assert(m_contentPointer); //we will not allow mistakes
+        return *(m_contentPointer);
     }
 
     friend std::ostream & operator<<(std::ostream & out, AlbaOptional<ContentType> const& optional)
     {
-        out << "hasContent: " << optional.m_hasContent;
-        if(optional.m_hasContent)
+        out << "hasContent: " << optional.hasContent();
+        if(optional.hasContent())
         {
             out << " value: " << optional.getConstReference();
-        }
-        return out;
+        }        return out;
     }
 
 private:
-    bool m_hasContent;
     std::unique_ptr<ContentType> m_contentPointer;
 };
-
 template <typename ContentType> class AlbaOptional<ContentType &>
 {
 public:
-
 //#warning Please make sure that object still exists in the life time of an optional reference object
 
     AlbaOptional()
