@@ -68,7 +68,8 @@ LimaconType Limacon::getLimaconType() const
     }    else if(ratio > 1)
     {
         result = LimaconType::WithADent;
-    }    else if(ratio > 0)
+    }
+    else if(ratio > 0)
     {
         result = LimaconType::WithALoop;
     }
@@ -88,7 +89,8 @@ Points Limacon::getPointsForShape(AlbaAngle const& angleInterval) const
         for(AlbaAngle theta(AngleUnitType::Degrees, 0); theta<limit; theta+=angleInterval)        {
             result.emplace_back(convertFromPolarCoordinates(PolarCoordinate{calculateRadiusFromTheta(theta), theta}));
         }
-    }    return result;
+    }
+    return result;
 }
 
 double Limacon::calculateRadiusFromTheta(AlbaAngle const& theta) const

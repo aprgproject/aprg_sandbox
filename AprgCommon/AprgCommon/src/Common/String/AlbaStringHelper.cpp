@@ -635,7 +635,8 @@ std::string getHexEquivalentOfCharacters(std::string const& stringToCheck)
 
 string getStringWithJustifyAlignment(string const& mainString, unsigned int const length)
 {
-    string result;    string noRedundantWhiteSpace(getStringWithoutRedundantWhiteSpace(mainString));
+    string result;
+    string noRedundantWhiteSpace(getStringWithoutRedundantWhiteSpace(mainString));
     string noWhiteSpace(getStringWithoutWhiteSpace(mainString));
     if(mainString.empty())
     {

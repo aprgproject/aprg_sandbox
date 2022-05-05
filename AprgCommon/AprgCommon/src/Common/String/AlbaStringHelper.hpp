@@ -74,7 +74,8 @@ std::string getHexNumberAfterThisString(std::string const& mainString, std::stri
 std::string getHexEquivalentOfCharacters(std::string const& stringToCheck);
 
 std::string getStringWithJustifyAlignment(std::string const& mainString, unsigned int const length);
-std::string getStringWithCenterAlignment(std::string const& mainString, unsigned int const length);std::string getStringWithRightAlignment(std::string const& mainString, unsigned int const length);
+std::string getStringWithCenterAlignment(std::string const& mainString, unsigned int const length);
+std::string getStringWithRightAlignment(std::string const& mainString, unsigned int const length);
 std::string getStringWithLeftAlignment(std::string const& mainString, unsigned int const length);
 
 std::string getCorrectPathWithoutUrlParameters(std::string const& path);

@@ -219,7 +219,8 @@ Points Ellipse::getPointsForCircumference(double const interval) const
         Points pointsInSecondQuarter(getPointsInTraversingXAndY(-1, 1, interval));        Points pointsInThirdQuarter(getPointsInTraversingXAndY(-1, -1, interval));
         Points pointsInFourthQuarter(getPointsInTraversingXAndY(1, -1, interval));
         result.reserve(pointsInFirstQuarter.size()+pointsInSecondQuarter.size()+pointsInThirdQuarter.size()+pointsInFourthQuarter.size());
-        copy(pointsInFirstQuarter.cbegin(), pointsInFirstQuarter.cend()-1, back_inserter(result));        copy(pointsInSecondQuarter.cbegin(), pointsInSecondQuarter.cend()-1, back_inserter(result));
+        copy(pointsInFirstQuarter.cbegin(), pointsInFirstQuarter.cend()-1, back_inserter(result));
+        copy(pointsInSecondQuarter.cbegin(), pointsInSecondQuarter.cend()-1, back_inserter(result));
         copy(pointsInThirdQuarter.cbegin(), pointsInThirdQuarter.cend()-1, back_inserter(result));
         copy(pointsInFourthQuarter.cbegin(), pointsInFourthQuarter.cend()-1, back_inserter(result));
     }
@@ -239,7 +240,8 @@ void Ellipse::traverseArea(double const interval, TraverseOperation const& trave
             }            else
             {
                 traverseOperation(Point(m_center.getX()+x, m_center.getY()+y));
-                traverseOperation(Point(m_center.getX()-x, m_center.getY()+y));                traverseOperation(Point(m_center.getX()+x, m_center.getY()-y));
+                traverseOperation(Point(m_center.getX()-x, m_center.getY()+y));
+                traverseOperation(Point(m_center.getX()+x, m_center.getY()-y));
                 traverseOperation(Point(m_center.getX()-x, m_center.getY()-y));
             }
         }

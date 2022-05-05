@@ -35,10 +35,14 @@ void AlbaStreamBitWriter::writeStringData(string const& data)
     writeBytesAsMuchAsPossibleToStream();
 }
 
+std::ostream& AlbaStreamBitWriter::getOutputStream()
+{
+    return m_stream;
+}
+
 void AlbaStreamBitWriter::flush()
 {
-    writeAllToStream();
-}
+    writeAllToStream();}
 
 void AlbaStreamBitWriter::writeBytesAsMuchAsPossibleToStream()
 {

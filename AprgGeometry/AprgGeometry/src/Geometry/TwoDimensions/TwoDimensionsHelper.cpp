@@ -146,7 +146,8 @@ ConicSectionType getConicSectionBasedOnEccentricity(
     }    else if(eccentricity > 0 && eccentricity < 1)
     {
         result = ConicSectionType::Ellipse;
-    }    else if(eccentricity > 1)
+    }
+    else if(eccentricity > 1)
     {
         result = ConicSectionType::Hyperbola;
     }
@@ -182,7 +183,8 @@ ConicSectionType getConicSectionBasedOnGeneralForm(
         }        else if(isAlmostEqual(a, c))
         {
             result = ConicSectionType::Circle;
-        }        else if(a*c > 0)
+        }
+        else if(a*c > 0)
         {
             result = ConicSectionType::Ellipse;
         }
@@ -204,7 +206,8 @@ Quadrant getQuadrantOfAPoint(Point const& point)
     if(isXZero)    {
         if(isYZero)
         {
-            result = Quadrant::Invalid;        }
+            result = Quadrant::Invalid;
+        }
         else if(signOfY==1)
         {
             result = Quadrant::II;

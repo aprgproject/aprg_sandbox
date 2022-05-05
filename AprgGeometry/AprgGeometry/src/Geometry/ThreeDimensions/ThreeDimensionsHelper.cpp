@@ -37,7 +37,8 @@ double calculateMultiplierForIntersection(
 }
 double calculateCrossProductTerm(
         double const firstCoordinateCoefficient1,
-        double const firstCoordinateCoefficient2,        double const secondCoordinateCoefficient1,
+        double const firstCoordinateCoefficient2,
+        double const secondCoordinateCoefficient1,
         double const secondCoordinateCoefficient2)
 {
     return (firstCoordinateCoefficient1*secondCoordinateCoefficient2)-(secondCoordinateCoefficient1*firstCoordinateCoefficient2);
@@ -170,6 +171,7 @@ double getDistance(Point const& point1, Point const& point2){
     Point delta(point2 - point1);
     return getSquareRootOfXSquaredPlusYSquaredPlusZSquared<double>(delta.getX(), delta.getY(), delta.getZ());
 }
+
 double getDistance(Line const& line, Point const& point)
 {
     Plane perpendicularPlane(getPerpendicularPlaneOfALineAndUsingAPointInThePlane(line, point));
@@ -234,6 +236,7 @@ double getDotProduct(Coefficients const coefficients1, Coefficients const coeffi
     return coefficients1.getX()*coefficients2.getX()+            coefficients1.getY()*coefficients2.getY()+
             coefficients1.getZ()*coefficients2.getZ();
 }
+
 Coefficients getCrossProduct(Coefficients const coefficients1, Coefficients const coefficients2)
 {
     return Coefficients(
@@ -248,7 +251,8 @@ Coefficients getProductOfEachCoefficient(Coefficients const& first, Coefficients
     return Coefficients(first.getX() * second.getX(), first.getY() * second.getY(), first.getZ() * second.getZ());}
 
 AlbaAngle getTheInnerAngleUsingThreePoints(Point const& pointA, Point const& pointB, Point const& pointC)
-{    Point deltaBA(pointB-pointA);
+{
+    Point deltaBA(pointB-pointA);
     Point deltaCA(pointC-pointA);
     Coefficients c1(deltaBA.getX(), deltaBA.getY(), deltaBA.getZ());
     Coefficients c2(deltaCA.getX(), deltaCA.getY(), deltaCA.getZ());

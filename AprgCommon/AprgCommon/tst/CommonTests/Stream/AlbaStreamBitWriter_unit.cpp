@@ -19,7 +19,8 @@ TEST(AlbaStreamBitWriterTest, WriteBoolDataWorks)
     ofstream writeTestFile(testFilePath.getFullPath(), ofstream::binary);
     ASSERT_TRUE(writeTestFile.is_open());
 
-    AlbaStreamBitWriter writer(writeTestFile);    writer.writeBoolData(false);
+    AlbaStreamBitWriter writer(writeTestFile);
+    writer.writeBoolData(false);
     writer.writeBoolData(false);
     writer.writeBoolData(true);
     writer.writeBoolData(true);
@@ -44,7 +45,8 @@ TEST(AlbaStreamBitWriterTest, WriteCharDataWorks)
     ofstream writeTestFile(testFilePath.getFullPath(), ofstream::binary);
     ASSERT_TRUE(writeTestFile.is_open());
 
-    AlbaStreamBitWriter writer(writeTestFile);    writer.writeCharData('.');
+    AlbaStreamBitWriter writer(writeTestFile);
+    writer.writeCharData('.');
     writer.writeCharData('/');
     writer.writeCharData('*');
     writeTestFile.close();
@@ -64,7 +66,8 @@ TEST(AlbaStreamBitWriterTest, WriteStringDataWorks)
     ofstream writeTestFile(testFilePath.getFullPath(), ofstream::binary);
     ASSERT_TRUE(writeTestFile.is_open());
 
-    AlbaStreamBitWriter writer(writeTestFile);    writer.writeStringData("A1BA");
+    AlbaStreamBitWriter writer(writeTestFile);
+    writer.writeStringData("A1BA");
     writeTestFile.close();
 
     ifstream readTestFile(testFilePath.getFullPath());
@@ -82,7 +85,8 @@ TEST(AlbaStreamBitWriterTest, WriteNumberDataWorks)
     ofstream writeTestFile(testFilePath.getFullPath(), ofstream::binary);
     ASSERT_TRUE(writeTestFile.is_open());
 
-    AlbaStreamBitWriter writer(writeTestFile);    writer.writeNumberData<unsigned int>(AlbaStreamBitEndianType::BigEndian, 0x01020304);
+    AlbaStreamBitWriter writer(writeTestFile);
+    writer.writeNumberData<unsigned int>(AlbaStreamBitEndianType::BigEndian, 0x01020304);
     writer.writeNumberData<unsigned int>(AlbaStreamBitEndianType::LittleEndian, 0x01020304);
     writeTestFile.close();
 
@@ -121,6 +125,7 @@ TEST(AlbaStreamBitWriterTest, FlushWorks)
     ASSERT_TRUE(writeTestFile.is_open());
     AlbaStreamBitWriter writer(writeTestFile);
     writer.writeBoolData(true);
+
     writer.flush();
     writeTestFile.close();
 

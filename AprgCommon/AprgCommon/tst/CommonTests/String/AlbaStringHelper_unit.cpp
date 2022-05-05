@@ -444,6 +444,7 @@ TEST(GetStringWithAlignmentFromStringTest, GetStringUsingLeftAlignment)
     EXPECT_EQ("                                                  ", getStringWithLeftAlignment(string(), 50));
 }
 
+
 TEST(GetNewStringFromStringTest, GetStringWithoutRedundantSlashesUsingAllLettersWithSpecialCharacters)
 {
     string testString(R"(////DIR1\\/\\/\\/DIR2\\\\DIR3///DIR4\\\\//DIR5////\\\\)");

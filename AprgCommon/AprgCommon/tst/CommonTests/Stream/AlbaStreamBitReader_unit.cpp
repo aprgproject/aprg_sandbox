@@ -22,7 +22,8 @@ TEST(AlbaStreamBitReaderTest, ReadBoolDataWorks)
     ifstream readTestFile(testFilePath.getFullPath(), ofstream::binary);
     ASSERT_TRUE(readTestFile.is_open());
 
-    AlbaStreamBitReader reader(readTestFile);    EXPECT_FALSE(reader.readBoolData());
+    AlbaStreamBitReader reader(readTestFile);
+    EXPECT_FALSE(reader.readBoolData());
     EXPECT_TRUE(reader.readBoolData());
     EXPECT_FALSE(reader.readBoolData());
     EXPECT_FALSE(reader.readBoolData());
@@ -44,7 +45,8 @@ TEST(AlbaStreamBitReaderTest, ReadCharDataWorks)
     ifstream readTestFile(testFilePath.getFullPath(), ofstream::binary);
     ASSERT_TRUE(readTestFile.is_open());
 
-    AlbaStreamBitReader reader(readTestFile);    EXPECT_EQ('.', reader.readCharData());
+    AlbaStreamBitReader reader(readTestFile);
+    EXPECT_EQ('.', reader.readCharData());
     EXPECT_EQ('/', reader.readCharData());
     EXPECT_EQ('*', reader.readCharData());
     EXPECT_TRUE(reader.noRemainingBitsInBuffer());
@@ -56,7 +58,8 @@ TEST(AlbaStreamBitReaderTest, ReadNumberDataWorks)
     ofstream writeTestFile(testFilePath.getFullPath(), ofstream::binary);
     writeTestFile.put(0x01);
     writeTestFile.put(0x02);
-    writeTestFile.put(0x03);    writeTestFile.put(0x04);
+    writeTestFile.put(0x03);
+    writeTestFile.put(0x04);
     writeTestFile.put(0x01);
     writeTestFile.put(0x02);
     writeTestFile.put(0x03);
@@ -65,7 +68,8 @@ TEST(AlbaStreamBitReaderTest, ReadNumberDataWorks)
     ifstream readTestFile(testFilePath.getFullPath(), ofstream::binary);
     ASSERT_TRUE(readTestFile.is_open());
 
-    AlbaStreamBitReader reader(readTestFile);    EXPECT_EQ(0x01020304U, reader.readNumberData<unsigned int>(AlbaStreamBitEndianType::BigEndian));
+    AlbaStreamBitReader reader(readTestFile);
+    EXPECT_EQ(0x01020304U, reader.readNumberData<unsigned int>(AlbaStreamBitEndianType::BigEndian));
     EXPECT_EQ(0x04030201U, reader.readNumberData<unsigned int>(AlbaStreamBitEndianType::LittleEndian));
     EXPECT_TRUE(reader.noRemainingBitsInBuffer());
 }
@@ -81,7 +85,7 @@ TEST(AlbaStreamBitReaderTest, ReadBitsetDataWorks)
     ASSERT_TRUE(readTestFile.is_open());
 
     AlbaStreamBitReader reader(readTestFile);
-    EXPECT_EQ(0x00000C48U, static_cast<unsigned int>(reader.readBitsetData<32>(12).to_ulong())); //swapped due to reversed index
+    EXPECT_EQ(0x00000C48U, static_cast<unsigned int>(reader.readBitsetData<32>(0, 11).to_ulong())); //swapped due to reversed index
     EXPECT_FALSE(reader.noRemainingBitsInBuffer()); // 4Bits remaining
 }
 
