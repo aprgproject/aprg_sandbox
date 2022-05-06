@@ -1,17 +1,13 @@
 #pragma once
 
-#include <Common/Optional/AlbaOptional.hpp>
 #include <Common/Stream/AlbaStreamBitReader.hpp>
 #include <Common/Stream/AlbaStreamBitWriter.hpp>
-#include <Common/String/AlbaStringHelper.hpp>
 
 #include <array>
-#include <iostream>
-#include <memory>
+#include <iostream>#include <memory>
 #include <queue>
 
-namespace alba
-{
+namespace alba{
 
 namespace algorithm
 {
@@ -21,15 +17,15 @@ class HuffmanCompression
 {
 public :
     using Characters = std::vector<char>;
+    using HuffmanCode = std::vector<bool>;
     using FrequencyOfEachCharacter = std::array<DataType, RADIX>;
+    using HuffmanCodeTable = std::array<HuffmanCode, RADIX>;
     struct CharacterFrequency
     {
-        CharacterFrequency(char const characterAsParameter, DataType const frequencyAsParameter, bool const isProritizedAsParameter)
-            : character(characterAsParameter)
+        CharacterFrequency(char const characterAsParameter, DataType const frequencyAsParameter, bool const isProritizedAsParameter)            : character(characterAsParameter)
             , frequency(frequencyAsParameter)
             , isProritized(isProritizedAsParameter)
         {}
-
         bool operator>(CharacterFrequency const& second) const
         {
             bool result(false);
@@ -90,31 +86,25 @@ public :
 
     void compress(std::istream & input, std::ostream & output)
     {
-        // refactor extract till you drop
         AlbaStreamBitReader reader(input);
         AlbaStreamBitWriter writer(output);
-
         Characters allInputCharacters(readAllCharacters(reader));
         FrequencyOfEachCharacter frequency(getFrequencyOfEachCharacter(allInputCharacters));
 
         TrieNodeUniquePointer root(buildTrie(frequency));
-        stringHelper::strings huffmanCodeTable(buildHuffmanCodeTableFromTrie(root));
+        HuffmanCodeTable huffmanCodeTable(buildHuffmanCodeTableFromTrie(root));
 
         writeTrie(writer, root);
-        writer.writeNumberData<DataType>(AlbaStreamBitEndianType::BigEndian, allInputCharacters.size());
-        writeHuffmanCodes(writer, allInputCharacters, huffmanCodeTable);
+        writer.writeNumberData<DataType>(AlbaStreamBitEndianType::BigEndian, allInputCharacters.size());        writeHuffmanCodes(writer, allInputCharacters, huffmanCodeTable);
     }
 
     void expand(std::istream & input, std::ostream & output)
     {
-        // refactor extract till you drop
         AlbaStreamBitReader reader(input);
         AlbaStreamBitWriter writer(output);
-
         TrieNodeUniquePointer root(readTrie(reader));
         DataType lengthOfString(reader.readNumberData<DataType>(AlbaStreamBitEndianType::BigEndian));
-        expandAllCharacters(reader, writer, root, lengthOfString);
-    }
+        expandAllCharacters(reader, writer, root, lengthOfString);    }
 
 private:
 
@@ -146,25 +136,20 @@ private:
         return frequency;
     }
 
-    void writeHuffmanCodes(AlbaStreamBitWriter & writer, Characters const& wholeInput, stringHelper::strings const& huffmanCodeTable)
+    void writeHuffmanCodes(AlbaStreamBitWriter & writer, Characters const& wholeInput, HuffmanCodeTable const& huffmanCodeTable)
     {
         for(DataType i=0; i< wholeInput.size(); i++)
         {
-            std::string const& huffmanCode(huffmanCodeTable.at(wholeInput.at(i)));
-            for(char const c : huffmanCode)
+            HuffmanCode const& huffmanCode(huffmanCodeTable.at(wholeInput.at(i)));
+            for(bool const b : huffmanCode)
             {
-                if(c == '1' || c == '0')
-                {
-                    writer.writeBoolData(c == '1');
-                }
+                writer.writeBoolData(b);
             }
         }
     }
-
     void expandAllCharacters(AlbaStreamBitReader & reader, AlbaStreamBitWriter & writer, TrieNodeUniquePointer const& root, DataType const lengthOfString)
     {
-        for(DataType i=0; i<lengthOfString; i++)
-        {
+        for(DataType i=0; i<lengthOfString; i++)        {
             expandOneCharacterBasedFromTrieAndCode(reader, writer, root);
         }
     }
@@ -261,32 +246,33 @@ private:
         return std::move(nodePerCharacter[last.character].node);
     }
 
-    stringHelper::strings buildHuffmanCodeTableFromTrie(TrieNodeUniquePointer const& root)
+    HuffmanCodeTable buildHuffmanCodeTableFromTrie(TrieNodeUniquePointer const& root)
     {
-        stringHelper::strings lookupTable(RADIX, std::string());
-        buildHuffmanCodeTableFromTrie(lookupTable, root, "");
-        return lookupTable;
+        HuffmanCodeTable result{};
+        buildHuffmanCodeTableFromTrie(result, root, {});
+        return result;
     }
 
-    // refactor huffmanCode is not a string
-    void buildHuffmanCodeTableFromTrie(stringHelper::strings & lookupTable, TrieNodeUniquePointer const& nodePointer, std::string const& s)
+    void buildHuffmanCodeTableFromTrie(HuffmanCodeTable & huffmanCodeTable, TrieNodeUniquePointer const& nodePointer, HuffmanCode const& huffmanCode)
     {
         if(nodePointer)
         {
             if(nodePointer->isLeaf())
             {
-                lookupTable[nodePointer->character] = s;
+                huffmanCodeTable[nodePointer->character] = huffmanCode;
             }
             else
             {
-                buildHuffmanCodeTableFromTrie(lookupTable, nodePointer->left, s + '0');
-                buildHuffmanCodeTableFromTrie(lookupTable, nodePointer->right, s + '1');
+                HuffmanCode newHuffmanCode(huffmanCode);
+                newHuffmanCode.emplace_back(false);
+                buildHuffmanCodeTableFromTrie(huffmanCodeTable, nodePointer->left, newHuffmanCode);
+                newHuffmanCode.pop_back();
+                newHuffmanCode.emplace_back(true);
+                buildHuffmanCodeTableFromTrie(huffmanCodeTable, nodePointer->right, newHuffmanCode);
             }
         }
-    }
-};
+    }};
 
 
 }
-
 }
