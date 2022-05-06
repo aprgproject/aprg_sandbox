@@ -35,6 +35,7 @@ double calculateMultiplierForIntersection(
             - ((secondCoordinateInitialValueLine1-secondCoordinateInitialValueLine2)*firstCoordinateCoefficientLine1);
     return numerator / denominator;
 }
+
 double calculateCrossProductTerm(
         double const firstCoordinateCoefficient1,
         double const firstCoordinateCoefficient2,
@@ -167,7 +168,8 @@ bool areCoefficientsPerpendicular(Coefficients const& coefficients1, Coefficient
     return isAlmostEqual(getDotProduct(coefficients1, coefficients2), 0.0);
 }
 
-double getDistance(Point const& point1, Point const& point2){
+double getDistance(Point const& point1, Point const& point2)
+{
     Point delta(point2 - point1);
     return getSquareRootOfXSquaredPlusYSquaredPlusZSquared<double>(delta.getX(), delta.getY(), delta.getZ());
 }
@@ -218,6 +220,7 @@ double getDistance(Plane const& plane1, Plane const& plane2)
     }
     return distance;
 }
+
 double getCosineOfAngleUsing2Deltas(Coefficients const& c1, Coefficients const& c2)
 {
     //from cos theta = (dotproduct of coefficients v1 and v2)/(magnitude of v1 * magnitude of v2)
@@ -233,7 +236,8 @@ double getMagnitudeOfCoefficients(Coefficients const coefficients)
 
 double getDotProduct(Coefficients const coefficients1, Coefficients const coefficients2)
 {
-    return coefficients1.getX()*coefficients2.getX()+            coefficients1.getY()*coefficients2.getY()+
+    return coefficients1.getX()*coefficients2.getX()+
+            coefficients1.getY()*coefficients2.getY()+
             coefficients1.getZ()*coefficients2.getZ();
 }
 
@@ -248,7 +252,8 @@ Coefficients getCrossProduct(Coefficients const coefficients1, Coefficients cons
 
 Coefficients getProductOfEachCoefficient(Coefficients const& first, Coefficients const& second)
 {
-    return Coefficients(first.getX() * second.getX(), first.getY() * second.getY(), first.getZ() * second.getZ());}
+    return Coefficients(first.getX() * second.getX(), first.getY() * second.getY(), first.getZ() * second.getZ());
+}
 
 AlbaAngle getTheInnerAngleUsingThreePoints(Point const& pointA, Point const& pointB, Point const& pointC)
 {

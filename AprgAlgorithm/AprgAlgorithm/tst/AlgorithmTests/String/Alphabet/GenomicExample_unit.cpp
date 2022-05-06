@@ -52,10 +52,12 @@ string expandValuesToCharacters(string const& characters)
         bitset<2U> valueBitset(reader.readBitsetData<2U>(0, 1));
         if(!inputSs.eof())
         {
-            writer.writeCharData(dnaAlphabet.getCharacter(static_cast<unsigned char>(valueBitset.to_ulong())));        }
+            writer.writeCharData(dnaAlphabet.getCharacter(static_cast<unsigned char>(valueBitset.to_ulong())));
+        }
     }
     writer.flush();
-    return outputSs.str();}
+    return outputSs.str();
+}
 
 }
 

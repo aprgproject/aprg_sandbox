@@ -15,8 +15,10 @@ template <unsigned int RADIX>
 class RunLengthEncodingCompression
 {
 public :
+
     RunLengthEncodingCompression()
     {}
+
     void expand(std::istream & input, std::ostream & output)
     {
         AlbaStreamBitReader reader(input);
@@ -56,10 +58,12 @@ public :
                 else if(count == RADIX-1)
                 {
                     writer.writeCharData(count);
-                    count = 0;                    writer.writeCharData(count);
+                    count = 0;
+                    writer.writeCharData(count);
                 }
                 count++;
-            }        }
+            }
+        }
         writer.writeCharData(count);
     }
 

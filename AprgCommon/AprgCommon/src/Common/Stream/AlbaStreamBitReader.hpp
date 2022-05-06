@@ -5,7 +5,8 @@
 #include <Common/Container/AlbaValueRange.hpp>
 #include <Common/Stream/AlbaStreamBitEndianType.hpp>
 
-#include <bitset>#include <deque>
+#include <bitset>
+#include <deque>
 #include <istream>
 
 namespace alba

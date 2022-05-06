@@ -143,7 +143,8 @@ ConicSectionType getConicSectionBasedOnEccentricity(
     else if(isAlmostEqual(eccentricity, 1.0))
     {
         result = ConicSectionType::Parabola;
-    }    else if(eccentricity > 0 && eccentricity < 1)
+    }
+    else if(eccentricity > 0 && eccentricity < 1)
     {
         result = ConicSectionType::Ellipse;
     }
@@ -171,7 +172,8 @@ ConicSectionType getConicSectionBasedOnGeneralForm(
             if(isAlmostEqual(d, 0.0) || isAlmostEqual(e, 0.0))
             {
                 result = ConicSectionType::Point;
-            }            else
+            }
+            else
             {
                 result = ConicSectionType::Line;
             }
@@ -180,7 +182,8 @@ ConicSectionType getConicSectionBasedOnGeneralForm(
                 || (!isAlmostEqual(a, 0.0) && isAlmostEqual(c, 0.0)))
         {
             result = ConicSectionType::Parabola;
-        }        else if(isAlmostEqual(a, c))
+        }
+        else if(isAlmostEqual(a, c))
         {
             result = ConicSectionType::Circle;
         }
@@ -203,7 +206,8 @@ Quadrant getQuadrantOfAPoint(Point const& point)
     bool isYZero = isAlmostEqual(point.getY(), 0.0);
     double signOfX = getSign(point.getX());
     double signOfY = getSign(point.getY());
-    if(isXZero)    {
+    if(isXZero)
+    {
         if(isYZero)
         {
             result = Quadrant::Invalid;

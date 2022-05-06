@@ -39,7 +39,8 @@ std::istream& AlbaStreamBitReader::getInputStream()
 
 void AlbaStreamBitReader::readIfNeeded(unsigned int const numberOfBitsRequired)
 {
-    if(m_bitBuffer.size() < numberOfBitsRequired)    {
+    if(m_bitBuffer.size() < numberOfBitsRequired)
+    {
         unsigned int numberOfBytesToRead = static_cast<unsigned int>(
                     ceil(static_cast<double>(numberOfBitsRequired - m_bitBuffer.size())/AlbaBitConstants::BYTE_SIZE_IN_BITS));
         std::vector<char> characterBuffer(numberOfBytesToRead, {});

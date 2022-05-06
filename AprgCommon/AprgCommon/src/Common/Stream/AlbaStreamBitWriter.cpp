@@ -1,5 +1,8 @@
 #include "AlbaStreamBitWriter.hpp"
 
+#include <Common/String/AlbaStringHelper.hpp>
+
+using namespace alba::stringHelper;
 using namespace std;
 
 namespace alba
@@ -11,28 +14,41 @@ AlbaStreamBitWriter::AlbaStreamBitWriter(ostream& stream)
 
 AlbaStreamBitWriter::~AlbaStreamBitWriter()
 {
-    writeAllToStream();
+    transferAllToStream();
 }
 
 void AlbaStreamBitWriter::writeBoolData(bool const data)
 {
-    m_bitBuffer.emplace_back(data);
-    writeBytesAsMuchAsPossibleToStream();
+    putBoolDataToBuffer(data);
+    transferBytesAsMuchAsPossibleToStream();
 }
 
 void AlbaStreamBitWriter::writeCharData(char const data)
 {
-    putBigEndianNumberDataInBuffer<char>(data);
-    writeBytesAsMuchAsPossibleToStream();
+    putCharDataToBuffer(data);
+    transferBytesAsMuchAsPossibleToStream();
 }
 
 void AlbaStreamBitWriter::writeStringData(string const& data)
 {
     for(char const c : data)
     {
-        writeCharData(c);
+        putCharDataToBuffer(c);
     }
-    writeBytesAsMuchAsPossibleToStream();
+    transferBytesAsMuchAsPossibleToStream();
+}
+
+void AlbaStreamBitWriter::writeHexDigitData(std::string const& hexDigitsData)
+{
+    for(char const c : hexDigitsData)
+    {
+        bitset<4> hexDigitBitset(convertHexCharacterToNumber<char>(c));
+        putBoolDataToBuffer(hexDigitBitset[3]);
+        putBoolDataToBuffer(hexDigitBitset[2]);
+        putBoolDataToBuffer(hexDigitBitset[1]);
+        putBoolDataToBuffer(hexDigitBitset[0]);
+    }
+    transferBytesAsMuchAsPossibleToStream();
 }
 
 std::ostream& AlbaStreamBitWriter::getOutputStream()
@@ -42,9 +58,20 @@ std::ostream& AlbaStreamBitWriter::getOutputStream()
 
 void AlbaStreamBitWriter::flush()
 {
-    writeAllToStream();}
+    transferAllToStream();
+}
 
-void AlbaStreamBitWriter::writeBytesAsMuchAsPossibleToStream()
+void AlbaStreamBitWriter::putBoolDataToBuffer(bool const boolValue)
+{
+    m_bitBuffer.emplace_back(boolValue);
+}
+
+void AlbaStreamBitWriter::putCharDataToBuffer(char const data)
+{
+    putBigEndianNumberDataInBuffer<char>(data);
+}
+
+void AlbaStreamBitWriter::transferBytesAsMuchAsPossibleToStream()
 {
     if(m_bitBuffer.size() >= 8)
     {
@@ -66,7 +93,7 @@ void AlbaStreamBitWriter::writeBytesAsMuchAsPossibleToStream()
     }
 }
 
-void AlbaStreamBitWriter::writeAllToStream()
+void AlbaStreamBitWriter::transferAllToStream()
 {
     bitset<8> byte;
     unsigned int i=0;
