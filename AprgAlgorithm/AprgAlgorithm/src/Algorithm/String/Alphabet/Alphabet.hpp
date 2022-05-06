@@ -11,78 +11,73 @@ namespace alba
 namespace algorithm
 {
 
-template <typename Value>
+template <typename DigitValue>
 class Alphabet
 {
 public:
-    using Values = std::vector<Value>;
+    using DigitValues = std::vector<DigitValue>;
 
     Alphabet(std::string const& characters)
-        : m_characters(characters)
-    {}
+        : m_characters(characters)    {}
 
     bool contains(char const c)
     {
         return stringHelper::isNotNpos(static_cast<int>(m_characters.find_first_of(c)));
     }
 
-    char getCharacter(Value const& value)
+    char getCharacter(DigitValue const& digitValue)
     {
         char result{};
-        if(value < m_characters.size())
+        if(digitValue < m_characters.size())
         {
-            result = m_characters.at(value) ;
+            result = m_characters.at(digitValue) ;
         }
         return result;
     }
 
-    Value getValue(char const c)
+    DigitValue getDigitValue(char const c)
     {
-        Value result{};
+        DigitValue result{};
         unsigned int indexOfCharacter = m_characters.find_first_of(c);
         if(stringHelper::isNotNpos(static_cast<int>(indexOfCharacter)))
         {
-            result = static_cast<Value>(indexOfCharacter);
+            result = static_cast<DigitValue>(indexOfCharacter);
         }
         return result;
     }
-
     unsigned int getRadix()
     {
-        return m_characters.size();
-    }
+        return m_characters.size();    }
 
     unsigned int getNumbersOfBitsToRepresentCharacters()
     {
         return static_cast<unsigned int>(ceil(mathHelper::getLogarithm(2, getRadix())));
     }
 
-    Values convertStringToValues(std::string const& stringParameter)
+    DigitValues convertStringToDigitValues(std::string const& stringParameter)
     {
-        Values result;
+        DigitValues result;
         result.reserve(stringParameter.length());
         std::transform(stringParameter.cbegin(), stringParameter.cend(), std::back_inserter(result), [&](char const c)
         {
-            return getValue(c);
+            return getDigitValue(c);
         });
         return result;
     }
 
-    std::string convertValuesToString(Values const& values)
+    std::string convertDigitValuesToString(DigitValues const& digitValues)
     {
         std::string result;
-        result.reserve(values.size());
-        std::transform(values.cbegin(), values.cend(), std::back_inserter(result), [&](Value const& value)
+        result.reserve(digitValues.size());
+        std::transform(digitValues.cbegin(), digitValues.cend(), std::back_inserter(result), [&](DigitValue const& digitValue)
         {
-            return getCharacter(value);
+            return getCharacter(digitValue);
         });
         return result;
     }
-
     std::string const& getCharacters()
     {
-        return m_characters;
-    }
+        return m_characters;    }
 
 private:
     std::string m_characters;

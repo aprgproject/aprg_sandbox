@@ -41,48 +41,45 @@ TEST(AlphabetsTest, GetCharacterWorks)
     EXPECT_EQ('\0', alphabet.getCharacter(6U));
 }
 
-TEST(AlphabetsTest, GetValueWorks)
+TEST(AlphabetsTest, GetDigitValueWorks)
 {
     AlphabetForTest alphabet("ABCDEF");
 
-    EXPECT_EQ(0U, alphabet.getValue('A'));
-    EXPECT_EQ(1U, alphabet.getValue('B'));
-    EXPECT_EQ(2U, alphabet.getValue('C'));
-    EXPECT_EQ(3U, alphabet.getValue('D'));
-    EXPECT_EQ(4U, alphabet.getValue('E'));
-    EXPECT_EQ(5U, alphabet.getValue('F'));
-    EXPECT_EQ(0U, alphabet.getValue('G'));
+    EXPECT_EQ(0U, alphabet.getDigitValue('A'));
+    EXPECT_EQ(1U, alphabet.getDigitValue('B'));
+    EXPECT_EQ(2U, alphabet.getDigitValue('C'));
+    EXPECT_EQ(3U, alphabet.getDigitValue('D'));
+    EXPECT_EQ(4U, alphabet.getDigitValue('E'));
+    EXPECT_EQ(5U, alphabet.getDigitValue('F'));
+    EXPECT_EQ(0U, alphabet.getDigitValue('G'));
 }
 
-TEST(AlphabetsTest, GetRadixWorks)
-{
+TEST(AlphabetsTest, GetRadixWorks){
     AlphabetForTest alphabet("ABCDEF");
 
     EXPECT_EQ(6U, alphabet.getRadix());
 }
 
-TEST(AlphabetsTest, ConvertStringToValuesWorks)
+TEST(AlphabetsTest, ConvertStringToDigitValuesWorks)
 {
     AlphabetForTest alphabet("ABCDEF");
 
-    AlphabetForTest::Values values{1U, 1U, 0U, 0U, 5U, 3U, 3U, 0U, 4U};
-    EXPECT_EQ(values, alphabet.convertStringToValues("BBAGFDDGE"));
+    AlphabetForTest::DigitValues values{1U, 1U, 0U, 0U, 5U, 3U, 3U, 0U, 4U};
+    EXPECT_EQ(values, alphabet.convertStringToDigitValues("BBAGFDDGE"));
 }
 
-TEST(AlphabetsTest, ConvertValuesToStringWorks)
+TEST(AlphabetsTest, ConvertDigitValuesToStringWorks)
 {
     AlphabetForTest alphabet("ABCDEF");
-    AlphabetForTest::Values values{1U, 1U, 0U, 5U, 3U, 4U};
+    AlphabetForTest::DigitValues values{1U, 1U, 0U, 5U, 3U, 4U};
 
-    EXPECT_EQ("BBAFDE", alphabet.convertValuesToString(values));
+    EXPECT_EQ("BBAFDE", alphabet.convertDigitValuesToString(values));
 }
 
-TEST(AlphabetsTest, GetCharactersWorks)
-{
+TEST(AlphabetsTest, GetCharactersWorks){
     AlphabetForTest alphabet("ABCDEF");
 
-    EXPECT_EQ("ABCDEF", alphabet.getCharacters());
-}
+    EXPECT_EQ("ABCDEF", alphabet.getCharacters());}
 
 }
 

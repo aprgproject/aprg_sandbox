@@ -29,15 +29,13 @@ string compressCharactersToValues(string const& characters)
     AlbaStreamBitWriter writer(outputSs);
     while(true)
     {
-        bitset<2U> valueBitset(dnaAlphabet.getValue(reader.readCharData()));
+        bitset<2U> valueBitset(dnaAlphabet.getDigitValue(reader.readCharData()));
         if(!inputSs.eof())
         {
-            writer.writeBitsetData(valueBitset, 0, 1);
-        }
+            writer.writeBitsetData(valueBitset, 0, 1);        }
         else
         {
-            break;
-        }
+            break;        }
     }
     writer.flush();
     return outputSs.str();

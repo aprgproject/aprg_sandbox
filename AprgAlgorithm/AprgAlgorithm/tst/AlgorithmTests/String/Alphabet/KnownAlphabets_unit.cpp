@@ -13,51 +13,49 @@ namespace algorithm
 
 namespace
 {
-Alphabet<AlbaSingleBitField<unsigned char, 1U>> getBinaryAlphabet()
+Alphabet<unsigned char> getBinaryAlphabet()
 {
-    return Alphabet<AlbaSingleBitField<unsigned char, 1U>>("01");
+    return Alphabet<unsigned char>("01");
 }
 
-Alphabet<AlbaSingleBitField<unsigned char, 2U>> getDnaAlphabet()
+Alphabet<unsigned char> getDnaAlphabet()
 {
-    return Alphabet<AlbaSingleBitField<unsigned char, 2U>>("ACTG");
+    return Alphabet<unsigned char>("ACTG");
 }
 
-Alphabet<AlbaSingleBitField<unsigned char, 3U>> getOctalAlphabet()
+Alphabet<unsigned char> getOctalAlphabet()
 {
-    return Alphabet<AlbaSingleBitField<unsigned char, 3U>>("01234567");
+    return Alphabet<unsigned char>("01234567");
 }
 
-Alphabet<AlbaSingleBitField<unsigned char, 4U>> getDecimalAlphabet()
+Alphabet<unsigned char> getDecimalAlphabet()
 {
-    return Alphabet<AlbaSingleBitField<unsigned char, 4U>>("0123456789");
+    return Alphabet<unsigned char>("0123456789");
 }
 
-Alphabet<AlbaSingleBitField<unsigned char, 4U>> getHexadecimalAlphabet()
+Alphabet<unsigned char> getHexadecimalAlphabet()
 {
-    return Alphabet<AlbaSingleBitField<unsigned char, 4U>>("0123456789ABCDEF");
+    return Alphabet<unsigned char>("0123456789ABCDEF");
 }
 
-Alphabet<AlbaSingleBitField<unsigned char, 5U>> getProteinAlphabet()
+Alphabet<unsigned char> getProteinAlphabet()
 {
-    return Alphabet<AlbaSingleBitField<unsigned char, 5U>>("ACDEFGHIKLMNPQRSTVWY");
+    return Alphabet<unsigned char>("ACDEFGHIKLMNPQRSTVWY");
 }
 
-Alphabet<AlbaSingleBitField<unsigned char, 5U>> getLowerCaseAlphabet()
+Alphabet<unsigned char> getLowerCaseAlphabet()
 {
-    return Alphabet<AlbaSingleBitField<unsigned char, 5U>>("abcdefghijklmnopqrstuvwxyz");
+    return Alphabet<unsigned char>("abcdefghijklmnopqrstuvwxyz");
 }
 
-Alphabet<AlbaSingleBitField<unsigned char, 5U>> getUpperCaseAlphabet()
+Alphabet<unsigned char> getUpperCaseAlphabet()
 {
-    return Alphabet<AlbaSingleBitField<unsigned char, 5U>>("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
+    return Alphabet<unsigned char>("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
 }
 }
-
 TEST(KnownAlphabetsTest, GetBinaryAlphabetWorks)
 {
     auto alphabet(getBinaryAlphabet());
-
     EXPECT_EQ("01", alphabet.getCharacters());
 }
 
