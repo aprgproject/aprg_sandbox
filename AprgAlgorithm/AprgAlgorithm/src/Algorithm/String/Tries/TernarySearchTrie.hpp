@@ -65,14 +65,12 @@ public:
 
     Key getLongestPrefixOf(Key const& keyToCheck) const override
     {
-        unsigned int longestPrefixLength(getLengthOfLongestPrefix(m_root.get(), keyToCheck, 0U, 0U));
+        unsigned int longestPrefixLength(getLengthOfLongestPrefix(m_root, keyToCheck, 0U, 0U));
         return keyToCheck.substr(0, longestPrefixLength);
     }
-
     void put(Key const& key, Value const& value) override
     {
-        if(!key.empty())
-        {
+        if(!key.empty())        {
             put(m_root, key, value, 0);
         }
     }
@@ -221,41 +219,36 @@ private:
     }
 
     unsigned int getLengthOfLongestPrefix(
-            Node const*const currentNodePointer,
+            NodeUniquePointer const& currentNodePointer,
             Key const& keyToCheck,
             unsigned int const index,
             unsigned int const length) const
     {
         unsigned int currentLongestLength(length);
-        if(currentNodePointer != nullptr)
+        if(currentNodePointer && index<keyToCheck.length())
         {
-            if(currentNodePointer->valueUniquePointer)
+            char c(keyToCheck.at(index));
+            if(c < currentNodePointer->c)
             {
-                currentLongestLength = index+1;
+                currentLongestLength = getLengthOfLongestPrefix(currentNodePointer->left, keyToCheck, index, currentLongestLength);
             }
-            if(index < keyToCheck.length())
+            else if(c > currentNodePointer->c)
             {
-                char charToCheck = keyToCheck.at(index);
-                if(charToCheck < currentNodePointer->c)
+                currentLongestLength = getLengthOfLongestPrefix(currentNodePointer->right, keyToCheck, index, currentLongestLength);
+            }
+            else if(index < keyToCheck.length())
+            {
+                if(currentNodePointer->valueUniquePointer)
                 {
-                    currentLongestLength = getLengthOfLongestPrefix(currentNodePointer->left.get(), keyToCheck, index, currentLongestLength);
+                    currentLongestLength = index+1;
                 }
-                else if(charToCheck > currentNodePointer->c)
-                {
-                    currentLongestLength = getLengthOfLongestPrefix(currentNodePointer->right.get(), keyToCheck, index, currentLongestLength);
-                }
-                else if(index < keyToCheck.length() - 1)
-                {
-                    currentLongestLength = getLengthOfLongestPrefix(currentNodePointer->mid.get(), keyToCheck, index+1, currentLongestLength);
-                }
+                currentLongestLength = getLengthOfLongestPrefix(currentNodePointer->mid, keyToCheck, index+1, currentLongestLength);
             }
         }
-        return currentLongestLength;
-    }
+        return currentLongestLength;    }
 
     void put(
-            NodeUniquePointer & currentNodePointer,
-            Key const& key,
+            NodeUniquePointer & currentNodePointer,            Key const& key,
             Value const& value,
             unsigned int const index)
     {
