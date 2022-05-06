@@ -56,14 +56,13 @@ private:
 
     HashValue getHash(std::string const& key, Index const length)
     {
+        // Horner's method
         HashValue result(0);
         for(unsigned int j=0; j<length; j++)
-        {
-            result = (RADIX * result + key.at(j)) % m_largeRandomPrime;
+        {            result = (RADIX * result + key.at(j)) % m_largeRandomPrime;
         }
         return result;
     }
-
     HashValue calculateStartValueFromRadixAndLength(Index const& length)
     {
         HashValue result(1);
