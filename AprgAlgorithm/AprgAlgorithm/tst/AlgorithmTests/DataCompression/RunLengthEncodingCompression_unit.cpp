@@ -18,15 +18,13 @@ namespace algorithm
 namespace
 {
 using Index = unsigned int;
-using CompressionForTest = RunLengthEncodingCompression<255>;
+using CompressionForTest = RunLengthEncodingCompression<256>;
 }
 
-TEST(RunLengthEncodingCompressionTest, CompressWorksUsingExample1)
-{
+TEST(RunLengthEncodingCompressionTest, CompressWorksUsingExample1){
     bitset<40> initialValue(0B0000000000000001111111000000011111111111);
     stringstream inputSs;
-    stringstream outputSs;
-    AlbaStreamBitWriter initialWriter(inputSs);
+    stringstream outputSs;    AlbaStreamBitWriter initialWriter(inputSs);
     initialWriter.writeBitsetData(initialValue, 39, 0);
     initialWriter.flush();
     CompressionForTest compression;
@@ -38,18 +36,15 @@ TEST(RunLengthEncodingCompressionTest, CompressWorksUsingExample1)
 
 TEST(RunLengthEncodingCompressionTest, ExpandWorksUsingExample1)
 {
-    bitset<32> initialValue(0x0F07070B);
     stringstream inputSs;
     stringstream outputSs;
     AlbaStreamBitWriter initialWriter(inputSs);
-    initialWriter.writeBitsetData(initialValue, 31, 0);
+    initialWriter.writeHexDigitData("0F07070B");
     initialWriter.flush();
     CompressionForTest compression;
-
     compression.expand(inputSs, outputSs);
 
-    EXPECT_EQ("0001FC07FF", getHexEquivalentOfCharacters(outputSs.str()));
-}
+    EXPECT_EQ("0001FC07FF", getHexEquivalentOfCharacters(outputSs.str()));}
 
 }
 

@@ -11,14 +11,12 @@ namespace alba
 namespace algorithm
 {
 
-template <unsigned int MAX_COUNT>
+template <unsigned int RADIX>
 class RunLengthEncodingCompression
 {
 public :
-
     RunLengthEncodingCompression()
     {}
-
     void expand(std::istream & input, std::ostream & output)
     {
         AlbaStreamBitReader reader(input);
@@ -55,15 +53,13 @@ public :
                     count = 0;
                     old = !old;
                 }
-                else if(count == MAX_COUNT)
+                else if(count == RADIX-1)
                 {
                     writer.writeCharData(count);
-                    count = 0;
-                    writer.writeCharData(count);
+                    count = 0;                    writer.writeCharData(count);
                 }
                 count++;
-            }
-        }
+            }        }
         writer.writeCharData(count);
     }
 
