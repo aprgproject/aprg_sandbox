@@ -21,10 +21,12 @@ public :
 
     void compress(std::istream & input, std::ostream & output)
     {
-        AlbaStreamBitReader reader(input);        AlbaStreamBitWriter writer(output);
+        AlbaStreamBitReader reader(input);
+        AlbaStreamBitWriter writer(output);
         char count{};
         bool b(false), old(false);
-        while(!input.eof())        {
+        while(true)
+        {
             b = reader.readBoolData();
             if(!input.eof())
             {
@@ -42,6 +44,10 @@ public :
                 }
                 count++;
             }
+            else
+            {
+                break;
+            }
         }
         writer.writeCharData(count);
     }
@@ -51,7 +57,7 @@ public :
         AlbaStreamBitReader reader(input);
         AlbaStreamBitWriter writer(output);
         bool b(false);
-        while(!input.eof())
+        while(true)
         {
             char count(reader.readCharData());
             if(!input.eof())
@@ -62,10 +68,16 @@ public :
                 }
                 b = !b;
             }
+            else
+            {
+                break;
+            }
         }
     }
 
 };
 
+
 }
+
 }

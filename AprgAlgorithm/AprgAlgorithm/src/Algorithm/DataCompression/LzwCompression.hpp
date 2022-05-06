@@ -17,6 +17,7 @@ template <unsigned int RADIX, typename DataType>
 class LzwCompression
 {
 public :
+    using SymbolTableUsingTrie = TernarySearchTrie<DataType>;
     static constexpr DataType CODE_WORD_WIDTH = 12;
     static constexpr DataType NUMBER_CODE_WORDS = 1 << CODE_WORD_WIDTH;
 
@@ -28,67 +29,53 @@ public :
         AlbaStreamBitReader reader(input);
         AlbaStreamBitWriter writer(output);
 
-        std::string inputString(readWholeInputString(input, reader));
+        std::string wholeInputString(readWholeInputString(input, reader));
 
-        TernarySearchTrie<DataType> symbolTable;
-        for(DataType c=0; c < RADIX; c++)
-        {
-            symbolTable.put(std::string()+static_cast<char>(c), static_cast<DataType>(c));
-        }
+        SymbolTableUsingTrie codeTable(buildCodeTableWithAllCharacters());
         DataType lastCode(RADIX+1);
 
-        while(!inputString.empty())
+        while(!wholeInputString.empty())
         {
-            std::string maxPrefixMatch(symbolTable.getLongestPrefixOf(inputString));
-            std::bitset<CODE_WORD_WIDTH> bitsetToWrite(symbolTable.get(maxPrefixMatch));
-            writer.writeBitsetData(bitsetToWrite, CODE_WORD_WIDTH-1, 0);
+            std::string maxPrefixMatch(codeTable.getLongestPrefixOf(wholeInputString));
+            writeCodeBasedFromString(writer, codeTable, maxPrefixMatch);
             DataType maxPrefixMatchLength(maxPrefixMatch.length());
-            if(maxPrefixMatchLength < inputString.length() && lastCode < NUMBER_CODE_WORDS)
+            if(maxPrefixMatchLength < wholeInputString.length() && lastCode < NUMBER_CODE_WORDS)
             {
-                symbolTable.put(inputString.substr(0, maxPrefixMatchLength + 1), lastCode++);
+                codeTable.put(wholeInputString.substr(0, maxPrefixMatchLength + 1), lastCode++); // put combination of letters on code table
             }
-            inputString = inputString.substr(maxPrefixMatchLength);
+            wholeInputString = wholeInputString.substr(maxPrefixMatchLength);
         }
-
-        std::bitset<CODE_WORD_WIDTH> bitsetToWrite(RADIX);
-        writer.writeBitsetData(bitsetToWrite, CODE_WORD_WIDTH-1, 0);
+        writeCode(writer, RADIX);
     }
 
     void expand(std::istream & input, std::ostream & output)
     {
         AlbaStreamBitReader reader(input);
         AlbaStreamBitWriter writer(output);
-        stringHelper::strings lookupTable;
 
-        for(DataType c=0; c < RADIX; c++)
-        {
-            lookupTable.emplace_back(std::string()+static_cast<char>(c));
-        }
-        lookupTable.emplace_back(" ");
+        stringHelper::strings lookupTable(buildLookUpTableFromAllCharacters());
 
-        std::bitset<CODE_WORD_WIDTH> bitsetCodeword(reader.readBitsetData<CODE_WORD_WIDTH>(static_cast<unsigned int>(CODE_WORD_WIDTH-1), static_cast<unsigned int>(0)));
-        DataType codeword(static_cast<DataType>(bitsetCodeword.to_ullong()));
+        DataType codeword = readOneCodeword(reader);
         std::string value(lookupTable.at(codeword));
 
         DataType lastIndex = RADIX+2;
         while(true)
         {
             writer.writeStringData(value);
-            std::bitset<CODE_WORD_WIDTH> bitsetCodeword = reader.readBitsetData<CODE_WORD_WIDTH>(static_cast<unsigned int>(CODE_WORD_WIDTH-1), static_cast<unsigned int>(0));
-            codeword = static_cast<DataType>(bitsetCodeword.to_ullong());
+            codeword = readOneCodeword(reader);
             if(!input.eof() && codeword != RADIX)
             {
-                std::string s = lookupTable.at(codeword);
+                std::string stringAtCode(lookupTable.at(codeword));
                 if(codeword == lastIndex)
                 {
-                    s = value + value.at(0);
+                    stringAtCode = value + value.at(0);
                 }
                 if(lastIndex < NUMBER_CODE_WORDS)
                 {
-                    lookupTable.emplace_back(value + s.at(0));
+                    lookupTable.emplace_back(value + stringAtCode.at(0));
                     lastIndex++;
                 }
-                value = s;
+                value = stringAtCode;
             }
             else
             {
@@ -98,19 +85,60 @@ public :
     }
 
 private:
-    std::string readWholeInputString(std::istream& input, AlbaStreamBitReader reader)
+    std::string readWholeInputString(std::istream & input, AlbaStreamBitReader & reader)
     {
-        std::string inputString;
-        while(!input.eof())
+        std::string result;
+        while(true)
         {
             char c(reader.readCharData());
             if(!input.eof())
             {
-                inputString += c;
+                result += c;
+            }
+            else
+            {
+                break;
             }
         }
+        return result;
+    }
 
-        return inputString;
+    SymbolTableUsingTrie buildCodeTableWithAllCharacters()
+    {
+        SymbolTableUsingTrie codeTable;
+        for(DataType c=0; c < RADIX; c++)
+        {
+            codeTable.put(std::string()+static_cast<char>(c), static_cast<DataType>(c));
+        }
+        return codeTable;
+    }
+
+    stringHelper::strings buildLookUpTableFromAllCharacters()
+    {
+        stringHelper::strings lookupTable;
+        for(DataType c=0; c < RADIX; c++)
+        {
+            lookupTable.emplace_back(std::string()+static_cast<char>(c));
+        }
+        lookupTable.emplace_back(" "); // assign one for end of stream
+        return lookupTable;
+    }
+
+    void writeCodeBasedFromString(AlbaStreamBitWriter & writer, TernarySearchTrie<DataType> const& codeTable, std::string const& stringToWrite)
+    {
+        writeCode(writer, codeTable.get(stringToWrite));
+    }
+
+    void writeCode(AlbaStreamBitWriter & writer, DataType const& code)
+    {
+        std::bitset<CODE_WORD_WIDTH> bitsetToWrite(code);
+        writer.writeBitsetData(bitsetToWrite, CODE_WORD_WIDTH-1, 0);
+    }
+
+    DataType readOneCodeword(AlbaStreamBitReader & reader)
+    {
+        std::bitset<CODE_WORD_WIDTH> bitsetCodeword(reader.readBitsetData<CODE_WORD_WIDTH>(static_cast<unsigned int>(CODE_WORD_WIDTH-1), static_cast<unsigned int>(0)));
+        return static_cast<DataType>(bitsetCodeword.to_ullong());
     }
 
 };

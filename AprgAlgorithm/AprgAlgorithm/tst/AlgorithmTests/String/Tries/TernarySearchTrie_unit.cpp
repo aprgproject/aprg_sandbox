@@ -52,9 +52,11 @@ TEST(TernarySearchTrieTest, GetLongestPrefixWorks)
     testGetLongestPrefixOfWithUnsignedInt<TrieForTest>();
 }
 
-TEST(TernarySearchTrieTest, PutWorks){
+TEST(TernarySearchTrieTest, PutWorks)
+{
     testPutWithUnsignedInt<TrieForTest>();
 }
+
 TEST(TernarySearchTrieTest, PutWhenEmptyStringWorks)
 {
     TrieForTest trie;
