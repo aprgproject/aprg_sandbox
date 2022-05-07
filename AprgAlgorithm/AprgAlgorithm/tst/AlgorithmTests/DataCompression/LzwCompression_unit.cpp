@@ -17,16 +17,13 @@ namespace algorithm
 
 namespace
 {
-using Index = unsigned int;
-using CompressionForTest = LzwCompression<256, unsigned int>;
+using CompressionForTest = LzwCompression<unsigned int>;
 }
 
-TEST(LzwCompressionTest, CompressWorksUsingExample1)
-{
+TEST(LzwCompressionTest, CompressWorksUsingExample1){
     stringstream inputSs;
     inputSs << "ABRACADABRA!";
-    stringstream outputSs;
-    CompressionForTest compression;
+    stringstream outputSs;    CompressionForTest compression;
 
     compression.compress(inputSs, outputSs);
 

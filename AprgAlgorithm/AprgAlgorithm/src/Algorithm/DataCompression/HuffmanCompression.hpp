@@ -12,18 +12,18 @@ namespace alba{
 namespace algorithm
 {
 
-template <unsigned int RADIX, typename DataType>
+template <typename DataType>
 class HuffmanCompression
 {
 public :
+    static constexpr unsigned int RADIX=256U;
+
     using Characters = std::vector<char>;
     using HuffmanCode = std::vector<bool>;
-    using FrequencyOfEachCharacter = std::array<DataType, RADIX>;
-    using HuffmanCodeTable = std::array<HuffmanCode, RADIX>;
+    using FrequencyOfEachCharacter = std::array<DataType, RADIX>;    using HuffmanCodeTable = std::array<HuffmanCode, RADIX>;
     struct CharacterFrequency
     {
-        CharacterFrequency(char const characterAsParameter, DataType const frequencyAsParameter, bool const isProritizedAsParameter)            : character(characterAsParameter)
-            , frequency(frequencyAsParameter)
+        CharacterFrequency(char const characterAsParameter, DataType const frequencyAsParameter, bool const isProritizedAsParameter)            : character(characterAsParameter)            , frequency(frequencyAsParameter)
             , isProritized(isProritizedAsParameter)
         {}
         bool operator>(CharacterFrequency const& second) const
