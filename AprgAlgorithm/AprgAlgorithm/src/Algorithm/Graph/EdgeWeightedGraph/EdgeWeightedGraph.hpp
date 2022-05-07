@@ -22,39 +22,38 @@ public:
     using EdgeWithWeight = typename GraphTypesWithWeights<Vertex, Weight>::EdgeWithWeight;
     using EdgesWithWeight = typename GraphTypesWithWeights<Vertex, Weight>::EdgesWithWeight;
     using Weights = std::vector<Weight>;
-    using UniqueWeights = std::set<Weight>;
 
     EdgeWeightedGraph()
-        : Graph()
-    {}
+        : Graph()    {}
 
     bool hasAUniqueMinimumSpanningTree() const
     {
-        Weights weights(getAllWeights());
-        UniqueWeights uniqueWeights(weights.cbegin(), weights.cend());
-        return weights.size() == uniqueWeights.size();
+        return hasNoDuplicateWeights(getSortedWeights());
     }
 
-    Weight getWeight(Vertex const& vertex1, Vertex const& vertex2) const
-    {
+    Weight getWeight(Vertex const& vertex1, Vertex const& vertex2) const    {
         Weight result{};
         auto it = m_edgeToWeightMap.find(createEdgeInMap(vertex1, vertex2));
-        if(it != m_edgeToWeightMap.cend())
-        {
+        if(it != m_edgeToWeightMap.cend())        {
             result = it->second;
         }
         return result;
     }
 
+    Weights getSortedWeights() const
+    {
+        Weights weights(getAllWeights());
+        std::sort(weights.begin(), weights.end());
+        return weights;
+    }
+
     EdgeToWeightMap const& getEdgeToWeightMap() const
     {
-        return m_edgeToWeightMap;
-    }
+        return m_edgeToWeightMap;    }
 
     EdgesWithWeight getEdgesWithWeight() const
     {
-        EdgesWithWeight result;
-        std::transform(m_edgeToWeightMap.cbegin(), m_edgeToWeightMap.cend(), std::back_inserter(result), [](auto const& edgeAndWeightPair)
+        EdgesWithWeight result;        std::transform(m_edgeToWeightMap.cbegin(), m_edgeToWeightMap.cend(), std::back_inserter(result), [](auto const& edgeAndWeightPair)
         {
             return EdgeWithWeight(edgeAndWeightPair.first.first, edgeAndWeightPair.first.second, edgeAndWeightPair.second);
         });
@@ -93,14 +92,17 @@ private:
         BaseClass::connect(vertex1, vertex2);
     }
 
+    bool hasNoDuplicateWeights(Weights const& sortedWeights) const
+    {
+        return std::adjacent_find(sortedWeights.cbegin(), sortedWeights.cend()) == sortedWeights.cend();
+    }
+
     Weights getAllWeights() const
     {
-        Weights result;
-        std::transform(m_edgeToWeightMap.cbegin(), m_edgeToWeightMap.cend(), std::back_inserter(result), [&](auto const& edgeAndWeightPair)
+        Weights result;        std::transform(m_edgeToWeightMap.cbegin(), m_edgeToWeightMap.cend(), std::back_inserter(result), [&](auto const& edgeAndWeightPair)
         {
             return edgeAndWeightPair.second;
-        });
-        return result;
+        });        return result;
     }
 
     EdgeWithVertexComparison createEdgeInMap(Vertex const& vertex1, Vertex const& vertex2) const
