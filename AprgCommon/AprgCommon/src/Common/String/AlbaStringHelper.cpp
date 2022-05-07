@@ -487,14 +487,25 @@ string getStringWithoutOpeningClosingOperators(string const& mainString, char co
     return mainString.substr(start, end-start);
 }
 
+string getLongestCommonPrefix(string const& first, string const& second)
+{
+    unsigned int i=0;
+    for(; i<first.length() && i<second.length(); i++)
+    {
+        if(first.at(i) != second.at(i))
+        {
+            break;
+        }
+    }
+    return first.substr(0, i);
+}
+
 void copyBeforeStringAndAfterString(
         string const& mainString,
-        string const& stringToSearch,
-        string & beforeString,
+        string const& stringToSearch,        string & beforeString,
         string & afterString,
         unsigned int const indexToStartTheSearch)
-{
-    beforeString.clear();
+{    beforeString.clear();
     afterString.clear();
     unsigned int firstIndexOfFirstString = mainString.find(stringToSearch, indexToStartTheSearch);
     if(isNotNpos(static_cast<int>(firstIndexOfFirstString)))

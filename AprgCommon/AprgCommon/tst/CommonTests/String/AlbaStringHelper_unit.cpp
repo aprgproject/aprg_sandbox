@@ -301,14 +301,44 @@ TEST(GetPartialStringFromStringTest, GetStringWithoutCharacterAtTheStartAndEndUs
     EXPECT_EQ(withoutUnderscore, getStringWithoutCharAtTheStartAndEnd(testString, '_'));
 }
 
+TEST(GetPartialStringFromStringTest, GetLongestCommonPrefixWorks)
+{
+    string testString1("adjustedforever");
+    string testString2("adjustedforevah");
+
+    EXPECT_EQ("adjustedforev", getLongestCommonPrefix(testString1, testString2));
+}
+
+TEST(GetPartialStringFromStringTest, CopyBeforeStringAndAfterStringWhenStringIsFound)
+{
+    string testString(R"("1234567890!@#$%^&*( )AbCDEFghIjKlMnopQRstUvWxYz")");
+    string expectedBeforeString(R"("1234567890!@#$%^&*( ))");
+    string expectedAfterString(R"(EFghIjKlMnopQRstUvWxYz")");
+    string actualBeforeString;
+    string actualAfterString;
+
+    copyBeforeStringAndAfterString(testString, "AbCD", actualBeforeString, actualAfterString);
+    EXPECT_EQ(expectedBeforeString, actualBeforeString);
+    EXPECT_EQ(expectedAfterString, actualAfterString);
+}
+
+TEST(GetPartialStringFromStringTest, CopyBeforeStringAndAfterStringWhenStringIsNotFound)
+{
+    string testString(R"("1234567890!@#$%^&*( )AbCDEFghIjKlMnopQRstUvWxYz")");
+    string actualBeforeString;
+    string actualAfterString;
+
+    copyBeforeStringAndAfterString(testString, "777", actualBeforeString, actualAfterString);
+    EXPECT_TRUE(actualBeforeString.empty());
+    EXPECT_TRUE(actualBeforeString.empty());
+}
+
 TEST(GetPartialStringFromStringTest, GetStringBeforeThisStringWithCharactersAfterQuestionMarkIsRemoved)
 {
-    string testString("http://a.mhcdn.net/store/manga/12114/001.0/compressed/r049.jpg?v=1354256522");
-    string withCharactersAfterQuestionMarkRemoved("http://a.mhcdn.net/store/manga/12114/001.0/compressed/r049.jpg");
+    string testString("http://a.mhcdn.net/store/manga/12114/001.0/compressed/r049.jpg?v=1354256522");    string withCharactersAfterQuestionMarkRemoved("http://a.mhcdn.net/store/manga/12114/001.0/compressed/r049.jpg");
     string questionMarkString("?");
 
-    EXPECT_EQ(withCharactersAfterQuestionMarkRemoved, getStringBeforeThisString(testString, questionMarkString));
-}
+    EXPECT_EQ(withCharactersAfterQuestionMarkRemoved, getStringBeforeThisString(testString, questionMarkString));}
 
 TEST(GetPartialStringFromStringTest, GetStringAfterThisStringUsingAllLettersWithSpecialCharacters)
 {
@@ -342,62 +372,32 @@ TEST(GetPartialStringFromStringTest, GetStringBeforeThisCharacters)
     EXPECT_TRUE(getStringBeforeThisCharacters(testString, "a").empty());
 }
 
-TEST(GetPartialStringFromStringTest, CopyBeforeStringAndAfterStringWhenStringIsFound)
-{
-    string testString(R"("1234567890!@#$%^&*( )AbCDEFghIjKlMnopQRstUvWxYz")");
-    string expectedBeforeString(R"("1234567890!@#$%^&*( ))");
-    string expectedAfterString(R"(EFghIjKlMnopQRstUvWxYz")");
-    string actualBeforeString;
-    string actualAfterString;
-
-    copyBeforeStringAndAfterString(testString, "AbCD", actualBeforeString, actualAfterString);
-    EXPECT_EQ(expectedBeforeString, actualBeforeString);
-    EXPECT_EQ(expectedAfterString, actualAfterString);
-}
-
-TEST(GetPartialStringFromStringTest, CopyBeforeStringAndAfterStringWhenStringIsNotFound)
-{
-    string testString(R"("1234567890!@#$%^&*( )AbCDEFghIjKlMnopQRstUvWxYz")");
-    string actualBeforeString;
-    string actualAfterString;
-
-    copyBeforeStringAndAfterString(testString, "777", actualBeforeString, actualAfterString);
-    EXPECT_TRUE(actualBeforeString.empty());
-    EXPECT_TRUE(actualBeforeString.empty());
-}
-
 TEST(GetNewStringFromStringTest, GetStringReplacingSpecialCharactersWithUnderscore)
 {
-    string testString(R"("1234567890!@#$%^&*( )AbCDEFghIjKlMnopQRstUvWxYz")");
-    string withoutSpecialCharacters("_1234567890_AbCDEFghIjKlMnopQRstUvWxYz_");
-
-    EXPECT_EQ(withoutSpecialCharacters, getStringAndReplaceNonAlphanumericCharactersToUnderScore(testString));
-}
-
-TEST(GetNewStringFromStringTest, GetStringReplacingSpacesWithUnderscore)
-{
-    string testString(R"( Mark Earvin Alba 1234567890 ")");
-    string withoutSpecialCharacters("_Mark_Earvin_Alba_1234567890_");
+    string testString(R"("1234567890!@#$%^&*( )AbCDEFghIjKlMnopQRstUvWxYz")");    string withoutSpecialCharacters("_1234567890_AbCDEFghIjKlMnopQRstUvWxYz_");
 
     EXPECT_EQ(withoutSpecialCharacters, getStringAndReplaceNonAlphanumericCharactersToUnderScore(testString));
 }
 
 TEST(GetNewStringFromStringTest, GetStringByRepeatingUntilDesiredLength)
 {
-    EXPECT_TRUE(getStringByRepeatingUntilDesiredLength(string(),50).empty());
-    EXPECT_TRUE(getStringByRepeatingUntilDesiredLength("MARK",0).empty());
+    EXPECT_TRUE(getStringByRepeatingUntilDesiredLength(string(),50).empty());    EXPECT_TRUE(getStringByRepeatingUntilDesiredLength("MARK",0).empty());
     EXPECT_EQ("MARKMARK", getStringByRepeatingUntilDesiredLength("MARK",8));
     EXPECT_EQ("MARKMARKMA", getStringByRepeatingUntilDesiredLength("MARK",10));
 }
 
+TEST(GetNewStringFromStringTest, GetStringReplacingSpacesWithUnderscore){
+    string testString(R"( Mark Earvin Alba 1234567890 ")");
+    string withoutSpecialCharacters("_Mark_Earvin_Alba_1234567890_");
+
+    EXPECT_EQ(withoutSpecialCharacters, getStringAndReplaceNonAlphanumericCharactersToUnderScore(testString));
+}
 
 TEST(GetStringNumberFromStringTest, GetStringNumberAfterThisString)
 {
-    EXPECT_EQ("1234", getNumberAfterThisString("INF/TCOM/R, nbccId: 1234, ", "nbccId: "));
-    EXPECT_EQ("5678", getNumberAfterThisString("INF/TCOM/R, nbccId: 5678 ", "nbccId: "));
+    EXPECT_EQ("1234", getNumberAfterThisString("INF/TCOM/R, nbccId: 1234, ", "nbccId: "));    EXPECT_EQ("5678", getNumberAfterThisString("INF/TCOM/R, nbccId: 5678 ", "nbccId: "));
     EXPECT_EQ("7890", getNumberAfterThisString("INF/TCOM/R, nbccId: 7890", "nbccId: "));
 }
-
 TEST(GetStringNumberFromStringTest, GetStringHexNumberAfterThisString)
 {
     EXPECT_EQ("AFBA", getHexNumberAfterThisString("INF/TCOM/R, nbccId: AFBA, ", "nbccId: "));
