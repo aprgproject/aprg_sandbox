@@ -1,11 +1,10 @@
 #include <Algorithm/Graph/DirectedGraph/DirectedGraphWithListOfEdges.hpp>
+#include <Algorithm/Graph/EdgeWeightedGraph/EdgeWeightedGraph.hpp>
 #include <Algorithm/Graph/UndirectedGraph/UndirectedGraphWithListOfEdges.hpp>
 #include <Algorithm/Graph/Utilities/GraphUtilities.hpp>
-
 #include <gtest/gtest.h>
 
 using namespace std;
-
 namespace alba
 {
 
@@ -18,18 +17,19 @@ namespace GraphUtilities
 namespace
 {
 using VertexForTest = unsigned int;
+using WeightForTest = double;
 using EdgesForTest = typename GraphTypes<VertexForTest>::Edges;
 using ListOfEdgesForTest = typename GraphTypes<VertexForTest>::ListOfEdges;
 using PathForTest = typename GraphTypes<VertexForTest>::Path;
 using UndirectedGraphForTest = UndirectedGraphWithListOfEdges<VertexForTest>;
 using DirectedGraphForTest = DirectedGraphWithListOfEdges<VertexForTest>;
+using EdgeWeightedUndirectedGraphForTest = EdgeWeightedGraph<VertexForTest, WeightForTest, UndirectedGraphForTest>;
+using EdgeWeightedDirectedGraphForTest = EdgeWeightedGraph<VertexForTest, WeightForTest, DirectedGraphForTest>;
 }
 
-TEST(GraphUtilitiesTest, IsASimplePathWorks)
-{
+TEST(GraphUtilitiesTest, IsASimplePathWorks){
     PathForTest simplePath{1U, 2U, 3U};
     PathForTest nonSimplePath{1U, 2U, 3U, 2U, 4U};
-
     EXPECT_TRUE(isASimplePath<VertexForTest>(simplePath));
     EXPECT_FALSE(isASimplePath<VertexForTest>(nonSimplePath));
 }
@@ -218,13 +218,28 @@ TEST(GraphUtilitiesTest, IsBipartiteWorks)
     EXPECT_FALSE(isBipartite(nonBipartiteGraph));
 }
 
+TEST(GraphUtilitiesTest, IsFlowNetworkWorks)
+{
+    EdgeWeightedUndirectedGraphForTest undirectedGraph;
+    undirectedGraph.connect(0U, 1U, 3.5);
+    undirectedGraph.connect(0U, 1U, 4.5);
+    EdgeWeightedDirectedGraphForTest directedGraphWithNegativeWeight;
+    directedGraphWithNegativeWeight.connect(0U, 1U, 3.5);
+    directedGraphWithNegativeWeight.connect(0U, 1U, -4.5);
+    EdgeWeightedDirectedGraphForTest directedGraphWithPositiveWeight;
+    directedGraphWithPositiveWeight.connect(0U, 1U, 3.5);
+    directedGraphWithPositiveWeight.connect(0U, 1U, 4.5);
+
+    EXPECT_FALSE(isFlowNetwork(undirectedGraph));
+    EXPECT_FALSE(isFlowNetwork(directedGraphWithNegativeWeight));
+    EXPECT_TRUE(isFlowNetwork(directedGraphWithPositiveWeight));
+}
+
 TEST(GraphUtilitiesTest, GetDegreeAtWorks)
 {
     UndirectedGraphForTest graph;
-
     graph.connect(0U, 1U);
     graph.connect(0U, 2U);
-
     EXPECT_EQ(2U, getDegreeAt(graph, 0U));
     EXPECT_EQ(1U, getDegreeAt(graph, 1U));
     EXPECT_EQ(1U, getDegreeAt(graph, 2U));

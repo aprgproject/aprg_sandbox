@@ -13,14 +13,13 @@ namespace
 {
 using VertexForTest = unsigned int;
 using WeightForTest = double;
+using WeightsForTest = std::vector<double>;
 using UndirectedGraphForTest = UndirectedGraphWithListOfEdges<VertexForTest>;
 using EdgeWeightedUndirectedGraphForTest = EdgeWeightedGraph<VertexForTest, WeightForTest, UndirectedGraphForTest>;
-using Edges = GraphTypes<VertexForTest>::Edges;
-using EdgeToWeightMap = EdgeWeightedUndirectedGraphForTest::EdgeToWeightMap;
+using Edges = GraphTypes<VertexForTest>::Edges;using EdgeToWeightMap = EdgeWeightedUndirectedGraphForTest::EdgeToWeightMap;
 }
 
-TEST(EdgeWeightedGraphTest, HasAUniqueMinimumSpanningTreeWorksOnUndirectedGraph)
-{
+TEST(EdgeWeightedGraphTest, HasAUniqueMinimumSpanningTreeWorksOnUndirectedGraph){
     EdgeWeightedUndirectedGraphForTest graphWithDifferentWeights;
     graphWithDifferentWeights.connect(0U, 1U, 3.5);
     graphWithDifferentWeights.connect(0U, 2U, 4.5);
@@ -44,16 +43,24 @@ TEST(EdgeWeightedGraphTest, GetWeightWorksOnUndirectedGraph)
     EXPECT_EQ(4.5, graph.getWeight(2U, 0U));
 }
 
-TEST(EdgeWeightedGraphTest, GetEdgeToWeightMapWorksOnUndirectedGraph)
+TEST(EdgeWeightedGraphTest, GetSortedWeightsWorksOnUndirectedGraph)
 {
     EdgeWeightedUndirectedGraphForTest graph;
     graph.connect(0U, 1U, 3.5);
     graph.connect(0U, 2U, 4.5);
 
+    WeightsForTest expectedWeights{3.5, 4.5};
+    EXPECT_EQ(expectedWeights, graph.getSortedWeights());
+}
+
+TEST(EdgeWeightedGraphTest, GetEdgeToWeightMapWorksOnUndirectedGraph)
+{
+    EdgeWeightedUndirectedGraphForTest graph;    graph.connect(0U, 1U, 3.5);
+    graph.connect(0U, 2U, 4.5);
+
     EdgeWeightedUndirectedGraphForTest::EdgeToWeightMap expectedEdgesToWeight
     {{{0U, 1U}, 3.5}, {{0U, 2U}, 4.5}};
-    EXPECT_EQ(expectedEdgesToWeight, graph.getEdgeToWeightMap());
-}
+    EXPECT_EQ(expectedEdgesToWeight, graph.getEdgeToWeightMap());}
 
 TEST(EdgeWeightedGraphTest, GetEdgesWithWeightWorksOnUndirectedGraph)
 {
