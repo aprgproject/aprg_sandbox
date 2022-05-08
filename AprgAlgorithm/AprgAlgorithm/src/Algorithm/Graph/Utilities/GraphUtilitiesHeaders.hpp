@@ -30,12 +30,15 @@ template <typename Vertex> bool isGraphConnected(BaseUndirectedGraph<Vertex> con
 template <typename Vertex> bool isGraphStronglyConnected(BaseDirectedGraph<Vertex> const& graph);
 template <typename Vertex> bool isBipartite(BaseUndirectedGraph<Vertex> const& graph);
 template <typename EdgeWeightedGraphType> bool isFlowNetwork(EdgeWeightedGraphType const& graph);
+template <typename SinkSourceFlowNetworkType> bool isSinkSourceFlowNetworkFeasible(SinkSourceFlowNetworkType const& flowNetwork);
 template <typename Vertex> unsigned int getDegreeAt(BaseGraph<Vertex> const& graph, Vertex const& vertex);
 template <typename Vertex> unsigned int getMaxDegree(BaseGraph<Vertex> const& graph);
-template <typename Vertex> double getAverageDegree(BaseGraph<Vertex> const& graph);template <typename Vertex> unsigned int getNumberOfSelfLoops(BaseGraph<Vertex> const& graph);
+template <typename Vertex> double getAverageDegree(BaseGraph<Vertex> const& graph);
+template <typename Vertex> unsigned int getNumberOfSelfLoops(BaseGraph<Vertex> const& graph);
 
 template <typename Vertex, typename Weight, typename EdgeWeightedGraphType>
-typename GraphTypes<Vertex>::Path getCriticalPath(        EdgeWeightedGraphType const& graph,
+typename GraphTypes<Vertex>::Path getCriticalPath(
+        EdgeWeightedGraphType const& graph,
         Vertex const& sourceVertex,
         Vertex const& destinationVertex);
 

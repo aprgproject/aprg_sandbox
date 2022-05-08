@@ -54,7 +54,8 @@ TEST(AlphabetsTest, GetDigitValueWorks)
     EXPECT_EQ(0U, alphabet.getDigitValue('G'));
 }
 
-TEST(AlphabetsTest, GetRadixWorks){
+TEST(AlphabetsTest, GetRadixWorks)
+{
     AlphabetForTest alphabet("ABCDEF");
 
     EXPECT_EQ(6U, alphabet.getRadix());
@@ -76,10 +77,12 @@ TEST(AlphabetsTest, ConvertDigitValuesToStringWorks)
     EXPECT_EQ("BBAFDE", alphabet.convertDigitValuesToString(values));
 }
 
-TEST(AlphabetsTest, GetCharactersWorks){
+TEST(AlphabetsTest, GetCharactersWorks)
+{
     AlphabetForTest alphabet("ABCDEF");
 
-    EXPECT_EQ("ABCDEF", alphabet.getCharacters());}
+    EXPECT_EQ("ABCDEF", alphabet.getCharacters());
+}
 
 }
 

@@ -4,10 +4,12 @@
 #include <Common/Stream/AlbaStreamBitWriter.hpp>
 
 #include <array>
-#include <iostream>#include <memory>
+#include <iostream>
+#include <memory>
 #include <queue>
 
-namespace alba{
+namespace alba
+{
 
 namespace algorithm
 {
@@ -20,12 +22,16 @@ public :
 
     using Characters = std::vector<char>;
     using HuffmanCode = std::vector<bool>;
-    using FrequencyOfEachCharacter = std::array<DataType, RADIX>;    using HuffmanCodeTable = std::array<HuffmanCode, RADIX>;
+    using FrequencyOfEachCharacter = std::array<DataType, RADIX>;
+    using HuffmanCodeTable = std::array<HuffmanCode, RADIX>;
     struct CharacterFrequency
     {
-        CharacterFrequency(char const characterAsParameter, DataType const frequencyAsParameter, bool const isProritizedAsParameter)            : character(characterAsParameter)            , frequency(frequencyAsParameter)
+        CharacterFrequency(char const characterAsParameter, DataType const frequencyAsParameter, bool const isProritizedAsParameter)
+            : character(characterAsParameter)
+            , frequency(frequencyAsParameter)
             , isProritized(isProritizedAsParameter)
         {}
+
         bool operator>(CharacterFrequency const& second) const
         {
             bool result(false);
@@ -88,6 +94,7 @@ public :
     {
         AlbaStreamBitReader reader(input);
         AlbaStreamBitWriter writer(output);
+
         Characters allInputCharacters(readAllCharacters(reader));
         FrequencyOfEachCharacter frequency(getFrequencyOfEachCharacter(allInputCharacters));
 
@@ -95,16 +102,19 @@ public :
         HuffmanCodeTable huffmanCodeTable(buildHuffmanCodeTableFromTrie(root));
 
         writeTrie(writer, root);
-        writer.writeNumberData<DataType>(AlbaStreamBitEndianType::BigEndian, allInputCharacters.size());        writeHuffmanCodes(writer, allInputCharacters, huffmanCodeTable);
+        writer.writeNumberData<DataType>(AlbaStreamBitEndianType::BigEndian, allInputCharacters.size());
+        writeHuffmanCodes(writer, allInputCharacters, huffmanCodeTable);
     }
 
     void expand(std::istream & input, std::ostream & output)
     {
         AlbaStreamBitReader reader(input);
         AlbaStreamBitWriter writer(output);
+
         TrieNodeUniquePointer root(readTrie(reader));
         DataType lengthOfString(reader.readNumberData<DataType>(AlbaStreamBitEndianType::BigEndian));
-        expandAllCharacters(reader, writer, root, lengthOfString);    }
+        expandAllCharacters(reader, writer, root, lengthOfString);
+    }
 
 private:
 
@@ -147,9 +157,11 @@ private:
             }
         }
     }
+
     void expandAllCharacters(AlbaStreamBitReader & reader, AlbaStreamBitWriter & writer, TrieNodeUniquePointer const& root, DataType const lengthOfString)
     {
-        for(DataType i=0; i<lengthOfString; i++)        {
+        for(DataType i=0; i<lengthOfString; i++)
+        {
             expandOneCharacterBasedFromTrieAndCode(reader, writer, root);
         }
     }
@@ -271,8 +283,10 @@ private:
                 buildHuffmanCodeTableFromTrie(huffmanCodeTable, nodePointer->right, newHuffmanCode);
             }
         }
-    }};
+    }
+};
 
 
 }
+
 }

@@ -26,10 +26,10 @@ void testIsConnectedWhenEmptyWithVertexAsUnsignedInt()
 {
     Graph graph;
 
-    EXPECT_FALSE(graph.isConnected(0U, 1U));
-    EXPECT_FALSE(graph.isConnected(0U, 2U));
-    EXPECT_FALSE(graph.isConnected(1U, 2U));
-    EXPECT_FALSE(graph.isConnected(0U, 3U));
+    EXPECT_FALSE(graph.isDirectlyConnected(0U, 1U));
+    EXPECT_FALSE(graph.isDirectlyConnected(0U, 2U));
+    EXPECT_FALSE(graph.isDirectlyConnected(1U, 2U));
+    EXPECT_FALSE(graph.isDirectlyConnected(0U, 3U));
 }
 
 template <typename Graph>
@@ -39,12 +39,12 @@ void testIsConnectedWhenNotEmptyWithVertexAsUnsignedInt()
     graph.connect(0U, 1U);
     graph.connect(2U, 0U);
 
-    EXPECT_TRUE(graph.isConnected(0U, 1U));
-    EXPECT_TRUE(graph.isConnected(2U, 0U));
-    EXPECT_FALSE(graph.isConnected(1U, 0U));
-    EXPECT_FALSE(graph.isConnected(0U, 2U));
-    EXPECT_FALSE(graph.isConnected(1U, 2U));
-    EXPECT_FALSE(graph.isConnected(0U, 3U));
+    EXPECT_TRUE(graph.isDirectlyConnected(0U, 1U));
+    EXPECT_TRUE(graph.isDirectlyConnected(2U, 0U));
+    EXPECT_FALSE(graph.isDirectlyConnected(1U, 0U));
+    EXPECT_FALSE(graph.isDirectlyConnected(0U, 2U));
+    EXPECT_FALSE(graph.isDirectlyConnected(1U, 2U));
+    EXPECT_FALSE(graph.isDirectlyConnected(0U, 3U));
 }
 
 template <typename Graph>

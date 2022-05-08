@@ -1,10 +1,14 @@
 #include <Algorithm/Graph/DirectedGraph/DirectedGraphWithListOfEdges.hpp>
 #include <Algorithm/Graph/EdgeWeightedGraph/EdgeWeightedGraph.hpp>
+#include <Algorithm/Graph/FlowNetwork/FlowNetwork.hpp>
+#include <Algorithm/Graph/FlowNetwork/SinkSourceFlowNetwork.hpp>
 #include <Algorithm/Graph/UndirectedGraph/UndirectedGraphWithListOfEdges.hpp>
 #include <Algorithm/Graph/Utilities/GraphUtilities.hpp>
+
 #include <gtest/gtest.h>
 
 using namespace std;
+
 namespace alba
 {
 
@@ -18,6 +22,7 @@ namespace
 {
 using VertexForTest = unsigned int;
 using WeightForTest = double;
+using FlowDataTypeForTest = double;
 using EdgesForTest = typename GraphTypes<VertexForTest>::Edges;
 using ListOfEdgesForTest = typename GraphTypes<VertexForTest>::ListOfEdges;
 using PathForTest = typename GraphTypes<VertexForTest>::Path;
@@ -25,11 +30,15 @@ using UndirectedGraphForTest = UndirectedGraphWithListOfEdges<VertexForTest>;
 using DirectedGraphForTest = DirectedGraphWithListOfEdges<VertexForTest>;
 using EdgeWeightedUndirectedGraphForTest = EdgeWeightedGraph<VertexForTest, WeightForTest, UndirectedGraphForTest>;
 using EdgeWeightedDirectedGraphForTest = EdgeWeightedGraph<VertexForTest, WeightForTest, DirectedGraphForTest>;
+using FlowNetworkForTest = FlowNetwork<VertexForTest, FlowDataTypeForTest, DirectedGraphForTest>;
+using SinkSourceFlowNetworkForTest = SinkSourceFlowNetwork<VertexForTest, FlowDataTypeForTest, DirectedGraphForTest>;
 }
 
-TEST(GraphUtilitiesTest, IsASimplePathWorks){
+TEST(GraphUtilitiesTest, IsASimplePathWorks)
+{
     PathForTest simplePath{1U, 2U, 3U};
     PathForTest nonSimplePath{1U, 2U, 3U, 2U, 4U};
+
     EXPECT_TRUE(isASimplePath<VertexForTest>(simplePath));
     EXPECT_FALSE(isASimplePath<VertexForTest>(nonSimplePath));
 }
@@ -229,17 +238,40 @@ TEST(GraphUtilitiesTest, IsFlowNetworkWorks)
     EdgeWeightedDirectedGraphForTest directedGraphWithPositiveWeight;
     directedGraphWithPositiveWeight.connect(0U, 1U, 3.5);
     directedGraphWithPositiveWeight.connect(0U, 1U, 4.5);
+    FlowNetworkForTest flowNetwork;
+    flowNetwork.connect(0U, 1U, 15.25, 3.5);
+    flowNetwork.connect(0U, 2U, 16.25, 4.5);
 
     EXPECT_FALSE(isFlowNetwork(undirectedGraph));
     EXPECT_FALSE(isFlowNetwork(directedGraphWithNegativeWeight));
     EXPECT_TRUE(isFlowNetwork(directedGraphWithPositiveWeight));
+    EXPECT_TRUE(isFlowNetwork(flowNetwork));
+}
+
+TEST(GraphUtilitiesTest, IsSinkSourceFlowNetworkFeasibleWorks)
+{
+    /*SinkSourceFlowNetworkForTest flowNetworkWithOutOfRangeFlows(0U, 2U);
+    flowNetworkWithOutOfRangeFlows.connect(0U, 1U, 15.25, 16);
+    flowNetworkWithOutOfRangeFlows.connect(1U, 2U, 16.25, -1);
+    SinkSourceFlowNetworkForTest flowNetworkWithNoEquilbrium(0U, 2U);
+    flowNetworkWithNoEquilbrium.connect(0U, 1U, 15.25, 3.5);
+    flowNetworkWithNoEquilbrium.connect(1U, 2U, 16.25, 4.5);*/
+    SinkSourceFlowNetworkForTest flowNetworkWithEquilbrium(0U, 2U);
+    flowNetworkWithEquilbrium.connect(0U, 1U, 15.25, 3.5);
+    flowNetworkWithEquilbrium.connect(1U, 2U, 16.25, 3.5);
+
+    //EXPECT_FALSE(isSinkSourceFlowNetworkFeasible(flowNetworkWithOutOfRangeFlows));
+    //EXPECT_FALSE(isSinkSourceFlowNetworkFeasible(flowNetworkWithNoEquilbrium));
+    EXPECT_TRUE(isSinkSourceFlowNetworkFeasible(flowNetworkWithEquilbrium));
 }
 
 TEST(GraphUtilitiesTest, GetDegreeAtWorks)
 {
     UndirectedGraphForTest graph;
+
     graph.connect(0U, 1U);
     graph.connect(0U, 2U);
+
     EXPECT_EQ(2U, getDegreeAt(graph, 0U));
     EXPECT_EQ(1U, getDegreeAt(graph, 1U));
     EXPECT_EQ(1U, getDegreeAt(graph, 2U));

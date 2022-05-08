@@ -25,9 +25,11 @@ public :
 
     LzwCompression()
     {}
+
     void compress(std::istream & input, std::ostream & output)
     {
-        AlbaStreamBitReader reader(input);        AlbaStreamBitWriter writer(output);
+        AlbaStreamBitReader reader(input);
+        AlbaStreamBitWriter writer(output);
 
         std::string wholeInputString(readWholeInputString(input, reader));
 
@@ -49,7 +51,8 @@ public :
         writeCode(writer, radix);
     }
 
-    void expand(std::istream & input, std::ostream & output)    {
+    void expand(std::istream & input, std::ostream & output)
+    {
         AlbaStreamBitReader reader(input);
         AlbaStreamBitWriter writer(output);
 
@@ -57,9 +60,11 @@ public :
 
         DataType codeword = readOneCodeword(reader);
         std::string value(lookupTable.at(codeword));
+
         DataType lastIndex = RADIX+2;
         while(true)
-        {            writer.writeStringData(value);
+        {
+            writer.writeStringData(value);
             codeword = readOneCodeword(reader);
             if(!input.eof() && codeword != RADIX)
             {
@@ -114,10 +119,12 @@ private:
     stringHelper::strings buildLookupTableFromAllCharacters()
     {
         stringHelper::strings lookupTable;
-        for(DataType c=0; c < RADIX; c++)        {
+        for(DataType c=0; c < RADIX; c++)
+        {
             lookupTable.emplace_back(std::string()+static_cast<char>(c));
         }
-        lookupTable.emplace_back(" "); // assign one for end of stream        return lookupTable;
+        lookupTable.emplace_back(" "); // assign one for end of stream
+        return lookupTable;
     }
 
     void writeCodeBasedFromString(AlbaStreamBitWriter & writer, TernarySearchTrie<DataType> const& codeTable, std::string const& stringToWrite)
@@ -137,6 +144,7 @@ private:
         return static_cast<DataType>(bitsetCodeword.to_ullong());
     }
 };
+
 
 }
 

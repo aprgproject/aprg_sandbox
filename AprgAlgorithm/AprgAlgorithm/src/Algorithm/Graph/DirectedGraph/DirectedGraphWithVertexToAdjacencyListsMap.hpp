@@ -29,7 +29,7 @@ public:
         , m_adjacencyLists{}
     {}
 
-    bool isConnected(Vertex const& sourceVertex, Vertex const& destinationVertex) const override
+    bool isDirectlyConnected(Vertex const& sourceVertex, Vertex const& destinationVertex) const override
     {
         bool result(false);
         auto it = m_adjacencyLists.find(sourceVertex);
@@ -105,7 +105,7 @@ public:
 
     void connect(Vertex const& sourceVertex, Vertex const& destinationVertex) override
     {
-        if(!isConnected(sourceVertex, destinationVertex))
+        if(!isDirectlyConnected(sourceVertex, destinationVertex))
         {
             m_numberOfEdges++;
             m_adjacencyLists[sourceVertex].emplace(destinationVertex);
@@ -114,7 +114,7 @@ public:
 
     void disconnect(Vertex const& sourceVertex, Vertex const& destinationVertex) override
     {
-        if(isConnected(sourceVertex, destinationVertex))
+        if(isDirectlyConnected(sourceVertex, destinationVertex))
         {
             m_numberOfEdges--;
             m_adjacencyLists[sourceVertex].erase(destinationVertex);

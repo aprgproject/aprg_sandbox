@@ -1,9 +1,11 @@
 #include <Algorithm/String/Alphabet/Alphabet.hpp>
 
 #include <gtest/gtest.h>
+
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 namespace algorithm
 {
@@ -50,9 +52,11 @@ Alphabet<unsigned char> getUpperCaseAlphabet()
     return Alphabet<unsigned char>("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
 }
 }
+
 TEST(KnownAlphabetsTest, GetBinaryAlphabetWorks)
 {
     auto alphabet(getBinaryAlphabet());
+
     EXPECT_EQ("01", alphabet.getCharacters());
 }
 

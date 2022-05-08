@@ -39,7 +39,7 @@ public:
         return result;
     }
 
-    bool isConnected(Vertex const& vertex1, Vertex const& vertex2) const override
+    bool isDirectlyConnected(Vertex const& vertex1, Vertex const& vertex2) const override
     {
         return m_edges.find(EdgeInSet(vertex1, vertex2)) != m_edges.cend();
     }
@@ -111,7 +111,7 @@ public:
 
     void connect(Vertex const& vertex1, Vertex const& vertex2) override
     {
-        if(!isConnected(vertex1, vertex2))
+        if(!isDirectlyConnected(vertex1, vertex2))
         {
             m_numberOfEdges++;
             m_edges.emplace(vertex1, vertex2);
@@ -121,7 +121,7 @@ public:
 
     void disconnect(Vertex const& vertex1, Vertex const& vertex2) override
     {
-        if(isConnected(vertex1, vertex2))
+        if(isDirectlyConnected(vertex1, vertex2))
         {
             m_numberOfEdges--;
             m_edges.erase({vertex1, vertex2});

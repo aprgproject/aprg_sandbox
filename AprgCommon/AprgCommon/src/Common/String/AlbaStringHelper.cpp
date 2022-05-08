@@ -502,10 +502,12 @@ string getLongestCommonPrefix(string const& first, string const& second)
 
 void copyBeforeStringAndAfterString(
         string const& mainString,
-        string const& stringToSearch,        string & beforeString,
+        string const& stringToSearch,
+        string & beforeString,
         string & afterString,
         unsigned int const indexToStartTheSearch)
-{    beforeString.clear();
+{
+    beforeString.clear();
     afterString.clear();
     unsigned int firstIndexOfFirstString = mainString.find(stringToSearch, indexToStartTheSearch);
     if(isNotNpos(static_cast<int>(firstIndexOfFirstString)))

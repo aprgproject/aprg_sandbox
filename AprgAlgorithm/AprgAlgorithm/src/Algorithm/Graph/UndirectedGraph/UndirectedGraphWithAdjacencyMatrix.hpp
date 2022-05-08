@@ -31,7 +31,7 @@ public:
         unsigned int numberOfRows(m_adjacencyMatrix.getNumberOfRows());
         for(Vertex adjacentVertex=0; adjacentVertex<numberOfRows; adjacentVertex++)
         {
-            if(isConnected(vertex, adjacentVertex))
+            if(isDirectlyConnected(vertex, adjacentVertex))
             {
                 result = true;
                 break;
@@ -40,7 +40,7 @@ public:
         return result;
     }
 
-    bool isConnected(Vertex const& vertex1, Vertex const& vertex2) const override
+    bool isDirectlyConnected(Vertex const& vertex1, Vertex const& vertex2) const override
     {
         return m_adjacencyMatrix.getEntry(vertex1, vertex2);
     }
@@ -70,7 +70,7 @@ public:
         unsigned int numberOfRows(m_adjacencyMatrix.getNumberOfRows());
         for(Vertex possibleAdjacentVertex=0; possibleAdjacentVertex<numberOfRows; possibleAdjacentVertex++)
         {
-            if(isConnected(vertex, possibleAdjacentVertex))
+            if(isDirectlyConnected(vertex, possibleAdjacentVertex))
             {
                 result.emplace_back(possibleAdjacentVertex);
             }
@@ -101,7 +101,7 @@ public:
         {
             for(Vertex vertex2=vertex1; vertex2<numberOfRows; vertex2++)
             {
-                if(isConnected(vertex1, vertex2))
+                if(isDirectlyConnected(vertex1, vertex2))
                 {
                     result.emplace_back(vertex1, vertex2);
                 }
@@ -123,14 +123,14 @@ public:
         }
         m_adjacencyMatrix.iterateAllThroughYAndThenX([&](unsigned int const x, unsigned int const y)
         {
-            matrixToDisplay.setEntry(x+1, y+1, converter.convert(isConnected(x, y)));
+            matrixToDisplay.setEntry(x+1, y+1, converter.convert(isDirectlyConnected(x, y)));
         });
         return firstPartOfString + matrixToDisplay.getString();
     }
 
     void connect(Vertex const& vertex1, Vertex const& vertex2) override
     {
-        if(!isConnected(vertex1, vertex2))
+        if(!isDirectlyConnected(vertex1, vertex2))
         {
             m_numberOfEdges++;
             m_adjacencyMatrix.setEntry(vertex1, vertex2, true);
@@ -140,7 +140,7 @@ public:
 
     void disconnect(Vertex const& vertex1, Vertex const& vertex2) override
     {
-        if(isConnected(vertex1, vertex2))
+        if(isDirectlyConnected(vertex1, vertex2))
         {
             m_numberOfEdges--;
             m_adjacencyMatrix.setEntry(vertex1, vertex2, false);

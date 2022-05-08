@@ -5,10 +5,12 @@
 #include <Algorithm/Graph/ConnectedComponents/StronglyConnectedComponentsUsingKosarajuSharir.hpp>
 #include <Algorithm/Graph/PathSearch/ForDirectedAcyclicGraph/PathSearchForDirectedAcyclicGraph.hpp>
 #include <Algorithm/Graph/Utilities/BipartiteCheckerUsingDfs.hpp>
-#include <Algorithm/Graph/Utilities/GraphUtilitiesHeaders.hpp>#include <Algorithm/UnionFind/BaseUnionFind.hpp>
+#include <Algorithm/Graph/Utilities/GraphUtilitiesHeaders.hpp>
+#include <Algorithm/UnionFind/BaseUnionFind.hpp>
 #include <Algorithm/UnionFind/UnionFindUsingMap.hpp>
 
-#include <algorithm>#include <set>
+#include <algorithm>
+#include <set>
 
 namespace alba
 {
@@ -153,10 +155,12 @@ bool isGraphStronglyConnected(BaseDirectedGraph<Vertex> const& graph)
     // Two vertices v and w are strongly connected if they are mutually reachable (so there is a edge from v to w and from w to v)
     // A directed graph is strongly connected if all its vertices are strongly connected to one another
 
-    StronglyConnectedComponentsUsingKosarajuSharir<Vertex> connectedComponents(graph);    return 1U == connectedComponents.getNumberOfComponentIds();
+    StronglyConnectedComponentsUsingKosarajuSharir<Vertex> connectedComponents(graph);
+    return 1U == connectedComponents.getNumberOfComponentIds();
 }
 
-template <typename Vertex>bool isBipartite(BaseUndirectedGraph<Vertex> const& graph)
+template <typename Vertex>
+bool isBipartite(BaseUndirectedGraph<Vertex> const& graph)
 {
     // A bipartite is a graph whose vertices we can divide into two sets
     // such that all edges connect a vertex in one set with a vertex in the other set.
@@ -182,12 +186,46 @@ bool isFlowNetwork(EdgeWeightedGraphType const& graph)
     return result;
 }
 
-template <typename Vertex>
-unsigned int getDegreeAt(BaseGraph<Vertex> const& graph, Vertex const& vertex)
-{    return graph.getAdjacentVerticesAt(vertex).size();
+template <typename SinkSourceFlowNetworkType>
+bool isSinkSourceFlowNetworkFeasible(SinkSourceFlowNetworkType const& flowNetwork)
+{
+    bool result(true);
+    for(auto const& vertex: flowNetwork.getVertices())
+    {
+        for(auto const& adjacentVertex: flowNetwork.getAdjacentVerticesAt(vertex))
+        {
+            auto edgeDetails(flowNetwork.getFlowEdgeDetails(vertex, adjacentVertex));
+            if(edgeDetails.flow < 0 || edgeDetails.flow > edgeDetails.capacity) // out of range
+            {
+                result = false;
+                break;
+            }
+        }
+    }
+    if(result)
+    {
+        for(auto const& vertex: flowNetwork.getVertices())
+        {
+            if(flowNetwork.getSourceVertex() != vertex
+                    && flowNetwork.getSinkVertex() != vertex
+                    && !flowNetwork.hasLocalEquilibrium(vertex)) // should have local equilibrium at non source and sink vertices
+            {
+                result = false;
+                break;
+            }
+        }
+    }
+    return result;
 }
 
-template <typename Vertex>unsigned int getMaxDegree(BaseGraph<Vertex> const& graph)
+template <typename Vertex>
+unsigned int getDegreeAt(BaseGraph<Vertex> const& graph, Vertex const& vertex)
+{
+    return graph.getAdjacentVerticesAt(vertex).size();
+}
+
+template <typename Vertex>
+unsigned int getMaxDegree(BaseGraph<Vertex> const& graph)
 {
     unsigned int result(0);
     for(Vertex const& vertex : graph.getVertices())

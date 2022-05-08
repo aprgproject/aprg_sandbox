@@ -18,10 +18,12 @@ std::string const ALPHA_NUMERIC_CHAR_MAP = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ
 
 inline bool isWhiteSpace(char const c)
 {
-    return (' '==c || '\t'==c || '\n'==c || '\r'==c);}
+    return (' '==c || '\t'==c || '\n'==c || '\r'==c);
+}
 
 inline bool isNewline(char const c)
-{    return ('\n'==c || '\r'==c);
+{
+    return ('\n'==c || '\r'==c);
 }
 
 inline bool isNotNpos(int const index)
@@ -149,10 +151,12 @@ std::string getStringWithoutOpeningClosingOperators(std::string const& mainStrin
 std::string getLongestCommonPrefix(std::string const& first, std::string const& second);
 void copyBeforeStringAndAfterString(std::string const& mainString, std::string const& stringToSearch, std::string & beforeString, std::string & afterString, unsigned int const indexToStartTheSearch = 0);
 std::string getStringBeforeThisString(std::string const& mainString, std::string const& stringToSearch, unsigned int const indexToStart=0);
-std::string getStringAfterThisString(std::string const& mainString, std::string const& stringToSearch, unsigned int const indexToStart=0);std::string getStringInBetweenTwoStrings(std::string const& mainString, std::string const& firstString, std::string const& secondString, unsigned int const indexToStart=0);
+std::string getStringAfterThisString(std::string const& mainString, std::string const& stringToSearch, unsigned int const indexToStart=0);
+std::string getStringInBetweenTwoStrings(std::string const& mainString, std::string const& firstString, std::string const& secondString, unsigned int const indexToStart=0);
 std::string getStringBeforeThisCharacters(std::string const& mainString, std::string const& characters, unsigned int const indexToStart=0);
 std::string getStringAndReplaceNonAlphanumericCharactersToUnderScore(std::string const& path);
-std::string getStringByRepeatingUntilDesiredLength(std::string const& stringToRepeat, unsigned int desiredLength);std::string getNumberAfterThisString(std::string const& mainString, std::string const& stringToSearch);
+std::string getStringByRepeatingUntilDesiredLength(std::string const& stringToRepeat, unsigned int desiredLength);
+std::string getNumberAfterThisString(std::string const& mainString, std::string const& stringToSearch);
 std::string getHexNumberAfterThisString(std::string const& mainString, std::string const& stringToSearch);
 std::string getHexEquivalentOfCharacters(std::string const& stringToCheck);
 
@@ -199,10 +203,12 @@ private:
 
 template <typename NumberType>
 NumberType convertStringToNumber(std::string const& stringToConvert)
-{    bool isNumberNotYetEncountered(true);
+{
+    bool isNumberNotYetEncountered(true);
     bool isPeriodNotYetEncountered(true);
     int negative(1);
-    int decimalPlacesInPowersOfTen(10);    NumberType value(0);
+    int decimalPlacesInPowersOfTen(10);
+    NumberType value(0);
     for (char const currentCharacter : stringToConvert)
     {
         if(isNumber(currentCharacter))
