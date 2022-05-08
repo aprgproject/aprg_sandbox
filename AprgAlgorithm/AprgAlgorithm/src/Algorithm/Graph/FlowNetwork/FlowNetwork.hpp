@@ -28,27 +28,59 @@ public:
         FlowDataType flow;
         bool operator==(FlowEdgeDetails const& second) const
         {
-            return capacity == second.capacity && flow == second.flow;
+            return mathHelper::isAlmostEqual(capacity, second.capacity)
+                    && mathHelper::isAlmostEqual(flow, second.flow);
         }
     };
-    struct FlowEdge
-    {
+    struct FlowEdge    {
         Vertex source;
         Vertex destination;
         FlowDataType capacity;
         FlowDataType flow;
         bool operator==(FlowEdge const& second) const
         {
-            return source == second.source && destination == second.destination && capacity == second.capacity && flow == second.flow;
+            return source == second.source
+                    && destination == second.destination
+                    && mathHelper::isAlmostEqual(capacity, second.capacity)
+                    && mathHelper::isAlmostEqual(flow, second.flow);
+        }
+
+        Vertex getTheOtherVertex(Vertex const& mainVertex) const
+        {
+           return source == mainVertex ? destination : source;
+        }
+
+        FlowDataType getResidualCapacityTo(Vertex const& vertex) const
+        {
+            FlowDataType result{};
+            if(source == vertex)
+            {
+                result = flow;
+            }
+            else if(destination == vertex)
+            {
+                result = capacity - flow;
+            }
+            return result;
+        }
+
+        void addResidualCapacityTo(Vertex const& vertex, FlowDataType const delta)
+        {
+            if(source == vertex)
+            {
+                flow -= delta;
+            }
+            else if(destination == vertex)
+            {
+                flow += delta;
+            }
         }
     };
     using FlowEdges = std::vector<FlowEdge>;
     using EdgeToFlowEdgeDetailsMap = std::map<EdgeWithVertexComparison, FlowEdgeDetails>;
-
     FlowNetwork()
         : BaseClass()
-    {
-        static_assert(
+    {        static_assert(
                     GraphDirectionType::Directed == DirectedGraph::DIRECTION_TYPE,
                     "Flow network's underlying graph should be a directed graph");
     }
@@ -74,14 +106,18 @@ public:
         return result;
     }
 
+    FlowEdge getFlowEdge(Vertex const& vertex1, Vertex const& vertex2) const
+    {
+        FlowEdgeDetails flowEdgeDetails(getFlowEdgeDetails(vertex1, vertex2));
+        return FlowEdge{vertex1, vertex2, flowEdgeDetails.capacity, flowEdgeDetails.flow};
+    }
+
     FlowDataType getDeltaFlowAt(Vertex const& vertex) const
     {
-        FlowDataType result{};
-        for(auto const& edgeAndDetailsPair : m_edgeToFlowEdgeDetailsMap)
+        FlowDataType result{};        for(auto const& edgeAndDetailsPair : m_edgeToFlowEdgeDetailsMap)
         {
             if(edgeAndDetailsPair.first.first == vertex)
-            {
-                result -= edgeAndDetailsPair.second.flow;
+            {                result -= edgeAndDetailsPair.second.flow;
             }
             if(edgeAndDetailsPair.first.second == vertex)
             {
@@ -126,22 +162,32 @@ public:
         return result;
     }
 
+    FlowEdges getFlowEdgesWithVertex(Vertex const& vertex) const
+    {
+        FlowEdges result;
+        for(auto const& edgeAndDetailsPair : m_edgeToFlowEdgeDetailsMap)
+        {
+            if(edgeAndDetailsPair.first.first == vertex || edgeAndDetailsPair.first.second == vertex)
+            {
+                result.emplace_back(FlowEdge{edgeAndDetailsPair.first.first, edgeAndDetailsPair.first.second, edgeAndDetailsPair.second.capacity, edgeAndDetailsPair.second.flow});
+            }
+        }
+        return result;
+    }
+
     std::string getDisplayableString() const override
     {
-        std::string firstPart(BaseClass::getDisplayableString());
-        std::stringstream ss;
+        std::string firstPart(BaseClass::getDisplayableString());        std::stringstream ss;
         ss << "Flow edges: {";
         for(auto const& edgeAndDetailsPair : m_edgeToFlowEdgeDetailsMap)
         {
-            ss << edgeAndDetailsPair.first.first << "<->"
+            ss << edgeAndDetailsPair.first.first << "->"
                << edgeAndDetailsPair.first.second
                << "(capacity: " << edgeAndDetailsPair.second.capacity
-               << " flow: "<< edgeAndDetailsPair.second.flow << "), ";
-        }
+               << " flow: "<< edgeAndDetailsPair.second.flow << "), ";        }
         ss << "}";
         return firstPart + ss.str();
     }
-
     void connect(Vertex const& vertex1, Vertex const& vertex2, FlowDataType const& capacity, FlowDataType const& flow)
     {
         connect(vertex1, vertex2);
@@ -154,13 +200,18 @@ public:
         m_edgeToFlowEdgeDetailsMap.erase(createEdgeInMap(vertex1, vertex2));
     }
 
-private:
-
-    void connect(Vertex const& vertex1, Vertex const& vertex2) override
+    void updateEdge(FlowEdge const& flowEdge)
     {
-        BaseClass::connect(vertex1, vertex2);
+        FlowEdgeDetails & detailsToUpdate(m_edgeToFlowEdgeDetailsMap[createEdgeInMap(flowEdge.source, flowEdge.destination)]);
+        detailsToUpdate.capacity = flowEdge.capacity;
+        detailsToUpdate.flow = flowEdge.flow;
     }
 
+private:
+
+    void connect(Vertex const& vertex1, Vertex const& vertex2) override    {
+        BaseClass::connect(vertex1, vertex2);
+    }
     bool hasNoDuplicateValues(FlowDataTypes const& flowDataTypes) const
     {
         return std::adjacent_find(flowDataTypes.cbegin(), flowDataTypes.cend()) == flowDataTypes.cend();

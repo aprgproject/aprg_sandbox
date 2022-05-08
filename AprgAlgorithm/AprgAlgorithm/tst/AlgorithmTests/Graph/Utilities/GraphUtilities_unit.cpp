@@ -250,25 +250,23 @@ TEST(GraphUtilitiesTest, IsFlowNetworkWorks)
 
 TEST(GraphUtilitiesTest, IsSinkSourceFlowNetworkFeasibleWorks)
 {
-    /*SinkSourceFlowNetworkForTest flowNetworkWithOutOfRangeFlows(0U, 2U);
+    SinkSourceFlowNetworkForTest flowNetworkWithOutOfRangeFlows(0U, 2U);
     flowNetworkWithOutOfRangeFlows.connect(0U, 1U, 15.25, 16);
     flowNetworkWithOutOfRangeFlows.connect(1U, 2U, 16.25, -1);
     SinkSourceFlowNetworkForTest flowNetworkWithNoEquilbrium(0U, 2U);
     flowNetworkWithNoEquilbrium.connect(0U, 1U, 15.25, 3.5);
-    flowNetworkWithNoEquilbrium.connect(1U, 2U, 16.25, 4.5);*/
+    flowNetworkWithNoEquilbrium.connect(1U, 2U, 16.25, 4.5);
     SinkSourceFlowNetworkForTest flowNetworkWithEquilbrium(0U, 2U);
     flowNetworkWithEquilbrium.connect(0U, 1U, 15.25, 3.5);
     flowNetworkWithEquilbrium.connect(1U, 2U, 16.25, 3.5);
 
-    //EXPECT_FALSE(isSinkSourceFlowNetworkFeasible(flowNetworkWithOutOfRangeFlows));
-    //EXPECT_FALSE(isSinkSourceFlowNetworkFeasible(flowNetworkWithNoEquilbrium));
+    EXPECT_FALSE(isSinkSourceFlowNetworkFeasible(flowNetworkWithOutOfRangeFlows));
+    EXPECT_FALSE(isSinkSourceFlowNetworkFeasible(flowNetworkWithNoEquilbrium));
     EXPECT_TRUE(isSinkSourceFlowNetworkFeasible(flowNetworkWithEquilbrium));
 }
-
 TEST(GraphUtilitiesTest, GetDegreeAtWorks)
 {
     UndirectedGraphForTest graph;
-
     graph.connect(0U, 1U);
     graph.connect(0U, 2U);
 
