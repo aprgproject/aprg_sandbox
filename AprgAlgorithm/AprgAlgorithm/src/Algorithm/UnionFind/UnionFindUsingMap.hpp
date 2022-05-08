@@ -26,22 +26,22 @@ public:
     Object getRoot(Object const& object) const override
     {
         Object currentObject(object);
-        while(isExistingInConnectionMap(currentObject))
+        auto tempRootIt = m_connectionMap.find(currentObject);
+        while(tempRootIt != m_connectionMap.end())
         {
-            Object const& tempRoot(m_connectionMap.at(currentObject));
+            Object const& tempRoot(tempRootIt->second);
             if(tempRoot==currentObject)
             {
                 break;
             }
             currentObject = tempRoot;
+            tempRootIt = m_connectionMap.find(currentObject);
         }
         return currentObject;
     }
-
     void connect(Object const& object1, Object const& object2) override
     {
-        initializeToConnectionMapIfNeeded(object1);
-        initializeToConnectionMapIfNeeded(object2);
+        initializeToConnectionMapIfNeeded(object1);        initializeToConnectionMapIfNeeded(object2);
         Object root(std::min(getRoot(object1), getRoot(object2)));
         m_connectionMap[object1] = root;
         m_connectionMap[object2] = root;
@@ -52,14 +52,8 @@ private:
     {
         m_connectionMap.emplace(object, object);
     }
-
-    bool isExistingInConnectionMap(Object const& object) const
-    {
-        return m_connectionMap.find(object) != m_connectionMap.end();
-    }
     ConnectionMap m_connectionMap;
 };
-
 }
 
 }

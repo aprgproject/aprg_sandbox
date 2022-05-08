@@ -1,0 +1,14 @@
+
+Given: M union-find operations on a set of N objects
+
+Algorithm -> Worst case time
+Quick Find -> M * N
+Quick Union -> M * N
+Weighted Quick Union -> N + M * log N
+Quick Union + path compression -> N + M * log N
+Weighted Quick Union + path compression -> N + M * log* N (near linear)
+
+Notes:
+-> log* is iterative logarithm function -> normally values results around five (log*(2^65535) is about five)
+-> There is no implementation there is no linear time algorithm for the union find problem. Proof: Fredman and Sacks
+-> Quick Union + path compression reduces time from 30 years to 6 seconds
