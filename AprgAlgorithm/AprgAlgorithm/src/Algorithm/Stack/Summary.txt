@@ -8,3 +8,11 @@ Resizing array implementation:
 -> Every operation takes constant amortized time.
 -> Different space management. (No pointers, sometimes this might even take less space compared to linked list).
 
+
+Stack applications:
+-> Parsing in a compiler
+-> Java virtual machine
+-> Undo in a word processor
+-> Back button in a web browser
+-> PostScript language for printers
+-> Implementing function calls in a compiler
