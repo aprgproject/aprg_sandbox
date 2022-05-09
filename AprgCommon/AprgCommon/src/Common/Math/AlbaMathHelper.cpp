@@ -448,45 +448,33 @@ bool isPrime(unsigned int const number)
 unsigned int getGreatestCommonFactor(unsigned int const firstNumber, unsigned int const secondNumber)
 {
     unsigned int result(0);
-    unsigned int temporaryFirstValue(firstNumber);
-    unsigned int temporarySecondValue(secondNumber);
+    unsigned int temporaryFirstNumber(firstNumber);
+    unsigned int temporarySecondNumber(secondNumber);
     while(true)
     {
-        if(temporaryFirstValue==0)
+        if(temporaryFirstNumber==0)
         {
-            result = temporarySecondValue;
+            result = temporarySecondNumber;
             break;
         }
-        else if(temporarySecondValue==0)
+        else if(temporarySecondNumber==0)
         {
-            result = temporaryFirstValue;
+            result = temporaryFirstNumber;
             break;
         }
-        else if(temporaryFirstValue==1 || temporarySecondValue==1)
+        else if(temporaryFirstNumber>temporarySecondNumber)
         {
-            result = 1;
-            break;
-        }
-        else if(temporaryFirstValue==temporarySecondValue)
-        {
-            result = temporaryFirstValue;
-            break;
-        }
-        else if(temporaryFirstValue>temporarySecondValue)
-        {
-            temporaryFirstValue = temporaryFirstValue%temporarySecondValue;
+            temporaryFirstNumber = temporaryFirstNumber%temporarySecondNumber;
         }
         else
         {
-            temporarySecondValue = temporarySecondValue%temporaryFirstValue;
+            temporarySecondNumber = temporarySecondNumber%temporaryFirstNumber;
         }
     }
-    return result;
-}
+    return result;}
 
 unsigned int getLeastCommonMultiple(unsigned int const firstNumber, unsigned int const secondNumber)
-{
-    unsigned int result(0);
+{    unsigned int result(0);
     if(firstNumber!=0 && secondNumber!=0)
     {
         result = firstNumber/getGreatestCommonFactor(firstNumber, secondNumber)*secondNumber;
