@@ -83,19 +83,17 @@ public:
     {
          unsigned int middleIndex(getMiddleIndex());
          Object middleValue(getValueIndex(middleIndex));
-         if(value>middleValue)
+         if(value > middleValue)
          {
              m_indexOfLowest = middleIndex+1;
          }
-         else if(value<middleValue)
+         else if(value < middleValue)
          {
              m_indexOfHighest = middleIndex-1;
-         }
-         else
+         }         else
          {
              m_indexOfLowest = middleIndex;
-             m_indexOfHighest = middleIndex;
-         }
+             m_indexOfHighest = middleIndex;         }
     }
 
 private:

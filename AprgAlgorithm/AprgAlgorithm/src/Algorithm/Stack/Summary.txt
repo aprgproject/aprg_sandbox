@@ -1,0 +1,10 @@
+Tradeoffs:
+
+Linked list implementation:
+-> Every operation takes constant time in the worst case.
+-> Uses extra time and space to deal with the links (reallocation and deallocation)
+
+Resizing array implementation:
+-> Every operation takes constant amortized time.
+-> Different space management. (No pointers, sometimes this might even take less space compared to linked list).
+
