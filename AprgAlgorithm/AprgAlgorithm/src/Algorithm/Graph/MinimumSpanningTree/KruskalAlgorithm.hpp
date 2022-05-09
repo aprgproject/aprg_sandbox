@@ -74,9 +74,7 @@ private:
     Vertex m_startVertex;
     Edges m_minimumSpanningTreeEdges;
     EdgeWithWeightsPriorityQueue m_edgesInOrder;
-
 };
 
 }
-
 }
