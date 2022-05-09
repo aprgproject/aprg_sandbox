@@ -293,14 +293,30 @@ TEST(AlbaMathHelperTest,  GetLogarithmWorks)
     EXPECT_DOUBLE_EQ(1.9534452978042594, getLogarithm(4, 15));
 }
 
+TEST(AlbaMathHelperTest,  GetIterativeLogarithmWorks)
+{
+    EXPECT_EQ(2U, getIterativeLogarithm(3, 9));
+    EXPECT_EQ(4U, getIterativeLogarithm(2, 32));
+    EXPECT_EQ(0U, getIterativeLogarithm(2, 0.0625));
+    EXPECT_EQ(0U, getIterativeLogarithm(2, -1));
+    EXPECT_EQ(2U, getIterativeLogarithm(4, 15));
+}
+
+TEST(AlbaMathHelperTest,  GetSuperLogarithmWorks)
+{
+    EXPECT_EQ(2, getSuperLogarithm(3, 9));
+    EXPECT_EQ(4, getSuperLogarithm(2, 32));
+    EXPECT_EQ(0, getSuperLogarithm(2, 0.0625));
+    EXPECT_EQ(-1, getSuperLogarithm(2, -1));
+    EXPECT_EQ(2, getSuperLogarithm(4, 15));
+}
+
 TEST(AlbaMathHelperTest, GetAverageOfTwoNumbersForAlbaNumberWorks)
 {
-    EXPECT_EQ(AlbaNumber(0),
-              getAverageForAlbaNumber(AlbaNumber::createFraction(1, 3), AlbaNumber::createFraction(-1, 3)));
+    EXPECT_EQ(AlbaNumber(0),              getAverageForAlbaNumber(AlbaNumber::createFraction(1, 3), AlbaNumber::createFraction(-1, 3)));
     EXPECT_EQ(AlbaNumber::createFraction(1, 3),
               getAverageForAlbaNumber(AlbaNumber::createFraction(1, 3), AlbaNumber::createFraction(1, 3)));
 }
-
 TEST(AlbaMathHelperTest, GetQuadraticWorksWithRealRootsOnlyWithInputHavingRealRoots)
 {
     AlbaNumbers quadraticRoots(getQuadraticRoots(RootType::RealRootsOnly, 8, 22, 15));
