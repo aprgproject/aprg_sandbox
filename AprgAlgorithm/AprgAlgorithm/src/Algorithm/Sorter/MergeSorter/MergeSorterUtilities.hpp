@@ -9,65 +9,65 @@ namespace algorithm
 {
 
 template <typename Values>
-void mergeTwoSortedSequences(
+void mergeTheTwoSortedParts(
         Values & valuesToSort,
-        Values & temp,
-        unsigned int const low,
-        unsigned int const mid,
-        unsigned int const high)
+        Values & auxiliary,
+        unsigned int const lowest,
+        unsigned int const middle,
+        unsigned int const highest)
 {
-    std::copy(valuesToSort.cbegin()+low, valuesToSort.cbegin()+high+1, temp.begin()+low);
-    unsigned int i=low, j=mid+1;
-    for(unsigned int k=low; k<=high; k++)
+    std::copy(valuesToSort.cbegin()+lowest, valuesToSort.cbegin()+highest+1, auxiliary.begin()+lowest);
+    unsigned int lowPartIndex=lowest, highPartIndex=middle+1;
+    for(unsigned int mainIndex=lowest; mainIndex<=highest; mainIndex++)
     {
-        if(i > mid)
+        if(lowPartIndex > middle) // low index is out of bounds means that low part is finished
         {
-            valuesToSort[k] = temp.at(j++);
+            std::copy(auxiliary.cbegin()+highPartIndex, auxiliary.cbegin()+highest+1, valuesToSort.begin()+mainIndex); // copy all remaining from high part
+            break;
         }
-        else if(j > high)
+        else if(highPartIndex > highest) // high index is out of bounds means that high part is finished
         {
-            valuesToSort[k] = temp.at(i++);
+            std::copy(auxiliary.cbegin()+lowPartIndex, auxiliary.cbegin()+middle+1, valuesToSort.begin()+mainIndex); // copy all remaining from low part
+            break;
         }
-        else if(temp.at(j) < temp.at(i))
+        else if(auxiliary.at(highPartIndex) < auxiliary.at(lowPartIndex)) // high part has lower value
         {
-            valuesToSort[k] = temp.at(j++);
+            valuesToSort[mainIndex] = auxiliary.at(highPartIndex++); // copy and move high index
         }
         else
         {
-            valuesToSort[k] = temp.at(i++);
+            valuesToSort[mainIndex] = auxiliary.at(lowPartIndex++); // copy and move low index
         }
     }
 }
-
 template <typename Values>
 Values mergeTwoSortedSequences(
-        Values const& sortedValues1,
-        Values const& sortedValues2)
+        Values const& sortedValues1,        Values const& sortedValues2)
 {
     Values result;
     unsigned int i=0, j=0;
     while(i<sortedValues1.size() || j<sortedValues2.size())
     {
-        if(i >= sortedValues1.size())
+        if(i >= sortedValues1.size()) // out of bounds means that its finished
         {
-            result.emplace_back(sortedValues2.at(j++));
+            std::copy(sortedValues2.cbegin()+j, sortedValues2.cend(), std::back_inserter(result)); // copy remaining from the other array
+            break;
         }
-        else if(j >= sortedValues2.size())
+        else if(j >= sortedValues2.size()) // out of bounds means that its finished
         {
-            result.emplace_back(sortedValues1.at(i++));
+            std::copy(sortedValues1.cbegin()+i, sortedValues1.cend(), std::back_inserter(result)); // copy remaining from the other array
+            break;
         }
-        else if(sortedValues2.at(j) < sortedValues1.at(i))
+        else if(sortedValues2.at(j) < sortedValues1.at(i)) // second has lower value
         {
-            result.emplace_back(sortedValues2.at(j++));
+            result.emplace_back(sortedValues2.at(j++)); // copy and move second index
         }
-        else
+        else // first has lower value
         {
-            result.emplace_back(sortedValues1.at(i++));
+            result.emplace_back(sortedValues1.at(i++)); // copy and move first index
         }
     }
-    return result;
-}
+    return result;}
 
 }
-
 }

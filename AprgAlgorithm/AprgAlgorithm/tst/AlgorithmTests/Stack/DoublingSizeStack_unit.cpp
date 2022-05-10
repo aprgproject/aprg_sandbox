@@ -64,45 +64,42 @@ TEST(DoublingSizeStackTest, PushWorksWithDoublingContainerSize)
     StackForTest stack;
     EXPECT_EQ(1U, stack.getContainerSize());
 
-    stack.push(10U);
-    stack.push(10U);
+    stack.push(1U);
+    stack.push(2U);
     EXPECT_EQ(2U, stack.getContainerSize());
 
-    stack.push(10U);
+    stack.push(3U);
     EXPECT_EQ(4U, stack.getContainerSize());
 
-    stack.push(10U);
-    stack.push(10U);
+    stack.push(4U);
+    stack.push(5U);
     EXPECT_EQ(8U, stack.getContainerSize());
 }
-
 TEST(DoublingSizeStackTest, PopWorksWithHalvingContainerSize)
 {
     StackForTest stack;
 
-    stack.push(10U);
-    stack.push(10U);
-    stack.push(10U);
-    stack.push(10U);
-    stack.push(10U);
+    stack.push(1U);
+    stack.push(2U);
+    stack.push(3U);
+    stack.push(4U);
+    stack.push(5U);
     EXPECT_EQ(8U, stack.getContainerSize());
 
-    EXPECT_EQ(10U, stack.pop());
-    EXPECT_EQ(10U, stack.pop());
-    EXPECT_EQ(10U, stack.pop());
+    EXPECT_EQ(5U, stack.pop());
+    EXPECT_EQ(4U, stack.pop());
+    EXPECT_EQ(3U, stack.pop());
     EXPECT_EQ(4U, stack.getContainerSize());
 
-    EXPECT_EQ(10U, stack.pop());
+    EXPECT_EQ(2U, stack.pop());
     EXPECT_EQ(2U, stack.getContainerSize());
 
-    EXPECT_EQ(10U, stack.pop());
+    EXPECT_EQ(1U, stack.pop());
     EXPECT_EQ(1U, stack.getContainerSize());
 }
-
 TEST(DoublingSizeStackTest, DISABLED_PopWorksWithAssertionWhenItsEmpty) //disabled because it takes too long
 {
-    testPopAssertionWhenEmptyWithUnsignedInt<StackForTest>();
-}
+    testPopAssertionWhenEmptyWithUnsignedInt<StackForTest>();}
 
 }
 
