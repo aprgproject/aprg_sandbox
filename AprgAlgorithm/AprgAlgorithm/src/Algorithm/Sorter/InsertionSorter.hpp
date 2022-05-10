@@ -20,20 +20,18 @@ public:
         unsigned int const size = valuesToSort.size();
         for(unsigned int insertedIndex=1; insertedIndex<size; insertedIndex++)
         {
-            swapDownIfStillOutOfOrder(valuesToSort, insertedIndex);
+            continuouslySwapDownIfStillOutOfOrder(valuesToSort, insertedIndex);
         }
     }
 
 private:
-    void swapDownIfStillOutOfOrder(Values& valuesToSort, unsigned int const startingIndex) const
+    void continuouslySwapDownIfStillOutOfOrder(Values& valuesToSort, unsigned int const startingIndex) const
     {
         for(unsigned int i=startingIndex; i>0 && valuesToSort.at(i-1) > valuesToSort.at(i); i--)
-        {
-            std::swap(valuesToSort[i], valuesToSort[i-1]);
+        {            std::swap(valuesToSort[i], valuesToSort[i-1]);
         }
     }
-    // Proposition: To sort a randomly ordered array with distinct keys, insertion sort uses ~(1/4)N^2 compares and ~(1/4)N^2 exchanges on average.
-    // Proof: Expect each entry to move halfway back. Only half of the elements along the diagonal is involved in the sort.
+    // Proposition: To sort a randomly ordered array with distinct keys, insertion sort uses ~(1/4)N^2 compares and ~(1/4)N^2 exchanges on average.    // Proof: Expect each entry to move halfway back. Only half of the elements along the diagonal is involved in the sort.
 
     // Insertion sort depends on the initial order of the data
     // Best case: If the array is in ascending order, insertion sort makes N-1 compares and 0 exchanges.

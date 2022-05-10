@@ -44,13 +44,12 @@ private:
 
     // Merge sort has a divide and conquer approach
     // When billions items to sort, merge sort is faster than insertion sort even if insertion sort is running on super computer
+    // Lesson 1: Good algorithms are better than super computers.
 
     // Proposition: Mergesort uses at most N*log2(N) compares and 6N*log2(N) array accesses to sort any array of size N.
-    // Proof: Let the number of compares C(N) and array accesses A(N) to mergesort an array of size N satisfy the recurrences.
-    // C(N) <= C(N/2) [first half] + C(N/2) [second half] + N [merge] for N>1 with C(1) = 0
+    // Proof: Let the number of compares C(N) and array accesses A(N) to mergesort an array of size N satisfy the recurrences.    // C(N) <= C(N/2) [first half] + C(N/2) [second half] + N [merge] for N>1 with C(1) = 0
     // A(N) <= A(N/2) [first half] + A(N/2) [second half] + N [merge] for N>1 with A(1) = 0
     // Discrete math: If D(N) = 2D(N/2)+N  for N>1 and D(1) = 0 then D(N) = N*log2(N)
-
     // Downside in memory: Merge sort uses extra space proportional to N
     // Actually doing an in place merge is possible. Kronrod 1969. Too complex to be used in practice.
 
@@ -60,13 +59,11 @@ private:
     // -> Eliminate the copy of the auxiliary array, by switching auxiliary and the main. Not implemented above
 
     // Merge sort is an optimal algorithm for the sorting problem
-    // -> Sorting has a lower bound of N*log2(N) -> Proof: Decision tree and log2(N!) ~ N log2(N) (Stirling formula)
+    // -> Sorting has a lower bound of N*log2(N) -> Proof: Decision tree and log2(N!) ~ N*log2(N) (Stirling formula)
     // -> Merge sort is an optimal algorithm with respect to number of compares
     // -> However, merge sort is not optimal on space usage
-
     // Stable -> Proof: Merge sort is stable if the merge operation is stable.
     // Since the merge operation is stable (equal items never move past each other), then merge sort is stable.
 };
-
 }
 }
