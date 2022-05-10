@@ -222,10 +222,12 @@ AlbaNumber getTransitionValue(
         newInputValue = getAverage(currentValueToRealFiniteValue, currentValueToNonRealFiniteValue);
         AlbaNumber newOutputValue(functionToCheck(newInputValue));
         if(newOutputValue.isARealFiniteValue())
-        {            currentValueToRealFiniteValue = newInputValue;
+        {
+            currentValueToRealFiniteValue = newInputValue;
         }
         else
-        {            currentValueToNonRealFiniteValue = newInputValue;
+        {
+            currentValueToNonRealFiniteValue = newInputValue;
         }
     }
     return newInputValue;

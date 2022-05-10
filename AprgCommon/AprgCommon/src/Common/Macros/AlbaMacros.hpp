@@ -11,7 +11,9 @@
 #define ALBA_MACROS_GET_VALUE(parameter) ALBA_MACROS_EXPAND_TO_LITERAL_TEXT(parameter)
 #define ALBA_MACROS_DISPLAY_VALUE_PRAGMA_MESSAGE(var) #var "="  ALBA_MACROS_GET_VALUE(var)
 
-#define ALBA_MACROS_GET_STRING_LITERAL(parameter) std::string(#parameter)
+#define ALBA_MACROS_GET_STRING_LITERAL(parameter) #parameter // The number-sign or "stringizing" operator.
+//#define ALBA_MACROS_GET_CHAR_LITERAL(x) #@x // The charizing operator. Its not supported.
+//#define ALBA_MACROS_GET_AS_A_TOKEN(parameter) ##parameter //The double-number-sign or token-pasting operator (##). This needs to be used in the macro.
 
 #define ALBA_MACROS_CASE_ENUM_STRING(parameter) \
     case parameter: \

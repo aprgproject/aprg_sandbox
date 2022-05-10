@@ -450,10 +450,12 @@ void TermsOverTerms::populateTermsWithBase(
     unsigned int exponentCount = static_cast<unsigned int>(getAbsoluteValue(exponent).getInteger());
     for(unsigned int i=0; i<exponentCount; i++)
     {
-        termsToUpdate.emplace_back(base);    }
+        termsToUpdate.emplace_back(base);
+    }
 }
 
-void TermsOverTerms::removeTermsThatHaveNoEffect(Terms & terms) const{
+void TermsOverTerms::removeTermsThatHaveNoEffect(Terms & terms) const
+{
     terms.erase(remove_if(terms.begin(), terms.end(), [](Term const& term){
                     return willHaveNoEffectOnMultiplicationOrDivisionOrRaiseToPower(term);
                 }), terms.end());

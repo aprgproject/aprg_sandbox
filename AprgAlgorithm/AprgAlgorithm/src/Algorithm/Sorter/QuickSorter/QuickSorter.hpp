@@ -4,8 +4,10 @@
 #include <Algorithm/Sorter/QuickSorter/QuickSorterUtilities.hpp>
 
 #include <utility>
+
 namespace alba
 {
+
 namespace algorithm
 {
 
@@ -19,6 +21,7 @@ public:
         // std::shuffle should help
         sort(valuesToSort, 0U, valuesToSort.size()-1);
     }
+
 private:
     void sort(
             Values & valuesToSort,
@@ -67,4 +70,5 @@ private:
 };
 
 }
+
 }

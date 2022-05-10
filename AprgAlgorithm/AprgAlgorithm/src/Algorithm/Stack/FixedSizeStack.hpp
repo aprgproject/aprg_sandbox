@@ -40,10 +40,12 @@ public:
     Object pop() override // runs in constant time and no deallocation (faster than linked list)
     {
         assert(m_size > 0);
-        return m_objects[--m_size];    }
+        return m_objects[--m_size];
+    }
 
     Objects const& getObjects() const
-    {        return m_objects;
+    {
+        return m_objects;
     }
 
 private:

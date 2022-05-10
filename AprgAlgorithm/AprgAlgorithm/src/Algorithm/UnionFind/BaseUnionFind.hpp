@@ -17,6 +17,7 @@ public:
     virtual Object getRoot(Object const& object) const = 0; // this is basically an identifier for the connected components
     virtual void connect(Object const& object1, Object const& object2) = 0;
 };
+
 }
 
 }

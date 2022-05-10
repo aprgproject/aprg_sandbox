@@ -101,7 +101,8 @@ TEST(DoublingSizeQueueTest, PopWorksWithHalvingContainerSize)
 
 TEST(DoublingSizeQueueTest, DISABLED_DequeueWorksWithAssertionWhenItsEmpty) //disabled because it takes too long
 {
-    testDequeueAssertionWhenEmptyWithUnsignedInt<QueueForTest>();}
+    testDequeueAssertionWhenEmptyWithUnsignedInt<QueueForTest>();
+}
 
 }
 

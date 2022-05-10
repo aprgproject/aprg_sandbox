@@ -5,10 +5,12 @@
 #include <algorithm>
 #include <utility>
 
-namespace alba{
+namespace alba
+{
 
 namespace algorithm
 {
+
 template <typename Values>
 class SelectionSorter : public BaseSorter<Values>
 {
@@ -36,4 +38,5 @@ public:
 };
 
 }
+
 }

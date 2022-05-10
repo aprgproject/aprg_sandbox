@@ -1,7 +1,5 @@
 #include "AlbaMathHelper.hpp"
 
-#include <Common/Math/AlbaMathConstants.hpp>
-
 #include <cmath>
 #include <limits>
 
@@ -16,6 +14,9 @@ namespace mathHelper
 namespace
 {
 //internal functions
+
+using Integers=std::vector<int>;
+using UnsignedIntegers=std::vector<unsigned int>;
 
 unsigned int getNumberOfMultiplesInclusive(
         unsigned int const multiple,
@@ -77,36 +78,7 @@ FractionDetails getFractionFromPartialNumerators(
 }
 
 
-double getPi()
-{
-    return PI_DOUBLE_VALUE;
-}
-
-double getE()
-{
-    return E_DOUBLE_VALUE;
-}
-
-double convertDegreesToRadians(double const valueInDegrees)
-{
-    return valueInDegrees / 180 * getPi();
-}
-
-double convertRadiansToDegrees(double const valueInRadians)
-{
-    return valueInRadians / getPi() * 180;
-}
-
-
 //isAlmostEqual
-template <> bool isAlmostEqual<float>(float const value1, float const value2)
-{
-    return value1 == value2 || getAbsoluteValue(value1-value2) < COMPARISON_TOLERANCE_FOR_FLOAT;
-}
-template <> bool isAlmostEqual<double>(double const value1, double const value2)
-{
-    return value1 == value2 || getAbsoluteValue(value1-value2) < COMPARISON_TOLERANCE_FOR_DOUBLE;
-}
 //Commented out: This implementation is not practical when value is equal to zero
 //template <> bool isAlmostEqual<double>(double const value1, double const value2)
 //{
@@ -115,19 +87,6 @@ template <> bool isAlmostEqual<double>(double const value1, double const value2)
 //    double difference = getAbsoluteValue(value1-value2);
 //    return difference <= absoluteMaxValue*absoluteScaledDifferenceTolerance;
 //}
-
-
-bool isAlmostEqual(double const value1, double const value2, double const differenceTolerance)
-{
-    return value1 == value2 || getAbsoluteValue(value1-value2) <= differenceTolerance;
-}
-
-
-//isAlmostAnInteger
-bool isAlmostAnInteger(double const value, double const differenceTolerance)
-{
-    return isAlmostEqual(value, round(value), differenceTolerance);
-}
 
 
 //isValueBeyondLimits
@@ -168,41 +127,6 @@ AlbaNumber convertIfInfinityToNearestFiniteValue(AlbaNumber const& value)
         result = AlbaNumber(-numeric_limits<double>::max());
     }
     return result;
-}
-
-
-//getAbsoluteValue
-template <> unsigned int getAbsoluteValue<unsigned int>(unsigned int const value)
-{
-    return value;
-}
-
-
-//getSign
-template <> unsigned int getSign<unsigned int>(unsigned int const)
-{
-    return 1;
-}
-
-int convertToIntegerThenSubtract(unsigned int const number1, unsigned int const number2)
-{
-    return static_cast<int>(number1)-static_cast<int>(number2);
-}
-
-AlbaNumber getAbsoluteValueForAlbaNumber(AlbaNumber const& value)
-{
-    return (value<0) ? value*-1 : value;
-}
-
-AlbaNumber getSignForAlbaNumber(AlbaNumber const& value)
-{
-    return (value<0) ? -1 : 1;
-}
-
-AlbaNumber getPositiveDeltaForAlbaNumber(AlbaNumber const& value1, AlbaNumber const& value2)
-{
-    pair<AlbaNumber, AlbaNumber> minMaxPair = minmax(value1, value2);
-    return minMaxPair.second-minMaxPair.first;
 }
 
 
@@ -250,13 +174,10 @@ int getSuperLogarithm(double const base, double const inputForLogarithm)
     return result;
 }
 
-AlbaNumber getAverageForAlbaNumber(AlbaNumber const& value1, AlbaNumber const& value2)
-{
-    return (value1+value2)/2;}
-
 AlbaNumbers getQuadraticRealRoots(
         AlbaNumber const& a,
-        AlbaNumber const& b,        AlbaNumber const& c)
+        AlbaNumber const& b,
+        AlbaNumber const& c)
 {
     AlbaNumbers result;
     AlbaNumber twoA = a*2;
@@ -471,13 +392,55 @@ unsigned int getGreatestCommonFactor(unsigned int const firstNumber, unsigned in
             temporarySecondNumber = temporarySecondNumber%temporaryFirstNumber;
         }
     }
-    return result;}
+    return result;
+}
+
+AlbaNumber getGreatestCommonFactor(AlbaNumber const& firstNumber, AlbaNumber const& secondNumber)
+{
+    AlbaNumber result(0);
+    if(firstNumber.isDoubleType() || secondNumber.isDoubleType())
+    {
+        result=1;
+    }
+    else
+    {
+        AlbaNumber::FractionData firstFractionData(firstNumber.getFractionData());
+        AlbaNumber::FractionData secondFractionData(secondNumber.getFractionData());
+        unsigned int lcmDenominator = getLeastCommonMultiple(firstFractionData.denominator, secondFractionData.denominator);
+        unsigned int firstNumerator = static_cast<unsigned int>(getAbsoluteValue(firstFractionData.numerator))*lcmDenominator/firstFractionData.denominator;
+        unsigned int secondNumerator = static_cast<unsigned int>(getAbsoluteValue(secondFractionData.numerator))*lcmDenominator/secondFractionData.denominator;
+        unsigned int gcfNumerator = getGreatestCommonFactor(firstNumerator, secondNumerator);
+        result = AlbaNumber::createFraction(static_cast<int>(gcfNumerator), lcmDenominator);
+    }
+    return result;
+}
 
 unsigned int getLeastCommonMultiple(unsigned int const firstNumber, unsigned int const secondNumber)
-{    unsigned int result(0);
+{
+    unsigned int result(0);
     if(firstNumber!=0 && secondNumber!=0)
     {
         result = firstNumber/getGreatestCommonFactor(firstNumber, secondNumber)*secondNumber;
+    }
+    return result;
+}
+
+AlbaNumber getLeastCommonMultiple(AlbaNumber const& firstNumber, AlbaNumber const& secondNumber)
+{
+    AlbaNumber result(0);
+    if(firstNumber.isDoubleType() || secondNumber.isDoubleType())
+    {
+        result=1;
+    }
+    else
+    {
+        AlbaNumber::FractionData firstFractionData(firstNumber.getFractionData());
+        AlbaNumber::FractionData secondFractionData(secondNumber.getFractionData());
+        unsigned int lcmDenominator = getLeastCommonMultiple(firstFractionData.denominator, secondFractionData.denominator);
+        unsigned int firstNumerator = static_cast<unsigned int>(getAbsoluteValue(firstFractionData.numerator))*lcmDenominator/firstFractionData.denominator;
+        unsigned int secondNumerator = static_cast<unsigned int>(getAbsoluteValue(secondFractionData.numerator))*lcmDenominator/secondFractionData.denominator;
+        unsigned int lcmNumerator = getLeastCommonMultiple(firstNumerator, secondNumerator);
+        result = AlbaNumber::createFraction(static_cast<int>(lcmNumerator), lcmDenominator);
     }
     return result;
 }
@@ -499,46 +462,6 @@ unsigned int getDifferenceFromGreaterMultiple(unsigned int const multiple, unsig
     {
         unsigned int numberOfMultiples(getNumberOfMultiplesInclusive(multiple, number));
         result = (numberOfMultiples*multiple) - number;
-    }
-    return result;
-}
-
-AlbaNumber getGreatestCommonFactorForAlbaNumber(AlbaNumber const& firstNumber, AlbaNumber const& secondNumber)
-{
-    AlbaNumber result(0);
-    if(firstNumber.isDoubleType() || secondNumber.isDoubleType())
-    {
-        result=1;
-    }
-    else
-    {
-        AlbaNumber::FractionData firstFractionData(firstNumber.getFractionData());
-        AlbaNumber::FractionData secondFractionData(secondNumber.getFractionData());
-        unsigned int lcmDenominator = getLeastCommonMultiple(firstFractionData.denominator, secondFractionData.denominator);
-        unsigned int firstNumerator = static_cast<unsigned int>(getAbsoluteValue(firstFractionData.numerator))*lcmDenominator/firstFractionData.denominator;
-        unsigned int secondNumerator = static_cast<unsigned int>(getAbsoluteValue(secondFractionData.numerator))*lcmDenominator/secondFractionData.denominator;
-        unsigned int gcfNumerator = getGreatestCommonFactor(firstNumerator, secondNumerator);
-        result = AlbaNumber::createFraction(static_cast<int>(gcfNumerator), lcmDenominator);
-    }
-    return result;
-}
-
-AlbaNumber getLeastCommonMultipleForAlbaNumber(AlbaNumber const& firstNumber, AlbaNumber const& secondNumber)
-{
-    AlbaNumber result(0);
-    if(firstNumber.isDoubleType() || secondNumber.isDoubleType())
-    {
-        result=1;
-    }
-    else
-    {
-        AlbaNumber::FractionData firstFractionData(firstNumber.getFractionData());
-        AlbaNumber::FractionData secondFractionData(secondNumber.getFractionData());
-        unsigned int lcmDenominator = getLeastCommonMultiple(firstFractionData.denominator, secondFractionData.denominator);
-        unsigned int firstNumerator = static_cast<unsigned int>(getAbsoluteValue(firstFractionData.numerator))*lcmDenominator/firstFractionData.denominator;
-        unsigned int secondNumerator = static_cast<unsigned int>(getAbsoluteValue(secondFractionData.numerator))*lcmDenominator/secondFractionData.denominator;
-        unsigned int lcmNumerator = getLeastCommonMultiple(firstNumerator, secondNumerator);
-        result = AlbaNumber::createFraction(static_cast<int>(lcmNumerator), lcmDenominator);
     }
     return result;
 }
@@ -601,6 +524,10 @@ bool isPerfectCube(NumberType const value)
     return isPerfectNthPower(value, 3);
 }
 template bool isPerfectCube<unsigned int>(unsigned int const value);
+bool isPerfectCube(AlbaNumber const& value)
+{
+    return isPerfectNthPower(value, 3);
+}
 
 
 //isPerfectSquare
@@ -610,6 +537,10 @@ bool isPerfectSquare(NumberType const value)
     return isPerfectNthPower(value, 2);
 }
 template bool isPerfectSquare<unsigned int>(unsigned int const value);
+bool isPerfectSquare(AlbaNumber const& value)
+{
+    return isPerfectNthPower(value, 2);
+}
 
 
 bool isPerfectNthPower(
@@ -620,22 +551,7 @@ bool isPerfectNthPower(
     return isAlmostAnInteger<double, unsigned int>(valueRaiseToTheReciprocal);
 }
 
-int getRaiseToPowerForIntegers(int const base, unsigned int exponent)
-{
-    return static_cast<int>(ceil(pow(base, exponent)));
-}
-
-bool isPerfectCubeForAlbaNumber(AlbaNumber const& value)
-{
-    return isPerfectNthPowerForAlbaNumber(value, 3);
-}
-
-bool isPerfectSquareForAlbaNumber(AlbaNumber const& value)
-{
-    return isPerfectNthPowerForAlbaNumber(value, 2);
-}
-
-bool isPerfectNthPowerForAlbaNumber(
+bool isPerfectNthPower(
         AlbaNumber const& number,
         unsigned int const nthPower)
 {
@@ -653,6 +569,11 @@ bool isPerfectNthPowerForAlbaNumber(
                 && isPerfectNthPower(fractionData.denominator, nthPower);
     }
     return result;
+}
+
+int getRaiseToPowerForIntegers(int const base, unsigned int exponent)
+{
+    return static_cast<int>(ceil(pow(base, exponent)));
 }
 
 

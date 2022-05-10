@@ -22,7 +22,8 @@ public:
         initialize();
     }
 
-    bool isConnected(Object const& object1, Object const& object2) const override    {
+    bool isConnected(Object const& object1, Object const& object2) const override
+    {
         return getRoot(object1) == getRoot(object2);
     }
 
@@ -41,6 +42,7 @@ public:
             m_numberOfUnconnected--;
         }
     }
+
     unsigned int getNumberOfUnconnected() const
     {
         return m_numberOfUnconnected;
@@ -56,7 +58,8 @@ private:
     void replaceAllOldRootsWithNewRoot(Object const& oldRoot, Object const& newRoot)
     {
         for(unsigned int i=0; i<SIZE; i++)
-        {            if(m_roots[i] == oldRoot)
+        {
+            if(m_roots[i] == oldRoot)
             {
                 m_roots[i] = newRoot;
             }

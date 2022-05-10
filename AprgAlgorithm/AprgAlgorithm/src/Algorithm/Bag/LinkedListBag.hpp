@@ -3,7 +3,8 @@
 #include <Algorithm/Bag/BaseBag.hpp>
 #include <memory>
 
-namespace alba{
+namespace alba
+{
 
 namespace algorithm
 {
@@ -18,10 +19,12 @@ public:
     using NodeUniquePointer = std::unique_ptr<Node>;
     struct Node
     {
-        Object object;        NodeUniquePointer next;
+        Object object;
+        NodeUniquePointer next;
     };
 
-    LinkedListBag()        : m_size(0)
+    LinkedListBag()
+        : m_size(0)
         , m_first(nullptr)
     {}
 
@@ -38,16 +41,19 @@ public:
     void add(Object const& object) override
     {
         NodeUniquePointer newNext(std::move(m_first));
-        m_first.reset(new Node{object, std::move(newNext)});        m_size++;
+        m_first.reset(new Node{object, std::move(newNext)});
+        m_size++;
     }
 
     void traverse(TraverseFunction const& traverseFunction) override
     {
         Node* currentPointer = m_first.get();
-        while(currentPointer != nullptr)        {
+        while(currentPointer != nullptr)
+        {
             traverseFunction(currentPointer->object);
             currentPointer = currentPointer->next.get();
-        }    }
+        }
+    }
 
 private:
 

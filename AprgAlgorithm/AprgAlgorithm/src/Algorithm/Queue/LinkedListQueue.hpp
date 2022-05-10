@@ -34,9 +34,11 @@ public:
         return m_first == nullptr;
     }
 
-    unsigned int getSize() const override    {
+    unsigned int getSize() const override
+    {
         return m_size;
     }
+
     void enqueue(Object const& object) override
     {
         if(isEmpty())

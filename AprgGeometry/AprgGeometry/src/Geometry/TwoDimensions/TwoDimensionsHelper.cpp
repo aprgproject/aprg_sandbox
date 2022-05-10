@@ -94,10 +94,12 @@ double getCosineOfAngleUsing1Delta(double const deltaX1, double const deltaY1)
     return adjacent/hypotenuse;
 }
 
-double getCosineOfAngleUsing2Deltas(        double const deltaX1,
+double getCosineOfAngleUsing2Deltas(
+        double const deltaX1,
         double const deltaY1,
         double const deltaX2,
-        double const deltaY2){
+        double const deltaY2)
+{
     double numeratorPart = (deltaX1*deltaX2) + (deltaY1*deltaY2);
     double denominatorPart = getSquareRootOfXSquaredPlusYSquared(deltaX1, deltaY1) *
             getSquareRootOfXSquaredPlusYSquared(deltaX2, deltaY2);
@@ -287,10 +289,12 @@ AlbaAngle getAngleBasedOnAPointAndOrigin(Point const& point)
             angle = AlbaAngle(AngleUnitType::Degrees, 180) - angle;
         }
     }
-    return angle;}
+    return angle;
+}
 
 AlbaAngle getTheInnerAngleUsingThreePoints(
-        Point const& commonPoint,        Point const& firstPoint,
+        Point const& commonPoint,
+        Point const& firstPoint,
         Point const& secondPoint)
 {
     Point deltaBA(firstPoint-commonPoint);
@@ -323,9 +327,11 @@ AlbaAngle getTheSmallerAngleBetweenTwoLines(Line const& line1, Line const& line2
     }
     return angle;
 }
+
 AlbaAngle getTheLargerAngleBetweenTwoLines(Line const& line1, Line const& line2)
 {
-    AlbaAngle smallerAngle(getTheSmallerAngleBetweenTwoLines(line1, line2));    return AlbaAngle(AngleUnitType::Degrees, 180-smallerAngle.getDegrees());
+    AlbaAngle smallerAngle(getTheSmallerAngleBetweenTwoLines(line1, line2));
+    return AlbaAngle(AngleUnitType::Degrees, 180-smallerAngle.getDegrees());
 }
 
 Point getIntersectionOfTwoLines(Line const& line1, Line const& line2)
@@ -641,10 +647,12 @@ Points getConvexHullPointsUsingGrahamScan(Points const& points)
 
     Points results;
     while(!convertHullPoints.empty())
-    {        results.emplace_back(convertHullPoints.top());
+    {
+        results.emplace_back(convertHullPoints.top());
         convertHullPoints.pop();
     }
-    return results;}
+    return results;
+}
 
 Line getLineWithSameSlope(Line const& line, Point const& point)
 {

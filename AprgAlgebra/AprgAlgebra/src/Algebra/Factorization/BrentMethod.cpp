@@ -69,9 +69,11 @@ void BrentMethod::resetCalculation(AlbaNumber const& start, AlbaNumber const& en
     if(getAbsoluteValue(m_values.fa) < getAbsoluteValue(m_values.fb))
     {
         swap(m_values.a, m_values.b);
-        swap(m_values.fa, m_values.fb);    }
+        swap(m_values.fa, m_values.fb);
+    }
     m_values.c = m_values.a;
 }
+
 void BrentMethod::runOneIteration()
 {
     AlbaNumber::ScopeObject scopeObject;
@@ -139,9 +141,11 @@ void BrentMethod::runOneIteration()
     if(getAbsoluteValue(m_values.fa) < getAbsoluteValue(m_values.fb))
     {
         swap(m_values.a, m_values.b);
-        swap(m_values.fa, m_values.fb);    }
+        swap(m_values.fa, m_values.fb);
+    }
     m_numberOfIterationsExecuted++;
 }
+
 void BrentMethod::runMaxNumberOfIterationsOrUntilFinished(unsigned int const maxIterations)
 {
     for(unsigned int i=0; !isFinished() && i<maxIterations; i++)
@@ -242,9 +246,11 @@ bool BrentMethod::isBisectionMethodNeeded(
     bool isConditionFive = !mflag && getAbsoluteValue(c-d) < getAbsoluteValue(gamma);
     return isConditionOne || isConditionTwo || isConditionThree || isConditionFour || isConditionFive;
 }
+
 void BrentMethod::convertSolutionToIntegerIfNeeded()
 {
-    if(m_values.solutionOptional.hasContent() && !m_coefficients.empty())    {
+    if(m_values.solutionOptional.hasContent() && !m_coefficients.empty())
+    {
         AlbaNumber aCoefficient(m_coefficients.front());
         if(aCoefficient.isIntegerOrFractionType())
         {

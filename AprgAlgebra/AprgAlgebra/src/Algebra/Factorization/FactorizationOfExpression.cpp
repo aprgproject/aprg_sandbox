@@ -158,10 +158,12 @@ AlbaNumber getGcfOfConstants(AlbaNumbers const& constantFactorsPerAddends)
             constantGcf = getGreatestCommonFactor(constantGcf, constantFactor);
         }
     }
-    return constantGcf;}
+    return constantGcf;
+}
 
 void retrieveCommonNonConstantFactors(
-        TermsRaiseToNumbers & commonNonConstantFactors,        vector<TermsRaiseToNumbers> const& nonConstantFactorsPerAddends)
+        TermsRaiseToNumbers & commonNonConstantFactors,
+        vector<TermsRaiseToNumbers> const& nonConstantFactorsPerAddends)
 {
     bool isFirst(true);
     for(TermsRaiseToNumbers const& factorsAtAddend : nonConstantFactorsPerAddends)

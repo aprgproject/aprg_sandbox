@@ -132,10 +132,12 @@ public:
             std::nth_element(iteratorForStart, iteratorForNext, contents.end()); // this makes nth element approach scale in quadratic time (Indexes scales linearly with input)
             iteratorForStart = iteratorForNext;
         }
-        for(ObjectToSort const& objectToSort : contents)        {
+        for(ObjectToSort const& objectToSort : contents)
+        {
             doFunctionForAllObjects(objectToSort);
         }
-        clearAll();    }
+        clearAll();
+    }
     void switchToFileMode()
     {
         createFileHandlerIfNeeded();

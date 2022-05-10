@@ -42,14 +42,17 @@ private:
         // Works similar to insertion sort (but with skipping)
         for(unsigned int i=startingIndex; i>=skipValue && valuesToSort.at(i-skipValue) > valuesToSort.at(i); i-=skipValue)
         {
-            std::swap(valuesToSort[i], valuesToSort[i-skipValue]);        }
+            std::swap(valuesToSort[i], valuesToSort[i-skipValue]);
+        }
     }
 
-    unsigned int getSkipValue(unsigned int const size) const    {
+    unsigned int getSkipValue(unsigned int const size) const
+    {
         // Knuth approach. This returns: 1, 4, 13, 40, 121, 364, 1093
         unsigned int h(1);
         while(h < size/3)
-        {            h = 3*h + 1;
+        {
+            h = 3*h + 1;
         }
         return h;
     }
@@ -90,4 +93,5 @@ private:
 };
 
 }
+
 }

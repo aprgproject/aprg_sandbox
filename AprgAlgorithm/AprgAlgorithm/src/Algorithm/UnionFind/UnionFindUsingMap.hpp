@@ -39,9 +39,11 @@ public:
         }
         return currentObject;
     }
+
     void connect(Object const& object1, Object const& object2) override
     {
-        initializeToConnectionMapIfNeeded(object1);        initializeToConnectionMapIfNeeded(object2);
+        initializeToConnectionMapIfNeeded(object1);
+        initializeToConnectionMapIfNeeded(object2);
         Object root(std::min(getRoot(object1), getRoot(object2)));
         m_connectionMap[object1] = root;
         m_connectionMap[object2] = root;
@@ -54,6 +56,7 @@ private:
     }
     ConnectionMap m_connectionMap;
 };
+
 }
 
 }

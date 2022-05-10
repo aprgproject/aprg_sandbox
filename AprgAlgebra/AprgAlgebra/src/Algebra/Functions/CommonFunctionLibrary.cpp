@@ -23,9 +23,11 @@ Function abs(Term const& term)
         return getAbsoluteValue(number);
     });
 }
+
 Function greatestIntegerFunction(Term const& term)
 {
-    return Function("greatestIntegerFunction", term, [](AlbaNumber const&  number) -> AlbaNumber    {
+    return Function("greatestIntegerFunction", term, [](AlbaNumber const&  number) -> AlbaNumber
+    {
         return AlbaNumber(ceil(number.getDouble()));
     });
 }

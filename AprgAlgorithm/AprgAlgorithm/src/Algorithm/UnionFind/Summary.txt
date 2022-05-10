@@ -27,3 +27,4 @@ Applications of UF:
 -> Compiling equivalence statements in fortran
 -> Morphological attribute opening and closings
 -> Matlab's bwlabel() function in image processing
+

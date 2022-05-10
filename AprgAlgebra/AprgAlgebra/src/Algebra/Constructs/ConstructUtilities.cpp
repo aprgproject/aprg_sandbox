@@ -233,10 +233,12 @@ void createTermRaiseToANumberFromMultiplicationAndDivisionExpression(
                 commonExponent = getGreatestCommonFactor(commonExponent, exponent);
             }
         }
-    }    if(areAllExponentsNegative && commonExponent > 0)
+    }
+    if(areAllExponentsNegative && commonExponent > 0)
     {
         commonExponent *= -1;
-    }    for(auto & baseExponentPair : termsRaiseToNumbers.getBaseToExponentMap())
+    }
+    for(auto & baseExponentPair : termsRaiseToNumbers.getBaseToExponentMap())
     {
         termsRaiseToNumbers.setBaseAndExponent(baseExponentPair.first, baseExponentPair.second/commonExponent);
     }

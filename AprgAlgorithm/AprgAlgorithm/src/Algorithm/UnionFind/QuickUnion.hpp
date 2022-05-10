@@ -23,7 +23,8 @@ public:
         initialize();
     }
 
-    bool isConnected(Object const& object1, Object const& object2) const override    {
+    bool isConnected(Object const& object1, Object const& object2) const override
+    {
         return getRoot(object1) == getRoot(object2);
     }
 
@@ -34,7 +35,8 @@ public:
         //Continuously find relative root until main root is found (it needs to be equal to the previous root)
         Object result(object);
         Object currentRoot(m_relativeRoots.at(object));
-        while(result != currentRoot)        {
+        while(result != currentRoot)
+        {
             result = currentRoot;
             currentRoot = m_relativeRoots.at(result);
         }
@@ -51,6 +53,7 @@ public:
             m_numberOfUnconnected--;
         }
     }
+
     unsigned int getNumberOfUnconnected() const
     {
         return m_numberOfUnconnected;
@@ -66,6 +69,7 @@ private:
     std::array<Object, SIZE> m_relativeRoots;
     unsigned int m_numberOfUnconnected;
 };
+
 }
 
 }

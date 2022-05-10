@@ -23,7 +23,8 @@ public:
         NodeUniquePointer next; // one pointer overhead for every item
     };
 
-    LinkedListStack()        : m_size(0)
+    LinkedListStack()
+        : m_size(0)
         , m_first(nullptr)
     {}
 
@@ -32,7 +33,8 @@ public:
         return m_first == nullptr;
     }
 
-    unsigned int getSize() const override    {
+    unsigned int getSize() const override
+    {
         return m_size;
     }
 
@@ -53,12 +55,14 @@ public:
             m_first = std::move(m_first->next); //  delete previous first and assign the next to first
             m_size--;
         }
-        return result;    }
+        return result;
+    }
 
 private:
     unsigned int m_size;
     NodeUniquePointer m_first;
 };
+
 }
 
 }

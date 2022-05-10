@@ -1,9 +1,11 @@
 #include <AlgorithmTests/UnionFind/PercolationExample/MonteCarloSimulationOfPerculation.hpp>
 
 #include <gtest/gtest.h>
+
 #include <iostream>
 
 using namespace std;
+
 namespace alba
 {
 

@@ -138,10 +138,12 @@ public:
         ValueTemplateType result{};
         ValueStack valueStack;
         OperatorStack operatorStack;
-        traverseAllTermsForEvaluation(valueStack, operatorStack);        while(!operatorStack.empty())
+        traverseAllTermsForEvaluation(valueStack, operatorStack);
+        while(!operatorStack.empty())
         {
             performOperationWithStacks(valueStack, operatorStack);
-        }        if(valueStack.size()==1)
+        }
+        if(valueStack.size()==1)
         {
             result = valueStack.top();
         }
@@ -161,10 +163,12 @@ private:
         //Dijkstra two stack algorithm
         for(Term const& term : m_terms)
         {
-            if(term.isOperator())            {
+            if(term.isOperator())
+            {
                 if(term.isStartGroupOperator())
                 {
-                    continue;                }
+                    continue;
+                }
                 else if(term.isEndGroupOperator())
                 {
                     performOperationWithStacks(valueStack, operatorStack);
@@ -226,10 +230,12 @@ public:
         ValueTemplateType result{};
         ValueStack valueStack;
         traverseAllTermsForEvaluation(valueStack);
-        if(valueStack.size()==1)        {
+        if(valueStack.size()==1)
+        {
             result = valueStack.top();
         }
-        return result;    }
+        return result;
+    }
     Terms getTerms() const
     {
         return m_terms;
