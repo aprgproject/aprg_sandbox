@@ -88,18 +88,16 @@ double getDistance(Line const& line1, Line const& line2)
 
 double getCosineOfAngleUsing1Delta(double const deltaX1, double const deltaY1)
 {
-    //cos theta = opposite/hypotenuse
-    double opposite = deltaY1;
+    //cos theta = adjacent/hypotenuse
+    double adjacent = deltaX1;
     double hypotenuse = getSquareRootOfXSquaredPlusYSquared(deltaX1, deltaY1);
-    return opposite/hypotenuse;
+    return adjacent/hypotenuse;
 }
 
-double getCosineOfAngleUsing2Deltas(
-        double const deltaX1,
+double getCosineOfAngleUsing2Deltas(        double const deltaX1,
         double const deltaY1,
         double const deltaX2,
-        double const deltaY2)
-{
+        double const deltaY2){
     double numeratorPart = (deltaX1*deltaX2) + (deltaY1*deltaY2);
     double denominatorPart = getSquareRootOfXSquaredPlusYSquared(deltaX1, deltaY1) *
             getSquareRootOfXSquaredPlusYSquared(deltaX2, deltaY2);
@@ -276,29 +274,23 @@ AlbaAngle getAngleBasedOnAPointAndOrigin(Point const& point)
     {
         Quadrant quadrant(getQuadrantOfAPoint(point));
         angle = AlbaAngle(AngleUnitType::Radians, acos(getAbsoluteValue(getCosineOfAngleUsing1Delta(point.getX(), point.getY()))));
-        if(angle == AlbaAngle(AngleUnitType::Degrees, 90))
-        {
-            angle = AlbaAngle(AngleUnitType::Degrees, 0);
-        }
         if(Quadrant::IV == quadrant)
         {
-            angle += AlbaAngle(AngleUnitType::Degrees, 270);
+            angle = AlbaAngle(AngleUnitType::Degrees, 360) - angle;
         }
         else if(Quadrant::III == quadrant)
         {
-            angle += AlbaAngle(AngleUnitType::Degrees, 180);
+            angle = AlbaAngle(AngleUnitType::Degrees, 180) + angle;
         }
         else if(Quadrant::II == quadrant)
         {
-            angle += AlbaAngle(AngleUnitType::Degrees, 90);
+            angle = AlbaAngle(AngleUnitType::Degrees, 180) - angle;
         }
     }
-    return angle;
-}
+    return angle;}
 
 AlbaAngle getTheInnerAngleUsingThreePoints(
-        Point const& commonPoint,
-        Point const& firstPoint,
+        Point const& commonPoint,        Point const& firstPoint,
         Point const& secondPoint)
 {
     Point deltaBA(firstPoint-commonPoint);
@@ -321,21 +313,19 @@ AlbaAngle getTheSmallerAngleBetweenTwoLines(Line const& line1, Line const& line2
     {
         //absolute value is used to ensure lower angle
         return AlbaAngle(AngleUnitType::Radians,
-                     acos(
-                         getAbsoluteValue(
-                             getCosineOfAngleUsing2Deltas(
-                                 line1.getAUnitIncreaseInX(),
-                                 line1.getAUnitIncreaseInY(),
-                                 line2.getAUnitIncreaseInX(),
-                                 line2.getAUnitIncreaseInY()))));
+                         acos(
+                             getAbsoluteValue(
+                                 getCosineOfAngleUsing2Deltas(
+                                     line1.getAUnitIncreaseInX(),
+                                     line1.getAUnitIncreaseInY(),
+                                     line2.getAUnitIncreaseInX(),
+                                     line2.getAUnitIncreaseInY()))));
     }
     return angle;
 }
-
 AlbaAngle getTheLargerAngleBetweenTwoLines(Line const& line1, Line const& line2)
 {
-    AlbaAngle smallerAngle(getTheSmallerAngleBetweenTwoLines(line1, line2));
-    return AlbaAngle(AngleUnitType::Degrees, 180-smallerAngle.getDegrees());
+    AlbaAngle smallerAngle(getTheSmallerAngleBetweenTwoLines(line1, line2));    return AlbaAngle(AngleUnitType::Degrees, 180-smallerAngle.getDegrees());
 }
 
 Point getIntersectionOfTwoLines(Line const& line1, Line const& line2)
@@ -582,55 +572,79 @@ Points getPointsInSortedDecreasingX(Points const& pointsToBeSorted)
 
 Points getConvexHullPointsUsingGrahamScan(Points const& points)
 {
+    // Applications:
+    // Motion planning (go from one point to another point when there is polygon obstacle)
+    // Farthest point pair problem
+
     unsigned int size = points.size();
     assert(size >= 3);
-    Points tempPoints(points);
-    auto minmaxResult = minmax_element(tempPoints.begin(), tempPoints.end(), [](Point const& point1, Point const& point2)
-    {
-            return point1.getY() < point2.getY();
-});
-    swap(tempPoints.front(), *minmaxResult.first);
 
-    Point& firstPointAndMinimumY(tempPoints.front());
-    sort(tempPoints.begin()+1, tempPoints.end(), [&](Point const& point1, Point const& point2)
+    auto minmaxResult = minmax_element(points.cbegin(), points.cend(), [](Point const& point1, Point const& point2)
+    {return point1.getY() < point2.getY();});
+    Point pointWithMinimumY(*(minmaxResult.first)); // find the bottom point
+
+    struct CompareData
     {
-        bool result;
-        RotationDirection direction = getRotationDirectionTraversing3Points(firstPointAndMinimumY, point1, point2);
-        if (RotationDirection::None == direction)
+        AlbaAngle angle;
+        double distance;
+        CompareData(AlbaAngle const& angleAsParameter, double const distanceAsParameter)
+            : angle(angleAsParameter), distance(distanceAsParameter)
+        {}
+        bool operator<(CompareData const& second) const
         {
-            result = getDistance(firstPointAndMinimumY, point1) < getDistance(firstPointAndMinimumY, point2);
+            bool result(false);
+            if(angle != second.angle)
+            {
+                result = angle < second.angle;
+            }
+            else
+            {
+                result = distance < second.distance;
+            }
+            return result;
+        }
+    };
+    map<CompareData, Point> compareDataToPointMap;
+    for(Point const& point : points)
+    {
+        compareDataToPointMap.emplace(
+        CompareData(getAngleBasedOnAPointAndOrigin(point - pointWithMinimumY), getDistance(pointWithMinimumY, point)),
+                    point); // sort points by polar angle
+    }
+
+    stack<Point> convertHullPoints;
+    unsigned int i=0;
+    for(auto const& compareDataAndPointPair : compareDataToPointMap)
+    {
+        Point const& currentPoint(compareDataAndPointPair.second);
+        if(i<2)
+        {
+            convertHullPoints.push(currentPoint); // push the first 2 points
         }
         else
         {
-            result = RotationDirection::CounterClockWise == direction;
-        }
-        return result;
-    });
-
-    stack<Point> convertHullPoints;
-    convertHullPoints.push(tempPoints[0]);
-    convertHullPoints.push(tempPoints[1]);
-    for (unsigned int i = 2; i < size; i++)
-    {
-        Point top = convertHullPoints.top();
-        convertHullPoints.pop();
-        while (!convertHullPoints.empty() &&
-               RotationDirection::CounterClockWise != getRotationDirectionTraversing3Points(convertHullPoints.top(), top, tempPoints[i]))
-        {
-            top = convertHullPoints.top();
+            Point top = convertHullPoints.top();
             convertHullPoints.pop();
+            while (!convertHullPoints.empty() &&
+                   RotationDirection::CounterClockWise != getRotationDirectionTraversing3Points(convertHullPoints.top(), top, currentPoint))
+                // Counter clock wise must be maintained
+            {
+                // Remove point when non counter clock wise
+                top = convertHullPoints.top();
+                convertHullPoints.pop();
+            }
+            convertHullPoints.push(top);
+            convertHullPoints.push(currentPoint);
         }
-        convertHullPoints.push(top);
-        convertHullPoints.push(tempPoints[i]);
-    }
+        i++;
+    };
+
     Points results;
     while(!convertHullPoints.empty())
-    {
-        results.emplace_back(convertHullPoints.top());
+    {        results.emplace_back(convertHullPoints.top());
         convertHullPoints.pop();
     }
-    return results;
-}
+    return results;}
 
 Line getLineWithSameSlope(Line const& line, Point const& point)
 {
