@@ -49,25 +49,22 @@ void SignMutator::mutateTerm(Term & term)
 
 void SignMutator::mutateConstant(Constant & constant)
 {
-    constant.setNumber(getSignForAlbaNumber(constant.getNumberConstReference()));
+    constant.setNumber(getSign(constant.getNumberConstReference()));
 }
 
-void SignMutator::mutateVariable(Variable &)
-{}
+void SignMutator::mutateVariable(Variable &){}
 
 void SignMutator::mutateMonomial(Monomial & monomial)
 {
     monomial = m_substitution.performSubstitutionForMonomial(monomial);
     monomial.simplify();
-    monomial.setConstant(getSignForAlbaNumber(monomial.getConstantConstReference()));
+    monomial.setConstant(getSign(monomial.getConstantConstReference()));
 }
 
-void SignMutator::mutatePolynomial(Polynomial & polynomial)
-{
+void SignMutator::mutatePolynomial(Polynomial & polynomial){
     bool areAllTheValuesOne(true);
     bool areAllTheValuesNegativeOne(true);
-    Monomials mutatedMonomials(polynomial.getMonomialsConstReference());
-    for(Monomial & mutatedMonomial : mutatedMonomials)
+    Monomials mutatedMonomials(polynomial.getMonomialsConstReference());    for(Monomial & mutatedMonomial : mutatedMonomials)
     {
         mutateMonomial(mutatedMonomial);
         areAllTheValuesOne = areAllTheValuesOne && isTheValue(mutatedMonomial, 1);

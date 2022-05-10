@@ -125,15 +125,13 @@ AlbaNumber getLimitAtAValueInBothSides(
     AlbaNumber limitNegativeSide(getLimitAtAValueInTheNegativeSide(term, variableName, valueToApproach));
     if(isAlmostEqualForLimitChecking(limitPositiveSide, limitNegativeSide)) //limit only exists if both sides are equal  (Calculus Theorem)
     {
-        result = getAverageForAlbaNumber(limitPositiveSide, limitNegativeSide);
+        result = getAverage(limitPositiveSide, limitNegativeSide);
     }
     return result;
 }
-
 AlbaNumber getLimitAtAValueInThePositiveSide(
         Term const& term,
-        string const& variableName,
-        AlbaNumber const& valueToApproach)
+        string const& variableName,        AlbaNumber const& valueToApproach)
 {
     return getLimitAtAValueByIterationAndLinearInterpolation(
                 term,
@@ -188,15 +186,13 @@ AlbaNumber getLimitAtAValueByIterationAndLinearInterpolation(
                 previousPreviousAcceptedInput = previousAcceptedInput;
                 previousAcceptedInput = currentInput;
             }
-            AlbaNumber newInput(getAverageForAlbaNumber(previousAcceptedInput, previousRejectedInput));
+            AlbaNumber newInput(getAverage(previousAcceptedInput, previousRejectedInput));
             // to investigate, print currentInput, currentOutputNumber and newInput to check how it approaches the limit value
             // this are checks to prevent inaccurate values when the values get to close
-            if(isAlmostEqualForLimitIteration(newInput, valueToApproach)
-                    || isAlmostEqualForLimitIteration(newInput, previousAcceptedInput))
+            if(isAlmostEqualForLimitIteration(newInput, valueToApproach)                    || isAlmostEqualForLimitIteration(newInput, previousAcceptedInput))
             {
                 break;
-            }
-            currentInput = newInput;
+            }            currentInput = newInput;
         }
         else
         {

@@ -46,15 +46,13 @@ AlbaNumber PowerSeries::getRadiusOfConvergence() const
                                    AlbaNumber const& partialSum,
                                    AlbaNumberInterval const& nextInterval)
     {
-        return partialSum + getAbsoluteValueForAlbaNumber(nextInterval.getHigherEndpoint().getValue() - nextInterval.getLowerEndpoint().getValue());
+        return partialSum + getAbsoluteValue(nextInterval.getHigherEndpoint().getValue() - nextInterval.getLowerEndpoint().getValue());
     });
     result = result/static_cast<long long int>(intervals.size())/2;
-    return result;
-}
+    return result;}
 
 void PowerSeries::differentiate()
-{
-    Differentiation differentiation(m_xName);
+{    Differentiation differentiation(m_xName);
     m_formulaForEachTermInSummation = differentiation.differentiate(m_formulaForEachTermInSummation);
     m_isSummationModelValid = false;
 }

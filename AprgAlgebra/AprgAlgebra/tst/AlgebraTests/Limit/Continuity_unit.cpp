@@ -141,15 +141,13 @@ TEST(ContinuityTest, GetContinuityTypeAtWorksForRemovableDiscontinuityFunction)
         }
         else
         {
-            result = getAbsoluteValueForAlbaNumber(number - 3);
+            result = getAbsoluteValue(number - 3);
         }
         return result;
-    });
-    Term functionTermToTest(functionToTest);
+    });    Term functionTermToTest(functionToTest);
 
     EXPECT_EQ(ContinuityType::DiscontinuousWithRemovableDiscontinuity,
-              getContinuityTypeAt(functionTermToTest, "x", 3));
-}
+              getContinuityTypeAt(functionTermToTest, "x", 3));}
 
 TEST(ContinuityTest, GetContinuityTypeAtWorksForEssentialDiscontinuityFunction)
 {

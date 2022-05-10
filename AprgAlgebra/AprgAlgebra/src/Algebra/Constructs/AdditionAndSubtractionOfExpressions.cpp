@@ -130,18 +130,16 @@ void AdditionAndSubtractionOfExpressions::mergeExpressionsByCheckingTwoTermsAtAT
     {
         for(unsigned int j=i+1; j<size; j++)
         {
+            //quadratic time: think on how this can be better
             if(canBeMerged(mergeParts.at(i), mergeParts.at(j), commonParts.at(i), commonParts.at(j)))
             {
-                Term mergedTerm;
-                mergeTerms(mergedTerm, mergeParts.at(i), mergeParts.at(j), m_associations.at(i), m_associations.at(j));
+                Term mergedTerm(mergeTerms(mergeParts.at(i), mergeParts.at(j), m_associations.at(i), m_associations.at(j)));
                 Term const& commonPart(commonParts.at(i));
                 mergeParts[i] = mergedTerm;
-                m_expressions[i] = createOrCopyExpressionFromATerm(mergedTerm*commonPart);
-                m_associations[i] = TermAssociationType::Positive;
+                m_expressions[i] = createOrCopyExpressionFromATerm(mergedTerm*commonPart);                m_associations[i] = TermAssociationType::Positive;
 
                 mergeParts.erase(mergeParts.begin()+j);
-                commonParts.erase(commonParts.begin()+j);
-                m_expressions.erase(m_expressions.begin()+j);
+                commonParts.erase(commonParts.begin()+j);                m_expressions.erase(m_expressions.begin()+j);
                 m_associations.erase(m_associations.begin()+j);
 
                 size = mergeParts.size();
@@ -151,25 +149,24 @@ void AdditionAndSubtractionOfExpressions::mergeExpressionsByCheckingTwoTermsAtAT
     }
 }
 
-void AdditionAndSubtractionOfExpressions::mergeTerms(
-        Term & mergedTerm,
+Term AdditionAndSubtractionOfExpressions::mergeTerms(
         Term const& mergePart1,
         Term const& mergePart2,
         TermAssociationType const association1,
         TermAssociationType const association2)
 {
+    Term result;
     TermsWithDetails termsWithDetailsToMerge;
     termsWithDetailsToMerge.emplace_back(mergePart1, association1);
     termsWithDetailsToMerge.emplace_back(mergePart2, association2);
-    accumulateTermsForAdditionAndSubtraction(mergedTerm, termsWithDetailsToMerge);
+    accumulateTermsForAdditionAndSubtraction(result, termsWithDetailsToMerge);
+    return result;
 }
 
-void AdditionAndSubtractionOfExpressions::prepareCommonParts(
-        Terms & commonParts)
+void AdditionAndSubtractionOfExpressions::prepareCommonParts(        Terms & commonParts)
 {
     for(Term & commonPart : commonParts)
-    {
-        commonPart.simplify();
+    {        commonPart.simplify();
         if(commonPart.isExpression())
         {
             commonPart.getExpressionReference().sort();

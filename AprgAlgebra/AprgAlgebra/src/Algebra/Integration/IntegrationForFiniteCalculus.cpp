@@ -180,15 +180,13 @@ Term IntegrationForFiniteCalculus::integrateMonomial(
         }
         else
         {
-            AlbaNumber exponentAbsoluteValue(getAbsoluteValueForAlbaNumber(exponent));
+            AlbaNumber exponentAbsoluteValue(getAbsoluteValue(exponent));
             Monomial monomialWithOneLessExponent(monomial);
             monomialWithOneLessExponent.putVariableWithExponent(m_nameOfVariableToIntegrate, exponentAbsoluteValue-1);
-            Polynomial denominatorInFallingPower(
-                        convertMonomialWithPositiveExponentsFromRegularPowerToFallingPower(monomialWithOneLessExponent));
+            Polynomial denominatorInFallingPower(                        convertMonomialWithPositiveExponentsFromRegularPowerToFallingPower(monomialWithOneLessExponent));
             Term termToIntegrate(createExpressionIfPossible({1, "/", denominatorInFallingPower}));
             Term integratedTermInFallingPower(integrateTerm(termToIntegrate));
-            if(!isNotANumber(integratedTermInFallingPower)
-                    && canBeConvertedToPolynomial(integratedTermInFallingPower))
+            if(!isNotANumber(integratedTermInFallingPower)                    && canBeConvertedToPolynomial(integratedTermInFallingPower))
             {
                 Polynomial integratedPolynomial(
                             convertPolynomialWithPositiveExponentsFromFallingPowerToRegularPower(

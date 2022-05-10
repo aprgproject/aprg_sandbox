@@ -1918,29 +1918,25 @@ Integration::TrigonometryFunctionExponents Integration::getTrigonometricExponent
 
     if(exponents.sinExponent >= 0 && exponents.cosExponent <= 0)
     {
-        AlbaNumber cosPositiveExponents(getAbsoluteValueForAlbaNumber(exponents.cosExponent));
+        AlbaNumber cosPositiveExponents(getAbsoluteValue(exponents.cosExponent));
         if(exponents.sinExponent <= cosPositiveExponents)
         {
-            exponents.secExponent = cosPositiveExponents - exponents.sinExponent;
-            exponents.tanExponent = exponents.sinExponent;
+            exponents.secExponent = cosPositiveExponents - exponents.sinExponent;            exponents.tanExponent = exponents.sinExponent;
             exponents.sinExponent = 0;
             exponents.cosExponent = 0;
-            exponents.cscExponent = 0;
-            exponents.cotExponent = 0;
+            exponents.cscExponent = 0;            exponents.cotExponent = 0;
         }
         newExponents = exponents;
     }
     else if(exponents.sinExponent <= 0 && exponents.cosExponent >= 0)
     {
-        AlbaNumber sinPositiveExponents(getAbsoluteValueForAlbaNumber(exponents.sinExponent));
+        AlbaNumber sinPositiveExponents(getAbsoluteValue(exponents.sinExponent));
         if(exponents.cosExponent <= sinPositiveExponents)
         {
-            exponents.cscExponent = sinPositiveExponents - exponents.cosExponent;
-            exponents.cotExponent = exponents.cosExponent;
+            exponents.cscExponent = sinPositiveExponents - exponents.cosExponent;            exponents.cotExponent = exponents.cosExponent;
             exponents.sinExponent = 0;
             exponents.cosExponent = 0;
-            exponents.tanExponent = 0;
-            exponents.secExponent = 0;
+            exponents.tanExponent = 0;            exponents.secExponent = 0;
         }
         newExponents = exponents;
     }
