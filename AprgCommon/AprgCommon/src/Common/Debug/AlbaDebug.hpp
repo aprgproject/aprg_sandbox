@@ -37,9 +37,9 @@ static ofstream debugStream(ALBA_PRINT_OUTPUT_STREAM_FILE_PATH);
 #define ALBA_PRINT5(...) Z_ALBA_PRINT_DETAILS Z_ALBA_PRIVATE_PRINT5(__VA_ARGS__) ALBA_PRINT_OUTPUT_STREAM << std::endl
 #define ALBA_PRINT6(...) Z_ALBA_PRINT_DETAILS Z_ALBA_PRIVATE_PRINT6(__VA_ARGS__) ALBA_PRINT_OUTPUT_STREAM << std::endl
 
-#define ALBA_PRINT_PRECISION(parameter) ALBA_PRINT_OUTPUT_STREAM.precision(parameter)
+#define ALBA_PRINT_PRECISION(parameter)                                      ALBA_PRINT_OUTPUT_STREAM.precision(parameter)
+#define ALBA_PRINT_MANIPULATE_OUTPUT(ioParameter)                            ALBA_PRINT_OUTPUT_STREAM << ioParameter
 
 #define ALBA_EXIT exit(0)
-
 
 }//namespace alba
