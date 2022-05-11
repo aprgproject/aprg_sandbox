@@ -81,14 +81,18 @@ TEST(TwoDimensionsHelperTest, GetArcLengthWorks)
     EXPECT_DOUBLE_EQ(1000, getArcLength(AlbaAngle(AngleUnitType::Radians, 10), 100));
 }
 
-TEST(TwoDimensionsHelperTest, GetAreaForPolygonWorksForTriangle)
+TEST(TwoDimensionsHelperTest, GetSignedCounterClockwiseTriangleAreaOfOriginAnd2PointsWorks)
 {
-    Triangle triangle(Point(0,0), Point(0,4), Point(4,0));
-    EXPECT_DOUBLE_EQ(8, getArea<3>(triangle));
+    EXPECT_DOUBLE_EQ(2, getSignedCounterClockwiseTriangleAreaOfOriginAnd2Points(Point(2, 2), Point(1, 3)));
+    EXPECT_DOUBLE_EQ(-2, getSignedCounterClockwiseTriangleAreaOfOriginAnd2Points(Point(2, 2), Point(3, 1)));
 }
 
-TEST(TwoDimensionsHelperTest, GetAreaForPolygonWorksForRectangle)
+TEST(TwoDimensionsHelperTest, GetAreaForPolygonWorksForTriangle)
 {
+    Triangle triangle(Point(0,0), Point(0,4), Point(4,0));    EXPECT_DOUBLE_EQ(8, getArea<3>(triangle));
+}
+
+TEST(TwoDimensionsHelperTest, GetAreaForPolygonWorksForRectangle){
     Rectangle rectangle(Point(0,5), Point(4,0));
     EXPECT_DOUBLE_EQ(20, getArea<4>(rectangle));
 }
