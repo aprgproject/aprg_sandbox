@@ -52,14 +52,24 @@ TEST(HeapTreeAdapterTest, SwimWorks)
     EXPECT_EQ(objectsToExpect, objects);
 }
 
-TEST(HeapTreeAdapterTest, SinkWorks)
+TEST(HeapTreeAdapterTest, SinkWorksOnExample1)
 {
     ContainerForTest objects{'A', 'D', 'A', 'P', 'T', 'E', 'R', 'F', 'O', 'R', 'H', 'E', 'A', 'P'};
+    AdapterForTest adapter(objects);
+    adapter.sink(1U);
+
+    ContainerForTest objectsToExpect{'D', 'T', 'A', 'P', 'R', 'E', 'R', 'F', 'O', 'A', 'H', 'E', 'A', 'P'};
+    EXPECT_EQ(objectsToExpect, objects);
+}
+
+TEST(HeapTreeAdapterTest, SinkWorksOnExample2)
+{
+    ContainerForTest objects{'A', 'B'};
     AdapterForTest adapter(objects);
 
     adapter.sink(1U);
 
-    ContainerForTest objectsToExpect{'D', 'T', 'A', 'P', 'R', 'E', 'R', 'F', 'O', 'A', 'H', 'E', 'A', 'P'};
+    ContainerForTest objectsToExpect{'B', 'A'};
     EXPECT_EQ(objectsToExpect, objects);
 }
 

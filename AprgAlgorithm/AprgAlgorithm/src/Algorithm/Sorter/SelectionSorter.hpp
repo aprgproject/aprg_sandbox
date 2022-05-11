@@ -27,15 +27,16 @@ public:
             }
         }
     }
-    // Proposition: Selection sort uses (N-1)+(N-2)+....+1+0 = (N^2)/2 compares and N exchanges
-    // Proof: Trace the algorithm, double loop only happens for compare (second loop only covers not yet processed items)
-    // and single loop happens in swapping the elements
-
-    // The running time insensitive to input: Quadratic time, even if input is sorted
-    // Data movement is minimal: Linear number of exchanges
-
-    // Not stable -> Proof by counter example: Long distance swap might move an item past some equal item
 };
+
+// Proposition: Selection sort uses (N-1)+(N-2)+....+1+0 = (N^2)/2 compares and N exchanges
+// Proof: Trace the algorithm, double loop only happens for compare (second loop only covers not yet processed items)
+// and single loop happens in swapping the elements
+
+// The running time insensitive to input: Quadratic time, even if input is sorted
+// Data movement is minimal: Linear number of exchanges
+
+// Not stable -> Proof by counter example: Long distance swap might move an item past some equal item
 
 }
 

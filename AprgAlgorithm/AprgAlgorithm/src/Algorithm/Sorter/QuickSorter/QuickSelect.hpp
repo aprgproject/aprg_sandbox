@@ -42,13 +42,13 @@ public:
             }
         }
     }
-
-    // Proposition: Quick select takes linear time on average.
-    // Proof sketch: Intuitively, each partitioning step splits array approximately in half.
-    // N + (N/2) + (N/4) + .... + 1 ~ 2N compares.
-    // On average, it is split in half but on worst case its (1/2)*N^2 compares, initial random suffle provides a probabilistic guarantee.
-    // In 1973, Blum Floyd Pratt Rivest Tarjan developed a selection algorithm whose worst-case running time is linear. But construction are too high => not used in practice.
 };
+
+// Proposition: Quick select takes linear time on average.
+// Proof sketch: Intuitively, each partitioning step splits array approximately in half.
+// N + (N/2) + (N/4) + .... + 1 ~ 2N compares.
+// On average, it is split in half but on worst case its (1/2)*N^2 compares, initial random suffle provides a probabilistic guarantee.
+// In 1973, Blum Floyd Pratt Rivest Tarjan developed a selection algorithm whose worst-case running time is linear. But construction are too high => not used in practice.
 
 }
 

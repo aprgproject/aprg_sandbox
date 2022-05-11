@@ -32,19 +32,20 @@ private:
             std::swap(valuesToSort[i], valuesToSort[i-1]);
         }
     }
-    // Proposition: To sort a randomly ordered array with distinct keys, insertion sort uses ~(1/4)N^2 compares and ~(1/4)N^2 exchanges on average.
-    // Proof: Expect each entry to move halfway back. Only half of the elements along the diagonal is involved in the sort.
-
-    // Insertion sort depends on the initial order of the data
-    // Best case: If the array is in ascending order, insertion sort makes N-1 compares and 0 exchanges.
-    // Worst case: If the array is in descending order (and no duplicates), insertion sort makes ~(1/2)N^2 compares and ~(1/2)N^2 exchanges.
-
-    // Proposition: For partially-sorted arrays, insertion sort runs in linear time.
-    // Proof: Number of exchanges equals the number of inversions.
-    // Number of compares = number of exchanges + N-1
-
-    // Stable -> Proof: Equal items never move past each other
 };
+
+// Proposition: To sort a randomly ordered array with distinct keys, insertion sort uses ~(1/4)N^2 compares and ~(1/4)N^2 exchanges on average.
+// Proof: Expect each entry to move halfway back. Only half of the elements along the diagonal is involved in the sort.
+
+// Insertion sort depends on the initial order of the data
+// Best case: If the array is in ascending order, insertion sort makes N-1 compares and 0 exchanges.
+// Worst case: If the array is in descending order (and no duplicates), insertion sort makes ~(1/2)N^2 compares and ~(1/2)N^2 exchanges.
+
+// Proposition: For partially-sorted arrays, insertion sort runs in linear time.
+// Proof: Number of exchanges equals the number of inversions.
+// Number of compares = number of exchanges + N-1
+
+// Stable -> Proof: Equal items never move past each other
 
 }
 

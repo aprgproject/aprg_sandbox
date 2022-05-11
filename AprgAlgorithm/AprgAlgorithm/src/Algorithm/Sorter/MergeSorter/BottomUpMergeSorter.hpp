@@ -28,16 +28,15 @@ public:
             }
         }
     }
-
-    // No recursion approach
-    // Concise industrial-strength code, if you have the space
-
-    // Takes N*log2(N) as well
-
-    // Stable -> Proof: Merge sort is stable if the merge operation is stable.
-    // Since the merge operation is stable (equal items never move past each other), then merge sort is stable.
 };
 
-}
+// No recursion approach
+// Concise industrial-strength code, if you have the space
 
+// Takes N*log2(N) as well
+
+// Stable -> Proof: Merge sort is stable if the merge operation is stable.
+// Since the merge operation is stable (equal items never move past each other), then merge sort is stable.
+
+}
 }

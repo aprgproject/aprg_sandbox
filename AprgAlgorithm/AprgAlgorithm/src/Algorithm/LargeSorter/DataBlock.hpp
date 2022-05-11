@@ -129,15 +129,13 @@ public:
         for(unsigned int const& index : indexes)
         {
             typename MemoryContainer::iterator iteratorForNext = contents.begin()+index;
-            std::nth_element(iteratorForStart, iteratorForNext, contents.end()); // this makes nth element approach scale in quadratic time (Indexes scales linearly with input)
+            std::nth_element(iteratorForStart, iteratorForNext, contents.end());
             iteratorForStart = iteratorForNext;
         }
-        for(ObjectToSort const& objectToSort : contents)
-        {
+        for(ObjectToSort const& objectToSort : contents)        {
             doFunctionForAllObjects(objectToSort);
         }
-        clearAll();
-    }
+        clearAll();    }
     void switchToFileMode()
     {
         createFileHandlerIfNeeded();

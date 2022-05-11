@@ -1,0 +1,15 @@
+Sorting Summary:
+
+Note: lg N means log2(N)
+
+              | Inplace | Stable | Worst    | Average  | Best    | Remarks
+Selection     | Y       | N      | (N^2)/2  | (N^2)/2  | (N^2)/2 | N exchanges
+Insertion     | Y       | Y      | (N^2)/2  | (N^2)/4  | N       | use for small N or partially ordered
+Shell         | Y       | N      | ?        | ?        | N       | light code, subquadratic
+Merge         | N       | Y      | N lg N   | N lg N   | N lg N  | N lg N guarantee, stable
+Quick         | Y       | N      | (N^2)/2  | 2 N ln N | N lg N  | N lg N probabilisitc guarantee, fastest in practice
+3-way quick   | Y       | N      | (N^2)/2  | 2 N ln N | N       | improves quicksort in presence of duplicate keys
+Heapsort      | Y       | N      | 2*N lg N | 2*N lg N | N lg N  | N lg N guarantee, in place
+???           | Y       | Y      | N lg N   | N lg N   | N lg N  | holy sorting grail
+
+Note: There are versions of merge sort that come close to the holy sorting grail but too complex for practitioners to use.
