@@ -1,0 +1,11 @@
+Symbol Table Summary:
+
+                                    | worst     | average      | worst     | average      | worst      | average      |         |               |         |         |                   | 
+ST Implementation                   | search    | search hit   | insert    | insert       | delete     | delete       | min max | floor/ceiling | rank    | select  | ordered iteration | key interface
+linked list (sequential search)     | N         | N/2          | N         | N            | N          | N/2          | N       | N             | N       | N       | No (N log N)      | equals
+ordered array(binary search)        | log N     | log N        | N         | N/2          | N          | N/2          | 1       | log N         | log N   | 1       | Yes (N)           | compareTo
+basic binary search tree            | N         | 1.39 log2(N) | N         | 1.39 log2(N) | N          | sqrt(N)      | height  | height        | height  | height  | Yes (N)           | compareTo
+red black basic binary search tree  | 2*log2(N) | 1*log2(N)    | 2*log2(N) | 1*log2(N)    | 2*log2(N)  | 1*log2(N)    | height  | height        | height  | height  | Yes (N)           | compareTo
+
+Note: height is proportional to log N
+Note: deletion in basic BST is sqrt(N) because deletion causes the tree to be asymmetric which yields to sqrt(N) on average

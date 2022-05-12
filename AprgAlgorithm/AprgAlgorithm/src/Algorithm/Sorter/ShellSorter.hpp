@@ -49,19 +49,17 @@ private:
     unsigned int getSkipValue(unsigned int const size) const
     {
         // Knuth approach. This returns: 1, 4, 13, 40, 121, 364, 1093
-        unsigned int h(1);
-        while(h < size/3)
+        unsigned int result(1);
+        while(result < size/3)
         {
-            h = 3*h + 1;
+            result = 3*result + 1;
         }
-        return h;
+        return result;
     }
 };
-
 // The idea behind shell sort is insertion sort is inefficient because elements only move one position at a time.
 // So in shell sort we can move elements several positions at a time.
 // The way we gonna do it is by h-sorting the array. An h-sorted array is h interleaved sorted subsequences.
-
 // Insertion sort works well with skipping because:
 // At big skip value: the number of elements to sort is small
 // At small skip value: since it was already sorted at big skip values, the elements is nearly in order (insertion sort works well with this input)

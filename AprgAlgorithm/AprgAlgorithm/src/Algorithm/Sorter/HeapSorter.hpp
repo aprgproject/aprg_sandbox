@@ -71,10 +71,9 @@ private:
 // Not stable -> Proof by counter example: Long distance swap might move an item past some equal item
 
 // Bottom line: Heapsort is optimal for both time and space, but:
-// -> Inner loop longer than quicksort
-// -> Makes poor use of cache memory
+// -> Inner loop longer than quicksort (more things to do, several compares in sink, array index arithmetic)
+// -> Makes poor use of cache memory (memory access are all over the place, not cache friendly)
 // -> not stable
-
 
 }
 

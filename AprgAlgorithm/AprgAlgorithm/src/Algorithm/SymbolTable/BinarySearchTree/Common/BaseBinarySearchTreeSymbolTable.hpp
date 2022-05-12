@@ -198,11 +198,10 @@ protected:
         {
             if(nodePointer->left)
             {
-                result = getMinimumNodeStartingOnThisNode(nodePointer->left);
+                result = getMinimumNodeStartingOnThisNode(nodePointer->left); // find the left most node until null
             }
             else
-            {
-                result = nodePointer.get();
+            {                result = nodePointer.get();
             }
         }
         return result;
@@ -215,11 +214,10 @@ protected:
         {
             if(nodePointer->right)
             {
-                result = getMaximumNodeStartingOnThisNode(nodePointer->right);
+                result = getMaximumNodeStartingOnThisNode(nodePointer->right); // find the right most node until null
             }
             else
-            {
-                result = nodePointer.get();
+            {                result = nodePointer.get();
             }
         }
         return result;
@@ -259,21 +257,24 @@ protected:
             }
             else if(key < currentKey)
             {
+                // current key is larger -> go the left
                 result = getNodeWithFloorStartingOnThisNode(nodePointer->left, key);
             }
             else
             {
+                // current key is smaller -> starting in the right child, find the left most node in the subtree
                 Node const*const nodeWithFloorAtRight(getNodeWithFloorStartingOnThisNode(nodePointer->right, key));
                 if(nodeWithFloorAtRight != nullptr)
                 {
+                    // return the found value
                     result = nodeWithFloorAtRight;
                 }
                 else
                 {
+                    // if no values found then this node is the left most node that is less than the value of the key
                     result = nodePointer.get();
                 }
-            }
-        }
+            }        }
         return result;
     }
 
@@ -315,24 +316,42 @@ protected:
             Key const& currentKey(nodePointer->key);
             if(key < currentKey)
             {
-                result = getRankStartingOnThisNode(nodePointer->left, key);
+                result = getRankStartingOnThisNode(nodePointer->left, key); // recursively check rank on the right side
             }
             else if(key > currentKey)
             {
+                // get size of left, add one node for this node, and add the rank on the right side
                 result = 1 + getSizeOnThisNode(nodePointer->left) + getRankStartingOnThisNode(nodePointer->right, key);
             }
             else
             {
-                result = getSizeOnThisNode(nodePointer->left);
+                result = getSizeOnThisNode(nodePointer->left); // if equal, just get size of the subtree
             }
         }
         return result;
     }
 
-    void putStartingOnThisNode(NodeUniquePointer & nodePointer, Key const& key, Value const& value)
+    NodeUniquePointer & getMinimumNodePointerReferenceStartingOnThisNode(NodeUniquePointer & nodePointer)
     {
+        // specialized function to be able to get the minimum and change(delete) it
+        // used in deletion (hibbard approach)
         if(nodePointer)
         {
+            if(nodePointer->left)
+            {
+                return getMinimumNodePointerReferenceStartingOnThisNode(nodePointer->left); // find the left most node until null
+            }
+            else
+            {
+                return nodePointer;
+            }
+        }
+        return nodePointer;
+    }
+
+    void putStartingOnThisNode(NodeUniquePointer & nodePointer, Key const& key, Value const& value)
+    {
+        if(nodePointer)        {
             Key const& currentKey(nodePointer->key);
             if(key < currentKey)
             {
@@ -357,32 +376,35 @@ protected:
 
     void deleteBasedOnKeyStartingOnThisNode(NodeUniquePointer & nodePointer, Key const& key)
     {
+        //this is called hibbard deletion
         if(nodePointer)
         {
-            if(key < nodePointer->key)
+            if(key < nodePointer->key) // search for the node in the left in less than
             {
                 deleteBasedOnKeyStartingOnThisNode(nodePointer->left, key);
             }
-            else if(key > nodePointer->key)
+            else if(key > nodePointer->key) // search for the node in the right in greater than
             {
                 deleteBasedOnKeyStartingOnThisNode(nodePointer->right, key);
             }
-            else
+            else // if found
             {
-                Node const*const minimumNodePointer(getMinimumNodeStartingOnThisNode(nodePointer->right));
-                if(minimumNodePointer==nullptr)
+                // get the minimum on the right
+                // place the values of the minimum on this node and then delete it
+                // why are we using deletion of minimum on the right instead of deletion of maximum in the left? No real reason.
+                NodeUniquePointer & minimumOnTheRight(getMinimumNodePointerReferenceStartingOnThisNode(nodePointer->right));
+                if(!minimumOnTheRight)
                 {
                     nodePointer.reset(nullptr);
                 }
                 else
                 {
-                    nodePointer->key = minimumNodePointer->key;
-                    nodePointer->value = minimumNodePointer->value;
-                    deleteMinimumStartingOnThisNode(nodePointer->right);
+                    nodePointer->key = minimumOnTheRight->key;
+                    nodePointer->value = minimumOnTheRight->value;
+                    deleteMinimumStartingOnThisNode(minimumOnTheRight); // starting from the minimum so less checks
                 }
             }
-            if(nodePointer)
-            {
+            if(nodePointer)            {
                 nodePointer->numberOfNodesOnThisSubTree = calculateSizeOfNodeBasedFromLeftAndRight(nodePointer);
             }
         }
@@ -392,17 +414,17 @@ protected:
     {
         if(nodePointer)
         {
-            if(nodePointer->left)
+            if(nodePointer->left) // go to the left until null
             {
                 deleteMinimumStartingOnThisNode(nodePointer->left);
                 nodePointer->numberOfNodesOnThisSubTree = calculateSizeOfNodeBasedFromLeftAndRight(nodePointer);
             }
             else
             {
+                // delete the left mode node and place the right child in its place (left child is not considered because its the left most node)
                 nodePointer = std::move(nodePointer->right);
             }
-        }
-    }
+        }    }
 
     void deleteMaximumStartingOnThisNode(NodeUniquePointer & nodePointer)
     {
@@ -451,6 +473,12 @@ protected:
 
     NodeUniquePointer m_root;
 };
+
+// BST maintains symmetric order. It means that each node has a key and every node's key is:
+// -> Larger than all keys in its left subtree
+// -> Smaller than all keys in its right subtree
+
+// Implementation details: subtree counts are stored in each node -> This facilitates efficient implementation of rank() and select().
 
 }
 
