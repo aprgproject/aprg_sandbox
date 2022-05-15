@@ -13,15 +13,13 @@ namespace alba
 namespace algorithm
 {
 
-template <typename Key, typename Value>
+template <typename Key, typename Value, typename HashFunction>
 class LinearProbingHashSymbolTable : public BaseSymbolTable<Key, Value>
 {
-public:
-    using Keys = std::vector<Key>;
+public:    using Keys = std::vector<Key>;
     struct HashTableEntry
     {
-        Key key;
-        Value value;
+        Key key;        Value value;
     };
     using HashTableEntryUniquePointer = std::unique_ptr<HashTableEntry>;
     using HashTableEntryPointers = HashTableEntryUniquePointer*;
@@ -303,19 +301,29 @@ protected:
 
     unsigned int getHash(Key const& key) const
     {
-        return static_cast<unsigned int>(key) % m_hashTableSize;
+        return HashFunction::getHash(key, m_hashTableSize);
     }
 
-    void incrementHashTableIndexWithWrapAround(unsigned int & index) const
-    {
+    void incrementHashTableIndexWithWrapAround(unsigned int & index) const    {
         index = (index+1) % m_hashTableSize;
     }
-
     static constexpr unsigned int INITIAL_HASH_TABLE_SIZE = 1U;
     unsigned int m_size;
     unsigned int m_hashTableSize;
     HashTableEntryPointers m_entryPointers;
 };
+
+// Basic plan: Save items in a key-indexed table (index is a function of the key)
+
+// Issues:
+// Computing the hash function
+// Equality test: Method for checking whether two keys are equal
+// Collision resolution: Algorithm and data structure to handle two keys that hash to the same array index
+
+// Hashing is a classic space-time tradeoff
+// -> No space limitation: trivial hash function with key as index
+// -> No time limitation: trivial collision resolution with sequential search
+// -> Space and time limitations: tune hashing in the real world
 
 }
 

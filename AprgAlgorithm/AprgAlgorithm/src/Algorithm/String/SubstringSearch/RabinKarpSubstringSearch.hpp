@@ -1,13 +1,13 @@
 #pragma once
 
+#include <Algorithm/HashFunctions/HornerHashFunction.hpp>
+
 #include <string>
 
-namespace alba
-{
+namespace alba{
 
 namespace algorithm
 {
-
 template <typename Index, typename HashValue>
 class RabinKarpSubstringSearch
 {
@@ -19,24 +19,22 @@ public:
     RabinKarpSubstringSearch(std::string const& substringToSearch)
         : m_substringToSearch(substringToSearch)
         , m_substringLength(substringToSearch.length())
+        , m_hornerHashFunction(RADIX, A_LARGE_PRIME)
         , m_largeRandomPrime(A_LARGE_PRIME)
-        , m_startValueFromRadixAndLength(calculateStartValueFromRadixAndLength(m_substringLength))
-        , m_substringHash(getHash(m_substringToSearch, m_substringLength))
+        , m_startValueFromRadixAndLength(getStartValue())
+        , m_substringHash(getHash(m_substringToSearch))
     {}
 
-    Index search(std::string const& stringToCheck)
-    {
+    Index search(std::string const& stringToCheck)    {
         Index result(static_cast<Index>(std::string::npos));
         Index stringToCheckLength(stringToCheck.size());
-        HashValue stringToCheckHash(getHash(stringToCheck, m_substringLength));
+        HashValue stringToCheckHash(getHash(stringToCheck));
         if(m_substringHash == stringToCheckHash)
         {
-            result = 0;
-        }
+            result = 0;        }
         else
         {
-            for(Index i=m_substringLength; i<stringToCheckLength; i++)
-            {
+            for(Index i=m_substringLength; i<stringToCheckLength; i++)            {
                 stringToCheckHash
                         = (stringToCheckHash + m_largeRandomPrime
                            - m_startValueFromRadixAndLength * stringToCheck.at(i-m_substringLength) % m_largeRandomPrime)
@@ -54,34 +52,22 @@ public:
 
 private:
 
-    HashValue getHash(std::string const& key, Index const length)
+    HashValue getHash(std::string const& key)
     {
-        // Horner's method
-        HashValue result(0);
-        for(unsigned int j=0; j<length; j++)
-        {
-            result = (RADIX * result + key.at(j)) % m_largeRandomPrime;
-        }
-        return result;
+        return m_hornerHashFunction.getHash(key, 0, m_substringLength-1);
     }
 
-    HashValue calculateStartValueFromRadixAndLength(Index const& length)
+    HashValue getStartValue()
     {
-        HashValue result(1);
-        for(unsigned int i=1; i<length; i++)
-        {
-            result = (result*RADIX) % m_largeRandomPrime;
-        }
-        return result;
+        return m_hornerHashFunction.getStartValue(m_substringLength);
     }
 
-    std::string m_substringToSearch;
-    Index m_substringLength;
+    std::string const m_substringToSearch;
+    Index const m_substringLength;
+    HornerHashFunction<HashValue> m_hornerHashFunction;
     HashValue m_largeRandomPrime;
     HashValue m_startValueFromRadixAndLength;
-    HashValue m_substringHash;
-};
+    HashValue m_substringHash;};
 
 }
-
 }

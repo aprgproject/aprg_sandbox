@@ -13,15 +13,13 @@ namespace alba
 namespace algorithm
 {
 
-template <typename Key, typename Value, unsigned int HASH_TABLE_SIZE>
+template <typename Key, typename Value, typename HashFunction, unsigned int HASH_TABLE_SIZE>
 class SeparateChainingHashSymbolTable : public BaseSymbolTable<Key, Value>
 {
-public:
-    using Keys = std::vector<Key>;
+public:    using Keys = std::vector<Key>;
 
     SeparateChainingHashSymbolTable()
-        : m_size(0)
-    {}
+        : m_size(0)    {}
 
     bool isEmpty() const override
     {
@@ -162,13 +160,11 @@ public:
 protected:
     unsigned int getHash(Key const& key) const
     {
-        return static_cast<unsigned int>(key) % HASH_TABLE_SIZE;
+        return HashFunction::getHash(key, HASH_TABLE_SIZE);
     }
 
-    unsigned int m_size;
-    std::array<UnorderedLinkedListSymbolTable<Key, Value>, HASH_TABLE_SIZE> m_smallerSymbolTables;
+    unsigned int m_size;    std::array<UnorderedLinkedListSymbolTable<Key, Value>, HASH_TABLE_SIZE> m_smallerSymbolTables;
 };
 
 }
-
 }

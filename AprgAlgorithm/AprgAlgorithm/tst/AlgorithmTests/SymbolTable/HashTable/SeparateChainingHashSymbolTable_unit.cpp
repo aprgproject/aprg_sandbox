@@ -1,10 +1,9 @@
+#include <Algorithm/HashFunctions/ValueBasedHashFunction.hpp>
 #include <Algorithm/SymbolTable/HashTable/SeparateChainingHashSymbolTable.hpp>
 #include <AlgorithmTests/SymbolTable/Utilities/CommonTestsWithSymbolTable.hpp>
-
 #include <gtest/gtest.h>
 
-using namespace alba::algorithm::CommonTestsWithSymbolTable;
-using namespace std;
+using namespace alba::algorithm::CommonTestsWithSymbolTable;using namespace std;
 
 namespace alba
 {
@@ -14,14 +13,13 @@ namespace algorithm
 
 namespace
 {
-using SymbolTableForTest = SeparateChainingHashSymbolTable<unsigned int, char, 2>;
+using HashFunctionForTest = ValueBasedHashFunction<unsigned int, unsigned int>;
+using SymbolTableForTest = SeparateChainingHashSymbolTable<unsigned int, char, HashFunctionForTest, 2U>;
 }
 
-TEST(SeparateChainingHashSymbolTableTest, IsEmptyWorksWhenEmpty)
-{
+TEST(SeparateChainingHashSymbolTableTest, IsEmptyWorksWhenEmpty){
     testIsEmptyWhenEmptyWithUnsignedIntAndChar<SymbolTableForTest>();
 }
-
 TEST(SeparateChainingHashSymbolTableTest, IsEmptyWorksWhenNotEmpty)
 {
     testIsEmptyWhenNotEmptyWithUnsignedIntAndChar<SymbolTableForTest>();
