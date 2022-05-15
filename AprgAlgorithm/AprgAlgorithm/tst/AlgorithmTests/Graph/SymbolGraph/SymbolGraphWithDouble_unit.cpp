@@ -3,6 +3,8 @@
 
 #include <gtest/gtest.h>
 
+#include <cstdint>
+
 namespace alba
 {
 
@@ -10,12 +12,12 @@ namespace algorithm
 {
 
 template <>
-unsigned long long int getUniqueVertexIdentifier<unsigned long long int, double>(double const& object)
+uint64_t getUniqueVertexIdentifier<uint64_t, double>(double const& object)
 {
-    static_assert(sizeof(unsigned long long int) == sizeof(object), "The vertex should same size with object.");
+    static_assert(sizeof(uint64_t) == sizeof(object), "The vertex should same size with object.");
     union SharedValue
     {
-        unsigned long long int vertex;
+        uint64_t vertex;
         double object;
     };
     SharedValue sharedValue;
@@ -24,20 +26,20 @@ unsigned long long int getUniqueVertexIdentifier<unsigned long long int, double>
 }
 
 template <>
-void removeUniqueVertexIdentifierIfNeeded<unsigned long long int, double>(double const&)
+void removeUniqueVertexIdentifierIfNeeded<uint64_t, double>(double const&)
 {
     // do nothing
 }
 
 namespace
 {
-using GraphForTest = UndirectedGraphWithListOfEdges<unsigned long long int>;
-using SymbolGraphForTest = SymbolGraph<unsigned long long int, double, GraphForTest>;
+using GraphForTest = UndirectedGraphWithListOfEdges<uint64_t>;
+using SymbolGraphForTest = SymbolGraph<uint64_t, double, GraphForTest>;
 
-constexpr unsigned long long int vertexFor12 = 0x3FF3333333333333ULL;
-constexpr unsigned long long int vertexFor13 = 0x3FF4CCCCCCCCCCCDULL;
-constexpr unsigned long long int vertexFor23 = 0x4002666666666666ULL;
-constexpr unsigned long long int vertexFor45 = 0x4012000000000000ULL;
+constexpr uint64_t vertexFor12 = 0x3FF3333333333333ULL;
+constexpr uint64_t vertexFor13 = 0x3FF4CCCCCCCCCCCDULL;
+constexpr uint64_t vertexFor23 = 0x4002666666666666ULL;
+constexpr uint64_t vertexFor45 = 0x4012000000000000ULL;
 }
 
 TEST(SymbolGraphWithDoubleTest, ContainsWorksWhenEmpty)

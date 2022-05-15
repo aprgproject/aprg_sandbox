@@ -26,10 +26,12 @@ NumberCheckingCondition IsDoubleCondition = [](
 NumberCheckingCondition IsNanCondition = [](
         AlbaNumber const& numberToCheck) -> bool
 {
-    return numberToCheck.isNotANumber();};
+    return numberToCheck.isNotANumber();
+};
 
 NumberCheckingCondition IsNotARealFiniteNumberCondition = [](
-        AlbaNumber const& numberToCheck) -> bool{
+        AlbaNumber const& numberToCheck) -> bool
+{
     return !numberToCheck.isARealFiniteValue();
 };
 
@@ -282,9 +284,11 @@ bool isNan(Expression const& expression)
     return isValueSatisfyTheCondition(expression, IsNanCondition);
 }
 
-bool isPositiveOrNegativeInfinity(Term const& term){
+bool isPositiveOrNegativeInfinity(Term const& term)
+{
     return isValueSatisfyTheCondition(term, IsPositiveOrNegativeInfinityCondition);
 }
+
 bool isPositiveOrNegativeInfinity(Constant const& constant)
 {
     return isValueSatisfyTheCondition(constant, IsPositiveOrNegativeInfinityCondition);
@@ -450,9 +454,11 @@ bool hasNan(Function const& function)
     return doAnyNumbersSatisfyTheCondition(function, IsNanCondition);
 }
 
-bool hasNonRealFiniteNumbers(Term const& term){
+bool hasNonRealFiniteNumbers(Term const& term)
+{
     return doAnyNumbersSatisfyTheCondition(term, IsNotARealFiniteNumberCondition);
 }
+
 bool hasNonRealFiniteNumbers(Monomial const& monomial)
 {
     return doAnyNumbersSatisfyTheCondition(monomial, IsNotARealFiniteNumberCondition);

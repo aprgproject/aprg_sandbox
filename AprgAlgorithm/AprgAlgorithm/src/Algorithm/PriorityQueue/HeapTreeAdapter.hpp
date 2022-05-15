@@ -3,10 +3,12 @@
 #include <algorithm>
 #include <utility>
 
-namespace alba{
+namespace alba
+{
 
 namespace algorithm
 {
+
 template <typename Objects, unsigned int NUMBER_OF_CHILDREN, template<class> class ComparisonTemplateType>
 class HeapTreeAdapter
 {
@@ -46,9 +48,11 @@ public:
             treeIndex = parentTreeIndex; // move to the next parent
         }
     }
+
     void sink(unsigned int const startTreeIndex)
     {
-        sink(startTreeIndex, m_objects.size());    }
+        sink(startTreeIndex, m_objects.size());
+    }
 
     void sink(unsigned int const startTreeIndex, unsigned int const treeSize)
     {
@@ -129,7 +133,8 @@ private:
 
     bool isComparisonSatisfied(
             Object const& object1,
-            Object const& object2) const    {
+            Object const& object2) const
+    {
         return m_comparisonObject(object1, object2);
     }
 

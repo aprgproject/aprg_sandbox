@@ -70,10 +70,12 @@ void accumulateTermsForAdditionAndSubtraction(
         if(isNan(combinedTerm) || isNan(term))
         {
             combinedTerm = AlbaNumber(AlbaNumber::Value::NotANumber);
-            break;        }
+            break;
+        }
         else if(willHaveNoEffectOnAdditionOrSubtraction(term))
         {
-            continue;        }
+            continue;
+        }
         else if(isFirst)
         {
             if(termWithDetails.hasPositiveAssociation())

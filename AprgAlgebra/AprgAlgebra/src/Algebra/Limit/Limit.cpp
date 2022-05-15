@@ -172,10 +172,12 @@ AlbaNumber getLimitAtAValueByIterationAndLinearInterpolation(
     AlbaNumber previousOfPreviousAcceptedInput(currentInput);
     AlbaNumber previousRejectedInput(valueToApproach);
     for(unsigned int i=0; i<maxNumberOfIterations && currentInput != previousRejectedInput; i++)
-    {        // As current currentInput approaches valueToApproach the calculation becomes inaccurate so limit value is not accurate.
+    {
+        // As current currentInput approaches valueToApproach the calculation becomes inaccurate so limit value is not accurate.
         substitution.putVariableWithValue(variableName, currentInput);
         Term currentOutputTerm = substitution.performSubstitutionTo(term);
-        if(currentOutputTerm.isConstant())        {
+        if(currentOutputTerm.isConstant())
+        {
             AlbaNumber currentOutputNumber(currentOutputTerm.getConstantValueConstReference());
             if(!currentOutputNumber.isARealFiniteValue())
             {
@@ -186,10 +188,12 @@ AlbaNumber getLimitAtAValueByIterationAndLinearInterpolation(
                 previousOfPreviousAcceptedInput = previousAcceptedInput;
                 previousAcceptedInput = currentInput;
             }
-            AlbaNumber newInput(getAverage(previousAcceptedInput, previousRejectedInput));            // to investigate, print currentInput, currentOutputNumber and newInput to check how it approaches the limit value
+            AlbaNumber newInput(getAverage(previousAcceptedInput, previousRejectedInput));
+            // to investigate, print currentInput, currentOutputNumber and newInput to check how it approaches the limit value
             // this are checks to prevent inaccurate values when the values get to close
             if(isAlmostEqualForLimitIteration(newInput, valueToApproach)
-                    || isAlmostEqualForLimitIteration(newInput, previousAcceptedInput))            {
+                    || isAlmostEqualForLimitIteration(newInput, previousAcceptedInput))
+            {
                 break;
             }
             currentInput = newInput;
@@ -202,7 +206,8 @@ AlbaNumber getLimitAtAValueByIterationAndLinearInterpolation(
     return getLimitAtAValueUsingTrendOfValues(term, variableName, valueToApproach, previousAcceptedInput, previousOfPreviousAcceptedInput);
 }
 
-AlbaNumber getLimitAtAValueUsingTrendOfValues(        Term const& term,
+AlbaNumber getLimitAtAValueUsingTrendOfValues(
+        Term const& term,
         string const& variableName,
         AlbaNumber const& valueToApproach,
         AlbaNumber const& previousAcceptedInput,
@@ -210,6 +215,7 @@ AlbaNumber getLimitAtAValueUsingTrendOfValues(        Term const& term,
 {
     AlbaNumber::ScopeObject scopeObject;
     scopeObject.setInThisScopeTheTolerancesToZero();
+
     AlbaNumber result(AlbaNumber::Value::NotANumber);
     SubstitutionOfVariablesToValues substitution;
     substitution.putVariableWithValue(variableName, valueToApproach);
@@ -228,7 +234,8 @@ AlbaNumber getLimitAtAValueUsingTrendOfValues(        Term const& term,
         AlbaNumber previousOfPreviousAcceptedOutput(previousOfPreviousAcceptedOutputTerm.getConstantValueConstReference());
         if(outputAtValueToApproach.isPositiveOrNegativeInfinity())
         {
-            result = (previousAcceptedOutput<0) ?                        AlbaNumber(AlbaNumber::Value::NegativeInfinity) :
+            result = (previousAcceptedOutput<0) ?
+                        AlbaNumber(AlbaNumber::Value::NegativeInfinity) :
                         AlbaNumber(AlbaNumber::Value::PositiveInfinity);
         }
         else
@@ -240,10 +247,12 @@ AlbaNumber getLimitAtAValueUsingTrendOfValues(        Term const& term,
                         previousOfPreviousAcceptedOutput,
                         previousAcceptedOutput);
         }
-    }    return result;
+    }
+    return result;
 }
 
-AlbaNumber getValueUsingLinearInterpolation(        AlbaNumber const& input1,
+AlbaNumber getValueUsingLinearInterpolation(
+        AlbaNumber const& input1,
         AlbaNumber const& input2,
         AlbaNumber const& inputValue,
         AlbaNumber const& output1,
@@ -355,10 +364,12 @@ void calculateTermAndLimitUsingLhopitalsRule(
     if(isNan(outputValue)
             || (isPositiveOrNegativeInfinity(numeratorValue) && isPositiveOrNegativeInfinity(denominatorValue)))
     {
-        limitValue = getLimitAtAValueOrInfinity(newTerm, variableName, valueToApproach);    }
+        limitValue = getLimitAtAValueOrInfinity(newTerm, variableName, valueToApproach);
+    }
     else
     {
-        limitValue = outputValue;    }
+        limitValue = outputValue;
+    }
 }
 
 Term getLimitAtAValueOrInfinity(

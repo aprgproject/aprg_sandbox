@@ -268,9 +268,11 @@ DisplayTable ChessPeek::getDisplayTable(Move const& actualMove) const
     displayTable.setBorders("-", "|");
     return displayTable;
 }
+
 void ChessPeek::retrieveChessCellBitValueAt(
         BitSet64 & whiteValue,
-        BitSet64 & blackValue,        BitmapSnippet & snippet,
+        BitSet64 & blackValue,
+        BitmapSnippet & snippet,
         CoordinateSquare const& square) const
 {
     double deltaX = static_cast<double>(square.right-square.left)/9;

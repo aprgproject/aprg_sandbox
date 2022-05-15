@@ -63,9 +63,11 @@ TEST(HeapPriorityQueueTest, GetTopWorks)
 TEST(HeapPriorityQueueTest, InsertWorksOnExample1)
 {
     MaxPriorityQueueForTest queue;
+
     queue.insert('P');
     queue.insert('Q');
     queue.insert('E');
+
     MaxPriorityQueueForTest::Objects const& objectsToVerify(queue.getObjects());
     MaxPriorityQueueForTest::Objects const objectsToExpect{'Q', 'P', 'E'};
     EXPECT_EQ(objectsToExpect, objectsToVerify);
@@ -108,9 +110,11 @@ TEST(HeapPriorityQueueTest, DeleteAndGetTopObjectWorksOnExample1)
     {'P', 'E'};
     EXPECT_EQ(objectsToExpect, objectsToVerify);
 }
+
 TEST(HeapPriorityQueueTest, DeleteAndGetTopObjectWorksOnExample2)
 {
-    MaxPriorityQueueForTest queue;    queue.insert('S');
+    MaxPriorityQueueForTest queue;
+    queue.insert('S');
     queue.insert('P');
     queue.insert('R');
     queue.insert('N');

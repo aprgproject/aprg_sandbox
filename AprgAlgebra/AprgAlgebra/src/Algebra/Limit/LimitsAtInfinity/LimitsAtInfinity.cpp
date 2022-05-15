@@ -51,10 +51,12 @@ void LimitsAtInfinity::simplify()
         if(!isNan(m_simplifiedTermAtInfinity))
         {
             simplifyPolynomialToMaxDegreeMonomialOnly();
-        }    }
+        }
+    }
 }
 
-void LimitsAtInfinity::simplifyAsATerm(){
+void LimitsAtInfinity::simplifyAsATerm()
+{
     m_simplifiedTermAtInfinity.simplify();
     m_removeMonomialsWithNegativeExponentMutator.mutateTerm(m_simplifiedTermAtInfinity);
 }

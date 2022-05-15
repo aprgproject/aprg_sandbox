@@ -145,10 +145,12 @@ void performIntegralTest(
     else if(!isNan(integratedTerm))
     {
         isConvergent = true;
-    }}
+    }
+}
 
 void performRatioTest(
-        bool & isConvergent,        bool & isDivergent,
+        bool & isConvergent,
+        bool & isDivergent,
         SeriesBasedOnSummation const& series,
         string const& variableName)
 {

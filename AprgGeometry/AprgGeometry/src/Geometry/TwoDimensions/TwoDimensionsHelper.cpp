@@ -118,10 +118,12 @@ double getSignedCounterClockwiseTriangleAreaOfOriginAnd2Points(Point const& poin
 
 template<unsigned int numberOfVertices>
 double getArea(Polygon<numberOfVertices> const& polygon)
-{    //shoelace formula
+{
+    //shoelace formula
     //https://en.wikipedia.org/wiki/Shoelace_formula
     //check also: https://en.wikipedia.org/wiki/Green%27s_theorem
-    double area(0);    Points const& vertices(polygon.getVertices());
+    double area(0);
+    Points const& vertices(polygon.getVertices());
     int sizeMinusOne = static_cast<int>(vertices.size())-1;
     for(int i=0; i<sizeMinusOne; i++)
     {
@@ -131,10 +133,12 @@ double getArea(Polygon<numberOfVertices> const& polygon)
     area = getAbsoluteValue(area);
     return area;
 }
-template double getArea<3>(Polygon<3> const& polygon);template double getArea<4>(Polygon<4> const& polygon);
+template double getArea<3>(Polygon<3> const& polygon);
+template double getArea<4>(Polygon<4> const& polygon);
 
 ConicSectionType getConicSectionBasedOnEccentricity(
-        double const eccentricity){
+        double const eccentricity)
+{
     ConicSectionType result(ConicSectionType::Unknown);
     if(isAlmostEqual(eccentricity, 0.0))
     {

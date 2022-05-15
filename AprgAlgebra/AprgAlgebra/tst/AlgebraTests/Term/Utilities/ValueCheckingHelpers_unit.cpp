@@ -282,10 +282,12 @@ TEST(ValueCheckingHelpersTest, IsNotANumberWorksForExpression)
     EXPECT_FALSE(isNan(createExpressionIfPossible({67, "+", "x"})));
 }
 
-TEST(ValueCheckingHelpersTest, IsPositiveOrNegativeInfinityWorksForTerm){
+TEST(ValueCheckingHelpersTest, IsPositiveOrNegativeInfinityWorksForTerm)
+{
     EXPECT_TRUE(isPositiveOrNegativeInfinity(Term(INFINITY)));
     EXPECT_FALSE(isPositiveOrNegativeInfinity(Term("x")));
-    EXPECT_TRUE(isPositiveOrNegativeInfinity(Term(Monomial(-INFINITY, {}))));    EXPECT_TRUE(isPositiveOrNegativeInfinity(Term(Polynomial{Monomial(INFINITY, {})})));
+    EXPECT_TRUE(isPositiveOrNegativeInfinity(Term(Monomial(-INFINITY, {}))));
+    EXPECT_TRUE(isPositiveOrNegativeInfinity(Term(Polynomial{Monomial(INFINITY, {})})));
     EXPECT_TRUE(isPositiveOrNegativeInfinity(Term(createExpressionIfPossible({-INFINITY}))));
     EXPECT_FALSE(isPositiveOrNegativeInfinity(Term(createExpressionIfPossible({5.12, "+", INFINITY}))));
 }
@@ -420,10 +422,12 @@ TEST(ValueCheckingHelpersTest, HasNotANumberWorksForFunction)
     EXPECT_TRUE(hasNan(absoluteValueFunction));
 }
 
-TEST(ValueCheckingHelpersTest, HasNonFiniteNumbersForTerm){
+TEST(ValueCheckingHelpersTest, HasNonFiniteNumbersForTerm)
+{
     EXPECT_TRUE(hasNonRealFiniteNumbers(Term(NAN)));
     EXPECT_FALSE(hasNonRealFiniteNumbers(Term("x")));
-    EXPECT_TRUE(hasNonRealFiniteNumbers(Term(Monomial(NAN, {}))));    EXPECT_TRUE(hasNonRealFiniteNumbers(Term(Polynomial{Monomial(NAN, {})})));
+    EXPECT_TRUE(hasNonRealFiniteNumbers(Term(Monomial(NAN, {}))));
+    EXPECT_TRUE(hasNonRealFiniteNumbers(Term(Polynomial{Monomial(NAN, {})})));
     EXPECT_TRUE(hasNonRealFiniteNumbers(Term(createExpressionIfPossible({NAN}))));
     EXPECT_TRUE(hasNonRealFiniteNumbers(Term(createExpressionIfPossible({5.12, "+", NAN}))));
 }

@@ -6,6 +6,24 @@ linked list (sequential search)     | N         | N/2          | N         | N  
 ordered array(binary search)        | log N     | log N        | N         | N/2          | N          | N/2          | 1       | log N         | log N   | 1       | Yes (N)           | compareTo
 basic binary search tree            | N         | 1.39 log2(N) | N         | 1.39 log2(N) | N          | sqrt(N)      | height  | height        | height  | height  | Yes (N)           | compareTo
 red black basic binary search tree  | 2*log2(N) | 1*log2(N)    | 2*log2(N) | 1*log2(N)    | 2*log2(N)  | 1*log2(N)    | height  | height        | height  | height  | Yes (N)           | compareTo
+separate chaining hash table        | log2(N)*  | 3-5*         | log2(N)*  | 3-5*         | log2(N)*   | 3-5*         | ?       | ?             | ?       | ?       | No                | equals
+linear probing hash table           | log2(N)*  | 3-5*         | log2(N)*  | 3-5*         | log2(N)*   | 3-5*         | ?       | ?             | ?       | ?       | No                | equals
+
 
 Note: height is proportional to log N
 Note: deletion in basic BST is sqrt(N) because deletion causes the tree to be asymmetric which yields to sqrt(N) on average
+Note: * means under uniform hashing assumption
+
+
+
+Hash tables vs Balanced search trees
+
+Hash tables:
+-> Simpler to code
+-> No effective alternative for unordered keys
+-> Faster for simple keys (a few arithmetic ops versus logN compares)
+
+Balanced search trees:
+-> Stronger performance guarantee
+-> Support for ordered ST operations
+-> Easier to implement compareTo correctly than equals() and hashCode()

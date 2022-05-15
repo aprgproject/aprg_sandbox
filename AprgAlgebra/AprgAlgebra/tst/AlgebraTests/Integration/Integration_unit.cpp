@@ -290,10 +290,12 @@ TEST(IntegrationTest, IntegrateExpressionWorks)
     EXPECT_TRUE(isNan(termToVerify8));
 }
 
-TEST(IntegrationTest, IntegrateFunctionWorksWithDifferentFunctions){
+TEST(IntegrationTest, IntegrateFunctionWorksWithDifferentFunctions)
+{
     Integration integrationForX("x");
 
-    Term termToVerify1(integrationForX.integrateFunction(abs(x)));    Term termToVerify2(integrationForX.integrateFunction(sin("x")));
+    Term termToVerify1(integrationForX.integrateFunction(abs(x)));
+    Term termToVerify2(integrationForX.integrateFunction(sin("x")));
     Term termToVerify3(integrationForX.integrateFunction(cos("x")));
     Term termToVerify4(integrationForX.integrateFunction(tan(x)));
     Term termToVerify5(integrationForX.integrateFunction(csc(x)));
@@ -309,10 +311,12 @@ TEST(IntegrationTest, IntegrateFunctionWorksWithDifferentFunctions){
     EXPECT_TRUE(isNan(termToVerify1));
     EXPECT_EQ(termToExpect1, termToVerify2);
     EXPECT_EQ(termToExpect2, termToVerify3);
-    EXPECT_EQ(termToExpect3, termToVerify4);    EXPECT_EQ(termToExpect4, termToVerify5);
+    EXPECT_EQ(termToExpect3, termToVerify4);
+    EXPECT_EQ(termToExpect4, termToVerify5);
     EXPECT_EQ(termToExpect5, termToVerify6);
     EXPECT_EQ(termToExpect7, termToVerify7);
 }
+
 TEST(IntegrationTest, IntegrateFunctionWorksWithChainRule)
 {
     Integration integrationForX("x");

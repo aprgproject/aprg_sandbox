@@ -529,9 +529,11 @@ TEST(SimplificationOfExpressionTest, ZeroOverZeroResultsToNanAndDoesNotCrash)
     EXPECT_TRUE(isNan(expressionToVerify));
 }
 
-TEST(SimplificationOfExpressionTest, ShouldSimplifyToACommonDenominatorWorksAsDefault){
+TEST(SimplificationOfExpressionTest, ShouldSimplifyToACommonDenominatorWorksAsDefault)
+{
     Expression expressionToTest(createExpressionIfPossible(tokenizeToTerms("((4)/(x+2))+((x+3)/(x*x-4))+((2*x+1)/(x-2))")));
     SimplificationOfExpression simplification(expressionToTest);
+
     simplification.simplify();
 
     Expression expressionToVerify(simplification.getExpression());

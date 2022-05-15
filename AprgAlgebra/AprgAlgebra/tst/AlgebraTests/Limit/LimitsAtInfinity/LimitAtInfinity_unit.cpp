@@ -122,4 +122,5 @@ TEST(LimitsAtInfinityTest, ExpressionWithTrigonometricFunctionsWorks)
 }
 
 }
+
 }

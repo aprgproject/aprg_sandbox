@@ -191,9 +191,11 @@ TEST(TermsOverTermsTest, SimplifyWorksAndDoesNotCancelsZerosInNumeratorAndDenomi
     Terms denominatorsToVerify(termsOverTerms.getDenominators());
     ASSERT_TRUE(denominatorsToVerify.empty());
 }
+
 TEST(TermsOverTermsTest, SimplifyWorksWithSimplifyingToFactorsWithZeroInNumerator)
 {
-    Polynomial polynomial1{Monomial(1, {{"x", 1}}), Monomial(1, {})};    Polynomial polynomial2{Monomial(1, {{"x", 1}}), Monomial(2, {})};
+    Polynomial polynomial1{Monomial(1, {{"x", 1}}), Monomial(1, {})};
+    Polynomial polynomial2{Monomial(1, {{"x", 1}}), Monomial(2, {})};
     Terms numerators{polynomial1, polynomial1, 0};
     Terms denominators{polynomial2, polynomial2};
     TermsOverTerms termsOverTerms(numerators, denominators);

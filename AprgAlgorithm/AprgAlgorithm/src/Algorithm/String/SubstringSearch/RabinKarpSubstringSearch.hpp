@@ -4,10 +4,12 @@
 
 #include <string>
 
-namespace alba{
+namespace alba
+{
 
 namespace algorithm
 {
+
 template <typename Index, typename HashValue>
 class RabinKarpSubstringSearch
 {
@@ -25,16 +27,19 @@ public:
         , m_substringHash(getHash(m_substringToSearch))
     {}
 
-    Index search(std::string const& stringToCheck)    {
+    Index search(std::string const& stringToCheck)
+    {
         Index result(static_cast<Index>(std::string::npos));
         Index stringToCheckLength(stringToCheck.size());
         HashValue stringToCheckHash(getHash(stringToCheck));
         if(m_substringHash == stringToCheckHash)
         {
-            result = 0;        }
+            result = 0;
+        }
         else
         {
-            for(Index i=m_substringLength; i<stringToCheckLength; i++)            {
+            for(Index i=m_substringLength; i<stringToCheckLength; i++)
+            {
                 stringToCheckHash
                         = (stringToCheckHash + m_largeRandomPrime
                            - m_startValueFromRadixAndLength * stringToCheck.at(i-m_substringLength) % m_largeRandomPrime)
@@ -54,7 +59,7 @@ private:
 
     HashValue getHash(std::string const& key)
     {
-        return m_hornerHashFunction.getHash(key, 0, m_substringLength-1);
+        return m_hornerHashFunction.getHashCode(key, 0, m_substringLength-1);
     }
 
     HashValue getStartValue()
@@ -67,7 +72,9 @@ private:
     HornerHashFunction<HashValue> m_hornerHashFunction;
     HashValue m_largeRandomPrime;
     HashValue m_startValueFromRadixAndLength;
-    HashValue m_substringHash;};
+    HashValue m_substringHash;
+};
 
 }
+
 }

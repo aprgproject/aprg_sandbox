@@ -37,10 +37,12 @@ bool isNan(Polynomial const& polynomial);
 bool isNan(Expression const& expression);
 bool isPositiveOrNegativeInfinity(Term const& term);
 bool isPositiveOrNegativeInfinity(Constant const& constant);
-bool isPositiveOrNegativeInfinity(Monomial const& monomial);bool isPositiveOrNegativeInfinity(Polynomial const& polynomial);
+bool isPositiveOrNegativeInfinity(Monomial const& monomial);
+bool isPositiveOrNegativeInfinity(Polynomial const& polynomial);
 bool isPositiveOrNegativeInfinity(Expression const& expression);
 bool isANegativeTerm(Term const& term);
-bool isANegativeConstant(Constant const& constant);bool isANegativeMonomial(Monomial const& monomial);
+bool isANegativeConstant(Constant const& constant);
+bool isANegativeMonomial(Monomial const& monomial);
 bool isANegativePolynomial(Polynomial const& polynomial);
 bool isANegativeExpression(Expression const& expression);
 bool isIntegerConstant(Term const& term);
@@ -59,10 +61,12 @@ bool hasNan(Expression const& expression);
 bool hasNan(Function const& function);
 bool hasNonRealFiniteNumbers(Term const& term);
 bool hasNonRealFiniteNumbers(Monomial const& monomial);
-bool hasNonRealFiniteNumbers(Polynomial const& polynomial);bool hasNonRealFiniteNumbers(Expression const& expression);
+bool hasNonRealFiniteNumbers(Polynomial const& polynomial);
+bool hasNonRealFiniteNumbers(Expression const& expression);
 bool hasNonRealFiniteNumbers(Function const& function);
 bool hasZero(Terms const& terms);
 bool hasNegativeExponentsWithVariable(Polynomial const& polynomial, std::string const& variableName);
+
 }
 
 }

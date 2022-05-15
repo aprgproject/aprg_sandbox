@@ -42,9 +42,11 @@ double getArcLength(AlbaAngle const& angle, double const radius);
 double getSignedCounterClockwiseTriangleAreaOfOriginAnd2Points(Point const& point1, Point const& point2);
 template<unsigned int numberOfVertices> double getArea(Polygon<numberOfVertices> const& polygon);
 
-ConicSectionType getConicSectionBasedOnEccentricity(double const eccentricity);ConicSectionType getConicSectionBasedOnGeneralForm(double const a, double const b, double const c, double const e, double const f);
+ConicSectionType getConicSectionBasedOnEccentricity(double const eccentricity);
+ConicSectionType getConicSectionBasedOnGeneralForm(double const a, double const b, double const c, double const e, double const f);
 Quadrant getQuadrantOfAPoint(Point const& point);
 RotationDirection getRotationDirectionTraversing3Points(Point const a, Point const b, Point const c);
+
 AlbaAngle getAngleBasedOnAPointAndOrigin(Point const& point);
 AlbaAngle getTheInnerAngleUsingThreePoints(Point const& commonPoint, Point const& firstPoint, Point const& secondPoint);
 AlbaAngle getTheSmallerAngleBetweenTwoLines(Line const& line1, Line const& line2);

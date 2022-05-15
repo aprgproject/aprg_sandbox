@@ -16,10 +16,12 @@ namespace algorithm
 template <typename Key, typename Value, typename HashFunction, unsigned int HASH_TABLE_SIZE>
 class SeparateChainingHashSymbolTable : public BaseSymbolTable<Key, Value>
 {
-public:    using Keys = std::vector<Key>;
+public:
+    using Keys = std::vector<Key>;
 
     SeparateChainingHashSymbolTable()
-        : m_size(0)    {}
+        : m_size(0)
+    {}
 
     bool isEmpty() const override
     {
@@ -163,8 +165,26 @@ protected:
         return HashFunction::getHash(key, HASH_TABLE_SIZE);
     }
 
-    unsigned int m_size;    std::array<UnorderedLinkedListSymbolTable<Key, Value>, HASH_TABLE_SIZE> m_smallerSymbolTables;
+    unsigned int m_size;
+    std::array<UnorderedLinkedListSymbolTable<Key, Value>, HASH_TABLE_SIZE> m_smallerSymbolTables;
 };
 
+// Approach: use an array of M<N linked lists. H. P. Luhn IBM 1953.
+
+// Proposition. Under uniform hashing assumption, probability that the number of keys in a list is within a constant factor of N/M is extremely close to 1
+// Note: N is the number of items, M is the hash table size
+// Proof sketch: Distribution of list size obeys a binomial distribution.
+
+// Consequence. Number of probes (getting hash and check if equal) for search/insert is proportional to N/M
+// -> M is too large -> too many empty chains.
+// -> M is too small -> chains are too long.
+// -> Typical choice: M ~ N/5 -> constant time operation on average
+
+// Improved version: Two probe hashing (separate chaining variant)
+// -> Hash to two positions, insert key in shorter of the two chains
+// -> Reduces expected length of the longest chain to log log N
+
+
 }
+
 }

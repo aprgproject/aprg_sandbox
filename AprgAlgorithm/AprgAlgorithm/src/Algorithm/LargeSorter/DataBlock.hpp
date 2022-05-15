@@ -132,10 +132,12 @@ public:
             std::nth_element(iteratorForStart, iteratorForNext, contents.end());
             iteratorForStart = iteratorForNext;
         }
-        for(ObjectToSort const& objectToSort : contents)        {
+        for(ObjectToSort const& objectToSort : contents)
+        {
             doFunctionForAllObjects(objectToSort);
         }
-        clearAll();    }
+        clearAll();
+    }
     void switchToFileMode()
     {
         createFileHandlerIfNeeded();

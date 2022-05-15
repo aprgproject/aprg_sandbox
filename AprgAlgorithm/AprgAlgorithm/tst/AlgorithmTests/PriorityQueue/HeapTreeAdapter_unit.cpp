@@ -56,6 +56,7 @@ TEST(HeapTreeAdapterTest, SinkWorksOnExample1)
 {
     ContainerForTest objects{'A', 'D', 'A', 'P', 'T', 'E', 'R', 'F', 'O', 'R', 'H', 'E', 'A', 'P'};
     AdapterForTest adapter(objects);
+
     adapter.sink(1U);
 
     ContainerForTest objectsToExpect{'D', 'T', 'A', 'P', 'R', 'E', 'R', 'F', 'O', 'A', 'H', 'E', 'A', 'P'};

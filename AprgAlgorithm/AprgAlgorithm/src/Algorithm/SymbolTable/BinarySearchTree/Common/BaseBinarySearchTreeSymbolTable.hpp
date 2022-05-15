@@ -201,7 +201,8 @@ protected:
                 result = getMinimumNodeStartingOnThisNode(nodePointer->left); // find the left most node until null
             }
             else
-            {                result = nodePointer.get();
+            {
+                result = nodePointer.get();
             }
         }
         return result;
@@ -217,7 +218,8 @@ protected:
                 result = getMaximumNodeStartingOnThisNode(nodePointer->right); // find the right most node until null
             }
             else
-            {                result = nodePointer.get();
+            {
+                result = nodePointer.get();
             }
         }
         return result;
@@ -274,7 +276,8 @@ protected:
                     // if no values found then this node is the left most node that is less than the value of the key
                     result = nodePointer.get();
                 }
-            }        }
+            }
+        }
         return result;
     }
 
@@ -351,7 +354,8 @@ protected:
 
     void putStartingOnThisNode(NodeUniquePointer & nodePointer, Key const& key, Value const& value)
     {
-        if(nodePointer)        {
+        if(nodePointer)
+        {
             Key const& currentKey(nodePointer->key);
             if(key < currentKey)
             {
@@ -404,7 +408,8 @@ protected:
                     deleteMinimumStartingOnThisNode(minimumOnTheRight); // starting from the minimum so less checks
                 }
             }
-            if(nodePointer)            {
+            if(nodePointer)
+            {
                 nodePointer->numberOfNodesOnThisSubTree = calculateSizeOfNodeBasedFromLeftAndRight(nodePointer);
             }
         }
@@ -424,7 +429,8 @@ protected:
                 // delete the left mode node and place the right child in its place (left child is not considered because its the left most node)
                 nodePointer = std::move(nodePointer->right);
             }
-        }    }
+        }
+    }
 
     void deleteMaximumStartingOnThisNode(NodeUniquePointer & nodePointer)
     {

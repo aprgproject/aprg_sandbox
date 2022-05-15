@@ -292,4 +292,5 @@ TEST(TermRaiseToTermsTest, SimplifyWorksWithNegativeNumberRaiseToInfinity)
 }
 
 }
+
 }

@@ -30,10 +30,12 @@ void adjustUpperAndLowerIteratorsInSet(
         Iterator & itUpper)
 {
     if(!container.empty())
-    {        if(itLower!=container.cbegin())
+    {
+        if(itLower!=container.cbegin())
         {
             if(itLower==container.cend())
-            {                itLower--;
+            {
+                itLower--;
             }
             else if(*itLower!=value)
             {
@@ -85,7 +87,8 @@ std::pair<ValueType,ValueType> getLowerAndUpperValuesInSet(
     ConstIterator itLower(container.lower_bound(value));
     adjustUpperAndLowerIteratorsInSet(container, value, itLower, itUpper);
     result.first = *itLower;
-    result.second = *itUpper;    return result;
+    result.second = *itUpper;
+    return result;
 }
 
 template <typename ValueType>
@@ -122,10 +125,12 @@ void adjustUpperAndLowerIteratorsInMap(
         Iterator & itUpper)
 {
     if(!container.empty())
-    {        if(itLower!=container.cbegin())
+    {
+        if(itLower!=container.cbegin())
         {
             if(itLower==container.cend())
-            {                itLower--;
+            {
+                itLower--;
             }
             else if(itLower->first != keyValue)
             {
@@ -160,7 +165,8 @@ getLowerAndUpperConstIteratorsInMap(std::map<KeyType, ValueType> const& containe
     ConstIterator itLower(container.lower_bound(keyValue));
     adjustUpperAndLowerIteratorsInMap(container, keyValue, itLower, itUpper);
     result.first = itLower;
-    result.second = itUpper;    return result;
+    result.second = itUpper;
+    return result;
 }
 
 template <typename KeyType, typename ValueType>
@@ -173,7 +179,8 @@ getLowerAndUpperIteratorsInMap(std::map<KeyType, ValueType> & container, KeyType
     Iterator itLower(container.lower_bound(keyValue));
     adjustUpperAndLowerIteratorsInMap(container, keyValue, itLower, itUpper);
     result.first = itLower;
-    result.second = itUpper;    return result;
+    result.second = itUpper;
+    return result;
 }
 
 template <typename KeyType, typename ValueType>
@@ -186,7 +193,8 @@ getLowerAndUpperConstIteratorsInMultiMap(std::multimap<KeyType, ValueType> const
     ConstIterator itLower(container.lower_bound(keyValue));
     adjustUpperAndLowerIteratorsInMap(container, keyValue, itLower, itUpper);
     result.first = itLower;
-    result.second = itUpper;    return result;
+    result.second = itUpper;
+    return result;
 }
 
 template <typename KeyType, typename ValueType>
@@ -199,10 +207,12 @@ getLowerAndUpperIteratorsInMultiMap(std::multimap<KeyType, ValueType> & containe
     Iterator itLower(container.lower_bound(keyValue));
     adjustUpperAndLowerIteratorsInMap(container, keyValue, itLower, itUpper);
     result.first = itLower;
-    result.second = itUpper;    return result;
+    result.second = itUpper;
+    return result;
 }
 
-//SaveContentsToStreamtemplate <typename ValueType, std::size_t SIZE,
+//SaveContentsToStream
+template <typename ValueType, std::size_t SIZE,
           template <typename, std::size_t> class Container>
 void saveContentsToStream(std::ostream & outputStream, Container<ValueType, SIZE> const& container, StreamFormat const streamFormat)
 {

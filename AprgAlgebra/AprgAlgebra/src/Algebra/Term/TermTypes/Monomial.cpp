@@ -275,10 +275,12 @@ void Monomial::setNanIfNeeded()
     if(hasNan(*this))
     {
         m_variablesToExponentsMap.clear();
-        setConstant(AlbaNumber(AlbaNumber::Value::NotANumber));    }
+        setConstant(AlbaNumber(AlbaNumber::Value::NotANumber));
+    }
 }
 
-void Monomial::removeZeroExponents(){
+void Monomial::removeZeroExponents()
+{
     VariablesToExponentsMap oldVariableMap(m_variablesToExponentsMap);
     m_variablesToExponentsMap.clear();
     for(auto const& variableExponentPair : oldVariableMap)

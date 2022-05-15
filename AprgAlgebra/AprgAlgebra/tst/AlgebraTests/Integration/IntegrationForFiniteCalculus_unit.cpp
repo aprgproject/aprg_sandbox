@@ -262,10 +262,12 @@ TEST(IntegrationForFiniteCalculusTest, IntegrateWorksWithTermRaiseToTerm)
     EXPECT_TRUE(isNan(termToVerify4));
 }
 
-TEST(IntegrationForFiniteCalculusTest, IntegrateFunctionWorks){
+TEST(IntegrationForFiniteCalculusTest, IntegrateFunctionWorks)
+{
     IntegrationForFiniteCalculus integrationForX("x");
 
-    Term termToVerify(integrationForX.integrateFunction(sin("x")));    ASSERT_TRUE(termToVerify.isConstant());
+    Term termToVerify(integrationForX.integrateFunction(sin("x")));
+    ASSERT_TRUE(termToVerify.isConstant());
     EXPECT_TRUE(termToVerify.getConstantValueConstReference().isNotANumber());
 }
 

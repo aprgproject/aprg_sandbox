@@ -57,9 +57,11 @@ private:
         return result;
     }
 };
+
 // The idea behind shell sort is insertion sort is inefficient because elements only move one position at a time.
 // So in shell sort we can move elements several positions at a time.
 // The way we gonna do it is by h-sorting the array. An h-sorted array is h interleaved sorted subsequences.
+
 // Insertion sort works well with skipping because:
 // At big skip value: the number of elements to sort is small
 // At small skip value: since it was already sorted at big skip values, the elements is nearly in order (insertion sort works well with this input)
@@ -91,4 +93,5 @@ private:
 // Not stable -> Proof by counter example: Long distance swap might move an item past some equal item
 
 }
+
 }

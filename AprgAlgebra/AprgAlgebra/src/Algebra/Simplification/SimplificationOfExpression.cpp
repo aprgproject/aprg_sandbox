@@ -118,10 +118,12 @@ bool SimplificationOfExpression::isChangeDetected(
     return expression1 != expression2 && !hasNan(expression2);
 }
 
-void SimplificationOfExpression::simplifyExpressionUntilNoChange(){
+void SimplificationOfExpression::simplifyExpressionUntilNoChange()
+{
     Expression beforeSimplify;
     do
-    {        beforeSimplify=m_expression;
+    {
+        beforeSimplify=m_expression;
         simplifyExpression(m_expression);
     }
     while(isChangeDetected(beforeSimplify, m_expression));
@@ -141,9 +143,11 @@ void SimplificationOfExpression::simplifyExpression(
     expression.clear();
     processTermsBaseOnOperatorLevel(expression, newTermsWithDetails, newOperatorLevel);
 }
+
 void SimplificationOfExpression::simplifyExpressionUntilNoChangeInitiallyIfNeeded()
 {
-    if(shouldSimplifyToACommonDenominator() || shouldSimplifyBySubstitutingExpressionAndFunctionsToVariables())    {
+    if(shouldSimplifyToACommonDenominator() || shouldSimplifyBySubstitutingExpressionAndFunctionsToVariables())
+    {
         convertPolynomialOverPolynomialIfNeeded();
         simplifyExpressionUntilNoChange();
     }

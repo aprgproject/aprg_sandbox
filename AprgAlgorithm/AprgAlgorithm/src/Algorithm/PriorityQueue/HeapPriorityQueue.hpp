@@ -58,9 +58,11 @@ public:
     }
 
 private:
+
     unsigned int getIndexOfLastItemOfTheTree() const
     {
-        return getSize();    }
+        return getSize();
+    }
 
     static constexpr unsigned int INDEX_OF_TOP_TREE=1U;
     Objects m_objects;

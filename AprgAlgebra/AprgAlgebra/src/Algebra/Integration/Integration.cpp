@@ -524,10 +524,12 @@ void Integration::integrateNonChangingAndChangingTermsInMultiplicationOrDivision
         if(isNan(integratedChangingTerm))
         {
             result = AlbaNumber(AlbaNumber::Value::NotANumber);
-        }        else
+        }
+        else
         {
             result = nonChangingTermCombined * integratedChangingTerm;
-        }    }
+        }
+    }
 }
 
 void Integration::integrateChangingTermsInMultiplicationOrDivision(
@@ -694,10 +696,12 @@ void Integration::integrateBySubstitutionAndUsingANewVariable(
         if(!isNan(integratedTermWithNewVariable))
         {
             result = substituteBackToOldVariable(integratedTermWithNewVariable, newVariableName, termForNewVariable);
-        }    }
+        }
+    }
 }
 
-Term Integration::substituteToNewVariable(        Term const& mainTerm,
+Term Integration::substituteToNewVariable(
+        Term const& mainTerm,
         Term const& termForNewVariable) const
 {
     Differentiation differentiation(getCurrentVariableToIntegrate());
@@ -839,10 +843,12 @@ void Integration::integrateUsingTrigonometricSubstitutionWithDeterminedTerms(
                     if(!isNan(integratedTermWithTrigSub))
                     {
                         result = substituteFromTrigonometricFunctionsBackToNormal(integratedTermWithTrigSub, details);
-                    }                }
+                    }
+                }
             }
         }
-    }}
+    }
+}
 
 void Integration::retrieveImportantTermsForTrigonometricSubstitutionInExpression(
         bool & shouldProceedToTrigSub,
@@ -1156,10 +1162,12 @@ void Integration::integrateAsPolynomialOverPolynomial(
         if(isNan(fractionalPartResult))
         {
             fractionalPartResult.clear();
-        }    }
+        }
+    }
     if(!fractionalPartResult.isEmpty())
     {
-        result = wholePartResult + fractionalPartResult;    }
+        result = wholePartResult + fractionalPartResult;
+    }
 }
 
 void Integration::integrateUsingPartialFractionPolynomials(
@@ -1584,17 +1592,20 @@ void Integration::integrateUsingIntegrationByParts(
             if(!isNan(du))
             {
                 Term uTimesV(u*v);
-                Term vTimesDu(v*du);                uTimesV.simplify();
+                Term vTimesDu(v*du);
+                uTimesV.simplify();
                 vTimesDu.simplify();
                 listOfIntegrationByPartsTerms.emplace_back(IntegrationByPartsTerms{term, uTimesV, vTimesDu});
                 Term integratedVTimesDu(integrateInternallyWithPurpose(vTimesDu, IntegrationPurpose::IntegrationByParts));
                 if(!isNan(integratedVTimesDu))
                 {
                     result = uTimesV - integratedVTimesDu;
-                }            }
+                }
+            }
         }
     }
 }
+
 void Integration::retrieveInputTermsAndTrigonometricExponents(
         InputTermToTrigonometryFunctionExponentsMap & trigFunctionsInputTermToExponents,
         TermsRaiseToNumbers & remainingTermsWithExponents,

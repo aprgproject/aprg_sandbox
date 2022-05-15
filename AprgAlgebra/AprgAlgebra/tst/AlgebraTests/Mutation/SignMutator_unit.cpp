@@ -41,10 +41,12 @@ TEST(SignMutatorTest, MutateTermWorks)
     EXPECT_TRUE(isNan(term6));
 }
 
-TEST(SignMutatorTest, MutateTermWorksOnVariable){
+TEST(SignMutatorTest, MutateTermWorksOnVariable)
+{
     SignMutator mutator;
     mutator.putVariableWithSign("a", TermAssociationType::Positive);
-    mutator.putVariableWithSign("b", TermAssociationType::Negative);    Term variableTerm1("a");
+    mutator.putVariableWithSign("b", TermAssociationType::Negative);
+    Term variableTerm1("a");
     Term variableTerm2("b");
     Term variableTerm3("c");
 
@@ -57,10 +59,12 @@ TEST(SignMutatorTest, MutateTermWorksOnVariable){
     EXPECT_TRUE(isNan(variableTerm3));
 }
 
-TEST(SignMutatorTest, MutateTermWorksOnFunction){
+TEST(SignMutatorTest, MutateTermWorksOnFunction)
+{
     SignMutator mutator;
     Term functionTerm1(abs("a"));
     Term functionTerm2(sin("a"));
+
     mutator.mutateTerm(functionTerm1);
     mutator.mutateTerm(functionTerm2);
 
@@ -68,9 +72,11 @@ TEST(SignMutatorTest, MutateTermWorksOnFunction){
     EXPECT_TRUE(isNan(functionTerm2));
 }
 
-TEST(SignMutatorTest, MutateConstantWorks){
+TEST(SignMutatorTest, MutateConstantWorks)
+{
     SignMutator mutator;
     Constant constant(5);
+
     mutator.mutateConstant(constant);
 
     EXPECT_EQ(Constant(1), constant);
@@ -122,10 +128,12 @@ TEST(SignMutatorTest, MutatePolynomialWorks)
     EXPECT_TRUE(isNan(polynomial4));
 }
 
-TEST(SignMutatorTest, MutateExpressionWorksOnAdditionAndSubtraction){
+TEST(SignMutatorTest, MutateExpressionWorksOnAdditionAndSubtraction)
+{
     SignMutator mutator;
     mutator.putVariableWithSign("a", TermAssociationType::Positive);
-    mutator.putVariableWithSign("b", TermAssociationType::Negative);    Expression expression1(createExpressionIfPossible({25, "+", "a"}));
+    mutator.putVariableWithSign("b", TermAssociationType::Negative);
+    Expression expression1(createExpressionIfPossible({25, "+", "a"}));
     Expression expression2(createExpressionIfPossible({-25, "+", "b"}));
     Expression expression3(createExpressionIfPossible({"a", "+", "b"}));
     Expression expression4(createExpressionIfPossible({"a", "+", abs("b")}));
@@ -143,9 +151,11 @@ TEST(SignMutatorTest, MutateExpressionWorksOnAdditionAndSubtraction){
     EXPECT_TRUE(isNan(expression3));
     EXPECT_EQ(expressionToExpect4, expression4);
 }
+
 TEST(SignMutatorTest, MutateExpressionWorksOnMultiplicationAndDivision)
 {
-    SignMutator mutator;    mutator.putVariableWithSign("a", TermAssociationType::Positive);
+    SignMutator mutator;
+    mutator.putVariableWithSign("a", TermAssociationType::Positive);
     mutator.putVariableWithSign("b", TermAssociationType::Negative);
     Expression expression1(createExpressionIfPossible({"a", "*", "b"}));
     Expression expression2(createExpressionIfPossible({"a", "/", "b"}));

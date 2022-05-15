@@ -183,10 +183,12 @@ public:
         // this is binary search
         unsigned int result(0);
         int lowIndex=0, highIndex=keys.size()-1;
-        while(lowIndex <= highIndex)        {
+        while(lowIndex <= highIndex)
+        {
             int midIndex=(lowIndex+highIndex)/2;
             Key const& keyAtMidIndex(keys.at(midIndex));
-            if(key < keyAtMidIndex)            {
+            if(key < keyAtMidIndex)
+            {
                 highIndex = midIndex-1;
             }
             else if(key > keyAtMidIndex)

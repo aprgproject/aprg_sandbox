@@ -2,8 +2,10 @@
 
 #include <utility>
 #include <vector>
+
 namespace alba
 {
+
 namespace algorithm
 {
 
