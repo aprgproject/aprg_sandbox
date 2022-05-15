@@ -133,15 +133,13 @@ void Polynomial::simplify()
 {
     if(!m_isSimplified)
     {
-        if(hasNotANumber(*this))
+        if(hasNan(*this))
         {
             setNan();
-        }
-        else
+        }        else
         {
             simplifyContinuouslyIfChanged();
-        }
-        setAsSimplified();
+        }        setAsSimplified();
     }
 }
 
@@ -257,15 +255,13 @@ bool Polynomial::isFurtherSimplificationNeeded(
         Polynomial const& beforeSimplify,
         Polynomial const& afterSimplify) const
 {
-    return beforeSimplify != afterSimplify && !hasNotANumber(afterSimplify);
+    return beforeSimplify != afterSimplify && !hasNan(afterSimplify);
 }
 
-void Polynomial::setNan()
-{
+void Polynomial::setNan(){
     m_monomials.clear();
     addMonomial(Monomial(AlbaNumber(AlbaNumber::Value::NotANumber), {}));
 }
-
 void Polynomial::simplifyContinuouslyIfChanged()
 {
     Polynomial beforeSimplify;

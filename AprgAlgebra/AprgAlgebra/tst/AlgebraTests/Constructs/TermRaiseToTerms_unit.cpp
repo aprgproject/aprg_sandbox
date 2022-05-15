@@ -286,11 +286,10 @@ TEST(TermRaiseToTermsTest, SimplifyWorksWithNegativeNumberRaiseToInfinity)
 
     termRaiseToTerms.simplify();
 
-    EXPECT_TRUE(isNotANumber(termRaiseToTerms.getBase()));
+    EXPECT_TRUE(isNan(termRaiseToTerms.getBase()));
     EXPECT_TRUE(termRaiseToTerms.getExponents().empty());
-    EXPECT_TRUE(isNotANumber(termRaiseToTerms.getCombinedTerm()));
+    EXPECT_TRUE(isNan(termRaiseToTerms.getCombinedTerm()));
 }
 
 }
-
 }

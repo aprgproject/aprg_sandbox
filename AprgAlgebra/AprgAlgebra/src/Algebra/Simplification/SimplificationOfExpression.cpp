@@ -115,15 +115,13 @@ bool SimplificationOfExpression::isChangeDetected(
         Expression const& expression1,
         Expression const& expression2) const
 {
-    return expression1 != expression2 && !hasNotANumber(expression2);
+    return expression1 != expression2 && !hasNan(expression2);
 }
 
-void SimplificationOfExpression::simplifyExpressionUntilNoChange()
-{
+void SimplificationOfExpression::simplifyExpressionUntilNoChange(){
     Expression beforeSimplify;
     do
-    {
-        beforeSimplify=m_expression;
+    {        beforeSimplify=m_expression;
         simplifyExpression(m_expression);
     }
     while(isChangeDetected(beforeSimplify, m_expression));
@@ -139,14 +137,13 @@ void SimplificationOfExpression::simplifyExpression(
                 newOperatorLevel,
                 expression.getTermsWithAssociation().getTermsWithDetails());
 
+    // is clearing the expression and then copying simplified terms the most efficient way?
     expression.clear();
     processTermsBaseOnOperatorLevel(expression, newTermsWithDetails, newOperatorLevel);
 }
-
 void SimplificationOfExpression::simplifyExpressionUntilNoChangeInitiallyIfNeeded()
 {
-    if(shouldSimplifyToACommonDenominator() || shouldSimplifyBySubstitutingExpressionAndFunctionsToVariables())
-    {
+    if(shouldSimplifyToACommonDenominator() || shouldSimplifyBySubstitutingExpressionAndFunctionsToVariables())    {
         convertPolynomialOverPolynomialIfNeeded();
         simplifyExpressionUntilNoChange();
     }

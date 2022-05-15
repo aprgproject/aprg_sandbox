@@ -73,15 +73,13 @@ TEST(AccumulateOperationsTest, AccumulateTermsForAdditionAndSubtractionWorksWith
 
     accumulateTermsForAdditionAndSubtraction(termToTest, termsWithDetails);
 
-    EXPECT_TRUE(isNotANumber(termToTest));
+    EXPECT_TRUE(isNan(termToTest));
 }
 
-TEST(AccumulateOperationsTest, AccumulateTermsForMultiplicationAndDivisionWorks)
-{
+TEST(AccumulateOperationsTest, AccumulateTermsForMultiplicationAndDivisionWorks){
     Term termToTest(1);
     Term xToTheY(createExpressionIfPossible({"x", "^", "y"}));
-    Term term1(createExpressionIfPossible({11, "*", xToTheY}));
-    Term term2(createExpressionIfPossible({13, "*", xToTheY}));
+    Term term1(createExpressionIfPossible({11, "*", xToTheY}));    Term term2(createExpressionIfPossible({13, "*", xToTheY}));
     Term term3(1);
     TermsWithDetails termsWithDetails
     {TermWithDetails(term1, TermAssociationType::Negative),

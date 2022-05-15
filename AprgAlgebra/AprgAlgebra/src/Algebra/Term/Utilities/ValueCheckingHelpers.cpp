@@ -23,15 +23,13 @@ NumberCheckingCondition IsDoubleCondition = [](
     return numberToCheck.isDoubleType();
 };
 
-NumberCheckingCondition IsNotANumberCondition = [](
+NumberCheckingCondition IsNanCondition = [](
         AlbaNumber const& numberToCheck) -> bool
 {
-    return numberToCheck.isNotANumber();
-};
+    return numberToCheck.isNotANumber();};
 
 NumberCheckingCondition IsNotARealFiniteNumberCondition = [](
-        AlbaNumber const& numberToCheck) -> bool
-{
+        AlbaNumber const& numberToCheck) -> bool{
     return !numberToCheck.isARealFiniteValue();
 };
 
@@ -259,36 +257,34 @@ bool isTheValue(Expression const& expression, AlbaNumber const& number)
     return result;
 }
 
-bool isNotANumber(Term const& term)
+bool isNan(Term const& term)
 {
-    return isValueSatisfyTheCondition(term, IsNotANumberCondition);
+    return isValueSatisfyTheCondition(term, IsNanCondition);
 }
 
-bool isNotANumber(Constant const& constant)
+bool isNan(Constant const& constant)
 {
-    return isValueSatisfyTheCondition(constant, IsNotANumberCondition);
+    return isValueSatisfyTheCondition(constant, IsNanCondition);
 }
 
-bool isNotANumber(Monomial const& monomial)
+bool isNan(Monomial const& monomial)
 {
-    return isValueSatisfyTheCondition(monomial, IsNotANumberCondition);
+    return isValueSatisfyTheCondition(monomial, IsNanCondition);
 }
 
-bool isNotANumber(Polynomial const& polynomial)
+bool isNan(Polynomial const& polynomial)
 {
-    return isValueSatisfyTheCondition(polynomial, IsNotANumberCondition);
+    return isValueSatisfyTheCondition(polynomial, IsNanCondition);
 }
 
-bool isNotANumber(Expression const& expression)
+bool isNan(Expression const& expression)
 {
-    return isValueSatisfyTheCondition(expression, IsNotANumberCondition);
+    return isValueSatisfyTheCondition(expression, IsNanCondition);
 }
 
-bool isPositiveOrNegativeInfinity(Term const& term)
-{
+bool isPositiveOrNegativeInfinity(Term const& term){
     return isValueSatisfyTheCondition(term, IsPositiveOrNegativeInfinityCondition);
 }
-
 bool isPositiveOrNegativeInfinity(Constant const& constant)
 {
     return isValueSatisfyTheCondition(constant, IsPositiveOrNegativeInfinityCondition);
@@ -429,36 +425,34 @@ bool hasDoubleValues(Function const& function)
     return doAnyNumbersSatisfyTheCondition(function, IsDoubleCondition);
 }
 
-bool hasNotANumber(Term const& term)
+bool hasNan(Term const& term)
 {
-    return doAnyNumbersSatisfyTheCondition(term, IsNotANumberCondition);
+    return doAnyNumbersSatisfyTheCondition(term, IsNanCondition);
 }
 
-bool hasNotANumber(Monomial const& monomial)
+bool hasNan(Monomial const& monomial)
 {
-    return doAnyNumbersSatisfyTheCondition(monomial, IsNotANumberCondition);
+    return doAnyNumbersSatisfyTheCondition(monomial, IsNanCondition);
 }
 
-bool hasNotANumber(Polynomial const& polynomial)
+bool hasNan(Polynomial const& polynomial)
 {
-    return doAnyNumbersSatisfyTheCondition(polynomial, IsNotANumberCondition);
+    return doAnyNumbersSatisfyTheCondition(polynomial, IsNanCondition);
 }
 
-bool hasNotANumber(Expression const& expression)
+bool hasNan(Expression const& expression)
 {
-    return doAnyNumbersSatisfyTheCondition(expression, IsNotANumberCondition);
+    return doAnyNumbersSatisfyTheCondition(expression, IsNanCondition);
 }
 
-bool hasNotANumber(Function const& function)
+bool hasNan(Function const& function)
 {
-    return doAnyNumbersSatisfyTheCondition(function, IsNotANumberCondition);
+    return doAnyNumbersSatisfyTheCondition(function, IsNanCondition);
 }
 
-bool hasNonRealFiniteNumbers(Term const& term)
-{
+bool hasNonRealFiniteNumbers(Term const& term){
     return doAnyNumbersSatisfyTheCondition(term, IsNotARealFiniteNumberCondition);
 }
-
 bool hasNonRealFiniteNumbers(Monomial const& monomial)
 {
     return doAnyNumbersSatisfyTheCondition(monomial, IsNotARealFiniteNumberCondition);

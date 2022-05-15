@@ -187,15 +187,13 @@ TEST(TermsOverTermsTest, SimplifyWorksAndDoesNotCancelsZerosInNumeratorAndDenomi
 
     Terms numeratorsToVerify(termsOverTerms.getNumerators());
     ASSERT_EQ(1U, numeratorsToVerify.size());
-    EXPECT_TRUE(isNotANumber(numeratorsToVerify.at(0)));
+    EXPECT_TRUE(isNan(numeratorsToVerify.at(0)));
     Terms denominatorsToVerify(termsOverTerms.getDenominators());
     ASSERT_TRUE(denominatorsToVerify.empty());
 }
-
 TEST(TermsOverTermsTest, SimplifyWorksWithSimplifyingToFactorsWithZeroInNumerator)
 {
-    Polynomial polynomial1{Monomial(1, {{"x", 1}}), Monomial(1, {})};
-    Polynomial polynomial2{Monomial(1, {{"x", 1}}), Monomial(2, {})};
+    Polynomial polynomial1{Monomial(1, {{"x", 1}}), Monomial(1, {})};    Polynomial polynomial2{Monomial(1, {{"x", 1}}), Monomial(2, {})};
     Terms numerators{polynomial1, polynomial1, 0};
     Terms denominators{polynomial2, polynomial2};
     TermsOverTerms termsOverTerms(numerators, denominators);

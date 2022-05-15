@@ -521,15 +521,13 @@ void Integration::integrateNonChangingAndChangingTermsInMultiplicationOrDivision
         Term nonChangingTermCombined(createTermWithMultiplicationAndDivisionTermsWithDetails(nonChangingTerms));
         Term changingTermCombined(createTermWithMultiplicationAndDivisionTermsWithDetails(changingTerms));
         Term integratedChangingTerm(integrateInternallyWithPurpose(changingTermCombined, IntegrationPurpose::NoChange));
-        if(isNotANumber(integratedChangingTerm))
+        if(isNan(integratedChangingTerm))
         {
             result = AlbaNumber(AlbaNumber::Value::NotANumber);
-        }
-        else
+        }        else
         {
             result = nonChangingTermCombined * integratedChangingTerm;
-        }
-    }
+        }    }
 }
 
 void Integration::integrateChangingTermsInMultiplicationOrDivision(
@@ -693,15 +691,13 @@ void Integration::integrateBySubstitutionAndUsingANewVariable(
     {
         string newVariableName(createVariableNameForSubstitution(termForNewVariable));
         Term integratedTermWithNewVariable(integrateIntenallyWithNewVariable(termToIntegrateWithNewVariable, IntegrationPurpose::Substitution, newVariableName));
-        if(!isNotANumber(integratedTermWithNewVariable))
+        if(!isNan(integratedTermWithNewVariable))
         {
             result = substituteBackToOldVariable(integratedTermWithNewVariable, newVariableName, termForNewVariable);
-        }
-    }
+        }    }
 }
 
-Term Integration::substituteToNewVariable(
-        Term const& mainTerm,
+Term Integration::substituteToNewVariable(        Term const& mainTerm,
         Term const& termForNewVariable) const
 {
     Differentiation differentiation(getCurrentVariableToIntegrate());
@@ -840,15 +836,13 @@ void Integration::integrateUsingTrigonometricSubstitutionWithDeterminedTerms(
                 if(!isChangingTerm(termToIntegrateWithTrigSub))
                 {
                     Term integratedTermWithTrigSub(integrateIntenallyWithNewVariable(termToIntegrateWithTrigSub, IntegrationPurpose::TrigonometricSubstitution, details.thetaName));
-                    if(!isNotANumber(integratedTermWithTrigSub))
+                    if(!isNan(integratedTermWithTrigSub))
                     {
                         result = substituteFromTrigonometricFunctionsBackToNormal(integratedTermWithTrigSub, details);
-                    }
-                }
+                    }                }
             }
         }
-    }
-}
+    }}
 
 void Integration::retrieveImportantTermsForTrigonometricSubstitutionInExpression(
         bool & shouldProceedToTrigSub,
@@ -1159,15 +1153,13 @@ void Integration::integrateAsPolynomialOverPolynomial(
     else if(!wholePartResult.isEmpty())
     {
         fractionalPartResult = integrateInternallyWithPurpose(remainingNumerator/remainingDenominator, IntegrationPurpose::NoChange);
-        if(isNotANumber(fractionalPartResult))
+        if(isNan(fractionalPartResult))
         {
             fractionalPartResult.clear();
-        }
-    }
+        }    }
     if(!fractionalPartResult.isEmpty())
     {
-        result = wholePartResult + fractionalPartResult;
-    }
+        result = wholePartResult + fractionalPartResult;    }
 }
 
 void Integration::integrateUsingPartialFractionPolynomials(
@@ -1585,27 +1577,24 @@ void Integration::integrateUsingIntegrationByParts(
     if(!hasNonChangingTermRaiseToChangingTerm(u))
     {
         Term v(integrateInternallyWithPurpose(dv, IntegrationPurpose::IntegrationByParts));
-        if(!isNotANumber(v))
+        if(!isNan(v))
         {
             Differentiation differentiation(getCurrentVariableToIntegrate());
             Term du(differentiation.differentiate(u));
-            if(!isNotANumber(du))
+            if(!isNan(du))
             {
                 Term uTimesV(u*v);
-                Term vTimesDu(v*du);
-                uTimesV.simplify();
+                Term vTimesDu(v*du);                uTimesV.simplify();
                 vTimesDu.simplify();
                 listOfIntegrationByPartsTerms.emplace_back(IntegrationByPartsTerms{term, uTimesV, vTimesDu});
                 Term integratedVTimesDu(integrateInternallyWithPurpose(vTimesDu, IntegrationPurpose::IntegrationByParts));
-                if(!isNotANumber(integratedVTimesDu))
+                if(!isNan(integratedVTimesDu))
                 {
                     result = uTimesV - integratedVTimesDu;
-                }
-            }
+                }            }
         }
     }
 }
-
 void Integration::retrieveInputTermsAndTrigonometricExponents(
         InputTermToTrigonometryFunctionExponentsMap & trigFunctionsInputTermToExponents,
         TermsRaiseToNumbers & remainingTermsWithExponents,

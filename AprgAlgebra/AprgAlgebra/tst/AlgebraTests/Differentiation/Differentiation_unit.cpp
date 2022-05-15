@@ -321,15 +321,13 @@ TEST(DifferentiationTest, DifferentiateExpressionWorks)
     EXPECT_EQ(termToExpect07, expressionToVerify07);
     EXPECT_EQ(termToExpect08, expressionToVerify08);
     EXPECT_EQ(termToExpect09, expressionToVerify09);
-    EXPECT_TRUE(isNotANumber(expressionToVerify10));
+    EXPECT_TRUE(isNan(expressionToVerify10));
 }
 
-TEST(DifferentiationTest, DifferentiateFunctionWorksWithFunctionsInCommonFunctionLibrary)
-{
+TEST(DifferentiationTest, DifferentiateFunctionWorksWithFunctionsInCommonFunctionLibrary){
     Differentiation differentiationForXWithY("x", {"y"});
 
-    Term termToVerify01(differentiationForXWithY.differentiateFunction(abs("x")));
-    Term termToVerify02(differentiationForXWithY.differentiateFunction(ln("x")));
+    Term termToVerify01(differentiationForXWithY.differentiateFunction(abs("x")));    Term termToVerify02(differentiationForXWithY.differentiateFunction(ln("x")));
     Term termToVerify03(differentiationForXWithY.differentiateFunction(log("x")));
     Term termToVerify04(differentiationForXWithY.differentiateFunction(sin("x")));
     Term termToVerify05(differentiationForXWithY.differentiateFunction(cos("x")));
@@ -488,15 +486,13 @@ TEST(DifferentiationTest, DifferentiateWorksWithTermRaiseToTerm)
     EXPECT_EQ(termToExpect1, termToVerify1);
     EXPECT_EQ(termToExpect2, termToVerify2);
     EXPECT_EQ(termToExpect3, termToVerify3);
-    EXPECT_TRUE(isNotANumber(termToVerify4));
+    EXPECT_TRUE(isNan(termToVerify4));
 }
 
-TEST(DifferentiationTest, DifferentiateWorksWithDivisionExpressionRaiseToAConstant)
-{
+TEST(DifferentiationTest, DifferentiateWorksWithDivisionExpressionRaiseToAConstant){
     Differentiation differentiationForX("x");
     Term subTerm1(createExpressionIfPossible({2, "/", Polynomial{Monomial(1, {{"x", 1}}), Monomial(-1, {})}}));
     Term termToTest(createExpressionIfPossible({subTerm1, "^", 5}));
-
     Term termToVerify(differentiationForX.differentiate(termToTest));
 
     string stringToExpect("(-160/((1[x] + -1)^6))");

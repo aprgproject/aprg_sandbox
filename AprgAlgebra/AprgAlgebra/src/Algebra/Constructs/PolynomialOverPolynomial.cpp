@@ -83,15 +83,13 @@ PolynomialOverPolynomial::QuotientAndRemainder PolynomialOverPolynomial::divide(
 {
     Polynomial currentQuotient;
     Polynomial currentRemainder(m_numerator);
-    while(!isTheValue(currentRemainder, 0) && !isNotANumber(currentRemainder))
+    while(!isTheValue(currentRemainder, 0) && !isNan(currentRemainder))
     {
         Monomial const& dividendMonomial(getFirstMonomial(currentRemainder));
-        Monomial const& divisorMonomial(getFirstMonomial(m_denominator));
-        Monomial currentQuotientMonomial(dividendMonomial);
+        Monomial const& divisorMonomial(getFirstMonomial(m_denominator));        Monomial currentQuotientMonomial(dividendMonomial);
         currentQuotientMonomial.divideMonomial(divisorMonomial);
         if(!hasNegativeExponents(currentQuotientMonomial))
-        {
-            currentQuotient.addMonomial(currentQuotientMonomial);
+        {            currentQuotient.addMonomial(currentQuotientMonomial);
             Polynomial polynomialToSubtract(m_denominator);
             polynomialToSubtract.multiplyMonomial(currentQuotientMonomial);
             polynomialToSubtract.multiplyNumber(-1);

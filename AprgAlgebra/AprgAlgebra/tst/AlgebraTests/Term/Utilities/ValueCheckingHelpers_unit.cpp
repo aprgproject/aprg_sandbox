@@ -246,48 +246,46 @@ TEST(ValueCheckingHelpersTest, IsTheValueWorksWithExpression)
 
 TEST(ValueCheckingHelpersTest, IsNotANumberWorksForTerm)
 {
-    EXPECT_TRUE(isNotANumber(Term(NAN)));
-    EXPECT_FALSE(isNotANumber(Term("x")));
-    EXPECT_TRUE(isNotANumber(Term(Monomial(NAN, {}))));
-    EXPECT_TRUE(isNotANumber(Term(Polynomial{Monomial(NAN, {})})));
-    EXPECT_TRUE(isNotANumber(Term(createExpressionIfPossible({NAN}))));
-    EXPECT_FALSE(isNotANumber(Term(createExpressionIfPossible({5.12, "+", NAN}))));
+    EXPECT_TRUE(isNan(Term(NAN)));
+    EXPECT_FALSE(isNan(Term("x")));
+    EXPECT_TRUE(isNan(Term(Monomial(NAN, {}))));
+    EXPECT_TRUE(isNan(Term(Polynomial{Monomial(NAN, {})})));
+    EXPECT_TRUE(isNan(Term(createExpressionIfPossible({NAN}))));
+    EXPECT_FALSE(isNan(Term(createExpressionIfPossible({5.12, "+", NAN}))));
 }
 
 TEST(ValueCheckingHelpersTest, IsNotANumberWorksForConstant)
 {
-    EXPECT_TRUE(isNotANumber(Constant(NAN)));
-    EXPECT_FALSE(isNotANumber(Constant(15)));
+    EXPECT_TRUE(isNan(Constant(NAN)));
+    EXPECT_FALSE(isNan(Constant(15)));
 }
 
 TEST(ValueCheckingHelpersTest, IsNotANumberWorksForMonomial)
 {
-    EXPECT_TRUE(isNotANumber(Monomial(NAN, {})));
-    EXPECT_FALSE(isNotANumber(Monomial(NAN, {{"x", 1}})));
-    EXPECT_FALSE(isNotANumber(Monomial(15, {})));
-    EXPECT_FALSE(isNotANumber(Monomial(15, {{"x", NAN}})));
+    EXPECT_TRUE(isNan(Monomial(NAN, {})));
+    EXPECT_FALSE(isNan(Monomial(NAN, {{"x", 1}})));
+    EXPECT_FALSE(isNan(Monomial(15, {})));
+    EXPECT_FALSE(isNan(Monomial(15, {{"x", NAN}})));
 }
 
 TEST(ValueCheckingHelpersTest, IsNotANumberWorksForPolynomial)
 {
-    EXPECT_TRUE(isNotANumber(Polynomial{Monomial(NAN, {})}));
-    EXPECT_FALSE(isNotANumber(Polynomial{Monomial(NAN, {}), Monomial(5, {{"x", 1}})}));
-    EXPECT_FALSE(isNotANumber(Polynomial{Monomial(15, {})}));
+    EXPECT_TRUE(isNan(Polynomial{Monomial(NAN, {})}));
+    EXPECT_FALSE(isNan(Polynomial{Monomial(NAN, {}), Monomial(5, {{"x", 1}})}));
+    EXPECT_FALSE(isNan(Polynomial{Monomial(15, {})}));
 }
 
 TEST(ValueCheckingHelpersTest, IsNotANumberWorksForExpression)
 {
-    EXPECT_TRUE(isNotANumber(createExpressionIfPossible({NAN})));
-    EXPECT_FALSE(isNotANumber(createExpressionIfPossible({67})));
-    EXPECT_FALSE(isNotANumber(createExpressionIfPossible({67, "+", "x"})));
+    EXPECT_TRUE(isNan(createExpressionIfPossible({NAN})));
+    EXPECT_FALSE(isNan(createExpressionIfPossible({67})));
+    EXPECT_FALSE(isNan(createExpressionIfPossible({67, "+", "x"})));
 }
 
-TEST(ValueCheckingHelpersTest, IsPositiveOrNegativeInfinityWorksForTerm)
-{
+TEST(ValueCheckingHelpersTest, IsPositiveOrNegativeInfinityWorksForTerm){
     EXPECT_TRUE(isPositiveOrNegativeInfinity(Term(INFINITY)));
     EXPECT_FALSE(isPositiveOrNegativeInfinity(Term("x")));
-    EXPECT_TRUE(isPositiveOrNegativeInfinity(Term(Monomial(-INFINITY, {}))));
-    EXPECT_TRUE(isPositiveOrNegativeInfinity(Term(Polynomial{Monomial(INFINITY, {})})));
+    EXPECT_TRUE(isPositiveOrNegativeInfinity(Term(Monomial(-INFINITY, {}))));    EXPECT_TRUE(isPositiveOrNegativeInfinity(Term(Polynomial{Monomial(INFINITY, {})})));
     EXPECT_TRUE(isPositiveOrNegativeInfinity(Term(createExpressionIfPossible({-INFINITY}))));
     EXPECT_FALSE(isPositiveOrNegativeInfinity(Term(createExpressionIfPossible({5.12, "+", INFINITY}))));
 }
@@ -387,47 +385,45 @@ TEST(ValueCheckingHelpersTest, IsAFiniteConstantWorks)
 
 TEST(ValueCheckingHelpersTest, HasNotANumberWorksForTerm)
 {
-    EXPECT_TRUE(hasNotANumber(Term(NAN)));
-    EXPECT_FALSE(hasNotANumber(Term("x")));
-    EXPECT_TRUE(hasNotANumber(Term(Monomial(NAN, {}))));
-    EXPECT_TRUE(hasNotANumber(Term(Polynomial{Monomial(NAN, {})})));
-    EXPECT_TRUE(hasNotANumber(Term(createExpressionIfPossible({NAN}))));
-    EXPECT_TRUE(hasNotANumber(Term(createExpressionIfPossible({5.12, "+", NAN}))));
+    EXPECT_TRUE(hasNan(Term(NAN)));
+    EXPECT_FALSE(hasNan(Term("x")));
+    EXPECT_TRUE(hasNan(Term(Monomial(NAN, {}))));
+    EXPECT_TRUE(hasNan(Term(Polynomial{Monomial(NAN, {})})));
+    EXPECT_TRUE(hasNan(Term(createExpressionIfPossible({NAN}))));
+    EXPECT_TRUE(hasNan(Term(createExpressionIfPossible({5.12, "+", NAN}))));
 }
 
 TEST(ValueCheckingHelpersTest, HasNotANumberWorksForMonomial)
 {
-    EXPECT_TRUE(hasNotANumber(Monomial(NAN, {})));
-    EXPECT_TRUE(hasNotANumber(Monomial(NAN, {{"x", 1}})));
-    EXPECT_FALSE(hasNotANumber(Monomial(15, {})));
-    EXPECT_TRUE(hasNotANumber(Monomial(15, {{"x", NAN}})));
+    EXPECT_TRUE(hasNan(Monomial(NAN, {})));
+    EXPECT_TRUE(hasNan(Monomial(NAN, {{"x", 1}})));
+    EXPECT_FALSE(hasNan(Monomial(15, {})));
+    EXPECT_TRUE(hasNan(Monomial(15, {{"x", NAN}})));
 }
 
 TEST(ValueCheckingHelpersTest, HasNotANumberWorksForPolynomial)
 {
-    EXPECT_TRUE(hasNotANumber(Polynomial{Monomial(NAN, {})}));
-    EXPECT_TRUE(hasNotANumber(Polynomial{Monomial(NAN, {}), Monomial(5, {{"x", 1}})}));
-    EXPECT_FALSE(hasNotANumber(Polynomial{Monomial(15, {})}));
+    EXPECT_TRUE(hasNan(Polynomial{Monomial(NAN, {})}));
+    EXPECT_TRUE(hasNan(Polynomial{Monomial(NAN, {}), Monomial(5, {{"x", 1}})}));
+    EXPECT_FALSE(hasNan(Polynomial{Monomial(15, {})}));
 }
 
 TEST(ValueCheckingHelpersTest, HasNotANumberWorksForExpression)
 {
-    EXPECT_TRUE(hasNotANumber(createExpressionIfPossible({NAN})));
-    EXPECT_TRUE(hasNotANumber(createExpressionIfPossible({5.12, "+", NAN})));
+    EXPECT_TRUE(hasNan(createExpressionIfPossible({NAN})));
+    EXPECT_TRUE(hasNan(createExpressionIfPossible({5.12, "+", NAN})));
 }
 
 TEST(ValueCheckingHelpersTest, HasNotANumberWorksForFunction)
 {
     Function absoluteValueFunction(Functions::abs(createExpressionIfPossible({5.12, "+", NAN})));
-    EXPECT_TRUE(hasNotANumber(absoluteValueFunction));
+    EXPECT_TRUE(hasNan(absoluteValueFunction));
 }
 
-TEST(ValueCheckingHelpersTest, HasNonFiniteNumbersForTerm)
-{
+TEST(ValueCheckingHelpersTest, HasNonFiniteNumbersForTerm){
     EXPECT_TRUE(hasNonRealFiniteNumbers(Term(NAN)));
     EXPECT_FALSE(hasNonRealFiniteNumbers(Term("x")));
-    EXPECT_TRUE(hasNonRealFiniteNumbers(Term(Monomial(NAN, {}))));
-    EXPECT_TRUE(hasNonRealFiniteNumbers(Term(Polynomial{Monomial(NAN, {})})));
+    EXPECT_TRUE(hasNonRealFiniteNumbers(Term(Monomial(NAN, {}))));    EXPECT_TRUE(hasNonRealFiniteNumbers(Term(Polynomial{Monomial(NAN, {})})));
     EXPECT_TRUE(hasNonRealFiniteNumbers(Term(createExpressionIfPossible({NAN}))));
     EXPECT_TRUE(hasNonRealFiniteNumbers(Term(createExpressionIfPossible({5.12, "+", NAN}))));
 }

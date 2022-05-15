@@ -187,15 +187,13 @@ Term IntegrationForFiniteCalculus::integrateMonomial(
                         convertMonomialWithPositiveExponentsFromRegularPowerToFallingPower(monomialWithOneLessExponent));
             Term termToIntegrate(createExpressionIfPossible({1, "/", denominatorInFallingPower}));
             Term integratedTermInFallingPower(integrateTerm(termToIntegrate));
-            if(!isNotANumber(integratedTermInFallingPower)
+            if(!isNan(integratedTermInFallingPower)
                     && canBeConvertedToPolynomial(integratedTermInFallingPower))
             {
-                Polynomial integratedPolynomial(
-                            convertPolynomialWithPositiveExponentsFromFallingPowerToRegularPower(
+                Polynomial integratedPolynomial(                            convertPolynomialWithPositiveExponentsFromFallingPowerToRegularPower(
                                 createPolynomialIfPossible(integratedTermInFallingPower)));
                 result = integratedPolynomial;
-            }
-            else
+            }            else
             {
                 result = AlbaNumber(AlbaNumber::Value::NotANumber);
             }
@@ -502,15 +500,13 @@ void IntegrationForFiniteCalculus::integrateNonChangingAndChangingTermsInMultipl
         Term nonChangingTermCombined(createTermWithMultiplicationAndDivisionTermsWithDetails(nonChangingTerms));
         Term changingTermCombined(createTermWithMultiplicationAndDivisionTermsWithDetails(changingTerms));
         Term integratedChangingTerm(integrateTerm(changingTermCombined));
-        if(isNotANumber(integratedChangingTerm))
+        if(isNan(integratedChangingTerm))
         {
             result = AlbaNumber(AlbaNumber::Value::NotANumber);
-        }
-        else
+        }        else
         {
             result = nonChangingTermCombined * integratedChangingTerm;
-        }
-    }
+        }    }
 }
 
 void IntegrationForFiniteCalculus::integrateChangingTermsInMultiplicationOrDivision(

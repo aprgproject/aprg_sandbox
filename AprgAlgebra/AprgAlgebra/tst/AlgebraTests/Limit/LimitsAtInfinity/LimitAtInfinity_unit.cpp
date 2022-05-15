@@ -116,11 +116,10 @@ TEST(LimitsAtInfinityTest, ExpressionWithTrigonometricFunctionsWorks)
 
     LimitsAtInfinity limits(term, "x");
 
-    EXPECT_TRUE(isNotANumber(limits.getSimplifiedTermAtInfinity()));
-    EXPECT_TRUE(isNotANumber(limits.getValueAtInfinity(AlbaNumber::Value::NegativeInfinity)));
-    EXPECT_TRUE(isNotANumber(limits.getValueAtInfinity(AlbaNumber::Value::PositiveInfinity)));
+    EXPECT_TRUE(isNan(limits.getSimplifiedTermAtInfinity()));
+    EXPECT_TRUE(isNan(limits.getValueAtInfinity(AlbaNumber::Value::NegativeInfinity)));
+    EXPECT_TRUE(isNan(limits.getValueAtInfinity(AlbaNumber::Value::PositiveInfinity)));
 }
 
 }
-
 }

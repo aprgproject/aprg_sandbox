@@ -21,14 +21,12 @@ SeriesBasedOnSummation::SeriesBasedOnSummation(
     , m_formulaForEachTermInSummation(formulaForEachTermInSummation)
     , m_nameForVariableInFormula(nameForVariableInFormula)
     , m_summation(getSummation(formulaForEachTermInSummation, nameForVariableInFormula))
-    , m_isSummationModelValid(!isNotANumber(getFormulaForSeries()))
+    , m_isSummationModelValid(!isNan(getFormulaForSeries()))
 {}
 
-bool SeriesBasedOnSummation::isSummationModelValid() const
-{
+bool SeriesBasedOnSummation::isSummationModelValid() const{
     return m_isSummationModelValid;
 }
-
 bool SeriesBasedOnSummation::isConvergent() const
 {
     bool result(false);
