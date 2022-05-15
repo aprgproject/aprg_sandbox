@@ -18,21 +18,14 @@ class BaseRedBlackBinarySearchTreeSymbolTable
 public:
     using NodeUniquePointer = std::unique_ptr<Node>;
 
-    void put(Key const& key, Value const& value) override
-    {
-        putStartingOnThisNode(this->m_root, key, value);
-    }
-
 protected:
-    void putStartingOnThisNode(NodeUniquePointer & nodePointer, Key const& key, Value const& value)
+    void putStartingOnThisNode(NodeUniquePointer & nodePointer, Key const& key, Value const& value) override
     {
         if(nodePointer)
-        {
-            Key const& currentKey(nodePointer->key);
+        {            Key const& currentKey(nodePointer->key);
             if(key < currentKey) // same as BST
             {
-                putStartingOnThisNode(nodePointer->left, key, value);
-                nodePointer->numberOfNodesOnThisSubTree = this->calculateSizeOfNodeBasedFromLeftAndRight(nodePointer);
+                putStartingOnThisNode(nodePointer->left, key, value);                nodePointer->numberOfNodesOnThisSubTree = this->calculateSizeOfNodeBasedFromLeftAndRight(nodePointer);
             }
             else if(key > currentKey) // same as BST
             {
@@ -70,15 +63,13 @@ protected:
         }
     }
 
-    bool isRed(NodeUniquePointer const& nodePointer) const
+    inline bool isRed(NodeUniquePointer const& nodePointer) const
     {
         bool result(false);
-        if(nodePointer)
-        {
+        if(nodePointer)        {
             result = nodePointer->parentLinkColor == BinarySearchTreeNode::Color::Red;
         }
-        return result;
-    }
+        return result;    }
 
     inline bool hasARightLeaningRedLinkOnOneChild(NodeUniquePointer const& nodePointer) const
     {

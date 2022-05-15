@@ -101,15 +101,23 @@ public:
         return result;
     }
 
+    NodeUniquePointer const& getRoot() const
+    {
+        return m_root;
+    }
+
+    void put(Key const& key, Value const& value) override
+    {
+        putStartingOnThisNode(this->m_root, key, value);
+    }
+
     void deleteBasedOnKey(Key const& key) override
     {
-        deleteBasedOnKeyStartingOnThisNode(m_root, key);
-    }
+        deleteBasedOnKeyStartingOnThisNode(m_root, key);    }
 
     void deleteMinimum() override
     {
-        deleteMinimumStartingOnThisNode(m_root);
-    }
+        deleteMinimumStartingOnThisNode(m_root);    }
 
     void deleteMaximum() override
     {
@@ -147,15 +155,13 @@ protected:
         return getSizeOnThisNode(nodePointer->left) + getSizeOnThisNode(nodePointer->right) + 1;
     }
 
-    bool doesContainStartingOnThisNode(NodeUniquePointer const& nodePointer, Key const& key) const
+    virtual bool doesContainStartingOnThisNode(NodeUniquePointer const& nodePointer, Key const& key) const
     {
         bool result(false);
-        if(nodePointer)
-        {
+        if(nodePointer)        {
             Key const& currentKey(nodePointer->key);
             if(key < currentKey)
-            {
-                result = doesContainStartingOnThisNode(nodePointer->left, key);
+            {                result = doesContainStartingOnThisNode(nodePointer->left, key);
             }
             else if(key > currentKey)
             {
@@ -169,15 +175,13 @@ protected:
         return result;
     }
 
-    Value getStartingOnThisNode(NodeUniquePointer const& nodePointer, Key const& key) const
+    virtual Value getStartingOnThisNode(NodeUniquePointer const& nodePointer, Key const& key) const
     {
         Value result{};
-        if(nodePointer)
-        {
+        if(nodePointer)        {
             Key const& currentKey(nodePointer->key);
             if(key < currentKey)
-            {
-                result = getStartingOnThisNode(nodePointer->left, key);
+            {                result = getStartingOnThisNode(nodePointer->left, key);
             }
             else if(key > currentKey)
             {
@@ -247,15 +251,13 @@ protected:
         return result;
     }
 
-    Node const* getNodeWithFloorStartingOnThisNode(NodeUniquePointer const& nodePointer, Key const& key) const
+    virtual Node const* getNodeWithFloorStartingOnThisNode(NodeUniquePointer const& nodePointer, Key const& key) const
     {
         Node const* result(nullptr);
-        if(nodePointer)
-        {
+        if(nodePointer)        {
             Key const& currentKey(nodePointer->key);
             if(key == currentKey)
-            {
-                result = nodePointer.get();
+            {                result = nodePointer.get();
             }
             else if(key < currentKey)
             {
@@ -311,15 +313,13 @@ protected:
         return result;
     }
 
-    unsigned int getRankStartingOnThisNode(NodeUniquePointer const& nodePointer, Key const& key) const
+    virtual unsigned int getRankStartingOnThisNode(NodeUniquePointer const& nodePointer, Key const& key) const
     {
         unsigned int result(0);
-        if(nodePointer)
-        {
+        if(nodePointer)        {
             Key const& currentKey(nodePointer->key);
             if(key < currentKey)
-            {
-                result = getRankStartingOnThisNode(nodePointer->left, key); // recursively check rank on the right side
+            {                result = getRankStartingOnThisNode(nodePointer->left, key); // recursively check rank on the right side
             }
             else if(key > currentKey)
             {
@@ -352,41 +352,15 @@ protected:
         return nodePointer;
     }
 
-    void putStartingOnThisNode(NodeUniquePointer & nodePointer, Key const& key, Value const& value)
-    {
-        if(nodePointer)
-        {
-            Key const& currentKey(nodePointer->key);
-            if(key < currentKey)
-            {
-                putStartingOnThisNode(nodePointer->left, key, value);
-                nodePointer->numberOfNodesOnThisSubTree = this->calculateSizeOfNodeBasedFromLeftAndRight(nodePointer);
-            }
-            else if(key > currentKey)
-            {
-                putStartingOnThisNode(nodePointer->right, key, value);
-                nodePointer->numberOfNodesOnThisSubTree = this->calculateSizeOfNodeBasedFromLeftAndRight(nodePointer);
-            }
-            else
-            {
-                nodePointer->value = value;
-            }
-        }
-        else
-        {
-            nodePointer.reset(new Node{key, value, nullptr, nullptr, 1U});
-        }
-    }
+    virtual void putStartingOnThisNode(NodeUniquePointer & nodePointer, Key const& key, Value const& value) = 0;
 
-    void deleteBasedOnKeyStartingOnThisNode(NodeUniquePointer & nodePointer, Key const& key)
+    virtual void deleteBasedOnKeyStartingOnThisNode(NodeUniquePointer & nodePointer, Key const& key)
     {
         //this is called hibbard deletion
-        if(nodePointer)
-        {
+        if(nodePointer)        {
             if(key < nodePointer->key) // search for the node in the left in less than
             {
-                deleteBasedOnKeyStartingOnThisNode(nodePointer->left, key);
-            }
+                deleteBasedOnKeyStartingOnThisNode(nodePointer->left, key);            }
             else if(key > nodePointer->key) // search for the node in the right in greater than
             {
                 deleteBasedOnKeyStartingOnThisNode(nodePointer->right, key);
@@ -458,15 +432,13 @@ protected:
         }
     }
 
-    void retrieveKeysInRangeInclusiveStartingOnThisNode(Keys & keys, NodeUniquePointer const& nodePointer, Key const& low, Key const& high) const
+    virtual void retrieveKeysInRangeInclusiveStartingOnThisNode(Keys & keys, NodeUniquePointer const& nodePointer, Key const& low, Key const& high) const
     {
         if(nodePointer)
-        {
-            if(low < nodePointer->key)
+        {            if(low < nodePointer->key)
             {
                 retrieveKeysInRangeInclusiveStartingOnThisNode(keys, nodePointer->left, low, high);
-            }
-            if(low <= nodePointer->key && high >= nodePointer->key)
+            }            if(low <= nodePointer->key && high >= nodePointer->key)
             {
                 keys.emplace_back(nodePointer->key);
             }
