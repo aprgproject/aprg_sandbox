@@ -3,13 +3,10 @@
 #include <Algorithm/SymbolTable/BinarySearchTree/Geometry/KdTree.hpp>
 #include <Common/Math/AlbaMathHelper.hpp>
 
-
 namespace alba
 {
-
 namespace algorithm
 {
-
 template <typename Key> bool isEqualThanWithDepth(Key const& key1, Key const& key2, unsigned int const depth)
 {
     if(mathHelper::isOdd(depth))
@@ -51,22 +48,18 @@ class NearestPointSearch
 {
 public:
     using Point = std::pair<Unit, Unit>;
-    using Points = std::vector<Point>;
     using TwoDTree = KdTree<Point, unsigned int>;
     using NodeUniquePointer = typename TwoDTree::NodeUniquePointer;
-
     enum class SearchAction
     {
         Nothing,
-        GoToLeft,
-        GoToRight,
+        GoToLeftChild,
+        GoToRightChild,
         GoToBoth
     };
-
     struct SearchDetails
     {
-        Point pointToCheck;
-        Point nearestPoint;
+        Point pointToCheck;        Point nearestPoint;
         Unit nearestDistance;
     };
 
@@ -104,27 +97,20 @@ private:
                 searchDetails.nearestDistance = currentDistance;
             }
             SearchAction searchAction(getSearchAction(nodePointer, searchDetails.pointToCheck, depth));
-            if(SearchAction::GoToLeft == searchAction)
+            if(SearchAction::GoToLeftChild == searchAction || SearchAction::GoToBoth == searchAction)
             {
                 searchNearestPoint(nodePointer->left, searchDetails);
             }
-            else if(SearchAction::GoToRight == searchAction)
+            if(SearchAction::GoToRightChild == searchAction || SearchAction::GoToBoth == searchAction)
             {
-                searchNearestPoint(nodePointer->right, searchDetails);
-            }
-            else if(SearchAction::GoToBoth == searchAction)
-            {
-                searchNearestPoint(nodePointer->left, searchDetails);
                 searchNearestPoint(nodePointer->right, searchDetails);
             }
         }
         depth--;
     }
-
     SearchAction getSearchAction(NodeUniquePointer const& nodePointer, Point const& pointToCheck, unsigned int const depth) const
     {
-        SearchAction result(SearchAction::Nothing);
-        if(nodePointer)
+        SearchAction result(SearchAction::Nothing);        if(nodePointer)
         {
             Point const& currentPoint(nodePointer->key);
             if(mathHelper::isOdd(depth))
@@ -135,81 +121,71 @@ private:
                     {
                         if(pointToCheck.first < nodePointer->left->key.first) // point to check is to the left of left child  (arrangement * <- L <- N)
                         {
-                            result = SearchAction::GoToLeft;
+                            result = SearchAction::GoToLeftChild;
                         }
                         else // point to check is to the right of left child  (arrangement L <- * <- N)
-                        {
-                            result = SearchAction::GoToBoth;
+                        {                            result = SearchAction::GoToBoth;
                         }
                     }
                     else if(nodePointer->right)
                     {
-                        result = SearchAction::GoToRight;
+                        result = SearchAction::GoToRightChild;
                     }
                 }
-                else // point to check is to the right (arrangement N -> *)
-                {
+                else // point to check is to the right (arrangement N -> *)                {
                     if(nodePointer->right)
                     {
                         if(nodePointer->right->key.first < pointToCheck.first) // point to check is to the right of right child  (arrangement N -> R -> *)
                         {
-                            result = SearchAction::GoToRight;
+                            result = SearchAction::GoToRightChild;
                         }
                         else // point to check is to the left of right child  (arrangement N -> * -> R)
-                        {
-                            result = SearchAction::GoToBoth;
+                        {                            result = SearchAction::GoToBoth;
                         }
                     }
                     else if(nodePointer->left)
                     {
-                        result = SearchAction::GoToLeft;
+                        result = SearchAction::GoToLeftChild;
                     }
                 }
-            }
-            else
+            }            else
             {
                 // same logic but top and bottom
-                if(pointToCheck.second < currentPoint.second) // point to check is to the left (arrangement * <- N)
-                {
+                if(pointToCheck.second < currentPoint.second) // point to check is to the left (arrangement * <- N)                {
                     if(nodePointer->left)
                     {
                         if(pointToCheck.second < nodePointer->left->key.second) // point to check is to the left of left child  (arrangement * <- L <- N)
                         {
-                            result = SearchAction::GoToLeft;
+                            result = SearchAction::GoToLeftChild;
                         }
                         else // point to check is to the right of left child  (arrangement L <- * <- N)
-                        {
-                            result = SearchAction::GoToBoth;
+                        {                            result = SearchAction::GoToBoth;
                         }
                     }
                     else if(nodePointer->right)
                     {
-                        result = SearchAction::GoToRight;
+                        result = SearchAction::GoToRightChild;
                     }
                 }
-                else // point to check is to the right (arrangement N -> *)
-                {
+                else // point to check is to the right (arrangement N -> *)                {
                     if(nodePointer->right)
                     {
                         if(nodePointer->right->key.second < pointToCheck.second) // point to check is to the right of right child  (arrangement N -> R -> *)
                         {
-                            result = SearchAction::GoToRight;
+                            result = SearchAction::GoToRightChild;
                         }
                         else // point to check is to the left of right child  (arrangement N -> * -> R)
-                        {
-                            result = SearchAction::GoToBoth;
+                        {                            result = SearchAction::GoToBoth;
                         }
                     }
                     else if(nodePointer->left)
                     {
-                        result = SearchAction::GoToLeft;
+                        result = SearchAction::GoToLeftChild;
                     }
                 }
-            }
-        }
+            }        }
         return result;
     }
-
 
     inline Unit getDistance(Point const& point1, Point const& point2) const
     {

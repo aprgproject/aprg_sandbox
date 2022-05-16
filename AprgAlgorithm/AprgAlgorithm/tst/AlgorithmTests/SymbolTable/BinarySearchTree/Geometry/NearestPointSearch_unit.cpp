@@ -15,41 +15,35 @@ namespace
 using SearchForTest = NearestPointSearch<double>;
 }
 
-TEST(OrthogonalLineSegmentIntersectionSearchTest, GetNearestPointWorksWhenPointIsAtTheLeft)
+TEST(NearestPointSearchTest, GetNearestPointWorksWhenPointIsAtTheLeft)
 {
     SearchForTest search;
-    search.addPoint({0, 0});
-    search.addPoint({-5, 0});
+    search.addPoint({0, 0});    search.addPoint({-5, 0});
     search.addPoint({5, 0});
 
     auto pointToVerify(search.getNearestPoint({-3, 0}));
-
     SearchForTest::Point pointToExpect{-5, 0};
     EXPECT_EQ(pointToExpect, pointToVerify);
 }
 
-TEST(OrthogonalLineSegmentIntersectionSearchTest, GetNearestPointWorksWhenPointIsAtTheRight)
+TEST(NearestPointSearchTest, GetNearestPointWorksWhenPointIsAtTheRight)
 {
     SearchForTest search;
-    search.addPoint({0, 0});
-    search.addPoint({-5, 0});
+    search.addPoint({0, 0});    search.addPoint({-5, 0});
     search.addPoint({5, 0});
 
     auto pointToVerify(search.getNearestPoint({3, 0}));
-
     SearchForTest::Point pointToExpect{5, 0};
     EXPECT_EQ(pointToExpect, pointToVerify);
 }
 
-TEST(OrthogonalLineSegmentIntersectionSearchTest, GetNearestPointWorksOnComplicatedExample)
+TEST(NearestPointSearchTest, GetNearestPointWorksOnComplicatedExample)
 {
     SearchForTest search;
-    search.addPoint({0, 0});
-    search.addPoint({3, -2});
+    search.addPoint({0, 0});    search.addPoint({3, -2});
     search.addPoint({-2, 2});
     search.addPoint({-3, -4});
-    search.addPoint({-4, 0});
-    search.addPoint({-1, 3});
+    search.addPoint({-4, 0});    search.addPoint({-1, 3});
     search.addPoint({1, -3});
     search.addPoint({7, 5});
     search.addPoint({6, 3});
