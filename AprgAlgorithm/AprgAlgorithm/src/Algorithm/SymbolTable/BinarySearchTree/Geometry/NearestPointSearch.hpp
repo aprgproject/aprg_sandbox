@@ -7,6 +7,7 @@ namespace alba
 {
 namespace algorithm
 {
+
 template <typename Key> bool isEqualThanWithDepth(Key const& key1, Key const& key2, unsigned int const depth)
 {
     if(mathHelper::isOdd(depth))
@@ -59,7 +60,8 @@ public:
     };
     struct SearchDetails
     {
-        Point pointToCheck;        Point nearestPoint;
+        Point pointToCheck;
+        Point nearestPoint;
         Unit nearestDistance;
     };
 
@@ -110,7 +112,8 @@ private:
     }
     SearchAction getSearchAction(NodeUniquePointer const& nodePointer, Point const& pointToCheck, unsigned int const depth) const
     {
-        SearchAction result(SearchAction::Nothing);        if(nodePointer)
+        SearchAction result(SearchAction::Nothing);
+        if(nodePointer)
         {
             Point const& currentPoint(nodePointer->key);
             if(mathHelper::isOdd(depth))
@@ -151,7 +154,8 @@ private:
             }            else
             {
                 // same logic but top and bottom
-                if(pointToCheck.second < currentPoint.second) // point to check is to the left (arrangement * <- N)                {
+                if(pointToCheck.second < currentPoint.second) // point to check is to the left (arrangement * <- N)
+                {
                     if(nodePointer->left)
                     {
                         if(pointToCheck.second < nodePointer->left->key.second) // point to check is to the left of left child  (arrangement * <- L <- N)
@@ -186,6 +190,7 @@ private:
             }        }
         return result;
     }
+
 
     inline Unit getDistance(Point const& point1, Point const& point2) const
     {

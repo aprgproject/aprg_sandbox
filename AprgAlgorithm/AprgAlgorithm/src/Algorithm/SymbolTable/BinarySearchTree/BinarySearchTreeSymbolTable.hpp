@@ -27,16 +27,16 @@ protected:
         {            Key const& currentKey(nodePointer->key);
             if(key < currentKey)
             {
-                putStartingOnThisNode(nodePointer->left, key, value);                nodePointer->numberOfNodesOnThisSubTree = this->calculateSizeOfNodeBasedFromLeftAndRight(nodePointer);
+                putStartingOnThisNode(nodePointer->left, key, value);
+                this->updateNodeDetails(nodePointer);
             }
             else if(key > currentKey)
             {
                 putStartingOnThisNode(nodePointer->right, key, value);
-                nodePointer->numberOfNodesOnThisSubTree = this->calculateSizeOfNodeBasedFromLeftAndRight(nodePointer);
+                this->updateNodeDetails(nodePointer);
             }
             else
-            {
-                nodePointer->value = value;
+            {                nodePointer->value = value;
             }
         }
         else

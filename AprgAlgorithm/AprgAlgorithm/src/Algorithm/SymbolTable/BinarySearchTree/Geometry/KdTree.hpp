@@ -187,16 +187,15 @@ protected:
             if(isLessThanWithDepth(key, currentKey, depth))
             {
                 putStartingOnThisNode(nodePointer->left, key, value);
-                nodePointer->numberOfNodesOnThisSubTree = this->calculateSizeOfNodeBasedFromLeftAndRight(nodePointer);
+                this->updateNodeDetails(nodePointer);
             }
             else if(isGreaterThanWithDepth(key, currentKey, depth))
             {
                 putStartingOnThisNode(nodePointer->right, key, value);
-                nodePointer->numberOfNodesOnThisSubTree = this->calculateSizeOfNodeBasedFromLeftAndRight(nodePointer);
+                this->updateNodeDetails(nodePointer);
             }
             else
-            {
-                nodePointer->value = value;
+            {                nodePointer->value = value;
             }
         }
         else
@@ -240,11 +239,10 @@ protected:
             }
             if(nodePointer)
             {
-                nodePointer->numberOfNodesOnThisSubTree = this->calculateSizeOfNodeBasedFromLeftAndRight(nodePointer);
+                this->updateNodeDetails(nodePointer);
             }
         }
-        depth--;
-    }
+        depth--;    }
 
     void retrieveKeysInRangeInclusiveStartingOnThisNode(Keys & keys, NodeUniquePointer const& nodePointer, Key const& low, Key const& high) const
     {

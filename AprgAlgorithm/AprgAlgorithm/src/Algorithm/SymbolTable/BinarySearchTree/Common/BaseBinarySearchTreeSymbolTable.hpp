@@ -117,7 +117,8 @@ public:
 
     void deleteMinimum() override
     {
-        deleteMinimumStartingOnThisNode(m_root);    }
+        deleteMinimumStartingOnThisNode(m_root);
+    }
 
     void deleteMaximum() override
     {
@@ -155,13 +156,18 @@ protected:
         return getSizeOnThisNode(nodePointer->left) + getSizeOnThisNode(nodePointer->right) + 1;
     }
 
+    void updateNodeDetails(NodeUniquePointer & nodePointer) const
+    {
+        nodePointer->numberOfNodesOnThisSubTree = calculateSizeOfNodeBasedFromLeftAndRight(nodePointer);
+    }
+
     virtual bool doesContainStartingOnThisNode(NodeUniquePointer const& nodePointer, Key const& key) const
     {
-        bool result(false);
-        if(nodePointer)        {
+        bool result(false);        if(nodePointer)        {
             Key const& currentKey(nodePointer->key);
             if(key < currentKey)
-            {                result = doesContainStartingOnThisNode(nodePointer->left, key);
+            {
+                result = doesContainStartingOnThisNode(nodePointer->left, key);
             }
             else if(key > currentKey)
             {
@@ -181,7 +187,8 @@ protected:
         if(nodePointer)        {
             Key const& currentKey(nodePointer->key);
             if(key < currentKey)
-            {                result = getStartingOnThisNode(nodePointer->left, key);
+            {
+                result = getStartingOnThisNode(nodePointer->left, key);
             }
             else if(key > currentKey)
             {
@@ -257,7 +264,8 @@ protected:
         if(nodePointer)        {
             Key const& currentKey(nodePointer->key);
             if(key == currentKey)
-            {                result = nodePointer.get();
+            {
+                result = nodePointer.get();
             }
             else if(key < currentKey)
             {
@@ -319,7 +327,8 @@ protected:
         if(nodePointer)        {
             Key const& currentKey(nodePointer->key);
             if(key < currentKey)
-            {                result = getRankStartingOnThisNode(nodePointer->left, key); // recursively check rank on the right side
+            {
+                result = getRankStartingOnThisNode(nodePointer->left, key); // recursively check rank on the right side
             }
             else if(key > currentKey)
             {
@@ -360,7 +369,8 @@ protected:
         if(nodePointer)        {
             if(key < nodePointer->key) // search for the node in the left in less than
             {
-                deleteBasedOnKeyStartingOnThisNode(nodePointer->left, key);            }
+                deleteBasedOnKeyStartingOnThisNode(nodePointer->left, key);
+            }
             else if(key > nodePointer->key) // search for the node in the right in greater than
             {
                 deleteBasedOnKeyStartingOnThisNode(nodePointer->right, key);
@@ -384,11 +394,10 @@ protected:
             }
             if(nodePointer)
             {
-                nodePointer->numberOfNodesOnThisSubTree = calculateSizeOfNodeBasedFromLeftAndRight(nodePointer);
+                updateNodeDetails(nodePointer);
             }
         }
     }
-
     void deleteMinimumStartingOnThisNode(NodeUniquePointer & nodePointer)
     {
         if(nodePointer)
@@ -396,11 +405,10 @@ protected:
             if(nodePointer->left) // go to the left until null
             {
                 deleteMinimumStartingOnThisNode(nodePointer->left);
-                nodePointer->numberOfNodesOnThisSubTree = calculateSizeOfNodeBasedFromLeftAndRight(nodePointer);
+                updateNodeDetails(nodePointer);
             }
             else
-            {
-                // delete the left mode node and place the right child in its place (left child is not considered because its the left most node)
+            {                // delete the left mode node and place the right child in its place (left child is not considered because its the left most node)
                 nodePointer = std::move(nodePointer->right);
             }
         }
@@ -413,11 +421,10 @@ protected:
             if(nodePointer->right)
             {
                 deleteMaximumStartingOnThisNode(nodePointer->right);
-                nodePointer->numberOfNodesOnThisSubTree = calculateSizeOfNodeBasedFromLeftAndRight(nodePointer);
+                updateNodeDetails(nodePointer);
             }
             else
-            {
-                nodePointer = std::move(nodePointer->left);
+            {                nodePointer = std::move(nodePointer->left);
             }
         }
     }
@@ -438,7 +445,8 @@ protected:
         {            if(low < nodePointer->key)
             {
                 retrieveKeysInRangeInclusiveStartingOnThisNode(keys, nodePointer->left, low, high);
-            }            if(low <= nodePointer->key && high >= nodePointer->key)
+            }
+            if(low <= nodePointer->key && high >= nodePointer->key)
             {
                 keys.emplace_back(nodePointer->key);
             }

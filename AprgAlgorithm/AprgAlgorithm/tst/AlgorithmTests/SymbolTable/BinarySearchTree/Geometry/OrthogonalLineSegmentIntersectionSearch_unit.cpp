@@ -8,6 +8,7 @@ namespace alba
 {
 namespace algorithm
 {
+
 namespace
 {
 using SearchForTest = OrthogonalLineSegmentIntersectionSearch<unsigned int>;
