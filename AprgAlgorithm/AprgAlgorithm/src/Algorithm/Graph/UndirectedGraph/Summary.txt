@@ -1,0 +1,7 @@
+
+Representation   | space | add edge          | check edge between v and w? | iterate over vertices adjacent to v
+list of edges    | E     | 1 (log E in impl) | E (log E in impl)           | E (2*log(E) + degree(v) in impl)
+adjacency matrix | V^2   | 1*                | 1                           | V
+adjacency lists  | E+V   | 1                 | degree(v)                   | degree(v) 
+
+* disallows parallel edges

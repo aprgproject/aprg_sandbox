@@ -58,13 +58,12 @@ public:
         {
             reversedPath.emplace_back(m_startVertex);
             result.reserve(reversedPath.size());
+            // Sedgewick uses stack for reversing but we use vector for Path
             std::copy(reversedPath.crbegin(), reversedPath.crend(), std::back_inserter(result));
         }
-        return result;
-    }
+        return result;    }
 
     virtual void reinitializeStartingFrom(Vertex const& startVertex) = 0;
-
 protected:
 
     void clear()

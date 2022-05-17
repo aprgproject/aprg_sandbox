@@ -46,17 +46,15 @@ public:
 
 private:
 
-    bool isPartOfCycle(Vertex const& vertex) const
+    bool isAVertexOnPossibleCycle(Vertex const& vertex) const
     {
-        return m_verticesInCycle.find(vertex) != m_verticesInCycle.cend();
+        return m_verticesInPossibleCycle.find(vertex) != m_verticesInPossibleCycle.cend();
     }
 
-    Path getPathWithCycle(Vertex const& secondToTheLastVertex, Vertex const& lastVertex) const
-    {
+    Path getPathWithCycle(Vertex const& secondToTheLastVertex, Vertex const& lastVertex) const    {
         bool isSuccessful(true);
         Path reversedPath{lastVertex};
-        Vertex currentVertex = secondToTheLastVertex;
-        while(currentVertex != lastVertex)
+        Vertex currentVertex = secondToTheLastVertex;        while(currentVertex != lastVertex)
         {
             reversedPath.emplace_back(currentVertex);
             auto it = m_vertexToPreviousVertexMap.find(currentVertex);
@@ -99,57 +97,55 @@ private:
 
     void checkForCyclesUsingDfsWithDirectedGraph(Vertex const& startVertex)
     {
-        m_verticesInCycle.emplace(startVertex);
+        m_verticesInPossibleCycle.emplace(startVertex);
         m_processedVertices.putVertex(startVertex);
         for(Vertex const& adjacentVertex : m_graph.getAdjacentVerticesAt(startVertex))
         {
-            if(hasCycle())
+            if(hasCycle()) // this check is needed to end all recursion instances once cycle has been detected
             {
                 break;
-            }
-            else if(m_processedVertices.isNotFound(adjacentVertex))
+            }            else if(m_processedVertices.isNotFound(adjacentVertex))
             {
                 m_vertexToPreviousVertexMap[adjacentVertex] = startVertex;
                 checkForCyclesUsingDfsWithDirectedGraph(adjacentVertex);
             }
-            else if(isPartOfCycle(adjacentVertex))
+            else if(isAVertexOnPossibleCycle(adjacentVertex)) // check processed vertices if part of a cycle
             {
                 m_pathWithCycle = getPathWithCycle(startVertex, adjacentVertex);
             }
         }
-        m_verticesInCycle.erase(startVertex);
+        m_verticesInPossibleCycle.erase(startVertex);
     }
 
     void checkForCyclesUsingDfsWithUndirectedGraph(Vertex const& startVertex, Vertex const& previousVertex)
     {
-        m_verticesInCycle.emplace(startVertex);
+        m_verticesInPossibleCycle.emplace(startVertex);
         m_processedVertices.putVertex(startVertex);
         for(Vertex const& adjacentVertex : m_graph.getAdjacentVerticesAt(startVertex))
         {
-            if(hasCycle())
+            if(hasCycle()) // this check is needed to end all recursion instances once cycle has been detected
             {
                 break;
-            }
-            else if(m_processedVertices.isNotFound(adjacentVertex))
+            }            else if(m_processedVertices.isNotFound(adjacentVertex))
             {
                 m_vertexToPreviousVertexMap[adjacentVertex] = startVertex;
                 checkForCyclesUsingDfsWithUndirectedGraph(adjacentVertex, startVertex);
             }
-            else if(previousVertex != adjacentVertex && isPartOfCycle(adjacentVertex))
+            else if(previousVertex != adjacentVertex && isAVertexOnPossibleCycle(adjacentVertex)) // check processed vertices if part of a cycle
             {
+                // if previous and adjacent are equal then its the same edge (and not technically a cycle)
                 m_pathWithCycle = getPathWithCycle(startVertex, adjacentVertex);
             }
         }
-        m_verticesInCycle.erase(startVertex);
+        m_verticesInPossibleCycle.erase(startVertex);
     }
 
     BaseGraphWithVertex const& m_graph;
     CheckableVerticesWithVertex m_processedVertices;
     VertexToVertexMap m_vertexToPreviousVertexMap;
-    SetOfVertices m_verticesInCycle;
+    SetOfVertices m_verticesInPossibleCycle;
     Path m_pathWithCycle;
 };
-
 }
 
 }

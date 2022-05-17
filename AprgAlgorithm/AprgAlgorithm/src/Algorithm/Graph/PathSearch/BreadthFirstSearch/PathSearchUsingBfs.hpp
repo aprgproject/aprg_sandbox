@@ -56,6 +56,11 @@ public:
     }
 };
 
+// Proposition: BFS computes shortest paths (fewest number of edges) from s to all other vertices ina graph in time proportional to E+V
+// Proof(correctness): Queue always consists of zero or more vertices of distance k from s, followed by zero or more vertices of distance k+1.
+// In short, vertices with distance 1 are first, and then vertices with distance 2 and then vertices with distance and so on.
+// Proof(running time): Each vertex connected to s is visited once.
+
 }
 
 }
