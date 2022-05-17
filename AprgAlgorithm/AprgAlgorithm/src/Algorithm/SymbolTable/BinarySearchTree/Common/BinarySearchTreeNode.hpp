@@ -35,11 +35,22 @@ struct RedBlackTreeNode
     std::unique_ptr<RedBlackTreeNode> left;
     std::unique_ptr<RedBlackTreeNode> right;
     unsigned int numberOfNodesOnThisSubTree;
-    Color parentLinkColor; // parent link color
+    Color parentLinkColor;
+};
+
+template <typename Key, typename Value, typename KeyDataTypeValue>
+struct IntervalSearchTreeNode
+{
+    Key key;
+    Value value;
+    std::unique_ptr<IntervalSearchTreeNode> left;
+    std::unique_ptr<IntervalSearchTreeNode> right;
+    unsigned int numberOfNodesOnThisSubTree;
+    Color parentLinkColor;
+    KeyDataTypeValue maxValueInSubtree;
 };
 
 }
 
 }
-
 }

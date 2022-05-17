@@ -199,7 +199,8 @@ protected:
                 nodePointer->value = value;
             }
         }
-        else        {
+        else
+        {
             nodePointer.reset(new Node{key, value, nullptr, nullptr, 1U});
         }
         depth--;
@@ -246,7 +247,8 @@ protected:
     }
 
     void retrieveKeysInRangeInclusiveStartingOnThisNode(Keys & keys, NodeUniquePointer const& nodePointer, Key const& low, Key const& high) const
-    {        static unsigned int depth=0;
+    {
+        static unsigned int depth=0;
         depth++;
         if(nodePointer)
         {

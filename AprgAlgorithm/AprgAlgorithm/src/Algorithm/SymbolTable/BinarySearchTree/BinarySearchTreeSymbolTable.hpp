@@ -41,7 +41,8 @@ protected:
                 nodePointer->value = value;
             }
         }
-        else        {
+        else
+        {
             nodePointer.reset(new Node{key, value, nullptr, nullptr, 1U});
         }
     }

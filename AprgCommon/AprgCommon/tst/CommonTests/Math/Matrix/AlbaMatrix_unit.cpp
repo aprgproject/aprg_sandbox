@@ -26,7 +26,8 @@ TEST(AlbaMatrixTest, MatrixConstructor_AlbaMatrixCanBeCreatedWithSize)
 {
     AlbaMatrix<unsigned int> matrix(2, 3);
 
-    EXPECT_EQ(2U, matrix.getNumberOfColumns());    EXPECT_EQ(3U, matrix.getNumberOfRows());
+    EXPECT_EQ(2U, matrix.getNumberOfColumns());
+    EXPECT_EQ(3U, matrix.getNumberOfRows());
     AlbaMatrix<unsigned int>::MatrixData const& matrixData(
                 matrix.getMatrixData());
     ASSERT_EQ(6U, matrixData.size());

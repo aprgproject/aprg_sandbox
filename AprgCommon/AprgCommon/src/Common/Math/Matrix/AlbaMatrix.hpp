@@ -10,7 +10,8 @@
 #include <functional>
 #include <sstream>
 
-namespace alba{
+namespace alba
+{
 
 namespace matrix
 {
@@ -60,7 +61,8 @@ public:
     {
         bool isEqual(true);
         if(m_numberOfColumns != secondMatrix.m_numberOfColumns)
-        {            isEqual=false;
+        {
+            isEqual=false;
         }
         else if(m_numberOfRows != secondMatrix.m_numberOfRows)
         {
@@ -253,7 +255,8 @@ public:
     {
         for(DataType & value : m_matrixData)
         {
-            value *= -1;        }
+            value *= -1;
+        }
     }
 
     void transpose()

@@ -117,7 +117,8 @@ public:
     }
 
     void deleteMinimum() override
-    {        deleteMinimumStartingOnThisNode(m_root);
+    {
+        deleteMinimumStartingOnThisNode(m_root);
     }
 
     void deleteMaximum() override
@@ -156,11 +157,10 @@ protected:
         return getSizeOnThisNode(node.left) + getSizeOnThisNode(node.right) + 1;
     }
 
-    void updateNodeDetails(Node & node) const
+    virtual void updateNodeDetails(Node & node) const
     {
         node.numberOfNodesOnThisSubTree = calculateSizeOfNodeBasedFromLeftAndRight(node);
     }
-
     virtual bool doesContainStartingOnThisNode(NodeUniquePointer const& nodePointer, Key const& key) const
     {
         bool result(false);
@@ -168,7 +168,8 @@ protected:
         {
             Key const& currentKey(nodePointer->key);
             if(key < currentKey)
-            {                result = doesContainStartingOnThisNode(nodePointer->left, key);
+            {
+                result = doesContainStartingOnThisNode(nodePointer->left, key);
             }
             else if(key > currentKey)
             {
@@ -189,7 +190,8 @@ protected:
         {
             Key const& currentKey(nodePointer->key);
             if(key < currentKey)
-            {                result = getStartingOnThisNode(nodePointer->left, key);
+            {
+                result = getStartingOnThisNode(nodePointer->left, key);
             }
             else if(key > currentKey)
             {
@@ -266,7 +268,8 @@ protected:
         {
             Key const& currentKey(nodePointer->key);
             if(key == currentKey)
-            {                result = nodePointer.get();
+            {
+                result = nodePointer.get();
             }
             else if(key < currentKey)
             {
@@ -329,7 +332,8 @@ protected:
         {
             Key const& currentKey(nodePointer->key);
             if(key < currentKey)
-            {                result = getRankStartingOnThisNode(nodePointer->left, key); // recursively check rank on the right side
+            {
+                result = getRankStartingOnThisNode(nodePointer->left, key); // recursively check rank on the right side
             }
             else if(key > currentKey)
             {
@@ -371,7 +375,8 @@ protected:
         {
             if(key < nodePointer->key) // search for the node in the left in less than
             {
-                deleteBasedOnKeyStartingOnThisNode(nodePointer->left, key);            }
+                deleteBasedOnKeyStartingOnThisNode(nodePointer->left, key);
+            }
             else if(key > nodePointer->key) // search for the node in the right in greater than
             {
                 deleteBasedOnKeyStartingOnThisNode(nodePointer->right, key);
@@ -402,7 +407,8 @@ protected:
 
     void deleteMinimumStartingOnThisNode(NodeUniquePointer & nodePointer)
     {
-        if(nodePointer)        {
+        if(nodePointer)
+        {
             if(nodePointer->left) // go to the left until null
             {
                 deleteMinimumStartingOnThisNode(nodePointer->left);
@@ -413,7 +419,8 @@ protected:
                 // delete the left mode node and place the right child in its place (left child is not considered because its the left most node)
                 nodePointer = std::move(nodePointer->right);
             }
-        }    }
+        }
+    }
 
     void deleteMaximumStartingOnThisNode(NodeUniquePointer & nodePointer)
     {
@@ -430,6 +437,7 @@ protected:
             }
         }
     }
+
     void retrieveKeysStartingOnThisNode(Keys & keys, NodeUniquePointer const& nodePointer) const
     {
         if(nodePointer)
@@ -447,7 +455,8 @@ protected:
             if(low < nodePointer->key)
             {
                 retrieveKeysInRangeInclusiveStartingOnThisNode(keys, nodePointer->left, low, high);
-            }            if(low <= nodePointer->key && high >= nodePointer->key)
+            }
+            if(low <= nodePointer->key && high >= nodePointer->key)
             {
                 keys.emplace_back(nodePointer->key);
             }

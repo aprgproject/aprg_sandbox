@@ -23,6 +23,7 @@ TEST(BinarySearchTreeSymbolTableTest, IsEmptyWorksWhenEmpty)
 {
     testIsEmptyWhenEmptyWithUnsignedIntAndChar<SymbolTableForTest>();
 }
+
 TEST(BinarySearchTreeSymbolTableTest, IsEmptyWorksWhenNotEmpty)
 {
     testIsEmptyWhenNotEmptyWithUnsignedIntAndChar<SymbolTableForTest>();
