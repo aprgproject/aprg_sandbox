@@ -135,12 +135,15 @@ public:
         m_edges.clear();
     }
 
+    SetOfEdges& getSetOfEdgesReference()
+    {
+        return m_edges;
+    }
+
 protected:
 
-    unsigned int m_numberOfEdges;
-    SetOfEdges m_edges;
+    unsigned int m_numberOfEdges;    SetOfEdges m_edges;
 };
 
 }
-
 }
