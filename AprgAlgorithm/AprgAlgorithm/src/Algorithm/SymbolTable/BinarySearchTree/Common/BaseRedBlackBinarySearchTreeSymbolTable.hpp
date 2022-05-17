@@ -22,23 +22,24 @@ protected:
     void putStartingOnThisNode(NodeUniquePointer & nodePointer, Key const& key, Value const& value) override
     {
         if(nodePointer)
-        {            Key const& currentKey(nodePointer->key);
+        {
+            Key const& currentKey(nodePointer->key);
             if(key < currentKey) // same as BST
             {
                 putStartingOnThisNode(nodePointer->left, key, value);
-                this->updateNodeDetails(nodePointer);
+                this->updateNodeDetails(*nodePointer);
             }
             else if(key > currentKey) // same as BST
             {
                 putStartingOnThisNode(nodePointer->right, key, value);
-                this->updateNodeDetails(nodePointer);
+                this->updateNodeDetails(*nodePointer);
             }
             else // equal to key
-            {                nodePointer->value = value;
+            {
+                nodePointer->value = value;
             }
             if(hasARightLeaningRedLinkOnOneChild(nodePointer)) // rotate a right leaning red link to the left
-            {
-                // need to maintain: Red links lean left.
+            {                // need to maintain: Red links lean left.
                 // there is a case that rotating a right leaning red link cause 2 consecutive red links and this is caught in the next condition
                 rotateLeft(nodePointer);
             }
@@ -66,11 +67,11 @@ protected:
     inline bool isRed(NodeUniquePointer const& nodePointer) const
     {
         bool result(false);
-        if(nodePointer)        {
+        if(nodePointer)
+        {
             result = nodePointer->parentLinkColor == BinarySearchTreeNode::Color::Red;
         }
-        return result;
-    }
+        return result;    }
 
     inline bool hasARightLeaningRedLinkOnOneChild(NodeUniquePointer const& nodePointer) const
     {
@@ -107,14 +108,14 @@ protected:
                 nodePointer->parentLinkColor = previousNodePointer->parentLinkColor;
                 nodePointer->numberOfNodesOnThisSubTree = previousNodePointer->numberOfNodesOnThisSubTree;
                 previousNodePointer->parentLinkColor = BinarySearchTreeNode::Color::Red;
-                this->updateNodeDetails(previousNodePointer);
+                this->updateNodeDetails(*previousNodePointer);
             }
         }
     }
+
     void rotateRight(NodeUniquePointer & nodePointer)
     {
-        // This switches left child as the parent, switching the old parent as the right child (thus rotate right)
-        // It also switches the left leaning link to right leaning link (useful to change red links lean right)
+        // This switches left child as the parent, switching the old parent as the right child (thus rotate right)        // It also switches the left leaning link to right leaning link (useful to change red links lean right)
         if(nodePointer)
         {
             if(nodePointer->left)
@@ -131,14 +132,14 @@ protected:
                 nodePointer->parentLinkColor = previousNodePointer->parentLinkColor;
                 nodePointer->numberOfNodesOnThisSubTree = previousNodePointer->numberOfNodesOnThisSubTree;
                 previousNodePointer->parentLinkColor = BinarySearchTreeNode::Color::Red;
-                this->updateNodeDetails(previousNodePointer);
+                this->updateNodeDetails(*previousNodePointer);
             }
         }
     }
+
     void setParentAsRedAndChildrenAsBlack(NodeUniquePointer & nodePointer)
     {
-        // used to flip colors (split a 4 node in 2-3 trees)
-        if(nodePointer)
+        // used to flip colors (split a 4 node in 2-3 trees)        if(nodePointer)
         {
             nodePointer->parentLinkColor = BinarySearchTreeNode::Color::Red;
             if(nodePointer->left)

@@ -187,19 +187,19 @@ protected:
             if(isLessThanWithDepth(key, currentKey, depth))
             {
                 putStartingOnThisNode(nodePointer->left, key, value);
-                this->updateNodeDetails(nodePointer);
+                this->updateNodeDetails(*nodePointer);
             }
             else if(isGreaterThanWithDepth(key, currentKey, depth))
             {
                 putStartingOnThisNode(nodePointer->right, key, value);
-                this->updateNodeDetails(nodePointer);
+                this->updateNodeDetails(*nodePointer);
             }
             else
-            {                nodePointer->value = value;
+            {
+                nodePointer->value = value;
             }
         }
-        else
-        {
+        else        {
             nodePointer.reset(new Node{key, value, nullptr, nullptr, 1U});
         }
         depth--;
@@ -239,14 +239,14 @@ protected:
             }
             if(nodePointer)
             {
-                this->updateNodeDetails(nodePointer);
+                this->updateNodeDetails(*nodePointer);
             }
         }
-        depth--;    }
+        depth--;
+    }
 
     void retrieveKeysInRangeInclusiveStartingOnThisNode(Keys & keys, NodeUniquePointer const& nodePointer, Key const& low, Key const& high) const
-    {
-        static unsigned int depth=0;
+    {        static unsigned int depth=0;
         depth++;
         if(nodePointer)
         {

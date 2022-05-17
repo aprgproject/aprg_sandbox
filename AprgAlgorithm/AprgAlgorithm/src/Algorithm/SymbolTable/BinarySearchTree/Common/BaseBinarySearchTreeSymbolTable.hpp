@@ -113,11 +113,11 @@ public:
 
     void deleteBasedOnKey(Key const& key) override
     {
-        deleteBasedOnKeyStartingOnThisNode(m_root, key);    }
+        deleteBasedOnKeyStartingOnThisNode(m_root, key);
+    }
 
     void deleteMinimum() override
-    {
-        deleteMinimumStartingOnThisNode(m_root);
+    {        deleteMinimumStartingOnThisNode(m_root);
     }
 
     void deleteMaximum() override
@@ -151,23 +151,24 @@ protected:
         return size;
     }
 
-    unsigned int calculateSizeOfNodeBasedFromLeftAndRight(NodeUniquePointer const& nodePointer) const
+    unsigned int calculateSizeOfNodeBasedFromLeftAndRight(Node & node) const
     {
-        return getSizeOnThisNode(nodePointer->left) + getSizeOnThisNode(nodePointer->right) + 1;
+        return getSizeOnThisNode(node.left) + getSizeOnThisNode(node.right) + 1;
     }
 
-    void updateNodeDetails(NodeUniquePointer & nodePointer) const
+    void updateNodeDetails(Node & node) const
     {
-        nodePointer->numberOfNodesOnThisSubTree = calculateSizeOfNodeBasedFromLeftAndRight(nodePointer);
+        node.numberOfNodesOnThisSubTree = calculateSizeOfNodeBasedFromLeftAndRight(node);
     }
 
     virtual bool doesContainStartingOnThisNode(NodeUniquePointer const& nodePointer, Key const& key) const
     {
-        bool result(false);        if(nodePointer)        {
+        bool result(false);
+        if(nodePointer)
+        {
             Key const& currentKey(nodePointer->key);
             if(key < currentKey)
-            {
-                result = doesContainStartingOnThisNode(nodePointer->left, key);
+            {                result = doesContainStartingOnThisNode(nodePointer->left, key);
             }
             else if(key > currentKey)
             {
@@ -184,11 +185,11 @@ protected:
     virtual Value getStartingOnThisNode(NodeUniquePointer const& nodePointer, Key const& key) const
     {
         Value result{};
-        if(nodePointer)        {
+        if(nodePointer)
+        {
             Key const& currentKey(nodePointer->key);
             if(key < currentKey)
-            {
-                result = getStartingOnThisNode(nodePointer->left, key);
+            {                result = getStartingOnThisNode(nodePointer->left, key);
             }
             else if(key > currentKey)
             {
@@ -261,11 +262,11 @@ protected:
     virtual Node const* getNodeWithFloorStartingOnThisNode(NodeUniquePointer const& nodePointer, Key const& key) const
     {
         Node const* result(nullptr);
-        if(nodePointer)        {
+        if(nodePointer)
+        {
             Key const& currentKey(nodePointer->key);
             if(key == currentKey)
-            {
-                result = nodePointer.get();
+            {                result = nodePointer.get();
             }
             else if(key < currentKey)
             {
@@ -324,11 +325,11 @@ protected:
     virtual unsigned int getRankStartingOnThisNode(NodeUniquePointer const& nodePointer, Key const& key) const
     {
         unsigned int result(0);
-        if(nodePointer)        {
+        if(nodePointer)
+        {
             Key const& currentKey(nodePointer->key);
             if(key < currentKey)
-            {
-                result = getRankStartingOnThisNode(nodePointer->left, key); // recursively check rank on the right side
+            {                result = getRankStartingOnThisNode(nodePointer->left, key); // recursively check rank on the right side
             }
             else if(key > currentKey)
             {
@@ -366,11 +367,11 @@ protected:
     virtual void deleteBasedOnKeyStartingOnThisNode(NodeUniquePointer & nodePointer, Key const& key)
     {
         //this is called hibbard deletion
-        if(nodePointer)        {
+        if(nodePointer)
+        {
             if(key < nodePointer->key) // search for the node in the left in less than
             {
-                deleteBasedOnKeyStartingOnThisNode(nodePointer->left, key);
-            }
+                deleteBasedOnKeyStartingOnThisNode(nodePointer->left, key);            }
             else if(key > nodePointer->key) // search for the node in the right in greater than
             {
                 deleteBasedOnKeyStartingOnThisNode(nodePointer->right, key);
@@ -394,25 +395,25 @@ protected:
             }
             if(nodePointer)
             {
-                updateNodeDetails(nodePointer);
+                updateNodeDetails(*nodePointer);
             }
         }
     }
+
     void deleteMinimumStartingOnThisNode(NodeUniquePointer & nodePointer)
     {
-        if(nodePointer)
-        {
+        if(nodePointer)        {
             if(nodePointer->left) // go to the left until null
             {
                 deleteMinimumStartingOnThisNode(nodePointer->left);
-                updateNodeDetails(nodePointer);
+                updateNodeDetails(*nodePointer);
             }
             else
-            {                // delete the left mode node and place the right child in its place (left child is not considered because its the left most node)
+            {
+                // delete the left mode node and place the right child in its place (left child is not considered because its the left most node)
                 nodePointer = std::move(nodePointer->right);
             }
-        }
-    }
+        }    }
 
     void deleteMaximumStartingOnThisNode(NodeUniquePointer & nodePointer)
     {
@@ -421,14 +422,14 @@ protected:
             if(nodePointer->right)
             {
                 deleteMaximumStartingOnThisNode(nodePointer->right);
-                updateNodeDetails(nodePointer);
+                updateNodeDetails(*nodePointer);
             }
             else
-            {                nodePointer = std::move(nodePointer->left);
+            {
+                nodePointer = std::move(nodePointer->left);
             }
         }
     }
-
     void retrieveKeysStartingOnThisNode(Keys & keys, NodeUniquePointer const& nodePointer) const
     {
         if(nodePointer)
@@ -442,11 +443,11 @@ protected:
     virtual void retrieveKeysInRangeInclusiveStartingOnThisNode(Keys & keys, NodeUniquePointer const& nodePointer, Key const& low, Key const& high) const
     {
         if(nodePointer)
-        {            if(low < nodePointer->key)
+        {
+            if(low < nodePointer->key)
             {
                 retrieveKeysInRangeInclusiveStartingOnThisNode(keys, nodePointer->left, low, high);
-            }
-            if(low <= nodePointer->key && high >= nodePointer->key)
+            }            if(low <= nodePointer->key && high >= nodePointer->key)
             {
                 keys.emplace_back(nodePointer->key);
             }

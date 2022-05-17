@@ -6,9 +6,9 @@ using namespace std;
 
 namespace alba
 {
+
 namespace algorithm
 {
-
 namespace
 {
 using SearchForTest = OrthogonalLineSegmentIntersectionSearch<unsigned int>;

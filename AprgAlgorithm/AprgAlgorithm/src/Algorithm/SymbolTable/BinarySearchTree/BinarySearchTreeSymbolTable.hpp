@@ -24,23 +24,24 @@ protected:
     void putStartingOnThisNode(NodeUniquePointer & nodePointer, Key const& key, Value const& value) override
     {
         if(nodePointer)
-        {            Key const& currentKey(nodePointer->key);
+        {
+            Key const& currentKey(nodePointer->key);
             if(key < currentKey)
             {
                 putStartingOnThisNode(nodePointer->left, key, value);
-                this->updateNodeDetails(nodePointer);
+                this->updateNodeDetails(*nodePointer);
             }
             else if(key > currentKey)
             {
                 putStartingOnThisNode(nodePointer->right, key, value);
-                this->updateNodeDetails(nodePointer);
+                this->updateNodeDetails(*nodePointer);
             }
             else
-            {                nodePointer->value = value;
+            {
+                nodePointer->value = value;
             }
         }
-        else
-        {
+        else        {
             nodePointer.reset(new Node{key, value, nullptr, nullptr, 1U});
         }
     }

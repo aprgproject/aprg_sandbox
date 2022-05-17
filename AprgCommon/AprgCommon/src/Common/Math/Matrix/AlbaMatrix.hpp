@@ -6,11 +6,11 @@
 #include <Common/Math/Matrix/AlbaMatrixUtilities.hpp>
 #include <Common/User/DisplayTable.hpp>
 
-#include <cassert>#include <functional>
+#include <cassert>
+#include <functional>
 #include <sstream>
 
-namespace alba
-{
+namespace alba{
 
 namespace matrix
 {
@@ -56,11 +56,11 @@ public:
         m_matrixData.shrink_to_fit();
     }
 
-    bool operator==(AlbaMatrix const& secondMatrix) const    {
+    bool operator==(AlbaMatrix const& secondMatrix) const
+    {
         bool isEqual(true);
         if(m_numberOfColumns != secondMatrix.m_numberOfColumns)
-        {
-            isEqual=false;
+        {            isEqual=false;
         }
         else if(m_numberOfRows != secondMatrix.m_numberOfRows)
         {
@@ -249,11 +249,11 @@ public:
         m_matrixData.shrink_to_fit();
     }
 
-    void negate()    {
+    void negate()
+    {
         for(DataType & value : m_matrixData)
         {
-            value *= -1;
-        }
+            value *= -1;        }
     }
 
     void transpose()
