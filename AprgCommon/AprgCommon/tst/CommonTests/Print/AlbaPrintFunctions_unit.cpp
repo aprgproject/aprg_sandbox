@@ -10,15 +10,23 @@ using namespace std;
 namespace alba
 {
 
-TEST(AlbaPrintFunctionsTest, PrintParameterWorksWithPointer)
+TEST(AlbaPrintFunctionsTest, PrintParameterWorksWithItemsThatCanPrint)
 {
     stringstream ssToVerify;
     unsigned int integerToTest=500U;
 
+    printParameter(ssToVerify, "name", integerToTest);
+
+    EXPECT_EQ("name : [500]", ssToVerify.str());
+}
+
+TEST(AlbaPrintFunctionsTest, PrintParameterWorksWithPointer)
+{
+    stringstream ssToVerify;    unsigned int integerToTest=500U;
+
     printParameter(ssToVerify, "name", &integerToTest);
 
-    EXPECT_EQ("*name : [500]", ssToVerify.str());
-}
+    EXPECT_EQ("*name : [500]", ssToVerify.str());}
 
 TEST(AlbaPrintFunctionsTest, PrintParameterWorksWithCharacterLiteral)
 {
@@ -60,21 +68,19 @@ TEST(AlbaPrintFunctionsTest, PrintParameterWorksWithWeakPointer)
     EXPECT_EQ("name has use count: [1]", ssToVerify.str());
 }
 
-TEST(AlbaPrintFunctionsTest, PrintParameterWorksWithItemsThatCanPrint)
+TEST(AlbaPrintFunctionsTest, PrintParameterWorksWithPair)
 {
     stringstream ssToVerify;
-    unsigned int integerToTest=500U;
+    pair<unsigned int, char> pairToTest{300, 'A'};
 
-    printParameter(ssToVerify, "name", integerToTest);
+    printParameter(ssToVerify, "name", pairToTest);
 
-    EXPECT_EQ("name : [500]", ssToVerify.str());
+    EXPECT_EQ("name : [(300, A)]", ssToVerify.str());
 }
 
-TEST(AlbaPrintFunctionsTest, PrintParameterWorksWithArray)
-{
+TEST(AlbaPrintFunctionsTest, PrintParameterWorksWithArray){
     stringstream ssToVerify;
     array<unsigned int, 5> vectorToTest{500U, 501U, 502U, 503U, 504U};
-
     printParameter(ssToVerify, "name", vectorToTest);
 
     EXPECT_EQ("name : [(has size 5):{500, 501, 502, 503, 504, }]", ssToVerify.str());

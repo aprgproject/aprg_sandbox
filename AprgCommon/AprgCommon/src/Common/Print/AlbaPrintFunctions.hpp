@@ -12,14 +12,18 @@ namespace alba
 
 // Print parameter functions
 
+template <typename ParameterType>
+void printParameter(std::ostream & outputStream, std::string const& parameterName, ParameterType const& parameter)
+{
+    outputStream << parameterName << " : [" << parameter << "]";
+}
+
 template <typename ParameterPointerType>
 void printParameter(std::ostream & outputStream, std::string const& parameterName, ParameterPointerType * parameterPointer)
-{
-    if(parameterPointer == nullptr)
+{    if(parameterPointer == nullptr)
     {
         outputStream << parameterName << " : [nullptr]";
-    }
-    else
+    }    else
     {
         outputStream << "*" << parameterName << " : [" << *parameterPointer << "]";
     }
@@ -46,18 +50,16 @@ void printParameter(std::ostream & outputStream, std::string const& parameterNam
     outputStream << parameterName << " has use count: [" << parameterPointer.use_count() << "]";
 }
 
-template <typename ParameterType>
-void printParameter(std::ostream & outputStream, std::string const& parameterName, ParameterType const& parameter)
+template <typename ValueType1, typename ValueType2>
+void printParameter(std::ostream & outputStream, std::string const& parameterName, std::pair<ValueType1, ValueType2> const& parameter)
 {
-    outputStream << parameterName << " : [" << parameter << "]";
+    outputStream << parameterName << " : [(" << parameter.first << ", " << parameter.second << ")]";
 }
 
-template <typename ValueType, size_t SIZE,
-          template <typename, size_t> class Container>
+template <typename ValueType, size_t SIZE,          template <typename, size_t> class Container>
 void printParameter(std::ostream & outputStream, std::string const& parameterName, Container<ValueType, SIZE> const& container)
 {
-    outputStream << parameterName << " : [(has size " << container.size() << "):{";
-    saveContentsToStream(outputStream, container, StreamFormat::String);
+    outputStream << parameterName << " : [(has size " << container.size() << "):{";    saveContentsToStream(outputStream, container, StreamFormat::String);
     outputStream << "}]";
 }
 

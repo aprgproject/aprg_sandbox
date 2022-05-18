@@ -126,15 +126,13 @@ TEST(ContainerTest, GetLowerAndUpperIteratorsInMapWorks)
     EXPECT_EQ(secondIterator, iteratorsToVerify6.second);
 }
 
-TEST(ContainerTest, GetLowerAndUpperConstIteratorsInMultiMapWorks)
+TEST(ContainerTest, GetLowerAndUpperConstIteratorsInMapWorksOnMultiMap)
 {
     multimap<unsigned int, unsigned int> sampleMap{{1, 11}, {1, 12}, {3, 31}, {3, 32}, {5, 51}, {5, 52}};
-    using MultimapIterator=multimap<unsigned int, unsigned int>::const_iterator;
-    using PairOfIterators=pair<MultimapIterator, MultimapIterator>;
+    using MultimapIterator=multimap<unsigned int, unsigned int>::const_iterator;    using PairOfIterators=pair<MultimapIterator, MultimapIterator>;
 
     MultimapIterator firstIterator=sampleMap.begin();
-    MultimapIterator secondIterator=firstIterator;
-    secondIterator++;
+    MultimapIterator secondIterator=firstIterator;    secondIterator++;
     MultimapIterator thirdIterator=secondIterator;
     thirdIterator++;
     MultimapIterator fourthIterator=thirdIterator;
@@ -143,35 +141,33 @@ TEST(ContainerTest, GetLowerAndUpperConstIteratorsInMultiMapWorks)
     fifthIterator++;
     MultimapIterator sixthIterator=fifthIterator;
     sixthIterator++;
-    PairOfIterators iteratorsToVerify1(getLowerAndUpperConstIteratorsInMultiMap(sampleMap, 0U));
+    PairOfIterators iteratorsToVerify1(getLowerAndUpperConstIteratorsInMap(sampleMap, 0U));
     EXPECT_EQ(firstIterator, iteratorsToVerify1.first);
     EXPECT_EQ(firstIterator, iteratorsToVerify1.second);
-    PairOfIterators iteratorsToVerify2(getLowerAndUpperConstIteratorsInMultiMap(sampleMap, 6U));
+    PairOfIterators iteratorsToVerify2(getLowerAndUpperConstIteratorsInMap(sampleMap, 6U));
     EXPECT_EQ(sixthIterator, iteratorsToVerify2.first);
     EXPECT_EQ(sixthIterator, iteratorsToVerify2.second);
-    PairOfIterators iteratorsToVerify3(getLowerAndUpperConstIteratorsInMultiMap(sampleMap, 1U));
+    PairOfIterators iteratorsToVerify3(getLowerAndUpperConstIteratorsInMap(sampleMap, 1U));
     EXPECT_EQ(firstIterator, iteratorsToVerify3.first);
     EXPECT_EQ(secondIterator, iteratorsToVerify3.second);
-    PairOfIterators iteratorsToVerify4(getLowerAndUpperConstIteratorsInMultiMap(sampleMap, 5U));
+    PairOfIterators iteratorsToVerify4(getLowerAndUpperConstIteratorsInMap(sampleMap, 5U));
     EXPECT_EQ(fifthIterator, iteratorsToVerify4.first);
     EXPECT_EQ(sixthIterator, iteratorsToVerify4.second);
-    PairOfIterators iteratorsToVerify5(getLowerAndUpperConstIteratorsInMultiMap(sampleMap, 4U));
+    PairOfIterators iteratorsToVerify5(getLowerAndUpperConstIteratorsInMap(sampleMap, 4U));
     EXPECT_EQ(fourthIterator, iteratorsToVerify5.first);
     EXPECT_EQ(fifthIterator, iteratorsToVerify5.second);
-    PairOfIterators iteratorsToVerify6(getLowerAndUpperConstIteratorsInMultiMap(sampleMap, 3U));
+    PairOfIterators iteratorsToVerify6(getLowerAndUpperConstIteratorsInMap(sampleMap, 3U));
     EXPECT_EQ(thirdIterator, iteratorsToVerify6.first);
     EXPECT_EQ(fourthIterator, iteratorsToVerify6.second);
 }
 
-TEST(ContainerTest, GetLowerAndUpperIteratorsInMultiMapWorks)
+TEST(ContainerTest, GetLowerAndUpperIteratorsInMapWorksOnMultiMap)
 {
     multimap<unsigned int, unsigned int> sampleMap{{1, 11}, {1, 12}, {3, 31}, {3, 32}, {5, 51}, {5, 52}};
-    using MultimapIterator=multimap<unsigned int, unsigned int>::iterator;
-    using PairOfIterators=pair<MultimapIterator, MultimapIterator>;
+    using MultimapIterator=multimap<unsigned int, unsigned int>::iterator;    using PairOfIterators=pair<MultimapIterator, MultimapIterator>;
 
     MultimapIterator firstIterator=sampleMap.begin();
-    MultimapIterator secondIterator=firstIterator;
-    secondIterator++;
+    MultimapIterator secondIterator=firstIterator;    secondIterator++;
     MultimapIterator thirdIterator=secondIterator;
     thirdIterator++;
     MultimapIterator fourthIterator=thirdIterator;
@@ -180,30 +176,28 @@ TEST(ContainerTest, GetLowerAndUpperIteratorsInMultiMapWorks)
     fifthIterator++;
     MultimapIterator sixthIterator=fifthIterator;
     sixthIterator++;
-    PairOfIterators iteratorsToVerify1(getLowerAndUpperIteratorsInMultiMap(sampleMap, 0U));
+    PairOfIterators iteratorsToVerify1(getLowerAndUpperIteratorsInMap(sampleMap, 0U));
     EXPECT_EQ(firstIterator, iteratorsToVerify1.first);
     EXPECT_EQ(firstIterator, iteratorsToVerify1.second);
-    PairOfIterators iteratorsToVerify2(getLowerAndUpperIteratorsInMultiMap(sampleMap, 6U));
+    PairOfIterators iteratorsToVerify2(getLowerAndUpperIteratorsInMap(sampleMap, 6U));
     EXPECT_EQ(sixthIterator, iteratorsToVerify2.first);
     EXPECT_EQ(sixthIterator, iteratorsToVerify2.second);
-    PairOfIterators iteratorsToVerify3(getLowerAndUpperIteratorsInMultiMap(sampleMap, 1U));
+    PairOfIterators iteratorsToVerify3(getLowerAndUpperIteratorsInMap(sampleMap, 1U));
     EXPECT_EQ(firstIterator, iteratorsToVerify3.first);
     EXPECT_EQ(secondIterator, iteratorsToVerify3.second);
-    PairOfIterators iteratorsToVerify4(getLowerAndUpperIteratorsInMultiMap(sampleMap, 5U));
+    PairOfIterators iteratorsToVerify4(getLowerAndUpperIteratorsInMap(sampleMap, 5U));
     EXPECT_EQ(fifthIterator, iteratorsToVerify4.first);
     EXPECT_EQ(sixthIterator, iteratorsToVerify4.second);
-    PairOfIterators iteratorsToVerify5(getLowerAndUpperIteratorsInMultiMap(sampleMap, 4U));
+    PairOfIterators iteratorsToVerify5(getLowerAndUpperIteratorsInMap(sampleMap, 4U));
     EXPECT_EQ(fourthIterator, iteratorsToVerify5.first);
     EXPECT_EQ(fifthIterator, iteratorsToVerify5.second);
-    PairOfIterators iteratorsToVerify6(getLowerAndUpperIteratorsInMultiMap(sampleMap, 3U));
+    PairOfIterators iteratorsToVerify6(getLowerAndUpperIteratorsInMap(sampleMap, 3U));
     EXPECT_EQ(thirdIterator, iteratorsToVerify6.first);
     EXPECT_EQ(fourthIterator, iteratorsToVerify6.second);
 }
-
 TEST(ContainerTest, SaveVectorOfIntegersToFileWorks)
 {
-    AlbaLocalPathHandler testFilePath(APRG_COMMON_TEST_FILE_TO_READ);
-    std::array<int, 6> temporaryArray{0, -23, 4, 379,- 482, 37};
+    AlbaLocalPathHandler testFilePath(APRG_COMMON_TEST_FILE_TO_READ);    std::array<int, 6> temporaryArray{0, -23, 4, 379,- 482, 37};
     ofstream outputTestFile(testFilePath.getFullPath());
 
     saveContentsToStream(outputTestFile, temporaryArray, StreamFormat::File);

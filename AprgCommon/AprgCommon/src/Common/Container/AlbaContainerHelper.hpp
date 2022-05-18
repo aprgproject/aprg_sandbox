@@ -22,15 +22,13 @@ enum class StreamFormat
 
 std::string getDelimeterBasedOnFormat(StreamFormat const streamFormat);
 
-template <typename ValueType, typename Iterator, typename Container>
+template <typename ValueType, typename Container, typename Iterator>
 void adjustUpperAndLowerIteratorsInSet(
         Container const& container,
-        ValueType const& value,
-        Iterator & itLower,
+        ValueType const& value,        Iterator & itLower,
         Iterator & itUpper)
 {
-    if(!container.empty())
-    {
+    if(!container.empty())    {
         if(itLower!=container.cbegin())
         {
             if(itLower==container.cend())
@@ -60,72 +58,68 @@ void adjustUpperAndLowerIteratorsInSet(
     }
 }
 
-template <typename ValueType>
-std::pair<typename std::set<ValueType>::const_iterator, typename std::set<ValueType>::const_iterator>
+template <typename ValueType, typename ContainerType>
+std::pair<typename ContainerType::const_iterator, typename ContainerType::const_iterator>
 getLowerAndUpperConstIteratorsInSet(
-        std::set<ValueType> const& container,
+        ContainerType const& container,
         ValueType const& value)
 {
-    using ConstIterator = typename std::set<ValueType>::const_iterator;
+    using ConstIterator = typename ContainerType::const_iterator;
     std::pair<ConstIterator, ConstIterator> result;
     ConstIterator itUpper(container.upper_bound(value));
-    ConstIterator itLower(container.lower_bound(value));
-    adjustUpperAndLowerIteratorsInSet(container, value, itLower, itUpper);
+    ConstIterator itLower(container.lower_bound(value));    adjustUpperAndLowerIteratorsInSet(container, value, itLower, itUpper);
     result.first = itLower;
     result.second = itUpper;
     return result;
 }
 
-template <typename ValueType>
+template <typename ValueType, typename ContainerType>
 std::pair<ValueType,ValueType> getLowerAndUpperValuesInSet(
-        std::set<ValueType> const& container,
+        ContainerType const& container,
         ValueType const& value)
 {
-    using ConstIterator = typename std::set<ValueType>::const_iterator;
+    using ConstIterator = typename ContainerType::const_iterator;
     std::pair<ValueType, ValueType> result;
     ConstIterator itUpper(container.upper_bound(value));
-    ConstIterator itLower(container.lower_bound(value));
-    adjustUpperAndLowerIteratorsInSet(container, value, itLower, itUpper);
+    ConstIterator itLower(container.lower_bound(value));    adjustUpperAndLowerIteratorsInSet(container, value, itLower, itUpper);
     result.first = *itLower;
     result.second = *itUpper;
     return result;
 }
 
-template <typename ValueType>
+template <typename ValueType, typename ContainerType>
 unsigned int countItemsInBetween(
-        std::set<ValueType> const& container,
+        ContainerType const& container,
         ValueType const& value1,
         ValueType const& value2)
 {
     // 1D range count
-    using ConstIterator = typename std::set<ValueType>::const_iterator;
+    using ConstIterator = typename ContainerType::const_iterator;
     ConstIterator itLower(container.lower_bound(value1));
     ConstIterator itUpper(container.upper_bound(value2));
     return static_cast<unsigned int>(std::distance(itLower, itUpper));
 }
 
-template <typename ValueType>
-std::set<ValueType> getItemsInBetween(
-        std::set<ValueType> const& container,
+template <typename ValueType, typename ContainerType>
+ContainerType getItemsInBetween(
+        ContainerType const& container,
         ValueType const& value1,
         ValueType const& value2)
 {
     // 1D range search
-    using ConstIterator = typename std::set<ValueType>::const_iterator;
+    using ConstIterator = typename ContainerType::const_iterator;
     ConstIterator itLower(container.lower_bound(value1));
     ConstIterator itUpper(container.upper_bound(value2));
-    return std::set<ValueType>(itLower, itUpper);
+    return ContainerType(itLower, itUpper);
 }
 
-template <typename KeyType, typename Iterator, typename Container>
+template <typename KeyType, typename Container, typename Iterator>
 void adjustUpperAndLowerIteratorsInMap(
         Container const& container,
-        KeyType const& keyValue,
-        Iterator & itLower,
+        KeyType const& keyValue,        Iterator & itLower,
         Iterator & itUpper)
 {
-    if(!container.empty())
-    {
+    if(!container.empty())    {
         if(itLower!=container.cbegin())
         {
             if(itLower==container.cend())
@@ -155,70 +149,37 @@ void adjustUpperAndLowerIteratorsInMap(
     }
 }
 
-template <typename KeyType, typename ValueType>
-std::pair<typename std::map<KeyType, ValueType>::const_iterator, typename std::map<KeyType, ValueType>::const_iterator>
-getLowerAndUpperConstIteratorsInMap(std::map<KeyType, ValueType> const& container, KeyType const& keyValue)
+template <typename KeyType, typename ContainerType>
+std::pair<typename ContainerType::const_iterator, typename ContainerType::const_iterator>
+getLowerAndUpperConstIteratorsInMap(ContainerType const& container, KeyType const& keyValue)
 {
-    using ConstIterator = typename std::map<KeyType, ValueType>::const_iterator;
+    using ConstIterator = typename ContainerType::const_iterator;
     std::pair<ConstIterator, ConstIterator> result;
     ConstIterator itUpper(container.upper_bound(keyValue));
-    ConstIterator itLower(container.lower_bound(keyValue));
-    adjustUpperAndLowerIteratorsInMap(container, keyValue, itLower, itUpper);
+    ConstIterator itLower(container.lower_bound(keyValue));    adjustUpperAndLowerIteratorsInMap(container, keyValue, itLower, itUpper);
     result.first = itLower;
     result.second = itUpper;
     return result;
 }
 
-template <typename KeyType, typename ValueType>
-std::pair<typename std::map<KeyType, ValueType>::iterator, typename std::map<KeyType, ValueType>::iterator>
-getLowerAndUpperIteratorsInMap(std::map<KeyType, ValueType> & container, KeyType const& keyValue)
+template <typename KeyType, typename ContainerType>
+std::pair<typename ContainerType::iterator, typename ContainerType::iterator>
+getLowerAndUpperIteratorsInMap(ContainerType & container, KeyType const& keyValue)
 {
-    using Iterator = typename std::map<KeyType, ValueType>::iterator;
+    using Iterator = typename ContainerType::iterator;
     std::pair<Iterator, Iterator> result;
     Iterator itUpper(container.upper_bound(keyValue));
-    Iterator itLower(container.lower_bound(keyValue));
-    adjustUpperAndLowerIteratorsInMap(container, keyValue, itLower, itUpper);
+    Iterator itLower(container.lower_bound(keyValue));    adjustUpperAndLowerIteratorsInMap(container, keyValue, itLower, itUpper);
     result.first = itLower;
     result.second = itUpper;
-    return result;
-}
-
-template <typename KeyType, typename ValueType>
-std::pair<typename std::multimap<KeyType, ValueType>::const_iterator, typename std::multimap<KeyType, ValueType>::const_iterator>
-getLowerAndUpperConstIteratorsInMultiMap(std::multimap<KeyType, ValueType> const& container, KeyType const& keyValue)
-{
-    using ConstIterator = typename std::multimap<KeyType, ValueType>::const_iterator;
-    std::pair<ConstIterator, ConstIterator> result;
-    ConstIterator itUpper(container.upper_bound(keyValue));
-    ConstIterator itLower(container.lower_bound(keyValue));
-    adjustUpperAndLowerIteratorsInMap(container, keyValue, itLower, itUpper);
-    result.first = itLower;
-    result.second = itUpper;
-    return result;
-}
-
-template <typename KeyType, typename ValueType>
-std::pair<typename std::multimap<KeyType, ValueType>::iterator, typename std::multimap<KeyType, ValueType>::iterator>
-getLowerAndUpperIteratorsInMultiMap(std::multimap<KeyType, ValueType> & container, KeyType const& keyValue)
-{
-    using Iterator = typename std::multimap<KeyType, ValueType>::iterator;
-    std::pair<Iterator, Iterator> result;
-    Iterator itUpper(container.upper_bound(keyValue));
-    Iterator itLower(container.lower_bound(keyValue));
-    adjustUpperAndLowerIteratorsInMap(container, keyValue, itLower, itUpper);
-    result.first = itLower;
-    result.second = itUpper;
-    return result;
-}
+    return result;}
 
 //SaveContentsToStream
 template <typename ValueType, std::size_t SIZE,
-          template <typename, std::size_t> class Container>
-void saveContentsToStream(std::ostream & outputStream, Container<ValueType, SIZE> const& container, StreamFormat const streamFormat)
+          template <typename, std::size_t> class Container>void saveContentsToStream(std::ostream & outputStream, Container<ValueType, SIZE> const& container, StreamFormat const streamFormat)
 {
     //tested on array
-    std::string delimeter(getDelimeterBasedOnFormat(streamFormat));
-    std::ostream_iterator<ValueType> outputIterator(outputStream, delimeter.c_str());
+    std::string delimeter(getDelimeterBasedOnFormat(streamFormat));    std::ostream_iterator<ValueType> outputIterator(outputStream, delimeter.c_str());
     std::copy(container.cbegin(), container.cend(), outputIterator);
 }
 
