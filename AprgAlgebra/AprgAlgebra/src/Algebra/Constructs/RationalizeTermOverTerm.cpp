@@ -57,27 +57,19 @@ void RationalizeTermOverTerm::rationalize(
         Term & termToRationalize,
         Term & otherTerm)
 {
-    unsigned int numberOfTermsLimit = static_cast<unsigned int>(getNumberOfTerms(termToRationalize) *1.5);
     Term rationalizedTerm, multiplier;
     retrieveTermsForRationalization(rationalizedTerm, multiplier, termToRationalize);
-    while(!multiplier.isEmpty())
-    {
+    while(!multiplier.isEmpty())    {
         termToRationalize = rationalizedTerm;
         otherTerm = otherTerm * multiplier;
         simplifyForRationalize(termToRationalize);
         simplifyForRationalize(otherTerm);
-        if(numberOfTermsLimit < getNumberOfTerms(termToRationalize))
-        {
-            break;
-        }
         rationalizedTerm.clear();
         multiplier.clear();
-        retrieveTermsForRationalization(rationalizedTerm, multiplier, termToRationalize);
-    }
+        retrieveTermsForRationalization(rationalizedTerm, multiplier, termToRationalize);    }
 }
 
-void RationalizeTermOverTerm::simplifyForRationalize(Term & term)
-{
+void RationalizeTermOverTerm::simplifyForRationalize(Term & term){
     SimplificationOfExpression::ConfigurationDetails rationalizeConfigurationDetails(
                 SimplificationOfExpression::Configuration::getInstance().getConfigurationDetails());
     rationalizeConfigurationDetails.shouldSimplifyToACommonDenominator = true;
