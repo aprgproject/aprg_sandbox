@@ -14,16 +14,14 @@ namespace
 using VertexForTest = unsigned int;
 using GraphForTest = UndirectedGraphWithListOfEdges<VertexForTest>;
 using PathSearchForTest = HamiltonianPathSearchWithDfs<VertexForTest>;
-using PathForTest = HamiltonianPathSearchWithDfs<VertexForTest>::Path;
-using PathsForTest = HamiltonianPathSearchWithDfs<VertexForTest>::Paths;
+using PathForTest = PathSearchForTest::Path;
+using PathsForTest = PathSearchForTest::Paths;
 }
 
-TEST(HamiltonianPathSearchWithDfsTest, GetAllHamiltonianPathsWorks)
-{
+TEST(HamiltonianPathSearchWithDfsTest, GetAllHamiltonianPathsWorks){
     GraphForTest graph;
     graph.connect(0U, 1U);
-    graph.connect(0U, 2U);
-    graph.connect(1U, 2U);
+    graph.connect(0U, 2U);    graph.connect(1U, 2U);
     graph.connect(1U, 3U);
     graph.connect(2U, 3U);
     PathSearchForTest pathSearch(graph);
