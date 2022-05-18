@@ -1,10 +1,10 @@
-#include <Algorithm/Graph/PathSearch/EulerCircuitAndPath/EulerPathSearchUsingDfs.hpp>
+#include <Algorithm/Graph/PathSearch/EulerPath/EulerPathSearchUsingDfs.hpp>
 #include <Algorithm/Graph/UndirectedGraph/UndirectedGraphWithListOfEdges.hpp>
-#include <AlgorithmTests/Graph/PathSearch/EulerCircuitAndPath/Utilities/CommonTestsWithEulerCircuitAndPath.hpp>
+#include <AlgorithmTests/Graph/PathSearch/EulerPath/Utilities/CommonTestsWithEulerPath.hpp>
 
 #include <gtest/gtest.h>
 
-using namespace alba::algorithm::CommonTestsWithEulerCircuitAndPath;
+using namespace alba::algorithm::CommonTestsWithEulerPath;
 
 namespace alba
 {
@@ -19,14 +19,14 @@ using GraphForTest = UndirectedGraphWithListOfEdges<VertexForTest>;
 using PathSearchForTest = EulerPathSearchUsingDfs<VertexForTest>;
 }
 
-TEST(EulerPathSearchUsingDfsTest, HasEulerCircuitWorksOnGraphWithAllEvenDegreesVertices)
+TEST(EulerPathSearchUsingDfsTest, HasEulerCycleWorksOnGraphWithAllEvenDegreesVertices)
 {
-    testHasEulerCircuitWorksOnGraphWithAllEvenDegreesVertices<PathSearchForTest, GraphForTest>();
+    testHasEulerCycleWorksOnGraphWithAllEvenDegreesVertices<PathSearchForTest, GraphForTest>();
 }
 
-TEST(EulerPathSearchUsingDfsTest, HasEulerCircuitWorksOnGraphWithNotAllEvenDegreesVertices)
+TEST(EulerPathSearchUsingDfsTest, HasEulerCycleWorksOnGraphWithNotAllEvenDegreesVertices)
 {
-    testHasEulerCircuitWorksOnGraphWithNotAllEvenDegreesVertices<PathSearchForTest, GraphForTest>();
+    testHasEulerCycleWorksOnGraphWithNotAllEvenDegreesVertices<PathSearchForTest, GraphForTest>();
 }
 
 TEST(EulerPathSearchUsingDfsTest, HasEulerPathWorksOnGraphWithTwoOddDegreesVertices)
@@ -39,14 +39,14 @@ TEST(EulerPathSearchUsingDfsTest, HasEulerPathWorksOnGraphWithThreeOddDegreesVer
     testHasEulerPathWorksOnGraphWithThreeOddDegreesVertices<PathSearchForTest, GraphForTest>();
 }
 
-TEST(EulerPathSearchUsingDfsTest, GetEulerCircuitWorksOnGraphWithAllEvenDegreesVertices)
+TEST(EulerPathSearchUsingDfsTest, GetEulerCycleWorksOnGraphWithAllEvenDegreesVertices)
 {
-    testGetEulerCircuitWorksOnGraphWithAllEvenDegreesVertices<PathSearchForTest, GraphForTest>();
+    testGetEulerCycleWorksOnGraphWithAllEvenDegreesVertices<PathSearchForTest, GraphForTest>();
 }
 
-TEST(EulerPathSearchUsingDfsTest, GetEulerCircuitWorksOnGraphWithNotAllEvenDegreesVertices)
+TEST(EulerPathSearchUsingDfsTest, GetEulerCycleWorksOnGraphWithNotAllEvenDegreesVertices)
 {
-    testGetEulerCircuitWorksOnGraphWithNotAllEvenDegreesVertices<PathSearchForTest, GraphForTest>();
+    testGetEulerCycleWorksOnGraphWithNotAllEvenDegreesVertices<PathSearchForTest, GraphForTest>();
 }
 
 TEST(EulerPathSearchUsingDfsTest, GetEulerPathWorksOnGraphWithTwoOddDegreesVertices)

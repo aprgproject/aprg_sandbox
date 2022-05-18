@@ -1,6 +1,6 @@
 #pragma once
 
-#include <Algorithm/Graph/PathSearch/EulerCircuitAndPath/BaseEulerPathSearch.hpp>
+#include <Algorithm/Graph/PathSearch/EulerPath/BaseEulerPathSearch.hpp>
 
 #include <algorithm>
 #include <queue>
@@ -29,16 +29,17 @@ public:
         : BaseClass(graph)
     {}
 
-    Path getEulerCircuit() const override
+    Path getEulerCycle() const override
     {
         Path result;
-        if(this->hasEulerCircuit())
+        if(this->hasEulerCycle())
         {
             StackOfVertices eulerPathInStack;
-            searchForEulerPathUsingDfs(eulerPathInStack, this->getStartingVertexForEulerCircuit());
+            searchForEulerPathUsingDfs(eulerPathInStack, this->getStartingVertexForEulerCycle());
             if(eulerPathInStack.size() == this->m_graph.getNumberOfVertices()+1)
             {
-                putStackOfVerticesOnPath(result, eulerPathInStack);            }
+                putStackOfVerticesOnPath(result, eulerPathInStack);
+            }
         }
         return result;
     }
@@ -52,7 +53,8 @@ public:
             searchForEulerPathUsingDfs(eulerPathInStack, this->getStartingVertexForEulerPath());
             if(eulerPathInStack.size() == this->m_graph.getNumberOfVertices())
             {
-                putStackOfVerticesOnPath(result, eulerPathInStack);            }
+                putStackOfVerticesOnPath(result, eulerPathInStack);
+            }
         }
         return result;
     }
@@ -89,6 +91,7 @@ private:
             eulerPathInStack.push(currentVertex); // put the most recent "dead end" vertices (vertices with no new edges) on euler path
         }
     }
+
     VertexToQueueOfEdgesMap createVertexToQueueOfEdgesMap() const
     {
         VertexToQueueOfEdgesMap vertexToQueueOfEdgesMap;

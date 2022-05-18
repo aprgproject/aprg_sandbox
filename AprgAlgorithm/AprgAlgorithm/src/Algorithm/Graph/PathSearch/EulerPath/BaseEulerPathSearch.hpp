@@ -27,11 +27,13 @@ public:
     virtual ~BaseEulerPathSearch()
     {}
 
-    bool hasEulerCircuit() const
+    bool hasEulerCycle() const
     {
-        // Euler path is possible iff graph is connected and all vertices have even degree        // A graph will contain an Euler path if it contains at most two vertices of odd degree.
+        // Euler path is possible iff graph is connected and all vertices have even degree
+        // A graph will contain an Euler path if it contains at most two vertices of odd degree.
         return GraphUtilities::isGraphConnected(m_graph) && areAllDegreesEven();
     }
+
     bool hasEulerPath() const
     {
         // A graph will contain an Euler path if it contains at most two vertices of odd degree.
@@ -39,14 +41,14 @@ public:
     }
 
     // An Euler circuit is a circuit that uses every edge in a graph with no repeats. Being a circuit, it must start and end at the same vertex.
-    virtual Path getEulerCircuit() const = 0;
+    virtual Path getEulerCycle() const = 0;
 
     // An Euler path is a path that uses every edge in a graph with no repeats. Being a path, it does not have to return to the starting vertex.
     virtual Path getEulerPath() const = 0;
 
 protected:
 
-    Vertex getStartingVertexForEulerCircuit() const
+    Vertex getStartingVertexForEulerCycle() const
     {
         return m_graph.getVertices().front();
     }

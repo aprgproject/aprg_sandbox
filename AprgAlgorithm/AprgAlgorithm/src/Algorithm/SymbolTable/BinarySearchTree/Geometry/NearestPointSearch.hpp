@@ -77,6 +77,7 @@ public:
         result = searchDetails.nearestPoint;
         return result;
     }
+
     void addPoint(Point const& point)
     {
         m_twoDTree.put(point, {});

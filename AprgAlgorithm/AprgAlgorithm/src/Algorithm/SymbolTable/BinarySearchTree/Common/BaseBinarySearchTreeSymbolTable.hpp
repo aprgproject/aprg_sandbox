@@ -161,6 +161,7 @@ protected:
     {
         node.numberOfNodesOnThisSubTree = calculateSizeOfNodeBasedFromLeftAndRight(node);
     }
+
     virtual bool doesContainStartingOnThisNode(NodeUniquePointer const& nodePointer, Key const& key) const
     {
         bool result(false);

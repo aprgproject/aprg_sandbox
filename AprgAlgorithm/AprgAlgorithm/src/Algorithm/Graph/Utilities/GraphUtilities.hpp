@@ -241,9 +241,11 @@ double getAverageDegree(BaseGraph<Vertex> const& graph)
     // Times two because edges are only counted once and degree is per vertex
     return static_cast<double>(graph.getNumberOfEdges()) / graph.getNumberOfVertices() * 2;
 }
+
 template <typename Vertex>
 unsigned int getNumberOfSelfLoops(BaseGraph<Vertex> const& graph)
-{    using Edge = typename GraphTypes<Vertex>::Edge;
+{
+    using Edge = typename GraphTypes<Vertex>::Edge;
     unsigned int count(0);
     for(Edge const& edge : graph.getEdges())
     {

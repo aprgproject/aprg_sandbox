@@ -20,10 +20,12 @@ void printParameter(std::ostream & outputStream, std::string const& parameterNam
 
 template <typename ParameterPointerType>
 void printParameter(std::ostream & outputStream, std::string const& parameterName, ParameterPointerType * parameterPointer)
-{    if(parameterPointer == nullptr)
+{
+    if(parameterPointer == nullptr)
     {
         outputStream << parameterName << " : [nullptr]";
-    }    else
+    }
+    else
     {
         outputStream << "*" << parameterName << " : [" << *parameterPointer << "]";
     }
@@ -56,10 +58,12 @@ void printParameter(std::ostream & outputStream, std::string const& parameterNam
     outputStream << parameterName << " : [(" << parameter.first << ", " << parameter.second << ")]";
 }
 
-template <typename ValueType, size_t SIZE,          template <typename, size_t> class Container>
+template <typename ValueType, size_t SIZE,
+          template <typename, size_t> class Container>
 void printParameter(std::ostream & outputStream, std::string const& parameterName, Container<ValueType, SIZE> const& container)
 {
-    outputStream << parameterName << " : [(has size " << container.size() << "):{";    saveContentsToStream(outputStream, container, StreamFormat::String);
+    outputStream << parameterName << " : [(has size " << container.size() << "):{";
+    saveContentsToStream(outputStream, container, StreamFormat::String);
     outputStream << "}]";
 }
 

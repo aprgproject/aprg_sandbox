@@ -1,13 +1,14 @@
-#include <Algorithm/Graph/PathSearch/EulerCircuitAndPath/FleuryAlgorithm.hpp>
+#include <Algorithm/Graph/PathSearch/EulerPath/FleuryAlgorithm.hpp>
 #include <Algorithm/Graph/UndirectedGraph/UndirectedGraphWithListOfEdges.hpp>
-#include <AlgorithmTests/Graph/PathSearch/EulerCircuitAndPath/Utilities/CommonTestsWithEulerCircuitAndPath.hpp>
+#include <AlgorithmTests/Graph/PathSearch/EulerPath/Utilities/CommonTestsWithEulerPath.hpp>
 
 #include <gtest/gtest.h>
 
-using namespace alba::algorithm::CommonTestsWithEulerCircuitAndPath;
+using namespace alba::algorithm::CommonTestsWithEulerPath;
 
 namespace alba
 {
+
 namespace algorithm
 {
 
@@ -17,14 +18,15 @@ using VertexForTest = unsigned int;
 using GraphForTest = UndirectedGraphWithListOfEdges<VertexForTest>;
 using PathSearchForTest = FleuryAlgorithm<VertexForTest>;
 }
-TEST(FleuryAlgorithmTest, HasEulerCircuitWorksOnGraphWithAllEvenDegreesVertices)
+
+TEST(FleuryAlgorithmTest, HasEulerCycleWorksOnGraphWithAllEvenDegreesVertices)
 {
-    testHasEulerCircuitWorksOnGraphWithAllEvenDegreesVertices<PathSearchForTest, GraphForTest>();
+    testHasEulerCycleWorksOnGraphWithAllEvenDegreesVertices<PathSearchForTest, GraphForTest>();
 }
 
-TEST(FleuryAlgorithmTest, HasEulerCircuitWorksOnGraphWithNotAllEvenDegreesVertices)
+TEST(FleuryAlgorithmTest, HasEulerCycleWorksOnGraphWithNotAllEvenDegreesVertices)
 {
-    testHasEulerCircuitWorksOnGraphWithNotAllEvenDegreesVertices<PathSearchForTest, GraphForTest>();
+    testHasEulerCycleWorksOnGraphWithNotAllEvenDegreesVertices<PathSearchForTest, GraphForTest>();
 }
 
 TEST(FleuryAlgorithmTest, HasEulerPathWorksOnGraphWithTwoOddDegreesVertices)
@@ -37,14 +39,14 @@ TEST(FleuryAlgorithmTest, HasEulerPathWorksOnGraphWithThreeOddDegreesVertices)
     testHasEulerPathWorksOnGraphWithThreeOddDegreesVertices<PathSearchForTest, GraphForTest>();
 }
 
-TEST(FleuryAlgorithmTest, GetEulerCircuitWorksOnGraphWithAllEvenDegreesVertices)
+TEST(FleuryAlgorithmTest, GetEulerCycleWorksOnGraphWithAllEvenDegreesVertices)
 {
-    testGetEulerCircuitWorksOnGraphWithAllEvenDegreesVertices<PathSearchForTest, GraphForTest>();
+    testGetEulerCycleWorksOnGraphWithAllEvenDegreesVertices<PathSearchForTest, GraphForTest>();
 }
 
-TEST(FleuryAlgorithmTest, GetEulerCircuitWorksOnGraphWithNotAllEvenDegreesVertices)
+TEST(FleuryAlgorithmTest, GetEulerCycleWorksOnGraphWithNotAllEvenDegreesVertices)
 {
-    testGetEulerCircuitWorksOnGraphWithNotAllEvenDegreesVertices<PathSearchForTest, GraphForTest>();
+    testGetEulerCycleWorksOnGraphWithNotAllEvenDegreesVertices<PathSearchForTest, GraphForTest>();
 }
 
 TEST(FleuryAlgorithmTest, GetEulerPathWorksOnGraphWithTwoOddDegreesVertices)
@@ -58,4 +60,5 @@ TEST(FleuryAlgorithmTest, GetEulerPathWorksOnGraphWithThreeOddDegreesVertices)
 }
 
 }
+
 }

@@ -5,6 +5,7 @@
 
 namespace alba
 {
+
 namespace algorithm
 {
 
@@ -66,4 +67,5 @@ protected:
 };
 
 }
+
 }

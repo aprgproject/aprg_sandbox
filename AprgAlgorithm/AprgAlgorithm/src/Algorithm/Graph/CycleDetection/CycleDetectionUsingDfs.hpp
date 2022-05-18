@@ -51,10 +51,12 @@ private:
         return m_verticesInPossibleCycle.find(vertex) != m_verticesInPossibleCycle.cend();
     }
 
-    Path getPathWithCycle(Vertex const& secondToTheLastVertex, Vertex const& lastVertex) const    {
+    Path getPathWithCycle(Vertex const& secondToTheLastVertex, Vertex const& lastVertex) const
+    {
         bool isSuccessful(true);
         Path reversedPath{lastVertex};
-        Vertex currentVertex = secondToTheLastVertex;        while(currentVertex != lastVertex)
+        Vertex currentVertex = secondToTheLastVertex;
+        while(currentVertex != lastVertex)
         {
             reversedPath.emplace_back(currentVertex);
             auto it = m_vertexToPreviousVertexMap.find(currentVertex);
@@ -104,7 +106,8 @@ private:
             if(hasCycle()) // this check is needed to end all recursion instances once cycle has been detected
             {
                 break;
-            }            else if(m_processedVertices.isNotFound(adjacentVertex))
+            }
+            else if(m_processedVertices.isNotFound(adjacentVertex))
             {
                 m_vertexToPreviousVertexMap[adjacentVertex] = startVertex;
                 checkForCyclesUsingDfsWithDirectedGraph(adjacentVertex);
@@ -126,7 +129,8 @@ private:
             if(hasCycle()) // this check is needed to end all recursion instances once cycle has been detected
             {
                 break;
-            }            else if(m_processedVertices.isNotFound(adjacentVertex))
+            }
+            else if(m_processedVertices.isNotFound(adjacentVertex))
             {
                 m_vertexToPreviousVertexMap[adjacentVertex] = startVertex;
                 checkForCyclesUsingDfsWithUndirectedGraph(adjacentVertex, startVertex);
@@ -146,6 +150,7 @@ private:
     SetOfVertices m_verticesInPossibleCycle;
     Path m_pathWithCycle;
 };
+
 }
 
 }

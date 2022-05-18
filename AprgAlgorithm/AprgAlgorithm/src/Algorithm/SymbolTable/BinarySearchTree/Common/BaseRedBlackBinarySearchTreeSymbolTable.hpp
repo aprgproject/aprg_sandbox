@@ -21,7 +21,8 @@ public:
 protected:
 
     inline bool isRed(NodeUniquePointer const& nodePointer) const
-    {        bool result(false);
+    {
+        bool result(false);
         if(nodePointer)
         {
             result = nodePointer->parentLinkColor == BinarySearchTreeNode::Color::Red;

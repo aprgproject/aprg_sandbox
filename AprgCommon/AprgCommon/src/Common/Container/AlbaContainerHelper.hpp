@@ -25,10 +25,12 @@ std::string getDelimeterBasedOnFormat(StreamFormat const streamFormat);
 template <typename ValueType, typename Container, typename Iterator>
 void adjustUpperAndLowerIteratorsInSet(
         Container const& container,
-        ValueType const& value,        Iterator & itLower,
+        ValueType const& value,
+        Iterator & itLower,
         Iterator & itUpper)
 {
-    if(!container.empty())    {
+    if(!container.empty())
+    {
         if(itLower!=container.cbegin())
         {
             if(itLower==container.cend())
@@ -67,7 +69,8 @@ getLowerAndUpperConstIteratorsInSet(
     using ConstIterator = typename ContainerType::const_iterator;
     std::pair<ConstIterator, ConstIterator> result;
     ConstIterator itUpper(container.upper_bound(value));
-    ConstIterator itLower(container.lower_bound(value));    adjustUpperAndLowerIteratorsInSet(container, value, itLower, itUpper);
+    ConstIterator itLower(container.lower_bound(value));
+    adjustUpperAndLowerIteratorsInSet(container, value, itLower, itUpper);
     result.first = itLower;
     result.second = itUpper;
     return result;
@@ -81,7 +84,8 @@ std::pair<ValueType,ValueType> getLowerAndUpperValuesInSet(
     using ConstIterator = typename ContainerType::const_iterator;
     std::pair<ValueType, ValueType> result;
     ConstIterator itUpper(container.upper_bound(value));
-    ConstIterator itLower(container.lower_bound(value));    adjustUpperAndLowerIteratorsInSet(container, value, itLower, itUpper);
+    ConstIterator itLower(container.lower_bound(value));
+    adjustUpperAndLowerIteratorsInSet(container, value, itLower, itUpper);
     result.first = *itLower;
     result.second = *itUpper;
     return result;
@@ -116,10 +120,12 @@ ContainerType getItemsInBetween(
 template <typename KeyType, typename Container, typename Iterator>
 void adjustUpperAndLowerIteratorsInMap(
         Container const& container,
-        KeyType const& keyValue,        Iterator & itLower,
+        KeyType const& keyValue,
+        Iterator & itLower,
         Iterator & itUpper)
 {
-    if(!container.empty())    {
+    if(!container.empty())
+    {
         if(itLower!=container.cbegin())
         {
             if(itLower==container.cend())
@@ -156,7 +162,8 @@ getLowerAndUpperConstIteratorsInMap(ContainerType const& container, KeyType cons
     using ConstIterator = typename ContainerType::const_iterator;
     std::pair<ConstIterator, ConstIterator> result;
     ConstIterator itUpper(container.upper_bound(keyValue));
-    ConstIterator itLower(container.lower_bound(keyValue));    adjustUpperAndLowerIteratorsInMap(container, keyValue, itLower, itUpper);
+    ConstIterator itLower(container.lower_bound(keyValue));
+    adjustUpperAndLowerIteratorsInMap(container, keyValue, itLower, itUpper);
     result.first = itLower;
     result.second = itUpper;
     return result;
@@ -169,17 +176,21 @@ getLowerAndUpperIteratorsInMap(ContainerType & container, KeyType const& keyValu
     using Iterator = typename ContainerType::iterator;
     std::pair<Iterator, Iterator> result;
     Iterator itUpper(container.upper_bound(keyValue));
-    Iterator itLower(container.lower_bound(keyValue));    adjustUpperAndLowerIteratorsInMap(container, keyValue, itLower, itUpper);
+    Iterator itLower(container.lower_bound(keyValue));
+    adjustUpperAndLowerIteratorsInMap(container, keyValue, itLower, itUpper);
     result.first = itLower;
     result.second = itUpper;
-    return result;}
+    return result;
+}
 
 //SaveContentsToStream
 template <typename ValueType, std::size_t SIZE,
-          template <typename, std::size_t> class Container>void saveContentsToStream(std::ostream & outputStream, Container<ValueType, SIZE> const& container, StreamFormat const streamFormat)
+          template <typename, std::size_t> class Container>
+void saveContentsToStream(std::ostream & outputStream, Container<ValueType, SIZE> const& container, StreamFormat const streamFormat)
 {
     //tested on array
-    std::string delimeter(getDelimeterBasedOnFormat(streamFormat));    std::ostream_iterator<ValueType> outputIterator(outputStream, delimeter.c_str());
+    std::string delimeter(getDelimeterBasedOnFormat(streamFormat));
+    std::ostream_iterator<ValueType> outputIterator(outputStream, delimeter.c_str());
     std::copy(container.cbegin(), container.cend(), outputIterator);
 }
 

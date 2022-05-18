@@ -1,10 +1,11 @@
 #pragma once
 
 #include <Algorithm/Graph/ConnectedComponents/ConnectedComponentsUsingDfs.hpp>
-#include <Algorithm/Graph/PathSearch/EulerCircuitAndPath/BaseEulerPathSearch.hpp>
+#include <Algorithm/Graph/PathSearch/EulerPath/BaseEulerPathSearch.hpp>
 #include <Algorithm/Graph/UndirectedGraph/UndirectedGraphWithListOfEdges.hpp>
 
 #include <algorithm>
+
 namespace alba
 {
 
@@ -18,7 +19,8 @@ public:
     using BaseClass = BaseEulerPathSearch<Vertex>;
     using BaseUndirectedGraphWithVertex = BaseUndirectedGraph<Vertex>;
     using Vertices = typename GraphTypes<Vertex>::Vertices;
-    using Path = typename GraphTypes<Vertex>::Path;    using Edge = typename GraphTypes<Vertex>::Edge;
+    using Path = typename GraphTypes<Vertex>::Path;
+    using Edge = typename GraphTypes<Vertex>::Edge;
     using Edges = typename GraphTypes<Vertex>::Edges;
     using EdgeWithVertexComparison = typename GraphTypes<Vertex>::EdgeWithVertexComparison;
     using SetOfEdges = typename GraphTypes<Vertex>::SetOfEdges;
@@ -28,18 +30,20 @@ public:
         : BaseClass(graph)
     {}
 
-    Path getEulerCircuit() const override
+    Path getEulerCycle() const override
     {
         // Fleury’s Algorithm
         // 1. Start at any vertex if finding an Euler circuit. If finding an Euler path, start at one of the two vertices with odd degree.
-        // 2. Choose any edge leaving your current vertex, provided deleting that edge will not separate the graph into two disconnected sets of edges.        // 3. Add that edge to your circuit, and delete it from the graph.
+        // 2. Choose any edge leaving your current vertex, provided deleting that edge will not separate the graph into two disconnected sets of edges.
+        // 3. Add that edge to your circuit, and delete it from the graph.
         // 4. Continue until you’re done.
 
         Path result;
         Edges originalEdges(this->m_graph.getEdges());
         if(!originalEdges.empty())
         {
-            // start at the vertices of the first edge            searchForEulerPath(result, originalEdges.front().first, originalEdges);
+            // start at the vertices of the first edge
+            searchForEulerPath(result, originalEdges.front().first, originalEdges);
         }
         return result;
     }
@@ -55,9 +59,11 @@ public:
         }
         return result;
     }
+
 private:
 
-    bool isGraphStillConnectedWithoutOneEdge(GraphToManipulate const& graph, Edge const& edgeToDelete) const    {
+    bool isGraphStillConnectedWithoutOneEdge(GraphToManipulate const& graph, Edge const& edgeToDelete) const
+    {
         GraphToManipulate graphWithDeletedEdge(graph);
         graphWithDeletedEdge.disconnect(edgeToDelete.first, edgeToDelete.second);
         ConnectedComponentsUsingDfs<Vertex> connectedComponents(graphWithDeletedEdge);
@@ -66,17 +72,19 @@ private:
 
     GraphToManipulate createGraphToManipulate(Edges const& originalEdges) const
     {
-        GraphToManipulate graphToManipulate;        for(Edge const& originalEdge: originalEdges)
+        GraphToManipulate graphToManipulate;
+        for(Edge const& originalEdge: originalEdges)
         {
             graphToManipulate.connect(originalEdge.first, originalEdge.second);
         }
+
         return graphToManipulate;
     }
 
-    void putEulerEdgesOnPath(Path & result, Edges const& edgesInEulerCircuit) const
+    void putEulerEdgesOnPath(Path & result, Edges const& edgesInEulerCycle) const
     {
-        result.emplace_back(edgesInEulerCircuit.front().first);
-        for(Edge const& edge : edgesInEulerCircuit)
+        result.emplace_back(edgesInEulerCycle.front().first);
+        for(Edge const& edge : edgesInEulerCycle)
         {
             result.emplace_back(edge.second);
         }
@@ -86,7 +94,7 @@ private:
     {
         GraphToManipulate graphToManipulate(createGraphToManipulate(originalEdges));
         SetOfEdges & currentEdges(graphToManipulate.getSetOfEdgesReference());
-        Edges edgesInEulerCircuit;
+        Edges edgesInEulerCycle;
         bool isComplete(true);
         Edge edgeToDelete(startVertex, startVertex);
         while(!currentEdges.empty())
@@ -97,10 +105,12 @@ private:
                     && isGraphStillConnectedWithoutOneEdge(graphToManipulate, edgeToDelete);  // THIS IS COSTLY!
             });
             if(nextEdgeToDeleteIt != currentEdges.cend())
-            {                edgeToDelete = *nextEdgeToDeleteIt;
-                edgesInEulerCircuit.emplace_back(edgeToDelete);
+            {
+                edgeToDelete = *nextEdgeToDeleteIt;
+                edgesInEulerCycle.emplace_back(edgeToDelete);
                 currentEdges.erase(EdgeWithVertexComparison(edgeToDelete.first, edgeToDelete.second));
-                currentEdges.erase(EdgeWithVertexComparison(edgeToDelete.second, edgeToDelete.first));            }
+                currentEdges.erase(EdgeWithVertexComparison(edgeToDelete.second, edgeToDelete.first));
+            }
             else
             {
                 isComplete = false;
@@ -109,10 +119,11 @@ private:
         }
         if(isComplete)
         {
-            putEulerEdgesOnPath(result, edgesInEulerCircuit);
+            putEulerEdgesOnPath(result, edgesInEulerCycle);
         }
     }
 };
 
 }
+
 }
