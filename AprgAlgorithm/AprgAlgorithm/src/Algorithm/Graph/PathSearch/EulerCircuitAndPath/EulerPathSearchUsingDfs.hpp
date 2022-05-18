@@ -35,11 +35,10 @@ public:
         if(this->hasEulerCircuit())
         {
             StackOfVertices eulerPathInStack;
-            searchForEulerPath(eulerPathInStack, this->getStartingVertexForEulerCircuit());
+            searchForEulerPathUsingDfs(eulerPathInStack, this->getStartingVertexForEulerCircuit());
             if(eulerPathInStack.size() == this->m_graph.getNumberOfVertices()+1)
             {
-                putStackOfVerticesOnPath(result, eulerPathInStack);
-            }
+                putStackOfVerticesOnPath(result, eulerPathInStack);            }
         }
         return result;
     }
@@ -50,46 +49,46 @@ public:
         if(this->hasEulerPath())
         {
             StackOfVertices eulerPathInStack;
-            searchForEulerPath(eulerPathInStack, this->getStartingVertexForEulerPath());
+            searchForEulerPathUsingDfs(eulerPathInStack, this->getStartingVertexForEulerPath());
             if(eulerPathInStack.size() == this->m_graph.getNumberOfVertices())
             {
-                putStackOfVerticesOnPath(result, eulerPathInStack);
-            }
+                putStackOfVerticesOnPath(result, eulerPathInStack);            }
         }
         return result;
     }
 
 private:
 
-    void searchForEulerPath(StackOfVertices & eulerPathInStack, Vertex const& startingVertex) const
+    void searchForEulerPathUsingDfs(StackOfVertices & eulerPathInStack, Vertex const& startingVertex) const
     {
+        // This is DFS
         VertexToQueueOfEdgesMap vertexToQueueOfEdgesMap(createVertexToQueueOfEdgesMap());
-        StackOfVertices verticesToProcess;
-        verticesToProcess.push(startingVertex);
-        SetOfEdges checkableEdges;
-        while(!verticesToProcess.empty())
+        StackOfVertices pathToCheck;
+        pathToCheck.push(startingVertex);
+        SetOfEdges previousEdges;
+        while(!pathToCheck.empty())
         {
-            Vertex currentVertex(verticesToProcess.top());
-            verticesToProcess.pop();
+            Vertex currentVertex(pathToCheck.top());
+            pathToCheck.pop();
             auto it = vertexToQueueOfEdgesMap.find(currentVertex);
-            while(it != vertexToQueueOfEdgesMap.cend() && !it->second.empty())
+            // check the most recent vertex if there is a new path
+            while(it != vertexToQueueOfEdgesMap.cend() && !it->second.empty()) // traverse to find a continuous path, until a dead end is found
             {
                 QueueOfEdges & queueOfEdgesAtVertex(vertexToQueueOfEdgesMap[currentVertex]);
                 Edge currentEdge(queueOfEdgesAtVertex.front());
                 queueOfEdgesAtVertex.pop();
-                if(checkableEdges.find(currentEdge) != checkableEdges.cend())
+                if(previousEdges.find(currentEdge) != previousEdges.cend()) // must be a new edge
                 {
                     continue;
                 }
-                checkableEdges.emplace(currentEdge);
-                verticesToProcess.push(currentVertex); // put encountered vertices as vertices to process
+                previousEdges.emplace(currentEdge);
+                pathToCheck.push(currentVertex); // put encountered vertices in path to check
                 currentVertex = getTheOtherVertex(currentEdge, currentVertex); // get next vertex based from edge
                 it = vertexToQueueOfEdgesMap.find(currentVertex);
             }
-            eulerPathInStack.push(currentVertex);
+            eulerPathInStack.push(currentVertex); // put the most recent "dead end" vertices (vertices with no new edges) on euler path
         }
     }
-
     VertexToQueueOfEdgesMap createVertexToQueueOfEdgesMap() const
     {
         VertexToQueueOfEdgesMap vertexToQueueOfEdgesMap;

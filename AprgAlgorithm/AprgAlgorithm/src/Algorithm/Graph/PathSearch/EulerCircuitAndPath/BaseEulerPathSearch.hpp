@@ -24,13 +24,14 @@ public:
         : m_graph(graph)
     {}
 
+    virtual ~BaseEulerPathSearch()
+    {}
+
     bool hasEulerCircuit() const
     {
-        // Euler path is possible iff graph is connected and all vertices have even degree
-        // A graph will contain an Euler path if it contains at most two vertices of odd degree.
+        // Euler path is possible iff graph is connected and all vertices have even degree        // A graph will contain an Euler path if it contains at most two vertices of odd degree.
         return GraphUtilities::isGraphConnected(m_graph) && areAllDegreesEven();
     }
-
     bool hasEulerPath() const
     {
         // A graph will contain an Euler path if it contains at most two vertices of odd degree.
