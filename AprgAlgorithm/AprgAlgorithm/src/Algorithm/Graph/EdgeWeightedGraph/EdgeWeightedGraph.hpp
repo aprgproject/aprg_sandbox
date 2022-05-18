@@ -17,16 +17,14 @@ class EdgeWeightedGraph : public Graph
 {
 public:
     using BaseClass = Graph;
-    using EdgeWithVertexComparison = typename GraphTypes<Vertex>::EdgeWithVertexComparison;
-    using EdgeToWeightMap = std::map<EdgeWithVertexComparison, Weight>;
+    using Edge = typename GraphTypes<Vertex>::Edge;
+    using EdgeToWeightMap = std::map<Edge, Weight>;
     using EdgeWithWeight = typename GraphTypesWithWeights<Vertex, Weight>::EdgeWithWeight;
     using EdgesWithWeight = typename GraphTypesWithWeights<Vertex, Weight>::EdgesWithWeight;
     using Weights = std::vector<Weight>;
-
     EdgeWeightedGraph()
         : BaseClass()
     {}
-
     bool hasAUniqueMinimumSpanningTree() const
     {
         return hasNoDuplicateWeights(getSortedWeights());
@@ -112,21 +110,19 @@ private:
         return result;
     }
 
-    EdgeWithVertexComparison createEdgeInMap(Vertex const& vertex1, Vertex const& vertex2) const
+    Edge createEdgeInMap(Vertex const& vertex1, Vertex const& vertex2) const
     {
         if(this->DIRECTION_TYPE == GraphDirectionType::Undirected)
         {
-            return createSortedEdge<Vertex, EdgeWithVertexComparison>(vertex1, vertex2);
+            return createSortedEdge<Vertex, Edge>(vertex1, vertex2);
         }
         else
         {
-            return EdgeWithVertexComparison(vertex1, vertex2);
+            return Edge(vertex1, vertex2);
         }
     }
-
     EdgeToWeightMap m_edgeToWeightMap;
 };
-
 }
 
 }

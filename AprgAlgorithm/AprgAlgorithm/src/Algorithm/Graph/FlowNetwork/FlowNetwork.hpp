@@ -19,15 +19,12 @@ class FlowNetwork : public DirectedGraph
 public:
     using BaseClass = DirectedGraph;
     using Edge = typename GraphTypes<Vertex>::Edge;
-    using EdgeWithVertexComparison = typename GraphTypes<Vertex>::EdgeWithVertexComparison;
     using FlowDataTypes = std::vector<FlowDataType>;
 
-    struct FlowEdgeDetails
-    {
+    struct FlowEdgeDetails    {
         FlowDataType capacity;
         FlowDataType flow;
-        bool operator==(FlowEdgeDetails const& second) const
-        {
+        bool operator==(FlowEdgeDetails const& second) const        {
             return mathHelper::isAlmostEqual(capacity, second.capacity)
                     && mathHelper::isAlmostEqual(flow, second.flow);
         }
@@ -78,15 +75,13 @@ public:
         }
     };
     using FlowEdges = std::vector<FlowEdge>;
-    using EdgeToFlowEdgeDetailsMap = std::map<EdgeWithVertexComparison, FlowEdgeDetails>;
+    using EdgeToFlowEdgeDetailsMap = std::map<Edge, FlowEdgeDetails>;
 
     FlowNetwork()
-        : BaseClass()
-    {
+        : BaseClass()    {
         static_assert(
                     GraphDirectionType::Directed == DirectedGraph::DIRECTION_TYPE,
-                    "Flow network's underlying graph should be a directed graph");
-    }
+                    "Flow network's underlying graph should be a directed graph");    }
 
     bool hasAUniqueMinimumSpanningTree() const
     {
@@ -101,14 +96,12 @@ public:
     FlowEdgeDetails getFlowEdgeDetails(Vertex const& vertex1, Vertex const& vertex2) const
     {
         FlowEdgeDetails result{};
-        auto it = m_edgeToFlowEdgeDetailsMap.find(createEdgeInMap(vertex1, vertex2));
+        auto it = m_edgeToFlowEdgeDetailsMap.find({vertex1, vertex2});
         if(it != m_edgeToFlowEdgeDetailsMap.cend())
         {
-            result = it->second;
-        }
+            result = it->second;        }
         return result;
     }
-
     FlowEdge getFlowEdge(Vertex const& vertex1, Vertex const& vertex2) const
     {
         FlowEdgeDetails flowEdgeDetails(getFlowEdgeDetails(vertex1, vertex2));
@@ -199,26 +192,24 @@ public:
     void connect(Vertex const& vertex1, Vertex const& vertex2, FlowDataType const& capacity, FlowDataType const& flow)
     {
         connect(vertex1, vertex2);
-        m_edgeToFlowEdgeDetailsMap[createEdgeInMap(vertex1, vertex2)] = {capacity, flow};
+        m_edgeToFlowEdgeDetailsMap[Edge{vertex1, vertex2}] = {capacity, flow};
     }
 
     void disconnect(Vertex const& vertex1, Vertex const& vertex2) override
     {
         BaseClass::disconnect(vertex1, vertex2);
-        m_edgeToFlowEdgeDetailsMap.erase(createEdgeInMap(vertex1, vertex2));
+        m_edgeToFlowEdgeDetailsMap.erase({vertex1, vertex2});
     }
 
     void updateEdge(FlowEdge const& flowEdge)
     {
-        FlowEdgeDetails & detailsToUpdate(m_edgeToFlowEdgeDetailsMap[createEdgeInMap(flowEdge.source, flowEdge.destination)]);
+        FlowEdgeDetails & detailsToUpdate(m_edgeToFlowEdgeDetailsMap[Edge{flowEdge.source, flowEdge.destination}]);
         detailsToUpdate.capacity = flowEdge.capacity;
         detailsToUpdate.flow = flowEdge.flow;
     }
-
 private:
 
-    void connect(Vertex const& vertex1, Vertex const& vertex2) override
-    {
+    void connect(Vertex const& vertex1, Vertex const& vertex2) override    {
         BaseClass::connect(vertex1, vertex2);
     }
 
@@ -249,14 +240,8 @@ private:
         return result;
     }
 
-    EdgeWithVertexComparison createEdgeInMap(Vertex const& vertex1, Vertex const& vertex2) const
-    {
-        return EdgeWithVertexComparison(vertex1, vertex2);
-    }
-
     EdgeToFlowEdgeDetailsMap m_edgeToFlowEdgeDetailsMap;
 };
-
 }
 
 }

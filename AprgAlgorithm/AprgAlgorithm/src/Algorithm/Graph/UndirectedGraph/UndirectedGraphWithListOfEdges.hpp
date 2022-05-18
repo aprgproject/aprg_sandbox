@@ -20,14 +20,11 @@ public:
     using Vertices = typename GraphTypes<Vertex>::Vertices;
     using Edge = typename GraphTypes<Vertex>::Edge;
     using Edges = typename GraphTypes<Vertex>::Edges;
-    using EdgeInSet = typename GraphTypes<Vertex>::EdgeWithVertexComparison;
     using SetOfEdges = typename GraphTypes<Vertex>::SetOfEdges;
 
-    UndirectedGraphWithListOfEdges()
-        : m_numberOfEdges(0U)
+    UndirectedGraphWithListOfEdges()        : m_numberOfEdges(0U)
         , m_edges{}
     {}
-
     bool hasAnyConnection(Vertex const& vertex) const override
     {
         bool result(false);
@@ -41,14 +38,12 @@ public:
 
     bool isDirectlyConnected(Vertex const& vertex1, Vertex const& vertex2) const override
     {
-        return m_edges.find(EdgeInSet(vertex1, vertex2)) != m_edges.cend();
+        return m_edges.find({vertex1, vertex2}) != m_edges.cend();
     }
 
-    unsigned int getNumberOfVertices() const override
-    {
+    unsigned int getNumberOfVertices() const override    {
         return getVertices().size();
     }
-
     unsigned int getNumberOfEdges() const override
     {
         return m_numberOfEdges;
@@ -57,19 +52,17 @@ public:
     Vertices getAdjacentVerticesAt(Vertex const& vertex) const override
     {
         Vertices result;
-        auto itLower = m_edges.lower_bound(EdgeInSet(vertex, 0));
-        auto itUpper = m_edges.lower_bound(EdgeInSet(vertex+1, 0));
-        std::for_each(itLower, itUpper, [&](EdgeInSet const& edgeInSet)
+        auto itLower = m_edges.lower_bound({vertex, 0});
+        auto itUpper = m_edges.lower_bound({vertex+1, 0});
+        std::for_each(itLower, itUpper, [&](Edge const& edge)
         {
-            result.emplace_back(edgeInSet.second);
+            result.emplace_back(edge.second);
         });
         return result;
     }
-
     Vertices getVertices() const override
     {
-        Vertices result;
-        for(auto const& edge : m_edges)
+        Vertices result;        for(auto const& edge : m_edges)
         {
             Vertex const& vertex(edge.first);
             if(result.empty())
@@ -87,19 +80,17 @@ public:
     Edges getEdges() const override
     {
         Edges result;
-        for(auto const& edgeInSet : m_edges)
+        for(auto const& edge : m_edges)
         {
-            if(edgeInSet.first <= edgeInSet.second)
+            if(edge.first <= edge.second)
             {
-                result.emplace_back(static_cast<Edge>(edgeInSet));
+                result.emplace_back(edge);
             }
         }
-        return result;
-    }
+        return result;    }
 
     std::string getDisplayableString() const override
-    {
-        std::stringstream ss;
+    {        std::stringstream ss;
         ss << "Edges: {";
         for(auto const& edge : m_edges)
         {

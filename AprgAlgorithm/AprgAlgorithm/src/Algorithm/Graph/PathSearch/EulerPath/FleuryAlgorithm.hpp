@@ -22,14 +22,11 @@ public:
     using Path = typename GraphTypes<Vertex>::Path;
     using Edge = typename GraphTypes<Vertex>::Edge;
     using Edges = typename GraphTypes<Vertex>::Edges;
-    using EdgeWithVertexComparison = typename GraphTypes<Vertex>::EdgeWithVertexComparison;
     using SetOfEdges = typename GraphTypes<Vertex>::SetOfEdges;
     using GraphToManipulate = UndirectedGraphWithListOfEdges<Vertex>;
-
     FleuryAlgorithm(BaseUndirectedGraphWithVertex const& graph)
         : BaseClass(graph)
     {}
-
     Path getEulerCycle() const override
     {
         // Fleury’s Algorithm
@@ -108,16 +105,14 @@ private:
             {
                 edgeToDelete = *nextEdgeToDeleteIt;
                 edgesInEulerCycle.emplace_back(edgeToDelete);
-                currentEdges.erase(EdgeWithVertexComparison(edgeToDelete.first, edgeToDelete.second));
-                currentEdges.erase(EdgeWithVertexComparison(edgeToDelete.second, edgeToDelete.first));
+                currentEdges.erase(edgeToDelete);
+                currentEdges.erase({edgeToDelete.second, edgeToDelete.first});
             }
             else
-            {
-                isComplete = false;
+            {                isComplete = false;
                 break;
             }
-        }
-        if(isComplete)
+        }        if(isComplete)
         {
             putEulerEdgesOnPath(result, edgesInEulerCycle);
         }
