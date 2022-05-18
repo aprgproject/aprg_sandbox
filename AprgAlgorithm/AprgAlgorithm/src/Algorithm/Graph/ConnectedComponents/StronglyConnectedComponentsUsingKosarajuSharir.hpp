@@ -53,32 +53,34 @@ public:
 
 private:
 
-    DirectedGraphWithListOfEdgesWithVertex getReversedGraph(BaseDirectedGraphWithVertex const& graph) const
+    DirectedGraphWithListOfEdgesWithVertex getGraphWithReversedDirections(BaseDirectedGraphWithVertex const& graph) const
     {
         DirectedGraphWithListOfEdgesWithVertex result;
-        for(Edge const& edge : graph.getEdges())
-        {
+        for(Edge const& edge : graph.getEdges())        {
             result.connect(edge.second, edge.first);
         }
-        return result;
-    }
+        return result;    }
 
     void initialize()
     {
         // Kosaraju Sharir algorithm works on reversing directions and iterating vertices in topological order
         // and iterating that vertices using DFS on the original graph with orginial directions
 
+        // This works because:
+        // -> reversing the edges -> reverses the dependency of the vertices in the graph
+        // -> traversing the vertices in topological order -> means that vertices in a connected component is traversed only once
+        // -> this means contracting each strong component into a single vertex
+        // and we can increment the id when one vertex finishes DFS (in the original graph)
+
         m_numberOfComponentIds = 0U;
-        DirectedGraphWithListOfEdgesWithVertex reversedGraph(getReversedGraph(m_graph));
-        VertexOrderingUsingDfs<Vertex> vertexOrdering(reversedGraph);
+        DirectedGraphWithListOfEdgesWithVertex graphWithReversedDirections(getGraphWithReversedDirections(m_graph));
+        VertexOrderingUsingDfs<Vertex> vertexOrdering(graphWithReversedDirections);
         for(Vertex const& vertex : vertexOrdering.getVerticesInTopologicalOrder())
         {
-            if(m_processedVertices.isNotFound(vertex))
-            {
+            if(m_processedVertices.isNotFound(vertex))            {
                 traverseUsingDfs(vertex);
                 m_numberOfComponentIds++;
-            }
-        }
+            }        }
     }
 
     void traverseUsingDfs(Vertex const& vertex)
@@ -99,6 +101,22 @@ private:
     CheckableVerticesWithVertex m_processedVertices;
     VertexToUnsignedIntMap m_vertexToComponentIdMap;
 };
+
+// Linear time because DFS.
+
+// Strong components in a graph is the same with the graph with reversed directions
+// Contract each strong component into a single vertex
+
+// Simple algorithm for computing strong components.
+// -> Phase 1: run DFS on GR(graph with reversed directions) to compute reverse postorder.
+// -> Phase 2: run DFS on G(original graph), traversing vertices in the order determined in the first phase
+
+// Kosaraju-Sharir algorithm
+// Proposition: Kosaraju-Sharir algorithm computes the strong components of a digraph in time proportional to E+V.
+// Proof:
+// -> running time: bottleneck is running DFS twice
+// -> correctness: tricky
+// -> implementation: easy
 
 }
 

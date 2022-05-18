@@ -22,17 +22,15 @@ public:
 
     enum class TraverseOrder
     {
-        PreOrder,
-        PostOrder,
-        ReversePostOrder,
+        PreOrder, // order: DFS traversal order (not really useful)
+        PostOrder, // order: dependent vertices are first in the list (edge might not exist -> not useful)
+        ReversePostOrder, // order: dependent vertices are last in the list (topological sort)
     };
 
-    VertexOrderingUsingDfs(BaseGraphWithVertex const& graph)
-        : m_graph(graph)
+    VertexOrderingUsingDfs(BaseGraphWithVertex const& graph)        : m_graph(graph)
     {}
 
-    Vertices traverseAndGetVertices(TraverseOrder const traverseOrder)
-    {
+    Vertices traverseAndGetVertices(TraverseOrder const traverseOrder)    {
         Vertices traversedVertices;
         traverseStartingFromAllVertices(traversedVertices, traverseOrder);
         reverseVerticesIfNeeded(traversedVertices, traverseOrder);
@@ -41,14 +39,12 @@ public:
 
     Vertices getVerticesInTopologicalOrder()
     {
-        //Useful on determining path that checks prerequisites
+        //Useful on determining path that checks prerequisites and precedence scheduling
         return traverseAndGetVertices(TraverseOrder::ReversePostOrder);
     }
-
 private:
 
-    void clear()
-    {
+    void clear()    {
         m_processedVertices.clear();
     }
 
@@ -56,15 +52,12 @@ private:
     {
         if(TraverseOrder::ReversePostOrder == traverseOrder)
         {
-            Vertices reversedVertices(traversedVertices.crbegin(), traversedVertices.crend());
-            traversedVertices = reversedVertices;
+            std::reverse(traversedVertices.begin(), traversedVertices.end());
         }
     }
-
     void traverseStartingFromAllVertices(Vertices & traversedVertices, TraverseOrder const traverseOrder)
     {
-        clear();
-        for(Vertex const& vertex : m_graph.getVertices())
+        clear();        for(Vertex const& vertex : m_graph.getVertices())
         {
             if(m_processedVertices.isNotFound(vertex) && !m_graph.getAdjacentVerticesAt(vertex).empty())
             {
@@ -89,23 +82,20 @@ private:
         }
         case TraverseOrder::ReversePostOrder:
         {
-            traverseReversePostOrderAt(traversedVertices, startVertex);
+            traversePostOrderAt(traversedVertices, startVertex);
             break;
         }
-        }
-    }
+        }    }
 
     void traversePreOrderAt(Vertices & traversedVertices, Vertex const& startVertex)
     {
-        traversedVertices.emplace_back(startVertex);
+        traversedVertices.emplace_back(startVertex); // add vertex before DFS
 
         m_processedVertices.putVertex(startVertex);
-        for(Vertex const& adjacentVertex : m_graph.getAdjacentVerticesAt(startVertex))
-        {
+        for(Vertex const& adjacentVertex : m_graph.getAdjacentVerticesAt(startVertex))        {
             if(m_processedVertices.isNotFound(adjacentVertex))
             {
-                traversePreOrderAt(traversedVertices, adjacentVertex);
-            }
+                traversePreOrderAt(traversedVertices, adjacentVertex);            }
         }
     }
 
@@ -120,32 +110,26 @@ private:
             }
         }
 
-        traversedVertices.emplace_back(startVertex);
-    }
-
-    void traverseReversePostOrderAt(Vertices & traversedVertices, Vertex const& startVertex)
-    {
-        m_processedVertices.putVertex(startVertex);
-
-        // Traversing adjacents in order results in higher vertices to be first in the list after reversal
-        // Reverse the traversal of adjacents is not fine either
-        // Vertices adjacentVertices(m_graph.getAdjacentVerticesAt(startVertex));
-        // std::for_each(adjacentVertices.crbegin(), adjacentVertices.crend(), [&](Vertex const& adjacentVertex)
-
-        for(Vertex const& adjacentVertex : m_graph.getAdjacentVerticesAt(startVertex))
-        {
-            if(m_processedVertices.isNotFound(adjacentVertex))
-            {
-                traverseReversePostOrderAt(traversedVertices, adjacentVertex);
-            }
-        }
-
-        traversedVertices.emplace_back(startVertex);
+        traversedVertices.emplace_back(startVertex); // add vertex after DFS is done for the vertex
     }
 
     BaseGraphWithVertex const& m_graph;
     CheckableVerticesWithVertex m_processedVertices;
 };
+
+// Proposition: Reverse DFS posorder of a DAG is a topological order.
+// Consider any edge v->w. When dfs(v) is called:
+// -> Case 1: dfs(w) has already been called and returned
+// ---> Thus w was done before v.
+// -> Case 2: dfs(w) has not yet been called. dfs(w) will get called directly or indirectly by dfs(v) and will finish before dfs(v)
+// ---> Thus w was done before v.
+// -> Case 3: dfs(w) has already been called but has not yet returned.
+// ---> Cant happen in a DAG: the function call stack contains path from w to v, so v -> w would complete a cycle
+
+// Proposition: A digraph has a topological order iff no directed cycle.
+// Proof:
+// -> If directed cycle, topological order is impossible.
+// -> If no directed cycle, DFS-based algofirhtm finds a topological order
 
 }
 

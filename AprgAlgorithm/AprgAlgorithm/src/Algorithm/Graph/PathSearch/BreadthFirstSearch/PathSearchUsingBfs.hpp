@@ -38,15 +38,13 @@ public:
         CheckableVerticesWithVertex & processedVertices(this->m_processedVertices);
         processedVertices.putVertex(startVertex);
 
-        std::deque<Vertex> queueOfVerticesToProcess{startVertex};
+        std::deque<Vertex> queueOfVerticesToProcess{startVertex}; // for multiple-source shortest path just add new vertices here
         while(!queueOfVerticesToProcess.empty())
         {
-            Vertex vertex(queueOfVerticesToProcess.back());
-            queueOfVerticesToProcess.pop_back();
+            Vertex vertex(queueOfVerticesToProcess.back());            queueOfVerticesToProcess.pop_back();
             for(Vertex const& adjacentVertex : this->m_graph.getAdjacentVerticesAt(vertex))
             {
-                if(processedVertices.isNotFound(adjacentVertex))
-                {
+                if(processedVertices.isNotFound(adjacentVertex))                {
                     processedVertices.putVertex(adjacentVertex);
                     this->m_vertexToPreviousVertexMap[adjacentVertex] = vertex;
                     queueOfVerticesToProcess.emplace_front(adjacentVertex);
