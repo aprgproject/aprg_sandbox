@@ -1,0 +1,40 @@
+
+Minimum spanning tree (MST) -> a spanning tree with the least weight (summation of the weight of the edges)
+
+Applications:
+-> MST is fundamental problem with diverse applications
+---> Dithering
+---> Cluster analysis
+---> Max bottleneck paths
+---> Real time face verification
+---> Low-density parity-check (LDPC) codes for error correction
+---> Image registration with Renyi entropy
+---> Find road networks in satellite and aerial imagery
+---> Reducing data storage in satellite and aerial imagery
+---> Reducing data storage in sequencing amino acids in a protein
+---> Model locality of particle interactions in turbulent fluid flows
+---> Auto config protocol for Ethernet bridging to avoid cycles in a network
+---> Approximation algorithms for NP-hard problems (TSP Steiner tree)
+---> Network design (communication, electrical, hydraulic, computer, road)
+
+MST exists and unique when:
+-> Edge weights are distinct
+-> Graph is connected
+The algorithms here with still work even without those assumptions.
+
+What would happen if the edge weights are not distinct?
+-> Multiple MSTs
+
+What if graph is not connected?
+-> We will have minimum spanning forest. The MST of each component.
+
+Cut property
+-> A cut in a graph is a partition of its vertices into two (nonempty) sets.
+-> Crossing edges connect a vertex in one set with a vertex in the other.
+-> Given any cut, the crossing edge with minimum weight is in the MST.
+-> Proof:
+-> Suppose minimum weight crossing edge (e) is not in the MST
+--> One of the other crossing edges are in the MST so adding e to the MST creates a cycle
+--> Some other edge f in cycle must be a crossing edge
+--> Removing f and adding e is also a spanning tree
+--> Since weight of e is less than the weight of f -> that spanning tree is lower weight. -> This is a contradiction.

@@ -152,14 +152,13 @@ public:
     FlowEdges getFlowEdges() const
     {
         FlowEdges result;
+        result.reserve(m_edgeToFlowEdgeDetailsMap.size());
         std::transform(m_edgeToFlowEdgeDetailsMap.cbegin(), m_edgeToFlowEdgeDetailsMap.cend(), std::back_inserter(result),
                        [](auto const& edgeAndDetailsPair)
-        {
-            return FlowEdge{edgeAndDetailsPair.first.first, edgeAndDetailsPair.first.second, edgeAndDetailsPair.second.capacity, edgeAndDetailsPair.second.flow};
+        {            return FlowEdge{edgeAndDetailsPair.first.first, edgeAndDetailsPair.first.second, edgeAndDetailsPair.second.capacity, edgeAndDetailsPair.second.flow};
         });
         return result;
     }
-
     FlowEdges getFlowEdgesWithVertex(Vertex const& vertex) const
     {
         FlowEdges result;
@@ -221,25 +220,23 @@ private:
     FlowDataTypes getAllCapacities() const
     {
         FlowDataTypes result;
+        result.reserve(m_edgeToFlowEdgeDetailsMap.size());
         std::transform(m_edgeToFlowEdgeDetailsMap.cbegin(), m_edgeToFlowEdgeDetailsMap.cend(), std::back_inserter(result),
                        [&](auto const& edgeAndDetailsPair)
-        {
-            return edgeAndDetailsPair.second.capacity;
+        {            return edgeAndDetailsPair.second.capacity;
         });
         return result;
     }
-
     FlowDataTypes getAllFlows() const
     {
         FlowDataTypes result;
+        result.reserve(m_edgeToFlowEdgeDetailsMap.size());
         std::transform(m_edgeToFlowEdgeDetailsMap.cbegin(), m_edgeToFlowEdgeDetailsMap.cend(), std::back_inserter(result),
                        [&](auto const& edgeAndDetailsPair)
-        {
-            return edgeAndDetailsPair.second.flow;
+        {            return edgeAndDetailsPair.second.flow;
         });
         return result;
     }
-
     EdgeToFlowEdgeDetailsMap m_edgeToFlowEdgeDetailsMap;
 };
 }

@@ -45,29 +45,26 @@ private:
         UnionFindUsingMap<Vertex> unionFind;
         while(!m_edgesInOrder.empty() && m_minimumSpanningTreeEdges.size() < maxNumberOfEdgesInSpanningTree)
         {
+            // traverse all edges (shortest edges first) and add it to MST if vertices are not already connected in the MST (does not produce a cycle)
             EdgeWithWeight shortestEdge(m_edgesInOrder.top());
             m_edgesInOrder.pop();
-            addEdgeToMstIfNotYetConnected(unionFind, shortestEdge);
+            addEdgeToMstIfVerticesAreNotConnected(unionFind, shortestEdge);
         }
     }
-
     void putAllEdgesToPriorityQueue()
     {
-        for(Edge const& edge : m_graph.getEdges())
-        {
+        for(Edge const& edge : m_graph.getEdges())        {
             m_edgesInOrder.emplace(edge.first, edge.second, m_graph.getWeight(edge.first, edge.second));
         }
     }
 
-    void addEdgeToMstIfNotYetConnected(UnionFindUsingMap<Vertex> & unionFind, EdgeWithWeight const& edge)
+    void addEdgeToMstIfVerticesAreNotConnected(UnionFindUsingMap<Vertex> & unionFind, EdgeWithWeight const& edge)
     {
         Vertex const& vertex1(edge.first);
-        Vertex const& vertex2(edge.second);
-        if(!unionFind.isConnected(vertex1, vertex2))
+        Vertex const& vertex2(edge.second);        if(!unionFind.isConnected(vertex1, vertex2))
         {
             unionFind.connect(vertex1, vertex2);
-            m_minimumSpanningTreeEdges.emplace_back(createSortedEdge<Vertex, Edge>(vertex1, vertex2));
-        }
+            m_minimumSpanningTreeEdges.emplace_back(createSortedEdge<Vertex, Edge>(vertex1, vertex2));        }
     }
 
     Graph const& m_graph;
@@ -75,6 +72,14 @@ private:
     Edges m_minimumSpanningTreeEdges;
     EdgeWithWeightsPriorityQueue m_edgesInOrder;
 };
+
+// Proposition: Kruskal's algorithm computes MST in time proportional to E log E (in the worst case).
+// Proof:
+// -> Time for each part:
+// ---> Building the priority queue = 1(frequency) * E(time per operation)
+// ---> Deleting the minimum in PQ = E(frequency) * log E(time per operation) -> main part of the running time
+// ---> UnionFind connect = V(frequency) * log* V(time per operation)
+// ---> UnionFind isConnected = E(frequency) * log* V(time per operation)
 
 }
 

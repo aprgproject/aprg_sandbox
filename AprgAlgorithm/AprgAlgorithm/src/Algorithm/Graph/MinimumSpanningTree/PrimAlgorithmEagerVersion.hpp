@@ -34,14 +34,13 @@ public:
     Edges getMinimumSpanningTreeEdges() const
     {
         Edges result;
+        result.reserve(m_vertexToEdgeWithMinimumWeightMap.size());
         std::transform(m_vertexToEdgeWithMinimumWeightMap.cbegin(), m_vertexToEdgeWithMinimumWeightMap.cend(), std::back_inserter(result),
                        [](auto const& vertexToEdgeWithWeightPair)
-        {
-            return static_cast<Edge>(vertexToEdgeWithWeightPair.second);
+        {            return static_cast<Edge>(vertexToEdgeWithWeightPair.second);
         });
         return result;
     }
-
 private:
 
     bool hasNoWeightSaved(Vertex const& vertex) const
@@ -54,30 +53,30 @@ private:
         m_verticesAdjacentToTreeOrderedByWeight.emplace(m_startVertex, Weight{}); // start vertex with weight zero for start
         while(!m_verticesAdjacentToTreeOrderedByWeight.empty())
         {
+            // continue to grow the MST by processing the current nearest edge and only adding only edges with minimum weight
             auto nearestVertexIt(m_verticesAdjacentToTreeOrderedByWeight.cbegin());
             auto nearestVertex(*nearestVertexIt);
-            m_verticesAdjacentToTreeOrderedByWeight.erase(nearestVertexIt);
-            checkAdjacentVerticesWithLowestWeightOfVertex(nearestVertex.vertex);
+            m_verticesAdjacentToTreeOrderedByWeight.erase(nearestVertexIt);            checkAdjacentVerticesWithLowestWeightOfVertex(nearestVertex.vertex);
         }
     }
 
     void checkAdjacentVerticesWithLowestWeightOfVertex(
             Vertex const& vertex)
     {
+        // DFS traversal
         m_processedVertices.putVertex(vertex);
         for(Vertex const& adjacentVertex : m_graph.getAdjacentVerticesAt(vertex))
         {
-            if(m_processedVertices.isNotFound(adjacentVertex))
+            if(m_processedVertices.isNotFound(adjacentVertex)) // only add vertices and edges from vertices not yet processed
             {
                 Weight weightForAdjacentVertex(m_graph.getWeight(vertex, adjacentVertex));
+                // check for vertex is not yet included or edge weight is smaller
                 if(hasNoWeightSaved(adjacentVertex)
                         || weightForAdjacentVertex < m_vertexToEdgeWithMinimumWeightMap.at(adjacentVertex).weight)
-                {
-                    saveVertexAndEdgeOfLowestWeight(vertex, adjacentVertex, weightForAdjacentVertex);
+                {                    saveVertexAndEdgeOfLowestWeight(vertex, adjacentVertex, weightForAdjacentVertex);
                 }
             }
-        }
-    }
+        }    }
 
     void saveVertexAndEdgeOfLowestWeight(
             Vertex const& vertex,
