@@ -46,19 +46,20 @@ public:
                     i++;
                 }
             }
+            // sort lower part
             sort(stringsToSort, lowStringIndex, indexForLessThan-1, digitIndex);
             if(v >= 0)
             {
+                // sort equal part
                 sort(stringsToSort, indexForLessThan, indexForGreaterThan, digitIndex+1);
             }
+            // sort higher part
             sort(stringsToSort, indexForGreaterThan+1, highStringIndex, digitIndex);
         }
     }
-
 private:
     char getCharacterAtIfPossible(
-            std::string const& currentString,
-            unsigned int const digitIndex) const
+            std::string const& currentString,            unsigned int const digitIndex) const
     {
         char result(-1);
         if(digitIndex < currentString.length())
@@ -68,6 +69,29 @@ private:
         return result;
     }
 };
+
+// Overview: Do 3 way partitioning on the dth character.
+// -> Less overhead than R-way parition in MSD string sort
+// -> Does not re-examine character equal to the partitioning char (but does re-examine characters not equal to the partitioning char)
+
+// Standard quicksort vs 3-way string radix sort
+// -> Standard quicksort
+// ---> Uses ~2N ln (N) string compares on average
+// ---> Costly for keys with long common prefixes (and this is a common case!)
+// -> 3-way string radix sort
+// ---> Uses ~2N ln (N) character compares on average for random strings
+// ---> Avoids re-comparing long common prefixes
+
+// MSD string sort vs 3-way string radix sort
+// -> MSD string sort
+// ---> Is cache inefficient
+// ---> Too much memory storing count[]
+// ---> Too much overhead reinitializing count[] and aux[]
+// -> 3-way string radix sort
+// ---> Has a short inner loop
+// ---> Is cache-friendly
+// ---> Is in-place
+// Bottom line is 3 way string quicksort is method of choice for sorting strings.
 
 }
 

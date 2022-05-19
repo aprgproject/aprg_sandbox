@@ -2,12 +2,11 @@
 
 #include <Algorithm/String/Tries/BaseStringSymbolTable.hpp>
 
+#include <algorithm>
 #include <array>
 #include <memory>
-
 namespace alba
 {
-
 namespace algorithm
 {
 
@@ -24,15 +23,13 @@ public:
     struct Node
     {
         ValueUniquePointer valueUniquePointer;
-        std::array<NodeUniquePointer, RADIX> next;
+        std::array<NodeUniquePointer, RADIX> next; // costly
     };
 
-    TrieSymbolTable()
-        : m_root(nullptr)
+    TrieSymbolTable()        : m_root(nullptr)
     {}
 
-    bool isEmpty() const override
-    {
+    bool isEmpty() const override    {
         return getSize() == 0;
     }
 
@@ -47,14 +44,18 @@ public:
         return getSize(m_root);
     }
 
+    unsigned int getNumberOfNodes() const
+    {
+        unsigned int nodes(getNumberOfNodes(m_root));
+        return (nodes > 1) ? nodes-1 : nodes; // dont count the root pointer
+    }
+
     Value get(Key const& key) const override
     {
-        Value result{};
-        Node const*const nodePointer(get(m_root, key, 0));
+        Value result{};        Node const*const nodePointer(get(m_root, key, 0));
         if(nodePointer != nullptr)
         {
-            ValueUniquePointer const& valueUniquePointer(nodePointer->valueUniquePointer);
-            if(valueUniquePointer)
+            ValueUniquePointer const& valueUniquePointer(nodePointer->valueUniquePointer);            if(valueUniquePointer)
             {
                 result = *valueUniquePointer;
             }
@@ -75,14 +76,12 @@ public:
 
     void deleteBasedOnKey(Key const& key) override
     {
-       m_root = deleteBasedOnKey(m_root, key, 0);
+        deleteBasedOnKeyAndReturnIfDeleted(m_root, key, 0);
     }
 
-    Keys getKeys() const override
-    {
+    Keys getKeys() const override    {
         return getAllKeysWithPrefix(std::string());
     }
-
     Keys getAllKeysWithPrefix(Key const& prefix) const override
     {
         Keys result;
@@ -99,14 +98,21 @@ public:
 
 private:
 
+    bool isEmptyNode(NodeUniquePointer const& currentNodePointer)
+    {
+        return !currentNodePointer->valueUniquePointer
+                && std::all_of(currentNodePointer->next.cbegin(), currentNodePointer->next.cend(), [](NodeUniquePointer const& nodePointer)
+        {
+            return !nodePointer;
+        });
+    }
+
     unsigned int getSize(NodeUniquePointer const& currentNodePointer) const
     {
-        unsigned int result(0);
-        if(currentNodePointer)
+        unsigned int result(0);        if(currentNodePointer)
         {
             ValueUniquePointer const& valueUniquePointer(currentNodePointer->valueUniquePointer);
-            if(valueUniquePointer)
-            {
+            if(valueUniquePointer)            {
                 result++;
             }
             for(unsigned int c=0; c<RADIX; c++)
@@ -117,14 +123,26 @@ private:
         return result;
     }
 
-    Node const* get(
-            NodeUniquePointer const& currentNodePointer,
-            Key const& key,
-            unsigned int const index) const
+    unsigned int getNumberOfNodes(NodeUniquePointer const& currentNodePointer) const
     {
-        Node const* result(nullptr);
+        unsigned int result(0);
         if(currentNodePointer)
         {
+            result++;
+            for(unsigned int c=0; c<RADIX; c++)
+            {
+                result += getNumberOfNodes(currentNodePointer->next.at(c));
+            }
+        }
+        return result;
+    }
+
+    Node const* get(
+            NodeUniquePointer const& currentNodePointer,
+            Key const& key,            unsigned int const index) const
+    {
+        Node const* result(nullptr);
+        if(currentNodePointer)        {
             if(index == key.length())
             {
                 result = currentNodePointer.get();
@@ -232,45 +250,88 @@ private:
         }
     }
 
-    NodeUniquePointer deleteBasedOnKey(
+    bool deleteBasedOnKeyAndReturnIfDeleted(
             NodeUniquePointer & currentNodePointer,
             Key const& key,
             unsigned int const index)
     {
-        NodeUniquePointer result;
+        bool isDeleted(false);
         if(currentNodePointer)
         {
-            ValueUniquePointer & valueUniquePointer(currentNodePointer->valueUniquePointer);
-            if(index == key.length())
+            ValueUniquePointer & valueUniquePointer(currentNodePointer->valueUniquePointer);            if(index == key.length())
             {
                 valueUniquePointer.reset();
-            }
-            else
-            {
-                char charAtKey = key.at(index);
-                currentNodePointer->next[charAtKey] = deleteBasedOnKey(currentNodePointer->next.at(charAtKey), key, index+1);
-            }
-            if(valueUniquePointer)
-            {
-                result = std::move(currentNodePointer);
-            }
-            else
-            {
-                for(unsigned int c=0; c<RADIX; c++)
+                if(isEmptyNode(currentNodePointer))
                 {
-                    if(currentNodePointer->next.at(c))
-                    {
-                        result = std::move(currentNodePointer);
-                        break;
-                    }
+                    currentNodePointer.reset();
+                    isDeleted = true;
+                }
+            }
+            else
+            {
+                bool isASingleNextDeleted = deleteBasedOnKeyAndReturnIfDeleted(currentNodePointer->next.at(key.at(index)), key, index+1);
+                if(isASingleNextDeleted && isEmptyNode(currentNodePointer))
+                {
+                    currentNodePointer.reset();
+                    isDeleted = true;
                 }
             }
         }
-        return result;
+        return isDeleted;
     }
 
     NodeUniquePointer m_root;
 };
+
+// Tries
+// -> From the word re[trie]val, but pronounced "try"
+// ---> For now, store character in nodes, (not keys)
+// ---> Each node has R children, on for each possible character.
+// ---> Store values in nodes corresponding to last character in keys.
+// -----> so only the last character has the value for the key
+
+// Search in a trie
+// -> Follow the links corresponding to each character in the key.
+// ---> Search hit: node where search ends has a non-null values.
+// ---> Seach miss: reach null or node where search end has null value.
+
+// Insertion into a trie
+// -> Follow links corresponding to each character in the key.
+// ---> Encounter a null link: create a new node
+// ---> Encounter the last character of the key: set value in that node
+
+// Node: A value, plus references to R nodes
+// -> Neither keys nor characters are not explicitly stored
+// -> characters are implicitly defined by link index
+// -> each node has an array of links and a value
+
+// Trie Performance
+// -> Search hit: Need to examine all L characters for equality. (linear)
+// -> Search miss: Could have mismatch on first character
+// ---> Typical case: examine only a few characters (sublinear)
+
+// Space
+// R null links at each leaf. -> Costly
+// -> but sublinear space possible if many short string share common prefixes
+
+// Bottom line: Fast search hit and even faster search miss, but wastes space.
+
+// Interview question: Design a data structure to perform efficient spell checking
+// -> Solution build a 26-way trie (key=word, value=bit)
+
+// Deletion in an R-way trie
+// -> Find the node corresponding to key and set value to null
+// -> If the node has all null link, remove that node (and recur)
+
+// R-way trie
+// -> Method of choice for small R.
+// -> Too much memory for large R.
+// Challenge: Use less memory e.g. 65536-way trie for Unicode!
+
+// Longest prefix in an R-way trie
+// -> Find longest key in symbol table that is a prefix of query string.
+// ---> Search for query string
+// ---> Keep track of longest key encountered
 
 }
 

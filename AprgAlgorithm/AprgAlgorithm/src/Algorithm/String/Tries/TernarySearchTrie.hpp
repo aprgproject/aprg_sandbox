@@ -79,15 +79,13 @@ public:
 
     void deleteBasedOnKey(Key const& key) override
     {
-        m_root = deleteBasedOnKey(m_root, key, 0);
+        deleteBasedOnKey(m_root, key, 0);
     }
 
-    Keys getKeys() const override
-    {
+    Keys getKeys() const override    {
         Keys result;
         collectAllKeysAtNode(m_root.get(), std::string(), result);
-        return result;
-    }
+        return result;    }
 
     Keys getAllKeysWithPrefix(Key const& prefix) const override
     {
@@ -137,23 +135,21 @@ private:
             char c(key.at(index));
             if(c < currentNodePointer->c)
             {
-                result = get(currentNodePointer->left, key, index);
+                result = get(currentNodePointer->left, key, index); // search left
             }
             else if(c > currentNodePointer->c)
             {
-                result = get(currentNodePointer->right, key, index);
+                result = get(currentNodePointer->right, key, index); // search right
             }
             else if(index < key.length() - 1)
             {
-                result = get(currentNodePointer->mid, key, index+1);
+                result = get(currentNodePointer->mid, key, index+1); // only advance index when character is a match
             }
             else
-            {
-                result = currentNodePointer.get();
+            {                result = currentNodePointer.get();
             }
         }
-        return result;
-    }
+        return result;    }
 
     void collectAllKeysAtNode(
             Node const*const currentNodePointer,
@@ -279,38 +275,34 @@ private:
         }
     }
 
-    NodeUniquePointer deleteBasedOnKey(
+    void deleteBasedOnKey(
             NodeUniquePointer & currentNodePointer,
             Key const& key,
             unsigned int const index)
     {
-        NodeUniquePointer result;
         if(currentNodePointer)
         {
-            unsigned int lastIndex = key.length() - 1;
-            ValueUniquePointer & valueUniquePointer(currentNodePointer->valueUniquePointer);
+            unsigned int lastIndex = key.length() - 1;            ValueUniquePointer & valueUniquePointer(currentNodePointer->valueUniquePointer);
             if(index < lastIndex)
             {
                 char charAtKey(key.at(index));
                 if(charAtKey < currentNodePointer->c)
                 {
-                    currentNodePointer->left = deleteBasedOnKey(currentNodePointer->left, key, index);
+                    deleteBasedOnKey(currentNodePointer->left, key, index);
                 }
                 else if(charAtKey > currentNodePointer->c)
                 {
-                    currentNodePointer->right = deleteBasedOnKey(currentNodePointer->right, key, index);
+                    deleteBasedOnKey(currentNodePointer->right, key, index);
                 }
                 else
                 {
-                    currentNodePointer->mid = deleteBasedOnKey(currentNodePointer->mid, key, index+1);
+                    deleteBasedOnKey(currentNodePointer->mid, key, index+1);
                 }
             }
-            else if(index == lastIndex)
-            {
+            else if(index == lastIndex)            {
                 valueUniquePointer.reset();
             }
-            if(!currentNodePointer->valueUniquePointer && !currentNodePointer->mid)
-            {
+            if(!currentNodePointer->valueUniquePointer && !currentNodePointer->mid)            {
                 if(!currentNodePointer->left && !currentNodePointer->right)
                 {
                     currentNodePointer.reset();
@@ -328,13 +320,29 @@ private:
                     currentNodePointer->mid = std::move(currentNodePointer->right);
                 }
             }
-            result = std::move(currentNodePointer);
         }
-        return result;
     }
 
     NodeUniquePointer m_root;
 };
+
+// Ternary search tries
+// -> Store characters and values in nodes (not keys)
+// -> Each node has 3 children: smaller (left), equal (middle), larger (right)
+// ---> left: Link to TST for all keys that start with a letter before s
+// ---> middle: Link to TST for all keys that start with a letter s
+// ---> right: Link to TST for all keys that start with a letter after s
+
+// almost like a binary search tree
+
+// Search in a TST
+// -> Follow links corresponding to each character in the key.
+// ---> If less, take left link
+// ---> if greater, take the right link
+// ---> If equal, take the middle link and move to the next key character.
+// -> Search hit. Node where search ends has a non-null value.
+// -> Search miss. Reach a null link or node where search ends has null value.
+
 
 }
 

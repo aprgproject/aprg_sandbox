@@ -1,0 +1,69 @@
+
+Cost summary when keys are string:
+
+implementation           | search hit    | search miss | insert    | space (references)
+red-black BST            | L + c lg^2(N) | c lg^2(N)   | c lg^2(N) | 4N
+hashing (linear probing) | L             | L           | L         | 4N to 16N
+R-way trie               | L             | logR(N)     | L         | (R+1)N
+
+Note: N=number of strings, L=length of string, R=radix
+
+Applications:
+Character based operations
+-> Prefix match
+-> Wildcard match
+-> Longest prefix
+
+Ordered iteration
+-> To iterate through all keys in sorted order:
+---> Do inorder traversal of trie; add keys encountered to a queue.
+---> Maintain sequence of characters on path from root to node.
+
+Prefix matches:
+-> Find all keys in a symbol table starting with a given prefix.
+-> Application: Auto complete in a cell phone, search bar, text editor, or shell
+---> User types characters one at a time. 
+---> System reports all matching strings.
+-> Find all keys in a symbol table starting with a given prefix.
+
+Longest prefix:
+-> Find the longest key in symbol table that is a prefix of query string
+-> Application: To send packet toward destination IP address, router chooses IP address in routing table that is longest prefix match.
+-> Not the same as floor function.
+-> Application: T9 texting (cellphone keypad) multi-tap input. Enter a letter by repeatedly pressing a key until the desired result
+---> Example: "hello"
+---> Multi-tap:  4 4 3 3 5 5 5 5 5 5 6 6 6
+---> T9: 4 3 5 5 6
+
+Patricia Trie: Practical Algorithm to Retrieve Information Coded in Alphanumeric
+-> Remove one-way brancing
+-> Each node represent a sequence of characters.
+-> Also known as: crit bit tree and radix tree
+
+Applications:
+-> Database search
+-> P2P network search.
+-> IP routing tables: find longest prefix match.
+-> Compressed quad-tree for N-body simulation.
+-> Efficiently sorting and querying XML documents.
+
+Suffix tree
+-> Patricia trie of suffixes of a string.
+-> Linear-time construction
+
+Summary:
+-> A success story of algorithm design and analysis
+---> Red black BST
+-----> Performance guarantee: long N key compares.
+-----> Supports ordered symbol table API.
+---> Hash tables
+-----> Performance guarantee: constant number of probes
+-----> Requires good hash function for key type
+---> Tries (R-way, TST)
+-----> Performance guarantee: log N characters accessed.
+-----> Supports character-based operations.
+
+Bottom line: You can get at anything by examining 50-100 bits.
+
+
+

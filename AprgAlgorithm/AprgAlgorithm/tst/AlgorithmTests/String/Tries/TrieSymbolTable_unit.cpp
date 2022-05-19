@@ -67,29 +67,14 @@ TEST(TrieSymbolTableTest, PutWorks)
     testPutWithUnsignedInt<TrieForTest>();
 }
 
-TEST(TrieSymbolTableTest, PutWhenEmptyStringWorks)
-{
-    TrieForTest trie;
-    trie.put("", 17U);
-
-    ASSERT_EQ(1U, trie.getSize());
-    EXPECT_EQ(17U, trie.get(""));
-}
-
 TEST(TrieSymbolTableTest, DeleteBasedOnKeyWorks)
 {
     testDeleteBasedOnKeyWithUnsignedInt<TrieForTest>();
 }
 
-TEST(TrieSymbolTableTest, DeleteBasedOnKeyWhenEmptyStringWorks)
-{
-    testDeleteBasedOnKeyWhenEmptyStringWithUnsignedInt<TrieForTest>();
-}
-
 TEST(TrieSymbolTableTest, GetKeysWorks)
 {
-    testGetKeysWithUnsignedInt<TrieForTest>();
-}
+    testGetKeysWithUnsignedInt<TrieForTest>();}
 
 TEST(TrieSymbolTableTest, GetAllKeysWithPrefixWorks)
 {
@@ -99,6 +84,84 @@ TEST(TrieSymbolTableTest, GetAllKeysWithPrefixWorks)
 TEST(TrieSymbolTableTest, GetAllKeysThatMatchWorks)
 {
     testGetAllKeysThatMatchWithUnsignedInt<TrieForTest>();
+}
+
+TEST(TrieSymbolTableTest, GetNumberOfNodesWorksWhenEmpty)
+{
+    TrieForTest trie;
+
+    EXPECT_EQ(0U, trie.getNumberOfNodes());
+}
+
+TEST(TrieSymbolTableTest, GetNumberOfNodesWorksWhenNotEmpty)
+{
+    TrieForTest trie;
+    trie.put("she", 0U);
+    trie.put("sells", 1U);
+    trie.put("sea", 2U);
+
+    EXPECT_EQ(8U, trie.getNumberOfNodes());
+}
+
+TEST(TrieSymbolTableTest, PutWorksWithNumberOfNodes)
+{
+    TrieForTest trie;
+    trie.put("she", 0U);
+    trie.put("sells", 1U);
+    trie.put("sea", 2U);
+
+    EXPECT_EQ(3U, trie.getSize());
+    EXPECT_EQ(8U, trie.getNumberOfNodes());
+    EXPECT_EQ(0U, trie.get("she"));
+    EXPECT_EQ(1U, trie.get("sells"));
+    EXPECT_EQ(2U, trie.get("sea"));
+}
+
+TEST(TrieSymbolTableTest, PutWhenEmptyStringWorks)
+{
+    TrieForTest trie;
+    trie.put("", 17U);
+
+    EXPECT_EQ(1U, trie.getSize());
+    EXPECT_EQ(1U, trie.getNumberOfNodes());
+    EXPECT_EQ(17U, trie.get(""));
+}
+
+TEST(TrieSymbolTableTest, DeleteBasedOnKeyWorksWithNumberOfNodes)
+{
+    TrieForTest trie;
+    trie.put("she", 0U);
+    trie.put("sells", 1U);
+    trie.put("sea", 2U);
+
+    trie.deleteBasedOnKey("she");
+    EXPECT_EQ(2U, trie.getSize());
+    EXPECT_EQ(6U, trie.getNumberOfNodes());
+    EXPECT_EQ(1U, trie.get("sells"));
+    EXPECT_EQ(2U, trie.get("sea"));
+
+    trie.deleteBasedOnKey("sells");
+    EXPECT_EQ(1U, trie.getSize());
+    EXPECT_EQ(3U, trie.getNumberOfNodes());
+    EXPECT_EQ(2U, trie.get("sea"));
+
+    trie.deleteBasedOnKey("sea");
+    EXPECT_TRUE(trie.isEmpty());
+    EXPECT_EQ(0U, trie.getNumberOfNodes());
+}
+
+TEST(TrieSymbolTableTest, DeleteBasedOnKeyWhenEmptyStringWorks)
+{
+    TrieForTest trie;
+    trie.put("", 017U);
+
+    trie.deleteBasedOnKey("");
+    EXPECT_TRUE(trie.isEmpty());
+    EXPECT_EQ(0U, trie.getNumberOfNodes());
+
+    trie.deleteBasedOnKey("");
+    EXPECT_TRUE(trie.isEmpty());
+    EXPECT_EQ(0U, trie.getNumberOfNodes());
 }
 
 }

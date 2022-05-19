@@ -76,6 +76,8 @@ private:
     stringHelper::strings m_suffixes;
 };
 
+// Check Manber-Myers MSD is really efficient
+
 }
 
 }

@@ -2,14 +2,19 @@ Sorting Summary:
 
 Note: lg N means log2(N)
 
-              | Inplace | Stable | Worst    | Average  | Best    | Remarks
-Selection     | Y       | N      | (N^2)/2  | (N^2)/2  | (N^2)/2 | N exchanges
-Insertion     | Y       | Y      | (N^2)/2  | (N^2)/4  | N       | use for small N or partially ordered
-Shell         | Y       | N      | ?        | ?        | N       | light code, subquadratic
-Merge         | N       | Y      | N lg N   | N lg N   | N lg N  | N lg N guarantee, stable
-Quick         | Y       | N      | (N^2)/2  | 2 N ln N | N lg N  | N lg N probabilisitc guarantee, fastest in practice
-3-way quick   | Y       | N      | (N^2)/2  | 2 N ln N | N       | improves quicksort in presence of duplicate keys
-Heapsort      | Y       | N      | 2*N lg N | 2*N lg N | N lg N  | N lg N guarantee, in place
-???           | Y       | Y      | N lg N   | N lg N   | N lg N  | holy sorting grail
+                   | Inplace | Stable | Worst          | Average     | Best    | Remarks
+Selection          | Y       | N      | (N^2)/2        | (N^2)/2     | (N^2)/2 | N exchanges
+Insertion          | Y       | Y      | (N^2)/2        | (N^2)/4     | N       | use for small N or partially ordered
+Shell              | Y       | N      | ?              | ?           | N       | light code, subquadratic
+Merge              | N       | Y      | N lg N         | N lg N      | N lg N  | N lg N guarantee, stable, uses N extra space
+Quick              | Y       | N      | (N^2)/2        | 1.39 N lg N | N lg N  | N lg N probabilistic guarantee, fastest in practice
+3-way quick        | Y       | N      | (N^2)/2        | 1.39 N lg N | N       | improves quicksort in presence of duplicate keys
+Heapsort           | Y       | N      | 2*N lg N       | 2*N lg N    | N lg N  | N lg N guarantee, in place
+LSD                | N       | Y      | 2*W*N          | 2*W*N       | 2*W*N   | 2*W*N guarantee, stable, uses N+R extra space, uses string.at
+MSD                | N       | Y      | 2*W*N          | N logR(N)   | 2*W*N   | 2*W*N guarantee, stable, uses N+DR extra space (D is functional call stack depth, length of longest prefix match), uses string.at
+3-way quick string | Y       | N      | 1.39 W*N lg N  | 1.39 N lg N | N       | uses log(N)+W extra space, uses string.at
+???                | Y       | Y      | N lg N         | N lg N      | N lg N  | holy sorting grail
 
+Note: W is the length of strings, R is the radix (letters in the alphabet)
 Note: There are versions of merge sort that come close to the holy sorting grail but too complex for practitioners to use.
+Note: LSD, MSD, 3-way quick string algorithms are found on "String" folder

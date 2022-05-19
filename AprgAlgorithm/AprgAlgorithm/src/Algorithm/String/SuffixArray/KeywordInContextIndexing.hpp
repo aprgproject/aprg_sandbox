@@ -40,6 +40,8 @@ private:
     SuffixArray<DataType> m_suffixArray;
 };
 
+// Applications: Linguistics, databases, web search, word processing
+
 }
 
 }
