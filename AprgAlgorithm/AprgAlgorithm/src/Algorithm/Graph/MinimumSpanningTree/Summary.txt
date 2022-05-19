@@ -38,3 +38,54 @@ Cut property
 --> Some other edge f in cycle must be a crossing edge
 --> Removing f and adding e is also a spanning tree
 --> Since weight of e is less than the weight of f -> that spanning tree is lower weight. -> This is a contradiction.
+
+Greedy MST algorithm
+-> Start with all edges colored gray.
+-> Find any cut with no black crossing edges, color its minimum eight edge black.
+-> Repeat until V-1 edges are colored black.
+
+Proposition: The greedy algorithm computes the MST.
+Proof: 
+-> Any edge colored black is in the MST (via cut property)
+-> Fewer than V-1 black edges => cut with no black crossing edges (consider cut whose vertices are one connected component). 
+
+
+Unsolved problem: Does a linear time MST algorithm exist?
+-> In 1975, Yao found MST algorithm with worst case E log log V
+-> In 1976, Cheriton-Tarjan found MST algorithm with worst case E log log V
+-> In 1984, Fredman-Tarjan found MST algorithm with worst case E log* V, E + V log V
+-> In 1986, Gabow-Galil-Spencer-Tarjan found MST algorithm with worst case E log(log* V)
+-> In 1997, Chazelle found MST algorithm with worst case E alpha(V) log(alpha(V)). Alpha is Inverse Ackermann function
+-> In 2000, Chazelle found MST algorithm with worst case E alpha(V). Alpha is Inverse Ackermann function
+-> In 2002, Pettie-Ramachandran found MST algorithm which is optimal.  
+---> From the paper: 
+---> Because of the nature of our algorithm, its exact running time is not known. 
+---> This might seem paradoxical at first. The source of our algorithm’s optimality, and its mysterious running time, is the use of precomputed "MST decision trees" whose exact depth is unknown but nonetheless provably optimal.
+-> In 20xx, any paper of proof or linear running time in the future?
+
+
+Euclidean MST
+-> Given N points in the plane, find MST connected them where the distance between point pairs are their Euclidean distances.
+--> Brute force: Compute ~ (N^2)/2 distances and run Prim's algorithm.
+--> Ingenuity. Exploit geometry and do it in ~ c N log N time. -> Voronoi Diagram or Delaunay triangulation -> (TBH I was thinking about Kd-trees and Prim's Algorithm)
+
+Clustering
+-> K-Clustering. Divide a set of objects classify into k-coherent groups.
+-> Distance function: Numeric value specifying the closeness of two objects
+-> Goal: Divide into clusters so that objects in different cluster are far apart
+---> Practical example: outbreak of cholera deaths in London in the 1850's. -> They identified well pumps infected with cholera.
+
+Single link clustering
+-> Single link: Distance between two clusters equal the distance between the two closest objects (one in each cluster)
+-> Single link clustering: Given an integer k, find a k-clustering that maximizes the distance between two closes clusters.
+
+Well known algorithm for single link clustering
+-> Form V clusters for one object each.
+-> Find the closest pair of objects such that each object is in a different cluster, and merge the two clusters.
+-> Repeat until there are exactly k clusters.
+-> This is Kruskal algorithm (stop when there are k connected components).
+
+
+
+
+

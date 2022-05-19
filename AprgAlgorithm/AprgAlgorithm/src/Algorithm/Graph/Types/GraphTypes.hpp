@@ -36,9 +36,11 @@ struct GraphTypes
     //Path
     using Path = std::vector<Vertex>;
     using Paths = std::vector<Path>;
+
     //Complicated types
     using VertexToUnsignedIntMap = std::map<Vertex, unsigned int>;
-    using VertexToVertexMap = std::map<Vertex, Vertex>;};
+    using VertexToVertexMap = std::map<Vertex, Vertex>;
+};
 
 template <typename Vertex, typename Weight>
 struct GraphTypesWithWeights
@@ -67,6 +69,7 @@ struct GraphTypesWithWeights
         Vertex vertex;
         Weight weight;
     };
+    using VerticesWithWeight = std::vector<VertexWithWeight>;
     using SetOfVerticesWithWeight = std::set<VertexWithWeight>;
 
 

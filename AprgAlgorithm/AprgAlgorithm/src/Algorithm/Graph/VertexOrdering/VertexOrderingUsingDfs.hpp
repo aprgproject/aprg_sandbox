@@ -27,10 +27,12 @@ public:
         ReversePostOrder, // order: dependent vertices are last in the list (topological sort)
     };
 
-    VertexOrderingUsingDfs(BaseGraphWithVertex const& graph)        : m_graph(graph)
+    VertexOrderingUsingDfs(BaseGraphWithVertex const& graph)
+        : m_graph(graph)
     {}
 
-    Vertices traverseAndGetVertices(TraverseOrder const traverseOrder)    {
+    Vertices traverseAndGetVertices(TraverseOrder const traverseOrder)
+    {
         Vertices traversedVertices;
         traverseStartingFromAllVertices(traversedVertices, traverseOrder);
         reverseVerticesIfNeeded(traversedVertices, traverseOrder);
@@ -42,9 +44,11 @@ public:
         //Useful on determining path that checks prerequisites and precedence scheduling
         return traverseAndGetVertices(TraverseOrder::ReversePostOrder);
     }
+
 private:
 
-    void clear()    {
+    void clear()
+    {
         m_processedVertices.clear();
     }
 
@@ -55,9 +59,11 @@ private:
             std::reverse(traversedVertices.begin(), traversedVertices.end());
         }
     }
+
     void traverseStartingFromAllVertices(Vertices & traversedVertices, TraverseOrder const traverseOrder)
     {
-        clear();        for(Vertex const& vertex : m_graph.getVertices())
+        clear();
+        for(Vertex const& vertex : m_graph.getVertices())
         {
             if(m_processedVertices.isNotFound(vertex) && !m_graph.getAdjacentVerticesAt(vertex).empty())
             {
@@ -85,17 +91,20 @@ private:
             traversePostOrderAt(traversedVertices, startVertex);
             break;
         }
-        }    }
+        }
+    }
 
     void traversePreOrderAt(Vertices & traversedVertices, Vertex const& startVertex)
     {
         traversedVertices.emplace_back(startVertex); // add vertex before DFS
 
         m_processedVertices.putVertex(startVertex);
-        for(Vertex const& adjacentVertex : m_graph.getAdjacentVerticesAt(startVertex))        {
+        for(Vertex const& adjacentVertex : m_graph.getAdjacentVerticesAt(startVertex))
+        {
             if(m_processedVertices.isNotFound(adjacentVertex))
             {
-                traversePreOrderAt(traversedVertices, adjacentVertex);            }
+                traversePreOrderAt(traversedVertices, adjacentVertex);
+            }
         }
     }
 

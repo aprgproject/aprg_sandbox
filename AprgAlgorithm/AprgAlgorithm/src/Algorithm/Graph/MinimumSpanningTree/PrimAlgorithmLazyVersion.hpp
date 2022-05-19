@@ -44,6 +44,7 @@ private:
         checkAdjacentEdgesOfVertex(m_startVertex);
         while(!m_adjacentEdgesInOrder.empty())
         {
+            // continue to grow the MST by processing the current nearest edge and only adding only edges with minimum weight
             EdgeWithWeight adjacentEdgeWithLowestWeight(m_adjacentEdgesInOrder.top());
             m_adjacentEdgesInOrder.pop();
             checkAdjacentEdgesOfEdgeAndAddToMstIfNeeded(adjacentEdgeWithLowestWeight);
@@ -52,6 +53,7 @@ private:
 
     void checkAdjacentEdgesOfEdgeAndAddToMstIfNeeded(EdgeWithWeight const& edgeWithWeight)
     {
+        // Since this is lazy algorithm (nearest vertices are not kept), we need to find which vertex/s is not included in the tree
         Vertex const& vertex1(edgeWithWeight.first);
         Vertex const& vertex2(edgeWithWeight.second);
         bool isVertex1NotProcessed(m_processedVertices.isNotFound(vertex1));
@@ -86,9 +88,24 @@ private:
     Vertex m_startVertex;
     CheckableVerticesWithVertex m_processedVertices;
     Edges m_minimumSpanningTreeEdges;
-    EdgeWithWeightsPriorityQueue m_adjacentEdgesInOrder;
-
+    EdgeWithWeightsPriorityQueue m_adjacentEdgesInOrder; // makes this lazy algorithm (only find the nearest edge when needed)
 };
+
+// Prim's algorithm: proof of correctness
+// Proposition: Prim's algorithm computes the MST.(Jarnik 1930, Dijkstra 1957, Prim 1959)
+// Proof: Prims algorithm is a special case of the greedy MST algorithm
+// -> Suppose edge e = minimum weight edge connecting a vertex on the tree to a vertex not on the tree.
+// -> Cut = set of vertices connected on tree
+// -> No crossing edge is black
+// -> No crossing edge has lower weight
+
+// Running time:
+// Proposition: Lazy Prim's algorithm computes the MST in time proportional to E log E and extra space proportional to E(worst)
+// Proof:
+// -> Time for each part:
+// ---> Deleting the minimum in PQ = E(frequency) * log E(time per operation)
+// ---> Inserting in PQ = E(frequency) * log E(time per operation)
+
 
 }
 

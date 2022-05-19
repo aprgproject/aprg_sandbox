@@ -51,9 +51,11 @@ private:
             addEdgeToMstIfVerticesAreNotConnected(unionFind, shortestEdge);
         }
     }
+
     void putAllEdgesToPriorityQueue()
     {
-        for(Edge const& edge : m_graph.getEdges())        {
+        for(Edge const& edge : m_graph.getEdges())
+        {
             m_edgesInOrder.emplace(edge.first, edge.second, m_graph.getWeight(edge.first, edge.second));
         }
     }
@@ -61,10 +63,12 @@ private:
     void addEdgeToMstIfVerticesAreNotConnected(UnionFindUsingMap<Vertex> & unionFind, EdgeWithWeight const& edge)
     {
         Vertex const& vertex1(edge.first);
-        Vertex const& vertex2(edge.second);        if(!unionFind.isConnected(vertex1, vertex2))
+        Vertex const& vertex2(edge.second);
+        if(!unionFind.isConnected(vertex1, vertex2))
         {
             unionFind.connect(vertex1, vertex2);
-            m_minimumSpanningTreeEdges.emplace_back(createSortedEdge<Vertex, Edge>(vertex1, vertex2));        }
+            m_minimumSpanningTreeEdges.emplace_back(createSortedEdge<Vertex, Edge>(vertex1, vertex2));
+        }
     }
 
     Graph const& m_graph;
@@ -72,6 +76,14 @@ private:
     Edges m_minimumSpanningTreeEdges;
     EdgeWithWeightsPriorityQueue m_edgesInOrder;
 };
+
+// Proposition: Kruskal's algorithm computes MST.
+// Proof:
+// -> Kruskal algorithm is a special case of the greedy MST algorithm.
+// -> Suppose Kruskal algorithm colors the edge e = v-w black.
+// -> Cut = set of vertices connected to v in tree T
+// -> No crossing edge is black
+// -> No crossing edge has lower weight.
 
 // Proposition: Kruskal's algorithm computes MST in time proportional to E log E (in the worst case).
 // Proof:

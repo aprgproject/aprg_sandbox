@@ -5,6 +5,7 @@
 #include <Algorithm/Graph/Utilities/SortedEdge.hpp>
 
 #include <algorithm>
+#include <queue>
 
 namespace alba
 {
@@ -20,7 +21,9 @@ public:
     using Edge = typename GraphTypes<Vertex>::Edge;
     using Edges = typename GraphTypes<Vertex>::Edges;
     using EdgeWithWeight = typename GraphTypesWithWeights<Vertex, Weight>::EdgeWithWeight;
-    using SetOfVerticesWithWeight = typename GraphTypesWithWeights<Vertex, Weight>::SetOfVerticesWithWeight;
+    using VertexWithWeight = typename GraphTypesWithWeights<Vertex, Weight>::VertexWithWeight;
+    using VerticesWithWeight = typename GraphTypesWithWeights<Vertex, Weight>::VerticesWithWeight;
+    using VertexWithWeightMinimumPriorityQueue = std::priority_queue<VertexWithWeight, VerticesWithWeight, std::greater<VertexWithWeight>>;
     using VertexToEdgeWithWeightMap = typename GraphTypesWithWeights<Vertex, Weight>::VertexToEdgeWithWeightMap;
     using CheckableVerticesWithVertex = CheckableVertices<Vertex>;
 
@@ -37,10 +40,12 @@ public:
         result.reserve(m_vertexToEdgeWithMinimumWeightMap.size());
         std::transform(m_vertexToEdgeWithMinimumWeightMap.cbegin(), m_vertexToEdgeWithMinimumWeightMap.cend(), std::back_inserter(result),
                        [](auto const& vertexToEdgeWithWeightPair)
-        {            return static_cast<Edge>(vertexToEdgeWithWeightPair.second);
+        {
+            return static_cast<Edge>(vertexToEdgeWithWeightPair.second);
         });
         return result;
     }
+
 private:
 
     bool hasNoWeightSaved(Vertex const& vertex) const
@@ -50,13 +55,15 @@ private:
 
     void searchForMinimumSpanningTree()
     {
-        m_verticesAdjacentToTreeOrderedByWeight.emplace(m_startVertex, Weight{}); // start vertex with weight zero for start
-        while(!m_verticesAdjacentToTreeOrderedByWeight.empty())
+        m_nearestVerticesToTree.emplace(m_startVertex, Weight{}); // start vertex with weight zero for start
+        while(!m_nearestVerticesToTree.empty())
         {
             // continue to grow the MST by processing the current nearest edge and only adding only edges with minimum weight
-            auto nearestVertexIt(m_verticesAdjacentToTreeOrderedByWeight.cbegin());
-            auto nearestVertex(*nearestVertexIt);
-            m_verticesAdjacentToTreeOrderedByWeight.erase(nearestVertexIt);            checkAdjacentVerticesWithLowestWeightOfVertex(nearestVertex.vertex);
+            // Since this is eager algorithm (nearest vertices are kept),
+            // -> we know the vertex to check if not yet included in tree (since its an adjacent vertex previously)
+            auto nearestVertex(m_nearestVerticesToTree.top());
+            m_nearestVerticesToTree.pop();
+            checkAdjacentVerticesWithLowestWeightOfVertex(nearestVertex.vertex);
         }
     }
 
@@ -73,10 +80,12 @@ private:
                 // check for vertex is not yet included or edge weight is smaller
                 if(hasNoWeightSaved(adjacentVertex)
                         || weightForAdjacentVertex < m_vertexToEdgeWithMinimumWeightMap.at(adjacentVertex).weight)
-                {                    saveVertexAndEdgeOfLowestWeight(vertex, adjacentVertex, weightForAdjacentVertex);
+                {
+                    saveVertexAndEdgeOfLowestWeight(vertex, adjacentVertex, weightForAdjacentVertex);
                 }
             }
-        }    }
+        }
+    }
 
     void saveVertexAndEdgeOfLowestWeight(
             Vertex const& vertex,
@@ -85,16 +94,30 @@ private:
     {
         m_vertexToEdgeWithMinimumWeightMap[adjacentVertex]
                 = createSortedEdgeWithWeight<Vertex, Weight, EdgeWithWeight>(vertex, adjacentVertex, lowestWeight);
-        m_verticesAdjacentToTreeOrderedByWeight.emplace(adjacentVertex, lowestWeight);
+        m_nearestVerticesToTree.emplace(adjacentVertex, lowestWeight);
     }
 
     Graph const& m_graph;
     Vertex m_startVertex;
     CheckableVerticesWithVertex m_processedVertices;
     VertexToEdgeWithWeightMap m_vertexToEdgeWithMinimumWeightMap;
-    SetOfVerticesWithWeight m_verticesAdjacentToTreeOrderedByWeight;
+    VertexWithWeightMinimumPriorityQueue m_nearestVerticesToTree; // makes this eager algorithm (nearest vertices is kept to find nearest edges easier)
 
 };
+
+// Running time:
+// depends on Indexed-PQ implementation: Total = V inserts + V deletemins + E decrease-keys
+// array: insert(1), delete-min(V), decrease-key(1) -> total = V^2
+// binary heap: insert(log V), delete-min(log V), decrease-key(log V) -> total = E log V
+// d-way heap: insert(d logd V)), delete-min(d logd V), decrease-key(d logd V) -> total = E log(E/V) V
+// Fibonacci heap: insert(1*), delete-min(log V*), decrease-key(1*) -> total = E + V log V
+// * means amortized
+// Bottom line:
+// -> Array implementation optimal for dense graphs
+// -> Binary heap is faster for sparse graphs
+// -> 4 way heap is worth the trouble in performance-critical situations
+// -> Fibonacci heap is best in theory, but too complicated to implement (not worth it in practice)
+
 
 }
 

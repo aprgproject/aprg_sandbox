@@ -15,9 +15,11 @@ template <typename Vertex>
 class HamiltonianPathSearchWithDfs // The Traveling Salesman Problem. // This is an intractable problem (classical NP-complete problem)
 {
 public:
-    using BaseGraphWithVertex = BaseGraph<Vertex>;    using Path = typename GraphTypes<Vertex>::Path;
+    using BaseGraphWithVertex = BaseGraph<Vertex>;
+    using Path = typename GraphTypes<Vertex>::Path;
     using Paths = typename GraphTypes<Vertex>::Paths;
     using CheckableVerticesWithVertex = CheckableVertices<Vertex>;
+
     enum class SearchType
     {
         Unknown,

@@ -161,10 +161,12 @@ bool isGraphConnected(BaseDirectedGraph<Vertex> const& graph)
 template <typename Vertex>
 bool isGraphStronglyConnected(BaseDirectedGraph<Vertex> const& graph)
 {
-    // Two vertices v and w are strongly connected if they are mutually reachable (so there is a edge from v to w and from w to v)    // A directed graph is strongly connected if all its vertices are strongly connected to one another
+    // Two vertices v and w are strongly connected if they are mutually reachable (so there is a edge from v to w and from w to v)
+    // A directed graph is strongly connected if all its vertices are strongly connected to one another
 
     StronglyConnectedComponentsUsingKosarajuSharir<Vertex> connectedComponents(graph);
-    return 1U == connectedComponents.getNumberOfComponentIds();}
+    return 1U == connectedComponents.getNumberOfComponentIds();
+}
 
 template <typename Vertex>
 bool isBipartite(BaseUndirectedGraph<Vertex> const& graph)

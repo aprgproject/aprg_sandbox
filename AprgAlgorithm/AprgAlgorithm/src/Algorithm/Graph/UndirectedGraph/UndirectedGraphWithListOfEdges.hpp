@@ -22,9 +22,11 @@ public:
     using Edges = typename GraphTypes<Vertex>::Edges;
     using SetOfEdges = typename GraphTypes<Vertex>::SetOfEdges;
 
-    UndirectedGraphWithListOfEdges()        : m_numberOfEdges(0U)
+    UndirectedGraphWithListOfEdges()
+        : m_numberOfEdges(0U)
         , m_edges{}
     {}
+
     bool hasAnyConnection(Vertex const& vertex) const override
     {
         bool result(false);
@@ -41,9 +43,11 @@ public:
         return m_edges.find({vertex1, vertex2}) != m_edges.cend();
     }
 
-    unsigned int getNumberOfVertices() const override    {
+    unsigned int getNumberOfVertices() const override
+    {
         return getVertices().size();
     }
+
     unsigned int getNumberOfEdges() const override
     {
         return m_numberOfEdges;
@@ -60,9 +64,11 @@ public:
         });
         return result;
     }
+
     Vertices getVertices() const override
     {
-        Vertices result;        for(auto const& edge : m_edges)
+        Vertices result;
+        for(auto const& edge : m_edges)
         {
             Vertex const& vertex(edge.first);
             if(result.empty())
@@ -87,10 +93,12 @@ public:
                 result.emplace_back(edge);
             }
         }
-        return result;    }
+        return result;
+    }
 
     std::string getDisplayableString() const override
-    {        std::stringstream ss;
+    {
+        std::stringstream ss;
         ss << "Edges: {";
         for(auto const& edge : m_edges)
         {
