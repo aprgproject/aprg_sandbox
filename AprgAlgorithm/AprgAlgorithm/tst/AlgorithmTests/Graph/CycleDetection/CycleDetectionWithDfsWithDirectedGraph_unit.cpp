@@ -29,7 +29,8 @@ TEST(CycleDetectionUsingDfsTest, CycleDetectionWorksWhenGraphIsEmptyWithDirected
 TEST(CycleDetectionUsingDfsTest, CycleDetectionWorksWhenThereIsNoCycleWithDirectedGraph){
     GraphForTest graph;
     graph.connect(0U, 1U);
-    graph.connect(2U, 1U);    graph.connect(2U, 3U);
+    graph.connect(2U, 1U);
+    graph.connect(2U, 3U);
     graph.connect(3U, 0U);
     CycleDetectionForTest cycleDetectionWithDfs(graph);
 
@@ -40,7 +41,8 @@ TEST(CycleDetectionUsingDfsTest, CycleDetectionWorksWhenThereIsNoCycleWithDirect
 TEST(CycleDetectionUsingDfsTest, CycleDetectionWorksUsingExample1WithDirectedGraph){
     GraphForTest graph;
     graph.connect(0U, 5U);
-    graph.connect(3U, 5U);    graph.connect(4U, 3U);
+    graph.connect(3U, 5U);
+    graph.connect(4U, 3U);
     graph.connect(5U, 4U);
     CycleDetectionForTest cycleDetectionWithDfs(graph);
 
@@ -53,7 +55,8 @@ TEST(CycleDetectionUsingDfsTest, CycleDetectionWorksUsingExample1WithDirectedGra
 TEST(CycleDetectionUsingDfsTest, CycleDetectionWorksUsingExample2WithDirectedGraph){
     GraphForTest graph;
     graph.connect(0U, 1U);
-    graph.connect(0U, 5U);    graph.connect(2U, 0U);
+    graph.connect(0U, 5U);
+    graph.connect(2U, 0U);
     graph.connect(2U, 3U);
     graph.connect(3U, 2U);
     graph.connect(3U, 5U);
@@ -84,7 +87,8 @@ TEST(CycleDetectionUsingDfsTest, CycleDetectionWorksUsingExample2WithDirectedGra
 TEST(CycleDetectionUsingDfsTest, CycleDetectionWorksUsingExample3WithDirectedGraph){
     GraphForTest graph;
     graph.connect(0U, 1U);
-    graph.connect(1U, 2U);    graph.connect(2U, 3U);
+    graph.connect(1U, 2U);
+    graph.connect(2U, 3U);
     graph.connect(3U, 4U);
     graph.connect(4U, 0U);
 
@@ -99,7 +103,8 @@ TEST(CycleDetectionUsingDfsTest, CycleDetectionWorksUsingExample3WithDirectedGra
 TEST(CycleDetectionUsingDfsTest, CycleDetectionWorksUsingExample4WithDirectedGraph){
     GraphForTest graph;
     graph.connect(0U, 2U);
-    graph.connect(0U, 4U);    graph.connect(1U, 3U);
+    graph.connect(0U, 4U);
+    graph.connect(1U, 3U);
     graph.connect(2U, 7U);
     graph.connect(3U, 6U);
     graph.connect(4U, 5U);
@@ -123,7 +128,8 @@ TEST(CycleDetectionUsingDfsTest, CycleDetectionWorksUsingExample4WithDirectedGra
 TEST(CycleDetectionUsingDfsTest, CycleDetectionWorksUsingExample5WithDirectedGraph){
     GraphForTest graph;
     graph.connect(0U, 2U);
-    graph.connect(0U, 4U);    graph.connect(1U, 3U);
+    graph.connect(0U, 4U);
+    graph.connect(1U, 3U);
     graph.connect(2U, 7U);
     graph.connect(3U, 6U);
     graph.connect(4U, 5U);

@@ -83,7 +83,8 @@ TEST(PathSearchUsingBellmanFordTest, LongestPathSearchEndsWhenThereArePositiveCy
     LongestPathSearchForTest pathSearch(graph, 0U);
 
     PathForTest pathWith0;
-    PathForTest pathWith1{0U, 1U};    PathForTest pathWith2{0U, 1U, 2U};
+    PathForTest pathWith1{0U, 1U};
+    PathForTest pathWith2{0U, 1U, 2U};
     PathForTest pathWith3{0U, 1U, 2U, 3U};
     PathForTest pathWith4;
     EXPECT_TRUE(pathSearch.hasPathTo(0U));
@@ -141,7 +142,8 @@ TEST(PathSearchUsingBellmanFordTest, HasPathToWorksWithEdgeWeightedDirectedGraph
     EXPECT_FALSE(pathSearch.hasPathTo(0U));    EXPECT_TRUE(pathSearch.hasPathTo(1U));
     EXPECT_TRUE(pathSearch.hasPathTo(2U));
     EXPECT_TRUE(pathSearch.hasPathTo(3U));
-    EXPECT_TRUE(pathSearch.hasPathTo(4U));    EXPECT_TRUE(pathSearch.hasPathTo(5U));
+    EXPECT_TRUE(pathSearch.hasPathTo(4U));
+    EXPECT_TRUE(pathSearch.hasPathTo(5U));
     EXPECT_TRUE(pathSearch.hasPathTo(6U));
     EXPECT_TRUE(pathSearch.hasPathTo(7U));
     EXPECT_FALSE(pathSearch.hasPathTo(8U));
@@ -165,7 +167,8 @@ TEST(PathSearchUsingBellmanFordTest, GetPathToWorksWithEdgeWeightedDirectedGraph
     PathForTest pathWith0;    PathForTest pathWith1{0U, 4U, 5U, 1U};
     PathForTest pathWith2{0U, 2U};
     PathForTest pathWith3{0U, 2U, 7U, 3U};
-    PathForTest pathWith4{0U, 4U};    PathForTest pathWith5{0U, 4U, 5U};
+    PathForTest pathWith4{0U, 4U};
+    PathForTest pathWith5{0U, 4U, 5U};
     PathForTest pathWith6{0U, 2U, 7U, 3U, 6U};
     PathForTest pathWith7{0U, 2U, 7U};
     PathForTest pathWith8;
@@ -198,7 +201,8 @@ TEST(PathSearchUsingBellmanFordTest, HasPathToWorksWithEdgeWeightedDirectedGraph
     EXPECT_FALSE(pathSearch.hasPathTo(0U));    EXPECT_TRUE(pathSearch.hasPathTo(1U));
     EXPECT_TRUE(pathSearch.hasPathTo(2U));
     EXPECT_TRUE(pathSearch.hasPathTo(3U));
-    EXPECT_TRUE(pathSearch.hasPathTo(4U));    EXPECT_TRUE(pathSearch.hasPathTo(5U));
+    EXPECT_TRUE(pathSearch.hasPathTo(4U));
+    EXPECT_TRUE(pathSearch.hasPathTo(5U));
     EXPECT_TRUE(pathSearch.hasPathTo(6U));
     EXPECT_TRUE(pathSearch.hasPathTo(7U));
     EXPECT_FALSE(pathSearch.hasPathTo(8U));
@@ -222,7 +226,8 @@ TEST(PathSearchUsingBellmanFordTest, GetPathToWorksWithEdgeWeightedDirectedGraph
     PathForTest pathWith0;    PathForTest pathWith1{0U, 4U, 5U, 1U};
     PathForTest pathWith2{0U, 2U};
     PathForTest pathWith3{0U, 4U, 5U, 7U, 3U};
-    PathForTest pathWith4{0U, 4U};    PathForTest pathWith5{0U, 4U, 5U};
+    PathForTest pathWith4{0U, 4U};
+    PathForTest pathWith5{0U, 4U, 5U};
     PathForTest pathWith6{0U, 4U, 5U, 7U, 3U, 6U};
     PathForTest pathWith7{0U, 4U, 5U, 7U};
     PathForTest pathWith8;

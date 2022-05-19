@@ -27,7 +27,8 @@ public:
     PrimAlgorithmLazyVersion(EdgeWeightedGraph const& graph, Vertex const& startVertex)        : m_graph(graph)
         , m_startVertex(startVertex)
     {
-        searchForMinimumSpanningTree();    }
+        searchForMinimumSpanningTree();
+    }
 
     Edges const& getMinimumSpanningTreeEdges() const
     {

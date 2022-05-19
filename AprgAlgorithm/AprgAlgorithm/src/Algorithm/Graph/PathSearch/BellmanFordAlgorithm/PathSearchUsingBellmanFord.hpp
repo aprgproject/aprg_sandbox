@@ -57,7 +57,8 @@ private:
         }    }
 
     void enqueue(Vertex const& vertex)
-    {        m_queueOfVertices.emplace_back(vertex);
+    {
+        m_queueOfVertices.emplace_back(vertex);
         m_verticesInQueue.putVertex(vertex);
     }
 

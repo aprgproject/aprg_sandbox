@@ -27,7 +27,8 @@ public:    // this class is dangerous, the user needs to be aware of index used 
         : m_size(0U)        , m_maxSize(0U)
     {}
 
-    bool isEmpty() const    {
+    bool isEmpty() const
+    {
         return getSize() == 0;
     }
 
@@ -159,6 +160,7 @@ private:
         // This is not used because size usage is not efficient. No use to make it efficient.
         return treeIndex-1;
     }
+
     Object const& getObjectConstReferenceOnTree(unsigned int const treeIndex) const
     {
         return m_objects.at(m_treeIndexToObjectIndex.at(treeIndex));
@@ -232,4 +234,5 @@ private:
     Objects m_objects;};
 
 }
+
 }

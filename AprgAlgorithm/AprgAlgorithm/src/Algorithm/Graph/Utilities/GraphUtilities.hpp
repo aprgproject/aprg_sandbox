@@ -101,6 +101,7 @@ bool hasAnyCyclesOnGraph(BaseGraph<Vertex> const& graph)
 template <typename Vertex>bool isATree(BaseUndirectedGraph<Vertex> const& graph)
 {
     // A tree is an acyclic connected graph.
+
     return !hasAnyCyclesOnGraph(graph) && isGraphConnected(graph);
 }
 

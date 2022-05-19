@@ -238,7 +238,8 @@ private:
         {            if(frequency.at(c) > 0)
             {
                 characterFrequencies.emplace(static_cast<char>(c), frequency.at(c), false);
-                nodePerCharacter[c].node = std::make_unique<TrieNode>(static_cast<char>(c), nullptr, nullptr);            }
+                nodePerCharacter[c].node = std::make_unique<TrieNode>(static_cast<char>(c), nullptr, nullptr);
+            }
         }
 
         while(characterFrequencies.size() > 1)

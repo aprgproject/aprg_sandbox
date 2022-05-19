@@ -66,7 +66,8 @@ private:
 
     Path getPathWithCycle(Vertex const& secondToTheLastVertex, Vertex const& lastVertex) const
     {
-        bool isSuccessful(true);        Path reversedPath{lastVertex};
+        bool isSuccessful(true);
+        Path reversedPath{lastVertex};
         Vertex currentVertex = secondToTheLastVertex;
         while(currentVertex != lastVertex)
         {

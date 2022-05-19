@@ -20,7 +20,8 @@ public:
     using VertexOrderingUsingDfsWithVertex = VertexOrderingUsingDfs<Vertex>;
     PathSearchForDirectedAcyclicGraph(EdgeWeightedGraph const& graph, Vertex const& startVertex)
         : BaseClass(graph, startVertex)
-    {        searchForPathIfPossible();
+    {
+        searchForPathIfPossible();
     }
 
 private:

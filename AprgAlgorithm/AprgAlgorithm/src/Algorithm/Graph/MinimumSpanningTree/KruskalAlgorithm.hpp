@@ -28,6 +28,7 @@ public:
     {
         searchForMinimumSpanningTree();
     }
+
     Edges const& getMinimumSpanningTreeEdges() const
     {
         return m_minimumSpanningTreeEdges;

@@ -21,7 +21,8 @@ public:
     using VertexToEdgeWithWeightMap = typename GraphTypesWithWeights<Vertex, Weight>::VertexToEdgeWithWeightMap;    using AdditionalRelaxationStepsOnLowerWeight = std::function<void(Vertex const&, Vertex const&, Weight const&)>;
     using AdditionalRelaxationSteps = std::function<void(void)>;
 
-    BasePathSearchWithRelax(EdgeWeightedGraph const& graph, Vertex const& startVertex)        : m_graph(graph)
+    BasePathSearchWithRelax(EdgeWeightedGraph const& graph, Vertex const& startVertex)
+        : m_graph(graph)
         , m_startVertex(startVertex)
     {}
 
@@ -47,7 +48,8 @@ public:
             }            else
             {
                 shouldAddStartVertexAndReverse = false;
-                break;            }
+                break;
+            }
         }
         Path result;
         if(shouldAddStartVertexAndReverse)
@@ -101,7 +103,8 @@ protected:
         }        additionalRelaxationSteps();
     }
 
-    static AdditionalRelaxationStepsOnLowerWeight getNoStepsOnLowerWeight()    {
+    static AdditionalRelaxationStepsOnLowerWeight getNoStepsOnLowerWeight()
+    {
         static AdditionalRelaxationStepsOnLowerWeight noRelaxationSteps
                 = [](Vertex const&, Vertex const&, Weight const&){};
         return noRelaxationSteps;

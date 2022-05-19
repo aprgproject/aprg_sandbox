@@ -17,7 +17,8 @@ class HeapPriorityQueue
 public:    using Objects=std::vector<Object>;
 
     HeapPriorityQueue()
-        : m_objects()        , m_heapTreeAdapter(m_objects)
+        : m_objects()
+        , m_heapTreeAdapter(m_objects)
     {}
 
     bool isEmpty() const
@@ -70,7 +71,8 @@ private:
 // Applications:// -> Event-driven simulation (customers in a line, colliding particles)
 // -> Numerical computation (reducing roundoff error)
 // -> Data compression (huffman codes)
-// -> Graph searching (Dijkstra's algorithm, Prim's algorithm)// -> Number theory (Sum of powers)
+// -> Graph searching (Dijkstra's algorithm, Prim's algorithm)
+// -> Number theory (Sum of powers)
 // -> Artificial intelligence (A Search)
 // -> Statistics (largest M values in a sequence)
 // -> Operating systems (load balancing, interrupt handling)

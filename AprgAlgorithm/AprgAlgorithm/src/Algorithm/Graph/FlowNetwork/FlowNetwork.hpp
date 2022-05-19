@@ -116,10 +116,10 @@ public:
 
     FlowDataType getDeltaFlowAt(Vertex const& vertex) const
     {
+        // this is linear (not optimized)
         FlowDataType result{};
         for(auto const& edgeAndDetailsPair : m_edgeToFlowEdgeDetailsMap)
-        {
-            if(edgeAndDetailsPair.first.first == vertex)
+        {            if(edgeAndDetailsPair.first.first == vertex)
             {
                 result -= edgeAndDetailsPair.second.flow;
             }
@@ -169,10 +169,10 @@ public:
 
     FlowEdges getFlowEdgesWithVertex(Vertex const& vertex) const
     {
+        // this is linear (not optimized)
         FlowEdges result;
         for(auto const& edgeAndDetailsPair : m_edgeToFlowEdgeDetailsMap)
-        {
-            if(edgeAndDetailsPair.first.first == vertex || edgeAndDetailsPair.first.second == vertex)
+        {            if(edgeAndDetailsPair.first.first == vertex || edgeAndDetailsPair.first.second == vertex)
             {
                 result.emplace_back(FlowEdge{edgeAndDetailsPair.first.first, edgeAndDetailsPair.first.second, edgeAndDetailsPair.second.capacity, edgeAndDetailsPair.second.flow});
             }

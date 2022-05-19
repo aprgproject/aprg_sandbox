@@ -27,7 +27,8 @@ public:
     using CheckableVerticesWithVertex = CheckableVertices<Vertex>;
     PrimAlgorithmEagerVersion(EdgeWeightedGraph const& graph, Vertex const& startVertex)
         : m_graph(graph)
-        , m_startVertex(startVertex)    {
+        , m_startVertex(startVertex)
+    {
         searchForMinimumSpanningTree();
     }
 
@@ -64,12 +65,11 @@ private:
         }    }
 
     void checkAdjacentVerticesWithLowestWeightOfVertex(
-            Vertex const& vertex)    {
-        // DFS traversal
+            Vertex const& vertex)
+    {
         m_processedVertices.putVertex(vertex);
         for(Vertex const& adjacentVertex : m_graph.getAdjacentVerticesAt(vertex))
-        {
-            if(m_processedVertices.isNotFound(adjacentVertex)) // only add vertices and edges from vertices not yet processed
+        {            if(m_processedVertices.isNotFound(adjacentVertex)) // only add vertices and edges from vertices not yet processed
             {
                 Weight weightForAdjacentVertex(m_graph.getWeight(vertex, adjacentVertex));
                 // check for vertex is not yet included or edge weight is smaller

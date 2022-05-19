@@ -31,6 +31,7 @@ public:
         : BaseClass(graph, startVertex)    {
         searchForPathIfPossible();
     }
+
 private:
 
     bool isComparisonLessThan() const
@@ -40,7 +41,8 @@ private:
     }
     void searchForPathIfPossible()
     {
-        if(isComparisonLessThan()                || GraphUtilities::isDirectedAcyclicGraph(this->m_graph))
+        if(isComparisonLessThan()
+                || GraphUtilities::isDirectedAcyclicGraph(this->m_graph))
         {
             searchForPath();
         }

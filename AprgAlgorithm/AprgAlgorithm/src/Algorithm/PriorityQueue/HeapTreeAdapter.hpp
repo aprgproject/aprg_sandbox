@@ -22,7 +22,8 @@ public:
     {}
     Object const& getObjectConstReferenceOnTree(
             unsigned int const treeIndex) const
-    {        return m_objects.at(getContainerIndex(treeIndex));
+    {
+        return m_objects.at(getContainerIndex(treeIndex));
     }
 
     Object & getObjectReferenceOnTree(
@@ -141,7 +142,8 @@ private:
 };
 // Objects are kept in heap order, parents value is no smaller than children's value (in max priority queue)
 // Tree index starts at one (top of the tree)
-// Advantage no links needed for the tree.// Notes:
+// Advantage no links needed for the tree.
+// Notes:
 // -> Parent of node k is at k/2 (integer division)
 // -> Children of node k are at 2k and 2k+1 (in the implementation above the number of children per parent can be changed)
 // -> Heap order: isComparisonSatisfied(child, parent) is true

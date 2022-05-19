@@ -1,0 +1,77 @@
+
+Mincut problem:
+-> Input: Edge weighted digraph with flow and capacity, and source vertex "s" and target vertex "t"
+-> A st-cut is partition of the vertices into two disjoint sets, with s in one set A and t in the other set B.
+---> Its capacity is the sum of the capacities from A to B.
+-> The minimum st-cut (mincut) problem: Find a cut of minimum capacity.
+
+Mincut applications:
+-> "Free world" goal. (Cut supplies if cold war turns into real war)
+-> Government in power's goal. Cur off communication to set of people.
+
+Max flow problem
+-> Input: Edge weighted digraph with flow and capacity, and source vertex "s" and target vertex "t"
+-> An st-flow (flow) is an assignment of values to the edges such that:
+----> Flow constraint: 0 <= flow <= capacity
+----> Local equilibrium: inflow=outflow at ever vertex (except s and t).
+-> The value of a flow is the inflow at t.
+-> Maximum st-flow (maxflow) problem. Find a flow of maximum value.
+
+Maxflow applications:
+-> Soviet union goal: Maximize flow of supplies to Eastern europe.
+-> "Free world" goal. Maximize flow of inroamtion to specified set of people.
+
+Mincut problem and maxflow problem are essentially the same problem
+
+Relationship between flows and cuts
+-> The net flow across a cut (A, B) is the sum of the flows on its edges from A to B minus the sum of the flows on its edges from B to A.
+-> Flow value lemma: Let f be any flow and let (A, B) be any cut. Then the net flow across (A, B) equals the value of f.
+
+Proof: By induction on the size of B
+-> Base case: B={t}
+-> Induction step: remains true by local equilibrium when moving any vertex from A to B.
+
+Outflow from s == Inflow to t == Value of flow
+
+Weak duality. 
+-> Let f be any flow and let (A, B) be any cut.
+-> Then, the value of the flow <= the capacity of the cut.
+-> Proof:
+---> Value of the flow f = net flow across cut (A, B) <= capacity of cut (A,B)
+
+Augmenting path:
+-> Find an undirected path from s to t such that:
+---> Can increase flow on forward edges (not full)
+---> Can decrease flow on backward edge (not empty)
+
+Maxflow-mincut theorem:
+-> Augmenting path theorem. A flow f is a maxflow iff no augmenting paths.
+-> Maxflow-mincut theorem. Value of the maxflow = capacity of the mincut.
+-> Proof:
+---> The following three conditions are equivalent for any flow f:
+-----> (1) There exists a cut whose capacity equals the value of the flow f.
+-----> (2) f is a max flow
+-----> (3) There is no augmenting path with respect to f.
+---> 1 implies 2
+-----> Suppose that (A, B) is a cut with capacity equal to the value of f.
+-----> Then, the value of any flow f' <= capacity of (A,B) = value of f. (by weak duality)
+-----> Thus, f is a max flow.
+---> 2 implies 3, We prove the contrapositive: ~3 -> ~2
+-----> Suppose that there is an augmenting path with respect to f.
+-----> Can improve flow f by sending flow along this path.
+-----> Thus, f is not a max flow.
+---> 3 implies 1
+-----> Suppose that there is no augmenting path with respect to f.
+-------> Let (A, B) be a cut where A is the set of vertices connected to s by an undirected path with no full forward or empty backward edges.
+-------> By definition, "s" is in A; since there is no augmenting path, "t" is in B.
+---> Capacity of cut = net flow across cut (forward edges are full, backward edges are empty)
+                     = value of flow f. (flow value lemma)
+
+Computing a mincut from a max flow:
+-> To compute mincut (A, B) from maxflow f:
+---> By augmenting path theorem, no augmenting paths with respect to f. 
+---> Compute A = set of vertices connected to s by an undirected path with no full forward or empty backward edges.
+
+
+
+
