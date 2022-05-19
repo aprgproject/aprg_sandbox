@@ -21,16 +21,13 @@ public:
     using Edge = typename GraphTypes<Vertex>::Edge;
     using Edges = typename GraphTypes<Vertex>::Edges;
     using EdgeWithWeight = typename GraphTypesWithWeights<Vertex, Weight>::EdgeWithWeight;
-    using EdgesWithWeight = typename GraphTypesWithWeights<Vertex, Weight>::EdgesWithWeight;
-    using EdgeWithWeightsPriorityQueue = std::priority_queue<EdgeWithWeight, EdgesWithWeight, std::greater<EdgeWithWeight>>;
+    using EdgeWithWeightsPriorityQueue = std::priority_queue<EdgeWithWeight, std::deque<EdgeWithWeight>, std::greater<EdgeWithWeight>>;
 
     KruskalAlgorithm(EdgeWeightedGraph const& graph, Vertex const& startVertex)
-        : m_graph(graph)
-        , m_startVertex(startVertex)
+        : m_graph(graph)        , m_startVertex(startVertex)
     {
         searchForMinimumSpanningTree();
     }
-
     Edges const& getMinimumSpanningTreeEdges() const
     {
         return m_minimumSpanningTreeEdges;

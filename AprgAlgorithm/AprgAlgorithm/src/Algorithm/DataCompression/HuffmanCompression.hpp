@@ -232,15 +232,13 @@ private:
 
     TrieNodeUniquePointer buildTrie(FrequencyOfEachCharacter const& frequency)
     {
-        std::priority_queue<CharacterFrequency, std::vector<CharacterFrequency>, std::greater<CharacterFrequency>> characterFrequencies; // min priority queue
+        std::priority_queue<CharacterFrequency, std::deque<CharacterFrequency>, std::greater<CharacterFrequency>> characterFrequencies; // min priority queue
         std::array<TrieNodeArrayEntry, RADIX> nodePerCharacter{};
         for(DataType c=0; c < RADIX; c++)
-        {
-            if(frequency.at(c) > 0)
+        {            if(frequency.at(c) > 0)
             {
                 characterFrequencies.emplace(static_cast<char>(c), frequency.at(c), false);
-                nodePerCharacter[c].node = std::make_unique<TrieNode>(static_cast<char>(c), nullptr, nullptr);
-            }
+                nodePerCharacter[c].node = std::make_unique<TrieNode>(static_cast<char>(c), nullptr, nullptr);            }
         }
 
         while(characterFrequencies.size() > 1)

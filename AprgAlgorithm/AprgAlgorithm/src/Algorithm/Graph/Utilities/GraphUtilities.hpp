@@ -95,15 +95,12 @@ template <typename Vertex>
 bool hasAnyCyclesOnGraph(BaseGraph<Vertex> const& graph)
 {
     CycleDetectionUsingDfs<Vertex> cycleDetection(graph);
-    cycleDetection.checkForCycles();
-    return cycleDetection.hasCycle();
+    return !cycleDetection.getOneCycle().empty();
 }
 
-template <typename Vertex>
-bool isATree(BaseUndirectedGraph<Vertex> const& graph)
+template <typename Vertex>bool isATree(BaseUndirectedGraph<Vertex> const& graph)
 {
     // A tree is an acyclic connected graph.
-
     return !hasAnyCyclesOnGraph(graph) && isGraphConnected(graph);
 }
 

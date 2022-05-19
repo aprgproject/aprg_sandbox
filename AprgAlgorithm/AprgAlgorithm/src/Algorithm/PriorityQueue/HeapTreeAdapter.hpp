@@ -9,22 +9,20 @@ namespace alba
 namespace algorithm
 {
 
-template <typename Objects, unsigned int NUMBER_OF_CHILDREN, template<class> class ComparisonTemplateType>
+template <typename Objects, unsigned int NUMBER_OF_CHILDREN, template<class> class ComparatorTemplateType>
 class HeapTreeAdapter
 {
 public:
     using Object = typename Objects::value_type;
-    using ComparisonClass=ComparisonTemplateType<Object>;
+    using Comparator=ComparatorTemplateType<Object>;
 
     HeapTreeAdapter(Objects & objects)
-        : m_comparisonObject()
+        : m_comparator()
         , m_objects(objects)
     {}
-
     Object const& getObjectConstReferenceOnTree(
             unsigned int const treeIndex) const
-    {
-        return m_objects.at(getContainerIndex(treeIndex));
+    {        return m_objects.at(getContainerIndex(treeIndex));
     }
 
     Object & getObjectReferenceOnTree(
@@ -135,17 +133,15 @@ private:
             Object const& object1,
             Object const& object2) const
     {
-        return m_comparisonObject(object1, object2);
+        return m_comparator(object1, object2);
     }
 
-    ComparisonClass m_comparisonObject; //Heap order: isComparisonSatisfied(child, parent) is true, so std::less -> MaxPriority and std::greater -> MinPriority
+    Comparator m_comparator; //Heap order: isComparisonSatisfied(child, parent) is true, so std::less -> MaxPriority and std::greater -> MinPriority
     Objects & m_objects;
 };
-
 // Objects are kept in heap order, parents value is no smaller than children's value (in max priority queue)
 // Tree index starts at one (top of the tree)
-// Advantage no links needed for the tree.
-// Notes:
+// Advantage no links needed for the tree.// Notes:
 // -> Parent of node k is at k/2 (integer division)
 // -> Children of node k are at 2k and 2k+1 (in the implementation above the number of children per parent can be changed)
 // -> Heap order: isComparisonSatisfied(child, parent) is true

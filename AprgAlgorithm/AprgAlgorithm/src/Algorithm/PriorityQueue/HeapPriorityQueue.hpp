@@ -11,15 +11,13 @@ namespace alba
 namespace algorithm
 {
 
-template <typename Object, template<class> class ComparisonTemplateType>
+template <typename Object, template<class> class ComparatorTemplateType>
 class HeapPriorityQueue
 {
-public:
-    using Objects=std::vector<Object>;
+public:    using Objects=std::vector<Object>;
 
     HeapPriorityQueue()
-        : m_objects()
-        , m_heapTreeAdapter(m_objects)
+        : m_objects()        , m_heapTreeAdapter(m_objects)
     {}
 
     bool isEmpty() const
@@ -66,15 +64,13 @@ private:
 
     static constexpr unsigned int INDEX_OF_TOP_TREE=1U;
     Objects m_objects;
-    HeapTreeAdapter<Objects, 2U, ComparisonTemplateType> m_heapTreeAdapter;
+    HeapTreeAdapter<Objects, 2U, ComparatorTemplateType> m_heapTreeAdapter;
 };
 
-// Applications:
-// -> Event-driven simulation (customers in a line, colliding particles)
+// Applications:// -> Event-driven simulation (customers in a line, colliding particles)
 // -> Numerical computation (reducing roundoff error)
 // -> Data compression (huffman codes)
-// -> Graph searching (Dijkstra's algorithm, Prim's algorithm)
-// -> Number theory (Sum of powers)
+// -> Graph searching (Dijkstra's algorithm, Prim's algorithm)// -> Number theory (Sum of powers)
 // -> Artificial intelligence (A Search)
 // -> Statistics (largest M values in a sequence)
 // -> Operating systems (load balancing, interrupt handling)

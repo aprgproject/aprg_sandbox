@@ -1,0 +1,67 @@
+Shortest Path Applications:
+-> CPM (Critical Path Method) and PERT (Programme Evaluation Review Technique)
+-> Map routing
+-> Seam carving
+-> Robot navigation
+-> Texture mapping
+-> Typesetting in TeX 
+-> Urban traffic planning
+-> Optimal pipelining of VLSI chip
+-> Telemarketer operator scheduling
+-> Routing of telecommunications messages
+-> Network routing protocols (OSPF, BGP, RIP)
+-> Exploiting arbitrage opportunities in currency exchange
+-> Optimal trunk routing through given traffic congestion pattern.
+
+Shortest path variants
+Which vertices?
+-> source-sink: from one vertex to another
+-> single-source: from one vertex to every other
+-> all-pairs: between all pairs of vertices
+
+Shortest path optimality conditions
+Proposition: Let G be an edge-weighted digraph.
+Then distTo are the shortest path distance from s iff:
+--> For each vertex v, distTo[v] is the length of some path from x to v.
+--> For each edge e=v->w, distTo[w] <= distTo[v] + e.weight(). -> This means is the distTo has the shortest edge.
+Proof:
+-> Suppose that distTo[w] > distTo[v] + e.weight() for some edge e=v->w
+-> Then, e gives a path from s to w (through v) of length less than distTo[w]. -> Contradiction!
+
+Generic Algorithm
+1) Initialize distTo[s] = 0; and distTo[v]=infinity for all other vertices
+2) Repeat until optimality conditions are satisfied:
+----> Relax any edge
+
+Proposition: Generic algorithm computes SPT (if it exists) from s.
+Proof sketch: 
+-> Throughout algorithm, distTo[v] is the length of a simple path from s to v (and edgeTo[v] is last edge on path).
+-> Each successful relaxation decreases distTo[v] for some v.
+-> The entry distTo[v] can decrease at most a finite number of times.
+
+
+Summary:
+algorithm                     | restriction         | typical case | worst case | extra space
+for DAG with topological sort | DAG only            | E+V          | E+V        | V
+Dijkstra algorithm            | no negative weights | E log V      | E log V    | V
+Bellman-Ford without queue    | no negative cycles  | E*V          | E*V        | V
+Bellman-Ford with queue       | no negative cycles  | E+V          | E*V        | V
+Remark 1: Directed cycles make the problem harder
+Remark 2: Negative weights make the problem harder
+Remark 3: Negative cycles makes the problem intractable
+
+Arbitrage detection -> find negative cycles for opportunity
+
+Dijkstra algorithm
+-> Nearly linear time when weights are non negative
+-> Generalization encompasses DFS BFS and Prim
+Acyclic edge-weighted digraphs
+-> Arise in applications
+-> Faster than Dijkstra's algorithm
+-> Negative weights are no problem
+Negative weights and negative cycles
+-> Arise in applications
+-> If no negative cycles, can find shortest paths via Bellman-Ford
+-> If negative cycles, can find one via Bellman-Ford.
+
+

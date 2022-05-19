@@ -22,15 +22,12 @@ public:
     using Edges = typename GraphTypes<Vertex>::Edges;
     using EdgeWithWeight = typename GraphTypesWithWeights<Vertex, Weight>::EdgeWithWeight;
     using VertexWithWeight = typename GraphTypesWithWeights<Vertex, Weight>::VertexWithWeight;
-    using VerticesWithWeight = typename GraphTypesWithWeights<Vertex, Weight>::VerticesWithWeight;
-    using VertexWithWeightMinimumPriorityQueue = std::priority_queue<VertexWithWeight, VerticesWithWeight, std::greater<VertexWithWeight>>;
+    using VertexWithWeightMinimumPriorityQueue = std::priority_queue<VertexWithWeight, std::deque<VertexWithWeight>, std::greater<VertexWithWeight>>;
     using VertexToEdgeWithWeightMap = typename GraphTypesWithWeights<Vertex, Weight>::VertexToEdgeWithWeightMap;
     using CheckableVerticesWithVertex = CheckableVertices<Vertex>;
-
     PrimAlgorithmEagerVersion(EdgeWeightedGraph const& graph, Vertex const& startVertex)
         : m_graph(graph)
-        , m_startVertex(startVertex)
-    {
+        , m_startVertex(startVertex)    {
         searchForMinimumSpanningTree();
     }
 
@@ -61,15 +58,13 @@ private:
             // continue to grow the MST by processing the current nearest edge and only adding only edges with minimum weight
             // Since this is eager algorithm (nearest vertices are kept),
             // -> we know the vertex to check if not yet included in tree (since its an adjacent vertex previously)
-            auto nearestVertex(m_nearestVerticesToTree.top());
+            VertexWithWeight nearestVertex(m_nearestVerticesToTree.top());
             m_nearestVerticesToTree.pop();
             checkAdjacentVerticesWithLowestWeightOfVertex(nearestVertex.vertex);
-        }
-    }
+        }    }
 
     void checkAdjacentVerticesWithLowestWeightOfVertex(
-            Vertex const& vertex)
-    {
+            Vertex const& vertex)    {
         // DFS traversal
         m_processedVertices.putVertex(vertex);
         for(Vertex const& adjacentVertex : m_graph.getAdjacentVerticesAt(vertex))
