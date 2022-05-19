@@ -1,0 +1,29 @@
+
+Substring search problem
+-> Goal: Find a pattern of length M in a test of length N.
+---> Example:
+---> Pattern: NEEDLE
+---> INAHAYSTACKNEEDLEINA 
+
+Applications:
+-> Computer forensics: Search memory or disks for signatures
+---> e. g. all URLs or RSA keys that the user has entered
+-> Identify patterns indicative of spam
+-> Electronic surveillance
+-> Screen scraping: Extract relevant data from web page.
+---> Find string delimited by <b> and </b>.
+
+algorithm          | version                        | operation count     | backup in input | correct | extra space
+                   |                                | guarantee | typical |                 |         |
+brute force        | -                              | M*N       | 1.1*N   | yes             | yes     | 1
+knuth morris pratt | full DFA                       | 2*N       | 1.1*N   | no              | yes     | M R
+knuth morris pratt | mismatch transitions only      | 3*N       | 1.1*N   | no              | yes     | M
+boyer moore        | full algorithm                 | 3*N       | N/M     | yes             | yes     | R
+boyer moore        | mismatched char heuristic only | M*N       | N/M     | yes             | yes     | R
+rabin karp         | monte carlo                    | 7*N       | 7*N     | no              | yes*    | 1
+rabin karp         | las vegas                      | 7*N       | 7*N     | yes             | yes     | 1
+  
+Note: * means probabilistic guarantee, with uniform hash function.
+
+
+

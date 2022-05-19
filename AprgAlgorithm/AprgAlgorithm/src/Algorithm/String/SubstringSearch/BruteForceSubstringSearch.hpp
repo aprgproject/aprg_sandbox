@@ -13,91 +13,104 @@ class BruteForceSubstringSearch
 {
 public :
 
-    BruteForceSubstringSearch(std::string const& substringToSearch)
-        : m_substringToSearch(substringToSearch)
+    BruteForceSubstringSearch(std::string const& substringToMatch)
+        : m_substringToMatch(substringToMatch)
     {}
 
-    unsigned int search(std::string const& stringToCheck)
+    unsigned int search(std::string const& stringToSearch)
     {
-        return searchWithLoops(stringToCheck, m_substringToSearch);
+        return searchWithLoops(stringToSearch, m_substringToMatch);
     }
 
 private:
-
     unsigned int searchWithLoops(std::string const& , std::string const&)
     {
         static_assert(sizeof(BruteForceSubstringSearch) != sizeof(BruteForceSubstringSearch),
-                      "The number of loops should be one or two. Other numbers are have no implementation");
+                      "The number of loops should be one or two. Other numbers have no implementation");
         return 0;
     }
 
     unsigned int searchUsingOneLoop(
-            std::string const& stringToCheck,
-            std::string const& substringToSearch)
+            std::string const& stringToSearch,
+            std::string const& substringToMatch) // implementation with one loop
     {
         unsigned int result(static_cast<unsigned int>(std::string::npos));
-        unsigned int mainLength(stringToCheck.length());
-        unsigned int substringLength(substringToSearch.length());
-        unsigned int i=0, j=0;
-        for(; i<mainLength && j<substringLength; i++)
+        unsigned int searchLength(stringToSearch.length());
+        unsigned int matchLength(substringToMatch.length());
+        unsigned int searchIndex=0, matchIndex=0;
+        for(; searchIndex<searchLength && matchIndex<matchLength; searchIndex++)
         {
-            if(stringToCheck.at(i) == substringToSearch.at(j))
+            if(stringToSearch.at(searchIndex) == substringToMatch.at(matchIndex))
             {
-                j++;
+                matchIndex++; // matchIndex represents the index of matches as well
             }
             else
             {
-                i-=j;
-                j=0;
+                searchIndex-=matchIndex; // if there is a mismatch, go back
+                matchIndex=0; // reset because matchIndex represents the index of matches as well
             }
         }
-        if(j == substringLength)
+        if(matchIndex == matchLength) // if matchIndex reached length
         {
-            result = i-substringLength;
+            result = searchIndex-matchLength;
         }
         return result;
     }
 
     unsigned int searchUsingTwoLoops(
-            std::string const& stringToCheck,
-            std::string const& substringToSearch)
+            std::string const& stringToSearch,
+            std::string const& substringToMatch) // implementation with two loops
     {
         unsigned int result(static_cast<unsigned int>(std::string::npos));
-        unsigned int mainLength(stringToCheck.length());
-        unsigned int substringLength(substringToSearch.length());
-        for(unsigned int i=0; i <= mainLength-substringLength; i++)
+        unsigned int searchLength(stringToSearch.length());
+        unsigned int matchLength(substringToMatch.length());
+        for(unsigned int offset=0; offset <= searchLength-matchLength; offset++)
         {
-            unsigned int j=0;
-            for(; j < substringLength; j++)
+            unsigned int matchIndex=0;
+            for(; matchIndex < matchLength; matchIndex++)
             {
-                if(stringToCheck.at(i+j) != substringToSearch.at(j))
+                if(stringToSearch.at(offset+matchIndex) != substringToMatch.at(matchIndex))
                 {
+                    // matchIndex represents the index of matches as well
                     break;
                 }
             }
-            if(j == substringLength)
+            if(matchIndex == matchLength) // if matchIndex reached length
             {
-                result = i;
+                result = offset;
                 break;
             }
         }
         return result;
     }
-    std::string m_substringToSearch;
+    std::string m_substringToMatch;
 };
 
 template <>
-unsigned int BruteForceSubstringSearch<1U>::searchWithLoops(std::string const& stringToCheck, std::string const& substringToSearch)
+unsigned int BruteForceSubstringSearch<1U>::searchWithLoops(std::string const& stringToSearch, std::string const& substringToMatch)
 {
-    return searchUsingOneLoop(stringToCheck, substringToSearch);
+    return searchUsingOneLoop(stringToSearch, substringToMatch);
 }
 
 template <>
-unsigned int BruteForceSubstringSearch<2U>::searchWithLoops(std::string const& stringToCheck, std::string const& substringToSearch)
+unsigned int BruteForceSubstringSearch<2U>::searchWithLoops(std::string const& stringToSearch, std::string const& substringToMatch)
 {
-    return searchUsingTwoLoops(stringToCheck, substringToSearch);
+    return searchUsingTwoLoops(stringToSearch, substringToMatch);
 }
 
+// Brute-force substring search: worst case
+// -> Brute force algorithm can be slow if test and pattern are repetitive.
+// -> Worst case: ~MN char compares
+
+// Backup:
+// -> In many applications we want to avoid backup in text stream
+// ---> Treat input as stream of data
+// ---> Abstract model: standard input
+// -> Brute-force algorithm beeds to backup for every mismatch
+
+// Brute force is not always good enough:
+// -> Theoretical challenge: Linear time guarantee.
+// -> Avoid backup in the text stream.
 
 }
 
