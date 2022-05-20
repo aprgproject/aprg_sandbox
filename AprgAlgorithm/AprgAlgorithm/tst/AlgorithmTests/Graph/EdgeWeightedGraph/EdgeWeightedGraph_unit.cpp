@@ -3,25 +3,23 @@
 
 #include <gtest/gtest.h>
 
+using namespace std;
+
 namespace alba
 {
-
 namespace algorithm
 {
-
 namespace
 {
 using VertexForTest = unsigned int;
 using WeightForTest = double;
-using WeightsForTest = std::vector<double>;
+using WeightsForTest = vector<double>;
 using UndirectedGraphForTest = UndirectedGraphWithListOfEdges<VertexForTest>;
 using EdgeWeightedUndirectedGraphForTest = EdgeWeightedGraph<VertexForTest, WeightForTest, UndirectedGraphForTest>;
-using Edges = GraphTypes<VertexForTest>::Edges;
-using EdgeToWeightMap = EdgeWeightedUndirectedGraphForTest::EdgeToWeightMap;
+using Edges = GraphTypes<VertexForTest>::Edges;using EdgeToWeightMap = EdgeWeightedUndirectedGraphForTest::EdgeToWeightMap;
 }
 
-TEST(EdgeWeightedGraphTest, HasAUniqueMinimumSpanningTreeWorksOnUndirectedGraph)
-{
+TEST(EdgeWeightedGraphTest, HasAUniqueMinimumSpanningTreeWorksOnUndirectedGraph){
     EdgeWeightedUndirectedGraphForTest graphWithDifferentWeights;
     graphWithDifferentWeights.connect(0U, 1U, 3.5);
     graphWithDifferentWeights.connect(0U, 2U, 4.5);

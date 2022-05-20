@@ -1,0 +1,110 @@
+
+Data compression:
+
+Compression reduces the size of a file:
+-> To save space when storing it
+-> To save time when transmitting it.
+-> Most files have lots of redundancy
+
+Who needs compression?
+-> Moore's law: # transistors on a chip double every 18-24 months
+-> Parkinson's law: data expands to fill space available
+---> better quality, higher resolution
+-> Text, images, sound, video
+
+Basic concepts are ancient(1950s), but the best technology are recently developed
+-> Much of it uses the same data structures that we used for other applications
+
+Generic file compression:
+-> Files: Gzip, Bzip, 7z
+-> Archivers: PKZIP
+-> File systems: NTFS, HFS+, ZFS
+
+Multimedia:
+-> Images: GIF, JPEG
+-> Sound: MP3
+-> Video: MPEG, DivX, HDTV
+
+Communication:
+-> ITU-T T4 Group 3 Fax.
+-> V.42bis modem
+-> Skype
+
+Databases:
+-> Google 
+-> Facebook
+
+Loseless compression and expansion
+-> Message: Binary data B we want to compression
+-> Compress: Generates a "compressed" representation C(B)
+-> Expand. Reconstructs original bitstream B
+
+Compression ratio = Bits in C(B) / bits in B
+-> 50% to 75% or better compression ratio for natural language
+
+Data compression has been omnipresent since antiquity
+-> Number systems
+-> Natural languages
+-> Mathematical notation
+
+Data compression has played a central role in communication technology
+-> Grade 2 braille
+-> Morse code
+-> Telephone system
+
+Data compression is a part of modern life:
+-> MP3/MP4
+
+Data representation: genomic code
+-> Genome: String over the alphabet {A,C,T,G}
+-> Goal: Encode an N-character genome: ATAGATGCATAG
+-> Standard ascii encoding
+---> 8 bits per character
+---> 8 N bits
+-> two bit encoding
+---> 2 bits per character
+---> 2 N bits
+-> Fixed-length code: K-bit code supports alphabet of size 2^K
+-> Amazing but true: Initial genomic databses in 1990s used ASCII
+
+Reading and writing binary data
+-> Binary standard input and standard output. 
+---> Libraries to read and write bits from standard input to standard output
+
+Universal data compression
+-> You cannot have a universal compression algorithm that can compress every file (or type of data).
+---> Despite the fact there is a patent: US Patent 5,533,051 on "Methods for data compression" which is capable of compression of all files.
+-> No algorithm can compress every bit string:
+---> Proof 1 (by contradiction)
+-----> Suppose you have a universal data compression algorithm U that can compression every bit stream
+-----> given bitstring B0, compress it to ger smaller bitstring B1
+-----> compress B1 to ger smaller bitstring B2
+-----> continue until reaching bit string of size 0
+-----> Implication: all bit strings can be compressed to 0 bits!
+---> Proof 2 (by counting)
+-----> Suppose your algorithm that can compress all 1000-bit strings
+-----> 2^1000 possible bitstring with 1000 bits.
+-----> Only 1 + 2 + 4 + ... + 2^998 + 2^999 can be encoded with <= 999 bits
+-----> Similarly, only 1 in 2^499 bit strings can be encoded with  <= 500 bits
+-> You cannot have universal data compression
+
+Undecidability
+-> Finding the best possible compression algorithm for a given data is undecidable
+
+Redundancy in English language
+-> A lot of redundancies
+----> Demonstration: You just need the first and last letters and size of the word to recognize the word in context
+
+
+Data compression summary:
+
+Lossless compression:
+-> Represent fixed-length symbols with variable-length codes. -> Huffman
+-> Represent variable-length symbols with fixed length codes. -> LZW
+
+Lossy compression:
+-> JPEG, MPEG, MP3/MP4
+-> FFT, wavelets, fractals
+
+
+

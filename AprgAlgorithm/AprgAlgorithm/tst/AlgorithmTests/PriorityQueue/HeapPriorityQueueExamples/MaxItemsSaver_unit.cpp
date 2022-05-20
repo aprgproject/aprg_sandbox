@@ -18,16 +18,14 @@ template<typename Object>
 class MaxItemsSaver
 {
 public:
-    using MinPriorityQueue = HeapPriorityQueue<Object, std::greater>;
-    using Objects = std::vector<Object>;
+    using MinPriorityQueue = HeapPriorityQueue<Object, greater>;
+    using Objects = vector<Object>;
 
     MaxItemsSaver(unsigned int const numberOfItemsToSave)
-        : m_numberOfItemsToSave(numberOfItemsToSave)
-    {}
+        : m_numberOfItemsToSave(numberOfItemsToSave)    {}
 
     void save(Object const& object)
-    {
-        m_minimumPriorityQueue.insert(object);
+    {        m_minimumPriorityQueue.insert(object);
         while(m_minimumPriorityQueue.getSize() > m_numberOfItemsToSave)
         {
             m_minimumPriorityQueue.deleteAndGetTopObject();

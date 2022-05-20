@@ -14,14 +14,12 @@ namespace algorithm
 
 namespace
 {
-using ValuesForTest = std::vector<char>;
+using ValuesForTest = vector<char>;
 using SorterForTest = QuickSorter<ValuesForTest>;
 }
-
 TEST(QuickSorterTest, SortWorksOnCharactersUsingExample1)
 {
-    testSortUsingExample1WithCharacters<SorterForTest, ValuesForTest>();
-}
+    testSortUsingExample1WithCharacters<SorterForTest, ValuesForTest>();}
 
 TEST(QuickSorterTest, SortWorksOnCharactersUsingExample2)
 {
