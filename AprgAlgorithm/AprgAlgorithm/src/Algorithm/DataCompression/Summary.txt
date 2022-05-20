@@ -106,5 +106,6 @@ Lossy compression:
 -> JPEG, MPEG, MP3/MP4
 -> FFT, wavelets, fractals
 
-
+Theoretical limits on compression: Shannon entropy H(x)
+Practical compression. Use extra knowledge about the data being compressed whenever possible.
 
