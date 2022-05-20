@@ -31,7 +31,8 @@ public:
         reinitializeStartingFrom(startVertices);
     }
 
-    Path getOrderedPathTo(Vertex const& endVertex) const    {
+    Path getOrderedPathTo(Vertex const& endVertex) const
+    {
         return this->getPathTo(endVertex);
     }
 
@@ -45,10 +46,12 @@ public:
         }
     }
 
-private:    void traverseUsingDfs(Vertex const& vertex)
+private:
+    void traverseUsingDfs(Vertex const& vertex)
     {
         CheckableVerticesWithVertex & processedVertices(this->m_processedVertices);
-        processedVertices.putVertex(vertex);        for(Vertex const& adjacentVertex : this->m_graph.getAdjacentVerticesAt(vertex))
+        processedVertices.putVertex(vertex);
+        for(Vertex const& adjacentVertex : this->m_graph.getAdjacentVerticesAt(vertex))
         {
             if(processedVertices.isNotFound(adjacentVertex))
             {

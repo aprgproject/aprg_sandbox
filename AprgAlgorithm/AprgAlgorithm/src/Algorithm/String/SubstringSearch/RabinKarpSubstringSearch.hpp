@@ -26,9 +26,11 @@ public:
         , m_radixRaiseToMatchLengthHash(getRadixRaiseToMatchLengthHash())
         , m_substringToMatchHash(getHash(m_substringToMatch))
     {}
+
     Index search(std::string const& stringToSearch)
     {
-        Index result(static_cast<Index>(std::string::npos));        Index searchLength(stringToSearch.size());
+        Index result(static_cast<Index>(std::string::npos));
+        Index searchLength(stringToSearch.size());
         HashValue currentHash(getHash(stringToSearch));
         if(m_substringToMatchHash == currentHash)
         {
@@ -62,16 +64,19 @@ private:
         HashValue result = (currentHash + m_largeRandomPrime - (m_radixRaiseToMatchLengthHash * charToRemove % m_largeRandomPrime))
                 % m_largeRandomPrime;
         // Then, add value for charToAdd
-        result = (result*RADIX + charToAdd) % m_largeRandomPrime;        return result;
+        result = (result*RADIX + charToAdd) % m_largeRandomPrime;
+        return result;
     }
 
     HashValue getRadixRaiseToMatchLengthHash()
     {
         HashValue result(1);
-        for(unsigned int i=1; i<m_matchLength; i++)        {
+        for(unsigned int i=1; i<m_matchLength; i++)
+        {
             result = (result*RADIX) % m_largeRandomPrime;
         }
-        return result;    }
+        return result;
+    }
 
     std::string const m_substringToMatch;
     Index const m_matchLength;
@@ -80,8 +85,10 @@ private:
     HashValue m_radixRaiseToMatchLengthHash;
     HashValue m_substringToMatchHash;
 };
+
 // Invented by two Turing award winners Michael Rabin (Turing Award '76) and Dick Karp (Turing Award '85).
 // Explained to Sedgewick in 15 seconds -> realized needs to be on the book.
+
 // Basic idea = modular hashing
 // -> Compute a hash of patterns character 0 to M-1.
 // -> For each i, compute a hash of text characters i to M+i-1.

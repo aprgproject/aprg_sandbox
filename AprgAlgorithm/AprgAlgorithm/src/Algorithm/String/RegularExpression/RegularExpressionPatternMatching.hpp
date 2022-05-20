@@ -20,100 +20,111 @@ public:
     using Indexes = std::vector<Index>; // States are indexes
 
     RegularExpressionPatternMatching(std::string const& regularExpression)
-        : m_regularExpression(regularExpression)    {
+        : m_regularExpression(regularExpression)
+    {
         initialize();
     }
 
     bool isAMatch(std::string const& stringToCheck) const
     {
-        bool result(false);
-        Indexes nullTransitionStates(getNextStatesBasedFromNullTransitions({0})); // start from first index
+        bool isEndReached(false);
+        Indexes nullTransitionStates(getNullTransitionsStates({0})); // start from first index
         Index checkLength(stringToCheck.size());
         Index lengthOfRE(m_regularExpression.size());
-        for(Index checkIndex=0; checkIndex<checkLength; checkIndex++)
+        for(Index checkIndex=0; !isEndReached && checkIndex<checkLength; checkIndex++)
         {
-            Indexes matchTransitionStates;
+            Indexes nextStatesFromAMatch;
             for(Index const nullTransitionState : nullTransitionStates)
             {
                 if(nullTransitionState < lengthOfRE)
                 {
                     char charInRE(m_regularExpression.at(nullTransitionState));
-                    if(charInRE == stringToCheck.at(checkIndex) || charInRE == '.')
+                    if(charInRE == stringToCheck.at(checkIndex) || charInRE == '.') // if there is a match
                     {
-                        matchTransitionStates.emplace_back(nullTransitionState+1);
+                        nextStatesFromAMatch.emplace_back(nullTransitionState + 1); // proceed to next state from nullTransitionState
                     }
                 }
+                else if(nullTransitionState == lengthOfRE) // null transition reached the end
+                {
+                    isEndReached = true;
+                    break;
+                }
             }
-            if(!matchTransitionStates.empty())
+            if(!isEndReached)
             {
-                nullTransitionStates = getNextStatesBasedFromNullTransitions(matchTransitionStates);
+                nullTransitionStates = getNullTransitionsStates(nextStatesFromAMatch);
             }
         }
-        for(Index const nullTransitionState : nullTransitionStates)
+        if(!isEndReached)
         {
-            if(nullTransitionState == lengthOfRE)
-            {
-                result = true;
-                break;            }
+            // check if any null transition state reached the end (reverse iteration order to be faster, DFS puts higher vertices at the end)
+            isEndReached = std::find(nullTransitionStates.crbegin(), nullTransitionStates.crend(), lengthOfRE) != nullTransitionStates.crend();
         }
-        return result;
+        return isEndReached;
     }
 
 private:
 
-    Indexes getNextStatesBasedFromNullTransitions(Indexes const matchTransitionStates) const
+    Indexes getNullTransitionsStates(Indexes const statesFromAMatch) const
     {
         Indexes result;
-        PathSearchUsingDfs<Index> pathSearch(m_nfaGraph, matchTransitionStates);
-        for(Index const index : m_nfaGraph.getVertices())
+        PathSearchUsingDfs<Index> nullTransitionPathSearch(m_nullTransitionsGraph, statesFromAMatch);
+        for(Index const state : m_nullTransitionsGraph.getVertices())
         {
-            if(pathSearch.hasPathTo(index))
+            if(nullTransitionPathSearch.hasPathTo(state))
             {
-                result.emplace_back(index);
+                result.emplace_back(state);
             }
         }
         return result;
     }
 
-    void initialize()    {
+    void initialize()
+    {
+        buildNullTransitionsGraph();
+    }
+
+    void buildNullTransitionsGraph()
+    {
         std::stack<Index> operatorIndexes;
-        Index regularExpressionLength(m_regularExpression.length());
-        for(Index i=0; i<regularExpressionLength; i++)        {
-            Index lp = i;
-            if(m_regularExpression.at(i) == '(' || m_regularExpression.at(i) == '|')
+        Index lengthOfRE(m_regularExpression.length());
+        for(Index indexOfRE=0; indexOfRE<lengthOfRE; indexOfRE++)
+        {
+            Index startIndexOfExpression = indexOfRE;
+            if(m_regularExpression.at(indexOfRE) == '(' || m_regularExpression.at(indexOfRE) == '|')
             {
-                operatorIndexes.push(i);
+                operatorIndexes.push(indexOfRE); // push to stack if '(' or '|'
             }
-            else if(m_regularExpression.at(i) == ')')
+            else if(m_regularExpression.at(indexOfRE) == ')')
             {
                 Index operatorIndex(operatorIndexes.top());
                 operatorIndexes.pop();
-                if(m_regularExpression.at(operatorIndex) == '|')
+                if(m_regularExpression.at(operatorIndex) == '|') // if stack has an or operator
                 {
-                    lp = operatorIndexes.top();
+                    startIndexOfExpression = operatorIndexes.top();
                     operatorIndexes.pop();
-                    m_nfaGraph.connect(lp, operatorIndex+1);
-                    m_nfaGraph.connect(operatorIndex, i);
+                    m_nullTransitionsGraph.connect(startIndexOfExpression, operatorIndex+1); // add edge to skip the first part of the expression
+                    m_nullTransitionsGraph.connect(operatorIndex, indexOfRE); // add edge to skip the second part of the expression
                 }
-                else
+                else // opening parenthesis goes here
                 {
-                    lp = operatorIndex;
+                    startIndexOfExpression = operatorIndex;
                 }
             }
-            if(i < regularExpressionLength-1 && m_regularExpression.at(i+1) == '*')
+            if(indexOfRE < lengthOfRE-1 && m_regularExpression.at(indexOfRE+1) == '*') // do one character look ahead if its a star
             {
-                m_nfaGraph.connect(lp, i+1);
-                m_nfaGraph.connect(i+1, lp);
+                m_nullTransitionsGraph.connect(startIndexOfExpression, indexOfRE+1); // add edge from first part of an expression to current state
+                m_nullTransitionsGraph.connect(indexOfRE+1, startIndexOfExpression); // add edge from current state going back to first part of an expression
             }
-            if(m_regularExpression.at(i) == '(' || m_regularExpression.at(i) == '*' || m_regularExpression.at(i) == ')')
+            if(m_regularExpression.at(indexOfRE) == '(' || m_regularExpression.at(indexOfRE) == '*' || m_regularExpression.at(indexOfRE) == ')')
             {
-                m_nfaGraph.connect(i, i+1);
+                m_nullTransitionsGraph.connect(indexOfRE, indexOfRE+1); // add edge null transition to next state if its any of these operators
             }
         }
     }
 
     std::string m_regularExpression;
-    DirectedGraphWithListOfEdges<Index> m_nfaGraph;
+    DirectedGraphWithListOfEdges<Index> m_nullTransitionsGraph;
 };
 
 // Pattern matching
@@ -254,6 +265,97 @@ private:
 // ---> Solution: Run DFS from each source, without unmarking vertices.
 // ---> Performance: Runs in time proportional to E+V.
 // ---> Mark: Or better yet use transitive closure!
+
+// NFA simulation: analysis
+// Proposition: Determining whether an N-character text is recognized
+// by the NFA corresponding to an M-character pattern takes time proportional to MN in worst case.
+// Proof: For each of the N text characters, we iterate through a set of states of size no more than M and run DFS on the graph of null transitions.
+
+// Building an NFA corresponding to an RE
+// -> [Concatenation]: Add "match transition" edge from state corresponding to characters in the alphabet to next state
+// -> [Parentheses]: Add "epsilon/null transition" edge from parentheses to next state
+// -> [Closure]: Add three "epsilon/null transition" edge for each * operator.
+// ---> There is a need to have current <-> previous transitions to be able to get back as much as want for finding a match.
+// ---> Single character closure:
+// -----> Add edge from current state going back to previous state
+// -----> Add edge from previous state to current state
+// -----> Add edge from current state to next state
+// ---> Closure expression:
+// -----> Add edge from current state going back to first opening parenthesis
+// -----> Add edge from first opening parenthesis to current state
+// -----> Add edge from current state to next state
+// -> [Or]: Add two "epsilon/null transition" edge for each | operator.
+// ---> Add edge to skip the first part of the expression
+// -----> From start of first expression to after | operator
+// ---> Add edge to skip the second part of the expression
+// -----> From | operator to the end of second part of expression
+
+// NFA construction: implementation
+// -> Goal: Write a program to build the "epsilon/null transition" digraph
+// -> Challenges: Remember operator locations
+// ---> Solution: Maintain a stack:
+// -----> '(' symbol: push '(' onto stack
+// -----> '|' symbol: push '|' onto stack
+// -----> ')' symbol: pop corresponding '(' and possibly intervening '|' add null transitions edges for closure/or.
+
+// NFA construction: analysis
+// Proposition: Building the NFA corresponding to an M-character RE takes time and space proportional to M.
+// Proof: For each of the M characters in the RE, we add at most three null transitions and execute at most two stack operations.
+
+// Applications
+// -> GREP: Generalized regular expression print
+// ---> Take a RE as command-line argument and print the lines from standard input having some substring that is matched by the RE.
+// ---> Bottom line: Worst case for grep (proportional to MN) is the same as for brute-force substring search.
+// ---> Typical grep application: crossword puzzles.
+// ---> Industrial-strength grep implementation:
+// -----> Add character classes
+// -----> Handle meta characters
+// -----> Add capturing capabilities
+// -----> Extend the closure operator
+// -----> Error checking and recovery
+// -----> Greedy vs reluctant matching
+// -> Regular expression in other languages
+// ---> Broadly applicable programmers tool
+// -----> Originated in Unix in the 1970s
+// -----> Many languages support extended regular expression
+// -----> Built into grep, awk, emacs, Perl, PHP, Python, JavaScript
+// ---> Regular expression in java
+// -----> Validity checking: Does the input match the regexp?
+// -----> Java string libary. Use input.matches(regexp) for basic RE matching.
+// -> Harvesting information
+// ---> Goal: Print all substring of input that match a RE.
+
+// Algorithmic complexity attacks
+// -> Typical implementions do not guarantee performance (unix, perl, java implementation) -> sometimes it takes exponential time!
+
+// Not so regular expressions
+// -> Back references
+// ---> \1 notation matches subexpression that was matched earlier
+// ---> Supported by typical RE implementations
+// ---> Pattern matching with back-references is intractable
+
+// Context:
+// -> Abstract machines, langurages and nondeterminism
+// ---> Basis of the theory of computation
+// ---> intensively studies since the 1930s
+// ---> Basis of programming languages
+// -> Compiler: A program that translates a program to machine code.
+// ---> KMP: string to DFA
+// ---> grep: RE to NFA
+// ---> javac: java language to java byte code
+
+// Summary:
+// -> Programmer
+// ---> Implement a substring search via DFA simulation
+// ---> Implement RE pattern matching via NFA simulation
+// -> Theoretician
+// ---> RE is a compact description of a set of strings.
+// ---> NFA is an abstract machine equivalent in power to RE.
+// ---> DFAs and REs have limitations
+// -> Example of essential paradigms in computer science
+// ---> Build interrmediate abstractions
+// ---> Pick the right ones!
+// ---> Solve important practical problems
 
 }
 

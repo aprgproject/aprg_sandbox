@@ -76,7 +76,8 @@ TEST(PathSearchUsingDfsTest, GetOrderedPathToWorksWithDirectedGraphWithMultipleS
 
 TEST(PathSearchUsingDfsTest, ReinitializeStartingFromWorksWithDirectedGraph)
 {
-    GraphForTest graph;    putConnectionsForTest(graph);
+    GraphForTest graph;
+    putConnectionsForTest(graph);
     PathSearchForTest pathSearch(graph, 0U);
 
     pathSearch.reinitializeStartingFrom({2U});

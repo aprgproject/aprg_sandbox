@@ -33,7 +33,8 @@ public:
         reinitializeStartingFrom(startVertices);
     }
 
-    Path getShortestPathTo(Vertex const& endVertex) const    {
+    Path getShortestPathTo(Vertex const& endVertex) const
+    {
         return this->getPathTo(endVertex);
     }
 
@@ -58,16 +59,19 @@ private:
             nearestVertices.pop_back();
             for(Vertex const& adjacentVertex : this->m_graph.getAdjacentVerticesAt(vertex))
             {
-                if(processedVertices.isNotFound(adjacentVertex))                {
+                if(processedVertices.isNotFound(adjacentVertex))
+                {
                     processedVertices.putVertex(adjacentVertex);
                     this->m_vertexToPreviousVertexMap[adjacentVertex] = vertex;
                     nearestVertices.emplace_front(adjacentVertex);
                 }
             }
-        }    }
+        }
+    }
 };
 
-// Proposition: BFS computes shortest paths (fewest number of edges) from s to all other vertices ina graph in time proportional to E+V// Proof(correctness): Queue always consists of zero or more vertices of distance k from s, followed by zero or more vertices of distance k+1.
+// Proposition: BFS computes shortest paths (fewest number of edges) from s to all other vertices ina graph in time proportional to E+V
+// Proof(correctness): Queue always consists of zero or more vertices of distance k from s, followed by zero or more vertices of distance k+1.
 // In short, vertices with distance 1 are first, and then vertices with distance 2 and then vertices with distance and so on.
 // Proof(running time): Each vertex connected to s is visited once.
 
