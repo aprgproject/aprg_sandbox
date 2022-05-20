@@ -25,12 +25,12 @@ TEST(AlbaDebugTest, PrintTest)
     ALBA_PRINT4("Print for pointer", nullPointer, rawPointer, uniquePointer);
     ALBA_PRINT3("Print for containers", container1, container2);
 
-    ALBA_PRINT_MANIPULATE_OUTPUT(std::uppercase);
-    ALBA_PRINT_MANIPULATE_OUTPUT(std::hex);
+    ALBA_PRINT_MANIPULATE_OUTPUT(uppercase);
+    ALBA_PRINT_MANIPULATE_OUTPUT(hex);
     ALBA_PRINT4("Print for single parameters", singleParameter1, singleParameter2, singleParameter3);
     ALBA_PRINT4("Print for pointer", nullPointer, rawPointer, uniquePointer);
     ALBA_PRINT3("Print for containers", container1, container2);
-    ALBA_PRINT_MANIPULATE_OUTPUT(std::dec);
+    ALBA_PRINT_MANIPULATE_OUTPUT(dec);
 }
 
 }

@@ -203,15 +203,13 @@ TEST(ContainerTest, GetLowerAndUpperIteratorsInMapWorksOnMultiMap)
 TEST(ContainerTest, SaveVectorOfIntegersToFileWorks)
 {
     AlbaLocalPathHandler testFilePath(APRG_COMMON_TEST_FILE_TO_READ);
-    std::array<int, 6> temporaryArray{0, -23, 4, 379,- 482, 37};
+    array<int, 6> temporaryArray{0, -23, 4, 379,- 482, 37};
     ofstream outputTestFile(testFilePath.getFullPath());
 
-    saveContentsToStream(outputTestFile, temporaryArray, StreamFormat::File);
-    outputTestFile.close();
+    saveContentsToStream(outputTestFile, temporaryArray, StreamFormat::File);    outputTestFile.close();
 
     ifstream inputTestFile(testFilePath.getFullPath());
     ASSERT_TRUE(inputTestFile.is_open());
-
     AlbaFileReader fileReader(inputTestFile);
     ASSERT_TRUE(inputTestFile.good());
     ASSERT_FALSE(inputTestFile.eof());
@@ -311,14 +309,12 @@ TEST(ContainerTest, SaveMapOfIntegersToFileWorks)
 TEST(ContainerTest, RetrieveVectorOfIntegersFromFileWorks)
 {
     AlbaLocalPathHandler testFilePath(APRG_COMMON_TEST_FILE_TO_READ);
-    std::array<int, 4> temporaryArray{};
+    array<int, 4> temporaryArray{};
     ofstream outputTestFile(testFilePath.getFullPath());
     outputTestFile<<"18723"<<endl;
-    outputTestFile<<"-608"<<endl;
-    outputTestFile<<"-43735"<<endl;
+    outputTestFile<<"-608"<<endl;    outputTestFile<<"-43735"<<endl;
     outputTestFile<<"23234"<<endl;
     outputTestFile.close();
-
     ifstream inputTestFile(testFilePath.getFullPath());
     ASSERT_TRUE(inputTestFile.is_open());
 
@@ -407,14 +403,12 @@ TEST(ContainerTest, RetrieveMapOfIntegersFromFileWorks)
 
 TEST(ContainerTest, GetStringFromContentsOfArrayWorks)
 {
-    std::array<int, 4> temporaryArray{23, -345, 5324, 1};
+    array<int, 4> temporaryArray{23, -345, 5324, 1};
     EXPECT_EQ("23, -345, 5324, 1, ", getStringFromContents(temporaryArray));
 }
-
 TEST(ContainerTest, GetStringFromContentsOfVectorWorks)
 {
-    vector<int> temporaryVector{23, -345, 5324, 1};
-    EXPECT_EQ("23, -345, 5324, 1, ", getStringFromContents(temporaryVector));
+    vector<int> temporaryVector{23, -345, 5324, 1};    EXPECT_EQ("23, -345, 5324, 1, ", getStringFromContents(temporaryVector));
 }
 
 TEST(ContainerTest, GetStringFromContentsOfSetWorks)

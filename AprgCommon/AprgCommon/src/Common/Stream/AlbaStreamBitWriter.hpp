@@ -24,14 +24,14 @@ public:
     void writeStringData(std::string const& data);
     void writeHexDigitData(std::string const& hexDigitsData);
     template <typename TypeToWrite> void writeNumberData(AlbaStreamBitEndianType const endianType, TypeToWrite const& data);
+    template <typename TypeToWrite> void writeBigEndianNumberData(TypeToWrite const& data);
+    template <typename TypeToWrite> void writeLittleEndianNumberData(TypeToWrite const& data);
     template <unsigned int BITSET_SIZE> void writeBitsetData(std::bitset<BITSET_SIZE> const& data, unsigned int const startBitsetIndex, unsigned int const endBitsetIndex);
 
-    std::ostream& getOutputStream();
-    void flush();
+    std::ostream& getOutputStream();    void flush();
 
 private:
-    template <typename TypeToWrite> void putBigEndianNumberDataInBuffer(TypeToWrite const& data);
-    template <typename TypeToWrite> void putLittleEndianNumberDataInBuffer(TypeToWrite const& data);
+    template <typename TypeToWrite> void putBigEndianNumberDataInBuffer(TypeToWrite const& data);    template <typename TypeToWrite> void putLittleEndianNumberDataInBuffer(TypeToWrite const& data);
     void putBoolDataToBuffer(bool const boolValue);
     void putCharDataToBuffer(char const data);
     void transferBytesAsMuchAsPossibleToStream();
@@ -55,14 +55,26 @@ void AlbaStreamBitWriter::writeNumberData(AlbaStreamBitEndianType const endianTy
     transferBytesAsMuchAsPossibleToStream();
 }
 
+template <typename TypeToWrite>
+void AlbaStreamBitWriter::writeBigEndianNumberData(TypeToWrite const& data)
+{
+    putBigEndianNumberDataInBuffer<TypeToWrite>(data);
+    transferBytesAsMuchAsPossibleToStream();
+}
+
+template <typename TypeToWrite>
+void AlbaStreamBitWriter::writeLittleEndianNumberData(TypeToWrite const& data)
+{
+    putLittleEndianNumberDataInBuffer<TypeToWrite>(data);
+    transferBytesAsMuchAsPossibleToStream();
+}
+
 template <unsigned int BITSET_SIZE>
 void AlbaStreamBitWriter::writeBitsetData(std::bitset<BITSET_SIZE> const& data, unsigned int const startBitsetIndex, unsigned int const endBitsetIndex)
-{
-    AlbaValueRange<int> bitsetRange(static_cast<int>(startBitsetIndex), static_cast<int>(endBitsetIndex), 1U);
+{    AlbaValueRange<int> bitsetRange(static_cast<int>(startBitsetIndex), static_cast<int>(endBitsetIndex), 1U);
     bitsetRange.traverse([&](int const bitsetIndex)
     {
-        m_bitBuffer.emplace_back(data[bitsetIndex]);
-    });
+        m_bitBuffer.emplace_back(data[bitsetIndex]);    });
     transferBytesAsMuchAsPossibleToStream();
 }
 

@@ -38,28 +38,24 @@ void AlbaStreamBitWriter::writeStringData(string const& data)
     transferBytesAsMuchAsPossibleToStream();
 }
 
-void AlbaStreamBitWriter::writeHexDigitData(std::string const& hexDigitsData)
+void AlbaStreamBitWriter::writeHexDigitData(string const& hexDigitsData)
 {
     for(char const c : hexDigitsData)
-    {
-        bitset<4> hexDigitBitset(convertHexCharacterToNumber<char>(c));
+    {        bitset<4> hexDigitBitset(convertHexCharacterToNumber<char>(c));
         putBoolDataToBuffer(hexDigitBitset[3]);
         putBoolDataToBuffer(hexDigitBitset[2]);
-        putBoolDataToBuffer(hexDigitBitset[1]);
-        putBoolDataToBuffer(hexDigitBitset[0]);
+        putBoolDataToBuffer(hexDigitBitset[1]);        putBoolDataToBuffer(hexDigitBitset[0]);
     }
     transferBytesAsMuchAsPossibleToStream();
 }
 
-std::ostream& AlbaStreamBitWriter::getOutputStream()
+ostream& AlbaStreamBitWriter::getOutputStream()
 {
     return m_stream;
 }
-
 void AlbaStreamBitWriter::flush()
 {
-    transferAllToStream();
-}
+    transferAllToStream();}
 
 void AlbaStreamBitWriter::putBoolDataToBuffer(bool const boolValue)
 {

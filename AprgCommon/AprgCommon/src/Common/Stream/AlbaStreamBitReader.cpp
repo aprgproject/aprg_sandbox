@@ -29,29 +29,62 @@ bool AlbaStreamBitReader::readBoolData()
 
 char AlbaStreamBitReader::readCharData()
 {
-    return readBigEndianNumberDataInBuffer<char>();
+    return AlbaStreamBitReader::readBigEndianNumberData<char>();
 }
 
-std::istream& AlbaStreamBitReader::getInputStream()
+string AlbaStreamBitReader::readStringData(unsigned int const numberOfCharacters)
+{
+    string result;
+    for(unsigned int i=0; i<numberOfCharacters; i++)
+    {
+        char c(readCharData());
+        if(!m_stream.eof())
+        {
+            result += c;
+        }
+        else
+        {
+            break;
+        }
+    }
+    return result;
+}
+
+string AlbaStreamBitReader::readWholeStreamAsStringData()
+{
+    string result;
+    while(true)
+    {
+        char c(readCharData());
+        if(!m_stream.eof())
+        {
+            result += c;
+        }
+        else
+        {
+            break;
+        }
+    }
+    return result;
+}
+
+istream& AlbaStreamBitReader::getInputStream()
 {
     return m_stream;
 }
-
 void AlbaStreamBitReader::readIfNeeded(unsigned int const numberOfBitsRequired)
 {
     if(m_bitBuffer.size() < numberOfBitsRequired)
     {
         unsigned int numberOfBytesToRead = static_cast<unsigned int>(
                     ceil(static_cast<double>(numberOfBitsRequired - m_bitBuffer.size())/AlbaBitConstants::BYTE_SIZE_IN_BITS));
-        std::vector<char> characterBuffer(numberOfBytesToRead, {});
+        vector<char> characterBuffer(numberOfBytesToRead, {});
         m_stream.read(&(characterBuffer.front()), numberOfBytesToRead);
         for(char const c : characterBuffer)
-        {
-            bitset<8> charByte(c);
+        {            bitset<8> charByte(c);
             m_bitBuffer.emplace_back(charByte[7]);
             m_bitBuffer.emplace_back(charByte[6]);
-            m_bitBuffer.emplace_back(charByte[5]);
-            m_bitBuffer.emplace_back(charByte[4]);
+            m_bitBuffer.emplace_back(charByte[5]);            m_bitBuffer.emplace_back(charByte[4]);
             m_bitBuffer.emplace_back(charByte[3]);
             m_bitBuffer.emplace_back(charByte[2]);
             m_bitBuffer.emplace_back(charByte[1]);

@@ -9,21 +9,18 @@ namespace alba
 AlbaLocalPathHandler::AlbaLocalPathHandler(PathInitialValueSource const initialValueSource)
     : AlbaWindowsPathHandler(initialValueSource)
 {}
-AlbaLocalPathHandler::AlbaLocalPathHandler(std::string const& path)
+AlbaLocalPathHandler::AlbaLocalPathHandler(string const& path)
     : AlbaWindowsPathHandler(path)
 {}
 #endif
-
 #ifdef OS_LINUX
 AlbaLocalPathHandler::AlbaLocalPathHandler(PathInitialValueSource const initialValueSource)
     : AlbaLinuxPathHandler(initialValueSource)
 {}
-AlbaLocalPathHandler::AlbaLocalPathHandler(std::string const& path)
+AlbaLocalPathHandler::AlbaLocalPathHandler(string const& path)
     : AlbaLinuxPathHandler(path)
 {}
 #endif
-
 AlbaLocalPathHandler::~AlbaLocalPathHandler()
 {}
-
 }//namespace alba

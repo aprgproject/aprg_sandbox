@@ -71,14 +71,32 @@ TEST(AlbaStreamBitWriterTest, WriteNumberDataWorks)
     EXPECT_EQ(R"(0102030404030201)", getHexEquivalentOfCharacters(ss.str()));
 }
 
-TEST(AlbaStreamBitWriterTest, WriteBitsetDataWorks)
+TEST(AlbaStreamBitWriterTest, WriteBigEndianNumberDataWorks)
 {
     stringstream ss;
     AlbaStreamBitWriter writer(ss);
+
+    writer.writeBigEndianNumberData<unsigned int>(0x01020304);
+
+    EXPECT_EQ(R"(01020304)", getHexEquivalentOfCharacters(ss.str()));
+}
+
+TEST(AlbaStreamBitWriterTest, WriteLittleEndianNumberDataWorks)
+{
+    stringstream ss;
+    AlbaStreamBitWriter writer(ss);
+
+    writer.writeLittleEndianNumberData<unsigned int>(0x01020304);
+
+    EXPECT_EQ(R"(04030201)", getHexEquivalentOfCharacters(ss.str()));
+}
+
+TEST(AlbaStreamBitWriterTest, WriteBitsetDataWorks)
+{
+    stringstream ss;    AlbaStreamBitWriter writer(ss);
     bitset<32> bitsetToWrite(0x12345678);
 
     writer.writeBitsetData(bitsetToWrite, 15, 22);
-
     EXPECT_EQ(R"(16)", getHexEquivalentOfCharacters(ss.str()));
 }
 
