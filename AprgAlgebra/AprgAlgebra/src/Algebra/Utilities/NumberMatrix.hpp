@@ -9,8 +9,8 @@ namespace alba
 
 namespace algebra
 {
+
 using NumberMatrix=matrix::AlbaMatrix<AlbaNumber>;
 
 }
-
 }
