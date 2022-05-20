@@ -50,43 +50,61 @@ TEST(PathSearchUsingDfsTest, GetOrderedPathToWorksWithUndirectedGraph)
     putConnectionsForTest(graph);
     PathSearchForTest pathSearch(graph, 0U);
 
-    PathForTest pathWith0;
-    PathForTest pathWith1{0U, 1U};
-    PathForTest pathWith2{0U, 1U, 2U};
-    PathForTest pathWith3{0U, 1U, 2U, 3U};
-    PathForTest pathWith4{0U, 1U, 2U, 3U, 4U};
-    PathForTest pathWith5{0U, 1U, 2U, 3U, 5U};
-    PathForTest pathWith6;
-    EXPECT_EQ(pathWith0, pathSearch.getOrderedPathTo(0U));
-    EXPECT_EQ(pathWith1, pathSearch.getOrderedPathTo(1U));
-    EXPECT_EQ(pathWith2, pathSearch.getOrderedPathTo(2U));
-    EXPECT_EQ(pathWith3, pathSearch.getOrderedPathTo(3U));
-    EXPECT_EQ(pathWith4, pathSearch.getOrderedPathTo(4U));
-    EXPECT_EQ(pathWith5, pathSearch.getOrderedPathTo(5U));
-    EXPECT_EQ(pathWith6, pathSearch.getOrderedPathTo(6U));
+    EXPECT_EQ(PathForTest(), pathSearch.getOrderedPathTo(0U));
+    EXPECT_EQ(PathForTest({0U, 1U}), pathSearch.getOrderedPathTo(1U));
+    EXPECT_EQ(PathForTest({0U, 1U, 2U}), pathSearch.getOrderedPathTo(2U));
+    EXPECT_EQ(PathForTest({0U, 1U, 2U, 3U}), pathSearch.getOrderedPathTo(3U));
+    EXPECT_EQ(PathForTest({0U, 1U, 2U, 3U, 4U}), pathSearch.getOrderedPathTo(4U));
+    EXPECT_EQ(PathForTest({0U, 1U, 2U, 3U, 5U}), pathSearch.getOrderedPathTo(5U));
+    EXPECT_EQ(PathForTest(), pathSearch.getOrderedPathTo(6U));
+}
+
+TEST(PathSearchUsingDfsTest, GetOrderedPathToWorksWithUndirectedGraphWithMultipleStartingPoints)
+{
+    GraphForTest graph;
+    putConnectionsForTest(graph);
+    PathSearchForTest pathSearch(graph, {0U, 3U});
+
+    EXPECT_EQ(PathForTest(), pathSearch.getOrderedPathTo(0U));
+    EXPECT_EQ(PathForTest({0U, 1U}), pathSearch.getOrderedPathTo(1U));
+    EXPECT_EQ(PathForTest({0U, 1U, 2U}), pathSearch.getOrderedPathTo(2U));
+    EXPECT_EQ(PathForTest(), pathSearch.getOrderedPathTo(3U));
+    EXPECT_EQ(PathForTest({3U, 4U}), pathSearch.getOrderedPathTo(4U));
+    EXPECT_EQ(PathForTest({3U, 5U}), pathSearch.getOrderedPathTo(5U));
+    EXPECT_EQ(PathForTest(), pathSearch.getOrderedPathTo(6U));
 }
 
 TEST(PathSearchUsingDfsTest, ReinitializeStartingFromWorksWithUndirectedGraph)
+{
+    GraphForTest graph;    putConnectionsForTest(graph);
+    PathSearchForTest pathSearch(graph, 0U);
+
+    pathSearch.reinitializeStartingFrom({3U});
+
+    EXPECT_EQ(PathForTest({3U, 2U, 0U}), pathSearch.getOrderedPathTo(0U));
+    EXPECT_EQ(PathForTest({3U, 2U, 0U, 1U}), pathSearch.getOrderedPathTo(1U));
+    EXPECT_EQ(PathForTest({3U, 2U}), pathSearch.getOrderedPathTo(2U));
+    EXPECT_EQ(PathForTest(), pathSearch.getOrderedPathTo(3U));
+    EXPECT_EQ(PathForTest({3U, 2U, 4U}), pathSearch.getOrderedPathTo(4U));
+    EXPECT_EQ(PathForTest({3U, 2U, 0U, 5U}), pathSearch.getOrderedPathTo(5U));
+    EXPECT_EQ(PathForTest(), pathSearch.getOrderedPathTo(6U));
+}
+
+TEST(PathSearchUsingDfsTest, ReinitializeStartingFromWorksWithUndirectedGraphWithMultipleStartingPoints)
 {
     GraphForTest graph;
     putConnectionsForTest(graph);
     PathSearchForTest pathSearch(graph, 0U);
 
-    pathSearch.reinitializeStartingFrom(3U);
+    pathSearch.reinitializeStartingFrom({0U, 3U});
 
-    PathForTest pathWith0{3U, 2U, 0U};
-    PathForTest pathWith1{3U, 2U, 0U, 1U};
-    PathForTest pathWith2{3U, 2U};
-    PathForTest pathWith3;
-    PathForTest pathWith4{3U, 2U, 4U};
-    PathForTest pathWith5{3U, 2U, 0U, 5U};
-    EXPECT_EQ(pathWith0, pathSearch.getOrderedPathTo(0U));
-    EXPECT_EQ(pathWith1, pathSearch.getOrderedPathTo(1U));
-    EXPECT_EQ(pathWith2, pathSearch.getOrderedPathTo(2U));
-    EXPECT_EQ(pathWith3, pathSearch.getOrderedPathTo(3U));
-    EXPECT_EQ(pathWith4, pathSearch.getOrderedPathTo(4U));
-    EXPECT_EQ(pathWith5, pathSearch.getOrderedPathTo(5U));
-    EXPECT_TRUE(pathSearch.getOrderedPathTo(6U).empty());
+    EXPECT_EQ(PathForTest(), pathSearch.getOrderedPathTo(0U));
+    EXPECT_EQ(PathForTest({0U, 1U}), pathSearch.getOrderedPathTo(1U));
+    EXPECT_EQ(PathForTest({0U, 1U, 2U}), pathSearch.getOrderedPathTo(2U));
+    EXPECT_EQ(PathForTest(), pathSearch.getOrderedPathTo(3U));
+    EXPECT_EQ(PathForTest({3U, 4U}), pathSearch.getOrderedPathTo(4U));
+    EXPECT_EQ(PathForTest({3U, 5U}), pathSearch.getOrderedPathTo(5U));
+    EXPECT_EQ(PathForTest(), pathSearch.getOrderedPathTo(6U));
 }
 
 }
