@@ -1,0 +1,265 @@
+
+
+Reduction: Design algorithms, establish lower bounds, classify problems.
+
+-> Use a problem solving model (just like max flow and shortest path)
+
+Shifting gears:
+-> From individual problems to problem solving models
+-> From linear/quadratic to polynomial/exponential scale
+-> From details of implementation to conceptual framework
+
+Goals:
+-> Place algorithms we've studied in larger context
+-> Introduce you to important and essential ideas.
+-> Inspire you to learn more about algorithms.
+
+Birds-eye view:
+Goa: Classify problems according to computation requirements
+
+complexity   | order of growth | examples
+linear       | N               | min, max median, burrow-wheeler transform
+linearithmic | N log N         | sorting, convex hull, closest pair, farthest pair
+quadratic    | N^2             | ?
+exponential  | c^N             | ?
+
+Frustrating news: Huge number of problems have defied classification.
+
+Questions:
+-> Suppose we could (or could not) solve the problem X efficiently
+-> What else could (or could not) we solve efficiently?
+-> This is what reduction is about.
+
+Reduction:
+Definition: Problem X reduces to problem Y if you can use an algorithm that solves Y to help solve X.
+-> Cost of solving X = total cost of solving Y + cost of reduction.
+total cost of solving Y -> perhaps many calls to Y on problems of different sizes
+cost of reduction -> preprocessing and post processing
+
+Example 1: Finding the median reduces to sorting
+-> To find the median of N items
+---> Sort N items
+---> Return item in the middle
+---> Cost of solving finding the median: N log N (cost of solving Y) + 1 (cost of reduction)
+
+Example 1: Element distinctness reduces to sorting
+-> To solve element distinctness on N items:
+---> Sort N items
+---> Check adjacent pairs for equality
+---> Cost of solving element distinctness: N log N (cost of solving Y) + N (cost of reduction)
+
+
+Design algorithm: Given algorithm for Y, can also solve X
+
+Example:
+-> 3 collinear reduces to soring
+-> Finding the median reduces to sorting
+-> Element distinctness reduces to sorting
+-> Critical Path Method (CPM) reduces to topological sorting
+-> Arbitrage reduces to shortest paths. Arbitrage is the simultaneous purchase and sale of the same asset in different markets in order to profit from tiny differences in the asset's listed price.
+-> Burrows-Wheeler transform reduces to suffix sort (not discussed)
+
+Proposition. Convex hull reduces to sorting
+-> Proof: Graham scan algorithm
+-> Cost of convex hull: N log N (cost of solving Y) + N (cost of reduction)
+
+Proposition. Undirected shortest paths (with nonnegative weights) reduces to directed shortest path
+-> Proof: Just replace each undirected edge by two directed edges.
+-> Cost of convex hull: E log V (cost of solving Y) + E (cost of reduction)
+-> Reduction is invalid for edge weighted graphs with negative weights (even if no negative cycles)
+---> Remark: Can still solve shortest-paths problem in undirected graphs (if no negative cycles), but need more sophisticated techniques (reduces to weighted non-bipartite matching)
+
+
+Linear time reductions involving familiar problems:
+-> Problems that reduces to sorting:
+---> Shortest path tree (SPT) scheduling 
+---> Find the median
+---> Element distinctness
+---> Convex hull
+-> Problems that reduces to shortest path:
+---> Arbitrage
+---> Parallel scheduling(precedence constrained) / Critical Path Method
+---> Shortest path in undirected graphs (no negative weights)
+-> Problems that reduces to max flow:
+---> Network reliability
+---> bipartite matching
+---> Product distribution
+-> Problems that reduces to linear programming (not yet discussed):
+---> shortest path in digraphs
+---> max flow
+
+Establishing lower bounds:
+-> Goal: Prove that a problem requires a certain number of steps
+---> Example in decision tree model, any compare-based sorting algorithm requires N log N compares in the worst case.
+-> Bad news: Very difficult to establish lower bounds from scratch
+---> Argument must apply to all conceivable algorithms
+-> Good news: Spread sigma (N log N) lower bound to Y by reducing sorting to Y.
+---> Assuming cost of reduction is not too high
+
+Linear time reductions
+-> Definition: Problem X linear time reduces to problem Y if X can be solved with:
+---> Linear number of standard computational steps.
+---> Constant number of calls to Y.
+-> Example: Almost all of the reductions we've seen so far. [Which ones weren't?]
+-> Establish a lower bound:
+---> If X takes a lower bound of (N log N) steps, then so does Y.
+---> If X takes a lower bound of (N^2) steps, then so does Y.
+-> Mentality:
+---> If I could easily solve Y, then I could easily solve X.
+---> I can't easily solve X, therefore I can't easily solve Y.
+
+Lower bound for convex hull algorithm
+-> Proposition. In quadratic decision tree model, any algorithm for sorting N integers requires lower bound of (N log N) steps.
+-> Proposition Sorting linear time reduces to convex hull.
+---> Lower bound mentality: If I can solve convex hull efficiently, I can sort efficiently.
+---> Proof:
+-----> Let x1, x2, x3... be values to sort
+-----> Create points using y=x^2, so points are (x1, x1^2), (x2, x2^2), (x3, x3^2)....
+-----> The region {x : x2 >= x} is convex => all points are on the hull
+-----> Starting at point with most negative x, counterclockwise order of hull points yields to integers in ascending order. -> This is sorting
+-----> So we can take the solution of convex hull and get a solution of the sorting algorithm. Sorting reduces to convex hull.
+-------> Therefore convex hull can't be easy because that would make sorting easy.
+-----> "This kind of thinking is really profound and has done a lot to enhanced our understanding of the difficulty of different algorithmic problems." Sedgewick
+-> Implication: Any CCW-based convex hull algorithm requires lower bound of (N log N) operations.
+
+Establish lower bounds: summary
+
+Establishing lower bounds through reduction is an important tool in guiding algorithm design efforts.
+Q: How to convince yourself no linear-time convex hull algorithm exists?
+-> Answer 1: [hard way] Long futile search for a linear time algorithm. (A lot of researchers did it this way)
+-> Answer 2: [easy way] Linear-time reduction from sorting.
+---> Graham scan gets in done in N log N and we can't do better than N log N -> Time to move on to other problems.
+
+
+Classifying problems: Summary
+-> Goal: Problem with algorithm that matches lower bound.
+---> Example: Sorting and convex hull have complexity N log N.
+-> Prove that two problems X and Y have the same complexity
+---> First, show that problem X linear-time reduces to Y.
+---> Second, show that Y linear-time reduces to X.
+---> Conclude that X and Y have the same complexity (even if we dont know what it is).
+-> This is what we have done to convex hull problems.
+
+Caveat:
+-> SORT: Given N distinct integers, rearrange them in ascending order
+-> CONVEX HULL: Given N points in the plane, identify the extreme points of the convex hull (in counterclockwise order)
+-> Preposition SORT linear-time reduces to CONVEX HULL.
+-> Preposition CONVEX HULL linear-time reduces to SORT.
+-> A possible real-world scenario:
+---> System designer specs the APIS for project
+---> Alice implements sort() using convexHull() -> well, maybe not so realistic
+---> Bob implements convexHull() using sort()
+---> Infinite reduction loop
+---> Who's fault? That would be the boss, Alice and Bob just did what they're suppose to do.
+
+Integer arithmetic reductions:
+Integer multiplication. Given two N-bit integers, compute their product
+Brute force: N^2 bit operations
+
+problem                | arithmetic    | order of growth
+integer multiplication | a*b           | M*N
+integer division       | a/b, a mod b  | M*N
+integer square         | a^2           | M*N
+integer square root    | a^(1/2)       | M*N
+* Integer arithmetic problems with the same complexity as integer multiplication
+
+Q: Is brute force algorithm optimal?
+
+Complexity of integer multiplication history:
+Year | algorithm          | order of growth
+?    | brute force        | N^2
+1962 | Karatsuba-Ofman    | N^1.585
+1963 | Toom-3, Toom-4     | N^1.465, N^1.404
+1966 | Toom-Cook          | N^(1+E)
+1971 | Schonhage-Strassen | N log N log log N
+2007 | Furer              | N log N 2^log*N
+?    | ?                  | N
+
+Remark: GMP: GNU mutiple precision library uses one of five different algorithm depending on size of operands.
+-> GMP is used in Maple, Mathematica, gcc, cryptography
+
+Linear algebra reductions:
+-> Matrix multiplication: Given two N by N matrices, compute their product
+-> Brute force: N^3 flops. -> you have to do N multiplications for each of the N^2 entries
+
+problem                    | arithmetic    | order of growth
+matrix multiplication      | A*B           | M*M*N
+matrix inversion           | A^-1          | M*M*N
+determinant                | |A|           | M*M*N
+system of linear equations | Ax=B          | M*M*N
+LU decomposition           | A=LU          | M*M*N
+Least squares              | min |Ax-b|2   | M*M*N
+
+Q: Is brute force algorithm optimal?
+
+
+Complexity of matrix multiplication history:
+Year | algorithm            | order of growth
+?    | brute force          | N^3
+1969 | Strassen             | N^2.808
+1978 | Pan                  | N^2.796
+1979 | Bini                 | N^2.780
+1981 | Schonhage            | N^2.522
+1982 | Romani               | N^2.517
+1982 | Coppersmith-Winograd | N^2.496
+1986 | Strassen             | N^2.479
+1989 | Coppersmith-Winograd | N^2.376
+2010 | Strother             | N^2.3737
+2011 | Williams             | N^2.3727
+?    | ?                    | N^2+E
+*number of floating-point operations to multiply two N by N matrices
+
+
+Classify problems according to computation requirements (rvisited)
+
+complexity   | order of growth  | examples
+linear       | N                | min, max median, burrow-wheeler transform
+linearithmic | N log N          | sorting, convex hull, closest pair, farthest pair
+M*N          | ?                | integer multiplication, integer division, integer square, integer square root
+M*M*N        | ?                | matrix multiplication, matrix inversion, determinant, system of linear equations, LU decomposition, Least squares
+NP complete  | Probably not N^b | SAT, IND-SET, ILP
+
+Good news: Can put many problems into equivalence classes.
+
+Complexity zoo:
+Complexity class: Set of problems sharing some computational property
+Bad news: Lots of complexity classes.  Mark: There is a lot
+
+
+Summary:
+
+Reductions are important in theory to:
+-> Design algorithms
+-> Establish lower bounds
+-> Classify problems according to their computational requirements
+
+Reductions are important in practice to:
+-> Design algorithms
+-> Design reusable software modules/data structures
+-> Determine difficulty of your problem and choose the right tool
+---> Use exact algorithm for tractable problems
+---> Use heuristics for intractable problems
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
