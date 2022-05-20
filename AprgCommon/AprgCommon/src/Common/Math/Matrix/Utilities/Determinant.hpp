@@ -117,6 +117,28 @@ DataType getDeterminantWhenSideIsMoreThan2(
     return determinant;
 }
 
+template <typename DataType>
+AlbaMatrix<DataType> getMatrixWithOneColumnAndOneRowRemoved(
+        AlbaMatrix<DataType> const& matrix,
+        unsigned int const columnIndex,
+        unsigned int const rowIndex)
+{
+    unsigned int numberOfRows(matrix.getNumberOfRows());
+    unsigned int numberOfColumns(matrix.getNumberOfColumns());
+    assert((columnIndex < numberOfColumns) && (rowIndex < numberOfRows));
+    AlbaMatrix<DataType> result(numberOfColumns-1, numberOfRows-1);
+    matrix.iterateAllThroughYAndThenX([&](unsigned int const x, unsigned int const y)
+    {
+        if(columnIndex != x && rowIndex != y)
+        {
+            unsigned int newX = (x >= columnIndex) ? x-1 : x;
+            unsigned int newY = (y >= rowIndex) ? y-1 : y;
+            result.setEntry(newX, newY, matrix.getEntry(x , y));
+        }
+    });
+    return result;
+}
+
 }
 
 }//namespace alba

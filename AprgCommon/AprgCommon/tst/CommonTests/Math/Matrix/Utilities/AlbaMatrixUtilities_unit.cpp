@@ -79,28 +79,11 @@ TEST(AlbaMatrixUtilitiesTest, IsSingularWorks)
     EXPECT_TRUE(isSingular(matrix2));
 }
 
-TEST(AlbaMatrixUtilitiesTest, GetMatrixWithOneColumnAndOneRowRemovedWorks)
-{
-    AlbaMatrix<unsigned int> matrix(3, 3,
-    {1, 2, 3,
-     4, 5, 6,
-     7, 8, 9});
-
-    AlbaMatrix<unsigned int> resultMatrix(getMatrixWithOneColumnAndOneRowRemoved(matrix, 1, 2));
-
-    AlbaMatrix<unsigned int> expectedMatrix(2, 2,
-    {1, 3,
-     4, 6});
-    EXPECT_EQ(expectedMatrix, resultMatrix);
-}
-
 TEST(AlbaMatrixUtilitiesTest, DoUnaryOperationWorks)
 {
-    AlbaMatrix<unsigned int> matrix(2, 3,
-    {1, 2,
+    AlbaMatrix<unsigned int> matrix(2, 3,    {1, 2,
      3, 4,
      5, 6});
-
     AlbaMatrix<unsigned int> resultMatrix(
                 doUnaryOperation(matrix, UnaryFunction<unsigned int>([](unsigned int const& value)
     {

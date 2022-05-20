@@ -27,6 +27,12 @@ template <typename DataType>
 DataType getDeterminantWhenSideIsMoreThan2(
         AlbaMatrix<DataType> const& matrix);
 
+template <typename DataType>
+AlbaMatrix<DataType> getMatrixWithOneColumnAndOneRowRemoved(
+        AlbaMatrix<DataType> const& matrix,
+        unsigned int const columnIndex,
+        unsigned int const rowIndex);
+
 }
 
 }//namespace alba
