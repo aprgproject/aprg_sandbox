@@ -18,6 +18,7 @@ public:
     using BaseClass = BasePathSearchWithRelax<Vertex, Weight, EdgeWeightedGraph, ComparatorTemplateType>;
     using Vertices = typename GraphTypes<Vertex>::Vertices;
     using VertexOrderingUsingDfsWithVertex = VertexOrderingUsingDfs<Vertex>;
+
     PathSearchForDirectedAcyclicGraph(EdgeWeightedGraph const& graph, Vertex const& startVertex)
         : BaseClass(graph, startVertex)
     {
@@ -42,7 +43,8 @@ private:
         // This works even with negative weights
         for(Vertex const& vertex : verticesInTopologicalOrder)
         {
-            this->relaxAt(vertex);        }
+            this->relaxAt(vertex);
+        }
     }
 
 };

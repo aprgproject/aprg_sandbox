@@ -14,7 +14,8 @@ namespace algorithm
 template <typename Object, template<class> class ComparatorTemplateType>
 class HeapPriorityQueue
 {
-public:    using Objects=std::vector<Object>;
+public:
+    using Objects=std::vector<Object>;
 
     HeapPriorityQueue()
         : m_objects()
@@ -68,7 +69,8 @@ private:
     HeapTreeAdapter<Objects, 2U, ComparatorTemplateType> m_heapTreeAdapter;
 };
 
-// Applications:// -> Event-driven simulation (customers in a line, colliding particles)
+// Applications:
+// -> Event-driven simulation (customers in a line, colliding particles)
 // -> Numerical computation (reducing roundoff error)
 // -> Data compression (huffman codes)
 // -> Graph searching (Dijkstra's algorithm, Prim's algorithm)

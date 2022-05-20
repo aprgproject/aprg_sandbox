@@ -74,7 +74,8 @@ TEST(TrieSymbolTableTest, DeleteBasedOnKeyWorks)
 
 TEST(TrieSymbolTableTest, GetKeysWorks)
 {
-    testGetKeysWithUnsignedInt<TrieForTest>();}
+    testGetKeysWithUnsignedInt<TrieForTest>();
+}
 
 TEST(TrieSymbolTableTest, GetAllKeysWithPrefixWorks)
 {
@@ -100,18 +101,29 @@ TEST(TrieSymbolTableTest, GetNumberOfNodesWorksWhenNotEmpty)
     trie.put("sells", 1U);
     trie.put("sea", 2U);
 
-    EXPECT_EQ(8U, trie.getNumberOfNodes());
+    // 9 nodes:
+    // 1) s
+    // 2) eh (child of s)
+    // 3) e (child of h)
+    // 4) al (child of first e)
+    // 5) l (child of first l)
+    // 6) s (child of second l)
+    // 7) 0-value (child of "she" path)
+    // 8) 1-value (child of "sells" path)
+    // 9) 2-value (child of "sea" path)
+    EXPECT_EQ(9U, trie.getNumberOfNodes());
 }
 
 TEST(TrieSymbolTableTest, PutWorksWithNumberOfNodes)
 {
     TrieForTest trie;
+
     trie.put("she", 0U);
     trie.put("sells", 1U);
     trie.put("sea", 2U);
 
     EXPECT_EQ(3U, trie.getSize());
-    EXPECT_EQ(8U, trie.getNumberOfNodes());
+    EXPECT_EQ(9U, trie.getNumberOfNodes());
     EXPECT_EQ(0U, trie.get("she"));
     EXPECT_EQ(1U, trie.get("sells"));
     EXPECT_EQ(2U, trie.get("sea"));
@@ -120,6 +132,7 @@ TEST(TrieSymbolTableTest, PutWorksWithNumberOfNodes)
 TEST(TrieSymbolTableTest, PutWhenEmptyStringWorks)
 {
     TrieForTest trie;
+
     trie.put("", 17U);
 
     EXPECT_EQ(1U, trie.getSize());
@@ -136,13 +149,13 @@ TEST(TrieSymbolTableTest, DeleteBasedOnKeyWorksWithNumberOfNodes)
 
     trie.deleteBasedOnKey("she");
     EXPECT_EQ(2U, trie.getSize());
-    EXPECT_EQ(6U, trie.getNumberOfNodes());
+    EXPECT_EQ(7U, trie.getNumberOfNodes());
     EXPECT_EQ(1U, trie.get("sells"));
     EXPECT_EQ(2U, trie.get("sea"));
 
     trie.deleteBasedOnKey("sells");
     EXPECT_EQ(1U, trie.getSize());
-    EXPECT_EQ(3U, trie.getNumberOfNodes());
+    EXPECT_EQ(4U, trie.getNumberOfNodes());
     EXPECT_EQ(2U, trie.get("sea"));
 
     trie.deleteBasedOnKey("sea");

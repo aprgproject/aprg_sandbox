@@ -18,13 +18,15 @@ constexpr unsigned int VALUE_FOR_UNUSED_INDEX=0xFFFFFFFFU;
 template <typename Object, template<class> class ComparatorTemplateType, unsigned int NUMBER_OF_CHILDREN>
 class IndexedHeapPriorityQueue
 {
-public:    // this class is dangerous, the user needs to be aware of index used -> no checks implemented
+public:
+    // this class is dangerous, the user needs to be aware of index used -> no checks implemented
     using Indexes = std::vector<unsigned int>;
     using Objects = std::vector<Object>;
     using Comparator = ComparatorTemplateType<Object>;
 
     IndexedHeapPriorityQueue()
-        : m_size(0U)        , m_maxSize(0U)
+        : m_size(0U)
+        , m_maxSize(0U)
     {}
 
     bool isEmpty() const
@@ -156,7 +158,8 @@ private:
         return m_comparator(object1, object2);
     }
 
-    unsigned int getContainerIndex(unsigned int const treeIndex) const    {
+    unsigned int getContainerIndex(unsigned int const treeIndex) const
+    {
         // This is not used because size usage is not efficient. No use to make it efficient.
         return treeIndex-1;
     }
@@ -231,7 +234,8 @@ private:
     Comparator m_comparator;
     Indexes m_treeIndexToObjectIndex;
     Indexes m_objectIndexToTreeIndex;
-    Objects m_objects;};
+    Objects m_objects;
+};
 
 }
 

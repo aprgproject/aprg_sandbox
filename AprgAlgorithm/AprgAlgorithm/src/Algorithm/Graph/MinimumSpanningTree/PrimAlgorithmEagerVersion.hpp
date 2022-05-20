@@ -25,6 +25,7 @@ public:
     using VertexWithWeightMinimumPriorityQueue = std::priority_queue<VertexWithWeight, std::deque<VertexWithWeight>, std::greater<VertexWithWeight>>;
     using VertexToEdgeWithWeightMap = typename GraphTypesWithWeights<Vertex, Weight>::VertexToEdgeWithWeightMap;
     using CheckableVerticesWithVertex = CheckableVertices<Vertex>;
+
     PrimAlgorithmEagerVersion(EdgeWeightedGraph const& graph, Vertex const& startVertex)
         : m_graph(graph)
         , m_startVertex(startVertex)
@@ -62,14 +63,16 @@ private:
             VertexWithWeight nearestVertex(m_nearestVerticesToTree.top());
             m_nearestVerticesToTree.pop();
             checkAdjacentVerticesWithLowestWeightOfVertex(nearestVertex.vertex);
-        }    }
+        }
+    }
 
     void checkAdjacentVerticesWithLowestWeightOfVertex(
             Vertex const& vertex)
     {
         m_processedVertices.putVertex(vertex);
         for(Vertex const& adjacentVertex : m_graph.getAdjacentVerticesAt(vertex))
-        {            if(m_processedVertices.isNotFound(adjacentVertex)) // only add vertices and edges from vertices not yet processed
+        {
+            if(m_processedVertices.isNotFound(adjacentVertex)) // only add vertices and edges from vertices not yet processed
             {
                 Weight weightForAdjacentVertex(m_graph.getWeight(vertex, adjacentVertex));
                 // check for vertex is not yet included or edge weight is smaller

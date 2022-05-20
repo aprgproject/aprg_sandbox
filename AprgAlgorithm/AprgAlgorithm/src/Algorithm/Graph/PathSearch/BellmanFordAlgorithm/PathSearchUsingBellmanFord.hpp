@@ -29,6 +29,7 @@ public:
     {
         searchForPath();
     }
+
 private:
 
     void searchForPath()
@@ -41,7 +42,8 @@ private:
             // Repeat V times: Relax each edge
             Vertex vertexAtQueue(dequeue());
             this->relaxAt(vertexAtQueue, [&](Vertex const&, Vertex const& destinationVertex, Weight const&)
-            {                if(m_verticesInQueue.isNotFound(destinationVertex))
+            {
+                if(m_verticesInQueue.isNotFound(destinationVertex))
                 {
                     enqueue(destinationVertex);
                 }
@@ -54,7 +56,8 @@ private:
                     findAPositiveOrNegativeCycle();
                 }
             });
-        }    }
+        }
+    }
 
     void enqueue(Vertex const& vertex)
     {

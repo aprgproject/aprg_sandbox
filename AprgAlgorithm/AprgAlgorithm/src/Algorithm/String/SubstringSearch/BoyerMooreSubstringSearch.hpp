@@ -57,10 +57,12 @@ public:
                 result = searchIndex;
                 break;
             }
-        }        return result;
+        }
+        return result;
     }
 
 private:
+
     void initialize()
     {
         char i(0U);

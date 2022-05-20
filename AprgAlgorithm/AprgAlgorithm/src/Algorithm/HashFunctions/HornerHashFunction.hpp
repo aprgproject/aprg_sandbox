@@ -12,9 +12,11 @@ template <typename HashValue>
 class HornerHashFunction // horners rule: continuously mod to keep the value
 {
 public:
-    HornerHashFunction(HashValue const radix, HashValue const largeRandomPrime)        : m_radix(radix)
+    HornerHashFunction(HashValue const radix, HashValue const largeRandomPrime)
+        : m_radix(radix)
         , m_largeRandomPrime(largeRandomPrime)
     {}
+
     HashValue getHashCode(std::string const& input)
     {
         return getHashCode(input, 0, input.size()-1);
@@ -32,14 +34,7 @@ public:
         }
         return result;
     }
-    HashValue getStartValue(unsigned int const length)
-    {
-        HashValue result(1);        for(unsigned int i=1; i<length; i++)
-        {
-            result = (result*m_radix) % m_largeRandomPrime;
-        }
-        return result;
-    }
+
 private:
     HashValue m_radix;
     HashValue m_largeRandomPrime;

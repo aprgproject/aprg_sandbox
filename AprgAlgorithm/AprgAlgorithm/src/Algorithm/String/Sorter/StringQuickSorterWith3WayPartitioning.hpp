@@ -57,9 +57,11 @@ public:
             sort(stringsToSort, indexForGreaterThan+1, highStringIndex, digitIndex);
         }
     }
+
 private:
     char getCharacterAtIfPossible(
-            std::string const& currentString,            unsigned int const digitIndex) const
+            std::string const& currentString,
+            unsigned int const digitIndex) const
     {
         char result(-1);
         if(digitIndex < currentString.length())

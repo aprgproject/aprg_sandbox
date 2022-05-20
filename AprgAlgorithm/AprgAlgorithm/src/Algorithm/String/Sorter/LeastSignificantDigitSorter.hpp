@@ -15,9 +15,11 @@ public:
 
     static constexpr unsigned int MAX_NUMBER_OF_CHARACTERS=256;
     using ArrayOfFrequencies = std::array<FrequencyDataType, MAX_NUMBER_OF_CHARACTERS+1>;
+
     void sortByLeastSignificantDigits(
             stringHelper::strings & stringsToSort,
-            unsigned int const lowDigitIndex,            unsigned int const highDigitIndex) const
+            unsigned int const lowDigitIndex,
+            unsigned int const highDigitIndex) const
     {
         for(unsigned int digitIndex=highDigitIndex+1; digitIndex>lowDigitIndex; digitIndex--)
         {
@@ -49,7 +51,8 @@ private:
         // 3) [a starting index][b starting index][c starting index][d starting index]...
         unsigned int numberOfStrings(stringsToSort.size());
         for(unsigned int i=0; i<numberOfStrings; i++)
-        {            frequencyOfEachCharacter[getCharacterAtIfPossible(stringsToSort.at(i), digitIndex)+1]++;
+        {
+            frequencyOfEachCharacter[getCharacterAtIfPossible(stringsToSort.at(i), digitIndex)+1]++;
         }
     }
 
@@ -59,9 +62,11 @@ private:
         // By getting the partial sum of each character index, we will know the new string index to put each string with this character
         unsigned int newIndexesSize = newIndexes.size();
         for(unsigned int i=0; i<newIndexesSize; i++)
-        {            newIndexes[i+1] += newIndexes.at(i);
+        {
+            newIndexes[i+1] += newIndexes.at(i);
         }
     }
+
     void copyBackUsingNewIndexes(
             stringHelper::strings & stringsToSort,
             ArrayOfFrequencies & newIndexes,
@@ -70,14 +75,16 @@ private:
         stringHelper::strings copiedStrings(stringsToSort); // copy first and then copy back to output in the new indexes;
         unsigned int numberOfStrings(stringsToSort.size());
         for(unsigned int i=0; i<numberOfStrings; i++)
-        {            stringsToSort[newIndexes[getCharacterAtIfPossible(copiedStrings.at(i), digitIndex)]++] = copiedStrings.at(i);
+        {
+            stringsToSort[newIndexes[getCharacterAtIfPossible(copiedStrings.at(i), digitIndex)]++] = copiedStrings.at(i);
         }
     }
 
     inline unsigned char getCharacterAtIfPossible(
             std::string const& currentString,
             unsigned int const digitIndex) const
-    {        unsigned char result(0U);
+    {
+        unsigned char result(0U);
         if(digitIndex < currentString.length())
         {
             result = currentString.at(digitIndex);

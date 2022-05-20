@@ -98,7 +98,8 @@ bool hasAnyCyclesOnGraph(BaseGraph<Vertex> const& graph)
     return !cycleDetection.getOneCycle().empty();
 }
 
-template <typename Vertex>bool isATree(BaseUndirectedGraph<Vertex> const& graph)
+template <typename Vertex>
+bool isATree(BaseUndirectedGraph<Vertex> const& graph)
 {
     // A tree is an acyclic connected graph.
 

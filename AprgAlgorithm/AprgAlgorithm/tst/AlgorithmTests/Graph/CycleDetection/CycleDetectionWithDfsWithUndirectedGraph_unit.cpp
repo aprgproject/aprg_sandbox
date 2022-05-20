@@ -17,6 +17,7 @@ using PathsForTest = GraphTypes<VertexForTest>::Paths;
 using GraphForTest = UndirectedGraphWithListOfEdges<VertexForTest>;
 using CycleDetectionForTest = CycleDetectionUsingDfs<VertexForTest>;
 }
+
 TEST(CycleDetectionUsingDfsTest, CycleDetectionWorksWhenGraphIsEmptyWithUndirectedGraph)
 {
     GraphForTest graph;
@@ -26,7 +27,8 @@ TEST(CycleDetectionUsingDfsTest, CycleDetectionWorksWhenGraphIsEmptyWithUndirect
     EXPECT_TRUE(cycleDetectionWithDfs.getAllCycles().empty());
 }
 
-TEST(CycleDetectionUsingDfsTest, CycleDetectionWorksWhenThereIsNoCycleWithUndirectedGraph){
+TEST(CycleDetectionUsingDfsTest, CycleDetectionWorksWhenThereIsNoCycleWithUndirectedGraph)
+{
     GraphForTest graph;
     graph.connect(0U, 1U);
     graph.connect(0U, 2U);
@@ -37,7 +39,8 @@ TEST(CycleDetectionUsingDfsTest, CycleDetectionWorksWhenThereIsNoCycleWithUndire
     EXPECT_TRUE(cycleDetectionWithDfs.getAllCycles().empty());
 }
 
-TEST(CycleDetectionUsingDfsTest, CycleDetectionWorksUsingExample1WithUndirectedGraph){
+TEST(CycleDetectionUsingDfsTest, CycleDetectionWorksUsingExample1WithUndirectedGraph)
+{
     GraphForTest graph;
     graph.connect(0U, 1U);
     graph.connect(1U, 2U);
@@ -50,7 +53,8 @@ TEST(CycleDetectionUsingDfsTest, CycleDetectionWorksUsingExample1WithUndirectedG
     EXPECT_EQ(expectedCycles, cycleDetectionWithDfs.getAllCycles());
 }
 
-TEST(CycleDetectionUsingDfsTest, CycleDetectionWorksUsingExample2WithUndirectedGraph){
+TEST(CycleDetectionUsingDfsTest, CycleDetectionWorksUsingExample2WithUndirectedGraph)
+{
     GraphForTest graph;
     graph.connect(0U, 5U);
     graph.connect(4U, 3U);
@@ -73,7 +77,8 @@ TEST(CycleDetectionUsingDfsTest, CycleDetectionWorksUsingExample2WithUndirectedG
     EXPECT_EQ(expectedCycles, cycleDetectionWithDfs.getAllCycles());
 }
 
-TEST(CycleDetectionUsingDfsTest, CycleDetectionWorksUsingExample3WithUndirectedGraph){
+TEST(CycleDetectionUsingDfsTest, CycleDetectionWorksUsingExample3WithUndirectedGraph)
+{
     GraphForTest graph;
     graph.connect(0U, 1U);
     graph.connect(1U, 2U);
@@ -89,4 +94,5 @@ TEST(CycleDetectionUsingDfsTest, CycleDetectionWorksUsingExample3WithUndirectedG
 }
 
 }
+
 }

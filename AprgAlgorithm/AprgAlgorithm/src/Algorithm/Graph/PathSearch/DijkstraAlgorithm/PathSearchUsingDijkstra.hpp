@@ -8,6 +8,7 @@
 
 namespace alba
 {
+
 namespace algorithm
 {
 
@@ -28,7 +29,8 @@ public:
     using VertexWithWeightPriorityQueue = std::priority_queue<VertexWithWeight, std::deque<VertexWithWeight>, ReverseComparator<VertexWithWeight>>;
 
     PathSearchUsingDijkstra(EdgeWeightedGraph const& graph, Vertex const& startVertex)
-        : BaseClass(graph, startVertex)    {
+        : BaseClass(graph, startVertex)
+    {
         searchForPathIfPossible();
     }
 
@@ -39,6 +41,7 @@ private:
         ComparatorTemplateType<unsigned int> comparisonInUnsignedInt;
         return (comparisonInUnsignedInt(1U, 2U) && !comparisonInUnsignedInt(1U, 1U));
     }
+
     void searchForPathIfPossible()
     {
         if(isComparisonLessThan()
@@ -64,6 +67,7 @@ private:
             });
         }
     }
+
 };
 
 // Dijkstra algorithm computes a shortest path tree in any edge-weighted digraph with non negative weights,

@@ -20,6 +20,7 @@ public:
         : m_comparator()
         , m_objects(objects)
     {}
+
     Object const& getObjectConstReferenceOnTree(
             unsigned int const treeIndex) const
     {
@@ -140,6 +141,7 @@ private:
     Comparator m_comparator; //Heap order: isComparisonSatisfied(child, parent) is true, so std::less -> MaxPriority and std::greater -> MinPriority
     Objects & m_objects;
 };
+
 // Objects are kept in heap order, parents value is no smaller than children's value (in max priority queue)
 // Tree index starts at one (top of the tree)
 // Advantage no links needed for the tree.

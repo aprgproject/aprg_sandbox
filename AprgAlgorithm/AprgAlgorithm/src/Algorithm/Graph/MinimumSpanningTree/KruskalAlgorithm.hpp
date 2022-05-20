@@ -24,7 +24,8 @@ public:
     using EdgeWithWeightsPriorityQueue = std::priority_queue<EdgeWithWeight, std::deque<EdgeWithWeight>, std::greater<EdgeWithWeight>>;
 
     KruskalAlgorithm(EdgeWeightedGraph const& graph, Vertex const& startVertex)
-        : m_graph(graph)        , m_startVertex(startVertex)
+        : m_graph(graph)
+        , m_startVertex(startVertex)
     {
         searchForMinimumSpanningTree();
     }

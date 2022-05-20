@@ -7,6 +7,7 @@
 #include <functional>
 #include <deque>
 #include <map>
+
 namespace alba
 {
 
@@ -26,7 +27,8 @@ public:
     using TraverseFunction = std::function<void(Vertex)>;
 
     FordFulkersonUsingBfs(SinkSourceFlowNetworkType const& flowNetwork)
-        : m_flowNetwork(flowNetwork)        , m_maxFlowValue{}
+        : m_flowNetwork(flowNetwork)
+        , m_maxFlowValue{}
     {
         reinitialize();
     }
@@ -68,7 +70,8 @@ private:
         while(!queueOfVerticesToProcess.empty()) // BFS like traversal
         {
             Vertex vertex(queueOfVerticesToProcess.back());
-            queueOfVerticesToProcess.pop_back();            for(auto const& flowEdge : m_flowNetwork.getFlowEdgesWithVertex(vertex))
+            queueOfVerticesToProcess.pop_back();
+            for(auto const& flowEdge : m_flowNetwork.getFlowEdgesWithVertex(vertex))
             {
                 Vertex otherVertex(flowEdge.getTheOtherVertex(vertex));
                 if(m_processedVertices.isNotFound(otherVertex) && flowEdge.getResidualCapacityTo(otherVertex) > 0) // we can still put flow to this other vertex

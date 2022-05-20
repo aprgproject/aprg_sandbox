@@ -23,7 +23,7 @@ public:
         , m_matchLength(substringToMatch.length())
         , m_hornerHashFunction(RADIX, A_LARGE_PRIME)
         , m_largeRandomPrime(A_LARGE_PRIME)
-        , m_startValueFromRadixAndLength(getStartValue())
+        , m_radixAndMatchLengthHash(getRadixAndMatchLengthHash())
         , m_substringToMatchHash(getHash(m_substringToMatch))
     {}
 
@@ -38,21 +38,19 @@ public:
         }
         else
         {
-            for(Index i=m_matchLength; i<searchLength; i++)
+            for(Index searchIndex=m_matchLength; searchIndex<searchLength; searchIndex++)
             {
-                currentHash
-                        = (currentHash + m_largeRandomPrime
-                           - m_startValueFromRadixAndLength * stringToSearch.at(i-m_matchLength) % m_largeRandomPrime)
-                        % m_largeRandomPrime;
-                currentHash = (currentHash * RADIX + stringToSearch.at(i)) % m_largeRandomPrime;
+                currentHash = getNextHash(currentHash, stringToSearch.at(searchIndex-m_matchLength), stringToSearch.at(searchIndex));
                 if(m_substringToMatchHash == currentHash)
                 {
-                    result = i-m_matchLength+1;
+                    result = searchIndex-m_matchLength+1; // Monte carlo approach (no double check)
                     break;
                 }
-            }        }
+            }
+        }
         return result;
     }
+
 private:
 
     HashValue getHash(std::string const& key)
@@ -60,16 +58,31 @@ private:
         return m_hornerHashFunction.getHashCode(key, 0, m_matchLength-1);
     }
 
-    HashValue getStartValue()
+    HashValue getNextHash(HashValue const currentHash, char const charToRemove, char const charToAdd)
     {
-        return m_hornerHashFunction.getStartValue(m_matchLength);
+        // First, subtract value for charToRemove
+        HashValue result = (currentHash + m_largeRandomPrime - (m_radixAndMatchLengthHash * charToRemove % m_largeRandomPrime))
+                % m_largeRandomPrime;
+        // Then, add value for charToAdd
+        result = (result*RADIX + charToAdd) % m_largeRandomPrime;
+        return result;
+    }
+
+    HashValue getRadixAndMatchLengthHash()
+    {
+        HashValue result(1);
+        for(unsigned int i=1; i<m_matchLength; i++)
+        {
+            result = (result*RADIX) % m_largeRandomPrime;
+        }
+        return result;
     }
 
     std::string const m_substringToMatch;
     Index const m_matchLength;
     HornerHashFunction<HashValue> m_hornerHashFunction;
     HashValue m_largeRandomPrime;
-    HashValue m_startValueFromRadixAndLength;
+    HashValue m_radixAndMatchLengthHash;
     HashValue m_substringToMatchHash;
 };
 
@@ -106,8 +119,9 @@ private:
 
 // Las Vegas version:
 // -> Always returns correct answer
-// -> Extremely like to run in linear time (but worst case is M*N).
+// -> Extremely unlikely to run in linear time (but worst case is M*N).
 
+// Why bother with this algorithm?
 // Advantages:
 // -> Extends to 2D patterns.
 // -> Extends to finding multiple patterns.

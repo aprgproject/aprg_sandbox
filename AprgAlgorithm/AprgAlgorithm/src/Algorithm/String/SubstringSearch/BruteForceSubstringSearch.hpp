@@ -23,6 +23,7 @@ public :
     }
 
 private:
+
     unsigned int searchWithLoops(std::string const& , std::string const&)
     {
         static_assert(sizeof(BruteForceSubstringSearch) != sizeof(BruteForceSubstringSearch),

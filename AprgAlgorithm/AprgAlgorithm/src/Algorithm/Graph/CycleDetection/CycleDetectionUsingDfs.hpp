@@ -62,7 +62,8 @@ private:
 
     bool isThisVertexOnThePossibleCycle(Vertex const& vertex) const
     {
-        return m_verticesInPossibleCycle.find(vertex) != m_verticesInPossibleCycle.cend();    }
+        return m_verticesInPossibleCycle.find(vertex) != m_verticesInPossibleCycle.cend();
+    }
 
     Path getPathWithCycle(Vertex const& secondToTheLastVertex, Vertex const& lastVertex) const
     {
@@ -139,7 +140,8 @@ private:
             if(SearchType::OneCycle == m_searchType && hasACycle()) // this check is needed to end all recursion instances once cycle has been detected
             {
                 break;
-            }            else if(m_processedVertices.isNotFound(adjacentVertex))
+            }
+            else if(m_processedVertices.isNotFound(adjacentVertex))
             {
                 m_vertexToPreviousVertexMap[adjacentVertex] = startVertex;
                 searchUsingDfsWithDirectedGraph(adjacentVertex);
@@ -161,7 +163,8 @@ private:
             if(SearchType::OneCycle == m_searchType && hasACycle()) // this check is needed to end all recursion instances once cycle has been detected
             {
                 break;
-            }            else if(m_processedVertices.isNotFound(adjacentVertex))
+            }
+            else if(m_processedVertices.isNotFound(adjacentVertex))
             {
                 m_vertexToPreviousVertexMap[adjacentVertex] = startVertex;
                 searchUsingDfsWithUndirectedGraph(adjacentVertex, startVertex);
@@ -172,7 +175,8 @@ private:
                 m_pathsWithCycle.emplace_back(getPathWithCycle(startVertex, adjacentVertex));
             }
         }
-        m_verticesInPossibleCycle.erase(startVertex);    }
+        m_verticesInPossibleCycle.erase(startVertex);
+    }
 
     BaseGraphWithVertex const& m_graph;
     SearchType m_searchType;
@@ -183,4 +187,5 @@ private:
 };
 
 }
+
 }

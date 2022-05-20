@@ -128,18 +128,6 @@ void testDeleteBasedOnKeyWithUnsignedInt()
 }
 
 template <typename Trie>
-void testDeleteBasedOnKeyWhenEmptyStringWithUnsignedInt()
-{
-    Trie trie;
-    trie.put("", 017U);
-
-    trie.deleteBasedOnKey("");
-    ASSERT_EQ(0U, trie.getSize());
-
-    trie.deleteBasedOnKey("");
-}
-
-template <typename Trie>
 void testGetKeysWithUnsignedInt()
 {
     using Keys = typename Trie::Keys;

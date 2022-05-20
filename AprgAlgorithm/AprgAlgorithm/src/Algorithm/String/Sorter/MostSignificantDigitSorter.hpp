@@ -40,10 +40,12 @@ public:
             computeCumulatesToGetNewIndexes(newIndexes);
             copyBackUsingNewIndexes(stringsToSort, newIndexes, lowStringIndex, highStringIndex, digitIndex);
             sortForEachCharacterValue(stringsToSort, newIndexes, lowStringIndex, digitIndex);
-        }    }
+        }
+    }
 
 private:
-    void saveFrequencyForEachCharacterAt(            ArrayOfFrequencies & frequencyOfEachCharacter,
+    void saveFrequencyForEachCharacterAt(
+            ArrayOfFrequencies & frequencyOfEachCharacter,
             stringHelper::strings const& stringsToSort,
             unsigned int const lowStringIndex,
             unsigned int const highStringIndex,
@@ -69,9 +71,11 @@ private:
         // By getting the partial sum of each character index, we will know the new string index to put each string with this character
         unsigned int newIndexesSize = newIndexes.size();
         for(unsigned int i=0; i<newIndexesSize; i++)
-        {            newIndexes[i+1] += newIndexes.at(i);
+        {
+            newIndexes[i+1] += newIndexes.at(i);
         }
     }
+
     void copyBackUsingNewIndexes(
             stringHelper::strings & stringsToSort,
             ArrayOfFrequencies & newIndexes,
@@ -86,10 +90,12 @@ private:
             // replace index uses the character index before it
             unsigned int replaceIndex = lowStringIndex + newIndexes[getCharacterAtIfPossible(copiedStrings.at(i), digitIndex)+1]++;
             stringsToSort[replaceIndex] = copiedStrings.at(i);
-        }    }
+        }
+    }
 
     void sortForEachCharacterValue(
-            stringHelper::strings& stringsToSort,            ArrayOfFrequencies const& newIndexes,
+            stringHelper::strings& stringsToSort,
+            ArrayOfFrequencies const& newIndexes,
             unsigned int const lowStringIndex,
             unsigned int const digitIndex) const
     {
@@ -104,10 +110,12 @@ private:
             // sort the sub arrays
             if(newLowStringIndex<newHighStringIndex)
             {
-                sortByMostSignificantDigit(                            stringsToSort,
+                sortByMostSignificantDigit(
+                            stringsToSort,
                             newLowStringIndex,
                             newHighStringIndex,
-                            digitIndex+1);            }
+                            digitIndex+1);
+            }
         }
     }
 
