@@ -133,16 +133,12 @@ unsigned int getPivotingRowUsingMinRatioRule(AlbaMatrix<DataType> const& simplex
 template <typename DataType>
 void pivotAt(AlbaMatrix<DataType> & simplexTable, unsigned int const pivotingColumn, unsigned int const pivotingRow)
 {
-    // p is pivoting row
-    // p is pivoting column
     // scale all entries but pivoting row and pivoting column
     simplexTable.iterateAllThroughYAndThenX([&](unsigned int const x, unsigned int const y)
-    {
-        if(x != pivotingColumn && y != pivotingRow)
+    {        if(x != pivotingColumn && y != pivotingRow)
         {
             DataType valueToSubtract(simplexTable.getEntry(x, pivotingRow) * simplexTable.getEntry(pivotingColumn, y) / simplexTable.getEntry(pivotingColumn, pivotingRow));
-            simplexTable.setEntry(x, y, simplexTable.getEntry(x, y)-valueToSubtract);
-        }
+            simplexTable.setEntry(x, y, simplexTable.getEntry(x, y)-valueToSubtract);        }
     });
 
     // zero out pivoting column
