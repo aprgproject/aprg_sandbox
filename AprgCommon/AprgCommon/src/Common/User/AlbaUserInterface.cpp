@@ -75,10 +75,12 @@ template int AlbaUserInterface::displayQuestionAndChoicesAndGetNumberAnswer(stri
 template unsigned int AlbaUserInterface::displayQuestionAndChoicesAndGetNumberAnswer(string const& question, Choices<unsigned int> const& choices);
 
 
-string AlbaUserInterface::displayQuestionAndChoicesAndGetStringAnswerInAllCapitals(string const& question, Choices<string> const& choices){
+string AlbaUserInterface::displayQuestionAndChoicesAndGetStringAnswerInAllCapitals(string const& question, Choices<string> const& choices)
+{
     cout<<question<<endl;
 
-    DisplayTable table;    table.addRow();
+    DisplayTable table;
+    table.addRow();
     table.getLastRow().addCell("Choice", DisplayTableCellMode::right, DisplayTableCellMode::center);
     table.getLastRow().addCell("  :  ");
     table.getLastRow().addCell("Description", DisplayTableCellMode::left, DisplayTableCellMode::center);

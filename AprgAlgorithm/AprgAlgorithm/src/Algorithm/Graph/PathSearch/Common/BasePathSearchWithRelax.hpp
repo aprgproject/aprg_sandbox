@@ -22,9 +22,11 @@ public:
     using AdditionalRelaxationStepsWithNewWeight = std::function<void(Vertex const&, Vertex const&, Weight const&)>;
     using AdditionalRelaxationSteps = std::function<void(void)>;
 
-    BasePathSearchWithRelax(EdgeWeightedGraph const& graph, Vertex const& startVertex)        : m_graph(graph)
+    BasePathSearchWithRelax(EdgeWeightedGraph const& graph, Vertex const& startVertex)
+        : m_graph(graph)
         , m_startVertex(startVertex)
     {}
+
     virtual ~BasePathSearchWithRelax()
     {}
 
@@ -90,7 +92,8 @@ protected:
             AdditionalRelaxationStepsWithNewWeight const& additionalRelaxationStepsWithNewWeight = getNoStepsWithNewWeight(),
             AdditionalRelaxationSteps const& additionalRelaxationSteps = getNoSteps())
     {
-        // Relaxing means recalculating the shortest/longest path (there might be a new way with better weight)        // Here all the information from the given vertex to its adjacent vertices are updated
+        // Relaxing means recalculating the shortest/longest path (there might be a new way with better weight)
+        // Here all the information from the given vertex to its adjacent vertices are updated
         for(Vertex const& adjacentVertex : m_graph.getAdjacentVerticesAt(vertex))
         {
             Weight weightOfCurrentEdge(m_graph.getWeight(vertex, adjacentVertex));
@@ -113,9 +116,11 @@ protected:
                 = [](Vertex const&, Vertex const&, Weight const&){};
         return noRelaxationSteps;
     }
+
     static AdditionalRelaxationSteps getNoSteps()
     {
-        static AdditionalRelaxationSteps noRelaxationSteps = [](){};        return noRelaxationSteps;
+        static AdditionalRelaxationSteps noRelaxationSteps = [](){};
+        return noRelaxationSteps;
     }
 
     Graph const& m_graph;

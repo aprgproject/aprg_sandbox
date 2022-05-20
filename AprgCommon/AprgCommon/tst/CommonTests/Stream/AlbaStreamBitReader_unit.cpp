@@ -60,10 +60,12 @@ TEST(AlbaStreamBitReaderTest, ReadWholeStreamAsStringDataWorks)
 
 TEST(AlbaStreamBitReaderTest, ReadNumberDataWorks)
 {
-    stringstream ss;    ss.put(0x01);
+    stringstream ss;
+    ss.put(0x01);
     ss.put(0x02);
     ss.put(0x03);
-    ss.put(0x04);    ss.put(0x01);
+    ss.put(0x04);
+    ss.put(0x01);
     ss.put(0x02);
     ss.put(0x03);
     ss.put(0x04);
@@ -102,9 +104,11 @@ TEST(AlbaStreamBitReaderTest, ReadLittleEndianNumberDataWorks)
 
 TEST(AlbaStreamBitReaderTest, ReadBitsetDataWorks)
 {
-    stringstream ss;    ss.put(0x12);
+    stringstream ss;
+    ss.put(0x12);
     ss.put(0x34);
     AlbaStreamBitReader reader(ss);
+
     EXPECT_EQ(0x00000C48U, static_cast<unsigned int>(reader.readBitsetData<32>(0, 11).to_ulong())); //swapped due to reversed index
     EXPECT_FALSE(reader.noRemainingBitsInBuffer()); // 4Bits remaining
 }

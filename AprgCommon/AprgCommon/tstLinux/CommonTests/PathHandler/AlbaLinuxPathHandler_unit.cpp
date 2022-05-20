@@ -164,10 +164,12 @@ TEST_F(AlbaLinuxPathHandlerTest, ReInputFileThatIsToBeDeleted_ActualLocalDirecto
     ofstream fileToBeDeleted(pathHandler.getFullPath());
     fileToBeDeleted.close();
     pathHandler.reInput();
-    EXPECT_EQ(convertToSimplestPath(APRG_DIR R"(\AprgCommon/FilesForTests/DirectoryTest/)"), pathHandler.getDirectory());    EXPECT_EQ("FileToBeDeleted.log", pathHandler.getFile());
+    EXPECT_EQ(convertToSimplestPath(APRG_DIR R"(\AprgCommon/FilesForTests/DirectoryTest/)"), pathHandler.getDirectory());
+    EXPECT_EQ("FileToBeDeleted.log", pathHandler.getFile());
     EXPECT_EQ("FileToBeDeleted", pathHandler.getFilenameOnly());
     EXPECT_EQ("log", pathHandler.getExtension());
-    EXPECT_EQ(PathType::File, pathHandler.getPathType());    EXPECT_TRUE(pathHandler.isFoundInLocalSystem());
+    EXPECT_EQ(PathType::File, pathHandler.getPathType());
+    EXPECT_TRUE(pathHandler.isFoundInLocalSystem());
 
     EXPECT_TRUE(pathHandler.deleteFile());
 
@@ -185,10 +187,12 @@ TEST_F(AlbaLinuxPathHandlerTest, ReInputFileThatIsToBeRenamed_ActualLocalDirecto
     ofstream fileToBeRenamed(pathHandler.getFullPath());
     fileToBeRenamed.close();
     pathHandler.reInput();
-    EXPECT_EQ(convertToSimplestPath(APRG_DIR R"(\AprgCommon/FilesForTests/DirectoryTest/)"), pathHandler.getDirectory());    EXPECT_EQ("FileToBeRenamed.log", pathHandler.getFile());
+    EXPECT_EQ(convertToSimplestPath(APRG_DIR R"(\AprgCommon/FilesForTests/DirectoryTest/)"), pathHandler.getDirectory());
+    EXPECT_EQ("FileToBeRenamed.log", pathHandler.getFile());
     EXPECT_EQ("FileToBeRenamed", pathHandler.getFilenameOnly());
     EXPECT_EQ("log", pathHandler.getExtension());
-    EXPECT_EQ(PathType::File, pathHandler.getPathType());    EXPECT_TRUE(pathHandler.isFoundInLocalSystem());
+    EXPECT_EQ(PathType::File, pathHandler.getPathType());
+    EXPECT_TRUE(pathHandler.isFoundInLocalSystem());
 
     EXPECT_TRUE(pathHandler.renameFile("RenamedFile.txt"));
 
@@ -209,10 +213,12 @@ TEST_F(AlbaLinuxPathHandlerTest, FileIsCopiedToNewFile_ActualLocalDirectory)
     ofstream fileToBeDeleted(pathHandler.getFullPath());
     fileToBeDeleted.close();
     pathHandler.reInput();
-    EXPECT_EQ(convertToSimplestPath(APRG_DIR R"(\AprgCommon/FilesForTests/DirectoryTest/)"), pathHandler.getDirectory());    EXPECT_EQ("FileToBeCopied.log", pathHandler.getFile());
+    EXPECT_EQ(convertToSimplestPath(APRG_DIR R"(\AprgCommon/FilesForTests/DirectoryTest/)"), pathHandler.getDirectory());
+    EXPECT_EQ("FileToBeCopied.log", pathHandler.getFile());
     EXPECT_EQ("FileToBeCopied", pathHandler.getFilenameOnly());
     EXPECT_EQ("log", pathHandler.getExtension());
-    EXPECT_EQ(PathType::File, pathHandler.getPathType());    EXPECT_TRUE(pathHandler.isFoundInLocalSystem());
+    EXPECT_EQ(PathType::File, pathHandler.getPathType());
+    EXPECT_TRUE(pathHandler.isFoundInLocalSystem());
 
     EXPECT_TRUE(pathHandler.copyToNewFile(pathHandler.getDirectory()+pathOfCopiedFile));
 

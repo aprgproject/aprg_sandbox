@@ -16,10 +16,12 @@ namespace
 using IndexedMaxPriorityQueueForTest = IndexedHeapPriorityQueue<char, less, 2U>; //less leads to Max Priority Queue same as in c++ standard
 }
 
-TEST(IndexedHeapPriorityQueueTest, IsEmptyWorks){
+TEST(IndexedHeapPriorityQueueTest, IsEmptyWorks)
+{
     IndexedMaxPriorityQueueForTest indexedPQ1;
     IndexedMaxPriorityQueueForTest indexedPQ2;
     indexedPQ2.insert(0U, 'A');
+
     EXPECT_TRUE(indexedPQ1.isEmpty());
     EXPECT_FALSE(indexedPQ2.isEmpty());
 }

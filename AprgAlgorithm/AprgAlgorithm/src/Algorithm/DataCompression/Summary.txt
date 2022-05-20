@@ -109,3 +109,5 @@ Lossy compression:
 Theoretical limits on compression: Shannon entropy H(x)
 Practical compression. Use extra knowledge about the data being compressed whenever possible.
 
+
+

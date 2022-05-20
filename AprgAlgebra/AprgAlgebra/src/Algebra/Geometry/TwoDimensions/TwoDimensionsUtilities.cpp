@@ -7,8 +7,10 @@
 #include <Algebra/Utilities/KnownNames.hpp>
 
 using namespace alba::algebra::Functions;
+
 namespace alba
 {
+
 namespace algebra
 {
 

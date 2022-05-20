@@ -19,9 +19,11 @@ namespace
 using ValuesForTest = vector<char>;
 using SorterForTest = HeapSorter<ValuesForTest>;
 }
+
 TEST(HeapSorterTest, SortWorksOnCharactersUsingExample1)
 {
-    testSortUsingExample1WithCharacters<SorterForTest, ValuesForTest>();}
+    testSortUsingExample1WithCharacters<SorterForTest, ValuesForTest>();
+}
 
 TEST(HeapSorterTest, SortWorksOnCharactersUsingExample2)
 {

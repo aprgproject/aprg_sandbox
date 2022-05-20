@@ -21,16 +21,19 @@ Term getEToTheX(
     return Term(createExpressionIfPossible({getEAsATerm(), "^", term}));
 }
 
-Term getEToTheNegativeX(        Term const& term)
+Term getEToTheNegativeX(
+        Term const& term)
 {
     // e^(-x)
 
     return Term(createExpressionIfPossible({getEAsATerm(), "^", negateTerm(term)}));
 }
 
-Term getEToTheXPlusEToTheNegativeX(        Term const& term)
+Term getEToTheXPlusEToTheNegativeX(
+        Term const& term)
 {
     // e^x + e^(-x)
+
     return Term(createExpressionIfPossible({getEToTheX(term), "+", getEToTheNegativeX(term)}));
 }
 

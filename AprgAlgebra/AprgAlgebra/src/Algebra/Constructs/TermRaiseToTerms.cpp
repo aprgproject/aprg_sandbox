@@ -243,10 +243,12 @@ void TermRaiseToTerms::simplifyConstantRaiseToFunction(
     if((getEAsATerm() == base && "ln" == functionName) || (Term(10) == base && "log" == functionName))
     {
         base = getTermConstReferenceFromBaseTerm(functionObject.getInputTermConstReference());
-    }    else
+    }
+    else
     {
         exponents.emplace_back(exponentCombinedTerm, TermAssociationType::Positive);
-    }}
+    }
+}
 
 void TermRaiseToTerms::simplifyMonomialRaiseToConstant(
         Term & base,
@@ -301,10 +303,12 @@ void TermRaiseToTerms::simplifyConstantRaiseToMultiplicationAndDivisionExpressio
             if((getEAsATerm() == base && "ln" == functionName) || (Term(10) == base && "log" == functionName))
             {
                 base = getTermConstReferenceFromBaseTerm(functionObject.getInputTermConstReference());
-                termsWithDetails.erase(termsWithDetails.begin()+i);                break;
+                termsWithDetails.erase(termsWithDetails.begin()+i);
+                break;
             }
         }
-    }    exponents = termsWithDetails;
+    }
+    exponents = termsWithDetails;
 }
 
 void TermRaiseToTerms::initializeUsingTermsInRaiseToPowerExpression(

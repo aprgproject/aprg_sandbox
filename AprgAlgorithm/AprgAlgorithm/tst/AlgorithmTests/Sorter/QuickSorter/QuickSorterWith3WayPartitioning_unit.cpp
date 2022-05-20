@@ -17,9 +17,11 @@ namespace
 using ValuesForTest = vector<char>;
 using SorterForTest = QuickSorterWith3WayPartitioning<ValuesForTest>;
 }
+
 TEST(QuickSorterWith3WayPartitioningTest, SortWorksOnCharactersUsingExample1)
 {
-    testSortUsingExample1WithCharacters<SorterForTest, ValuesForTest>();}
+    testSortUsingExample1WithCharacters<SorterForTest, ValuesForTest>();
+}
 
 TEST(QuickSorterWith3WayPartitioningTest, SortWorksOnCharactersUsingExample2)
 {

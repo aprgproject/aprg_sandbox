@@ -4,8 +4,10 @@
 #include <Algebra/Term/Utilities/TermUtilities.hpp>
 
 #include <gtest/gtest.h>
+
 using namespace alba::algebra::Functions;
 using namespace std;
+
 namespace alba
 {
 
@@ -1570,10 +1572,12 @@ TEST(TermOperatorsTest, BinaryDivideOperator_ConstantAddEmptyOperationWorks)
     EXPECT_EQ(getPositiveInfinityAsATerm(), term);
 }
 
-TEST(TermOperatorsTest, BinaryDivideOperator_ConstantDivideConstantOperationWorks){
+TEST(TermOperatorsTest, BinaryDivideOperator_ConstantDivideConstantOperationWorks)
+{
     Term term(Constant(6) / Constant(2));
 
-    EXPECT_EQ(Term(3), term);}
+    EXPECT_EQ(Term(3), term);
+}
 
 TEST(TermOperatorsTest, BinaryDivideOperator_ConstantDivideVariableOperationWorks)
 {

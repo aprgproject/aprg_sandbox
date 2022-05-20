@@ -92,9 +92,11 @@ string AlbaAngle::getDisplayableString() const
     ss << "Angle in degrees: " << m_angleValueInDegrees;
     return ss.str();
 }
+
 double AlbaAngle::calculateAngleValueInDegrees(AngleUnitType const angleInputType, double const angleValue) const
 {
-    double angleValueInDegrees=0;    if(AngleUnitType::Degrees == angleInputType)
+    double angleValueInDegrees=0;
+    if(AngleUnitType::Degrees == angleInputType)
     {
         angleValueInDegrees = angleValue;
     }

@@ -8,6 +8,7 @@
 
 namespace alba
 {
+
 namespace algorithm
 {
 
@@ -15,6 +16,7 @@ template <typename Count>
 class RunLengthEncodingCompression
 {
 public :
+
     RunLengthEncodingCompression()
     {}
 
@@ -45,13 +47,15 @@ public :
                 currentCount++;
             }
             else
-            {                break;
+            {
+                break;
             }
         }
         writer.writeCharData(currentCount);
     }
 
-    void expand(std::istream & input, std::ostream & output)    {
+    void expand(std::istream & input, std::ostream & output)
+    {
         AlbaStreamBitReader reader(input);
         AlbaStreamBitWriter writer(output);
         bool bit(false); // start with 0
@@ -67,7 +71,8 @@ public :
                 bit = !bit; // switch from 0->1 or 1->0
             }
             else
-            {                break;
+            {
+                break;
             }
         }
     }

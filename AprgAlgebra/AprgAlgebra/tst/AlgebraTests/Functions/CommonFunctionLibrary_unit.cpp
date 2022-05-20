@@ -116,9 +116,11 @@ TEST(CommonFunctionLibraryTest, TangentFunctionWorks)
     EXPECT_EQ(getPiAsATerm(), getTermConstReferenceFromBaseTerm(tangentFunction.getInputTermConstReference()));
     EXPECT_EQ(AlbaNumber(0), tangentFunction.performFunctionAndReturnResultIfPossible());
 }
+
 TEST(CommonFunctionLibraryTest, CosecantFunctionWorks)
 {
     Function cosecantFunction(csc(getPi()/2));
+
     EXPECT_EQ("csc", cosecantFunction.getFunctionName());
     EXPECT_EQ(Term(getPi()/2), getTermConstReferenceFromBaseTerm(cosecantFunction.getInputTermConstReference()));
     EXPECT_EQ(AlbaNumber(1), cosecantFunction.performFunctionAndReturnResultIfPossible());
@@ -132,9 +134,11 @@ TEST(CommonFunctionLibraryTest, SecantFunctionWorks)
     EXPECT_EQ(getPiAsATerm(), getTermConstReferenceFromBaseTerm(secantFunction.getInputTermConstReference()));
     EXPECT_EQ(AlbaNumber(-1), secantFunction.performFunctionAndReturnResultIfPossible());
 }
+
 TEST(CommonFunctionLibraryTest, CotangentFunctionWorks)
 {
     Function cotangentFunction(cot(getPi()/2));
+
     EXPECT_EQ("cot", cotangentFunction.getFunctionName());
     EXPECT_EQ(Term(getPi()/2), getTermConstReferenceFromBaseTerm(cotangentFunction.getInputTermConstReference()));
     EXPECT_EQ(AlbaNumber(0), cotangentFunction.performFunctionAndReturnResultIfPossible());
@@ -256,7 +260,9 @@ TEST(CommonFunctionLibraryTest, SineHarmonicFunctionWorks)
     EXPECT_EQ(getPiAsATerm(), getTermConstReferenceFromBaseTerm(sineFunction.getInputTermConstReference()));
     EXPECT_EQ(AlbaNumber(4), sineFunction.performFunctionAndReturnResultIfPossible());
 }
+
 }
 
 }
+
 }

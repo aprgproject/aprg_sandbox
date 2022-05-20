@@ -240,9 +240,11 @@ TEST(OptionalTest, OptionalCanBeMovedByMoveAssignmentOperatorTest)
     integerOptional2 = move(integerOptional1);
 
     // Then
-    EXPECT_FALSE(static_cast<bool>(integerOptional1));    EXPECT_TRUE(static_cast<bool>(integerOptional2));
+    EXPECT_FALSE(static_cast<bool>(integerOptional1));
+    EXPECT_TRUE(static_cast<bool>(integerOptional2));
     EXPECT_EQ(1111, integerOptional2.get());
 }
+
 TEST(OptionalTest, OptionalCanBeMovedByMoveContructorTest)
 {
     // Given
@@ -253,7 +255,9 @@ TEST(OptionalTest, OptionalCanBeMovedByMoveContructorTest)
     AlbaOptional<int> integerOptional2(move(integerOptional1));
 
     // Then
-    EXPECT_FALSE(static_cast<bool>(integerOptional1));    EXPECT_TRUE(static_cast<bool>(integerOptional2));
+    EXPECT_FALSE(static_cast<bool>(integerOptional1));
+    EXPECT_TRUE(static_cast<bool>(integerOptional2));
     EXPECT_EQ(1111, integerOptional2.get());
 }
+
 }

@@ -17,7 +17,8 @@ namespace algorithm
 template <typename Count>
 class HuffmanCompression
 {
-public :    static constexpr unsigned int RADIX=256U;
+public :
+    static constexpr unsigned int RADIX=256U;
 
     using Characters = std::vector<char>;
     using HuffmanCode = std::vector<bool>;
@@ -28,10 +29,12 @@ public :    static constexpr unsigned int RADIX=256U;
         CharacterFrequency(char const characterAsParameter, Count const frequencyAsParameter, bool const isProritizedAsParameter)
             : character(characterAsParameter)
             , frequency(frequencyAsParameter)
-            , isProritized(isProritizedAsParameter)        {}
+            , isProritized(isProritizedAsParameter)
+        {}
 
         bool operator>(CharacterFrequency const& second) const
-        {            bool result(false);
+        {
+            bool result(false);
             if(frequency != second.frequency)
             {
                 result = frequency > second.frequency;
@@ -54,10 +57,12 @@ public :    static constexpr unsigned int RADIX=256U;
         Count frequency;
         bool isProritized;
     };
-    struct TrieNode;    using TrieNodeUniquePointer = std::unique_ptr<TrieNode>;
+    struct TrieNode;
+    using TrieNodeUniquePointer = std::unique_ptr<TrieNode>;
     struct TrieNode
     {
-        TrieNode(char const characterAsParameter, TrieNodeUniquePointer leftAsParameter, TrieNodeUniquePointer rightAsParameter)            : character(characterAsParameter)
+        TrieNode(char const characterAsParameter, TrieNodeUniquePointer leftAsParameter, TrieNodeUniquePointer rightAsParameter)
+            : character(characterAsParameter)
             , left(std::move(leftAsParameter))
             , right(std::move(rightAsParameter))
         {}
@@ -75,8 +80,10 @@ public :    static constexpr unsigned int RADIX=256U;
     {
         TrieNodeArrayEntry()
         {}
+
         TrieNodeArrayEntry(TrieNodeArrayEntry const&) // copying does nothing
         {}
+
         TrieNodeUniquePointer node;
     };
 
@@ -98,6 +105,7 @@ public :    static constexpr unsigned int RADIX=256U;
         writer.writeBigEndianNumberData<Count>(allInputCharacters.size());
         writeHuffmanCodes(writer, allInputCharacters, huffmanCodeTable);
     }
+
     void expand(std::istream & input, std::ostream & output)
     {
         AlbaStreamBitReader reader(input);
@@ -107,9 +115,11 @@ public :    static constexpr unsigned int RADIX=256U;
         Count lengthOfString(reader.readBigEndianNumberData<Count>());
         expandAllCharacters(reader, writer, root, lengthOfString);
     }
+
 private:
 
-    Characters readAllCharacters(AlbaStreamBitReader & reader)    {
+    Characters readAllCharacters(AlbaStreamBitReader & reader)
+    {
         Characters result;
         while(true)
         {
@@ -132,7 +142,8 @@ private:
         for(Count i=0; i< charactersInput.size(); i++)
         {
             frequency[charactersInput.at(i)]++;
-        }        return frequency;
+        }
+        return frequency;
     }
 
     void writeHuffmanCodes(AlbaStreamBitWriter & writer, Characters const& wholeInput, HuffmanCodeTable const& huffmanCodeTable)
@@ -140,7 +151,8 @@ private:
         for(Count i=0; i< wholeInput.size(); i++)
         {
             HuffmanCode const& huffmanCode(huffmanCodeTable.at(wholeInput.at(i)));
-            for(bool const b : huffmanCode)            {
+            for(bool const b : huffmanCode)
+            {
                 writer.writeBoolData(b);
             }
         }
@@ -151,10 +163,12 @@ private:
         for(Count i=0; i<lengthOfString; i++)
         {
             expandOneCharacterBasedFromTrieAndCode(reader, writer, root);
-        }    }
+        }
+    }
 
     void expandOneCharacterBasedFromTrieAndCode(AlbaStreamBitReader & reader, AlbaStreamBitWriter & writer, TrieNodeUniquePointer const& root)
-    {        TrieNode const* currentNodePointer(root.get());
+    {
+        TrieNode const* currentNodePointer(root.get());
         while(!currentNodePointer->isLeaf())
         {
             bool bit(reader.readBoolData());
@@ -167,10 +181,12 @@ private:
                 else // if zero, go to the left
                 {
                     currentNodePointer = currentNodePointer->left.get();
-                }            }
+                }
+            }
             else
             {
-                break;            }
+                break;
+            }
         }
         writer.writeCharData(currentNodePointer->character);
     }
@@ -209,7 +225,8 @@ private:
                 // recursively read the left and read the right
                 TrieNodeUniquePointer left(readTrie(reader));
                 TrieNodeUniquePointer right(readTrie(reader));
-                result = std::make_unique<TrieNode>('\0', std::move(left), std::move(right));            }
+                result = std::make_unique<TrieNode>('\0', std::move(left), std::move(right));
+            }
         }
         return result;
     }
@@ -245,10 +262,12 @@ private:
         return std::move(characterNode[last.character].node);
     }
 
-    HuffmanCodeTable buildHuffmanCodeTableFromTrie(TrieNodeUniquePointer const& root)    {
+    HuffmanCodeTable buildHuffmanCodeTableFromTrie(TrieNodeUniquePointer const& root)
+    {
         HuffmanCodeTable result{};
         buildHuffmanCodeTableFromTrie(result, root, {});
-        return result;    }
+        return result;
+    }
 
     void buildHuffmanCodeTableFromTrie(HuffmanCodeTable & huffmanCodeTable, TrieNodeUniquePointer const& nodePointer, HuffmanCode const& huffmanCode)
     {

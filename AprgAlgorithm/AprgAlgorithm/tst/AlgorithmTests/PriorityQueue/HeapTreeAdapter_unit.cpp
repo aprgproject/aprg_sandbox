@@ -16,9 +16,11 @@ using ContainerForTest = vector<char>;
 using AdapterForTest = HeapTreeAdapter<ContainerForTest, 2U, less>;
 }
 
-TEST(HeapTreeAdapterTest, GetObjectConstReferenceOnTreeWorks){
+TEST(HeapTreeAdapterTest, GetObjectConstReferenceOnTreeWorks)
+{
     ContainerForTest objects{'H', 'E', 'A', 'P', 'O', 'B', 'J', 'E', 'C', 'T', 'S'};
     AdapterForTest adapter(objects);
+
     EXPECT_EQ('H', adapter.getObjectConstReferenceOnTree(1U));
     EXPECT_EQ('E', adapter.getObjectConstReferenceOnTree(2U));
     EXPECT_EQ('A', adapter.getObjectConstReferenceOnTree(3U));

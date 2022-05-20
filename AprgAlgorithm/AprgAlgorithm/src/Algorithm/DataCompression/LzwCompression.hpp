@@ -25,6 +25,7 @@ public :
 
     LzwCompression()
     {}
+
     void compress(std::istream & input, std::ostream & output)
     {
         AlbaStreamBitReader reader(input);
@@ -53,7 +54,8 @@ public :
         writeCode(writer, stopCodeWord); // write stop code word
     }
 
-    void expand(std::istream & input, std::ostream & output)    {
+    void expand(std::istream & input, std::ostream & output)
+    {
         AlbaStreamBitReader reader(input);
         AlbaStreamBitWriter writer(output);
 
@@ -83,7 +85,8 @@ public :
                 currentString = nextString;
             }
             else
-            {                break;
+            {
+                break;
             }
         }
     }

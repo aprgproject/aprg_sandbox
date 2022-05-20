@@ -17,9 +17,11 @@ namespace
 using ValuesForTest = vector<char>;
 using SorterForTest = TopDownMergeSorter<ValuesForTest>;
 }
+
 TEST(TopDownMergeSorterTest, SortWorksOnCharactersUsingExample1)
 {
-    testSortUsingExample1WithCharacters<SorterForTest, ValuesForTest>();}
+    testSortUsingExample1WithCharacters<SorterForTest, ValuesForTest>();
+}
 
 TEST(TopDownMergeSorterTest, SortWorksOnCharactersUsingExample2)
 {

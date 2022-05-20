@@ -146,10 +146,12 @@ TEST(TermUtilitiesTest, GetNegativeInfinityAsATermWorks)
 
 TEST(TermUtilitiesTest, ConvertPositiveTermIfNegativeWorks)
 {
-    EXPECT_EQ(Term(5), convertPositiveTermIfNegative(-5));    EXPECT_EQ(Term(5), convertPositiveTermIfNegative(5));
+    EXPECT_EQ(Term(5), convertPositiveTermIfNegative(-5));
+    EXPECT_EQ(Term(5), convertPositiveTermIfNegative(5));
 }
 
-TEST(TermUtilitiesTest, NegateTermWorks){
+TEST(TermUtilitiesTest, NegateTermWorks)
+{
     Term sinX(sin("x"));
     Term sinY(sin("y"));
     Term sinZ(sin("z"));

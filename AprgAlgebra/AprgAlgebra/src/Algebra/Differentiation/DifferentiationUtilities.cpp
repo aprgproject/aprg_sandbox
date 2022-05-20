@@ -411,10 +411,12 @@ Equation getIntegralEquationForFirstOrderDifferentialEquation(
     Term cExpression(createExpressionIfPossible({getEAsATerm(), "*", eToTheNegativeIntegralOfP}));
     Term integralOfQExpression(integration.integrate(qExpression));
     Term qcExpression(createExpressionIfPossible({integralOfQExpression, "+", cExpression}));
-    Term pqcExpression(createExpressionIfPossible({eToTheNegativeIntegralOfP, "*", qcExpression}));    return Equation(yVariableName, "=", pqcExpression);
+    Term pqcExpression(createExpressionIfPossible({eToTheNegativeIntegralOfP, "*", qcExpression}));
+    return Equation(yVariableName, "=", pqcExpression);
 }
 
-void simplifyDerivativeByDefinition(Term & term){
+void simplifyDerivativeByDefinition(Term & term)
+{
     SimplificationOfExpression::ConfigurationDetails rationalizeConfigurationDetails(
                 SimplificationOfExpression::Configuration::getInstance().getConfigurationDetails());
     rationalizeConfigurationDetails.shouldSimplifyByCombiningRadicalsInMultiplicationAndDivision = true;

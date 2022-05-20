@@ -639,10 +639,12 @@ string getHexNumberAfterThisString(string const& mainString, string const& strin
 string getHexEquivalentOfCharacters(string const& stringToCheck)
 {
     stringstream ss;
-    for(unsigned char const c : stringToCheck)    {
+    for(unsigned char const c : stringToCheck)
+    {
         ss  << hex << uppercase << setfill('0') << setw(2) << static_cast<unsigned int>(c);
     }
-    return ss.str();}
+    return ss.str();
+}
 
 string getStringWithJustifyAlignment(string const& mainString, unsigned int const length)
 {

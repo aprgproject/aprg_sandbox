@@ -22,10 +22,12 @@ public:
     using Objects = vector<Object>;
 
     MaxItemsSaver(unsigned int const numberOfItemsToSave)
-        : m_numberOfItemsToSave(numberOfItemsToSave)    {}
+        : m_numberOfItemsToSave(numberOfItemsToSave)
+    {}
 
     void save(Object const& object)
-    {        m_minimumPriorityQueue.insert(object);
+    {
+        m_minimumPriorityQueue.insert(object);
         while(m_minimumPriorityQueue.getSize() > m_numberOfItemsToSave)
         {
             m_minimumPriorityQueue.deleteAndGetTopObject();

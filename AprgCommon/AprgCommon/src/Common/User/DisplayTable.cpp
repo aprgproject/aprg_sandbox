@@ -169,10 +169,12 @@ void DisplayTable::setBorders(string const& horizontalBorder, string const& vert
 string DisplayTable::getCellText(DisplayTableCell const& cell, unsigned int length) const
 {
     DisplayTableCellMode mode = cell.getHorizontalMode();
-    string result;    switch(mode)
+    string result;
+    switch(mode)
     {
     case DisplayTableCellMode::justify:
-        result = getStringWithJustifyAlignment(cell.getText(), length);        break;
+        result = getStringWithJustifyAlignment(cell.getText(), length);
+        break;
     case DisplayTableCellMode::center:
         result = getStringWithCenterAlignment(cell.getText(), length);
         break;
@@ -204,10 +206,12 @@ void DisplayTable::calculateLengthPerColumn()
                 m_calculatedLengthPerColumn[column] = max(m_calculatedLengthPerColumn[column], static_cast<unsigned int>(cell.getText().size()));
             }
             column++;
-        }    }
+        }
+    }
 }
 
-unsigned int DisplayTable::getTotalColumnLength() const{
+unsigned int DisplayTable::getTotalColumnLength() const
+{
     unsigned int totalColumnLength=0;
     for(unsigned int lengthPerColumn : m_calculatedLengthPerColumn)
     {

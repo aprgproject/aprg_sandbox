@@ -21,10 +21,12 @@ using Index = unsigned int;
 using CompressionForTest = RunLengthEncodingCompression<unsigned char>;
 }
 
-TEST(RunLengthEncodingCompressionTest, CompressWorksUsingExample1){
+TEST(RunLengthEncodingCompressionTest, CompressWorksUsingExample1)
+{
     bitset<40> initialValue(0B0000000000000001111111000000011111111111);
     stringstream inputSs;
-    stringstream outputSs;    AlbaStreamBitWriter initialWriter(inputSs);
+    stringstream outputSs;
+    AlbaStreamBitWriter initialWriter(inputSs);
     initialWriter.writeBitsetData(initialValue, 39, 0);
     initialWriter.flush();
     CompressionForTest compression;
