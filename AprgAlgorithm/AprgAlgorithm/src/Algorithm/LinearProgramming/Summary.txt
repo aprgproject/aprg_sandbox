@@ -1,0 +1,265 @@
+
+Linear programming
+
+What is it? Problem-solving model for optimal allocation of scarce resources, among a number of competing activities that encompasses:
+-> Shortest paths, maxflow, MST, matching, assignment
+-> Ax = B 2-person zero-sum games
+
+Example:
+-> maximize : 13A + 23B
+-> subject to constraints: 5A + 15B <= 480, 4A + 4B <= 160, 35A + 20B <= 1190, A>=0 B>=0
+
+Objective function: 
+-> Goal: Maximize or minimize the objective function subject to constraints
+
+Why significant?
+-> Fast commercial solvers available
+-> Widely applicable problem-solving model.
+-> Key subroutine for integer programming solvers
+
+Applications:
+-> Agriculture: Diet problem
+-> Computer science: Compiler register allocation, data mining
+-> Electrical engineering: VLSI design, optimal clocking
+-> Energy: Blending petroleum products.
+-> Economics: Equilibrium theory, two-person zero-sum games
+-> Environment: Water quality management
+-> Finance: Portfolio optimization
+-> Logistics: Supply chain management
+-> Management: Hotel yield management
+-> Marketing: Direct mail advertising
+-> Manufacturing: Production line balancing, cutting stock
+-> Medicine: Radioactive seed placement in cancer treatment
+-> Operations research: Airline crew assignment, vehicle routing
+-> Physics: found states of 3-D Ising spin glasses
+-> Telecommunication: Network design, Internet routing
+-> Sports: Scheduling ACC basketball, handicapping horse races.
+
+Brewers problem -> classic problem in scientific america
+Toy LP example:
+
+Small brewery produces ale and beer
+-> Production limited by scarce resources: corn, hops, barley malt
+Corn: 480 lbs
+Hops: 160 oz
+Malt: 1190 lbs
+
+-> Recipes for ale and beer require different proportions of resources.
+-> Different profits
+Ale: 5 pounds of corn, 4 ounces of hops, 35 pounds of malt -> 13 dollars (1 barrel)
+Beer: 15 pounds of corn, 4 ounces of hops, 20 pounds of malt -> 23 dollars (1 barrel)
+
+Brewer's problem: choose product mix to maximize profits.
+Linear programming formulation:
+-> Let A be the number of barrels of ale
+-> Let B be the number of barrels of beer
+Maximize: 13A + 23B = profits
+Constraints:
+5A + 15B <= 480
+4A + 4B <= 160
+35A + 20B <= 1190
+A>=0, B>=0
+
+Brewers problem: feasible region
+-> Inequalities define half planes
+-> Feasible region is a convex polygon
+
+Brewers problem: objective function
+Objective function-> its just a line with a defined slope, with undefined position
+If as the position of the line moves to positive x/y: the profits are maximized
+
+The optimal solution occurs at an extreme point.
+
+Standard form of linear program
+Goal: Maximize linear objective function of n nonnegative variables, subject to m linear equations.
+-> Input: real numbers aij cj bi
+-> Output: real numbers
+Equation form:
+maximize: c1x1 + c2x2 + ... + cnxn
+constraints:
+a11x1 + a12x2 + ... + a1nx2n = b1
+a11x1 + a12x2 + ... + a1nx2n = b2
+...
+a11x1 + a12x2 + ... + a1nx2n = bm
+x1, x2 ... xn >= 0
+Matrix form:
+maximize: C^T x
+constraints: A*x = b, x>=0
+
+Caveat: No widely agreed notion of "standard form"
+
+Original formulation:
+Maximize: 13A + 23B = profits
+Constraints:
+5A + 15B <= 480
+4A + 4B <= 160
+35A + 20B <= 1190
+A>=0, B>=0
+
+Standard form:
+-> Add variable Z and equation corresponding to objective function.
+-> Add slack variable to convert each inequality to an equality
+-> Not its a 6-dimensional problem:
+13A + 23B - Z = 0
+5A + 15B + SC = 480
+4A + 4B + SH = 160
+35A + 20B + SM = 1190
+A, B, SC, SH, SM >= 0
+
+Geometry:
+-> Inequalities define halfspaces -> feasible region is a convex polyhedron
+-> A set is convex if for any two points a and b in the set, so is (1/2)*(a+b).
+-> An extreme point of a set is a point in the set that can't be written as (1/2)*(a+b), where a and b are two distinct points in the set.
+-> Warning: Don't always trust intuition in higher dimensions.
+-> Extreme point property. If there exists an optimal solution to P, then there exists one that is an extreme point.
+---> Number of extreme points to consider is finite, but it can be exponential
+---> Greedy property: Extreme point optimal iff no better adjacent extreme point.
+
+Simplex algorithm:
+-> Developed shortly after WWII in response to logistical problems including the Berlin airlift
+-> Ranked as one of the top 10 scientific algorithms of 20th century
+
+Generic algorithm:
+-> Start at some extreme point
+-> Pivot from one extreme point to an adjacent one
+-> Repeat until optimal
+
+How to implement? 
+-> Linear algebra
+
+Basis
+-> A basis is a subset of m of the n variables.
+-> Basic feasible solution
+---> Set n-m nonbasic variables to 0, solve from remaining m variables.
+---> Solve m equations in m unknowns
+---> If unique and feasible -> BFS
+---> BFS <-> extreme point
+
+Initial basic feasible solution
+-> start with slack variables {SC, SH, SM} as the basis -> one basic variable per row
+-> Set non-basis variables A and B to 0
+-> 3 equations in 3 unknowns yields SC = 480, SH=160, SM=1190 -> no algebra needed
+
+Pivot operation:
+13A + 23B - Z = 0 (1st equation)
+5A + 15B + SC = 480 (2nd equation)
+4A + 4B + SH = 160 (3rd equation)
+35A + 20B + SM = 1190 (4th equation)
+A, B, SC, SH, SM >= 0 (5th equation)
+
+-> Substitute B = (1/15)(480-5A-SC) and add B into the basis
+---> Rewrite 2nd equation, eliminate B in 1st, 3rd and 4th equations
+(16/3)A + (16/15)B - Z = 736 (1st equation)
+(1/3)A + B + (1/15)SC = 32 (2nd equation)
+(8/3)A + (4/15)SC + SH = 32 (3rd equation)
+(85/3)A + (4/3)SC + SM = 550 (4th equation)
+A, B, SC, SH, SM >= 0 (5th equation)
+Basis: {B, SH, SM}
+
+Q: Why pivot on column 2 (corresponding to variable B)?
+-> Its objective coefficient is positive
+---> Each unit increase in B from 0 increases the objective value by 23
+-> Pivoting on column 1 (corresponding to A also OK)
+
+Q: Why pivot on row 2?
+-> Preserves feasibility by ensuring RHS >=0.
+-> Minimum ratio rule: min{480/15, 160/4, 1190/20}
+
+Continue to pivot until no object function coefficient is positive
+
+Q: When to stop pivoting?
+-> When no objective function coefficient is positive.
+
+Q: Why is resulting solution optimal?
+-> Any feasible solution satisfies current system of equations
+---> In particular Z=800-SC-2SH
+---> Thus, optimal objective value Z* <= 800 since SC and SH >= 0.
+---> Current BFS has value 800 -> optimal
+
+Construct the initial simplex tableau
+         *  n size *   m size        * 1 *
+* m size *|        |                 |   |
+*        *|    A   | Identity matrix | b |
+*        *|        |                 |   |
+*    1   *|    c   |        0        | 0 |
+
+
+Reductions to standard form:
+-> Minimization problem: Replace "min 13A+15B" with max-13A-15B
+-> >= constraints: Replace 4A+4B >= 160 with 4A+4B-SH=160 SH >= 0
+-> Unrestricted variables (can be negative): Replace B with B=B0-B1, B0>=0, B1>=0
+
+Modeling:
+Linear "programming" (1950s term) = reduction to LP (modern term)
+-> Process of formulating an LP model for a problem
+-> Solution to LP for a specific problem gives solution to the problem. 
+-> 1) Identify variables
+-> 2) Define constraints (inequalities and equations)
+-> 3) Define objective function.
+-> 4) Convert to standard form
+
+Examples:
+-> Shortest paths
+-> Maxflow
+-> Bipartite matching
+-> Assignment problem
+-> 2-person zero-sum games
+
+Max flow problem:
+Input: weighted digraph G, single source s and single sink t
+Goal: Find maximum flow from s to t.
+LP formulation:
+Variables: Flows on each edge
+Constraints: capacity and flow conservation
+Objective function: Netflow into t.
+
+
+Maximum cardinality bipartite matching problem:
+Input: Bipartite graph
+Goal: Find a matching of maximum cardinality
+Interpretation: Mutual preference constraints
+-> People to jobs
+-> Students to writing seminars
+LP formulation: One variable per pair
+Interpretation: xij 1 if person i assigned to job j.
+Theorem [by Birkhoff 1946 and von Neumann 1953]
+-> All extreme points of the above polyhedron have integer 0 or 1 coordinates
+Corollary: Can solve matching problem by solving LP. -> Lucky
+
+
+Q: Got an optimization problem?
+Example: Shortest paths, maxflow, matching...
+
+Approach 1: Use a specialized algorithm to solve it.
+-> Algorithms 4/e
+-> Vast literature on algorithms
+
+Approach 2: Use linear programming
+-> Many problems are easily modeled as LPs
+-> Commercial solvers can solve those LPs.
+-> Might be slower than specialized solution (but you might not care).
+
+Got an LP solver? -> Learn to use it!
+
+
+Universal problem-solving model?
+Is there a universal problem solving model?
+These problems are tractable:
+-> Shortest paths
+-> Maxflow
+-> Bipartite matching
+-> Assignment problem
+-> Multicommodity flow
+-> two person zero-sum games
+-> Linear programming 
+
+These problems are intractable:
+-> Factoring
+-> NP-complete problems
+
+Does P=NP? No universal problem solving model exists unless P=NP.
+-> There is a condition that is very fundamental to the efficiency of computation.
+-> The closest thing we have for universal problem solving model is linear programming.
+
+
+
