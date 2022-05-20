@@ -126,22 +126,30 @@ TEST(TermUtilitiesTest, EvaluateAndGetInputOutputPairWorks)
 
 TEST(TermUtilitiesTest, GetPiAsTermWorks)
 {
-    EXPECT_EQ(Term(AlbaNumber(AlbaNumber::Value::pi)), getPiAsTerm());
+    EXPECT_EQ(Term(AlbaNumber(AlbaNumber::Value::pi)), getPiAsATerm());
 }
 
 TEST(TermUtilitiesTest, GetEAsTermWorks)
 {
-    EXPECT_EQ(Term(AlbaNumber(AlbaNumber::Value::e)), getEAsTerm());
+    EXPECT_EQ(Term(AlbaNumber(AlbaNumber::Value::e)), getEAsATerm());
+}
+
+TEST(TermUtilitiesTest, GetPositiveInfinityAsATermWorks)
+{
+    EXPECT_EQ(Term(AlbaNumber(AlbaNumber::Value::PositiveInfinity)), getPositiveInfinityAsATerm());
+}
+
+TEST(TermUtilitiesTest, GetNegativeInfinityAsATermWorks)
+{
+    EXPECT_EQ(Term(AlbaNumber(AlbaNumber::Value::NegativeInfinity)), getNegativeInfinityAsATerm());
 }
 
 TEST(TermUtilitiesTest, ConvertPositiveTermIfNegativeWorks)
 {
-    EXPECT_EQ(Term(5), convertPositiveTermIfNegative(-5));
-    EXPECT_EQ(Term(5), convertPositiveTermIfNegative(5));
+    EXPECT_EQ(Term(5), convertPositiveTermIfNegative(-5));    EXPECT_EQ(Term(5), convertPositiveTermIfNegative(5));
 }
 
-TEST(TermUtilitiesTest, NegateTermWorks)
-{
+TEST(TermUtilitiesTest, NegateTermWorks){
     Term sinX(sin("x"));
     Term sinY(sin("y"));
     Term sinZ(sin("z"));

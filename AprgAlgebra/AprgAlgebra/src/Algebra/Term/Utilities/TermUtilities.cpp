@@ -169,24 +169,32 @@ AlbaNumberPairs evaluateAndGetInputOutputPair(
     return result;
 }
 
-Term getPiAsTerm()
+Term getPiAsATerm()
 {
     return AlbaNumber(AlbaNumber::Value::pi);
 }
 
-Term getEAsTerm()
+Term getEAsATerm()
 {
     return AlbaNumber(AlbaNumber::Value::e);
 }
 
+Term getPositiveInfinityAsATerm()
+{
+    return AlbaNumber(AlbaNumber::Value::PositiveInfinity);
+}
+
+Term getNegativeInfinityAsATerm()
+{
+    return AlbaNumber(AlbaNumber::Value::NegativeInfinity);
+}
+
 Term convertPositiveTermIfNegative(Term const& term)
 {
-    Term result;
-    if(isANegativeTerm(term))
+    Term result;    if(isANegativeTerm(term))
     {
         result = negateTerm(term);
-    }
-    else
+    }    else
     {
         result = term;
     }

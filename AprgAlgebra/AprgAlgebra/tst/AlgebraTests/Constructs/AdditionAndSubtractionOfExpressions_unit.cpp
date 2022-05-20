@@ -318,15 +318,13 @@ TEST(AdditionAndSubtractionOfExpressionsTest, CombineExpressionIfPossibleWorksWi
 
 TEST(AdditionAndSubtractionOfExpressionsTest, CombineExpressionIfPossibleWorksWithEToTheXWithTrigonometricExpressions)
 {
-    Term eToTheX(createExpressionIfPossible({getEAsTerm(), "^", "x"}));
+    Term eToTheX(createExpressionIfPossible({getEAsATerm(), "^", "x"}));
     Term eToTheXTimesSinX(createExpressionIfPossible({eToTheX, "*", sin("x")}));
     Term eToTheXTimesCosX(createExpressionIfPossible({eToTheX, "*", cos("x")}));
-    Term eToTheXTimesSinXTimes2(createExpressionIfPossible({2, "*", eToTheXTimesSinX}));
-    Term eToTheXTimesCosXTimes2(createExpressionIfPossible({2, "*", eToTheXTimesCosX}));
+    Term eToTheXTimesSinXTimes2(createExpressionIfPossible({2, "*", eToTheXTimesSinX}));    Term eToTheXTimesCosXTimes2(createExpressionIfPossible({2, "*", eToTheXTimesCosX}));
     AdditionAndSubtractionOfExpressions additionAndSubtraction;
     additionAndSubtraction.putAsAddition(eToTheXTimesSinXTimes2);
-    additionAndSubtraction.putAsSubtraction(eToTheXTimesCosXTimes2);
-    additionAndSubtraction.putAsSubtraction(eToTheXTimesSinX);
+    additionAndSubtraction.putAsSubtraction(eToTheXTimesCosXTimes2);    additionAndSubtraction.putAsSubtraction(eToTheXTimesSinX);
     additionAndSubtraction.putAsAddition(eToTheXTimesCosX);
 
     additionAndSubtraction.combineExpressionsIfPossible();

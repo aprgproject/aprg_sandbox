@@ -46,14 +46,27 @@ TEST(IntegrationGeometryUtilitiesTest, GetVolumeBasedOnSolidOfRevolutionWorksOnU
     EXPECT_EQ(termToExpect, termToVerify);
 }
 
+TEST(IntegrationGeometryUtilitiesTest, GetVolumeBasedOnSolidOfRevolutionWorksOnGabrielsHorn)
+{
+    // The painters paradox (volume is definite, but surface are is infinite).
+    // Computation of the volume:
+    // The horn follows the form y=1/x and starts at x=1 and ends at infinity
+    Term edgeOfHornInX(Monomial(1, {{"x", -1}}));
+
+    Term termToVerify(getVolumeUsingOnSolidOfRevolution(edgeOfHornInX, {"x", 1, getPositiveInfinityAsATerm()}));
+
+    Term termToExpect(getPiAsATerm());
+    EXPECT_EQ(termToExpect, termToVerify);
+
+    // How about computation surface area?
+}
+
 TEST(IntegrationGeometryUtilitiesTest, GetVolumeBasedOnSolidOfRevolutionWorksOnUpsideDownConeWithUpsideDownConeHole)
 {
-    Term edgeOfTheCone1InY(Monomial(1, {{"radius", 1}, {"height", -1}, {"y", 1}}));
-    Term edgeOfTheCone2InY(Polynomial
+    Term edgeOfTheCone1InY(Monomial(1, {{"radius", 1}, {"height", -1}, {"y", 1}}));    Term edgeOfTheCone2InY(Polynomial
     {Monomial(1, {{"radius", 1}, {"height", -1}, {"y", 1}}), Monomial(1, {{"edgeDistance", 1}})});
 
     Term termToVerify(getVolumeUsingOnSolidOfRevolution(edgeOfTheCone1InY, edgeOfTheCone2InY, {"y", 0, "height"}));
-
     Term termToExpect(Monomial(getPi(), {{"edgeDistance", 2}, {"height", 1}}));
     EXPECT_EQ(termToExpect, termToVerify);
 }
@@ -82,15 +95,13 @@ TEST(IntegrationGeometryUtilitiesTest, GetLengthOfArcInPolarCoordinatesWorks)
 {
     Term radiusOfLimacon(Monomial(2, {{"theta", 1}}));
 
-    Term termToVerify(getLengthOfArcInPolarCoordinates(radiusOfLimacon, {"theta", 0, getPiAsTerm()}));
+    Term termToVerify(getLengthOfArcInPolarCoordinates(radiusOfLimacon, {"theta", 0, getPiAsATerm()}));
 
     Term termToExpect(12.21983866791859);
-    EXPECT_EQ(termToExpect, termToVerify);
-}
+    EXPECT_EQ(termToExpect, termToVerify);}
 
 TEST(IntegrationGeometryUtilitiesTest, GetTotalMassOfARodWorks)
-{
-    Term termToTest(Monomial(1, {{"x", 2}}));
+{    Term termToTest(Monomial(1, {{"x", 2}}));
 
     Term termToVerify(getTotalMassOfARod(termToTest, {"x", 0, "l"}));
 
@@ -188,15 +199,13 @@ TEST(IntegrationGeometryUtilitiesTest, IntegrateInPolarCoordinatesWorks)
 {
     Term radiusOfLimacon(createExpressionIfPossible({2, "+", 2, "*", cos("theta")}));
 
-    Term termToVerify(integrateInPolarCoordinates(radiusOfLimacon, {"theta", 0, getPiAsTerm()}));
+    Term termToVerify(integrateInPolarCoordinates(radiusOfLimacon, {"theta", 0, getPiAsATerm()}));
 
     Term termToExpect(18.84955592153876);
-    EXPECT_EQ(termToExpect, termToVerify);
-}
+    EXPECT_EQ(termToExpect, termToVerify);}
 
 TEST(IntegrationGeometryUtilitiesTest, GetDoubleIntegralInCartesianCoordinatesWorksOnExample1)
-{
-    // Evaluate the double integral Integral[3y-2*x^2]dA
+{    // Evaluate the double integral Integral[3y-2*x^2]dA
     // if R is the region consisting of all points (x, y) for which -1<x<2 and 1<y<3
 
     Term termToTest(Polynomial{Monomial(3, {{"y", 1}}), Monomial(-2, {{"x", 2}})});
@@ -329,27 +338,23 @@ TEST(IntegrationGeometryUtilitiesTest, GetDoubleIntegralInPolarCoordinatesWorksO
     //Find the volume of the soild in the first octant bounded by the code z = r and the cylinder r = 3 sin(theta)
     Term termToTest("r");
     DetailsForDefiniteIntegralWithTerms radiusDetails{"r", 0, 3*sin("theta")};
-    DetailsForDefiniteIntegralWithTerms thetaDetails{"theta", 0, getPiAsTerm()/2};
+    DetailsForDefiniteIntegralWithTerms thetaDetails{"theta", 0, getPiAsATerm()/2};
 
     Term termToVerify(getDoubleIntegralInPolarCoordinates(termToTest, radiusDetails, thetaDetails));
-
     Term termToExpect(6);
     EXPECT_EQ(termToExpect, termToVerify);
 }
-
 TEST(IntegrationGeometryUtilitiesTest, GetDoubleIntegralInPolarCoordinatesWorksOnExample2)
 {
     //Find the area of the region enclosed by one leaf of the rose r =  sin(3 * theta)
     Term termToTest(1);
     DetailsForDefiniteIntegralWithTerms radiusDetails{"r", 0, sin(Monomial(3, {{"theta", 1}}))};
-    DetailsForDefiniteIntegralWithTerms thetaDetails{"theta", 0, getPiAsTerm()/3};
+    DetailsForDefiniteIntegralWithTerms thetaDetails{"theta", 0, getPiAsATerm()/3};
 
     Term termToVerify(getDoubleIntegralInPolarCoordinates(termToTest, radiusDetails, thetaDetails));
-
     Term termToExpect(0.2617993877991494);
     EXPECT_EQ(termToExpect, termToVerify);
 }
-
 TEST(IntegrationGeometryUtilitiesTest, DISABLED_GetSurfaceAreaWithZInCartesianCoordinatesWorksOnExample1)
 {
     // Disabled because integration does not work here (possible trig sub problem)
@@ -399,30 +404,26 @@ TEST(IntegrationGeometryUtilitiesTest, GetTripleIntegralInCylindricalCoordinates
 
     Term termToTest(1);
     DetailsForDefiniteIntegralWithTerms radiusDetails{"r", 0, 2};
-    DetailsForDefiniteIntegralWithTerms thetaDetails{"theta", 0, getPiAsTerm()*2};
+    DetailsForDefiniteIntegralWithTerms thetaDetails{"theta", 0, getPiAsATerm()*2};
     DetailsForDefiniteIntegralWithTerms zDetails{"z", 0, 3};
 
     Term termToVerify(getTripleIntegralInCylindricalCoordinates(termToTest, radiusDetails, thetaDetails, zDetails));
-
     Term termToExpect(37.69911184307752);
     EXPECT_EQ(termToExpect, termToVerify);
 }
-
 TEST(IntegrationGeometryUtilitiesTest, GetTripleIntegralInSphericalCoordinatesWorks)
 {
     // Get volume of sphere with raw=2
 
     Term termToTest(8); // integrate a sphere on each quadrant
     DetailsForDefiniteIntegralWithTerms rawDetails{"raw", 0, 2};
-    DetailsForDefiniteIntegralWithTerms thetaDetails{"theta", 0, getPiAsTerm()/2};
-    DetailsForDefiniteIntegralWithTerms phiDetails{"phi", 0, getPiAsTerm()/2};
+    DetailsForDefiniteIntegralWithTerms thetaDetails{"theta", 0, getPiAsATerm()/2};
+    DetailsForDefiniteIntegralWithTerms phiDetails{"phi", 0, getPiAsATerm()/2};
 
     Term termToVerify(getTripleIntegralInSphericalCoordinates(termToTest, rawDetails, thetaDetails, phiDetails));
-
     Term termToExpect(33.51032163829112);
     EXPECT_EQ(termToExpect, termToVerify);
 }
-
 }
 
 }

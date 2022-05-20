@@ -2,13 +2,13 @@
 
 #include <Algebra/Functions/CommonFunctionLibrary.hpp>
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
+#include <Algebra/Term/Utilities/StringHelpers.hpp>
+#include <Algebra/Term/Utilities/TermUtilities.hpp>
 #include <Algebra/Utilities/KnownNames.hpp>
 
 using namespace alba::algebra::Functions;
-
 namespace alba
 {
-
 namespace algebra
 {
 
@@ -91,6 +91,25 @@ Equation getParabolaEquation(ParabolaOrientation const parabolaOrientation)
         result = Equation(leftHandSide, "=", rightHandSide);
     }
     return result;
+}
+
+// A conical frustum is a frustum created by slicing the top off a cone (with the cut made parallel to the base).
+// For a right circular cone, let h be height, rb as bottom radius and rt as bottom radius.
+
+Term getSurfaceAreaOfAConicalFrustum()
+{
+    Term topCircleArea(createExpressionIfPossible({getPiAsATerm(), "*", "rt", "^", 2}));
+    Term bottomCircleArea(createExpressionIfPossible({getPiAsATerm(), "*", "rb", "^", 2}));
+    Term sideArea(createExpressionIfPossible(
+    {getPiAsATerm(), "*", "(", "rb", "+", "rt", ")", "*", "(", "(", "rb", "-", "rt", ")", "^", 2, "+", "h", "^", 2, ")", "^", AlbaNumber::createFraction(1, 2)}));
+
+    return Term(createExpressionIfPossible({topCircleArea, "+", bottomCircleArea, "+", sideArea}));
+}
+
+Term getVolumeOfAConicalFrustum()
+{
+    Term radiusPart(createExpressionIfPossible({"rt", "^", 2, "+", "rt", "*", "rb", "+", "rb", "^", 2}));
+    return Term(createExpressionIfPossible({AlbaNumber::createFraction(1, 3), "*", getPiAsATerm(), "*", "h", "*", radiusPart}));
 }
 
 }

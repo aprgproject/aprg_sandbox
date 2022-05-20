@@ -1,13 +1,12 @@
 #include <Algebra/Functions/CommonFunctionLibrary.hpp>
 #include <Algebra/Limit/Limit.hpp>
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
+#include <Algebra/Term/Utilities/TermUtilities.hpp>
 #include <Common/Math/AlbaMathConstants.hpp>
 
 #include <gtest/gtest.h>
-
 using namespace alba::algebra::Functions;
 using namespace std;
-
 namespace alba
 {
 
@@ -79,11 +78,10 @@ TEST(LimitTest, GetLimitAtAValueWorksForComplicatedSinOverX)
 
     // The limit in 1 should not be negative infinity (it should be negative pi)
     // but the calculation of sin of pi is not zero (its only near zero) for some reason.
-    EXPECT_EQ(Term(AlbaNumber(AlbaNumber::Value::NegativeInfinity)), getLimitAtAValue(termToTest, "x", 1, LimitAtAValueApproachType::BothSides));
-    EXPECT_EQ(Term(AlbaNumber(AlbaNumber::Value::NegativeInfinity)), getLimitAtAValue(termToTest, "x", 1, LimitAtAValueApproachType::PositiveSide));
-    EXPECT_EQ(Term(AlbaNumber(AlbaNumber::Value::NegativeInfinity)), getLimitAtAValue(termToTest, "x", 1, LimitAtAValueApproachType::NegativeSide));
+    EXPECT_EQ(getNegativeInfinityAsATerm(), getLimitAtAValue(termToTest, "x", 1, LimitAtAValueApproachType::BothSides));
+    EXPECT_EQ(getNegativeInfinityAsATerm(), getLimitAtAValue(termToTest, "x", 1, LimitAtAValueApproachType::PositiveSide));
+    EXPECT_EQ(getNegativeInfinityAsATerm(), getLimitAtAValue(termToTest, "x", 1, LimitAtAValueApproachType::NegativeSide));
 }
 
 }
-
 }

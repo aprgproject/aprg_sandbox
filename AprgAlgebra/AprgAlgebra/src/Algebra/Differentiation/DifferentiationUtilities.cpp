@@ -404,19 +404,17 @@ Equation getIntegralEquationForFirstOrderDifferentialEquation(
 
     Integration integration(xVariableName);
     Term integralOfP(integration.integrate(p));
-    Term eToTheIntegralOfP(createExpressionIfPossible({getEAsTerm(), "^", integralOfP}));
-    Term eToTheNegativeIntegralOfP(createExpressionIfPossible({getEAsTerm(), "^", -integralOfP}));
+    Term eToTheIntegralOfP(createExpressionIfPossible({getEAsATerm(), "^", integralOfP}));
+    Term eToTheNegativeIntegralOfP(createExpressionIfPossible({getEAsATerm(), "^", -integralOfP}));
     Term qWithoutY(q/yVariableName);
     Term qExpression(createExpressionIfPossible({qWithoutY, "*", eToTheIntegralOfP}));
-    Term cExpression(createExpressionIfPossible({getEAsTerm(), "*", eToTheNegativeIntegralOfP}));
+    Term cExpression(createExpressionIfPossible({getEAsATerm(), "*", eToTheNegativeIntegralOfP}));
     Term integralOfQExpression(integration.integrate(qExpression));
     Term qcExpression(createExpressionIfPossible({integralOfQExpression, "+", cExpression}));
-    Term pqcExpression(createExpressionIfPossible({eToTheNegativeIntegralOfP, "*", qcExpression}));
-    return Equation(yVariableName, "=", pqcExpression);
+    Term pqcExpression(createExpressionIfPossible({eToTheNegativeIntegralOfP, "*", qcExpression}));    return Equation(yVariableName, "=", pqcExpression);
 }
 
-void simplifyDerivativeByDefinition(Term & term)
-{
+void simplifyDerivativeByDefinition(Term & term){
     SimplificationOfExpression::ConfigurationDetails rationalizeConfigurationDetails(
                 SimplificationOfExpression::Configuration::getInstance().getConfigurationDetails());
     rationalizeConfigurationDetails.shouldSimplifyByCombiningRadicalsInMultiplicationAndDivision = true;

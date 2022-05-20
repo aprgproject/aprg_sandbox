@@ -210,14 +210,12 @@ TEST(DifferentiationUtilitiesTest, GetSlopeOfTermInPolarCoordinatesWorks)
 
 TEST(DifferentiationUtilitiesTest, GetApproximationUsingTaylorsFormulaWorksForEToTheX)
 {
-    Term termToTest(createExpressionIfPossible({getEAsTerm(), "^", "x"}));
+    Term termToTest(createExpressionIfPossible({getEAsATerm(), "^", "x"}));
 
     Term termToVerify(getApproximationUsingTaylorsFormula(termToTest, "x", 0, "q", 3));
-
     string stringToExpect("((1/6)[q^3] + (1/2)[q^2] + 1[q] + 1)");
     EXPECT_EQ(stringToExpect, termToVerify.getDisplayableString());
 }
-
 TEST(DifferentiationUtilitiesTest, GetApproximationUsingTaylorsFormulaWorksForSin)
 {
     Term termToTest(sin("x"));
@@ -230,14 +228,12 @@ TEST(DifferentiationUtilitiesTest, GetApproximationUsingTaylorsFormulaWorksForSi
 
 TEST(DifferentiationUtilitiesTest, GetApproximationUsingTaylorsRemainderWorks)
 {
-    Term termToTest(createExpressionIfPossible({getEAsTerm(), "^", "x"}));
+    Term termToTest(createExpressionIfPossible({getEAsATerm(), "^", "x"}));
 
     Term termToVerify(getApproximationOfErrorUsingTaylorsRemainder(termToTest, "x", 0, AlbaNumber::createFraction(1, 2), 0, 5));
-
     EXPECT_EQ(Term(AlbaNumber::createFraction(1, 46080)), termToVerify);
     // this means the when n=5 the square root of e is accurate up to 4 decimal places.
 }
-
 TEST(DifferentiationUtilitiesTest, GetTotalDerivativeWithInnerTermsUsingChainRuleWorks)
 {
     Term termToTest(Polynomial{Monomial(1, {{"x", 2}}), Monomial(2, {{"x", 1}, {"y", 1}}), Monomial(1, {{"y", 2}})});
@@ -278,14 +274,12 @@ TEST(DifferentiationUtilitiesTest, GetPartialDerivativeWorks)
 
 TEST(DifferentiationUtilitiesTest, GetPartialDerivativeContinuouslyWorks)
 {
-    Term part1(createExpressionIfPossible({getEAsTerm(), "^", "x", "*", sin("y")}));
+    Term part1(createExpressionIfPossible({getEAsATerm(), "^", "x", "*", sin("y")}));
     Term part2(ln(Monomial(1, {{"x", 1}, {"y", 1}})));
     Term termToTest(createExpressionIfPossible({part1, "+", part2}));
-
     Term termToVerify(getPartialDerivative(getPartialDerivative(getPartialDerivative(termToTest, "y"), "y"), "x"));
 
-    string stringToExpect("(-1*((e)^x)*sin(y))");
-    EXPECT_EQ(stringToExpect, termToVerify.getDisplayableString());
+    string stringToExpect("(-1*((e)^x)*sin(y))");    EXPECT_EQ(stringToExpect, termToVerify.getDisplayableString());
 }
 
 TEST(DifferentiationUtilitiesTest, GetDifferentiabilityDomainWorks)

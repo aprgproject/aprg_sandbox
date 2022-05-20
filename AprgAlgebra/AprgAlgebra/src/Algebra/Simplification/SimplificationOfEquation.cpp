@@ -78,15 +78,13 @@ void SimplificationOfEquation::raiseLeftHandSideAndRightHandSideToPowerIfLogarit
         }
         else if("ln" == functionObject.getFunctionName())
         {
-            leftHandSide = Term(createExpressionIfPossible({getEAsTerm(), "^", leftHandSide}));
+            leftHandSide = Term(createExpressionIfPossible({getEAsATerm(), "^", leftHandSide}));
         }
         rightHandSide = getTermConstReferenceFromBaseTerm(functionObject.getInputTermConstReference());
-    }
-}
+    }}
 
 Term SimplificationOfEquation::getNewCombinedTerm(
-        Term const& leftHandSide,
-        Term const& rightHandSide) const
+        Term const& leftHandSide,        Term const& rightHandSide) const
 {
     Term combinedTerm;
     if(isTheValue(leftHandSide, AlbaNumber(0)))

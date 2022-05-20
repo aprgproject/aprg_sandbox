@@ -67,6 +67,22 @@ TEST(TwoDimensionsUtilitiesTest, GetParabolaEquationWorks)
     EXPECT_EQ(stringToExpect2, equationToVerify2.getDisplayableString());
 }
 
+TEST(TwoDimensionsUtilitiesTest, GetSurfaceAreaOfAConicalFrustumWorks)
+{
+    Term termToVerify(getSurfaceAreaOfAConicalFrustum());
+
+    string stringToExpect("(((pi)*(rt^2))+((pi)*(rb^2))+((pi)*rb*((((rb-rt)^2)+(h^2))^(1/2)))+((pi)*rt*((((rb-rt)^2)+(h^2))^(1/2))))");
+    EXPECT_EQ(stringToExpect, termToVerify.getDisplayableString());
+}
+
+TEST(TwoDimensionsUtilitiesTest, GetVolumeOfAConicalFrustumWorks)
+{
+    Term termToVerify(getVolumeOfAConicalFrustum());
+
+    string stringToExpect("(((1/3)*(pi)*h*(rt^2))+((1/3)*(pi)*h*rt*rb)+((1/3)*(pi)*h*(rb^2)))");
+    EXPECT_EQ(stringToExpect, termToVerify.getDisplayableString());
+}
+
 }
 
 }
