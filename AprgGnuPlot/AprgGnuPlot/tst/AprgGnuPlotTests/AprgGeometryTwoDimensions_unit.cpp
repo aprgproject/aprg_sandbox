@@ -67,4 +67,25 @@ TEST(AprgGeometryTwoDimensionsTest, DISABLED_MultipleGraphs)
     });
 }
 
+TEST(AprgGeometryTwoDimensionsTest, DISABLED_BrewersProblemForSimplexTest)
+{
+    Line constraints1(1, 3, -96); //A+3B<=96
+    Line constraints2(1, 1, -40); //A+B<=40
+    Line constraints3(7, 4, -238); //7A+4B<=238
+    Points c1Points(constraints1.getPoints(Point(0, 0), Point(100, 100), 1));
+    Points c2Points(constraints2.getPoints(Point(0, 0), Point(100, 100), 1));
+    Points c3Points(constraints3.getPoints(Point(0, 0), Point(100, 100), 1));
+
+    AprgGnuPlot2D gnuPlot2D;
+    gnuPlot2D.setTitle("Multiple graphs", R"("font ",22")");
+    gnuPlot2D.setXAxis("X", R"("font ",15")");
+    gnuPlot2D.setYAxis("Y", R"("font ",15")");
+    gnuPlot2D.doGraphs([&]()
+    {
+        gnuPlot2D.graph(c1Points, "Constraints 1", "with lines linetype 1 linewidth 1");
+        gnuPlot2D.graph(c2Points, "Constraints 2", "with lines linetype 2 linewidth 1");
+        gnuPlot2D.graph(c3Points, "Constraints 3", "with lines linetype 3 linewidth 1");
+    });
+}
+
 }

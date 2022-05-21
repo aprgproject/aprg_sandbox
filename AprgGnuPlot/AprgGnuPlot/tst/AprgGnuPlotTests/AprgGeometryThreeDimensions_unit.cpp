@@ -10,14 +10,11 @@ using namespace alba::ThreeDimensions;
 using namespace alba::ThreeDimensions::threeDimensionsHelper;
 using namespace std;
 
-
 namespace alba
 {
-
 TEST(AprgGeometryThreeDimensionsTest, DISABLED_LineWithSlope)
 {
-    Line line(Point(0,0,0), Point(2,3,-4));
-    AprgGnuPlot3D::PointsInGraph points;
+    Line line(Point(0,0,0), Point(2,3,-4));    AprgGnuPlot3D::PointsInGraph points;
     for(double x=-10; x<10; x+=0.1)
     {
         points.emplace_back(AprgGnuPlot3D::getPoint(x, line.calculateYFromX(x), line.calculateZFromX(x)));
@@ -134,5 +131,59 @@ TEST(AprgGeometryThreeDimensionsTest, DISABLED_LineOfIntersectionOfTwoPlanes)
         gnuPlot3D.graph({point3OfPlane2}, "Point3OfPlane2", "with points pointsize 1 pointtype 8");
     });
 }
+
+TEST(AprgGeometryThreeDimensionsTest, DISABLED_BrewersProblemForSimplexTest)
+{
+    Plane profitModel(13, 23, -1, 0); // 13A+23B=P
+    Plane constraints1(1, 3, 0, -96); //A+3B<=96
+    Plane constraints2(1, 1, 0, -40); //A+B<=40
+    Plane constraints3(7, 4, 0, -238); //7A+4B<=238
+    AprgGnuPlot3D::PointsInGraph profitPoints;
+    AprgGnuPlot3D::PointsInGraph c1Points;
+    AprgGnuPlot3D::PointsInGraph c2Points;
+    AprgGnuPlot3D::PointsInGraph c3Points;
+    for(double x=0; x<200; x+=2)
+    {
+        for(double y=0; y<200; y+=2)
+        {
+            if(x+3*y <= 96 && x+y <= 40 && 7*x+4*y <= 238) //A+3B<=96, A+B<=40, 7A+4B<=238
+            {
+                profitPoints.emplace_back(AprgGnuPlot3D::getPoint(x, y, profitModel.calculateZFromXAndY(x, y)));
+            }
+        }
+    }
+    for(double x=0; x<200; x+=5)
+    {
+        for(double z=0; z<1000; z+=20)
+        {
+            if(constraints1.calculateYFromXAndZ(x, z).getConstReference() > 0)
+            {
+                c1Points.emplace_back(AprgGnuPlot3D::getPoint(x, constraints1.calculateYFromXAndZ(x, z), z));
+            }
+            if(constraints2.calculateYFromXAndZ(x, z).getConstReference() > 0)
+            {
+                c2Points.emplace_back(AprgGnuPlot3D::getPoint(x, constraints2.calculateYFromXAndZ(x, z), z));
+            }
+            if(constraints3.calculateYFromXAndZ(x, z).getConstReference() > 0)
+            {
+                c3Points.emplace_back(AprgGnuPlot3D::getPoint(x, constraints3.calculateYFromXAndZ(x, z), z));
+            }
+        }
+    }
+
+    AprgGnuPlot3D gnuPlot3D;
+    gnuPlot3D.setTitle("Graph of line with slope", R"("font ",22")");
+    gnuPlot3D.setXAxis("X", R"("font ",15")");
+    gnuPlot3D.setYAxis("Y", R"("font ",15")");
+    gnuPlot3D.setZAxis("Z", R"("font ",15")");
+    gnuPlot3D.doGraphs([&]()
+    {
+        gnuPlot3D.graph(profitPoints, "Profit", "with points palette pointsize 1 pointtype 1");
+        gnuPlot3D.graph(c1Points, "Constraints 1", "with points pointsize 1 pointtype 2");
+        gnuPlot3D.graph(c2Points, "Constraints 2", "with points pointsize 1 pointtype 3");
+        gnuPlot3D.graph(c3Points, "Constraints 3", "with points pointsize 1 pointtype 4");
+    });
+}
+
 
 }
