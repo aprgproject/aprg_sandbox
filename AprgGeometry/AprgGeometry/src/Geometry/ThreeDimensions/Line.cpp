@@ -182,14 +182,28 @@ void Line::calculateAndSaveInitialValuesIfPossible(Point const& first)
         {
             //x1/a1 = k (so that initial value = 0)
             //get average of all of x and y and z
-            minimizedMultiplierForInitialValue = round(-1*getAverage(first.getX()/m_aCoefficient, first.getY()/m_bCoefficient, first.getZ()/m_cCoefficient));
+            unsigned int count=0;
+            if(!isAlmostEqual(m_aCoefficient, 0.0))
+            {
+                minimizedMultiplierForInitialValue += first.getX()/m_aCoefficient;
+                count++;
+            }
+            if(!isAlmostEqual(m_bCoefficient, 0.0))
+            {
+                minimizedMultiplierForInitialValue += first.getY()/m_bCoefficient;
+                count++;
+            }
+            if(!isAlmostEqual(m_cCoefficient, 0.0))
+            {
+                minimizedMultiplierForInitialValue += first.getZ()/m_cCoefficient;
+                count++;
+            }
+            minimizedMultiplierForInitialValue = round(-1*minimizedMultiplierForInitialValue/count);
         }
         m_xInitialValue = first.getX() + minimizedMultiplierForInitialValue*m_aCoefficient;
-        m_yInitialValue = first.getY() + minimizedMultiplierForInitialValue*m_bCoefficient;
-        m_zInitialValue = first.getZ() + minimizedMultiplierForInitialValue*m_cCoefficient;
+        m_yInitialValue = first.getY() + minimizedMultiplierForInitialValue*m_bCoefficient;        m_zInitialValue = first.getZ() + minimizedMultiplierForInitialValue*m_cCoefficient;
     }
 }
-
 AlbaOptional<double> Line::calculateOtherCoordinate(double const& initialValue1, double const coefficient1, double const& initialValue2, double const coefficient2, double const coordinate2) const
 {
     AlbaOptional<double> result;

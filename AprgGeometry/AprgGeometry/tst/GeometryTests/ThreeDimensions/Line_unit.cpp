@@ -164,14 +164,31 @@ TEST(ThreeDimensionsLineTest, LineWithSumOfCoefficientsEqualToZero)
     ASSERT_TRUE(line.calculateZFromY(1)); EXPECT_EQ(1, line.calculateZFromY(1).getConstReference());
 }
 
+TEST(ThreeDimensionsLineTest, LineWithSomeZeroCoefficientWorks)
+{
+    Line line(Point(0,40,0), Point(40,0,0));
+
+    EXPECT_FALSE(line.isInvalid());
+    EXPECT_EQ(40, line.getACoefficient());
+    EXPECT_EQ(-40, line.getBCoefficient());
+    EXPECT_EQ(0, line.getCCoefficient());
+    EXPECT_EQ(40, line.getXInitialValue());
+    EXPECT_EQ(0, line.getYInitialValue());
+    EXPECT_EQ(0, line.getZInitialValue());
+    EXPECT_TRUE(line.calculateXFromY(1));
+    EXPECT_FALSE(line.calculateXFromZ(1));
+    EXPECT_TRUE(line.calculateYFromX(1));
+    EXPECT_FALSE(line.calculateYFromZ(1));
+    EXPECT_TRUE(line.calculateZFromX(1));
+    EXPECT_TRUE(line.calculateZFromY(1));
+}
+
 /*
 //Think about this
-TEST(ThreeDimensionsLineTest, LineCanBeComparedForEquality)
-{
+TEST(ThreeDimensionsLineTest, LineCanBeComparedForEquality){
     EXPECT_EQ(Line(1,2,3), Line(10,20,30));
     EXPECT_NE(Line(1,2,3), Line(2,3,4));
-}
-*/
+}*/
 
 }
 
