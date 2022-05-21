@@ -9,14 +9,12 @@ namespace matrix
 {
 
 template <typename DataType>
-AlbaMatrix<DataType> constructSimplexTable(
+AlbaMatrix<DataType> constructSimplexTableWithLessThanConstraints(
         AlbaMatrix<DataType> const& constraintsCoefficients,
         AlbaMatrixData<DataType> const& constraintsValues,
         AlbaMatrixData<DataType> const& objectiveFunctionCoefficients);
-
 template <typename DataType>
 void solveSimplexTable(AlbaMatrix<DataType> & simplexTable);
-
 template <typename DataType>
 bool isOptimal(AlbaMatrix<DataType> const& simplexTable);
 
