@@ -45,14 +45,52 @@ TEST(SimplexSolverTest, SimplexWorksOnExample1)
     EXPECT_EQ(solutionEquations, solver.getSolutionEquations());
 }
 
-TEST(SimplexSolverTest, SimplexWorksOnBrewersProblemWithAdditionalObjectiveFunctionVariable)
+TEST(SimplexSolverTest, SimplexWorksOnBrewersProblemWithZeroEquation)
 {
     Equations constraints;
     constraints.emplace_back(Polynomial{Monomial(5, {{"A", 1}}), Monomial(15, {{"B", 1}})}, "<=", 480);
+    constraints.emplace_back(Monomial(20, {{"C", 1}}), "=", 0);
+    constraints.emplace_back(Polynomial{Monomial(4, {{"A", 1}}), Monomial(4, {{"B", 1}})}, "<=", 160);
+    constraints.emplace_back(Polynomial{Monomial(35, {{"A", 1}}), Monomial(20, {{"B", 1}})}, "<=", 1190);
+    Polynomial objectiveFunction{Monomial(13, {{"A", 1}}), Monomial(23, {{"B", 1}}), Monomial(100, {{"C", 1}})};
+
+    SimplexSolver solver(constraints, objectiveFunction);
+
+    Equations solutionEquations;
+    solutionEquations.emplace_back("C", "=", 0);
+    solutionEquations.emplace_back(Polynomial{Monomial(1, {{"B", 1}}), Monomial(-28, {})}, "=", 0);
+    solutionEquations.emplace_back(Polynomial{Monomial(1, {{"A", 1}}), Monomial(-12, {})}, "=", 0);
+    EXPECT_TRUE(solver.isOptimized());
+    EXPECT_EQ(AlbaNumber(800), solver.getOptimizedObjectiveValue());
+    EXPECT_EQ(solutionEquations, solver.getSolutionEquations());
+}
+
+TEST(SimplexSolverTest, SimplexWorksOnBrewersProblemWithEqualEquation)
+{
+    Equations constraints;
+    constraints.emplace_back(Polynomial{Monomial(5, {{"A", 1}}), Monomial(15, {{"B", 1}})}, "<=", 480);
+    constraints.emplace_back("C", "=", 200);
+    constraints.emplace_back(Polynomial{Monomial(4, {{"A", 1}}), Monomial(4, {{"B", 1}})}, "<=", 160);
+    constraints.emplace_back(Polynomial{Monomial(35, {{"A", 1}}), Monomial(20, {{"B", 1}})}, "<=", 1190);
+    Polynomial objectiveFunction{Monomial(13, {{"A", 1}}), Monomial(23, {{"B", 1}}), Monomial(1, {{"C", 1}})};
+
+    SimplexSolver solver(constraints, objectiveFunction);
+
+    Equations solutionEquations;
+    solutionEquations.emplace_back(Polynomial{Monomial(1, {{"C", 1}}), Monomial(-200, {})}, "=", 0);
+    solutionEquations.emplace_back(Polynomial{Monomial(1, {{"B", 1}}), Monomial(-28, {})}, "=", 0);
+    solutionEquations.emplace_back(Polynomial{Monomial(1, {{"A", 1}}), Monomial(-12, {})}, "=", 0);
+    EXPECT_TRUE(solver.isOptimized());
+    EXPECT_EQ(AlbaNumber(1000), solver.getOptimizedObjectiveValue());
+    EXPECT_EQ(solutionEquations, solver.getSolutionEquations());
+}
+
+TEST(SimplexSolverTest, SimplexWorksOnBrewersProblemWithAdditionalObjectiveFunctionVariable)
+{
+    Equations constraints;    constraints.emplace_back(Polynomial{Monomial(5, {{"A", 1}}), Monomial(15, {{"B", 1}})}, "<=", 480);
     constraints.emplace_back(Polynomial{Monomial(4, {{"A", 1}}), Monomial(4, {{"B", 1}})}, "<=", 160);
     constraints.emplace_back(Polynomial{Monomial(35, {{"A", 1}}), Monomial(20, {{"B", 1}})}, "<=", 1190);
     Polynomial objectiveFunction{Monomial(13, {{"A", 1}}), Monomial(23, {{"B", 1}}), Monomial(1, {{"C", 1}})}; // additional variable C
-
     SimplexSolver solver(constraints, objectiveFunction);
 
     Equations solutionEquations;
