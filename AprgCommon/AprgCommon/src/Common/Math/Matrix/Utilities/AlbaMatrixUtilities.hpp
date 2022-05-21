@@ -95,10 +95,12 @@ AlbaMatrix<DataType> doBinaryOperationWithSameDimensions(
 template <typename DataType>
 void interchangeRows(
         AlbaMatrix<DataType> & matrix,
-        unsigned int const y1,        unsigned int const y2)
+        unsigned int const y1,
+        unsigned int const y2)
 {
     unsigned int numberOfRows(matrix.getNumberOfRows());
-    unsigned int numberOfColumns(matrix.getNumberOfColumns());    assert((y1 < numberOfRows) && (y2 < numberOfRows));
+    unsigned int numberOfColumns(matrix.getNumberOfColumns());
+    assert((y1 < numberOfRows) && (y2 < numberOfRows));
     for(unsigned int x=0; x<numberOfColumns; x++)
     {
         std::swap(matrix.getEntryReference(x, y1), matrix.getEntryReference(x, y2));

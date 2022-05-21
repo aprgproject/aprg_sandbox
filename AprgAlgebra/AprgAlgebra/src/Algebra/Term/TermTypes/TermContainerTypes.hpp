@@ -10,6 +10,7 @@
 
 namespace alba
 {
+
 namespace algebra
 {
 
@@ -18,6 +19,7 @@ using VariableNames = std::vector<std::string>;
 using VariableNamesSet = std::set<std::string>;
 using FunctionsSet = std::set<Function>;
 using TermSet = std::set<Term>;
+
 }
 
 }

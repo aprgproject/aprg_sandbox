@@ -30,6 +30,7 @@ TEST(SimplexTest, ConstructSimplexTableWorks)
      13, 14, 15, 16, 0, 0, 0, 0});
     EXPECT_EQ(expectedSimplexTable, simplexTable);
 }
+
 TEST(SimplexTest, SolveSimplexTableWorks)
 {
     AlbaMatrix<double> simplexTable(8, 4,
@@ -47,6 +48,7 @@ TEST(SimplexTest, SolveSimplexTableWorks)
      0, -1.6, -3.2, -4.8, 0, -2.6, 0, -52});
     EXPECT_EQ(expectedSimplexTable, simplexTable);
 }
+
 TEST(SimplexTest, SolveSimplexTableWorksOnBrewersProblem)
 {
     AlbaMatrix<double> simplexTable(6, 4,
@@ -107,10 +109,12 @@ TEST(SimplexTest, SolveSimplexTableWorksOnBrewersProblemWithEqualEquation)
 
 TEST(SimplexTest, IsOptimalWorks)
 {
-    AlbaMatrix<int> matrix1(3, 2,    {1, 2, 3,
+    AlbaMatrix<int> matrix1(3, 2,
+    {1, 2, 3,
      4, 5, 6});
     AlbaMatrix<int> matrix2(3, 2,
-    {1, 2, 3,     4, -5, 6});
+    {1, 2, 3,
+     4, -5, 6});
     AlbaMatrix<int> matrix3(3, 2,
     {1, 2, 3,
      -4, -5, -6});
@@ -156,6 +160,7 @@ TEST(SimplexTest, GetPivotingRowUsingMinRatioRuleWorks)
     EXPECT_EQ(0U, getPivotingRowUsingMinRatioRule(matrix2, 1U));
     EXPECT_EQ(3U, getPivotingRowUsingMinRatioRule(matrix3, 1U));
 }
+
 TEST(SimplexTest, PivotAtWorks)
 {
     AlbaMatrix<double> matrix(3, 3,
@@ -171,6 +176,7 @@ TEST(SimplexTest, PivotAtWorks)
      0.125, 0.15, 1});
     EXPECT_EQ(expectedMatrix, matrix);
 }
+
 }
 
 }

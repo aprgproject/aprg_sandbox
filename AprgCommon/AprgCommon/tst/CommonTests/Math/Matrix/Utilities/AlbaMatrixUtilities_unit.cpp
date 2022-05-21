@@ -81,9 +81,11 @@ TEST(AlbaMatrixUtilitiesTest, IsSingularWorks)
 
 TEST(AlbaMatrixUtilitiesTest, DoUnaryOperationWorks)
 {
-    AlbaMatrix<unsigned int> matrix(2, 3,    {1, 2,
+    AlbaMatrix<unsigned int> matrix(2, 3,
+    {1, 2,
      3, 4,
      5, 6});
+
     AlbaMatrix<unsigned int> resultMatrix(
                 doUnaryOperation(matrix, UnaryFunction<unsigned int>([](unsigned int const& value)
     {

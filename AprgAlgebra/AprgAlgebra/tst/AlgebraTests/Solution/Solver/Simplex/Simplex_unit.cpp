@@ -87,10 +87,12 @@ TEST(SimplexSolverTest, SimplexWorksOnBrewersProblemWithEqualEquation)
 
 TEST(SimplexSolverTest, SimplexWorksOnBrewersProblemWithAdditionalObjectiveFunctionVariable)
 {
-    Equations constraints;    constraints.emplace_back(Polynomial{Monomial(5, {{"A", 1}}), Monomial(15, {{"B", 1}})}, "<=", 480);
+    Equations constraints;
+    constraints.emplace_back(Polynomial{Monomial(5, {{"A", 1}}), Monomial(15, {{"B", 1}})}, "<=", 480);
     constraints.emplace_back(Polynomial{Monomial(4, {{"A", 1}}), Monomial(4, {{"B", 1}})}, "<=", 160);
     constraints.emplace_back(Polynomial{Monomial(35, {{"A", 1}}), Monomial(20, {{"B", 1}})}, "<=", 1190);
     Polynomial objectiveFunction{Monomial(13, {{"A", 1}}), Monomial(23, {{"B", 1}}), Monomial(1, {{"C", 1}})}; // additional variable C
+
     SimplexSolver solver(constraints, objectiveFunction);
 
     Equations solutionEquations;
@@ -100,6 +102,7 @@ TEST(SimplexSolverTest, SimplexWorksOnBrewersProblemWithAdditionalObjectiveFunct
     EXPECT_EQ(AlbaNumber(800), solver.getOptimizedObjectiveValue());
     EXPECT_EQ(solutionEquations, solver.getSolutionEquations());
 }
+
 }
 
 }
