@@ -46,27 +46,36 @@ TEST(IntegrationGeometryUtilitiesTest, GetVolumeBasedOnSolidOfRevolutionWorksOnU
     EXPECT_EQ(termToExpect, termToVerify);
 }
 
-TEST(IntegrationGeometryUtilitiesTest, GetVolumeBasedOnSolidOfRevolutionWorksOnGabrielsHorn)
+TEST(IntegrationGeometryUtilitiesTest, GetSurfaceAreaBasedOnSolidOfRevolutionWorksOnUpsideDownCone)
+{
+    Term edgeOfTheConeInY(Monomial(1, {{"radius", 1}, {"height", -1}, {"y", 1}}));
+
+    Term termToVerify(getSurfaceAreaUsingOnSolidOfRevolution(edgeOfTheConeInY, {"y", 0, "height"}));
+
+    string stringToExpect("((pi)[radius]*((1[height^2] + 1[radius^2])^(1/2)))");
+    EXPECT_EQ(stringToExpect, termToVerify.getDisplayableString());
+}
+
+TEST(IntegrationGeometryUtilitiesTest, GetVolumeAndSurfaceAreaBasedOnSolidOfRevolutionWorksOnGabrielsHorn)
 {
     // The painters paradox (volume is definite, but surface are is infinite).
     // Computation of the volume:
     // The horn follows the form y=1/x and starts at x=1 and ends at infinity
     Term edgeOfHornInX(Monomial(1, {{"x", -1}}));
 
-    Term termToVerify(getVolumeUsingOnSolidOfRevolution(edgeOfHornInX, {"x", 1, getPositiveInfinityAsATerm()}));
+    Term actualVolume(getVolumeUsingOnSolidOfRevolution(edgeOfHornInX, {"x", 1, getPositiveInfinityAsATerm()}));
+    //Term actualSurfaceArea(getSurfaceAreaUsingOnSolidOfRevolution(edgeOfHornInX, {"x", 1, getPositiveInfinityAsATerm()})); // cannot be integrated
 
-    Term termToExpect(getPiAsATerm());
-    EXPECT_EQ(termToExpect, termToVerify);
-
-    // How about computation surface area?
+    Term expectedVolume(getPiAsATerm());
+    //Term expectedSurfaceArea(getPositiveInfinityAsATerm());
+    EXPECT_EQ(expectedVolume, actualVolume);
+    // EXPECT_EQ(expectedSurfaceArea, actualSurfaceArea);
 }
 
-TEST(IntegrationGeometryUtilitiesTest, GetVolumeBasedOnSolidOfRevolutionWorksOnUpsideDownConeWithUpsideDownConeHole)
-{
+TEST(IntegrationGeometryUtilitiesTest, GetVolumeBasedOnSolidOfRevolutionWorksOnUpsideDownConeWithUpsideDownConeHole){
     Term edgeOfTheCone1InY(Monomial(1, {{"radius", 1}, {"height", -1}, {"y", 1}}));
     Term edgeOfTheCone2InY(Polynomial
     {Monomial(1, {{"radius", 1}, {"height", -1}, {"y", 1}}), Monomial(1, {{"edgeDistance", 1}})});
-
     Term termToVerify(getVolumeUsingOnSolidOfRevolution(edgeOfTheCone1InY, edgeOfTheCone2InY, {"y", 0, "height"}));
 
     Term termToExpect(Monomial(getPi(), {{"edgeDistance", 2}, {"height", 1}}));
