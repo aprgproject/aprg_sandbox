@@ -617,9 +617,11 @@ Points getConvexHullPointsUsingGrahamScan(Points const& points)
     multimap<CompareData, Point> compareDataToPointMap;
     for(Point const& point : points)
     {
-        compareDataToPointMap.emplace(        CompareData(getAngleBasedOnAPointAndOrigin(point - pointWithMinimumY), getDistance(pointWithMinimumY, point)),
+        compareDataToPointMap.emplace(
+        CompareData(getAngleBasedOnAPointAndOrigin(point - pointWithMinimumY), getDistance(pointWithMinimumY, point)),
                     point); // sort points by polar angle
     }
+
     stack<Point> convertHullPoints;
     unsigned int i=0;
     for(auto const& compareDataAndPointPair : compareDataToPointMap)

@@ -127,7 +127,8 @@ AprgMathSet getComplement() const
     Rule ruleToBeInTheNewSet = [&](ElementType const& elementToCheck) -> bool
     {
         return !m_ruleToBeInTheSet(elementToCheck);
-    };    return AprgMathSet(std::string("complement of ")+getDescription(), ruleToBeInTheNewSet);
+    };
+    return AprgMathSet(std::string("complement of ")+getDescription(), ruleToBeInTheNewSet);
 }
 
 AprgMathSet getUnionWith(AprgMathSet const& mathSet2) const
@@ -135,7 +136,8 @@ AprgMathSet getUnionWith(AprgMathSet const& mathSet2) const
     Rule ruleToBeInTheNewSet = [&](ElementType const& elementToCheck) -> bool
     {
         return m_ruleToBeInTheSet(elementToCheck) || mathSet2.m_ruleToBeInTheSet(elementToCheck);
-    };    return AprgMathSet(getDescription() + " union " + mathSet2.getDescription(), ruleToBeInTheNewSet);
+    };
+    return AprgMathSet(getDescription() + " union " + mathSet2.getDescription(), ruleToBeInTheNewSet);
 }
 
 AprgMathSet getIntersectionWith(AprgMathSet const& mathSet2) const
@@ -143,7 +145,8 @@ AprgMathSet getIntersectionWith(AprgMathSet const& mathSet2) const
     Rule ruleToBeInTheNewSet = [&](ElementType const& elementToCheck) -> bool
     {
         return m_ruleToBeInTheSet(elementToCheck) && mathSet2.m_ruleToBeInTheSet(elementToCheck);
-    };    return AprgMathSet(getDescription() + " intersection " + mathSet2.getDescription(), ruleToBeInTheNewSet);
+    };
+    return AprgMathSet(getDescription() + " intersection " + mathSet2.getDescription(), ruleToBeInTheNewSet);
 }
 
 AprgMathSet getDifferenceWith(AprgMathSet const& mathSet2) const
@@ -158,10 +161,12 @@ AprgMathSet getDifferenceWith(AprgMathSet const& mathSet2) const
 
 private:
 void constructSetBasedOnRosterList(RosterList const& rosterList)
-{    m_ruleToBeInTheSet = [rosterList](ElementType const& elementToCheck) mutable -> bool
+{
+    m_ruleToBeInTheSet = [rosterList](ElementType const& elementToCheck) mutable -> bool
     {
         bool result(false);
-        for(ElementType const& elementInRoster : rosterList)        {
+        for(ElementType const& elementInRoster : rosterList)
+        {
             if(elementToCheck==elementInRoster)
             {
                 result = true;
@@ -224,10 +229,12 @@ template <typename ElementType1, typename ElementType2>
 AprgMathSet<std::pair<ElementType1, ElementType2>> getCartersianProduct(
         AprgMathSet<ElementType1> const& set1,
         AprgMathSet<ElementType2> const& set2,
-        typename AprgMathSet<ElementType1>::GenerateFunction const& generateFunction1,        typename AprgMathSet<ElementType2>::GenerateFunction const& generateFunction2)
+        typename AprgMathSet<ElementType1>::GenerateFunction const& generateFunction1,
+        typename AprgMathSet<ElementType2>::GenerateFunction const& generateFunction2)
 {
     std::vector<std::pair<ElementType1, ElementType2>> rosterList;
-    generateFunction1([&](ElementType1 const& elementInSet1)    {
+    generateFunction1([&](ElementType1 const& elementInSet1)
+    {
         if(set1.contains(elementInSet1))
         {
             generateFunction2([&](ElementType2 const& elementInSet2)

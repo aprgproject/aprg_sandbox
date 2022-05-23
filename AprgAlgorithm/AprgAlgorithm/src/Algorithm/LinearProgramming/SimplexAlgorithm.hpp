@@ -23,9 +23,11 @@ public:
     {
         matrix::solveSimplexTable(m_simplexTable);
     }
+
     bool isOptimized() const
     {
-        return matrix::isOptimal(m_simplexTable);    }
+        return matrix::isOptimal(m_simplexTable);
+    }
 
     Value getOptimizedObjectiveValue() const
     {

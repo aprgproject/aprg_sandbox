@@ -185,10 +185,12 @@ TEST(ThreeDimensionsLineTest, LineWithSomeZeroCoefficientWorks)
 
 /*
 //Think about this
-TEST(ThreeDimensionsLineTest, LineCanBeComparedForEquality){
+TEST(ThreeDimensionsLineTest, LineCanBeComparedForEquality)
+{
     EXPECT_EQ(Line(1,2,3), Line(10,20,30));
     EXPECT_NE(Line(1,2,3), Line(2,3,4));
-}*/
+}
+*/
 
 }
 

@@ -1,6 +1,6 @@
 #pragma once
 
-#include <Algorithm/Sorter/MergeSorter/MergeSorterUtilities.hpp>
+#include <Algorithm/Sort/MergeSorter/MergeSorterUtilities.hpp>
 #include <Algorithm/SymbolTable/BaseSymbolTable.hpp>
 #include <Algorithm/SymbolTable/OrderedArraySymbolTable.hpp>
 #include <Algorithm/SymbolTable/UnorderedLinkedListSymbolTable.hpp>

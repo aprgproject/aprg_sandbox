@@ -12,9 +12,11 @@ using namespace std;
 
 namespace alba
 {
+
 TEST(AprgGeometryThreeDimensionsTest, DISABLED_LineWithSlope)
 {
-    Line line(Point(0,0,0), Point(2,3,-4));    AprgGnuPlot3D::PointsInGraph points;
+    Line line(Point(0,0,0), Point(2,3,-4));
+    AprgGnuPlot3D::PointsInGraph points;
     for(double x=-10; x<10; x+=0.1)
     {
         points.emplace_back(AprgGnuPlot3D::getPoint(x, line.calculateYFromX(x), line.calculateZFromX(x)));

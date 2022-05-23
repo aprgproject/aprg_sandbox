@@ -201,9 +201,11 @@ void Line::calculateAndSaveInitialValuesIfPossible(Point const& first)
             minimizedMultiplierForInitialValue = round(-1*minimizedMultiplierForInitialValue/count);
         }
         m_xInitialValue = first.getX() + minimizedMultiplierForInitialValue*m_aCoefficient;
-        m_yInitialValue = first.getY() + minimizedMultiplierForInitialValue*m_bCoefficient;        m_zInitialValue = first.getZ() + minimizedMultiplierForInitialValue*m_cCoefficient;
+        m_yInitialValue = first.getY() + minimizedMultiplierForInitialValue*m_bCoefficient;
+        m_zInitialValue = first.getZ() + minimizedMultiplierForInitialValue*m_cCoefficient;
     }
 }
+
 AlbaOptional<double> Line::calculateOtherCoordinate(double const& initialValue1, double const coefficient1, double const& initialValue2, double const coefficient2, double const coordinate2) const
 {
     AlbaOptional<double> result;

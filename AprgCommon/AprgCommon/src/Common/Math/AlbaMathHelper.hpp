@@ -169,9 +169,11 @@ unsigned int getFibonacci(unsigned int const number);
 unsigned int getValueAtPascalTriangle(unsigned int const rowIndex, unsigned int const columnIndex);
 int getStirlingNumberOfTheSecondKind(unsigned int const n, unsigned int const k);
 
+
 //Statistics functions
 double getCumulativeStandardDistributionApproximation(double const z);
 double getInverseCumulativeStandardDistributionApproximation(double const p, unsigned int const numberOfIterations);
+
 
 //Clamp functions
 template <typename NumberType> inline NumberType clampLowerBound(NumberType const value, NumberType const limit)
@@ -234,11 +236,13 @@ template <typename NumberType> unsigned int getNumberOfIntegerDigits(NumberType 
 
 template <typename NumberType> inline bool areNumberOfDigitsOnTheIntegerLimit(unsigned int const digits)
 {
-    return digits >= std::numeric_limits<NumberType>::digits10;}
+    return digits >= std::numeric_limits<NumberType>::digits10;
+}
 
 
 //Complex number related functions
-AlbaComplexNumber<float> createComplexNumberFromData(AlbaNumber::ComplexNumberData const& data);template <typename NumberType> AlbaNumber createNumberFromComplexNumber(AlbaComplexNumber<NumberType> const& number);
+AlbaComplexNumber<float> createComplexNumberFromData(AlbaNumber::ComplexNumberData const& data);
+template <typename NumberType> AlbaNumber createNumberFromComplexNumber(AlbaComplexNumber<NumberType> const& number);
 void saveToComplexNumberData(AlbaNumber::ComplexNumberData & data, AlbaComplexNumber<float> const& number);
 
 }//namespace mathHelper

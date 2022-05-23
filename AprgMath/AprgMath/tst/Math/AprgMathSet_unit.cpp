@@ -44,6 +44,7 @@ TEST(AprgMathSetTest, MathSetCreatedWithRosterListWorks)
 {
     AprgMathSet<unsigned int>::RosterList rosterList{1,2,3,4,5};
     AprgMathSet<unsigned int> mathSet(rosterList);
+
     EXPECT_TRUE(mathSet.contains(1));
     EXPECT_FALSE(mathSet.contains(6));
     EXPECT_TRUE(mathSet.doesNotContain(10));
@@ -55,6 +56,7 @@ TEST(AprgMathSetTest, MathSetCreatedWithRosterListWorks)
 TEST(AprgMathSetTest, MathSetCreatedWithInitializerListWorks)
 {
     AprgMathSet<unsigned int> mathSet({2,4,6,8,9});
+
     EXPECT_TRUE(mathSet.contains(2));
     EXPECT_FALSE(mathSet.contains(0));
     EXPECT_TRUE(mathSet.doesNotContain(10));
@@ -66,10 +68,12 @@ TEST(AprgMathSetTest, MathSetCreatedWithInitializerListWorks)
 TEST(AprgMathSetTest, MathSetCreatedWithASetRuleWorks)
 {
     AprgMathSet<unsigned int> mathSet("set of even numbers", [](unsigned int const& elementToCheck)
-    {        return elementToCheck % 2 == 0;
+    {
+        return elementToCheck % 2 == 0;
     });
 
-    EXPECT_TRUE(mathSet.contains(2));    EXPECT_FALSE(mathSet.contains(1));
+    EXPECT_TRUE(mathSet.contains(2));
+    EXPECT_FALSE(mathSet.contains(1));
     EXPECT_TRUE(mathSet.doesNotContain(3));
     EXPECT_FALSE(mathSet.doesNotContain(4));
     EXPECT_EQ("{set of even numbers}", mathSet.getDescription());
@@ -79,7 +83,8 @@ TEST(AprgMathSetTest, MathSetCreatedWithASetRuleWorks)
 TEST(AprgMathSetTest, IsASubsetOfWorks)
 {
     AprgMathSet<unsigned int> mathSet1({2,4});
-    AprgMathSet<unsigned int> mathSet2("set of even numbers", [](unsigned int const& elementToCheck)    {
+    AprgMathSet<unsigned int> mathSet2("set of even numbers", [](unsigned int const& elementToCheck)
+    {
         return elementToCheck % 2 == 0;
     });
 
@@ -90,7 +95,8 @@ TEST(AprgMathSetTest, IsASubsetOfWorks)
 TEST(AprgMathSetTest, IsASupersetOfWorks)
 {
     AprgMathSet<unsigned int> mathSet1({3,5});
-    AprgMathSet<unsigned int> mathSet2("set of odd numbers", [](unsigned int const& elementToCheck)    {
+    AprgMathSet<unsigned int> mathSet2("set of odd numbers", [](unsigned int const& elementToCheck)
+    {
         return elementToCheck % 2 == 1;
     });
 
@@ -101,10 +107,12 @@ TEST(AprgMathSetTest, IsASupersetOfWorks)
 TEST(AprgMathSetTest, IsDisjointWithWorks)
 {
     AprgMathSet<unsigned int> mathSet1("set of even numbers", [](unsigned int const& elementToCheck)
-    {        return elementToCheck % 2 == 0;
+    {
+        return elementToCheck % 2 == 0;
     });
     AprgMathSet<unsigned int> mathSet2("set of odd numbers", [](unsigned int const& elementToCheck)
-    {        return elementToCheck % 2 == 1;
+    {
+        return elementToCheck % 2 == 1;
     });
     AprgMathSet<unsigned int> mathSet3({2,4});
 
@@ -117,10 +125,12 @@ TEST(AprgMathSetTest, IsDisjointWithWorks)
 TEST(AprgMathSetTest, GetComplementWorks)
 {
     AprgMathSet<unsigned int> mathSet("set of even numbers", [](unsigned int const& elementToCheck)
-    {        return elementToCheck % 2 == 0;
+    {
+        return elementToCheck % 2 == 0;
     });
 
     AprgMathSet<unsigned int> complementSet(mathSet.getComplement());
+
     EXPECT_FALSE(complementSet.contains(2));
     EXPECT_TRUE(complementSet.contains(5));
     EXPECT_TRUE(complementSet.doesNotContain(4));
@@ -132,9 +142,11 @@ TEST(AprgMathSetTest, GetComplementWorks)
 TEST(AprgMathSetTest, GetUnionWithWorks)
 {
     AprgMathSet<unsigned int> mathSet1({1,2,3});
-    AprgMathSet<unsigned int> mathSet2("set of even numbers", [](unsigned int const& elementToCheck)    {
+    AprgMathSet<unsigned int> mathSet2("set of even numbers", [](unsigned int const& elementToCheck)
+    {
         return elementToCheck % 2 == 0;
     });
+
     AprgMathSet<unsigned int> unionSet(mathSet1.getUnionWith(mathSet2));
 
     EXPECT_TRUE(unionSet.contains(2));
@@ -148,7 +160,8 @@ TEST(AprgMathSetTest, GetUnionWithWorks)
 TEST(AprgMathSetTest, GetIntersectionWithWorks)
 {
     AprgMathSet<unsigned int> mathSet1({1,2,3});
-    AprgMathSet<unsigned int> mathSet2("set of even numbers", [](unsigned int const& elementToCheck)    {
+    AprgMathSet<unsigned int> mathSet2("set of even numbers", [](unsigned int const& elementToCheck)
+    {
         return elementToCheck % 2 == 0;
     });
 
@@ -165,7 +178,8 @@ TEST(AprgMathSetTest, GetIntersectionWithWorks)
 TEST(AprgMathSetTest, GetDifferenceWithWorks)
 {
     AprgMathSet<unsigned int> mathSet1({1,2,3});
-    AprgMathSet<unsigned int> mathSet2("set of even numbers", [](unsigned int const& elementToCheck)    {
+    AprgMathSet<unsigned int> mathSet2("set of even numbers", [](unsigned int const& elementToCheck)
+    {
         return elementToCheck % 2 == 0;
     });
 
@@ -182,7 +196,8 @@ TEST(AprgMathSetTest, GetDifferenceWithWorks)
 TEST(AprgMathSetTest, GetUnionWorks)
 {
     AprgMathSet<unsigned int> mathSet1({3,4,5});
-    AprgMathSet<unsigned int> mathSet2("set of odd numbers", [](unsigned int const& elementToCheck)    {
+    AprgMathSet<unsigned int> mathSet2("set of odd numbers", [](unsigned int const& elementToCheck)
+    {
         return elementToCheck % 2 == 1;
     });
 
@@ -199,13 +214,15 @@ TEST(AprgMathSetTest, GetUnionWorks)
 TEST(AprgMathSetTest, GetIntersectionWorks)
 {
     AprgMathSet<unsigned int> mathSet1({3,4,5});
-    AprgMathSet<unsigned int> mathSet2("set of odd numbers", [](unsigned int const& elementToCheck)    {
+    AprgMathSet<unsigned int> mathSet2("set of odd numbers", [](unsigned int const& elementToCheck)
+    {
         return elementToCheck % 2 == 1;
     });
 
     AprgMathSet<unsigned int> intersectionSet(getIntersection(mathSet1, mathSet2));
 
-    EXPECT_TRUE(intersectionSet.contains(3));    EXPECT_FALSE(intersectionSet.contains(6));
+    EXPECT_TRUE(intersectionSet.contains(3));
+    EXPECT_FALSE(intersectionSet.contains(6));
     EXPECT_TRUE(intersectionSet.doesNotContain(4));
     EXPECT_FALSE(intersectionSet.doesNotContain(5));
     EXPECT_EQ("{{3, 4, 5} intersection {set of odd numbers}}", intersectionSet.getDescription());
@@ -239,7 +256,9 @@ TEST(AprgMathSetTest, GetCartesianProductWorks)
 
     EXPECT_TRUE(cartesianProduct.contains(pair<unsigned int, char>(1,'y')));
     EXPECT_FALSE(cartesianProduct.contains(pair<unsigned int, char>(3,'y')));
-    EXPECT_TRUE(cartesianProduct.doesNotContain(pair<unsigned int, char>(2,'z')));    EXPECT_FALSE(cartesianProduct.doesNotContain(pair<unsigned int, char>(2,'x')));
+    EXPECT_TRUE(cartesianProduct.doesNotContain(pair<unsigned int, char>(2,'z')));
+    EXPECT_FALSE(cartesianProduct.doesNotContain(pair<unsigned int, char>(2,'x')));
     EXPECT_EQ("{(1,x), (1,y), (2,x), (2,y)}", cartesianProduct.getDescription());
 }
+
 }

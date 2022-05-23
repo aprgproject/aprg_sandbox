@@ -426,10 +426,12 @@ TEST(AlbaMathHelperTest, GetFibonacciWorks)
 
 TEST(AlbaMathHelperTest, GetValueAtPascalTriangleWorks)
 {
-    EXPECT_EQ(1U, getValueAtPascalTriangle(0, 0));    EXPECT_EQ(1U, getValueAtPascalTriangle(4, 4));
+    EXPECT_EQ(1U, getValueAtPascalTriangle(0, 0));
+    EXPECT_EQ(1U, getValueAtPascalTriangle(4, 4));
     EXPECT_EQ(1U, getValueAtPascalTriangle(4, 0));
     EXPECT_EQ(4U, getValueAtPascalTriangle(4, 1));
-    EXPECT_EQ(6U, getValueAtPascalTriangle(4, 2));    EXPECT_EQ(0U, getValueAtPascalTriangle(4, 5));
+    EXPECT_EQ(6U, getValueAtPascalTriangle(4, 2));
+    EXPECT_EQ(0U, getValueAtPascalTriangle(4, 5));
 }
 
 TEST(AlbaMathHelperTest, GetStirlingNumberOfTheSecondKindWorks)
@@ -757,10 +759,12 @@ TEST(AlbaMathHelperTest, GetNumberOfIntegerDigitsWorks)
 {
     EXPECT_EQ(0U, getNumberOfIntegerDigits<unsigned int>(0));
     EXPECT_EQ(1U, getNumberOfIntegerDigits<unsigned int>(1));
-    EXPECT_EQ(2U, getNumberOfIntegerDigits<unsigned int>(54));    EXPECT_EQ(4U, getNumberOfIntegerDigits<unsigned int>(1000));
+    EXPECT_EQ(2U, getNumberOfIntegerDigits<unsigned int>(54));
+    EXPECT_EQ(4U, getNumberOfIntegerDigits<unsigned int>(1000));
     EXPECT_EQ(0U, getNumberOfIntegerDigits<int>(0));
     EXPECT_EQ(1U, getNumberOfIntegerDigits<int>(-1));
-    EXPECT_EQ(2U, getNumberOfIntegerDigits<int>(-54));    EXPECT_EQ(4U, getNumberOfIntegerDigits<int>(-1000));
+    EXPECT_EQ(2U, getNumberOfIntegerDigits<int>(-54));
+    EXPECT_EQ(4U, getNumberOfIntegerDigits<int>(-1000));
     EXPECT_EQ(0U, getNumberOfIntegerDigits<double>(0));
     EXPECT_EQ(1U, getNumberOfIntegerDigits<double>(1.1));
     EXPECT_EQ(2U, getNumberOfIntegerDigits<double>(-54.123));
