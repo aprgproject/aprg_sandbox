@@ -1,25 +1,22 @@
 #pragma once
 
-#include <vector>
+#include <algorithm>
 
 namespace alba
 {
-
 namespace algorithm
 {
 
-template <typename Value>
+template <typename Values>
 class MaximumSubArraySum // the largest possible sum of a sequence of consecutive values in the array
 {
 public:
-    using Values = std::vector<Value>;
+    using Value = typename Values::value_type;
     struct SubArrayDetails
     {
-        unsigned int lowIndex;
-        unsigned int highIndex;
+        unsigned int lowIndex;        unsigned int highIndex;
         Value sum;
     };
-
     MaximumSubArraySum()
     {}
 
@@ -59,9 +56,7 @@ public:
         }
         return bestSubArray;
     }
-
 };
 
 }
-
 }

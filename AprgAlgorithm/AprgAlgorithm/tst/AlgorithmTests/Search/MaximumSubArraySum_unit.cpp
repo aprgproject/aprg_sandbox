@@ -2,25 +2,24 @@
 
 #include <gtest/gtest.h>
 
+#include <vector>
+
 using namespace std;
 
-namespace alba
-{
+namespace alba{
 
 namespace algorithm
 {
 
 namespace
 {
-using SearchForTest = MaximumSubArraySum<int>;
-using Values = SearchForTest::Values;
+using Values = vector<int>;
+using SearchForTest = MaximumSubArraySum<Values>;
 using SubArrayDetails = SearchForTest::SubArrayDetails;
 }
-
 TEST(MaximumSubArraySumTest, GetMaximumSubArraySumWorksOnExample1)
 {
-    SearchForTest search;
-    Values values{-1, 2, 4, -3, 5, 2, -5, 2};
+    SearchForTest search;    Values values{-1, 2, 4, -3, 5, 2, -5, 2};
 
     EXPECT_EQ(10, search.getMaximumSubArraySum(values));
 }

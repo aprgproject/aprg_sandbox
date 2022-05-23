@@ -44,14 +44,13 @@ private:
     }
 };
 
+// Merge sort was invented by J. von Neumann in 1945.
 // Merge sort has a divide and conquer approach
 // When billions items to sort, merge sort is faster than insertion sort even if insertion sort is running on super computer
 // Lesson 1: Good algorithms are better than super computers.
-
 // Proposition: Mergesort uses at most N*log2(N) compares and 6N*log2(N) array accesses to sort any array of size N.
 // Proof: Let the number of compares C(N) and array accesses A(N) to mergesort an array of size N satisfy the recurrences.
-// C(N) <= C(N/2) [first half] + C(N/2) [second half] + N [merge] for N>1 with C(1) = 0
-// A(N) <= A(N/2) [first half] + A(N/2) [second half] + N [merge] for N>1 with A(1) = 0
+// C(N) <= C(N/2) [first half] + C(N/2) [second half] + N [merge] for N>1 with C(1) = 0// A(N) <= A(N/2) [first half] + A(N/2) [second half] + N [merge] for N>1 with A(1) = 0
 // Discrete math: If D(N) = 2D(N/2)+N  for N>1 and D(1) = 0 then D(N) = N*log2(N)
 
 // Downside in memory: Merge sort uses extra space proportional to N
