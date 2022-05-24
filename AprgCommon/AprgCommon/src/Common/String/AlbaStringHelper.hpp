@@ -3,12 +3,11 @@
 #include <Common/Math/Number/AlbaNumber.hpp>
 #include <Common/Optional/AlbaOptional.hpp>
 
+#include <iomanip>
 #include <string>
 #include <vector>
-
 namespace alba
 {
-
 namespace stringHelper
 {
 using strings=std::vector<std::string>;
@@ -176,39 +175,19 @@ template <char slashCharacterString> std::string getCorrectPathWithoutDoublePeri
 template <char slashCharacterString> std::string getStringBeforeDoublePeriod(std::string const& path);
 template <char slashCharacterString> std::string getImmediateDirectoryName(std::string const& path);
 
+// string to type converters
+
 bool convertStringToBool(std::string const& stringToConvert);
 template <typename NumberType> NumberType convertStringToNumber(std::string const& stringToConvert);
-template <typename NumberType> NumberType convertHexCharacterToNumber(char const character);
-template <typename NumberType> NumberType convertHexStringToNumber(std::string const& stringToConvert);
+template <typename NumberType> NumberType convertHexCharacterToNumber(char const character);template <typename NumberType> NumberType convertHexStringToNumber(std::string const& stringToConvert);
 AlbaNumber convertStringToAlbaNumber(std::string const& stringToConvert);
-
-class NumberToStringConverter
-{
-public:
-    template <typename NumberType> std::string convert(NumberType const number);
-    std::string convert(AlbaNumber const& number);
-    void setPrecision(int const precision);
-    void setFieldWidth(int const fieldWidth);
-    void setFillCharacter(char const fillCharacter);
-    void setMaximumLength(unsigned int const maximumLength);
-private:
-    alba::AlbaOptional<int> m_precisionOptional;
-    alba::AlbaOptional<int> m_fieldWidthOptional;
-    alba::AlbaOptional<char> m_fillCharacterOptional;
-    alba::AlbaOptional<unsigned int> m_maximumLengthOptional;
-};
-
-//template implementation
-
 
 template <typename NumberType>
 NumberType convertStringToNumber(std::string const& stringToConvert)
-{
-    bool isNumberNotYetEncountered(true);
+{    bool isNumberNotYetEncountered(true);
     bool isPeriodNotYetEncountered(true);
     int negative(1);
-    int decimalPlacesInPowersOfTen(10);
-    NumberType value(0);
+    int decimalPlacesInPowersOfTen(10);    NumberType value(0);
     for (char const currentCharacter : stringToConvert)
     {
         if(isNumber(currentCharacter))
@@ -272,6 +251,54 @@ NumberType convertHexStringToNumber(std::string const& stringToConvert)
         }
     }
     return value;
+}
+
+
+
+// type to string converters
+
+std::string convertBoolToString(bool const value);
+
+class NumberToStringConverter
+{
+public:
+    template <typename NumberType> std::string convert(NumberType const number);
+    std::string convert(AlbaNumber const& number);
+    void setPrecision(int const precision);
+    void setFieldWidth(int const fieldWidth);
+    void setFillCharacter(char const fillCharacter);
+    void setMaximumLength(unsigned int const maximumLength);
+private:
+    alba::AlbaOptional<int> m_precisionOptional;
+    alba::AlbaOptional<int> m_fieldWidthOptional;
+    alba::AlbaOptional<char> m_fillCharacterOptional;
+    alba::AlbaOptional<unsigned int> m_maximumLengthOptional;
+};
+
+template <typename NumberType>
+std::string NumberToStringConverter::convert(NumberType const number)
+{
+    std::string result;
+    std::stringstream temporaryStream;
+    if(m_precisionOptional)
+    {
+        temporaryStream.precision(m_precisionOptional.getReference());
+    }
+    if(m_fillCharacterOptional)
+    {
+        temporaryStream << std::setfill(m_fillCharacterOptional.getReference());
+    }
+    if(m_fieldWidthOptional)
+    {
+        temporaryStream << std::setw(m_fieldWidthOptional.getReference());
+    }
+    temporaryStream << number;
+    result = temporaryStream.str();
+    if(m_maximumLengthOptional)
+    {
+        result = result.substr(m_maximumLengthOptional.getReference());
+    }
+    return result;
 }
 
 } //namespace stringHelper

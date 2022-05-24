@@ -5,15 +5,12 @@
 
 #include <algorithm>
 #include <functional>
-#include <iomanip>
 #include <numeric>
 #include <set>
 #include <sstream>
-
 using namespace std;
 
-namespace alba
-{
+namespace alba{
 
 namespace stringHelper
 {
@@ -920,37 +917,16 @@ AlbaNumber convertStringToAlbaNumber(string const& stringToConvert)
     return result;
 }
 
-template <typename NumberType>
-string NumberToStringConverter::convert(NumberType const number)
+string convertBoolToString(bool const value)
 {
-    string result;
-    stringstream temporaryStream;
-    if(m_precisionOptional)
-    {
-        temporaryStream.precision(m_precisionOptional.getReference());
-    }
-    if(m_fillCharacterOptional)
-    {
-        temporaryStream << setfill(m_fillCharacterOptional.getReference());
-    }
-    if(m_fieldWidthOptional)
-    {
-        temporaryStream << setw(m_fieldWidthOptional.getReference());
-    }
-    temporaryStream << number;
-    result = temporaryStream.str();
-    if(m_maximumLengthOptional)
-    {
-        result = result.substr(m_maximumLengthOptional.getReference());
-    }
-    return result;
+    std::stringstream temporaryStream;
+    temporaryStream << std::boolalpha << value;
+    return temporaryStream.str();
 }
 
-string NumberToStringConverter::convert(AlbaNumber const& number)
-{
+string NumberToStringConverter::convert(AlbaNumber const& number){
     return convert(number.getDouble());
 }
-
 void NumberToStringConverter::setPrecision(int const precision)
 {
     m_precisionOptional.setValue(precision);
@@ -970,12 +946,6 @@ void NumberToStringConverter::setMaximumLength(unsigned int const maximumLength)
 {
     m_maximumLengthOptional.setValue(maximumLength);
 }
-
-template string NumberToStringConverter::convert<bool>(bool boolValue);
-template string NumberToStringConverter::convert<int>(int number);
-template string NumberToStringConverter::convert<unsigned int>(unsigned int number);
-template string NumberToStringConverter::convert<float>(float number);
-template string NumberToStringConverter::convert<double>(double number);
 
 }//namespace stringHelper
 
