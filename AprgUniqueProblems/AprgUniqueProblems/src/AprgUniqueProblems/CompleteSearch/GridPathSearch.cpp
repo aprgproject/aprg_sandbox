@@ -18,94 +18,99 @@ unsigned int GridPathSearch::countPaths()
     return m_numberOfCompletePaths;
 }
 
-bool GridPathSearch::isLowerRightCorner(Position const& position)
+bool GridPathSearch::isLowerRightCorner(unsigned int const x, unsigned int const y)
 {
-    return position.x == m_grid.getNumberOfColumns()-1 && position.y == m_grid.getNumberOfRows()-1; // lower-right corner
+    return x == m_grid.getNumberOfColumns()-1 && y == m_grid.getNumberOfRows()-1; // lower-right corner
 }
 
-bool GridPathSearch::canTraverse(Position const& position)
+bool GridPathSearch::canTraverse(unsigned int const x, unsigned int const y)
 {
-    return m_grid.isInside(position.x, position.y) && !m_grid.getEntry(position.x, position.y);
+    return m_grid.isInside(x, y) && !m_grid.getEntry(x, y);
 }
 
-bool GridPathSearch::shouldStop(Position const& previous, Position const& current)
+bool GridPathSearch::shouldStop(unsigned int const x, unsigned int const y, Movement const previousMovement)
 {
     // Optimization 3: If the path touches a wall and can turn either left or right, the grid splits into two parts that contain unvisited squares.
     // Optimization 4: The idea of Optimization 3 can be generalized:
     // if the path cannot continue forward but can turn either left or right, the grid splits into two parts that both contain unvisited squares.
 
-    bool isFromLeftAndCantRight = previous.x == current.x-1 && previous.y == current.y && !canTraverse(Position{current.x+1, current.y});
-    bool isFromRightAndCantLeft = previous.x == current.x+1 && previous.y == current.y && !canTraverse(Position{current.x-1, current.y});
-    if(isFromLeftAndCantRight || isFromRightAndCantLeft) // cannot advance in x
+    if(Movement::Left == previousMovement)
     {
-        bool areUpAndDownNeighborsFree = canTraverse(Position{current.x, current.y-1}) && canTraverse(Position{current.x, current.y+1});
-        if(areUpAndDownNeighborsFree) // both y neighbors are available
+        if(!canTraverse(x-1, y) && canTraverse(x, y-1) && canTraverse(x, y+1))
         {
             return true;
         }
     }
-    bool isFromUpAndCantDown = previous.x == current.x && previous.y == current.y-1 && !canTraverse(Position{current.x, current.y+1});
-    bool isFromDownAndCantUp = previous.x == current.x && previous.y == current.y+1 && !canTraverse(Position{current.x, current.y-1});
-    if(isFromUpAndCantDown || isFromDownAndCantUp) // cannot advance in y
+    else if(Movement::Right == previousMovement)
     {
-        bool isLeftAndRightNeighborsFree = canTraverse(Position{current.x-1, current.y}) && canTraverse(Position{current.x+1, current.y});
-        if(isLeftAndRightNeighborsFree) // both x neighbors are available
+        if(!canTraverse(x+1, y) && canTraverse(x, y-1) && canTraverse(x, y+1))
+        {
+            return true;
+        }
+    }
+    else if(Movement::Up == previousMovement)
+    {
+        if(!canTraverse(x, y-1) && canTraverse(x-1, y) && canTraverse(x+1, y))
+        {
+            return true;
+        }
+    }
+    else if(Movement::Down == previousMovement)
+    {
+        if(!canTraverse(x, y+1) && canTraverse(x-1, y) && canTraverse(x+1, y))
         {
             return true;
         }
     }
     return false;
 }
-
 void GridPathSearch::search()
 {
-    // Optimization 1: In any solution, we first move one step down or right.
-    // There are always two paths that are symmetric about the diagonal of the grid after the first step.
+    // Optimization 1: In any solution, we first move one step down or right.    // There are always two paths that are symmetric about the diagonal of the grid after the first step.
     // Hence, we can decide that we always first move one step down (or right), and finally multiply the number of solutions by two.
 
     m_numberTraversedCells=2;
     m_grid.setEntry(0U, 0U, true);
     m_grid.setEntry(1U, 0U, true); // lets pick right
 
-    search(Position{0U, 0U}, Position{1U, 0U});
+    search(1U, 0U, Movement::Right);
 
     m_numberOfCompletePaths*=2; // multiply by 2 (optimization 1)
 }
 
-void GridPathSearch::search(Position const& previous, Position const& current)
+void GridPathSearch::search(unsigned int const x, unsigned int const y, Movement const previousMovement)
 {
     if(m_numberTraversedCells == m_numberOfCells)
     {
-        if(isLowerRightCorner(current)) // lower-right corner
+        if(isLowerRightCorner(x, y)) // lower-right corner
         {
             m_numberOfCompletePaths++;
         }
     }
-    else if(!isLowerRightCorner(current))
+    else if(!isLowerRightCorner(x, y))
     {
         // Optimization 2: If the path reaches the lower-right square before it has visited all other squares of the grid,
         // it is clear that it will not be possible to complete the solution.
 
-        if(!shouldStop(previous, current))
+        if(!shouldStop(x, y, previousMovement))
         {
-            searchNextCoordinate(current, Position{current.x-1, current.y});
-            searchNextCoordinate(current, Position{current.x, current.y-1});
-            searchNextCoordinate(current, Position{current.x+1, current.y});
-            searchNextCoordinate(current, Position{current.x, current.y+1});
+            searchNextCoordinate(x-1, y, Movement::Left);
+            searchNextCoordinate(x+1, y, Movement::Right);
+            searchNextCoordinate(x, y-1, Movement::Up);
+            searchNextCoordinate(x, y+1, Movement::Down);
         }
     }
 }
 
-void GridPathSearch::searchNextCoordinate(Position const& current, Position const& next)
+void GridPathSearch::searchNextCoordinate(unsigned int const x, unsigned int const y, Movement const movement)
 {
-    if(canTraverse(next))
+    if(canTraverse(x, y))
     {
         m_numberTraversedCells++;
-        m_grid.setEntry(next.x, next.y, true);
-        search(current, next);
-        m_grid.setEntry(next.x, next.y, false);
+        m_grid.setEntry(x, y, true);
+        search(x, y, movement);
+        m_grid.setEntry(x, y, false);
         m_numberTraversedCells--;
     }
 }
-
 }
