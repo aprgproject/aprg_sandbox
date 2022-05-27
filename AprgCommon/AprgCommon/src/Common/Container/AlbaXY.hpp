@@ -66,9 +66,11 @@ public:
         }
         return result;
     }
+
     AlbaXY<CoordinateType> operator+(AlbaXY<CoordinateType> const& secondXy) const
     {
-        return AlbaXY<CoordinateType>(x+secondXy.x, y+secondXy.y);    }
+        return AlbaXY<CoordinateType>(x+secondXy.x, y+secondXy.y);
+    }
 
     AlbaXY<CoordinateType> operator-(AlbaXY<CoordinateType> const& secondXy) const
     {

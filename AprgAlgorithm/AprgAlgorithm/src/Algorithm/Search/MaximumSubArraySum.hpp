@@ -4,6 +4,7 @@
 
 namespace alba
 {
+
 namespace algorithm
 {
 
@@ -14,9 +15,11 @@ public:
     using Value = typename Values::value_type;
     struct SubArrayDetails
     {
-        unsigned int lowIndex;        unsigned int highIndex;
+        unsigned int lowIndex;
+        unsigned int highIndex;
         Value sum;
     };
+
     MaximumSubArraySum()
     {}
 
@@ -59,4 +62,5 @@ public:
 };
 
 }
+
 }

@@ -6,7 +6,8 @@
 
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 namespace algorithm
 {
@@ -17,9 +18,11 @@ using Values = vector<int>;
 using SearchForTest = MaximumSubArraySum<Values>;
 using SubArrayDetails = SearchForTest::SubArrayDetails;
 }
+
 TEST(MaximumSubArraySumTest, GetMaximumSubArraySumWorksOnExample1)
 {
-    SearchForTest search;    Values values{-1, 2, 4, -3, 5, 2, -5, 2};
+    SearchForTest search;
+    Values values{-1, 2, 4, -3, 5, 2, -5, 2};
 
     EXPECT_EQ(10, search.getMaximumSubArraySum(values));
 }

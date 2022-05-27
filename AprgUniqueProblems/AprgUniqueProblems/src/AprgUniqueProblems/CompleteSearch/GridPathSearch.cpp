@@ -68,8 +68,10 @@ void GridPathSearch::search()
     m_grid.setEntry(1U, 0U, true); // lets pick right
 
     search(Position{0U, 0U}, Position{1U, 0U});
+
     m_numberOfCompletePaths*=2; // multiply by 2 (optimization 1)
 }
+
 void GridPathSearch::search(Position const& previous, Position const& current)
 {
     if(m_numberTraversedCells == m_numberOfCells)

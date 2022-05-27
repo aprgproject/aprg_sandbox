@@ -6,8 +6,10 @@
 #include <iomanip>
 #include <string>
 #include <vector>
+
 namespace alba
 {
+
 namespace stringHelper
 {
 using strings=std::vector<std::string>;
@@ -179,15 +181,18 @@ template <char slashCharacterString> std::string getImmediateDirectoryName(std::
 
 bool convertStringToBool(std::string const& stringToConvert);
 template <typename NumberType> NumberType convertStringToNumber(std::string const& stringToConvert);
-template <typename NumberType> NumberType convertHexCharacterToNumber(char const character);template <typename NumberType> NumberType convertHexStringToNumber(std::string const& stringToConvert);
+template <typename NumberType> NumberType convertHexCharacterToNumber(char const character);
+template <typename NumberType> NumberType convertHexStringToNumber(std::string const& stringToConvert);
 AlbaNumber convertStringToAlbaNumber(std::string const& stringToConvert);
 
 template <typename NumberType>
 NumberType convertStringToNumber(std::string const& stringToConvert)
-{    bool isNumberNotYetEncountered(true);
+{
+    bool isNumberNotYetEncountered(true);
     bool isPeriodNotYetEncountered(true);
     int negative(1);
-    int decimalPlacesInPowersOfTen(10);    NumberType value(0);
+    int decimalPlacesInPowersOfTen(10);
+    NumberType value(0);
     for (char const currentCharacter : stringToConvert)
     {
         if(isNumber(currentCharacter))

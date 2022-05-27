@@ -699,10 +699,12 @@ TEST(ConvertToStringTest, ConvertBoolToStringWorks)
 
 TEST(ConvertToStringTest, ConvertNumberToStringWithDefaultParameters)
 {
-    NumberToStringConverter converter;    EXPECT_EQ("12345", converter.convert(12345));
+    NumberToStringConverter converter;
+    EXPECT_EQ("12345", converter.convert(12345));
     EXPECT_EQ("12345.7", converter.convert(12345.6789));
     EXPECT_EQ("-67890.1", converter.convert(-67890.1111));
-    EXPECT_EQ("2.66667", converter.convert(AlbaNumber::createFraction(8, 3)));}
+    EXPECT_EQ("2.66667", converter.convert(AlbaNumber::createFraction(8, 3)));
+}
 
 TEST(ConvertToStringTest, ConvertNumberToStringWithUnderPrecision)
 {

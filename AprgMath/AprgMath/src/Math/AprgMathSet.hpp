@@ -3,10 +3,12 @@
 #include <Algorithm/Combinatorics/SubsetGeneration/SubsetGenerationUsingRecursion.hpp>
 #include <Common/String/AlbaStringHelper.hpp>
 
-#include <functional>#include <ostream>
+#include <functional>
+#include <ostream>
 #include <set>
 #include <sstream>
 #include <vector>
+
 namespace alba
 {
 
@@ -223,10 +225,12 @@ private:
 
 };
 
-template <typename ElementType>AprgMathSet<ElementType> getUnion(
+template <typename ElementType>
+AprgMathSet<ElementType> getUnion(
         AprgMathSet<ElementType> const& set1,
         AprgMathSet<ElementType> const& set2)
-{    return set1.getUnionWith(set2);
+{
+    return set1.getUnionWith(set2);
 }
 
 template <typename ElementType>
