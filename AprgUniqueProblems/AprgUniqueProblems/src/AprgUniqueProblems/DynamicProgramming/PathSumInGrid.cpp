@@ -14,20 +14,18 @@ PathSumInGrid::PathSumInGrid(Grid const& gridToCheck)
     calculatePartialSums();
 }
 
-PathSumInGrid::Value PathSumInGrid::getMaxSumInRightOrDownTraversal()
+PathSumInGrid::Value PathSumInGrid::getMaxSumInRightOrDownTraversal() const
 {
     return m_partialSumGrid.getEntry(m_partialSumGrid.getNumberOfColumns()-1, m_partialSumGrid.getNumberOfRows()-1);
 }
 
-PathSumInGrid::Path PathSumInGrid::getMaxPathInRightOrDownTraversal()
+PathSumInGrid::Path PathSumInGrid::getMaxPathInRightOrDownTraversal() const
 {
     unsigned int x=m_partialSumGrid.getNumberOfColumns()-1, y=m_partialSumGrid.getNumberOfRows()-1;
-    Path reversePath{m_gridToCheck.getEntry(x, y)};
-    bool isNextXInside(true), isNextYInside(true);
+    Path reversePath{m_gridToCheck.getEntry(x, y)};    bool isNextXInside(true), isNextYInside(true);
     while(true)
     {
-        isNextXInside = m_partialSumGrid.isInside(x-1, y);
-        isNextYInside = m_partialSumGrid.isInside(x, y-1);
+        isNextXInside = m_partialSumGrid.isInside(x-1, y);        isNextYInside = m_partialSumGrid.isInside(x, y-1);
         if(!isNextXInside && !isNextYInside)
         {
             break;
