@@ -240,13 +240,21 @@ TEST(AlbaMatrixTest, OperatorMultiplyWorksWithExample1)
     EXPECT_EQ(expectedMatrix, matrixToVerify);
 }
 
-TEST(AlbaMatrixTest, GetColumnsWorks)
+TEST(AlbaMatrixTest, IsInsideTheMatrixWorks)
 {
     AlbaMatrix<unsigned int> matrix(14, 6);
 
-    EXPECT_EQ(14U, matrix.getNumberOfColumns());
+    EXPECT_FALSE(matrix.isInside(14, 6));
+    EXPECT_FALSE(matrix.isInside(14, 5));
+    EXPECT_FALSE(matrix.isInside(13, 6));
+    EXPECT_TRUE(matrix.isInside(13, 5));
 }
 
+TEST(AlbaMatrixTest, GetColumnsWorks)
+{
+    AlbaMatrix<unsigned int> matrix(14, 6);
+    EXPECT_EQ(14U, matrix.getNumberOfColumns());
+}
 TEST(AlbaMatrixTest, GetRowsWorks)
 {
     AlbaMatrix<unsigned int> matrix(14, 6);

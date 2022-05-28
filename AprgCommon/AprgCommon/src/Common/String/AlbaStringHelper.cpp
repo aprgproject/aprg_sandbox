@@ -9,14 +9,16 @@
 #include <set>
 #include <sstream>
 
+
+
+#include <Common/Debug/AlbaDebug.hpp>
+
 using namespace std;
 
-namespace alba
-{
+namespace alba{
 
 namespace stringHelper
 {
-
 wstring convertStringToWideString(string const& stringInput)
 {
     return wstring(stringInput.begin(), stringInput.end());
@@ -27,38 +29,42 @@ string convertWideStringToString(wstring const& wstringInput)
     return string(wstringInput.begin(), wstringInput.end());
 }
 
-unsigned int getLevenshteinDistance(string const& mainString, string const& string2)
+unsigned int getLevenshteinDistance(string const& string1, string const& string2)
 {
-    unsigned int mainStringLength = static_cast<unsigned int>(mainString.size());
+    // The edit distance or Levenshtein distance is the minimum number of editing operations needed to transform a string into another string.
+    // The allowed editing operations are as follows:
+    // -> insert a character (e.g. ABC ! ABCA)
+    // -> remove a character (e.g. ABC ! AC)
+    // -> modify a character (e.g. ABC ! ADC)
+    unsigned int string1Length = static_cast<unsigned int>(string1.size());
     unsigned int string2Length = static_cast<unsigned int>(string2.size());
 
     vector<unsigned int> current(string2Length + 1);
     vector<unsigned int> previous(string2Length + 1);
+    iota(previous.begin(), previous.end(), 0);
 
-    unsigned int i = 0;
-    generate(previous.begin(), previous.end(), [&] {return i++; });
-
-    for (i = 0; i < mainStringLength; ++i)
+    // current and previous are the rows in the dynamic programming solution
+    for (unsigned int i=0; i<string1Length; ++i)
     {
-        current[0] = i + 1;
-
-        for (unsigned int j = 0; j < string2Length; ++j)
+        current[0] = i+1;
+        for (unsigned int j=0; j<string2Length; ++j)
         {
-            unsigned int cost = mainString[i] == string2[j] ? 0 : 1;
-            current[j + 1] = min(min(current[j] + 1, previous[j + 1] + 1), previous[j] + cost);
+            // next value is the minimum of
+            // 1) index-1 in current // remove operation
+            // 2) index in previous // insert operation
+            // 2) index- in previous // modify operation (if characters are different)
+            unsigned int cost = string1.at(i) == string2.at(j) ? 0 : 1;
+            current[j+1] = min(min(current.at(j) + 1, previous.at(j+1) + 1), previous.at(j) + cost);
         }
-
         current.swap(previous);
     }
-    return previous[string2Length];
+    return previous.at(string2Length);
 }
 
-unsigned int generateUniqueId(string const& mainString)
-{
+unsigned int generateUniqueId(string const& mainString){
     unsigned int uniqueId=1;
     uniqueId = accumulate(mainString.begin(), mainString.end(), uniqueId, [](unsigned int c1, unsigned char c2)
-    {
-        return (c1*c2)+1;
+    {        return (c1*c2)+1;
     });
     return uniqueId;
 }

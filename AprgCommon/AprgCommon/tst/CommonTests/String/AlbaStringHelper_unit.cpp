@@ -158,22 +158,19 @@ TEST(RandomStringTest, RandomString100Characters)
 
 TEST(UniqueIdTest, CheckLevenshteinDistance)
 {
-    string string1("This is a statement");
-    string string2("This is  statement");
-    string string3("This is not a statement");
-    string string4("This is b statement");
-    EXPECT_EQ(1U, getLevenshteinDistance(string1, string2));
-    EXPECT_EQ(4U, getLevenshteinDistance(string1, string3));
-    EXPECT_EQ(1U, getLevenshteinDistance(string1, string4));
+    EXPECT_EQ(2U, getLevenshteinDistance("MOVIE", "LOVE"));
+    EXPECT_EQ(1U, getLevenshteinDistance("This is a statement", "This is  statement"));
+    EXPECT_EQ(1U, getLevenshteinDistance("This is a statement", "This is  statement"));
+    EXPECT_EQ(4U, getLevenshteinDistance("This is a statement", "This is not a statement"));
+    EXPECT_EQ(1U, getLevenshteinDistance("This is a statement", "This is b statement"));
 }
+
 TEST(ConvertCaseFromStringTest, ConvertToCapitalLettersUsingAllLetters)
 {
-    string testString("AbCDEFghIjKlMnopQRstUvWxYz");
-    string capitalLetters("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
+    string testString("AbCDEFghIjKlMnopQRstUvWxYz");    string capitalLetters("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
 
     EXPECT_EQ(capitalLetters, getStringWithCapitalLetters(testString));
 }
-
 TEST(ConvertCaseFromStringTest, ConvertToCapitalLettersUsingAllLettersWithSpecialCharacters)
 {
     string testString("1234567890!@#$%^&*( )AbCDEFghIjKlMnopQRstUvWxYz");

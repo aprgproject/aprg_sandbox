@@ -127,15 +127,18 @@ public:
         return result;
     }
 
+    bool isInside(unsigned int const x, unsigned int const y) const
+    {
+        return (x < m_numberOfColumns) && (y < m_numberOfRows);
+    }
+
     unsigned int getNumberOfColumns() const
     {
-        return m_numberOfColumns;
-    }
+        return m_numberOfColumns;    }
 
     unsigned int getNumberOfRows() const
     {
-        return m_numberOfRows;
-    }
+        return m_numberOfRows;    }
 
     unsigned int getMatrixIndex(unsigned int const x, unsigned int const y) const
     {
@@ -144,14 +147,12 @@ public:
 
     DataType getEntry(unsigned int const x, unsigned int const y) const
     {
-        assert((x < m_numberOfColumns) && (y < m_numberOfRows));
+        assert(isInside(x, y));
         return m_matrixData.at(getMatrixIndex(x, y));
     }
-
     MatrixData const& getMatrixData() const
     {
-        return m_matrixData;
-    }
+        return m_matrixData;    }
 
     std::string getString() const
     {
@@ -209,20 +210,18 @@ public:
 
     DataType & getEntryReference(unsigned int const x, unsigned int const y)
     {
-        assert((x < m_numberOfColumns) && (y < m_numberOfRows));
+        assert(isInside(x, y));
         return m_matrixData.at(getMatrixIndex(x, y));
     }
 
     void setEntry(unsigned int const x, unsigned int const y, DataType const& value)
     {
-        assert((x < m_numberOfColumns) && (y < m_numberOfRows));
+        assert(isInside(x, y));
         m_matrixData[getMatrixIndex(x, y)] = value;
     }
-
     void setEntries(MatrixData const& dataSampleValues)
     {
-        unsigned int limit = std::min(m_matrixData.size(), dataSampleValues.size());
-        std::copy(dataSampleValues.begin(), dataSampleValues.begin()+limit, m_matrixData.begin());
+        unsigned int limit = std::min(m_matrixData.size(), dataSampleValues.size());        std::copy(dataSampleValues.begin(), dataSampleValues.begin()+limit, m_matrixData.begin());
     }
 
     void setColumn(unsigned int const columnIndex, MatrixData const& dataSampleValues)
