@@ -64,9 +64,11 @@ bool GridPathSearch::shouldStop(unsigned int const x, unsigned int const y, Move
     }
     return false;
 }
+
 void GridPathSearch::search()
 {
-    // Optimization 1: In any solution, we first move one step down or right.    // There are always two paths that are symmetric about the diagonal of the grid after the first step.
+    // Optimization 1: In any solution, we first move one step down or right.
+    // There are always two paths that are symmetric about the diagonal of the grid after the first step.
     // Hence, we can decide that we always first move one step down (or right), and finally multiply the number of solutions by two.
 
     m_numberTraversedCells=2;
@@ -113,4 +115,5 @@ void GridPathSearch::searchNextCoordinate(unsigned int const x, unsigned int con
         m_numberTraversedCells--;
     }
 }
+
 }

@@ -23,4 +23,5 @@ public:
 private:
     Values m_inputValues;
 };
+
 }

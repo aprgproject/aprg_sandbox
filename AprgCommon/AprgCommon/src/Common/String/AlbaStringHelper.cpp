@@ -9,16 +9,14 @@
 #include <set>
 #include <sstream>
 
-
-
-#include <Common/Debug/AlbaDebug.hpp>
-
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 namespace stringHelper
 {
+
 wstring convertStringToWideString(string const& stringInput)
 {
     return wstring(stringInput.begin(), stringInput.end());
@@ -61,10 +59,12 @@ unsigned int getLevenshteinDistance(string const& string1, string const& string2
     return previous.at(string2Length);
 }
 
-unsigned int generateUniqueId(string const& mainString){
+unsigned int generateUniqueId(string const& mainString)
+{
     unsigned int uniqueId=1;
     uniqueId = accumulate(mainString.begin(), mainString.end(), uniqueId, [](unsigned int c1, unsigned char c2)
-    {        return (c1*c2)+1;
+    {
+        return (c1*c2)+1;
     });
     return uniqueId;
 }

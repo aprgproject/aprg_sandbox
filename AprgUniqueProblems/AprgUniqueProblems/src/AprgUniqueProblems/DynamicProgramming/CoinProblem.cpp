@@ -5,10 +5,12 @@
 #include <algorithm>
 #include <limits>
 
-using namespace alba::mathHelper;using namespace std;
+using namespace alba::mathHelper;
+using namespace std;
 
 namespace alba
 {
+
 CoinProblem::CoinProblem(Coins const& availableCoins)
     : m_availableCoins(availableCoins)
     , m_fewestCoins{}
@@ -89,10 +91,12 @@ unsigned int CoinProblem::getNumberOfCoinPermutations(Coin const total)
         unsigned int newSize = max(total+1, *(minmax_element(m_availableCoins.cbegin(), m_availableCoins.cend()).second));
         m_countPerValue.resize(newSize, 0U);
         for(Coin const availableCoin : m_availableCoins)
-        {            m_countPerValue[availableCoin] = 1;
+        {
+            m_countPerValue[availableCoin] = 1;
         }
         for(Coin partialValue=initialValue; partialValue<newSize; partialValue++)
-        {            for(Coin const availableCoin : m_availableCoins)
+        {
+            for(Coin const availableCoin : m_availableCoins)
             {
                 if(partialValue > availableCoin)
                 {
@@ -113,10 +117,12 @@ CoinProblem::CoinPermutations CoinProblem::getCoinPermutationsUsingLoops(Coin co
         unsigned int newSize = max(total+1, *(minmax_element(m_availableCoins.cbegin(), m_availableCoins.cend()).second));
         m_coinPermutations.resize(newSize);
 
-        for(Coin const availableCoin : m_availableCoins)        {
+        for(Coin const availableCoin : m_availableCoins)
+        {
             if(m_coinPermutations.at(availableCoin).empty())
             {
-                m_coinPermutations[availableCoin].emplace(CoinPermutation{availableCoin});            }
+                m_coinPermutations[availableCoin].emplace(CoinPermutation{availableCoin});
+            }
         }
 
         for(Coin partialValue=initialValue; partialValue<newSize; partialValue++)
@@ -152,9 +158,11 @@ unsigned int CoinProblem::getNumberOfCoinCombinations(Coin const total)
             CountPerValue countPerValue(m_availableCoins.size(), 0U);
             countPerValue.shrink_to_fit();
             m_countPerValuePerCoin.resize(newSize, countPerValue);
+
             for(Coin coinIndex=0; coinIndex<m_availableCoins.size(); coinIndex++)
             {
-                for(Coin partialValue=initialValue; partialValue<newSize; partialValue++)                {
+                for(Coin partialValue=initialValue; partialValue<newSize; partialValue++)
+                {
                     if(partialValue == 0)
                     {
                         m_countPerValuePerCoin[partialValue][coinIndex] = 1;
@@ -191,10 +199,12 @@ CoinProblem::CoinCombinations CoinProblem::getCoinCombinationsUsingRecursion(Coi
         unsigned int newSize = max(total+1, *(minmax_element(m_availableCoins.cbegin(), m_availableCoins.cend()).second));
         m_coinCombinations.resize(newSize);
     }
-    if(m_coinCombinations.at(total).empty())    {
+    if(m_coinCombinations.at(total).empty())
+    {
         for(Coin const availableCoin : m_availableCoins)
         {
-            if(total > availableCoin)            {
+            if(total > availableCoin)
+            {
                 CoinCombinations subCombinations(getCoinCombinationsUsingRecursion(total-availableCoin));
                 for(CoinCombination const& subcombination : subCombinations)
                 {
@@ -221,10 +231,12 @@ CoinProblem::CoinCombinations CoinProblem::getCoinCombinationsUsingLoops(Coin co
         unsigned int newSize = max(total+1, *(minmax_element(m_availableCoins.cbegin(), m_availableCoins.cend()).second));
         m_coinCombinations.resize(newSize);
 
-        for(Coin const availableCoin : m_availableCoins)        {
+        for(Coin const availableCoin : m_availableCoins)
+        {
             if(m_coinCombinations.at(availableCoin).empty())
             {
-                m_coinCombinations[availableCoin].emplace(CoinCombination{availableCoin});            }
+                m_coinCombinations[availableCoin].emplace(CoinCombination{availableCoin});
+            }
         }
 
         for(Coin partialValue=initialValue; partialValue<newSize; partialValue++)
