@@ -19,9 +19,8 @@ public:
 
     KnapsackProblem(Values const& values);
 
-    Values getPossiblePartialSums() const;
+    Values getAllPossiblePartialSums() const;
 private:
     Values m_inputValues;
 };
-
 }

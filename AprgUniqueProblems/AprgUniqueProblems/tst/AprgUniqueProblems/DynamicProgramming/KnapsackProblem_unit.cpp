@@ -13,11 +13,11 @@ using Value=KnapsackProblem::Value;
 using Values=KnapsackProblem::Values;
 }
 
-TEST(KnapsackProblemTest, GetPossiblePartialSumsWorksOnExample1)
+TEST(KnapsackProblemTest, GetAllPossiblePartialSumsWorksOnExample1)
 {
     KnapsackProblem searchToTest({1U, 3U, 3U, 5U});
 
-    EXPECT_EQ((Values{0U, 1U, 3U, 4U, 5U, 6U, 7U, 8U, 9U, 11U, 12U}), searchToTest.getPossiblePartialSums());
+    EXPECT_EQ((Values{0U, 1U, 3U, 4U, 5U, 6U, 7U, 8U, 9U, 11U, 12U}), searchToTest.getAllPossiblePartialSums());
 }
 
 }
