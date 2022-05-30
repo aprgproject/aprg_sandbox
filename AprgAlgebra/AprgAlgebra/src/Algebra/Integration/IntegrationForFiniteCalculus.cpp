@@ -174,16 +174,13 @@ Term IntegrationForFiniteCalculus::integrateMonomial(
 
             Monomial monomialToRetain(monomial);
             monomialToRetain.putVariableWithExponent(m_nameOfVariableToIntegrate, 0);
-            result = createExpressionIfPossible(
-            {monomialToRetain, "*", harmonicNumber(m_nameOfVariableToIntegrate)});
+            result = createExpressionIfPossible({monomialToRetain, "*", harmonicNumber(m_nameOfVariableToIntegrate)});
             result.simplify();
         }
-        else
-        {
+        else        {
             AlbaNumber exponentAbsoluteValue(getAbsoluteValue(exponent));
             Monomial monomialWithOneLessExponent(monomial);
-            monomialWithOneLessExponent.putVariableWithExponent(m_nameOfVariableToIntegrate, exponentAbsoluteValue-1);
-            Polynomial denominatorInFallingPower(
+            monomialWithOneLessExponent.putVariableWithExponent(m_nameOfVariableToIntegrate, exponentAbsoluteValue-1);            Polynomial denominatorInFallingPower(
                         convertMonomialWithPositiveExponentsFromRegularPowerToFallingPower(monomialWithOneLessExponent));
             Term termToIntegrate(createExpressionIfPossible({1, "/", denominatorInFallingPower}));
             Term integratedTermInFallingPower(integrateTerm(termToIntegrate));

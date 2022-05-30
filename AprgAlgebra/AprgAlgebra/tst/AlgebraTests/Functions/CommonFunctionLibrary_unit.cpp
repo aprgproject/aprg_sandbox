@@ -1,11 +1,10 @@
 #include <Algebra/Functions/CommonFunctionLibrary.hpp>
+#include <Algebra/Term/Operators/TermOperators.hpp>
 #include <Algebra/Term/Utilities/BaseTermHelpers.hpp>
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
-#include <Algebra/Term/Utilities/TermUtilities.hpp>
-#include <Common/Math/AlbaMathHelper.hpp>
+#include <Algebra/Term/Utilities/TermUtilities.hpp>#include <Common/Math/AlbaMathHelper.hpp>
 
 #include <gtest/gtest.h>
-
 using namespace alba::mathHelper;
 using namespace std;
 
@@ -72,14 +71,34 @@ TEST(CommonFunctionLibraryTest, NaturalLogarithmFunctionWorks)
     EXPECT_EQ(AlbaNumber(1.6094379124341), naturalLogarithmFunctionObject.performFunctionAndReturnResultIfPossible());
 }
 
+TEST(CommonFunctionLibraryTest, LogarithmsCanSimplifiedToLoweringOperatorValue)
+{
+    Term productLogarithm(ln(5*7));
+    Term quotientLogarithm(ln(AlbaNumber(5)/7));
+    Term exponentLogarithm(ln(AlbaNumber(5)^7));
+
+    Term sumOfLogarithms(ln(5)+ln(7));
+    Term differenceOfLogarithms(ln(5)-ln(7));
+    Term logarithmWithMultiplier(ln(5)*7);
+
+    productLogarithm.simplify();
+    quotientLogarithm.simplify();
+    exponentLogarithm.simplify();
+    sumOfLogarithms.simplify();
+    differenceOfLogarithms.simplify();
+    logarithmWithMultiplier.simplify();
+
+    EXPECT_EQ(productLogarithm, sumOfLogarithms);
+    EXPECT_EQ(quotientLogarithm, differenceOfLogarithms);
+    EXPECT_EQ(exponentLogarithm, logarithmWithMultiplier);
+}
+
 TEST(CommonFunctionLibraryTest, LogarithmBase10FunctionWorks)
 {
     Function logarithmBase10FunctionObject(log(5));
-
     EXPECT_EQ("log", logarithmBase10FunctionObject.getFunctionName());
     EXPECT_EQ(Term(5), getTermConstReferenceFromBaseTerm(logarithmBase10FunctionObject.getInputTermConstReference()));
-    EXPECT_EQ(AlbaNumber(0.6989700043360189), logarithmBase10FunctionObject.performFunctionAndReturnResultIfPossible());
-}
+    EXPECT_EQ(AlbaNumber(0.6989700043360189), logarithmBase10FunctionObject.performFunctionAndReturnResultIfPossible());}
 
 TEST(CommonFunctionLibraryTest, HarmonicNumberFunctionWorks)
 {
@@ -90,14 +109,23 @@ TEST(CommonFunctionLibraryTest, HarmonicNumberFunctionWorks)
     EXPECT_EQ(AlbaNumber::createFraction(137, 60), harmonicNumberFunctionObject.performFunctionAndReturnResultIfPossible());
 }
 
+TEST(CommonFunctionLibraryTest, HarmonicNumberFunctionHasAnUpperBoundOfLog2NPlusOne)
+{
+    AlbaNumber sampleValue(100);
+    Term actualHarmonicNumber(harmonicNumber(sampleValue));
+    Term upperBoundValue(getLogarithm(2, sampleValue.getDouble())+1); //upper bound: lg(N)+1
+    actualHarmonicNumber.simplify();
+    upperBoundValue.simplify();
+
+    EXPECT_LT(actualHarmonicNumber.getConstantValueConstReference(), upperBoundValue.getConstantValueConstReference());
+}
+
 TEST(CommonFunctionLibraryTest, SineFunctionWorks)
 {
     Function sineFunction(sin(getPiAsATerm()));
-
     EXPECT_EQ("sin", sineFunction.getFunctionName());
     EXPECT_EQ(getPiAsATerm(), getTermConstReferenceFromBaseTerm(sineFunction.getInputTermConstReference()));
-    EXPECT_EQ(AlbaNumber(0), sineFunction.performFunctionAndReturnResultIfPossible());
-}
+    EXPECT_EQ(AlbaNumber(0), sineFunction.performFunctionAndReturnResultIfPossible());}
 
 TEST(CommonFunctionLibraryTest, CosineFunctionWorks)
 {

@@ -18,14 +18,13 @@ namespace Simplification
 class SimplificationOfExpression
 {
 public:
+    // is logarithm simplification needed?
     struct ConfigurationDetails
     {
-        bool shouldSimplifyToACommonDenominator;
-        bool shouldSimplifyWithEvenExponentsCancellationAndPutAbsoluteValueAtBase;
+        bool shouldSimplifyToACommonDenominator;        bool shouldSimplifyWithEvenExponentsCancellationAndPutAbsoluteValueAtBase;
         bool shouldSimplifyByCombiningRadicalsInMultiplicationAndDivision;
         bool shouldSimplifyByCheckingPolynomialRaiseToAnUnsignedInt;
-        bool shouldSimplifyByRationalizingNumerator;
-        bool shouldSimplifyByRationalizingDenominator;
+        bool shouldSimplifyByRationalizingNumerator;        bool shouldSimplifyByRationalizingDenominator;
         bool shouldSimplifyBySubstitutingExpressionAndFunctionsToVariables;
         bool shouldSimplifyToFactors;
         bool shouldNotFactorizeIfItWouldYieldToPolynomialsWithDoubleValue;

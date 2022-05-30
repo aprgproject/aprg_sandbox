@@ -82,15 +82,13 @@ void BaseOneEquationOneVariableSolver::calculateAndSubstituteAbsoluteValueFuncti
         auto itFunctionSet = absFunctions.cbegin();
         for(unsigned int i=0; i<absFunctions.size(); i++)
         {
-            bool isBitAsserted(((permutationValue >> i) & 1) != 0);
+            bool isBitAsserted((permutationValue >> i) & 1);
             Term termToReplace;
             Term const& absFunctionTerm(*itFunctionSet);
-            Term const& absFunctionInputTerm(getTermConstReferenceFromBaseTerm(itFunctionSet->getInputTermConstReference()));
-            if(isBitAsserted)
+            Term const& absFunctionInputTerm(getTermConstReferenceFromBaseTerm(itFunctionSet->getInputTermConstReference()));            if(isBitAsserted)
             {
                 termToReplace = absFunctionInputTerm;
-            }
-            else
+            }            else
             {
                 termToReplace = createExpressionIfPossible({-1, "*", absFunctionInputTerm});
             }
