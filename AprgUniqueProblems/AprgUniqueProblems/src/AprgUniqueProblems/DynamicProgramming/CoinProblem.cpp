@@ -165,36 +165,34 @@ unsigned int CoinProblem::getNumberOfCoinCombinations(Coin const total)
                 {
                     if(partialValue == 0)
                     {
-                        m_countPerValuePerCoin[partialValue][coinIndex] = 1;
+                        m_countPerValuePerCoin[partialValue][coinIndex] = 1; // null set when partial value is zero
                         continue;
                     }
                     if(coinIndex == 0)
                     {
-                        m_countPerValuePerCoin[partialValue][coinIndex] = (partialValue % m_availableCoins.at(coinIndex) == 0) ? 1 : 0;
+                        m_countPerValuePerCoin[partialValue][coinIndex] = (partialValue % m_availableCoins.at(coinIndex) == 0) ? 1 : 0; // one if divisible?
                         continue;
                     }
-                    if(partialValue >= m_availableCoins.at(coinIndex))
+                    if(partialValue >= m_availableCoins.at(coinIndex)) // if coin can be subtracted to value
                     {
                         m_countPerValuePerCoin[partialValue][coinIndex]
-                                = m_countPerValuePerCoin.at(partialValue).at(coinIndex-1)
-                                + m_countPerValuePerCoin.at(partialValue-m_availableCoins[coinIndex]).at(coinIndex);
+                                = m_countPerValuePerCoin.at(partialValue).at(coinIndex-1) // possibilities before this coin entry
+                                + m_countPerValuePerCoin.at(partialValue-m_availableCoins[coinIndex]).at(coinIndex); // possibilities with the subtracted value
                     }
                     else
                     {
-                        m_countPerValuePerCoin[partialValue][coinIndex] =  m_countPerValuePerCoin.at(partialValue).at(coinIndex-1);
+                        m_countPerValuePerCoin[partialValue][coinIndex] =  m_countPerValuePerCoin.at(partialValue).at(coinIndex-1); // possibilities before this coin entry
                     }
                 }
             }
         }
-        result = m_countPerValuePerCoin.at(total).back();
+        result = m_countPerValuePerCoin.at(total).back(); // last coin entry should contain all the possibilities
     }
     return result;
 }
-
 CoinProblem::CoinCombinations CoinProblem::getCoinCombinationsUsingRecursion(Coin const total)
 {
-    // this recursion method is exponential
-    if(total >= m_coinCombinations.size())
+    // this recursion method is exponential    if(total >= m_coinCombinations.size())
     {
         unsigned int newSize = max(total+1, *(minmax_element(m_availableCoins.cbegin(), m_availableCoins.cend()).second));
         m_coinCombinations.resize(newSize);

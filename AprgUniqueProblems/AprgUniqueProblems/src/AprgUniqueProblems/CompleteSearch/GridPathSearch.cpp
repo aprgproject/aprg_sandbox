@@ -9,19 +9,17 @@ GridPathSearch::GridPathSearch(
     , m_numberOfCells(gridSide*gridSide)
     , m_numberTraversedCells(0U)
     , m_numberOfCompletePaths(0U)
-    , m_grid(gridSide, gridSide)
+    , m_grid() // just initialize this when searching
 {}
 
 unsigned int GridPathSearch::countPaths()
 {
-    search();
+    startSearch();
     return m_numberOfCompletePaths;
 }
-
 bool GridPathSearch::isLowerRightCorner(unsigned int const x, unsigned int const y)
 {
-    return x == m_grid.getNumberOfColumns()-1 && y == m_grid.getNumberOfRows()-1; // lower-right corner
-}
+    return x == m_grid.getNumberOfColumns()-1 && y == m_grid.getNumberOfRows()-1; // lower-right corner}
 
 bool GridPathSearch::canTraverse(unsigned int const x, unsigned int const y)
 {
@@ -65,20 +63,20 @@ bool GridPathSearch::shouldStop(unsigned int const x, unsigned int const y, Move
     return false;
 }
 
-void GridPathSearch::search()
+void GridPathSearch::startSearch()
 {
     // Optimization 1: In any solution, we first move one step down or right.
     // There are always two paths that are symmetric about the diagonal of the grid after the first step.
     // Hence, we can decide that we always first move one step down (or right), and finally multiply the number of solutions by two.
 
+    m_numberOfCompletePaths=0;
     m_numberTraversedCells=2;
+    m_grid.clearAndResize(m_gridSide, m_gridSide);
     m_grid.setEntry(0U, 0U, true);
     m_grid.setEntry(1U, 0U, true); // lets pick right
-
     search(1U, 0U, Movement::Right);
 
-    m_numberOfCompletePaths*=2; // multiply by 2 (optimization 1)
-}
+    m_numberOfCompletePaths*=2; // multiply by 2 (optimization 1)}
 
 void GridPathSearch::search(unsigned int const x, unsigned int const y, Movement const previousMovement)
 {

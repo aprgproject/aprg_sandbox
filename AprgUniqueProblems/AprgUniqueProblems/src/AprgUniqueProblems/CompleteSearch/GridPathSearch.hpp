@@ -27,14 +27,13 @@ private:
     bool isLowerRightCorner(unsigned int const x, unsigned int const y);
     bool canTraverse(unsigned int const x, unsigned int const y);
     bool shouldStop(unsigned int const x, unsigned int const y, Movement const previousMovement);
-    void search();
+    void startSearch();
     void search(unsigned int const x, unsigned int const y, Movement const previousMovement);
     void searchNextCoordinate(unsigned int const x, unsigned int const y, Movement const movement);
-    unsigned int m_gridSide;
-    unsigned int m_numberOfCells;
+    unsigned int const m_gridSide;
+    unsigned int const m_numberOfCells;
     unsigned int m_numberTraversedCells;
     unsigned int m_numberOfCompletePaths;
-    Grid m_grid;
-};
+    Grid m_grid;};
 
 }
