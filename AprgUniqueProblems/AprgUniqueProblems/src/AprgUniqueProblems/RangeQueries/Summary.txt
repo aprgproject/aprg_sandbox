@@ -1,0 +1,6 @@
+
+In a range query, our task is to calculate a value based on a subarray of an array.
+
+Static array queries
+We first focus on a situation where the array is static, i.e., the array values are never updated between the queries. 
+In this case, it suffices to construct a static data structure that tells us the answer for any possible query.
