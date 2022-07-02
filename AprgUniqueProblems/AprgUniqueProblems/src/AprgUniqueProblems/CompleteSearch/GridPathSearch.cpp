@@ -17,9 +17,11 @@ unsigned int GridPathSearch::countPaths()
     startSearch();
     return m_numberOfCompletePaths;
 }
+
 bool GridPathSearch::isLowerRightCorner(unsigned int const x, unsigned int const y)
 {
-    return x == m_grid.getNumberOfColumns()-1 && y == m_grid.getNumberOfRows()-1; // lower-right corner}
+    return x == m_grid.getNumberOfColumns()-1 && y == m_grid.getNumberOfRows()-1; // lower-right corner
+}
 
 bool GridPathSearch::canTraverse(unsigned int const x, unsigned int const y)
 {
@@ -74,9 +76,11 @@ void GridPathSearch::startSearch()
     m_grid.clearAndResize(m_gridSide, m_gridSide);
     m_grid.setEntry(0U, 0U, true);
     m_grid.setEntry(1U, 0U, true); // lets pick right
+
     search(1U, 0U, Movement::Right);
 
-    m_numberOfCompletePaths*=2; // multiply by 2 (optimization 1)}
+    m_numberOfCompletePaths*=2; // multiply by 2 (optimization 1)
+}
 
 void GridPathSearch::search(unsigned int const x, unsigned int const y, Movement const previousMovement)
 {

@@ -34,6 +34,7 @@ private:
     unsigned int const m_numberOfCells;
     unsigned int m_numberTraversedCells;
     unsigned int m_numberOfCompletePaths;
-    Grid m_grid;};
+    Grid m_grid;
+};
 
 }

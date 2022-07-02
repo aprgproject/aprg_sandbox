@@ -32,7 +32,9 @@ KnapsackProblem::Values KnapsackProblem::getAllPossiblePartialSums() const
         if(isAPossiblePartialSum.at(partialSumIndex))
         {
             result.emplace_back(partialSumIndex);
-        }    }
+        }
+    }
     return result;
 }
+
 }

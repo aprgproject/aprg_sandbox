@@ -85,10 +85,12 @@ void BaseOneEquationOneVariableSolver::calculateAndSubstituteAbsoluteValueFuncti
             bool isBitAsserted((permutationValue >> i) & 1);
             Term termToReplace;
             Term const& absFunctionTerm(*itFunctionSet);
-            Term const& absFunctionInputTerm(getTermConstReferenceFromBaseTerm(itFunctionSet->getInputTermConstReference()));            if(isBitAsserted)
+            Term const& absFunctionInputTerm(getTermConstReferenceFromBaseTerm(itFunctionSet->getInputTermConstReference()));
+            if(isBitAsserted)
             {
                 termToReplace = absFunctionInputTerm;
-            }            else
+            }
+            else
             {
                 termToReplace = createExpressionIfPossible({-1, "*", absFunctionInputTerm});
             }

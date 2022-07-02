@@ -9,9 +9,6 @@ using namespace std;
 namespace alba
 {
 
-namespace algorithm
-{
-
 namespace
 {
 using Values = vector<int>;
@@ -37,8 +34,6 @@ TEST(MaximumSubArraySumTest, GetMaximumSubArraySumWithDetailsWorksOnExample1)
     EXPECT_EQ(1U, subArrayDetailsToVerify.lowIndex);
     EXPECT_EQ(5U, subArrayDetailsToVerify.highIndex);
     EXPECT_EQ(10, subArrayDetailsToVerify.sum);
-}
-
 }
 
 }

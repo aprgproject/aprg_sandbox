@@ -20,7 +20,7 @@ TaskAndDeadlines::TaskNames TaskAndDeadlines::getTasksOrderWithMaximumScore() co
     TaskNames result;
 
     Tasks taskToSchedule(m_tasks);
-    std::sort(taskToSchedule.begin(), taskToSchedule.end(), [](Task const& task1, Task const& task2) // sort by duration
+    sort(taskToSchedule.begin(), taskToSchedule.end(), [](Task const& task1, Task const& task2) // sort by duration
     {
         return task1.duration < task2.duration;
     });

@@ -5,9 +5,6 @@
 namespace alba
 {
 
-namespace algorithm
-{
-
 template <typename Values>
 class MaximumSubArraySum // the largest possible sum of a sequence of consecutive values in the array
 {
@@ -60,7 +57,5 @@ public:
         return bestSubArray;
     }
 };
-
-}
 
 }

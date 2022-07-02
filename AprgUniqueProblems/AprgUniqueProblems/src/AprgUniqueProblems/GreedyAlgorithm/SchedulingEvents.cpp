@@ -19,14 +19,14 @@ SchedulingEvents::EventNames SchedulingEvents::getAsMuchEventsAsPossible() const
     EventNames result;
 
     Events eventsToSchedule(m_events);
-    std::sort(eventsToSchedule.begin(), eventsToSchedule.end(), [](Event const& event1, Event const& event2) // sort by start time
+    sort(eventsToSchedule.begin(), eventsToSchedule.end(), [](Event const& event1, Event const& event2) // sort by start time
     {
         return event1.startTime < event2.startTime;
     });
 
     while(!eventsToSchedule.empty())
     {
-        auto it = std::min_element(eventsToSchedule.begin(), eventsToSchedule.end(), [](Event const& event1, Event const& event2)
+        auto it = min_element(eventsToSchedule.begin(), eventsToSchedule.end(), [](Event const& event1, Event const& event2)
         {return event1.endTime < event2.endTime;});
 
         unsigned int endTimeOfSelectedEvent = it->endTime;

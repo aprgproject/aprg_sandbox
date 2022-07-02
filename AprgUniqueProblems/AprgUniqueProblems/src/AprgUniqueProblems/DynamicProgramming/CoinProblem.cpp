@@ -190,9 +190,11 @@ unsigned int CoinProblem::getNumberOfCoinCombinations(Coin const total)
     }
     return result;
 }
+
 CoinProblem::CoinCombinations CoinProblem::getCoinCombinationsUsingRecursion(Coin const total)
 {
-    // this recursion method is exponential    if(total >= m_coinCombinations.size())
+    // this recursion method is exponential
+    if(total >= m_coinCombinations.size())
     {
         unsigned int newSize = max(total+1, *(minmax_element(m_availableCoins.cbegin(), m_availableCoins.cend()).second));
         m_coinCombinations.resize(newSize);
