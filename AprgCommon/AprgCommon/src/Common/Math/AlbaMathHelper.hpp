@@ -80,19 +80,25 @@ inline bool isAlmostAnInteger(double const value, double const differenceToleran
     return isAlmostEqual(value, round(value), differenceTolerance);
 }
 template <typename NumberType> bool isValueBeyondLimits(double const value);
-template <typename NumberType> NumberType getIntegerAfterRoundingDoubleValue(double const doubleValue)
+template <typename NumberType> NumberType getIntegerAfterRoundingADoubleValue(double const doubleValue)
 {
     return static_cast<NumberType>(round(doubleValue));
+}
+template <typename NumberType> NumberType getIntegerAfterFloorOfDoubleValue(double const doubleValue)
+{
+    return static_cast<NumberType>(floor(doubleValue));
+}
+template <typename NumberType> NumberType getIntegerAfterCeilingOfDoubleValue(double const doubleValue)
+{
+    return static_cast<NumberType>(ceil(doubleValue));
 }
 int getIntegerPartInDouble(double const doubleValue);
 double getFractionalPartInDouble(double const doubleValue);
 AlbaNumber convertIfInfinityToNearestFiniteValue(AlbaNumber const& value);
 
-
 //Sign related functions
 template <typename NumberType> inline NumberType getAbsoluteValue(NumberType const value)
-{
-    return (value<0) ? value*-1 : value;
+{    return (value<0) ? value*-1 : value;
 }
 template <> inline unsigned int getAbsoluteValue<unsigned int>(unsigned int const value)
 {

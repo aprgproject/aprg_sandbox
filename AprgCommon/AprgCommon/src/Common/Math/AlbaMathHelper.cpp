@@ -70,16 +70,14 @@ FractionDetails getFractionFromPartialNumerators(
     }
     return FractionDetails{
         1,
-        getIntegerAfterRoundingDoubleValue<unsigned int>(numerator),
-                getIntegerAfterRoundingDoubleValue<unsigned int>(denominator)};
+        getIntegerAfterRoundingADoubleValue<unsigned int>(numerator),
+                getIntegerAfterRoundingADoubleValue<unsigned int>(denominator)};
 }
 
-//end of internal functions
-}
+//end of internal functions}
 
 
-//isAlmostEqual
-//Commented out: This implementation is not practical when value is equal to zero
+//isAlmostEqual//Commented out: This implementation is not practical when value is equal to zero
 //template <> bool isAlmostEqual<double>(double const value1, double const value2)
 //{
 //    constexpr double absoluteScaledDifferenceTolerance(1E-12);
@@ -268,14 +266,12 @@ unsigned int getFibonacci(unsigned int const number)
     // Binets formula:
     double sqrtOf5 = sqrt(5);
     double fibonacciInDouble = (pow(1+sqrtOf5, number)-pow(1-sqrtOf5, number)) / (pow(2, number)*sqrtOf5);
-    return getIntegerAfterRoundingDoubleValue<unsigned int>(fibonacciInDouble);
+    return getIntegerAfterRoundingADoubleValue<unsigned int>(fibonacciInDouble);
 }
 
-unsigned int getValueAtPascalTriangle(unsigned int const rowIndex, unsigned int const columnIndex)
-{
+unsigned int getValueAtPascalTriangle(unsigned int const rowIndex, unsigned int const columnIndex){
     return getNumberOfCombinations(rowIndex, columnIndex);
 }
-
 int getStirlingNumberOfTheSecondKind(unsigned int const n, unsigned int const k)
 {
     //In mathematics, particularly in combinatorics, a Stirling number of the second kind (or Stirling partition number) is the number of ways to partition a set of n objects into k non-empty subsets

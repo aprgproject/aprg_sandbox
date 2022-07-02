@@ -264,14 +264,19 @@ TEST(AlbaMatrixTest, GetRowsWorks)
     EXPECT_EQ(6U, matrix.getNumberOfRows());
 }
 
-TEST(AlbaMatrixTest, GetMatrixIndexWorks)
+TEST(AlbaMatrixTest, GetNumberOfCellsWorks)
 {
     AlbaMatrix<unsigned int> matrix(14, 6);
 
+    EXPECT_EQ(84U, matrix.getNumberOfCells());
+}
+
+TEST(AlbaMatrixTest, GetMatrixIndexWorks)
+{
+    AlbaMatrix<unsigned int> matrix(14, 6);
     EXPECT_EQ(45U, matrix.getMatrixIndex(3, 3));
     EXPECT_EQ(73U, matrix.getMatrixIndex(3, 5));
-    EXPECT_EQ(47U, matrix.getMatrixIndex(5, 3));
-    EXPECT_EQ(75U, matrix.getMatrixIndex(5, 5));
+    EXPECT_EQ(47U, matrix.getMatrixIndex(5, 3));    EXPECT_EQ(75U, matrix.getMatrixIndex(5, 5));
 }
 
 TEST(AlbaMatrixTest, GetEntryWorks_ValueCanBeFetchedFromEmptyVector)
@@ -404,14 +409,23 @@ TEST(AlbaMatrixTest, RetrieveRowsWorks)
     EXPECT_EQ(6U, rows.at(2).at(1));
 }
 
+TEST(AlbaMatrixTest, RetrieveXAndYFromIndexWorks)
+{
+    AlbaMatrix<unsigned int> matrix(14, 6);
+
+    unsigned int x, y;
+    matrix.retrieveXAndYFromIndex(x, y, 43);
+
+    EXPECT_EQ(1U, x);
+    EXPECT_EQ(3U, y);
+}
+
 TEST(AlbaMatrixTest, SetEntryWorks_ValueCanSavedInTheMatrix)
 {
     AlbaMatrix<unsigned int> matrix(2, 3);
-
     matrix.setEntry(0, 0, 1);
     matrix.setEntry(1, 0, 2);
-    matrix.setEntry(0, 1, 3);
-    matrix.setEntry(1, 1, 4);
+    matrix.setEntry(0, 1, 3);    matrix.setEntry(1, 1, 4);
     matrix.setEntry(0, 2, 5);
     matrix.setEntry(1, 2, 6);
 

@@ -151,30 +151,60 @@ TEST(AlbaMathHelperTest, IsValueBeyondUnsignedLongLongIntegerLimitsWorks)
     EXPECT_TRUE(isValueBeyondLimits<unsigned long long int>(static_cast<double>(ULLONG_MAX)*2));
 }
 
-TEST(AlbaMathHelperTest, IntegerAfterRoundingDoubleValueWorks)
+TEST(AlbaMathHelperTest, GetIntegerAfterRoundingADoubleValueWorks)
 {
-    EXPECT_EQ(0, getIntegerAfterRoundingDoubleValue<int>(0));
-    EXPECT_EQ(1, getIntegerAfterRoundingDoubleValue<int>(1));
-    EXPECT_EQ(2, getIntegerAfterRoundingDoubleValue<int>(1.5));
-    EXPECT_EQ(-2, getIntegerAfterRoundingDoubleValue<int>(-1.5));
-    EXPECT_EQ(652, getIntegerAfterRoundingDoubleValue<int>(652.426542));
-    EXPECT_EQ(-348, getIntegerAfterRoundingDoubleValue<int>(-347.51514));
-    EXPECT_EQ(0U, getIntegerAfterRoundingDoubleValue<unsigned int>(0));
-    EXPECT_EQ(1U, getIntegerAfterRoundingDoubleValue<unsigned int>(1));
-    EXPECT_EQ(2U, getIntegerAfterRoundingDoubleValue<unsigned int>(1.5));
-    EXPECT_EQ(4294967294U, getIntegerAfterRoundingDoubleValue<unsigned int>(-1.5));
-    EXPECT_EQ(652U, getIntegerAfterRoundingDoubleValue<unsigned int>(652.426542));
-    EXPECT_EQ(4294966948U, getIntegerAfterRoundingDoubleValue<unsigned int>(-347.51514));
+    EXPECT_EQ(0, getIntegerAfterRoundingADoubleValue<int>(0));
+    EXPECT_EQ(1, getIntegerAfterRoundingADoubleValue<int>(1));
+    EXPECT_EQ(2, getIntegerAfterRoundingADoubleValue<int>(1.5));
+    EXPECT_EQ(-2, getIntegerAfterRoundingADoubleValue<int>(-1.5));
+    EXPECT_EQ(652, getIntegerAfterRoundingADoubleValue<int>(652.426542));
+    EXPECT_EQ(-348, getIntegerAfterRoundingADoubleValue<int>(-347.51514));
+    EXPECT_EQ(0U, getIntegerAfterRoundingADoubleValue<unsigned int>(0));
+    EXPECT_EQ(1U, getIntegerAfterRoundingADoubleValue<unsigned int>(1));
+    EXPECT_EQ(2U, getIntegerAfterRoundingADoubleValue<unsigned int>(1.5));
+    EXPECT_EQ(4294967294U, getIntegerAfterRoundingADoubleValue<unsigned int>(-1.5));
+    EXPECT_EQ(652U, getIntegerAfterRoundingADoubleValue<unsigned int>(652.426542));
+    EXPECT_EQ(4294966948U, getIntegerAfterRoundingADoubleValue<unsigned int>(-347.51514));
+}
+
+TEST(AlbaMathHelperTest, GetIntegerAfterFloorOfDoubleValueWorks)
+{
+    EXPECT_EQ(0, getIntegerAfterFloorOfDoubleValue<int>(0));
+    EXPECT_EQ(1, getIntegerAfterFloorOfDoubleValue<int>(1));
+    EXPECT_EQ(1, getIntegerAfterFloorOfDoubleValue<int>(1.5));
+    EXPECT_EQ(-2, getIntegerAfterFloorOfDoubleValue<int>(-1.5));
+    EXPECT_EQ(652, getIntegerAfterFloorOfDoubleValue<int>(652.426542));
+    EXPECT_EQ(-348, getIntegerAfterFloorOfDoubleValue<int>(-347.51514));
+    EXPECT_EQ(0U, getIntegerAfterFloorOfDoubleValue<unsigned int>(0));
+    EXPECT_EQ(1U, getIntegerAfterFloorOfDoubleValue<unsigned int>(1));
+    EXPECT_EQ(1U, getIntegerAfterFloorOfDoubleValue<unsigned int>(1.5));
+    EXPECT_EQ(4294967294U, getIntegerAfterFloorOfDoubleValue<unsigned int>(-1.5));
+    EXPECT_EQ(652U, getIntegerAfterFloorOfDoubleValue<unsigned int>(652.426542));
+    EXPECT_EQ(4294966948U, getIntegerAfterFloorOfDoubleValue<unsigned int>(-347.51514));
+}
+
+TEST(AlbaMathHelperTest, GetIntegerAfterCeilingOfDoubleValueWorks)
+{
+    EXPECT_EQ(0, getIntegerAfterCeilingOfDoubleValue<int>(0));
+    EXPECT_EQ(1, getIntegerAfterCeilingOfDoubleValue<int>(1));
+    EXPECT_EQ(2, getIntegerAfterCeilingOfDoubleValue<int>(1.5));
+    EXPECT_EQ(-1, getIntegerAfterCeilingOfDoubleValue<int>(-1.5));
+    EXPECT_EQ(653, getIntegerAfterCeilingOfDoubleValue<int>(652.426542));
+    EXPECT_EQ(-347, getIntegerAfterCeilingOfDoubleValue<int>(-347.51514));
+    EXPECT_EQ(0U, getIntegerAfterCeilingOfDoubleValue<unsigned int>(0));
+    EXPECT_EQ(1U, getIntegerAfterCeilingOfDoubleValue<unsigned int>(1));
+    EXPECT_EQ(2U, getIntegerAfterCeilingOfDoubleValue<unsigned int>(1.5));
+    EXPECT_EQ(4294967295U, getIntegerAfterCeilingOfDoubleValue<unsigned int>(-1.5));
+    EXPECT_EQ(653U, getIntegerAfterCeilingOfDoubleValue<unsigned int>(652.426542));
+    EXPECT_EQ(4294966949U, getIntegerAfterCeilingOfDoubleValue<unsigned int>(-347.51514));
 }
 
 TEST(AlbaMathHelperTest, IntegerPartInDoubleWorks)
 {
-    EXPECT_EQ(0, getIntegerPartInDouble(0));
-    EXPECT_EQ(1, getIntegerPartInDouble(1));
+    EXPECT_EQ(0, getIntegerPartInDouble(0));    EXPECT_EQ(1, getIntegerPartInDouble(1));
     EXPECT_EQ(1, getIntegerPartInDouble(1.5));
     EXPECT_EQ(-1, getIntegerPartInDouble(-1.5));
-    EXPECT_EQ(652, getIntegerPartInDouble(652.426542));
-    EXPECT_EQ(-347, getIntegerPartInDouble(-347.51514));
+    EXPECT_EQ(652, getIntegerPartInDouble(652.426542));    EXPECT_EQ(-347, getIntegerPartInDouble(-347.51514));
 }
 
 TEST(AlbaMathHelperTest, FractionalPartInDoubleWorks)

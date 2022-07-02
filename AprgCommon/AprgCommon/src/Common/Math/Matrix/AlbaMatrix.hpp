@@ -142,15 +142,18 @@ public:
         return m_numberOfRows;
     }
 
+    unsigned int getNumberOfCells() const
+    {
+        return m_numberOfColumns*m_numberOfRows;
+    }
+
     unsigned int getMatrixIndex(unsigned int const x, unsigned int const y) const
     {
-        return getMatrixIndex(x, y, m_numberOfColumns);
-    }
+        return getMatrixIndex(x, y, m_numberOfColumns);    }
 
     DataType getEntry(unsigned int const x, unsigned int const y) const
     {
-        assert(isInside(x, y));
-        return m_matrixData.at(getMatrixIndex(x, y));
+        assert(isInside(x, y));        return m_matrixData.at(getMatrixIndex(x, y));
     }
 
     MatrixData const& getMatrixData() const
@@ -212,14 +215,18 @@ public:
         }
     }
 
-    DataType & getEntryReference(unsigned int const x, unsigned int const y)
+    void retrieveXAndYFromIndex(unsigned int& x, unsigned int& y, unsigned int index) const
     {
-        assert(isInside(x, y));
-        return m_matrixData.at(getMatrixIndex(x, y));
+        x = index % m_numberOfColumns;
+        y = index / m_numberOfColumns;
     }
 
-    void setEntry(unsigned int const x, unsigned int const y, DataType const& value)
+    DataType & getEntryReference(unsigned int const x, unsigned int const y)
     {
+        assert(isInside(x, y));        return m_matrixData.at(getMatrixIndex(x, y));
+    }
+
+    void setEntry(unsigned int const x, unsigned int const y, DataType const& value)    {
         assert(isInside(x, y));
         m_matrixData[getMatrixIndex(x, y)] = value;
     }
