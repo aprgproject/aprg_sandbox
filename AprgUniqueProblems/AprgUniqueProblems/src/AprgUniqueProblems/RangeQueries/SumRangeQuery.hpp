@@ -19,10 +19,9 @@ public:
 
     SumRangeQuery(Values const& valuesToCheck);
 
-    Value getSumFromStartAndEnd(Index const start, Index const end) const;
+    Value getSumFromStartToEnd(Index const start, Index const end) const;
 private:
     void initialize(Values const& valuesToCheck);
-    Values m_partialSums;
-};
+    Values m_partialSums;};
 
 }
