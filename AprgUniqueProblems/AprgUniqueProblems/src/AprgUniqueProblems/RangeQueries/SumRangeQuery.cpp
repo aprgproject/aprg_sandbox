@@ -30,14 +30,17 @@ SumRangeQuery::Value SumRangeQuery::getSumFromStartToEnd(Index const start, Inde
     }
     return result;
 }
+
 void SumRangeQuery::initialize(Values const& valuesToCheck)
 {
     m_partialSums.reserve(valuesToCheck.size());
     Value partialSum{};
     for(Value const valueToCheck : valuesToCheck)
     {
-        partialSum += valueToCheck;        m_partialSums.emplace_back(partialSum);
+        partialSum += valueToCheck;
+        m_partialSums.emplace_back(partialSum);
     }
     m_partialSums.shrink_to_fit();
 }
+
 }

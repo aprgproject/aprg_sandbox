@@ -201,10 +201,12 @@ TEST(AlbaMathHelperTest, GetIntegerAfterCeilingOfDoubleValueWorks)
 
 TEST(AlbaMathHelperTest, IntegerPartInDoubleWorks)
 {
-    EXPECT_EQ(0, getIntegerPartInDouble(0));    EXPECT_EQ(1, getIntegerPartInDouble(1));
+    EXPECT_EQ(0, getIntegerPartInDouble(0));
+    EXPECT_EQ(1, getIntegerPartInDouble(1));
     EXPECT_EQ(1, getIntegerPartInDouble(1.5));
     EXPECT_EQ(-1, getIntegerPartInDouble(-1.5));
-    EXPECT_EQ(652, getIntegerPartInDouble(652.426542));    EXPECT_EQ(-347, getIntegerPartInDouble(-347.51514));
+    EXPECT_EQ(652, getIntegerPartInDouble(652.426542));
+    EXPECT_EQ(-347, getIntegerPartInDouble(-347.51514));
 }
 
 TEST(AlbaMathHelperTest, FractionalPartInDoubleWorks)
@@ -610,11 +612,13 @@ TEST(AlbaMathHelperTest, GetGreatestCommonPowerOf2FactorWorks)
 
 TEST(AlbaMathHelperTest, GetLeastCommonMultipleInDoubleWorks)
 {
-    EXPECT_DOUBLE_EQ(262144, getLeastCommonMultipleInDouble(65536, 262144));}
+    EXPECT_DOUBLE_EQ(262144, getLeastCommonMultipleInDouble(65536, 262144));
+}
 
 TEST(AlbaMathHelperTest, GetDifferenceFromGreaterMultipleWorks)
 {
-    EXPECT_EQ(0U, getDifferenceFromGreaterMultiple(0, 0));    EXPECT_EQ(0U, getDifferenceFromGreaterMultiple(10, 10));
+    EXPECT_EQ(0U, getDifferenceFromGreaterMultiple(0, 0));
+    EXPECT_EQ(0U, getDifferenceFromGreaterMultiple(10, 10));
     EXPECT_EQ(0U, getDifferenceFromGreaterMultiple(5, 10));
     EXPECT_EQ(5U, getDifferenceFromGreaterMultiple(10, 5));
     EXPECT_EQ(48U, getDifferenceFromGreaterMultiple(57, 2346));
@@ -715,7 +719,8 @@ TEST(AlbaMathHelperTest, IsPowerOfTwoForUnsignedIntWorks)
     EXPECT_TRUE(isPowerOfTwo(4U));
 }
 
-TEST(AlbaMathHelperTest, IsPerfectSquareForUnsignedIntWorks){
+TEST(AlbaMathHelperTest, IsPerfectSquareForUnsignedIntWorks)
+{
     EXPECT_TRUE(isPerfectSquare(0U));
     EXPECT_TRUE(isPerfectSquare(1U));
     EXPECT_FALSE(isPerfectSquare(3U));
@@ -734,7 +739,8 @@ TEST(AlbaMathHelperTest, IsPerfectCubeForUnsignedIntWorks)
     EXPECT_FALSE(isPerfectCube(1001U));
 }
 
-TEST(AlbaMathHelperTest, IsPerfectNthPowerForUnsignedIntWorks){
+TEST(AlbaMathHelperTest, IsPerfectNthPowerForUnsignedIntWorks)
+{
     EXPECT_TRUE(isPerfectNthPower(0U, 0U));
     EXPECT_TRUE(isPerfectNthPower(1U, 1U));
     EXPECT_FALSE(isPerfectNthPower(100U, 0U));
@@ -747,7 +753,8 @@ TEST(AlbaMathHelperTest, IsPerfectNthPowerForUnsignedIntWorks){
 
 TEST(AlbaMathHelperTest, IsPerfectCubeForAlbaNumberWorks)
 {
-    EXPECT_TRUE(isPerfectCube(AlbaNumber(0)));    EXPECT_TRUE(isPerfectCube(AlbaNumber(1)));
+    EXPECT_TRUE(isPerfectCube(AlbaNumber(0)));
+    EXPECT_TRUE(isPerfectCube(AlbaNumber(1)));
     EXPECT_TRUE(isPerfectCube(AlbaNumber(8)));
     EXPECT_FALSE(isPerfectCube(AlbaNumber(9)));
     EXPECT_TRUE(isPerfectCube(AlbaNumber(1000)));
@@ -758,7 +765,8 @@ TEST(AlbaMathHelperTest, IsPerfectCubeForAlbaNumberWorks)
 
 TEST(AlbaMathHelperTest, IsPerfectSquareForAlbaNumberWorks)
 {
-    EXPECT_TRUE(isPerfectSquare(AlbaNumber(0)));    EXPECT_TRUE(isPerfectSquare(AlbaNumber(1)));
+    EXPECT_TRUE(isPerfectSquare(AlbaNumber(0)));
+    EXPECT_TRUE(isPerfectSquare(AlbaNumber(1)));
     EXPECT_FALSE(isPerfectSquare(AlbaNumber(3)));
     EXPECT_TRUE(isPerfectSquare(AlbaNumber(4)));
     EXPECT_TRUE(isPerfectSquare(AlbaNumber(100)));
@@ -769,10 +777,12 @@ TEST(AlbaMathHelperTest, IsPerfectSquareForAlbaNumberWorks)
 
 TEST(AlbaMathHelperTest, IsPerfectNthPowerForAlbaNumberWorks)
 {
-    EXPECT_TRUE(isPerfectNthPower(AlbaNumber(0U), 0U));    EXPECT_TRUE(isPerfectNthPower(AlbaNumber(1), 1U));
+    EXPECT_TRUE(isPerfectNthPower(AlbaNumber(0U), 0U));
+    EXPECT_TRUE(isPerfectNthPower(AlbaNumber(1), 1U));
     EXPECT_FALSE(isPerfectNthPower(AlbaNumber(100), 0U));
     EXPECT_TRUE(isPerfectNthPower(AlbaNumber(100), 1U));
-    EXPECT_TRUE(isPerfectNthPower(AlbaNumber(100), 2U));    EXPECT_FALSE(isPerfectNthPower(AlbaNumber(101), 2U));
+    EXPECT_TRUE(isPerfectNthPower(AlbaNumber(100), 2U));
+    EXPECT_FALSE(isPerfectNthPower(AlbaNumber(101), 2U));
     EXPECT_TRUE(isPerfectNthPower(AlbaNumber::createFraction(100, 36), 2U));
     EXPECT_FALSE(isPerfectNthPower(AlbaNumber::createFraction(100, 37), 2U));
     EXPECT_TRUE(isPerfectNthPower(AlbaNumber(1000), 3U));

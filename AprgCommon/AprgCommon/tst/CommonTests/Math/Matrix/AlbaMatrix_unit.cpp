@@ -274,9 +274,11 @@ TEST(AlbaMatrixTest, GetNumberOfCellsWorks)
 TEST(AlbaMatrixTest, GetMatrixIndexWorks)
 {
     AlbaMatrix<unsigned int> matrix(14, 6);
+
     EXPECT_EQ(45U, matrix.getMatrixIndex(3, 3));
     EXPECT_EQ(73U, matrix.getMatrixIndex(3, 5));
-    EXPECT_EQ(47U, matrix.getMatrixIndex(5, 3));    EXPECT_EQ(75U, matrix.getMatrixIndex(5, 5));
+    EXPECT_EQ(47U, matrix.getMatrixIndex(5, 3));
+    EXPECT_EQ(75U, matrix.getMatrixIndex(5, 5));
 }
 
 TEST(AlbaMatrixTest, GetEntryWorks_ValueCanBeFetchedFromEmptyVector)
@@ -423,9 +425,11 @@ TEST(AlbaMatrixTest, RetrieveXAndYFromIndexWorks)
 TEST(AlbaMatrixTest, SetEntryWorks_ValueCanSavedInTheMatrix)
 {
     AlbaMatrix<unsigned int> matrix(2, 3);
+
     matrix.setEntry(0, 0, 1);
     matrix.setEntry(1, 0, 2);
-    matrix.setEntry(0, 1, 3);    matrix.setEntry(1, 1, 4);
+    matrix.setEntry(0, 1, 3);
+    matrix.setEntry(1, 1, 4);
     matrix.setEntry(0, 2, 5);
     matrix.setEntry(1, 2, 6);
 

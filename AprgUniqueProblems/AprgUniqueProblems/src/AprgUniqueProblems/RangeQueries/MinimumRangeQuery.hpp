@@ -29,4 +29,5 @@ private:
     void initialize(Values const& valuesToCheck);
     ValueMatrix m_minimumValues;
 };
+
 }

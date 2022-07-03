@@ -74,10 +74,12 @@ FractionDetails getFractionFromPartialNumerators(
                 getIntegerAfterRoundingADoubleValue<unsigned int>(denominator)};
 }
 
-//end of internal functions}
+//end of internal functions
+}
 
 
-//isAlmostEqual//Commented out: This implementation is not practical when value is equal to zero
+//isAlmostEqual
+//Commented out: This implementation is not practical when value is equal to zero
 //template <> bool isAlmostEqual<double>(double const value1, double const value2)
 //{
 //    constexpr double absoluteScaledDifferenceTolerance(1E-12);
@@ -269,9 +271,11 @@ unsigned int getFibonacci(unsigned int const number)
     return getIntegerAfterRoundingADoubleValue<unsigned int>(fibonacciInDouble);
 }
 
-unsigned int getValueAtPascalTriangle(unsigned int const rowIndex, unsigned int const columnIndex){
+unsigned int getValueAtPascalTriangle(unsigned int const rowIndex, unsigned int const columnIndex)
+{
     return getNumberOfCombinations(rowIndex, columnIndex);
 }
+
 int getStirlingNumberOfTheSecondKind(unsigned int const n, unsigned int const k)
 {
     //In mathematics, particularly in combinatorics, a Stirling number of the second kind (or Stirling partition number) is the number of ways to partition a set of n objects into k non-empty subsets
@@ -377,10 +381,12 @@ unsigned int getGreatestPowerOf2Factor(unsigned int const number)
 
 unsigned int getGreatestCommonFactor(unsigned int const firstNumber, unsigned int const secondNumber)
 {
-    unsigned int result(0);    unsigned int temporaryFirstNumber(firstNumber);
+    unsigned int result(0);
+    unsigned int temporaryFirstNumber(firstNumber);
     unsigned int temporarySecondNumber(secondNumber);
     while(true)
-    {        if(temporaryFirstNumber==0)
+    {
+        if(temporaryFirstNumber==0)
         {
             result = temporarySecondNumber;
             break;
@@ -538,10 +544,12 @@ bool isPerfectSquare(AlbaNumber const& value)
 bool isPerfectNthPower(
         AlbaNumber const& number,
         unsigned int const nthPower)
-{    bool result(false);
+{
+    bool result(false);
     if(number.isIntegerType())
     {
-        int integerValue(static_cast<int>(number.getInteger()));        result = integerValue >= 0 && isPerfectNthPower(static_cast<unsigned int>(integerValue), nthPower);
+        int integerValue(static_cast<int>(number.getInteger()));
+        result = integerValue >= 0 && isPerfectNthPower(static_cast<unsigned int>(integerValue), nthPower);
     }
     else if(number.isFractionType())
     {

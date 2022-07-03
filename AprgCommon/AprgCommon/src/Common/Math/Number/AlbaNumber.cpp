@@ -907,10 +907,12 @@ long long int AlbaNumber::getInteger() const
         result = getIntegerAfterRoundingADoubleValue<long long int>(
                     createComplexNumberFromData(m_data.complexNumberData).getModulusWithSignOfRealPart());
     }
-    return result;}
+    return result;
+}
 
 double AlbaNumber::getDouble() const
-{    double result(0);
+{
+    double result(0);
     if(m_type==Type::Integer)
     {
         result = static_cast<double>(m_data.intData);
@@ -1066,10 +1068,12 @@ void AlbaNumber::constructBasedFromFractionDetails(NumberType1 const numerator, 
                     getIntegerAfterRoundingADoubleValue<long long int>(
                         static_cast<double>(numerator) / denominator));
     }
-    else    {
+    else
+    {
         m_type = AlbaNumber::Type::Fraction;
         FractionDetails fractionDetails(getFractionDetailsInLowestForm(numerator, denominator));
-        FractionData& fractionDataReference(m_data.fractionData);        fractionDataReference.numerator = fractionDetails.sign * static_cast<int>(fractionDetails.numerator);
+        FractionData& fractionDataReference(m_data.fractionData);
+        fractionDataReference.numerator = fractionDetails.sign * static_cast<int>(fractionDetails.numerator);
         fractionDataReference.denominator = fractionDetails.denominator;
     }
 }
@@ -1110,9 +1114,11 @@ void AlbaNumber::convertFromDoubleToIntegerIfNeeded()
         *this = AlbaNumber(getIntegerAfterRoundingADoubleValue<long long int>(realValue));
     }
 }
+
 double AlbaNumber::adjustFloatValue(float const value) const
 {
-    double result(value);    if(isAlmostAnInteger(value, Configuration::getInstance().getConfigurationDetails().floatAdjustmentTolerance))
+    double result(value);
+    if(isAlmostAnInteger(value, Configuration::getInstance().getConfigurationDetails().floatAdjustmentTolerance))
     {
         result=round(value);
     }
@@ -1167,10 +1173,12 @@ AlbaNumber AlbaNumber::addBothFractionsAndReturnNumber(
                 getIntegerAfterRoundingADoubleValue<unsigned int>(lcm));
 }
 
-AlbaNumber AlbaNumber::addIntegerAndDoubleAndReturnNumber(        long long int const integerValue,
+AlbaNumber AlbaNumber::addIntegerAndDoubleAndReturnNumber(
+        long long int const integerValue,
         double const doubleValue) const
 {
-    return AlbaNumber(static_cast<double>(integerValue) + doubleValue);}
+    return AlbaNumber(static_cast<double>(integerValue) + doubleValue);
+}
 
 AlbaNumber AlbaNumber::addIntegerAndFractionAndReturnNumber(
         bool & shouldBeConvertedToDouble,
@@ -1184,10 +1192,12 @@ AlbaNumber AlbaNumber::addIntegerAndFractionAndReturnNumber(
     return AlbaNumber::createFraction(getIntegerAfterRoundingADoubleValue<int>(numerator), fractionData.denominator);
 }
 
-AlbaNumber AlbaNumber::addFractionAndDoubleAndReturnNumber(FractionData const& fractionData, double const doubleValue) const{
+AlbaNumber AlbaNumber::addFractionAndDoubleAndReturnNumber(FractionData const& fractionData, double const doubleValue) const
+{
     return AlbaNumber(
                 static_cast<double>(
-                    static_cast<double>(fractionData.numerator) / static_cast<double>(fractionData.denominator)                    + doubleValue));
+                    static_cast<double>(fractionData.numerator) / static_cast<double>(fractionData.denominator)
+                    + doubleValue));
 }
 
 AlbaNumber AlbaNumber::multiplyBothIntegersAndReturnNumber(
@@ -1218,10 +1228,12 @@ AlbaNumber AlbaNumber::multiplyBothFractionsAndReturnNumber(
                 getIntegerAfterRoundingADoubleValue<unsigned int>(denominator));
 }
 
-AlbaNumber AlbaNumber::multiplyIntegerAndDoubleAndReturnNumber(        long long int const integerValue,
+AlbaNumber AlbaNumber::multiplyIntegerAndDoubleAndReturnNumber(
+        long long int const integerValue,
         double const doubleValue) const
 {
-    return AlbaNumber(static_cast<double>(integerValue) * doubleValue);}
+    return AlbaNumber(static_cast<double>(integerValue) * doubleValue);
+}
 
 AlbaNumber AlbaNumber::multiplyIntegerAndFractionAndReturnNumber(
         bool & shouldBeConvertedToDouble,
@@ -1233,10 +1245,12 @@ AlbaNumber AlbaNumber::multiplyIntegerAndFractionAndReturnNumber(
     return AlbaNumber::createFraction(getIntegerAfterRoundingADoubleValue<int>(numerator), fractionData.denominator);
 }
 
-AlbaNumber AlbaNumber::multiplyFractionAndDoubleAndReturnNumber(FractionData const& fractionData, double const doubleValue) const{
+AlbaNumber AlbaNumber::multiplyFractionAndDoubleAndReturnNumber(FractionData const& fractionData, double const doubleValue) const
+{
     return AlbaNumber(
                 static_cast<double>(
-                    static_cast<double>(fractionData.numerator)/fractionData.denominator *                    doubleValue));
+                    static_cast<double>(fractionData.numerator)/fractionData.denominator *
+                    doubleValue));
 }
 
 AlbaNumber AlbaNumber::divideBothIntegersAndReturnNumber(
@@ -1269,10 +1283,12 @@ AlbaNumber AlbaNumber::divideDividendsAndDivisorsAndReturnNumber(
                 getIntegerAfterRoundingADoubleValue<int>(denominator));
 }
 
-AlbaNumber AlbaNumber::divideBothFractionsAndReturnNumber(        bool & shouldBeConvertedToDouble,
+AlbaNumber AlbaNumber::divideBothFractionsAndReturnNumber(
+        bool & shouldBeConvertedToDouble,
         AlbaNumber::FractionData const& dividendFractionData,
         AlbaNumber::FractionData const& divisorFractionData) const
-{    double denominator(static_cast<double>(dividendFractionData.denominator) * divisorFractionData.numerator);
+{
+    double denominator(static_cast<double>(dividendFractionData.denominator) * divisorFractionData.numerator);
     double numerator(static_cast<double>(dividendFractionData.numerator) * divisorFractionData.denominator * getSign(denominator));
     denominator = getAbsoluteValue(denominator);
     shouldBeConvertedToDouble = isValueBeyondLimits<int>(numerator) || isValueBeyondLimits<int>(denominator);
@@ -1281,10 +1297,12 @@ AlbaNumber AlbaNumber::divideBothFractionsAndReturnNumber(        bool & shouldB
                 getIntegerAfterRoundingADoubleValue<int>(denominator));
 }
 
-AlbaNumber AlbaNumber::raisePowerOfBothIntegersAndReturnNumber(        bool & shouldBeConvertedToDouble,
+AlbaNumber AlbaNumber::raisePowerOfBothIntegersAndReturnNumber(
+        bool & shouldBeConvertedToDouble,
         long long int const base,
         long long int const exponent) const
-{    AlbaNumber result;
+{
+    AlbaNumber result;
     double baseRaiseToExponent(pow(base, getAbsoluteValue(exponent)));
     if(exponent<0)
     {
@@ -1298,9 +1316,11 @@ AlbaNumber AlbaNumber::raisePowerOfBothIntegersAndReturnNumber(        bool & sh
     }
     return result;
 }
+
 AlbaNumber AlbaNumber::raisePowerOfFractionsAndIntegerAndReturnNumber(
         bool & shouldBeConvertedToDouble,
-        AlbaNumber::FractionData const& baseFractionData,        long long int const exponent) const
+        AlbaNumber::FractionData const& baseFractionData,
+        long long int const exponent) const
 {
     AlbaNumber result;
     unsigned long long int absoluteValueOfExponent(static_cast<unsigned long long int>(getAbsoluteValue(exponent)));
@@ -1316,7 +1336,8 @@ AlbaNumber AlbaNumber::raisePowerOfFractionsAndIntegerAndReturnNumber(
                     getIntegerAfterRoundingADoubleValue<unsigned int>(denominator));
     }
     else
-    {        double numerator(previousNumeratorRaiseToExponent);
+    {
+        double numerator(previousNumeratorRaiseToExponent);
         double denominator(previousDenominatorRaiseToExponent);
         shouldBeConvertedToDouble = isValueBeyondLimits<int>(numerator) || isValueBeyondLimits<unsigned int>(denominator);
         result = AlbaNumber::createFraction(
@@ -1325,9 +1346,11 @@ AlbaNumber AlbaNumber::raisePowerOfFractionsAndIntegerAndReturnNumber(
     }
     return result;
 }
+
 void AlbaNumber::putDisplayableStringForDouble(
         stringstream & result,
-        double const& doubleValue) const{
+        double const& doubleValue) const
+{
     if(PI_DOUBLE_VALUE == doubleValue)
     {
         result << "(pi)";
