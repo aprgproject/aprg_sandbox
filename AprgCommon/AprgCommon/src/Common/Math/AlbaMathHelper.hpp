@@ -1,12 +1,11 @@
 #pragma once
 
+#include <Common/Bit/AlbaBitValueUtilities.hpp>
 #include <Common/Math/AlbaMathConstants.hpp>
 #include <Common/Math/Number/AlbaNumber.hpp>
 #include <Common/Math/Number/AlbaNumberTypes.hpp>
-
 #include <algorithm>
 #include <vector>
-
 namespace alba
 {
 
@@ -199,13 +198,12 @@ bool isOdd(unsigned int const number);
 
 //Factor and multiple related functions
 bool isPrime(unsigned int const number);
+unsigned int getGreatestPowerOf2Factor(unsigned int const number);
 unsigned int getGreatestCommonFactor(unsigned int const firstNumber, unsigned int const secondNumber);
 AlbaNumber getGreatestCommonFactor(AlbaNumber const& firstNumber, AlbaNumber const& secondNumber); // different implementation
-unsigned int getLeastCommonMultiple(unsigned int const firstNumber, unsigned int const secondNumber);
-AlbaNumber getLeastCommonMultiple(AlbaNumber const& firstNumber, AlbaNumber const& secondNumber); // different implementation
+unsigned int getLeastCommonMultiple(unsigned int const firstNumber, unsigned int const secondNumber);AlbaNumber getLeastCommonMultiple(AlbaNumber const& firstNumber, AlbaNumber const& secondNumber); // different implementation
 double getLeastCommonMultipleInDouble(unsigned int const firstNumber, unsigned int const secondNumber);
 unsigned int getDifferenceFromGreaterMultiple(unsigned int const multiple, unsigned int const number);
-
 
 //Fraction related functions
 template <typename NumberType1, typename NumberType2>
@@ -214,19 +212,31 @@ FractionDetails getBestFractionDetailsForDoubleValue(double const doubleValue);
 
 
 //Power related functions
-template <typename NumberType> bool isPerfectCube(NumberType const value);
-bool isPerfectCube(AlbaNumber const& value); // pass as const reference
-template <typename NumberType> bool isPerfectSquare(NumberType const value);
+template <typename NumberType> bool isPerfectNthPower(NumberType const value, NumberType const nthPower); // declare this first
+template <typename NumberType> bool isPowerOfTwo(NumberType const value)
+{
+    return AlbaBitValueUtilities<NumberType>::isPowerOfTwo(value);
+}
+template <typename NumberType> bool isPerfectSquare(NumberType const value)
+{
+    return isPerfectNthPower(value, static_cast<NumberType>(2));
+}
+template <typename NumberType> bool isPerfectCube(NumberType const value)
+{
+    return isPerfectNthPower(value, static_cast<NumberType>(3));
+}
+template <typename NumberType> bool isPerfectNthPower(NumberType const value, NumberType const nthPower)
+{
+    return isAlmostAnInteger<double, NumberType>(pow(value, static_cast<double>(1)/nthPower));
+}
 bool isPerfectSquare(AlbaNumber const& value); // pass as const reference
-bool isPerfectNthPower(unsigned int const valueToCheck, unsigned int const nthPower);
+bool isPerfectCube(AlbaNumber const& value); // pass as const reference
 bool isPerfectNthPower(AlbaNumber const& number, unsigned int const nthPower); // different implementation
 int getRaiseToPowerForIntegers(int const base, unsigned int exponent);
 
-
 //Digit related functions
 template <typename NumberType> unsigned int getNumberOfDigitsOnBase(NumberType const base, NumberType const value)
-{
-    unsigned int result(0);
+{    unsigned int result(0);
     NumberType absoluteValue(getAbsoluteValue(value));
     if(absoluteValue >= 1)
     {

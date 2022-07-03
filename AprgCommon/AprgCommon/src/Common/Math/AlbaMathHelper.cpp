@@ -370,14 +370,17 @@ bool isPrime(unsigned int const number)
     return result;
 }
 
+unsigned int getGreatestPowerOf2Factor(unsigned int const number)
+{
+    return AlbaBitValueUtilities<unsigned int>::getGreatestPowerOf2Factor(number);
+}
+
 unsigned int getGreatestCommonFactor(unsigned int const firstNumber, unsigned int const secondNumber)
 {
-    unsigned int result(0);
-    unsigned int temporaryFirstNumber(firstNumber);
+    unsigned int result(0);    unsigned int temporaryFirstNumber(firstNumber);
     unsigned int temporarySecondNumber(secondNumber);
     while(true)
-    {
-        if(temporaryFirstNumber==0)
+    {        if(temporaryFirstNumber==0)
         {
             result = temporarySecondNumber;
             break;
@@ -521,49 +524,24 @@ FractionDetails getBestFractionDetailsForDoubleValue(
 }
 
 
-//isPerfectCube
-template <typename NumberType>
-bool isPerfectCube(NumberType const value)
-{
-    return isPerfectNthPower(value, 3);
-}
-template bool isPerfectCube<unsigned int>(unsigned int const value);
+
 bool isPerfectCube(AlbaNumber const& value)
 {
     return isPerfectNthPower(value, 3);
 }
 
-
-//isPerfectSquare
-template <typename NumberType>
-bool isPerfectSquare(NumberType const value)
-{
-    return isPerfectNthPower(value, 2);
-}
-template bool isPerfectSquare<unsigned int>(unsigned int const value);
 bool isPerfectSquare(AlbaNumber const& value)
 {
     return isPerfectNthPower(value, 2);
 }
 
-
-bool isPerfectNthPower(
-        unsigned int const value,
-        unsigned int const nthPower)
-{
-    double valueRaiseToTheReciprocal = pow(value, static_cast<double>(1)/nthPower);
-    return isAlmostAnInteger<double, unsigned int>(valueRaiseToTheReciprocal);
-}
-
 bool isPerfectNthPower(
         AlbaNumber const& number,
         unsigned int const nthPower)
-{
-    bool result(false);
+{    bool result(false);
     if(number.isIntegerType())
     {
-        int integerValue(static_cast<int>(number.getInteger()));
-        result = integerValue >= 0 && isPerfectNthPower(static_cast<unsigned int>(integerValue), nthPower);
+        int integerValue(static_cast<int>(number.getInteger()));        result = integerValue >= 0 && isPerfectNthPower(static_cast<unsigned int>(integerValue), nthPower);
     }
     else if(number.isFractionType())
     {
