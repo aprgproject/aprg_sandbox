@@ -24,10 +24,9 @@ public:
 
     Value getMinimumFromStartToEnd(Index const start, Index const end) const;
 private:
-    Index getLog2(Index const index) const;
-    Index getPow2(Index const index) const;
+    Index getCielOfLogOf2(Index const index) const;
+    Index getPowOf2(Index const index) const;
     void initialize(Values const& valuesToCheck);
     ValueMatrix m_minimumValues;
 };
-
 }
