@@ -29,23 +29,21 @@ SumRangeQuerySegmentTree::Value SumRangeQuerySegmentTree::getSumFromStartToEnd(I
         {
             if(isRightChild(first))
             {
-                result += m_treeValues.at(first++);
+                result += m_treeValues.at(first++); // move to next value (right) because current value is added
             }
             if(isLeftChild(last))
             {
-                result += m_treeValues.at(last--);
+                result += m_treeValues.at(last--); // move to next value (left) because current value is added
             }
             first = getParent(first);
             last = getParent(last);
         }
-        if(first == last)
+        if(first == last) // add value if it ends on the same place
         {
             result += m_treeValues.at(first);
-        }
-    }
+        }    }
     return result;
 }
-
 void SumRangeQuerySegmentTree::changeValueAtIndex(
         Index const index,
         Value const newValue)

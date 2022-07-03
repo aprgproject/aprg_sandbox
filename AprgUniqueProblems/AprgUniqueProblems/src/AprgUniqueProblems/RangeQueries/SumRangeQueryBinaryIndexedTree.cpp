@@ -47,15 +47,13 @@ SumRangeQueryBinaryIndexedTree::Value SumRangeQueryBinaryIndexedTree::getSumFrom
         while(0<indexPlusOne)
         {
             result += m_partialTreeSums.at(indexPlusOne-1);
-            indexPlusOne -= getGreatestCommonPowerOf2Factor(indexPlusOne);
+            indexPlusOne -= getGreatestPowerOf2Factor(indexPlusOne);
         }
     }
-    return result;
-}
+    return result;}
 
 void SumRangeQueryBinaryIndexedTree::changeValueAtIndex(
-        Index const index,
-        Value const newValue)
+        Index const index,        Value const newValue)
 {
     // This has logN running time
     if(index < m_valuesToCheck.size())
@@ -66,22 +64,20 @@ void SumRangeQueryBinaryIndexedTree::changeValueAtIndex(
         while(indexPlusOne<=m_partialTreeSums.size()) // update partial sums
         {
             m_partialTreeSums[indexPlusOne-1]+=delta;
-            indexPlusOne += getGreatestCommonPowerOf2Factor(indexPlusOne);
+            indexPlusOne += getGreatestPowerOf2Factor(indexPlusOne);
         }
     }
 }
-
 void SumRangeQueryBinaryIndexedTree::initializePartialSums(Values const& valuesToCheck)
 {
     m_partialTreeSums.reserve(valuesToCheck.size());
     // Indexes here have plus one (for easier end loop conditions)
     for(Index indexPlusOne=1; indexPlusOne<=valuesToCheck.size(); indexPlusOne++)
     {
-        Index powerOf2Factor(getGreatestCommonPowerOf2Factor(indexPlusOne));
+        Index powerOf2Factor(getGreatestPowerOf2Factor(indexPlusOne));
         Value partialTreeSum = accumulate(valuesToCheck.cbegin()+indexPlusOne-powerOf2Factor, valuesToCheck.cbegin()+indexPlusOne, Value{});
         m_partialTreeSums.emplace_back(partialTreeSum);
-    }
-    m_partialTreeSums.shrink_to_fit();
+    }    m_partialTreeSums.shrink_to_fit();
 }
 
 }
