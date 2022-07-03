@@ -1,4 +1,4 @@
-#include <AprgUniqueProblems/RangeQueries/SumRangeQuery.hpp>
+#include <AprgUniqueProblems/RangeQueries/SumRangeQueryBinaryIndexedTree.hpp>
 
 #include <gtest/gtest.h>
 
@@ -7,9 +7,9 @@ using namespace std;
 namespace alba
 {
 
-TEST(SumRangeQueryTest, GetSumFromStartAndEndWorksOnExample1)
+TEST(SumRangeQueryBinaryIndexedTreeTest, GetSumFromStartAndEndWorksOnExample1)
 {
-    SumRangeQuery search({1U, 3U, 4U, 8U, 6U, 1U, 4U, 2U});
+    SumRangeQueryBinaryIndexedTree search({1U, 3U, 4U, 8U, 6U, 1U, 4U, 2U});
 
     EXPECT_EQ(1U, search.getSumFromStartToEnd(0U, 0U));
     EXPECT_EQ(4U, search.getSumFromStartToEnd(0U, 1U));
@@ -26,9 +26,26 @@ TEST(SumRangeQueryTest, GetSumFromStartAndEndWorksOnExample1)
     EXPECT_EQ(6U, search.getSumFromStartToEnd(4U, 4U));
 }
 
-TEST(SumRangeQueryTest, GetSumFromStartAndEndWorksOnExample2)
+TEST(SumRangeQueryBinaryIndexedTreeTest, GetSumFrom0ToIndexOnExample1)
 {
-    SumRangeQuery search({1U, 3U, 4U, 3U, 6U, 1U, 4U, 2U});
+    SumRangeQueryBinaryIndexedTree search({1U, 3U, 4U, 8U, 6U, 1U, 4U, 2U});
+
+    EXPECT_EQ(1U, search.getSumFrom0ToIndex(0U));
+    EXPECT_EQ(4U, search.getSumFrom0ToIndex(1U));
+    EXPECT_EQ(8U, search.getSumFrom0ToIndex(2U));
+    EXPECT_EQ(16U, search.getSumFrom0ToIndex(3U));
+    EXPECT_EQ(22U, search.getSumFrom0ToIndex(4U));
+    EXPECT_EQ(23U, search.getSumFrom0ToIndex(5U));
+    EXPECT_EQ(27U, search.getSumFrom0ToIndex(6U));
+    EXPECT_EQ(29U, search.getSumFrom0ToIndex(7U));
+    EXPECT_EQ(0U, search.getSumFrom0ToIndex(8U));
+}
+
+TEST(SumRangeQueryBinaryIndexedTreeTest, ChangeValueAtIndexWorks)
+{
+    SumRangeQueryBinaryIndexedTree search({1U, 3U, 4U, 8U, 6U, 1U, 4U, 2U});
+
+    search.changeValueAtIndex(3U, 3U);
 
     EXPECT_EQ(1U, search.getSumFromStartToEnd(0U, 0U));
     EXPECT_EQ(4U, search.getSumFromStartToEnd(0U, 1U));
