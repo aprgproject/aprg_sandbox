@@ -10,47 +10,44 @@ ElevatorWeightProblem::ElevatorWeightProblem(
         Weights const& peopleWeights)
     : m_maximumElevatorWeight(maximumElevatorWeight)
     , m_peopleWeights(peopleWeights)
-    , m_numberOfRidesAndWeight(getNumberOfPeopleSubsets(), NumberOfRidesAndWeight{})
+    , m_numberOfRidesAndLastWeight(getNumberOfPeopleSubsets(), NumberOfRidesAndWeight{})
 {}
 
-unsigned int ElevatorWeightProblem::getNumberOfOptimalRides()
-{
+unsigned int ElevatorWeightProblem::getNumberOfOptimalRides(){
     unsigned int result(0);
     for(PeopleBits peopleBits=1; peopleBits<getNumberOfPeopleSubsets(); peopleBits++)
     {
         // initial value: n+1 rides are needed
-        m_numberOfRidesAndWeight[peopleBits]=NumberOfRidesAndWeight{getNumberOfPeople()+1,0};
+        m_numberOfRidesAndLastWeight[peopleBits]=NumberOfRidesAndWeight{getNumberOfPeople()+1,0};
         for (Person person=0; person<getNumberOfPeople(); person++)
         {
             if(isPersonIncluded(peopleBits, person))
             {
-                auto option=m_numberOfRidesAndWeight[removePerson(peopleBits, person)];
-                if(option.second + m_peopleWeights.at(person) <= m_maximumElevatorWeight)
+                auto newOption=m_numberOfRidesAndLastWeight[removePerson(peopleBits, person)];
+                if(newOption.second + m_peopleWeights.at(person) <= m_maximumElevatorWeight)
                 {
                     // add p to an existing ride
-                    option.second += m_peopleWeights.at(person);
+                    newOption.second += m_peopleWeights.at(person);
                 }
                 else
                 {
                     // reserve a new ride for p
-                    option.first++;
-                    option.second=m_peopleWeights.at(person);
+                    newOption.first++;
+                    newOption.second=m_peopleWeights.at(person);
                 }
-                m_numberOfRidesAndWeight[peopleBits]=min(m_numberOfRidesAndWeight.at(peopleBits), option);
+                m_numberOfRidesAndLastWeight[peopleBits]=min(m_numberOfRidesAndLastWeight.at(peopleBits), newOption);
             }
         }
     }
     unsigned int allPeopleBits = getNumberOfPeopleSubsets()-1;
-    if(allPeopleBits < m_numberOfRidesAndWeight.size())
+    if(allPeopleBits < m_numberOfRidesAndLastWeight.size())
     {
-        result = m_numberOfRidesAndWeight.at(allPeopleBits).first + 1;
+        result = m_numberOfRidesAndLastWeight.at(allPeopleBits).first + 1;
     }
     return result;
-
 }
 
-bool ElevatorWeightProblem::isPersonIncluded(PeopleBits const peopleBits, Person const person) const
-{
+bool ElevatorWeightProblem::isPersonIncluded(PeopleBits const peopleBits, Person const person) const{
     return peopleBits & getProductBits(person);
 }
 
