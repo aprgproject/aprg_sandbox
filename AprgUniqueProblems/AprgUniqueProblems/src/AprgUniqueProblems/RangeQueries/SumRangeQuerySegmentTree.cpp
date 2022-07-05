@@ -2,14 +2,10 @@
 
 #include <Common/Math/AlbaMathHelper.hpp>
 
-#include <algorithm>
-
 using namespace alba::mathHelper;
 using namespace std;
-
 namespace alba
 {
-
 SumRangeQuerySegmentTree::SumRangeQuerySegmentTree(Values const& valuesToCheck)
     : m_startOfChildren(0U)
     , m_treeValues()

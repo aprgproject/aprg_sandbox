@@ -2,14 +2,10 @@
 
 #include <Common/Math/AlbaMathHelper.hpp>
 
-#include <algorithm>
-
 using namespace alba::mathHelper;
 using namespace std;
-
 namespace alba
 {
-
 SumRangeQueryBinaryIndexedTree::SumRangeQueryBinaryIndexedTree(Values const& valuesToCheck)
     : m_valuesToCheck(valuesToCheck)
     , m_partialTreeSums()

@@ -1,15 +1,11 @@
 #include "CountingTilings.hpp"
 
-#include <algorithm>
-
 using namespace std;
 
-namespace alba
-{
+namespace alba{
 
 CountingTilings::CountingTilings(Count const numberOfColumns, Count const numberOfRows)
-    : m_numberOfColumns(numberOfColumns)
-    , m_numberOfRows(numberOfRows)
+    : m_numberOfColumns(numberOfColumns)    , m_numberOfRows(numberOfRows)
     , m_numberOfCells(m_numberOfColumns*m_numberOfRows)
     , m_numberFilledCells(0U)
     , m_numberOfSolutions(0U)

@@ -1,15 +1,11 @@
 #include "LongestIncreasingSubsequence.hpp"
 
-#include <algorithm>
-
 using namespace std;
 
-namespace alba
-{
+namespace alba{
 
 LongestIncreasingSubsequence::LongestIncreasingSubsequence(Sequence const& sequenceToCheck)
-    : m_sequenceToCheck(sequenceToCheck)
-{}
+    : m_sequenceToCheck(sequenceToCheck){}
 
 LongestIncreasingSubsequence::Length LongestIncreasingSubsequence::getLongestIncreasingSubsequenceLength()
 {
