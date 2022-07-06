@@ -2,10 +2,12 @@
 
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 PathSumInGrid::PathSumInGrid(Grid const& gridToCheck)
-    : m_gridToCheck(gridToCheck)    , m_partialSumGrid(gridToCheck)
+    : m_gridToCheck(gridToCheck)
+    , m_partialSumGrid(gridToCheck)
 {
     calculatePartialSums();
 }

@@ -234,7 +234,8 @@ TEST(QuineMcCluskeyTest, DISABLED_GetInputsFromFromFile_HasZeroInDigitForByte)
 {
     QuineMcCluskeyForTest quineMcCluskey;
     AlbaLocalPathHandler pathOfNewAlgorithm(APRG_DIR R"(\AprgAlgorithm\FilesForTests\QuineMcKluskeyTest\HasZeroInDigitForByte.txt)");
-    ifstream algorithmResultsFileStream(pathOfNewAlgorithm.getFullPath());    AlbaFileReader algorithmResultsReader(algorithmResultsFileStream);
+    ifstream algorithmResultsFileStream(pathOfNewAlgorithm.getFullPath());
+    AlbaFileReader algorithmResultsReader(algorithmResultsFileStream);
     while(algorithmResultsReader.isNotFinished())
     {
         string lineInFile(algorithmResultsReader.getLineAndIgnoreWhiteSpaces());
@@ -247,10 +248,12 @@ TEST(QuineMcCluskeyTest, DISABLED_GetInputsFromFromFile_HasZeroInDigitForByte)
         }
     }
 
-    quineMcCluskey.fillComputationalTableWithMintermsWithZeroCommonalityCount();    cout << "Initial computation table: " << endl << quineMcCluskey.getComputationTableString() << endl;
+    quineMcCluskey.fillComputationalTableWithMintermsWithZeroCommonalityCount();
+    cout << "Initial computation table: " << endl << quineMcCluskey.getComputationTableString() << endl;
     quineMcCluskey.findAllCombinations();
 
-    ImplicantsForTest finalImplicants(quineMcCluskey.getAllFinalImplicants());    EXPECT_EQ("Implicants : [(has size 30):{' (0)', '1010 (10)', '10100 (20)', '11110 (30)', '-101000 (40, 104, )', '111100 (60)', '1-00110 (70, 102, )',"
+    ImplicantsForTest finalImplicants(quineMcCluskey.getAllFinalImplicants());
+    EXPECT_EQ("Implicants : [(has size 30):{' (0)', '1010 (10)', '10100 (20)', '11110 (30)', '-101000 (40, 104, )', '111100 (60)', '1-00110 (70, 102, )',"
               " '-1010000 (80, 208, )', '1011010 (90)', '11001-- (100, 101, 102, 103, )', '110-10- (100, 101, 108, 109, )', '110-1-0 (100, 102, 108, 110, )',"
               " '-1100110 (102, 230, )', '11010-- (104, 105, 106, 107, )', '1101-0- (104, 105, 108, 109, )', '1101--0 (104, 106, 108, 110, )', '11-1000 (104, 120, )',"
               " '10000010 (130)', '1-001100 (140, 204, )', '10010110 (150)', '10100000 (160)', '10101010 (170)', '10110100 (180)', '10111110 (190)',"

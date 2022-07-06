@@ -21,9 +21,11 @@ public:
 
     using Index = unsigned int;
     using Value = unsigned int;
-    using Values = std::vector<Value>;    static constexpr unsigned int NUMBER_OF_CHILDREN=2U; // only 2 children are supported for now
+    using Values = std::vector<Value>;
+    static constexpr unsigned int NUMBER_OF_CHILDREN=2U; // only 2 children are supported for now
 
     SumRangeQuerySegmentTree(Values const& valuesToCheck);
+
     Value getSumFromStartToEnd(Index const start, Index const end) const;
     void changeValueAtIndex(Index const index, Value const value);
 private:

@@ -47,10 +47,12 @@ public:
         return AlbaBitValueUtilities<Minterm>::getNumberOfOnes(value);
     }
 
-    Implicants getImplicants(unsigned int numberOfOnes, unsigned int commonalityCount) const    {
+    Implicants getImplicants(unsigned int numberOfOnes, unsigned int commonalityCount) const
+    {
         Implicants result;
         auto numberOfOnesIt = m_computationalTable.find(numberOfOnes);
-        if (numberOfOnesIt != m_computationalTable.end())        {
+        if (numberOfOnesIt != m_computationalTable.end())
+        {
             ImplicantsMap const& implicantsMap(numberOfOnesIt->second);
             auto commonalityCountIt = implicantsMap.find(commonalityCount);
             if (commonalityCountIt != implicantsMap.end())
@@ -70,10 +72,12 @@ public:
         Implicants result;
         for(auto it=m_computationalTable.begin(); it!=m_computationalTable.end(); it++)
         {
-            ImplicantsMap const& implicantsMap(it->second);            for(auto reverseIt=implicantsMap.rbegin(); reverseIt!=implicantsMap.rend(); reverseIt++)
+            ImplicantsMap const& implicantsMap(it->second);
+            for(auto reverseIt=implicantsMap.rbegin(); reverseIt!=implicantsMap.rend(); reverseIt++)
             {
                 Implicants const& currentImplicants(reverseIt->second);
-                currentImplicants.traverseAllImplicants([&](Implicant const& implicant)                {
+                currentImplicants.traverseAllImplicants([&](Implicant const& implicant)
+                {
                     result.addFinalImplicant(implicant);
                 });
             }

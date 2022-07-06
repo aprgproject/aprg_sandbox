@@ -70,6 +70,10 @@ private:
 // Proof (running time):
 // -> Each vertex connected to s is visited once
 
+// Other analysis:
+// The time complexity of depth-first search is O(n+m) where n is the number of nodes and m is the number of edges,
+// because the algorithm processes each node and edge once.
+
 }
 
 }

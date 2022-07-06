@@ -4,8 +4,10 @@
 
 using namespace alba::mathHelper;
 using namespace std;
+
 namespace alba
 {
+
 SumRangeQueryBinaryIndexedTree::SumRangeQueryBinaryIndexedTree(Values const& valuesToCheck)
     : m_valuesToCheck(valuesToCheck)
     , m_partialTreeSums()
@@ -46,10 +48,12 @@ SumRangeQueryBinaryIndexedTree::Value SumRangeQueryBinaryIndexedTree::getSumFrom
             indexPlusOne -= getGreatestPowerOf2Factor(indexPlusOne);
         }
     }
-    return result;}
+    return result;
+}
 
 void SumRangeQueryBinaryIndexedTree::changeValueAtIndex(
-        Index const index,        Value const newValue)
+        Index const index,
+        Value const newValue)
 {
     // This has logN running time
     if(index < m_valuesToCheck.size())
@@ -64,6 +68,7 @@ void SumRangeQueryBinaryIndexedTree::changeValueAtIndex(
         }
     }
 }
+
 void SumRangeQueryBinaryIndexedTree::initializePartialSums(Values const& valuesToCheck)
 {
     m_partialTreeSums.reserve(valuesToCheck.size());
@@ -73,7 +78,8 @@ void SumRangeQueryBinaryIndexedTree::initializePartialSums(Values const& valuesT
         Index powerOf2Factor(getGreatestPowerOf2Factor(indexPlusOne));
         Value partialTreeSum = accumulate(valuesToCheck.cbegin()+indexPlusOne-powerOf2Factor, valuesToCheck.cbegin()+indexPlusOne, Value{});
         m_partialTreeSums.emplace_back(partialTreeSum);
-    }    m_partialTreeSums.shrink_to_fit();
+    }
+    m_partialTreeSums.shrink_to_fit();
 }
 
 }

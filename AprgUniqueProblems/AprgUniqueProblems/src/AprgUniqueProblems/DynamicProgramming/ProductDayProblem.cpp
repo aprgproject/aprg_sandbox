@@ -67,9 +67,11 @@ ProductDayProblem::ProductBits ProductDayProblem::getNumberOfProductsSubsets() c
     return 1<<getNumberOfProducts();
 }
 
-ProductDayProblem::ProductBits ProductDayProblem::getProductBits(Product const product) const{
+ProductDayProblem::ProductBits ProductDayProblem::getProductBits(Product const product) const
+{
     return 1<<product;
 }
+
 ProductDayProblem::ProductBits ProductDayProblem::removeProduct(ProductBits const productBits, Product const product) const
 {
     return productBits & ~(1 << product);

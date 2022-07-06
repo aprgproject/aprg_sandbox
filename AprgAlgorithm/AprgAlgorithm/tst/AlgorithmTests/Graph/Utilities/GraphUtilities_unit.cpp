@@ -96,7 +96,7 @@ TEST(GraphUtilitiesTest, HasAnyCyclesOnGraphWorks)
     EXPECT_TRUE(hasAnyCyclesOnGraph(graphWithCycle));
 }
 
-TEST(GraphUtilitiesTest, IsRegularWorks)
+TEST(GraphUtilitiesTest, IsARegularGraphWorks)
 {
     UndirectedGraphForTest nonRegularGraph;
     nonRegularGraph.connect(0U, 1U);
@@ -106,11 +106,11 @@ TEST(GraphUtilitiesTest, IsRegularWorks)
     regularGraph.connect(0U, 2U);
     regularGraph.connect(1U, 2U);
 
-    EXPECT_FALSE(isRegular(nonRegularGraph));
-    EXPECT_TRUE(isRegular(regularGraph));
+    EXPECT_FALSE(isARegularGraph(nonRegularGraph));
+    EXPECT_TRUE(isARegularGraph(regularGraph));
 }
 
-TEST(GraphUtilitiesTest, IsCompleteWorks)
+TEST(GraphUtilitiesTest, IsACompleteGraphWorks)
 {
     UndirectedGraphForTest nonCompleteGraph;
     nonCompleteGraph.connect(0U, 1U);
@@ -120,16 +120,32 @@ TEST(GraphUtilitiesTest, IsCompleteWorks)
     completeGraph.connect(0U, 2U);
     completeGraph.connect(1U, 2U);
 
-    EXPECT_FALSE(isComplete(nonCompleteGraph));
-    EXPECT_TRUE(isComplete(completeGraph));
+    EXPECT_FALSE(isACompleteGraph(nonCompleteGraph));
+    EXPECT_TRUE(isACompleteGraph(completeGraph));
+}
+
+TEST(GraphUtilitiesTest, IsASimpleGraphWorks)
+{
+    UndirectedGraphForTest nonCompleteGraph;
+    nonCompleteGraph.connect(0U, 1U);
+    nonCompleteGraph.connect(0U, 2U);
+    nonCompleteGraph.connect(0U, 0U);
+    UndirectedGraphForTest completeGraph;
+    completeGraph.connect(0U, 1U);
+    completeGraph.connect(0U, 2U);
+
+    EXPECT_FALSE(isASimpleGraph(nonCompleteGraph));
+    EXPECT_TRUE(isASimpleGraph(completeGraph));
 }
 
 TEST(GraphUtilitiesTest, IsATreeWorks)
 {
-    UndirectedGraphForTest treeGraph;    treeGraph.connect(0U, 1U);
+    UndirectedGraphForTest treeGraph;
+    treeGraph.connect(0U, 1U);
     treeGraph.connect(0U, 2U);
     treeGraph.connect(0U, 3U);
-    UndirectedGraphForTest nonTreeGraphWithCycle;    nonTreeGraphWithCycle.connect(0U, 1U);
+    UndirectedGraphForTest nonTreeGraphWithCycle;
+    nonTreeGraphWithCycle.connect(0U, 1U);
     nonTreeGraphWithCycle.connect(1U, 2U);
     nonTreeGraphWithCycle.connect(2U, 0U);
     UndirectedGraphForTest nonTreeGraphAndItsNotConnected;
@@ -321,15 +337,18 @@ TEST(GraphUtilitiesTest, GetDegreeAtWorks)
     UndirectedGraphForTest graph;
     graph.connect(0U, 1U);
     graph.connect(0U, 2U);
+
     EXPECT_EQ(2U, getDegreeAt(graph, 0U));
     EXPECT_EQ(1U, getDegreeAt(graph, 1U));
-    EXPECT_EQ(1U, getDegreeAt(graph, 2U));}
+    EXPECT_EQ(1U, getDegreeAt(graph, 2U));
+}
 
 TEST(GraphUtilitiesTest, GetMaxDegreeAtWorks)
 {
     UndirectedGraphForTest graph;
     graph.connect(0U, 1U);
     graph.connect(0U, 2U);
+
     EXPECT_EQ(2U, getMaxDegree(graph));
 }
 
@@ -348,6 +367,7 @@ TEST(GraphUtilitiesTest, GetAverageDegreeWorks)
     graph.connect(0U, 1U);
     graph.connect(0U, 2U);
     graph.connect(0U, 3U);
+
     EXPECT_EQ(1.5, getAverageDegree(graph));
 }
 
@@ -356,10 +376,26 @@ TEST(GraphUtilitiesTest, GetNumberOfSelfLoopsWorks)
     UndirectedGraphForTest graph;
     graph.connect(0U, 1U);
     graph.connect(0U, 2U);
-    graph.connect(0U, 3U);    graph.connect(1U, 1U);
+    graph.connect(0U, 3U);
+    graph.connect(1U, 1U);
     graph.connect(2U, 2U);
 
-    EXPECT_EQ(2U, getNumberOfSelfLoops(graph));}
+    EXPECT_EQ(2U, getNumberOfSelfLoops(graph));
+}
+
+TEST(GraphUtilitiesTest, GetInDegreeAndOutDegreeWorks)
+{
+    DirectedGraphForTest graph;
+    graph.connect(0U, 1U);
+    graph.connect(0U, 2U);
+    graph.connect(0U, 3U);
+    graph.connect(4U, 0U);
+
+    auto inDegreeAndOutDegreePair(getInDegreeAndOutDegree<VertexForTest>(graph, 0U));
+
+    EXPECT_EQ(3U, inDegreeAndOutDegreePair.first);
+    EXPECT_EQ(1U, inDegreeAndOutDegreePair.second);
+}
 
 TEST(GraphUtilitiesTest, GetEdgesOfMaximalConnectedSubgraphsWorks)
 {
