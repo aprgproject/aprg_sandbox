@@ -58,7 +58,7 @@ private:
         }
     }
 
-    void searchForPathUsingAutomaticCycleDetection() // implicit know that there are positive or negative cycle
+    void searchForPathUsingAutomaticCycleDetection()
     {
         unsigned int numberOfVertices(this->m_graph.getNumberOfVertices());
         unsigned int numberOfVerticesProcessed(0U);        enqueue(this->m_startVertex);
@@ -72,25 +72,27 @@ private:
                 isNewWeightFound = true;
                 if(m_verticesInQueue.isNotFound(destinationVertex))
                 {
-                    enqueue(destinationVertex);                }
+                    enqueue(destinationVertex);
+                }
             },
             [&]()
             {
                 // As soon as processed number vertices reached the total number of vertices check for a postive/negative cycle.
-                if(numberOfVerticesProcessed++!=0 && numberOfVerticesProcessed >= numberOfVertices) // new weight still found at this point
+                if(numberOfVerticesProcessed++!=0 && numberOfVerticesProcessed >= numberOfVertices)
                 {
                     // there is a positive or negative cycle if new weight is found when number total number of vertices is reached
-                    m_hasPositiveOrNegativeCycle = isNewWeightFound;
-                }
+                    m_hasPositiveOrNegativeCycle = isNewWeightFound;                }
             });
-        }    }
+        }
+    }
 
     void enqueue(Vertex const& vertex)
     {
         m_queueOfVertices.emplace_back(vertex);        m_verticesInQueue.putVertex(vertex);
     }
 
-    Vertex dequeue()    {
+    Vertex dequeue()
+    {
         Vertex result;
         if(!m_queueOfVertices.empty())
         {
@@ -149,7 +151,8 @@ private:
 // Observation: If distTo[v] does not change during pass i, no need to relax any edge pointing from v in pass i+1// -> Use a queue! Maintain a queue of vertices whose distTo are changed.
 
 // Overall effect:
-// -> running time is still proportional to E*V in worst case.// -> But much faster than that in practice.
+// -> running time is still proportional to E*V in worst case.
+// -> But much faster than that in practice.
 
 // Observation: If there is a negative cycle, Bellman-Ford gets stuck in a loop, updating distTo and edgeTo entries in the cycle.
 // Proposition: If any vertex V is updated in phase V there exists a negative cycle (and can be traced back edgeTo[v] entries to find it)
