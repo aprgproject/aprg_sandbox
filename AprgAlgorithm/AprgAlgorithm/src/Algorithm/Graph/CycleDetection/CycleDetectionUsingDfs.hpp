@@ -186,6 +186,12 @@ private:
     Paths m_pathsWithCycle;
 };
 
+// Other analysis:
+// Another way to find out whether a graph contains a cycle is to simply calculate the number of nodes and edges in every component.
+// If a component contains c nodes and no cycle, it must contain exactly c-1 edges (so it has to be a tree).
+// If there are c or more edges, the component surely contains a cycle.
+// This is only for undirected graph?
+
 }
 
 }

@@ -96,6 +96,20 @@ private:
     VertexToColorMap m_vertexToColorMap;
 };
 
+// Other definition:
+// A graph is bipartite if its nodes can be colored using two colors so that there are no adjacent nodes with the same color.
+// The idea is to color the starting node blue, all its neighbors red, all their neighbors blue, and so on.
+// If at some point of the search we notice that two adjacent nodes have the same color, this means that the graph is not bipartite.
+
+// This algorithm always works, because when there are only two colors available,
+// the color of the starting node in a component determines the colors of all other nodes in the component.
+// It does not make any difference whether the starting node is red or blue.
+
+// Other cases:
+// Note that in the general case, it is difficult to find out if the nodes in a graph
+// can be colored using k colors so that no adjacent nodes have the same color.
+// Even when k=3, no efficient algorithm is known but the problem is NP-hard.
+
 }
 
 }

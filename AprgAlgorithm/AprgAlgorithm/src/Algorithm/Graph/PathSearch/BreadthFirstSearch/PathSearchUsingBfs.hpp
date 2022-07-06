@@ -75,6 +75,11 @@ private:
 // In short, vertices with distance 1 are first, and then vertices with distance 2 and then vertices with distance 3 and so on.
 // Proof(running time): Each vertex connected to s is visited once.
 
+// Other analysis:
+// Like in depth-first search, the time complexity of breadth-first search is O(n+m),
+// where n is the number of nodes and m is the number of edges.
+// The algorithm processes each node and edge once.
+
 }
 
 }
