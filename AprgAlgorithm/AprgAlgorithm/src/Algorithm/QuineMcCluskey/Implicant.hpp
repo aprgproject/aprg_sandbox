@@ -202,15 +202,13 @@ private:
 
     Minterm performAndOperationOfAllMinterms() const
     {
-        constexpr Minterm INITIAL_VALUE(AlbaBitValueUtilities<Minterm>::getAllBitsAsserted());
+        constexpr Minterm INITIAL_VALUE(AlbaBitValueUtilities<Minterm>::getAllOnes());
         return std::accumulate(m_minterms.cbegin(), m_minterms.cend(), INITIAL_VALUE, [](Minterm const& minterm1, Minterm const& minterm2)
         {
-            return minterm1 & minterm2;
-        });
+            return minterm1 & minterm2;        });
     }
 
-    Minterm performOrOperationOfAllMinterms() const
-    {
+    Minterm performOrOperationOfAllMinterms() const    {
         constexpr Minterm INITIAL_VALUE(0);
         return std::accumulate(m_minterms.cbegin(), m_minterms.cend(), INITIAL_VALUE, [](Minterm const& minterm1, Minterm const& minterm2)
         {

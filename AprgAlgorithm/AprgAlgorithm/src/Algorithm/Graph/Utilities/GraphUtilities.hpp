@@ -41,18 +41,19 @@ void putGraphToUnionFind(BaseUnionFind<Vertex> & unionFind, BaseGraph<Vertex> co
 }
 }
 
+
+
 template <typename Vertex>
 bool isASimplePath(typename GraphTypes<Vertex>::Path const& path)
 {
-    // A simple path is one with no repeated vertices;
+    // A simple path is one with no repeated vertices
+    // Other definition: A path is simple if each node appears at most once in the path.
 
     std::set<Vertex> uniqueVertices;
-    copy(path.cbegin(), path.cend(), inserter(uniqueVertices, uniqueVertices.cbegin()));
-    return uniqueVertices.size() == path.size();
+    copy(path.cbegin(), path.cend(), inserter(uniqueVertices, uniqueVertices.cbegin()));    return uniqueVertices.size() == path.size();
 }
 
-template <typename Vertex>
-bool isACycle(typename GraphTypes<Vertex>::Path const& path)
+template <typename Vertex>bool isACycle(typename GraphTypes<Vertex>::Path const& path)
 {
     // A cycle is a path with at least one edge whose first and last vertices are the same.
 
@@ -99,17 +100,58 @@ bool hasAnyCyclesOnGraph(BaseGraph<Vertex> const& graph)
 }
 
 template <typename Vertex>
-bool isATree(BaseUndirectedGraph<Vertex> const& graph)
+bool isRegular(BaseGraph<Vertex> const& graph)
 {
-    // A tree is an acyclic connected graph.
+    // A graph is regular if the degree of every node is a constant d.
 
-    return !hasAnyCyclesOnGraph(graph) && isGraphConnected(graph);
+    bool result(true);
+    bool isFirst(true);
+    unsigned int degreeThatShouldMatch(0);
+    for(Vertex const& vertex : graph.getVertices())
+    {
+        if(isFirst)
+        {
+            degreeThatShouldMatch = getDegreeAt(graph, vertex);
+            isFirst=false;
+        }
+        else if(degreeThatShouldMatch != getDegreeAt(graph, vertex))
+        {
+            result=false;
+            break;
+        }
+    }
+    return result;
 }
 
 template <typename Vertex>
-bool isAForest(BaseUndirectedGraph<Vertex> const& graph)
+bool isComplete(BaseGraph<Vertex> const& graph)
 {
-    // A disjoint set of trees is called a forest
+    // A graph is complete if the degree of every node is n-1, i.e., the graph contains all possible edges between the nodes.
+
+    bool result(true);
+    unsigned int degreeThatShouldMatch(graph.getNumberOfVertices()-1);
+    for(Vertex const& vertex : graph.getVertices())
+    {
+        if(degreeThatShouldMatch != getDegreeAt(graph, vertex))
+        {
+            result=false;
+            break;
+        }
+    }
+    return result;
+}
+
+template <typename Vertex>
+bool isATree(BaseUndirectedGraph<Vertex> const& graph)
+{
+    // A tree is an acyclic connected graph.
+    // Other definition: A tree is a connected graph that consists of n nodes and n-1 edges.
+
+    return !hasAnyCyclesOnGraph(graph) && isGraphConnected(graph);
+}
+template <typename Vertex>
+bool isAForest(BaseUndirectedGraph<Vertex> const& graph)
+{    // A disjoint set of trees is called a forest
 
     return !hasAnyCyclesOnGraph(graph) && !isGraphConnected(graph);
 }
@@ -153,14 +195,13 @@ bool isGraphConnected(BaseDirectedGraph<Vertex> const& graph)
 {
     // A graph is connected if there is a path from every vertex to every other vertex in the graph.
     // This is used for directed graphs.
+    // Other definition: A graph is connected if there is a path between any two nodes.
 
     return isGraphStronglyConnected(graph);
 }
-
 template <typename Vertex>
 bool isGraphStronglyConnected(BaseDirectedGraph<Vertex> const& graph)
-{
-    // Two vertices v and w are strongly connected if they are mutually reachable (so there is a edge from v to w and from w to v)
+{    // Two vertices v and w are strongly connected if they are mutually reachable (so there is a edge from v to w and from w to v)
     // A directed graph is strongly connected if all its vertices are strongly connected to one another
 
     StronglyConnectedComponentsUsingKosarajuSharir<Vertex> connectedComponents(graph);
@@ -227,15 +268,28 @@ bool isSinkSourceFlowNetworkFeasible(SinkSourceFlowNetworkType const& flowNetwor
 }
 
 template <typename Vertex>
-unsigned int getDegreeAt(BaseGraph<Vertex> const& graph, Vertex const& vertex)
+unsigned int getLengthOfPath(typename GraphTypes<Vertex>::Path const& path)
 {
-    return graph.getAdjacentVerticesAt(vertex).size();
+    // The length of a path is the number of edges in it.
+
+    unsigned int result(0);
+    if(!path.empty())
+    {
+        result = path.size() - 1;
+    }
+    return result;
 }
 
 template <typename Vertex>
-unsigned int getMaxDegree(BaseGraph<Vertex> const& graph)
+unsigned int getDegreeAt(BaseGraph<Vertex> const& graph, Vertex const& vertex)
 {
-    unsigned int result(0);
+    // Other definition: The degree of a node is the number of its neighbors.
+
+    return graph.getAdjacentVerticesAt(vertex).size();
+}
+template <typename Vertex>
+unsigned int getMaxDegree(BaseGraph<Vertex> const& graph)
+{    unsigned int result(0);
     for(Vertex const& vertex : graph.getVertices())
     {
         result = std::max(result, getDegreeAt(graph, vertex));
@@ -244,14 +298,21 @@ unsigned int getMaxDegree(BaseGraph<Vertex> const& graph)
 }
 
 template <typename Vertex>
-double getAverageDegree(BaseGraph<Vertex> const& graph)
+unsigned int getSumOfDegrees(BaseGraph<Vertex> const& graph)
 {
-    // Times two because edges are only counted once and degree is per vertex
-    return static_cast<double>(graph.getNumberOfEdges()) / graph.getNumberOfVertices() * 2;
+    // The sum of degrees in a graph is always 2m, where m is the number of edges, because each edge increases the degree of exactly two nodes by one.
+    // For this reason, the sum of degrees is always even.
+
+    return graph.getNumberOfEdges()*2;
 }
 
 template <typename Vertex>
-unsigned int getNumberOfSelfLoops(BaseGraph<Vertex> const& graph)
+double getAverageDegree(BaseGraph<Vertex> const& graph)
+{
+    // Times two because edges are only counted once and degree is per vertex    return static_cast<double>(graph.getNumberOfEdges()) / graph.getNumberOfVertices() * 2;
+}
+
+template <typename Vertex>unsigned int getNumberOfSelfLoops(BaseGraph<Vertex> const& graph)
 {
     using Edge = typename GraphTypes<Vertex>::Edge;
     unsigned int count(0);
