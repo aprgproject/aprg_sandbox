@@ -383,14 +383,26 @@ TEST(GraphUtilitiesTest, GetNumberOfSelfLoopsWorks)
     EXPECT_EQ(2U, getNumberOfSelfLoops(graph));
 }
 
+TEST(GraphUtilitiesTest, GetDiameterOfATreeWorks)
+{
+    UndirectedGraphForTest graph;
+    graph.connect(1U, 2U);
+    graph.connect(1U, 3U);
+    graph.connect(1U, 4U);
+    graph.connect(2U, 5U);
+    graph.connect(2U, 6U);
+    graph.connect(4U, 7U);
+
+    EXPECT_EQ(4U, getDiameterOfATree(graph));
+}
+
+
 TEST(GraphUtilitiesTest, GetInDegreeAndOutDegreeWorks)
 {
-    DirectedGraphForTest graph;
-    graph.connect(0U, 1U);
+    DirectedGraphForTest graph;    graph.connect(0U, 1U);
     graph.connect(0U, 2U);
     graph.connect(0U, 3U);
     graph.connect(4U, 0U);
-
     auto inDegreeAndOutDegreePair(getInDegreeAndOutDegree<VertexForTest>(graph, 0U));
 
     EXPECT_EQ(3U, inDegreeAndOutDegreePair.first);

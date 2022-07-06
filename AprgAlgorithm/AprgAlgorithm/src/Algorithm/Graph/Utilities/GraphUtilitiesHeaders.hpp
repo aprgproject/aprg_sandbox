@@ -40,14 +40,13 @@ template <typename Vertex> unsigned int getMaxDegree(BaseGraph<Vertex> const& gr
 template <typename Vertex> unsigned int getSumOfDegrees(BaseGraph<Vertex> const& graph);
 template <typename Vertex> double getAverageDegree(BaseGraph<Vertex> const& graph);
 template <typename Vertex> unsigned int getNumberOfSelfLoops(BaseGraph<Vertex> const& graph);
+template <typename Vertex> unsigned int getDiameterOfATree(BaseUndirectedGraph<Vertex> const& graph);
 
 template <typename Vertex>
 std::pair<unsigned int, unsigned int> getInDegreeAndOutDegree(BaseDirectedGraph<Vertex> const& graph, Vertex const& vertex);
-
 template <typename Vertex, typename Weight, typename EdgeWeightedGraphType>
 typename GraphTypes<Vertex>::Path getCriticalPath(
-        EdgeWeightedGraphType const& graph,
-        Vertex const& sourceVertex,
+        EdgeWeightedGraphType const& graph,        Vertex const& sourceVertex,
         Vertex const& destinationVertex);
 
 template <typename Vertex> typename GraphTypes<Vertex>::ListOfEdges getEdgesOfMaximalConnectedSubgraphs(

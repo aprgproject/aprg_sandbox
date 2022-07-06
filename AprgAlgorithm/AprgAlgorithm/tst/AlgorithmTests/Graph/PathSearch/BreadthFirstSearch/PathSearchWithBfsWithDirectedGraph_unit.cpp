@@ -74,16 +74,29 @@ TEST(PathSearchUsingBfsTest, GetShortestPathToWorksWithDirectedGraphWithMultiple
     EXPECT_EQ(PathForTest(), pathSearch.getShortestPathTo(6U));
 }
 
-TEST(PathSearchUsingBfsTest, ReinitializeStartingFromWorksWithDirectedGraph)
+TEST(PathSearchUsingBfsTest, GetDistanceToWorksWithDirectedGraph)
 {
     GraphForTest graph;
     putConnectionsForTest(graph);
     PathSearchForTest pathSearch(graph, 0U);
 
+    EXPECT_EQ(0U, pathSearch.getDistanceTo(0U));
+    EXPECT_EQ(1U, pathSearch.getDistanceTo(1U));
+    EXPECT_EQ(1U, pathSearch.getDistanceTo(2U));
+    EXPECT_EQ(2U, pathSearch.getDistanceTo(3U));
+    EXPECT_EQ(2U, pathSearch.getDistanceTo(4U));
+    EXPECT_EQ(1U, pathSearch.getDistanceTo(5U));
+    EXPECT_EQ(0U, pathSearch.getDistanceTo(6U));
+}
+
+TEST(PathSearchUsingBfsTest, ReinitializeStartingFromWorksWithDirectedGraph)
+{
+    GraphForTest graph;    putConnectionsForTest(graph);
+    PathSearchForTest pathSearch(graph, 0U);
+
     pathSearch.reinitializeStartingFrom({2U});
 
-    EXPECT_EQ(PathForTest(), pathSearch.getShortestPathTo(0U));
-    EXPECT_EQ(PathForTest({2U, 1U}), pathSearch.getShortestPathTo(1U));
+    EXPECT_EQ(PathForTest(), pathSearch.getShortestPathTo(0U));    EXPECT_EQ(PathForTest({2U, 1U}), pathSearch.getShortestPathTo(1U));
     EXPECT_EQ(PathForTest(), pathSearch.getShortestPathTo(2U));
     EXPECT_EQ(PathForTest({2U, 3U}), pathSearch.getShortestPathTo(3U));
     EXPECT_EQ(PathForTest({2U, 4U}), pathSearch.getShortestPathTo(4U));
