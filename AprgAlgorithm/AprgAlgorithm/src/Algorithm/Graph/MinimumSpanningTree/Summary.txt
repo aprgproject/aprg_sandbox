@@ -86,6 +86,8 @@ Well known algorithm for single link clustering
 -> This is Kruskal algorithm (stop when there are k connected components).
 
 
-
+Other discussion:
+-> In a similar way, a "maximum spanning tree" is a spanning tree whose weight is as large as possible.
+-> Minimum spanning tree algorithms can be used to find maximum spanning trees by processing the edges in reverse order.
 
 

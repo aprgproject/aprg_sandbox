@@ -105,7 +105,9 @@ private:
 // ---> Deleting the minimum in PQ = E(frequency) * log E(time per operation)
 // ---> Inserting in PQ = E(frequency) * log E(time per operation)
 
+// Other discussion:
+// Difference between eager and lazy?
+// -> Lazy adds (edge) to search regardless of weight
 
 }
-
 }

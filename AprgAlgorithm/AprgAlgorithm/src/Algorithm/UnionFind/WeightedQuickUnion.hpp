@@ -32,15 +32,13 @@ public:
 
     Object getRoot(Object const& object) const override // worst case runs in logarithmic time (base 2 log) -> acceptable
     {
-        //Continuously find relative root until its equal to the previous root
+        // Continuously find relative root until its equal to the previous root
         Object result(object);
         Object currentRoot(m_relativeRoots.at(object));
-        while(result != currentRoot)
-        {
+        while(result != currentRoot)        {
             result = currentRoot;
             currentRoot = m_relativeRoots.at(result);
-        }
-        return result;
+        }        return result;
     }
 
     Object getRootWithPassCompressionOnePass(Object const& object) // no longer const
@@ -96,15 +94,13 @@ private:
         std::fill(m_sizesOfRoots.begin(), m_sizesOfRoots.end(), 1U);
     }
 
-    void connectRootsBasedOnSize(Object root2, Object root1)
+    void connectRootsBasedOnSize(Object const root2, Object const root1)
     {
         // assign the root of the smaller root to the larger root (to make it flatter)
-        if(m_sizesOfRoots.at(root1) < m_sizesOfRoots.at(root2))
-        {
+        if(m_sizesOfRoots.at(root1) < m_sizesOfRoots.at(root2))        {
             m_relativeRoots[root1] = root2;
             m_sizesOfRoots[root2] += m_sizesOfRoots.at(root1);
-        }
-        else
+        }        else
         {
             m_relativeRoots[root2] = root1;
             m_sizesOfRoots[root1] += m_sizesOfRoots.at(root2);
@@ -121,6 +117,12 @@ private:
 // When does the depth of x increase? Increase by 1 when tree T1 containing x is merged into another tree T2.
 // -> The size of the tree containing x [at least doubles] since size of T2 >= size of T1
 // -> Size of the tree containing x [can double] at most log2 times.
+
+// Other discussions:
+// The efficiency of the union-find structure depends on how the sets are joined.
+// It turns out that we can follow a simple strategy:
+// always connect the representative of the smaller set to the representative of the larger set (if equal, we can make an arbitrary choice).
+// Using this strategy, the length of any chain will be O(logn).
 
 }
 
