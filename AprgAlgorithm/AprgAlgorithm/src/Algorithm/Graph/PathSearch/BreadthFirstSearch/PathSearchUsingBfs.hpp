@@ -44,9 +44,11 @@ public:
         this->initializeWithStartVertices(startVertices);
         traverseUsingBfs(startVertices);
     }
+
 private:
     void traverseUsingBfs(Vertices const& startVertices)
-    {        CheckableVerticesWithVertex & processedVertices(this->m_processedVertices);
+    {
+        CheckableVerticesWithVertex & processedVertices(this->m_processedVertices);
         processedVertices.putVertices(startVertices);
 
         std::deque<Vertex> nearestVertices;
@@ -64,9 +66,11 @@ private:
                     this->m_vertexToDistanceToStartMap[adjacentVertex] = this->m_vertexToDistanceToStartMap.at(vertex)+1;
                     nearestVertices.emplace_front(adjacentVertex);
                 }
-            }        }
+            }
+        }
     }
 };
+
 // Proposition: BFS computes shortest paths (fewest number of edges) from s to all other vertices in a graph in time proportional to E+V
 // Proof(correctness): Queue always consists of zero or more vertices of distance k from s, followed by zero or more vertices of distance k+1.
 // In short, vertices with distance 1 are first, and then vertices with distance 2 and then vertices with distance 3 and so on.

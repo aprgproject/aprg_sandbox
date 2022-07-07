@@ -36,7 +36,8 @@ private:
     void searchForPathUsingOriginalBellmanFord() // manually positive or negative cycle
     {
         unsigned int numberOfVertices(this->m_graph.getNumberOfVertices());
-        unsigned int numberOfVerticesProcessed(0U);        enqueue(this->m_startVertex);
+        unsigned int numberOfVerticesProcessed(0U);
+        enqueue(this->m_startVertex);
         while(!m_queueOfVertices.empty() && !m_hasPositiveOrNegativeCycle)
         {
             // Repeat V times: Relax each edge
@@ -53,7 +54,8 @@ private:
                 // As soon as processed number vertices reached the total number of vertices check for a postive/negative cycle.
                 if(numberOfVerticesProcessed++!=0 && numberOfVerticesProcessed % numberOfVertices == 0)
                 {
-                    findAPositiveOrNegativeCycle();                }
+                    findAPositiveOrNegativeCycle();
+                }
             });
         }
     }
@@ -61,7 +63,8 @@ private:
     void searchForPathUsingAutomaticCycleDetection()
     {
         unsigned int numberOfVertices(this->m_graph.getNumberOfVertices());
-        unsigned int numberOfVerticesProcessed(0U);        enqueue(this->m_startVertex);
+        unsigned int numberOfVerticesProcessed(0U);
+        enqueue(this->m_startVertex);
         while(!m_queueOfVertices.empty() && !m_hasPositiveOrNegativeCycle)
         {
             // Repeat V times: Relax each edge
@@ -81,14 +84,16 @@ private:
                 if(numberOfVerticesProcessed++!=0 && numberOfVerticesProcessed >= numberOfVertices)
                 {
                     // there is a positive or negative cycle if new weight is found when number total number of vertices is reached
-                    m_hasPositiveOrNegativeCycle = isNewWeightFound;                }
+                    m_hasPositiveOrNegativeCycle = isNewWeightFound;
+                }
             });
         }
     }
 
     void enqueue(Vertex const& vertex)
     {
-        m_queueOfVertices.emplace_back(vertex);        m_verticesInQueue.putVertex(vertex);
+        m_queueOfVertices.emplace_back(vertex);
+        m_verticesInQueue.putVertex(vertex);
     }
 
     Vertex dequeue()
@@ -148,7 +153,8 @@ private:
 // Proposition: Dynamic programming algorithm computes SPT in any edge weight digraph with no negative cycles in time proportional to E*V
 // Proof idea: After pass i, it found the shortest path containing at most i edges.
 
-// Observation: If distTo[v] does not change during pass i, no need to relax any edge pointing from v in pass i+1// -> Use a queue! Maintain a queue of vertices whose distTo are changed.
+// Observation: If distTo[v] does not change during pass i, no need to relax any edge pointing from v in pass i+1
+// -> Use a queue! Maintain a queue of vertices whose distTo are changed.
 
 // Overall effect:
 // -> running time is still proportional to E*V in worst case.

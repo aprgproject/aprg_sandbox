@@ -42,10 +42,12 @@ public:
         Vertex currentVertex = endVertex;
         while(currentVertex != m_startVertex)
         {
-            reversedPath.emplace_back(currentVertex);            auto it = m_vertexToEdgeWithBestWeightMap.find(currentVertex);
+            reversedPath.emplace_back(currentVertex);
+            auto it = m_vertexToEdgeWithBestWeightMap.find(currentVertex);
             if(it != m_vertexToEdgeWithBestWeightMap.cend())
             {
-                currentVertex = it->second.first;            }
+                currentVertex = it->second.first;
+            }
             else
             {
                 shouldAddStartVertexAndReverse = false;

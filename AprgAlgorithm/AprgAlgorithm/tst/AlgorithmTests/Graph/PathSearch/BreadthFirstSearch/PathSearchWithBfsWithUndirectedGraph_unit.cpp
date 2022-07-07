@@ -91,12 +91,14 @@ TEST(PathSearchUsingBfsTest, GetDistanceToWorksWithUndirectedGraph)
 
 TEST(PathSearchUsingBfsTest, ReinitializeStartingFromWorksWithUndirectedGraph)
 {
-    GraphForTest graph;    putConnectionsForTest(graph);
+    GraphForTest graph;
+    putConnectionsForTest(graph);
     PathSearchForTest pathSearch(graph, 0U);
 
     pathSearch.reinitializeStartingFrom({3U});
 
-    EXPECT_EQ(PathForTest({3U, 2U, 0U}), pathSearch.getShortestPathTo(0U));    EXPECT_EQ(PathForTest({3U, 2U, 1U}), pathSearch.getShortestPathTo(1U));
+    EXPECT_EQ(PathForTest({3U, 2U, 0U}), pathSearch.getShortestPathTo(0U));
+    EXPECT_EQ(PathForTest({3U, 2U, 1U}), pathSearch.getShortestPathTo(1U));
     EXPECT_EQ(PathForTest({3U, 2U}), pathSearch.getShortestPathTo(2U));
     EXPECT_EQ(PathForTest(), pathSearch.getShortestPathTo(3U));
     EXPECT_EQ(PathForTest({3U, 4U}), pathSearch.getShortestPathTo(4U));

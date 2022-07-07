@@ -4,9 +4,11 @@
 
 #include <cmath>
 #include <limits>
+
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 namespace mathHelper
 {
@@ -540,10 +542,12 @@ template bool isPowerOfTwo<unsigned int>(unsigned int const value);
 
 bool isPerfectCube(AlbaNumber const& value)
 {
-    return isPerfectNthPower(value, 3);}
+    return isPerfectNthPower(value, 3);
+}
 
 bool isPerfectSquare(AlbaNumber const& value)
-{    return isPerfectNthPower(value, 2);
+{
+    return isPerfectNthPower(value, 2);
 }
 
 bool isPerfectNthPower(

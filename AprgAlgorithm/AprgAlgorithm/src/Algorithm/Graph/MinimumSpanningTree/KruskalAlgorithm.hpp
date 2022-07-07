@@ -47,10 +47,12 @@ private:
             // traverse all edges (shortest edges first) and add it to MST if vertices are not already connected in the MST (if it does not produce a cycle)
             EdgeWithWeight shortestEdge(m_edgesInOrder.top());
             m_edgesInOrder.pop();
-            addEdgeToMstIfVerticesAreNotConnected(unionFind, shortestEdge);        }
+            addEdgeToMstIfVerticesAreNotConnected(unionFind, shortestEdge);
+        }
     }
 
-    void putAllEdgesToPriorityQueue()    {
+    void putAllEdgesToPriorityQueue()
+    {
         for(Edge const& edge : m_graph.getEdges())
         {
             m_edgesInOrder.emplace(edge.first, edge.second, m_graph.getWeight(edge.first, edge.second));
@@ -64,10 +66,12 @@ private:
         if(!unionFind.isConnected(vertex1, vertex2)) // if its not connected yet, then it does not create a cycle
         {
             unionFind.connect(vertex1, vertex2);
-            m_minimumSpanningTreeEdges.emplace_back(createSortedEdge<Vertex, Edge>(vertex1, vertex2));        }
+            m_minimumSpanningTreeEdges.emplace_back(createSortedEdge<Vertex, Edge>(vertex1, vertex2));
+        }
     }
 
-    Graph const& m_graph;    Vertex m_startVertex;
+    Graph const& m_graph;
+    Vertex m_startVertex;
     Edges m_minimumSpanningTreeEdges;
     EdgeWithWeightsPriorityQueue m_edgesInOrder;
 };

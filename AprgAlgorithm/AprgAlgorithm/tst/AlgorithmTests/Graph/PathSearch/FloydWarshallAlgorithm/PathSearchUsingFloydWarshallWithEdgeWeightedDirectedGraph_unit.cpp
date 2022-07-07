@@ -47,10 +47,12 @@ TEST(PathSearchUsingFloydWarshallTest, ShortestPathSearchEndsWhenThereArePositiv
 TEST(PathSearchUsingFloydWarshallTest, ShortestPathSearchEndsWhenThereAreNegativeCyclesButDoesNotWork)
 {
     EdgeWeightedDirectedGraphForTest graph;
-    graph.connect(0U, 1U, -0.26);    graph.connect(1U, 2U, -0.38);
+    graph.connect(0U, 1U, -0.26);
+    graph.connect(1U, 2U, -0.38);
     graph.connect(2U, 3U, -0.29);
     graph.connect(3U, 0U, -0.34);
     ShortestPathSearchForTest pathSearch(graph);
+
     EXPECT_TRUE(pathSearch.hasPathTo(0U, 0U));
     EXPECT_TRUE(pathSearch.hasPathTo(0U, 1U));
     EXPECT_TRUE(pathSearch.hasPathTo(0U, 2U));
@@ -66,10 +68,12 @@ TEST(PathSearchUsingFloydWarshallTest, ShortestPathSearchEndsWhenThereAreNegativ
 TEST(PathSearchUsingFloydWarshallTest, LongestPathSearchEndsWhenThereArePositiveCyclesButDoesNotWork)
 {
     EdgeWeightedDirectedGraphForTest graph;
-    graph.connect(0U, 1U, 0.26);    graph.connect(1U, 2U, 0.38);
+    graph.connect(0U, 1U, 0.26);
+    graph.connect(1U, 2U, 0.38);
     graph.connect(2U, 3U, 0.29);
     graph.connect(3U, 0U, 0.34);
     LongestPathSearchForTest pathSearch(graph);
+
     EXPECT_TRUE(pathSearch.hasPathTo(0U, 0U));
     EXPECT_TRUE(pathSearch.hasPathTo(0U, 1U));
     EXPECT_TRUE(pathSearch.hasPathTo(0U, 2U));
@@ -85,10 +89,12 @@ TEST(PathSearchUsingFloydWarshallTest, LongestPathSearchEndsWhenThereArePositive
 TEST(PathSearchUsingFloydWarshallTest, LongestPathSearchEndsWhenThereAreNegativeCyclesButDoesNotWork)
 {
     EdgeWeightedDirectedGraphForTest graph;
-    graph.connect(0U, 1U, -0.26);    graph.connect(1U, 2U, -0.38);
+    graph.connect(0U, 1U, -0.26);
+    graph.connect(1U, 2U, -0.38);
     graph.connect(2U, 3U, -0.29);
     graph.connect(3U, 0U, -0.34);
     LongestPathSearchForTest pathSearch(graph);
+
     EXPECT_TRUE(pathSearch.hasPathTo(0U, 0U));
     EXPECT_TRUE(pathSearch.hasPathTo(0U, 1U));
     EXPECT_TRUE(pathSearch.hasPathTo(0U, 2U));
@@ -100,9 +106,11 @@ TEST(PathSearchUsingFloydWarshallTest, LongestPathSearchEndsWhenThereAreNegative
     EXPECT_EQ(PathForTest({0U, 2U, 3U}), pathSearch.getPathTo(0U, 3U));
     EXPECT_EQ(PathForTest(), pathSearch.getPathTo(0U, 4U));
 }
+
 TEST(PathSearchUsingFloydWarshallTest, HasPathToWorksWithEdgeWeightedDirectedGraphAndLesserComparison)
 {
-    EdgeWeightedDirectedGraphForTest graph;    graph.connect(0U, 2U, 0.26);
+    EdgeWeightedDirectedGraphForTest graph;
+    graph.connect(0U, 2U, 0.26);
     graph.connect(0U, 4U, 0.38);
     graph.connect(1U, 3U, 0.29);
     graph.connect(2U, 7U, 0.34);
@@ -148,10 +156,12 @@ TEST(PathSearchUsingFloydWarshallTest, GetPathToWorksWithEdgeWeightedDirectedGra
     EXPECT_EQ(PathForTest({0U, 4U, 5U}), pathSearch.getPathTo(0U, 5U));
     EXPECT_EQ(PathForTest({0U, 2U, 7U, 3U, 6U}), pathSearch.getPathTo(0U, 6U));
     EXPECT_EQ(PathForTest({0U, 2U, 7U}), pathSearch.getPathTo(0U, 7U));
-    EXPECT_EQ(PathForTest(), pathSearch.getPathTo(0U, 8U));}
+    EXPECT_EQ(PathForTest(), pathSearch.getPathTo(0U, 8U));
+}
 
 TEST(PathSearchUsingFloydWarshallTest, HasPathToWorksWithEdgeWeightedDirectedGraphAndGreaterComparison)
-{    EdgeWeightedDirectedGraphForTest graph;
+{
+    EdgeWeightedDirectedGraphForTest graph;
     graph.connect(0U, 2U, 0.26);
     graph.connect(0U, 4U, 0.38);
     graph.connect(1U, 3U, 0.29);
@@ -200,6 +210,7 @@ TEST(PathSearchUsingFloydWarshallTest, GetPathToWorksWithEdgeWeightedDirectedGra
     EXPECT_EQ(PathForTest({0U, 4U, 5U, 7U}), pathSearch.getPathTo(0U, 7U));
     EXPECT_EQ(PathForTest(), pathSearch.getPathTo(0U, 8U));
 }
+
 }
 
 }

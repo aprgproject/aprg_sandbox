@@ -1,6 +1,6 @@
 #include <Algorithm/Graph/DirectedGraph/DirectedGraphWithListOfEdges.hpp>
 #include <Algorithm/Graph/EdgeWeightedGraph/EdgeWeightedGraph.hpp>
-#include <Algorithm/Graph/PathSearch/ForDirectedAcyclicGraph/PathSearchForDirectedAcyclicGraph.hpp>
+#include <Algorithm/Graph/PathSearch/DirectedAcyclicGraph/PathSearchForDirectedAcyclicGraph.hpp>
 
 #include <gtest/gtest.h>
 

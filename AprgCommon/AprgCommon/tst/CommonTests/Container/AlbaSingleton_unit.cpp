@@ -24,8 +24,10 @@ size_t SingletonExample::numberOfConstructorExecutions = 0;
 TEST(AlbaSingletonTest, ConstructorIsCalledOnlyOnceAndOnlyWhenFirstGetInstanceIsCalled)
 {
     EXPECT_EQ(0U, SingletonExample::numberOfConstructorExecutions);
+
     SingletonExample::getInstance();
     EXPECT_EQ(1U, SingletonExample::numberOfConstructorExecutions);
+
     SingletonExample::getInstance();
     EXPECT_EQ(1U, SingletonExample::numberOfConstructorExecutions);
 }

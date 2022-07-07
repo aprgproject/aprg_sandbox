@@ -45,10 +45,12 @@ public:
         , m_matrixData(numberOfColumns*numberOfRows, initialValue)
     {}
 
-    AlbaMatrix(            unsigned int const numberOfColumns,
+    AlbaMatrix(
+            unsigned int const numberOfColumns,
             unsigned int const numberOfRows,
             MatrixData const& matrixData)
-        : m_numberOfColumns(numberOfColumns)        , m_numberOfRows(numberOfRows)
+        : m_numberOfColumns(numberOfColumns)
+        , m_numberOfRows(numberOfRows)
         , m_matrixData(
               matrixData.cbegin(),
               matrixData.cbegin() + std::min(static_cast<unsigned int>(matrixData.size()), numberOfColumns*numberOfRows))
@@ -165,11 +167,13 @@ public:
 
     MatrixData const& getMatrixData() const
     {
-        return m_matrixData;    }
+        return m_matrixData;
+    }
 
     std::string getString() const
     {
-        DisplayTable table;        table.setBorders("-","|");
+        DisplayTable table;
+        table.setBorders("-","|");
         for(unsigned int y=0; y<m_numberOfRows; y++)
         {
             table.addRow();
@@ -270,9 +274,11 @@ public:
         m_matrixData.resize(numberOfColumns*numberOfRows, initialValue);
         m_matrixData.shrink_to_fit();
     }
+
     void negate()
     {
-        for(DataType & value : m_matrixData)        {
+        for(DataType & value : m_matrixData)
+        {
             value *= -1;
         }
     }

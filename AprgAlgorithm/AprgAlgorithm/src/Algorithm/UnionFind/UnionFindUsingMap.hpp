@@ -29,10 +29,12 @@ public:
         // Is it log(log(log(N)))...? if its then its log*(N)
         Object currentObject(object);
         auto tempRootIt = m_connectionMap.find(currentObject);
-        while(tempRootIt != m_connectionMap.end())        {
+        while(tempRootIt != m_connectionMap.end())
+        {
             Object const& tempRoot(tempRootIt->second);
             if(tempRoot==currentObject)
-            {                break;
+            {
+                break;
             }
             currentObject = tempRoot;
             tempRootIt = m_connectionMap.find(currentObject);

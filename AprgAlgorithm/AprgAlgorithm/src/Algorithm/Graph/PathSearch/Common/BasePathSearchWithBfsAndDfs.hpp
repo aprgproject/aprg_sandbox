@@ -23,10 +23,12 @@ public:
     using VertexToUnsignedIntMap = typename GraphTypes<Vertex>::VertexToUnsignedIntMap;
     using CheckableVerticesWithVertex = CheckableVertices<Vertex>;
 
-    BasePathSearchWithBfsAndDfs(BaseGraphWithVertex const& graph)        : m_graph(graph)
+    BasePathSearchWithBfsAndDfs(BaseGraphWithVertex const& graph)
+        : m_graph(graph)
     {}
 
-    virtual ~BasePathSearchWithBfsAndDfs()    {}
+    virtual ~BasePathSearchWithBfsAndDfs()
+    {}
 
     bool hasPathTo(Vertex const& endVertex) const
     {
@@ -77,9 +79,11 @@ public:
     virtual void reinitializeStartingFrom(Vertices const& startVertices) = 0;
 
 protected:
+
     void clear()
     {
-        m_processedVertices.clear();        m_startVertices.clear();
+        m_processedVertices.clear();
+        m_startVertices.clear();
         m_vertexToPreviousVertexMap.clear();
     }
 
@@ -92,11 +96,13 @@ protected:
         }
     }
 
-    BaseGraphWithVertex const& m_graph;    CheckableVerticesWithVertex m_startVertices;
+    BaseGraphWithVertex const& m_graph;
+    CheckableVerticesWithVertex m_startVertices;
     CheckableVerticesWithVertex m_processedVertices;
     VertexToVertexMap m_vertexToPreviousVertexMap;
     VertexToUnsignedIntMap m_vertexToDistanceToStartMap;
 };
 
 }
+
 }

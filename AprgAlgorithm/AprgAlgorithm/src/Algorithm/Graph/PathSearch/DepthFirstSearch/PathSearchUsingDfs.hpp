@@ -43,10 +43,12 @@ public:
         for(Vertex const& startVertex : this->m_startVertices.getVertices())  // to maintain order, get the vertices in start vertices (because its sorted)
         {
             traverseUsingDfs(startVertex);
-        }    }
+        }
+    }
 
 private:
-    void traverseUsingDfs(Vertex const& vertex)    {
+    void traverseUsingDfs(Vertex const& vertex)
+    {
         CheckableVerticesWithVertex & processedVertices(this->m_processedVertices);
         processedVertices.putVertex(vertex);
         for(Vertex const& adjacentVertex : this->m_graph.getAdjacentVerticesAt(vertex))
@@ -57,10 +59,12 @@ private:
                 this->m_vertexToDistanceToStartMap[adjacentVertex] = this->m_vertexToDistanceToStartMap.at(vertex)+1;
                 traverseUsingDfs(adjacentVertex);
             }
-        }    }
+        }
+    }
 };
 
-// Proposition: DFS marks all vertices connected to s in time proportional to the sum of their degrees// Proof:
+// Proposition: DFS marks all vertices connected to s in time proportional to the sum of their degrees
+// Proof:
 // -> If w is marked, then w is connected to s
 // -> If w is connected to s, then w is marked.
 // --> If w is unmarked, then consider last edge on a path from s to w that goes from a marked vertex to an unmarked one.

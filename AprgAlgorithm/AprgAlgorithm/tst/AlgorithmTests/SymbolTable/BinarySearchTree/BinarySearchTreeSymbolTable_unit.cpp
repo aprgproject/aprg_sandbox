@@ -20,9 +20,11 @@ using NodeForTest = BinarySearchTreeNode::BasicTreeNode<unsigned int, char>;
 using KeysForTest = typename SymbolTableForTest::Keys;
 }
 
-TEST(BinarySearchTreeSymbolTableTest, IsEmptyWorksWhenEmpty){
+TEST(BinarySearchTreeSymbolTableTest, IsEmptyWorksWhenEmpty)
+{
     testIsEmptyWhenEmptyWithUnsignedIntAndChar<SymbolTableForTest>();
 }
+
 TEST(BinarySearchTreeSymbolTableTest, IsEmptyWorksWhenNotEmpty)
 {
     testIsEmptyWhenNotEmptyWithUnsignedIntAndChar<SymbolTableForTest>();

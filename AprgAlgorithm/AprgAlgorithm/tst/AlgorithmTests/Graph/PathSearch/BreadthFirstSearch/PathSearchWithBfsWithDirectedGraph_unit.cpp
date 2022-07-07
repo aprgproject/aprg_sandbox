@@ -91,12 +91,14 @@ TEST(PathSearchUsingBfsTest, GetDistanceToWorksWithDirectedGraph)
 
 TEST(PathSearchUsingBfsTest, ReinitializeStartingFromWorksWithDirectedGraph)
 {
-    GraphForTest graph;    putConnectionsForTest(graph);
+    GraphForTest graph;
+    putConnectionsForTest(graph);
     PathSearchForTest pathSearch(graph, 0U);
 
     pathSearch.reinitializeStartingFrom({2U});
 
-    EXPECT_EQ(PathForTest(), pathSearch.getShortestPathTo(0U));    EXPECT_EQ(PathForTest({2U, 1U}), pathSearch.getShortestPathTo(1U));
+    EXPECT_EQ(PathForTest(), pathSearch.getShortestPathTo(0U));
+    EXPECT_EQ(PathForTest({2U, 1U}), pathSearch.getShortestPathTo(1U));
     EXPECT_EQ(PathForTest(), pathSearch.getShortestPathTo(2U));
     EXPECT_EQ(PathForTest({2U, 3U}), pathSearch.getShortestPathTo(3U));
     EXPECT_EQ(PathForTest({2U, 4U}), pathSearch.getShortestPathTo(4U));

@@ -3,8 +3,10 @@
 #include <Common/Math/AlbaMathConstants.hpp>
 #include <Common/Math/Number/AlbaNumber.hpp>
 #include <Common/Math/Number/AlbaNumberTypes.hpp>
+
 #include <algorithm>
 #include <vector>
+
 namespace alba
 {
 
@@ -219,10 +221,12 @@ template <typename NumberType> bool isPerfectNthPower(NumberType const value, Nu
 template <typename NumberType> bool isPowerOfTwo(NumberType const value); // keep this template manually instantiated to remove dependency to bit utilities
 template <typename NumberType> bool isPerfectSquare(NumberType const value)
 {
-    return isPerfectNthPower(value, static_cast<NumberType>(2));}
+    return isPerfectNthPower(value, static_cast<NumberType>(2));
+}
 template <typename NumberType> bool isPerfectCube(NumberType const value)
 {
-    return isPerfectNthPower(value, static_cast<NumberType>(3));}
+    return isPerfectNthPower(value, static_cast<NumberType>(3));
+}
 template <typename NumberType> bool isPerfectNthPower(NumberType const value, NumberType const nthPower)
 {
     return isAlmostAnInteger<double, NumberType>(pow(value, static_cast<double>(1)/nthPower));

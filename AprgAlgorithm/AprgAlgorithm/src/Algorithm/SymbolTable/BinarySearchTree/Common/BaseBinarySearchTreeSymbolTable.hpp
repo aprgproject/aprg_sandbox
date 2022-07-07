@@ -5,8 +5,10 @@
 #include <functional>
 #include <memory>
 #include <vector>
+
 namespace alba
 {
+
 namespace algorithm
 {
 
@@ -20,9 +22,11 @@ public:
 
     BaseBinarySearchTreeSymbolTable()
     {}
+
     bool isEmpty() const override
     {
-        return getSize() == 0;    }
+        return getSize() == 0;
+    }
 
     bool doesContain(Key const& key) const override
     {
@@ -155,10 +159,12 @@ public:
 
 protected:
 
-    unsigned int getSizeOnThisNode(NodeUniquePointer const& nodePointer) const    {
+    unsigned int getSizeOnThisNode(NodeUniquePointer const& nodePointer) const
+    {
         unsigned int size(0);
         if(nodePointer)
-        {            size = nodePointer->numberOfNodesOnThisSubTree;
+        {
+            size = nodePointer->numberOfNodesOnThisSubTree;
         }
         return size;
     }
@@ -455,10 +461,12 @@ protected:
         // Similar with traverseByInOrder
         if(nodePointer)
         {
-            retrieveKeysStartingOnThisNode(keys, nodePointer->left);            keys.emplace_back(nodePointer->key);
+            retrieveKeysStartingOnThisNode(keys, nodePointer->left);
+            keys.emplace_back(nodePointer->key);
             retrieveKeysStartingOnThisNode(keys, nodePointer->right);
         }
     }
+
     virtual void retrieveKeysInRangeInclusiveStartingOnThisNode(Keys & keys, NodeUniquePointer const& nodePointer, Key const& low, Key const& high) const
     {
         if(nodePointer)
@@ -510,9 +518,11 @@ protected:
 
     NodeUniquePointer m_root;
 };
+
 // BST maintains symmetric order. It means that each node has a key and every node's key is:
 // -> Larger than all keys in its left subtree
 // -> Smaller than all keys in its right subtree
+
 // Implementation details: subtree counts are stored in each node -> This facilitates efficient implementation of rank() and select().
 
 }

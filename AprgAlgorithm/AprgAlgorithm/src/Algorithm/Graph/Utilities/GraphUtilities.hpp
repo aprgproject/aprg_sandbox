@@ -4,12 +4,14 @@
 #include <Algorithm/Graph/ConnectedComponents/ConnectedComponentsUsingDfs.hpp>
 #include <Algorithm/Graph/ConnectedComponents/StronglyConnectedComponentsUsingKosarajuSharir.hpp>
 #include <Algorithm/Graph/PathSearch/DepthFirstSearch/LongestPathsInTree.hpp>
-#include <Algorithm/Graph/PathSearch/ForDirectedAcyclicGraph/PathSearchForDirectedAcyclicGraph.hpp>
+#include <Algorithm/Graph/PathSearch/DirectedAcyclicGraph/PathSearchForDirectedAcyclicGraph.hpp>
 #include <Algorithm/Graph/Utilities/BipartiteCheckerUsingDfs.hpp>
-#include <Algorithm/Graph/Utilities/GraphUtilitiesHeaders.hpp>#include <Algorithm/UnionFind/BaseUnionFind.hpp>
+#include <Algorithm/Graph/Utilities/GraphUtilitiesHeaders.hpp>
+#include <Algorithm/UnionFind/BaseUnionFind.hpp>
 #include <Algorithm/UnionFind/UnionFindUsingMap.hpp>
 
-#include <algorithm>#include <set>
+#include <algorithm>
+#include <set>
 
 namespace alba
 {
@@ -161,9 +163,11 @@ bool isATree(BaseUndirectedGraph<Vertex> const& graph)
 
     return !hasAnyCyclesOnGraph(graph) && isGraphConnected(graph);
 }
+
 template <typename Vertex>
 bool isAForest(BaseUndirectedGraph<Vertex> const& graph)
-{    // A disjoint set of trees is called a forest
+{
+    // A disjoint set of trees is called a forest
 
     return !hasAnyCyclesOnGraph(graph) && !isGraphConnected(graph);
 }
@@ -364,9 +368,11 @@ unsigned int getDiameterOfATree(BaseUndirectedGraph<Vertex> const& graph)
 template <typename Vertex>
 std::pair<unsigned int, unsigned int> getInDegreeAndOutDegree(BaseDirectedGraph<Vertex> const& graph, Vertex const& vertex)
 {
-    // In a directed graph, the indegree of a node is the number of edges that end at the node,    // and the outdegree of a node is the number of edges that start at the node.
+    // In a directed graph, the indegree of a node is the number of edges that end at the node,
+    // and the outdegree of a node is the number of edges that start at the node.
 
     using Edge = typename GraphTypes<Vertex>::Edge;
+
     std::pair<unsigned int, unsigned int> result{};
     for(Edge const& edge : graph.getEdges())
     {

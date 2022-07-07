@@ -91,12 +91,14 @@ TEST(PathSearchUsingDfsTest, GetDistanceToWorksWithUndirectedGraph)
 
 TEST(PathSearchUsingDfsTest, ReinitializeStartingFromWorksWithUndirectedGraph)
 {
-    GraphForTest graph;    putConnectionsForTest(graph);
+    GraphForTest graph;
+    putConnectionsForTest(graph);
     PathSearchForTest pathSearch(graph, 0U);
 
     pathSearch.reinitializeStartingFrom({3U});
 
-    EXPECT_EQ(PathForTest({3U, 2U, 0U}), pathSearch.getOrderedPathTo(0U));    EXPECT_EQ(PathForTest({3U, 2U, 0U, 1U}), pathSearch.getOrderedPathTo(1U));
+    EXPECT_EQ(PathForTest({3U, 2U, 0U}), pathSearch.getOrderedPathTo(0U));
+    EXPECT_EQ(PathForTest({3U, 2U, 0U, 1U}), pathSearch.getOrderedPathTo(1U));
     EXPECT_EQ(PathForTest({3U, 2U}), pathSearch.getOrderedPathTo(2U));
     EXPECT_EQ(PathForTest(), pathSearch.getOrderedPathTo(3U));
     EXPECT_EQ(PathForTest({3U, 2U, 4U}), pathSearch.getOrderedPathTo(4U));

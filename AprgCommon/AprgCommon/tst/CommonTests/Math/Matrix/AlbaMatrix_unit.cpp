@@ -58,9 +58,11 @@ TEST(AlbaMatrixTest, MatrixConstructor_AlbaMatrixCanBeCreatedWithSizeAndInitialV
 
 TEST(AlbaMatrixTest, MatrixConstructor_AlbaMatrixCanBeCreatedWithMatrixDataWithSameSize)
 {
-    AlbaMatrix<unsigned int> matrix(2, 3,    {1, 2,
+    AlbaMatrix<unsigned int> matrix(2, 3,
+    {1, 2,
      3, 4,
      5, 6});
+
     EXPECT_EQ(2U, matrix.getNumberOfColumns());
     EXPECT_EQ(3U, matrix.getNumberOfRows());
     AlbaMatrix<unsigned int>::MatrixData const& matrixData(
@@ -531,7 +533,8 @@ TEST(AlbaMatrixTest, ClearAndResizeWorks)
     matrix.clearAndResize(3, 2);
 
     AlbaMatrix<unsigned int> expectedMatrix(3, 2,
-    {0, 0, 0,     0, 0, 0});
+    {0, 0, 0,
+     0, 0, 0});
     EXPECT_EQ(expectedMatrix, matrix);
 }
 
@@ -552,13 +555,15 @@ TEST(AlbaMatrixTest, ClearAndResizeWorksWithInitialValue)
 
 TEST(AlbaMatrixTest, NegateWorks)
 {
-    AlbaMatrix<int> matrix(2, 3,    {1, 2,
+    AlbaMatrix<int> matrix(2, 3,
+    {1, 2,
      3, 4,
      5, 6});
 
     matrix.negate();
 
-    AlbaMatrix<int> expectedMatrix(2, 3,    {-1, -2,
+    AlbaMatrix<int> expectedMatrix(2, 3,
+    {-1, -2,
      -3, -4,
      -5, -6});
     EXPECT_EQ(expectedMatrix, matrix);

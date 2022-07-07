@@ -20,7 +20,8 @@ public:
     };
     struct PathDetails
     {
-        bool hasAPath;        Vertex bestAdjacentVertex;
+        bool hasAPath;
+        Vertex bestAdjacentVertex;
         Weight bestWeight;
     };
     using Graph = EdgeWeightedGraph;
@@ -34,9 +35,11 @@ public:
 
     PathSearchUsingFloydWarshall(EdgeWeightedGraph const& graph)
         : m_graph(graph)
-        , m_pathDetailsMatrix(graph.getNumberOfVertices(), graph.getNumberOfVertices())    {
+        , m_pathDetailsMatrix(graph.getNumberOfVertices(), graph.getNumberOfVertices())
+    {
         searchForBestPaths();
     }
+
     bool hasPathTo(Vertex const& startVertex, Vertex const& endVertex) const
     {
         bool result(false);
@@ -133,9 +136,11 @@ private:
 
     void searchForBestPaths()
     {
-        initializePathDetailsWithEdgeWeights();        initializePathDetailsInTheDiagonal();
+        initializePathDetailsWithEdgeWeights();
+        initializePathDetailsInTheDiagonal();
         checkAllIntermediateVertices();
     }
+
     void initializePathDetailsWithEdgeWeights()
     {
         for(EdgeWithWeight const& edgeWithWeight : m_graph.getEdgesWithWeight())
@@ -172,10 +177,12 @@ private:
                             PathDetails & intermediateToEndDetails(m_pathDetailsMatrix.getEntryReference(intermediateVertex, endVertex));
                             if(startToIntermediateDetails.hasAPath && intermediateToEndDetails.hasAPath)
                             {
-                                Weight possibleNewWeight = startToIntermediateDetails.bestWeight + intermediateToEndDetails.bestWeight;                                if(!startToEndDetails.hasAPath)
+                                Weight possibleNewWeight = startToIntermediateDetails.bestWeight + intermediateToEndDetails.bestWeight;
+                                if(!startToEndDetails.hasAPath)
                                 {
                                     startToEndDetails = {true, intermediateVertex, possibleNewWeight};
-                                }                                else if(m_comparator(possibleNewWeight, startToEndDetails.bestWeight))
+                                }
+                                else if(m_comparator(possibleNewWeight, startToEndDetails.bestWeight))
                                 {
                                     startToEndDetails.bestAdjacentVertex = intermediateVertex;
                                     startToEndDetails.bestWeight = possibleNewWeight;
