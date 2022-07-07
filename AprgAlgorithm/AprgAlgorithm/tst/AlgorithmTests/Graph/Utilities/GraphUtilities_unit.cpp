@@ -81,14 +81,32 @@ TEST(GraphUtilitiesTest, IsDirectedAcyclicGraphWorks)
     EXPECT_TRUE(isDirectedAcyclicGraph(graphWithoutCycle));
 }
 
+TEST(GraphUtilitiesTest, IsDirectedSuccessorGraphWorks)
+{
+    UndirectedGraphForTest undirectedGraph;
+    undirectedGraph.connect(0U, 1U);
+    undirectedGraph.connect(1U, 2U);
+    undirectedGraph.connect(2U, 0U);
+    DirectedGraphForTest graphWithMaxDegreeNot1;
+    graphWithMaxDegreeNot1.connect(0U, 1U);
+    graphWithMaxDegreeNot1.connect(0U, 2U);
+    graphWithMaxDegreeNot1.connect(2U, 3U);
+    DirectedGraphForTest graphWithMaxDegree1;
+    graphWithMaxDegree1.connect(0U, 1U);
+    graphWithMaxDegree1.connect(1U, 2U);
+    graphWithMaxDegree1.connect(2U, 3U);
+
+    EXPECT_FALSE(isDirectedSuccessorGraph(undirectedGraph));
+    EXPECT_FALSE(isDirectedSuccessorGraph(graphWithMaxDegreeNot1));
+    EXPECT_TRUE(isDirectedSuccessorGraph(graphWithMaxDegree1));
+}
+
 TEST(GraphUtilitiesTest, HasAnyCyclesOnGraphWorks)
 {
-    UndirectedGraphForTest graphWithoutCycle;
-    graphWithoutCycle.connect(0U, 1U);
+    UndirectedGraphForTest graphWithoutCycle;    graphWithoutCycle.connect(0U, 1U);
     graphWithoutCycle.connect(0U, 2U);
     graphWithoutCycle.connect(0U, 3U);
-    UndirectedGraphForTest graphWithCycle;
-    graphWithCycle.connect(0U, 1U);
+    UndirectedGraphForTest graphWithCycle;    graphWithCycle.connect(0U, 1U);
     graphWithCycle.connect(1U, 2U);
     graphWithCycle.connect(2U, 0U);
 
@@ -178,14 +196,27 @@ TEST(GraphUtilitiesTest, IsAForestWorks)
     EXPECT_FALSE(isAForest(nonForestGraphGraphWithCycle));
 }
 
+TEST(GraphUtilitiesTest, AreAllDegreesWorks)
+{
+    UndirectedGraphForTest graphWithVaryingDegrees;
+    graphWithVaryingDegrees.connect(0U, 1U);
+    graphWithVaryingDegrees.connect(0U, 2U);
+    graphWithVaryingDegrees.connect(0U, 3U);
+    UndirectedGraphForTest graphWithSameDegree;
+    graphWithSameDegree.connect(0U, 1U);
+    graphWithSameDegree.connect(1U, 2U);
+    graphWithSameDegree.connect(2U, 0U);
+
+    EXPECT_FALSE(areAllDegrees(graphWithVaryingDegrees, 3U));
+    EXPECT_TRUE(areAllDegrees(graphWithSameDegree, 2U));
+}
+
 TEST(GraphUtilitiesTest, IsASpanningTreeWorks)
 {
-    UndirectedGraphForTest mainGraph;
-    mainGraph.connect(0U, 1U);
+    UndirectedGraphForTest mainGraph;    mainGraph.connect(0U, 1U);
     mainGraph.connect(0U, 3U);
     mainGraph.connect(1U, 2U);
-    mainGraph.connect(2U, 3U);
-    UndirectedGraphForTest spanningTree;
+    mainGraph.connect(2U, 3U);    UndirectedGraphForTest spanningTree;
     spanningTree.connect(0U, 1U);
     spanningTree.connect(0U, 2U);
     spanningTree.connect(0U, 3U);
@@ -396,15 +427,12 @@ TEST(GraphUtilitiesTest, GetDiameterOfATreeWorks)
     EXPECT_EQ(4U, getDiameterOfATree(graph));
 }
 
-
 TEST(GraphUtilitiesTest, GetInDegreeAndOutDegreeWorks)
 {
-    DirectedGraphForTest graph;
-    graph.connect(0U, 1U);
+    DirectedGraphForTest graph;    graph.connect(0U, 1U);
     graph.connect(0U, 2U);
     graph.connect(0U, 3U);
     graph.connect(4U, 0U);
-
     auto inDegreeAndOutDegreePair(getInDegreeAndOutDegree<VertexForTest>(graph, 0U));
 
     EXPECT_EQ(3U, inDegreeAndOutDegreePair.first);

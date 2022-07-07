@@ -118,27 +118,32 @@ private:
                 traversePostOrderAt(traversedVertices, adjacentVertex);
             }
         }
-
         traversedVertices.emplace_back(startVertex); // add vertex after DFS is done for the vertex
     }
-
     BaseGraphWithVertex const& m_graph;
     CheckableVerticesWithVertex m_processedVertices;
 };
 
-// Proposition: Reverse DFS posorder of a DAG is a topological order.
+// Proposition: Reverse DFS postorder of a DAG is a topological order.
 // Consider any edge v->w. When dfs(v) is called:
 // -> Case 1: dfs(w) has already been called and returned
-// ---> Thus w was done before v.
-// -> Case 2: dfs(w) has not yet been called. dfs(w) will get called directly or indirectly by dfs(v) and will finish before dfs(v)
+// ---> Thus w was done before v.// -> Case 2: dfs(w) has not yet been called. dfs(w) will get called directly or indirectly by dfs(v) and will finish before dfs(v)
 // ---> Thus w was done before v.
 // -> Case 3: dfs(w) has already been called but has not yet returned.
-// ---> Cant happen in a DAG: the function call stack contains path from w to v, so v -> w would complete a cycle
+// ---> Cant happen in a DAG: the function call stack contains path from w to v, so v->w would complete a cycle
 
 // Proposition: A digraph has a topological order iff no directed cycle.
 // Proof:
 // -> If directed cycle, topological order is impossible.
-// -> If no directed cycle, DFS-based algofirhtm finds a topological order
+// -> If no directed cycle, DFS-based algorithm finds a topological order
+
+// Note: In the algorithm above, its possible to have a cycle and vertex ordering will ignore it and will return current ordering.
+// -> So if there are cycles, vertex ordering will depend which vertex was used to start DFS.
+
+// Other discussion:
+// An acyclic graph always has a topological sort.
+// However, if the graph contains a cycle, it is not possible to form a topological sort,
+// because no node of the cycle can appear before the other nodes of the cycle in the ordering.
 
 }
 
