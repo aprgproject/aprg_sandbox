@@ -2,14 +2,13 @@
 
 #include <Algorithm/Graph/Types/GraphTypes.hpp>
 
+#include <algorithm>
 #include <functional>
 
-namespace alba
-{
+namespace alba{
 
 namespace algorithm
 {
-
 template <typename Vertex, typename Weight, typename EdgeWeightedGraph, template<class> class ComparatorTemplateType>
 class BasePathSearchWithRelax
 {
@@ -18,14 +17,13 @@ public:
     using Comparator=ComparatorTemplateType<Weight>;
     using Path = typename GraphTypes<Vertex>::Path;
     using EdgeWithWeight = typename GraphTypesWithWeights<Vertex, Weight>::EdgeWithWeight;
+    using EdgesWithWeight = typename GraphTypesWithWeights<Vertex, Weight>::EdgesWithWeight;
     using VertexToEdgeWithWeightMap = typename GraphTypesWithWeights<Vertex, Weight>::VertexToEdgeWithWeightMap;
     using AdditionalRelaxationStepsWithNewWeight = std::function<void(Vertex const&, Vertex const&, Weight const&)>;
     using AdditionalRelaxationSteps = std::function<void(void)>;
-
     BasePathSearchWithRelax(EdgeWeightedGraph const& graph, Vertex const& startVertex)
         : m_graph(graph)
-        , m_startVertex(startVertex)
-    {}
+        , m_startVertex(startVertex)    {}
 
     virtual ~BasePathSearchWithRelax()
     {}
@@ -64,13 +62,21 @@ public:
         return result;
     }
 
-protected:
-
-    bool hasNoWeightSaved(Vertex const& vertex) const
+    Vertex const& getStartVertex() const
     {
-        return m_vertexToEdgeWithBestWeightMap.find(vertex) == m_vertexToEdgeWithBestWeightMap.cend();
+        return m_startVertex;
     }
 
+    VertexToEdgeWithWeightMap const& getVertexToEdgeWithBestWeightMap() const
+    {
+        return m_vertexToEdgeWithBestWeightMap;
+    }
+
+protected:
+
+    bool hasNoWeightSaved(Vertex const& vertex) const    {
+        return m_vertexToEdgeWithBestWeightMap.find(vertex) == m_vertexToEdgeWithBestWeightMap.cend();
+    }
     Weight getSavedWeightAt(Vertex const& vertex) const
     {
         Weight result{};

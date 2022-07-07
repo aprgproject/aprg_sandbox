@@ -15,15 +15,12 @@ class BipartiteCheckerUsingDfs
 public:
     using BaseUndirectedGraphWithVertex = BaseUndirectedGraph<Vertex>;
     using Vertices = typename GraphTypes<Vertex>::Vertices;
-    using SetOfVertices = typename GraphTypes<Vertex>::SetOfVertices;
     using Path = typename GraphTypes<Vertex>::Path;
     using VertexToColorMap = std::map<Vertex, bool>;
     using CheckableVerticesWithVertex = CheckableVertices<Vertex>;
-
     BipartiteCheckerUsingDfs(BaseUndirectedGraphWithVertex const& graph)
         : m_graph(graph)
-        , m_isBipartite(true)
-    {
+        , m_isBipartite(true)    {
         initialize();
     }
 

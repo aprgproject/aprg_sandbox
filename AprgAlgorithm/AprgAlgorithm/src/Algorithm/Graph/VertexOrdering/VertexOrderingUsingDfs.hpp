@@ -17,15 +17,12 @@ class VertexOrderingUsingDfs
 public:
     using BaseGraphWithVertex = BaseGraph<Vertex>;
     using Vertices = typename GraphTypes<Vertex>::Vertices;
-    using SetOfVertices = typename GraphTypes<Vertex>::SetOfVertices;
     using CheckableVerticesWithVertex = CheckableVertices<Vertex>;
 
-    enum class TraverseOrder
-    {
+    enum class TraverseOrder    {
         PreOrder, // order: DFS traversal order (not really useful)
         PostOrder, // order: dependent vertices are first in the list (edge might not exist -> not useful)
-        ReversePostOrder, // order: dependent vertices are last in the list (topological sort)
-    };
+        ReversePostOrder, // order: dependent vertices are last in the list (topological sort)    };
 
     VertexOrderingUsingDfs(BaseGraphWithVertex const& graph)
         : m_graph(graph)

@@ -15,15 +15,12 @@ class ReachabilityInDigraphWithSetUsingDfs : public BaseReachabilityInDigraph<Ve
 {
 public:
     using BaseDirectedGraphWithVertex = BaseDirectedGraph<Vertex>;
-    using SetOfVertices = typename GraphTypes<Vertex>::SetOfVertices;
     using CheckableVerticesWithVertex = CheckableVertices<Vertex>;
 
-    ReachabilityInDigraphWithSetUsingDfs(BaseDirectedGraphWithVertex const& graph, Vertex const& sourceVertex)
-        : m_graph(graph)
+    ReachabilityInDigraphWithSetUsingDfs(BaseDirectedGraphWithVertex const& graph, Vertex const& sourceVertex)        : m_graph(graph)
         , m_sourceVertex(sourceVertex)
     {
-        initialize();
-    }
+        initialize();    }
 
     bool isReachable(Vertex const& destinationVertex) const override
     {

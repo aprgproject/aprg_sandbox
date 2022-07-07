@@ -18,15 +18,12 @@ public:
     using BaseGraphWithVertex = BaseGraph<Vertex>;
     using Path = typename GraphTypes<Vertex>::Path;
     using Vertices = typename GraphTypes<Vertex>::Vertices;
-    using SetOfVertices = typename GraphTypes<Vertex>::SetOfVertices;
     using VertexToVertexMap = typename GraphTypes<Vertex>::VertexToVertexMap;
     using VertexToUnsignedIntMap = typename GraphTypes<Vertex>::VertexToUnsignedIntMap;
     using CheckableVerticesWithVertex = CheckableVertices<Vertex>;
-
     BasePathSearchWithBfsAndDfs(BaseGraphWithVertex const& graph)
         : m_graph(graph)
     {}
-
     virtual ~BasePathSearchWithBfsAndDfs()
     {}
 
