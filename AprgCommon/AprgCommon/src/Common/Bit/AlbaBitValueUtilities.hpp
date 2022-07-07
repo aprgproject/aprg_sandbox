@@ -17,30 +17,53 @@ public:
         return (value & (value-1))==0;
     }
 
+    static constexpr bool isEvenParity(DataTypeToManipulate const value)
+    {
+        // This is similar with __builtin_parity(x)
+        return getNumberOfOnes(value)%2==0;
+    }
+
     static constexpr unsigned int getNumberOfBits()
     {
-        unsigned int result(std::numeric_limits<DataTypeToManipulate>::digits);
-        result += std::numeric_limits<DataTypeToManipulate>::is_signed ? 1 : 0;
+        unsigned int result(std::numeric_limits<DataTypeToManipulate>::digits);        result += std::numeric_limits<DataTypeToManipulate>::is_signed ? 1 : 0;
         return result;
     }
 
+    /*static constexpr unsigned int getNumberOfConsecutiveZerosFromMostSignificantDigit(DataTypeToManipulate const value)
+    {
+        // Think about this
+        // This is similar with __builtin_clz(x)
+        return 0;
+    }
+
+    static constexpr unsigned int getNumberOfConsecutiveZerosFromLeastSignificantDigit(DataTypeToManipulate const value)
+    {
+        // Think about this
+        // This is similar with __builtin_clz(x)
+        return 0;
+    }*/
+
     static constexpr unsigned int getNumberOfOnes(DataTypeToManipulate const)
     {
+        // This is similar with __builtin_popcount(x)
         // std::bitset can be used here but it would no longer be constexpr
         static_assert(sizeof(DataTypeToManipulate) != sizeof(DataTypeToManipulate),
-                      "This size or type is not supported. Please add a specialization if needed.");
-        return 0;
+                      "This size or type is not supported. Please add a specialization if needed.");        return 0;
+    }
+
+    static constexpr unsigned int getHammingDistance(DataTypeToManipulate const value1, DataTypeToManipulate const value2)
+    {
+        // The Hamming distance hamming(a,b) between two bitstrings a and b of equal length is the number of positions where the bitstrings differ.
+        return getNumberOfOnes(value1 ^ value2);
     }
 
     static constexpr DataTypeToManipulate generateOnesWithNumberOfBits(unsigned int const numberOfOnes)
     {
-        return (DataTypeToManipulate(1) << numberOfOnes)-1;
-    }
+        return (DataTypeToManipulate(1) << numberOfOnes)-1;    }
 
     static constexpr DataTypeToManipulate getAllOnes()
     {
-        static_assert(sizeof(DataTypeToManipulate) != sizeof(DataTypeToManipulate),
-                      "This size or type is not supported. Please add a specialization if needed.");
+        static_assert(sizeof(DataTypeToManipulate) != sizeof(DataTypeToManipulate),                      "This size or type is not supported. Please add a specialization if needed.");
         return 0;
     }
 

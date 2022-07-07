@@ -39,13 +39,28 @@ TEST(AlbaMatrixTest, MatrixConstructor_AlbaMatrixCanBeCreatedWithSize)
     EXPECT_EQ(0U, matrixData.at(5));
 }
 
+TEST(AlbaMatrixTest, MatrixConstructor_AlbaMatrixCanBeCreatedWithSizeAndInitialValue)
+{
+    AlbaMatrix<unsigned int> matrix(2, 3, 55);
+
+    EXPECT_EQ(2U, matrix.getNumberOfColumns());
+    EXPECT_EQ(3U, matrix.getNumberOfRows());
+    AlbaMatrix<unsigned int>::MatrixData const& matrixData(
+                matrix.getMatrixData());
+    ASSERT_EQ(6U, matrixData.size());
+    EXPECT_EQ(55U, matrixData.at(0));
+    EXPECT_EQ(55U, matrixData.at(1));
+    EXPECT_EQ(55U, matrixData.at(2));
+    EXPECT_EQ(55U, matrixData.at(3));
+    EXPECT_EQ(55U, matrixData.at(4));
+    EXPECT_EQ(55U, matrixData.at(5));
+}
+
 TEST(AlbaMatrixTest, MatrixConstructor_AlbaMatrixCanBeCreatedWithMatrixDataWithSameSize)
 {
-    AlbaMatrix<unsigned int> matrix(2, 3,
-    {1, 2,
+    AlbaMatrix<unsigned int> matrix(2, 3,    {1, 2,
      3, 4,
      5, 6});
-
     EXPECT_EQ(2U, matrix.getNumberOfColumns());
     EXPECT_EQ(3U, matrix.getNumberOfRows());
     AlbaMatrix<unsigned int>::MatrixData const& matrixData(
@@ -513,25 +528,37 @@ TEST(AlbaMatrixTest, ClearAndResizeWorks)
      3, 4,
      5, 6});
 
-    matrix.clearAndResize(3,2);
+    matrix.clearAndResize(3, 2);
 
     AlbaMatrix<unsigned int> expectedMatrix(3, 2,
-    {0, 0, 0,
-     0, 0, 0});
+    {0, 0, 0,     0, 0, 0});
+    EXPECT_EQ(expectedMatrix, matrix);
+}
+
+TEST(AlbaMatrixTest, ClearAndResizeWorksWithInitialValue)
+{
+    AlbaMatrix<unsigned int> matrix(2, 3,
+    {1, 2,
+     3, 4,
+     5, 6});
+
+    matrix.clearAndResize(3, 2, 55);
+
+    AlbaMatrix<unsigned int> expectedMatrix(3, 2,
+    {55U, 55U, 55U,
+     55U, 55U, 55U});
     EXPECT_EQ(expectedMatrix, matrix);
 }
 
 TEST(AlbaMatrixTest, NegateWorks)
 {
-    AlbaMatrix<int> matrix(2, 3,
-    {1, 2,
+    AlbaMatrix<int> matrix(2, 3,    {1, 2,
      3, 4,
      5, 6});
 
     matrix.negate();
 
-    AlbaMatrix<int> expectedMatrix(2, 3,
-    {-1, -2,
+    AlbaMatrix<int> expectedMatrix(2, 3,    {-1, -2,
      -3, -4,
      -5, -6});
     EXPECT_EQ(expectedMatrix, matrix);

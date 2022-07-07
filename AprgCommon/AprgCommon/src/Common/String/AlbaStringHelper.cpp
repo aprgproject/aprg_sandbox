@@ -50,23 +50,35 @@ unsigned int getLevenshteinDistance(string const& string1, string const& string2
             // next value is the minimum of
             // 1) index-1 in current // remove operation
             // 2) index in previous // insert operation
-            // 2) index- in previous // modify operation (if characters are different)
+            // 2) index-1 in previous // modify operation (if characters are different)
             unsigned int cost = string1.at(i) == string2.at(j) ? 0 : 1;
             current[j+1] = min(min(current.at(j) + 1, previous.at(j+1) + 1), previous.at(j) + cost);
-        }
-        current.swap(previous);
+        }        current.swap(previous);
     }
     return previous.at(string2Length);
 }
 
+unsigned int getHammingDistance(std::string const& string1, std::string const& string2)
+{
+    // The Hamming distance hamming(a,b) between two strings a and b of equal length is the number of positions where the strings differ.
+    unsigned int result(0);
+    unsigned int commonLength = min(string1.length(), string2.length());
+    for(unsigned int i=0; i<commonLength; i++)
+    {
+        if(string1.at(i) != string2.at(i))
+        {
+            result++;
+        }
+    }
+    return result;
+}
+
 unsigned int generateUniqueId(string const& mainString)
 {
-    unsigned int uniqueId=1;
-    uniqueId = accumulate(mainString.begin(), mainString.end(), uniqueId, [](unsigned int c1, unsigned char c2)
+    unsigned int uniqueId=1;    uniqueId = accumulate(mainString.begin(), mainString.end(), uniqueId, [](unsigned int c1, unsigned char c2)
     {
         return (c1*c2)+1;
-    });
-    return uniqueId;
+    });    return uniqueId;
 }
 
 string constructFileLocator(string const& file, int const lineNumber)

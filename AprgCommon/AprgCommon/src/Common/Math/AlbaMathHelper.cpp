@@ -1,12 +1,12 @@
 #include "AlbaMathHelper.hpp"
 
+#include <Common/Bit/AlbaBitValueUtilities.hpp>
+
 #include <cmath>
 #include <limits>
-
 using namespace std;
 
-namespace alba
-{
+namespace alba{
 
 namespace mathHelper
 {
@@ -531,14 +531,19 @@ FractionDetails getBestFractionDetailsForDoubleValue(
 
 
 
+template <typename NumberType>
+bool isPowerOfTwo(NumberType const value)
+{
+    return AlbaBitValueUtilities<NumberType>::isPowerOfTwo(value);
+}
+template bool isPowerOfTwo<unsigned int>(unsigned int const value);
+
 bool isPerfectCube(AlbaNumber const& value)
 {
-    return isPerfectNthPower(value, 3);
-}
+    return isPerfectNthPower(value, 3);}
 
 bool isPerfectSquare(AlbaNumber const& value)
-{
-    return isPerfectNthPower(value, 2);
+{    return isPerfectNthPower(value, 2);
 }
 
 bool isPerfectNthPower(

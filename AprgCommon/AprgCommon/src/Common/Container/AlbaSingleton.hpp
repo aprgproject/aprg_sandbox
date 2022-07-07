@@ -7,21 +7,19 @@ template <class ObjectType>
 class AlbaSingleton
 {
 public:
-    static ObjectType & getInstance();
+    static ObjectType & getInstance()
+    {
+        static ObjectType instance;
+        return instance;
+    }
 
 protected:
-    AlbaSingleton() {}
+    AlbaSingleton()
+    {}
 
 private:
     AlbaSingleton(AlbaSingleton const&) = delete;
-    AlbaSingleton & operator = (AlbaSingleton const&) = delete;
+    AlbaSingleton & operator= (AlbaSingleton const&) = delete;
 };
-
-template <class ObjectType>
-ObjectType & AlbaSingleton<ObjectType>::getInstance()
-{
-    static ObjectType instance;
-    return instance;
-}
 
 } // namespace alba
