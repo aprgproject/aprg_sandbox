@@ -12,15 +12,12 @@ namespace algorithm
 namespace
 {
 using VertexForTest = unsigned int;
-using PathForTest = GraphTypes<VertexForTest>::Path;
 using GraphForTest = UndirectedGraphWithListOfEdges<VertexForTest>;
 using CountPathsForTest = CountPathsInUndirectedGraph<VertexForTest>;
 }
-
 TEST(CountPathsInUndirectedGraphTest, GetCountWorksOnExample1)
 {
-    GraphForTest graph;
-    graph.connect(1U, 4U);
+    GraphForTest graph;    graph.connect(1U, 4U);
     graph.connect(1U, 2U);
     graph.connect(4U, 5U);
     graph.connect(5U, 2U);

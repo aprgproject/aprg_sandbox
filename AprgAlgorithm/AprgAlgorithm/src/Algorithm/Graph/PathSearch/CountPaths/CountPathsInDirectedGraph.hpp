@@ -18,22 +18,15 @@ public:
     using Edge = typename GraphTypes<Vertex>::Edge;
     using Vertices = typename GraphTypes<Vertex>::Vertices;
     using SetOfVertices = typename GraphTypes<Vertex>::SetOfVertices;
-    struct VertexDetail
-    {
-        Vertex vertex;
-        SetOfVertices dependentVertices;
-    };
-    using ListOfVertexDetails = std::vector<VertexDetail>;
+    using VertexToSetOfVerticesMap = std::map<Vertex, SetOfVertices>;
     using VertexToIndexMap = std::map<Vertex, unsigned int>;
     using VertexPair = std::pair<Vertex, Vertex>;
-    using VertexPairToCountMap = std::map<std::pair<Vertex, Vertex>, unsigned int>;
+    using VertexPairToCountMap = std::map<VertexPair, unsigned int>;
 
     CountPathsInDirectedGraph(BaseDirectedGraphWithVertex const& graph)
-        : m_graph(graph)
-    {
+        : m_graph(graph)    {
         initialize();
     }
-
     unsigned int getCount(Vertex const& start, Vertex const& end)
     {
         return getCountInternal(start, end);
@@ -46,21 +39,17 @@ private:
         unsigned int index(0);
         for(Vertex const& vertexInOrder : verticesInOrder)
         {
-            m_orderedVertexDetailsIndex[vertexInOrder] = index++;
-            m_orderedVertexDetailsList.emplace_back(VertexDetail{vertexInOrder, {}});
+            m_vertexToTopologicalIndex[vertexInOrder] = index++;
         }
 
         for(Edge const& edge : m_graph.getEdges())
         {
-            unsigned int index(m_orderedVertexDetailsIndex.at(edge.second));
-            m_orderedVertexDetailsList[index].dependentVertices.emplace(edge.first);
+            m_vertexToDependentVertices[edge.second].emplace(edge.first);
         }
     }
-
     unsigned int getCountInternal(Vertex const& start, Vertex const& end)
     {
-        unsigned int result(1U); // if start and end are equal, then return one count
-        if(start != end)
+        unsigned int result(1U); // if start and end are equal, then return one count        if(start != end)
         {
             auto it = m_pathCounts.find({start, end});
             if(it != m_pathCounts.cend())
@@ -79,38 +68,34 @@ private:
     unsigned int sumCounts(Vertex const& start, Vertex const& end)
     {
         unsigned int result(0);
-        auto itStart=m_orderedVertexDetailsIndex.find(start);
-        auto itEnd=m_orderedVertexDetailsIndex.find(end);
-        if(itStart!=m_orderedVertexDetailsIndex.cend()
-                && itEnd!=m_orderedVertexDetailsIndex.cend())
+        auto itStart=m_vertexToTopologicalIndex.find(start);
+        auto itEnd=m_vertexToTopologicalIndex.find(end);
+        if(itStart!=m_vertexToTopologicalIndex.cend()
+                && itEnd!=m_vertexToTopologicalIndex.cend())
         {
             unsigned int startIndex = itStart->second;
-            unsigned int endIndex = itEnd->second;
-            int distanceInTopologicalOrder = static_cast<int>(endIndex) - static_cast<int>(startIndex);
+            unsigned int endIndex = itEnd->second;            int distanceInTopologicalOrder = static_cast<int>(endIndex) - static_cast<int>(startIndex);
             // if distanceInTopologicalOrder is positive: sum counts of dependent vertices at the end
             // if distanceInTopologicalOrder is zero: count is 1
             // if distanceInTopologicalOrder is negative: count is 0
             if(distanceInTopologicalOrder > 0)
             {
-                for(Vertex const& dependentVertexAtEnd : m_orderedVertexDetailsList.at(endIndex).dependentVertices)
+                for(Vertex const& dependentVertexAtEnd : m_vertexToDependentVertices.at(end))
                 {
                     result += getCountInternal(start, dependentVertexAtEnd);
-                }
-            }
+                }            }
             else if(distanceInTopologicalOrder == 0)
             {
-                result = 1U;
-            }
+                result = 1U;            }
         }
         return result;
     }
 
     BaseDirectedGraphWithVertex const& m_graph;
-    ListOfVertexDetails m_orderedVertexDetailsList;
-    VertexToIndexMap m_orderedVertexDetailsIndex;
+    VertexToSetOfVerticesMap m_vertexToDependentVertices;
+    VertexToIndexMap m_vertexToTopologicalIndex;
     VertexPairToCountMap m_pathCounts; // dynamic programming
 };
-
 }
 
 }

@@ -21,44 +21,40 @@ using CycleDetectionForTest = CycleDetectionUsingDfs<VertexForTest>;
 TEST(CycleDetectionUsingDfsTest, CycleDetectionWorksWhenGraphIsEmptyWithUndirectedGraph)
 {
     GraphForTest graph;
-    CycleDetectionForTest cycleDetectionWithDfs(graph);
+    CycleDetectionForTest cycleDetection(graph);
 
-    EXPECT_TRUE(cycleDetectionWithDfs.getOneCycle().empty());
-    EXPECT_TRUE(cycleDetectionWithDfs.getAllCycles().empty());
+    EXPECT_TRUE(cycleDetection.getOneCycle().empty());
+    EXPECT_TRUE(cycleDetection.getAllCycles().empty());
 }
 
-TEST(CycleDetectionUsingDfsTest, CycleDetectionWorksWhenThereIsNoCycleWithUndirectedGraph)
-{
+TEST(CycleDetectionUsingDfsTest, CycleDetectionWorksWhenThereIsNoCycleWithUndirectedGraph){
     GraphForTest graph;
     graph.connect(0U, 1U);
     graph.connect(0U, 2U);
     graph.connect(0U, 3U);
-    CycleDetectionForTest cycleDetectionWithDfs(graph);
+    CycleDetectionForTest cycleDetection(graph);
 
-    EXPECT_TRUE(cycleDetectionWithDfs.getOneCycle().empty());
-    EXPECT_TRUE(cycleDetectionWithDfs.getAllCycles().empty());
+    EXPECT_TRUE(cycleDetection.getOneCycle().empty());
+    EXPECT_TRUE(cycleDetection.getAllCycles().empty());
 }
 
-TEST(CycleDetectionUsingDfsTest, CycleDetectionWorksUsingExample1WithUndirectedGraph)
-{
+TEST(CycleDetectionUsingDfsTest, CycleDetectionWorksUsingExample1WithUndirectedGraph){
     GraphForTest graph;
     graph.connect(0U, 1U);
     graph.connect(1U, 2U);
     graph.connect(2U, 0U);
-    CycleDetectionForTest cycleDetectionWithDfs(graph);
+    CycleDetectionForTest cycleDetection(graph);
 
     PathForTest expectedOneCycle{0U, 1U, 2U, 0U};
     PathsForTest expectedCycles{{0U, 1U, 2U, 0U}};
-    EXPECT_EQ(expectedOneCycle, cycleDetectionWithDfs.getOneCycle());
-    EXPECT_EQ(expectedCycles, cycleDetectionWithDfs.getAllCycles());
+    EXPECT_EQ(expectedOneCycle, cycleDetection.getOneCycle());
+    EXPECT_EQ(expectedCycles, cycleDetection.getAllCycles());
 }
 
-TEST(CycleDetectionUsingDfsTest, CycleDetectionWorksUsingExample2WithUndirectedGraph)
-{
+TEST(CycleDetectionUsingDfsTest, CycleDetectionWorksUsingExample2WithUndirectedGraph){
     GraphForTest graph;
     graph.connect(0U, 5U);
-    graph.connect(4U, 3U);
-    graph.connect(0U, 1U);
+    graph.connect(4U, 3U);    graph.connect(0U, 1U);
     graph.connect(9U, 12U);
     graph.connect(6U, 4U);
     graph.connect(5U, 4U);
@@ -69,30 +65,28 @@ TEST(CycleDetectionUsingDfsTest, CycleDetectionWorksUsingExample2WithUndirectedG
     graph.connect(7U, 8U);
     graph.connect(9U, 11U);
     graph.connect(5U, 3U);
-    CycleDetectionForTest cycleDetectionWithDfs(graph);
+    CycleDetectionForTest cycleDetection(graph);
 
     PathForTest expectedOneCycle{5U, 3U, 4U, 5U};
     PathsForTest expectedCycles{{5U, 3U, 4U, 5U}, {0U, 5U, 3U, 4U, 6U, 0U}, {9U, 11U, 12U, 9U}};
-    EXPECT_EQ(expectedOneCycle, cycleDetectionWithDfs.getOneCycle());
-    EXPECT_EQ(expectedCycles, cycleDetectionWithDfs.getAllCycles());
+    EXPECT_EQ(expectedOneCycle, cycleDetection.getOneCycle());
+    EXPECT_EQ(expectedCycles, cycleDetection.getAllCycles());
 }
 
-TEST(CycleDetectionUsingDfsTest, CycleDetectionWorksUsingExample3WithUndirectedGraph)
-{
+TEST(CycleDetectionUsingDfsTest, CycleDetectionWorksUsingExample3WithUndirectedGraph){
     GraphForTest graph;
     graph.connect(0U, 1U);
     graph.connect(1U, 2U);
     graph.connect(2U, 3U);
     graph.connect(3U, 4U);
     graph.connect(4U, 0U);
-    CycleDetectionForTest cycleDetectionWithDfs(graph);
+    CycleDetectionForTest cycleDetection(graph);
 
     PathForTest expectedOneCycle{0U, 1U, 2U, 3U, 4U, 0U};
     PathsForTest expectedCycles{{0U, 1U, 2U, 3U, 4U, 0U}};
-    EXPECT_EQ(expectedOneCycle, cycleDetectionWithDfs.getOneCycle());
-    EXPECT_EQ(expectedCycles, cycleDetectionWithDfs.getAllCycles());
+    EXPECT_EQ(expectedOneCycle, cycleDetection.getOneCycle());
+    EXPECT_EQ(expectedCycles, cycleDetection.getAllCycles());
 }
 
 }
-
 }
