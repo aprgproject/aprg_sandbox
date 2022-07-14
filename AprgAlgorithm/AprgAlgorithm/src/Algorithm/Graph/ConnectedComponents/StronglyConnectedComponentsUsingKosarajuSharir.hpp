@@ -119,6 +119,11 @@ private:
 // -> correctness: tricky
 // -> implementation: easy
 
+
+// Other analysis:
+// The time complexity of the algorithm is O(n + m), because the algorithm performs two depth-first searches.
+// Note: n is the number of nodes and m is the number of edges.
+
 }
 
 }

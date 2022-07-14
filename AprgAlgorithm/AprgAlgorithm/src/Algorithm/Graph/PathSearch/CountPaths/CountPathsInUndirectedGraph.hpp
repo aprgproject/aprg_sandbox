@@ -40,29 +40,25 @@ private:
             {
                 CheckableVerticesWithVertex processingVertices;
                 processingVertices.putVertex(start);
-                traverseDfs(start, start, processingVertices);
+                traverseUsingDfs(start, start, processingVertices);
                 result = m_pathCounts.at({start, end});
             }
-        }
-        return result;
+        }        return result;
     }
 
-    void traverseDfs(Vertex const& start, Vertex const& current, CheckableVerticesWithVertex & processingVertices)
+    void traverseUsingDfs(Vertex const& start, Vertex const& current, CheckableVerticesWithVertex & processingVertices)
     {
         processingVertices.putVertex(current);
-        for(Vertex const& adjacentToCurrent : m_graph.getAdjacentVerticesAt(current))
-        {
+        for(Vertex const& adjacentToCurrent : m_graph.getAdjacentVerticesAt(current))        {
             if(processingVertices.isNotFound(adjacentToCurrent))
             {
-                traverseDfs(start, adjacentToCurrent, processingVertices);
+                traverseUsingDfs(start, adjacentToCurrent, processingVertices);
                 VertexPair endPointPair{start, adjacentToCurrent};
                 m_pathCounts.emplace(endPointPair, 0U);
-                m_pathCounts[endPointPair]++;
-            }
+                m_pathCounts[endPointPair]++;            }
         }
         processingVertices.removeVertex(current);
     }
-
     BaseUndirectedGraphWithVertex const& m_graph;
     VertexPairToCountMap m_pathCounts; // dynamic programming
 };
