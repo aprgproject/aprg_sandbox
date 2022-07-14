@@ -40,22 +40,20 @@ public:
     bool isMovePossible(Move const& move) const;
     bool isPromotionMove(Move const& move) const;
 
+    Orientation getOrientation() const;
     PieceMatrix const& getPieceMatrix() const;
-
     Piece getPieceAt(Coordinate const& coordinate) const;
-
     Coordinate getCoordinateFromLetterNumberNotation(std::string const& letterNumber) const;
     Move getMoveFromTwoLetterNumberNotation(std::string const& twoLetterNumber) const;
     Moves getPossibleMoves(Coordinate const& coordinate) const;
     std::string getFenString() const;
+    std::string getCastlingFenString() const;
 
     void setOrientation(Orientation const orientation);
     void setPieceAt(Coordinate const& coordinate, Piece const& piece);
-
 private:
     void retrievePossibleMovesBaseFromPieceType(Moves & result, Coordinate const& coordinate) const;
-    void retrievePossiblePawnMoves(Moves & result, Coordinate const& coordinate) const;
-    void retrievePossibleKnightMoves(Moves & result, Coordinate const& coordinate) const;
+    void retrievePossiblePawnMoves(Moves & result, Coordinate const& coordinate) const;    void retrievePossibleKnightMoves(Moves & result, Coordinate const& coordinate) const;
     void retrievePossibleBishopMoves(Moves & result, Coordinate const& coordinate) const;
     void retrievePossibleRookMoves(Moves & result, Coordinate const& coordinate) const;
     void retrievePossibleQueenMoves(Moves & result, Coordinate const& coordinate) const;

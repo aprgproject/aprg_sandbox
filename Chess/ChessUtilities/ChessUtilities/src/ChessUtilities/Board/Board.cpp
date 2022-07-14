@@ -65,15 +65,18 @@ bool Board::isPromotionMove(Move const& move) const
             && isMovePossible(move);
 }
 
+Board::Orientation Board::getOrientation() const
+{
+    return m_orientation;
+}
+
 Board::PieceMatrix const& Board::getPieceMatrix() const
 {
-    return m_pieceMatrix;
-}
+    return m_pieceMatrix;}
 
 Piece Board::getPieceAt(Coordinate const& coordinate) const
 {
-    Piece result;
-    if((isCoordinateOnBoard(coordinate)))
+    Piece result;    if((isCoordinateOnBoard(coordinate)))
     {
         result = m_pieceMatrix.getEntry(coordinate.getX(), coordinate.getY());
     }
@@ -166,15 +169,81 @@ std::string Board::getFenString() const
     return result;
 }
 
+string Board::getCastlingFenString() const
+{
+    string result;
+    if(Board::Orientation::BlackUpWhiteDown == m_orientation)
+    {
+        Piece whiteKingPosition(getPieceAt(Coordinate(4, 7)));
+        Piece whiteKingSideRookPosition(getPieceAt(Coordinate(7, 7)));
+        Piece whiteQueenSideRookPosition(getPieceAt(Coordinate(0, 7)));
+        Piece blackKingPosition(getPieceAt(Coordinate(4, 0)));
+        Piece blackKingSideRookPosition(getPieceAt(Coordinate(7, 0)));
+        Piece blackQueenSideRookPosition(getPieceAt(Coordinate(0, 0)));
+        if(PieceType::King == whiteKingPosition.getType() && PieceColor::White == whiteKingPosition.getColor()
+                && PieceType::Rook == whiteKingSideRookPosition.getType() && PieceColor::White == whiteKingSideRookPosition.getColor())
+        {
+            result += "K";
+        }
+        if(PieceType::King == whiteKingPosition.getType() && PieceColor::White == whiteKingPosition.getColor()
+                && PieceType::Rook == whiteQueenSideRookPosition.getType() && PieceColor::White == whiteQueenSideRookPosition.getColor())
+        {
+            result += "Q";
+        }
+        if(PieceType::King == blackKingPosition.getType() && PieceColor::Black == blackKingPosition.getColor()
+                && PieceType::Rook == blackKingSideRookPosition.getType() && PieceColor::Black == blackKingSideRookPosition.getColor())
+        {
+            result += "k";
+        }
+        if(PieceType::King == blackKingPosition.getType() && PieceColor::Black == blackKingPosition.getColor()
+                && PieceType::Rook == blackQueenSideRookPosition.getType() && PieceColor::Black == blackQueenSideRookPosition.getColor())
+        {
+            result += "q";
+        }
+    }
+    else if(Board::Orientation::WhiteUpBlackDown == m_orientation)
+    {
+        Piece whiteKingPosition(getPieceAt(Coordinate(3, 0)));
+        Piece whiteKingSideRookPosition(getPieceAt(Coordinate(0, 0)));
+        Piece whiteQueenSideRookPosition(getPieceAt(Coordinate(7, 0)));
+        Piece blackKingPosition(getPieceAt(Coordinate(3, 7)));
+        Piece blackKingSideRookPosition(getPieceAt(Coordinate(0, 7)));
+        Piece blackQueenSideRookPosition(getPieceAt(Coordinate(7, 7)));
+        if(PieceType::King == whiteKingPosition.getType() && PieceColor::White == whiteKingPosition.getColor()
+                && PieceType::Rook == whiteKingSideRookPosition.getType() && PieceColor::White == whiteKingSideRookPosition.getColor())
+        {
+            result += "K";
+        }
+        if(PieceType::King == whiteKingPosition.getType() && PieceColor::White == whiteKingPosition.getColor()
+                && PieceType::Rook == whiteQueenSideRookPosition.getType() && PieceColor::White == whiteQueenSideRookPosition.getColor())
+        {
+            result += "Q";
+        }
+        if(PieceType::King == blackKingPosition.getType() && PieceColor::Black == blackKingPosition.getColor()
+                && PieceType::Rook == blackKingSideRookPosition.getType() && PieceColor::Black == blackKingSideRookPosition.getColor())
+        {
+            result += "k";
+        }
+        if(PieceType::King == blackKingPosition.getType() && PieceColor::Black == blackKingPosition.getColor()
+                && PieceType::Rook == blackQueenSideRookPosition.getType() && PieceColor::Black == blackQueenSideRookPosition.getColor())
+        {
+            result += "q";
+        }
+    }
+    if(result.empty())
+    {
+        result = "-";
+    }
+    return result;
+}
+
 void Board::setOrientation(Orientation const orientation)
 {
-    m_orientation = orientation;
-}
+    m_orientation = orientation;}
 
 void Board::setPieceAt(
         Coordinate const& coordinate,
-        Piece const& piece)
-{
+        Piece const& piece){
     if((isCoordinateOnBoard(coordinate)))
     {
         m_pieceMatrix.setEntry(coordinate.getX(), coordinate.getY(), piece.getUnderlyingValue());
