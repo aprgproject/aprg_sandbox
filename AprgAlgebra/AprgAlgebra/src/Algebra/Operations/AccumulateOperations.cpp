@@ -139,19 +139,17 @@ void accumulateTermsForMultiplicationAndDivision(
                 accumulateAndDoOperationOnTermDetails(combinedTerm, OperatorLevel::MultiplicationAndDivision, termWithDetails);
             }
         }
-    }
-    if(combinedTerm.isEmpty())
-    {
-        combinedTerm = 1;
+        if(combinedTerm.isEmpty())
+        {
+            combinedTerm = 1;
+        }
     }
 }
 
-void accumulateTermsForRaiseToPower(
-        Term & combinedTerm,
+void accumulateTermsForRaiseToPower(        Term & combinedTerm,
         TermsWithDetails const& termsToCombine)
 {
-    bool isFirst(willHaveNoEffectOnMultiplicationOrDivisionOrRaiseToPower(combinedTerm));
-    for(TermWithDetails const& termWithDetails : termsToCombine)
+    bool isFirst(willHaveNoEffectOnMultiplicationOrDivisionOrRaiseToPower(combinedTerm));    for(TermWithDetails const& termWithDetails : termsToCombine)
     {
         Term const& term(getTermConstReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer));
         if(willHaveNoEffectOnMultiplicationOrDivisionOrRaiseToPower(term))
