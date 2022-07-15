@@ -189,15 +189,13 @@ void Expression::putTermWithAdditionIfNeeded(BaseTerm const& baseTerm)
     Term const& term(getTermConstReferenceFromBaseTerm(baseTerm));
     if(willHaveNoEffectOnAdditionOrSubtraction(term))
     {
-        if(this->isEmpty())
+        if(isEmpty())
         {
             setTerm(Term(0));
-        }
-    }
+        }    }
     else
     {
-        if(isEmpty()
-                || (containsOnlyOnePositivelyAssociatedTerm()
+        if(isEmpty()                || (containsOnlyOnePositivelyAssociatedTerm()
                     && willHaveNoEffectOnAdditionOrSubtraction(getTermConstReferenceFromBaseTerm(getFirstTermConstReference()))))
         {
             setTerm(baseTerm);
@@ -215,15 +213,13 @@ void Expression::putTermWithSubtractionIfNeeded(BaseTerm const& baseTerm)
     Term const& term(getTermConstReferenceFromBaseTerm(baseTerm));
     if(willHaveNoEffectOnAdditionOrSubtraction(term))
     {
-        if(this->isEmpty())
+        if(isEmpty())
         {
             setTerm(Term(0));
-        }
-    }
+        }    }
     else
     {
-        if(isEmpty()
-                || (containsOnlyOnePositivelyAssociatedTerm()
+        if(isEmpty()                || (containsOnlyOnePositivelyAssociatedTerm()
                     && willHaveNoEffectOnAdditionOrSubtraction(getTermConstReferenceFromBaseTerm(getFirstTermConstReference()))))
         {
             clear();
@@ -257,15 +253,13 @@ void Expression::putTermWithDivisionIfNeeded(BaseTerm const& baseTerm)
     Term const& term(getTermConstReferenceFromBaseTerm(baseTerm));
     if(willHaveNoEffectOnMultiplicationOrDivisionOrRaiseToPower(term))
     {
-        if(this->isEmpty())
+        if(isEmpty())
         {
             setTerm(Term(1));
-        }
-    }
+        }    }
     else
     {
-        if(isEmpty()
-                || (containsOnlyOnePositivelyAssociatedTerm()
+        if(isEmpty()                || (containsOnlyOnePositivelyAssociatedTerm()
                     && willHaveNoEffectOnMultiplicationOrDivisionOrRaiseToPower(getTermConstReferenceFromBaseTerm(getFirstTermConstReference()))))
         {
             clear();
@@ -517,15 +511,13 @@ void Expression::putOnlyTermWithMultiplicationIfNeeded(BaseTerm const& baseTerm)
     Term const& term(getTermConstReferenceFromBaseTerm(baseTerm));
     if(willHaveNoEffectOnMultiplicationOrDivisionOrRaiseToPower(term))
     {
-        if(this->isEmpty())
+        if(isEmpty())
         {
             setTerm(Term(1));
-        }
-    }
+        }    }
     else
     {
-        if(isEmpty()
-                || (containsOnlyOnePositivelyAssociatedTerm()
+        if(isEmpty()                || (containsOnlyOnePositivelyAssociatedTerm()
                     && willHaveNoEffectOnMultiplicationOrDivisionOrRaiseToPower(getTermConstReferenceFromBaseTerm(getFirstTermConstReference()))))
         {
             setTerm(baseTerm);
