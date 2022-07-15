@@ -102,9 +102,11 @@ ChessPieceConverter::PieceTypeToCountPerByteMap ChessPieceConverter::getDifferen
     }
     return differenceOfEachByteMap;
 }
+
 ChessPieceConverter::PieceTypeToCountMap ChessPieceConverter::getPieceTypeToScoreMap(
         PieceTypeToCountPerByteMap const& pieceTypeToDifferenceOfEachByteMap) const
-{    PieceTypeToCountMap pieceTypeToScoreMap
+{
+    PieceTypeToCountMap pieceTypeToScoreMap
     {{PieceType::Pawn, 0U}, {PieceType::Knight, 0U}, {PieceType::Bishop, 0U}, {PieceType::Rook, 0U}, {PieceType::Queen, 0U}, {PieceType::King, 0U}};
     for(unsigned int byteIndex=0; byteIndex<8; byteIndex++)
     {

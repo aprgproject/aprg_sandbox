@@ -21,10 +21,12 @@ public:
 
     using Count = unsigned int;
     using Grid = matrix::AlbaMatrix<char>;
-    struct NextIterationDetail    {
+    struct NextIterationDetail
+    {
         std::string currentFilledRow;
         std::string nextNonFilledRow;
-    };    using NextIterationDetails = std::vector<NextIterationDetail>;
+    };
+    using NextIterationDetails = std::vector<NextIterationDetail>;
     using StringToNextIterationDetailsMap=std::map<std::string, NextIterationDetails>;
 
     CountingTilings(Count const numberOfColumns, Count const numberOfRows);

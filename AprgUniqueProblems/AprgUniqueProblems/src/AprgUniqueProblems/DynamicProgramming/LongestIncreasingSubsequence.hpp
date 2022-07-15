@@ -19,10 +19,12 @@ public:
 
     using Length = unsigned int;
     using Value = unsigned int;
-    using Sequence = std::vector<Value>;    using LengthToIndexMap = std::multimap<Length, Length>;
+    using Sequence = std::vector<Value>;
+    using LengthToIndexMap = std::multimap<Length, Length>;
     using Sequences = std::vector<Sequence>;
 
     LongestIncreasingSubsequence(Sequence const& sequenceToCheck);
+
     Length getLongestIncreasingSubsequenceLength();
     Sequence getLongestIncreasingSubsequence();
 private:

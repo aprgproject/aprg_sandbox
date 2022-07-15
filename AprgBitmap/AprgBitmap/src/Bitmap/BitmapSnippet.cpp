@@ -243,10 +243,12 @@ void BitmapSnippet::setPixelAtForPixelInAByte(uint8_t * writer, unsigned int con
         uint32_t retainMask = (m_configuration.getBitMaskForValue() << shiftValue) ^ AlbaBitValueUtilities<uint32_t>::getAllOnes();
         uint32_t retainPart = (retainMask & oldValue);
         *(writer+index) = replacePart | retainPart;
-    }}
+    }
+}
 
 void BitmapSnippet::setPixelAtForMultipleBytePixels(uint8_t* writer, unsigned int const index, uint32_t const value)
-{    uint32_t valueToSave(value);
+{
+    uint32_t valueToSave(value);
     unsigned int minimumNumberOfBytesForOnePixel = m_configuration.getMinimumNumberOfBytesForOnePixel();
     if(index+minimumNumberOfBytesForOnePixel-1 < m_pixelData.getSize())
     {

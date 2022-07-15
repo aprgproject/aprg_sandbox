@@ -186,9 +186,23 @@ bool willHaveNoEffectOnAdditionOrSubtraction(Term const& term)
     return term.isEmpty() || isTheValue(term, 0);
 }
 
+bool willHaveNoEffectOnAdditionOrSubtraction(Expression const& expression)
+{
+    return expression.isEmpty()
+              || (expression.containsOnlyOnePositivelyAssociatedTerm()
+                  && willHaveNoEffectOnAdditionOrSubtraction(getTermConstReferenceFromBaseTerm(expression.getFirstTermConstReference())));
+}
+
 bool willHaveNoEffectOnMultiplicationOrDivisionOrRaiseToPower(Term const& term)
 {
     return term.isEmpty() || isTheValue(term, 1);
+}
+
+bool willHaveNoEffectOnMultiplicationOrDivisionOrRaiseToPower(Expression const& expression)
+{
+    return expression.isEmpty()
+              || (expression.containsOnlyOnePositivelyAssociatedTerm()
+                  && willHaveNoEffectOnMultiplicationOrDivisionOrRaiseToPower(getTermConstReferenceFromBaseTerm(expression.getFirstTermConstReference())));
 }
 
 bool isTheValue(Term const& term, AlbaNumber const& number)

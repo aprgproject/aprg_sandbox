@@ -29,10 +29,12 @@ public:
 
     using Coin = unsigned int;
     using Coins = std::vector<Coin>;
-    using CoinSet = std::set<Coin>;    using CoinPermutation = std::vector<Coin>;
+    using CoinSet = std::set<Coin>;
+    using CoinPermutation = std::vector<Coin>;
     using CoinPermutations = std::set<CoinPermutation>;
     using CoinCombination = std::multiset<Coin>;
-    using CoinCombinations = std::set<CoinCombination>;    using CountPerValue = std::vector<unsigned int>;
+    using CoinCombinations = std::set<CoinCombination>;
+    using CountPerValue = std::vector<unsigned int>;
     using CountPerValueAndPerCoin = std::vector<std::vector<unsigned int>>;
     using VectorOfCoins = std::vector<Coins>;
     using VectorOfCoinPermutations = std::vector<CoinPermutations>;

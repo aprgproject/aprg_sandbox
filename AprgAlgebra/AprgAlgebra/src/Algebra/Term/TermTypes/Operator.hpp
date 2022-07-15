@@ -3,7 +3,6 @@
 #include <Algebra/Term/TermTypes/BaseTermData.hpp>
 #include <Algebra/Term/TermTypes/OperatorInputType.hpp>
 #include <Algebra/Term/TermTypes/OperatorLevel.hpp>
-#include <Common/Math/Number/AlbaNumber.hpp>
 
 #include <string>
 

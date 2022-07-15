@@ -19,9 +19,11 @@ public:
     using Vertices = typename GraphTypes<Vertex>::Vertices;
     using Path = typename GraphTypes<Vertex>::Path;
     using CheckableVerticesWithVertex = CheckableVertices<Vertex>;
+
     PathSearchUsingBfs(BaseGraphWithVertex const& graph, Vertex const& startVertex)
         : BaseClass(graph)
-    {        reinitializeStartingFrom({startVertex});
+    {
+        reinitializeStartingFrom({startVertex});
     }
 
     PathSearchUsingBfs(BaseGraphWithVertex const& graph, Vertices const& startVertices)

@@ -23,7 +23,9 @@ bool doAnyNumbersSatisfyTheCondition(Expression const& expression, NumberCheckin
 bool doAnyNumbersSatisfyTheCondition(Function const& function, NumberCheckingCondition const& condition);
 
 bool willHaveNoEffectOnAdditionOrSubtraction(Term const& term);
+bool willHaveNoEffectOnAdditionOrSubtraction(Expression const& expression);
 bool willHaveNoEffectOnMultiplicationOrDivisionOrRaiseToPower(Term const& term);
+bool willHaveNoEffectOnMultiplicationOrDivisionOrRaiseToPower(Expression const& expression);
 
 bool isTheValue(Term const& term, AlbaNumber const& number);
 bool isTheValue(Constant const& constant, AlbaNumber const& number);

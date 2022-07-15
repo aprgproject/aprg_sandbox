@@ -72,11 +72,13 @@ Board::Orientation Board::getOrientation() const
 
 Board::PieceMatrix const& Board::getPieceMatrix() const
 {
-    return m_pieceMatrix;}
+    return m_pieceMatrix;
+}
 
 Piece Board::getPieceAt(Coordinate const& coordinate) const
 {
-    Piece result;    if((isCoordinateOnBoard(coordinate)))
+    Piece result;
+    if((isCoordinateOnBoard(coordinate)))
     {
         result = m_pieceMatrix.getEntry(coordinate.getX(), coordinate.getY());
     }
@@ -239,11 +241,13 @@ string Board::getCastlingFenString() const
 
 void Board::setOrientation(Orientation const orientation)
 {
-    m_orientation = orientation;}
+    m_orientation = orientation;
+}
 
 void Board::setPieceAt(
         Coordinate const& coordinate,
-        Piece const& piece){
+        Piece const& piece)
+{
     if((isCoordinateOnBoard(coordinate)))
     {
         m_pieceMatrix.setEntry(coordinate.getX(), coordinate.getY(), piece.getUnderlyingValue());

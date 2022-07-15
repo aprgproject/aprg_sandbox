@@ -192,11 +192,11 @@ void Expression::putTermWithAdditionIfNeeded(BaseTerm const& baseTerm)
         if(isEmpty())
         {
             setTerm(Term(0));
-        }    }
+        }
+    }
     else
     {
-        if(isEmpty()                || (containsOnlyOnePositivelyAssociatedTerm()
-                    && willHaveNoEffectOnAdditionOrSubtraction(getTermConstReferenceFromBaseTerm(getFirstTermConstReference()))))
+        if(willHaveNoEffectOnAdditionOrSubtraction(*this))
         {
             setTerm(baseTerm);
         }
@@ -216,11 +216,11 @@ void Expression::putTermWithSubtractionIfNeeded(BaseTerm const& baseTerm)
         if(isEmpty())
         {
             setTerm(Term(0));
-        }    }
+        }
+    }
     else
     {
-        if(isEmpty()                || (containsOnlyOnePositivelyAssociatedTerm()
-                    && willHaveNoEffectOnAdditionOrSubtraction(getTermConstReferenceFromBaseTerm(getFirstTermConstReference()))))
+        if(willHaveNoEffectOnAdditionOrSubtraction(*this))
         {
             clear();
             m_commonOperatorLevel = OperatorLevel::AdditionAndSubtraction;
@@ -256,11 +256,11 @@ void Expression::putTermWithDivisionIfNeeded(BaseTerm const& baseTerm)
         if(isEmpty())
         {
             setTerm(Term(1));
-        }    }
+        }
+    }
     else
     {
-        if(isEmpty()                || (containsOnlyOnePositivelyAssociatedTerm()
-                    && willHaveNoEffectOnMultiplicationOrDivisionOrRaiseToPower(getTermConstReferenceFromBaseTerm(getFirstTermConstReference()))))
+        if(willHaveNoEffectOnMultiplicationOrDivisionOrRaiseToPower(*this))
         {
             clear();
             m_commonOperatorLevel = OperatorLevel::MultiplicationAndDivision;
@@ -327,9 +327,7 @@ void Expression::putPolynomialSecondWithMultiplication(Polynomial const& polynom
 
 void Expression::putExpressionWithMultiplication(Expression const& secondExpression)
 {
-    if(isEmpty()
-            || (containsOnlyOnePositivelyAssociatedTerm()
-                && willHaveNoEffectOnMultiplicationOrDivisionOrRaiseToPower(getTermConstReferenceFromBaseTerm(getFirstTermConstReference()))))
+    if(willHaveNoEffectOnMultiplicationOrDivisionOrRaiseToPower(*this))
     {
         putOnlyTermWithMultiplicationIfNeeded(Term(secondExpression));
     }
@@ -514,11 +512,11 @@ void Expression::putOnlyTermWithMultiplicationIfNeeded(BaseTerm const& baseTerm)
         if(isEmpty())
         {
             setTerm(Term(1));
-        }    }
+        }
+    }
     else
     {
-        if(isEmpty()                || (containsOnlyOnePositivelyAssociatedTerm()
-                    && willHaveNoEffectOnMultiplicationOrDivisionOrRaiseToPower(getTermConstReferenceFromBaseTerm(getFirstTermConstReference()))))
+        if(willHaveNoEffectOnMultiplicationOrDivisionOrRaiseToPower(*this))
         {
             setTerm(baseTerm);
         }

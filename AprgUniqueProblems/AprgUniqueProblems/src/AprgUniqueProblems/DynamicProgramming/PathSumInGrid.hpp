@@ -21,9 +21,11 @@ public:
     using Value = unsigned int;
     using Grid = matrix::AlbaMatrix<Value>;
     using Path = std::vector<Value>;
+
     PathSumInGrid(Grid const& gridToCheck);
 
-    Value getMaxSumInRightOrDownTraversal() const;    Path getMaxPathInRightOrDownTraversal() const;
+    Value getMaxSumInRightOrDownTraversal() const;
+    Path getMaxPathInRightOrDownTraversal() const;
 private:
     void calculatePartialSums();
     Grid m_gridToCheck;

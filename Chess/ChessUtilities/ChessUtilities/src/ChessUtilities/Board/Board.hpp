@@ -51,9 +51,11 @@ public:
 
     void setOrientation(Orientation const orientation);
     void setPieceAt(Coordinate const& coordinate, Piece const& piece);
+
 private:
     void retrievePossibleMovesBaseFromPieceType(Moves & result, Coordinate const& coordinate) const;
-    void retrievePossiblePawnMoves(Moves & result, Coordinate const& coordinate) const;    void retrievePossibleKnightMoves(Moves & result, Coordinate const& coordinate) const;
+    void retrievePossiblePawnMoves(Moves & result, Coordinate const& coordinate) const;
+    void retrievePossibleKnightMoves(Moves & result, Coordinate const& coordinate) const;
     void retrievePossibleBishopMoves(Moves & result, Coordinate const& coordinate) const;
     void retrievePossibleRookMoves(Moves & result, Coordinate const& coordinate) const;
     void retrievePossibleQueenMoves(Moves & result, Coordinate const& coordinate) const;

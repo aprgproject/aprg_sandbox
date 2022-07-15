@@ -21,7 +21,8 @@ ProductDayProblem::Price ProductDayProblem::getProductAndDayPairsForMinimumPrice
         m_totalInDayByProductBits.setEntry(0, getProductBits(product), m_pricesInDayByProduct.getEntry(product, 0));
     }
     // fill up remaining days
-    for(Day day=1; day<getNumberOfDays(); day++)    {
+    for(Day day=1; day<getNumberOfDays(); day++)
+    {
         for(ProductBits productBits=0; productBits<getNumberOfProductsSubsets(); productBits++)
         {
             m_totalInDayByProductBits.setEntry(day, productBits, m_totalInDayByProductBits.getEntry(productBits, day-1)); // put total of previous day
@@ -45,9 +46,11 @@ ProductDayProblem::Price ProductDayProblem::getProductAndDayPairsForMinimumPrice
     }
     return result;
 }
+
 bool ProductDayProblem::isProductIncluded(ProductBits const productBits, Product const product) const
 {
-    return productBits & getProductBits(product);}
+    return productBits & getProductBits(product);
+}
 
 ProductDayProblem::Product ProductDayProblem::getNumberOfProducts() const
 {

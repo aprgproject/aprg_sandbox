@@ -30,9 +30,11 @@ public:
 
     using Distance = unsigned int;
     using DistanceGrid = matrix::AlbaMatrix<Distance>;
+
     LevenshteinDistance(std::string const& string1, std::string const& string2);
 
-    Distance getLevenshteinDistance() const;private:
+    Distance getLevenshteinDistance() const;
+private:
     void calculateDistances();
     std::string m_string1;
     std::string m_string2;

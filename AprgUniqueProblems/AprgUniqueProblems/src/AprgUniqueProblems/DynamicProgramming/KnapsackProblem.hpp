@@ -20,9 +20,11 @@ public:
 
     using Value = unsigned int;
     using Values = std::vector<Value>;
+
     KnapsackProblem(Values const& values);
 
-    Values getAllPossiblePartialSums() const;private:
+    Values getAllPossiblePartialSums() const;
+private:
     Values m_inputValues;
 };
 

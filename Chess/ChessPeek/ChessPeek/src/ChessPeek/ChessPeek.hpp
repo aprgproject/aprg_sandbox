@@ -9,10 +9,12 @@
 #include <Common/String/AlbaStringHelper.hpp>
 #include <UserAutomation/AlbaLocalUserAutomation.hpp>
 
-#include <bitset>#include <cstdint>
+#include <bitset>
+#include <cstdint>
 
 namespace alba
 {
+
 namespace chess
 {
 
@@ -33,6 +35,7 @@ public:
     using CalculationDetails=ChessEngineControllerWithUci::CalculationDetails;
 
     ChessCellBitValueMatrix const& getChessCellBitValueMatrix() const;
+
     void runForever();
     void runOneIteration();
 
@@ -53,10 +56,12 @@ private:
 
     void retrieveChessCellBitValueAt(BitSet64 & whiteValue, BitSet64 & blackValue, AprgBitmap::BitmapSnippet & snippet, CoordinateSquare const& square) const;
     void setBitsBasedFromColor(BitSet64 & whiteValue, BitSet64 & blackValue, unsigned int const index, AprgBitmap::BitmapSnippet const& snippet, AprgBitmap::BitmapXY const& bitmapCoordinate) const;
-    double calculateColorIntensityDecimal(uint32_t const color) const;    uint8_t extractRed(uint32_t const color) const;
+    double calculateColorIntensityDecimal(uint32_t const color) const;
+    uint8_t extractRed(uint32_t const color) const;
     uint8_t extractGreen(uint32_t const color) const;
     uint8_t extractBlue(uint32_t const color) const;
     void initialize();
+
     ChessEngineHandler m_chessEngineHandler;
     ChessEngineControllerWithUci m_chessEngineController;
     ChessPieceConverter m_chessPieceConverter;
@@ -67,6 +72,7 @@ private:
     std::string m_currentBestMoveOnDisplay;
     bool m_isPreviousAnalysisNotSuccessful;
 };
+
 }
 
 }

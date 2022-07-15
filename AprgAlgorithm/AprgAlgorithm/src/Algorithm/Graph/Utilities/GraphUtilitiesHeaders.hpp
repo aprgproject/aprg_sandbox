@@ -27,10 +27,12 @@ template <typename Vertex> bool isAForest(BaseUndirectedGraph<Vertex> const& gra
 template <typename Vertex> bool areAllDegrees(BaseGraph<Vertex> const& graph, unsigned int const degreeThatShouldMatch);
 template <typename Vertex> bool isASpanningTree(
         BaseUndirectedGraph<Vertex> const& mainGraph,
-        BaseUndirectedGraph<Vertex> const& subGraphToCheck);template <typename Vertex> bool isASpanningForest(
+        BaseUndirectedGraph<Vertex> const& subGraphToCheck);
+template <typename Vertex> bool isASpanningForest(
         BaseUndirectedGraph<Vertex> const& mainGraph,
         BaseUndirectedGraph<Vertex> const& subGraphToCheck);
-template <typename Vertex> bool isGraphConnected(BaseUndirectedGraph<Vertex> const& graph);template <typename Vertex> bool isGraphStronglyConnected(BaseDirectedGraph<Vertex> const& graph);
+template <typename Vertex> bool isGraphConnected(BaseUndirectedGraph<Vertex> const& graph);
+template <typename Vertex> bool isGraphStronglyConnected(BaseDirectedGraph<Vertex> const& graph);
 template <typename Vertex> bool isBipartite(BaseUndirectedGraph<Vertex> const& graph);
 template <typename EdgeWeightedGraphType> bool isFlowNetwork(EdgeWeightedGraphType const& graph);
 template <typename SinkSourceFlowNetworkType> bool isSinkSourceFlowNetworkFeasible(SinkSourceFlowNetworkType const& flowNetwork);

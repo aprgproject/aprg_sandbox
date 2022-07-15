@@ -19,10 +19,12 @@ public:
     using Vertices = typename GraphTypes<Vertex>::Vertices;
     using CheckableVerticesWithVertex = CheckableVertices<Vertex>;
 
-    enum class TraverseOrder    {
+    enum class TraverseOrder
+    {
         PreOrder, // order: DFS traversal order (not really useful)
         PostOrder, // order: dependent vertices are first in the list (edge might not exist -> not useful)
-        ReversePostOrder, // order: dependent vertices are last in the list (topological sort)    };
+        ReversePostOrder, // order: dependent vertices are last in the list (topological sort)
+    };
 
     VertexOrderingUsingDfs(BaseGraphWithVertex const& graph)
         : m_graph(graph)
@@ -117,6 +119,7 @@ private:
         }
         traversedVertices.emplace_back(startVertex); // add vertex after DFS is done for the vertex
     }
+
     BaseGraphWithVertex const& m_graph;
     CheckableVerticesWithVertex m_processedVertices;
 };
@@ -124,7 +127,8 @@ private:
 // Proposition: Reverse DFS postorder of a DAG is a topological order.
 // Consider any edge v->w. When dfs(v) is called:
 // -> Case 1: dfs(w) has already been called and returned
-// ---> Thus w was done before v.// -> Case 2: dfs(w) has not yet been called. dfs(w) will get called directly or indirectly by dfs(v) and will finish before dfs(v)
+// ---> Thus w was done before v.
+// -> Case 2: dfs(w) has not yet been called. dfs(w) will get called directly or indirectly by dfs(v) and will finish before dfs(v)
 // ---> Thus w was done before v.
 // -> Case 3: dfs(w) has already been called but has not yet returned.
 // ---> Cant happen in a DAG: the function call stack contains path from w to v, so v->w would complete a cycle
