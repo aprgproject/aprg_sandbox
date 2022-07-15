@@ -20,13 +20,19 @@ public:
     // -> remove a character (e.g. ABC ! AC)
     // -> modify a character (e.g. ABC ! ADC)
 
+    // Recurrence formulation:
+    // -> Lets define a function distance(a,b) that gives the edit distance between prefixes x[0...a] and y[0...b].
+    // -> Thus, using this function, the edit distance between x and y equals distance(n-1,m-1).
+    // -> distance(a,b) = min(distance(a,b-1)+1, distance(a-1,b)+1, distance(a-1,b-1)+cost(a,b)).
+    // ---> distance(a,b) = min("insert part", "remove part", "modify part")
+    // ---> Here cost(a,b) = 0 if x[a] = y[b], and otherwise cost(a,b) = 1.
+
+
     using Distance = unsigned int;
     using DistanceGrid = matrix::AlbaMatrix<Distance>;
-
     LevenshteinDistance(std::string const& string1, std::string const& string2);
 
-    Distance getLevenshteinDistance() const;
-private:
+    Distance getLevenshteinDistance() const;private:
     void calculateDistances();
     std::string m_string1;
     std::string m_string2;
