@@ -10,124 +10,124 @@ using namespace std;
 namespace alba
 {
 
-TEST(AlbaPrintFunctionsTest, PrintParameterWorksWithItemsThatCanPrint)
+TEST(AlbaPrintFunctionsTest, PrintParameterWithNameWorksWithItemsThatCanPrint)
 {
     stringstream ssToVerify;
     unsigned int integerToTest=500U;
 
-    printParameter(ssToVerify, "name", integerToTest);
+    printParameterWithName(ssToVerify, "name", integerToTest);
 
     EXPECT_EQ("name : [500]", ssToVerify.str());
 }
 
-TEST(AlbaPrintFunctionsTest, PrintParameterWorksWithPointer)
+TEST(AlbaPrintFunctionsTest, PrintParameterWithNameWorksWithPointer)
 {
     stringstream ssToVerify;
     unsigned int integerToTest=500U;
 
-    printParameter(ssToVerify, "name", &integerToTest);
+    printParameterWithName(ssToVerify, "name", &integerToTest);
 
     EXPECT_EQ("*name : [500]", ssToVerify.str());
 }
 
-TEST(AlbaPrintFunctionsTest, PrintParameterWorksWithCharacterLiteral)
+TEST(AlbaPrintFunctionsTest, PrintParameterWithNameWorksWithCharacterLiteral)
 {
     stringstream ssToVerify;
 
-    printParameter(ssToVerify, "name", "ThisIsACharacterLiteralSoNameIsNotIncluded");
+    printParameterWithName(ssToVerify, "name", "ThisIsACharacterLiteralSoNameIsNotIncluded");
 
     EXPECT_EQ(R"(["ThisIsACharacterLiteralSoNameIsNotIncluded"])", ssToVerify.str());
 }
 
-TEST(AlbaPrintFunctionsTest, PrintParameterWorksWithUniquePointer)
+TEST(AlbaPrintFunctionsTest, PrintParameterWithNameWorksWithUniquePointer)
 {
     stringstream ssToVerify;
     unique_ptr<unsigned int> pointerToTest(make_unique<unsigned int>(500U));
 
-    printParameter(ssToVerify, "name", pointerToTest);
+    printParameterWithName(ssToVerify, "name", pointerToTest);
 
     EXPECT_EQ("*name : [500]", ssToVerify.str());
 }
 
-TEST(AlbaPrintFunctionsTest, PrintParameterWorksWithSharedPointer)
+TEST(AlbaPrintFunctionsTest, PrintParameterWithNameWorksWithSharedPointer)
 {
     stringstream ssToVerify;
     shared_ptr<unsigned int> pointerToTest(make_shared<unsigned int>(500U));
 
-    printParameter(ssToVerify, "name", pointerToTest);
+    printParameterWithName(ssToVerify, "name", pointerToTest);
 
     EXPECT_EQ("*name : [500]", ssToVerify.str());
 }
 
-TEST(AlbaPrintFunctionsTest, PrintParameterWorksWithWeakPointer)
+TEST(AlbaPrintFunctionsTest, PrintParameterWithNameWorksWithWeakPointer)
 {
     stringstream ssToVerify;
     shared_ptr<unsigned int> sharedPointer(make_shared<unsigned int>(500U));
     weak_ptr<unsigned int> pointerToTest(sharedPointer);
 
-    printParameter(ssToVerify, "name", pointerToTest);
+    printParameterWithName(ssToVerify, "name", pointerToTest);
 
     EXPECT_EQ("name has use count: [1]", ssToVerify.str());
 }
 
-TEST(AlbaPrintFunctionsTest, PrintParameterWorksWithPair)
+TEST(AlbaPrintFunctionsTest, PrintParameterWithNameWorksWithPair)
 {
     stringstream ssToVerify;
     pair<unsigned int, char> pairToTest{300, 'A'};
 
-    printParameter(ssToVerify, "name", pairToTest);
+    printParameterWithName(ssToVerify, "name", pairToTest);
 
     EXPECT_EQ("name : [(300, A)]", ssToVerify.str());
 }
 
-TEST(AlbaPrintFunctionsTest, PrintParameterWorksWithArray)
+TEST(AlbaPrintFunctionsTest, PrintParameterWithNameWorksWithArray)
 {
     stringstream ssToVerify;
     array<unsigned int, 5> vectorToTest{500U, 501U, 502U, 503U, 504U};
 
-    printParameter(ssToVerify, "name", vectorToTest);
+    printParameterWithName(ssToVerify, "name", vectorToTest);
 
-    EXPECT_EQ("name : [(has size 5):{500, 501, 502, 503, 504, }]", ssToVerify.str());
+    EXPECT_EQ("name : [{size: 5 | 500, 501, 502, 503, 504, }]", ssToVerify.str());
 }
 
-TEST(AlbaPrintFunctionsTest, PrintParameterWorksWithVector)
+TEST(AlbaPrintFunctionsTest, PrintParameterWithNameWorksWithVector)
 {
     stringstream ssToVerify;
     vector<unsigned int> vectorToTest{500U, 501U, 502U, 503U, 504U};
 
-    printParameter(ssToVerify, "name", vectorToTest);
+    printParameterWithName(ssToVerify, "name", vectorToTest);
 
-    EXPECT_EQ("name : [(has size 5):{500, 501, 502, 503, 504, }]", ssToVerify.str());
+    EXPECT_EQ("name : [{size: 5 | 500, 501, 502, 503, 504, }]", ssToVerify.str());
 }
 
-TEST(AlbaPrintFunctionsTest, PrintParameterWorksWithDeque)
+TEST(AlbaPrintFunctionsTest, PrintParameterWithNameWorksWithDeque)
 {
     stringstream ssToVerify;
     deque<unsigned int> vectorToTest{500U, 501U, 502U, 503U, 504U};
 
-    printParameter(ssToVerify, "name", vectorToTest);
+    printParameterWithName(ssToVerify, "name", vectorToTest);
 
-    EXPECT_EQ("name : [(has size 5):{500, 501, 502, 503, 504, }]", ssToVerify.str());
+    EXPECT_EQ("name : [{size: 5 | 500, 501, 502, 503, 504, }]", ssToVerify.str());
 }
 
-TEST(AlbaPrintFunctionsTest, PrintParameterWorksWithSet)
+TEST(AlbaPrintFunctionsTest, PrintParameterWithNameWorksWithSet)
 {
     stringstream ssToVerify;
     set<unsigned int> vectorToTest{500U, 501U, 502U, 503U, 504U};
 
-    printParameter(ssToVerify, "name", vectorToTest);
+    printParameterWithName(ssToVerify, "name", vectorToTest);
 
-    EXPECT_EQ("name : [(has size 5):{500, 501, 502, 503, 504, }]", ssToVerify.str());
+    EXPECT_EQ("name : [{size: 5 | 500, 501, 502, 503, 504, }]", ssToVerify.str());
 }
 
-TEST(AlbaPrintFunctionsTest, PrintParameterWorksWithMap)
+TEST(AlbaPrintFunctionsTest, PrintParameterWithNameWorksWithMap)
 {
     stringstream ssToVerify;
     map<unsigned int, char> vectorToTest{{500U, 'A'}, {501U, 'B'}, {502U, 'C'}, {503U, 'D'}, {504U, 'E'}};
 
-    printParameter(ssToVerify, "name", vectorToTest);
+    printParameterWithName(ssToVerify, "name", vectorToTest);
 
-    EXPECT_EQ("name : [(has size 5):{{500:A}, {501:B}, {502:C}, {503:D}, {504:E}, }]", ssToVerify.str());
+    EXPECT_EQ("name : [{size: 5 | (500, A), (501, B), (502, C), (503, D), (504, E), }]", ssToVerify.str());
 }
 
 }
