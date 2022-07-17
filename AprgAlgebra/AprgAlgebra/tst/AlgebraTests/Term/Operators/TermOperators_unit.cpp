@@ -84,6 +84,21 @@ TEST(TermOperatorsTest, BinaryDivideAssignmentOperatorWorks)
     EXPECT_EQ(Term(2), term);
 }
 
+TEST(TermOperatorsTest, BinaryRaiseToPowerOperatorWorks)
+{
+    Term term(Term(6) ^ Term(2));
+
+    EXPECT_EQ(Term(36), term);
+}
+
+TEST(TermOperatorsTest, BinaryRaiseToPowerAssignmentOperatorWorks)
+{
+    Term term(6);
+    term ^= 2;
+
+    EXPECT_EQ(Term(36), term);
+}
+
 }
 
 }
