@@ -92,7 +92,8 @@ template <typename ParameterPointerType>
 void printParameterWithName(std::ostream & outputStream, std::string const& parameterName, ParameterPointerType * parameterPointer)
 {
     if(parameterPointer == nullptr)
-    {        outputStream << parameterName << " : [nullptr]";
+    {
+        outputStream << parameterName << " : [nullptr]";
     }
     else
     {

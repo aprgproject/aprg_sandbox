@@ -10,11 +10,25 @@ namespace alba
 namespace algebra
 {
 
+TEST(TermOperatorsTest, UnaryPlusOperatorWorksWithEmptyTerm)
+{
+    Term term(+Term());
+
+    EXPECT_EQ(Term(), term);
+}
+
 TEST(TermOperatorsTest, UnaryPlusOperatorWorks)
 {
     Term term(+Term(6));
 
     EXPECT_EQ(Term(6), term);
+}
+
+TEST(TermOperatorsTest, UnaryMinusOperatorWorksWithEmptyTerm)
+{
+    Term term(-Term());
+
+    EXPECT_EQ(Term(), term);
 }
 
 TEST(TermOperatorsTest, UnaryMinusOperatorWorks)
