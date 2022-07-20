@@ -18,31 +18,27 @@ public:
     // is logarithm simplification needed?
     struct ConfigurationDetails
     {
-        bool shouldSimplifyByDistributingAndOperandsToOrOperands;
-        bool shouldSimplifyByDistributingOrOperandsToAndOperands;
+        bool shouldSimplifyWithOuterOrAndInnerAnd;
+        bool shouldSimplifyWithOuterAndAndInnerOr;
         bool shouldSimplifyByQuineMcKluskey;
     };
-
     class Configuration
             : public AlbaConfigurationHolder<ConfigurationDetails>
     {};
-
     class ScopeObject : public AlbaConfigurationScopeObject<ConfigurationDetails>
     {};
 
     SimplificationOfExpression();
     SimplificationOfExpression(Expression const& expression);
 
-    static bool shouldSimplifyByDistributingAndOperandsToOrOperands();
-    static bool shouldSimplifyByDistributingOrOperandsToAndOperands();
+    static bool shouldSimplifyWithOuterOrAndInnerAnd();
+    static bool shouldSimplifyWithOuterAndAndInnerOr();
     static bool shouldSimplifyByQuineMcKluskey();
 
     Expression getExpression() const;
-
     void setExpression(Expression const& expression);
 
     void simplify();
-
 private:
     bool isChangeDetected(
             Expression const& expression1,

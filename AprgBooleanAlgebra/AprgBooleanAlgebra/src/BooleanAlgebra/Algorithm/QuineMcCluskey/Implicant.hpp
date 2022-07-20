@@ -113,14 +113,17 @@ public:
         return result;
     }
 
+    Minterms const& getMinterms() const
+    {
+        return m_minterms;
+    }
+
     std::string getDisplayableString() const
     {
-        std::stringstream ss;
-        ss << getEquivalentString() << " (";
+        std::stringstream ss;        ss << getEquivalentString() << " (";
         if(m_minterms.size() == 1)
         {
-            ss << *(m_minterms.cbegin());
-        }
+            ss << *(m_minterms.cbegin());        }
         else
         {
             containerHelper::saveContentsToStream(ss, m_minterms, containerHelper::StreamFormat::String);

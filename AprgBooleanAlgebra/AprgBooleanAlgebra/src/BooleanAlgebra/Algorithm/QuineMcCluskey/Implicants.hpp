@@ -19,15 +19,12 @@ public:
     using Implicant = Implicant<Minterm>;
     using ImplicantsInitializerList = std::initializer_list<Implicant>;
     using ImplicantData = std::set<Implicant>;
-    using TraverseFunction = std::function<void(Implicant const&)>;
 
     Implicants()
     {}
-
     Implicants(ImplicantsInitializerList const& implicants)
         : m_implicantsData(implicants)
     {}
-
     bool operator==(Implicants const& second) const
     {
         return m_implicantsData == second.m_implicantsData;
@@ -44,29 +41,23 @@ public:
         return m_implicantsData.size();
     }
 
-    std::string getDisplayableString() const
+    ImplicantData const& getImplicantsData() const&
     {
-        std::stringstream ss;
-        printParameterWithName(ss, "Implicants", m_implicantsData);
-        return ss.str();
+        return m_implicantsData;
     }
 
-    void traverseAllImplicants(TraverseFunction const& traverseFunction) const
+    std::string getDisplayableString() const
     {
-        for(Implicant const& implicant : m_implicantsData)
-        {
-            traverseFunction(implicant);
-        }
+        std::stringstream ss;        printParameterWithName(ss, "Implicants", m_implicantsData);
+        return ss.str();
     }
 
     void addImplicant(Implicant const& implicant)
     {
-        m_implicantsData.emplace(implicant);
-    }
+        m_implicantsData.emplace(implicant);    }
 
     void addFinalImplicant(Implicant const& implicant)
-    {
-        bool isAlreadyRepresented(false);
+    {        bool isAlreadyRepresented(false);
         for(Implicant const& iteratorImplicant : m_implicantsData)
         {
             if(implicant.isSubset(iteratorImplicant))
@@ -82,15 +73,13 @@ public:
     }
 
 private:
-    std::set<Implicant> m_implicantsData;
+    ImplicantData m_implicantsData;
 };
 
-template <typename Minterm>
-std::ostream & operator<<(std::ostream & out, Implicants<Minterm> const& implicants)
+template <typename Minterm>std::ostream & operator<<(std::ostream & out, Implicants<Minterm> const& implicants)
 {
     out << implicants.getDisplayableString();
-    return out;
-}
+    return out;}
 
 }
 

@@ -11,18 +11,16 @@ namespace booleanAlgebra
 namespace Simplification
 {
 
-void simplifyByQuineMcKluskey(Term & term);
-
 void simplifyTermByPriorityAndOperationThenOrOperation(Term & term);
+
+void simplifyByQuineMcKluskey(Term & term);
 
 void simplifyAndCopyTermsAndChangeOperatorLevelIfNeeded(
         WrappedTerms & newWrappedTerms,
-        OperatorLevel & mainOperatorLevel,
-        WrappedTerms const& oldWrappedTerms);
+        OperatorLevel & mainOperatorLevel,        WrappedTerms const& oldWrappedTerms);
 
 void simplifyAndCopyTermsFromAnExpressionAndChangeOperatorLevelIfNeeded(
-        WrappedTerms & newWrappedTerms,
-        OperatorLevel & mainOperatorLevel,
+        WrappedTerms & newWrappedTerms,        OperatorLevel & mainOperatorLevel,
         Expression const& subExpression);
 
 Terms createUniqueTerms(
@@ -42,29 +40,16 @@ void combineUniqueTermsAndCommonFactorIfPossible(
         Term const& term2,
         OperatorLevel const operatorLevel);
 
-Terms getTermOrSubTerms(Term const& term);
-
-OperatorLevel getSubOperatorLevel(
-        Term const& term1,
-        Term const& term2);
-
 void distributeTermsIfNeeded(
         Term & outputTerm,
-        Terms const& inputTerms,
-        OperatorLevel const outerOperation,
+        Terms const& inputTerms,        OperatorLevel const outerOperation,
         OperatorLevel const innerOperation);
 
-void distributeTermsWithRecursion(
-        Term & outputTerm,
-        Terms & innerTermsCombinations,
-        Expressions const& innerExpressions,
-        Term const& outerFactor,
-        OperatorLevel const outerOperation,
-        OperatorLevel const innerOperation,
-        unsigned int const index);
+void retrieveTargetOperations(
+        OperatorLevel & targetOuter,
+        OperatorLevel & targetInner);
 
 }
-
 }
 
 }

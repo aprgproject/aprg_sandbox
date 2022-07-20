@@ -169,14 +169,33 @@ void Expression::clearAndPutTermInWrappedTerms(BaseTerm const& baseTerm)
     clearSimplifiedFlag();
 }
 
+void Expression::putTerm(
+        BaseTerm const& baseTerm,
+        OperatorLevel const operatorLevel)
+{
+    if(OperatorLevel::And == operatorLevel)
+    {
+        putTermWithAndOperationIfNeeded(baseTerm);
+    }
+    else if(OperatorLevel::Or == operatorLevel)
+    {
+        putTermWithOrOperationIfNeeded(baseTerm);
+    }
+    clearSimplifiedFlag();
+}
+
+void Expression::putTerm(BaseTerm const& baseTerm)
+{
+    m_wrappedTerms.emplace_back(baseTerm);
+    clearSimplifiedFlag();
+}
+
 void Expression::putTermWithAndOperationIfNeeded(BaseTerm const& baseTerm)
 {
-    Expression const& thisExpression(*this);
-    Term const& term(getTermConstReferenceFromBaseTerm(baseTerm));
+    Expression const& thisExpression(*this);    Term const& term(getTermConstReferenceFromBaseTerm(baseTerm));
     if(willHaveNoEffectOnAndOperation(term))
     {
-        if(isEmpty())
-        {
+        if(isEmpty())        {
             setTerm(Term(true));
         }
     }
@@ -254,19 +273,11 @@ void Expression::putWrappedTerms(WrappedTerms const& termsToSave)
     clearSimplifiedFlag();
 }
 
-void Expression::putTerm(BaseTerm const& baseTerm)
-{
-    m_wrappedTerms.emplace_back(baseTerm);
-    clearSimplifiedFlag();
-}
-
 void Expression::set(OperatorLevel const operatorLevel, WrappedTerms const& wrappedTerms)
 {
-    m_commonOperatorLevel = operatorLevel;
-    m_wrappedTerms = wrappedTerms;
+    m_commonOperatorLevel = operatorLevel;    m_wrappedTerms = wrappedTerms;
     clearSimplifiedFlag();
 }
-
 void Expression::setTerm(BaseTerm const& baseTerm)
 {
     *this = createOrCopyExpressionFromATerm(
