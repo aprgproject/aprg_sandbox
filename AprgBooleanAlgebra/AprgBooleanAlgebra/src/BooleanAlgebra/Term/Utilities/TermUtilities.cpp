@@ -26,6 +26,16 @@ bool isNonEmptyOrNonOperatorOrNonExpressionType(Term const& term)
             && TermType::Expression != termType;
 }
 
+bool getNoEffectValueInOperation(OperatorLevel const operatorLevel)
+{
+    return OperatorLevel::And == operatorLevel ? true : OperatorLevel::Or == operatorLevel ? false : false;
+}
+
+bool getShortCircuitValueEffectInOperation(OperatorLevel const operatorLevel)
+{
+    return OperatorLevel::And == operatorLevel ? false : OperatorLevel::Or == operatorLevel ? true : false;
+}
+
 }
 
 }

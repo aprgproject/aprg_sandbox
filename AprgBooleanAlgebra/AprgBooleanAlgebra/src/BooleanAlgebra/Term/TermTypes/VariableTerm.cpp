@@ -25,24 +25,31 @@ VariableTerm::VariableTerm(string const& variableName, bool const isNegated)
 
 bool VariableTerm::operator==(VariableTerm const& second) const
 {
-    return m_variableName == second.m_variableName;
+    return m_variableName == second.m_variableName && m_isNegated == second.m_isNegated;
 }
 
 bool VariableTerm::operator!=(VariableTerm const& second) const
 {
-    return m_variableName != second.m_variableName;
+    return !operator==(second);
 }
 
 bool VariableTerm::operator<(VariableTerm const& second) const
 {
-    return m_variableName < second.m_variableName;
+    bool result(false);
+    if(m_variableName != second.m_variableName)
+    {
+        result = m_variableName < second.m_variableName;
+    }
+    else
+    {
+        result = m_isNegated < second.m_isNegated;
+    }
+    return result;
 }
 
-bool VariableTerm::isNegated() const
-{
+bool VariableTerm::isNegated() const{
     return m_isNegated;
 }
-
 string VariableTerm::getDisplayableString() const
 {
     string result(m_variableName);

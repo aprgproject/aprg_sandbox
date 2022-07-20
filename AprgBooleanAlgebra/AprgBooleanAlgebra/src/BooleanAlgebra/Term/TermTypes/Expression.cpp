@@ -1,24 +1,22 @@
 #include "Expression.hpp"
 
-//#include <BooleanAlgebra/Simplification/SimplificationOfExpression.hpp>
+#include <BooleanAlgebra/Simplification/SimplificationOfExpression.hpp>
 #include <BooleanAlgebra/Term/Utilities/BaseTermHelpers.hpp>
 #include <BooleanAlgebra/Term/Utilities/CreateHelpers.hpp>
-#include <BooleanAlgebra/Term/Utilities/EnumHelpers.hpp>
-#include <BooleanAlgebra/Term/Utilities/StringHelpers.hpp>
+#include <BooleanAlgebra/Term/Utilities/EnumHelpers.hpp>#include <BooleanAlgebra/Term/Utilities/StringHelpers.hpp>
 #include <BooleanAlgebra/Term/Utilities/TermUtilities.hpp>
 #include <BooleanAlgebra/Term/Utilities/ValueCheckingHelpers.hpp>
 
 #include <algorithm>
 #include <sstream>
 
+using namespace alba::booleanAlgebra::Simplification;
 using namespace std;
 
-namespace alba
-{
+namespace alba{
 
 namespace booleanAlgebra
 {
-
 Expression::Expression()
     : m_commonOperatorLevel(OperatorLevel::Unknown)
     , m_wrappedTerms()
@@ -292,30 +290,28 @@ void Expression::simplify()
 {
     if(!m_isSimplified)
     {
-        /*SimplificationOfExpression simplification(*this);
+        SimplificationOfExpression simplification(*this);
         simplification.simplify();
-        *this = simplification.getExpression();*/
+        *this = simplification.getExpression();
         setAsSimplified();
     }
 }
-
 void Expression::sort()
 {
-    ::sort(m_wrappedTerms.begin(), m_wrappedTerms.end());
-    clearSimplifiedFlag();
+    ::sort(m_wrappedTerms.begin(), m_wrappedTerms.end());    clearSimplifiedFlag();
 }
 
 void Expression::negate()
 {
-    // De Morgan Law
+    // Using De Morgan's Law
+    // (x | y | z + ...)’ = x’ & y’ & z’ & ...
+    // (x & y & z & ...)’ = x’ | y’ | z’ + ...
     for(WrappedTerm & wrappedTerm : m_wrappedTerms)
     {
-        Term & term(getTermReferenceFromSharedPointer(wrappedTerm.baseTermSharedPointer));
-        term.negate();
+        Term & term(getTermReferenceFromSharedPointer(wrappedTerm.baseTermSharedPointer));        term.negate();
     }
     m_commonOperatorLevel = getDualOperatorLevel(m_commonOperatorLevel);
 }
-
 void Expression::setAsSimplified()
 {
     m_isSimplified = true;

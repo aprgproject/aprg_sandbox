@@ -2,62 +2,48 @@
 
 #include <BooleanAlgebra/Operations/PerformOperations.hpp>
 #include <BooleanAlgebra/Term/Utilities/BaseTermHelpers.hpp>
-#include <BooleanAlgebra/Term/Utilities/TermUtilities.hpp>
 #include <BooleanAlgebra/Term/Utilities/ValueCheckingHelpers.hpp>
 
 using namespace std;
-
 namespace alba
 {
 
 namespace booleanAlgebra
 {
 
-void accumulateAndDoOperationOnWrappedTerm(
+void accumulateTerms(
         Term & combinedTerm,
-        OperatorType const operatorType,
-        WrappedTerm const& wrappedTerm)
+        Terms const& termsToCombine,
+        OperatorLevel const operatorLevel)
 {
-    Term const& term(getTermConstReferenceFromSharedPointer(wrappedTerm.baseTermSharedPointer));
-    switch(operatorType)
+    if(OperatorLevel::And == operatorLevel)
     {
-    case OperatorType::And:
-    {
-        combinedTerm = performAnd(combinedTerm, term);
-        break;
+        accumulateTermsWithAndOperation(combinedTerm, termsToCombine);
     }
-    case OperatorType::Or:
+    else if(OperatorLevel::Or == operatorLevel)
     {
-        combinedTerm = performOr(combinedTerm, term);
-        break;
-    }
-    default:
-        break;
+        accumulateTermsWithOrOperation(combinedTerm, termsToCombine);
     }
 }
 
 void accumulateTermsWithAndOperation(
         Term & combinedTerm,
-        WrappedTerms const& termsToCombine)
+        Terms const& termsToCombine)
 {
     bool isFirst(willHaveNoEffectOnAndOperation(combinedTerm));
-    if(isTheValue(combinedTerm, false))
-    {
+    if(isTheValue(combinedTerm, false))    {
         combinedTerm = false;
     }
     else
     {
-        for(WrappedTerm const& wrappedTerm : termsToCombine)
+        for(Term const& term : termsToCombine)
         {
-            Term const& term(getTermConstReferenceFromSharedPointer(wrappedTerm.baseTermSharedPointer));
             if(isTheValue(term, false))
             {
-                combinedTerm = false;
-                break;
+                combinedTerm = false;                break;
             }
             else if(willHaveNoEffectOnAndOperation(term))
-            {
-                continue;
+            {                continue;
             }
             else if(isFirst)
             {
@@ -66,38 +52,32 @@ void accumulateTermsWithAndOperation(
             }
             else
             {
-                accumulateAndDoOperationOnWrappedTerm(combinedTerm, OperatorType::And, wrappedTerm);
+                combinedTerm = performAnd(combinedTerm, term);
             }
         }
-        if(combinedTerm.isEmpty())
-        {
+        if(combinedTerm.isEmpty())        {
             combinedTerm = true;
         }
-    }
-}
+    }}
 
 void accumulateTermsWithOrOperation(
         Term & combinedTerm,
-        WrappedTerms const& termsToCombine)
+        Terms const& termsToCombine)
 {
     bool isFirst(willHaveNoEffectOnOrOperation(combinedTerm));
-    if(isTheValue(combinedTerm, true))
-    {
+    if(isTheValue(combinedTerm, true))    {
         combinedTerm = true;
     }
     else
     {
-        for(WrappedTerm const& wrappedTerm : termsToCombine)
+        for(Term const& term : termsToCombine)
         {
-            Term const& term(getTermConstReferenceFromSharedPointer(wrappedTerm.baseTermSharedPointer));
             if(isTheValue(term, true))
             {
-                combinedTerm = true;
-                break;
+                combinedTerm = true;                break;
             }
             else if(willHaveNoEffectOnOrOperation(term))
-            {
-                continue;
+            {                continue;
             }
             else if(isFirst)
             {
@@ -106,15 +86,13 @@ void accumulateTermsWithOrOperation(
             }
             else
             {
-                accumulateAndDoOperationOnWrappedTerm(combinedTerm, OperatorType::Or, wrappedTerm);
+                combinedTerm = performOr(combinedTerm, term);
             }
         }
-        if(combinedTerm.isEmpty())
-        {
+        if(combinedTerm.isEmpty())        {
             combinedTerm = false;
         }
-    }
-}
+    }}
 
 }
 

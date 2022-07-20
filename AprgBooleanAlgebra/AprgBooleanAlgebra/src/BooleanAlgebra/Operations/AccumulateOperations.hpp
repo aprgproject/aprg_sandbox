@@ -8,17 +8,16 @@ namespace alba
 namespace booleanAlgebra
 {
 
-void accumulateAndDoOperationOnWrappedTerm(
+void accumulateTerms(
         Term & combinedTerm,
-        OperatorType const operatorType,
-        WrappedTerm const& wrappedTerm);
+        Terms const& termsToCombine,
+        OperatorLevel const operatorLevel);
 void accumulateTermsWithAndOperation(
         Term & combinedTerm,
-        WrappedTerms const& termsToCombine);
+        Terms const& termsToCombine);
 void accumulateTermsWithOrOperation(
         Term & combinedTerm,
-        WrappedTerms const& termsToCombine);
+        Terms const& termsToCombine);
 
 }
-
 }
