@@ -35,6 +35,7 @@ public:
 
     static bool shouldSimplifyByDistributingAndOperandsToOrOperands();
     static bool shouldSimplifyByDistributingOrOperandsToAndOperands();
+    static bool shouldSimplifyByQuineMcKluskey();
 
     Expression getExpression() const;
 

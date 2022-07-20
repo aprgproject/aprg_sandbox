@@ -7,10 +7,6 @@
 
 #include <algorithm>
 
-
-
-#include <Common/Debug/AlbaDebug.hpp>
-
 using namespace std;
 
 namespace alba
@@ -21,6 +17,11 @@ namespace booleanAlgebra
 
 namespace Simplification
 {
+
+void simplifyByQuineMcKluskey(Term & term)
+{
+
+}
 
 void simplifyTermByPriorityAndOperationThenOrOperation(Term & term)
 {

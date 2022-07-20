@@ -96,7 +96,7 @@ TEST(StringHelpersTest, TokenizeToTermsWorks)
 
     ASSERT_EQ(8U, termsToVerify1.size());
     ASSERT_EQ(TermType::Constant, termsToVerify1.at(0).getTermType());
-    EXPECT_EQ(true, termsToVerify1.at(0).getBooleanValue());
+    EXPECT_TRUE(termsToVerify1.at(0).getBooleanValue());
     ASSERT_EQ(TermType::Operator, termsToVerify1.at(1).getTermType());
     EXPECT_EQ("&", termsToVerify1.at(1).getOperatorConstReference().getOperatorString());
     ASSERT_EQ(TermType::VariableTerm, termsToVerify1.at(2).getTermType());

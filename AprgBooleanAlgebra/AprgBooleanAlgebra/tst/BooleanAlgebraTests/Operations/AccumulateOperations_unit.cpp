@@ -13,7 +13,8 @@ namespace booleanAlgebra
 
 TEST(AccumulateOperationsTest, AccumulateTermsWithAndOperationWorks)
 {
-    Term termToTest(true);    Term term1(createExpressionIfPossible({"a", "&", "b"}));
+    Term termToTest(true);
+    Term term1(createExpressionIfPossible({"a", "&", "b"}));
     Term term2(createExpressionIfPossible({"c", "&", "d"}));
     Term term3(createExpressionIfPossible({"e", "&", "f"}));
     Term term4(createExpressionIfPossible({"g", "&", "h"}));
@@ -22,7 +23,8 @@ TEST(AccumulateOperationsTest, AccumulateTermsWithAndOperationWorks)
     accumulateTermsWithAndOperation(termToTest, termsToCombine);
 
     Term termToExpect(createExpressionIfPossible({"a", "&", "b", "&", "c", "&", "d", "&", "e", "&", "f", "&", "g", "&", "h"}));
-    EXPECT_EQ(termToExpect, termToTest);}
+    EXPECT_EQ(termToExpect, termToTest);
+}
 
 TEST(AccumulateOperationsTest, AccumulateTermsWithAndOperationWorksWithEmptyTermAtTheStart)
 {
@@ -35,9 +37,11 @@ TEST(AccumulateOperationsTest, AccumulateTermsWithAndOperationWorksWithEmptyTerm
 
     EXPECT_EQ(Term(true), termToTest);
 }
+
 TEST(AccumulateOperationsTest, AccumulateTermsWithOrOperationWorks)
 {
-    Term termToTest(false);    Term term1(createExpressionIfPossible({"a", "|", "b"}));
+    Term termToTest(false);
+    Term term1(createExpressionIfPossible({"a", "|", "b"}));
     Term term2(createExpressionIfPossible({"c", "|", "d"}));
     Term term3(createExpressionIfPossible({"e", "|", "f"}));
     Term term4(createExpressionIfPossible({"g", "|", "h"}));
@@ -46,7 +50,8 @@ TEST(AccumulateOperationsTest, AccumulateTermsWithOrOperationWorks)
     accumulateTermsWithOrOperation(termToTest, termsToCombine);
 
     Term termToExpect(createExpressionIfPossible({"a", "|", "b", "|", "c", "|", "d", "|", "e", "|", "f", "|", "g", "|", "h"}));
-    EXPECT_EQ(termToExpect, termToTest);}
+    EXPECT_EQ(termToExpect, termToTest);
+}
 
 TEST(AccumulateOperationsTest, AccumulateTermsWithOrOperationWorksWithEmptyTermAtTheStart)
 {
@@ -59,6 +64,7 @@ TEST(AccumulateOperationsTest, AccumulateTermsWithOrOperationWorksWithEmptyTermA
 
     EXPECT_EQ(Term(false), termToTest);
 }
+
 
 }
 

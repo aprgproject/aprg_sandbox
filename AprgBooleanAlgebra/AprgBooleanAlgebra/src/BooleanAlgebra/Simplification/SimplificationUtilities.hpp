@@ -11,6 +11,8 @@ namespace booleanAlgebra
 namespace Simplification
 {
 
+void simplifyByQuineMcKluskey(Term & term);
+
 void simplifyTermByPriorityAndOperationThenOrOperation(Term & term);
 
 void simplifyAndCopyTermsAndChangeOperatorLevelIfNeeded(

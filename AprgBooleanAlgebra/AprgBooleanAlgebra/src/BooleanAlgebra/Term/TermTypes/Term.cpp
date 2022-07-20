@@ -352,6 +352,7 @@ void Term::negate()
         getExpressionReference().negate();
         break;
     }
+    clearAllInnerSimplifiedFlags();
 }
 
 void Term::setAsSimplified()

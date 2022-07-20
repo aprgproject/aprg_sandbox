@@ -3,7 +3,8 @@
 #include <BooleanAlgebra/Simplification/SimplificationOfExpression.hpp>
 #include <BooleanAlgebra/Term/Utilities/BaseTermHelpers.hpp>
 #include <BooleanAlgebra/Term/Utilities/CreateHelpers.hpp>
-#include <BooleanAlgebra/Term/Utilities/EnumHelpers.hpp>#include <BooleanAlgebra/Term/Utilities/StringHelpers.hpp>
+#include <BooleanAlgebra/Term/Utilities/EnumHelpers.hpp>
+#include <BooleanAlgebra/Term/Utilities/StringHelpers.hpp>
 #include <BooleanAlgebra/Term/Utilities/TermUtilities.hpp>
 #include <BooleanAlgebra/Term/Utilities/ValueCheckingHelpers.hpp>
 
@@ -13,10 +14,12 @@
 using namespace alba::booleanAlgebra::Simplification;
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 namespace booleanAlgebra
 {
+
 Expression::Expression()
     : m_commonOperatorLevel(OperatorLevel::Unknown)
     , m_wrappedTerms()
@@ -296,9 +299,11 @@ void Expression::simplify()
         setAsSimplified();
     }
 }
+
 void Expression::sort()
 {
-    ::sort(m_wrappedTerms.begin(), m_wrappedTerms.end());    clearSimplifiedFlag();
+    ::sort(m_wrappedTerms.begin(), m_wrappedTerms.end());
+    clearSimplifiedFlag();
 }
 
 void Expression::negate()
@@ -308,10 +313,13 @@ void Expression::negate()
     // (x & y & z & ...)’ = x’ | y’ | z’ + ...
     for(WrappedTerm & wrappedTerm : m_wrappedTerms)
     {
-        Term & term(getTermReferenceFromSharedPointer(wrappedTerm.baseTermSharedPointer));        term.negate();
+        Term & term(getTermReferenceFromSharedPointer(wrappedTerm.baseTermSharedPointer));
+        term.negate();
     }
     m_commonOperatorLevel = getDualOperatorLevel(m_commonOperatorLevel);
+    clearSimplifiedFlag();
 }
+
 void Expression::setAsSimplified()
 {
     m_isSimplified = true;

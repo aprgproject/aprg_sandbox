@@ -34,6 +34,11 @@ bool SimplificationOfExpression::shouldSimplifyByDistributingOrOperandsToAndOper
     return Configuration::getInstance().getConfigurationDetails().shouldSimplifyByDistributingOrOperandsToAndOperands;
 }
 
+bool SimplificationOfExpression::shouldSimplifyByQuineMcKluskey()
+{
+    return Configuration::getInstance().getConfigurationDetails().shouldSimplifyByQuineMcKluskey;
+}
+
 Expression SimplificationOfExpression::getExpression() const
 {
     return m_expression;
@@ -47,7 +52,26 @@ void SimplificationOfExpression::setExpression(
 
 void SimplificationOfExpression::simplify()
 {
-    simplifyExpressionUntilNoChange();
+    if(shouldSimplifyByQuineMcKluskey())
+    {
+        SimplificationOfExpression::ConfigurationDetails configurationDetails(
+                    SimplificationOfExpression::Configuration::getInstance().getConfigurationDetails());
+        configurationDetails.shouldSimplifyByQuineMcKluskey = false;
+
+        SimplificationOfExpression::ScopeObject scopeObject;
+        scopeObject.setInThisScopeThisConfiguration(configurationDetails);
+
+        Term quineTerm(m_expression);
+        simplifyByQuineMcKluskey(quineTerm);
+        m_expression.setTerm(quineTerm);
+
+        simplifyExpressionUntilNoChange();
+
+    }
+    else
+    {
+        simplifyExpressionUntilNoChange();
+    }
 }
 
 bool SimplificationOfExpression::isChangeDetected(

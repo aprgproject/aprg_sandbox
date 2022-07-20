@@ -20,4 +20,5 @@ void accumulateTermsWithOrOperation(
         Terms const& termsToCombine);
 
 }
+
 }

@@ -80,9 +80,11 @@ TEST(SubstitutionOfVariablesToTermsTest, PerformSubstitutionToWorksOnVariable)
     Term expectTerm1(Variable{});
     Term expectTerm2("y");
     Term expectTerm3("y");
-    EXPECT_EQ(expectTerm1, verifyTerm1);    EXPECT_EQ(expectTerm2, verifyTerm2);
+    EXPECT_EQ(expectTerm1, verifyTerm1);
+    EXPECT_EQ(expectTerm2, verifyTerm2);
     EXPECT_EQ(expectTerm3, verifyTerm3);
 }
+
 TEST(SubstitutionOfVariablesToTermsTest, PerformSubstitutionToWorksOnMonomial)
 {
     SubstitutionOfVariablesToTerms substitution({{"x", "y"}});
