@@ -78,14 +78,12 @@ TEST(SubstitutionOfVariablesToValuesTest, PerformSubstitutionToWorksOnVariable)
     Term verifyTerm2(substitution.performSubstitutionTo(variable2));
     Term verifyTerm3(substitution.performSubstitutionTo(variable3));
 
-    Term expectTerm1(Variable(""));
+    Term expectTerm1(Variable{});
     Term expectTerm2(2);
     Term expectTerm3("y");
-    EXPECT_EQ(expectTerm1, verifyTerm1);
-    EXPECT_EQ(expectTerm2, verifyTerm2);
+    EXPECT_EQ(expectTerm1, verifyTerm1);    EXPECT_EQ(expectTerm2, verifyTerm2);
     EXPECT_EQ(expectTerm3, verifyTerm3);
 }
-
 TEST(SubstitutionOfVariablesToValuesTest, PerformSubstitutionToWorksOnMonomial)
 {
     SubstitutionOfVariablesToValues substitution({{"x", 2}});
