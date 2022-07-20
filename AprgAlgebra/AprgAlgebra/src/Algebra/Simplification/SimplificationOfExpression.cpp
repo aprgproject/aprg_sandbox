@@ -97,20 +97,12 @@ Expression SimplificationOfExpression::getExpression() const
     return m_expression;
 }
 
-void SimplificationOfExpression::setExpression(
-        Expression const& expression)
-{
-    m_expression = expression;
-}
-
 void SimplificationOfExpression::simplify()
 {
-    simplifyExpressionUntilNoChangeInitiallyIfNeeded();
-    simplifyBySubstitutingExpressionAndFunctionsToVariablesIfNeeded();
+    simplifyExpressionUntilNoChangeInitiallyIfNeeded();    simplifyBySubstitutingExpressionAndFunctionsToVariablesIfNeeded();
     simplifyToACommonDenominatorIfNeeded();
     simplifyExpressionUntilNoChange();
 }
-
 bool SimplificationOfExpression::isChangeDetected(
         Expression const& expression1,
         Expression const& expression2) const
