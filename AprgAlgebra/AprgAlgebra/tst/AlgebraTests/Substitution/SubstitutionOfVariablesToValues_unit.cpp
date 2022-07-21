@@ -233,6 +233,51 @@ TEST(SubstitutionOfVariablesToValuesTest, PutVariablesWithValueWorksWithSavingTh
     EXPECT_EQ(AlbaNumber(0), substitution.getValueForVariable("a"));
 }
 
+TEST(SubstitutionOfVariablesToValuesTest, PerformSubstitutionForMonomialWorks)
+{
+    SubstitutionOfVariablesToValues substitution({{"x", 2}, {"y", 5}});
+    Monomial monomial(5, {{"x", 2}, {"y", 3}});
+
+    Monomial verifyMonomial(substitution.performSubstitutionForMonomial(monomial));
+
+    Monomial expectMonomial(createMonomialFromNumber(2500));
+    EXPECT_EQ(expectMonomial, verifyMonomial);
+}
+
+TEST(SubstitutionOfVariablesToValuesTest, PerformSubstitutionForPolynomialWorks)
+{
+    SubstitutionOfVariablesToValues substitution({{"x", 2}, {"y", 5}});
+    Polynomial polynomial{Monomial(5, {{"x", 2}, {"y", 3}}), Monomial(7, {{"x", 3}, {"y", 4}})};
+
+    Polynomial verifyPolynomial(substitution.performSubstitutionForPolynomial(polynomial));
+
+    Polynomial expectPolynomial(createPolynomialFromNumber(37500));
+    EXPECT_EQ(expectPolynomial, verifyPolynomial);
+}
+
+TEST(SubstitutionOfVariablesToValuesTest, PerformSubstitutionForExpressionWorks)
+{
+    SubstitutionOfVariablesToValues substitution({{"x", 2}, {"y", 5}});
+    Expression expression(createExpressionIfPossible({"x", "^", "y"}));
+
+    Expression verifyExpression(substitution.performSubstitutionForExpression(expression));
+
+    Expression expectExpression(createOrCopyExpressionFromATerm(32));
+    EXPECT_EQ(expectExpression, verifyExpression);
+}
+
+TEST(SubstitutionOfVariablesToValuesTest, PerformSubstitutionForFunctionWorks)
+{
+    SubstitutionOfVariablesToValues substitution({{"x", 2}, {"y", 5}});
+    Term subTerm(createExpressionIfPossible({"x", "^", "y"}));
+    Function functionToTest(abs(subTerm));
+
+    Function verifyFunction(substitution.performSubstitutionForFunction(functionToTest));
+
+    Function expectExpression(abs(Term(32)));
+    EXPECT_EQ(expectExpression, verifyFunction);
+}
+
 }
 
 }

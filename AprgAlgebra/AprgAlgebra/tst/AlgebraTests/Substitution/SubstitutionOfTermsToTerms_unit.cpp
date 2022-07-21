@@ -128,6 +128,29 @@ TEST(SubstitutionOfTermsToTermsTest, PerformSubstitutionToWorksOnTerm)
     EXPECT_EQ(expectTerm6, verifyTerm6);
 }
 
+TEST(SubstitutionOfTermsToTermsTest, PerformSubstitutionForExpressionWorks)
+{
+    SubstitutionOfTermsToTerms substitution({{"x", 2}, {"y", 5}});
+    Expression expression(createExpressionIfPossible({"x", "^", "y"}));
+
+    Expression verifyExpression(substitution.performSubstitutionForExpression(expression));
+
+    Expression expectExpression(createOrCopyExpressionFromATerm(32));
+    EXPECT_EQ(expectExpression, verifyExpression);
+}
+
+TEST(SubstitutionOfTermsToTermsTest, PerformSubstitutionForFunctionWorks)
+{
+    SubstitutionOfTermsToTerms substitution({{"x", 2}, {"y", 5}});
+    Term subTerm(createExpressionIfPossible({"x", "^", "y"}));
+    Function functionToTest(abs(subTerm));
+
+    Function verifyFunction(substitution.performSubstitutionForFunction(functionToTest));
+
+    Function expectExpression(abs(Term(32)));
+    EXPECT_EQ(expectExpression, verifyFunction);
+}
+
 }
 
 }
