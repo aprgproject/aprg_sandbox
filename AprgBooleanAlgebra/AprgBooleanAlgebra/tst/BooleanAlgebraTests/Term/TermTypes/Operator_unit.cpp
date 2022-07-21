@@ -169,6 +169,70 @@ TEST(OperatorTest, IsClosingGroupOperatorWorks)
     EXPECT_FALSE(invalidOperator.isClosingGroupOperator());
 }
 
+TEST(OperatorTest, IsUnaryOperatorWorks)
+{
+    Operator nullOperator;
+    Operator notOperator("~");
+    Operator andOperator("&");
+    Operator orOperator("|");
+    Operator openingGroupOperator("(");
+    Operator closingGroupOperator(")");
+    Operator invalidOperator("invalid");
+
+    EXPECT_FALSE(nullOperator.isUnaryOperator());
+    EXPECT_TRUE(notOperator.isUnaryOperator());
+    EXPECT_FALSE(andOperator.isUnaryOperator());
+    EXPECT_FALSE(orOperator.isUnaryOperator());
+    EXPECT_FALSE(openingGroupOperator.isUnaryOperator());
+    EXPECT_FALSE(closingGroupOperator.isUnaryOperator());
+    EXPECT_FALSE(invalidOperator.isUnaryOperator());
+}
+
+TEST(OperatorTest, IsBinaryOperatorWorks)
+{
+    Operator nullOperator;
+    Operator notOperator("~");
+    Operator andOperator("&");
+    Operator orOperator("|");
+    Operator openingGroupOperator("(");
+    Operator closingGroupOperator(")");
+    Operator invalidOperator("invalid");
+
+    EXPECT_FALSE(nullOperator.isBinaryOperator());
+    EXPECT_FALSE(notOperator.isBinaryOperator());
+    EXPECT_TRUE(andOperator.isBinaryOperator());
+    EXPECT_TRUE(orOperator.isBinaryOperator());
+    EXPECT_FALSE(openingGroupOperator.isBinaryOperator());
+    EXPECT_FALSE(closingGroupOperator.isBinaryOperator());
+    EXPECT_FALSE(invalidOperator.isBinaryOperator());
+}
+
+TEST(OperatorTest, IsSameOperatorInputTypeWorks)
+{
+    Operator nullOperator;
+    Operator notOperator("~");
+    Operator andOperator("&");
+    Operator orOperator("|");
+    Operator openingGroupOperator("(");
+    Operator closingGroupOperator(")");
+    Operator invalidOperator("invalid");
+
+    EXPECT_FALSE(nullOperator.isSameOperatorInputType(OperatorInputType::UnaryOperation));
+    EXPECT_FALSE(nullOperator.isSameOperatorInputType(OperatorInputType::BinaryOperation));
+    EXPECT_TRUE(notOperator.isSameOperatorInputType(OperatorInputType::UnaryOperation));
+    EXPECT_FALSE(notOperator.isSameOperatorInputType(OperatorInputType::BinaryOperation));
+    EXPECT_FALSE(andOperator.isSameOperatorInputType(OperatorInputType::UnaryOperation));
+    EXPECT_TRUE(andOperator.isSameOperatorInputType(OperatorInputType::BinaryOperation));
+    EXPECT_FALSE(orOperator.isSameOperatorInputType(OperatorInputType::UnaryOperation));
+    EXPECT_TRUE(orOperator.isSameOperatorInputType(OperatorInputType::BinaryOperation));
+    EXPECT_FALSE(openingGroupOperator.isSameOperatorInputType(OperatorInputType::UnaryOperation));
+    EXPECT_FALSE(openingGroupOperator.isSameOperatorInputType(OperatorInputType::BinaryOperation));
+    EXPECT_FALSE(closingGroupOperator.isSameOperatorInputType(OperatorInputType::UnaryOperation));
+    EXPECT_FALSE(closingGroupOperator.isSameOperatorInputType(OperatorInputType::BinaryOperation));
+    EXPECT_FALSE(invalidOperator.isSameOperatorInputType(OperatorInputType::UnaryOperation));
+    EXPECT_FALSE(invalidOperator.isSameOperatorInputType(OperatorInputType::BinaryOperation));
+}
+
 TEST(OperatorTest, GetOperatorTypeWorks)
 {
     Operator nullOperator;

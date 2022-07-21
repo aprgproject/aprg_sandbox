@@ -18,4 +18,5 @@ using VariableNamesSet = std::set<std::string>;
 using TermSet = std::set<Term>;
 
 }
+
 }

@@ -14,6 +14,51 @@ namespace booleanAlgebra
 namespace Simplification
 {
 
+TEST(SimplificationOfExpressionTest, ShouldSimplifyWithOuterOrAndInnerAndWorks)
+{
+    EXPECT_FALSE(SimplificationOfExpression::shouldSimplifyWithOuterOrAndInnerAnd());
+    {
+        SimplificationOfExpression::ConfigurationDetails configurationDetails(
+                    SimplificationOfExpression::Configuration::getInstance().getConfigurationDetails());
+        configurationDetails.shouldSimplifyWithOuterOrAndInnerAnd = true;
+        SimplificationOfExpression::ScopeObject scopeObject;
+        scopeObject.setInThisScopeThisConfiguration(configurationDetails);
+
+        EXPECT_TRUE(SimplificationOfExpression::shouldSimplifyWithOuterOrAndInnerAnd());
+    }
+    EXPECT_FALSE(SimplificationOfExpression::shouldSimplifyWithOuterOrAndInnerAnd());
+}
+
+TEST(SimplificationOfExpressionTest, ShouldSimplifyWithOuterAndAndInnerOrWorks)
+{
+    EXPECT_FALSE(SimplificationOfExpression::shouldSimplifyWithOuterAndAndInnerOr());
+    {
+        SimplificationOfExpression::ConfigurationDetails configurationDetails(
+                    SimplificationOfExpression::Configuration::getInstance().getConfigurationDetails());
+        configurationDetails.shouldSimplifyWithOuterAndAndInnerOr = true;
+        SimplificationOfExpression::ScopeObject scopeObject;
+        scopeObject.setInThisScopeThisConfiguration(configurationDetails);
+
+        EXPECT_TRUE(SimplificationOfExpression::shouldSimplifyWithOuterAndAndInnerOr());
+    }
+    EXPECT_FALSE(SimplificationOfExpression::shouldSimplifyWithOuterAndAndInnerOr());
+}
+
+TEST(SimplificationOfExpressionTest, ShouldSimplifyByQuineMcKluskeyWorks)
+{
+    EXPECT_TRUE(SimplificationOfExpression::shouldSimplifyByQuineMcKluskey());
+    {
+        SimplificationOfExpression::ConfigurationDetails configurationDetails(
+                    SimplificationOfExpression::Configuration::getInstance().getConfigurationDetails());
+        configurationDetails.shouldSimplifyByQuineMcKluskey = false;
+        SimplificationOfExpression::ScopeObject scopeObject;
+        scopeObject.setInThisScopeThisConfiguration(configurationDetails);
+
+        EXPECT_FALSE(SimplificationOfExpression::shouldSimplifyByQuineMcKluskey());
+    }
+    EXPECT_TRUE(SimplificationOfExpression::shouldSimplifyByQuineMcKluskey());
+}
+
 TEST(SimplificationOfExpressionTest, SimplifyWorksOnSimplifyingInnerTerms)
 {
     Expression subExpression1(createExpressionIfPossible({"x", "&", "x"}));
@@ -234,12 +279,13 @@ TEST(SimplificationOfExpressionTest, SimplifyWorksByWithOuterOrAndInnerAnd)
     SimplificationOfExpression::ConfigurationDetails configurationDetails(
                 SimplificationOfExpression::Configuration::getInstance().getConfigurationDetails());
     configurationDetails.shouldSimplifyWithOuterOrAndInnerAnd = true;
-    configurationDetails.shouldSimplifyByQuineMcKluskey = true;
     SimplificationOfExpression::ScopeObject scopeObject;
     scopeObject.setInThisScopeThisConfiguration(configurationDetails);
+
     Expression subExpression1(createExpressionIfPossible({"x", "|", "y"}));
     Expression subExpression2(createExpressionIfPossible({VariableTerm("x", true), "|", "z"}));
-    Expression expressionToTest(createExpressionIfPossible({subExpression1, "&", subExpression2}));    SimplificationOfExpression simplification(expressionToTest);
+    Expression expressionToTest(createExpressionIfPossible({subExpression1, "&", subExpression2}));
+    SimplificationOfExpression simplification(expressionToTest);
 
     simplification.simplify();
 
@@ -253,7 +299,6 @@ TEST(SimplificationOfExpressionTest, SimplifyWorksWithOuterAndAndInnerOr)
     SimplificationOfExpression::ConfigurationDetails configurationDetails(
                 SimplificationOfExpression::Configuration::getInstance().getConfigurationDetails());
     configurationDetails.shouldSimplifyWithOuterAndAndInnerOr = true;
-    configurationDetails.shouldSimplifyByQuineMcKluskey = true;
     SimplificationOfExpression::ScopeObject scopeObject;
     scopeObject.setInThisScopeThisConfiguration(configurationDetails);
 
@@ -268,9 +313,11 @@ TEST(SimplificationOfExpressionTest, SimplifyWorksWithOuterAndAndInnerOr)
     string stringToExpect("((x|z)&(x'|y))");
     EXPECT_EQ(stringToExpect, stringToVerify);
 }
+
 TEST(SimplificationOfExpressionTest, SimplifyWorksByAlternatingAndOperationAndOrOperation_WithDefaultConfiguration)
 {
-    Expression subExpression1(createExpressionIfPossible({"a", "&", "b"}));    Expression subExpression2(createExpressionIfPossible({subExpression1, "|", "c"}));
+    Expression subExpression1(createExpressionIfPossible({"a", "&", "b"}));
+    Expression subExpression2(createExpressionIfPossible({subExpression1, "|", "c"}));
     Expression subExpression3(createExpressionIfPossible({subExpression2, "&", "d"}));
     Expression subExpression4(createExpressionIfPossible({subExpression3, "|", "e"}));
     Expression expressionToTest(createExpressionIfPossible({subExpression4, "&", "f"}));
@@ -290,9 +337,11 @@ TEST(SimplificationOfExpressionTest, SimplifyWorksByAlternatingAndOperationAndOr
     configurationDetails.shouldSimplifyWithOuterOrAndInnerAnd = true;
     SimplificationOfExpression::ScopeObject scopeObject;
     scopeObject.setInThisScopeThisConfiguration(configurationDetails);
+
     Expression subExpression1(createExpressionIfPossible({"a", "&", "b"}));
     Expression subExpression2(createExpressionIfPossible({subExpression1, "|", "c"}));
-    Expression subExpression3(createExpressionIfPossible({subExpression2, "&", "d"}));    Expression subExpression4(createExpressionIfPossible({subExpression3, "|", "e"}));
+    Expression subExpression3(createExpressionIfPossible({subExpression2, "&", "d"}));
+    Expression subExpression4(createExpressionIfPossible({subExpression3, "|", "e"}));
     Expression expressionToTest(createExpressionIfPossible({subExpression4, "&", "f"}));
     SimplificationOfExpression simplification(expressionToTest);
 
@@ -310,9 +359,11 @@ TEST(SimplificationOfExpressionTest, SimplifyWorksByAlternatingAndOperationAndOr
     configurationDetails.shouldSimplifyWithOuterAndAndInnerOr = true;
     SimplificationOfExpression::ScopeObject scopeObject;
     scopeObject.setInThisScopeThisConfiguration(configurationDetails);
+
     Expression subExpression1(createExpressionIfPossible({"a", "&", "b"}));
     Expression subExpression2(createExpressionIfPossible({subExpression1, "|", "c"}));
-    Expression subExpression3(createExpressionIfPossible({subExpression2, "&", "d"}));    Expression subExpression4(createExpressionIfPossible({subExpression3, "|", "e"}));
+    Expression subExpression3(createExpressionIfPossible({subExpression2, "&", "d"}));
+    Expression subExpression4(createExpressionIfPossible({subExpression3, "|", "e"}));
     Expression expressionToTest(createExpressionIfPossible({subExpression4, "&", "f"}));
     SimplificationOfExpression simplification(expressionToTest);
 
@@ -330,9 +381,11 @@ TEST(SimplificationOfExpressionTest, SimplifyWorksByRemovingNeededTerms_WithOute
     configurationDetails.shouldSimplifyWithOuterOrAndInnerAnd = true;
     SimplificationOfExpression::ScopeObject scopeObject;
     scopeObject.setInThisScopeThisConfiguration(configurationDetails);
+
     Expression subExpression1(createExpressionIfPossible({"x", "|", VariableTerm("y", true)}));
     Expression expressionToTest(createExpressionIfPossible({subExpression1, "&", "y"}));
     SimplificationOfExpression simplification(expressionToTest);
+
     simplification.simplify();
 
     Expression expressionToVerify(simplification.getExpression());
@@ -347,9 +400,11 @@ TEST(SimplificationOfExpressionTest, SimplifyWorksByRemovingNeededTerms_WithOute
     configurationDetails.shouldSimplifyWithOuterAndAndInnerOr = true;
     SimplificationOfExpression::ScopeObject scopeObject;
     scopeObject.setInThisScopeThisConfiguration(configurationDetails);
+
     Expression subExpression1(createExpressionIfPossible({"x", "&", VariableTerm("y", true)}));
     Expression expressionToTest(createExpressionIfPossible({subExpression1, "|", "y"}));
     SimplificationOfExpression simplification(expressionToTest);
+
     simplification.simplify();
 
     Expression expressionToVerify(simplification.getExpression());
@@ -416,12 +471,13 @@ TEST(SimplificationOfExpressionTest, SimplifyWorksOnConsensusTheoremPattern1)
     SimplificationOfExpression::ConfigurationDetails configurationDetails(
                 SimplificationOfExpression::Configuration::getInstance().getConfigurationDetails());
     configurationDetails.shouldSimplifyWithOuterOrAndInnerAnd = true;
-    configurationDetails.shouldSimplifyByQuineMcKluskey = true;
     SimplificationOfExpression::ScopeObject scopeObject;
     scopeObject.setInThisScopeThisConfiguration(configurationDetails);
+
     Expression subExpression1(createExpressionIfPossible({"x", "&", "y"}));
     Expression subExpression2(createExpressionIfPossible({"y", "&", "z"}));
-    Expression subExpression3(createExpressionIfPossible({VariableTerm("x", true), "&", "z"}));    Expression expressionToTest(createExpressionIfPossible({subExpression1, "|", subExpression2, "|", subExpression3}));
+    Expression subExpression3(createExpressionIfPossible({VariableTerm("x", true), "&", "z"}));
+    Expression expressionToTest(createExpressionIfPossible({subExpression1, "|", subExpression2, "|", subExpression3}));
     SimplificationOfExpression simplification(expressionToTest);
 
     simplification.simplify();
@@ -436,7 +492,6 @@ TEST(SimplificationOfExpressionTest, SimplifyWorksOnConsensusTheoremPattern2)
     SimplificationOfExpression::ConfigurationDetails configurationDetails(
                 SimplificationOfExpression::Configuration::getInstance().getConfigurationDetails());
     configurationDetails.shouldSimplifyWithOuterAndAndInnerOr = true;
-    configurationDetails.shouldSimplifyByQuineMcKluskey = true;
     SimplificationOfExpression::ScopeObject scopeObject;
     scopeObject.setInThisScopeThisConfiguration(configurationDetails);
 

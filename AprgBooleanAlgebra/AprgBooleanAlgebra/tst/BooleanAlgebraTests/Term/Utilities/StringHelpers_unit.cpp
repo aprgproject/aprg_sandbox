@@ -92,25 +92,10 @@ TEST(StringHelpersTest, BuildTermIfPossibleWorks)
 
 TEST(StringHelpersTest, TokenizeToTermsWorks)
 {
-    Terms termsToVerify1(tokenizeToTerms(" 5yyy & x1 & y1 | ~20.15"));
+    Terms termsToVerify(tokenizeToTerms(" 5yyy & x1 & y1 | ~20.15"));
 
-    ASSERT_EQ(8U, termsToVerify1.size());
-    ASSERT_EQ(TermType::Constant, termsToVerify1.at(0).getTermType());
-    EXPECT_TRUE(termsToVerify1.at(0).getBooleanValue());
-    ASSERT_EQ(TermType::Operator, termsToVerify1.at(1).getTermType());
-    EXPECT_EQ("&", termsToVerify1.at(1).getOperatorConstReference().getOperatorString());
-    ASSERT_EQ(TermType::VariableTerm, termsToVerify1.at(2).getTermType());
-    EXPECT_EQ("x1", termsToVerify1.at(2).getVariableTermConstReference().getVariableTermName());
-    ASSERT_EQ(TermType::Operator, termsToVerify1.at(3).getTermType());
-    EXPECT_EQ("&", termsToVerify1.at(3).getOperatorConstReference().getOperatorString());
-    ASSERT_EQ(TermType::VariableTerm, termsToVerify1.at(4).getTermType());
-    EXPECT_EQ("y1", termsToVerify1.at(4).getVariableTermConstReference().getVariableTermName());
-    ASSERT_EQ(TermType::Operator, termsToVerify1.at(5).getTermType());
-    EXPECT_EQ("|", termsToVerify1.at(5).getOperatorConstReference().getOperatorString());
-    ASSERT_EQ(TermType::Operator, termsToVerify1.at(6).getTermType());
-    EXPECT_EQ("~", termsToVerify1.at(6).getOperatorConstReference().getOperatorString());
-    ASSERT_EQ(TermType::Constant, termsToVerify1.at(7).getTermType());
-    EXPECT_TRUE(termsToVerify1.at(7).getBooleanValue());
+    Terms termsToExpect{true, "&", "x1", "&", "y1", "|", "~", true};
+    EXPECT_EQ(termsToExpect, termsToVerify);
 }
 
 TEST(StringHelpersTest, AddValueTermIfNotEmptyWorks)

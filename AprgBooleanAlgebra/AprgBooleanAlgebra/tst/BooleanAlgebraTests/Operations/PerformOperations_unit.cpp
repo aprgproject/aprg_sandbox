@@ -40,6 +40,41 @@ TEST(PerformOperationsTest, PerformOperationBinaryOperationWorks)
     EXPECT_EQ(Term(true), termToVerify8);
 }
 
+TEST(PerformOperationsTest, PerformNotWorks)
+{
+    Term termToVerify1(performNot(false));
+    Term termToVerify2(performNot(true));
+
+    EXPECT_EQ(Term(true), termToVerify1);
+    EXPECT_EQ(Term(false), termToVerify2);
+}
+
+TEST(PerformOperationsTest, PerformAndWorks)
+{
+    Term termToVerify1(performAnd(false, false));
+    Term termToVerify2(performAnd(false, true));
+    Term termToVerify3(performAnd(true, false));
+    Term termToVerify4(performAnd(true, true));
+
+    EXPECT_EQ(Term(false), termToVerify1);
+    EXPECT_EQ(Term(false), termToVerify2);
+    EXPECT_EQ(Term(false), termToVerify3);
+    EXPECT_EQ(Term(true), termToVerify4);
+}
+
+TEST(PerformOperationsTest, PerformOrWorks)
+{
+    Term termToVerify1(performOr(false, false));
+    Term termToVerify2(performOr(false, true));
+    Term termToVerify3(performOr(true, false));
+    Term termToVerify4(performOr(true, true));
+
+    EXPECT_EQ(Term(false), termToVerify1);
+    EXPECT_EQ(Term(true), termToVerify2);
+    EXPECT_EQ(Term(true), termToVerify3);
+    EXPECT_EQ(Term(true), termToVerify4);
+}
+
 }
 
 }

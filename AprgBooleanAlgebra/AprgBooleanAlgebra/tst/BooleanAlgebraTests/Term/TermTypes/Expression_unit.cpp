@@ -228,10 +228,22 @@ TEST(ExpressionTest, GetDebugStringWorks)
     EXPECT_EQ("( {&}||&( {|}|||x{VariableTerm}|y{VariableTerm} ){Expression}&z{VariableTerm} )", expression4.getDebugString());
 }
 
+TEST(ExpressionTest, GetWrappedTermsReferenceWorks)
+{
+    Expression expressionToTest(createExpressionIfPossible({"x", "&", "y"}));
+
+    WrappedTerms & wrappedTerms(expressionToTest.getWrappedTermsReference());
+    wrappedTerms.emplace_back(Term("a"));
+    wrappedTerms.emplace_back(Term("b"));
+
+    Expression expressionToExpect(createExpressionIfPossible({"x", "&", "y", "&", "a", "&", "b"}));
+    EXPECT_EQ(expressionToExpect, expressionToTest);
+}
+
 TEST(ExpressionTest, ClearWorks)
 {
     Expression expression1;
-    Expression expression2(createExpressionIfPossible({true, "&", "x", "|", "y"}));
+    Expression expression2(createExpressionIfPossible({"x", "&", "y", "|", "z"}));
 
     expression1.clear();
     expression2.clear();
@@ -250,6 +262,35 @@ TEST(ExpressionTest, ClearAndPutTermInWrappedTermsWorks)
 
     EXPECT_EQ(createOrCopyExpressionFromATerm(true), expression1);
     EXPECT_EQ(createOrCopyExpressionFromATerm(true), expression2);
+}
+
+TEST(ExpressionTest, PutTermWorks)
+{
+    Expression expressionToTest;
+
+    expressionToTest.putTerm(Term("a"));
+    expressionToTest.putTerm(Term("b"));
+    expressionToTest.putTerm(Term("c"));
+    expressionToTest.putTerm(Term("d"));
+
+    WrappedTerms termsToVerify(expressionToTest.getWrappedTerms());
+    ASSERT_EQ(4U, termsToVerify.size());
+    EXPECT_EQ(Term("a"), getTermConstReferenceFromSharedPointer(termsToVerify.at(0).baseTermSharedPointer));
+    EXPECT_EQ(Term("b"), getTermConstReferenceFromSharedPointer(termsToVerify.at(1).baseTermSharedPointer));
+    EXPECT_EQ(Term("c"), getTermConstReferenceFromSharedPointer(termsToVerify.at(2).baseTermSharedPointer));
+    EXPECT_EQ(Term("d"), getTermConstReferenceFromSharedPointer(termsToVerify.at(3).baseTermSharedPointer));
+}
+
+TEST(ExpressionTest, PutTermWithOperationLevelWorks)
+{
+    Expression expressionToTest;
+
+    expressionToTest.putTerm(Term("a"), OperatorLevel::And);
+    expressionToTest.putTerm(Term("b"), OperatorLevel::Or);
+    expressionToTest.putTerm(Term("c"), OperatorLevel::And);
+    expressionToTest.putTerm(Term("d"), OperatorLevel::Or);
+
+    EXPECT_EQ("(((a|b)&c)|d)", expressionToTest.getDisplayableString());
 }
 
 TEST(ExpressionTest, PutTermWithAndOperationIfNeededUsingNullExpressionWorks)
@@ -557,21 +598,6 @@ TEST(ExpressionTest, PutWrappedTermsWorks)
     EXPECT_EQ(Term(true), getTermConstReferenceFromSharedPointer(termsToVerify.at(2).baseTermSharedPointer));
 }
 
-TEST(ExpressionTest, PutTermWorks)
-{
-    Expression expressionToTest;
-
-    expressionToTest.putTerm(Term(true));
-    expressionToTest.putTerm(Term(false));
-    expressionToTest.putTerm(Term(true));
-
-    WrappedTerms termsToVerify(expressionToTest.getWrappedTerms());
-    ASSERT_EQ(3U, termsToVerify.size());
-    EXPECT_EQ(Term(true), getTermConstReferenceFromSharedPointer(termsToVerify.at(0).baseTermSharedPointer));
-    EXPECT_EQ(Term(false), getTermConstReferenceFromSharedPointer(termsToVerify.at(1).baseTermSharedPointer));
-    EXPECT_EQ(Term(true), getTermConstReferenceFromSharedPointer(termsToVerify.at(2).baseTermSharedPointer));
-}
-
 TEST(ExpressionTest, SetWorks)
 {
     Expression expression;
@@ -669,6 +695,18 @@ TEST(ExpressionTest, SortWorks)
 
     Expression expressionToExpect(createExpressionIfPossible(
     {VariableTerm("x", false), "&", VariableTerm("x", true), "&", VariableTerm("y", false), "&", VariableTerm("z", false)}));
+    EXPECT_EQ(expressionToExpect, expression);
+}
+
+TEST(ExpressionTest, NegateWorks)
+{
+    Expression expression(createExpressionIfPossible(
+    {VariableTerm("x", false), "&", VariableTerm("x", true), "&", VariableTerm("y", false), "&", VariableTerm("z", false)}));
+
+    expression.negate();
+
+    Expression expressionToExpect(createExpressionIfPossible(
+    {VariableTerm("x", true), "|", VariableTerm("x", false), "|", VariableTerm("y", true), "|", VariableTerm("z", true)}));
     EXPECT_EQ(expressionToExpect, expression);
 }
 

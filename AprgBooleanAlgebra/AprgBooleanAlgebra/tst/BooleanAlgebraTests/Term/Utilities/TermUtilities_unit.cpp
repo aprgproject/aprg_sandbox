@@ -39,6 +39,38 @@ TEST(TermUtilitiesTest, IsNonEmptyOrNonOperatorOrNonExpressionTypeWorks)
     EXPECT_FALSE(isNonEmptyOrNonOperatorOrNonExpressionType(term5));
 }
 
+TEST(TermUtilitiesTest, GetNoEffectValueInOperationWorks)
+{
+    EXPECT_FALSE(getNoEffectValueInOperation(OperatorLevel::Unknown));
+    EXPECT_TRUE(getNoEffectValueInOperation(OperatorLevel::And));
+    EXPECT_FALSE(getNoEffectValueInOperation(OperatorLevel::Or));
+}
+
+TEST(TermUtilitiesTest, GetShortCircuitValueEffectInOperationWorks)
+{
+    EXPECT_FALSE(getShortCircuitValueEffectInOperation(OperatorLevel::Unknown));
+    EXPECT_FALSE(getShortCircuitValueEffectInOperation(OperatorLevel::And));
+    EXPECT_TRUE(getShortCircuitValueEffectInOperation(OperatorLevel::Or));
+}
+
+TEST(TermUtilitiesTest, GetVariableNamesWorks)
+{
+    Term subTerm1(createExpressionIfPossible({"a", "&", "b"}));
+    Term subTerm2(createExpressionIfPossible({"x", "&", "y"}));
+    Term termToTest(createExpressionIfPossible({subTerm1, "|", subTerm2}));
+
+    VariableNamesSet namesToVerify(getVariableNames(termToTest));
+
+    VariableNamesSet namesToExpect{"a", "b", "x", "y"};
+    EXPECT_EQ(namesToExpect, namesToVerify);
+}
+
+TEST(TermUtilitiesTest, GetTermFromVariableAndPrimeBitWorks)
+{
+    EXPECT_EQ(Term(VariableTerm("x", true)), getTermFromVariableAndPrimeBit("x", '0'));
+    EXPECT_EQ(Term("x"), getTermFromVariableAndPrimeBit("x", '1'));
+}
+
 }
 
 }

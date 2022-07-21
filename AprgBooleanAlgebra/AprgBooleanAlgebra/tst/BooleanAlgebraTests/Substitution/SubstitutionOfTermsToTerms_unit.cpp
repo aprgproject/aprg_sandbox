@@ -103,6 +103,17 @@ TEST(SubstitutionOfTermsToTermsTest, PerformSubstitutionToWorksOnTerm)
     EXPECT_EQ(expectTerm4, verifyTerm4);
 }
 
+TEST(SubstitutionOfTermsToTermsTest, PerformSubstitutionForExpressionWorks)
+{
+    SubstitutionOfTermsToTerms substitution({{"x", "a"}, {"y", true}});
+    Expression expression(createExpressionIfPossible({"x", "&", "y"}));
+
+    Expression verifyExpression(substitution.performSubstitutionForExpression(expression));
+
+    Expression expectExpression(createExpressionIfPossible({"a", "&", true}));
+    EXPECT_EQ(expectExpression, verifyExpression);
+}
+
 }
 
 }

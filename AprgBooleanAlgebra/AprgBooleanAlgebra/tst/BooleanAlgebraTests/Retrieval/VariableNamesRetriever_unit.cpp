@@ -35,7 +35,7 @@ TEST(VariableNamesRetrieverTest, RetrieveFromConstantWorks)
     EXPECT_TRUE(variableNamesSet.empty());
 }
 
-TEST(VariableNamesRetrieverTest, RetrieveFromVariableWorks)
+TEST(VariableNamesRetrieverTest, RetrieveFromVariableTermWorks)
 {
     VariableNamesRetriever retriever;
 

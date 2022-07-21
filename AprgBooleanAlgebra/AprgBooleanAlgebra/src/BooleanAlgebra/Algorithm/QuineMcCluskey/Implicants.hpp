@@ -22,9 +22,11 @@ public:
 
     Implicants()
     {}
+
     Implicants(ImplicantsInitializerList const& implicants)
         : m_implicantsData(implicants)
     {}
+
     bool operator==(Implicants const& second) const
     {
         return m_implicantsData == second.m_implicantsData;
@@ -48,16 +50,19 @@ public:
 
     std::string getDisplayableString() const
     {
-        std::stringstream ss;        printParameterWithName(ss, "Implicants", m_implicantsData);
+        std::stringstream ss;
+        printParameterWithName(ss, "Implicants", m_implicantsData);
         return ss.str();
     }
 
     void addImplicant(Implicant const& implicant)
     {
-        m_implicantsData.emplace(implicant);    }
+        m_implicantsData.emplace(implicant);
+    }
 
     void addFinalImplicant(Implicant const& implicant)
-    {        bool isAlreadyRepresented(false);
+    {
+        bool isAlreadyRepresented(false);
         for(Implicant const& iteratorImplicant : m_implicantsData)
         {
             if(implicant.isSubset(iteratorImplicant))
@@ -76,10 +81,12 @@ private:
     ImplicantData m_implicantsData;
 };
 
-template <typename Minterm>std::ostream & operator<<(std::ostream & out, Implicants<Minterm> const& implicants)
+template <typename Minterm>
+std::ostream & operator<<(std::ostream & out, Implicants<Minterm> const& implicants)
 {
     out << implicants.getDisplayableString();
-    return out;}
+    return out;
+}
 
 }
 

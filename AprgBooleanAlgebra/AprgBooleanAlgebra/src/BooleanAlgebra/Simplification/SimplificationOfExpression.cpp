@@ -34,18 +34,14 @@ bool SimplificationOfExpression::shouldSimplifyWithOuterAndAndInnerOr()
     return Configuration::getInstance().getConfigurationDetails().shouldSimplifyWithOuterAndAndInnerOr;
 }
 
-bool SimplificationOfExpression::shouldSimplifyByQuineMcKluskey(){
+bool SimplificationOfExpression::shouldSimplifyByQuineMcKluskey()
+{
     return Configuration::getInstance().getConfigurationDetails().shouldSimplifyByQuineMcKluskey;
 }
+
 Expression SimplificationOfExpression::getExpression() const
 {
     return m_expression;
-}
-
-void SimplificationOfExpression::setExpression(
-        Expression const& expression)
-{
-    m_expression = expression;
 }
 
 void SimplificationOfExpression::simplify()
@@ -137,7 +133,7 @@ void SimplificationOfExpression::processAndSaveTermsForAndOperation(
     Term combinedTerm;
     Terms newTerms(createUniqueTerms(termsToProcess));
     combineComplementaryTerms(newTerms, OperatorLevel::And);
-    combineTermsByCheckingTheCommonFactor(newTerms, OperatorLevel::And);
+    combineTermsByCheckingCommonFactor(newTerms, OperatorLevel::And);
     distributeTermsIfNeeded(combinedTerm, newTerms, OperatorLevel::And, OperatorLevel::Or);
     if(combinedTerm.isEmpty())
     {
@@ -153,7 +149,7 @@ void SimplificationOfExpression::processAndSaveTermsForOrOperation(
     Term combinedTerm;
     Terms newTerms(createUniqueTerms(termsToProcess));
     combineComplementaryTerms(newTerms, OperatorLevel::Or);
-    combineTermsByCheckingTheCommonFactor(newTerms, OperatorLevel::Or);
+    combineTermsByCheckingCommonFactor(newTerms, OperatorLevel::Or);
     distributeTermsIfNeeded(combinedTerm, newTerms, OperatorLevel::Or, OperatorLevel::And);
     if(combinedTerm.isEmpty())
     {

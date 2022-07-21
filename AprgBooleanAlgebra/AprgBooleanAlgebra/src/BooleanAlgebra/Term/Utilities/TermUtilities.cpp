@@ -4,9 +4,11 @@
 #include <BooleanAlgebra/Term/Operators/TermOperators.hpp>
 #include <BooleanAlgebra/Term/Utilities/StringHelpers.hpp>
 #include <BooleanAlgebra/Term/Utilities/ValueCheckingHelpers.hpp>
+
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 namespace booleanAlgebra
 {

@@ -82,6 +82,7 @@ Expression SubstitutionOfTermsToTerms::performSubstitutionForExpression(Expressi
 {
     Expression newExpression(expression);
     performSubstitutionForWrappedTerms(newExpression.getWrappedTermsReference());
+    newExpression.simplify();
     return newExpression;
 }
 

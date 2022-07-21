@@ -442,6 +442,26 @@ TEST(TermTest, SortWorks)
     EXPECT_EQ(expectTerm3, term3);
 }
 
+TEST(TermTest, NegateWorks)
+{
+    Term term1;
+    Term term2(Expression{});
+    Term term3(createExpressionIfPossible(
+    {VariableTerm("x", false), "&", VariableTerm("x", true), "&", VariableTerm("y", false), "&", VariableTerm("z", false)}));
+
+    term1.negate();
+    term2.negate();
+    term3.negate();
+
+    Term expectTerm1;
+    Term expectTerm2(Expression{});
+    Term expectTerm3(createExpressionIfPossible(
+    {VariableTerm("x", true), "|", VariableTerm("x", false), "|", VariableTerm("y", true), "|", VariableTerm("z", true)}));
+    EXPECT_EQ(expectTerm1, term1);
+    EXPECT_EQ(expectTerm2, term2);
+    EXPECT_EQ(expectTerm3, term3);
+}
+
 TEST(TermTest, SetAsSimplifiedWorks)
 {
     Term term;

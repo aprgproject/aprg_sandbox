@@ -11,8 +11,10 @@
 #include <queue>
 #include <sstream>
 #include <vector>
+
 namespace alba
 {
+
 namespace booleanAlgebra
 {
 
@@ -24,10 +26,12 @@ public:
     using SetOfMinterms = std::set<Minterm>;
     using Implicant = Implicant<Minterm>;
     using Implicants = Implicants<Minterm>;
-    using ImplicantsMap = std::map<Minterm, Implicants>;    using InputToOutputMap = std::map<Minterm, LogicalValue>;
+    using ImplicantsMap = std::map<Minterm, Implicants>;
+    using InputToOutputMap = std::map<Minterm, LogicalValue>;
     using ComputationalTable = std::map<Minterm, ImplicantsMap>;
 
-    QuineMcCluskey()        : m_maxCommonalityCount(0)
+    QuineMcCluskey()
+        : m_maxCommonalityCount(0)
     {}
 
     LogicalValue getOutput(Minterm const input) const
@@ -63,10 +67,12 @@ public:
                 }
             }
         }
-        return result;    }
+        return result;
+    }
 
     Implicants getAllFinalImplicants() const
-    {        Implicants result;
+    {
+        Implicants result;
         for(auto it=m_computationalTable.begin(); it!=m_computationalTable.end(); it++)
         {
             ImplicantsMap const& implicantsMap(it->second);
@@ -79,10 +85,12 @@ public:
                 }
             }
         }
-        return result;    }
+        return result;
+    }
 
     bool doImplicantsExistAt(unsigned int numberOfOnes, unsigned int commonalityCount) const
-    {        bool result(false);
+    {
+        bool result(false);
         auto numberOfOnesIt = m_computationalTable.find(numberOfOnes);
         if(numberOfOnesIt != m_computationalTable.end())
         {
@@ -144,9 +152,11 @@ public:
             }
         }
     }
+
     std::string getComputationTableString() const
     {
-        std::stringstream ss;        for(auto const& numberOfOnesAndCommonalityCountImplicantsPair : m_computationalTable)
+        std::stringstream ss;
+        for(auto const& numberOfOnesAndCommonalityCountImplicantsPair : m_computationalTable)
         {
             ss << "Number of ones = " << numberOfOnesAndCommonalityCountImplicantsPair.first << std::endl;
             for(auto const& commonalityCountAndImplicantsPair : numberOfOnesAndCommonalityCountImplicantsPair.second)
@@ -221,7 +231,8 @@ public:
         Minterms inputsWithTrue(getInputMintermsWithTrue());
         DisplayTable displayTable;
         displayTable.setBorders("", "|");
-        displayTable.addRow();        displayTable.getLastRow().addCell(" ");
+        displayTable.addRow();
+        displayTable.getLastRow().addCell(" ");
         for(auto const& input : inputsWithTrue)
         {
             std::stringstream ss;
@@ -271,10 +282,12 @@ private:
 
     void addMintermForZeroCommonalityCount(Minterm const& minterm)
     {
-        unsigned int numberOfOnes(getNumberOfOnes(minterm));        Implicant implicant;
+        unsigned int numberOfOnes(getNumberOfOnes(minterm));
+        Implicant implicant;
         implicant.addMinterm(minterm);
         m_computationalTable[numberOfOnes][0].addImplicant(implicant);
     }
+
     unsigned int m_maxCommonalityCount;
     InputToOutputMap m_inputToOutputMap;
     ComputationalTable m_computationalTable; // https://en.wikipedia.org/wiki/Quine%E2%80%93McCluskey_algorithm

@@ -11,9 +11,11 @@
 #include <Common/Bit/AlbaBitValueUtilities.hpp>
 
 #include <algorithm>
+
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 namespace booleanAlgebra
 {
@@ -26,6 +28,7 @@ using Implicant = Implicant<Minterm>;
 using Implicants = Implicants<Minterm>;
 using QuineMcCluskey = QuineMcCluskey<Minterm>;
 
+// utilties functions for this file
 namespace
 {
 Implicants getBestImplicantsUsingQuineMcCluskey(
@@ -54,6 +57,28 @@ Implicants getBestImplicantsUsingQuineMcCluskey(
     Implicants finalImplicants(qmc.getAllFinalImplicants());
     Implicants bestImplicants(qmc.getBestImplicants(finalImplicants));
     return bestImplicants;
+}
+
+void simplifyAndCopyTermsFromAnExpressionAndChangeOperatorLevelIfNeeded(
+        WrappedTerms & newWrappedTerms,
+        OperatorLevel & mainOperatorLevel,
+        Expression const& subExpression)
+{
+    OperatorLevel subExpressionOperatorLevel(subExpression.getCommonOperatorLevel());
+    if(subExpression.containsOnlyOneTerm()
+            || OperatorLevel::Unknown == mainOperatorLevel
+            || subExpressionOperatorLevel == mainOperatorLevel)
+    {
+        if(OperatorLevel::Unknown == mainOperatorLevel)
+        {
+            mainOperatorLevel = subExpressionOperatorLevel;
+        }
+        simplifyAndCopyTermsAndChangeOperatorLevelIfNeeded(newWrappedTerms, mainOperatorLevel, subExpression.getWrappedTerms());
+    }
+    else
+    {
+        newWrappedTerms.emplace_back(Term(subExpression));
+    }
 }
 
 void distributeTermsWithRecursion(
@@ -117,7 +142,7 @@ OperatorLevel getSubOperatorLevel(
 }
 
 
-void simplifyTermByPriorityAndOperationThenOrOperation(Term & term)
+void simplifyTermWithOuterOrAndInnerAnd(Term & term)
 {
     SimplificationOfExpression::ConfigurationDetails configurationDetails(
                 SimplificationOfExpression::Configuration::getInstance().getConfigurationDetails());
@@ -125,6 +150,21 @@ void simplifyTermByPriorityAndOperationThenOrOperation(Term & term)
 
     SimplificationOfExpression::ScopeObject scopeObject;
     scopeObject.setInThisScopeThisConfiguration(configurationDetails);
+
+    term.clearAllInnerSimplifiedFlags();
+    term.simplify();
+}
+
+
+void simplifyTermWithOuterAndAndInnerOr(Term & term)
+{
+    SimplificationOfExpression::ConfigurationDetails configurationDetails(
+                SimplificationOfExpression::Configuration::getInstance().getConfigurationDetails());
+    configurationDetails.shouldSimplifyWithOuterAndAndInnerOr = true;
+
+    SimplificationOfExpression::ScopeObject scopeObject;
+    scopeObject.setInThisScopeThisConfiguration(configurationDetails);
+
     term.clearAllInnerSimplifiedFlags();
     term.simplify();
 }
@@ -166,10 +206,12 @@ void simplifyByQuineMcKluskey(Term & term)
 
 void simplifyAndCopyTermsAndChangeOperatorLevelIfNeeded(
         WrappedTerms & newWrappedTerms,
-        OperatorLevel & mainOperatorLevel,        WrappedTerms const& oldWrappedTerms)
+        OperatorLevel & mainOperatorLevel,
+        WrappedTerms const& oldWrappedTerms)
 {
     for(WrappedTerm const& oldWrappedTerm : oldWrappedTerms)
-    {        Term const& term(getTermConstReferenceFromSharedPointer(oldWrappedTerm.baseTermSharedPointer));
+    {
+        Term const& term(getTermConstReferenceFromSharedPointer(oldWrappedTerm.baseTermSharedPointer));
         if(term.isExpression())
         {
             Expression subExpression(term.getExpressionConstReference());
@@ -183,28 +225,6 @@ void simplifyAndCopyTermsAndChangeOperatorLevelIfNeeded(
             newTerm.simplify();
             newWrappedTerms.emplace_back(newTerm);
         }
-    }
-}
-
-void simplifyAndCopyTermsFromAnExpressionAndChangeOperatorLevelIfNeeded(
-        WrappedTerms & newWrappedTerms,
-        OperatorLevel & mainOperatorLevel,
-        Expression const& subExpression)
-{
-    OperatorLevel subExpressionOperatorLevel(subExpression.getCommonOperatorLevel());
-    if(subExpression.containsOnlyOneTerm()
-            || OperatorLevel::Unknown == mainOperatorLevel
-            || subExpressionOperatorLevel == mainOperatorLevel)
-    {
-        if(OperatorLevel::Unknown == mainOperatorLevel)
-        {
-            mainOperatorLevel = subExpressionOperatorLevel;
-        }
-        simplifyAndCopyTermsAndChangeOperatorLevelIfNeeded(newWrappedTerms, mainOperatorLevel, subExpression.getWrappedTerms());
-    }
-    else
-    {
-        newWrappedTerms.emplace_back(Term(subExpression));
     }
 }
 
@@ -253,7 +273,7 @@ void combineComplementaryTerms(
     }
 }
 
-void combineTermsByCheckingTheCommonFactor(
+void combineTermsByCheckingCommonFactor(
         Terms & termsToCombine,
         OperatorLevel const operatorLevel)
 {
@@ -261,11 +281,10 @@ void combineTermsByCheckingTheCommonFactor(
     {
         for(unsigned int j=i+1; j<termsToCombine.size(); j++)
         {
-            Term newTerm;
-            combineUniqueTermsAndCommonFactorIfPossible(newTerm, termsToCombine.at(i), termsToCombine.at(j), operatorLevel);
-            if(!newTerm.isEmpty())
+            Term combinedTerm(combineTwoTermsByCheckingCommonFactorIfPossible(termsToCombine.at(i), termsToCombine.at(j), operatorLevel));
+            if(!combinedTerm.isEmpty())
             {
-                termsToCombine[i] = newTerm;
+                termsToCombine[i] = combinedTerm;
                 termsToCombine.erase(termsToCombine.begin()+j);
                 i--;
                 break;
@@ -274,12 +293,12 @@ void combineTermsByCheckingTheCommonFactor(
     }
 }
 
-void combineUniqueTermsAndCommonFactorIfPossible(
-        Term & outputTerm,
+Term combineTwoTermsByCheckingCommonFactorIfPossible(
         Term const& term1,
         Term const& term2,
         OperatorLevel const operatorLevel)
 {
+    Term result;
     bool isOneOfTheTermANonExpression = !term1.isExpression() || !term2.isExpression();
     bool doesOperatorLevelMatchIfBothExpressions = term1.isExpression()
             && term2.isExpression()
@@ -315,34 +334,38 @@ void combineUniqueTermsAndCommonFactorIfPossible(
             combinedUniqueTerm.simplify();
             if(!combinedUniqueTerm.isExpression())
             {
-                accumulateTerms(outputTerm, commonFactors, subOperatorLevel);
-                accumulateTerms(outputTerm, {combinedUniqueTerm}, subOperatorLevel);
+                accumulateTerms(result, commonFactors, subOperatorLevel);
+                accumulateTerms(result, {combinedUniqueTerm}, subOperatorLevel);
             }
         }
     }
+    return result;
 }
 
 void distributeTermsIfNeeded(
         Term & outputTerm,
-        Terms const& inputTerms,        OperatorLevel const outerOperation,
-        OperatorLevel const innerOperation)
+        Terms const& inputTerms,
+        OperatorLevel const distributeOuterOperation,
+        OperatorLevel const distributeInnerOperation)
 {
     if(!inputTerms.empty())
     {
         OperatorLevel targetOuter, targetInner;
         retrieveTargetOperations(targetOuter, targetInner);
-        if(outerOperation == targetInner && innerOperation == targetOuter) // distribute only if its different from target
+        if(distributeOuterOperation == targetInner && distributeInnerOperation == targetOuter) // distribute only if its different from target
         {
             Terms outerFactors;
-            Expressions innerExpressions;            for(Term const& inputTerm : inputTerms)
+            Expressions innerExpressions;
+            for(Term const& inputTerm : inputTerms)
             {
                 if(inputTerm.isExpression())
-                {                    Expression const& subExpression(inputTerm.getExpressionConstReference());
-                    if(innerOperation == subExpression.getCommonOperatorLevel())
+                {
+                    Expression const& subExpression(inputTerm.getExpressionConstReference());
+                    if(distributeInnerOperation == subExpression.getCommonOperatorLevel())
                     {
                         innerExpressions.emplace_back(subExpression);
                     }
-                    else if(outerOperation == subExpression.getCommonOperatorLevel())
+                    else if(distributeOuterOperation == subExpression.getCommonOperatorLevel())
                     {
                         for(WrappedTerm const& subExpressionTerm : subExpression.getWrappedTerms())
                         {
@@ -358,9 +381,9 @@ void distributeTermsIfNeeded(
             if(!innerExpressions.empty())
             {
                 Term outerFactor;
-                accumulateTerms(outerFactor, outerFactors, outerOperation);
+                accumulateTerms(outerFactor, outerFactors, distributeOuterOperation);
                 Terms innerTermsCombinations;
-                distributeTermsWithRecursion(outputTerm, innerTermsCombinations, innerExpressions, outerFactor, outerOperation, innerOperation, 0U);
+                distributeTermsWithRecursion(outputTerm, innerTermsCombinations, innerExpressions, outerFactor, distributeOuterOperation, distributeInnerOperation, 0U);
             }
         }
     }
@@ -384,7 +407,9 @@ void retrieveTargetOperations(OperatorLevel & targetOuter, OperatorLevel & targe
         targetInner = OperatorLevel::And;
     }
 }
+
 }
 
 }
+
 }

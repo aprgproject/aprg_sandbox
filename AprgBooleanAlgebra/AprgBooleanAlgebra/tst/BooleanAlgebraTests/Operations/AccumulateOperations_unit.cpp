@@ -11,6 +11,20 @@ namespace alba
 namespace booleanAlgebra
 {
 
+TEST(AccumulateOperationsTest, AccumulateTermsWorks)
+{
+    Term termToTest1;
+    Term termToTest2;
+
+    accumulateTerms(termToTest1, {"a", "b", "c", "d"}, OperatorLevel::And);
+    accumulateTerms(termToTest2, {"a", "b", "c", "d"}, OperatorLevel::Or);
+
+    Term termToExpect1(createExpressionIfPossible({"a", "&", "b", "&", "c", "&", "d"}));
+    Term termToExpect2(createExpressionIfPossible({"a", "|", "b", "|", "c", "|", "d"}));
+    EXPECT_EQ(termToExpect1, termToTest1);
+    EXPECT_EQ(termToExpect2, termToTest2);
+}
+
 TEST(AccumulateOperationsTest, AccumulateTermsWithAndOperationWorks)
 {
     Term termToTest(true);

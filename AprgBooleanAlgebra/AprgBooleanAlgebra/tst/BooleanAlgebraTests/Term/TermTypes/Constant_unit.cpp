@@ -77,6 +77,18 @@ TEST(ConstantTest, SettingANewNumberWorks)
     EXPECT_FALSE(constant.getBooleanValue());
 }
 
+TEST(ConstantTest, NegateWorks)
+{
+    Constant constant1(false);
+    Constant constant2(true);
+
+    constant1.negate();
+    constant2.negate();
+
+    EXPECT_TRUE(constant1.getBooleanValue());
+    EXPECT_FALSE(constant2.getBooleanValue());
+}
+
 }
 
 }

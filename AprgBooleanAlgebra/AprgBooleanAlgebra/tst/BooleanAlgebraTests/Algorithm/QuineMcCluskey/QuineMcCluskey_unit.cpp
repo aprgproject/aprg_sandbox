@@ -24,10 +24,12 @@ using ImplicantsForTest = Implicants<MintermForTest>;
 using QuineMcCluskeyForTest = QuineMcCluskey<MintermForTest>;
 }
 
-TEST(QuineMcCluskeyTest, ImplicantEquivalentStringTest){
+TEST(QuineMcCluskeyTest, ImplicantEquivalentStringTest)
+{
     ImplicantForTest implicant({8, 10, 12, 14});
     EXPECT_EQ("00001--0", implicant.getEquivalentString(8));
 }
+
 TEST(QuineMcCluskeyTest, ImplicantCompatibilityTest)
 {
     ImplicantForTest implicant1({4, 12});
@@ -165,10 +167,12 @@ TEST(QuineMcCluskeyTest, GetImplicantsWithTwoCommonalityCounts)
 TEST(QuineMcCluskeyTest, GetAllFinalImplicantsAndGetBestImplicantsWorks)
 {
     QuineMcCluskeyForTest quineMcCluskey;
-    quineMcCluskey.setInputOutput(4, LogicalValue::True);    quineMcCluskey.setInputOutput(8, LogicalValue::True);
+    quineMcCluskey.setInputOutput(4, LogicalValue::True);
+    quineMcCluskey.setInputOutput(8, LogicalValue::True);
     quineMcCluskey.setInputOutput(9, LogicalValue::DontCare);
     quineMcCluskey.setInputOutput(10, LogicalValue::True);
-    quineMcCluskey.setInputOutput(11, LogicalValue::True);    quineMcCluskey.setInputOutput(12, LogicalValue::True);
+    quineMcCluskey.setInputOutput(11, LogicalValue::True);
+    quineMcCluskey.setInputOutput(12, LogicalValue::True);
     quineMcCluskey.setInputOutput(14, LogicalValue::DontCare);
     quineMcCluskey.setInputOutput(15, LogicalValue::True);
 
@@ -189,10 +193,12 @@ TEST(QuineMcCluskeyTest, GetAllFinalImplicantsAndGetBestImplicantsWorks)
 TEST(QuineMcCluskeyTest, DISABLED_ExperimentalTest) //
 {
     QuineMcCluskeyForTest quineMcCluskey;
-    quineMcCluskey.setInputOutput(2, LogicalValue::True);    quineMcCluskey.setInputOutput(3, LogicalValue::DontCare);
+    quineMcCluskey.setInputOutput(2, LogicalValue::True);
+    quineMcCluskey.setInputOutput(3, LogicalValue::DontCare);
     quineMcCluskey.setInputOutput(4, LogicalValue::True);
     quineMcCluskey.setInputOutput(5, LogicalValue::DontCare);
-    quineMcCluskey.setInputOutput(6, LogicalValue::DontCare);    quineMcCluskey.setInputOutput(8, LogicalValue::True);
+    quineMcCluskey.setInputOutput(6, LogicalValue::DontCare);
+    quineMcCluskey.setInputOutput(8, LogicalValue::True);
     quineMcCluskey.setInputOutput(9, LogicalValue::DontCare);
     quineMcCluskey.setInputOutput(10, LogicalValue::DontCare);
     quineMcCluskey.setInputOutput(11, LogicalValue::True);
@@ -215,10 +221,12 @@ TEST(QuineMcCluskeyTest, DISABLED_ExperimentalTest) //
     cout<<quineMcCluskey.getOutputTable(bestImplicants);
 }
 
-namespace{
+namespace
+{
 
 void setInputOutput(QuineMcCluskeyForTest & quineMcCluskey, MintermForTest const input, string const& output)
-{    if(output == "1")
+{
+    if(output == "1")
     {
         quineMcCluskey.setInputOutput(input, LogicalValue::True);
     }
@@ -237,10 +245,12 @@ void setInputOutput(QuineMcCluskeyForTest & quineMcCluskey, MintermForTest const
 TEST(QuineMcCluskeyTest, DISABLED_GetInputsFromFromFileWorks_HasZeroInDigitForByte) //
 {
     QuineMcCluskeyForTest quineMcCluskey;
-    AlbaLocalPathHandler pathOfNewAlgorithm(APRG_DIR R"(\AprgBooleanAlgebra\FilesForTests\QuineMcKluskeyTest\HasZeroInDigitForByte.txt)");    ifstream algorithmResultsFileStream(pathOfNewAlgorithm.getFullPath());
+    AlbaLocalPathHandler pathOfNewAlgorithm(APRG_DIR R"(\AprgBooleanAlgebra\FilesForTests\QuineMcKluskeyTest\HasZeroInDigitForByte.txt)");
+    ifstream algorithmResultsFileStream(pathOfNewAlgorithm.getFullPath());
     AlbaFileReader algorithmResultsReader(algorithmResultsFileStream);
     while(algorithmResultsReader.isNotFinished())
-    {        string lineInFile(algorithmResultsReader.getLineAndIgnoreWhiteSpaces());
+    {
+        string lineInFile(algorithmResultsReader.getLineAndIgnoreWhiteSpaces());
         strings entries;
         splitToStrings<SplitStringType::WithoutDelimeters>(entries, lineInFile, " ");
         if(entries.size()>=2)
@@ -274,10 +284,12 @@ TEST(QuineMcCluskeyTest, DISABLED_GetInputsFromFromFileWorks_HasZeroInDigitForBy
     cout<<quineMcCluskey.getOutputTable(bestImplicants);
 }
 
-TEST(QuineMcCluskeyTest, DISABLED_GetInputsFromFromFile_LogarithmBase2ForByte){
+TEST(QuineMcCluskeyTest, DISABLED_GetInputsFromFromFile_LogarithmBase2ForByte)
+{
     QuineMcCluskeyForTest qm0;
     QuineMcCluskeyForTest qm1;
-    QuineMcCluskeyForTest qm2;    AlbaLocalPathHandler pathOfNewAlgorithm(APRG_DIR R"(\AprgBooleanAlgebra\FilesForTests\QuineMcKluskeyTest\LogarithmBase2ForByte.txt)");
+    QuineMcCluskeyForTest qm2;
+    AlbaLocalPathHandler pathOfNewAlgorithm(APRG_DIR R"(\AprgBooleanAlgebra\FilesForTests\QuineMcKluskeyTest\LogarithmBase2ForByte.txt)");
     ifstream algorithmResultsFileStream(pathOfNewAlgorithm.getFullPath());
     AlbaFileReader algorithmResultsReader(algorithmResultsFileStream);
     while(algorithmResultsReader.isNotFinished())
