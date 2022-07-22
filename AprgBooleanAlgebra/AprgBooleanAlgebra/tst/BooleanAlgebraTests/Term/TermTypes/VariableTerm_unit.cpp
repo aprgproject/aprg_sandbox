@@ -63,14 +63,18 @@ TEST(VariableTermTest, LessThanOperatorWorks)
     EXPECT_TRUE(VariableTerm("x", false) < VariableTerm("x", true));
 }
 
+TEST(VariableTermTest, NotOperationWorks)
+{
+    EXPECT_EQ(VariableTerm("time", true), ~VariableTerm("time"));
+    EXPECT_EQ(VariableTerm("time"), ~VariableTerm("time", true));
+}
+
 TEST(VariableTermTest, IsNegatedWorks)
 {
-    VariableTerm variableTerm1;
-    VariableTerm variableTerm2("time", true);
+    VariableTerm variableTerm1;    VariableTerm variableTerm2("time", true);
 
     EXPECT_FALSE(variableTerm1.isNegated());
-    EXPECT_TRUE(variableTerm2.isNegated());
-}
+    EXPECT_TRUE(variableTerm2.isNegated());}
 
 TEST(VariableTermTest, GetDisplayableStringWorks)
 {

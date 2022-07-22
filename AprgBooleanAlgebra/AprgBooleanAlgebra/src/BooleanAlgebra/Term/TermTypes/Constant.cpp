@@ -31,15 +31,20 @@ bool Constant::operator<(Constant const& second) const
     return m_booleanValue < second.m_booleanValue;
 }
 
+Constant Constant::operator~() const
+{
+    Constant result(*this);
+    result.negate();
+    return result;
+}
+
 bool Constant::getBooleanValue() const
 {
-    return m_booleanValue;
-}
+    return m_booleanValue;}
 
 string Constant::getDisplayableString() const
 {
-    if(m_booleanValue)
-    {
+    if(m_booleanValue)    {
         return "[true]";
     }
     else

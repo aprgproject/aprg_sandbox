@@ -57,14 +57,18 @@ TEST(ConstantTest, LessThanOperatorWorks)
     EXPECT_TRUE(Constant(false) < Constant(true));
 }
 
+TEST(ConstantTest, NotOperationWorks)
+{
+    EXPECT_EQ(Constant(true), ~Constant(false));
+    EXPECT_EQ(Constant(false), ~Constant(true));
+}
+
 TEST(ConstantTest, GetDisplayableStringWorks)
 {
-    Constant constant1;
-    Constant constant2(true);
+    Constant constant1;    Constant constant2(true);
     Constant constant3(false);
 
-    EXPECT_EQ("[false]", constant1.getDisplayableString());
-    EXPECT_EQ("[true]", constant2.getDisplayableString());
+    EXPECT_EQ("[false]", constant1.getDisplayableString());    EXPECT_EQ("[true]", constant2.getDisplayableString());
     EXPECT_EQ("[false]", constant3.getDisplayableString());
 }
 

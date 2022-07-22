@@ -62,37 +62,11 @@ Term createTermWithATermAndAnExpressionUsingOrOperation(Term const& term, Expres
 }
 
 
-//Not: ~a
-
-Term operator~(Constant const& constant)
-{
-    Term result(constant);
-    result.negate();
-    return result;
-}
-
-Term operator~(VariableTerm const& variableTerm)
-{
-    Term result(variableTerm);
-    result.negate();
-    return result;
-}
-
-Term operator~(Expression const& expression)
-{
-    Term result(expression);
-    result.negate();
-    return result;
-}
-
-
 //And: a & b
 
-Term operator&(Constant const& constant1, Constant const& constant2)
-{
+Term operator&(Constant const& constant1, Constant const& constant2){
     return constant1.getBooleanValue() && constant2.getBooleanValue();
 }
-
 Term operator&(Constant const& constant, VariableTerm const& variableTerm)
 {
     return createTermWithAnExpressionWithTwoTermsUsingAndOperation(constant, variableTerm);

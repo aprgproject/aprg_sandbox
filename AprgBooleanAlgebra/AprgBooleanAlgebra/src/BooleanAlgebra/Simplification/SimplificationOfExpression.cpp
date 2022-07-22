@@ -60,14 +60,11 @@ void SimplificationOfExpression::simplify()
         m_expression.setTerm(quineTerm);
 
         simplifyExpressionUntilNoChange();
-
     }
     else
-    {
-        simplifyExpressionUntilNoChange();
+    {        simplifyExpressionUntilNoChange();
     }
 }
-
 bool SimplificationOfExpression::isChangeDetected(
         Expression const& expression1,
         Expression const& expression2) const

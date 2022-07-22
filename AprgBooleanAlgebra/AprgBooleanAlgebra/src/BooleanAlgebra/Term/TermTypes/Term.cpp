@@ -154,14 +154,19 @@ bool Term::operator<(Term const& second) const
     return result;
 }
 
+Term Term::operator~() const
+{
+    Term result(*this);
+    result.negate();
+    return result;
+}
+
 bool Term::isEmpty() const
 {
-    bool result(false);
-    if(m_type==TermType::Empty)
+    bool result(false);    if(m_type==TermType::Empty)
     {
         result = true;
-    }
-    else if(m_type==TermType::Expression)
+    }    else if(m_type==TermType::Expression)
     {
         result = getExpressionConstReference().isEmpty();
     }

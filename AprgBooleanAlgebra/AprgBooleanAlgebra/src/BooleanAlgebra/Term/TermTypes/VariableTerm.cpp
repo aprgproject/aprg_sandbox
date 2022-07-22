@@ -47,15 +47,20 @@ bool VariableTerm::operator<(VariableTerm const& second) const
     return result;
 }
 
+VariableTerm VariableTerm::operator~() const
+{
+    VariableTerm result(*this);
+    result.negate();
+    return result;
+}
+
 bool VariableTerm::isNegated() const
 {
-    return m_isNegated;
-}
+    return m_isNegated;}
 
 string VariableTerm::getDisplayableString() const
 {
-    string result(m_variableName);
-    if(m_isNegated)
+    string result(m_variableName);    if(m_isNegated)
     {
         result += "'";
     }

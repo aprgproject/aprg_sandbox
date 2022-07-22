@@ -131,14 +131,22 @@ TEST(ExpressionTest, LessThanOperatorWorks)
     EXPECT_FALSE(expression2<expression5);
 }
 
+TEST(ExpressionTest, NotOperationWorks)
+{
+    Expression expressionToTest(createExpressionIfPossible(
+    {VariableTerm("x", false), "&", VariableTerm("x", true), "&", VariableTerm("y", false), "&", VariableTerm("z", false)}));
+    Expression expressionToExpect(createExpressionIfPossible(
+    {VariableTerm("x", true), "|", VariableTerm("x", false), "|", VariableTerm("y", true), "|", VariableTerm("z", true)}));
+
+    EXPECT_EQ(expressionToExpect, ~expressionToTest);
+}
+
 TEST(ExpressionTest, IsEmptyWorks)
 {
-    Expression expression1;
-    Expression expression2(createOrCopyExpressionFromATerm(false));
+    Expression expression1;    Expression expression2(createOrCopyExpressionFromATerm(false));
     Expression expression3(createExpressionIfPossible({true, "&", "x"}));
 
-    EXPECT_TRUE(expression1.isEmpty());
-    EXPECT_FALSE(expression2.isEmpty());
+    EXPECT_TRUE(expression1.isEmpty());    EXPECT_FALSE(expression2.isEmpty());
     EXPECT_FALSE(expression3.isEmpty());
 }
 
