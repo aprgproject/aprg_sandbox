@@ -1,8 +1,7 @@
-#include <Algorithm/Graph/PathSearch/DepthFirstSearch/LongestPathsInTree.hpp>
+#include <Algorithm/Graph/Tree/LongestPathsInTree.hpp>
 #include <Algorithm/Graph/UndirectedGraph/UndirectedGraphWithListOfEdges.hpp>
 
 #include <gtest/gtest.h>
-
 namespace alba
 {
 
