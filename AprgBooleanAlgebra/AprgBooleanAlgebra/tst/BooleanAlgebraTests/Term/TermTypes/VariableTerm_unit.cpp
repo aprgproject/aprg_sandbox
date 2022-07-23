@@ -71,10 +71,12 @@ TEST(VariableTermTest, NotOperationWorks)
 
 TEST(VariableTermTest, IsNegatedWorks)
 {
-    VariableTerm variableTerm1;    VariableTerm variableTerm2("time", true);
+    VariableTerm variableTerm1;
+    VariableTerm variableTerm2("time", true);
 
     EXPECT_FALSE(variableTerm1.isNegated());
-    EXPECT_TRUE(variableTerm2.isNegated());}
+    EXPECT_TRUE(variableTerm2.isNegated());
+}
 
 TEST(VariableTermTest, GetDisplayableStringWorks)
 {

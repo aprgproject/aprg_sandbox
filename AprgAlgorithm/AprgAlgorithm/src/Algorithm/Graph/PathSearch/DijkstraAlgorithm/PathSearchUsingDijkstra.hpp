@@ -16,7 +16,8 @@ template <typename Vertex, typename Weight, typename EdgeWeightedGraph, template
 class PathSearchUsingDijkstra : public BasePathSearchWithRelax<Vertex, Weight, EdgeWeightedGraph, ComparatorTemplateType>
 {
 public:
-    using BaseClass = BasePathSearchWithRelax<Vertex, Weight, EdgeWeightedGraph, ComparatorTemplateType>;
+    using Graph = EdgeWeightedGraph;
+    using BaseClass = BasePathSearchWithRelax<Vertex, Weight, Graph, ComparatorTemplateType>;
     using VertexWithWeight = typename GraphTypesWithWeights<Vertex, Weight>::VertexWithWeight;
     template<typename ValueType>
     struct ReverseComparator
@@ -30,6 +31,8 @@ public:
 
     PathSearchUsingDijkstra(EdgeWeightedGraph const& graph, Vertex const& startVertex)
         : BaseClass(graph, startVertex)
+        , b_graph(BaseClass::m_graph)
+        , b_startVertex(BaseClass::m_startVertex)
     {
         searchForPathIfPossible();
     }
@@ -45,7 +48,7 @@ private:
     void searchForPathIfPossible()
     {
         if(isComparisonLessThan()
-                || GraphUtilities::isDirectedAcyclicGraph(this->m_graph))
+                || GraphUtilities::isDirectedAcyclicGraph(b_graph))
         {
             searchForPath();
         }
@@ -54,7 +57,7 @@ private:
     void searchForPath()
     {
         VertexWithWeightPriorityQueue foundVerticesOrderedByWeight;
-        foundVerticesOrderedByWeight.emplace(this->m_startVertex, Weight{}); // start vertex with weight zero for start
+        foundVerticesOrderedByWeight.emplace(b_startVertex, Weight{}); // start vertex with weight zero for start
         while(!foundVerticesOrderedByWeight.empty())
         {
             // loops all current best weight vertices and only updates if the weight is better
@@ -68,6 +71,8 @@ private:
         }
     }
 
+    Graph const& b_graph;
+    Vertex const& b_startVertex;
 };
 
 // Dijkstra algorithm computes a shortest path tree in any edge-weighted digraph with non negative weights,

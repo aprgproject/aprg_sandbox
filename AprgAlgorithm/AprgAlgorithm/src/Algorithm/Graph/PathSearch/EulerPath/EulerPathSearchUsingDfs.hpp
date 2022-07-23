@@ -27,6 +27,7 @@ public:
 
     EulerPathSearchUsingDfs(BaseUndirectedGraphWithVertex const& graph)
         : BaseClass(graph)
+        , b_graph(BaseClass::m_graph)
     {}
 
     Path getEulerCycle() const override
@@ -36,7 +37,7 @@ public:
         {
             StackOfVertices eulerPathInStack;
             searchForEulerPathUsingDfs(eulerPathInStack, this->getStartingVertexForEulerCycle());
-            if(eulerPathInStack.size() == this->m_graph.getNumberOfVertices()+1)
+            if(eulerPathInStack.size() == b_graph.getNumberOfVertices()+1)
             {
                 putStackOfVerticesOnPath(result, eulerPathInStack);
             }
@@ -51,7 +52,7 @@ public:
         {
             StackOfVertices eulerPathInStack;
             searchForEulerPathUsingDfs(eulerPathInStack, this->getStartingVertexForEulerPath());
-            if(eulerPathInStack.size() == this->m_graph.getNumberOfVertices())
+            if(eulerPathInStack.size() == b_graph.getNumberOfVertices())
             {
                 putStackOfVerticesOnPath(result, eulerPathInStack);
             }
@@ -95,9 +96,9 @@ private:
     VertexToQueueOfEdgesMap createVertexToQueueOfEdgesMap() const
     {
         VertexToQueueOfEdgesMap vertexToQueueOfEdgesMap;
-        for(Vertex const& vertex : this->m_graph.getVertices())
+        for(Vertex const& vertex : b_graph.getVertices())
         {
-            auto adjacentVertices(this->m_graph.getAdjacentVerticesAt(vertex));
+            auto adjacentVertices(b_graph.getAdjacentVerticesAt(vertex));
             for(Vertex const& adjacencyVertex : adjacentVertices)
             {
                 if(vertex < adjacencyVertex)
@@ -132,6 +133,7 @@ private:
         }
         return result;
     }
+    BaseUndirectedGraphWithVertex const& b_graph;
 };
 
 }

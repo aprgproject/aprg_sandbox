@@ -52,9 +52,11 @@ public:
         };
         return result;
     }
+
     Vertices getVertices() const override
     {
-        SetOfVertices uniqueVertices(getUniqueVertices());        return Vertices(uniqueVertices.cbegin(), uniqueVertices.cend());
+        SetOfVertices uniqueVertices(getUniqueVertices());
+        return Vertices(uniqueVertices.cbegin(), uniqueVertices.cend());
     }
 
     Edges getEdges() const override

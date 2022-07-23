@@ -25,6 +25,9 @@ public:
 
     PathSearchUsingBellmanFord(EdgeWeightedGraph const& graph, Vertex const& startVertex)
         : BaseClass(graph, startVertex)
+        , b_graph(BaseClass::m_graph)
+        , b_startVertex(BaseClass::m_startVertex)
+        , b_vertexToEdgeWithBestWeightMap(BaseClass::m_vertexToEdgeWithBestWeightMap)
         , m_hasPositiveOrNegativeCycle(false)
     {
         //searchForPathUsingOriginalBellmanFord();
@@ -35,9 +38,9 @@ private:
 
     void searchForPathUsingOriginalBellmanFord() // manually positive or negative cycle
     {
-        unsigned int numberOfVertices(this->m_graph.getNumberOfVertices());
+        unsigned int numberOfVertices(b_graph.getNumberOfVertices());
         unsigned int numberOfVerticesProcessed(0U);
-        enqueue(this->m_startVertex);
+        enqueue(b_startVertex);
         while(!m_queueOfVertices.empty() && !m_hasPositiveOrNegativeCycle)
         {
             // Repeat V times: Relax each edge
@@ -62,9 +65,9 @@ private:
 
     void searchForPathUsingAutomaticCycleDetection()
     {
-        unsigned int numberOfVertices(this->m_graph.getNumberOfVertices());
+        unsigned int numberOfVertices(b_graph.getNumberOfVertices());
         unsigned int numberOfVerticesProcessed(0U);
-        enqueue(this->m_startVertex);
+        enqueue(b_startVertex);
         while(!m_queueOfVertices.empty() && !m_hasPositiveOrNegativeCycle)
         {
             // Repeat V times: Relax each edge
@@ -115,13 +118,11 @@ private:
         // This is a negative cycle check on shortest path.
         // This is a positive cycle check on longest path.
 
-        Graph const& graph(this->m_graph);
-        VertexToEdgeWithWeightMap const& vertexToEdgeWithUpdatedWeightMap(this->m_vertexToEdgeWithBestWeightMap);
         EdgeWeightedGraph bestPathTree;
-        for(Vertex const& vertex : graph.getVertices())
+        for(Vertex const& vertex : b_graph.getVertices())
         {
-            auto it = vertexToEdgeWithUpdatedWeightMap.find(vertex);
-            if(it != vertexToEdgeWithUpdatedWeightMap.cend())
+            auto it = b_vertexToEdgeWithBestWeightMap.find(vertex);
+            if(it != b_vertexToEdgeWithBestWeightMap.cend())
             {
                 bestPathTree.connect(it->second.first, it->second.second, it->second.weight);
             }
@@ -130,6 +131,9 @@ private:
         m_hasPositiveOrNegativeCycle = !cycleDetection.getOneCycle().empty(); // a cycle in best tree means a positive or negative cycle
     }
 
+    Graph const& b_graph;
+    Vertex const& b_startVertex;
+    VertexToEdgeWithWeightMap & b_vertexToEdgeWithBestWeightMap;
     bool m_hasPositiveOrNegativeCycle;
     DequeOfVertices m_queueOfVertices;
     CheckableVertices<Vertex> m_verticesInQueue;

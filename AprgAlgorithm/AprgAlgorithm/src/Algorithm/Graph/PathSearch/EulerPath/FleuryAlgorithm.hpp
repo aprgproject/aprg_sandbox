@@ -27,6 +27,7 @@ public:
 
     FleuryAlgorithm(BaseUndirectedGraphWithVertex const& graph)
         : BaseClass(graph)
+        , b_graph(BaseClass::m_graph)
     {}
 
     Path getEulerCycle() const override
@@ -38,7 +39,7 @@ public:
         // 4. Continue until you’re done.
 
         Path result;
-        Edges originalEdges(this->m_graph.getEdges());
+        Edges originalEdges(b_graph.getEdges());
         if(!originalEdges.empty())
         {
             // start at the vertices of the first edge
@@ -50,7 +51,7 @@ public:
     Path getEulerPath() const override
     {
         Path result;
-        Edges originalEdges(this->m_graph.getEdges());
+        Edges originalEdges(b_graph.getEdges());
         if(!originalEdges.empty())
         {
             // check graph for starting vertex
@@ -121,6 +122,7 @@ private:
             putEulerEdgesOnPath(result, edgesInEulerCycle);
         }
     }
+    BaseUndirectedGraphWithVertex const& b_graph;
 };
 
 }

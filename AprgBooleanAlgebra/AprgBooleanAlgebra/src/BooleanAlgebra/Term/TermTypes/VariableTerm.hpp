@@ -7,8 +7,10 @@
 
 namespace alba
 {
+
 namespace booleanAlgebra
 {
+
 class VariableTerm : public BaseTermData
 {
 public:
@@ -24,10 +26,12 @@ public:
 
     bool isNegated() const;
 
-    std::string getVariableTermName() const;    std::string getDisplayableString() const;
+    std::string getVariableTermName() const;
+    std::string getDisplayableString() const;
 
     void setVariableTermName(std::string const& variableName);
     void negate();
+
 private:
     std::string m_variableName;
     bool m_isNegated;
@@ -38,4 +42,5 @@ using VariableTerms = std::vector<VariableTerm>;
 std::ostream & operator<<(std::ostream & out, VariableTerm const& variableTerm);
 
 }
+
 }

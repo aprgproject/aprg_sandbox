@@ -32,9 +32,11 @@ public:
     bool isEmpty() const;
     bool isSimplified() const;
     bool containsOnlyOneTerm() const;
+
     OperatorLevel getCommonOperatorLevel() const;
     BaseTerm const& getFirstTermConstReference() const;
-    WrappedTerms const& getWrappedTerms() const;    std::string getDisplayableString() const;
+    WrappedTerms const& getWrappedTerms() const;
+    std::string getDisplayableString() const;
     std::string getDebugString() const;
 
     WrappedTerms & getWrappedTermsReference();

@@ -16,16 +16,28 @@ public:
     using BaseClass = BasePathSearchWithBfsAndDfs<Vertex>;
     using Vertices = typename GraphTypes<Vertex>::Vertices;
     using Path = typename GraphTypes<Vertex>::Path;
+    using VertexToVertexMap = typename GraphTypes<Vertex>::VertexToVertexMap;
+    using VertexToUnsignedIntMap = typename GraphTypes<Vertex>::VertexToUnsignedIntMap;
     using CheckableVerticesWithVertex = CheckableVertices<Vertex>;
 
     PathSearchUsingDfs(BaseGraphWithVertex const& graph, Vertex const& startVertex)
         : BaseClass(graph)
+        , b_graph(BaseClass::m_graph)
+        , b_startVertices(BaseClass::m_startVertices)
+        , b_processedVertices(BaseClass::m_processedVertices)
+        , b_vertexToPreviousVertexMap(BaseClass::m_vertexToPreviousVertexMap)
+        , b_vertexToDistanceToStartMap(BaseClass::m_vertexToDistanceToStartMap)
     {
         reinitializeStartingFrom({startVertex});
     }
 
     PathSearchUsingDfs(BaseGraphWithVertex const& graph, Vertices const& startVertices)
         : BaseClass(graph)
+        , b_graph(BaseClass::m_graph)
+        , b_startVertices(BaseClass::m_startVertices)
+        , b_processedVertices(BaseClass::m_processedVertices)
+        , b_vertexToPreviousVertexMap(BaseClass::m_vertexToPreviousVertexMap)
+        , b_vertexToDistanceToStartMap(BaseClass::m_vertexToDistanceToStartMap)
     {
         reinitializeStartingFrom(startVertices);
     }
@@ -39,7 +51,7 @@ public:
     {
         this->clear();
         this->initializeWithStartVertices(startVertices);
-        for(Vertex const& startVertex : this->m_startVertices.getVertices())  // to maintain order, get the vertices in start vertices (because its sorted)
+        for(Vertex const& startVertex : b_startVertices.getVertices())  // to maintain order, get the vertices in start vertices (because its sorted)
         {
             traverseUsingDfs(startVertex);
         }
@@ -48,18 +60,22 @@ public:
 private:
     void traverseUsingDfs(Vertex const& vertex)
     {
-        CheckableVerticesWithVertex & processedVertices(this->m_processedVertices);
-        processedVertices.putVertex(vertex);
-        for(Vertex const& adjacentVertex : this->m_graph.getAdjacentVerticesAt(vertex))
+        b_processedVertices.putVertex(vertex);
+        for(Vertex const& adjacentVertex : b_graph.getAdjacentVerticesAt(vertex))
         {
-            if(processedVertices.isNotFound(adjacentVertex))
+            if(b_processedVertices.isNotFound(adjacentVertex))
             {
-                this->m_vertexToPreviousVertexMap[adjacentVertex] = vertex;
-                this->m_vertexToDistanceToStartMap[adjacentVertex] = this->m_vertexToDistanceToStartMap.at(vertex)+1;
+                b_vertexToPreviousVertexMap[adjacentVertex] = vertex;
+                b_vertexToDistanceToStartMap[adjacentVertex] = b_vertexToDistanceToStartMap.at(vertex)+1;
                 traverseUsingDfs(adjacentVertex);
             }
         }
     }
+    BaseGraphWithVertex const& b_graph;
+    CheckableVerticesWithVertex & b_startVertices;
+    CheckableVerticesWithVertex & b_processedVertices;
+    VertexToVertexMap & b_vertexToPreviousVertexMap;
+    VertexToUnsignedIntMap & b_vertexToDistanceToStartMap;
 };
 
 // Proposition: DFS marks all vertices connected to s in time proportional to the sum of their degrees

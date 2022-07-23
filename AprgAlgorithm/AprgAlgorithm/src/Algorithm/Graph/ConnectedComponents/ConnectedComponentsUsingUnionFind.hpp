@@ -3,8 +3,10 @@
 #include <Algorithm/Graph/ConnectedComponents/Common/BaseConnectedComponentsWithVertexToComponentIdMap.hpp>
 #include <Algorithm/Graph/UndirectedGraph/BaseUndirectedGraph.hpp>
 #include <Algorithm/UnionFind/UnionFindUsingMap.hpp>
+
 namespace alba
 {
+
 namespace algorithm
 {
 
@@ -21,9 +23,9 @@ public:
 
     ConnectedComponentsUsingUnionFind(BaseUndirectedGraphWithVertex const& graph)
         : BaseClass(graph)
-        , m_graph(BaseClass::m_graph)
-        , m_numberOfComponentIds(BaseClass::m_numberOfComponentIds)
-        , m_vertexToComponentIdMap(BaseClass::m_vertexToComponentIdMap)
+        , b_graph(BaseClass::m_graph)
+        , b_numberOfComponentIds(BaseClass::m_numberOfComponentIds)
+        , b_vertexToComponentIdMap(BaseClass::m_vertexToComponentIdMap)
     {
         initialize();
     }
@@ -32,12 +34,12 @@ private:
     void initialize()
     {
         UnionFind unionFind;
-        for(Edge const& edge : m_graph.getEdges())
+        for(Edge const& edge : b_graph.getEdges())
         {
             unionFind.connect(edge.first, edge.second);
         }
         SetOfVertices roots;
-        for(Vertex const& vertex : m_graph.getVertices())
+        for(Vertex const& vertex : b_graph.getVertices())
         {
             unsigned int componentId{};
             Vertex root(unionFind.getRoot(vertex));
@@ -51,14 +53,15 @@ private:
                 componentId = roots.size();
                 roots.emplace(root);
             }
-            m_vertexToComponentIdMap[vertex] = componentId+1;
+            b_vertexToComponentIdMap[vertex] = componentId+1;
         }
-        m_numberOfComponentIds = roots.size();
+        b_numberOfComponentIds = roots.size();
     }
-    BaseUndirectedGraphWithVertex const& m_graph;
-    unsigned int & m_numberOfComponentIds;
-    VertexToUnsignedIntMap & m_vertexToComponentIdMap;
+    BaseUndirectedGraphWithVertex const& b_graph;
+    unsigned int & b_numberOfComponentIds;
+    VertexToUnsignedIntMap & b_vertexToComponentIdMap;
 };
 
 }
+
 }

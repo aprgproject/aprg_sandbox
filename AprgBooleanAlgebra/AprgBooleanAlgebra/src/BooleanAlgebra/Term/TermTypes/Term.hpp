@@ -40,9 +40,11 @@ public:
 
     bool isEmpty() const;
     bool isConstant() const;
-    bool isVariableTerm() const;    bool isOperator() const;
+    bool isVariableTerm() const;
+    bool isOperator() const;
     bool isExpression() const;
     bool isSimplified() const;
+
     TermType getTermType() const;
     Constant const& getConstantConstReference() const;
     VariableTerm const& getVariableTermConstReference() const;

@@ -18,6 +18,7 @@ Term & operator&=(Term & term1, Term const& term2);
 // Or: a | b
 Term operator|(Term const& term1, Term const& term2);
 Term & operator|=(Term & term1, Term const& term2);
+
 }
 
 }

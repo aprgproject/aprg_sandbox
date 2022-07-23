@@ -110,7 +110,7 @@ public:
 
     void put(Key const& key, Value const& value) override
     {
-        putStartingOnThisNode(this->m_root, key, value);
+        putStartingOnThisNode(m_root, key, value);
     }
 
     void deleteBasedOnKey(Key const& key) override

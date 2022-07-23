@@ -27,10 +27,12 @@ TEST(VertexOrderingUsingDfsTest, VertexOrderingWorksWhenGraphIsEmptyWithUndirect
     VerticesForTest reversePostOrderVerticesToVerify(vertexOrderingWithDfs.getVerticesInThisOrder(VertexOrderingForTest::TraverseOrder::ReversePostOrder));
 
     EXPECT_TRUE(preOrderVerticesToVerify.empty());
-    EXPECT_TRUE(postOrderVerticesToVerify.empty());    EXPECT_TRUE(reversePostOrderVerticesToVerify.empty());
+    EXPECT_TRUE(postOrderVerticesToVerify.empty());
+    EXPECT_TRUE(reversePostOrderVerticesToVerify.empty());
 }
 
-TEST(VertexOrderingUsingDfsTest, VertexOrderingWorksUsingExample1WithUndirectedGraph){
+TEST(VertexOrderingUsingDfsTest, VertexOrderingWorksUsingExample1WithUndirectedGraph)
+{
     GraphForTest graph;
     graph.connect(40U, 30U); // first value set
     graph.connect(40U, 31U);
@@ -51,10 +53,12 @@ TEST(VertexOrderingUsingDfsTest, VertexOrderingWorksUsingExample1WithUndirectedG
     VerticesForTest reversePostOrderVerticesToVerify(vertexOrderingWithDfs.getVerticesInThisOrder(VertexOrderingForTest::TraverseOrder::ReversePostOrder));
 
     VerticesForTest expectedPreOrderVertices{10U, 20U, 30U, 40U, 31U, 21U, 11U, 32U, 22U, 12U, 33U, 23U, 13U};
-    VerticesForTest expectedPostOrderVertices{11U, 21U, 31U, 12U, 22U, 32U, 13U, 23U, 33U, 40U, 30U, 20U, 10U};    VerticesForTest expectedReversePostOrderVertices{10U, 20U, 30U, 40U, 33U, 23U, 13U, 32U, 22U, 12U, 31U, 21U, 11U};
+    VerticesForTest expectedPostOrderVertices{11U, 21U, 31U, 12U, 22U, 32U, 13U, 23U, 33U, 40U, 30U, 20U, 10U};
+    VerticesForTest expectedReversePostOrderVertices{10U, 20U, 30U, 40U, 33U, 23U, 13U, 32U, 22U, 12U, 31U, 21U, 11U};
     EXPECT_EQ(expectedPreOrderVertices, preOrderVerticesToVerify);
     EXPECT_EQ(expectedPostOrderVertices, postOrderVerticesToVerify);
-    EXPECT_EQ(expectedReversePostOrderVertices, reversePostOrderVerticesToVerify);}
+    EXPECT_EQ(expectedReversePostOrderVertices, reversePostOrderVerticesToVerify);
+}
 
 TEST(VertexOrderingUsingDfsTest, VertexOrderingWorksUsingExample2WithUndirectedGraph)
 {
@@ -79,10 +83,12 @@ TEST(VertexOrderingUsingDfsTest, VertexOrderingWorksUsingExample2WithUndirectedG
     VerticesForTest reversePostOrderVerticesToVerify(vertexOrderingWithDfs.getVerticesInThisOrder(VertexOrderingForTest::TraverseOrder::ReversePostOrder));
 
     VerticesForTest expectedPreOrderVertices{0U, 1U, 2U, 5U, 3U, 4U, 6U, 7U, 8U, 9U, 10U, 11U, 12U};
-    VerticesForTest expectedPostOrderVertices{1U, 2U, 6U, 4U, 3U, 5U, 0U, 8U, 7U, 10U, 12U, 11U, 9U};    VerticesForTest expectedReversePostOrderVertices{9U, 11U, 12U, 10U, 7U, 8U, 0U, 5U, 3U, 4U, 6U, 2U, 1U};
+    VerticesForTest expectedPostOrderVertices{1U, 2U, 6U, 4U, 3U, 5U, 0U, 8U, 7U, 10U, 12U, 11U, 9U};
+    VerticesForTest expectedReversePostOrderVertices{9U, 11U, 12U, 10U, 7U, 8U, 0U, 5U, 3U, 4U, 6U, 2U, 1U};
     EXPECT_EQ(expectedPreOrderVertices, preOrderVerticesToVerify);
     EXPECT_EQ(expectedPostOrderVertices, postOrderVerticesToVerify);
-    EXPECT_EQ(expectedReversePostOrderVertices, reversePostOrderVerticesToVerify);}
+    EXPECT_EQ(expectedReversePostOrderVertices, reversePostOrderVerticesToVerify);
+}
 
 TEST(VertexOrderingUsingDfsTest, GetVerticesInTopologicalOrderWorksAsInReversePostOrderWithUndirectedGraph)
 {

@@ -64,9 +64,11 @@ Term createTermWithATermAndAnExpressionUsingOrOperation(Term const& term, Expres
 
 //And: a & b
 
-Term operator&(Constant const& constant1, Constant const& constant2){
+Term operator&(Constant const& constant1, Constant const& constant2)
+{
     return constant1.getBooleanValue() && constant2.getBooleanValue();
 }
+
 Term operator&(Constant const& constant, VariableTerm const& variableTerm)
 {
     return createTermWithAnExpressionWithTwoTermsUsingAndOperation(constant, variableTerm);

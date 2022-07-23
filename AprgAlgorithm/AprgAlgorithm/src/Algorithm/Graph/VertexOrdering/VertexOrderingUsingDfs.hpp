@@ -33,7 +33,8 @@ public:
     Vertices getVerticesInThisOrder(TraverseOrder const traverseOrder)
     {
         Vertices traversedVertices;
-        traverseStartingFromAllVertices(traversedVertices, traverseOrder);        reverseVerticesIfNeeded(traversedVertices, traverseOrder);
+        traverseStartingFromAllVertices(traversedVertices, traverseOrder);
+        reverseVerticesIfNeeded(traversedVertices, traverseOrder);
         return traversedVertices;
     }
 
@@ -44,9 +45,11 @@ public:
     }
 
 private:
+
     void clear()
     {
-        m_processedVertices.clear();    }
+        m_processedVertices.clear();
+    }
 
     void reverseVerticesIfNeeded(Vertices & traversedVertices, TraverseOrder const traverseOrder) const
     {

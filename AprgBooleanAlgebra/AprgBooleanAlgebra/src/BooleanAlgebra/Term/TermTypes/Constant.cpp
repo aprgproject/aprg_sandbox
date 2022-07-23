@@ -40,11 +40,13 @@ Constant Constant::operator~() const
 
 bool Constant::getBooleanValue() const
 {
-    return m_booleanValue;}
+    return m_booleanValue;
+}
 
 string Constant::getDisplayableString() const
 {
-    if(m_booleanValue)    {
+    if(m_booleanValue)
+    {
         return "[true]";
     }
     else

@@ -15,12 +15,14 @@ template <typename Vertex, typename Weight, typename EdgeWeightedGraph, template
 class PathSearchForDirectedAcyclicGraph : public BasePathSearchWithRelax<Vertex, Weight, EdgeWeightedGraph, ComparatorTemplateType>
 {
 public:
-    using BaseClass = BasePathSearchWithRelax<Vertex, Weight, EdgeWeightedGraph, ComparatorTemplateType>;
+    using Graph = EdgeWeightedGraph;
+    using BaseClass = BasePathSearchWithRelax<Vertex, Weight, Graph, ComparatorTemplateType>;
     using Vertices = typename GraphTypes<Vertex>::Vertices;
     using VertexOrderingUsingDfsWithVertex = VertexOrderingUsingDfs<Vertex>;
 
     PathSearchForDirectedAcyclicGraph(EdgeWeightedGraph const& graph, Vertex const& startVertex)
         : BaseClass(graph, startVertex)
+        , b_graph(BaseClass::m_graph)
     {
         searchForPathIfPossible();
     }
@@ -29,7 +31,7 @@ private:
 
     void searchForPathIfPossible()
     {
-        if(GraphUtilities::isDirectedAcyclicGraph(this->m_graph))
+        if(GraphUtilities::isDirectedAcyclicGraph(b_graph))
         {
             searchForPath();
         }
@@ -37,7 +39,7 @@ private:
 
     void searchForPath()
     {
-        VertexOrderingUsingDfsWithVertex vertexOrdering(this->m_graph);
+        VertexOrderingUsingDfsWithVertex vertexOrdering(b_graph);
         Vertices verticesInTopologicalOrder(vertexOrdering.getVerticesInTopologicalOrder()); // Uses topological sort
         // Since dependency is in order, we are assured we are getting best weight path for each vertex
         // This works even with negative weights
@@ -46,6 +48,7 @@ private:
             this->relaxAt(vertex);
         }
     }
+    Graph const& b_graph;
 
 };
 
