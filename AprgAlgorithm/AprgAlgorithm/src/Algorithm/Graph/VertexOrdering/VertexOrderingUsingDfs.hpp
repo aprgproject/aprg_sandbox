@@ -30,26 +30,23 @@ public:
         : m_graph(graph)
     {}
 
-    Vertices traverseAndGetVertices(TraverseOrder const traverseOrder)
+    Vertices getVerticesInThisOrder(TraverseOrder const traverseOrder)
     {
         Vertices traversedVertices;
-        traverseStartingFromAllVertices(traversedVertices, traverseOrder);
-        reverseVerticesIfNeeded(traversedVertices, traverseOrder);
+        traverseStartingFromAllVertices(traversedVertices, traverseOrder);        reverseVerticesIfNeeded(traversedVertices, traverseOrder);
         return traversedVertices;
     }
 
     Vertices getVerticesInTopologicalOrder()
     {
         //Useful on determining path that checks prerequisites and precedence scheduling
-        return traverseAndGetVertices(TraverseOrder::ReversePostOrder);
+        return getVerticesInThisOrder(TraverseOrder::ReversePostOrder);
     }
 
 private:
-
     void clear()
     {
-        m_processedVertices.clear();
-    }
+        m_processedVertices.clear();    }
 
     void reverseVerticesIfNeeded(Vertices & traversedVertices, TraverseOrder const traverseOrder) const
     {
