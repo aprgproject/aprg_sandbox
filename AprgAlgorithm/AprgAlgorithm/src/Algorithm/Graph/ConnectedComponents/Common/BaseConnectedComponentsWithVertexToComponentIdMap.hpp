@@ -1,14 +1,12 @@
 #pragma once
 
-#include <Algorithm/Graph/ConnectedComponents/BaseConnectedComponents.hpp>
+#include <Algorithm/Graph/ConnectedComponents/Common/BaseConnectedComponents.hpp>
 #include <Algorithm/Graph/UndirectedGraph/BaseUndirectedGraph.hpp>
 
-namespace alba
-{
+namespace alba{
 
 namespace algorithm
 {
-
 template <typename Vertex, typename Graph>
 class BaseConnectedComponentsWithVertexToComponentIdMap : public BaseConnectedComponents<Vertex>
 {
@@ -40,15 +38,13 @@ public:
 
     unsigned int getComponentId(Vertex const& vertex) const override
     {
-        unsigned int result{};
+        unsigned int result(0);
         auto it = m_vertexToComponentIdMap.find(vertex);
         if(it != m_vertexToComponentIdMap.cend())
-        {
-            result = it->second;
+        {            result = it->second;
         }
         return result;
     }
-
 protected:
     Graph const& m_graph;
     unsigned int m_numberOfComponentIds;

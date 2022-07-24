@@ -33,67 +33,60 @@ public:
         return m_endPointPairsOfLongestPaths;
     }
 
-    unsigned int getLongestDistance()
+    unsigned int getLongestDistance() // this function is coupled with search function
     {
         unsigned int result(0);
-        if(!m_endPointPairsOfLongestPaths.empty())
-        {
+        if(!m_endPointPairsOfLongestPaths.empty())        {
             Vertex start = m_endPointPairsOfLongestPaths.front().first;
             Vertex end = m_endPointPairsOfLongestPaths.front().second;
-            result = getDfs(start).getDistanceTo(end);
-        }
+            result = getDfs(start).getDistanceTo(end);        }
         return result;
     }
 
     void searchForAtLeastOneEndPointPair()
     {
-        if(!m_startVertices.empty() && m_endPointPairsOfLongestPaths.empty())
+        if(!m_startVerticesOfLongestPath.empty() && m_endPointPairsOfLongestPaths.empty())
         {
-            Vertex const& startVertex(m_startVertices.front());
-            searchForEndPointPairsAt(startVertex);
+            Vertex const& startVertexForLongestPath(m_startVerticesOfLongestPath.front());
+            searchForEndPointPairsAt(startVertexForLongestPath);
         }
     }
-
     void searchForAllEndPointPairs()
     {
         m_endPointPairsOfLongestPaths.clear();
-        for(Vertex const& startVertex : m_startVertices)
+        for(Vertex const& startVertexForLongestPath : m_startVerticesOfLongestPath)
         {
-            searchForEndPointPairsAt(startVertex);
+            searchForEndPointPairsAt(startVertexForLongestPath);
         }
     }
-
 private:
     void initialize()
     {
         if(GraphUtilities::isATree(m_graph))
         {
             m_allVertices = m_graph.getVertices();
-            m_startVertices = getStartVerticesOfLongestPath(m_allVertices);
+            m_startVerticesOfLongestPath = getStartVerticesOfLongestPath(m_allVertices);
         }
     }
 
     Vertices getStartVerticesOfLongestPath(Vertices const& allVertices)
     {
-        Vertices startVertices;
+        Vertices result;
         if(!allVertices.empty())
         {
-            Dfs const& dfs(getDfs(allVertices.front())); // start at some arbitiary node
-            unsigned int maxDistance(0);
+            Dfs const& dfs(getDfs(allVertices.front())); // start at some arbitiary node            unsigned int maxDistance(0);
             for(auto it=allVertices.cbegin()+1; it!=allVertices.cend(); it++)
             {
-                updateIfMaxDistance(startVertices, maxDistance, dfs, *it);
+                updateIfMaxDistance(result, maxDistance, dfs, *it);
             }
         }
-        return startVertices; // start vertices are the ones with max distance from arbitiary node
+        return result; // start vertices are the ones with max distance from arbitiary node
     }
 
-    void searchForEndPointPairsAt(Vertex const& startVertex)
-    {
+    void searchForEndPointPairsAt(Vertex const& startVertex)    {
         Dfs const& dfs(getDfs(startVertex));
         unsigned int maxDistance(0);
-        Vertices endVerticesWithMaxDistance;
-        for(Vertex const& possibleEndVertex : m_allVertices)
+        Vertices endVerticesWithMaxDistance;        for(Vertex const& possibleEndVertex : m_allVertices)
         {
             updateIfMaxDistance(endVerticesWithMaxDistance, maxDistance, dfs, possibleEndVertex); // get end vertices with max distance
         }
@@ -138,11 +131,10 @@ private:
 
     BaseUndirectedGraphWithVertex const& m_graph;
     Vertices m_allVertices;
-    Vertices m_startVertices;
+    Vertices m_startVerticesOfLongestPath;
     EndPointPairs m_endPointPairsOfLongestPaths;
     VertexToDfsEntry m_vertexToDfs;
 };
-
 }
 
 }

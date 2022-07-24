@@ -28,51 +28,48 @@ public:
         return m_graph.getAdjacentVerticesAt(vertex).empty();
     }
 
-    Vertex walk(Vertex const& start, unsigned int const walkCount)
+    Vertex walk(Vertex const& start, unsigned int const distance)
     {
-        return walkInternal(start, walkCount);
+        return walkInternal(start, distance);
     }
 
 private:
 
-    Vertex walkInternal(Vertex const& vertex, unsigned int const walkCount)
+    Vertex walkInternal(Vertex const& vertex, unsigned int const distance)
     {
         Vertex result(vertex);
-        if(walkCount != 0)
+        if(distance > 0)
         {
-            auto it = m_walkToDestinationMap.find({vertex, walkCount});
-            if(it != m_walkToDestinationMap.cend())
+            auto it = m_startAndDistancePairToDestinationMap.find({vertex, distance});
+            if(it != m_startAndDistancePairToDestinationMap.cend())
             {
                 result = it->second;
             }
             else
             {
-                if(walkCount > 1)
+                if(distance > 1)
                 {
-                    unsigned int halfWalk = walkCount/2;
-                    result = walkInternal(walkInternal(vertex, walkCount-halfWalk), halfWalk);
+                    unsigned int halfDistance = distance/2;
+                    result = walkInternal(walkInternal(vertex, distance-halfDistance), halfDistance);
                 }
-                else if(walkCount == 1)
+                else if(distance == 1)
                 {
                     Vertices adjacentVertices(m_graph.getAdjacentVerticesAt(vertex)); // should be one because its a successor graph
-                    if(!adjacentVertices.empty())
-                    {
+                    if(!adjacentVertices.empty())                    {
                         result = adjacentVertices.front();
                     }
                 }
-                if(walkCount%2 == 0 || walkCount == 1)
+                if(distance%2 == 0 || distance == 1)
                 {
-                    m_walkToDestinationMap.emplace(VertexAndCountPair{vertex, walkCount}, result);
+                    m_startAndDistancePairToDestinationMap.emplace(VertexAndCountPair{vertex, distance}, result);
                 }
             }
-        }
-        return result;
+        }        return result;
     }
 
     BaseDirectedGraphWithVertex const& m_graph;
-    VertexAndCountPairToVertexMap m_walkToDestinationMap; // dynamic programming
+    VertexAndCountPairToVertexMap m_startAndDistancePairToDestinationMap; // dynamic programming
 };
 
 }
-
 }

@@ -75,14 +75,22 @@ public:
         return result;
     }
 
+    VertexToVertexMap const& getVertexToPreviousVertexMap() const
+    {
+        return m_vertexToPreviousVertexMap;
+    }
+
+    VertexToUnsignedIntMap const& getVertexDistanceToStartMap() const
+    {
+        return m_vertexToDistanceToStartMap;
+    }
+
     virtual void reinitializeStartingFrom(Vertices const& startVertices) = 0;
 
 protected:
-
     void clear()
     {
-        m_processedVertices.clear();
-        m_startVertices.clear();
+        m_processedVertices.clear();        m_startVertices.clear();
         m_vertexToPreviousVertexMap.clear();
     }
 
