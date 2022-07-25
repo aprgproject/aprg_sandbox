@@ -55,7 +55,8 @@ private:
                 else if(distance == 1)
                 {
                     Vertices adjacentVertices(m_graph.getAdjacentVerticesAt(vertex)); // should be one because its a successor graph
-                    if(!adjacentVertices.empty())                    {
+                    if(!adjacentVertices.empty())
+                    {
                         result = adjacentVertices.front();
                     }
                 }
@@ -64,7 +65,8 @@ private:
                     m_startAndDistancePairToDestinationMap.emplace(VertexAndCountPair{vertex, distance}, result);
                 }
             }
-        }        return result;
+        }
+        return result;
     }
 
     BaseDirectedGraphWithVertex const& m_graph;
@@ -72,4 +74,5 @@ private:
 };
 
 }
+
 }

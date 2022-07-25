@@ -11,6 +11,13 @@ namespace alba
 namespace algorithm
 {
 
+enum class VertexTraversalOrder
+{
+    PreOrder, // order: DFS traversal order (not really useful)
+    PostOrder, // order: dependent vertices are first in the list (edge might not exist -> not useful)
+    ReversePostOrder, // order: dependent vertices are last in the list (topological sort)
+};
+
 template <typename Vertex>
 class VertexOrderingUsingDfs
 {
@@ -19,73 +26,88 @@ public:
     using Vertices = typename GraphTypes<Vertex>::Vertices;
     using CheckableVerticesWithVertex = CheckableVertices<Vertex>;
 
-    enum class TraverseOrder
-    {
-        PreOrder, // order: DFS traversal order (not really useful)
-        PostOrder, // order: dependent vertices are first in the list (edge might not exist -> not useful)
-        ReversePostOrder, // order: dependent vertices are last in the list (topological sort)
-    };
-
     VertexOrderingUsingDfs(BaseGraphWithVertex const& graph)
         : m_graph(graph)
     {}
 
-    Vertices getVerticesInThisOrder(TraverseOrder const traverseOrder)
+    Vertices getVerticesInThisOrder(Vertex const& startVertex, VertexTraversalOrder const traversalOrder)
     {
         Vertices traversedVertices;
-        traverseStartingFromAllVertices(traversedVertices, traverseOrder);
-        reverseVerticesIfNeeded(traversedVertices, traverseOrder);
+        traverseStartingFromAVertex(traversedVertices, startVertex, traversalOrder);
+        reverseVerticesIfNeeded(traversedVertices, traversalOrder);
+        return traversedVertices;
+    }
+
+    Vertices getVerticesInThisOrder(VertexTraversalOrder const traversalOrder)
+    {
+        Vertices traversedVertices;
+        traverseStartingFromAllVertices(traversedVertices, traversalOrder);
+        reverseVerticesIfNeeded(traversedVertices, traversalOrder);
         return traversedVertices;
     }
 
     Vertices getVerticesInTopologicalOrder()
     {
         //Useful on determining path that checks prerequisites and precedence scheduling
-        return getVerticesInThisOrder(TraverseOrder::ReversePostOrder);
+        return getVerticesInThisOrder(VertexTraversalOrder::ReversePostOrder);
+    }
+
+    Vertices getVerticesInTopologicalOrder(Vertex const& startVertex)
+    {
+        return getVerticesInThisOrder(startVertex, VertexTraversalOrder::ReversePostOrder);
     }
 
 private:
+
+    void reverseVerticesIfNeeded(Vertices & traversedVertices, VertexTraversalOrder const traversalOrder) const
+    {
+        if(VertexTraversalOrder::ReversePostOrder == traversalOrder)
+        {
+            std::reverse(traversedVertices.begin(), traversedVertices.end());
+        }
+    }
 
     void clear()
     {
         m_processedVertices.clear();
     }
 
-    void reverseVerticesIfNeeded(Vertices & traversedVertices, TraverseOrder const traverseOrder) const
+    void traverseStartingFromAVertex(Vertices & traversedVertices, Vertex const& startVertex, VertexTraversalOrder const traversalOrder)
     {
-        if(TraverseOrder::ReversePostOrder == traverseOrder)
+        clear();
+        if(m_processedVertices.isNotFound(startVertex) && !m_graph.getAdjacentVerticesAt(startVertex).empty()) // dont include invalid vertex
         {
-            std::reverse(traversedVertices.begin(), traversedVertices.end());
+            traverseAt(traversedVertices, traversalOrder, startVertex);
         }
     }
 
-    void traverseStartingFromAllVertices(Vertices & traversedVertices, TraverseOrder const traverseOrder)
+    void traverseStartingFromAllVertices(Vertices & traversedVertices, VertexTraversalOrder const traversalOrder)
     {
         clear();
         for(Vertex const& vertex : m_graph.getVertices())
         {
-            if(m_processedVertices.isNotFound(vertex) && !m_graph.getAdjacentVerticesAt(vertex).empty())
+            if(m_processedVertices.isNotFound(vertex))
             {
-                traverseAt(traversedVertices, traverseOrder, vertex);
+                traverseAt(traversedVertices, traversalOrder, vertex);
             }
         }
     }
 
-    void traverseAt(Vertices & traversedVertices, TraverseOrder const traverseOrder, Vertex const& startVertex)
+    void traverseAt(Vertices & traversedVertices, VertexTraversalOrder const traversalOrder, Vertex const& startVertex)
     {
-        switch(traverseOrder)
+        switch(traversalOrder)
         {
-        case TraverseOrder::PreOrder:
+        case VertexTraversalOrder::PreOrder:
         {
             traversePreOrderAt(traversedVertices, startVertex);
             break;
         }
-        case TraverseOrder::PostOrder:
+        case VertexTraversalOrder::PostOrder:
         {
             traversePostOrderAt(traversedVertices, startVertex);
             break;
         }
-        case TraverseOrder::ReversePostOrder:
+        case VertexTraversalOrder::ReversePostOrder:
         {
             traversePostOrderAt(traversedVertices, startVertex);
             break;

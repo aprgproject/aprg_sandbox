@@ -22,13 +22,13 @@ TEST(VertexOrderingUsingDfsTest, VertexOrderingWorksWhenGraphIsEmptyWithUndirect
     GraphForTest graph;
     VertexOrderingForTest vertexOrderingWithDfs(graph);
 
-    VerticesForTest preOrderVerticesToVerify(vertexOrderingWithDfs.getVerticesInThisOrder(VertexOrderingForTest::TraverseOrder::PreOrder));
-    VerticesForTest postOrderVerticesToVerify(vertexOrderingWithDfs.getVerticesInThisOrder(VertexOrderingForTest::TraverseOrder::PostOrder));
-    VerticesForTest reversePostOrderVerticesToVerify(vertexOrderingWithDfs.getVerticesInThisOrder(VertexOrderingForTest::TraverseOrder::ReversePostOrder));
+    VerticesForTest preOrderFromAllVertices(vertexOrderingWithDfs.getVerticesInThisOrder(VertexTraversalOrder::PreOrder));
+    VerticesForTest postOrderFromAllVertices(vertexOrderingWithDfs.getVerticesInThisOrder(VertexTraversalOrder::PostOrder));
+    VerticesForTest reversePostOrderFromAllVertices(vertexOrderingWithDfs.getVerticesInThisOrder(VertexTraversalOrder::ReversePostOrder));
 
-    EXPECT_TRUE(preOrderVerticesToVerify.empty());
-    EXPECT_TRUE(postOrderVerticesToVerify.empty());
-    EXPECT_TRUE(reversePostOrderVerticesToVerify.empty());
+    EXPECT_TRUE(preOrderFromAllVertices.empty());
+    EXPECT_TRUE(postOrderFromAllVertices.empty());
+    EXPECT_TRUE(reversePostOrderFromAllVertices.empty());
 }
 
 TEST(VertexOrderingUsingDfsTest, VertexOrderingWorksUsingExample1WithUndirectedGraph)
@@ -48,16 +48,25 @@ TEST(VertexOrderingUsingDfsTest, VertexOrderingWorksUsingExample1WithUndirectedG
     graph.connect(23U, 13U);
     VertexOrderingForTest vertexOrderingWithDfs(graph);
 
-    VerticesForTest preOrderVerticesToVerify(vertexOrderingWithDfs.getVerticesInThisOrder(VertexOrderingForTest::TraverseOrder::PreOrder));
-    VerticesForTest postOrderVerticesToVerify(vertexOrderingWithDfs.getVerticesInThisOrder(VertexOrderingForTest::TraverseOrder::PostOrder));
-    VerticesForTest reversePostOrderVerticesToVerify(vertexOrderingWithDfs.getVerticesInThisOrder(VertexOrderingForTest::TraverseOrder::ReversePostOrder));
+    VerticesForTest preOrderFromAVertex(vertexOrderingWithDfs.getVerticesInThisOrder(30U, VertexTraversalOrder::PreOrder));
+    VerticesForTest postOrderFromAVertex(vertexOrderingWithDfs.getVerticesInThisOrder(30U, VertexTraversalOrder::PostOrder));
+    VerticesForTest reversePostOrderAVertex(vertexOrderingWithDfs.getVerticesInThisOrder(30U, VertexTraversalOrder::ReversePostOrder));
+    VerticesForTest preOrderFromAllVertices(vertexOrderingWithDfs.getVerticesInThisOrder(VertexTraversalOrder::PreOrder));
+    VerticesForTest postOrderFromAllVertices(vertexOrderingWithDfs.getVerticesInThisOrder(VertexTraversalOrder::PostOrder));
+    VerticesForTest reversePostOrderFromAllVertices(vertexOrderingWithDfs.getVerticesInThisOrder(VertexTraversalOrder::ReversePostOrder));
 
-    VerticesForTest expectedPreOrderVertices{10U, 20U, 30U, 40U, 31U, 21U, 11U, 32U, 22U, 12U, 33U, 23U, 13U};
-    VerticesForTest expectedPostOrderVertices{11U, 21U, 31U, 12U, 22U, 32U, 13U, 23U, 33U, 40U, 30U, 20U, 10U};
-    VerticesForTest expectedReversePostOrderVertices{10U, 20U, 30U, 40U, 33U, 23U, 13U, 32U, 22U, 12U, 31U, 21U, 11U};
-    EXPECT_EQ(expectedPreOrderVertices, preOrderVerticesToVerify);
-    EXPECT_EQ(expectedPostOrderVertices, postOrderVerticesToVerify);
-    EXPECT_EQ(expectedReversePostOrderVertices, reversePostOrderVerticesToVerify);
+    VerticesForTest expectedPreOrderFromAVertex{30U, 20U, 10U, 40U, 31U, 21U, 11U, 32U, 22U, 12U, 33U, 23U, 13U};
+    VerticesForTest expectedPostOrderFromAVertex{10U, 20U, 11U, 21U, 31U, 12U, 22U, 32U, 13U, 23U, 33U, 40U, 30U};
+    VerticesForTest expectedReversePostOrderFromAVertex{30U, 40U, 33U, 23U, 13U, 32U, 22U, 12U, 31U, 21U, 11U, 20U, 10U};
+    VerticesForTest expectedPreOrderFromAllVertices{10U, 20U, 30U, 40U, 31U, 21U, 11U, 32U, 22U, 12U, 33U, 23U, 13U};
+    VerticesForTest expectedPostOrderFromAllVertices{11U, 21U, 31U, 12U, 22U, 32U, 13U, 23U, 33U, 40U, 30U, 20U, 10U};
+    VerticesForTest expectedReversePostOrderFromAllVertices{10U, 20U, 30U, 40U, 33U, 23U, 13U, 32U, 22U, 12U, 31U, 21U, 11U};
+    EXPECT_EQ(expectedPreOrderFromAVertex, preOrderFromAVertex);
+    EXPECT_EQ(expectedPostOrderFromAVertex, postOrderFromAVertex);
+    EXPECT_EQ(expectedReversePostOrderFromAVertex, reversePostOrderAVertex);
+    EXPECT_EQ(expectedPreOrderFromAllVertices, preOrderFromAllVertices);
+    EXPECT_EQ(expectedPostOrderFromAllVertices, postOrderFromAllVertices);
+    EXPECT_EQ(expectedReversePostOrderFromAllVertices, reversePostOrderFromAllVertices);
 }
 
 TEST(VertexOrderingUsingDfsTest, VertexOrderingWorksUsingExample2WithUndirectedGraph)
@@ -78,16 +87,25 @@ TEST(VertexOrderingUsingDfsTest, VertexOrderingWorksUsingExample2WithUndirectedG
     graph.connect(5U, 3U);
     VertexOrderingForTest vertexOrderingWithDfs(graph);
 
-    VerticesForTest preOrderVerticesToVerify(vertexOrderingWithDfs.getVerticesInThisOrder(VertexOrderingForTest::TraverseOrder::PreOrder));
-    VerticesForTest postOrderVerticesToVerify(vertexOrderingWithDfs.getVerticesInThisOrder(VertexOrderingForTest::TraverseOrder::PostOrder));
-    VerticesForTest reversePostOrderVerticesToVerify(vertexOrderingWithDfs.getVerticesInThisOrder(VertexOrderingForTest::TraverseOrder::ReversePostOrder));
+    VerticesForTest preOrderFromAVertex(vertexOrderingWithDfs.getVerticesInThisOrder(4U, VertexTraversalOrder::PreOrder));
+    VerticesForTest postOrderFromAVertex(vertexOrderingWithDfs.getVerticesInThisOrder(4U, VertexTraversalOrder::PostOrder));
+    VerticesForTest reversePostOrderAVertex(vertexOrderingWithDfs.getVerticesInThisOrder(4U, VertexTraversalOrder::ReversePostOrder));
+    VerticesForTest preOrderFromAllVertices(vertexOrderingWithDfs.getVerticesInThisOrder(VertexTraversalOrder::PreOrder));
+    VerticesForTest postOrderFromAllVertices(vertexOrderingWithDfs.getVerticesInThisOrder(VertexTraversalOrder::PostOrder));
+    VerticesForTest reversePostOrderFromAllVertices(vertexOrderingWithDfs.getVerticesInThisOrder(VertexTraversalOrder::ReversePostOrder));
 
-    VerticesForTest expectedPreOrderVertices{0U, 1U, 2U, 5U, 3U, 4U, 6U, 7U, 8U, 9U, 10U, 11U, 12U};
-    VerticesForTest expectedPostOrderVertices{1U, 2U, 6U, 4U, 3U, 5U, 0U, 8U, 7U, 10U, 12U, 11U, 9U};
-    VerticesForTest expectedReversePostOrderVertices{9U, 11U, 12U, 10U, 7U, 8U, 0U, 5U, 3U, 4U, 6U, 2U, 1U};
-    EXPECT_EQ(expectedPreOrderVertices, preOrderVerticesToVerify);
-    EXPECT_EQ(expectedPostOrderVertices, postOrderVerticesToVerify);
-    EXPECT_EQ(expectedReversePostOrderVertices, reversePostOrderVerticesToVerify);
+    VerticesForTest expectedPreOrderFromAVertex{4U, 3U, 5U, 0U, 1U, 2U, 6U};
+    VerticesForTest expectedPostOrderFromAVertex{1U, 2U, 6U, 0U, 5U, 3U, 4U};
+    VerticesForTest expectedReversePostOrderFromAVertex{4U, 3U, 5U, 0U, 6U, 2U, 1U};
+    VerticesForTest expectedPreOrderFromAllVertices{0U, 1U, 2U, 5U, 3U, 4U, 6U, 7U, 8U, 9U, 10U, 11U, 12U};
+    VerticesForTest expectedPostOrderFromAllVertices{1U, 2U, 6U, 4U, 3U, 5U, 0U, 8U, 7U, 10U, 12U, 11U, 9U};
+    VerticesForTest expectedReversePostOrderFromAllVertices{9U, 11U, 12U, 10U, 7U, 8U, 0U, 5U, 3U, 4U, 6U, 2U, 1U};
+    EXPECT_EQ(expectedPreOrderFromAVertex, preOrderFromAVertex);
+    EXPECT_EQ(expectedPostOrderFromAVertex, postOrderFromAVertex);
+    EXPECT_EQ(expectedReversePostOrderFromAVertex, reversePostOrderAVertex);
+    EXPECT_EQ(expectedPreOrderFromAllVertices, preOrderFromAllVertices);
+    EXPECT_EQ(expectedPostOrderFromAllVertices, postOrderFromAllVertices);
+    EXPECT_EQ(expectedReversePostOrderFromAllVertices, reversePostOrderFromAllVertices);
 }
 
 TEST(VertexOrderingUsingDfsTest, GetVerticesInTopologicalOrderWorksAsInReversePostOrderWithUndirectedGraph)
@@ -108,10 +126,13 @@ TEST(VertexOrderingUsingDfsTest, GetVerticesInTopologicalOrderWorksAsInReversePo
     graph.connect(5U, 3U);
     VertexOrderingForTest vertexOrderingWithDfs(graph);
 
-    VerticesForTest verticesToVerify(vertexOrderingWithDfs.getVerticesInTopologicalOrder());
+    VerticesForTest pathFromAVertex(vertexOrderingWithDfs.getVerticesInTopologicalOrder(4U));
+    VerticesForTest pathFromAllVertices(vertexOrderingWithDfs.getVerticesInTopologicalOrder());
 
-    VerticesForTest expectedVertices{9U, 11U, 12U, 10U, 7U, 8U, 0U, 5U, 3U, 4U, 6U, 2U, 1U};
-    EXPECT_EQ(expectedVertices, verticesToVerify);
+    VerticesForTest expectedPathFromAVertex{4U, 3U, 5U, 0U, 6U, 2U, 1U};
+    VerticesForTest expectedPathFromAllVertices{9U, 11U, 12U, 10U, 7U, 8U, 0U, 5U, 3U, 4U, 6U, 2U, 1U};
+    EXPECT_EQ(expectedPathFromAVertex, pathFromAVertex);
+    EXPECT_EQ(expectedPathFromAllVertices, pathFromAllVertices);
 }
 
 }
