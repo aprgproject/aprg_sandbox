@@ -8,13 +8,12 @@
 #include <array>
 #include <map>
 #include <set>
+#include <stack>
 #include <string>
 #include <vector>
-
 using namespace std;
 
-namespace alba
-{
+namespace alba{
 
 namespace containerHelper
 {
@@ -200,14 +199,49 @@ TEST(ContainerTest, GetLowerAndUpperIteratorsInMapWorksOnMultiMap)
     EXPECT_EQ(fourthIterator, iteratorsToVerify6.second);
 }
 
+TEST(ContainerTest, GetUnderlyingContainerWorksOnStack)
+{
+    using Adapter=std::stack<unsigned int>;
+    Adapter adapter;
+    adapter.push(1U);
+    adapter.push(2U);
+    adapter.push(3U);
+
+    Adapter::container_type containerToVerify(getUnderlyingContainer(adapter));
+
+    Adapter::container_type containerToExpect{1U, 2U, 3U};
+    EXPECT_EQ(containerToExpect, containerToVerify);
+}
+
+TEST(ContainerTest, GetUnderlyingContainerReferenceWorksOnStack)
+{
+    using Adapter=std::stack<unsigned int>;
+    Adapter adapter;
+    adapter.push(1U);
+    adapter.push(2U);
+    adapter.push(3U);
+
+    Adapter::container_type& containerToVerify(getUnderlyingContainerReference(adapter));
+    containerToVerify[0] = 4U;
+    containerToVerify[1] = 5U;
+    containerToVerify[2] = 6U;
+
+    ASSERT_EQ(3U, adapter.size());
+    EXPECT_EQ(6U, adapter.top());
+    adapter.pop();
+    EXPECT_EQ(5U, adapter.top());
+    adapter.pop();
+    EXPECT_EQ(4U, adapter.top());
+    adapter.pop();
+    EXPECT_TRUE(adapter.empty());
+}
+
 TEST(ContainerTest, SaveVectorOfIntegersToFileWorks)
 {
-    AlbaLocalPathHandler testFilePath(APRG_COMMON_TEST_FILE_TO_READ);
-    array<int, 6> temporaryArray{0, -23, 4, 379,- 482, 37};
+    AlbaLocalPathHandler testFilePath(APRG_COMMON_TEST_FILE_TO_READ);    array<int, 6> temporaryArray{0, -23, 4, 379,- 482, 37};
     ofstream outputTestFile(testFilePath.getFullPath());
 
-    saveContentsToStream(outputTestFile, temporaryArray, StreamFormat::File);
-    outputTestFile.close();
+    saveContentsToStream(outputTestFile, temporaryArray, StreamFormat::File);    outputTestFile.close();
 
     ifstream inputTestFile(testFilePath.getFullPath());
     ASSERT_TRUE(inputTestFile.is_open());

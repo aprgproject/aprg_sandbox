@@ -183,15 +183,43 @@ getLowerAndUpperIteratorsInMap(ContainerType & container, KeyType const& keyValu
     return result;
 }
 
+template <typename Adapter>
+typename Adapter::container_type const& getUnderlyingContainer (Adapter const& adapter)
+{
+    struct AdapterParent : Adapter
+    {
+        static typename Adapter::container_type const& get(Adapter const& adapterAsParameter)
+        {
+            return adapterAsParameter.*&AdapterParent::c;
+        }
+    };
+    return AdapterParent::get(adapter);
+}
+
+template <typename Adapter>
+typename Adapter::container_type & getUnderlyingContainerReference (Adapter & adapter)
+{
+    struct AdapterParent : Adapter
+    {
+        static typename Adapter::container_type & get(Adapter & adapterAsParameter)
+        {
+            return adapterAsParameter.*&AdapterParent::c;
+        }
+    };
+    return AdapterParent::get(adapter);
+}
+
+
+
+
 //SaveContentsToStream
+
 template <typename ValueType, std::size_t SIZE,
           template <typename, std::size_t> class Container>
-void saveContentsToStream(std::ostream & outputStream, Container<ValueType, SIZE> const& container, StreamFormat const streamFormat)
-{
+void saveContentsToStream(std::ostream & outputStream, Container<ValueType, SIZE> const& container, StreamFormat const streamFormat){
     //tested on array
     std::string delimeter(getDelimeterBasedOnFormat(streamFormat));
-    std::ostream_iterator<ValueType> outputIterator(outputStream, delimeter.c_str());
-    std::copy(container.cbegin(), container.cend(), outputIterator);
+    std::ostream_iterator<ValueType> outputIterator(outputStream, delimeter.c_str());    std::copy(container.cbegin(), container.cend(), outputIterator);
 }
 
 template <typename ValueType,
