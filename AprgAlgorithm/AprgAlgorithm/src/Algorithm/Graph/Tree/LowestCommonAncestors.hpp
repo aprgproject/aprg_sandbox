@@ -36,41 +36,59 @@ public:
         return m_depths;
     }
 
-    Vertex getLowestCommonAnscestor(Vertex const& vertex1, Vertex const& vertex2)
+    Vertex getLowestCommonAnscestor(Vertex const& vertex1, Vertex const& vertex2) const
     {
         Vertex result{};
+        auto it1 = m_vertexToIndexMap.find(vertex1);        auto it2 = m_vertexToIndexMap.find(vertex2);
+        if(it1!=m_vertexToIndexMap.cend() && it2!=m_vertexToIndexMap.cend())
+        {
+            unsigned int vertexIndex1 = it1->second;
+            unsigned int vertexIndex2 = it2->second;
+            unsigned int lowestCommonAnscestorIndex(getLowestCommonAnscestorIndex(vertexIndex1, vertexIndex2));
+            result = m_verticesInTreeOrder.at(lowestCommonAnscestorIndex);
+        }
+        return result;
+    }
+
+    unsigned int getDistanceBetweenVertices(Vertex const& vertex1, Vertex const& vertex2) const
+    {
+        unsigned int result{};
         auto it1 = m_vertexToIndexMap.find(vertex1);
         auto it2 = m_vertexToIndexMap.find(vertex2);
         if(it1!=m_vertexToIndexMap.cend() && it2!=m_vertexToIndexMap.cend())
         {
-            unsigned int index1 = it1->second;
-            unsigned int index2 = it2->second;
-            unsigned int minimumDepth(m_depths.at(index1));
-            unsigned int resultIndex = index1;
-            for(unsigned int i=index1+1; i<=index2; i++)
-            {
-                unsigned int currentDepth(m_depths.at(i));
-                if(minimumDepth > currentDepth)
-                {
-                    minimumDepth = currentDepth;
-                    resultIndex = i;
-                }
-            }
-            result = m_verticesInTreeOrder.at(resultIndex);
+            unsigned int vertexIndex1 = it1->second;
+            unsigned int vertexIndex2 = it2->second;
+            unsigned int lowestCommonAnscestorIndex(getLowestCommonAnscestorIndex(vertexIndex1, vertexIndex2));
+            result = m_depths.at(vertexIndex1) + m_depths.at(vertexIndex2) - 2*m_depths.at(lowestCommonAnscestorIndex);
         }
         return result;
     }
 
 protected:
 
+    unsigned int getLowestCommonAnscestorIndex(unsigned int const vertexIndex1, unsigned int const vertexIndex2) const
+    {
+        unsigned int resultIndex = vertexIndex1;
+        unsigned int minimumDepth(m_depths.at(vertexIndex1));
+        for(unsigned int i=vertexIndex1+1; i<=vertexIndex2; i++)
+        {
+            unsigned int currentDepth(m_depths.at(i));
+            if(minimumDepth > currentDepth)
+            {
+                minimumDepth = currentDepth;
+                resultIndex = i;
+            }
+        }
+        return resultIndex;
+    }
+
     void initializeIfNeeded()
     {
-        if(GraphUtilities::isATree(m_graph))
-        {
+        if(GraphUtilities::isATree(m_graph))        {
             initialize();
         }
     }
-
     void initialize()
     {
         traverseStartingFromAVertex(m_rootOfTree);
