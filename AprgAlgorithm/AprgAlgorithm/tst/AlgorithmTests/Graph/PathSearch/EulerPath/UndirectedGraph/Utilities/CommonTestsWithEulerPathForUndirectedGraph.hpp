@@ -8,7 +8,7 @@ namespace alba
 namespace algorithm
 {
 
-namespace CommonTestsWithEulerPath
+namespace CommonTestsWithEulerPathForUndirectedGraph
 {
 
 template <typename PathSearch, typename Graph>
@@ -47,9 +47,11 @@ void testHasEulerPathWorksOnGraphWithOneOddDegreeVertices()
 template <typename PathSearch, typename Graph>
 void testHasEulerPathWorksOnGraphWithTwoOddDegreesVertices()
 {
-    Graph graph;    graph.connect(0U, 1U);
+    Graph graph;
+    graph.connect(0U, 1U);
     graph.connect(0U, 2U);
     PathSearch pathSearch(graph);
+
     EXPECT_TRUE(pathSearch.hasEulerPath());
 }
 

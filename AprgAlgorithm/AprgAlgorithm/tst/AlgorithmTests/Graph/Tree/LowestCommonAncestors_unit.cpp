@@ -41,10 +41,12 @@ TEST(LowestCommonAncestorsTest, Example1Works)
     EXPECT_EQ(2U, lowestCommonAncestors.getDistanceBetweenVertices(8U, 9U));
 }
 
-TEST(LowestCommonAncestorsTest, Example2Works){
+TEST(LowestCommonAncestorsTest, Example2Works)
+{
     GraphForTest graph;
     graph.connect(1U, 2U);
-    graph.connect(1U, 3U);    graph.connect(1U, 4U);
+    graph.connect(1U, 3U);
+    graph.connect(1U, 4U);
     graph.connect(2U, 5U);
     graph.connect(2U, 6U);
     graph.connect(4U, 7U);
@@ -62,4 +64,5 @@ TEST(LowestCommonAncestorsTest, Example2Works){
 }
 
 }
+
 }

@@ -39,7 +39,8 @@ public:
     Vertex getLowestCommonAnscestor(Vertex const& vertex1, Vertex const& vertex2) const
     {
         Vertex result{};
-        auto it1 = m_vertexToIndexMap.find(vertex1);        auto it2 = m_vertexToIndexMap.find(vertex2);
+        auto it1 = m_vertexToIndexMap.find(vertex1);
+        auto it2 = m_vertexToIndexMap.find(vertex2);
         if(it1!=m_vertexToIndexMap.cend() && it2!=m_vertexToIndexMap.cend())
         {
             unsigned int vertexIndex1 = it1->second;
@@ -85,10 +86,12 @@ protected:
 
     void initializeIfNeeded()
     {
-        if(GraphUtilities::isATree(m_graph))        {
+        if(GraphUtilities::isATree(m_graph))
+        {
             initialize();
         }
     }
+
     void initialize()
     {
         traverseStartingFromAVertex(m_rootOfTree);

@@ -1,6 +1,7 @@
 #include <Algorithm/Search/RangeQuery/RangeQueryWithAccumulator.hpp>
 
 #include <gtest/gtest.h>
+
 using namespace std;
 
 namespace alba
@@ -12,7 +13,8 @@ using ValueForTest = unsigned int;
 using RangeQueryForTest = RangeQueryWithAccumulator<ValueForTest>;
 using ValuesForTest = RangeQueryForTest::Values;
 
-RangeQueryForTest::AccumulatorFunction plusAccumulator = [](ValueForTest const& value1, ValueForTest const& value2){
+RangeQueryForTest::AccumulatorFunction plusAccumulator = [](ValueForTest const& value1, ValueForTest const& value2)
+{
     return plus<ValueForTest>()(value1, value2);
 };
 
@@ -36,6 +38,7 @@ TEST(RangeQueryWithAccumulatorTest, GetAccumulatedValueOnIntervalWithSumWorksInE
 {
     ValuesForTest values{1U, 3U, 4U, 8U, 6U, 1U, 4U, 2U};
     RangeQueryForTest sumRangeQuery(values, plusAccumulator, minusAccumulator);
+
     EXPECT_EQ(1U, sumRangeQuery.getAccumulatedValueOnInterval(0U, 0U));
     EXPECT_EQ(4U, sumRangeQuery.getAccumulatedValueOnInterval(0U, 1U));
     EXPECT_EQ(8U, sumRangeQuery.getAccumulatedValueOnInterval(0U, 2U));
@@ -55,6 +58,7 @@ TEST(RangeQueryWithAccumulatorTest, GetAccumulatedValueOnIntervalWithSumWorksInE
 {
     ValuesForTest values{1U, 3U, 4U, 3U, 6U, 1U, 4U, 2U};
     RangeQueryForTest sumRangeQuery(values, plusAccumulator, minusAccumulator);
+
     EXPECT_EQ(1U, sumRangeQuery.getAccumulatedValueOnInterval(0U, 0U));
     EXPECT_EQ(4U, sumRangeQuery.getAccumulatedValueOnInterval(0U, 1U));
     EXPECT_EQ(8U, sumRangeQuery.getAccumulatedValueOnInterval(0U, 2U));
@@ -74,6 +78,7 @@ TEST(RangeQueryWithAccumulatorTest, GetAccumulatedValueOnIntervalWithGeometricSu
 {
     ValuesForTest values{1U, 3U, 4U, 8U, 6U, 1U, 4U, 2U};
     RangeQueryForTest geometricSumRangeQuery(values, multipliesAccumulator, dividesAccumulator);
+
     EXPECT_EQ(1U, geometricSumRangeQuery.getAccumulatedValueOnInterval(0U, 0U));
     EXPECT_EQ(3U, geometricSumRangeQuery.getAccumulatedValueOnInterval(0U, 1U));
     EXPECT_EQ(12U, geometricSumRangeQuery.getAccumulatedValueOnInterval(0U, 2U));
@@ -93,6 +98,7 @@ TEST(RangeQueryWithAccumulatorTest, GetAccumulatedValueOnIntervalWithGeometricSu
 {
     ValuesForTest values{1U, 3U, 4U, 3U, 6U, 1U, 4U, 2U};
     RangeQueryForTest geometricSumRangeQuery(values, multipliesAccumulator, dividesAccumulator);
+
     EXPECT_EQ(1U, geometricSumRangeQuery.getAccumulatedValueOnInterval(0U, 0U));
     EXPECT_EQ(3U, geometricSumRangeQuery.getAccumulatedValueOnInterval(0U, 1U));
     EXPECT_EQ(12U, geometricSumRangeQuery.getAccumulatedValueOnInterval(0U, 2U));

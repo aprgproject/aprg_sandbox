@@ -8,8 +8,10 @@
 
 namespace alba
 {
+
 namespace algorithm
 {
+
 template <typename Vertex, typename Weight, typename EdgeWeightedGraph, template<class> class ComparatorTemplateType>
 class PathSearchUsingBellmanFord : public BasePathSearchWithRelax<Vertex, Weight, EdgeWeightedGraph, ComparatorTemplateType>
 {

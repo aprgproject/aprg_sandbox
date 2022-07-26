@@ -1,7 +1,7 @@
 #pragma once
 
 #include <Algorithm/Graph/ConnectedComponents/ConnectedComponentsUsingDfs.hpp>
-#include <Algorithm/Graph/PathSearch/EulerPath/BaseEulerPathSearch.hpp>
+#include <Algorithm/Graph/PathSearch/EulerPath/UndirectedGraph/BaseEulerPathSearchForUndirectedGraph.hpp>
 #include <Algorithm/Graph/UndirectedGraph/UndirectedGraphWithListOfEdges.hpp>
 
 #include <algorithm>
@@ -13,10 +13,10 @@ namespace algorithm
 {
 
 template <typename Vertex>
-class FleuryAlgorithm : public BaseEulerPathSearch<Vertex>
+class FleuryAlgorithm : public BaseEulerPathSearchForUndirectedGraph<Vertex>
 {
 public:
-    using BaseClass = BaseEulerPathSearch<Vertex>;
+    using BaseClass = BaseEulerPathSearchForUndirectedGraph<Vertex>;
     using BaseUndirectedGraphWithVertex = BaseUndirectedGraph<Vertex>;
     using Vertices = typename GraphTypes<Vertex>::Vertices;
     using Path = typename GraphTypes<Vertex>::Path;

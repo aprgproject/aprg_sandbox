@@ -1,6 +1,6 @@
 #pragma once
 
-#include <Algorithm/Graph/PathSearch/EulerPath/BaseEulerPathSearch.hpp>
+#include <Algorithm/Graph/PathSearch/EulerPath/UndirectedGraph/BaseEulerPathSearchForUndirectedGraph.hpp>
 
 #include <algorithm>
 #include <queue>
@@ -13,10 +13,10 @@ namespace algorithm
 {
 
 template <typename Vertex>
-class EulerPathSearchUsingDfs : public BaseEulerPathSearch<Vertex>
+class EulerPathSearchForUndirectedGraphUsingDfs : public BaseEulerPathSearchForUndirectedGraph<Vertex>
 {
 public:
-    using BaseClass = BaseEulerPathSearch<Vertex>;
+    using BaseClass = BaseEulerPathSearchForUndirectedGraph<Vertex>;
     using BaseUndirectedGraphWithVertex = BaseUndirectedGraph<Vertex>;
     using Edge = typename GraphTypes<Vertex>::Edge;
     using Path = typename GraphTypes<Vertex>::Path;
@@ -25,7 +25,7 @@ public:
     using StackOfVertices = std::stack<Vertex>;
     using VertexToQueueOfEdgesMap = std::map<Vertex, QueueOfEdges>;
 
-    EulerPathSearchUsingDfs(BaseUndirectedGraphWithVertex const& graph)
+    EulerPathSearchForUndirectedGraphUsingDfs(BaseUndirectedGraphWithVertex const& graph)
         : BaseClass(graph)
         , b_graph(BaseClass::m_graph)
     {}

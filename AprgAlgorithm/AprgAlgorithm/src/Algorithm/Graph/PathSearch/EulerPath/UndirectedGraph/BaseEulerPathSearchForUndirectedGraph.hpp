@@ -13,18 +13,18 @@ namespace algorithm
 {
 
 template <typename Vertex>
-class BaseEulerPathSearch
+class BaseEulerPathSearchForUndirectedGraph
 {
 public:
     using BaseUndirectedGraphWithVertex = BaseUndirectedGraph<Vertex>;
     using Vertices = typename GraphTypes<Vertex>::Vertices;
     using Path = typename GraphTypes<Vertex>::Path;
 
-    BaseEulerPathSearch(BaseUndirectedGraphWithVertex const& graph)
+    BaseEulerPathSearchForUndirectedGraph(BaseUndirectedGraphWithVertex const& graph)
         : m_graph(graph)
     {}
 
-    virtual ~BaseEulerPathSearch()
+    virtual ~BaseEulerPathSearchForUndirectedGraph()
     {}
 
     bool hasEulerCycle() const

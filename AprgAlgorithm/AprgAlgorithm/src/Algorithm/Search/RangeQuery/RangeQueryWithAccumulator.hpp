@@ -10,7 +10,8 @@ template <typename Value>
 class RangeQueryWithAccumulator
 {
 public:
-    // Example for "range query accumulator" is sum queries    // We can easily process sum queries on a static array by constructing a prefix sum array.
+    // Example for "range query accumulator" is sum queries
+    // We can easily process sum queries on a static array by constructing a prefix sum array.
     // Each value in the prefix sum array equals the sum of values in the original array up to that position, i.e., the value at position k is sumq(0,k).
     // The prefix sum array can be constructed in O(n) time.
 
@@ -21,7 +22,8 @@ public:
     RangeQueryWithAccumulator(
             Values const& valuesToCheck,
             AccumulatorFunction const& accumulator,
-            AccumulatorFunction const& inverseAccumulator)        : m_partialResults()
+            AccumulatorFunction const& inverseAccumulator)
+        : m_partialResults()
         , m_accumulator(accumulator)
         , m_inverseAccumulator(inverseAccumulator)
     {
