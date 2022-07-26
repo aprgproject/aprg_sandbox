@@ -1,14 +1,12 @@
 #pragma once
 
-#include <Algorithm/Graph/Utilities/GraphUtilitiesHeaders.hpp>
 #include <Algorithm/Graph/Utilities/CheckableVertices.hpp>
+#include <Algorithm/Graph/Utilities/GraphUtilitiesHeaders.hpp>
 
 namespace alba
 {
-
 namespace algorithm
 {
-
 template <typename Vertex>
 class SubTreeQuery
 {
@@ -69,17 +67,15 @@ protected:
     {
         if(m_processedVertices.isNotFound(startVertex) && !m_graph.getAdjacentVerticesAt(startVertex).empty()) // dont include invalid vertex
         {
-            unsigned int index(0);
             m_subTreeSize.resize(m_graph.getNumberOfVertices());
 
-            traverseUsingDfs(index, startVertex);
+            unsigned int treeSize(0);
+            traverseUsingDfs(treeSize, startVertex);
 
             m_subTreeSize.resize(m_verticesInDfsPreOrder.size());
-            m_verticesInDfsPreOrder.shrink_to_fit();
-            m_subTreeSize.shrink_to_fit();
+            m_verticesInDfsPreOrder.shrink_to_fit();            m_subTreeSize.shrink_to_fit();
         }
     }
-
     void traverseUsingDfs(unsigned int & treeSize, Vertex const& vertex)
     {
         m_processedVertices.putVertex(vertex);

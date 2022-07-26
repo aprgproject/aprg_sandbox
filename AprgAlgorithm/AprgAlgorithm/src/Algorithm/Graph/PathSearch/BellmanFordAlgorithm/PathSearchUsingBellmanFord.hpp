@@ -3,15 +3,13 @@
 #include <Algorithm/Graph/CycleDetection/CycleDetectionUsingDfs.hpp>
 #include <Algorithm/Graph/PathSearch/Common/BasePathSearchWithRelax.hpp>
 #include <Algorithm/Graph/Types/GraphTypes.hpp>
-#include <Algorithm/Graph/Utilities/GraphUtilitiesHeaders.hpp>
 #include <Algorithm/Graph/Utilities/CheckableVertices.hpp>
+#include <Algorithm/Graph/Utilities/GraphUtilitiesHeaders.hpp>
 
 namespace alba
 {
-
 namespace algorithm
 {
-
 template <typename Vertex, typename Weight, typename EdgeWeightedGraph, template<class> class ComparatorTemplateType>
 class PathSearchUsingBellmanFord : public BasePathSearchWithRelax<Vertex, Weight, EdgeWeightedGraph, ComparatorTemplateType>
 {
