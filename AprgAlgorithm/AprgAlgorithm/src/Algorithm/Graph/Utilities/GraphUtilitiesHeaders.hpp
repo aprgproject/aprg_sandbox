@@ -46,14 +46,14 @@ template <typename Vertex> unsigned int getNumberOfSelfLoops(BaseGraph<Vertex> c
 template <typename Vertex> unsigned int getDiameterOfATree(BaseUndirectedGraph<Vertex> const& graph);
 
 template <typename Vertex>
-std::pair<unsigned int, unsigned int> getInDegreeAndOutDegree(BaseDirectedGraph<Vertex> const& graph, Vertex const& vertex);
+std::pair<unsigned int, unsigned int> getInDegreeAndOutDegreeAt(BaseDirectedGraph<Vertex> const& graph, Vertex const& vertex);
+template <typename Vertex>
+std::map<Vertex, std::pair<unsigned int, unsigned int>> getAllInDegreesAndOutDegrees(BaseDirectedGraph<Vertex> const& graph);
 
 template <typename Vertex, typename Weight, typename EdgeWeightedGraphType>
-typename GraphTypes<Vertex>::Path getCriticalPath(
-        EdgeWeightedGraphType const& graph,
+typename GraphTypes<Vertex>::Path getCriticalPath(        EdgeWeightedGraphType const& graph,
         Vertex const& sourceVertex,
         Vertex const& destinationVertex);
-
 template <typename Vertex> typename GraphTypes<Vertex>::ListOfEdges getEdgesOfMaximalConnectedSubgraphs(
         BaseUndirectedGraph<Vertex> const& graph);
 

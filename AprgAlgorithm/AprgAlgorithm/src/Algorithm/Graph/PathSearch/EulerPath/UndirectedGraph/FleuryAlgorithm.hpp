@@ -62,29 +62,27 @@ public:
 
 private:
 
-    bool isGraphStillConnectedWithoutOneEdge(GraphToManipulate const& graph, Edge const& edgeToDelete) const
+    bool isStillConnectedWithoutOneEdge(GraphToManipulate const& graph, Edge const& edgeToDelete) const
     {
+        // THIS IS COSTLY!
         GraphToManipulate graphWithDeletedEdge(graph);
         graphWithDeletedEdge.disconnect(edgeToDelete.first, edgeToDelete.second);
         ConnectedComponentsUsingDfs<Vertex> connectedComponents(graphWithDeletedEdge);
-        return connectedComponents.getNumberOfComponentIds() <= 1;
+        return connectedComponents.getNumberOfComponentIds() <= 1 // graph is still connected
+                && connectedComponents.getComponentId(edgeToDelete.second) > 0; //destination is still connected
     }
 
-    GraphToManipulate createGraphToManipulate(Edges const& originalEdges) const
-    {
+    GraphToManipulate createGraphToManipulate(Edges const& originalEdges) const    {
         GraphToManipulate graphToManipulate;
         for(Edge const& originalEdge: originalEdges)
         {
             graphToManipulate.connect(originalEdge.first, originalEdge.second);
         }
-
         return graphToManipulate;
     }
-
     void putEulerEdgesOnPath(Path & result, Edges const& edgesInEulerCycle) const
     {
-        result.emplace_back(edgesInEulerCycle.front().first);
-        for(Edge const& edge : edgesInEulerCycle)
+        result.emplace_back(edgesInEulerCycle.front().first);        for(Edge const& edge : edgesInEulerCycle)
         {
             result.emplace_back(edge.second);
         }
@@ -93,31 +91,32 @@ private:
     void searchForEulerPath(Path & result, Vertex const& startVertex, Edges const& originalEdges) const
     {
         GraphToManipulate graphToManipulate(createGraphToManipulate(originalEdges));
-        SetOfEdges & currentEdges(graphToManipulate.getSetOfEdgesReference());
-        Edges edgesInEulerCycle;
+        SetOfEdges & edgesReference(graphToManipulate.getSetOfEdgesReference());
         bool isComplete(true);
-        Edge edgeToDelete(startVertex, startVertex);
-        while(!currentEdges.empty())
+        Edges edgesInEulerCycle;
+        Edge deletedEdge(startVertex, startVertex);
+        while(!edgesReference.empty())
         {
-            auto nextEdgeToDeleteIt = std::find_if(currentEdges.cbegin(), currentEdges.cend(), [&](Edge const& currentEdge)
+            // get next edge to delete so that graph is still connected
+            auto edgeToDeleteIt = std::find_if(edgesReference.cbegin(), edgesReference.cend(), [&](Edge const& edgeToDelete)
+            {return deletedEdge.second == edgeToDelete.first && isStillConnectedWithoutOneEdge(graphToManipulate, edgeToDelete);});
+            if(edgeToDeleteIt == edgesReference.cend()) // if not found just get next edge
             {
-                return  edgeToDelete.second == currentEdge.first
-                    && isGraphStillConnectedWithoutOneEdge(graphToManipulate, edgeToDelete);  // THIS IS COSTLY!
-            });
-            if(nextEdgeToDeleteIt != currentEdges.cend())
+                edgeToDeleteIt = std::find_if(edgesReference.cbegin(), edgesReference.cend(), [&](Edge const& edgeToDelete)
+                {return deletedEdge.second == edgeToDelete.first;});
+            }
+
+            if(edgeToDeleteIt != edgesReference.cend())
             {
-                edgeToDelete = *nextEdgeToDeleteIt;
-                edgesInEulerCycle.emplace_back(edgeToDelete);
-                currentEdges.erase(edgeToDelete);
-                currentEdges.erase({edgeToDelete.second, edgeToDelete.first});
+                deletedEdge = *edgeToDeleteIt;
+                edgesInEulerCycle.emplace_back(deletedEdge);
+                graphToManipulate.disconnect(deletedEdge.first, deletedEdge.second);
             }
             else
-            {
-                isComplete = false;
+            {                isComplete = false;
                 break;
             }
-        }
-        if(isComplete)
+        }        if(isComplete)
         {
             putEulerEdgesOnPath(result, edgesInEulerCycle);
         }

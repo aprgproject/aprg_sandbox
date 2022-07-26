@@ -64,6 +64,16 @@ TEST(FleuryAlgorithmTest, GetEulerPathWorksOnGraphWithThreeOddDegreesVertices)
     testGetEulerPathWorksOnGraphWithThreeOddDegreesVertices<PathSearchForTest, GraphForTest>();
 }
 
+TEST(FleuryAlgorithmTest, GetEulerCycleAndPathWorksOnExample1)
+{
+    testGetEulerCycleAndPathWorksOnExample1<PathSearchForTest, GraphForTest>();
+}
+
+TEST(FleuryAlgorithmTest, GetEulerCycleAndPathWorksOnExample2)
+{
+    testGetEulerCycleAndPathWorksOnExample2<PathSearchForTest, GraphForTest>();
+}
+
 }
 
 }

@@ -64,6 +64,17 @@ TEST(EulerPathSearchForUndirectedGraphUsingDfsTest, GetEulerPathWorksOnGraphWith
     testGetEulerPathWorksOnGraphWithThreeOddDegreesVertices<PathSearchForTest, GraphForTest>();
 }
 
+TEST(EulerPathSearchForUndirectedGraphUsingDfsTest, GetEulerCycleAndPathWorksOnExample1)
+{
+    testGetEulerCycleAndPathWorksOnExample1<PathSearchForTest, GraphForTest>();
+}
+
+TEST(EulerPathSearchForUndirectedGraphUsingDfsTest, GetEulerCycleAndPathWorksOnExample2)
+{
+    testGetEulerCycleAndPathWorksOnExample2<PathSearchForTest, GraphForTest>();
+}
+
+
 }
 
 }

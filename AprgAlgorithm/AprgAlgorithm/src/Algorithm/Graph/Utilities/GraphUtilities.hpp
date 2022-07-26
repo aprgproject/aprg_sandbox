@@ -1,12 +1,10 @@
-#pragma once
+  #pragma once
 
 #include <Algorithm/Graph/CycleDetection/CycleDetectionUsingDfs.hpp>
-#include <Algorithm/Graph/ConnectedComponents/ConnectedComponentsUsingDfs.hpp>
-#include <Algorithm/Graph/ConnectedComponents/StronglyConnectedComponentsUsingKosarajuSharir.hpp>
+#include <Algorithm/Graph/ConnectedComponents/ConnectedComponentsUsingDfs.hpp>#include <Algorithm/Graph/ConnectedComponents/StronglyConnectedComponentsUsingKosarajuSharir.hpp>
 #include <Algorithm/Graph/PathSearch/DirectedAcyclicGraph/PathSearchForDirectedAcyclicGraph.hpp>
 #include <Algorithm/Graph/Tree/LongestPathsInTree.hpp>
-#include <Algorithm/Graph/Utilities/BipartiteCheckerUsingDfs.hpp>
-#include <Algorithm/Graph/Utilities/GraphUtilitiesHeaders.hpp>
+#include <Algorithm/Graph/Utilities/BipartiteCheckerUsingDfs.hpp>#include <Algorithm/Graph/Utilities/GraphUtilitiesHeaders.hpp>
 #include <Algorithm/UnionFind/BaseUnionFind.hpp>
 #include <Algorithm/UnionFind/UnionFindUsingMap.hpp>
 
@@ -380,15 +378,13 @@ unsigned int getDiameterOfATree(BaseUndirectedGraph<Vertex> const& graph)
 }
 
 template <typename Vertex>
-std::pair<unsigned int, unsigned int> getInDegreeAndOutDegree(BaseDirectedGraph<Vertex> const& graph, Vertex const& vertex)
+std::pair<unsigned int, unsigned int> getInDegreeAndOutDegreeAt(BaseDirectedGraph<Vertex> const& graph, Vertex const& vertex)
 {
     // In a directed graph, the indegree of a node is the number of edges that end at the node,
     // and the outdegree of a node is the number of edges that start at the node.
-
     using Edge = typename GraphTypes<Vertex>::Edge;
 
-    std::pair<unsigned int, unsigned int> result{};
-    for(Edge const& edge : graph.getEdges())
+    std::pair<unsigned int, unsigned int> result{};    for(Edge const& edge : graph.getEdges())
     {
         if(edge.first == vertex)
         {
@@ -402,14 +398,29 @@ std::pair<unsigned int, unsigned int> getInDegreeAndOutDegree(BaseDirectedGraph<
     return result;
 }
 
+template <typename Vertex>
+std::map<Vertex, std::pair<unsigned int, unsigned int>> getAllInDegreesAndOutDegrees(BaseDirectedGraph<Vertex> const& graph)
+{
+    // In a directed graph, the indegree of a node is the number of edges that end at the node,
+    // and the outdegree of a node is the number of edges that start at the node.
+
+    using Edge = typename GraphTypes<Vertex>::Edge;
+
+    std::map<Vertex, std::pair<unsigned int, unsigned int>> result;
+    for(Edge const& edge : graph.getEdges())
+    {
+        result[edge.first].first++;
+        result[edge.second].second++;
+    }
+    return result;
+}
+
 template <typename Vertex, typename Weight, typename EdgeWeightedGraphType>
 typename GraphTypes<Vertex>::Path getCriticalPath(
-        EdgeWeightedGraphType const& graph,
-        Vertex const& sourceVertex,
+        EdgeWeightedGraphType const& graph,        Vertex const& sourceVertex,
         Vertex const& destinationVertex)
 {
     using Path = typename GraphTypes<Vertex>::Path;
-
     Path result;
     // Needs to be a directed acyclic path because if not the maximum path will be forever loop around the cycle
     if(isDirectedAcyclicGraph(graph))

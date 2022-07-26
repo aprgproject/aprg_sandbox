@@ -431,28 +431,44 @@ TEST(GraphUtilitiesTest, GetDiameterOfATreeWorks)
     EXPECT_EQ(4U, getDiameterOfATree(graph));
 }
 
-TEST(GraphUtilitiesTest, GetInDegreeAndOutDegreeWorks)
+TEST(GraphUtilitiesTest, GetInDegreeAndOutDegreeAtWorks)
 {
     DirectedGraphForTest graph;
-    graph.connect(0U, 1U);
-    graph.connect(0U, 2U);
+    graph.connect(0U, 1U);    graph.connect(0U, 2U);
     graph.connect(0U, 3U);
     graph.connect(4U, 0U);
 
-    auto inDegreeAndOutDegreePair(getInDegreeAndOutDegree<VertexForTest>(graph, 0U));
+    auto inDegreeAndOutDegreePair(getInDegreeAndOutDegreeAt<VertexForTest>(graph, 0U));
 
     EXPECT_EQ(3U, inDegreeAndOutDegreePair.first);
     EXPECT_EQ(1U, inDegreeAndOutDegreePair.second);
 }
 
+TEST(GraphUtilitiesTest, GetAllInDegreesAndOutDegreesAtWorks)
+{
+    DirectedGraphForTest graph;
+    graph.connect(0U, 1U);
+    graph.connect(0U, 2U);
+    graph.connect(3U, 0U);
+
+    auto vertexToInDegreeAndOutDegreePairMap(getAllInDegreesAndOutDegrees<VertexForTest>(graph));
+
+    EXPECT_EQ(2U, vertexToInDegreeAndOutDegreePairMap.at(0U).first);
+    EXPECT_EQ(1U, vertexToInDegreeAndOutDegreePairMap.at(0U).second);
+    EXPECT_EQ(0U, vertexToInDegreeAndOutDegreePairMap.at(1U).first);
+    EXPECT_EQ(1U, vertexToInDegreeAndOutDegreePairMap.at(1U).second);
+    EXPECT_EQ(0U, vertexToInDegreeAndOutDegreePairMap.at(2U).first);
+    EXPECT_EQ(1U, vertexToInDegreeAndOutDegreePairMap.at(2U).second);
+    EXPECT_EQ(1U, vertexToInDegreeAndOutDegreePairMap.at(3U).first);
+    EXPECT_EQ(0U, vertexToInDegreeAndOutDegreePairMap.at(3U).second);
+}
+
 TEST(GraphUtilitiesTest, GetEdgesOfMaximalConnectedSubgraphsWorks)
 {
-    UndirectedGraphForTest graph;
-    graph.connect(0U, 5U);
+    UndirectedGraphForTest graph;    graph.connect(0U, 5U);
     graph.connect(4U, 3U);
     graph.connect(0U, 1U);
-    graph.connect(9U, 12U);
-    graph.connect(6U, 4U);
+    graph.connect(9U, 12U);    graph.connect(6U, 4U);
     graph.connect(5U, 4U);
     graph.connect(0U, 2U);
     graph.connect(11U, 12U);

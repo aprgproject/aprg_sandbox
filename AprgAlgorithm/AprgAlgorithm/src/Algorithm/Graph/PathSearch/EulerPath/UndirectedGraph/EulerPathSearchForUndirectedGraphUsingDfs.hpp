@@ -37,33 +37,23 @@ public:
         {
             StackOfVertices eulerPathInStack;
             searchForEulerPathUsingDfs(eulerPathInStack, this->getStartingVertexForEulerCycle());
-            if(eulerPathInStack.size() == b_graph.getNumberOfVertices()+1)
-            {
-                putStackOfVerticesOnPath(result, eulerPathInStack);
-            }
+            putStackOfVerticesOnPath(result, eulerPathInStack);
         }
         return result;
     }
-
     Path getEulerPath() const override
     {
-        Path result;
-        if(this->hasEulerPath())
+        Path result;        if(this->hasEulerPath())
         {
             StackOfVertices eulerPathInStack;
             searchForEulerPathUsingDfs(eulerPathInStack, this->getStartingVertexForEulerPath());
-            if(eulerPathInStack.size() == b_graph.getNumberOfVertices())
-            {
-                putStackOfVerticesOnPath(result, eulerPathInStack);
-            }
+            putStackOfVerticesOnPath(result, eulerPathInStack);
         }
         return result;
     }
-
 private:
 
-    void searchForEulerPathUsingDfs(StackOfVertices & eulerPathInStack, Vertex const& startingVertex) const
-    {
+    void searchForEulerPathUsingDfs(StackOfVertices & eulerPathInStack, Vertex const& startingVertex) const    {
         // This is DFS
         VertexToQueueOfEdgesMap vertexToQueueOfEdgesMap(createVertexToQueueOfEdgesMap());
         StackOfVertices pathToCheck;
