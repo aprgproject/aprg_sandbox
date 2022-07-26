@@ -13,16 +13,15 @@ namespace
 {
 using VertexForTest = unsigned int;
 using GraphForTest = UndirectedGraphWithListOfEdges<VertexForTest>;
-using PathSearchForTest = HamiltonianPathSearchWithDfs<VertexForTest>;
+using PathSearchForTest = HamiltonianPathSearchForUndirectedGraphWithDfs<VertexForTest>;
 using PathForTest = PathSearchForTest::Path;
 using PathsForTest = PathSearchForTest::Paths;
 }
 
-TEST(HamiltonianPathSearchWithDfsTest, GetAllHamiltonianPathsWorks)
+TEST(HamiltonianPathSearchForUndirectedGraphWithDfsTest, GetAllHamiltonianPathsWorks)
 {
     GraphForTest graph;
-    graph.connect(0U, 1U);
-    graph.connect(0U, 2U);
+    graph.connect(0U, 1U);    graph.connect(0U, 2U);
     graph.connect(1U, 2U);
     graph.connect(1U, 3U);
     graph.connect(2U, 3U);
@@ -37,11 +36,10 @@ TEST(HamiltonianPathSearchWithDfsTest, GetAllHamiltonianPathsWorks)
     EXPECT_EQ(pathsToExpect, pathsToVerify);
 }
 
-TEST(HamiltonianPathSearchWithDfsTest, GetOneHamiltonianPathWorks)
+TEST(HamiltonianPathSearchForUndirectedGraphWithDfsTest, GetOneHamiltonianPathWorks)
 {
     GraphForTest graph;
-    graph.connect(0U, 1U);
-    graph.connect(0U, 2U);
+    graph.connect(0U, 1U);    graph.connect(0U, 2U);
     graph.connect(1U, 2U);
     graph.connect(1U, 3U);
     graph.connect(2U, 3U);
@@ -53,11 +51,10 @@ TEST(HamiltonianPathSearchWithDfsTest, GetOneHamiltonianPathWorks)
     EXPECT_EQ(pathsToExpect, pathsToVerify);
 }
 
-TEST(HamiltonianPathSearchWithDfsTest, GetAllHamiltonianCyclesWorks)
+TEST(HamiltonianPathSearchForUndirectedGraphWithDfsTest, GetAllHamiltonianCyclesWorks)
 {
     GraphForTest graph;
-    graph.connect(0U, 1U);
-    graph.connect(0U, 2U);
+    graph.connect(0U, 1U);    graph.connect(0U, 2U);
     graph.connect(1U, 2U);
     graph.connect(1U, 3U);
     graph.connect(2U, 3U);
@@ -71,11 +68,10 @@ TEST(HamiltonianPathSearchWithDfsTest, GetAllHamiltonianCyclesWorks)
     EXPECT_EQ(pathsToExpect, pathsToVerify);
 }
 
-TEST(HamiltonianPathSearchWithDfsTest, GetOneHamiltonianCycleWorks)
+TEST(HamiltonianPathSearchForUndirectedGraphWithDfsTest, GetOneHamiltonianCycleWorks)
 {
     GraphForTest graph;
-    graph.connect(0U, 1U);
-    graph.connect(0U, 2U);
+    graph.connect(0U, 1U);    graph.connect(0U, 2U);
     graph.connect(1U, 2U);
     graph.connect(1U, 3U);
     graph.connect(2U, 3U);
