@@ -35,13 +35,21 @@ void testHasEulerCycleWorksOnGraphWithNotAllEvenDegreesVertices()
 }
 
 template <typename PathSearch, typename Graph>
-void testHasEulerPathWorksOnGraphWithTwoOddDegreesVertices()
+void testHasEulerPathWorksOnGraphWithOneOddDegreeVertices()
 {
     Graph graph;
     graph.connect(0U, 1U);
-    graph.connect(0U, 2U);
     PathSearch pathSearch(graph);
 
+    EXPECT_TRUE(pathSearch.hasEulerPath());
+}
+
+template <typename PathSearch, typename Graph>
+void testHasEulerPathWorksOnGraphWithTwoOddDegreesVertices()
+{
+    Graph graph;    graph.connect(0U, 1U);
+    graph.connect(0U, 2U);
+    PathSearch pathSearch(graph);
     EXPECT_TRUE(pathSearch.hasEulerPath());
 }
 
