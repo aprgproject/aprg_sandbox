@@ -102,14 +102,12 @@ TEST(RedBlackBinarySearchTreeSymbolTableTest, DeleteMaximumWorks)
 
 TEST(RedBlackBinarySearchTreeSymbolTableTest, GetKeys)
 {
-    testGetKeysWithUnsignedIntAndChar<SymbolTableForTest>();;
+    testGetKeysWithUnsignedIntAndChar<SymbolTableForTest>();
 }
 
-TEST(RedBlackBinarySearchTreeSymbolTableTest, GetKeysInRangeWorks)
-{
+TEST(RedBlackBinarySearchTreeSymbolTableTest, GetKeysInRangeWorks){
     testGetKeysInRangeInclusiveWithUnsignedIntAndChar<SymbolTableForTest>();
 }
-
 TEST(RedBlackBinarySearchTreeSymbolTableTest, TraverseByPreOrderWorks)
 {
     SymbolTableForTest symbolTable;

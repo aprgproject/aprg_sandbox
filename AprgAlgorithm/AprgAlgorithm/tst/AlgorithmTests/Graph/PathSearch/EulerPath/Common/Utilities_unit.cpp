@@ -1,21 +1,13 @@
 #include <Algorithm/Graph/DirectedGraph/DirectedGraphWithListOfEdges.hpp>
 #include <Algorithm/Graph/PathSearch/EulerPath/Common/Utilities.hpp>
-#include <Algorithm/Graph/PathSearch/EulerPath/UndirectedGraph/FleuryAlgorithm.hpp>
+#include <Algorithm/Graph/UndirectedGraph/UndirectedGraphWithListOfEdges.hpp>
 
 #include <gtest/gtest.h>
 
-
-#include <AlgorithmTests/Graph/PathSearch/EulerPath/DirectedGraph/Utilities/CommonTestsWithEulerPathForDirectedGraph.hpp>
-
-using namespace alba::algorithm::CommonTestsWithEulerPathForDirectedGraph;
-
-
 namespace alba
 {
-
 namespace algorithm
 {
-
 namespace
 {
 using VertexForTest = unsigned int;

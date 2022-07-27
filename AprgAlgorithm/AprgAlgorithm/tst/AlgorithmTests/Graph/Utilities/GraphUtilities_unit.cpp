@@ -387,15 +387,22 @@ TEST(GraphUtilitiesTest, GetMaxDegreeAtWorks)
     EXPECT_EQ(2U, getMaxDegree(graph));
 }
 
-TEST(GraphUtilitiesTest, GetSumOfDegreesAtWorks)
+TEST(GraphUtilitiesTest, GetMinDegreeAtWorks)
 {
     UndirectedGraphForTest graph;
     graph.connect(0U, 1U);
     graph.connect(0U, 2U);
 
-    EXPECT_EQ(4U, getSumOfDegrees(graph));
+    EXPECT_EQ(1U, getMinDegree(graph));
 }
 
+TEST(GraphUtilitiesTest, GetSumOfDegreesAtWorks)
+{
+    UndirectedGraphForTest graph;    graph.connect(0U, 1U);
+    graph.connect(0U, 2U);
+
+    EXPECT_EQ(4U, getSumOfDegrees(graph));
+}
 TEST(GraphUtilitiesTest, GetAverageDegreeWorks)
 {
     UndirectedGraphForTest graph;
