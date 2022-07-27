@@ -49,17 +49,15 @@ private:
             if(!isDeadEnd(adjacentVertices)) // if not dead end
             {
                 nonDeadEndPath.push(currentVertex);
-                auto lastIt = adjacentVertices.cbegin();
-                Vertex nextVertex(*lastIt);
-                adjacentVertices.erase(lastIt);
+                auto firstIt = adjacentVertices.cbegin();
+                Vertex nextVertex(*firstIt);
+                adjacentVertices.erase(firstIt);
                 vertexToAdjacentVerticesMap[nextVertex].erase(currentVertex);
                 currentVertex = nextVertex;
-            }
-            else // if dead end
+            }            else // if dead end
             {
                 result.emplace_back(currentVertex); // add dead end vertex
-                currentVertex = nonDeadEndPath.top(); // check last vertex on "non dead end path"
-                nonDeadEndPath.pop();
+                currentVertex = nonDeadEndPath.top(); // check last vertex on "non dead end path"                nonDeadEndPath.pop();
             }
         }
         std::reverse(result.begin(), result.end());
