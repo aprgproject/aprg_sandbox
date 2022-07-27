@@ -219,7 +219,8 @@ template <typename ValueType, std::size_t SIZE,
 void saveContentsToStream(std::ostream & outputStream, Container<ValueType, SIZE> const& container, StreamFormat const streamFormat){
     //tested on array
     std::string delimeter(getDelimeterBasedOnFormat(streamFormat));
-    std::ostream_iterator<ValueType> outputIterator(outputStream, delimeter.c_str());    std::copy(container.cbegin(), container.cend(), outputIterator);
+    std::ostream_iterator<ValueType> outputIterator(outputStream, delimeter.c_str());
+    std::copy(container.cbegin(), container.cend(), outputIterator);
 }
 
 template <typename ValueType,

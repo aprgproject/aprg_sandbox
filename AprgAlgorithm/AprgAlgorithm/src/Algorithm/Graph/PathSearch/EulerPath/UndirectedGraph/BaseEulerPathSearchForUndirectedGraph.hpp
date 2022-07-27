@@ -6,7 +6,8 @@
 #include <Algorithm/Graph/Utilities/GraphUtilities.hpp>
 #include <string>
 
-namespace alba{
+namespace alba
+{
 
 namespace algorithm
 {
@@ -40,6 +41,7 @@ public:
 
     // An Euler path is a path that uses every edge in a graph with no repeats. Being a path, it does not have to return to the starting vertex.
     virtual Path getEulerPath() const = 0;
+
 protected:
 
     Vertex getStartingVertexForEulerCycle() const

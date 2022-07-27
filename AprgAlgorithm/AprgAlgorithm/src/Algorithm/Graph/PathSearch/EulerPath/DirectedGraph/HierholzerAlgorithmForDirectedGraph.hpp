@@ -3,6 +3,7 @@
 #include <Algorithm/Graph/PathSearch/EulerPath/Common/BaseHierholzerAlgorithm.hpp>
 #include <Algorithm/Graph/PathSearch/EulerPath/DirectedGraph/BaseEulerPathSearchForDirectedGraph.hpp>
 
+#include <algorithm>
 #include <stack>
 
 namespace alba{
@@ -30,7 +31,8 @@ private:
     void searchForEulerPath(Path & result, Vertex const& startingVertex) const override
     {
         VertexToAdjacencyVerticesMap vertexToAdjacentVerticesMap;
-        Vertices allVertices(b_graph.getVertices());        for(Vertex const& vertex : allVertices)
+        Vertices allVertices(b_graph.getVertices());
+        for(Vertex const& vertex : allVertices)
         {
             vertexToAdjacentVerticesMap.emplace(vertex, b_graph.getAdjacentVerticesAt(vertex));
         }
@@ -45,7 +47,8 @@ private:
             if(!isDeadEnd(adjacentVertices)) // if not dead end
             {
                 nonDeadEndPath.push(currentVertex);
-                currentVertex = adjacentVertices.back();                adjacentVertices.pop_back();
+                currentVertex = adjacentVertices.back();
+                adjacentVertices.pop_back();
             }
             else // if dead end
             {
@@ -61,6 +64,7 @@ private:
     {
         return adjacentVertices.empty();
     }
+
     BaseDirectedGraphWithVertex const& b_graph;
 };
 

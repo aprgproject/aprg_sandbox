@@ -82,7 +82,8 @@ private:
     }
     void putEulerEdgesOnPath(Path & result, Edges const& edgesInEulerCycle) const
     {
-        result.emplace_back(edgesInEulerCycle.front().first);        for(Edge const& edge : edgesInEulerCycle)
+        result.emplace_back(edgesInEulerCycle.front().first);
+        for(Edge const& edge : edgesInEulerCycle)
         {
             result.emplace_back(edge.second);
         }
@@ -116,7 +117,8 @@ private:
             {                isComplete = false;
                 break;
             }
-        }        if(isComplete)
+        }
+        if(isComplete)
         {
             putEulerEdgesOnPath(result, edgesInEulerCycle);
         }

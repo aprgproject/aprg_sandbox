@@ -4,6 +4,7 @@
 #include <gtest/gtest.h>
 namespace alba
 {
+
 namespace algorithm
 {
 
@@ -19,7 +20,8 @@ using PathsForTest = PathSearchForTest::Paths;
 TEST(HamiltonianPathSearchForUndirectedGraphWithDfsTest, GetAllHamiltonianPathsWorks)
 {
     GraphForTest graph;
-    graph.connect(0U, 1U);    graph.connect(0U, 2U);
+    graph.connect(0U, 1U);
+    graph.connect(0U, 2U);
     graph.connect(1U, 2U);
     graph.connect(1U, 3U);
     graph.connect(2U, 3U);
@@ -37,7 +39,8 @@ TEST(HamiltonianPathSearchForUndirectedGraphWithDfsTest, GetAllHamiltonianPathsW
 TEST(HamiltonianPathSearchForUndirectedGraphWithDfsTest, GetOneHamiltonianPathWorks)
 {
     GraphForTest graph;
-    graph.connect(0U, 1U);    graph.connect(0U, 2U);
+    graph.connect(0U, 1U);
+    graph.connect(0U, 2U);
     graph.connect(1U, 2U);
     graph.connect(1U, 3U);
     graph.connect(2U, 3U);
@@ -52,7 +55,8 @@ TEST(HamiltonianPathSearchForUndirectedGraphWithDfsTest, GetOneHamiltonianPathWo
 TEST(HamiltonianPathSearchForUndirectedGraphWithDfsTest, GetAllHamiltonianCyclesWorks)
 {
     GraphForTest graph;
-    graph.connect(0U, 1U);    graph.connect(0U, 2U);
+    graph.connect(0U, 1U);
+    graph.connect(0U, 2U);
     graph.connect(1U, 2U);
     graph.connect(1U, 3U);
     graph.connect(2U, 3U);
@@ -69,7 +73,8 @@ TEST(HamiltonianPathSearchForUndirectedGraphWithDfsTest, GetAllHamiltonianCycles
 TEST(HamiltonianPathSearchForUndirectedGraphWithDfsTest, GetOneHamiltonianCycleWorks)
 {
     GraphForTest graph;
-    graph.connect(0U, 1U);    graph.connect(0U, 2U);
+    graph.connect(0U, 1U);
+    graph.connect(0U, 2U);
     graph.connect(1U, 2U);
     graph.connect(1U, 3U);
     graph.connect(2U, 3U);

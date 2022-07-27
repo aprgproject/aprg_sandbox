@@ -4,7 +4,8 @@
 #include <Algorithm/Graph/ConnectedComponents/ConnectedComponentsUsingDfs.hpp>#include <Algorithm/Graph/ConnectedComponents/StronglyConnectedComponentsUsingKosarajuSharir.hpp>
 #include <Algorithm/Graph/PathSearch/DirectedAcyclicGraph/PathSearchForDirectedAcyclicGraph.hpp>
 #include <Algorithm/Graph/Tree/LongestPathsInTree.hpp>
-#include <Algorithm/Graph/Utilities/BipartiteCheckerUsingDfs.hpp>#include <Algorithm/Graph/Utilities/GraphUtilitiesHeaders.hpp>
+#include <Algorithm/Graph/Utilities/BipartiteCheckerUsingDfs.hpp>
+#include <Algorithm/Graph/Utilities/GraphUtilitiesHeaders.hpp>
 #include <Algorithm/UnionFind/BaseUnionFind.hpp>
 #include <Algorithm/UnionFind/UnionFindUsingMap.hpp>
 
@@ -384,7 +385,8 @@ std::pair<unsigned int, unsigned int> getInDegreeAndOutDegreeAt(BaseDirectedGrap
     // and the outdegree of a node is the number of edges that start at the node.
     using Edge = typename GraphTypes<Vertex>::Edge;
 
-    std::pair<unsigned int, unsigned int> result{};    for(Edge const& edge : graph.getEdges())
+    std::pair<unsigned int, unsigned int> result{};
+    for(Edge const& edge : graph.getEdges())
     {
         if(edge.first == vertex)
         {
@@ -421,6 +423,7 @@ typename GraphTypes<Vertex>::Path getCriticalPath(
         Vertex const& destinationVertex)
 {
     using Path = typename GraphTypes<Vertex>::Path;
+
     Path result;
     // Needs to be a directed acyclic path because if not the maximum path will be forever loop around the cycle
     if(isDirectedAcyclicGraph(graph))

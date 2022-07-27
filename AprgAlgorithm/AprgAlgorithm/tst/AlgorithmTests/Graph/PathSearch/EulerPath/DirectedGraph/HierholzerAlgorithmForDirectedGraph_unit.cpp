@@ -3,6 +3,7 @@
 #include <AlgorithmTests/Graph/PathSearch/EulerPath/DirectedGraph/Utilities/CommonTestsWithEulerPathForDirectedGraph.hpp>
 
 #include <gtest/gtest.h>
+
 using namespace alba::algorithm::CommonTestsWithEulerPathForDirectedGraph;
 
 namespace alba
@@ -67,6 +68,7 @@ TEST(HierholzerAlgorithmForDirectedGraphTest, GetEulerCycleAndPathWorksOnExample
 {
     testGetEulerCycleAndPathWorksOnExample1<PathSearchForTest, GraphForTest>();
 }
+
 }
 
 }

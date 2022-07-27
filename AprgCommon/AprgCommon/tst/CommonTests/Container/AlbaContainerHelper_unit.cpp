@@ -13,7 +13,8 @@
 #include <vector>
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 namespace containerHelper
 {
@@ -241,7 +242,8 @@ TEST(ContainerTest, SaveVectorOfIntegersToFileWorks)
     AlbaLocalPathHandler testFilePath(APRG_COMMON_TEST_FILE_TO_READ);    array<int, 6> temporaryArray{0, -23, 4, 379,- 482, 37};
     ofstream outputTestFile(testFilePath.getFullPath());
 
-    saveContentsToStream(outputTestFile, temporaryArray, StreamFormat::File);    outputTestFile.close();
+    saveContentsToStream(outputTestFile, temporaryArray, StreamFormat::File);
+    outputTestFile.close();
 
     ifstream inputTestFile(testFilePath.getFullPath());
     ASSERT_TRUE(inputTestFile.is_open());

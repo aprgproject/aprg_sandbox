@@ -3,10 +3,10 @@
 #include <Algorithm/Graph/PathSearch/EulerPath/Common/BaseHierholzerAlgorithm.hpp>
 #include <Algorithm/Graph/PathSearch/EulerPath/UndirectedGraph/BaseEulerPathSearchForUndirectedGraph.hpp>
 
+#include <algorithm>
 #include <stack>
 
-namespace alba
-{
+namespace alba{
 
 namespace algorithm
 {
@@ -57,7 +57,8 @@ private:
             }            else // if dead end
             {
                 result.emplace_back(currentVertex); // add dead end vertex
-                currentVertex = nonDeadEndPath.top(); // check last vertex on "non dead end path"                nonDeadEndPath.pop();
+                currentVertex = nonDeadEndPath.top(); // check last vertex on "non dead end path"
+                nonDeadEndPath.pop();
             }
         }
         std::reverse(result.begin(), result.end());

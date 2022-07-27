@@ -15,7 +15,8 @@ template <typename Vertex>
 class HamiltonianPathSearchForUndirectedGraphWithDfs // The Traveling Salesman Problem. // This is an intractable problem (classical NP-complete problem)
 {
 public:
-    using BaseGraphWithVertex = BaseGraph<Vertex>;    using Path = typename GraphTypes<Vertex>::Path;
+    using BaseGraphWithVertex = BaseGraph<Vertex>;
+    using Path = typename GraphTypes<Vertex>::Path;
     using Paths = typename GraphTypes<Vertex>::Paths;
     using CheckableVerticesWithVertex = CheckableVertices<Vertex>;
 
@@ -31,7 +32,8 @@ public:
     HamiltonianPathSearchForUndirectedGraphWithDfs(BaseGraphWithVertex const& graph)
         : m_graph(graph)
         , m_numberOfVertices(m_graph.getNumberOfVertices())
-        , m_searchType(SearchType::Unknown)    {}
+        , m_searchType(SearchType::Unknown)
+    {}
 
     Paths getAllHamiltonianPaths()
     {
@@ -154,6 +156,13 @@ protected:
     CheckableVerticesWithVertex m_processedVertices;
     Paths m_savedPaths;
 };
+
+// No efficient method is known for testing if a graph contains a Hamiltonian path, and the problem is NP-hard.
+// Still, in some special cases, we can be certain that a graph contains a Hamiltonian path.
+// A simple observation is that if the graph is complete, i.e., there is an edge between all pairs of nodes, it also contains a Hamiltonian path.
+
+// A common property in these theorems and other results is that they guarantee the existence of a Hamiltonian path if the graph has a large number of edges.
+// This makes sense, because the more edges the graph contains, the more possibilities there is to construct a Hamiltonian path.
 
 }
 

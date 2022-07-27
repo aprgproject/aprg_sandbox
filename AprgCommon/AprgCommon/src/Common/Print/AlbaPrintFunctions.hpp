@@ -60,6 +60,7 @@ template <typename ParameterType>void printParameter(std::ostream & outputStream
 {
     outputStream << parameter;
 }
+
 template <typename ValueType1, typename ValueType2>
 void printParameter(std::ostream & outputStream, std::pair<ValueType1, ValueType2> const& parameter)
 {
@@ -73,7 +74,8 @@ void printParameter(std::ostream & outputStream, std::pair<ValueType1, ValueType
 template <typename ValueType, size_t SIZE,          template <typename, size_t> class Container>
 void printParameter(std::ostream & outputStream, Container<ValueType, SIZE> const& container)
 {
-    outputStream << "{size: " << container.size() << " | ";    for(auto const& content : container)
+    outputStream << "{size: " << container.size() << " | ";
+    for(auto const& content : container)
     {
         printParameter(outputStream, content);
         outputStream << ", ";

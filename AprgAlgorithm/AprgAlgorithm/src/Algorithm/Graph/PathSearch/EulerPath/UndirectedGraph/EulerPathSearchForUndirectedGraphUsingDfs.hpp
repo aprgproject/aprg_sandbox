@@ -43,7 +43,8 @@ public:
     }
     Path getEulerPath() const override
     {
-        Path result;        if(this->hasEulerPath())
+        Path result;
+        if(this->hasEulerPath())
         {
             StackOfVertices eulerPathInStack;
             searchForEulerPathUsingDfs(eulerPathInStack, this->getStartingVertexForEulerPath());
@@ -53,7 +54,8 @@ public:
     }
 private:
 
-    void searchForEulerPathUsingDfs(StackOfVertices & eulerPathInStack, Vertex const& startingVertex) const    {
+    void searchForEulerPathUsingDfs(StackOfVertices & eulerPathInStack, Vertex const& startingVertex) const
+    {
         // This is DFS
         VertexToQueueOfEdgesMap vertexToQueueOfEdgesMap(createVertexToQueueOfEdgesMap());
         StackOfVertices pathToCheck;
