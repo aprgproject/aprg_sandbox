@@ -53,27 +53,22 @@ private:
     void initialize(Values const& valuesToCheck)
     {
         m_partialResults.reserve(valuesToCheck.size());
-        bool isFirst(true);
+
         Value partialResult{};
-        for(Value const valueToCheck : valuesToCheck)
+        if(!valuesToCheck.empty())
         {
-            if(isFirst)
-            {
-                partialResult = valueToCheck;
-                isFirst = false;
-            }
-            else
-            {
-                partialResult = m_accumulator(partialResult, valueToCheck);
-            }
+            partialResult = valuesToCheck.front();
             m_partialResults.emplace_back(partialResult);
+            for(unsigned int i=1; i<valuesToCheck.size(); i++)
+            {
+                partialResult = m_accumulator(partialResult, valuesToCheck.at(i));
+                m_partialResults.emplace_back(partialResult);
+            }
         }
         m_partialResults.shrink_to_fit();
     }
-
     Values m_partialResults;
     AccumulatorFunction m_accumulator;
-    AccumulatorFunction m_inverseAccumulator;
-};
+    AccumulatorFunction m_inverseAccumulator;};
 
 }

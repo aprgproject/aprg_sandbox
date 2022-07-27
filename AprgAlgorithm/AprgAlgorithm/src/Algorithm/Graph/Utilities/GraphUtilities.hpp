@@ -1,12 +1,10 @@
-  #pragma once
+#pragma once
 
 #include <Algorithm/Graph/CycleDetection/CycleDetectionUsingDfs.hpp>
-#include <Algorithm/Graph/ConnectedComponents/ConnectedComponentsUsingDfs.hpp>
-#include <Algorithm/Graph/ConnectedComponents/StronglyConnectedComponentsUsingKosarajuSharir.hpp>
+#include <Algorithm/Graph/ConnectedComponents/ConnectedComponentsUsingDfs.hpp>#include <Algorithm/Graph/ConnectedComponents/StronglyConnectedComponentsUsingKosarajuSharir.hpp>
 #include <Algorithm/Graph/PathSearch/DirectedAcyclicGraph/PathSearchForDirectedAcyclicGraph.hpp>
 #include <Algorithm/Graph/Tree/LongestPathsInTree.hpp>
-#include <Algorithm/Graph/Utilities/BipartiteCheckerUsingDfs.hpp>
-#include <Algorithm/Graph/Utilities/GraphUtilitiesHeaders.hpp>
+#include <Algorithm/Graph/Utilities/BipartiteCheckerUsingDfs.hpp>#include <Algorithm/Graph/Utilities/GraphUtilitiesHeaders.hpp>
 #include <Algorithm/UnionFind/BaseUnionFind.hpp>
 #include <Algorithm/UnionFind/UnionFindUsingMap.hpp>
 
@@ -117,28 +115,24 @@ bool isARegularGraph(BaseGraph<Vertex> const& graph)
     // A graph is regular if the degree of every node is the same (a constant).
 
     bool result(true);
-    bool isFirst(true);
-    unsigned int degreeThatShouldMatch(0);
-    for(Vertex const& vertex : graph.getVertices())
+    auto vertices(graph.getVertices());
+    if(!vertices.empty())
     {
-        if(isFirst)
+        unsigned int degreeThatShouldMatch = getDegreeAt(graph, vertices.front());
+        for(unsigned int i=1; i<vertices.size(); i++)
         {
-            degreeThatShouldMatch = getDegreeAt(graph, vertex);
-            isFirst=false;
-        }
-        else if(degreeThatShouldMatch != getDegreeAt(graph, vertex))
-        {
-            result=false;
-            break;
+            if(degreeThatShouldMatch != getDegreeAt(graph, vertices.at(i)))
+            {
+                result=false;
+                break;
+            }
         }
     }
     return result;
 }
-
 template <typename Vertex>
 bool isACompleteGraph(BaseGraph<Vertex> const& graph)
-{
-    // A graph is complete if the degree of every node is n-1, i.e., the graph contains all possible edges between the nodes.
+{    // A graph is complete if the degree of every node is n-1, i.e., the graph contains all possible edges between the nodes.
 
     return areAllDegrees(graph, graph.getNumberOfVertices()-1);
 }
@@ -335,26 +329,20 @@ template <typename Vertex>
 unsigned int getMinDegree(BaseGraph<Vertex> const& graph)
 {
     unsigned int result(0);
-    bool isFirst(true);
-    for(Vertex const& vertex : graph.getVertices())
+    auto vertices(graph.getVertices());
+    if(!vertices.empty())
     {
-        if(isFirst)
+        result = getDegreeAt(graph, vertices.front());
+        for(unsigned int i=1; i<vertices.size(); i++)
         {
-            result = getDegreeAt(graph, vertex);
-            isFirst = false;
-        }
-        else
-        {
-            result = std::min(result, getDegreeAt(graph, vertex));
+            result = std::min(result, getDegreeAt(graph, vertices.at(i)));
         }
     }
     return result;
 }
-
 template <typename Vertex>
 unsigned int getSumOfDegrees(BaseGraph<Vertex> const& graph)
-{
-    // Other definition:
+{    // Other definition:
     // The sum of degrees in a graph is always 2m, where m is the number of edges, because each edge increases the degree of exactly two nodes by one.
     // For this reason, the sum of degrees is always even.
     // -> Is this only for undirected graphs?

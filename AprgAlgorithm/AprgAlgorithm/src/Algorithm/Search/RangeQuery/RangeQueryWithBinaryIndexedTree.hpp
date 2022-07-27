@@ -63,26 +63,17 @@ public:
         {
             // Indexes here have plus one (for easier end loop conditions)
             Index indexPlusOne(index+1);
-            bool isFirst(true);
+            result = m_partialTreeSums.at(indexPlusOne-1);
+            indexPlusOne -= getGreatestPowerOf2Factor(indexPlusOne);
             while(0<indexPlusOne)
             {
-                if(isFirst)
-                {
-                    result = m_partialTreeSums.at(indexPlusOne-1);
-                    isFirst = false;
-                }
-                else
-                {
-                    result = m_accumulator(result, m_partialTreeSums.at(indexPlusOne-1));
-                }
+                result = m_accumulator(result, m_partialTreeSums.at(indexPlusOne-1));
                 indexPlusOne -= getGreatestPowerOf2Factor(indexPlusOne);
             }
-        }
-        return result;
+        }        return result;
     }
 
-    void changeValueAtIndex(Index const index, Value const newValue)
-    {
+    void changeValueAtIndex(Index const index, Value const newValue)    {
         // This has logN running time
         if(index < m_valuesToCheck.size())
         {
@@ -114,24 +105,17 @@ private:
     Value getPartialTreeSum(unsigned int const start, unsigned int const end) const
     {
         Value result{};
-        bool isFirst(true);
-        for(unsigned int i=start; i<=end && i<m_valuesToCheck.size(); i++)
+        if(start<=end && start<m_valuesToCheck.size())
         {
-            if(isFirst)
-            {
-                result = m_valuesToCheck.at(i);
-                isFirst = false;
-            }
-            else
+            result = m_valuesToCheck.at(start);
+            for(unsigned int i=start+1; i<=end && i<m_valuesToCheck.size(); i++)
             {
                 result = m_accumulator(result, m_valuesToCheck.at(i));
             }
-        }
-        return result;
+        }        return result;
     }
 
-    Index getGreatestPowerOf2Factor(Index const index) const
-    {
+    Index getGreatestPowerOf2Factor(Index const index) const    {
         return alba::mathHelper::getGreatestPowerOf2Factor(index);
     }
 
