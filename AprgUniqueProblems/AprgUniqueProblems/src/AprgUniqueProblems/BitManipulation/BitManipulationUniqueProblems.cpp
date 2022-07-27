@@ -38,11 +38,6 @@ unsigned int invertAllBitsAfterTheLastOne(unsigned int const value)
     return value | (value-1);
 }
 
-bool isPowerOfTwo(unsigned int const value)
-{
-    return (value & (value-1))==0;
-}
-
 }
 
 }

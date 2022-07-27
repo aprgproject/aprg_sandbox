@@ -1,10 +1,12 @@
 #pragma once
 
 #include <Algorithm/Graph/CycleDetection/CycleDetectionUsingDfs.hpp>
-#include <Algorithm/Graph/ConnectedComponents/ConnectedComponentsUsingDfs.hpp>#include <Algorithm/Graph/ConnectedComponents/StronglyConnectedComponentsUsingKosarajuSharir.hpp>
+#include <Algorithm/Graph/ConnectedComponents/ConnectedComponentsUsingDfs.hpp>
+#include <Algorithm/Graph/ConnectedComponents/StronglyConnectedComponentsUsingKosarajuSharir.hpp>
 #include <Algorithm/Graph/PathSearch/DirectedAcyclicGraph/PathSearchForDirectedAcyclicGraph.hpp>
 #include <Algorithm/Graph/Tree/LongestPathsInTree.hpp>
-#include <Algorithm/Graph/Utilities/BipartiteCheckerUsingDfs.hpp>#include <Algorithm/Graph/Utilities/GraphUtilitiesHeaders.hpp>
+#include <Algorithm/Graph/Utilities/BipartiteCheckerUsingDfs.hpp>
+#include <Algorithm/Graph/Utilities/GraphUtilitiesHeaders.hpp>
 #include <Algorithm/UnionFind/BaseUnionFind.hpp>
 #include <Algorithm/UnionFind/UnionFindUsingMap.hpp>
 
@@ -130,9 +132,11 @@ bool isARegularGraph(BaseGraph<Vertex> const& graph)
     }
     return result;
 }
+
 template <typename Vertex>
 bool isACompleteGraph(BaseGraph<Vertex> const& graph)
-{    // A graph is complete if the degree of every node is n-1, i.e., the graph contains all possible edges between the nodes.
+{
+    // A graph is complete if the degree of every node is n-1, i.e., the graph contains all possible edges between the nodes.
 
     return areAllDegrees(graph, graph.getNumberOfVertices()-1);
 }
@@ -340,9 +344,11 @@ unsigned int getMinDegree(BaseGraph<Vertex> const& graph)
     }
     return result;
 }
+
 template <typename Vertex>
 unsigned int getSumOfDegrees(BaseGraph<Vertex> const& graph)
-{    // Other definition:
+{
+    // Other definition:
     // The sum of degrees in a graph is always 2m, where m is the number of edges, because each edge increases the degree of exactly two nodes by one.
     // For this reason, the sum of degrees is always even.
     // -> Is this only for undirected graphs?

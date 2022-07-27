@@ -67,8 +67,10 @@ private:
         }
         m_partialResults.shrink_to_fit();
     }
+
     Values m_partialResults;
     AccumulatorFunction m_accumulator;
-    AccumulatorFunction m_inverseAccumulator;};
+    AccumulatorFunction m_inverseAccumulator;
+};
 
 }

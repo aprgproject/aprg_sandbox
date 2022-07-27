@@ -24,6 +24,7 @@ include(${APRG_DIR}/AprgCMakeHelpers/CommonDefinitions.cmake)
 #Include other projects
 include(${APRG_DIR}/gtest/AprgCmakeInclude/gtest.cmake)
 include(${APRG_DIR}/AprgCommon/AprgCmakeInclude/AprgCommon.cmake)
+include(${APRG_DIR}/AprgAlgorithm/AprgCmakeInclude/AprgAlgorithm.cmake)
 
 #Add files and directories
 include(${APRG_UNIQUE_PROBLEMS_DIR}/cmake/FilesAndDirectories.cmake)
