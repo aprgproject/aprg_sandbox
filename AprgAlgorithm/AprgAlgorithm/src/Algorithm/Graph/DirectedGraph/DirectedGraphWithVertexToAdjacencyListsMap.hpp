@@ -29,6 +29,11 @@ public:
         , m_adjacencyLists{}
     {}
 
+    bool isEmpty() const
+    {
+        return m_adjacencyLists.empty();
+    }
+
     bool isDirectlyConnected(Vertex const& sourceVertex, Vertex const& destinationVertex) const override
     {
         bool result(false);

@@ -69,6 +69,18 @@ void testHasEulerPathWorksOnGraphWithMoreThanOneLesserAndGreaterInAndOutDegrees(
 }
 
 template <typename PathSearch, typename Graph>
+void testGetEulerCycleWorksOnEmptyGraph()
+{
+    using Path = typename PathSearch::Path;
+    Graph graph;
+    PathSearch pathSearch(graph);
+
+    Path pathToVerify(pathSearch.getEulerCycle());
+
+    EXPECT_TRUE(pathToVerify.empty());
+}
+
+template <typename PathSearch, typename Graph>
 void testGetEulerCycleWorksOnGraphWithAllInDegreesEqualsOutDegrees()
 {
     using Path = typename PathSearch::Path;
@@ -94,6 +106,18 @@ void testGetEulerCycleWorksOnGraphWithAllInDegreesNotEqualToOutDegrees()
     PathSearch pathSearch(graph);
 
     Path pathToVerify(pathSearch.getEulerCycle());
+
+    EXPECT_TRUE(pathToVerify.empty());
+}
+
+template <typename PathSearch, typename Graph>
+void testGetEulerPathWorksOnEmptyGraph()
+{
+    using Path = typename PathSearch::Path;
+    Graph graph;
+    PathSearch pathSearch(graph);
+
+    Path pathToVerify(pathSearch.getEulerPath());
 
     EXPECT_TRUE(pathToVerify.empty());
 }

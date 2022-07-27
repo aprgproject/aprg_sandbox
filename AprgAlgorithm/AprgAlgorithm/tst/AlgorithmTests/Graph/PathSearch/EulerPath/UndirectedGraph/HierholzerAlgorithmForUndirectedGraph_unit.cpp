@@ -44,6 +44,11 @@ TEST(HierholzerAlgorithmForUndirectedGraphTest, HasEulerPathWorksOnGraphWithThre
     testHasEulerPathWorksOnGraphWithThreeOddDegreesVertices<PathSearchForTest, GraphForTest>();
 }
 
+TEST(HierholzerAlgorithmForUndirectedGraphTest, GetEulerCycleWorksOnEmptyGraph)
+{
+    testGetEulerCycleWorksOnEmptyGraph<PathSearchForTest, GraphForTest>();
+}
+
 TEST(HierholzerAlgorithmForUndirectedGraphTest, GetEulerCycleWorksOnGraphWithAllEvenDegreesVertices)
 {
     testGetEulerCycleWorksOnGraphWithAllEvenDegreesVertices<PathSearchForTest, GraphForTest>();
@@ -52,6 +57,11 @@ TEST(HierholzerAlgorithmForUndirectedGraphTest, GetEulerCycleWorksOnGraphWithAll
 TEST(HierholzerAlgorithmForUndirectedGraphTest, GetEulerCycleWorksOnGraphWithNotAllEvenDegreesVertices)
 {
     testGetEulerCycleWorksOnGraphWithNotAllEvenDegreesVertices<PathSearchForTest, GraphForTest>();
+}
+
+TEST(HierholzerAlgorithmForUndirectedGraphTest, GetEulerPathWorksOnEmptyGraph)
+{
+    testGetEulerPathWorksOnEmptyGraph<PathSearchForTest, GraphForTest>();
 }
 
 TEST(HierholzerAlgorithmForUndirectedGraphTest, GetEulerPathWorksOnGraphWithTwoOddDegreesVertices)

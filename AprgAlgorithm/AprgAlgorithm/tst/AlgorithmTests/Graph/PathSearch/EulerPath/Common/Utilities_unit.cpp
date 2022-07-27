@@ -6,8 +6,10 @@
 
 namespace alba
 {
+
 namespace algorithm
 {
+
 namespace
 {
 using VertexForTest = unsigned int;

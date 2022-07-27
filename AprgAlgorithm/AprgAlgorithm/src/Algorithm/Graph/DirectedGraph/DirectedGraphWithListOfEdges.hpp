@@ -28,6 +28,11 @@ public:
         : m_numberOfEdges(0U)
     {}
 
+    bool isEmpty() const
+    {
+        return m_edges.empty();
+    }
+
     bool isDirectlyConnected(Vertex const& sourceVertex, Vertex const& destinationVertex) const override
     {
         return m_edges.find({sourceVertex, destinationVertex}) != m_edges.cend();

@@ -25,6 +25,11 @@ public:
         , m_adjacencyMatrix(MAX_VERTEX_VALUE, MAX_VERTEX_VALUE)
     {}
 
+    bool isEmpty() const
+    {
+        return m_numberOfEdges==0;
+    }
+
     bool hasAnyConnection(Vertex const& vertex) const override
     {
         bool result(false);

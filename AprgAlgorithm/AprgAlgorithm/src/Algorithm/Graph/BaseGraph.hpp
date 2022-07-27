@@ -17,6 +17,7 @@ public:
     using Vertices = typename GraphTypes<Vertex>::Vertices;
     using Edges = typename GraphTypes<Vertex>::Edges;
 
+    virtual bool isEmpty() const = 0;
     virtual bool isDirectlyConnected(Vertex const& vertex1, Vertex const& vertex2) const = 0;
     virtual GraphDirectionType getGraphDirectionType() const = 0;
     virtual unsigned int getNumberOfVertices() const = 0;

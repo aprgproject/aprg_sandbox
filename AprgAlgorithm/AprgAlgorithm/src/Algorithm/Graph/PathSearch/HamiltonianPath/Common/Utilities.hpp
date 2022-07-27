@@ -35,7 +35,8 @@ bool hasHamiltonianPathBecauseOfDiracTheorem(BaseGraph<Vertex> const& graph)
     return result;
 }
 
-template <typename Vertex>bool hasHamiltonianPathBecauseOfOreTheorem(BaseGraph<Vertex> const& graph)
+template <typename Vertex>
+bool hasHamiltonianPathBecauseOfOreTheorem(BaseGraph<Vertex> const& graph)
 {
     // Ore’s theorem: If the sum of degrees of each non-adjacent pair of nodes is at least n, the graph contains a Hamiltonian path.
     // Formal statement:

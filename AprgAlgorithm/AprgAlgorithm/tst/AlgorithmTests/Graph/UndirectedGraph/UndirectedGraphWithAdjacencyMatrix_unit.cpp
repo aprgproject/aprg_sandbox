@@ -21,6 +21,11 @@ TEST(UndirectedGraphWithAdjacencyMatrixTest, GetGraphDirectionTypeWorks)
     testGetGraphDirectionTypeWithVertexAsUnsignedInt<GraphForTest>();
 }
 
+TEST(UndirectedGraphWithAdjacencyMatrixTest, IsEmptyWorks)
+{
+    testIsEmptyWithVertexAsUnsignedInt<GraphForTest>();
+}
+
 TEST(UndirectedGraphWithAdjacencyMatrixTest, HasAnyConnectionWorksWhenEmpty)
 {
     testHasAnyConnectionWhenEmptyWithVertexAsUnsignedInt<GraphForTest>();

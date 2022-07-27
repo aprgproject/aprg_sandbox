@@ -41,6 +41,7 @@ public:
         }
         return result;
     }
+
     Path getEulerPath() const override
     {
         Path result;
@@ -52,6 +53,7 @@ public:
         }
         return result;
     }
+
 private:
 
     void searchForEulerPathUsingDfs(StackOfVertices & eulerPathInStack, Vertex const& startingVertex) const

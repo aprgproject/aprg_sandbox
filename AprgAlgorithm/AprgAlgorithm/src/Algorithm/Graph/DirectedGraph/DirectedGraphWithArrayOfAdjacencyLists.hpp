@@ -27,6 +27,11 @@ public:
         , m_adjacencyLists{}
     {}
 
+    bool isEmpty() const
+    {
+        return m_numberOfEdges==0;
+    }
+
     bool isDirectlyConnected(Vertex const& sourceVertex, Vertex const& destinationVertex) const override
     {
         AdjacencyList const& adjacencyList(m_adjacencyLists.at(sourceVertex));

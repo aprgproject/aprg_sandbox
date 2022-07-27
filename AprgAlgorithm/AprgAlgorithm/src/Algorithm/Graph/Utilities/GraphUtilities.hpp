@@ -1,7 +1,8 @@
   #pragma once
 
 #include <Algorithm/Graph/CycleDetection/CycleDetectionUsingDfs.hpp>
-#include <Algorithm/Graph/ConnectedComponents/ConnectedComponentsUsingDfs.hpp>#include <Algorithm/Graph/ConnectedComponents/StronglyConnectedComponentsUsingKosarajuSharir.hpp>
+#include <Algorithm/Graph/ConnectedComponents/ConnectedComponentsUsingDfs.hpp>
+#include <Algorithm/Graph/ConnectedComponents/StronglyConnectedComponentsUsingKosarajuSharir.hpp>
 #include <Algorithm/Graph/PathSearch/DirectedAcyclicGraph/PathSearchForDirectedAcyclicGraph.hpp>
 #include <Algorithm/Graph/Tree/LongestPathsInTree.hpp>
 #include <Algorithm/Graph/Utilities/BipartiteCheckerUsingDfs.hpp>
@@ -142,10 +143,12 @@ bool isACompleteGraph(BaseGraph<Vertex> const& graph)
     return areAllDegrees(graph, graph.getNumberOfVertices()-1);
 }
 
-template <typename Vertex>bool isASimpleGraph(BaseGraph<Vertex> const& graph)
+template <typename Vertex>
+bool isASimpleGraph(BaseGraph<Vertex> const& graph)
 {
     // A graph is simple if no edge starts and ends at the same node, and there are no multiple edges between two nodes.
     // Often we assume that graphs are simple.
+
     return getNumberOfSelfLoops(graph) == 0; // "no edge starts and ends at the same node"
     // How to check "multiple edges between two nodes"?
 }
@@ -178,10 +181,12 @@ bool areAllDegrees(BaseGraph<Vertex> const& graph, unsigned int const degreeThat
     });
 }
 
-template <typename Vertex>bool isASpanningTree(
+template <typename Vertex>
+bool isASpanningTree(
         BaseUndirectedGraph<Vertex> const& mainGraph,
         BaseUndirectedGraph<Vertex> const& subGraphToCheck)
-{    // A spanning tree of a connected graph is a subgraph that contains all fo the graphs' vertices and is a single tree
+{
+    // A spanning tree of a connected graph is a subgraph that contains all fo the graphs' vertices and is a single tree
     // Note: It should be a subgraph.
 
     return isATree(subGraphToCheck)
@@ -349,9 +354,11 @@ unsigned int getMinDegree(BaseGraph<Vertex> const& graph)
 template <typename Vertex>
 unsigned int getSumOfDegrees(BaseGraph<Vertex> const& graph)
 {
-    // Other definition:    // The sum of degrees in a graph is always 2m, where m is the number of edges, because each edge increases the degree of exactly two nodes by one.
+    // Other definition:
+    // The sum of degrees in a graph is always 2m, where m is the number of edges, because each edge increases the degree of exactly two nodes by one.
     // For this reason, the sum of degrees is always even.
     // -> Is this only for undirected graphs?
+
     return graph.getNumberOfEdges()*2;
 }
 
@@ -392,6 +399,7 @@ std::pair<unsigned int, unsigned int> getInDegreeAndOutDegreeAt(BaseDirectedGrap
 {
     // In a directed graph, the indegree of a node is the number of edges that end at the node,
     // and the outdegree of a node is the number of edges that start at the node.
+
     using Edge = typename GraphTypes<Vertex>::Edge;
 
     std::pair<unsigned int, unsigned int> result{};
@@ -428,7 +436,8 @@ std::map<Vertex, std::pair<unsigned int, unsigned int>> getAllInDegreesAndOutDeg
 
 template <typename Vertex, typename Weight, typename EdgeWeightedGraphType>
 typename GraphTypes<Vertex>::Path getCriticalPath(
-        EdgeWeightedGraphType const& graph,        Vertex const& sourceVertex,
+        EdgeWeightedGraphType const& graph,
+        Vertex const& sourceVertex,
         Vertex const& destinationVertex)
 {
     using Path = typename GraphTypes<Vertex>::Path;

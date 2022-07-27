@@ -11,6 +11,7 @@
 #include <stack>
 #include <string>
 #include <vector>
+
 using namespace std;
 
 namespace alba
@@ -239,7 +240,8 @@ TEST(ContainerTest, GetUnderlyingContainerReferenceWorksOnStack)
 
 TEST(ContainerTest, SaveVectorOfIntegersToFileWorks)
 {
-    AlbaLocalPathHandler testFilePath(APRG_COMMON_TEST_FILE_TO_READ);    array<int, 6> temporaryArray{0, -23, 4, 379,- 482, 37};
+    AlbaLocalPathHandler testFilePath(APRG_COMMON_TEST_FILE_TO_READ);
+    array<int, 6> temporaryArray{0, -23, 4, 379,- 482, 37};
     ofstream outputTestFile(testFilePath.getFullPath());
 
     saveContentsToStream(outputTestFile, temporaryArray, StreamFormat::File);

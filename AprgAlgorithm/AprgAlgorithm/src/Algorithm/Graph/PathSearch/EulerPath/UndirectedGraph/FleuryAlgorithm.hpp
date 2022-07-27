@@ -72,7 +72,8 @@ private:
                 && connectedComponents.getComponentId(edgeToDelete.second) > 0; //destination is still connected
     }
 
-    GraphToManipulate createGraphToManipulate(Edges const& originalEdges) const    {
+    GraphToManipulate createGraphToManipulate(Edges const& originalEdges) const
+    {
         GraphToManipulate graphToManipulate;
         for(Edge const& originalEdge: originalEdges)
         {
@@ -80,6 +81,7 @@ private:
         }
         return graphToManipulate;
     }
+
     void putEulerEdgesOnPath(Path & result, Edges const& edgesInEulerCycle) const
     {
         result.emplace_back(edgesInEulerCycle.front().first);
@@ -114,7 +116,8 @@ private:
                 graphToManipulate.disconnect(deletedEdge.first, deletedEdge.second);
             }
             else
-            {                isComplete = false;
+            {
+                isComplete = false;
                 break;
             }
         }

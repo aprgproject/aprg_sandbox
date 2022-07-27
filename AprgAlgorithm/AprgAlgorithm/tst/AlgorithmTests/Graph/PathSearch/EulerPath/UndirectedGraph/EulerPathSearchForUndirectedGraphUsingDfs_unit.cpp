@@ -44,6 +44,11 @@ TEST(EulerPathSearchForUndirectedGraphUsingDfsTest, HasEulerPathWorksOnGraphWith
     testHasEulerPathWorksOnGraphWithThreeOddDegreesVertices<PathSearchForTest, GraphForTest>();
 }
 
+TEST(EulerPathSearchForUndirectedGraphUsingDfsTest, GetEulerCycleWorksOnEmptyGraph)
+{
+    testGetEulerCycleWorksOnEmptyGraph<PathSearchForTest, GraphForTest>();
+}
+
 TEST(EulerPathSearchForUndirectedGraphUsingDfsTest, GetEulerCycleWorksOnGraphWithAllEvenDegreesVertices)
 {
     testGetEulerCycleWorksOnGraphWithAllEvenDegreesVertices<PathSearchForTest, GraphForTest>();
@@ -52,6 +57,11 @@ TEST(EulerPathSearchForUndirectedGraphUsingDfsTest, GetEulerCycleWorksOnGraphWit
 TEST(EulerPathSearchForUndirectedGraphUsingDfsTest, GetEulerCycleWorksOnGraphWithNotAllEvenDegreesVertices)
 {
     testGetEulerCycleWorksOnGraphWithNotAllEvenDegreesVertices<PathSearchForTest, GraphForTest>();
+}
+
+TEST(EulerPathSearchForUndirectedGraphUsingDfsTest, GetEulerPathWorksOnEmptyGraph)
+{
+    testGetEulerPathWorksOnEmptyGraph<PathSearchForTest, GraphForTest>();
 }
 
 TEST(EulerPathSearchForUndirectedGraphUsingDfsTest, GetEulerPathWorksOnGraphWithTwoOddDegreesVertices)

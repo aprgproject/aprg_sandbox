@@ -6,7 +6,8 @@
 #include <algorithm>
 #include <stack>
 
-namespace alba{
+namespace alba
+{
 
 namespace algorithm
 {
@@ -30,12 +31,7 @@ private:
 
     void searchForEulerPath(Path & result, Vertex const& startingVertex) const override
     {
-        VertexToAdjacencyVerticesMap vertexToAdjacentVerticesMap;
-        Vertices allVertices(b_graph.getVertices());
-        for(Vertex const& vertex : allVertices)
-        {
-            vertexToAdjacentVerticesMap.emplace(vertex, b_graph.getAdjacentVerticesAt(vertex));
-        }
+        VertexToAdjacencyVerticesMap vertexToAdjacentVerticesMap(createVertexToAdjacentVerticesMap());
 
         std::stack<Vertex> nonDeadEndPath;
         Vertex currentVertex(startingVertex);
@@ -44,7 +40,7 @@ private:
         while(!nonDeadEndPath.empty())
         {
             Vertices & adjacentVertices(vertexToAdjacentVerticesMap[currentVertex]);
-            if(!isDeadEnd(adjacentVertices)) // if not dead end
+            if(!adjacentVertices.empty()) // if not dead end
             {
                 nonDeadEndPath.push(currentVertex);
                 currentVertex = adjacentVertices.back();
@@ -60,9 +56,15 @@ private:
         std::reverse(result.begin(), result.end());
     }
 
-    bool isDeadEnd(Vertices const& adjacentVertices) const
+    VertexToAdjacencyVerticesMap createVertexToAdjacentVerticesMap() const
     {
-        return adjacentVertices.empty();
+        VertexToAdjacencyVerticesMap result;
+        Vertices allVertices(b_graph.getVertices());
+        for(Vertex const& vertex : allVertices)
+        {
+            result.emplace(vertex, b_graph.getAdjacentVerticesAt(vertex));
+        }
+        return result;
     }
 
     BaseDirectedGraphWithVertex const& b_graph;

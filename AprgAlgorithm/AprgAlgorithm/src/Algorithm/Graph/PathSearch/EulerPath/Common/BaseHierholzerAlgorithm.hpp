@@ -15,6 +15,7 @@ public:
     using BaseClass = BaseEulerPathSearchType;
     using Vertices = typename GraphTypes<Vertex>::Vertices;
     using Path = typename GraphTypes<Vertex>::Path;
+    using VertexToAdjacencyVerticesMap = std::map<Vertex, Vertices>;
 
     BaseHierholzerAlgorithm(BaseGraphType const& graph)
         : BaseClass(graph)
@@ -24,7 +25,7 @@ public:
     Path getEulerCycle() const override
     {
         Path result;
-        if(this->hasEulerCycle()) // this is check is needed because Hierholzer algorithm does not check this
+        if(!b_graph.isEmpty() && this->hasEulerCycle()) // this is check is needed because Hierholzer algorithm does not check this
         {
             searchForEulerPath(result, this->getStartingVertexForEulerCycle());
         }
@@ -34,7 +35,7 @@ public:
     Path getEulerPath() const override
     {
         Path result;
-        if(this->hasEulerPath()) // this is check is needed because Hierholzer algorithm does not check this
+        if(!b_graph.isEmpty() && this->hasEulerPath()) // this is check is needed because Hierholzer algorithm does not check this
         {
             searchForEulerPath(result, this->getStartingVertexForEulerPath());
         }

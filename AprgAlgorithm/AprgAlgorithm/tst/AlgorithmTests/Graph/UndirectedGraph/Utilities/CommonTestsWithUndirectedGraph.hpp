@@ -22,6 +22,18 @@ void testGetGraphDirectionTypeWithVertexAsUnsignedInt()
 }
 
 template <typename Graph>
+void testIsEmptyWithVertexAsUnsignedInt()
+{
+    Graph emptyGraph;
+    Graph nonEmptyGraph;
+    nonEmptyGraph.connect(0U, 1U);
+    nonEmptyGraph.connect(0U, 2U);
+
+    EXPECT_TRUE(emptyGraph.isEmpty());
+    EXPECT_FALSE(nonEmptyGraph.isEmpty());
+}
+
+template <typename Graph>
 void testHasAnyConnectionWhenEmptyWithVertexAsUnsignedInt()
 {
     Graph graph;

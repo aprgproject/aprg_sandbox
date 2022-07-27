@@ -44,6 +44,11 @@ TEST(HierholzerAlgorithmForDirectedGraphTest, HasEulerPathWorksOnGraphWithMoreTh
     testHasEulerPathWorksOnGraphWithMoreThanOneLesserAndGreaterInAndOutDegrees<PathSearchForTest, GraphForTest>();
 }
 
+TEST(HierholzerAlgorithmForDirectedGraphTest, GetEulerCycleWorksOnEmptyGraph)
+{
+    testGetEulerCycleWorksOnEmptyGraph<PathSearchForTest, GraphForTest>();
+}
+
 TEST(HierholzerAlgorithmForDirectedGraphTest, GetEulerCycleWorksOnGraphWithAllInDegreesEqualsOutDegrees)
 {
     testGetEulerCycleWorksOnGraphWithAllInDegreesEqualsOutDegrees<PathSearchForTest, GraphForTest>();
@@ -52,6 +57,11 @@ TEST(HierholzerAlgorithmForDirectedGraphTest, GetEulerCycleWorksOnGraphWithAllIn
 TEST(HierholzerAlgorithmForDirectedGraphTest, GetEulerCycleWorksOnGraphWithAllInDegreesNotEqualToOutDegrees)
 {
     testGetEulerCycleWorksOnGraphWithAllInDegreesNotEqualToOutDegrees<PathSearchForTest, GraphForTest>();
+}
+
+TEST(HierholzerAlgorithmForDirectedGraphTest, GetEulerPathWorksOnEmptyGraph)
+{
+    testGetEulerPathWorksOnEmptyGraph<PathSearchForTest, GraphForTest>();
 }
 
 TEST(HierholzerAlgorithmForDirectedGraphTest, GetEulerPathWorksOnGraphWithOneLesserAndGreaterInAndOutDegrees)

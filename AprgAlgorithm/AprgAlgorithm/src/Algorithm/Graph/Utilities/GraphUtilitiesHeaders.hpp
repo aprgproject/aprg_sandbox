@@ -51,7 +51,8 @@ template <typename Vertex>
 std::map<Vertex, std::pair<unsigned int, unsigned int>> getAllInDegreesAndOutDegrees(BaseDirectedGraph<Vertex> const& graph);
 
 template <typename Vertex, typename Weight, typename EdgeWeightedGraphType>
-typename GraphTypes<Vertex>::Path getCriticalPath(        EdgeWeightedGraphType const& graph,
+typename GraphTypes<Vertex>::Path getCriticalPath(
+        EdgeWeightedGraphType const& graph,
         Vertex const& sourceVertex,
         Vertex const& destinationVertex);
 

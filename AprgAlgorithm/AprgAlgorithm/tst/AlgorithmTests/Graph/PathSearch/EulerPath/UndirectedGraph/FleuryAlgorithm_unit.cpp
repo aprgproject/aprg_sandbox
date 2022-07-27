@@ -44,6 +44,11 @@ TEST(FleuryAlgorithmTest, HasEulerPathWorksOnGraphWithThreeOddDegreesVertices)
     testHasEulerPathWorksOnGraphWithThreeOddDegreesVertices<PathSearchForTest, GraphForTest>();
 }
 
+TEST(FleuryAlgorithmTest, GetEulerCycleWorksOnEmptyGraph)
+{
+    testGetEulerCycleWorksOnEmptyGraph<PathSearchForTest, GraphForTest>();
+}
+
 TEST(FleuryAlgorithmTest, GetEulerCycleWorksOnGraphWithAllEvenDegreesVertices)
 {
     testGetEulerCycleWorksOnGraphWithAllEvenDegreesVertices<PathSearchForTest, GraphForTest>();
@@ -52,6 +57,11 @@ TEST(FleuryAlgorithmTest, GetEulerCycleWorksOnGraphWithAllEvenDegreesVertices)
 TEST(FleuryAlgorithmTest, GetEulerCycleWorksOnGraphWithNotAllEvenDegreesVertices)
 {
     testGetEulerCycleWorksOnGraphWithNotAllEvenDegreesVertices<PathSearchForTest, GraphForTest>();
+}
+
+TEST(FleuryAlgorithmTest, GetEulerPathWorksOnEmptyGraph)
+{
+    testGetEulerPathWorksOnEmptyGraph<PathSearchForTest, GraphForTest>();
 }
 
 TEST(FleuryAlgorithmTest, GetEulerPathWorksOnGraphWithTwoOddDegreesVertices)

@@ -398,11 +398,13 @@ TEST(GraphUtilitiesTest, GetMinDegreeAtWorks)
 
 TEST(GraphUtilitiesTest, GetSumOfDegreesAtWorks)
 {
-    UndirectedGraphForTest graph;    graph.connect(0U, 1U);
+    UndirectedGraphForTest graph;
+    graph.connect(0U, 1U);
     graph.connect(0U, 2U);
 
     EXPECT_EQ(4U, getSumOfDegrees(graph));
 }
+
 TEST(GraphUtilitiesTest, GetAverageDegreeWorks)
 {
     UndirectedGraphForTest graph;
@@ -441,7 +443,8 @@ TEST(GraphUtilitiesTest, GetDiameterOfATreeWorks)
 TEST(GraphUtilitiesTest, GetInDegreeAndOutDegreeAtWorks)
 {
     DirectedGraphForTest graph;
-    graph.connect(0U, 1U);    graph.connect(0U, 2U);
+    graph.connect(0U, 1U);
+    graph.connect(0U, 2U);
     graph.connect(0U, 3U);
     graph.connect(4U, 0U);
 
@@ -472,7 +475,8 @@ TEST(GraphUtilitiesTest, GetAllInDegreesAndOutDegreesAtWorks)
 
 TEST(GraphUtilitiesTest, GetEdgesOfMaximalConnectedSubgraphsWorks)
 {
-    UndirectedGraphForTest graph;    graph.connect(0U, 5U);
+    UndirectedGraphForTest graph;
+    graph.connect(0U, 5U);
     graph.connect(4U, 3U);
     graph.connect(0U, 1U);
     graph.connect(9U, 12U);

@@ -21,6 +21,11 @@ TEST(UndirectedGraphWithListOfEdgesTest, GetGraphDirectionTypeWorks)
     testGetGraphDirectionTypeWithVertexAsUnsignedInt<GraphForTest>();
 }
 
+TEST(UndirectedGraphWithListOfEdgesTest, IsEmptyWorks)
+{
+    testIsEmptyWithVertexAsUnsignedInt<GraphForTest>();
+}
+
 TEST(UndirectedGraphWithListOfEdgesTest, HasAnyConnectionWorksWhenEmpty)
 {
     testHasAnyConnectionWhenEmptyWithVertexAsUnsignedInt<GraphForTest>();

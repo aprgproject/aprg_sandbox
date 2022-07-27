@@ -216,7 +216,8 @@ typename Adapter::container_type & getUnderlyingContainerReference (Adapter & ad
 
 template <typename ValueType, std::size_t SIZE,
           template <typename, std::size_t> class Container>
-void saveContentsToStream(std::ostream & outputStream, Container<ValueType, SIZE> const& container, StreamFormat const streamFormat){
+void saveContentsToStream(std::ostream & outputStream, Container<ValueType, SIZE> const& container, StreamFormat const streamFormat)
+{
     //tested on array
     std::string delimeter(getDelimeterBasedOnFormat(streamFormat));
     std::ostream_iterator<ValueType> outputIterator(outputStream, delimeter.c_str());

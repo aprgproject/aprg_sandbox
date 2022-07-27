@@ -6,7 +6,8 @@
 #include <algorithm>
 #include <stack>
 
-namespace alba{
+namespace alba
+{
 
 namespace algorithm
 {
@@ -20,7 +21,7 @@ public:
     using Vertices = typename GraphTypes<Vertex>::Vertices;
     using Path = typename GraphTypes<Vertex>::Path;
     using SetOfVertices = typename GraphTypes<Vertex>::SetOfVertices;
-    using VertexToAdjacencyVerticesMap = std::map<Vertex, SetOfVertices>;
+    using VertexToSetOfAdjacencyVerticesMap = std::map<Vertex, SetOfVertices>;
 
     HierholzerAlgorithmForUndirectedGraph(BaseUndirectedGraphWithVertex const& graph)
         : BaseClass(graph)
@@ -31,13 +32,7 @@ private:
 
     void searchForEulerPath(Path & result, Vertex const& startingVertex) const override
     {
-        VertexToAdjacencyVerticesMap vertexToAdjacentVerticesMap;
-        Vertices allVertices(b_graph.getVertices());
-        for(Vertex const& vertex : allVertices)
-        {
-            Vertices const& adjacentVertices(b_graph.getAdjacentVerticesAt(vertex));
-            vertexToAdjacentVerticesMap.emplace(vertex, SetOfVertices(adjacentVertices.cbegin(), adjacentVertices.cend()));
-        }
+        VertexToSetOfAdjacencyVerticesMap vertexToSetOfAdjacencyVerticesMap(createVertexToSetOfAdjacencyVerticesMap());
 
         std::stack<Vertex> nonDeadEndPath;
         Vertex currentVertex(startingVertex);
@@ -45,16 +40,17 @@ private:
 
         while(!nonDeadEndPath.empty())
         {
-            SetOfVertices & adjacentVertices(vertexToAdjacentVerticesMap[currentVertex]);
-            if(!isDeadEnd(adjacentVertices)) // if not dead end
+            SetOfVertices & adjacentVertices(vertexToSetOfAdjacencyVerticesMap[currentVertex]);
+            if(!adjacentVertices.empty()) // if not dead end
             {
                 nonDeadEndPath.push(currentVertex);
                 auto firstIt = adjacentVertices.cbegin();
                 Vertex nextVertex(*firstIt);
                 adjacentVertices.erase(firstIt);
-                vertexToAdjacentVerticesMap[nextVertex].erase(currentVertex);
+                vertexToSetOfAdjacencyVerticesMap[nextVertex].erase(currentVertex);
                 currentVertex = nextVertex;
-            }            else // if dead end
+            }
+            else // if dead end
             {
                 result.emplace_back(currentVertex); // add dead end vertex
                 currentVertex = nonDeadEndPath.top(); // check last vertex on "non dead end path"
@@ -64,9 +60,16 @@ private:
         std::reverse(result.begin(), result.end());
     }
 
-    bool isDeadEnd(SetOfVertices const& adjacentVertices) const
+    VertexToSetOfAdjacencyVerticesMap createVertexToSetOfAdjacencyVerticesMap() const
     {
-        return adjacentVertices.empty();
+        VertexToSetOfAdjacencyVerticesMap result;
+        Vertices allVertices(b_graph.getVertices());
+        for(Vertex const& vertex : allVertices)
+        {
+            Vertices const& adjacentVertices(b_graph.getAdjacentVerticesAt(vertex));
+            result.emplace(vertex, SetOfVertices(adjacentVertices.cbegin(), adjacentVertices.cend()));
+        }
+        return result;
     }
 
     BaseUndirectedGraphWithVertex const& b_graph;

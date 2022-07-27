@@ -27,6 +27,11 @@ public:
         , m_edges{}
     {}
 
+    bool isEmpty() const
+    {
+        return m_edges.empty();
+    }
+
     bool hasAnyConnection(Vertex const& vertex) const override
     {
         bool result(false);
