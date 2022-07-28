@@ -145,32 +145,28 @@ PieceTypes ChessPieceConverter::getBestFitTypes(
     {
         scoreToPieceMultimap.emplace(pieceTypeAndScorePair.second, pieceTypeAndScorePair.first);
     }
-    bool isFirst(true);
-    Count maximumScore{};
-    for(auto it = scoreToPieceMultimap.crbegin(); it!=scoreToPieceMultimap.crend(); it++)
+    if(!scoreToPieceMultimap.empty())
     {
-        if(isFirst)
+        auto it = scoreToPieceMultimap.crbegin();
+        Count maximumScore = it->first;
+        bestFitTypes.emplace_back(it->second);
+        for(; it!=scoreToPieceMultimap.crend(); it++)
         {
-            maximumScore = it->first;
-            bestFitTypes.emplace_back(it->second);
-            isFirst = false;
-        }
-        else if(maximumScore == it->first)
-        {
-            bestFitTypes.emplace_back(it->second);
-        }
-        else
-        {
-            break;
+            if(maximumScore == it->first)
+            {
+                bestFitTypes.emplace_back(it->second);
+            }
+            else
+            {
+                break;
+            }
         }
     }
     return bestFitTypes;
 }
-
 void ChessPieceConverter::initialize()
 {
-    initializeToChessDotCom();
-}
+    initializeToChessDotCom();}
 
 void ChessPieceConverter::initializeToChessDotCom()
 {
