@@ -187,27 +187,16 @@ public:
     std::string getDisplayableString() const
     {
         std::stringstream ss;
-        bool isFirst(true);
-        ss << "{";
-        for(auto const& value : m_values)
+        ss << "{" << m_values.at(0);
+        for(unsigned int i=1; i<m_values.size(); i++)
         {
-            if(isFirst)
-            {
-                isFirst = false;
-            }
-            else
-            {
-                ss << ", ";
-            }
-            ss << value;
+            ss << ", " << m_values.at(i);
         }
         ss << "}";
-        return ss.str();
-    }
+        return ss.str();    }
 
     DataType & getValueReferenceAt(unsigned int const index)
-    {
-        assert(index<SIZE);
+    {        assert(index<SIZE);
         return m_values.at(index);
     }
 

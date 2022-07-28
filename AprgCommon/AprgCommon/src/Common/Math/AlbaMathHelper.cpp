@@ -48,34 +48,24 @@ FractionDetails getFractionFromPartialNumerators(
         bool & isBeyondUnsignedIntegerLimits)
 {
     double numerator(0), denominator(0);
-    bool isFirst(true);
-    for(UnsignedIntegers::const_reverse_iterator it=calculatedPartialNumerators.crbegin();
-        it!=calculatedPartialNumerators.crend();
-        it++)
+    if(!calculatedPartialNumerators.empty())
     {
-        unsigned int calculatedNumerator(*it);
-        if(isFirst)
-        {
-            numerator = calculatedNumerator;
-            denominator = 1;
-            isFirst = false;
-        }
-        else
+        numerator = calculatedPartialNumerators.at(calculatedPartialNumerators.size()-1);
+        denominator = 1;
+        for(int i=calculatedPartialNumerators.size()-2; i>=0; i--)
         {
             double previousNumerator = numerator;
-            numerator = (calculatedNumerator * numerator) + denominator;
+            numerator = (calculatedPartialNumerators.at(i) * numerator) + denominator;
             denominator = previousNumerator;
+            isBeyondUnsignedIntegerLimits =
+                    isValueBeyondLimits<unsigned int>(numerator) || isValueBeyondLimits<unsigned int>(denominator);
+            if(isBeyondUnsignedIntegerLimits) { break; }
         }
-        isBeyondUnsignedIntegerLimits =
-                isValueBeyondLimits<unsigned int>(numerator) || isValueBeyondLimits<unsigned int>(denominator);
-        if(isBeyondUnsignedIntegerLimits) { break; }
     }
     return FractionDetails{
-        1,
-        getIntegerAfterRoundingADoubleValue<unsigned int>(numerator),
+        1,        getIntegerAfterRoundingADoubleValue<unsigned int>(numerator),
                 getIntegerAfterRoundingADoubleValue<unsigned int>(denominator)};
 }
-
 //end of internal functions
 }
 
