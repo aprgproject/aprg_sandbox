@@ -198,28 +198,21 @@ void SolverUsingSubstitution::solveAndUpdate(
 {
     OneEquationOneVariableEqualitySolver solver;
     SolutionSet solutionSetForOneVariable(solver.calculateSolutionAndReturnSolutionSet(equationToSolve));
-    bool isFirst(true);
     AlbaNumbers const& acceptedValues(solutionSetForOneVariable.getAcceptedValues());
-    for(AlbaNumber const& acceptedValue : acceptedValues)
+    if(!acceptedValues.empty())
     {
-        if(isFirst)
-        {
-            SolutionSet solutionToAdd;
-            solutionToAdd.addAcceptedValue(acceptedValue);
-            solutionSet.addSolutionSetForVariable(variableNameToSolve, solutionToAdd);
-            isFirst = false;
-        }
-        else
+        SolutionSet firstPotentialSolution;
+        firstPotentialSolution.addAcceptedValue(acceptedValues.front());
+        solutionSet.addSolutionSetForVariable(variableNameToSolve, firstPotentialSolution);
+        for(unsigned int i=1; i<acceptedValues.size(); i++)
         {
             SolutionSet potentialSolution;
-            potentialSolution.addAcceptedValue(acceptedValue);
+            potentialSolution.addAcceptedValue(acceptedValues.at(i));
             MultipleVariableSolutionSet multipleVariableSolutionSet;
             multipleVariableSolutionSet.addSolutionSetForVariable(variableNameToSolve, potentialSolution);
-            m_solutionsWithSomeVariables.emplace_back(multipleVariableSolutionSet);
-        }
+            m_solutionsWithSomeVariables.emplace_back(multipleVariableSolutionSet);        }
     }
 }
-
 }
 
 }

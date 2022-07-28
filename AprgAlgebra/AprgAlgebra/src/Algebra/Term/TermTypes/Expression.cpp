@@ -118,55 +118,46 @@ TermsWithAssociation const& Expression::getTermsWithAssociation() const
 
 string Expression::getDisplayableString() const
 {
-    bool isFirst(true);
     stringstream result;
     TermsWithDetails const& termsWithDetails(m_termsWithAssociation.getTermsWithDetails());
     result << "(";
-    for(TermWithDetails const& termWithDetails : termsWithDetails)
+    if(!termsWithDetails.empty())
     {
-        Term const& term(getTermConstReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer));
-        if(isFirst)
+        TermWithDetails const& firstTermWithDetails(termsWithDetails.front());
+        result << getFirstStringIfNegativeAssociation(m_commonOperatorLevel, firstTermWithDetails.association);
+        result << firstTermWithDetails.baseTermSharedPointer->getDisplayableString();
+        for(unsigned int i=1; i<termsWithDetails.size(); i++)
         {
-            result << getFirstStringIfNegativeAssociation(m_commonOperatorLevel, termWithDetails.association);
-            isFirst=false;
-        }
-        else
-        {
+            TermWithDetails const& termWithDetails(termsWithDetails.at(i));
             result << getOperatingString(m_commonOperatorLevel, termWithDetails.association);
+            result << termWithDetails.baseTermSharedPointer->getDisplayableString();
         }
-        result << term.getDisplayableString();
     }
     result << ")";
-    return result.str();
-}
+    return result.str();}
 
 string Expression::getDebugString() const
 {
-    bool isFirst(true);
     stringstream result;
     TermsWithDetails const& termsWithDetails(m_termsWithAssociation.getTermsWithDetails());
     result << "( " << getEnumShortString(m_commonOperatorLevel) << "||";
-    for(TermWithDetails const& termWithDetails : termsWithDetails)
+    if(!termsWithDetails.empty())
     {
-        Term const& term(getTermConstReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer));
-        if(isFirst)
+        TermWithDetails const& firstTermWithDetails(termsWithDetails.front());
+        result << getFirstStringIfNegativeAssociation(m_commonOperatorLevel, firstTermWithDetails.association);
+        result << firstTermWithDetails.baseTermSharedPointer->getDebugString() << getEnumShortString(firstTermWithDetails.association);
+        for(unsigned int i=1; i<termsWithDetails.size(); i++)
         {
-            result << getFirstStringIfNegativeAssociation(m_commonOperatorLevel, termWithDetails.association);
-            isFirst=false;
-        }
-        else
-        {
+            TermWithDetails const& termWithDetails(termsWithDetails.at(i));
             result << getOperatingString(m_commonOperatorLevel, termWithDetails.association);
+            result << termWithDetails.baseTermSharedPointer->getDebugString() << getEnumShortString(termWithDetails.association);
         }
-        result << term.getDebugString() << getEnumShortString(termWithDetails.association);
     }
     result << " )";
-    return result.str();
-}
+    return result.str();}
 
 TermsWithAssociation & Expression::getTermsWithAssociationReference()
-{
-    clearSimplifiedFlag();
+{    clearSimplifiedFlag();
     return m_termsWithAssociation;
 }
 

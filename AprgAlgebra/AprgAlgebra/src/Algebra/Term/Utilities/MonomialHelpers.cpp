@@ -141,26 +141,22 @@ AlbaNumber getDegree(Monomial const& monomial)
 AlbaNumber getMaxExponent(Monomial const& monomial)
 {
     AlbaNumber maxExponent;
-    bool isFirst(true);
-    for(auto const& variableExponentPair : monomial.getVariablesToExponentsMapConstReference())
+    auto const& variablesToExponentsMap(monomial.getVariablesToExponentsMapConstReference());
+    if(!variablesToExponentsMap.empty())
     {
-        if(isFirst)
+        auto it = variablesToExponentsMap.cbegin();
+        maxExponent = it->second;
+        it++;
+        for(; it!=variablesToExponentsMap.cend(); it++)
         {
-            maxExponent = variableExponentPair.second;
-            isFirst = false;
-        }
-        else
-        {
-            maxExponent = max(maxExponent, variableExponentPair.second);
+            maxExponent = max(maxExponent, it->second);
         }
     }
     return maxExponent;
 }
-
 AlbaNumber getGcfOfExponentsInMonomial(Monomial const& monomial)
 {
-    AlbaNumber commonExponent(1);
-    bool isFirst(true);
+    AlbaNumber commonExponent(1);    bool isFirst(true);
     for(auto const& variablePair : monomial.getVariablesToExponentsMapConstReference())
     {
         AlbaNumber const& exponent(variablePair.second);
@@ -228,28 +224,25 @@ AlbaNumber getLcmOfCoefficientsInMonomials(Monomials const& monomials)
 
 AlbaNumber getCommonSignInMonomials(Monomials const& monomials)
 {
-    bool isFirst(true);
+    bool isFirstMonomial(true);
     bool isFirstMonomialNegative(false);
     unsigned int negativeSignCount(0);
-    for(Monomial const& monomial : monomials)
-    {
+    for(Monomial const& monomial : monomials)    {
         if(monomial.getConstantConstReference() < AlbaNumber(0))
         {
             negativeSignCount++;
-            if(isFirst)
+            if(isFirstMonomial)
             {
                 isFirstMonomialNegative = true;
             }
         }
-        isFirst=false;
+        isFirstMonomial=false;
     }
     return (isFirstMonomialNegative||(negativeSignCount>0 && negativeSignCount == monomials.size())) ? -1 : 1;
 }
-
 Monomial getGcfMonomialInMonomials(Monomials const& monomials)
 {
-    AlbaNumber commonCoefficient(getGcfOfCoefficientsInMonomials(monomials));
-    Monomial minExponentMonomial(getMonomialWithMinimumExponentsInMonomials(monomials));
+    AlbaNumber commonCoefficient(getGcfOfCoefficientsInMonomials(monomials));    Monomial minExponentMonomial(getMonomialWithMinimumExponentsInMonomials(monomials));
     if(commonCoefficient != 1)
     {
         commonCoefficient = getCommonSignInMonomials(monomials)*commonCoefficient;
@@ -301,45 +294,33 @@ Monomial compareMonomialsAndSaveMaximumExponentsForEachVariable(Monomial const& 
 Monomial getMonomialWithMinimumExponentsInMonomials(Monomials const& monomials)
 {
     Monomial monomialWithMinimumExponents(1, {});
-    bool isFirst(true);
-    for(Monomial const& monomial : monomials)
+    if(!monomials.empty())
     {
-        if(isFirst)
-        {
-            monomialWithMinimumExponents = monomial;
-            isFirst=false;
-        }
-        else
+        monomialWithMinimumExponents = monomials.front();
+        for(unsigned int i=1; i<monomials.size(); i++)
         {
             monomialWithMinimumExponents
-                    = compareMonomialsAndSaveMinimumExponentsForEachVariable(monomialWithMinimumExponents, monomial);
+                    = compareMonomialsAndSaveMinimumExponentsForEachVariable(monomialWithMinimumExponents, monomials.at(i));
         }
+        monomialWithMinimumExponents.simplify();
     }
-    monomialWithMinimumExponents.simplify();
     return monomialWithMinimumExponents;
 }
-
 Monomial getMonomialWithMaximumExponentsInMonomials(Monomials const& monomials)
 {
     Monomial monomialWithMaximumExponents(1, {});
-    bool isFirst(true);
-    for(Monomial const& monomial : monomials)
+    if(!monomials.empty())
     {
-        if(isFirst)
-        {
-            monomialWithMaximumExponents = monomial;
-            isFirst=false;
-        }
-        else
+        monomialWithMaximumExponents = monomials.front();
+        for(unsigned int i=1; i<monomials.size(); i++)
         {
             monomialWithMaximumExponents
-                    = compareMonomialsAndSaveMaximumExponentsForEachVariable(monomialWithMaximumExponents, monomial);
+                    = compareMonomialsAndSaveMaximumExponentsForEachVariable(monomialWithMaximumExponents, monomials.at(i));
         }
+        monomialWithMaximumExponents.simplify();
     }
-    monomialWithMaximumExponents.simplify();
     return monomialWithMaximumExponents;
 }
-
 
 }
 

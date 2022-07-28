@@ -138,70 +138,54 @@ Monomial getFirstMonomial(
 AlbaNumber getMaxDegree(
         Polynomial const& polynomial)
 {
-    bool isFirst(true);
     AlbaNumber maxDegree(0);
-    for(Monomial const& monomial : polynomial.getMonomialsConstReference())
+    Monomials const& monomials(polynomial.getMonomialsConstReference());
+    if(!monomials.empty())
     {
-        if(isFirst)
+        maxDegree = getDegree(monomials.front());
+        for(unsigned int i=1; i<monomials.size(); i++)
         {
-            maxDegree = getDegree(monomial);
-            isFirst=false;
-        }
-        else
-        {
-            maxDegree = max(maxDegree, getDegree(monomial));
+            maxDegree = max(maxDegree, getDegree(monomials.at(i)));
         }
     }
     return maxDegree;
 }
-
 std::pair<AlbaNumber, AlbaNumber> getMinmaxDegree(
         Polynomial const& polynomial)
 {
-    bool isFirst(true);
     std::pair<AlbaNumber, AlbaNumber> result;
-    for(Monomial const& monomial : polynomial.getMonomialsConstReference())
+    Monomials const& monomials(polynomial.getMonomialsConstReference());
+    if(!monomials.empty())
     {
-        if(isFirst)
+        result.first = getDegree(monomials.front());
+        result.second = result.first;
+        for(unsigned int i=1; i<monomials.size(); i++)
         {
-            result.first = getDegree(monomial);
-            result.second = result.first;
-            isFirst=false;
-        }
-        else
-        {
-            result.first = min(result.first, getDegree(monomial));
-            result.second = max(result.second, getDegree(monomial));
+            result.first = min(result.first, getDegree(monomials.at(i)));
+            result.second = max(result.second, getDegree(monomials.at(i)));
         }
     }
     return result;
 }
-
 AlbaNumber getDegreeForVariable(
         Polynomial const& polynomial,
         string const& variableName)
 {
-    bool isFirst(true);
     AlbaNumber maxDegree(0);
-    for(Monomial const& monomial : polynomial.getMonomialsConstReference())
+    Monomials const& monomials(polynomial.getMonomialsConstReference());
+    if(!monomials.empty())
     {
-        if(isFirst)
+        maxDegree = monomials.front().getExponentForVariable(variableName);
+        for(unsigned int i=1; i<monomials.size(); i++)
         {
-            maxDegree = monomial.getExponentForVariable(variableName);
-            isFirst=false;
-        }
-        else
-        {
-            maxDegree = max(maxDegree, monomial.getExponentForVariable(variableName));
+            maxDegree = max(maxDegree, monomials.at(i).getExponentForVariable(variableName));
         }
     }
     return maxDegree;
 }
-
 AlbaNumber getCoefficientOfVariableExponent(
         Polynomial const& polynomial,
-        Monomial const& monomial)
-{
+        Monomial const& monomial){
     AlbaNumber coefficient;
     for(Monomial const& monomialInternal : polynomial.getMonomialsConstReference())
     {

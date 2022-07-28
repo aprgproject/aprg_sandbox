@@ -120,29 +120,22 @@ void Summation::calculateSumUsingEachTerm(
     long long start(startNumber.getInteger());
     long long end(endNumber.getInteger());
     Term sum;
-    bool isFirst(true);
-    SubstitutionOfVariablesToValues substitution;
-    for(long long i(start); i<=end; i++)
+    if(start<=end)
     {
-        substitution.putVariableWithValue(m_variableToSubstitute, i);
-        Term termWithValue(substitution.performSubstitutionTo(m_termToSum));
-        if(isFirst)
+        SubstitutionOfVariablesToValues substitution;
+        substitution.putVariableWithValue(m_variableToSubstitute, start);
+        sum = substitution.performSubstitutionTo(m_termToSum);
+        for(long long value=start+1; value<=end; value++)
         {
-            sum = termWithValue;
-            isFirst=false;
-        }
-        else
-        {
-            sum = sum + termWithValue;
+            substitution.putVariableWithValue(m_variableToSubstitute, value);
+            sum += substitution.performSubstitutionTo(m_termToSum);
         }
     }
     result = sum;
 }
-
 void Summation::calculateSumUsingModel(
         Term & result,
-        AlbaNumber const& startNumber,
-        AlbaNumber const& endNumber) const
+        AlbaNumber const& startNumber,        AlbaNumber const& endNumber) const
 {
     Term summationModelWithConstant(getSummationModelWithKnownConstant(startNumber));
     SubstitutionOfVariablesToValues substitution({{m_variableToSubstitute, endNumber}});

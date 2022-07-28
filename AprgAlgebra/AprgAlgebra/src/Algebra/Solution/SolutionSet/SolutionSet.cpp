@@ -139,34 +139,26 @@ void SolutionSet::checkValuesAndPutIntervals(
         AlbaNumbers const& valuesToCheck,
         FunctionForCheckingValues const& isValueAcceptedFunction)
 {
-    bool isFirst(true);
-    AlbaNumber previousValueToCheck(AlbaNumber::Value::NegativeInfinity);
-    for(AlbaNumber const& valueToCheck : valuesToCheck)
-    {
-        if(isFirst)
-        {
-            AlbaNumber intervalValueToCheck(valueToCheck - getAbsoluteValue(valueToCheck));
-            addInterval(AlbaNumber::Value::NegativeInfinity, intervalValueToCheck, valueToCheck, isValueAcceptedFunction);
-            isFirst=false;
-        }
-        else
-        {
-            AlbaNumber intervalValueToCheck(getAverage(previousValueToCheck, valueToCheck));
-            addInterval(previousValueToCheck, intervalValueToCheck, valueToCheck, isValueAcceptedFunction);
-        }
-        previousValueToCheck = valueToCheck;
-    }
     if(!valuesToCheck.empty())
     {
-        AlbaNumber intervalValueToCheck(previousValueToCheck + getAbsoluteValue(previousValueToCheck));
+        AlbaNumber const& firstValueToCheck(valuesToCheck.front());
+        AlbaNumber intervalValueToCheck(firstValueToCheck - getAbsoluteValue(firstValueToCheck));
+        addInterval(AlbaNumber::Value::NegativeInfinity, intervalValueToCheck, firstValueToCheck, isValueAcceptedFunction);
+        AlbaNumber previousValueToCheck(firstValueToCheck);
+        for(unsigned int i=1; i<valuesToCheck.size(); i++)
+        {
+            AlbaNumber const& valueToCheck(valuesToCheck.at(i));
+            intervalValueToCheck = getAverage(previousValueToCheck, valueToCheck);
+            addInterval(previousValueToCheck, intervalValueToCheck, valueToCheck, isValueAcceptedFunction);
+            previousValueToCheck = valueToCheck;
+        }
+        intervalValueToCheck = previousValueToCheck + getAbsoluteValue(previousValueToCheck);
         addInterval(previousValueToCheck, intervalValueToCheck, AlbaNumber::Value::PositiveInfinity, isValueAcceptedFunction);
     }
 }
-
 void SolutionSet::addInterval(
         AlbaNumber const& lowerEndpointValue,
-        AlbaNumber const& intervalValueToCheck,
-        AlbaNumber const& higherEndpointValue,
+        AlbaNumber const& intervalValueToCheck,        AlbaNumber const& higherEndpointValue,
         FunctionForCheckingValues const& isValueAcceptedFunction)
 {
     if(isValueAcceptedFunction(intervalValueToCheck))

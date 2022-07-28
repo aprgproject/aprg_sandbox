@@ -118,24 +118,21 @@ string getFirstStringIfNegativeAssociation(
 
 string getString(TermsWithDetails const& termsWithDetails)
 {
-    bool isFirst(true);
     string result;
-    for(TermWithDetails const& termWithDetails : termsWithDetails)
+    if(!termsWithDetails.empty())
     {
-        if(!isFirst)
+        result += getString(termsWithDetails.front());
+        for(unsigned int i=1; i<termsWithDetails.size(); i++)
         {
             result += ", ";
+            result += getString(termsWithDetails.at(i));
         }
-        isFirst=false;
-        result += getString(termWithDetails);
     }
     return result;
 }
-
 string getString(TermWithDetails const& termWithDetails)
 {
-    return string("{")+termWithDetails.baseTermSharedPointer->getDisplayableString()
-            +"}{"+getEnumShortString(termWithDetails.association)+"}";
+    return string("{")+termWithDetails.baseTermSharedPointer->getDisplayableString()            +"}{"+getEnumShortString(termWithDetails.association)+"}";
 }
 
 string createVariableNameForSubstitution(Term const& term)
