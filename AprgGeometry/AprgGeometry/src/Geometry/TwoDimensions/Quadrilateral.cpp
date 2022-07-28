@@ -57,44 +57,37 @@ Quadrilateral::GroupOfPoints Quadrilateral::getGroupOfPointsBasedOnYValue() cons
 {
     GroupOfPoints result;
     Points vertices(m_vertices.begin(), m_vertices.end());
-    sortPointsInYAndThenX(vertices);
-    bool isFirst(true);
-    unsigned int groupOfPointsIndex(0);
-    Point previousPoint;
-    for(Point const& currentPoint : vertices)
+    if(!vertices.empty())
     {
-        if(isFirst)
+        sortPointsInYAndThenX(vertices);
+        unsigned int groupOfPointsIndex(0);
+        Point previousPoint(vertices.front());
+        result.emplace_back();
+        result[groupOfPointsIndex].emplace_back(vertices.front());
+        for(unsigned int i=1; i<vertices.size(); i++)
         {
-            isFirst=false;
-            result.emplace_back();
-            result[groupOfPointsIndex].emplace_back(currentPoint);
-        }
-        else
-        {
+            Point const& currentPoint(vertices.at(i));
             if(isAlmostEqual(currentPoint.getY(), previousPoint.getY()))
             {
-                result[groupOfPointsIndex].emplace_back(currentPoint);
-            }
+                result[groupOfPointsIndex].emplace_back(currentPoint);            }
             else
             {
                 result.emplace_back();
                 groupOfPointsIndex++;
                 result[groupOfPointsIndex].emplace_back(currentPoint);
             }
+            previousPoint=currentPoint;
         }
-        previousPoint=currentPoint;
-    }
-    for(Points & pointsInResult : result)
-    {
-        sort(pointsInResult.begin(), pointsInResult.end());
+        for(Points & pointsInResult : result)
+        {
+            sort(pointsInResult.begin(), pointsInResult.end());
+        }
     }
     return result;
 }
-
 Quadrilateral::ListOfStartEndOfXAndY Quadrilateral::getStartEndForXs(
         Quadrilateral::GroupOfPoints const& groupOfPointsBasedOnYValue,
-        double const interval) const
-{
+        double const interval) const{
     ListOfStartEndOfXAndY result;
     unsigned int groupSize = groupOfPointsBasedOnYValue.size();
     if(groupSize==1)
