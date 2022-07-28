@@ -56,11 +56,9 @@ TEST(DeBruijnSequencesTest, GetDeBruijnStringWorksWithBinaryAlphabetWithLength4)
     EXPECT_EQ("0001111011001010000", deBruijnSequences.getDeBruijnString());
 }
 
-TEST(DeBruijnSequencesTest, GetDeBruijnStringWorksWithDnaAlphabetWithLength4)
+TEST(DeBruijnSequencesTest, GetDeBruijnStringWorksWithDnaAlphabetWithLength2)
 {
     DeBruijnSequences deBruijnSequences(2, "ACTG");
-
     EXPECT_EQ("ATTGTCTAGGCGACCAA", deBruijnSequences.getDeBruijnString());
 }
-
 }
