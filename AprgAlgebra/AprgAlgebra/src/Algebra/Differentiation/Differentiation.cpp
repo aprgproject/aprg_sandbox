@@ -408,35 +408,37 @@ Term Differentiation::differentiateByProcessingAsPolynomialsOverPolynomials(
 Term Differentiation::differentiateTermsInMultiplicationOrDivisionTermByTerm(
         TermsWithDetails const& termsWithDetails) const
 {
-    bool isFirst(true);
     Term accumulatedTerm(1);
-    for(TermWithDetails const& termWithDetails : termsWithDetails)
+    if(!termsWithDetails.empty())
     {
-        Term const& currentTerm(getTermConstReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer));
-        if(isFirst && termWithDetails.hasPositiveAssociation())
+        TermWithDetails const& firstTermWithDetails(termsWithDetails.front());
+        Term const& firstTerm(getTermConstReferenceFromSharedPointer(firstTermWithDetails.baseTermSharedPointer));
+        if(firstTermWithDetails.hasPositiveAssociation())
         {
-            accumulatedTerm = currentTerm;
+            accumulatedTerm = firstTerm;
         }
         else
         {
+            accumulatedTerm = differentiateTwoDividedTerms(accumulatedTerm, firstTerm);
+        }
+        for(unsigned int i=1; i<termsWithDetails.size(); i++)
+        {
+            TermWithDetails const& termWithDetails(termsWithDetails.at(i));
+            Term const& currentTerm(getTermConstReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer));
             if(termWithDetails.hasPositiveAssociation())
             {
-                accumulatedTerm = differentiateTwoMultipliedTerms(accumulatedTerm, currentTerm);
-            }
+                accumulatedTerm = differentiateTwoMultipliedTerms(accumulatedTerm, currentTerm);            }
             else
             {
                 accumulatedTerm = differentiateTwoDividedTerms(accumulatedTerm, currentTerm);
             }
         }
-        isFirst = false;
     }
     return accumulatedTerm;
 }
-
 Term Differentiation::differentiateTermsInRaiseToPower(
         Expression const& expression) const
-{
-    TermsWithDetails const& termsWithDetails(expression.getTermsWithAssociation().getTermsWithDetails());
+{    TermsWithDetails const& termsWithDetails(expression.getTermsWithAssociation().getTermsWithDetails());
     Term result(AlbaNumber(AlbaNumber::Value::NotANumber));
     TermRaiseToTerms termRaiseToTerms(termsWithDetails);
     termRaiseToTerms.simplify();

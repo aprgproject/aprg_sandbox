@@ -135,27 +135,19 @@ AlbaNumber MultiplicationAndDivisionOfRadicals::getGcfOfExponents(
         RadicalDetails const& radicalDetails)
 {
     AlbaNumber gcfOfExponents(1);
-    bool isFirst(true);
-    for(RadicalDetail const& radicalDetail : radicalDetails)
+    if(!radicalDetails.empty())
     {
-        TermRaiseToANumber const& radical(radicalDetail.radical);
-        if(isFirst)
+        gcfOfExponents = radicalDetails.front().radical.getExponent();
+        for(unsigned int i=1; i<radicalDetails.size(); i++)
         {
-            gcfOfExponents = radical.getExponent();
-            isFirst = false;
-        }
-        else
-        {
-            gcfOfExponents = getGreatestCommonFactor(gcfOfExponents, radical.getExponent());
+            gcfOfExponents = getGreatestCommonFactor(gcfOfExponents, radicalDetails.at(i).radical.getExponent());
         }
     }
     return gcfOfExponents;
 }
-
 void MultiplicationAndDivisionOfRadicals::combineMonomialAndRadicalsAndSave(
         RadicalDetails const& radicalDetails,
-        Monomial const& combinedMonomial,
-        AlbaNumber const& gcfOfExponents)
+        Monomial const& combinedMonomial,        AlbaNumber const& gcfOfExponents)
 {
     Monomial newMonomial(combinedMonomial);
     newMonomial.raiseToPowerNumber(AlbaNumber(1)/gcfOfExponents);

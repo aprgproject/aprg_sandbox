@@ -179,33 +179,34 @@ void appendTransitionValues(
         AlbaNumbersSet const& sortedValues,
         FunctionToCheck const& functionToCheck)
 {
-    bool isFirst(true);
     AlbaNumber previousInputValue;
     AlbaNumber previousOutputValue;
-    for(AlbaNumber const& inputValue : sortedValues)
+    if(!sortedValues.empty())
     {
-        AlbaNumber outputValue(functionToCheck(inputValue));
-        if(isFirst)
+        auto it = sortedValues.cbegin();
+        previousInputValue = *it;
+        previousOutputValue = functionToCheck(previousInputValue);
+        it++;
+        for(; it!=sortedValues.cend(); it++)
         {
-            isFirst = false;
+            AlbaNumber const& inputValue(*it);
+            AlbaNumber outputValue(functionToCheck(inputValue));
+            if(previousOutputValue.isARealFiniteValue() && !outputValue.isARealFiniteValue())
+            {
+                transitionValues.emplace(getTransitionValue(previousInputValue, inputValue, functionToCheck));
+            }
+            else if(!previousOutputValue.isARealFiniteValue() && outputValue.isARealFiniteValue())
+            {
+                transitionValues.emplace(getTransitionValue(inputValue, previousInputValue, functionToCheck));
+            }
+            previousInputValue = inputValue;
+            previousOutputValue = outputValue;
         }
-        else if(previousOutputValue.isARealFiniteValue() && !outputValue.isARealFiniteValue())
-        {
-            transitionValues.emplace(getTransitionValue(previousInputValue, inputValue, functionToCheck));
-        }
-        else if(!previousOutputValue.isARealFiniteValue() && outputValue.isARealFiniteValue())
-        {
-            transitionValues.emplace(getTransitionValue(inputValue, previousInputValue, functionToCheck));
-        }
-        previousInputValue = inputValue;
-        previousOutputValue = outputValue;
     }
 }
-
 AlbaNumbers getNumbers(AlbaNumbersSet const& collectedValues)
 {
-    return AlbaNumbers(collectedValues.cbegin(), collectedValues.cend());
-}
+    return AlbaNumbers(collectedValues.cbegin(), collectedValues.cend());}
 
 AlbaNumber getTransitionValue(
         AlbaNumber const& inputValueYieldsToFiniteValue,

@@ -66,31 +66,26 @@ void splitPolynomialsByPolynomialDegree(Polynomials & result, Polynomial const& 
 {
     Monomials monomials(polynomial.getMonomialsConstReference());
     Polynomial partialPolynomial;
-    AlbaNumber currentDegree;
-    bool isFirst(true);
-    for(Monomial const& monomial : monomials)
+    if(!monomials.empty())
     {
-        AlbaNumber monomialDegree(getDegree(monomial));
-        if(isFirst)
+        AlbaNumber previousDegree(getDegree(monomials.front()));
+        for(Monomial const& monomial : monomials)
         {
-            currentDegree = monomialDegree;
-            isFirst = false;
+            AlbaNumber monomialDegree(getDegree(monomial));
+            if(previousDegree != monomialDegree)
+            {
+                previousDegree = monomialDegree;
+                result.emplace_back(partialPolynomial);
+                partialPolynomial.clear();
+            }
+            partialPolynomial.addMonomial(monomial);
         }
-        if(currentDegree != monomialDegree)
-        {
-            currentDegree = monomialDegree;
-            result.emplace_back(partialPolynomial);
-            partialPolynomial.clear();
-        }
-        partialPolynomial.addMonomial(monomial);
     }
     simplifyThenEmplaceBackIfPolynomialIsNotEmpty(result, partialPolynomial);
 }
-
 void splitPolynomialsByDivisibilityOfExponents(Polynomials & result, Polynomial const& polynomial)
 {
-    Polynomials collectedPolynomials;
-    AlbaNumber polynomialDegree(getMaxDegree(polynomial));
+    Polynomials collectedPolynomials;    AlbaNumber polynomialDegree(getMaxDegree(polynomial));
     if(polynomialDegree.isIntegerType() && polynomialDegree > 0)
     {
         Monomials remainingMonomials = polynomial.getMonomialsConstReference();
@@ -212,25 +207,18 @@ void factorizePolynomialWithNewVariables(
 
 void getCommonFactorsInThesePolynomials(Polynomials & commonFactors, Polynomials const& smallerPolynomials)
 {
-    bool isFirst(true);
-    for(Polynomial const& smallerPolynomial : smallerPolynomials)
+    if(!smallerPolynomials.empty())
     {
-        Polynomials commonFactorsOfAPolynomial(factorizeAPolynomial(smallerPolynomial));
-        if(isFirst)
+        commonFactors = factorizeAPolynomial(smallerPolynomials.front());
+        for(unsigned int i=1; i<smallerPolynomials.size(); i++)
         {
-            commonFactors = commonFactorsOfAPolynomial;
-            isFirst = false;
-        }
-        else
-        {
+            Polynomials commonFactorsOfAPolynomial(factorizeAPolynomial(smallerPolynomials.at(i)));
             updateToGetSubsetOfFactors(commonFactors, commonFactorsOfAPolynomial);
         }
-    }
-}
+    }}
 
 Polynomial getNewPolynomialWithNewVariables(
-        SubstitutionOfVariablesToTerms & variableSubstitution,
-        Polynomials const& smallerPolynomials)
+        SubstitutionOfVariablesToTerms & variableSubstitution,        Polynomials const& smallerPolynomials)
 {
     Polynomial newPolynomialWithVariables;
     for(Polynomial const& smallerPolynomial : smallerPolynomials)

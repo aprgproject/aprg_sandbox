@@ -40,56 +40,38 @@ AlbaNumberIntervals const& SolutionSet::getAcceptedIntervals() const
 string SolutionSet::getDisplayableString() const
 {
     stringstream ss;
-    bool isFirst(true);
-    ss << "AcceptedValues:{";
-    for(AlbaNumber const& acceptedValue : m_acceptedValues)
+    if(!m_acceptedValues.empty())
     {
-        if(isFirst)
+        ss << "AcceptedValues:{" << m_acceptedValues.front();
+        for(unsigned int i=1; i<m_acceptedValues.size(); i++)
         {
-            isFirst = false;
+            ss << ", " << m_acceptedValues.at(i);
         }
-        else
-        {
-            ss << ", ";
-        }
-        ss << acceptedValue;
+        ss << "} ";
     }
-    isFirst=true;
-    ss << "} RejectedValues:{";
-    for(AlbaNumber const& rejectedValue : m_rejectedValues)
+    if(!m_rejectedValues.empty())
     {
-        if(isFirst)
+        ss << "RejectedValues:{" << m_rejectedValues.front();
+        for(unsigned int i=1; i<m_rejectedValues.size(); i++)
         {
-            isFirst = false;
+            ss << ", " << m_rejectedValues.at(i);
         }
-        else
-        {
-            ss << ", ";
-        }
-        ss << rejectedValue;
+        ss << "} ";
     }
-    isFirst=true;
-    ss << "} AcceptedInterval:{";
-    for(AlbaNumberInterval const& acceptedInterval : m_acceptedIntervals)
+    if(!m_acceptedIntervals.empty())
     {
-        if(isFirst)
+        ss << "AcceptedInterval:{" << m_acceptedIntervals.front();
+        for(unsigned int i=1; i<m_acceptedIntervals.size(); i++)
         {
-            isFirst = false;
+            ss << ", " << m_acceptedIntervals.at(i);
         }
-        else
-        {
-            ss << ", ";
-        }
-        ss << acceptedInterval;
+        ss << "}";
     }
-    ss << "}";
     return ss.str();
 }
-
 void SolutionSet::addAcceptedValue(AlbaNumber const& value)
 {
-    m_acceptedValues.emplace_back(value);
-}
+    m_acceptedValues.emplace_back(value);}
 
 void SolutionSet::addAcceptedValues(AlbaNumbers const& values)
 {

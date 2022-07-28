@@ -211,27 +211,21 @@ Term IntegrationForFiniteCalculus::integratePolynomial(
         Polynomial const& polynomial) const
 {
     Term result;
-    bool isFirst(true);
-    for(Monomial const& monomial : polynomial.getMonomialsConstReference())
+    auto const& monomials(polynomial.getMonomialsConstReference());
+    if(!monomials.empty())
     {
-        if(isFirst)
+        result = integrateMonomial(monomials.front());
+        for(unsigned int i=1; i<monomials.size(); i++)
         {
-            result = integrateMonomial(monomial);
-            isFirst = false;
+            result = result + integrateMonomial(monomials.at(i));
         }
-        else
-        {
-            result = result + integrateMonomial(monomial);
-        }
+        result.simplify();
     }
-    result.simplify();
     return result;
 }
-
 Term IntegrationForFiniteCalculus::integrateExpression(
         Expression const& expression) const
-{
-    return integrateAsTermOrExpressionIfNeeded(expression);
+{    return integrateAsTermOrExpressionIfNeeded(expression);
 }
 
 Term IntegrationForFiniteCalculus::integrateFunction(

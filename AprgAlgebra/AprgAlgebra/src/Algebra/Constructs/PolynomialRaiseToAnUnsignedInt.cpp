@@ -86,26 +86,21 @@ unsigned int PolynomialRaiseToAnUnsignedInt::getGcfOfExponents(
         PolynomialToNumberMap const& factorsToExponent)
 {
     unsigned int result(1U);
-    bool isFirst(true);
-    for(auto const& factorsAndExponentPair : factorsToExponent)
+    if(!factorsToExponent.empty())
     {
-        if(isFirst)
+        auto it = factorsToExponent.cbegin();
+        result = it->second;
+        it++;
+        for(; it!=factorsToExponent.cend(); it++)
         {
-            result = factorsAndExponentPair.second;
-            isFirst = false;
-        }
-        else
-        {
-            result = getGreatestCommonFactor(result, factorsAndExponentPair.second);
+            result = getGreatestCommonFactor(result, it->second);
         }
     }
     return result;
 }
-
 Polynomial PolynomialRaiseToAnUnsignedInt::getRemainingBase(
         PolynomialToNumberMap const& factorsToExponent,
-        Monomial const& commonMonomialInBase,
-        unsigned int const gcfOfExponents)
+        Monomial const& commonMonomialInBase,        unsigned int const gcfOfExponents)
 {
     Monomial remainingCommonMonomial(commonMonomialInBase);
     remainingCommonMonomial.raiseToPowerNumber(AlbaNumber::createFraction(1, gcfOfExponents));

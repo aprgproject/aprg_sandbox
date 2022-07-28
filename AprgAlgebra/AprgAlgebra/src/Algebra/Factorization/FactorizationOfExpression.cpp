@@ -27,14 +27,12 @@ Terms factorizeAnExpression(Expression const& expression)
 }
 
 Terms factorizeAnExpressionWithConfigurationChanged(
-       Expression const& expression)
+        Expression const& expression)
 {
     ConfigurationDetails configurationDetails(
-                Factorization::Configuration::getInstance().getConfigurationDetails());
-    configurationDetails.shouldSimplifyExpressionsToFactors = true;
+                Factorization::Configuration::getInstance().getConfigurationDetails());    configurationDetails.shouldSimplifyExpressionsToFactors = true;
     ScopeObject scopeObject;
     scopeObject.setInThisScopeThisConfiguration(configurationDetails);
-
     return factorizeAnExpression(expression);
 }
 
@@ -145,49 +143,36 @@ void retrieveConstantAndNonConstantFactors(
 AlbaNumber getGcfOfConstants(AlbaNumbers const& constantFactorsPerAddends)
 {
     AlbaNumber constantGcf;
-    bool isFirst(true);
-    for(AlbaNumber const& constantFactor : constantFactorsPerAddends)
+    if(!constantFactorsPerAddends.empty())
     {
-        if(isFirst)
+        constantGcf = constantFactorsPerAddends.front();
+        for(unsigned int i=1; i<constantFactorsPerAddends.size(); i++)
         {
-            constantGcf = constantFactor;
-            isFirst=false;
-        }
-        else
-        {
-            constantGcf = getGreatestCommonFactor(constantGcf, constantFactor);
+            constantGcf = getGreatestCommonFactor(constantGcf, constantFactorsPerAddends.at(i));
         }
     }
     return constantGcf;
 }
-
 void retrieveCommonNonConstantFactors(
         TermsRaiseToNumbers & commonNonConstantFactors,
         vector<TermsRaiseToNumbers> const& nonConstantFactorsPerAddends)
 {
-    bool isFirst(true);
-    for(TermsRaiseToNumbers const& factorsAtAddend : nonConstantFactorsPerAddends)
+    if(!nonConstantFactorsPerAddends.empty())
     {
-        if(isFirst)
-        {
-            commonNonConstantFactors = factorsAtAddend;
-            isFirst = false;
-        }
-        else
+        commonNonConstantFactors = nonConstantFactorsPerAddends.front();
+        for(unsigned int i=1; i<nonConstantFactorsPerAddends.size(); i++)
         {
             for(auto const& commonFactorBaseExponentPair : commonNonConstantFactors.getBaseToExponentMap())
             {
                 Term const& base(commonFactorBaseExponentPair.first);
                 AlbaNumber const& exponentAtCommonFactor(commonFactorBaseExponentPair.second);
-                AlbaNumber exponentAtAddend(factorsAtAddend.getExponentOfBase(base));
+                AlbaNumber exponentAtAddend(nonConstantFactorsPerAddends.at(i).getExponentOfBase(base));
                 if(exponentAtAddend > 0)
                 {
-                    commonNonConstantFactors.setBaseAndExponent(base, min(exponentAtCommonFactor, exponentAtAddend));
-                }
+                    commonNonConstantFactors.setBaseAndExponent(base, min(exponentAtCommonFactor, exponentAtAddend));                }
                 else if(exponentAtAddend < 0)
                 {
-                    commonNonConstantFactors.setBaseAndExponent(base, max(exponentAtCommonFactor, exponentAtAddend));
-                }
+                    commonNonConstantFactors.setBaseAndExponent(base, max(exponentAtCommonFactor, exponentAtAddend));                }
                 else
                 {
                     commonNonConstantFactors.setBaseAndExponent(base, 0);

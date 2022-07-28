@@ -165,34 +165,24 @@ void createTermRaiseToANumberFromRaiseToPowerExpression(
     else if(raiseToPowerTerms.size() >= 2)
     {
         AlbaNumber combinedExponentValue(1);
-        bool isFirst(true);
-        for(TermWithDetails & raiseToPowerTerm : raiseToPowerTerms)
+        for(unsigned int i=1; i<raiseToPowerTerms.size(); i++)
         {
-            if(isFirst)
+            Term & exponentTerm(getTermReferenceFromSharedPointer(raiseToPowerTerms.at(i).baseTermSharedPointer));
+            if(exponentTerm.isConstant())
             {
-                isFirst = false;
+                combinedExponentValue = combinedExponentValue * exponentTerm.getConstantValueConstReference();
+                exponentTerm.getConstantReference().setNumber(1);
             }
-            else
+            else if(exponentTerm.isMonomial())
             {
-                Term & exponentTerm(getTermReferenceFromSharedPointer(raiseToPowerTerm.baseTermSharedPointer));
-                if(exponentTerm.isConstant())
-                {
-                    combinedExponentValue = combinedExponentValue * exponentTerm.getConstantValueConstReference();
-                    exponentTerm.getConstantReference().setNumber(1);
-                }
-                else if(exponentTerm.isMonomial())
-                {
-                    combinedExponentValue = combinedExponentValue * exponentTerm.getMonomialConstReference().getConstantConstReference();
-                    exponentTerm.getMonomialReference().setConstant(1);
-                }
+                combinedExponentValue = combinedExponentValue * exponentTerm.getMonomialConstReference().getConstantConstReference();
+                exponentTerm.getMonomialReference().setConstant(1);
             }
         }
-        raiseToPowerTerms.erase(
-                    remove_if(
+        raiseToPowerTerms.erase(                    remove_if(
                         raiseToPowerTerms.begin()+1, raiseToPowerTerms.end(),
                         [&](TermWithDetails const& raiseToPowerTerm){
-                        Term const& exponentTerm(getTermConstReferenceFromSharedPointer(raiseToPowerTerm.baseTermSharedPointer));
-                        return willHaveNoEffectOnMultiplicationOrDivisionOrRaiseToPower(exponentTerm);
+                        Term const& exponentTerm(getTermConstReferenceFromSharedPointer(raiseToPowerTerm.baseTermSharedPointer));                        return willHaveNoEffectOnMultiplicationOrDivisionOrRaiseToPower(exponentTerm);
                     }), raiseToPowerTerms.end());
 
         Term newBase(createTermWithRaiseToPowerTermsWithDetails(raiseToPowerTerms));
