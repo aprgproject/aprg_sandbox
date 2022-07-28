@@ -122,29 +122,23 @@ WrappedTerms const& Expression::getWrappedTerms() const
 
 string Expression::getDisplayableString() const
 {
-    bool isFirst(true);
     stringstream result;
     result << "(";
-    for(WrappedTerm const& wrappedTerm : m_wrappedTerms)
+    if(!m_wrappedTerms.empty())
     {
-        Term const& term(getTermConstReferenceFromSharedPointer(wrappedTerm.baseTermSharedPointer));
-        if(isFirst)
+        result << m_wrappedTerms.front().baseTermSharedPointer->getDisplayableString();
+        for(unsigned int i=1; i<m_wrappedTerms.size(); i++)
         {
-            isFirst = false;
-        }
-        else
-        {
+            Term const& term(getTermConstReferenceFromSharedPointer(m_wrappedTerms.at(i).baseTermSharedPointer));
             result << getString(m_commonOperatorLevel);
+            result << term.getDisplayableString();
         }
-        result << term.getDisplayableString();
     }
     result << ")";
-    return result.str();
-}
+    return result.str();}
 
 string Expression::getDebugString() const
-{
-    stringstream result;
+{    stringstream result;
     result << "( " << getEnumShortString(m_commonOperatorLevel) << "||";
     for(WrappedTerm const& wrappedTerm : m_wrappedTerms)
     {

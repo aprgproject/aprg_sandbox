@@ -31,6 +31,9 @@ private:
     ConnectedComponents m_connectedComponents;
 };
 
+// A more difficult problem is the 3SAT problem, where each part of the formula is of the form (a|b|c).
+// This problem is NP-hard, so no efficient algorithm for solving the problem is known.
+
 }
 
 }

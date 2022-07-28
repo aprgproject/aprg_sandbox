@@ -32,15 +32,13 @@ Term TwoSatisfiabilityUsingGraphs::getSolution() const
 {
     using VertexOrdering = VertexOrderingUsingDfs<VariableTerm>;
     VertexOrdering vertexOrdering(m_graph);
-    auto const& variableTermsInOrder(vertexOrdering.getVerticesInThisOrder(VertexOrdering::TraverseOrder::PostOrder));
+    auto const& variableTermsInOrder(vertexOrdering.getVerticesInThisOrder(VertexTraversalOrder::PostOrder));
     VariableNamesSet processedNames;
     Expression result;
-    for(VariableTerm const& variableTerm : variableTermsInOrder)
-    {
+    for(VariableTerm const& variableTerm : variableTermsInOrder)    {
         string variableName(variableTerm.getVariableTermName());
         if(processedNames.find(variableName) == processedNames.cend())
-        {
-            result.putTermWithAndOperationIfNeeded(Term(variableTerm));
+        {            result.putTermWithAndOperationIfNeeded(Term(variableTerm));
             processedNames.emplace(variableName);
         }
         else

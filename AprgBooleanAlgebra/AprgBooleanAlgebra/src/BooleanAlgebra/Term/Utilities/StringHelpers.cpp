@@ -85,24 +85,21 @@ string getString(
 
 string getString(WrappedTerms const& wrappedTerms)
 {
-    bool isFirst(true);
     string result;
-    for(WrappedTerm const& wrappedTerm : wrappedTerms)
+    if(!wrappedTerms.empty())
     {
-        if(!isFirst)
+        result += getString(wrappedTerms.front());
+        for(unsigned int i=1; i<wrappedTerms.size(); i++)
         {
             result += ", ";
+            result += getString(wrappedTerms.at(i));
         }
-        isFirst=false;
-        result += getString(wrappedTerm);
     }
     return result;
 }
-
 string getString(WrappedTerm const& wrappedTerm)
 {
-    return string("{")+wrappedTerm.baseTermSharedPointer->getDisplayableString()+"}";
-}
+    return string("{")+wrappedTerm.baseTermSharedPointer->getDisplayableString()+"}";}
 
 string createVariableTermNameForSubstitution(Term const& term)
 {
