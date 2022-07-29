@@ -54,25 +54,24 @@ void LogStatisticsAnalyzer::saveLogDetailsToCsv(ofstream & outputCsvFileStream)
     map<string, unsigned int> dataToDisplay;
     for (LogDetails const& logDetails : m_logDetailsToCheck)
     {
-        bool isFirstTime=true;
         string stringInCsv;
-        for(string const& logString : logDetails.logStrings)
+        stringHelper::strings const& logStrings(logDetails.logStrings);
+        if(!logStrings.empty())
         {
-            string logStringInCsv(string("[")+logString+"]");
-            if(!isFirstTime)
+            string firstLogStringInCsv(string("[") + logStrings.front() + "]");
+            stringInCsv += firstLogStringInCsv;
+            for(unsigned int i=1; i<logStrings.size(); i++)
             {
+                string logStringInCsv(string("[") + logStrings.at(i) + "]");
                 stringInCsv += " && ";
+                stringInCsv += logStringInCsv;
             }
-            stringInCsv += logStringInCsv;
-            isFirstTime=false;
         }
         dataToDisplay.emplace(stringInCsv, logDetails.count);
-    }
-    for (pair<string, unsigned int> const& data : dataToDisplay)
+    }    for (pair<string, unsigned int> const& data : dataToDisplay)
     {
         outputCsvFileStream << data.first << "," << data.second << "," << ((double)data.second)/m_totalLines*100 <<endl;
-    }
-    outputCsvFileStream << "Total Lines found," << m_totalLinesFound << "," << ((double)m_totalLinesFound)/m_totalLines*100 <<endl;
+    }    outputCsvFileStream << "Total Lines found," << m_totalLinesFound << "," << ((double)m_totalLinesFound)/m_totalLines*100 <<endl;
     outputCsvFileStream << "Total Lines," << m_totalLines << "," << ((double)m_totalLines)/m_totalLines*100 <<endl;
 }
 
