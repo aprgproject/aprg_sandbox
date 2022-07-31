@@ -71,14 +71,12 @@ bool KnightsTour::isInside(
         int const x,
         int const y) const
 {
-    return x>=0 && x<m_chessBoardX && y>=0 && y<m_chessBoardY;
+    return x>=0 && x<static_cast<int>(m_chessBoardX) && y>=0 && y<static_cast<int>(m_chessBoardY);
 }
 
-unsigned int KnightsTour::getChessBoardIndex(
-        unsigned int const x,
+unsigned int KnightsTour::getChessBoardIndex(        unsigned int const x,
         unsigned int const y) const
 {
-    return m_chessBoardX*y + x;
-}
+    return m_chessBoardX*y + x;}
 
 }
