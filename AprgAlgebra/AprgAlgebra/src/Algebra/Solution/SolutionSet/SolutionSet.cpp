@@ -69,9 +69,11 @@ string SolutionSet::getDisplayableString() const
     }
     return ss.str();
 }
+
 void SolutionSet::addAcceptedValue(AlbaNumber const& value)
 {
-    m_acceptedValues.emplace_back(value);}
+    m_acceptedValues.emplace_back(value);
+}
 
 void SolutionSet::addAcceptedValues(AlbaNumbers const& values)
 {
@@ -156,9 +158,11 @@ void SolutionSet::checkValuesAndPutIntervals(
         addInterval(previousValueToCheck, intervalValueToCheck, AlbaNumber::Value::PositiveInfinity, isValueAcceptedFunction);
     }
 }
+
 void SolutionSet::addInterval(
         AlbaNumber const& lowerEndpointValue,
-        AlbaNumber const& intervalValueToCheck,        AlbaNumber const& higherEndpointValue,
+        AlbaNumber const& intervalValueToCheck,
+        AlbaNumber const& higherEndpointValue,
         FunctionForCheckingValues const& isValueAcceptedFunction)
 {
     if(isValueAcceptedFunction(intervalValueToCheck))

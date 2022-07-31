@@ -134,7 +134,8 @@ string Expression::getDisplayableString() const
         }
     }
     result << ")";
-    return result.str();}
+    return result.str();
+}
 
 string Expression::getDebugString() const
 {
@@ -154,10 +155,12 @@ string Expression::getDebugString() const
         }
     }
     result << " )";
-    return result.str();}
+    return result.str();
+}
 
 TermsWithAssociation & Expression::getTermsWithAssociationReference()
-{    clearSimplifiedFlag();
+{
+    clearSimplifiedFlag();
     return m_termsWithAssociation;
 }
 

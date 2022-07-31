@@ -98,9 +98,11 @@ unsigned int PolynomialRaiseToAnUnsignedInt::getGcfOfExponents(
     }
     return result;
 }
+
 Polynomial PolynomialRaiseToAnUnsignedInt::getRemainingBase(
         PolynomialToNumberMap const& factorsToExponent,
-        Monomial const& commonMonomialInBase,        unsigned int const gcfOfExponents)
+        Monomial const& commonMonomialInBase,
+        unsigned int const gcfOfExponents)
 {
     Monomial remainingCommonMonomial(commonMonomialInBase);
     remainingCommonMonomial.raiseToPowerNumber(AlbaNumber::createFraction(1, gcfOfExponents));

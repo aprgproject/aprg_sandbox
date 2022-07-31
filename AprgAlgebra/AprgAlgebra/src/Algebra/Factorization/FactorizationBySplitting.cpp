@@ -83,9 +83,11 @@ void splitPolynomialsByPolynomialDegree(Polynomials & result, Polynomial const& 
     }
     simplifyThenEmplaceBackIfPolynomialIsNotEmpty(result, partialPolynomial);
 }
+
 void splitPolynomialsByDivisibilityOfExponents(Polynomials & result, Polynomial const& polynomial)
 {
-    Polynomials collectedPolynomials;    AlbaNumber polynomialDegree(getMaxDegree(polynomial));
+    Polynomials collectedPolynomials;
+    AlbaNumber polynomialDegree(getMaxDegree(polynomial));
     if(polynomialDegree.isIntegerType() && polynomialDegree > 0)
     {
         Monomials remainingMonomials = polynomial.getMonomialsConstReference();
@@ -215,10 +217,12 @@ void getCommonFactorsInThesePolynomials(Polynomials & commonFactors, Polynomials
             Polynomials commonFactorsOfAPolynomial(factorizeAPolynomial(smallerPolynomials.at(i)));
             updateToGetSubsetOfFactors(commonFactors, commonFactorsOfAPolynomial);
         }
-    }}
+    }
+}
 
 Polynomial getNewPolynomialWithNewVariables(
-        SubstitutionOfVariablesToTerms & variableSubstitution,        Polynomials const& smallerPolynomials)
+        SubstitutionOfVariablesToTerms & variableSubstitution,
+        Polynomials const& smallerPolynomials)
 {
     Polynomial newPolynomialWithVariables;
     for(Polynomial const& smallerPolynomial : smallerPolynomials)

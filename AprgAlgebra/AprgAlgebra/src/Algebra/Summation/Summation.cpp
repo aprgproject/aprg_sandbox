@@ -133,9 +133,11 @@ void Summation::calculateSumUsingEachTerm(
     }
     result = sum;
 }
+
 void Summation::calculateSumUsingModel(
         Term & result,
-        AlbaNumber const& startNumber,        AlbaNumber const& endNumber) const
+        AlbaNumber const& startNumber,
+        AlbaNumber const& endNumber) const
 {
     Term summationModelWithConstant(getSummationModelWithKnownConstant(startNumber));
     SubstitutionOfVariablesToValues substitution({{m_variableToSubstitute, endNumber}});

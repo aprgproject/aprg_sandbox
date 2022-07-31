@@ -193,10 +193,12 @@ public:
             ss << ", " << m_values.at(i);
         }
         ss << "}";
-        return ss.str();    }
+        return ss.str();
+    }
 
     DataType & getValueReferenceAt(unsigned int const index)
-    {        assert(index<SIZE);
+    {
+        assert(index<SIZE);
         return m_values.at(index);
     }
 

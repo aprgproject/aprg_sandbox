@@ -223,9 +223,11 @@ Term IntegrationForFiniteCalculus::integratePolynomial(
     }
     return result;
 }
+
 Term IntegrationForFiniteCalculus::integrateExpression(
         Expression const& expression) const
-{    return integrateAsTermOrExpressionIfNeeded(expression);
+{
+    return integrateAsTermOrExpressionIfNeeded(expression);
 }
 
 Term IntegrationForFiniteCalculus::integrateFunction(

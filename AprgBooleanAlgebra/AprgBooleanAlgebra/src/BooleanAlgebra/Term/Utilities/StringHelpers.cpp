@@ -97,9 +97,11 @@ string getString(WrappedTerms const& wrappedTerms)
     }
     return result;
 }
+
 string getString(WrappedTerm const& wrappedTerm)
 {
-    return string("{")+wrappedTerm.baseTermSharedPointer->getDisplayableString()+"}";}
+    return string("{")+wrappedTerm.baseTermSharedPointer->getDisplayableString()+"}";
+}
 
 string createVariableTermNameForSubstitution(Term const& term)
 {

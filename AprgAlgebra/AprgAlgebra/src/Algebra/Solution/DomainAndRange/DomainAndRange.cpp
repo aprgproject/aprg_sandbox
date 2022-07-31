@@ -204,9 +204,11 @@ void appendTransitionValues(
         }
     }
 }
+
 AlbaNumbers getNumbers(AlbaNumbersSet const& collectedValues)
 {
-    return AlbaNumbers(collectedValues.cbegin(), collectedValues.cend());}
+    return AlbaNumbers(collectedValues.cbegin(), collectedValues.cend());
+}
 
 AlbaNumber getTransitionValue(
         AlbaNumber const& inputValueYieldsToFiniteValue,

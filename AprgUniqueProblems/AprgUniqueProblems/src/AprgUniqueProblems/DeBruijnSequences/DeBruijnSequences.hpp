@@ -19,10 +19,12 @@ public:
 
 private:
     void initialize();
-    void addAllSubstringsAsVertex();    void addSubstringAsVertex(unsigned int const depth, std::string const& substring);
+    void addAllSubstringsAsVertex();
+    void addSubstringAsVertex(unsigned int const depth, std::string const& substring);
     unsigned int const m_substringSize;
     std::string const m_alphabet;
-    algorithm::DirectedGraphWithListOfEdges<std::string> m_graph;};
+    algorithm::DirectedGraphWithListOfEdges<std::string> m_graph;
+};
 
 // An Eulerian path in this graph corresponds to a string that contains all strings of length n.
 // The string contains the characters of the starting node and all characters of the edges.

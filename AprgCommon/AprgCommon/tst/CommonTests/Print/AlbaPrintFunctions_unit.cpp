@@ -7,8 +7,10 @@
 #include <stack>
 
 using namespace std;
+
 namespace alba
 {
+
 TEST(AlbaPrintFunctionsTest, PrintParameterWithNameWorksWithItemsThatCanPrint)
 {
     stringstream ssToVerify;

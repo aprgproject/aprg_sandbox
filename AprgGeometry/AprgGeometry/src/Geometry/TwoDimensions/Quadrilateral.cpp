@@ -69,7 +69,8 @@ Quadrilateral::GroupOfPoints Quadrilateral::getGroupOfPointsBasedOnYValue() cons
             Point const& currentPoint(vertices.at(i));
             if(isAlmostEqual(currentPoint.getY(), previousPoint.getY()))
             {
-                result[groupOfPointsIndex].emplace_back(currentPoint);            }
+                result[groupOfPointsIndex].emplace_back(currentPoint);
+            }
             else
             {
                 result.emplace_back();
@@ -85,9 +86,11 @@ Quadrilateral::GroupOfPoints Quadrilateral::getGroupOfPointsBasedOnYValue() cons
     }
     return result;
 }
+
 Quadrilateral::ListOfStartEndOfXAndY Quadrilateral::getStartEndForXs(
         Quadrilateral::GroupOfPoints const& groupOfPointsBasedOnYValue,
-        double const interval) const{
+        double const interval) const
+{
     ListOfStartEndOfXAndY result;
     unsigned int groupSize = groupOfPointsBasedOnYValue.size();
     if(groupSize==1)

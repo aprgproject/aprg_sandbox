@@ -38,9 +38,11 @@ public:
         auto itLower = m_edges.lower_bound({vertex, Vertex{}});
         if(itLower != m_edges.cend())
         {
-            result = itLower->first == vertex;        }
+            result = itLower->first == vertex;
+        }
         return result;
     }
+
     bool isDirectlyConnected(Vertex const& vertex1, Vertex const& vertex2) const override
     {
         return m_edges.find({vertex1, vertex2}) != m_edges.cend();
@@ -65,9 +67,11 @@ public:
         };
         return result;
     }
+
     Vertices getVertices() const override
     {
-        Vertices result;        for(auto const& edge : m_edges)
+        Vertices result;
+        for(auto const& edge : m_edges)
         {
             Vertex const& vertex(edge.first);
             if(result.empty())

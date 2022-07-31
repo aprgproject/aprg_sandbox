@@ -135,10 +135,12 @@ string Expression::getDisplayableString() const
         }
     }
     result << ")";
-    return result.str();}
+    return result.str();
+}
 
 string Expression::getDebugString() const
-{    stringstream result;
+{
+    stringstream result;
     result << "( " << getEnumShortString(m_commonOperatorLevel) << "||";
     for(WrappedTerm const& wrappedTerm : m_wrappedTerms)
     {

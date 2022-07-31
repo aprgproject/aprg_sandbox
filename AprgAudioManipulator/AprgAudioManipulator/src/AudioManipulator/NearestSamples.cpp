@@ -27,10 +27,12 @@ Indexes NearestSamples::getNearestSamplesIndexes(
             lowerAndUpperIterator(containerHelper::getLowerAndUpperConstIteratorsInMap(m_valuesToIndexes, value));
 
     set<unsigned int> indexesInOrder;
-    for(ValuesToIndexes::const_iterator it=lowerAndUpperIterator.first; it!=lowerAndUpperIterator.second; it++)    {
+    for(ValuesToIndexes::const_iterator it=lowerAndUpperIterator.first; it!=lowerAndUpperIterator.second; it++)
+    {
         indexesInOrder.emplace(it->second);
     }
-    ValuesToIndexes::const_iterator itLower=lowerAndUpperIterator.first;    ValuesToIndexes::const_iterator itUpper=lowerAndUpperIterator.second;
+    ValuesToIndexes::const_iterator itLower=lowerAndUpperIterator.first;
+    ValuesToIndexes::const_iterator itUpper=lowerAndUpperIterator.second;
     while(indexesInOrder.size() < recommendedNumberOfSamples
           && itLower!=m_valuesToIndexes.cbegin() && itUpper!=m_valuesToIndexes.cend())
     {

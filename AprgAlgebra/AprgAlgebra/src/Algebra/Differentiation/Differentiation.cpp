@@ -427,7 +427,8 @@ Term Differentiation::differentiateTermsInMultiplicationOrDivisionTermByTerm(
             Term const& currentTerm(getTermConstReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer));
             if(termWithDetails.hasPositiveAssociation())
             {
-                accumulatedTerm = differentiateTwoMultipliedTerms(accumulatedTerm, currentTerm);            }
+                accumulatedTerm = differentiateTwoMultipliedTerms(accumulatedTerm, currentTerm);
+            }
             else
             {
                 accumulatedTerm = differentiateTwoDividedTerms(accumulatedTerm, currentTerm);
@@ -436,9 +437,11 @@ Term Differentiation::differentiateTermsInMultiplicationOrDivisionTermByTerm(
     }
     return accumulatedTerm;
 }
+
 Term Differentiation::differentiateTermsInRaiseToPower(
         Expression const& expression) const
-{    TermsWithDetails const& termsWithDetails(expression.getTermsWithAssociation().getTermsWithDetails());
+{
+    TermsWithDetails const& termsWithDetails(expression.getTermsWithAssociation().getTermsWithDetails());
     Term result(AlbaNumber(AlbaNumber::Value::NotANumber));
     TermRaiseToTerms termRaiseToTerms(termsWithDetails);
     termRaiseToTerms.simplify();

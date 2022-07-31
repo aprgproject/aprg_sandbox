@@ -145,9 +145,11 @@ AlbaNumber MultiplicationAndDivisionOfRadicals::getGcfOfExponents(
     }
     return gcfOfExponents;
 }
+
 void MultiplicationAndDivisionOfRadicals::combineMonomialAndRadicalsAndSave(
         RadicalDetails const& radicalDetails,
-        Monomial const& combinedMonomial,        AlbaNumber const& gcfOfExponents)
+        Monomial const& combinedMonomial,
+        AlbaNumber const& gcfOfExponents)
 {
     Monomial newMonomial(combinedMonomial);
     newMonomial.raiseToPowerNumber(AlbaNumber(1)/gcfOfExponents);
