@@ -28,14 +28,18 @@ TEST(BipartiteCheckerUsingDfsTest, IsBipartiteWorksforNonBarpartiteGraph)
     BipartiteCheckerForTest bipartiteChecker(nonBipartiteGraph);
 
     EXPECT_FALSE(bipartiteChecker.isBipartite());
+    EXPECT_FALSE(bipartiteChecker.getColor(0U));
+    EXPECT_TRUE(bipartiteChecker.getColor(1U));
+    EXPECT_TRUE(bipartiteChecker.getColor(2U));
+    EXPECT_TRUE(bipartiteChecker.getColor(3U));
+    EXPECT_FALSE(bipartiteChecker.getColor(4U));
+    EXPECT_TRUE(bipartiteChecker.getColor(5U));
 }
 
-TEST(BipartiteCheckerUsingDfsTest, IsBipartiteWorksforBarpartiteGraph)
-{
+TEST(BipartiteCheckerUsingDfsTest, IsBipartiteWorksforBarpartiteGraph){
     GraphForTest bipartiteGraph;
     bipartiteGraph.connect(0U, 1U);
-    bipartiteGraph.connect(0U, 2U);
-    bipartiteGraph.connect(0U, 3U);
+    bipartiteGraph.connect(0U, 2U);    bipartiteGraph.connect(0U, 3U);
     bipartiteGraph.connect(3U, 4U);
     bipartiteGraph.connect(3U, 6U);
     bipartiteGraph.connect(4U, 5U);
@@ -43,8 +47,14 @@ TEST(BipartiteCheckerUsingDfsTest, IsBipartiteWorksforBarpartiteGraph)
     BipartiteCheckerForTest bipartiteChecker(bipartiteGraph);
 
     EXPECT_TRUE(bipartiteChecker.isBipartite());
+    EXPECT_FALSE(bipartiteChecker.getColor(0U));
+    EXPECT_TRUE(bipartiteChecker.getColor(1U));
+    EXPECT_TRUE(bipartiteChecker.getColor(2U));
+    EXPECT_TRUE(bipartiteChecker.getColor(3U));
+    EXPECT_FALSE(bipartiteChecker.getColor(4U));
+    EXPECT_TRUE(bipartiteChecker.getColor(5U));
+    EXPECT_FALSE(bipartiteChecker.getColor(6U));
 }
 
 }
-
 }
