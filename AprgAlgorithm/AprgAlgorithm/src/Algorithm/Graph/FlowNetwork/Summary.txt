@@ -109,8 +109,25 @@ Baseball elimination problem?
 
 
 
+Other discussion:
 
+Flows and cuts
+In this chapter, we focus on the following two problems:
+• Finding a maximum flow: What is the maximum amount of flow we can send from a node to another node?
+• Finding a minimum cut: What is a minimum-weight set of edges that separates two nodes of the graph?
+The input for both these problems is a directed, weighted graph that contains two special nodes: the source is a node with no incoming edges, and the sink is a node with no outgoing edges.
 
+Maximum flow
+In the maximum flow problem, our task is to send as much flow as possible from the source to the sink. 
+The weight of each edge is a capacity that restricts the flow that can go through the edge. 
+In each intermediate node, the incoming and outgoing flow has to be equal.
+The notation v/k means that a flow of v units is routed through an edge whose capacity is k units.
+
+Minimum cut
+In the minimum cut problem, our task is to remove a set of edges from the graph such that there will be no path from the source to the sink after the removal and the total weight of the removed edges is minimum.
+
+It is not a coincidence that the maximum size of a flow and the minimum size of a cut are the same. (BECAUSE THEY ARE THE SAME)
+It turns out that a maximum flow and a minimum cut are always equally large, so the concepts are two sides of the same coin.
 
 
 
