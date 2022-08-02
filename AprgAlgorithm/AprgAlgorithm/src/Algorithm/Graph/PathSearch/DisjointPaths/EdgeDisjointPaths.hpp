@@ -23,25 +23,44 @@ public:
     // After the maximum flow has been constructed, the edge-disjoint paths can be found greedily by following paths from the source to the sink.
 
     using BaseDirectedGraphWithVertex = BaseDirectedGraph<Vertex>;
-    using FlowNetwork = SinkSourceFlowNetwork<Vertex, int, DirectedGraphWithListOfEdges<Vertex>>;
     using Edge = typename GraphTypes<Vertex>::Edge;
+    using Paths = typename GraphTypes<Vertex>::Paths;
+    using FlowNetwork = SinkSourceFlowNetwork<Vertex, int, DirectedGraphWithListOfEdges<Vertex>>;
+    using FordFulkerson = FordFulkersonUsingBfs<FlowNetwork>;
 
-    unsigned int getNumberOfEdgeDisjointPaths(
+    EdgeDisjointPaths(
+            BaseDirectedGraphWithVertex const& graph,
+            Vertex const& startVertex,
+            Vertex const& endVertex)
+        : m_fordFulkerson(getFlowNetwork(graph, startVertex, endVertex))
+    {}
+
+    unsigned int getNumberOfEdgeDisjointPaths() const
+    {
+        return static_cast<unsigned int>(m_fordFulkerson.getMaxFlowValue());
+    }
+
+    Paths getEdgeDisjointPaths() const
+    {
+        return m_fordFulkerson.getAugmentingPaths();
+    }
+
+private:
+
+    FlowNetwork getFlowNetwork(
             BaseDirectedGraphWithVertex const& graph,
             Vertex const& startVertex,
             Vertex const& endVertex) const
     {
-        FlowNetwork flowNetwork(startVertex, endVertex);
-        for(Edge const& edge : graph.getEdges())
+        FlowNetwork flowNetwork(startVertex, endVertex);        for(Edge const& edge : graph.getEdges())
         {
             flowNetwork.connect(edge.first, edge.second, 1, 0);
         }
-        FordFulkersonUsingBfs<FlowNetwork> fordFulkerson(flowNetwork);
-        return static_cast<unsigned int>(fordFulkerson.getMaxFlowValue());
+        return flowNetwork;
     }
 
+    FordFulkerson m_fordFulkerson;
 };
 
 }
-
 }

@@ -1,8 +1,7 @@
+#include <Algorithm/Graph/Bipartite/BipartiteCheckerUsingDfs.hpp>
 #include <Algorithm/Graph/UndirectedGraph/UndirectedGraphWithListOfEdges.hpp>
-#include <Algorithm/Graph/Utilities/BipartiteCheckerUsingDfs.hpp>
 
 #include <gtest/gtest.h>
-
 namespace alba
 {
 

@@ -22,14 +22,13 @@ public:
     using FlowDataType = typename SinkSourceFlowNetworkType::FlowDataType;
     using FlowEdge = typename SinkSourceFlowNetworkType::FlowEdge;
     using Path = typename GraphTypes<Vertex>::Path;
+    using Paths = typename GraphTypes<Vertex>::Paths;
     using Edges = typename GraphTypes<Vertex>::Edges;
     using VertexToFlowEdgeMap = std::map<Vertex, FlowEdge>;
-    using CheckableVerticesWithVertex = CheckableVertices<Vertex>;
-    using TraverseFunction = std::function<void(Vertex)>;
+    using CheckableVerticesWithVertex = CheckableVertices<Vertex>;    using TraverseFunction = std::function<void(Vertex)>;
 
     FordFulkersonUsingBfs(SinkSourceFlowNetworkType const& flowNetwork)
-        : m_flowNetwork(flowNetwork)
-        , m_maxFlowValue{}
+        : m_flowNetwork(flowNetwork)        , m_maxFlowValue{}
     {
         initialize();
     }
@@ -39,14 +38,17 @@ public:
         return m_maxFlowValue;
     }
 
+    Paths getAugmentingPaths() const
+    {
+        return m_augmentingPaths;
+    }
+
     Edges getMinCutEdges() const
     {
-        Edges result;
-        // Let A be the set of nodes that can be reached from the source using positive-weight edges.
+        Edges result;        // Let A be the set of nodes that can be reached from the source using positive-weight edges.
         // The processed vertices have positive-weight edges from source of last iteration.
 
-        // Now the minimum cut consists of the edges of the original graph that start at some node in A, end at some node outside A.
-        // So we just need to check for edges that isFound and isNotFound in processed vertices
+        // Now the minimum cut consists of the edges of the original graph that start at some node in A, end at some node outside A.        // So we just need to check for edges that isFound and isNotFound in processed vertices
 
         for(auto const& flowEdge : m_flowNetwork.getFlowEdges())
         {
@@ -66,20 +68,26 @@ private:
         while(findAnAugmentingPathAndReturnIfFound())
         {
             FlowDataType bottleNeckFlow(getBottleNeckFlow());
+            Path augmentingPath;
+
             traverseAugmentingPathInReverse([&](Vertex const& vertex)
             {
                 auto flowEdge(m_vertexToAugmentingPathEdgeMap[vertex]);
                 flowEdge.addResidualCapacityTo(vertex, bottleNeckFlow); // add the bottleNeckFlow in the augmenting path
                 m_flowNetwork.updateEdge(flowEdge);
+                augmentingPath.emplace_back(vertex);
             });
+
             m_maxFlowValue += bottleNeckFlow;
+
+            augmentingPath.emplace_back(m_flowNetwork.getSourceVertex());
+            std::reverse(augmentingPath.begin(), augmentingPath.end());
+            m_augmentingPaths.emplace_back(augmentingPath);
         }
     }
-
     bool findAnAugmentingPathAndReturnIfFound()
     {
-        m_vertexToAugmentingPathEdgeMap.clear();
-        m_processedVertices.clear();
+        m_vertexToAugmentingPathEdgeMap.clear();        m_processedVertices.clear();
         m_processedVertices.putVertex(m_flowNetwork.getSourceVertex());
         std::deque<Vertex> queueOfVerticesToProcess{m_flowNetwork.getSourceVertex()};
 
@@ -98,21 +106,21 @@ private:
                 }
             }
         }
-        return m_processedVertices.isFound(m_flowNetwork.getSinkVertex()); // if it reached sink vertex
+        return m_processedVertices.isFound(m_flowNetwork.getSinkVertex()); // is sink vertex reached
     }
 
     void traverseAugmentingPathInReverse(TraverseFunction const& function)
     {
         // traverse augmenting path in reverse (does not reach source vertex)
-        for(Vertex vertex = m_flowNetwork.getSinkVertex(); vertex != m_flowNetwork.getSourceVertex(); vertex = m_vertexToAugmentingPathEdgeMap.at(vertex).getTheOtherVertex(vertex))
+        for(Vertex vertex = m_flowNetwork.getSinkVertex();
+            vertex != m_flowNetwork.getSourceVertex();
+            vertex = m_vertexToAugmentingPathEdgeMap.at(vertex).getTheOtherVertex(vertex))
         {
             function(vertex);
-        }
-    }
+        }    }
 
     FlowDataType getBottleNeckFlow()
-    {
-        // find minimum residual capacity in augmenting path
+    {        // find minimum residual capacity in augmenting path
         FlowDataType bottleNeckFlow{};
         if(!m_vertexToAugmentingPathEdgeMap.empty())
         {
@@ -128,14 +136,13 @@ private:
 
     SinkSourceFlowNetworkType m_flowNetwork;
     FlowDataType m_maxFlowValue;
+    Paths m_augmentingPaths;
     CheckableVerticesWithVertex m_processedVertices;
     VertexToFlowEdgeMap m_vertexToAugmentingPathEdgeMap;
 };
-
 // Ford fulkerson algorithm
 // -> Initialization: start with 0 flow
-// -> Find an undirected path from s to t such that (this is called the augmenting path):
-// ---> Can increase flow on forward edges (not full)
+// -> Find an undirected path from s to t such that (this is called the augmenting path):// ---> Can increase flow on forward edges (not full)
 // ---> Can decrease flow on backward edge (not empty)
 // -> Termination All paths s to t are blocked by either a:
 // ---> full forward edge
