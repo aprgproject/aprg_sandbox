@@ -5,7 +5,6 @@
 
 #include <algorithm>
 #include <map>
-#include <set>
 #include <sstream>
 
 namespace alba
@@ -19,8 +18,9 @@ class UndirectedGraphWithVertexToAdjacencyListsMap : public BaseUndirectedGraph<
 {
 public:
     using Vertices = typename GraphTypes<Vertex>::Vertices;
+    using SetOfVertices = typename GraphTypes<Vertex>::SetOfVertices;
     using Edges = typename GraphTypes<Vertex>::Edges;
-    using AdjacencyList = typename GraphTypes<Vertex>::SetOfVertices;
+    using AdjacencyList = SetOfVertices;
     using AdjacencyLists = std::map<Vertex, AdjacencyList>;
 
     UndirectedGraphWithVertexToAdjacencyListsMap()

@@ -4,6 +4,7 @@
 #include <Algorithm/Graph/DirectedGraph/DirectedGraphWithListOfEdges.hpp>
 #include <Algorithm/Graph/FlowNetwork/SinkSourceFlowNetwork.hpp>
 #include <Algorithm/Graph/FlowNetwork/FordFulkerson/FordFulkersonUsingBfs.hpp>
+#include <Algorithm/Graph/Utilities/VertexWithBool.hpp>
 
 namespace alba
 {
@@ -29,7 +30,7 @@ public:
     using Edge = typename GraphTypes<Vertex>::Edge;
     using Path = typename GraphTypes<Vertex>::Path;
     using Paths = typename GraphTypes<Vertex>::Paths;
-    using VertexWithDuplicate = std::pair<Vertex, bool>;
+    using VertexWithDuplicate = VertexWithBool<Vertex>;
     using FlowNetwork = SinkSourceFlowNetwork<VertexWithDuplicate, int, DirectedGraphWithListOfEdges<VertexWithDuplicate>>;
     using FordFulkerson = FordFulkersonUsingBfs<FlowNetwork>;
 
@@ -99,13 +100,6 @@ private:
 
     FordFulkerson m_fordFulkerson;
 };
-
-template <typename Vertex>
-std::ostream & operator<<(std::ostream & out, std::pair<Vertex, bool> const& vertexWithDuplicate)
-{
-    out << "(" << vertexWithDuplicate.first << ", " << vertexWithDuplicate.second << ")";
-    return out;
-}
 
 }
 

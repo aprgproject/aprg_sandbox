@@ -25,10 +25,12 @@ public:
     using Paths = typename GraphTypes<Vertex>::Paths;
     using Edges = typename GraphTypes<Vertex>::Edges;
     using VertexToFlowEdgeMap = std::map<Vertex, FlowEdge>;
-    using CheckableVerticesWithVertex = CheckableVertices<Vertex>;    using TraverseFunction = std::function<void(Vertex)>;
+    using CheckableVerticesWithVertex = CheckableVertices<Vertex>;
+    using TraverseFunction = std::function<void(Vertex)>;
 
     FordFulkersonUsingBfs(SinkSourceFlowNetworkType const& flowNetwork)
-        : m_flowNetwork(flowNetwork)        , m_maxFlowValue{}
+        : m_flowNetwork(flowNetwork)
+        , m_maxFlowValue{}
     {
         initialize();
     }
@@ -45,10 +47,12 @@ public:
 
     Edges getMinCutEdges() const
     {
-        Edges result;        // Let A be the set of nodes that can be reached from the source using positive-weight edges.
+        Edges result;
+        // Let A be the set of nodes that can be reached from the source using positive-weight edges.
         // The processed vertices have positive-weight edges from source of last iteration.
 
-        // Now the minimum cut consists of the edges of the original graph that start at some node in A, end at some node outside A.        // So we just need to check for edges that isFound and isNotFound in processed vertices
+        // Now the minimum cut consists of the edges of the original graph that start at some node in A, end at some node outside A.
+        // So we just need to check for edges that isFound and isNotFound in processed vertices
 
         for(auto const& flowEdge : m_flowNetwork.getFlowEdges())
         {
@@ -85,9 +89,11 @@ private:
             m_augmentingPaths.emplace_back(augmentingPath);
         }
     }
+
     bool findAnAugmentingPathAndReturnIfFound()
     {
-        m_vertexToAugmentingPathEdgeMap.clear();        m_processedVertices.clear();
+        m_vertexToAugmentingPathEdgeMap.clear();
+        m_processedVertices.clear();
         m_processedVertices.putVertex(m_flowNetwork.getSourceVertex());
         std::deque<Vertex> queueOfVerticesToProcess{m_flowNetwork.getSourceVertex()};
 
@@ -117,10 +123,12 @@ private:
             vertex = m_vertexToAugmentingPathEdgeMap.at(vertex).getTheOtherVertex(vertex))
         {
             function(vertex);
-        }    }
+        }
+    }
 
     FlowDataType getBottleNeckFlow()
-    {        // find minimum residual capacity in augmenting path
+    {
+        // find minimum residual capacity in augmenting path
         FlowDataType bottleNeckFlow{};
         if(!m_vertexToAugmentingPathEdgeMap.empty())
         {
@@ -140,9 +148,11 @@ private:
     CheckableVerticesWithVertex m_processedVertices;
     VertexToFlowEdgeMap m_vertexToAugmentingPathEdgeMap;
 };
+
 // Ford fulkerson algorithm
 // -> Initialization: start with 0 flow
-// -> Find an undirected path from s to t such that (this is called the augmenting path):// ---> Can increase flow on forward edges (not full)
+// -> Find an undirected path from s to t such that (this is called the augmenting path):
+// ---> Can increase flow on forward edges (not full)
 // ---> Can decrease flow on backward edge (not empty)
 // -> Termination All paths s to t are blocked by either a:
 // ---> full forward edge

@@ -5,7 +5,6 @@
 
 #include <algorithm>
 #include <array>
-#include <set>
 
 namespace alba
 {
@@ -18,8 +17,9 @@ class UndirectedGraphWithArrayOfAdjacencyLists : public BaseUndirectedGraph<Vert
 {
 public:
     using Vertices = typename GraphTypes<Vertex>::Vertices;
+    using SetOfVertices = typename GraphTypes<Vertex>::SetOfVertices;
     using Edges = typename GraphTypes<Vertex>::Edges;
-    using AdjacencyList = typename GraphTypes<Vertex>::SetOfVertices;
+    using AdjacencyList = SetOfVertices;
     using AdjacencyLists = std::array<AdjacencyList, MAX_VERTEX_VALUE>;
 
     UndirectedGraphWithArrayOfAdjacencyLists()

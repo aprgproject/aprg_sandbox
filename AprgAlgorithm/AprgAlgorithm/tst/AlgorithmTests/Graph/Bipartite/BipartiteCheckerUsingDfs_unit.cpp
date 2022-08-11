@@ -2,6 +2,7 @@
 #include <Algorithm/Graph/UndirectedGraph/UndirectedGraphWithListOfEdges.hpp>
 
 #include <gtest/gtest.h>
+
 namespace alba
 {
 
@@ -15,9 +16,11 @@ using Vertices = typename GraphTypes<VertexForTest>::Vertices;
 using GraphForTest = UndirectedGraphWithListOfEdges<VertexForTest>;
 using BipartiteCheckerForTest = BipartiteCheckerUsingDfs<VertexForTest>;
 }
+
 TEST(BipartiteCheckerUsingDfsTest, IsBipartiteWorksforNonBarpartiteGraph)
 {
-    GraphForTest nonBipartiteGraph;    nonBipartiteGraph.connect(0U, 1U);
+    GraphForTest nonBipartiteGraph;
+    nonBipartiteGraph.connect(0U, 1U);
     nonBipartiteGraph.connect(0U, 2U);
     nonBipartiteGraph.connect(0U, 3U);
     nonBipartiteGraph.connect(3U, 4U);
@@ -42,10 +45,12 @@ TEST(BipartiteCheckerUsingDfsTest, IsBipartiteWorksforNonBarpartiteGraph)
     EXPECT_EQ(expectedWithSecondColor, verticesWithSecondColor);
 }
 
-TEST(BipartiteCheckerUsingDfsTest, IsBipartiteWorksforBarpartiteGraph){
+TEST(BipartiteCheckerUsingDfsTest, IsBipartiteWorksforBarpartiteGraph)
+{
     GraphForTest bipartiteGraph;
     bipartiteGraph.connect(0U, 1U);
-    bipartiteGraph.connect(0U, 2U);    bipartiteGraph.connect(0U, 3U);
+    bipartiteGraph.connect(0U, 2U);
+    bipartiteGraph.connect(0U, 3U);
     bipartiteGraph.connect(3U, 4U);
     bipartiteGraph.connect(3U, 6U);
     bipartiteGraph.connect(4U, 5U);
@@ -71,4 +76,5 @@ TEST(BipartiteCheckerUsingDfsTest, IsBipartiteWorksforBarpartiteGraph){
 }
 
 }
+
 }

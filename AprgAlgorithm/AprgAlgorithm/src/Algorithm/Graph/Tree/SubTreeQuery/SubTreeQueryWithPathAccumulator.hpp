@@ -3,6 +3,8 @@
 #include <Algorithm/Graph/Utilities/CheckableVertices.hpp>
 #include <Algorithm/Graph/Utilities/GraphUtilitiesHeaders.hpp>
 
+#include <functional>
+
 namespace alba
 {
 

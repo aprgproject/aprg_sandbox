@@ -5,7 +5,6 @@
 
 #include <algorithm>
 #include <map>
-#include <set>
 #include <sstream>
 
 namespace alba
@@ -18,11 +17,11 @@ template <typename Vertex>
 class DirectedGraphWithVertexToAdjacencyListsMap : public BaseDirectedGraph<Vertex>
 {
 public:
-    using AdjacencyList = std::set<Vertex>;
-    using AdjacencyLists = std::map<Vertex, AdjacencyList>;
     using Vertices = typename GraphTypes<Vertex>::Vertices;
     using SetOfVertices = typename GraphTypes<Vertex>::SetOfVertices;
     using Edges = typename GraphTypes<Vertex>::Edges;
+    using AdjacencyList = SetOfVertices;
+    using AdjacencyLists = std::map<Vertex, AdjacencyList>;
 
     DirectedGraphWithVertexToAdjacencyListsMap()
         : m_numberOfEdges(0U)

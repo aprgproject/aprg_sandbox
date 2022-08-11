@@ -61,10 +61,12 @@ public:
 
 private:
 
-    bool areColorsEqualOnVertices(Vertex const& vertex1, Vertex const& vertex2) const    {
+    bool areColorsEqualOnVertices(Vertex const& vertex1, Vertex const& vertex2) const
+    {
         bool result(false);
         auto it1 = m_vertexToColorMap.find(vertex1);
-        auto it2 = m_vertexToColorMap.find(vertex2);        if(it1 != m_vertexToColorMap.cend() && it2 != m_vertexToColorMap.cend())
+        auto it2 = m_vertexToColorMap.find(vertex2);
+        if(it1 != m_vertexToColorMap.cend() && it2 != m_vertexToColorMap.cend())
         {
             result = it1->second == it2->second;
         }
@@ -79,7 +81,8 @@ private:
             m_vertexToColorMap[vertex] = false; // set all colors to one color (note that "false" is the first color)
         }
         for(Vertex const& vertex : vertices)
-        {            if(m_processedVertices.isNotFound(vertex))
+        {
+            if(m_processedVertices.isNotFound(vertex))
             {
                 checkUsingDfs(vertex);
                 if(!m_isBipartite) // if not bipartite, stop (no use continuing on it)

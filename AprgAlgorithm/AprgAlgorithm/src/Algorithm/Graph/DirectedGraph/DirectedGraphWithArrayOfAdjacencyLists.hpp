@@ -4,7 +4,6 @@
 #include <Common/Container/AlbaContainerHelper.hpp>
 
 #include <array>
-#include <set>
 
 namespace alba
 {

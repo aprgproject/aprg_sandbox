@@ -4,7 +4,6 @@
 
 #include <algorithm>
 #include <sstream>
-#include <set>
 
 namespace alba
 {
@@ -16,13 +15,11 @@ template <typename Vertex>
 class DirectedGraphWithListOfEdges : public BaseDirectedGraph<Vertex>
 {
 public:
-    using BaseDirectedGraphWithVertex = BaseDirectedGraph<Vertex>;
     using Vertices = typename GraphTypes<Vertex>::Vertices;
     using SetOfVertices = typename GraphTypes<Vertex>::SetOfVertices;
     using Edge = typename GraphTypes<Vertex>::Edge;
     using Edges = typename GraphTypes<Vertex>::Edges;
     using SetOfEdges = typename GraphTypes<Vertex>::SetOfEdges;
-
 
     DirectedGraphWithListOfEdges()
         : m_numberOfEdges(0U)

@@ -52,7 +52,8 @@ private:
             Vertex const& startVertex,
             Vertex const& endVertex) const
     {
-        FlowNetwork flowNetwork(startVertex, endVertex);        for(Edge const& edge : graph.getEdges())
+        FlowNetwork flowNetwork(startVertex, endVertex);
+        for(Edge const& edge : graph.getEdges())
         {
             flowNetwork.connect(edge.first, edge.second, 1, 0);
         }
@@ -63,4 +64,5 @@ private:
 };
 
 }
+
 }

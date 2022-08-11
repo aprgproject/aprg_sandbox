@@ -4,7 +4,6 @@
 
 #include <algorithm>
 #include <sstream>
-#include <set>
 
 namespace alba
 {
@@ -16,7 +15,6 @@ template <typename Vertex>
 class UndirectedGraphWithListOfEdges : public BaseUndirectedGraph<Vertex>
 {
 public:
-    using BaseUndirectedGraphWithVertex = BaseUndirectedGraph<Vertex>;
     using Vertices = typename GraphTypes<Vertex>::Vertices;
     using Edge = typename GraphTypes<Vertex>::Edge;
     using Edges = typename GraphTypes<Vertex>::Edges;
