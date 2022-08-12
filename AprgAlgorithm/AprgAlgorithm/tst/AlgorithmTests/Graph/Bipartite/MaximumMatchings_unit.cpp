@@ -20,15 +20,13 @@ VertexForTest newSourceVertex = 0xFFFFFFFEU;
 VertexForTest newSinkVertex = 0xFFFFFFFFU;
 }
 
-TEST(MaximumMatchingsTest, GeMaximumMatchingsWorksOnExample1)
+TEST(MaximumMatchingsTest, GetMaximumMatchingsWorksOnExample1)
 {
     GraphForTest graph;
-    graph.connect(1U, 5U);
-    graph.connect(2U, 7U);
+    graph.connect(1U, 5U);    graph.connect(2U, 7U);
     graph.connect(3U, 5U);
     graph.connect(3U, 6U);
-    graph.connect(3U, 8U);
-    graph.connect(4U, 7U);
+    graph.connect(3U, 8U);    graph.connect(4U, 7U);
     MaximumMatchingsForTest maximumMatchings(graph);
 
     Edges expectedMatchings{{1U, 5U}, {2U, 7U}, {3U, 6U}};
