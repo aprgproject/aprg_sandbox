@@ -19,54 +19,150 @@ template <typename Vertex>
 class GeneralPathCover
 {
 public:
+    // Path cover are set of paths that covers nodes.
+
     // A general path cover is a path cover where a node can belong to more than one path.
     // A minimum general path cover may be smaller than a minimum node-disjoint path cover, because a node can be used multiple times in paths.
-
     using BaseDirectedGraphWithVertex = BaseDirectedGraph<Vertex>;
     using Vertices = typename GraphTypes<Vertex>::Vertices;
     using Edge = typename GraphTypes<Vertex>::Edge;
     using Edges = typename GraphTypes<Vertex>::Edges;
+    using DequeOfVertices = typename GraphTypes<Vertex>::DequeOfVertices;
+    using SetOfEdges = typename GraphTypes<Vertex>::SetOfEdges;
+    using DequeOfEdges = typename GraphTypes<Vertex>::DequeOfEdges;
+    using Paths = typename GraphTypes<Vertex>::Paths;
+    using VectorOfDequeOfVertices = std::vector<DequeOfVertices>;
+    using VertexPair = std::pair<Vertex, Vertex>; // same definition with edge but edge is not correct in name
+    using VertexPairs = std::vector<VertexPair>;
     using VertexWithEndpoint = VertexWithBool<Vertex>;
     using FlowNetwork = SinkSourceFlowNetwork<VertexWithEndpoint, int, DirectedGraphWithListOfEdges<VertexWithEndpoint>>;
-    using FordFulkerson = FordFulkersonUsingBfs<FlowNetwork>;
-    using TransitiveClosure = TransitiveClosureWithMap<Vertex>;
+    using FordFulkerson = FordFulkersonUsingBfs<FlowNetwork>;    using TransitiveClosure = TransitiveClosureWithMap<Vertex>;
 
     GeneralPathCover(BaseDirectedGraphWithVertex const& graph)
         : m_graph(graph)
     {}
 
-    Edges getEdgesOfGeneralPathCover(
+    Paths getGeneralPathCover(
             Vertex const& newSourceVertex,
             Vertex const& newSinkVertex) const
     {
-        Edges result;
+        VertexPairs vertexPairs(getConnectedVerticesOfGeneralPathCover(newSourceVertex, newSinkVertex));
+        return getGeneralPathCover(vertexPairs);
+    }
+
+    VertexPairs getConnectedVerticesOfGeneralPathCover(
+            Vertex const& newSourceVertex,
+            Vertex const& newSinkVertex) const
+    {
+        VertexPairs result;
         if(GraphUtilities::isDirectedAcyclicGraph(m_graph))
         {
             FordFulkerson fordFulkerson(getFlowNetwork(m_graph, newSourceVertex, newSinkVertex));
-            result = getEdgesOfGeneralPathCover(fordFulkerson);
+            result = getConnectedVerticesOfGeneralPathCover(fordFulkerson);
         }
         return result;
+    }
+
+    unsigned int getSizeOfMaximumAntichain(
+            Vertex const& newSourceVertex,
+            Vertex const& newSinkVertex) const
+    {
+        // Using Dilworth's theorem:
+        // An antichain is a set of nodes of a graph such that there is no path from any node to another node using the edges of the graph.
+        // Dilworth’s theorem states that in a directed acyclic graph, the size of a minimum general path cover equals the size of a maximum antichain.
+        return getGeneralPathCover(newSourceVertex, newSinkVertex).size();
     }
 
 private:
 
-    Edges getEdgesOfGeneralPathCover(
-            FordFulkerson const& fordFulkerson) const
+    Paths getGeneralPathCover(
+            VertexPairs const& vertexPairs) const
     {
-        Edges result;
-        for(auto const& path : fordFulkerson.getAugmentingPaths())
+        Paths result;
+        Edges allEdges(m_graph.getEdges());
+        DequeOfEdges detectedEdges;
+        SetOfEdges unprocessedEdges(allEdges.cbegin(), allEdges.cend());
+        for(VertexPair const& vertexPair : vertexPairs) // get detected edges and unprocessed edges
         {
-            if(path.size()>=2)
+            if(m_graph.isDirectlyConnected(vertexPair.first, vertexPair.second))
             {
-                for(unsigned int i=1; i<=path.size()-2; i+=2)
+                detectedEdges.emplace_back(vertexPair.first, vertexPair.second);
+                unprocessedEdges.erase(Edge(vertexPair.first, vertexPair.second));
+            }
+        }
+        VectorOfDequeOfVertices paths;
+        while(!detectedEdges.empty()) // construct paths from detected edges
+        {
+            Edge firstEdge(detectedEdges.front());
+            detectedEdges.pop_front();
+            DequeOfVertices pathInDeque{firstEdge.first, firstEdge.second};
+            for(unsigned int i=0; i<detectedEdges.size();)
+            {
+                Edge const& edge(detectedEdges.at(i));
+                if(pathInDeque.front() == edge.second)
                 {
-                    result.emplace_back(path.at(i).first, path.at(i+1).first);
+                    pathInDeque.emplace_front(edge.first);
+                    detectedEdges.erase(detectedEdges.begin()+i);
+                    i=0;
+                }
+                else if(pathInDeque.back() == edge.first)
+                {
+                    pathInDeque.emplace_back(edge.second);
+                    detectedEdges.erase(detectedEdges.begin()+i);
+                    i=0;
+                }
+                else
+                {
+                    i++;
                 }
             }
+            paths.emplace_back(pathInDeque);
+        }
+        for(DequeOfVertices & pathInDeque : paths) // add unprocessed edges to existing paths
+        {
+            for(auto it=unprocessedEdges.begin(); it!=unprocessedEdges.end();)
+            {
+                Edge const& unprocessedEdge(*it);
+                if(pathInDeque.front() == unprocessedEdge.second)
+                {
+                    pathInDeque.emplace_front(unprocessedEdge.first);
+                    unprocessedEdges.erase(it);
+                    it=unprocessedEdges.begin();
+                }
+                else if(pathInDeque.back() == unprocessedEdge.first)
+                {
+                    pathInDeque.emplace_back(unprocessedEdge.second);
+                    unprocessedEdges.erase(it);
+                    it=unprocessedEdges.begin();
+                }
+                else
+                {
+                    it++;
+                }
+            }
+        }
+        for(DequeOfVertices const& pathInDeque : paths) // convert pathsInDeque to paths
+        {
+            result.emplace_back(pathInDeque.begin(), pathInDeque.cend());
         }
         return result;
     }
 
+    VertexPairs getConnectedVerticesOfGeneralPathCover(
+            FordFulkerson const& fordFulkerson) const
+    {
+        VertexPairs result;
+        for(auto const& path : fordFulkerson.getAugmentingPaths())
+        {
+            if(path.size()>=2)
+            {
+                for(unsigned int i=1; i<=path.size()-2; i+=2) // avoid source and sink vertex, and get pairs (left and right)
+                {
+                    result.emplace_back(path.at(i).first, path.at(i+1).first);
+                }            }
+        }
+        return result;
+    }
     FlowNetwork getFlowNetwork(
             BaseDirectedGraphWithVertex const& graph,
             Vertex const& newSourceVertex,

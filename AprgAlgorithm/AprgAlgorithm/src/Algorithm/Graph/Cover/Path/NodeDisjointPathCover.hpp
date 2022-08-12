@@ -18,27 +18,40 @@ template <typename Vertex>
 class NodeDisjointPathCover
 {
 public:
+    // Path cover are set of paths that covers nodes.
+
     // In a node-disjoint path cover, each node belongs to exactly one path.
 
     using BaseDirectedGraphWithVertex = BaseDirectedGraph<Vertex>;
+    using Vertices = typename GraphTypes<Vertex>::Vertices;
     using Edge = typename GraphTypes<Vertex>::Edge;
     using Edges = typename GraphTypes<Vertex>::Edges;
+    using Paths = typename GraphTypes<Vertex>::Paths;
+    using SetOfVertices = typename GraphTypes<Vertex>::SetOfVertices;
+    using DequeOfVertices = typename GraphTypes<Vertex>::DequeOfVertices;
+    using DequeOfEdges = typename GraphTypes<Vertex>::DequeOfEdges;
+    using VectorOfDequeOfVertices = std::vector<DequeOfVertices>;
     using VertexWithEndpoint = VertexWithBool<Vertex>;
     using FlowNetwork = SinkSourceFlowNetwork<VertexWithEndpoint, int, DirectedGraphWithListOfEdges<VertexWithEndpoint>>;
     using FordFulkerson = FordFulkersonUsingBfs<FlowNetwork>;
-
     NodeDisjointPathCover(BaseDirectedGraphWithVertex const& graph)
         : m_graph(graph)
     {}
 
-    Edges getEdgesOfNodeDisjointPathCover(
+    Paths getNodeDisjointPathCover(
             Vertex const& newSourceVertex,
             Vertex const& newSinkVertex) const
     {
+        Edges edges(getEdgesOfNodeDisjointPathCover(newSourceVertex, newSinkVertex));
+        return getNodeDisjointPathCover(edges);
+    }
+
+    Edges getEdgesOfNodeDisjointPathCover(
+            Vertex const& newSourceVertex,
+            Vertex const& newSinkVertex) const    {
         // A path cover is a set of paths in a graph such that each node of the graph belongs to at least one path.
         // It turns out that in directed, acyclic graphs,
-        // we can reduce the problem of finding a minimum path cover to the problem of finding a maximum flow in another graph.
-        Edges result;
+        // we can reduce the problem of finding a minimum path cover to the problem of finding a maximum flow in another graph.        Edges result;
         if(GraphUtilities::isDirectedAcyclicGraph(m_graph))
         {
             FordFulkerson fordFulkerson(getFlowNetwork(m_graph, newSourceVertex, newSinkVertex));
@@ -49,14 +62,65 @@ public:
 
 private:
 
+    Paths getNodeDisjointPathCover(
+            Edges const& edges) const
+    {
+        Paths result;
+        DequeOfEdges detectedEdges(edges.cbegin(), edges.cend());
+        VectorOfDequeOfVertices paths;
+        while(!detectedEdges.empty()) // construct paths from detected edges
+        {
+            Edge firstEdge(detectedEdges.front());
+            detectedEdges.pop_front();
+            DequeOfVertices pathInDeque{firstEdge.first, firstEdge.second};
+            for(unsigned int i=0; i<detectedEdges.size();)
+            {
+                Edge const& edge(detectedEdges.at(i));
+                if(pathInDeque.front() == edge.second)
+                {
+                    pathInDeque.emplace_front(edge.first);
+                    detectedEdges.erase(detectedEdges.begin()+i);
+                    i=0;
+                }
+                else if(pathInDeque.back() == edge.first)
+                {
+                    pathInDeque.emplace_back(edge.second);
+                    detectedEdges.erase(detectedEdges.begin()+i);
+                    i=0;
+                }
+                else
+                {
+                    i++;
+                }
+            }
+            paths.emplace_back(pathInDeque);
+        }
+        Vertices allVertices(m_graph.getVertices());
+        SetOfVertices unprocessedVertices(allVertices.cbegin(), allVertices.cend());
+        for(DequeOfVertices const& pathInDeque : paths) // remove vertices from path to get unprocessed vertices
+        {
+            for(Vertex const& vertex : pathInDeque)
+            {
+                unprocessedVertices.erase(vertex);
+            }
+        }
+        for(Vertex const& unprocessedVertex : unprocessedVertices) // add each of the unprocessed vertices as its own path
+        {
+            paths.emplace_back(DequeOfVertices{unprocessedVertex});
+        }
+        for(DequeOfVertices const& pathInDeque : paths) // convert pathsInDeque to paths
+        {
+            result.emplace_back(pathInDeque.begin(), pathInDeque.cend());
+        }
+        return result;
+    }
+
     Edges getEdgesOfNodeDisjointPathCover(
             FordFulkerson const& fordFulkerson) const
-    {
-        Edges result;
+    {        Edges result;
         for(auto const& path : fordFulkerson.getAugmentingPaths())
         {
-            if(path.size()>=2)
-            {
+            if(path.size()>=2)            {
                 for(unsigned int i=1; i<=path.size()-2; i+=2)
                 {
                     result.emplace_back(path.at(i).first, path.at(i+1).first);
