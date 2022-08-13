@@ -4,17 +4,17 @@
 #include <BooleanAlgebra/Term/Utilities/CreateHelpers.hpp>
 #include <BooleanAlgebra/Term/Utilities/EnumHelpers.hpp>
 #include <BooleanAlgebra/Term/Utilities/StringHelpers.hpp>
+#include <Common/String/AlbaStringHelper.hpp>
 
 #include <cassert>
 
+using namespace alba::stringHelper;
 using namespace std;
 
-namespace alba
-{
+namespace alba{
 
 namespace booleanAlgebra
 {
-
 Term::Term()
     : m_type(TermType::Empty)
     , m_isSimplified(false)
@@ -404,16 +404,23 @@ void Term::resetBaseDataTermPointerBasedFromTerm(Term const& term)
 
 void Term::initializeBasedOnString(string const& stringAsParameter)
 {
-    if(booleanAlgebra::isOperator(stringAsParameter))
+    if(stringAsParameter.empty())
+    {
+        // do nothing
+    }
+    else if(booleanAlgebra::isConstant(stringAsParameter))
+    {
+        m_type=TermType::Constant;
+        m_baseTermDataPointer = make_unique<Constant>(convertStringToBool(stringAsParameter));
+    }
+    else if(booleanAlgebra::isOperator(stringAsParameter))
     {
         m_type=TermType::Operator;
         m_baseTermDataPointer = make_unique<Operator>(stringAsParameter);
-    }
-    else
+    }    else
     {
         m_type=TermType::VariableTerm;
-        m_baseTermDataPointer = make_unique<VariableTerm>(stringAsParameter, false);
-    }
+        m_baseTermDataPointer = make_unique<VariableTerm>(stringAsParameter, false);    }
 }
 
 ostream & operator<<(ostream & out, Term const& term)

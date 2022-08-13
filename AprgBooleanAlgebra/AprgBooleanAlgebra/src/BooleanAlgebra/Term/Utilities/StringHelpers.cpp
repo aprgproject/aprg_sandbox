@@ -4,24 +4,34 @@
 #include <BooleanAlgebra/Term/Utilities/EnumHelpers.hpp>
 #include <Common/String/AlbaStringHelper.hpp>
 
+#include <algorithm>
+
 using namespace alba::stringHelper;
 using namespace std;
-
 namespace alba
 {
 
 namespace booleanAlgebra
 {
 
+bool isConstant(string const& stringObject)
+{
+    string allCapital(getStringWithCapitalLetters(stringObject));
+    return "TRUE" == allCapital
+            || "FALSE" == allCapital
+            || std::all_of(stringObject.cbegin(), stringObject.cend(), [](char const c)
+    {
+        return isNumber(c);
+    });
+}
+
 bool isOperator(string const& stringObject)
 {
-    return "~" == stringObject || "&" == stringObject || "|" == stringObject || "(" == stringObject || ")" == stringObject;
-}
+    return "~" == stringObject || "&" == stringObject || "|" == stringObject || "(" == stringObject || ")" == stringObject;}
 
 unsigned int getOperatorPriority(string const& operatorString)
 {
-    unsigned int result=0;
-    if("(" == operatorString)
+    unsigned int result=0;    if("(" == operatorString)
     {
         result=1;
     }
@@ -109,32 +119,12 @@ string createVariableTermNameForSubstitution(Term const& term)
     return variableName;
 }
 
-Term constructTermFromString(string const& valueString)
-{
-    Term result;
-    if(!valueString.empty())
-    {
-        string allCapital(getStringWithCapitalLetters(valueString));
-        if("TRUE" == allCapital || "FALSE" == allCapital || isNumber(valueString.front()))
-        {
-            result = Term(convertStringToBool(valueString));
-        }
-        else
-        {
-            result = Term(valueString);
-        }
-    }
-    return result;
-}
-
 Term buildTermIfPossible(string const& termString)
 {
-    Term result;
-    TermsAggregator aggregator(tokenizeToTerms(termString));
+    Term result;    TermsAggregator aggregator(tokenizeToTerms(termString));
     aggregator.simplifyTerms();
     Terms const& simplifiedTerms(aggregator.getTermsConstReference());
-    if(simplifiedTerms.size() == 1)
-    {
+    if(simplifiedTerms.size() == 1)    {
         result = simplifiedTerms.at(0);
     }
     return result;
@@ -169,10 +159,9 @@ void addValueTermIfNotEmpty(Terms & terms, string const& valueString)
 {
     if(!valueString.empty())
     {
-        terms.emplace_back(constructTermFromString(valueString));
+        terms.emplace_back(Term(valueString));
     }
 }
-
 }
 
 }

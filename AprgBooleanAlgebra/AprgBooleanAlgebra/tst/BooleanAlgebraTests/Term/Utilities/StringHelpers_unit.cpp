@@ -68,40 +68,23 @@ TEST(StringHelpersTest, CreateVariableTermNameForSubstitutionWorks)
     EXPECT_EQ("{{x}}", createVariableTermNameForSubstitution(term));
 }
 
-TEST(StringHelpersTest, ConstructTermFromStringWorks)
-{
-    Term termToVerify1(constructTermFromString("5xxx"));
-    Term termToVerify2(constructTermFromString("x111"));
-    Term termToVerify3(constructTermFromString("false"));
-
-    ASSERT_EQ(TermType::Constant, termToVerify1.getTermType());
-    EXPECT_TRUE(termToVerify1.getBooleanValue());
-    ASSERT_EQ(TermType::VariableTerm, termToVerify2.getTermType());
-    EXPECT_EQ("x111", termToVerify2.getVariableTermConstReference().getVariableTermName());
-    ASSERT_EQ(TermType::Constant, termToVerify3.getTermType());
-    EXPECT_FALSE(termToVerify3.getBooleanValue());
-}
-
 TEST(StringHelpersTest, BuildTermIfPossibleWorks)
 {
     Term termToVerify(buildTermIfPossible("x&y"));
-
     Term termToExpect(createExpressionIfPossible({"x", "&", "y"}));
     EXPECT_EQ(termToExpect, termToVerify);
 }
 
 TEST(StringHelpersTest, TokenizeToTermsWorks)
 {
-    Terms termsToVerify(tokenizeToTerms(" 5yyy & x1 & y1 | ~20.15"));
+    Terms termsToVerify(tokenizeToTerms(" 5yyy & x1 & y1 | ~2015"));
 
-    Terms termsToExpect{true, "&", "x1", "&", "y1", "|", "~", true};
+    Terms termsToExpect{"5yyy", "&", "x1", "&", "y1", "|", "~", true};
     EXPECT_EQ(termsToExpect, termsToVerify);
 }
-
 TEST(StringHelpersTest, AddValueTermIfNotEmptyWorks)
 {
     Terms termsToVerify1;
-
     addValueTermIfNotEmpty(termsToVerify1, "true");
 
     ASSERT_EQ(1U, termsToVerify1.size());

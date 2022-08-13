@@ -16,36 +16,41 @@ TEST(TermTest, TermsAsConstantsWorks)
 {
     Term constantTerm1(false);
     Term constantTerm2(true);
+    Term constantTerm3("tRue");
+    Term constantTerm4("0");
+    Term constantTerm5("5");
 
     ASSERT_EQ(TermType::Constant, constantTerm1.getTermType());
     EXPECT_FALSE(constantTerm1.getConstantConstReference().getBooleanValue());
-
     ASSERT_EQ(TermType::Constant, constantTerm2.getTermType());
     EXPECT_TRUE(constantTerm2.getConstantConstReference().getBooleanValue());
+
+    ASSERT_EQ(TermType::Constant, constantTerm3.getTermType());
+    EXPECT_TRUE(constantTerm3.getConstantConstReference().getBooleanValue());
+
+    ASSERT_EQ(TermType::Constant, constantTerm4.getTermType());
+    EXPECT_FALSE(constantTerm4.getConstantConstReference().getBooleanValue());
+
+    ASSERT_EQ(TermType::Constant, constantTerm5.getTermType());
+    EXPECT_TRUE(constantTerm5.getConstantConstReference().getBooleanValue());
 }
 
 TEST(TermTest, TermsAsVariableTermsWorks)
 {
-    Term variableTerm1("");
-    Term variableTerm2("x");
-    Term variableTerm3("power");
+    Term variableTerm1("x");
+    Term variableTerm2("power");
 
     ASSERT_EQ(TermType::VariableTerm, variableTerm1.getTermType());
-    EXPECT_EQ("", variableTerm1.getVariableTermConstReference().getVariableTermName());
+    EXPECT_EQ("x", variableTerm1.getVariableTermConstReference().getVariableTermName());
 
     ASSERT_EQ(TermType::VariableTerm, variableTerm2.getTermType());
-    EXPECT_EQ("x", variableTerm2.getVariableTermConstReference().getVariableTermName());
-
-    ASSERT_EQ(TermType::VariableTerm, variableTerm3.getTermType());
-    EXPECT_EQ("power", variableTerm3.getVariableTermConstReference().getVariableTermName());
+    EXPECT_EQ("power", variableTerm2.getVariableTermConstReference().getVariableTermName());
 }
 
-TEST(TermTest, TermsAsOperatorsWorks)
-{
+TEST(TermTest, TermsAsOperatorsWorks){
     Term operatorTerm1("~");
     Term operatorTerm2("&");
     Term operatorTerm3("|");
-
     ASSERT_EQ(TermType::Operator, operatorTerm1.getTermType());
     EXPECT_EQ("~", operatorTerm1.getOperatorConstReference().getOperatorString());
 
@@ -77,13 +82,34 @@ TEST(TermTest, TermsAsExpressionsWorks)
     EXPECT_EQ(Term("x"), getTermConstReferenceFromSharedPointer(termsToVerify2.at(0).baseTermSharedPointer));
 }
 
+TEST(TermTest, TermsAsConstructedAsStringWorks)
+{
+    Term term1("");
+    Term term2("true");
+    Term term3("&");
+    Term term4("power");
+    Term term5("x1");
+
+    ASSERT_EQ(TermType::Empty, term1.getTermType());
+
+    ASSERT_EQ(TermType::Constant, term2.getTermType());
+    EXPECT_TRUE(term2.getConstantConstReference().getBooleanValue());
+
+    ASSERT_EQ(TermType::Operator, term3.getTermType());
+    EXPECT_EQ("&", term3.getOperatorConstReference().getOperatorString());
+
+    ASSERT_EQ(TermType::VariableTerm, term4.getTermType());
+    EXPECT_EQ("power", term4.getVariableTermConstReference().getVariableTermName());
+
+    ASSERT_EQ(TermType::VariableTerm, term5.getTermType());
+    EXPECT_EQ("x1", term5.getVariableTermConstReference().getVariableTermName());
+}
+
 TEST(TermTest, TermThatIsDefaultConstructedHasIsSimplifiedFlagNotSet)
 {
     Term term;
-
     EXPECT_FALSE(term.isSimplified());
 }
-
 TEST(TermTest, TermThatIsCopyConstructedHasIsSimplifiedFlagCopied)
 {
     Term termWithSimplifiedNotSet;
