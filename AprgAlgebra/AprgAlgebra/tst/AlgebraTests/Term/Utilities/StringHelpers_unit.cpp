@@ -86,25 +86,12 @@ TEST(StringHelpersTest, CreateVariableNameForSubstitutionWorks)
     EXPECT_EQ("{(6 + -7[x^2][y^3][z^4])}", createVariableNameForSubstitution(term));
 }
 
-TEST(StringHelpersTest, ConstructTermFromStringWorks)
-{
-    Term termToVerify1(constructTermFromString("5xxx"));
-    Term termToVerify2(constructTermFromString("x111"));
-
-    ASSERT_EQ(TermType::Constant, termToVerify1.getTermType());
-    EXPECT_DOUBLE_EQ(5, termToVerify1.getConstantValueConstReference().getDouble());
-    ASSERT_EQ(TermType::Variable, termToVerify2.getTermType());
-    EXPECT_EQ("x111", termToVerify2.getVariableConstReference().getVariableName());
-}
-
 TEST(StringHelpersTest, BuildTermIfPossibleWorks)
 {
     Term termToVerify(buildTermIfPossible("x^2*y^-3*z^4"));
-
     Term termToExpect(Monomial(1, {{"x", 2}, {"y", -3}, {"z", 4}}));
     EXPECT_EQ(termToExpect, termToVerify);
 }
-
 TEST(StringHelpersTest, TokenizeToTermsWorks)
 {
     Terms termsToVerify1(tokenizeToTerms(" 5yyy + x1*y1^20.15"));

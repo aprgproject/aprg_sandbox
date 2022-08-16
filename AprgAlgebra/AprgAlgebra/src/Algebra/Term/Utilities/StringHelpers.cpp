@@ -143,31 +143,12 @@ string createVariableNameForSubstitution(Term const& term)
     return variableName;
 }
 
-Term constructTermFromString(string const& valueString)
-{
-    Term result;
-    if(!valueString.empty())
-    {
-        if(isNumber(valueString.at(0)))
-        {
-            result = Term(convertStringToAlbaNumber(valueString));
-        }
-        else
-        {
-            result = Term(valueString);
-        }
-    }
-    return result;
-}
-
 Term buildTermIfPossible(string const& termString)
 {
-    Term result;
-    TermsAggregator aggregator(tokenizeToTerms(termString));
+    Term result;    TermsAggregator aggregator(tokenizeToTerms(termString));
     aggregator.simplifyTerms();
     Terms const& simplifiedTerms(aggregator.getTermsConstReference());
-    if(simplifiedTerms.size() == 1)
-    {
+    if(simplifiedTerms.size() == 1)    {
         result = simplifiedTerms.at(0);
     }
     return result;
@@ -202,10 +183,9 @@ void addValueTermIfNotEmpty(Terms & terms, string const& valueString)
 {
     if(!valueString.empty())
     {
-        terms.emplace_back(constructTermFromString(valueString));
+        terms.emplace_back(Term(valueString));
     }
 }
-
 }
 
 }

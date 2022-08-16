@@ -34,26 +34,20 @@ TEST(TermTest, TermsAsConstantsWorks)
 
 TEST(TermTest, TermsAsVariablesWorks)
 {
-    Term variableTerm1("");
-    Term variableTerm2("x");
-    Term variableTerm3("power");
+    Term variableTerm1("x");
+    Term variableTerm2("power");
 
     ASSERT_EQ(TermType::Variable, variableTerm1.getTermType());
-    EXPECT_EQ("", variableTerm1.getVariableConstReference().getVariableName());
+    EXPECT_EQ("x", variableTerm1.getVariableConstReference().getVariableName());
 
     ASSERT_EQ(TermType::Variable, variableTerm2.getTermType());
-    EXPECT_EQ("x", variableTerm2.getVariableConstReference().getVariableName());
-
-    ASSERT_EQ(TermType::Variable, variableTerm3.getTermType());
-    EXPECT_EQ("power", variableTerm3.getVariableConstReference().getVariableName());
+    EXPECT_EQ("power", variableTerm2.getVariableConstReference().getVariableName());
 }
 
-TEST(TermTest, TermsAsOperatorsWorks)
-{
+TEST(TermTest, TermsAsOperatorsWorks){
     Term operatorTerm1("+");
     Term operatorTerm2("-");
-    Term operatorTerm3("*");
-    Term operatorTerm4("/");
+    Term operatorTerm3("*");    Term operatorTerm4("/");
 
     ASSERT_EQ(TermType::Operator, operatorTerm1.getTermType());
     EXPECT_EQ("+", operatorTerm1.getOperatorConstReference().getOperatorString());
@@ -201,13 +195,34 @@ TEST(TermTest, TermsAsFunctionsWorks)
     EXPECT_TRUE(getTermConstReferenceFromBaseTerm(functionToVerify3.getInputTermConstReference()).isEmpty());
 }
 
+TEST(TermTest, TermsAsConstructedAsStringWorks)
+{
+    Term term1("");
+    Term term2("5xxx");
+    Term term3("+");
+    Term term4("power");
+    Term term5("x1");
+
+    ASSERT_EQ(TermType::Empty, term1.getTermType());
+
+    ASSERT_EQ(TermType::Constant, term2.getTermType());
+    EXPECT_DOUBLE_EQ(5, term2.getConstantConstReference().getNumberConstReference().getDouble());
+
+    ASSERT_EQ(TermType::Operator, term3.getTermType());
+    EXPECT_EQ("+", term3.getOperatorConstReference().getOperatorString());
+
+    ASSERT_EQ(TermType::Variable, term4.getTermType());
+    EXPECT_EQ("power", term4.getVariableConstReference().getVariableName());
+
+    ASSERT_EQ(TermType::Variable, term5.getTermType());
+    EXPECT_EQ("x1", term5.getVariableConstReference().getVariableName());
+}
+
 TEST(TermTest, TermThatIsDefaultConstructedHasIsSimplifiedFlagNotSet)
 {
     Term term;
-
     EXPECT_FALSE(term.isSimplified());
 }
-
 TEST(TermTest, TermThatIsCopyConstructedHasIsSimplifiedFlagCopied)
 {
     Term termWithSimplifiedNotSet;
