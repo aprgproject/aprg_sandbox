@@ -7,14 +7,15 @@ using namespace std;
 namespace alba
 {
 
+namespace algorithm
+{
+
 namespace
 {
-using ValueForTest = unsigned int;
-using RangeQueryForTest = RangeQueryWithSegmentTree<ValueForTest>;
+using ValueForTest = unsigned int;using RangeQueryForTest = RangeQueryWithSegmentTree<ValueForTest>;
 using ValuesForTest = RangeQueryForTest::Values;
 
-RangeQueryForTest::Function minimumSelector = [](ValueForTest const& value1, ValueForTest const& value2)
-{
+RangeQueryForTest::Function minimumSelector = [](ValueForTest const& value1, ValueForTest const& value2){
     return min(value1, value2);
 };
 
@@ -103,6 +104,8 @@ TEST(RangeQueryWithSegmentTreeTest, ChangeValueAtIndexWithSumWorksOnExample1)
     EXPECT_EQ(14U, sumRangeQuery.getValueOnInterval(2U, 5U));
     EXPECT_EQ(9U, sumRangeQuery.getValueOnInterval(3U, 4U));
     EXPECT_EQ(6U, sumRangeQuery.getValueOnInterval(4U, 4U));
+}
+
 }
 
 }

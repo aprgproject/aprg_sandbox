@@ -7,14 +7,15 @@ using namespace std;
 namespace alba
 {
 
+namespace algorithm
+{
+
 namespace
 {
-using ValueForTest = unsigned int;
-using RangeQueryForTest = RangeQueryWithSelector<ValueForTest>;
+using ValueForTest = unsigned int;using RangeQueryForTest = RangeQueryWithSelector<ValueForTest>;
 using ValuesForTest = RangeQueryForTest::Values;
 
-RangeQueryForTest::SelectorFunction minimumSelector = [](ValueForTest const& value1, ValueForTest const& value2)
-{
+RangeQueryForTest::SelectorFunction minimumSelector = [](ValueForTest const& value1, ValueForTest const& value2){
     return min(value1, value2);
 };
 
@@ -56,6 +57,8 @@ TEST(RangeQueryWithSelectorTest, GetSelectedValueOnIntervalWithMaximumWorksInExa
     EXPECT_EQ(9U, maximumRangeQuery.getSelectedValueOnInterval(0U, 7U));
     EXPECT_EQ(8U, maximumRangeQuery.getSelectedValueOnInterval(3U, 6U));
     EXPECT_EQ(8U, maximumRangeQuery.getSelectedValueOnInterval(2U, 4U));
+}
+
 }
 
 }

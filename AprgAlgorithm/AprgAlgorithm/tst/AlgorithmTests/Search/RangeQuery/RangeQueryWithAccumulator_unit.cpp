@@ -7,14 +7,15 @@ using namespace std;
 namespace alba
 {
 
+namespace algorithm
+{
+
 namespace
 {
-using ValueForTest = unsigned int;
-using RangeQueryForTest = RangeQueryWithAccumulator<ValueForTest>;
+using ValueForTest = unsigned int;using RangeQueryForTest = RangeQueryWithAccumulator<ValueForTest>;
 using ValuesForTest = RangeQueryForTest::Values;
 
-RangeQueryForTest::AccumulatorFunction plusAccumulator = [](ValueForTest const& value1, ValueForTest const& value2)
-{
+RangeQueryForTest::AccumulatorFunction plusAccumulator = [](ValueForTest const& value1, ValueForTest const& value2){
     return plus<ValueForTest>()(value1, value2);
 };
 
@@ -112,6 +113,8 @@ TEST(RangeQueryWithAccumulatorTest, GetAccumulatedValueOnIntervalWithGeometricSu
     EXPECT_EQ(72U, geometricSumRangeQuery.getAccumulatedValueOnInterval(2U, 5U));
     EXPECT_EQ(18U, geometricSumRangeQuery.getAccumulatedValueOnInterval(3U, 4U));
     EXPECT_EQ(6U, geometricSumRangeQuery.getAccumulatedValueOnInterval(4U, 4U));
+}
+
 }
 
 }

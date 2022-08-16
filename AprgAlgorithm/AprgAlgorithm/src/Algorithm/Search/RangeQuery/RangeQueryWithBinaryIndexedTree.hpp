@@ -8,14 +8,15 @@
 namespace alba
 {
 
+namespace algorithm
+{
+
 template <typename Value>
 class RangeQueryWithBinaryIndexedTree
-{
-public:
+{public:
     // This is "range query accumulator" type
     // Example for "range query accumulator" is sum queries
-    // We can easily process sum queries on a static array by constructing a prefix sum array.
-    // Each value in the prefix sum array equals the sum of values in the original array up to that position, i.e., the value at position k is sumq(0,k).
+    // We can easily process sum queries on a static array by constructing a prefix sum array.    // Each value in the prefix sum array equals the sum of values in the original array up to that position, i.e., the value at position k is sumq(0,k).
 
     // A binary indexed tree or a Fenwick tree can be seen as a dynamic variant of a prefix sum array.
     // It supports two O(logn) time operations on an array: processing a range sum query and updating a value.
@@ -128,5 +129,7 @@ private:
     AccumulatorFunction m_accumulator;
     AccumulatorFunction m_inverseAccumulator;
 };
+
+}
 
 }

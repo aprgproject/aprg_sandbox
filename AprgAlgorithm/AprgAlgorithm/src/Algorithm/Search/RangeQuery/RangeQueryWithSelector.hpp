@@ -8,14 +8,15 @@
 namespace alba
 {
 
+namespace algorithm
+{
+
 template <typename Value>
 class RangeQueryWithSelector
-{
-public:
+{public:
     // Example for "range query selector" is minimum queries
     // Minimum queries are more difficult to process than sum queries.
-    // Still, there is a quite simple O(nlogn) time preprocessing method after which we can answer any minimum query in O(1) time1.
-    //Note that since minimum and maximum queries can be processed similarly, we can focus on minimum queries.
+    // Still, there is a quite simple O(nlogn) time preprocessing method after which we can answer any minimum query in O(1) time1.    //Note that since minimum and maximum queries can be processed similarly, we can focus on minimum queries.
 
     using Index = unsigned int;
     using Values = std::vector<Value>;
@@ -88,5 +89,7 @@ private:
     ValueMatrix m_selectedValueMatrix; // index by exponent matrix
     SelectorFunction m_selector;
 };
+
+}
 
 }

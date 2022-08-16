@@ -7,14 +7,15 @@ using namespace std;
 namespace alba
 {
 
+namespace algorithm
+{
+
 namespace
 {
-using ValueForTest = unsigned int;
-using RangeQueryForTest = RangeQueryWithBinaryIndexedTree<ValueForTest>;
+using ValueForTest = unsigned int;using RangeQueryForTest = RangeQueryWithBinaryIndexedTree<ValueForTest>;
 using ValuesForTest = RangeQueryForTest::Values;
 
-RangeQueryForTest::AccumulatorFunction plusAccumulator = [](ValueForTest const& value1, ValueForTest const& value2)
-{
+RangeQueryForTest::AccumulatorFunction plusAccumulator = [](ValueForTest const& value1, ValueForTest const& value2){
     return plus<ValueForTest>()(value1, value2);
 };
 
@@ -80,6 +81,8 @@ TEST(RangeQueryWithBinaryIndexedTreeTest, ChangeValueAtIndexWithSumWorksOnExampl
     EXPECT_EQ(14U, sumRangeQuery.getAccumulatedValueOnInterval(2U, 5U));
     EXPECT_EQ(9U, sumRangeQuery.getAccumulatedValueOnInterval(3U, 4U));
     EXPECT_EQ(6U, sumRangeQuery.getAccumulatedValueOnInterval(4U, 4U));
+}
+
 }
 
 }
