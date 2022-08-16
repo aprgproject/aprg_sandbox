@@ -21,43 +21,40 @@ std::ostream & operator<<(std::ostream & out, std::pair<ElementType1, ElementTyp
 }
 
 template <typename ElementType>
-class AprgMathSet
+class MathSet
 {
 public:
-    using AprgMathSets = std::vector<AprgMathSet>;
+    using MathSets = std::vector<MathSet>;
     using Rule = std::function<bool(ElementType const&)>;
     using RosterInitializerList = std::initializer_list<ElementType>;
-    using RosterList = std::vector<ElementType>;
-    using RosterSet = std::set<ElementType>;
+    using RosterList = std::vector<ElementType>;    using RosterSet = std::set<ElementType>;
     using RosterLists = std::vector<RosterList>;
     using VoidElementFunction = std::function<void(ElementType const&)>;
     using GenerateFunction = std::function<void(VoidElementFunction const& generateElementFunction)>;
 
-    AprgMathSet()
+    MathSet()
         : m_description("Null set")
     #define NULL_RULE [](ElementType const&)->bool{return false;} // need to macro because it affects indentions
         , m_ruleToBeInTheSet(NULL_RULE)
     #undef NULL_RULE
     {}
 
-    AprgMathSet(RosterList const& rosterList)
+    MathSet(RosterList const& rosterList)
     {
         constructSetBasedOnRosterList(rosterList);
     }
 
-    AprgMathSet(RosterInitializerList const& initializerList)
+    MathSet(RosterInitializerList const& initializerList)
     {
         RosterList rosterList;
-        rosterList.reserve(initializerList.size());
-        std::copy(initializerList.begin(), initializerList.end(), std::back_inserter(rosterList));
+        rosterList.reserve(initializerList.size());        std::copy(initializerList.begin(), initializerList.end(), std::back_inserter(rosterList));
         constructSetBasedOnRosterList(rosterList);
     }
 
-    AprgMathSet(std::string const& description, Rule const& rule)
+    MathSet(std::string const& description, Rule const& rule)
         : m_description(description)
     {
-        m_ruleToBeInTheSet = rule;
-    }
+        m_ruleToBeInTheSet = rule;    }
 
     bool contains(ElementType const& elementToCheck) const
     {
@@ -89,11 +86,10 @@ public:
         return std::string("{... ")+descriptionStream.str()+" ...}";
     }
 
-    bool isASubsetOf(AprgMathSet const& mathSet2, GenerateFunction const& generateFunction) const
+    bool isASubsetOf(MathSet const& mathSet2, GenerateFunction const& generateFunction) const
     {
         bool result(true);
-        generateFunction([&](ElementType const& element)
-        {
+        generateFunction([&](ElementType const& element)        {
             if(contains(element) && mathSet2.doesNotContain(element))
             {
                 result = false;
@@ -102,11 +98,10 @@ public:
         return result;
     }
 
-    bool isASupersetOf(AprgMathSet const& mathSet2, GenerateFunction const& generateFunction) const
+    bool isASupersetOf(MathSet const& mathSet2, GenerateFunction const& generateFunction) const
     {
         bool result(true);
-        generateFunction([&](ElementType const& element)
-        {
+        generateFunction([&](ElementType const& element)        {
             if(mathSet2.contains(element) && doesNotContain(element))
             {
                 result = false;
@@ -115,11 +110,10 @@ public:
         return result;
     }
 
-    bool isDisjointWith(AprgMathSet const& mathSet2, GenerateFunction const& generateFunction) const
+    bool isDisjointWith(MathSet const& mathSet2, GenerateFunction const& generateFunction) const
     {
         bool result(true);
-        generateFunction([&](ElementType const& element)
-        {
+        generateFunction([&](ElementType const& element)        {
             if(contains(element) && mathSet2.contains(element))
             {
                 result = false;
@@ -128,48 +122,47 @@ public:
         return result;
     }
 
-    AprgMathSet getComplement() const
+    MathSet getComplement() const
     {
         Rule ruleToBeInTheNewSet = [&](ElementType const& elementToCheck) -> bool
         {
             return !m_ruleToBeInTheSet(elementToCheck);
         };
-        return AprgMathSet(std::string("complement of ")+getDescription(), ruleToBeInTheNewSet);
+        return MathSet(std::string("complement of ")+getDescription(), ruleToBeInTheNewSet);
     }
 
-    AprgMathSet getUnionWith(AprgMathSet const& mathSet2) const
+    MathSet getUnionWith(MathSet const& mathSet2) const
     {
         Rule ruleToBeInTheNewSet = [&](ElementType const& elementToCheck) -> bool
         {
             return m_ruleToBeInTheSet(elementToCheck) || mathSet2.m_ruleToBeInTheSet(elementToCheck);
         };
-        return AprgMathSet(getDescription() + " union " + mathSet2.getDescription(), ruleToBeInTheNewSet);
+        return MathSet(getDescription() + " union " + mathSet2.getDescription(), ruleToBeInTheNewSet);
     }
 
-    AprgMathSet getIntersectionWith(AprgMathSet const& mathSet2) const
+    MathSet getIntersectionWith(MathSet const& mathSet2) const
     {
         Rule ruleToBeInTheNewSet = [&](ElementType const& elementToCheck) -> bool
         {
             return m_ruleToBeInTheSet(elementToCheck) && mathSet2.m_ruleToBeInTheSet(elementToCheck);
         };
-        return AprgMathSet(getDescription() + " intersection " + mathSet2.getDescription(), ruleToBeInTheNewSet);
+        return MathSet(getDescription() + " intersection " + mathSet2.getDescription(), ruleToBeInTheNewSet);
     }
 
-    AprgMathSet getDifferenceWith(AprgMathSet const& mathSet2) const
+    MathSet getDifferenceWith(MathSet const& mathSet2) const
     {
         //The difference (A\B) = A intersection B' consists of elements that are in A but not in B. Note that B can contain elements that are not in A.
         Rule ruleToBeInTheNewSet = [&](ElementType const& elementToCheck) -> bool
         {
             return m_ruleToBeInTheSet(elementToCheck) && !mathSet2.m_ruleToBeInTheSet(elementToCheck);
         };
-        return AprgMathSet(getDescription() + " difference " + mathSet2.getDescription(), ruleToBeInTheNewSet);
+        return MathSet(getDescription() + " difference " + mathSet2.getDescription(), ruleToBeInTheNewSet);
     }
 
-    AprgMathSets getSubsets(GenerateFunction const& generateFunction) const
+    MathSets getSubsets(GenerateFunction const& generateFunction) const
     {
         RosterList roster;
-        generateFunction([&](ElementType const& element)
-        {
+        generateFunction([&](ElementType const& element)        {
             if(contains(element))
             {
                 roster.emplace_back(element);
@@ -177,11 +170,10 @@ public:
         });
         algorithm::SubsetGenerationUsingRecursion<RosterList> subsetGeneration;
         RosterLists subsetsRoster(subsetGeneration.generateOrderedSubsetsUsingDfs(roster));
-        AprgMathSets result;
+        MathSets result;
         for(RosterList const& subsetRoster : subsetsRoster)
         {
-            result.emplace_back(subsetRoster);
-        }
+            result.emplace_back(subsetRoster);        }
         return result;
     }
 
@@ -226,39 +218,38 @@ private:
 };
 
 template <typename ElementType>
-AprgMathSet<ElementType> getUnion(
-        AprgMathSet<ElementType> const& set1,
-        AprgMathSet<ElementType> const& set2)
+MathSet<ElementType> getUnion(
+        MathSet<ElementType> const& set1,
+        MathSet<ElementType> const& set2)
 {
     return set1.getUnionWith(set2);
 }
 
 template <typename ElementType>
-AprgMathSet<ElementType> getIntersection(
-        AprgMathSet<ElementType> const& set1,
-        AprgMathSet<ElementType> const& set2)
+MathSet<ElementType> getIntersection(
+        MathSet<ElementType> const& set1,
+        MathSet<ElementType> const& set2)
 {
     return set1.getIntersectionWith(set2);
 }
 
 template <typename ElementType>
-AprgMathSet<ElementType> getDifference(
-        AprgMathSet<ElementType> const& set1,
-        AprgMathSet<ElementType> const& set2)
+MathSet<ElementType> getDifference(
+        MathSet<ElementType> const& set1,
+        MathSet<ElementType> const& set2)
 {
     return set1.getDifferenceWith(set2);
 }
 
 template <typename ElementType1, typename ElementType2>
-AprgMathSet<std::pair<ElementType1, ElementType2>> getCartersianProduct(
-        AprgMathSet<ElementType1> const& set1,
-        AprgMathSet<ElementType2> const& set2,
-        typename AprgMathSet<ElementType1>::GenerateFunction const& generateFunction1,
-        typename AprgMathSet<ElementType2>::GenerateFunction const& generateFunction2)
+MathSet<std::pair<ElementType1, ElementType2>> getCartersianProduct(
+        MathSet<ElementType1> const& set1,
+        MathSet<ElementType2> const& set2,
+        typename MathSet<ElementType1>::GenerateFunction const& generateFunction1,
+        typename MathSet<ElementType2>::GenerateFunction const& generateFunction2)
 {
     std::vector<std::pair<ElementType1, ElementType2>> rosterList;
-    generateFunction1([&](ElementType1 const& elementInSet1)
-    {
+    generateFunction1([&](ElementType1 const& elementInSet1)    {
         if(set1.contains(elementInSet1))
         {
             generateFunction2([&](ElementType2 const& elementInSet2)
@@ -270,15 +261,14 @@ AprgMathSet<std::pair<ElementType1, ElementType2>> getCartersianProduct(
             });
         }
     });
-    return AprgMathSet<std::pair<ElementType1, ElementType2>>(rosterList);
+    return MathSet<std::pair<ElementType1, ElementType2>>(rosterList);
 }
 
 template <typename ElementType>
-std::ostream & operator<<(std::ostream & out, AprgMathSet<ElementType> const& set)
+std::ostream & operator<<(std::ostream & out, MathSet<ElementType> const& set)
 {
     out << set.getDescription();
-    return out;
-}
+    return out;}
 
 
 }
