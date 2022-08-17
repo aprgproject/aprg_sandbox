@@ -1,12 +1,11 @@
 #pragma once
 
+#include <Common/Bit/AlbaBitValueUtilities.hpp>
 #include <Common/Math/AlbaMathConstants.hpp>
 #include <Common/Math/Number/AlbaNumber.hpp>
 #include <Common/Math/Number/AlbaNumberTypes.hpp>
-
 #include <algorithm>
 #include <vector>
-
 namespace alba
 {
 
@@ -170,17 +169,66 @@ AlbaNumbers getQuadraticRoots(RootType const rootType, AlbaNumber const& a, Alba
 
 
 //Combinatorics functions
-unsigned int getFactorial(unsigned int const number);
-unsigned int getNumberOfPermutations(unsigned int const n, unsigned int const r);
-unsigned int getNumberOfCombinations(unsigned int const n, unsigned int const r);
-unsigned int getFibonacci(unsigned int const number);
-unsigned int getValueAtPascalTriangle(unsigned int const rowIndex, unsigned int const columnIndex);
+
+template <typename NumberType> NumberType getFactorial(NumberType const number)
+{
+    NumberType result(1);
+    for(NumberType currentNumber=number; currentNumber>1; currentNumber--)
+    {
+        result *= currentNumber;
+    }
+    return result;
+}
+
+template <typename NumberType> NumberType getNumberOfPermutations(NumberType const n, NumberType const r)
+{
+    NumberType result(0);
+    if(n >= r)
+    {
+        result = 1;
+        for(NumberType currentNumber=n; currentNumber>n-r; currentNumber--)
+        {
+            result *= currentNumber;
+        }
+    }
+    return result;
+}
+
+template <typename NumberType> NumberType getNumberOfCombinations(NumberType const n, NumberType const r)
+{
+    NumberType result(0);
+    if(n >= r)
+    {
+        result = 1;
+        for(NumberType currentNumber=n; currentNumber>n-r; currentNumber--)
+        {
+            result *= currentNumber;
+        }
+        for(NumberType currentNumber=r; currentNumber>1; currentNumber--)
+        {
+            result /= currentNumber;
+        }
+    }
+    return result;
+}
+
+template <typename NumberType> NumberType getFibonacci(NumberType const number)
+{
+    // Binets formula:
+    double sqrtOf5 = sqrt(5);
+    double fibonacciInDouble = (pow(1+sqrtOf5, number)-pow(1-sqrtOf5, number)) / (pow(2, number)*sqrtOf5);
+    return getIntegerAfterRoundingADoubleValue<NumberType>(fibonacciInDouble);
+}
+
+template <typename NumberType> NumberType getValueAtPascalTriangle(NumberType const rowIndex, NumberType const columnIndex)
+{
+    return getNumberOfCombinations(rowIndex, columnIndex);
+}
+
 int getStirlingNumberOfTheSecondKind(unsigned int const n, unsigned int const k);
 
-
 //Statistics functions
-double getCumulativeStandardDistributionApproximation(double const z);
-double getInverseCumulativeStandardDistributionApproximation(double const p, unsigned int const numberOfIterations);
+double getCumulativeStandardDistributionApproximation(double const z);double getInverseCumulativeStandardDistributionApproximation(double const p, unsigned int const numberOfIterations);
 
 
 //Clamp functions
@@ -194,30 +242,137 @@ template <typename NumberType> inline NumberType clampHigherBound(NumberType con
 }
 
 //Divisibility functions
-bool isDivisible(unsigned int const dividend, unsigned int const divisor);
-bool isEven(unsigned int const number);
-bool isOdd(unsigned int const number);
+template <typename NumberType> bool isDivisible(NumberType const dividend, NumberType const divisor)
+{
+    bool result(false);
+    if(divisor != 0)
+    {
+        result = (dividend % divisor)==0;
+    }
+    return result;
+}
+template <typename NumberType> bool isEven(NumberType const number)
+{
+    return isDivisible(number, 2U);
+}
+template <typename NumberType> bool isOdd(NumberType const number)
+{
+    return !isDivisible(number, 2U);
+}
+
 
 
 //Factor and multiple related functions
-bool isPrime(unsigned int const number);
-unsigned int getGreatestPowerOf2Factor(unsigned int const number);
-unsigned int getGreatestCommonFactor(unsigned int const firstNumber, unsigned int const secondNumber);
+
+template <typename NumberType> bool isPrime(NumberType const number)
+{
+    // Non prime would have: a * b = nonPrimeNumber, where a and b are integers
+    // To have less iterations:
+    // When a = b, then we can test if divisible until nonPrimeNumber^0.5
+    // When a > b, then we can test if divisible until b. Since b < nonPrimeNumber^0.5, then we can test until nonPrimeNumber^0.5.
+    // When a < b, then we can test if divisible until a. Since a < nonPrimeNumber^0.5, then we can test until nonPrimeNumber^0.5.
+    bool result(number>=2);
+    NumberType limit(pow(number, 0.5));
+    for(NumberType i=2; i<=limit; i++)
+    {
+        if(isDivisible(number, i))
+        {
+            result = false;
+            break;
+        }
+    }
+    return result;
+}
+
+template <typename NumberType> NumberType getGreatestPowerOf2Factor(NumberType const number)
+{
+    return AlbaBitValueUtilities<NumberType>::getGreatestPowerOf2Factor(number);
+}
+
+template <typename NumberType> NumberType getGreatestCommonFactor(NumberType const firstNumber, NumberType const secondNumber)
+{
+    NumberType result(0);
+    NumberType temporaryFirstNumber(firstNumber);
+    NumberType temporarySecondNumber(secondNumber);
+    while(true)
+    {
+        if(temporaryFirstNumber==0)
+        {
+            result = temporarySecondNumber;
+            break;
+        }
+        else if(temporarySecondNumber==0)
+        {
+            result = temporaryFirstNumber;
+            break;
+        }
+        else if(temporaryFirstNumber>temporarySecondNumber)
+        {
+            temporaryFirstNumber = temporaryFirstNumber%temporarySecondNumber;
+        }
+        else
+        {
+            temporarySecondNumber = temporarySecondNumber%temporaryFirstNumber;
+        }
+    }
+    return result;
+}
+
 AlbaNumber getGreatestCommonFactor(AlbaNumber const& firstNumber, AlbaNumber const& secondNumber); // different implementation
-unsigned int getLeastCommonMultiple(unsigned int const firstNumber, unsigned int const secondNumber);
+
+template <typename NumberType> NumberType getLeastCommonMultiple(NumberType const firstNumber, NumberType const secondNumber)
+{
+    NumberType result(0);
+    if(firstNumber!=0 && secondNumber!=0)
+    {
+        result = firstNumber/getGreatestCommonFactor(firstNumber, secondNumber)*secondNumber;
+    }
+    return result;
+}
+
 AlbaNumber getLeastCommonMultiple(AlbaNumber const& firstNumber, AlbaNumber const& secondNumber); // different implementation
-double getLeastCommonMultipleInDouble(unsigned int const firstNumber, unsigned int const secondNumber);
-unsigned int getDifferenceFromGreaterMultiple(unsigned int const multiple, unsigned int const number);
+
+template <typename NumberType> double getLeastCommonMultipleInDouble(NumberType const firstNumber, NumberType const secondNumber)
+{
+    double result(0);
+    if(firstNumber!=0 && secondNumber!=0)
+    {
+        result = static_cast<double>(firstNumber)/getGreatestCommonFactor(firstNumber, secondNumber)*secondNumber;
+    }
+    return result;
+}
+
+template <typename NumberType> NumberType getNumberOfMultiplesInclusive(
+        NumberType const multiple,
+        NumberType const number)
+{
+    NumberType result(0);
+    if(multiple>0)
+    {
+        result = ((number+multiple-1)/multiple);
+    }
+    return result;
+}
+
+template <typename NumberType> NumberType getDifferenceFromGreaterMultiple(NumberType const multiple, NumberType const number)
+{
+    unsigned result(0);
+    if(multiple>0)
+    {
+        NumberType numberOfMultiples(getNumberOfMultiplesInclusive(multiple, number));
+        result = (numberOfMultiples*multiple) - number;
+    }
+    return result;
+}
+
 
 
 //Fraction related functions
 template <typename NumberType1, typename NumberType2>
-FractionDetails getFractionDetailsInLowestForm(NumberType1 const numerator, NumberType2 const denominator);
-FractionDetails getBestFractionDetailsForDoubleValue(double const doubleValue);
+FractionDetails getFractionDetailsInLowestForm(NumberType1 const numerator, NumberType2 const denominator);FractionDetails getBestFractionDetailsForDoubleValue(double const doubleValue);
 
 
-//Power related functions
-template <typename NumberType> bool isPerfectNthPower(NumberType const value, NumberType const nthPower); // declare this first
+//Power related functionstemplate <typename NumberType> bool isPerfectNthPower(NumberType const value, NumberType const nthPower); // declare this first
 template <typename NumberType> bool isPowerOfTwo(NumberType const value); // keep this template manually instantiated to remove dependency to bit utilities
 template <typename NumberType> bool isPerfectSquare(NumberType const value)
 {

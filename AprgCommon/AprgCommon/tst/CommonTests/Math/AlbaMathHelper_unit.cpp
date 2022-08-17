@@ -387,18 +387,16 @@ TEST(AlbaMathHelperTest, GetQuadraticWorksWithRealAndImaginaryRootsWithInputHavi
 
 TEST(AlbaMathHelperTest, GetFactorialWorks)
 {
-    EXPECT_EQ(1U, getFactorial(0));
-    EXPECT_EQ(1U, getFactorial(1));
-    EXPECT_EQ(120U, getFactorial(5));
-    EXPECT_EQ(3628800U, getFactorial(10));
+    EXPECT_EQ(1U, getFactorial(0U));
+    EXPECT_EQ(1U, getFactorial(1U));
+    EXPECT_EQ(120U, getFactorial(5U));
+    EXPECT_EQ(3628800U, getFactorial(10U));
 }
 
-TEST(AlbaMathHelperTest, GetNumberOfPermutationsWorks)
-{
+TEST(AlbaMathHelperTest, GetNumberOfPermutationsWorks){
     EXPECT_EQ(24U, getNumberOfPermutations(4, 4));
     EXPECT_EQ(1U, getNumberOfPermutations(4, 0));
-    EXPECT_EQ(4U, getNumberOfPermutations(4, 1));
-    EXPECT_EQ(0U, getNumberOfPermutations(4, 5));
+    EXPECT_EQ(4U, getNumberOfPermutations(4, 1));    EXPECT_EQ(0U, getNumberOfPermutations(4, 5));
 
     //Find the number of permutations of a two digit number with values 1, 2, 3, and 4.
     EXPECT_EQ(12U, getNumberOfPermutations(4, 2));
