@@ -6,8 +6,10 @@
 
 #include <deque>
 #include <map>
+
 namespace alba
 {
+
 namespace algorithm
 {
 

@@ -34,6 +34,7 @@ public:
     using VertexWithEndpoint = VertexWithBool<Vertex>;
     using FlowNetwork = SinkSourceFlowNetwork<VertexWithEndpoint, int, DirectedGraphWithListOfEdges<VertexWithEndpoint>>;
     using FordFulkerson = FordFulkersonUsingBfs<FlowNetwork>;
+
     NodeDisjointPathCover(BaseDirectedGraphWithVertex const& graph)
         : m_graph(graph)
     {}
@@ -48,10 +49,12 @@ public:
 
     Edges getEdgesOfNodeDisjointPathCover(
             Vertex const& newSourceVertex,
-            Vertex const& newSinkVertex) const    {
+            Vertex const& newSinkVertex) const
+    {
         // A path cover is a set of paths in a graph such that each node of the graph belongs to at least one path.
         // It turns out that in directed, acyclic graphs,
-        // we can reduce the problem of finding a minimum path cover to the problem of finding a maximum flow in another graph.        Edges result;
+        // we can reduce the problem of finding a minimum path cover to the problem of finding a maximum flow in another graph.
+        Edges result;
         if(GraphUtilities::isDirectedAcyclicGraph(m_graph))
         {
             FordFulkerson fordFulkerson(getFlowNetwork(m_graph, newSourceVertex, newSinkVertex));
@@ -117,10 +120,12 @@ private:
 
     Edges getEdgesOfNodeDisjointPathCover(
             FordFulkerson const& fordFulkerson) const
-    {        Edges result;
+    {
+        Edges result;
         for(auto const& path : fordFulkerson.getAugmentingPaths())
         {
-            if(path.size()>=2)            {
+            if(path.size()>=2)
+            {
                 for(unsigned int i=1; i<=path.size()-2; i+=2)
                 {
                     result.emplace_back(path.at(i).first, path.at(i+1).first);

@@ -393,55 +393,57 @@ TEST(AlbaMathHelperTest, GetFactorialWorks)
     EXPECT_EQ(3628800U, getFactorial(10U));
 }
 
-TEST(AlbaMathHelperTest, GetNumberOfPermutationsWorks){
-    EXPECT_EQ(24U, getNumberOfPermutations(4, 4));
-    EXPECT_EQ(1U, getNumberOfPermutations(4, 0));
-    EXPECT_EQ(4U, getNumberOfPermutations(4, 1));    EXPECT_EQ(0U, getNumberOfPermutations(4, 5));
+TEST(AlbaMathHelperTest, GetNumberOfPermutationsWorks)
+{
+    EXPECT_EQ(24U, getNumberOfPermutations(4U, 4U));
+    EXPECT_EQ(1U, getNumberOfPermutations(4U, 0U));
+    EXPECT_EQ(4U, getNumberOfPermutations(4U, 1U));
+    EXPECT_EQ(0U, getNumberOfPermutations(4U, 5U));
 
     //Find the number of permutations of a two digit number with values 1, 2, 3, and 4.
-    EXPECT_EQ(12U, getNumberOfPermutations(4, 2));
+    EXPECT_EQ(12U, getNumberOfPermutations(4U, 2U));
 
     //If four people enter a bus in which there are ten vacant seats, how many ways are there for the four to be seated?
-    EXPECT_EQ(5040U, getNumberOfPermutations(10, 4));
+    EXPECT_EQ(5040U, getNumberOfPermutations(10U, 4U));
 
     //In how many ways may five books to be arranged on a shelf?
-    EXPECT_EQ(120U, getNumberOfPermutations(5, 5));
+    EXPECT_EQ(120U, getNumberOfPermutations(5U, 5U));
 
     //Find the number of permutations of the eight letters of the word "gargling".
-    EXPECT_EQ(6720U, getFactorial(8)/getFactorial(3));
+    EXPECT_EQ(6720U, getFactorial(8U)/getFactorial(3U));
 
     //Find the number of permutations of the 11 letters of the word "mississippi".
-    EXPECT_EQ(34650U, getFactorial(11)/(getFactorial(4)*getFactorial(4)*getFactorial(2)));
+    EXPECT_EQ(34650U, getFactorial(11U)/(getFactorial(4U)*getFactorial(4U)*getFactorial(2U)));
 
     //How many ways can four boys and three girls be seated in a row containing seven seats if the boys and girls must alternate?
-    EXPECT_EQ(144U, getFactorial(4)*getFactorial(3));
+    EXPECT_EQ(144U, getFactorial(4U)*getFactorial(3U));
 
     //In how many ways can 8 people be seated around a table?
-    EXPECT_EQ(5040U, getFactorial(8)/8);
+    EXPECT_EQ(5040U, getFactorial(8U)/8U);
 }
 
 TEST(AlbaMathHelperTest, GetNumberOfCombinationsWorks)
 {
-    EXPECT_EQ(1U, getNumberOfCombinations(4, 4));
-    EXPECT_EQ(1U, getNumberOfCombinations(4, 0));
-    EXPECT_EQ(4U, getNumberOfCombinations(4, 1));
-    EXPECT_EQ(0U, getNumberOfCombinations(4, 5));
+    EXPECT_EQ(1U, getNumberOfCombinations(4U, 4U));
+    EXPECT_EQ(1U, getNumberOfCombinations(4U, 0U));
+    EXPECT_EQ(4U, getNumberOfCombinations(4U, 1U));
+    EXPECT_EQ(0U, getNumberOfCombinations(4U, 5U));
 
     //How many different sums of money can be made by taking one coin from a penny, a nickel, a dime, and a quarter?
-    EXPECT_EQ(4U, getNumberOfCombinations(4, 1));
+    EXPECT_EQ(4U, getNumberOfCombinations(4U, 1U));
 
     //How many different sums of money can be made by taking two coins from a penny, a nickel, a dime, and a quarter?
-    EXPECT_EQ(6U, getNumberOfCombinations(4, 2));
+    EXPECT_EQ(6U, getNumberOfCombinations(4U, 2U));
 
     //How many different sums of money can be made from a penny, a nickel, a dime, and a quarter?
-    EXPECT_EQ(15U, getNumberOfCombinations(4, 1) + getNumberOfCombinations(4, 2) + getNumberOfCombinations(4, 3) + getNumberOfCombinations(4, 4));
+    EXPECT_EQ(15U, getNumberOfCombinations(4U, 1U) + getNumberOfCombinations(4U, 2U) + getNumberOfCombinations(4U, 3U) + getNumberOfCombinations(4U, 4U));
 
     //In a class of 15 boys and 10 girls, in how many ways may a committee made up of 3 boys and 2 girls be selected?
-    EXPECT_EQ(20475U, getNumberOfCombinations(15, 3) * getNumberOfCombinations(10, 2));
+    EXPECT_EQ(20475U, getNumberOfCombinations(15U, 3U) * getNumberOfCombinations(10U, 2U));
 
     //On a certain examination, the student must answer 8 out of the 12 question, including 5 of the first 6.
     //How many ways may he write the examination?
-    EXPECT_EQ(120U, getNumberOfCombinations(6, 5) * getNumberOfCombinations(6, 3));
+    EXPECT_EQ(120U, getNumberOfCombinations(6U, 5U) * getNumberOfCombinations(6U, 3U));
 }
 
 TEST(AlbaMathHelperTest, GetFibonacciWorks)
@@ -456,12 +458,12 @@ TEST(AlbaMathHelperTest, GetFibonacciWorks)
 
 TEST(AlbaMathHelperTest, GetValueAtPascalTriangleWorks)
 {
-    EXPECT_EQ(1U, getValueAtPascalTriangle(0, 0));
-    EXPECT_EQ(1U, getValueAtPascalTriangle(4, 4));
-    EXPECT_EQ(1U, getValueAtPascalTriangle(4, 0));
-    EXPECT_EQ(4U, getValueAtPascalTriangle(4, 1));
-    EXPECT_EQ(6U, getValueAtPascalTriangle(4, 2));
-    EXPECT_EQ(0U, getValueAtPascalTriangle(4, 5));
+    EXPECT_EQ(1U, getValueAtPascalTriangle(0U, 0U));
+    EXPECT_EQ(1U, getValueAtPascalTriangle(4U, 4U));
+    EXPECT_EQ(1U, getValueAtPascalTriangle(4U, 0U));
+    EXPECT_EQ(4U, getValueAtPascalTriangle(4U, 1U));
+    EXPECT_EQ(6U, getValueAtPascalTriangle(4U, 2U));
+    EXPECT_EQ(0U, getValueAtPascalTriangle(4U, 5U));
 }
 
 TEST(AlbaMathHelperTest, GetStirlingNumberOfTheSecondKindWorks)
@@ -556,15 +558,16 @@ TEST(AlbaMathHelperTest, IsPrimeWorks)
 
 TEST(AlbaMathHelperTest, GetGreatestCommonFactorWorksForUnsignedInteger)
 {
-    EXPECT_EQ(0U, getGreatestCommonFactor(0, 0));
-    EXPECT_EQ(8U, getGreatestCommonFactor(0, 8));
-    EXPECT_EQ(8U, getGreatestCommonFactor(8, 0));
-    EXPECT_EQ(1U, getGreatestCommonFactor(1, 8));
-    EXPECT_EQ(1U, getGreatestCommonFactor(8, 1));
-    EXPECT_EQ(1U, getGreatestCommonFactor(1, 1));
-    EXPECT_EQ(16U, getGreatestCommonFactor(16, 32));
-    EXPECT_EQ(14U, getGreatestCommonFactor(98, 56));
-    EXPECT_EQ(1U, getGreatestCommonFactor(1234567891, 3));
+    EXPECT_EQ(0U, getGreatestCommonFactor(0U, 0U));
+    EXPECT_EQ(8U, getGreatestCommonFactor(0U, 8U));
+    EXPECT_EQ(8U, getGreatestCommonFactor(8U, 0U));
+    EXPECT_EQ(1U, getGreatestCommonFactor(1U, 8U));
+    EXPECT_EQ(1U, getGreatestCommonFactor(8U, 1U));
+    EXPECT_EQ(1U, getGreatestCommonFactor(1U, 1U));
+    EXPECT_EQ(16U, getGreatestCommonFactor(16U, 32U));
+    EXPECT_EQ(14U, getGreatestCommonFactor(98U, 56U));
+    EXPECT_EQ(1U, getGreatestCommonFactor(1234567891U, 3U));
+    EXPECT_EQ(1U, getGreatestCommonFactor(3U, 1234567891U));
 }
 
 TEST(AlbaMathHelperTest, GetGreatestCommonFactorForAlbaNumberWorks)
@@ -582,11 +585,11 @@ TEST(AlbaMathHelperTest, GetGreatestCommonFactorForAlbaNumberWorks)
 
 TEST(AlbaMathHelperTest, GetLeastCommonMultipleWorksForUnsignedInteger)
 {
-    EXPECT_EQ(0U, getLeastCommonMultiple(0, 0));
-    EXPECT_EQ(1U, getLeastCommonMultiple(1, 1));
-    EXPECT_EQ(256U, getLeastCommonMultiple(8, 256));
-    EXPECT_EQ(60U, getLeastCommonMultiple(15, 20));
-    EXPECT_EQ(262144U, getLeastCommonMultiple(65536, 262144));
+    EXPECT_EQ(0U, getLeastCommonMultiple(0U, 0U));
+    EXPECT_EQ(1U, getLeastCommonMultiple(1U, 1U));
+    EXPECT_EQ(256U, getLeastCommonMultiple(8U, 256U));
+    EXPECT_EQ(60U, getLeastCommonMultiple(15U, 20U));
+    EXPECT_EQ(262144U, getLeastCommonMultiple(65536U, 262144U));
 }
 
 TEST(AlbaMathHelperTest, GetLeastCommonMultipleForAlbaNumberWorks)
@@ -597,15 +600,15 @@ TEST(AlbaMathHelperTest, GetLeastCommonMultipleForAlbaNumberWorks)
 
 TEST(AlbaMathHelperTest, GetGreatestCommonPowerOf2FactorWorks)
 {
-    EXPECT_EQ(0U, getGreatestPowerOf2Factor(0));
-    EXPECT_EQ(1U, getGreatestPowerOf2Factor(1));
-    EXPECT_EQ(2U, getGreatestPowerOf2Factor(2));
-    EXPECT_EQ(4U, getGreatestPowerOf2Factor(4));
-    EXPECT_EQ(8U, getGreatestPowerOf2Factor(8));
-    EXPECT_EQ(16U, getGreatestPowerOf2Factor(16));
-    EXPECT_EQ(1U, getGreatestPowerOf2Factor(5));
-    EXPECT_EQ(2U, getGreatestPowerOf2Factor(10));
-    EXPECT_EQ(4U, getGreatestPowerOf2Factor(12));
+    EXPECT_EQ(0U, getGreatestPowerOf2Factor(0U));
+    EXPECT_EQ(1U, getGreatestPowerOf2Factor(1U));
+    EXPECT_EQ(2U, getGreatestPowerOf2Factor(2U));
+    EXPECT_EQ(4U, getGreatestPowerOf2Factor(4U));
+    EXPECT_EQ(8U, getGreatestPowerOf2Factor(8U));
+    EXPECT_EQ(16U, getGreatestPowerOf2Factor(16U));
+    EXPECT_EQ(1U, getGreatestPowerOf2Factor(5U));
+    EXPECT_EQ(2U, getGreatestPowerOf2Factor(10U));
+    EXPECT_EQ(4U, getGreatestPowerOf2Factor(12U));
 }
 
 TEST(AlbaMathHelperTest, GetLeastCommonMultipleInDoubleWorks)
@@ -615,11 +618,11 @@ TEST(AlbaMathHelperTest, GetLeastCommonMultipleInDoubleWorks)
 
 TEST(AlbaMathHelperTest, GetDifferenceFromGreaterMultipleWorks)
 {
-    EXPECT_EQ(0U, getDifferenceFromGreaterMultiple(0, 0));
-    EXPECT_EQ(0U, getDifferenceFromGreaterMultiple(10, 10));
-    EXPECT_EQ(0U, getDifferenceFromGreaterMultiple(5, 10));
-    EXPECT_EQ(5U, getDifferenceFromGreaterMultiple(10, 5));
-    EXPECT_EQ(48U, getDifferenceFromGreaterMultiple(57, 2346));
+    EXPECT_EQ(0U, getDifferenceFromGreaterMultiple(0U, 0U));
+    EXPECT_EQ(0U, getDifferenceFromGreaterMultiple(10U, 10U));
+    EXPECT_EQ(0U, getDifferenceFromGreaterMultiple(5U, 10U));
+    EXPECT_EQ(5U, getDifferenceFromGreaterMultiple(10U, 5U));
+    EXPECT_EQ(48U, getDifferenceFromGreaterMultiple(57U, 2346U));
 }
 
 TEST(AlbaMathHelperTest, GetFractionDetailsInLowestFormWorks)

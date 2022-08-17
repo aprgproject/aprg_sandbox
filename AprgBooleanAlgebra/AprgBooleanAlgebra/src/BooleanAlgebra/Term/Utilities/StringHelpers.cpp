@@ -8,6 +8,7 @@
 
 using namespace alba::stringHelper;
 using namespace std;
+
 namespace alba
 {
 
@@ -27,11 +28,13 @@ bool isConstant(string const& stringObject)
 
 bool isOperator(string const& stringObject)
 {
-    return "~" == stringObject || "&" == stringObject || "|" == stringObject || "(" == stringObject || ")" == stringObject;}
+    return "~" == stringObject || "&" == stringObject || "|" == stringObject || "(" == stringObject || ")" == stringObject;
+}
 
 unsigned int getOperatorPriority(string const& operatorString)
 {
-    unsigned int result=0;    if("(" == operatorString)
+    unsigned int result=0;
+    if("(" == operatorString)
     {
         result=1;
     }
@@ -121,10 +124,12 @@ string createVariableTermNameForSubstitution(Term const& term)
 
 Term buildTermIfPossible(string const& termString)
 {
-    Term result;    TermsAggregator aggregator(tokenizeToTerms(termString));
+    Term result;
+    TermsAggregator aggregator(tokenizeToTerms(termString));
     aggregator.simplifyTerms();
     Terms const& simplifiedTerms(aggregator.getTermsConstReference());
-    if(simplifiedTerms.size() == 1)    {
+    if(simplifiedTerms.size() == 1)
+    {
         result = simplifiedTerms.at(0);
     }
     return result;
@@ -162,6 +167,7 @@ void addValueTermIfNotEmpty(Terms & terms, string const& valueString)
         terms.emplace_back(Term(valueString));
     }
 }
+
 }
 
 }

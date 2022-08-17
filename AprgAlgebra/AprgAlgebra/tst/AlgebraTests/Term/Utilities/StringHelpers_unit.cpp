@@ -89,9 +89,11 @@ TEST(StringHelpersTest, CreateVariableNameForSubstitutionWorks)
 TEST(StringHelpersTest, BuildTermIfPossibleWorks)
 {
     Term termToVerify(buildTermIfPossible("x^2*y^-3*z^4"));
+
     Term termToExpect(Monomial(1, {{"x", 2}, {"y", -3}, {"z", 4}}));
     EXPECT_EQ(termToExpect, termToVerify);
 }
+
 TEST(StringHelpersTest, TokenizeToTermsWorks)
 {
     Terms termsToVerify1(tokenizeToTerms(" 5yyy + x1*y1^20.15"));

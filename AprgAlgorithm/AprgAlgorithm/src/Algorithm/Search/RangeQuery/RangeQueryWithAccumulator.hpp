@@ -11,10 +11,12 @@ namespace algorithm
 
 template <typename Value>
 class RangeQueryWithAccumulator
-{public:
+{
+public:
     // Example for "range query accumulator" is sum queries
     // We can easily process sum queries on a static array by constructing a prefix sum array.
-    // Each value in the prefix sum array equals the sum of values in the original array up to that position, i.e., the value at position k is sumq(0,k).    // The prefix sum array can be constructed in O(n) time.
+    // Each value in the prefix sum array equals the sum of values in the original array up to that position, i.e., the value at position k is sumq(0,k).
+    // The prefix sum array can be constructed in O(n) time.
 
     using Index = unsigned int;
     using Values = std::vector<Value>;

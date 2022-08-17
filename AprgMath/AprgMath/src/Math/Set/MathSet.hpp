@@ -27,7 +27,8 @@ public:
     using MathSets = std::vector<MathSet>;
     using Rule = std::function<bool(ElementType const&)>;
     using RosterInitializerList = std::initializer_list<ElementType>;
-    using RosterList = std::vector<ElementType>;    using RosterSet = std::set<ElementType>;
+    using RosterList = std::vector<ElementType>;
+    using RosterSet = std::set<ElementType>;
     using RosterLists = std::vector<RosterList>;
     using VoidElementFunction = std::function<void(ElementType const&)>;
     using GenerateFunction = std::function<void(VoidElementFunction const& generateElementFunction)>;
@@ -47,14 +48,16 @@ public:
     MathSet(RosterInitializerList const& initializerList)
     {
         RosterList rosterList;
-        rosterList.reserve(initializerList.size());        std::copy(initializerList.begin(), initializerList.end(), std::back_inserter(rosterList));
+        rosterList.reserve(initializerList.size());
+        std::copy(initializerList.begin(), initializerList.end(), std::back_inserter(rosterList));
         constructSetBasedOnRosterList(rosterList);
     }
 
     MathSet(std::string const& description, Rule const& rule)
         : m_description(description)
     {
-        m_ruleToBeInTheSet = rule;    }
+        m_ruleToBeInTheSet = rule;
+    }
 
     bool contains(ElementType const& elementToCheck) const
     {
@@ -89,7 +92,8 @@ public:
     bool isASubsetOf(MathSet const& mathSet2, GenerateFunction const& generateFunction) const
     {
         bool result(true);
-        generateFunction([&](ElementType const& element)        {
+        generateFunction([&](ElementType const& element)
+        {
             if(contains(element) && mathSet2.doesNotContain(element))
             {
                 result = false;
@@ -101,7 +105,8 @@ public:
     bool isASupersetOf(MathSet const& mathSet2, GenerateFunction const& generateFunction) const
     {
         bool result(true);
-        generateFunction([&](ElementType const& element)        {
+        generateFunction([&](ElementType const& element)
+        {
             if(mathSet2.contains(element) && doesNotContain(element))
             {
                 result = false;
@@ -113,7 +118,8 @@ public:
     bool isDisjointWith(MathSet const& mathSet2, GenerateFunction const& generateFunction) const
     {
         bool result(true);
-        generateFunction([&](ElementType const& element)        {
+        generateFunction([&](ElementType const& element)
+        {
             if(contains(element) && mathSet2.contains(element))
             {
                 result = false;
@@ -162,7 +168,8 @@ public:
     MathSets getSubsets(GenerateFunction const& generateFunction) const
     {
         RosterList roster;
-        generateFunction([&](ElementType const& element)        {
+        generateFunction([&](ElementType const& element)
+        {
             if(contains(element))
             {
                 roster.emplace_back(element);
@@ -173,7 +180,8 @@ public:
         MathSets result;
         for(RosterList const& subsetRoster : subsetsRoster)
         {
-            result.emplace_back(subsetRoster);        }
+            result.emplace_back(subsetRoster);
+        }
         return result;
     }
 
@@ -249,7 +257,8 @@ MathSet<std::pair<ElementType1, ElementType2>> getCartersianProduct(
         typename MathSet<ElementType2>::GenerateFunction const& generateFunction2)
 {
     std::vector<std::pair<ElementType1, ElementType2>> rosterList;
-    generateFunction1([&](ElementType1 const& elementInSet1)    {
+    generateFunction1([&](ElementType1 const& elementInSet1)
+    {
         if(set1.contains(elementInSet1))
         {
             generateFunction2([&](ElementType2 const& elementInSet2)
@@ -268,7 +277,8 @@ template <typename ElementType>
 std::ostream & operator<<(std::ostream & out, MathSet<ElementType> const& set)
 {
     out << set.getDescription();
-    return out;}
+    return out;
+}
 
 
 }

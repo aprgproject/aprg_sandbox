@@ -4,8 +4,10 @@
 #include <Common/Math/AlbaMathConstants.hpp>
 #include <Common/Math/Number/AlbaNumber.hpp>
 #include <Common/Math/Number/AlbaNumberTypes.hpp>
+
 #include <algorithm>
 #include <vector>
+
 namespace alba
 {
 
@@ -227,8 +229,10 @@ template <typename NumberType> NumberType getValueAtPascalTriangle(NumberType co
 
 int getStirlingNumberOfTheSecondKind(unsigned int const n, unsigned int const k);
 
+
 //Statistics functions
-double getCumulativeStandardDistributionApproximation(double const z);double getInverseCumulativeStandardDistributionApproximation(double const p, unsigned int const numberOfIterations);
+double getCumulativeStandardDistributionApproximation(double const z);
+double getInverseCumulativeStandardDistributionApproximation(double const p, unsigned int const numberOfIterations);
 
 
 //Clamp functions
@@ -291,28 +295,29 @@ template <typename NumberType> NumberType getGreatestPowerOf2Factor(NumberType c
 
 template <typename NumberType> NumberType getGreatestCommonFactor(NumberType const firstNumber, NumberType const secondNumber)
 {
+    // Using Euclid’s algorithm
+
+    // Euclid’s algorithm provides an efficient way to find the greatest common divisor of two numbers.
+    // The algorithm is based on the following formula:
+    // gcd(a, b) =
+    // -> if b=0: a
+    // -> if b!=0: gcd(b, a%b)
+
     NumberType result(0);
-    NumberType temporaryFirstNumber(firstNumber);
-    NumberType temporarySecondNumber(secondNumber);
+    NumberType temporaryFirst(firstNumber);
+    NumberType temporarySecond(secondNumber);
     while(true)
     {
-        if(temporaryFirstNumber==0)
+        if(temporarySecond==0)
         {
-            result = temporarySecondNumber;
+            result = temporaryFirst;
             break;
-        }
-        else if(temporarySecondNumber==0)
-        {
-            result = temporaryFirstNumber;
-            break;
-        }
-        else if(temporaryFirstNumber>temporarySecondNumber)
-        {
-            temporaryFirstNumber = temporaryFirstNumber%temporarySecondNumber;
         }
         else
         {
-            temporarySecondNumber = temporarySecondNumber%temporaryFirstNumber;
+            NumberType copyOfFirst(temporaryFirst);
+            temporaryFirst = temporarySecond;
+            temporarySecond = copyOfFirst%temporarySecond;
         }
     }
     return result;
@@ -322,6 +327,8 @@ AlbaNumber getGreatestCommonFactor(AlbaNumber const& firstNumber, AlbaNumber con
 
 template <typename NumberType> NumberType getLeastCommonMultiple(NumberType const firstNumber, NumberType const secondNumber)
 {
+    // Using Euclid’s algorithm
+    // lcm(a,b) = ab/gcd(a,b)
     NumberType result(0);
     if(firstNumber!=0 && secondNumber!=0)
     {
@@ -369,10 +376,12 @@ template <typename NumberType> NumberType getDifferenceFromGreaterMultiple(Numbe
 
 //Fraction related functions
 template <typename NumberType1, typename NumberType2>
-FractionDetails getFractionDetailsInLowestForm(NumberType1 const numerator, NumberType2 const denominator);FractionDetails getBestFractionDetailsForDoubleValue(double const doubleValue);
+FractionDetails getFractionDetailsInLowestForm(NumberType1 const numerator, NumberType2 const denominator);
+FractionDetails getBestFractionDetailsForDoubleValue(double const doubleValue);
 
 
-//Power related functionstemplate <typename NumberType> bool isPerfectNthPower(NumberType const value, NumberType const nthPower); // declare this first
+//Power related functions
+template <typename NumberType> bool isPerfectNthPower(NumberType const value, NumberType const nthPower); // declare this first
 template <typename NumberType> bool isPowerOfTwo(NumberType const value); // keep this template manually instantiated to remove dependency to bit utilities
 template <typename NumberType> bool isPerfectSquare(NumberType const value)
 {

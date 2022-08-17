@@ -33,10 +33,12 @@ struct GraphTypes
     using ListOfEdges = std::vector<Edges>;
 
     //Path
-    using Path = std::vector<Vertex>;    using Paths = std::vector<Path>;
+    using Path = std::vector<Vertex>;
+    using Paths = std::vector<Path>;
 
     //Complicated types
-    using VertexToUnsignedIntMap = std::map<Vertex, unsigned int>;    using VertexToVertexMap = std::map<Vertex, Vertex>;
+    using VertexToUnsignedIntMap = std::map<Vertex, unsigned int>;
+    using VertexToVertexMap = std::map<Vertex, Vertex>;
 };
 
 template <typename Vertex, typename Weight>

@@ -23,6 +23,7 @@ public:
 
     // A general path cover is a path cover where a node can belong to more than one path.
     // A minimum general path cover may be smaller than a minimum node-disjoint path cover, because a node can be used multiple times in paths.
+
     using BaseDirectedGraphWithVertex = BaseDirectedGraph<Vertex>;
     using Vertices = typename GraphTypes<Vertex>::Vertices;
     using Edge = typename GraphTypes<Vertex>::Edge;
@@ -36,7 +37,8 @@ public:
     using VertexPairs = std::vector<VertexPair>;
     using VertexWithEndpoint = VertexWithBool<Vertex>;
     using FlowNetwork = SinkSourceFlowNetwork<VertexWithEndpoint, int, DirectedGraphWithListOfEdges<VertexWithEndpoint>>;
-    using FordFulkerson = FordFulkersonUsingBfs<FlowNetwork>;    using TransitiveClosure = TransitiveClosureWithMap<Vertex>;
+    using FordFulkerson = FordFulkersonUsingBfs<FlowNetwork>;
+    using TransitiveClosure = TransitiveClosureWithMap<Vertex>;
 
     GeneralPathCover(BaseDirectedGraphWithVertex const& graph)
         : m_graph(graph)
@@ -159,10 +161,12 @@ private:
                 for(unsigned int i=1; i<=path.size()-2; i+=2) // avoid source and sink vertex, and get pairs (left and right)
                 {
                     result.emplace_back(path.at(i).first, path.at(i+1).first);
-                }            }
+                }
+            }
         }
         return result;
     }
+
     FlowNetwork getFlowNetwork(
             BaseDirectedGraphWithVertex const& graph,
             Vertex const& newSourceVertex,

@@ -2,6 +2,7 @@
 #include <Math/Set/MathSet.hpp>
 
 #include <gtest/gtest.h>
+
 using namespace std;
 
 namespace alba
@@ -14,7 +15,8 @@ using IntegerSet = MathSet<unsigned int>;
 using IntegerSets = IntegerSet::MathSets;
 IntegerSet::GenerateFunction generateNumbersFromZeroToTen = [](
         IntegerSet::VoidElementFunction const& elementFunction)
-{    for(unsigned int i=0; i<=10; i++)
+{
+    for(unsigned int i=0; i<=10; i++)
     {
         elementFunction(i);
     }
@@ -33,6 +35,7 @@ CharSet::GenerateFunction generateCharactersFromSmallAToSmallZ = [](
 TEST(MathSetTest, NullSetWorks)
 {
     IntegerSet nullSet;
+
     EXPECT_FALSE(nullSet.contains(4));
     EXPECT_TRUE(nullSet.doesNotContain(3));
     EXPECT_EQ("{Null set}", nullSet.getDescription());
@@ -43,6 +46,7 @@ TEST(MathSetTest, MathSetCreatedWithRosterListWorks)
 {
     IntegerSet::RosterList rosterList{1,2,3,4,5};
     IntegerSet mathSet(rosterList);
+
     EXPECT_TRUE(mathSet.contains(1));
     EXPECT_FALSE(mathSet.contains(6));
     EXPECT_TRUE(mathSet.doesNotContain(10));
@@ -54,6 +58,7 @@ TEST(MathSetTest, MathSetCreatedWithRosterListWorks)
 TEST(MathSetTest, MathSetCreatedWithInitializerListWorks)
 {
     IntegerSet mathSet({2,4,6,8,9});
+
     EXPECT_TRUE(mathSet.contains(2));
     EXPECT_FALSE(mathSet.contains(0));
     EXPECT_TRUE(mathSet.doesNotContain(10));
@@ -65,7 +70,8 @@ TEST(MathSetTest, MathSetCreatedWithInitializerListWorks)
 TEST(MathSetTest, MathSetCreatedWithASetRuleWorks)
 {
     IntegerSet mathSet("set of even numbers", [](unsigned int const& elementToCheck)
-    {        return elementToCheck % 2 == 0;
+    {
+        return elementToCheck % 2 == 0;
     });
 
     EXPECT_TRUE(mathSet.contains(2));
@@ -79,7 +85,8 @@ TEST(MathSetTest, MathSetCreatedWithASetRuleWorks)
 TEST(MathSetTest, IsASubsetOfWorks)
 {
     IntegerSet mathSet1({2,4});
-    IntegerSet mathSet2("set of even numbers", [](unsigned int const& elementToCheck)    {
+    IntegerSet mathSet2("set of even numbers", [](unsigned int const& elementToCheck)
+    {
         return elementToCheck % 2 == 0;
     });
 
@@ -90,7 +97,8 @@ TEST(MathSetTest, IsASubsetOfWorks)
 TEST(MathSetTest, IsASupersetOfWorks)
 {
     IntegerSet mathSet1({3,5});
-    IntegerSet mathSet2("set of odd numbers", [](unsigned int const& elementToCheck)    {
+    IntegerSet mathSet2("set of odd numbers", [](unsigned int const& elementToCheck)
+    {
         return elementToCheck % 2 == 1;
     });
 
@@ -101,7 +109,8 @@ TEST(MathSetTest, IsASupersetOfWorks)
 TEST(MathSetTest, IsDisjointWithWorks)
 {
     IntegerSet mathSet1("set of even numbers", [](unsigned int const& elementToCheck)
-    {        return elementToCheck % 2 == 0;
+    {
+        return elementToCheck % 2 == 0;
     });
     IntegerSet mathSet2("set of odd numbers", [](unsigned int const& elementToCheck)
     {
@@ -118,7 +127,8 @@ TEST(MathSetTest, IsDisjointWithWorks)
 TEST(MathSetTest, GetComplementWorks)
 {
     IntegerSet mathSet("set of even numbers", [](unsigned int const& elementToCheck)
-    {        return elementToCheck % 2 == 0;
+    {
+        return elementToCheck % 2 == 0;
     });
 
     IntegerSet complementSet(mathSet.getComplement());
@@ -134,7 +144,8 @@ TEST(MathSetTest, GetComplementWorks)
 TEST(MathSetTest, GetUnionWithWorks)
 {
     IntegerSet mathSet1({1,2,3});
-    IntegerSet mathSet2("set of even numbers", [](unsigned int const& elementToCheck)    {
+    IntegerSet mathSet2("set of even numbers", [](unsigned int const& elementToCheck)
+    {
         return elementToCheck % 2 == 0;
     });
 
@@ -151,7 +162,8 @@ TEST(MathSetTest, GetUnionWithWorks)
 TEST(MathSetTest, GetIntersectionWithWorks)
 {
     IntegerSet mathSet1({1,2,3});
-    IntegerSet mathSet2("set of even numbers", [](unsigned int const& elementToCheck)    {
+    IntegerSet mathSet2("set of even numbers", [](unsigned int const& elementToCheck)
+    {
         return elementToCheck % 2 == 0;
     });
 
@@ -168,7 +180,8 @@ TEST(MathSetTest, GetIntersectionWithWorks)
 TEST(MathSetTest, GetDifferenceWithWorks)
 {
     IntegerSet mathSet1({1,2,3});
-    IntegerSet mathSet2("set of even numbers", [](unsigned int const& elementToCheck)    {
+    IntegerSet mathSet2("set of even numbers", [](unsigned int const& elementToCheck)
+    {
         return elementToCheck % 2 == 0;
     });
 
@@ -185,6 +198,7 @@ TEST(MathSetTest, GetDifferenceWithWorks)
 TEST(MathSetTest, GetSubsetsWithWorks)
 {
     IntegerSet mathSet({1,2,3});
+
     IntegerSets actualSubsets(mathSet.getSubsets(generateNumbersFromZeroToTen));
 
     string actualSubsetsString(containerHelper::getStringFromContents(actualSubsets));
@@ -194,7 +208,8 @@ TEST(MathSetTest, GetSubsetsWithWorks)
 TEST(MathSetTest, GetUnionWorks)
 {
     IntegerSet mathSet1({3,4,5});
-    IntegerSet mathSet2("set of odd numbers", [](unsigned int const& elementToCheck)    {
+    IntegerSet mathSet2("set of odd numbers", [](unsigned int const& elementToCheck)
+    {
         return elementToCheck % 2 == 1;
     });
 
@@ -211,7 +226,8 @@ TEST(MathSetTest, GetUnionWorks)
 TEST(MathSetTest, GetIntersectionWorks)
 {
     IntegerSet mathSet1({3,4,5});
-    IntegerSet mathSet2("set of odd numbers", [](unsigned int const& elementToCheck)    {
+    IntegerSet mathSet2("set of odd numbers", [](unsigned int const& elementToCheck)
+    {
         return elementToCheck % 2 == 1;
     });
 
@@ -228,7 +244,8 @@ TEST(MathSetTest, GetIntersectionWorks)
 TEST(MathSetTest, GetDifferenceWorks)
 {
     IntegerSet mathSet1({1,2,3});
-    IntegerSet mathSet2("set of even numbers", [](unsigned int const& elementToCheck)    {
+    IntegerSet mathSet2("set of even numbers", [](unsigned int const& elementToCheck)
+    {
         return elementToCheck % 2 == 0;
     });
 
@@ -250,7 +267,8 @@ TEST(MathSetTest, GetCartesianProductWorks)
     MathSet<pair<unsigned int, char>> cartesianProduct(getCartersianProduct(mathSet1, mathSet2, generateNumbersFromZeroToTen, generateCharactersFromSmallAToSmallZ));
 
     EXPECT_TRUE(cartesianProduct.contains(pair<unsigned int, char>(1,'y')));
-    EXPECT_FALSE(cartesianProduct.contains(pair<unsigned int, char>(3,'y')));    EXPECT_TRUE(cartesianProduct.doesNotContain(pair<unsigned int, char>(2,'z')));
+    EXPECT_FALSE(cartesianProduct.contains(pair<unsigned int, char>(3,'y')));
+    EXPECT_TRUE(cartesianProduct.doesNotContain(pair<unsigned int, char>(2,'z')));
     EXPECT_FALSE(cartesianProduct.doesNotContain(pair<unsigned int, char>(2,'x')));
     EXPECT_EQ("{(1,x), (1,y), (2,x), (2,y)}", cartesianProduct.getDescription());
 }

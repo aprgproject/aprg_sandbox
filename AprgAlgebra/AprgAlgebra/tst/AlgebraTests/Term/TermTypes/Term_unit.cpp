@@ -44,10 +44,12 @@ TEST(TermTest, TermsAsVariablesWorks)
     EXPECT_EQ("power", variableTerm2.getVariableConstReference().getVariableName());
 }
 
-TEST(TermTest, TermsAsOperatorsWorks){
+TEST(TermTest, TermsAsOperatorsWorks)
+{
     Term operatorTerm1("+");
     Term operatorTerm2("-");
-    Term operatorTerm3("*");    Term operatorTerm4("/");
+    Term operatorTerm3("*");
+    Term operatorTerm4("/");
 
     ASSERT_EQ(TermType::Operator, operatorTerm1.getTermType());
     EXPECT_EQ("+", operatorTerm1.getOperatorConstReference().getOperatorString());
@@ -221,8 +223,10 @@ TEST(TermTest, TermsAsConstructedAsStringWorks)
 TEST(TermTest, TermThatIsDefaultConstructedHasIsSimplifiedFlagNotSet)
 {
     Term term;
+
     EXPECT_FALSE(term.isSimplified());
 }
+
 TEST(TermTest, TermThatIsCopyConstructedHasIsSimplifiedFlagCopied)
 {
     Term termWithSimplifiedNotSet;

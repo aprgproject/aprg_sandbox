@@ -12,10 +12,12 @@ namespace algorithm
 
 namespace
 {
-using ValueForTest = unsigned int;using RangeQueryForTest = RangeQueryWithSelector<ValueForTest>;
+using ValueForTest = unsigned int;
+using RangeQueryForTest = RangeQueryWithSelector<ValueForTest>;
 using ValuesForTest = RangeQueryForTest::Values;
 
-RangeQueryForTest::SelectorFunction minimumSelector = [](ValueForTest const& value1, ValueForTest const& value2){
+RangeQueryForTest::SelectorFunction minimumSelector = [](ValueForTest const& value1, ValueForTest const& value2)
+{
     return min(value1, value2);
 };
 

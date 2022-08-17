@@ -11,10 +11,12 @@
 using namespace alba::stringHelper;
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 namespace booleanAlgebra
 {
+
 Term::Term()
     : m_type(TermType::Empty)
     , m_isSimplified(false)
@@ -417,10 +419,12 @@ void Term::initializeBasedOnString(string const& stringAsParameter)
     {
         m_type=TermType::Operator;
         m_baseTermDataPointer = make_unique<Operator>(stringAsParameter);
-    }    else
+    }
+    else
     {
         m_type=TermType::VariableTerm;
-        m_baseTermDataPointer = make_unique<VariableTerm>(stringAsParameter, false);    }
+        m_baseTermDataPointer = make_unique<VariableTerm>(stringAsParameter, false);
+    }
 }
 
 ostream & operator<<(ostream & out, Term const& term)

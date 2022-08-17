@@ -22,6 +22,7 @@ TEST(TermTest, TermsAsConstantsWorks)
 
     ASSERT_EQ(TermType::Constant, constantTerm1.getTermType());
     EXPECT_FALSE(constantTerm1.getConstantConstReference().getBooleanValue());
+
     ASSERT_EQ(TermType::Constant, constantTerm2.getTermType());
     EXPECT_TRUE(constantTerm2.getConstantConstReference().getBooleanValue());
 
@@ -47,10 +48,12 @@ TEST(TermTest, TermsAsVariableTermsWorks)
     EXPECT_EQ("power", variableTerm2.getVariableTermConstReference().getVariableTermName());
 }
 
-TEST(TermTest, TermsAsOperatorsWorks){
+TEST(TermTest, TermsAsOperatorsWorks)
+{
     Term operatorTerm1("~");
     Term operatorTerm2("&");
     Term operatorTerm3("|");
+
     ASSERT_EQ(TermType::Operator, operatorTerm1.getTermType());
     EXPECT_EQ("~", operatorTerm1.getOperatorConstReference().getOperatorString());
 
@@ -108,8 +111,10 @@ TEST(TermTest, TermsAsConstructedAsStringWorks)
 TEST(TermTest, TermThatIsDefaultConstructedHasIsSimplifiedFlagNotSet)
 {
     Term term;
+
     EXPECT_FALSE(term.isSimplified());
 }
+
 TEST(TermTest, TermThatIsCopyConstructedHasIsSimplifiedFlagCopied)
 {
     Term termWithSimplifiedNotSet;

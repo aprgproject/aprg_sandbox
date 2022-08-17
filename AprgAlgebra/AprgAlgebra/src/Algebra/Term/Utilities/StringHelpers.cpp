@@ -145,10 +145,12 @@ string createVariableNameForSubstitution(Term const& term)
 
 Term buildTermIfPossible(string const& termString)
 {
-    Term result;    TermsAggregator aggregator(tokenizeToTerms(termString));
+    Term result;
+    TermsAggregator aggregator(tokenizeToTerms(termString));
     aggregator.simplifyTerms();
     Terms const& simplifiedTerms(aggregator.getTermsConstReference());
-    if(simplifiedTerms.size() == 1)    {
+    if(simplifiedTerms.size() == 1)
+    {
         result = simplifiedTerms.at(0);
     }
     return result;
@@ -186,6 +188,7 @@ void addValueTermIfNotEmpty(Terms & terms, string const& valueString)
         terms.emplace_back(Term(valueString));
     }
 }
+
 }
 
 }
