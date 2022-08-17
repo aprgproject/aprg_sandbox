@@ -10,6 +10,14 @@ namespace alba
 namespace math
 {
 
+TEST(PrimeAndFactorUtilitiesTest, IsCoPrimeWorks)
+{
+    EXPECT_TRUE(isCoPrime(5U, 7U));
+    EXPECT_FALSE(isCoPrime(4U, 8U));
+    EXPECT_TRUE(isCoPrime(1U, 13U));
+    EXPECT_FALSE(isCoPrime(0U, 13U));
+}
+
 TEST(PrimeAndFactorUtilitiesTest, IsNumberOfPrimesInfiniteWorks)
 {
     // The factors are 1, 2, 3, 4, 6, 7, 12, 14, 21, 28, 42 and 84.
@@ -69,11 +77,18 @@ TEST(PrimeAndFactorUtilitiesTest, GetApproximateDensityOfPrimesWorks)
     EXPECT_EQ(72382U, getApproximateDensityOfPrimes(1000000U));
 }
 
-TEST(PrimeAndFactorUtilitiesTest, GetPrimesBeforeThisNumberWorks)
+TEST(PrimeAndFactorUtilitiesTest, GetNumberOfCoPrimesBelowThisNumberWorks)
+{
+    // The number of coprimes below 12 or phi(12) = 4, because 1, 5, 7 and 11 are coprime to 12.
+
+    EXPECT_EQ(4U, getNumberOfCoPrimesBelowThisNumber(12));
+}
+
+TEST(PrimeAndFactorUtilitiesTest, GetPrimesBelowThisNumberWorks)
 {
     Numbers expectedNumbers{2U, 3U, 5U, 7U, 11U, 13U, 17U, 19U, 23U, 29U};
 
-    EXPECT_EQ(expectedNumbers, getPrimesBeforeThisNumber(30U));
+    EXPECT_EQ(expectedNumbers, getPrimesBelowThisNumber(30U));
 }
 
 TEST(PrimeAndFactorUtilitiesTest, GetPrimeFactorsOfNumberWorks)

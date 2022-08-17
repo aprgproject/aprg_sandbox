@@ -13,6 +13,11 @@ namespace alba
 namespace math
 {
 
+bool isCoPrime(Number const number1, Number const number2)
+{
+    return getGreatestCommonFactor(number1, number2) == static_cast<Number>(1);
+}
+
 bool isNumberOfPrimesInfinite()
 {
     // It is easy to show that there is an infinite number of primes.
@@ -32,7 +37,7 @@ bool isGoldbachConjectureTrue(Number const evenNumber)
     bool result(false); // set as false when input is wrong
     if(evenNumber > 2 && evenNumber%2 == 0)
     {
-        Numbers numbers(getPrimesBeforeThisNumber(evenNumber));
+        Numbers numbers(getPrimesBelowThisNumber(evenNumber));
         TwoSum<Number> twoSum(numbers);
         auto primePair(twoSum.getTwoValuesWithSum(evenNumber));
         result = primePair.first != 0 && primePair.second != 0;
@@ -44,7 +49,7 @@ bool isTwinPrimeConjectureTrue(Number const number)
 {
     // Twin prime conjecture: There is an infinite number of pairs of the form {p, p+2}, where both p and p+2 are primes.
 
-    Numbers numbers(getPrimesBeforeThisNumber(number));
+    Numbers numbers(getPrimesBelowThisNumber(number));
     Number twinPrimeCount=0;
     for(Number i=0; i<numbers.size()-1; i++)
     {
@@ -77,7 +82,7 @@ bool isLegendreConjectureTrue(Number const number)
 Number getNumberOfFactors(Number const number)
 {
     FactorsToCountMap primeFactorsToCountMap(getPrimeFactorsToCountMap(number));
-    Number result=1;
+    Number result(1);
     for(auto const& primeFactorAndCountPair : primeFactorsToCountMap)
     {
         Number count(primeFactorAndCountPair.second);
@@ -89,7 +94,7 @@ Number getNumberOfFactors(Number const number)
 Number getSumOfFactors(Number const number)
 {
     FactorsToCountMap primeFactorsToCountMap(getPrimeFactorsToCountMap(number));
-    Number result=1;
+    Number result(1);
     for(auto const& primeFactorAndCountPair : primeFactorsToCountMap)
     {
         Number primeFactor(primeFactorAndCountPair.first);
@@ -112,7 +117,23 @@ Number getApproximateDensityOfPrimes(Number const number)
     return static_cast<double>(number) / static_cast<double>(log(number));
 }
 
-Numbers getPrimesBeforeThisNumber(Number const number)
+Number getNumberOfCoPrimesBelowThisNumber(Number const number)
+{
+    // Euler’s totient function phi(n) gives the number of coprime numbers to n between 1 and n.
+
+    FactorsToCountMap primeFactorsToCountMap(getPrimeFactorsToCountMap(number));
+    Number result(1);
+    for(auto const& primeFactorAndCountPair : primeFactorsToCountMap)
+    {
+        Number primeFactor(primeFactorAndCountPair.first);
+        Number count(primeFactorAndCountPair.second);
+        Number formulaValue = pow(primeFactor, count-1) * (primeFactor-1);
+        result *= formulaValue;
+    }
+    return result;
+}
+
+Numbers getPrimesBelowThisNumber(Number const number)
 {
     // The inner loop of the algorithm is executed n/x times for each value of x.
     // Thus, an upper bound for the running time of the algorithm is the harmonic sum

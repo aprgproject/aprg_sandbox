@@ -13,10 +13,12 @@ namespace math
 
 namespace
 {
-using CharSet = MathSet<char>;using IntegerSet = MathSet<unsigned int>;
+using CharSet = MathSet<char>;
+using IntegerSet = MathSet<unsigned int>;
 using IntegerSets = IntegerSet::MathSets;
 IntegerSet::GenerateFunction generateNumbersFromZeroToTen = [](
-        IntegerSet::VoidElementFunction const& elementFunction){
+        IntegerSet::VoidElementFunction const& elementFunction)
+{
     for(unsigned int i=0; i<=10; i++)
     {
         elementFunction(i);
