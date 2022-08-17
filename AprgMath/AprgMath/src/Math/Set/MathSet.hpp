@@ -12,14 +12,15 @@
 namespace alba
 {
 
+namespace math
+{
+
 //This needs to first because template needs to available so that compiler can use it.
 template <typename ElementType1, typename ElementType2>
-std::ostream & operator<<(std::ostream & out, std::pair<ElementType1, ElementType2> const& pairWithTwoElements)
-{
+std::ostream & operator<<(std::ostream & out, std::pair<ElementType1, ElementType2> const& pairWithTwoElements){
     out << "(" << pairWithTwoElements.first << "," << pairWithTwoElements.second << ")";
     return out;
 }
-
 template <typename ElementType>
 class MathSet
 {
@@ -280,5 +281,6 @@ std::ostream & operator<<(std::ostream & out, MathSet<ElementType> const& set)
     return out;
 }
 
+}
 
 }

@@ -8,14 +8,15 @@ using namespace std;
 namespace alba
 {
 
+namespace math
+{
+
 TEST(AprgMathModuloTest, ModuloCanBeDistributedInAddition)
 {
     // (a + b) mod m = (a mod m + b mod m) mod m
-
     unsigned int a=5, b=10, m=4;
     unsigned int left = (a+b)%m;
-    unsigned int right = (a%m + b%m)%m;
-    EXPECT_EQ(left, right);
+    unsigned int right = (a%m + b%m)%m;    EXPECT_EQ(left, right);
 }
 
 TEST(AprgMathModuloTest, ModuloCanBeDistributedInSubtraction)
@@ -49,6 +50,8 @@ TEST(AprgMathModuloTest, ModuloCanBeDoneInEveryIterationOfFactorial)
         factorialWithModulo = (factorialWithModulo*i)%m;
     }
     EXPECT_EQ(getFactorial(n)%m, factorialWithModulo);
+}
+
 }
 
 }
