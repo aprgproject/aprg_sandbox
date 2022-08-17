@@ -37,19 +37,22 @@ public:
         return m_maxFlowValue;
     }
 
-    Paths getAugmentingPaths() const
+    Paths const& getAugmentingPaths() const
     {
         return m_augmentingPaths;
     }
 
+    SinkSourceFlowNetworkType const& getFlowNetwork() const
+    {
+        return m_flowNetwork;
+    }
+
     Edges getMinCutEdges() const
     {
-        Edges result;
-        // Let A be the set of nodes that can be reached from the source using positive-weight edges.
+        Edges result;        // Let A be the set of nodes that can be reached from the source using positive-weight edges.
         // The processed vertices have positive-weight edges from source of last iteration.
 
-        // Now the minimum cut consists of the edges of the original graph that start at some node in A, end at some node outside A.
-        // So we just need to check for edges that isFound and isNotFound in processed vertices
+        // Now the minimum cut consists of the edges of the original graph that start at some node in A, end at some node outside A.        // So we just need to check for edges that isFound and isNotFound in processed vertices
 
         for(FlowEdge const& flowEdge : m_flowNetwork.getFlowEdges())
         {

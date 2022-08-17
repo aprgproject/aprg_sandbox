@@ -36,15 +36,13 @@ public:
 
     MaximumMatchings(BaseUndirectedGraphWithVertex const& graph)
         : m_graph(graph)
-        , m_bipartiteChecker(m_graph)
+        , m_bipartiteChecker(graph)
     {}
 
-    Edges getMaximumMatchings(
-            Vertex const& newSourceVertex,
+    Edges getMaximumMatchings(            Vertex const& newSourceVertex,
             Vertex const& newSinkVertex) const
     {
-        Edges result;
-        if(m_bipartiteChecker.isBipartite())
+        Edges result;        if(m_bipartiteChecker.isBipartite())
         {
             FordFulkerson fordFulkerson(getFlowNetwork(m_graph, newSourceVertex, newSinkVertex));
             result = getMaximumMatchings(fordFulkerson, newSourceVertex, newSinkVertex);
@@ -98,25 +96,18 @@ private:
             Vertex const& newSinkVertex) const
     {
         Edges result;
-        for(auto const& path : fordFulkerson.getAugmentingPaths())
+        auto const& flowNetwork(fordFulkerson.getFlowNetwork());
+        for(auto const& flowEdge : flowNetwork.getFlowEdges())
         {
-            Vertex previousVertex(path.front());
-            for(unsigned int i=1; i<path.size(); i++)
+            if(1==flowEdge.flow && newSourceVertex != flowEdge.source && newSinkVertex != flowEdge.destination)
             {
-                Vertex const& vertex(path.at(i));
-                if(previousVertex != newSourceVertex && vertex != newSinkVertex)
-                {
-                    result.emplace_back(previousVertex, vertex);
-                }
-                previousVertex = vertex;
+                result.emplace_back(flowEdge.source, flowEdge.destination);
             }
         }
-        return result;
-    }
+        return result;    }
 
     FlowNetwork getFlowNetwork(
-            BaseUndirectedGraphWithVertex const& graph,
-            Vertex const& newSourceVertex,
+            BaseUndirectedGraphWithVertex const& graph,            Vertex const& newSourceVertex,
             Vertex const& newSinkVertex) const
     {
         FlowNetwork flowNetwork(newSourceVertex, newSinkVertex);
