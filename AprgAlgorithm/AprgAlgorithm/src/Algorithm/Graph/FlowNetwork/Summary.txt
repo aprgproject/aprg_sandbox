@@ -18,8 +18,8 @@ Max flow problem
 -> Maximum st-flow (maxflow) problem. Find a flow of maximum value.
 
 Maxflow applications:
--> Soviet union goal: Maximize flow of supplies to Eastern europe.
--> "Free world" goal. Maximize flow of inroamtion to specified set of people.
+-> Soviet union goal: Maximize flow of supplies to Eastern Europe.
+-> "Free world" goal. Maximize flow of information to specified set of people.
 
 Mincut problem and maxflow problem are essentially the same problem
 
@@ -93,7 +93,7 @@ Bipartite matching problem
 3) Is there a way to match all students to jobs?
 -> Given a bipartite graph, find a perfect matching.
 
-Network flow formulation of bi partite matching
+Network flow formulation of bipartite matching
 -> Create s, t, one vertex for each student and one vertex for each job.
 -> Add edge from s to each student (capacity 1)
 -> Add edge from each job to t (capacity 1)

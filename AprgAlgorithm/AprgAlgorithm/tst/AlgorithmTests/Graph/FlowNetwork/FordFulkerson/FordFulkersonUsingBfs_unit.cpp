@@ -23,7 +23,7 @@ using MaxFlowForTest = FordFulkersonUsingBfs<FlowNetworkForTest>;
 
 TEST(FordFulkersonUsingBfsTest, GetMaxFlowValueAndIsInMaxFlowMinCutWorksOnExample1)
 {
-    FlowNetworkForTest flowNetwork(0, 5);
+    FlowNetworkForTest flowNetwork(0U, 5U);
     flowNetwork.connect(0U, 1U, 2, 0);
     flowNetwork.connect(0U, 2U, 3, 0);
     flowNetwork.connect(1U, 3U, 3, 0);
@@ -44,7 +44,7 @@ TEST(FordFulkersonUsingBfsTest, GetMaxFlowValueAndIsInMaxFlowMinCutWorksOnExampl
 
 TEST(FordFulkersonUsingBfsTest, GetMaxFlowValueAndIsInMaxFlowMinCutWorksOnExample2)
 {
-    FlowNetworkForTest flowNetwork(1, 6);
+    FlowNetworkForTest flowNetwork(1U, 6U);
     flowNetwork.connect(1U, 2U, 5, 0);
     flowNetwork.connect(1U, 4U, 4, 0);
     flowNetwork.connect(2U, 3U, 6, 0);

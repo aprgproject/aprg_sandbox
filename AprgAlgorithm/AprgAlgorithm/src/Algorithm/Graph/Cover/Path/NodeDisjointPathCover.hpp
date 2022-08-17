@@ -35,10 +35,12 @@ public:
     using FlowNetwork = SinkSourceFlowNetwork<VertexWithLeftRight, int, DirectedGraphWithListOfEdges<VertexWithLeftRight>>;
     using FordFulkerson = FordFulkersonUsingBfs<FlowNetwork>;
 
-    NodeDisjointPathCover(BaseDirectedGraphWithVertex const& graph)        : m_graph(graph)
+    NodeDisjointPathCover(BaseDirectedGraphWithVertex const& graph)
+        : m_graph(graph)
     {}
 
-    Paths getNodeDisjointPathCover(            Vertex const& newSourceVertex,
+    Paths getNodeDisjointPathCover(
+            Vertex const& newSourceVertex,
             Vertex const& newSinkVertex) const
     {
         Edges edges(getEdgesOfNodeDisjointPathCover(newSourceVertex, newSinkVertex));
@@ -59,9 +61,11 @@ public:
         }
         return result;
     }
+
 private:
 
-    Paths getNodeDisjointPathCover(            Edges const& edges) const
+    Paths getNodeDisjointPathCover(
+            Edges const& edges) const
     {
         Paths result;
         DequeOfEdges detectedEdges(edges.cbegin(), edges.cend());
@@ -129,10 +133,12 @@ private:
                 result.emplace_back(flowEdge.source.first, flowEdge.destination.first);
             }
         }
-        return result;    }
+        return result;
+    }
 
     FlowNetwork getFlowNetwork(
-            BaseDirectedGraphWithVertex const& graph,            Vertex const& newSourceVertex,
+            BaseDirectedGraphWithVertex const& graph,
+            Vertex const& newSourceVertex,
             Vertex const& newSinkVertex) const
     {
         // We can find a minimum node-disjoint path cover by constructing a matching graph
@@ -144,10 +150,12 @@ private:
         VertexWithLeftRight sinkVertexWithRight{newSinkVertex, true};
         FlowNetwork flowNetwork(sourceVertexWithLeft, sinkVertexWithRight);
         for(Vertex const& vertex : graph.getVertices())
-        {            flowNetwork.connect(sourceVertexWithLeft, {vertex, false}, 1, 0);
+        {
+            flowNetwork.connect(sourceVertexWithLeft, {vertex, false}, 1, 0);
             flowNetwork.connect({vertex, true}, sinkVertexWithRight, 1, 0);
         }
-        for(Edge const& edge : graph.getEdges())        {
+        for(Edge const& edge : graph.getEdges())
+        {
             flowNetwork.connect({edge.first, false}, {edge.second, true}, 1, 0);
         }
         return flowNetwork;

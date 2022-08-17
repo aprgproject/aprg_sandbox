@@ -49,11 +49,13 @@ public:
 
     Edges getMinCutEdges() const
     {
-        Edges result;        // Let A be the set of nodes that can be reached from the source using positive-weight edges.
+        // Let A be the set of nodes that can be reached from the source using positive-weight edges.
         // The processed vertices have positive-weight edges from source of last iteration.
 
-        // Now the minimum cut consists of the edges of the original graph that start at some node in A, end at some node outside A.        // So we just need to check for edges that isFound and isNotFound in processed vertices
+        // Now the minimum cut consists of the edges of the original graph that start at some node in A, end at some node outside A.
+        // So we just need to check for edges that isFound and isNotFound in processed vertices
 
+        Edges result;
         for(FlowEdge const& flowEdge : m_flowNetwork.getFlowEdges())
         {
             if(m_processedVertices.isFound(flowEdge.source)
@@ -149,7 +151,7 @@ protected:
 
 // Ford-Fulkerson algorithm with integer capacities.
 // -> Important special case. Edge capacities are integer between 1 and U.
-// -> Invariant. The flow is integer- valued through Ford-Fulkerson
+// -> Invariant. The flow is integer-valued through Ford-Fulkerson
 // ---> Proof (by induction):
 // -----> BottleNeck capacity is an integer
 // -----> Flow on an edge increases/decreases by bottleneck capacity.

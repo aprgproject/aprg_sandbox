@@ -39,10 +39,12 @@ public:
         , m_bipartiteChecker(graph)
     {}
 
-    Edges getMaximumMatchings(            Vertex const& newSourceVertex,
+    Edges getMaximumMatchings(
+            Vertex const& newSourceVertex,
             Vertex const& newSinkVertex) const
     {
-        Edges result;        if(m_bipartiteChecker.isBipartite())
+        Edges result;
+        if(m_bipartiteChecker.isBipartite())
         {
             FordFulkerson fordFulkerson(getFlowNetwork(m_graph, newSourceVertex, newSinkVertex));
             result = getMaximumMatchings(fordFulkerson, newSourceVertex, newSinkVertex);
@@ -104,10 +106,12 @@ private:
                 result.emplace_back(flowEdge.source, flowEdge.destination);
             }
         }
-        return result;    }
+        return result;
+    }
 
     FlowNetwork getFlowNetwork(
-            BaseUndirectedGraphWithVertex const& graph,            Vertex const& newSourceVertex,
+            BaseUndirectedGraphWithVertex const& graph,
+            Vertex const& newSourceVertex,
             Vertex const& newSinkVertex) const
     {
         FlowNetwork flowNetwork(newSourceVertex, newSinkVertex);
