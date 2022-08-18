@@ -176,11 +176,8 @@ TEST(ComboTest, DifferentiationRelatedRatesConeWaterExampleTest)
 
     EXPECT_TRUE(solver.isSolved());
     EXPECT_TRUE(solver.isACompleteSolution());
-    AlbaNumbers const& acceptedValues(solutionSet.getAcceptedValues());
-    ASSERT_EQ(1U, acceptedValues.size());
-    EXPECT_EQ(AlbaNumber(0.4074366543152521), acceptedValues.at(0));
+    EXPECT_EQ(AlbaNumbers{0.4074366543152521}, solutionSet.getAcceptedValues());
 }
 
 }
-
 }

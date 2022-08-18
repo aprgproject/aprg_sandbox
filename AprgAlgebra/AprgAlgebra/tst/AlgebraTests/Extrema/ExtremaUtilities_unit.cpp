@@ -194,47 +194,31 @@ TEST(ExtremaUtilitiesTest, GetCriticalNumbersWithMultipleVariablesWorksWithExamp
 
     ASSERT_EQ(2U, variableToCriticalNumbersMap.size());
     auto it = variableToCriticalNumbersMap.cbegin();
-    string const& firstVariableName(it->first);
-    AlbaNumbers const& firstCriticalNumbers(it->second);
-    EXPECT_EQ("x", firstVariableName);
-    EXPECT_EQ(1U, firstCriticalNumbers.size());
-    EXPECT_EQ(AlbaNumber(0), firstCriticalNumbers.at(0));
+    EXPECT_EQ("x", it->first);
+    EXPECT_EQ(AlbaNumbers{0}, it->second);
     it++;
-    string const& secondVariableName(it->first);
-    AlbaNumbers const& secondCriticalNumbers(it->second);
-    EXPECT_EQ("y", secondVariableName);
-    EXPECT_EQ(1U, secondCriticalNumbers.size());
-    EXPECT_EQ(AlbaNumber(0), secondCriticalNumbers.at(0));
+    EXPECT_EQ("y", it->first);
+    EXPECT_EQ(AlbaNumbers{0}, it->second);
 }
 
-TEST(ExtremaUtilitiesTest, GetCriticalNumbersWithMultipleVariablesWorksWithExample2)
-{
+TEST(ExtremaUtilitiesTest, GetCriticalNumbersWithMultipleVariablesWorksWithExample2){
     // z = 6x - 4y - x^2 - 2*y^2
     Term termToTest(Polynomial({Monomial(6, {{"x", 1}}), Monomial(-4, {{"y", 1}}), Monomial(-1, {{"x", 2}}), Monomial(-2, {{"y", 2}})}));
-
     VariableNameToCriticalNumbersMap variableToCriticalNumbersMap(
                 getCriticalNumbersWithMultipleVariables(termToTest, {"x", "y"}));
 
     ASSERT_EQ(2U, variableToCriticalNumbersMap.size());
     auto it = variableToCriticalNumbersMap.cbegin();
-    string const& firstVariableName(it->first);
-    AlbaNumbers const& firstCriticalNumbers(it->second);
-    EXPECT_EQ("x", firstVariableName);
-    EXPECT_EQ(1U, firstCriticalNumbers.size());
-    EXPECT_EQ(AlbaNumber(3), firstCriticalNumbers.at(0));
+    EXPECT_EQ("x", it->first);
+    EXPECT_EQ(AlbaNumbers{3}, it->second);
     it++;
-    string const& secondVariableName(it->first);
-    AlbaNumbers const& secondCriticalNumbers(it->second);
-    EXPECT_EQ("y", secondVariableName);
-    EXPECT_EQ(1U, secondCriticalNumbers.size());
-    EXPECT_EQ(AlbaNumber(-1), secondCriticalNumbers.at(0));
+    EXPECT_EQ("y", it->first);
+    EXPECT_EQ(AlbaNumbers{-1}, it->second);
 }
-
 
 TEST(ExtremaUtilitiesTest, GetInputValuesAtPointsOfInflectionWorksWithExample1)
 {
     Term termToTest(Monomial(1, {{"x", 3}}));
-
     AlbaNumbers values(getInputValuesAtPointsOfInflection(termToTest, "x"));
 
     ASSERT_EQ(1U, values.size());
