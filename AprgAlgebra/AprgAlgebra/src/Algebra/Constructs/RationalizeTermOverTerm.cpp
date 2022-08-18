@@ -125,19 +125,17 @@ void RationalizeTermOverTerm::retrieveTermsForRationalizationForPolynomial(
     if(gcfOfExponents.isFractionType())
     {
         AlbaNumber::FractionData exponentFraction(gcfOfExponents.getFractionData());
-        if(isDivisible(exponentFraction.denominator, 2))
+        if(isDivisible(exponentFraction.denominator, 2U))
         {
             retrieveTermsForRationalizationForPolynomialWhenExponentIsDivisibleByTwo(rationalizedTerm, multiplier, firstMonomial, secondMonomial);
         }
-        else if(isDivisible(exponentFraction.denominator, 3))
+        else if(isDivisible(exponentFraction.denominator, 3U))
         {
             retrieveTermsForRationalizationForPolynomialWhenExponentIsDivisibleByThree(rationalizedTerm, multiplier, firstMonomial, secondMonomial);
-        }
-    }
+        }    }
 }
 
-void RationalizeTermOverTerm::retrieveTermsForRationalizationForPolynomialWhenExponentIsDivisibleByTwo(
-        Term & rationalizedTerm,
+void RationalizeTermOverTerm::retrieveTermsForRationalizationForPolynomialWhenExponentIsDivisibleByTwo(        Term & rationalizedTerm,
         Term & multiplier,
         Monomial const& firstMonomial,
         Monomial const& secondMonomial) const
@@ -211,23 +209,20 @@ void RationalizeTermOverTerm::retrieveTermsForRationalizationForExpression(
     if(gcfOfExponents.isFractionType())
     {
         AlbaNumber::FractionData exponentFraction(gcfOfExponents.getFractionData());
-        if(isDivisible(exponentFraction.denominator, 2))
+        if(isDivisible(exponentFraction.denominator, 2U))
         {
             retrieveTermsForRationalizationForExpressionWhenExponentIsDivisibleByTwo(
-                        rationalizedTerm,
-                        multiplier,
+                        rationalizedTerm,                        multiplier,
                         firstTermWithDetails,
                         secondTermWithDetails);
         }
-        else if(isDivisible(exponentFraction.denominator, 3))
+        else if(isDivisible(exponentFraction.denominator, 3U))
         {
             retrieveTermsForRationalizationForExpressionWhenExponentIsDivisibleByThree(
-                        rationalizedTerm,
-                        multiplier,
+                        rationalizedTerm,                        multiplier,
                         firstTermWithDetails,
                         secondTermWithDetails);
-        }
-    }
+        }    }
 }
 
 void RationalizeTermOverTerm::retrieveTermsForRationalizationForExpressionWhenExponentIsDivisibleByTwo(
