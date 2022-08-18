@@ -85,6 +85,18 @@ TEST(LinearDiophantineEquationCoefficientSolverTest, WorksOnExample2)
     EXPECT_EQ(11, solver.getY());
 }
 
+TEST(LinearDiophantineEquationCoefficientSolverTest, GetAnotherXValueAndGetAnotherYValueWorksOnExample1)
+{
+    LinearDiophantineEquationCoefficientSolver solver(39, 15, 12);
+
+    EXPECT_EQ(8, solver.getAnotherXValue(0));
+    EXPECT_EQ(-20, solver.getAnotherYValue(0));
+    EXPECT_EQ(13, solver.getAnotherXValue(1));
+    EXPECT_EQ(-33, solver.getAnotherYValue(1));
+    EXPECT_EQ(18, solver.getAnotherXValue(2));
+    EXPECT_EQ(-46, solver.getAnotherYValue(2));
+}
+
 }
 
 }
