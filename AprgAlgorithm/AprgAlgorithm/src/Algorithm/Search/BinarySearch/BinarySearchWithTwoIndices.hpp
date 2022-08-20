@@ -1,111 +1,115 @@
 #pragma once
 
 #include <Common/Math/AlbaMathHelper.hpp>
+
 namespace alba
 {
-
 namespace algorithm
 {
 
-template <typename Objects>
+template <typename Values>
 class BinarySearchWithTwoIndices
 {
 public:
-    using Object = typename Objects::value_type;
+    using Index = unsigned int;
+    using Value = typename Values::value_type;
 
-    BinarySearchWithTwoIndices(Objects const& sortedObjects)
+    BinarySearchWithTwoIndices(Values const& sortedValues)
         : m_indexOfLowest(0)
-        , m_indexOfHighest(sortedObjects.size()-1)
-        , m_sortedObjects(sortedObjects)
+        , m_indexOfHighest(sortedValues.size()-1)
+        , m_sortedValues(sortedValues)
     {}
 
-    Object findNearestValue(Object const& object)
+    BinarySearchWithTwoIndices(Index const indexOfLowest, Index const indexOfHighest, Values const& sortedValues)
+        : m_indexOfLowest(indexOfLowest)
+        , m_indexOfHighest(indexOfHighest)
+        , m_sortedValues(sortedValues)
+    {}
+
+    Value findNearestValue(Value const& value)
     {
         while(m_indexOfHighest - m_indexOfLowest > 2)
         {
-            findValueForOneIteration(object);
+            findValueForOneIteration(value);
         }
-        return getNearestValueFromLowestMiddleHighest(object);
+        return getNearestValueFromLowestMiddleHighest(value);
     }
 
-    Object getLowestObject() const
+    Value getLowestValue() const
     {
-        return getObjectAt(m_indexOfLowest);
+        return getValueAt(m_indexOfLowest);
     }
 
-    Object getMiddleObject() const
+    Value getMiddleValue() const
     {
-        return getObjectAt(getMiddleIndex());
+        return getValueAt(getMiddleIndex());
     }
 
-    Object getHighestObject() const
+    Value getHighestValue() const
     {
-        return getObjectAt(m_indexOfHighest);
+        return getValueAt(m_indexOfHighest);
     }
 
-    Object getNearestValueFromLowestMiddleHighest(Object const& object) const
+    Value getNearestValueFromLowestMiddleHighest(Value const& value) const
     {
-        Object distanceFromLowestValue(mathHelper::getPositiveDelta(object, getLowestObject()));
-        Object distanceFromMiddleValue(mathHelper::getPositiveDelta(object, getMiddleObject()));
-        Object distanceFromHighestValue(mathHelper::getPositiveDelta(object, getHighestObject()));
-        Object lowestDistance(std::min(std::min(distanceFromLowestValue, distanceFromMiddleValue), distanceFromHighestValue));
-        Object result;
+        Value distanceFromLowestValue(mathHelper::getPositiveDelta(value, getLowestValue()));
+        Value distanceFromMiddleValue(mathHelper::getPositiveDelta(value, getMiddleValue()));
+        Value distanceFromHighestValue(mathHelper::getPositiveDelta(value, getHighestValue()));
+        Value lowestDistance(std::min(std::min(distanceFromLowestValue, distanceFromMiddleValue), distanceFromHighestValue));
+        Value result;
         if(lowestDistance==distanceFromLowestValue)
         {
-            result = getLowestObject();
+            result = getLowestValue();
         }
         else if(lowestDistance==distanceFromMiddleValue)
         {
-            result = getMiddleObject();
+            result = getMiddleValue();
         }
         else if(lowestDistance==distanceFromHighestValue)
         {
-            result = getHighestObject();
+            result = getHighestValue();
         }
         return result;
     }
 
-    void findValueForOneIteration(Object const& object)
+    void findValueForOneIteration(Value const& value)
     {
-         unsigned int middleIndex(getMiddleIndex());
-         Object middleValue(getObjectAt(middleIndex));
-         if(object > middleValue)
+         Index middleIndex(getMiddleIndex());
+         Value middleValue(getValueAt(middleIndex));
+         if(value > middleValue)
          {
              m_indexOfLowest = middleIndex+1;
          }
-         else if(object < middleValue)
+         else if(value < middleValue)
          {
              m_indexOfHighest = middleIndex-1;
-         }
-         else
+         }         else
          {
              m_indexOfLowest = middleIndex;
-             m_indexOfHighest = middleIndex;
-         }
+             m_indexOfHighest = middleIndex;         }
     }
 
 private:
 
-    Object getObjectAt(unsigned int const index) const
+    Value getValueAt(Index const index) const
     {
-        Object object{};
-        if(index<m_sortedObjects.size())
+        Value value{};
+        if(index<m_sortedValues.size())
         {
-            object = m_sortedObjects.at(index);
+            value = m_sortedValues.at(index);
         }
-        return object;
+        return value;
     }
 
-    unsigned int getMiddleIndex() const
+    Index getMiddleIndex() const
     {
         return (m_indexOfLowest+m_indexOfHighest)/2;
     }
 
-    unsigned int m_indexOfLowest;
-    unsigned int m_indexOfHighest;
-    Objects const& m_sortedObjects;
+    Index m_indexOfLowest;
+    Index m_indexOfHighest;
+    Values const& m_sortedValues;
 };
 
 }
-
 }

@@ -12,17 +12,15 @@ namespace algorithm
 
 namespace
 {
-using ValueForTest = double;
-using RangeQueryForTest = RangeQueryWithBinaryIndexedTree<ValueForTest>;
-using ValuesForTest = RangeQueryForTest::Values;
+using ValuesForTest = vector<double>;
+using RangeQueryForTest = RangeQueryWithBinaryIndexedTree<ValuesForTest>;
+using ValueForTest = RangeQueryForTest::Value;
 
 RangeQueryForTest::AccumulatorFunction multipliesAccumulator = [](ValueForTest const& value1, ValueForTest const& value2)
-{
-    return multiplies<ValueForTest>()(value1, value2);
+{    return multiplies<ValueForTest>()(value1, value2);
 };
 
-RangeQueryForTest::AccumulatorFunction dividesAccumulator = [](ValueForTest const& value1, ValueForTest const& value2)
-{
+RangeQueryForTest::AccumulatorFunction dividesAccumulator = [](ValueForTest const& value1, ValueForTest const& value2){
     return divides<ValueForTest>()(value1, value2);
 };
 }

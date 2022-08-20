@@ -12,17 +12,15 @@ namespace algorithm
 
 namespace
 {
-using ValueForTest = unsigned int;
-using RangeQueryForTest = RangeQueryWithSelector<ValueForTest>;
-using ValuesForTest = RangeQueryForTest::Values;
+using ValuesForTest = vector<unsigned int>;
+using RangeQueryForTest = RangeQueryWithSelector<ValuesForTest>;
+using ValueForTest = RangeQueryForTest::Value;
 
 RangeQueryForTest::SelectorFunction minimumSelector = [](ValueForTest const& value1, ValueForTest const& value2)
-{
-    return min(value1, value2);
+{    return min(value1, value2);
 };
 
-RangeQueryForTest::SelectorFunction maximumSelector = [](ValueForTest const& value1, ValueForTest const& value2)
-{
+RangeQueryForTest::SelectorFunction maximumSelector = [](ValueForTest const& value1, ValueForTest const& value2){
     return max(value1, value2);
 };
 }

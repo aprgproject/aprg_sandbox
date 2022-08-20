@@ -8,60 +8,58 @@ namespace alba
 namespace algorithm
 {
 
-template <typename Objects>
+template <typename Values>
 class BinarySearchWithSkip
 {
 public:
-    using Object = typename Objects::value_type;
+    using Index = unsigned int;
+    using Value = typename Values::value_type;
 
     BinarySearchWithSkip()
     {}
 
-    Object findNearestValue(Objects const& sortedObjects, Object const& object)
+    Value findNearestValue(Values const& sortedValues, Value const& value)
     {
-        unsigned int index(0);
-        unsigned int size(sortedObjects.size());
-        for(unsigned int skip = size/2; skip>=1; skip/=2) // skip start from half of size, then quarter of size, then eighth of size and soon
+        Index index(0);
+        Index size(sortedValues.size());
+        for(Index skip = size/2; skip>=1; skip/=2) // skip start from half of size, then quarter of size, then eighth of size and soon
         {
-            while(index+skip < size && sortedObjects.at(index+skip) <= object)
+            while(index+skip < size && sortedValues.at(index+skip) <= value)
             {
                 index += skip;
             }
         }
-        return getNearestValueOnCurrentIndex(sortedObjects, object, index);
+        return getNearestValueOnCurrentIndex(sortedValues, value, index);
     }
 private:
 
-    Object getNearestValueOnCurrentIndex(Objects const& sortedObjects, Object const& object, unsigned int const index) const
+    Value getNearestValueOnCurrentIndex(Values const& sortedValues, Value const& value, Index const index) const
     {
-        Object firstValue(getObjectAt(sortedObjects, index));
-        Object secondValue(getObjectAt(sortedObjects, index+1));
-        Object distanceFromFirstValue(mathHelper::getPositiveDelta(object, firstValue));
-        Object distanceFromSecondValue(mathHelper::getPositiveDelta(object, secondValue));
-        Object lowestDistance(std::min(distanceFromFirstValue, distanceFromSecondValue));
-        Object result;
+        Value firstValue(getValueAt(sortedValues, index));
+        Value secondValue(getValueAt(sortedValues, index+1));
+        Value distanceFromFirstValue(mathHelper::getPositiveDelta(value, firstValue));
+        Value distanceFromSecondValue(mathHelper::getPositiveDelta(value, secondValue));
+        Value lowestDistance(std::min(distanceFromFirstValue, distanceFromSecondValue));
+        Value result;
         if(lowestDistance==distanceFromFirstValue)
         {
-            result = firstValue;
-        }
+            result = firstValue;        }
         else if(lowestDistance==distanceFromSecondValue)
         {
-            result = secondValue;
-        }
+            result = secondValue;        }
         return result;
     }
 
-    Object getObjectAt(Objects const& sortedObjects, unsigned int const index) const
+    Value getValueAt(Values const& sortedValues, Index const index) const
     {
-        Object object{};
-        if(index<sortedObjects.size())
+        Value value{};
+        if(index<sortedValues.size())
         {
-            object = sortedObjects.at(index);
+            value = sortedValues.at(index);
         }
-        return object;
+        return value;
     }
 };
-
 }
 
 }

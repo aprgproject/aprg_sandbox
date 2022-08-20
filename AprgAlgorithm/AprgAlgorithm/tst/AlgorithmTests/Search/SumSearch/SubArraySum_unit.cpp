@@ -12,19 +12,21 @@ namespace algorithm
 
 namespace
 {
-using ValueForTest = unsigned int;
-using SumSearch = SubArraySum<ValueForTest>;
-using ValuesForTest = SumSearch::Values;
+using ValuesForTest = vector<unsigned int>;
+using SumSearch = SubArraySum<ValuesForTest>;
+using ValueForTest = SumSearch::Value;
 }
 
 TEST(SubArraySumTest, GetSubArrayWithSumWorksOnExample1)
 {
-    SumSearch search({1U, 3U, 2U, 5U, 1U, 1U, 2U, 3U});
+    SumSearch search;
+    ValuesForTest valuesToTest{1U, 3U, 2U, 5U, 1U, 1U, 2U, 3U};
 
-    ValuesForTest expectedValues{2U, 5U, 1U};
-    EXPECT_EQ(expectedValues, search.getSubArrayWithSum(8));
+    ValuesForTest valuesToVerify(search.getSubArrayWithSum(8U, valuesToTest));
+
+    ValuesForTest valuesToExpect{2U, 5U, 1U};
+    EXPECT_EQ(valuesToExpect, valuesToVerify);
 }
 
 }
-
 }
