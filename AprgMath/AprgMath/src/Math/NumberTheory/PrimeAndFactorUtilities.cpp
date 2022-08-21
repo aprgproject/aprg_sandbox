@@ -2,6 +2,7 @@
 
 #include <Algorithm/Search/SumSearch/TwoSum.hpp>
 #include <Common/Math/AlbaMathHelper.hpp>
+#include <Math/NumberTheory/ModularArithmetic.hpp>
 
 using namespace alba::algorithm;
 using namespace alba::mathHelper;
@@ -13,9 +14,9 @@ namespace alba
 namespace math
 {
 
-bool isCoPrime(Number const number1, Number const number2)
+bool isCoPrime(UnsignedNumber const number1, UnsignedNumber const number2)
 {
-    return getGreatestCommonFactor(number1, number2) == static_cast<Number>(1);
+    return getGreatestCommonFactor(number1, number2) == static_cast<UnsignedNumber>(1);
 }
 
 bool isNumberOfPrimesInfinite()
@@ -30,26 +31,28 @@ bool isNumberOfPrimesInfinite()
 // There are many conjectures involving primes.
 // Most people think that the conjectures are true, but nobody has been able to prove them.
 
-bool isGoldbachConjectureTrue(Number const evenNumber)
+bool isGoldbachConjectureTrue(UnsignedNumber const evenNumber)
 {
     // Goldbach’s conjecture: Each even integer n > 2 can be represented as a sum n = a+b so that both a and b are primes.
 
     bool result(false); // set as false when input is wrong
     if(evenNumber > 2 && evenNumber%2 == 0)
     {
-        Numbers numbers(getPrimesBelowThisNumber(evenNumber));
-        TwoSum<Numbers> twoSum(numbers);
+        UnsignedNumbers numbers(getPrimesBelowThisNumber(evenNumber));
+        TwoSum<UnsignedNumbers> twoSum(numbers);
         auto primePair(twoSum.getNonDuplicateTwoValuesWithSum(evenNumber));
         result = primePair.first != 0 && primePair.second != 0;
     }
-    return result;}
+    return result;
+}
 
-bool isTwinPrimeConjectureTrue(Number const number)
-{    // Twin prime conjecture: There is an infinite number of pairs of the form {p, p+2}, where both p and p+2 are primes.
+bool isTwinPrimeConjectureTrue(UnsignedNumber const number)
+{
+    // Twin prime conjecture: There is an infinite number of pairs of the form {p, p+2}, where both p and p+2 are primes.
 
-    Numbers numbers(getPrimesBelowThisNumber(number));
-    Number twinPrimeCount=0;
-    for(Number i=0; i<numbers.size()-1; i++)
+    UnsignedNumbers numbers(getPrimesBelowThisNumber(number));
+    UnsignedNumber twinPrimeCount=0;
+    for(UnsignedNumber i=0; i<numbers.size()-1; i++)
     {
         if(numbers.at(i+1) - numbers.at(i) == 2)
         {
@@ -59,14 +62,14 @@ bool isTwinPrimeConjectureTrue(Number const number)
     return twinPrimeCount>0; // actually we should check if this is infinite (continuously increasing)
 }
 
-bool isLegendreConjectureTrue(Number const number)
+bool isLegendreConjectureTrue(UnsignedNumber const number)
 {
     // Legendre’s conjecture: There is always a prime between numbers n^2 and (n+1)^2, where n is any positive integer.
 
-    Number start(pow(number, 2));
-    Number end(pow(number+1, 2));
+    UnsignedNumber start(pow(number, 2));
+    UnsignedNumber end(pow(number+1, 2));
     bool result(false);
-    for(Number numberToCheck=start+1; numberToCheck<end; numberToCheck++)
+    for(UnsignedNumber numberToCheck=start+1; numberToCheck<end; numberToCheck++)
     {
         if(isPrime(numberToCheck))
         {
@@ -77,57 +80,77 @@ bool isLegendreConjectureTrue(Number const number)
     return result;
 }
 
-Number getNumberOfFactors(Number const number)
+bool isWilsonTheoremTrue(UnsignedNumber const number)
+{
+    // Wilson’s theorem states that a number n is prime exactly when (n-1)! mod n = n-1.
+
+    // For example, the number 11 is prime, because 10! mod 11 = 10
+    // and the number 12 is not prime, because 11! mod 12 = 0 (not equal to 11).
+
+    bool result(false); // false when input is wrong
+    if(number >= 2)
+    {
+        bool isFormulaSatisfied = getModularFactorial(number-1, number) == number-1;
+        result = isFormulaSatisfied == isPrime(number);
+    }
+    return result;
+}
+
+UnsignedNumber getNumberOfFactors(UnsignedNumber const number)
 {
     FactorsToCountMap primeFactorsToCountMap(getPrimeFactorsToCountMap(number));
-    Number result(1);
+    UnsignedNumber result(1);
     for(auto const& primeFactorAndCountPair : primeFactorsToCountMap)
     {
-        Number count(primeFactorAndCountPair.second);
+        UnsignedNumber count(primeFactorAndCountPair.second);
         result *= count + 1;
     }
     return result;
 }
 
-Number getSumOfFactors(Number const number)
+UnsignedNumber getSumOfFactors(UnsignedNumber const number)
 {
     FactorsToCountMap primeFactorsToCountMap(getPrimeFactorsToCountMap(number));
-    Number result(1);
+    UnsignedNumber result(1);
     for(auto const& primeFactorAndCountPair : primeFactorsToCountMap)
     {
-        Number primeFactor(primeFactorAndCountPair.first);
-        Number count(primeFactorAndCountPair.second);
-        Number formulaValue = (pow(primeFactor, count+1)-1) / (primeFactor-1);
-        result *= formulaValue;
-    }
-    return result;}
-
-Number getProductOfFactors(Number const number)
-{    Number numberOfFactors(getNumberOfFactors(number));
-    return pow(number, numberOfFactors/2);
-}
-
-Number getApproximateDensityOfPrimes(Number const number)
-{
-    // formula = n/(ln(n))
-    return number / log(number);
-}
-
-Number getNumberOfCoPrimesBelowThisNumber(Number const number){
-    // Euler’s totient function phi(n) gives the number of coprime numbers to n between 1 and n.
-
-    FactorsToCountMap primeFactorsToCountMap(getPrimeFactorsToCountMap(number));    Number result(1);
-    for(auto const& primeFactorAndCountPair : primeFactorsToCountMap)
-    {
-        Number primeFactor(primeFactorAndCountPair.first);
-        Number count(primeFactorAndCountPair.second);
-        Number formulaValue = pow(primeFactor, count-1) * (primeFactor-1);
+        UnsignedNumber primeFactor(primeFactorAndCountPair.first);
+        UnsignedNumber count(primeFactorAndCountPair.second);
+        UnsignedNumber formulaValue = (pow(primeFactor, count+1)-1) / (primeFactor-1);
         result *= formulaValue;
     }
     return result;
 }
 
-Numbers getPrimesBelowThisNumber(Number const number)
+UnsignedNumber getProductOfFactors(UnsignedNumber const number)
+{
+    UnsignedNumber numberOfFactors(getNumberOfFactors(number));
+    return pow(number, numberOfFactors/2);
+}
+
+UnsignedNumber getApproximateDensityOfPrimes(UnsignedNumber const number)
+{
+    // formula = n/(ln(n))
+    return number / log(number);
+}
+
+UnsignedNumber getNumberOfCoPrimesBelowThisNumber(UnsignedNumber const number)
+{
+    // Euler’s totient function phi(n) gives the number of coprime numbers to n between 1 and n.
+
+    FactorsToCountMap primeFactorsToCountMap(getPrimeFactorsToCountMap(number));
+    UnsignedNumber result(1);
+    for(auto const& primeFactorAndCountPair : primeFactorsToCountMap)
+    {
+        UnsignedNumber primeFactor(primeFactorAndCountPair.first);
+        UnsignedNumber count(primeFactorAndCountPair.second);
+        UnsignedNumber formulaValue = pow(primeFactor, count-1) * (primeFactor-1);
+        result *= formulaValue;
+    }
+    return result;
+}
+
+UnsignedNumbers getPrimesBelowThisNumber(UnsignedNumber const number)
 {
     // The inner loop of the algorithm is executed n/x times for each value of x.
     // Thus, an upper bound for the running time of the algorithm is the harmonic sum
@@ -136,15 +159,15 @@ Numbers getPrimesBelowThisNumber(Number const number)
     // It can be shown that the running time of the  algorithm is only O(n*log(log(n))), a complexity very near to O(n).
 
     vector<bool> sieveOfEratosthenes(number, true);
-    for(Number possiblePrime=2; possiblePrime<number; possiblePrime++)
+    for(UnsignedNumber possiblePrime=2; possiblePrime<number; possiblePrime++)
     {
-        for(Number multiple=2*possiblePrime; multiple<number; multiple+=possiblePrime)
+        for(UnsignedNumber multiple=2*possiblePrime; multiple<number; multiple+=possiblePrime)
         {
             sieveOfEratosthenes[multiple] = false;
         }
     }
-    Numbers result;
-    for(Number prime=2; prime<number; prime++)
+    UnsignedNumbers result;
+    for(UnsignedNumber prime=2; prime<number; prime++)
     {
         if(sieveOfEratosthenes.at(prime))
         {
@@ -154,11 +177,11 @@ Numbers getPrimesBelowThisNumber(Number const number)
     return result;
 }
 
-Numbers getPrimeFactorsOfNumber(Number const number)
+UnsignedNumbers getPrimeFactorsOfNumber(UnsignedNumber const number)
 {
-    Numbers result;
-    Number remainingFactor(number);
-    for(Number factor=2; factor*factor<=remainingFactor; factor++)
+    UnsignedNumbers result;
+    UnsignedNumber remainingFactor(number);
+    for(UnsignedNumber factor=2; factor*factor<=remainingFactor; factor++)
     {
         while(remainingFactor % factor == 0)
         {
@@ -173,15 +196,15 @@ Numbers getPrimeFactorsOfNumber(Number const number)
     return result;
 }
 
-FactorsToCountMap getPrimeFactorsToCountMap(Number const number)
+FactorsToCountMap getPrimeFactorsToCountMap(UnsignedNumber const number)
 {
     FactorsToCountMap result;
-    Number remainingFactor(number);
-    for(Number factor=2; factor*factor<=remainingFactor; factor++)
+    UnsignedNumber remainingFactor(number);
+    for(UnsignedNumber factor=2; factor*factor<=remainingFactor; factor++)
     {
         if(remainingFactor % factor == 0)
         {
-            Number count=0;
+            UnsignedNumber count=0;
             for(; remainingFactor % factor == 0; count++)
             {
                 remainingFactor /= factor;

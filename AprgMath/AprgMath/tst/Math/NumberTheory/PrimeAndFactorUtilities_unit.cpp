@@ -49,6 +49,15 @@ TEST(PrimeAndFactorUtilitiesTest, IsLegendreConjectureTrueWorks)
     EXPECT_TRUE(isLegendreConjectureTrue(84));
 }
 
+TEST(PrimeAndFactorUtilitiesTest, IsWilsonTheoremTrueWorks)
+{
+    EXPECT_FALSE(isWilsonTheoremTrue(1)); // Wrong input so its false, we know that 1 and 0 are not prime
+    EXPECT_TRUE(isWilsonTheoremTrue(13));
+    EXPECT_TRUE(isWilsonTheoremTrue(64));
+    EXPECT_TRUE(isWilsonTheoremTrue(65));
+    EXPECT_TRUE(isWilsonTheoremTrue(84));
+}
+
 TEST(PrimeAndFactorUtilitiesTest, GetNumberOfFactorsWorks)
 {
     // The factors are 1, 2, 3, 4, 6, 7, 12, 14, 21, 28, 42 and 84.
@@ -86,14 +95,14 @@ TEST(PrimeAndFactorUtilitiesTest, GetNumberOfCoPrimesBelowThisNumberWorks)
 
 TEST(PrimeAndFactorUtilitiesTest, GetPrimesBelowThisNumberWorks)
 {
-    Numbers expectedNumbers{2U, 3U, 5U, 7U, 11U, 13U, 17U, 19U, 23U, 29U};
+    UnsignedNumbers expectedNumbers{2U, 3U, 5U, 7U, 11U, 13U, 17U, 19U, 23U, 29U};
 
     EXPECT_EQ(expectedNumbers, getPrimesBelowThisNumber(30U));
 }
 
 TEST(PrimeAndFactorUtilitiesTest, GetPrimeFactorsOfNumberWorks)
 {
-    Numbers expectedNumbers{2U, 2U, 3U, 7U};
+    UnsignedNumbers expectedNumbers{2U, 2U, 3U, 7U};
 
     EXPECT_EQ(expectedNumbers, getPrimeFactorsOfNumber(84U));
 }

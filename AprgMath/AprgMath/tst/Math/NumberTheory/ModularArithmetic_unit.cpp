@@ -60,6 +60,12 @@ TEST(ModularArithmeticTest, GetModularInverseWorks)
     EXPECT_EQ(3U, getModularInverse(6U, 17U));
 }
 
+TEST(ModularArithmeticTest, GetModularFactorialWorks)
+{
+    EXPECT_EQ(2U, getModularFactorial(2U, 4U));
+    EXPECT_EQ(6U, getModularFactorial(6U, 17U));
+}
+
 }
 
 }

@@ -81,7 +81,9 @@ TEST(TwoSumTest, GetPossibleDuplicatedTwoValuesWithSumWithIndicesDoesNotWorkOnEx
     ValuesPairForTest pairToVerify(search.getPossibleDuplicatedTwoValuesWithSum(18U, 6U, 6U)); // index must be within 2U and 4U
 
     ValuesPairForTest pairToExpect{0U, 0U};
-    EXPECT_EQ(pairToExpect, pairToVerify);}
+    EXPECT_EQ(pairToExpect, pairToVerify);
+}
 
 }
+
 }

@@ -37,7 +37,9 @@ TEST(ThreeSumTest, GetPossibleDuplicatedThreeValuesWithSumWorksOnExample1)
     ThreeValuesForTest threeValuesToVerify(search.getPossibleDuplicatedThreeValuesWithSum(30U));
 
     ThreeValuesForTest threeValuesToExpect{10U, 10U, 10U};
-    EXPECT_EQ(threeValuesToExpect, threeValuesToVerify);}
+    EXPECT_EQ(threeValuesToExpect, threeValuesToVerify);
+}
 
 }
+
 }

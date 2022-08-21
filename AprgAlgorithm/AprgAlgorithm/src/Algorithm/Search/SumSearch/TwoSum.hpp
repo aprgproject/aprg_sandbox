@@ -23,7 +23,8 @@ public:
     using Comparator = std::function<bool(Index const, Index const)>;
 
     TwoSum(Values const& sortedValues)
-        : m_sortedValues(sortedValues)    {}
+        : m_sortedValues(sortedValues)
+    {}
 
     ValuesPair getNonDuplicateTwoValuesWithSum(
             Value const targetSum) const
@@ -32,7 +33,8 @@ public:
         return getTwoValuesWithSum(targetSum, 0, m_sortedValues.size()-1, std::less<Index>());
     }
 
-    ValuesPair getNonDuplicateTwoValuesWithSum(            Value const targetSum,
+    ValuesPair getNonDuplicateTwoValuesWithSum(
+            Value const targetSum,
             Index const lowerIndex,
             Index const higherIndex) const
     {
@@ -57,9 +59,11 @@ public:
     }
 
 private:
+
     ValuesPair getTwoValuesWithSum(
             Value const targetSum,
-            Index const lowestIndex,            Index const highestIndex,
+            Index const lowestIndex,
+            Index const highestIndex,
             Comparator const& shouldContinue) const
     {
         ValuesPair result{};

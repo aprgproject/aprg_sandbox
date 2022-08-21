@@ -25,7 +25,9 @@ TEST(SubArraySumTest, GetSubArrayWithSumWorksOnExample1)
     ValuesForTest valuesToVerify(search.getSubArrayWithSum(8U));
 
     ValuesForTest valuesToExpect{2U, 5U, 1U};
-    EXPECT_EQ(valuesToExpect, valuesToVerify);}
+    EXPECT_EQ(valuesToExpect, valuesToVerify);
+}
 
 }
+
 }

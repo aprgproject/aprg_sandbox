@@ -10,12 +10,11 @@ namespace alba
 namespace math
 {
 
-using FactorsToCountMap = std::map<Number, Number>;
+bool isLagrangeTheoremTrue(UnsignedNumber const number);
+bool isZeckendorfTheoremTrue(UnsignedNumber const number);
 
-bool isLagrangeTheoremTrue(Number const number);
-bool isZeckendorfTheoremTrue(Number const number);
-
-Numbers getFibonacciNumbersBelowThisNumber(Number const number);
+UnsignedNumber getNthFibonacciNumber(UnsignedNumber const number);
+UnsignedNumbers getFibonacciNumbersBelowThisNumber(UnsignedNumber const number);
 
 }
 
