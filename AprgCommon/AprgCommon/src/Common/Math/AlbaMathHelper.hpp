@@ -214,21 +214,11 @@ template <typename NumberType> NumberType getNumberOfCombinations(NumberType con
     return result;
 }
 
-template <typename NumberType> NumberType getFibonacci(NumberType const number)
-{
-    // Binets formula:
-    double sqrtOf5 = sqrt(5);
-    double fibonacciInDouble = (pow(1+sqrtOf5, number)-pow(1-sqrtOf5, number)) / (pow(2, number)*sqrtOf5);
-    return getIntegerAfterRoundingADoubleValue<NumberType>(fibonacciInDouble);
-}
-
 template <typename NumberType> NumberType getValueAtPascalTriangle(NumberType const rowIndex, NumberType const columnIndex)
 {
-    return getNumberOfCombinations(rowIndex, columnIndex);
-}
+    return getNumberOfCombinations(rowIndex, columnIndex);}
 
 int getStirlingNumberOfTheSecondKind(unsigned int const n, unsigned int const k);
-
 
 //Statistics functions
 double getCumulativeStandardDistributionApproximation(double const z);
@@ -257,19 +247,17 @@ template <typename NumberType> bool isDivisible(NumberType const dividend, Numbe
 }
 template <typename NumberType> bool isEven(NumberType const number)
 {
-    return isDivisible(number, 2U);
+    return isDivisible(number, static_cast<NumberType>(2));
 }
 template <typename NumberType> bool isOdd(NumberType const number)
 {
-    return !isDivisible(number, 2U);
+    return !isDivisible(number, static_cast<NumberType>(2));
 }
-
 
 
 //Factor and multiple related functions
 
-template <typename NumberType> bool isPrime(NumberType const number)
-{
+template <typename NumberType> bool isPrime(NumberType const number){
     // Non prime would have: a * b = nonPrimeNumber, where a and b are integers
     // To have less iterations:
     // When a = b, then we can test if divisible until nonPrimeNumber^0.5
@@ -304,16 +292,14 @@ template <typename NumberType> NumberType getGreatestCommonFactor(NumberType con
     // -> if b!=0: gcd(b, a%b)
 
     NumberType result(0);
-    NumberType temporaryFirst(firstNumber);
-    NumberType temporarySecond(secondNumber);
+    NumberType temporaryFirst(getAbsoluteValue(firstNumber)); // only consider positive GCF
+    NumberType temporarySecond(getAbsoluteValue(secondNumber)); // only consider positive GCF
     while(true)
     {
-        if(temporarySecond==0)
-        {
+        if(temporarySecond==0)        {
             result = temporaryFirst;
             break;
-        }
-        else
+        }        else
         {
             NumberType copyOfFirst(temporaryFirst);
             temporaryFirst = temporarySecond;
