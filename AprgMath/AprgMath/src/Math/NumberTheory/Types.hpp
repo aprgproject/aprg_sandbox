@@ -8,9 +8,8 @@ namespace alba
 namespace math
 {
 
-using Number = unsigned long long;
+using Number = long long int;
 using Numbers = std::vector<Number>;
 
 }
-
 }

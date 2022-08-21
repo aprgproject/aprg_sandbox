@@ -38,16 +38,14 @@ bool isGoldbachConjectureTrue(Number const evenNumber)
     if(evenNumber > 2 && evenNumber%2 == 0)
     {
         Numbers numbers(getPrimesBelowThisNumber(evenNumber));
-        TwoSum<Number> twoSum(numbers);
-        auto primePair(twoSum.getTwoValuesWithSum(evenNumber));
+        TwoSum<Numbers> twoSum(numbers);
+        auto primePair(twoSum.getNonDuplicateTwoValuesWithSum(evenNumber));
         result = primePair.first != 0 && primePair.second != 0;
     }
-    return result;
-}
+    return result;}
 
 bool isTwinPrimeConjectureTrue(Number const number)
-{
-    // Twin prime conjecture: There is an infinite number of pairs of the form {p, p+2}, where both p and p+2 are primes.
+{    // Twin prime conjecture: There is an infinite number of pairs of the form {p, p+2}, where both p and p+2 are primes.
 
     Numbers numbers(getPrimesBelowThisNumber(number));
     Number twinPrimeCount=0;
@@ -99,30 +97,26 @@ Number getSumOfFactors(Number const number)
     {
         Number primeFactor(primeFactorAndCountPair.first);
         Number count(primeFactorAndCountPair.second);
-        Number formulaValue = static_cast<double>(pow(primeFactor, count+1)-1) / static_cast<double>(primeFactor-1);
+        Number formulaValue = (pow(primeFactor, count+1)-1) / (primeFactor-1);
         result *= formulaValue;
     }
-    return result;
-}
+    return result;}
 
 Number getProductOfFactors(Number const number)
-{
-    Number numberOfFactors(getNumberOfFactors(number));
+{    Number numberOfFactors(getNumberOfFactors(number));
     return pow(number, numberOfFactors/2);
 }
 
 Number getApproximateDensityOfPrimes(Number const number)
 {
     // formula = n/(ln(n))
-    return static_cast<double>(number) / static_cast<double>(log(number));
+    return number / log(number);
 }
 
-Number getNumberOfCoPrimesBelowThisNumber(Number const number)
-{
+Number getNumberOfCoPrimesBelowThisNumber(Number const number){
     // Euler’s totient function phi(n) gives the number of coprime numbers to n between 1 and n.
 
-    FactorsToCountMap primeFactorsToCountMap(getPrimeFactorsToCountMap(number));
-    Number result(1);
+    FactorsToCountMap primeFactorsToCountMap(getPrimeFactorsToCountMap(number));    Number result(1);
     for(auto const& primeFactorAndCountPair : primeFactorsToCountMap)
     {
         Number primeFactor(primeFactorAndCountPair.first);
