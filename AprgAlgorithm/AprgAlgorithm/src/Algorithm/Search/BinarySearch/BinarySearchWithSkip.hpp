@@ -15,36 +15,36 @@ public:
     using Index = unsigned int;
     using Value = typename Values::value_type;
 
-    BinarySearchWithSkip()
+    BinarySearchWithSkip(Values const& sortedValues)
+        : m_sortedValues(sortedValues)
     {}
 
-    Value findNearestValue(Values const& sortedValues, Value const& value)
+    Value findNearestValue(Value const& value)
     {
         Index index(0);
-        Index size(sortedValues.size());
+        Index size(m_sortedValues.size());
         for(Index skip = size/2; skip>=1; skip/=2) // skip start from half of size, then quarter of size, then eighth of size and soon
         {
-            while(index+skip < size && sortedValues.at(index+skip) <= value)
+            while(index+skip < size && m_sortedValues.at(index+skip) <= value)
             {
                 index += skip;
             }
         }
-        return getNearestValueOnCurrentIndex(sortedValues, value, index);
+        return getNearestValueOnCurrentIndex(value, index);
     }
+
 private:
 
-    Value getNearestValueOnCurrentIndex(Values const& sortedValues, Value const& value, Index const index) const
+    Value getNearestValueOnCurrentIndex(Value const& value, Index const index) const
     {
-        Value firstValue(getValueAt(sortedValues, index));
-        Value secondValue(getValueAt(sortedValues, index+1));
+        Value firstValue(getValueAt(index));
+        Value secondValue(getValueAt(index+1));
         Value distanceFromFirstValue(mathHelper::getPositiveDelta(value, firstValue));
         Value distanceFromSecondValue(mathHelper::getPositiveDelta(value, secondValue));
-        Value lowestDistance(std::min(distanceFromFirstValue, distanceFromSecondValue));
-        Value result;
+        Value lowestDistance(std::min(distanceFromFirstValue, distanceFromSecondValue));        Value result;
         if(lowestDistance==distanceFromFirstValue)
         {
-            result = firstValue;
-        }
+            result = firstValue;        }
         else if(lowestDistance==distanceFromSecondValue)
         {
             result = secondValue;
@@ -52,17 +52,19 @@ private:
         return result;
     }
 
-    Value getValueAt(Values const& sortedValues, Index const index) const
+    inline Value getValueAt(Index const index) const
     {
         Value value{};
-        if(index<sortedValues.size())
+        if(index<m_sortedValues.size())
         {
-            value = sortedValues.at(index);
+            value = m_sortedValues.at(index);
         }
         return value;
     }
+
+private:
+    Values const& m_sortedValues;
 };
 
 }
-
 }

@@ -16,66 +16,61 @@ public:
     using Index = unsigned int;
     using Value = typename Values::value_type;
 
-    SubArraySum()
+    SubArraySum(Values const& valuesToCheck)
+        : m_valuesToCheck(valuesToCheck)
     {}
 
-    Values getSubArrayWithSum(
-            Value const targetSum,
-            Values const& valuesToCheck) const
+    Values getSubArrayWithSum(Value const targetSum) const
     {
         Values result;
-        if(!valuesToCheck.empty())
+        if(!m_valuesToCheck.empty())
         {
             bool isFound(false);
-            Index start=0, end=0, size=valuesToCheck.size();
-            Value currentSum=valuesToCheck.at(0);
+            Index start=0, end=0, size=m_valuesToCheck.size();
+            Value currentSum=m_valuesToCheck.at(0);
             while(start<size && end<size)
             {
-                if(currentSum==targetSum)
-                {
+                if(currentSum==targetSum)                {
                     isFound = true;
                     break;
-                }
-                else if(currentSum>targetSum)
+                }                else if(currentSum>targetSum)
                 {
                     if(start<end)
                     {
-                        currentSum-=valuesToCheck.at(start);
+                        currentSum-=m_valuesToCheck.at(start);
                         start++;
                     }
-                    else if(end+1<size)
-                    {
+                    else if(end+1<size)                    {
                         start++;
                         end++;
-                        currentSum=valuesToCheck.at(end);
+                        currentSum=m_valuesToCheck.at(end);
                     }
                     else
-                    {
-                        break;
+                    {                        break;
                     }
                 }
-                else if(currentSum<targetSum)
-                {
+                else if(currentSum<targetSum)                {
                     if(end+1<size)
                     {
                         end++;
-                        currentSum+=valuesToCheck.at(end);
+                        currentSum+=m_valuesToCheck.at(end);
                     }
                     else
-                    {
-                        break;
+                    {                        break;
                     }
                 }
             }
             if(isFound) // empty if not found
             {
-                result = Values(valuesToCheck.cbegin()+start, valuesToCheck.begin()+end+1);
+                result = Values(m_valuesToCheck.cbegin()+start, m_valuesToCheck.cbegin()+end+1);
             }
         }
         return result;
     }
+
+private:
+    Values const& m_valuesToCheck;
 };
 
 }
-
 }

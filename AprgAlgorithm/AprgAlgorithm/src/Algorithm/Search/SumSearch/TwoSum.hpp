@@ -20,50 +20,46 @@ public:
     using Index = unsigned int;
     using Value = typename Values::value_type;
     using ValuesPair = std::pair<Value, Value>;
-    using Comparator = std::function<bool(Value const&, Value const&)>;
+    using Comparator = std::function<bool(Index const, Index const)>;
 
     TwoSum(Values const& sortedValues)
-        : m_sortedValues(sortedValues)
-    {}
+        : m_sortedValues(sortedValues)    {}
 
     ValuesPair getNonDuplicateTwoValuesWithSum(
             Value const targetSum) const
     {
         // std::less because index must be distinct
-        return getTwoValuesWithSum(targetSum, 0, m_sortedValues.size()-1, std::less<Value>());
+        return getTwoValuesWithSum(targetSum, 0, m_sortedValues.size()-1, std::less<Index>());
     }
 
-    ValuesPair getNonDuplicateTwoValuesWithSum(
-            Value const targetSum,
+    ValuesPair getNonDuplicateTwoValuesWithSum(            Value const targetSum,
             Index const lowerIndex,
             Index const higherIndex) const
     {
         // std::less because index must be distinct
-        return getTwoValuesWithSum(targetSum, lowerIndex, higherIndex, std::less<Value>());
+        return getTwoValuesWithSum(targetSum, lowerIndex, higherIndex, std::less<Index>());
     }
 
-    ValuesPair getPossibleDuplicatesTwoValuesWithSum(
+    ValuesPair getPossibleDuplicatedTwoValuesWithSum(
             Value const targetSum) const
     {
         // std::less_equal because index can be equal
-        return getTwoValuesWithSum(targetSum, 0, m_sortedValues.size()-1, std::less_equal<Value>());
+        return getTwoValuesWithSum(targetSum, 0, m_sortedValues.size()-1, std::less_equal<Index>());
     }
 
-    ValuesPair getPossibleDuplicatesTwoValuesWithSum(
+    ValuesPair getPossibleDuplicatedTwoValuesWithSum(
             Value const targetSum,
             Index const lowerIndex,
             Index const higherIndex) const
     {
         // std::less_equal because index can be equal
-        return getTwoValuesWithSum(targetSum, lowerIndex, higherIndex, std::less_equal<Value>());
+        return getTwoValuesWithSum(targetSum, lowerIndex, higherIndex, std::less_equal<Index>());
     }
 
 private:
-
     ValuesPair getTwoValuesWithSum(
             Value const targetSum,
-            Index const lowestIndex,
-            Index const highestIndex,
+            Index const lowestIndex,            Index const highestIndex,
             Comparator const& shouldContinue) const
     {
         ValuesPair result{};

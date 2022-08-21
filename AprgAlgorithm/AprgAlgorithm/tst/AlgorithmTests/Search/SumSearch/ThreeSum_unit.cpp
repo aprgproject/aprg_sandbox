@@ -29,17 +29,15 @@ TEST(ThreeSumTest, GetNonDuplicateThreeValuesWithSumWorksOnExample1)
     EXPECT_EQ(threeValuesToExpect, threeValuesToVerify);
 }
 
-TEST(ThreeSumTest, GetPossibleDuplicatesThreeValuesWithSumWorksOnExample1)
+TEST(ThreeSumTest, GetPossibleDuplicatedThreeValuesWithSumWorksOnExample1)
 {
     ValuesForTest sortedValues{1U, 4U, 5U, 6U, 7U, 9U, 10U};
     SumSearch search(sortedValues);
 
-    ThreeValuesForTest threeValuesToVerify(search.getPossibleDuplicatesThreeValuesWithSum(30U));
+    ThreeValuesForTest threeValuesToVerify(search.getPossibleDuplicatedThreeValuesWithSum(30U));
 
     ThreeValuesForTest threeValuesToExpect{10U, 10U, 10U};
-    EXPECT_EQ(threeValuesToExpect, threeValuesToVerify);
-}
+    EXPECT_EQ(threeValuesToExpect, threeValuesToVerify);}
 
 }
-
 }
