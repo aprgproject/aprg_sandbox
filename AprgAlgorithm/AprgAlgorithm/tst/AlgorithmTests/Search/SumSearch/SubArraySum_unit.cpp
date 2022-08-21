@@ -29,4 +29,5 @@ TEST(SubArraySumTest, GetSubArrayWithSumWorksOnExample1)
 }
 
 }
+
 }

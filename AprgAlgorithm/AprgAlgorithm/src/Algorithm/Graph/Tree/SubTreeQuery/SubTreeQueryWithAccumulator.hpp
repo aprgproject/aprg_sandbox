@@ -21,9 +21,11 @@ public:
     using AccumulatorFunction = typename RangeQuery::AccumulatorFunction;
     using Counts = std::vector<unsigned int>;
     using VertexToIndexMap = std::map<Vertex, unsigned int>;
+
     SubTreeQueryWithAccumulator(
             BaseUndirectedGraphWithVertex const& graph,
-            Vertex const& rootOfTree,            AccumulatorFunction const& accumulator,
+            Vertex const& rootOfTree,
+            AccumulatorFunction const& accumulator,
             AccumulatorFunction const& inverseAccumulator)
         : BaseClass(graph, rootOfTree)
         , b_verticesInDfsPreOrder(BaseClass::m_verticesInDfsPreOrder)

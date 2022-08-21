@@ -20,19 +20,20 @@ public:
     using Value = typename Values::value_type;
     using ThreeValues = std::tuple<Value, Value, Value>;
 
-    ThreeSum()
+    ThreeSum(Values const& sortedValues)
+        : m_sortedValues(sortedValues)
     {}
 
-    ThreeValues getThreeValuesWithSum(Value const targetSum, Values const& sortedValues) const
+    ThreeValues getNonDuplicateThreeValuesWithSum(Value const targetSum) const
     {
         ThreeValues result{};
-        if(!sortedValues.empty())
+        if(!m_sortedValues.empty())
         {
-            TwoSum<Values> twoSum;
-            for(Index firstIndex=0; firstIndex<sortedValues.size(); firstIndex++)
+            TwoSum<Values> twoSum(m_sortedValues);
+            for(Index firstIndex=0; firstIndex<m_sortedValues.size(); firstIndex++)
             {
-                Value const& firstValue(sortedValues.at(firstIndex));
-                auto twoSumValues(twoSum.getTwoValuesWithSum(targetSum-firstValue, firstIndex+1, sortedValues.size()-1, sortedValues));
+                Value const& firstValue(m_sortedValues.at(firstIndex));
+                auto twoSumValues(twoSum.getNonDuplicateTwoValuesWithSum(targetSum-firstValue, firstIndex+1, m_sortedValues.size()-1));
                 if(firstValue + twoSumValues.first + twoSumValues.second == targetSum)
                 {
                     result = ThreeValues{firstValue, twoSumValues.first, twoSumValues.second};
@@ -42,6 +43,30 @@ public:
         }
         return result;
     }
+
+    ThreeValues getPossibleDuplicatesThreeValuesWithSum(Value const targetSum) const
+    {
+        ThreeValues result{};
+        if(!m_sortedValues.empty())
+        {
+            TwoSum<Values> twoSum(m_sortedValues);
+            for(Index firstIndex=0; firstIndex<m_sortedValues.size(); firstIndex++)
+            {
+                Value const& firstValue(m_sortedValues.at(firstIndex));
+                auto twoSumValues(twoSum.getPossibleDuplicatesTwoValuesWithSum(targetSum-firstValue, firstIndex, m_sortedValues.size()-1));
+                if(firstValue + twoSumValues.first + twoSumValues.second == targetSum)
+                {
+                    result = ThreeValues{firstValue, twoSumValues.first, twoSumValues.second};
+                    break;
+                }
+            }
+        }
+        return result;
+    }
+
+private:
+
+    Values const& m_sortedValues;
 };
 
 }

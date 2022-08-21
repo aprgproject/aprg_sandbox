@@ -18,14 +18,25 @@ using ValueForTest = SumSearch::Value;
 using ThreeValuesForTest = SumSearch::ThreeValues;
 }
 
-TEST(ThreeSumTest, GetThreeValuesWithSumWorksOnExample1)
+TEST(ThreeSumTest, GetNonDuplicateThreeValuesWithSumWorksOnExample1)
 {
-    SumSearch search;
-    ValuesForTest sortedValues{1U, 4U, 5U, 6U, 7U, 9U, 9U, 10U};
+    ValuesForTest sortedValues{1U, 4U, 5U, 6U, 7U, 9U, 10U};
+    SumSearch search(sortedValues);
 
-    ThreeValuesForTest threeValuesToVerify(search.getThreeValuesWithSum(18U, sortedValues));
+    ThreeValuesForTest threeValuesToVerify(search.getNonDuplicateThreeValuesWithSum(18U));
 
     ThreeValuesForTest threeValuesToExpect{1U, 7U, 10U};
+    EXPECT_EQ(threeValuesToExpect, threeValuesToVerify);
+}
+
+TEST(ThreeSumTest, GetPossibleDuplicatesThreeValuesWithSumWorksOnExample1)
+{
+    ValuesForTest sortedValues{1U, 4U, 5U, 6U, 7U, 9U, 10U};
+    SumSearch search(sortedValues);
+
+    ThreeValuesForTest threeValuesToVerify(search.getPossibleDuplicatesThreeValuesWithSum(30U));
+
+    ThreeValuesForTest threeValuesToExpect{10U, 10U, 10U};
     EXPECT_EQ(threeValuesToExpect, threeValuesToVerify);
 }
 

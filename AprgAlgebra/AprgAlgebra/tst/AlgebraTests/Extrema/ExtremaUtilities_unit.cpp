@@ -201,9 +201,11 @@ TEST(ExtremaUtilitiesTest, GetCriticalNumbersWithMultipleVariablesWorksWithExamp
     EXPECT_EQ(AlbaNumbers{0}, it->second);
 }
 
-TEST(ExtremaUtilitiesTest, GetCriticalNumbersWithMultipleVariablesWorksWithExample2){
+TEST(ExtremaUtilitiesTest, GetCriticalNumbersWithMultipleVariablesWorksWithExample2)
+{
     // z = 6x - 4y - x^2 - 2*y^2
     Term termToTest(Polynomial({Monomial(6, {{"x", 1}}), Monomial(-4, {{"y", 1}}), Monomial(-1, {{"x", 2}}), Monomial(-2, {{"y", 2}})}));
+
     VariableNameToCriticalNumbersMap variableToCriticalNumbersMap(
                 getCriticalNumbersWithMultipleVariables(termToTest, {"x", "y"}));
 
@@ -216,9 +218,11 @@ TEST(ExtremaUtilitiesTest, GetCriticalNumbersWithMultipleVariablesWorksWithExamp
     EXPECT_EQ(AlbaNumbers{-1}, it->second);
 }
 
+
 TEST(ExtremaUtilitiesTest, GetInputValuesAtPointsOfInflectionWorksWithExample1)
 {
     Term termToTest(Monomial(1, {{"x", 3}}));
+
     AlbaNumbers values(getInputValuesAtPointsOfInflection(termToTest, "x"));
 
     ASSERT_EQ(1U, values.size());

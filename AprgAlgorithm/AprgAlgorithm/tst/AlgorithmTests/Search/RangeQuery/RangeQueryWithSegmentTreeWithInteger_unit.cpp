@@ -17,10 +17,12 @@ using RangeQueryForTest = RangeQueryWithSegmentTree<ValuesForTest>;
 using ValueForTest = RangeQueryForTest::Value;
 
 RangeQueryForTest::Function minimumSelector = [](ValueForTest const& value1, ValueForTest const& value2)
-{    return min(value1, value2);
+{
+    return min(value1, value2);
 };
 
-RangeQueryForTest::Function maximumSelector = [](ValueForTest const& value1, ValueForTest const& value2){
+RangeQueryForTest::Function maximumSelector = [](ValueForTest const& value1, ValueForTest const& value2)
+{
     return max(value1, value2);
 };
 

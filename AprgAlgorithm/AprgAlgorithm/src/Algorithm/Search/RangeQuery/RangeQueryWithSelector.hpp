@@ -6,13 +6,15 @@
 
 namespace alba
 {
+
 namespace algorithm
 {
 
 template <typename Values>
 class RangeQueryWithSelector
 {
-public:    // Example for "range query selector" is minimum queries
+public:
+    // Example for "range query selector" is minimum queries
     // Minimum queries are more difficult to process than sum queries.
     // Still, there is a quite simple O(nlogn) time preprocessing method after which we can answer any minimum query in O(1) time1.
     //Note that since minimum and maximum queries can be processed similarly, we can focus on minimum queries.
@@ -21,9 +23,11 @@ public:    // Example for "range query selector" is minimum queries
     using Value = typename Values::value_type;
     using ValueMatrix = matrix::AlbaMatrix<Value>;
     using SelectorFunction = std::function<Value(Value const&, Value const&)>;
+
     RangeQueryWithSelector(Values const& valuesToCheck, SelectorFunction const& selector)
         : m_selectedValueMatrix()
-        , m_selector(selector)    {
+        , m_selector(selector)
+    {
         initialize(valuesToCheck);
     }
 

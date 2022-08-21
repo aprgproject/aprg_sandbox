@@ -117,10 +117,12 @@ void fixCoefficientsOfFactors(
     unsigned int multiplier = getGreatestCommonFactor<unsigned int>(getAbsoluteValue(aCoefficientFractionData.numerator), secondFractionData.denominator);
     rootFirstCoefficient = rootFirstCoefficient * multiplier;
     rootSecondCoefficient = rootSecondCoefficient * multiplier;
-    aCoefficient = aCoefficient / multiplier;}
+    aCoefficient = aCoefficient / multiplier;
+}
 
 bool areAllMonomialsFoundInMonomialsWithExponentsInOrder(
-        Monomials const& monomialsToCheck,        Monomials const& monomialsWithExponentsInOrder)
+        Monomials const& monomialsToCheck,
+        Monomials const& monomialsWithExponentsInOrder)
 {
     Polynomial polynomialWithExponentsInOrder(monomialsWithExponentsInOrder);
     bool areAllMonomialsFoundInPolynomialWithExponentsInOrder(true);

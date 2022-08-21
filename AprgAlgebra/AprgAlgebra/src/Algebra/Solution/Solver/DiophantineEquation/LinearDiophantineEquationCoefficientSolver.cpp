@@ -51,10 +51,12 @@ LinearDiophantineEquationCoefficientSolver::Integer LinearDiophantineEquationCoe
 
 LinearDiophantineEquationCoefficientSolver::Integer LinearDiophantineEquationCoefficientSolver::getGcfWithBackTracking(
         Integer const a,
-        Integer const b,        Integer& x,
+        Integer const b,
+        Integer& x,
         Integer& y)
 {
-    Integer result{};    if (b == 0) // Base Case
+    Integer result{};
+    if (b == 0) // Base Case
     {
         x = 1;
         y = 0;
@@ -85,7 +87,8 @@ void LinearDiophantineEquationCoefficientSolver::solve(AlbaNumber const& aNumber
         else if(m_a==0 && m_b==0)
         {
             m_solutionStatus = SolutionStatus::NoSolution;
-        }        else
+        }
+        else
         {
             // A Diophantine equation can be solved if c is divisible by gcd(a,b), and otherwise it cannot be solved.
             Integer x, y;
@@ -98,10 +101,12 @@ void LinearDiophantineEquationCoefficientSolver::solve(AlbaNumber const& aNumber
                 m_y = y * m_c/m_gcfOfAAndB;
             }
             else
-            {                m_solutionStatus = SolutionStatus::CannotBeSolved;
+            {
+                m_solutionStatus = SolutionStatus::CannotBeSolved;
             }
         }
-    }    else
+    }
+    else
     {
         m_solutionStatus = SolutionStatus::CannotBeSolved;
     }

@@ -17,9 +17,11 @@ using RangeQueryForTest = RangeQueryWithSegmentTree<ValuesForTest>;
 using ValueForTest = RangeQueryForTest::Value;
 
 RangeQueryForTest::Function multipliesAccumulator = [](ValueForTest const& value1, ValueForTest const& value2)
-{    return multiplies<ValueForTest>()(value1, value2);
+{
+    return multiplies<ValueForTest>()(value1, value2);
 };
 }
+
 TEST(RangeQueryWithSegmentTreeTest, GetAccumulatedValueOnIntervalWithGeometricSumWorksOnExample1)
 {
     ValuesForTest values{1, 3, 4, 8, 6, 1, 4, 2};

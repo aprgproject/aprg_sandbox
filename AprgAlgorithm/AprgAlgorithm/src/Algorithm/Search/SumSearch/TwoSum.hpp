@@ -1,67 +1,104 @@
 #pragma once
 
+#include <functional>
 #include <utility>
 
 namespace alba
 {
+
 namespace algorithm
 {
 
 template <typename Values>
 class TwoSum
 {
-public:    // Another problem that can be solved using the two pointers method is the following problem,
+public:
+    // Another problem that can be solved using the two pointers method is the following problem,
     // also known as the 2SUM problem: given an array of n numbers and a target sum x,
     // find two array values such that their sum is x, or report that no such values exist.
 
     using Index = unsigned int;
     using Value = typename Values::value_type;
     using ValuesPair = std::pair<Value, Value>;
+    using Comparator = std::function<bool(Value const&, Value const&)>;
 
-    TwoSum()
+    TwoSum(Values const& sortedValues)
+        : m_sortedValues(sortedValues)
     {}
 
-    ValuesPair getTwoValuesWithSum(
-            Value const targetSum,
-            Values const& sortedValues) const
+    ValuesPair getNonDuplicateTwoValuesWithSum(
+            Value const targetSum) const
     {
-        return getTwoValuesWithSum(targetSum, 0, sortedValues.size()-1, sortedValues);
+        // std::less because index must be distinct
+        return getTwoValuesWithSum(targetSum, 0, m_sortedValues.size()-1, std::less<Value>());
     }
+
+    ValuesPair getNonDuplicateTwoValuesWithSum(
+            Value const targetSum,
+            Index const lowerIndex,
+            Index const higherIndex) const
+    {
+        // std::less because index must be distinct
+        return getTwoValuesWithSum(targetSum, lowerIndex, higherIndex, std::less<Value>());
+    }
+
+    ValuesPair getPossibleDuplicatesTwoValuesWithSum(
+            Value const targetSum) const
+    {
+        // std::less_equal because index can be equal
+        return getTwoValuesWithSum(targetSum, 0, m_sortedValues.size()-1, std::less_equal<Value>());
+    }
+
+    ValuesPair getPossibleDuplicatesTwoValuesWithSum(
+            Value const targetSum,
+            Index const lowerIndex,
+            Index const higherIndex) const
+    {
+        // std::less_equal because index can be equal
+        return getTwoValuesWithSum(targetSum, lowerIndex, higherIndex, std::less_equal<Value>());
+    }
+
+private:
 
     ValuesPair getTwoValuesWithSum(
             Value const targetSum,
-            Index const lowerIndex,
-            Index const higherIndex,
-            Values const& sortedValues) const
+            Index const lowestIndex,
+            Index const highestIndex,
+            Comparator const& shouldContinue) const
     {
         ValuesPair result{};
-        if(!sortedValues.empty())
+        if(!m_sortedValues.empty())
         {
             bool isFound(false);
-            Index lower=lowerIndex, higher=higherIndex;
-            while(lower<higher) // index must be distinct
+            Index lowerIndex=lowestIndex, higherIndex=highestIndex;
+            while(shouldContinue(lowerIndex, higherIndex))
             {
-                Value currentSum(sortedValues.at(lower) + sortedValues.at(higher));
+                Value currentSum(m_sortedValues.at(lowerIndex) + m_sortedValues.at(higherIndex));
                 if(currentSum==targetSum)
                 {
-                    isFound = true;                    break;
+                    isFound = true;
+                    break;
                 }
                 else if(currentSum>targetSum)
-                {                    higher--;
+                {
+                    higherIndex--;
                 }
                 else if(currentSum<targetSum)
                 {
-                    lower++;
+                    lowerIndex++;
                 }
             }
             if(isFound) // empty if not found
             {
-                result = {sortedValues.at(lower), sortedValues.at(higher)};
+                result = {m_sortedValues.at(lowerIndex), m_sortedValues.at(higherIndex)};
             }
         }
         return result;
     }
+
+    Values const& m_sortedValues;
 };
 
 }
+
 }

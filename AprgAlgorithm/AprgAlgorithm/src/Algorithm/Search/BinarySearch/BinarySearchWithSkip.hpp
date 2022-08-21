@@ -43,10 +43,12 @@ private:
         Value result;
         if(lowestDistance==distanceFromFirstValue)
         {
-            result = firstValue;        }
+            result = firstValue;
+        }
         else if(lowestDistance==distanceFromSecondValue)
         {
-            result = secondValue;        }
+            result = secondValue;
+        }
         return result;
     }
 
@@ -60,6 +62,7 @@ private:
         return value;
     }
 };
+
 }
 
 }
