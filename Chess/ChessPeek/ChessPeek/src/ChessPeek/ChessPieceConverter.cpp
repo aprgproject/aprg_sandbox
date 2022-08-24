@@ -150,14 +150,13 @@ PieceTypes ChessPieceConverter::getBestFitTypes(
         auto it = scoreToPieceMultimap.crbegin();
         Count maximumScore = it->first;
         bestFitTypes.emplace_back(it->second);
+        it++;
         for(; it!=scoreToPieceMultimap.crend(); it++)
         {
-            if(maximumScore == it->first)
-            {
+            if(maximumScore == it->first)            {
                 bestFitTypes.emplace_back(it->second);
             }
-            else
-            {
+            else            {
                 break;
             }
         }
