@@ -1,7 +1,6 @@
-#include <Algorithm/Combinatorics/SubsetGeneration/SubsetGenerationUsingRecursion.hpp>
+#include <Algorithm/Combinatorics/Subsets/SubsetGenerationUsingRecursion.hpp>
 
 #include <gtest/gtest.h>
-
 using namespace std;
 
 namespace alba
