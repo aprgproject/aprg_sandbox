@@ -17,12 +17,10 @@ TEST(OtherUtilitiesTest, IsBinomialCoefficientEqualToItsCounterpartWorks)
     EXPECT_TRUE(isBinomialCoefficientEqualToItsCounterpart(10U, 5U));
 }
 
-TEST(OtherUtilitiesTest, IsBinomialCoefficientEqualToItsCounterpartWorks)
+TEST(OtherUtilitiesTest, IsTheSumOfBinomialCoefficientsEqualTo2ToTheNWorks)
 {
     EXPECT_TRUE(isTheSumOfBinomialCoefficientsEqualTo2ToTheN(4U));
-    EXPECT_TRUE(isTheSumOfBinomialCoefficientsEqualTo2ToTheN(10U));
-}
+    EXPECT_TRUE(isTheSumOfBinomialCoefficientsEqualTo2ToTheN(10U));}
 
 }
-
 }
