@@ -1,6 +1,7 @@
 #include <Algorithm/Combinatorics/Permutations/PermutationGeneration.hpp>
 
 #include <gtest/gtest.h>
+
 using namespace std;
 
 namespace alba

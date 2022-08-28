@@ -19,10 +19,12 @@ public:
 
     Permutations generatePermutationsUsingMethod1(Objects const& objects) const
     {
-        Permutations result;        Permutation currentPermutation(objects);
+        Permutations result;
+        Permutation currentPermutation(objects);
         do
         {
-            result.emplace_back(currentPermutation);        }
+            result.emplace_back(currentPermutation);
+        }
         while(std::next_permutation(currentPermutation.begin(), currentPermutation.end()));
         return result;
     }

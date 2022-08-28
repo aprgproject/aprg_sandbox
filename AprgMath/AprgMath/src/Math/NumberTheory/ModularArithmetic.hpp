@@ -4,6 +4,7 @@
 
 namespace alba
 {
+
 namespace math
 {
 
@@ -21,4 +22,5 @@ UnsignedInteger getModularFactorial(UnsignedInteger const number, UnsignedIntege
 
 
 }
+
 }

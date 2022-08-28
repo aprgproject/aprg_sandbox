@@ -4,8 +4,10 @@
 
 namespace alba
 {
+
 namespace math
 {
+
 class ChineseRemainderTheorem
 {
 public:
@@ -28,4 +30,5 @@ private:
 };
 
 }
+
 }

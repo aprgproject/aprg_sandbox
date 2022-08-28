@@ -71,6 +71,11 @@ public:
         return 0;
     }
 
+    static constexpr DataTypeToManipulate get2ToThePowerOf(DataTypeToManipulate const exponent)
+    {
+        return DataTypeToManipulate(1) << exponent;
+    }
+
     static constexpr DataTypeToManipulate getTwosComplement(DataTypeToManipulate const value)
     {
         return value * -1;

@@ -29,10 +29,12 @@ void findDistinctNonConsecutiveFibonacciNumbersForSum(
         UnsignedInteger fibonacci(fibonaccis.at(i));
         if(sum > fibonacci)
         {
-            fibonaccisForSum.emplace_back(fibonacci);            findDistinctNonConsecutiveFibonacciNumbersForSum(isComplete, fibonaccisForSum, fibonaccis, sum-fibonacci, index+2);
+            fibonaccisForSum.emplace_back(fibonacci);
+            findDistinctNonConsecutiveFibonacciNumbersForSum(isComplete, fibonaccisForSum, fibonaccis, sum-fibonacci, index+2);
             if(isComplete)
             {
-                break;            }
+                break;
+            }
             fibonaccisForSum.pop_back();
         }
         else if(sum == fibonacci)
@@ -69,7 +71,8 @@ bool isLagrangeTheoremTrue(UnsignedInteger const number)
 bool isZeckendorfTheoremTrue(UnsignedInteger const number)
 {
     // Zeckendorf’s theorem states that every positive integer has a unique representation as a sum of Fibonacci numbers
-    // such that no two numbers are equal or consecutive Fibonacci numbers.    // For example, the number 74 can be represented as the sum 55 + 13 + 5 + 1.
+    // such that no two numbers are equal or consecutive Fibonacci numbers.
+    // For example, the number 74 can be represented as the sum 55 + 13 + 5 + 1.
 
     bool result(false);
     UnsignedIntegers fibonaccis(getFibonacciNumbersBelowThisNumber(number));
@@ -102,10 +105,12 @@ UnsignedIntegers getFibonacciNumbersBelowThisNumber(UnsignedInteger const number
     UnsignedInteger currentFibonacci(1);
     while(currentFibonacci < number)
     {
-        result.emplace_back(currentFibonacci);        previousPreviousFibonacci = previousFibonacci;
+        result.emplace_back(currentFibonacci);
+        previousPreviousFibonacci = previousFibonacci;
         previousFibonacci = currentFibonacci;
         currentFibonacci = previousFibonacci + previousPreviousFibonacci;
-    }    return result;
+    }
+    return result;
 }
 
 }

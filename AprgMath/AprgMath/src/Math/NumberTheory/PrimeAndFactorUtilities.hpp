@@ -3,6 +3,7 @@
 #include <Math/Types.hpp>
 
 #include <map>
+
 namespace alba
 {
 
@@ -28,4 +29,5 @@ UnsignedIntegers getPrimeFactorsOfNumber(UnsignedInteger const number);
 FactorsToCountMap getPrimeFactorsToCountMap(UnsignedInteger const number);
 
 }
+
 }

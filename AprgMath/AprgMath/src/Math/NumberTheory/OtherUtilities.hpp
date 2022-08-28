@@ -4,6 +4,7 @@
 
 namespace alba
 {
+
 namespace math
 {
 
@@ -14,4 +15,5 @@ UnsignedInteger getNthFibonacciNumber(UnsignedInteger const number);
 UnsignedIntegers getFibonacciNumbersBelowThisNumber(UnsignedInteger const number);
 
 }
+
 }

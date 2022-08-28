@@ -72,7 +72,8 @@ bool canModuloBeDistributedInEveryIterationOfFactorial(
     UnsignedInteger distributed=1;
     for(unsigned int i=2; i<=number; i++)
     {
-        distributed = (distributed*i) % modulo;    }
+        distributed = (distributed*i) % modulo;
+    }
     distributed %= modulo;
     return undistributed == distributed;
 }
@@ -81,6 +82,7 @@ bool isFermatTheoremTrue(UnsignedInteger const prime, UnsignedInteger const coPr
 {
     // Fermat's theorem states that: (x^(m-1)) mod m = 1
     // where m is prime and x and m are coprime.
+
     bool result(false);
     if(isPrime(prime) && isCoPrime(prime, coPrime))
     {
@@ -94,6 +96,7 @@ bool isEulerTheoremTrue(UnsignedInteger const coPrime1, UnsignedInteger const co
 {
     // Fermat's theorem states that: (x^(phi(m))) mod m = 1
     // where x and m are coprime.
+
     bool result(false);
     if(isCoPrime(coPrime1, coPrime2))
     {
@@ -113,10 +116,12 @@ UnsignedInteger getModularExponentiation(
     UnsignedInteger result{};
     if(exponent != 0)
     {
-        result = getModularExponentiation(number, exponent/2, modulo);        result = (result*result) % modulo;
+        result = getModularExponentiation(number, exponent/2, modulo);
+        result = (result*result) % modulo;
         if(isOdd(exponent))
         {
-            result = (result*number) % modulo;        }
+            result = (result*number) % modulo;
+        }
     }
     else
     {
@@ -130,17 +135,20 @@ UnsignedInteger getModularInverse(
         UnsignedInteger const modulo)
 {
     // The inverse of x modulo m is a number such that: (x*inverse) mod m = 1
-    // Using modular inverses, we can divide numbers modulo m, because division by x corresponds to multiplication by the inverse.    // However, a modular inverse does not always exist. The inverse can be calculated exactly when x and m are coprime.
+    // Using modular inverses, we can divide numbers modulo m, because division by x corresponds to multiplication by the inverse.
+    // However, a modular inverse does not always exist. The inverse can be calculated exactly when x and m are coprime.
 
     // Formula:  inverse = x^(phi(m)-1)
 
     UnsignedInteger result{};
     if(isCoPrime(number, modulo))
     {
-        result = getModularExponentiation(number, getNumberOfCoPrimesBelowThisNumber(modulo)-1, modulo);    }
+        result = getModularExponentiation(number, getNumberOfCoPrimesBelowThisNumber(modulo)-1, modulo);
+    }
     return result;
 
-    // Note can be derived using Euler's theorem    // Definition of inverse: (x*inverse) mod m = 1
+    // Note can be derived using Euler's theorem
+    // Definition of inverse: (x*inverse) mod m = 1
     // Euler theorem: (x^(phi(m))) mod m = 1
     // (x * x^(phi(m)-1)) mod m = 1
     // inverse = x^(phi(m)-1)
@@ -155,10 +163,12 @@ UnsignedInteger getModularFactorial(
     UnsignedInteger result=1;
     for(unsigned int i=2; i<=number; i++)
     {
-        result = (result*i) % modulo;    }
+        result = (result*i) % modulo;
+    }
     result %= modulo;
     return result;
 }
+
 }
 
 }

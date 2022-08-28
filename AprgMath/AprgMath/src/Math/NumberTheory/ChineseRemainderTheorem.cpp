@@ -35,7 +35,8 @@ void ChineseRemainderTheorem::solve(
         UnsignedIntegers const& modulos)
 {
     if(numbers.size() == modulos.size())
-    {        // fk = (m1*m2*m3...mn)/mk
+    {
+        // fk = (m1*m2*m3...mn)/mk
         // x = a1*f1*(inverse of f1 with modulo m1) + a2*f2*(inverse of f2 with modulo m2) + ... an*fn*(inverse of fn with modulo mn)
 
         m_productOfModulos = std::accumulate(modulos.cbegin(), modulos.cend(), UnsignedInteger(1), std::multiplies<UnsignedInteger>());
@@ -47,7 +48,9 @@ void ChineseRemainderTheorem::solve(
             UnsignedInteger modularInverseOfFk = getModularInverse(fk, modulo);
             m_solutionValue += number * fk * modularInverseOfFk;
         }
-    }}
+    }
+}
 
 }
+
 }

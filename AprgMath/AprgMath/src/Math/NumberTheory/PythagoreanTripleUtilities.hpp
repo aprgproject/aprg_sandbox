@@ -4,6 +4,7 @@
 
 namespace alba
 {
+
 namespace math
 {
 
@@ -16,4 +17,5 @@ PythagoreanTriple getNewPythagoreanTripleUsingMultiplier(PythagoreanTriple const
 PythagoreanTriple getPrimitivePythagoreanTripleUsingEuclidFormula(UnsignedInteger const seedValueM, UnsignedInteger const seedValueN);
 
 }
+
 }

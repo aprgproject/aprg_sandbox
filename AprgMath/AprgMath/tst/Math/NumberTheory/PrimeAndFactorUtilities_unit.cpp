@@ -99,15 +99,18 @@ TEST(PrimeAndFactorUtilitiesTest, GetPrimesBelowThisNumberWorks)
 
     EXPECT_EQ(expectedNumbers, getPrimesBelowThisNumber(30U));
 }
+
 TEST(PrimeAndFactorUtilitiesTest, GetPrimeFactorsOfNumberWorks)
 {
     UnsignedIntegers expectedNumbers{2U, 2U, 3U, 7U};
 
     EXPECT_EQ(expectedNumbers, getPrimeFactorsOfNumber(84U));
 }
+
 TEST(PrimeAndFactorUtilitiesTest, GetPrimeFactorsToCountMapWorks)
 {
     FactorsToCountMap expectedMap{{2U, 2U}, {3U, 1U}, {7U, 1U}};
+
     EXPECT_EQ(expectedMap, getPrimeFactorsToCountMap(84U));
 }
 

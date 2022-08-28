@@ -70,6 +70,13 @@ TEST(AlbaBitValueUtilitiesTest, GetAllOnesWorks)
     EXPECT_EQ(0xFFFFFFFFFFFFFFFFU, AlbaBitValueUtilities<uint64_t>::getAllOnes());
 }
 
+TEST(AlbaBitValueUtilitiesTest, Get2ToThePowerOfWorks)
+{
+    EXPECT_EQ(16U, AlbaBitValueUtilities<uint8_t>::get2ToThePowerOf(4U));
+    EXPECT_EQ(1024U, AlbaBitValueUtilities<uint16_t>::get2ToThePowerOf(10U));
+    EXPECT_EQ(4194304U, AlbaBitValueUtilities<uint32_t>::get2ToThePowerOf(22U));
+}
+
 TEST(AlbaBitValueUtilitiesTest, GetTwosComplementWorks)
 {
     EXPECT_EQ(0x5FU, AlbaBitValueUtilities<uint8_t>::getTwosComplement(0xA1U));

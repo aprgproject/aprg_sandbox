@@ -1,6 +1,7 @@
 #include <Algorithm/Combinatorics/Subsets/SubsetGenerationUsingBits.hpp>
 
 #include <gtest/gtest.h>
+
 using namespace std;
 
 namespace alba
