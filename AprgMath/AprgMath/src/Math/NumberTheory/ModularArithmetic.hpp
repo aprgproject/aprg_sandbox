@@ -1,28 +1,24 @@
 #pragma once
 
-#include <Math/NumberTheory/Types.hpp>
-
-#include <map>
+#include <Math/Types.hpp>
 
 namespace alba
 {
-
 namespace math
 {
 
-bool canModuloBeDistributedInAddition(UnsignedNumber const number1, UnsignedNumber const number2, UnsignedNumber const modulo);
-bool canModuloBeDistributedInSubtraction(UnsignedNumber const number1, UnsignedNumber const number2, UnsignedNumber const modulo);
-bool canModuloBeDistributedInMultiplication(UnsignedNumber const number1, UnsignedNumber const number2, UnsignedNumber const modulo);
-bool canModuloBeDistributedInPower(UnsignedNumber const number1, UnsignedNumber const exponent, UnsignedNumber const modulo);
-bool canModuloBeDistributedInEveryIterationOfFactorial(UnsignedNumber const number, UnsignedNumber const modulo);
-bool isFermatTheoremTrue(UnsignedNumber const prime, UnsignedNumber const coPrime);
-bool isEulerTheoremTrue(UnsignedNumber const coPrime1, UnsignedNumber const coPrime2);
+bool canModuloBeDistributedInAddition(UnsignedInteger const number1, UnsignedInteger const number2, UnsignedInteger const modulo);
+bool canModuloBeDistributedInSubtraction(UnsignedInteger const number1, UnsignedInteger const number2, UnsignedInteger const modulo);
+bool canModuloBeDistributedInMultiplication(UnsignedInteger const number1, UnsignedInteger const number2, UnsignedInteger const modulo);
+bool canModuloBeDistributedInPower(UnsignedInteger const number1, UnsignedInteger const exponent, UnsignedInteger const modulo);
+bool canModuloBeDistributedInEveryIterationOfFactorial(UnsignedInteger const number, UnsignedInteger const modulo);
+bool isFermatTheoremTrue(UnsignedInteger const prime, UnsignedInteger const coPrime);
+bool isEulerTheoremTrue(UnsignedInteger const coPrime1, UnsignedInteger const coPrime2);
 
-UnsignedNumber getModularExponentiation(UnsignedNumber const number1, UnsignedNumber const exponent, UnsignedNumber const modulo);
-UnsignedNumber getModularInverse(UnsignedNumber const number, UnsignedNumber const modulo);
-UnsignedNumber getModularFactorial(UnsignedNumber const number, UnsignedNumber const modulo);
+UnsignedInteger getModularExponentiation(UnsignedInteger const number1, UnsignedInteger const exponent, UnsignedInteger const modulo);
+UnsignedInteger getModularInverse(UnsignedInteger const number, UnsignedInteger const modulo);
+UnsignedInteger getModularFactorial(UnsignedInteger const number, UnsignedInteger const modulo);
 
 
 }
-
 }

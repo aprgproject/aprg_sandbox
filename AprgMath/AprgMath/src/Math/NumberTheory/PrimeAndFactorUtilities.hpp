@@ -1,33 +1,31 @@
 #pragma once
 
-#include <Math/NumberTheory/Types.hpp>
+#include <Math/Types.hpp>
 
 #include <map>
-
 namespace alba
 {
 
 namespace math
 {
 
-using FactorsToCountMap = std::map<UnsignedNumber, UnsignedNumber>;
+using FactorsToCountMap = std::map<UnsignedInteger, UnsignedInteger>;
 
-bool isCoPrime(UnsignedNumber const number1, UnsignedNumber const number2);
+bool isCoPrime(UnsignedInteger const number1, UnsignedInteger const number2);
 bool isNumberOfPrimesInfinite();
-bool isGoldbachConjectureTrue(UnsignedNumber const evenNumber);
-bool isTwinPrimeConjectureTrue(UnsignedNumber const number);
-bool isLegendreConjectureTrue(UnsignedNumber const number);
-bool isWilsonTheoremTrue(UnsignedNumber const number);
+bool isGoldbachConjectureTrue(UnsignedInteger const evenNumber);
+bool isTwinPrimeConjectureTrue(UnsignedInteger const number);
+bool isLegendreConjectureTrue(UnsignedInteger const number);
+bool isWilsonTheoremTrue(UnsignedInteger const number);
 
-UnsignedNumber getNumberOfFactors(UnsignedNumber const number);
-UnsignedNumber getSumOfFactors(UnsignedNumber const number);
-UnsignedNumber getProductOfFactors(UnsignedNumber const number);
-UnsignedNumber getApproximateDensityOfPrimes(UnsignedNumber const number);
-UnsignedNumber getNumberOfCoPrimesBelowThisNumber(UnsignedNumber const number);
-UnsignedNumbers getPrimesBelowThisNumber(UnsignedNumber const number);
-UnsignedNumbers getPrimeFactorsOfNumber(UnsignedNumber const number);
-FactorsToCountMap getPrimeFactorsToCountMap(UnsignedNumber const number);
+UnsignedInteger getNumberOfFactors(UnsignedInteger const number);
+UnsignedInteger getSumOfFactors(UnsignedInteger const number);
+UnsignedInteger getProductOfFactors(UnsignedInteger const number);
+UnsignedInteger getApproximateDensityOfPrimes(UnsignedInteger const number);
+UnsignedInteger getNumberOfCoPrimesBelowThisNumber(UnsignedInteger const number);
+UnsignedIntegers getPrimesBelowThisNumber(UnsignedInteger const number);
+UnsignedIntegers getPrimeFactorsOfNumber(UnsignedInteger const number);
+FactorsToCountMap getPrimeFactorsToCountMap(UnsignedInteger const number);
 
 }
-
 }

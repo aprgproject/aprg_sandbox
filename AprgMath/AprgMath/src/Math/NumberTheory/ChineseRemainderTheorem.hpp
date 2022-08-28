@@ -1,13 +1,11 @@
 #pragma once
 
-#include <Math//NumberTheory/Types.hpp>
+#include <Math/Types.hpp>
 
 namespace alba
 {
-
 namespace math
 {
-
 class ChineseRemainderTheorem
 {
 public:
@@ -18,17 +16,16 @@ public:
     // x = an mod mn
     // This algorithm solves for x.
 
-    ChineseRemainderTheorem(UnsignedNumbers const& numbers, UnsignedNumbers const& modulos);
+    ChineseRemainderTheorem(UnsignedIntegers const& numbers, UnsignedIntegers const& modulos);
 
-    UnsignedNumber getSolutionValue() const;
-    UnsignedNumber getAnotherSolutionValue(UnsignedNumber const multiplier) const;
+    UnsignedInteger getSolutionValue() const;
+    UnsignedInteger getAnotherSolutionValue(UnsignedInteger const multiplier) const;
 
 private:
-    void solve(UnsignedNumbers const& numbers, UnsignedNumbers const& modulos);
-    UnsignedNumber m_solutionValue;
-    UnsignedNumber m_productOfModulos;
+    void solve(UnsignedIntegers const& numbers, UnsignedIntegers const& modulos);
+    UnsignedInteger m_solutionValue;
+    UnsignedInteger m_productOfModulos;
 };
 
 }
-
 }

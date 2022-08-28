@@ -40,12 +40,11 @@ TEST(OtherUtilitiesTest, GetFibonacciNumbersBelowThisNumberWorks)
 {
     EXPECT_TRUE(getFibonacciNumbersBelowThisNumber(0U).empty());
     EXPECT_TRUE(getFibonacciNumbersBelowThisNumber(1U).empty());
-    EXPECT_EQ((UnsignedNumbers{1U, 1U}), getFibonacciNumbersBelowThisNumber(2U));
-    EXPECT_EQ((UnsignedNumbers{1U, 1U, 2U}), getFibonacciNumbersBelowThisNumber(3U));
-    EXPECT_EQ((UnsignedNumbers{1U, 1U, 2U, 3U, 5U}), getFibonacciNumbersBelowThisNumber(8U));
-    EXPECT_EQ((UnsignedNumbers{1U, 1U, 2U, 3U, 5U, 8U}), getFibonacciNumbersBelowThisNumber(9U));
+    EXPECT_EQ((UnsignedIntegers{1U, 1U}), getFibonacciNumbersBelowThisNumber(2U));
+    EXPECT_EQ((UnsignedIntegers{1U, 1U, 2U}), getFibonacciNumbersBelowThisNumber(3U));
+    EXPECT_EQ((UnsignedIntegers{1U, 1U, 2U, 3U, 5U}), getFibonacciNumbersBelowThisNumber(8U));
+    EXPECT_EQ((UnsignedIntegers{1U, 1U, 2U, 3U, 5U, 8U}), getFibonacciNumbersBelowThisNumber(9U));
 }
 
 }
-
 }

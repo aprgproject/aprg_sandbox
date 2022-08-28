@@ -1,21 +1,17 @@
 #pragma once
 
-#include <Math/NumberTheory/Types.hpp>
-
-#include <map>
+#include <Math/Types.hpp>
 
 namespace alba
 {
-
 namespace math
 {
 
-bool isLagrangeTheoremTrue(UnsignedNumber const number);
-bool isZeckendorfTheoremTrue(UnsignedNumber const number);
+bool isLagrangeTheoremTrue(UnsignedInteger const number);
+bool isZeckendorfTheoremTrue(UnsignedInteger const number);
 
-UnsignedNumber getNthFibonacciNumber(UnsignedNumber const number);
-UnsignedNumbers getFibonacciNumbersBelowThisNumber(UnsignedNumber const number);
+UnsignedInteger getNthFibonacciNumber(UnsignedInteger const number);
+UnsignedIntegers getFibonacciNumbersBelowThisNumber(UnsignedInteger const number);
 
 }
-
 }

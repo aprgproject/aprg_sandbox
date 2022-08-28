@@ -18,23 +18,21 @@ namespace
 
 void findDistinctNonConsecutiveFibonacciNumbersForSum(
         bool & isComplete,
-        UnsignedNumbers & fibonaccisForSum,
-        UnsignedNumbers const& fibonaccis,
-        UnsignedNumber const sum,
-        UnsignedNumber const index)
+        UnsignedIntegers & fibonaccisForSum,
+        UnsignedIntegers const& fibonaccis,
+        UnsignedInteger const sum,
+        UnsignedInteger const index)
 {
     // This can be improved by dynamic programming
-    for(UnsignedNumber i=index; i<fibonaccis.size(); i++)
+    for(UnsignedInteger i=index; i<fibonaccis.size(); i++)
     {
-        UnsignedNumber fibonacci(fibonaccis.at(i));
+        UnsignedInteger fibonacci(fibonaccis.at(i));
         if(sum > fibonacci)
         {
-            fibonaccisForSum.emplace_back(fibonacci);
-            findDistinctNonConsecutiveFibonacciNumbersForSum(isComplete, fibonaccisForSum, fibonaccis, sum-fibonacci, index+2);
+            fibonaccisForSum.emplace_back(fibonacci);            findDistinctNonConsecutiveFibonacciNumbersForSum(isComplete, fibonaccisForSum, fibonaccis, sum-fibonacci, index+2);
             if(isComplete)
             {
-                break;
-            }
+                break;            }
             fibonaccisForSum.pop_back();
         }
         else if(sum == fibonacci)
@@ -48,69 +46,66 @@ void findDistinctNonConsecutiveFibonacciNumbersForSum(
 
 }
 
-bool isLagrangeTheoremTrue(UnsignedNumber const number)
+bool isLagrangeTheoremTrue(UnsignedInteger const number)
 {
     // Lagrange’s theorem states that every positive integer can be represented as a sum of four squares, i.e., a^2 + b^2 + c^2 + d^2.
     // For example, the number 123 can be represented as the sum 8^2 + 5^2 + 5^2 + 3^2.
 
-    UnsignedNumber maxElement(pow(number, 0.5)); // max element is square root
-    UnsignedNumbers squaredElements;
+    UnsignedInteger maxElement(pow(number, 0.5)); // max element is square root
+    UnsignedIntegers squaredElements;
     squaredElements.reserve(maxElement-1);
-    for(UnsignedNumber i=1; i<maxElement; i++)
+    for(UnsignedInteger i=1; i<maxElement; i++)
     {
         squaredElements.emplace_back(i*i);
     }
 
-    FourSum<UnsignedNumbers> fourSum(squaredElements);
+    FourSum<UnsignedIntegers> fourSum(squaredElements);
     auto fourValues = fourSum.getPossibleDuplicatedFourValuesWithSum(number);
-    UnsignedNumber sumOfSquares = get<0>(fourValues) + get<1>(fourValues) + get<2>(fourValues) + get<3>(fourValues);
+    UnsignedInteger sumOfSquares = get<0>(fourValues) + get<1>(fourValues) + get<2>(fourValues) + get<3>(fourValues);
 
     return sumOfSquares == number;
 }
 
-bool isZeckendorfTheoremTrue(UnsignedNumber const number)
+bool isZeckendorfTheoremTrue(UnsignedInteger const number)
 {
     // Zeckendorf’s theorem states that every positive integer has a unique representation as a sum of Fibonacci numbers
-    // such that no two numbers are equal or consecutive Fibonacci numbers.
-    // For example, the number 74 can be represented as the sum 55 + 13 + 5 + 1.
+    // such that no two numbers are equal or consecutive Fibonacci numbers.    // For example, the number 74 can be represented as the sum 55 + 13 + 5 + 1.
 
     bool result(false);
-    UnsignedNumbers fibonaccis(getFibonacciNumbersBelowThisNumber(number));
+    UnsignedIntegers fibonaccis(getFibonacciNumbersBelowThisNumber(number));
 
     bool isComplete(false);
-    UnsignedNumbers fibonaccisForSum;
+    UnsignedIntegers fibonaccisForSum;
     findDistinctNonConsecutiveFibonacciNumbersForSum(isComplete, fibonaccisForSum, fibonaccis, number, 0);
 
     if(isComplete)
     {
-        UnsignedNumber sumOfFibonaccis = accumulate(fibonaccisForSum.cbegin(), fibonaccisForSum.cend(), 0, std::plus<UnsignedNumber>());
+        UnsignedInteger sumOfFibonaccis = accumulate(fibonaccisForSum.cbegin(), fibonaccisForSum.cend(), 0, std::plus<UnsignedInteger>());
         result = sumOfFibonaccis == number;
     }
     return result;
 }
 
-UnsignedNumber getNthFibonacciNumber(UnsignedNumber const number)
+UnsignedInteger getNthFibonacciNumber(UnsignedInteger const number)
 {
     // Binets formula:
     double sqrtOf5 = sqrt(5);
     double fibonacciInDouble = (pow(1+sqrtOf5, number)-pow(1-sqrtOf5, number)) / (pow(2, number)*sqrtOf5);
-    return getIntegerAfterRoundingADoubleValue<UnsignedNumber>(fibonacciInDouble);
+    return getIntegerAfterRoundingADoubleValue<UnsignedInteger>(fibonacciInDouble);
 }
 
-UnsignedNumbers getFibonacciNumbersBelowThisNumber(UnsignedNumber const number)
+UnsignedIntegers getFibonacciNumbersBelowThisNumber(UnsignedInteger const number)
 {
-    UnsignedNumbers result;
-    UnsignedNumber previousPreviousFibonacci(0);
-    UnsignedNumber previousFibonacci(0);
-    UnsignedNumber currentFibonacci(1);
+    UnsignedIntegers result;
+    UnsignedInteger previousPreviousFibonacci(0);
+    UnsignedInteger previousFibonacci(0);
+    UnsignedInteger currentFibonacci(1);
     while(currentFibonacci < number)
     {
-        result.emplace_back(currentFibonacci);
-        previousPreviousFibonacci = previousFibonacci;
+        result.emplace_back(currentFibonacci);        previousPreviousFibonacci = previousFibonacci;
         previousFibonacci = currentFibonacci;
         currentFibonacci = previousFibonacci + previousPreviousFibonacci;
-    }
-    return result;
+    }    return result;
 }
 
 }

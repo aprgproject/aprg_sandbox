@@ -25,18 +25,16 @@ bool isPrimitive(PythagoreanTriple const& triple)
     // A Pythagorean triple is primitive if a, b and c are coprime,
     // and all Pythagorean triples can be constructed from primitive triples using a multiplier k.
 
-    UnsignedNumber gcfOfABC = getGreatestCommonFactor(getGreatestCommonFactor(get<0>(triple), get<1>(triple)), get<2>(triple));
+    UnsignedInteger gcfOfABC = getGreatestCommonFactor(getGreatestCommonFactor(get<0>(triple), get<1>(triple)), get<2>(triple));
     return gcfOfABC == 1;
 }
 
-PythagoreanTriple getNewPythagoreanTripleUsingMultiplier(PythagoreanTriple const& triple, UnsignedNumber const multiplier)
+PythagoreanTriple getNewPythagoreanTripleUsingMultiplier(PythagoreanTriple const& triple, UnsignedInteger const multiplier)
 {
     // If (a,b,c) is a Pythagorean triple, all triples of the form (ka,kb,kc) are also Pythagorean triples where k > 1.
-
     PythagoreanTriple result;
     if(multiplier > 1)
-    {
-        result = triple;
+    {        result = triple;
         get<0>(result) *= multiplier;
         get<1>(result) *= multiplier;
         get<2>(result) *= multiplier;
@@ -44,26 +42,22 @@ PythagoreanTriple getNewPythagoreanTripleUsingMultiplier(PythagoreanTriple const
     return result;
 }
 
-PythagoreanTriple getPrimitivePythagoreanTripleUsingEuclidFormula(UnsignedNumber const seedValueM, UnsignedNumber const seedValueN)
+PythagoreanTriple getPrimitivePythagoreanTripleUsingEuclidFormula(UnsignedInteger const seedValueM, UnsignedInteger const seedValueN)
 {
     // Euclid’s formula can be used to produce ALL primitive Pythagorean triples.
-    // Each such triple is of the form (n^2 - m^2, 2*n*m, n^2 + m^2),
-    // where 0<m<n, n and m are coprime and at least one of n and m is even.
+    // Each such triple is of the form (n^2 - m^2, 2*n*m, n^2 + m^2),    // where 0<m<n, n and m are coprime and at least one of n and m is even.
 
     // For example, when m=1 and n=2, the formula produces the SMALLEST Pythagorean triple (4-1,2*2*1,4+1) = (3,4,5).
-
     PythagoreanTriple result;
     if(0<seedValueM && seedValueM<seedValueN
             && isCoPrime(seedValueM, seedValueN)
             && (isEven(seedValueM) || isEven(seedValueN)))
     {
-        UnsignedNumber mSquared = seedValueM*seedValueM;
-        UnsignedNumber nSquared = seedValueN*seedValueN;
+        UnsignedInteger mSquared = seedValueM*seedValueM;
+        UnsignedInteger nSquared = seedValueN*seedValueN;
         result = PythagoreanTriple{nSquared-mSquared, 2*seedValueN*seedValueM, nSquared+mSquared};
     }
-    return result;
-}
+    return result;}
 
 }
-
 }
