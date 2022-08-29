@@ -8,8 +8,8 @@ namespace alba
 namespace math
 {
 
-bool isBinomialCoefficientEqualToItsCounterpart(UnsignedInteger const n, UnsignedInteger const k);
-bool isTheSumOfBinomialCoefficientsEqualTo2ToTheN(UnsignedInteger const n);
+bool isNumberOfCombinationsEqualToItsCounterpart(UnsignedInteger const n, UnsignedInteger const k);
+bool isTheSumOfAllNumberOfCombinationsEqualTo2ToTheN(UnsignedInteger const n);
 
 
 }

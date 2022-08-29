@@ -96,10 +96,12 @@ TEST(PolynomialHelpersTest, GetMultinomialCoefficientWorks)
 
 TEST(PolynomialHelpersTest, GetFirstMonomialWorks)
 {
-    Polynomial polynomial1;    Polynomial polynomial2{Monomial(6, {})};
+    Polynomial polynomial1;
+    Polynomial polynomial2{Monomial(6, {})};
     Polynomial polynomial3{Monomial(6, {}), Monomial(-7, {{"x", 2}, {"y", 3}, {"z", 4}})};
 
-    Monomial monomial1(getFirstMonomial(polynomial1));    Monomial monomial2(getFirstMonomial(polynomial2));
+    Monomial monomial1(getFirstMonomial(polynomial1));
+    Monomial monomial2(getFirstMonomial(polynomial2));
     Monomial monomial3(getFirstMonomial(polynomial3));
 
     EXPECT_DOUBLE_EQ(0, monomial1.getConstantConstReference().getDouble());

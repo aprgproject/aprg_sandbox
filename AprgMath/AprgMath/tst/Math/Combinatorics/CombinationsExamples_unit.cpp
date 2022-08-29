@@ -45,7 +45,7 @@ TEST(CombinationsExamplesTest, BoxesAndBallsExampleScenario1Works)
 {
     // Scenario 1: Each box can contain at most one ball.
 
-    // For example, when n=5 and k=2, there are 10 solutions:
+    // For example, when n=5(boxes) and k=2(balls), there are 10 solutions:
     // |o|o| | | |    Positions: {1, 2}
     // |o| |o| | |    Positions: {1, 3}
     // |o| | |o| |    Positions: {1, 4}
@@ -65,7 +65,7 @@ TEST(CombinationsExamplesTest, BoxesAndBallsExampleScenario2Works)
 {
     // Scenario 2: A box can contain multiple balls.
 
-    // For example, when n=5 and k=2, there are 15 solutions:
+    // For example, when n=5(boxes) and k=2(balls), there are 15 solutions:
     // |oo|  |  |  |  |    Positions: {1, 1}    Representation: o o > > > >
     // |o |o |  |  |  |    Positions: {1, 2}    Representation: o > o > > >
     // |o |  |o |  |  |    Positions: {1, 3}    Representation: o > > o > >
@@ -95,31 +95,48 @@ TEST(CombinationsExamplesTest, BoxesAndBallsExampleScenario2Works)
     // The formula for the solution on this case is combinations of k+n-1 taken k
     // So its combinations of 2+5-1=6 taken 2
     EXPECT_EQ(15U, getNumberOfCombinations(6U, 2U));
-
 }
 
 TEST(CombinationsExamplesTest, BoxesAndBallsExampleScenario3Works_Example1)
 {
     // Scenario 3: Each box may contain at most one ball, and in addition, no two adjacent boxes may both contain a ball.
 
-    // For example, when n=5 and k=2, there are 6 solutions:
-    // |o| |o| | |    Positions: {1, 3}    Representation: |o|o| | |
-    // |o| | |o| |    Positions: {1, 4}    Representation: |o| |o| |
-    // |o| | | |o|    Positions: {1, 5}    Representation: |o| | |o|
-    // | |o| |o| |    Positions: {2, 4}    Representation: | |o|o| |
-    // | |o| | |o|    Positions: {2, 5}    Representation: | |o| |o|
-    // | | |o| |o|    Positions: {3, 5}    Representation: | | |o|o|
+    // For example, when n=5(boxes) and k=2(balls), there are 6 solutions:
+    // |o| |o| | |    Positions: {1, 3}    Representation: |o|_|o| | |    |o|o| | |
+    // |o| | |o| |    Positions: {1, 4}    Representation: |o|_| |o| |    |o| |o| |
+    // |o| | | |o|    Positions: {1, 5}    Representation: |o|_| | |o|    |o| | |o|
+    // | |o| |o| |    Positions: {2, 4}    Representation: | |o|_|o| |    | |o|o| |
+    // | |o| | |o|    Positions: {2, 5}    Representation: | |o|_| |o|    | |o| |o|
+    // | | |o| |o|    Positions: {3, 5}    Representation: | | |o|_|o|    | | |o|o|
 
     // Solution:
     // In this scenario, we can assume that k balls are initially placed in boxes and there is an empty box between each two adjacent boxes.
     // The remaining task is to choose the positions for the remaining empty boxes.
-    // There are n-2k+1 such boxes and k+1 positions for them.
-    // Thus, using the formula of scenario 2, the number of solutions is (n-k+1, n-2k+1)
 
-    // Or this reduces to the problem in scenario 1 when there are n-k+1 boxes and n-2k+1 balls.
+    // To simplify this problem, adjacent empty boxes can be removed on each combination.
+    // When empty boxes are removed, this can be reduced to the problem on scenario 1.
+    // Thus we need to figure out the new number of boxes and new number of balls
 
-    // The formula for the solution on this case is combinations of n-k+1 taken n-2k+1
-    // So its combinations of 5-2+1=4 taken 5-2*2+1=2
+    // Question is how many empty boxes can be removed?
+    // If there are 2 balls, empty boxes to remove is 1.
+    // If there are 3 balls, empty boxes to remove is 2.
+    // If there are 4 balls, empty boxes to remove is 3.
+    // So the empty boxes to remove is k-1.
+    // Hence, the new number of boxes = old number of boxes - empty boxes to remove = n-(k-1) = n-k+1
+
+    // This can be simplified further because removing boxes might result to number of spaces to be less that number of balls.
+    // So we can switch the spaces with the balls and vice versa
+    // Hence, the new number of balls = number of spaces = new number of boxes - old number of balls = n-k+1 - k = n-2k+1
+
+    // There are two formulas for the solution on this case:
+    // Using number of balls: The formula is combinations of n-k+1 taken k
+    // Using number of spaces: The formula is combinations of n-k+1 taken n-2k+1
+    // Note that "isNumberOfCombinationsEqualToItsCounterpart" is true: (n, k) = (n, n-k)
+
+    // The result using formula using balls is combinations of 5-2+1=4 taken 2
+    EXPECT_EQ(6U, getNumberOfCombinations(4U, 2U));
+
+    // The result using formula using spaces is combinations of 5-2+1=4 taken 5-2*2+1=2
     EXPECT_EQ(6U, getNumberOfCombinations(4U, 2U));
 }
 
@@ -127,17 +144,21 @@ TEST(CombinationsExamplesTest, BoxesAndBallsExampleScenario3Works_Example2)
 {
     // Scenario 3: Each box may contain at most one ball, and in addition, no two adjacent boxes may both contain a ball.
 
-    // For example, when n=6 and k=3, there are 6 solutions:
-    // |o| |o| |o| |    Positions: {1, 3, 5}    Representation: |o| | | |
-    // |o| |o| | |o|    Positions: {1, 3, 6}    Representation: | |o| | |
-    // |o| | |o| |o|    Positions: {1, 4, 6}    Representation: | | |o| |
-    // | |o| |o| |o|    Positions: {2, 4, 6}    Representation: | | | |o|
+    // For example, when n=6(boxes) and k=3(balls), there are 6 solutions:
+    // |o| |o| |o| |    Positions: {1, 3, 5}    Representation: |o|_|o|_|o| |    |o|o|o| |
+    // |o| |o| | |o|    Positions: {1, 3, 6}    Representation: |o|_|o|_| |o|    |o|o| |o|
+    // |o| | |o| |o|    Positions: {1, 4, 6}    Representation: |o|_| |o|_|o|    |o| |o|o|
+    // | |o| |o| |o|    Positions: {2, 4, 6}    Representation: | |o|_|o|_|o|    | |o|o|o|
 
     // Solution:
-    // Or this reduces to the problem in scenario 1 when there are n-k+1 boxes and n-2k+1 balls.
+    // As described above, by removing adjacent empty boxes this reduces to the problem in scenario 1.
+    // Thus there are [n-k+1 boxes and k balls] or [n-k+1 boxes and n-2k+1 balls]
+    // Note that "isNumberOfCombinationsEqualToItsCounterpart" is true: (n, k) = (n, n-k)
 
-    // The formula for the solution on this case is combinations of n-k+1 taken n-2k+1
-    // So its combinations of 6-3+1=4 taken 6-2*3+1=1
+    // The result using formula using balls is combinations of 6-3+1=4 taken 3
+    EXPECT_EQ(4U, getNumberOfCombinations(4U, 3U));
+
+    // The result using formula using spaces is combinations of 6-3+1=4 taken 6-2*3+1=1
     EXPECT_EQ(4U, getNumberOfCombinations(4U, 1U));
 }
 

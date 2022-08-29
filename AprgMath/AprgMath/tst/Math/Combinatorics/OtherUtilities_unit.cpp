@@ -10,17 +10,19 @@ namespace alba
 namespace math
 {
 
-TEST(OtherUtilitiesTest, IsBinomialCoefficientEqualToItsCounterpartWorks)
+TEST(OtherUtilitiesTest, IsNumberOfCombinationsEqualToItsCounterpartWorks)
 {
-    EXPECT_FALSE(isBinomialCoefficientEqualToItsCounterpart(2U, 4U)); // Wrong input so its false, it should ben>k
-    EXPECT_TRUE(isBinomialCoefficientEqualToItsCounterpart(4U, 2U));
-    EXPECT_TRUE(isBinomialCoefficientEqualToItsCounterpart(10U, 5U));
+    EXPECT_FALSE(isNumberOfCombinationsEqualToItsCounterpart(2U, 4U)); // Wrong input so its false, it should ben>k
+    EXPECT_TRUE(isNumberOfCombinationsEqualToItsCounterpart(4U, 2U));
+    EXPECT_TRUE(isNumberOfCombinationsEqualToItsCounterpart(10U, 5U));
 }
 
-TEST(OtherUtilitiesTest, IsTheSumOfBinomialCoefficientsEqualTo2ToTheNWorks)
+TEST(OtherUtilitiesTest, IsTheSumOfAllNumberOfCombinationsEqualTo2ToTheNWorks)
 {
-    EXPECT_TRUE(isTheSumOfBinomialCoefficientsEqualTo2ToTheN(4U));
-    EXPECT_TRUE(isTheSumOfBinomialCoefficientsEqualTo2ToTheN(10U));}
+    EXPECT_TRUE(isTheSumOfAllNumberOfCombinationsEqualTo2ToTheN(4U));
+    EXPECT_TRUE(isTheSumOfAllNumberOfCombinationsEqualTo2ToTheN(10U));
+}
 
 }
+
 }
