@@ -51,9 +51,7 @@ bool isTheSumOfAllNumberOfCombinationsEqualTo2ToTheN(UnsignedInteger const n)
     }
 
     return sumOfNumberOfCombinations == AlbaBitValueUtilities<UnsignedInteger>::get2ToThePowerOf(n);
-
 }
 
 }
-
 }
