@@ -399,59 +399,19 @@ TEST(AlbaMathHelperTest, GetNumberOfPermutationsWorks)
     EXPECT_EQ(1U, getNumberOfPermutations(4U, 0U));
     EXPECT_EQ(4U, getNumberOfPermutations(4U, 1U));
     EXPECT_EQ(0U, getNumberOfPermutations(4U, 5U));
-
-    //Find the number of permutations of a two digit number with values 1, 2, 3, and 4.
-    EXPECT_EQ(12U, getNumberOfPermutations(4U, 2U));
-
-    //If four people enter a bus in which there are ten vacant seats, how many ways are there for the four to be seated?
-    EXPECT_EQ(5040U, getNumberOfPermutations(10U, 4U));
-
-    //In how many ways may five books to be arranged on a shelf?
-    EXPECT_EQ(120U, getNumberOfPermutations(5U, 5U));
-
-    //Find the number of permutations of the eight letters of the word "gargling".
-    EXPECT_EQ(6720U, getFactorial(8U)/getFactorial(3U));
-
-    //Find the number of permutations of the 11 letters of the word "mississippi".
-    EXPECT_EQ(34650U, getFactorial(11U)/(getFactorial(4U)*getFactorial(4U)*getFactorial(2U)));
-
-    //How many ways can four boys and three girls be seated in a row containing seven seats if the boys and girls must alternate?
-    EXPECT_EQ(144U, getFactorial(4U)*getFactorial(3U));
-
-    //In how many ways can 8 people be seated around a table?
-    EXPECT_EQ(5040U, getFactorial(8U)/8U);
 }
 
-TEST(AlbaMathHelperTest, GetNumberOfCombinationsWorks)
-{
+TEST(AlbaMathHelperTest, GetNumberOfCombinationsWorks){
     EXPECT_EQ(1U, getNumberOfCombinations(4U, 4U));
     EXPECT_EQ(1U, getNumberOfCombinations(4U, 0U));
     EXPECT_EQ(4U, getNumberOfCombinations(4U, 1U));
     EXPECT_EQ(0U, getNumberOfCombinations(4U, 5U));
-
-    //How many different sums of money can be made by taking one coin from a penny, a nickel, a dime, and a quarter?
-    EXPECT_EQ(4U, getNumberOfCombinations(4U, 1U));
-
-    //How many different sums of money can be made by taking two coins from a penny, a nickel, a dime, and a quarter?
-    EXPECT_EQ(6U, getNumberOfCombinations(4U, 2U));
-
-    //How many different sums of money can be made from a penny, a nickel, a dime, and a quarter?
-    EXPECT_EQ(15U, getNumberOfCombinations(4U, 1U) + getNumberOfCombinations(4U, 2U) + getNumberOfCombinations(4U, 3U) + getNumberOfCombinations(4U, 4U));
-
-    //In a class of 15 boys and 10 girls, in how many ways may a committee made up of 3 boys and 2 girls be selected?
-    EXPECT_EQ(20475U, getNumberOfCombinations(15U, 3U) * getNumberOfCombinations(10U, 2U));
-
-    //On a certain examination, the student must answer 8 out of the 12 question, including 5 of the first 6.
-    //How many ways may he write the examination?
-    EXPECT_EQ(120U, getNumberOfCombinations(6U, 5U) * getNumberOfCombinations(6U, 3U));
 }
 
-TEST(AlbaMathHelperTest, GetValueAtPascalTriangleWorks)
-{
+TEST(AlbaMathHelperTest, GetValueAtPascalTriangleWorks){
     EXPECT_EQ(1U, getValueAtPascalTriangle(0U, 0U));
     EXPECT_EQ(1U, getValueAtPascalTriangle(4U, 4U));
-    EXPECT_EQ(1U, getValueAtPascalTriangle(4U, 0U));
-    EXPECT_EQ(4U, getValueAtPascalTriangle(4U, 1U));
+    EXPECT_EQ(1U, getValueAtPascalTriangle(4U, 0U));    EXPECT_EQ(4U, getValueAtPascalTriangle(4U, 1U));
     EXPECT_EQ(6U, getValueAtPascalTriangle(4U, 2U));
     EXPECT_EQ(0U, getValueAtPascalTriangle(4U, 5U));
 }
