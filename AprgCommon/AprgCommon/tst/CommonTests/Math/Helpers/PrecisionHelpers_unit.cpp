@@ -46,14 +46,75 @@ TEST(PrecisionHelpersTest, IsAlmostAnIntegerWorks)
     EXPECT_TRUE((isAlmostAnInteger<double, int>(3.0000000000001)));
 }
 
+TEST(PrecisionHelpersTest, IsValueWithinLimitsWorksForInteger)
+{
+    EXPECT_FALSE(isValueWithinLimits<int>(static_cast<double>(INT_MIN)-1));
+    EXPECT_TRUE(isValueWithinLimits<int>(INT_MIN));
+    EXPECT_TRUE(isValueWithinLimits<int>(1000));
+    EXPECT_TRUE(isValueWithinLimits<int>(INT_MAX));
+    EXPECT_FALSE(isValueWithinLimits<int>(static_cast<double>(INT_MAX)+1));
+}
+
+TEST(PrecisionHelpersTest, IsValueWithinUnsignedIntegerLimitsWorks)
+{
+    EXPECT_FALSE(isValueWithinLimits<unsigned int>(static_cast<double>(0)-1));
+    EXPECT_TRUE(isValueWithinLimits<unsigned int>(0));
+    EXPECT_TRUE(isValueWithinLimits<unsigned int>(1000));
+    EXPECT_TRUE(isValueWithinLimits<unsigned int>(UINT_MAX));
+    EXPECT_FALSE(isValueWithinLimits<unsigned int>(static_cast<double>(UINT_MAX)+1));
+}
+
+TEST(PrecisionHelpersTest, IsValueWithinShortIntegerLimitsWorks)
+{
+    EXPECT_FALSE(isValueWithinLimits<short int>(static_cast<double>(SHRT_MIN)-1));
+    EXPECT_TRUE(isValueWithinLimits<short int>(SHRT_MIN));
+    EXPECT_TRUE(isValueWithinLimits<short int>(1000));
+    EXPECT_TRUE(isValueWithinLimits<short int>(SHRT_MAX));
+    EXPECT_FALSE(isValueWithinLimits<short int>(static_cast<double>(SHRT_MAX)+1));
+}
+
+TEST(PrecisionHelpersTest, IsValueWithinLongIntegerLimitsWorks)
+{
+    EXPECT_FALSE(isValueWithinLimits<long int>(static_cast<double>(LONG_MIN)-100000));
+    EXPECT_TRUE(isValueWithinLimits<long int>(LONG_MIN));
+    EXPECT_TRUE(isValueWithinLimits<long int>(1000));
+    EXPECT_TRUE(isValueWithinLimits<long int>(LONG_MAX));
+    EXPECT_FALSE(isValueWithinLimits<long int>(static_cast<double>(LONG_MAX)+100000));
+}
+
+TEST(PrecisionHelpersTest, IsValueWithinUnsignedLongIntegerLimitsWorks)
+{
+    EXPECT_FALSE(isValueWithinLimits<unsigned long int>(static_cast<double>(0)-100000));
+    EXPECT_TRUE(isValueWithinLimits<unsigned long int>(0));
+    EXPECT_TRUE(isValueWithinLimits<unsigned long int>(1000));
+    EXPECT_TRUE(isValueWithinLimits<unsigned long int>(ULONG_MAX));
+    EXPECT_FALSE(isValueWithinLimits<unsigned long int>(static_cast<double>(ULONG_MAX)+100000));
+}
+
+TEST(PrecisionHelpersTest, IsValueWithinLongLongIntegerLimitsWorks)
+{
+    EXPECT_FALSE(isValueWithinLimits<long long int>(static_cast<double>(LLONG_MIN)*2));
+    EXPECT_TRUE(isValueWithinLimits<long long int>(LLONG_MIN));
+    EXPECT_TRUE(isValueWithinLimits<long long int>(1000));
+    EXPECT_TRUE(isValueWithinLimits<long long int>(LLONG_MAX));
+    EXPECT_FALSE(isValueWithinLimits<long long int>(static_cast<double>(LLONG_MAX)*2));
+}
+
+TEST(PrecisionHelpersTest, IsValueWithinUnsignedLongLongIntegerLimitsWorks)
+{
+    EXPECT_FALSE(isValueWithinLimits<unsigned long long int>(static_cast<double>(0)-ULLONG_MAX));
+    EXPECT_TRUE(isValueWithinLimits<unsigned long long int>(0));
+    EXPECT_TRUE(isValueWithinLimits<unsigned long long int>(1000));
+    EXPECT_TRUE(isValueWithinLimits<unsigned long long int>(ULLONG_MAX));
+    EXPECT_FALSE(isValueWithinLimits<unsigned long long int>(static_cast<double>(ULLONG_MAX)*2));
+}
+
 TEST(PrecisionHelpersTest, IsValueBeyondLimitsWorksForInteger)
 {
-    EXPECT_TRUE(isValueBeyondLimits<int>(static_cast<double>(INT_MIN)-1));
-    EXPECT_FALSE(isValueBeyondLimits<int>(INT_MIN));
+    EXPECT_TRUE(isValueBeyondLimits<int>(static_cast<double>(INT_MIN)-1));    EXPECT_FALSE(isValueBeyondLimits<int>(INT_MIN));
     EXPECT_FALSE(isValueBeyondLimits<int>(1000));
     EXPECT_FALSE(isValueBeyondLimits<int>(INT_MAX));
-    EXPECT_TRUE(isValueBeyondLimits<int>(static_cast<double>(INT_MAX)+1));
-}
+    EXPECT_TRUE(isValueBeyondLimits<int>(static_cast<double>(INT_MAX)+1));}
 
 TEST(PrecisionHelpersTest, IsValueBeyondUnsignedIntegerLimitsWorks)
 {

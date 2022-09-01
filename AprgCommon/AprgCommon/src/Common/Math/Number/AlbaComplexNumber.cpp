@@ -229,17 +229,15 @@ double AlbaComplexNumber<DataType>::getBestAngleInRaiseToPowerInRadians(DataType
 
     bool isFirst(true);
     double bestAngleWithoutPi(0), minDeltaFromNearestInteger(1);
-    for(unsigned int nthRoot=0; nthRoot<numberRootsToProcess; nthRoot++)
+    for(unsigned int rootIndex=0; rootIndex<numberRootsToProcess; rootIndex++)
     {
-        double possibleAngleWithoutPi = (angleWithoutPi + 2*nthRoot) * exponent;
+        double possibleAngleWithoutPi = (angleWithoutPi + 2*rootIndex) * exponent;
         double deltaFromNearestInteger = getPositiveDelta(possibleAngleWithoutPi, round(possibleAngleWithoutPi));
         if(isFirst || deltaFromNearestInteger < minDeltaFromNearestInteger)
-        {
-            minDeltaFromNearestInteger = deltaFromNearestInteger;
+        {            minDeltaFromNearestInteger = deltaFromNearestInteger;
             bestAngleWithoutPi = possibleAngleWithoutPi;
             isFirst = false;
-        }
-        if(isAlmostAnInteger<DataType,int>(bestAngleWithoutPi))
+        }        if(isAlmostAnInteger<DataType,int>(bestAngleWithoutPi))
         {
             bestAngleWithoutPi = round(bestAngleWithoutPi);
             break;
@@ -262,30 +260,28 @@ template AlbaComplexNumber<double> AlbaComplexNumber<double>::getConjugate() con
 
 template <typename DataType>
 AlbaComplexNumber<DataType> AlbaComplexNumber<DataType>::getNthRoot(
-        unsigned int const nthRoot,
-        unsigned int const root) const
+        unsigned int const rootIndex,
+        unsigned int const rootDegree) const
 {
-    assert(nthRoot<root);
-    double modulusPart = pow(static_cast<double>(getModulus()), static_cast<double>(1)/root);
-    double angleToBeUsed = (getAngleInRadians() + getPi()*2*nthRoot) / root;
+    assert(rootIndex<rootDegree);
+    double modulusPart = pow(static_cast<double>(getModulus()), static_cast<double>(1)/rootDegree);
+    double angleToBeUsed = (getAngleInRadians() + getPi()*2*rootIndex) / rootDegree;
     double realPart = modulusPart * cos(angleToBeUsed);
     double imaginaryPart = modulusPart * sin(angleToBeUsed);
     return AlbaComplexNumber<DataType>(static_cast<DataType>(realPart), static_cast<DataType>(imaginaryPart));
 }
 template AlbaComplexNumber<float> AlbaComplexNumber<float>::getNthRoot(
-        unsigned int const nthRoot,
-        unsigned int const root) const;
+        unsigned int const rootIndex,
+        unsigned int const rootDegree) const;
 template AlbaComplexNumber<double> AlbaComplexNumber<double>::getNthRoot(
-        unsigned int const nthRoot,
-        unsigned int const root) const;
+        unsigned int const rootIndex,
+        unsigned int const rootDegree) const;
 
 
-template <typename DataType>
-string AlbaComplexNumber<DataType>::getDisplayableString() const
+template <typename DataType>string AlbaComplexNumber<DataType>::getDisplayableString() const
 {
     stringstream ss;
-    ss << "(" << m_realPart << " + " << m_imaginaryPart << "i)";
-    return ss.str();
+    ss << "(" << m_realPart << " + " << m_imaginaryPart << "i)";    return ss.str();
 }
 template string AlbaComplexNumber<float>::getDisplayableString() const;
 template string AlbaComplexNumber<double>::getDisplayableString() const;

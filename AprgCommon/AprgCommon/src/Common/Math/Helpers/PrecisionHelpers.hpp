@@ -35,14 +35,20 @@ template <typename FloatingType, typename IntegerType> inline bool isAlmostAnInt
                 static_cast<FloatingType>(static_cast<IntegerType>(round(value))));
 }
 
-template <typename NumberType> inline bool isValueBeyondLimits(double const value)
+template <typename NumberType> inline bool isValueWithinLimits(double const value)
 {
     static_assert(std::is_integral<NumberType>::value, "IntegerType must be an integer");
 
+    return value >= std::numeric_limits<NumberType>::min()
+            && value <= std::numeric_limits<NumberType>::max();
+}
+
+template <typename NumberType> inline bool isValueBeyondLimits(double const value)
+{
+    static_assert(std::is_integral<NumberType>::value, "IntegerType must be an integer");
     return value < std::numeric_limits<NumberType>::min()
             || value > std::numeric_limits<NumberType>::max();
 }
-
 template <typename NumberType> inline NumberType getIntegerAfterRoundingADoubleValue(double const doubleValue)
 {
     static_assert(std::is_integral<NumberType>::value, "Number type must be an integer");

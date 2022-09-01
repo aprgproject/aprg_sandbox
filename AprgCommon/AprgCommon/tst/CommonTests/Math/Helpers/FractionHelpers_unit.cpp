@@ -11,46 +11,100 @@ namespace alba
 namespace mathHelper
 {
 
-TEST(FractionHelpersTest, GetFractionDetailsInLowestFormWorks)
+TEST(FractionHelpersTest, ChangeFractionToSimplestFormWorksWithIntAndUnsignedInt)
 {
-    FractionDetails fractionDetails1(getFractionDetailsInLowestForm(0, 0));
-    EXPECT_EQ(1, fractionDetails1.sign);
-    EXPECT_EQ(0U, fractionDetails1.numerator);
-    EXPECT_EQ(0U, fractionDetails1.denominator);
+    int numerator1=0; unsigned int denominator1=0;
+    changeFractionToSimplestForm<int, unsigned int, long long int>(numerator1, denominator1);
+    EXPECT_EQ(0, numerator1);
+    EXPECT_EQ(0U, denominator1);
 
-    FractionDetails fractionDetails2(getFractionDetailsInLowestForm(1, 1));
-    EXPECT_EQ(1, fractionDetails2.sign);
-    EXPECT_EQ(1U, fractionDetails2.numerator);
-    EXPECT_EQ(1U, fractionDetails2.denominator);
+    int numerator2=1; unsigned int denominator2=1;
+    changeFractionToSimplestForm<int, unsigned int, long long int>(numerator2, denominator2);
+    EXPECT_EQ(1, numerator2);
+    EXPECT_EQ(1U, denominator2);
 
-    FractionDetails fractionDetails3(getFractionDetailsInLowestForm(16, -32));
-    EXPECT_EQ(-1, fractionDetails3.sign);
-    EXPECT_EQ(1U, fractionDetails3.numerator);
-    EXPECT_EQ(2U, fractionDetails3.denominator);
+    int numerator3=98; unsigned int denominator3=56;
+    changeFractionToSimplestForm<int, unsigned int, long long int>(numerator3, denominator3);
+    EXPECT_EQ(7, numerator3);
+    EXPECT_EQ(4U, denominator3);
 
-    FractionDetails fractionDetails4(getFractionDetailsInLowestForm(-98, 56));
-    EXPECT_EQ(-1, fractionDetails4.sign);
-    EXPECT_EQ(7U, fractionDetails4.numerator);
-    EXPECT_EQ(4U, fractionDetails4.denominator);
+    int numerator4=-98; unsigned int denominator4=56;
+    changeFractionToSimplestForm<int, unsigned int, long long int>(numerator4, denominator4);
+    EXPECT_EQ(-7, numerator4);
+    EXPECT_EQ(4U, denominator4);
 
-    FractionDetails fractionDetails5(getFractionDetailsInLowestForm(-15, -20));
-    EXPECT_EQ(1, fractionDetails5.sign);
-    EXPECT_EQ(3U, fractionDetails5.numerator);
-    EXPECT_EQ(4U, fractionDetails5.denominator);
+    int numerator5=-2147483646; unsigned int denominator5=4294967294;
+    changeFractionToSimplestForm<int, unsigned int, long long int>(numerator5, denominator5);
+    EXPECT_EQ(-1073741823, numerator5);
+    EXPECT_EQ(2147483647U, denominator5);
+}
 
-    FractionDetails fractionDetails6(getFractionDetailsInLowestForm(1234567891, -1234567892));
-    EXPECT_EQ(-1, fractionDetails6.sign);
-    EXPECT_EQ(1234567891U, fractionDetails6.numerator);
-    EXPECT_EQ(1234567892U, fractionDetails6.denominator);
+TEST(FractionHelpersTest, ChangeFractionToSimplestFormForUnsignedWorks)
+{
+    unsigned int numerator1=0; unsigned int denominator1=0;
+    changeFractionToSimplestFormForUnsigned(numerator1, denominator1);
+    EXPECT_EQ(0U, numerator1);
+    EXPECT_EQ(0U, denominator1);
+
+    unsigned int numerator2=1; unsigned int denominator2=1;
+    changeFractionToSimplestFormForUnsigned(numerator2, denominator2);
+    EXPECT_EQ(1U, numerator2);
+    EXPECT_EQ(1U, denominator2);
+
+    unsigned int numerator3=98; unsigned int denominator3=56;
+    changeFractionToSimplestFormForUnsigned(numerator3, denominator3);
+    EXPECT_EQ(7U, numerator3);
+    EXPECT_EQ(4U, denominator3);
+
+    unsigned int numerator4=4294967292; unsigned int denominator4=4294967294;
+    changeFractionToSimplestFormForUnsigned(numerator4, denominator4);
+    EXPECT_EQ(2147483646U, numerator4);
+    EXPECT_EQ(2147483647U, denominator4);
+}
+
+TEST(FractionHelpersTest, ChangeFractionToSimplestFormForSignedWorks)
+{
+    int numerator1=0; int denominator1=0;
+    changeFractionToSimplestFormForSigned(numerator1, denominator1);
+    EXPECT_EQ(0, numerator1);
+    EXPECT_EQ(0, denominator1);
+
+    int numerator2=1; int denominator2=1;
+    changeFractionToSimplestFormForSigned(numerator2, denominator2);
+    EXPECT_EQ(1, numerator2);
+    EXPECT_EQ(1, denominator2);
+
+    int numerator3=98; int denominator3=56;
+    changeFractionToSimplestFormForSigned(numerator3, denominator3);
+    EXPECT_EQ(7, numerator3);
+    EXPECT_EQ(4, denominator3);
+
+    int numerator4=98; int denominator4=-56;
+    changeFractionToSimplestFormForSigned(numerator4, denominator4);
+    EXPECT_EQ(-7, numerator4);
+    EXPECT_EQ(4, denominator4);
+
+    int numerator5=-98; int denominator5=56;
+    changeFractionToSimplestFormForSigned(numerator5, denominator5);
+    EXPECT_EQ(-7, numerator5);
+    EXPECT_EQ(4, denominator5);
+
+    int numerator6=-98; int denominator6=-56;
+    changeFractionToSimplestFormForSigned(numerator6, denominator6);
+    EXPECT_EQ(7, numerator6);
+    EXPECT_EQ(4, denominator6);
+
+    int numerator7=-2147483644; int denominator7=2147483646;
+    changeFractionToSimplestFormForSigned(numerator7, denominator7);
+    EXPECT_EQ(-1073741822, numerator7);
+    EXPECT_EQ(1073741823, denominator7);
 }
 
 TEST(FractionHelpersTest, GetBestFractionDetailsForDoubleValueWorks)
 {
-    FractionDetails fractionDetails1(getBestFractionDetailsForDoubleValue(0));
-    EXPECT_EQ(1, fractionDetails1.sign);
+    FractionDetails fractionDetails1(getBestFractionDetailsForDoubleValue(0));    EXPECT_EQ(1, fractionDetails1.sign);
     EXPECT_EQ(0U, fractionDetails1.numerator);
     EXPECT_EQ(1U, fractionDetails1.denominator);
-
     FractionDetails fractionDetails2(getBestFractionDetailsForDoubleValue(1));
     EXPECT_EQ(1, fractionDetails2.sign);
     EXPECT_EQ(1U, fractionDetails2.numerator);

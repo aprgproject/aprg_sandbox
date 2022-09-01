@@ -36,16 +36,14 @@ public:
     double getBestAngleInRaiseToPowerInRadians(DataType const exponent) const;
     AlbaComplexNumber<DataType> getConjugate() const;
     AlbaComplexNumber<DataType> getNthRoot(
-            unsigned int const nthRoot,
-            unsigned int const root) const;
+            unsigned int const rootIndex,
+            unsigned int const rootDegree) const;
     std::string getDisplayableString() const;
 
-private:
-    DataType getRealPartInMultiplication(
+private:    DataType getRealPartInMultiplication(
             DataType const firstRealPart,
             DataType const firstImaginaryPart,
-            DataType const secondRealPart,
-            DataType const secondImaginaryPart) const;
+            DataType const secondRealPart,            DataType const secondImaginaryPart) const;
     DataType getImaginaryPartInMultiplication(
             DataType const firstRealPart,
             DataType const firstImaginaryPart,

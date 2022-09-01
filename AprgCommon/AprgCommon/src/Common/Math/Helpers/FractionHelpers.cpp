@@ -1,18 +1,11 @@
 #include "FractionHelpers.hpp"
 
-#include <Common/Math/Helpers/FactorAndMulitplesHelpers.hpp>
-#include <Common/Math/Helpers/PrecisionHelpers.hpp>
-
-#include <type_traits>
-
 using namespace std;
 
-namespace alba
-{
+namespace alba{
 
 namespace mathHelper
 {
-
 namespace
 {
 //internal functions
@@ -59,41 +52,30 @@ FractionDetails getFractionFromPartialNumerators(
 //end of internal functions
 }
 
-//getFractionDetailsInLowestForm
-template <typename NumberType1, typename NumberType2>
-FractionDetails getFractionDetailsInLowestForm(NumberType1 const numerator, NumberType2 const denominator)
+
+template <typename NumberType1, typename NumberType2, typename GcfType>
+void changeFractionToSimplestForm(NumberType1 & numerator, NumberType2 & denominator)
 {
     static_assert(std::is_integral<NumberType1>::value, "Number type 1 must be an integer");
     static_assert(std::is_integral<NumberType2>::value, "Number type 2 must be an integer");
 
-    FractionDetails result{0, 0, 0};
-    unsigned int unsignedNumerator = mathHelper::getAbsoluteValue(numerator);
-    unsigned int unsignedDenominator = mathHelper::getAbsoluteValue(denominator);
-    unsigned int greatestCommonFactor = mathHelper::getGreatestCommonFactor(unsignedNumerator, unsignedDenominator);
-    if(greatestCommonFactor==0)
+    GcfType gcf = getGreatestCommonFactor<GcfType>(numerator, denominator);
+    if(gcf!=0)
     {
-        result.sign = mathHelper::getSign(numerator)*mathHelper::getSign(denominator);
-        result.numerator = unsignedNumerator;
-        result.denominator = unsignedDenominator;
+        numerator = static_cast<NumberType1>(numerator/gcf);
+        denominator = static_cast<NumberType2>(denominator/gcf);
+        numerator = getAbsoluteValue(numerator) * getSign(numerator) * getSign(denominator);
+        denominator = getAbsoluteValue(denominator);
     }
-    else
-    {
-        result.sign = mathHelper::getSign(numerator)*mathHelper::getSign(denominator);
-        result.numerator = unsignedNumerator/greatestCommonFactor;
-        result.denominator = unsignedDenominator/greatestCommonFactor;
-    }
-    return result;
 }
-template FractionDetails getFractionDetailsInLowestForm<int, int>(int const numerator, int const denominator);
-template FractionDetails getFractionDetailsInLowestForm<int, unsigned int>(int const numerator, unsigned int const denominator);
 
+// instantiation should fit on long long int
+template void changeFractionToSimplestForm<int, unsigned int, long long int>(int & numerator, unsigned int & denominator);
 
 FractionDetails getBestFractionDetailsForDoubleValue(
-        double const doubleValue)
-{
+        double const doubleValue){
     constexpr double tolerance(1E-12);
     FractionDetails result{1, 0, 1};
-
     UnsignedIntegers partialNumerators;
     double fractionalPart(getAbsoluteValue(doubleValue)), doubleValueForNextIteration(doubleValue);
     bool isBeyondUnsignedIntegerLimits(false);

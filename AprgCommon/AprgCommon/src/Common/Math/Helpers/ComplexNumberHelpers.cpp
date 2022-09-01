@@ -16,17 +16,10 @@ AlbaNumber createNumberFromComplexNumber(AlbaComplexNumber<NumberType> const& co
 template AlbaNumber createNumberFromComplexNumber<double>(AlbaComplexNumber<double> const& value);
 
 
-AlbaComplexNumber<float> createComplexNumberFromData(AlbaNumber::ComplexNumberData const& data)
-{
-    return AlbaComplexNumber<float>(data.realPart, data.imaginaryPart);
-}
-
 void saveToComplexNumberData(AlbaNumber::ComplexNumberData & data, AlbaComplexNumber<float> const& number)
 {
-    data.realPart = number.getRealPart();
-    data.imaginaryPart = number.getImaginaryPart();
+    data.realPart = number.getRealPart();    data.imaginaryPart = number.getImaginaryPart();
 }
 
 }//namespace mathHelper
-
 }//namespace alba

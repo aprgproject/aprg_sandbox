@@ -14,14 +14,14 @@ namespace alba
 class AlbaNumber
 {
 public:
+
+    using ComplexFloat = AlbaComplexNumber<float>;
     static constexpr double ADJUSTMENT_FLOAT_TOLERANCE = 1E-15;
 
-    enum class Value
-    {
+    enum class Value    {
         Unknown,
         PositiveInfinity,
-        NegativeInfinity,
-        NotANumber,
+        NegativeInfinity,        NotANumber,
         pi,
         e
     };
@@ -76,16 +76,14 @@ public:
 
     static AlbaNumber createFraction(int const numerator, int const denominator);
     static AlbaNumber createFraction(int const numerator, unsigned int const denominator);
-    static AlbaNumber createComplexNumber(int const realPart, int const imaginaryPart);
-    static AlbaNumber createComplexNumber(double const realPart, double const imaginaryPart);
+    template <typename NumberType> static AlbaNumber createComplexNumber(NumberType const realPart, NumberType const imaginaryPart);
+    static AlbaNumber createComplexNumber(ComplexFloat const& complexNumber);
 
     AlbaNumber();
-    AlbaNumber(int const integerValue);
-    AlbaNumber(unsigned int const integerValue);
+    AlbaNumber(int const integerValue);    AlbaNumber(unsigned int const integerValue);
     AlbaNumber(long long int const integerValue);
     AlbaNumber(double const doubleValue);
     AlbaNumber(Value const value);
-
     bool operator==(AlbaNumber const& second) const;
     bool operator!=(AlbaNumber const& second) const;
     bool operator<=(AlbaNumber const& second) const;
@@ -167,77 +165,67 @@ public:
     void convertToFraction();
 
 private:
-    template <typename NumberType1, typename NumberType2>
-    void constructBasedFromFractionDetails(NumberType1 const numerator, NumberType2 const denominator);
+
+    // private constructors
+    AlbaNumber(FractionData const& fractionData);
+    AlbaNumber(ComplexNumberData const& complexNumberData);
+
+    // static functions
+    static double adjustFloatValue(float const value);
+    static ComplexFloat createComplexFloat(ComplexNumberData const& data);
+    static void correctPowerResult(double & powerResult, double const base, double const exponent);
+
     template <typename NumberType1, typename NumberType2>
     void constructBasedFromComplexNumberDetails(NumberType1 const realPart, NumberType2 const imaginaryPart);
     void convertFromDoubleToIntegerIfNeeded();
 
-    double adjustFloatValue(float const value) const;
-    double raiseToPower(double const base, double const exponent) const;
-
     AlbaNumber addBothIntegersAndReturnNumber(
-            bool & shouldBeConvertedToDouble,
             long long int const integerValue1,
             long long int const integerValue2) const;
     AlbaNumber addBothDoubleAndReturnNumber(double const doubleValue1, double const doubleValue2) const;
     AlbaNumber addBothFractionsAndReturnNumber(
-            bool & shouldBeConvertedToDouble,
             FractionData const& fractionData1,
             FractionData const& fractionData2) const;
-    AlbaNumber addIntegerAndDoubleAndReturnNumber(
-            long long int const integerValue,
+    AlbaNumber addIntegerAndDoubleAndReturnNumber(            long long int const integerValue,
             double const doubleValue) const;
     AlbaNumber addIntegerAndFractionAndReturnNumber(
-            bool & shouldBeConvertedToDouble,
             long long int const integerValue,
             FractionData const& fractionData) const;
     AlbaNumber addFractionAndDoubleAndReturnNumber(FractionData const& fractionData, double const doubleValue) const;
     AlbaNumber multiplyBothIntegersAndReturnNumber(
-            bool & shouldBeConvertedToDouble,
             long long int const integerValue1,
             long long int const integerValue2) const;
     AlbaNumber multiplyBothDoubleAndReturnNumber(double const doubleValue1, double const doubleValue2) const;
     AlbaNumber multiplyBothFractionsAndReturnNumber(
-            bool & shouldBeConvertedToDouble,
             FractionData const& fractionData1,
             FractionData const& fractionData2) const;
-    AlbaNumber multiplyIntegerAndDoubleAndReturnNumber(
-            long long int const integerValue,
+    AlbaNumber multiplyIntegerAndDoubleAndReturnNumber(            long long int const integerValue,
             double const doubleValue) const;
     AlbaNumber multiplyIntegerAndFractionAndReturnNumber(
-            bool & shouldBeConvertedToDouble,
             long long int const integerValue,
             FractionData const& fractionData) const;
     AlbaNumber multiplyFractionAndDoubleAndReturnNumber(FractionData const& fractionData, double const doubleValue) const;
     AlbaNumber divideBothIntegersAndReturnNumber(
-            bool & shouldBeConvertedToDouble,
             long long int const dividend,
             long long int const divisor) const;
     AlbaNumber divideDividendsAndDivisorsAndReturnNumber(
-            bool & shouldBeConvertedToDouble,
             long long int const dividendInteger,
             unsigned int const dividendUnsignedInteger,
             long long int const divisorInteger,
             unsigned int const divisorUnsignedInteger) const;
     AlbaNumber divideBothFractionsAndReturnNumber(
-            bool & shouldBeConvertedToDouble,
             FractionData const& dividendFractionData,
             FractionData const& divisorFractionData) const;
     AlbaNumber raisePowerOfBothIntegersAndReturnNumber(
-            bool & shouldBeConvertedToDouble,
             long long int const base,
             long long int const exponent) const;
     AlbaNumber raisePowerOfFractionsAndIntegerAndReturnNumber(
-            bool & shouldBeConvertedToDouble,
             FractionData const& baseFractionData,
             long long int const exponent) const;
-    void putDisplayableStringForDouble(
-            std::stringstream & result,
+    void putDisplayableStringForDouble(            std::stringstream & result,
             double const& doubleValue) const;
 
-    Type m_type;
-    NumberUnionData m_data;
+    Type m_type;    NumberUnionData m_data;
 };
 
 template <> AlbaNumber::ConfigurationDetails getDefaultConfigurationDetails<AlbaNumber::ConfigurationDetails>();
