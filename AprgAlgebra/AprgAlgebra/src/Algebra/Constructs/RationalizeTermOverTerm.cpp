@@ -7,14 +7,12 @@
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
 #include <Algebra/Term/Utilities/MonomialHelpers.hpp>
 #include <Algebra/Term/Utilities/TermUtilities.hpp>
-#include <Common/Math/AlbaMathHelper.hpp>
+#include <Common/Math/Helpers/FactorAndMulitplesHelpers.hpp>
 
 using namespace alba::algebra::Simplification;
 using namespace alba::mathHelper;
-
 namespace alba
 {
-
 namespace algebra
 {
 

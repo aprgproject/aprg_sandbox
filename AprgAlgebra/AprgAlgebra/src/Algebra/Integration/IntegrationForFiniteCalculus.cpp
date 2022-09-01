@@ -10,14 +10,13 @@
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
 #include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>
 #include <Algebra/Utilities/KnownNames.hpp>
-#include <Common/Math/AlbaMathHelper.hpp>
+#include <Common/Math/Helpers/CombinatoricsHelpers.hpp>
+#include <Common/Math/Helpers/SignRelatedHelpers.hpp>
 
 #include <algorithm>
-
 using namespace alba::algebra::Functions;
 using namespace alba::mathHelper;
 using namespace std;
-
 namespace alba
 {
 namespace algebra

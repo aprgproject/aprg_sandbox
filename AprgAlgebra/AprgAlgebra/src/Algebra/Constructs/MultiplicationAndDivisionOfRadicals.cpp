@@ -6,15 +6,13 @@
 #include <Algebra/Term/Utilities/ConvertHelpers.hpp>
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
 #include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>
-#include <Common/Math/AlbaMathHelper.hpp>
+#include <Common/Math/Helpers/FactorAndMulitplesHelpers.hpp>
 
 using namespace alba::mathHelper;
-using namespace alba::algebra::Simplification;
-using namespace std;
+using namespace alba::algebra::Simplification;using namespace std;
 
 namespace alba
 {
-
 namespace algebra
 {
 

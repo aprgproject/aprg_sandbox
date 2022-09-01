@@ -9,14 +9,12 @@
 #include <Algebra/Solution/Solver/SolverUsingSubstitution/SolverUsingSubstitution.hpp>
 #include <Algebra/Substitution/SubstitutionOfVariablesToValues.hpp>
 #include <Algebra/Term/Operators/TermOperators.hpp>
-#include <Common/Math/AlbaMathHelper.hpp>
+#include <Common/Math/Helpers/PrecisionHelpers.hpp>
 #include <Common/Math/Number/Interval/AlbaNumberInterval.hpp>
 #include <Common/Math/Number/Interval/AlbaNumberIntervalHelpers.hpp>
-
 using namespace alba::algebra::DomainAndRange;
 using namespace alba::mathHelper;
-using namespace alba::stringHelper;
-using namespace std;
+using namespace alba::stringHelper;using namespace std;
 
 namespace alba
 {

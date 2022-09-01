@@ -1,13 +1,12 @@
 #include "SolutionSet.hpp"
 
-#include <Common/Math/AlbaMathHelper.hpp>
+#include <Common/Math/Helpers/ComputationHelpers.hpp>
+#include <Common/Math/Helpers/SignRelatedHelpers.hpp>
 #include <Common/Math/Number/Interval/AlbaNumberIntervalHelpers.hpp>
 
 #include <algorithm>
-
 using namespace alba::mathHelper;
 using namespace std;
-
 namespace alba
 {
 

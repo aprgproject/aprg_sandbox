@@ -2,13 +2,12 @@
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
 #include <Algebra/Term/Utilities/TermUtilities.hpp>
 #include <Algebra/Vector/MathVectorOfTermsUtilities.hpp>
+#include <Common/Math/Helpers/ConstantHelpers.hpp>
 
 #include <gtest/gtest.h>
-
 using namespace alba::algebra::Functions;
 using namespace alba::mathHelper;
 using namespace std;
-
 namespace alba
 {
 

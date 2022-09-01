@@ -2,14 +2,12 @@
 #include <Algebra/KnownExpressionsAndEquations/TrigonometricEquations.hpp>
 #include <Algebra/Substitution/SubstitutionOfVariablesToValues.hpp>
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
-#include <Common/Math/AlbaMathHelper.hpp>
+#include <Common/Math/Helpers/ConstantHelpers.hpp>
 
 #include <gtest/gtest.h>
-
 #include <cmath>
 
-using namespace alba::algebra::Functions;
-using namespace alba::mathHelper;
+using namespace alba::algebra::Functions;using namespace alba::mathHelper;
 using namespace std;
 
 namespace alba

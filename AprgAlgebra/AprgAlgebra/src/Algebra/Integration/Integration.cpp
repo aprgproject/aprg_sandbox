@@ -21,15 +21,13 @@
 #include <Algebra/Term/Utilities/TermUtilities.hpp>
 #include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>
 #include <Algebra/Utilities/KnownNames.hpp>
-#include <Common/Math/AlbaMathHelper.hpp>
+#include <Common/Math/Helpers/DivisibilityHelpers.hpp>
 #include <Common/String/AlbaStringHelper.hpp>
 
-using namespace alba::algebra::Factorization;
-using namespace alba::algebra::Functions;
+using namespace alba::algebra::Factorization;using namespace alba::algebra::Functions;
 using namespace alba::algebra::Simplification;
 using namespace alba::mathHelper;
-using namespace alba::matrix;
-using namespace alba::stringHelper;
+using namespace alba::matrix;using namespace alba::stringHelper;
 using namespace std;
 
 namespace alba
