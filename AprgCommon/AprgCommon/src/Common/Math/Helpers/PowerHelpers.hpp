@@ -17,59 +17,56 @@ namespace mathHelper
 template <typename NumberType> bool isPerfectNthPower(NumberType const value, NumberType const nthPower); // declare this first
 
 
-template <typename NumberType> bool isPowerOfTwo(NumberType const value)
+template <typename NumberType> inline bool isPowerOfTwo(NumberType const value)
 {
     static_assert(std::is_integral<NumberType>::value, "Number type must be an integer");
-
     return AlbaBitValueUtilities<NumberType>::isPowerOfTwo(value);
 }
 
-template <typename NumberType> bool isPerfectSquare(NumberType const value)
+template <typename NumberType> inline bool isPerfectSquare(NumberType const value)
 {
     static_assert(std::is_integral<NumberType>::value, "Number type must be an integer");
-
     return isPerfectNthPower(value, static_cast<NumberType>(2));
 }
 
-template <typename NumberType> bool isPerfectCube(NumberType const value)
+template <typename NumberType> inline bool isPerfectCube(NumberType const value)
 {
     static_assert(std::is_integral<NumberType>::value, "Number type must be an integer");
-
     return isPerfectNthPower(value, static_cast<NumberType>(3));
 }
 
-template <typename NumberType> bool isPerfectNthPower(NumberType const value, NumberType const nthPower)
+template <typename NumberType> inline bool isPerfectNthPower(NumberType const value, NumberType const nthPower)
 {
     static_assert(std::is_integral<NumberType>::value, "Number type must be an integer");
-
     return isAlmostAnInteger<double, NumberType>(pow(value, static_cast<double>(1)/nthPower));
 }
-
 template <typename NumberType> NumberType getRaiseToPowerForIntegers(NumberType const base, NumberType const exponent)
 {
     static_assert(std::is_integral<NumberType>::value, "Number type must be an integer");
 
     // This is faster and correct than pow
-    if(exponent <= 0) // also catches negative exponents (if negative just return 1)
+
+    NumberType result(1), newBase(base), newExponent(exponent);
+    while(newExponent > 0)
     {
-        return 1;
+        if(isEven(newExponent))
+        {
+            newBase *= newBase;
+            newExponent /= 2;
+        }
+        else
+        {
+            result *= newBase;
+            newExponent--;
+        }
     }
-    else if(isEven(exponent))
-    {
-        return getRaiseToPowerForIntegers(base * base, exponent/2);
-    }
-    else
-    {
-        return base * getRaiseToPowerForIntegers(base, exponent-1);
-    }
+    return result;
 }
 
-template <typename NumberType> NumberType getRaiseToPowerForIntegersUsingPow(NumberType const base, NumberType const exponent)
-{
+template <typename NumberType> NumberType getRaiseToPowerForIntegersUsingPow(NumberType const base, NumberType const exponent){
     static_assert(std::is_integral<NumberType>::value, "Number type must be an integer");
 
     // this is slower (by not too much, check performance test)
-
     return static_cast<int>(ceil(pow(base, exponent)));
 }
 
