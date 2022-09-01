@@ -10,14 +10,12 @@ namespace alba
 namespace mathHelper
 {
 
-TEST(AlbaMathHelperTest, CreateComplexNumberFromDataWorks)
+TEST(ComplexNumberHelpersTest, CreateComplexNumberFromDataWorks)
 {
     AlbaNumber::ComplexNumberData complexData{3.5, 4.5};
-
     AlbaComplexNumber<float> expectedComplexNumber(3.5, 4.5);
     EXPECT_EQ(expectedComplexNumber, createComplexNumberFromData(complexData));
 }
-
 }
 
 }

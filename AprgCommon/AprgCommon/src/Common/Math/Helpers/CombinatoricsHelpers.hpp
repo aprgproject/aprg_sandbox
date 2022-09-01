@@ -1,13 +1,12 @@
 #pragma once
 
 #include <Common/Math/Helpers/FactorAndMulitplesHelpers.hpp>
+#include <Common/Math/Helpers/PowerHelpers.hpp>
 
 namespace alba
 {
-
 namespace mathHelper
 {
-
 template <typename NumberType> NumberType getFactorial(NumberType const number)
 {
     NumberType result(1);
@@ -91,7 +90,22 @@ template <typename NumberType> NumberType getValueAtPascalTriangle(NumberType co
     return getNumberOfCombinations(rowIndex, columnIndex);
 }
 
-int getStirlingNumberOfTheSecondKind(unsigned int const n, unsigned int const k);
+template <typename NumberType> NumberType getStirlingNumberOfTheSecondKind(NumberType const n, NumberType const k)
+{
+    // In mathematics, particularly in combinatorics, a Stirling number of the second kind (or Stirling partition number)
+    // is the number of ways to partition a set of n objects into k non-empty subsets
+
+    // Stirling numbers of the second kind occur in the field of mathematics called combinatorics and the study of partitions.
+
+    NumberType sum(0);
+    for(NumberType i=0; i<=k; i++)
+    {
+        NumberType sign = isDivisible(i, static_cast<NumberType>(2)) ? 1 : -1;
+        sum += sign * getNumberOfCombinations(k, i) * getRaiseToPowerForIntegersUsingPow(k-i, n);
+    }
+    sum /= getFactorial(k);
+    return sum;
+}
 
 }//namespace mathHelper
 

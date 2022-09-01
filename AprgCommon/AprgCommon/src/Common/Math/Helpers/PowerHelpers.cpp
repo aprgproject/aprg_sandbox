@@ -38,11 +38,6 @@ bool isPerfectNthPower(
     return result;
 }
 
-int getRaiseToPowerForIntegers(int const base, unsigned int exponent)
-{
-    return static_cast<int>(ceil(pow(base, exponent)));
-}
-
 }//namespace mathHelper
 
 }//namespace alba
