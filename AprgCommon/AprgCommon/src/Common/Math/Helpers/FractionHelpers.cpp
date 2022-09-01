@@ -3,6 +3,8 @@
 #include <Common/Math/Helpers/FactorAndMulitplesHelpers.hpp>
 #include <Common/Math/Helpers/PrecisionHelpers.hpp>
 
+#include <type_traits>
+
 using namespace std;
 
 namespace alba
@@ -61,6 +63,9 @@ FractionDetails getFractionFromPartialNumerators(
 template <typename NumberType1, typename NumberType2>
 FractionDetails getFractionDetailsInLowestForm(NumberType1 const numerator, NumberType2 const denominator)
 {
+    static_assert(std::is_integral<NumberType1>::value, "Number type 1 must be an integer");
+    static_assert(std::is_integral<NumberType2>::value, "Number type 2 must be an integer");
+
     FractionDetails result{0, 0, 0};
     unsigned int unsignedNumerator = mathHelper::getAbsoluteValue(numerator);
     unsigned int unsignedDenominator = mathHelper::getAbsoluteValue(denominator);

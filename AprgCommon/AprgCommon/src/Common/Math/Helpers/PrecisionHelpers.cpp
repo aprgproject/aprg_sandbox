@@ -36,17 +36,6 @@ template bool isValueBeyondLimits<unsigned long int>(double const value);
 template bool isValueBeyondLimits<long long int>(double const value);
 template bool isValueBeyondLimits<unsigned long long int>(double const value);
 
-
-int getIntegerPartInDouble(double const doubleValue)
-{
-    return static_cast<int>(doubleValue);
-}
-
-double getFractionalPartInDouble(double const doubleValue)
-{
-    return doubleValue-getIntegerPartInDouble(doubleValue);
-}
-
 AlbaNumber convertIfInfinityToNearestFiniteValue(AlbaNumber const& value)
 {
     AlbaNumber result(value);

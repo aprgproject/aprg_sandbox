@@ -1,14 +1,22 @@
 #pragma once
 
+#include <Common/Bit/AlbaBitValueUtilities.hpp>
 #include <Common/Math/Helpers/FactorAndMulitplesHelpers.hpp>
 #include <Common/Math/Helpers/PowerHelpers.hpp>
 
+#include <type_traits>
+
 namespace alba
 {
+
 namespace mathHelper
 {
+
 template <typename NumberType> NumberType getFactorial(NumberType const number)
 {
+    static_assert(std::is_integral<NumberType>::value, "Number type must be an integer");
+    static_assert(std::is_unsigned<NumberType>::value, "Number type must be an unsigned");
+
     NumberType result(1);
     for(NumberType currentNumber=number; currentNumber>1; currentNumber--)
     {
@@ -19,6 +27,9 @@ template <typename NumberType> NumberType getFactorial(NumberType const number)
 
 template <typename NumberType> NumberType getNumberOfPermutations(NumberType const n, NumberType const r)
 {
+    static_assert(std::is_integral<NumberType>::value, "Number type must be an integer");
+    static_assert(std::is_unsigned<NumberType>::value, "Number type must be an unsigned");
+
     NumberType result(0);
     if(n >= r)
     {
@@ -33,6 +44,9 @@ template <typename NumberType> NumberType getNumberOfPermutations(NumberType con
 
 template <typename NumberType> NumberType getNumberOfCombinations(NumberType const n, NumberType const r)
 {
+    static_assert(std::is_integral<NumberType>::value, "Number type must be an integer");
+    static_assert(std::is_unsigned<NumberType>::value, "Number type must be an unsigned");
+
     // Formula 1(recursive formula): (n, k) = (n-1, k-1) + (n-1, k)
     // Base cases: (n, 0) = 1, (n, n) = 1
     // Idea: The idea is to fix an element x in the set.
@@ -47,6 +61,7 @@ template <typename NumberType> NumberType getNumberOfCombinations(NumberType con
 
     // Formula 2 is the one implemented below:
 
+    constexpr NumberType THRESHOLD_FOR_CHECKING_GCF = NumberType(1) << (AlbaBitValueUtilities<NumberType>::getNumberOfBits()/2);
     NumberType result(0);
     if(n >= r)
     {
@@ -69,7 +84,7 @@ template <typename NumberType> NumberType getNumberOfCombinations(NumberType con
                 accumulatedDenominator *= denominator--;
                 shouldContinue = true;
             }
-            if(shouldContinue)
+            if(shouldContinue && accumulatedNumerator > THRESHOLD_FOR_CHECKING_GCF)
             {
                 NumberType gcf = getGreatestCommonFactor(accumulatedNumerator, accumulatedDenominator);
                 accumulatedNumerator /= gcf;
@@ -83,6 +98,9 @@ template <typename NumberType> NumberType getNumberOfCombinations(NumberType con
 
 template <typename NumberType> NumberType getValueAtPascalTriangle(NumberType const rowIndex, NumberType const columnIndex)
 {
+    static_assert(std::is_integral<NumberType>::value, "Number type must be an integer");
+    static_assert(std::is_unsigned<NumberType>::value, "Number type must be an unsigned");
+
     // This is also called the binomial coefficient.
     // The binomial coefficient equals the number of ways we can choose a subset of k elements from a set of n elements.
     // The binomial coefficient = number of combinations
@@ -90,18 +108,27 @@ template <typename NumberType> NumberType getValueAtPascalTriangle(NumberType co
     return getNumberOfCombinations(rowIndex, columnIndex);
 }
 
-template <typename NumberType> NumberType getStirlingNumberOfTheSecondKind(NumberType const n, NumberType const k)
+template <typename NumberType>
+typename std::make_signed<NumberType>::type
+getStirlingNumberOfTheSecondKind(NumberType const n, NumberType const k)
 {
+    static_assert(std::is_integral<NumberType>::value, "Number type must be an integer");
+    static_assert(std::is_unsigned<NumberType>::value, "Number type must be an unsigned");
+
     // In mathematics, particularly in combinatorics, a Stirling number of the second kind (or Stirling partition number)
     // is the number of ways to partition a set of n objects into k non-empty subsets
 
     // Stirling numbers of the second kind occur in the field of mathematics called combinatorics and the study of partitions.
 
-    NumberType sum(0);
+    using SignedType = typename std::make_signed<NumberType>::type;
+
+    SignedType sum(0);
+    bool isDivisibleByTwo(true);
     for(NumberType i=0; i<=k; i++)
     {
-        NumberType sign = isDivisible(i, static_cast<NumberType>(2)) ? 1 : -1;
+        SignedType sign = isDivisibleByTwo ? 1 : -1;
         sum += sign * getNumberOfCombinations(k, i) * getRaiseToPowerForIntegersUsingPow(k-i, n);
+        isDivisibleByTwo = !isDivisibleByTwo;
     }
     sum /= getFactorial(k);
     return sum;

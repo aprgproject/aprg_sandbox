@@ -26,17 +26,17 @@ template <typename NumberType> inline NumberType getAverage(NumberType const val
 
 template <typename NumberType> inline NumberType getXSquaredPlusYSquared(NumberType const x, NumberType const y)
 {
-    return static_cast<NumberType>(pow(x, 2)+pow(y, 2));
+    return x*x + y*y;
 }
 
 template <typename NumberType> inline NumberType getSquareRootOfXSquaredPlusYSquared(NumberType const x, NumberType const y)
 {
-    return static_cast<NumberType>(pow(pow(x, 2)+pow(y, 2), 0.5));
+    return static_cast<NumberType>(pow(x*x + y*y, 0.5));
 }
 
 template <typename NumberType> inline NumberType getSquareRootOfXSquaredPlusYSquaredPlusZSquared(NumberType const x, NumberType const y, NumberType const z)
 {
-    return static_cast<NumberType>(pow(pow(x, 2)+pow(y, 2)+pow(z, 2), 0.5));
+    return static_cast<NumberType>(pow(x*x + y*y + z*z, 0.5));
 }
 
 template <typename NumberType> inline NumberType clampLowerBound(NumberType const value, NumberType const limit)
@@ -54,7 +54,6 @@ inline AlbaNumber getAverage(AlbaNumber const& value1, AlbaNumber const& value2)
     return (value1+value2)/2;
 }
 
-AlbaNumbers getQuadraticRealRoots(AlbaNumber const& a, AlbaNumber const& b, AlbaNumber const& c);
 AlbaNumbers getQuadraticRoots(RootType const rootType, AlbaNumber const& a, AlbaNumber const& b, AlbaNumber const& c);
 
 }//namespace mathHelper

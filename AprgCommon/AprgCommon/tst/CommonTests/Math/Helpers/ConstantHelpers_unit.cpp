@@ -19,6 +19,7 @@ TEST(ConstantHelpersTest, GetEWorks)
 {
     EXPECT_DOUBLE_EQ(2.7182818284590452354, getE());
 }
+
 }
 
 }

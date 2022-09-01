@@ -7,9 +7,11 @@
 #include <Common/Math/Helpers/PowerHelpers.hpp>
 #include <Common/Math/Helpers/PrecisionHelpers.hpp>
 #include <Common/Math/Number/AlbaComplexNumber.hpp>
+
 #include <cmath>
 
-using namespace alba::mathHelper;using namespace std;
+using namespace alba::mathHelper;
+using namespace std;
 
 namespace alba
 {
@@ -1319,9 +1321,11 @@ AlbaNumber AlbaNumber::raisePowerOfBothIntegersAndReturnNumber(
     }
     return result;
 }
+
 AlbaNumber AlbaNumber::raisePowerOfFractionsAndIntegerAndReturnNumber(
         bool & shouldBeConvertedToDouble,
-        AlbaNumber::FractionData const& baseFractionData,        long long int const exponent) const
+        AlbaNumber::FractionData const& baseFractionData,
+        long long int const exponent) const
 {
     AlbaNumber result;
     unsigned long long int absoluteValueOfExponent(static_cast<unsigned long long int>(getAbsoluteValue(exponent)));

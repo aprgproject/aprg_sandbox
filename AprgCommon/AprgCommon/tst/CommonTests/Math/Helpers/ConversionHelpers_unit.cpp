@@ -20,7 +20,9 @@ TEST(ConversionHelpersTest, ConvertRadiansToDegreesWorks)
 TEST(ConversionHelpersTest, ConvertDegreesToRadiansWorks)
 {
     EXPECT_DOUBLE_EQ(getPi(), convertDegreesToRadians(180));
-    EXPECT_DOUBLE_EQ(17.191493132144146, convertDegreesToRadians(985));}
+    EXPECT_DOUBLE_EQ(17.191493132144146, convertDegreesToRadians(985));
+}
 
 }
+
 }

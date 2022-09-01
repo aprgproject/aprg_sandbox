@@ -10,26 +10,6 @@ namespace alba
 namespace mathHelper
 {
 
-AlbaNumbers getQuadraticRealRoots(
-        AlbaNumber const& a,
-        AlbaNumber const& b,
-        AlbaNumber const& c)
-{
-    AlbaNumbers result;
-    AlbaNumber twoA = a*2;
-    AlbaNumber firstPart((-b)/twoA);
-    AlbaNumber discriminant((b^2)-(a*c*4));
-    if(discriminant >= 0)
-    {
-        AlbaNumber discriminantSquaredRoot
-                = discriminant^(AlbaNumber::createFraction(1, 2));
-        AlbaNumber secondPart(discriminantSquaredRoot/twoA);
-        result.emplace_back(firstPart + secondPart);
-        result.emplace_back(firstPart - secondPart);
-    }
-    return result;
-}
-
 AlbaNumbers getQuadraticRoots(
         RootType const rootType,
         AlbaNumber const& a,

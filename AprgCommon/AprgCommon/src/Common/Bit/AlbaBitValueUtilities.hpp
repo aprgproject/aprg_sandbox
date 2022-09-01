@@ -14,20 +14,25 @@ public:
 
     static constexpr bool isPowerOfTwo(DataTypeToManipulate const value)
     {
+        static_assert(std::is_integral<DataTypeToManipulate>::value, "DataTypeToManipulate must be an integer");
+
         return (value & (value-1))==0;
     }
 
     static constexpr bool isEvenParity(DataTypeToManipulate const value)
     {
+        static_assert(std::is_integral<DataTypeToManipulate>::value, "DataTypeToManipulate must be an integer");
+
         // This is similar with __builtin_parity(x)
-        return getNumberOfOnes(value)%2==0;
+        return getNumberOfOnes(value)%2 == 0;
     }
 
     static constexpr unsigned int getNumberOfBits()
     {
-        unsigned int result(std::numeric_limits<DataTypeToManipulate>::digits);
-        result += std::numeric_limits<DataTypeToManipulate>::is_signed ? 1 : 0;
-        return result;
+        static_assert(std::is_integral<DataTypeToManipulate>::value, "DataTypeToManipulate must be an integer");
+
+        return std::numeric_limits<DataTypeToManipulate>::digits
+                + (std::numeric_limits<DataTypeToManipulate>::is_signed ? 1 : 0);
     }
 
     /*static constexpr unsigned int getNumberOfConsecutiveZerosFromMostSignificantDigit(DataTypeToManipulate const value)
@@ -48,6 +53,7 @@ public:
     {
         // This is similar with __builtin_popcount(x)
         // std::bitset can be used here but it would no longer be constexpr
+        static_assert(std::is_integral<DataTypeToManipulate>::value, "DataTypeToManipulate must be an integer");
         static_assert(sizeof(DataTypeToManipulate) != sizeof(DataTypeToManipulate),
                       "This size or type is not supported. Please add a specialization if needed.");
         return 0;
@@ -55,34 +61,46 @@ public:
 
     static constexpr unsigned int getHammingDistance(DataTypeToManipulate const value1, DataTypeToManipulate const value2)
     {
+        static_assert(std::is_integral<DataTypeToManipulate>::value, "DataTypeToManipulate must be an integer");
+
         // The Hamming distance hamming(a,b) between two bitstrings a and b of equal length is the number of positions where the bitstrings differ.
         return getNumberOfOnes(value1 ^ value2);
     }
 
     static constexpr DataTypeToManipulate generateOnesWithNumberOfBits(unsigned int const numberOfOnes)
     {
+        static_assert(std::is_integral<DataTypeToManipulate>::value, "DataTypeToManipulate must be an integer");
+
         return (DataTypeToManipulate(1) << numberOfOnes)-1;
     }
 
     static constexpr DataTypeToManipulate getAllOnes()
     {
+        static_assert(std::is_integral<DataTypeToManipulate>::value, "DataTypeToManipulate must be an integer");
         static_assert(sizeof(DataTypeToManipulate) != sizeof(DataTypeToManipulate),
                       "This size or type is not supported. Please add a specialization if needed.");
+
         return 0;
     }
 
     static constexpr DataTypeToManipulate get2ToThePowerOf(DataTypeToManipulate const exponent)
     {
+        static_assert(std::is_integral<DataTypeToManipulate>::value, "DataTypeToManipulate must be an integer");
+
         return DataTypeToManipulate(1) << exponent;
     }
 
     static constexpr DataTypeToManipulate getTwosComplement(DataTypeToManipulate const value)
     {
+        static_assert(std::is_integral<DataTypeToManipulate>::value, "DataTypeToManipulate must be an integer");
+
         return value * -1;
     }
 
     static constexpr DataTypeToManipulate getGreatestPowerOf2Factor(DataTypeToManipulate const value)
     {
+        static_assert(std::is_integral<DataTypeToManipulate>::value, "DataTypeToManipulate must be an integer");
+
         return value & (-value);
     }
 };

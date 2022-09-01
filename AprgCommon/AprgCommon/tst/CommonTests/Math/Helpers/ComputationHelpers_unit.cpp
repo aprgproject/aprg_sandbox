@@ -16,13 +16,6 @@ TEST(ComputationHelpersTest, GetAverageOfTwoNumbersWorksForPrimitiveTypes)
     EXPECT_EQ(55, getAverage(10, 100));
 }
 
-TEST(ComputationHelpersTest, GetAverageOfTwoNumbersForAlbaNumberWorks)
-{
-    EXPECT_EQ(AlbaNumber(0),
-              getAverage(AlbaNumber::createFraction(1, 3), AlbaNumber::createFraction(-1, 3)));    EXPECT_EQ(AlbaNumber::createFraction(1, 3),
-              getAverage(AlbaNumber::createFraction(1, 3), AlbaNumber::createFraction(1, 3)));
-}
-
 TEST(ComputationHelpersTest, GetAverageOfThreeNumbersWorks)
 {
     EXPECT_EQ(0, getAverage(-10, 10, 0));
@@ -32,21 +25,24 @@ TEST(ComputationHelpersTest, GetAverageOfThreeNumbersWorks)
 TEST(ComputationHelpersTest, GetXSquaredPlusYSquaredWorks)
 {
     EXPECT_EQ(25, getXSquaredPlusYSquared(3, 4));
-    EXPECT_EQ(169, getXSquaredPlusYSquared(5, -12));    EXPECT_EQ(625, getXSquaredPlusYSquared(-7, 24));
+    EXPECT_EQ(169, getXSquaredPlusYSquared(5, -12));
+    EXPECT_EQ(625, getXSquaredPlusYSquared(-7, 24));
     EXPECT_EQ(289, getXSquaredPlusYSquared(-8, -15));
 }
 
 TEST(ComputationHelpersTest, GetSquareRootOfXSquaredPlusYSquaredWorks)
 {
     EXPECT_EQ(5, getSquareRootOfXSquaredPlusYSquared(3, 4));
-    EXPECT_EQ(13, getSquareRootOfXSquaredPlusYSquared(5, -12));    EXPECT_EQ(25, getSquareRootOfXSquaredPlusYSquared(-7, 24));
+    EXPECT_EQ(13, getSquareRootOfXSquaredPlusYSquared(5, -12));
+    EXPECT_EQ(25, getSquareRootOfXSquaredPlusYSquared(-7, 24));
     EXPECT_EQ(17, getSquareRootOfXSquaredPlusYSquared(-8, -15));
 }
 
 TEST(ComputationHelpersTest, GetSquareRootOfXSquaredPlusYSquaredPlusZSquaredWorks)
 {
     EXPECT_EQ(3, getSquareRootOfXSquaredPlusYSquaredPlusZSquared(1,2,2));
-    EXPECT_EQ(15, getSquareRootOfXSquaredPlusYSquaredPlusZSquared(-2,10,11));    EXPECT_EQ(21, getSquareRootOfXSquaredPlusYSquaredPlusZSquared(4,-13,16));
+    EXPECT_EQ(15, getSquareRootOfXSquaredPlusYSquaredPlusZSquared(-2,10,11));
+    EXPECT_EQ(21, getSquareRootOfXSquaredPlusYSquaredPlusZSquared(4,-13,16));
     EXPECT_EQ(27, getSquareRootOfXSquaredPlusYSquaredPlusZSquared(2,10,-25));
     EXPECT_EQ(7, getSquareRootOfXSquaredPlusYSquaredPlusZSquared(-2,-3,-6));
 }
@@ -54,7 +50,8 @@ TEST(ComputationHelpersTest, GetSquareRootOfXSquaredPlusYSquaredPlusZSquaredWork
 TEST(ComputationHelpersTest, ClampLowerBoundWorks)
 {
     EXPECT_EQ(3, clampLowerBound(1, 3));
-    EXPECT_EQ(3, clampLowerBound(2, 3));    EXPECT_EQ(3, clampLowerBound(3, 3));
+    EXPECT_EQ(3, clampLowerBound(2, 3));
+    EXPECT_EQ(3, clampLowerBound(3, 3));
     EXPECT_EQ(4, clampLowerBound(4, 3));
     EXPECT_EQ(5, clampLowerBound(5, 3));
 }
@@ -62,14 +59,24 @@ TEST(ComputationHelpersTest, ClampLowerBoundWorks)
 TEST(ComputationHelpersTest, ClampHigherBoundWorks)
 {
     EXPECT_EQ(1, clampHigherBound(1, 3));
-    EXPECT_EQ(2, clampHigherBound(2, 3));    EXPECT_EQ(3, clampHigherBound(3, 3));
+    EXPECT_EQ(2, clampHigherBound(2, 3));
+    EXPECT_EQ(3, clampHigherBound(3, 3));
     EXPECT_EQ(3, clampHigherBound(4, 3));
     EXPECT_EQ(3, clampHigherBound(5, 3));
+}
+
+TEST(ComputationHelpersTest, GetAverageOfTwoNumbersForAlbaNumberWorks)
+{
+    EXPECT_EQ(AlbaNumber(0),
+              getAverage(AlbaNumber::createFraction(1, 3), AlbaNumber::createFraction(-1, 3)));
+    EXPECT_EQ(AlbaNumber::createFraction(1, 3),
+              getAverage(AlbaNumber::createFraction(1, 3), AlbaNumber::createFraction(1, 3)));
 }
 
 TEST(ComputationHelpersTest, GetQuadraticWorksWithRealRootsOnlyWithInputHavingRealRoots)
 {
     AlbaNumbers quadraticRoots(getQuadraticRoots(RootType::RealRootsOnly, 8, 22, 15));
+
     ASSERT_EQ(2U, quadraticRoots.size());
     EXPECT_EQ(AlbaNumber(-1.25), quadraticRoots.at(0));
     EXPECT_EQ(AlbaNumber(-1.5), quadraticRoots.at(1));
@@ -78,12 +85,14 @@ TEST(ComputationHelpersTest, GetQuadraticWorksWithRealRootsOnlyWithInputHavingRe
 TEST(ComputationHelpersTest, GetQuadraticWorksWithRealRootsOnlyWithInputHavingImaginaryRoots)
 {
     AlbaNumbers quadraticRoots(getQuadraticRoots(RootType::RealRootsOnly, 1, 0, 4));
+
     EXPECT_TRUE(quadraticRoots.empty());
 }
 
 TEST(ComputationHelpersTest, GetQuadraticWorksWithRealAndImaginaryRootsWithInputHavingRealRoots)
 {
     AlbaNumbers quadraticRoots(getQuadraticRoots(RootType::RealAndImaginaryRoots, 8, 22, 15));
+
     ASSERT_EQ(2U, quadraticRoots.size());
     EXPECT_EQ(AlbaNumber(-1.25), quadraticRoots.at(0));
     EXPECT_EQ(AlbaNumber(-1.5), quadraticRoots.at(1));
@@ -92,9 +101,11 @@ TEST(ComputationHelpersTest, GetQuadraticWorksWithRealAndImaginaryRootsWithInput
 TEST(ComputationHelpersTest, GetQuadraticWorksWithRealAndImaginaryRootsWithInputHavingImaginaryRoots)
 {
     AlbaNumbers quadraticRoots(getQuadraticRoots(RootType::RealAndImaginaryRoots, 1, 0, 4));
+
     ASSERT_EQ(2U, quadraticRoots.size());
     EXPECT_EQ(AlbaNumber::createComplexNumber(0, 2), quadraticRoots.at(0));
-    EXPECT_EQ(AlbaNumber::createComplexNumber(0, -2), quadraticRoots.at(1));}
+    EXPECT_EQ(AlbaNumber::createComplexNumber(0, -2), quadraticRoots.at(1));
+}
 
 }
 
