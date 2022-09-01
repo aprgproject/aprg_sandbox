@@ -1,6 +1,5 @@
 #pragma once
 
-#include <Common/Math/AlbaMathHelper.hpp>
 #include <Common/Math/Vector/AlbaMathVector.hpp>
 
 #include <cmath>

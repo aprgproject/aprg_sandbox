@@ -1,5 +1,5 @@
-#include <Common/Math/AlbaMathHelper.hpp>
 #include <Common/Math/Angle/AlbaAngle.hpp>
+#include <Common/Math/Helpers/ConstantHelpers.hpp>
 
 #include <gtest/gtest.h>
 

@@ -1,6 +1,6 @@
 #pragma once
 
-#include <Common/Math/AlbaMathHelper.hpp>
+#include <Common/Math/Helpers/PrecisionHelpers.hpp>
 
 #include <sstream>
 #include <string>

@@ -4,6 +4,8 @@
 #include <Common/Math/Matrix/Utilities/AlbaMatrixUtilities.hpp>
 #include <Common/Math/Matrix/Utilities/GaussJordanReductionHeaders.hpp>
 
+#include <cassert>
+
 namespace alba
 {
 

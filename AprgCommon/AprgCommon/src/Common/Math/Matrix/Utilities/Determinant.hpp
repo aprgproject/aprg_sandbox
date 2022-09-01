@@ -1,5 +1,6 @@
 #pragma once
 
+#include <Common/Math/Helpers/DivisibilityHelpers.hpp>
 #include <Common/Math/Matrix/AlbaMatrix.hpp>
 #include <Common/Math/Matrix/Utilities/DeterminantHeaders.hpp>
 

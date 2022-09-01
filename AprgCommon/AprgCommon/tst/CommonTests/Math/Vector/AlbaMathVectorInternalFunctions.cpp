@@ -1,6 +1,6 @@
 #include "AlbaMathVectorInternalFunctions.hpp"
 
-#include <Common/Math/AlbaMathHelper.hpp>
+#include <Common/Math/Helpers/PrecisionHelpers.hpp>
 
 namespace alba
 {

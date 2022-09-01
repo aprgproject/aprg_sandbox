@@ -1,6 +1,8 @@
 #include "AlbaAngle.hpp"
 
-#include <Common/Math/AlbaMathHelper.hpp>
+#include <Common/Math/Helpers/ConstantHelpers.hpp>
+#include <Common/Math/Helpers/ConversionHelpers.hpp>
+#include <Common/Math/Helpers/PrecisionHelpers.hpp>
 
 #include <cmath>
 #include <sstream>

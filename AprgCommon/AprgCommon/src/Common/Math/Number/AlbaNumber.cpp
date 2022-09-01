@@ -1,6 +1,10 @@
 #include "AlbaNumber.hpp"
 
-#include <Common/Math/AlbaMathHelper.hpp>
+#include <Common/Math/Helpers/ComplexNumberHelpers.hpp>
+#include <Common/Math/Helpers/DivisibilityHelpers.hpp>
+#include <Common/Math/Helpers/FactorAndMulitplesHelpers.hpp>
+#include <Common/Math/Helpers/FractionHelpers.hpp>
+#include <Common/Math/Helpers/PrecisionHelpers.hpp>
 #include <Common/Math/Number/AlbaComplexNumber.hpp>
 
 #include <cmath>

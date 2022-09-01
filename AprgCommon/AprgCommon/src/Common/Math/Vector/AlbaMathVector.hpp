@@ -1,10 +1,9 @@
 #pragma once
 
-#include <Common/Math/AlbaMathHelper.hpp>
-
 #include <algorithm>
 #include <array>
 #include <cmath>
+#include <cassert>
 #include <numeric>
 #include <sstream>
 #include <string>
