@@ -1,0 +1,11 @@
+m_numberOfChoices: 5
+m_acceptableLineDeviationForLineModelInPixels: 2
+m_acceptableLineWidthDeviationInPixels: 4
+m_acceptableBarWidthDeviationInPixels: 8
+m_acceptableBarHeightDeviationInPixels: 10
+m_minimumLineSamples: 10
+m_retainRatioForSquareErrorsInLineModel: 0.90
+m_maximumBarWidth: 500
+m_minimumNumberOfBarWidthsForABar: 20
+m_ratioOfBarHeightToDiameter: 0.5
+m_minimumPercentageOfBlackPixelsForAFilledCircle: 0.7
