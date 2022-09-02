@@ -1,15 +1,14 @@
 #include "Hyperbola.hpp"
 
 #include <Common/Container/AlbaValueRange.hpp>
-#include <Common/Math/AlbaMathHelper.hpp>
+#include <Common/Math/Helpers/ComputationHelpers.hpp>
+#include <Common/Math/Helpers/ConstantHelpers.hpp>
 #include <Geometry/TwoDimensions/TwoDimensionsHelper.hpp>
 
 #include <cmath>
-
 using namespace alba::mathHelper;
 using namespace alba::TwoDimensions::twoDimensionsHelper;
 using namespace std;
-
 namespace alba
 {
 

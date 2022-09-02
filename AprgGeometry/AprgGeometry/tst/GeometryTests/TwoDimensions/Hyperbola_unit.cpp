@@ -1,12 +1,9 @@
-#include <Common/Math/AlbaMathHelper.hpp>
 #include <Geometry/TwoDimensions/Hyperbola.hpp>
 
 #include <gtest/gtest.h>
-
 #include <cmath>
 
 using namespace std;
-
 namespace alba
 {
 

@@ -1,14 +1,11 @@
 #include "Line.hpp"
 
 #include <Common/Container/AlbaValueRange.hpp>
-#include <Common/Math/AlbaMathHelper.hpp>
 
 #include <algorithm>
 #include <cmath>
-
 using namespace alba::mathHelper;
 using namespace std;
-
 namespace alba
 {
 
