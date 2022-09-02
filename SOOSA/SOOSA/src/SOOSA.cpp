@@ -12,14 +12,13 @@
 #include <iostream>
 #include <sstream>
 
+#define NUMBER_OF_CHOICES 5
 #define ALLOWABLE_LINE_DEVIATION_FOR_LINE_MODEL 2
 #define ALLOWABLE_HALF_LINE_WIDTH_DEVIATION 2
-#define ALLOWABLE_HALF_BAR_WIDTH_DEVIATION 4
-#define ALLOWABLE_LINE_WIDTH_DEVIATION ALLOWABLE_HALF_LINE_WIDTH_DEVIATION*2
+#define ALLOWABLE_HALF_BAR_WIDTH_DEVIATION 4#define ALLOWABLE_LINE_WIDTH_DEVIATION ALLOWABLE_HALF_LINE_WIDTH_DEVIATION*2
 #define ALLOWABLE_BAR_WIDTH_DEVIATION ALLOWABLE_HALF_BAR_WIDTH_DEVIATION*2
 #define ALLOWABLE_BAR_HEIGHT_DEVIATION 10
-#define MINIMUM_NUMBER_OF_LINE_SAMPLES 10
-#define RETAIN_RATIO_FOR_DEVIATION 0.90
+#define MINIMUM_NUMBER_OF_LINE_SAMPLES 10#define RETAIN_RATIO_FOR_DEVIATION 0.90
 #define MAXIMUM_BAR_WIDTH 500
 #define MINIMUM_NUMBER_OF_BAR_WIDTHS_TO_BE_A_BAR 20
 #define BAR_HEIGHT_TO_DIAMETER_RATIO 0.5
@@ -39,42 +38,32 @@ namespace soosa
 SOOSA::FrequencyDatabase::FrequencyDatabase(unsigned int numberOfQuestions)
     : m_numberOfQuestions(numberOfQuestions)
 {
-    clear();
+    initialize();
 }
 
-void SOOSA::FrequencyDatabase::clear()
+void SOOSA::FrequencyDatabase::initialize()
 {
-    for(unsigned int i=0; i<m_numberOfQuestions; i++)
-    {
-        for(unsigned int j=0; j<NUMBER_OF_CHOICES; j++)
-        {
-            m_questionToAnswerFrequencyMap[i][j]=0;
-        }
-    }
+    m_frequenciesOnQuestionByAnswer.clearAndResize(m_numberOfQuestions, NUMBER_OF_CHOICES);
 }
 
-void SOOSA::FrequencyDatabase::addAnswer(unsigned int const questionNumber, unsigned int const answer)
-{
+void SOOSA::FrequencyDatabase::addAnswer(unsigned int const questionNumber, unsigned int const answer){
     if(questionNumber<m_numberOfQuestions && answer<=4)
     {
-        m_questionToAnswerFrequencyMap[questionNumber][answer]++;
+        m_frequenciesOnQuestionByAnswer.getEntryReference(questionNumber, answer)++;
     }
 }
-
 unsigned int SOOSA::FrequencyDatabase::getFrequencyOfAnswer(unsigned int const questionNumber, unsigned int const answer) const
 {
     unsigned int frequency=0;
     if(questionNumber<m_numberOfQuestions && answer<=4)
     {
-        frequency = m_questionToAnswerFrequencyMap.at(questionNumber).at(answer);
+        frequency = m_frequenciesOnQuestionByAnswer.getEntry(questionNumber, answer);
     }
     return frequency;
 }
-
 SOOSA::PointAndWidth::PointAndWidth(Point const& point, double const width)
     : m_point(point), m_width(width)
 {}
-
 Point SOOSA::PointAndWidth::getPoint() const
 {
     return m_point;
