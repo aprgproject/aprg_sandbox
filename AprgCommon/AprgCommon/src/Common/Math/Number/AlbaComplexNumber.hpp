@@ -40,10 +40,12 @@ public:
             unsigned int const rootDegree) const;
     std::string getDisplayableString() const;
 
-private:    DataType getRealPartInMultiplication(
+private:
+    DataType getRealPartInMultiplication(
             DataType const firstRealPart,
             DataType const firstImaginaryPart,
-            DataType const secondRealPart,            DataType const secondImaginaryPart) const;
+            DataType const secondRealPart,
+            DataType const secondImaginaryPart) const;
     DataType getImaginaryPartInMultiplication(
             DataType const firstRealPart,
             DataType const firstImaginaryPart,

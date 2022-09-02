@@ -7,10 +7,12 @@
 #include <Common/Math/Helpers/ComputationHelpers.hpp>
 #include <Common/Math/Number/Interval/AlbaNumberIntervalHelpers.hpp>
 
-using namespace alba::mathHelper;using namespace std;
+using namespace alba::mathHelper;
+using namespace std;
 
 namespace alba
 {
+
 namespace algebra
 {
 

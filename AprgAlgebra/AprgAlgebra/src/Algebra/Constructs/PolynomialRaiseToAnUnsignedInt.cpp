@@ -6,10 +6,12 @@
 #include <Common/Math/Helpers/FactorAndMulitplesHelpers.hpp>
 
 using namespace alba::algebra::Factorization;
-using namespace alba::mathHelper;using namespace std;
+using namespace alba::mathHelper;
+using namespace std;
 
 namespace alba
 {
+
 namespace algebra
 {
 

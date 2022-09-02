@@ -6,8 +6,10 @@
 
 using namespace alba::mathHelper;
 using namespace std;
+
 namespace alba
 {
+
 namespace algebra
 {
 

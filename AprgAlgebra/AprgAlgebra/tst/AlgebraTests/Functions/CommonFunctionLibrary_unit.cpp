@@ -7,8 +7,10 @@
 #include <Common/Math/Helpers/LogarithmHelpers.hpp>
 
 #include <gtest/gtest.h>
+
 using namespace alba::mathHelper;
 using namespace std;
+
 namespace alba
 {
 

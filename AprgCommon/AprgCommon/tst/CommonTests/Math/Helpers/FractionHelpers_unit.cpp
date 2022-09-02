@@ -102,9 +102,11 @@ TEST(FractionHelpersTest, ChangeFractionToSimplestFormForSignedWorks)
 
 TEST(FractionHelpersTest, GetBestFractionDetailsForDoubleValueWorks)
 {
-    FractionDetails fractionDetails1(getBestFractionDetailsForDoubleValue(0));    EXPECT_EQ(1, fractionDetails1.sign);
+    FractionDetails fractionDetails1(getBestFractionDetailsForDoubleValue(0));
+    EXPECT_EQ(1, fractionDetails1.sign);
     EXPECT_EQ(0U, fractionDetails1.numerator);
     EXPECT_EQ(1U, fractionDetails1.denominator);
+
     FractionDetails fractionDetails2(getBestFractionDetailsForDoubleValue(1));
     EXPECT_EQ(1, fractionDetails2.sign);
     EXPECT_EQ(1U, fractionDetails2.numerator);

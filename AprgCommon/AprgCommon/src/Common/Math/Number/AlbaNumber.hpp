@@ -18,10 +18,12 @@ public:
     using ComplexFloat = AlbaComplexNumber<float>;
     static constexpr double ADJUSTMENT_FLOAT_TOLERANCE = 1E-15;
 
-    enum class Value    {
+    enum class Value
+    {
         Unknown,
         PositiveInfinity,
-        NegativeInfinity,        NotANumber,
+        NegativeInfinity,
+        NotANumber,
         pi,
         e
     };
@@ -80,10 +82,12 @@ public:
     static AlbaNumber createComplexNumber(ComplexFloat const& complexNumber);
 
     AlbaNumber();
-    AlbaNumber(int const integerValue);    AlbaNumber(unsigned int const integerValue);
+    AlbaNumber(int const integerValue);
+    AlbaNumber(unsigned int const integerValue);
     AlbaNumber(long long int const integerValue);
     AlbaNumber(double const doubleValue);
     AlbaNumber(Value const value);
+
     bool operator==(AlbaNumber const& second) const;
     bool operator!=(AlbaNumber const& second) const;
     bool operator<=(AlbaNumber const& second) const;
@@ -186,7 +190,8 @@ private:
     AlbaNumber addBothFractionsAndReturnNumber(
             FractionData const& fractionData1,
             FractionData const& fractionData2) const;
-    AlbaNumber addIntegerAndDoubleAndReturnNumber(            long long int const integerValue,
+    AlbaNumber addIntegerAndDoubleAndReturnNumber(
+            long long int const integerValue,
             double const doubleValue) const;
     AlbaNumber addIntegerAndFractionAndReturnNumber(
             long long int const integerValue,
@@ -199,7 +204,8 @@ private:
     AlbaNumber multiplyBothFractionsAndReturnNumber(
             FractionData const& fractionData1,
             FractionData const& fractionData2) const;
-    AlbaNumber multiplyIntegerAndDoubleAndReturnNumber(            long long int const integerValue,
+    AlbaNumber multiplyIntegerAndDoubleAndReturnNumber(
+            long long int const integerValue,
             double const doubleValue) const;
     AlbaNumber multiplyIntegerAndFractionAndReturnNumber(
             long long int const integerValue,
@@ -222,10 +228,12 @@ private:
     AlbaNumber raisePowerOfFractionsAndIntegerAndReturnNumber(
             FractionData const& baseFractionData,
             long long int const exponent) const;
-    void putDisplayableStringForDouble(            std::stringstream & result,
+    void putDisplayableStringForDouble(
+            std::stringstream & result,
             double const& doubleValue) const;
 
-    Type m_type;    NumberUnionData m_data;
+    Type m_type;
+    NumberUnionData m_data;
 };
 
 template <> AlbaNumber::ConfigurationDetails getDefaultConfigurationDetails<AlbaNumber::ConfigurationDetails>();

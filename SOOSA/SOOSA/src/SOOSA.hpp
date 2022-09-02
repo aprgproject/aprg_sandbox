@@ -6,7 +6,7 @@
 #include <Common/String/AlbaStringHelper.hpp>
 #include <Geometry/TwoDimensions/Line.hpp>
 #include <Geometry/TwoDimensions/Point.hpp>
-#include <SoosaConfiguration.hpp>
+#include <InputConfiguration.hpp>
 #include <Statistics/DataCollection.hpp>
 #include <Statistics/KMeansClustering.hpp>
 #include <Statistics/TwoDimensionsStatistics.hpp>
@@ -49,12 +49,12 @@ public:
         double m_width;
     };
 
-    class StatusStatus
+    class Status
     {
-        StatusStatus();
+        Status();
     public:
-        static StatusStatus getInstance();
-        std::string getSoosaStatus() const;
+        static Status getInstance();
+        std::string getStatusString() const;
         void setError(std::string const& error);
         void clearErrors();
         bool isStatusNoError() const;
@@ -79,14 +79,15 @@ public:
     using OneDimensionStatistics = DataStatistics<1>;
     using DequeOfPoints = std::deque<TwoDimensions::Point>;
 
-    SOOSA(SoosaConfiguration const& configuration);
+    SOOSA(InputConfiguration const& configuration);
     unsigned int getNumberOfAnswers() const;
     unsigned int getAnswerToQuestion(unsigned int const questionNumber) const;
     void process();
 
 private:
     std::string getCsvFileName(std::string const& path) const;
-    std::string getReportHtmlFileName(std::string const& path) const;    std::string getPrintableStringForPercentage(double const numerator, double const denominator) const;
+    std::string getReportHtmlFileName(std::string const& path) const;
+    std::string getPrintableStringForPercentage(double const numerator, double const denominator) const;
     void setAnswerToQuestionInColumn(unsigned int const columnNumber, unsigned int const questionOffsetInColumn, unsigned int const answer);
     void saveDataToCsvFile(std::string const& processedFilePath) const;
     void saveHeadersToCsvFile() const;
@@ -94,10 +95,12 @@ private:
     void saveTableToOutputHtmlFile(std::ofstream & reportHtmlFileStream) const;
     void saveFrequencyDatabaseIfNoError();
 
-    void processDirectory(std::string const & directoryPath);    void processFile(std::string const & filePath);
+    void processDirectory(std::string const & directoryPath);
+    void processFile(std::string const & filePath);
 
     TwoDimensions::Line findLeftLine(AprgBitmap::BitmapSnippet const& snippet) const;
-    TwoDimensions::Line findRightLine(AprgBitmap::BitmapSnippet const& snippet) const;    TwoDimensions::Line findTopLine(AprgBitmap::BitmapSnippet const& snippet) const;
+    TwoDimensions::Line findRightLine(AprgBitmap::BitmapSnippet const& snippet) const;
+    TwoDimensions::Line findTopLine(AprgBitmap::BitmapSnippet const& snippet) const;
     TwoDimensions::Line findBottomLine(AprgBitmap::BitmapSnippet const& snippet) const;
     TwoDimensions::Line findVerticalLine(AprgBitmap::BitmapSnippet const& snippet, RangeOfInts const& range) const;
     TwoDimensions::Line findHorizontalLine(AprgBitmap::BitmapSnippet const& snippet, RangeOfInts const& range) const;
@@ -138,7 +141,7 @@ private:
     TwoDimensions::Point convertToPoint(TwoDimensionsStatistics::Sample const& sample) const;
     TwoDimensionsStatistics::Sample convertToTwoDimensionSample(TwoDimensions::Point const& point) const;
 
-    SoosaConfiguration m_configuration;
+    InputConfiguration m_configuration;
     unsigned int m_numberOfRespondents;
     std::map<unsigned int, unsigned int> m_questionToAnswersMap;
     FrequencyDatabase m_frequencyDatabase;

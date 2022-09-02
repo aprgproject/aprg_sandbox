@@ -1,6 +1,6 @@
 #include <Common/PathHandler/AlbaLocalPathHandler.hpp>
 #include <SOOSA.hpp>
-#include <SoosaConfiguration.hpp>
+#include <InputConfiguration.hpp>
 
 #include <gtest/gtest.h>
 
@@ -16,7 +16,7 @@ TEST(SoosaTest, SampleTest1)
     fileForSoosa.deleteFile();
     fileToTest.copyToNewFile(fileForSoosa.getFullPath());
 
-    SoosaConfiguration configuration;
+    InputConfiguration configuration;
     configuration.setPath(fileForSoosa.getFullPath());
     configuration.setMainParameters("area", "period", 12.345);
 

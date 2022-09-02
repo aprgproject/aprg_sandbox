@@ -3,8 +3,10 @@
 #include <Common/Math/Helpers/DivisibilityHelpers.hpp>
 
 using namespace alba::mathHelper;
+
 namespace alba
 {
+
 namespace algebra
 {
 

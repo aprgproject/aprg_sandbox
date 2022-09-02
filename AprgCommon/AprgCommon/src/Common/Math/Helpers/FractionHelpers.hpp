@@ -7,8 +7,10 @@
 
 namespace alba
 {
+
 namespace mathHelper
 {
+
 struct FractionDetails
 {
     int sign;
@@ -52,4 +54,5 @@ void changeFractionToSimplestFormForSigned(NumberType & numerator, NumberType & 
 FractionDetails getBestFractionDetailsForDoubleValue(double const doubleValue);
 
 }//namespace mathHelper
+
 }//namespace alba

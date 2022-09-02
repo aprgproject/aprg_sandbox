@@ -3,10 +3,12 @@
 #include <Common/Math/Helpers/StatisticsHelpers.hpp>
 #include <Statistics/DataStatistics.hpp>
 
-namespace alba{
+namespace alba
+{
 
 template <unsigned int dimensions>
-class OutlierStatistics : public DataStatistics<dimensions>{
+class OutlierStatistics : public DataStatistics<dimensions>
+{
 public:
     using Sample = DataSample<dimensions>;
     using Samples = std::vector<Sample>;

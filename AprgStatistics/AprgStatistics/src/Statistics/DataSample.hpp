@@ -4,9 +4,11 @@
 #include <Common/Math/Helpers/SignRelatedHelpers.hpp>
 
 #include <algorithm>
-#include <array>#include <cmath>
+#include <array>
+#include <cmath>
 #include <functional>
 #include <initializer_list>
+
 namespace alba
 {
 

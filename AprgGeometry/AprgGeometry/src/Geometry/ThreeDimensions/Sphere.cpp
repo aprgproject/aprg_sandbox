@@ -2,10 +2,12 @@
 
 #include <Geometry/ThreeDimensions/ThreeDimensionsHelper.hpp>
 
-using namespace alba::mathHelper;using namespace alba::ThreeDimensions::threeDimensionsHelper;
+using namespace alba::mathHelper;
+using namespace alba::ThreeDimensions::threeDimensionsHelper;
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 namespace ThreeDimensions
 {

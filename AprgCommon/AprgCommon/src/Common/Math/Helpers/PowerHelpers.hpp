@@ -20,26 +20,31 @@ template <typename NumberType> bool isPerfectNthPower(NumberType const value, Nu
 template <typename NumberType> inline bool isPowerOfTwo(NumberType const value)
 {
     static_assert(std::is_integral<NumberType>::value, "Number type must be an integer");
+
     return AlbaBitValueUtilities<NumberType>::isPowerOfTwo(value);
 }
 
 template <typename NumberType> inline bool isPerfectSquare(NumberType const value)
 {
     static_assert(std::is_integral<NumberType>::value, "Number type must be an integer");
+
     return isPerfectNthPower(value, static_cast<NumberType>(2));
 }
 
 template <typename NumberType> inline bool isPerfectCube(NumberType const value)
 {
     static_assert(std::is_integral<NumberType>::value, "Number type must be an integer");
+
     return isPerfectNthPower(value, static_cast<NumberType>(3));
 }
 
 template <typename NumberType> inline bool isPerfectNthPower(NumberType const value, NumberType const nthPower)
 {
     static_assert(std::is_integral<NumberType>::value, "Number type must be an integer");
+
     return isAlmostAnInteger<double, NumberType>(pow(value, static_cast<double>(1)/nthPower));
 }
+
 template <typename NumberType> NumberType getRaiseToPowerForIntegers(NumberType const base, NumberType const exponent)
 {
     static_assert(std::is_integral<NumberType>::value, "Number type must be an integer");
@@ -63,10 +68,12 @@ template <typename NumberType> NumberType getRaiseToPowerForIntegers(NumberType 
     return result;
 }
 
-template <typename NumberType> NumberType getRaiseToPowerForIntegersUsingPow(NumberType const base, NumberType const exponent){
+template <typename NumberType> NumberType getRaiseToPowerForIntegersUsingPow(NumberType const base, NumberType const exponent)
+{
     static_assert(std::is_integral<NumberType>::value, "Number type must be an integer");
 
     // this is slower (by not too much, check performance test)
+
     return static_cast<int>(ceil(pow(base, exponent)));
 }
 

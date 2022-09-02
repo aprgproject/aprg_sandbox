@@ -18,7 +18,8 @@ public:
     static constexpr inline DataTypeToManipulate concatenateBytes(ArgumentType const currentByte, Arguments const... arguments)
     {
         static_assert(std::is_integral<DataTypeToManipulate>::value, "DataTypeToManipulate must be an integer");
-        static_assert(std::is_integral<ArgumentType>::value, "ArgumentType must be an integer");        static_assert(sizeof(ArgumentType) == 1, "concatenateBytes: ArgumentType size is greater than a byte");
+        static_assert(std::is_integral<ArgumentType>::value, "ArgumentType must be an integer");
+        static_assert(sizeof(ArgumentType) == 1, "concatenateBytes: ArgumentType size is greater than a byte");
         static_assert(sizeof(DataTypeToManipulate) > sizeof...(Arguments), "concatenateBytes: sizeof(DataTypeToManipulate) size is greater than Arguments size");
 
         return shiftBytesToTheLeft<sizeof...(Arguments)>(currentByte) | concatenateBytes(arguments...);
@@ -28,9 +29,11 @@ public:
     static constexpr inline DataTypeToManipulate concatenateNibbles(ArgumentType const currentByte, Arguments const... arguments)
     {
         static_assert(std::is_integral<DataTypeToManipulate>::value, "DataTypeToManipulate must be an integer");
-        static_assert(std::is_integral<ArgumentType>::value, "ArgumentType must be an integer");        static_assert(sizeof(ArgumentType) == 1, "concatenateNibbles: ArgumentType size is greater than a byte");
+        static_assert(std::is_integral<ArgumentType>::value, "ArgumentType must be an integer");
+        static_assert(sizeof(ArgumentType) == 1, "concatenateNibbles: ArgumentType size is greater than a byte");
         static_assert(sizeof(DataTypeToManipulate)*AlbaBitConstants::NUMBER_OF_NIBBLES_IN_BYTE > sizeof...(Arguments),
                       "concatenateNibbles: sizeof(DataTypeToManipulate) size is greater than two times the Arguments size");
+
         return shiftNibblesToTheLeft<sizeof...(Arguments)>(currentByte & AlbaBitConstants::NIBBLE_MASK) | concatenateNibbles(arguments...);
     }
 
@@ -38,7 +41,8 @@ public:
     static constexpr inline DataTypeToManipulate shiftBytesToTheLeft(ArgumentType const value)
     {
         static_assert(std::is_integral<DataTypeToManipulate>::value, "DataTypeToManipulate must be an integer");
-        static_assert(std::is_integral<ArgumentType>::value, "ArgumentType must be an integer");        static_assert(sizeof(DataTypeToManipulate) > shiftValue,
+        static_assert(std::is_integral<ArgumentType>::value, "ArgumentType must be an integer");
+        static_assert(sizeof(DataTypeToManipulate) > shiftValue,
                       "shiftBytesToTheLeft: sizeof(DataTypeToManipulate) size is greater than shift value");
 
         return static_cast<DataTypeToManipulate>(static_cast<DataTypeToManipulate>(value) << shiftValue*AlbaBitConstants::BYTE_SIZE_IN_BITS);
@@ -48,7 +52,8 @@ public:
     static constexpr inline DataTypeToManipulate shiftBytesToTheRight(ArgumentType const value)
     {
         static_assert(std::is_integral<DataTypeToManipulate>::value, "DataTypeToManipulate must be an integer");
-        static_assert(std::is_integral<ArgumentType>::value, "ArgumentType must be an integer");        static_assert(sizeof(DataTypeToManipulate) > shiftValue,
+        static_assert(std::is_integral<ArgumentType>::value, "ArgumentType must be an integer");
+        static_assert(sizeof(DataTypeToManipulate) > shiftValue,
                       "shiftBytesToTheRight: sizeof(DataTypeToManipulate) size is greater than shift value");
 
         return (static_cast<DataTypeToManipulate>(value) >> shiftValue*AlbaBitConstants::BYTE_SIZE_IN_BITS);
@@ -58,7 +63,8 @@ public:
     static constexpr inline DataTypeToManipulate shiftNibblesToTheLeft(ArgumentType const value)
     {
         static_assert(std::is_integral<DataTypeToManipulate>::value, "DataTypeToManipulate must be an integer");
-        static_assert(std::is_integral<ArgumentType>::value, "ArgumentType must be an integer");        static_assert(sizeof(DataTypeToManipulate)*AlbaBitConstants::NUMBER_OF_NIBBLES_IN_BYTE > shiftValue,
+        static_assert(std::is_integral<ArgumentType>::value, "ArgumentType must be an integer");
+        static_assert(sizeof(DataTypeToManipulate)*AlbaBitConstants::NUMBER_OF_NIBBLES_IN_BYTE > shiftValue,
                       "shiftNibblesToTheLeft: sizeof(DataTypeToManipulate) size is greater than shift value");
 
         return (static_cast<DataTypeToManipulate>(value) << shiftValue*AlbaBitConstants::NIBBLE_SIZE_IN_BITS);
@@ -68,7 +74,8 @@ public:
     static constexpr inline DataTypeToManipulate shiftNibblesToTheRight(ArgumentType const value)
     {
         static_assert(std::is_integral<DataTypeToManipulate>::value, "DataTypeToManipulate must be an integer");
-        static_assert(std::is_integral<ArgumentType>::value, "ArgumentType must be an integer");        static_assert(sizeof(DataTypeToManipulate)*AlbaBitConstants::NUMBER_OF_NIBBLES_IN_BYTE > shiftValue,
+        static_assert(std::is_integral<ArgumentType>::value, "ArgumentType must be an integer");
+        static_assert(sizeof(DataTypeToManipulate)*AlbaBitConstants::NUMBER_OF_NIBBLES_IN_BYTE > shiftValue,
                       "shiftNibblesToTheRight: sizeof(DataTypeToManipulate) size is greater than shift value");
 
         return (static_cast<DataTypeToManipulate>(value) >> shiftValue*AlbaBitConstants::NIBBLE_SIZE_IN_BITS);
@@ -78,7 +85,8 @@ public:
     static constexpr inline DataTypeToManipulate shiftBitsToTheLeft(ArgumentType const value)
     {
         static_assert(std::is_integral<DataTypeToManipulate>::value, "DataTypeToManipulate must be an integer");
-        static_assert(std::is_integral<ArgumentType>::value, "ArgumentType must be an integer");        static_assert(sizeof(DataTypeToManipulate)*AlbaBitConstants::BYTE_SIZE_IN_BITS > shiftValue,
+        static_assert(std::is_integral<ArgumentType>::value, "ArgumentType must be an integer");
+        static_assert(sizeof(DataTypeToManipulate)*AlbaBitConstants::BYTE_SIZE_IN_BITS > shiftValue,
                       "shiftBitsToTheLeft: sizeof(DataTypeToManipulate) size is greater than shift value");
 
         return (static_cast<DataTypeToManipulate>(value) << shiftValue);
@@ -88,7 +96,8 @@ public:
     static constexpr inline DataTypeToManipulate shiftBitsToTheRight(ArgumentType const value)
     {
         static_assert(std::is_integral<DataTypeToManipulate>::value, "DataTypeToManipulate must be an integer");
-        static_assert(std::is_integral<ArgumentType>::value, "ArgumentType must be an integer");        static_assert(sizeof(DataTypeToManipulate)*AlbaBitConstants::BYTE_SIZE_IN_BITS > shiftValue,
+        static_assert(std::is_integral<ArgumentType>::value, "ArgumentType must be an integer");
+        static_assert(sizeof(DataTypeToManipulate)*AlbaBitConstants::BYTE_SIZE_IN_BITS > shiftValue,
                       "shiftBitsToTheRight: sizeof(DataTypeToManipulate) size is greater than shift value");
 
         return (static_cast<DataTypeToManipulate>(value) >> shiftValue);
@@ -99,9 +108,11 @@ public:
     {
         static_assert(std::is_integral<DataTypeToManipulate>::value, "DataTypeToManipulate must be an integer");
         static_assert(std::is_integral<ArgumentType>::value, "ArgumentType must be an integer");
+
         constexpr unsigned char NUMBER_OF_BITS = sizeof(DataTypeToManipulate)*AlbaBitConstants::BYTE_SIZE_IN_BITS;
         static_assert(shiftValue!=0,
-                      "rotateBitToTheLeft: shiftValue is zero, so there should be nothing to do");        static_assert(NUMBER_OF_BITS > shiftValue,
+                      "rotateBitToTheLeft: shiftValue is zero, so there should be nothing to do");
+        static_assert(NUMBER_OF_BITS > shiftValue,
                       "rotateBitToTheLeft: sizeof(DataTypeToManipulate) size is greater than shift value");
 
         return rotateBitToTheLeftWithShiftValue(value, shiftValue);
@@ -112,9 +123,11 @@ public:
     {
         static_assert(std::is_integral<DataTypeToManipulate>::value, "DataTypeToManipulate must be an integer");
         static_assert(std::is_integral<ArgumentType>::value, "ArgumentType must be an integer");
+
         constexpr unsigned char NUMBER_OF_BITS = sizeof(DataTypeToManipulate)*AlbaBitConstants::BYTE_SIZE_IN_BITS;
         static_assert(shiftValue!=0,
-                      "rotateBitToTheRight: shiftValue is zero, so there should be nothing to do");        static_assert(NUMBER_OF_BITS > shiftValue,
+                      "rotateBitToTheRight: shiftValue is zero, so there should be nothing to do");
+        static_assert(NUMBER_OF_BITS > shiftValue,
                       "rotateBitToTheRight: sizeof(DataTypeToManipulate) size is greater than shift value");
 
         return rotateBitToTheRightWithShiftValue(value, shiftValue);
@@ -124,10 +137,12 @@ public:
     static constexpr inline DataTypeToManipulate rotateBitToTheLeftWithShiftValue(
             ArgumentType const value,
             unsigned char const shiftValue)
-    {        static_assert(std::is_integral<DataTypeToManipulate>::value, "DataTypeToManipulate must be an integer");
+    {
+        static_assert(std::is_integral<DataTypeToManipulate>::value, "DataTypeToManipulate must be an integer");
         static_assert(std::is_integral<ArgumentType>::value, "ArgumentType must be an integer");
 
-        constexpr unsigned char NUMBER_OF_BITS = sizeof(DataTypeToManipulate)*AlbaBitConstants::BYTE_SIZE_IN_BITS;        DataTypeToManipulate newValue = static_cast<DataTypeToManipulate>(value);
+        constexpr unsigned char NUMBER_OF_BITS = sizeof(DataTypeToManipulate)*AlbaBitConstants::BYTE_SIZE_IN_BITS;
+        DataTypeToManipulate newValue = static_cast<DataTypeToManipulate>(value);
         return (newValue << shiftValue) | (newValue >> (NUMBER_OF_BITS-shiftValue));
     }
 
@@ -135,10 +150,12 @@ public:
     static constexpr inline DataTypeToManipulate rotateBitToTheRightWithShiftValue(
             ArgumentType const value,
             unsigned char const shiftValue)
-    {        static_assert(std::is_integral<DataTypeToManipulate>::value, "DataTypeToManipulate must be an integer");
+    {
+        static_assert(std::is_integral<DataTypeToManipulate>::value, "DataTypeToManipulate must be an integer");
         static_assert(std::is_integral<ArgumentType>::value, "ArgumentType must be an integer");
 
-        constexpr unsigned char NUMBER_OF_BITS = sizeof(DataTypeToManipulate)*AlbaBitConstants::BYTE_SIZE_IN_BITS;        DataTypeToManipulate newValue = static_cast<DataTypeToManipulate>(value);
+        constexpr unsigned char NUMBER_OF_BITS = sizeof(DataTypeToManipulate)*AlbaBitConstants::BYTE_SIZE_IN_BITS;
+        DataTypeToManipulate newValue = static_cast<DataTypeToManipulate>(value);
 
         return (newValue >> shiftValue) | (newValue << (NUMBER_OF_BITS-shiftValue));
     }
@@ -147,7 +164,8 @@ public:
     static constexpr inline unsigned char getByteAt(DataTypeToManipulate const value)
     {
         static_assert(std::is_integral<DataTypeToManipulate>::value, "DataTypeToManipulate must be an integer");
-        static_assert(sizeof(DataTypeToManipulate) > position,                      "getByteAt: position is greater than DataTypeToManipulate size");
+        static_assert(sizeof(DataTypeToManipulate) > position,
+                      "getByteAt: position is greater than DataTypeToManipulate size");
 
         return static_cast<unsigned char>(shiftBytesToTheRight<position>(value));
     }
@@ -156,7 +174,8 @@ public:
     static constexpr inline unsigned char getNibbleAt(DataTypeToManipulate const value)
     {
         static_assert(std::is_integral<DataTypeToManipulate>::value, "DataTypeToManipulate must be an integer");
-        static_assert(sizeof(DataTypeToManipulate)*AlbaBitConstants::NUMBER_OF_NIBBLES_IN_BYTE > position,                      "getNibbleAt: position is greater than two times DataTypeToManipulate size");
+        static_assert(sizeof(DataTypeToManipulate)*AlbaBitConstants::NUMBER_OF_NIBBLES_IN_BYTE > position,
+                      "getNibbleAt: position is greater than two times DataTypeToManipulate size");
 
         return shiftNibblesToTheRight<position>(value) & AlbaBitConstants::NIBBLE_MASK;
     }
@@ -165,7 +184,8 @@ public:
     static constexpr inline unsigned char getBitAt(DataTypeToManipulate const value)
     {
         static_assert(std::is_integral<DataTypeToManipulate>::value, "DataTypeToManipulate must be an integer");
-        static_assert(sizeof(DataTypeToManipulate)*AlbaBitConstants::BYTE_SIZE_IN_BITS > position,                      "getBitAt: position is greater than BYTE_SIZE_IN_BITS times DataTypeToManipulate size");
+        static_assert(sizeof(DataTypeToManipulate)*AlbaBitConstants::BYTE_SIZE_IN_BITS > position,
+                      "getBitAt: position is greater than BYTE_SIZE_IN_BITS times DataTypeToManipulate size");
 
         return shiftBitsToTheRight<position>(value) & AlbaBitConstants::BIT_MASK;
     }
@@ -175,30 +195,35 @@ public:
     {
         static_assert(std::is_integral<DataTypeToManipulate>::value, "DataTypeToManipulate must be an integer");
         static_assert(size != size, "This size or type is not supported. Please add a specialization if needed.");
+
         return 0;
     }
 
     static constexpr inline DataTypeToManipulate swap(DataTypeToManipulate const value)
     {
         static_assert(std::is_integral<DataTypeToManipulate>::value, "DataTypeToManipulate must be an integer");
+
         return swapWithBytes<sizeof(DataTypeToManipulate)>(value);
     }
 
     static constexpr inline DataTypeToManipulate swapForTwoBytes(DataTypeToManipulate const value)
     {
         static_assert(std::is_integral<DataTypeToManipulate>::value, "DataTypeToManipulate must be an integer");
+
         return swapWithBytes<2>(value);
     }
 
     static constexpr inline DataTypeToManipulate swapForFourBytes(DataTypeToManipulate const value)
     {
         static_assert(std::is_integral<DataTypeToManipulate>::value, "DataTypeToManipulate must be an integer");
+
         return swapWithBytes<4>(value);
     }
 
     static constexpr inline DataTypeToManipulate swapForEightBytes(DataTypeToManipulate const value)
     {
         static_assert(std::is_integral<DataTypeToManipulate>::value, "DataTypeToManipulate must be an integer");
+
         return swapWithBytes<8>(value);
     }
 
@@ -207,13 +232,15 @@ private:
     static constexpr inline DataTypeToManipulate concatenateBytes(ArgumentType arg)
     {
         static_assert(sizeof(ArgumentType) == 1, "concatenateBytes: ArgumentType size is greater than a byte");
-        return arg;    }
+        return arg;
+    }
 
     template <typename ArgumentType>
     static constexpr inline DataTypeToManipulate concatenateNibbles(ArgumentType arg)
     {
         static_assert(sizeof(ArgumentType) == 1, "concatenateNibbles: ArgumentType size is greater than a byte");
-        return arg & AlbaBitConstants::NIBBLE_MASK;    }
+        return arg & AlbaBitConstants::NIBBLE_MASK;
+    }
 };
 
 
@@ -223,19 +250,23 @@ constexpr inline uint16_t AlbaBitManipulation<uint16_t>::swapWithBytes<2>(uint16
 {
     return concatenateBytes(getByteAt<0>(value), getByteAt<1>(value));
 }
+
 template <>
 template <>
 constexpr inline uint32_t AlbaBitManipulation<uint32_t>::swapWithBytes<4>(uint32_t const value)
 {
     return concatenateBytes(getByteAt<0>(value), getByteAt<1>(value),
-                            getByteAt<2>(value), getByteAt<3>(value));}
+                            getByteAt<2>(value), getByteAt<3>(value));
+}
 
 template <>
 template <>
 constexpr inline uint64_t AlbaBitManipulation<uint64_t>::swapWithBytes<8>(uint64_t const value)
 {
     return concatenateBytes(getByteAt<0>(value), getByteAt<1>(value),
-                            getByteAt<2>(value), getByteAt<3>(value),                            getByteAt<4>(value), getByteAt<5>(value),
+                            getByteAt<2>(value), getByteAt<3>(value),
+                            getByteAt<4>(value), getByteAt<5>(value),
                             getByteAt<6>(value), getByteAt<7>(value));
 }
+
 }

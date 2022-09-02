@@ -2,10 +2,12 @@
 
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 namespace mathHelper
 {
+
 //isAlmostEqual
 //Commented out: This implementation is not practical when value is equal to zero
 //template <> bool isAlmostEqual<double>(double const value1, double const value2)
@@ -18,10 +20,12 @@ namespace mathHelper
 
 AlbaNumber convertIfInfinityToNearestFiniteValue(AlbaNumber const& value)
 {
-    AlbaNumber result(value);    if(value.isPositiveInfinity())
+    AlbaNumber result(value);
+    if(value.isPositiveInfinity())
     {
         result = AlbaNumber(numeric_limits<double>::max());
-    }    else if(value.isNegativeInfinity())
+    }
+    else if(value.isNegativeInfinity())
     {
         result = AlbaNumber(-numeric_limits<double>::max());
     }

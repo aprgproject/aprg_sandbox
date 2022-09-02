@@ -2,10 +2,12 @@
 
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 namespace mathHelper
 {
+
 namespace
 {
 //internal functions
@@ -73,9 +75,11 @@ void changeFractionToSimplestForm(NumberType1 & numerator, NumberType2 & denomin
 template void changeFractionToSimplestForm<int, unsigned int, long long int>(int & numerator, unsigned int & denominator);
 
 FractionDetails getBestFractionDetailsForDoubleValue(
-        double const doubleValue){
+        double const doubleValue)
+{
     constexpr double tolerance(1E-12);
     FractionDetails result{1, 0, 1};
+
     UnsignedIntegers partialNumerators;
     double fractionalPart(getAbsoluteValue(doubleValue)), doubleValueForNextIteration(doubleValue);
     bool isBeyondUnsignedIntegerLimits(false);

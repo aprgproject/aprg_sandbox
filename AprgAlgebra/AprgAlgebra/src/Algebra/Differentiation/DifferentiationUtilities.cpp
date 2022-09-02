@@ -17,10 +17,12 @@
 #include <Common/Math/Helpers/CombinatoricsHelpers.hpp>
 #include <Common/Math/Number/Interval/AlbaNumberIntervalHelpers.hpp>
 
-using namespace alba::algebra::DomainAndRange;using namespace alba::algebra::Functions;
+using namespace alba::algebra::DomainAndRange;
+using namespace alba::algebra::Functions;
 using namespace alba::algebra::Simplification;
 using namespace alba::mathHelper;
-using namespace alba::stringHelper;using namespace std;
+using namespace alba::stringHelper;
+using namespace std;
 
 namespace
 {

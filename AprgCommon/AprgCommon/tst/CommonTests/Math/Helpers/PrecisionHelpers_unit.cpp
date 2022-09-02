@@ -111,10 +111,12 @@ TEST(PrecisionHelpersTest, IsValueWithinUnsignedLongLongIntegerLimitsWorks)
 
 TEST(PrecisionHelpersTest, IsValueBeyondLimitsWorksForInteger)
 {
-    EXPECT_TRUE(isValueBeyondLimits<int>(static_cast<double>(INT_MIN)-1));    EXPECT_FALSE(isValueBeyondLimits<int>(INT_MIN));
+    EXPECT_TRUE(isValueBeyondLimits<int>(static_cast<double>(INT_MIN)-1));
+    EXPECT_FALSE(isValueBeyondLimits<int>(INT_MIN));
     EXPECT_FALSE(isValueBeyondLimits<int>(1000));
     EXPECT_FALSE(isValueBeyondLimits<int>(INT_MAX));
-    EXPECT_TRUE(isValueBeyondLimits<int>(static_cast<double>(INT_MAX)+1));}
+    EXPECT_TRUE(isValueBeyondLimits<int>(static_cast<double>(INT_MAX)+1));
+}
 
 TEST(PrecisionHelpersTest, IsValueBeyondUnsignedIntegerLimitsWorks)
 {

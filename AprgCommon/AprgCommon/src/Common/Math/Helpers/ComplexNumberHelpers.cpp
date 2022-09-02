@@ -18,8 +18,10 @@ template AlbaNumber createNumberFromComplexNumber<double>(AlbaComplexNumber<doub
 
 void saveToComplexNumberData(AlbaNumber::ComplexNumberData & data, AlbaComplexNumber<float> const& number)
 {
-    data.realPart = number.getRealPart();    data.imaginaryPart = number.getImaginaryPart();
+    data.realPart = number.getRealPart();
+    data.imaginaryPart = number.getImaginaryPart();
 }
 
 }//namespace mathHelper
+
 }//namespace alba

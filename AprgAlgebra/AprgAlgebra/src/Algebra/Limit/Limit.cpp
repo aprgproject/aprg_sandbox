@@ -15,10 +15,12 @@
 #include <Common/Math/Helpers/PrecisionHelpers.hpp>
 
 using namespace alba::algebra::Simplification;
-using namespace alba::mathHelper;using namespace std;
+using namespace alba::mathHelper;
+using namespace std;
 
 namespace alba
 {
+
 namespace algebra
 {
 

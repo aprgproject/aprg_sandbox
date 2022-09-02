@@ -78,10 +78,12 @@ FILE* circlefile;
 
 typedef struct DATAXYPAIR{
     int _x;
-    int _y;}PairXY;
+    int _y;
+}PairXY;
 
 typedef struct DATA2BIT{
-    int status; //if 0 then Empty, if 1 then points added, if 2 then allocated and ready to use    int xlow;
+    int status; //if 0 then Empty, if 1 then points added, if 2 then allocated and ready to use
+    int xlow;
     int ylow;
     int xhigh;
     int yhigh;
@@ -185,10 +187,12 @@ int G_x=-1, G_y=-1, G_value;
 int getValue(DataDigital* indata, int x, int y){
     if(x<0 || y<0 || x>=(indata->xSizeBytesAllocated*8) || y>=(indata->ySizeBytesAllocated)){
         LOPPRINT("  FUNC:getValue(x=%d|y=%d|xalloc:%d|yalloc:%d)->ret=0  |Out of Bounds\n",x+gddx,y+gddy,indata->xSizeBytesAllocated,indata->ySizeBytesAllocated);
-        return 0;    }
+        return 0;
+    }
     if(G_x==x>>3 && G_y==y){
         if(((G_value<<(x%8))&0x80)==0){
-            LOPPRINT("  FUNC:getValue(x=%d|y=%d)->(G_x=%d,G_y=%d,G_value=%x) ret=1  |Valid value from global cache\n",x+gddx,y+gddy,G_x,G_y,G_value);            return 1;
+            LOPPRINT("  FUNC:getValue(x=%d|y=%d)->(G_x=%d,G_y=%d,G_value=%x) ret=1  |Valid value from global cache\n",x+gddx,y+gddy,G_x,G_y,G_value);
+            return 1;
         }else{
             LOPPRINT("  FUNC:getValue(x=%d|y=%d)->(G_x=%d,G_y=%d,G_value=%x) ret=0  |Valid value from global cache\n",x+gddx,y+gddy,G_x,G_y,G_value);
             return 0;
@@ -215,7 +219,8 @@ inline int absValInt(int in){
 double absValDouble(double in){
     if(in<0){
         LOPPRINT("  FUNC:absValDouble(%lf)->ret=%lf\n",in,in*-1);
-        return in*-1;    }
+        return in*-1;
+    }
     LOPPRINT("  FUNC:absValDouble(%lf)->ret=%lf\n",in,in);
     return in;
 }
@@ -228,21 +233,24 @@ double getKFromChebyshev(ChebyshevCriterion cc, double in){
 int roundOffSignRobust(double in){
     double absDou=absValDouble(in);
     int sign;
-    if(in<0){sign=-1;}else{sign=1;}    if(absDou-(int)absDou>=0.5){absDou=absDou+1;}
+    if(in<0){sign=-1;}else{sign=1;}
+    if(absDou-(int)absDou>=0.5){absDou=absDou+1;}
     LOPPRINT("  FUNC:roundOffSignRobust(%lf)->ret=%d\n",in,(((int)absDou)*sign));
     return (((int)absDou)*sign);
 }
 int rasterRound(double in){
     if(in-(int)in>0){
         LOPPRINT("  FUNC:rasterRound(%lf)->ret=%d\n",in,(int)in+1);
-        return (int)in+1;    }
+        return (int)in+1;
+    }
     LOPPRINT("  FUNC:rasterRound(%lf)->ret=%d\n",in,(int)in);
     return (int)in;
 }
 int roundDown(double in){
     if(in-(int)in>0){
         LOPPRINT("  FUNC:roundDown(%lf)->ret=%d\n",in,(int)in);
-        return (int)in;    }
+        return (int)in;
+    }
     LOPPRINT("  FUNC:roundDown(%lf)->ret=%d\n",in,(int)in);
     return (int)in;
 }
@@ -252,29 +260,34 @@ PairXY createXY(int x, int y){
 PairXY getMidpoint(PairXY P1, PairXY P2){
     PairXY outpoint;
     outpoint._x=roundOffSignRobust(((double)P1._x+P2._x)/2);
-    outpoint._y=roundOffSignRobust(((double)P1._y+P2._y)/2);    LOPPRINT("  FUNC:getMidpoint(%d,%d),(%d,%d)->(%d,%d)\n",P1._x,P1._y,P2._x,P2._y,outpoint._x,outpoint._y);
+    outpoint._y=roundOffSignRobust(((double)P1._y+P2._y)/2);
+    LOPPRINT("  FUNC:getMidpoint(%d,%d),(%d,%d)->(%d,%d)\n",P1._x,P1._y,P2._x,P2._y,outpoint._x,outpoint._y);
     return outpoint;
 }
 PairXY transposePoint(PairXY inpoint, int xorigin, int yorigin){
     PairXY outpoint;
     LOPPRINT("  FUNC:transposePoint(%d,%d),(%d,%d)\n",inpoint._x,inpoint._y,xorigin,yorigin);
-    outpoint._x=(inpoint._x)-xorigin;    outpoint._y=(inpoint._y)-yorigin;
+    outpoint._x=(inpoint._x)-xorigin;
+    outpoint._y=(inpoint._y)-yorigin;
     return outpoint;
 }
 LineSlopeIntercept transposeLine(LineSlopeIntercept inlsi, int slopetype, int xorigin, int yorigin){
     LineSlopeIntercept outlsi;
     outlsi.intercept = 0; outlsi.slope = 0;
-    if(slopetype==0){//vertical line        outlsi.intercept = inlsi.intercept-xorigin+(inlsi.slope*yorigin);
+    if(slopetype==0){//vertical line
+        outlsi.intercept = inlsi.intercept-xorigin+(inlsi.slope*yorigin);
         outlsi.slope = inlsi.slope;
     }else if(slopetype==1){//horizontal line
-        outlsi.intercept = inlsi.intercept-yorigin+(inlsi.slope*xorigin);        outlsi.slope = inlsi.slope;
+        outlsi.intercept = inlsi.intercept-yorigin+(inlsi.slope*xorigin);
+        outlsi.slope = inlsi.slope;
     }
     return outlsi;
 }
 PairXY findIntersection(LineSlopeIntercept verticalLine, LineSlopeIntercept horizontalLine){
     PairXY outpoint;
     outpoint._x=roundOffSignRobust(((verticalLine.slope*horizontalLine.intercept)+verticalLine.intercept)/(1-(horizontalLine.slope*verticalLine.slope)));
-    outpoint._y=roundOffSignRobust(((horizontalLine.slope*verticalLine.intercept)+horizontalLine.intercept)/(1-(horizontalLine.slope*verticalLine.slope)));    return outpoint;
+    outpoint._y=roundOffSignRobust(((horizontalLine.slope*verticalLine.intercept)+horizontalLine.intercept)/(1-(horizontalLine.slope*verticalLine.slope)));
+    return outpoint;
 }
 
 void assignCircleCriterion(CircleCriterion* circ, int radius){
@@ -285,10 +298,12 @@ void assignCircleCriterion(CircleCriterion* circ, int radius){
 void assignMidCircleCriterion(CircleCriterion* circ, CircleCriterion* c1, CircleCriterion* c2, int type){
     int radius;
     if(type==1){radius=roundOffSignRobust(((double)c1->radius+c2->radius)/2);}
-    else{radius=roundDown(((double)c1->radius+c2->radius)/2);}    circ->radius=radius;
+    else{radius=roundDown(((double)c1->radius+c2->radius)/2);}
+    circ->radius=radius;
     circ->diameter=radius*2;
     circ->radiussquared=pow(radius,2);
 }
+
 long getImageInfo(FILE* inputFile, long offset, int numberOfChars){
     unsigned char *ptrC;
     long value=0L;
@@ -412,10 +427,12 @@ int openBmpImage(BmpImage* inBmpImage, char* sbmp){
 void closeBmpImage(BmpImage* inBmpImage){
     if(inBmpImage->filePtr!=NULL){
         fclose(inBmpImage->filePtr);
-    }    inBmpImage->filePtr = NULL;
+    }
+    inBmpImage->filePtr = NULL;
 }
 
-int getDataFromBmp(BmpImage* inBmpImage,DataDigital* indata){    if(indata->status!=2){return 1;}
+int getDataFromBmp(BmpImage* inBmpImage,DataDigital* indata){
+    if(indata->status!=2){return 1;}
     unsigned char *ptrC;
     int x, xsizebytes=indata->xSizeBytesAllocated;
     int y, ylow=indata->ylow, yhigh=indata->yhigh;
@@ -458,7 +475,8 @@ int getDataFromBmp(BmpImage* inBmpImage,DataDigital* indata){    if(indata->stat
 int allocData(DataDigital* indata){
     if(indata->status!=1){return 1;}
     indata->xSizeBytesAllocated=(indata->xhigh-indata->xlow+1)/8;
-    indata->ySizeBytesAllocated=(indata->yhigh-indata->ylow)+1;    indata->buf = (unsigned char*)malloc((indata->xSizeBytesAllocated)*(indata->ySizeBytesAllocated)*sizeof(char));
+    indata->ySizeBytesAllocated=(indata->yhigh-indata->ylow)+1;
+    indata->buf = (unsigned char*)malloc((indata->xSizeBytesAllocated)*(indata->ySizeBytesAllocated)*sizeof(char));
     if(indata->buf==NULL){return 1;}
     indata->status=2;
     return 0;
@@ -466,22 +484,26 @@ int allocData(DataDigital* indata){
 void deAllocData(DataDigital* indata){
     if(indata->status<2){return;}
     if(indata->buf!=NULL){free(indata->buf);}
-    indata->buf = NULL;    indata->xSizeBytesAllocated=0;indata->ySizeBytesAllocated=0;
+    indata->buf = NULL;
+    indata->xSizeBytesAllocated=0;indata->ySizeBytesAllocated=0;
     indata->status=0;
 }
 void cleanDataDigital(DataDigital* indata){
     if(indata->buf!=NULL){free(indata->buf);}
     indata->buf = NULL;
-    indata->xSizeBytesAllocated=0;indata->ySizeBytesAllocated=0;    indata->status=0;
+    indata->xSizeBytesAllocated=0;indata->ySizeBytesAllocated=0;
+    indata->status=0;
 }
 
 void printDataDigitalBuffer(DataDigital* indata){
     if(indata->status!=3){return;}
 #ifdef  DBGFLAG
-    FILE* bufferprint = NULL;    if ((bufferprint = fopen("BUFFERTEST.TXT", "w")) == NULL){
+    FILE* bufferprint = NULL;
+    if ((bufferprint = fopen("BUFFERTEST.TXT", "w")) == NULL){
         INFPRINT("ERROR: Cannot write to BUFFER.TXT. File exit.\n");
         return;
-    }    int x, y, m;
+    }
+    int x, y, m;
     unsigned char tbuf;
     for(y=0;y<indata->ySizeBytesAllocated;y++){
         for(x=0;x<indata->xSizeBytesAllocated;x++){
@@ -539,10 +561,12 @@ void addPointToDataDigital(BmpImage* inBmpImage,DataDigital* indata, int xp, int
 double checkIfShaded(DataDigital* indata,PairXY center, CircleCriterion circ, int ques, int col, int choice, PairXY point1, PairXY point2){
     int startx,starty,incx,incy,diameter;
     int countall,countblack;
-    int noChange,type,moved;    double scorePercent,maxScorePercent;
+    int noChange,type,moved;
+    double scorePercent,maxScorePercent;
 #ifdef CIRFLAG
     char tempstr[MAXSTR];
-    sprintf(tempstr,"CIR_COL%d_QUES%d_R%d_choice%d.txt",col,ques,circ.radius,choice);	circlefile=NULL;
+    sprintf(tempstr,"CIR_COL%d_QUES%d_R%d_choice%d.txt",col,ques,circ.radius,choice);
+	circlefile=NULL;
     if ((circlefile = fopen(tempstr, "w")) == NULL){
         INFPRINT("ERROR: Error in circle log file.\n"); return 1;
     }
@@ -609,10 +633,12 @@ double checkIfShaded(DataDigital* indata,PairXY center, CircleCriterion circ, in
 int processOneQuestion(DataDigital* indata, PairXY point1, PairXY point2, int ques, int col, CircleCriterion circ){
     DBGPRINT("  FUNC:processOneQuestion point1(%d,%d) point2(%d,%d)\n",point1._x+gddx,point1._y+gddy,point2._x+gddx,point2._y+gddy);
     PairXY temppoint;
-    int t1,tch;    double dtemp;
+    int t1,tch;
+    double dtemp;
     tch=0;
 #ifdef CIRFLAG
-    char tempstr[MAXSTR];    FILE* circlefile = NULL;
+    char tempstr[MAXSTR];
+    FILE* circlefile = NULL;
     sprintf(tempstr,"CIR_COL%d_QUES%d.txt",col,ques);
     if ((circlefile = fopen(tempstr, "w")) == NULL){
         INFPRINT("ERROR: Error in circle log file.\n"); return 1;
@@ -703,10 +729,12 @@ int processOneColumn(DataDigital* indata, PairXY* QuesArr1, PairXY* QuesArr2, in
 int followLineGetLengthX(DataDigital* indata,PairXY start, PairXY p1){
     //p2 and p3 are opposite directions, use states to dont go backwards
     int state,x,y,pty;
-    LOPPRINT("  FUNC:followLineGetLengthX Start(%d|%d) P1(%d|%d) P3(%d|%d)\n",start._x+gddx,start._y+gddy,p1._x+gddx,p1._y+gddy);    x=start._x; y=start._y; pty=0; state=0;
+    LOPPRINT("  FUNC:followLineGetLengthX Start(%d|%d) P1(%d|%d) P3(%d|%d)\n",start._x+gddx,start._y+gddy,p1._x+gddx,p1._y+gddy);
+    x=start._x; y=start._y; pty=0; state=0;
     while(1){
         LOPPRINT("  FUNCLOOP:followLineGetLengthX(x=%d|y=%d|pt=%d)\n",x+gddx,y+gddy,pty);
-        if(pty>=PIXELSPERPENLINE){break;            LOPPRINT("  FUNCLOOP:followLineGetLengthX->(pty=%d) |Perpendicular line exit\n",pty);
+        if(pty>=PIXELSPERPENLINE){break;
+            LOPPRINT("  FUNCLOOP:followLineGetLengthX->(pty=%d) |Perpendicular line exit\n",pty);
         }else if(getValue(indata,x+p1._x,y+p1._y)==1){x=x+p1._x; y=y+p1._y; state = 1; pty=pty+1;
             LOPPRINT("  FUNCLOOP:followLineGetLengthX->(Follow P1:(%d,%d)\n",x+gddx,y+gddy);
         }else if(state==1){while(getValue(indata,x,y-1)==1){y=y-1;} state=2;
@@ -916,10 +944,12 @@ int findLineImageFromBottom(DataDigital* indata, PairXY* in_line, int numsamples
 int getSlope(PairXY* in_samples,double* out_slope, int nsize, int type){//type=0 is yline, type=1 is xline
     int i;
     if(type==0){
-        for(i=1;i<nsize;i++){            if(in_samples[i]._y==in_samples[i-1]._y){return 1;}
+        for(i=1;i<nsize;i++){
+            if(in_samples[i]._y==in_samples[i-1]._y){return 1;}
             out_slope[i-1]=((double)in_samples[i]._x-in_samples[i-1]._x)/((double)in_samples[i]._y-in_samples[i-1]._y);
             LOPPRINT("  FUNCLOOP:getSlope(%d)[ x[i]=%d|y[i]=%d|x[i-1]=%d|y[i-1]=%d ]->slope=%lf\n",i,in_samples[i]._x+gddx,in_samples[i]._y+gddy,in_samples[i-1]._x+gddx,in_samples[i-1]._y+gddy,out_slope[i-1]);
-        }    }else if(type==1){
+        }
+    }else if(type==1){
         for(i=1;i<nsize;i++){
             if(in_samples[i]._x==in_samples[i-1]._x){return 1;}
             out_slope[i-1]=((double)in_samples[i]._y-in_samples[i-1]._y)/((double)in_samples[i]._x-in_samples[i-1]._x);
@@ -939,17 +969,20 @@ double getBarHeight(PairXY point1,PairXY point2){
 void getBarHeightArr(PairXY* questionsCoor,double* barHeight, int nsize){
     int i,j;
     for(i=0;i<nsize;i=i+2){
-        j=i/2;        barHeight[j]=getBarHeight(questionsCoor[i+1],questionsCoor[i]);
+        j=i/2;
+        barHeight[j]=getBarHeight(questionsCoor[i+1],questionsCoor[i]);
         LOPPRINT("  FUNCLOOP:getBarHeightArr(j=%d|barHeight=%lf) [%d]->(%ld|%ld) [%d]->(%ld|%ld)\n",j,barHeight[j],i,questionsCoor[i]._x+gddx,questionsCoor[i]._y+gddy,i+1,questionsCoor[i+1]._x+gddx,questionsCoor[i+1]._y+gddy);
     }
 }
 double getIntercept(PairXY* in_samples,double slope, int nsize, int type){
     int i;
     double intercept=0;
-    DBGPRINT("  FUNC:getIntercept(slope=%lf)\n",slope);    if(type==0){
+    DBGPRINT("  FUNC:getIntercept(slope=%lf)\n",slope);
+    if(type==0){
         for(i=0;i<nsize;i++){
             LOPPRINT("  FUNCLOOP:getIntercept(%d)[x[i]=%d|y[i]=%d]->xintercept=%lf\n",i,in_samples[i]._x+gddx,in_samples[i]._y+gddy,intercept);
-            intercept=intercept+in_samples[i]._x-(slope*in_samples[i]._y);        }
+            intercept=intercept+in_samples[i]._x-(slope*in_samples[i]._y);
+        }
         intercept=intercept/nsize;
         DBGPRINT("  FUNC:getIntercept->ret=%lf  |xIntercept\n",intercept+gddx);
     }else if(type==1){
@@ -1925,17 +1958,20 @@ FILE* viewTemplates(){
 
     HANDLE hFind;
     BOOL bContinue = TRUE;
-    WIN32_FIND_DATA data;    FILE* tempTemplateForm = NULL;
+    WIN32_FIND_DATA data;
+    FILE* tempTemplateForm = NULL;
     char str1[MAXSTR];
 
     INFPRINT("Form Type:\n");
     hFind = FindFirstFile(TEMPLATE_DIR_PATH "*.*", &data);
     int choice=1,ichoice=1;
     while (hFind && bContinue) {
-        // Check if this entry is a directory        if (data.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) {
+        // Check if this entry is a directory
+        if (data.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) {
             // This is a directory
             if(!strcmp(data.cFileName,".")){bContinue = FindNextFile(hFind, &data);continue;}
             if(!strcmp(data.cFileName,"..")){bContinue = FindNextFile(hFind, &data);continue;}
+
         }else{
             INFPRINT("%d. %s\n",choice,data.cFileName);
             choice++;
@@ -1952,10 +1988,12 @@ FILE* viewTemplates(){
     hFind = FindFirstFile(TEMPLATE_DIR_PATH "*.*", &data);
     bContinue = TRUE;
     ichoice=1;
-    while (hFind && bContinue) {        // Check if this entry is a directory
+    while (hFind && bContinue) {
+        // Check if this entry is a directory
         if (data.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) {
             // This is a directory
-            if(!strcmp(data.cFileName,".")){bContinue = FindNextFile(hFind, &data);continue;}            if(!strcmp(data.cFileName,"..")){bContinue = FindNextFile(hFind, &data);continue;}
+            if(!strcmp(data.cFileName,".")){bContinue = FindNextFile(hFind, &data);continue;}
+            if(!strcmp(data.cFileName,"..")){bContinue = FindNextFile(hFind, &data);continue;}
         }else{
             if(choice==ichoice){
                 strcat(str1,data.cFileName);
@@ -1991,10 +2029,12 @@ int main (int argc, char *argv[]) {
 
     Snapshot=NULL; csvfile=NULL;
 #ifdef LOPFLAG
-    if ((Snapshot = fopen("LogsAll.txt", "w")) == NULL){        INFPRINT("ERROR: Error in Reading LOG File.\n"); return 1;
+    if ((Snapshot = fopen("LogsAll.txt", "w")) == NULL){
+        INFPRINT("ERROR: Error in Reading LOG File.\n"); return 1;
     }
 #elif  DBGFLAG
-    if ((Snapshot = fopen("LogsDBG.txt", "w")) == NULL){        INFPRINT("ERROR: Error in Reading LOG File.\n"); return 1;
+    if ((Snapshot = fopen("LogsDBG.txt", "w")) == NULL){
+        INFPRINT("ERROR: Error in Reading LOG File.\n"); return 1;
     }
 #else
     if ((Snapshot = fopen("Logs.txt", "w")) == NULL){
@@ -2004,7 +2044,8 @@ int main (int argc, char *argv[]) {
     printf("After log file initialization argc:%d\n", argc);
     char str[MAXSTR];
     char AREA[MAXSTR];
-    char PERIOD[MAXSTR];    char DISCHARGE[MAXSTR];
+    char PERIOD[MAXSTR];
+    char DISCHARGE[MAXSTR];
     int len,x,i,j,total,median1,median2;
     FILE* basisHtml = NULL;
     FILE* outputHtml = NULL;
@@ -2012,17 +2053,20 @@ int main (int argc, char *argv[]) {
 
     if(argc<2){return 1;}
 
-    for(i=0; i<MAXQUESTIONSALL; i++){        for(j=0; j<6; j++){
+    for(i=0; i<MAXQUESTIONSALL; i++){
+        for(j=0; j<6; j++){
             freqDatabase[i][j]=0;
         }
     }
     printf("After struct initialization\n");
 
     INFPRINT("SOOSA2014 - Survey Output Optical Scan Analyzer\n\n");
-    INFPRINT("AREA: ");    fgets(AREA,MAXSTR,stdin);
+    INFPRINT("AREA: ");
+    fgets(AREA,MAXSTR,stdin);
     len=strlen(AREA); if(AREA[len-1]=='\n'){AREA[len-1]='\0';}
     INFPRINT("PERIOD: ");
-    fgets(PERIOD,MAXSTR,stdin);    len=strlen(PERIOD); if(PERIOD[len-1]=='\n'){PERIOD[len-1]='\0';}
+    fgets(PERIOD,MAXSTR,stdin);
+    len=strlen(PERIOD); if(PERIOD[len-1]=='\n'){PERIOD[len-1]='\0';}
     INFPRINT("DISCHARGE: ");
     fgets(DISCHARGE,MAXSTR,stdin);
     len=strlen(DISCHARGE); if(DISCHARGE[len-1]=='\n'){DISCHARGE[len-1]='\0';}
@@ -2115,10 +2159,12 @@ int main (int argc, char *argv[]) {
     if ((basisHtml = fopen(BASIS_FILE_PATH, "r")) == NULL){
         INFPRINT("ERROR: Error in basis.html file.\n"); return 1;
     }
-    while(fgets(str,MAXSTR,basisHtml)!=NULL){        if(str[0]=='@' && str[1]=='A' && str[2]=='A' && str[3]=='A' && str[4]=='@'){
+    while(fgets(str,MAXSTR,basisHtml)!=NULL){
+        if(str[0]=='@' && str[1]=='A' && str[2]=='A' && str[3]=='A' && str[4]=='@'){
             fprintf(outputHtml,"%s",AREA);
         }else if(str[0]=='@' && str[1]=='P' && str[2]=='P' && str[3]=='P' && str[4]=='@'){
-            fprintf(outputHtml,"%s",PERIOD);        }else if(str[0]=='@' && str[1]=='L' && str[2]=='L' && str[3]=='L' && str[4]=='@'){
+            fprintf(outputHtml,"%s",PERIOD);
+        }else if(str[0]=='@' && str[1]=='L' && str[2]=='L' && str[3]=='L' && str[4]=='@'){
             fprintf(outputHtml,"<h2>Number of Respondents: %d</h2>\n", numOfResp);
             fprintf(outputHtml,"<h2>Average Discharges per Month: %s</h2>\n", DISCHARGE);
             j=atoi(DISCHARGE);

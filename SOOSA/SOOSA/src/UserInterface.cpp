@@ -1,4 +1,4 @@
-#include "SoosaUi.hpp"
+#include "UserInterface.hpp"
 
 #include <Common/File/AlbaFileReader.hpp>
 #include <Common/PathHandler/AlbaLocalPathHandler.hpp>
@@ -11,12 +11,12 @@ using namespace std;
 namespace alba
 {
 
-SoosaConfiguration SoosaUi::getSavedConfiguration() const
+InputConfiguration UserInterface::getSavedConfiguration() const
 {
     return m_savedConfiguration;
 }
 
-void SoosaUi::askUserForMainDetails()
+void UserInterface::askUserForMainDetails()
 {
     cout<<"Enter area:"<<endl;
     string area(m_userInterface.getUserInput());
@@ -27,14 +27,14 @@ void SoosaUi::askUserForMainDetails()
     m_savedConfiguration.setMainParameters(area, period, discharge);
 }
 
-void SoosaUi::askUserForFormDetails()
+void UserInterface::askUserForFormDetails()
 {
     cout<<"Enter form details directory:"<<endl;
     string formDetailsDirectoryPath(m_userInterface.getUserInput());
     saveFormDetailsFromFormDetailPath(askUserForPathOfFormDetailToRead(formDetailsDirectoryPath));
 }
 
-void SoosaUi::saveFormDetailsFromFormDetailPath(string const& formDetailsFilePath)
+void UserInterface::saveFormDetailsFromFormDetailPath(string const& formDetailsFilePath)
 {
     ifstream formDetailsStream(formDetailsFilePath);
     AlbaFileReader fileReader(formDetailsStream);
@@ -56,7 +56,7 @@ void SoosaUi::saveFormDetailsFromFormDetailPath(string const& formDetailsFilePat
     }
 }
 
-string SoosaUi::askUserForPathOfFormDetailToRead(string const& formDetailsDirectoryPath)
+string UserInterface::askUserForPathOfFormDetailToRead(string const& formDetailsDirectoryPath)
 {
     AlbaLocalPathHandler formDetailsPathHandler(formDetailsDirectoryPath);
 

@@ -3,10 +3,12 @@
 #include <Common/Container/AlbaValueRange.hpp>
 #include <Geometry/TwoDimensions/TwoDimensionsHelper.hpp>
 
-#include <algorithm>#include <cmath>
+#include <algorithm>
+#include <cmath>
 #include <iterator>
 
-using namespace alba::mathHelper;using namespace alba::TwoDimensions::twoDimensionsHelper;
+using namespace alba::mathHelper;
+using namespace alba::TwoDimensions::twoDimensionsHelper;
 using namespace std;
 
 namespace alba

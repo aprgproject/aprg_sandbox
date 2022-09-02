@@ -12,4 +12,5 @@ template <typename NumberType> AlbaNumber createNumberFromComplexNumber(AlbaComp
 void saveToComplexNumberData(AlbaNumber::ComplexNumberData & data, AlbaComplexNumber<float> const& number);
 
 }//namespace mathHelper
+
 }//namespace alba

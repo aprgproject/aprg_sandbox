@@ -7,7 +7,7 @@
 namespace alba
 {
 
-struct SoosaFormDetails
+struct FormDetails
 {
     using ColumnToNumberOfQuestionsMap=std::map<unsigned int, unsigned int>;
     using ColumnToNumberOfQuestionsPair=std::pair<unsigned int, unsigned int>;
@@ -16,7 +16,7 @@ struct SoosaFormDetails
     ColumnToNumberOfQuestionsMap columnToNumberOfQuestionsMap;
 };
 
-class SoosaConfiguration
+class InputConfiguration
 {
 public:
     unsigned int getNumberOfColumns() const;
@@ -37,6 +37,6 @@ private:
     std::string m_area;
     std::string m_period;
     double m_discharge;
-    SoosaFormDetails m_formDetails;
+    FormDetails m_formDetails;
 };
 }

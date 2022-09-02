@@ -3,10 +3,12 @@
 #include <Common/Math/Helpers/ComputationHelpers.hpp>
 
 #include <algorithm>
-#include <cassert>#include <cmath>
+#include <cassert>
+#include <cmath>
 
 using namespace alba::mathHelper;
 using namespace std;
+
 namespace alba
 {
 
