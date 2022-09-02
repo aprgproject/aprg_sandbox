@@ -10,15 +10,30 @@ using namespace std;
 namespace alba
 {
 
+namespace soosa
+{
+
+InputConfiguration::InputConfiguration()
+    : m_path()
+    , m_area()
+    , m_period()
+    , m_discharge{}
+    , m_minimumSatisfactoryScore{}
+    , m_formDetails{}
+{}
+
+unsigned int InputConfiguration::getMinimumSatisfactoryScore() const
+{
+    return m_minimumSatisfactoryScore;
+}
+
 unsigned int InputConfiguration::getNumberOfColumns() const
 {
-    return m_formDetails.columnToNumberOfQuestionsMap.size();
-}
+    return m_formDetails.columnToNumberOfQuestionsMap.size();}
 
 unsigned int InputConfiguration::getNumberOfQuestions() const
 {
-    return m_formDetails.questions.size();
-}
+    return m_formDetails.questions.size();}
 
 unsigned int InputConfiguration::getNumberOfQuestionsAtColumn(unsigned int const column) const
 {
@@ -72,37 +87,43 @@ double InputConfiguration::getDischarge() const
     return m_discharge;
 }
 
-std::string InputConfiguration::getQuestionAt(unsigned int const questionNumber) const
+string InputConfiguration::getQuestionAt(unsigned int const questionNumber) const
 {
     string question;
-    if(questionNumber < m_formDetails.questions.size())
-    {
+    if(questionNumber < m_formDetails.questions.size())    {
         question = m_formDetails.questions[questionNumber];
     }
     return question;
 }
 
-void InputConfiguration::setPath(std::string const& path)
+void InputConfiguration::setPath(string const& path)
 {
     m_path = path;
 }
 
-void InputConfiguration::setMainParameters(std::string const& area, std::string const& period, double const discharge)
+void InputConfiguration::setMainParameters(
+        string const& area,
+        string const& period,
+        double const discharge,
+        unsigned int const minimumSatisfactoryScore)
 {
     m_area = area;
     m_period = period;
     m_discharge = discharge;
+    m_minimumSatisfactoryScore = minimumSatisfactoryScore;
 }
 
-void InputConfiguration::addQuestion(unsigned int const columnNumber, std::string const& question)
+void InputConfiguration::addQuestion(unsigned int const columnNumber, string const& question)
 {
     m_formDetails.columnToNumberOfQuestionsMap[columnNumber]++;
     m_formDetails.questions.emplace_back(question);
 }
 
-void InputConfiguration::setFormDetailTitle(std::string const& title)
+void InputConfiguration::setFormDetailTitle(string const& title)
 {
     m_formDetails.title=title;
+}
+
 }
 
 }

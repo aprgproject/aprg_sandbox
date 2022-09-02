@@ -11,33 +11,39 @@ using namespace std;
 namespace alba
 {
 
+namespace soosa
+{
+
 InputConfiguration UserInterface::getSavedConfiguration() const
 {
-    return m_savedConfiguration;
-}
+    return m_savedConfiguration;}
 
 void UserInterface::askUserForMainDetails()
 {
-    cout<<"Enter area:"<<endl;
+    cout <<"Enter area:" << endl;
     string area(m_userInterface.getUserInput());
-    cout<<"Enter period:"<<endl;
+
+    cout <<"Enter period:" <<  endl;
     string period(m_userInterface.getUserInput());
-    cout<<"Enter discharge:"<<endl;
+
+    cout <<"Enter discharge:" << endl;
     double discharge(m_userInterface.getNumberFromInput<double>());
-    m_savedConfiguration.setMainParameters(area, period, discharge);
+
+    cout <<"Enter minimum satisfactory score (inclusive):" << endl;
+    unsigned int minimumSatisfactoryScore(m_userInterface.getNumberFromInput<unsigned int>());
+
+    m_savedConfiguration.setMainParameters(area, period, discharge, minimumSatisfactoryScore);
 }
 
 void UserInterface::askUserForFormDetails()
 {
-    cout<<"Enter form details directory:"<<endl;
+    cout << "Enter form details directory:" << endl;
     string formDetailsDirectoryPath(m_userInterface.getUserInput());
     saveFormDetailsFromFormDetailPath(askUserForPathOfFormDetailToRead(formDetailsDirectoryPath));
 }
-
 void UserInterface::saveFormDetailsFromFormDetailPath(string const& formDetailsFilePath)
 {
-    ifstream formDetailsStream(formDetailsFilePath);
-    AlbaFileReader fileReader(formDetailsStream);
+    ifstream formDetailsStream(formDetailsFilePath);    AlbaFileReader fileReader(formDetailsStream);
 
     m_savedConfiguration.setFormDetailTitle(fileReader.getLineAndIgnoreWhiteSpaces());
 
@@ -69,13 +75,15 @@ string UserInterface::askUserForPathOfFormDetailToRead(string const& formDetails
 
     for(string const& formDetailsFile: listOfFiles)
     {
-        cout<<"Choice "<<choice<<" :: "<<AlbaLocalPathHandler(formDetailsFile).getFile()<<endl;
+        cout << "Choice " << choice<<" :: " << AlbaLocalPathHandler(formDetailsFile).getFile() << endl;
         choices.emplace(choice++, AlbaLocalPathHandler(formDetailsFile).getFullPath());
     }
     unsigned chosenChoice(m_userInterface.displayQuestionAndChoicesAndGetNumberAnswer("Select formDetails:", choices));
-    cout<<"Chosen choice: "<<chosenChoice<<endl;
+    cout << "Chosen choice: " << chosenChoice << endl;
 
     return choices[chosenChoice];
+}
+
 }
 
 }

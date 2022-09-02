@@ -9,24 +9,24 @@ using namespace std;
 namespace alba
 {
 
+namespace soosa
+{
+
 TEST(SoosaTest, SampleTest1)
 {
-    AlbaLocalPathHandler fileToTest(APRG_DIR R"(\SOOSA\FilesForTests\TestSoosaBasicScenario.bmp)");
-    AlbaLocalPathHandler fileForSoosa(APRG_DIR R"(\SOOSA\FilesForTests\TestSoosa.bmp)");
+    AlbaLocalPathHandler fileToTest(APRG_DIR R"(\SOOSA\FilesForTests\TestSoosaBasicScenario.bmp)");    AlbaLocalPathHandler fileForSoosa(APRG_DIR R"(\SOOSA\FilesForTests\TestSoosa.bmp)");
     fileForSoosa.deleteFile();
     fileToTest.copyToNewFile(fileForSoosa.getFullPath());
 
     InputConfiguration configuration;
     configuration.setPath(fileForSoosa.getFullPath());
-    configuration.setMainParameters("area", "period", 12.345);
+    configuration.setMainParameters("area", "period", 12.345, 3U);
 
     configuration.addQuestion(1, "01. Patient Admission - promptness of service");
-    configuration.addQuestion(1, "02. Patient Admission - courtesy of admitting clerks");
-    configuration.addQuestion(1, "03. Patient Admission - ward policies are well-explained");
+    configuration.addQuestion(1, "02. Patient Admission - courtesy of admitting clerks");    configuration.addQuestion(1, "03. Patient Admission - ward policies are well-explained");
     configuration.addQuestion(1, "04. Hospital Environment - cleanliness of surroundings");
     configuration.addQuestion(1, "05. Hospital Environment - cleanliness of toilet/bathroom");
-    configuration.addQuestion(1, "06. Hospital Environment - ventilation/air-conditioning");
-    configuration.addQuestion(1, "07. Hospital Environment - lighting");
+    configuration.addQuestion(1, "06. Hospital Environment - ventilation/air-conditioning");    configuration.addQuestion(1, "07. Hospital Environment - lighting");
     configuration.addQuestion(1, "08. Hospital Environment - furniture and fixtures  are in good condition");
     configuration.addQuestion(1, "09. Hospital Environment - appliances  are working properly");
     configuration.addQuestion(1, "10. Nursing Care - promptness of service");
@@ -103,6 +103,8 @@ TEST(SoosaTest, SampleTest1)
     EXPECT_EQ(1U, soosa.getAnswerToQuestion(36));
     EXPECT_EQ(2U, soosa.getAnswerToQuestion(37));
     EXPECT_EQ(3U, soosa.getAnswerToQuestion(38));
+}
+
 }
 
 }

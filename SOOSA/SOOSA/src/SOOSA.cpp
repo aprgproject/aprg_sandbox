@@ -33,14 +33,15 @@ using namespace std;
 namespace alba
 {
 
+namespace soosa
+{
+
 SOOSA::FrequencyDatabase::FrequencyDatabase(unsigned int numberOfQuestions)
     : m_numberOfQuestions(numberOfQuestions)
-{
-    clear();
+{    clear();
 }
 
-void SOOSA::FrequencyDatabase::clear()
-{
+void SOOSA::FrequencyDatabase::clear(){
     for(unsigned int i=0; i<m_numberOfQuestions; i++)
     {
         for(unsigned int j=0; j<NUMBER_OF_CHOICES; j++)
@@ -120,43 +121,39 @@ bool SOOSA::Status::isStatusNoError() const
     return m_errors.empty();
 }
 
-
 SOOSA::SOOSA(InputConfiguration const& configuration)
-    : m_configuration(configuration)
-    , m_frequencyDatabase(m_configuration.getNumberOfQuestions())
-{
-    m_numberOfRespondents=0;
-}
+    : m_inputConfiguration(configuration)
+    , m_numberOfRespondents{}
+    , m_questionToAnswersMap()
+    , m_frequencyDatabase(m_inputConfiguration.getNumberOfQuestions())
+{}
 
 unsigned int SOOSA::getNumberOfAnswers() const
-{
-    return m_questionToAnswersMap.size();
+{    return m_questionToAnswersMap.size();
 }
 
-unsigned int SOOSA::getAnswerToQuestion(unsigned int const questionNumber) const
-{
+unsigned int SOOSA::getAnswerToQuestion(unsigned int const questionNumber) const{
     return m_questionToAnswersMap.at(questionNumber);
 }
 
 void SOOSA::process()
 {
     cout << "SOOSA2014 - Survey Output Optical Scan Analyzer\n\n" << endl;
-    cout << "Path: " << m_configuration.getPath() << endl;
-    cout << "Area: " << m_configuration.getArea() << endl;
-    cout << "Period: " << m_configuration.getPeriod() << endl;
-    cout << "Discharge: " << m_configuration.getDischarge() << endl;
-    cout << "NumberOfQuestions: " << m_configuration.getNumberOfQuestions() << endl;
-    cout << "NumberOColumns: " << m_configuration.getNumberOfColumns() << endl;
+    cout << "Path: " << m_inputConfiguration.getPath() << endl;
+    cout << "Area: " << m_inputConfiguration.getArea() << endl;
+    cout << "Period: " << m_inputConfiguration.getPeriod() << endl;
+    cout << "Discharge: " << m_inputConfiguration.getDischarge() << endl;
+    cout << "Minimum satisfactory score (inclusive): " << m_inputConfiguration.getMinimumSatisfactoryScore() << endl;
+    cout << "NumberOfQuestions: " << m_inputConfiguration.getNumberOfQuestions() << endl;
+    cout << "NumberOColumns: " << m_inputConfiguration.getNumberOfColumns() << endl;
 
-    AlbaLocalPathHandler pathHandler(m_configuration.getPath());
+    AlbaLocalPathHandler pathHandler(m_inputConfiguration.getPath());
 
     saveHeadersToCsvFile();
-    if(pathHandler.isDirectory())
-    {
+    if(pathHandler.isDirectory())    {
         processDirectory(pathHandler.getFullPath());
     }
-    else
-    {
+    else    {
         processFile(pathHandler.getFullPath());
         saveDataToCsvFile(pathHandler.getFullPath());
     }
@@ -180,20 +177,18 @@ void SOOSA::processDirectory(string const& directoryPath)
 
 string SOOSA::getCsvFileName(string const& path) const
 {
-    return AlbaLocalPathHandler(path).getDirectory()+"PSS_Report_"+m_configuration.getArea()+"_"+m_configuration.getPeriod()+".csv";
+    return AlbaLocalPathHandler(path).getDirectory()+"PSS_Report_"+m_inputConfiguration.getArea()+"_"+m_inputConfiguration.getPeriod()+".csv";
 }
 
 string SOOSA::getReportHtmlFileName(string const& path) const
 {
-    return AlbaLocalPathHandler(path).getDirectory()+"PSS_Report_"+m_configuration.getArea()+"_"+m_configuration.getPeriod()+".html";
+    return AlbaLocalPathHandler(path).getDirectory()+"PSS_Report_"+m_inputConfiguration.getArea()+"_"+m_inputConfiguration.getPeriod()+".html";
 }
 
-string SOOSA::getPrintableStringForPercentage(double const numerator, double const denominator) const
-{
+string SOOSA::getPrintableStringForPercentage(double const numerator, double const denominator) const{
     stringstream ss;
     ss.precision(5);
-    if(denominator==0)
-    {
+    if(denominator==0)    {
         ss << " - ";
     }
     else
@@ -205,41 +200,37 @@ string SOOSA::getPrintableStringForPercentage(double const numerator, double con
 
 void SOOSA::setAnswerToQuestionInColumn(unsigned int const columnNumber, unsigned int const questionOffsetInColumn, unsigned int const answer)
 {
-    m_questionToAnswersMap[m_configuration.getQuestionNumberInColumn(columnNumber, questionOffsetInColumn)] = answer;
+    m_questionToAnswersMap[m_inputConfiguration.getQuestionNumberInColumn(columnNumber, questionOffsetInColumn)] = answer;
 }
 
 
 void SOOSA::saveDataToCsvFile(string const& processedFilePath)  const
 {
-    ofstream outputCsvReportStream(getCsvFileName(m_configuration.getPath()), ofstream::app);
+    ofstream outputCsvReportStream(getCsvFileName(m_inputConfiguration.getPath()), ofstream::app);
     if(Status::getInstance().isStatusNoError())
     {
         outputCsvReportStream<<processedFilePath<<",OK";
-        for(unsigned int i=0;i<m_configuration.getNumberOfQuestions();i++)
+        for(unsigned int i=0;i<m_inputConfiguration.getNumberOfQuestions();i++)
         {
             outputCsvReportStream<<","<<getAnswerToQuestion(i);
-        }
-        outputCsvReportStream<<endl;
+        }        outputCsvReportStream<<endl;
     }
     else
-    {
-        outputCsvReportStream<<processedFilePath<<","<<Status::getInstance().getStatusString()<<endl;
+    {        outputCsvReportStream<<processedFilePath<<","<<Status::getInstance().getStatusString()<<endl;
     }
 }
 
 void SOOSA::saveHeadersToCsvFile() const
 {
-    ofstream outputCsvReportStream(getCsvFileName(m_configuration.getPath()));
+    ofstream outputCsvReportStream(getCsvFileName(m_inputConfiguration.getPath()));
     outputCsvReportStream << "FILE,STATUS";
-    for(unsigned int i=0; i<m_configuration.getNumberOfQuestions(); i++)
+    for(unsigned int i=0; i<m_inputConfiguration.getNumberOfQuestions(); i++)
     {
         outputCsvReportStream << ",Question_" << i+1;
-    }
-    outputCsvReportStream << endl;
+    }    outputCsvReportStream << endl;
 }
 
-void SOOSA::saveOutputHtmlFile(string const& processedFilePath) const
-{
+void SOOSA::saveOutputHtmlFile(string const& processedFilePath) const{
     cout << "saveOutputHtmlFile -> saving data to output html file" << endl;
     AlbaLocalPathHandler basisHtmlPath(PathInitialValueSource::DetectedLocalPath);
     basisHtmlPath.input(basisHtmlPath.getDirectory() + "basis.html");
@@ -254,25 +245,23 @@ void SOOSA::saveOutputHtmlFile(string const& processedFilePath) const
             string line(htmlBasisFileReader.getLineAndIgnoreWhiteSpaces());
             if(line == "@AREA@")
             {
-                reportHtmlFileStream<<m_configuration.getArea();
+                reportHtmlFileStream<<m_inputConfiguration.getArea();
             }
             else if(line == "@PERIOD@")
             {
-                reportHtmlFileStream<<m_configuration.getPeriod();
+                reportHtmlFileStream<<m_inputConfiguration.getPeriod();
             }
             else if(line == "@SUMMARY@")
             {
                 reportHtmlFileStream<<"<h2>Number of Respondents: "<<m_numberOfRespondents<<"</h2>"<<endl;
-                reportHtmlFileStream<<"<h2>Average Discharges per Month: "<<m_configuration.getDischarge()<<"</h2>"<<endl;
-                double dischargeValue(m_configuration.getDischarge());
+                reportHtmlFileStream<<"<h2>Average Discharges per Month: "<<m_inputConfiguration.getDischarge()<<"</h2>"<<endl;
+                double dischargeValue(m_inputConfiguration.getDischarge());
                 reportHtmlFileStream<<"<h2>Percentage of respondents to discharges: "<<getPrintableStringForPercentage(m_numberOfRespondents, dischargeValue)<<"</h2>"<<endl;
             }
-            else if(line == "@TABLE@")
-            {
+            else if(line == "@TABLE@")            {
                 saveTableToOutputHtmlFile(reportHtmlFileStream);
             }
-            else
-            {
+            else            {
                 reportHtmlFileStream<<line<<endl;
             }
         }
@@ -288,51 +277,54 @@ void SOOSA::saveOutputHtmlFile(string const& processedFilePath) const
 
 void SOOSA::saveTableToOutputHtmlFile(ofstream & reportHtmlFileStream) const
 {
-    for(unsigned int questionIndex=0; questionIndex<m_configuration.getNumberOfQuestions(); questionIndex++)
+    for(unsigned int questionIndex=0; questionIndex<m_inputConfiguration.getNumberOfQuestions(); questionIndex++)
     {
         reportHtmlFileStream<<"<tr>"<<endl;
-        FrequencyStatistics::FrequencySamples samples;
-        for(unsigned int answerIndex=0; answerIndex<NUMBER_OF_CHOICES; answerIndex++)
+        FrequencyStatistics::FrequencySamples samples;        for(unsigned int answerIndex=0; answerIndex<NUMBER_OF_CHOICES; answerIndex++)
         {
             samples[answerIndex+1] = m_frequencyDatabase.getFrequencyOfAnswer(questionIndex, answerIndex);
         }
         unsigned int numberOfSamplesForQuestion = FrequencyStatistics::calculateNumberOfSamples(samples);
         double median = FrequencyStatistics::calculateMedian(samples);
-        if(questionIndex==m_configuration.getNumberOfQuestions()-1)
+        if(questionIndex==m_inputConfiguration.getNumberOfQuestions()-1)
         {
-            reportHtmlFileStream<<"<td style=\"text-align:left;padding:3px\"><b>"<<m_configuration.getQuestionAt(questionIndex)<<"</b></td>"<<endl;
+            reportHtmlFileStream<<"<td style=\"text-align:left;padding:3px\"><b>"<<m_inputConfiguration.getQuestionAt(questionIndex)<<"</b></td>"<<endl;
         }
         else
         {
-            reportHtmlFileStream<<"<td style=\"text-align:left;padding:3px\">"<<m_configuration.getQuestionAt(questionIndex)<<"</td>"<<endl;
+            reportHtmlFileStream<<"<td style=\"text-align:left;padding:3px\">"<<m_inputConfiguration.getQuestionAt(questionIndex)<<"</td>"<<endl;
         }
-        reportHtmlFileStream<<"<td style=\"text-align:center;padding:3px\">"<<getPrintableStringForPercentage(m_frequencyDatabase.getFrequencyOfAnswer(questionIndex, 4),numberOfSamplesForQuestion)<<"</td>"<<endl;
-        reportHtmlFileStream<<"<td style=\"text-align:center;padding:3px\">"<<getPrintableStringForPercentage(m_frequencyDatabase.getFrequencyOfAnswer(questionIndex, 3),numberOfSamplesForQuestion)<<"</td>"<<endl;
-        reportHtmlFileStream<<"<td style=\"text-align:center;padding:3px\">"<<getPrintableStringForPercentage(m_frequencyDatabase.getFrequencyOfAnswer(questionIndex, 2),numberOfSamplesForQuestion)<<"</td>"<<endl;
-        reportHtmlFileStream<<"<td style=\"text-align:center;padding:3px\">"<<getPrintableStringForPercentage(m_frequencyDatabase.getFrequencyOfAnswer(questionIndex, 1),numberOfSamplesForQuestion)<<"</td>"<<endl;
-        reportHtmlFileStream<<"<td style=\"text-align:center;padding:3px\">"<<getPrintableStringForPercentage(m_frequencyDatabase.getFrequencyOfAnswer(questionIndex, 0),numberOfSamplesForQuestion)<<"</td>"<<endl;
+        for(unsigned int answer=NUMBER_OF_CHOICES; answer>0; answer--)
+        {
+            reportHtmlFileStream<<"<td style=\"text-align:center;padding:3px\">"<<getPrintableStringForPercentage(m_frequencyDatabase.getFrequencyOfAnswer(questionIndex, answer-1), numberOfSamplesForQuestion)<<"</td>"<<endl;
+        }
         reportHtmlFileStream<<"<td style=\"text-align:center;padding:3px\">"<<numberOfSamplesForQuestion<<"</td>"<<endl;
         reportHtmlFileStream<<"<td style=\"text-align:center;padding:3px\">"<<median<<"</td>"<<endl;
-        reportHtmlFileStream<<"<td style=\"text-align:center;padding:3px\">"<<getPrintableStringForPercentage(
-                                  m_frequencyDatabase.getFrequencyOfAnswer(questionIndex, 4)+m_frequencyDatabase.getFrequencyOfAnswer(questionIndex, 3)+m_frequencyDatabase.getFrequencyOfAnswer(questionIndex, 2),numberOfSamplesForQuestion)<<"</td>"<<endl;
+
+        unsigned int satisfactoryFrequency(0U);
+        for(unsigned int answer=NUMBER_OF_CHOICES; answer>0U; answer--)
+        {
+            if(answer>=m_inputConfiguration.getMinimumSatisfactoryScore())
+            {
+                satisfactoryFrequency += m_frequencyDatabase.getFrequencyOfAnswer(questionIndex, answer-1);
+            }
+        }
+        reportHtmlFileStream<<"<td style=\"text-align:center;padding:3px\">"<<getPrintableStringForPercentage(satisfactoryFrequency, numberOfSamplesForQuestion)<<"</td>"<<endl;
         reportHtmlFileStream<<"</tr>"<<endl;
     }
 }
-
 void SOOSA::saveFrequencyDatabaseIfNoError()
 {
     if(Status::getInstance().isStatusNoError())
     {
         m_numberOfRespondents++;
-        for(unsigned int i=0;i<m_configuration.getNumberOfQuestions();i++)
+        for(unsigned int i=0;i<m_inputConfiguration.getNumberOfQuestions();i++)
         {
             m_frequencyDatabase.addAnswer(i, getAnswerToQuestion(i)-1);
-        }
-    }
+        }    }
 }
 
-void SOOSA::processFile(string const& filePath)
-{
+void SOOSA::processFile(string const& filePath){
     cout << endl;
     cout << "processFile: [" << filePath << "]" << endl;
     Status::getInstance().clearErrors();
@@ -355,15 +347,13 @@ void SOOSA::processFile(string const& filePath)
     edgePoints[0][1] = twoDimensionsHelper::getMidpoint(edgePoints[0][0], edgePoints[0][2]);
     edgePoints[1][1] = twoDimensionsHelper::getMidpoint(edgePoints[1][0], edgePoints[1][2]);
 
-    if(m_configuration.getNumberOfColumns()==2)
+    if(m_inputConfiguration.getNumberOfColumns()==2)
     {
         cout << "Number of columns from template = 2" << endl;
-        Line centerLine(edgePoints[0][1], edgePoints[1][1]);
-        cout << "find center left line:" << endl;
+        Line centerLine(edgePoints[0][1], edgePoints[1][1]);        cout << "find center left line:" << endl;
         centerLeftLine = findRightLineUsingStartingLine(globalSnippet, centerLine);
         cout << "find center right line:" << endl;
-        centerRightLine = findLeftLineUsingStartingLine(globalSnippet, centerLine);
-        cout << endl;
+        centerRightLine = findLeftLineUsingStartingLine(globalSnippet, centerLine);        cout << endl;
         cout << "Processing column 1:" << endl;
         processColumn(globalSnippet, leftLine, centerLeftLine, 1);
         cout << endl;
@@ -376,21 +366,19 @@ void SOOSA::processFile(string const& filePath)
         cout << "Processing column:" << endl;
         processColumn(globalSnippet, leftLine, rightLine, 1);
     }
-    if(m_configuration.getNumberOfQuestions() != m_questionToAnswersMap.size())
+    if(m_inputConfiguration.getNumberOfQuestions() != m_questionToAnswersMap.size())
     {
-        cout << "Number of questions does not match the number of answers. Number of questions: " << m_configuration.getNumberOfQuestions()
+        cout << "Number of questions does not match the number of answers. Number of questions: " << m_inputConfiguration.getNumberOfQuestions()
            << " Number of answers: "<<m_questionToAnswersMap.size()<<".";
 
         stringstream ss;
-        ss << "Number of questions does not match the number of answers. Number of questions: " << m_configuration.getNumberOfQuestions()
+        ss << "Number of questions does not match the number of answers. Number of questions: " << m_inputConfiguration.getNumberOfQuestions()
            << " Number of answers: "<<m_questionToAnswersMap.size()<<".";
         Status::getInstance().setError(ss.str());
-    }
-    saveFrequencyDatabaseIfNoError();
+    }    saveFrequencyDatabaseIfNoError();
 }
 
-Line SOOSA::findLeftLine(BitmapSnippet const& snippet) const
-{
+Line SOOSA::findLeftLine(BitmapSnippet const& snippet) const{
     cout << "findLeftLine:" << endl;
     RangeOfInts rangeForX(snippet.getTopLeftCorner().getX(), snippet.getBottomRightCorner().getX(), 1);
     return findVerticalLine(snippet, rangeForX);
@@ -596,15 +584,13 @@ void SOOSA::updateSamplesForLineModelingFromSquareErrorToSampleMultimap(TwoDimen
 
 void SOOSA::processColumn(BitmapSnippet const& snippet, Line const& leftLine, Line const& rightLine, unsigned int const columnNumber)
 {
-    unsigned int numberQuestionsInColumn = m_configuration.getNumberOfQuestionsAtColumn(columnNumber);
+    unsigned int numberQuestionsInColumn = m_inputConfiguration.getNumberOfQuestionsAtColumn(columnNumber);
     cout << "Processing left line of column:" << endl;
     QuestionBarCoordinates questionBarCoordinatesForLeftLine(getQuestionBarCoordinatesFromLine(snippet, leftLine, numberQuestionsInColumn));
-    cout << "Processing right line of column:" << endl;
-    QuestionBarCoordinates questionBarCoordinatesForRightLine(getQuestionBarCoordinatesFromLine(snippet, rightLine, numberQuestionsInColumn));
+    cout << "Processing right line of column:" << endl;    QuestionBarCoordinates questionBarCoordinatesForRightLine(getQuestionBarCoordinatesFromLine(snippet, rightLine, numberQuestionsInColumn));
     if(questionBarCoordinatesForLeftLine.size() == numberQuestionsInColumn && questionBarCoordinatesForRightLine.size() == numberQuestionsInColumn)
     {
-        for(unsigned int questionIndex=0; questionIndex<numberQuestionsInColumn; questionIndex++)
-        {
+        for(unsigned int questionIndex=0; questionIndex<numberQuestionsInColumn; questionIndex++)        {
             unsigned int answer(getAnswerToQuestion(snippet, questionBarCoordinatesForLeftLine[questionIndex], questionBarCoordinatesForRightLine[questionIndex]));
             if(answer==0)
             {
@@ -1041,5 +1027,6 @@ TwoDimensionsStatistics::Sample SOOSA::convertToTwoDimensionSample(Point const& 
     return TwoDimensionsStatistics::Sample{point.getX(), point.getY()};
 }
 
+}
 
 }
