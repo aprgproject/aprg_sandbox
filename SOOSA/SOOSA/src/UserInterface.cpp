@@ -16,7 +16,8 @@ namespace soosa
 
 InputConfiguration UserInterface::getSavedConfiguration() const
 {
-    return m_savedConfiguration;}
+    return m_savedConfiguration;
+}
 
 void UserInterface::askUserForMainDetails()
 {
@@ -37,29 +38,9 @@ void UserInterface::askUserForMainDetails()
 
 void UserInterface::askUserForFormDetails()
 {
-    cout << "Enter form details directory:" << endl;
-    string formDetailsDirectoryPath(m_userInterface.getUserInput());
-    saveFormDetailsFromFormDetailPath(askUserForPathOfFormDetailToRead(formDetailsDirectoryPath));
-}
-void UserInterface::saveFormDetailsFromFormDetailPath(string const& formDetailsFilePath)
-{
-    ifstream formDetailsStream(formDetailsFilePath);    AlbaFileReader fileReader(formDetailsStream);
-
-    m_savedConfiguration.setFormDetailTitle(fileReader.getLineAndIgnoreWhiteSpaces());
-
-    unsigned int columnNumber=0;
-    while(fileReader.isNotFinished())
-    {
-        string line(fileReader.getLineAndIgnoreWhiteSpaces());
-        if(line == "NEW_COLUMN")
-        {
-            columnNumber++;
-        }
-        else
-        {
-            m_savedConfiguration.addQuestion(columnNumber, line);
-        }
-    }
+    AlbaLocalPathHandler formDetailsDirectoryPath(PathInitialValueSource::DetectedLocalPath);
+    formDetailsDirectoryPath.input(formDetailsDirectoryPath.getDirectory() + "FormDetails/");
+    saveFormDetailsFromFormDetailPath(askUserForPathOfFormDetailToRead(formDetailsDirectoryPath.getFullPath()));
 }
 
 string UserInterface::askUserForPathOfFormDetailToRead(string const& formDetailsDirectoryPath)
@@ -82,6 +63,28 @@ string UserInterface::askUserForPathOfFormDetailToRead(string const& formDetails
     cout << "Chosen choice: " << chosenChoice << endl;
 
     return choices[chosenChoice];
+}
+
+void UserInterface::saveFormDetailsFromFormDetailPath(string const& formDetailsFilePath)
+{
+    ifstream formDetailsStream(formDetailsFilePath);
+    AlbaFileReader fileReader(formDetailsStream);
+
+    m_savedConfiguration.setFormDetailsTitle(fileReader.getLineAndIgnoreWhiteSpaces());
+
+    unsigned int columnNumber=0;
+    while(fileReader.isNotFinished())
+    {
+        string line(fileReader.getLineAndIgnoreWhiteSpaces());
+        if(line == "NEW_COLUMN")
+        {
+            columnNumber++;
+        }
+        else
+        {
+            m_savedConfiguration.addQuestion(columnNumber, line);
+        }
+    }
 }
 
 }

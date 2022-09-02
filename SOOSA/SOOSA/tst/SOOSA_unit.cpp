@@ -12,57 +12,59 @@ namespace alba
 namespace soosa
 {
 
-TEST(SoosaTest, SampleTest1)
+namespace
 {
-    AlbaLocalPathHandler fileToTest(APRG_DIR R"(\SOOSA\FilesForTests\TestSoosaBasicScenario.bmp)");    AlbaLocalPathHandler fileForSoosa(APRG_DIR R"(\SOOSA\FilesForTests\TestSoosa.bmp)");
-    fileForSoosa.deleteFile();
-    fileToTest.copyToNewFile(fileForSoosa.getFullPath());
 
-    InputConfiguration configuration;
-    configuration.setPath(fileForSoosa.getFullPath());
-    configuration.setMainParameters("area", "period", 12.345, 3U);
+InputConfiguration getInputConfigurationForCharityPayWards(string const& inputPath)
+{
+    InputConfiguration inputConfiguration;
+    inputConfiguration.setPath(inputPath);
+    inputConfiguration.setFormDetailsTitle("Form Title");
+    inputConfiguration.setMainParameters("area", "period", 12.345, 3U);
+    inputConfiguration.addQuestion(1, "01. Patient Admission - promptness of service");
+    inputConfiguration.addQuestion(1, "02. Patient Admission - courtesy of admitting clerks");
+    inputConfiguration.addQuestion(1, "03. Patient Admission - ward policies are well-explained");
+    inputConfiguration.addQuestion(1, "04. Hospital Environment - cleanliness of surroundings");
+    inputConfiguration.addQuestion(1, "05. Hospital Environment - cleanliness of toilet/bathroom");
+    inputConfiguration.addQuestion(1, "06. Hospital Environment - ventilation/air-conditioning");
+    inputConfiguration.addQuestion(1, "07. Hospital Environment - lighting");
+    inputConfiguration.addQuestion(1, "08. Hospital Environment - furniture and fixtures  are in good condition");
+    inputConfiguration.addQuestion(1, "09. Hospital Environment - appliances  are working properly");
+    inputConfiguration.addQuestion(1, "10. Nursing Care - promptness of service");
+    inputConfiguration.addQuestion(1, "11. Nursing Care - quality of patient care");
+    inputConfiguration.addQuestion(1, "12. Nursing Care - courtesy in dealing with patients");
+    inputConfiguration.addQuestion(1, "13. Nursing Care - patient is well-informed regarding his medication, diagnostic tests, dietary needs, & others");
+    inputConfiguration.addQuestion(1, "14. Medical Care - promptness of service");
+    inputConfiguration.addQuestion(1, "15. Medical Care - quality of care and treatment");
+    inputConfiguration.addQuestion(1, "16. Medical Care - courtesy in dealing with patients");
+    inputConfiguration.addQuestion(1, "17. Medical Care - patient is well-informed regarding his condition/illness");
+    inputConfiguration.addQuestion(1, "18. Pharmacy - availability of medicines and medical supplies");
+    inputConfiguration.addQuestion(1, "19. Pharmacy - promptness of  service");
+    inputConfiguration.addQuestion(1, "20. Pharmacy - courtesy of staff");
+    inputConfiguration.addQuestion(2, "21. Dietary Food Service - quality/cleanliness of food");
+    inputConfiguration.addQuestion(2, "22. Dietary Food Service - timeliness of meal service");
+    inputConfiguration.addQuestion(2, "23. Medical Social Service - courtesy in dealing with patients");
+    inputConfiguration.addQuestion(2, "24. Medical Social Service - provision of patient’s medical needs");
+    inputConfiguration.addQuestion(2, "25. Laboratory - promptness of  service");
+    inputConfiguration.addQuestion(2, "26. Laboratory - courtesy of staff");
+    inputConfiguration.addQuestion(2, "27. Radiology - promptness of  service");
+    inputConfiguration.addQuestion(2, "28. Radiology - courtesy of staff");
+    inputConfiguration.addQuestion(2, "29. ECG - promptness of  service");
+    inputConfiguration.addQuestion(2, "30. ECG - courtesy of staff");
+    inputConfiguration.addQuestion(2, "31. Billing - promptness of  service");
+    inputConfiguration.addQuestion(2, "32. Billing - courtesy of staff");
+    inputConfiguration.addQuestion(2, "33. Cashier/Cash Services - promptness of  service");
+    inputConfiguration.addQuestion(2, "34. Cashier/Cash Services - courtesy of staff");
+    inputConfiguration.addQuestion(2, "35. Security Services - visibility of security personnel");
+    inputConfiguration.addQuestion(2, "36. Security Services - courtesy of security personnel");
+    inputConfiguration.addQuestion(2, "37. Patient Discharge - patient is well-informed regarding requirements prior to discharge");
+    inputConfiguration.addQuestion(2, "38. Patient Discharge - adequacy of instructions regarding medication and on how to care for the patient at home");
+    inputConfiguration.addQuestion(2, "39. Overall assessment of the hospital");
+    return inputConfiguration;
+}
 
-    configuration.addQuestion(1, "01. Patient Admission - promptness of service");
-    configuration.addQuestion(1, "02. Patient Admission - courtesy of admitting clerks");    configuration.addQuestion(1, "03. Patient Admission - ward policies are well-explained");
-    configuration.addQuestion(1, "04. Hospital Environment - cleanliness of surroundings");
-    configuration.addQuestion(1, "05. Hospital Environment - cleanliness of toilet/bathroom");
-    configuration.addQuestion(1, "06. Hospital Environment - ventilation/air-conditioning");    configuration.addQuestion(1, "07. Hospital Environment - lighting");
-    configuration.addQuestion(1, "08. Hospital Environment - furniture and fixtures  are in good condition");
-    configuration.addQuestion(1, "09. Hospital Environment - appliances  are working properly");
-    configuration.addQuestion(1, "10. Nursing Care - promptness of service");
-    configuration.addQuestion(1, "11. Nursing Care - quality of patient care");
-    configuration.addQuestion(1, "12. Nursing Care - courtesy in dealing with patients");
-    configuration.addQuestion(1, "13. Nursing Care - patient is well-informed regarding his medication, diagnostic tests, dietary needs, & others");
-    configuration.addQuestion(1, "14. Medical Care - promptness of service");
-    configuration.addQuestion(1, "15. Medical Care - quality of care and treatment");
-    configuration.addQuestion(1, "16. Medical Care - courtesy in dealing with patients");
-    configuration.addQuestion(1, "17. Medical Care - patient is well-informed regarding his condition/illness");
-    configuration.addQuestion(1, "18. Pharmacy - availability of medicines and medical supplies");
-    configuration.addQuestion(1, "19. Pharmacy - promptness of  service");
-    configuration.addQuestion(1, "20. Pharmacy - courtesy of staff");
-    configuration.addQuestion(2, "21. Dietary Food Service - quality/cleanliness of food");
-    configuration.addQuestion(2, "22. Dietary Food Service - timeliness of meal service");
-    configuration.addQuestion(2, "23. Medical Social Service - courtesy in dealing with patients");
-    configuration.addQuestion(2, "24. Medical Social Service - provision of patient’s medical needs");
-    configuration.addQuestion(2, "25. Laboratory - promptness of  service");
-    configuration.addQuestion(2, "26. Laboratory - courtesy of staff");
-    configuration.addQuestion(2, "27. Radiology - promptness of  service");
-    configuration.addQuestion(2, "28. Radiology - courtesy of staff");
-    configuration.addQuestion(2, "29. ECG - promptness of  service");
-    configuration.addQuestion(2, "30. ECG - courtesy of staff");
-    configuration.addQuestion(2, "31. Billing - promptness of  service");
-    configuration.addQuestion(2, "32. Billing - courtesy of staff");
-    configuration.addQuestion(2, "33. Cashier/Cash Services - promptness of  service");
-    configuration.addQuestion(2, "34. Cashier/Cash Services - courtesy of staff");
-    configuration.addQuestion(2, "35. Security Services - visibility of security personnel");
-    configuration.addQuestion(2, "36. Security Services - courtesy of security personnel");
-    configuration.addQuestion(2, "37. Patient Discharge - patient is well-informed regarding requirements prior to discharge");
-    configuration.addQuestion(2, "38. Patient Discharge - adequacy of instructions regarding medication and on how to care for the patient at home");
-    configuration.addQuestion(2, "39. Overall assessment of the hospital");
-
-    SOOSA soosa(configuration);
-    soosa.process();
-
+void checkAnswersForCharityPayWards(SOOSA const& soosa)
+{
     ASSERT_EQ(39U, soosa.getNumberOfAnswers());
     EXPECT_EQ(5U, soosa.getAnswerToQuestion(0));
     EXPECT_EQ(4U, soosa.getAnswerToQuestion(1));
@@ -103,6 +105,19 @@ TEST(SoosaTest, SampleTest1)
     EXPECT_EQ(1U, soosa.getAnswerToQuestion(36));
     EXPECT_EQ(2U, soosa.getAnswerToQuestion(37));
     EXPECT_EQ(3U, soosa.getAnswerToQuestion(38));
+}
+
+}
+
+TEST(SoosaTest, SampleTest1)
+{
+    AlbaLocalPathHandler fileToTest(APRG_DIR R"(\SOOSA\FilesForTests\TestSoosa.bmp)");
+    InputConfiguration inputConfiguration(getInputConfigurationForCharityPayWards(fileToTest.getFullPath()));
+    SOOSA soosa(inputConfiguration);
+
+    soosa.process();
+
+    checkAnswersForCharityPayWards(soosa);
 }
 
 }

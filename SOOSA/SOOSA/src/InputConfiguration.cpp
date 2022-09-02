@@ -22,23 +22,20 @@ InputConfiguration::InputConfiguration()
     , m_formDetails{}
 {}
 
-unsigned int InputConfiguration::getMinimumSatisfactoryScore() const
-{
-    return m_minimumSatisfactoryScore;
-}
-
 unsigned int InputConfiguration::getNumberOfColumns() const
 {
-    return m_formDetails.columnToNumberOfQuestionsMap.size();}
+    return m_formDetails.columnToNumberOfQuestionsMap.size();
+}
 
 unsigned int InputConfiguration::getNumberOfQuestions() const
 {
-    return m_formDetails.questions.size();}
+    return m_formDetails.questions.size();
+}
 
 unsigned int InputConfiguration::getNumberOfQuestionsAtColumn(unsigned int const column) const
 {
     unsigned int numberOfQuestions=0;
-    if(m_formDetails.columnToNumberOfQuestionsMap.find(column) != m_formDetails.columnToNumberOfQuestionsMap.end())
+    if(m_formDetails.columnToNumberOfQuestionsMap.find(column) != m_formDetails.columnToNumberOfQuestionsMap.cend())
     {
         numberOfQuestions = m_formDetails.columnToNumberOfQuestionsMap.at(column);
     }
@@ -49,15 +46,17 @@ unsigned int InputConfiguration::getQuestionNumberInColumn(unsigned int const co
 {
     unsigned int questionNumber=0;
     FormDetails::ColumnToNumberOfQuestionsMap::const_iterator columnMapIterator = m_formDetails.columnToNumberOfQuestionsMap.find(columnNumber);
-    if(columnMapIterator!=m_formDetails.columnToNumberOfQuestionsMap.end())
+    if(columnMapIterator!=m_formDetails.columnToNumberOfQuestionsMap.cend())
     {
-        if(columnMapIterator == m_formDetails.columnToNumberOfQuestionsMap.begin())
+        if(columnMapIterator == m_formDetails.columnToNumberOfQuestionsMap.cbegin())
         {
             questionNumber = questionOffsetInColumn;
         }
         else
         {
-            questionNumber = accumulate(m_formDetails.columnToNumberOfQuestionsMap.begin(), columnMapIterator, 0U, [](unsigned int partialResult, FormDetails::ColumnToNumberOfQuestionsPair const& columnQuestionPair)
+            questionNumber = accumulate(
+                        m_formDetails.columnToNumberOfQuestionsMap.cbegin(), columnMapIterator, 0U,
+                        [](unsigned int partialResult, FormDetails::ColumnToNumberOfQuestionsPair const& columnQuestionPair)
             {
                 return partialResult+=columnQuestionPair.second;
             });
@@ -65,6 +64,26 @@ unsigned int InputConfiguration::getQuestionNumberInColumn(unsigned int const co
         }
     }
     return questionNumber;
+}
+
+unsigned int InputConfiguration::getMinimumSatisfactoryScore() const
+{
+    return m_minimumSatisfactoryScore;
+}
+
+string InputConfiguration::getQuestionAt(unsigned int const questionNumber) const
+{
+    string question;
+    if(questionNumber < m_formDetails.questions.size())
+    {
+        question = m_formDetails.questions[questionNumber];
+    }
+    return question;
+}
+
+string InputConfiguration::getFormDetailsTitle() const
+{
+    return m_formDetails.title;
 }
 
 string InputConfiguration::getPath() const
@@ -85,15 +104,6 @@ string InputConfiguration::getPeriod() const
 double InputConfiguration::getDischarge() const
 {
     return m_discharge;
-}
-
-string InputConfiguration::getQuestionAt(unsigned int const questionNumber) const
-{
-    string question;
-    if(questionNumber < m_formDetails.questions.size())    {
-        question = m_formDetails.questions[questionNumber];
-    }
-    return question;
 }
 
 void InputConfiguration::setPath(string const& path)
@@ -119,7 +129,7 @@ void InputConfiguration::addQuestion(unsigned int const columnNumber, string con
     m_formDetails.questions.emplace_back(question);
 }
 
-void InputConfiguration::setFormDetailTitle(string const& title)
+void InputConfiguration::setFormDetailsTitle(string const& title)
 {
     m_formDetails.title=title;
 }
