@@ -1,14 +1,12 @@
 #pragma once
 
 #include <Common/Container/AlbaContainerHelper.hpp>
-#include <Common/Math/AlbaMathHelper.hpp>
+#include <Common/Math/Helpers/SignRelatedHelpers.hpp>
 
 #include <algorithm>
-#include <array>
-#include <cmath>
+#include <array>#include <cmath>
 #include <functional>
 #include <initializer_list>
-
 namespace alba
 {
 
