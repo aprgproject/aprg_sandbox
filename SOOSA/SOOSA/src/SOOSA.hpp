@@ -83,22 +83,21 @@ public:
     unsigned int getNumberOfAnswers() const;
     unsigned int getAnswerToQuestion(unsigned int const questionNumber) const;
     void process();
+
 private:
     std::string getCsvFileName(std::string const& path) const;
-    std::string getReportHtmlFileName(std::string const& path) const;
-    std::string getPrintableStringForPercentage(double const numerator, double const denominator) const;
+    std::string getReportHtmlFileName(std::string const& path) const;    std::string getPrintableStringForPercentage(double const numerator, double const denominator) const;
     void setAnswerToQuestionInColumn(unsigned int const columnNumber, unsigned int const questionOffsetInColumn, unsigned int const answer);
     void saveDataToCsvFile(std::string const& processedFilePath) const;
     void saveHeadersToCsvFile() const;
     void saveOutputHtmlFile(std::string const& processedFilePath) const;
+    void saveTableToOutputHtmlFile(std::ofstream & reportHtmlFileStream) const;
     void saveFrequencyDatabaseIfNoError();
 
-    void processDirectory(std::string const & directoryPath);
-    void processFile(std::string const & filePath);
+    void processDirectory(std::string const & directoryPath);    void processFile(std::string const & filePath);
 
     TwoDimensions::Line findLeftLine(AprgBitmap::BitmapSnippet const& snippet) const;
-    TwoDimensions::Line findRightLine(AprgBitmap::BitmapSnippet const& snippet) const;
-    TwoDimensions::Line findTopLine(AprgBitmap::BitmapSnippet const& snippet) const;
+    TwoDimensions::Line findRightLine(AprgBitmap::BitmapSnippet const& snippet) const;    TwoDimensions::Line findTopLine(AprgBitmap::BitmapSnippet const& snippet) const;
     TwoDimensions::Line findBottomLine(AprgBitmap::BitmapSnippet const& snippet) const;
     TwoDimensions::Line findVerticalLine(AprgBitmap::BitmapSnippet const& snippet, RangeOfInts const& range) const;
     TwoDimensions::Line findHorizontalLine(AprgBitmap::BitmapSnippet const& snippet, RangeOfInts const& range) const;
