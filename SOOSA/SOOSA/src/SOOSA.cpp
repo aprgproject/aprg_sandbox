@@ -12,13 +12,14 @@
 #include <iostream>
 #include <sstream>
 
-#define NUMBER_OF_CHOICES 5
 #define ALLOWABLE_LINE_DEVIATION_FOR_LINE_MODEL 2
 #define ALLOWABLE_HALF_LINE_WIDTH_DEVIATION 2
-#define ALLOWABLE_HALF_BAR_WIDTH_DEVIATION 4#define ALLOWABLE_LINE_WIDTH_DEVIATION ALLOWABLE_HALF_LINE_WIDTH_DEVIATION*2
+#define ALLOWABLE_HALF_BAR_WIDTH_DEVIATION 4
+#define ALLOWABLE_LINE_WIDTH_DEVIATION ALLOWABLE_HALF_LINE_WIDTH_DEVIATION*2
 #define ALLOWABLE_BAR_WIDTH_DEVIATION ALLOWABLE_HALF_BAR_WIDTH_DEVIATION*2
 #define ALLOWABLE_BAR_HEIGHT_DEVIATION 10
-#define MINIMUM_NUMBER_OF_LINE_SAMPLES 10#define RETAIN_RATIO_FOR_DEVIATION 0.90
+#define MINIMUM_NUMBER_OF_LINE_SAMPLES 10
+#define RETAIN_RATIO_FOR_DEVIATION 0.90
 #define MAXIMUM_BAR_WIDTH 500
 #define MINIMUM_NUMBER_OF_BAR_WIDTHS_TO_BE_A_BAR 20
 #define BAR_HEIGHT_TO_DIAMETER_RATIO 0.5
@@ -35,23 +36,26 @@ namespace alba
 namespace soosa
 {
 
-SOOSA::FrequencyDatabase::FrequencyDatabase(unsigned int numberOfQuestions)
+SOOSA::FrequencyDatabase::FrequencyDatabase(unsigned int const numberOfQuestions, unsigned int const numberOfChoices)
     : m_numberOfQuestions(numberOfQuestions)
+    , m_numberOfChoices(numberOfChoices)
 {
     initialize();
 }
 
 void SOOSA::FrequencyDatabase::initialize()
 {
-    m_frequenciesOnQuestionByAnswer.clearAndResize(m_numberOfQuestions, NUMBER_OF_CHOICES);
+    m_frequenciesOnQuestionByAnswer.clearAndResize(m_numberOfQuestions, m_numberOfChoices);
 }
 
-void SOOSA::FrequencyDatabase::addAnswer(unsigned int const questionNumber, unsigned int const answer){
+void SOOSA::FrequencyDatabase::addAnswer(unsigned int const questionNumber, unsigned int const answer)
+{
     if(questionNumber<m_numberOfQuestions && answer<=4)
     {
         m_frequenciesOnQuestionByAnswer.getEntryReference(questionNumber, answer)++;
     }
 }
+
 unsigned int SOOSA::FrequencyDatabase::getFrequencyOfAnswer(unsigned int const questionNumber, unsigned int const answer) const
 {
     unsigned int frequency=0;
@@ -61,9 +65,11 @@ unsigned int SOOSA::FrequencyDatabase::getFrequencyOfAnswer(unsigned int const q
     }
     return frequency;
 }
+
 SOOSA::PointAndWidth::PointAndWidth(Point const& point, double const width)
     : m_point(point), m_width(width)
 {}
+
 Point SOOSA::PointAndWidth::getPoint() const
 {
     return m_point;
@@ -112,11 +118,14 @@ bool SOOSA::Status::isStatusNoError() const
     return m_errors.empty();
 }
 
-SOOSA::SOOSA(InputConfiguration const& configuration)
-    : m_inputConfiguration(configuration)
+SOOSA::SOOSA(
+        SoosaConfiguration const& soosaConfiguration,
+        InputConfiguration const& inputConfiguration)
+    : m_soosaConfiguration(soosaConfiguration)
+    , m_inputConfiguration(inputConfiguration)
     , m_numberOfRespondents{}
     , m_questionToAnswersMap()
-    , m_frequencyDatabase(m_inputConfiguration.getNumberOfQuestions())
+    , m_frequencyDatabase(m_inputConfiguration.getNumberOfQuestions(), m_soosaConfiguration.getNumberOfChoices())
 {}
 
 unsigned int SOOSA::getNumberOfAnswers() const
@@ -291,7 +300,7 @@ void SOOSA::saveTableToOutputHtmlFile(ofstream & reportHtmlFileStream) const
     {
         reportHtmlFileStream<<"<tr>"<<endl;
         FrequencyStatistics::FrequencySamples samples;
-        for(unsigned int answerIndex=0; answerIndex<NUMBER_OF_CHOICES; answerIndex++)
+        for(unsigned int answerIndex=0; answerIndex<m_soosaConfiguration.getNumberOfChoices(); answerIndex++)
         {
             samples[answerIndex+1] = m_frequencyDatabase.getFrequencyOfAnswer(questionIndex, answerIndex);
         }
@@ -305,7 +314,7 @@ void SOOSA::saveTableToOutputHtmlFile(ofstream & reportHtmlFileStream) const
         {
             reportHtmlFileStream<<"<td style=\"text-align:left;padding:3px\">"<<m_inputConfiguration.getQuestionAt(questionIndex)<<"</td>"<<endl;
         }
-        for(unsigned int answer=NUMBER_OF_CHOICES; answer>0; answer--)
+        for(unsigned int answer=m_soosaConfiguration.getNumberOfChoices(); answer>0; answer--)
         {
             reportHtmlFileStream<<"<td style=\"text-align:center;padding:3px\">"<<getPrintableStringForPercentage(m_frequencyDatabase.getFrequencyOfAnswer(questionIndex, answer-1), numberOfSamplesForQuestion)<<"</td>"<<endl;
         }
@@ -313,7 +322,7 @@ void SOOSA::saveTableToOutputHtmlFile(ofstream & reportHtmlFileStream) const
         reportHtmlFileStream<<"<td style=\"text-align:center;padding:3px\">"<<median<<"</td>"<<endl;
 
         unsigned int satisfactoryFrequency(0U);
-        for(unsigned int answer=NUMBER_OF_CHOICES; answer>0U; answer--)
+        for(unsigned int answer=m_soosaConfiguration.getNumberOfChoices(); answer>0U; answer--)
         {
             if(answer>=m_inputConfiguration.getMinimumSatisfactoryScore())
             {
@@ -650,7 +659,7 @@ unsigned int SOOSA::getAnswerToQuestion(BitmapSnippet const& snippet, QuestionBa
     double radius(lowestHeightOfQuestion*BAR_HEIGHT_TO_DIAMETER_RATIO/2);
     unsigned int shadedChoice=0;
     bool isTwoChoicesShaded(false);
-    for(unsigned int choiceIndex=0; choiceIndex<NUMBER_OF_CHOICES; choiceIndex++ )
+    for(unsigned int choiceIndex=0; choiceIndex<m_soosaConfiguration.getNumberOfChoices(); choiceIndex++ )
     {
         if(isChoiceShaded(snippet, leftPoint, rightPoint, choiceIndex, static_cast<unsigned int>(radius)))
         {
@@ -662,13 +671,13 @@ unsigned int SOOSA::getAnswerToQuestion(BitmapSnippet const& snippet, QuestionBa
     {
         shadedChoice=0;
     }
-    unsigned int midpointChoice((NUMBER_OF_CHOICES+1)/2);
+    unsigned int midpointChoice((m_soosaConfiguration.getNumberOfChoices()+1)/2);
     return midpointChoice-(shadedChoice-midpointChoice);
 }
 
 bool SOOSA::isChoiceShaded(BitmapSnippet const& snippet, Point const& leftPoint, Point const& rightPoint, unsigned int const choiceIndex, unsigned int const radius) const
 {
-    double choiceIndexRatio((((double)choiceIndex*2)+1)/(NUMBER_OF_CHOICES*2));
+    double choiceIndexRatio((((double)choiceIndex*2)+1)/(m_soosaConfiguration.getNumberOfChoices()*2));
     double differenceFromLeftToRightInX(rightPoint.getX()-leftPoint.getX());
     double differenceFromLeftToRightInY(rightPoint.getY()-leftPoint.getY());
     Point centerOfCircle(leftPoint.getX()+(differenceFromLeftToRightInX*choiceIndexRatio), leftPoint.getY()+(differenceFromLeftToRightInY*choiceIndexRatio));

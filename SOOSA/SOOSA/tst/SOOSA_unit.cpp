@@ -1,6 +1,5 @@
 #include <Common/PathHandler/AlbaLocalPathHandler.hpp>
 #include <SOOSA.hpp>
-#include <InputConfiguration.hpp>
 
 #include <gtest/gtest.h>
 
@@ -14,6 +13,24 @@ namespace soosa
 
 namespace
 {
+
+SoosaConfiguration getSoosaConfiguration()
+{
+    SoosaConfiguration soosaConfiguration;
+    soosaConfiguration.bufferNameAndValueString("m_numberOfChoices", "5");
+    soosaConfiguration.bufferNameAndValueString("m_acceptableLineDeviationForLineModelInPixels", "2");
+    soosaConfiguration.bufferNameAndValueString("m_acceptableLineWidthDeviationInPixels", "4");
+    soosaConfiguration.bufferNameAndValueString("m_acceptableBarWidthDeviationInPixels", "8");
+    soosaConfiguration.bufferNameAndValueString("m_acceptableBarHeightDeviationInPixels", "10");
+    soosaConfiguration.bufferNameAndValueString("m_minimumLineSamples", "10");
+    soosaConfiguration.bufferNameAndValueString("m_retainRatioForSquareErrorsInLineModel", "0.90");
+    soosaConfiguration.bufferNameAndValueString("m_maximumBarWidth", "500");
+    soosaConfiguration.bufferNameAndValueString("m_minimumNumberOfBarWidthsForABar", "20");
+    soosaConfiguration.bufferNameAndValueString("m_ratioOfBarHeightToDiameter", "0.5");
+    soosaConfiguration.bufferNameAndValueString("m_minimumPercentageOfBlackPixelsForAFilledCircle", "0.7");
+    soosaConfiguration.update();
+    return soosaConfiguration;
+}
 
 InputConfiguration getInputConfigurationForCharityPayWards(string const& inputPath)
 {
@@ -112,8 +129,9 @@ void checkAnswersForCharityPayWards(SOOSA const& soosa)
 TEST(SoosaTest, SampleTest1)
 {
     AlbaLocalPathHandler fileToTest(APRG_DIR R"(\SOOSA\FilesForTests\TestSoosa.bmp)");
+    SoosaConfiguration soosaConfiguration(getSoosaConfiguration());
     InputConfiguration inputConfiguration(getInputConfigurationForCharityPayWards(fileToTest.getFullPath()));
-    SOOSA soosa(inputConfiguration);
+    SOOSA soosa(soosaConfiguration, inputConfiguration);
 
     soosa.process();
 
