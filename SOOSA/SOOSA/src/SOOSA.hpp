@@ -117,7 +117,7 @@ private:
     void updateSamplesForLineModelingFromSquareErrorToSampleMultimap(TwoDimensionsStatistics::Samples & samplesLineModeling, TwoDimensionsStatistics::ValueToSampleMultimap const& squareErrorToSampleMultimap) const;
 
     void processColumn(AprgBitmap::BitmapSnippet const& snippet, TwoDimensions::Line const& leftLine, TwoDimensions::Line const& rightLine, unsigned int const columnNumber);
-    unsigned int getAnswerToQuestion(AprgBitmap::BitmapSnippet const& snippet, QuestionBarCoordinate const& leftCoordinate, QuestionBarCoordinate const& rightCoordinate) const;
+    unsigned int getAnswerToQuestionAndChangeNumberSelectedChoices(unsigned int & numberOfSelectedChoices, AprgBitmap::BitmapSnippet const& snippet, QuestionBarCoordinate const& leftCoordinate, QuestionBarCoordinate const& rightCoordinate) const;
     bool isChoiceShaded(AprgBitmap::BitmapSnippet const& snippet, TwoDimensions::Point const& leftPoint, TwoDimensions::Point const& rightPoint, unsigned int const choiceIndex, unsigned int const radius) const;
     QuestionBarCoordinates getQuestionBarCoordinatesFromLine(AprgBitmap::BitmapSnippet const& snippet, TwoDimensions::Line const& line, unsigned int const numberQuestionsInColumn) const;
     bool isWithinLineDeviation(double const lineWidthAverage, double const currentWidth) const;
@@ -134,11 +134,13 @@ private:
     double getBarWidthFromBlackPoint(AprgBitmap::BitmapSnippet const& snippet, TwoDimensions::Line const& line, TwoDimensions::Point const& blackPoint) const;
     void initializeKMeansWithBarPoints(TwoDimensionKMeans & barPointKMeans, VectorOfPointAndWidth const& pointsAndWidths, LineAndBarWidths const& widthAverages) const;
     void saveHeightDetailsFromBarPoints(TwoDimensionKMeans::GroupOfSamples const& groupOfGroupOfBarPoints, OneDimensionStatistics::Samples & barHeights, DataCollection<double> & heightCollection) const;
-    void removeIncorrectBarPointsWithKMeans(TwoDimensionKMeans & barPointKMeans, TwoDimensionKMeans & barPointKMeansForCalculation, unsigned int const numberQuestionsInColumn, double const totalHeight) const;
+    void removeIncorrectBarPointsWithKMeans(TwoDimensionKMeans & barPointKMeans, TwoDimensionKMeans & barPointKMeansForCalculation, unsigned int const numberQuestionsInColumn, double const averageHeight) const;
     void removeIncorrectBarPointsByHeight(TwoDimensionKMeans & barPointKMeans, TwoDimensionKMeans & barPointKMeansForCalculation, DataCollection<double> const& heightCollection, TwoDimensionKMeans::GroupOfSamples const& groupOfGroupOfBarPoints) const;
     void adjustHeightUntilTargetHeight(DequeOfPoints & dequeWithHighestHeight, DataCollection<double> const& heightCollection, double height) const;
     void saveQuestionBarCoordinatesFromKMeansWithBarPoints(TwoDimensionKMeans const& barPointKMeans, QuestionBarCoordinates & questionBarCoordinates, unsigned int const numberQuestionsInColumn) const;
-    void writeLineInBitmap(AprgBitmap::Bitmap & bitmap, TwoDimensions::Line const& line) const;
+
+    // debug
+
     AprgBitmap::BitmapXY convertToBitmapXY(TwoDimensions::Point const& point) const;
     AprgBitmap::BitmapXY convertToBitmapXY(TwoDimensionsStatistics::Sample const& sample) const;
     TwoDimensions::Point convertToPoint(AprgBitmap::BitmapXY const& bitmapXY) const;
