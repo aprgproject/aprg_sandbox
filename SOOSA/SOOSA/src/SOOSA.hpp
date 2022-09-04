@@ -42,21 +42,21 @@ public:
         matrix::AlbaMatrix<unsigned int> m_frequenciesOnQuestionByAnswer;
     };
 
-    class PointAndWidth
+    class ColumnLineDetail
     {
     public:
-        PointAndWidth(TwoDimensions::Point const& point, double const width);
+        ColumnLineDetail(TwoDimensions::Point const& point, TwoDimensions::Point const& widthMidpoint, double const width);
         TwoDimensions::Point getPoint() const;
+        TwoDimensions::Point getWidthMidpoint() const;
         double getWidth() const;
     private:
         TwoDimensions::Point m_point;
+        TwoDimensions::Point m_widthMidpoint;
         double m_width;
     };
-
     class Status
     {
-        Status();
-    public:
+        Status();    public:
         static Status getInstance();
         std::string getStatusString() const;
         void setError(std::string const& error);
@@ -66,26 +66,18 @@ public:
         alba::stringHelper::strings m_errors;
     };
 
-    struct LineAndBarWidths
-    {
-        double lineWidth;
-        double barWidth;
-    };
-
     using RangeOfInts = AlbaValueRange<int>;
     using RangeOfDoubles = AlbaValueRange<double>;
     using VectorOfDoubles = std::vector<double>;
     using QuestionBarCoordinate = std::pair<TwoDimensions::Point, TwoDimensions::Point>;
     using QuestionBarCoordinates = std::vector<QuestionBarCoordinate>;
-    using VectorOfPointAndWidth = std::vector<PointAndWidth>;
+    using VectorOfColumnLineDetails = std::vector<ColumnLineDetail>;
     using OneDimensionKMeans = KMeansClustering<1>;
     using TwoDimensionKMeans = KMeansClustering<2>;
-    using OneDimensionStatistics = DataStatistics<1>;
-    using DequeOfPoints = std::deque<TwoDimensions::Point>;
+    using OneDimensionStatistics = DataStatistics<1>;    using DequeOfPoints = std::deque<TwoDimensions::Point>;
 
     SOOSA(SoosaConfiguration const& soosaConfiguration, InputConfiguration const& inputConfiguration);
-    unsigned int getNumberOfAnswers() const;
-    unsigned int getAnswerToQuestion(unsigned int const questionNumber) const;
+    unsigned int getNumberOfAnswers() const;    unsigned int getAnswerToQuestion(unsigned int const questionNumber) const;
     void process();
 
 private:
@@ -112,35 +104,24 @@ private:
     TwoDimensions::Line findRightLineUsingStartingLine(AprgBitmap::BitmapSnippet const& snippet, TwoDimensions::Line const& startingLine) const;
     TwoDimensions::Line findVerticalLineUsingStartingLine(AprgBitmap::BitmapSnippet const& snippet, TwoDimensions::Line const& startingLine, RangeOfInts const& rangeForX) const;
     TwoDimensions::Line getLineModel(TwoDimensionsStatistics::Samples const& samples) const;
-    VectorOfDoubles getAcceptableSquareErrorsUsingKMeans(TwoDimensionsStatistics::ValueToSampleMultimap const& squareErrorToSampleMultimap) const;
     VectorOfDoubles getAcceptableSquareErrorsUsingRetainRatio(TwoDimensionsStatistics::ValueToSampleMultimap const& squareErrorToSampleMultimap) const;
     void updateSamplesForLineModelingFromSquareErrorToSampleMultimap(TwoDimensionsStatistics::Samples & samplesLineModeling, TwoDimensionsStatistics::ValueToSampleMultimap const& squareErrorToSampleMultimap) const;
-
     void processColumn(AprgBitmap::BitmapSnippet const& snippet, TwoDimensions::Line const& leftLine, TwoDimensions::Line const& rightLine, unsigned int const columnNumber);
     unsigned int getAnswerToQuestionAndChangeNumberSelectedChoices(unsigned int & numberOfSelectedChoices, AprgBitmap::BitmapSnippet const& snippet, QuestionBarCoordinate const& leftCoordinate, QuestionBarCoordinate const& rightCoordinate) const;
     bool isChoiceShaded(AprgBitmap::BitmapSnippet const& snippet, TwoDimensions::Point const& leftPoint, TwoDimensions::Point const& rightPoint, unsigned int const choiceIndex, unsigned int const radius) const;
     QuestionBarCoordinates getQuestionBarCoordinatesFromLine(AprgBitmap::BitmapSnippet const& snippet, TwoDimensions::Line const& line, unsigned int const numberQuestionsInColumn) const;
-    bool isWithinLineDeviation(double const lineWidthAverage, double const currentWidth) const;
-    bool isWithinBarDeviation(double const barWidthAverage, double const currentWidth) const;
-    VectorOfPointAndWidth getPointsAndWidths(AprgBitmap::BitmapSnippet const& snippet, TwoDimensions::Line const& line) const;
-    LineAndBarWidths getAverageLineAndBarWidthUsingKMeans(VectorOfPointAndWidth const& pointsAndWidths) const;
-    TwoDimensionsStatistics::ValueToSampleMultimap getWidthToSampleMultimap(VectorOfPointAndWidth const& pointsAndWidths) const;
-    void initializeWidthsForKMeans(OneDimensionKMeans & kMeans, TwoDimensionsStatistics::ValueToSampleMultimap const& widthToSampleMultimap) const;
-    void removeDeviatedWidthsUsingKMeans(OneDimensionKMeans & kMeans, TwoDimensionsStatistics::ValueToSampleMultimap const& widthToSampleMultimap) const;
-    void addWidthToKMeansIfNeeded(OneDimensionKMeans & kMeans, OneDimensionKMeans::Samples const& groupOfSamples, TwoDimensionsStatistics::ValueToSampleMultimap const& widthToSampleMultimap, unsigned int const minimumGroupSize) const;
+    VectorOfColumnLineDetails getColumnLineDetails(AprgBitmap::BitmapSnippet const& snippet, TwoDimensions::Line const& line) const;
     RangeOfDoubles getMinMaxRangeFromKMeansSamples(OneDimensionKMeans::Samples const& samples) const;
     TwoDimensions::Points getNearestBlackPointsFromLine(AprgBitmap::BitmapSnippet const& snippet, TwoDimensions::Line const& line) const;
     TwoDimensions::Point getNearestBlackPointFromLine(AprgBitmap::BitmapSnippet const& snippet, TwoDimensions::Line const& line, TwoDimensions::Point const& point) const;
-    double getBarWidthFromBlackPoint(AprgBitmap::BitmapSnippet const& snippet, TwoDimensions::Line const& line, TwoDimensions::Point const& blackPoint) const;
-    void initializeKMeansWithBarPoints(TwoDimensionKMeans & barPointKMeans, VectorOfPointAndWidth const& pointsAndWidths, LineAndBarWidths const& widthAverages) const;
+    ColumnLineDetail getColumnLineDetailsFromBlackPoint(AprgBitmap::BitmapSnippet const& snippet, TwoDimensions::Line const& line, TwoDimensions::Point const& blackPoint) const;
+    void initializeKMeansWithBarPoints(TwoDimensionKMeans & barPointKMeans, VectorOfColumnLineDetails const& pointsAndWidths, RangeOfDoubles const& minMaxForBar) const;
     void saveHeightDetailsFromBarPoints(TwoDimensionKMeans::GroupOfSamples const& groupOfGroupOfBarPoints, OneDimensionStatistics::Samples & barHeights, DataCollection<double> & heightCollection) const;
     void removeIncorrectBarPointsWithKMeans(TwoDimensionKMeans & barPointKMeans, TwoDimensionKMeans & barPointKMeansForCalculation, unsigned int const numberQuestionsInColumn, double const averageHeight) const;
-    void removeIncorrectBarPointsByHeight(TwoDimensionKMeans & barPointKMeans, TwoDimensionKMeans & barPointKMeansForCalculation, DataCollection<double> const& heightCollection, TwoDimensionKMeans::GroupOfSamples const& groupOfGroupOfBarPoints) const;
-    void adjustHeightUntilTargetHeight(DequeOfPoints & dequeWithHighestHeight, DataCollection<double> const& heightCollection, double height) const;
+    void removeIncorrectBarPointsByHeight(TwoDimensionKMeans & barPointKMeans, TwoDimensionKMeans & barPointKMeansForCalculation, DataCollection<double> const& heightCollection, TwoDimensionKMeans::GroupOfSamples const& groupOfGroupOfBarPoints) const;    void adjustHeightUntilTargetHeight(DequeOfPoints & dequeWithHighestHeight, DataCollection<double> const& heightCollection, double height) const;
     void saveQuestionBarCoordinatesFromKMeansWithBarPoints(TwoDimensionKMeans const& barPointKMeans, QuestionBarCoordinates & questionBarCoordinates, unsigned int const numberQuestionsInColumn) const;
 
     // debug
-
     AprgBitmap::BitmapXY convertToBitmapXY(TwoDimensions::Point const& point) const;
     AprgBitmap::BitmapXY convertToBitmapXY(TwoDimensionsStatistics::Sample const& sample) const;
     TwoDimensions::Point convertToPoint(AprgBitmap::BitmapXY const& bitmapXY) const;
