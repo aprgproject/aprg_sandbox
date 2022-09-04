@@ -40,24 +40,21 @@ void SOOSA::FrequencyDatabase::initialize()
 
 void SOOSA::FrequencyDatabase::addAnswer(unsigned int const questionNumber, unsigned int const answer)
 {
-    if(questionNumber<m_numberOfQuestions && answer<=4)
+    if(m_frequenciesOnQuestionByAnswer.isInside(questionNumber, answer))
     {
         m_frequenciesOnQuestionByAnswer.getEntryReference(questionNumber, answer)++;
-    }
-}
+    }}
 
 unsigned int SOOSA::FrequencyDatabase::getFrequencyOfAnswer(unsigned int const questionNumber, unsigned int const answer) const
 {
     unsigned int frequency=0;
-    if(questionNumber<m_numberOfQuestions && answer<=4)
+    if(m_frequenciesOnQuestionByAnswer.isInside(questionNumber, answer))
     {
         frequency = m_frequenciesOnQuestionByAnswer.getEntry(questionNumber, answer);
-    }
-    return frequency;
+    }    return frequency;
 }
 
-SOOSA::PointAndWidth::PointAndWidth(Point const& point, double const width)
-    : m_point(point), m_width(width)
+SOOSA::PointAndWidth::PointAndWidth(Point const& point, double const width)    : m_point(point), m_width(width)
 {}
 
 Point SOOSA::PointAndWidth::getPoint() const
@@ -130,15 +127,13 @@ unsigned int SOOSA::getAnswerToQuestion(unsigned int const questionNumber) const
 
 void SOOSA::process()
 {
-    cout << "SOOSA2014 - Survey Output Optical Scan Analyzer\n" << endl;
+    cout << "Survey Output Optical Scan Analyzer\n" << endl;
     cout << "Input path: " << m_inputConfiguration.getPath() << endl;
     cout << "Area: " << m_inputConfiguration.getArea() << endl;
-    cout << "Period: " << m_inputConfiguration.getPeriod() << endl;
-    cout << "Discharge: " << m_inputConfiguration.getDischarge() << endl;
+    cout << "Period: " << m_inputConfiguration.getPeriod() << endl;    cout << "Discharge: " << m_inputConfiguration.getDischarge() << endl;
     cout << "Minimum satisfactory score (inclusive): " << m_inputConfiguration.getMinimumSatisfactoryScore() << endl;
     cout << "NumberOfQuestions: " << m_inputConfiguration.getNumberOfQuestions() << endl;
     cout << "NumberOColumns: " << m_inputConfiguration.getNumberOfColumns() << endl;
-
     AlbaLocalPathHandler pathHandler(m_inputConfiguration.getPath());
 
     saveHeadersToCsvFile();
@@ -206,15 +201,13 @@ void SOOSA::saveDataToCsvFile(string const& processedFilePath)  const
     if(Status::getInstance().isStatusNoError())
     {
         outputCsvReportStream<<processedFilePath<<",OK";
-        for(unsigned int i=0;i<m_inputConfiguration.getNumberOfQuestions();i++)
+        for(unsigned int i=0; i<m_inputConfiguration.getNumberOfQuestions(); i++)
         {
             outputCsvReportStream<<","<<getAnswerToQuestion(i);
-        }
-        outputCsvReportStream<<endl;
+        }        outputCsvReportStream<<endl;
     }
     else
-    {
-        outputCsvReportStream<<processedFilePath<<","<<Status::getInstance().getStatusString()<<endl;
+    {        outputCsvReportStream<<processedFilePath<<","<<Status::getInstance().getStatusString()<<endl;
     }
 }
 
@@ -313,16 +306,14 @@ void SOOSA::saveTableToOutputHtmlFile(ofstream & reportHtmlFileStream) const
         reportHtmlFileStream<<"<td style=\"text-align:center;padding:3px\">"<<numberOfSamplesForQuestion<<"</td>"<<endl;
         reportHtmlFileStream<<"<td style=\"text-align:center;padding:3px\">"<<median<<"</td>"<<endl;
 
-        unsigned int satisfactoryFrequency(0U);
-        for(unsigned int answer=m_soosaConfiguration.getNumberOfChoices(); answer>0U; answer--)
+        unsigned int satisfactoryFrequency(0);
+        for(unsigned int answer=m_soosaConfiguration.getNumberOfChoices(); answer>0; answer--)
         {
             if(answer>=m_inputConfiguration.getMinimumSatisfactoryScore())
-            {
-                satisfactoryFrequency += m_frequencyDatabase.getFrequencyOfAnswer(questionIndex, answer-1);
+            {                satisfactoryFrequency += m_frequencyDatabase.getFrequencyOfAnswer(questionIndex, answer-1);
             }
         }
-        reportHtmlFileStream<<"<td style=\"text-align:center;padding:3px\">"
-                           <<getPrintableStringForPercentage(satisfactoryFrequency, numberOfSamplesForQuestion)
+        reportHtmlFileStream<<"<td style=\"text-align:center;padding:3px\">"                           <<getPrintableStringForPercentage(satisfactoryFrequency, numberOfSamplesForQuestion)
                           <<"</td>"<<endl;
         reportHtmlFileStream<<"</tr>"<<endl;
     }
@@ -333,15 +324,13 @@ void SOOSA::saveFrequencyDatabaseIfNoError()
     if(Status::getInstance().isStatusNoError())
     {
         m_numberOfRespondents++;
-        for(unsigned int i=0;i<m_inputConfiguration.getNumberOfQuestions();i++)
+        for(unsigned int i=0; i<m_inputConfiguration.getNumberOfQuestions(); i++)
         {
             m_frequencyDatabase.addAnswer(i, getAnswerToQuestion(i)-1);
-        }
-    }
+        }    }
 }
 
-void SOOSA::processFile(string const& filePath)
-{
+void SOOSA::processFile(string const& filePath){
     cout << endl;
     cout << "processFile: [" << filePath << "]" << endl;
     Status::getInstance().clearErrors();
@@ -658,15 +647,13 @@ unsigned int SOOSA::getAnswerToQuestion(BitmapSnippet const& snippet, QuestionBa
     double leftBarHeight(getDistance(leftCoordinate.first, leftCoordinate.second));
     double rightBarHeight(getDistance(rightCoordinate.first, rightCoordinate.second));
     double lowestHeightOfQuestion(min(leftBarHeight, rightBarHeight));
-    double radius(lowestHeightOfQuestion*m_soosaConfiguration.getRatioOfBarHeightToDiameter()/2);
+    double radius = lowestHeightOfQuestion * m_soosaConfiguration.getRatioOfBarHeightToDiameter()/2;
     unsigned int shadedChoice=0;
     bool isTwoChoicesShaded(false);
-    for(unsigned int choiceIndex=0; choiceIndex<m_soosaConfiguration.getNumberOfChoices(); choiceIndex++ )
-    {
+    for(unsigned int choiceIndex=0; choiceIndex<m_soosaConfiguration.getNumberOfChoices(); choiceIndex++ )    {
         if(isChoiceShaded(snippet, leftPoint, rightPoint, choiceIndex, static_cast<unsigned int>(radius)))
         {
-            isTwoChoicesShaded = (shadedChoice!=0) ? true : isTwoChoicesShaded;
-            shadedChoice = choiceIndex+1;
+            isTwoChoicesShaded = (shadedChoice!=0) ? true : isTwoChoicesShaded;            shadedChoice = choiceIndex+1;
         }
     }
     if(isTwoChoicesShaded)
@@ -684,17 +671,15 @@ bool SOOSA::isChoiceShaded(
         unsigned int const choiceIndex,
         unsigned int const radius) const
 {
-    double choiceIndexRatio((((double)choiceIndex*2)+1)/(m_soosaConfiguration.getNumberOfChoices()*2));
-    double differenceFromLeftToRightInX(rightPoint.getX()-leftPoint.getX());
-    double differenceFromLeftToRightInY(rightPoint.getY()-leftPoint.getY());
+    double choiceIndexRatio = (((double)choiceIndex*2)+1) / (m_soosaConfiguration.getNumberOfChoices()*2);
+    double differenceFromLeftToRightInX = rightPoint.getX() - leftPoint.getX();
+    double differenceFromLeftToRightInY = rightPoint.getY() - leftPoint.getY();
     Point centerOfCircle(leftPoint.getX()+(differenceFromLeftToRightInX*choiceIndexRatio), leftPoint.getY()+(differenceFromLeftToRightInY*choiceIndexRatio));
     unsigned int totalPoints(0), numberOfBlackPoints(0);
-    Circle circle(centerOfCircle, radius);
-    circle.traverseArea(1, [&](Point const& pointInCircle)
+    Circle circle(centerOfCircle, radius);    circle.traverseArea(1, [&](Point const& pointInCircle)
     {
         numberOfBlackPoints += (snippet.isBlackAt(convertToBitmapXY(pointInCircle))) ? 1 : 0;
-        totalPoints++;
-    });
+        totalPoints++;    });
     return ((double)numberOfBlackPoints/totalPoints) >= m_soosaConfiguration.getMinimumPercentageOfBlackPixelsForAFilledCircle();
 }
 
@@ -788,30 +773,28 @@ void SOOSA::initializeWidthsForKMeans(OneDimensionKMeans & kMeansForWidths, Valu
 
 void SOOSA::removeDeviatedWidthsUsingKMeans(OneDimensionKMeans & kMeansForWidths, ValueToSampleMultimap const& widthToSampleMultimap) const
 {
-    OneDimensionKMeans::GroupOfSamples groupsOfSamples(kMeansForWidths.getGroupOfSamplesUsingKMeans(5));
+    unsigned int numberOfChoices = m_soosaConfiguration.getNumberOfChoices();
+    OneDimensionKMeans::GroupOfSamples groupsOfSamples
+            (kMeansForWidths.getGroupOfSamplesUsingKMeans(numberOfChoices));
     kMeansForWidths.clear();
     set<unsigned int> groupSizes;
-    groupSizes.emplace(groupsOfSamples[0].size());
-    groupSizes.emplace(groupsOfSamples[1].size());
-    groupSizes.emplace(groupsOfSamples[2].size());
-    groupSizes.emplace(groupsOfSamples[3].size());
-    groupSizes.emplace(groupsOfSamples[4].size());
+    for(unsigned int i=0; i<numberOfChoices; i++)
+    {
+        groupSizes.emplace(groupsOfSamples[i].size());
+    }
     auto groupSizeIterator = groupSizes.begin();
     groupSizeIterator++;
     unsigned int minimumGroupSize(*groupSizeIterator);
-    addWidthToKMeansIfNeeded(kMeansForWidths, groupsOfSamples[0], widthToSampleMultimap, minimumGroupSize);
-    addWidthToKMeansIfNeeded(kMeansForWidths, groupsOfSamples[1], widthToSampleMultimap, minimumGroupSize);
-    addWidthToKMeansIfNeeded(kMeansForWidths, groupsOfSamples[2], widthToSampleMultimap, minimumGroupSize);
-    addWidthToKMeansIfNeeded(kMeansForWidths, groupsOfSamples[3], widthToSampleMultimap, minimumGroupSize);
-    addWidthToKMeansIfNeeded(kMeansForWidths, groupsOfSamples[4], widthToSampleMultimap, minimumGroupSize);
+    for(unsigned int i=0; i<numberOfChoices; i++)
+    {
+        addWidthToKMeansIfNeeded(kMeansForWidths, groupsOfSamples[i], widthToSampleMultimap, minimumGroupSize);
+    }
 }
 
-void SOOSA::addWidthToKMeansIfNeeded(
-        OneDimensionKMeans & kMeans,
+void SOOSA::addWidthToKMeansIfNeeded(        OneDimensionKMeans & kMeans,
         OneDimensionKMeans::Samples const& groupOfSamples,
         ValueToSampleMultimap const& widthToSampleMultimap,
-        unsigned int const minimumGroupSize) const
-{
+        unsigned int const minimumGroupSize) const{
     if(groupOfSamples.size() > minimumGroupSize)
     {
         RangeOfDoubles minMaxFromGroupInThreeGroups(getMinMaxRangeFromKMeansSamples(groupOfSamples));
