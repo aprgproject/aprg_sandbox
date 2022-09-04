@@ -139,9 +139,11 @@ TEST(SoosaTest, NoAnswersWorks)
     SoosaConfiguration soosaConfiguration(getSoosaConfiguration());
     InputConfiguration inputConfiguration(getInputConfigurationForCharityPayWards(tempFileToTest.getFullPath()));
     SOOSA soosa(soosaConfiguration, inputConfiguration);
+
     soosa.process();
 
-    checkAnswersForEmptyForm(soosa);}
+    checkAnswersForEmptyForm(soosa);
+}
 
 TEST(SoosaTest, BasicWorks)
 {
@@ -151,9 +153,11 @@ TEST(SoosaTest, BasicWorks)
     SoosaConfiguration soosaConfiguration(getSoosaConfiguration());
     InputConfiguration inputConfiguration(getInputConfigurationForCharityPayWards(tempFileToTest.getFullPath()));
     SOOSA soosa(soosaConfiguration, inputConfiguration);
+
     soosa.process();
 
-    checkAnswersForCharityPayWards(soosa);}
+    checkAnswersForCharityPayWards(soosa);
+}
 
 TEST(SoosaTest, LotsOfDirtWorks)
 {
@@ -163,19 +167,37 @@ TEST(SoosaTest, LotsOfDirtWorks)
     SoosaConfiguration soosaConfiguration(getSoosaConfiguration());
     InputConfiguration inputConfiguration(getInputConfigurationForCharityPayWards(tempFileToTest.getFullPath()));
     SOOSA soosa(soosaConfiguration, inputConfiguration);
+
     soosa.process();
 
-    checkAnswersForCharityPayWards(soosa);}
+    checkAnswersForCharityPayWards(soosa);
+}
 
 TEST(SoosaTest, LotsOfCanvasSizeWorks)
 {
-    AlbaLocalPathHandler inputFile(APRG_DIR R"(\SOOSA\FilesForTests\Rotated30Degrees.bmp)");
+    AlbaLocalPathHandler inputFile(APRG_DIR R"(\SOOSA\FilesForTests\LotsOfCanvasSize.bmp)");
     AlbaLocalPathHandler tempFileToTest(APRG_DIR R"(\SOOSA\FilesForTests\Temp.bmp)");
     inputFile.copyToNewFile(tempFileToTest.getFullPath());
-    SoosaConfiguration soosaConfiguration(getSoosaConfiguration());    InputConfiguration inputConfiguration(getInputConfigurationForCharityPayWards(tempFileToTest.getFullPath()));
+    SoosaConfiguration soosaConfiguration(getSoosaConfiguration());
+    InputConfiguration inputConfiguration(getInputConfigurationForCharityPayWards(tempFileToTest.getFullPath()));
     SOOSA soosa(soosaConfiguration, inputConfiguration);
 
     soosa.process();
+
+    checkAnswersForCharityPayWards(soosa);
+}
+
+TEST(SoosaTest, Scaled3TimesWorks)
+{
+    AlbaLocalPathHandler inputFile(APRG_DIR R"(\SOOSA\FilesForTests\Scaled3Times.bmp)");
+    AlbaLocalPathHandler tempFileToTest(APRG_DIR R"(\SOOSA\FilesForTests\Temp.bmp)");
+    inputFile.copyToNewFile(tempFileToTest.getFullPath());
+    SoosaConfiguration soosaConfiguration(getSoosaConfiguration());
+    InputConfiguration inputConfiguration(getInputConfigurationForCharityPayWards(tempFileToTest.getFullPath()));
+    SOOSA soosa(soosaConfiguration, inputConfiguration);
+
+    soosa.process();
+
     checkAnswersForCharityPayWards(soosa);
 }
 
@@ -210,6 +232,34 @@ TEST(SoosaTest, Rotated25DegreesWorks)
 TEST(SoosaTest, Rotated30DegreesWorks)
 {
     AlbaLocalPathHandler inputFile(APRG_DIR R"(\SOOSA\FilesForTests\Rotated30Degrees.bmp)");
+    AlbaLocalPathHandler tempFileToTest(APRG_DIR R"(\SOOSA\FilesForTests\Temp.bmp)");
+    inputFile.copyToNewFile(tempFileToTest.getFullPath());
+    SoosaConfiguration soosaConfiguration(getSoosaConfiguration());
+    InputConfiguration inputConfiguration(getInputConfigurationForCharityPayWards(tempFileToTest.getFullPath()));
+    SOOSA soosa(soosaConfiguration, inputConfiguration);
+
+    soosa.process();
+
+    checkAnswersForCharityPayWards(soosa);
+}
+
+TEST(SoosaTest, Skew15DegreesWorks)
+{
+    AlbaLocalPathHandler inputFile(APRG_DIR R"(\SOOSA\FilesForTests\Skew15Degrees.bmp)");
+    AlbaLocalPathHandler tempFileToTest(APRG_DIR R"(\SOOSA\FilesForTests\Temp.bmp)");
+    inputFile.copyToNewFile(tempFileToTest.getFullPath());
+    SoosaConfiguration soosaConfiguration(getSoosaConfiguration());
+    InputConfiguration inputConfiguration(getInputConfigurationForCharityPayWards(tempFileToTest.getFullPath()));
+    SOOSA soosa(soosaConfiguration, inputConfiguration);
+
+    soosa.process();
+
+    checkAnswersForCharityPayWards(soosa);
+}
+
+TEST(SoosaTest, DISABLED_DistortedWorks)
+{
+    AlbaLocalPathHandler inputFile(APRG_DIR R"(\SOOSA\FilesForTests\Distorted.bmp)");
     AlbaLocalPathHandler tempFileToTest(APRG_DIR R"(\SOOSA\FilesForTests\Temp.bmp)");
     inputFile.copyToNewFile(tempFileToTest.getFullPath());
     SoosaConfiguration soosaConfiguration(getSoosaConfiguration());

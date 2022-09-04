@@ -30,7 +30,8 @@ double SoosaConfiguration::getRetainRatioForSquareErrorsInLineModel() const
     return m_retainRatioForSquareErrorsInLineModel;
 }
 
-unsigned int SoosaConfiguration::getMinimumLineSamples() const{
+unsigned int SoosaConfiguration::getMinimumLineSamples() const
+{
     return m_minimumLineSamples;
 }
 
@@ -41,10 +42,12 @@ unsigned int SoosaConfiguration::getAcceptableBarHeightDeviationInPixels() const
 
 unsigned int SoosaConfiguration::getMaximumBarWidth() const
 {
-    return m_maximumBarWidth;}
+    return m_maximumBarWidth;
+}
 
 unsigned int SoosaConfiguration::getMinimumNumberOfBarWidthsForABar() const
-{    return m_minimumNumberOfBarWidthsForABar;
+{
+    return m_minimumNumberOfBarWidthsForABar;
 }
 
 double SoosaConfiguration::getRatioOfBarHeightToDiameter() const
@@ -87,10 +90,12 @@ void SoosaConfiguration::update()
     UPDATE_PARAMETER(m_acceptableBarHeightDeviationInPixels, unsigned int);
     UPDATE_PARAMETER(m_maximumBarWidth, unsigned int);
     UPDATE_PARAMETER(m_minimumNumberOfBarWidthsForABar, unsigned int);
-    UPDATE_PARAMETER(m_ratioOfBarHeightToDiameter, double);    UPDATE_PARAMETER(m_minimumPercentageOfBlackPixelsForAFilledCircle, double);
+    UPDATE_PARAMETER(m_ratioOfBarHeightToDiameter, double);
+    UPDATE_PARAMETER(m_minimumPercentageOfBlackPixelsForAFilledCircle, double);
 
 #undef UPDATE_PARAMETER
 }
+
 void SoosaConfiguration::readNamesAndValuesFromFile(string const& filePath)
 {
     ifstream inputFileStream(filePath);

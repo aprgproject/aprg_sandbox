@@ -98,9 +98,8 @@ unsigned int SOOSA::FrequencyDatabase::getFrequencyOfAnswer(unsigned int const q
     return frequency;
 }
 
-SOOSA::ColumnLineDetail::ColumnLineDetail(Point const& point, Point const& widthMidpoint, double const width)
+SOOSA::ColumnLineDetail::ColumnLineDetail(Point const& point, double const width)
     : m_point(point)
-    , m_widthMidpoint(widthMidpoint)
     , m_width(width)
 {}
 
@@ -109,17 +108,14 @@ Point SOOSA::ColumnLineDetail::getPoint() const
     return m_point;
 }
 
-Point SOOSA::ColumnLineDetail::getWidthMidpoint() const
-{
-    return m_widthMidpoint;
-}
-
 double SOOSA::ColumnLineDetail::getWidth() const
 {
     return m_width;
 }
+
 SOOSA::Status::Status()
 {}
+
 SOOSA::Status SOOSA::Status::getInstance()
 {
     static Status instance;
@@ -415,10 +411,12 @@ void SOOSA::processFile(string const& filePath)
     writeLineInDebug(bottomLine, 0x0000EE);
     cout << endl;
 
-    Point edgePoints[2][3];    edgePoints[0][0] = getIntersectionOfTwoLines(leftLine, topLine);
+    Point edgePoints[2][3];
+    edgePoints[0][0] = getIntersectionOfTwoLines(leftLine, topLine);
     edgePoints[0][2] = getIntersectionOfTwoLines(rightLine, topLine);
     edgePoints[1][0] = getIntersectionOfTwoLines(leftLine, bottomLine);
-    edgePoints[1][2] = getIntersectionOfTwoLines(rightLine, bottomLine);    edgePoints[0][1] = getMidpoint(edgePoints[0][0], edgePoints[0][2]);
+    edgePoints[1][2] = getIntersectionOfTwoLines(rightLine, bottomLine);
+    edgePoints[0][1] = getMidpoint(edgePoints[0][0], edgePoints[0][2]);
     edgePoints[1][1] = getMidpoint(edgePoints[1][0], edgePoints[1][2]);
 
     if(m_inputConfiguration.getNumberOfColumns()==2)
@@ -433,10 +431,12 @@ void SOOSA::processFile(string const& filePath)
         writeLineInDebug(centerRightLine, 0x0000EE);
         cout << endl;
         cout << "Processing column 1:" << endl;
-        processColumn(globalSnippet, leftLine, centerLeftLine, 1);        cout << endl;
+        processColumn(globalSnippet, leftLine, centerLeftLine, 1);
+        cout << endl;
         cout << "Processing column 2:" << endl;
         processColumn(globalSnippet, centerRightLine, rightLine, 2);
-    }    else
+    }
+    else
     {
         cout << "Number of columns from template = 1" << endl;
         cout << "Processing column:" << endl;
@@ -630,10 +630,12 @@ Line SOOSA::getLineModel(Samples const & samples) const
 
 SOOSA::VectorOfDoubles SOOSA::getAcceptableSquareErrorsUsingRetainRatio(ValueToSampleMultimap const& squareErrorToSampleMultimap) const
 {
-    VectorOfDoubles squareErrors;    unsigned int retainedSize(m_soosaConfiguration.getRetainRatioForSquareErrorsInLineModel()*squareErrorToSampleMultimap.size());
+    VectorOfDoubles squareErrors;
+    unsigned int retainedSize(m_soosaConfiguration.getRetainRatioForSquareErrorsInLineModel()*squareErrorToSampleMultimap.size());
     unsigned int count(0);
     for(auto const& squareErrorToSamplePair : squareErrorToSampleMultimap)
-    {        squareErrors.emplace_back(squareErrorToSamplePair.first);
+    {
+        squareErrors.emplace_back(squareErrorToSamplePair.first);
         if(count++ >= retainedSize)
         {
             break;
@@ -754,14 +756,12 @@ SOOSA::QuestionBarCoordinates SOOSA::getQuestionBarCoordinatesFromLine(
         Line const& line,
         unsigned int const numberQuestionsInColumn) const
 {
-    double acceptableSdOverMeanDeviationForLine=0.50;
-    double acceptableSdOverMeanDeviationForBar=0.10;
-    double retainRatioForLineBar=0.95;
-    double acceptableDistanceOverWidthRatioFromWidthMidpoint=0.1;
-    double acceptableMinimumDistanceFromWidthMidpoint=4;
+#define acceptableSdOverMeanDeviationForLine 0.50
+#define acceptableSdOverMeanDeviationForBar 0.10
+#define retainRatioForLineBar 0.95
 
     QuestionBarCoordinates questionBarCoordinates;
-    VectorOfColumnLineDetails columnLineDetails(getColumnLineDetails(snippet, line));
+    VectorOfColumnLineDetails columnLineDetails(getAcceptableColumnLineDetails(snippet, line));
 
     if(!columnLineDetails.empty())
     {
@@ -770,13 +770,7 @@ SOOSA::QuestionBarCoordinates SOOSA::getQuestionBarCoordinatesFromLine(
         OneDimensionKMeans kMeansForWidths;
         for(ColumnLineDetail const& columnLineDetail : columnLineDetails)
         {
-            double acceptableDistanceFromWidthMidpoint = ceil(acceptableDistanceOverWidthRatioFromWidthMidpoint * columnLineDetail.getWidth())
-                    + acceptableMinimumDistanceFromWidthMidpoint;
-            double distanceFromMidPoint = getDistance(columnLineDetail.getPoint(), columnLineDetail.getWidthMidpoint());
-            if(distanceFromMidPoint <= acceptableDistanceFromWidthMidpoint)
-            {
-                kMeansForWidths.addSample(OneDimensionStatistics::Sample{columnLineDetail.getWidth()});
-            }
+            kMeansForWidths.addSample(OneDimensionStatistics::Sample{columnLineDetail.getWidth()});
         }
 
         bool needsRemoval(true);
@@ -789,15 +783,15 @@ SOOSA::QuestionBarCoordinates SOOSA::getQuestionBarCoordinatesFromLine(
 
             OneDimensionStatistics firstGroupStatistics(firstGroup);
             OneDimensionStatistics secondGroupStatistics(secondGroup);
-            double firstSdOverMeanInTwo = firstGroupStatistics.getSampleStandardDeviation().getValueAt(0)/firstGroupStatistics.getMean().getValueAt(0);
-            double secondSdOverMeanInTwo = secondGroupStatistics.getSampleStandardDeviation().getValueAt(0)/secondGroupStatistics.getMean().getValueAt(0);
+            double firstSdOverMean = firstGroupStatistics.getSampleStandardDeviation().getValueAt(0)/firstGroupStatistics.getMean().getValueAt(0);
+            double secondSdOverMean = secondGroupStatistics.getSampleStandardDeviation().getValueAt(0)/secondGroupStatistics.getMean().getValueAt(0);
 
-            needsRemoval = firstSdOverMeanInTwo > acceptableSdOverMeanDeviationForLine
-                    || secondSdOverMeanInTwo > acceptableSdOverMeanDeviationForBar;
+            needsRemoval = firstSdOverMean > acceptableSdOverMeanDeviationForLine
+                    || secondSdOverMean > acceptableSdOverMeanDeviationForBar;
             if(needsRemoval)
             {
                 kMeansForWidths.clear();
-                if(firstSdOverMeanInTwo > acceptableSdOverMeanDeviationForLine)
+                if(firstSdOverMean > acceptableSdOverMeanDeviationForLine)
                 {
                     double widthMean = firstGroupStatistics.getMean().getValueAt(0);
                     multimap<double, double> deviationToWidthMultimap;
@@ -823,7 +817,7 @@ SOOSA::QuestionBarCoordinates SOOSA::getQuestionBarCoordinatesFromLine(
                     kMeansForWidths.addSamples(firstGroup);
                 }
 
-                if(secondSdOverMeanInTwo > acceptableSdOverMeanDeviationForBar)
+                if(secondSdOverMean > acceptableSdOverMeanDeviationForBar)
                 {
                     double widthMean = secondGroupStatistics.getMean().getValueAt(0);
                     multimap<double, double> deviationToWidthMultimap;
@@ -862,86 +856,53 @@ SOOSA::QuestionBarCoordinates SOOSA::getQuestionBarCoordinatesFromLine(
             }
         }
 
-        TwoDimensionKMeans barPointKMeans, barPointKMeansForCalculation;
-        initializeKMeansWithBarPoints(barPointKMeansForCalculation, columnLineDetails, minMaxForBar);
-        double distance = getDistance(columnLineDetails.front().getPoint(), columnLineDetails.back().getPoint());
-        removeIncorrectBarPointsWithKMeans(barPointKMeans, barPointKMeansForCalculation, numberQuestionsInColumn, distance);
+        TwoDimensionKMeans barPointKMeans;
+        retrieveBarPointsThatFitAndSaveToKMeans(barPointKMeans, columnLineDetails, minMaxForBar);
+        removeIncorrectBarPointsBasedFromHeight(barPointKMeans, numberQuestionsInColumn);
         saveQuestionBarCoordinatesFromKMeansWithBarPoints(barPointKMeans, questionBarCoordinates, numberQuestionsInColumn);
     }
     cout << "getQuestionBarCoordinatesFromLine -> Number of question bar coordinates: " << questionBarCoordinates.size() << endl;
     return questionBarCoordinates;
 }
 
-SOOSA::VectorOfColumnLineDetails SOOSA::getColumnLineDetails(BitmapSnippet const& snippet, Line const& line) const
+SOOSA::VectorOfColumnLineDetails SOOSA::getAcceptableColumnLineDetails(BitmapSnippet const& snippet, Line const& line) const
 {
-    Points nearestBlackPointsFromLine(getNearestBlackPointsFromLine(snippet, line));
+    Points pointsInLine(line.getPoints(convertToPoint(snippet.getTopLeftCorner()), convertToPoint(snippet.getBottomRightCorner()), 1));
     VectorOfColumnLineDetails columnLineDetails;
-    for(Point const& point : nearestBlackPointsFromLine)
+    for(Point const& pointInLine : pointsInLine)
     {
-        columnLineDetails.emplace_back(getColumnLineDetailsFromBlackPoint(snippet, line, point));
+        addColumnLineDetailIfAcceptable(columnLineDetails, snippet, line, pointInLine);
     }
     return columnLineDetails;
 }
 
-SOOSA::RangeOfDoubles SOOSA::getMinMaxRangeFromKMeansSamples(OneDimensionKMeans::Samples const& samples) const{
+SOOSA::RangeOfDoubles SOOSA::getMinMaxRangeFromKMeansSamples(OneDimensionKMeans::Samples const& samples) const
+{
     DataCollection<double> collection;
     for(OneDimensionKMeans::Sample const& sample : samples)
-    {        collection.addData(sample.getValueAt(0));
+    {
+        collection.addData(sample.getValueAt(0));
     }
     return RangeOfDoubles(collection.getMinimum(), collection.getMaximum(), 1);
 }
 
-Points SOOSA::getNearestBlackPointsFromLine(BitmapSnippet const& snippet, Line const& line) const
+void SOOSA::addColumnLineDetailIfAcceptable(
+        VectorOfColumnLineDetails & columnLineDetails,
+        BitmapSnippet const& snippet,
+        Line const& line,
+        Point const& pointInLine) const
 {
-    Points linePoints(line.getPoints(convertToPoint(snippet.getTopLeftCorner()), convertToPoint(snippet.getBottomRightCorner()), 1));
-    Points nearestBlackPointsFromLine;
-    for(Point const& point : linePoints)
-    {
-        if(snippet.isBlackAt(convertToBitmapXY(point)))
-        {
-            nearestBlackPointsFromLine.emplace_back(point);
-        }
-        else
-        {
-            Point blackPoint(getNearestBlackPointFromLine(snippet, line, point));
-            if(!blackPoint.isEmpty())
-            {
-                nearestBlackPointsFromLine.emplace_back(blackPoint);
-            }
-        }
-    }
-    return nearestBlackPointsFromLine;
-}
+#define acceptableDistanceOverWidthRatioFromWidthMidpoint 0.1
+#define acceptableMinimumDistanceFromWidthMidpoint 2
 
-Point SOOSA::getNearestBlackPointFromLine(BitmapSnippet const& snippet, Line const& line, Point const& point) const
-{
-    Point blackPoint;
-    Line perpendicularLine(getLineWithPerpendicularSlope(line, point));
-    for(unsigned int deviation=1; deviation<=m_soosaConfiguration.getMaximumBarWidth(); deviation++)
-    {
-        double lowerDeviatedInX = point.getX()-deviation;
-        Point lowerDeviatedPoint(lowerDeviatedInX, perpendicularLine.calculateYFromX(lowerDeviatedInX));        if(snippet.isBlackAt(convertToBitmapXY(lowerDeviatedPoint)))
-        {
-            blackPoint = lowerDeviatedPoint;
-            break;        }
-        double higherDeviatedInX = point.getX()+deviation;
-        Point higherDeviatedPoint(higherDeviatedInX, perpendicularLine.calculateYFromX(higherDeviatedInX));
-        if(snippet.isBlackAt(convertToBitmapXY(higherDeviatedPoint)))
-        {
-            blackPoint = higherDeviatedPoint;
-            break;
-        }
-    }
-    return blackPoint;
-}
-
-SOOSA::ColumnLineDetail SOOSA::getColumnLineDetailsFromBlackPoint(BitmapSnippet const& snippet, Line const& line, Point const& blackPoint) const
-{
-    Line perpendicularLine(getLineWithPerpendicularSlope(line, blackPoint));
-    Point leftMostBlack(blackPoint);    Point rightMostBlack(blackPoint);
+    Point nearestBlackPoint(getNearestBlackPointFromLine(snippet, line, pointInLine));
+    Line perpendicularLine(getLineWithPerpendicularSlope(line, nearestBlackPoint));
+    Point leftMostBlack(nearestBlackPoint);
+    Point rightMostBlack(nearestBlackPoint);
     bool isBlack(true);
     for(unsigned int offset=1; offset<=m_soosaConfiguration.getMaximumBarWidth() && isBlack; offset++)
-    {        double possibleBlackPointInX = blackPoint.getX()-offset;
+    {
+        double possibleBlackPointInX = nearestBlackPoint.getX()-offset;
         Point possibleBlackPoint(possibleBlackPointInX, perpendicularLine.calculateYFromX(possibleBlackPointInX));
         isBlack = snippet.isBlackAt(convertToBitmapXY(possibleBlackPoint));
         if(isBlack)
@@ -952,7 +913,7 @@ SOOSA::ColumnLineDetail SOOSA::getColumnLineDetailsFromBlackPoint(BitmapSnippet 
     isBlack = true;
     for(unsigned int offset=1; offset<=m_soosaConfiguration.getMaximumBarWidth() && isBlack; offset++)
     {
-        double possibleBlackPointInX = blackPoint.getX()+offset;
+        double possibleBlackPointInX = nearestBlackPoint.getX()+offset;
         Point possibleBlackPoint(possibleBlackPointInX, perpendicularLine.calculateYFromX(possibleBlackPointInX));
         isBlack = snippet.isBlackAt(convertToBitmapXY(possibleBlackPoint));
         if(isBlack)
@@ -960,10 +921,41 @@ SOOSA::ColumnLineDetail SOOSA::getColumnLineDetailsFromBlackPoint(BitmapSnippet 
             rightMostBlack=possibleBlackPoint;
         }
     }
-    return ColumnLineDetail(blackPoint, getMidpoint(leftMostBlack, rightMostBlack), getDistance(leftMostBlack, rightMostBlack));
+    double width = getDistance(leftMostBlack, rightMostBlack);
+    Point widthMidPoint = getMidpoint(leftMostBlack, rightMostBlack);
+    double acceptableDistance = acceptableDistanceOverWidthRatioFromWidthMidpoint * width + acceptableMinimumDistanceFromWidthMidpoint;
+    double distanceFromLine = getDistance(pointInLine, widthMidPoint);
+    if(distanceFromLine < acceptableDistance)
+    {
+        columnLineDetails.emplace_back(pointInLine, width);
+    }
 }
 
-void SOOSA::initializeKMeansWithBarPoints(
+Point SOOSA::getNearestBlackPointFromLine(BitmapSnippet const& snippet, Line const& line, Point const& pointInLine) const
+{
+    Point blackPoint;
+    Line perpendicularLine(getLineWithPerpendicularSlope(line, pointInLine));
+    for(unsigned int deviation=1; deviation<=m_soosaConfiguration.getMaximumBarWidth(); deviation++)
+    {
+        double lowerDeviatedInX = pointInLine.getX()-deviation;
+        Point lowerDeviatedPoint(lowerDeviatedInX, perpendicularLine.calculateYFromX(lowerDeviatedInX));
+        if(snippet.isBlackAt(convertToBitmapXY(lowerDeviatedPoint)))
+        {
+            blackPoint = lowerDeviatedPoint;
+            break;
+        }
+        double higherDeviatedInX = pointInLine.getX()+deviation;
+        Point higherDeviatedPoint(higherDeviatedInX, perpendicularLine.calculateYFromX(higherDeviatedInX));
+        if(snippet.isBlackAt(convertToBitmapXY(higherDeviatedPoint)))
+        {
+            blackPoint = higherDeviatedPoint;
+            break;
+        }
+    }
+    return blackPoint;
+}
+
+void SOOSA::retrieveBarPointsThatFitAndSaveToKMeans(
         TwoDimensionKMeans & barPointKMeans,
         VectorOfColumnLineDetails const& columnLineDetails,
         RangeOfDoubles const& minMaxForBar) const
@@ -973,39 +965,60 @@ void SOOSA::initializeKMeansWithBarPoints(
         if(minMaxForBar.isValueInsideInclusive(columnLineDetail.getWidth()))
         {
             barPointKMeans.addSample(convertToTwoDimensionSample(columnLineDetail.getPoint()));
-            writePointInDebug(convertToBitmapXY(columnLineDetail.getPoint()), 0x00EE00);
         }
     }
 }
-void SOOSA::removeIncorrectBarPointsWithKMeans(
+
+void SOOSA::removeIncorrectBarPointsBasedFromHeight(
         TwoDimensionKMeans & barPointKMeans,
-        TwoDimensionKMeans & barPointKMeansForCalculation,        unsigned int const numberQuestionsInColumn,
-        double const averageHeight) const
+        unsigned int const numberQuestionsInColumn) const
 {
-    OneDimensionStatistics::Sample previousStandardDeviationOfHeight{averageHeight}; // initial deviation value is the value
+#define acceptableSdOverMeanDeviationForHeight 0.10
+
     bool needsRemoval(true);
-    bool isNumberOfCurrentBarsStillWrong(false);
     while(needsRemoval)
     {
-        TwoDimensionKMeans::GroupOfSamples groupOfGroupOfBarPoints(barPointKMeansForCalculation.getGroupOfSamplesUsingKMeans(numberQuestionsInColumn));
+        TwoDimensionKMeans::GroupOfSamples groupOfGroupOfBarPoints(barPointKMeans.getGroupOfSamplesUsingKMeans(numberQuestionsInColumn));
         OneDimensionStatistics::Samples barHeights;
         DataCollection<double> heightCollection;
         saveHeightDetailsFromBarPoints(groupOfGroupOfBarPoints, barHeights, heightCollection);
         OneDimensionStatistics barHeightsStatistics(barHeights);
-        OneDimensionStatistics::Sample standardDeviationOfHeight(barHeightsStatistics.getSampleStandardDeviation());
-
-        bool isNumberQuestionsEqualToNumberOfCurrentBars = numberQuestionsInColumn == barHeights.size();
-        if(isNumberOfCurrentBarsStillWrong)
-        {
-            isNumberOfCurrentBarsStillWrong = !isNumberQuestionsEqualToNumberOfCurrentBars;
-        }
-        bool isDeviationBetter = standardDeviationOfHeight.getValueAt(0) < previousStandardDeviationOfHeight.getValueAt(0);
-
-        needsRemoval = isNumberOfCurrentBarsStillWrong || (isNumberQuestionsEqualToNumberOfCurrentBars && isDeviationBetter);
+        double sdOverMean = barHeightsStatistics.getSampleStandardDeviation().getValueAt(0)/barHeightsStatistics.getMean().getValueAt(0);
+        needsRemoval = sdOverMean > acceptableSdOverMeanDeviationForHeight;
         if(needsRemoval)
         {
-            previousStandardDeviationOfHeight = standardDeviationOfHeight;
-            removeIncorrectBarPointsByHeight(barPointKMeans, barPointKMeansForCalculation, heightCollection, groupOfGroupOfBarPoints);
+            TwoDimensionKMeans::GroupOfSamples groupsToCheck(barPointKMeans.getGroupOfSamplesUsingKMeans(numberQuestionsInColumn*2));
+            bool isFound(false);
+            unsigned int sizeToRemove(0);
+            unsigned int indexToRemove(0);
+            for(unsigned int i=0; i<groupsToCheck.size(); i++)
+            {
+                unsigned int currentSize = groupsToCheck.at(i).size();
+                if(currentSize > 0)
+                {
+                    isFound = true;
+                    if(sizeToRemove == 0 || sizeToRemove > currentSize)
+                    {
+                        sizeToRemove = currentSize;
+                        indexToRemove = i;
+                    }
+                }
+            }
+            if(isFound)
+            {
+                barPointKMeans.clear();
+                for(unsigned int i=0; i<groupsToCheck.size(); i++)
+                {
+                    if(i!=indexToRemove)
+                    {
+                        barPointKMeans.addSamples(groupsToCheck.at(i));
+                    }
+                }
+            }
+            else
+            {
+                needsRemoval = false;
+            }
         }
     }
 }
@@ -1026,73 +1039,6 @@ void SOOSA::saveHeightDetailsFromBarPoints(
     }
 }
 
-void SOOSA::removeIncorrectBarPointsByHeight(
-        TwoDimensionKMeans & barPointKMeans,
-        TwoDimensionKMeans & barPointKMeansForCalculation,
-        DataCollection<double> const& heightCollection,
-        TwoDimensionKMeans::GroupOfSamples const& groupOfGroupOfBarPoints) const
-{
-    barPointKMeans.clear();
-    barPointKMeansForCalculation.clear();
-    double deltaToMax(heightCollection.getMaximum() - heightCollection.getAverage());
-    double deltaToMin(heightCollection.getAverage() - heightCollection.getMinimum());
-    bool isMinimumToBeRemoved(deltaToMin>deltaToMax);
-    for(TwoDimensionKMeans::Samples const& groupOfBarPoints : groupOfGroupOfBarPoints)
-    {
-        if(!groupOfBarPoints.empty())
-        {
-            double height(getDistance(convertToPoint(groupOfBarPoints.front()), convertToPoint(groupOfBarPoints.back())));
-            barPointKMeans.addSamples(groupOfBarPoints);
-            if(isMinimumToBeRemoved && height == heightCollection.getMinimum())
-            {
-                //do nothing
-            }
-            else if(!isMinimumToBeRemoved && height == heightCollection.getMaximum())
-            {
-                DequeOfPoints dequeWithHighestHeight;
-                transform(groupOfBarPoints.cbegin(), groupOfBarPoints.cend(), back_inserter(dequeWithHighestHeight), [&](TwoDimensionKMeans::Sample const& sample)
-                {
-                    return convertToPoint(sample);
-                });
-                adjustHeightUntilTargetHeight(dequeWithHighestHeight, heightCollection, height);
-                for(Point const& point : dequeWithHighestHeight)
-                {
-                    barPointKMeansForCalculation.addSample(convertToTwoDimensionSample(point));
-                }
-            }
-            else
-            {
-                barPointKMeansForCalculation.addSamples(groupOfBarPoints);
-            }
-        }
-    }
-}
-
-void SOOSA::adjustHeightUntilTargetHeight(DequeOfPoints & dequeWithHighestHeight, DataCollection<double> const& heightCollection, double const height) const
-{
-    double adjustedHeight = height;
-    double targetHeight = heightCollection.getAverage();
-    while(adjustedHeight > targetHeight && dequeWithHighestHeight.size() > 2)
-    {
-        double heightWithoutTop(getDistance(*(dequeWithHighestHeight.begin()+1), dequeWithHighestHeight.back()));
-        double heightWithoutBottom(getDistance(dequeWithHighestHeight.front(), *(dequeWithHighestHeight.cend()-1)));
-        if(getAbsoluteValue(heightWithoutTop-heightWithoutBottom) < m_soosaConfiguration.getAcceptableBarHeightDeviationInPixels())
-        {
-            dequeWithHighestHeight.pop_front();
-            dequeWithHighestHeight.pop_back();
-        }
-        else if(heightWithoutTop < heightWithoutBottom)
-        {
-            dequeWithHighestHeight.pop_front();
-        }
-        else
-        {
-            dequeWithHighestHeight.pop_back();
-        }
-        adjustedHeight = getDistance(dequeWithHighestHeight.front(), dequeWithHighestHeight.back());
-    }
-}
-
 void SOOSA::saveQuestionBarCoordinatesFromKMeansWithBarPoints(
         TwoDimensionKMeans const& barPointKMeans,
         QuestionBarCoordinates & questionBarCoordinates,
@@ -1103,14 +1049,21 @@ void SOOSA::saveQuestionBarCoordinatesFromKMeansWithBarPoints(
     {
         if(!groupOfBarPoints.empty())
         {
+            for(TwoDimensionKMeans::Sample const& barPoint : groupOfBarPoints)
+            {
+                writePointInDebug(convertToBitmapXY(barPoint), 0x00EE00);
+            }
+
             writePointInDebug(convertToBitmapXY(groupOfBarPoints.front()), 0xEE0000);
             writePointInDebug(convertToBitmapXY(groupOfBarPoints.back()), 0xEE0000);
             questionBarCoordinates.emplace_back(QuestionBarCoordinate(convertToPoint(groupOfBarPoints.front()), convertToPoint(groupOfBarPoints.back())));
         }
-    }}
+    }
+}
 
 BitmapXY SOOSA::convertToBitmapXY(Point const& point) const
-{    return BitmapXY((unsigned int)round(clampLowerBound(point.getX(), (double)0)), (unsigned int)round(clampLowerBound(point.getY(), (double)0)));
+{
+    return BitmapXY((unsigned int)round(clampLowerBound(point.getX(), (double)0)), (unsigned int)round(clampLowerBound(point.getY(), (double)0)));
 }
 
 BitmapXY SOOSA::convertToBitmapXY(Sample const& sample) const
