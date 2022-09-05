@@ -1,11 +1,21 @@
-m_numberOfChoices: 5
+
+// Line model parameters
 m_acceptableLineDeviationForLineModelInPixels: 2
-m_acceptableLineWidthDeviationInPixels: 4
-m_acceptableBarWidthDeviationInPixels: 8
-m_acceptableBarHeightDeviationInPixels: 10
+m_retainRatioForSquareErrorsInLineModel: 0.95
 m_minimumLineSamples: 10
-m_retainRatioForSquareErrorsInLineModel: 0.90
-m_maximumBarWidth: 500
-m_minimumNumberOfBarWidthsForABar: 20
-m_ratioOfBarHeightToDiameter: 0.5
-m_minimumPercentageOfBlackPixelsForAFilledCircle: 0.7
+
+// Line and bar parameters
+m_maximumLineAndBarWidth: 500
+m_acceptableDistanceOverWidthRatioFromWidthMidpoint: 0.10
+m_acceptableMinimumDistanceFromWidthMidpoint: 2
+m_acceptableSdOverMeanDeviationForLine: 0.50
+m_acceptableSdOverMeanDeviationForBar: 0.10
+m_retainRatioForLineAndBar: 0.95
+m_acceptableSdOverMeanDeviationForBarHeight: 0.10
+m_retainRatioForBarHeight: 0.98
+
+// Choices related parameters
+m_numberOfChoices: 5
+m_colorIntensityForWhite: 170
+m_ratioOfBarHeightToDiameter: 0.50
+m_minimumPercentageOfBlackPixelsForAFilledCircle: 0.70
