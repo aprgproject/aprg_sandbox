@@ -3,14 +3,13 @@
 #include <Common/File/AlbaFileReader.hpp>
 #include <Common/Math/Helpers/ComputationHelpers.hpp>
 #include <Common/PathHandler/AlbaLocalPathHandler.hpp>
+#include <Common/Print/AlbaPrintFunctions.hpp>
 #include <Common/User/AlbaUserInterface.hpp>
 #include <Geometry/TwoDimensions/Circle.hpp>
-#include <Geometry/TwoDimensions/TwoDimensionsHelper.hpp>
-#include <Statistics/DataStatistics.hpp>
+#include <Geometry/TwoDimensions/TwoDimensionsHelper.hpp>#include <Statistics/DataStatistics.hpp>
 #include <Statistics/FrequencyStatistics.hpp>
 
-#include <iostream>
-#include <sstream>
+#include <iostream>#include <sstream>
 
 
 
@@ -98,28 +97,11 @@ unsigned int SOOSA::FrequencyDatabase::getFrequencyOfAnswer(unsigned int const q
     return frequency;
 }
 
-SOOSA::ColumnLineDetail::ColumnLineDetail(Point const& point, double const width)
-    : m_point(point)
-    , m_width(width)
-{}
-
-Point SOOSA::ColumnLineDetail::getPoint() const
-{
-    return m_point;
-}
-
-double SOOSA::ColumnLineDetail::getWidth() const
-{
-    return m_width;
-}
-
 SOOSA::Status::Status()
 {}
-
 SOOSA::Status SOOSA::Status::getInstance()
 {
-    static Status instance;
-    return instance;
+    static Status instance;    return instance;
 }
 
 string SOOSA::Status::getStatusString() const
@@ -431,24 +413,22 @@ void SOOSA::processFile(string const& filePath)
         writeLineInDebug(centerRightLine, 0x0000EE);
         cout << endl;
         cout << "Processing column 1:" << endl;
-        processColumn(globalSnippet, leftLine, centerLeftLine, 1);
+        processColumn(globalSnippet, leftLine, centerLeftLine, topLine, bottomLine, 1);
         cout << endl;
         cout << "Processing column 2:" << endl;
-        processColumn(globalSnippet, centerRightLine, rightLine, 2);
+        processColumn(globalSnippet, centerRightLine, rightLine, topLine, bottomLine, 2);
     }
     else
     {
         cout << "Number of columns from template = 1" << endl;
         cout << "Processing column:" << endl;
-        processColumn(globalSnippet, leftLine, rightLine, 1);
+        processColumn(globalSnippet, leftLine, rightLine, topLine, bottomLine, 1);
     }
     if(m_inputConfiguration.getNumberOfQuestions() != m_questionToAnswersMap.size())
-    {
-        cout << "Number of questions does not match the number of answers. Number of questions: " << m_inputConfiguration.getNumberOfQuestions()
+    {        cout << "Number of questions does not match the number of answers. Number of questions: " << m_inputConfiguration.getNumberOfQuestions()
              << " Number of answers: "<<m_questionToAnswersMap.size()<<"." << endl;
 
-        stringstream ss;
-        ss << "Number of questions does not match the number of answers. Number of questions: " << m_inputConfiguration.getNumberOfQuestions()
+        stringstream ss;        ss << "Number of questions does not match the number of answers. Number of questions: " << m_inputConfiguration.getNumberOfQuestions()
            << " Number of answers: "<<m_questionToAnswersMap.size()<<".";
         Status::getInstance().setError(ss.str());
     }
@@ -607,15 +587,12 @@ Line SOOSA::getLineModel(Samples const & samples) const
         {
             break;
         }
-        //cout << "getLineModel -> samples: " << samplesForLineModeling.size() << endl;
     }
     if(samplesForLineModeling.size() < m_soosaConfiguration.getMinimumLineSamples())
-    {
-        stringstream ss;
+    {        stringstream ss;
         ss << "Line not found because not enough samples. Samples found for line modeling: " <<samplesForLineModeling.size()
            << " Minimum number of samples: " << m_soosaConfiguration.getMinimumLineSamples() << ".";
-        Status::getInstance().setError(ss.str());
-        cout << "getLineModel -> Not enough samples: " << samplesForLineModeling.size() << endl;
+        Status::getInstance().setError(ss.str());        cout << "getLineModel -> Not enough samples: " << samplesForLineModeling.size() << endl;
     }
     else
     {
@@ -656,86 +633,90 @@ void SOOSA::updateSamplesForLineModelingFromSquareErrorToSampleMultimap(
     });
 }
 
-void SOOSA::processColumn(BitmapSnippet const& snippet, Line const& leftLine, Line const& rightLine, unsigned int const columnNumber)
+void SOOSA::processColumn(
+        BitmapSnippet const& snippet,
+        Line const& leftLine,
+        Line const& rightLine,
+        Line const& topLine,
+        Line const& bottomLine,
+        unsigned int const columnNumber)
 {
+    Point topLeft = getIntersectionOfTwoLines(leftLine, topLine);
+    Point topRight = getIntersectionOfTwoLines(rightLine, topLine);
+    Point bottomLeft = getIntersectionOfTwoLines(leftLine, bottomLine);
+    Point bottomRight = getIntersectionOfTwoLines(rightLine, bottomLine);
+
     unsigned int numberQuestionsInColumn = m_inputConfiguration.getNumberOfQuestionsAtColumn(columnNumber);
     cout << "Processing left line of column:" << endl;
-    QuestionBarCoordinates questionBarCoordinatesForLeftLine(getQuestionBarCoordinatesFromLine(snippet, leftLine, numberQuestionsInColumn));
+    QuestionBarCoordinates questionBarsOnTheLeft
+            = getQuestionBarCoordinatesFromLine(snippet, leftLine, topLeft, bottomLeft, numberQuestionsInColumn);
     cout << "Processing right line of column:" << endl;
-    QuestionBarCoordinates questionBarCoordinatesForRightLine(getQuestionBarCoordinatesFromLine(snippet, rightLine, numberQuestionsInColumn));
-    if(questionBarCoordinatesForLeftLine.size() == numberQuestionsInColumn && questionBarCoordinatesForRightLine.size() == numberQuestionsInColumn)
+    QuestionBarCoordinates questionsBarsOnTheRight
+            = getQuestionBarCoordinatesFromLine(snippet, rightLine, topRight, bottomRight, numberQuestionsInColumn);
+    if(questionBarsOnTheLeft.size() == numberQuestionsInColumn && questionsBarsOnTheRight.size() == numberQuestionsInColumn)
     {
         for(unsigned int questionIndex=0; questionIndex<numberQuestionsInColumn; questionIndex++)
         {
-            unsigned int numberOfSelectedChoices(0);
-            unsigned int answer
-                    = getAnswerToQuestionAndChangeNumberSelectedChoices(
-                        numberOfSelectedChoices,
-                        snippet,
-                        questionBarCoordinatesForLeftLine[questionIndex],
-                        questionBarCoordinatesForRightLine[questionIndex]);
-            if(numberOfSelectedChoices == 1)
+            Answers answers = getAnswers(snippet, questionBarsOnTheLeft[questionIndex], questionsBarsOnTheRight[questionIndex]);
+            if(answers.size() == 1)
             {
-                cout << "processColumn -> Question number: " << questionIndex+1 << " Answer: " << answer << endl;
-                setAnswerToQuestionInColumn(columnNumber, questionIndex, answer);
+                cout << "processColumn -> Question number: " << questionIndex+1 << " Answer: " << answers.front() << endl;
+                setAnswerToQuestionInColumn(columnNumber, questionIndex, answers.front());
             }
             else
             {
                 stringstream ss;
-                cout << "processColumn -> Problem locating choice in question number: " << questionIndex+1 << ", column number: " << columnNumber << endl;
-                cout << "processColumn -> numberOfSelectedChoices: " << numberOfSelectedChoices << endl;
-                ss << "Problem locating choices in a question. Question number: " << questionIndex+1
-                   << ". Number of selected choices: " << numberOfSelectedChoices << ".";
+                cout << "processColumn -> Problem locating answer in question number: " << questionIndex+1 << ", column number: " << columnNumber << endl;
+                cout << "processColumn -> Answers: ";
+                printParameter(cout, answers);
+                cout << endl;
+                ss << "Problem locating choices in a question. Question number: " << questionIndex+1;
+                printParameter(ss, answers);
+                ss << ".";
                 Status::getInstance().setError(ss.str());
             }
-        }
-    }
+        }    }
     else
     {
         stringstream ss;
-        ss<<"Number of question coordinates does not match between columns. Question bars at left line: "
-         <<questionBarCoordinatesForLeftLine.size()
-        <<"Question bars at right line: "
-        <<questionBarCoordinatesForRightLine.size()<<".";
+        ss<< "Number of question coordinates does not match between columns. "
+         << "Question bars at left line: " << questionBarsOnTheLeft.size()
+        << "Question bars at right line: " << questionsBarsOnTheRight.size() << ".";
         Status::getInstance().setError(ss.str());
-        cout << "processColumn -> Questions coordinates does not match. Left line: " << questionBarCoordinatesForLeftLine.size()
-             << " Right Line: " <<questionBarCoordinatesForRightLine.size()
+        cout << "processColumn -> Questions coordinates does not match. "
+             << "Left line: " << questionBarsOnTheLeft.size()
+             << " Right Line: " <<questionsBarsOnTheRight.size()
              << " Number of questions in the column: " << numberQuestionsInColumn << endl;
     }
 }
 
-unsigned int SOOSA::getAnswerToQuestionAndChangeNumberSelectedChoices(
-        unsigned int & numberOfSelectedChoices,
+SOOSA::Answers SOOSA::getAnswers(
         BitmapSnippet const& snippet,
         QuestionBarCoordinate const& leftCoordinate,
         QuestionBarCoordinate const& rightCoordinate) const
 {
-    Point leftPoint(getMidpoint(leftCoordinate.first, leftCoordinate.second));
-    Point rightPoint(getMidpoint(rightCoordinate.first, rightCoordinate.second));
-    double leftBarHeight(getDistance(leftCoordinate.first, leftCoordinate.second));
-    double rightBarHeight(getDistance(rightCoordinate.first, rightCoordinate.second));
-    double lowestHeightOfQuestion(min(leftBarHeight, rightBarHeight));
+    Answers result;
+    Point leftPoint = getMidpoint(leftCoordinate.first, leftCoordinate.second);
+    Point rightPoint = getMidpoint(rightCoordinate.first, rightCoordinate.second);
+    double leftBarHeight = getDistance(leftCoordinate.first, leftCoordinate.second);
+    double rightBarHeight = getDistance(rightCoordinate.first, rightCoordinate.second);
+    double lowestHeightOfQuestion = min(leftBarHeight, rightBarHeight);
     double radius = lowestHeightOfQuestion * m_soosaConfiguration.getRatioOfBarHeightToDiameter()/2;
-    unsigned int shadedChoice=0;
-    numberOfSelectedChoices=0;
-    for(unsigned int choiceIndex=0; choiceIndex<m_soosaConfiguration.getNumberOfChoices(); choiceIndex++ )
+    unsigned int numberOfChoices = m_soosaConfiguration.getNumberOfChoices();
+    for(unsigned int choiceIndex=0; choiceIndex<numberOfChoices; choiceIndex++ )
     {
         if(isChoiceShaded(snippet, leftPoint, rightPoint, choiceIndex, static_cast<unsigned int>(radius)))
         {
-            numberOfSelectedChoices++;
-            shadedChoice = choiceIndex+1;
+            result.emplace_back(numberOfChoices-choiceIndex);
         }
     }
-    unsigned int midpointChoice((m_soosaConfiguration.getNumberOfChoices()+1)/2);
-    return midpointChoice-(shadedChoice-midpointChoice);
+    return result;
 }
 
-bool SOOSA::isChoiceShaded(
-        BitmapSnippet const& snippet,
+bool SOOSA::isChoiceShaded(        BitmapSnippet const& snippet,
         Point const& leftPoint,
         Point const& rightPoint,
-        unsigned int const choiceIndex,
-        unsigned int const radius) const
+        unsigned int const choiceIndex,        unsigned int const radius) const
 {
     double choiceIndexRatio = (((double)choiceIndex*2)+1) / (m_soosaConfiguration.getNumberOfChoices()*2);
     double differenceFromLeftToRightInX = rightPoint.getX() - leftPoint.getX();
@@ -754,30 +735,29 @@ bool SOOSA::isChoiceShaded(
 SOOSA::QuestionBarCoordinates SOOSA::getQuestionBarCoordinatesFromLine(
         BitmapSnippet const& snippet,
         Line const& line,
+        Point const& startPoint,
+        Point const& endPoint,
         unsigned int const numberQuestionsInColumn) const
 {
-#define acceptableSdOverMeanDeviationForLine 0.50
-#define acceptableSdOverMeanDeviationForBar 0.10
+#define acceptableSdOverMeanDeviationForLine 0.50#define acceptableSdOverMeanDeviationForBar 0.10
 #define retainRatioForLineBar 0.95
 
     QuestionBarCoordinates questionBarCoordinates;
-    VectorOfColumnLineDetails columnLineDetails(getAcceptableColumnLineDetails(snippet, line));
+    PointAndWidthPairs pointAndWidthPairs(getAcceptablePointAndWidthPairs(snippet, line, startPoint, endPoint));
 
-    if(!columnLineDetails.empty())
+    if(!pointAndWidthPairs.empty())
     {
         RangeOfDoubles minMaxForBar;
 
         OneDimensionKMeans kMeansForWidths;
-        for(ColumnLineDetail const& columnLineDetail : columnLineDetails)
+        for(PointAndWidthPair const& pointAndWidthPair : pointAndWidthPairs)
         {
-            kMeansForWidths.addSample(OneDimensionStatistics::Sample{columnLineDetail.getWidth()});
+            kMeansForWidths.addSample(OneDimensionStatistics::Sample{pointAndWidthPair.second});
         }
 
-        bool needsRemoval(true);
-        while(needsRemoval)
+        bool needsRemoval(true);        while(needsRemoval)
         {
             OneDimensionKMeans::GroupOfSamples twoGroupsOfSamples(kMeansForWidths.getGroupOfSamplesUsingKMeans(2));
-
             OneDimensionKMeans::Samples const& firstGroup(twoGroupsOfSamples.at(0));
             OneDimensionKMeans::Samples const& secondGroup(twoGroupsOfSamples.at(1));
 
@@ -857,44 +837,43 @@ SOOSA::QuestionBarCoordinates SOOSA::getQuestionBarCoordinatesFromLine(
         }
 
         TwoDimensionKMeans barPointKMeans;
-        retrieveBarPointsThatFitAndSaveToKMeans(barPointKMeans, columnLineDetails, minMaxForBar);
+        retrieveBarPointsThatFitAndSaveToKMeans(barPointKMeans, pointAndWidthPairs, minMaxForBar);
         removeIncorrectBarPointsBasedFromHeight(barPointKMeans, numberQuestionsInColumn);
         saveQuestionBarCoordinatesFromKMeansWithBarPoints(barPointKMeans, questionBarCoordinates, numberQuestionsInColumn);
-    }
-    cout << "getQuestionBarCoordinatesFromLine -> Number of question bar coordinates: " << questionBarCoordinates.size() << endl;
+    }    cout << "getQuestionBarCoordinatesFromLine -> Number of question bar coordinates: " << questionBarCoordinates.size() << endl;
     return questionBarCoordinates;
 }
 
-SOOSA::VectorOfColumnLineDetails SOOSA::getAcceptableColumnLineDetails(BitmapSnippet const& snippet, Line const& line) const
+SOOSA::PointAndWidthPairs SOOSA::getAcceptablePointAndWidthPairs(
+        BitmapSnippet const& snippet,
+        Line const& line,
+        Point const& startPoint,
+        Point const& endPoint) const
 {
-    Points pointsInLine(line.getPoints(convertToPoint(snippet.getTopLeftCorner()), convertToPoint(snippet.getBottomRightCorner()), 1));
-    VectorOfColumnLineDetails columnLineDetails;
+    Points pointsInLine(line.getPoints(startPoint, endPoint, 1));
+    PointAndWidthPairs pointAndWidthPairs;
     for(Point const& pointInLine : pointsInLine)
     {
-        addColumnLineDetailIfAcceptable(columnLineDetails, snippet, line, pointInLine);
+        addPointAndWidthPairIfAcceptable(pointAndWidthPairs, snippet, line, pointInLine);
     }
-    return columnLineDetails;
+    return pointAndWidthPairs;
 }
 
-SOOSA::RangeOfDoubles SOOSA::getMinMaxRangeFromKMeansSamples(OneDimensionKMeans::Samples const& samples) const
-{
+SOOSA::RangeOfDoubles SOOSA::getMinMaxRangeFromKMeansSamples(OneDimensionKMeans::Samples const& samples) const{
     DataCollection<double> collection;
     for(OneDimensionKMeans::Sample const& sample : samples)
-    {
-        collection.addData(sample.getValueAt(0));
+    {        collection.addData(sample.getValueAt(0));
     }
     return RangeOfDoubles(collection.getMinimum(), collection.getMaximum(), 1);
 }
 
-void SOOSA::addColumnLineDetailIfAcceptable(
-        VectorOfColumnLineDetails & columnLineDetails,
+void SOOSA::addPointAndWidthPairIfAcceptable(
+        PointAndWidthPairs & pointAndWidthPairs,
         BitmapSnippet const& snippet,
         Line const& line,
-        Point const& pointInLine) const
-{
+        Point const& pointInLine) const{
 #define acceptableDistanceOverWidthRatioFromWidthMidpoint 0.1
 #define acceptableMinimumDistanceFromWidthMidpoint 2
-
     Point nearestBlackPoint(getNearestBlackPointFromLine(snippet, line, pointInLine));
     Line perpendicularLine(getLineWithPerpendicularSlope(line, nearestBlackPoint));
     Point leftMostBlack(nearestBlackPoint);
@@ -927,14 +906,12 @@ void SOOSA::addColumnLineDetailIfAcceptable(
     double distanceFromLine = getDistance(pointInLine, widthMidPoint);
     if(distanceFromLine < acceptableDistance)
     {
-        columnLineDetails.emplace_back(pointInLine, width);
+        pointAndWidthPairs.emplace_back(pointInLine, width);
     }
 }
-
 Point SOOSA::getNearestBlackPointFromLine(BitmapSnippet const& snippet, Line const& line, Point const& pointInLine) const
 {
-    Point blackPoint;
-    Line perpendicularLine(getLineWithPerpendicularSlope(line, pointInLine));
+    Point blackPoint;    Line perpendicularLine(getLineWithPerpendicularSlope(line, pointInLine));
     for(unsigned int deviation=1; deviation<=m_soosaConfiguration.getMaximumBarWidth(); deviation++)
     {
         double lowerDeviatedInX = pointInLine.getX()-deviation;
@@ -957,22 +934,20 @@ Point SOOSA::getNearestBlackPointFromLine(BitmapSnippet const& snippet, Line con
 
 void SOOSA::retrieveBarPointsThatFitAndSaveToKMeans(
         TwoDimensionKMeans & barPointKMeans,
-        VectorOfColumnLineDetails const& columnLineDetails,
+        PointAndWidthPairs const& pointAndWidthPairs,
         RangeOfDoubles const& minMaxForBar) const
 {
-    for(ColumnLineDetail const& columnLineDetail : columnLineDetails)
+    for(PointAndWidthPair const& pointAndWidthPair : pointAndWidthPairs)
     {
-        if(minMaxForBar.isValueInsideInclusive(columnLineDetail.getWidth()))
+        if(minMaxForBar.isValueInsideInclusive(pointAndWidthPair.second))
         {
-            barPointKMeans.addSample(convertToTwoDimensionSample(columnLineDetail.getPoint()));
+            barPointKMeans.addSample(convertToTwoDimensionSample(pointAndWidthPair.first));
         }
     }
 }
-
 void SOOSA::removeIncorrectBarPointsBasedFromHeight(
         TwoDimensionKMeans & barPointKMeans,
-        unsigned int const numberQuestionsInColumn) const
-{
+        unsigned int const numberQuestionsInColumn) const{
 #define acceptableSdOverMeanDeviationForHeight 0.10
 
     bool needsRemoval(true);
