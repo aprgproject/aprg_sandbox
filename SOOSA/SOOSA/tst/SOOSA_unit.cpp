@@ -17,17 +17,28 @@ namespace
 SoosaConfiguration getSoosaConfiguration()
 {
     SoosaConfiguration soosaConfiguration;
-    soosaConfiguration.bufferNameAndValueString("m_numberOfChoices", "5");
+
+    // Line model parameters
     soosaConfiguration.bufferNameAndValueString("m_acceptableLineDeviationForLineModelInPixels", "2");
-    soosaConfiguration.bufferNameAndValueString("m_acceptableLineWidthDeviationInPixels", "4");
-    soosaConfiguration.bufferNameAndValueString("m_acceptableBarWidthDeviationInPixels", "8");
-    soosaConfiguration.bufferNameAndValueString("m_acceptableBarHeightDeviationInPixels", "10");
-    soosaConfiguration.bufferNameAndValueString("m_minimumLineSamples", "10");
     soosaConfiguration.bufferNameAndValueString("m_retainRatioForSquareErrorsInLineModel", "0.95");
-    soosaConfiguration.bufferNameAndValueString("m_maximumBarWidth", "500");
-    soosaConfiguration.bufferNameAndValueString("m_minimumNumberOfBarWidthsForABar", "20");
-    soosaConfiguration.bufferNameAndValueString("m_ratioOfBarHeightToDiameter", "0.5");
-    soosaConfiguration.bufferNameAndValueString("m_minimumPercentageOfBlackPixelsForAFilledCircle", "0.7");
+    soosaConfiguration.bufferNameAndValueString("m_minimumLineSamples", "10");
+
+    // Line and bar parameters
+    soosaConfiguration.bufferNameAndValueString("m_maximumLineAndBarWidth", "500");
+    soosaConfiguration.bufferNameAndValueString("m_acceptableDistanceOverWidthRatioFromWidthMidpoint", "0.10");
+    soosaConfiguration.bufferNameAndValueString("m_acceptableMinimumDistanceFromWidthMidpoint", "2");
+    soosaConfiguration.bufferNameAndValueString("m_acceptableSdOverMeanDeviationForLine", "0.50");
+    soosaConfiguration.bufferNameAndValueString("m_acceptableSdOverMeanDeviationForBar", "0.10");
+    soosaConfiguration.bufferNameAndValueString("m_retainRatioForLineAndBar", "0.95");
+    soosaConfiguration.bufferNameAndValueString("m_acceptableSdOverMeanDeviationForBarHeight", "0.10");
+    soosaConfiguration.bufferNameAndValueString("m_retainRatioForBarHeight", "0.95");
+
+    // Choices related parameters
+    soosaConfiguration.bufferNameAndValueString("m_numberOfChoices", "5");
+    soosaConfiguration.bufferNameAndValueString("m_colorIntensityForWhite", "170");
+    soosaConfiguration.bufferNameAndValueString("m_ratioOfBarHeightToDiameter", "0.50");
+    soosaConfiguration.bufferNameAndValueString("m_minimumPercentageOfBlackPixelsForAFilledCircle", "0.70");
+
     soosaConfiguration.update();
     return soosaConfiguration;
 }
@@ -290,7 +301,8 @@ TEST(SoosaTest, ScannedExampleWorks)
     AlbaLocalPathHandler inputFile(APRG_DIR R"(\SOOSA\FilesForTests\ScannedExample.bmp)");
     AlbaLocalPathHandler tempFileToTest(APRG_DIR R"(\SOOSA\FilesForTests\Temp.bmp)");
     inputFile.copyToNewFile(tempFileToTest.getFullPath());
-    SoosaConfiguration soosaConfiguration(getSoosaConfiguration());    InputConfiguration inputConfiguration(getInputConfigurationForCharityPayWards(tempFileToTest.getFullPath()));
+    SoosaConfiguration soosaConfiguration(getSoosaConfiguration());
+    InputConfiguration inputConfiguration(getInputConfigurationForCharityPayWards(tempFileToTest.getFullPath()));
     SOOSA soosa(soosaConfiguration, inputConfiguration);
 
     soosa.process();
@@ -300,7 +312,8 @@ TEST(SoosaTest, ScannedExampleWorks)
 
 TEST(SoosaTest, DISABLED_DistortedWorks)
 {
-    AlbaLocalPathHandler inputFile(APRG_DIR R"(\SOOSA\FilesForTests\Distorted.bmp)");    AlbaLocalPathHandler tempFileToTest(APRG_DIR R"(\SOOSA\FilesForTests\Temp.bmp)");
+    AlbaLocalPathHandler inputFile(APRG_DIR R"(\SOOSA\FilesForTests\Distorted.bmp)");
+    AlbaLocalPathHandler tempFileToTest(APRG_DIR R"(\SOOSA\FilesForTests\Temp.bmp)");
     inputFile.copyToNewFile(tempFileToTest.getFullPath());
     SoosaConfiguration soosaConfiguration(getSoosaConfiguration());
     InputConfiguration inputConfiguration(getInputConfigurationForCharityPayWards(tempFileToTest.getFullPath()));

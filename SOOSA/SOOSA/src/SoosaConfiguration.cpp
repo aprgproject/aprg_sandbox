@@ -15,11 +15,6 @@ namespace soosa
 SoosaConfiguration::SoosaConfiguration()
 {}
 
-unsigned int SoosaConfiguration::getNumberOfChoices() const
-{
-    return m_numberOfChoices;
-}
-
 unsigned int SoosaConfiguration::getAcceptableLineDeviationForLineModelInPixels() const
 {
     return m_acceptableLineDeviationForLineModelInPixels;
@@ -35,19 +30,54 @@ unsigned int SoosaConfiguration::getMinimumLineSamples() const
     return m_minimumLineSamples;
 }
 
-unsigned int SoosaConfiguration::getAcceptableBarHeightDeviationInPixels() const
+unsigned int SoosaConfiguration::getMaximumLineAndBarWidth() const
 {
-    return m_acceptableBarHeightDeviationInPixels;
+    return m_maximumLineAndBarWidth;
 }
 
-unsigned int SoosaConfiguration::getMaximumBarWidth() const
+double SoosaConfiguration::getAcceptableDistanceOverWidthRatioFromWidthMidpoint() const
 {
-    return m_maximumBarWidth;
+    return m_acceptableDistanceOverWidthRatioFromWidthMidpoint;
 }
 
-unsigned int SoosaConfiguration::getMinimumNumberOfBarWidthsForABar() const
+unsigned int SoosaConfiguration::getAcceptableMinimumDistanceFromWidthMidpoint() const
 {
-    return m_minimumNumberOfBarWidthsForABar;
+    return m_acceptableMinimumDistanceFromWidthMidpoint;
+}
+
+double SoosaConfiguration::getAcceptableSdOverMeanDeviationForLine() const
+{
+    return m_acceptableSdOverMeanDeviationForLine;
+}
+
+double SoosaConfiguration::getAcceptableSdOverMeanDeviationForBar() const
+{
+    return m_acceptableSdOverMeanDeviationForBar;
+}
+
+double SoosaConfiguration::getRetainRatioForLineAndBar() const
+{
+    return m_retainRatioForLineAndBar;
+}
+
+double SoosaConfiguration::getAcceptableSdOverMeanDeviationForBarHeight() const
+{
+    return m_acceptableSdOverMeanDeviationForBarHeight;
+}
+
+double SoosaConfiguration::getRetainRatioForBarHeight() const
+{
+    return m_retainRatioForBarHeight;
+}
+
+unsigned int SoosaConfiguration::getNumberOfChoices() const
+{
+    return m_numberOfChoices;
+}
+
+unsigned int SoosaConfiguration::getColorIntensityForWhite() const
+{
+    return m_colorIntensityForWhite;
 }
 
 double SoosaConfiguration::getRatioOfBarHeightToDiameter() const
@@ -83,13 +113,24 @@ void SoosaConfiguration::update()
     m_nameToValueStringMapBuffer.erase(it); \
 }
 
-    UPDATE_PARAMETER(m_numberOfChoices, unsigned int);
+    // Line model parameters
     UPDATE_PARAMETER(m_acceptableLineDeviationForLineModelInPixels, unsigned int);
     UPDATE_PARAMETER(m_retainRatioForSquareErrorsInLineModel, double);
     UPDATE_PARAMETER(m_minimumLineSamples, unsigned int);
-    UPDATE_PARAMETER(m_acceptableBarHeightDeviationInPixels, unsigned int);
-    UPDATE_PARAMETER(m_maximumBarWidth, unsigned int);
-    UPDATE_PARAMETER(m_minimumNumberOfBarWidthsForABar, unsigned int);
+
+    // Line and bar parameters
+    UPDATE_PARAMETER(m_maximumLineAndBarWidth, unsigned int);
+    UPDATE_PARAMETER(m_acceptableDistanceOverWidthRatioFromWidthMidpoint, double);
+    UPDATE_PARAMETER(m_acceptableMinimumDistanceFromWidthMidpoint, unsigned int);
+    UPDATE_PARAMETER(m_acceptableSdOverMeanDeviationForLine, double);
+    UPDATE_PARAMETER(m_acceptableSdOverMeanDeviationForBar, double);
+    UPDATE_PARAMETER(m_retainRatioForLineAndBar, double);
+    UPDATE_PARAMETER(m_acceptableSdOverMeanDeviationForBarHeight, double);
+    UPDATE_PARAMETER(m_retainRatioForBarHeight, double);
+
+    // Choices related parameters
+    UPDATE_PARAMETER(m_numberOfChoices, unsigned int);
+    UPDATE_PARAMETER(m_colorIntensityForWhite, unsigned int);
     UPDATE_PARAMETER(m_ratioOfBarHeightToDiameter, double);
     UPDATE_PARAMETER(m_minimumPercentageOfBlackPixelsForAFilledCircle, double);
 
@@ -104,11 +145,21 @@ void SoosaConfiguration::readNamesAndValuesFromFile(string const& filePath)
         AlbaFileReader fileReader(inputFileStream);
         while(fileReader.isNotFinished())
         {
-            string lineInConfiguration(fileReader.getLineAndIgnoreWhiteSpaces());
-            string beforeColon;
-            string afterColon;
-            stringHelper::copyBeforeStringAndAfterString(lineInConfiguration, ":", beforeColon, afterColon);
-            bufferNameAndValueString(beforeColon, afterColon);
+            string line(fileReader.getLineAndIgnoreWhiteSpaces());
+            if(!line.empty())
+            {
+                if(line.substr(0, 2) == "//")
+                {
+                    // do nothing if comment
+                }
+                else
+                {
+                    string beforeColon;
+                    string afterColon;
+                    copyBeforeStringAndAfterString(line, ":", beforeColon, afterColon);
+                    bufferNameAndValueString(beforeColon, afterColon);
+                }
+            }
         }
     }
 }

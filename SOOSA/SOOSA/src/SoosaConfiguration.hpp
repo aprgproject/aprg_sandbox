@@ -16,13 +16,24 @@ public:
 
     SoosaConfiguration();
 
-    unsigned int getNumberOfChoices() const;
+    // Line model parameters
     unsigned int getAcceptableLineDeviationForLineModelInPixels() const;
     double getRetainRatioForSquareErrorsInLineModel() const;
     unsigned int getMinimumLineSamples() const;
-    unsigned int getAcceptableBarHeightDeviationInPixels() const;
-    unsigned int getMaximumBarWidth() const;
-    unsigned int getMinimumNumberOfBarWidthsForABar() const;
+
+    // Line and bar parameters
+    unsigned int getMaximumLineAndBarWidth() const;
+    double getAcceptableDistanceOverWidthRatioFromWidthMidpoint() const;
+    unsigned int getAcceptableMinimumDistanceFromWidthMidpoint() const;
+    double getAcceptableSdOverMeanDeviationForLine() const;
+    double getAcceptableSdOverMeanDeviationForBar() const;
+    double getRetainRatioForLineAndBar() const;
+    double getAcceptableSdOverMeanDeviationForBarHeight() const;
+    double getRetainRatioForBarHeight() const;
+
+    // Choices related parameters
+    unsigned int getNumberOfChoices() const;
+    unsigned int getColorIntensityForWhite() const;
     double getRatioOfBarHeightToDiameter() const;
     double getMinimumPercentageOfBlackPixelsForAFilledCircle() const;
 
@@ -32,15 +43,29 @@ public:
 
 private:
     void readNamesAndValuesFromFile(std::string const& filePath);
-    unsigned int m_numberOfChoices;
+
+    // Line model parameters
     unsigned int m_acceptableLineDeviationForLineModelInPixels;
     double m_retainRatioForSquareErrorsInLineModel;
-    unsigned int m_acceptableBarHeightDeviationInPixels;
     unsigned int m_minimumLineSamples;
-    unsigned int m_maximumBarWidth;
-    unsigned int m_minimumNumberOfBarWidthsForABar;
+
+    // Line and bar parameters
+    unsigned int m_maximumLineAndBarWidth;
+    double m_acceptableDistanceOverWidthRatioFromWidthMidpoint;
+    unsigned int m_acceptableMinimumDistanceFromWidthMidpoint;
+    double m_acceptableSdOverMeanDeviationForLine;
+    double m_acceptableSdOverMeanDeviationForBar;
+    double m_retainRatioForLineAndBar;
+    double m_acceptableSdOverMeanDeviationForBarHeight;
+    double m_retainRatioForBarHeight;
+
+    // Choices related parameters
+    unsigned int m_numberOfChoices;
+    unsigned int m_colorIntensityForWhite;
     double m_ratioOfBarHeightToDiameter;
     double m_minimumPercentageOfBlackPixelsForAFilledCircle;
+
+    // Buffer
     BufferMap m_nameToValueStringMapBuffer;
 };
 
