@@ -1,13 +1,12 @@
 #include "SOOSA.hpp"
 
+#include <Common/Bit/AlbaBitManipulation.hpp>
 #include <Common/File/AlbaFileReader.hpp>
 #include <Common/Math/Helpers/ComputationHelpers.hpp>
-#include <Common/PathHandler/AlbaLocalPathHandler.hpp>
-#include <Common/Print/AlbaPrintFunctions.hpp>
+#include <Common/PathHandler/AlbaLocalPathHandler.hpp>#include <Common/Print/AlbaPrintFunctions.hpp>
 #include <Common/User/AlbaUserInterface.hpp>
 #include <Geometry/TwoDimensions/Circle.hpp>
-#include <Geometry/TwoDimensions/TwoDimensionsHelper.hpp>
-#include <Statistics/DataStatistics.hpp>
+#include <Geometry/TwoDimensions/TwoDimensionsHelper.hpp>#include <Statistics/DataStatistics.hpp>
 #include <Statistics/FrequencyStatistics.hpp>
 
 #include <iostream>
@@ -483,15 +482,13 @@ Line SOOSA::findVerticalLine(BitmapSnippet const& snippet, RangeOfInts const& ra
         AlbaValueRange<double> consecutiveBlackPixels;
         for(unsigned int x=rangeForX.getStartValue(); conditionForX(x, rangeForX.getEndValue()); x+=rangeForX.getInterval())
         {
-            if(snippet.isBlackAt(BitmapXY(x, y)))
+            if(isBlackAt(snippet, BitmapXY(x, y)))
             {
                 if(consecutiveBlackPixels.isEmpty())
-                {
-                    consecutiveBlackPixels.setStartValue((double)x);
+                {                    consecutiveBlackPixels.setStartValue((double)x);
                 }
                 consecutiveBlackPixels.setEndValue((double)x);
-            }
-            else if(!consecutiveBlackPixels.isEmpty())
+            }            else if(!consecutiveBlackPixels.isEmpty())
             {
                 samples.emplace_back(Sample{consecutiveBlackPixels.getMidpointValue(), (double)y});
                 break;
@@ -510,15 +507,13 @@ Line SOOSA::findHorizontalLine(BitmapSnippet const& snippet, RangeOfInts const& 
         AlbaValueRange<double> consecutiveBlackPixels;
         for(unsigned int y=rangeForY.getStartValue(); conditionForY(y, rangeForY.getEndValue()); y+=rangeForY.getInterval())
         {
-            if(snippet.isBlackAt(BitmapXY(x, y)))
+            if(isBlackAt(snippet, BitmapXY(x, y)))
             {
                 if(consecutiveBlackPixels.isEmpty())
-                {
-                    consecutiveBlackPixels.setStartValue((double)y);
+                {                    consecutiveBlackPixels.setStartValue((double)y);
                 }
                 consecutiveBlackPixels.setEndValue((double)y);
-            }
-            else if(!consecutiveBlackPixels.isEmpty())
+            }            else if(!consecutiveBlackPixels.isEmpty())
             {
                 samples.emplace_back(Sample{(double)x, consecutiveBlackPixels.getMidpointValue()});
                 break;
@@ -550,15 +545,13 @@ Line SOOSA::findVerticalLineUsingStartingLine(BitmapSnippet const& snippet, Line
         double xInLine = round(startingLine.calculateXFromY(y));
         for(int x=(int)xInLine; conditionForX(x, rangeForX.getEndValue()); x+=rangeForX.getInterval())
         {
-            if(snippet.isBlackAt(BitmapXY(x, y)))
+            if(isBlackAt(snippet, BitmapXY(x, y)))
             {
                 if(consecutiveBlackPixels.isEmpty())
-                {
-                    consecutiveBlackPixels.setStartValue((double)x);
+                {                    consecutiveBlackPixels.setStartValue((double)x);
                 }
                 consecutiveBlackPixels.setEndValue((double)x);
-            }
-            else if(!consecutiveBlackPixels.isEmpty())
+            }            else if(!consecutiveBlackPixels.isEmpty())
             {
                 samples.emplace_back(Sample{consecutiveBlackPixels.getMidpointValue(), (double)y});
                 break;
@@ -737,15 +730,13 @@ bool SOOSA::isChoiceShaded(
     Circle circle(centerOfCircle, radius);
     circle.traverseArea(1, [&](Point const& pointInCircle)
     {
-        numberOfBlackPoints += (snippet.isBlackAt(convertToBitmapXY(pointInCircle))) ? 1 : 0;
+        numberOfBlackPoints += (isBlackAt(snippet, convertToBitmapXY(pointInCircle))) ? 1 : 0;
         totalPoints++;
     });
-    return ((double)numberOfBlackPoints/totalPoints) >= m_soosaConfiguration.getMinimumPercentageOfBlackPixelsForAFilledCircle();
-}
+    return ((double)numberOfBlackPoints/totalPoints) >= m_soosaConfiguration.getMinimumPercentageOfBlackPixelsForAFilledCircle();}
 
 SOOSA::QuestionBarCoordinates SOOSA::getQuestionBarCoordinatesFromLine(
-        BitmapSnippet const& snippet,
-        Line const& line,
+        BitmapSnippet const& snippet,        Line const& line,
         Point const& startPoint,
         Point const& endPoint,
         unsigned int const numberQuestionsInColumn) const
@@ -902,26 +893,23 @@ void SOOSA::addPointAndWidthPairIfAcceptable(
     {
         double possibleBlackPointInX = nearestBlackPoint.getX()-offset;
         Point possibleBlackPoint(possibleBlackPointInX, perpendicularLine.calculateYFromX(possibleBlackPointInX));
-        isBlack = snippet.isBlackAt(convertToBitmapXY(possibleBlackPoint));
+        isBlack = isBlackAt(snippet, convertToBitmapXY(possibleBlackPoint));
         if(isBlack)
         {
-            leftMostBlack=possibleBlackPoint;
-        }
+            leftMostBlack=possibleBlackPoint;        }
     }
     isBlack = true;
     for(unsigned int offset=1; offset<=m_soosaConfiguration.getMaximumBarWidth() && isBlack; offset++)
     {
         double possibleBlackPointInX = nearestBlackPoint.getX()+offset;
         Point possibleBlackPoint(possibleBlackPointInX, perpendicularLine.calculateYFromX(possibleBlackPointInX));
-        isBlack = snippet.isBlackAt(convertToBitmapXY(possibleBlackPoint));
+        isBlack = isBlackAt(snippet, convertToBitmapXY(possibleBlackPoint));
         if(isBlack)
         {
-            rightMostBlack=possibleBlackPoint;
-        }
+            rightMostBlack=possibleBlackPoint;        }
     }
     double width = getDistance(leftMostBlack, rightMostBlack);
-    Point widthMidPoint = getMidpoint(leftMostBlack, rightMostBlack);
-    double acceptableDistance = acceptableDistanceOverWidthRatioFromWidthMidpoint * width + acceptableMinimumDistanceFromWidthMidpoint;
+    Point widthMidPoint = getMidpoint(leftMostBlack, rightMostBlack);    double acceptableDistance = acceptableDistanceOverWidthRatioFromWidthMidpoint * width + acceptableMinimumDistanceFromWidthMidpoint;
     double distanceFromLine = getDistance(pointInLine, widthMidPoint);
     if(distanceFromLine < acceptableDistance)
     {
@@ -937,22 +925,19 @@ Point SOOSA::getNearestBlackPointFromLine(BitmapSnippet const& snippet, Line con
     {
         double lowerDeviatedInX = pointInLine.getX()-deviation;
         Point lowerDeviatedPoint(lowerDeviatedInX, perpendicularLine.calculateYFromX(lowerDeviatedInX));
-        if(snippet.isBlackAt(convertToBitmapXY(lowerDeviatedPoint)))
+        if(isBlackAt(snippet, convertToBitmapXY(lowerDeviatedPoint)))
         {
             blackPoint = lowerDeviatedPoint;
-            break;
-        }
+            break;        }
         double higherDeviatedInX = pointInLine.getX()+deviation;
         Point higherDeviatedPoint(higherDeviatedInX, perpendicularLine.calculateYFromX(higherDeviatedInX));
-        if(snippet.isBlackAt(convertToBitmapXY(higherDeviatedPoint)))
+        if(isBlackAt(snippet, convertToBitmapXY(higherDeviatedPoint)))
         {
             blackPoint = higherDeviatedPoint;
-            break;
-        }
+            break;        }
     }
     return blackPoint;
 }
-
 void SOOSA::retrieveBarPointsThatFitAndSaveToKMeans(
         TwoDimensionKMeans & barPointKMeans,
         PointAndWidthPairs const& pointAndWidthPairs,
@@ -1090,15 +1075,23 @@ void SOOSA::saveQuestionBarCoordinatesFromKMeansWithBarPoints(
     }
 }
 
+bool SOOSA::isBlackAt(BitmapSnippet const& snippet, BitmapXY const bitmapXy) const
+{
+#define colorIntensityForWhite 0xAA
+    using BitColorManip = AlbaBitManipulation<uint32_t>;
+    uint32_t color = snippet.getColorAt(bitmapXy);
+    uint32_t minColorIntensity = min(BitColorManip::getByteAt<0>(color), min(BitColorManip::getByteAt<1>(color), BitColorManip::getByteAt<2>(color)));
+
+    return minColorIntensity < colorIntensityForWhite;
+}
+
 BitmapXY SOOSA::convertToBitmapXY(Point const& point) const
 {
-    return BitmapXY((unsigned int)round(clampLowerBound(point.getX(), (double)0)), (unsigned int)round(clampLowerBound(point.getY(), (double)0)));
-}
+    return BitmapXY((unsigned int)round(clampLowerBound(point.getX(), (double)0)), (unsigned int)round(clampLowerBound(point.getY(), (double)0)));}
 
 BitmapXY SOOSA::convertToBitmapXY(Sample const& sample) const
 {
-    return BitmapXY((unsigned int)round(clampLowerBound(sample.getValueAt(0), (double)0)), (unsigned int)round(clampLowerBound(sample.getValueAt(1), (double)0)));
-}
+    return BitmapXY((unsigned int)round(clampLowerBound(sample.getValueAt(0), (double)0)), (unsigned int)round(clampLowerBound(sample.getValueAt(1), (double)0)));}
 
 Point SOOSA::convertToPoint(BitmapXY const& bitmapXY) const
 {
