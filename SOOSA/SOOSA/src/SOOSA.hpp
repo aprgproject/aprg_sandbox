@@ -117,15 +117,15 @@ private:
 
     // Height functions
     void removeIncorrectBarPointsBasedFromHeight(TwoDimensionKMeans & barPointKMeans, unsigned int const numberQuestionsInColumn) const;
+    void addAndRetainBarPointsIfPossible(TwoDimensionKMeans & barPointKMeans, TwoDimensionKMeans::GroupOfSamples const& listOfGroupOfBarPoints, unsigned int const indexToRemove) const;
     OneDimensionStatistics::Samples getBarHeights(TwoDimensionKMeans::GroupOfSamples const& groupOfGroupOfBarPoints) const;
+    double getHeight(TwoDimensionKMeans::Samples const& barPoints) const;
 
     // output related functions
-    std::string getCsvFileName(std::string const& path) const;
-    std::string getReportHtmlFileName(std::string const& path) const;
+    std::string getCsvFileName(std::string const& path) const;    std::string getReportHtmlFileName(std::string const& path) const;
     std::string getPrintableStringForPercentage(double const numerator, double const denominator) const;
     void setAnswerToQuestionInColumn(unsigned int const columnNumber, unsigned int const questionOffsetInColumn, unsigned int const answer);
-    void saveDataToCsvFile(std::string const& processedFilePath) const;
-    void saveHeadersToCsvFile() const;
+    void saveDataToCsvFile(std::string const& processedFilePath) const;    void saveHeadersToCsvFile() const;
     void saveOutputHtmlFile(std::string const& processedFilePath) const;
     void saveTableToOutputHtmlFile(std::ofstream & reportHtmlFileStream) const;
 
