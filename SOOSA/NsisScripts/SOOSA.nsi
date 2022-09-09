@@ -4,32 +4,29 @@
 ;Written by Joost Verburg
 
 ;--------------------------------
-;Include WcdmaTools
+;Include SOOSA
 
   !include "MUI2.nsh"
   
-  !define MUI_PRODUCT "WcdmaTools"
-  !define MUI_FILE "WcdmaTools"
+  !define MUI_PRODUCT "SOOSA"
+  !define MUI_FILE "SOOSA"
   !define MUI_VERSION ""
-  !define MUI_BRANDINGTEXT "WcdmaTools Version 1.0"
+  !define MUI_BRANDINGTEXT "SOOSA Version 1.0"
 
   !define MUI_ICON "Images\APRG.ico"
-
   CRCCheck On
   
 ;--------------------------------
 ;General
 
   ;Name and file
-  Name "WcdmaTools"
-  OutFile "WcdmaToolsInstaller.exe"
+  Name "SOOSA"
+  OutFile "SoosaInstaller.exe"
 
   ;Default installation folder
-  InstallDir "$PROGRAMFILES\${MUI_PRODUCT}"
-  
+  InstallDir "$PROGRAMFILES\${MUI_PRODUCT}"  
   ;Get installation folder from registry if available
   InstallDirRegKey HKCU "Software\${MUI_PRODUCT}" ""
-
   ;Request application privileges for Windows Vista
   RequestExecutionLevel admin
 
@@ -59,15 +56,13 @@
 ;--------------------------------
 ;Installer Sections
 
-Section "WcdmaTools files" WcdmaToolsFilesSection
+Section "SOOSA files" SOOSAFilesSection
 
   SetOutPath "$INSTDIR"
-  
-  ;ADD YOUR OWN FILES HERE...
+    ;ADD YOUR OWN FILES HERE...
   File /r "${MUI_PRODUCT}\*"
   
-  ;Store installation folder
-  WriteRegStr HKCU "Software\${MUI_PRODUCT}" "" $INSTDIR
+  ;Store installation folder  WriteRegStr HKCU "Software\${MUI_PRODUCT}" "" $INSTDIR
   
   ;create desktop shortcut
   ;CreateShortCut "$DESKTOP\${MUI_PRODUCT}.lnk" "$INSTDIR\${MUI_FILE}.exe" ""
@@ -75,26 +70,22 @@ Section "WcdmaTools files" WcdmaToolsFilesSection
   ;create start-menu items
   CreateDirectory "$SMPROGRAMS\${MUI_PRODUCT}"
   CreateShortCut "$SMPROGRAMS\${MUI_PRODUCT}\${MUI_PRODUCT}.lnk" "$INSTDIR\${MUI_PRODUCT}\${MUI_FILE}.exe" "" "$INSTDIR\${MUI_PRODUCT}\${MUI_FILE}.exe" 0
-  CreateShortCut "$SMPROGRAMS\${MUI_PRODUCT}\configuration.lnk" "$INSTDIR\configuration\configuration.txt" "" "$INSTDIR\configuration\configuration.txt" 0
   CreateShortCut "$SMPROGRAMS\${MUI_PRODUCT}\Uninstall.lnk" "$INSTDIR\Uninstall.exe" "" "$INSTDIR\Uninstall.exe" 0
  
-  ;write uninstall information to the registry
-  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${MUI_PRODUCT}" "DisplayName" "${MUI_PRODUCT} (remove only)"
+  ;write uninstall information to the registry  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${MUI_PRODUCT}" "DisplayName" "${MUI_PRODUCT} (remove only)"
   WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${MUI_PRODUCT}" "UninstallString" "$INSTDIR\Uninstall.exe"
   
   ;Right click
   WriteRegStr HKCR "Directory\shell\${MUI_PRODUCT}" "" ""
   WriteRegStr HKCR "Directory\shell\${MUI_PRODUCT}\command" "" ""
-  WriteRegStr HKCR "Directory\shell\${MUI_PRODUCT}\command" "" "$\"$INSTDIR\${MUI_PRODUCT}\${MUI_FILE}.exe$\" $\"%1\$\""
+  WriteRegStr HKCR "Directory\shell\${MUI_PRODUCT}\command" "" "$\"$INSTDIR\${MUI_FILE}.exe$\" $\"%1\$\""
   WriteRegStr HKCR "*\shell\${MUI_PRODUCT}" "" ""
   WriteRegStr HKCR "*\shell\${MUI_PRODUCT}\command" "" ""
-  WriteRegStr HKCR "*\shell\${MUI_PRODUCT}\command" "" "$\"$INSTDIR\${MUI_PRODUCT}\${MUI_FILE}.exe$\" $\"%1\$\""
+  WriteRegStr HKCR "*\shell\${MUI_PRODUCT}\command" "" "$\"$INSTDIR\${MUI_FILE}.exe$\" $\"%1\$\""
   
   ;Create uninstaller
   WriteUninstaller "$INSTDIR\Uninstall.exe"
-
 SectionEnd
-
 
 
 ;--------------------------------
@@ -132,18 +123,16 @@ SectionEnd
 ;Descriptions
 
   ;Language strings
-  LangString DESC_WcdmaToolsFilesSection ${LANG_ENGLISH} "WcdmaTools file section."
+  LangString DESC_SOOSAFilesSection ${LANG_ENGLISH} "SOOSA file section."
 
   ;Assign language strings to sections
   !insertmacro MUI_FUNCTION_DESCRIPTION_BEGIN
-    !insertmacro MUI_DESCRIPTION_TEXT ${WcdmaToolsFilesSection} $(DESC_WcdmaToolsFilesSection)
+    !insertmacro MUI_DESCRIPTION_TEXT ${SOOSAFilesSection} $(DESC_SOOSAFilesSection)
   !insertmacro MUI_FUNCTION_DESCRIPTION_END
-
 
 ;--------------------------------    
 ;MessageBox Section
- 
- 
+  
 ;Function that calls a messagebox when installation finished correctly
 Function .onInstSuccess
   MessageBox MB_OK "You have successfully installed ${MUI_PRODUCT}."
