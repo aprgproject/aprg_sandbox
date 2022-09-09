@@ -1,0 +1,45 @@
+
+Initial steps:
+
+1) If SOOSA2014 is previous used, run "removeRegistryOfSoosa2014.reg" to remove old SOOSA2014 registry keys. 
+---> This is to delete any lingering SOOSA2014 registry keys such as software information and right click for SOOSA2014
+---> If there are any prompts from windows, click "yes" to continue.
+
+2) Run "SoosaInstaller.exe" to install SOOSA.
+---> Follow the steps on the installer (including selecting the install folder for SOOSA).
+---> After installation, you can use SOOSA by right clicking any directory or ".bmp" image.
+
+
+Operation steps:
+
+1) Right click any directory or ".bmp" file.
+2) Click the "SOOSA" option
+3) Enter values needed to run SOOSA (area, period, discharge, etc).
+4) Wait for the program to finish
+---> If the selected path is a directory, SOOSA will check all ".bmp" files in the directory.
+5) After the program finishes, there should be output files in the same directory.
+---> Output files:
+---> 1) The "PSS Report HTML file" which is a printable summary of the run.
+---> 2) The "PSS Report CSV file" which contains a summary of the collected information.
+
+
+Supported images:
+
+1) SOOSA recognizes any kind of windows bitmap or ".bmp" files. 
+---> This includes Monochrome / 2-bit bitmap files.
+---> This includes Colored / 24-bit bitmap files.
+
+
+Configuration:
+In the installation directory, these configuration directories/files are available:
+1) The "FormDetails" directory
+---> This contain the details of the template forms recognized by SOOSA.
+---> The template forms follows this format:
+-----> First row is the title.
+-----> Every "NEW COLUMN" row indicates a new column in the form.
+-----> Every other non empty row indicates a question in the form.
+-------> This will be used on the "PSS Report HTML file".
+2) The "SoosaConfiguration.txt" file
+---> This contains the constants used by SOOSA on its operation.
+
+
