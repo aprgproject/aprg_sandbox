@@ -235,10 +235,12 @@ void Line::getPointsForLineWithSlope(Points & points, Point const& first, Point 
     minimumXAndY.saveMinimumXAndY(second);
     maximumXAndY.saveMaximumXAndY(second);
     addPointIfInsideTwoPoints(pointsAtBorder, Point(first.getX(), calculateYFromX(first.getX())), minimumXAndY, maximumXAndY);
-    addPointIfInsideTwoPoints(pointsAtBorder, Point(calculateXFromY(first.getY()), first.getY()), minimumXAndY, maximumXAndY);    addPointIfInsideTwoPoints(pointsAtBorder, Point(second.getX(), calculateYFromX(second.getX())), minimumXAndY, maximumXAndY);
+    addPointIfInsideTwoPoints(pointsAtBorder, Point(calculateXFromY(first.getY()), first.getY()), minimumXAndY, maximumXAndY);
+    addPointIfInsideTwoPoints(pointsAtBorder, Point(second.getX(), calculateYFromX(second.getX())), minimumXAndY, maximumXAndY);
     addPointIfInsideTwoPoints(pointsAtBorder, Point(calculateXFromY(second.getY()), second.getY()), minimumXAndY, maximumXAndY);
     if(pointsAtBorder.size()>=2)
-    {        Point startingPoint(popNearestPoint(pointsAtBorder, first));
+    {
+        Point startingPoint(popNearestPoint(pointsAtBorder, first));
         Point endPoint(popNearestPoint(pointsAtBorder, second));
         bool isDirectionAscendingForX = startingPoint.getX() <= endPoint.getX();
 

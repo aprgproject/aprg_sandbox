@@ -1,4 +1,5 @@
 #include <Common/PathHandler/AlbaLocalPathHandler.hpp>
+#include <Common/String/AlbaStringHelper.hpp>
 #include <SOOSA.hpp>
 #include <UserInterface.hpp>
 
@@ -7,15 +8,19 @@ using namespace alba::soosa;
 using namespace alba::stringHelper;
 using namespace std;
 
+
 int main(int argc, char *argv[])
 {
     cout << "Survey Output Optical Scan Analyzer developed by IRPDS\n" << endl;
     cout << "code version: " << APRG_CODE_REVISION << endl;
 
-    if(argc==2)
+    strings argumentsInMain;
+    fetchArgumentsToStringInMain(argumentsInMain, argc, argv);
+
+    if(argumentsInMain.size()==2)
     {
         AlbaLocalPathHandler detectedPath(PathInitialValueSource::DetectedLocalPath);
-        AlbaLocalPathHandler pathToProcess(getStringWithoutCharAtTheEnd(string(argv[1]), '"'));
+        AlbaLocalPathHandler pathToProcess(getStringWithoutCharAtTheEnd(argumentsInMain.at(1), '"'));
 
         UserInterface ui;
         ui.setPath(pathToProcess.getFullPath());

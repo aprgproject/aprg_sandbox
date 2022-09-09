@@ -1,10 +1,12 @@
 PATIENT SATISFACTION SURVEY (For Charity and Pay Wards)
 NEW_COLUMN
 01. Patient Admission - promptness of service
-02. Patient Admission - courtesy of admitting clerks03. Patient Admission - ward policies are well-explained
+02. Patient Admission - courtesy of admitting clerks
+03. Patient Admission - ward policies are well-explained
 04. Hospital Environment - cleanliness of surroundings
 05. Hospital Environment - cleanliness of toilet/bathroom
-06. Hospital Environment - ventilation/air-conditioning07. Hospital Environment - lighting
+06. Hospital Environment - ventilation/air-conditioning
+07. Hospital Environment - lighting
 08. Hospital Environment - furniture and fixtures  are in good condition 
 09. Hospital Environment - appliances  are working properly 
 10. Nursing Care - promptness of service

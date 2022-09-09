@@ -20,23 +20,23 @@ SoosaConfiguration getSoosaConfiguration()
 
     // Line model parameters
     soosaConfiguration.bufferNameAndValueString("m_acceptableLineDeviationForLineModelInPixels", "2");
-    soosaConfiguration.bufferNameAndValueString("m_retainRatioForSquareErrorsInLineModel", "0.95");
+    soosaConfiguration.bufferNameAndValueString("m_removalRatioForSquareErrorsInLineModel", "0.05");
     soosaConfiguration.bufferNameAndValueString("m_minimumLineSamples", "10");
 
     // Line and bar parameters
-    soosaConfiguration.bufferNameAndValueString("m_maximumLineAndBarWidth", "500");
+    soosaConfiguration.bufferNameAndValueString("m_bitmapWidthToBarWidthMultiplier", "0.05");
     soosaConfiguration.bufferNameAndValueString("m_acceptableDistanceOverWidthRatioFromWidthMidpoint", "0.10");
     soosaConfiguration.bufferNameAndValueString("m_acceptableMinimumDistanceFromWidthMidpoint", "2");
     soosaConfiguration.bufferNameAndValueString("m_acceptableSdOverMeanDeviationForLine", "0.50");
     soosaConfiguration.bufferNameAndValueString("m_acceptableSdOverMeanDeviationForBar", "0.10");
-    soosaConfiguration.bufferNameAndValueString("m_retainRatioForLineAndBar", "0.95");
+    soosaConfiguration.bufferNameAndValueString("m_removalRatioForLineAndBar", "0.05");
     soosaConfiguration.bufferNameAndValueString("m_acceptableSdOverMeanDeviationForBarHeight", "0.10");
-    soosaConfiguration.bufferNameAndValueString("m_retainRatioForBarHeight", "0.95");
+    soosaConfiguration.bufferNameAndValueString("m_removalRatioForBarHeight", "0.05");
 
     // Choices related parameters
     soosaConfiguration.bufferNameAndValueString("m_numberOfChoices", "5");
     soosaConfiguration.bufferNameAndValueString("m_colorIntensityForWhite", "170");
-    soosaConfiguration.bufferNameAndValueString("m_ratioOfBarHeightToDiameter", "0.50");
+    soosaConfiguration.bufferNameAndValueString("m_barHeightToDiameterMultiplier", "0.50");
     soosaConfiguration.bufferNameAndValueString("m_minimumPercentageOfBlackPixelsForAFilledCircle", "0.70");
 
     soosaConfiguration.update();
@@ -140,6 +140,34 @@ void checkAnswersForEmptyForm(SOOSA const& soosa)
     EXPECT_EQ(0U, soosa.getNumberOfAnswers());
 }
 
+}
+
+TEST(SoosaTest, EmptyWorks)
+{
+    AlbaLocalPathHandler inputFile(APRG_DIR R"(\SOOSA\FilesForTests\Empty.bmp)");
+    AlbaLocalPathHandler tempFileToTest(APRG_DIR R"(\SOOSA\FilesForTests\Temp.bmp)");
+    inputFile.copyToNewFile(tempFileToTest.getFullPath());
+    SoosaConfiguration soosaConfiguration(getSoosaConfiguration());
+    InputConfiguration inputConfiguration(getInputConfigurationForCharityPayWards(tempFileToTest.getFullPath()));
+    SOOSA soosa(soosaConfiguration, inputConfiguration);
+
+    soosa.process();
+
+    checkAnswersForEmptyForm(soosa);
+}
+
+TEST(SoosaTest, JustABoxWorks)
+{
+    AlbaLocalPathHandler inputFile(APRG_DIR R"(\SOOSA\FilesForTests\JustABox.bmp)");
+    AlbaLocalPathHandler tempFileToTest(APRG_DIR R"(\SOOSA\FilesForTests\Temp.bmp)");
+    inputFile.copyToNewFile(tempFileToTest.getFullPath());
+    SoosaConfiguration soosaConfiguration(getSoosaConfiguration());
+    InputConfiguration inputConfiguration(getInputConfigurationForCharityPayWards(tempFileToTest.getFullPath()));
+    SOOSA soosa(soosaConfiguration, inputConfiguration);
+
+    soosa.process();
+
+    checkAnswersForEmptyForm(soosa);
 }
 
 TEST(SoosaTest, NoAnswersWorks)

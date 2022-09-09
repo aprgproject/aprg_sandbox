@@ -20,9 +20,9 @@ unsigned int SoosaConfiguration::getAcceptableLineDeviationForLineModelInPixels(
     return m_acceptableLineDeviationForLineModelInPixels;
 }
 
-double SoosaConfiguration::getRetainRatioForSquareErrorsInLineModel() const
+double SoosaConfiguration::getRemovalRatioForSquareErrorsInLineModel() const
 {
-    return m_retainRatioForSquareErrorsInLineModel;
+    return m_removalRatioForSquareErrorsInLineModel;
 }
 
 unsigned int SoosaConfiguration::getMinimumLineSamples() const
@@ -30,9 +30,9 @@ unsigned int SoosaConfiguration::getMinimumLineSamples() const
     return m_minimumLineSamples;
 }
 
-unsigned int SoosaConfiguration::getMaximumLineAndBarWidth() const
+double SoosaConfiguration::getBitmapWidthToBarWidthMultiplier() const
 {
-    return m_maximumLineAndBarWidth;
+    return m_bitmapWidthToBarWidthMultiplier;
 }
 
 double SoosaConfiguration::getAcceptableDistanceOverWidthRatioFromWidthMidpoint() const
@@ -55,9 +55,9 @@ double SoosaConfiguration::getAcceptableSdOverMeanDeviationForBar() const
     return m_acceptableSdOverMeanDeviationForBar;
 }
 
-double SoosaConfiguration::getRetainRatioForLineAndBar() const
+double SoosaConfiguration::getRemovalRatioForLineAndBar() const
 {
-    return m_retainRatioForLineAndBar;
+    return m_removalRatioForLineAndBar;
 }
 
 double SoosaConfiguration::getAcceptableSdOverMeanDeviationForBarHeight() const
@@ -65,9 +65,9 @@ double SoosaConfiguration::getAcceptableSdOverMeanDeviationForBarHeight() const
     return m_acceptableSdOverMeanDeviationForBarHeight;
 }
 
-double SoosaConfiguration::getRetainRatioForBarHeight() const
+double SoosaConfiguration::getRemovalRatioForBarHeight() const
 {
-    return m_retainRatioForBarHeight;
+    return m_removalRatioForBarHeight;
 }
 
 unsigned int SoosaConfiguration::getNumberOfChoices() const
@@ -80,9 +80,9 @@ unsigned int SoosaConfiguration::getColorIntensityForWhite() const
     return m_colorIntensityForWhite;
 }
 
-double SoosaConfiguration::getRatioOfBarHeightToDiameter() const
+double SoosaConfiguration::getBarHeightToDiameterMultiplier() const
 {
-    return m_ratioOfBarHeightToDiameter;
+    return m_barHeightToDiameterMultiplier;
 }
 
 double SoosaConfiguration::getMinimumPercentageOfBlackPixelsForAFilledCircle() const
@@ -115,23 +115,23 @@ void SoosaConfiguration::update()
 
     // Line model parameters
     UPDATE_PARAMETER(m_acceptableLineDeviationForLineModelInPixels, unsigned int);
-    UPDATE_PARAMETER(m_retainRatioForSquareErrorsInLineModel, double);
+    UPDATE_PARAMETER(m_removalRatioForSquareErrorsInLineModel, double);
     UPDATE_PARAMETER(m_minimumLineSamples, unsigned int);
 
     // Line and bar parameters
-    UPDATE_PARAMETER(m_maximumLineAndBarWidth, unsigned int);
+    UPDATE_PARAMETER(m_bitmapWidthToBarWidthMultiplier, double);
     UPDATE_PARAMETER(m_acceptableDistanceOverWidthRatioFromWidthMidpoint, double);
     UPDATE_PARAMETER(m_acceptableMinimumDistanceFromWidthMidpoint, unsigned int);
     UPDATE_PARAMETER(m_acceptableSdOverMeanDeviationForLine, double);
     UPDATE_PARAMETER(m_acceptableSdOverMeanDeviationForBar, double);
-    UPDATE_PARAMETER(m_retainRatioForLineAndBar, double);
+    UPDATE_PARAMETER(m_removalRatioForLineAndBar, double);
     UPDATE_PARAMETER(m_acceptableSdOverMeanDeviationForBarHeight, double);
-    UPDATE_PARAMETER(m_retainRatioForBarHeight, double);
+    UPDATE_PARAMETER(m_removalRatioForBarHeight, double);
 
     // Choices related parameters
     UPDATE_PARAMETER(m_numberOfChoices, unsigned int);
     UPDATE_PARAMETER(m_colorIntensityForWhite, unsigned int);
-    UPDATE_PARAMETER(m_ratioOfBarHeightToDiameter, double);
+    UPDATE_PARAMETER(m_barHeightToDiameterMultiplier, double);
     UPDATE_PARAMETER(m_minimumPercentageOfBlackPixelsForAFilledCircle, double);
 
 #undef UPDATE_PARAMETER
