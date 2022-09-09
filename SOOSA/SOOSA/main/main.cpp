@@ -11,7 +11,7 @@ using namespace std;
 
 int main(int argc, char *argv[])
 {
-    cout << "Survey Output Optical Scan Analyzer developed by IRPDS\n" << endl;
+    cout << "Survey Output Optical Scan Analyzer developed by the IRPDS" << endl << endl;
     cout << "code version: " << APRG_CODE_REVISION << endl;
 
     strings argumentsInMain;

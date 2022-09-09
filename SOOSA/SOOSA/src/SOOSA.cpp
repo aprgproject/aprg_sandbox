@@ -222,10 +222,12 @@ void SOOSA::processFile(string const& filePath)
     //writeLineInDebug(bottomLine, 0x0000EE);
     cout << endl;
 
-    if(emptyLine != leftLine && emptyLine != rightLine && emptyLine != topLine && emptyLine != bottomLine)    {
+    if(emptyLine != leftLine && emptyLine != rightLine && emptyLine != topLine && emptyLine != bottomLine)
+    {
         if(m_inputConfiguration.getNumberOfColumns()==2)
         {
-            processTwoColumns(globalSnippet, leftLine, rightLine, topLine, bottomLine);        }
+            processTwoColumns(globalSnippet, leftLine, rightLine, topLine, bottomLine);
+        }
         else
         {
             processOneColumn(globalSnippet, leftLine, rightLine, topLine, bottomLine);
@@ -413,10 +415,12 @@ Line SOOSA::getLineModel(TwoDimensionSamples const & samples) const
             continueRemoval = sizeBefore > samplesForLineModeling.size();
         }
     }
-    if(samplesForLineModeling.size() < m_soosaConfiguration.getMinimumLineSamples())    {
+    if(samplesForLineModeling.size() < m_soosaConfiguration.getMinimumLineSamples())
+    {
         stringstream ss;
         ss << "Line not found because not enough samples. Samples found for line modeling: " <<samplesForLineModeling.size()
-           << " Minimum number of samples: " << m_soosaConfiguration.getMinimumLineSamples() << ".";        Status::getInstance().setError(ss.str());
+           << " Minimum number of samples: " << m_soosaConfiguration.getMinimumLineSamples() << ".";
+        Status::getInstance().setError(ss.str());
         cout << "getLineModel -> Not enough samples: " << samplesForLineModeling.size() << endl;
     }
     else
@@ -496,9 +500,11 @@ void SOOSA::processTwoColumns(
 
     cout << endl << "Processing column 1:" << endl;
     processColumn(globalSnippet, leftLine, centerLeftLine, topLine, bottomLine, 1);
+
     cout << endl << "Processing column 2:" << endl;
     processColumn(globalSnippet, centerRightLine, rightLine, topLine, bottomLine, 2);
 }
+
 void SOOSA::processOneColumn(
         BitmapSnippet const& globalSnippet,
         Line const& leftLine,
@@ -643,13 +649,15 @@ SOOSA::QuestionBarCoordinates SOOSA::getQuestionBarCoordinatesFromLine(
         saveQuestionBarCoordinatesFromKMeansWithBarPoints(questionBarCoordinates, kMeansForBarPoints, numberQuestionsInColumn);
     }
     cout << "getQuestionBarCoordinatesFromLine -> Number of question bar coordinates: " << questionBarCoordinates.size() << endl;
-    return questionBarCoordinates;}
+    return questionBarCoordinates;
+}
 
 void SOOSA::retrieveBarPointsThatFitAndSaveToKMeans(
         TwoDimensionKMeans & kMeansForBarPoints,
         PointAndWidthPairs const& pointAndWidthPairs,
         RangeOfDoubles const& minMaxCriteriaForBar) const
-{    for(PointAndWidthPair const& pointAndWidthPair : pointAndWidthPairs)
+{
+    for(PointAndWidthPair const& pointAndWidthPair : pointAndWidthPairs)
     {
         if(minMaxCriteriaForBar.isValueInsideInclusive(pointAndWidthPair.second))
         {
@@ -657,6 +665,7 @@ void SOOSA::retrieveBarPointsThatFitAndSaveToKMeans(
         }
     }
 }
+
 void SOOSA::saveQuestionBarCoordinatesFromKMeansWithBarPoints(
         QuestionBarCoordinates & questionBarCoordinates,
         TwoDimensionKMeans const& kMeansForBarPoints,
@@ -675,10 +684,12 @@ void SOOSA::saveQuestionBarCoordinatesFromKMeansWithBarPoints(
             //writePointInDebug(convertToBitmapXY(barPoints.back()), 0xEE0000);
             questionBarCoordinates.emplace_back(QuestionBarCoordinate(convertToPoint(barPoints.front()), convertToPoint(barPoints.back())));
         }
-    }}
+    }
+}
 
 SOOSA::RangeOfDoubles SOOSA::getMinMaxCriteriaForBar(
-        PointAndWidthPairs const& pointAndWidthPairs) const{
+        PointAndWidthPairs const& pointAndWidthPairs) const
+{
     RangeOfDoubles result;
     OneDimensionKMeans kMeansForWidths(getKMeansForWidths(pointAndWidthPairs));
     bool continueRemoval(true);
@@ -701,10 +712,12 @@ SOOSA::RangeOfDoubles SOOSA::getMinMaxCriteriaForBar(
             continueRemoval = sizeBefore > kMeansForWidths.getSamples().size();
         }
         else
-        {            result = getMinMaxCriteriaForBar(firstGroupStatistics, secondGroupStatistics);
+        {
+            result = getMinMaxCriteriaForBar(firstGroupStatistics, secondGroupStatistics);
         }
     }
-    return result;}
+    return result;
+}
 
 SOOSA::RangeOfDoubles SOOSA::getMinMaxCriteriaForBar(
         OneDimensionStatistics & firstGroupStatistics,
@@ -863,10 +876,12 @@ void SOOSA::removeIncorrectBarPointsBasedFromHeight(
         GroupOfTwoDimensionSamples listOfGroupOfBarPoints(kMeansForBarPoints.getGroupOfSamplesUsingKMeans(numberQuestionsInColumn));
         OneDimensionSamples barHeights(getBarHeights(listOfGroupOfBarPoints));
         OneDimensionStatistics barHeightsStatistics(barHeights);
-        double mean = barHeightsStatistics.getMean().getValueAt(0);        double sd = barHeightsStatistics.getSampleStandardDeviation().getValueAt(0);
+        double mean = barHeightsStatistics.getMean().getValueAt(0);
+        double sd = barHeightsStatistics.getSampleStandardDeviation().getValueAt(0);
         double sdOverMean = sd/mean;
         continueRemoval = sdOverMean > m_soosaConfiguration.getAcceptableSdOverMeanDeviationForBarHeight();
-        if(continueRemoval)        {
+        if(continueRemoval)
+        {
             bool isFound(false);
             double largestDeviation(0);
             unsigned int indexToRemove(0);
@@ -892,16 +907,19 @@ void SOOSA::removeIncorrectBarPointsBasedFromHeight(
                 continueRemoval = sizeBefore > kMeansForBarPoints.getSamples().size();
             }
         }
-    }}
+    }
+}
 
 void SOOSA::addAndRetainBarPointsIfPossible(
         TwoDimensionKMeans & kMeansForBarPoints,
         GroupOfTwoDimensionSamples const& listOfGroupOfBarPoints,
         unsigned int const indexToRemove) const
-{    for(unsigned int groupIndex=0; groupIndex<listOfGroupOfBarPoints.size(); groupIndex++)
+{
+    for(unsigned int groupIndex=0; groupIndex<listOfGroupOfBarPoints.size(); groupIndex++)
     {
         TwoDimensionSamples const& barPointsSamples(listOfGroupOfBarPoints.at(groupIndex));
-        if(groupIndex == indexToRemove)        {
+        if(groupIndex == indexToRemove)
+        {
             TwoDimensionStatistics barPointsStatistics(barPointsSamples);
             Point center = convertToPoint(barPointsStatistics.getMean());
 
@@ -938,9 +956,11 @@ void SOOSA::addAndRetainBarPointsIfPossible(
         }
     }
 }
+
 SOOSA::OneDimensionSamples SOOSA::getBarHeights(
         GroupOfTwoDimensionSamples const& groupOfBarPoints) const
-{    OneDimensionSamples barHeights;
+{
+    OneDimensionSamples barHeights;
     for(TwoDimensionSamples const& barPoints : groupOfBarPoints)
     {
         if(!barPoints.empty())

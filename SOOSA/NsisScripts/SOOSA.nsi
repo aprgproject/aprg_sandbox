@@ -14,6 +14,7 @@
   !define MUI_BRANDINGTEXT "SOOSA Version 1.0"
 
   !define MUI_ICON "Images\APRG.ico"
+
   CRCCheck On
   
 ;--------------------------------
@@ -24,9 +25,11 @@
   OutFile "SoosaInstaller.exe"
 
   ;Default installation folder
-  InstallDir "$PROGRAMFILES\${MUI_PRODUCT}"  
+  InstallDir "$PROGRAMFILES\${MUI_PRODUCT}"
+  
   ;Get installation folder from registry if available
   InstallDirRegKey HKCU "Software\${MUI_PRODUCT}" ""
+
   ;Request application privileges for Windows Vista
   RequestExecutionLevel admin
 
@@ -59,10 +62,12 @@
 Section "SOOSA files" SOOSAFilesSection
 
   SetOutPath "$INSTDIR"
-    ;ADD YOUR OWN FILES HERE...
+  
+  ;ADD YOUR OWN FILES HERE...
   File /r "${MUI_PRODUCT}\*"
   
-  ;Store installation folder  WriteRegStr HKCU "Software\${MUI_PRODUCT}" "" $INSTDIR
+  ;Store installation folder
+  WriteRegStr HKCU "Software\${MUI_PRODUCT}" "" $INSTDIR
   
   ;create desktop shortcut
   ;CreateShortCut "$DESKTOP\${MUI_PRODUCT}.lnk" "$INSTDIR\${MUI_FILE}.exe" ""
@@ -72,7 +77,8 @@ Section "SOOSA files" SOOSAFilesSection
   CreateShortCut "$SMPROGRAMS\${MUI_PRODUCT}\${MUI_PRODUCT}.lnk" "$INSTDIR\${MUI_PRODUCT}\${MUI_FILE}.exe" "" "$INSTDIR\${MUI_PRODUCT}\${MUI_FILE}.exe" 0
   CreateShortCut "$SMPROGRAMS\${MUI_PRODUCT}\Uninstall.lnk" "$INSTDIR\Uninstall.exe" "" "$INSTDIR\Uninstall.exe" 0
  
-  ;write uninstall information to the registry  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${MUI_PRODUCT}" "DisplayName" "${MUI_PRODUCT} (remove only)"
+  ;write uninstall information to the registry
+  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${MUI_PRODUCT}" "DisplayName" "${MUI_PRODUCT} (remove only)"
   WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${MUI_PRODUCT}" "UninstallString" "$INSTDIR\Uninstall.exe"
   
   ;Right click
@@ -85,7 +91,9 @@ Section "SOOSA files" SOOSAFilesSection
   
   ;Create uninstaller
   WriteUninstaller "$INSTDIR\Uninstall.exe"
+
 SectionEnd
+
 
 
 ;--------------------------------
@@ -130,9 +138,11 @@ SectionEnd
     !insertmacro MUI_DESCRIPTION_TEXT ${SOOSAFilesSection} $(DESC_SOOSAFilesSection)
   !insertmacro MUI_FUNCTION_DESCRIPTION_END
 
+
 ;--------------------------------    
 ;MessageBox Section
-  
+ 
+ 
 ;Function that calls a messagebox when installation finished correctly
 Function .onInstSuccess
   MessageBox MB_OK "You have successfully installed ${MUI_PRODUCT}."

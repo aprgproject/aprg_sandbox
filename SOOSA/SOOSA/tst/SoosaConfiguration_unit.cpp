@@ -54,9 +54,11 @@ TEST(SoosaConfigurationTest, LoadConfigurationFromFileWorks)
     EXPECT_DOUBLE_EQ(0.02, soosaConfiguration.getRemovalRatioForBarHeight());
 
     EXPECT_EQ(5U, soosaConfiguration.getNumberOfChoices());
-    EXPECT_EQ(170U, soosaConfiguration.getColorIntensityForWhite());    EXPECT_DOUBLE_EQ(0.50, soosaConfiguration.getBarHeightToDiameterMultiplier());
+    EXPECT_EQ(170U, soosaConfiguration.getColorIntensityForWhite());
+    EXPECT_DOUBLE_EQ(0.50, soosaConfiguration.getBarHeightToDiameterMultiplier());
     EXPECT_DOUBLE_EQ(0.70, soosaConfiguration.getMinimumPercentageOfBlackPixelsForAFilledCircle());
 }
+
 }
 
 }
