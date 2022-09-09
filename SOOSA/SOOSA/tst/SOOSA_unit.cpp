@@ -31,14 +31,12 @@ SoosaConfiguration getSoosaConfiguration()
     soosaConfiguration.bufferNameAndValueString("m_acceptableSdOverMeanDeviationForBar", "0.10");
     soosaConfiguration.bufferNameAndValueString("m_removalRatioForLineAndBar", "0.05");
     soosaConfiguration.bufferNameAndValueString("m_acceptableSdOverMeanDeviationForBarHeight", "0.10");
-    soosaConfiguration.bufferNameAndValueString("m_removalRatioForBarHeight", "0.05");
+    soosaConfiguration.bufferNameAndValueString("m_removalRatioForBarHeight", "0.02");
 
     // Choices related parameters
-    soosaConfiguration.bufferNameAndValueString("m_numberOfChoices", "5");
-    soosaConfiguration.bufferNameAndValueString("m_colorIntensityForWhite", "170");
+    soosaConfiguration.bufferNameAndValueString("m_numberOfChoices", "5");    soosaConfiguration.bufferNameAndValueString("m_colorIntensityForWhite", "170");
     soosaConfiguration.bufferNameAndValueString("m_barHeightToDiameterMultiplier", "0.50");
     soosaConfiguration.bufferNameAndValueString("m_minimumPercentageOfBlackPixelsForAFilledCircle", "0.70");
-
     soosaConfiguration.update();
     return soosaConfiguration;
 }
@@ -338,10 +336,36 @@ TEST(SoosaTest, ScannedExampleWorks)
     checkAnswersForCharityPayWards(soosa);
 }
 
+TEST(SoosaTest, DISABLED_LotsOfDirtAndCannotBeProcessedWorks)
+{
+    AlbaLocalPathHandler inputFile(APRG_DIR R"(\SOOSA\FilesForTests\LotsOfDirtAndCannotBeProcessed.bmp)");
+    AlbaLocalPathHandler tempFileToTest(APRG_DIR R"(\SOOSA\FilesForTests\Temp.bmp)");
+    inputFile.copyToNewFile(tempFileToTest.getFullPath());
+    SoosaConfiguration soosaConfiguration(getSoosaConfiguration());
+    InputConfiguration inputConfiguration(getInputConfigurationForCharityPayWards(tempFileToTest.getFullPath()));
+    SOOSA soosa(soosaConfiguration, inputConfiguration);
+
+    soosa.process();
+
+    checkAnswersForEmptyForm(soosa);
+}
+
+TEST(SoosaTest, DISABLED_RandomWorks)
+{
+    AlbaLocalPathHandler inputFile(APRG_DIR R"(\SOOSA\FilesForTests\Witcher.bmp)");
+    AlbaLocalPathHandler tempFileToTest(APRG_DIR R"(\SOOSA\FilesForTests\Temp.bmp)");
+    inputFile.copyToNewFile(tempFileToTest.getFullPath());
+    SoosaConfiguration soosaConfiguration(getSoosaConfiguration());    InputConfiguration inputConfiguration(getInputConfigurationForCharityPayWards(tempFileToTest.getFullPath()));
+    SOOSA soosa(soosaConfiguration, inputConfiguration);
+
+    soosa.process();
+
+    checkAnswersForEmptyForm(soosa);
+}
+
 TEST(SoosaTest, DISABLED_DistortedWorks)
 {
-    AlbaLocalPathHandler inputFile(APRG_DIR R"(\SOOSA\FilesForTests\Distorted.bmp)");
-    AlbaLocalPathHandler tempFileToTest(APRG_DIR R"(\SOOSA\FilesForTests\Temp.bmp)");
+    AlbaLocalPathHandler inputFile(APRG_DIR R"(\SOOSA\FilesForTests\Distorted.bmp)");    AlbaLocalPathHandler tempFileToTest(APRG_DIR R"(\SOOSA\FilesForTests\Temp.bmp)");
     inputFile.copyToNewFile(tempFileToTest.getFullPath());
     SoosaConfiguration soosaConfiguration(getSoosaConfiguration());
     InputConfiguration inputConfiguration(getInputConfigurationForCharityPayWards(tempFileToTest.getFullPath()));
@@ -351,7 +375,6 @@ TEST(SoosaTest, DISABLED_DistortedWorks)
 
     checkAnswersForCharityPayWards(soosa);
 }
-
 }
 
 }
