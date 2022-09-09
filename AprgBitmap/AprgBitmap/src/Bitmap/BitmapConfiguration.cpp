@@ -252,18 +252,18 @@ void BitmapConfiguration::readBitmap(string const& path)
     if(inputStream.is_open())
     {
         AlbaFileReader fileReader(inputStream);
-
         readBitmapFileHeader(fileReader);
-        readDibHeader(fileReader);
-        readColors(fileReader);
-        calculateOtherValuesAfterReading();
+        if(isSignatureValid()) // dont check further if its invalid
+        {
+            readDibHeader(fileReader);
+            readColors(fileReader);
+            calculateOtherValuesAfterReading();
+        }
     }
 }
-
 void BitmapConfiguration::readBitmapFileHeader(AlbaFileReader& fileReader)
 {
-    fileReader.moveLocation(0);
-    m_signature += fileReader.getCharacter();
+    fileReader.moveLocation(0);    m_signature += fileReader.getCharacter();
     m_signature += fileReader.getCharacter();
 
     fileReader.moveLocation(2);
@@ -314,15 +314,13 @@ void BitmapConfiguration::readDibHeader(AlbaFileReader& fileReader) // only supp
 void BitmapConfiguration::readColors(AlbaFileReader& fileReader)
 {
     fileReader.moveLocation(54);
-    while(fileReader.getCurrentLocation()<m_pixelArrayAddress)
+    while(fileReader.getCurrentLocation() > 0 && fileReader.getCurrentLocation() < m_pixelArrayAddress)
     {
         m_colors.push_back(fileReader.getFourByteSwappedData<uint32_t>());
-    }
-}
+    }}
 
 void BitmapConfiguration::calculateOtherValuesAfterReading()
-{
-    m_numberOfBytesForDataInRow = convertPixelsToBytesRoundedToCeil(m_bitmapWidth);
+{    m_numberOfBytesForDataInRow = convertPixelsToBytesRoundedToCeil(m_bitmapWidth);
     m_paddingForRowMemoryAlignment = (4 - (m_numberOfBytesForDataInRow%4))%4;
     m_numberOfBytesPerRowInFile = m_numberOfBytesForDataInRow + m_paddingForRowMemoryAlignment;
     m_bitMaskForValue = AlbaBitValueUtilities<uint32_t>::generateOnesWithNumberOfBits(m_numberOfBitsPerPixel);
