@@ -1,12 +1,10 @@
 #pragma once
 
-#include <Algorithm/LargeSorter/AlbaLargeSorterConfiguration.hpp>
+#include <Algorithm/Sort/LargeSorter/AlbaLargeSorterConfiguration.hpp>
 
 #include <string>
-
 namespace wcdmaToolsBackend
 {
-
 struct BtsLogSorterConfiguration
 {
     bool m_isFilterGrepOn;
