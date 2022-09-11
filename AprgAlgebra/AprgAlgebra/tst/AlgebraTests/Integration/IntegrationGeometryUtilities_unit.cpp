@@ -64,20 +64,20 @@ TEST(IntegrationGeometryUtilitiesTest, GetVolumeAndSurfaceAreaBasedOnSolidOfRevo
     Term edgeOfHornInX(Monomial(1, {{"x", -1}}));
 
     Term actualVolume(getVolumeUsingOnSolidOfRevolution(edgeOfHornInX, {"x", 1, getPositiveInfinityAsATerm()}));
-    //Term actualSurfaceArea(getSurfaceAreaUsingOnSolidOfRevolution(edgeOfHornInX, {"x", 1, getPositiveInfinityAsATerm()})); // cannot be integrated
+    //Term actualSurfaceArea(getSurfaceAreaUsingOnSolidOfRevolution(edgeOfHornInX, {"x", 1, getPositiveInfinityAsATerm()}));
+    // The surface area is hard to integrate: (((1[x^4] + 1)^(1/2))/1[x^3])
+    // This can be solved via integration by parts u = (1+x4)^(1/2), v' = 1/(x^3), check symbolab.com
 
     Term expectedVolume(getPiAsATerm());
     //Term expectedSurfaceArea(getPositiveInfinityAsATerm());
     EXPECT_EQ(expectedVolume, actualVolume);
-    // EXPECT_EQ(expectedSurfaceArea, actualSurfaceArea);
+    //EXPECT_EQ(expectedSurfaceArea, actualSurfaceArea);
 }
 
-TEST(IntegrationGeometryUtilitiesTest, GetVolumeBasedOnSolidOfRevolutionWorksOnUpsideDownConeWithUpsideDownConeHole)
-{
+TEST(IntegrationGeometryUtilitiesTest, GetVolumeBasedOnSolidOfRevolutionWorksOnUpsideDownConeWithUpsideDownConeHole){
     Term edgeOfTheCone1InY(Monomial(1, {{"radius", 1}, {"height", -1}, {"y", 1}}));
     Term edgeOfTheCone2InY(Polynomial
     {Monomial(1, {{"radius", 1}, {"height", -1}, {"y", 1}}), Monomial(1, {{"edgeDistance", 1}})});
-
     Term termToVerify(getVolumeUsingOnSolidOfRevolution(edgeOfTheCone1InY, edgeOfTheCone2InY, {"y", 0, "height"}));
 
     Term termToExpect(Monomial(getPi(), {{"edgeDistance", 2}, {"height", 1}}));
