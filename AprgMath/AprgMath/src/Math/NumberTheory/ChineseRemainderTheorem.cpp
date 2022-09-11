@@ -1,17 +1,15 @@
 #include "ChineseRemainderTheorem.hpp"
 
-#include <Common/Math/AlbaMathHelper.hpp>
 #include <Math/NumberTheory/ModularArithmetic.hpp>
 
-using namespace alba::mathHelper;
+#include <algorithm>
+
 using namespace std;
 
-namespace alba
-{
+namespace alba{
 
 namespace math
 {
-
 ChineseRemainderTheorem::ChineseRemainderTheorem(
         UnsignedIntegers const& numbers,
         UnsignedIntegers const& modulos)

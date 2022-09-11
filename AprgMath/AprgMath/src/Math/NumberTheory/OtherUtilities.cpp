@@ -1,15 +1,13 @@
 #include "OtherUtilities.hpp"
 
 #include <Algorithm/Search/SumSearch/FourSum.hpp>
-#include <Common/Math/AlbaMathHelper.hpp>
+#include <Common/Math/Helpers/PrecisionHelpers.hpp>
 
 using namespace alba::algorithm;
-using namespace alba::mathHelper;
-using namespace std;
+using namespace alba::mathHelper;using namespace std;
 
 namespace alba
 {
-
 namespace math
 {
 
@@ -53,14 +51,12 @@ bool isLagrangeTheoremTrue(UnsignedInteger const number)
     // Lagrange’s theorem states that every positive integer can be represented as a sum of four squares, i.e., a^2 + b^2 + c^2 + d^2.
     // For example, the number 123 can be represented as the sum 8^2 + 5^2 + 5^2 + 3^2.
 
-    UnsignedInteger maxElement(pow(number, 0.5)); // max element is square root
+    UnsignedInteger maxElement = static_cast<UnsignedInteger>(pow(number, 0.5)); // max element is square root
     UnsignedIntegers squaredElements;
     squaredElements.reserve(maxElement-1);
-    for(UnsignedInteger i=1; i<maxElement; i++)
-    {
+    for(UnsignedInteger i=1; i<maxElement; i++)    {
         squaredElements.emplace_back(i*i);
     }
-
     FourSum<UnsignedIntegers> fourSum(squaredElements);
     auto fourValues = fourSum.getPossibleDuplicatedFourValuesWithSum(number);
     UnsignedInteger sumOfSquares = get<0>(fourValues) + get<1>(fourValues) + get<2>(fourValues) + get<3>(fourValues);

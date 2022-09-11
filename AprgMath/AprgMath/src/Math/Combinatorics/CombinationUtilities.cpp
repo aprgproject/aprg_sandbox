@@ -1,11 +1,10 @@
-#include "OtherUtilities.hpp"
+#include "CombinationUtilities.hpp"
 
 #include <Common/Bit/AlbaBitValueUtilities.hpp>
-#include <Common/Math/AlbaMathHelper.hpp>
+#include <Common/Math/Helpers/CombinatoricsHelpers.hpp>
 
 using namespace alba::mathHelper;
 using namespace std;
-
 namespace alba
 {
 

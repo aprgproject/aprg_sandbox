@@ -1,13 +1,11 @@
-#include "OtherUtilities.hpp"
+#include "CatalanNumbers.hpp"
 
-#include <Common/Math/AlbaMathHelper.hpp>
+#include <Common/Math/Helpers/CombinatoricsHelpers.hpp>
 
 using namespace alba::mathHelper;
 using namespace std;
-
 namespace alba
 {
-
 namespace math
 {
 
@@ -56,15 +54,13 @@ UnsignedInteger getCatalanNumber(UnsignedInteger const n)
 
     // Formula 2 is the one implemented below:
 
-    return getNumberOfCombinations(2*n, n)/(n+1);
+    return getNumberOfCombinations<UnsignedInteger>(2*n, n)/(n+1);
 }
 
-UnsignedInteger getNumberOfBinaryTrees(UnsignedInteger const numberOfNodes)
-{
+UnsignedInteger getNumberOfBinaryTrees(UnsignedInteger const numberOfNodes){
     // Catalan numbers are also related to trees:
     // • there are Cn binary trees of n nodes
-    return getCatalanNumber(numberOfNodes);
-}
+    return getCatalanNumber(numberOfNodes);}
 
 UnsignedInteger getNumberOfRootedTrees(UnsignedInteger const numberOfNodes)
 {
