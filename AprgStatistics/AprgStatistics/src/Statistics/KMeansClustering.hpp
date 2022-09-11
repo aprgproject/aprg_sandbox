@@ -9,50 +9,50 @@
 namespace alba
 {
 
-template <unsigned int dimensions>
+template <unsigned int DIMENSIONS>
 class KMeansClustering
 {
 public:
-    using Statistics = DataStatistics<dimensions>;
-    using StatisticsUtilities = DataStatisticsUtilities<dimensions>;
-    using Sample = DataSample<dimensions>;
+    using Statistics = DataStatistics<DIMENSIONS>;
+    using StatisticsUtilities = DataStatisticsUtilities<DIMENSIONS>;
+    using Sample = DataSample<DIMENSIONS>;
     using Samples = std::vector<Sample>;
     using GroupOfSamples = std::vector<Samples>;
-    using SamplesGroupPair = std::pair<Sample, unsigned int>;
-    using SamplesGroupPairs = std::vector<std::pair<Sample, unsigned int>>;
+    using SamplesGroupPair = std::pair<Sample, unsigned int>;    using SamplesGroupPairs = std::vector<std::pair<Sample, unsigned int>>;
 
     KMeansClustering()
     {}
-
     void clear()
     {
         m_samples.clear();
     }
 
-    void addSample(Sample sample)
+    void addSample(Sample const& sample)
     {
         m_samples.emplace_back(sample);
     }
 
-    void addSamples(Samples samples)
+    void addSamples(Samples const& samples)
     {
         m_samples.reserve(m_samples.size() + samples.size());
-        std::copy(samples.cbegin(), samples.cend(), std::back_inserter(m_samples));
-    }
+        std::copy(samples.cbegin(), samples.cend(), std::back_inserter(m_samples));    }
 
     Samples getSamples() const
     {
         return m_samples;
     }
 
+    Samples & getSamplesReference()
+    {
+        return m_samples;
+    }
+
     GroupOfSamples getGroupOfSamplesUsingKMeans(unsigned int const numberOfGroups) const
     {
-        SamplesGroupPairs samplesGroupPairs(calculateInitialSamplesGroupPairsFromSavedSamples(numberOfGroups));
-        bool isSamplesGroupPairsChanged(true);
+        SamplesGroupPairs samplesGroupPairs(calculateInitialSamplesGroupPairsFromSavedSamples(numberOfGroups));        bool isSamplesGroupPairsChanged(true);
         while(isSamplesGroupPairsChanged)
         {
-            isSamplesGroupPairsChanged=false;
-            GroupOfSamples groupOfSamples(calculateGroupOfSamplesFromSamplesGroupPairs(samplesGroupPairs, numberOfGroups));
+            isSamplesGroupPairsChanged=false;            GroupOfSamples groupOfSamples(calculateGroupOfSamplesFromSamplesGroupPairs(samplesGroupPairs, numberOfGroups));
             Samples meanForEachGroup(calculateMeanForEachGroup(groupOfSamples));
 
             for(SamplesGroupPair & samplesGroupPair : samplesGroupPairs)

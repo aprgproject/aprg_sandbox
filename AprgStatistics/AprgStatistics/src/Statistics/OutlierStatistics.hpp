@@ -6,24 +6,22 @@
 namespace alba
 {
 
-template <unsigned int dimensions>
-class OutlierStatistics : public DataStatistics<dimensions>
+template <unsigned int DIMENSIONS>
+class OutlierStatistics : public DataStatistics<DIMENSIONS>
 {
 public:
-    using Sample = DataSample<dimensions>;
+    using Sample = DataSample<DIMENSIONS>;
     using Samples = std::vector<Sample>;
-    using LocalStatistics = DataStatistics<dimensions>;
+    using LocalStatistics = DataStatistics<DIMENSIONS>;
 
     OutlierStatistics(Samples const& samples)
-        : DataStatistics<dimensions>(samples)
+        : DataStatistics<DIMENSIONS>(samples)
     {}
 
-    bool isAnOutlierBasedOnChauvenetCriterion(Sample const& sample)
-    {
+    bool isAnOutlierBasedOnChauvenetCriterion(Sample const& sample)    {
         LocalStatistics::calculateMeanIfNeeded();
         LocalStatistics::calculateSampleStandardDeviationIfNeeded();
-        double acceptableDeviation(calculateAcceptableDeviationBasedOnChauvenetCriterion(LocalStatistics::m_samples.size()));
-        Sample deviation(Sample(sample-LocalStatistics::m_mean.getConstReference()).calculateAbsoluteValue());
+        double acceptableDeviation(calculateAcceptableDeviationBasedOnChauvenetCriterion(LocalStatistics::m_samples.size()));        Sample deviation(Sample(sample-LocalStatistics::m_mean.getConstReference()).calculateAbsoluteValue());
         Sample deviationOverStandardDeviation(deviation/LocalStatistics::m_sampleStandardDeviation.getConstReference());
         bool isAnOutlier(false);
         for(unsigned int i=0; i<deviationOverStandardDeviation.getSize(); i++)

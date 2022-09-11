@@ -72,16 +72,14 @@ FrequencyStatistics::MultipleValues FrequencyStatistics::calculateMode(Frequency
     MultipleValues result;
     typename FrequencySamples::const_iterator iteratorForMaxFrequency = max_element(samples.begin(), samples.end(), [](FrequencyPair const& frequencyPair1, FrequencyPair const& frequencyPair2)
     {
-        return frequencyPair1.second < frequencyPair2.second;
-    });
+            return frequencyPair1.second < frequencyPair2.second;
+});
     unsigned int maxFrequency = iteratorForMaxFrequency->second;
 
-    for_each(samples.begin(), samples.end(), [&](FrequencyPair const& frequencyPair)
-    {
+    for_each(samples.begin(), samples.end(), [&](FrequencyPair const& frequencyPair)    {
         if(maxFrequency == frequencyPair.second)
         {
-            result.push_back(frequencyPair.first);
-        }
+            result.push_back(frequencyPair.first);        }
     });
     return result;
 }

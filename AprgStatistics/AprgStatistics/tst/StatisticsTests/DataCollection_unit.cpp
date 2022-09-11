@@ -24,10 +24,9 @@ TEST(DataCollectionTest, CollectionDataAreCorrect)
 
     EXPECT_EQ(-100, collection.getMinimum());
     EXPECT_EQ(100, collection.getMaximum());
-    EXPECT_EQ(70, collection.getTotal());
+    EXPECT_EQ(70, collection.getSum());
     EXPECT_EQ(7U, collection.getCount());
     EXPECT_EQ(10, collection.getAverage());
-    EXPECT_EQ(10, collection.getAverageWithDoubleFormat());
-}
+    EXPECT_EQ(10, collection.getAverageWithDoubleFormat());}
 
 }

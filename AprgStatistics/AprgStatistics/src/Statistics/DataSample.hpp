@@ -12,34 +12,31 @@
 namespace alba
 {
 
-template <unsigned int dimensions>
+template <unsigned int DIMENSIONS>
 class DataSample
 {
 public:
-    using Sample = DataSample<dimensions>;
-    using BufferType = std::array<double, dimensions>;
+    using Sample = DataSample<DIMENSIONS>;
+    using BufferType = std::array<double, DIMENSIONS>;
 
     DataSample()
-    {
-        std::fill(m_data.begin(), m_data.end(), 0);
+    {        std::fill(m_data.begin(), m_data.end(), 0);
     }
 
     DataSample(std::initializer_list<double> const& dataSampleValues)
     {
-        unsigned int limit = std::min(dimensions, static_cast<unsigned int>(dataSampleValues.size()));
+        unsigned int limit = std::min(DIMENSIONS, static_cast<unsigned int>(dataSampleValues.size()));
         std::copy(dataSampleValues.begin(), dataSampleValues.begin()+limit, m_data.begin());
     }
 
     bool isIndexValid(unsigned int index) const
     {
-        return index < dimensions;
+        return index < DIMENSIONS;
     }
 
-    unsigned int getSize() const
-    {
+    unsigned int getSize() const    {
         return m_data.size();
     }
-
     double getValueAt(unsigned int index) const
     {
         double result(0);
@@ -53,15 +50,13 @@ public:
     double getSum() const
     {
         double result(0);
-        for (unsigned int index=0; index<dimensions; index++)
+        for (unsigned int index=0; index<DIMENSIONS; index++)
         {
             result += m_data.at(index);
-        }
-        return result;
+        }        return result;
     }
 
-    std::string getDisplayableString() const
-    {
+    std::string getDisplayableString() const    {
         std::stringstream result;
         result.precision(20);
         for(auto const& data : m_data)
@@ -180,5 +175,18 @@ public:
 private:
     BufferType m_data;
 };
+
+template <unsigned int DIMENSIONS>
+std::ostream & operator<<(std::ostream & out, DataSample<DIMENSIONS> const& sample)
+{
+    out << "(";
+    for(unsigned int i=0; i<sample.getSize(); i++)
+    {
+        out << sample.getValueAt(i) << ",";
+
+    }
+    out << ")";
+    return out;
+}
 
 }

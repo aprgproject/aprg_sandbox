@@ -8,18 +8,16 @@
 namespace alba
 {
 
-template <unsigned int dimensions>
+template <unsigned int DIMENSIONS>
 class DataStatisticsUtilities
 {
 public:
-    using Sample = DataSample<dimensions>;
+    using Sample = DataSample<DIMENSIONS>;
     using Samples = std::vector<Sample>;
 
-    static Sample calculateSum(Samples const& samples)
-    {
+    static Sample calculateSum(Samples const& samples)    {
         return (Sample)std::accumulate(samples.begin(), samples.end(), Sample(), std::plus<Sample>());
     }
-
     static double calculateDistance(Sample const& sample1, Sample const& sample2)
     {
         Sample distanceCalculationTemp(sample1-sample2);
