@@ -8,6 +8,7 @@ using namespace alba::mathHelper;using namespace std;
 
 namespace alba
 {
+
 namespace math
 {
 
@@ -62,7 +63,8 @@ bool canModuloBeDistributedInPower(
 }
 bool canModuloBeDistributedInEveryIterationOfFactorial(
         UnsignedInteger const number,
-        UnsignedInteger const modulo){
+        UnsignedInteger const modulo)
+{
     // n! mod m = ((n mod m) * (n-1 mod m) * (n-2 mod m) ... (1 mod m)) mod m
 
     UnsignedInteger undistributed = getFactorial(number) % modulo;
@@ -89,7 +91,8 @@ bool isFermatTheoremTrue(UnsignedInteger const prime, UnsignedInteger const coPr
     return result;}
 
 bool isEulerTheoremTrue(UnsignedInteger const coPrime1, UnsignedInteger const coPrime2)
-{    // Fermat's theorem states that: (x^(phi(m))) mod m = 1
+{
+    // Fermat's theorem states that: (x^(phi(m))) mod m = 1
     // where x and m are coprime.
 
     bool result(false);
@@ -101,7 +104,8 @@ bool isEulerTheoremTrue(UnsignedInteger const coPrime1, UnsignedInteger const co
     return result;}
 
 UnsignedInteger getModularExponentiation(
-        UnsignedInteger const number,        UnsignedInteger const exponent,
+        UnsignedInteger const number,
+        UnsignedInteger const exponent,
         UnsignedInteger const modulo)
 {
     // x^n mod m is equal to this

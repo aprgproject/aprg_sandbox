@@ -8,6 +8,7 @@ using namespace alba::mathHelper;using namespace std;
 
 namespace alba
 {
+
 namespace math
 {
 
@@ -57,6 +58,7 @@ bool isLagrangeTheoremTrue(UnsignedInteger const number)
     for(UnsignedInteger i=1; i<maxElement; i++)    {
         squaredElements.emplace_back(i*i);
     }
+
     FourSum<UnsignedIntegers> fourSum(squaredElements);
     auto fourValues = fourSum.getPossibleDuplicatedFourValuesWithSum(number);
     UnsignedInteger sumOfSquares = get<0>(fourValues) + get<1>(fourValues) + get<2>(fourValues) + get<3>(fourValues);

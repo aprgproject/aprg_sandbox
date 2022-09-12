@@ -6,6 +6,7 @@ using namespace alba::mathHelper;
 using namespace std;
 namespace alba
 {
+
 namespace math
 {
 
@@ -60,7 +61,8 @@ UnsignedInteger getCatalanNumber(UnsignedInteger const n)
 UnsignedInteger getNumberOfBinaryTrees(UnsignedInteger const numberOfNodes){
     // Catalan numbers are also related to trees:
     // • there are Cn binary trees of n nodes
-    return getCatalanNumber(numberOfNodes);}
+    return getCatalanNumber(numberOfNodes);
+}
 
 UnsignedInteger getNumberOfRootedTrees(UnsignedInteger const numberOfNodes)
 {

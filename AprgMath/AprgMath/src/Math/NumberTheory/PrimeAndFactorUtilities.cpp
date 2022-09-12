@@ -8,7 +8,8 @@
 using namespace alba::algorithm;using namespace alba::mathHelper;
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 namespace math
 {
@@ -72,7 +73,8 @@ bool isLegendreConjectureTrue(UnsignedInteger const number)
     {        if(isPrime(numberToCheck))
         {
             result = true;
-            break;        }
+            break;
+        }
     }
     return result;
 }
@@ -128,6 +130,7 @@ UnsignedInteger getApproximateDensityOfPrimes(UnsignedInteger const number){
     // formula = n/(ln(n))
     return number / log(number);
 }
+
 UnsignedInteger getNumberOfCoPrimesBelowThisNumber(UnsignedInteger const number)
 {
     // Euler’s totient function phi(n) gives the number of coprime numbers to n between 1 and n.
@@ -144,7 +147,8 @@ UnsignedInteger getNumberOfCoPrimesBelowThisNumber(UnsignedInteger const number)
     return result;}
 
 UnsignedIntegers getPrimesBelowThisNumber(UnsignedInteger const number)
-{    // The inner loop of the algorithm is executed n/x times for each value of x.
+{
+    // The inner loop of the algorithm is executed n/x times for each value of x.
     // Thus, an upper bound for the running time of the algorithm is the harmonic sum
     // -> Summation of n/x = n/2 + n/3 + n/4 + ... + n/n = O(n*log(n))
     // In fact, the algorithm is more efficient, because the inner loop will be executed only if the number x is prime.

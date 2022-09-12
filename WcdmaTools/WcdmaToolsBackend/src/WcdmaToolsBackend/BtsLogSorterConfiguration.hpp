@@ -5,6 +5,7 @@
 #include <string>
 namespace wcdmaToolsBackend
 {
+
 struct BtsLogSorterConfiguration
 {
     bool m_isFilterGrepOn;

@@ -263,7 +263,8 @@ void BitmapConfiguration::readBitmap(string const& path)
 }
 void BitmapConfiguration::readBitmapFileHeader(AlbaFileReader& fileReader)
 {
-    fileReader.moveLocation(0);    m_signature += fileReader.getCharacter();
+    fileReader.moveLocation(0);
+    m_signature += fileReader.getCharacter();
     m_signature += fileReader.getCharacter();
 
     fileReader.moveLocation(2);
@@ -320,7 +321,8 @@ void BitmapConfiguration::readColors(AlbaFileReader& fileReader)
     }}
 
 void BitmapConfiguration::calculateOtherValuesAfterReading()
-{    m_numberOfBytesForDataInRow = convertPixelsToBytesRoundedToCeil(m_bitmapWidth);
+{
+    m_numberOfBytesForDataInRow = convertPixelsToBytesRoundedToCeil(m_bitmapWidth);
     m_paddingForRowMemoryAlignment = (4 - (m_numberOfBytesForDataInRow%4))%4;
     m_numberOfBytesPerRowInFile = m_numberOfBytesForDataInRow + m_paddingForRowMemoryAlignment;
     m_bitMaskForValue = AlbaBitValueUtilities<uint32_t>::generateOnesWithNumberOfBits(m_numberOfBitsPerPixel);

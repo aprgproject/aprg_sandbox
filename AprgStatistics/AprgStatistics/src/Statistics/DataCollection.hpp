@@ -18,7 +18,8 @@ public:
     DataType getMinimum() const    {
         return m_minimum;
     }
-    DataType getMaximum() const    {
+    DataType getMaximum() const
+    {
         return m_maximum;
     }
     DataType getTheCountForMinimum() const
@@ -50,7 +51,8 @@ public:
         {            m_minimum = dataValue;
             m_maximum = dataValue;
         }
-        else        {//no std::min, std::max because algorithm header is needed
+        else
+        {//no std::min, std::max because algorithm header is needed
             if(m_minimum > dataValue)
             {
                 m_minimum = dataValue;

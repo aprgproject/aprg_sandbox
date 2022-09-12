@@ -10,6 +10,7 @@ namespace alba{
 
 namespace math
 {
+
 ChineseRemainderTheorem::ChineseRemainderTheorem(
         UnsignedIntegers const& numbers,
         UnsignedIntegers const& modulos)

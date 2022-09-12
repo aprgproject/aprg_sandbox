@@ -37,6 +37,7 @@ public:
     unsigned int getSize() const    {
         return m_data.size();
     }
+
     double getValueAt(unsigned int index) const
     {
         double result(0);
@@ -56,7 +57,8 @@ public:
         }        return result;
     }
 
-    std::string getDisplayableString() const    {
+    std::string getDisplayableString() const
+    {
         std::stringstream result;
         result.precision(20);
         for(auto const& data : m_data)

@@ -22,6 +22,7 @@ public:
 
     KMeansClustering()
     {}
+
     void clear()
     {
         m_samples.clear();
@@ -52,7 +53,8 @@ public:
         SamplesGroupPairs samplesGroupPairs(calculateInitialSamplesGroupPairsFromSavedSamples(numberOfGroups));        bool isSamplesGroupPairsChanged(true);
         while(isSamplesGroupPairsChanged)
         {
-            isSamplesGroupPairsChanged=false;            GroupOfSamples groupOfSamples(calculateGroupOfSamplesFromSamplesGroupPairs(samplesGroupPairs, numberOfGroups));
+            isSamplesGroupPairsChanged=false;
+            GroupOfSamples groupOfSamples(calculateGroupOfSamplesFromSamplesGroupPairs(samplesGroupPairs, numberOfGroups));
             Samples meanForEachGroup(calculateMeanForEachGroup(groupOfSamples));
 
             for(SamplesGroupPair & samplesGroupPair : samplesGroupPairs)

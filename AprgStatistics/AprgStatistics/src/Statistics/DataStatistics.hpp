@@ -21,6 +21,7 @@ public:
     using DoubleOptional = alba::AlbaOptional<double>;
     DataStatistics()
     {}
+
     DataStatistics(Samples const& samples)
         : m_samples(samples)
     {}
@@ -46,7 +47,8 @@ public:
         calculateSumIfNeeded();        return m_sum.getConstReference();
     }
 
-    Sample getMean()    {
+    Sample getMean()
+    {
         calculateMeanIfNeeded();
         return m_mean.getConstReference();
     }

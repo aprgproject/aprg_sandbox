@@ -142,10 +142,23 @@ void checkAnswersForEmptyForm(SOOSA const& soosa)
 
 }
 
+TEST(SoosaTest, InvalidBitmapWorks)
+{
+    AlbaLocalPathHandler inputFile(APRG_DIR R"(\SOOSA\FilesForTests\Rotated.psd)");
+    AlbaLocalPathHandler tempFileToTest(APRG_DIR R"(\SOOSA\FilesForTests\Temp.bmp)");
+    inputFile.copyToNewFile(tempFileToTest.getFullPath());
+    SoosaConfiguration soosaConfiguration(getSoosaConfiguration());
+    InputConfiguration inputConfiguration(getInputConfigurationForCharityPayWards(tempFileToTest.getFullPath()));
+    SOOSA soosa(soosaConfiguration, inputConfiguration);
+
+    soosa.process();
+
+    checkAnswersForEmptyForm(soosa);
+}
+
 TEST(SoosaTest, EmptyWorks)
 {
-    AlbaLocalPathHandler inputFile(APRG_DIR R"(\SOOSA\FilesForTests\Empty.bmp)");
-    AlbaLocalPathHandler tempFileToTest(APRG_DIR R"(\SOOSA\FilesForTests\Temp.bmp)");
+    AlbaLocalPathHandler inputFile(APRG_DIR R"(\SOOSA\FilesForTests\Empty.bmp)");    AlbaLocalPathHandler tempFileToTest(APRG_DIR R"(\SOOSA\FilesForTests\Temp.bmp)");
     inputFile.copyToNewFile(tempFileToTest.getFullPath());
     SoosaConfiguration soosaConfiguration(getSoosaConfiguration());
     InputConfiguration inputConfiguration(getInputConfigurationForCharityPayWards(tempFileToTest.getFullPath()));

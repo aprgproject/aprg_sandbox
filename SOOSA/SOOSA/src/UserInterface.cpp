@@ -81,17 +81,19 @@ void UserInterface::saveFormDetailsFromFormDetailPath(string const& formDetailsF
     while(fileReader.isNotFinished())
     {
         string line(fileReader.getLineAndIgnoreWhiteSpaces());
-        if(line == "NEW_COLUMN")
+        if(!line.empty())
         {
-            columnNumber++;
-        }
-        else
-        {
-            m_savedConfiguration.addQuestion(columnNumber, line);
+            if(line == "NEW_COLUMN")
+            {
+                columnNumber++;
+            }
+            else
+            {
+                m_savedConfiguration.addQuestion(columnNumber, line);
+            }
         }
     }
 }
-
 }
 
 }

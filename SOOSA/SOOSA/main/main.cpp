@@ -37,4 +37,6 @@ int main(int argc, char *argv[])
     {
         cout << "Exiting program because the number of input arguments is wrong." << endl;
     }
+
+    system("pause");
 }

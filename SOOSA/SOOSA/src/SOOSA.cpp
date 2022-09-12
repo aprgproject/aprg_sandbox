@@ -32,11 +32,10 @@ namespace soosa
 {
 AlbaOptional<BitmapSnippet> s_debugSnippetOptional;
 
-void enableDebugSnippet(Bitmap & bitmap)
+void enableDebugSnippet(Bitmap const& bitmap)
 {
     s_debugSnippetOptional.setConstReference(bitmap.getSnippetReadFromFileWholeBitmap());
 }
-
 void writePointInDebug(BitmapXY const& point, unsigned int const color)
 {
     BitmapSnippet & debugSnippet(s_debugSnippetOptional.getReference());
@@ -56,13 +55,13 @@ void writeLineInDebug(Line const& line, unsigned int const color)
     }
 }
 
-void saveDebugSnippet(Bitmap & bitmap)
+void saveDebugSnippet(Bitmap const& bitmap)
 {
+    Bitmap bitmapCopy(bitmap);
     BitmapSnippet const& debugSnippet(s_debugSnippetOptional.getConstReference());
-    bitmap.setSnippetWriteToFile(debugSnippet);
+    bitmapCopy.setSnippetWriteToFile(debugSnippet);
 }
 }*/
-
 
 
 
@@ -204,16 +203,30 @@ void SOOSA::processFile(string const& filePath)
 {
     cout << endl << "processFile: [" << filePath << "]" << endl;
 
-    Status::getInstance().clearErrors();
     Bitmap bitmap(filePath);
-    BitmapSnippet globalSnippet(bitmap.getSnippetReadFromFileWholeBitmap());
+    if(bitmap.getConfiguration().isValid())
+    {
+        processBitmapFile(bitmap);
+    }
+    else
+    {
+        stringstream ss;
+        ss << "File is an invalid bitmap.";
+        Status::getInstance().setError(ss.str());
+        cout << "File is an invalid bitmap so its ignored. File path: [" << bitmap.getConfiguration().getPath() << "]" << endl;
+    }
+}
 
+void SOOSA::processBitmapFile(Bitmap const& bitmap)
+{
     //enableDebugSnippet(bitmap); // debug
+
+    Status::getInstance().clearErrors();
+    BitmapSnippet globalSnippet(bitmap.getSnippetReadFromFileWholeBitmap());
 
     Line emptyLine;
     Line leftLine, rightLine, topLine, bottomLine;
-    leftLine = findLeftLine(globalSnippet);
-    rightLine = findRightLine(globalSnippet);
+    leftLine = findLeftLine(globalSnippet);    rightLine = findRightLine(globalSnippet);
     topLine = findTopLine(globalSnippet);
     bottomLine = findBottomLine(globalSnippet);
     //writeLineInDebug(leftLine, 0x0000EE);

@@ -78,6 +78,7 @@ TEST(IntegrationGeometryUtilitiesTest, GetVolumeBasedOnSolidOfRevolutionWorksOnU
     Term edgeOfTheCone1InY(Monomial(1, {{"radius", 1}, {"height", -1}, {"y", 1}}));
     Term edgeOfTheCone2InY(Polynomial
     {Monomial(1, {{"radius", 1}, {"height", -1}, {"y", 1}}), Monomial(1, {{"edgeDistance", 1}})});
+
     Term termToVerify(getVolumeUsingOnSolidOfRevolution(edgeOfTheCone1InY, edgeOfTheCone2InY, {"y", 0, "height"}));
 
     Term termToExpect(Monomial(getPi(), {{"edgeDistance", 2}, {"height", 1}}));

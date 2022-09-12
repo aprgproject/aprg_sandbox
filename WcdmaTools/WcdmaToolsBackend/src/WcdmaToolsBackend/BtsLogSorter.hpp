@@ -6,7 +6,8 @@
 #include <WcdmaToolsBackend/BtsLogSorterConfiguration.hpp>#include <WcdmaToolsBackend/BtsPrintReaderWithRollback.hpp>
 
 #include <fstream>
-#include <set>#include <string>
+#include <set>
+#include <string>
 
 namespace wcdmaToolsBackend
 {
