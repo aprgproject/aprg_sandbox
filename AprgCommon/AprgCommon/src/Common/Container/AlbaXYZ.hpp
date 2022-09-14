@@ -91,16 +91,6 @@ public:
         return result;
     }
 
-    AlbaXYZ<CoordinateType> operator+(AlbaXYZ<CoordinateType> const& secondXyz) const
-    {
-        return AlbaXYZ<CoordinateType>(x+secondXyz.x, y+secondXyz.y, z+secondXyz.z);
-    }
-
-    AlbaXYZ<CoordinateType> operator-(AlbaXYZ<CoordinateType> const& secondXyz) const
-    {
-        return AlbaXYZ<CoordinateType>(x-secondXyz.x, y-secondXyz.y, z-secondXyz.z);
-    }
-
     AlbaXYZ<CoordinateType> operator+() const
     {
         return *this;
@@ -111,12 +101,29 @@ public:
         return AlbaXYZ<CoordinateType>(-x, -y, -z);
     }
 
-    AlbaXYZ<CoordinateType>& operator+=(AlbaXYZ<CoordinateType> const& secondXyz)
+    AlbaXYZ<CoordinateType> operator+(AlbaXYZ<CoordinateType> const& secondXyz) const
     {
+        return AlbaXYZ<CoordinateType>(x+secondXyz.x, y+secondXyz.y, z+secondXyz.z);    }
+
+    AlbaXYZ<CoordinateType> operator-(AlbaXYZ<CoordinateType> const& secondXyz) const
+    {
+        return AlbaXYZ<CoordinateType>(x-secondXyz.x, y-secondXyz.y, z-secondXyz.z);
+    }
+
+    AlbaXYZ<CoordinateType> operator*(CoordinateType const& multiplier) const
+    {
+        return AlbaXYZ<CoordinateType>(x*multiplier, y*multiplier, z*multiplier);
+    }
+
+    AlbaXYZ<CoordinateType> operator/(CoordinateType const& divisor) const
+    {
+        return AlbaXYZ<CoordinateType>(x/divisor, y/divisor, z/divisor);
+    }
+
+    AlbaXYZ<CoordinateType>& operator+=(AlbaXYZ<CoordinateType> const& secondXyz)    {
         x+=secondXyz.x; y+=secondXyz.y; z+=secondXyz.z;
         return *this;
     }
-
     AlbaXYZ<CoordinateType>& operator-=(AlbaXYZ<CoordinateType> const& secondXyz)
     {
         x-=secondXyz.x; y-=secondXyz.y; z-=secondXyz.z;
