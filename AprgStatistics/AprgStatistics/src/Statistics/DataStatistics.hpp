@@ -19,6 +19,7 @@ public:
     using StatisticsUtilities = DataStatisticsUtilities<DIMENSIONS>;
     using SampleOptional = alba::AlbaOptional<Sample>;
     using DoubleOptional = alba::AlbaOptional<double>;
+
     DataStatistics()
     {}
 
@@ -44,7 +45,8 @@ public:
 
     Sample getSum()
     {
-        calculateSumIfNeeded();        return m_sum.getConstReference();
+        calculateSumIfNeeded();
+        return m_sum.getConstReference();
     }
 
     Sample getMean()

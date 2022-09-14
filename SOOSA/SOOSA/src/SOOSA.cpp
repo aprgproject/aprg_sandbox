@@ -36,6 +36,7 @@ void enableDebugSnippet(Bitmap const& bitmap)
 {
     s_debugSnippetOptional.setConstReference(bitmap.getSnippetReadFromFileWholeBitmap());
 }
+
 void writePointInDebug(BitmapXY const& point, unsigned int const color)
 {
     BitmapSnippet & debugSnippet(s_debugSnippetOptional.getReference());
@@ -62,6 +63,7 @@ void saveDebugSnippet(Bitmap const& bitmap)
     bitmapCopy.setSnippetWriteToFile(debugSnippet);
 }
 }*/
+
 
 
 
@@ -226,7 +228,8 @@ void SOOSA::processBitmapFile(Bitmap const& bitmap)
 
     Line emptyLine;
     Line leftLine, rightLine, topLine, bottomLine;
-    leftLine = findLeftLine(globalSnippet);    rightLine = findRightLine(globalSnippet);
+    leftLine = findLeftLine(globalSnippet);
+    rightLine = findRightLine(globalSnippet);
     topLine = findTopLine(globalSnippet);
     bottomLine = findBottomLine(globalSnippet);
     //writeLineInDebug(leftLine, 0x0000EE);

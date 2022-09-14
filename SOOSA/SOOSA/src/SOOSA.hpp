@@ -64,7 +64,8 @@ public:
     using Bitmap = AprgBitmap::Bitmap;
     using BitmapSnippet = AprgBitmap::BitmapSnippet;
     using BitmapXY = AprgBitmap::BitmapXY;
-    using OneDimensionSample = DataSample<1U>;    using TwoDimensionSample = DataSample<2U>;
+    using OneDimensionSample = DataSample<1U>;
+    using TwoDimensionSample = DataSample<2U>;
     using OneDimensionSamples = std::vector<OneDimensionSample>;
     using TwoDimensionSamples = std::vector<TwoDimensionSample>;
     using GroupOfOneDimensionSamples = std::vector<OneDimensionSamples>;
@@ -93,6 +94,7 @@ private:
     void processBitmapFile(Bitmap const& bitmap);
     void performStepsWhenNumberOfAnswersNotEqualToNumberOfQuestions() const;
     void saveFrequencyDatabaseIfNoError();
+
     // find line
     Line findLeftLine(BitmapSnippet const& snippet) const;
     Line findRightLine(BitmapSnippet const& snippet) const;

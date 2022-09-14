@@ -9,7 +9,8 @@ using namespace std;
 #define APRG_BITMAP_INVALID_TEST_FILE APRG_DIR R"(\AprgBitmap\FilesForTests\SampleBitmaps\InvalidBitmap.bmp)"
 #define APRG_BITMAP_MONOCHROME_TEST_FILE APRG_DIR R"(\AprgBitmap\FilesForTests\SampleBitmaps\Monochrome.bmp)"
 #define APRG_BITMAP_16_COLOR_TEST_FILE APRG_DIR R"(\AprgBitmap\FilesForTests\SampleBitmaps\16ColorBitmap.bmp)"
-#define APRG_BITMAP_256_COLOR_TEST_FILE APRG_DIR R"(\AprgBitmap\FilesForTests\SampleBitmaps\256ColorBitmap.bmp)"#define APRG_BITMAP_24_BIT_TEST_FILE APRG_DIR R"(\AprgBitmap\FilesForTests\SampleBitmaps\24BitBitmap.bmp)"
+#define APRG_BITMAP_256_COLOR_TEST_FILE APRG_DIR R"(\AprgBitmap\FilesForTests\SampleBitmaps\256ColorBitmap.bmp)"
+#define APRG_BITMAP_24_BIT_TEST_FILE APRG_DIR R"(\AprgBitmap\FilesForTests\SampleBitmaps\24BitBitmap.bmp)"
 #define APRG_BITMAP_32_BIT_TEST_FILE APRG_DIR R"(\AprgBitmap\FilesForTests\SampleBitmaps\32BitBitmap.bmp)"
 
 namespace alba
@@ -26,7 +27,8 @@ TEST(BitmapReadTest, TestForInvalidBitmap)
 
 TEST(BitmapReadTest, TestForMonochromeBitmap)
 {
-    Bitmap bitmap(APRG_BITMAP_MONOCHROME_TEST_FILE);    ASSERT_TRUE(bitmap.getConfiguration().isValid());
+    Bitmap bitmap(APRG_BITMAP_MONOCHROME_TEST_FILE);
+    ASSERT_TRUE(bitmap.getConfiguration().isValid());
     ASSERT_EQ(CompressedMethodType::BI_RGB, bitmap.getConfiguration().getCompressedMethodType());
     ASSERT_TRUE(bitmap.getConfiguration().isCompressedMethodSupported());
 

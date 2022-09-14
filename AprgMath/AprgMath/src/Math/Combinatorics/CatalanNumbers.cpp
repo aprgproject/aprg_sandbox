@@ -4,6 +4,7 @@
 
 using namespace alba::mathHelper;
 using namespace std;
+
 namespace alba
 {
 
@@ -58,7 +59,8 @@ UnsignedInteger getCatalanNumber(UnsignedInteger const n)
     return getNumberOfCombinations<UnsignedInteger>(2*n, n)/(n+1);
 }
 
-UnsignedInteger getNumberOfBinaryTrees(UnsignedInteger const numberOfNodes){
+UnsignedInteger getNumberOfBinaryTrees(UnsignedInteger const numberOfNodes)
+{
     // Catalan numbers are also related to trees:
     // • there are Cn binary trees of n nodes
     return getCatalanNumber(numberOfNodes);

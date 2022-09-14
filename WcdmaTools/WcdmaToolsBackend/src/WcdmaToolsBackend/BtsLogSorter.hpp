@@ -3,7 +3,8 @@
 #include <Algorithm/Sort/LargeSorter/AlbaLargeSorter.hpp>
 #include <GrepStringEvaluator/AlbaGrepStringEvaluator.hpp>
 #include <WcdmaToolsBackend/BtsLogPrint.hpp>
-#include <WcdmaToolsBackend/BtsLogSorterConfiguration.hpp>#include <WcdmaToolsBackend/BtsPrintReaderWithRollback.hpp>
+#include <WcdmaToolsBackend/BtsLogSorterConfiguration.hpp>
+#include <WcdmaToolsBackend/BtsPrintReaderWithRollback.hpp>
 
 #include <fstream>
 #include <set>

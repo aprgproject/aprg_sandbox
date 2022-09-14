@@ -7,9 +7,15 @@ using namespace std;
 namespace alba
 {
 
+namespace
+{
+using IntXYZ = AlbaXYZ<int>;
+}
+
 TEST(AlbaXYZTest, DefaultValuesAreZero)
 {
-    AlbaXYZ<int> xyz;
+    IntXYZ xyz;
+
     EXPECT_EQ(0, xyz.getX());
     EXPECT_EQ(0, xyz.getY());
     EXPECT_EQ(0, xyz.getZ());
@@ -17,86 +23,195 @@ TEST(AlbaXYZTest, DefaultValuesAreZero)
 
 TEST(AlbaXYZTest, ValuesAreSetAtConstruction)
 {
-    AlbaXYZ<int> xyz(-5,5,10);
+    IntXYZ xyz(-5,5,10);
+
     EXPECT_EQ(-5, xyz.getX());
     EXPECT_EQ(5, xyz.getY());
     EXPECT_EQ(10, xyz.getZ());
 }
 
-TEST(AlbaXYZTest,  ValuesCanBeSetAfterConstruction)
+TEST(AlbaXYZTest, EqualityOperatorWorks)
 {
-    AlbaXYZ<int> xyz(-5,5,10);
-    xyz.setXAndYAndZ(10,20,30);
-    EXPECT_EQ(AlbaXYZ<int>(10,20,30), xyz);
+    IntXYZ xyz(-5,5,10);
 
-    xyz.setX(23);
-    xyz.setY(45);
-    xyz.setZ(68);
-    EXPECT_EQ(AlbaXYZ<int>(23,45,68), xyz);
+    EXPECT_FALSE(IntXYZ(-5,-5,10) == xyz);
+    EXPECT_FALSE(IntXYZ(-5,5,20) == xyz);
+    EXPECT_TRUE(IntXYZ(-5,5,10) == xyz);
+    EXPECT_FALSE(IntXYZ(5,-5,10) == xyz);
+    EXPECT_FALSE(IntXYZ(5,5,10) == xyz);
 }
 
-TEST(AlbaXYZTest, XYZCanBeCompared)
+TEST(AlbaXYZTest, NonEqualityOperatorWorks)
 {
-    AlbaXYZ<int> xyz(-5,5,10);
-    EXPECT_NE(AlbaXYZ<int>(-5,-5,10), xyz);
-    EXPECT_NE(AlbaXYZ<int>(-5,5,20), xyz);
-    EXPECT_EQ(AlbaXYZ<int>(-5,5,10), xyz);
-    EXPECT_NE(AlbaXYZ<int>(5,-5,10), xyz);
-    EXPECT_NE(AlbaXYZ<int>(5,5,10), xyz);
+    IntXYZ xyz(-5,5,10);
+
+    EXPECT_TRUE(IntXYZ(-5,-5,10) != xyz);
+    EXPECT_TRUE(IntXYZ(-5,5,20) != xyz);
+    EXPECT_FALSE(IntXYZ(-5,5,10) != xyz);
+    EXPECT_TRUE(IntXYZ(5,-5,10) != xyz);
+    EXPECT_TRUE(IntXYZ(5,5,10) != xyz);
 }
 
-TEST(AlbaXYZTest, XYZCanBeAdded)
+TEST(AlbaXYZTest, LessThanOperatorWorks)
 {
-    EXPECT_EQ(AlbaXYZ<int>(5,-3,-3), (AlbaXYZ<int>(1,2,3)+AlbaXYZ<int>(4,-5,-6)));
+    IntXYZ xyz(-5,5,10);
+
+    EXPECT_FALSE(IntXYZ(-5,5,10) < xyz);
+    EXPECT_TRUE(IntXYZ(-6,5,10) < xyz);
+    EXPECT_FALSE(IntXYZ(-4,5,10) < xyz);
+    EXPECT_TRUE(IntXYZ(-5,4,10) < xyz);
+    EXPECT_FALSE(IntXYZ(-5,6,10) < xyz);
+    EXPECT_TRUE(IntXYZ(-5,5,9) < xyz);
+    EXPECT_FALSE(IntXYZ(-5,5,11) < xyz);
 }
 
-TEST(AlbaXYZTest, XYZCanBeSubtracted)
+TEST(AlbaXYZTest, PlusUnaryOperatorWorks)
 {
-    EXPECT_EQ(AlbaXYZ<int>(-3,7,9), (AlbaXYZ<int>(1,2,3)-AlbaXYZ<int>(4,-5,-6)));
+    EXPECT_EQ(IntXYZ(1,2,3), +IntXYZ(1,2,3));
 }
 
-TEST(AlbaXYZTest, XYZCanHavePlusSign)
+TEST(AlbaXYZTest, MinusUnaryOperatorWorks)
 {
-    EXPECT_EQ(AlbaXYZ<int>(1,2,3), +AlbaXYZ<int>(1,2,3));
+    EXPECT_EQ(IntXYZ(-1,-2,-3), -IntXYZ(1,2,3));
 }
 
-TEST(AlbaXYZTest, XYZCanBeNegated)
+TEST(AlbaXYZTest, PlusBinaryOperatorWorks)
 {
-    EXPECT_EQ(AlbaXYZ<int>(-1,-2,-3), -AlbaXYZ<int>(1,2,3));
+    EXPECT_EQ(IntXYZ(5,-3,-3), (IntXYZ(1,2,3)+IntXYZ(4,-5,-6)));
 }
 
-TEST(AlbaXYZTest, XTimesYTimesZCanBeComputed)
+TEST(AlbaXYZTest, MinusBinaryOperatorWorks)
 {
-    AlbaXYZ<int> xyz(-5,5,10);
+    EXPECT_EQ(IntXYZ(-3,7,9), (IntXYZ(1,2,3)-IntXYZ(4,-5,-6)));
+}
+
+TEST(AlbaXYZTest, MultiplyBinaryOperatorWorks)
+{
+    EXPECT_EQ(IntXYZ(35,-70,105), (IntXYZ(5,-10,15)*7));
+}
+
+TEST(AlbaXYZTest, DivideBinaryOperatorWorks)
+{
+    EXPECT_EQ(IntXYZ(1,-2,3), (IntXYZ(5,-10,15)/5));
+}
+
+TEST(AlbaXYZTest, PlusAssignmentOperatorWorks)
+{
+    IntXYZ xyzToTest(1,2,3);
+
+    xyzToTest+=IntXYZ(4,-5,-6);
+
+    EXPECT_EQ(IntXYZ(5,-3,-3), xyzToTest);
+}
+
+TEST(AlbaXYZTest, MinusAssignmentOperatorWorks)
+{
+    IntXYZ xyzToTest(1,2,3);
+
+    xyzToTest-=IntXYZ(4,-5,-6);
+
+    EXPECT_EQ(IntXYZ(-3,7,9), xyzToTest);
+}
+
+TEST(AlbaXYZTest, IsEmptyWorks)
+{
+    EXPECT_TRUE(IntXYZ().isEmpty());
+    EXPECT_FALSE(IntXYZ(-5,5,10).isEmpty());
+}
+
+TEST(AlbaXYZTest, GetXWorks)
+{
+    IntXYZ xyz(-5,5,10);
+
+    EXPECT_EQ(-5, xyz.getX());
+}
+
+TEST(AlbaXYZTest, GetYWorks)
+{
+    IntXYZ xyz(-5,5,10);
+
+    EXPECT_EQ(5, xyz.getY());
+}
+
+TEST(AlbaXYZTest, GetZWorks)
+{
+    IntXYZ xyz(-5,5,10);
+
+    EXPECT_EQ(10, xyz.getZ());
+}
+
+TEST(AlbaXYZTest, GetXTimesYTimesZWorks)
+{
+    IntXYZ xyz(-5,5,10);
+
     EXPECT_EQ(-250, xyz.getXTimesYTimesZ());
 }
 
-TEST(AlbaXYZTest, DisplayableStringIsNotEmpty)
+TEST(AlbaXYZTest, GetDisplayableStringWorks)
 {
-    AlbaXYZ<int> xyz(-5,5,10);
-    EXPECT_FALSE(xyz.getDisplayableString().empty());
+    IntXYZ xyz(-5,5,10);
+
+    EXPECT_EQ("(-5,5,10)", xyz.getDisplayableString());
 }
 
-TEST(AlbaXYZTest, XYZMinimumCanBeSaved)
+TEST(AlbaXYZTest, SetXWorks)
 {
-    AlbaXYZ<int> xyz;
-    xyz.saveMinimumXAndYAndZ(AlbaXYZ<int>(-5,5,10));
-    xyz.saveMinimumXAndYAndZ(AlbaXYZ<int>(5,-5,10));
-    xyz.saveMinimumXAndYAndZ(AlbaXYZ<int>(-5,-5,-10));
-    xyz.saveMinimumXAndYAndZ(AlbaXYZ<int>(5,5,-10));
+    IntXYZ xyz(-5,5,10);
 
-    EXPECT_EQ(AlbaXYZ<int>(-5,-5,-10), xyz);
+    xyz.setX(23);
+
+    EXPECT_EQ(IntXYZ(23,5,10), xyz);
 }
 
-TEST(AlbaXYZTest, XYZMaximumCanBeSaved)
+TEST(AlbaXYZTest, SetYWorks)
 {
-    AlbaXYZ<int> xyz;
-    xyz.saveMaximumXAndYAndZ(AlbaXYZ<int>(-5,5,-10));
-    xyz.saveMaximumXAndYAndZ(AlbaXYZ<int>(5,-5,-10));
-    xyz.saveMaximumXAndYAndZ(AlbaXYZ<int>(-5,-5,10));
-    xyz.saveMaximumXAndYAndZ(AlbaXYZ<int>(5,5,10));
+    IntXYZ xyz(-5,5,10);
 
-    EXPECT_EQ(AlbaXYZ<int>(5,5,10), xyz);
+    xyz.setY(45);
+
+    EXPECT_EQ(IntXYZ(-5,45,10), xyz);
+}
+
+TEST(AlbaXYZTest, SetZWorks)
+{
+    IntXYZ xyz(-5,5,10);
+
+    xyz.setZ(68);
+
+    EXPECT_EQ(IntXYZ(-5,5,68), xyz);
+}
+
+TEST(AlbaXYZTest, SetXAndYAndZWorks)
+{
+    IntXYZ xyz(-5,5,10);
+
+    xyz.setXAndYAndZ(10,20,30);
+
+    EXPECT_EQ(IntXYZ(10,20,30), xyz);
+}
+
+TEST(AlbaXYZTest, SaveMinimumXAndYAndZWorks)
+{
+    IntXYZ xyz;
+
+    xyz.saveMinimumXAndYAndZ(IntXYZ(-5,5,10));
+    xyz.saveMinimumXAndYAndZ(IntXYZ(5,-5,10));
+    xyz.saveMinimumXAndYAndZ(IntXYZ(-5,-5,-10));
+    xyz.saveMinimumXAndYAndZ(IntXYZ(5,5,-10));
+
+    EXPECT_EQ(IntXYZ(-5,-5,-10), xyz);
+}
+
+TEST(AlbaXYZTest, SaveMaximumXAndYAndZWorks)
+{
+    IntXYZ xyz;
+
+    xyz.saveMaximumXAndYAndZ(IntXYZ(-5,5,-10));
+    xyz.saveMaximumXAndYAndZ(IntXYZ(5,-5,-10));
+    xyz.saveMaximumXAndYAndZ(IntXYZ(-5,-5,10));
+    xyz.saveMaximumXAndYAndZ(IntXYZ(5,5,10));
+
+    EXPECT_EQ(IntXYZ(5,5,10), xyz);
 }
 
 }

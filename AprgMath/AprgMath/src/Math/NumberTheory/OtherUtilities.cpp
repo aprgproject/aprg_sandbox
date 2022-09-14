@@ -4,7 +4,8 @@
 #include <Common/Math/Helpers/PrecisionHelpers.hpp>
 
 using namespace alba::algorithm;
-using namespace alba::mathHelper;using namespace std;
+using namespace alba::mathHelper;
+using namespace std;
 
 namespace alba
 {
@@ -55,7 +56,8 @@ bool isLagrangeTheoremTrue(UnsignedInteger const number)
     UnsignedInteger maxElement = static_cast<UnsignedInteger>(pow(number, 0.5)); // max element is square root
     UnsignedIntegers squaredElements;
     squaredElements.reserve(maxElement-1);
-    for(UnsignedInteger i=1; i<maxElement; i++)    {
+    for(UnsignedInteger i=1; i<maxElement; i++)
+    {
         squaredElements.emplace_back(i*i);
     }
 

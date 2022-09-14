@@ -4,7 +4,8 @@
 #include <Common/Math/Helpers/PowerHelpers.hpp>
 #include <Math/NumberTheory/PrimeAndFactorUtilities.hpp>
 
-using namespace alba::mathHelper;using namespace std;
+using namespace alba::mathHelper;
+using namespace std;
 
 namespace alba
 {
@@ -61,6 +62,7 @@ bool canModuloBeDistributedInPower(
     UnsignedInteger distributed = getRaiseToPowerForIntegers(number%modulo, exponent) % modulo;
     return undistributed == distributed;
 }
+
 bool canModuloBeDistributedInEveryIterationOfFactorial(
         UnsignedInteger const number,
         UnsignedInteger const modulo)
@@ -88,7 +90,8 @@ bool isFermatTheoremTrue(UnsignedInteger const prime, UnsignedInteger const coPr
         UnsignedInteger formula = getRaiseToPowerForIntegers(prime, coPrime-1) % coPrime;
         result = formula == static_cast<UnsignedInteger>(1);
     }
-    return result;}
+    return result;
+}
 
 bool isEulerTheoremTrue(UnsignedInteger const coPrime1, UnsignedInteger const coPrime2)
 {
@@ -101,7 +104,8 @@ bool isEulerTheoremTrue(UnsignedInteger const coPrime1, UnsignedInteger const co
         UnsignedInteger formula = getRaiseToPowerForIntegers(coPrime1, getNumberOfCoPrimesBelowThisNumber(coPrime2)) % coPrime2;
         result = formula == static_cast<UnsignedInteger>(1);
     }
-    return result;}
+    return result;
+}
 
 UnsignedInteger getModularExponentiation(
         UnsignedInteger const number,

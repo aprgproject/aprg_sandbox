@@ -12,10 +12,12 @@ template <typename CoordinateType>
 class AlbaXYZ
 {
 public:
+    using XyzType = AlbaXYZ<CoordinateType>;
+
     AlbaXYZ()
-        : x(0)
-        , y(0)
-        , z(0)
+        : x{}
+        , y{}
+        , z{}
     {}
 
     AlbaXYZ(CoordinateType const& xValue, CoordinateType const& yValue, CoordinateType const& zValue)
@@ -24,45 +26,20 @@ public:
         , z(zValue)
     {}
 
-    bool isEmpty() const
-    {
-        return x==0 && y==0 && z==0;
-    }
-
-    CoordinateType getX() const
-    {
-        return x;
-    }
-
-    CoordinateType getY() const
-    {
-        return y;
-    }
-
-    CoordinateType getZ() const
-    {
-        return z;
-    }
-
-    CoordinateType getXTimesYTimesZ() const
-    {
-        return x*y*z;
-    }
-
-    bool operator==(AlbaXYZ<CoordinateType> const& xyz) const
+    bool operator==(XyzType const& xyz) const
     {
         return mathHelper::isAlmostEqual(x, xyz.x)
                 && mathHelper::isAlmostEqual(y, xyz.y)
                 && mathHelper::isAlmostEqual(z, xyz.z);
     }
 
-    bool operator!=(AlbaXYZ<CoordinateType> const& secondXyz) const
+    bool operator!=(XyzType const& secondXyz) const
     {
-        AlbaXYZ<CoordinateType> const& firstXyz(*this);
+        XyzType const& firstXyz(*this);
         return !(firstXyz==secondXyz);
     }
 
-    bool operator<(AlbaXYZ<CoordinateType> const& xyz) const // this is added so it can be used in map
+    bool operator<(XyzType const& xyz) const // this is added so it can be used in map
     {
         bool result(false);
         if(x < xyz.x)
@@ -91,43 +68,71 @@ public:
         return result;
     }
 
-    AlbaXYZ<CoordinateType> operator+() const
+    XyzType operator+() const
     {
         return *this;
     }
 
-    AlbaXYZ<CoordinateType> operator-() const
+    XyzType operator-() const
     {
-        return AlbaXYZ<CoordinateType>(-x, -y, -z);
+        return XyzType(-x, -y, -z);
     }
 
-    AlbaXYZ<CoordinateType> operator+(AlbaXYZ<CoordinateType> const& secondXyz) const
+    XyzType operator+(XyzType const& secondXyz) const
     {
-        return AlbaXYZ<CoordinateType>(x+secondXyz.x, y+secondXyz.y, z+secondXyz.z);    }
-
-    AlbaXYZ<CoordinateType> operator-(AlbaXYZ<CoordinateType> const& secondXyz) const
-    {
-        return AlbaXYZ<CoordinateType>(x-secondXyz.x, y-secondXyz.y, z-secondXyz.z);
+        return XyzType(x+secondXyz.x, y+secondXyz.y, z+secondXyz.z);
     }
 
-    AlbaXYZ<CoordinateType> operator*(CoordinateType const& multiplier) const
+    XyzType operator-(XyzType const& secondXyz) const
     {
-        return AlbaXYZ<CoordinateType>(x*multiplier, y*multiplier, z*multiplier);
+        return XyzType(x-secondXyz.x, y-secondXyz.y, z-secondXyz.z);
     }
 
-    AlbaXYZ<CoordinateType> operator/(CoordinateType const& divisor) const
+    XyzType operator*(CoordinateType const& multiplier) const
     {
-        return AlbaXYZ<CoordinateType>(x/divisor, y/divisor, z/divisor);
+        return XyzType(x*multiplier, y*multiplier, z*multiplier);
     }
 
-    AlbaXYZ<CoordinateType>& operator+=(AlbaXYZ<CoordinateType> const& secondXyz)    {
+    XyzType operator/(CoordinateType const& divisor) const
+    {
+        return XyzType(x/divisor, y/divisor, z/divisor);
+    }
+
+    XyzType& operator+=(XyzType const& secondXyz)
+    {
         x+=secondXyz.x; y+=secondXyz.y; z+=secondXyz.z;
         return *this;
     }
-    AlbaXYZ<CoordinateType>& operator-=(AlbaXYZ<CoordinateType> const& secondXyz)
+
+    XyzType& operator-=(XyzType const& secondXyz)
     {
         x-=secondXyz.x; y-=secondXyz.y; z-=secondXyz.z;
         return *this;
+    }
+
+    bool isEmpty() const
+    {
+        return CoordinateType{}==x && CoordinateType{}==y && CoordinateType{}==z;
+    }
+
+    CoordinateType getX() const
+    {
+        return x;
+    }
+
+    CoordinateType getY() const
+    {
+        return y;
+    }
+
+    CoordinateType getZ() const
+    {
+        return z;
+    }
+
+    CoordinateType getXTimesYTimesZ() const
+    {
+        return x*y*z;
     }
 
     std::string getDisplayableString() const
@@ -135,13 +140,6 @@ public:
         std::stringstream ss;
         ss<<"("<<x<<","<<y<<","<<z<<")";
         return ss.str();
-    }
-
-    void setXAndYAndZ(CoordinateType const& xValue, CoordinateType const& yValue, CoordinateType const& zValue)
-    {
-        x = xValue;
-        y = yValue;
-        z = zValue;
     }
 
     void setX(CoordinateType const& xValue)
@@ -156,6 +154,13 @@ public:
 
     void setZ(CoordinateType const& zValue)
     {
+        z = zValue;
+    }
+
+    void setXAndYAndZ(CoordinateType const& xValue, CoordinateType const& yValue, CoordinateType const& zValue)
+    {
+        x = xValue;
+        y = yValue;
         z = zValue;
     }
 
@@ -188,22 +193,6 @@ public:
         if(z < xyz.z)
         {
             z = xyz.z;
-        }
-    }
-
-    void setNegativeToZero()
-    {
-        if(x < 0)
-        {
-            x = 0;
-        }
-        if(y < 0)
-        {
-            y = 0;
-        }
-        if(z < 0)
-        {
-            z = 0;
         }
     }
 

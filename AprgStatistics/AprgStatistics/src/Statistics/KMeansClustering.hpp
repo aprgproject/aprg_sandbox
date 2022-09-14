@@ -18,7 +18,8 @@ public:
     using Sample = DataSample<DIMENSIONS>;
     using Samples = std::vector<Sample>;
     using GroupOfSamples = std::vector<Samples>;
-    using SamplesGroupPair = std::pair<Sample, unsigned int>;    using SamplesGroupPairs = std::vector<std::pair<Sample, unsigned int>>;
+    using SamplesGroupPair = std::pair<Sample, unsigned int>;
+    using SamplesGroupPairs = std::vector<std::pair<Sample, unsigned int>>;
 
     KMeansClustering()
     {}
@@ -36,7 +37,8 @@ public:
     void addSamples(Samples const& samples)
     {
         m_samples.reserve(m_samples.size() + samples.size());
-        std::copy(samples.cbegin(), samples.cend(), std::back_inserter(m_samples));    }
+        std::copy(samples.cbegin(), samples.cend(), std::back_inserter(m_samples));
+    }
 
     Samples getSamples() const
     {
@@ -50,7 +52,8 @@ public:
 
     GroupOfSamples getGroupOfSamplesUsingKMeans(unsigned int const numberOfGroups) const
     {
-        SamplesGroupPairs samplesGroupPairs(calculateInitialSamplesGroupPairsFromSavedSamples(numberOfGroups));        bool isSamplesGroupPairsChanged(true);
+        SamplesGroupPairs samplesGroupPairs(calculateInitialSamplesGroupPairsFromSavedSamples(numberOfGroups));
+        bool isSamplesGroupPairsChanged(true);
         while(isSamplesGroupPairsChanged)
         {
             isSamplesGroupPairsChanged=false;

@@ -15,7 +15,8 @@ public:
         , m_sum(0)
         , m_count(0)
     {}
-    DataType getMinimum() const    {
+    DataType getMinimum() const
+    {
         return m_minimum;
     }
     DataType getMaximum() const
@@ -35,7 +36,8 @@ public:
         return m_sum;
     }
     unsigned int getCount() const
-    {        return m_count;
+    {
+        return m_count;
     }
     DataType getAverage() const
     {
@@ -48,7 +50,8 @@ public:
     void addData(DataType const& dataValue)
     {
         if(m_count==0)
-        {            m_minimum = dataValue;
+        {
+            m_minimum = dataValue;
             m_maximum = dataValue;
         }
         else
@@ -67,17 +70,20 @@ public:
         m_sum+=dataValue;
         m_count++;
     }
-    void clear()    {
+    void clear()
+    {
         m_minimum = 0;
         m_maximum = 0;
         m_sum = 0;
         m_count = 0;
     }
-private:    DataType m_minimum;
+private:
+    DataType m_minimum;
     DataType m_maximum;
     DataType m_theCountForMinimum;
     DataType m_theCountForMaximum;
     DataType m_sum;
     unsigned int m_count;
 };
+
 }

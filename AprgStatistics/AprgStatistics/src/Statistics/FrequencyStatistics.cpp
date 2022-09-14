@@ -76,7 +76,8 @@ FrequencyStatistics::MultipleValues FrequencyStatistics::calculateMode(Frequency
 });
     unsigned int maxFrequency = iteratorForMaxFrequency->second;
 
-    for_each(samples.begin(), samples.end(), [&](FrequencyPair const& frequencyPair)    {
+    for_each(samples.begin(), samples.end(), [&](FrequencyPair const& frequencyPair)
+    {
         if(maxFrequency == frequencyPair.second)
         {
             result.push_back(frequencyPair.first);

@@ -82,7 +82,8 @@ Section "WcdmaTools files" WcdmaToolsFilesSection
   WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${MUI_PRODUCT}" "DisplayName" "${MUI_PRODUCT}"
   WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${MUI_PRODUCT}" "UninstallString" "$INSTDIR\Uninstall.exe"
   
-  ;Right click  WriteRegStr HKCR "Directory\shell\${MUI_PRODUCT}" "" ""
+  ;Right click
+  WriteRegStr HKCR "Directory\shell\${MUI_PRODUCT}" "" ""
   WriteRegStr HKCR "Directory\shell\${MUI_PRODUCT}\command" "" ""
   WriteRegStr HKCR "Directory\shell\${MUI_PRODUCT}\command" "" "$\"$INSTDIR\${MUI_PRODUCT}\${MUI_FILE}.exe$\" $\"%1\$\""
   WriteRegStr HKCR "*\shell\${MUI_PRODUCT}" "" ""

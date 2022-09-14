@@ -5,7 +5,8 @@
 #include <Common/Math/Helpers/PowerHelpers.hpp>
 #include <Math/NumberTheory/ModularArithmetic.hpp>
 
-using namespace alba::algorithm;using namespace alba::mathHelper;
+using namespace alba::algorithm;
+using namespace alba::mathHelper;
 using namespace std;
 
 namespace alba
@@ -70,7 +71,8 @@ bool isLegendreConjectureTrue(UnsignedInteger const number)
     UnsignedInteger end = getRaiseToPowerForIntegers(number+1, static_cast<UnsignedInteger>(2));
     bool result(false);
     for(UnsignedInteger numberToCheck=start+1; numberToCheck<end; numberToCheck++)
-    {        if(isPrime(numberToCheck))
+    {
+        if(isPrime(numberToCheck))
         {
             result = true;
             break;
@@ -118,7 +120,8 @@ UnsignedInteger getSumOfFactors(UnsignedInteger const number)
         UnsignedInteger formulaValue = (getRaiseToPowerForIntegers(primeFactor, count+1)-1) / (primeFactor-1);
         result *= formulaValue;
     }
-    return result;}
+    return result;
+}
 
 UnsignedInteger getProductOfFactors(UnsignedInteger const number)
 {
@@ -126,7 +129,8 @@ UnsignedInteger getProductOfFactors(UnsignedInteger const number)
     return getRaiseToPowerForIntegers(number, numberOfFactors/2);
 }
 
-UnsignedInteger getApproximateDensityOfPrimes(UnsignedInteger const number){
+UnsignedInteger getApproximateDensityOfPrimes(UnsignedInteger const number)
+{
     // formula = n/(ln(n))
     return number / log(number);
 }
@@ -144,7 +148,8 @@ UnsignedInteger getNumberOfCoPrimesBelowThisNumber(UnsignedInteger const number)
         UnsignedInteger formulaValue = getRaiseToPowerForIntegers(primeFactor, count-1) * (primeFactor-1);
         result *= formulaValue;
     }
-    return result;}
+    return result;
+}
 
 UnsignedIntegers getPrimesBelowThisNumber(UnsignedInteger const number)
 {

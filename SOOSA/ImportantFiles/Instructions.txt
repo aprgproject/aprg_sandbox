@@ -20,7 +20,8 @@ Operation steps:
 3) Enter the values needed to run SOOSA (such as area, period, discharge, etc).
 4) Wait for the program to finish
 ---> If the selected path is a directory, SOOSA will check all ".bmp" files in the directory.
-5) After the program finishes, there should be output files in the same directory.---> Output files:
+5) After the program finishes, there should be output files in the same directory.
+---> Output files:
 ---> 1) The "PSS Report HTML file" which is a printable summary of the run.
 ---> 2) The "PSS Report CSV file" which contains a summary of the collected information.
 
@@ -44,4 +45,5 @@ In the installation directory, these configuration directories/files are availab
 -------> This string for the question is used on generating the "PSS Report HTML file".
 2) The "SoosaConfiguration.txt" file:
 ---> This contains the constants used by SOOSA on its operation.
+
 

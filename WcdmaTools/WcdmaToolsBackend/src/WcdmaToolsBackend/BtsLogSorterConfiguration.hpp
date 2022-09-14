@@ -3,6 +3,7 @@
 #include <Algorithm/Sort/LargeSorter/AlbaLargeSorterConfiguration.hpp>
 
 #include <string>
+
 namespace wcdmaToolsBackend
 {
 

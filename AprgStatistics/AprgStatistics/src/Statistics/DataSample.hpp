@@ -20,7 +20,8 @@ public:
     using BufferType = std::array<double, DIMENSIONS>;
 
     DataSample()
-    {        std::fill(m_data.begin(), m_data.end(), 0);
+    {
+        std::fill(m_data.begin(), m_data.end(), 0);
     }
 
     DataSample(std::initializer_list<double> const& dataSampleValues)
@@ -34,7 +35,8 @@ public:
         return index < DIMENSIONS;
     }
 
-    unsigned int getSize() const    {
+    unsigned int getSize() const
+    {
         return m_data.size();
     }
 
@@ -54,7 +56,8 @@ public:
         for (unsigned int index=0; index<DIMENSIONS; index++)
         {
             result += m_data.at(index);
-        }        return result;
+        }
+        return result;
     }
 
     std::string getDisplayableString() const

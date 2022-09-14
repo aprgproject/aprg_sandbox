@@ -18,7 +18,8 @@ public:
         : DataStatistics<DIMENSIONS>(samples)
     {}
 
-    bool isAnOutlierBasedOnChauvenetCriterion(Sample const& sample)    {
+    bool isAnOutlierBasedOnChauvenetCriterion(Sample const& sample)
+    {
         LocalStatistics::calculateMeanIfNeeded();
         LocalStatistics::calculateSampleStandardDeviationIfNeeded();
         double acceptableDeviation(calculateAcceptableDeviationBasedOnChauvenetCriterion(LocalStatistics::m_samples.size()));
