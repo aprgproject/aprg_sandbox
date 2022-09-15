@@ -36,21 +36,20 @@ void ChineseRemainderTheorem::solve(
 {
     if(numbers.size() == modulos.size())
     {
-        // fk = (m1*m2*m3...mn)/mk
+        // fk = formulaForK = (m1*m2*m3...mn)/mk
         // x = a1*f1*(inverse of f1 with modulo m1) + a2*f2*(inverse of f2 with modulo m2) + ... an*fn*(inverse of fn with modulo mn)
 
         m_productOfModulos = std::accumulate(modulos.cbegin(), modulos.cend(), UnsignedInteger(1), std::multiplies<UnsignedInteger>());
-        for(unsigned int i=0; i<numbers.size(); i++)
+        for(unsigned int k=0; k<numbers.size(); k++)
         {
-            UnsignedInteger const& number(numbers.at(i));
-            UnsignedInteger const& modulo(modulos.at(i));
-            UnsignedInteger fk = m_productOfModulos/modulo;
-            UnsignedInteger modularInverseOfFk = getModularInverse(fk, modulo);
-            m_solutionValue += number * fk * modularInverseOfFk;
+            UnsignedInteger const& number(numbers.at(k));
+            UnsignedInteger const& modulo(modulos.at(k));
+            UnsignedInteger formulaForK = m_productOfModulos/modulo;
+            UnsignedInteger modularInverseOfFk = getModularInverse(formulaForK, modulo);
+            m_solutionValue += number * formulaForK * modularInverseOfFk;
         }
     }
 }
-
 }
 
 }

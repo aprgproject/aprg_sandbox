@@ -162,6 +162,101 @@ TEST(CombinationsExamplesTest, BoxesAndBallsExampleScenario3Works_Example2)
     EXPECT_EQ(4U, getNumberOfCombinations(4U, 1U));
 }
 
+TEST(CombinationsExamplesTest, CatalanNumbersFormulaWorks)
+{
+    // There are a total of (2n, n) ways to construct a (not necessarily valid)
+    // parenthesis expression that contains n left parentheses and n right parentheses.
+
+    // This formula is correct because its reduces to boxes and balls formula.
+    // For example when n=3, we can assign balls to left parentheses and boxes to right parentheses, so its 6 taken 3:
+    // ALL:
+    // ((())) -> |o|o|o| | | |
+    // (()()) -> |o|o| |o| | |
+    // (())() -> |o|o| | |o| |
+    // (()))( -> |o|o| | | |o|
+    // ()(()) -> |o| |o|o| | |
+    // ()()() -> |o| |o| |o| |
+    // ()())( -> |o| |o| | |o|
+    // ())(() -> |o| | |o|o| |
+    // ())()( -> |o| | |o| |o|
+    // ()))(( -> |o| | | |o|o|
+    // )((()) -> | |o|o|o| | |
+    // )(()() -> | |o|o| |o| |
+    // )(())( -> | |o|o| | |o|
+    // )()(() -> | |o| |o|o| |
+    // )()()( -> | |o| |o| |o|
+    // )())(( -> | |o| | |o|o|
+    // ))((() -> | | |o|o|o| |
+    // ))(()( -> | | |o|o| |o|
+    // ))()(( -> | | |o| |o|o|
+    // )))((( -> | | | |o|o|o|
+    EXPECT_EQ(20U, getNumberOfCombinations(6U, 3U));
+
+    // If a parenthesis expression is not valid, it has to contain a prefix
+    // where the number of right parentheses EXCEEDS the number of left parentheses.
+    // The idea is to REVERSE each parenthesis that belongs to such a prefix.
+    // For example, the expression ())()( contains a prefix ()),
+    // and after reversing the prefix, the expression becomes )((()(.
+
+    // So:
+    // In the prefix, right parentheses in the prefix - left parentheses in the prefix = 1. (2[right prefix] - 1[left prefix] = 1)
+    // Thus, NOT in the prefix:
+    // Left parentheses NOT in the prefix = n - left parentheses in the prefix (2[left non prefix] = 3 - 1[left prefix])
+    // right parentheses NOT in the prefix = n - right parentheses in the prefix (1[right non prefix] = 3 - 2[right prefix])
+
+    // After reversing:
+    // In the prefix, left parentheses in REVERSE prefix - right parentheses in REVERSE prefix =  1. (2[left reverse prefix] - 1[right reverse prefix] = 1)
+
+    // Calculating the total:
+    // Total left parentheses = left parentheses in REVERSE prefix + left parentheses NOT in the prefix
+    // Total right parentheses = right parentheses in REVERSE prefix + right parentheses NOT in the prefix
+
+    // Since:
+    // n = left parentheses in the prefix + left parentheses NOT in the prefix, n - left parentheses in the prefix = left parentheses NOT in the prefix
+    // n = right parentheses in the prefix + right parentheses NOT in the prefix, n - right parentheses in the prefix = right parentheses NOT in the prefix
+
+    // Substituting:
+    // Total left parentheses = n + left parentheses in REVERSE prefix - left parentheses in the prefix (4 = 3 + 2[left reverse prefix] -1[left prefix])
+    // Total right parentheses = n + right parentheses in REVERSE prefix - right parentheses in the prefix (2 = 3 + 1[right reverse prefix] -2[right prefix])
+
+    // Total left parentheses = n + 1
+    // Total right parentheses = n - 1
+
+    // The resulting expression consists of n+1 left parentheses and n-1 right parentheses.
+    // The number of such expressions is (2n, n+1), which equals the number of non-valid parenthesis expressions.
+
+    // This formula is correct because its reduces to boxes and balls formula.
+    // For example when n=3, we can assign balls to left parentheses and boxes to right parentheses, so its 6 taken 2:
+    // INVALID:
+    // (()))( -> |o|o| | | |o|
+    // ()())( -> |o| |o| | |o|
+    // ())(() -> |o| | |o|o| |
+    // ())()( -> |o| | |o| |o|
+    // ()))(( -> |o| | | |o|o|
+    // )((()) -> | |o|o|o| | |
+    // )(()() -> | |o|o| |o| |
+    // )(())( -> | |o|o| | |o|
+    // )()(() -> | |o| |o|o| |
+    // )()()( -> | |o| |o| |o|
+    // )())(( -> | |o| | |o|o|
+    // ))((() -> | | |o|o|o| |
+    // ))(()( -> | | |o|o| |o|
+    // ))()(( -> | | |o| |o|o|
+    // )))((( -> | | | |o|o|o|
+    EXPECT_EQ(15U, getNumberOfCombinations(6U, 2U));
+
+
+    // Thus, the number of valid parenthesis expressions can be calculated using the formula
+    // (2n, n) - (2n, n+1) = (2n, n) - (2n, n) * n/(n+1) = (2n, n) * (n+1-n)/(n+1) = (2n, n)/(n+1)
+    // VALID:
+    // ((())) -> |o|o|o| | | |
+    // (()()) -> |o|o| |o| | |
+    // (())() -> |o|o| | |o| |
+    // ()(()) -> |o| |o|o| | |
+    // ()()() -> |o| |o| |o| |
+    EXPECT_EQ(5U, getNumberOfCombinations(6U, 3U)/(3+1));
+}
+
 }
 
 }
