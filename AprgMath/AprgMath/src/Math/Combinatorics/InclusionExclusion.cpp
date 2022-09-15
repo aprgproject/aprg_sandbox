@@ -32,21 +32,18 @@ UnsignedInteger getUnionCountOfThreeSets(
         UnsignedInteger const acIntersection,
         UnsignedInteger const abcIntersection)
 {
-    return aSize + bSize + cSize - abIntersection - bcIntersection - acIntersection + abcIntersection;
+    return aSize + bSize + cSize - abIntersection - acIntersection  - bcIntersection+ abcIntersection;
 }
 
-UnsignedInteger getIntersectionCountOfThreeSets(
-        UnsignedInteger const aSize,
+UnsignedInteger getIntersectionCountOfThreeSets(        UnsignedInteger const aSize,
         UnsignedInteger const bSize,
         UnsignedInteger const cSize,
-        UnsignedInteger const abIntersection,
-        UnsignedInteger const bcIntersection,
+        UnsignedInteger const abIntersection,        UnsignedInteger const bcIntersection,
         UnsignedInteger const acIntersection,
         UnsignedInteger const abcUnion)
 {
-    return abcUnion - aSize - bSize - cSize + abIntersection + bcIntersection + acIntersection;
+    return abcUnion - aSize - bSize - cSize + abIntersection + acIntersection + bcIntersection;
 }
 
 }
-
 }
