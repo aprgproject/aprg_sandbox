@@ -167,15 +167,13 @@ public:
         return ss.str();
     }
 
-    Implicants getBestImplicants(Implicants const& finalImplicants) const
+    Implicants getBestFinalImplicants(Implicants const& finalImplicants) const
     {
         // Specialized selection
-        Implicants result;
-        SetOfMinterms inputMintermsWithTrue(getSetOfInputMintermsWithTrue());
+        Implicants result;        SetOfMinterms inputMintermsWithTrue(getSetOfInputMintermsWithTrue());
 
         while(!inputMintermsWithTrue.empty())
-        {
-            std::map<Minterm, unsigned int> inputMintermToCountMap;
+        {            std::map<Minterm, unsigned int> inputMintermToCountMap;
             std::map<Minterm, Implicant> inputMintermToImplicantMap;
             std::map<unsigned int, Implicant> countToImplicantMap;
             for(Implicant const& implicant : finalImplicants.getImplicantsData())
@@ -202,33 +200,31 @@ public:
                     minCount = inputMintermAndCountPair.second;
                 }
             }
-            Implicant bestImplicant;
+            Implicant bestFinalImplicant;
             if(minCount == 1U)
             {
-                bestImplicant = inputMintermToImplicantMap.at(mintermWithMinCount);
+                bestFinalImplicant = inputMintermToImplicantMap.at(mintermWithMinCount);
             }
             else
             {
                 auto it = countToImplicantMap.cend();
                 it--;
-                bestImplicant = it->second;
+                bestFinalImplicant = it->second;
             }
-            SetOfMinterms bestImplicantMinterms(bestImplicant.getMinterms());
-            if(!bestImplicantMinterms.empty())
+            SetOfMinterms bestFinalImplicantMinterms(bestFinalImplicant.getMinterms());
+            if(!bestFinalImplicantMinterms.empty())
             {
-                for(Minterm const& bestImplicantMinterm : bestImplicantMinterms)
+                for(Minterm const& bestFinalImplicantMinterm : bestFinalImplicantMinterms)
                 {
-                    inputMintermsWithTrue.erase(bestImplicantMinterm);
+                    inputMintermsWithTrue.erase(bestFinalImplicantMinterm);
                 }
-                result.addImplicant(bestImplicant);
+                result.addImplicant(bestFinalImplicant);
             }
         }
-        return result;
-    }
+        return result;    }
 
     std::string getOutputTable(Implicants const& finalImplicants) const
-    {
-        Minterms inputsWithTrue(getInputMintermsWithTrue());
+    {        Minterms inputsWithTrue(getInputMintermsWithTrue());
         DisplayTable displayTable;
         displayTable.setBorders("", "|");
         displayTable.addRow();

@@ -3,17 +3,13 @@
 #include <BooleanAlgebra/Operations/PerformOperations.hpp>
 #include <BooleanAlgebra/Term/Utilities/ConvertHelpers.hpp>
 #include <BooleanAlgebra/Term/Utilities/CreateHelpers.hpp>
-#include <Common/Math/AlbaMathHelper.hpp>
 
-using namespace alba::mathHelper;
 using namespace std;
 
-namespace alba
-{
+namespace alba{
 
 namespace booleanAlgebra
 {
-
 namespace
 {
 
