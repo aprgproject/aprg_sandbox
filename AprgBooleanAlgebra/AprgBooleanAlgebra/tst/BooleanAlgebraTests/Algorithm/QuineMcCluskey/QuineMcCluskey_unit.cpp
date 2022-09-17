@@ -316,6 +316,53 @@ TEST(QuineMcCluskeyTest, DISABLED_GetInputsFromFromFile_LogarithmBase2ForByte){
     cout << qm2.getOutputTable(finalImplicants2);
 }
 
+TEST(QuineMcCluskeyTest, DISABLED_GetInputsFromFromFile_ZeroesStartingFromMsb)
+{
+    QuineMcCluskeyForTest qm0;
+    QuineMcCluskeyForTest qm1;
+    QuineMcCluskeyForTest qm2;
+    QuineMcCluskeyForTest qm3;
+    AlbaLocalPathHandler pathOfNewAlgorithm(APRG_DIR R"(\AprgBooleanAlgebra\FilesForTests\QuineMcKluskeyTest\ZeroesStartingFromMsb.txt)");
+    ifstream algorithmResultsFileStream(pathOfNewAlgorithm.getFullPath());
+    AlbaFileReader algorithmResultsReader(algorithmResultsFileStream);
+    while(algorithmResultsReader.isNotFinished())
+    {
+        string lineInFile(algorithmResultsReader.getLineAndIgnoreWhiteSpaces());
+        strings entries;
+        splitToStrings<SplitStringType::WithoutDelimeters>(entries, lineInFile, " ");
+        if(entries.size()>=5)
+        {
+            MintermForTest input = convertStringToNumber<MintermForTest>(entries.at(0));
+            setInputOutput(qm0, input, getStringWithCapitalLetters(entries.at(1)));
+            setInputOutput(qm1, input, getStringWithCapitalLetters(entries.at(2)));
+            setInputOutput(qm2, input, getStringWithCapitalLetters(entries.at(3)));
+            setInputOutput(qm3, input, getStringWithCapitalLetters(entries.at(4)));
+        }
+    }
+
+    qm0.fillComputationalTableWithMintermsWithZeroCommonalityCount();
+    qm1.fillComputationalTableWithMintermsWithZeroCommonalityCount();
+    qm2.fillComputationalTableWithMintermsWithZeroCommonalityCount();
+    qm3.fillComputationalTableWithMintermsWithZeroCommonalityCount();
+    cout << "Initial computation table: " << endl << qm0.getComputationTableString() << endl;
+    cout << "Initial computation table: " << endl << qm1.getComputationTableString() << endl;
+    cout << "Initial computation table: " << endl << qm2.getComputationTableString() << endl;
+    cout << "Initial computation table: " << endl << qm3.getComputationTableString() << endl;
+    qm0.findAllCombinations();
+    qm1.findAllCombinations();
+    qm2.findAllCombinations();
+    qm3.findAllCombinations();
+
+    ImplicantsForTest finalImplicants0(qm0.getAllFinalImplicants());
+    ImplicantsForTest finalImplicants1(qm1.getAllFinalImplicants());
+    ImplicantsForTest finalImplicants2(qm2.getAllFinalImplicants());
+    ImplicantsForTest finalImplicants3(qm3.getAllFinalImplicants());
+    cout << qm0.getOutputTable(finalImplicants0);
+    cout << qm1.getOutputTable(finalImplicants1);
+    cout << qm2.getOutputTable(finalImplicants2);
+    cout << qm3.getOutputTable(finalImplicants3);
+}
+
 }
 
 }
