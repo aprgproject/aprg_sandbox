@@ -1,11 +1,10 @@
 #include <Common/Math/Helpers/PowerHelpers.hpp>
+#include <Common/Randomizer/AlbaRandomizer.hpp>
 
 #include <gtest/gtest.h>
-
 using namespace std;
 
-namespace alba
-{
+namespace alba{
 
 namespace mathHelper
 {
@@ -71,42 +70,12 @@ TEST(PowerHelpersTest, GetRaiseToPowerForIntegersUsingPowWorks)
     EXPECT_EQ(0, getRaiseToPowerForIntegersUsingPow(-2, -1));
 }
 
-TEST(PowerHelpersTest, DISABLED_GetRaiseToPowerForIntegersPerformanceTest)
-{
-    // Results: ~1s
-    unsigned long long result(0);
-    for(unsigned long long base=1; base<2000; base++)
-    {
-        for(unsigned long long exponent=1; exponent<2000; exponent++)
-        {
-            result = std::max(result, getRaiseToPowerForIntegers(base, exponent));
-        }
-    }
-    EXPECT_EQ(18446741497450899401ULL, result);
-}
-
-TEST(PowerHelpersTest, DISABLED_GetRaiseToPowerForIntegersUsingPowPerformanceTest)
-{
-    // Results: ~1.3s
-    unsigned long long result(0);
-    for(unsigned long long base=1; base<2000; base++)
-    {
-        for(unsigned long long exponent=1; exponent<2000; exponent++)
-        {
-            result = std::max(result, getRaiseToPowerForIntegersUsingPow(base, exponent));
-        }
-    }
-    EXPECT_EQ(18446744071562067968ULL, result);
-}
-
 TEST(PowerHelpersTest, IsPerfectSquareForAlbaNumberWorks)
 {
-    EXPECT_TRUE(isPerfectSquare(AlbaNumber(0)));
-    EXPECT_TRUE(isPerfectSquare(AlbaNumber(1)));
+    EXPECT_TRUE(isPerfectSquare(AlbaNumber(0)));    EXPECT_TRUE(isPerfectSquare(AlbaNumber(1)));
     EXPECT_FALSE(isPerfectSquare(AlbaNumber(3)));
     EXPECT_TRUE(isPerfectSquare(AlbaNumber(4)));
-    EXPECT_TRUE(isPerfectSquare(AlbaNumber(100)));
-    EXPECT_FALSE(isPerfectSquare(AlbaNumber(101)));
+    EXPECT_TRUE(isPerfectSquare(AlbaNumber(100)));    EXPECT_FALSE(isPerfectSquare(AlbaNumber(101)));
     EXPECT_TRUE(isPerfectSquare(AlbaNumber::createFraction(100, 36)));
     EXPECT_FALSE(isPerfectSquare(AlbaNumber::createFraction(100, 37)));
 }
@@ -137,6 +106,68 @@ TEST(PowerHelpersTest, IsPerfectNthPowerForAlbaNumberWorks)
     EXPECT_FALSE(isPerfectNthPower(AlbaNumber(1001), 3U));
     EXPECT_TRUE(isPerfectNthPower(AlbaNumber::createFraction(1000, 27), 3U));
     EXPECT_FALSE(isPerfectNthPower(AlbaNumber::createFraction(1001, 26), 3U));
+}
+
+TEST(PowerHelpersPerformanceTest, DISABLED_GetRaiseToPowerForIntegersPerformanceTest_WithIncreasingInput)
+{
+    // Results: ~1s
+
+    unsigned long long result(0);
+    for(unsigned long long base=1; base<2000; base++)
+    {
+        for(unsigned long long exponent=1; exponent<2000; exponent++)
+        {
+            result = std::max(result, getRaiseToPowerForIntegers(base, exponent));
+        }
+    }
+    EXPECT_EQ(18446741497450899401ULL, result);
+}
+
+TEST(PowerHelpersPerformanceTest, DISABLED_GetRaiseToPowerForIntegersUsingPowPerformanceTest_WithIncreasingInput)
+{
+    // Results: ~1.3s
+
+    unsigned long long result(0);
+    for(unsigned long long base=1; base<2000; base++)
+    {
+        for(unsigned long long exponent=1; exponent<2000; exponent++)
+        {
+            result = std::max(result, getRaiseToPowerForIntegersUsingPow(base, exponent));
+        }
+    }
+    EXPECT_EQ(18446744071562067968ULL, result);
+}
+
+TEST(PowerHelpersPerformanceTest, DISABLED_GetRaiseToPowerForIntegersPerformanceTest_WithRandomInput)
+{
+    // Results: ~3.1s
+
+    unsigned long long result(0);
+    AlbaRandomizer randomizer;
+    int minValue(1), maxValue(2000);
+    for(unsigned long long iterations=1; iterations<10000000ULL; iterations++)
+    {
+        unsigned long long base = static_cast<unsigned long long>(randomizer.getRandomValueInUniformDistribution(minValue, maxValue));
+        unsigned long long exponent = static_cast<unsigned long long>(randomizer.getRandomValueInUniformDistribution(minValue, maxValue));
+        result = max(result, getRaiseToPowerForIntegers(base, exponent));
+    }
+    EXPECT_LT(0ULL, result);
+}
+
+TEST(PowerHelpersPerformanceTest, DISABLED_GetRaiseToPowerForIntegersUsingPowPerformanceTest_WithRandomInput)
+{
+    // Results: ~3.1s
+
+    unsigned long long result(0);
+    AlbaRandomizer randomizer;
+    int minValue(1), maxValue(2000);
+    for(unsigned long long iterations=1; iterations<10000000ULL; iterations++)
+    {
+        unsigned long long base = static_cast<unsigned long long>(randomizer.getRandomValueInUniformDistribution(minValue, maxValue));
+        unsigned long long exponent = static_cast<unsigned long long>(randomizer.getRandomValueInUniformDistribution(minValue, maxValue));
+        result = max(result, getRaiseToPowerForIntegers(base, exponent));
+    }
+    EXPECT_LT(0ULL, result);
 }
 
 }

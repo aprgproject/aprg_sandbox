@@ -49,15 +49,13 @@ template <typename NumberType> NumberType getRaiseToPowerForIntegers(NumberType 
 {
     static_assert(std::is_integral<NumberType>::value, "Number type must be an integer");
 
-    // This is faster and correct than pow
+    // This is always correct and faster than pow (check performance test for comparison)
 
     NumberType result(1), newBase(base), newExponent(exponent);
-    while(newExponent > 0)
-    {
+    while(newExponent > 0)    {
         if(isEven(newExponent))
         {
-            newBase *= newBase;
-            newExponent /= 2;
+            newBase *= newBase;            newExponent /= 2;
         }
         else
         {
