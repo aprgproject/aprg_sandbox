@@ -30,14 +30,13 @@ TEST(DerangementsTest, GetNumberOfDerangementsApproximationWorks)
     EXPECT_EQ(2U, getNumberOfDerangementsApproximation(3U));
     EXPECT_EQ(9U, getNumberOfDerangementsApproximation(4U));
     EXPECT_EQ(44U, getNumberOfDerangementsApproximation(5U));
+    EXPECT_EQ(265U, getNumberOfDerangementsApproximation(6U));
     EXPECT_EQ(1334961U, getNumberOfDerangementsApproximation(10U));
     EXPECT_EQ(481066515734U, getNumberOfDerangementsApproximation(15U)); // still accurate even at 15
 }
-
 TEST(DerangementsTest, GetDerangementsProbabilityWorks)
 {
-    EXPECT_DOUBLE_EQ(0, getDerangementsProbability(0U));
-    EXPECT_DOUBLE_EQ(0, getDerangementsProbability(1U));
+    EXPECT_DOUBLE_EQ(0, getDerangementsProbability(0U));    EXPECT_DOUBLE_EQ(0, getDerangementsProbability(1U));
     EXPECT_DOUBLE_EQ(0.5, getDerangementsProbability(2U));
     EXPECT_DOUBLE_EQ(0.33333333333333331, getDerangementsProbability(3U));
     EXPECT_DOUBLE_EQ(0.375, getDerangementsProbability(4U));
