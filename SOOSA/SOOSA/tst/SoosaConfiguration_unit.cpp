@@ -51,7 +51,8 @@ TEST(SoosaConfigurationTest, LoadConfigurationFromFileWorks)
     EXPECT_EQ(4U, soosaConfiguration.getAcceptableMinimumDistanceFromWidthMidpoint());
     EXPECT_DOUBLE_EQ(0.50, soosaConfiguration.getAcceptableSdOverMeanDeviationForLine());
     EXPECT_DOUBLE_EQ(0.10, soosaConfiguration.getAcceptableSdOverMeanDeviationForBar());
-    EXPECT_DOUBLE_EQ(0.05, soosaConfiguration.getRemovalRatioForLineAndBar());    EXPECT_DOUBLE_EQ(0.10, soosaConfiguration.getAcceptableSdOverMeanDeviationForBarHeight());
+    EXPECT_DOUBLE_EQ(0.05, soosaConfiguration.getRemovalRatioForLineAndBar());
+    EXPECT_DOUBLE_EQ(0.10, soosaConfiguration.getAcceptableSdOverMeanDeviationForBarHeight());
     EXPECT_DOUBLE_EQ(0.02, soosaConfiguration.getRemovalRatioForBarHeight());
 
     EXPECT_EQ(5U, soosaConfiguration.getNumberOfChoices());
@@ -61,4 +62,5 @@ TEST(SoosaConfigurationTest, LoadConfigurationFromFileWorks)
 }
 
 }
+
 }

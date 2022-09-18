@@ -39,4 +39,5 @@ TEST(BurnsideLemmaTest, GetNumberOfCombinationsOfAPearlNecklaceWorks)
 }
 
 }
+
 }

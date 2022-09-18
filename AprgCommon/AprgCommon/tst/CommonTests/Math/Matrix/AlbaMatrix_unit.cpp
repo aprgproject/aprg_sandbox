@@ -180,10 +180,12 @@ TEST(AlbaMatrixTest, OperatorPlusWorks)
     AlbaMatrix<unsigned int> matrixToVerify(matrix+matrix);
 
     AlbaMatrix<unsigned int> expectedMatrix(2, 3,
-    { 2,  4,      6,  8,
+    { 2,  4,
+      6,  8,
      10, 12});
     EXPECT_EQ(expectedMatrix, matrixToVerify);
 }
+
 TEST(AlbaMatrixTest, OperatorMinusWorks)
 {
     AlbaMatrix<unsigned int> matrix1(2, 3,
@@ -328,9 +330,11 @@ TEST(AlbaMatrixTest, OperatorMultiplyAssignmentWorks_MatrixCanBeMultipliedWithAn
 TEST(AlbaMatrixTest, IsInsideTheMatrixWorks)
 {
     AlbaMatrix<unsigned int> matrix(14, 6);
+
     EXPECT_FALSE(matrix.isInside(14, 6));
     EXPECT_FALSE(matrix.isInside(14, 5));
-    EXPECT_FALSE(matrix.isInside(13, 6));    EXPECT_TRUE(matrix.isInside(13, 5));
+    EXPECT_FALSE(matrix.isInside(13, 6));
+    EXPECT_TRUE(matrix.isInside(13, 5));
 }
 
 TEST(AlbaMatrixTest, GetColumnsWorks)

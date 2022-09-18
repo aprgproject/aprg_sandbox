@@ -61,7 +61,8 @@ TEST(InputConfigurationTest, GetQuestionIndexInColumnWorks)
     EXPECT_EQ(0U, inputConfiguration.getQuestionIndexInColumn(1U, 1U));
 
     inputConfiguration.addQuestion(1, "Question1AtColumn1");
-    inputConfiguration.addQuestion(1, "Question2AtColumn1");    inputConfiguration.addQuestion(1, "Question3AtColumn1");
+    inputConfiguration.addQuestion(1, "Question2AtColumn1");
+    inputConfiguration.addQuestion(1, "Question3AtColumn1");
     inputConfiguration.addQuestion(2, "Question1AtColumn2");
     inputConfiguration.addQuestion(2, "Question2AtColumn2");
     EXPECT_EQ(0U, inputConfiguration.getQuestionIndexInColumn(1U, 0U));
@@ -70,10 +71,12 @@ TEST(InputConfigurationTest, GetQuestionIndexInColumnWorks)
     EXPECT_EQ(4U, inputConfiguration.getQuestionIndexInColumn(2U, 1U));
 }
 
-TEST(InputConfigurationTest, GetMinimumSatisfactoryScoreWorks){
+TEST(InputConfigurationTest, GetMinimumSatisfactoryScoreWorks)
+{
     InputConfiguration inputConfiguration;
 
     EXPECT_EQ(0U, inputConfiguration.getMinimumSatisfactoryScore());
+
     inputConfiguration.setMainParameters("AreaToTest", "PeriodToTest", 1.234, 7U);
     EXPECT_EQ(7U, inputConfiguration.getMinimumSatisfactoryScore());
 }

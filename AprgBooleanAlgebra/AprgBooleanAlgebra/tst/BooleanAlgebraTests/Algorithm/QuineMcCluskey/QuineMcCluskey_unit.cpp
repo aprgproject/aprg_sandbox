@@ -167,10 +167,12 @@ TEST(QuineMcCluskeyTest, GetImplicantsWithTwoCommonalityCounts)
 TEST(QuineMcCluskeyTest, GetAllFinalImplicantsAndGetBestFinalImplicantsWorks)
 {
     QuineMcCluskeyForTest quineMcCluskey;
-    quineMcCluskey.setInputOutput(4, LogicalValue::True);    quineMcCluskey.setInputOutput(8, LogicalValue::True);
+    quineMcCluskey.setInputOutput(4, LogicalValue::True);
+    quineMcCluskey.setInputOutput(8, LogicalValue::True);
     quineMcCluskey.setInputOutput(9, LogicalValue::DontCare);
     quineMcCluskey.setInputOutput(10, LogicalValue::True);
-    quineMcCluskey.setInputOutput(11, LogicalValue::True);    quineMcCluskey.setInputOutput(12, LogicalValue::True);
+    quineMcCluskey.setInputOutput(11, LogicalValue::True);
+    quineMcCluskey.setInputOutput(12, LogicalValue::True);
     quineMcCluskey.setInputOutput(14, LogicalValue::DontCare);
     quineMcCluskey.setInputOutput(15, LogicalValue::True);
 
@@ -188,10 +190,12 @@ TEST(QuineMcCluskeyTest, GetAllFinalImplicantsAndGetBestFinalImplicantsWorks)
     cout<<quineMcCluskey.getOutputTable(bestFinalImplicants);
 }
 
-TEST(QuineMcCluskeyTest, DISABLED_ExperimentalTest) //{
+TEST(QuineMcCluskeyTest, DISABLED_ExperimentalTest) //
+{
     QuineMcCluskeyForTest quineMcCluskey;
     quineMcCluskey.setInputOutput(2, LogicalValue::True);
-    quineMcCluskey.setInputOutput(3, LogicalValue::DontCare);    quineMcCluskey.setInputOutput(4, LogicalValue::True);
+    quineMcCluskey.setInputOutput(3, LogicalValue::DontCare);
+    quineMcCluskey.setInputOutput(4, LogicalValue::True);
     quineMcCluskey.setInputOutput(5, LogicalValue::DontCare);
     quineMcCluskey.setInputOutput(6, LogicalValue::DontCare);
     quineMcCluskey.setInputOutput(8, LogicalValue::True);
@@ -217,10 +221,12 @@ TEST(QuineMcCluskeyTest, DISABLED_ExperimentalTest) //{
     cout<<quineMcCluskey.getOutputTable(bestFinalImplicants);
 }
 
-namespace{
+namespace
+{
 
 void setInputOutput(QuineMcCluskeyForTest & quineMcCluskey, MintermForTest const input, string const& output)
-{    if(output == "1")
+{
+    if(output == "1")
     {
         quineMcCluskey.setInputOutput(input, LogicalValue::True);
     }
@@ -278,10 +284,12 @@ TEST(QuineMcCluskeyTest, DISABLED_GetInputsFromFromFileWorks_HasZeroInDigitForBy
     cout<<quineMcCluskey.getOutputTable(bestFinalImplicants);
 }
 
-TEST(QuineMcCluskeyTest, DISABLED_GetInputsFromFromFile_LogarithmBase2ForByte){
+TEST(QuineMcCluskeyTest, DISABLED_GetInputsFromFromFile_LogarithmBase2ForByte)
+{
     QuineMcCluskeyForTest qm0;
     QuineMcCluskeyForTest qm1;
-    QuineMcCluskeyForTest qm2;    AlbaLocalPathHandler pathOfNewAlgorithm(APRG_DIR R"(\AprgBooleanAlgebra\FilesForTests\QuineMcKluskeyTest\LogarithmBase2ForByte.txt)");
+    QuineMcCluskeyForTest qm2;
+    AlbaLocalPathHandler pathOfNewAlgorithm(APRG_DIR R"(\AprgBooleanAlgebra\FilesForTests\QuineMcKluskeyTest\LogarithmBase2ForByte.txt)");
     ifstream algorithmResultsFileStream(pathOfNewAlgorithm.getFullPath());
     AlbaFileReader algorithmResultsReader(algorithmResultsFileStream);
     while(algorithmResultsReader.isNotFinished())

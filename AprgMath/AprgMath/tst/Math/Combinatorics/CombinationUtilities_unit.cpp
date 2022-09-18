@@ -13,7 +13,8 @@ namespace math
 TEST(CombinationUtilitiesTest, IsNumberOfCombinationsEqualToItsCounterpartWorks)
 {
     EXPECT_FALSE(isNumberOfCombinationsEqualToItsCounterpart(2U, 4U)); // Wrong input so its false, it should be n>k
-    EXPECT_TRUE(isNumberOfCombinationsEqualToItsCounterpart(4U, 2U));    EXPECT_TRUE(isNumberOfCombinationsEqualToItsCounterpart(10U, 5U));
+    EXPECT_TRUE(isNumberOfCombinationsEqualToItsCounterpart(4U, 2U));
+    EXPECT_TRUE(isNumberOfCombinationsEqualToItsCounterpart(10U, 5U));
 }
 
 TEST(CombinationUtilitiesTest, IsTheSumOfAllNumberOfCombinationsEqualTo2ToTheNWorks)

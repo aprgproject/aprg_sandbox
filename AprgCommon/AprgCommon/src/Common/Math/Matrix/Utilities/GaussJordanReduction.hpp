@@ -1,8 +1,9 @@
 #pragma once
 
+#include "GaussJordanReductionHeaders.hpp" // needs to be first
+
 #include <Common/Math/Matrix/AlbaMatrix.hpp>
 #include <Common/Math/Matrix/Utilities/AlbaMatrixUtilities.hpp>
-#include <Common/Math/Matrix/Utilities/GaussJordanReductionHeaders.hpp>
 
 #include <cassert>
 
@@ -11,9 +12,6 @@ namespace alba
 
 namespace matrix
 {
-
-template <typename DataType>
-bool isEqualForMathMatrixDataType(DataType const& value1, DataType const& value2);
 
 template <typename DataType>
 bool areRowsWithAllZerosInTheBottom(

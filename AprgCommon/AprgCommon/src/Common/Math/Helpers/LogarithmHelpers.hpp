@@ -5,8 +5,10 @@
 
 namespace alba
 {
+
 namespace mathHelper
 {
+
 inline double getLogarithm(double const base, double const inputForLogarithm)
 {
     // change of base formula
@@ -57,6 +59,7 @@ template <typename NumberType> NumberType getLogarithmForIntegers(NumberType con
 
 unsigned int getIterativeLogarithm(double const base, double const inputForLogarithm);
 int getSuperLogarithm(double const base, double const inputForLogarithm);
+
 }//namespace mathHelper
 
 }//namespace alba

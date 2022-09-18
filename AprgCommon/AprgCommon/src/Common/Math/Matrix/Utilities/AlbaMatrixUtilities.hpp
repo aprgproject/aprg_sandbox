@@ -1,7 +1,8 @@
 #pragma once
 
+#include "AlbaMatrixUtilitiesHeaders.hpp" // needs to be first
+
 #include <Common/Math/Matrix/AlbaMatrix.hpp>
-#include <Common/Math/Matrix/Utilities/AlbaMatrixUtilitiesHeaders.hpp>
 
 #include <algorithm>
 #include <cassert>
@@ -11,9 +12,6 @@ namespace alba
 
 namespace matrix
 {
-
-template <typename DataType>
-bool isEqualForMathMatrixDataType(DataType const& value1, DataType const& value2);
 
 template <typename DataType>
 bool isSquare(AlbaMatrix<DataType> const& matrix)
@@ -57,6 +55,12 @@ bool isIdentityMatrix(AlbaMatrix<DataType> const& matrix)
 template <typename DataType>
 bool isSingular(AlbaMatrix<DataType> const& matrix) // means the its non invertible
 {
+    // Another method:
+    // Matrix is invertible iff determinant is zero
+    // But this is costly because of determinant.
+    // Code:
+    // return getDeterminant(matrix) != 0;
+
     AlbaMatrix<DataType> inverseOfInverse(matrix);
     inverseOfInverse.invert();
     inverseOfInverse.invert();
@@ -77,10 +81,12 @@ AlbaMatrix<DataType> getIdentityMatrix(unsigned int const sideSize)
 template <typename DataType>
 AlbaMatrix<DataType> doUnaryOperation(
         AlbaMatrix<DataType> const& inputMatrix,
-        UnaryFunction<DataType> const& unaryFunction){
+        UnaryFunction<DataType> const& unaryFunction)
+{
     AlbaMatrix<DataType> resultMatrix(inputMatrix.getNumberOfColumns(), inputMatrix.getNumberOfRows());
     inputMatrix.iterateAllThroughYAndThenX([&](unsigned int const x, unsigned int const y)
-    {        resultMatrix.setEntry(x, y, unaryFunction(inputMatrix.getEntry(x, y)));
+    {
+        resultMatrix.setEntry(x, y, unaryFunction(inputMatrix.getEntry(x, y)));
     });
     return resultMatrix;
 }
@@ -127,12 +133,69 @@ void doBinaryAssignmentOperationWithSameDimensions(
 }
 
 template <typename DataType>
+AlbaMatrix<DataType> multiplyMatrices(
+        AlbaMatrix<DataType> const& first,
+        AlbaMatrix<DataType> const& second)
+{
+    // Using a straightforward algorithm, we can calculate the product of two nxn matrices in O(n^3) time.
+    // There are also more efficient algorithms for matrix multiplication,
+    // but they are mostly of theoretical interest and such algorithms are not practical.
+
+    assert(first.getNumberOfColumns() == second.getNumberOfRows());
+
+    AlbaMatrix<DataType> result(first.getNumberOfRows(), second.getNumberOfColumns());
+    ListOfAlbaMatrixData<DataType> rowsOfFirstMatrix, columnsOfSecondMatrix;
+    first.retrieveRows(rowsOfFirstMatrix);
+    second.retrieveColumns(columnsOfSecondMatrix);
+    unsigned int y=0;
+    for(AlbaMatrixData<DataType> const& rowOfFirstMatrix : rowsOfFirstMatrix)
+    {
+        unsigned int x=0;
+        for(AlbaMatrixData<DataType> const& columnOfSecondMatrix : columnsOfSecondMatrix)
+        {
+            result.setEntry(x, y, multiplyEachItemAndGetSum(rowOfFirstMatrix, columnOfSecondMatrix));
+            x++;
+        }
+        y++;
+    }
+    return result;
+}
+
+template <typename DataType>
+AlbaMatrix<DataType> getMatrixRaiseToScalarPower(
+        AlbaMatrix<DataType> const& base,
+        unsigned int const scalarExponent)
+{
+    assert(base.getNumberOfColumns() == base.getNumberOfRows());
+
+    AlbaMatrix<DataType> result(getIdentityMatrix<DataType>(base.getNumberOfColumns()));
+    AlbaMatrix<DataType> newBase(base);
+    unsigned int newExponent(scalarExponent);
+    while(newExponent > 0)
+    {
+        if(mathHelper::isEven(newExponent))
+        {
+            newBase *= newBase;
+            newExponent /= 2;
+        }
+        else
+        {
+            result *= newBase;
+            newExponent--;
+        }
+    }
+    return result;
+}
+
+template <typename DataType>
 void interchangeRows(
         AlbaMatrix<DataType> & matrix,
-        unsigned int const y1,        unsigned int const y2)
+        unsigned int const y1,
+        unsigned int const y2)
 {
     unsigned int numberOfRows(matrix.getNumberOfRows());
-    unsigned int numberOfColumns(matrix.getNumberOfColumns());    assert((y1 < numberOfRows) && (y2 < numberOfRows));
+    unsigned int numberOfColumns(matrix.getNumberOfColumns());
+    assert((y1 < numberOfRows) && (y2 < numberOfRows));
     for(unsigned int x=0; x<numberOfColumns; x++)
     {
         std::swap(matrix.getEntryReference(x, y1), matrix.getEntryReference(x, y2));
@@ -150,6 +213,20 @@ void addTwoRowsAndPutSumInAnotherRow(
     assert((yInput1 < numberOfRows) && (yInput2 < numberOfRows) && (yOutput < numberOfRows));
     traverseWithBinaryOperationForDifferentRows(
                 matrix, yInput1, yInput2, yOutput, BinaryFunction<DataType>(std::plus<DataType>()));
+}
+
+template <typename DataType>
+DataType multiplyEachItemAndGetSum(
+        AlbaMatrixData<DataType> const& first,
+        AlbaMatrixData<DataType> const& second)
+{
+    DataType result{};
+    unsigned int minSize = std::min(first.size(), second.size());
+    for(unsigned int i=0; i<minSize; i++)
+    {
+        result+=first.at(i)*second.at(i);
+    }
+    return result;
 }
 
 template <typename DataType>

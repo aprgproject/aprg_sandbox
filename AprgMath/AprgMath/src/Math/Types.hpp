@@ -3,7 +3,8 @@
 #include <functional>
 #include <vector>
 
-namespace alba{
+namespace alba
+{
 
 namespace math
 {
@@ -15,6 +16,7 @@ using UnsignedIntegerBinaryFunction = std::function<UnsignedInteger(UnsignedInte
 
 using SignedInteger = long long;
 using SignedIntegers = std::vector<SignedInteger>;
+
 }
 
 }

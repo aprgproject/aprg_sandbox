@@ -93,9 +93,11 @@ TEST(AlbaMatrixUtilitiesTest, GetIdentityMatrixWorks)
 
 TEST(AlbaMatrixUtilitiesTest, DoUnaryOperationWorks)
 {
-    AlbaMatrix<unsigned int> matrix(2, 3,    {1, 2,
+    AlbaMatrix<unsigned int> matrix(2, 3,
+    {1, 2,
      3, 4,
      5, 6});
+
     AlbaMatrix<unsigned int> resultMatrix(
                 doUnaryOperation(matrix, UnaryFunction<unsigned int>([](unsigned int const& value)
     {
@@ -176,15 +178,51 @@ TEST(AlbaMatrixUtilitiesTest, DoBinaryAssignmentOperationWithSameDimensionsWorks
     EXPECT_EQ(expectedMatrix, matrix1);
 }
 
+TEST(AlbaMatrixUtilitiesTest, MultiplyMatricesWorks)
+{
+    AlbaMatrix<int> matrix1(3, 2,
+    {1, 2, -1,
+     3, 1,  4});
+    AlbaMatrix<int> matrix2(2, 3,
+    {-2, 5,
+      4,-3,
+      2, 1});
+
+    AlbaMatrix<int> matrixToVerify = multiplyMatrices(matrix1, matrix2);
+
+    AlbaMatrix<int> expectedMatrix(2, 2,
+    { 4, -2,
+      6, 16});
+    EXPECT_EQ(expectedMatrix, matrixToVerify);
+}
+
+TEST(AlbaMatrixUtilitiesTest, GetMatrixRaiseToScalarPowerWorks)
+{
+    AlbaMatrix<int> matrix(3, 3,
+    {1, 2, 3,
+     4, 5, 6,
+     7, 8, 9});
+
+    AlbaMatrix<int> matrixToVerify = getMatrixRaiseToScalarPower(matrix, 3);
+
+    AlbaMatrix<int> expectedMatrix(3, 3,
+    {468, 576, 684,
+     1062, 1305, 1548,
+     1656, 2034, 2412});
+    EXPECT_EQ(expectedMatrix, matrixToVerify);
+}
+
 TEST(AlbaMatrixUtilitiesTest, InterchangeRowsWorks)
 {
-    AlbaMatrix<unsigned int> matrix(2, 3,    {1, 2,
+    AlbaMatrix<unsigned int> matrix(2, 3,
+    {1, 2,
      3, 4,
      5, 6});
 
     interchangeRows(matrix, 0, 2);
 
-    AlbaMatrix<unsigned int> expectedMatrix(2, 3,    {5, 6,
+    AlbaMatrix<unsigned int> expectedMatrix(2, 3,
+    {5, 6,
      3, 4,
      1, 2});
     EXPECT_EQ(expectedMatrix, matrix);
@@ -206,6 +244,14 @@ TEST(AlbaMatrixUtilitiesTest, AddTwoRowsAndPutSumInAnotherRowWorks)
     EXPECT_EQ(expectedMatrix, matrix);
 }
 
+
+TEST(AlbaMatrixUtilitiesTest, MultiplyEachItemAndGetSumWorks)
+{
+    unsigned int value = multiplyEachItemAndGetSum(AlbaMatrixData<unsigned int>{1U, 2U, 3U}, AlbaMatrixData<unsigned int>{4U, 5U, 6U});
+
+    EXPECT_EQ(32U, value);
+}
+
 TEST(AlbaMatrixUtilitiesTest, TraverseWithUnaryOperationForDifferentRowsWorks)
 {
     AlbaMatrix<unsigned int> matrix(2, 3,
@@ -224,9 +270,11 @@ TEST(AlbaMatrixUtilitiesTest, TraverseWithUnaryOperationForDifferentRowsWorks)
        5,   6});
     EXPECT_EQ(expectedMatrix, matrix);
 }
+
 TEST(AlbaMatrixUtilitiesTest, TraverseWithBinaryOperationForDifferentRowsWorks)
 {
-    AlbaMatrix<unsigned int> matrix(2, 3,    {1, 2,
+    AlbaMatrix<unsigned int> matrix(2, 3,
+    {1, 2,
      3, 4,
      5, 6});
 
@@ -241,6 +289,7 @@ TEST(AlbaMatrixUtilitiesTest, TraverseWithBinaryOperationForDifferentRowsWorks)
       12, 24});
     EXPECT_EQ(expectedMatrix, matrix);
 }
+
 }
 
 }

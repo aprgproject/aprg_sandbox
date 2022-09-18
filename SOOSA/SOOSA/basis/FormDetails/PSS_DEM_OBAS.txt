@@ -22,10 +22,12 @@ NEW_COLUMN
 19. Medical Social Service - provision of patient's medical needs 
 20. Laboratory - promptness of  service 
 21. Laboratory - courtesy of staff 
-22. Radiology - promptness of  service 23. Radiology - courtesy of staff 
+22. Radiology - promptness of  service 
+23. Radiology - courtesy of staff 
 24. ECG - promptness of  service 
 25. ECG - courtesy of staff 
-26. Cashier/Cash Services - promptness of  service 27. Cashier/Cash Services - courtesy of staff 
+26. Cashier/Cash Services - promptness of  service 
+27. Cashier/Cash Services - courtesy of staff 
 28. Security Services - ability to ensure that the area is safe and secured by  observing people and enforcing hospital rules and  regulations 
 29 Security Services - courtesy of security personnel 
 30. Overall assessment of the hospital  

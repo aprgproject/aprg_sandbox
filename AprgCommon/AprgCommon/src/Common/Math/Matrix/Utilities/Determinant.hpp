@@ -1,8 +1,9 @@
 #pragma once
 
+#include "DeterminantHeaders.hpp" // needs to be first
+
 #include <Common/Math/Helpers/DivisibilityHelpers.hpp>
 #include <Common/Math/Matrix/AlbaMatrix.hpp>
-#include <Common/Math/Matrix/Utilities/DeterminantHeaders.hpp>
 
 namespace alba
 {
@@ -98,7 +99,7 @@ DataType getDeterminantWhenSideIsMoreThan2(
 
     unsigned int numberOfRows(matrix.getNumberOfRows());
     unsigned int numberOfColumns(matrix.getNumberOfColumns());
-    unsigned int bestIndex(getBestIndexForCoFactorExpansion(rowsAndColumns));
+    unsigned int bestIndex = getBestIndexForCoFactorExpansion(rowsAndColumns);
     if(bestIndex < numberOfRows)
     {
         unsigned int y = bestIndex;

@@ -170,10 +170,12 @@ public:
     Implicants getBestFinalImplicants(Implicants const& finalImplicants) const
     {
         // Specialized selection
-        Implicants result;        SetOfMinterms inputMintermsWithTrue(getSetOfInputMintermsWithTrue());
+        Implicants result;
+        SetOfMinterms inputMintermsWithTrue(getSetOfInputMintermsWithTrue());
 
         while(!inputMintermsWithTrue.empty())
-        {            std::map<Minterm, unsigned int> inputMintermToCountMap;
+        {
+            std::map<Minterm, unsigned int> inputMintermToCountMap;
             std::map<Minterm, Implicant> inputMintermToImplicantMap;
             std::map<unsigned int, Implicant> countToImplicantMap;
             for(Implicant const& implicant : finalImplicants.getImplicantsData())
@@ -221,10 +223,12 @@ public:
                 result.addImplicant(bestFinalImplicant);
             }
         }
-        return result;    }
+        return result;
+    }
 
     std::string getOutputTable(Implicants const& finalImplicants) const
-    {        Minterms inputsWithTrue(getInputMintermsWithTrue());
+    {
+        Minterms inputsWithTrue(getInputMintermsWithTrue());
         DisplayTable displayTable;
         displayTable.setBorders("", "|");
         displayTable.addRow();

@@ -38,10 +38,12 @@ public:
         unsigned int getFrequencyOfAnswer(unsigned int const questionIndex, unsigned int const answerIndex) const;
     private:
         unsigned int m_numberOfQuestions;
-        unsigned int m_numberOfChoices;        matrix::AlbaMatrix<unsigned int> m_frequenciesOnQuestionByAnswer;
+        unsigned int m_numberOfChoices;
+        matrix::AlbaMatrix<unsigned int> m_frequenciesOnQuestionByAnswer;
     };
 
-    class Status    {
+    class Status
+    {
         Status();
     public:
         static Status getInstance();
@@ -86,6 +88,7 @@ public:
     void process();
 
 private:
+
     void processDirectory(std::string const & directoryPath);
     void processFile(std::string const & filePath);
     void processBitmapFile(Bitmap const& bitmap);
@@ -93,10 +96,12 @@ private:
     void saveToFrequencyDatabase();
 
     // find line
-    Line findLeftLine(BitmapSnippet const& snippet) const;    Line findRightLine(BitmapSnippet const& snippet) const;
+    Line findLeftLine(BitmapSnippet const& snippet) const;
+    Line findRightLine(BitmapSnippet const& snippet) const;
     Line findTopLine(BitmapSnippet const& snippet) const;
     Line findBottomLine(BitmapSnippet const& snippet) const;
-    Line findVerticalLine(BitmapSnippet const& snippet, RangeOfInts const& range) const;    Line findHorizontalLine(BitmapSnippet const& snippet, RangeOfInts const& range) const;
+    Line findVerticalLine(BitmapSnippet const& snippet, RangeOfInts const& range) const;
+    Line findHorizontalLine(BitmapSnippet const& snippet, RangeOfInts const& range) const;
     Line findLeftLineUsingStartingLine(BitmapSnippet const& snippet, Line const& startingLine) const;
     Line findRightLineUsingStartingLine(BitmapSnippet const& snippet, Line const& startingLine) const;
     Line findVerticalLineUsingStartingLine(BitmapSnippet const& snippet, Line const& startingLine, RangeOfInts const& rangeForX) const;
@@ -118,6 +123,7 @@ private:
     QuestionBarCoordinates getQuestionBarCoordinatesFromLine(BitmapSnippet const& snippet, Line const& line, Point const& startPoint, Point const& endPoint, unsigned int const numberQuestionsInColumn) const;
     void retrieveBarPointsThatFitAndSaveToKMeans(TwoDimensionKMeans & kMeansForBarPoints, PointAndWidthPairs const& pointsAndWidths, RangeOfDoubles const& minMaxCriteriaForBar) const;
     void saveQuestionBarCoordinatesFromKMeansWithBarPoints(QuestionBarCoordinates & questionBarCoordinates, TwoDimensionKMeans const& kMeansForBarPoints, unsigned int const numberQuestionsInColumn) const;
+
     // Widths functions
     RangeOfDoubles getMinMaxCriteriaForBar(PointAndWidthPairs const& pointAndWidthPairs) const;
     RangeOfDoubles getMinMaxCriteriaForBar(OneDimensionStatistics & firstGroupStatistics, OneDimensionStatistics & secondGroupStatistics) const;
@@ -127,9 +133,11 @@ private:
     Point getLeftOrRightMostBlackPoint(BitmapSnippet const& snippet, Point const& nearestBlackPoint, Line const& perpendicularLine, unsigned int const maxLineAndBarWidth, int const sign) const;
     void addAndRetainWidthsIfPossible(OneDimensionKMeans & kMeansForWidths, OneDimensionStatistics & groupStatistics, double const acceptableSdOverMeanDeviation) const;
     void addPointAndWidthPairIfAcceptable(PointAndWidthPairs & pointAndWidthPairs, BitmapSnippet const& snippet, Line const& line, Point const& blackPoint) const;
+
     // Height functions
     void removeIncorrectBarPointsBasedFromHeight(TwoDimensionKMeans & kMeansForBarPoints, unsigned int const numberQuestionsInColumn) const;
-    void addAndRetainBarPointsIfPossible(TwoDimensionKMeans & kMeansForBarPoints, GroupOfTwoDimensionSamples const& listOfGroupOfBarPoints, unsigned int const indexToRemove) const;    OneDimensionSamples getBarHeights(GroupOfTwoDimensionSamples const& groupOfBarPoints) const;
+    void addAndRetainBarPointsIfPossible(TwoDimensionKMeans & kMeansForBarPoints, GroupOfTwoDimensionSamples const& listOfGroupOfBarPoints, unsigned int const indexToRemove) const;
+    OneDimensionSamples getBarHeights(GroupOfTwoDimensionSamples const& groupOfBarPoints) const;
     double getHeight(TwoDimensionSamples const& barPoints) const;
 
     // output related functions
@@ -137,9 +145,11 @@ private:
     std::string getReportHtmlFilePath(std::string const& path) const;
     std::string getPrintableStringForPercentage(double const numerator, double const denominator) const;
     void setAnswerToQuestionInColumn(unsigned int const columnNumber, unsigned int const questionOffsetInColumn, unsigned int const answer);
-    void saveDataToCsvFile(std::string const& processedFilePath) const;    void saveHeadersToCsvFile() const;
+    void saveDataToCsvFile(std::string const& processedFilePath) const;
+    void saveHeadersToCsvFile() const;
     void saveOutputHtmlFile(std::string const& processedFilePath) const;
     void saveTableToOutputHtmlFile(std::ofstream & reportHtmlFileStream) const;
+
     // utilities
     bool isBlackAt(BitmapSnippet const& snippet, BitmapXY const bitmapXy) const;
     unsigned int getMaximumLineAndBarWidth(BitmapSnippet const& snippet) const;
@@ -151,10 +161,12 @@ private:
     RangeOfDoubles getMinMaxRangeOfSamples(OneDimensionSamples const& samples) const;
 
     SoosaConfiguration m_soosaConfiguration;
-    InputConfiguration m_inputConfiguration;    unsigned int m_numberOfRespondents;
+    InputConfiguration m_inputConfiguration;
+    unsigned int m_numberOfRespondents;
     std::map<unsigned int, unsigned int> m_questionToAnswersMap;
     FrequencyDatabase m_frequencyDatabase;
 };
+
 }
 
 }

@@ -1,10 +1,12 @@
 #include "BurnsideLemma.hpp"
 
 #include <Common/Math/Helpers/CombinatoricsHelpers.hpp>
-#include <Common/Math/Helpers/FactorAndMulitplesHelpers.hpp>#include <Common/Math/Helpers/PowerHelpers.hpp>
+#include <Common/Math/Helpers/FactorAndMulitplesHelpers.hpp>
+#include <Common/Math/Helpers/PowerHelpers.hpp>
 
 using namespace alba::mathHelper;
 using namespace std;
+
 namespace alba
 {
 

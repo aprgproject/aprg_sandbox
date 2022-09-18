@@ -4,10 +4,12 @@
 #include <Common/Math/Helpers/DivisibilityHelpers.hpp>
 #include <Common/Math/Matrix/AlbaMatrixDataTypes.hpp>
 #include <Common/Math/Matrix/Utilities/AlbaMatrixUtilities.hpp>
-#include <Common/Math/Matrix/Utilities/GaussJordanReduction.hpp>#include <Common/User/DisplayTable.hpp>
+#include <Common/Math/Matrix/Utilities/GaussJordanReduction.hpp>
+#include <Common/User/DisplayTable.hpp>
 
 #include <cassert>
-#include <functional>#include <sstream>
+#include <functional>
+#include <sstream>
 
 namespace alba
 {
@@ -15,14 +17,13 @@ namespace alba
 namespace matrix
 {
 
-template <typename DataType> bool isEqualForMathMatrixDataType(DataType const& value1, DataType const& value2);
-template <typename DataType> AlbaMatrix<DataType> getIdentityMatrix(unsigned int const sideSize);
-
 template <typename DataType>
-class AlbaMatrix{
+class AlbaMatrix
+{
 public:
     using MatrixData = AlbaMatrixData<DataType>;
-    using ListOfMatrixData = ListOfAlbaMatrixData<DataType>;    using LoopFunction = std::function<void(unsigned int const x, unsigned int const y)>;
+    using ListOfMatrixData = ListOfAlbaMatrixData<DataType>;
+    using LoopFunction = std::function<void(unsigned int const x, unsigned int const y)>;
     using LoopWithValueFunction = std::function<void(unsigned int const x, unsigned int const y, DataType const& value)>;
     using MatrixIndexRange = AlbaValueRange<unsigned int>;
 
@@ -104,26 +105,12 @@ public:
 
     AlbaMatrix operator*(AlbaMatrix const& secondMatrix) const //matrix multiplication
     {
-        // Using a straightforward algorithm, we can calculate the product of two nxn matrices in O(n^3) time.
-        // There are also more efficient algorithms for matrix multiplication,
-        // but they are mostly of theoretical interest and such algorithms are not practical.
+        return multiplyMatrices(*this, secondMatrix);
+    }
 
-        assert(m_numberOfColumns == secondMatrix.m_numberOfRows);
-        AlbaMatrix result(m_numberOfRows, secondMatrix.m_numberOfColumns);
-        ListOfMatrixData rowsOfFirstMatrix;        ListOfMatrixData columnsOfSecondMatrix;
-        retrieveRows(rowsOfFirstMatrix);
-        secondMatrix.retrieveColumns(columnsOfSecondMatrix);
-        unsigned int y=0;        for(MatrixData const& rowOfFirstMatrix : rowsOfFirstMatrix)
-        {
-            unsigned int x=0;
-            for(MatrixData const& columnOfSecondMatrix : columnsOfSecondMatrix)
-            {
-                result.setEntry(x, y, multiplyEachItemAndGetSum(rowOfFirstMatrix, columnOfSecondMatrix));
-                x++;
-            }
-            y++;
-        }
-        return result;
+    AlbaMatrix operator^(DataType const& scalarExponent) const //scalar raise to power
+    {
+        return getMatrixRaiseToScalarPower(*this, scalarExponent);
     }
 
     AlbaMatrix& operator+=(AlbaMatrix const& secondMatrix)
@@ -148,17 +135,19 @@ public:
     AlbaMatrix& operator*=(AlbaMatrix const& secondMatrix)
     {
         AlbaMatrix & self(*this);
-        self = self * secondMatrix;
+        self = multiplyMatrices(*this, secondMatrix);
         return self;
     }
 
     bool isInside(unsigned int const x, unsigned int const y) const
     {
-        return (x < m_numberOfColumns) && (y < m_numberOfRows);    }
+        return (x < m_numberOfColumns) && (y < m_numberOfRows);
+    }
 
     unsigned int getNumberOfColumns() const
     {
-        return m_numberOfColumns;    }
+        return m_numberOfColumns;
+    }
 
     unsigned int getNumberOfRows() const
     {
@@ -321,15 +310,19 @@ public:
 
     void invert()
     {
-        assert((m_numberOfColumns == m_numberOfRows));
+        // Another formula:
+        // Inverse of matrix at[i, j] = cofactor at[j,i] / determinant(matrix)
+        // But this is costly because of determinant.
+
+        assert(m_numberOfColumns == m_numberOfRows);
         unsigned int newColumns = m_numberOfColumns*2;
         AlbaMatrix tempMatrix(newColumns, m_numberOfRows);
         iterateAllThroughYAndThenX([&](unsigned int const x, unsigned int const y)
         {
             tempMatrix.m_matrixData[getMatrixIndex(x, y, newColumns)] = getEntry(x, y);
         });
-        unsigned int minValueForDiagonal = std::min(m_numberOfColumns, m_numberOfRows);
-        for(unsigned int d=0; d<minValueForDiagonal; d++)
+        unsigned int diagonalLimit = std::min(m_numberOfColumns, m_numberOfRows);
+        for(unsigned int d=0; d<diagonalLimit; d++)
         {
             tempMatrix.m_matrixData[getMatrixIndex(m_numberOfColumns+d, d, newColumns)] = 1;
         }
@@ -340,35 +333,14 @@ public:
         });
     }
 
-    void raiseToScalarPower(unsigned int const exponent)
-    {
-        assert((m_numberOfColumns == m_numberOfRows));
-
-        AlbaMatrix result(getIdentityMatrix<DataType>(m_numberOfColumns));
-        AlbaMatrix newBase(*this);
-        unsigned int newExponent(exponent);
-        while(newExponent > 0)
-        {
-            if(mathHelper::isEven(newExponent))
-            {
-                newBase *= newBase;
-                newExponent /= 2;
-            }
-            else
-            {
-                result *= newBase;
-                newExponent--;
-            }
-        }
-        return result;
-    }
-
     void iterateAllThroughYAndThenX(LoopFunction const& loopFunction) const
     {
-        for(unsigned int y=0; y<m_numberOfRows; y++)        {
+        for(unsigned int y=0; y<m_numberOfRows; y++)
+        {
             for(unsigned int x=0; x<m_numberOfColumns; x++)
             {
-                loopFunction(x, y);            }
+                loopFunction(x, y);
+            }
         }
     }
 
@@ -405,17 +377,6 @@ private:
     unsigned int getMatrixIndex(unsigned int const x, unsigned int const y, unsigned int const numberOfColumns) const
     {
         return (y*numberOfColumns)+x;
-    }
-
-    DataType multiplyEachItemAndGetSum(MatrixData const& first, MatrixData const& second) const
-    {
-        DataType result{};
-        unsigned int minSize = std::min(first.size(), second.size());
-        for(unsigned int i=0; i<minSize; i++)
-        {
-            result+=first.at(i)*second.at(i);
-        }
-        return result;
     }
 
     void fillRemainingEntriesToZeroIfNeeded(

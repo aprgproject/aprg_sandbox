@@ -14,9 +14,11 @@ class AlbaXYZ
 public:
 
     AlbaXYZ()
-        : x{}        , y{}
+        : x{}
+        , y{}
         , z{}
     {}
+
     AlbaXYZ(CoordinateType const& xValue, CoordinateType const& yValue, CoordinateType const& zValue)
         : x(xValue)
         , y(yValue)
@@ -26,7 +28,8 @@ public:
     bool operator==(AlbaXYZ const& xyz) const
     {
         return mathHelper::isAlmostEqual(x, xyz.x)
-                && mathHelper::isAlmostEqual(y, xyz.y)                && mathHelper::isAlmostEqual(z, xyz.z);
+                && mathHelper::isAlmostEqual(y, xyz.y)
+                && mathHelper::isAlmostEqual(z, xyz.z);
     }
 
     bool operator!=(AlbaXYZ const& secondXyz) const
@@ -38,10 +41,12 @@ public:
     bool operator<(AlbaXYZ const& xyz) const // this is added so it can be used in map
     {
         bool result(false);
-        if(x < xyz.x)        {
+        if(x < xyz.x)
+        {
             result = true;
         }
-        else if(x == xyz.x)        {
+        else if(x == xyz.x)
+        {
             if(y < xyz.y)
             {
                 result = true;
@@ -101,10 +106,12 @@ public:
     AlbaXYZ& operator-=(AlbaXYZ const& secondXyz)
     {
         x-=secondXyz.x; y-=secondXyz.y; z-=secondXyz.z;
-        return *this;    }
+        return *this;
+    }
 
     bool isEmpty() const
-    {        return CoordinateType{}==x && CoordinateType{}==y && CoordinateType{}==z;
+    {
+        return CoordinateType{}==x && CoordinateType{}==y && CoordinateType{}==z;
     }
 
     CoordinateType getX() const

@@ -47,11 +47,13 @@ double SoosaConfiguration::getLineBarWidthSearchAcceptedRunningBlackRatio() cons
 
 double SoosaConfiguration::getAcceptableDistanceOverWidthRatioFromWidthMidpoint() const
 {
-    return m_acceptableDistanceOverWidthRatioFromWidthMidpoint;}
+    return m_acceptableDistanceOverWidthRatioFromWidthMidpoint;
+}
 
 unsigned int SoosaConfiguration::getAcceptableMinimumDistanceFromWidthMidpoint() const
 {
-    return m_acceptableMinimumDistanceFromWidthMidpoint;}
+    return m_acceptableMinimumDistanceFromWidthMidpoint;
+}
 
 double SoosaConfiguration::getAcceptableSdOverMeanDeviationForLine() const
 {
@@ -132,10 +134,12 @@ void SoosaConfiguration::update()
     UPDATE_PARAMETER(m_lineBarWidthSearchAcceptedRunningBlackRatio, double);
     UPDATE_PARAMETER(m_acceptableDistanceOverWidthRatioFromWidthMidpoint, double);
     UPDATE_PARAMETER(m_acceptableMinimumDistanceFromWidthMidpoint, unsigned int);
-    UPDATE_PARAMETER(m_acceptableSdOverMeanDeviationForLine, double);    UPDATE_PARAMETER(m_acceptableSdOverMeanDeviationForBar, double);
+    UPDATE_PARAMETER(m_acceptableSdOverMeanDeviationForLine, double);
+    UPDATE_PARAMETER(m_acceptableSdOverMeanDeviationForBar, double);
     UPDATE_PARAMETER(m_removalRatioForLineAndBar, double);
     UPDATE_PARAMETER(m_acceptableSdOverMeanDeviationForBarHeight, double);
     UPDATE_PARAMETER(m_removalRatioForBarHeight, double);
+
     // Choices related parameters
     UPDATE_PARAMETER(m_numberOfChoices, unsigned int);
     UPDATE_PARAMETER(m_colorIntensityForWhite, unsigned int);
