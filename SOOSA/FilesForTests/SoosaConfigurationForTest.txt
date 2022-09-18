@@ -18,5 +18,5 @@ m_removalRatioForBarHeight: 0.02
 // Choices related parameters
 m_numberOfChoices: 5
 m_colorIntensityForWhite: 170
-m_barHeightToDiameterMultiplier: 0.80
-m_minimumPercentageOfBlackPixelsForAFilledCircle: 0.40
+m_barHeightToDiameterMultiplier: 0.75
+m_minimumPercentageOfBlackPixelsForAFilledCircle: 0.50
