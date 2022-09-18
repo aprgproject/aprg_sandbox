@@ -11,8 +11,6 @@ namespace math
 bool isNumberOfCombinationsEqualToItsCounterpart(UnsignedInteger const n, UnsignedInteger const k);
 bool isTheSumOfAllNumberOfCombinationsEqualTo2ToTheN(UnsignedInteger const n);
 
-UnsignedInteger getNumberOfDerangements(UnsignedInteger const n);
-
 }
 
 }

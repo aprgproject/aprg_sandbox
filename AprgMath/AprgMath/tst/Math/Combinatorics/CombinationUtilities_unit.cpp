@@ -22,18 +22,6 @@ TEST(CombinationUtilitiesTest, IsTheSumOfAllNumberOfCombinationsEqualTo2ToTheNWo
     EXPECT_TRUE(isTheSumOfAllNumberOfCombinationsEqualTo2ToTheN(10U));
 }
 
-TEST(CombinationUtilitiesTest, GetNumberOfDerangementsWorks)
-{
-    EXPECT_EQ(0U, getNumberOfDerangements(0U));
-    EXPECT_EQ(0U, getNumberOfDerangements(1U));
-    EXPECT_EQ(1U, getNumberOfDerangements(2U));
-    EXPECT_EQ(2U, getNumberOfDerangements(3U));
-    EXPECT_EQ(9U, getNumberOfDerangements(4U));
-    EXPECT_EQ(44U, getNumberOfDerangements(5U));
-    EXPECT_EQ(1334961U, getNumberOfDerangements(10U));
-    EXPECT_EQ(481066515734U, getNumberOfDerangements(15U));
-}
-
 }
 
 }
