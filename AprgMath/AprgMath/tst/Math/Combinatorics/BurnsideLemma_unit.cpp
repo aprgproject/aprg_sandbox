@@ -28,9 +28,15 @@ TEST(BurnsideLemmaTest, GetNumberOfSymmetricCombinationsUsingBurnsideLemmaWorks)
 
 TEST(BurnsideLemmaTest, GetNumberOfCombinationsOfAPearlNecklaceWorks)
 {
+    EXPECT_EQ(0U, getNumberOfCombinationsOfAPearlNecklace(0U, 0U));
+    EXPECT_EQ(0U, getNumberOfCombinationsOfAPearlNecklace(0U, 1U));
+    EXPECT_EQ(0U, getNumberOfCombinationsOfAPearlNecklace(4U, 0U));
+    EXPECT_EQ(1U, getNumberOfCombinationsOfAPearlNecklace(4U, 1U));
+    EXPECT_EQ(6U, getNumberOfCombinationsOfAPearlNecklace(4U, 2U));
     EXPECT_EQ(24U, getNumberOfCombinationsOfAPearlNecklace(4U, 3U));
+    EXPECT_EQ(70U, getNumberOfCombinationsOfAPearlNecklace(4U, 4U));
+    EXPECT_EQ(976887U, getNumberOfCombinationsOfAPearlNecklace(10U, 5U));
 }
 
 }
-
 }

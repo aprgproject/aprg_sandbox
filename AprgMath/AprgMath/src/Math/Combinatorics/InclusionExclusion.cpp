@@ -1,12 +1,11 @@
-#include "CatalanNumbers.hpp"
+#include "InclusionExclusion.hpp"
+
 using namespace std;
 
-namespace alba
-{
+namespace alba{
 
 namespace math
 {
-
 UnsignedInteger getUnionCountOfTwoSets(
         UnsignedInteger const aSize,
         UnsignedInteger const bSize,
