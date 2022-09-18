@@ -12,88 +12,81 @@ template <typename CoordinateType>
 class AlbaXY
 {
 public:
-    using XyType = AlbaXY<CoordinateType>;
 
     AlbaXY()
-        : x{}
-        , y{}
+        : x{}        , y{}
     {}
 
-    AlbaXY(CoordinateType const& xValue, CoordinateType const& yValue)
-        : x(xValue)
+    AlbaXY(CoordinateType const& xValue, CoordinateType const& yValue)        : x(xValue)
         , y(yValue)
     {}
 
-    bool operator==(XyType const& xy) const
+    bool operator==(AlbaXY const& xy) const
     {
         return mathHelper::isAlmostEqual(x, xy.x) && mathHelper::isAlmostEqual(y, xy.y);
     }
 
-    bool operator!=(XyType const& secondXy) const
+    bool operator!=(AlbaXY const& secondXy) const
     {
-        XyType const& firstXy(*this);
+        AlbaXY const& firstXy(*this);
         return !(firstXy==secondXy);
     }
 
-    bool operator<(XyType const& xy) const // this is added so it can be used in map
+    bool operator<(AlbaXY const& xy) const // this is added so it can be used in map
     {
         bool result(false);
-        if(x < xy.x)
-        {
+        if(x < xy.x)        {
             result = true;
         }
-        else if(x == xy.x)
-        {
+        else if(x == xy.x)        {
             result = (y < xy.y);
         }
         return result;
     }
 
-    XyType operator+() const
+    AlbaXY operator+() const
     {
         return *this;
     }
 
-    XyType operator-() const
+    AlbaXY operator-() const
     {
-        return XyType(-x, -y);
+        return AlbaXY(-x, -y);
     }
 
-    XyType operator+(XyType const& secondXy) const
+    AlbaXY operator+(AlbaXY const& secondXy) const
     {
-        return XyType(x+secondXy.x, y+secondXy.y);
+        return AlbaXY(x+secondXy.x, y+secondXy.y);
     }
 
-    XyType operator-(XyType const& secondXy) const
+    AlbaXY operator-(AlbaXY const& secondXy) const
     {
-        return XyType(x-secondXy.x, y-secondXy.y);
+        return AlbaXY(x-secondXy.x, y-secondXy.y);
     }
 
-    XyType operator*(CoordinateType const& multiplier) const
+    AlbaXY operator*(CoordinateType const& multiplier) const
     {
-        return XyType(x*multiplier, y*multiplier);
+        return AlbaXY(x*multiplier, y*multiplier);
     }
 
-    XyType operator/(CoordinateType const& divisor) const
+    AlbaXY operator/(CoordinateType const& divisor) const
     {
-        return XyType(x/divisor, y/divisor);
+        return AlbaXY(x/divisor, y/divisor);
     }
 
-    XyType& operator+=(XyType const& secondXy)
+    AlbaXY& operator+=(AlbaXY const& secondXy)
     {
         x+=secondXy.x; y+=secondXy.y;
         return *this;
     }
 
-    XyType& operator-=(XyType const& secondXy)
+    AlbaXY& operator-=(AlbaXY const& secondXy)
     {
         x-=secondXy.x; y-=secondXy.y;
-        return *this;
-    }
+        return *this;    }
 
     bool isEmpty() const
-    {
-        return CoordinateType{}==x && CoordinateType{}==y;
+    {        return CoordinateType{}==x && CoordinateType{}==y;
     }
 
     CoordinateType getX() const

@@ -172,20 +172,18 @@ TEST(AlbaMatrixTest, OperatorEqualWorks)
 
 TEST(AlbaMatrixTest, OperatorPlusWorks)
 {
-    AlbaMatrix<unsigned int> matrix1(2, 3,
+    AlbaMatrix<unsigned int> matrix(2, 3,
     {1, 2,
      3, 4,
      5, 6});
 
-    AlbaMatrix<unsigned int> matrixToVerify(matrix1+matrix1);
+    AlbaMatrix<unsigned int> matrixToVerify(matrix+matrix);
 
     AlbaMatrix<unsigned int> expectedMatrix(2, 3,
-    { 2,  4,
-      6,  8,
+    { 2,  4,      6,  8,
      10, 12});
     EXPECT_EQ(expectedMatrix, matrixToVerify);
 }
-
 TEST(AlbaMatrixTest, OperatorMinusWorks)
 {
     AlbaMatrix<unsigned int> matrix1(2, 3,
@@ -257,14 +255,82 @@ TEST(AlbaMatrixTest, OperatorMultiplyWorksWithExample1)
     EXPECT_EQ(expectedMatrix, matrixToVerify);
 }
 
+TEST(AlbaMatrixTest, OperatorPlusAssignmentWorks)
+{
+    AlbaMatrix<unsigned int> matrix(2, 3,
+    {1, 2,
+     3, 4,
+     5, 6});
+
+    matrix += matrix;
+
+    AlbaMatrix<unsigned int> expectedMatrix(2, 3,
+    { 2,  4,
+      6,  8,
+     10, 12});
+    EXPECT_EQ(expectedMatrix, matrix);
+}
+
+TEST(AlbaMatrixTest, OperatorMinusAssignmentWorks)
+{
+    AlbaMatrix<unsigned int> matrix1(2, 3,
+    {100, 200,
+     300, 400,
+     500, 600});
+    AlbaMatrix<unsigned int> matrix2(2, 3,
+    {1, 2,
+     3, 4,
+     5, 6});
+
+    matrix1 -= matrix2;
+
+    AlbaMatrix<unsigned int> expectedMatrix(2, 3,
+    { 99, 198,
+     297, 396,
+     495, 594});
+    EXPECT_EQ(expectedMatrix, matrix1);
+}
+
+TEST(AlbaMatrixTest, OperatorMultiplyAssignmentWorks_MatrixCanBeMultipliedWithConstantValue)
+{
+    AlbaMatrix<unsigned int> matrix(2, 3,
+    {1, 2,
+     3, 4,
+     5, 6});
+
+    matrix *= 2;
+
+    AlbaMatrix<unsigned int> expectedMatrix(2, 3,
+    { 2,  4,
+      6,  8,
+     10, 12});
+    EXPECT_EQ(expectedMatrix, matrix);
+}
+
+TEST(AlbaMatrixTest, OperatorMultiplyAssignmentWorks_MatrixCanBeMultipliedWithAnotherMatrix)
+{
+    AlbaMatrix<int> matrix1(3, 2,
+    {1, 2, -1,
+     3, 1,  4});
+    AlbaMatrix<int> matrix2(2, 3,
+    {-2, 5,
+      4,-3,
+      2, 1});
+
+    matrix1 *= matrix2;
+
+    AlbaMatrix<int> expectedMatrix(2, 2,
+    { 4, -2,
+      6, 16});
+    EXPECT_EQ(expectedMatrix, matrix1);
+}
+
 TEST(AlbaMatrixTest, IsInsideTheMatrixWorks)
 {
     AlbaMatrix<unsigned int> matrix(14, 6);
-
     EXPECT_FALSE(matrix.isInside(14, 6));
     EXPECT_FALSE(matrix.isInside(14, 5));
-    EXPECT_FALSE(matrix.isInside(13, 6));
-    EXPECT_TRUE(matrix.isInside(13, 5));
+    EXPECT_FALSE(matrix.isInside(13, 6));    EXPECT_TRUE(matrix.isInside(13, 5));
 }
 
 TEST(AlbaMatrixTest, GetColumnsWorks)
