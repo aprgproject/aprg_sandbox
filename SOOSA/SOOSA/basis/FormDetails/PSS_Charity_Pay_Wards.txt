@@ -24,15 +24,13 @@ NEW_COLUMN
 21. Dietary Food Service - quality/cleanliness of food
 22. Dietary Food Service - timeliness of meal service
 23. Medical Social Service - courtesy in dealing with patients 
-24. Medical Social Service - provision of patient’s medical needs 
+24. Medical Social Service - provision of patient's medical needs 
 25. Laboratory - promptness of  service
 26. Laboratory - courtesy of staff
-27. Radiology - promptness of  service
-28. Radiology - courtesy of staff
+27. Radiology - promptness of  service28. Radiology - courtesy of staff
 29. ECG - promptness of  service
 30. ECG - courtesy of staff
-31. Billing - promptness of  service
-32. Billing - courtesy of staff
+31. Billing - promptness of  service32. Billing - courtesy of staff
 33. Cashier/Cash Services - promptness of  service
 34. Cashier/Cash Services - courtesy of staff
 35. Security Services - visibility of security personnel

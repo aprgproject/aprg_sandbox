@@ -42,49 +42,46 @@ unsigned int InputConfiguration::getNumberOfQuestionsAtColumn(unsigned int const
     return numberOfQuestions;
 }
 
-unsigned int InputConfiguration::getQuestionNumberInColumn(unsigned int const columnNumber, unsigned int const questionOffsetInColumn) const
+unsigned int InputConfiguration::getQuestionIndexInColumn(unsigned int const columnNumber, unsigned int const questionOffsetInColumn) const
 {
-    unsigned int questionNumber=0;
+    unsigned int questionIndex=0;
     FormDetails::ColumnToNumberOfQuestionsMap::const_iterator columnMapIterator = m_formDetails.columnToNumberOfQuestionsMap.find(columnNumber);
     if(columnMapIterator!=m_formDetails.columnToNumberOfQuestionsMap.cend())
     {
         if(columnMapIterator == m_formDetails.columnToNumberOfQuestionsMap.cbegin())
         {
-            questionNumber = questionOffsetInColumn;
+            questionIndex = questionOffsetInColumn;
         }
         else
         {
-            questionNumber = accumulate(
+            questionIndex = accumulate(
                         m_formDetails.columnToNumberOfQuestionsMap.cbegin(), columnMapIterator, 0U,
                         [](unsigned int partialResult, FormDetails::ColumnToNumberOfQuestionsPair const& columnQuestionPair)
             {
                 return partialResult+=columnQuestionPair.second;
             });
-            questionNumber += questionOffsetInColumn;
+            questionIndex += questionOffsetInColumn;
         }
     }
-    return questionNumber;
+    return questionIndex;
 }
 
-unsigned int InputConfiguration::getMinimumSatisfactoryScore() const
-{
+unsigned int InputConfiguration::getMinimumSatisfactoryScore() const{
     return m_minimumSatisfactoryScore;
 }
 
-string InputConfiguration::getQuestionAt(unsigned int const questionNumber) const
+string InputConfiguration::getQuestionAt(unsigned int const questionIndex) const
 {
     string question;
-    if(questionNumber < m_formDetails.questions.size())
+    if(questionIndex < m_formDetails.questions.size())
     {
-        question = m_formDetails.questions[questionNumber];
+        question = m_formDetails.questions[questionIndex];
     }
     return question;
 }
-
 string InputConfiguration::getFormDetailsTitle() const
 {
-    return m_formDetails.title;
-}
+    return m_formDetails.title;}
 
 string InputConfiguration::getPath() const
 {

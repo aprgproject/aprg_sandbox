@@ -45,20 +45,20 @@ TEST(SoosaConfigurationTest, LoadConfigurationFromFileWorks)
     EXPECT_EQ(10U, soosaConfiguration.getMinimumLineSamples());
 
     EXPECT_DOUBLE_EQ(0.05, soosaConfiguration.getBitmapWidthToBarWidthMultiplier());
-    EXPECT_DOUBLE_EQ(0.10, soosaConfiguration.getAcceptableDistanceOverWidthRatioFromWidthMidpoint());
-    EXPECT_EQ(2U, soosaConfiguration.getAcceptableMinimumDistanceFromWidthMidpoint());
+    EXPECT_EQ(5U, soosaConfiguration.getLineBarWidthSearchInitialBlackPointsValue());
+    EXPECT_DOUBLE_EQ(0.80, soosaConfiguration.getLineBarWidthSearchAcceptedRunningBlackRatio());
+    EXPECT_DOUBLE_EQ(0.40, soosaConfiguration.getAcceptableDistanceOverWidthRatioFromWidthMidpoint());
+    EXPECT_EQ(4U, soosaConfiguration.getAcceptableMinimumDistanceFromWidthMidpoint());
     EXPECT_DOUBLE_EQ(0.50, soosaConfiguration.getAcceptableSdOverMeanDeviationForLine());
     EXPECT_DOUBLE_EQ(0.10, soosaConfiguration.getAcceptableSdOverMeanDeviationForBar());
-    EXPECT_DOUBLE_EQ(0.05, soosaConfiguration.getRemovalRatioForLineAndBar());
-    EXPECT_DOUBLE_EQ(0.10, soosaConfiguration.getAcceptableSdOverMeanDeviationForBarHeight());
+    EXPECT_DOUBLE_EQ(0.05, soosaConfiguration.getRemovalRatioForLineAndBar());    EXPECT_DOUBLE_EQ(0.10, soosaConfiguration.getAcceptableSdOverMeanDeviationForBarHeight());
     EXPECT_DOUBLE_EQ(0.02, soosaConfiguration.getRemovalRatioForBarHeight());
 
     EXPECT_EQ(5U, soosaConfiguration.getNumberOfChoices());
     EXPECT_EQ(170U, soosaConfiguration.getColorIntensityForWhite());
-    EXPECT_DOUBLE_EQ(0.50, soosaConfiguration.getBarHeightToDiameterMultiplier());
-    EXPECT_DOUBLE_EQ(0.70, soosaConfiguration.getMinimumPercentageOfBlackPixelsForAFilledCircle());
+    EXPECT_DOUBLE_EQ(0.75, soosaConfiguration.getBarHeightToDiameterMultiplier());
+    EXPECT_DOUBLE_EQ(0.50, soosaConfiguration.getMinimumPercentageOfBlackPixelsForAFilledCircle());
 }
 
 }
-
 }
