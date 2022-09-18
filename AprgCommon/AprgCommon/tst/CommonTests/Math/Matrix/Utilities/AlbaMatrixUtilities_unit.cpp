@@ -178,16 +178,32 @@ TEST(AlbaMatrixUtilitiesTest, DoBinaryAssignmentOperationWithSameDimensionsWorks
     EXPECT_EQ(expectedMatrix, matrix1);
 }
 
-TEST(AlbaMatrixUtilitiesTest, MultiplyMatricesWorks)
+TEST(AlbaMatrixUtilitiesTest, MultiplyMatricesWorks3By2And4By3)
+{
+    AlbaMatrix<unsigned int> matrix1(3, 2,
+    {1, 2, 3,
+     4, 5, 6});
+    AlbaMatrix<unsigned int> matrix2(4, 3,
+    {1, 2, 3, 4,
+     5, 6, 7, 8,
+     9, 10, 11, 12});
+
+    AlbaMatrix<unsigned int> matrixToVerify = multiplyMatrices(matrix1, matrix2);
+
+    AlbaMatrix<unsigned int> expectedMatrix(4, 2,
+    {38, 44, 50, 56,
+     83, 98, 113, 128});
+    EXPECT_EQ(expectedMatrix, matrixToVerify);
+}
+
+TEST(AlbaMatrixUtilitiesTest, MultiplyMatricesWorks3By2And2By3)
 {
     AlbaMatrix<int> matrix1(3, 2,
     {1, 2, -1,
-     3, 1,  4});
-    AlbaMatrix<int> matrix2(2, 3,
+     3, 1,  4});    AlbaMatrix<int> matrix2(2, 3,
     {-2, 5,
       4,-3,
       2, 1});
-
     AlbaMatrix<int> matrixToVerify = multiplyMatrices(matrix1, matrix2);
 
     AlbaMatrix<int> expectedMatrix(2, 2,
@@ -196,13 +212,47 @@ TEST(AlbaMatrixUtilitiesTest, MultiplyMatricesWorks)
     EXPECT_EQ(expectedMatrix, matrixToVerify);
 }
 
+TEST(AlbaMatrixUtilitiesTest, MultiplyMatricesWorks2By3And2By2)
+{
+    AlbaMatrix<unsigned int> matrix1(2, 3,
+    {1, 2,
+     3, 4,
+     5, 6});
+    AlbaMatrix<unsigned int> matrix2(2, 2,
+    {1, 2,
+     3, 4});
+
+    AlbaMatrix<unsigned int> matrixToVerify = multiplyMatrices(matrix1, matrix2);
+
+    AlbaMatrix<unsigned int> expectedMatrix(2, 3,
+    {7, 10,
+     15, 22,
+     23, 34});
+    EXPECT_EQ(expectedMatrix, matrixToVerify);
+}
+
+TEST(AlbaMatrixUtilitiesTest, MultiplyMatricesWorks2By2And2By3)
+{
+    AlbaMatrix<unsigned int> matrix1(2, 2,
+    {1, 2,
+     3, 4});
+    AlbaMatrix<unsigned int> matrix2(3, 2,
+    {1, 2, 3,
+     4, 5, 6});
+
+    AlbaMatrix<unsigned int> matrixToVerify = multiplyMatrices(matrix1, matrix2);
+
+    AlbaMatrix<unsigned int> expectedMatrix(3, 2,
+    {9, 12, 15,
+     19, 26, 33});
+    EXPECT_EQ(expectedMatrix, matrixToVerify);
+}
+
 TEST(AlbaMatrixUtilitiesTest, GetMatrixRaiseToScalarPowerWorks)
 {
-    AlbaMatrix<int> matrix(3, 3,
-    {1, 2, 3,
+    AlbaMatrix<int> matrix(3, 3,    {1, 2, 3,
      4, 5, 6,
      7, 8, 9});
-
     AlbaMatrix<int> matrixToVerify = getMatrixRaiseToScalarPower(matrix, 3);
 
     AlbaMatrix<int> expectedMatrix(3, 3,

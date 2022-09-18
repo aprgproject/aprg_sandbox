@@ -96,19 +96,17 @@ public:
         return DataTypeToManipulate(1) << exponent;
     }
 
-    static constexpr inline DataTypeToManipulate getLogarithmWithBase2Of(DataTypeToManipulate const exponent)
+    static constexpr inline DataTypeToManipulate getLogarithmWithBase2Of(DataTypeToManipulate const value)
     {
         static_assert(std::is_integral<DataTypeToManipulate>::value, "DataTypeToManipulate must be an integer");
 
-        DataTypeToManipulate result = getNumberOfBits() - getNumberOfConsecutiveZerosFromMsb(exponent);
+        DataTypeToManipulate result = getNumberOfBits() - getNumberOfConsecutiveZerosFromMsb(value);
         result  = result > 0 ? result-1 : 0;
         return result;
     }
-
     static constexpr inline DataTypeToManipulate getOnesComplement(DataTypeToManipulate const value)
     {
         static_assert(std::is_integral<DataTypeToManipulate>::value, "DataTypeToManipulate must be an integer");
-
         return ~value;
     }
 

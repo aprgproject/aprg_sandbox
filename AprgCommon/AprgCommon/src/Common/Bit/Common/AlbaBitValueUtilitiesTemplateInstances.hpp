@@ -52,28 +52,30 @@ constexpr unsigned int getNumberOfConsecutiveZerosFromLsbForOneByte(uint8_t cons
 template <typename BitType, typename BitHalfType>
 constexpr inline unsigned int getNumberOfConsecutiveZerosFromMsbFromHalfSize(BitType const value)
 {
+    static_assert(std::is_integral<BitType>::value, "BitType must be an integer");
+    static_assert(std::is_integral<BitHalfType>::value, "BitHalfType must be an integer");
+
     using BitHalfTypeUtilities = AlbaBitValueUtilities<BitHalfType>;
 
-    constexpr unsigned int halfSize = BitHalfTypeUtilities::getNumberOfBits();
-    unsigned int result = BitHalfTypeUtilities::getNumberOfConsecutiveZerosFromMsb(static_cast<BitHalfType>(value >> halfSize));
+    constexpr unsigned int halfSize = BitHalfTypeUtilities::getNumberOfBits();    unsigned int result = BitHalfTypeUtilities::getNumberOfConsecutiveZerosFromMsb(static_cast<BitHalfType>(value >> halfSize));
     if(result == halfSize)
     {
-        result += BitHalfTypeUtilities::getNumberOfConsecutiveZerosFromMsb(static_cast<BitHalfType>(value));
-    }
+        result += BitHalfTypeUtilities::getNumberOfConsecutiveZerosFromMsb(static_cast<BitHalfType>(value));    }
     return result;
 }
 
 template <typename BitType, typename BitHalfType>
 constexpr inline unsigned int getNumberOfConsecutiveZerosFromLsbFromHalfSize(BitType const value)
 {
+    static_assert(std::is_integral<BitType>::value, "BitType must be an integer");
+    static_assert(std::is_integral<BitHalfType>::value, "BitHalfType must be an integer");
+
     using BitHalfTypeUtilities = AlbaBitValueUtilities<BitHalfType>;
 
-    constexpr unsigned int halfSize = BitHalfTypeUtilities::getNumberOfBits();
-    unsigned int result = BitHalfTypeUtilities::getNumberOfConsecutiveZerosFromLsb(static_cast<BitHalfType>(value));
+    constexpr unsigned int halfSize = BitHalfTypeUtilities::getNumberOfBits();    unsigned int result = BitHalfTypeUtilities::getNumberOfConsecutiveZerosFromLsb(static_cast<BitHalfType>(value));
     if(result == halfSize)
     {
-        result += BitHalfTypeUtilities::getNumberOfConsecutiveZerosFromLsb(static_cast<BitHalfType>(value >> halfSize));
-    }
+        result += BitHalfTypeUtilities::getNumberOfConsecutiveZerosFromLsb(static_cast<BitHalfType>(value >> halfSize));    }
     return result;
 }
 

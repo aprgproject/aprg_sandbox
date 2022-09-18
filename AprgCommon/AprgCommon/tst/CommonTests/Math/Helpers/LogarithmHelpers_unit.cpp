@@ -21,14 +21,20 @@ TEST(LogarithmHelpersTest, GetLogarithmWorks)
     EXPECT_DOUBLE_EQ(1.9534452978042594, getLogarithm(4, 15));
 }
 
+TEST(LogarithmHelpersTest, GetLogarithmWithBase2OfWorks)
+{
+    EXPECT_EQ(2U, getLogarithmWithBase2Of(4U));
+    EXPECT_EQ(3U, getLogarithmWithBase2Of(10U));
+    EXPECT_EQ(4U, getLogarithmWithBase2Of(22U));
+    EXPECT_EQ(16U, getLogarithmWithBase2Of(123456U));
+}
+
 TEST(LogarithmHelpersTest, GetLogarithmForIntegersWorks)
 {
-    EXPECT_EQ(0U, getLogarithmForIntegers(1U, 100U));
-    EXPECT_EQ(2U, getLogarithmForIntegers(3U, 9U));
+    EXPECT_EQ(0U, getLogarithmForIntegers(1U, 100U));    EXPECT_EQ(2U, getLogarithmForIntegers(3U, 9U));
     EXPECT_EQ(5U, getLogarithmForIntegers(2U, 32U));
     EXPECT_EQ(31U, getLogarithmForIntegers(2U, 2147483648U));
-    EXPECT_EQ(1U, getLogarithmForIntegers(4U, 15U));
-}
+    EXPECT_EQ(1U, getLogarithmForIntegers(4U, 15U));}
 
 TEST(LogarithmHelpersTest, GetIterativeLogarithmWorks)
 {

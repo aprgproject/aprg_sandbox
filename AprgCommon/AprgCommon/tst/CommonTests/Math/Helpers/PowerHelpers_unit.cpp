@@ -52,19 +52,28 @@ TEST(PowerHelpersTest, IsPerfectNthPowerForUnsignedIntWorks)
     EXPECT_FALSE(isPerfectNthPower(1001U, 3U));
 }
 
+TEST(PowerHelpersTest, Get2ToThePowerOfWorks)
+{
+    EXPECT_EQ(1U, get2ToThePowerOf(0U));
+    EXPECT_EQ(2U, get2ToThePowerOf(1U));
+    EXPECT_EQ(4U, get2ToThePowerOf(2U));
+    EXPECT_EQ(8U, get2ToThePowerOf(3U));
+    EXPECT_EQ(16U, get2ToThePowerOf(4U));
+}
+
 TEST(PowerHelpersTest, GetRaiseToPowerForIntegersWorks)
 {
     EXPECT_EQ(1U, getRaiseToPowerForIntegers(0U, 0U));
     EXPECT_EQ(1U, getRaiseToPowerForIntegers(1U, 0U));
     EXPECT_EQ(0U, getRaiseToPowerForIntegers(0U, 1U));
+    EXPECT_EQ(5U, getRaiseToPowerForIntegers(5U, 1U));
+    EXPECT_EQ(25U, getRaiseToPowerForIntegers(5U, 2U));
     EXPECT_EQ(243U, getRaiseToPowerForIntegers(3U, 5U));
     EXPECT_EQ(-128, getRaiseToPowerForIntegers(-2, 7));
-    EXPECT_EQ(1, getRaiseToPowerForIntegers(-2, -1)); // returns 1 if exponent is negative
-}
+    EXPECT_EQ(1, getRaiseToPowerForIntegers(-2, -1)); // returns 1 if exponent is negative}
 
 TEST(PowerHelpersTest, GetRaiseToPowerForIntegersUsingPowWorks)
-{
-    EXPECT_EQ(1U, getRaiseToPowerForIntegersUsingPow(0U, 0U));
+{    EXPECT_EQ(1U, getRaiseToPowerForIntegersUsingPow(0U, 0U));
     EXPECT_EQ(1U, getRaiseToPowerForIntegersUsingPow(1U, 0U));
     EXPECT_EQ(0U, getRaiseToPowerForIntegersUsingPow(0U, 1U));
     EXPECT_EQ(243U, getRaiseToPowerForIntegersUsingPow(3U, 5U));
