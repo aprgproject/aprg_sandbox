@@ -1,13 +1,11 @@
 #pragma once
 
-#include <Common/Math/AlbaMathHelper.hpp>
+#include <Common/Math/Helpers/SignRelatedHelpers.hpp>
 
 namespace alba
 {
-
 namespace algorithm
 {
-
 template <typename Values>
 class BinarySearchWithTwoIndices
 {

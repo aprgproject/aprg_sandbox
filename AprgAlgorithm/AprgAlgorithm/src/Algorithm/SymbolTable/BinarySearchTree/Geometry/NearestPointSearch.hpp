@@ -1,14 +1,13 @@
 #pragma once
 
 #include <Algorithm/SymbolTable/BinarySearchTree/Geometry/KdTree.hpp>
-#include <Common/Math/AlbaMathHelper.hpp>
+#include <Common/Math/Helpers/DivisibilityHelpers.hpp>
+#include <Common/Math/Helpers/ComputationHelpers.hpp>
 
 namespace alba
 {
-
 namespace algorithm
 {
-
 template <typename Key> bool isEqualThanWithDepth(Key const& key1, Key const& key2, unsigned int const depth)
 {
     if(mathHelper::isOdd(depth))

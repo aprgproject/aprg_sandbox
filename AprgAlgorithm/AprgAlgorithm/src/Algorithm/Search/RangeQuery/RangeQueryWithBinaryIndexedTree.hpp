@@ -1,12 +1,10 @@
 #pragma once
 
-#include <Common/Math/AlbaMathHelper.hpp>
+#include <Common/Math/Helpers/FactorAndMulitplesHelpers.hpp>
 
 #include <functional>
-
 namespace alba
 {
-
 namespace algorithm
 {
 
@@ -122,15 +120,13 @@ private:
 
     Index getGreatestPowerOf2Factor(Index const index) const
     {
-        return alba::mathHelper::getGreatestPowerOf2Factor(index);
+        return mathHelper::getGreatestPowerOf2Factor(index);
     }
 
-    Values m_valuesToCheck;
-    Values m_partialTreeSums;
+    Values m_valuesToCheck;    Values m_partialTreeSums;
     AccumulatorFunction m_accumulator;
     AccumulatorFunction m_inverseAccumulator;
 };
-
 }
 
 }

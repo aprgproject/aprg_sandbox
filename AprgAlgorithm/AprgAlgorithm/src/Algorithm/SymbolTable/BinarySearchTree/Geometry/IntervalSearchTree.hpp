@@ -2,13 +2,11 @@
 
 #include <Algorithm/SymbolTable/BinarySearchTree/Common/BaseRedBlackBinarySearchTreeSymbolTable.hpp>
 #include <Algorithm/SymbolTable/BinarySearchTree/Common/BinarySearchTreeNode.hpp>
-#include <Common/Math/AlbaMathHelper.hpp>
+#include <Common/Math/Helpers/SignRelatedHelpers.hpp>
 
 #include <vector>
-
 namespace alba
 {
-
 namespace algorithm
 {
 

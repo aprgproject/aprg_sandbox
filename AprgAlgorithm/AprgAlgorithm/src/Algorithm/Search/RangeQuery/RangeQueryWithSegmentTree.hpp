@@ -1,12 +1,12 @@
 #pragma once
 
-#include <Common/Math/AlbaMathHelper.hpp>
+#include <Common/Math/Helpers/LogarithmHelpers.hpp>
+#include <Common/Math/Helpers/PrecisionHelpers.hpp>
+#include <Common/Math/Helpers/PowerHelpers.hpp>
 
 #include <functional>
-
 namespace alba
 {
-
 namespace algorithm
 {
 
@@ -21,15 +21,13 @@ public:
     // While binary indexed trees only support sum queries, segment trees also support other queries.
     // On the other hand, a segment tree requires more memory and is a bit more difficult to implement.
 
-    //Segment trees can support all range queries where it is possible to divide a range into two parts,
-    //calculate the answer separately for both parts and then efficiently combine the answers.
+    // Segment trees can support all range queries where it is possible to divide a range into two parts,
+    // Calculate the answer separately for both parts and then efficiently combine the answers.
 
     // Examples of such queries are minimum and maximum, greatest common divisor, and bit operations and, or and xor.
-
     using Index = unsigned int;
     using Value = typename Values::value_type;
     using Function = std::function<Value(Value const&, Value const&)>;
-
     static constexpr unsigned int NUMBER_OF_CHILDREN=2U; // only 2 children are supported for now
 
     RangeQueryWithSegmentTree(
@@ -129,34 +127,31 @@ private:
 
     bool isLeftChild(Index const treeIndex) const
     {
-        return alba::mathHelper::isOdd(treeIndex);
+        return mathHelper::isOdd(treeIndex);
     }
 
     bool isRightChild(Index const treeIndex) const
     {
-        return alba::mathHelper::isEven(treeIndex);
+        return mathHelper::isEven(treeIndex);
     }
 
-    Index getParent(Index const treeIndex) const
-    {
+    Index getParent(Index const treeIndex) const    {
         return ((treeIndex+1)/NUMBER_OF_CHILDREN)-1;
     }
 
     Index getCielOfLogarithmOfChildren(Index const index) const
     {
-        return alba::mathHelper::getIntegerAfterCeilingOfDoubleValue<Index>(alba::mathHelper::getLogarithm(NUMBER_OF_CHILDREN, index));
+        return mathHelper::getIntegerAfterCeilingOfDoubleValue<Index>(mathHelper::getLogarithm(NUMBER_OF_CHILDREN, index));
     }
 
     Index getChildrenRaiseToPower(Index const index) const
     {
-        return alba::mathHelper::getIntegerAfterRoundingADoubleValue<Index>(pow(NUMBER_OF_CHILDREN, index));
+        return mathHelper::getRaiseToPowerForIntegers(NUMBER_OF_CHILDREN, index);
     }
 
-    Index m_startOfChildren;
-    Values m_treeValues;
+    Index m_startOfChildren;    Values m_treeValues;
     Function m_function;
 };
-
 }
 
 }
