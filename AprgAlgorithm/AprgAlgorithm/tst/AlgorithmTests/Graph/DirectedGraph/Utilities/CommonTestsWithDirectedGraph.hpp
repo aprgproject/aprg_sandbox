@@ -222,15 +222,33 @@ void testClearWithVertexAsUnsignedInt()
 }
 
 template <typename Graph>
-void testReverseDirectionsWithVertexAsUnsignedInt()
+void testGraphWorksAfterClearWithVertexAsUnsignedInt()
 {
     using Edges = typename Graph::Edges;
     Graph graph;
     graph.connect(0U, 1U);
+    graph.connect(0U, 2U);
+    graph.clear();
+
+    graph.connect(3U, 4U);
+    graph.connect(4U, 5U);
+    graph.connect(5U, 6U);
+
+    EXPECT_EQ(4U, graph.getNumberOfVertices());
+    EXPECT_EQ(3U, graph.getNumberOfEdges());
+    Edges edgesToVerify(graph.getEdges());
+    Edges edgesToExpect{{3U, 4U}, {4U, 5U}, {5U, 6U}};
+    EXPECT_EQ(edgesToExpect, edgesToVerify);
+}
+
+template <typename Graph>
+void testReverseDirectionsWithVertexAsUnsignedInt()
+{
+    using Edges = typename Graph::Edges;    Graph graph;
+    graph.connect(0U, 1U);
     graph.connect(2U, 0U);
 
     graph.reverseDirections();
-
     EXPECT_EQ(3U, graph.getNumberOfVertices());
     EXPECT_EQ(2U, graph.getNumberOfEdges());
     Edges edgesToVerify(graph.getEdges());

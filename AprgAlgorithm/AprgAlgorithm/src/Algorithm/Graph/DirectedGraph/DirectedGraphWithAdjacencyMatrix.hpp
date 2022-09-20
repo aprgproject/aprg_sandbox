@@ -1,22 +1,24 @@
 #pragma once
 
-#include <Algorithm/Graph/UndirectedGraph/BaseUndirectedGraph.hpp>
+#include <Algorithm/Graph/DirectedGraph/BaseDirectedGraph.hpp>
 #include <Common/Math/Matrix/AlbaMatrix.hpp>
 #include <Common/String/AlbaStringHelper.hpp>
 
 namespace alba
 {
+
 namespace algorithm
 {
+
 template <typename Vertex, unsigned int MAX_VERTEX_VALUE>
-class UndirectedGraphWithAdjacencyMatrix : public BaseUndirectedGraph<Vertex>
+class DirectedGraphWithAdjacencyMatrix : public BaseDirectedGraph<Vertex>
 {
 public:
     using Vertices = typename GraphTypes<Vertex>::Vertices;
     using Edges = typename GraphTypes<Vertex>::Edges;
     using AdjacencyMatrix = matrix::AlbaMatrix<bool>;
 
-    UndirectedGraphWithAdjacencyMatrix()
+    DirectedGraphWithAdjacencyMatrix()
         : m_numberOfEdges(0U)
         , m_adjacencyMatrix(MAX_VERTEX_VALUE, MAX_VERTEX_VALUE)
     {}
@@ -26,21 +28,6 @@ public:
         return m_numberOfEdges==0;
     }
 
-    bool hasAnyConnection(Vertex const& vertex) const override
-    {
-        bool result(false);
-        unsigned int numberOfRows(m_adjacencyMatrix.getNumberOfRows());
-        for(Vertex adjacentVertex=0; adjacentVertex<numberOfRows; adjacentVertex++)
-        {
-            if(isDirectlyConnected(vertex, adjacentVertex))
-            {
-                result = true;
-                break;
-            }
-        }
-        return result;
-    }
-
     bool isDirectlyConnected(Vertex const& vertex1, Vertex const& vertex2) const override
     {
         return m_adjacencyMatrix.getEntry(vertex1, vertex2);
@@ -48,16 +35,7 @@ public:
 
     unsigned int getNumberOfVertices() const override
     {
-        unsigned int result(0);
-        unsigned int numberOfColumns(m_adjacencyMatrix.getNumberOfColumns());
-        for(Vertex vertex=0; vertex<numberOfColumns; vertex++)
-        {
-            if(hasAnyConnection(vertex))
-            {
-                result++;
-            }
-        }
-        return result;
+        return getVertices().size();
     }
 
     unsigned int getNumberOfEdges() const override
@@ -81,11 +59,26 @@ public:
 
     Vertices getVertices() const override
     {
-        Vertices result;
+        std::array<bool, MAX_VERTEX_VALUE> isVertexIncluded{};
+
         unsigned int numberOfColumns(m_adjacencyMatrix.getNumberOfColumns());
-        for(Vertex vertex=0; vertex<numberOfColumns; vertex++)
+        unsigned int numberOfRows(m_adjacencyMatrix.getNumberOfRows());
+        for(Vertex vertex1=0; vertex1<numberOfColumns; vertex1++)
         {
-            if(hasAnyConnection(vertex))
+            for(Vertex vertex2=0; vertex2<numberOfRows; vertex2++)
+            {
+                if(isDirectlyConnected(vertex1, vertex2))
+                {
+                    isVertexIncluded[vertex1] = true;
+                    isVertexIncluded[vertex2] = true;
+                }
+            }
+        }
+
+        Vertices result;
+        for(Vertex vertex=0; vertex<MAX_VERTEX_VALUE; vertex++)
+        {
+            if(isVertexIncluded.at(vertex))
             {
                 result.emplace_back(vertex);
             }
@@ -100,7 +93,7 @@ public:
         unsigned int numberOfRows(m_adjacencyMatrix.getNumberOfRows());
         for(Vertex vertex1=0; vertex1<numberOfColumns; vertex1++)
         {
-            for(Vertex vertex2=vertex1; vertex2<numberOfRows; vertex2++)
+            for(Vertex vertex2=0; vertex2<numberOfRows; vertex2++)
             {
                 if(isDirectlyConnected(vertex1, vertex2))
                 {
@@ -135,7 +128,6 @@ public:
         {
             m_numberOfEdges++;
             m_adjacencyMatrix.setEntry(vertex1, vertex2, true);
-            m_adjacencyMatrix.setEntry(vertex2, vertex1, true);
         }
     }
 
@@ -145,7 +137,6 @@ public:
         {
             m_numberOfEdges--;
             m_adjacencyMatrix.setEntry(vertex1, vertex2, false);
-            m_adjacencyMatrix.setEntry(vertex2, vertex1, false);
         }
     }
 
@@ -156,9 +147,11 @@ public:
     }
 
 protected:
+
     unsigned int m_numberOfEdges;
     AdjacencyMatrix m_adjacencyMatrix; // vertex by adjacent matrix
 };
 
 }
+
 }

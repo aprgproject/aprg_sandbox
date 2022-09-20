@@ -101,15 +101,18 @@ TEST(DirectedGraphWithListOfEdgesTest, ClearWorks)
     testClearWithVertexAsUnsignedInt<GraphForTest>();
 }
 
+TEST(DirectedGraphWithListOfEdgesTest, GraphWorksAfterClear)
+{
+    testGraphWorksAfterClearWithVertexAsUnsignedInt<GraphForTest>();
+}
+
 TEST(DirectedGraphWithListOfEdgesTest, ReverseDirectionsWorks)
 {
-    testReverseDirectionsWithVertexAsUnsignedInt<GraphForTest>();
-}
+    testReverseDirectionsWithVertexAsUnsignedInt<GraphForTest>();}
 
 TEST(DirectedGraphWithListOfEdgesTest, ComplicatedTestWorks)
 {
-    testWithComplicatedExampleWithVertexAsUnsignedInt<GraphForTest>();
-}
+    testWithComplicatedExampleWithVertexAsUnsignedInt<GraphForTest>();}
 
 TEST(DirectedGraphWithListOfEdgesTest, GetDisplayableStringWorks)
 {

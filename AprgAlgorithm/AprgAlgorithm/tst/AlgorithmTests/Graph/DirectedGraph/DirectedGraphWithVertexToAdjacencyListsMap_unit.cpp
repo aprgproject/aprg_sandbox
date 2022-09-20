@@ -101,15 +101,18 @@ TEST(DirectedGraphWithVertexToAdjacencyListsMapTest, ClearWorks)
     testClearWithVertexAsUnsignedInt<GraphForTest>();
 }
 
+TEST(DirectedGraphWithVertexToAdjacencyListsMapTest, GraphWorksAfterClear)
+{
+    testGraphWorksAfterClearWithVertexAsUnsignedInt<GraphForTest>();
+}
+
 TEST(DirectedGraphWithVertexToAdjacencyListsMapTest, ReverseDirectionsWorks)
 {
-    testReverseDirectionsWithVertexAsUnsignedInt<GraphForTest>();
-}
+    testReverseDirectionsWithVertexAsUnsignedInt<GraphForTest>();}
 
 TEST(DirectedGraphWithVertexToAdjacencyListsMapTest, ComplicatedTestWorks)
 {
-    testWithComplicatedExampleWithVertexAsUnsignedInt<GraphForTest>();
-}
+    testWithComplicatedExampleWithVertexAsUnsignedInt<GraphForTest>();}
 
 TEST(DirectedGraphWithVertexToAdjacencyListsMapTest, GetDisplayableStringWorks)
 {
