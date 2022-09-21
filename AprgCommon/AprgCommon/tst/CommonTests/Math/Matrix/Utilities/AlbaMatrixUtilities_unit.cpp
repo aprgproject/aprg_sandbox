@@ -294,21 +294,33 @@ TEST(AlbaMatrixUtilitiesTest, AddTwoRowsAndPutSumInAnotherRowWorks)
     EXPECT_EQ(expectedMatrix, matrix);
 }
 
-
 TEST(AlbaMatrixUtilitiesTest, MultiplyEachItemAndGetSumWorks)
 {
     unsigned int value = multiplyEachItemAndGetSum(AlbaMatrixData<unsigned int>{1U, 2U, 3U}, AlbaMatrixData<unsigned int>{4U, 5U, 6U});
-
     EXPECT_EQ(32U, value);
+}
+
+TEST(AlbaMatrixUtilitiesTest, GetIndexWithHighestSatisfiedCountWorks)
+{
+    ListOfAlbaMatrixData<unsigned int> listOfMatrixData{{1U, 1U, 1U}, {2U, 2U, 2U}, {3U, 3U, 3U}, {1U, 2U, 3U}};
+    BoolUnaryFunction<unsigned int> conditionFor1 = [](unsigned int const& entry){return entry == 1U;};
+    BoolUnaryFunction<unsigned int> conditionFor2 = [](unsigned int const& entry){return entry == 2U;};
+    BoolUnaryFunction<unsigned int> conditionFor3 = [](unsigned int const& entry){return entry == 3U;};
+
+    unsigned int indexWithHighest1 = getIndexWithHighestSatisfiedCount(listOfMatrixData, conditionFor1);
+    unsigned int indexWithHighest2 = getIndexWithHighestSatisfiedCount(listOfMatrixData, conditionFor2);
+    unsigned int indexWithHighest3 = getIndexWithHighestSatisfiedCount(listOfMatrixData, conditionFor3);
+
+    EXPECT_EQ(0U, indexWithHighest1);
+    EXPECT_EQ(1U, indexWithHighest2);
+    EXPECT_EQ(2U, indexWithHighest3);
 }
 
 TEST(AlbaMatrixUtilitiesTest, TraverseWithUnaryOperationForDifferentRowsWorks)
 {
-    AlbaMatrix<unsigned int> matrix(2, 3,
-    {1, 2,
+    AlbaMatrix<unsigned int> matrix(2, 3,    {1, 2,
      3, 4,
      5, 6});
-
     traverseWithUnaryOperationForDifferentRows(matrix, 0, 1, UnaryFunction<unsigned int>([](unsigned int const& value)
     {
         return (100+value)*value;

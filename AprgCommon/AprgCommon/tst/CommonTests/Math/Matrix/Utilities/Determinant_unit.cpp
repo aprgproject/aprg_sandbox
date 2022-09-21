@@ -11,22 +11,28 @@ namespace alba
 namespace matrix
 {
 
-TEST(DeterminantTest, GetBestIndexForCoFactorExpansionWorks)
+TEST(DeterminantTest, GetIndexWithHighestNumberOfZerosWorks)
 {
     ListOfAlbaMatrixData<unsigned int> rowsAndColumns
     {{1, 2, 3}, {0, 5, 0}, {7, 0, 9}};
 
-    EXPECT_EQ(1U, getBestIndexForCoFactorExpansion(rowsAndColumns));
+    EXPECT_EQ(1U, getIndexWithHighestNumberOfZeros(rowsAndColumns));
+}
+
+TEST(DeterminantTest, GetIndexWithHighestNumberOfNonZerosWorks)
+{
+    ListOfAlbaMatrixData<unsigned int> rowsAndColumns
+    {{1, 2, 3}, {0, 5, 0}, {7, 0, 9}};
+
+    EXPECT_EQ(0U, getIndexWithHighestNumberOfNonZeros(rowsAndColumns));
 }
 
 TEST(DeterminantTest, GetDeterminantWorks)
 {
-    AlbaMatrix<int> matrix1(1, 1, {5});
-    AlbaMatrix<int> matrix2(2, 2,
+    AlbaMatrix<int> matrix1(1, 1, {5});    AlbaMatrix<int> matrix2(2, 2,
     {2, -1,
      3,  2});
-    AlbaMatrix<int> matrix3(3, 3,
-    {1, 2, 3,
+    AlbaMatrix<int> matrix3(3, 3,    {1, 2, 3,
      2, 1, 3,
      3, 1, 2});
     AlbaMatrix<int> matrix4(4, 4,

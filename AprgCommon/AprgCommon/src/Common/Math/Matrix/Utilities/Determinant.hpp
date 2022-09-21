@@ -12,43 +12,40 @@ namespace matrix
 {
 
 template <typename DataType>
-unsigned int getBestIndexForCoFactorExpansion(
-        ListOfAlbaMatrixData<DataType> const& rowsAndColumns)
+unsigned int getIndexWithHighestNumberOfZeros(
+        ListOfAlbaMatrixData<DataType> const& rowsOrColumns)
 {
-    unsigned int i=0;
-    unsigned int bestIndex=0;
-    unsigned int highestNumberOfZeros=0;
-    for(auto const& rowOrColumn : rowsAndColumns)
+    BoolUnaryFunction<DataType> equalCondition = [](DataType const& entry)
     {
-        unsigned int numberOfZeros = std::count_if(rowOrColumn.cbegin(), rowOrColumn.cend(),[](DataType const& value)
-        {return isEqualForMathMatrixDataType(value, DataType(0));});
-        if(highestNumberOfZeros < numberOfZeros)
-        {
-            highestNumberOfZeros = numberOfZeros;
-            bestIndex = i;
-        }
-        i++;
-    }
-
-    return bestIndex;
+        return isEqualForMathMatrixDataType(entry, DataType{});
+    };
+    return getIndexWithHighestSatisfiedCount(rowsOrColumns, equalCondition);
 }
 
 template <typename DataType>
-DataType getDeterminant(
+unsigned int getIndexWithHighestNumberOfNonZeros(
+        ListOfAlbaMatrixData<DataType> const& rowsOrColumns)
+{
+    BoolUnaryFunction<DataType> nonEqualCondition = [](DataType const& entry)
+    {
+        return !isEqualForMathMatrixDataType(entry, DataType{});
+    };
+    return getIndexWithHighestSatisfiedCount(rowsOrColumns, nonEqualCondition);
+}
+
+template <typename DataType>DataType getDeterminant(
         AlbaMatrix<DataType> const& matrix)
 {
     unsigned int numberOfRows(matrix.getNumberOfRows());
     unsigned int numberOfColumns(matrix.getNumberOfColumns());
     assert(numberOfRows == numberOfColumns);
-    DataType determinant(0);
+    DataType determinant{};
     if(numberOfColumns==1)
     {
-        determinant = matrix.getEntry(0,0);
-    }
+        determinant = matrix.getEntry(0,0);    }
     else if(numberOfColumns==2)
     {
-        determinant = matrix.getEntry(0,0)*matrix.getEntry(1,1) - matrix.getEntry(0,1)*matrix.getEntry(1,0);
-    }
+        determinant = matrix.getEntry(0,0)*matrix.getEntry(1,1) - matrix.getEntry(0,1)*matrix.getEntry(1,0);    }
     else
     {
         determinant = getDeterminantWhenSideIsMoreThan2(matrix);
@@ -76,38 +73,33 @@ DataType getValueFromCoFactorExpansion(
         unsigned int x,
         unsigned int y)
 {
-    DataType value(0);
+    DataType value{};
     DataType entry = matrix.getEntry(x,y);
     if(!isEqualForMathMatrixDataType(entry, 0))
-    {
-        int sign = mathHelper::isEven(x+y) ? 1 : -1;
+    {        int sign = mathHelper::isEven(x+y) ? 1 : -1;
         DataType subDeterminant = getDeterminant(getMatrixWithOneColumnAndOneRowRemoved(matrix, x, y));
         value = entry * subDeterminant * sign;
-    }
-    return value;
+    }    return value;
 }
 
 template <typename DataType>
 DataType getDeterminantWhenSideIsMoreThan2(
         AlbaMatrix<DataType> const& matrix)
 {
-    DataType determinant(0);
+    DataType determinant{};
 
     typename AlbaMatrix<DataType>::ListOfMatrixData rowsAndColumns;
-    matrix.retrieveRows(rowsAndColumns);
-    matrix.retrieveColumns(rowsAndColumns);
+    matrix.retrieveRows(rowsAndColumns);    matrix.retrieveColumns(rowsAndColumns);
 
     unsigned int numberOfRows(matrix.getNumberOfRows());
     unsigned int numberOfColumns(matrix.getNumberOfColumns());
-    unsigned int bestIndex = getBestIndexForCoFactorExpansion(rowsAndColumns);
+    unsigned int bestIndex = getIndexWithHighestNumberOfZeros(rowsAndColumns);
     if(bestIndex < numberOfRows)
     {
-        unsigned int y = bestIndex;
-        for(unsigned int x=0; x<numberOfColumns; x++)
+        unsigned int y = bestIndex;        for(unsigned int x=0; x<numberOfColumns; x++)
         {
             determinant += getValueFromCoFactorExpansion(matrix, x, y);
-        }
-    }
+        }    }
     else
     {
         unsigned int x = bestIndex-numberOfRows;

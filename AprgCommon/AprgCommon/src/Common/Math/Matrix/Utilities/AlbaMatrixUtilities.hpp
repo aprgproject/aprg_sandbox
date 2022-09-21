@@ -228,14 +228,33 @@ DataType multiplyEachItemAndGetSum(
 }
 
 template <typename DataType>
+unsigned int getIndexWithHighestSatisfiedCount(
+        ListOfAlbaMatrixData<DataType> const& rowsOrColumns,
+        BoolUnaryFunction<DataType> const& condition)
+{
+    unsigned int i=0;
+    unsigned int bestIndex=0;
+    unsigned int highestCount=0;
+    for(auto const& rowOrColumn : rowsOrColumns)
+    {
+        unsigned int count = std::count_if(rowOrColumn.cbegin(), rowOrColumn.cend(), condition);
+        if(highestCount < count)
+        {
+            highestCount = count;
+            bestIndex = i;
+        }
+        i++;
+    }
+    return bestIndex;
+}
+
+template <typename DataType>
 void traverseWithUnaryOperationForDifferentRows(
         AlbaMatrix<DataType> & matrix,
-        unsigned int const yInput,
-        unsigned int const yOutput,
+        unsigned int const yInput,        unsigned int const yOutput,
         UnaryFunction<DataType> const& unaryFunction)
 {
-    unsigned int numberOfRows(matrix.getNumberOfRows());
-    unsigned int numberOfColumns(matrix.getNumberOfColumns());
+    unsigned int numberOfRows(matrix.getNumberOfRows());    unsigned int numberOfColumns(matrix.getNumberOfColumns());
     assert((yInput < numberOfRows) && (yOutput < numberOfRows));
     for(unsigned int x=0; x<numberOfColumns; x++)
     {
