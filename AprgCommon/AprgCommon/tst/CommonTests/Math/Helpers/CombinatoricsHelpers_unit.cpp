@@ -15,14 +15,12 @@ TEST(CombinatoricsHelpersTest, GetNumberOfPossibilitiesWorks)
     EXPECT_EQ(1U, getNumberOfPossibilities(0U, 0U));
     EXPECT_EQ(1U, getNumberOfPossibilities(1U, 1U));
     EXPECT_EQ(1U, getNumberOfPossibilities(0U, 0U));
-    EXPECT_EQ(9U, getNumberOfPossibilities(2U, 3U));
+    EXPECT_EQ(8U, getNumberOfPossibilities(2U, 3U));
     EXPECT_EQ(3125U, getNumberOfPossibilities(5U, 5U));
 }
-
 TEST(CombinatoricsHelpersTest, GetFactorialWorks)
 {
-    EXPECT_EQ(1U, getFactorial(0U));
-    EXPECT_EQ(1U, getFactorial(1U));
+    EXPECT_EQ(1U, getFactorial(0U));    EXPECT_EQ(1U, getFactorial(1U));
     EXPECT_EQ(120U, getFactorial(5U));
     EXPECT_EQ(3628800U, getFactorial(10U));
 }

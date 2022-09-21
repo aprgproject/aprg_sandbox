@@ -84,16 +84,13 @@ AlbaNumber AlbaNumber::createComplexNumber(NumberType const realPart, NumberType
     double adjustedRealPart = adjustFloatValue(realPart);
     double adjustedImaginaryPart = adjustFloatValue(imaginaryPart);
     if(isAlmostEqual(adjustedImaginaryPart, 0.0, Configuration::getInstance().getConfigurationDetails().comparisonTolerance)
-            || POSITIVE_INFINITY_DOUBLE_VALUE == adjustedRealPart
-            || NEGATIVE_INFINITY_DOUBLE_VALUE == adjustedRealPart
+            || isinf(adjustedRealPart)
             || isnan(adjustedRealPart))
     {
-        return AlbaNumber(static_cast<double>(adjustedRealPart));
-    }
+        return AlbaNumber(static_cast<double>(adjustedRealPart));    }
     else
     {
-        return AlbaNumber(ComplexNumberData{static_cast<float>(adjustedRealPart), static_cast<float>(adjustedImaginaryPart)});
-    }
+        return AlbaNumber(ComplexNumberData{static_cast<float>(adjustedRealPart), static_cast<float>(adjustedImaginaryPart)});    }
 }
 template AlbaNumber AlbaNumber::createComplexNumber<int>(int const realPart, int const imaginaryPart);
 template AlbaNumber AlbaNumber::createComplexNumber<float>(float const realPart, float const imaginaryPart);
@@ -756,29 +753,26 @@ bool AlbaNumber::isNegativeInfinity() const
 
 bool AlbaNumber::isPositiveOrNegativeInfinity() const
 {
-    return isPositiveInfinity() || isNegativeInfinity();
+    return isinf(getDouble());
 }
 
-bool AlbaNumber::isNotANumber() const
-{
+bool AlbaNumber::isNotANumber() const{
     return isnan(getDouble());
 }
 
 bool AlbaNumber::isAFiniteValue() const
 {
-    return !isPositiveInfinity() && !isNegativeInfinity() && !isNotANumber();
+    return isfinite(getDouble());
 }
 
 bool AlbaNumber::isARealFiniteValue() const
 {
-    return !isPositiveInfinity() && !isNegativeInfinity() && !isNotANumber() && !isComplexNumberType();
+    return isAFiniteValue() && !isComplexNumberType();
 }
 
-AlbaNumber::Type AlbaNumber::getType() const
-{
+AlbaNumber::Type AlbaNumber::getType() const{
     return m_type;
 }
-
 long long int AlbaNumber::getInteger() const
 {
     long long int result(0);
@@ -976,15 +970,13 @@ AlbaNumber::ComplexFloat AlbaNumber::createComplexFloat(ComplexNumberData const&
 
 void AlbaNumber::correctPowerResult(double & powerResult, double const base, double const exponent)
 {
-    if(base < 0 && exponent == INFINITY)
+    if(base < 0 && exponent == POSITIVE_INFINITY_DOUBLE_VALUE)
     {
         powerResult = NAN;
-    }
-}
+    }}
 
 void AlbaNumber::convertFromDoubleToIntegerIfNeeded()
-{
-    double realValue(getDouble());
+{    double realValue(getDouble());
     if(isValueWithinLimits<long long int>(realValue)
             && isAlmostAnInteger(realValue, Configuration::getInstance().getConfigurationDetails().comparisonTolerance))
     {
