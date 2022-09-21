@@ -16,15 +16,13 @@ TEST(ValueCheckingHelpersTest, WillHaveNoEffectOnAndOperationWorksWithTerm)
     EXPECT_TRUE(willHaveNoEffectOnAndOperation(Term()));
     EXPECT_FALSE(willHaveNoEffectOnAndOperation(Term(false)));
     EXPECT_TRUE(willHaveNoEffectOnAndOperation(Term(true)));
-    EXPECT_FALSE(willHaveNoEffectOnAndOperation(Term(VariableTerm("x", false))));
-    EXPECT_FALSE(willHaveNoEffectOnAndOperation(Term(VariableTerm("x", true))));
+    EXPECT_FALSE(willHaveNoEffectOnAndOperation(Term("x")));
+    EXPECT_FALSE(willHaveNoEffectOnAndOperation(Term("x'")));
     EXPECT_TRUE(willHaveNoEffectOnAndOperation(Term(Expression())));
 }
-
 TEST(ValueCheckingHelpersTest, WillHaveNoEffectOnAndOperationWorksWithExpression)
 {
-    EXPECT_TRUE(willHaveNoEffectOnAndOperation(Expression()));
-    EXPECT_FALSE(willHaveNoEffectOnAndOperation(createExpressionIfPossible({false})));
+    EXPECT_TRUE(willHaveNoEffectOnAndOperation(Expression()));    EXPECT_FALSE(willHaveNoEffectOnAndOperation(createExpressionIfPossible({false})));
     EXPECT_TRUE(willHaveNoEffectOnAndOperation(createExpressionIfPossible({true})));
     EXPECT_FALSE(willHaveNoEffectOnAndOperation(createExpressionIfPossible({"x"})));
 }
@@ -34,15 +32,13 @@ TEST(ValueCheckingHelpersTest, WillHaveNoEffectOnOrOperationWorksWithTerm)
     EXPECT_TRUE(willHaveNoEffectOnOrOperation(Term()));
     EXPECT_TRUE(willHaveNoEffectOnOrOperation(Term(false)));
     EXPECT_FALSE(willHaveNoEffectOnOrOperation(Term(true)));
-    EXPECT_FALSE(willHaveNoEffectOnOrOperation(Term(VariableTerm("x", false))));
-    EXPECT_FALSE(willHaveNoEffectOnOrOperation(Term(VariableTerm("x", true))));
+    EXPECT_FALSE(willHaveNoEffectOnOrOperation(Term("x")));
+    EXPECT_FALSE(willHaveNoEffectOnOrOperation(Term("x'")));
     EXPECT_TRUE(willHaveNoEffectOnOrOperation(Term(Expression())));
 }
-
 TEST(ValueCheckingHelpersTest, WillHaveNoEffectOnOrOperationWorksWithExpression)
 {
-    EXPECT_TRUE(willHaveNoEffectOnOrOperation(Expression()));
-    EXPECT_TRUE(willHaveNoEffectOnOrOperation(createExpressionIfPossible({false})));
+    EXPECT_TRUE(willHaveNoEffectOnOrOperation(Expression()));    EXPECT_TRUE(willHaveNoEffectOnOrOperation(createExpressionIfPossible({false})));
     EXPECT_FALSE(willHaveNoEffectOnOrOperation(createExpressionIfPossible({true})));
     EXPECT_FALSE(willHaveNoEffectOnOrOperation(createExpressionIfPossible({"x"})));
 }

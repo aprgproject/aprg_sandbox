@@ -17,8 +17,7 @@ bool getShortCircuitValueEffectInOperation(OperatorLevel const operatorLevel);
 
 VariableNamesSet getVariableNames(Term const& term);
 
-Term getTermFromVariableAndPrimeBit(std::string const& variableName, char const primeBit);
+Term getTermFromVariableAndPrimeValue(std::string const& variableName, char const primeValue);
 
 }
-
 }

@@ -134,17 +134,15 @@ TEST(ExpressionTest, LessThanOperatorWorks)
 TEST(ExpressionTest, NotOperationWorks)
 {
     Expression expressionToTest(createExpressionIfPossible(
-    {VariableTerm("x", false), "&", VariableTerm("x", true), "&", VariableTerm("y", false), "&", VariableTerm("z", false)}));
+    {"x", "&", "x'", "&", "y", "&", "z"}));
     Expression expressionToExpect(createExpressionIfPossible(
-    {VariableTerm("x", true), "|", VariableTerm("x", false), "|", VariableTerm("y", true), "|", VariableTerm("z", true)}));
+    {"x'", "|", "x", "|", "y'", "|", "z'"}));
 
     EXPECT_EQ(expressionToExpect, ~expressionToTest);
 }
-
 TEST(ExpressionTest, IsEmptyWorks)
 {
-    Expression expression1;
-    Expression expression2(createOrCopyExpressionFromATerm(false));
+    Expression expression1;    Expression expression2(createOrCopyExpressionFromATerm(false));
     Expression expression3(createExpressionIfPossible({true, "&", "x"}));
 
     EXPECT_TRUE(expression1.isEmpty());
@@ -699,31 +697,28 @@ TEST(ExpressionTest, SimplifyWorksAsSkippedWhenIsSimplifiedIsSet)
 TEST(ExpressionTest, SortWorks)
 {
     Expression expression(createExpressionIfPossible(
-    {VariableTerm("x", false), "&", VariableTerm("x", true), "&", VariableTerm("y", false), "&", VariableTerm("z", false)}));
+    {"x", "&", "x'", "&", "y", "&", "z"}));
 
     expression.sort();
 
     Expression expressionToExpect(createExpressionIfPossible(
-    {VariableTerm("x", false), "&", VariableTerm("x", true), "&", VariableTerm("y", false), "&", VariableTerm("z", false)}));
+    {"x", "&", "x'", "&", "y", "&", "z"}));
     EXPECT_EQ(expressionToExpect, expression);
 }
-
 TEST(ExpressionTest, NegateWorks)
 {
     Expression expression(createExpressionIfPossible(
-    {VariableTerm("x", false), "&", VariableTerm("x", true), "&", VariableTerm("y", false), "&", VariableTerm("z", false)}));
+    {"x", "&", "x'", "&", "y", "&", "z"}));
 
     expression.negate();
 
     Expression expressionToExpect(createExpressionIfPossible(
-    {VariableTerm("x", true), "|", VariableTerm("x", false), "|", VariableTerm("y", true), "|", VariableTerm("z", true)}));
+    {"x'", "|", "x", "|", "y'", "|", "z'"}));
     EXPECT_EQ(expressionToExpect, expression);
 }
-
 TEST(ExpressionTest, SetAsSimplifiedWorks)
 {
     Expression expression;
-
     expression.setAsSimplified();
 
     EXPECT_TRUE(expression.isSimplified());

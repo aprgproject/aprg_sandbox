@@ -22,15 +22,13 @@ TEST(TermTypesOperatorsTest, UnaryNotOperator_NotVariableTermOperationWorks)
 {
     Term term(~VariableTerm("x"));
 
-    EXPECT_EQ(Term(VariableTerm("x", true)), term);
+    EXPECT_EQ(Term("x'"), term);
 }
 
-TEST(TermTypesOperatorsTest, UnaryNotOperator_NotExpressionOperationWorks)
-{
+TEST(TermTypesOperatorsTest, UnaryNotOperator_NotExpressionOperationWorks){
     Term term(~createExpressionIfPossible({false}));
 
-    EXPECT_EQ(Term(createExpressionIfPossible({true})), term);
-}
+    EXPECT_EQ(Term(createExpressionIfPossible({true})), term);}
 
 TEST(TermTypesOperatorsTest, BinaryAndOperator_EmptyAndConstantOperationWorks)
 {

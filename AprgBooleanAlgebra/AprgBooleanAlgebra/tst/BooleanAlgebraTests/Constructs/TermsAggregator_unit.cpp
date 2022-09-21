@@ -31,14 +31,12 @@ TEST(TermsAggregatorTest, ExpressionCanBeBuiltWithUnaryOperation)
 
     Terms termsToVerify(aggregator.getTermsConstReference());
     ASSERT_EQ(1U, termsToVerify.size());
-    Term termToExpect(VariableTerm("x", true));
+    Term termToExpect("x'");
     EXPECT_EQ(termToExpect, termsToVerify.at(0));
 }
-
 TEST(TermsAggregatorTest, ExpressionCanBeBuiltWithBinaryOperation)
 {
     TermsAggregator aggregator({"x", "&", "y"});
-
     aggregator.buildExpressionFromTerms();
 
     Terms termsToVerify(aggregator.getTermsConstReference());
@@ -146,13 +144,11 @@ TEST(TermsAggregatorTest, SimplifyWorksWithNegatedTermsAndVariousOperations)
 
     Terms termsToVerify(aggregator.getTermsConstReference());
     ASSERT_EQ(1U, termsToVerify.size());
-    Expression subExpression1(createExpressionIfPossible({VariableTerm("a", true), "&", VariableTerm("b", true)}));
-    Expression subExpression2(createExpressionIfPossible({VariableTerm("c", true), "&", "x"}));
+    Expression subExpression1(createExpressionIfPossible({"a'", "&", "b'"}));
+    Expression subExpression2(createExpressionIfPossible({"c'", "&", "x"}));
     Expression subExpression3(createExpressionIfPossible({subExpression1, "|", subExpression2, "|", "y"}));
     Term termToExpect(subExpression3);
-    EXPECT_EQ(termToExpect, termsToVerify.at(0));
-}
+    EXPECT_EQ(termToExpect, termsToVerify.at(0));}
 
 }
-
 }

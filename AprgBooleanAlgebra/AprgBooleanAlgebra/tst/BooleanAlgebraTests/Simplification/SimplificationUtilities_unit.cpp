@@ -94,59 +94,53 @@ TEST(SimplificationUtilitiesTest, CreateUniqueTermsWorks)
 
 TEST(SimplificationUtilitiesTest, CombineComplementaryTermsWorks)
 {
-    Terms termsToTest1{"x", VariableTerm("x", true)};
-    Terms termsToTest2{"x", VariableTerm("x", true)};
-    Terms termsToTest3{"a", VariableTerm("b", true), "x", "c", VariableTerm("d", true), VariableTerm("x", true), "e", VariableTerm("f", true)};
-    Terms termsToTest4{"a", VariableTerm("b", true), "x", "c", VariableTerm("d", true), VariableTerm("x", true), "e", VariableTerm("f", true)};
+    Terms termsToTest1{"x", "x'"};
+    Terms termsToTest2{"x", "x'"};
+    Terms termsToTest3{"a", "b'", "x", "c", "d'", "x'", "e", "f'"};
+    Terms termsToTest4{"a", "b'", "x", "c", "d'", "x'", "e", "f'"};
 
     combineComplementaryTerms(termsToTest1, OperatorLevel::And);
-    combineComplementaryTerms(termsToTest2, OperatorLevel::Or);
-    combineComplementaryTerms(termsToTest3, OperatorLevel::And);
+    combineComplementaryTerms(termsToTest2, OperatorLevel::Or);    combineComplementaryTerms(termsToTest3, OperatorLevel::And);
     combineComplementaryTerms(termsToTest4, OperatorLevel::Or);
 
     EXPECT_EQ((Terms{false}), termsToTest1);
     EXPECT_EQ((Terms{true}), termsToTest2);
-    EXPECT_EQ((Terms{"a", VariableTerm("b", true), false, "c", VariableTerm("d", true), "e", VariableTerm("f", true)}), termsToTest3);
-    EXPECT_EQ((Terms{"a", VariableTerm("b", true), true, "c", VariableTerm("d", true), "e", VariableTerm("f", true)}), termsToTest4);
+    EXPECT_EQ((Terms{"a", "b'", false, "c", "d'", "e", "f'"}), termsToTest3);
+    EXPECT_EQ((Terms{"a", "b'", true, "c", "d'", "e", "f'"}), termsToTest4);
 }
 
-TEST(SimplificationUtilitiesTest, CombineTermsByCheckingCommonFactorWorks)
-{
+TEST(SimplificationUtilitiesTest, CombineTermsByCheckingCommonFactorWorks){
     Term xAndY(createExpressionIfPossible({"x", "&", "y"}));
     Term xOrY(createExpressionIfPossible({"x", "|", "y"}));
     Terms termsToTest1{"x", xAndY};
     Terms termsToTest2{"x", xAndY};
     Terms termsToTest3{"x", xOrY};
     Terms termsToTest4{"x", xOrY};
-    Terms termsToTest5{"a", VariableTerm("b", true), "x", "c", VariableTerm("d", true), xAndY, "e", VariableTerm("f", true)};
-    Terms termsToTest6{"a", VariableTerm("b", true), "x", "c", VariableTerm("d", true), xAndY, "e", VariableTerm("f", true)};
-    Terms termsToTest7{"a", VariableTerm("b", true), "x", "c", VariableTerm("d", true), xOrY, "e", VariableTerm("f", true)};
-    Terms termsToTest8{"a", VariableTerm("b", true), "x", "c", VariableTerm("d", true), xOrY, "e", VariableTerm("f", true)};
+    Terms termsToTest5{"a", "b'", "x", "c", "d'", xAndY, "e", "f'"};
+    Terms termsToTest6{"a", "b'", "x", "c", "d'", xAndY, "e", "f'"};
+    Terms termsToTest7{"a", "b'", "x", "c", "d'", xOrY, "e", "f'"};
+    Terms termsToTest8{"a", "b'", "x", "c", "d'", xOrY, "e", "f'"};
 
     combineTermsByCheckingCommonFactor(termsToTest1, OperatorLevel::And);
-    combineTermsByCheckingCommonFactor(termsToTest2, OperatorLevel::Or);
-    combineTermsByCheckingCommonFactor(termsToTest3, OperatorLevel::And);
+    combineTermsByCheckingCommonFactor(termsToTest2, OperatorLevel::Or);    combineTermsByCheckingCommonFactor(termsToTest3, OperatorLevel::And);
     combineTermsByCheckingCommonFactor(termsToTest4, OperatorLevel::Or);
     combineTermsByCheckingCommonFactor(termsToTest5, OperatorLevel::And);
-    combineTermsByCheckingCommonFactor(termsToTest6, OperatorLevel::Or);
-    combineTermsByCheckingCommonFactor(termsToTest7, OperatorLevel::And);
+    combineTermsByCheckingCommonFactor(termsToTest6, OperatorLevel::Or);    combineTermsByCheckingCommonFactor(termsToTest7, OperatorLevel::And);
     combineTermsByCheckingCommonFactor(termsToTest8, OperatorLevel::Or);
 
     EXPECT_EQ((Terms{xAndY}), termsToTest1);
     EXPECT_EQ((Terms{"x"}), termsToTest2);
     EXPECT_EQ((Terms{"x"}), termsToTest3);
     EXPECT_EQ((Terms{xOrY}), termsToTest4);
-    EXPECT_EQ((Terms{"a", VariableTerm("b", true), xAndY, "c", VariableTerm("d", true), "e", VariableTerm("f", true)}), termsToTest5);
-    EXPECT_EQ((Terms{"a", VariableTerm("b", true), "x", "c", VariableTerm("d", true), "e", VariableTerm("f", true)}), termsToTest6);
-    EXPECT_EQ((Terms{"a", VariableTerm("b", true), "x", "c", VariableTerm("d", true), "e", VariableTerm("f", true)}), termsToTest7);
-    EXPECT_EQ((Terms{"a", VariableTerm("b", true), xOrY, "c", VariableTerm("d", true), "e", VariableTerm("f", true)}), termsToTest8);
+    EXPECT_EQ((Terms{"a", "b'", xAndY, "c", "d'", "e", "f'"}), termsToTest5);
+    EXPECT_EQ((Terms{"a", "b'", "x", "c", "d'", "e", "f'"}), termsToTest6);
+    EXPECT_EQ((Terms{"a", "b'", "x", "c", "d'", "e", "f'"}), termsToTest7);
+    EXPECT_EQ((Terms{"a", "b'", xOrY, "c", "d'", "e", "f'"}), termsToTest8);
 }
 
-TEST(SimplificationUtilitiesTest, CombineTwoTermsByCheckingCommonFactorIfPossibleWorks)
-{
+TEST(SimplificationUtilitiesTest, CombineTwoTermsByCheckingCommonFactorIfPossibleWorks){
     Term xAndY(createExpressionIfPossible({"x", "&", "y"}));
     Term xOrY(createExpressionIfPossible({"x", "|", "y"}));
-
     Term termToVerify1(combineTwoTermsByCheckingCommonFactorIfPossible("x", xAndY, OperatorLevel::And));
     Term termToVerify2(combineTwoTermsByCheckingCommonFactorIfPossible("x", xAndY, OperatorLevel::Or));
     Term termToVerify3(combineTwoTermsByCheckingCommonFactorIfPossible("x", xOrY, OperatorLevel::And));

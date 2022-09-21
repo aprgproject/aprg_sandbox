@@ -31,14 +31,17 @@ bool isOperator(string const& stringObject)
     return "~" == stringObject || "&" == stringObject || "|" == stringObject || "(" == stringObject || ")" == stringObject;
 }
 
+bool isPrime(char const character)
+{
+    return '\'' == character;
+}
+
 unsigned int getOperatorPriority(string const& operatorString)
 {
-    unsigned int result=0;
-    if("(" == operatorString)
+    unsigned int result=0;    if("(" == operatorString)
     {
         result=1;
-    }
-    else if(")" == operatorString)
+    }    else if(")" == operatorString)
     {
         result=2;
     }

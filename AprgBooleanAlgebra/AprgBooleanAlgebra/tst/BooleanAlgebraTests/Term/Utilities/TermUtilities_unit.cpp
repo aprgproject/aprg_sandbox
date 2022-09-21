@@ -65,12 +65,11 @@ TEST(TermUtilitiesTest, GetVariableNamesWorks)
     EXPECT_EQ(namesToExpect, namesToVerify);
 }
 
-TEST(TermUtilitiesTest, GetTermFromVariableAndPrimeBitWorks)
+TEST(TermUtilitiesTest, GetTermFromVariableAndPrimeValueWorks)
 {
-    EXPECT_EQ(Term(VariableTerm("x", true)), getTermFromVariableAndPrimeBit("x", '0'));
-    EXPECT_EQ(Term("x"), getTermFromVariableAndPrimeBit("x", '1'));
+    EXPECT_EQ(Term("x'"), getTermFromVariableAndPrimeValue("x", '0'));
+    EXPECT_EQ(Term("x"), getTermFromVariableAndPrimeValue("x", '1'));
 }
 
 }
-
 }

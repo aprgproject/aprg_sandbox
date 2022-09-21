@@ -1,35 +1,42 @@
 #include "VariableTerm.hpp"
 
+#include <Common/Math/Helpers/DivisibilityHelpers.hpp>
+#include <Common/String/AlbaStringHelper.hpp>
+#include <BooleanAlgebra/Term/Utilities/StringHelpers.hpp>
+
+using namespace alba::mathHelper;
+using namespace alba::stringHelper;
 using namespace std;
 
-namespace alba
-{
+namespace alba{
 
 namespace booleanAlgebra
 {
-
 VariableTerm::VariableTerm()
     : m_variableName()
     , m_isNegated(false)
 {}
 
 VariableTerm::VariableTerm(string const& variableName)
-    : m_variableName(variableName)
+    : m_variableName(getStringWithoutStartingAndTrailingWhiteSpace(variableName))
     , m_isNegated(false)
-{}
-
-VariableTerm::VariableTerm(string const& variableName, bool const isNegated)
-    : m_variableName(variableName)
-    , m_isNegated(isNegated)
-{}
-
-bool VariableTerm::operator==(VariableTerm const& second) const
 {
-    return m_variableName == second.m_variableName && m_isNegated == second.m_isNegated;
+    initialize();
 }
 
-bool VariableTerm::operator!=(VariableTerm const& second) const
+VariableTerm VariableTerm::createNegatedVariableTerm(
+        string const& variableName)
 {
+    VariableTerm result(variableName);
+    result.negate();
+    return result;
+}
+
+bool VariableTerm::operator==(VariableTerm const& second) const
+{    return m_variableName == second.m_variableName && m_isNegated == second.m_isNegated;
+}
+
+bool VariableTerm::operator!=(VariableTerm const& second) const{
     return !operator==(second);
 }
 
@@ -84,12 +91,25 @@ void VariableTerm::negate()
     m_isNegated = !m_isNegated;
 }
 
+void VariableTerm::initialize()
+{
+    int lastIndex = m_variableName.length()-1;
+    int index=lastIndex;
+    for(; index>=0; index--)
+    {
+        if(!isPrime(m_variableName.at(index)))
+        {
+            break;
+        }
+    }
+    m_isNegated = isOdd(lastIndex-index);
+    m_variableName.resize(index+1);
+}
+
 ostream & operator<<(ostream & out, VariableTerm const& variableTerm)
 {
-    out << variableTerm.getDisplayableString();
-    return out;
+    out << variableTerm.getDisplayableString();    return out;
 }
 
 }
-
 }

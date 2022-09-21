@@ -194,15 +194,13 @@ void simplifyByQuineMcKluskey(Term & term)
                 for(string const& variableName : variableNames)
                 {
                     char primeBit(bitString.at(i));
-                    implicantExpression.putTerm(getTermFromVariableAndPrimeBit(variableName, primeBit), targetInner); // if "outer and" "inner or", its the saved as dual
+                    implicantExpression.putTerm(getTermFromVariableAndPrimeValue(variableName, primeBit), targetInner); // if "outer and" "inner or", its the saved as dual
                     i--;
                 }
-                newExpression.putTerm(Term(implicantExpression), targetOuter); // if "outer and" "inner or", its the saved as dual
-            }
+                newExpression.putTerm(Term(implicantExpression), targetOuter); // if "outer and" "inner or", its the saved as dual            }
             term = Term(newExpression);
         }
-    }
-}
+    }}
 
 void simplifyAndCopyTermsAndChangeOperatorLevelIfNeeded(
         WrappedTerms & newWrappedTerms,

@@ -44,22 +44,20 @@ VariableNamesSet getVariableNames(Term const& term)
     return retriever.getSavedData();
 }
 
-Term getTermFromVariableAndPrimeBit(
+Term getTermFromVariableAndPrimeValue(
         string const& variableName,
-        char const primeBit)
+        char const primeValue)
 {
     Term result;
-    if('0' == primeBit)
+    if('0' == primeValue)
     {
-        result = Term(VariableTerm(variableName, true));
+        result = Term(VariableTerm::createNegatedVariableTerm(variableName));
     }
-    else if('1' == primeBit)
+    else if('1' == primeValue)
     {
         result = Term(variableName);
-    }
-    return result;
+    }    return result;
 }
 
 }
-
 }

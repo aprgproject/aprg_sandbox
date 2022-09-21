@@ -14,73 +14,69 @@ TEST(VariableTermTest, VariableTermsAreConstructedCorrectly)
 {
     VariableTerm variableTerm1;
     VariableTerm variableTerm2("time");
-    VariableTerm variableTerm3("time", true);
+    VariableTerm variableTerm3("time'");
+    VariableTerm variableTerm4(VariableTerm::createNegatedVariableTerm("time"));
 
     EXPECT_EQ("", variableTerm1.getVariableTermName());
-    EXPECT_FALSE(variableTerm1.isNegated());
-    EXPECT_EQ("time", variableTerm2.getVariableTermName());
+    EXPECT_FALSE(variableTerm1.isNegated());    EXPECT_EQ("time", variableTerm2.getVariableTermName());
     EXPECT_FALSE(variableTerm2.isNegated());
     EXPECT_EQ("time", variableTerm3.getVariableTermName());
     EXPECT_TRUE(variableTerm3.isNegated());
+    EXPECT_EQ("time", variableTerm4.getVariableTermName());
+    EXPECT_TRUE(variableTerm4.isNegated());
 }
 
-TEST(VariableTermTest, EqualityOperatorWorks)
-{
+TEST(VariableTermTest, EqualityOperatorWorks){
     VariableTerm variableTerm1;
     VariableTerm variableTerm2("x");
     VariableTerm variable3("power");
-    VariableTerm variable4("x", true);
+    VariableTerm variable4(VariableTerm::createNegatedVariableTerm("x"));
 
     EXPECT_TRUE(variableTerm1==variableTerm1);
-    EXPECT_FALSE(variableTerm1==variableTerm2);
-    EXPECT_TRUE(variableTerm2==variableTerm2);
+    EXPECT_FALSE(variableTerm1==variableTerm2);    EXPECT_TRUE(variableTerm2==variableTerm2);
     EXPECT_FALSE(variableTerm2==variable3);
     EXPECT_FALSE(variableTerm2==variable4);
 }
 
-TEST(VariableTermTest, InequalityOperatorWorks)
+TEST(VariableTermTest, NonequalityOperatorWorks)
 {
     VariableTerm variableTerm1;
     VariableTerm variableTerm2("x");
     VariableTerm variable3("power");
-    VariableTerm variable4("x", true);
+    VariableTerm variable4("x'");
 
     EXPECT_FALSE(variableTerm1!=variableTerm1);
-    EXPECT_TRUE(variableTerm1!=variableTerm2);
-    EXPECT_FALSE(variableTerm2!=variableTerm2);
+    EXPECT_TRUE(variableTerm1!=variableTerm2);    EXPECT_FALSE(variableTerm2!=variableTerm2);
     EXPECT_TRUE(variableTerm2!=variable3);
     EXPECT_TRUE(variableTerm2!=variable4);
 }
-
 TEST(VariableTermTest, LessThanOperatorWorks)
 {
     EXPECT_FALSE(VariableTerm() < VariableTerm());
     EXPECT_FALSE(VariableTerm("x") < VariableTerm("x"));
     EXPECT_FALSE(VariableTerm("x") < VariableTerm("w"));
     EXPECT_TRUE(VariableTerm("x") < VariableTerm("y"));
-    EXPECT_FALSE(VariableTerm("x", false) < VariableTerm("x", false));
-    EXPECT_FALSE(VariableTerm("x", true) < VariableTerm("x", false));
-    EXPECT_TRUE(VariableTerm("x", false) < VariableTerm("x", true));
+    EXPECT_FALSE(VariableTerm("x") < VariableTerm("x"));
+    EXPECT_FALSE(VariableTerm("x'") < VariableTerm("x"));
+    EXPECT_TRUE(VariableTerm("x") < VariableTerm("x'"));
 }
 
 TEST(VariableTermTest, NotOperationWorks)
 {
-    EXPECT_EQ(VariableTerm("time", true), ~VariableTerm("time"));
-    EXPECT_EQ(VariableTerm("time"), ~VariableTerm("time", true));
+    EXPECT_EQ(VariableTerm("time'"), ~VariableTerm("time"));
+    EXPECT_EQ(VariableTerm("time"), ~VariableTerm("time'"));
 }
 
 TEST(VariableTermTest, IsNegatedWorks)
 {
     VariableTerm variableTerm1;
-    VariableTerm variableTerm2("time", true);
+    VariableTerm variableTerm2("time'");
 
     EXPECT_FALSE(variableTerm1.isNegated());
-    EXPECT_TRUE(variableTerm2.isNegated());
-}
+    EXPECT_TRUE(variableTerm2.isNegated());}
 
 TEST(VariableTermTest, GetDisplayableStringWorks)
-{
-    VariableTerm variableTerm1;
+{    VariableTerm variableTerm1;
     VariableTerm variableTerm2("time");
 
     EXPECT_EQ("", variableTerm1.getDisplayableString());
@@ -100,17 +96,16 @@ TEST(VariableTermTest, NegateWorks)
 {
     VariableTerm variableTerm1;
     VariableTerm variableTerm2("time");
-    VariableTerm variableTerm3("time", true);
+    VariableTerm variableTerm3("time'");
 
     variableTerm1.negate();
     variableTerm2.negate();
     variableTerm3.negate();
 
-    EXPECT_EQ(VariableTerm("", true), variableTerm1);
-    EXPECT_EQ(VariableTerm("time", true), variableTerm2);
-    EXPECT_EQ(VariableTerm("time", false), variableTerm3);
+    EXPECT_EQ(VariableTerm("'"), variableTerm1);
+    EXPECT_EQ(VariableTerm("time'"), variableTerm2);
+    EXPECT_EQ(VariableTerm("time"), variableTerm3);
 }
 
 }
-
 }
