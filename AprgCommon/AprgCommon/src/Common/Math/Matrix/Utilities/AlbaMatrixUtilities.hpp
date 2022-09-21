@@ -146,10 +146,12 @@ AlbaMatrix<DataType> multiplyMatrices(
     AlbaMatrix<DataType> result(second.getNumberOfColumns(), first.getNumberOfRows());
     ListOfAlbaMatrixData<DataType> rowsOfFirstMatrix, columnsOfSecondMatrix;
     first.retrieveRows(rowsOfFirstMatrix);
-    second.retrieveColumns(columnsOfSecondMatrix);    unsigned int y=0;
+    second.retrieveColumns(columnsOfSecondMatrix);
+    unsigned int y=0;
     for(AlbaMatrixData<DataType> const& rowOfFirstMatrix : rowsOfFirstMatrix)
     {
-        unsigned int x=0;        for(AlbaMatrixData<DataType> const& columnOfSecondMatrix : columnsOfSecondMatrix)
+        unsigned int x=0;
+        for(AlbaMatrixData<DataType> const& columnOfSecondMatrix : columnsOfSecondMatrix)
         {
             result.setEntry(x, y, multiplyEachItemAndGetSum(rowOfFirstMatrix, columnOfSecondMatrix));
             x++;
@@ -251,10 +253,12 @@ unsigned int getIndexWithHighestSatisfiedCount(
 template <typename DataType>
 void traverseWithUnaryOperationForDifferentRows(
         AlbaMatrix<DataType> & matrix,
-        unsigned int const yInput,        unsigned int const yOutput,
+        unsigned int const yInput,
+        unsigned int const yOutput,
         UnaryFunction<DataType> const& unaryFunction)
 {
-    unsigned int numberOfRows(matrix.getNumberOfRows());    unsigned int numberOfColumns(matrix.getNumberOfColumns());
+    unsigned int numberOfRows(matrix.getNumberOfRows());
+    unsigned int numberOfColumns(matrix.getNumberOfColumns());
     assert((yInput < numberOfRows) && (yOutput < numberOfRows));
     for(unsigned int x=0; x<numberOfColumns; x++)
     {

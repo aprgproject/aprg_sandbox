@@ -32,7 +32,8 @@ TEST(RangeQueryWithSelectorTest, GetSelectedValueOnIntervalWithMinimumWorksInExa
     ValuesForTest values{5U, 9U, 4U, 8U, 6U, 1U, 4U, 2U, 0U};
     RangeQueryForTest minimumRangeQuery(values, minimumSelector);
 
-    EXPECT_EQ(5U, minimumRangeQuery.getSelectedValueOnInterval(0U, 0U));    EXPECT_EQ(5U, minimumRangeQuery.getSelectedValueOnInterval(0U, 1U));
+    EXPECT_EQ(5U, minimumRangeQuery.getSelectedValueOnInterval(0U, 0U));
+    EXPECT_EQ(5U, minimumRangeQuery.getSelectedValueOnInterval(0U, 1U));
     EXPECT_EQ(4U, minimumRangeQuery.getSelectedValueOnInterval(0U, 2U));
     EXPECT_EQ(4U, minimumRangeQuery.getSelectedValueOnInterval(0U, 3U));
     EXPECT_EQ(4U, minimumRangeQuery.getSelectedValueOnInterval(0U, 4U));
@@ -44,12 +45,14 @@ TEST(RangeQueryWithSelectorTest, GetSelectedValueOnIntervalWithMinimumWorksInExa
     EXPECT_EQ(1U, minimumRangeQuery.getSelectedValueOnInterval(3U, 6U));
     EXPECT_EQ(4U, minimumRangeQuery.getSelectedValueOnInterval(2U, 4U));
 }
+
 TEST(RangeQueryWithSelectorTest, GetSelectedValueOnIntervalWithMaximumWorksInExample1)
 {
     ValuesForTest values{5U, 9U, 4U, 8U, 6U, 1U, 4U, 2U, 10U};
     RangeQueryForTest maximumRangeQuery(values, maximumSelector);
 
-    EXPECT_EQ(5U, maximumRangeQuery.getSelectedValueOnInterval(0U, 0U));    EXPECT_EQ(9U, maximumRangeQuery.getSelectedValueOnInterval(0U, 1U));
+    EXPECT_EQ(5U, maximumRangeQuery.getSelectedValueOnInterval(0U, 0U));
+    EXPECT_EQ(9U, maximumRangeQuery.getSelectedValueOnInterval(0U, 1U));
     EXPECT_EQ(9U, maximumRangeQuery.getSelectedValueOnInterval(0U, 2U));
     EXPECT_EQ(9U, maximumRangeQuery.getSelectedValueOnInterval(0U, 3U));
     EXPECT_EQ(9U, maximumRangeQuery.getSelectedValueOnInterval(0U, 4U));
@@ -61,6 +64,7 @@ TEST(RangeQueryWithSelectorTest, GetSelectedValueOnIntervalWithMaximumWorksInExa
     EXPECT_EQ(8U, maximumRangeQuery.getSelectedValueOnInterval(3U, 6U));
     EXPECT_EQ(8U, maximumRangeQuery.getSelectedValueOnInterval(2U, 4U));
 }
+
 }
 
 }

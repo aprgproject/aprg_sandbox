@@ -4,8 +4,10 @@
 
 #include <functional>
 #include <vector>
+
 namespace alba
 {
+
 namespace math
 {
 
@@ -19,6 +21,7 @@ using UnsignedIntegerMatrix = alba::matrix::AlbaMatrix<UnsignedInteger>;
 
 using SignedInteger = long long;
 using SignedIntegers = std::vector<SignedInteger>;
+
 }
 
 }

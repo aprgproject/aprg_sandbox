@@ -481,7 +481,8 @@ TEST(TermTest, NegateWorks)
     {"x", "&", "x'", "&", "y", "&", "z"}));
 
     term1.negate();
-    term2.negate();    term3.negate();
+    term2.negate();
+    term3.negate();
 
     Term expectTerm1;
     Term expectTerm2(Expression{});
@@ -489,10 +490,12 @@ TEST(TermTest, NegateWorks)
     {"x'", "|", "x", "|", "y'", "|", "z'"}));
     EXPECT_EQ(expectTerm1, term1);
     EXPECT_EQ(expectTerm2, term2);
-    EXPECT_EQ(expectTerm3, term3);}
+    EXPECT_EQ(expectTerm3, term3);
+}
 
 TEST(TermTest, SetAsSimplifiedWorks)
-{    Term term;
+{
+    Term term;
 
     term.setAsSimplified();
 

@@ -72,4 +72,5 @@ TEST(TermUtilitiesTest, GetTermFromVariableAndPrimeValueWorks)
 }
 
 }
+
 }

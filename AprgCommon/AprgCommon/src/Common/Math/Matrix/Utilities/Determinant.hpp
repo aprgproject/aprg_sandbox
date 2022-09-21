@@ -33,7 +33,8 @@ unsigned int getIndexWithHighestNumberOfNonZeros(
     return getIndexWithHighestSatisfiedCount(rowsOrColumns, nonEqualCondition);
 }
 
-template <typename DataType>DataType getDeterminant(
+template <typename DataType>
+DataType getDeterminant(
         AlbaMatrix<DataType> const& matrix)
 {
     unsigned int numberOfRows(matrix.getNumberOfRows());
@@ -42,10 +43,12 @@ template <typename DataType>DataType getDeterminant(
     DataType determinant{};
     if(numberOfColumns==1)
     {
-        determinant = matrix.getEntry(0,0);    }
+        determinant = matrix.getEntry(0,0);
+    }
     else if(numberOfColumns==2)
     {
-        determinant = matrix.getEntry(0,0)*matrix.getEntry(1,1) - matrix.getEntry(0,1)*matrix.getEntry(1,0);    }
+        determinant = matrix.getEntry(0,0)*matrix.getEntry(1,1) - matrix.getEntry(0,1)*matrix.getEntry(1,0);
+    }
     else
     {
         determinant = getDeterminantWhenSideIsMoreThan2(matrix);
@@ -76,10 +79,12 @@ DataType getValueFromCoFactorExpansion(
     DataType value{};
     DataType entry = matrix.getEntry(x,y);
     if(!isEqualForMathMatrixDataType(entry, 0))
-    {        int sign = mathHelper::isEven(x+y) ? 1 : -1;
+    {
+        int sign = mathHelper::isEven(x+y) ? 1 : -1;
         DataType subDeterminant = getDeterminant(getMatrixWithOneColumnAndOneRowRemoved(matrix, x, y));
         value = entry * subDeterminant * sign;
-    }    return value;
+    }
+    return value;
 }
 
 template <typename DataType>
@@ -89,17 +94,20 @@ DataType getDeterminantWhenSideIsMoreThan2(
     DataType determinant{};
 
     typename AlbaMatrix<DataType>::ListOfMatrixData rowsAndColumns;
-    matrix.retrieveRows(rowsAndColumns);    matrix.retrieveColumns(rowsAndColumns);
+    matrix.retrieveRows(rowsAndColumns);
+    matrix.retrieveColumns(rowsAndColumns);
 
     unsigned int numberOfRows(matrix.getNumberOfRows());
     unsigned int numberOfColumns(matrix.getNumberOfColumns());
     unsigned int bestIndex = getIndexWithHighestNumberOfZeros(rowsAndColumns);
     if(bestIndex < numberOfRows)
     {
-        unsigned int y = bestIndex;        for(unsigned int x=0; x<numberOfColumns; x++)
+        unsigned int y = bestIndex;
+        for(unsigned int x=0; x<numberOfColumns; x++)
         {
             determinant += getValueFromCoFactorExpansion(matrix, x, y);
-        }    }
+        }
+    }
     else
     {
         unsigned int x = bestIndex-numberOfRows;

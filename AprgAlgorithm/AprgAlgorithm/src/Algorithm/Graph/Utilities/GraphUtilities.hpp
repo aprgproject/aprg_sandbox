@@ -4,13 +4,16 @@
 
 #include <Algorithm/Graph/Bipartite/BipartiteCheckerUsingDfs.hpp>
 #include <Algorithm/Graph/CycleDetection/CycleDetectionUsingDfs.hpp>
-#include <Algorithm/Graph/ConnectedComponents/ConnectedComponentsUsingDfs.hpp>#include <Algorithm/Graph/ConnectedComponents/StronglyConnectedComponentsUsingKosarajuSharir.hpp>
+#include <Algorithm/Graph/ConnectedComponents/ConnectedComponentsUsingDfs.hpp>
+#include <Algorithm/Graph/ConnectedComponents/StronglyConnectedComponentsUsingKosarajuSharir.hpp>
 #include <Algorithm/Graph/PathSearch/DirectedAcyclicGraph/PathSearchForDirectedAcyclicGraph.hpp>
 #include <Algorithm/Graph/Tree/LongestPathsInTree.hpp>
 #include <Algorithm/UnionFind/BaseUnionFind.hpp>
 #include <Algorithm/UnionFind/UnionFindUsingMap.hpp>
+
 #include <algorithm>
 #include <set>
+
 namespace alba
 {
 

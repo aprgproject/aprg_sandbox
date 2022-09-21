@@ -426,9 +426,11 @@ void Term::initializeBasedOnString(string const& stringAsParameter)
         m_baseTermDataPointer = make_unique<VariableTerm>(stringAsParameter);
     }
 }
+
 ostream & operator<<(ostream & out, Term const& term)
 {
-    out << term.getDisplayableString();    return out;
+    out << term.getDisplayableString();
+    return out;
 }
 
 

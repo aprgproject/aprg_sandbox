@@ -5,8 +5,10 @@
 #include <Common/Math/Helpers/SignRelatedHelpers.hpp>
 
 #include <vector>
+
 namespace alba
 {
+
 namespace algorithm
 {
 

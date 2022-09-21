@@ -244,11 +244,13 @@ void testGraphWorksAfterClearWithVertexAsUnsignedInt()
 template <typename Graph>
 void testReverseDirectionsWithVertexAsUnsignedInt()
 {
-    using Edges = typename Graph::Edges;    Graph graph;
+    using Edges = typename Graph::Edges;
+    Graph graph;
     graph.connect(0U, 1U);
     graph.connect(2U, 0U);
 
     graph.reverseDirections();
+
     EXPECT_EQ(3U, graph.getNumberOfVertices());
     EXPECT_EQ(2U, graph.getNumberOfEdges());
     Edges edgesToVerify(graph.getEdges());

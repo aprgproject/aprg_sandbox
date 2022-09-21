@@ -118,11 +118,13 @@ TEST(UndirectedGraphWithListOfEdgesTest, GraphWorksAfterClear)
 
 TEST(UndirectedGraphWithListOfEdgesTest, ComplicatedTestWorks)
 {
-    testWithComplicatedExampleWithVertexAsUnsignedInt<GraphForTest>();}
+    testWithComplicatedExampleWithVertexAsUnsignedInt<GraphForTest>();
+}
 
 TEST(UndirectedGraphWithListOfEdgesTest, GetDisplayableStringWorks)
 {
     GraphForTest graph;
+
     graph.connect(0U, 1U);
     graph.connect(0U, 2U);
 

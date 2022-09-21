@@ -56,8 +56,10 @@ Term getTermFromVariableAndPrimeValue(
     else if('1' == primeValue)
     {
         result = Term(variableName);
-    }    return result;
+    }
+    return result;
 }
 
 }
+
 }

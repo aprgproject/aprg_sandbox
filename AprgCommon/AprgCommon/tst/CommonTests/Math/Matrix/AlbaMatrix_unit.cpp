@@ -209,10 +209,12 @@ TEST(AlbaMatrixTest, OperatorMinusWorks)
 TEST(AlbaMatrixTest, OperatorMultiplyWorks_WithMatrixAndConstant)
 {
     AlbaMatrix<unsigned int> matrix(2, 3,
-    {1, 2,     3, 4,
+    {1, 2,
+     3, 4,
      5, 6});
 
     AlbaMatrix<unsigned int> matrixToVerify(matrix*2);
+
     AlbaMatrix<unsigned int> expectedMatrix(2, 3,
     { 2,  4,
       6,  8,
@@ -237,9 +239,11 @@ TEST(AlbaMatrixTest, OperatorMultiplyWorks_WithMatrixAndMatrix)
      83, 98, 113, 128});
     EXPECT_EQ(expectedMatrix, matrixToVerify);
 }
+
 TEST(AlbaMatrixTest, OperatorPlusAssignmentWorks)
 {
-    AlbaMatrix<unsigned int> matrix(2, 3,    {1, 2,
+    AlbaMatrix<unsigned int> matrix(2, 3,
+    {1, 2,
      3, 4,
      5, 6});
 
@@ -275,10 +279,12 @@ TEST(AlbaMatrixTest, OperatorMinusAssignmentWorks)
 TEST(AlbaMatrixTest, OperatorMultiplyAssignmentWorks_WithMatrixAndConstant)
 {
     AlbaMatrix<unsigned int> matrix(2, 3,
-    {1, 2,     3, 4,
+    {1, 2,
+     3, 4,
      5, 6});
 
     matrix *= 2;
+
     AlbaMatrix<unsigned int> expectedMatrix(2, 3,
     { 2,  4,
       6,  8,
@@ -303,9 +309,11 @@ TEST(AlbaMatrixTest, OperatorMultiplyAssignmentWorks_WithMatrixAndMatrix)
      83, 98, 113, 128});
     EXPECT_EQ(expectedMatrix, matrix1);
 }
+
 TEST(AlbaMatrixTest, IsInsideTheMatrixWorks)
 {
     AlbaMatrix<unsigned int> matrix(14, 6);
+
     EXPECT_FALSE(matrix.isInside(14, 6));
     EXPECT_FALSE(matrix.isInside(14, 5));
     EXPECT_FALSE(matrix.isInside(13, 6));

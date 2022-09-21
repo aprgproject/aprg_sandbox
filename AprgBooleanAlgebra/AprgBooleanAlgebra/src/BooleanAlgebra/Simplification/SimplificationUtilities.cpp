@@ -197,10 +197,12 @@ void simplifyByQuineMcKluskey(Term & term)
                     implicantExpression.putTerm(getTermFromVariableAndPrimeValue(variableName, primeBit), targetInner); // if "outer and" "inner or", its the saved as dual
                     i--;
                 }
-                newExpression.putTerm(Term(implicantExpression), targetOuter); // if "outer and" "inner or", its the saved as dual            }
+                newExpression.putTerm(Term(implicantExpression), targetOuter); // if "outer and" "inner or", its the saved as dual
+            }
             term = Term(newExpression);
         }
-    }}
+    }
+}
 
 void simplifyAndCopyTermsAndChangeOperatorLevelIfNeeded(
         WrappedTerms & newWrappedTerms,

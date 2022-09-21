@@ -23,7 +23,8 @@ TEST(BinarySearchWithTwoIndicesTest, HighLowMiddleValuesCanFetchedInOneItem)
 
     EXPECT_EQ(6U, binarySearch.getLowestValue());
     EXPECT_EQ(6U, binarySearch.getMiddleValue());
-    EXPECT_EQ(6U, binarySearch.getHighestValue());}
+    EXPECT_EQ(6U, binarySearch.getHighestValue());
+}
 
 TEST(BinarySearchWithTwoIndicesTest, HighLowMiddleValuesCanFetchedInTwoItems)
 {
@@ -32,7 +33,8 @@ TEST(BinarySearchWithTwoIndicesTest, HighLowMiddleValuesCanFetchedInTwoItems)
 
     EXPECT_EQ(6U, binarySearch.getLowestValue());
     EXPECT_EQ(6U, binarySearch.getMiddleValue());
-    EXPECT_EQ(97U, binarySearch.getHighestValue());}
+    EXPECT_EQ(97U, binarySearch.getHighestValue());
+}
 
 TEST(BinarySearchWithTwoIndicesTest, HighLowMiddleValuesCanFetchedInFourItems)
 {
@@ -41,7 +43,8 @@ TEST(BinarySearchWithTwoIndicesTest, HighLowMiddleValuesCanFetchedInFourItems)
 
     EXPECT_EQ(6U, binarySearch.getLowestValue());
     EXPECT_EQ(13U, binarySearch.getMiddleValue());
-    EXPECT_EQ(97U, binarySearch.getHighestValue());}
+    EXPECT_EQ(97U, binarySearch.getHighestValue());
+}
 
 TEST(BinarySearchWithTwoIndicesTest, SuccessfulBinarySearchIsExecutedCorrectlyPerIteration)
 {
@@ -51,9 +54,11 @@ TEST(BinarySearchWithTwoIndicesTest, SuccessfulBinarySearchIsExecutedCorrectlyPe
     EXPECT_EQ(6U, binarySearch.getLowestValue());
     EXPECT_EQ(53U, binarySearch.getMiddleValue());
     EXPECT_EQ(97U, binarySearch.getHighestValue());
+
     binarySearch.findValueForOneIteration(33);
     EXPECT_EQ(6U, binarySearch.getLowestValue());
-    EXPECT_EQ(25U, binarySearch.getMiddleValue());    EXPECT_EQ(51U, binarySearch.getHighestValue());
+    EXPECT_EQ(25U, binarySearch.getMiddleValue());
+    EXPECT_EQ(51U, binarySearch.getHighestValue());
 
     binarySearch.findValueForOneIteration(33);
     EXPECT_EQ(33U, binarySearch.getLowestValue());
@@ -74,9 +79,11 @@ TEST(BinarySearchWithTwoIndicesTest, UnsuccessfulBinarySearchWithLowerIsTheNeare
     EXPECT_EQ(6U, binarySearch.getLowestValue());
     EXPECT_EQ(53U, binarySearch.getMiddleValue());
     EXPECT_EQ(97U, binarySearch.getHighestValue());
+
     binarySearch.findValueForOneIteration(34);
     EXPECT_EQ(6U, binarySearch.getLowestValue());
-    EXPECT_EQ(25U, binarySearch.getMiddleValue());    EXPECT_EQ(51U, binarySearch.getHighestValue());
+    EXPECT_EQ(25U, binarySearch.getMiddleValue());
+    EXPECT_EQ(51U, binarySearch.getHighestValue());
 
     binarySearch.findValueForOneIteration(34);
     EXPECT_EQ(33U, binarySearch.getLowestValue());
@@ -97,9 +104,11 @@ TEST(BinarySearchWithTwoIndicesTest, UnsuccessfulBinarySearchWithHigherIsTheNear
     EXPECT_EQ(6U, binarySearch.getLowestValue());
     EXPECT_EQ(53U, binarySearch.getMiddleValue());
     EXPECT_EQ(97U, binarySearch.getHighestValue());
+
     binarySearch.findValueForOneIteration(42);
     EXPECT_EQ(6U, binarySearch.getLowestValue());
-    EXPECT_EQ(25U, binarySearch.getMiddleValue());    EXPECT_EQ(51U, binarySearch.getHighestValue());
+    EXPECT_EQ(25U, binarySearch.getMiddleValue());
+    EXPECT_EQ(51U, binarySearch.getHighestValue());
 
     binarySearch.findValueForOneIteration(42);
     EXPECT_EQ(33U, binarySearch.getLowestValue());
@@ -151,6 +160,7 @@ TEST(BinarySearchWithTwoIndicesTest, UnsuccessfulBinarySearchWhenIndexWithLowest
 
     EXPECT_EQ(43U, binarySearch.findNearestValue(33));
 }
+
 }
 
 }

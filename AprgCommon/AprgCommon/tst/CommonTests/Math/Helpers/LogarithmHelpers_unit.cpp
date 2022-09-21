@@ -31,10 +31,12 @@ TEST(LogarithmHelpersTest, GetLogarithmWithBase2OfWorks)
 
 TEST(LogarithmHelpersTest, GetLogarithmForIntegersWorks)
 {
-    EXPECT_EQ(0U, getLogarithmForIntegers(1U, 100U));    EXPECT_EQ(2U, getLogarithmForIntegers(3U, 9U));
+    EXPECT_EQ(0U, getLogarithmForIntegers(1U, 100U));
+    EXPECT_EQ(2U, getLogarithmForIntegers(3U, 9U));
     EXPECT_EQ(5U, getLogarithmForIntegers(2U, 32U));
     EXPECT_EQ(31U, getLogarithmForIntegers(2U, 2147483648U));
-    EXPECT_EQ(1U, getLogarithmForIntegers(4U, 15U));}
+    EXPECT_EQ(1U, getLogarithmForIntegers(4U, 15U));
+}
 
 TEST(LogarithmHelpersTest, GetIterativeLogarithmWorks)
 {

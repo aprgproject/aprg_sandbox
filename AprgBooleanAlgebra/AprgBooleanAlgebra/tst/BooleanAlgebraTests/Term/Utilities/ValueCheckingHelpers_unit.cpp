@@ -20,9 +20,11 @@ TEST(ValueCheckingHelpersTest, WillHaveNoEffectOnAndOperationWorksWithTerm)
     EXPECT_FALSE(willHaveNoEffectOnAndOperation(Term("x'")));
     EXPECT_TRUE(willHaveNoEffectOnAndOperation(Term(Expression())));
 }
+
 TEST(ValueCheckingHelpersTest, WillHaveNoEffectOnAndOperationWorksWithExpression)
 {
-    EXPECT_TRUE(willHaveNoEffectOnAndOperation(Expression()));    EXPECT_FALSE(willHaveNoEffectOnAndOperation(createExpressionIfPossible({false})));
+    EXPECT_TRUE(willHaveNoEffectOnAndOperation(Expression()));
+    EXPECT_FALSE(willHaveNoEffectOnAndOperation(createExpressionIfPossible({false})));
     EXPECT_TRUE(willHaveNoEffectOnAndOperation(createExpressionIfPossible({true})));
     EXPECT_FALSE(willHaveNoEffectOnAndOperation(createExpressionIfPossible({"x"})));
 }
@@ -36,9 +38,11 @@ TEST(ValueCheckingHelpersTest, WillHaveNoEffectOnOrOperationWorksWithTerm)
     EXPECT_FALSE(willHaveNoEffectOnOrOperation(Term("x'")));
     EXPECT_TRUE(willHaveNoEffectOnOrOperation(Term(Expression())));
 }
+
 TEST(ValueCheckingHelpersTest, WillHaveNoEffectOnOrOperationWorksWithExpression)
 {
-    EXPECT_TRUE(willHaveNoEffectOnOrOperation(Expression()));    EXPECT_TRUE(willHaveNoEffectOnOrOperation(createExpressionIfPossible({false})));
+    EXPECT_TRUE(willHaveNoEffectOnOrOperation(Expression()));
+    EXPECT_TRUE(willHaveNoEffectOnOrOperation(createExpressionIfPossible({false})));
     EXPECT_FALSE(willHaveNoEffectOnOrOperation(createExpressionIfPossible({true})));
     EXPECT_FALSE(willHaveNoEffectOnOrOperation(createExpressionIfPossible({"x"})));
 }

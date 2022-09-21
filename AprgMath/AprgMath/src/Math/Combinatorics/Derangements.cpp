@@ -42,10 +42,12 @@ UnsignedInteger getNumberOfDerangements(UnsignedInteger const n)
     // -> Else, the f(n) = (n-1) * (f(n-1)+f(n-2))
     // Note: This is useful on dynamic programming.
 
-    // The formula can be derived by considering the possibilities how the element 1 changes in the derangement.    // There are n-1 ways to choose an element x that replaces the element 1.
+    // The formula can be derived by considering the possibilities how the element 1 changes in the derangement.
+    // There are n-1 ways to choose an element x that replaces the element 1.
     // In each such choice, there are two options:
     // -> Option 1: We also replace the element x with the element 1.
-    // ---> After this, the remaining task is to construct a derangement of n-2 elements.    // -> Option 2: We replace the element x with some other element than 1.
+    // ---> After this, the remaining task is to construct a derangement of n-2 elements.
+    // -> Option 2: We replace the element x with some other element than 1.
     // ---> Now we have to construct a derangement of n-1 element,
     // ---> because we cannot replace the element x with the element 1, and all other elements must be changed.
 

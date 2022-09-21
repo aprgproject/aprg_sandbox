@@ -1,11 +1,13 @@
 #pragma once
 
-#include <Common/Math/Helpers/LogarithmHelpers.hpp>
+#include <Common/Bit/AlbaBitValueUtilities.hpp>
 #include <Common/String/AlbaStringHelper.hpp>
 
 #include <algorithm>
+
 namespace alba
 {
+
 namespace algorithm
 {
 
@@ -52,13 +54,15 @@ public:
 
     unsigned int getNumbersOfBitsToRepresentCharacters()
     {
-        return mathHelper::getLogarithmForIntegers(2U, getRadix());
+        return AlbaBitValueUtilities<unsigned int>::getLogarithmWithBase2Of(getRadix());
     }
 
-    DigitValues convertStringToDigitValues(std::string const& stringParameter)    {
+    DigitValues convertStringToDigitValues(std::string const& stringParameter)
+    {
         DigitValues result;
         result.reserve(stringParameter.length());
-        std::transform(stringParameter.cbegin(), stringParameter.cend(), std::back_inserter(result), [&](char const c)        {
+        std::transform(stringParameter.cbegin(), stringParameter.cend(), std::back_inserter(result), [&](char const c)
+        {
             return getDigitValue(c);
         });
         return result;

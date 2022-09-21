@@ -256,9 +256,11 @@ TEST(SimplificationOfExpressionTest, SimplifyWorksByComplimentaryTermsInAndOpera
     SimplificationOfExpression simplification(expressionToTest);
 
     simplification.simplify();
+
     Expression expressionToVerify(simplification.getExpression());
     Expression expressionToExpect(createAndWrapExpressionFromATerm(false));
-    EXPECT_EQ(expressionToExpect, expressionToVerify);}
+    EXPECT_EQ(expressionToExpect, expressionToVerify);
+}
 
 TEST(SimplificationOfExpressionTest, SimplifyWorksByComplimentaryTermsInOrOperation)
 {
@@ -266,9 +268,11 @@ TEST(SimplificationOfExpressionTest, SimplifyWorksByComplimentaryTermsInOrOperat
     SimplificationOfExpression simplification(expressionToTest);
 
     simplification.simplify();
+
     Expression expressionToVerify(simplification.getExpression());
     Expression expressionToExpect(createAndWrapExpressionFromATerm(true));
-    EXPECT_EQ(expressionToExpect, expressionToVerify);}
+    EXPECT_EQ(expressionToExpect, expressionToVerify);
+}
 
 TEST(SimplificationOfExpressionTest, SimplifyWorksByWithOuterOrAndInnerAnd)
 {
@@ -282,9 +286,11 @@ TEST(SimplificationOfExpressionTest, SimplifyWorksByWithOuterOrAndInnerAnd)
     Expression subExpression2(createExpressionIfPossible({"x'", "|", "z"}));
     Expression expressionToTest(createExpressionIfPossible({subExpression1, "&", subExpression2}));
     SimplificationOfExpression simplification(expressionToTest);
+
     simplification.simplify();
 
-    string stringToVerify(simplification.getExpression().getDisplayableString());    string stringToExpect("((x&z)|(x'&y))");
+    string stringToVerify(simplification.getExpression().getDisplayableString());
+    string stringToExpect("((x&z)|(x'&y))");
     EXPECT_EQ(stringToExpect, stringToVerify);
 }
 
@@ -300,9 +306,11 @@ TEST(SimplificationOfExpressionTest, SimplifyWorksWithOuterAndAndInnerOr)
     Expression subExpression2(createExpressionIfPossible({"x", "|", "z"}));
     Expression expressionToTest(createExpressionIfPossible({subExpression1, "&", subExpression2}));
     SimplificationOfExpression simplification(expressionToTest);
+
     simplification.simplify();
 
-    string stringToVerify(simplification.getExpression().getDisplayableString());    string stringToExpect("((x|z)&(x'|y))");
+    string stringToVerify(simplification.getExpression().getDisplayableString());
+    string stringToExpect("((x|z)&(x'|y))");
     EXPECT_EQ(stringToExpect, stringToVerify);
 }
 
@@ -377,9 +385,11 @@ TEST(SimplificationOfExpressionTest, SimplifyWorksByRemovingNeededTerms_WithOute
     Expression subExpression1(createExpressionIfPossible({"x", "|", "y'"}));
     Expression expressionToTest(createExpressionIfPossible({subExpression1, "&", "y"}));
     SimplificationOfExpression simplification(expressionToTest);
+
     simplification.simplify();
 
-    Expression expressionToVerify(simplification.getExpression());    Expression expressionToExpect(createExpressionIfPossible({"x", "&", "y"}));
+    Expression expressionToVerify(simplification.getExpression());
+    Expression expressionToExpect(createExpressionIfPossible({"x", "&", "y"}));
     EXPECT_EQ(expressionToExpect, expressionToVerify);
 }
 
@@ -394,9 +404,11 @@ TEST(SimplificationOfExpressionTest, SimplifyWorksByRemovingNeededTerms_WithOute
     Expression subExpression1(createExpressionIfPossible({"x", "&", "y'"}));
     Expression expressionToTest(createExpressionIfPossible({subExpression1, "|", "y"}));
     SimplificationOfExpression simplification(expressionToTest);
+
     simplification.simplify();
 
-    Expression expressionToVerify(simplification.getExpression());    Expression expressionToExpect(createExpressionIfPossible({"x", "|", "y"}));
+    Expression expressionToVerify(simplification.getExpression());
+    Expression expressionToExpect(createExpressionIfPossible({"x", "|", "y"}));
     EXPECT_EQ(expressionToExpect, expressionToVerify);
 }
 
@@ -406,9 +418,11 @@ TEST(SimplificationOfExpressionTest, SimplifyWorksWithCombininingTermsByChecking
     Expression subExpression2(createExpressionIfPossible({"x", "&", "y'"}));
     Expression expressionToTest(createExpressionIfPossible({subExpression1, "|", subExpression2}));
     SimplificationOfExpression simplification(expressionToTest);
+
     simplification.simplify();
 
-    Expression expressionToVerify(simplification.getExpression());    Expression expressionToExpect(createAndWrapExpressionFromATerm("x"));
+    Expression expressionToVerify(simplification.getExpression());
+    Expression expressionToExpect(createAndWrapExpressionFromATerm("x"));
     EXPECT_EQ(expressionToExpect, expressionToVerify);
 }
 
@@ -418,9 +432,11 @@ TEST(SimplificationOfExpressionTest, SimplifyWorksWithCombininingTermsByChecking
     Expression subExpression2(createExpressionIfPossible({"x", "|", "y'"}));
     Expression expressionToTest(createExpressionIfPossible({subExpression1, "&", subExpression2}));
     SimplificationOfExpression simplification(expressionToTest);
+
     simplification.simplify();
 
-    Expression expressionToVerify(simplification.getExpression());    Expression expressionToExpect(createAndWrapExpressionFromATerm("x"));
+    Expression expressionToVerify(simplification.getExpression());
+    Expression expressionToExpect(createAndWrapExpressionFromATerm("x"));
     EXPECT_EQ(expressionToExpect, expressionToVerify);
 }
 
@@ -463,9 +479,11 @@ TEST(SimplificationOfExpressionTest, SimplifyWorksOnConsensusTheoremPattern1)
     Expression subExpression3(createExpressionIfPossible({"x'", "&", "z"}));
     Expression expressionToTest(createExpressionIfPossible({subExpression1, "|", subExpression2, "|", subExpression3}));
     SimplificationOfExpression simplification(expressionToTest);
+
     simplification.simplify();
 
-    string stringToVerify(simplification.getExpression().getDisplayableString());    string stringToExpect("((x&y)|(x'&z))");
+    string stringToVerify(simplification.getExpression().getDisplayableString());
+    string stringToExpect("((x&y)|(x'&z))");
     EXPECT_EQ(stringToExpect, stringToVerify);
 }
 
@@ -482,9 +500,11 @@ TEST(SimplificationOfExpressionTest, SimplifyWorksOnConsensusTheoremPattern2)
     Expression subExpression3(createExpressionIfPossible({"x'", "|", "z"}));
     Expression expressionToTest(createExpressionIfPossible({subExpression1, "&", subExpression2, "&", subExpression3}));
     SimplificationOfExpression simplification(expressionToTest);
+
     simplification.simplify();
 
-    string stringToVerify(simplification.getExpression().getDisplayableString());    string stringToExpect("((x|y)&(x'|z))");
+    string stringToVerify(simplification.getExpression().getDisplayableString());
+    string stringToExpect("((x|y)&(x'|z))");
     EXPECT_EQ(stringToExpect, stringToVerify);
 }
 

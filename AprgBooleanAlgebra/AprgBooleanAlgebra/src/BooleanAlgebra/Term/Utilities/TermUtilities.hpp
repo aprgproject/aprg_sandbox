@@ -20,4 +20,5 @@ VariableNamesSet getVariableNames(Term const& term);
 Term getTermFromVariableAndPrimeValue(std::string const& variableName, char const primeValue);
 
 }
+
 }

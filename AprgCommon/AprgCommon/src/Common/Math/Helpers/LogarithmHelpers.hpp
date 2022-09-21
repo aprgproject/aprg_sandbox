@@ -4,8 +4,10 @@
 
 #include <cmath>
 #include <type_traits>
+
 namespace alba
 {
+
 namespace mathHelper
 {
 
@@ -32,9 +34,11 @@ template <typename NumberType> inline NumberType getLogarithmWithBase2Of(NumberT
 template <typename NumberType> NumberType getLogarithmForIntegers(NumberType const base, NumberType const inputForLogarithm)
 {
     static_assert(std::is_integral<NumberType>::value, "Number type must be an integer");
+
     // This is always correct and faster than pow (check performance test for comparison)
 
-    NumberType result(0);    if(base > 1 && inputForLogarithm > 0) // base must be at least 2 and input should be positive
+    NumberType result(0);
+    if(base > 1 && inputForLogarithm > 0) // base must be at least 2 and input should be positive
     {
         NumberType currentCount(1), currentBase(base), remainingValue(inputForLogarithm);
         while(remainingValue > 0)

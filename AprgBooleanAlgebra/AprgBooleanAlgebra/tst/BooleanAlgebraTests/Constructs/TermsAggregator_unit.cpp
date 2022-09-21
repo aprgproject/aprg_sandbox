@@ -34,9 +34,11 @@ TEST(TermsAggregatorTest, ExpressionCanBeBuiltWithUnaryOperation)
     Term termToExpect("x'");
     EXPECT_EQ(termToExpect, termsToVerify.at(0));
 }
+
 TEST(TermsAggregatorTest, ExpressionCanBeBuiltWithBinaryOperation)
 {
     TermsAggregator aggregator({"x", "&", "y"});
+
     aggregator.buildExpressionFromTerms();
 
     Terms termsToVerify(aggregator.getTermsConstReference());
@@ -148,7 +150,9 @@ TEST(TermsAggregatorTest, SimplifyWorksWithNegatedTermsAndVariousOperations)
     Expression subExpression2(createExpressionIfPossible({"c'", "&", "x"}));
     Expression subExpression3(createExpressionIfPossible({subExpression1, "|", subExpression2, "|", "y"}));
     Term termToExpect(subExpression3);
-    EXPECT_EQ(termToExpect, termsToVerify.at(0));}
+    EXPECT_EQ(termToExpect, termsToVerify.at(0));
+}
 
 }
+
 }

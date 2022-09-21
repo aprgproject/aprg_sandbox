@@ -15,6 +15,7 @@ template <typename DataType> using BoolUnaryFunction = std::function<bool(DataTy
 template <typename DataType> using UnaryFunction = std::function<DataType(DataType const&)>;
 template <typename DataType> using BinaryFunction = std::function<DataType(DataType const&, DataType const&)>;
 template <typename DataType> class AlbaMatrix;
+
 }
 
 }//namespace alba

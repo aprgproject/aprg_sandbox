@@ -55,9 +55,11 @@ template <typename NumberType> inline NumberType get2ToThePowerOf(NumberType con
 template <typename NumberType> NumberType getRaiseToPowerForIntegers(NumberType const base, NumberType const exponent)
 {
     static_assert(std::is_integral<NumberType>::value, "Number type must be an integer");
+
     // This is always correct and faster than pow (check performance test for comparison)
 
-    NumberType result(1), newBase(base), newExponent(exponent);    while(newExponent > 0)
+    NumberType result(1), newBase(base), newExponent(exponent);
+    while(newExponent > 0)
     {
         if(isEven(newExponent))
         {
@@ -76,9 +78,11 @@ template <typename NumberType> NumberType getRaiseToPowerForIntegers(NumberType 
 template <typename NumberType> inline NumberType getRaiseToPowerForIntegersUsingPow(NumberType const base, NumberType const exponent)
 {
     static_assert(std::is_integral<NumberType>::value, "Number type must be an integer");
+
     // this is slower (by not too much, check performance test)
 
-    return static_cast<int>(ceil(pow(base, exponent)));}
+    return static_cast<int>(ceil(pow(base, exponent)));
+}
 
 bool isPerfectSquare(AlbaNumber const& value); // pass as const reference
 bool isPerfectCube(AlbaNumber const& value); // pass as const reference

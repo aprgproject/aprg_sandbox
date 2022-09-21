@@ -70,10 +70,12 @@ TEST(PowerHelpersTest, GetRaiseToPowerForIntegersWorks)
     EXPECT_EQ(25U, getRaiseToPowerForIntegers(5U, 2U));
     EXPECT_EQ(243U, getRaiseToPowerForIntegers(3U, 5U));
     EXPECT_EQ(-128, getRaiseToPowerForIntegers(-2, 7));
-    EXPECT_EQ(1, getRaiseToPowerForIntegers(-2, -1)); // returns 1 if exponent is negative}
+    EXPECT_EQ(1, getRaiseToPowerForIntegers(-2, -1)); // returns 1 if exponent is negative
+}
 
 TEST(PowerHelpersTest, GetRaiseToPowerForIntegersUsingPowWorks)
-{    EXPECT_EQ(1U, getRaiseToPowerForIntegersUsingPow(0U, 0U));
+{
+    EXPECT_EQ(1U, getRaiseToPowerForIntegersUsingPow(0U, 0U));
     EXPECT_EQ(1U, getRaiseToPowerForIntegersUsingPow(1U, 0U));
     EXPECT_EQ(0U, getRaiseToPowerForIntegersUsingPow(0U, 1U));
     EXPECT_EQ(243U, getRaiseToPowerForIntegersUsingPow(3U, 5U));

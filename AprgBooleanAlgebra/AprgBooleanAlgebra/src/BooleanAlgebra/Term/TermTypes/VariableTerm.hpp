@@ -23,9 +23,11 @@ public:
     bool operator==(VariableTerm const& second) const;
     bool operator!=(VariableTerm const& second) const;
     bool operator<(VariableTerm const& second) const;
+
     VariableTerm operator~() const;
 
     bool isNegated() const;
+
     std::string getVariableTermName() const;
     std::string getDisplayableString() const;
 
@@ -37,9 +39,11 @@ private:
     std::string m_variableName;
     bool m_isNegated;
 };
+
 using VariableTerms = std::vector<VariableTerm>;
 
 std::ostream & operator<<(std::ostream & out, VariableTerm const& variableTerm);
+
 }
 
 }

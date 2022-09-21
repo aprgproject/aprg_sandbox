@@ -19,10 +19,12 @@ template <typename DataType> DataType getDeterminant(
 
 template <typename DataType>
 DataType getValueUsingCramerRule(
-        AlbaMatrix<DataType> const& matrix,        unsigned int const columnIndex,
+        AlbaMatrix<DataType> const& matrix,
+        unsigned int const columnIndex,
         AlbaMatrixData<DataType> const& newColumnValues);
 
-template <typename DataType>DataType getValueFromCoFactorExpansion(
+template <typename DataType>
+DataType getValueFromCoFactorExpansion(
         AlbaMatrix<DataType> const& matrix,
         unsigned int x,
         unsigned int y);

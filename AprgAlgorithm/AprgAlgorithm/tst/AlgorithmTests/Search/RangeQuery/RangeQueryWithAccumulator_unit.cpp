@@ -42,7 +42,8 @@ TEST(RangeQueryWithAccumulatorTest, GetAccumulatedValueOnIntervalWithSumWorksInE
     ValuesForTest values{1U, 3U, 4U, 8U, 6U, 1U, 4U, 2U, 9U};
     RangeQueryForTest sumRangeQuery(values, plusAccumulator, minusAccumulator);
 
-    EXPECT_EQ(1U, sumRangeQuery.getAccumulatedValueOnInterval(0U, 0U));    EXPECT_EQ(4U, sumRangeQuery.getAccumulatedValueOnInterval(0U, 1U));
+    EXPECT_EQ(1U, sumRangeQuery.getAccumulatedValueOnInterval(0U, 0U));
+    EXPECT_EQ(4U, sumRangeQuery.getAccumulatedValueOnInterval(0U, 1U));
     EXPECT_EQ(8U, sumRangeQuery.getAccumulatedValueOnInterval(0U, 2U));
     EXPECT_EQ(16U, sumRangeQuery.getAccumulatedValueOnInterval(0U, 3U));
     EXPECT_EQ(22U, sumRangeQuery.getAccumulatedValueOnInterval(0U, 4U));
@@ -53,7 +54,8 @@ TEST(RangeQueryWithAccumulatorTest, GetAccumulatedValueOnIntervalWithSumWorksInE
     EXPECT_EQ(0U, sumRangeQuery.getAccumulatedValueOnInterval(0U, 9U));;
     EXPECT_EQ(26U, sumRangeQuery.getAccumulatedValueOnInterval(1U, 6U));
     EXPECT_EQ(19U, sumRangeQuery.getAccumulatedValueOnInterval(2U, 5U));
-    EXPECT_EQ(14U, sumRangeQuery.getAccumulatedValueOnInterval(3U, 4U));    EXPECT_EQ(6U, sumRangeQuery.getAccumulatedValueOnInterval(4U, 4U));
+    EXPECT_EQ(14U, sumRangeQuery.getAccumulatedValueOnInterval(3U, 4U));
+    EXPECT_EQ(6U, sumRangeQuery.getAccumulatedValueOnInterval(4U, 4U));
 }
 
 TEST(RangeQueryWithAccumulatorTest, GetAccumulatedValueOnIntervalWithSumWorksInExample2)
@@ -61,7 +63,8 @@ TEST(RangeQueryWithAccumulatorTest, GetAccumulatedValueOnIntervalWithSumWorksInE
     ValuesForTest values{1U, 3U, 4U, 3U, 6U, 1U, 4U, 2U, 9U};
     RangeQueryForTest sumRangeQuery(values, plusAccumulator, minusAccumulator);
 
-    EXPECT_EQ(1U, sumRangeQuery.getAccumulatedValueOnInterval(0U, 0U));    EXPECT_EQ(4U, sumRangeQuery.getAccumulatedValueOnInterval(0U, 1U));
+    EXPECT_EQ(1U, sumRangeQuery.getAccumulatedValueOnInterval(0U, 0U));
+    EXPECT_EQ(4U, sumRangeQuery.getAccumulatedValueOnInterval(0U, 1U));
     EXPECT_EQ(8U, sumRangeQuery.getAccumulatedValueOnInterval(0U, 2U));
     EXPECT_EQ(11U, sumRangeQuery.getAccumulatedValueOnInterval(0U, 3U));
     EXPECT_EQ(17U, sumRangeQuery.getAccumulatedValueOnInterval(0U, 4U));
@@ -72,7 +75,8 @@ TEST(RangeQueryWithAccumulatorTest, GetAccumulatedValueOnIntervalWithSumWorksInE
     EXPECT_EQ(0U, sumRangeQuery.getAccumulatedValueOnInterval(0U, 9U));
     EXPECT_EQ(21U, sumRangeQuery.getAccumulatedValueOnInterval(1U, 6U));
     EXPECT_EQ(14U, sumRangeQuery.getAccumulatedValueOnInterval(2U, 5U));
-    EXPECT_EQ(9U, sumRangeQuery.getAccumulatedValueOnInterval(3U, 4U));    EXPECT_EQ(6U, sumRangeQuery.getAccumulatedValueOnInterval(4U, 4U));
+    EXPECT_EQ(9U, sumRangeQuery.getAccumulatedValueOnInterval(3U, 4U));
+    EXPECT_EQ(6U, sumRangeQuery.getAccumulatedValueOnInterval(4U, 4U));
 }
 
 TEST(RangeQueryWithAccumulatorTest, GetAccumulatedValueOnIntervalWithGeometricSumWorksInExample1)
@@ -80,7 +84,8 @@ TEST(RangeQueryWithAccumulatorTest, GetAccumulatedValueOnIntervalWithGeometricSu
     ValuesForTest values{1U, 3U, 4U, 8U, 6U, 1U, 4U, 2U, 9U};
     RangeQueryForTest geometricSumRangeQuery(values, multipliesAccumulator, dividesAccumulator);
 
-    EXPECT_EQ(1U, geometricSumRangeQuery.getAccumulatedValueOnInterval(0U, 0U));    EXPECT_EQ(3U, geometricSumRangeQuery.getAccumulatedValueOnInterval(0U, 1U));
+    EXPECT_EQ(1U, geometricSumRangeQuery.getAccumulatedValueOnInterval(0U, 0U));
+    EXPECT_EQ(3U, geometricSumRangeQuery.getAccumulatedValueOnInterval(0U, 1U));
     EXPECT_EQ(12U, geometricSumRangeQuery.getAccumulatedValueOnInterval(0U, 2U));
     EXPECT_EQ(96U, geometricSumRangeQuery.getAccumulatedValueOnInterval(0U, 3U));
     EXPECT_EQ(576U, geometricSumRangeQuery.getAccumulatedValueOnInterval(0U, 4U));
@@ -91,7 +96,8 @@ TEST(RangeQueryWithAccumulatorTest, GetAccumulatedValueOnIntervalWithGeometricSu
     EXPECT_EQ(0U, geometricSumRangeQuery.getAccumulatedValueOnInterval(0U, 9U));
     EXPECT_EQ(2304U, geometricSumRangeQuery.getAccumulatedValueOnInterval(1U, 6U));
     EXPECT_EQ(192U, geometricSumRangeQuery.getAccumulatedValueOnInterval(2U, 5U));
-    EXPECT_EQ(48U, geometricSumRangeQuery.getAccumulatedValueOnInterval(3U, 4U));    EXPECT_EQ(6U, geometricSumRangeQuery.getAccumulatedValueOnInterval(4U, 4U));
+    EXPECT_EQ(48U, geometricSumRangeQuery.getAccumulatedValueOnInterval(3U, 4U));
+    EXPECT_EQ(6U, geometricSumRangeQuery.getAccumulatedValueOnInterval(4U, 4U));
 }
 
 TEST(RangeQueryWithAccumulatorTest, GetAccumulatedValueOnIntervalWithGeometricSumWorksInExample2)
@@ -99,7 +105,8 @@ TEST(RangeQueryWithAccumulatorTest, GetAccumulatedValueOnIntervalWithGeometricSu
     ValuesForTest values{1U, 3U, 4U, 3U, 6U, 1U, 4U, 2U, 9U};
     RangeQueryForTest geometricSumRangeQuery(values, multipliesAccumulator, dividesAccumulator);
 
-    EXPECT_EQ(1U, geometricSumRangeQuery.getAccumulatedValueOnInterval(0U, 0U));    EXPECT_EQ(3U, geometricSumRangeQuery.getAccumulatedValueOnInterval(0U, 1U));
+    EXPECT_EQ(1U, geometricSumRangeQuery.getAccumulatedValueOnInterval(0U, 0U));
+    EXPECT_EQ(3U, geometricSumRangeQuery.getAccumulatedValueOnInterval(0U, 1U));
     EXPECT_EQ(12U, geometricSumRangeQuery.getAccumulatedValueOnInterval(0U, 2U));
     EXPECT_EQ(36U, geometricSumRangeQuery.getAccumulatedValueOnInterval(0U, 3U));
     EXPECT_EQ(216U, geometricSumRangeQuery.getAccumulatedValueOnInterval(0U, 4U));
@@ -110,8 +117,10 @@ TEST(RangeQueryWithAccumulatorTest, GetAccumulatedValueOnIntervalWithGeometricSu
     EXPECT_EQ(0U, geometricSumRangeQuery.getAccumulatedValueOnInterval(0U, 9U));
     EXPECT_EQ(864U, geometricSumRangeQuery.getAccumulatedValueOnInterval(1U, 6U));
     EXPECT_EQ(72U, geometricSumRangeQuery.getAccumulatedValueOnInterval(2U, 5U));
-    EXPECT_EQ(18U, geometricSumRangeQuery.getAccumulatedValueOnInterval(3U, 4U));    EXPECT_EQ(6U, geometricSumRangeQuery.getAccumulatedValueOnInterval(4U, 4U));
+    EXPECT_EQ(18U, geometricSumRangeQuery.getAccumulatedValueOnInterval(3U, 4U));
+    EXPECT_EQ(6U, geometricSumRangeQuery.getAccumulatedValueOnInterval(4U, 4U));
 }
 
 }
+
 }

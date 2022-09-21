@@ -200,10 +200,12 @@ TEST(AlbaMatrixUtilitiesTest, MultiplyMatricesWorks3By2And2By3)
 {
     AlbaMatrix<int> matrix1(3, 2,
     {1, 2, -1,
-     3, 1,  4});    AlbaMatrix<int> matrix2(2, 3,
+     3, 1,  4});
+    AlbaMatrix<int> matrix2(2, 3,
     {-2, 5,
       4,-3,
       2, 1});
+
     AlbaMatrix<int> matrixToVerify = multiplyMatrices(matrix1, matrix2);
 
     AlbaMatrix<int> expectedMatrix(2, 2,
@@ -250,9 +252,11 @@ TEST(AlbaMatrixUtilitiesTest, MultiplyMatricesWorks2By2And2By3)
 
 TEST(AlbaMatrixUtilitiesTest, GetMatrixRaiseToScalarPowerWorks)
 {
-    AlbaMatrix<int> matrix(3, 3,    {1, 2, 3,
+    AlbaMatrix<int> matrix(3, 3,
+    {1, 2, 3,
      4, 5, 6,
      7, 8, 9});
+
     AlbaMatrix<int> matrixToVerify = getMatrixRaiseToScalarPower(matrix, 3);
 
     AlbaMatrix<int> expectedMatrix(3, 3,
@@ -297,6 +301,7 @@ TEST(AlbaMatrixUtilitiesTest, AddTwoRowsAndPutSumInAnotherRowWorks)
 TEST(AlbaMatrixUtilitiesTest, MultiplyEachItemAndGetSumWorks)
 {
     unsigned int value = multiplyEachItemAndGetSum(AlbaMatrixData<unsigned int>{1U, 2U, 3U}, AlbaMatrixData<unsigned int>{4U, 5U, 6U});
+
     EXPECT_EQ(32U, value);
 }
 
@@ -318,9 +323,11 @@ TEST(AlbaMatrixUtilitiesTest, GetIndexWithHighestSatisfiedCountWorks)
 
 TEST(AlbaMatrixUtilitiesTest, TraverseWithUnaryOperationForDifferentRowsWorks)
 {
-    AlbaMatrix<unsigned int> matrix(2, 3,    {1, 2,
+    AlbaMatrix<unsigned int> matrix(2, 3,
+    {1, 2,
      3, 4,
      5, 6});
+
     traverseWithUnaryOperationForDifferentRows(matrix, 0, 1, UnaryFunction<unsigned int>([](unsigned int const& value)
     {
         return (100+value)*value;

@@ -20,9 +20,12 @@ bool isEqualForMathMatrixDataType(int const& value1, int const& value2)
     return value1 == value2;
 }
 
-template <>bool isEqualForMathMatrixDataType(double const& value1, double const& value2)
+template <>
+bool isEqualForMathMatrixDataType(double const& value1, double const& value2)
 {
     return mathHelper::isAlmostEqual<double>(value1, value2);
 }
+
 }
+
 }

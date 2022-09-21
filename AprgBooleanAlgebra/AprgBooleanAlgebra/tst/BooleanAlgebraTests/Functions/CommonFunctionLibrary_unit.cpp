@@ -38,9 +38,11 @@ TEST(CommonFunctionLibraryTest, GetNegationWorks)
     Term expectedTerm("x'");
     EXPECT_EQ(expectedTerm, getNegation(Term("x")));
 }
+
 TEST(CommonFunctionLibraryTest, GetConjunctionWorks)
 {
-    EXPECT_EQ(Term(false), getConjunction(Term(false), Term(false)));    EXPECT_EQ(Term(false), getConjunction(Term(false), Term(true)));
+    EXPECT_EQ(Term(false), getConjunction(Term(false), Term(false)));
+    EXPECT_EQ(Term(false), getConjunction(Term(false), Term(true)));
     EXPECT_EQ(Term(false), getConjunction(Term(true), Term(false)));
     EXPECT_EQ(Term(true), getConjunction(Term(true), Term(true)));
     Term expectedTerm(createExpressionIfPossible({"x", "&", "y"}));
@@ -66,6 +68,7 @@ TEST(CommonFunctionLibraryTest, GetExclusiveDisjunctionWorks)
     Term expectedTerm(createExpressionIfPossible({"(", "x", "&", "y'", ")", "|", "(", "x'", "&", "y", ")"}));
     EXPECT_EQ(expectedTerm, getExclusiveDisjunction(Term("x"), Term("y")));
 }
+
 TEST(CommonFunctionLibraryTest, GetImplicationWorks)
 {
     EXPECT_EQ(Term(true), getImplication(Term(false), Term(false)));
@@ -75,6 +78,7 @@ TEST(CommonFunctionLibraryTest, GetImplicationWorks)
     Term expectedTerm(createExpressionIfPossible({"x'", "|", "y"}));
     EXPECT_EQ(expectedTerm, getImplication(Term("x"), Term("y")));
 }
+
 TEST(CommonFunctionLibraryTest, GetEquivalenceWorks)
 {
     EXPECT_EQ(Term(true), getEquivalence(Term(false), Term(false)));
@@ -84,9 +88,11 @@ TEST(CommonFunctionLibraryTest, GetEquivalenceWorks)
     Term expectedTerm(createExpressionIfPossible({"(", "x", "&", "y", ")", "|", "(", "x'", "&", "y'", ")"}));
     EXPECT_EQ(expectedTerm, getEquivalence(Term("x"), Term("y")));
 }
+
 TEST(CommonFunctionLibraryTest, GetUniversalQuantificationWorks)
 {
-    EXPECT_EQ(Term(false), getUniversalQuantification(allFalseTerms, isExactlyTrue));    EXPECT_EQ(Term(true), getUniversalQuantification(allTrueTerms, isExactlyTrue));
+    EXPECT_EQ(Term(false), getUniversalQuantification(allFalseTerms, isExactlyTrue));
+    EXPECT_EQ(Term(true), getUniversalQuantification(allTrueTerms, isExactlyTrue));
     EXPECT_EQ(Term(false), getUniversalQuantification(oneTrueTerm, isExactlyTrue));
     EXPECT_EQ(Term(false), getUniversalQuantification(twoTrueTerms, isExactlyTrue));
 }

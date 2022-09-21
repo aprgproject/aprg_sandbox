@@ -25,11 +25,13 @@ template <typename NumberType> NumberType getNumberOfPossibilities(
 
 template <typename NumberType> NumberType getFactorial(NumberType const number)
 {
-    static_assert(std::is_integral<NumberType>::value, "Number type must be an integer");    static_assert(std::is_unsigned<NumberType>::value, "Number type must be an unsigned");
+    static_assert(std::is_integral<NumberType>::value, "Number type must be an integer");
+    static_assert(std::is_unsigned<NumberType>::value, "Number type must be an unsigned");
 
     NumberType result(1);
     for(NumberType currentNumber=number; currentNumber>1; currentNumber--)
-    {        result *= currentNumber;
+    {
+        result *= currentNumber;
     }
     return result;
 }
@@ -40,9 +42,11 @@ template <typename NumberType> NumberType getNumberOfPermutations(
 {
     static_assert(std::is_integral<NumberType>::value, "Number type must be an integer");
     static_assert(std::is_unsigned<NumberType>::value, "Number type must be an unsigned");
+
     NumberType result(0);
     if(n >= r)
-    {        result = 1;
+    {
+        result = 1;
         for(NumberType currentNumber=n; currentNumber>n-r; currentNumber--)
         {
             result *= currentNumber;
@@ -57,9 +61,11 @@ template <typename NumberType> NumberType getNumberOfCombinations(
 {
     static_assert(std::is_integral<NumberType>::value, "Number type must be an integer");
     static_assert(std::is_unsigned<NumberType>::value, "Number type must be an unsigned");
+
     // Formula 1(recursive formula): (n, k) = (n-1, k-1) + (n-1, k)
     // Base cases: (n, 0) = 1, (n, n) = 1
-    // Idea: The idea is to fix an element x in the set.    // If x is included in the subset, we have to choose k-1 elements from n-1 elements,
+    // Idea: The idea is to fix an element x in the set.
+    // If x is included in the subset, we have to choose k-1 elements from n-1 elements,
     // and if x is not included in the subset, we have to choose k elements from n-1 elements.
     // Note: Formula 1 might be useful in dynamic programming
 
@@ -110,9 +116,11 @@ template <typename NumberType> NumberType getValueAtPascalTriangle(
 {
     static_assert(std::is_integral<NumberType>::value, "Number type must be an integer");
     static_assert(std::is_unsigned<NumberType>::value, "Number type must be an unsigned");
+
     // This is also called the binomial coefficient.
     // The binomial coefficient equals the number of ways we can choose a subset of k elements from a set of n elements.
     // The binomial coefficient = number of combinations
+
     return getNumberOfCombinations(rowIndex, columnIndex);
 }
 
@@ -124,8 +132,10 @@ getStirlingNumberOfTheSecondKind(
 {
     static_assert(std::is_integral<NumberType>::value, "Number type must be an integer");
     static_assert(std::is_unsigned<NumberType>::value, "Number type must be an unsigned");
+
     // In mathematics, particularly in combinatorics, a Stirling number of the second kind (or Stirling partition number)
     // is the number of ways to partition a set of n objects into k non-empty subsets
+
     // Stirling numbers of the second kind occur in the field of mathematics called combinatorics and the study of partitions.
 
     using SignedType = typename std::make_signed<NumberType>::type;

@@ -6,8 +6,10 @@
 
 namespace alba
 {
+
 namespace algorithm
 {
+
 template <typename Key> bool isEqualThanWithDepth(Key const& key1, Key const& key2, unsigned int const depth)
 {
     if(mathHelper::isOdd(depth))

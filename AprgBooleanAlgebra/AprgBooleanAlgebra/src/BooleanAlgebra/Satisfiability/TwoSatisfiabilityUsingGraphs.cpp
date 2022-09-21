@@ -27,9 +27,11 @@ bool TwoSatisfiabilityUsingGraphs::hasSolution() const
 });
     return !isAVariableAndItsNegationConnected;
 }
+
 Term TwoSatisfiabilityUsingGraphs::getSolution() const
 {
-    using VertexOrdering = VertexOrderingUsingDfs<VariableTerm>;    VertexOrdering vertexOrdering(m_graph);
+    using VertexOrdering = VertexOrderingUsingDfs<VariableTerm>;
+    VertexOrdering vertexOrdering(m_graph);
     auto const& variableTermsInOrder(vertexOrdering.getVerticesInThisOrder(VertexTraversalOrder::PostOrder));
     VariableNamesSet processedNames;
     Expression result;
