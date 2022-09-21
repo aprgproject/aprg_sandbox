@@ -1,9 +1,8 @@
 #include <Algorithm/Graph/EdgeWeightedGraph/EdgeWeightedGraph.hpp>
-#include <Algorithm/Graph/MinimumSpanningTree/PrimAlgorithmLazyVersion.hpp>
+#include <Algorithm/Graph/Tree/SpanningTree/MinimumSpanningTree/PrimAlgorithmEagerVersion.hpp>
 #include <Algorithm/Graph/UndirectedGraph/UndirectedGraphWithListOfEdges.hpp>
 
 #include <gtest/gtest.h>
-
 namespace alba
 {
 
@@ -16,11 +15,11 @@ using VertexForTest = unsigned int;
 using WeightForTest = double;
 using UndirectedGraphForTest = UndirectedGraphWithListOfEdges<VertexForTest>;
 using EdgeWeightedUndirectedGraphForTest = EdgeWeightedGraph<VertexForTest, WeightForTest, UndirectedGraphForTest>;
-using MinimumSpanningTreeSearchForTest = PrimAlgorithmLazyVersion<VertexForTest, WeightForTest, EdgeWeightedUndirectedGraphForTest>;
+using MinimumSpanningTreeSearchForTest = PrimAlgorithmEagerVersion<VertexForTest, WeightForTest, EdgeWeightedUndirectedGraphForTest>;
 using Edges = GraphTypes<VertexForTest>::Edges;
 }
 
-TEST(PrimAlgorithmLazyVersionTest, WorksOnUndirectedGraph)
+TEST(PrimAlgorithmEagerVersionTest, WorksOnUndirectedGraph)
 {
     EdgeWeightedUndirectedGraphForTest graph;
     graph.connect(0U, 2U, 0.26);
@@ -43,7 +42,7 @@ TEST(PrimAlgorithmLazyVersionTest, WorksOnUndirectedGraph)
     MinimumSpanningTreeSearchForTest spanningTreeSearch(graph, 0U);
 
     Edges expectedMinimumSpanningTree
-    {{0U, 7U}, {1U, 7U}, {0U, 2U}, {2U, 3U}, {5U, 7U}, {4U, 5U}, {2U, 6U}};
+    {{1U, 7U}, {0U, 2U}, {2U, 3U}, {4U, 5U}, {5U, 7U}, {2U, 6U}, {0U, 7U}};
     EXPECT_EQ(expectedMinimumSpanningTree, spanningTreeSearch.getMinimumSpanningTreeEdges());
 }
 
