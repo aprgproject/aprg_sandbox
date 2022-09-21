@@ -13,36 +13,36 @@ class CountPathsWithLengthUsingAdjacencyMatrix
 {
 public:
     using AdjacencyMatrix = matrix::AlbaMatrix<bool>;
-    using DistanceMatrix = matrix::AlbaMatrix<unsigned int>;
+    using Count = unsigned int;
+    using CountMatrix = matrix::AlbaMatrix<Count>;
 
     CountPathsWithLengthUsingAdjacencyMatrix(
             unsigned int const lengthOfPath,
             AdjacencyMatrix const& adjacencyMatrix)
-        : m_distanceMatrix(createDistanceMatrix(lengthOfPath, adjacencyMatrix))
+        : m_countMatrix(createCountMatrix(lengthOfPath, adjacencyMatrix))
     {}
 
-    unsigned int getCount(Vertex const& start, Vertex const& end) const
+    Count getCount(Vertex const& start, Vertex const& end) const
     {
-        return m_distanceMatrix.getEntry(start, end);
+        return m_countMatrix.getEntry(start, end);
     }
 
 private:
 
-    DistanceMatrix createDistanceMatrix(
+    CountMatrix createCountMatrix(
             unsigned int const lengthOfPath,
             AdjacencyMatrix const& adjacencyMatrix)
     {
-        DistanceMatrix temporaryMatrix(adjacencyMatrix.getNumberOfColumns(), adjacencyMatrix.getNumberOfRows());
+        CountMatrix oneCountMatrix(adjacencyMatrix.getNumberOfColumns(), adjacencyMatrix.getNumberOfRows());
         adjacencyMatrix.iterateAllThroughYAndThenX([&](unsigned int const x, unsigned int const y)
         {
-            temporaryMatrix.setEntry(x, y, adjacencyMatrix.getEntry(x, y));
+            oneCountMatrix.setEntry(x, y, adjacencyMatrix.getEntry(x, y));
         });
-        return temporaryMatrix^lengthOfPath;
+        return oneCountMatrix^lengthOfPath;
     }
 
-    DistanceMatrix m_distanceMatrix;
+    CountMatrix m_countMatrix;
 };
 
 }
-
 }
