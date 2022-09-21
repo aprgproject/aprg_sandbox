@@ -1,10 +1,9 @@
 #pragma once
 
 #include <Algorithm/Graph/Types/GraphTypes.hpp>
-#include <Algorithm/Graph/PathSearch/EulerPath/Common/Utilities.hpp>
+#include <Algorithm/Graph/PathSearch/EulerPaths/Common/Utilities.hpp>
 #include <Algorithm/Graph/UndirectedGraph/BaseUndirectedGraph.hpp>
 #include <Algorithm/Graph/Utilities/GraphUtilities.hpp>
-
 #include <string>
 
 namespace alba

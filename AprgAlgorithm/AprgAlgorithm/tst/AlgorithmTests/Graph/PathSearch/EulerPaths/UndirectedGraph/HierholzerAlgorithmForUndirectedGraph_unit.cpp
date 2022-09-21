@@ -1,9 +1,8 @@
-#include <Algorithm/Graph/PathSearch/EulerPath/UndirectedGraph/FleuryAlgorithm.hpp>
+#include <Algorithm/Graph/PathSearch/EulerPaths/UndirectedGraph/HierholzerAlgorithmForUndirectedGraph.hpp>
 #include <Algorithm/Graph/UndirectedGraph/UndirectedGraphWithListOfEdges.hpp>
-#include <AlgorithmTests/Graph/PathSearch/EulerPath/UndirectedGraph/Utilities/CommonTestsWithEulerPathForUndirectedGraph.hpp>
+#include <AlgorithmTests/Graph/PathSearch/EulerPaths/UndirectedGraph/Utilities/CommonTestsWithEulerPathForUndirectedGraph.hpp>
 
 #include <gtest/gtest.h>
-
 using namespace alba::algorithm::CommonTestsWithEulerPathForUndirectedGraph;
 
 namespace alba
@@ -16,70 +15,70 @@ namespace
 {
 using VertexForTest = unsigned int;
 using GraphForTest = UndirectedGraphWithListOfEdges<VertexForTest>;
-using PathSearchForTest = FleuryAlgorithm<VertexForTest>;
+using PathSearchForTest = HierholzerAlgorithmForUndirectedGraph<VertexForTest>;
 }
 
-TEST(FleuryAlgorithmTest, HasEulerCycleWorksOnGraphWithAllEvenDegreesVertices)
+TEST(HierholzerAlgorithmForUndirectedGraphTest, HasEulerCycleWorksOnGraphWithAllEvenDegreesVertices)
 {
     testHasEulerCycleWorksOnGraphWithAllEvenDegreesVertices<PathSearchForTest, GraphForTest>();
 }
 
-TEST(FleuryAlgorithmTest, HasEulerCycleWorksOnGraphWithNotAllEvenDegreesVertices)
+TEST(HierholzerAlgorithmForUndirectedGraphTest, HasEulerCycleWorksOnGraphWithNotAllEvenDegreesVertices)
 {
     testHasEulerCycleWorksOnGraphWithNotAllEvenDegreesVertices<PathSearchForTest, GraphForTest>();
 }
 
-TEST(FleuryAlgorithmTest, HasEulerPathWorksOnGraphWithOneOddDegreeVertices)
+TEST(HierholzerAlgorithmForUndirectedGraphTest, HasEulerPathWorksOnGraphWithOneOddDegreeVertices)
 {
     testHasEulerPathWorksOnGraphWithOneOddDegreeVertices<PathSearchForTest, GraphForTest>();
 }
 
-TEST(FleuryAlgorithmTest, HasEulerPathWorksOnGraphWithTwoOddDegreesVertices)
+TEST(HierholzerAlgorithmForUndirectedGraphTest, HasEulerPathWorksOnGraphWithTwoOddDegreesVertices)
 {
     testHasEulerPathWorksOnGraphWithTwoOddDegreesVertices<PathSearchForTest, GraphForTest>();
 }
 
-TEST(FleuryAlgorithmTest, HasEulerPathWorksOnGraphWithThreeOddDegreesVertices)
+TEST(HierholzerAlgorithmForUndirectedGraphTest, HasEulerPathWorksOnGraphWithThreeOddDegreesVertices)
 {
     testHasEulerPathWorksOnGraphWithThreeOddDegreesVertices<PathSearchForTest, GraphForTest>();
 }
 
-TEST(FleuryAlgorithmTest, GetEulerCycleWorksOnEmptyGraph)
+TEST(HierholzerAlgorithmForUndirectedGraphTest, GetEulerCycleWorksOnEmptyGraph)
 {
     testGetEulerCycleWorksOnEmptyGraph<PathSearchForTest, GraphForTest>();
 }
 
-TEST(FleuryAlgorithmTest, GetEulerCycleWorksOnGraphWithAllEvenDegreesVertices)
+TEST(HierholzerAlgorithmForUndirectedGraphTest, GetEulerCycleWorksOnGraphWithAllEvenDegreesVertices)
 {
     testGetEulerCycleWorksOnGraphWithAllEvenDegreesVertices<PathSearchForTest, GraphForTest>();
 }
 
-TEST(FleuryAlgorithmTest, GetEulerCycleWorksOnGraphWithNotAllEvenDegreesVertices)
+TEST(HierholzerAlgorithmForUndirectedGraphTest, GetEulerCycleWorksOnGraphWithNotAllEvenDegreesVertices)
 {
     testGetEulerCycleWorksOnGraphWithNotAllEvenDegreesVertices<PathSearchForTest, GraphForTest>();
 }
 
-TEST(FleuryAlgorithmTest, GetEulerPathWorksOnEmptyGraph)
+TEST(HierholzerAlgorithmForUndirectedGraphTest, GetEulerPathWorksOnEmptyGraph)
 {
     testGetEulerPathWorksOnEmptyGraph<PathSearchForTest, GraphForTest>();
 }
 
-TEST(FleuryAlgorithmTest, GetEulerPathWorksOnGraphWithTwoOddDegreesVertices)
+TEST(HierholzerAlgorithmForUndirectedGraphTest, GetEulerPathWorksOnGraphWithTwoOddDegreesVertices)
 {
     testGetEulerPathWorksOnGraphWithTwoOddDegreesVertices<PathSearchForTest, GraphForTest>();
 }
 
-TEST(FleuryAlgorithmTest, GetEulerPathWorksOnGraphWithThreeOddDegreesVertices)
+TEST(HierholzerAlgorithmForUndirectedGraphTest, GetEulerPathWorksOnGraphWithThreeOddDegreesVertices)
 {
     testGetEulerPathWorksOnGraphWithThreeOddDegreesVertices<PathSearchForTest, GraphForTest>();
 }
 
-TEST(FleuryAlgorithmTest, GetEulerCycleAndPathWorksOnExample1)
+TEST(HierholzerAlgorithmForUndirectedGraphTest, GetEulerCycleAndPathWorksOnExample1)
 {
     testGetEulerCycleAndPathWorksOnExample1<PathSearchForTest, GraphForTest>();
 }
 
-TEST(FleuryAlgorithmTest, GetEulerCycleAndPathWorksOnExample2)
+TEST(HierholzerAlgorithmForUndirectedGraphTest, GetEulerCycleAndPathWorksOnExample2)
 {
     testGetEulerCycleAndPathWorksOnExample2<PathSearchForTest, GraphForTest>();
 }

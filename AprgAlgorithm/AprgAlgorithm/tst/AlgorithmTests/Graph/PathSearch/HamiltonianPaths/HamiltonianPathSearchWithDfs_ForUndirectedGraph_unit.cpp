@@ -1,8 +1,7 @@
-#include <Algorithm/Graph/PathSearch/HamiltonianPath/HamiltonianPathSearchWithDfs.hpp>
+#include <Algorithm/Graph/PathSearch/HamiltonianPaths/HamiltonianPathSearchWithDfs.hpp>
 #include <Algorithm/Graph/UndirectedGraph/UndirectedGraphWithListOfEdges.hpp>
 
 #include <gtest/gtest.h>
-
 namespace alba
 {
 

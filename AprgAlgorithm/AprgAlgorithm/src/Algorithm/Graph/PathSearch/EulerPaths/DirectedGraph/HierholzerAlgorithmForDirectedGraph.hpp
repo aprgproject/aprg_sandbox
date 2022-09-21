@@ -1,11 +1,10 @@
 #pragma once
 
-#include <Algorithm/Graph/PathSearch/EulerPath/Common/BaseHierholzerAlgorithm.hpp>
-#include <Algorithm/Graph/PathSearch/EulerPath/DirectedGraph/BaseEulerPathSearchForDirectedGraph.hpp>
+#include <Algorithm/Graph/PathSearch/EulerPaths/Common/BaseHierholzerAlgorithm.hpp>
+#include <Algorithm/Graph/PathSearch/EulerPaths/DirectedGraph/BaseEulerPathSearchForDirectedGraph.hpp>
 
 #include <algorithm>
 #include <stack>
-
 namespace alba
 {
 

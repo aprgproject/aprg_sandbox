@@ -1,9 +1,8 @@
 #include <Algorithm/Graph/DirectedGraph/DirectedGraphWithListOfEdges.hpp>
-#include <Algorithm/Graph/PathSearch/HamiltonianPath/Common/Utilities.hpp>
+#include <Algorithm/Graph/PathSearch/HamiltonianPaths/Common/Utilities.hpp>
 #include <Algorithm/Graph/UndirectedGraph/UndirectedGraphWithListOfEdges.hpp>
 
 #include <gtest/gtest.h>
-
 namespace alba
 {
 

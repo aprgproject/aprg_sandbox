@@ -2,11 +2,10 @@
 
 #include <Algorithm/Graph/Types/GraphTypes.hpp>
 #include <Algorithm/Graph/DirectedGraph/BaseDirectedGraph.hpp>
-#include <Algorithm/Graph/PathSearch/EulerPath/Common/Utilities.hpp>
+#include <Algorithm/Graph/PathSearch/EulerPaths/Common/Utilities.hpp>
 #include <Algorithm/Graph/Utilities/GraphUtilities.hpp>
 
 #include <string>
-
 namespace alba
 {
 

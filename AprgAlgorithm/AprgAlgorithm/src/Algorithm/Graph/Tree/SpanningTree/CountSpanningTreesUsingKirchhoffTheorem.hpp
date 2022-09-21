@@ -10,13 +10,14 @@ namespace algorithm
 {
 
 template <typename Vertex>
-class CountSpanningTrees
+class CountSpanningTreesUsingKirchhoffTheorem
 {
 public:
+    // Kirchhoff’s theorem provides a way to calculate the number of spanning trees of a graph as a determinant of a special matrix.
+
     using XyIndices = std::pair<unsigned int, unsigned int>;
 
-    template<unsigned int MAX_VERTEX_VALUE>
-    static unsigned int getCount(BaseGraph<Vertex> const& graph)
+    template<unsigned int MAX_VERTEX_VALUE>    static unsigned int getCount(BaseGraph<Vertex> const& graph)
     {
         LaplaceanMatrix laplaceanMatrix(createLaplaceanMatrix<Vertex, MAX_VERTEX_VALUE>(graph));
         XyIndices xy(getBestXYToRemove(laplaceanMatrix));

@@ -1,9 +1,8 @@
 #include <Algorithm/Graph/DirectedGraph/DirectedGraphWithListOfEdges.hpp>
-#include <Algorithm/Graph/PathSearch/EulerPath/DirectedGraph/HierholzerAlgorithmForDirectedGraph.hpp>
-#include <AlgorithmTests/Graph/PathSearch/EulerPath/DirectedGraph/Utilities/CommonTestsWithEulerPathForDirectedGraph.hpp>
+#include <Algorithm/Graph/PathSearch/EulerPaths/DirectedGraph/HierholzerAlgorithmForDirectedGraph.hpp>
+#include <AlgorithmTests/Graph/PathSearch/EulerPaths/DirectedGraph/Utilities/CommonTestsWithEulerPathForDirectedGraph.hpp>
 
 #include <gtest/gtest.h>
-
 using namespace alba::algorithm::CommonTestsWithEulerPathForDirectedGraph;
 
 namespace alba
