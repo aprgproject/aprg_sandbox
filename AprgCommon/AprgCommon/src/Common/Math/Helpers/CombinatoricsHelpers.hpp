@@ -14,20 +14,18 @@ namespace mathHelper
 {
 
 template <typename NumberType> NumberType getNumberOfPossibilities(
-        NumberType const numberOfTimes,
-        NumberType const numberOfChoicesPerTime)
+        NumberType const numberOfPossibilitiesPerTime,
+        NumberType const numberOfTimes)
 {
     static_assert(std::is_integral<NumberType>::value, "Number type must be an integer");
     static_assert(std::is_unsigned<NumberType>::value, "Number type must be an unsigned");
 
-    return getRaiseToPowerForIntegers(numberOfChoicesPerTime, numberOfTimes);
+    return getRaiseToPowerForIntegers(numberOfPossibilitiesPerTime, numberOfTimes);
 }
 
-template <typename NumberType> NumberType getFactorial(NumberType const number)
-{
+template <typename NumberType> NumberType getFactorial(NumberType const number){
     static_assert(std::is_integral<NumberType>::value, "Number type must be an integer");
     static_assert(std::is_unsigned<NumberType>::value, "Number type must be an unsigned");
-
     NumberType result(1);
     for(NumberType currentNumber=number; currentNumber>1; currentNumber--)
     {

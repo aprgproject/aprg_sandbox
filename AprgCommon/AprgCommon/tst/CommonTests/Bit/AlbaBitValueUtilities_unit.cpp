@@ -114,19 +114,31 @@ TEST(AlbaBitValueUtilitiesTest, Get2ToThePowerOfWorks)
 TEST(AlbaBitValueUtilitiesTest, GetLogarithmWithBase2OfWorks)
 {
     EXPECT_EQ(2U, AlbaBitValueUtilities<uint8_t>::getLogarithmWithBase2Of(4U));
+    EXPECT_EQ(2U, AlbaBitValueUtilities<uint8_t>::getLogarithmWithBase2Of(7U));
+    EXPECT_EQ(3U, AlbaBitValueUtilities<uint16_t>::getLogarithmWithBase2Of(8U));
     EXPECT_EQ(3U, AlbaBitValueUtilities<uint16_t>::getLogarithmWithBase2Of(10U));
+    EXPECT_EQ(4U, AlbaBitValueUtilities<uint16_t>::getLogarithmWithBase2Of(16U));
     EXPECT_EQ(4U, AlbaBitValueUtilities<uint32_t>::getLogarithmWithBase2Of(22U));
     EXPECT_EQ(16U, AlbaBitValueUtilities<uint32_t>::getLogarithmWithBase2Of(123456U));
 }
 
+TEST(AlbaBitValueUtilitiesTest, GetCeilOfLogarithmWithBase2OfWorks)
+{
+    EXPECT_EQ(2U, AlbaBitValueUtilities<uint8_t>::getCeilOfLogarithmWithBase2Of(4U));
+    EXPECT_EQ(3U, AlbaBitValueUtilities<uint8_t>::getCeilOfLogarithmWithBase2Of(7U));
+    EXPECT_EQ(3U, AlbaBitValueUtilities<uint16_t>::getCeilOfLogarithmWithBase2Of(8U));
+    EXPECT_EQ(4U, AlbaBitValueUtilities<uint16_t>::getCeilOfLogarithmWithBase2Of(10U));
+    EXPECT_EQ(4U, AlbaBitValueUtilities<uint16_t>::getCeilOfLogarithmWithBase2Of(16U));
+    EXPECT_EQ(5U, AlbaBitValueUtilities<uint32_t>::getCeilOfLogarithmWithBase2Of(22U));
+    EXPECT_EQ(17U, AlbaBitValueUtilities<uint32_t>::getCeilOfLogarithmWithBase2Of(123456U));
+}
+
 TEST(AlbaBitValueUtilitiesTest, GetOnesComplementWorks)
 {
-    EXPECT_EQ(0x5EU, AlbaBitValueUtilities<uint8_t>::getOnesComplement(0xA1U));
-    EXPECT_EQ(0x5E45U, AlbaBitValueUtilities<uint16_t>::getOnesComplement(0xA1BAU));
+    EXPECT_EQ(0x5EU, AlbaBitValueUtilities<uint8_t>::getOnesComplement(0xA1U));    EXPECT_EQ(0x5E45U, AlbaBitValueUtilities<uint16_t>::getOnesComplement(0xA1BAU));
     EXPECT_EQ(0x5E455E45U, AlbaBitValueUtilities<uint32_t>::getOnesComplement(0xA1BAA1BAU));
     EXPECT_EQ(0x5E455E455E455E45U, AlbaBitValueUtilities<uint64_t>::getOnesComplement(0xA1BAA1BAA1BAA1BAU));
 }
-
 TEST(AlbaBitValueUtilitiesTest, GetTwosComplementWorks)
 {
     EXPECT_EQ(0x5FU, AlbaBitValueUtilities<uint8_t>::getTwosComplement(0xA1U));

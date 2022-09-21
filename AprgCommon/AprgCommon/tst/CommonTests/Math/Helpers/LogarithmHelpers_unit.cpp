@@ -36,16 +36,27 @@ TEST(LogarithmHelpersTest, GetLogarithmForIntegersWorks)
     EXPECT_EQ(5U, getLogarithmForIntegers(2U, 32U));
     EXPECT_EQ(31U, getLogarithmForIntegers(2U, 2147483648U));
     EXPECT_EQ(1U, getLogarithmForIntegers(4U, 15U));
+    EXPECT_EQ(2U, getLogarithmForIntegers(4U, 16U));
+    EXPECT_EQ(2U, getLogarithmForIntegers(4U, 17U));
+}
+
+TEST(LogarithmHelpersTest, GetCeilOfLogarithmForIntegersWorks)
+{
+    EXPECT_EQ(0U, getCeilOfLogarithmForIntegers(1U, 100U));
+    EXPECT_EQ(2U, getCeilOfLogarithmForIntegers(3U, 9U));
+    EXPECT_EQ(5U, getCeilOfLogarithmForIntegers(2U, 32U));
+    EXPECT_EQ(31U, getCeilOfLogarithmForIntegers(2U, 2147483648U));
+    EXPECT_EQ(2U, getCeilOfLogarithmForIntegers(4U, 15U));
+    EXPECT_EQ(2U, getCeilOfLogarithmForIntegers(4U, 16U));
+    EXPECT_EQ(3U, getCeilOfLogarithmForIntegers(4U, 17U));
 }
 
 TEST(LogarithmHelpersTest, GetIterativeLogarithmWorks)
 {
-    EXPECT_EQ(2U, getIterativeLogarithm(3, 9));
-    EXPECT_EQ(4U, getIterativeLogarithm(2, 32));
+    EXPECT_EQ(2U, getIterativeLogarithm(3, 9));    EXPECT_EQ(4U, getIterativeLogarithm(2, 32));
     EXPECT_EQ(0U, getIterativeLogarithm(2, 0.0625));
     EXPECT_EQ(0U, getIterativeLogarithm(2, -1));
-    EXPECT_EQ(2U, getIterativeLogarithm(4, 15));
-}
+    EXPECT_EQ(2U, getIterativeLogarithm(4, 15));}
 
 TEST(LogarithmHelpersTest, GetSuperLogarithmWorks)
 {

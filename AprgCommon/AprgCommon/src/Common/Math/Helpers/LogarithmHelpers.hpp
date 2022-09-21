@@ -33,42 +33,43 @@ template <typename NumberType> inline NumberType getLogarithmWithBase2Of(NumberT
 
 template <typename NumberType> NumberType getLogarithmForIntegers(NumberType const base, NumberType const inputForLogarithm)
 {
-    static_assert(std::is_integral<NumberType>::value, "Number type must be an integer");
-
     // This is always correct and faster than pow (check performance test for comparison)
+
+    static_assert(std::is_integral<NumberType>::value, "Number type must be an integer");
 
     NumberType result(0);
     if(base > 1 && inputForLogarithm > 0) // base must be at least 2 and input should be positive
-    {
-        NumberType currentCount(1), currentBase(base), remainingValue(inputForLogarithm);
+    {        NumberType currentCount(1), currentBase(base), remainingValue(inputForLogarithm);
         while(remainingValue > 0)
         {
-            NumberType nextValue = remainingValue / currentBase;
-            if(nextValue > 0)
+            NumberType nextRemainingValue = remainingValue / currentBase;
+            if(nextRemainingValue > 0)
             {
                 result += currentCount;
-                currentBase *= base;
-                currentCount++;
+                currentBase *= base;                currentCount++;
             }
             else
             {
-                nextValue = remainingValue / base;
-                if(nextValue > 0)
+                nextRemainingValue = remainingValue / base;
+                if(nextRemainingValue > 0)
                 {
                     result++;
-                    currentBase = base*base;
-                    currentCount = 2;
+                    currentBase = base*base;                    currentCount = 2;
                 }
             }
-            remainingValue = nextValue;
+            remainingValue = nextRemainingValue;
         }
     }
     return result;
 }
 
+template <typename NumberType> NumberType getCeilOfLogarithmForIntegers(NumberType const base, NumberType const inputForLogarithm)
+{
+    return getLogarithmForIntegers(base, (inputForLogarithm*base)-1);
+}
+
 unsigned int getIterativeLogarithm(double const base, double const inputForLogarithm);
 int getSuperLogarithm(double const base, double const inputForLogarithm);
-
 }//namespace mathHelper
 
 }//namespace alba
