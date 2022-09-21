@@ -35,9 +35,9 @@ TEST(BurnsideLemmaTest, GetNumberOfCombinationsOfAPearlNecklaceWorks)
     EXPECT_EQ(6U, getNumberOfCombinationsOfAPearlNecklace(4U, 2U));
     EXPECT_EQ(24U, getNumberOfCombinationsOfAPearlNecklace(4U, 3U));
     EXPECT_EQ(70U, getNumberOfCombinationsOfAPearlNecklace(4U, 4U));
+    EXPECT_EQ(11U, getNumberOfCombinationsOfAPearlNecklace(3U, 3U));
     EXPECT_EQ(976887U, getNumberOfCombinationsOfAPearlNecklace(10U, 5U));
 }
-
 }
 
 }
