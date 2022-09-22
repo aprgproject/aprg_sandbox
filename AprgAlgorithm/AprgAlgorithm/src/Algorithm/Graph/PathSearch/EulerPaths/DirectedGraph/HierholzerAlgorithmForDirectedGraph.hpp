@@ -13,15 +13,14 @@ namespace algorithm
 {
 
 template <typename Vertex>
-class HierholzerAlgorithmForDirectedGraph : public BaseHierholzerAlgorithm<Vertex, BaseDirectedGraph<Vertex>, BaseEulerPathSearchForDirectedGraph<Vertex>>
+class HierholzerAlgorithmForDirectedGraph
+        : public BaseHierholzerAlgorithm<Vertex, BaseDirectedGraph<Vertex>, BaseEulerPathSearchForDirectedGraph<Vertex>>
 {
 public:
-    using BaseClass = BaseHierholzerAlgorithm<Vertex, BaseDirectedGraph<Vertex>, BaseEulerPathSearchForDirectedGraph<Vertex>>;
-    using BaseDirectedGraphWithVertex = BaseDirectedGraph<Vertex>;
+    using BaseClass = BaseHierholzerAlgorithm<Vertex, BaseDirectedGraph<Vertex>, BaseEulerPathSearchForDirectedGraph<Vertex>>;    using BaseDirectedGraphWithVertex = BaseDirectedGraph<Vertex>;
     using Vertices = typename GraphTypes<Vertex>::Vertices;
     using Path = typename GraphTypes<Vertex>::Path;
     using VertexToAdjacencyVerticesMap = std::map<Vertex, Vertices>;
-
     HierholzerAlgorithmForDirectedGraph(BaseDirectedGraphWithVertex const& graph)
         : BaseClass(graph)
         , b_graph(BaseClass::b_graph)

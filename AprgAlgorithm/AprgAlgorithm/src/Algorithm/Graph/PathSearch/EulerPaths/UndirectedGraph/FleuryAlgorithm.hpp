@@ -62,15 +62,13 @@ public:
 
 private:
 
-    bool isStillConnectedWithoutOneEdge(GraphToManipulate const& graph, Edge const& edgeToDelete) const
+    bool isStillConnectedAfterRemovingThisEdge(GraphToManipulate const& graph, Edge const& edgeToDelete) const
     {
         // THIS IS COSTLY!
-        GraphToManipulate graphWithDeletedEdge(graph);
-        graphWithDeletedEdge.disconnect(edgeToDelete.first, edgeToDelete.second);
+        GraphToManipulate graphWithDeletedEdge(graph);        graphWithDeletedEdge.disconnect(edgeToDelete.first, edgeToDelete.second);
         ConnectedComponentsUsingDfs<Vertex> connectedComponents(graphWithDeletedEdge);
         return connectedComponents.getNumberOfComponentIds() <= 1 // graph is still connected
-                && connectedComponents.getComponentId(edgeToDelete.second) > 0; //destination is still connected
-    }
+                && connectedComponents.getComponentId(edgeToDelete.second) > 0; //destination is still connected    }
 
     GraphToManipulate createGraphToManipulate(Edges const& originalEdges) const
     {
@@ -102,15 +100,13 @@ private:
         {
             // get next edge to delete so that graph is still connected
             auto edgeToDeleteIt = std::find_if(edgesReference.cbegin(), edgesReference.cend(), [&](Edge const& edgeToDelete)
-            {return deletedEdge.second == edgeToDelete.first && isStillConnectedWithoutOneEdge(graphToManipulate, edgeToDelete);});
+            {return deletedEdge.second == edgeToDelete.first && isStillConnectedAfterRemovingThisEdge(graphToManipulate, edgeToDelete);});
             if(edgeToDeleteIt == edgesReference.cend()) // if not found just get next edge
             {
-                edgeToDeleteIt = std::find_if(edgesReference.cbegin(), edgesReference.cend(), [&](Edge const& edgeToDelete)
-                {return deletedEdge.second == edgeToDelete.first;});
+                edgeToDeleteIt = std::find_if(edgesReference.cbegin(), edgesReference.cend(), [&](Edge const& edgeToDelete)                {return deletedEdge.second == edgeToDelete.first;});
             }
 
-            if(edgeToDeleteIt != edgesReference.cend())
-            {
+            if(edgeToDeleteIt != edgesReference.cend())            {
                 deletedEdge = *edgeToDeleteIt;
                 edgesInEulerCycle.emplace_back(deletedEdge);
                 graphToManipulate.disconnect(deletedEdge.first, deletedEdge.second);
@@ -132,3 +128,25 @@ private:
 }
 
 }
+
+// Fleury's algorithm is an elegant but inefficient algorithm that dates to 1883.
+
+// Algorithm description:
+// Consider a graph known to have all edges in the same component and at most two vertices of odd degree.
+// The algorithm starts at a vertex of odd degree, or, if the graph has none, it starts with an arbitrarily chosen vertex.
+// At each step it chooses the next edge in the path to be one whose deletion would not disconnect the graph,
+// unless there is no such edge, in which case it picks the remaining edge left at the current vertex.
+// It then moves to the other endpoint of that edge and deletes the edge.
+// At the end of the algorithm there are no edges left,
+// and the sequence from which the edges were chosen forms an Eulerian cycle if the graph has no vertices of odd degree,
+// or an Eulerian trail if there are exactly two vertices of odd degree.
+
+
+// While the graph traversal in Fleury's algorithm is linear in the number of edges, i.e. O(E),
+// we also need to factor in the complexity of detecting bridges.
+
+// If we are to re-run Tarjan's linear time bridge-finding algorithm after the removal of every edge,
+// Fleury's algorithm will have a time complexity of O(E^2)
+
+// A dynamic bridge-finding algorithm of Thorup (2000) allows this to be improved to O (E*log^3(E)*log(log(E)),
+// but this is still significantly slower than alternative algorithms.
