@@ -69,6 +69,33 @@ TEST(ProbabilityUtilitiesTest, GetConditionalProbabilityOfEventAGivenThatEventBH
               getConditionalProbabilityOfEventAGivenThatEventBHappened(getProbability(2U, 5U), getProbability(1U, 5U)));
 }
 
+TEST(ProbabilityUtilitiesTest, GetExpectedValueWorks)
+{
+    ValueAndProbabilityPairs pairsToTest
+    {{1U, getProbability(1U, 5U)},
+        {2U, getProbability(1U, 5U)},
+        {3U, getProbability(1U, 5U)},
+        {4U, getProbability(1U, 5U)},
+        {5U, getProbability(1U, 5U)}};
+
+    EXPECT_EQ(AlbaNumber(3), getExpectedValue(pairsToTest));
+}
+
+TEST(ProbabilityUtilitiesTest, GetExpectedValueInUniformDistributionWorks)
+{
+    EXPECT_EQ(AlbaNumber::createFraction(101, 2U), getExpectedValueInUniformDistribution(AlbaNumber(1), AlbaNumber(100)));
+}
+
+TEST(ProbabilityUtilitiesTest, GetExpectedValueInBinomialDistributionWorks)
+{
+    EXPECT_EQ(AlbaNumber(75U), getExpectedValueInBinomialDistribution(AlbaNumber::createFraction(3, 4), 100U));
+}
+
+TEST(ProbabilityUtilitiesTest, GetExpectedValueInGeometricDistributionWorks)
+{
+    EXPECT_EQ(AlbaNumber::createFraction(4, 3), getExpectedValueInGeometricDistribution(AlbaNumber::createFraction(3, 4)));
+}
+
 }
 
 }

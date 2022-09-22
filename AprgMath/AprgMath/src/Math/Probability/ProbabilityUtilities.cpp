@@ -115,6 +115,50 @@ AlbaNumber getConditionalProbabilityOfEventAGivenThatEventBHappened(
     return getCorrectProbability(probabilityOfEventAAndEventB / probabilityOfEventB);
 }
 
+AlbaNumber getExpectedValue(
+        ValueAndProbabilityPairs const& allValueAndProbabilityPairsOfX)
+{
+    // The expected value E[X] indicates the average value of a random variable X.
+    // The expected value can be calculated as the summation of P(X=x) * x, where x goes through all possible values of X.
+
+    AlbaNumber result;
+    for(ValueAndProbabilityPair const& valueAndProbabilityPair: allValueAndProbabilityPairsOfX)
+    {
+        result += valueAndProbabilityPair.first * valueAndProbabilityPair.second;
+    }
+    return result;
+}
+
+AlbaNumber getExpectedValueInUniformDistribution(
+        AlbaNumber const& firstValue,
+        AlbaNumber const& secondValue)
+{
+    // In a uniform distribution, the random variable X has n possible values a,a+1,...,b and the probability of each value is 1/n.
+    // Equation: E[X] = (a+b)/2
+
+    return (firstValue + secondValue)/2;
+}
+
+AlbaNumber getExpectedValueInBinomialDistribution(
+        AlbaNumber const& probability,
+        UnsignedInteger const n)
+{
+    // In a binomial distribution, n attempts are made and the probability that a single attempt succeeds is p.
+    // The expected value of X in a binomial distribution is E[X] = pn.
+
+    return probability * AlbaNumber(static_cast<unsigned int>(n));
+}
+
+AlbaNumber getExpectedValueInGeometricDistribution(
+        AlbaNumber const& probability)
+{
+    // In a binomial distribution, n attempts are made and the probability that a single attempt succeeds is p.
+    // The expected value of X in a binomial distribution is E[X] = pn.
+
+    return AlbaNumber(1) / probability;
+}
+
+
 }
 
 }

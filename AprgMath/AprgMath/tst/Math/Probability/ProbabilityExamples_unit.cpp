@@ -110,6 +110,27 @@ TEST(ProbabilityExampleTest, IntersectionExampleWorks)
     EXPECT_EQ(expectedProbability, probabilityToVerify);
 }
 
+TEST(ProbabilityExampleTest, ExpectedValueExampleWorks)
+{
+    // For example, when throwing a dice.
+    // Probability of value of 1 is 1/6.
+    // Probability of value of 2 is 1/6.
+    // Probability of value of 3 is 1/6.
+    // Probability of value of 4 is 1/6.
+    // Probability of value of 5 is 1/6.
+    // Probability of value of 6 is 1/6.
+
+    ValueAndProbabilityPairs pairsToTest
+    {{1U, getProbability(1U, 6U)},
+        {2U, getProbability(1U, 6U)},
+        {3U, getProbability(1U, 6U)},
+        {4U, getProbability(1U, 6U)},
+        {5U, getProbability(1U, 6U)},
+        {6U, getProbability(1U, 6U)}};
+
+    EXPECT_EQ(AlbaNumber::createFraction(7, 2U), getExpectedValue(pairsToTest));
+}
+
 }
 
 }
