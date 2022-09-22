@@ -13,14 +13,13 @@ UnsignedIntegerPair getNextFibonacciNumbersUsingLinearRecurrence(
         UnsignedIntegerPair const integerPair)
 {
     // Linear recurrence: f(n) = f(n-1) + f(n-2)
+
     UnsignedIntegerMatrix formulaicTransform(2U, 2U,
     {0U, 1U,
      1U, 1U});
-
     UnsignedIntegerMatrix input(1U, 2U,
     {integerPair.first,
      integerPair.second});
-
     UnsignedIntegerMatrix output = formulaicTransform * input;
 
     return UnsignedIntegerPair{output.getEntry(0U, 0U), output.getEntry(0U, 1U)};
