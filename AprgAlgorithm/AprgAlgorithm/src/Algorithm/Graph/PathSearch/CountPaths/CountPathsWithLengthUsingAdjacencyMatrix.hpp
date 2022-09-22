@@ -21,7 +21,8 @@ public:
     using CountMatrix = matrix::AlbaMatrix<Count>;
     CountPathsWithLengthUsingAdjacencyMatrix(
             unsigned int const lengthOfPath,
-            AdjacencyMatrix const& adjacencyMatrix)        : m_countMatrix(createCountMatrix(lengthOfPath, adjacencyMatrix))
+            AdjacencyMatrix const& adjacencyMatrix)
+        : m_countMatrix(createCountMatrix(lengthOfPath, adjacencyMatrix))
     {}
 
     Count getCount(Vertex const& start, Vertex const& end) const

@@ -24,7 +24,8 @@ public:
     using DistancetMatrix = matrix::AlbaMatrix<DistanceEntry>;
     ShortestDistanceByTraverseCountUsingAdjacencyMatrix(
             EdgeWeightedGraph const& graph,
-            unsigned int const traverseCount)        : m_shortestDistanceMatrix(createDistanceMatrix(traverseCount, graph))
+            unsigned int const traverseCount)
+        : m_shortestDistanceMatrix(createDistanceMatrix(traverseCount, graph))
     {}
 
     Weight getShortestDistance(Vertex const& start, Vertex const& end) const
@@ -48,6 +49,7 @@ private:
             initialDistanceMatrix.setEntry(x, y, entryValue);        });
         return transformMultipleTimes(initialDistanceMatrix, traverseCount);
     }
+
     DistancetMatrix transformMultipleTimes(
             DistancetMatrix const& base,
             unsigned int const scalarExponent)
@@ -90,7 +92,8 @@ private:
         first.retrieveRows(rowsOfFirstMatrix);        second.retrieveColumns(columnsOfSecondMatrix);
         unsigned int y=0;
         for(DistancetMatrix::MatrixData const& rowOfFirstMatrix : rowsOfFirstMatrix)
-        {            unsigned int x=0;
+        {
+            unsigned int x=0;
             for(DistancetMatrix::MatrixData const& columnOfSecondMatrix : columnsOfSecondMatrix)
             {
                 result.setEntry(x, y, transformOneSetOfValues(rowOfFirstMatrix, columnOfSecondMatrix));

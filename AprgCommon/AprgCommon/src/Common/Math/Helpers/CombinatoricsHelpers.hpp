@@ -26,6 +26,7 @@ template <typename NumberType> NumberType getNumberOfPossibilities(
 template <typename NumberType> NumberType getFactorial(NumberType const number){
     static_assert(std::is_integral<NumberType>::value, "Number type must be an integer");
     static_assert(std::is_unsigned<NumberType>::value, "Number type must be an unsigned");
+
     NumberType result(1);
     for(NumberType currentNumber=number; currentNumber>1; currentNumber--)
     {

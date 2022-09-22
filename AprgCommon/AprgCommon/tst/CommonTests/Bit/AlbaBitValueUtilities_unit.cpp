@@ -139,6 +139,7 @@ TEST(AlbaBitValueUtilitiesTest, GetOnesComplementWorks)
     EXPECT_EQ(0x5E455E45U, AlbaBitValueUtilities<uint32_t>::getOnesComplement(0xA1BAA1BAU));
     EXPECT_EQ(0x5E455E455E455E45U, AlbaBitValueUtilities<uint64_t>::getOnesComplement(0xA1BAA1BAA1BAA1BAU));
 }
+
 TEST(AlbaBitValueUtilitiesTest, GetTwosComplementWorks)
 {
     EXPECT_EQ(0x5FU, AlbaBitValueUtilities<uint8_t>::getTwosComplement(0xA1U));

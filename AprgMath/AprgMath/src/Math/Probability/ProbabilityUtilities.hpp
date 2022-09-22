@@ -18,7 +18,8 @@ AlbaNumber getCorrectProbability(AlbaNumber const& probability);
 AlbaNumber getProbability(UnsignedInteger const numberOfDesiredOutcome, UnsignedInteger const totalNumberOfOutcomes);
 AlbaNumber getComplementOfProbability(AlbaNumber const& probability);
 
-AlbaNumber getUnionOfProbabilitiesOfDisjointEvents(        AlbaNumber const& probabilityOfEventA,
+AlbaNumber getUnionOfProbabilitiesOfDisjointEvents(
+        AlbaNumber const& probabilityOfEventA,
         AlbaNumber const& probabilityOfEventB);
 
 AlbaNumber getUnionOfProbabilities(

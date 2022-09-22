@@ -20,6 +20,7 @@ UnsignedIntegerPair getNextFibonacciNumbersUsingLinearRecurrence(
     UnsignedIntegerMatrix input(1U, 2U,
     {integerPair.first,
      integerPair.second});
+
     UnsignedIntegerMatrix output = formulaicTransform * input;
 
     return UnsignedIntegerPair{output.getEntry(0U, 0U), output.getEntry(0U, 1U)};

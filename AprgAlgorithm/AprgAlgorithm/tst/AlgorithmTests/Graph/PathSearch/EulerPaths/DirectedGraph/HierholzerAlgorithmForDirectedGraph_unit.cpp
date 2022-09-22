@@ -3,6 +3,7 @@
 #include <AlgorithmTests/Graph/PathSearch/EulerPaths/DirectedGraph/Utilities/CommonTestsWithEulerPathForDirectedGraph.hpp>
 
 #include <gtest/gtest.h>
+
 using namespace alba::algorithm::CommonTestsWithEulerPathForDirectedGraph;
 
 namespace alba

@@ -3,6 +3,7 @@
 #include <Algorithm/Graph/UndirectedGraph/UndirectedGraphWithListOfEdges.hpp>
 
 #include <gtest/gtest.h>
+
 namespace alba
 {
 

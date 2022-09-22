@@ -6,6 +6,7 @@
 #include <Algorithm/Graph/Utilities/GraphUtilities.hpp>
 
 #include <string>
+
 namespace alba
 {
 

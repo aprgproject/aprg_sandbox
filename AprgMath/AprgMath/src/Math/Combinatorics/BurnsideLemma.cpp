@@ -69,6 +69,7 @@ UnsignedInteger getNumberOfCombinationsOfAPearlNecklace(
     {        return getRaiseToPowerForIntegers(numberOfColors, getGreatestCommonFactor(kthWay-1, nWays));
     });
 }
+
 }
 
 }

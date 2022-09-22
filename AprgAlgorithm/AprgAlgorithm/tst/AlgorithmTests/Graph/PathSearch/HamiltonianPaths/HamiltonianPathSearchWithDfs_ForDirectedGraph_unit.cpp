@@ -2,6 +2,7 @@
 #include <Algorithm/Graph/DirectedGraph/DirectedGraphWithListOfEdges.hpp>
 
 #include <gtest/gtest.h>
+
 namespace alba
 {
 

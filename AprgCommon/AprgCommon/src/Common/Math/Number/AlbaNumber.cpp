@@ -90,7 +90,8 @@ AlbaNumber AlbaNumber::createComplexNumber(NumberType const realPart, NumberType
         return AlbaNumber(static_cast<double>(adjustedRealPart));    }
     else
     {
-        return AlbaNumber(ComplexNumberData{static_cast<float>(adjustedRealPart), static_cast<float>(adjustedImaginaryPart)});    }
+        return AlbaNumber(ComplexNumberData{static_cast<float>(adjustedRealPart), static_cast<float>(adjustedImaginaryPart)});
+    }
 }
 template AlbaNumber AlbaNumber::createComplexNumber<int>(int const realPart, int const imaginaryPart);
 template AlbaNumber AlbaNumber::createComplexNumber<float>(float const realPart, float const imaginaryPart);
@@ -773,6 +774,7 @@ bool AlbaNumber::isARealFiniteValue() const
 AlbaNumber::Type AlbaNumber::getType() const{
     return m_type;
 }
+
 long long int AlbaNumber::getInteger() const
 {
     long long int result(0);
@@ -976,7 +978,8 @@ void AlbaNumber::correctPowerResult(double & powerResult, double const base, dou
     }}
 
 void AlbaNumber::convertFromDoubleToIntegerIfNeeded()
-{    double realValue(getDouble());
+{
+    double realValue(getDouble());
     if(isValueWithinLimits<long long int>(realValue)
             && isAlmostAnInteger(realValue, Configuration::getInstance().getConfigurationDetails().comparisonTolerance))
     {

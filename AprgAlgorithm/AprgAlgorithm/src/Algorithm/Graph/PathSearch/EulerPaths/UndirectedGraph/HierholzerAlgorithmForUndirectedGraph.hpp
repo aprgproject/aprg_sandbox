@@ -5,6 +5,7 @@
 
 #include <algorithm>
 #include <stack>
+
 namespace alba
 {
 

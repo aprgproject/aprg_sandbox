@@ -16,9 +16,11 @@ template <typename Vertex, unsigned int MAX_VERTEX_VALUE>
 LaplaceanMatrix createLaplaceanMatrix(
         BaseGraph<Vertex> const& graph)
 {
+    // Laplacean matrix L is where L[i,i] is the degree of node i
+    // and L[i,j] = -1 if there is an edge between nodes i and j, and otherwise L[i, j] = 0.
+
     using Vertices = typename GraphTypes<Vertex>::Vertices;
     using Edge = typename GraphTypes<Vertex>::Edge;
-
     std::array<unsigned int, MAX_VERTEX_VALUE> vertexToIndexArray{};
     Vertices const& vertices(graph.getVertices());
     LaplaceanMatrix result(vertices.size(), vertices.size());

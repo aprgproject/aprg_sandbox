@@ -3,7 +3,8 @@
 #include <Algorithm/Graph/PathSearch/EulerPaths/UndirectedGraph/BaseEulerPathSearchForUndirectedGraph.hpp>
 
 #include <algorithm>
-#include <queue>#include <stack>
+#include <queue>
+#include <stack>
 
 namespace alba
 {

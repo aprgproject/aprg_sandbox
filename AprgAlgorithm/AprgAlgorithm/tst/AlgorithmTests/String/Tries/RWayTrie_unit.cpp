@@ -1,4 +1,4 @@
-#include <Algorithm/String/Tries/TrieSymbolTable.hpp>
+#include <Algorithm/String/Tries/RWayTrie.hpp>
 #include <AlgorithmTests/String/Tries/Utilities/CommonTestsWithTries.hpp>
 
 #include <gtest/gtest.h>

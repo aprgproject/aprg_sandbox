@@ -5,6 +5,7 @@
 #include <Algorithm/Graph/UndirectedGraph/UndirectedGraphWithListOfEdges.hpp>
 
 #include <algorithm>
+
 namespace alba
 {
 

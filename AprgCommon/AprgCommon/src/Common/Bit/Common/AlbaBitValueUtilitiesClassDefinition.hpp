@@ -30,6 +30,7 @@ public:
     static constexpr inline unsigned int getNumberOfBits()
     {
         static_assert(std::is_integral<DataTypeToManipulate>::value, "DataTypeToManipulate must be an integer");
+
         return std::numeric_limits<DataTypeToManipulate>::digits
                 + (std::numeric_limits<DataTypeToManipulate>::is_signed ? 1 : 0);
     }
@@ -76,6 +77,7 @@ public:
     static constexpr inline DataTypeToManipulate generateOnesWithNumberOfBits(unsigned int const numberOfOnes)
     {
         static_assert(std::is_integral<DataTypeToManipulate>::value, "DataTypeToManipulate must be an integer");
+
         return (DataTypeToManipulate(1) << numberOfOnes)-1;
     }
 
@@ -118,6 +120,7 @@ public:
         static_assert(std::is_integral<DataTypeToManipulate>::value, "DataTypeToManipulate must be an integer");
         return ~value;
     }
+
     static constexpr inline DataTypeToManipulate getTwosComplement(DataTypeToManipulate const value)
     {
         static_assert(std::is_integral<DataTypeToManipulate>::value, "DataTypeToManipulate must be an integer");
