@@ -1,38 +1,35 @@
 #pragma once
 
 #include <cassert>
-#include <functional>
-#include <map>
 
 namespace alba
 {
 
-template <typename StateIdentifierType, typename InputType> class AlbaBaseStateMachine
+template <typename State, typename Input> class AlbaBaseStateMachine
 {
 public:
-    AlbaBaseStateMachine(StateIdentifierType const initialState)
+    AlbaBaseStateMachine(State const initialState)
         : m_state(initialState)
     {}
-
     virtual ~AlbaBaseStateMachine()
     {}
 
-    virtual void processInput(InputType const&)
+    virtual void processInput(Input const&)
     {
         // This should not be accessed
         assert(false);
     }
 
-    StateIdentifierType getState() const
+    State getState() const
     {
         return m_state;
     }
 protected:
-    virtual void saveNextState(StateIdentifierType const newState)
+    virtual void saveNextState(State const newState)
     {
         m_state = newState;
     }
-    StateIdentifierType m_state;
+    State m_state;
 };
 
 }//namespace alba
