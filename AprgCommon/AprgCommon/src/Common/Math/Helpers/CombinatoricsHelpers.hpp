@@ -23,7 +23,8 @@ template <typename NumberType> NumberType getNumberOfPossibilities(
     return getRaiseToPowerForIntegers(numberOfPossibilitiesPerTime, numberOfTimes);
 }
 
-template <typename NumberType> NumberType getFactorial(NumberType const number){
+template <typename NumberType> NumberType getFactorial(NumberType const number)
+{
     static_assert(std::is_integral<NumberType>::value, "Number type must be an integer");
     static_assert(std::is_unsigned<NumberType>::value, "Number type must be an unsigned");
 

@@ -60,7 +60,8 @@ template <typename NumberType> NumberType getRaiseToPowerForIntegers(NumberType 
 
     NumberType result(1), newBase(base), newExponent(exponent);
     while(newExponent > 0)
-    {        if(isEven(newExponent))
+    {
+        if(isEven(newExponent))
         {
             newBase *= newBase;
             newExponent /= 2;

@@ -39,14 +39,16 @@ template <typename NumberType> NumberType getLogarithmForIntegers(NumberType con
 
     NumberType result(0);
     if(base > 1 && inputForLogarithm > 0) // base must be at least 2 and input should be positive
-    {        NumberType currentCount(1), currentBase(base), remainingValue(inputForLogarithm);
+    {
+        NumberType currentCount(1), currentBase(base), remainingValue(inputForLogarithm);
         while(remainingValue > 0)
         {
             NumberType nextRemainingValue = remainingValue / currentBase;
             if(nextRemainingValue > 0)
             {
                 result += currentCount;
-                currentBase *= base;                currentCount++;
+                currentBase *= base;
+                currentCount++;
             }
             else
             {
@@ -54,7 +56,8 @@ template <typename NumberType> NumberType getLogarithmForIntegers(NumberType con
                 if(nextRemainingValue > 0)
                 {
                     result++;
-                    currentBase = base*base;                    currentCount = 2;
+                    currentBase = base*base;
+                    currentCount = 2;
                 }
             }
             remainingValue = nextRemainingValue;
@@ -70,6 +73,7 @@ template <typename NumberType> NumberType getCeilOfLogarithmForIntegers(NumberTy
 
 unsigned int getIterativeLogarithm(double const base, double const inputForLogarithm);
 int getSuperLogarithm(double const base, double const inputForLogarithm);
+
 }//namespace mathHelper
 
 }//namespace alba

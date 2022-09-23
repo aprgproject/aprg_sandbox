@@ -46,9 +46,49 @@ TEST(ProbabilityExampleTest, DrawCardExampleWorks)
     EXPECT_EQ(AlbaNumber::createFraction(1, 425U), getProbability(1U, 1U) * getProbability(3U, 51U) * getProbability(2U, 50U));
 }
 
+TEST(ProbabilityExampleTest, BallsAndBoxesExampleWorks)
+{
+    // Let us now consider a problem where n balls are randomly placed in n boxes, and our task is to calculate the probability of single empty boxes.
+    // Assume that each ball has an uniform probability to be placed in any of the boxes.
+
+    // Total number of combinations:
+    // -> Using balls and boxes scenario 2 : Combination(n+n-1, n) = Combination(2n-1, n)
+    // Number of single empty boxes (for n=2):
+    // |oo|  |    Positions: {1, 1}    Representation: o o > >
+    // |o |o |    Positions: {1, 2}    Representation: o > o >
+    // |  |oo|    Positions: {2, 2}    Representation: > > o o
+    // -> Form should have single "o o" and "> >" the rest "o >"
+    // ---> All forms of single "o o" and "> >" the rest "o >" = Number of permutations (n, n)
+    // ---> All forms "o >" = Number of permutations (n-2, n-2)
+    // -> Number of permutations (n, n) / Number of permutations (n-2, n-2)
+
+    // Probability = Combination(2n-1, n) /  (Number of permutations (n, n) / Number of permutations (n-2, n-2))
+
+}
+
+TEST(ProbabilityExampleTest, BinomialDistributionProbabilityExampleWorks)
+{
+    // In a binomial distribution, n attempts are made and the probability that a single attempt succeeds is p.
+
+    // For example, when throwing a dice ten times, the probability of throwing a six exactly three times is (1/6)^3 * (5/6)^7 * Combinations(10, 3)
+
+    EXPECT_EQ(AlbaNumber::createFraction(390625, 2519424U),
+              getProbabilityOnBinomialDistribution(getProbability(1U, 6U), 3U, 10U));
+}
+
+TEST(ProbabilityExampleTest, GeometricDistributionProbabilityExampleWorks)
+{
+    // In a geometric distribution, the probability that an attempt succeeds is p, and we continue until the first success happens.
+
+    // For example, if we throw a dice until we throw a six, the probability that the number of throws is exactly 4 is (5/6)^3 * (1/6).
+
+    EXPECT_EQ(AlbaNumber::createFraction(125, 1296U),
+              getProbabilityOnGeometricDistribution(getProbability(1U, 6U), 4U));
+}
+
 TEST(ProbabilityExampleTest, ComplementExampleWorks)
 {
-    // What is thhe probability of getting at least one six when throwing a dice ten times?
+    // What is the probability of getting at least one six when throwing a dice ten times?
     // Take note that probability of getting NOT a six on single throw is (5/6)
     // Take note that probability of getting NOT a six on when throwing a dice ten times is (5/6)^10
     // The complement of NOT getting a six is getting a six.
@@ -62,7 +102,7 @@ TEST(ProbabilityExampleTest, ComplementExampleWorks)
 
 TEST(ProbabilityExampleTest, UnionExampleWorks)
 {
-    // For example, when throwing a dice.
+    // For example, when throwing a dice:
     // Here are sample events:
     // -> A = "the outcome is even" -> P(A) = 3/6
     // -> B = "the outcome is less than 4" -> P(B) = 3/6
@@ -78,7 +118,7 @@ TEST(ProbabilityExampleTest, UnionExampleWorks)
 
 TEST(ProbabilityExampleTest, ConditionalProbabilityExampleWorks)
 {
-    // For example, when throwing a dice.
+    // For example, when throwing a dice:
     // Here are sample events:
     // -> A = "the outcome is even" -> P(A) = 3/6
     // -> B = "the outcome is less than 4" -> P(B) = 3/6
@@ -95,7 +135,7 @@ TEST(ProbabilityExampleTest, ConditionalProbabilityExampleWorks)
 
 TEST(ProbabilityExampleTest, IntersectionExampleWorks)
 {
-    // For example, when drawing a card from a deck.
+    // For example, when drawing a card from a deck:
     // Here are sample events:
     // -> A = "the suit is clubs" -> P(A) = 13/52
     // -> B = "the value is four" -> P(B) = 4/52
@@ -112,13 +152,14 @@ TEST(ProbabilityExampleTest, IntersectionExampleWorks)
 
 TEST(ProbabilityExampleTest, ExpectedValueExampleWorks)
 {
-    // For example, when throwing a dice.
+    // For example, when throwing a dice:
     // Probability of value of 1 is 1/6.
     // Probability of value of 2 is 1/6.
     // Probability of value of 3 is 1/6.
     // Probability of value of 4 is 1/6.
     // Probability of value of 5 is 1/6.
     // Probability of value of 6 is 1/6.
+    // Expected value is 7/2
 
     ValueAndProbabilityPairs pairsToTest
     {{1U, getProbability(1U, 6U)},
@@ -129,6 +170,41 @@ TEST(ProbabilityExampleTest, ExpectedValueExampleWorks)
         {6U, getProbability(1U, 6U)}};
 
     EXPECT_EQ(AlbaNumber::createFraction(7, 2U), getExpectedValue(pairsToTest));
+}
+
+TEST(ProbabilityExampleTest, UniformExpectedValueExampleWorks)
+{
+    // In a uniform distribution, the random variable X has n possible values a,a+1,...,b and the probability of each value is 1/n.
+
+    // For example, when throwing a dice:
+    // lowestValue=1
+    // highestValue=6
+    // P(X=x) = 1/6 for each value x
+    // Expected value is 7/2
+
+    EXPECT_EQ(AlbaNumber::createFraction(7, 2U), getExpectedValueInUniformDistribution(1U, 6U));
+}
+
+TEST(ProbabilityExampleTest, BinomialDistributionExpectedValueExampleWorks)
+{
+    // In a binomial distribution, n attempts are made and the probability that a single attempt succeeds is p.
+
+    // For example, when throwing a dice ten times, what is approximate number of attempts for throwing a six exactly three times?
+    // The expected value is 5/3.
+    // This is the approximately the number of attempts to be made for the condition to be successful.
+
+    EXPECT_EQ(AlbaNumber::createFraction(5, 3U), getExpectedValueInBinomialDistribution(getProbability(1U, 6U), 10U));
+}
+
+TEST(ProbabilityExampleTest, GeometricDistributionExpectedValueExampleWorks)
+{
+    // In a geometric distribution, the probability that an attempt succeeds is p, and we continue until the first success happens.
+
+    // For example, if we throw a dice, what is approximate number of attempts until we throw a six?
+    // The expected value is 6.
+    // This is the approximately the number of attempts to be made for the condition to be successful.
+
+    EXPECT_EQ(AlbaNumber(6), getExpectedValueInGeometricDistribution(getProbability(1U, 6U)));
 }
 
 }

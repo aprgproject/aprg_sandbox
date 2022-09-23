@@ -87,7 +87,8 @@ AlbaNumber AlbaNumber::createComplexNumber(NumberType const realPart, NumberType
             || isinf(adjustedRealPart)
             || isnan(adjustedRealPart))
     {
-        return AlbaNumber(static_cast<double>(adjustedRealPart));    }
+        return AlbaNumber(static_cast<double>(adjustedRealPart));
+    }
     else
     {
         return AlbaNumber(ComplexNumberData{static_cast<float>(adjustedRealPart), static_cast<float>(adjustedImaginaryPart)});
@@ -757,7 +758,8 @@ bool AlbaNumber::isPositiveOrNegativeInfinity() const
     return isinf(getDouble());
 }
 
-bool AlbaNumber::isNotANumber() const{
+bool AlbaNumber::isNotANumber() const
+{
     return isnan(getDouble());
 }
 
@@ -771,7 +773,8 @@ bool AlbaNumber::isARealFiniteValue() const
     return isAFiniteValue() && !isComplexNumberType();
 }
 
-AlbaNumber::Type AlbaNumber::getType() const{
+AlbaNumber::Type AlbaNumber::getType() const
+{
     return m_type;
 }
 
@@ -975,7 +978,8 @@ void AlbaNumber::correctPowerResult(double & powerResult, double const base, dou
     if(base < 0 && exponent == POSITIVE_INFINITY_DOUBLE_VALUE)
     {
         powerResult = NAN;
-    }}
+    }
+}
 
 void AlbaNumber::convertFromDoubleToIntegerIfNeeded()
 {

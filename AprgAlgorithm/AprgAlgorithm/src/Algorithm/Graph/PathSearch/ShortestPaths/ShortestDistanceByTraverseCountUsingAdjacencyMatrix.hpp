@@ -22,6 +22,7 @@ public:
     using AdjacencyMatrix = matrix::AlbaMatrix<bool>;
     using DistanceEntry = AlbaNumber;
     using DistancetMatrix = matrix::AlbaMatrix<DistanceEntry>;
+
     ShortestDistanceByTraverseCountUsingAdjacencyMatrix(
             EdgeWeightedGraph const& graph,
             unsigned int const traverseCount)
@@ -46,7 +47,8 @@ private:
             // Let us construct an adjacency matrix where INFINITY means that an edge does not exist, and other values correspond to edge weights.
             AlbaNumber entryValue = adjacencyMatrix.getEntry(x, y) ?
                         AlbaNumber(graph.getWeight(x, y)) : AlbaNumber(AlbaNumber::Value::PositiveInfinity);
-            initialDistanceMatrix.setEntry(x, y, entryValue);        });
+            initialDistanceMatrix.setEntry(x, y, entryValue);
+        });
         return transformMultipleTimes(initialDistanceMatrix, traverseCount);
     }
 
@@ -89,7 +91,8 @@ private:
 
         DistancetMatrix result(second.getNumberOfColumns(), first.getNumberOfRows());
         DistancetMatrix::ListOfMatrixData rowsOfFirstMatrix, columnsOfSecondMatrix;
-        first.retrieveRows(rowsOfFirstMatrix);        second.retrieveColumns(columnsOfSecondMatrix);
+        first.retrieveRows(rowsOfFirstMatrix);
+        second.retrieveColumns(columnsOfSecondMatrix);
         unsigned int y=0;
         for(DistancetMatrix::MatrixData const& rowOfFirstMatrix : rowsOfFirstMatrix)
         {

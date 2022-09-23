@@ -19,6 +19,7 @@ public:
     using AdjacencyMatrix = matrix::AlbaMatrix<bool>;
     using Count = unsigned int;
     using CountMatrix = matrix::AlbaMatrix<Count>;
+
     CountPathsWithLengthUsingAdjacencyMatrix(
             unsigned int const lengthOfPath,
             AdjacencyMatrix const& adjacencyMatrix)

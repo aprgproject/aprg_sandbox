@@ -66,7 +66,8 @@ UnsignedInteger getNumberOfCombinationsOfAPearlNecklace(
 
     return getNumberOfSymmetricCombinationsUsingBurnsideLemma(
                 numberOfPearls, [&](UnsignedInteger const nWays, UnsignedInteger const kthWay)
-    {        return getRaiseToPowerForIntegers(numberOfColors, getGreatestCommonFactor(kthWay-1, nWays));
+    {
+        return getRaiseToPowerForIntegers(numberOfColors, getGreatestCommonFactor(kthWay-1, nWays));
     });
 }
 

@@ -10,6 +10,19 @@ namespace alba
 namespace math
 {
 
+TEST(ProbabilityUtilitiesTest, DoesExpectedValuesHaveLinearityWorks)
+{
+    ValueAndProbabilityPairs firstPairs
+    {{1U, getProbability(1U, 5U)},
+        {2U, getProbability(1U, 5U)},
+        {3U, getProbability(1U, 5U)}};
+    ValueAndProbabilityPairs secondPairs
+    {{4U, getProbability(1U, 5U)},
+        {5U, getProbability(1U, 5U)}};
+
+    EXPECT_TRUE(doesExpectedValuesHaveLinearity(firstPairs, secondPairs));
+}
+
 TEST(ProbabilityUtilitiesTest, GetCorrectProbabilityWorks)
 {
     EXPECT_EQ(AlbaNumber::createFraction(1, 2U), getCorrectProbability(AlbaNumber::createFraction(1, 2U)));
@@ -32,6 +45,18 @@ TEST(ProbabilityUtilitiesTest, GetProbabilityWorks)
     EXPECT_EQ(AlbaNumber(1), getProbability(3U, 3U));
     EXPECT_EQ(AlbaNumber::createFraction(3, 4U), getProbability(3U, 4U));
     EXPECT_EQ(AlbaNumber::createFraction(3, 5U), getProbability(3U, 5U));
+}
+
+TEST(ProbabilityUtilitiesTest, GetProbabilityOnBinomialDistributionWorks)
+{
+    EXPECT_EQ(AlbaNumber::createFraction(390625, 2519424U),
+              getProbabilityOnBinomialDistribution(getProbability(1U, 6U), 3U, 10U));
+}
+
+TEST(ProbabilityUtilitiesTest, GetProbabilityOnGeometricDistributionWorks)
+{
+    EXPECT_EQ(AlbaNumber::createFraction(125, 1296U),
+              getProbabilityOnGeometricDistribution(getProbability(1U, 6U), 4U));
 }
 
 TEST(ProbabilityUtilitiesTest, GetComplementOfProbabilityWorks)

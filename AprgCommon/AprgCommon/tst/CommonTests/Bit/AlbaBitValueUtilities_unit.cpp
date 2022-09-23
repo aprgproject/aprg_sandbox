@@ -135,7 +135,8 @@ TEST(AlbaBitValueUtilitiesTest, GetCeilOfLogarithmWithBase2OfWorks)
 
 TEST(AlbaBitValueUtilitiesTest, GetOnesComplementWorks)
 {
-    EXPECT_EQ(0x5EU, AlbaBitValueUtilities<uint8_t>::getOnesComplement(0xA1U));    EXPECT_EQ(0x5E45U, AlbaBitValueUtilities<uint16_t>::getOnesComplement(0xA1BAU));
+    EXPECT_EQ(0x5EU, AlbaBitValueUtilities<uint8_t>::getOnesComplement(0xA1U));
+    EXPECT_EQ(0x5E45U, AlbaBitValueUtilities<uint16_t>::getOnesComplement(0xA1BAU));
     EXPECT_EQ(0x5E455E45U, AlbaBitValueUtilities<uint32_t>::getOnesComplement(0xA1BAA1BAU));
     EXPECT_EQ(0x5E455E455E455E45U, AlbaBitValueUtilities<uint64_t>::getOnesComplement(0xA1BAA1BAA1BAA1BAU));
 }

@@ -73,3 +73,4 @@ protected:
 // Because it is only possible to get stuck when the deque represents a closed tour, one should rotate the deque by removing edges from the tail
 // and adding them to the head until unstuck, and then continue until all edges are accounted for.
 // This also takes linear time O(E), as the number of rotations performed is never larger than |E|/
+

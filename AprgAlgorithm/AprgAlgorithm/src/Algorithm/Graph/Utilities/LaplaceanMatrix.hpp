@@ -21,6 +21,7 @@ LaplaceanMatrix createLaplaceanMatrix(
 
     using Vertices = typename GraphTypes<Vertex>::Vertices;
     using Edge = typename GraphTypes<Vertex>::Edge;
+
     std::array<unsigned int, MAX_VERTEX_VALUE> vertexToIndexArray{};
     Vertices const& vertices(graph.getVertices());
     LaplaceanMatrix result(vertices.size(), vertices.size());

@@ -53,7 +53,8 @@ TEST(LogarithmHelpersTest, GetCeilOfLogarithmForIntegersWorks)
 
 TEST(LogarithmHelpersTest, GetIterativeLogarithmWorks)
 {
-    EXPECT_EQ(2U, getIterativeLogarithm(3, 9));    EXPECT_EQ(4U, getIterativeLogarithm(2, 32));
+    EXPECT_EQ(2U, getIterativeLogarithm(3, 9));
+    EXPECT_EQ(4U, getIterativeLogarithm(2, 32));
     EXPECT_EQ(0U, getIterativeLogarithm(2, 0.0625));
     EXPECT_EQ(0U, getIterativeLogarithm(2, -1));
     EXPECT_EQ(2U, getIterativeLogarithm(4, 15));

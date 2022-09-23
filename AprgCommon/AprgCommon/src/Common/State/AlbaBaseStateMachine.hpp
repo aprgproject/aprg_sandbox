@@ -11,6 +11,7 @@ public:
     AlbaBaseStateMachine(State const initialState)
         : m_state(initialState)
     {}
+
     virtual ~AlbaBaseStateMachine()
     {}
 

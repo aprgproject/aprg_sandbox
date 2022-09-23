@@ -65,10 +65,12 @@ private:
     bool isStillConnectedAfterRemovingThisEdge(GraphToManipulate const& graph, Edge const& edgeToDelete) const
     {
         // THIS IS COSTLY!
-        GraphToManipulate graphWithDeletedEdge(graph);        graphWithDeletedEdge.disconnect(edgeToDelete.first, edgeToDelete.second);
+        GraphToManipulate graphWithDeletedEdge(graph);
+        graphWithDeletedEdge.disconnect(edgeToDelete.first, edgeToDelete.second);
         ConnectedComponentsUsingDfs<Vertex> connectedComponents(graphWithDeletedEdge);
         return connectedComponents.getNumberOfComponentIds() <= 1 // graph is still connected
-                && connectedComponents.getComponentId(edgeToDelete.second) > 0; //destination is still connected    }
+                && connectedComponents.getComponentId(edgeToDelete.second) > 0; //destination is still connected
+    }
 
     GraphToManipulate createGraphToManipulate(Edges const& originalEdges) const
     {
@@ -103,10 +105,12 @@ private:
             {return deletedEdge.second == edgeToDelete.first && isStillConnectedAfterRemovingThisEdge(graphToManipulate, edgeToDelete);});
             if(edgeToDeleteIt == edgesReference.cend()) // if not found just get next edge
             {
-                edgeToDeleteIt = std::find_if(edgesReference.cbegin(), edgesReference.cend(), [&](Edge const& edgeToDelete)                {return deletedEdge.second == edgeToDelete.first;});
+                edgeToDeleteIt = std::find_if(edgesReference.cbegin(), edgesReference.cend(), [&](Edge const& edgeToDelete)
+                {return deletedEdge.second == edgeToDelete.first;});
             }
 
-            if(edgeToDeleteIt != edgesReference.cend())            {
+            if(edgeToDeleteIt != edgesReference.cend())
+            {
                 deletedEdge = *edgeToDeleteIt;
                 edgesInEulerCycle.emplace_back(deletedEdge);
                 graphToManipulate.disconnect(deletedEdge.first, deletedEdge.second);
@@ -150,3 +154,4 @@ private:
 
 // A dynamic bridge-finding algorithm of Thorup (2000) allows this to be improved to O (E*log^3(E)*log(log(E)),
 // but this is still significantly slower than alternative algorithms.
+

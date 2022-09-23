@@ -2,8 +2,10 @@
 
 namespace alba
 {
+
 namespace FakeStateMachine
 {
+
 SampleStateMachine::SampleStateMachine(State const stateIdentifier)
     : AlbaBaseStateMachine(stateIdentifier)
 {}

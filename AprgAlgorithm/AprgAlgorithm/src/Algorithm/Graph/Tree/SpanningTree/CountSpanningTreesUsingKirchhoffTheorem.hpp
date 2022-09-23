@@ -38,7 +38,8 @@ private:
     static RowAndColumnPair getBestRowAndColumnPairToRemove(
             LaplaceanMatrix const& laplaceanMatrix)
     {
-        LaplaceanMatrix::ListOfMatrixData columns;        LaplaceanMatrix::ListOfMatrixData rows;
+        LaplaceanMatrix::ListOfMatrixData columns;
+        LaplaceanMatrix::ListOfMatrixData rows;
         laplaceanMatrix.retrieveColumns(columns);
         laplaceanMatrix.retrieveRows(rows);
 
@@ -46,6 +47,7 @@ private:
     }
 
 };
+
 }
 
 }
