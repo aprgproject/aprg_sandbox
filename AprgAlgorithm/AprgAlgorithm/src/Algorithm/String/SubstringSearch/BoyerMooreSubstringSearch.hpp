@@ -83,15 +83,13 @@ private:
 
 // Intuition:
 // -> Scan characters in pattern from right to left
-// -> Can skip as many as M text chars when findining one not in the pattern
+// -> Can skip as many as M text chars when finding one not in the pattern
 
 // How much to skip?
-// Case 1: Mismatch character not in pattern
-// -> increment starting index with one character beyond the mismatch
+// Case 1: Mismatch character not in pattern// -> increment starting index with one character beyond the mismatch
 // ---> Before:
 // .......TLE.......
-// ....NEEDLE.......
-// ---> After:
+// ....NEEDLE.......// ---> After:
 // .......TLE.......
 // ........NEEDLE...
 // Case 2a: Mismatch character in pattern
