@@ -3,7 +3,8 @@
 #include <Math/GameTheory/Common/GameState.hpp>
 #include <Math/Types.hpp>
 
-namespace alba{
+namespace alba
+{
 
 namespace math
 {

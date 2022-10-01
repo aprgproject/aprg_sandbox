@@ -6,6 +6,7 @@
 #include <Math/Types.hpp>
 
 #include <map>
+
 namespace alba
 {
 

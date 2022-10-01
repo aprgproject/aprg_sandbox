@@ -1,12 +1,14 @@
 #pragma once
 
 #include <Math/GameTheory/Common/GameState.hpp>
-#include <Math/Types.hpp>
+#include <Math/GameTheory/Common/NimTypes.hpp>
 
-namespace alba{
+namespace alba
+{
 
 namespace math
 {
+
 class NimGame
 {
 public:
@@ -16,17 +18,16 @@ public:
     // The players move alternately, and on each turn, the player chooses a heap that still contains sticks and removes ANY NUMBER of sticks from it.
     // The winner is the player who removes the last stick.
 
-    using NimHeapCount = UnsignedInteger;
-    using NimState = UnsignedIntegers;
     // The states in nim are of the form [x1, x2,..., xn], where xk denotes the number of sticks in heap k.
     // For example, [10,12,5] is a game where there are three heaps with 10, 12 and 5 sticks.
     // The state [0,0,...,0] is a losing state, because it is not possible to remove any sticks, and this is always the final state.
 
     static GameState getGameState(NimState const& nimState);
-    static GameState getGameState(NimHeapCount const nimSum);
+    static GameState getGameState(NimHeapSize const nimSum);
     static NimState getOptimalNextState(NimState const& nimState);
-    static NimHeapCount getNimSum(NimState const& nimState);
+    static NimHeapSize getNimSum(NimState const& nimState);
 };
 
 }
+
 }

@@ -49,7 +49,8 @@ void GameWithGraph::initialize()
     // topological sort only works when this one final losing state
 
     if(!statesInTopologicalOrder.empty())
-    {        State previousState = statesInTopologicalOrder.front();
+    {
+        State previousState = statesInTopologicalOrder.front();
         for(unsigned int i=0; i<statesInTopologicalOrder.size(); i++)
         {
             State state = statesInTopologicalOrder.at(i);

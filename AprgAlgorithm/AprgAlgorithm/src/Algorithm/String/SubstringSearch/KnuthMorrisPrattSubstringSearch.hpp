@@ -3,8 +3,10 @@
 #include <Common/State/AlbaDfaUsingMatrix.hpp>
 
 #include <string>
+
 namespace alba
 {
+
 namespace algorithm
 {
 
@@ -22,9 +24,11 @@ public:
     {
         initialize();
     }
+
     Index search(std::string const& stringToSearch)
     {
-        Index result(static_cast<Index>(std::string::npos));        Index searchLength(stringToSearch.size());
+        Index result(static_cast<Index>(std::string::npos));
+        Index searchLength(stringToSearch.size());
         Index matchLength(m_substringToMatch.size());
         Index searchIndex=0, matchIndex=0;
         for(; searchIndex<searchLength && matchIndex<matchLength; searchIndex++)
@@ -32,7 +36,8 @@ public:
             matchIndex = m_nextIndexDfa.getNextState(matchIndex, stringToSearch.at(searchIndex)); // use DFA to determine next state
         }
         if(matchIndex == matchLength)
-        {            result = searchIndex-matchLength;
+        {
+            result = searchIndex-matchLength;
         }
         return result;
     }
@@ -46,9 +51,11 @@ private:
             m_nextIndexDfa.setStateTransition(0, 1, m_substringToMatch.at(0)); // put initial transition of: from first index go to second index (if character is encountered)
             Index matchLength(m_substringToMatch.size());
             Index stateWithDelayedInput(0); // this state tracks if input is one tempo delayed
-            // stateWithDelayedInput is useful because if there is a mismatch, we could track where that state would go (as it already have previous matches)            // -> Mismatch transition is tricky:
+            // stateWithDelayedInput is useful because if there is a mismatch, we could track where that state would go (as it already have previous matches)
+            // -> Mismatch transition is tricky:
             // ---> If in state j and next char c != pattern.charAt(j), then the last j-1 of input are pattern[1 ... j-1], followed by c
             // ---> Reason for this is salvaging previous matches from mismatches only occurs on indexes [1 ... j-1]
+
             for(Index i=1; i<matchLength; i++)
             {
                 for(RadixType c=0; c<RADIX; c++)
@@ -67,9 +74,11 @@ private:
 };
 
 // Sedgewick: This is one of the coolest algorithm.
+
 // Intuition: Suppose we are searching in text for pattern: "BAAAAAAAAA"
 // -> Suppose we match 5 chars in pattern, with mismatch on 6th char (suppose BAAAAB).
-// -> We know previous 6 chars in text are BAAAAB// -> Dont need to back up text pointer!
+// -> We know previous 6 chars in text are BAAAAB
+// -> Dont need to back up text pointer!
 
 // Knuth-Morris-Pratt algorithm: Clever method to always avoid backup.
 // DFA is abstract string searching machine

@@ -2,6 +2,7 @@
 #include <Math/GameTheory/SpecificGames/GameWithGraph.hpp>
 
 #include <gtest/gtest.h>
+
 using namespace alba::algorithm;
 using namespace std;
 

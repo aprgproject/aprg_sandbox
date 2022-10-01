@@ -1,6 +1,7 @@
 #include <Math/GameTheory/SpecificGames/StickGame.hpp>
 
 #include <gtest/gtest.h>
+
 using namespace std;
 
 namespace alba
