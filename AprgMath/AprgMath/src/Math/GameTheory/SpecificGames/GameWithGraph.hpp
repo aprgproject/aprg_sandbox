@@ -2,11 +2,10 @@
 
 #include <Algorithm/Graph/DirectedGraph/BaseDirectedGraph.hpp>
 #include <Algorithm/Graph/DirectedGraph/DirectedGraphWithListOfEdges.hpp>
-#include <Math/GameTheory/GameState.hpp>
+#include <Math/GameTheory/Common/GameState.hpp>
 #include <Math/Types.hpp>
 
 #include <map>
-
 namespace alba
 {
 

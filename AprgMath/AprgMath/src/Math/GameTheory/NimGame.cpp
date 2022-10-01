@@ -8,77 +8,69 @@ namespace alba
 namespace math
 {
 
-GameState NimGame::getGameState(NimState const& nimState) const
+GameState NimGame::getGameState(NimState const& nimState)
 {
     return getGameState(getNimSum(nimState));
 }
 
-GameState NimGame::getGameState(NimHeap const nimSum) const
+GameState NimGame::getGameState(NimHeapCount const nimSum)
 {
     // The states whose nim sum is 0 are losing states, and all other states are winning states.
     // For example, the nim sum of [10,12,5] is 10^12^5 = 3, so the state is a winning state.
-
     if(nimSum > 0)
     {
-        return GameState::Winning;
-    }
+        return GameState::Winning;    }
     else
     {
         return GameState::Losing;
     }
 }
 
-NimGame::NimState NimGame::getOptimalNextState(NimState const& nimState) const
+NimGame::NimState NimGame::getOptimalNextState(NimState const& nimState)
 {
     NimState result(nimState);
-    NimHeap nimSum(getNimSum(nimState));
+    NimHeapCount nimSum(getNimSum(nimState));
     GameState gameState(getGameState(nimSum));
     if(GameState::Losing == gameState)
-    {
-        // Losing states: The final state [0,0,...,0] is a losing state, and its nim sum is 0, as expected.
+    {        // Losing states: The final state [0,0,...,0] is a losing state, and its nim sum is 0, as expected.
         // In other losing states, any move leads to a winning state, because when a single value xk changes,
         // the nim sum also changes, so the nim sum is different from 0 after the move.
 
-        for(NimHeap & nimHeap : result)
+        for(NimHeapCount & nimHeap : result)
         {
             if(nimHeap > 0) // just take one to prolong the game
-            {
-                nimHeap--;
+            {                nimHeap--;
                 break;
             }
-        }
-    }
+        }    }
     else if(GameState::Winning == gameState)
     {
         // Winning states: We can move to a losing state if there is any heap k for which xk^s < xk.
         // In this case, we can remove sticks from heap k so that IT WILL CONTAIN xk^s sticks, which will lead to a losing state.
         // There is always such a heap, where xk has a one bit at the position of the leftmost one bit of s.
 
-        for(NimHeap & nimHeap : result)
+        for(NimHeapCount & nimHeap : result)
         {
-            NimHeap hammingDistanceFromNimSum = nimHeap ^ nimSum;
+            NimHeapCount hammingDistanceFromNimSum = nimHeap ^ nimSum;
             if(hammingDistanceFromNimSum < nimHeap)
             {
-                nimHeap=hammingDistanceFromNimSum;
-                break;
+                nimHeap=hammingDistanceFromNimSum;                break;
             }
         }
     }
     return result;
 }
 
-NimGame::NimHeap NimGame::getNimSum(NimState const& nimState) const
+NimGame::NimHeapCount NimGame::getNimSum(NimState const& nimState)
 {
-    // It turns out that we can easily classify any nim state by calculating the nim sum s Æ x1 ^ x2 ^ ... ^ xn, where ^ is the xor operation.
+    // It turns out that we can easily classify any nim state by calculating the nim sum s = x1 ^ x2 ^ ... ^ xn, where ^ is the xor operation.
 
     return accumulate(
                 nimState.cbegin(), nimState.cend(), 0U,
-                [](NimHeap const nimHeap1, NimHeap const nimHeap2)
+                [](NimHeapCount const nimHeap1, NimHeapCount const nimHeap2)
     {
         return nimHeap1 ^ nimHeap2;
-    });
-}
+    });}
 
 }
-
 }
