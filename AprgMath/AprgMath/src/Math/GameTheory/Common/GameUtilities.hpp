@@ -5,6 +5,7 @@
 
 namespace alba
 {
+
 namespace math
 {
 
@@ -13,4 +14,5 @@ GameState getGameStateFromGrundyNumber(UnsignedInteger const& nextGrundyNumber);
 UnsignedInteger getGrundyNumber(SetOfUnsignedIntegers const& nextGrundyNumbers);
 
 }
+
 }

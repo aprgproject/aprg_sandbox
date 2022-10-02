@@ -6,8 +6,10 @@ using namespace std;
 
 namespace alba
 {
+
 namespace math
 {
+
 GameState reverseGameState(GameState const gameState)
 {
     if(GameState::Losing == gameState)

@@ -1,9 +1,7 @@
 #include "GameWithGraph.hpp"
 
-#include <Algorithm/Graph/VertexOrdering/VertexOrderingUsingDfs.hpp>
-#include <Common/Math/Helpers/DivisibilityHelpers.hpp>
+#include <Math/GameTheory/Common/GameUtilities.hpp>
 
-using namespace alba::mathHelper;
 using namespace std;
 
 namespace alba
@@ -13,61 +11,71 @@ namespace math
 {
 
 GameWithGraph::GameWithGraph(
-        StateMachine const& stateMachine)
-    : m_stateMachine(stateMachine)
-{
-    initialize();
-}
+        Graph const& graph)
+    : m_graph(graph)
+{}
 
-GameState GameWithGraph::getGameStateAt(State const state) const
+UnsignedInteger GameWithGraph::getGrundyNumberAt(Vertex const vertex)
 {
-    GameState result(GameState::Losing);
-    auto it = m_stateToGameStateMap.find(state);    if(it != m_stateToGameStateMap.cend())
+    UnsignedInteger result{};
+    auto it = m_vertexToGrundyNumberMap.find(vertex);
+    if(it != m_vertexToGrundyNumberMap.cend())
     {
         result = it->second;
+    }
+    else
+    {
+        m_vertexToGrundyNumberMap.emplace(vertex, 0U); // avoid infinite recursion for cycles
+
+        SetOfUnsignedIntegers nextGrundyNumbers;
+        Vertices nextVertices(m_graph.getAdjacentVerticesAt(vertex));
+        transform(nextVertices.cbegin(), nextVertices.cend(), inserter(nextGrundyNumbers, nextGrundyNumbers.begin()),
+                  [&](Vertex const nextVertex)
+        {
+            return getGrundyNumberAt(nextVertex);
+        });
+        result = getGrundyNumber(nextGrundyNumbers);
+        m_vertexToGrundyNumberMap[vertex] = result;
     }
     return result;
 }
 
-GameWithGraph::State GameWithGraph::getOptimalNextStateAt(State const state) const
+GameState GameWithGraph::getGameStateAt(Vertex const vertex)
 {
-    State result{};
-    auto it = m_stateToOptimalStateMap.find(state);    if(it != m_stateToOptimalStateMap.cend())
-    {
-        result = it->second;
-    }    return result;
+    return getGameStateFromGrundyNumber(getGrundyNumberAt(vertex));
 }
 
-void GameWithGraph::initialize()
+GameWithGraph::Vertex GameWithGraph::getOptimalNextVertexAt(Vertex const vertex)
 {
-    GraphToManipulate graphWithReverseDirections(createGraphWithReverseDirections(m_stateMachine));
-    algorithm::VertexOrderingUsingDfs<State> vertexOrdering(graphWithReverseDirections);
-    States statesInTopologicalOrder(vertexOrdering.getVerticesInTopologicalOrder());
-    // topological sort only works when this one final losing state
-
-    if(!statesInTopologicalOrder.empty())
+    Vertex result{};
+    GameState gameState = getGameStateFromGrundyNumber(getGrundyNumberAt(vertex));
+    if(GameState::Losing == gameState)
     {
-        State previousState = statesInTopologicalOrder.front();
-        for(unsigned int i=0; i<statesInTopologicalOrder.size(); i++)
+        bool isFirst(true);
+        UnsignedInteger maxGrundyNumber(0U);
+        for(Vertex const nextVertex : m_graph.getAdjacentVerticesAt(vertex))
         {
-            State state = statesInTopologicalOrder.at(i);
-            GameState gameState = isEven(i) ? GameState::Losing : GameState::Winning;
-            m_stateToGameStateMap[state] = gameState;
-            m_stateToOptimalStateMap[state] = previousState;
-            previousState = state;
+            UnsignedInteger grundyNumber(getGrundyNumberAt(vertex));
+            if(isFirst || maxGrundyNumber < grundyNumber)
+            {
+                isFirst = false;
+                maxGrundyNumber = grundyNumber;
+                result = nextVertex; // pick vertex with max grundy number because it might higher distance to losing state
+            }
         }
     }
-}
-
-GameWithGraph::GraphToManipulate GameWithGraph::createGraphWithReverseDirections(
-        StateMachine const& stateMachine)
-{
-    GraphToManipulate graphWithReverseDirections;
-    for(auto const& edge : stateMachine.getEdges())
+    else if(GameState::Winning == gameState)
     {
-        graphWithReverseDirections.connect(edge.second, edge.first);
+        for(Vertex const nextVertex : m_graph.getAdjacentVerticesAt(vertex))
+        {
+            if(0U == getGrundyNumberAt(nextVertex)) // force your opponent to losing state
+            {
+                result = nextVertex;
+                break;
+            }
+        }
     }
-    return graphWithReverseDirections;
+    return result;
 }
 
 }
