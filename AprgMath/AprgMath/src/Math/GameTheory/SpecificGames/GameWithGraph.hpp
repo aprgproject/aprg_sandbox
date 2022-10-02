@@ -28,16 +28,14 @@ public:
 
     GameWithGraph(StateMachine const& stateMachine);
 
-    GameState getGameState(State const state) const;
-    State getOptimalNextState(State const state) const;
+    GameState getGameStateAt(State const state) const;
+    State getOptimalNextStateAt(State const state) const;
 
 private:
-    void initialize();
-    GraphToManipulate createGraphWithReverseDirections(StateMachine const& stateMachine);
+    void initialize();    GraphToManipulate createGraphWithReverseDirections(StateMachine const& stateMachine);
 
     StateMachine const& m_stateMachine;
-    StateToGameStateMap m_stateToGameStateMap;
-    StateToOptimalStateMap m_stateToOptimalStateMap;
+    StateToGameStateMap m_stateToGameStateMap;    StateToOptimalStateMap m_stateToOptimalStateMap;
 };
 
 }

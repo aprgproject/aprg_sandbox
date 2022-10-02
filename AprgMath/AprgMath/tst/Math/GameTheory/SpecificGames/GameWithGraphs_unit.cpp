@@ -31,26 +31,25 @@ TEST(GameWithGraphTest, Example1Works)
     graph.connect(9U, 8U);
     GameWithGraph gameWithGraph(graph);
 
-    EXPECT_EQ(GameState::Losing, gameWithGraph.getGameState(1U));
-    EXPECT_EQ(GameState::Winning, gameWithGraph.getGameState(2U));
-    EXPECT_EQ(GameState::Losing, gameWithGraph.getGameState(3U));
-    EXPECT_EQ(GameState::Winning, gameWithGraph.getGameState(4U));
-    EXPECT_EQ(GameState::Losing, gameWithGraph.getGameState(5U));
-    EXPECT_EQ(GameState::Winning, gameWithGraph.getGameState(6U));
-    EXPECT_EQ(GameState::Losing, gameWithGraph.getGameState(7U));
-    EXPECT_EQ(GameState::Winning, gameWithGraph.getGameState(8U));
-    EXPECT_EQ(GameState::Losing, gameWithGraph.getGameState(9U));
-    EXPECT_EQ(1U, gameWithGraph.getOptimalNextState(1U));
-    EXPECT_EQ(1U, gameWithGraph.getOptimalNextState(2U));
-    EXPECT_EQ(2U, gameWithGraph.getOptimalNextState(3U));
-    EXPECT_EQ(3U, gameWithGraph.getOptimalNextState(4U));
-    EXPECT_EQ(4U, gameWithGraph.getOptimalNextState(5U));
-    EXPECT_EQ(5U, gameWithGraph.getOptimalNextState(6U));
-    EXPECT_EQ(6U, gameWithGraph.getOptimalNextState(7U));
-    EXPECT_EQ(7U, gameWithGraph.getOptimalNextState(8U));
-    EXPECT_EQ(8U, gameWithGraph.getOptimalNextState(9U));
+    EXPECT_EQ(GameState::Losing, gameWithGraph.getGameStateAt(1U));
+    EXPECT_EQ(GameState::Winning, gameWithGraph.getGameStateAt(2U));
+    EXPECT_EQ(GameState::Losing, gameWithGraph.getGameStateAt(3U));
+    EXPECT_EQ(GameState::Winning, gameWithGraph.getGameStateAt(4U));
+    EXPECT_EQ(GameState::Losing, gameWithGraph.getGameStateAt(5U));
+    EXPECT_EQ(GameState::Winning, gameWithGraph.getGameStateAt(6U));
+    EXPECT_EQ(GameState::Losing, gameWithGraph.getGameStateAt(7U));
+    EXPECT_EQ(GameState::Winning, gameWithGraph.getGameStateAt(8U));
+    EXPECT_EQ(GameState::Losing, gameWithGraph.getGameStateAt(9U));
+    EXPECT_EQ(1U, gameWithGraph.getOptimalNextStateAt(1U));
+    EXPECT_EQ(1U, gameWithGraph.getOptimalNextStateAt(2U));
+    EXPECT_EQ(2U, gameWithGraph.getOptimalNextStateAt(3U));
+    EXPECT_EQ(3U, gameWithGraph.getOptimalNextStateAt(4U));
+    EXPECT_EQ(4U, gameWithGraph.getOptimalNextStateAt(5U));
+    EXPECT_EQ(5U, gameWithGraph.getOptimalNextStateAt(6U));
+    EXPECT_EQ(6U, gameWithGraph.getOptimalNextStateAt(7U));
+    EXPECT_EQ(7U, gameWithGraph.getOptimalNextStateAt(8U));
+    EXPECT_EQ(8U, gameWithGraph.getOptimalNextStateAt(9U));
 }
 
 }
-
 }

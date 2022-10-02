@@ -19,26 +19,23 @@ GameWithGraph::GameWithGraph(
     initialize();
 }
 
-GameState GameWithGraph::getGameState(State const state) const
+GameState GameWithGraph::getGameStateAt(State const state) const
 {
     GameState result(GameState::Losing);
-    auto it = m_stateToGameStateMap.find(state);
-    if(it != m_stateToGameStateMap.cend())
+    auto it = m_stateToGameStateMap.find(state);    if(it != m_stateToGameStateMap.cend())
     {
         result = it->second;
     }
     return result;
 }
 
-GameWithGraph::State GameWithGraph::getOptimalNextState(State const state) const
+GameWithGraph::State GameWithGraph::getOptimalNextStateAt(State const state) const
 {
     State result{};
-    auto it = m_stateToOptimalStateMap.find(state);
-    if(it != m_stateToOptimalStateMap.cend())
+    auto it = m_stateToOptimalStateMap.find(state);    if(it != m_stateToOptimalStateMap.cend())
     {
         result = it->second;
-    }
-    return result;
+    }    return result;
 }
 
 void GameWithGraph::initialize()
