@@ -81,13 +81,21 @@ TEST(AlbaPrintFunctionsTest, PrintParameterWithNameWorksWithPair)
     EXPECT_EQ("name : [(300, A)]", ssToVerify.str());
 }
 
-TEST(AlbaPrintFunctionsTest, PrintParameterWithNameWorksWithArray)
+TEST(AlbaPrintFunctionsTest, PrintParameterWithNameWorksWithTuple)
 {
     stringstream ssToVerify;
-    array<unsigned int, 5> vectorToTest{500U, 501U, 502U, 503U, 504U};
+    tuple<unsigned int, string, char> pairToTest{300, "hello", 'A'};
+
+    printParameterWithName(ssToVerify, "name", pairToTest);
+
+    EXPECT_EQ("name : [(300, hello, A, )]", ssToVerify.str());
+}
+
+TEST(AlbaPrintFunctionsTest, PrintParameterWithNameWorksWithArray)
+{
+    stringstream ssToVerify;    array<unsigned int, 5> vectorToTest{500U, 501U, 502U, 503U, 504U};
 
     printParameterWithName(ssToVerify, "name", vectorToTest);
-
     EXPECT_EQ("name : [{size: 5 | 500, 501, 502, 503, 504, }]", ssToVerify.str());
 }
 
