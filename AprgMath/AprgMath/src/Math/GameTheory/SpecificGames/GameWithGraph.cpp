@@ -10,8 +10,7 @@ namespace alba
 namespace math
 {
 
-GameWithGraph::GameWithGraph(
-        Graph const& graph)
+GameWithGraph::GameWithGraph(Graph const& graph)
     : m_graph(graph)
 {}
 
@@ -26,15 +25,7 @@ UnsignedInteger GameWithGraph::getGrundyNumberAt(Vertex const vertex)
     else
     {
         m_vertexToGrundyNumberMap.emplace(vertex, 0U); // avoid infinite recursion for cycles
-
-        SetOfUnsignedIntegers nextGrundyNumbers;
-        Vertices nextVertices(m_graph.getAdjacentVerticesAt(vertex));
-        transform(nextVertices.cbegin(), nextVertices.cend(), inserter(nextGrundyNumbers, nextGrundyNumbers.begin()),
-                  [&](Vertex const nextVertex)
-        {
-            return getGrundyNumberAt(nextVertex);
-        });
-        result = getGrundyNumber(nextGrundyNumbers);
+        result = getGrundyNumber(getNextGrundyNumbers(vertex));
         m_vertexToGrundyNumberMap[vertex] = result;
     }
     return result;
@@ -75,6 +66,18 @@ GameWithGraph::Vertex GameWithGraph::getOptimalNextVertexAt(Vertex const vertex)
             }
         }
     }
+    return result;
+}
+
+SetOfUnsignedIntegers GameWithGraph::getNextGrundyNumbers(Vertex const vertex)
+{
+    SetOfUnsignedIntegers result;
+    Vertices nextVertices(m_graph.getAdjacentVerticesAt(vertex));
+    transform(nextVertices.cbegin(), nextVertices.cend(), inserter(result, result.begin()),
+              [&](Vertex const nextVertex)
+    {
+        return getGrundyNumberAt(nextVertex);
+    });
     return result;
 }
 

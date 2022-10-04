@@ -23,16 +23,18 @@ GameState reverseGameState(GameState const gameState)
 }
 
 GameState getGameStateFromGrundyNumber(
-        UnsignedInteger const& nextGrundyNumber)
+        UnsignedInteger const& grundyNumber)
 {
     // The Grundy number of a losing state is 0, and the Grundy number of a winning state is a positive number.
 
-    if(nextGrundyNumber > 0)
+    if(grundyNumber > 0)
     {
-        return GameState::Winning;    }
+        return GameState::Winning;
+    }
     else
     {
-        return GameState::Losing;    }
+        return GameState::Losing;
+    }
 }
 
 UnsignedInteger getGrundyNumber(
@@ -58,10 +60,12 @@ UnsignedInteger getGrundyNumber(
 
     UnsignedInteger result(0);
     if(!nextGrundyNumbers.empty())
-    {        UnsignedInteger possibleGrundyNumber=0;
+    {
+        UnsignedInteger possibleGrundyNumber=0;
         for(UnsignedInteger const nextGrundyNumber : nextGrundyNumbers)
         {
-            if(possibleGrundyNumber != nextGrundyNumber)            {
+            if(possibleGrundyNumber != nextGrundyNumber)
+            {
                 break;
             }
             possibleGrundyNumber++;

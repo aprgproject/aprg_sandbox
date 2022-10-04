@@ -93,9 +93,11 @@ TEST(AlbaPrintFunctionsTest, PrintParameterWithNameWorksWithTuple)
 
 TEST(AlbaPrintFunctionsTest, PrintParameterWithNameWorksWithArray)
 {
-    stringstream ssToVerify;    array<unsigned int, 5> vectorToTest{500U, 501U, 502U, 503U, 504U};
+    stringstream ssToVerify;
+    array<unsigned int, 5> vectorToTest{500U, 501U, 502U, 503U, 504U};
 
     printParameterWithName(ssToVerify, "name", vectorToTest);
+
     EXPECT_EQ("name : [{size: 5 | 500, 501, 502, 503, 504, }]", ssToVerify.str());
 }
 
