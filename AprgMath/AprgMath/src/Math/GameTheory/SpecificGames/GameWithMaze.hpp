@@ -28,13 +28,14 @@ public:
 
     GameWithMaze(BooleanMatrix const& isBlockedMatrix);
 
+    bool hasNoMoves(Coordinate const& coordinate) const;
     UnsignedInteger getGrundyNumberAt(Coordinate const& coordinate);
     GameState getGameStateAt(Coordinate const& coordinate);
-    Coordinate getOptimalNextVertexAt(Coordinate const& coordinate);
+    Coordinate getOptimalNextCoordinateAt(Coordinate const& coordinate);
+    Coordinate getNextCoordinateWithGrundyNumber(Coordinate const& coordinate, UnsignedInteger const& targetGrundyNumber);
     std::string getString();
 
-private:
-    SetOfUnsignedIntegers getNextGrundyNumbers(Coordinate const& coordinate);
+private:    SetOfUnsignedIntegers getNextGrundyNumbers(Coordinate const& coordinate);
     Coordinates getNextCoordinates(Coordinate const& coordinate) const;
     void retrieveLeftCoordinates(Coordinates & retrievedCoordinates, Coordinate const& coordinate) const;
     void retrieveUpCoordinates(Coordinates & retrievedCoordinates, Coordinate const& coordinate) const;

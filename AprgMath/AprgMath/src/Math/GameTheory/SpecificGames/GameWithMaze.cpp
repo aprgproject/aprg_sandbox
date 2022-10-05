@@ -6,7 +6,8 @@
 
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 namespace math
 {
@@ -15,10 +16,18 @@ GameWithMaze::GameWithMaze(BooleanMatrix const& isBlockedMatrix)
     : m_isBlockedMatrix(isBlockedMatrix)
 {}
 
+bool GameWithMaze::hasNoMoves(Coordinate const& coordinate) const
+{
+    Coordinate oneLeft(coordinate.first-1, coordinate.second);
+    Coordinate oneUp(coordinate.first, coordinate.second-1);
+    bool isLeftNotAllowed = !m_isBlockedMatrix.isInside(oneLeft.first, oneLeft.second) || m_isBlockedMatrix.getEntry(oneLeft.first, oneLeft.second);
+    bool isUpAllowed = !m_isBlockedMatrix.isInside(oneUp.first, oneUp.second) || m_isBlockedMatrix.getEntry(oneUp.first, oneUp.second);
+    return isLeftNotAllowed && isUpAllowed;
+}
+
 UnsignedInteger GameWithMaze::getGrundyNumberAt(
         Coordinate const& coordinate)
-{
-    UnsignedInteger result{};
+{    UnsignedInteger result{};
     if(!m_isBlockedMatrix.getEntry(coordinate.first, coordinate.second))
     {
         auto it = m_coordinateToGrundyNumberMap.find(coordinate);
@@ -32,7 +41,8 @@ UnsignedInteger GameWithMaze::getGrundyNumberAt(
             m_coordinateToGrundyNumberMap.emplace(coordinate, result);
         }
     }
-    return result;}
+    return result;
+}
 
 GameState GameWithMaze::getGameStateAt(
         Coordinate const& coordinate)
@@ -40,11 +50,10 @@ GameState GameWithMaze::getGameStateAt(
     return getGameStateFromGrundyNumber(getGrundyNumberAt(coordinate));
 }
 
-GameWithMaze::Coordinate GameWithMaze::getOptimalNextVertexAt(
+GameWithMaze::Coordinate GameWithMaze::getOptimalNextCoordinateAt(
         Coordinate const& coordinate)
 {
-    Coordinate result{};
-    GameState gameState = getGameStateFromGrundyNumber(getGrundyNumberAt(coordinate));
+    Coordinate result{};    GameState gameState = getGameStateFromGrundyNumber(getGrundyNumberAt(coordinate));
     if(GameState::Losing == gameState)
     {
         Coordinate oneLeft(coordinate.first-1, coordinate.second);
@@ -74,10 +83,25 @@ GameWithMaze::Coordinate GameWithMaze::getOptimalNextVertexAt(
     return result;
 }
 
+GameWithMaze::Coordinate GameWithMaze::getNextCoordinateWithGrundyNumber(
+        Coordinate const& coordinate,
+        UnsignedInteger const& targetGrundyNumber)
+{
+    Coordinate result{};
+    for(Coordinate const& nextCoordinate : getNextCoordinates(coordinate))
+    {
+        if(targetGrundyNumber == getGrundyNumberAt(nextCoordinate))
+        {
+            result = nextCoordinate;
+            break;
+        }
+    }
+    return result;
+}
+
 string GameWithMaze::getString()
 {
-    DisplayTable table;
-    table.setBorders("-","|");
+    DisplayTable table;    table.setBorders("-","|");
     for(unsigned int y=0; y<m_isBlockedMatrix.getNumberOfRows(); y++)
     {
         table.addRow();
@@ -114,7 +138,8 @@ SetOfUnsignedIntegers GameWithMaze::getNextGrundyNumbers(
 
 GameWithMaze::Coordinates GameWithMaze::getNextCoordinates(
         Coordinate const& coordinate) const
-{    Coordinates result;
+{
+    Coordinates result;
     if(m_isBlockedMatrix.isInside(coordinate.first, coordinate.second))
     {
         retrieveLeftCoordinates(result, coordinate);
@@ -125,7 +150,8 @@ GameWithMaze::Coordinates GameWithMaze::getNextCoordinates(
 
 void GameWithMaze::retrieveLeftCoordinates(
         Coordinates & retrievedCoordinates,
-        Coordinate const& coordinate) const{
+        Coordinate const& coordinate) const
+{
     for(int x=static_cast<int>(coordinate.first)-1; x>=0; x--)
     {
         Coordinate xyToCheck(static_cast<unsigned int>(x), coordinate.second);
@@ -160,4 +186,5 @@ void GameWithMaze::retrieveUpCoordinates(
 
 
 }
+
 }
