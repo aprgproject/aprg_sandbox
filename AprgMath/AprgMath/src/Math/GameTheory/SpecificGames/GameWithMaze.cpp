@@ -4,14 +4,9 @@
 
 #include <sstream>
 
-
-
-#include <Common/Debug/AlbaDebug.hpp>
-
 using namespace std;
 
-namespace alba
-{
+namespace alba{
 
 namespace math
 {
@@ -23,31 +18,21 @@ GameWithMaze::GameWithMaze(BooleanMatrix const& isBlockedMatrix)
 UnsignedInteger GameWithMaze::getGrundyNumberAt(
         Coordinate const& coordinate)
 {
-    UnsignedInteger grundyNumberOnLeft = getGrundyNumberAt({coordinate, Move::Left});
-    UnsignedInteger grundyNumberOnUp = getGrundyNumberAt({coordinate, Move::Up});
-    return max(grundyNumberOnLeft, grundyNumberOnUp);
-}
-
-UnsignedInteger GameWithMaze::getGrundyNumberAt(
-        CoordinateWithMove const& coordinateWithMove)
-{
     UnsignedInteger result{};
-    if(!m_isBlockedMatrix.getEntry(coordinateWithMove.first.first, coordinateWithMove.first.second))
+    if(!m_isBlockedMatrix.getEntry(coordinate.first, coordinate.second))
     {
-        auto it = m_coordinateWithMoveToGrundyNumberMap.find(coordinateWithMove);
-        if(it != m_coordinateWithMoveToGrundyNumberMap.cend())
+        auto it = m_coordinateToGrundyNumberMap.find(coordinate);
+        if(it != m_coordinateToGrundyNumberMap.cend())
         {
             result = it->second;
         }
         else
         {
-            // m_coordinateWithMoveToGrundyNumberMap.emplace(coordinate, 0U); // avoid infinite recursion
-            result = getGrundyNumber(getNextGrundyNumbers(coordinateWithMove));
-            m_coordinateWithMoveToGrundyNumberMap.emplace(coordinateWithMove, result);
+            result = getGrundyNumber(getNextGrundyNumbers(coordinate));
+            m_coordinateToGrundyNumberMap.emplace(coordinate, result);
         }
     }
-    return result;
-}
+    return result;}
 
 GameState GameWithMaze::getGameStateAt(
         Coordinate const& coordinate)
@@ -115,45 +100,21 @@ string GameWithMaze::getString()
 }
 
 SetOfUnsignedIntegers GameWithMaze::getNextGrundyNumbers(
-        CoordinateWithMove const& coordinateWithMove)
+        Coordinate const& coordinate)
 {
     SetOfUnsignedIntegers result;
-    Move perpendicularMove(getPerpendicularMove(coordinateWithMove.second));
-    CoordinateWithMove coordinateWithNewMove(coordinateWithMove.first, perpendicularMove);
-    Coordinates nextCoorindates(getNextCoordinates(coordinateWithNewMove));
+    Coordinates nextCoorindates(getNextCoordinates(coordinate));
     transform(nextCoorindates.cbegin(), nextCoorindates.cend(), inserter(result, result.begin()),
               [&](Coordinate const& nextCoordinate)
     {
-        CoordinateWithMove nextCoordinateWithPerpendicularMove(nextCoordinate, perpendicularMove);
-        return getGrundyNumberAt(nextCoordinateWithPerpendicularMove);
+        return getGrundyNumberAt(nextCoordinate);
     });
     return result;
 }
 
 GameWithMaze::Coordinates GameWithMaze::getNextCoordinates(
-        CoordinateWithMove const& coordinateWithMove) const
-{
-    Coordinates result;
-    Coordinate coordinate(coordinateWithMove.first);
-    Move move(coordinateWithMove.second);
-    if(m_isBlockedMatrix.isInside(coordinate.first, coordinate.second))
-    {
-        if(Move::Left == move)
-        {
-            retrieveLeftCoordinates(result, coordinate);
-        }
-        else if(Move::Up == move)
-        {
-            retrieveUpCoordinates(result, coordinate);
-        }
-    }
-    return result;
-}
-
-GameWithMaze::Coordinates GameWithMaze::getNextCoordinates(
         Coordinate const& coordinate) const
-{
-    Coordinates result;
+{    Coordinates result;
     if(m_isBlockedMatrix.isInside(coordinate.first, coordinate.second))
     {
         retrieveLeftCoordinates(result, coordinate);
@@ -162,25 +123,9 @@ GameWithMaze::Coordinates GameWithMaze::getNextCoordinates(
     return result;
 }
 
-GameWithMaze::Move GameWithMaze::getPerpendicularMove(
-        Move const move) const
-{
-    Move result{};
-    if(Move::Left == move)
-    {
-        result = Move::Up;
-    }
-    else if(Move::Up == move)
-    {
-        result = Move::Left;
-    }
-    return result;
-}
-
 void GameWithMaze::retrieveLeftCoordinates(
         Coordinates & retrievedCoordinates,
-        Coordinate const& coordinate) const
-{
+        Coordinate const& coordinate) const{
     for(int x=static_cast<int>(coordinate.first)-1; x>=0; x--)
     {
         Coordinate xyToCheck(static_cast<unsigned int>(x), coordinate.second);
@@ -213,24 +158,6 @@ void GameWithMaze::retrieveUpCoordinates(
     }
 }
 
-ostream & operator<<(ostream & out, GameWithMaze::Move const move)
-{
-    if(GameWithMaze::Move::Left == move)
-    {
-        out << "Move::Left";
-    }
-    else if(GameWithMaze::Move::Up == move)
-    {
-        out << "Move::Up";
-    }
-    else
-    {
-        out << "Default";
-    }
-    return out;
-}
-
 
 }
-
 }

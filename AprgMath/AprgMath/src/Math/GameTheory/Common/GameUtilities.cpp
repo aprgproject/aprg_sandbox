@@ -1,11 +1,8 @@
 #include "GameUtilities.hpp"
 
-#include <Common/Debug/AlbaDebug.hpp>
-
 using namespace std;
 
-namespace alba
-{
+namespace alba{
 
 namespace math
 {
