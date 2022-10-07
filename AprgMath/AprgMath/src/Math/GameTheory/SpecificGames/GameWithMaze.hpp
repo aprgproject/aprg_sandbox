@@ -21,13 +21,14 @@ public:
     // On each turn, the player has to move the figure some number of steps left or up.
     // The winner of the game is the player who makes the last move.
 
+    using GrundyNumberEntry = int;
+    using GrundyNumberMatrix = matrix::AlbaMatrix<GrundyNumberEntry>;
+    using BooleanMatrix = matrix::AlbaMatrix<bool>;
     using Coordinate = std::pair<unsigned int, unsigned int>;
     using Coordinates = std::vector<Coordinate>;
-    using BooleanMatrix = matrix::AlbaMatrix<bool>;
-    using CoordinateToGrundyNumberMap = std::map<Coordinate, UnsignedInteger>;
+    static constexpr GrundyNumberEntry INVALID_GRUNDY_NUMBER = -1;
 
     GameWithMaze(BooleanMatrix const& isBlockedMatrix);
-
     bool hasNoMoves(Coordinate const& coordinate) const;
     UnsignedInteger getGrundyNumberAt(Coordinate const& coordinate);
     GameState getGameStateAt(Coordinate const& coordinate);
@@ -35,15 +36,15 @@ public:
     Coordinate getNextCoordinateWithGrundyNumber(Coordinate const& coordinate, UnsignedInteger const& targetGrundyNumber);
     std::string getString();
 
-private:    SetOfUnsignedIntegers getNextGrundyNumbers(Coordinate const& coordinate);
+private:
+    SetOfUnsignedIntegers getNextGrundyNumbers(Coordinate const& coordinate);
     Coordinates getNextCoordinates(Coordinate const& coordinate) const;
     void retrieveLeftCoordinates(Coordinates & retrievedCoordinates, Coordinate const& coordinate) const;
     void retrieveUpCoordinates(Coordinates & retrievedCoordinates, Coordinate const& coordinate) const;
 
     BooleanMatrix const& m_isBlockedMatrix;
-    CoordinateToGrundyNumberMap m_coordinateToGrundyNumberMap; // dynamic programming
+    GrundyNumberMatrix m_grundyNumberMatrix; // dynamic programming
 };
 
 }
-
 }

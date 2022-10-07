@@ -21,10 +21,10 @@ TEST(GameWithMazeTest, Example1Works)
     BooleanMatrix isBlockedMatrix(5U, 5U,
     {false, false, true, false, false,
      true, false, false, false, true,
-     false, false, true, false, false,     true, false, false, false, false,
+     false, false, true, false, false,
+     true, false, false, false, false,
      false, false, false, false, false});
     GameWithMaze gameWithMaze(isBlockedMatrix);
-
     EXPECT_TRUE(gameWithMaze.hasNoMoves({0U, 0U}));
     EXPECT_FALSE(gameWithMaze.hasNoMoves({0U, 1U}));
     EXPECT_TRUE(gameWithMaze.hasNoMoves({0U, 2U}));
@@ -52,11 +52,11 @@ TEST(GameWithMazeTest, Example1Works)
     EXPECT_FALSE(gameWithMaze.hasNoMoves({4U, 4U}));
     EXPECT_EQ(0U, gameWithMaze.getGrundyNumberAt({0U, 0U}));
     EXPECT_EQ(0U, gameWithMaze.getGrundyNumberAt({0U, 1U}));
-    EXPECT_EQ(0U, gameWithMaze.getGrundyNumberAt({0U, 2U}));    EXPECT_EQ(0U, gameWithMaze.getGrundyNumberAt({0U, 3U}));
+    EXPECT_EQ(0U, gameWithMaze.getGrundyNumberAt({0U, 2U}));
+    EXPECT_EQ(0U, gameWithMaze.getGrundyNumberAt({0U, 3U}));
     EXPECT_EQ(0U, gameWithMaze.getGrundyNumberAt({0U, 4U}));
     EXPECT_EQ(1U, gameWithMaze.getGrundyNumberAt({1U, 0U}));
-    EXPECT_EQ(0U, gameWithMaze.getGrundyNumberAt({1U, 1U}));
-    EXPECT_EQ(2U, gameWithMaze.getGrundyNumberAt({1U, 2U}));
+    EXPECT_EQ(0U, gameWithMaze.getGrundyNumberAt({1U, 1U}));    EXPECT_EQ(2U, gameWithMaze.getGrundyNumberAt({1U, 2U}));
     EXPECT_EQ(3U, gameWithMaze.getGrundyNumberAt({1U, 3U}));
     EXPECT_EQ(4U, gameWithMaze.getGrundyNumberAt({1U, 4U}));
     EXPECT_EQ(0U, gameWithMaze.getGrundyNumberAt({2U, 0U}));
@@ -127,4 +127,5 @@ TEST(GameWithMazeTest, Example1Works)
 }
 
 }
+
 }

@@ -12,7 +12,7 @@ namespace math
 GameState reverseGameState(GameState const gameState);
 GameState getGameStateFromGrundyNumber(UnsignedInteger const& grundyNumber);
 UnsignedInteger getGrundyNumber(SetOfUnsignedIntegers const& nextGrundyNumbers);
+UnsignedInteger getOverallGrundyNumber(UnsignedIntegers const& grundyNumbers);
 
 }
-
 }

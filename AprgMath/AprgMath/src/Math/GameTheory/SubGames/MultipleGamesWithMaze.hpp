@@ -38,11 +38,10 @@ public:
     void addGameWithMaze(BooleanMatrix const& isBlockedMatrix, Coordinate const& startingCoordinate);
 
 private:
-    UnsignedInteger getNimSum();
+    UnsignedIntegers getGrundyNumbersOfSubGames();
 
     Games m_games;
-    Coordinates m_coordinateInGames;
-};
+    Coordinates m_coordinateInGames;};
 
 }
 

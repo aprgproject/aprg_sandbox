@@ -14,10 +14,10 @@ namespace math
 
 GameWithMaze::GameWithMaze(BooleanMatrix const& isBlockedMatrix)
     : m_isBlockedMatrix(isBlockedMatrix)
+    , m_grundyNumberMatrix(isBlockedMatrix.getNumberOfColumns(), isBlockedMatrix.getNumberOfRows(), INVALID_GRUNDY_NUMBER)
 {}
 
-bool GameWithMaze::hasNoMoves(Coordinate const& coordinate) const
-{
+bool GameWithMaze::hasNoMoves(Coordinate const& coordinate) const{
     Coordinate oneLeft(coordinate.first-1, coordinate.second);
     Coordinate oneUp(coordinate.first, coordinate.second-1);
     bool isLeftNotAllowed = !m_isBlockedMatrix.isInside(oneLeft.first, oneLeft.second) || m_isBlockedMatrix.getEntry(oneLeft.first, oneLeft.second);
@@ -27,22 +27,22 @@ bool GameWithMaze::hasNoMoves(Coordinate const& coordinate) const
 
 UnsignedInteger GameWithMaze::getGrundyNumberAt(
         Coordinate const& coordinate)
-{    UnsignedInteger result{};
+{
+    UnsignedInteger result{};
     if(!m_isBlockedMatrix.getEntry(coordinate.first, coordinate.second))
     {
-        auto it = m_coordinateToGrundyNumberMap.find(coordinate);
-        if(it != m_coordinateToGrundyNumberMap.cend())
+        GrundyNumberEntry grundyNumberEntry = m_grundyNumberMatrix.getEntry(coordinate.first, coordinate.second);
+        if(grundyNumberEntry != INVALID_GRUNDY_NUMBER)
         {
-            result = it->second;
+            result = static_cast<UnsignedInteger>(grundyNumberEntry);
         }
         else
         {
             result = getGrundyNumber(getNextGrundyNumbers(coordinate));
-            m_coordinateToGrundyNumberMap.emplace(coordinate, result);
+            m_grundyNumberMatrix.setEntry(coordinate.first, coordinate.second, static_cast<GrundyNumberEntry>(result));
         }
     }
-    return result;
-}
+    return result;}
 
 GameState GameWithMaze::getGameStateAt(
         Coordinate const& coordinate)
@@ -53,11 +53,11 @@ GameState GameWithMaze::getGameStateAt(
 GameWithMaze::Coordinate GameWithMaze::getOptimalNextCoordinateAt(
         Coordinate const& coordinate)
 {
-    Coordinate result{};    GameState gameState = getGameStateFromGrundyNumber(getGrundyNumberAt(coordinate));
+    Coordinate result{};
+    GameState gameState = getGameStateFromGrundyNumber(getGrundyNumberAt(coordinate));
     if(GameState::Losing == gameState)
     {
-        Coordinate oneLeft(coordinate.first-1, coordinate.second);
-        Coordinate oneUp(coordinate.first, coordinate.second-1);
+        Coordinate oneLeft(coordinate.first-1, coordinate.second);        Coordinate oneUp(coordinate.first, coordinate.second-1);
         if(m_isBlockedMatrix.isInside(oneLeft.first, oneLeft.second) // move one left if possible to prolong the game
                 && !m_isBlockedMatrix.getEntry(oneLeft.first, oneLeft.second))
         {
@@ -101,11 +101,11 @@ GameWithMaze::Coordinate GameWithMaze::getNextCoordinateWithGrundyNumber(
 
 string GameWithMaze::getString()
 {
-    DisplayTable table;    table.setBorders("-","|");
+    DisplayTable table;
+    table.setBorders("-","|");
     for(unsigned int y=0; y<m_isBlockedMatrix.getNumberOfRows(); y++)
     {
-        table.addRow();
-        for(unsigned int x=0; x<m_isBlockedMatrix.getNumberOfColumns(); x++)
+        table.addRow();        for(unsigned int x=0; x<m_isBlockedMatrix.getNumberOfColumns(); x++)
         {
             stringstream ss;
             if(m_isBlockedMatrix.getEntry(x, y))
