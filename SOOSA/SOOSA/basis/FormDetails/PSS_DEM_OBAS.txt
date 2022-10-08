@@ -9,25 +9,25 @@ NEW_COLUMN
 07. Nursing Care - promptness of service 
 08. Nursing Care - quality of patient care 
 09. Nursing Care - courtesy in dealing with patients 
-10. Nursing Care - ability to give important information regarding the needs  of patient 
+10. Nursing Care - ability to give important information regarding the needs of patient 
 11. Medical Care - promptness of service 
 12. Medical Care - quality of care and treatment 
 13. Medical Care - courtesy in dealing with patients 
-14. Medical Care - ability to give important information regarding the patient's  condition 
+14. Medical Care - ability to give important information regarding the patient's condition 
 NEW_COLUMN
 15. Pharmacy - availability of medicines and medical supplies 
-16. Pharmacy - promptness of  service 
+16. Pharmacy - promptness of service 
 17. Pharmacy - courtesy of staff 
 18. Medical Social Service - courtesy in dealing with patients 
 19. Medical Social Service - provision of patient's medical needs 
-20. Laboratory - promptness of  service 
+20. Laboratory - promptness of service 
 21. Laboratory - courtesy of staff 
-22. Radiology - promptness of  service 
+22. Radiology - promptness of service 
 23. Radiology - courtesy of staff 
-24. ECG - promptness of  service 
+24. ECG - promptness of service 
 25. ECG - courtesy of staff 
-26. Cashier/Cash Services - promptness of  service 
+26. Cashier/Cash Services - promptness of service 
 27. Cashier/Cash Services - courtesy of staff 
-28. Security Services - ability to ensure that the area is safe and secured by  observing people and enforcing hospital rules and  regulations 
+28. Security Services - ability to ensure that the area is safe and secured by observing people and enforcing hospital rules and regulations 
 29 Security Services - courtesy of security personnel 
-30. Overall assessment of the hospital  
+30. Overall assessment of the hospital 

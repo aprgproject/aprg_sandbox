@@ -14,16 +14,13 @@ int main(int argc, char *argv[])
     cout << "Survey Output Optical Scan Analyzer developed by the IRPDS" << endl << endl;
     cout << "code version: " << APRG_CODE_REVISION << endl;
 
-    strings argumentsInMain;
-    fetchArgumentsToStringInMain(argumentsInMain, argc, argv);
+    strings argumentsInMain(getArgumentsToStringInMain(argc, argv));
 
     if(argumentsInMain.size()==2)
-    {
-        AlbaLocalPathHandler detectedPath(PathInitialValueSource::DetectedLocalPath);
+    {        AlbaLocalPathHandler detectedPath(PathInitialValueSource::DetectedLocalPath);
         AlbaLocalPathHandler pathToProcess(getStringWithoutCharAtTheEnd(argumentsInMain.at(1), '"'));
 
-        UserInterface ui;
-        ui.setPath(pathToProcess.getFullPath());
+        UserInterface ui;        ui.setPath(pathToProcess.getFullPath());
         ui.askUserForMainDetails();
         ui.askUserForFormDetails();
 
