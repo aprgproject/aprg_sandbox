@@ -122,15 +122,13 @@ TEST(CommonFunctionLibraryTest, HarmonicNumberFunctionHasAnUpperBoundOfLog2NPlus
     actualHarmonicNumber.simplify();
     upperBoundValue.simplify();
 
-    EXPECT_LT(actualHarmonicNumber.getConstantValueConstReference(), upperBoundValue.getConstantValueConstReference());
+    EXPECT_LT(actualHarmonicNumber, upperBoundValue);
 }
 
-TEST(CommonFunctionLibraryTest, SineFunctionWorks)
-{
+TEST(CommonFunctionLibraryTest, SineFunctionWorks){
     Function sineFunction(sin(getPiAsATerm()));
 
-    EXPECT_EQ("sin", sineFunction.getFunctionName());
-    EXPECT_EQ(getPiAsATerm(), getTermConstReferenceFromBaseTerm(sineFunction.getInputTermConstReference()));
+    EXPECT_EQ("sin", sineFunction.getFunctionName());    EXPECT_EQ(getPiAsATerm(), getTermConstReferenceFromBaseTerm(sineFunction.getInputTermConstReference()));
     EXPECT_EQ(AlbaNumber(0), sineFunction.performFunctionAndReturnResultIfPossible());
 }
 
