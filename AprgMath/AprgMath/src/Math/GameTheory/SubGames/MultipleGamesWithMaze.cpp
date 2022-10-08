@@ -28,7 +28,7 @@ bool MultipleGamesWithMaze::hasNoMoves() const
 
 UnsignedInteger MultipleGamesWithMaze::getOverallGrundyNumber()
 {
-    return math::getOverallGrundyNumber(getGrundyNumbersOfSubGames());
+    return getCombinedGrundyNumber();
 }
 
 GameState MultipleGamesWithMaze::getGameState(){
@@ -100,12 +100,12 @@ void MultipleGamesWithMaze::addGameWithMaze(
     m_coordinateInGames.emplace_back(startingCoordinate);
 }
 
-UnsignedIntegers MultipleGamesWithMaze::getGrundyNumbersOfSubGames()
+UnsignedInteger MultipleGamesWithMaze::getCombinedGrundyNumber()
 {
-    UnsignedIntegers result;
+    UnsignedInteger result(0U);
     for(UnsignedInteger gameIndex=0; gameIndex<m_games.size(); gameIndex++)
     {
-        result.emplace_back(m_games[gameIndex].getGrundyNumberAt(m_coordinateInGames.at(gameIndex)));
+        result = math::getCombinedGrundyNumber(result, m_games[gameIndex].getGrundyNumberAt(m_coordinateInGames.at(gameIndex)));
     }
     return result;
 }

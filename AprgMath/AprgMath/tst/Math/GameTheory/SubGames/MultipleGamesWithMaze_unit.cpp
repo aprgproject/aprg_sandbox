@@ -42,45 +42,52 @@ TEST(MultipleGamesWithMazeTest, Example1Works)
     games.addGameWithMaze(secondGameMatrix, {4U, 4U});
     games.addGameWithMaze(thirdGameMatrix, {4U, 4U});
 
+    EXPECT_EQ(2U, games.getOverallGrundyNumber());
     EXPECT_EQ(GameState::Winning, games.getGameState());
     EXPECT_EQ(GameIndexAndCoordinatePair(0U, {0U, 4U}), games.getOptimalNextGameAndCoordinate());
     EXPECT_FALSE(games.hasNoMoves());
     games.setCoordinateAtGame(0U, {0U, 4U});
 
+    EXPECT_EQ(0U, games.getOverallGrundyNumber());
     EXPECT_EQ(GameState::Losing, games.getGameState());
     EXPECT_EQ(GameIndexAndCoordinatePair(1U, {1U, 4U}), games.getOptimalNextGameAndCoordinate());
     EXPECT_FALSE(games.hasNoMoves());
     games.setCoordinateAtGame(1U, {1U, 4U});
 
+    EXPECT_EQ(3U, games.getOverallGrundyNumber());
     EXPECT_EQ(GameState::Winning, games.getGameState());
     EXPECT_EQ(GameIndexAndCoordinatePair(2U, {1U, 4U}), games.getOptimalNextGameAndCoordinate());
     EXPECT_FALSE(games.hasNoMoves());
     games.setCoordinateAtGame(2U, {1U, 4U});
 
+    EXPECT_EQ(0U, games.getOverallGrundyNumber());
     EXPECT_EQ(GameState::Losing, games.getGameState());
     EXPECT_EQ(GameIndexAndCoordinatePair(1U, {0U, 4U}), games.getOptimalNextGameAndCoordinate());
     EXPECT_FALSE(games.hasNoMoves());
     games.setCoordinateAtGame(1U, {0U, 4U});
 
+    EXPECT_EQ(4U, games.getOverallGrundyNumber());
     EXPECT_EQ(GameState::Winning, games.getGameState());
     EXPECT_EQ(GameIndexAndCoordinatePair(1U, {0U, 0U}), games.getOptimalNextGameAndCoordinate());
     EXPECT_FALSE(games.hasNoMoves());
     games.setCoordinateAtGame(1U, {0U, 0U});
 
+    EXPECT_EQ(0U, games.getOverallGrundyNumber());
     EXPECT_EQ(GameState::Losing, games.getGameState());
     EXPECT_EQ(GameIndexAndCoordinatePair(2U, {0U, 4U}), games.getOptimalNextGameAndCoordinate());
     EXPECT_FALSE(games.hasNoMoves());
     games.setCoordinateAtGame(2U, {0U, 4U});
 
+    EXPECT_EQ(4U, games.getOverallGrundyNumber());
     EXPECT_EQ(GameState::Winning, games.getGameState());
     EXPECT_EQ(GameIndexAndCoordinatePair(2U, {0U, 0U}), games.getOptimalNextGameAndCoordinate());
     EXPECT_FALSE(games.hasNoMoves());
     games.setCoordinateAtGame(2U, {0U, 0U});
 
+    EXPECT_EQ(0U, games.getOverallGrundyNumber());
     EXPECT_EQ(GameState::Losing, games.getGameState());
     EXPECT_EQ(GameIndexAndCoordinatePair(0U, {0U, 0U}), games.getOptimalNextGameAndCoordinate());
-    EXPECT_TRUE(games.hasNoMoves());
-    games.setCoordinateAtGame(0U, {0U, 0U});
+    EXPECT_TRUE(games.hasNoMoves());    games.setCoordinateAtGame(0U, {0U, 0U});
 }
 
 }

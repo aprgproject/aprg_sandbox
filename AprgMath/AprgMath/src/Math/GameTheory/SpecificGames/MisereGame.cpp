@@ -71,6 +71,7 @@ NimState MisereGame::getOptimalNextState(NimState const& inputNimState)
     }
     return result;
 }
+
 UnsignedInteger MisereGame::countNonEmptyHeaps(NimState const& nimState)
 {
     return count_if(

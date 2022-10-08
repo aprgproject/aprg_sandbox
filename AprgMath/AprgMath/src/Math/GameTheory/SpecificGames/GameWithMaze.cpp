@@ -17,7 +17,8 @@ GameWithMaze::GameWithMaze(BooleanMatrix const& isBlockedMatrix)
     , m_grundyNumberMatrix(isBlockedMatrix.getNumberOfColumns(), isBlockedMatrix.getNumberOfRows(), INVALID_GRUNDY_NUMBER)
 {}
 
-bool GameWithMaze::hasNoMoves(Coordinate const& coordinate) const{
+bool GameWithMaze::hasNoMoves(Coordinate const& coordinate) const
+{
     Coordinate oneLeft(coordinate.first-1, coordinate.second);
     Coordinate oneUp(coordinate.first, coordinate.second-1);
     bool isLeftNotAllowed = !m_isBlockedMatrix.isInside(oneLeft.first, oneLeft.second) || m_isBlockedMatrix.getEntry(oneLeft.first, oneLeft.second);
@@ -42,7 +43,8 @@ UnsignedInteger GameWithMaze::getGrundyNumberAt(
             m_grundyNumberMatrix.setEntry(coordinate.first, coordinate.second, static_cast<GrundyNumberEntry>(result));
         }
     }
-    return result;}
+    return result;
+}
 
 GameState GameWithMaze::getGameStateAt(
         Coordinate const& coordinate)
@@ -57,7 +59,8 @@ GameWithMaze::Coordinate GameWithMaze::getOptimalNextCoordinateAt(
     GameState gameState = getGameStateFromGrundyNumber(getGrundyNumberAt(coordinate));
     if(GameState::Losing == gameState)
     {
-        Coordinate oneLeft(coordinate.first-1, coordinate.second);        Coordinate oneUp(coordinate.first, coordinate.second-1);
+        Coordinate oneLeft(coordinate.first-1, coordinate.second);
+        Coordinate oneUp(coordinate.first, coordinate.second-1);
         if(m_isBlockedMatrix.isInside(oneLeft.first, oneLeft.second) // move one left if possible to prolong the game
                 && !m_isBlockedMatrix.getEntry(oneLeft.first, oneLeft.second))
         {
@@ -105,7 +108,8 @@ string GameWithMaze::getString()
     table.setBorders("-","|");
     for(unsigned int y=0; y<m_isBlockedMatrix.getNumberOfRows(); y++)
     {
-        table.addRow();        for(unsigned int x=0; x<m_isBlockedMatrix.getNumberOfColumns(); x++)
+        table.addRow();
+        for(unsigned int x=0; x<m_isBlockedMatrix.getNumberOfColumns(); x++)
         {
             stringstream ss;
             if(m_isBlockedMatrix.getEntry(x, y))

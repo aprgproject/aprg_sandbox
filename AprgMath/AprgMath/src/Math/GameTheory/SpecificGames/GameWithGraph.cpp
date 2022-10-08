@@ -24,11 +24,10 @@ UnsignedInteger GameWithGraph::getGrundyNumberAt(Vertex const vertex)
     }
     else
     {
-        m_vertexToGrundyNumberMap.emplace(vertex, 0U); // avoid infinite recursion for cycles
+        // possible infinite recursion for cycles
         result = getGrundyNumber(getNextGrundyNumbers(vertex));
         m_vertexToGrundyNumberMap[vertex] = result;
-    }
-    return result;
+    }    return result;
 }
 
 GameState GameWithGraph::getGameStateAt(Vertex const vertex)

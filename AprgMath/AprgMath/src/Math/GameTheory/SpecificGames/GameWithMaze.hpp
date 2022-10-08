@@ -29,6 +29,7 @@ public:
     static constexpr GrundyNumberEntry INVALID_GRUNDY_NUMBER = -1;
 
     GameWithMaze(BooleanMatrix const& isBlockedMatrix);
+
     bool hasNoMoves(Coordinate const& coordinate) const;
     UnsignedInteger getGrundyNumberAt(Coordinate const& coordinate);
     GameState getGameStateAt(Coordinate const& coordinate);
@@ -47,4 +48,5 @@ private:
 };
 
 }
+
 }
