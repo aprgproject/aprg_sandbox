@@ -103,28 +103,66 @@ inline bool isLessThanStringLength(std::string const& mainString, int const inde
     return (index < static_cast<int>(mainString.length()));
 }
 
-std::wstring convertStringToWideString(std::string const& stringInput);
-std::string convertWideStringToString(std::wstring const& wstringInput);
-
+unsigned int generateUniqueId(std::string const& mainString);
 unsigned int getLevenshteinDistance(std::string const& string1, std::string const& string2);
 unsigned int getHammingDistance(std::string const& string1, std::string const& string2);
-unsigned int generateUniqueId(std::string const& mainString);
-std::string constructFileLocator(std::string const& file, int const lineNumber);
-std::string getRandomAlphaNumericString(unsigned int const length);
 
-bool isStringFoundInsideTheOtherStringCaseSensitive(std::string const& mainString, std::string const& string2);
-bool isStringFoundInsideTheOtherStringNotCaseSensitive(std::string const& mainString, std::string const& string2);
-bool isEqualNotCaseSensitive(std::string const& mainString, std::string const& string2);
-bool isEqualWithLowestCommonLength(std::string const& string1, std::string const& string2);
+
 bool isNumber(std::string const& mainString);
 bool isWhiteSpace(std::string const& mainString);
 bool isNewline(std::string const& mainString);
 bool isIdentifier(std::string const& mainString);
 bool isOneWord(std::string const& mainString);
+bool isEqualNotCaseSensitive(std::string const& mainString, std::string const& string2);
+bool isEqualWithLowestCommonLength(std::string const& string1, std::string const& string2);
+bool isStringFoundInsideTheOtherStringCaseSensitive(std::string const& mainString, std::string const& string2);
+bool isStringFoundInsideTheOtherStringNotCaseSensitive(std::string const& mainString, std::string const& string2);
 bool isWildcardMatch(std::string const& mainString, std::string const& wildcard, unsigned int const mainStringIndex=0, unsigned int const wildcardIndex=0);
 
-void fetchArgumentsToStringInMain(strings & argumentsInMain, int const argc, char const * const argv[]);
+
+
+// String processing
+
+std::string getStringWithCapitalLetters(std::string const& mainString);
+std::string getStringWithFirstNonWhiteSpaceCharacterToCapital(std::string const& mainString);
+std::string getStringWithLowerCaseLetters(std::string const& mainString);std::string getStringWithUrlDecodedString(std::string const& mainString);
+std::string getStringThatContainsWhiteSpaceIndention(std::string const& mainString);
+std::string getStringWithoutStartingAndTrailingCharacters(std::string const& mainString, std::string const& characters);
+std::string getStringWithoutStartingAndTrailingWhiteSpace(std::string const& mainString);std::string getStringWithoutWhiteSpace(std::string const& mainString);
+std::string getStringWithoutRedundantWhiteSpace(std::string const& mainString);
+std::string getStringWithoutQuotations(std::string const& mainString);
+std::string getStringWithoutCharAtTheStartAndEnd(std::string const& mainString, char const char1);
+std::string getStringWithoutCharAtTheStart(std::string const& mainString, char const char1);
+std::string getStringWithoutCharAtTheEnd(std::string const& mainString, char const char1);
+std::string getStringWithoutOpeningClosingOperators(std::string const& mainString, char const openingOperator, char const closingOperator);
+std::string getLongestCommonPrefix(std::string const& first, std::string const& second);
+void copyBeforeStringAndAfterString(std::string const& mainString, std::string const& stringToSearch, std::string & beforeString, std::string & afterString, unsigned int const indexToStartTheSearch = 0);
+std::string getStringBeforeThisString(std::string const& mainString, std::string const& stringToSearch, unsigned int const indexToStart=0);std::string getStringAfterThisString(std::string const& mainString, std::string const& stringToSearch, unsigned int const indexToStart=0);
+std::string getStringInBetweenTwoStrings(std::string const& mainString, std::string const& firstString, std::string const& secondString, unsigned int const indexToStart=0);
+std::string getStringBeforeThisCharacters(std::string const& mainString, std::string const& characters, unsigned int const indexToStart=0);
+std::string getStringAndReplaceNonAlphanumericCharactersToUnderScore(std::string const& path);std::string getStringByRepeatingUntilDesiredLength(std::string const& stringToRepeat, unsigned int desiredLength);
+std::string getNumberAfterThisString(std::string const& mainString, std::string const& stringToSearch);
+std::string getHexNumberAfterThisString(std::string const& mainString, std::string const& stringToSearch);
+std::string getHexEquivalentOfCharacters(std::string const& stringToCheck);
+
+
+
+// Utilities
+
+std::string constructFileLocator(std::string const& file, int const lineNumber);
+std::string getRandomAlphaNumericString(unsigned int const length);
+strings getArgumentsToStringInMain(int const argc, char const * const argv[]);
+
+
+
+// Find and replace
+
 bool transformReplaceStringIfFound(std::string & mainString, std::string const& toReplace, std::string const& replaceWith);
+
+
+
+// Split and combine
+
 enum class SplitStringType
 {
     WithDelimeters,
@@ -135,57 +173,43 @@ std::string combineStrings(strings const& strings, std::string const& delimiters
 void splitLinesToAchieveTargetLength(strings & listOfStrings, std::string const& mainString, unsigned int const targetLength);
 void splitToStringsUsingASeriesOfDelimeters(strings & listOfStrings, std::string const& mainString, strings const& seriesOfDelimiters);
 
-std::string getStringWithCapitalLetters(std::string const& mainString);
-std::string getStringWithFirstNonWhiteSpaceCharacterToCapital(std::string const& mainString);
-std::string getStringWithLowerCaseLetters(std::string const& mainString);
-std::string getStringWithUrlDecodedString(std::string const& mainString);
-std::string getStringThatContainsWhiteSpaceIndention(std::string const& mainString);
-std::string getStringWithoutStartingAndTrailingCharacters(std::string const& mainString, std::string const& characters);
-std::string getStringWithoutStartingAndTrailingWhiteSpace(std::string const& mainString);
-std::string getStringWithoutWhiteSpace(std::string const& mainString);
-std::string getStringWithoutRedundantWhiteSpace(std::string const& mainString);
-std::string getStringWithoutQuotations(std::string const& mainString);
-std::string getStringWithoutCharAtTheStartAndEnd(std::string const& mainString, char const char1);
-std::string getStringWithoutCharAtTheStart(std::string const& mainString, char const char1);
-std::string getStringWithoutCharAtTheEnd(std::string const& mainString, char const char1);
-std::string getStringWithoutOpeningClosingOperators(std::string const& mainString, char const openingOperator, char const closingOperator);
 
-std::string getLongestCommonPrefix(std::string const& first, std::string const& second);
-void copyBeforeStringAndAfterString(std::string const& mainString, std::string const& stringToSearch, std::string & beforeString, std::string & afterString, unsigned int const indexToStartTheSearch = 0);
-std::string getStringBeforeThisString(std::string const& mainString, std::string const& stringToSearch, unsigned int const indexToStart=0);
-std::string getStringAfterThisString(std::string const& mainString, std::string const& stringToSearch, unsigned int const indexToStart=0);
-std::string getStringInBetweenTwoStrings(std::string const& mainString, std::string const& firstString, std::string const& secondString, unsigned int const indexToStart=0);
-std::string getStringBeforeThisCharacters(std::string const& mainString, std::string const& characters, unsigned int const indexToStart=0);
-std::string getStringAndReplaceNonAlphanumericCharactersToUnderScore(std::string const& path);
-std::string getStringByRepeatingUntilDesiredLength(std::string const& stringToRepeat, unsigned int desiredLength);
-std::string getNumberAfterThisString(std::string const& mainString, std::string const& stringToSearch);
-std::string getHexNumberAfterThisString(std::string const& mainString, std::string const& stringToSearch);
-std::string getHexEquivalentOfCharacters(std::string const& stringToCheck);
+
+// Wide string related
+
+std::wstring convertStringToWideString(std::string const& stringInput);
+std::string convertWideStringToString(std::wstring const& wstringInput);
+
+
+
+// Alignments
 
 std::string getStringWithJustifyAlignment(std::string const& mainString, unsigned int const length);
 std::string getStringWithCenterAlignment(std::string const& mainString, unsigned int const length);
 std::string getStringWithRightAlignment(std::string const& mainString, unsigned int const length);
 std::string getStringWithLeftAlignment(std::string const& mainString, unsigned int const length);
 
+
+
+// PathHelpers
+
 std::string getCorrectPathWithoutUrlParameters(std::string const& path);
 std::string getUrlParameters(std::string const& path);
-std::string getCorrectPathWithReplacedSlashCharacters(std::string const& path, std::string const& slashCharacterString);
-std::string getCorrectPathWithoutDoublePeriod(std::string const& mainString, std::string const& slashCharacterString);
+std::string getCorrectPathWithReplacedSlashCharacters(std::string const& path, std::string const& slashCharacterString);std::string getCorrectPathWithoutDoublePeriod(std::string const& mainString, std::string const& slashCharacterString);
 std::string getStringBeforeDoublePeriod(std::string const& mainString, std::string const& slashCharacterString);
 std::string getImmediateDirectoryName(std::string const& mainString, std::string const& slashCharacterString);
-template <char slashCharacterString> std::string getCorrectPathWithReplacedSlashCharacters(std::string const& path);
-template <char slashCharacterString> std::string getCorrectPathWithoutDoublePeriod(std::string const& path);
+template <char slashCharacterString> std::string getCorrectPathWithReplacedSlashCharacters(std::string const& path);template <char slashCharacterString> std::string getCorrectPathWithoutDoublePeriod(std::string const& path);
 template <char slashCharacterString> std::string getStringBeforeDoublePeriod(std::string const& path);
 template <char slashCharacterString> std::string getImmediateDirectoryName(std::string const& path);
 
+
+
 // string to type converters
 
-bool convertStringToBool(std::string const& stringToConvert);
-template <typename NumberType> NumberType convertStringToNumber(std::string const& stringToConvert);
+bool convertStringToBool(std::string const& stringToConvert);template <typename NumberType> NumberType convertStringToNumber(std::string const& stringToConvert);
 template <typename NumberType> NumberType convertHexCharacterToNumber(char const character);
 template <typename NumberType> NumberType convertHexStringToNumber(std::string const& stringToConvert);
 AlbaNumber convertStringToAlbaNumber(std::string const& stringToConvert);
-
 template <typename NumberType>
 NumberType convertStringToNumber(std::string const& stringToConvert)
 {

@@ -17,24 +17,22 @@ namespace alba
 namespace stringHelper
 {
 
-wstring convertStringToWideString(string const& stringInput)
+unsigned int generateUniqueId(string const& mainString)
 {
-    return wstring(stringInput.begin(), stringInput.end());
-}
-
-string convertWideStringToString(wstring const& wstringInput)
-{
-    return string(wstringInput.begin(), wstringInput.end());
+    unsigned int uniqueId=1;
+    uniqueId = accumulate(mainString.begin(), mainString.end(), uniqueId, [](unsigned int c1, unsigned char c2)
+    {
+        return (c1*c2)+1;
+    });
+    return uniqueId;
 }
 
 unsigned int getLevenshteinDistance(string const& string1, string const& string2)
 {
-    // The edit distance or Levenshtein distance is the minimum number of editing operations needed to transform a string into another string.
-    // The allowed editing operations are as follows:
+    // The edit distance or Levenshtein distance is the minimum number of editing operations needed to transform a string into another string.    // The allowed editing operations are as follows:
     // -> insert a character (e.g. ABC ! ABCA)
     // -> remove a character (e.g. ABC ! AC)
-    // -> modify a character (e.g. ABC ! ADC)
-    unsigned int string1Length = static_cast<unsigned int>(string1.size());
+    // -> modify a character (e.g. ABC ! ADC)    unsigned int string1Length = static_cast<unsigned int>(string1.size());
     unsigned int string2Length = static_cast<unsigned int>(string2.size());
 
     vector<unsigned int> current(string2Length + 1);
@@ -74,34 +72,56 @@ unsigned int getHammingDistance(std::string const& string1, std::string const& s
     return result;
 }
 
-unsigned int generateUniqueId(string const& mainString)
+bool isNumber(string const& mainString)
 {
-    unsigned int uniqueId=1;
-    uniqueId = accumulate(mainString.begin(), mainString.end(), uniqueId, [](unsigned int c1, unsigned char c2)
-    {
-        return (c1*c2)+1;
-    });
-    return uniqueId;
+    return any_of(mainString.begin(), mainString.end(), [](char const character){ return isNumber(character);});}
+
+bool isWhiteSpace(string const& mainString)
+{    return all_of(mainString.begin(), mainString.end(), [](char const character){ return isWhiteSpace(character);});
 }
 
-string constructFileLocator(string const& file, int const lineNumber)
+bool isNewline(string const& mainString)
 {
-    stringstream ss;
-    ss << file.substr(file.find_last_of('\\')+1) << "[" << lineNumber << "]";
-    return ss.str();
+    return all_of(mainString.begin(), mainString.end(), [](char const character){ return isNewline(character);});
 }
 
-string getRandomAlphaNumericString(unsigned int const length)
+bool isIdentifier(string const& mainString)
 {
-    AlbaRandomizer randomizer;
-    int alphaNumericCharMapIndexMax = static_cast<int>(ALPHA_NUMERIC_CHAR_MAP.length())-1;
-    string result;
-    result.reserve(length);
-    generate_n(back_inserter(result), length, [&]()
+    bool isIdentifier(false);
+    if(!mainString.empty())
     {
-        return ALPHA_NUMERIC_CHAR_MAP[static_cast<unsigned int>(randomizer.getRandomValueInUniformDistribution(0, alphaNumericCharMapIndexMax))];
-    });
-    return result;
+        char firstCharacter = mainString[0];
+        isIdentifier = isLetter(firstCharacter) || isUnderscore(firstCharacter);
+    }
+    return isIdentifier;
+}
+
+bool isOneWord(string const& mainString)
+{
+    return (!mainString.empty()) && none_of(mainString.begin(), mainString.end(), [](char const character){ return isWhiteSpace(character);});
+}
+
+bool isEqualNotCaseSensitive(string const& mainString, string const& string2)
+{
+    return getStringWithCapitalLetters(mainString) == getStringWithCapitalLetters(string2);
+}
+
+bool isEqualWithLowestCommonLength(string const& string1, string const& string2)
+{
+    unsigned int length1 = string1.length();
+    unsigned int length2 = string2.length();
+    unsigned int lowestLength = (length1>length2) ? length2 : length1;
+    return string1.substr(0, lowestLength) == string2.substr(0, lowestLength);
+}
+
+bool isStringFoundInsideTheOtherStringCaseSensitive(string const& mainString, string const& string2)
+{
+    return isNotNpos(static_cast<int>(mainString.find(string2)));
+}
+
+bool isStringFoundInsideTheOtherStringNotCaseSensitive(string const& mainString, string const& string2)
+{
+    return isStringFoundInsideTheOtherStringCaseSensitive(getStringWithCapitalLetters(mainString), getStringWithCapitalLetters(string2));
 }
 
 bool isWildcardMatch(string const& mainString, string const& wildcard, unsigned int const mainStringIndex, unsigned int const wildcardIndex)
@@ -137,224 +157,10 @@ bool isWildcardMatch(string const& mainString, string const& wildcard, unsigned 
     return result;
 }
 
-bool isStringFoundInsideTheOtherStringCaseSensitive(string const& mainString, string const& string2)
-{
-    return isNotNpos(static_cast<int>(mainString.find(string2)));
-}
-
-bool isStringFoundInsideTheOtherStringNotCaseSensitive(string const& mainString, string const& string2)
-{
-    return isStringFoundInsideTheOtherStringCaseSensitive(getStringWithCapitalLetters(mainString), getStringWithCapitalLetters(string2));
-}
-
-bool isEqualNotCaseSensitive(string const& mainString, string const& string2)
-{
-    return getStringWithCapitalLetters(mainString) == getStringWithCapitalLetters(string2);
-}
-
-bool isEqualWithLowestCommonLength(string const& string1, string const& string2)
-{
-    unsigned int length1 = string1.length();
-    unsigned int length2 = string2.length();
-    unsigned int lowestLength = (length1>length2) ? length2 : length1;
-    return string1.substr(0, lowestLength) == string2.substr(0, lowestLength);
-}
-
-bool isNumber(string const& mainString)
-{
-    return any_of(mainString.begin(), mainString.end(), [](char const character){ return isNumber(character);});
-}
-
-bool isWhiteSpace(string const& mainString)
-{
-    return all_of(mainString.begin(), mainString.end(), [](char const character){ return isWhiteSpace(character);});
-}
-
-bool isNewline(string const& mainString)
-{
-    return all_of(mainString.begin(), mainString.end(), [](char const character){ return isNewline(character);});
-}
-
-bool isIdentifier(string const& mainString)
-{
-    bool isIdentifier(false);
-    if(!mainString.empty())
-    {
-        char firstCharacter = mainString[0];
-        isIdentifier = isLetter(firstCharacter) || isUnderscore(firstCharacter);
-    }
-    return isIdentifier;
-}
-
-bool isOneWord(string const& mainString)
-{
-    return (!mainString.empty()) && none_of(mainString.begin(), mainString.end(), [](char const character){ return isWhiteSpace(character);});
-}
-
-void fetchArgumentsToStringInMain(strings & argumentsInMain, int const argc, char const * const argv[])
-{
-    for (int argumentIndex=0; argumentIndex<argc; argumentIndex++)
-    {
-        argumentsInMain.emplace_back(argv[argumentIndex]);
-    }
-}
-
-bool transformReplaceStringIfFound(string& mainString, string const& toReplace, string const& replaceWith)
-{
-    bool found=false;
-    unsigned int toReplaceLength = toReplace.length();
-    unsigned int replaceWithLength = replaceWith.length();
-    unsigned int index = mainString.find(toReplace);
-    while(isNotNpos(static_cast<int>(index)))
-    {
-        found = true;
-        mainString.replace(index, toReplaceLength, replaceWith);
-        index = mainString.find(toReplace, index + replaceWithLength);
-    }
-    return found;
-}
-
-
-template <SplitStringType splitStringType> void splitToStrings(strings & listOfStrings, string const& mainString, string const& delimiters)
-{
-    unsigned int startingIndexOfFind(0);
-    unsigned int delimiterIndex = mainString.find_first_of(delimiters);
-    unsigned int delimeterLength = 1;
-    unsigned int mainStringLength = mainString.length();
-    while(isNotNpos(static_cast<int>(delimiterIndex)))
-    {
-        if(startingIndexOfFind != delimiterIndex)
-        {
-            listOfStrings.emplace_back(mainString.substr(startingIndexOfFind, delimiterIndex-startingIndexOfFind));
-        }
-        if(SplitStringType::WithDelimeters == splitStringType)
-        {
-            listOfStrings.emplace_back(mainString.substr(delimiterIndex, delimeterLength));
-        }
-        startingIndexOfFind = delimiterIndex + delimeterLength;
-        delimiterIndex = mainString.find_first_of(delimiters, startingIndexOfFind);
-    }
-    if(startingIndexOfFind != mainStringLength)
-    {
-        listOfStrings.emplace_back(mainString.substr(startingIndexOfFind, mainStringLength-startingIndexOfFind));
-    }
-}
-
-template void splitToStrings<SplitStringType::WithoutDelimeters> (strings & listOfStrings, string const& mainString, string const& delimiter);
-template void splitToStrings<SplitStringType::WithDelimeters> (strings & listOfStrings, string const& mainString, string const& delimiter);
-
-string combineStrings(strings const& listOfStrings, string const& delimiters)
-{
-    string result = accumulate(listOfStrings.cbegin(), listOfStrings.cend(), string(), [&delimiters](string const& previousResult, string const& currentString)
-    {
-            return string(previousResult + currentString + delimiters);
-});
-
-    if(result.size() > delimiters.size())
-    {
-        result = result.substr(0, result.size() - delimiters.size());
-    }
-    return result;
-}
-
-void splitLinesToAchieveTargetLength(strings & strings, string const& mainString, unsigned int const targetLength)
-{
-    set<unsigned int> transitionIndexes;
-    unsigned int mainStringLength = mainString.length();
-    bool isPreviousCharacterAWhitespace(false);
-    transitionIndexes.emplace(0);
-    for(unsigned int i = 0; i < mainStringLength; i++)
-    {
-        char currentCharacter = mainString[i];
-        if(isPreviousCharacterAWhitespace && !isWhiteSpace(currentCharacter))
-        {
-            transitionIndexes.emplace(i-1);
-        }
-        else if(!isPreviousCharacterAWhitespace && isWhiteSpace(currentCharacter))
-        {
-            transitionIndexes.emplace(i);
-        }
-        isPreviousCharacterAWhitespace = isWhiteSpace(currentCharacter);
-    }
-    transitionIndexes.emplace(mainStringLength);
-
-    unsigned int previousSplittingIndex = 0;
-    for(unsigned int splittingIndex = targetLength; splittingIndex < mainStringLength; splittingIndex += targetLength)
-    {
-        char currentCharacter = mainString[splittingIndex];
-
-        if(!isWhiteSpace(currentCharacter))
-        {
-            auto pairOfIndex = containerHelper::getLowerAndUpperValuesInSet(transitionIndexes, splittingIndex);
-            unsigned int lowerTransitionIndex(pairOfIndex.first+1);
-            unsigned int upperTransitionIndex(pairOfIndex.second);
-            int lowerDelta = static_cast<int>(splittingIndex-lowerTransitionIndex);
-            int upperDelta = static_cast<int>(upperTransitionIndex-splittingIndex);
-
-            bool isUpperValid(upperDelta >= 0);
-            bool isLowerValid(lowerDelta >= 0 && lowerTransitionIndex != previousSplittingIndex);
-            if(isUpperValid && isLowerValid)
-            {
-                if(upperDelta < lowerDelta)
-                {
-                    splittingIndex = upperTransitionIndex;
-                }
-                else
-                {
-                    splittingIndex = lowerTransitionIndex;
-                }
-            }
-            else if(isUpperValid)
-            {
-                splittingIndex = upperTransitionIndex;
-            }
-            else if(isLowerValid)
-            {
-                splittingIndex = lowerTransitionIndex;
-            }
-        }
-        strings.emplace_back(mainString.substr(previousSplittingIndex, splittingIndex-previousSplittingIndex));
-        previousSplittingIndex = splittingIndex;
-    }
-    if(previousSplittingIndex!=mainStringLength)
-    {
-        strings.emplace_back(mainString.substr(previousSplittingIndex));
-    }
-}
-
-void splitToStringsUsingASeriesOfDelimeters(strings & listOfStrings, string const& mainString, strings const& seriesOfDelimiters)
-{
-    if(!seriesOfDelimiters.empty())
-    {
-        unsigned int startingIndexOfFind(0);
-        unsigned int mainStringLength = mainString.length();
-        unsigned int delimiterIndex(0);
-        for(string const& delimeter : seriesOfDelimiters)
-        {
-            delimiterIndex = mainString.find(delimeter, startingIndexOfFind);
-            if(isNpos(static_cast<int>(delimiterIndex)))
-            {
-                break;
-            }
-            if(startingIndexOfFind != delimiterIndex)
-            {
-                listOfStrings.emplace_back(mainString.substr(startingIndexOfFind, delimiterIndex-startingIndexOfFind));
-            }
-            startingIndexOfFind = delimiterIndex + delimeter.length();
-        }
-        if(startingIndexOfFind != mainStringLength)
-        {
-            listOfStrings.emplace_back(mainString.substr(startingIndexOfFind, mainStringLength-startingIndexOfFind));
-        }
-    }
-}
-
-string getStringWithCapitalLetters(string const& mainString)
-{
+string getStringWithCapitalLetters(string const& mainString){
     string result;
     result.resize(mainString.length());
-    transform(mainString.begin(), mainString.end(), result.begin(), ::toupper);
-    return result;
+    transform(mainString.begin(), mainString.end(), result.begin(), ::toupper);    return result;
 }
 
 string getStringWithFirstNonWhiteSpaceCharacterToCapital(string const& mainString)
@@ -666,14 +472,202 @@ string getHexEquivalentOfCharacters(string const& stringToCheck)
     return ss.str();
 }
 
+string constructFileLocator(string const& file, int const lineNumber)
+{
+    stringstream ss;
+    ss << file.substr(file.find_last_of('\\')+1) << "[" << lineNumber << "]";
+    return ss.str();
+}
+
+string getRandomAlphaNumericString(unsigned int const length)
+{
+    AlbaRandomizer randomizer;
+    int alphaNumericCharMapIndexMax = static_cast<int>(ALPHA_NUMERIC_CHAR_MAP.length())-1;
+    string result;
+    result.reserve(length);
+    generate_n(back_inserter(result), length, [&]()
+    {
+        return ALPHA_NUMERIC_CHAR_MAP[static_cast<unsigned int>(randomizer.getRandomValueInUniformDistribution(0, alphaNumericCharMapIndexMax))];
+    });
+    return result;
+}
+
+strings getArgumentsToStringInMain(int const argc, char const * const argv[])
+{
+    strings result;
+    for (int argumentIndex=0; argumentIndex<argc; argumentIndex++)
+    {
+        result.emplace_back(argv[argumentIndex]);
+    }
+    return result;
+}
+
+bool transformReplaceStringIfFound(string& mainString, string const& toReplace, string const& replaceWith)
+{
+    bool found=false;
+    unsigned int toReplaceLength = toReplace.length();
+    unsigned int replaceWithLength = replaceWith.length();
+    unsigned int index = mainString.find(toReplace);
+    while(isNotNpos(static_cast<int>(index)))
+    {
+        found = true;
+        mainString.replace(index, toReplaceLength, replaceWith);
+        index = mainString.find(toReplace, index + replaceWithLength);
+    }
+    return found;
+}
+
+
+template <SplitStringType splitStringType> void splitToStrings(strings & listOfStrings, string const& mainString, string const& delimiters)
+{
+    unsigned int startingIndexOfFind(0);
+    unsigned int delimiterIndex = mainString.find_first_of(delimiters);
+    unsigned int delimeterLength = 1;
+    unsigned int mainStringLength = mainString.length();
+    while(isNotNpos(static_cast<int>(delimiterIndex)))
+    {
+        if(startingIndexOfFind != delimiterIndex)
+        {
+            listOfStrings.emplace_back(mainString.substr(startingIndexOfFind, delimiterIndex-startingIndexOfFind));
+        }
+        if(SplitStringType::WithDelimeters == splitStringType)
+        {
+            listOfStrings.emplace_back(mainString.substr(delimiterIndex, delimeterLength));
+        }
+        startingIndexOfFind = delimiterIndex + delimeterLength;
+        delimiterIndex = mainString.find_first_of(delimiters, startingIndexOfFind);
+    }
+    if(startingIndexOfFind != mainStringLength)
+    {
+        listOfStrings.emplace_back(mainString.substr(startingIndexOfFind, mainStringLength-startingIndexOfFind));
+    }
+}
+
+template void splitToStrings<SplitStringType::WithoutDelimeters> (strings & listOfStrings, string const& mainString, string const& delimiter);
+template void splitToStrings<SplitStringType::WithDelimeters> (strings & listOfStrings, string const& mainString, string const& delimiter);
+
+string combineStrings(strings const& listOfStrings, string const& delimiters)
+{
+    string result = accumulate(listOfStrings.cbegin(), listOfStrings.cend(), string(), [&delimiters](string const& previousResult, string const& currentString)
+    {
+            return string(previousResult + currentString + delimiters);
+});
+
+    if(result.size() > delimiters.size())
+    {
+        result = result.substr(0, result.size() - delimiters.size());
+    }
+    return result;
+}
+
+void splitLinesToAchieveTargetLength(strings & strings, string const& mainString, unsigned int const targetLength)
+{
+    set<unsigned int> transitionIndexes;
+    unsigned int mainStringLength = mainString.length();
+    bool isPreviousCharacterAWhitespace(false);
+    transitionIndexes.emplace(0);
+    for(unsigned int i = 0; i < mainStringLength; i++)
+    {
+        char currentCharacter = mainString[i];
+        if(isPreviousCharacterAWhitespace && !isWhiteSpace(currentCharacter))
+        {
+            transitionIndexes.emplace(i-1);
+        }
+        else if(!isPreviousCharacterAWhitespace && isWhiteSpace(currentCharacter))
+        {
+            transitionIndexes.emplace(i);
+        }
+        isPreviousCharacterAWhitespace = isWhiteSpace(currentCharacter);
+    }
+    transitionIndexes.emplace(mainStringLength);
+
+    unsigned int previousSplittingIndex = 0;
+    for(unsigned int splittingIndex = targetLength; splittingIndex < mainStringLength; splittingIndex += targetLength)
+    {
+        char currentCharacter = mainString[splittingIndex];
+
+        if(!isWhiteSpace(currentCharacter))
+        {
+            auto pairOfIndex = containerHelper::getLowerAndUpperValuesInSet(transitionIndexes, splittingIndex);
+            unsigned int lowerTransitionIndex(pairOfIndex.first+1);
+            unsigned int upperTransitionIndex(pairOfIndex.second);
+            int lowerDelta = static_cast<int>(splittingIndex-lowerTransitionIndex);
+            int upperDelta = static_cast<int>(upperTransitionIndex-splittingIndex);
+
+            bool isUpperValid(upperDelta >= 0);
+            bool isLowerValid(lowerDelta >= 0 && lowerTransitionIndex != previousSplittingIndex);
+            if(isUpperValid && isLowerValid)
+            {
+                if(upperDelta < lowerDelta)
+                {
+                    splittingIndex = upperTransitionIndex;
+                }
+                else
+                {
+                    splittingIndex = lowerTransitionIndex;
+                }
+            }
+            else if(isUpperValid)
+            {
+                splittingIndex = upperTransitionIndex;
+            }
+            else if(isLowerValid)
+            {
+                splittingIndex = lowerTransitionIndex;
+            }
+        }
+        strings.emplace_back(mainString.substr(previousSplittingIndex, splittingIndex-previousSplittingIndex));
+        previousSplittingIndex = splittingIndex;
+    }
+    if(previousSplittingIndex!=mainStringLength)
+    {
+        strings.emplace_back(mainString.substr(previousSplittingIndex));
+    }
+}
+
+void splitToStringsUsingASeriesOfDelimeters(strings & listOfStrings, string const& mainString, strings const& seriesOfDelimiters)
+{
+    if(!seriesOfDelimiters.empty())
+    {
+        unsigned int startingIndexOfFind(0);
+        unsigned int mainStringLength = mainString.length();
+        unsigned int delimiterIndex(0);
+        for(string const& delimeter : seriesOfDelimiters)
+        {
+            delimiterIndex = mainString.find(delimeter, startingIndexOfFind);
+            if(isNpos(static_cast<int>(delimiterIndex)))
+            {
+                break;
+            }
+            if(startingIndexOfFind != delimiterIndex)
+            {
+                listOfStrings.emplace_back(mainString.substr(startingIndexOfFind, delimiterIndex-startingIndexOfFind));
+            }
+            startingIndexOfFind = delimiterIndex + delimeter.length();
+        }
+        if(startingIndexOfFind != mainStringLength)
+        {
+            listOfStrings.emplace_back(mainString.substr(startingIndexOfFind, mainStringLength-startingIndexOfFind));
+        }
+    }
+}
+
+wstring convertStringToWideString(string const& stringInput)
+{
+    return wstring(stringInput.begin(), stringInput.end());
+}
+
+string convertWideStringToString(wstring const& wstringInput)
+{
+    return string(wstringInput.begin(), wstringInput.end());
+}
+
 string getStringWithJustifyAlignment(string const& mainString, unsigned int const length)
 {
-    string result;
-    string noRedundantWhiteSpace(getStringWithoutRedundantWhiteSpace(mainString));
+    string result;    string noRedundantWhiteSpace(getStringWithoutRedundantWhiteSpace(mainString));
     string noWhiteSpace(getStringWithoutWhiteSpace(mainString));
     if(mainString.empty())
-    {
-        string gap(length, ' ');
+    {        string gap(length, ' ');
         result = gap;
     }
     else if(noRedundantWhiteSpace.length()>=length)
