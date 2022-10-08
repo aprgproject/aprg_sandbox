@@ -85,19 +85,18 @@ void testGetLongestPrefixOfWithUnsignedInt()
     trie.put("the", 5U);
     trie.put("sea", 6U);
     trie.put("shore", 7U);
+    trie.put("s", 8U);
 
     EXPECT_EQ("shells", trie.getLongestPrefixOf("shellscore"));
     EXPECT_EQ("shells", trie.getLongestPrefixOf("shells"));
-    EXPECT_EQ("", trie.getLongestPrefixOf("shhhh"));
-    EXPECT_EQ("", trie.getLongestPrefixOf("string does not exist"));
+    EXPECT_EQ("", trie.getLongestPrefixOf("this"));
+    EXPECT_EQ("", trie.getLongestPrefixOf("this string does not exist"));
 }
 
-template <typename Trie>
-void testPutWithUnsignedInt()
+template <typename Trie>void testPutWithUnsignedInt()
 {
     Trie trie;
-    trie.put("she", 0U);
-    trie.put("sells", 1U);
+    trie.put("she", 0U);    trie.put("sells", 1U);
     trie.put("sea", 2U);
 
     ASSERT_EQ(3U, trie.getSize());
@@ -140,17 +139,16 @@ void testGetKeysWithUnsignedInt()
     trie.put("the", 5U);
     trie.put("sea", 6U);
     trie.put("shore", 7U);
+    trie.put("s", 8U);
 
     Keys keysToVerify(trie.getKeys());
 
-    Keys expectedKeys{"by", "sea", "sells", "she", "shells", "shore", "the"};
+    Keys expectedKeys{"by", "s", "sea", "sells", "she", "shells", "shore", "the"};
     EXPECT_EQ(expectedKeys, keysToVerify);
 }
-
 template <typename Trie>
 void testGetAllKeysWithPrefixWithUnsignedInt()
-{
-    using Keys = typename Trie::Keys;
+{    using Keys = typename Trie::Keys;
     Trie trie;
     trie.put("she", 0U);
     trie.put("sells", 1U);
@@ -160,17 +158,16 @@ void testGetAllKeysWithPrefixWithUnsignedInt()
     trie.put("the", 5U);
     trie.put("sea", 6U);
     trie.put("shore", 7U);
+    trie.put("s", 8U);
 
     Keys keysToVerify(trie.getAllKeysWithPrefix("s"));
 
-    Keys expectedKeys{"sea", "sells", "she", "shells", "shore"};
+    Keys expectedKeys{"s", "sea", "sells", "she", "shells", "shore"};
     EXPECT_EQ(expectedKeys, keysToVerify);
 }
-
 template <typename Trie>
 void testGetAllKeysThatMatchWithUnsignedInt()
-{
-    using Keys = typename Trie::Keys;
+{    using Keys = typename Trie::Keys;
     Trie trie;
     trie.put("she", 0U);
     trie.put("sells", 1U);
@@ -180,13 +177,12 @@ void testGetAllKeysThatMatchWithUnsignedInt()
     trie.put("the", 5U);
     trie.put("sea", 6U);
     trie.put("shore", 7U);
+    trie.put("s", 8U);
 
     Keys keysToVerify(trie.getAllKeysThatMatch("s.."));
-
     Keys expectedKeys{"sea", "she"};
     EXPECT_EQ(expectedKeys, keysToVerify);
 }
-
 }
 
 }

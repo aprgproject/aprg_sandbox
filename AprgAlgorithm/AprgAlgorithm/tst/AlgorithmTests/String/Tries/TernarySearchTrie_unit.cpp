@@ -146,15 +146,13 @@ TEST(TernarySearchTrieTest, DeleteBasedOnKeyWorksWithNumberOfNodes)
 TEST(TernarySearchTrieTest, DeleteBasedOnKeyWhenEmptyStringHasNoEffect)
 {
     TrieForTest trie;
-    trie.put("", 017U);
+    trie.put("", 17U);
 
     trie.deleteBasedOnKey("");
-    EXPECT_TRUE(trie.isEmpty());
-    EXPECT_EQ(0U, trie.getNumberOfNodes());
+    EXPECT_TRUE(trie.isEmpty());    EXPECT_EQ(0U, trie.getNumberOfNodes());
 
     trie.deleteBasedOnKey("");
-    EXPECT_TRUE(trie.isEmpty());
-    EXPECT_EQ(0U, trie.getNumberOfNodes());
+    EXPECT_TRUE(trie.isEmpty());    EXPECT_EQ(0U, trie.getNumberOfNodes());
 }
 
 }
