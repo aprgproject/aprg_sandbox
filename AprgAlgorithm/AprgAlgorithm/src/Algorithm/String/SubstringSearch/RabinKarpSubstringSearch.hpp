@@ -1,12 +1,10 @@
 #pragma once
 
-#include <Algorithm/HashFunctions/HornerHashFunction.hpp>
+#include <Algorithm/HashFunctions/ForString/HornerHashFunction.hpp>
 
 #include <string>
-
 namespace alba
 {
-
 namespace algorithm
 {
 
