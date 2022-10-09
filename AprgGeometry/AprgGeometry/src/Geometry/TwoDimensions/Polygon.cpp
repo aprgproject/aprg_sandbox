@@ -87,19 +87,17 @@ AlbaAngles Polygon<numberOfVertices>::getAnglesAtVertices() const
 {
     AlbaAngles anglesAtVertices;
     int sizeMinusOne = static_cast<int>(m_vertices.size())-1;
-    anglesAtVertices.emplace_back(getTheInnerAngleUsingThreePoints(m_vertices[0], m_vertices[sizeMinusOne], m_vertices[1]));
+    anglesAtVertices.emplace_back(getTheInnerAngleUsingThreePoints(m_vertices.at(0), m_vertices.at(sizeMinusOne), m_vertices.at(1)));
     for(int i=1; i<sizeMinusOne; i++)
     {
-        anglesAtVertices.emplace_back(getTheInnerAngleUsingThreePoints(m_vertices[i], m_vertices[i-1], m_vertices[i+1]));
+        anglesAtVertices.emplace_back(getTheInnerAngleUsingThreePoints(m_vertices.at(i), m_vertices.at(i-1), m_vertices.at(i+1)));
     }
-    anglesAtVertices.emplace_back(getTheInnerAngleUsingThreePoints(m_vertices[sizeMinusOne], m_vertices[sizeMinusOne-1], m_vertices[0]));
+    anglesAtVertices.emplace_back(getTheInnerAngleUsingThreePoints(m_vertices.at(sizeMinusOne), m_vertices.at(sizeMinusOne-1), m_vertices.at(0)));
     return anglesAtVertices; //RVO
 }
-
 template<unsigned int numberOfVertices>
 AlbaAngle Polygon<numberOfVertices>::getSumOfAngles() const
-{
-    return AlbaAngle(AngleUnitType::Degrees, (numberOfVertices - 2) * 180);
+{    return AlbaAngle(AngleUnitType::Degrees, (numberOfVertices - 2) * 180);
 }
 
 template<unsigned int numberOfVertices>

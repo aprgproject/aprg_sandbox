@@ -64,17 +64,15 @@ Quadrilateral::GroupOfPoints Quadrilateral::getGroupOfPointsBasedOnYValue() cons
         Point previousPoint(vertices.front());
         result.emplace_back();
         result[groupOfPointsIndex].emplace_back(vertices.front());
-        for(unsigned int i=1; i<vertices.size(); i++)
+        for(auto it=vertices.cbegin()+1; it!=vertices.cend(); it++)
         {
-            Point const& currentPoint(vertices.at(i));
+            Point const& currentPoint(*it);
             if(isAlmostEqual(currentPoint.getY(), previousPoint.getY()))
             {
-                result[groupOfPointsIndex].emplace_back(currentPoint);
-            }
+                result[groupOfPointsIndex].emplace_back(currentPoint);            }
             else
             {
-                result.emplace_back();
-                groupOfPointsIndex++;
+                result.emplace_back();                groupOfPointsIndex++;
                 result[groupOfPointsIndex].emplace_back(currentPoint);
             }
             previousPoint=currentPoint;
