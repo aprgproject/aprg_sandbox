@@ -24,6 +24,7 @@ GameState getGameStateFromGrundyNumber(
         UnsignedInteger const grundyNumber)
 {
     // The Grundy number of a losing state is 0, and the Grundy number of a winning state is a positive number.
+
     if(grundyNumber > 0)
     {
         return GameState::Winning;
@@ -82,13 +83,15 @@ UnsignedInteger getCombinedGrundyNumber(
 UnsignedInteger getOverallGrundyNumber(UnsignedIntegers const& grundyNumbers)
 {
     // Same as nim sum
+
     // Sometimes a move in a game divides the game into subgames that are independent of each other.
     // In this case, the Grundy number of the game is mex({g1, g2,..., gn}),
     // where n is the number of possible moves and gk = ak1 ^ ak2 ^ ... ^ akm,
     // where move k generates subgames with Grundy numbers ak1, ak2, ..., akm.
 
     return accumulate(
-                grundyNumbers.cbegin(), grundyNumbers.cend(), 0U,                [](UnsignedInteger const grundyNumber1, UnsignedInteger const grundyNumber2)
+                grundyNumbers.cbegin(), grundyNumbers.cend(), 0U,
+                [](UnsignedInteger const grundyNumber1, UnsignedInteger const grundyNumber2)
     {
         return grundyNumber1 ^ grundyNumber2;
     });

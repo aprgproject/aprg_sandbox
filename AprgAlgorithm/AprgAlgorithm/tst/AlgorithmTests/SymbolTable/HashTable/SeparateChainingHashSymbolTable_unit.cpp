@@ -1,9 +1,11 @@
 #include <Algorithm/HashFunctions/ForPrimitiveTypes/UnsignedIntegerBasedHashFunction.hpp>
 #include <Algorithm/SymbolTable/HashTable/SeparateChainingHashSymbolTable.hpp>
 #include <AlgorithmTests/SymbolTable/Utilities/CommonTestsWithSymbolTable.hpp>
+
 #include <gtest/gtest.h>
 
-using namespace alba::algorithm::CommonTestsWithSymbolTable;using namespace std;
+using namespace alba::algorithm::CommonTestsWithSymbolTable;
+using namespace std;
 
 namespace alba
 {

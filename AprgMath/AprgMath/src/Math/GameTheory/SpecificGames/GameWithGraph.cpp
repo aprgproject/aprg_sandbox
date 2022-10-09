@@ -27,7 +27,8 @@ UnsignedInteger GameWithGraph::getGrundyNumberAt(Vertex const vertex)
         // possible infinite recursion for cycles
         result = getGrundyNumber(getNextGrundyNumbers(vertex));
         m_vertexToGrundyNumberMap[vertex] = result;
-    }    return result;
+    }
+    return result;
 }
 
 GameState GameWithGraph::getGameStateAt(Vertex const vertex)

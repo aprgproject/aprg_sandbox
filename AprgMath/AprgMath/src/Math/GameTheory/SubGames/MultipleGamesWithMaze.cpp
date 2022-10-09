@@ -31,7 +31,8 @@ UnsignedInteger MultipleGamesWithMaze::getOverallGrundyNumber()
     return getCombinedGrundyNumber();
 }
 
-GameState MultipleGamesWithMaze::getGameState(){
+GameState MultipleGamesWithMaze::getGameState()
+{
     return getGameStateFromGrundyNumber(getOverallGrundyNumber());
 }
 
@@ -109,6 +110,7 @@ UnsignedInteger MultipleGamesWithMaze::getCombinedGrundyNumber()
     }
     return result;
 }
+
 
 }
 

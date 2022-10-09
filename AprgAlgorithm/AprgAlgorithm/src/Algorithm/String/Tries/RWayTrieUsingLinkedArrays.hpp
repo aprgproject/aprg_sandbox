@@ -16,7 +16,8 @@ template <typename Value>
 class RWayTrieUsingLinkedArrays : public BaseStringSymbolTable<Value>
 {
 public:
-    static constexpr unsigned int RADIX=256U;    using Key = std::string;
+    static constexpr unsigned int RADIX=256U;
+    using Key = std::string;
     using Keys = stringHelper::strings;
     using ValueUniquePointer = std::unique_ptr<Value>;
     struct Node;
@@ -30,6 +31,7 @@ public:
     RWayTrieUsingLinkedArrays()
         : m_root(nullptr)
     {}
+
     bool isEmpty() const override
     {
         return getSize() == 0;
@@ -100,6 +102,7 @@ public:
         collectKeysThatMatchAtNode(m_root.get(), std::string(), patternToMatch, result);
         return result;
     }
+
 private:
 
     bool isEmptyNode(NodeUniquePointer const& currentNodePointer)
@@ -187,7 +190,8 @@ private:
 
     void collectAllKeysAtNode(
             Node const*const currentNodePointer,
-            Key const& previousPrefix,            Keys & collectedKeys) const
+            Key const& previousPrefix,
+            Keys & collectedKeys) const
     {
         if(currentNodePointer != nullptr)
         {
@@ -227,7 +231,8 @@ private:
                     if('.' == charToMatch || charToMatch == static_cast<char>(c))
                     {
                         collectKeysThatMatchAtNode(
-                                    currentNodePointer->next.at(c).get(),                                    previousPrefix + static_cast<char>(c),
+                                    currentNodePointer->next.at(c).get(),
+                                    previousPrefix + static_cast<char>(c),
                                     patternToMatch,
                                     collectedKeys);
                     }
@@ -238,7 +243,8 @@ private:
 
     void put(
             NodeUniquePointer & currentNodePointer,
-            Key const& key,            Value const& value,
+            Key const& key,
+            Value const& value,
             unsigned int const index)
     {
         if(!currentNodePointer)

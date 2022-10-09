@@ -87,7 +87,8 @@ TEST(MultipleGamesWithMazeTest, Example1Works)
     EXPECT_EQ(0U, games.getOverallGrundyNumber());
     EXPECT_EQ(GameState::Losing, games.getGameState());
     EXPECT_EQ(GameIndexAndCoordinatePair(0U, {0U, 0U}), games.getOptimalNextGameAndCoordinate());
-    EXPECT_TRUE(games.hasNoMoves());    games.setCoordinateAtGame(0U, {0U, 0U});
+    EXPECT_TRUE(games.hasNoMoves());
+    games.setCoordinateAtGame(0U, {0U, 0U});
 }
 
 }

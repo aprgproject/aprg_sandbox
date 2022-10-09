@@ -25,6 +25,7 @@ NEW_COLUMN
 22. Cashier/Cash Services - promptness of service
 23. Cashier/Cash Services - courtesy of staff
 24. Security Services - visibility of security personnel
-25. Security Services - courtesy of security personnel26. Patient Discharge - patient is well-informed regarding requirements prior to ICU discharge
+25. Security Services - courtesy of security personnel
+26. Patient Discharge - patient is well-informed regarding requirements prior to ICU discharge
 27. Patient Discharge - adequacy of instructions regarding medication and on how to care for the patient at home
 28. Overall assessment of the hospital

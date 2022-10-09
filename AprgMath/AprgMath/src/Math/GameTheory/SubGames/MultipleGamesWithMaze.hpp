@@ -41,7 +41,8 @@ private:
     UnsignedInteger getCombinedGrundyNumber();
 
     Games m_games;
-    Coordinates m_coordinateInGames;};
+    Coordinates m_coordinateInGames;
+};
 
 }
 

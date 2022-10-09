@@ -11,7 +11,8 @@ NEW_COLUMN
 09. Hospital Environment - appliances are working properly 
 10. Nursing Care - promptness of service
 11. Nursing Care - quality of patient care
-12. Nursing Care - courtesy in dealing with patients 13. Nursing Care - patient is well-informed regarding his medication, diagnostic tests, dietary needs, & others
+12. Nursing Care - courtesy in dealing with patients 
+13. Nursing Care - patient is well-informed regarding his medication, diagnostic tests, dietary needs, & others
 14. Medical Care - promptness of service
 15. Medical Care - quality of care and treatment
 16. Medical Care - courtesy in dealing with patients
@@ -20,7 +21,8 @@ NEW_COLUMN
 19. Pharmacy - promptness of service
 20. Pharmacy - courtesy of staff
 NEW_COLUMN
-21. Dietary Food Service - quality/cleanliness of food22. Dietary Food Service - timeliness of meal service
+21. Dietary Food Service - quality/cleanliness of food
+22. Dietary Food Service - timeliness of meal service
 23. Medical Social Service - courtesy in dealing with patients 
 24. Medical Social Service - provision of patient's medical needs 
 25. Laboratory - promptness of service
@@ -34,6 +36,7 @@ NEW_COLUMN
 33. Cashier/Cash Services - promptness of service
 34. Cashier/Cash Services - courtesy of staff
 35. Security Services - visibility of security personnel
-36. Security Services - courtesy of security personnel37. Patient Discharge - patient is well-informed regarding requirements prior to discharge
+36. Security Services - courtesy of security personnel
+37. Patient Discharge - patient is well-informed regarding requirements prior to discharge
 38. Patient Discharge - adequacy of instructions regarding medication and on how to care for the patient at home
 39. Overall assessment of the hospital

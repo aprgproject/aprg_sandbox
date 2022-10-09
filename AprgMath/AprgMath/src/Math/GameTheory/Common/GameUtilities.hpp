@@ -16,4 +16,5 @@ UnsignedInteger getCombinedGrundyNumber(UnsignedInteger const grundyNumber1, Uns
 UnsignedInteger getOverallGrundyNumber(UnsignedIntegers const& grundyNumbers);
 
 }
+
 }

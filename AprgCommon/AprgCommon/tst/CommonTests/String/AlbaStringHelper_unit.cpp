@@ -10,29 +10,70 @@ using namespace alba::stringHelper;
 namespace alba
 {
 
-TEST(UniqueIdTest, GenerateUniqueId)
+TEST(IntegerStringTest, GenerateUniqueId)
 {
-    string string1("Mark is the no#1 guy in the world. Mark is also the nicest guy.");    string string2("MARK is the no#1 programmer in the world. MARK is also the nicest programmer.");
+    string string1("Mark is the no#1 guy in the world. Mark is also the nicest guy.");
+    string string2("MARK is the no#1 programmer in the world. MARK is also the nicest programmer.");
     unsigned int uniqueId1 = generateUniqueId(string1);
     unsigned int uniqueId2 = generateUniqueId(string2);
     EXPECT_EQ(552749853U, uniqueId1);
     EXPECT_EQ(1436619827U, uniqueId2);
 }
 
-TEST(UniqueIdTest, GetLevenshteinDistanceWorks)
+TEST(IntegerStringTest, GetLevenshteinDistanceWorks)
 {
-    EXPECT_EQ(2U, getLevenshteinDistance("MOVIE", "LOVE"));    EXPECT_EQ(1U, getLevenshteinDistance("This is a statement", "This is  statement"));
+    EXPECT_EQ(2U, getLevenshteinDistance("MOVIE", "LOVE"));
+    EXPECT_EQ(1U, getLevenshteinDistance("This is a statement", "This is  statement"));
     EXPECT_EQ(1U, getLevenshteinDistance("This is a statement", "This is  statement"));
     EXPECT_EQ(4U, getLevenshteinDistance("This is a statement", "This is not a statement"));
-    EXPECT_EQ(1U, getLevenshteinDistance("This is a statement", "This is b statement"));}
+    EXPECT_EQ(1U, getLevenshteinDistance("This is a statement", "This is b statement"));
+}
 
-TEST(UniqueIdTest, GetHammingDistanceWorks)
+TEST(IntegerStringTest, GetHammingDistanceWorks)
 {
     EXPECT_EQ(2U, getHammingDistance("MOVIE", "LOVE"));
     EXPECT_EQ(10U, getHammingDistance("This is a statement", "This is  statement"));
     EXPECT_EQ(10U, getHammingDistance("This is a statement", "This is  statement"));
     EXPECT_EQ(10U, getHammingDistance("This is a statement", "This is not a statement"));
     EXPECT_EQ(1U, getHammingDistance("This is a statement", "This is b statement"));
+}
+
+TEST(IntegerStringTest, GetNumberOfSubStringsWorks)
+{
+    // For example, the substrings of ABCD are A, B, C, D, AB, BC, CD, ABC, BCD and ABCD.
+
+    EXPECT_EQ(10U, getNumberOfSubStrings("ABCD"));
+}
+
+TEST(IntegerStringTest, GetNumberOfSubsequencesWorks)
+{
+    // For example, the subsequences of ABCD are A, B, C, D, AB, AC, AD, BC, BD, CD, ABC, ABD, ACD, BCD and ABCD.
+
+    EXPECT_EQ(15U, getNumberOfSubsequences("ABCD"));
+}
+
+TEST(IntegerStringTest, GetRotationValueWorks)
+{
+    // For example, the rotations of ABCD are ABCD, BCDA, CDAB and DABC.
+
+    EXPECT_EQ(0, getRotationValue("ABCD", "ABCD"));
+    EXPECT_EQ(1, getRotationValue("ABCD", "BCDA"));
+    EXPECT_EQ(2, getRotationValue("ABCD", "CDAB"));
+    EXPECT_EQ(3, getRotationValue("ABCD", "DABC"));
+    EXPECT_EQ(static_cast<int>(string::npos), getRotationValue("ABCD", ""));
+    EXPECT_EQ(static_cast<int>(string::npos), getRotationValue("ABCD", "ABCDE"));
+    EXPECT_EQ(static_cast<int>(string::npos), getRotationValue("ABCD", "AAAA"));
+}
+
+TEST(IntegerStringTest, GetPeriodValueWorks)
+{
+    // For example, the shortest period of ABCABCA is ABC.
+
+    EXPECT_EQ(2, getPeriodValue("ABCABCA", "ABC"));
+    EXPECT_EQ(1, getPeriodValue("ABCABCA", "ABCABC"));
+    EXPECT_EQ(static_cast<int>(string::npos), getPeriodValue("ABCABCA", ""));
+    EXPECT_EQ(static_cast<int>(string::npos), getPeriodValue("ABCABCA", "ABCDE"));
+    EXPECT_EQ(static_cast<int>(string::npos), getPeriodValue("ABCD", "AAAA"));
 }
 
 TEST(ConvertCaseFromStringTest, ConvertToCapitalLettersUsingAllLetters)
@@ -432,10 +473,12 @@ TEST(CombineStringTest, CombinedStringsWithComma)
 
 TEST(GetStringWithAlignmentFromStringTest, GetStringUsingJustifyAlignment)
 {
-    EXPECT_EQ("                        M                         ", getStringWithJustifyAlignment("M", 50));    EXPECT_EQ("         M         a         r         k          ", getStringWithJustifyAlignment("Mark", 50));
+    EXPECT_EQ("                        M                         ", getStringWithJustifyAlignment("M", 50));
+    EXPECT_EQ("         M         a         r         k          ", getStringWithJustifyAlignment("Mark", 50));
     EXPECT_EQ("Mark        Earvin        Alba        1234567890  ", getStringWithJustifyAlignment("Mark Earvin Alba 1234567890", 50));
     EXPECT_EQ("Mark Earvin Alba 1234567890", getStringWithJustifyAlignment("Mark Earvin Alba 1234567890", 1));
-    EXPECT_EQ("                                                  ", getStringWithJustifyAlignment(string(), 50));}
+    EXPECT_EQ("                                                  ", getStringWithJustifyAlignment(string(), 50));
+}
 
 TEST(GetStringWithAlignmentFromStringTest, GetStringUsingCenterAlignment)
 {
@@ -512,10 +555,12 @@ TEST(GetNewStringFromStringTest, GetImmediateDirectoryNameUsingLastCharacterIsNo
 
 TEST(BooleanStringTest, IsNumberTest)
 {
-    string testString1("AbCDEFghIjKlMnopQRstUvWxYz");    string testString2("AbCD1234567890!@#$%^&*( )");
+    string testString1("AbCDEFghIjKlMnopQRstUvWxYz");
+    string testString2("AbCD1234567890!@#$%^&*( )");
     string testString3("1234567890!@#$%^&*( )AbCDEFghIjKlMnopQRstUvWxYz");
 
-    EXPECT_FALSE(isNumber(testString1));    EXPECT_TRUE(isNumber(testString2));
+    EXPECT_FALSE(isNumber(testString1));
+    EXPECT_TRUE(isNumber(testString2));
     EXPECT_TRUE(isNumber(testString3));
 }
 
@@ -558,6 +603,110 @@ TEST(BooleanStringTest, IsOneWordTest)
     EXPECT_FALSE(isOneWord(testString3));
     EXPECT_TRUE(isOneWord(testString4));
     EXPECT_FALSE(isOneWord(testString5));
+}
+
+TEST(BooleanStringTest, IsSubstringTest)
+{
+    // For example, the substrings of ABCD are A, B, C, D, AB, BC, CD, ABC, BCD and ABCD.
+
+    EXPECT_TRUE(isSubstring("ABCD", "A"));
+    EXPECT_TRUE(isSubstring("ABCD", "B"));
+    EXPECT_TRUE(isSubstring("ABCD", "C"));
+    EXPECT_TRUE(isSubstring("ABCD", "D"));
+    EXPECT_TRUE(isSubstring("ABCD", "AB"));
+    EXPECT_TRUE(isSubstring("ABCD", "BC"));
+    EXPECT_TRUE(isSubstring("ABCD", "CD"));
+    EXPECT_TRUE(isSubstring("ABCD", "ABC"));
+    EXPECT_TRUE(isSubstring("ABCD", "BCD"));
+    EXPECT_TRUE(isSubstring("ABCD", "ABCD"));
+    EXPECT_TRUE(isSubstring("ABCD", "")); // null strings are considered
+    EXPECT_FALSE(isSubstring("ABCD", "ABCDE"));
+}
+
+TEST(BooleanStringTest, IsSubsequenceTest)
+{
+    // For example, the subsequences of ABCD are A, B, C, D, AB, AC, AD, BC, BD, CD, ABC, ABD, ACD, BCD and ABCD.
+
+    EXPECT_TRUE(isSubsequence("ABCD", "A"));
+    EXPECT_TRUE(isSubsequence("ABCD", "B"));
+    EXPECT_TRUE(isSubsequence("ABCD", "C"));
+    EXPECT_TRUE(isSubsequence("ABCD", "D"));
+    EXPECT_TRUE(isSubsequence("ABCD", "AB"));
+    EXPECT_TRUE(isSubsequence("ABCD", "AC"));
+    EXPECT_TRUE(isSubsequence("ABCD", "AD"));
+    EXPECT_TRUE(isSubsequence("ABCD", "BC"));
+    EXPECT_TRUE(isSubsequence("ABCD", "BD"));
+    EXPECT_TRUE(isSubsequence("ABCD", "CD"));
+    EXPECT_TRUE(isSubsequence("ABCD", "ABC"));
+    EXPECT_TRUE(isSubsequence("ABCD", "ABD"));
+    EXPECT_TRUE(isSubsequence("ABCD", "ACD"));
+    EXPECT_TRUE(isSubsequence("ABCD", "BCD"));
+    EXPECT_TRUE(isSubsequence("ABCD", "ABCD"));
+    EXPECT_TRUE(isSubsequence("ABCD", "")); // null strings are considered
+    EXPECT_FALSE(isSubsequence("ABCD", "ABCDE"));
+    EXPECT_FALSE(isSubsequence("ABCD", "BA"));
+}
+
+TEST(BooleanStringTest, IsPrefixTest)
+{
+    // For example, the prefixes of ABCD are A, AB, ABC and ABCD.
+
+    EXPECT_TRUE(isPrefix("ABCD", "A"));
+    EXPECT_TRUE(isPrefix("ABCD", "AB"));
+    EXPECT_TRUE(isPrefix("ABCD", "ABC"));
+    EXPECT_TRUE(isPrefix("ABCD", "ABCD"));
+    EXPECT_TRUE(isPrefix("ABCD", "")); // null strings are considered
+    EXPECT_FALSE(isPrefix("ABCD", "ABCDE"));
+    EXPECT_FALSE(isPrefix("ABCD", "BA"));
+}
+
+TEST(BooleanStringTest, IsSuffixTest)
+{
+    // For example, the suffixes of ABCD are D, CD, BCD and ABCD.
+
+    EXPECT_TRUE(isSuffix("ABCD", "D"));
+    EXPECT_TRUE(isSuffix("ABCD", "CD"));
+    EXPECT_TRUE(isSuffix("ABCD", "BCD"));
+    EXPECT_TRUE(isSuffix("ABCD", "ABCD"));
+    EXPECT_TRUE(isSuffix("ABCD", "")); // null strings are considered
+    EXPECT_FALSE(isSuffix("ABCD", "1ABCD"));
+    EXPECT_FALSE(isSuffix("ABCD", "DC"));
+}
+
+TEST(BooleanStringTest, IsRotationTest)
+{
+    // For example, the rotations of ABCD are ABCD, BCDA, CDAB and DABC.
+
+    EXPECT_TRUE(isRotation("ABCD", "ABCD"));
+    EXPECT_TRUE(isRotation("ABCD", "BCDA"));
+    EXPECT_TRUE(isRotation("ABCD", "CDAB"));
+    EXPECT_TRUE(isRotation("ABCD", "DABC"));
+    EXPECT_FALSE(isRotation("ABCD", "")); // null strings are NOT considered
+    EXPECT_FALSE(isRotation("ABCD", "ABCDE"));
+    EXPECT_FALSE(isRotation("ABCD", "AAAA"));
+}
+
+TEST(IntegerStringTest, IsPeriodWorks)
+{
+    // For example, the shortest period of ABCABCA is ABC.
+
+    EXPECT_TRUE(isPeriod("ABCABCA", "ABC"));
+    EXPECT_TRUE(isPeriod("ABCABCA", "ABCABC"));
+    EXPECT_FALSE(isPeriod("ABCABCA", "")); // null strings are NOT considered
+    EXPECT_FALSE(isPeriod("ABCABCA", "ABCDE"));
+    EXPECT_FALSE(isPeriod("ABCD", "AAAA"));
+}
+
+TEST(IntegerStringTest, IsBorderWorks)
+{
+    // For example, the borders of ABACABA are A, ABA and ABACABA.
+
+    EXPECT_TRUE(isBorder("ABCABCA", "A"));
+    EXPECT_TRUE(isBorder("ABCABCA", "ABA"));
+    EXPECT_TRUE(isBorder("ABCABCA", ""));
+    EXPECT_FALSE(isBorder("ABCABCA", "AB"));
+    EXPECT_FALSE(isBorder("ABCABCA", "ABCDE"));
+    EXPECT_FALSE(isBorder("ABCD", "AAAA"));
 }
 
 TEST(BooleanStringTest, StringCompareNotCaseSensitive)
@@ -619,10 +768,12 @@ TEST(BooleanStringTest, isStringFoundInsideTheOtherStringNotCaseSensitiveWithLet
 
 TEST(BooleanStringTest, IsWildcardMatchTest)
 {
-    EXPECT_TRUE(isWildcardMatch("alba", "a*ba"));    EXPECT_TRUE(isWildcardMatch("albaisthebest", "al?ba*"));
+    EXPECT_TRUE(isWildcardMatch("alba", "a*ba"));
+    EXPECT_TRUE(isWildcardMatch("albaisthebest", "al?ba*"));
     EXPECT_FALSE(isWildcardMatch("alba", "a*m"));
     EXPECT_FALSE(isWildcardMatch("markalba", "*mark"));
-    EXPECT_TRUE(isWildcardMatch("markisthebest", "mark*best"));    EXPECT_FALSE(isWildcardMatch("alba", "alb*b?a"));
+    EXPECT_TRUE(isWildcardMatch("markisthebest", "mark*best"));
+    EXPECT_FALSE(isWildcardMatch("alba", "alb*b?a"));
     EXPECT_TRUE(isWildcardMatch("alba", "*l*a"));
     EXPECT_TRUE(isWildcardMatch("alba", "*?l*a"));
 }

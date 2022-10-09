@@ -77,10 +77,12 @@ public:
 
     unsigned int getDistanceTo(Vertex const& endVertex) const
     {
-        unsigned int result(0);        auto it = m_vertexToDistanceToStartMap.find(endVertex);
+        unsigned int result(0);
+        auto it = m_vertexToDistanceToStartMap.find(endVertex);
         if(it != m_vertexToDistanceToStartMap.cend())
         {
-            result = it->second;        }
+            result = it->second;
+        }
         return result;
     }
 
