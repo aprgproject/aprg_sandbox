@@ -127,17 +127,15 @@ string Expression::getDisplayableString() const
     if(!m_wrappedTerms.empty())
     {
         result << m_wrappedTerms.front().baseTermSharedPointer->getDisplayableString();
-        for(unsigned int i=1; i<m_wrappedTerms.size(); i++)
+        for(auto it=m_wrappedTerms.cbegin()+1; it!=m_wrappedTerms.cend(); it++)
         {
-            Term const& term(getTermConstReferenceFromSharedPointer(m_wrappedTerms.at(i).baseTermSharedPointer));
+            Term const& term(getTermConstReferenceFromSharedPointer(it->baseTermSharedPointer));
             result << getString(m_commonOperatorLevel);
             result << term.getDisplayableString();
-        }
-    }
+        }    }
     result << ")";
     return result.str();
 }
-
 string Expression::getDebugString() const
 {
     stringstream result;

@@ -107,18 +107,16 @@ string getString(WrappedTerms const& wrappedTerms)
     if(!wrappedTerms.empty())
     {
         result += getString(wrappedTerms.front());
-        for(unsigned int i=1; i<wrappedTerms.size(); i++)
+        for(auto it=wrappedTerms.cbegin()+1; it!=wrappedTerms.cend(); it++)
         {
             result += ", ";
-            result += getString(wrappedTerms.at(i));
+            result += getString(*it);
         }
     }
-    return result;
-}
+    return result;}
 
 string getString(WrappedTerm const& wrappedTerm)
-{
-    return string("{")+wrappedTerm.baseTermSharedPointer->getDisplayableString()+"}";
+{    return string("{")+wrappedTerm.baseTermSharedPointer->getDisplayableString()+"}";
 }
 
 string createVariableTermNameForSubstitution(Term const& term)
