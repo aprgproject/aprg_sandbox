@@ -56,17 +56,15 @@ public:
                 Vertex previousVertex(pathWithDuplicate.front().first);
                 Path path{previousVertex};
                 path.reserve(pathWithDuplicate.size()); // reserve this much even though duplicates exists
-                for(unsigned int i=1; i<pathWithDuplicate.size(); i++)
+                for(auto it=pathWithDuplicate.cbegin()+1; it!=pathWithDuplicate.cend(); it++)
                 {
-                    Vertex const& vertex(pathWithDuplicate.at(i).first);
+                    Vertex const& vertex(it->first);
                     if(previousVertex != vertex)
                     {
-                        path.emplace_back(vertex);
-                        previousVertex = vertex;
+                        path.emplace_back(vertex);                        previousVertex = vertex;
                     }
                 }
-                result.emplace_back(path);
-            }
+                result.emplace_back(path);            }
         }
         return result;
     }

@@ -122,17 +122,15 @@ bool isARegularGraph(BaseGraph<Vertex> const& graph)
     if(!vertices.empty())
     {
         unsigned int degreeThatShouldMatch = getDegreeAt(graph, vertices.front());
-        for(unsigned int i=1; i<vertices.size(); i++)
+        for(auto it=vertices.cbegin()+1; it!=vertices.cend(); it++)
         {
-            if(degreeThatShouldMatch != getDegreeAt(graph, vertices.at(i)))
+            if(degreeThatShouldMatch != getDegreeAt(graph, *it))
             {
                 result=false;
-                break;
-            }
+                break;            }
         }
     }
-    return result;
-}
+    return result;}
 
 template <typename Vertex>
 bool isACompleteGraph(BaseGraph<Vertex> const& graph)
@@ -338,17 +336,15 @@ unsigned int getMinDegree(BaseGraph<Vertex> const& graph)
     if(!vertices.empty())
     {
         result = getDegreeAt(graph, vertices.front());
-        for(unsigned int i=1; i<vertices.size(); i++)
+        for(auto it=vertices.cbegin()+1; it!=vertices.cend(); it++)
         {
-            result = std::min(result, getDegreeAt(graph, vertices.at(i)));
+            result = std::min(result, getDegreeAt(graph, *it));
         }
     }
-    return result;
-}
+    return result;}
 
 template <typename Vertex>
-unsigned int getSumOfDegrees(BaseGraph<Vertex> const& graph)
-{
+unsigned int getSumOfDegrees(BaseGraph<Vertex> const& graph){
     // Other definition:
     // The sum of degrees in a graph is always 2m, where m is the number of edges, because each edge increases the degree of exactly two nodes by one.
     // For this reason, the sum of degrees is always even.

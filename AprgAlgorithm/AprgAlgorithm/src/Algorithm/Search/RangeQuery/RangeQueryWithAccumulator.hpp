@@ -61,17 +61,15 @@ private:
         {
             partialResult = valuesToCheck.front();
             m_partialResults.emplace_back(partialResult);
-            for(unsigned int i=1; i<valuesToCheck.size(); i++)
+            for(auto it=valuesToCheck.cbegin()+1; it!=valuesToCheck.cend(); it++)
             {
-                partialResult = m_accumulator(partialResult, valuesToCheck.at(i));
+                partialResult = m_accumulator(partialResult, *it);
                 m_partialResults.emplace_back(partialResult);
             }
-        }
-        m_partialResults.shrink_to_fit();
+        }        m_partialResults.shrink_to_fit();
     }
 
-    Values m_partialResults;
-    AccumulatorFunction m_accumulator;
+    Values m_partialResults;    AccumulatorFunction m_accumulator;
     AccumulatorFunction m_inverseAccumulator;
 };
 
