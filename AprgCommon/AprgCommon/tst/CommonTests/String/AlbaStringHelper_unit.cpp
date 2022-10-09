@@ -10,16 +10,24 @@ using namespace alba::stringHelper;
 namespace alba
 {
 
-TEST(IntegerStringTest, GenerateUniqueId)
+TEST(BoolCharacterTest, IsDisplayableCharacterWorks)
+{
+    EXPECT_FALSE(isDisplayableCharacter('\0'));
+    EXPECT_FALSE(isDisplayableCharacter('\xA'));
+    EXPECT_FALSE(isDisplayableCharacter('\n'));
+    EXPECT_TRUE(isDisplayableCharacter(' '));
+    EXPECT_TRUE(isDisplayableCharacter('!'));
+    EXPECT_TRUE(isDisplayableCharacter('~'));
+}
+
+TEST(IntegerStringTest, GenerateUniqueIdWorks)
 {
     string string1("Mark is the no#1 guy in the world. Mark is also the nicest guy.");
     string string2("MARK is the no#1 programmer in the world. MARK is also the nicest programmer.");
-    unsigned int uniqueId1 = generateUniqueId(string1);
-    unsigned int uniqueId2 = generateUniqueId(string2);
+    unsigned int uniqueId1 = generateUniqueId(string1);    unsigned int uniqueId2 = generateUniqueId(string2);
     EXPECT_EQ(552749853U, uniqueId1);
     EXPECT_EQ(1436619827U, uniqueId2);
 }
-
 TEST(IntegerStringTest, GetLevenshteinDistanceWorks)
 {
     EXPECT_EQ(2U, getLevenshteinDistance("MOVIE", "LOVE"));

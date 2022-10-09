@@ -78,21 +78,19 @@ inline bool isLetterOrNumberOrUnderscore(char const c)
     return isLetter(c)||isNumber(c)||isUnderscore(c);
 }
 
-inline bool isPrintable(char const c)
-{
-    return (' '<=c && '~'>=c);
-}
-
 inline bool isSlashCharacter(char const c)
 {
     return ('\\'==c || '/'==c);
 }
 
-inline bool isNotEmptyLine(std::string const& mainString)
+inline bool isDisplayableCharacter(char const c)
 {
-    return isNotNpos(static_cast<int>(mainString.find_first_not_of(WHITESPACE_STRING)));
+    return (' '<=c && '~'>=c);
 }
 
+inline bool isNotEmptyLine(std::string const& mainString){
+    return isNotNpos(static_cast<int>(mainString.find_first_not_of(WHITESPACE_STRING)));
+}
 inline bool isPeriodOrDoublePeriod(std::string const& mainString)
 {
     return ("."==mainString)||(".."==mainString);
