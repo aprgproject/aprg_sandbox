@@ -1,8 +1,7 @@
-#include <Algorithm/String/SubstringSearch/RabinKarpSubstringSearch.hpp>
+#include <Algorithm/String/SubstringSearch/RabinKarpSubstringSearchWithSubstringHash.hpp>
 #include <AlgorithmTests/String/SubstringSearch/Utilities/CommonTestsWithSubstringSearch.hpp>
 
 #include <gtest/gtest.h>
-
 using namespace alba::algorithm::CommonTestsWithSubstringSearch;
 using namespace std;
 
@@ -15,14 +14,13 @@ namespace algorithm
 namespace
 {
 using Index = unsigned int;
-using SubstringSearchToTest = RabinKarpSubstringSearch<unsigned int, unsigned long long>;
+using SubstringSearchToTest = RabinKarpSubstringSearchWithSubstringHash<unsigned int, unsigned long long>;
 }
 
-TEST(RabinKarpSubstringSearchTest, SearchWorksUsingExample1)
+TEST(RabinKarpSubstringSearchWithSubstringHashTest, SearchWorksUsingExample1)
 {
     testSearchUsingExample1<SubstringSearchToTest, Index>();
 }
-
 }
 
 }

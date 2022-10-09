@@ -12,18 +12,17 @@ namespace algorithm
 {
 
 template <typename Index, typename HashValue>
-class RabinKarpSubstringSearch
+class RabinKarpSubstringSearchWithSubstringHash
 {
 public:
     using RadixType = unsigned int;
     static constexpr RadixType RADIX=256U;
     static constexpr HashValue A_LARGE_PRIME=1229952067U; // hard coded for now (think of an implementation later)
 
-    RabinKarpSubstringSearch(std::string const& substringToMatch)
+    RabinKarpSubstringSearchWithSubstringHash(std::string const& substringToMatch)
         : m_substringToMatch(substringToMatch)
         , m_substringLength(substringToMatch.length())
-        , m_substringToMatchHash(HornerHashFunctionForWholeString<HashValue>(RADIX, A_LARGE_PRIME).getHashCode(substringToMatch))
-    {}
+        , m_substringToMatchHash(HornerHashFunctionForWholeString<HashValue>(RADIX, A_LARGE_PRIME).getHashCode(substringToMatch))    {}
 
     Index search(std::string const& mainString)
     {
