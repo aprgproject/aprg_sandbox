@@ -1,14 +1,11 @@
 #include <Common/Debug/AlbaDebug.hpp>
 #include <Common/File/AlbaFileReader.hpp>
-#include <Common/Math/AlbaMathHelper.hpp>
 #include <Common/PathHandler/AlbaLocalPathHandler.hpp>
 #include <Common/String/AlbaStringHelper.hpp>
-#include <FileExtractor/AprgFileExtractor.hpp>
-#include <NsapHelper.hpp>
+#include <FileExtractor/AprgFileExtractor.hpp>#include <NsapHelper.hpp>
 #include <QuickestWayToProgram.hpp>
 
-#include <gtest/gtest.h>
-#include <windows.h>
+#include <gtest/gtest.h>#include <windows.h>
 
 #include <algorithm>
 #include <bitset>
@@ -29,32 +26,62 @@ int numberOfFilesToBeAnalyzedForExtraction;
 int numberOfFilesAnalyzedForExtraction;
 }
 
+TEST(SampleTest, CountFromMsbValue)
+{
+    cout << "{";
+    for(unsigned int value=0; value<256; value++)
+    {
+        unsigned int countFromMsb=0;
+        unsigned int valueForMsbBitCount(value);
+        for(unsigned int bitIndex=0; bitIndex<8; bitIndex++)
+        {
+            if(valueForMsbBitCount & 1)
+            {
+                break;
+            }
+            countFromMsb++;
+            valueForMsbBitCount >>= 1;
+        }
+        cout << countFromMsb << "U, ";
+        if(value % 32 == 31)
+        {
+            cout << endl;
+        }
+    }
+    cout << "}";
+}
+
+/*
+
+TEST(SampleTest, NumeratorAndDenominator)
+{
+    long long int numerator = static_cast<long long int>(-946400) * -5547;
+    long long int denominator = static_cast<long long int>(-2146689) * -3566000;
+    ALBA_PRINT_PRECISION(30);
+    ALBA_PRINT3(numerator, denominator, static_cast<double>(numerator)/denominator);
+}
+
 TEST(SampleTest, KBitAndNegativeK)
 {
-    /*int k=10;
+    int k=10;
     int n=20;
     while(k <= n)
     {
         ALBA_PRINT2(k, k&-k);
         k += k&-k;
-    }*/
+    }
 
     for(unsigned int k=0; k<=256; k++)
-    {
-        unsigned int p = k&-k;
+    {        unsigned int p = k&-k;
         ALBA_PRINT3(k, k-p+1, k);
     }
 }
 
-/*
-
 TEST(SampleTest, RenameFiles)
 {
-    AlbaLocalPathHandler::ListOfPaths files;
-    AlbaLocalPathHandler::ListOfPaths directories;
+    AlbaLocalPathHandler::ListOfPaths files;    AlbaLocalPathHandler::ListOfPaths directories;
     AlbaLocalPathHandler pathHandler(R"(N:\MUSIC\111_DoAutomationHere)");
     pathHandler.findFilesAndDirectoriesUnlimitedDepth("*.*", files, directories);
-
     for(string const& file: files)
     {
         AlbaLocalPathHandler filePathHandler(file);
