@@ -124,15 +124,13 @@ public:
         table.getLastRow().addCell(" ");
         for(unsigned int c=0; c<RADIX; c++)
         {
-            if(stringHelper::isLetterOrNumber(c))
+            if(stringHelper::isDisplayableCharacter(c))
             {
                 table.getLastRow().addCell(converter.convert<char>(static_cast<char>(c)));
-            }
-            else
+            }            else
             {
                 table.getLastRow().addCell(" ");
-            }
-        }
+            }        }
         for(unsigned int y=0; y<m_nodePointerMatrix.getNumberOfRows(); y++)
         {
             table.addRow();
