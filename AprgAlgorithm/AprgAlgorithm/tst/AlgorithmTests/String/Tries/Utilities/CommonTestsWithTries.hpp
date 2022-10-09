@@ -191,6 +191,33 @@ void testGetAllKeysThatMatchWithUnsignedInt()
     EXPECT_EQ(expectedKeys, keysToVerify);
 }
 
+template <typename Trie>
+void testExample1WithUnsignedInt()
+{
+    Trie trie;
+    trie.put("CANAL", 2251U);
+    trie.put("CANDY", 48430U);
+    trie.put("THE", 625U);
+    trie.put("THERE", 354468U);
+
+    ASSERT_EQ(4U, trie.getSize());
+    EXPECT_EQ(2251U, trie.get("CANAL"));
+    EXPECT_EQ(48430U, trie.get("CANDY"));
+    EXPECT_EQ(625U, trie.get("THE"));
+    EXPECT_EQ(354468U, trie.get("THERE"));
+
+    trie.deleteBasedOnKey("CANAL");
+    trie.deleteBasedOnKey("CANDY");
+    trie.deleteBasedOnKey("THE");
+    trie.deleteBasedOnKey("THERE");
+
+    EXPECT_TRUE(trie.isEmpty());
+    EXPECT_EQ(0U, trie.get("CANAL"));
+    EXPECT_EQ(0U, trie.get("CANDY"));
+    EXPECT_EQ(0U, trie.get("THE"));
+    EXPECT_EQ(0U, trie.get("THERE"));
+}
+
 }
 
 }
