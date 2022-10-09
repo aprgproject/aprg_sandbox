@@ -21,9 +21,11 @@ TEST(ProofByInductionTest, ProveTheSumOfOddIntegers)
         AlbaNumber lastValue = (n*2)-1;
         for(AlbaNumber i=1; i<=lastValue; i+=2)
         {
-            result+=i;        }
+            result+=i;
+        }
         return result;
     });
+
     EXPECT_TRUE(proof.isVerificationOnASpecificValueSuccessful(5));
     Term lastTermInSeries(Polynomial{Monomial(2, {{"n", 1}}), Monomial(-1, {})});
     SubstitutionOfVariablesToTerms substitutionForNextTerm{{"n", Polynomial{Monomial(1, {{"n", 1}}), Monomial(1, {})}}};
@@ -47,9 +49,11 @@ TEST(ProofByInductionTest, ProveTheSumOfSquareOfOddIntegers)
         AlbaNumber lastValue = (n*2)-1;
         for(AlbaNumber i=1; i<=lastValue; i+=2)
         {
-            result+=i^2;        }
+            result+=i^2;
+        }
         return result;
     });
+
     EXPECT_TRUE(proof.isVerificationOnASpecificValueSuccessful(5));
     Term lastTermInSeries=Polynomial{Monomial(2, {{"n", 1}}), Monomial(-1, {})} ^ Constant(2);
     SubstitutionOfVariablesToTerms substitutionForNextTerm{{"n", Polynomial{Monomial(1, {{"n", 1}}), Monomial(1, {})}}};

@@ -177,9 +177,11 @@ public:
     });
         return static_cast<DataType>(raiseToPowerForMathVectorDataType(sumOfSquaredTerms, DataType(1)/DataType(2)));
     }
+
     ValuesInArray const& getValues() const
     {
-        return m_values;    }
+        return m_values;
+    }
 
     std::string getDisplayableString() const
     {
@@ -195,9 +197,11 @@ public:
         }
         return ss.str();
     }
+
     DataType & getValueReferenceAt(unsigned int const index)
     {
-        assert(index<SIZE);        return m_values.at(index);
+        assert(index<SIZE);
+        return m_values.at(index);
     }
 
     ValuesInArray & getValuesReference()

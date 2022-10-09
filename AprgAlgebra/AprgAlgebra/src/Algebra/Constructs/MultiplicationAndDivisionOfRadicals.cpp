@@ -143,10 +143,12 @@ AlbaNumber MultiplicationAndDivisionOfRadicals::getGcfOfExponents(
             gcfOfExponents = getGreatestCommonFactor(gcfOfExponents, it->radical.getExponent());
         }
     }
-    return gcfOfExponents;}
+    return gcfOfExponents;
+}
 
 void MultiplicationAndDivisionOfRadicals::combineMonomialAndRadicalsAndSave(
-        RadicalDetails const& radicalDetails,        Monomial const& combinedMonomial,
+        RadicalDetails const& radicalDetails,
+        Monomial const& combinedMonomial,
         AlbaNumber const& gcfOfExponents)
 {
     Monomial newMonomial(combinedMonomial);

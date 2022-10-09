@@ -221,10 +221,12 @@ Term IntegrationForFiniteCalculus::integratePolynomial(
             result = result + integrateMonomial(*it);
         }
         result.simplify();
-    }    return result;
+    }
+    return result;
 }
 
-Term IntegrationForFiniteCalculus::integrateExpression(        Expression const& expression) const
+Term IntegrationForFiniteCalculus::integrateExpression(
+        Expression const& expression) const
 {
     return integrateAsTermOrExpressionIfNeeded(expression);
 }

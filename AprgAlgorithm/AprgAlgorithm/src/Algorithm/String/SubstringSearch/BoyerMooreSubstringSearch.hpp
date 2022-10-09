@@ -25,21 +25,21 @@ public:
         initialize();
     }
 
-    Index search(std::string const& stringToSearch)
+    Index search(std::string const& mainString)
     {
         Index result(static_cast<Index>(std::string::npos));
-        Index searchLength(stringToSearch.size());
-        Index matchLength(m_substringToMatch.size());
+        Index mainLength(mainString.size());
+        Index substringLength(m_substringToMatch.size());
         int skipValue;
-        for(Index searchIndex=0; searchIndex<searchLength-matchLength; searchIndex+=skipValue)
+        for(Index searchIndex=0; searchIndex<mainLength-substringLength; searchIndex+=skipValue)
         {
             skipValue=0;
-            for(Index matchIndex=0; matchIndex<matchLength; matchIndex++)
+            for(Index matchIndex=0; matchIndex<substringLength; matchIndex++)
             {
-                Index matchReverseIndex(matchLength-matchIndex-1);
-                if(m_substringToMatch.at(matchReverseIndex) != stringToSearch.at(searchIndex+matchReverseIndex)) // if mismatch
+                Index matchReverseIndex(substringLength-matchIndex-1);
+                if(m_substringToMatch.at(matchReverseIndex) != mainString.at(searchIndex+matchReverseIndex)) // if mismatch
                 {
-                    Position positionOfLetter(m_rightMostLetterPosition.at(stringToSearch.at(searchIndex+matchReverseIndex)));
+                    Position positionOfLetter(m_rightMostLetterPosition.at(mainString.at(searchIndex+matchReverseIndex)));
                     // (Case 1) happens if positionOfLetter is -1
                     if(static_cast<Position>(matchReverseIndex) > positionOfLetter+1) // there should be at least 1 difference to maintain forward progress
                     {

@@ -17,9 +17,9 @@ public :
         : m_substringToMatch(substringToMatch)
     {}
 
-    unsigned int search(std::string const& stringToSearch)
+    unsigned int search(std::string const& mainString)
     {
-        return searchWithLoops(stringToSearch, m_substringToMatch);
+        return searchWithLoops(mainString, m_substringToMatch);
     }
 
 private:
@@ -32,16 +32,16 @@ private:
     }
 
     unsigned int searchUsingOneLoop(
-            std::string const& stringToSearch,
+            std::string const& mainString,
             std::string const& substringToMatch) // implementation with one loop
     {
         unsigned int result(static_cast<unsigned int>(std::string::npos));
-        unsigned int searchLength(stringToSearch.length());
-        unsigned int matchLength(substringToMatch.length());
+        unsigned int mainLength(mainString.length());
+        unsigned int substringLength(substringToMatch.length());
         unsigned int searchIndex=0, matchIndex=0;
-        for(; searchIndex<searchLength && matchIndex<matchLength; searchIndex++)
+        for(; searchIndex<mainLength && matchIndex<substringLength; searchIndex++)
         {
-            if(stringToSearch.at(searchIndex) == substringToMatch.at(matchIndex))
+            if(mainString.at(searchIndex) == substringToMatch.at(matchIndex))
             {
                 matchIndex++; // matchIndex represents the index of matches as well
             }
@@ -51,32 +51,32 @@ private:
                 matchIndex=0; // reset because matchIndex represents the index of matches as well
             }
         }
-        if(matchIndex == matchLength) // if matchIndex reached length
+        if(matchIndex == substringLength) // if matchIndex reached length
         {
-            result = searchIndex-matchLength;
+            result = searchIndex-substringLength;
         }
         return result;
     }
 
     unsigned int searchUsingTwoLoops(
-            std::string const& stringToSearch,
+            std::string const& mainString,
             std::string const& substringToMatch) // implementation with two loops
     {
         unsigned int result(static_cast<unsigned int>(std::string::npos));
-        unsigned int searchLength(stringToSearch.length());
-        unsigned int matchLength(substringToMatch.length());
-        for(unsigned int offset=0; offset <= searchLength-matchLength; offset++)
+        unsigned int mainLength(mainString.length());
+        unsigned int substringLength(substringToMatch.length());
+        for(unsigned int offset=0; offset <= mainLength-substringLength; offset++)
         {
             unsigned int matchIndex=0;
-            for(; matchIndex < matchLength; matchIndex++)
+            for(; matchIndex < substringLength; matchIndex++)
             {
-                if(stringToSearch.at(offset+matchIndex) != substringToMatch.at(matchIndex))
+                if(mainString.at(offset+matchIndex) != substringToMatch.at(matchIndex))
                 {
                     // matchIndex represents the index of matches as well
                     break;
                 }
             }
-            if(matchIndex == matchLength) // if matchIndex reached length
+            if(matchIndex == substringLength) // if matchIndex reached length
             {
                 result = offset;
                 break;

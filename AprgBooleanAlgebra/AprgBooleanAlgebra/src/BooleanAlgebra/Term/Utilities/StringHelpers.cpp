@@ -113,10 +113,12 @@ string getString(WrappedTerms const& wrappedTerms)
             result += getString(*it);
         }
     }
-    return result;}
+    return result;
+}
 
 string getString(WrappedTerm const& wrappedTerm)
-{    return string("{")+wrappedTerm.baseTermSharedPointer->getDisplayableString()+"}";
+{
+    return string("{")+wrappedTerm.baseTermSharedPointer->getDisplayableString()+"}";
 }
 
 string createVariableTermNameForSubstitution(Term const& term)

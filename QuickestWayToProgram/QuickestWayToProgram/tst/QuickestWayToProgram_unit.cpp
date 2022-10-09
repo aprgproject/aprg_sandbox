@@ -2,10 +2,12 @@
 #include <Common/File/AlbaFileReader.hpp>
 #include <Common/PathHandler/AlbaLocalPathHandler.hpp>
 #include <Common/String/AlbaStringHelper.hpp>
-#include <FileExtractor/AprgFileExtractor.hpp>#include <NsapHelper.hpp>
+#include <FileExtractor/AprgFileExtractor.hpp>
+#include <NsapHelper.hpp>
 #include <QuickestWayToProgram.hpp>
 
-#include <gtest/gtest.h>#include <windows.h>
+#include <gtest/gtest.h>
+#include <windows.h>
 
 #include <algorithm>
 #include <bitset>
@@ -72,16 +74,19 @@ TEST(SampleTest, KBitAndNegativeK)
     }
 
     for(unsigned int k=0; k<=256; k++)
-    {        unsigned int p = k&-k;
+    {
+        unsigned int p = k&-k;
         ALBA_PRINT3(k, k-p+1, k);
     }
 }
 
 TEST(SampleTest, RenameFiles)
 {
-    AlbaLocalPathHandler::ListOfPaths files;    AlbaLocalPathHandler::ListOfPaths directories;
+    AlbaLocalPathHandler::ListOfPaths files;
+    AlbaLocalPathHandler::ListOfPaths directories;
     AlbaLocalPathHandler pathHandler(R"(N:\MUSIC\111_DoAutomationHere)");
     pathHandler.findFilesAndDirectoriesUnlimitedDepth("*.*", files, directories);
+
     for(string const& file: files)
     {
         AlbaLocalPathHandler filePathHandler(file);

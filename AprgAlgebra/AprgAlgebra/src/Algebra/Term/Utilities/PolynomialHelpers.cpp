@@ -173,10 +173,12 @@ AlbaNumber getMaxDegree(
             maxDegree = max(maxDegree, getDegree(*it));
         }
     }
-    return maxDegree;}
+    return maxDegree;
+}
 
 std::pair<AlbaNumber, AlbaNumber> getMinmaxDegree(
-        Polynomial const& polynomial){
+        Polynomial const& polynomial)
+{
     std::pair<AlbaNumber, AlbaNumber> result;
     Monomials const& monomials(polynomial.getMonomialsConstReference());
     if(!monomials.empty())
@@ -190,10 +192,12 @@ std::pair<AlbaNumber, AlbaNumber> getMinmaxDegree(
             result.second = max(result.second, degree);
         }
     }
-    return result;}
+    return result;
+}
 
 AlbaNumber getDegreeForVariable(
-        Polynomial const& polynomial,        string const& variableName)
+        Polynomial const& polynomial,
+        string const& variableName)
 {
     AlbaNumber maxDegree(0);
     Monomials const& monomials(polynomial.getMonomialsConstReference());
@@ -205,10 +209,12 @@ AlbaNumber getDegreeForVariable(
             maxDegree = max(maxDegree, it->getExponentForVariable(variableName));
         }
     }
-    return maxDegree;}
+    return maxDegree;
+}
 
 AlbaNumber getCoefficientOfVariableExponent(
-        Polynomial const& polynomial,        Monomial const& monomial)
+        Polynomial const& polynomial,
+        Monomial const& monomial)
 {
     AlbaNumber coefficient;
     for(Monomial const& monomialInternal : polynomial.getMonomialsConstReference())

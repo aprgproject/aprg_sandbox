@@ -4,8 +4,10 @@
 
 using namespace alba::algorithm;
 using namespace std;
+
 namespace alba
 {
+
 DeBruijnSequences::DeBruijnSequences(
         unsigned int const substringSize,
         std::string const& alphabet)
@@ -34,10 +36,12 @@ string DeBruijnSequences::getDeBruijnString() const
                 result += it->back();
             }
         }
-    }    return result;
+    }
+    return result;
 }
 
-void DeBruijnSequences::initialize(){
+void DeBruijnSequences::initialize()
+{
     if(m_substringSize>1 && !m_alphabet.empty())
     {
         addAllSubstringsAsVertex();

@@ -303,10 +303,12 @@ Term getLimitWithMultipleVariablesWithDifferentApproaches(
             if(result != *it)
             {
                 result = AlbaNumber(AlbaNumber::Value::NotANumber);
-                break;            }
+                break;
+            }
         }
     }
-    return result;}
+    return result;
+}
 
 
 Term getLimitUsingLhopitalsRule(

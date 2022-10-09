@@ -1,6 +1,7 @@
 #pragma once
 
-#include <Algorithm/HashFunctions/ForString/HornerHashFunction.hpp>
+#include <Algorithm/HashFunctions/ForString/HornerHashFunctionForSubstrings.hpp>
+#include <Algorithm/HashFunctions/ForString/HornerHashFunctionForWholeString.hpp>
 
 #include <string>
 
@@ -20,30 +21,21 @@ public:
 
     RabinKarpSubstringSearch(std::string const& substringToMatch)
         : m_substringToMatch(substringToMatch)
-        , m_matchLength(substringToMatch.length())
-        , m_hornerHashFunction(RADIX, A_LARGE_PRIME)
-        , m_largeRandomPrime(A_LARGE_PRIME)
-        , m_radixRaiseToMatchLengthHash(getRadixRaiseToMatchLengthHash())
-        , m_substringToMatchHash(getHash(m_substringToMatch))
+        , m_substringLength(substringToMatch.length())
+        , m_substringToMatchHash(HornerHashFunctionForWholeString<HashValue>(RADIX, A_LARGE_PRIME).getHashCode(substringToMatch))
     {}
 
-    Index search(std::string const& stringToSearch)
+    Index search(std::string const& mainString)
     {
         Index result(static_cast<Index>(std::string::npos));
-        Index searchLength(stringToSearch.size());
-        HashValue currentHash(getHash(stringToSearch));
-        if(m_substringToMatchHash == currentHash)
+        if(m_substringLength > 0U && m_substringLength <= mainString.length())
         {
-            result = 0;
-        }
-        else
-        {
-            for(Index searchIndex=m_matchLength; searchIndex<searchLength; searchIndex++)
+            HornerHashFunctionForSubstrings<HashValue> hashFunction(RADIX, A_LARGE_PRIME, mainString);
+            for(Index offset=0; offset<=mainString.length()-m_substringLength; offset++)
             {
-                currentHash = getNextHash(currentHash, stringToSearch.at(searchIndex-m_matchLength), stringToSearch.at(searchIndex));
-                if(m_substringToMatchHash == currentHash)
+                if(m_substringToMatchHash == hashFunction.getHashCodeOfSubstring(offset, offset+m_substringLength-1))
                 {
-                    result = searchIndex-m_matchLength+1; // Monte carlo approach (no double check)
+                    result = offset; // Monte carlo approach (no double check)
                     break;
                 }
             }
@@ -51,38 +43,8 @@ public:
         return result;
     }
 
-private:
-
-    HashValue getHash(std::string const& key)
-    {
-        return m_hornerHashFunction.getHashCode(key, 0, m_matchLength-1);
-    }
-
-    HashValue getNextHash(HashValue const currentHash, char const charToRemove, char const charToAdd)
-    {
-        // First, subtract value for charToRemove
-        HashValue result = (currentHash + m_largeRandomPrime - (m_radixRaiseToMatchLengthHash * charToRemove % m_largeRandomPrime))
-                % m_largeRandomPrime;
-        // Then, add value for charToAdd
-        result = (result*RADIX + charToAdd) % m_largeRandomPrime;
-        return result;
-    }
-
-    HashValue getRadixRaiseToMatchLengthHash()
-    {
-        HashValue result(1);
-        for(unsigned int i=1; i<m_matchLength; i++)
-        {
-            result = (result*RADIX) % m_largeRandomPrime;
-        }
-        return result;
-    }
-
     std::string const m_substringToMatch;
-    Index const m_matchLength;
-    HornerHashFunction<HashValue> m_hornerHashFunction;
-    HashValue m_largeRandomPrime;
-    HashValue m_radixRaiseToMatchLengthHash;
+    Index const m_substringLength;
     HashValue m_substringToMatchHash;
 };
 

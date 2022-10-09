@@ -85,8 +85,10 @@ TEST(TernarySearchTrieTest, Example1Works)
 TEST(TernarySearchTrieTest, GetNumberOfNodesWorksWhenEmpty)
 {
     TrieForTest trie;
+
     EXPECT_EQ(0U, trie.getNumberOfNodes());
 }
+
 TEST(TernarySearchTrieTest, GetNumberOfNodesWorksWhenNotEmpty)
 {
     TrieForTest trie;

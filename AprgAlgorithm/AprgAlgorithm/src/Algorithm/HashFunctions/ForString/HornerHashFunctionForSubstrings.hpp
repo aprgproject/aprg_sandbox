@@ -5,84 +5,112 @@
 
 namespace alba
 {
+
 namespace algorithm
 {
+
 template <typename HashValue>
-class HornerHashFunction // horners rule: continuously mod to keep the value
+class HornerHashFunctionForSubstrings // horners rule: continuously mod to keep the value
 {
 public:
     using HashValues = std::vector<HashValue>;
 
-    HornerHashFunction(HashValue const radix, HashValue const largeRandomPrime)
+    HornerHashFunctionForSubstrings(
+            HashValue const radix,
+            HashValue const largeRandomPrime)
         : m_radix(radix)
-        , m_largeRandomPrime(largeRandomPrime)    {}
+        , m_largeRandomPrime(largeRandomPrime)
+    {}
 
-    HashValue getHashCode(std::string const& input)
+    HornerHashFunctionForSubstrings(
+            HashValue const radix,
+            HashValue const largeRandomPrime,
+            std::string const& stringToHash)
+        : m_radix(radix)
+        , m_largeRandomPrime(largeRandomPrime)
+        , m_stringToHash(stringToHash)
     {
-        return getFinalHPart(input);
+        reinitializeHPartsAndPParts();
     }
 
-    HashValue getHashCode(            std::string const& input,
-            unsigned int const startIndex,
-            unsigned int const endIndex)
+    HashValue getHashCodeOfWholeString()
     {
-        // The hash value of any substring s[a...b] can be calculated in O(1) time using the formula
-        // (h[b] - h[a-1] * p[b-a+1]) mod B
+        // The hash value of any substring s[a...b] can be calculated in O(1) time using the formula:
+        // (h[b] - (h[a-1] * p[b-a+1])) mod B
         // assuming that a>0.
         // If a=0, the hash value is simply h[b].
 
         HashValue result{};
-        HashValues hParts, pParts;
-        retrieveHPartsAndPParts(hParts, pParts, input);
-        if(startIndex <= input.length() && endIndex <= input.length() && startIndex <= endIndex)
+        if(m_stringToHash.length() > 0U)
+        {
+            result = getHashCodeOfSubstring(0U, m_stringToHash.length()-1);
+        }
+        return result;
+    }
+
+    HashValue getHashCodeOfSubstring(
+            unsigned int const startIndex,
+            unsigned int const endIndex)
+    {
+        // The hash value of any substring s[a...b] can be calculated in O(1) time using the formula:
+        // (h[b] - (h[a-1] * p[b-a+1])) mod B
+        // assuming that a>0.
+        // If a=0, the hash value is simply h[b].
+
+        HashValue result{};
+        if(startIndex < m_stringToHash.length() && endIndex < m_stringToHash.length() && startIndex <= endIndex)
         {
             if(startIndex > 0)
             {
-                result = (((hParts.at(endIndex) * hParts.at(startIndex-1)) % m_largeRandomPrime)
-                         * pParts.at(endIndex-startIndex+1)) % m_largeRandomPrime;
+                result = ( m_largeRandomPrime + m_hParts.at(endIndex) - ((m_hParts.at(startIndex-1)*m_pParts.at(endIndex-startIndex+1)) % m_largeRandomPrime) )
+                        % m_largeRandomPrime;
             }
             else
             {
-                result = hParts.at(endIndex);
+                result = m_hParts.at(endIndex);
             }
         }
         return result;
     }
 
-private:
-
-    HashValue getFinalHPart(
-            std::string const& input)
+    void setNewString(std::string const& newStringToHash)
     {
-        // Based from formula (check below): h[k] = (h[k-1]*A + s[k]) mod B
-
-        HashValue finalHPart(0);
-        for(char const c : input) // linear time
-        {
-            finalHPart = (finalHPart * m_radix + c) % m_largeRandomPrime;
-        }
-        return finalHPart;
+        m_stringToHash = newStringToHash;
+        clearHPartsAndPParts();
+        reinitializeHPartsAndPParts();
     }
 
-    void retrieveHPartsAndPParts(
-            HashValues & hParts,
-            HashValues & pParts,
-            std::string const& input)
+private:
+
+    void clearHPartsAndPParts()
     {
-        // Based from formula (check below): (h[k-1]*A + s[k]) mod B
+        m_hParts.clear();
+        m_pParts.clear();
+    }
+
+    void reinitializeHPartsAndPParts()
+    {
+        // Based from formula (check below): h[k] = (h[k-1]*A + s[k]) mod B
         // Based from formula (check below): p[k] = (p[k-1]*A) mod B
 
-        hParts.emplace_back(0);
-        pParts.emplace_back(1);
-        for(char const c : input) // linear time
+        m_hParts.reserve(m_stringToHash.length());
+        m_pParts.reserve(m_stringToHash.length());
+        m_hParts.emplace_back(m_stringToHash.front());
+        m_pParts.emplace_back(1);
+        for(auto it=m_stringToHash.cbegin()+1; it!=m_stringToHash.cend(); it++) // linear time
         {
-            hParts.emplace_back((hParts.back() * m_radix + c) % m_largeRandomPrime);
-            pParts.emplace_back((pParts.back() * m_radix) % m_largeRandomPrime);
+            m_hParts.emplace_back((m_hParts.back() * m_radix + *it) % m_largeRandomPrime);
+            m_pParts.emplace_back((m_pParts.back() * m_radix) % m_largeRandomPrime);
         }
+        m_hParts.shrink_to_fit();
+        m_pParts.shrink_to_fit();
     }
 
     HashValue m_radix;
     HashValue m_largeRandomPrime;
+    std::string m_stringToHash;
+    HashValues m_hParts;
+    HashValues m_pParts;
 };
 
 // String hashing
@@ -168,7 +196,7 @@ private:
 // For example, two hash values with parameter B is near 10^9 correspond to one hash value with parameter B is near 10^18,
 // which makes the probability of a collision very small.
 // Some people use constants B =2^32 and B=2^64, which is convenient, because operations with 32 and 64 bit integers are calculated modulo 2^32 and 2^64.
-// However, this is not a good choice, because it is possible to construct inputs that always generate collisions when constants of the form 2^x are used.
+// However, this is not a good choice, because it is possible to construct stringToHashs that always generate collisions when constants of the form 2^x are used.
 
 }
 

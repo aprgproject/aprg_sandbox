@@ -210,9 +210,11 @@ void SolverUsingSubstitution::solveAndUpdate(
             potentialSolution.addAcceptedValue(*it);
             MultipleVariableSolutionSet multipleVariableSolutionSet;
             multipleVariableSolutionSet.addSolutionSetForVariable(variableNameToSolve, potentialSolution);
-            m_solutionsWithSomeVariables.emplace_back(multipleVariableSolutionSet);        }
+            m_solutionsWithSomeVariables.emplace_back(multipleVariableSolutionSet);
+        }
     }
 }
+
 }
 
 }

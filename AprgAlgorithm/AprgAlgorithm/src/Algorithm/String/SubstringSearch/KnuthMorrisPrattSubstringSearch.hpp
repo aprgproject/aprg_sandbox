@@ -25,19 +25,19 @@ public:
         initialize();
     }
 
-    Index search(std::string const& stringToSearch)
+    Index search(std::string const& mainString)
     {
         Index result(static_cast<Index>(std::string::npos));
-        Index searchLength(stringToSearch.size());
-        Index matchLength(m_substringToMatch.size());
+        Index mainLength(mainString.size());
+        Index substringLength(m_substringToMatch.size());
         Index searchIndex=0, matchIndex=0;
-        for(; searchIndex<searchLength && matchIndex<matchLength; searchIndex++)
+        for(; searchIndex<mainLength && matchIndex<substringLength; searchIndex++)
         {
-            matchIndex = m_nextIndexDfa.getNextState(matchIndex, stringToSearch.at(searchIndex)); // use DFA to determine next state
+            matchIndex = m_nextIndexDfa.getNextState(matchIndex, mainString.at(searchIndex)); // use DFA to determine next state
         }
-        if(matchIndex == matchLength)
+        if(matchIndex == substringLength)
         {
-            result = searchIndex-matchLength;
+            result = searchIndex-substringLength;
         }
         return result;
     }

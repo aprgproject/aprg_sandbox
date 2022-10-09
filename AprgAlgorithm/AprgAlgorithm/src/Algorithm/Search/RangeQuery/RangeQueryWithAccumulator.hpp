@@ -66,10 +66,12 @@ private:
                 partialResult = m_accumulator(partialResult, *it);
                 m_partialResults.emplace_back(partialResult);
             }
-        }        m_partialResults.shrink_to_fit();
+        }
+        m_partialResults.shrink_to_fit();
     }
 
-    Values m_partialResults;    AccumulatorFunction m_accumulator;
+    Values m_partialResults;
+    AccumulatorFunction m_accumulator;
     AccumulatorFunction m_inverseAccumulator;
 };
 

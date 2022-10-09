@@ -153,10 +153,12 @@ AlbaNumber getGcfOfConstants(AlbaNumbers const& constantFactorsPerAddends)
             constantGcf = getGreatestCommonFactor(constantGcf, *it);
         }
     }
-    return constantGcf;}
+    return constantGcf;
+}
 
 void retrieveCommonNonConstantFactors(
-        TermsRaiseToNumbers & commonNonConstantFactors,        vector<TermsRaiseToNumbers> const& nonConstantFactorsPerAddends)
+        TermsRaiseToNumbers & commonNonConstantFactors,
+        vector<TermsRaiseToNumbers> const& nonConstantFactorsPerAddends)
 {
     if(!nonConstantFactorsPerAddends.empty())
     {
@@ -170,10 +172,12 @@ void retrieveCommonNonConstantFactors(
                 AlbaNumber exponentAtAddend(it->getExponentOfBase(base));
                 if(exponentAtAddend > 0)
                 {
-                    commonNonConstantFactors.setBaseAndExponent(base, min(exponentAtCommonFactor, exponentAtAddend));                }
+                    commonNonConstantFactors.setBaseAndExponent(base, min(exponentAtCommonFactor, exponentAtAddend));
+                }
                 else if(exponentAtAddend < 0)
                 {
-                    commonNonConstantFactors.setBaseAndExponent(base, max(exponentAtCommonFactor, exponentAtAddend));                }
+                    commonNonConstantFactors.setBaseAndExponent(base, max(exponentAtCommonFactor, exponentAtAddend));
+                }
                 else
                 {
                     commonNonConstantFactors.setBaseAndExponent(base, 0);

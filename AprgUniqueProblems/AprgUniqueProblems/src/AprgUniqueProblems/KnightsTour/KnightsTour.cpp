@@ -4,8 +4,10 @@
 
 using namespace alba::algorithm;
 using namespace std;
+
 namespace alba
 {
+
 KnightsTour::KnightsTour(
         unsigned int const chessBoardX,
         unsigned int const chessBoardY)

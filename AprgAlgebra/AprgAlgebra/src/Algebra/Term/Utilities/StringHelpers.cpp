@@ -128,10 +128,12 @@ string getString(TermsWithDetails const& termsWithDetails)
             result += getString(*it);
         }
     }
-    return result;}
+    return result;
+}
 
 string getString(TermWithDetails const& termWithDetails)
-{    return string("{")+termWithDetails.baseTermSharedPointer->getDisplayableString()
+{
+    return string("{")+termWithDetails.baseTermSharedPointer->getDisplayableString()
             +"}{"+getEnumShortString(termWithDetails.association)+"}";
 }
 

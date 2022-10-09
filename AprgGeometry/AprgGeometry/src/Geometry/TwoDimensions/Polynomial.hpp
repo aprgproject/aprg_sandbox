@@ -59,8 +59,10 @@ protected:
             m_coefficientsOfFirstDerivative[i-1] = i * m_coefficients.at(i);
         }
     }
+
     std::array<double, numberOfCoefficients> m_coefficients; //form is c0 + c1*x + c2*x2....
     std::array<double, numberOfCoefficients-1> m_coefficientsOfFirstDerivative; //form is c0 + c1*x + c2*x2....
 };
+
 }
 }

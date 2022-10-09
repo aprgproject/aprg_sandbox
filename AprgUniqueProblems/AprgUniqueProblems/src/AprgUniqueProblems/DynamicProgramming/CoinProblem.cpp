@@ -5,10 +5,12 @@
 
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 CoinProblem::CoinProblem(Coins const& availableCoins)
-    : m_availableCoins(availableCoins)    , m_fewestCoins{}
+    : m_availableCoins(availableCoins)
+    , m_fewestCoins{}
     , m_countPerValue{}
 {}
 

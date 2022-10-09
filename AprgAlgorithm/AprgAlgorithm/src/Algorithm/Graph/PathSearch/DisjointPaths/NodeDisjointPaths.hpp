@@ -61,10 +61,12 @@ public:
                     Vertex const& vertex(it->first);
                     if(previousVertex != vertex)
                     {
-                        path.emplace_back(vertex);                        previousVertex = vertex;
+                        path.emplace_back(vertex);
+                        previousVertex = vertex;
                     }
                 }
-                result.emplace_back(path);            }
+                result.emplace_back(path);
+            }
         }
         return result;
     }

@@ -217,10 +217,12 @@ void getCommonFactorsInThesePolynomials(Polynomials & commonFactors, Polynomials
             Polynomials commonFactorsOfAPolynomial(factorizeAPolynomial(*it));
             updateToGetSubsetOfFactors(commonFactors, commonFactorsOfAPolynomial);
         }
-    }}
+    }
+}
 
 Polynomial getNewPolynomialWithNewVariables(
-        SubstitutionOfVariablesToTerms & variableSubstitution,        Polynomials const& smallerPolynomials)
+        SubstitutionOfVariablesToTerms & variableSubstitution,
+        Polynomials const& smallerPolynomials)
 {
     Polynomial newPolynomialWithVariables;
     for(Polynomial const& smallerPolynomial : smallerPolynomials)
