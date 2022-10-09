@@ -173,32 +173,31 @@ public:
                     DataType const partialResult,
                     DataType const currentValue)
         {
-            return partialResult + static_cast<DataType>(raiseToPowerForMathVectorDataType(currentValue, DataType(2)));
-        });
+                return partialResult + static_cast<DataType>(raiseToPowerForMathVectorDataType(currentValue, DataType(2)));
+    });
         return static_cast<DataType>(raiseToPowerForMathVectorDataType(sumOfSquaredTerms, DataType(1)/DataType(2)));
     }
-
     ValuesInArray const& getValues() const
     {
-        return m_values;
-    }
+        return m_values;    }
 
     std::string getDisplayableString() const
     {
         std::stringstream ss;
-        ss << "{" << m_values.at(0);
-        for(unsigned int i=1; i<m_values.size(); i++)
+        if(!m_values.empty())
         {
-            ss << ", " << m_values.at(i);
+            ss << "{" << m_values.front();
+            for(auto it=m_values.cbegin()+1; it!=m_values.cend(); it++)
+            {
+                ss << ", " << *it;
+            }
+            ss << "}";
         }
-        ss << "}";
         return ss.str();
     }
-
     DataType & getValueReferenceAt(unsigned int const index)
     {
-        assert(index<SIZE);
-        return m_values.at(index);
+        assert(index<SIZE);        return m_values.at(index);
     }
 
     ValuesInArray & getValuesReference()

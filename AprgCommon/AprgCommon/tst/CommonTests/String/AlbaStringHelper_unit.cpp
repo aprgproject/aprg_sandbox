@@ -701,18 +701,16 @@ TEST(IntegerStringTest, IsBorderWorks)
 {
     // For example, the borders of ABACABA are A, ABA and ABACABA.
 
-    EXPECT_TRUE(isBorder("ABCABCA", "A"));
-    EXPECT_TRUE(isBorder("ABCABCA", "ABA"));
-    EXPECT_TRUE(isBorder("ABCABCA", ""));
-    EXPECT_FALSE(isBorder("ABCABCA", "AB"));
-    EXPECT_FALSE(isBorder("ABCABCA", "ABCDE"));
+    EXPECT_TRUE(isBorder("ABACABA", "A"));
+    EXPECT_TRUE(isBorder("ABACABA", "ABA"));
+    EXPECT_TRUE(isBorder("ABACABA", ""));
+    EXPECT_FALSE(isBorder("ABACABA", "AB"));
+    EXPECT_FALSE(isBorder("ABACABA", "ABCDE"));
     EXPECT_FALSE(isBorder("ABCD", "AAAA"));
 }
-
 TEST(BooleanStringTest, StringCompareNotCaseSensitive)
 {
-    string testString("1234567890!@#$%^&*( )AbCDEFghIjKlMnopQRstUvWxYz");
-    string capitalLetters("1234567890!@#$%^&*( )abcdEFghijklMnOPQRstUvWxYz");
+    string testString("1234567890!@#$%^&*( )AbCDEFghIjKlMnopQRstUvWxYz");    string capitalLetters("1234567890!@#$%^&*( )abcdEFghijklMnOPQRstUvWxYz");
 
     EXPECT_TRUE(isEqualNotCaseSensitive(testString, capitalLetters));
 }
