@@ -421,17 +421,15 @@ Term Differentiation::differentiateTermsInMultiplicationOrDivisionTermByTerm(
         {
             accumulatedTerm = differentiateTwoDividedTerms(accumulatedTerm, firstTerm);
         }
-        for(unsigned int i=1; i<termsWithDetails.size(); i++)
+        for(auto it=termsWithDetails.cbegin()+1; it!=termsWithDetails.cend(); it++)
         {
-            TermWithDetails const& termWithDetails(termsWithDetails.at(i));
+            TermWithDetails const& termWithDetails(*it);
             Term const& currentTerm(getTermConstReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer));
             if(termWithDetails.hasPositiveAssociation())
-            {
-                accumulatedTerm = differentiateTwoMultipliedTerms(accumulatedTerm, currentTerm);
+            {                accumulatedTerm = differentiateTwoMultipliedTerms(accumulatedTerm, currentTerm);
             }
             else
-            {
-                accumulatedTerm = differentiateTwoDividedTerms(accumulatedTerm, currentTerm);
+            {                accumulatedTerm = differentiateTwoDividedTerms(accumulatedTerm, currentTerm);
             }
         }
     }

@@ -165,17 +165,15 @@ void createTermRaiseToANumberFromRaiseToPowerExpression(
     else if(raiseToPowerTerms.size() >= 2)
     {
         AlbaNumber combinedExponentValue(1);
-        for(unsigned int i=1; i<raiseToPowerTerms.size(); i++)
+        for(auto it=raiseToPowerTerms.begin()+1; it!=raiseToPowerTerms.end(); it++)
         {
-            Term & exponentTerm(getTermReferenceFromSharedPointer(raiseToPowerTerms.at(i).baseTermSharedPointer));
+            Term & exponentTerm(getTermReferenceFromSharedPointer(it->baseTermSharedPointer));
             if(exponentTerm.isConstant())
             {
-                combinedExponentValue = combinedExponentValue * exponentTerm.getConstantValueConstReference();
-                exponentTerm.getConstantReference().setNumber(1);
+                combinedExponentValue = combinedExponentValue * exponentTerm.getConstantValueConstReference();                exponentTerm.getConstantReference().setNumber(1);
             }
             else if(exponentTerm.isMonomial())
-            {
-                combinedExponentValue = combinedExponentValue * exponentTerm.getMonomialConstReference().getConstantConstReference();
+            {                combinedExponentValue = combinedExponentValue * exponentTerm.getMonomialConstReference().getConstantConstReference();
                 exponentTerm.getMonomialReference().setConstant(1);
             }
         }

@@ -138,17 +138,15 @@ AlbaNumber MultiplicationAndDivisionOfRadicals::getGcfOfExponents(
     if(!radicalDetails.empty())
     {
         gcfOfExponents = radicalDetails.front().radical.getExponent();
-        for(unsigned int i=1; i<radicalDetails.size(); i++)
+        for(auto it=radicalDetails.cbegin()+1; it!=radicalDetails.cend(); it++)
         {
-            gcfOfExponents = getGreatestCommonFactor(gcfOfExponents, radicalDetails.at(i).radical.getExponent());
+            gcfOfExponents = getGreatestCommonFactor(gcfOfExponents, it->radical.getExponent());
         }
     }
-    return gcfOfExponents;
-}
+    return gcfOfExponents;}
 
 void MultiplicationAndDivisionOfRadicals::combineMonomialAndRadicalsAndSave(
-        RadicalDetails const& radicalDetails,
-        Monomial const& combinedMonomial,
+        RadicalDetails const& radicalDetails,        Monomial const& combinedMonomial,
         AlbaNumber const& gcfOfExponents)
 {
     Monomial newMonomial(combinedMonomial);

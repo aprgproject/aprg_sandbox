@@ -44,35 +44,31 @@ string SolutionSet::getDisplayableString() const
     if(!m_acceptedValues.empty())
     {
         ss << "AcceptedValues:{" << m_acceptedValues.front();
-        for(unsigned int i=1; i<m_acceptedValues.size(); i++)
+        for(auto it=m_acceptedValues.cbegin()+1; it!=m_acceptedValues.cend(); it++)
         {
-            ss << ", " << m_acceptedValues.at(i);
+            ss << ", " << *it;
         }
         ss << "} ";
-    }
-    if(!m_rejectedValues.empty())
+    }    if(!m_rejectedValues.empty())
     {
         ss << "RejectedValues:{" << m_rejectedValues.front();
-        for(unsigned int i=1; i<m_rejectedValues.size(); i++)
+        for(auto it=m_rejectedValues.cbegin()+1; it!=m_rejectedValues.cend(); it++)
         {
-            ss << ", " << m_rejectedValues.at(i);
+            ss << ", " << *it;
         }
         ss << "} ";
-    }
-    if(!m_acceptedIntervals.empty())
+    }    if(!m_acceptedIntervals.empty())
     {
         ss << "AcceptedInterval:{" << m_acceptedIntervals.front();
-        for(unsigned int i=1; i<m_acceptedIntervals.size(); i++)
+        for(auto it=m_acceptedIntervals.cbegin()+1; it!=m_acceptedIntervals.cend(); it++)
         {
-            ss << ", " << m_acceptedIntervals.at(i);
+            ss << ", " << *it;
         }
         ss << "}";
-    }
-    return ss.str();
+    }    return ss.str();
 }
 
-void SolutionSet::addAcceptedValue(AlbaNumber const& value)
-{
+void SolutionSet::addAcceptedValue(AlbaNumber const& value){
     m_acceptedValues.emplace_back(value);
 }
 
@@ -148,17 +144,15 @@ void SolutionSet::checkValuesAndPutIntervals(
         AlbaNumber intervalValueToCheck(firstValueToCheck - getAbsoluteValue(firstValueToCheck));
         addInterval(AlbaNumber::Value::NegativeInfinity, intervalValueToCheck, firstValueToCheck, isValueAcceptedFunction);
         AlbaNumber previousValueToCheck(firstValueToCheck);
-        for(unsigned int i=1; i<valuesToCheck.size(); i++)
+        for(auto it=valuesToCheck.cbegin()+1; it!=valuesToCheck.cend(); it++)
         {
-            AlbaNumber const& valueToCheck(valuesToCheck.at(i));
+            AlbaNumber const& valueToCheck(*it);
             intervalValueToCheck = getAverage(previousValueToCheck, valueToCheck);
             addInterval(previousValueToCheck, intervalValueToCheck, valueToCheck, isValueAcceptedFunction);
-            previousValueToCheck = valueToCheck;
-        }
+            previousValueToCheck = valueToCheck;        }
         intervalValueToCheck = previousValueToCheck + getAbsoluteValue(previousValueToCheck);
         addInterval(previousValueToCheck, intervalValueToCheck, AlbaNumber::Value::PositiveInfinity, isValueAcceptedFunction);
-    }
-}
+    }}
 
 void SolutionSet::addInterval(
         AlbaNumber const& lowerEndpointValue,

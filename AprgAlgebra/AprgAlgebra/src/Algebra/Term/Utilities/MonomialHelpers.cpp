@@ -303,32 +303,28 @@ Monomial getMonomialWithMinimumExponentsInMonomials(Monomials const& monomials)
     if(!monomials.empty())
     {
         monomialWithMinimumExponents = monomials.front();
-        for(unsigned int i=1; i<monomials.size(); i++)
+        for(auto it=monomials.cbegin()+1; it!=monomials.cend(); it++)
         {
             monomialWithMinimumExponents
-                    = compareMonomialsAndSaveMinimumExponentsForEachVariable(monomialWithMinimumExponents, monomials.at(i));
+                    = compareMonomialsAndSaveMinimumExponentsForEachVariable(monomialWithMinimumExponents, *it);
         }
         monomialWithMinimumExponents.simplify();
-    }
-    return monomialWithMinimumExponents;
+    }    return monomialWithMinimumExponents;
 }
 
-Monomial getMonomialWithMaximumExponentsInMonomials(Monomials const& monomials)
-{
+Monomial getMonomialWithMaximumExponentsInMonomials(Monomials const& monomials){
     Monomial monomialWithMaximumExponents(1, {});
     if(!monomials.empty())
     {
         monomialWithMaximumExponents = monomials.front();
-        for(unsigned int i=1; i<monomials.size(); i++)
+        for(auto it=monomials.cbegin()+1; it!=monomials.cend(); it++)
         {
             monomialWithMaximumExponents
-                    = compareMonomialsAndSaveMaximumExponentsForEachVariable(monomialWithMaximumExponents, monomials.at(i));
+                    = compareMonomialsAndSaveMaximumExponentsForEachVariable(monomialWithMaximumExponents, *it);
         }
         monomialWithMaximumExponents.simplify();
-    }
-    return monomialWithMaximumExponents;
+    }    return monomialWithMaximumExponents;
 }
-
 
 }
 

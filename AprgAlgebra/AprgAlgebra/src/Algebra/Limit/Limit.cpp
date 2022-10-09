@@ -298,17 +298,15 @@ Term getLimitWithMultipleVariablesWithDifferentApproaches(
     if(!limitValues.empty())
     {
         result = limitValues.front();
-        for(unsigned int i=1; i<limitValues.size(); i++)
+        for(auto it=limitValues.cbegin()+1; it!=limitValues.cend(); it++)
         {
-            if(result != limitValues.at(i))
+            if(result != *it)
             {
                 result = AlbaNumber(AlbaNumber::Value::NotANumber);
-                break;
-            }
+                break;            }
         }
     }
-    return result;
-}
+    return result;}
 
 
 Term getLimitUsingLhopitalsRule(

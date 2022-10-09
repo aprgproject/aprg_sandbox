@@ -216,17 +216,15 @@ Term IntegrationForFiniteCalculus::integratePolynomial(
     if(!monomials.empty())
     {
         result = integrateMonomial(monomials.front());
-        for(unsigned int i=1; i<monomials.size(); i++)
+        for(auto it=monomials.cbegin()+1; it!=monomials.cend(); it++)
         {
-            result = result + integrateMonomial(monomials.at(i));
+            result = result + integrateMonomial(*it);
         }
         result.simplify();
-    }
-    return result;
+    }    return result;
 }
 
-Term IntegrationForFiniteCalculus::integrateExpression(
-        Expression const& expression) const
+Term IntegrationForFiniteCalculus::integrateExpression(        Expression const& expression) const
 {
     return integrateAsTermOrExpressionIfNeeded(expression);
 }

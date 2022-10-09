@@ -122,18 +122,16 @@ string getString(TermsWithDetails const& termsWithDetails)
     if(!termsWithDetails.empty())
     {
         result += getString(termsWithDetails.front());
-        for(unsigned int i=1; i<termsWithDetails.size(); i++)
+        for(auto it=termsWithDetails.cbegin()+1; it!=termsWithDetails.cend(); it++)
         {
             result += ", ";
-            result += getString(termsWithDetails.at(i));
+            result += getString(*it);
         }
     }
-    return result;
-}
+    return result;}
 
 string getString(TermWithDetails const& termWithDetails)
-{
-    return string("{")+termWithDetails.baseTermSharedPointer->getDisplayableString()
+{    return string("{")+termWithDetails.baseTermSharedPointer->getDisplayableString()
             +"}{"+getEnumShortString(termWithDetails.association)+"}";
 }
 

@@ -204,17 +204,15 @@ void SolverUsingSubstitution::solveAndUpdate(
         SolutionSet firstPotentialSolution;
         firstPotentialSolution.addAcceptedValue(acceptedValues.front());
         solutionSet.addSolutionSetForVariable(variableNameToSolve, firstPotentialSolution);
-        for(unsigned int i=1; i<acceptedValues.size(); i++)
+        for(auto it=acceptedValues.cbegin()+1; it!=acceptedValues.cend(); it++)
         {
             SolutionSet potentialSolution;
-            potentialSolution.addAcceptedValue(acceptedValues.at(i));
+            potentialSolution.addAcceptedValue(*it);
             MultipleVariableSolutionSet multipleVariableSolutionSet;
             multipleVariableSolutionSet.addSolutionSetForVariable(variableNameToSolve, potentialSolution);
-            m_solutionsWithSomeVariables.emplace_back(multipleVariableSolutionSet);
-        }
+            m_solutionsWithSomeVariables.emplace_back(multipleVariableSolutionSet);        }
     }
 }
-
 }
 
 }

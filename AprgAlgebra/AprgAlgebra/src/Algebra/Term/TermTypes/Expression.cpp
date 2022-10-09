@@ -126,17 +126,15 @@ string Expression::getDisplayableString() const
         TermWithDetails const& firstTermWithDetails(termsWithDetails.front());
         result << getFirstStringIfNegativeAssociation(m_commonOperatorLevel, firstTermWithDetails.association);
         result << firstTermWithDetails.baseTermSharedPointer->getDisplayableString();
-        for(unsigned int i=1; i<termsWithDetails.size(); i++)
+        for(auto it=termsWithDetails.cbegin()+1; it!=termsWithDetails.cend(); it++)
         {
-            TermWithDetails const& termWithDetails(termsWithDetails.at(i));
+            TermWithDetails const& termWithDetails(*it);
             result << getOperatingString(m_commonOperatorLevel, termWithDetails.association);
             result << termWithDetails.baseTermSharedPointer->getDisplayableString();
-        }
-    }
+        }    }
     result << ")";
     return result.str();
 }
-
 string Expression::getDebugString() const
 {
     stringstream result;
@@ -147,17 +145,15 @@ string Expression::getDebugString() const
         TermWithDetails const& firstTermWithDetails(termsWithDetails.front());
         result << getFirstStringIfNegativeAssociation(m_commonOperatorLevel, firstTermWithDetails.association);
         result << firstTermWithDetails.baseTermSharedPointer->getDebugString() << getEnumShortString(firstTermWithDetails.association);
-        for(unsigned int i=1; i<termsWithDetails.size(); i++)
+        for(auto it=termsWithDetails.cbegin()+1; it!=termsWithDetails.cend(); it++)
         {
-            TermWithDetails const& termWithDetails(termsWithDetails.at(i));
+            TermWithDetails const& termWithDetails(*it);
             result << getOperatingString(m_commonOperatorLevel, termWithDetails.association);
             result << termWithDetails.baseTermSharedPointer->getDebugString() << getEnumShortString(termWithDetails.association);
-        }
-    }
+        }    }
     result << " )";
     return result.str();
 }
-
 TermsWithAssociation & Expression::getTermsWithAssociationReference()
 {
     clearSimplifiedFlag();
