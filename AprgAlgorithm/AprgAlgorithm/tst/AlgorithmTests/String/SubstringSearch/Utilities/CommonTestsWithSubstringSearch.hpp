@@ -20,14 +20,13 @@ void testSearchUsingExample1()
 {
     SubstringSearch substringSearchWithHit("AACAA");
     SubstringSearch substringSearchWithoutHit("BBB");
-    std::string mainString("AABRAACADABRAACAADABRA");
+    string mainString("AABRAACADABRAACAADABRA");
 
     EXPECT_EQ(Index(12), substringSearchWithHit.search(mainString));
-    EXPECT_EQ(Index(std::string::npos), substringSearchWithoutHit.search(mainString));
+    EXPECT_EQ(Index(string::npos), substringSearchWithoutHit.search(mainString));
 }
 
 }
-
 }
 
 }
