@@ -13,24 +13,27 @@ class LongestRepeatedSubstring
 {
 public:
 
-static std::string getLongestRepeatedSubstring(std::string const& stringToCheck)
-{
-    SuffixArray<DataType> suffixArray(stringToCheck);
-    std::string result;
-    DataType length(stringToCheck.length());
-    for(DataType i=1; i<length; i++)
+    LongestRepeatedSubstring() = delete;
+    LongestRepeatedSubstring(LongestRepeatedSubstring const&) = delete;
+    LongestRepeatedSubstring & operator= (LongestRepeatedSubstring const&) = delete;
+
+    static std::string getLongestRepeatedSubstring(std::string const& stringToCheck)
     {
-        std::string commonPrefix(suffixArray.getLongestCommonPrefixOfTwoSuffixes(i-1, i));
-        if(result.size() < commonPrefix.size())
+        SuffixArray<DataType> suffixArray(stringToCheck);
+        std::string result;
+        DataType length(stringToCheck.length());
+        for(DataType i=1; i<length; i++)
         {
-            result = commonPrefix;
+            std::string commonPrefix(suffixArray.getLongestCommonPrefixOfTwoSuffixes(i-1, i));
+            if(result.size() < commonPrefix.size())
+            {
+                result = commonPrefix;
+            }
         }
+        return result;
     }
-    return result;
-}
 
 };
-
 }
 
 }

@@ -17,13 +17,15 @@ public:
 
     using RowAndColumnPair = std::pair<unsigned int, unsigned int>;
 
+    CountSpanningTreesUsingKirchhoffTheorem() = delete;
+    CountSpanningTreesUsingKirchhoffTheorem(CountSpanningTreesUsingKirchhoffTheorem const&) = delete;
+    CountSpanningTreesUsingKirchhoffTheorem & operator= (CountSpanningTreesUsingKirchhoffTheorem const&) = delete;
+
     template<unsigned int MAX_VERTEX_VALUE>
     static unsigned int getCount(BaseGraph<Vertex> const& graph)
-    {
-        // L is the Laplacean matrix.
+    {        // L is the Laplacean matrix.
         // It can be shown that the number of spanning trees equals the determinant of a matrix that is obtained
         // when we remove any row and any column from L.
-
         // The determinant is always the same, regardless of which row and column we remove from L.
         // Note that Cayley’s formula is a special case of Kirchhoff’s theorem, because in a complete graph of n nodes.
 

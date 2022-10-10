@@ -12,14 +12,17 @@ template <typename Input, typename HashValue>
 class UnsignedIntegerBasedHashFunction
 {
 public:
+
+    UnsignedIntegerBasedHashFunction() = delete;
+    UnsignedIntegerBasedHashFunction(UnsignedIntegerBasedHashFunction const&) = delete;
+    UnsignedIntegerBasedHashFunction & operator= (UnsignedIntegerBasedHashFunction const&) = delete;
+
     static HashValue getHashCode(Input const& input)
     {
-        return static_cast<HashValue>(input);
-    }
+        return static_cast<HashValue>(input);    }
 
     static HashValue getHash(Input const& input, HashValue const hashSize)
-    {
-        return getHashCode(input) % hashSize;
+    {        return getHashCode(input) % hashSize;
     }
 };
 

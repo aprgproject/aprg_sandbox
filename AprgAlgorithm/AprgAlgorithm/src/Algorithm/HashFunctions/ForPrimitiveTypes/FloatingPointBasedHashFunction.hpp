@@ -12,14 +12,17 @@ template <typename Input, typename HashValue>
 class FloatingPointBasedHashFunction
 {
 public:
+
+    FloatingPointBasedHashFunction() = delete;
+    FloatingPointBasedHashFunction(FloatingPointBasedHashFunction const&) = delete;
+    FloatingPointBasedHashFunction & operator= (FloatingPointBasedHashFunction const&) = delete;
+
     static HashValue getHashCode(Input const& input)
     {
-        union SharedValue
-        {
+        union SharedValue        {
             uint64_t integerValue;
             Input floatingPointValue;
-        };
-        SharedValue sharedValue;
+        };        SharedValue sharedValue;
         sharedValue.floatingPointValue = input;
         return static_cast<HashValue>((sharedValue.integerValue >> 32) ^ sharedValue.integerValue);
     }

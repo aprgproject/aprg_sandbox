@@ -315,21 +315,23 @@ template <typename ValueTemplateType, typename OperatorTemplateType>
 class ExpressionEvaluatorConverter
 {
 public:
+
     using PostfixEvaluator = ExpressionPostfixEvaluator<ValueTemplateType, OperatorTemplateType>;
     using InfixEvaluator = ExpressionInfixEvaluator<ValueTemplateType, OperatorTemplateType>;
-    using Term = ExpressionEvaluatorTerm<ValueTemplateType, OperatorTemplateType>;
-    using Terms = std::vector<Term>;
+    using Term = ExpressionEvaluatorTerm<ValueTemplateType, OperatorTemplateType>;    using Terms = std::vector<Term>;
     using TermStack = std::stack<Term>;
     using TermsStack = std::stack<Terms>;
 
+    ExpressionEvaluatorConverter() = delete;
+    ExpressionEvaluatorConverter(ExpressionEvaluatorConverter const&) = delete;
+    ExpressionEvaluatorConverter & operator= (ExpressionEvaluatorConverter const&) = delete;
+
     static PostfixEvaluator convertInfixToPostfix(InfixEvaluator const& infixEvaluator)
     {
-        PostfixEvaluator postfixEvaluator;
-        Terms const& termsInInfix(infixEvaluator.m_terms);
+        PostfixEvaluator postfixEvaluator;        Terms const& termsInInfix(infixEvaluator.m_terms);
         Terms & termsInPostfix(postfixEvaluator.m_terms);
         TermStack operatorStack;
-        for(Term const& term : termsInInfix)
-        {
+        for(Term const& term : termsInInfix)        {
             if (term.isStartGroupOperator())
             {
                 operatorStack.push(term);
@@ -361,14 +363,13 @@ public:
         });
         return postfixEvaluator;
     }
+
     static InfixEvaluator convertPostfixToInfix(PostfixEvaluator const& postfixEvaluator)
     {
-        InfixEvaluator infixEvaluator;
-        Terms const& termsInPostfix(postfixEvaluator.m_terms);
+        InfixEvaluator infixEvaluator;        Terms const& termsInPostfix(postfixEvaluator.m_terms);
         Terms & termsInInfix(infixEvaluator.m_terms);
         TermsStack expressionsStack;
-        for(Term const& term : termsInPostfix)
-        {
+        for(Term const& term : termsInPostfix)        {
             if (term.isValue())
             {
                 expressionsStack.push({term});
