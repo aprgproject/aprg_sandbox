@@ -8,20 +8,12 @@ namespace alba
 namespace algebra
 {
 
-BaseTerm::BaseTerm()
-{}
-
-BaseTerm::~BaseTerm()
-{}
-
 string BaseTerm::getDisplayableString() const
 {
-    return "[BaseTermDisplayableString]";
-}
+    return "[BaseTermDisplayableString]";}
 
 string BaseTerm::getDebugString() const
-{
-    return "[BaseTermDebugString]";
+{    return "[BaseTermDebugString]";
 }
 
 ostream & operator<<(ostream & out, BaseTerm const& baseTerm)
