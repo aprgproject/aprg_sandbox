@@ -635,7 +635,8 @@ double SOOSA::getShadePercentage(
     });    return static_cast<double>(numberOfBlackPoints)/totalPoints;
 }
 
-double SOOSA::getRadiusForChoiceChecking(        QuestionBarCoordinate const& leftCoordinate,
+double SOOSA::getRadiusForChoiceChecking(
+        QuestionBarCoordinate const& leftCoordinate,
         QuestionBarCoordinate const& rightCoordinate) const
 {
     double leftBarHeight = getDistance(leftCoordinate.first, leftCoordinate.second);

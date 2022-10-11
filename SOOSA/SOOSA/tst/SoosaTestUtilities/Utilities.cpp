@@ -25,7 +25,8 @@ SoosaConfiguration getSoosaConfiguration()
     soosaConfiguration.bufferNameAndValueString("m_acceptableMinimumDistanceFromWidthMidpoint", "4");    soosaConfiguration.bufferNameAndValueString("m_acceptableSdOverMeanDeviationForLine", "0.50");
     soosaConfiguration.bufferNameAndValueString("m_acceptableSdOverMeanDeviationForBar", "0.10");
     soosaConfiguration.bufferNameAndValueString("m_removalRatioForLineAndBar", "0.05");
-    soosaConfiguration.bufferNameAndValueString("m_acceptableSdOverMeanDeviationForBarHeight", "0.10");    soosaConfiguration.bufferNameAndValueString("m_removalRatioForBarHeight", "0.02");
+    soosaConfiguration.bufferNameAndValueString("m_acceptableSdOverMeanDeviationForBarHeight", "0.10");
+    soosaConfiguration.bufferNameAndValueString("m_removalRatioForBarHeight", "0.02");
 
     // Choices related parameters
     soosaConfiguration.bufferNameAndValueString("m_numberOfChoices", "5");
@@ -37,7 +38,8 @@ SoosaConfiguration getSoosaConfiguration()
     return soosaConfiguration;}
 
 InputConfiguration getInputConfigurationForCharityPayWards(string const& inputPath)
-{    InputConfiguration inputConfiguration;
+{
+    InputConfiguration inputConfiguration;
     inputConfiguration.setPath(inputPath);
     inputConfiguration.setFormDetailsTitle("Form Title");
     inputConfiguration.setMainParameters("area", "period", 12.345, 3U);

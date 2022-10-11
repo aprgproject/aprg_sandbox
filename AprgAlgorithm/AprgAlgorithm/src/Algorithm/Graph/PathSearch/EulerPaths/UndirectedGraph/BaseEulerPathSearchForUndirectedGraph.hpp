@@ -25,12 +25,10 @@ public:
         : m_graph(graph)
     {}
 
-    virtual ~BaseEulerPathSearchForUndirectedGraph()
-    {}
+    virtual ~BaseEulerPathSearchForUndirectedGraph() = default;
 
     bool hasEulerCycle() const
-    {
-        return hasEulerCycleForUndirectedGraph(m_graph);
+    {        return hasEulerCycleForUndirectedGraph(m_graph);
     }
 
     bool hasEulerPath() const

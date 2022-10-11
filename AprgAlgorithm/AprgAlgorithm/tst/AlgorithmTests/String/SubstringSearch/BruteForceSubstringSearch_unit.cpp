@@ -19,10 +19,19 @@ using BruteForceSubstringSearchWithOneLoop = BruteForceSubstringSearch<1U>;
 using BruteForceSubstringSearchWithTwoLoops = BruteForceSubstringSearch<2U>;
 }
 
+TEST(BruteForceSubstringSearchTest, SearchWorksWithOneLoopUsingEmptyStringsAndDoesNotCrash)
+{
+    testSearchUsingEmptyStringsAndDoesNotCrash<BruteForceSubstringSearchWithOneLoop, Index>();
+}
+
+TEST(BruteForceSubstringSearchTest, SearchWorksWithTwoLoopsUsingEmptyStringsAndDoesNotCrash)
+{
+    testSearchUsingEmptyStringsAndDoesNotCrash<BruteForceSubstringSearchWithTwoLoops, Index>();
+}
+
 TEST(BruteForceSubstringSearchTest, SearchWorksWithOneLoopUsingExample1)
 {
-    testSearchUsingExample1<BruteForceSubstringSearchWithOneLoop, Index>();
-}
+    testSearchUsingExample1<BruteForceSubstringSearchWithOneLoop, Index>();}
 
 TEST(BruteForceSubstringSearchTest, SearchWorksWithTwoLoopsUsingExample1)
 {

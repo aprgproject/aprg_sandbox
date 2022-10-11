@@ -14,12 +14,10 @@ class BaseDirectedGraph : public BaseGraph<Vertex>
 public:
     using Edges = typename GraphTypes<Vertex>::Edges;
 
-    virtual ~BaseDirectedGraph()
-    {}
+    virtual ~BaseDirectedGraph() = default;
 
     GraphDirectionType getGraphDirectionType() const
-    {
-        return DIRECTION_TYPE;
+    {        return DIRECTION_TYPE;
     }
 
     void reverseDirections()

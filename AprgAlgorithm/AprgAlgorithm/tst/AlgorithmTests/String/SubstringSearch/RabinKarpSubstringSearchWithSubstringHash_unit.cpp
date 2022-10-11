@@ -2,6 +2,7 @@
 #include <AlgorithmTests/String/SubstringSearch/Utilities/CommonTestsWithSubstringSearch.hpp>
 
 #include <gtest/gtest.h>
+
 using namespace alba::algorithm::CommonTestsWithSubstringSearch;
 using namespace std;
 
@@ -14,13 +15,29 @@ namespace algorithm
 namespace
 {
 using Index = unsigned int;
-using SubstringSearchToTest = RabinKarpSubstringSearchWithSubstringHash<unsigned int, unsigned long long>;
+using HashValue = unsigned long long;
+using SubstringSearchForTest = RabinKarpSubstringSearchWithSubstringHash<Index, HashValue>;
+}
+
+TEST(RabinKarpSubstringSearchWithSubstringHashTest, SearchWorksUsingEmptyStringsAndDoesNotCrash)
+{
+    // SubstringSearchUsingZArray has unique results of handling empty strings
+
+    string emptyString;
+    string nonEmptyString("NonEmptyString");
+    SubstringSearchForTest emptyStringSearch(emptyString);
+    SubstringSearchForTest nonEmptyStringSearch(nonEmptyString);
+
+    EXPECT_EQ(Index(string::npos), emptyStringSearch.search(emptyString));
+    EXPECT_EQ(Index(string::npos), emptyStringSearch.search(nonEmptyString));
+    EXPECT_EQ(Index(string::npos), nonEmptyStringSearch.search(emptyString));
+    EXPECT_EQ(Index(0), nonEmptyStringSearch.search(nonEmptyString));
 }
 
 TEST(RabinKarpSubstringSearchWithSubstringHashTest, SearchWorksUsingExample1)
 {
-    testSearchUsingExample1<SubstringSearchToTest, Index>();
-}
+    testSearchUsingExample1<SubstringSearchForTest, Index>();
 }
 
+}
 }

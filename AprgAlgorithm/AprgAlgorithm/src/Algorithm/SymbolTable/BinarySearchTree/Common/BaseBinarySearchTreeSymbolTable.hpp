@@ -23,10 +23,11 @@ public:
     BaseBinarySearchTreeSymbolTable()
     {}
 
+    virtual ~BaseBinarySearchTreeSymbolTable() = default;
+
     bool isEmpty() const override
     {
-        return getSize() == 0;
-    }
+        return getSize() == 0;    }
 
     bool doesContain(Key const& key) const override
     {

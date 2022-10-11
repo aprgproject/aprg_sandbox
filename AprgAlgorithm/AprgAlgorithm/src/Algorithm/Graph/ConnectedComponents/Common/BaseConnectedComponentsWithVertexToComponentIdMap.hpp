@@ -20,10 +20,11 @@ public:
         , m_numberOfComponentIds(0U)
     {}
 
+    virtual ~BaseConnectedComponentsWithVertexToComponentIdMap() = default;
+
     bool isConnected(Vertex const& vertex1, Vertex const& vertex2) const override
     {
-        auto it1 = m_vertexToComponentIdMap.find(vertex1);
-        auto it2 = m_vertexToComponentIdMap.find(vertex2);
+        auto it1 = m_vertexToComponentIdMap.find(vertex1);        auto it2 = m_vertexToComponentIdMap.find(vertex2);
         bool result(false);
         if(it1 != m_vertexToComponentIdMap.cend()
                 && it2 != m_vertexToComponentIdMap.cend())

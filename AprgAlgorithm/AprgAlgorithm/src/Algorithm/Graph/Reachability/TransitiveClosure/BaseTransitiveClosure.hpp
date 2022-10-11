@@ -11,12 +11,10 @@ class BaseTransitiveClosure
 {
 public:
 
-    virtual ~BaseTransitiveClosure()
-    {}
+    virtual ~BaseTransitiveClosure() = default;
 
     virtual bool isReachable(Vertex const& sourceVertex, Vertex const& destinationVertex) const = 0;
 };
-
 }
 
 }

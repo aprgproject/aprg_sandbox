@@ -30,12 +30,11 @@ public:
         Index result(static_cast<Index>(std::string::npos));
         Index mainLength(mainString.size());
         Index substringLength(m_substringToMatch.size());
-        int skipValue;
-        for(Index searchIndex=0; searchIndex<mainLength-substringLength; searchIndex+=skipValue)
+        int skipValue(0);
+        for(Index searchIndex=0; searchIndex+substringLength<=mainLength; searchIndex+=skipValue)
         {
             skipValue=0;
-            for(Index matchIndex=0; matchIndex<substringLength; matchIndex++)
-            {
+            for(Index matchIndex=0; matchIndex<substringLength; matchIndex++)            {
                 Index matchReverseIndex(substringLength-matchIndex-1);
                 if(m_substringToMatch.at(matchReverseIndex) != mainString.at(searchIndex+matchReverseIndex)) // if mismatch
                 {

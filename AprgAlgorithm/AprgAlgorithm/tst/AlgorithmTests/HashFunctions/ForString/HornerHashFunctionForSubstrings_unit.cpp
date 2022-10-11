@@ -22,6 +22,7 @@ TEST(HornerHashFunctionForSubstringsTest, Example1Works){
     HashFunctionForTest hashFunction(RADIX, A_LARGE_PRIME, "ALLEY");
 
     EXPECT_EQ(23869869ULL, hashFunction.getHashCodeOfWholeString());
+
     EXPECT_EQ(65ULL, hashFunction.getHashCodeOfSubstring(0U, 0U));
     EXPECT_EQ(16716ULL, hashFunction.getHashCodeOfSubstring(0U, 1U));
     EXPECT_EQ(4279372ULL, hashFunction.getHashCodeOfSubstring(0U, 2U));

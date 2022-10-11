@@ -15,14 +15,18 @@ namespace algorithm
 namespace
 {
 using Index = unsigned int;
-using SubstringSearchToTest = BoyerMooreSubstringSearch<unsigned int>;
+using SubstringSearchForTest = BoyerMooreSubstringSearch<Index>;
+}
+
+TEST(BoyerMooreSubstringSearchTest, SearchWorksUsingEmptyStringsAndDoesNotCrash)
+{
+    testSearchUsingEmptyStringsAndDoesNotCrash<SubstringSearchForTest, Index>();
 }
 
 TEST(BoyerMooreSubstringSearchTest, SearchWorksUsingExample1)
 {
-    testSearchUsingExample1<SubstringSearchToTest, Index>();
+    testSearchUsingExample1<SubstringSearchForTest, Index>();
 }
 
 }
-
 }

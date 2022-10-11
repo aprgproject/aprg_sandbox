@@ -322,16 +322,20 @@ public:
     using TermStack = std::stack<Term>;
     using TermsStack = std::stack<Terms>;
 
+    // rule of five or six
     ExpressionEvaluatorConverter() = delete;
+    ~ExpressionEvaluatorConverter() = delete;
     ExpressionEvaluatorConverter(ExpressionEvaluatorConverter const&) = delete;
     ExpressionEvaluatorConverter & operator= (ExpressionEvaluatorConverter const&) = delete;
+    ExpressionEvaluatorConverter(ExpressionEvaluatorConverter &&) = delete;
+    ExpressionEvaluatorConverter & operator= (ExpressionEvaluatorConverter &&) = delete;
 
     static PostfixEvaluator convertInfixToPostfix(InfixEvaluator const& infixEvaluator)
-    {
-        PostfixEvaluator postfixEvaluator;        Terms const& termsInInfix(infixEvaluator.m_terms);
+    {        PostfixEvaluator postfixEvaluator;        Terms const& termsInInfix(infixEvaluator.m_terms);
         Terms & termsInPostfix(postfixEvaluator.m_terms);
         TermStack operatorStack;
-        for(Term const& term : termsInInfix)        {
+        for(Term const& term : termsInInfix)
+        {
             if (term.isStartGroupOperator())
             {
                 operatorStack.push(term);
@@ -369,7 +373,8 @@ public:
         InfixEvaluator infixEvaluator;        Terms const& termsInPostfix(postfixEvaluator.m_terms);
         Terms & termsInInfix(infixEvaluator.m_terms);
         TermsStack expressionsStack;
-        for(Term const& term : termsInPostfix)        {
+        for(Term const& term : termsInPostfix)
+        {
             if (term.isValue())
             {
                 expressionsStack.push({term});

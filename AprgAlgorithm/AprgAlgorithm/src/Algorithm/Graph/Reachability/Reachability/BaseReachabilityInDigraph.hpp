@@ -13,12 +13,10 @@ class BaseReachabilityInDigraph
 {
 public:
 
-    virtual ~BaseReachabilityInDigraph()
-    {}
+    virtual ~BaseReachabilityInDigraph() = default;
 
     virtual bool isReachable(Vertex const& destinationVertex) const = 0;
 };
-
 }
 
 }

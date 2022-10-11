@@ -1,10 +1,8 @@
 #pragma once
 
 #include <string>
-
 namespace alba
 {
-
 namespace algorithm
 {
 
@@ -65,14 +63,13 @@ private:
         unsigned int result(static_cast<unsigned int>(std::string::npos));
         unsigned int mainLength(mainString.length());
         unsigned int substringLength(substringToMatch.length());
-        for(unsigned int offset=0; offset <= mainLength-substringLength; offset++)
+        for(unsigned int offset=0; offset+substringLength <= mainLength; offset++)
         {
             unsigned int matchIndex=0;
-            for(; matchIndex < substringLength; matchIndex++)
+            for(; matchIndex<substringLength; matchIndex++)
             {
                 if(mainString.at(offset+matchIndex) != substringToMatch.at(matchIndex))
-                {
-                    // matchIndex represents the index of matches as well
+                {                    // matchIndex represents the index of matches as well
                     break;
                 }
             }

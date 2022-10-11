@@ -22,10 +22,11 @@ public:
         , b_graph(BaseClass::m_graph)
     {}
 
+    virtual ~BaseHierholzerAlgorithm() = default;
+
     Path getEulerCycle() const override
     {
-        Path result;
-        if(!b_graph.isEmpty() && this->hasEulerCycle()) // this is check is needed because Hierholzer algorithm does not check this
+        Path result;        if(!b_graph.isEmpty() && this->hasEulerCycle()) // this is check is needed because Hierholzer algorithm does not check this
         {
             searchForEulerPath(result, this->getStartingVertexForEulerCycle());
         }

@@ -15,14 +15,18 @@ namespace algorithm
 namespace
 {
 using Index = unsigned int;
-using SubstringSearchToTest = KnuthMorrisPrattSubstringSearch<unsigned int>;
+using SubstringSearchForTest = KnuthMorrisPrattSubstringSearch<Index>;
+}
+
+TEST(KnuthMorrisPrattSubstringSearchTest, SearchWorksUsingEmptyStringsAndDoesNotCrash)
+{
+    testSearchUsingEmptyStringsAndDoesNotCrash<SubstringSearchForTest, Index>();
 }
 
 TEST(KnuthMorrisPrattSubstringSearchTest, SearchWorksUsingExample1)
 {
-    testSearchUsingExample1<SubstringSearchToTest, Index>();
+    testSearchUsingExample1<SubstringSearchForTest, Index>();
 }
 
 }
-
 }

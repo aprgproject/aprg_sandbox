@@ -14,12 +14,10 @@ class BaseSymbolTable
 public:
     using Keys = std::vector<Key>;
 
-    virtual ~BaseSymbolTable()
-    {}
+    virtual ~BaseSymbolTable() = default;
 
     virtual bool isEmpty() const = 0; // is the symbol table empty
     virtual bool doesContain(Key const& key) const = 0; // is key exists on symbol table
-
     virtual unsigned int getSize() const = 0; // get number of key-value pairs
     virtual unsigned int getRank(Key const& key) const = 0; // get number of keys less than key
 

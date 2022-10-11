@@ -18,10 +18,11 @@ class BaseRedBlackBinarySearchTreeSymbolTable
 public:
     using NodeUniquePointer = std::unique_ptr<Node>;
 
+    virtual ~BaseRedBlackBinarySearchTreeSymbolTable() = default;
+
 protected:
 
-    inline bool isRed(NodeUniquePointer const& nodePointer) const
-    {
+    inline bool isRed(NodeUniquePointer const& nodePointer) const    {
         bool result(false);
         if(nodePointer)
         {

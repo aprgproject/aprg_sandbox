@@ -243,6 +243,7 @@ TEST(ExpressionEvaluatorConverterTest, InfixToPostfixConvertionWorksForUnaryOper
     EXPECT_EQ(0, terms[0].getValue());    EXPECT_EQ("~", terms[1].getOperator());
     EXPECT_EQ(-1, postfixEvaluator.evaluate());
 }
+
 TEST(ExpressionEvaluatorConverterTest, InfixToPostfixConvertionWorksForBinaryOperation)
 {
     InfixEvaluatorForTest infixEvaluator;
@@ -258,6 +259,7 @@ TEST(ExpressionEvaluatorConverterTest, InfixToPostfixConvertionWorksForBinaryOpe
     EXPECT_EQ("+", terms[2].getOperator());
     EXPECT_EQ(777, postfixEvaluator.evaluate());
 }
+
 TEST(ExpressionEvaluatorConverterTest, InfixToPostfixConvertionWorksForBinaryOperationWithPriority)
 {
     InfixEvaluatorForTest infixEvaluator;
@@ -274,7 +276,8 @@ TEST(ExpressionEvaluatorConverterTest, InfixToPostfixConvertionWorksForBinaryOpe
     EXPECT_EQ(100, terms[0].getValue());    EXPECT_EQ(10, terms[1].getValue());
     EXPECT_EQ("*", terms[2].getOperator());
     EXPECT_EQ(100, terms[3].getValue());
-    EXPECT_EQ("+", terms[4].getOperator());    EXPECT_EQ(1100, postfixEvaluator.evaluate());
+    EXPECT_EQ("+", terms[4].getOperator());
+    EXPECT_EQ(1100, postfixEvaluator.evaluate());
 }
 
 TEST(ExpressionEvaluatorConverterTest, InfixToPostfixConvertionWorksForComplicatedOperationsWithParentheses)
@@ -305,7 +308,8 @@ TEST(ExpressionEvaluatorConverterTest, InfixToPostfixConvertionWorksForComplicat
     EXPECT_EQ(1, terms[0].getValue());    EXPECT_EQ(2, terms[1].getValue());
     EXPECT_EQ(3, terms[2].getValue());
     EXPECT_EQ("+", terms[3].getOperator());
-    EXPECT_EQ(4, terms[4].getValue());    EXPECT_EQ(5, terms[5].getValue());
+    EXPECT_EQ(4, terms[4].getValue());
+    EXPECT_EQ(5, terms[5].getValue());
     EXPECT_EQ("*", terms[6].getOperator());
     EXPECT_EQ("*", terms[7].getOperator());
     EXPECT_EQ("+", terms[8].getOperator());
@@ -331,7 +335,8 @@ TEST(ExpressionEvaluatorConverterTest, PostfixInfixToConvertionWorks)
     //((5*4)*(3+2))+1    ASSERT_EQ(15U, terms.size());
     EXPECT_TRUE(terms[0].isStartGroupOperator());
     EXPECT_TRUE(terms[1].isStartGroupOperator());
-    EXPECT_EQ(5, terms[2].getValue());    EXPECT_EQ("*", terms[3].getOperator());
+    EXPECT_EQ(5, terms[2].getValue());
+    EXPECT_EQ("*", terms[3].getOperator());
     EXPECT_EQ(4, terms[4].getValue());
     EXPECT_TRUE(terms[5].isEndGroupOperator());
     EXPECT_EQ("*", terms[6].getOperator());

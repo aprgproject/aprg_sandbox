@@ -15,14 +15,19 @@ namespace algorithm
 namespace
 {
 using Index = unsigned int;
-using SubstringSearchToTest = RabinKarpSubstringSearchWithRunningHash<unsigned int, unsigned long long>;
+using HashValue = unsigned long long;
+using SubstringSearchForTest = RabinKarpSubstringSearchWithRunningHash<Index, HashValue>;
+}
+
+TEST(RabinKarpSubstringSearchWithRunningHashTest, SearchWorksUsingEmptyStringsAndDoesNotCrash)
+{
+    testSearchUsingEmptyStringsAndDoesNotCrash<SubstringSearchForTest, Index>();
 }
 
 TEST(RabinKarpSubstringSearchWithRunningHashTest, SearchWorksUsingExample1)
 {
-    testSearchUsingExample1<SubstringSearchToTest, Index>();
+    testSearchUsingExample1<SubstringSearchForTest, Index>();
 }
 
 }
-
 }

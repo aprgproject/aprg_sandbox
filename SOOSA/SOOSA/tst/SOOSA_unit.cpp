@@ -21,6 +21,7 @@ TEST(SoosaTest, InvalidBitmapWorks)
     SOOSA soosa(soosaConfiguration, inputConfiguration);
 
     soosa.process();
+
     checkAnswersForEmptyForm(soosa);
 }
 
@@ -197,7 +198,8 @@ TEST(SoosaTest, Noise20PercentWorks)
     AlbaLocalPathHandler inputFile(APRG_DIR R"(\SOOSA\FilesForTests\Noise20Percent.bmp)");
     AlbaLocalPathHandler tempFileToTest(APRG_DIR R"(\SOOSA\FilesForTests\Temp.bmp)");
     inputFile.copyToNewFile(tempFileToTest.getFullPath());
-    SoosaConfiguration soosaConfiguration(getSoosaConfiguration());    InputConfiguration inputConfiguration(getInputConfigurationForCharityPayWards(tempFileToTest.getFullPath()));
+    SoosaConfiguration soosaConfiguration(getSoosaConfiguration());
+    InputConfiguration inputConfiguration(getInputConfigurationForCharityPayWards(tempFileToTest.getFullPath()));
     SOOSA soosa(soosaConfiguration, inputConfiguration);
 
     soosa.process();
@@ -234,7 +236,8 @@ TEST(SoosaTest, Scanned2BitExampleWorks)
 
 TEST(SoosaTest, ScannedExampleWorks)
 {
-    AlbaLocalPathHandler inputFile(APRG_DIR R"(\SOOSA\FilesForTests\ScannedExample.bmp)");    AlbaLocalPathHandler tempFileToTest(APRG_DIR R"(\SOOSA\FilesForTests\Temp.bmp)");
+    AlbaLocalPathHandler inputFile(APRG_DIR R"(\SOOSA\FilesForTests\ScannedExample.bmp)");
+    AlbaLocalPathHandler tempFileToTest(APRG_DIR R"(\SOOSA\FilesForTests\Temp.bmp)");
     inputFile.copyToNewFile(tempFileToTest.getFullPath());
     SoosaConfiguration soosaConfiguration(getSoosaConfiguration());
     InputConfiguration inputConfiguration(getInputConfigurationForCharityPayWards(tempFileToTest.getFullPath()));
@@ -296,6 +299,7 @@ TEST(SoosaTest, Example_1Q20_DEM14_Works)
     SOOSA soosa(soosaConfiguration, inputConfiguration);
 
     soosa.process();
+
     checkAnswersForDemObasPattern4(soosa);
 }
 
@@ -308,6 +312,7 @@ TEST(SoosaTest, Example_1Q20_DEM15_Works)
     SOOSA soosa(soosaConfiguration, inputConfiguration);
 
     soosa.process();
+
     checkAnswersForDemObasPattern5(soosa);
 }
 

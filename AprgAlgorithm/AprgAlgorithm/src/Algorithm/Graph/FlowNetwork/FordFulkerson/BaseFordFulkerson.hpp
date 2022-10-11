@@ -32,10 +32,11 @@ public:
         , m_augmentingPaths{}
     {}
 
+    virtual ~BaseFordFulkerson() = default;
+
     FlowDataType getMaxFlowValue() const
     {
-        return m_maxFlowValue;
-    }
+        return m_maxFlowValue;    }
 
     Paths const& getAugmentingPaths() const
     {
