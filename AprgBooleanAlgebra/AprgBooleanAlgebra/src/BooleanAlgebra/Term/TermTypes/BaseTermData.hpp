@@ -9,13 +9,10 @@ namespace booleanAlgebra
 class BaseTermData
 {
 public:
-    BaseTermData();
-    virtual ~BaseTermData();
-
-private:
+    BaseTermData() = default;
+    virtual ~BaseTermData() = default;
 
 };
 
 }
-
 }
