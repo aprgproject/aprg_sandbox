@@ -626,14 +626,16 @@ double SOOSA::getShadePercentage(
     Circle circle(centerOfCircle, radius);
     circle.traverseArea(1, [&](Point const& pointInCircle)
     {
+        //if(!isBlackAt(snippet, convertToBitmapXY(pointInCircle)))
+        //{
+        //    writePointInDebug(convertToBitmapXY(pointInCircle), 0xA1BA00);
+        //}
         numberOfBlackPoints += (isBlackAt(snippet, convertToBitmapXY(pointInCircle))) ? 1 : 0;
         totalPoints++;
-    });
-    return static_cast<double>(numberOfBlackPoints)/totalPoints;
+    });    return static_cast<double>(numberOfBlackPoints)/totalPoints;
 }
 
-double SOOSA::getRadiusForChoiceChecking(
-        QuestionBarCoordinate const& leftCoordinate,
+double SOOSA::getRadiusForChoiceChecking(        QuestionBarCoordinate const& leftCoordinate,
         QuestionBarCoordinate const& rightCoordinate) const
 {
     double leftBarHeight = getDistance(leftCoordinate.first, leftCoordinate.second);
