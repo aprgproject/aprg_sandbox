@@ -10,59 +10,89 @@ namespace algorithm
 {
 
 template <typename Objects>
-class PermutationGenerationUsingRecursion
+class PermutationGeneration
 {
 public:
     using Object = typename Objects::value_type;
     using Permutation = Objects;
     using Permutations = std::vector<Objects>;
+    using BooleanVector = std::vector<bool>;
 
-    Permutations generatePermutationsUsingMethod1(Objects const& objects) const
+    struct RecursionData
+    {
+        Permutations & permutations;
+        Permutation & currentPermutation;
+        BooleanVector isProcessed;
+        Objects const& objects;
+        unsigned int const permutationLength;
+    };
+
+    Permutations generatePermutationsUsingCppFunctions(Objects const& objects) const
     {
         Permutations result;
         Permutation currentPermutation(objects);
-        do
-        {
+        do        {
             result.emplace_back(currentPermutation);
         }
         while(std::next_permutation(currentPermutation.begin(), currentPermutation.end()));
         return result;
     }
 
-    Permutations generatePermutationsUsingMethod2(Objects const& objects) const
+    Permutations generatePermutationsUsingRecursion(Objects const& objects) const
     {
         Permutations result;
         Permutation currentPermutation;
-        collectPermutationsUsingMethod2(result, currentPermutation, objects);
+        RecursionData recursionData(createRecursionData(result, currentPermutation, objects, objects.size()));
+        collectPermutationsUsingRecursion(recursionData);
+        return result;
+    }
+
+    Permutations generatePermutationsWithLength(Objects const& objects, unsigned int const permutationLength) const
+    {
+        Permutations result;
+        Permutation currentPermutation;
+        RecursionData recursionData(createRecursionData(result, currentPermutation, objects, std::min(permutationLength, objects.size())));
+        collectPermutationsUsingRecursion(recursionData);
         return result;
     }
 
 private:
 
-    void collectPermutationsUsingMethod2(Permutations & permutations, Permutation & currentPermutation, Objects const& objects) const
+    RecursionData createRecursionData(
+            Permutations & permutations,
+            Permutation & currentPermutation,
+            Objects const& objects,
+            unsigned int const length) const
     {
-        static std::vector<bool> isProcessed(objects.size(), false);
-        if(currentPermutation.size() == objects.size())
+        return RecursionData{
+            permutations,
+                    currentPermutation,
+                    BooleanVector(objects.size(), false),
+                    objects,
+                    length};
+    }
+
+    void collectPermutationsUsingRecursion(RecursionData & recursionData) const
+    {
+        if(recursionData.currentPermutation.size() == recursionData.permutationLength)
         {
-            permutations.emplace_back(currentPermutation);
+            recursionData.permutations.emplace_back(recursionData.currentPermutation);
         }
         else
         {
-            for(unsigned int index=0; index<objects.size(); index++)
+            for(unsigned int index=0; index<recursionData.objects.size(); index++)
             {
-                if(!isProcessed.at(index))
+                if(!recursionData.isProcessed.at(index))
                 {
-                    isProcessed[index] = true;
-                    currentPermutation.emplace_back(objects.at(index));
-                    collectPermutationsUsingMethod2(permutations, currentPermutation, objects);
-                    isProcessed[index] = false;
-                    currentPermutation.pop_back();
+                    recursionData.isProcessed[index] = true;
+                    recursionData.currentPermutation.emplace_back(recursionData.objects.at(index));
+                    collectPermutationsUsingRecursion(recursionData);
+                    recursionData.isProcessed[index] = false;
+                    recursionData.currentPermutation.pop_back();
                 }
             }
-        }
-    }
+        }    }
 };
 
 }
-
 }
