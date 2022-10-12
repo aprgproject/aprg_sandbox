@@ -114,22 +114,44 @@ template <typename NumberType> NumberType getNumberOfMultiplesInclusive(NumberTy
     return result;
 }
 
-template <typename NumberType> NumberType getDifferenceFromGreaterMultiple(NumberType const multiple, NumberType const number)
+template <typename NumberType> inline NumberType getMultipleThatIsLesserOrEqual(NumberType const multiple, NumberType const number)
+{
+    static_assert(std::is_integral<NumberType>::value, "Number type must be an integer");
+
+    NumberType result(0);
+    if(multiple>0)
+    {
+        result = number/multiple*multiple;
+    }
+    return result;
+}
+
+template <typename NumberType> inline NumberType getMultipleThatIsGreaterOrEqual(NumberType const multiple, NumberType const number)
 {
     static_assert(std::is_integral<NumberType>::value, "Number type must be an integer");
 
     NumberType result(0);
     if(multiple>0 && number>0)
     {
-        NumberType greaterMultiple = (((number-1)/multiple)+1) * multiple;
+        result = ((number-1)/multiple + 1)*multiple;
+    }
+    return  result;
+}
+
+template <typename NumberType> inline NumberType getDifferenceFromGreaterMultiple(NumberType const multiple, NumberType const number)
+{
+    static_assert(std::is_integral<NumberType>::value, "Number type must be an integer");
+
+    NumberType result(0);
+    NumberType greaterMultiple(getMultipleThatIsGreaterOrEqual(multiple, number));
+    if(number <= greaterMultiple)
+    {
         result = greaterMultiple - number;
     }
-    return result;
-}
+    return result;}
 
 AlbaNumber getGreatestCommonFactor(AlbaNumber const& firstNumber, AlbaNumber const& secondNumber); // different implementation
 AlbaNumber getLeastCommonMultiple(AlbaNumber const& firstNumber, AlbaNumber const& secondNumber); // different implementation
-
 }//namespace mathHelper
 
 }//namespace alba
