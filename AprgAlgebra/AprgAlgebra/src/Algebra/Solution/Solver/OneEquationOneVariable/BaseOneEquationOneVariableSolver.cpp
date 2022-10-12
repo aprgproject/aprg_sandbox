@@ -19,10 +19,12 @@ namespace algebra
 
 SolutionSet BaseOneEquationOneVariableSolver::calculateSolutionAndReturnSolutionSet(
         Equation const& equation)
-{    SolutionSet solutionSet;
+{
+    SolutionSet solutionSet;
     calculateSolution(solutionSet, equation);
     return solutionSet;
 }
+
 void BaseOneEquationOneVariableSolver::processWhenEquationIsAlwaysSatisfied(
         SolutionSet & solutionSet)
 {

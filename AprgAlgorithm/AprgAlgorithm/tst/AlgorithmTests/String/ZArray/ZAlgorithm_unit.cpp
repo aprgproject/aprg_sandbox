@@ -22,6 +22,7 @@ TEST(ZAlgorithmTest, GetZArrayWorksWithExample1)
 
     EXPECT_EQ(expectedIndexes, ZAlgorithmForTest::getZArray("ACBACDACBACBACDA"));
 }
+
 }
 
 }

@@ -22,7 +22,9 @@ public:
     SignedIntegerBasedHashFunction & operator= (SignedIntegerBasedHashFunction &&) = delete;
 
     static HashValue getHashCode(Input const& input)
-    {        // note we are including sign bit because its better distributed        return static_cast<HashValue>(input);
+    {
+        // note we are including sign bit because its better distributed
+        return static_cast<HashValue>(input);
     }
 
     static HashValue getHash(Input const& input, HashValue const hashSize)

@@ -16,6 +16,7 @@ public:
     virtual ~BaseUndirectedGraph() = default;
 
     virtual bool hasAnyConnection(Vertex const& vertex) const = 0;
+
     GraphDirectionType getGraphDirectionType() const
     {
         return DIRECTION_TYPE;

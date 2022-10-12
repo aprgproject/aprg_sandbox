@@ -29,4 +29,5 @@ TEST(BoyerMooreSubstringSearchTest, SearchWorksUsingExample1)
 }
 
 }
+
 }

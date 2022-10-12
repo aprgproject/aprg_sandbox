@@ -31,7 +31,8 @@ TEST(BruteForceSubstringSearchTest, SearchWorksWithTwoLoopsUsingEmptyStringsAndD
 
 TEST(BruteForceSubstringSearchTest, SearchWorksWithOneLoopUsingExample1)
 {
-    testSearchUsingExample1<BruteForceSubstringSearchWithOneLoop, Index>();}
+    testSearchUsingExample1<BruteForceSubstringSearchWithOneLoop, Index>();
+}
 
 TEST(BruteForceSubstringSearchTest, SearchWorksWithTwoLoopsUsingExample1)
 {

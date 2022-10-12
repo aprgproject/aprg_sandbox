@@ -1,4 +1,4 @@
-#include <Algorithm/Combinatorics/Combinations/CombinationGeneration.hpp>
+#include <Algorithm/Combinatorics/Combinations/CombinationsGeneration.hpp>
 
 #include <gtest/gtest.h>
 
@@ -13,11 +13,11 @@ namespace algorithm
 namespace
 {
 using Objects = vector<unsigned int>;
-using GenerationForTest = CombinationGeneration<Objects>;
+using GenerationForTest = CombinationsGeneration<Objects>;
 using Combinations = GenerationForTest::Combinations;
 }
 
-TEST(CombinationGenerationTest, GenerateCombinationsWithLengthWorksWhenCombinationLengthIsLessThanSize)
+TEST(CombinationsGenerationTest, GenerateCombinationsWithLengthWorksWhenCombinationLengthIsLessThanSize)
 {
     GenerationForTest generation;
 
@@ -27,7 +27,7 @@ TEST(CombinationGenerationTest, GenerateCombinationsWithLengthWorksWhenCombinati
     EXPECT_EQ(expectedCombinations, actualCombinations);
 }
 
-TEST(CombinationGenerationTest, GenerateCombinationsWithLengthWorksWhenCombinationLengthIsEqualToSize)
+TEST(CombinationsGenerationTest, GenerateCombinationsWithLengthWorksWhenCombinationLengthIsEqualToSize)
 {
     GenerationForTest generation;
 

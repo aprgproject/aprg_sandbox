@@ -15,9 +15,11 @@ public:
     virtual ~AlbaBaseStateMachine() = default;
 
     virtual void processInput(Input const&)
-    {        // This should not be accessed
+    {
+        // This should not be accessed
         assert(false);
     }
+
     State getState() const
     {
         return m_state;

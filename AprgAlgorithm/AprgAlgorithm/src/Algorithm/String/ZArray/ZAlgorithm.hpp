@@ -43,12 +43,14 @@ public:
                 result[position]++;
             }
         }
-        return result;    }
+        return result;
+    }
 };
 
 // Algorithm description
 // Next we describe an algorithm, called the Z-algorithm, that efficiently constructs the Z-array in O(n) time.
-// The algorithm calculates the Z-array values from left to right by both using information already stored in the Z-array// and comparing substrings character by character.
+// The algorithm calculates the Z-array values from left to right by both using information already stored in the Z-array
+// and comparing substrings character by character.
 // To efficiently calculate the Z-array values, the algorithm maintains a range [x, y]
 // such that s[x... y] is a prefix of s and y is as large as possible.
 // Since we know that s[0... y-x] and s[x... y] are equal, we can use this information when calculating Z-values for positions x+1, x+2,..., y.

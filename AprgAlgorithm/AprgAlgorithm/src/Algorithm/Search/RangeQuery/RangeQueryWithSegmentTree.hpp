@@ -19,10 +19,12 @@ public:
 
     // A segment tree is a data structure that supports two operations: processing a range query and updating an array value.
     // Segment trees can support sum queries, minimum and maximum queries and many other queries so that both operations work in O(logn) time.
-    // Compared to a binary indexed tree, the advantage of a segment tree is that it is a more general data structure.    // While binary indexed trees only support sum queries, segment trees also support other queries.
+    // Compared to a binary indexed tree, the advantage of a segment tree is that it is a more general data structure.
+    // While binary indexed trees only support sum queries, segment trees also support other queries.
     // On the other hand, a segment tree requires more memory and is a bit more difficult to implement.
 
-    // Segment trees can support all range queries where it is possible to divide a range into two parts,    // Calculate the answer separately for both parts and then efficiently combine the answers.
+    // Segment trees can support all range queries where it is possible to divide a range into two parts,
+    // Calculate the answer separately for both parts and then efficiently combine the answers.
 
     // Examples of such queries are minimum and maximum, greatest common divisor, and bit operations and, or and xor.
 
@@ -104,9 +106,11 @@ public:
     }
 
 private:
+
     void initialize(Values const& valuesToCheck)
     {
-        if(!valuesToCheck.empty())        {
+        if(!valuesToCheck.empty())
+        {
             Index parentSize = getChildrenRaiseToPower(getCeilOfLogarithmOfChildren(valuesToCheck.size()))-1;
             Index totalSize = parentSize + valuesToCheck.size();
 
@@ -133,9 +137,11 @@ private:
             }
         }
     }
+
     bool isLeftChild(Index const treeIndex) const
     {
-        return mathHelper::isOdd(treeIndex);    }
+        return mathHelper::isOdd(treeIndex);
+    }
 
     bool isRightChild(Index const treeIndex) const
     {

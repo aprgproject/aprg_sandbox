@@ -31,8 +31,10 @@
 using namespace alba::AprgBitmap;
 using namespace alba::stringHelper;
 using namespace std;
+
 namespace alba
 {
+
 namespace chess
 {
 
@@ -64,9 +66,11 @@ void ChessPeek::runForever()
         //break; //
     }
 }
+
 void ChessPeek::runOneIteration()
 {
-    Board::PieceMatrix previousPieceMatrix(m_chessBoard.getPieceMatrix());    checkScreenAndSaveDetails();
+    Board::PieceMatrix previousPieceMatrix(m_chessBoard.getPieceMatrix());
+    checkScreenAndSaveDetails();
     if(m_isPreviousAnalysisNotSuccessful || previousPieceMatrix != m_chessBoard.getPieceMatrix())
     {
         startNewAnalysisUsingEngine();
@@ -82,10 +86,12 @@ void ChessPeek::checkScreenAndSaveDetails()
     bitmap.setSnippetWriteToFile(snippet);//
 }
 
-void ChessPeek::startNewAnalysisUsingEngine(){
+void ChessPeek::startNewAnalysisUsingEngine()
+{
     m_isPreviousAnalysisNotSuccessful = true;
     if(!m_chessEngineController.waitTillReadyAndReturnIfResetWasPerformed())
-    {        m_chessEngineController.stop();
+    {
+        m_chessEngineController.stop();
         if(!m_chessEngineController.waitTillReadyAndReturnIfResetWasPerformed())
         {
             string fenString(constructFenString(m_chessBoard, m_playerSideColor, m_chessBoard.getCastlingFenString(), "-", 0, 1));
@@ -125,10 +131,12 @@ void ChessPeek::checkSnippetAndSaveDetails(BitmapSnippet & snippet)
     snippet.setPixelAt(snippet.getBottomRightCorner(), 0xA1BA00);//
     unsigned int pieceCount = 0U;
     for(unsigned int j=0; j<8; j++)
-    {        for(unsigned int i=0; i<8; i++)
+    {
+        for(unsigned int i=0; i<8; i++)
         {
             CoordinateSquare square{};
-            square.left = round(startX + deltaX*i + deltaX*LEFT_RIGHT_INDENTION);            square.right = round(startX + deltaX*(i+1) - deltaX*LEFT_RIGHT_INDENTION);
+            square.left = round(startX + deltaX*i + deltaX*LEFT_RIGHT_INDENTION);
+            square.right = round(startX + deltaX*(i+1) - deltaX*LEFT_RIGHT_INDENTION);
             square.top = round(startY + deltaY*j + deltaX*TOP_BOTTOM_INDENTION);
             square.bottom = round(startY + deltaY*(j+1) - deltaX*TOP_BOTTOM_INDENTION);
 
@@ -335,10 +343,12 @@ void ChessPeek::retrieveChessCellBitValueAt(
             snippet.setPixelAt(bitmapCoordinate, 0xBB0000);//
             count++;
         }
-    }}
+    }
+}
 
 void ChessPeek::setBitsBasedFromColor(
-        BitSet64 & whiteValue,        BitSet64 & blackValue,
+        BitSet64 & whiteValue,
+        BitSet64 & blackValue,
         unsigned int const index,
         BitmapSnippet const& snippet,
         BitmapXY const& bitmapCoordinate) const

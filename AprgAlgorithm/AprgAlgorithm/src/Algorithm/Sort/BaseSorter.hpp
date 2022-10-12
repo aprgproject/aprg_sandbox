@@ -14,6 +14,7 @@ public:
 
     virtual void sort(Values & valuesToSort) const = 0;
 };
+
 // Applications
 // Obvious:
 // -> Sort a list of names

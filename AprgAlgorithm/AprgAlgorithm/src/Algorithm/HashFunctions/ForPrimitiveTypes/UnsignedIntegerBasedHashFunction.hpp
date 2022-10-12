@@ -21,7 +21,9 @@ public:
     UnsignedIntegerBasedHashFunction & operator= (UnsignedIntegerBasedHashFunction &&) = delete;
 
     static HashValue getHashCode(Input const& input)
-    {        return static_cast<HashValue>(input);    }
+    {
+        return static_cast<HashValue>(input);
+    }
 
     static HashValue getHash(Input const& input, HashValue const hashSize)
     {

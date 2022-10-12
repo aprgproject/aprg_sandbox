@@ -32,7 +32,8 @@ void testSearchUsingEmptyStringsAndDoesNotCrash()
 template <typename SubstringSearch, typename Index>
 void testSearchUsingExample1()
 {
-    SubstringSearch substringSearchWithHit("AACAA");    SubstringSearch substringSearchWithoutHit("BBB");
+    SubstringSearch substringSearchWithHit("AACAA");
+    SubstringSearch substringSearchWithoutHit("BBB");
     string mainString("AABRAACADABRAACAADABRA");
 
     EXPECT_EQ(Index(12), substringSearchWithHit.search(mainString));
@@ -40,6 +41,7 @@ void testSearchUsingExample1()
 }
 
 }
+
 }
 
 }

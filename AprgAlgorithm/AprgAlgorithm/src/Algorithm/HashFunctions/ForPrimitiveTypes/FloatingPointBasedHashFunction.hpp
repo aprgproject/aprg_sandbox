@@ -21,7 +21,9 @@ public:
     FloatingPointBasedHashFunction & operator= (FloatingPointBasedHashFunction &&) = delete;
 
     static HashValue getHashCode(Input const& input)
-    {        union SharedValue        {
+    {
+        union SharedValue
+        {
             uint64_t integerValue;
             Input floatingPointValue;
         };

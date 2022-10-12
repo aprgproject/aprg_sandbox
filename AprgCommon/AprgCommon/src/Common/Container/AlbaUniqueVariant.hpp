@@ -91,9 +91,11 @@ public:
 
 };
 
-// Purpose: A compile-time checking unique variant classtemplate <class... Types>
+// Purpose: A compile-time checking unique variant class
+template <class... Types>
 class UniqueVariant
 {
+
 typedef typename detail::CheckIfDerive<VariantDataType, Types...>::next CheckIfAllClassesDerive;
 typedef typename detail::MaxSizeType<Types...>::type MaxSizeClass;
 

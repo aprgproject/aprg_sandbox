@@ -85,4 +85,5 @@ TEST(RangeQueryWithSegmentTreeTest, ChangeValueAtIndexWithGeometricSumWorksOnExa
 }
 
 }
+
 }

@@ -9,10 +9,12 @@ m_bitmapWidthToBarWidthMultiplier: 0.05
 m_lineBarWidthSearchInitialBlackPointsValue: 20
 m_lineBarWidthSearchAcceptedRunningBlackRatio: 0.80
 m_acceptableDistanceOverWidthRatioFromWidthMidpoint: 0.40
-m_acceptableMinimumDistanceFromWidthMidpoint: 4m_acceptableSdOverMeanDeviationForLine: 0.50
+m_acceptableMinimumDistanceFromWidthMidpoint: 4
+m_acceptableSdOverMeanDeviationForLine: 0.50
 m_acceptableSdOverMeanDeviationForBar: 0.10
 m_removalRatioForLineAndBar: 0.05
-m_acceptableSdOverMeanDeviationForBarHeight: 0.10m_removalRatioForBarHeight: 0.02
+m_acceptableSdOverMeanDeviationForBarHeight: 0.10
+m_removalRatioForBarHeight: 0.02
 
 // Choices related parameters
 m_numberOfChoices: 5

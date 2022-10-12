@@ -34,7 +34,8 @@ public:
         for(Index searchIndex=0; searchIndex+substringLength<=mainLength; searchIndex+=skipValue)
         {
             skipValue=0;
-            for(Index matchIndex=0; matchIndex<substringLength; matchIndex++)            {
+            for(Index matchIndex=0; matchIndex<substringLength; matchIndex++)
+            {
                 Index matchReverseIndex(substringLength-matchIndex-1);
                 if(m_substringToMatch.at(matchReverseIndex) != mainString.at(searchIndex+matchReverseIndex)) // if mismatch
                 {

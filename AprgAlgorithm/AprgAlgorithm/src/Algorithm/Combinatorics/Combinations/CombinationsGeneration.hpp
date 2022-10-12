@@ -10,7 +10,7 @@ namespace algorithm
 {
 
 template <typename Objects>
-class CombinationGeneration
+class CombinationsGeneration
 {
 public:
     using Object = typename Objects::value_type;
@@ -24,14 +24,14 @@ public:
         Combination & currentCombination;
         unsigned int currentIndex;
         Objects const& objects;
-        unsigned int const combinationLength;
+        unsigned int const targetCombinationLength;
     };
 
-    Combinations generateCombinationsWithLength(Objects const& objects, unsigned int const combinationLength) const
+    Combinations generateCombinationsWithLength(Objects const& objects, unsigned int const targetCombinationLength) const
     {
         Combinations result;
         Combination currentCombination;
-        RecursionData recursionData(createRecursionData(result, currentCombination, objects, std::min(combinationLength, objects.size())));
+        RecursionData recursionData(createRecursionData(result, currentCombination, objects, std::min(targetCombinationLength, objects.size())));
         collectCombinationsUsingRecursion(recursionData);
         return result;
     }
@@ -49,7 +49,7 @@ private:
 
     void collectCombinationsUsingRecursion(RecursionData & recursionData) const
     {
-        if(recursionData.currentCombination.size() == recursionData.combinationLength)
+        if(recursionData.currentCombination.size() == recursionData.targetCombinationLength)
         {
             recursionData.combinations.emplace_back(recursionData.currentCombination);
         }
@@ -60,9 +60,8 @@ private:
 
             for(unsigned int index=recursionData.currentIndex; index<objects.size(); index++)
             {
+                currentCombination.emplace_back(objects.at(index));
                 recursionData.currentIndex = index+1;
-                Object const& object(objects.at(index));
-                currentCombination.emplace_back(object);
                 collectCombinationsUsingRecursion(recursionData);
                 currentCombination.pop_back();
             }

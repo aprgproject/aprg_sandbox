@@ -318,7 +318,8 @@ public:
 
     using PostfixEvaluator = ExpressionPostfixEvaluator<ValueTemplateType, OperatorTemplateType>;
     using InfixEvaluator = ExpressionInfixEvaluator<ValueTemplateType, OperatorTemplateType>;
-    using Term = ExpressionEvaluatorTerm<ValueTemplateType, OperatorTemplateType>;    using Terms = std::vector<Term>;
+    using Term = ExpressionEvaluatorTerm<ValueTemplateType, OperatorTemplateType>;
+    using Terms = std::vector<Term>;
     using TermStack = std::stack<Term>;
     using TermsStack = std::stack<Terms>;
 
@@ -331,7 +332,9 @@ public:
     ExpressionEvaluatorConverter & operator= (ExpressionEvaluatorConverter &&) = delete;
 
     static PostfixEvaluator convertInfixToPostfix(InfixEvaluator const& infixEvaluator)
-    {        PostfixEvaluator postfixEvaluator;        Terms const& termsInInfix(infixEvaluator.m_terms);
+    {
+        PostfixEvaluator postfixEvaluator;
+        Terms const& termsInInfix(infixEvaluator.m_terms);
         Terms & termsInPostfix(postfixEvaluator.m_terms);
         TermStack operatorStack;
         for(Term const& term : termsInInfix)
@@ -370,7 +373,8 @@ public:
 
     static InfixEvaluator convertPostfixToInfix(PostfixEvaluator const& postfixEvaluator)
     {
-        InfixEvaluator infixEvaluator;        Terms const& termsInPostfix(postfixEvaluator.m_terms);
+        InfixEvaluator infixEvaluator;
+        Terms const& termsInPostfix(postfixEvaluator.m_terms);
         Terms & termsInInfix(infixEvaluator.m_terms);
         TermsStack expressionsStack;
         for(Term const& term : termsInPostfix)

@@ -36,7 +36,8 @@ public:
 
     FlowDataType getMaxFlowValue() const
     {
-        return m_maxFlowValue;    }
+        return m_maxFlowValue;
+    }
 
     Paths const& getAugmentingPaths() const
     {

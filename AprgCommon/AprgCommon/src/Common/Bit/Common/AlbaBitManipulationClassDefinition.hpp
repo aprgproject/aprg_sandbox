@@ -21,10 +21,13 @@ public:
     AlbaBitManipulation & operator= (AlbaBitManipulation &&) = delete;
 
 
-    template <typename ArgumentType, typename... Arguments>    static constexpr inline DataTypeToManipulate concatenateBytes(ArgumentType const currentByte, Arguments const... arguments)
-    {        static_assert(std::is_integral<DataTypeToManipulate>::value, "DataTypeToManipulate must be an integer");
+    template <typename ArgumentType, typename... Arguments>
+    static constexpr inline DataTypeToManipulate concatenateBytes(ArgumentType const currentByte, Arguments const... arguments)
+    {
+        static_assert(std::is_integral<DataTypeToManipulate>::value, "DataTypeToManipulate must be an integer");
         static_assert(std::is_integral<ArgumentType>::value, "ArgumentType must be an integer");
-        static_assert(sizeof(ArgumentType) == 1, "concatenateBytes: ArgumentType size is greater than a byte");        static_assert(sizeof(DataTypeToManipulate) > sizeof...(Arguments), "concatenateBytes: sizeof(DataTypeToManipulate) size is greater than Arguments size");
+        static_assert(sizeof(ArgumentType) == 1, "concatenateBytes: ArgumentType size is greater than a byte");
+        static_assert(sizeof(DataTypeToManipulate) > sizeof...(Arguments), "concatenateBytes: sizeof(DataTypeToManipulate) size is greater than Arguments size");
 
         return shiftBytesToTheLeft<sizeof...(Arguments)>(currentByte) | concatenateBytes(arguments...);
     }

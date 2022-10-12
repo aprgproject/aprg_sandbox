@@ -632,7 +632,8 @@ double SOOSA::getShadePercentage(
         //}
         numberOfBlackPoints += (isBlackAt(snippet, convertToBitmapXY(pointInCircle))) ? 1 : 0;
         totalPoints++;
-    });    return static_cast<double>(numberOfBlackPoints)/totalPoints;
+    });
+    return static_cast<double>(numberOfBlackPoints)/totalPoints;
 }
 
 double SOOSA::getRadiusForChoiceChecking(

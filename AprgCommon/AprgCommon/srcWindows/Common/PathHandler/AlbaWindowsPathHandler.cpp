@@ -35,10 +35,12 @@ AlbaWindowsPathHandler::AlbaWindowsPathHandler(string const& path)
 
 void AlbaWindowsPathHandler::clear()
 {
-    AlbaPathHandler::clear();    m_driveOrRoot.clear();
+    AlbaPathHandler::clear();
+    m_driveOrRoot.clear();
     m_foundInLocalSystem = false;
     m_relativePath = false;
 }
+
 string AlbaWindowsPathHandler::getDriveOrRoot() const
 {
     return m_driveOrRoot;

@@ -10,7 +10,7 @@ namespace algorithm
 {
 
 template <typename Objects>
-class PermutationGeneration
+class PermutationsGeneration
 {
 public:
     using Object = typename Objects::value_type;
@@ -21,17 +21,18 @@ public:
     struct RecursionData
     {
         Permutations & permutations;
-        Permutation & currentPermutation;
+        Permutation currentPermutation;
         BooleanVector isProcessed;
         Objects const& objects;
-        unsigned int const permutationLength;
+        unsigned int const targetPermutationLength;
     };
 
     Permutations generatePermutationsUsingCppFunctions(Objects const& objects) const
     {
         Permutations result;
         Permutation currentPermutation(objects);
-        do        {
+        do
+        {
             result.emplace_back(currentPermutation);
         }
         while(std::next_permutation(currentPermutation.begin(), currentPermutation.end()));
@@ -41,17 +42,15 @@ public:
     Permutations generatePermutationsUsingRecursion(Objects const& objects) const
     {
         Permutations result;
-        Permutation currentPermutation;
-        RecursionData recursionData(createRecursionData(result, currentPermutation, objects, objects.size()));
+        RecursionData recursionData(createRecursionData(result, objects, objects.size()));
         collectPermutationsUsingRecursion(recursionData);
         return result;
     }
 
-    Permutations generatePermutationsWithLength(Objects const& objects, unsigned int const permutationLength) const
+    Permutations generatePermutationsWithLength(Objects const& objects, unsigned int const targetPermutationLength) const
     {
         Permutations result;
-        Permutation currentPermutation;
-        RecursionData recursionData(createRecursionData(result, currentPermutation, objects, std::min(permutationLength, objects.size())));
+        RecursionData recursionData(createRecursionData(result, objects, std::min(targetPermutationLength, objects.size())));
         collectPermutationsUsingRecursion(recursionData);
         return result;
     }
@@ -60,39 +59,39 @@ private:
 
     RecursionData createRecursionData(
             Permutations & permutations,
-            Permutation & currentPermutation,
             Objects const& objects,
             unsigned int const length) const
     {
-        return RecursionData{
-            permutations,
-                    currentPermutation,
-                    BooleanVector(objects.size(), false),
-                    objects,
-                    length};
+        return RecursionData{permutations, Permutation(), BooleanVector(objects.size(), false), objects, length};
     }
 
     void collectPermutationsUsingRecursion(RecursionData & recursionData) const
     {
-        if(recursionData.currentPermutation.size() == recursionData.permutationLength)
+        if(recursionData.currentPermutation.size() == recursionData.targetPermutationLength)
         {
             recursionData.permutations.emplace_back(recursionData.currentPermutation);
         }
         else
         {
-            for(unsigned int index=0; index<recursionData.objects.size(); index++)
+            Objects const& objects(recursionData.objects);
+            Permutation & currentPermutation(recursionData.currentPermutation);
+            BooleanVector & isProcessed(recursionData.isProcessed);
+
+            for(unsigned int index=0; index<objects.size(); index++)
             {
-                if(!recursionData.isProcessed.at(index))
+                if(!isProcessed.at(index))
                 {
-                    recursionData.isProcessed[index] = true;
-                    recursionData.currentPermutation.emplace_back(recursionData.objects.at(index));
+                    currentPermutation.emplace_back(objects.at(index));
+                    isProcessed[index] = true;
                     collectPermutationsUsingRecursion(recursionData);
-                    recursionData.isProcessed[index] = false;
-                    recursionData.currentPermutation.pop_back();
+                    isProcessed[index] = false;
+                    currentPermutation.pop_back();
                 }
             }
-        }    }
+        }
+    }
 };
 
 }
+
 }

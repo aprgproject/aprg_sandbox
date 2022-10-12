@@ -13,7 +13,9 @@ public:
     virtual ~BaseTermData() = default;
 
 private:
+
 };
 
 }
+
 }

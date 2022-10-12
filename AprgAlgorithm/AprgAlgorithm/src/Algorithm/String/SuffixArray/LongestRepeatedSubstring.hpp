@@ -21,7 +21,8 @@ public:
     LongestRepeatedSubstring & operator= (LongestRepeatedSubstring &&) = delete;
 
     static std::string getLongestRepeatedSubstring(std::string const& stringToCheck)
-    {        SuffixArray<DataType> suffixArray(stringToCheck);
+    {
+        SuffixArray<DataType> suffixArray(stringToCheck);
         std::string result;
         DataType length(stringToCheck.length());
         for(DataType i=1; i<length; i++)
@@ -36,6 +37,7 @@ public:
     }
 
 };
+
 }
 
 }

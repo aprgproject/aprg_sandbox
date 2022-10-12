@@ -29,4 +29,5 @@ TEST(KnuthMorrisPrattSubstringSearchTest, SearchWorksUsingExample1)
 }
 
 }
+
 }

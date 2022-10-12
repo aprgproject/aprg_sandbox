@@ -17,10 +17,12 @@ public:
 
     DataType const& getSavedData() const
     {
-        return m_savedData;    }
+        return m_savedData;
+    }
 
     DataType & getSavedDataReference()
-    {        return m_savedData;
+    {
+        return m_savedData;
     }
 
     virtual void retrieveFromTerm(Term const& term)

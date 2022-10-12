@@ -28,7 +28,8 @@ public:
     virtual ~BaseEulerPathSearchForUndirectedGraph() = default;
 
     bool hasEulerCycle() const
-    {        return hasEulerCycleForUndirectedGraph(m_graph);
+    {
+        return hasEulerCycleForUndirectedGraph(m_graph);
     }
 
     bool hasEulerPath() const

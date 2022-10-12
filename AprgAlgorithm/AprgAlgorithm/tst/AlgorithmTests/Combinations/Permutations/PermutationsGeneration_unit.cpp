@@ -1,4 +1,4 @@
-#include <Algorithm/Combinatorics/Permutations/PermutationGeneration.hpp>
+#include <Algorithm/Combinatorics/Permutations/PermutationsGeneration.hpp>
 
 #include <gtest/gtest.h>
 
@@ -13,11 +13,11 @@ namespace algorithm
 namespace
 {
 using Objects = vector<unsigned int>;
-using GenerationForTest = PermutationGeneration<Objects>;
+using GenerationForTest = PermutationsGeneration<Objects>;
 using Permutations = GenerationForTest::Permutations;
 }
 
-TEST(PermutationGenerationTest, GeneratePermutationsUsingCppFunctionsWorks)
+TEST(PermutationsGenerationTest, GeneratePermutationsUsingCppFunctionsWorks)
 {
     GenerationForTest generation;
 
@@ -27,7 +27,7 @@ TEST(PermutationGenerationTest, GeneratePermutationsUsingCppFunctionsWorks)
     EXPECT_EQ(expectedPermutations, actualPermutations);
 }
 
-TEST(PermutationGenerationTest, GeneratePermutationsUsingRecursionWorks)
+TEST(PermutationsGenerationTest, GeneratePermutationsUsingRecursionWorks)
 {
     GenerationForTest generation;
 
@@ -37,7 +37,7 @@ TEST(PermutationGenerationTest, GeneratePermutationsUsingRecursionWorks)
     EXPECT_EQ(expectedPermutations, actualPermutations);
 }
 
-TEST(PermutationGenerationTest, GeneratePermutationsWithLengthWorks)
+TEST(PermutationsGenerationTest, GeneratePermutationsWithLengthWorks)
 {
     GenerationForTest generation;
 

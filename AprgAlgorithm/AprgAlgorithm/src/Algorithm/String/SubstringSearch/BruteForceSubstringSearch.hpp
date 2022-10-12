@@ -3,6 +3,7 @@
 #include <string>
 namespace alba
 {
+
 namespace algorithm
 {
 
@@ -69,7 +70,8 @@ private:
             for(; matchIndex<substringLength; matchIndex++)
             {
                 if(mainString.at(offset+matchIndex) != substringToMatch.at(matchIndex))
-                {                    // matchIndex represents the index of matches as well
+                {
+                    // matchIndex represents the index of matches as well
                     break;
                 }
             }

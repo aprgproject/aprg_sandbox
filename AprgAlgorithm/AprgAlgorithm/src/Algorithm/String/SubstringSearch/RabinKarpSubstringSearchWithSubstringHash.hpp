@@ -34,7 +34,8 @@ public:
             for(Index offset=0; offset+m_substringLength<=mainString.length(); offset++)
             {
                 if(m_substringToMatchHash == hashFunction.getHashCodeOfSubstring(offset, offset+m_substringLength-1))
-                {                    result = offset; // Monte carlo approach (no double check)
+                {
+                    result = offset; // Monte carlo approach (no double check)
                     break;
                 }
             }

@@ -30,4 +30,5 @@ TEST(RabinKarpSubstringSearchWithRunningHashTest, SearchWorksUsingExample1)
 }
 
 }
+
 }

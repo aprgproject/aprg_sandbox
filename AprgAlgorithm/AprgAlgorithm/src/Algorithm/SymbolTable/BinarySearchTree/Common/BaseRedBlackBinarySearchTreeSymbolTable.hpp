@@ -22,7 +22,8 @@ public:
 
 protected:
 
-    inline bool isRed(NodeUniquePointer const& nodePointer) const    {
+    inline bool isRed(NodeUniquePointer const& nodePointer) const
+    {
         bool result(false);
         if(nodePointer)
         {

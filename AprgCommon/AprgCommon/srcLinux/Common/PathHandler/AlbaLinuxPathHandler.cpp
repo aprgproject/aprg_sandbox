@@ -43,9 +43,11 @@ AlbaLinuxPathHandler::AlbaLinuxPathHandler(string const& path)
 
 void AlbaLinuxPathHandler::clear()
 {
-    AlbaPathHandler::clear();    m_foundInLocalSystem = false;
+    AlbaPathHandler::clear();
+    m_foundInLocalSystem = false;
     m_relativePath = false;
 }
+
 double AlbaLinuxPathHandler::getFileSizeEstimate()
 {
     struct stat fileStatus{};

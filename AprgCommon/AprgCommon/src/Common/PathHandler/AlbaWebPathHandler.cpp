@@ -20,10 +20,12 @@ AlbaWebPathHandler::AlbaWebPathHandler(string const& path)
 
 void AlbaWebPathHandler::clear()
 {
-    AlbaPathHandler::clear();    m_protocolWithSymbols.clear();
+    AlbaPathHandler::clear();
+    m_protocolWithSymbols.clear();
     m_urlParameters.clear();
     m_hasProtocol = false;
 }
+
 string AlbaWebPathHandler::getFullPath() const
 {
     return m_protocolWithSymbols+m_directory+m_file+m_urlParameters;

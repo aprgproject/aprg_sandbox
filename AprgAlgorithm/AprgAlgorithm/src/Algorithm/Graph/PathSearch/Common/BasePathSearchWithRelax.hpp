@@ -32,7 +32,8 @@ public:
     virtual ~BasePathSearchWithRelax() = default;
 
     bool hasPathTo(Vertex const& endVertex) const
-    {        return m_vertexToEdgeWithBestWeightMap.find(endVertex) != m_vertexToEdgeWithBestWeightMap.cend();
+    {
+        return m_vertexToEdgeWithBestWeightMap.find(endVertex) != m_vertexToEdgeWithBestWeightMap.cend();
     }
 
     Path getPathTo(Vertex const& endVertex) const

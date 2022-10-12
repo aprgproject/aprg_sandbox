@@ -17,7 +17,8 @@ public:
 
     static ObjectType & getInstance()
     {
-        static ObjectType instance;        return instance;
+        static ObjectType instance;
+        return instance;
     }
 
 protected:
