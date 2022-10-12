@@ -16,34 +16,40 @@ using ValuesForTest = vector<unsigned int>;
 using RangeQueryForTest = RangeQueryWithSegmentTree<ValuesForTest>;
 using ValueForTest = RangeQueryForTest::Value;
 
-RangeQueryForTest::Function minimumSelector = [](ValueForTest const& value1, ValueForTest const& value2)
+RangeQueryForTest::Function minimumFunction = [](ValueForTest const& value1, ValueForTest const& value2)
 {
     return min(value1, value2);
 };
 
-RangeQueryForTest::Function maximumSelector = [](ValueForTest const& value1, ValueForTest const& value2)
+RangeQueryForTest::Function maximumFunction = [](ValueForTest const& value1, ValueForTest const& value2)
 {
     return max(value1, value2);
 };
 
-RangeQueryForTest::Function plusAccumulator = [](ValueForTest const& value1, ValueForTest const& value2)
+RangeQueryForTest::Function plusFunction = [](ValueForTest const& value1, ValueForTest const& value2)
 {
     return plus<ValueForTest>()(value1, value2);
 };
 }
 
-TEST(RangeQueryWithSegmentTreeTest, GetValueOnIntervalWithMinimumWorksInExample1)
+TEST(RangeQueryWithSegmentTreeTest, GetValueOnIntervalWithSumWorksWithEmptySetOfValues)
+{
+    ValuesForTest values;
+    RangeQueryForTest minimumRangeQuery(values, plusFunction);
+
+    EXPECT_EQ(0U, minimumRangeQuery.getValueOnInterval(0U, 0U));
+}
+
+TEST(RangeQueryWithSegmentTreeTest, GetValueOnIntervalWithSumWorksInExample1)
 {
     ValuesForTest values{5U, 9U, 4U, 8U, 6U, 1U, 4U, 2U, 0U};
-    RangeQueryForTest minimumRangeQuery(values, minimumSelector);
+    RangeQueryForTest minimumRangeQuery(values, minimumFunction);
 
     EXPECT_EQ(5U, minimumRangeQuery.getValueOnInterval(0U, 0U));
-    EXPECT_EQ(5U, minimumRangeQuery.getValueOnInterval(0U, 1U));
-    EXPECT_EQ(4U, minimumRangeQuery.getValueOnInterval(0U, 2U));
+    EXPECT_EQ(5U, minimumRangeQuery.getValueOnInterval(0U, 1U));    EXPECT_EQ(4U, minimumRangeQuery.getValueOnInterval(0U, 2U));
     EXPECT_EQ(4U, minimumRangeQuery.getValueOnInterval(0U, 3U));
     EXPECT_EQ(4U, minimumRangeQuery.getValueOnInterval(0U, 4U));
-    EXPECT_EQ(1U, minimumRangeQuery.getValueOnInterval(0U, 5U));
-    EXPECT_EQ(1U, minimumRangeQuery.getValueOnInterval(0U, 6U));
+    EXPECT_EQ(1U, minimumRangeQuery.getValueOnInterval(0U, 5U));    EXPECT_EQ(1U, minimumRangeQuery.getValueOnInterval(0U, 6U));
     EXPECT_EQ(1U, minimumRangeQuery.getValueOnInterval(0U, 7U));
     EXPECT_EQ(0U, minimumRangeQuery.getValueOnInterval(0U, 8U));
     EXPECT_EQ(0U, minimumRangeQuery.getValueOnInterval(0U, 9U));
@@ -54,15 +60,13 @@ TEST(RangeQueryWithSegmentTreeTest, GetValueOnIntervalWithMinimumWorksInExample1
 TEST(RangeQueryWithSegmentTreeTest, GetValueOnIntervalWithMaximumWorksInExample1)
 {
     ValuesForTest values{5U, 9U, 4U, 8U, 6U, 1U, 4U, 2U, 10U};
-    RangeQueryForTest maximumRangeQuery(values, maximumSelector);
+    RangeQueryForTest maximumRangeQuery(values, maximumFunction);
 
     EXPECT_EQ(5U, maximumRangeQuery.getValueOnInterval(0U, 0U));
-    EXPECT_EQ(9U, maximumRangeQuery.getValueOnInterval(0U, 1U));
-    EXPECT_EQ(9U, maximumRangeQuery.getValueOnInterval(0U, 2U));
+    EXPECT_EQ(9U, maximumRangeQuery.getValueOnInterval(0U, 1U));    EXPECT_EQ(9U, maximumRangeQuery.getValueOnInterval(0U, 2U));
     EXPECT_EQ(9U, maximumRangeQuery.getValueOnInterval(0U, 3U));
     EXPECT_EQ(9U, maximumRangeQuery.getValueOnInterval(0U, 4U));
-    EXPECT_EQ(9U, maximumRangeQuery.getValueOnInterval(0U, 5U));
-    EXPECT_EQ(9U, maximumRangeQuery.getValueOnInterval(0U, 6U));
+    EXPECT_EQ(9U, maximumRangeQuery.getValueOnInterval(0U, 5U));    EXPECT_EQ(9U, maximumRangeQuery.getValueOnInterval(0U, 6U));
     EXPECT_EQ(9U, maximumRangeQuery.getValueOnInterval(0U, 7U));
     EXPECT_EQ(10U, maximumRangeQuery.getValueOnInterval(0U, 8U));
     EXPECT_EQ(0U, maximumRangeQuery.getValueOnInterval(0U, 9U));
@@ -73,15 +77,13 @@ TEST(RangeQueryWithSegmentTreeTest, GetValueOnIntervalWithMaximumWorksInExample1
 TEST(RangeQueryWithSegmentTreeTest, GetValueOnIntervalWithSumWorksOnExample1)
 {
     ValuesForTest values{1U, 3U, 4U, 8U, 6U, 1U, 4U, 2U, 9U};
-    RangeQueryForTest sumRangeQuery(values, plusAccumulator);
+    RangeQueryForTest sumRangeQuery(values, plusFunction);
 
     EXPECT_EQ(1U, sumRangeQuery.getValueOnInterval(0U, 0U));
-    EXPECT_EQ(4U, sumRangeQuery.getValueOnInterval(0U, 1U));
-    EXPECT_EQ(8U, sumRangeQuery.getValueOnInterval(0U, 2U));
+    EXPECT_EQ(4U, sumRangeQuery.getValueOnInterval(0U, 1U));    EXPECT_EQ(8U, sumRangeQuery.getValueOnInterval(0U, 2U));
     EXPECT_EQ(16U, sumRangeQuery.getValueOnInterval(0U, 3U));
     EXPECT_EQ(22U, sumRangeQuery.getValueOnInterval(0U, 4U));
-    EXPECT_EQ(23U, sumRangeQuery.getValueOnInterval(0U, 5U));
-    EXPECT_EQ(27U, sumRangeQuery.getValueOnInterval(0U, 6U));
+    EXPECT_EQ(23U, sumRangeQuery.getValueOnInterval(0U, 5U));    EXPECT_EQ(27U, sumRangeQuery.getValueOnInterval(0U, 6U));
     EXPECT_EQ(29U, sumRangeQuery.getValueOnInterval(0U, 7U));
     EXPECT_EQ(38U, sumRangeQuery.getValueOnInterval(0U, 8U));
     EXPECT_EQ(0U, sumRangeQuery.getValueOnInterval(0U, 9U));
@@ -91,17 +93,35 @@ TEST(RangeQueryWithSegmentTreeTest, GetValueOnIntervalWithSumWorksOnExample1)
     EXPECT_EQ(6U, sumRangeQuery.getValueOnInterval(4U, 4U));
 }
 
+TEST(RangeQueryWithSegmentTreeTest, ChangeValueAtIndexWithSumWorksWithEmptySetOfValues)
+{
+    ValuesForTest values;
+    RangeQueryForTest sumRangeQuery(values, plusFunction);
+
+    sumRangeQuery.changeValueAtIndex(0U, 0U);
+
+    EXPECT_EQ(0U, sumRangeQuery.getValueOnInterval(0U, 0U));
+}
+
+TEST(RangeQueryWithSegmentTreeTest, ChangeValueAtIndexWithSumWorksWithOneValue)
+{
+    ValuesForTest values{5};
+    RangeQueryForTest sumRangeQuery(values, plusFunction);
+
+    sumRangeQuery.changeValueAtIndex(0U, 3U);
+
+    EXPECT_EQ(3U, sumRangeQuery.getValueOnInterval(0U, 0U));
+}
+
 TEST(RangeQueryWithSegmentTreeTest, ChangeValueAtIndexWithSumWorksOnExample1)
 {
     ValuesForTest values{1U, 3U, 4U, 8U, 6U, 1U, 4U, 2U, 9U};
-    RangeQueryForTest sumRangeQuery(values, plusAccumulator);
+    RangeQueryForTest sumRangeQuery(values, plusFunction);
 
     sumRangeQuery.changeValueAtIndex(3U, 3U);
-
     EXPECT_EQ(1U, sumRangeQuery.getValueOnInterval(0U, 0U));
     EXPECT_EQ(4U, sumRangeQuery.getValueOnInterval(0U, 1U));
-    EXPECT_EQ(8U, sumRangeQuery.getValueOnInterval(0U, 2U));
-    EXPECT_EQ(11U, sumRangeQuery.getValueOnInterval(0U, 3U));
+    EXPECT_EQ(8U, sumRangeQuery.getValueOnInterval(0U, 2U));    EXPECT_EQ(11U, sumRangeQuery.getValueOnInterval(0U, 3U));
     EXPECT_EQ(17U, sumRangeQuery.getValueOnInterval(0U, 4U));
     EXPECT_EQ(18U, sumRangeQuery.getValueOnInterval(0U, 5U));
     EXPECT_EQ(22U, sumRangeQuery.getValueOnInterval(0U, 6U));

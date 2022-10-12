@@ -30,14 +30,12 @@ public:
             Values const& valuesToCheck,
             AccumulatorFunction const& accumulator,
             AccumulatorFunction const& inverseAccumulator)
-        : m_valuesToCheck(valuesToCheck)
+        : m_values(valuesToCheck)
         , m_partialTreeSums()
         , m_accumulator(accumulator)
-        , m_inverseAccumulator(inverseAccumulator)
-    {
+        , m_inverseAccumulator(inverseAccumulator)    {
         initializePartialSums(valuesToCheck);
     }
-
     Value getAccumulatedValueOnInterval(Index const start, Index const end) const
     {
         // This has logN running time
@@ -79,23 +77,21 @@ public:
     void changeValueAtIndex(Index const index, Value const newValue)
     {
         // This has logN running time
-        if(index < m_valuesToCheck.size())
+        if(index < m_values.size())
         {
             // Indexes here have plus one (for easier end loop conditions)
-            Value delta = m_inverseAccumulator(newValue, m_valuesToCheck.at(index));
+            Value delta = m_inverseAccumulator(newValue, m_values.at(index));
             Index indexPlusOne(index+1);
             while(indexPlusOne<=m_partialTreeSums.size()) // update partial sums
-            {
-                m_partialTreeSums[indexPlusOne-1] = m_accumulator(m_partialTreeSums.at(indexPlusOne-1), delta);
+            {                m_partialTreeSums[indexPlusOne-1] = m_accumulator(m_partialTreeSums.at(indexPlusOne-1), delta);
                 indexPlusOne += getGreatestPowerOf2Factor(indexPlusOne);
             }
+            m_values[index] = newValue;
         }
     }
-
 private:
 
-    void initializePartialSums(Values const& valuesToCheck)
-    {
+    void initializePartialSums(Values const& valuesToCheck)    {
         m_partialTreeSums.reserve(valuesToCheck.size());
         // Indexes here have plus one (for easier end loop conditions)
         for(Index indexPlusOne=1; indexPlusOne<=valuesToCheck.size(); indexPlusOne++)
@@ -109,28 +105,25 @@ private:
     Value getPartialTreeSum(unsigned int const start, unsigned int const end) const
     {
         Value result{};
-        if(start<=end && start<m_valuesToCheck.size())
+        if(start<=end && start<m_values.size())
         {
-            result = m_valuesToCheck.at(start);
-            for(unsigned int i=start+1; i<=end && i<m_valuesToCheck.size(); i++)
+            result = m_values.at(start);
+            for(unsigned int i=start+1; i<=end && i<m_values.size(); i++)
             {
-                result = m_accumulator(result, m_valuesToCheck.at(i));
+                result = m_accumulator(result, m_values.at(i));
             }
         }
-        return result;
-    }
+        return result;    }
 
     Index getGreatestPowerOf2Factor(Index const index) const
     {
         return mathHelper::getGreatestPowerOf2Factor(index);
     }
 
-    Values m_valuesToCheck;
+    Values m_values;
     Values m_partialTreeSums;
     AccumulatorFunction m_accumulator;
-    AccumulatorFunction m_inverseAccumulator;
-};
+    AccumulatorFunction m_inverseAccumulator;};
 
 }
-
 }

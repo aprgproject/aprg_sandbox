@@ -83,15 +83,13 @@ private:
                 for(Index index=0; index<limit; index++)
                 {
                     Value selectedValue(m_selector(m_selectedValueMatrix.getEntry(index, exponentOf2), m_selectedValueMatrix.getEntry(index+offset, exponentOf2)));
-                    m_selectedValueMatrix.setEntry( index, exponentOf2+1, selectedValue);
+                    m_selectedValueMatrix.setEntry(index, exponentOf2+1, selectedValue);
                 }
             }
-        }
-    }
+        }    }
     ValueMatrix m_selectedValueMatrix; // index by exponent matrix
     SelectorFunction m_selector;
 };
-
 }
 
 }
