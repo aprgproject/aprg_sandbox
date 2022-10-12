@@ -31,16 +31,15 @@ class SampleStateMachine : public BaseSampleStateMachine
 {
 public:
     SampleStateMachine(State const stateIdentifier);
+    virtual ~SampleStateMachine() = default;
+
     void processInput(Action const& action) override;
-    virtual ~SampleStateMachine() override;
 private:
     void processStateWithNoValue(Action const& action);
-    void processState1(Action const& action);
-    void processState2(Action const& action);
+    void processState1(Action const& action);    void processState2(Action const& action);
     void processState3(Action const& action);
     void processState4(Action const& action);
 };
-
 }
 
 }//namespace alba

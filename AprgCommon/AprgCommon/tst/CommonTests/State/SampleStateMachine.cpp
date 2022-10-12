@@ -10,17 +10,12 @@ SampleStateMachine::SampleStateMachine(State const stateIdentifier)
     : AlbaBaseStateMachine(stateIdentifier)
 {}
 
-SampleStateMachine::~SampleStateMachine()
-{}
-
 void SampleStateMachine::processInput(Action const& action)
 {
-    switch(m_state)
-    {
+    switch(m_state)    {
     case State::StateWithNoValue:
         processStateWithNoValue(action);
-        break;
-    case State::State1:
+        break;    case State::State1:
         processState1(action);
         break;
     case State::State2:

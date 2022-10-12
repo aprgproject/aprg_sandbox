@@ -23,7 +23,4 @@ AlbaLocalPathHandler::AlbaLocalPathHandler(string const& path)
 {}
 #endif
 
-AlbaLocalPathHandler::~AlbaLocalPathHandler()
-{}
-
 }//namespace alba

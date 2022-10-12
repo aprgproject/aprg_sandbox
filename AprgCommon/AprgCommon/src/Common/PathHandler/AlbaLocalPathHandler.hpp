@@ -32,7 +32,7 @@ class AlbaLocalPathHandler: public AlbaLinuxPathHandler
 public:
     AlbaLocalPathHandler(PathInitialValueSource const initialValueSource);
     AlbaLocalPathHandler(std::string const& path);
-    virtual ~AlbaLocalPathHandler();
+    virtual ~AlbaLocalPathHandler() = default;
 };
 
 }//namespace alba

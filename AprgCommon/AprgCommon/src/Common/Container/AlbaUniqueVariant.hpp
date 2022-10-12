@@ -80,17 +80,20 @@ struct CheckIfInList<Type>
 class VariantDataType
 {
 public:
+
+    // rule of five or six
     VariantDataType() = default;
-    VariantDataType(VariantDataType const& v) = delete;
-    VariantDataType& operator=(VariantDataType const& v) = delete;
-    virtual ~VariantDataType(){}
+    virtual ~VariantDataType() = default;
+    VariantDataType(VariantDataType const&) = delete;
+    VariantDataType & operator= (VariantDataType const&) = delete;
+    VariantDataType(VariantDataType &&) = delete;
+    VariantDataType & operator= (VariantDataType &&) = delete;
+
 };
 
-// Purpose: A compile-time checking unique variant class
-template <class... Types>
+// Purpose: A compile-time checking unique variant classtemplate <class... Types>
 class UniqueVariant
 {
-
 typedef typename detail::CheckIfDerive<VariantDataType, Types...>::next CheckIfAllClassesDerive;
 typedef typename detail::MaxSizeType<Types...>::type MaxSizeClass;
 

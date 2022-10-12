@@ -16,15 +16,13 @@ public:
     typedef std::set<std::string> ListOfPaths;
     AlbaWindowsPathHandler(PathInitialValueSource const initialValueSource);
     AlbaWindowsPathHandler(std::string const& path);
-    virtual ~AlbaWindowsPathHandler();
+    virtual ~AlbaWindowsPathHandler() = default;
 
     void clear() override;
-    std::string getDriveOrRoot() const;
-    double getFileSizeEstimate();
+    std::string getDriveOrRoot() const;    double getFileSizeEstimate();
     AlbaDateTime getFileCreationTime();
     bool isFoundInLocalSystem() const;
-    bool isRelativePath() const;
-    void setPathToDetectedLocalPath();
+    bool isRelativePath() const;    void setPathToDetectedLocalPath();
     void createDirectoriesForNonExisitingDirectories() const;
     bool deleteFile();
     bool deleteDirectoryWithoutFilesAndDirectories(); //do tests

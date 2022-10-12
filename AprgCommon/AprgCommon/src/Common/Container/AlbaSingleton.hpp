@@ -7,19 +7,21 @@ template <class ObjectType>
 class AlbaSingleton
 {
 public:
+
+    // rule of five or six
+    ~AlbaSingleton() = default;
+    AlbaSingleton(AlbaSingleton const&) = delete;
+    AlbaSingleton & operator= (AlbaSingleton const&) = delete;
+    AlbaSingleton(AlbaSingleton &&) = delete;
+    AlbaSingleton & operator= (AlbaSingleton &&) = delete;
+
     static ObjectType & getInstance()
     {
-        static ObjectType instance;
-        return instance;
+        static ObjectType instance;        return instance;
     }
 
 protected:
-    AlbaSingleton()
-    {}
-
-private:
-    AlbaSingleton(AlbaSingleton const&) = delete;
-    AlbaSingleton & operator= (AlbaSingleton const&) = delete;
+    AlbaSingleton() = default;
 };
 
 } // namespace alba

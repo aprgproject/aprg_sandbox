@@ -18,15 +18,13 @@ public:
     typedef std::set<std::string> ListOfPaths;
     AlbaLinuxPathHandler(PathInitialValueSource const initialValueSource);
     AlbaLinuxPathHandler(std::string const& path);
-    virtual ~AlbaLinuxPathHandler() override;
+    virtual ~AlbaLinuxPathHandler() = default;
 
     void clear() override;
-    double getFileSizeEstimate();
-    AlbaDateTime getFileCreationTime();
+    double getFileSizeEstimate();    AlbaDateTime getFileCreationTime();
     bool isFoundInLocalSystem() const;
     bool isRelativePath() const;
-    void setPathToDetectedLocalPath();
-    void createDirectoriesForNonExisitingDirectories() const;
+    void setPathToDetectedLocalPath();    void createDirectoriesForNonExisitingDirectories() const;
     bool deleteFile();
     bool deleteDirectoryWithoutFilesAndDirectories(); //do tests
     void deleteFilesInDirectory(); //do tests
