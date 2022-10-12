@@ -10,20 +10,29 @@
 #define CHESS_ENGINE_PATH APRG_DIR R"(\Chess\ChessPeek\Files\stockfish13.exe)"
 //#define CHESS_ENGINE_PATH APRG_DIR R"(\Chess\ChessPeek\Files\zappa.exe)"
 #define SCREEN_SHOT_PATH APRG_DIR R"(\Chess\ChessPeek\Files\ScreenShot.bmp)"
-#define CHESS_BOARD_TOP_LEFT_CORNER 2195, 140
-#define CHESS_BOARD_BOTTOM_RIGHT_CORNER 3026, 971
+
+// Chess.com - user vs user
+#define CHESS_BOARD_TOP_LEFT_CORNER 2205, 151
+#define CHESS_BOARD_BOTTOM_RIGHT_CORNER 3020, 966
 #define TOP_BOTTOM_INDENTION 0.05
 #define LEFT_RIGHT_INDENTION 0.03
 #define WHITE_COLOR_LIMIT 0.91
 #define BLACK_COLOR_LIMIT 0.40
 
+// Chess.com - user vs computer
+//#define CHESS_BOARD_TOP_LEFT_CORNER 2207, 151
+//#define CHESS_BOARD_BOTTOM_RIGHT_CORNER 3014, 958
+//#define TOP_BOTTOM_INDENTION 0.05
+//#define LEFT_RIGHT_INDENTION 0.03
+//#define WHITE_COLOR_LIMIT 0.91
+//#define BLACK_COLOR_LIMIT 0.40
+
+
 using namespace alba::AprgBitmap;
 using namespace alba::stringHelper;
 using namespace std;
-
 namespace alba
 {
-
 namespace chess
 {
 
@@ -52,13 +61,12 @@ void ChessPeek::runForever()
     {
         runOneIteration();
         Sleep(1);
+        //break; //
     }
 }
-
 void ChessPeek::runOneIteration()
 {
-    Board::PieceMatrix previousPieceMatrix(m_chessBoard.getPieceMatrix());
-    checkScreenAndSaveDetails();
+    Board::PieceMatrix previousPieceMatrix(m_chessBoard.getPieceMatrix());    checkScreenAndSaveDetails();
     if(m_isPreviousAnalysisNotSuccessful || previousPieceMatrix != m_chessBoard.getPieceMatrix())
     {
         startNewAnalysisUsingEngine();
@@ -67,19 +75,17 @@ void ChessPeek::runOneIteration()
 
 void ChessPeek::checkScreenAndSaveDetails()
 {
-    m_userAutomation.saveBitmapOnScreen(SCREEN_SHOT_PATH);//
+    m_userAutomation.saveBitmapOnScreen(SCREEN_SHOT_PATH);
     Bitmap bitmap(SCREEN_SHOT_PATH);
     BitmapSnippet snippet(bitmap.getSnippetReadFromFile(BitmapXY(CHESS_BOARD_TOP_LEFT_CORNER), BitmapXY(CHESS_BOARD_BOTTOM_RIGHT_CORNER)));
     checkSnippetAndSaveDetails(snippet);
-    //bitmap.setSnippetWriteToFile(snippet);//
+    bitmap.setSnippetWriteToFile(snippet);//
 }
 
-void ChessPeek::startNewAnalysisUsingEngine()
-{
+void ChessPeek::startNewAnalysisUsingEngine(){
     m_isPreviousAnalysisNotSuccessful = true;
     if(!m_chessEngineController.waitTillReadyAndReturnIfResetWasPerformed())
-    {
-        m_chessEngineController.stop();
+    {        m_chessEngineController.stop();
         if(!m_chessEngineController.waitTillReadyAndReturnIfResetWasPerformed())
         {
             string fenString(constructFenString(m_chessBoard, m_playerSideColor, m_chessBoard.getCastlingFenString(), "-", 0, 1));
@@ -115,14 +121,14 @@ void ChessPeek::checkSnippetAndSaveDetails(BitmapSnippet & snippet)
     double endY = snippet.getBottomRightCorner().getY();
     double deltaX = (endX-startX)/8;
     double deltaY = (endY-startY)/8;
+    snippet.setPixelAt(snippet.getTopLeftCorner(), 0xA1BA00);//
+    snippet.setPixelAt(snippet.getBottomRightCorner(), 0xA1BA00);//
     unsigned int pieceCount = 0U;
     for(unsigned int j=0; j<8; j++)
-    {
-        for(unsigned int i=0; i<8; i++)
+    {        for(unsigned int i=0; i<8; i++)
         {
             CoordinateSquare square{};
-            square.left = round(startX + deltaX*i + deltaX*LEFT_RIGHT_INDENTION);
-            square.right = round(startX + deltaX*(i+1) - deltaX*LEFT_RIGHT_INDENTION);
+            square.left = round(startX + deltaX*i + deltaX*LEFT_RIGHT_INDENTION);            square.right = round(startX + deltaX*(i+1) - deltaX*LEFT_RIGHT_INDENTION);
             square.top = round(startY + deltaY*j + deltaX*TOP_BOTTOM_INDENTION);
             square.bottom = round(startY + deltaY*(j+1) - deltaX*TOP_BOTTOM_INDENTION);
 
@@ -326,15 +332,13 @@ void ChessPeek::retrieveChessCellBitValueAt(
         {
             BitmapXY bitmapCoordinate(round(square.left + deltaX*i), round(square.top + deltaY*(j)));
             setBitsBasedFromColor(whiteValue, blackValue, 63-count, snippet, bitmapCoordinate);
-            //snippet.setPixelAt(bitmapCoordinate, 0xBB0000 | count << 8);//
+            snippet.setPixelAt(bitmapCoordinate, 0xBB0000);//
             count++;
         }
-    }
-}
+    }}
 
 void ChessPeek::setBitsBasedFromColor(
-        BitSet64 & whiteValue,
-        BitSet64 & blackValue,
+        BitSet64 & whiteValue,        BitSet64 & blackValue,
         unsigned int const index,
         BitmapSnippet const& snippet,
         BitmapXY const& bitmapCoordinate) const
