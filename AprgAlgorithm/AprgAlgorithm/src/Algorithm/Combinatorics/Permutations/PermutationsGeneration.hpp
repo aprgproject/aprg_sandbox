@@ -27,53 +27,55 @@ public:
         unsigned int const targetPermutationLength;
     };
 
-    Permutations generatePermutationsUsingCppFunctions(Objects const& objects) const
+    // rule of five or six
+    PermutationsGeneration() = delete;
+    ~PermutationsGeneration() = delete;
+    PermutationsGeneration(PermutationsGeneration const&) = delete;
+    PermutationsGeneration & operator= (PermutationsGeneration const&) = delete;
+    PermutationsGeneration(PermutationsGeneration &&) = delete;
+    PermutationsGeneration & operator= (PermutationsGeneration &&) = delete;
+
+    static Permutations generatePermutationsUsingCppFunctions(Objects const& objects)
     {
         Permutations result;
-        Permutation currentPermutation(objects);
-        do
+        Permutation currentPermutation(objects);        do
         {
             result.emplace_back(currentPermutation);
-        }
-        while(std::next_permutation(currentPermutation.begin(), currentPermutation.end()));
+        }        while(std::next_permutation(currentPermutation.begin(), currentPermutation.end()));
         return result;
     }
 
-    Permutations generatePermutationsUsingRecursion(Objects const& objects) const
+    static Permutations generatePermutationsUsingRecursion(Objects const& objects)
     {
         Permutations result;
-        RecursionData recursionData(createRecursionData(result, objects, objects.size()));
-        collectPermutationsUsingRecursion(recursionData);
+        RecursionData recursionData(createRecursionData(result, objects, objects.size()));        collectPermutationsUsingRecursion(recursionData);
         return result;
     }
 
-    Permutations generatePermutationsWithLength(Objects const& objects, unsigned int const targetPermutationLength) const
+    static Permutations generatePermutationsWithLength(Objects const& objects, unsigned int const targetPermutationLength)
     {
         Permutations result;
-        RecursionData recursionData(createRecursionData(result, objects, std::min(targetPermutationLength, objects.size())));
-        collectPermutationsUsingRecursion(recursionData);
+        RecursionData recursionData(createRecursionData(result, objects, std::min(targetPermutationLength, objects.size())));        collectPermutationsUsingRecursion(recursionData);
         return result;
     }
 
 private:
 
-    RecursionData createRecursionData(
+    static RecursionData createRecursionData(
             Permutations & permutations,
             Objects const& objects,
-            unsigned int const length) const
+            unsigned int const length)
     {
         return RecursionData{permutations, Permutation(), BooleanVector(objects.size(), false), objects, length};
     }
 
-    void collectPermutationsUsingRecursion(RecursionData & recursionData) const
+    static void collectPermutationsUsingRecursion(RecursionData & recursionData)
     {
         if(recursionData.currentPermutation.size() == recursionData.targetPermutationLength)
-        {
-            recursionData.permutations.emplace_back(recursionData.currentPermutation);
+        {            recursionData.permutations.emplace_back(recursionData.currentPermutation);
         }
         else
-        {
-            Objects const& objects(recursionData.objects);
+        {            Objects const& objects(recursionData.objects);
             Permutation & currentPermutation(recursionData.currentPermutation);
             BooleanVector & isProcessed(recursionData.isProcessed);
 
