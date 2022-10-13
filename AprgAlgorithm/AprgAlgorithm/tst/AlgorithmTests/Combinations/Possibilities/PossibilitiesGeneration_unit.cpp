@@ -23,7 +23,8 @@ TEST(PossibilitiesGenerationTest, GeneratePossibilitiesUsingRecursionWorks)
 
     Possibilities expectedPossibilities
     {{1U, 1U, 1U}, {1U, 1U, 3U}, {1U, 1U, 5U}, {1U, 3U, 1U}, {1U, 3U, 3U}, {1U, 3U, 5U}, {1U, 5U, 1U}, {1U, 5U, 3U}, {1U, 5U, 5U},
-        {3U, 1U, 1U}, {3U, 1U, 3U}, {3U, 1U, 5U}, {3U, 3U, 1U}, {3U, 3U, 3U}, {3U, 3U, 5U}, {3U, 5U, 1U}, {3U, 5U, 3U}, {3U, 5U, 5U},        {5U, 1U, 1U}, {5U, 1U, 3U}, {5U, 1U, 5U}, {5U, 3U, 1U}, {5U, 3U, 3U}, {5U, 3U, 5U}, {5U, 5U, 1U}, {5U, 5U, 3U}, {5U, 5U, 5U}};
+        {3U, 1U, 1U}, {3U, 1U, 3U}, {3U, 1U, 5U}, {3U, 3U, 1U}, {3U, 3U, 3U}, {3U, 3U, 5U}, {3U, 5U, 1U}, {3U, 5U, 3U}, {3U, 5U, 5U},
+        {5U, 1U, 1U}, {5U, 1U, 3U}, {5U, 1U, 5U}, {5U, 3U, 1U}, {5U, 3U, 3U}, {5U, 3U, 5U}, {5U, 5U, 1U}, {5U, 5U, 3U}, {5U, 5U, 5U}};
     EXPECT_EQ(expectedPossibilities, actualPossibilities);
 }
 
@@ -34,6 +35,7 @@ TEST(PossibilitiesGenerationTest, GeneratePossibilitiesWithLengthWorks)
     Possibilities expectedPossibilities{{1U, 1U}, {1U, 3U}, {1U, 5U}, {3U, 1U}, {3U, 3U}, {3U, 5U}, {5U, 1U}, {5U, 3U}, {5U, 5U}};
     EXPECT_EQ(expectedPossibilities, actualPossibilities);
 }
+
 }
 
 }

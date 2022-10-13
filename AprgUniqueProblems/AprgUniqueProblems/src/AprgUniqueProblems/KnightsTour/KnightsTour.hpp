@@ -4,7 +4,8 @@
 #include <AprgUniqueProblems/Utilities/PrintUtilities.hpp>
 #include <Common/Math/Matrix/AlbaMatrix.hpp>
 
-namespace alba{
+namespace alba
+{
 
 using VertexOfKnightsTour = std::pair<unsigned int, unsigned int>; // Count and ChessBoardIndex pair
 
@@ -14,7 +15,8 @@ public:
     // A knight’s tour is a sequence of moves of a knight on an n x n chessboard following the rules of chess such that the knight visits each square exactly once.
     // A knight’s tour is called a closed tour if the knight finally returns to the starting square and otherwise it is called an open tour.
 
-    using ChessBoardIndexes=std::vector<unsigned int>;    using Coordinate = std::pair<int, int>;
+    using ChessBoardIndexes=std::vector<unsigned int>;
+    using Coordinate = std::pair<int, int>;
     using CountCoordinatePair=std::pair<unsigned int, std::pair<int, int>>;
     using CountToCoordinateMap=std::multimap<unsigned int, std::pair<int, int>>;
 

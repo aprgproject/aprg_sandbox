@@ -24,6 +24,7 @@ TEST(SubsetGenerationUsingBitsTest, GenerateSubsetsUsingBitsWorks)
     Subsets expectedSubsets{{}, {1U}, {3U}, {1U, 3U}, {5U}, {1U, 5U}, {3U, 5U}, {1U, 3U, 5U}};
     EXPECT_EQ(expectedSubsets, actualSubsets);
 }
+
 }
 
 }

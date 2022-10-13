@@ -18,10 +18,12 @@ public:
     // Example for "range query with selector" is minimum queries
     // Minimum queries are more difficult to process than sum queries.
 
-    // Still, there is a quite simple O(nlogn) time preprocessing method after which we can answer any minimum query in O(1) time1.    //Note that since minimum and maximum queries can be processed similarly, we can focus on minimum queries.
+    // Still, there is a quite simple O(nlogn) time preprocessing method after which we can answer any minimum query in O(1) time1.
+    //Note that since minimum and maximum queries can be processed similarly, we can focus on minimum queries.
 
     using Index = unsigned int;
-    using Value = typename Values::value_type;    using ValueMatrix = matrix::AlbaMatrix<Value>;
+    using Value = typename Values::value_type;
+    using ValueMatrix = matrix::AlbaMatrix<Value>;
     using SelectorFunction = std::function<Value(Value const&, Value const&)>;
 
     RangeQueryWithSelector(Values const& valuesToCheck, SelectorFunction const& selector)

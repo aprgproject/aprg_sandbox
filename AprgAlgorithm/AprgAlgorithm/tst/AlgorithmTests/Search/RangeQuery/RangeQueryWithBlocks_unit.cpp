@@ -15,21 +15,21 @@ namespace
 using ValuesForTest = vector<unsigned int>;
 using BlockValuesForTest = vector<unsigned int>;
 using RangeQueryForTest = RangeQueryWithBlocks<ValuesForTest, BlockValuesForTest>;
-using ValueForTest = RangeQueryForTest::Value;
+using ValueForTest = typename RangeQueryForTest::Value;
 
-RangeQueryForTest::ValuesFunction plusARangeOfValues = [](
+RangeQueryForTest::ValuesFunction plusForARangeOfValues = [](
         ValuesForTest::const_iterator itStart, ValuesForTest::const_iterator itEnd)
 {
     return std::accumulate(itStart+1, itEnd, *itStart, plus<ValueForTest>());
 };
 
-RangeQueryForTest::ValuesFunction countFoursInRangeOfValues = [](
+RangeQueryForTest::ValuesFunction countFoursForARangeOfValues = [](
         ValuesForTest::const_iterator itStart, ValuesForTest::const_iterator itEnd)
 {
     return std::count(itStart, itEnd, 4U);
 };
 
-RangeQueryForTest::ValuesFunction plusARangeOfBlockValues = [](
+RangeQueryForTest::ValuesFunction plusForARangeOfBlockValues = [](
         BlockValuesForTest::const_iterator itStart, BlockValuesForTest::const_iterator itEnd)
 {
     return std::accumulate(itStart+1, itEnd, *itStart, plus<ValueForTest>());
@@ -37,10 +37,44 @@ RangeQueryForTest::ValuesFunction plusARangeOfBlockValues = [](
 
 }
 
+TEST(RangeQueryWithBlocksTest, GetBlockSizeWithSumWorksOnExample1)
+{
+    ValuesForTest values{1U, 3U, 4U, 8U, 6U, 1U, 4U, 2U, 9U};
+    RangeQueryForTest sumRangeQuery(values, 2U, plusForARangeOfValues, plusForARangeOfBlockValues);
+
+    EXPECT_EQ(4U, sumRangeQuery.getBlockSize());
+}
+
+TEST(RangeQueryWithBlocksTest, GetBlockSizeWithCountWorksOnExample1)
+{
+    ValuesForTest values{4U, 2U, 5U, 4U, 2U, 4U, 3U, 3U, 4U};
+    RangeQueryForTest countRangeQuery(values, 2U, countFoursForARangeOfValues, plusForARangeOfBlockValues);
+
+    EXPECT_EQ(4U, countRangeQuery.getBlockSize());
+}
+
+TEST(RangeQueryWithBlocksTest, GetBlocksWithSumWorksOnExample1)
+{
+    ValuesForTest values{1U, 3U, 4U, 8U, 6U, 1U, 4U, 2U, 9U};
+    RangeQueryForTest sumRangeQuery(values, 2U, plusForARangeOfValues, plusForARangeOfBlockValues);
+
+    BlockValuesForTest blocks{16U, 13U, 9U};
+    EXPECT_EQ(blocks, sumRangeQuery.getBlocks());
+}
+
+TEST(RangeQueryWithBlocksTest, GetBlocksWithCountWorksOnExample1)
+{
+    ValuesForTest values{4U, 2U, 5U, 4U, 2U, 4U, 3U, 3U, 4U};
+    RangeQueryForTest countRangeQuery(values, 2U, countFoursForARangeOfValues, plusForARangeOfBlockValues);
+
+    BlockValuesForTest blocks{2U, 1U, 1U};
+    EXPECT_EQ(blocks, countRangeQuery.getBlocks());
+}
+
 TEST(RangeQueryWithBlocksTest, GetResultOnIntervalWithSumWorksWithEmptySetOfValues)
 {
     ValuesForTest values;
-    RangeQueryForTest sumRangeQuery(values, 2U, plusARangeOfValues, plusARangeOfBlockValues);
+    RangeQueryForTest sumRangeQuery(values, 2U, plusForARangeOfValues, plusForARangeOfBlockValues);
 
     EXPECT_EQ(0U, sumRangeQuery.getResultOnInterval(0U, 0U));
 }
@@ -48,7 +82,7 @@ TEST(RangeQueryWithBlocksTest, GetResultOnIntervalWithSumWorksWithEmptySetOfValu
 TEST(RangeQueryWithBlocksTest, GetResultOnIntervalWithSumWorksOnExample1)
 {
     ValuesForTest values{1U, 3U, 4U, 8U, 6U, 1U, 4U, 2U, 9U};
-    RangeQueryForTest sumRangeQuery(values, 2U, plusARangeOfValues, plusARangeOfBlockValues);
+    RangeQueryForTest sumRangeQuery(values, 2U, plusForARangeOfValues, plusForARangeOfBlockValues);
 
     EXPECT_EQ(1U, sumRangeQuery.getResultOnInterval(0U, 0U));
     EXPECT_EQ(4U, sumRangeQuery.getResultOnInterval(0U, 1U));
@@ -69,7 +103,7 @@ TEST(RangeQueryWithBlocksTest, GetResultOnIntervalWithSumWorksOnExample1)
 TEST(RangeQueryWithBlocksTest, GetResultOnIntervalWithCountWorksOnExample1)
 {
     ValuesForTest values{4U, 2U, 5U, 4U, 2U, 4U, 3U, 3U, 4U};
-    RangeQueryForTest countRangeQuery(values, 2U, countFoursInRangeOfValues, plusARangeOfBlockValues);
+    RangeQueryForTest countRangeQuery(values, 2U, countFoursForARangeOfValues, plusForARangeOfBlockValues);
 
     EXPECT_EQ(1U, countRangeQuery.getResultOnInterval(0U, 0U));
     EXPECT_EQ(1U, countRangeQuery.getResultOnInterval(0U, 1U));
@@ -90,7 +124,7 @@ TEST(RangeQueryWithBlocksTest, GetResultOnIntervalWithCountWorksOnExample1)
 TEST(RangeQueryWithBlocksTest, ChangeValueAtIndexWithSumWorksWithEmptySetOfValues)
 {
     ValuesForTest values;
-    RangeQueryForTest sumRangeQuery(values, 2U, plusARangeOfValues, plusARangeOfBlockValues);
+    RangeQueryForTest sumRangeQuery(values, 2U, plusForARangeOfValues, plusForARangeOfBlockValues);
 
     sumRangeQuery.changeValueAtIndex(0U, 0U);
 
@@ -100,7 +134,7 @@ TEST(RangeQueryWithBlocksTest, ChangeValueAtIndexWithSumWorksWithEmptySetOfValue
 TEST(RangeQueryWithBlocksTest, ChangeValueAtIndexWithSumWorksOnExample1)
 {
     ValuesForTest values{1U, 3U, 4U, 8U, 6U, 1U, 4U, 2U, 9U};
-    RangeQueryForTest sumRangeQuery(values, 2U, plusARangeOfValues, plusARangeOfBlockValues);
+    RangeQueryForTest sumRangeQuery(values, 2U, plusForARangeOfValues, plusForARangeOfBlockValues);
 
     sumRangeQuery.changeValueAtIndex(3U, 3U);
 
@@ -123,7 +157,7 @@ TEST(RangeQueryWithBlocksTest, ChangeValueAtIndexWithSumWorksOnExample1)
 TEST(RangeQueryWithBlocksTest, ChangeValueAtIndexWithSumWorksTwiceOnExample1)
 {
     ValuesForTest values{1U, 3U, 4U, 8U, 6U, 1U, 4U, 2U, 9U};
-    RangeQueryForTest sumRangeQuery(values, 2U, plusARangeOfValues, plusARangeOfBlockValues);
+    RangeQueryForTest sumRangeQuery(values, 2U, plusForARangeOfValues, plusForARangeOfBlockValues);
 
     sumRangeQuery.changeValueAtIndex(3U, 3U);
     sumRangeQuery.changeValueAtIndex(3U, 13U);
@@ -147,7 +181,7 @@ TEST(RangeQueryWithBlocksTest, ChangeValueAtIndexWithSumWorksTwiceOnExample1)
 TEST(RangeQueryWithBlocksTest, ChangeValueAtIndexWithCountWorksOnExample1)
 {
     ValuesForTest values{4U, 2U, 5U, 4U, 2U, 4U, 3U, 3U, 4U};
-    RangeQueryForTest countRangeQuery(values, 2U, countFoursInRangeOfValues, plusARangeOfBlockValues);
+    RangeQueryForTest countRangeQuery(values, 2U, countFoursForARangeOfValues, plusForARangeOfBlockValues);
 
     countRangeQuery.changeValueAtIndex(0U, 3U);
 
@@ -169,14 +203,15 @@ TEST(RangeQueryWithBlocksTest, ChangeValueAtIndexWithCountWorksOnExample1)
 
 TEST(RangeQueryWithBlocksTest, SquareRootSizeExampleWorks)
 {
-    // Note that having sqrt(n) of blocks is special:    // The idea is to divide the array into blocks of size sqrt(n) so that each block contains the sum of elements inside the block.
+    // Note that having sqrt(n) of blocks is special:
+    // The idea is to divide the array into blocks of size sqrt(n) so that each block contains the sum of elements inside the block.
     // Since the number of single elements is O(sqrt(n)) and the number of blocks is also O(sqrt(n)), the sum query takes O(sqrt(n)) time.
     // The purpose of the block size sqrt(n) is that it balances two things:
     // -> the array is divided into sqrt(n) blocks, each of which contains sqrt(n) elements.
     // So all operations take O(sqrt(n)) time.
 
     ValuesForTest values{5U, 8U, 6U, 3U, 2U, 5U, 2U, 6U, 7U, 1U, 7U, 5U, 6U, 2U, 6U, 2U};
-    RangeQueryForTest sumRangeQuery(values, 4U, plusARangeOfValues, plusARangeOfBlockValues);
+    RangeQueryForTest sumRangeQuery(values, 4U, plusForARangeOfValues, plusForARangeOfBlockValues);
 
     EXPECT_EQ(44U, sumRangeQuery.getResultOnInterval(3U, 12U));
 
@@ -186,4 +221,5 @@ TEST(RangeQueryWithBlocksTest, SquareRootSizeExampleWorks)
 }
 
 }
+
 }

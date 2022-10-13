@@ -38,14 +38,16 @@ public:
     static Possibilities generatePossibilitiesUsingRecursion(Objects const& objects)
     {
         Possibilities result;
-        RecursionData recursionData(createRecursionData(result, objects, objects.size()));        collectPossibilitiesUsingRecursion(recursionData);
+        RecursionData recursionData(createRecursionData(result, objects, objects.size()));
+        collectPossibilitiesUsingRecursion(recursionData);
         return result;
     }
 
     static Possibilities generatePossibilitiesWithLength(Objects const& objects, unsigned int const possibilityLength)
     {
         Possibilities result;
-        RecursionData recursionData(createRecursionData(result, objects, std::min(possibilityLength, objects.size())));        collectPossibilitiesUsingRecursion(recursionData);
+        RecursionData recursionData(createRecursionData(result, objects, std::min(possibilityLength, objects.size())));
+        collectPossibilitiesUsingRecursion(recursionData);
         return result;
     }
 
@@ -62,10 +64,12 @@ private:
     static void collectPossibilitiesUsingRecursion(RecursionData & recursionData)
     {
         if(recursionData.currentPossibility.size() == recursionData.targetPossibilityLength)
-        {            recursionData.possibilities.emplace_back(recursionData.currentPossibility);
+        {
+            recursionData.possibilities.emplace_back(recursionData.currentPossibility);
         }
         else
-        {            Objects const& objects(recursionData.objects);
+        {
+            Objects const& objects(recursionData.objects);
             Possibility & currentPossibility(recursionData.currentPossibility);
 
             for(unsigned int index=0; index<objects.size(); index++)

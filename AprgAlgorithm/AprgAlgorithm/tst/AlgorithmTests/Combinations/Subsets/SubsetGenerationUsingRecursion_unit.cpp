@@ -24,6 +24,7 @@ TEST(SubsetGenerationUsingRecursionTest, GenerateOrderedSubsetsUsingDfsWorks)
     Subsets expectedSubsets{{}, {1U}, {1U, 3U}, {1U, 3U, 5U}, {1U, 5U}, {3U}, {3U, 5U}, {5U}};
     EXPECT_EQ(expectedSubsets, actualSubsets);
 }
+
 TEST(SubsetGenerationUsingRecursionTest, GenerateSubsetsUsingOnlyRecursionWorks)
 {
     Subsets actualSubsets(GenerationForTest::generateSubsetsUsingOnlyRecursion({1U, 3U, 5U}));
@@ -31,6 +32,7 @@ TEST(SubsetGenerationUsingRecursionTest, GenerateSubsetsUsingOnlyRecursionWorks)
     Subsets expectedSubsets{{}, {5U}, {3U}, {3U, 5U}, {1U}, {1U, 5U}, {1U, 3U}, {1U, 3U, 5U}};
     EXPECT_EQ(expectedSubsets, actualSubsets);
 }
+
 }
 
 }

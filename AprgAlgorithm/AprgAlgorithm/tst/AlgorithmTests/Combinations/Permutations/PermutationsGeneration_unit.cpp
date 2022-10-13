@@ -24,6 +24,7 @@ TEST(PermutationsGenerationTest, GeneratePermutationsUsingCppFunctionsWorks)
     Permutations expectedPermutations{{1U, 3U, 5U}, {1U, 5U, 3U}, {3U, 1U, 5U}, {3U, 5U, 1U}, {5U, 1U, 3U}, {5U, 3U, 1U}};
     EXPECT_EQ(expectedPermutations, actualPermutations);
 }
+
 TEST(PermutationsGenerationTest, GeneratePermutationsUsingRecursionWorks)
 {
     Permutations actualPermutations(GenerationForTest::generatePermutationsUsingRecursion({1U, 3U, 5U}));
@@ -31,6 +32,7 @@ TEST(PermutationsGenerationTest, GeneratePermutationsUsingRecursionWorks)
     Permutations expectedPermutations{{1U, 3U, 5U}, {1U, 5U, 3U}, {3U, 1U, 5U}, {3U, 5U, 1U}, {5U, 1U, 3U}, {5U, 3U, 1U}};
     EXPECT_EQ(expectedPermutations, actualPermutations);
 }
+
 TEST(PermutationsGenerationTest, GeneratePermutationsWithLengthWorks)
 {
     Permutations actualPermutations(GenerationForTest::generatePermutationsWithLength({1U, 3U, 5U}, 2U));
@@ -38,6 +40,7 @@ TEST(PermutationsGenerationTest, GeneratePermutationsWithLengthWorks)
     Permutations expectedPermutations{{1U, 3U}, {1U, 5U}, {3U, 1U}, {3U, 5U}, {5U, 1U}, {5U, 3U}};
     EXPECT_EQ(expectedPermutations, actualPermutations);
 }
+
 }
 
 }
