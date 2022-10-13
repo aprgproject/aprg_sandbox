@@ -140,14 +140,4 @@ unsigned int KnightsTour::getChessBoardIndex(
     return static_cast<unsigned int>(m_chessBoardX*y + x);
 }
 
-std::ostream & operator<<(std::ostream & out, VertexOfKnightsTour const& vertex)
-{
-    out << "(";
-    //out << vertex.first;
-    //out << ",";
-    out << vertex.second;
-    out <<")";
-    return out;
-}
-
 }
