@@ -91,16 +91,14 @@ private:
             Range const& targetRange) const
     {
         // After each step, the array count needs to be updated.
-        // After adding an elementx, we increase the value of count[x] by 1, and if count[x] Æ 1 after this,
+        // After adding an element x, we increase the value of count[x] by 1, and if count[x] = 1 after this,
         // we also increase the answer to the query by 1.
-        // Similarly, after removing an element x, we decrease the value of count[x] by 1, and if count[x] Æ 0 after this,
+        // Similarly, after removing an element x, we decrease the value of count[x] by 1, and if count[x] = 0 after this,
         // we also decrease the answer to the query by 1.
         // In this problem, the time needed to perform each step is O(1), so the total time complexity of the algorithm is O(sqrt(n)).
-
         while(currentRange.first < targetRange.first)
         {
-            removeValueWithIndex(numberOfDistinct, frequencyArray,currentRange.first);
-            currentRange.first++;
+            removeValueWithIndex(numberOfDistinct, frequencyArray,currentRange.first);            currentRange.first++;
         }
         while(currentRange.first > targetRange.first)
         {
