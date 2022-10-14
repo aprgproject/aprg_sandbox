@@ -44,10 +44,10 @@ public:
         }
     }
 
+private:
     unsigned int & b_size;
     NodeUniquePointer & b_first;
 };
-
 }
 
 }

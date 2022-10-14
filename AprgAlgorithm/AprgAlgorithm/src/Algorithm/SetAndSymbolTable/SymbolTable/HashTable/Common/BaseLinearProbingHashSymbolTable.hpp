@@ -18,8 +18,10 @@ class BaseLinearProbingHashSymbolTable
         Value,
         BaseLinearProbingHash<Key, HashTableEntryWithValue<Key, Value>, HashFunction,
         OrderedArraySymbolTable<Key, Value>, BaseSymbolTable<Key, Value>>>
-{};
+{
+public:
+    virtual ~BaseLinearProbingHashSymbolTable() = default;
+};
 
 }
-
 }

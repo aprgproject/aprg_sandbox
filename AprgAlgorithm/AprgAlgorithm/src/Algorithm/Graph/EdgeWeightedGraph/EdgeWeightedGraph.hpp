@@ -23,17 +23,13 @@ public:
     using EdgesWithWeight = typename GraphTypesWithWeights<Vertex, Weight>::EdgesWithWeight;
     using Weights = std::vector<Weight>;
 
-    EdgeWeightedGraph()
-        : BaseClass()
-    {}
+    EdgeWeightedGraph() = default;
 
     bool hasAUniqueMinimumSpanningTree() const
-    {
-        return hasNoDuplicateWeights(getSortedWeights());
+    {        return hasNoDuplicateWeights(getSortedWeights());
     }
 
-    Weight getWeight(Vertex const& vertex1, Vertex const& vertex2) const
-    {
+    Weight getWeight(Vertex const& vertex1, Vertex const& vertex2) const    {
         Weight result{};
         auto it = m_edgeToWeightMap.find(createEdgeInMap(vertex1, vertex2));
         if(it != m_edgeToWeightMap.cend())

@@ -19,8 +19,10 @@ class BaseSeparateChainingHashSymbolTable
         Value,
         BaseSeparateChainingHash<Key, HashTableEntryWithValue<Key, Value>, HashFunction, HASH_TABLE_SIZE,
         OrderedArraySymbolTable<Key, Value>, UnorderedLinkedListSymbolTable<Key, Value>, BaseSymbolTable<Key, Value>>>
-{};
+{
+public:
+    virtual ~BaseSeparateChainingHashSymbolTable() = default;
+};
 
 }
-
 }

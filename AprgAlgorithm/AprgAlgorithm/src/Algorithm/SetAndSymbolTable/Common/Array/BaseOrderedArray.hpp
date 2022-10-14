@@ -16,14 +16,14 @@ class BaseOrderedArray : public BaseDataStructure
 public:
     using Keys = std::vector<Key>;
 
+    virtual ~BaseOrderedArray() = default;
+
     BaseOrderedArray()
         : m_size(0U)
     {}
-
     bool isEmpty() const override
     {
-        return m_size == 0U;
-    }
+        return m_size == 0U;    }
 
     bool doesContain(Key const& key) const override
     {

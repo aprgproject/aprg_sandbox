@@ -18,14 +18,12 @@ public:
     using Objects = std::array<Object, SIZE>;
 
     FixedSizeStack()
-        : m_size(0)
+        : m_size(0U)
     {}
 
-    bool isEmpty() const override
-    {
+    bool isEmpty() const override    {
         return m_size == 0;
     }
-
     unsigned int getSize() const override
     {
         return m_size;

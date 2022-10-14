@@ -15,8 +15,10 @@ namespace algorithm
 template <typename Key, typename Value, typename Node>
 class BaseRedBlackBinarySearchTreeSymbolTable
         : public BaseSymbolTableWithBaseTree<Value, BaseRedBlackBinarySearchTree<Key, Node, BaseSymbolTable<Key, Value>>>
-{};
+{
+public:
+    virtual ~BaseRedBlackBinarySearchTreeSymbolTable() = default;
+};
 
 }
-
 }

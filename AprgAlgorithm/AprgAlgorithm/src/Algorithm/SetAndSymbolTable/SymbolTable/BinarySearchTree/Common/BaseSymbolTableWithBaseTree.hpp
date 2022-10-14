@@ -16,25 +16,26 @@ public:
     using Keys = typename BaseTree::Keys;
     using TraverseFunction = typename BaseTree::TraverseFunction;
 
-    BaseSymbolTableWithBaseTree() = default;
+    BaseSymbolTableWithBaseTree()
+        : b_root(BaseTree::m_root)
+    {}
+
     virtual ~BaseSymbolTableWithBaseTree() = default;
 
     Value get(Key const& key) const override // overrides in BaseSymbolTable
     {
-        return getStartingOnThisNode(this->m_root, key);
+        return getStartingOnThisNode(b_root, key);
     }
 
     void put(Key const& key, Value const& value) override // overrides in BaseSymbolTable
     {
-        putStartingOnThisNode(this->m_root, key, value);
+        putStartingOnThisNode(b_root, key, value);
     }
 
 protected:
-
     void copyContents(Node & destinationNode, Node const& sourceNode) const override
     {
-        destinationNode.key = sourceNode.key;
-        destinationNode.value = sourceNode.value;
+        destinationNode.key = sourceNode.key;        destinationNode.value = sourceNode.value;
     }
 
     virtual Value getStartingOnThisNode(NodeUniquePointer const& nodePointer, Key const& key) const
@@ -60,8 +61,10 @@ protected:
     }
 
     virtual void putStartingOnThisNode(NodeUniquePointer & nodePointer, Key const& key, Value const& value) = 0;
+
+private:
+    NodeUniquePointer & b_root;
 };
 
 }
-
 }

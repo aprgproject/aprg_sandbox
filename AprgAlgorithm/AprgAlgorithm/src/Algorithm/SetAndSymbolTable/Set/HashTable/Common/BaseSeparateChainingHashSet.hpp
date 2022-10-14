@@ -18,8 +18,10 @@ class BaseSeparateChainingHashSet
         : public BaseSetWithBaseSeparateChainingHash<
         BaseSeparateChainingHash<Key, HashTableEntry<Key>, HashFunction, HASH_TABLE_SIZE,
         OrderedArraySet<Key>, UnorderedLinkedListSet<Key>, BaseSet<Key>>>
-{};
+{
+public:
+    virtual ~BaseSeparateChainingHashSet() = default;
+};
 
 }
-
 }

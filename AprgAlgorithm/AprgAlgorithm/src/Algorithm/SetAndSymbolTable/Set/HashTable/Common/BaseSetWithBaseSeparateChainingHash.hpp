@@ -12,17 +12,25 @@ class BaseSetWithBaseSeparateChainingHash : public BaseSeparateChainingHash
 public:
     using Key = typename BaseSeparateChainingHash::Key;
     using Entry = typename BaseSeparateChainingHash::Entry;
+    using HashTable = typename BaseSeparateChainingHash::HashTable;
 
-    BaseSetWithBaseSeparateChainingHash() = default;
+    BaseSetWithBaseSeparateChainingHash()
+        : b_size(BaseSeparateChainingHash::m_size)
+        , b_smallerSymbolTables(BaseSeparateChainingHash::m_smallerSymbolTables)
+    {}
+
     virtual ~BaseSetWithBaseSeparateChainingHash() = default;
 
     void put(Key const& key) override
     {
-        this->m_smallerSymbolTables[this->getHash(key)].put(key);
-        this->m_size++;
+        b_smallerSymbolTables[this->getHash(key)].put(key);
+        b_size++;
     }
+
+private:
+    unsigned int & b_size;
+    HashTable & b_smallerSymbolTables;
 };
 
 }
-
 }

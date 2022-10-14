@@ -14,8 +14,10 @@ namespace algorithm
 template <typename Key>
 class BaseBinarySearchTreeSet
         : public BaseSetWithBaseTree<BaseBinarySearchTree<Key, BasicTreeNode<Key>, BaseSet<Key>>>
-{};
+{
+public:
+    virtual ~BaseBinarySearchTreeSet() = default;
+};
 
 }
-
 }

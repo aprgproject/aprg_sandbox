@@ -21,19 +21,20 @@ public:
     using Key = KeyTemplateType;
     using Entry = EntryTemplateType;
     using Keys = std::vector<Key>;
+    using HashTable = std::array<UnorderedLinkedList, HASH_TABLE_SIZE>;
 
     BaseSeparateChainingHash()
         : m_size(0U)
     {}
 
+    virtual ~BaseSeparateChainingHash() = default;
+
     bool isEmpty() const override
     {
-        return m_size == 0U;
-    }
+        return m_size == 0U;    }
 
     bool doesContain(Key const& key) const override
-    {
-        return m_smallerSymbolTables.at(getHash(key)).doesContain(key);
+    {        return m_smallerSymbolTables.at(getHash(key)).doesContain(key);
     }
 
     unsigned int getSize() const override
@@ -158,15 +159,13 @@ protected:
     }
 
     unsigned int m_size;
-    std::array<UnorderedLinkedList, HASH_TABLE_SIZE> m_smallerSymbolTables;
+    HashTable m_smallerSymbolTables;
 };
 
 // Approach: use an array of M<N linked lists. H. P. Luhn IBM 1953.
-
 // Proposition. Under uniform hashing assumption, probability that the number of keys in a list is within a constant factor of N/M is extremely close to 1
 // Note: N is the number of items, M is the hash table size
 // Proof sketch: Distribution of list size obeys a binomial distribution.
-
 // Consequence. Number of probes (getting hash and check if equal) for search/insert is proportional to N/M
 // -> M is too large -> too many empty chains.
 // -> M is too small -> chains are too long.
