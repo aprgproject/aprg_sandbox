@@ -2,15 +2,13 @@
 
 #include "../Utilities.hpp"
 
-#include <Optional/AlbaOptional.hpp>
+#include <Common/Container/AlbaOptional.hpp>
 
 #include <map>
 #include <string>
-
 using std::string;
 using std::map;
 using std::pair;
-
 namespace codeReview
 {
 

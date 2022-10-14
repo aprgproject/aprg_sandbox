@@ -3,15 +3,13 @@
 #include "MultipleTerms.hpp"
 #include "Term.hpp"
 
-#include <Optional/AlbaOptional.hpp>
+#include <Common/Container/AlbaOptional.hpp>
 
 #include <ostream>
 #include <string>
-
 using std::ostream;
 using std::string;
 using alba::AlbaOptional;
-
 namespace codeReview
 {
 

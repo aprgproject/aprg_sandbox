@@ -2,15 +2,13 @@
 
 #include "../Database/CPlusPlusType.hpp"
 
-#include <Optional/AlbaOptional.hpp>
+#include <Common/Container/AlbaOptional.hpp>
 
 #include <ostream>
 #include <string>
-
 using std::string;
 using std::ostream;
 using alba::AlbaOptional;
-
 namespace codeReview
 {
 
