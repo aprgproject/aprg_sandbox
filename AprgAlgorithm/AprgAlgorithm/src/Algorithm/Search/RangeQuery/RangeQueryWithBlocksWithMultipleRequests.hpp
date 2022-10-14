@@ -33,9 +33,11 @@ public:
     using ValuesFunction = typename BaseClass::ValuesFunction;
     using BlockValuesFunction = typename BaseClass::BlockValuesFunction;
     using TwoBlocksFunction = std::function<BlockValue(BlockValue const&, BlockValue const&)>;
+
     RangeQueryWithBlocksWithMultipleRequests(
             Values const& valuesToCheck,
-            ValuesFunction const& valuesFunction,            BlockValuesFunction const& blockValuesFunction,
+            ValuesFunction const& valuesFunction,
+            BlockValuesFunction const& blockValuesFunction,
             TwoBlocksFunction const& accumulateFunction,
             TwoBlocksFunction const& inverseAccumulateFunction)
         : BaseClass(valuesToCheck, getSquareRootSize(valuesToCheck.size()), valuesFunction, blockValuesFunction)
@@ -48,10 +50,12 @@ public:
             Ranges const& inputRanges) const
     {
         // Mo’s algorithm maintains an active range of the array, and the answer to a query concerning the active range is known at each moment.
-        // The algorithm processes the queries one by one, and always moves the endpoints of the active range by inserting and removing elements.        // The time complexity of the algorithm is O(n*sqrt(n)*f(n)) where the array contains n elements,
+        // The algorithm processes the queries one by one, and always moves the endpoints of the active range by inserting and removing elements.
+        // The time complexity of the algorithm is O(n*sqrt(n)*f(n)) where the array contains n elements,
         // there are n queries and each insertion and removal of an element takes O(f(n)) time.
 
-        // Thus, all queries whose left endpoints are in a certain block are processed one after another sorted according to their right endpoints.        // Using this order, the algorithm only performs O(sqrt(n)) operations,
+        // Thus, all queries whose left endpoints are in a certain block are processed one after another sorted according to their right endpoints.
+        // Using this order, the algorithm only performs O(sqrt(n)) operations,
         // because the left endpoint moves O(n) times O(sqrt(n)) steps, and the right endpoint moves O(sqrt(n)) times O(n) steps.
         // Thus, both endpoints move a total of O(n*sqrt(n))) steps during the algorithm.
 
@@ -59,10 +63,12 @@ public:
         Ranges validRanges(getValidRangesAndSortForMoAlgorithm(inputRanges));
         if(!validRanges.empty())
         {
-            Range previousRange = validRanges.front();            Output savedOutput = this->getResultOnInterval(previousRange.first, previousRange.second);
+            Range previousRange = validRanges.front();
+            Output savedOutput = this->getResultOnInterval(previousRange.first, previousRange.second);
             result.emplace_back(previousRange, savedOutput);
             for(auto it=validRanges.cbegin()+1; it!=validRanges.cend(); it++)
-            {                Range const& currentRange(*it);
+            {
+                Range const& currentRange(*it);
                 if(previousRange.first < currentRange.first)
                 {
                     savedOutput = m_inverseAccumulateFunction(savedOutput, this->getResultOnInterval(previousRange.first, currentRange.first-1)); // remove elements
@@ -96,10 +102,12 @@ private:
     Ranges getValidRangesAndSortForMoAlgorithm(Ranges const& ranges) const
     {
         Ranges result;
-        result.reserve(ranges.size());        for(Range const& range : ranges)
+        result.reserve(ranges.size());
+        for(Range const& range : ranges)
         {
             if(range.first < b_values.size() && range.second < b_values.size()) // index must be inside the give values
-            {                result.emplace_back(range);
+            {
+                result.emplace_back(range);
             }
         }
 

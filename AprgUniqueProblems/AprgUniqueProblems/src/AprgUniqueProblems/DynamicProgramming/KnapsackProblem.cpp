@@ -4,8 +4,10 @@
 #include <map>
 
 using namespace std;
+
 namespace alba
 {
+
 KnapsackProblem::KnapsackProblem(Values const& values)
     : m_inputValues(values)
 {}
@@ -29,7 +31,8 @@ KnapsackProblem::Values KnapsackProblem::getAllPossiblePartialSums() const
     for(unsigned int partialSumIndex=0; partialSumIndex<=sum; partialSumIndex++)
     {
         if(isAPossiblePartialSum.at(partialSumIndex))
-        {            result.emplace_back(partialSumIndex);
+        {
+            result.emplace_back(partialSumIndex);
         }
     }
     return result;
@@ -82,7 +85,8 @@ KnapsackProblem::Values KnapsackProblem::getAllPossiblePartialSumsWithSquareRoot
     for(unsigned int partialSumIndex=0; partialSumIndex<=sum; partialSumIndex++)
     {
         if(isAPossiblePartialSum.at(partialSumIndex))
-        {            result.emplace_back(partialSumIndex);
+        {
+            result.emplace_back(partialSumIndex);
         }
     }
     return result;

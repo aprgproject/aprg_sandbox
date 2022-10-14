@@ -36,6 +36,7 @@ TEST(RangeQueryWithSegmentTreeTest, GetValueOnIntervalWithMinimumWorksWithEmptyS
 {
     ValuesForTest values;
     RangeQueryForTest minimumRangeQuery(values, plusFunction);
+
     EXPECT_EQ(0U, minimumRangeQuery.getValueOnInterval(0U, 0U));
 }
 
@@ -43,9 +44,11 @@ TEST(RangeQueryWithSegmentTreeTest, GetValueOnIntervalWithMinimumWorksOnExample1
 {
     ValuesForTest values{5U, 9U, 4U, 8U, 6U, 1U, 4U, 2U, 0U};
     RangeQueryForTest minimumRangeQuery(values, minimumFunction);
+
     EXPECT_EQ(5U, minimumRangeQuery.getValueOnInterval(0U, 0U));
     EXPECT_EQ(5U, minimumRangeQuery.getValueOnInterval(0U, 1U));
-    EXPECT_EQ(4U, minimumRangeQuery.getValueOnInterval(0U, 2U));    EXPECT_EQ(4U, minimumRangeQuery.getValueOnInterval(0U, 3U));
+    EXPECT_EQ(4U, minimumRangeQuery.getValueOnInterval(0U, 2U));
+    EXPECT_EQ(4U, minimumRangeQuery.getValueOnInterval(0U, 3U));
     EXPECT_EQ(4U, minimumRangeQuery.getValueOnInterval(0U, 4U));
     EXPECT_EQ(1U, minimumRangeQuery.getValueOnInterval(0U, 5U));
     EXPECT_EQ(1U, minimumRangeQuery.getValueOnInterval(0U, 6U));
@@ -60,9 +63,11 @@ TEST(RangeQueryWithSegmentTreeTest, GetValueOnIntervalWithMaximumWorksOnExample1
 {
     ValuesForTest values{5U, 9U, 4U, 8U, 6U, 1U, 4U, 2U, 10U};
     RangeQueryForTest maximumRangeQuery(values, maximumFunction);
+
     EXPECT_EQ(5U, maximumRangeQuery.getValueOnInterval(0U, 0U));
     EXPECT_EQ(9U, maximumRangeQuery.getValueOnInterval(0U, 1U));
-    EXPECT_EQ(9U, maximumRangeQuery.getValueOnInterval(0U, 2U));    EXPECT_EQ(9U, maximumRangeQuery.getValueOnInterval(0U, 3U));
+    EXPECT_EQ(9U, maximumRangeQuery.getValueOnInterval(0U, 2U));
+    EXPECT_EQ(9U, maximumRangeQuery.getValueOnInterval(0U, 3U));
     EXPECT_EQ(9U, maximumRangeQuery.getValueOnInterval(0U, 4U));
     EXPECT_EQ(9U, maximumRangeQuery.getValueOnInterval(0U, 5U));
     EXPECT_EQ(9U, maximumRangeQuery.getValueOnInterval(0U, 6U));
@@ -155,11 +160,13 @@ TEST(RangeQueryWithSegmentTreeTest, GetValueOnIntervalFromTopToBottomWithSumWork
 
 TEST(RangeQueryWithSegmentTreeTest, ChangeValueAtIndexWithSumWorksWithEmptySetOfValues)
 {
-    ValuesForTest values;    RangeQueryForTest sumRangeQuery(values, plusFunction);
+    ValuesForTest values;
+    RangeQueryForTest sumRangeQuery(values, plusFunction);
 
     sumRangeQuery.changeValueAtIndex(0U, 0U);
 
-    EXPECT_EQ(0U, sumRangeQuery.getValueOnInterval(0U, 0U));}
+    EXPECT_EQ(0U, sumRangeQuery.getValueOnInterval(0U, 0U));
+}
 
 TEST(RangeQueryWithSegmentTreeTest, ChangeValueAtIndexWithSumWorksWithOneValue)
 {

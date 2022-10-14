@@ -21,9 +21,11 @@ using RangesForTest = typename RangeQueryForTest::Ranges;
 using InputAndOutputPairsForTest = typename RangeQueryForTest::InputAndOutputPairs;
 
 RangeQueryForTest::ValuesFunction plusForARangeOfValues = [](
-        ValuesForTest::const_iterator itStart, ValuesForTest::const_iterator itEnd){
+        ValuesForTest::const_iterator itStart, ValuesForTest::const_iterator itEnd)
+{
     return std::accumulate(itStart+1, itEnd, *itStart, plus<ValueForTest>());
 };
+
 RangeQueryForTest::ValuesFunction plusForARangeOfBlockValues = [](
         BlockValuesForTest::const_iterator itStart, BlockValuesForTest::const_iterator itEnd)
 {
@@ -59,4 +61,5 @@ TEST(RangeQueryWithBlocksWithMultipleRequestsTest, GetInputAndOutputPairsUsingMo
 }
 
 }
+
 }

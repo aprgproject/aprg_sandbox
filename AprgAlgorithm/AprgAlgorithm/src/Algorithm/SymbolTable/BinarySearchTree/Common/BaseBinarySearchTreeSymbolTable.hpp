@@ -302,12 +302,12 @@ protected:
                 Node const*const nodeWithFloorAtRight(getNodeWithFloorStartingOnThisNode(nodePointer->right, key));
                 if(nodeWithFloorAtRight != nullptr)
                 {
-                    // return the found value
+                    // return if found
                     result = nodeWithFloorAtRight;
                 }
                 else
                 {
-                    // if no values found then this node is the left most node that is less than the value of the key
+                    // if no nodes found then this node is the left most node that is less than the key
                     result = nodePointer.get();
                 }
             }

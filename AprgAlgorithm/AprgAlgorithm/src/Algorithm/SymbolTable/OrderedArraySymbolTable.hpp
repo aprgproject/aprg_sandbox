@@ -65,7 +65,7 @@ public:
 
     Key getMinimum() const override
     {
-        Value result{};
+        Key result{};
         if(!isEmpty())
         {
             result = m_keys.at(0);
@@ -75,7 +75,7 @@ public:
 
     Key getMaximum() const override
     {
-        Value result{};
+        Key result{};
         if(!isEmpty())
         {
             result = m_keys.at(m_size-1);
