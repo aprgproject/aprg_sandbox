@@ -1,14 +1,12 @@
 #pragma once
 
+#include <Algorithm/SetAndSymbolTable/Common/BinarySearchTree/BinarySearchTreeNode.hpp>
 #include <Algorithm/SymbolTable/BinarySearchTree/Common/BaseRedBlackBinarySearchTreeSymbolTable.hpp>
-#include <Algorithm/SymbolTable/BinarySearchTree/Common/BinarySearchTreeNode.hpp>
 #include <Common/Math/Helpers/SignRelatedHelpers.hpp>
 
 #include <vector>
-
 namespace alba
 {
-
 namespace algorithm
 {
 
@@ -42,21 +40,19 @@ public:
 
 template <typename IntervalUnit, typename Value>
 class IntervalSearchTree
-        : public BaseRedBlackBinarySearchTreeSymbolTable<Interval<IntervalUnit>, Value, BinarySearchTreeNode::IntervalSearchTreeNode<Interval<IntervalUnit>, Value, IntervalUnit>>
+        : public BaseRedBlackBinarySearchTreeSymbolTable<Interval<IntervalUnit>, Value, IntervalSearchTreeNodeWithValue<Interval<IntervalUnit>, Value, IntervalUnit>>
 {
 public:
     using Key = Interval<IntervalUnit>;
     using Keys = std::vector<Key>;
-    using BaseClass = BaseRedBlackBinarySearchTreeSymbolTable<Key, Value, BinarySearchTreeNode::IntervalSearchTreeNode<Key, Value, IntervalUnit>>;
-    using Node = BinarySearchTreeNode::IntervalSearchTreeNode<Key, Value, IntervalUnit>;
+    using BaseClass = BaseRedBlackBinarySearchTreeSymbolTable<Key, Value, IntervalSearchTreeNodeWithValue<Key, Value, IntervalUnit>>;
+    using Node = typename BaseClass::Node;
     using NodeUniquePointer = typename BaseClass::NodeUniquePointer;
 
-    Keys getIntersectingIntervalsOf(Key const& intervalToCheck) const
-    {
+    Keys getIntersectingIntervalsOf(Key const& intervalToCheck) const    {
         Keys keys;
         searchForIntersectingIntervals(keys, this->m_root, intervalToCheck);
-        return keys;
-    }
+        return keys;    }
 
 protected:
 
@@ -107,34 +103,30 @@ protected:
         return maxValue;
     }
 
-    void updateNodeDetails(Node & node) const override
+    void updateTreeNodeDetails(Node & node) const override
     {
         node.numberOfNodesOnThisSubTree = this->calculateSizeOfNodeBasedFromLeftAndRight(node);
-        node.maxValueInSubtree = getMaxValueBasedFromLeftAndRight(node);
-    }
+        node.maxValueInSubtree = getMaxValueBasedFromLeftAndRight(node);    }
 
     void putStartingOnThisNode(NodeUniquePointer & nodePointer, Key const& key, Value const& value) override
-    {
-        if(nodePointer)
+    {        if(nodePointer)
         {
             Key const& currentKey(nodePointer->key);
             if(key < currentKey)
             {
                 putStartingOnThisNode(nodePointer->left, key, value);
-                this->updateNodeDetails(*nodePointer);
+                this->updateTreeNodeDetails(*nodePointer);
             }
             else if(key > currentKey)
             {
                 putStartingOnThisNode(nodePointer->right, key, value);
-                this->updateNodeDetails(*nodePointer);
+                this->updateTreeNodeDetails(*nodePointer);
             }
             else
-            {
-                nodePointer->value = value;
+            {                nodePointer->value = value;
             }
             if(this->hasARightLeaningRedLinkOnOneChild(nodePointer))
-            {
-                this->rotateLeft(nodePointer);
+            {                this->rotateLeft(nodePointer);
             }
             if(this->hasTwoLeftLeaningRedLinksInARow(nodePointer))
             {
@@ -147,11 +139,10 @@ protected:
         }
         else
         {
-            nodePointer.reset(new Node{key, value, nullptr, nullptr, 1U, BinarySearchTreeNode::Color::Red, key.end});
+            nodePointer.reset(new Node{key, value, nullptr, nullptr, 1U, RedBlackColor::Red, key.end});
         }
     }
 };
-
 }
 
 }

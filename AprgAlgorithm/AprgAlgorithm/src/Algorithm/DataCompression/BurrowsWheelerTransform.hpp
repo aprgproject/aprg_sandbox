@@ -18,16 +18,13 @@ class BurrowsWheelerTransform
 {
 public :
 
-    BurrowsWheelerTransform()
-    {}
+    BurrowsWheelerTransform() = default;
 
     void encode(std::istream & input, std::ostream & output)
-    {
-        AlbaStreamBitReader reader(input);
+    {        AlbaStreamBitReader reader(input);
         AlbaStreamBitWriter writer(output);
 
-        std::string wholeInputString(reader.readWholeStreamAsStringData());
-        wholeInputString += END_CHARACTER; // put end character for decoding
+        std::string wholeInputString(reader.readWholeStreamAsStringData());        wholeInputString += END_CHARACTER; // put end character for decoding
         std::string stringOutput;
         SuffixArray<Index> suffixArray(wholeInputString);
         for(Index i=0; i<suffixArray.getSize(); i++)

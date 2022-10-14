@@ -2,48 +2,36 @@
 
 #include <Algorithm/SetAndSymbolTable/Common/LinkedList/BaseUnorderedLinkedList.hpp>
 #include <Algorithm/SetAndSymbolTable/Common/LinkedList/LinkedListNode.hpp>
-#include <Algorithm/SymbolTable/BaseSymbolTable.hpp>
+#include <Algorithm/SetAndSymbolTable/Set/BaseSet.hpp>
 
 namespace alba
 {
+
 namespace algorithm
 {
 
-template <typename Key, typename Value>
-class UnorderedLinkedListSymbolTable : public BaseUnorderedLinkedList<Key, LinkedListNodeWithValue<Key, Value>, BaseSymbolTable<Key, Value>>
+template <typename Key>
+class UnorderedLinkedListSet : public BaseUnorderedLinkedList<Key, LinkedListNode<Key>, BaseSet<Key>>
 {
 public:
-    using BaseClass = BaseUnorderedLinkedList<Key, LinkedListNodeWithValue<Key, Value>, BaseSymbolTable<Key, Value>>;
+    using BaseClass = BaseUnorderedLinkedList<Key, LinkedListNode<Key>, BaseSet<Key>>;
     using Node = typename BaseClass::Node;
     using NodeUniquePointer = typename BaseClass::NodeUniquePointer;
     using Keys = typename BaseClass::Keys;
 
-    UnorderedLinkedListSymbolTable()
+    UnorderedLinkedListSet()
         : BaseClass()
         , b_size(BaseClass::m_size)
         , b_first(BaseClass::m_first)
     {}
 
-    Value get(Key const& key) const override
-    {
-        Value result{};
-        this->traverseWithNoChange([&](Node const& node, bool & shouldBreak)
-        {
-            if(key == node.key)
-            {                result = node.value;
-                shouldBreak = true;
-            }
-        });
-        return result;
-    }
-
-    void put(Key const& key, Value const& value) override
+    void put(Key const& key) override
     {
         bool isKeyFound(false);
         this->traverseWithChange([&](Node & node, bool & shouldBreak)
         {
             if(key == node.key)
-            {                node.value = value;
+            {
                 isKeyFound = true;
                 shouldBreak = true;
             }
@@ -51,7 +39,7 @@ public:
         if(!isKeyFound)
         {
             NodeUniquePointer newNext(std::move(b_first));
-            b_first.reset(new Node{key, value, std::move(newNext)});
+            b_first.reset(new Node{key, std::move(newNext)});
             b_size++;
         }
     }
@@ -61,4 +49,5 @@ public:
 };
 
 }
+
 }

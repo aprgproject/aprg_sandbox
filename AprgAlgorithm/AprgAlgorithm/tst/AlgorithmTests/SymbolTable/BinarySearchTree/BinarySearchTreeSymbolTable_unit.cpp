@@ -16,14 +16,12 @@ namespace algorithm
 namespace
 {
 using SymbolTableForTest = BinarySearchTreeSymbolTable<unsigned int, char>;
-using NodeForTest = BinarySearchTreeNode::BasicTreeNode<unsigned int, char>;
+using NodeForTest = typename SymbolTableForTest::Node;
 using KeysForTest = typename SymbolTableForTest::Keys;
 }
-
 TEST(BinarySearchTreeSymbolTableTest, IsEmptyWorksWhenEmpty)
 {
-    testIsEmptyWhenEmptyWithUnsignedIntAndChar<SymbolTableForTest>();
-}
+    testIsEmptyWhenEmptyWithUnsignedIntAndChar<SymbolTableForTest>();}
 
 TEST(BinarySearchTreeSymbolTableTest, IsEmptyWorksWhenNotEmpty)
 {

@@ -16,14 +16,12 @@ namespace algorithm
 namespace
 {
 using SymbolTableForTest = RedBlackBinarySearchTreeSymbolTable<unsigned int, char>;
-using NodeForTest = BinarySearchTreeNode::RedBlackTreeNode<unsigned int, char>;
+using NodeForTest = typename SymbolTableForTest::Node;
 using KeysForTest = typename SymbolTableForTest::Keys;
 }
-
 TEST(RedBlackBinarySearchTreeSymbolTableTest, IsEmptyWorksWhenEmpty)
 {
-    testIsEmptyWhenEmptyWithUnsignedIntAndChar<SymbolTableForTest>();
-}
+    testIsEmptyWhenEmptyWithUnsignedIntAndChar<SymbolTableForTest>();}
 
 TEST(RedBlackBinarySearchTreeSymbolTableTest, IsEmptyWorksWhenNotEmpty)
 {

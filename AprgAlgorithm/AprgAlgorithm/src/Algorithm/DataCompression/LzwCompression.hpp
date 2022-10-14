@@ -23,16 +23,13 @@ public :
 
     using SymbolTableUsingTrie = TernarySearchTrie<Code>;
 
-    LzwCompression()
-    {}
+    LzwCompression() = default;
 
     void compress(std::istream & input, std::ostream & output)
-    {
-        AlbaStreamBitReader reader(input);
+    {        AlbaStreamBitReader reader(input);
         AlbaStreamBitWriter writer(output);
 
         std::string wholeInputString(reader.readWholeStreamAsStringData());// read whole input as string
-
         // This is the position of the code words : [0...RADIX-1(Single chars)][RADIX(Stop code word)][RADIX+1...MAX_NUMBER_CODE_WORDS(Multi char strings)]
         SymbolTableUsingTrie codeTrie;
         initializeCodeTableWithAllSingleCharacters(codeTrie); // initialize input as single char code words for radix R keys
