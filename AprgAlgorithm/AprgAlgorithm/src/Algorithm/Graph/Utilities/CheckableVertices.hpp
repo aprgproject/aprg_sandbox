@@ -20,10 +20,12 @@ public:
     CheckableVertices() = default;
 
     bool isFound(Vertex const& vertex) const
-    {        return m_vertices.find(vertex) != m_vertices.cend();
+    {
+        return m_vertices.find(vertex) != m_vertices.cend();
     }
 
-    bool isNotFound(Vertex const& vertex) const    {
+    bool isNotFound(Vertex const& vertex) const
+    {
         return m_vertices.find(vertex) == m_vertices.cend();
     }
 

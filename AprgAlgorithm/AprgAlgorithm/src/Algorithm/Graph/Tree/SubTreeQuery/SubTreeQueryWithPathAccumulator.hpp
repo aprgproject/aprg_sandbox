@@ -38,18 +38,18 @@ public:
         return m_verticesInDfsPreOrder;
     }
 
-    Vertices const& getPathResults() const
+    Vertices const& getAccumulatedValuesOfPaths() const
     {
-        return m_pathResults;
+        return m_accumulatedValuesOfPaths;
     }
 
-    Vertex getPathResult(Vertex const& vertex)
+    Vertex getAccumulatedValueOfPathThatStartsAtTopAndEndsAt(Vertex const& vertex)
     {
         Vertex result;
         auto it = m_vertexToIndexMap.find(vertex);
         if(it!=m_vertexToIndexMap.cend())
         {
-            result = m_pathResults.at(it->second);
+            result = m_accumulatedValuesOfPaths.at(it->second);
         }
         return result;
     }
@@ -78,7 +78,7 @@ protected:
             traverseUsingDfs(treeSize, pathResult, startVertex);
 
             m_verticesInDfsPreOrder.shrink_to_fit();
-            m_pathResults.shrink_to_fit();
+            m_accumulatedValuesOfPaths.shrink_to_fit();
         }
     }
 
@@ -86,7 +86,7 @@ protected:
     {
         m_processedVertices.putVertex(vertex);
         m_verticesInDfsPreOrder.emplace_back(vertex);
-        m_pathResults.emplace_back(pathResult);
+        m_accumulatedValuesOfPaths.emplace_back(pathResult);
         Vertex pathResultAtVertex = pathResult;
         unsigned int index = treeSize++;
         for(Vertex const& adjacentVertex : m_graph.getAdjacentVerticesAt(vertex))
@@ -105,7 +105,7 @@ protected:
     AccumulatorFunction m_accumulator;
     CheckableVerticesWithVertex m_processedVertices;
     Vertices m_verticesInDfsPreOrder;
-    Vertices m_pathResults;
+    Vertices m_accumulatedValuesOfPaths;
     VertexToIndexMap m_vertexToIndexMap;
 };
 

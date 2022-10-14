@@ -15,16 +15,8 @@ namespace
 using ValuesForTest = vector<double>;
 using RangeQueryForTest = RangeQueryWithAccumulatorLazySegmentTree<ValuesForTest>;
 using ValueForTest = RangeQueryForTest::Value;
-
-RangeQueryForTest::Function multipliesFunction = [](ValueForTest const& value1, ValueForTest const& value2)
-{
-    return multiplies<ValueForTest>()(value1, value2);
-};
-
-RangeQueryForTest::Function dividesFunction = [](ValueForTest const& value1, ValueForTest const& value2)
-{
-    return divides<ValueForTest>()(value1, value2);
-};
+RangeQueryForTest::Function multipliesFunction = multiplies<ValueForTest>();
+RangeQueryForTest::Function dividesFunction = divides<ValueForTest>();
 }
 
 TEST(RangeQueryWithAccumulatorLazySegmentTreeTest, GetValueOnIntervalWithGeometricSumWorksWithEmptySetOfValues)

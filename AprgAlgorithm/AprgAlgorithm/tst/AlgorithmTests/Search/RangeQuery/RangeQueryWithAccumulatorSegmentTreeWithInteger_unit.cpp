@@ -15,22 +15,14 @@ namespace
 using ValuesForTest = vector<unsigned int>;
 using RangeQueryForTest = RangeQueryWithAccumulatorLazySegmentTree<ValuesForTest>;
 using ValueForTest = RangeQueryForTest::Value;
-
-RangeQueryForTest::Function plusFunction = [](ValueForTest const& value1, ValueForTest const& value2)
-{
-    return plus<ValueForTest>()(value1, value2);
-};
-
-RangeQueryForTest::Function minusFunction = [](ValueForTest const& value1, ValueForTest const& value2)
-{
-    return minus<ValueForTest>()(value1, value2);
-};
+RangeQueryForTest::Function plusFunction = plus<ValueForTest>();
+RangeQueryForTest::Function minusFunction = minus<ValueForTest>();
 }
 
 TEST(RangeQueryWithAccumulatorLazySegmentTreeTest, GetValueOnIntervalWithMinimumWorksWithEmptySetOfValues)
 {
     ValuesForTest values;
-    RangeQueryForTest sumRangeQuery(values, plusFunction, minusFunction, 0U);
+    RangeQueryForTest sumRangeQuery(values, plusFunction, minus<ValueForTest>(), 0U);
 
     EXPECT_EQ(0U, sumRangeQuery.getValueOnInterval(0U, 0U));
 }

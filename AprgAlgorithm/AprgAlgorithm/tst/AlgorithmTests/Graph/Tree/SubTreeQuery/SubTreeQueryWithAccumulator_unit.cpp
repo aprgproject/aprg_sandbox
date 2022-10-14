@@ -19,16 +19,8 @@ using SubTreeQueryForTest = SubTreeQueryWithAccumulator<VertexForTest>;
 using VerticesForTest = SubTreeQueryForTest::Vertices;
 using RangeQueryForTest = SubTreeQueryForTest::RangeQuery;
 using CountsForTest = SubTreeQueryForTest::Counts;
-
-RangeQueryForTest::AccumulatorFunction plusAccumulator = [](VertexForTest const& value1, VertexForTest const& value2)
-{
-    return plus<VertexForTest>()(value1, value2);
-};
-
-RangeQueryForTest::AccumulatorFunction minusAccumulator = [](VertexForTest const& value1, VertexForTest const& value2)
-{
-    return minus<VertexForTest>()(value1, value2);
-};
+RangeQueryForTest::AccumulatorFunction plusAccumulator = plus<VertexForTest>();
+RangeQueryForTest::AccumulatorFunction minusAccumulator = minus<VertexForTest>();
 }
 
 TEST(SubTreeQueryWithAccumulatorTest, GetAccumulatedValueOfSubTreeAtWorks)

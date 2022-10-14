@@ -26,44 +26,49 @@ public:
     static constexpr Index ROOT_PARENT=0U; // the first parent
     static constexpr Index NUMBER_OF_CHILDREN=2U; // only 2 children
 
-    static bool isALeftChild(Index const treeIndex)
+    static inline bool isALeftChild(Index const treeIndex)
     {
         return mathHelper::isOdd(treeIndex);
     }
 
-    static bool isARightChild(Index const treeIndex)
+    static inline bool isARightChild(Index const treeIndex)
     {
         return mathHelper::isEven(treeIndex);
     }
 
-    static Index getParent(Index const treeIndex)
+    static inline Index getParent(Index const treeIndex)
     {
         return ((treeIndex+1)/NUMBER_OF_CHILDREN)-1;
     }
 
-    static Index getFirstChild(Index const parent)
+    static inline Index getFirstChild(Index const parent)
     {
         return (parent*NUMBER_OF_CHILDREN)+1;
     }
 
-    static Index getSecondChild(Index const parent)
+    static inline Index getSecondChild(Index const parent)
     {
         return (parent*NUMBER_OF_CHILDREN)+2;
     }
 
-    static Index getCeilOfLogarithmOfChildren(Index const index)
+    static inline Index getCeilOfLogarithmOfChildren(Index const index)
     {
         return mathHelper::getCeilOfLogarithmForIntegers(NUMBER_OF_CHILDREN, index);
     }
 
-    static Index getChildrenRaiseToPower(Index const index)
+    static inline Index getChildrenRaiseToPower(Index const index)
     {
         return mathHelper::getRaiseToPowerForIntegers(NUMBER_OF_CHILDREN, index);
     }
 
-    static Index getMinimumNumberOfParents(Index const numberOfValues)
+    static inline Index getMinimumNumberOfParents(Index const numberOfValues)
     {
-        return getChildrenRaiseToPower(getCeilOfLogarithmOfChildren(numberOfValues));
+        Index result(0);
+        if(numberOfValues > 0)
+        {
+            result = getChildrenRaiseToPower(getCeilOfLogarithmOfChildren(numberOfValues))-1;
+        }
+        return result;
     }
 };
 

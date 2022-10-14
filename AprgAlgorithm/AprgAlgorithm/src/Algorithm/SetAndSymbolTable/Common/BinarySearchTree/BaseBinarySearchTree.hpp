@@ -22,9 +22,11 @@ public:
 
     virtual ~BaseBinarySearchTree() = default;
 
-    bool isEmpty() const override    {
+    bool isEmpty() const override
+    {
         return getSize() == 0;
     }
+
     bool doesContain(Key const& key) const override
     {
         return doesContainStartingOnThisNode(m_root, key);
@@ -283,10 +285,12 @@ protected:
     virtual Node const* getNodeWithCeilingStartingOnThisNode(NodeUniquePointer const& nodePointer, Key const& key) const
     {
         Node const* result(nullptr);
-        if(nodePointer)        {
+        if(nodePointer)
+        {
             Key const& currentKey(nodePointer->key);
             if(key == currentKey)
-            {                result = nodePointer.get();
+            {
+                result = nodePointer.get();
             }
             else if(key > currentKey)
             {

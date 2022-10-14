@@ -8,6 +8,7 @@
 
 namespace alba
 {
+
 namespace algorithm
 {
 
@@ -20,4 +21,5 @@ public:
 };
 
 }
+
 }

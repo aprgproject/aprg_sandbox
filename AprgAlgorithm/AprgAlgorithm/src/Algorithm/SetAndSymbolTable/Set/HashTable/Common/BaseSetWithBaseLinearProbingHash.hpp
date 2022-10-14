@@ -22,7 +22,8 @@ public:
 
     virtual ~BaseSetWithBaseLinearProbingHash() = default;
 
-    void put(Key const& key) override // overrides in BaseSet    {
+    void put(Key const& key) override // overrides in BaseSet
+    {
         this->resizeOnPutIfNeeded();
         bool isFound(false);
         unsigned int i = this->getHash(key);
@@ -31,7 +32,8 @@ public:
             EntryUniquePointer & entryPointer(b_entryPointers[i]);
             if(key == entryPointer->key)
             {
-                isFound = true;                break;
+                isFound = true;
+                break;
             }
         }
         if(!isFound)
@@ -42,6 +44,7 @@ public:
     }
 
 protected:
+
     void putEntry(Entry const& entry) override // overrides in BaseLinearProbingHash
     {
         put(entry.key);
@@ -53,4 +56,5 @@ private:
 };
 
 }
+
 }

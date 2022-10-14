@@ -70,11 +70,13 @@ TEST(SegmentTreeUtilitiesTest, GetChildrenRaiseToPowerWorks)
 
 TEST(SegmentTreeUtilitiesTest, GetMinimumNumberOfParentsWorks)
 {
-    EXPECT_EQ(2147483648U, UtilitiesForTest::getMinimumNumberOfParents(0U)); // Zero is not valid number of children
-    EXPECT_EQ(1U, UtilitiesForTest::getMinimumNumberOfParents(1U));
-    EXPECT_EQ(2U, UtilitiesForTest::getMinimumNumberOfParents(2U));
-    EXPECT_EQ(64U, UtilitiesForTest::getMinimumNumberOfParents(43U));
-    EXPECT_EQ(64U, UtilitiesForTest::getMinimumNumberOfParents(44U));
+    EXPECT_EQ(0U, UtilitiesForTest::getMinimumNumberOfParents(0U)); // Zero is not valid number of children
+    EXPECT_EQ(0U, UtilitiesForTest::getMinimumNumberOfParents(1U));
+    EXPECT_EQ(1U, UtilitiesForTest::getMinimumNumberOfParents(2U));
+    EXPECT_EQ(3U, UtilitiesForTest::getMinimumNumberOfParents(3U));
+    EXPECT_EQ(3U, UtilitiesForTest::getMinimumNumberOfParents(4U));
+    EXPECT_EQ(63U, UtilitiesForTest::getMinimumNumberOfParents(43U));
+    EXPECT_EQ(63U, UtilitiesForTest::getMinimumNumberOfParents(44U));
 }
 
 }

@@ -20,6 +20,9 @@ using BlockValueForTest = typename RangeQueryForTest::BlockValue;
 using RangesForTest = typename RangeQueryForTest::Ranges;
 using InputAndOutputPairsForTest = typename RangeQueryForTest::InputAndOutputPairs;
 
+RangeQueryForTest::TwoBlocksFunction plusForAPairOfBlockValues = plus<BlockValueForTest>();
+RangeQueryForTest::TwoBlocksFunction minusForPairOfBlockValues = minus<BlockValueForTest>();
+
 RangeQueryForTest::ValuesFunction plusForARangeOfValues = [](
         ValuesForTest::const_iterator itStart, ValuesForTest::const_iterator itEnd)
 {
@@ -31,19 +34,6 @@ RangeQueryForTest::ValuesFunction plusForARangeOfBlockValues = [](
 {
     return std::accumulate(itStart+1, itEnd, *itStart, plus<ValueForTest>());
 };
-
-RangeQueryForTest::TwoBlocksFunction plusForAPairOfBlockValues = [](
-        BlockValueForTest const blockValue1, BlockValueForTest const blockValue2)
-{
-    return blockValue1 + blockValue2;
-};
-
-RangeQueryForTest::TwoBlocksFunction minusForPairOfBlockValues = [](
-        BlockValueForTest const blockValue1, BlockValueForTest const blockValue2)
-{
-    return blockValue1 - blockValue2;
-};
-
 }
 
 TEST(RangeQueryWithBlocksWithMultipleRequestsTest, GetInputAndOutputPairsUsingMoAlgorithmWithSumWorksOnExample1)

@@ -73,7 +73,9 @@ public:
 
 private:
     unsigned int & b_size;
-    Keys & b_keys;};
+    Keys & b_keys;
+};
 
 }
+
 }

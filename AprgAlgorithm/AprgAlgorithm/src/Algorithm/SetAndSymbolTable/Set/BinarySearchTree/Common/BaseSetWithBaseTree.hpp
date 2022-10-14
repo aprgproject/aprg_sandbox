@@ -27,6 +27,7 @@ public:
     }
 
 protected:
+
     void copyContents(Node & destinationNode, Node const& sourceNode) const override // overrides in BaseTree
     {
         destinationNode.key = sourceNode.key;
@@ -39,4 +40,5 @@ private:
 };
 
 }
+
 }

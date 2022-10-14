@@ -26,10 +26,24 @@ RangeQueryForTest::Function maximumFunction = [](ValueForTest const& value1, Val
     return max(value1, value2);
 };
 
-RangeQueryForTest::Function plusFunction = [](ValueForTest const& value1, ValueForTest const& value2)
+RangeQueryForTest::Function plusFunction = plus<ValueForTest>();
+}
+
+TEST(RangeQueryWithSegmentTreeTest, GetStartOfChildrenWithMinimumWorksOnExample1)
 {
-    return plus<ValueForTest>()(value1, value2);
-};
+    ValuesForTest values{5U, 9U, 4U, 8U, 6U, 1U, 4U, 2U, 0U};
+    RangeQueryForTest minimumRangeQuery(values, minimumFunction);
+
+    EXPECT_EQ(15U, minimumRangeQuery.getStartOfChildren());
+}
+
+TEST(RangeQueryWithSegmentTreeTest, GetTreeValuesWithMinimumWorksOnExample1)
+{
+    ValuesForTest values{5U, 9U, 4U, 8U, 6U, 1U, 4U, 2U, 0U};
+    RangeQueryForTest minimumRangeQuery(values, minimumFunction);
+
+    ValuesForTest expectedTreeValues{0U, 1U, 0U, 4U, 1U, 0U, 0U, 5U, 4U, 1U, 2U, 0U, 0U, 0U, 0U, 5U, 9U, 4U, 8U, 6U, 1U, 4U, 2U, 0U};
+    EXPECT_EQ(expectedTreeValues, minimumRangeQuery.getTreeValues());
 }
 
 TEST(RangeQueryWithSegmentTreeTest, GetValueOnIntervalWithMinimumWorksWithEmptySetOfValues)

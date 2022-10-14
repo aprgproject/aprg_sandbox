@@ -3,8 +3,10 @@
 #include <Algorithm/Search/Common/SegmentTreeUtilities.hpp>
 
 #include <functional>
+
 namespace alba
 {
+
 namespace algorithm
 {
 
@@ -32,10 +34,22 @@ public:
 
     RangeQueryWithSegmentTree(
             Values const& valuesToCheck,
-            Function const& functionObject)        : m_startOfChildren(0U)
+            Function const& functionObject)
+        : m_startOfChildren(0U)
         , m_treeValues()
         , m_function(functionObject)
-    {        initialize(valuesToCheck);
+    {
+        initialize(valuesToCheck);
+    }
+
+    Index getStartOfChildren() const
+    {
+        return m_startOfChildren;
+    }
+
+    Values const& getTreeValues() const
+    {
+        return m_treeValues;
     }
 
     Value getValueOnInterval(Index const start, Index const end) const // bottom to top approach
@@ -54,9 +68,11 @@ public:
         }
         return result;
     }
+
     void changeValueAtIndex(Index const index, Value const newValue)
     {
-        // This has logN running time        changeValueAtIndexFromBottomToTop(index, newValue);
+        // This has logN running time
+        changeValueAtIndexFromBottomToTop(index, newValue);
     }
 
 protected:
@@ -84,10 +100,12 @@ protected:
                 last = Utilities::getParent(last);
             }
             if(first == last) // add value if it ends on the same place
-            {                result = m_function(result, m_treeValues.at(first));
+            {
+                result = m_function(result, m_treeValues.at(first));
             }
         }
-        return result;    }
+        return result;
+    }
 
     Value getValueOnIntervalFromTopToBottom(
             Index const startInterval,
@@ -109,10 +127,12 @@ protected:
         if(startInterval<=baseLeft && baseRight<=endInterval)
         {
             result = m_treeValues.at(currentChild);
-        }        else
+        }
+        else
         {
             Index baseMidPoint = (baseLeft+baseRight)/2;
-            bool isLeftPartOutside = endInterval<baseLeft || startInterval>baseMidPoint;            bool isRightPartOutside = endInterval<baseMidPoint+1 || startInterval>baseRight;
+            bool isLeftPartOutside = endInterval<baseLeft || startInterval>baseMidPoint;
+            bool isRightPartOutside = endInterval<baseMidPoint+1 || startInterval>baseRight;
             if(!isLeftPartOutside && !isRightPartOutside)
             {
                 result = m_function(
@@ -128,16 +148,18 @@ protected:
                 result = getValueOnIntervalFromTopToBottom(startInterval, endInterval, Utilities::getSecondChild(currentChild), baseMidPoint+1, baseRight);
             }
         }
-        return result;    }
+        return result;
+    }
 
     void initialize(Values const& valuesToCheck)
     {
         if(!valuesToCheck.empty())
         {
-            m_startOfChildren = Utilities::getMinimumNumberOfParents(valuesToCheck.size())-1;
+            m_startOfChildren = Utilities::getMinimumNumberOfParents(valuesToCheck.size());
             Index totalSize = m_startOfChildren + valuesToCheck.size();
 
-            m_treeValues.resize(totalSize);            m_treeValues.shrink_to_fit();
+            m_treeValues.resize(totalSize);
+            m_treeValues.shrink_to_fit();
             std::copy(valuesToCheck.cbegin(), valuesToCheck.cend(), m_treeValues.begin()+m_startOfChildren); // copy children
 
             Index treeBaseLeft(m_startOfChildren);
@@ -158,9 +180,11 @@ protected:
             }
         }
     }
+
     void changeValueAtIndexFromBottomToTop(Index const index, Value const newValue)
     {
-        // This has logN running time        Index treeIndex(m_startOfChildren+index);
+        // This has logN running time
+        Index treeIndex(m_startOfChildren+index);
         if(treeIndex < m_treeValues.size())
         {
             m_treeValues[treeIndex] = newValue;
@@ -172,10 +196,12 @@ protected:
                     if(Utilities::isALeftChild(treeIndex))
                     {
                         m_treeValues[parentIndex] = m_function(m_treeValues.at(treeIndex), m_treeValues.at(treeIndex+1));
-                    }                    else
+                    }
+                    else
                     {
                         m_treeValues[parentIndex] = m_function(m_treeValues.at(treeIndex-1), m_treeValues.at(treeIndex));
-                    }                    treeIndex = parentIndex;
+                    }
+                    treeIndex = parentIndex;
                 }
                 m_treeValues[0] = m_function(m_treeValues.at(1U), m_treeValues.at(2U));
             }
@@ -188,7 +214,9 @@ protected:
 
     Index m_startOfChildren;
     Values m_treeValues;
-    Function m_function;};
+    Function m_function;
+};
 
 }
+
 }

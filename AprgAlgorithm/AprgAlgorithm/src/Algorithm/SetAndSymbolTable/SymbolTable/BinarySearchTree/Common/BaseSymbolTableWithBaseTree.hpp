@@ -33,9 +33,11 @@ public:
     }
 
 protected:
+
     void copyContents(Node & destinationNode, Node const& sourceNode) const override
     {
-        destinationNode.key = sourceNode.key;        destinationNode.value = sourceNode.value;
+        destinationNode.key = sourceNode.key;
+        destinationNode.value = sourceNode.value;
     }
 
     virtual Value getStartingOnThisNode(NodeUniquePointer const& nodePointer, Key const& key) const
@@ -67,4 +69,5 @@ private:
 };
 
 }
+
 }
