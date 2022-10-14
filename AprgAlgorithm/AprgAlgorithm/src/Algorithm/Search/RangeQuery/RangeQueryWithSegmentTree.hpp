@@ -32,19 +32,26 @@ public:
     using Value = typename Values::value_type;
     using Function = std::function<Value(Value const&, Value const&)>;
 
-    static constexpr unsigned int NUMBER_OF_CHILDREN=2U; // only 2 children are supported for now
+    static constexpr unsigned int ROOT_PARENT=0U; // the first parent
+    static constexpr unsigned int NUMBER_OF_CHILDREN=2U; // only 2 children
 
     RangeQueryWithSegmentTree(
             Values const& valuesToCheck,
             Function const& functionObject)
-        : m_startOfChildren(0U)
+        : m_smallestPowerOfTwoThatFitsChildren(0U)
+        , m_startOfChildren(0U)
         , m_treeValues()
         , m_function(functionObject)
-    {
-        initialize(valuesToCheck);
+    {        initialize(valuesToCheck);
     }
 
-    Value getValueOnInterval(Index const start, Index const end) const
+    Value getValueOnInterval(Index const start, Index const end) const // bottom to top approach
+    {
+        // This has logN running time
+        return getValueOnIntervalFromBottomToTop(start, end);
+    }
+
+    Value getValueOnIntervalFromTopToBottom(Index const start, Index const end) const // top to bottom approach
     {
         // This has logN running time
         Value result{};
@@ -52,14 +59,32 @@ public:
         Index last(m_startOfChildren+end);
         if(first<=last && first<m_treeValues.size() && last<m_treeValues.size())
         {
+            result = getValueOnIntervalFromTopToBottom(start, end, ROOT_PARENT, 0, m_startOfChildren);
+        }
+        return result;
+    }
+
+    void changeValueAtIndex(Index const index, Value const newValue)
+    {
+        // This has logN running time
+        changeValueAtIndexFromBottomToTop(index, newValue);
+    }
+
+private:
+
+    Value getValueOnIntervalFromBottomToTop(Index const start, Index const end) const
+    {
+        // This has logN running time
+        Value result{};        Index first(m_startOfChildren+start);
+        Index last(m_startOfChildren+end);
+        if(first<=last && first<m_treeValues.size() && last<m_treeValues.size())
+        {
             result = m_treeValues.at(first++);
             while(first < last)
-            {
-                if(isRightChild(first))
+            {                if(isRightChild(first))
                 {
                     result = m_function(result, m_treeValues.at(first++)); // move to next value (right) because current value is added
-                }
-                if(isLeftChild(last))
+                }                if(isLeftChild(last))
                 {
                     result = m_function(result, m_treeValues.at(last--)); // move to next value (left) because current value is added
                 }
@@ -74,7 +99,72 @@ public:
         return result;
     }
 
-    void changeValueAtIndex(Index const index, Value const newValue)
+    Value getValueOnIntervalFromTopToBottom(
+            Index const startInterval,
+            Index const endInterval,
+            Index const currentChild,
+            Index const baseLeft,
+            Index const baseRight) const
+    {
+        // This has logN running time
+
+        Value result{};if((startInterval==baseLeft && endInterval==baseRight) || baseLeft==baseRight)
+        {
+            result = m_treeValues.at(currentChild);
+        }
+        else
+        {
+            Index baseMidPoint = (baseLeft+baseRight)/2;
+            bool isLeftPartOutside = endInterval<baseLeft || startInterval>baseMidPoint;
+            bool isRightPartOutside = endInterval<baseMidPoint+1 || startInterval>baseRight;
+            if(!isLeftPartOutside && !isRightPartOutside)
+            {
+                result = m_function(
+                            getValueOnIntervalFromTopToBottom(startInterval, endInterval, getFirstChild(currentChild), baseLeft, baseMidPoint),
+                            getValueOnIntervalFromTopToBottom(startInterval, endInterval, getSecondChild(currentChild), baseMidPoint+1, baseRight));
+            }
+            else if(!isLeftPartOutside && isRightPartOutside)
+            {
+                result = getValueOnIntervalFromTopToBottom(startInterval, endInterval, getFirstChild(currentChild), baseLeft, baseMidPoint);
+            }
+            else if(isLeftPartOutside && !isRightPartOutside)
+            {
+                result = getValueOnIntervalFromTopToBottom(startInterval, endInterval, getSecondChild(currentChild), baseMidPoint+1, baseRight);
+            }
+        }
+        return result;
+    }
+
+    void initialize(Values const& valuesToCheck)
+    {
+        if(!valuesToCheck.empty())
+        {
+            m_smallestPowerOfTwoThatFitsChildren = getChildrenRaiseToPower(getCeilOfLogarithmOfChildren(valuesToCheck.size()));
+            m_startOfChildren = m_smallestPowerOfTwoThatFitsChildren-1;
+            Index totalSize = m_startOfChildren + valuesToCheck.size();
+
+            m_treeValues.resize(totalSize);
+            m_treeValues.shrink_to_fit();
+            std::copy(valuesToCheck.cbegin(), valuesToCheck.cend(), m_treeValues.begin()+m_startOfChildren); // copy children
+
+            Index treeBaseLeft(m_startOfChildren);            Index treeBaseRight(totalSize-1);
+            while(treeBaseLeft<treeBaseRight) // fill up parent values
+            {
+                if(isLeftChild(treeBaseRight)) // incomplete pair                {
+                    m_treeValues[getParent(treeBaseRight)] = m_treeValues.at(treeBaseRight);
+                    treeBaseRight--;
+                }
+                for(Index treeIndex=treeBaseLeft; treeIndex<treeBaseRight; treeIndex+=NUMBER_OF_CHILDREN) // complete pairs
+                {
+                    m_treeValues[getParent(treeIndex)] = m_function(m_treeValues.at(treeIndex), m_treeValues.at(treeIndex+1));
+                }
+                treeBaseLeft = getParent(treeBaseLeft);
+                treeBaseRight = getParent(treeBaseRight);
+            }
+        }
+    }
+
+    void changeValueAtIndexFromBottomToTop(Index const index, Value const newValue)
     {
         // This has logN running time
         Index treeIndex(m_startOfChildren+index);
@@ -105,69 +195,42 @@ public:
         }
     }
 
-private:
-
-    void initialize(Values const& valuesToCheck)
-    {
-        if(!valuesToCheck.empty())
-        {
-            Index parentSize = getChildrenRaiseToPower(getCeilOfLogarithmOfChildren(valuesToCheck.size()))-1;
-            Index totalSize = parentSize + valuesToCheck.size();
-
-            m_treeValues.resize(totalSize);
-            m_treeValues.shrink_to_fit();
-            m_startOfChildren = parentSize;
-            std::copy(valuesToCheck.cbegin(), valuesToCheck.cend(), m_treeValues.begin()+m_startOfChildren); // copy children
-
-            Index treeBaseLeft(m_startOfChildren);
-            Index treeBaseRight(totalSize-1);
-            while(treeBaseLeft<treeBaseRight) // fill up parent values
-            {
-                if(isLeftChild(treeBaseRight)) // incomplete pair
-                {
-                    m_treeValues[getParent(treeBaseRight)] = m_treeValues.at(treeBaseRight);
-                    treeBaseRight--;
-                }
-                for(Index treeIndex=treeBaseLeft; treeIndex<treeBaseRight; treeIndex+=NUMBER_OF_CHILDREN) // complete pairs
-                {
-                    m_treeValues[getParent(treeIndex)] = m_function(m_treeValues.at(treeIndex), m_treeValues.at(treeIndex+1));
-                }
-                treeBaseLeft = getParent(treeBaseLeft);
-                treeBaseRight = getParent(treeBaseRight);
-            }
-        }
-    }
-
     bool isLeftChild(Index const treeIndex) const
     {
-        return mathHelper::isOdd(treeIndex);
-    }
+        return mathHelper::isOdd(treeIndex);    }
 
     bool isRightChild(Index const treeIndex) const
     {
-        return mathHelper::isEven(treeIndex);
-    }
+        return mathHelper::isEven(treeIndex);    }
 
     Index getParent(Index const treeIndex) const
     {
         return ((treeIndex+1)/NUMBER_OF_CHILDREN)-1;
     }
 
+    Index getFirstChild(Index const parent) const
+    {
+        return (parent*NUMBER_OF_CHILDREN)+1;
+    }
+
+    Index getSecondChild(Index const parent) const
+    {
+        return (parent*NUMBER_OF_CHILDREN)+2;
+    }
+
     Index getCeilOfLogarithmOfChildren(Index const index) const
     {
-        return mathHelper::getCeilOfLogarithmForIntegers(NUMBER_OF_CHILDREN, index);
-    }
+        return mathHelper::getCeilOfLogarithmForIntegers(NUMBER_OF_CHILDREN, index);    }
 
     Index getChildrenRaiseToPower(Index const index) const
     {
         return mathHelper::getRaiseToPowerForIntegers(NUMBER_OF_CHILDREN, index);
     }
 
+    Index m_smallestPowerOfTwoThatFitsChildren;
     Index m_startOfChildren;
     Values m_treeValues;
-    Function m_function;
-};
+    Function m_function;};
 
 }
-
 }
