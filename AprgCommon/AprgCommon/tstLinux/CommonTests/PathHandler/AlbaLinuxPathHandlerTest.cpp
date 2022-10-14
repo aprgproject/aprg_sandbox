@@ -9,6 +9,7 @@ namespace alba
 
 string AlbaLinuxPathHandlerTest::convertToSimplestPath(string const& path)
 {
-    return getCorrectPathWithoutDoublePeriod<'/'>(getCorrectPathWithReplacedSlashCharacters<'/'>(path));}
+    return getCorrectPathWithoutDoublePeriod<'/'>(getCorrectPathWithReplacedSlashCharacters<'/'>(path));
+}
 
 }

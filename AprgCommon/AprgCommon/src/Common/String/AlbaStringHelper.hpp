@@ -1,7 +1,7 @@
 #pragma once
 
+#include <Common/Container/AlbaOptional.hpp>
 #include <Common/Math/Number/AlbaNumber.hpp>
-#include <Common/Optional/AlbaOptional.hpp>
 
 #include <iomanip>
 #include <string>

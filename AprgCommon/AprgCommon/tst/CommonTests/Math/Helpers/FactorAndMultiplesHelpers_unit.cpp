@@ -119,7 +119,8 @@ TEST(FactorAndMulitplesHelpersTest, GetMultipleThatIsGreaterOrEqualWorks)
 
 TEST(FactorAndMulitplesHelpersTest, GetDifferenceFromGreaterMultipleWorks)
 {
-    EXPECT_EQ(0U, getDifferenceFromGreaterMultiple(0U, 0U));    EXPECT_EQ(0U, getDifferenceFromGreaterMultiple(10U, 10U));
+    EXPECT_EQ(0U, getDifferenceFromGreaterMultiple(0U, 0U));
+    EXPECT_EQ(0U, getDifferenceFromGreaterMultiple(10U, 10U));
     EXPECT_EQ(1U, getDifferenceFromGreaterMultiple(5U, 9U));
     EXPECT_EQ(0U, getDifferenceFromGreaterMultiple(5U, 10U));
     EXPECT_EQ(4U, getDifferenceFromGreaterMultiple(5U, 11U));
@@ -128,9 +129,11 @@ TEST(FactorAndMulitplesHelpersTest, GetDifferenceFromGreaterMultipleWorks)
     EXPECT_EQ(5U, getDifferenceFromGreaterMultiple(10U, 5U));
     EXPECT_EQ(48U, getDifferenceFromGreaterMultiple(57U, 2346U));
 }
+
 TEST(FactorAndMulitplesHelpersTest, GetGreatestCommonFactorForAlbaNumberWorks)
 {
-    EXPECT_EQ(AlbaNumber(0), getGreatestCommonFactor(AlbaNumber(0), AlbaNumber(0)));    EXPECT_EQ(AlbaNumber(1), getGreatestCommonFactor(AlbaNumber(1), AlbaNumber(1)));
+    EXPECT_EQ(AlbaNumber(0), getGreatestCommonFactor(AlbaNumber(0), AlbaNumber(0)));
+    EXPECT_EQ(AlbaNumber(1), getGreatestCommonFactor(AlbaNumber(1), AlbaNumber(1)));
     EXPECT_EQ(AlbaNumber::createFraction(1, 12),
               getGreatestCommonFactor(AlbaNumber::createFraction(1, 6), AlbaNumber::createFraction(1, 4)));
     EXPECT_EQ(AlbaNumber(1), getGreatestCommonFactor(AlbaNumber(0.33), AlbaNumber::createFraction(1, 4)));

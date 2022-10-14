@@ -17,10 +17,12 @@ public:
 
     operator bool() const;
     bool hasContent() const;
-    unsigned int getSize() const;    void* getBufferPointer();
+    unsigned int getSize() const;
+    void* getBufferPointer();
     void const* getConstantBufferPointer() const;
     void clear();
-    void clearAndSetNewData(void* sourcePointer, unsigned int const size);    void resize(unsigned int const size);
+    void clearAndSetNewData(void* sourcePointer, unsigned int const size);
+    void resize(unsigned int const size);
     void resize(unsigned int const size, unsigned char const initialValue);
     void* resizeWithAdditionalSizeAndReturnBeginOfAdditionalData(unsigned int const size);
     void addData(void const* sourcePointer, unsigned int const size);

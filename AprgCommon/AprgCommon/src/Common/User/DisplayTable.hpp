@@ -68,10 +68,12 @@ public:
     DisplayTable() = default;
     unsigned int getTotalRows() const;
     unsigned int getTotalColumns() const;
-    unsigned int getMaxCharactersInOneRow() const;    std::string getCellText(DisplayTableCell const& cell, unsigned int length) const;
+    unsigned int getMaxCharactersInOneRow() const;
+    std::string getCellText(DisplayTableCell const& cell, unsigned int length) const;
 
     DisplayTableRow& getLastRow();
-    DisplayTableRow& getRowReference(unsigned int rowIndex);    DisplayTableCell& getCellReference(unsigned int rowIndex, unsigned int columnIndex);
+    DisplayTableRow& getRowReference(unsigned int rowIndex);
+    DisplayTableCell& getCellReference(unsigned int rowIndex, unsigned int columnIndex);
     DisplayTableCell const& getCellConstReference(unsigned int rowIndex, unsigned int columnIndex) const;
 
     void addRow();

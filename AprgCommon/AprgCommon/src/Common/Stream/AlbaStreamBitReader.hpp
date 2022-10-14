@@ -20,9 +20,11 @@ public:
     ~AlbaStreamBitReader() = default;
 
     bool noRemainingBitsInBuffer() const;
+
     bool readBoolData();
     char readCharData();
-    std::string readStringData(unsigned int const numberOfCharacters);    std::string readWholeStreamAsStringData();
+    std::string readStringData(unsigned int const numberOfCharacters);
+    std::string readWholeStreamAsStringData();
     template <typename TypeToWrite> TypeToWrite readNumberData(AlbaStreamBitEndianType const endianType);
     template <typename TypeToWrite> TypeToWrite readBigEndianNumberData();
     template <typename TypeToWrite> TypeToWrite readLittleEndianNumberData();

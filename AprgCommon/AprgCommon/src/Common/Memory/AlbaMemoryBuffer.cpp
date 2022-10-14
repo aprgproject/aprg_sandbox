@@ -11,10 +11,12 @@ namespace alba
 
 AlbaMemoryBuffer::AlbaMemoryBuffer(void const* sourcePointer, unsigned int const size)
 {
-    addData(sourcePointer, size);}
+    addData(sourcePointer, size);
+}
 
 AlbaMemoryBuffer::operator bool() const
-{    return hasContent();
+{
+    return hasContent();
 }
 
 bool AlbaMemoryBuffer::hasContent() const

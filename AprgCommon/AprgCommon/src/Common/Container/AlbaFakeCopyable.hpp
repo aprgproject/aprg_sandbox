@@ -12,10 +12,12 @@ public:
     AlbaFakeCopyable() = default;
 
     AlbaFakeCopyable(ObjectType const& object)
-        : m_object(object)    {}
+        : m_object(object)
+    {}
 
     AlbaFakeCopyable(AlbaFakeCopyable const&) // copy constructor does nothing
-        : m_object()    {}
+        : m_object()
+    {}
 
     ObjectType const& getObject() const
     {

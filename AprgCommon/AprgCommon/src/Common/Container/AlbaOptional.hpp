@@ -15,10 +15,12 @@ public:
     AlbaOptional() = default;
 
     AlbaOptional(ContentType content)
-        : m_contentPointer(std::make_unique<ContentType>(content))    {}
+        : m_contentPointer(std::make_unique<ContentType>(content))
+    {}
 
     AlbaOptional(ContentType& content)
-        : m_contentPointer(std::make_unique<ContentType>(content))    {}
+        : m_contentPointer(std::make_unique<ContentType>(content))
+    {}
 
     AlbaOptional(AlbaOptional<ContentType> const& optional)
     {
