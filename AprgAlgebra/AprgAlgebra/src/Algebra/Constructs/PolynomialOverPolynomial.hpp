@@ -1,13 +1,11 @@
 #pragma once
 
 #include <Algebra/Term/TermTypes/Polynomial.hpp>
-#include <Common/Optional/AlbaOptional.hpp>
+#include <Common/Container/AlbaOptional.hpp>
 
 #include <vector>
-
 namespace alba
 {
-
 namespace algebra
 {
 
