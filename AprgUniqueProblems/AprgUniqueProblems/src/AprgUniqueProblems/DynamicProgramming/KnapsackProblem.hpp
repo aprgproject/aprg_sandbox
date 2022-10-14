@@ -24,8 +24,8 @@ public:
     KnapsackProblem(Values const& values);
 
     Values getAllPossiblePartialSums() const;
+    KnapsackProblem::Values getAllPossiblePartialSumsWithSquareRootAlgorithm();
 private:
     Values m_inputValues;
 };
-
 }
