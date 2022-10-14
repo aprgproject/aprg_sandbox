@@ -2,14 +2,13 @@
 
 #include <AudioManipulator/AudioManipulator.hpp>
 #include <AudioManipulator/NearestSamples.hpp>
-#include <Common/Math/AlbaMathHelper.hpp>
+#include <Common/Math/Helpers/PrecisionHelpers.hpp>
+#include <Common/Math/Helpers/ComputationHelpers.hpp>
 
 #include <algorithm>
 #include <numeric>
-
 using namespace alba::mathHelper;
 using namespace std;
-
 namespace alba
 {
 

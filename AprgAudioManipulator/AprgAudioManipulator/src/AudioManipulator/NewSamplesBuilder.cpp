@@ -1,13 +1,11 @@
 #include "NewSamplesBuilder.hpp"
 
-#include <Common/Math/AlbaMathHelper.hpp>
+#include <Common/Math/Helpers/SignRelatedHelpers.hpp>
 
 using namespace alba::mathHelper;
 using namespace std;
-
 namespace alba
 {
-
 namespace AprgAudio
 {
 
