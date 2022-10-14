@@ -1,6 +1,6 @@
 #pragma once
 
-#include <Algorithm/SymbolTable/BaseSymbolTable.hpp>
+#include <Algorithm/SetAndSymbolTable/SymbolTable/BaseSymbolTable.hpp>
 
 #include <vector>
 

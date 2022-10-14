@@ -1,9 +1,9 @@
 #pragma once
 
+#include <Algorithm/SetAndSymbolTable/SymbolTable/Array/OrderedArraySymbolTable.hpp>
+#include <Algorithm/SetAndSymbolTable/SymbolTable/BaseSymbolTable.hpp>
+#include <Algorithm/SetAndSymbolTable/SymbolTable/LinkedList/UnorderedLinkedListSymbolTable.hpp>
 #include <Algorithm/Sort/MergeSorter/MergeSorterUtilities.hpp>
-#include <Algorithm/SymbolTable/BaseSymbolTable.hpp>
-#include <Algorithm/SymbolTable/OrderedArraySymbolTable.hpp>
-#include <Algorithm/SymbolTable/UnorderedLinkedListSymbolTable.hpp>
 
 #include <memory>
 

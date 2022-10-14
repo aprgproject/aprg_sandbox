@@ -1,7 +1,7 @@
 #pragma once
 
-#include <Algorithm/SymbolTable/BaseSymbolTable.hpp>
-#include <Algorithm/SymbolTable/OrderedArraySymbolTable.hpp>
+#include <Algorithm/SetAndSymbolTable/SymbolTable/Array/OrderedArraySymbolTable.hpp>
+#include <Algorithm/SetAndSymbolTable/SymbolTable/BaseSymbolTable.hpp>
 
 #include <algorithm>
 #include <memory>

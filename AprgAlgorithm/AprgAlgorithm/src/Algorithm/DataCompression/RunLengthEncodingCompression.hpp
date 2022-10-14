@@ -20,10 +20,12 @@ public :
     RunLengthEncodingCompression() = default;
 
     void compress(std::istream & input, std::ostream & output)
-    {        Count maxValueForCount(std::numeric_limits<Count>::max());
+    {
+        Count maxValueForCount(std::numeric_limits<Count>::max());
         AlbaStreamBitReader reader(input);
         AlbaStreamBitWriter writer(output);
-        Count currentCount(0);        bool currentBit(false), previousBit(false);
+        Count currentCount(0);
+        bool currentBit(false), previousBit(false);
         while(true)
         {
             currentBit = reader.readBoolData();
