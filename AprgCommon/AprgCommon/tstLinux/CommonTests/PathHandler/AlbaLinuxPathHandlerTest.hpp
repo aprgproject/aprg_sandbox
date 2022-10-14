@@ -7,8 +7,7 @@ namespace alba
 
 struct AlbaLinuxPathHandlerTest : public testing::Test
 {
-    AlbaLinuxPathHandlerTest();
+    AlbaLinuxPathHandlerTest() = default;
     std::string convertToSimplestPath(std::string const& path);
 };
-
 }

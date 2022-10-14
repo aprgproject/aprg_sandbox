@@ -12,16 +12,13 @@ template <typename ContentType> class AlbaOptional
     // This requires copy constructor and default constructor on ContentType
 public:
 
-    AlbaOptional()
-    {}
+    AlbaOptional() = default;
 
     AlbaOptional(ContentType content)
-        : m_contentPointer(std::make_unique<ContentType>(content))
-    {}
+        : m_contentPointer(std::make_unique<ContentType>(content))    {}
 
     AlbaOptional(ContentType& content)
-        : m_contentPointer(std::make_unique<ContentType>(content))
-    {}
+        : m_contentPointer(std::make_unique<ContentType>(content))    {}
 
     AlbaOptional(AlbaOptional<ContentType> const& optional)
     {
