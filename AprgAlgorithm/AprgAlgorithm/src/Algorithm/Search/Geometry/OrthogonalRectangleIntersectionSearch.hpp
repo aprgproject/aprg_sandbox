@@ -52,15 +52,13 @@ public:
         // sweep line algorithm
         std::set<Rectangle> intersectingRectangles;
         std::map<PairOfUnits, Rectangle> intervalToRectangleMap;
-        IntervalSearchTree<Unit, unsigned int> intervalSearchTree;
+        IntervalSearchTree<Unit> intervalSearchTree;
         for(Event const& event : m_events)
         {
-            if(EventType::StartOfRectangle == event.eventType)
-            {
+            if(EventType::StartOfRectangle == event.eventType)            {
                 auto intervals(intervalSearchTree.getIntersectingIntervalsOf(event.yInterval));
                 if(!intervals.empty())
-                {
-                    intersectingRectangles.emplace(event.rectangle);
+                {                    intersectingRectangles.emplace(event.rectangle);
                     for(auto const& interval : intervals)
                     {
                         auto it=intervalToRectangleMap.find({interval.start, interval.end});
@@ -71,15 +69,13 @@ public:
                     }
                 }
 
-                intervalSearchTree.put(event.yInterval, {});
+                intervalSearchTree.put(event.yInterval);
                 intervalToRectangleMap.emplace(PairOfUnits{event.yInterval.start, event.yInterval.end}, event.rectangle);
             }
-            else if(EventType::EndOfRectangle == event.eventType)
-            {
+            else if(EventType::EndOfRectangle == event.eventType)            {
                 intervalSearchTree.deleteBasedOnKey(event.yInterval);
                 intervalToRectangleMap.erase({event.yInterval.start, event.yInterval.end});
-            }
-        }
+            }        }
         return Rectangles(intersectingRectangles.cbegin(), intersectingRectangles.cend());
     }
 

@@ -51,15 +51,13 @@ class NearestPointSearch
 {
 public:
     using Point = std::pair<Unit, Unit>;
-    using TwoDTree = KdTree<Point, unsigned int>;
+    using TwoDTree = KdTree<Point>;
     using NodeUniquePointer = typename TwoDTree::NodeUniquePointer;
 
-    enum class SearchAction
-    {
+    enum class SearchAction    {
         Nothing,
         GoToLeftChild,
-        GoToRightChild,
-        GoToBoth
+        GoToRightChild,        GoToBoth
     };
 
     struct SearchDetails
@@ -81,15 +79,13 @@ public:
 
     void addPoint(Point const& point)
     {
-        m_twoDTree.put(point, {});
+        m_twoDTree.put(point);
     }
 
 private:
-
     void searchNearestPoint(NodeUniquePointer const& nodePointer, SearchDetails & searchDetails) const
     {
-        static unsigned int depth=0;
-        depth++;
+        static unsigned int depth=0;        depth++;
         if(nodePointer)
         {
             Point const& currentPoint(nodePointer->key);
