@@ -6,19 +6,18 @@
 #include <BitmapManipulator/Utilities.hpp>
 #include <BitmapManipulator/Traversal/OutwardCircleTraversal.hpp>
 #include <BitmapManipulator/Traversal/OutwardSnakeLikeTraversal.hpp>
-#include <Common/Math/AlbaMathHelper.hpp>
-#include <Common/Optional/AlbaOptional.hpp>
+#include <Common/Container/AlbaOptional.hpp>
+#include <Common/Math/Helpers/SignRelatedHelpers.hpp>
 #include <Common/PathHandler/AlbaLocalPathHandler.hpp>
 #include <Geometry/TwoDimensions/TwoDimensionsHelper.hpp>
 
+
 using namespace alba::AprgBitmap::ColorUtilities;
 using namespace alba::mathHelper;
-using namespace alba::TwoDimensions;
-using namespace std;
+using namespace alba::TwoDimensions;using namespace std;
 
 namespace alba
 {
-
 namespace AprgBitmap
 {
 

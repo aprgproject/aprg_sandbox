@@ -1,14 +1,12 @@
 #pragma once
 
 #include <Bitmap/CommonTypes.hpp>
-#include <Common/Optional/AlbaOptional.hpp>
+#include <Common/Container/AlbaOptional.hpp>
 
 namespace alba
 {
-
 namespace AprgBitmap
 {
-
 class OutwardSnakeLikeTraversal
 {
 public:

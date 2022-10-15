@@ -1,12 +1,11 @@
 #include "PenCircles.hpp"
 
-#include <Common/Math/AlbaMathHelper.hpp>
+#include <Common/Math/Helpers/ComputationHelpers.hpp>
+#include <Common/Math/Helpers/SignRelatedHelpers.hpp>
 
 using namespace alba::mathHelper;
-
 namespace alba
 {
-
 namespace AprgBitmap
 {
 
@@ -54,17 +53,15 @@ PenCircles::PointAndPenCircleDetailsPairs PenCircles::getNearestPenCirclesToAPoi
         unsigned int const distance) const
 {
     PointAndPenCircleDetailsPairs result;
-    unsigned int minX=static_cast<unsigned int>(clampLowerBound(convertToIntegerThenSubtract(point.getX(), distance), 0));
+    unsigned int minX=static_cast<unsigned int>(clampLowerBound(convertToSignedThenSubtract<int>(point.getX(), distance), 0));
     unsigned int maxX=point.getX()+distance;
-    unsigned int minY=static_cast<unsigned int>(clampLowerBound(convertToIntegerThenSubtract(point.getY(), distance), 0));
+    unsigned int minY=static_cast<unsigned int>(clampLowerBound(convertToSignedThenSubtract<int>(point.getY(), distance), 0));
     unsigned int maxY=point.getY()+distance;
     for(auto const& pointAndPenCircleDetailsPair : m_penCircles)
-    {
-        BitmapXY const& centerPoint(pointAndPenCircleDetailsPair.first);
+    {        BitmapXY const& centerPoint(pointAndPenCircleDetailsPair.first);
         if(minX <= centerPoint.getX() && centerPoint.getX() <= maxX
                 && minY <= centerPoint.getY() && centerPoint.getY() <= maxY)
-        {
-            result.emplace_back(pointAndPenCircleDetailsPair);
+        {            result.emplace_back(pointAndPenCircleDetailsPair);
         }
     }
     return result;

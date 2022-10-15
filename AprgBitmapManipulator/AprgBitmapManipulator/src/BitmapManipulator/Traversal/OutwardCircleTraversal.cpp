@@ -1,17 +1,14 @@
 #include "OutwardCircleTraversal.hpp"
 
-#include <Common/Math/AlbaMathHelper.hpp>
-
-using namespace std;
+#include <Common/Math/Helpers/ComputationHelpers.hpp>
 
 using namespace alba::mathHelper;
+using namespace std;
 
 namespace alba
 {
-
 namespace AprgBitmap
 {
-
 OutwardCircleTraversal::Coordinate::Coordinate(
         unsigned int const firstValue,
         unsigned int const secondValue)
