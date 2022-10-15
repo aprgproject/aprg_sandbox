@@ -1,13 +1,11 @@
 #pragma once
 
-#include <Common/Optional/AlbaOptional.hpp>
+#include <Common/Container/AlbaOptional.hpp>
 #include <Geometry/ThreeDimensions/Point.hpp>
 
 #include <vector>
-
 namespace alba
 {
-
 namespace ThreeDimensions
 {
 
