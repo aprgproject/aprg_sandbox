@@ -1,14 +1,12 @@
 #pragma once
 
-#include <Common/Optional/AlbaOptional.hpp>
+#include <Common/Container/AlbaOptional.hpp>
 #include <Common/String/AlbaStringHelper.hpp>
 
-#include <fstream>
-#include <string>
+#include <fstream>#include <string>
 #include <vector>
 
-namespace alba
-{
+namespace alba{
 
 class RttAnalyzer2
 {

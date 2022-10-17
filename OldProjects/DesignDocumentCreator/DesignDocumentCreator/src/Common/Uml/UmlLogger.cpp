@@ -1,23 +1,21 @@
 #include "UmlLogger.hpp"
 
+#include <Common/Math/Helpers/FactorAndMulitplesHelpers.hpp>
 #include <Common/PathHandler/AlbaLocalPathHandler.hpp>
-#include <Common/Math/AlbaMathHelper.hpp>
 #include <Common/Uml/UmlArrow.hpp>
 #include <Common/Utils/StringHelpers.hpp>
-
 #include <fstream>
 #include <iostream>
 #include <string>
 
-using namespace std;
 using namespace alba;
+using namespace alba::mathHelper;
+using namespace std;
 
 namespace DesignDocumentCreator
 {
-
 UmlLogger::UmlLogger()
 {}
-
 void UmlLogger::logMessage(string const& senderName, string const& receiverName, string const& messageName)
 {
     m_umlLogBuffer<<senderName<<" "<<UmlArrow::getArrowBaseFromMessageName(messageName)<<" "<<receiverName<<" : "<<messageName<<endl;
@@ -93,15 +91,13 @@ unsigned int UmlLogger::getOptimizedTargetLength(stringHelper::strings const& li
         unsigned int totalDifference(0);
         for(string const& lineInNote: linesInNote)
         {
-            totalDifference+=mathHelper::getDifferenceFromGreaterMultiple(targetLength, lineInNote.length());
+            totalDifference+=getDifferenceFromGreaterMultiple(targetLength, lineInNote.length());
         }
         if(smallestDifference>totalDifference)
-        {
-            smallestDifference = totalDifference;
+        {            smallestDifference = totalDifference;
             targetLengthWithSmallestDifference = targetLength;
         }
-    }
-    return targetLengthWithSmallestDifference;
+    }    return targetLengthWithSmallestDifference;
 }
 
 string UmlLogger::getUmlLogsForStart() const
