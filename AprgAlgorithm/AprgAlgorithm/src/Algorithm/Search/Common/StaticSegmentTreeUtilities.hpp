@@ -12,20 +12,19 @@ namespace algorithm
 {
 
 template <typename Index>
-class SegmentTreeUtilities
+class StaticSegmentTreeUtilities
 {
 public:
     // rule of five or six
-    SegmentTreeUtilities() = delete;
-    ~SegmentTreeUtilities() = delete;
-    SegmentTreeUtilities(SegmentTreeUtilities const&) = delete;
-    SegmentTreeUtilities & operator= (SegmentTreeUtilities const&) = delete;
-    SegmentTreeUtilities(SegmentTreeUtilities &&) = delete;
-    SegmentTreeUtilities & operator= (SegmentTreeUtilities &&) = delete;
+    StaticSegmentTreeUtilities() = delete;
+    ~StaticSegmentTreeUtilities() = delete;
+    StaticSegmentTreeUtilities(StaticSegmentTreeUtilities const&) = delete;
+    StaticSegmentTreeUtilities & operator= (StaticSegmentTreeUtilities const&) = delete;
+    StaticSegmentTreeUtilities(StaticSegmentTreeUtilities &&) = delete;
+    StaticSegmentTreeUtilities & operator= (StaticSegmentTreeUtilities &&) = delete;
 
     static constexpr Index ROOT_PARENT=0U; // the first parent
     static constexpr Index NUMBER_OF_CHILDREN=2U; // only 2 children
-
     static inline bool isALeftChild(Index const treeIndex)
     {
         return mathHelper::isOdd(treeIndex);
