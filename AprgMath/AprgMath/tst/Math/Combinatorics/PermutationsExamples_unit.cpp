@@ -35,14 +35,21 @@ TEST(PermutationsExamplesTest, BasicExamplesWorks)
     // All permutations: [Permutations for "1ar2lin3"] / [Permutations to cancel out "ggg"]
     EXPECT_EQ(6720U, getFactorial(8U)/getFactorial(3U));
 
+    // Find the number of permutations of the string "AAAABBBCCD".
+    // Solution: Split the problem in to four parts ("1234567890" and "AAAA" and "BBB" and "CC")
+    // Permutations for "1234567890": Permutations of 10 taken 10
+    // Permutations to cancel out "AAAA": Permutations of 4 taken 4
+    // Permutations to cancel out "BBB": Permutations of 3 taken 3
+    // Permutations to cancel out "CC": Permutations of 2 taken 2
+    // All permutations: [Permutations for "1234567890"] / [Permutations to cancel out "AAAA"] / [Permutations to cancel out "BBB"] / [Permutations to cancel out "CC"]
+    EXPECT_EQ(12600U, getFactorial(10U)/getFactorial(4U)/getFactorial(3U)/getFactorial(2U));
+
     // Find the number of permutations of the 11 letters of the word "mississippi".
     // Solution: Split the problem in to multiple parts ("m123456789A", "iiii", "ssss", "pp")
-    // Permutations for "m123456789A": Permutations of 11 taken 11
-    // Permutations to cancel out "iiii": Permutations of 4 taken 4
+    // Permutations for "m123456789A": Permutations of 11 taken 11    // Permutations to cancel out "iiii": Permutations of 4 taken 4
     // Permutations to cancel out "ssss": Permutations of 4 taken 4
     // Permutations to cancel out "pp": Permutations of 2 taken 2
-    // All permutations: [Permutations for "m123456789A"] / ([Permutations to cancel out "iiii"] * [Permutations to cancel out "ssss"] * [Permutations to cancel out "pp"])
-    EXPECT_EQ(34650U, getFactorial(11U)/(getFactorial(4U)*getFactorial(4U)*getFactorial(2U)));
+    // All permutations: [Permutations for "m123456789A"] / ([Permutations to cancel out "iiii"] * [Permutations to cancel out "ssss"] * [Permutations to cancel out "pp"])    EXPECT_EQ(34650U, getFactorial(11U)/(getFactorial(4U)*getFactorial(4U)*getFactorial(2U)));
 
     // How many ways can four boys and three girls be seated in a row containing seven seats if the boys and girls must alternate?
     // Solution: Split the problem in to two parts (boys and girls)
