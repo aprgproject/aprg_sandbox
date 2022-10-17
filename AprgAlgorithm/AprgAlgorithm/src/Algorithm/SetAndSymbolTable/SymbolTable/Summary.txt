@@ -21,9 +21,8 @@ Hash tables vs Balanced search trees
 Hash tables:
 -> Simpler to code
 -> No effective alternative for unordered keys
--> Faster for simple keys (a few arithmetic ops versus logN compares)
+-> Faster for simple keys (a few arithmetic ops versus log(N) compares)
 
 Balanced search trees:
--> Stronger performance guarantee
--> Support for ordered ST operations
+-> Stronger performance guarantee-> Support for ordered ST operations
 -> Easier to implement compareTo correctly than equals() and hashCode()

@@ -4,15 +4,13 @@
 #include <Algorithm/Sort/LargeSorter/DataBlockFileHandler.hpp>
 #include <Algorithm/Sort/LargeSorter/DataBlockMemoryHandler.hpp>
 #include <Common/Container/AlbaContainerHelper.hpp>
-#include <Common/Optional/AlbaOptional.hpp>
+#include <Common/Container/AlbaOptional.hpp>
 
 #include <algorithm>
-#include <fstream>
-#include <functional>
+#include <fstream>#include <functional>
 #include <string>
 
-namespace alba
-{
+namespace alba{
 
 namespace algorithm
 {
