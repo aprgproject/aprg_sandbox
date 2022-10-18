@@ -4,8 +4,10 @@
 #include <Common/Math/Helpers/ComputationHelpers.hpp>
 
 #include <gtest/gtest.h>
+
 using namespace alba::mathHelper;
 using namespace std;
+
 #define SAMPLE_AUDIO_FILES_DIRECTORY APRG_DIR R"(\AprgAudioManipulator\FilesForTests\SampleAudioFiles\)"
 
 namespace alba

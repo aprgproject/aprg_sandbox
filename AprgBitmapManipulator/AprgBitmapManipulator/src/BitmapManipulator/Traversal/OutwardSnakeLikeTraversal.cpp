@@ -7,8 +7,10 @@ using namespace std;
 
 namespace alba
 {
+
 namespace AprgBitmap
 {
+
 OutwardSnakeLikeTraversal::OutwardSnakeLikeTraversal(
         BitmapXY const& currentPoint,
         Direction const direction,

@@ -26,9 +26,11 @@ TEST(RangeQueryWithAccumulatorLazySegmentTreeTest, GetValueOnIntervalWithMinimum
 
     EXPECT_EQ(0U, sumRangeQuery.getValueOnInterval(0U, 0U));
 }
+
 TEST(RangeQueryWithAccumulatorLazySegmentTreeTest, GetValueOnIntervalWithSumWorksOnExample1)
 {
-    ValuesForTest values{1U, 3U, 4U, 8U, 6U, 1U, 4U, 2U, 9U};    RangeQueryForTest sumRangeQuery(values, plusFunction, minusFunction, 0U);
+    ValuesForTest values{1U, 3U, 4U, 8U, 6U, 1U, 4U, 2U, 9U};
+    RangeQueryForTest sumRangeQuery(values, plusFunction, minusFunction, 0U);
 
     EXPECT_EQ(1U, sumRangeQuery.getValueOnInterval(0U, 0U));
     EXPECT_EQ(4U, sumRangeQuery.getValueOnInterval(0U, 1U));

@@ -7,8 +7,10 @@ using namespace std;
 
 namespace alba
 {
+
 namespace AprgBitmap
 {
+
 OutwardCircleTraversal::Coordinate::Coordinate(
         unsigned int const firstValue,
         unsigned int const secondValue)

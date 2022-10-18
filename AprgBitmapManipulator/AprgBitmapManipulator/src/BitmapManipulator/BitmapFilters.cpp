@@ -14,10 +14,12 @@
 
 using namespace alba::AprgBitmap::ColorUtilities;
 using namespace alba::mathHelper;
-using namespace alba::TwoDimensions;using namespace std;
+using namespace alba::TwoDimensions;
+using namespace std;
 
 namespace alba
 {
+
 namespace AprgBitmap
 {
 

@@ -4,8 +4,10 @@
 #include <Common/Math/Helpers/SignRelatedHelpers.hpp>
 
 using namespace alba::mathHelper;
+
 namespace alba
 {
+
 namespace AprgBitmap
 {
 
@@ -58,10 +60,12 @@ PenCircles::PointAndPenCircleDetailsPairs PenCircles::getNearestPenCirclesToAPoi
     unsigned int minY=static_cast<unsigned int>(clampLowerBound(convertToSignedThenSubtract<int>(point.getY(), distance), 0));
     unsigned int maxY=point.getY()+distance;
     for(auto const& pointAndPenCircleDetailsPair : m_penCircles)
-    {        BitmapXY const& centerPoint(pointAndPenCircleDetailsPair.first);
+    {
+        BitmapXY const& centerPoint(pointAndPenCircleDetailsPair.first);
         if(minX <= centerPoint.getX() && centerPoint.getX() <= maxX
                 && minY <= centerPoint.getY() && centerPoint.getY() <= maxY)
-        {            result.emplace_back(pointAndPenCircleDetailsPair);
+        {
+            result.emplace_back(pointAndPenCircleDetailsPair);
         }
     }
     return result;

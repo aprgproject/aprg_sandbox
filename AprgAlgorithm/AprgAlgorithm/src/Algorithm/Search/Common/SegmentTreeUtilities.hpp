@@ -1,9 +1,8 @@
 #pragma once
 
+#include <Common/Math/Helpers/DivisibilityHelpers.hpp>
 #include <Common/Math/Helpers/LogarithmHelpers.hpp>
 #include <Common/Math/Helpers/PowerHelpers.hpp>
-
-#include <functional>
 
 namespace alba
 {
@@ -12,19 +11,20 @@ namespace algorithm
 {
 
 template <typename Index>
-class StaticSegmentTreeUtilities
+class SegmentTreeUtilities
 {
 public:
     // rule of five or six
-    StaticSegmentTreeUtilities() = delete;
-    ~StaticSegmentTreeUtilities() = delete;
-    StaticSegmentTreeUtilities(StaticSegmentTreeUtilities const&) = delete;
-    StaticSegmentTreeUtilities & operator= (StaticSegmentTreeUtilities const&) = delete;
-    StaticSegmentTreeUtilities(StaticSegmentTreeUtilities &&) = delete;
-    StaticSegmentTreeUtilities & operator= (StaticSegmentTreeUtilities &&) = delete;
+    SegmentTreeUtilities() = delete;
+    ~SegmentTreeUtilities() = delete;
+    SegmentTreeUtilities(SegmentTreeUtilities const&) = delete;
+    SegmentTreeUtilities & operator= (SegmentTreeUtilities const&) = delete;
+    SegmentTreeUtilities(SegmentTreeUtilities &&) = delete;
+    SegmentTreeUtilities & operator= (SegmentTreeUtilities &&) = delete;
 
     static constexpr Index ROOT_PARENT=0U; // the first parent
     static constexpr Index NUMBER_OF_CHILDREN=2U; // only 2 children
+
     static inline bool isALeftChild(Index const treeIndex)
     {
         return mathHelper::isOdd(treeIndex);
@@ -40,12 +40,12 @@ public:
         return ((treeIndex+1)/NUMBER_OF_CHILDREN)-1;
     }
 
-    static inline Index getFirstChild(Index const parent)
+    static inline Index getLeftChild(Index const parent)
     {
         return (parent*NUMBER_OF_CHILDREN)+1;
     }
 
-    static inline Index getSecondChild(Index const parent)
+    static inline Index getRightChild(Index const parent)
     {
         return (parent*NUMBER_OF_CHILDREN)+2;
     }

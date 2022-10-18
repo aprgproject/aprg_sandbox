@@ -6,9 +6,11 @@
 
 #include <ostream>
 #include <string>
+
 using std::string;
 using std::ostream;
 using alba::AlbaOptional;
+
 namespace codeReview
 {
 

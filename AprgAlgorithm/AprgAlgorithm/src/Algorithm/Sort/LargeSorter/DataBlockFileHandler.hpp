@@ -3,10 +3,12 @@
 #include <Common/Container/AlbaOptional.hpp>
 #include <Common/PathHandler/AlbaLocalPathHandler.hpp>
 
-#include <fstream>#include <string>
+#include <fstream>
+#include <string>
 
 namespace alba
 {
+
 namespace algorithm
 {
 

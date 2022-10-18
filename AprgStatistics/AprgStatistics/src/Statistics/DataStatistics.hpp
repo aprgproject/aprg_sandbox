@@ -3,8 +3,10 @@
 #include <Common/Container/AlbaOptional.hpp>
 #include <Statistics/DataSample.hpp>
 #include <Statistics/DataStatisticsUtilities.hpp>
+
 #include <algorithm>
 #include <functional>
+
 namespace alba
 {
 

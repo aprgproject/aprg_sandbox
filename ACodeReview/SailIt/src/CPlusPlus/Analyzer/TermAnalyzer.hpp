@@ -9,9 +9,11 @@
 
 #include <string>
 #include <unordered_map>
+
 using std::string;
 
-#define T(...) Term(__VA_ARGS__)#define TC(...) TermChecker(__VA_ARGS__)
+#define T(...) Term(__VA_ARGS__)
+#define TC(...) TermChecker(__VA_ARGS__)
 
 //#define DBGFLAG 2
 #if DBGFLAG == 3

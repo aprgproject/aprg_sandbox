@@ -7,9 +7,11 @@
 
 #include <ostream>
 #include <string>
+
 using std::ostream;
 using std::string;
 using alba::AlbaOptional;
+
 namespace codeReview
 {
 

@@ -10,8 +10,10 @@ using namespace alba::mathHelper;
 
 namespace alba
 {
+
 namespace AprgBitmap
 {
+
 bool isInitialLabel(unsigned int const label)
 {
     return label==INITIAL_LABEL_VALUE;
@@ -33,9 +35,11 @@ uint32_t getLabelColor(unsigned int const label)
     double newValue = (static_cast<double>(1)/label) * pow(10, digits+8);
     return getColorValueOnly(static_cast<uint32_t>(newValue) % 0xFFFFFF);
 }
+
 unsigned int LabelForPoints::getLabel(BitmapXY const& point) const
 {
-    unsigned int label(INITIAL_LABEL_VALUE);    PixelsToLabelsMap::const_iterator it = m_pixelsTolabelsMap.find(point);
+    unsigned int label(INITIAL_LABEL_VALUE);
+    PixelsToLabelsMap::const_iterator it = m_pixelsTolabelsMap.find(point);
     if(it != m_pixelsTolabelsMap.cend())
     {
         label = it->second;

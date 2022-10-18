@@ -3,10 +3,12 @@
 #include <Common/Container/AlbaOptional.hpp>
 #include <GrepStringEvaluator/AlbaGrepStringEvaluator.hpp>
 
-#include <functional>#include <string>
+#include <functional>
+#include <string>
 
 namespace alba
 {
+
 class AlbaGrepFile
 {
 public:

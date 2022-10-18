@@ -4,8 +4,10 @@
 #include <Geometry/TwoDimensions/Point.hpp>
 
 #include <functional>
+
 namespace alba
 {
+
 namespace TwoDimensions
 {
 

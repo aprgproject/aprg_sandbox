@@ -46,10 +46,12 @@ TEST(PermutationsExamplesTest, BasicExamplesWorks)
 
     // Find the number of permutations of the 11 letters of the word "mississippi".
     // Solution: Split the problem in to multiple parts ("m123456789A", "iiii", "ssss", "pp")
-    // Permutations for "m123456789A": Permutations of 11 taken 11    // Permutations to cancel out "iiii": Permutations of 4 taken 4
+    // Permutations for "m123456789A": Permutations of 11 taken 11
+    // Permutations to cancel out "iiii": Permutations of 4 taken 4
     // Permutations to cancel out "ssss": Permutations of 4 taken 4
     // Permutations to cancel out "pp": Permutations of 2 taken 2
-    // All permutations: [Permutations for "m123456789A"] / ([Permutations to cancel out "iiii"] * [Permutations to cancel out "ssss"] * [Permutations to cancel out "pp"])    EXPECT_EQ(34650U, getFactorial(11U)/(getFactorial(4U)*getFactorial(4U)*getFactorial(2U)));
+    // All permutations: [Permutations for "m123456789A"] / ([Permutations to cancel out "iiii"] * [Permutations to cancel out "ssss"] * [Permutations to cancel out "pp"])
+    EXPECT_EQ(34650U, getFactorial(11U)/(getFactorial(4U)*getFactorial(4U)*getFactorial(2U)));
 
     // How many ways can four boys and three girls be seated in a row containing seven seats if the boys and girls must alternate?
     // Solution: Split the problem in to two parts (boys and girls)

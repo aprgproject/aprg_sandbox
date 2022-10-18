@@ -56,16 +56,6 @@ public:
 
 private:
 
-    Index getCeilOfLogarithmWithBase2Of(Index const size) const
-    {
-        return AlbaBitValueUtilities<Index>::getCeilOfLogarithmWithBase2Of(size);
-    }
-
-    Index get2ToThePowerOf(Index const exponent) const
-    {
-        return AlbaBitValueUtilities<Index>::get2ToThePowerOf(exponent);
-    }
-
     void initialize(Values const& valuesToCheck)
     {
         if(!valuesToCheck.empty())
@@ -87,6 +77,16 @@ private:
                 }
             }
         }
+    }
+
+    Index getCeilOfLogarithmWithBase2Of(Index const size) const
+    {
+        return AlbaBitValueUtilities<Index>::getCeilOfLogarithmWithBase2Of(size);
+    }
+
+    Index get2ToThePowerOf(Index const exponent) const
+    {
+        return AlbaBitValueUtilities<Index>::get2ToThePowerOf(exponent);
     }
     ValueMatrix m_selectedValueMatrix; // index by exponent matrix
     SelectorFunction m_selector;

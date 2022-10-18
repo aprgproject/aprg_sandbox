@@ -7,10 +7,12 @@
 #include <Common/Container/AlbaOptional.hpp>
 
 #include <array>
-#include <cstdint>#include <fstream>
+#include <cstdint>
+#include <fstream>
 #include <map>
 
-namespace alba{
+namespace alba
+{
 
 namespace chess
 {

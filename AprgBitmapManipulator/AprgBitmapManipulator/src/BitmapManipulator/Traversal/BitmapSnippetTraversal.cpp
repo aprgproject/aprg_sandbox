@@ -3,8 +3,10 @@
 #include <BitmapManipulator/Utilities.hpp>
 
 using namespace alba::TwoDimensions;
+
 namespace alba
 {
+
 namespace AprgBitmap
 {
 

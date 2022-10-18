@@ -4,10 +4,12 @@
 #include <Common/Container/AlbaOptional.hpp>
 
 #include <map>
-#include <utility>#include <vector>
+#include <utility>
+#include <vector>
 
 namespace alba
 {
+
 namespace AprgAudio
 {
 

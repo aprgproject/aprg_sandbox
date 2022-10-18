@@ -4,8 +4,10 @@
 #include <Common/Container/AlbaOptional.hpp>
 
 #include <vector>
+
 namespace alba
 {
+
 namespace algebra
 {
 

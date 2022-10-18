@@ -29,9 +29,11 @@ RangeQueryForTest::IncrementFunction incrementFunction = [](IndexForTest const i
     return incrementValue;
 };
 }
+
 TEST(RangeQueryWithAccumulatorLazySegmentTreeWithDifferentValuesInUpdateTest, GetValueOnIntervalWithMinimumWorksWithEmptySetOfValues)
 {
-    ValuesForTest values;    RangeQueryForTest sumRangeQuery(values, plusFunction, incrementFunction);
+    ValuesForTest values;
+    RangeQueryForTest sumRangeQuery(values, plusFunction, incrementFunction);
 
     EXPECT_EQ(0U, sumRangeQuery.getValueOnInterval(0U, 0U));
 }

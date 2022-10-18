@@ -181,10 +181,12 @@ public:
         RosterLists subsetsRoster(algorithm::SubsetGenerationUsingRecursion<RosterList>::generateOrderedSubsetsUsingDfs(roster));
         MathSets result;
         for(RosterList const& subsetRoster : subsetsRoster)
-        {            result.emplace_back(subsetRoster);
+        {
+            result.emplace_back(subsetRoster);
         }
         return result;
     }
+
 private:
     void constructSetBasedOnRosterList(RosterList const& rosterList)
     {

@@ -3,10 +3,12 @@
 #include <Common/Container/AlbaOptional.hpp>
 #include <WebCrawler/CrawlMode.hpp>
 
-namespace aprgWebCrawler{
+namespace aprgWebCrawler
+{
 
 struct DownloadLowSpeedLimitConfiguration
-{    int m_lowSpeedLimit;
+{
+    int m_lowSpeedLimit;
     int m_lowSpeedTime;
 };
 typedef alba::AlbaOptional<DownloadLowSpeedLimitConfiguration> DownloadLowSpeedLimitConfigurationOptional;

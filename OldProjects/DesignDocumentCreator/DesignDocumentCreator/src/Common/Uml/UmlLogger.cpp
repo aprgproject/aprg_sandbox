@@ -4,6 +4,7 @@
 #include <Common/PathHandler/AlbaLocalPathHandler.hpp>
 #include <Common/Uml/UmlArrow.hpp>
 #include <Common/Utils/StringHelpers.hpp>
+
 #include <fstream>
 #include <iostream>
 #include <string>
@@ -14,8 +15,10 @@ using namespace std;
 
 namespace DesignDocumentCreator
 {
+
 UmlLogger::UmlLogger()
 {}
+
 void UmlLogger::logMessage(string const& senderName, string const& receiverName, string const& messageName)
 {
     m_umlLogBuffer<<senderName<<" "<<UmlArrow::getArrowBaseFromMessageName(messageName)<<" "<<receiverName<<" : "<<messageName<<endl;
@@ -94,10 +97,12 @@ unsigned int UmlLogger::getOptimizedTargetLength(stringHelper::strings const& li
             totalDifference+=getDifferenceFromGreaterMultiple(targetLength, lineInNote.length());
         }
         if(smallestDifference>totalDifference)
-        {            smallestDifference = totalDifference;
+        {
+            smallestDifference = totalDifference;
             targetLengthWithSmallestDifference = targetLength;
         }
-    }    return targetLengthWithSmallestDifference;
+    }
+    return targetLengthWithSmallestDifference;
 }
 
 string UmlLogger::getUmlLogsForStart() const

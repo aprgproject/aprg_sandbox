@@ -3,10 +3,12 @@
 #include <Common/Container/AlbaOptional.hpp>
 #include <Common/String/AlbaStringHelper.hpp>
 
-#include <fstream>#include <string>
+#include <fstream>
+#include <string>
 #include <vector>
 
-namespace alba{
+namespace alba
+{
 
 struct RttDetails
 {

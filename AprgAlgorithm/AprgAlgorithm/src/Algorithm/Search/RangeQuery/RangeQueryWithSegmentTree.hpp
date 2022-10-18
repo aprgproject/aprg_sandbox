@@ -1,10 +1,12 @@
 #pragma once
 
-#include <Algorithm/Search/Common/StaticSegmentTreeUtilities.hpp>
+#include <Algorithm/Search/Common/SegmentTreeUtilities.hpp>
 
 #include <functional>
+
 namespace alba
 {
+
 namespace algorithm
 {
 
@@ -28,13 +30,15 @@ public:
     using Index = unsigned int;
     using Value = typename Values::value_type;
     using Function = std::function<Value(Value const&, Value const&)>;
-    using Utilities = StaticSegmentTreeUtilities<Index>;
+    using Utilities = SegmentTreeUtilities<Index>;
 
     RangeQueryWithSegmentTree(
-            Values const& valuesToCheck,            Function const& functionObject)
+            Values const& valuesToCheck,
+            Function const& functionObject)
         : m_startOfChildren(0U)
         , m_treeValues()
-        , m_function(functionObject)    {
+        , m_function(functionObject)
+    {
         initialize(valuesToCheck);
     }
 
@@ -59,7 +63,8 @@ public:
         // This has log(N) running time
         Value result{};
         if(start<=end && (m_startOfChildren+start)<m_treeValues.size() && (m_startOfChildren+end)<m_treeValues.size())
-        {            result = getValueOnIntervalFromTopToBottom(start, end, Utilities::ROOT_PARENT, 0, m_startOfChildren); // startOfChildren is size of base too
+        {
+            result = getValueOnIntervalFromTopToBottom(start, end, Utilities::ROOT_PARENT, 0, m_startOfChildren); // startOfChildren is size of base too
         }
         return result;
     }
@@ -69,17 +74,51 @@ public:
         // This has log(N) running time
         changeValueAtIndexFromBottomToTop(index, newValue);
     }
+
 protected:
+
+    void initialize(Values const& valuesToCheck)
+    {
+        if(!valuesToCheck.empty())
+        {
+            m_startOfChildren = Utilities::getMinimumNumberOfParents(valuesToCheck.size());
+            Index totalSize = m_startOfChildren + valuesToCheck.size();
+
+            m_treeValues.resize(totalSize);
+            m_treeValues.shrink_to_fit();
+            std::copy(valuesToCheck.cbegin(), valuesToCheck.cend(), m_treeValues.begin()+m_startOfChildren); // copy children
+
+            Index treeBaseLeft(m_startOfChildren);
+            Index treeBaseRight(totalSize-1);
+            while(treeBaseLeft<treeBaseRight) // fill up parent values
+            {
+                Index treeBaseRightComplete = treeBaseRight;
+                if(Utilities::isALeftChild(treeBaseRight)) // incomplete pair
+                {
+                    m_treeValues[Utilities::getParent(treeBaseRight)] = m_treeValues.at(treeBaseRight);
+                    treeBaseRightComplete--;
+                }
+                for(Index treeIndex=treeBaseLeft; treeIndex<treeBaseRightComplete; treeIndex+=Utilities::NUMBER_OF_CHILDREN) // complete pairs
+                {
+                    m_treeValues[Utilities::getParent(treeIndex)] = m_function(m_treeValues.at(treeIndex), m_treeValues.at(treeIndex+1));
+                }
+                treeBaseLeft = Utilities::getParent(treeBaseLeft);
+                treeBaseRight = Utilities::getParent(treeBaseRight);
+            }
+        }
+    }
 
     Value getValueOnIntervalFromBottomToTop(Index const start, Index const end) const
     {
         // This has log(N) running time
         Value result{};
         Index first(m_startOfChildren+start);
-        Index last(m_startOfChildren+end);        if(first<=last && first<m_treeValues.size() && last<m_treeValues.size())
+        Index last(m_startOfChildren+end);
+        if(first<=last && first<m_treeValues.size() && last<m_treeValues.size())
         {
             result = m_treeValues.at(first++);
-            while(first < last)            {
+            while(first < last)
+            {
                 if(Utilities::isARightChild(first))
                 {
                     result = m_function(result, m_treeValues.at(first++)); // move to next value (right) because current value is added
@@ -109,10 +148,12 @@ protected:
         // This has log(N) running time
 
         // The parameter k indicates the current position in tree.
-        // Initially k equals 1, because we begin at the root of the tree.        // The range [x, y] corresponds to k and is initially [0,n-1].
+        // Initially k equals 1, because we begin at the root of the tree.
+        // The range [x, y] corresponds to k and is initially [0,n-1].
         // When calculating the sum, if [x, y] is outside [a,b], the sum is 0, and if [x, y] is completely inside [a,b], the sum can be found in tree.
         // If [x, y] is partially inside [a,b], the search continues recursively to the left and right half of [x, y].
         // The left half is [x,d] and the right half is [d+1, y] where d = floor((x+y)/2).
+
         Value result{};
         if(startInterval<=baseLeft && baseRight<=endInterval)
         {
@@ -126,59 +167,32 @@ protected:
             if(!isLeftPartOutside && !isRightPartOutside)
             {
                 result = m_function(
-                            getValueOnIntervalFromTopToBottom(startInterval, endInterval, Utilities::getFirstChild(currentChild), baseLeft, baseMidPoint),
-                            getValueOnIntervalFromTopToBottom(startInterval, endInterval, Utilities::getSecondChild(currentChild), baseMidPoint+1, baseRight));
+                            getValueOnIntervalFromTopToBottom(startInterval, endInterval, Utilities::getLeftChild(currentChild), baseLeft, baseMidPoint),
+                            getValueOnIntervalFromTopToBottom(startInterval, endInterval, Utilities::getRightChild(currentChild), baseMidPoint+1, baseRight));
             }
             else if(!isLeftPartOutside && isRightPartOutside)
             {
-                result = getValueOnIntervalFromTopToBottom(startInterval, endInterval, Utilities::getFirstChild(currentChild), baseLeft, baseMidPoint);
+                result = getValueOnIntervalFromTopToBottom(startInterval, endInterval, Utilities::getLeftChild(currentChild), baseLeft, baseMidPoint);
             }
             else if(isLeftPartOutside && !isRightPartOutside)
             {
-                result = getValueOnIntervalFromTopToBottom(startInterval, endInterval, Utilities::getSecondChild(currentChild), baseMidPoint+1, baseRight);
+                result = getValueOnIntervalFromTopToBottom(startInterval, endInterval, Utilities::getRightChild(currentChild), baseMidPoint+1, baseRight);
             }
         }
         return result;
     }
-
-    void initialize(Values const& valuesToCheck)
-    {
-        if(!valuesToCheck.empty())
-        {
-            m_startOfChildren = Utilities::getMinimumNumberOfParents(valuesToCheck.size());
-            Index totalSize = m_startOfChildren + valuesToCheck.size();
-
-            m_treeValues.resize(totalSize);
-            m_treeValues.shrink_to_fit();
-            std::copy(valuesToCheck.cbegin(), valuesToCheck.cend(), m_treeValues.begin()+m_startOfChildren); // copy children
-
-            Index treeBaseLeft(m_startOfChildren);
-            Index treeBaseRight(totalSize-1);
-            while(treeBaseLeft<treeBaseRight) // fill up parent values
-            {
-                Index treeBaseRightComplete = treeBaseRight;
-                if(Utilities::isALeftChild(treeBaseRight)) // incomplete pair
-                {
-                    m_treeValues[Utilities::getParent(treeBaseRight)] = m_treeValues.at(treeBaseRight);
-                    treeBaseRightComplete--;
-                }
-                for(Index treeIndex=treeBaseLeft; treeIndex<treeBaseRightComplete; treeIndex+=Utilities::NUMBER_OF_CHILDREN) // complete pairs
-                {
-                    m_treeValues[Utilities::getParent(treeIndex)] = m_function(m_treeValues.at(treeIndex), m_treeValues.at(treeIndex+1));
-                }                treeBaseLeft = Utilities::getParent(treeBaseLeft);
-                treeBaseRight = Utilities::getParent(treeBaseRight);
-            }
-        }    }
 
     void changeValueAtIndexFromBottomToTop(Index const index, Value const newValue)
     {
         // This has log(N) running time
         Index treeIndex(m_startOfChildren+index);
         if(treeIndex < m_treeValues.size())
-        {            m_treeValues[treeIndex] = newValue;
+        {
+            m_treeValues[treeIndex] = newValue;
             if(m_treeValues.size() > 2U)
             {
-                while(treeIndex>0)                {
+                while(treeIndex>0)
+                {
                     Index parentIndex(Utilities::getParent(treeIndex));
                     if(Utilities::isALeftChild(treeIndex))
                     {

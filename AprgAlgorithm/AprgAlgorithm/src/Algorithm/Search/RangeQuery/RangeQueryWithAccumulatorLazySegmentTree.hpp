@@ -114,16 +114,16 @@ private:
             if(!isLeftPartOutside && !isRightPartOutside)
             {
                 result = b_function(
-                            getValueOnIntervalFromTopToBottom(startInterval, endInterval, Utilities::getFirstChild(currentChild), baseLeft, baseMidPoint),
-                            getValueOnIntervalFromTopToBottom(startInterval, endInterval, Utilities::getSecondChild(currentChild), baseMidPoint+1, baseRight));
+                            getValueOnIntervalFromTopToBottom(startInterval, endInterval, Utilities::getLeftChild(currentChild), baseLeft, baseMidPoint),
+                            getValueOnIntervalFromTopToBottom(startInterval, endInterval, Utilities::getRightChild(currentChild), baseMidPoint+1, baseRight));
             }
             else if(!isLeftPartOutside && isRightPartOutside)
             {
-                result = getValueOnIntervalFromTopToBottom(startInterval, endInterval, Utilities::getFirstChild(currentChild), baseLeft, baseMidPoint);
+                result = getValueOnIntervalFromTopToBottom(startInterval, endInterval, Utilities::getLeftChild(currentChild), baseLeft, baseMidPoint);
             }
             else if(isLeftPartOutside && !isRightPartOutside)
             {
-                result = getValueOnIntervalFromTopToBottom(startInterval, endInterval, Utilities::getSecondChild(currentChild), baseMidPoint+1, baseRight);
+                result = getValueOnIntervalFromTopToBottom(startInterval, endInterval, Utilities::getRightChild(currentChild), baseMidPoint+1, baseRight);
             }
         }
         return result;
@@ -171,16 +171,16 @@ private:
             bool isRightPartOutside = endInterval<baseMidPoint+1 || startInterval>baseRight;
             if(!isLeftPartOutside && !isRightPartOutside)
             {
-                increaseAtRangeFromTopToBottom(startInterval, endInterval, Utilities::getFirstChild(currentChild), baseLeft, baseMidPoint, incrementValue);
-                increaseAtRangeFromTopToBottom(startInterval, endInterval, Utilities::getSecondChild(currentChild), baseMidPoint+1, baseRight, incrementValue);
+                increaseAtRangeFromTopToBottom(startInterval, endInterval, Utilities::getLeftChild(currentChild), baseLeft, baseMidPoint, incrementValue);
+                increaseAtRangeFromTopToBottom(startInterval, endInterval, Utilities::getRightChild(currentChild), baseMidPoint+1, baseRight, incrementValue);
             }
             else if(!isLeftPartOutside && isRightPartOutside)
             {
-                increaseAtRangeFromTopToBottom(startInterval, endInterval, Utilities::getFirstChild(currentChild), baseLeft, baseMidPoint, incrementValue);
+                increaseAtRangeFromTopToBottom(startInterval, endInterval, Utilities::getLeftChild(currentChild), baseLeft, baseMidPoint, incrementValue);
             }
             else if(isLeftPartOutside && !isRightPartOutside)
             {
-                increaseAtRangeFromTopToBottom(startInterval, endInterval, Utilities::getSecondChild(currentChild), baseMidPoint+1, baseRight, incrementValue);
+                increaseAtRangeFromTopToBottom(startInterval, endInterval, Utilities::getRightChild(currentChild), baseMidPoint+1, baseRight, incrementValue);
             }
         }
     }
@@ -201,23 +201,23 @@ private:
             if(m_identityValue != pendingUpdate)
             {
                 incrementMultipleTimes(b_treeValues[index], pendingUpdate, baseRight+1-baseLeft);
-                Index firstChild = Utilities::getFirstChild(index);
-                Index secondChild = Utilities::getSecondChild(index);
-                if(isAParent(firstChild))
+                Index leftChild = Utilities::getLeftChild(index);
+                Index rightChild = Utilities::getRightChild(index);
+                if(isAParent(leftChild))
                 {
-                    increment(m_pendingUpdates[firstChild], pendingUpdate);
+                    increment(m_pendingUpdates[leftChild], pendingUpdate);
                 }
                 else
                 {
-                    increment(b_treeValues[firstChild], pendingUpdate);
+                    increment(b_treeValues[leftChild], pendingUpdate);
                 }
-                if(isAParent(secondChild))
+                if(isAParent(rightChild))
                 {
-                    increment(m_pendingUpdates[secondChild], pendingUpdate);
+                    increment(m_pendingUpdates[rightChild], pendingUpdate);
                 }
                 else
                 {
-                    increment(b_treeValues[secondChild], pendingUpdate);
+                    increment(b_treeValues[rightChild], pendingUpdate);
                 }
                 pendingUpdate = m_identityValue;
             }

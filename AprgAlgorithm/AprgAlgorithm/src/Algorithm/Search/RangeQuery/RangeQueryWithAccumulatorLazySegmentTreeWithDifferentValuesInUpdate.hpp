@@ -83,16 +83,16 @@ private:
             if(!isLeftPartOutside && !isRightPartOutside)
             {
                 result = b_function(
-                            getValueOnIntervalFromTopToBottom(startInterval, endInterval, Utilities::getFirstChild(currentChild), baseLeft, baseMidPoint),
-                            getValueOnIntervalFromTopToBottom(startInterval, endInterval, Utilities::getSecondChild(currentChild), baseMidPoint+1, baseRight));
+                            getValueOnIntervalFromTopToBottom(startInterval, endInterval, Utilities::getLeftChild(currentChild), baseLeft, baseMidPoint),
+                            getValueOnIntervalFromTopToBottom(startInterval, endInterval, Utilities::getRightChild(currentChild), baseMidPoint+1, baseRight));
             }
             else if(!isLeftPartOutside && isRightPartOutside)
             {
-                result = getValueOnIntervalFromTopToBottom(startInterval, endInterval, Utilities::getFirstChild(currentChild), baseLeft, baseMidPoint);
+                result = getValueOnIntervalFromTopToBottom(startInterval, endInterval, Utilities::getLeftChild(currentChild), baseLeft, baseMidPoint);
             }
             else if(isLeftPartOutside && !isRightPartOutside)
             {
-                result = getValueOnIntervalFromTopToBottom(startInterval, endInterval, Utilities::getSecondChild(currentChild), baseMidPoint+1, baseRight);
+                result = getValueOnIntervalFromTopToBottom(startInterval, endInterval, Utilities::getRightChild(currentChild), baseMidPoint+1, baseRight);
             }
         }
         return result;
@@ -127,16 +127,16 @@ private:
             bool isRightPartOutside = endInterval<baseMidPoint+1 || startInterval>baseRight;
             if(!isLeftPartOutside && !isRightPartOutside)
             {
-                increaseAtRangeFromTopToBottom(startInterval, endInterval, Utilities::getFirstChild(currentChild), baseLeft, baseMidPoint);
-                increaseAtRangeFromTopToBottom(startInterval, endInterval, Utilities::getSecondChild(currentChild), baseMidPoint+1, baseRight);
+                increaseAtRangeFromTopToBottom(startInterval, endInterval, Utilities::getLeftChild(currentChild), baseLeft, baseMidPoint);
+                increaseAtRangeFromTopToBottom(startInterval, endInterval, Utilities::getRightChild(currentChild), baseMidPoint+1, baseRight);
             }
             else if(!isLeftPartOutside && isRightPartOutside)
             {
-                increaseAtRangeFromTopToBottom(startInterval, endInterval, Utilities::getFirstChild(currentChild), baseLeft, baseMidPoint);
+                increaseAtRangeFromTopToBottom(startInterval, endInterval, Utilities::getLeftChild(currentChild), baseLeft, baseMidPoint);
             }
             else if(isLeftPartOutside && !isRightPartOutside)
             {
-                increaseAtRangeFromTopToBottom(startInterval, endInterval, Utilities::getSecondChild(currentChild), baseMidPoint+1, baseRight);
+                increaseAtRangeFromTopToBottom(startInterval, endInterval, Utilities::getRightChild(currentChild), baseMidPoint+1, baseRight);
             }
         }
     }
@@ -152,26 +152,26 @@ private:
             if(startIndexForPendingUpdate.hasContent())
             {
                 increment(b_treeValues[index], startIndexForPendingUpdate.get(), baseLeft, baseRight);
-                Index firstChild = Utilities::getFirstChild(index);
-                Index secondChild = Utilities::getSecondChild(index);
+                Index leftChild = Utilities::getLeftChild(index);
+                Index rightChild = Utilities::getRightChild(index);
                 Index baseMidPoint = (baseLeft+baseRight)/2;
-                if(isAParent(firstChild))
+                if(isAParent(leftChild))
                 {
-                    performUpdateAtIndexIfNeeded(firstChild, baseLeft, baseMidPoint);
-                    m_startIndexesForPendingUpdates[firstChild] = startIndexForPendingUpdate; // copy pending update to children
+                    performUpdateAtIndexIfNeeded(leftChild, baseLeft, baseMidPoint);
+                    m_startIndexesForPendingUpdates[leftChild] = startIndexForPendingUpdate; // copy pending update to children
                 }
                 else
                 {
-                    increment(b_treeValues[firstChild], startIndexForPendingUpdate.get(), baseLeft, baseMidPoint);
+                    increment(b_treeValues[leftChild], startIndexForPendingUpdate.get(), baseLeft, baseMidPoint);
                 }
-                if(isAParent(secondChild))
+                if(isAParent(rightChild))
                 {
-                    performUpdateAtIndexIfNeeded(secondChild, baseMidPoint+1, baseRight);
-                    m_startIndexesForPendingUpdates[secondChild] = startIndexForPendingUpdate; // copy pending update to children
+                    performUpdateAtIndexIfNeeded(rightChild, baseMidPoint+1, baseRight);
+                    m_startIndexesForPendingUpdates[rightChild] = startIndexForPendingUpdate; // copy pending update to children
                 }
                 else
                 {
-                    increment(b_treeValues[secondChild], startIndexForPendingUpdate.get(), baseMidPoint+1, baseRight);
+                    increment(b_treeValues[rightChild], startIndexForPendingUpdate.get(), baseMidPoint+1, baseRight);
                 }
                 startIndexForPendingUpdate.clear();
             }

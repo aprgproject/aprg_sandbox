@@ -3,10 +3,12 @@
 #include <Common/Container/AlbaOptional.hpp>
 #include <Geometry/ThreeDimensions/Point.hpp>
 
-namespace alba{
+namespace alba
+{
 
 namespace ThreeDimensions
 {
+
 class Sphere
 {
 public:
