@@ -45,23 +45,20 @@ public:
         Value result{};
         if(start<=end && (b_startOfChildren+start)<b_treeValues.size() && (b_startOfChildren+end)<b_treeValues.size())
         {
-            result = getValueOnIntervalFromTopToBottom(start, end, Utilities::ROOT_PARENT, 0, b_startOfChildren); // startOfChildren is size of base too
+            result = getValueOnIntervalFromTopToBottom(start, end, Utilities::ROOT_PARENT_INDEX, 0, b_startOfChildren); // startOfChildren is size of base too
         }
         return result;
     }
-
     void increaseAtRange(Index const start, Index const end)
     {
         if(start<=end && (b_startOfChildren+start)<b_treeValues.size() && (b_startOfChildren+end)<b_treeValues.size())
         {
-            increaseAtRangeFromTopToBottom(start, end, Utilities::ROOT_PARENT, 0, b_startOfChildren); // startOfChildren is size of base too
+            increaseAtRangeFromTopToBottom(start, end, Utilities::ROOT_PARENT_INDEX, 0, b_startOfChildren); // startOfChildren is size of base too
         }
     }
-
 private:
 
-    Value getValueOnIntervalFromTopToBottom(
-            Index const startInterval,
+    Value getValueOnIntervalFromTopToBottom(            Index const startInterval,
             Index const endInterval,
             Index const currentChild,
             Index const baseLeft,

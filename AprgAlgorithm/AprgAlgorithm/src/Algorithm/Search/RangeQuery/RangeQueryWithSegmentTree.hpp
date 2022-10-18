@@ -64,15 +64,13 @@ public:
         Value result{};
         if(start<=end && (m_startOfChildren+start)<m_treeValues.size() && (m_startOfChildren+end)<m_treeValues.size())
         {
-            result = getValueOnIntervalFromTopToBottom(start, end, Utilities::ROOT_PARENT, 0, m_startOfChildren); // startOfChildren is size of base too
+            result = getValueOnIntervalFromTopToBottom(start, end, Utilities::ROOT_PARENT_INDEX, 0, m_startOfChildren); // startOfChildren is size of base too
         }
         return result;
     }
-
     void changeValueAtIndex(Index const index, Value const newValue)
     {
-        // This has log(N) running time
-        changeValueAtIndexFromBottomToTop(index, newValue);
+        // This has log(N) running time        changeValueAtIndexFromBottomToTop(index, newValue);
     }
 
 protected:

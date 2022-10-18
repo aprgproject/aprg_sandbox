@@ -30,15 +30,13 @@ public:
         Index result{};
         if(m_startOfChildren+index<m_treeSums.size())
         {
-            result = getNextFreeIndexAt(index, Utilities::ROOT_PARENT, 0, m_startOfChildren); // startOfChildren is size of base too
+            result = getNextFreeIndexAt(index, Utilities::ROOT_PARENT_INDEX, 0, m_startOfChildren); // startOfChildren is size of base too
         }
         return result;
     }
-
     void setAsNotFree(Index const index)
     {
-        m_segmentTree.changeValueAtIndex(index, 0);
-    }
+        m_segmentTree.changeValueAtIndex(index, 0);    }
 
     void setAsFree(Index const index)
     {
