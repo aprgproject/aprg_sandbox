@@ -15,15 +15,29 @@ template <typename Value>
 class RangeQueryWithSparseSegmentTree
 {
 public:
+    // This supports "selector" and "accumulator" type queries.
+
+    // A dynamic segment tree is useful when the underlying array is sparse, i.e.,
+    // the range [0,n¡1] of allowed indices is large,  but most array values are zeros.
+    // While an ordinary segment tree uses O(n) memory, a dynamic segment tree only uses O(klogn) memory,
+    // where k is the number of operations performed.
+
+    // A sparse segment tree initially has only one node [0,n-1] whose value is zero, which means that every array value is zero.
+    // After updates, new nodes are dynamically added to the tree.
+
+    // Any path from the root node to a leaf contains O(logn) nodes, so each operation adds at most O(logn) new nodes to the tree.
+    // Thus, after k operations, the tree contains at most O(klogn) nodes.
+
+    // Note that if we know all elements to be updated at the beginning of the algorithm,
+    // a dynamic segment tree is not necessary, because we can use an ordinary segment tree with index compression.
+    // However, this is not possible when the indices are generated during the algorithm
 
     using Index = unsigned int;
     using Function = std::function<Value(Value const&, Value const&)>;
-    using Utilities = SegmentTreeUtilities<Index>;
-    using Node = DynamicSegmentTreeNode<Index, Value>;
+    using Utilities = SegmentTreeUtilities<Index>;    using Node = DynamicSegmentTreeNode<Index, Value>;
     using NodePointer = std::unique_ptr<Node>;
 
-    RangeQueryWithSparseSegmentTree(
-            Index const numberOfValues,
+    RangeQueryWithSparseSegmentTree(            Index const numberOfValues,
             Value const defaultValue,
             Function const& functionObject)
         : m_numberOfValues(numberOfValues)
@@ -34,16 +48,12 @@ public:
         initialize();
     }
 
-    // This supports "selector" and "accumulator" type queries.
-
     Value getValueOnInterval(Index const start, Index const end)
     {
-        // This has log(N) running time
-        Value result{};
+        // This has log(N) running time        Value result{};
         if(start<=end && start<m_numberOfValues && end<m_numberOfValues)
         {
-            result = getValueOnIntervalFromTopToBottom(start, end, m_root, 0, m_maxChildrenIndex);
-        }
+            result = getValueOnIntervalFromTopToBottom(start, end, m_root, 0, m_maxChildrenIndex);        }
         return result;
     }
 
