@@ -1,4 +1,4 @@
-#include <Algorithm/Search/RangeQuery/RangeQueryWithSegmentTree.hpp>
+#include <Algorithm/Search/RangeQuery/SegmentTree/RangeQueryWithSegmentTree.hpp>
 
 #include <gtest/gtest.h>
 

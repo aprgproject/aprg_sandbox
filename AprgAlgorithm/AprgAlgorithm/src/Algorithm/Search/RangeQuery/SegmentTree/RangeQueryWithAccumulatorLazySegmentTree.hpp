@@ -1,7 +1,7 @@
 #pragma once
 
 #include <Common/Math/Helpers/DivisibilityHelpers.hpp>
-#include <Algorithm/Search/RangeQuery/RangeQueryWithSegmentTree.hpp>
+#include <Algorithm/Search/RangeQuery/SegmentTree/RangeQueryWithSegmentTree.hpp>
 
 namespace alba
 {
@@ -66,6 +66,7 @@ public:
         }
         return result;
     }
+
     void increaseAtRange(Index const start, Index const end, Value const incrementValue)
     {
         if(start<=end && (b_startOfChildren+start)<b_treeValues.size() && (b_startOfChildren+end)<b_treeValues.size())
@@ -73,9 +74,11 @@ public:
             increaseAtRangeFromTopToBottom(start, end, Utilities::ROOT_PARENT_INDEX, 0, b_startOfChildren, incrementValue); // startOfChildren is size of base too
         }
     }
+
     void changeValueAtIndex(Index const index, Value const newValue)
     {
-        // This has logN running time        Index childIndex = b_startOfChildren+index;
+        // This has logN running time
+        Index childIndex = b_startOfChildren+index;
         if(childIndex<b_treeValues.size())
         {
             increaseAtRange(index, index, m_inverseFunction(newValue, b_treeValues.at(childIndex))); // startOfChildren is size of base too

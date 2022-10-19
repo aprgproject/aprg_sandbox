@@ -1,6 +1,6 @@
 #pragma once
 
-#include <Algorithm/Search/RangeQuery/RangeQueryWithSegmentTree.hpp>
+#include <Algorithm/Search/RangeQuery/SegmentTree/RangeQueryWithSegmentTree.hpp>
 
 namespace alba
 {
@@ -34,9 +34,11 @@ public:
         }
         return result;
     }
+
     void setAsNotFree(Index const index)
     {
-        m_segmentTree.changeValueAtIndex(index, 0);    }
+        m_segmentTree.changeValueAtIndex(index, 0);
+    }
 
     void setAsFree(Index const index)
     {

@@ -1,4 +1,4 @@
-#include <Algorithm/Search/RangeQuery/RangeQueryWithSegmentTree.hpp>
+#include <Algorithm/Search/RangeQuery/SegmentTree/RangeQueryWithSegmentTree.hpp>
 
 #include <gtest/gtest.h>
 
@@ -53,9 +53,11 @@ TEST(RangeQueryWithSegmentTreeTest, GetValueOnIntervalWithMinimumWorksWithEmptyS
 
     EXPECT_EQ(0U, minimumRangeQuery.getValueOnInterval(0U, 0U));
 }
+
 TEST(RangeQueryWithSegmentTreeTest, GetValueOnIntervalWithMinimumWorksOnExample1)
 {
-    ValuesForTest values{5U, 9U, 4U, 8U, 6U, 1U, 4U, 2U, 0U};    RangeQueryForTest minimumRangeQuery(values, minimumFunction);
+    ValuesForTest values{5U, 9U, 4U, 8U, 6U, 1U, 4U, 2U, 0U};
+    RangeQueryForTest minimumRangeQuery(values, minimumFunction);
 
     EXPECT_EQ(5U, minimumRangeQuery.getValueOnInterval(0U, 0U));
     EXPECT_EQ(5U, minimumRangeQuery.getValueOnInterval(0U, 1U));

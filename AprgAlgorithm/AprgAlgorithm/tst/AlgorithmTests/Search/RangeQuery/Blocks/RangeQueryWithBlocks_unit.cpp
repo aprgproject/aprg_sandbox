@@ -1,4 +1,4 @@
-#include <Algorithm/Search/RangeQuery/RangeQueryWithBlocks.hpp>
+#include <Algorithm/Search/RangeQuery/Blocks/RangeQueryWithBlocks.hpp>
 
 #include <gtest/gtest.h>
 

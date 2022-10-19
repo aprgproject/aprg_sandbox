@@ -2,7 +2,7 @@
 
 #include <Common/Container/AlbaOptional.hpp>
 #include <Common/Math/Helpers/DivisibilityHelpers.hpp>
-#include <Algorithm/Search/RangeQuery/RangeQueryWithSegmentTree.hpp>
+#include <Algorithm/Search/RangeQuery/SegmentTree/RangeQueryWithSegmentTree.hpp>
 
 namespace alba
 {
@@ -49,6 +49,7 @@ public:
         }
         return result;
     }
+
     void increaseAtRange(Index const start, Index const end)
     {
         if(start<=end && (b_startOfChildren+start)<b_treeValues.size() && (b_startOfChildren+end)<b_treeValues.size())
@@ -56,9 +57,11 @@ public:
             increaseAtRangeFromTopToBottom(start, end, Utilities::ROOT_PARENT_INDEX, 0, b_startOfChildren); // startOfChildren is size of base too
         }
     }
+
 private:
 
-    Value getValueOnIntervalFromTopToBottom(            Index const startInterval,
+    Value getValueOnIntervalFromTopToBottom(
+            Index const startInterval,
             Index const endInterval,
             Index const currentChild,
             Index const baseLeft,

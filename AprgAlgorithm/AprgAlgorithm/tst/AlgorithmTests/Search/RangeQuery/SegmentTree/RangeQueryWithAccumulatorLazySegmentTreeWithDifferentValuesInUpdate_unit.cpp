@@ -1,4 +1,4 @@
-#include <Algorithm/Search/RangeQuery/RangeQueryWithAccumulatorLazySegmentTreeWithDifferentValuesInUpdate.hpp>
+#include <Algorithm/Search/RangeQuery/SegmentTree/RangeQueryWithAccumulatorLazySegmentTreeWithDifferentValuesInUpdate.hpp>
 
 #include <gtest/gtest.h>
 
