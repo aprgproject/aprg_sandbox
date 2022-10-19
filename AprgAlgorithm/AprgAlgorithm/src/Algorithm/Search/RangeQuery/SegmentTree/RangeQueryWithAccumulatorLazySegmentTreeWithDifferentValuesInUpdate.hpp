@@ -2,30 +2,27 @@
 
 #include <Common/Container/AlbaOptional.hpp>
 #include <Common/Math/Helpers/DivisibilityHelpers.hpp>
-#include <Algorithm/Search/RangeQuery/SegmentTree/RangeQueryWithSegmentTree.hpp>
+#include <Algorithm/Search/RangeQuery/SegmentTree/RangeQueryWithStaticSegmentTree.hpp>
 
 namespace alba
 {
-
 namespace algorithm
 {
 
 template <typename Values>
-class RangeQueryWithAccumulatorLazySegmentTreeWithDifferentValuesInUpdate : private RangeQueryWithSegmentTree<Values>
+class RangeQueryWithAccumulatorLazySegmentTreeWithDifferentValuesInUpdate : private RangeQueryWithStaticSegmentTree<Values>
 {
 public:
 
     // Example for "range query with accumulator" is sum queries
 
-    using BaseClass = RangeQueryWithSegmentTree<Values>;
+    using BaseClass = RangeQueryWithStaticSegmentTree<Values>;
     using Value = typename BaseClass::Value;
     using Index = typename BaseClass::Index;
-    using Function = typename BaseClass::Function;
-    using Utilities = typename BaseClass::Utilities;
+    using Function = typename BaseClass::Function;    using Utilities = typename BaseClass::Utilities;
     using IncrementFunction = std::function<Value(Index const, Index const)>;
     using UpdateDetail = Index;
-    using PendingUpdateDetail = AlbaOptional<UpdateDetail>;
-    using PendingUpdateDetails = std::vector<PendingUpdateDetail>;
+    using PendingUpdateDetail = AlbaOptional<UpdateDetail>;    using PendingUpdateDetails = std::vector<PendingUpdateDetail>;
 
     RangeQueryWithAccumulatorLazySegmentTreeWithDifferentValuesInUpdate(
             Values const& valuesToCheck,
@@ -78,26 +75,24 @@ private:
         else
         {
             Index baseMidPoint = (baseLeft+baseRight)/2;
-            bool isLeftPartOutside = endInterval<baseLeft || startInterval>baseMidPoint;
-            bool isRightPartOutside = endInterval<baseMidPoint+1 || startInterval>baseRight;
-            if(!isLeftPartOutside && !isRightPartOutside)
+            bool doesLeftPartIntersect = !(endInterval<baseLeft || baseMidPoint<startInterval);
+            bool doesRightPartIntersect = !(endInterval<baseMidPoint+1 || baseRight<startInterval);
+            if(doesLeftPartIntersect && doesRightPartIntersect)
             {
                 result = b_function(
                             getValueOnIntervalFromTopToBottom(startInterval, endInterval, Utilities::getLeftChild(currentChild), baseLeft, baseMidPoint),
                             getValueOnIntervalFromTopToBottom(startInterval, endInterval, Utilities::getRightChild(currentChild), baseMidPoint+1, baseRight));
             }
-            else if(!isLeftPartOutside && isRightPartOutside)
+            else if(doesLeftPartIntersect)
             {
                 result = getValueOnIntervalFromTopToBottom(startInterval, endInterval, Utilities::getLeftChild(currentChild), baseLeft, baseMidPoint);
             }
-            else if(isLeftPartOutside && !isRightPartOutside)
+            else if(doesRightPartIntersect)
             {
                 result = getValueOnIntervalFromTopToBottom(startInterval, endInterval, Utilities::getRightChild(currentChild), baseMidPoint+1, baseRight);
-            }
-        }
+            }        }
         return result;
     }
-
     void increaseAtRangeFromTopToBottom(
             Index const startInterval,
             Index const endInterval,
@@ -123,26 +118,24 @@ private:
             increment(b_treeValues[currentChild], startInterval, intersectionLeft, intersectionRight);
 
             Index baseMidPoint = (baseLeft+baseRight)/2;
-            bool isLeftPartOutside = endInterval<baseLeft || startInterval>baseMidPoint;
-            bool isRightPartOutside = endInterval<baseMidPoint+1 || startInterval>baseRight;
-            if(!isLeftPartOutside && !isRightPartOutside)
+            bool doesLeftPartIntersect = !(endInterval<baseLeft || startInterval>baseMidPoint);
+            bool doesRightPartIntersect = !(endInterval<baseMidPoint+1 || startInterval>baseRight);
+            if(doesLeftPartIntersect && doesRightPartIntersect)
             {
                 increaseAtRangeFromTopToBottom(startInterval, endInterval, Utilities::getLeftChild(currentChild), baseLeft, baseMidPoint);
                 increaseAtRangeFromTopToBottom(startInterval, endInterval, Utilities::getRightChild(currentChild), baseMidPoint+1, baseRight);
             }
-            else if(!isLeftPartOutside && isRightPartOutside)
+            else if(doesLeftPartIntersect)
             {
                 increaseAtRangeFromTopToBottom(startInterval, endInterval, Utilities::getLeftChild(currentChild), baseLeft, baseMidPoint);
             }
-            else if(isLeftPartOutside && !isRightPartOutside)
+            else if(doesRightPartIntersect)
             {
                 increaseAtRangeFromTopToBottom(startInterval, endInterval, Utilities::getRightChild(currentChild), baseMidPoint+1, baseRight);
-            }
-        }
+            }        }
     }
 
-    void performUpdateAtIndexIfNeeded(
-            Index const index,
+    void performUpdateAtIndexIfNeeded(            Index const index,
             Index const baseLeft,
             Index const baseRight)
     {

@@ -11,15 +11,16 @@ namespace algorithm
 {
 
 template <typename Values>
-class RangeQueryWithSegmentTree
+class RangeQueryWithStaticSegmentTree
 {
 public:
     // This supports "selector" and "accumulator" type queries.
 
+    // An ordinary segment tree is static, which means that each node has a fixed position in the array and the tree requires a fixed amount of memory.
+
     // A segment tree is a data structure that supports two operations: processing a range query and updating an array value.
     // Segment trees can support sum queries, minimum and maximum queries and many other queries so that both operations work in O(logn) time.
-    // Compared to a binary indexed tree, the advantage of a segment tree is that it is a more general data structure.
-    // While binary indexed trees only support sum queries, segment trees also support other queries.
+    // Compared to a binary indexed tree, the advantage of a segment tree is that it is a more general data structure.    // While binary indexed trees only support sum queries, segment trees also support other queries.
     // On the other hand, a segment tree requires more memory and is a bit more difficult to implement.
 
     // Segment trees can support all range queries where it is possible to divide a range into two parts,
@@ -32,11 +33,10 @@ public:
     using Function = std::function<Value(Value const&, Value const&)>;
     using Utilities = SegmentTreeUtilities<Index>;
 
-    RangeQueryWithSegmentTree(
+    RangeQueryWithStaticSegmentTree(
             Values const& valuesToCheck,
             Function const& functionObject)
-        : m_startOfChildren(0U)
-        , m_treeValues()
+        : m_startOfChildren(0U)        , m_treeValues()
         , m_function(functionObject)
     {
         initialize(valuesToCheck);
@@ -162,23 +162,22 @@ protected:
         else
         {
             Index baseMidPoint = (baseLeft+baseRight)/2;
-            bool isLeftPartOutside = endInterval<baseLeft || startInterval>baseMidPoint;
-            bool isRightPartOutside = endInterval<baseMidPoint+1 || startInterval>baseRight;
-            if(!isLeftPartOutside && !isRightPartOutside)
+            bool doesLeftPartIntersect = !(endInterval<baseLeft || baseMidPoint<startInterval);
+            bool doesRightPartIntersect = !(endInterval<baseMidPoint+1 || baseRight<startInterval);
+            if(doesLeftPartIntersect && doesRightPartIntersect)
             {
                 result = m_function(
                             getValueOnIntervalFromTopToBottom(startInterval, endInterval, Utilities::getLeftChild(currentChild), baseLeft, baseMidPoint),
                             getValueOnIntervalFromTopToBottom(startInterval, endInterval, Utilities::getRightChild(currentChild), baseMidPoint+1, baseRight));
             }
-            else if(!isLeftPartOutside && isRightPartOutside)
+            else if(doesLeftPartIntersect)
             {
                 result = getValueOnIntervalFromTopToBottom(startInterval, endInterval, Utilities::getLeftChild(currentChild), baseLeft, baseMidPoint);
             }
-            else if(isLeftPartOutside && !isRightPartOutside)
+            else if(doesRightPartIntersect)
             {
                 result = getValueOnIntervalFromTopToBottom(startInterval, endInterval, Utilities::getRightChild(currentChild), baseMidPoint+1, baseRight);
-            }
-        }
+            }        }
         return result;
     }
 

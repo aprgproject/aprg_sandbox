@@ -1,7 +1,6 @@
-#include <Algorithm/Search/RangeQuery/SegmentTree/RangeQueryWithSegmentTree.hpp>
+#include <Algorithm/Search/RangeQuery/SegmentTree/RangeQueryWithStaticSegmentTree.hpp>
 
 #include <gtest/gtest.h>
-
 using namespace std;
 
 namespace alba
@@ -13,24 +12,22 @@ namespace algorithm
 namespace
 {
 using ValuesForTest = vector<double>;
-using RangeQueryForTest = RangeQueryWithSegmentTree<ValuesForTest>;
+using RangeQueryForTest = RangeQueryWithStaticSegmentTree<ValuesForTest>;
 using ValueForTest = RangeQueryForTest::Value;
 RangeQueryForTest::Function multipliesFunction = multiplies<ValueForTest>();
 }
 
-TEST(RangeQueryWithSegmentTreeTest, GetValueOnIntervalWithGeometricSumWorksWithEmptySetOfValues)
+TEST(RangeQueryWithStaticSegmentTreeTest, GetValueOnIntervalWithGeometricSumWorksWithEmptySetOfValues)
 {
     ValuesForTest values;
     RangeQueryForTest geometricSumRangeQuery(values, multipliesFunction);
-
     EXPECT_DOUBLE_EQ(0, geometricSumRangeQuery.getValueOnInterval(0U, 0U));
 }
 
-TEST(RangeQueryWithSegmentTreeTest, GetValueOnIntervalWithGeometricSumWorksOnExample1)
+TEST(RangeQueryWithStaticSegmentTreeTest, GetValueOnIntervalWithGeometricSumWorksOnExample1)
 {
     ValuesForTest values{1, 3, 4, 8, 6, 1, 4, 2, 9};
     RangeQueryForTest geometricSumRangeQuery(values, multipliesFunction);
-
     EXPECT_DOUBLE_EQ(1, geometricSumRangeQuery.getValueOnInterval(0U, 0U));
     EXPECT_DOUBLE_EQ(3, geometricSumRangeQuery.getValueOnInterval(0U, 1U));
     EXPECT_DOUBLE_EQ(12, geometricSumRangeQuery.getValueOnInterval(0U, 2U));
@@ -47,21 +44,19 @@ TEST(RangeQueryWithSegmentTreeTest, GetValueOnIntervalWithGeometricSumWorksOnExa
     EXPECT_DOUBLE_EQ(6, geometricSumRangeQuery.getValueOnInterval(4U, 4U));
 }
 
-TEST(RangeQueryWithSegmentTreeTest, ChangeValueAtIndexWithGeometricSumWorksWithEmptySetOfValues)
+TEST(RangeQueryWithStaticSegmentTreeTest, ChangeValueAtIndexWithGeometricSumWorksWithEmptySetOfValues)
 {
     ValuesForTest values;
     RangeQueryForTest geometricSumRangeQuery(values, multipliesFunction);
-
     geometricSumRangeQuery.changeValueAtIndex(3U, 3);
 
     EXPECT_DOUBLE_EQ(0, geometricSumRangeQuery.getValueOnInterval(0U, 0U));
 }
 
-TEST(RangeQueryWithSegmentTreeTest, ChangeValueAtIndexWithGeometricSumWorksOnExample1)
+TEST(RangeQueryWithStaticSegmentTreeTest, ChangeValueAtIndexWithGeometricSumWorksOnExample1)
 {
     ValuesForTest values{1, 3, 4, 8, 6, 1, 4, 2, 9};
     RangeQueryForTest geometricSumRangeQuery(values, multipliesFunction);
-
     geometricSumRangeQuery.changeValueAtIndex(3U, 3);
 
     EXPECT_DOUBLE_EQ(1, geometricSumRangeQuery.getValueOnInterval(0U, 0U));

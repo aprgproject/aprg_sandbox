@@ -1,13 +1,11 @@
 #pragma once
 
-#include <Algorithm/Search/Common/SegmentTreeUtilities.hpp>
 #include <Algorithm/Search/Common/DynamicSegmentTreeNode.hpp>
+#include <Algorithm/Search/Common/SegmentTreeUtilities.hpp>
 
 #include <functional>
-
 namespace alba
 {
-
 namespace algorithm
 {
 
@@ -18,13 +16,11 @@ public:
     // This supports "selector" and "accumulator" type queries.
 
     // A dynamic segment tree is useful when the underlying array is sparse, i.e.,
-    // the range [0,n¡1] of allowed indices is large,  but most array values are zeros.
+    // the range [0,n-1] of allowed indices is large, but most array values are zeros.
     // While an ordinary segment tree uses O(n) memory, a dynamic segment tree only uses O(klogn) memory,
     // where k is the number of operations performed.
-
     // A sparse segment tree initially has only one node [0,n-1] whose value is zero, which means that every array value is zero.
     // After updates, new nodes are dynamically added to the tree.
-
     // Any path from the root node to a leaf contains O(logn) nodes, so each operation adds at most O(logn) new nodes to the tree.
     // Thus, after k operations, the tree contains at most O(klogn) nodes.
 
@@ -42,16 +38,14 @@ public:
             Index const numberOfValues,
             Value const defaultValue,
             Function const& functionObject)
-        : m_numberOfValues(numberOfValues)
-        , m_maxChildrenIndex(0U)
+        : m_maxChildrenIndex(0U)
+        , m_numberOfValues(numberOfValues)
         , m_defaultValue(defaultValue)
         , m_function(functionObject)
-    {
-        initialize();
+    {        initialize();
     }
 
-    Value getValueOnInterval(Index const start, Index const end)
-    {
+    Value getValueOnInterval(Index const start, Index const end)    {
         // This has log(N) running time
         Value result{};
         if(start<=end && start<m_numberOfValues && end<m_numberOfValues)
@@ -66,100 +60,112 @@ public:
         // This has log(N) running time
         if(index<m_numberOfValues)
         {
-            setValueOnIndexFromTopToBottom(index, m_root, 0, m_maxChildrenIndex, valueToSet);
+            setValueOnIndexFromTopToBottom(index, valueToSet, m_root, 0, m_maxChildrenIndex);
         }
     }
 
 protected:
 
+    Value getCombinedValueBasedFromChildren(NodePointer const& nodePointer) const
+    {
+        Value result{};
+        if(nodePointer->leftChildPointer && nodePointer->rightChildPointer)
+        {
+            result = m_function(nodePointer->leftChildPointer->value, nodePointer->rightChildPointer->value);
+        }
+        else if(nodePointer->leftChildPointer)
+        {
+            result = nodePointer->leftChildPointer->value;
+        }
+        else if(nodePointer->rightChildPointer)
+        {
+            result = nodePointer->rightChildPointer->value;
+        }
+        return result;
+    }
+
     void initialize()
     {
-        m_maxChildrenIndex = Utilities::getMinimumNumberOfParents(m_numberOfValues);
-    }
+        m_maxChildrenIndex = Utilities::getMinimumNumberOfParents(m_numberOfValues);    }
 
     Value getValueOnIntervalFromTopToBottom(
             Index const startInterval,
             Index const endInterval,
-            NodePointer & currentNodePointer,
+            NodePointer & nodePointer,
+            Index const baseLeft,
+            Index const baseRight)
+    {        // This has log(N) running time
+
+        Value result{};
+        if(!nodePointer)
+        {
+            nodePointer.reset(new Node{m_defaultValue, nullptr, nullptr});
+        }
+        if(startInterval<=baseLeft && baseRight<=endInterval)
+        {
+            result = nodePointer->value;
+        }
+        else
+        {
+            Index baseMidPoint = (baseLeft+baseRight)/2;
+            bool doesLeftPartIntersect = !(endInterval<baseLeft || baseMidPoint<startInterval);
+            bool doesRightPartIntersect = !(endInterval<baseMidPoint+1 || baseRight<startInterval);
+            if(doesLeftPartIntersect && doesRightPartIntersect)
+            {
+                result = m_function(
+                            getValueOnIntervalFromTopToBottom(startInterval, endInterval, nodePointer->leftChildPointer, baseLeft, baseMidPoint),
+                            getValueOnIntervalFromTopToBottom(startInterval, endInterval, nodePointer->rightChildPointer, baseMidPoint+1, baseRight));
+            }
+            else if(doesLeftPartIntersect)
+            {
+                result = getValueOnIntervalFromTopToBottom(startInterval, endInterval, nodePointer->leftChildPointer, baseLeft, baseMidPoint);
+            }
+            else if(doesRightPartIntersect)
+            {
+                result = getValueOnIntervalFromTopToBottom(startInterval, endInterval, nodePointer->rightChildPointer, baseMidPoint+1, baseRight);
+            }
+        }
+        return result;    }
+
+    void setValueOnIndexFromTopToBottom(
+            Index const index,
+            Value const valueToSet,
+            NodePointer & nodePointer,
             Index const baseLeft,
             Index const baseRight)
     {
         // This has log(N) running time
 
-        Value result{};
-        if(!currentNodePointer)
+        if(!nodePointer)
         {
-            currentNodePointer.reset(new Node{m_defaultValue, nullptr, nullptr});
-        }
-        if(startInterval<=baseLeft && baseRight<=endInterval)
-        {
-            result = currentNodePointer->value;
-        }
-        else
-        {
-            Index baseMidPoint = (baseLeft+baseRight)/2;
-            bool isLeftPartOutside = endInterval<baseLeft || startInterval>baseMidPoint;
-            bool isRightPartOutside = endInterval<baseMidPoint+1 || startInterval>baseRight;
-            if(!isLeftPartOutside && !isRightPartOutside)
-            {
-                result = m_function(
-                            getValueOnIntervalFromTopToBottom(startInterval, endInterval, currentNodePointer->leftChildPointer, baseLeft, baseMidPoint),
-                            getValueOnIntervalFromTopToBottom(startInterval, endInterval, currentNodePointer->rightChildPointer, baseMidPoint+1, baseRight));
-            }
-            else if(!isLeftPartOutside && isRightPartOutside)
-            {
-                result = getValueOnIntervalFromTopToBottom(startInterval, endInterval, currentNodePointer->leftChildPointer, baseLeft, baseMidPoint);
-            }
-            else if(isLeftPartOutside && !isRightPartOutside)
-            {
-                result = getValueOnIntervalFromTopToBottom(startInterval, endInterval, currentNodePointer->rightChildPointer, baseMidPoint+1, baseRight);
-            }
-        }
-        return result;
-    }
-
-    void setValueOnIndexFromTopToBottom(
-            Index const index,
-            NodePointer & currentNodePointer,
-            Index const baseLeft,
-            Index const baseRight,
-            Value const valueToSet)
-    {
-        // This has log(N) running time
-
-        if(!currentNodePointer)
-        {
-            currentNodePointer.reset(new Node{m_defaultValue, nullptr, nullptr});
+            nodePointer.reset(new Node{m_defaultValue, nullptr, nullptr});
         }
         if(baseLeft==baseRight)
         {
-            currentNodePointer->value = valueToSet;
+            nodePointer->value = valueToSet;
         }
         else
         {
             Index baseMidPoint = (baseLeft+baseRight)/2;
-            bool isLeftPartOutside = index<baseLeft || index>baseMidPoint;
-            bool isRightPartOutside = index<baseMidPoint+1 || index>baseRight;
-            if(!isLeftPartOutside)
+            bool doesLeftPartIntersect = !(index<baseLeft || index>baseMidPoint);
+            bool doesRightPartIntersect = !(index<baseMidPoint+1 || index>baseRight);
+            if(doesLeftPartIntersect)
             {
-                currentNodePointer->value = m_function(currentNodePointer->value, valueToSet);
-                setValueOnIndexFromTopToBottom(index, currentNodePointer->leftChildPointer, baseLeft, baseMidPoint, valueToSet);
+                setValueOnIndexFromTopToBottom(index, valueToSet, nodePointer->leftChildPointer, baseLeft, baseMidPoint);
             }
-            if(!isRightPartOutside)
+            if(doesRightPartIntersect)
             {
-                currentNodePointer->value = m_function(currentNodePointer->value, valueToSet);
-                setValueOnIndexFromTopToBottom(index, currentNodePointer->rightChildPointer, baseMidPoint+1, baseRight, valueToSet);
+                setValueOnIndexFromTopToBottom(index, valueToSet, nodePointer->rightChildPointer, baseMidPoint+1, baseRight);
             }
+            nodePointer->value = getCombinedValueBasedFromChildren(nodePointer);
         }
     }
 
-    Index const m_numberOfValues;
     Index m_maxChildrenIndex;
+    Index const m_numberOfValues;
     Value const m_defaultValue;
     Function m_function;
-    NodePointer m_root;
-};
+    NodePointer m_root;};
 
 }
-
 }
