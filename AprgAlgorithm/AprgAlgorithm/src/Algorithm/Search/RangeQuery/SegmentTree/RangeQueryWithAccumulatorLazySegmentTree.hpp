@@ -1,20 +1,22 @@
 #pragma once
 
-#include <Common/Math/Helpers/DivisibilityHelpers.hpp>
 #include <Algorithm/Search/RangeQuery/SegmentTree/RangeQueryWithStaticSegmentTree.hpp>
 
 namespace alba
 {
+
 namespace algorithm
 {
 
 template <typename Values>
-class RangeQueryWithAccumulatorLazySegmentTree : private RangeQueryWithStaticSegmentTree<Values>
+class RangeQueryWithAccumulatorLazySegmentTree
+        : private RangeQueryWithStaticSegmentTree<Values>
 {
 public:
     // Example for "range query with accumulator" is sum queries
 
-    // Using lazy propagation, we can build a segment tree that supports both range updates and range queries in O(logn) time.    // The idea is to perform updates and queries from top to bottom and perform updates lazily
+    // Using lazy propagation, we can build a segment tree that supports both range updates and range queries in O(logn) time.
+    // The idea is to perform updates and queries from top to bottom and perform updates lazily
     // so that they are propagated down the tree only when it is necessary.
 
     // In a lazy segment tree, nodes contain two types of information.
@@ -36,10 +38,12 @@ public:
     using BaseClass = RangeQueryWithStaticSegmentTree<Values>;
     using Value = typename BaseClass::Value;
     using Index = typename BaseClass::Index;
-    using Function = typename BaseClass::Function;    using Utilities = typename BaseClass::Utilities;
+    using Function = typename BaseClass::Function;
+    using Utilities = typename BaseClass::Utilities;
 
     RangeQueryWithAccumulatorLazySegmentTree(
-            Values const& valuesToCheck,            Function const& functionObject,
+            Values const& valuesToCheck,
+            Function const& functionObject,
             Function const& inverseFunction,
             Value const identityValue)
         : BaseClass(valuesToCheck, functionObject)
@@ -53,7 +57,7 @@ public:
 
     Value getValueOnInterval(Index const start, Index const end)
     {
-        // This has logN running time
+        // This has log(N) running time
         Value result{};
         if(start<=end && (b_startOfChildren+start)<b_treeValues.size() && (b_startOfChildren+end)<b_treeValues.size())
         {
@@ -72,7 +76,7 @@ public:
 
     void changeValueAtIndex(Index const index, Value const newValue)
     {
-        // This has logN running time
+        // This has log(N) running time
         Index childIndex = b_startOfChildren+index;
         if(childIndex<b_treeValues.size())
         {
@@ -89,7 +93,7 @@ private:
             Index const baseLeft,
             Index const baseRight)
     {
-        // This has logN running time
+        // This has log(N) running time
 
         // We also calculate the sum of elements in a range [a,b] by walking in the tree from top to bottom.
         // If the range [x, y] of a node completely belongs to [a,b], we add the s value of the node to the sum.
@@ -119,9 +123,11 @@ private:
             else if(doesRightPartIntersect)
             {
                 result = getValueOnIntervalFromTopToBottom(startInterval, endInterval, Utilities::getRightChild(currentChild), baseMidPoint+1, baseRight);
-            }        }
+            }
+        }
         return result;
     }
+
     void increaseAtRangeFromTopToBottom(
             Index const startInterval,
             Index const endInterval,
@@ -130,7 +136,7 @@ private:
             Index const baseRight,
             Value const incrementValue)
     {
-        // This has logN running time
+        // This has log(N) running time
 
         // When the elements in [a,b] are increased by u, we walk from the root towards the leaves
         // and modify the nodes of the tree as follows:
@@ -174,10 +180,12 @@ private:
             else if(doesRightPartIntersect)
             {
                 increaseAtRangeFromTopToBottom(startInterval, endInterval, Utilities::getRightChild(currentChild), baseMidPoint+1, baseRight, incrementValue);
-            }        }
+            }
+        }
     }
 
-    void performUpdateAtIndexIfNeeded(            Index const index,
+    void performUpdateAtIndexIfNeeded(
+            Index const index,
             Index const baseLeft,
             Index const baseRight)
     {
@@ -192,26 +200,22 @@ private:
             if(m_identityValue != pendingUpdate)
             {
                 incrementMultipleTimes(b_treeValues[index], pendingUpdate, baseRight+1-baseLeft);
-                Index leftChild = Utilities::getLeftChild(index);
-                Index rightChild = Utilities::getRightChild(index);
-                if(isAParent(leftChild))
-                {
-                    increment(m_pendingUpdates[leftChild], pendingUpdate);
-                }
-                else
-                {
-                    increment(b_treeValues[leftChild], pendingUpdate);
-                }
-                if(isAParent(rightChild))
-                {
-                    increment(m_pendingUpdates[rightChild], pendingUpdate);
-                }
-                else
-                {
-                    increment(b_treeValues[rightChild], pendingUpdate);
-                }
+                incrementAtIndex(Utilities::getLeftChild(index), pendingUpdate);
+                incrementAtIndex(Utilities::getRightChild(index), pendingUpdate);
                 pendingUpdate = m_identityValue;
             }
+        }
+    }
+
+    inline void incrementAtIndex(Index const index, Value const incrementValue)
+    {
+        if(isAParent(index))
+        {
+            increment(m_pendingUpdates[index], incrementValue);
+        }
+        else
+        {
+            increment(b_treeValues[index], incrementValue);
         }
     }
 

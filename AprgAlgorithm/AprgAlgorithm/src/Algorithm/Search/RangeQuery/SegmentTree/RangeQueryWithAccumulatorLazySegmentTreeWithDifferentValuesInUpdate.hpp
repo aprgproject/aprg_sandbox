@@ -1,28 +1,30 @@
 #pragma once
 
 #include <Common/Container/AlbaOptional.hpp>
-#include <Common/Math/Helpers/DivisibilityHelpers.hpp>
 #include <Algorithm/Search/RangeQuery/SegmentTree/RangeQueryWithStaticSegmentTree.hpp>
 
 namespace alba
 {
+
 namespace algorithm
 {
 
 template <typename Values>
-class RangeQueryWithAccumulatorLazySegmentTreeWithDifferentValuesInUpdate : private RangeQueryWithStaticSegmentTree<Values>
+class RangeQueryWithAccumulatorLazySegmentTreeWithDifferentValuesInUpdate
+        : private RangeQueryWithStaticSegmentTree<Values>
 {
 public:
-
     // Example for "range query with accumulator" is sum queries
 
     using BaseClass = RangeQueryWithStaticSegmentTree<Values>;
     using Value = typename BaseClass::Value;
     using Index = typename BaseClass::Index;
-    using Function = typename BaseClass::Function;    using Utilities = typename BaseClass::Utilities;
+    using Function = typename BaseClass::Function;
+    using Utilities = typename BaseClass::Utilities;
     using IncrementFunction = std::function<Value(Index const, Index const)>;
     using UpdateDetail = Index;
-    using PendingUpdateDetail = AlbaOptional<UpdateDetail>;    using PendingUpdateDetails = std::vector<PendingUpdateDetail>;
+    using PendingUpdateDetail = AlbaOptional<UpdateDetail>;
+    using PendingUpdateDetails = std::vector<PendingUpdateDetail>;
 
     RangeQueryWithAccumulatorLazySegmentTreeWithDifferentValuesInUpdate(
             Values const& valuesToCheck,
@@ -90,9 +92,11 @@ private:
             else if(doesRightPartIntersect)
             {
                 result = getValueOnIntervalFromTopToBottom(startInterval, endInterval, Utilities::getRightChild(currentChild), baseMidPoint+1, baseRight);
-            }        }
+            }
+        }
         return result;
     }
+
     void increaseAtRangeFromTopToBottom(
             Index const startInterval,
             Index const endInterval,
@@ -132,10 +136,12 @@ private:
             else if(doesRightPartIntersect)
             {
                 increaseAtRangeFromTopToBottom(startInterval, endInterval, Utilities::getRightChild(currentChild), baseMidPoint+1, baseRight);
-            }        }
+            }
+        }
     }
 
-    void performUpdateAtIndexIfNeeded(            Index const index,
+    void performUpdateAtIndexIfNeeded(
+            Index const index,
             Index const baseLeft,
             Index const baseRight)
     {
@@ -145,29 +151,28 @@ private:
             if(startIndexForPendingUpdate.hasContent())
             {
                 increment(b_treeValues[index], startIndexForPendingUpdate.get(), baseLeft, baseRight);
-                Index leftChild = Utilities::getLeftChild(index);
-                Index rightChild = Utilities::getRightChild(index);
                 Index baseMidPoint = (baseLeft+baseRight)/2;
-                if(isAParent(leftChild))
-                {
-                    performUpdateAtIndexIfNeeded(leftChild, baseLeft, baseMidPoint);
-                    m_startIndexesForPendingUpdates[leftChild] = startIndexForPendingUpdate; // copy pending update to children
-                }
-                else
-                {
-                    increment(b_treeValues[leftChild], startIndexForPendingUpdate.get(), baseLeft, baseMidPoint);
-                }
-                if(isAParent(rightChild))
-                {
-                    performUpdateAtIndexIfNeeded(rightChild, baseMidPoint+1, baseRight);
-                    m_startIndexesForPendingUpdates[rightChild] = startIndexForPendingUpdate; // copy pending update to children
-                }
-                else
-                {
-                    increment(b_treeValues[rightChild], startIndexForPendingUpdate.get(), baseMidPoint+1, baseRight);
-                }
+                incrementOrUpdateAtIndex(Utilities::getLeftChild(index), baseLeft, baseMidPoint, startIndexForPendingUpdate);
+                incrementOrUpdateAtIndex(Utilities::getRightChild(index), baseMidPoint+1, baseRight, startIndexForPendingUpdate);
                 startIndexForPendingUpdate.clear();
             }
+        }
+    }
+
+    inline void incrementOrUpdateAtIndex(
+            Index const index,
+            Index const baseLeft,
+            Index const baseRight,
+            PendingUpdateDetail const& startIndexForPendingUpdate)
+    {
+        if(isAParent(index))
+        {
+            performUpdateAtIndexIfNeeded(index, baseLeft, baseRight);
+            m_startIndexesForPendingUpdates[index] = startIndexForPendingUpdate; // copy pending update to children
+        }
+        else
+        {
+            increment(b_treeValues[index], startIndexForPendingUpdate.get(), baseLeft, baseRight);
         }
     }
 

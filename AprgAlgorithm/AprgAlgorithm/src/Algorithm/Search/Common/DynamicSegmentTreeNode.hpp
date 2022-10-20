@@ -8,12 +8,22 @@ namespace alba
 namespace algorithm
 {
 
-template <typename Index, typename Value>
+template <typename Value>
 struct DynamicSegmentTreeNode
 {
     Value value;
     std::unique_ptr<DynamicSegmentTreeNode> leftChildPointer;
     std::unique_ptr<DynamicSegmentTreeNode> rightChildPointer;
+};
+
+template <typename Value>
+struct PersistentDynamicSegmentTreeNode
+{
+    Value value;
+    std::unique_ptr<PersistentDynamicSegmentTreeNode> persistentLeft;
+    std::unique_ptr<PersistentDynamicSegmentTreeNode> persistentRight;
+    std::unique_ptr<DynamicSegmentTreeNode<Value>>* mainTreeLeft;
+    std::unique_ptr<DynamicSegmentTreeNode<Value>>* mainTreeRight;
 };
 
 }

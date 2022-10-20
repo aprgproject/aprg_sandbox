@@ -24,7 +24,7 @@ public:
     using Value = typename Values::value_type;
     using Function = std::function<Value(Value const&, Value const&)>;
     using Utilities = SegmentTreeUtilities<Index>;
-    using Node = DynamicSegmentTreeNode<Index, Value>;
+    using Node = DynamicSegmentTreeNode<Value>;
     using NodePointer = std::unique_ptr<Node>;
 
     RangeQueryWithDynamicSegmentTree(
@@ -48,7 +48,7 @@ public:
         return result;
     }
 
-    void changeValueAtIndex(Index const index, Value const newValue)
+    virtual void changeValueAtIndex(Index const index, Value const newValue)
     {
         // This has log(N) running time
         if(index<m_numberOfValues)
@@ -169,13 +169,11 @@ protected:
             else
             {
                 Index baseMidPoint = (baseLeft+baseRight)/2;
-                bool isLeftPartIncluded = nodePointer->leftChildPointer && baseLeft<=index && index<=baseMidPoint;
-                bool isRightPartIncluded = nodePointer->rightChildPointer && baseMidPoint+1<=index && index<=baseRight;
-                if(isLeftPartIncluded)
+                if(index <= baseMidPoint)
                 {
                     changeValueOnIndexFromTopToBottom(index, newValue, nodePointer->leftChildPointer, baseLeft, baseMidPoint);
                 }
-                if(isRightPartIncluded)
+                else
                 {
                     changeValueOnIndexFromTopToBottom(index, newValue, nodePointer->rightChildPointer, baseMidPoint+1, baseRight);
                 }

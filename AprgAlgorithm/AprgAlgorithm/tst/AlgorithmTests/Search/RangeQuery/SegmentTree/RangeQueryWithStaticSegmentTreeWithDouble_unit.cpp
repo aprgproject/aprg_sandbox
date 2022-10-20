@@ -1,6 +1,7 @@
 #include <Algorithm/Search/RangeQuery/SegmentTree/RangeQueryWithStaticSegmentTree.hpp>
 
 #include <gtest/gtest.h>
+
 using namespace std;
 
 namespace alba
@@ -21,6 +22,7 @@ TEST(RangeQueryWithStaticSegmentTreeTest, GetValueOnIntervalWithGeometricSumWork
 {
     ValuesForTest values;
     RangeQueryForTest geometricSumRangeQuery(values, multipliesFunction);
+
     EXPECT_DOUBLE_EQ(0, geometricSumRangeQuery.getValueOnInterval(0U, 0U));
 }
 
@@ -28,6 +30,7 @@ TEST(RangeQueryWithStaticSegmentTreeTest, GetValueOnIntervalWithGeometricSumWork
 {
     ValuesForTest values{1, 3, 4, 8, 6, 1, 4, 2, 9};
     RangeQueryForTest geometricSumRangeQuery(values, multipliesFunction);
+
     EXPECT_DOUBLE_EQ(1, geometricSumRangeQuery.getValueOnInterval(0U, 0U));
     EXPECT_DOUBLE_EQ(3, geometricSumRangeQuery.getValueOnInterval(0U, 1U));
     EXPECT_DOUBLE_EQ(12, geometricSumRangeQuery.getValueOnInterval(0U, 2U));
@@ -48,6 +51,7 @@ TEST(RangeQueryWithStaticSegmentTreeTest, ChangeValueAtIndexWithGeometricSumWork
 {
     ValuesForTest values;
     RangeQueryForTest geometricSumRangeQuery(values, multipliesFunction);
+
     geometricSumRangeQuery.changeValueAtIndex(3U, 3);
 
     EXPECT_DOUBLE_EQ(0, geometricSumRangeQuery.getValueOnInterval(0U, 0U));
@@ -57,6 +61,7 @@ TEST(RangeQueryWithStaticSegmentTreeTest, ChangeValueAtIndexWithGeometricSumWork
 {
     ValuesForTest values{1, 3, 4, 8, 6, 1, 4, 2, 9};
     RangeQueryForTest geometricSumRangeQuery(values, multipliesFunction);
+
     geometricSumRangeQuery.changeValueAtIndex(3U, 3);
 
     EXPECT_DOUBLE_EQ(1, geometricSumRangeQuery.getValueOnInterval(0U, 0U));
