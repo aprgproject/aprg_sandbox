@@ -20,12 +20,9 @@ template <typename Value>
 struct PersistentDynamicSegmentTreeNode
 {
     Value value;
-    std::unique_ptr<PersistentDynamicSegmentTreeNode> persistentLeft;
-    std::unique_ptr<PersistentDynamicSegmentTreeNode> persistentRight;
-    std::unique_ptr<DynamicSegmentTreeNode<Value>>* mainTreeLeft;
-    std::unique_ptr<DynamicSegmentTreeNode<Value>>* mainTreeRight;
+    std::shared_ptr<PersistentDynamicSegmentTreeNode> leftChildPointer;
+    std::shared_ptr<PersistentDynamicSegmentTreeNode> rightChildPointer;
 };
 
 }
-
 }
