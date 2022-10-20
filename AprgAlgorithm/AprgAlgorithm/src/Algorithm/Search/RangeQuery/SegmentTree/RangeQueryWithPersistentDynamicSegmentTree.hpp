@@ -19,17 +19,23 @@ class RangeQueryWithPersistentDynamicSegmentTree
 public:
     // This supports "selector" and "accumulator" type queries.
 
-    // An segment tree is dynamic, which means memory is allocated only for nodes
-    // that are actually accessed during the algorithm, which can save a large amount of memory.
+    // Using a dynamic implementation, it is also possible to create a persistent segment tree that stores the modification history of the tree.
+    // In such an implementation, we can efficiently access all versions of the tree that have existed during the algorithm.
+    // When the modification history is available, we can perform queries in any previous tree like in an ordinary segment tree,
+    // because the full structure of each tree is stored. We can also create new trees based on previous trees and modify them independently.
+
+    // After each update, most nodes of the tree remain the same, so an efficient way to store the modification history
+    // is to represent each tree in the history as a combination of new nodes and subtrees of previous trees.
+
+    // The structure of each previous tree can be reconstructed by following the pointers starting at the corresponding root node.
+    // Since each operation adds only O(logn) new nodes to the tree, it is possible to store the full modification history of the tree.
 
     using Index = unsigned int;
     using Value = typename Values::value_type;
-    using Function = std::function<Value(Value const&, Value const&)>;
-    using Utilities = SegmentTreeUtilities<Index>;
+    using Function = std::function<Value(Value const&, Value const&)>;    using Utilities = SegmentTreeUtilities<Index>;
     using Node = PersistentDynamicSegmentTreeNode<Value>;
     using NodePointer = std::shared_ptr<Node>;
-    using NodeRoot = AlbaFakeCopyable<NodePointer>;
-    using NodeRoots = std::list<NodeRoot>;
+    using NodeRoot = AlbaFakeCopyable<NodePointer>;    using NodeRoots = std::list<NodeRoot>;
     using StepCount = unsigned int;
 
     RangeQueryWithPersistentDynamicSegmentTree(
