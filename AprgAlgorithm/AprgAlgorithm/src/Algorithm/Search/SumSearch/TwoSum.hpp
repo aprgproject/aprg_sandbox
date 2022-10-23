@@ -27,49 +27,43 @@ public:
     {}
 
     ValuesPair getNonDuplicateTwoValuesWithSum(
-            Value const targetSum) const
+            Value const& targetSum) const
     {
         // std::less because index must be distinct
-        return getTwoValuesWithSum(targetSum, 0, m_sortedValues.size()-1, std::less<Index>());
-    }
+        return getTwoValuesWithSum(targetSum, 0, m_sortedValues.size()-1, std::less<Index>());    }
 
     ValuesPair getNonDuplicateTwoValuesWithSum(
-            Value const targetSum,
+            Value const& targetSum,
             Index const lowerIndex,
             Index const higherIndex) const
-    {
-        // std::less because index must be distinct
+    {        // std::less because index must be distinct
         return getTwoValuesWithSum(targetSum, lowerIndex, higherIndex, std::less<Index>());
     }
 
     ValuesPair getPossibleDuplicatedTwoValuesWithSum(
-            Value const targetSum) const
+            Value const& targetSum) const
     {
         // std::less_equal because index can be equal
-        return getTwoValuesWithSum(targetSum, 0, m_sortedValues.size()-1, std::less_equal<Index>());
-    }
+        return getTwoValuesWithSum(targetSum, 0, m_sortedValues.size()-1, std::less_equal<Index>());    }
 
     ValuesPair getPossibleDuplicatedTwoValuesWithSum(
-            Value const targetSum,
+            Value const& targetSum,
             Index const lowerIndex,
             Index const higherIndex) const
-    {
-        // std::less_equal because index can be equal
+    {        // std::less_equal because index can be equal
         return getTwoValuesWithSum(targetSum, lowerIndex, higherIndex, std::less_equal<Index>());
     }
 
 private:
 
     ValuesPair getTwoValuesWithSum(
-            Value const targetSum,
+            Value const& targetSum,
             Index const lowestIndex,
             Index const highestIndex,
-            Comparator const& shouldContinue) const
-    {
+            Comparator const& shouldContinue) const    {
         ValuesPair result{};
         if(!m_sortedValues.empty())
-        {
-            bool isFound(false);
+        {            bool isFound(false);
             Index lowerIndex=lowestIndex, higherIndex=highestIndex;
             while(shouldContinue(lowerIndex, higherIndex))
             {

@@ -76,15 +76,13 @@ public:
         return result;
     }
 
-    void changeValueAtIndex(Index const index, Value const newValue)
+    void changeValueAtIndex(Index const index, Value const& newValue)
     {
         // This has log(N) running time
-        if(index < m_values.size())
-        {
+        if(index < m_values.size())        {
             // Indexes here have plus one (for easier end loop conditions)
             Value delta = m_inverseAccumulator(newValue, m_values.at(index));
-            Index indexPlusOne(index+1);
-            while(indexPlusOne<=m_partialTreeSums.size()) // update partial sums
+            Index indexPlusOne(index+1);            while(indexPlusOne<=m_partialTreeSums.size()) // update partial sums
             {
                 m_partialTreeSums[indexPlusOne-1] = m_accumulator(m_partialTreeSums.at(indexPlusOne-1), delta);
                 indexPlusOne += getGreatestPowerOf2Factor(indexPlusOne);

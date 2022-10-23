@@ -187,13 +187,11 @@ private:
 // Note: In the implementation above, relax function uses a map to store weights which will result to have a logarithmic term in the running time instead.
 
 // Other improvements:
-// The SPFA algorithm (”Shortest Path Faster Algorithm”) is a variant of the Bellman–Ford algorithm,
+// The SPFA algorithm ("Shortest Path Faster Algorithm") is a variant of the Bellman–Ford algorithm,
 // that is often more efficient than the original algorithm.
 // -> The algorithm maintains a queue of nodes that might be used for reducing the distances.
-// -> First, the algorithm adds the starting node x to the queue.
-// -> Then, the algorithm always processes the first node in the queue, and when an edge a->b reduces a distance, node b is added to the queue.
+// -> First, the algorithm adds the starting node x to the queue.// -> Then, the algorithm always processes the first node in the queue, and when an edge a->b reduces a distance, node b is added to the queue.
 // Note: This is implemented above.
-
 
 }
 
