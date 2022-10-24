@@ -58,15 +58,13 @@ public:
         m_valueToCountMapSegmentTree.changeValueAtIndex(index, ValueToCountMap{{newValue, 1U}});
     }
 
-protected:
+private:
 
     ValueToCountMaps getValueToCountMaps(Values const& valuesToCheck) const
-    {
-        ValueToCountMaps result;
+    {        ValueToCountMaps result;
         result.reserve(valuesToCheck.size());
         std::transform(valuesToCheck.cbegin(), valuesToCheck.cend(), std::back_inserter(result), [](Value const& value)
-        {
-            return ValueToCountMap{{value, 1U}};
+        {            return ValueToCountMap{{value, 1U}};
         });
         return result;
     }
