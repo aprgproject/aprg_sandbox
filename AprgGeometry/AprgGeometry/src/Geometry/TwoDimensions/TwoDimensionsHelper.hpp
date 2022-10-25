@@ -47,15 +47,13 @@ ConicSectionType getConicSectionBasedOnGeneralForm(double const a, double const 
 Quadrant getQuadrantOfAPoint(Point const& point);
 RotationDirection getRotationDirectionTraversing3Points(Point const a, Point const b, Point const c);
 
-AlbaAngle getAngleBasedOnAPointAndOrigin(Point const& point);
+AlbaAngle getAngleOfPointWithRespectToOrigin(Point const& point);
 AlbaAngle getTheInnerAngleUsingThreePoints(Point const& commonPoint, Point const& firstPoint, Point const& secondPoint);
 AlbaAngle getTheSmallerAngleBetweenTwoLines(Line const& line1, Line const& line2);
 AlbaAngle getTheLargerAngleBetweenTwoLines(Line const& line1, Line const& line2);
-
 Point getIntersectionOfTwoLines(Line const& line1, Line const& line2);
 Point getMidpoint(Point const& point1, Point const& point2);
-Point getPointAlongALineWithDistanceFromAPoint(Line const& line, Point const& referencePoint, double const distance, bool const isIncreasedOnX);
-Point popNearestPoint(Points & points, Point const& point);
+Point getPointAlongALineWithDistanceFromAPoint(Line const& line, Point const& referencePoint, double const distance, bool const isIncreasedOnX);Point popNearestPoint(Points & points, Point const& point);
 Point rotateAxisByAngle(Point const& point, AlbaAngle const& angle);
 Point rotateAxisBackByAngle(Point const& point, AlbaAngle const& angle);
 

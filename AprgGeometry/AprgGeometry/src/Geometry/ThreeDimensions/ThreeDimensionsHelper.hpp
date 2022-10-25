@@ -19,39 +19,34 @@ namespace ThreeDimensions
 namespace threeDimensionsHelper
 {
 
-using Coefficients = AlbaXYZ<double>;
+using Coordinate = AlbaXYZ<double>;
+
+double getMagnitude(Coordinate const coordinate);
+double getDotProduct(Coordinate const coordinate1, Coordinate const coordinate2);
+Coordinate getCrossProduct(Coordinate const coordinate1, Coordinate const coordinate2);
 
 bool isPointInLine(Point const& point, Line const& line);
 bool isPointInPlane(Point const& point, Plane const& plane);
 bool isLineInPlane(Line const& line, Plane const& plane);
-
 double getDistance(Point const& point1, Point const& point2);
 double getDistance(Line const& line, Point const& point);
 double getDistance(Line const& line1, Line const& line2);
 double getDistance(Plane const& plane1, Plane const& plane2);
-double getCosineOfAngleUsing2Deltas(Coefficients const& c1, Coefficients const& c2);
+double getCosineOfAngleUsing2Deltas(Coordinate const& delta1, Coordinate const& delta2);
 
 bool areLinesParallel(Line const& line1, Line const& line2);
 bool arePlanesParallel(Plane const& plane1, Plane const& plane2);
 bool areLinesPerpendicular(Line const& line1, Line const& line2);
 bool arePlanesPerpendicular(Plane const& plane1, Plane const& plane2);
-bool areCoefficientsParallel(Coefficients const& coefficients1, Coefficients const& coefficients2);
-bool areCoefficientsPerpendicular(Coefficients const& coefficients1, Coefficients const& coefficients2);
-
-double getMagnitudeOfCoefficients(Coefficients const coefficients);
-double getDotProduct(Coefficients const coefficients1, Coefficients const coefficients2);
-Coefficients getCrossProduct(Coefficients const coefficients1, Coefficients const coefficients2);
-
-Coefficients getProductOfEachCoefficient(Coefficients const& first, Coefficients const& second);
+bool areCoefficientsParallel(Coordinate const& coefficients1, Coordinate const& coefficients2);
+bool areCoefficientsPerpendicular(Coordinate const& coefficients1, Coordinate const& coefficients2);
 
 AlbaAngle getTheInnerAngleUsingThreePoints(Point const& pointA, Point const& pointB, Point const& pointC);
 AlbaAngle getTheSmallerAngleBetweenTwoLines(Line const& line1, Line const& line2);
-AlbaAngle getTheLargerAngleBetweenTwoLines(Line const& line1, Line const& line2);
-AlbaAngle getTheSmallerDihedralAngleBetweenTwoPlanes(Plane const& plane1, Plane const& plane2);
+AlbaAngle getTheLargerAngleBetweenTwoLines(Line const& line1, Line const& line2);AlbaAngle getTheSmallerDihedralAngleBetweenTwoPlanes(Plane const& plane1, Plane const& plane2);
 AlbaAngle getTheLargerDihedralAngleBetweenTwoPlanes(Plane const& plane1, Plane const& plane2);
 
-Point getMidpoint(Point const& point1, Point const& point2);
-Point getPointOfIntersectionOfTwoLines(Line const& line1, Line const& line2);
+Point getMidpoint(Point const& point1, Point const& point2);Point getPointOfIntersectionOfTwoLines(Line const& line1, Line const& line2);
 Point getPointOfIntersectionOfAPlaneAndALine(Plane const& plane, Line const& line);
 
 Line getLineWithSameSlope(Line const& line, Point const& point);

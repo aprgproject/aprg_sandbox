@@ -248,29 +248,27 @@ TEST(TwoDimensionsHelperTest, GetQuadrantOfAPointWorks)
     EXPECT_EQ(Quadrant::III, getQuadrantOfAPoint(Point(-1,0)));
 }
 
-TEST(TwoDimensionsHelperTest, GetAngleBasedOnAPointAndOriginWorks)
+TEST(TwoDimensionsHelperTest, GetAngleOfPointWithRespectToOriginWorks)
 {
-    EXPECT_DOUBLE_EQ(0, getAngleBasedOnAPointAndOrigin(Point(0,0)).getDegrees());
-    EXPECT_DOUBLE_EQ(45, getAngleBasedOnAPointAndOrigin(Point(1,1)).getDegrees());
-    EXPECT_DOUBLE_EQ(135, getAngleBasedOnAPointAndOrigin(Point(-1,1)).getDegrees());
-    EXPECT_DOUBLE_EQ(225, getAngleBasedOnAPointAndOrigin(Point(-1,-1)).getDegrees());
-    EXPECT_DOUBLE_EQ(315, getAngleBasedOnAPointAndOrigin(Point(1,-1)).getDegrees());
-    EXPECT_DOUBLE_EQ(90, getAngleBasedOnAPointAndOrigin(Point(0,1)).getDegrees());
-    EXPECT_DOUBLE_EQ(270, getAngleBasedOnAPointAndOrigin(Point(0,-1)).getDegrees());
-    EXPECT_DOUBLE_EQ(0, getAngleBasedOnAPointAndOrigin(Point(1,0)).getDegrees());
-    EXPECT_DOUBLE_EQ(180, getAngleBasedOnAPointAndOrigin(Point(-1,0)).getDegrees());
-    EXPECT_DOUBLE_EQ(53.130102354155987, getAngleBasedOnAPointAndOrigin(Point(3,4)).getDegrees());
-    EXPECT_DOUBLE_EQ(306.86989764584399, getAngleBasedOnAPointAndOrigin(Point(3,-4)).getDegrees());
-    EXPECT_DOUBLE_EQ(126.86989764584402, getAngleBasedOnAPointAndOrigin(Point(-3,4)).getDegrees());
-    EXPECT_DOUBLE_EQ(233.13010235415598, getAngleBasedOnAPointAndOrigin(Point(-3,-4)).getDegrees());
+    EXPECT_DOUBLE_EQ(0, getAngleOfPointWithRespectToOrigin(Point(0,0)).getDegrees());
+    EXPECT_DOUBLE_EQ(45, getAngleOfPointWithRespectToOrigin(Point(1,1)).getDegrees());
+    EXPECT_DOUBLE_EQ(135, getAngleOfPointWithRespectToOrigin(Point(-1,1)).getDegrees());
+    EXPECT_DOUBLE_EQ(225, getAngleOfPointWithRespectToOrigin(Point(-1,-1)).getDegrees());
+    EXPECT_DOUBLE_EQ(315, getAngleOfPointWithRespectToOrigin(Point(1,-1)).getDegrees());
+    EXPECT_DOUBLE_EQ(90, getAngleOfPointWithRespectToOrigin(Point(0,1)).getDegrees());
+    EXPECT_DOUBLE_EQ(270, getAngleOfPointWithRespectToOrigin(Point(0,-1)).getDegrees());
+    EXPECT_DOUBLE_EQ(0, getAngleOfPointWithRespectToOrigin(Point(1,0)).getDegrees());
+    EXPECT_DOUBLE_EQ(180, getAngleOfPointWithRespectToOrigin(Point(-1,0)).getDegrees());
+    EXPECT_DOUBLE_EQ(53.130102354155987, getAngleOfPointWithRespectToOrigin(Point(3,4)).getDegrees());
+    EXPECT_DOUBLE_EQ(306.86989764584399, getAngleOfPointWithRespectToOrigin(Point(3,-4)).getDegrees());
+    EXPECT_DOUBLE_EQ(126.86989764584402, getAngleOfPointWithRespectToOrigin(Point(-3,4)).getDegrees());
+    EXPECT_DOUBLE_EQ(233.13010235415598, getAngleOfPointWithRespectToOrigin(Point(-3,-4)).getDegrees());
 }
 
-TEST(TwoDimensionsHelperTest, getTheInnerAngleUsingThreePointsWorks)
-{
+TEST(TwoDimensionsHelperTest, getTheInnerAngleUsingThreePointsWorks){
     EXPECT_EQ(0, getTheInnerAngleUsingThreePoints(Point(0,0), Point(0,1), Point(0,1)).getDegrees());
     EXPECT_EQ(90, getTheInnerAngleUsingThreePoints(Point(0,0), Point(0,1), Point(1,0)).getDegrees());
-    EXPECT_DOUBLE_EQ(45, getTheInnerAngleUsingThreePoints(Point(0,0), Point(0,1), Point(1,1)).getDegrees());
-}
+    EXPECT_DOUBLE_EQ(45, getTheInnerAngleUsingThreePoints(Point(0,0), Point(0,1), Point(1,1)).getDegrees());}
 
 TEST(TwoDimensionsHelperTest, GetSmallerAngleBetweenTwoLinesWorks)
 {
