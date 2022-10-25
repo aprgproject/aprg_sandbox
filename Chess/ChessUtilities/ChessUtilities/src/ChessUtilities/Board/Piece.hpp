@@ -22,11 +22,13 @@ public:
     static char convertToCharacter(uint16_t const value);
 
     Piece();
+    Piece(Piece const&) = default;
     Piece(uint16_t const underlyingValue);
     Piece(PieceColor const color, PieceType const type);
 
     bool operator==(Piece const& piece) const;
     bool operator!=(Piece const& piece) const;
+    bool isEmpty() const;
 
     PieceColor getColor() const;
     PieceType getType() const;

@@ -97,6 +97,11 @@ bool Piece::operator!=(Piece const& piece) const
     return !operator==(piece);
 }
 
+bool Piece::isEmpty() const
+{
+    return PieceType::Empty == getType();
+}
+
 PieceColor Piece::getColor() const
 {
     return extractColor(m_underlyingValue);

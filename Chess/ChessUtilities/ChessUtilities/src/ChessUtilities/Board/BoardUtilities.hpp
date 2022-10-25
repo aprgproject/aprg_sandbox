@@ -10,6 +10,8 @@ namespace alba
 namespace chess
 {
 
+PieceColor getOppositeColor(PieceColor const pieceColor);
+
 std::string getEnumString(PieceColor const pieceColor);
 std::string getEnumString(PieceType const pieceType);
 

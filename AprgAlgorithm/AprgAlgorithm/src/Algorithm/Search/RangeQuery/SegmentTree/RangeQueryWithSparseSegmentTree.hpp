@@ -43,10 +43,12 @@ public:
             Value const& defaultValue,
             Function const& functionObject)
         : m_maxChildrenIndex(0U)
-        , m_numberOfValues(numberOfValues)        , m_defaultValue(defaultValue)
+        , m_numberOfValues(numberOfValues)
+        , m_defaultValue(defaultValue)
         , m_function(functionObject)
     {
-        initialize();    }
+        initialize();
+    }
 
     Value getValueOnInterval(Index const start, Index const end)
     {
@@ -62,10 +64,12 @@ public:
     void setValueOnIndex(Index const index, Value const& valueToSet)
     {
         // This has log(N) running time
-        if(index<m_numberOfValues)        {
+        if(index<m_numberOfValues)
+        {
             setValueOnIndexFromTopToBottom(index, valueToSet, m_root, 0, m_maxChildrenIndex);
         }
     }
+
 protected:
 
     Value getCombinedValueBasedFromChildren(NodePointer const& nodePointer) const
@@ -137,10 +141,12 @@ protected:
             Value const& valueToSet,
             NodePointer & nodePointer,
             Index const baseLeft,
-            Index const baseRight)    {
+            Index const baseRight)
+    {
         // This has log(N) running time
 
-        if(!nodePointer)        {
+        if(!nodePointer)
+        {
             nodePointer.reset(new Node{m_defaultValue, nullptr, nullptr});
         }
         if(baseLeft==baseRight)

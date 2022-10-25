@@ -12,6 +12,20 @@ namespace alba
 namespace chess
 {
 
+PieceColor getOppositeColor(PieceColor const pieceColor)
+{
+    PieceColor result{};
+    if(PieceColor::White == pieceColor)
+    {
+        result = PieceColor::Black;
+    }
+    else if(PieceColor::Black == pieceColor)
+    {
+        result = PieceColor::White;
+    }
+    return result;
+}
+
 std::string getEnumString(PieceColor const pieceColor)
 {
     switch(pieceColor)
@@ -77,11 +91,11 @@ Moves getSequenceOfMoves(
             Piece piece2(board2.getPieceAt(coordinate));
             if(piece1 != piece2)
             {
-                if(board1.isEmpty(coordinate))
+                if(board1.isEmptyAt(coordinate))
                 {
                     coordinatesWithPiecesInDifference1.emplace_back(coordinate);
                 }
-                if(board2.isEmpty(coordinate))
+                if(board2.isEmptyAt(coordinate))
                 {
                     coordinatesWithPiecesInDifference2.emplace_back(coordinate);
                 }

@@ -103,10 +103,12 @@ public:
     void changeValueAtIndex(Index const index, Value const& newValue)
     {
         // This has O(n/k) time.
-        if(index < m_values.size())        {
+        if(index < m_values.size())
+        {
             m_values[index] = newValue;
 
-            Index start = mathHelper::getMultipleThatIsLesserOrEqual(m_blockSize, index);            Index end = std::min(start+m_blockSize, m_values.size());
+            Index start = mathHelper::getMultipleThatIsLesserOrEqual(m_blockSize, index);
+            Index end = std::min(start+m_blockSize, m_values.size());
             m_blocks[start/m_blockSize] = m_valuesFunction(m_values.cbegin()+start, m_values.cbegin()+end);
         }
     }

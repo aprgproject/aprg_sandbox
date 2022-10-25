@@ -34,10 +34,12 @@ Plane::Plane(Point const& first, Point const& second, Point const& third)
                     Coordinate(first.getX()-third.getX(), first.getY()-third.getY(), first.getZ()-third.getZ())));
     m_aCoefficient = perpendicularCoefficients.getX();
     m_bCoefficient = perpendicularCoefficients.getY();
-    m_cCoefficient = perpendicularCoefficients.getZ();    calculateDCoefficientUsingCoefficientsABCAndAPoint(first);
+    m_cCoefficient = perpendicularCoefficients.getZ();
+    calculateDCoefficientUsingCoefficientsABCAndAPoint(first);
 }
 
-Plane::Plane(        double const aCoefficient,
+Plane::Plane(
+        double const aCoefficient,
         double const bCoefficient,
         double const cCoefficient,
         Point const& pointInPlane)

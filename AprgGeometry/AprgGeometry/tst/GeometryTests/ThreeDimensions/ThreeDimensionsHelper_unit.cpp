@@ -179,10 +179,12 @@ TEST(ThreeDimensionsHelperTest, GetConsineOfAngleUsing2DeltasWorks)
     EXPECT_EQ(1, getCosineOfAngleUsing2Deltas(coordinate1, coordinate2));
 }
 
-TEST(ThreeDimensionsHelperTest, MidpointBetweenTwoPointsCanBeCalculated){
+TEST(ThreeDimensionsHelperTest, MidpointBetweenTwoPointsCanBeCalculated)
+{
     EXPECT_EQ(Point(0,0,0), getMidpoint(Point(0,0,0), Point(0,0,0)));
     EXPECT_EQ(Point(2,2,2), getMidpoint(Point(1,1,1), Point(3,3,3)));
-    EXPECT_EQ(Point(-450,-900,-1350), getMidpoint(Point(100,200,300), Point(-1000,-2000,-3000)));}
+    EXPECT_EQ(Point(-450,-900,-1350), getMidpoint(Point(100,200,300), Point(-1000,-2000,-3000)));
+}
 
 TEST(ThreeDimensionsHelperTest, GetPointOfIntersectionOfTwoLinesWorks)
 {
@@ -245,10 +247,12 @@ TEST(ThreeDimensionsHelperTest, GetCrossProductWorks)
     Coordinate expectedCoefficients(getCrossProduct(input1, input2));
 
     EXPECT_EQ(-3, expectedCoefficients.getX());
-    EXPECT_EQ(6, expectedCoefficients.getY());    EXPECT_EQ(-3, expectedCoefficients.getZ());
+    EXPECT_EQ(6, expectedCoefficients.getY());
+    EXPECT_EQ(-3, expectedCoefficients.getZ());
 }
 
-TEST(ThreeDimensionsHelperTest, GetLineWithSameSlopeAndPoint){
+TEST(ThreeDimensionsHelperTest, GetLineWithSameSlopeAndPoint)
+{
     Line lineInput(Point(0,0,0), Point(-1,1,1));
     Line expectedLine(getLineWithSameSlope(lineInput, Point(2,2,2)));
 

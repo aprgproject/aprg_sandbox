@@ -37,10 +37,12 @@ TEST(RangeQueryForNumberOfDistinctValuesTest, GetCountOfDistinctValuesOnInterval
     EXPECT_EQ(0U, countRangeQuery.getCountOfDistinctValuesOnInterval(0U, 9U));
     EXPECT_EQ(4U, countRangeQuery.getCountOfDistinctValuesOnInterval(1U, 6U));
     EXPECT_EQ(3U, countRangeQuery.getCountOfDistinctValuesOnInterval(2U, 5U));
-    EXPECT_EQ(2U, countRangeQuery.getCountOfDistinctValuesOnInterval(3U, 4U));    EXPECT_EQ(1U, countRangeQuery.getCountOfDistinctValuesOnInterval(4U, 4U));
+    EXPECT_EQ(2U, countRangeQuery.getCountOfDistinctValuesOnInterval(3U, 4U));
+    EXPECT_EQ(1U, countRangeQuery.getCountOfDistinctValuesOnInterval(4U, 4U));
 }
 
-TEST(RangeQueryForNumberOfDistinctValuesTest, GetInputAndOutputPairsUsingMoAlgorithmWorksOnExample1){
+TEST(RangeQueryForNumberOfDistinctValuesTest, GetInputAndOutputPairsUsingMoAlgorithmWorksOnExample1)
+{
     ValuesForTest values{4U, 2U, 5U, 4U, 2U, 4U, 3U, 3U, 4U};
     RangeQueryForTest countRangeQuery(values);
     RangesForTest inputRanges

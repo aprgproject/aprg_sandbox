@@ -46,9 +46,9 @@ bool Board::isCoordinateOnBoard(Coordinate const& coordinate) const
     return (x>=0 && x<=7) && (y>=0 && y<=7);
 }
 
-bool Board::isEmpty(Coordinate const& coordinate) const
+bool Board::isEmptyAt(Coordinate const& coordinate) const
 {
-    return PieceType::Empty == getPieceAt(coordinate).getType();
+    return getPieceAt(coordinate).isEmpty();
 }
 
 bool Board::isMovePossible(Move const& move) const
@@ -63,6 +63,12 @@ bool Board::isPromotionMove(Move const& move) const
     return PieceType::Pawn == getPieceAt(move.first).getType()
             && (move.second.getY() == 0 || move.second.getY() == 7)
             && isMovePossible(move);
+}
+
+bool Board::isCastlingMove(Move const& move) const
+{
+    Move savedRookMove;
+    return isCastlingMove(move, savedRookMove);
 }
 
 Board::Orientation Board::getOrientation() const
@@ -143,7 +149,7 @@ std::string Board::getFenString() const
         fileRange.traverse([&](CoordinateDataType const file)
         {
             Coordinate coordinate(file, rank);
-            if(isEmpty(coordinate))
+            if(isEmptyAt(coordinate))
             {
                 emptyCellsInRank++;
             }
@@ -176,58 +182,58 @@ string Board::getCastlingFenString() const
     string result;
     if(Board::Orientation::BlackUpWhiteDown == m_orientation)
     {
-        Piece whiteKingPosition(getPieceAt(Coordinate(4, 7)));
-        Piece whiteKingSideRookPosition(getPieceAt(Coordinate(7, 7)));
-        Piece whiteQueenSideRookPosition(getPieceAt(Coordinate(0, 7)));
-        Piece blackKingPosition(getPieceAt(Coordinate(4, 0)));
-        Piece blackKingSideRookPosition(getPieceAt(Coordinate(7, 0)));
-        Piece blackQueenSideRookPosition(getPieceAt(Coordinate(0, 0)));
-        if(PieceType::King == whiteKingPosition.getType() && PieceColor::White == whiteKingPosition.getColor()
-                && PieceType::Rook == whiteKingSideRookPosition.getType() && PieceColor::White == whiteKingSideRookPosition.getColor())
+        Piece pieceAtWhiteKing(getPieceAt(Coordinate(4, 7)));
+        Piece pieceAtWhiteRookOnKingSide(getPieceAt(Coordinate(7, 7)));
+        Piece pieceAtWhiteRookOnQueenSide(getPieceAt(Coordinate(0, 7)));
+        Piece pieceAtBlackKing(getPieceAt(Coordinate(4, 0)));
+        Piece pieceAtBlackRookOnKingSide(getPieceAt(Coordinate(7, 0)));
+        Piece pieceAtBlackRookOnQueenSide(getPieceAt(Coordinate(0, 0)));
+        if(PieceType::King == pieceAtWhiteKing.getType() && PieceColor::White == pieceAtWhiteKing.getColor()
+                && PieceType::Rook == pieceAtWhiteRookOnKingSide.getType() && PieceColor::White == pieceAtWhiteRookOnKingSide.getColor())
         {
             result += "K";
         }
-        if(PieceType::King == whiteKingPosition.getType() && PieceColor::White == whiteKingPosition.getColor()
-                && PieceType::Rook == whiteQueenSideRookPosition.getType() && PieceColor::White == whiteQueenSideRookPosition.getColor())
+        if(PieceType::King == pieceAtWhiteKing.getType() && PieceColor::White == pieceAtWhiteKing.getColor()
+                && PieceType::Rook == pieceAtWhiteRookOnQueenSide.getType() && PieceColor::White == pieceAtWhiteRookOnQueenSide.getColor())
         {
             result += "Q";
         }
-        if(PieceType::King == blackKingPosition.getType() && PieceColor::Black == blackKingPosition.getColor()
-                && PieceType::Rook == blackKingSideRookPosition.getType() && PieceColor::Black == blackKingSideRookPosition.getColor())
+        if(PieceType::King == pieceAtBlackKing.getType() && PieceColor::Black == pieceAtBlackKing.getColor()
+                && PieceType::Rook == pieceAtBlackRookOnKingSide.getType() && PieceColor::Black == pieceAtBlackRookOnKingSide.getColor())
         {
             result += "k";
         }
-        if(PieceType::King == blackKingPosition.getType() && PieceColor::Black == blackKingPosition.getColor()
-                && PieceType::Rook == blackQueenSideRookPosition.getType() && PieceColor::Black == blackQueenSideRookPosition.getColor())
+        if(PieceType::King == pieceAtBlackKing.getType() && PieceColor::Black == pieceAtBlackKing.getColor()
+                && PieceType::Rook == pieceAtBlackRookOnQueenSide.getType() && PieceColor::Black == pieceAtBlackRookOnQueenSide.getColor())
         {
             result += "q";
         }
     }
     else if(Board::Orientation::WhiteUpBlackDown == m_orientation)
     {
-        Piece whiteKingPosition(getPieceAt(Coordinate(3, 0)));
-        Piece whiteKingSideRookPosition(getPieceAt(Coordinate(0, 0)));
-        Piece whiteQueenSideRookPosition(getPieceAt(Coordinate(7, 0)));
-        Piece blackKingPosition(getPieceAt(Coordinate(3, 7)));
-        Piece blackKingSideRookPosition(getPieceAt(Coordinate(0, 7)));
-        Piece blackQueenSideRookPosition(getPieceAt(Coordinate(7, 7)));
-        if(PieceType::King == whiteKingPosition.getType() && PieceColor::White == whiteKingPosition.getColor()
-                && PieceType::Rook == whiteKingSideRookPosition.getType() && PieceColor::White == whiteKingSideRookPosition.getColor())
+        Piece pieceAtWhiteKing(getPieceAt(Coordinate(3, 0)));
+        Piece pieceAtWhiteRookOnKingSide(getPieceAt(Coordinate(0, 0)));
+        Piece pieceAtWhiteRookOnQueenSide(getPieceAt(Coordinate(7, 0)));
+        Piece pieceAtBlackKing(getPieceAt(Coordinate(3, 7)));
+        Piece pieceAtBlackRookOnKingSide(getPieceAt(Coordinate(0, 7)));
+        Piece pieceAtBlackRookOnQueenSide(getPieceAt(Coordinate(7, 7)));
+        if(PieceType::King == pieceAtWhiteKing.getType() && PieceColor::White == pieceAtWhiteKing.getColor()
+                && PieceType::Rook == pieceAtWhiteRookOnKingSide.getType() && PieceColor::White == pieceAtWhiteRookOnKingSide.getColor())
         {
             result += "K";
         }
-        if(PieceType::King == whiteKingPosition.getType() && PieceColor::White == whiteKingPosition.getColor()
-                && PieceType::Rook == whiteQueenSideRookPosition.getType() && PieceColor::White == whiteQueenSideRookPosition.getColor())
+        if(PieceType::King == pieceAtWhiteKing.getType() && PieceColor::White == pieceAtWhiteKing.getColor()
+                && PieceType::Rook == pieceAtWhiteRookOnQueenSide.getType() && PieceColor::White == pieceAtWhiteRookOnQueenSide.getColor())
         {
             result += "Q";
         }
-        if(PieceType::King == blackKingPosition.getType() && PieceColor::Black == blackKingPosition.getColor()
-                && PieceType::Rook == blackKingSideRookPosition.getType() && PieceColor::Black == blackKingSideRookPosition.getColor())
+        if(PieceType::King == pieceAtBlackKing.getType() && PieceColor::Black == pieceAtBlackKing.getColor()
+                && PieceType::Rook == pieceAtBlackRookOnKingSide.getType() && PieceColor::Black == pieceAtBlackRookOnKingSide.getColor())
         {
             result += "k";
         }
-        if(PieceType::King == blackKingPosition.getType() && PieceColor::Black == blackKingPosition.getColor()
-                && PieceType::Rook == blackQueenSideRookPosition.getType() && PieceColor::Black == blackQueenSideRookPosition.getColor())
+        if(PieceType::King == pieceAtBlackKing.getType() && PieceColor::Black == pieceAtBlackKing.getColor()
+                && PieceType::Rook == pieceAtBlackRookOnQueenSide.getType() && PieceColor::Black == pieceAtBlackRookOnQueenSide.getColor())
         {
             result += "q";
         }
@@ -250,8 +256,101 @@ void Board::setPieceAt(
 {
     if((isCoordinateOnBoard(coordinate)))
     {
-        m_pieceMatrix.setEntry(coordinate.getX(), coordinate.getY(), piece.getUnderlyingValue());
+        m_pieceMatrix.setEntry(coordinate.getX(), coordinate.getY(), piece);
     }
+}
+
+void Board::move(Move const& move)
+{
+    if(isMovePossible(move))
+    {
+        Move savedRookMove;
+        if(isCastlingMove(move, savedRookMove))
+        {
+            changePieceMatrixWithMove(move);
+            changePieceMatrixWithMove(savedRookMove);
+        }
+        else
+        {
+            changePieceMatrixWithMove(move);
+        }
+    }
+}
+
+bool Board::isCastlingMove(Move const& move, Move & savedRookMove) const
+{
+    bool result(false);
+    Piece pieceAtKing(getPieceAt(move.first));
+    if(PieceType::King == pieceAtKing.getType())
+    {
+        if(Board::Orientation::BlackUpWhiteDown == m_orientation)
+        {
+            if(Coordinate(4, 0) == move.first && PieceColor::Black == pieceAtKing.getColor()) // black king
+            {
+                if(Coordinate(2, 0) == move.second) // queen side castle
+                {
+                    Piece pieceAtRook(getPieceAt(Coordinate(0, 0)));
+                    savedRookMove = {Coordinate(0, 0), Coordinate(3, 0)};
+                    result = PieceType::Rook == pieceAtRook.getType() && PieceColor::Black == pieceAtRook.getColor();
+                }
+                else if(Coordinate(6, 0) == move.second) // king side castle
+                {
+                    Piece pieceAtRook(getPieceAt(Coordinate(7, 0)));
+                    savedRookMove = {Coordinate(7, 0), Coordinate(5, 0)};
+                    result = PieceType::Rook == pieceAtRook.getType() && PieceColor::Black == pieceAtRook.getColor();
+                }
+            }
+            else if(Coordinate(4, 7) == move.first && PieceColor::White == pieceAtKing.getColor()) //white king
+            {
+                if(Coordinate(2, 7) == move.second) // queen side castle
+                {
+                    Piece pieceAtRook(getPieceAt(Coordinate(0, 7)));
+                    savedRookMove = {Coordinate(0, 7), Coordinate(3, 7)};
+                    result = PieceType::Rook == pieceAtRook.getType() && PieceColor::White == pieceAtRook.getColor();
+                }
+                else if(Coordinate(6, 7) == move.second) // king side castle
+                {
+                    Piece pieceAtRook(getPieceAt(Coordinate(7, 7)));
+                    savedRookMove = {Coordinate(0, 7), Coordinate(5, 7)};
+                    result = PieceType::Rook == pieceAtRook.getType() && PieceColor::White == pieceAtRook.getColor();
+                }
+            }
+        }
+        else if(Board::Orientation::WhiteUpBlackDown == m_orientation)
+        {
+            if(Coordinate(3, 0) == move.first && PieceColor::White == pieceAtKing.getColor()) // white king
+            {
+                if(Coordinate(1, 0) == move.second) // king side castle
+                {
+                    Piece pieceAtRook(getPieceAt(Coordinate(0, 0)));
+                    savedRookMove = {Coordinate(0, 0), Coordinate(2, 0)};
+                    result = PieceType::Rook == pieceAtRook.getType() && PieceColor::White == pieceAtRook.getColor();
+                }
+                else if(Coordinate(5, 0) == move.second) // queen side castle
+                {
+                    Piece pieceAtRook(getPieceAt(Coordinate(7, 0)));
+                    savedRookMove = {Coordinate(7, 0), Coordinate(4, 0)};
+                    result = PieceType::Rook == pieceAtRook.getType() && PieceColor::White == pieceAtRook.getColor();
+                }
+            }
+            else if(Coordinate(3, 7) == move.first && PieceColor::Black == pieceAtKing.getColor()) //black king
+            {
+                if(Coordinate(1, 7) == move.second) // king side castle
+                {
+                    Piece pieceAtRook(getPieceAt(Coordinate(0, 7)));
+                    savedRookMove = {Coordinate(0, 7), Coordinate(2, 7)};
+                    result = PieceType::Rook == pieceAtRook.getType() && PieceColor::Black == pieceAtRook.getColor();
+                }
+                else if(Coordinate(5, 7) == move.second) // queen side castle
+                {
+                    Piece pieceAtRook(getPieceAt(Coordinate(7, 7)));
+                    savedRookMove = {Coordinate(7, 7), Coordinate(4, 7)};
+                    result = PieceType::Rook == pieceAtRook.getType() && PieceColor::Black == pieceAtRook.getColor();
+                }
+            }
+        }
+    }
+    return result;
 }
 
 void Board::retrievePossibleMovesBaseFromPieceType(
@@ -308,18 +407,18 @@ void Board::retrievePossiblePawnMoves(
     {
         if(Orientation::BlackUpWhiteDown == m_orientation)
         {
-            addMove(result, coordinate, coordinate + Coordinate(0, -1));
+            addMoveToListOfMoves(result, coordinate, coordinate + Coordinate(0, -1));
             if(6 == coordinate.getY())
             {
-                addMove(result, coordinate, coordinate + Coordinate(0, -2));
+                addMoveToListOfMoves(result, coordinate, coordinate + Coordinate(0, -2));
             }
         }
         else if(Orientation::WhiteUpBlackDown == m_orientation)
         {
-            addMove(result, coordinate, coordinate + Coordinate(0, 1));
+            addMoveToListOfMoves(result, coordinate, coordinate + Coordinate(0, 1));
             if(1 == coordinate.getY())
             {
-                addMove(result, coordinate, coordinate + Coordinate(0, 2));
+                addMoveToListOfMoves(result, coordinate, coordinate + Coordinate(0, 2));
             }
         }
     }
@@ -327,18 +426,18 @@ void Board::retrievePossiblePawnMoves(
     {
         if(Orientation::BlackUpWhiteDown == m_orientation)
         {
-            addMove(result, coordinate, coordinate + Coordinate(0, 1));
+            addMoveToListOfMoves(result, coordinate, coordinate + Coordinate(0, 1));
             if(1 == coordinate.getY())
             {
-                addMove(result, coordinate, coordinate + Coordinate(0, 2));
+                addMoveToListOfMoves(result, coordinate, coordinate + Coordinate(0, 2));
             }
         }
         else if(Orientation::WhiteUpBlackDown == m_orientation)
         {
-            addMove(result, coordinate, coordinate + Coordinate(0, -1));
+            addMoveToListOfMoves(result, coordinate, coordinate + Coordinate(0, -1));
             if(6 == coordinate.getY())
             {
-                addMove(result, coordinate, coordinate + Coordinate(0, -2));
+                addMoveToListOfMoves(result, coordinate, coordinate + Coordinate(0, -2));
             }
         }
     }
@@ -348,14 +447,14 @@ void Board::retrievePossibleKnightMoves(
         Moves & result,
         Coordinate const& coordinate) const
 {
-    addMove(result, coordinate, coordinate + Coordinate(-2, -1));
-    addMove(result, coordinate, coordinate + Coordinate(-2, 1));
-    addMove(result, coordinate, coordinate + Coordinate(-1, -2));
-    addMove(result, coordinate, coordinate + Coordinate(-1, 2));
-    addMove(result, coordinate, coordinate + Coordinate(1, -2));
-    addMove(result, coordinate, coordinate + Coordinate(1, 2));
-    addMove(result, coordinate, coordinate + Coordinate(2, -1));
-    addMove(result, coordinate, coordinate + Coordinate(2, 1));
+    addMoveToListOfMoves(result, coordinate, coordinate + Coordinate(-2, -1));
+    addMoveToListOfMoves(result, coordinate, coordinate + Coordinate(-2, 1));
+    addMoveToListOfMoves(result, coordinate, coordinate + Coordinate(-1, -2));
+    addMoveToListOfMoves(result, coordinate, coordinate + Coordinate(-1, 2));
+    addMoveToListOfMoves(result, coordinate, coordinate + Coordinate(1, -2));
+    addMoveToListOfMoves(result, coordinate, coordinate + Coordinate(1, 2));
+    addMoveToListOfMoves(result, coordinate, coordinate + Coordinate(2, -1));
+    addMoveToListOfMoves(result, coordinate, coordinate + Coordinate(2, 1));
 }
 
 void Board::retrievePossibleBishopMoves(
@@ -390,14 +489,80 @@ void Board::retrievePossibleKingMoves(
         Moves & result,
         Coordinate const& coordinate) const
 {
-    addMove(result, coordinate, coordinate + Coordinate(-1, -1));
-    addMove(result, coordinate, coordinate + Coordinate(-1, 0));
-    addMove(result, coordinate, coordinate + Coordinate(-1, 1));
-    addMove(result, coordinate, coordinate + Coordinate(0, -1));
-    addMove(result, coordinate, coordinate + Coordinate(0, 1));
-    addMove(result, coordinate, coordinate + Coordinate(1, -1));
-    addMove(result, coordinate, coordinate + Coordinate(1, 0));
-    addMove(result, coordinate, coordinate + Coordinate(1, 1));
+    addMoveToListOfMoves(result, coordinate, coordinate + Coordinate(-1, -1));
+    addMoveToListOfMoves(result, coordinate, coordinate + Coordinate(-1, 0));
+    addMoveToListOfMoves(result, coordinate, coordinate + Coordinate(-1, 1));
+    addMoveToListOfMoves(result, coordinate, coordinate + Coordinate(0, -1));
+    addMoveToListOfMoves(result, coordinate, coordinate + Coordinate(0, 1));
+    addMoveToListOfMoves(result, coordinate, coordinate + Coordinate(1, -1));
+    addMoveToListOfMoves(result, coordinate, coordinate + Coordinate(1, 0));
+    addMoveToListOfMoves(result, coordinate, coordinate + Coordinate(1, 1));
+    retrievePossibleKingCastlingMoves(result, coordinate);
+}
+
+void Board::retrievePossibleKingCastlingMoves(
+        Moves & result,
+        Coordinate const& coordinate) const
+{
+    Piece pieceAtKing(getPieceAt(coordinate));
+    if(Board::Orientation::BlackUpWhiteDown == m_orientation)
+    {
+        if(Coordinate(4, 0) == coordinate && PieceColor::Black == pieceAtKing.getColor()) // black king
+        {
+            Piece pieceAtRookOnQueenSide(getPieceAt(Coordinate(0, 0)));
+            Piece pieceAtRookOnKingSide(getPieceAt(Coordinate(7, 0)));
+            if(PieceType::Rook == pieceAtRookOnQueenSide.getType() && PieceColor::Black == pieceAtRookOnQueenSide.getColor())
+            {
+                addMoveToListOfMoves(result, Coordinate(4, 0), Coordinate(2, 0)); // queen side castle
+            }
+            else if(PieceType::Rook == pieceAtRookOnKingSide.getType() && PieceColor::Black == pieceAtRookOnKingSide.getColor())
+            {
+                addMoveToListOfMoves(result, Coordinate(4, 0), Coordinate(6, 0));  // king side castle
+            }
+        }
+        else if(Coordinate(4, 7) == coordinate && PieceColor::White == pieceAtKing.getColor()) //white king
+        {
+            Piece pieceAtRookOnQueenSide(getPieceAt(Coordinate(0, 7)));
+            Piece pieceAtRookOnKingSide(getPieceAt(Coordinate(7, 7)));
+            if(PieceType::Rook == pieceAtRookOnQueenSide.getType() && PieceColor::White == pieceAtRookOnQueenSide.getColor())
+            {
+                addMoveToListOfMoves(result, Coordinate(4, 7), Coordinate(2, 7)); // queen side castle
+            }
+            else if(PieceType::Rook == pieceAtRookOnKingSide.getType() && PieceColor::White == pieceAtRookOnKingSide.getColor())
+            {
+                addMoveToListOfMoves(result, Coordinate(4, 7), Coordinate(6, 7));  // king side castle
+            }
+        }
+    }
+    else if(Board::Orientation::WhiteUpBlackDown == m_orientation)
+    {
+        if(Coordinate(3, 0) == coordinate && PieceColor::White == pieceAtKing.getColor()) // white king
+        {
+            Piece pieceAtRookOnQueenSide(getPieceAt(Coordinate(0, 0)));
+            Piece pieceAtRookOnKingSide(getPieceAt(Coordinate(7, 0)));
+            if(PieceType::Rook == pieceAtRookOnQueenSide.getType() && PieceColor::White == pieceAtRookOnQueenSide.getColor())
+            {
+                addMoveToListOfMoves(result, Coordinate(3, 0), Coordinate(1, 0)); // queen side castle
+            }
+            else if(PieceType::Rook == pieceAtRookOnKingSide.getType() && PieceColor::White == pieceAtRookOnKingSide.getColor())
+            {
+                addMoveToListOfMoves(result, Coordinate(3, 0), Coordinate(5, 0));  // king side castle
+            }
+        }
+        else if(Coordinate(3, 7) == coordinate && PieceColor::Black == pieceAtKing.getColor()) //black king
+        {
+            Piece pieceAtRookOnQueenSide(getPieceAt(Coordinate(0, 7)));
+            Piece pieceAtRookOnKingSide(getPieceAt(Coordinate(7, 7)));
+            if(PieceType::Rook == pieceAtRookOnQueenSide.getType() && PieceColor::Black == pieceAtRookOnQueenSide.getColor())
+            {
+                addMoveToListOfMoves(result, Coordinate(3, 7), Coordinate(1, 7)); // queen side castle
+            }
+            else if(PieceType::Rook == pieceAtRookOnKingSide.getType() && PieceColor::Black == pieceAtRookOnKingSide.getColor())
+            {
+                addMoveToListOfMoves(result, Coordinate(3, 7), Coordinate(5, 7));  // king side castle
+            }
+        }
+    }
 }
 
 void Board::retrievePossibleMovesByIncrements(
@@ -412,13 +577,13 @@ void Board::retrievePossibleMovesByIncrements(
         {
             break;
         }
-        else if(isEmpty(newCoordinate))
+        else if(isEmptyAt(newCoordinate))
         {
-            addMove(result, coordinate, newCoordinate);
+            addMoveToListOfMoves(result, coordinate, newCoordinate);
         }
         else if(haveDifferentColors(coordinate, newCoordinate))
         {
-            addMove(result, coordinate, newCoordinate);
+            addMoveToListOfMoves(result, coordinate, newCoordinate);
             break;
         }
         else
@@ -436,14 +601,14 @@ bool Board::haveDifferentColors(
     return getPieceAt(sourceCoordinate).getColor() != getPieceAt(destinationCoordinate).getColor();
 }
 
-void Board::addMove(Moves & moves,
+void Board::addMoveToListOfMoves(Moves & moves,
                     Coordinate const& sourceCoordinate,
                     Coordinate const& destinationCoordinate) const
 {
     if(isCoordinateOnBoard(sourceCoordinate)
             && isCoordinateOnBoard(destinationCoordinate))
     {
-        if(isEmpty(destinationCoordinate) || haveDifferentColors(sourceCoordinate, destinationCoordinate))
+        if(isEmptyAt(destinationCoordinate) || haveDifferentColors(sourceCoordinate, destinationCoordinate))
         {
             moves.emplace_back(sourceCoordinate, destinationCoordinate);
         }
@@ -458,14 +623,14 @@ Board::PieceMatrix::MatrixData Board::getInitialValues(
     if(Orientation::BlackUpWhiteDown == inputType)
     {
         result =
-        {12,10,11,14,13,11,10,12,
+        {12,10,11,13,14,11,10,12,
          9,9,9,9,9,9,9,9,
          0,0,0,0,0,0,0,0,
          0,0,0,0,0,0,0,0,
          0,0,0,0,0,0,0,0,
          0,0,0,0,0,0,0,0,
          1,1,1,1,1,1,1,1,
-         4,2,3,6,5,3,2,4};
+         4,2,3,5,6,3,2,4};
     }
     else if(Orientation::WhiteUpBlackDown == inputType)
     {
@@ -480,6 +645,12 @@ Board::PieceMatrix::MatrixData Board::getInitialValues(
          12,10,11,14,13,11,10,12};
     }
     return result;
+}
+
+void Board::changePieceMatrixWithMove(Move const& move)
+{
+    m_pieceMatrix.setEntry(move.second.getX(), move.second.getY(), m_pieceMatrix.getEntry(move.first.getX(), move.first.getY()));
+    m_pieceMatrix.setEntry(move.first.getX(), move.first.getY(), Piece());
 }
 
 }

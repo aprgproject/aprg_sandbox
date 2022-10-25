@@ -36,9 +36,10 @@ public:
     Board(Orientation const& orientation, InitializerList const& initializerList);
 
     bool isCoordinateOnBoard(Coordinate const& coordinate) const;
-    bool isEmpty(Coordinate const& coordinate) const;
+    bool isEmptyAt(Coordinate const& coordinate) const;
     bool isMovePossible(Move const& move) const;
     bool isPromotionMove(Move const& move) const;
+    bool isCastlingMove(Move const& move) const;
 
     Orientation getOrientation() const;
     PieceMatrix const& getPieceMatrix() const;
@@ -51,8 +52,10 @@ public:
 
     void setOrientation(Orientation const orientation);
     void setPieceAt(Coordinate const& coordinate, Piece const& piece);
+    void move(Move const& move);
 
 private:
+    bool isCastlingMove(Move const& move, Move & savedRookMove) const;
     void retrievePossibleMovesBaseFromPieceType(Moves & result, Coordinate const& coordinate) const;
     void retrievePossiblePawnMoves(Moves & result, Coordinate const& coordinate) const;
     void retrievePossibleKnightMoves(Moves & result, Coordinate const& coordinate) const;
@@ -60,16 +63,18 @@ private:
     void retrievePossibleRookMoves(Moves & result, Coordinate const& coordinate) const;
     void retrievePossibleQueenMoves(Moves & result, Coordinate const& coordinate) const;
     void retrievePossibleKingMoves(Moves & result, Coordinate const& coordinate) const;
+    void retrievePossibleKingCastlingMoves(Moves & result, Coordinate const& coordinate) const;
     void retrievePossibleMovesByIncrements(
             Moves & result,
             Coordinate const& coordinate,
             Coordinate const& increment) const;
-
     bool haveDifferentColors(
             Coordinate const& sourceCoordinate,
             Coordinate const& destinationCoordinate) const;
-    void addMove(Moves & moves, Coordinate const& coordinate1, Coordinate const& coordinate2) const;
+    void addMoveToListOfMoves(Moves & moves, Coordinate const& coordinate1, Coordinate const& coordinate2) const;
+
     PieceMatrix::MatrixData getInitialValues(Orientation const& inputType) const;
+    void changePieceMatrixWithMove(Move const& move);
 
     Orientation m_orientation;
     PieceMatrix m_pieceMatrix;

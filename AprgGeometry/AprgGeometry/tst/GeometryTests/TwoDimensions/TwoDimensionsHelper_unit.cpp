@@ -265,10 +265,12 @@ TEST(TwoDimensionsHelperTest, GetAngleOfPointWithRespectToOriginWorks)
     EXPECT_DOUBLE_EQ(233.13010235415598, getAngleOfPointWithRespectToOrigin(Point(-3,-4)).getDegrees());
 }
 
-TEST(TwoDimensionsHelperTest, getTheInnerAngleUsingThreePointsWorks){
+TEST(TwoDimensionsHelperTest, getTheInnerAngleUsingThreePointsWorks)
+{
     EXPECT_EQ(0, getTheInnerAngleUsingThreePoints(Point(0,0), Point(0,1), Point(0,1)).getDegrees());
     EXPECT_EQ(90, getTheInnerAngleUsingThreePoints(Point(0,0), Point(0,1), Point(1,0)).getDegrees());
-    EXPECT_DOUBLE_EQ(45, getTheInnerAngleUsingThreePoints(Point(0,0), Point(0,1), Point(1,1)).getDegrees());}
+    EXPECT_DOUBLE_EQ(45, getTheInnerAngleUsingThreePoints(Point(0,0), Point(0,1), Point(1,1)).getDegrees());
+}
 
 TEST(TwoDimensionsHelperTest, GetSmallerAngleBetweenTwoLinesWorks)
 {

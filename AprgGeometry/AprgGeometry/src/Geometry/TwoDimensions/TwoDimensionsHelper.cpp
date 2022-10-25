@@ -276,10 +276,12 @@ RotationDirection getRotationDirectionTraversing3Points(Point const a, Point con
 AlbaAngle getAngleOfPointWithRespectToOrigin(Point const& point)
 {
     AlbaAngle angle;
-    if(!isOrigin(point))    {
+    if(!isOrigin(point))
+    {
         Quadrant quadrant(getQuadrantOfAPoint(point));
         angle = AlbaAngle(AngleUnitType::Radians, acos(getAbsoluteValue(getCosineOfAngleUsing1Delta(point.getX(), point.getY()))));
-        if(Quadrant::IV == quadrant)        {
+        if(Quadrant::IV == quadrant)
+        {
             angle = AlbaAngle(AngleUnitType::Degrees, 360) - angle;
         }
         else if(Quadrant::III == quadrant)
@@ -344,9 +346,11 @@ Point getIntersectionOfTwoLines(Line const& line1, Line const& line2)
             /(line1.getBCoefficient()*line2.getACoefficient() - line2.getBCoefficient()*line1.getACoefficient());
     return Point(xOfIntersection, yOfIntersection);
 }
+
 Point getMidpoint(Point const& point1, Point const& point2)
 {
-    return Point((point1.getX()+point2.getX())/2,  (point1.getY()+point2.getY())/2);}
+    return Point((point1.getX()+point2.getX())/2,  (point1.getY()+point2.getY())/2);
+}
 
 Point getPointAlongALineWithDistanceFromAPoint(
         Line const& line,
@@ -462,9 +466,11 @@ PolarCoordinate convertToPolarCoordinate(Point const& point)
     polarCoordinate.angle = getAngleOfPointWithRespectToOrigin(point);
     return polarCoordinate;
 }
+
 Points getConnectedPointsUsingALine(Points const& inputPoints, double const interval)
 {
-    Points resultingPoints;    if(!inputPoints.empty())
+    Points resultingPoints;
+    if(!inputPoints.empty())
     {
         Point previousPoint(inputPoints.front());
         for(Point const& currentPoint: inputPoints)
@@ -615,9 +621,11 @@ Points getConvexHullPointsUsingGrahamScan(Points const& points)
         CompareData(getAngleOfPointWithRespectToOrigin(point - pointWithMinimumY), getDistance(pointWithMinimumY, point)),
                     point); // sort points by polar angle
     }
+
     stack<Point> convertHullPoints;
     unsigned int i=0;
-    for(auto const& compareDataAndPointPair : compareDataToPointMap)    {
+    for(auto const& compareDataAndPointPair : compareDataToPointMap)
+    {
         Point const& currentPoint(compareDataAndPointPair.second);
         if(i<2)
         {

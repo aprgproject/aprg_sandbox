@@ -20,6 +20,7 @@ TEST(RangeQueryForCountTest, GetCountOfThisValueOnIntervalWorksOnExample1)
 {
     ValuesForTest values{4U, 2U, 4U, 4U, 2U, 4U, 3U, 3U, 4U};
     RangeQueryForTest countRangeQuery(values);
+
     // The counts for 1
     EXPECT_EQ(0U, countRangeQuery.getCountOfThisValueOnInterval(0U, 0U, 1U));
     EXPECT_EQ(0U, countRangeQuery.getCountOfThisValueOnInterval(0U, 1U, 1U));

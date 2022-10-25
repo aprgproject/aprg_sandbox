@@ -32,10 +32,12 @@ public:
 
     using Index = unsigned int;
     using Value = typename Values::value_type;
-    using Function = std::function<Value(Value const&, Value const&)>;    using Utilities = SegmentTreeUtilities<Index>;
+    using Function = std::function<Value(Value const&, Value const&)>;
+    using Utilities = SegmentTreeUtilities<Index>;
     using Node = PersistentDynamicSegmentTreeNode<Value>;
     using NodePointer = std::shared_ptr<Node>;
-    using NodeRoot = AlbaFakeCopyable<NodePointer>;    using NodeRoots = std::list<NodeRoot>;
+    using NodeRoot = AlbaFakeCopyable<NodePointer>;
+    using NodeRoots = std::list<NodeRoot>;
     using StepCount = unsigned int;
 
     RangeQueryWithPersistentDynamicSegmentTree(
@@ -77,10 +79,12 @@ public:
     virtual void changeValueAtIndex(Index const index, Value const& newValue)
     {
         // This has log(N) running time
-        if(index<m_numberOfValues)        {
+        if(index<m_numberOfValues)
+        {
             NodeRoot & previousTreeRoot(m_roots.back());
             m_roots.emplace_back();
-            changeValueOnIndexFromTopToBottom(                        index, newValue, previousTreeRoot.getObjectReference(), m_roots.back().getObjectReference(), 0, m_maxChildrenIndex);
+            changeValueOnIndexFromTopToBottom(
+                        index, newValue, previousTreeRoot.getObjectReference(), m_roots.back().getObjectReference(), 0, m_maxChildrenIndex);
         }
     }
 
@@ -184,9 +188,11 @@ protected:
             Value const& newValue,
             NodePointer const& previousTreeNode,
             NodePointer & newTreeNode,
-            Index const baseLeft,            Index const baseRight)
+            Index const baseLeft,
+            Index const baseRight)
     {
         // This has log(N) running time
+
         if(previousTreeNode)
         {
             if(baseLeft==baseRight)

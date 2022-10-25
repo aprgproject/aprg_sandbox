@@ -16,14 +16,14 @@ TEST(BoardTest, ConstructionWorks)
     Board board2(Board::Orientation::WhiteUpBlackDown);
 
     Board::PieceMatrix expectedMatrix1(8U, 8U,
-    {12,10,11,14,13,11,10,12,
+    {12,10,11,13,14,11,10,12,
      9,9,9,9,9,9,9,9,
      0,0,0,0,0,0,0,0,
      0,0,0,0,0,0,0,0,
      0,0,0,0,0,0,0,0,
      0,0,0,0,0,0,0,0,
      1,1,1,1,1,1,1,1,
-     4,2,3,6,5,3,2,4});
+     4,2,3,5,6,3,2,4});
     Board::PieceMatrix expectedMatrix2(8U, 8U,
     {4,2,3,6,5,3,2,4,
      1,1,1,1,1,1,1,1,
@@ -53,8 +53,8 @@ TEST(BoardTest, IsEmptyWorks)
     Coordinate emptyCoordinate{4, 4};
     Coordinate nonEmptyCoordinate{3, 6};
 
-    EXPECT_TRUE(board.isEmpty(emptyCoordinate));
-    EXPECT_FALSE(board.isEmpty(nonEmptyCoordinate));
+    EXPECT_TRUE(board.isEmptyAt(emptyCoordinate));
+    EXPECT_FALSE(board.isEmptyAt(nonEmptyCoordinate));
 }
 
 TEST(BoardTest, IsMovePossibleWorks)
@@ -223,7 +223,7 @@ TEST(BoardTest, GetFenStringWorks)
     string actualFenString3(board3.getFenString());
     string actualFenString4(board4.getFenString());
 
-    string expectedFenString1("rnbkqbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBKQBNR");
+    string expectedFenString1("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR");
     string expectedFenString2("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR");
     string expectedFenString3("3kq3/rnb2bnr/P1P1P1P1/1P1P1P1P/pp2pp2/2pp2pp/RNB2BNR/3KQ3");
     string expectedFenString4("r1bqkbnr/ppp1pppp/3p4/4n3/4P3/2N2N2/PPPP1PPP/R1BQKB1R");
@@ -231,6 +231,50 @@ TEST(BoardTest, GetFenStringWorks)
     EXPECT_EQ(expectedFenString2, actualFenString2);
     EXPECT_EQ(expectedFenString3, actualFenString3);
     EXPECT_EQ(expectedFenString4, actualFenString4);
+}
+
+TEST(BoardTest, MoveWorks)
+{
+    Board board(Board::Orientation::BlackUpWhiteDown);
+
+    board.move(Move{{2,6},{2,4}});
+
+    Board::PieceMatrix expectedMatrix(8U, 8U,
+    {12,10,11,13,14,11,10,12,
+     9,9,9,9,9,9,9,9,
+     0,0,0,0,0,0,0,0,
+     0,0,0,0,0,0,0,0,
+     0,0,1,0,0,0,0,0,
+     0,0,0,0,0,0,0,0,
+     1,1,0,1,1,1,1,1,
+     4,2,3,5,6,3,2,4});
+    EXPECT_EQ(expectedMatrix, board.getPieceMatrix());
+}
+
+TEST(BoardTest, MoveWorksWithCastling)
+{
+    Board board(Board::Orientation::BlackUpWhiteDown,
+    {12,10,11,13,14,11,10,12,
+     9,9,9,9,9,9,9,9,
+     0,0,0,0,0,0,0,0,
+     0,0,0,0,0,0,0,0,
+     0,0,0,0,0,0,0,0,
+     0,0,0,0,0,0,0,0,
+     1,1,1,1,1,1,1,1,
+     4,0,0,0,6,3,2,4});
+
+    board.move(Move{{4,7},{2,7}});
+
+    Board::PieceMatrix expectedMatrix(8U, 8U,
+    {12,10,11,13,14,11,10,12,
+     9,9,9,9,9,9,9,9,
+     0,0,0,0,0,0,0,0,
+     0,0,0,0,0,0,0,0,
+     0,0,0,0,0,0,0,0,
+     0,0,0,0,0,0,0,0,
+     1,1,1,1,1,1,1,1,
+     0,0,6,4,0,3,2,4});
+    EXPECT_EQ(expectedMatrix, board.getPieceMatrix());
 }
 
 }
