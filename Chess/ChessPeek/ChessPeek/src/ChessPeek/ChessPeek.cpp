@@ -43,16 +43,16 @@ ChessPeek::ChessPeek()
     , m_chessEngineController(m_chessEngineHandler)
     , m_chessPieceConverter()
     , m_userAutomation()
-    , m_chessBoard(Board::Orientation::BlackUpWhiteDown)
+    , m_chessBoard(Board::Orientation::BlackUpWhiteDown, {})
     , m_playerColor(PieceColor::White)
+    , m_playerKingCoordinate{}
+    , m_opponentKingCoordinate{}
     , m_isEngineNewlyReseted(true)
 {
-    initialize();
-}
+    initialize();}
 
 void ChessPeek::runForever()
-{
-    while(true)
+{    while(true)
     {
         runOneIteration();
         //Sleep(1);
@@ -64,15 +64,13 @@ void ChessPeek::runOneIteration()
 {
     Board::PieceMatrix previousPieceMatrix(m_chessBoard.getPieceMatrix());
     checkScreenAndSaveDetails();
-    if(m_isEngineNewlyReseted || previousPieceMatrix != m_chessBoard.getPieceMatrix())
+    if((m_isEngineNewlyReseted || previousPieceMatrix != m_chessBoard.getPieceMatrix()) && canAnalyzeBoard())
     {
         startAnalysisUsingEngine();
-    }
-}
+    }}
 
 void ChessPeek::checkScreenAndSaveDetails()
-{
-    m_userAutomation.saveBitmapOnScreen(SCREEN_SHOT_PATH);
+{    m_userAutomation.saveBitmapOnScreen(SCREEN_SHOT_PATH);
     Bitmap bitmap(SCREEN_SHOT_PATH);
     BitmapSnippet snippet(bitmap.getSnippetReadFromFile(BitmapXY(CHESS_BOARD_TOP_LEFT_CORNER), BitmapXY(CHESS_BOARD_BOTTOM_RIGHT_CORNER)));
     checkSnippetAndSaveDetails(snippet);
@@ -101,27 +99,43 @@ void ChessPeek::calculationMonitoringCallBack(EngineCalculationDetails const& ca
     checkCalculationDetails();
 }
 
+bool ChessPeek::canAnalyzeBoard() const
+{
+    return doCorrectKingsExists() && !isOpponentKingOnCheck();
+}
+
+bool ChessPeek::doCorrectKingsExists() const
+{
+    Piece playerKing(m_chessBoard.getPieceAt(m_playerKingCoordinate));
+    Piece opponentKing(m_chessBoard.getPieceAt(m_opponentKingCoordinate));
+    return (PieceType::King == playerKing.getType() && m_playerColor == playerKing.getColor())
+            || (PieceType::King == opponentKing.getType() && getOppositeColor(m_playerColor) == opponentKing.getColor());
+}
+
+bool ChessPeek::isOpponentKingOnCheck() const
+{
+    return m_chessBoard.canBeCaptured(m_opponentKingCoordinate);
+}
+
 void ChessPeek::saveCalculationDetails(EngineCalculationDetails const& engineCalculationDetails)
 {
+    constexpr unsigned int minimumNumberOfPvMovesForUpdate = 3U;
     if(!engineCalculationDetails.bestMove.empty())
     {
-        m_savedCalculationDetails.bestMove = engineCalculationDetails.bestMove;
-    }
+        m_savedCalculationDetails.bestMove = engineCalculationDetails.bestMove;    }
     m_savedCalculationDetails.scoreInCentipawns = engineCalculationDetails.scoreInCentipawns;
     m_savedCalculationDetails.mateInNumberOfMoves = engineCalculationDetails.mateInNumberOfMoves;
     if(!engineCalculationDetails.currentlySearchingMoves.empty())
     {
         m_savedCalculationDetails.currentlySearchingMoves = engineCalculationDetails.currentlySearchingMoves;
     }
-    if(!engineCalculationDetails.pvMovesInBestLine.empty())
+    if(engineCalculationDetails.pvMovesInBestLine.size() >= minimumNumberOfPvMovesForUpdate)
     {
         m_savedCalculationDetails.pvMovesInBestLine = engineCalculationDetails.pvMovesInBestLine;
-    }
-}
+    }}
 
 void ChessPeek::checkCalculationDetails()
-{
-    string bestMoveToDisplayString(getBestMoveToDisplayString());
+{    string bestMoveToDisplayString(getBestMoveToDisplayString());
     strings currentMoves(getCurrentMoves(bestMoveToDisplayString));
     strings futureMoves(getFutureMoves());
 
@@ -142,37 +156,31 @@ void ChessPeek::checkSnippetAndSaveDetails(BitmapSnippet & snippet)
     //snippet.setPixelAt(snippet.getTopLeftCorner(), 0xA1BA00);//
     //snippet.setPixelAt(snippet.getBottomRightCorner(), 0xA1BA00);//
 
-    DataForYellow dataForYellow{};
     unsigned int pieceCount = 0U;
     for(unsigned int j=0; j<8; j++)
-    {
-        for(unsigned int i=0; i<8; i++)
+    {        for(unsigned int i=0; i<8; i++)
         {
             ChessCellCoordinates chessCellCoordinates(getChessCellCoordinates(i, j, startX, startY, deltaX, deltaY));
             BitSet64 whiteValue, blackValue;
-            double averageYellowValue;
-            retrieveChessCellDataBasedFromPixels(whiteValue, blackValue, averageYellowValue, snippet, chessCellCoordinates);
+            retrieveChessCellDataBasedFromPixels(whiteValue, blackValue, snippet, chessCellCoordinates);
 
             Coordinate chessCoordinate(i, j);
             Piece chessPiece(getChessPieceIfPossible(blackValue, whiteValue));
+            m_chessBoard.setPieceAt(chessCoordinate, chessPiece);
             if(!chessPiece.isEmpty())
             {
-                m_chessBoard.setPieceAt(chessCoordinate, chessPiece);
+                setOpponentKingCoordinateIfPossible(chessCoordinate, chessPiece);
                 pieceCount++;
             }
-            updateDataForYellow(dataForYellow, averageYellowValue, chessCoordinate);
         }
     }
     updatePlayerSideAndOrientation(pieceCount);
-    updateLastMoveColor(dataForYellow);
 }
 
-ChessPeek::ChessCellCoordinates ChessPeek::getChessCellCoordinates(
-        unsigned int const i,
+ChessPeek::ChessCellCoordinates ChessPeek::getChessCellCoordinates(        unsigned int const i,
         unsigned int const j,
         double const startX,
-        double const startY,
-        double const deltaX,
+        double const startY,        double const deltaX,
         double const deltaY)
 {
     return ChessCellCoordinates {static_cast<unsigned int>(round(startX + deltaX*i + deltaX*LEFT_RIGHT_INDENTION)),
@@ -182,61 +190,23 @@ ChessPeek::ChessCellCoordinates ChessPeek::getChessCellCoordinates(
     };
 }
 
-void ChessPeek::updateDataForYellow(
-        DataForYellow & dataForYellow,
-        double const averageYellowValue,
-        Coordinate const& chessCoordinate)
-{
-    if(dataForYellow.secondHighestYellow < averageYellowValue)
-    {
-        dataForYellow.secondHighestYellow = averageYellowValue;
-        dataForYellow.coordinateSecond = chessCoordinate;
-        if(dataForYellow.highestYellow < dataForYellow.secondHighestYellow)
-        {
-            std::swap(dataForYellow.highestYellow, dataForYellow.secondHighestYellow);
-            std::swap(dataForYellow.coordinateFirst, dataForYellow.coordinateSecond);
-        }
-    }
-}
-
 Piece ChessPeek::getChessPieceIfPossible(BitSet64 const& blackValue, BitSet64 const& whiteValue)
 {
-    Piece chessPiece;
-    uint64_t chessCellBitValue;
+    Piece chessPiece;    uint64_t chessCellBitValue;
     PieceColor pieceColor = (whiteValue.count() >= blackValue.count()) ? PieceColor::White : PieceColor::Black;
     chessCellBitValue = whiteValue.to_ullong() | blackValue.to_ullong();
-    if(chessCellBitValue != 0U)
-    {
+    if(chessCellBitValue != 0U)    {
         chessPiece = m_chessPieceConverter.convertBitValueToPiece(pieceColor, chessCellBitValue);
     }
     return chessPiece;
 }
 
-void ChessPeek::updateLastMoveColor(DataForYellow const& dataForYellow)
-{
-    Piece piece1(m_chessBoard.getPieceAt(dataForYellow.coordinateFirst));
-    if(!piece1.isEmpty())
-    {
-        m_lastMoveColor = piece1.getColor();
-    }
-    else
-    {
-        Piece piece2(m_chessBoard.getPieceAt(dataForYellow.coordinateSecond));
-        if(!piece2.isEmpty())
-        {
-            m_lastMoveColor = piece2.getColor();
-        }
-    }
-}
-
 void ChessPeek::updatePlayerSideAndOrientation(unsigned int const pieceCount)
 {
-    Piece pieceAtKingWhitePosition(m_chessBoard.getPieceAt(Coordinate(4, 7)));
-    Piece pieceAtKingBlackPosition(m_chessBoard.getPieceAt(Coordinate(3, 7)));
+    Piece pieceAtKingWhitePosition(m_chessBoard.getPieceAt(Coordinate(4, 7)));    Piece pieceAtKingBlackPosition(m_chessBoard.getPieceAt(Coordinate(3, 7)));
     if(pieceCount >= 24U)
     {
-        PieceColor newPlayerColor(m_playerColor);
-        if(PieceType::King == pieceAtKingWhitePosition.getType() && PieceColor::White == pieceAtKingWhitePosition.getColor())
+        PieceColor newPlayerColor(m_playerColor);        if(PieceType::King == pieceAtKingWhitePosition.getType() && PieceColor::White == pieceAtKingWhitePosition.getColor())
         {
             newPlayerColor = PieceColor::White;
         }
@@ -266,25 +236,39 @@ void ChessPeek::setOrientationDependingOnPlayerColor(PieceColor const newColor)
     }
 }
 
+void ChessPeek::setOpponentKingCoordinateIfPossible(
+        Coordinate const& chessCoordinate,
+        Piece const& chessPiece)
+{
+    if(PieceType::King == chessPiece.getType())
+    {
+        if(m_playerColor == chessPiece.getColor())
+        {
+            m_playerKingCoordinate = chessCoordinate;
+        }
+        else
+        {
+            m_opponentKingCoordinate = chessCoordinate;
+        }
+    }
+}
+
 void ChessPeek::printCalculationDetails() const
 {
-    cout << "Last move color: " << m_lastMoveColor << endl;
     cout << "Score: " << static_cast<double>(m_savedCalculationDetails.scoreInCentipawns) / 100
          << " Mate: " << m_savedCalculationDetails.mateInNumberOfMoves << endl;
-    cout << "Best move: [" << m_savedCalculationDetails.bestMove << "]" << endl;
-    cout << "Searching moves: ";
+    cout << "Best move: [" << m_savedCalculationDetails.bestMove << "]" << endl;    cout << "Searching moves: ";
     for(string const& searchingMoves : m_savedCalculationDetails.currentlySearchingMoves)
     {
         cout << searchingMoves << " ";
     }
+    cout << endl;
     cout << "PV: ";
     for(string const& moveInPv : m_savedCalculationDetails.pvMovesInBestLine)
-    {
-        cout << moveInPv << " ";
+    {        cout << moveInPv << " ";
     }
     cout << endl;
 }
-
 void ChessPeek::printCurrentMovesIfNeeded(strings const& currentMoves) const
 {
     if(!currentMoves.empty())
@@ -412,15 +396,13 @@ DisplayTable ChessPeek::getDisplayTableForFutureMoves(strings const& futureMoves
                 displayTable.getLastRow().addCell(
                             getCellInDisplayTable(boardAndMovePair.first, Coordinate(i, j), boardAndMovePair.second, moveNumberStart));
             }
-            moveNumberStart+=2; // only players moves are displayed (dont care about opponent move)
+            moveNumberStart+=1;
         }
     }
-    displayTable.setBorders("-", "|");
-    return displayTable;
+    displayTable.setBorders("-", "|");    return displayTable;
 }
 
-void ChessPeek::addCellForSpaceIfNotFirst(bool & isFirst, DisplayTable & displayTable) const
-{
+void ChessPeek::addCellForSpaceIfNotFirst(bool & isFirst, DisplayTable & displayTable) const{
     if(isFirst)
     {
         isFirst=false;
@@ -462,46 +444,37 @@ string ChessPeek::getCellInDisplayTable(
 void ChessPeek::retrieveChessCellDataBasedFromPixels(
         BitSet64 & whiteValue,
         BitSet64 & blackValue,
-        double & averageYellowValue,
         BitmapSnippet & snippet,
         ChessCellCoordinates const& square) const
 {
     double deltaX = static_cast<double>(square.right-square.left)/9;
     double deltaY = static_cast<double>(square.bottom-square.top)/9;
-    averageYellowValue = 0;
     unsigned int count(0U);
     for(unsigned int j=1; j<=8; j++)
-    {
-        for(unsigned int i=1; i<=8; i++)
+    {        for(unsigned int i=1; i<=8; i++)
         {
             BitmapXY bitmapCoordinate(round(square.left + deltaX*i), round(square.top + deltaY*(j)));
-            retrieveDataBasedFromPixel(whiteValue, blackValue, averageYellowValue, 63-count, snippet, bitmapCoordinate);
+            retrieveDataBasedFromPixel(whiteValue, blackValue, 63-count, snippet, bitmapCoordinate);
             //snippet.setPixelAt(bitmapCoordinate, 0xBB0000);//
             count++;
         }
     }
-    averageYellowValue /= 64;
 }
 
 void ChessPeek::retrieveDataBasedFromPixel(
         BitSet64 & whiteValue,
         BitSet64 & blackValue,
-        double & yellowValue,
         unsigned int const index,
         BitmapSnippet const& snippet,
-        BitmapXY const& bitmapCoordinate) const
-{
+        BitmapXY const& bitmapCoordinate) const{
     static const BitmapXYs aroundOffsets{BitmapXY(0, -1), BitmapXY(0, 1), BitmapXY(-1, 0), BitmapXY(1, 0)};
     uint32_t colorAtCoordinate(snippet.getColorAt(bitmapCoordinate));
-    yellowValue += getYellowValue(colorAtCoordinate);
     double currentIntensity(calculateColorIntensityDecimal(colorAtCoordinate));
     double minimum(currentIntensity);
-    double maximum(currentIntensity);
-    for(BitmapXY const& aroundOffset : aroundOffsets)
+    double maximum(currentIntensity);    for(BitmapXY const& aroundOffset : aroundOffsets)
     {
         currentIntensity = calculateColorIntensityDecimal(snippet.getColorAt(bitmapCoordinate + aroundOffset));
-        if(minimum > currentIntensity)
-        {
+        if(minimum > currentIntensity)        {
             minimum = currentIntensity;
         }
         if(maximum < currentIntensity)
@@ -518,21 +491,12 @@ double ChessPeek::calculateColorIntensityDecimal(uint32_t const color) const
     return (((double)extractRed(color)+extractGreen(color)+extractBlue(color))/0xFF)/3;
 }
 
-double ChessPeek::getYellowValue(uint32_t const color) const
-{
-    uint32_t redAndGreen = min(extractRed(color), extractGreen(color));
-    uint32_t blue = extractBlue(color);
-    return redAndGreen>blue ? redAndGreen-blue : 0U;
-}
-
 uint8_t ChessPeek::extractRed(uint32_t const color) const
 {
-    return (AlbaBitManipulation<uint32_t>::getByteAt<2>(color));
-}
+    return (AlbaBitManipulation<uint32_t>::getByteAt<2>(color));}
 
 uint8_t ChessPeek::extractGreen(uint32_t const color) const
-{
-    return (AlbaBitManipulation<uint32_t>::getByteAt<1>(color));
+{    return (AlbaBitManipulation<uint32_t>::getByteAt<1>(color));
 }
 
 uint8_t ChessPeek::extractBlue(uint32_t const color) const
