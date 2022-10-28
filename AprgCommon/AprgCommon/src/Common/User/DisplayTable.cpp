@@ -11,70 +11,47 @@ namespace alba
 {
 
 DisplayTableCell::DisplayTableCell()
-    : m_textToDisplay()
+    : m_displayText()
     , m_horizontalMode(DisplayTableCellMode::center)
-    , m_verticalMode(DisplayTableCellMode::center)
 {}
 
-DisplayTableCell::DisplayTableCell(string const& text)
-    : m_textToDisplay(text)
+DisplayTableCell::DisplayTableCell(string const& displayText)
+    : m_displayText(displayText)
     , m_horizontalMode(DisplayTableCellMode::center)
-    , m_verticalMode(DisplayTableCellMode::center)
 {}
 
-DisplayTableCell::DisplayTableCell(string const& text, DisplayTableCellMode const horizontalMode, DisplayTableCellMode const verticalMode)
-    : m_textToDisplay(text)
+DisplayTableCell::DisplayTableCell(string const& displayText, DisplayTableCellMode const horizontalMode)
+    : m_displayText(displayText)
     , m_horizontalMode(horizontalMode)
-    , m_verticalMode(verticalMode)
 {}
 
 string DisplayTableCell::getText() const
 {
-    return m_textToDisplay;
+    return m_displayText;
 }
 
-DisplayTableCellMode DisplayTableCell::getHorizontalMode() const
-{
+DisplayTableCellMode DisplayTableCell::getHorizontalMode() const{
     return m_horizontalMode;
-}
-
-DisplayTableCellMode DisplayTableCell::getVerticalMode() const
-{
-    return m_verticalMode;
 }
 
 void DisplayTableCell::setText(string const& text)
 {
-    m_textToDisplay = text;
+    m_displayText = text;
 }
 
-void DisplayTableCell::setHorizontalMode(DisplayTableCellMode const mode)
-{
+void DisplayTableCell::setHorizontalMode(DisplayTableCellMode const mode){
     m_horizontalMode = mode;
 }
 
-void DisplayTableCell::setVerticalMode(DisplayTableCellMode const mode)
-{
-    m_verticalMode = mode;
-}
-
 DisplayTableRow::DisplayTableRow()
-    : m_rowMode(DisplayTableRowMode::align)
 {}
-
-bool DisplayTableRow::isAlign() const
-{
-    return DisplayTableRowMode::align == m_rowMode;
-}
 
 unsigned int DisplayTableRow::getNumberOfColumns() const
 {
-    return m_cells.size();
-}
+    return m_cells.size();}
 
 unsigned int DisplayTableRow::getCharacters() const
-{
-    unsigned int numberOfCharacters(0);
+{    unsigned int numberOfCharacters(0);
     for(DisplayTableCell const & cell : m_cells)
     {
         numberOfCharacters+=cell.getText().size();
@@ -82,36 +59,38 @@ unsigned int DisplayTableRow::getCharacters() const
     return numberOfCharacters;
 }
 
+Cells const& DisplayTableRow::getCells() const
+{
+    return m_cells;
+}
+
+DisplayTableCell const& DisplayTableRow::getCellAt(unsigned int columnIndex) const
+{
+    return m_cells.at(columnIndex);
+}
+
 Cells& DisplayTableRow::getCellsReference()
 {
     return m_cells;
 }
 
-DisplayTableCell& DisplayTableRow::getCellReference(unsigned int columnIndex)
+DisplayTableCell& DisplayTableRow::getCellReferenceAt(unsigned int columnIndex)
 {
     return m_cells[columnIndex];
 }
-
-DisplayTableCell const& DisplayTableRow::getCellConstReference(unsigned int columnIndex) const
-{
-    return m_cells[columnIndex];
-}
-
 void DisplayTableRow::addCell(string const & text)
 {
     m_cells.emplace_back(text);
 }
 
-void DisplayTableRow::addCell(string const & text, DisplayTableCellMode const horizontalMode, DisplayTableCellMode const verticalMode)
+void DisplayTableRow::addCell(string const & text, DisplayTableCellMode const horizontalMode)
 {
-    m_cells.emplace_back(text, horizontalMode, verticalMode);
+    m_cells.emplace_back(text, horizontalMode);
 }
 
-unsigned int DisplayTable::getTotalRows() const
-{
+unsigned int DisplayTable::getTotalRows() const{
     return m_rows.size();
 }
-
 unsigned int DisplayTable::getTotalColumns() const
 {
     unsigned int maxColumns=0;
@@ -132,89 +111,99 @@ unsigned int DisplayTable::getMaxCharactersInOneRow() const
     return maxCharacters;
 }
 
+DisplayTableCell const& DisplayTable::getCellAt(unsigned int rowIndex, unsigned int columnIndex) const
+{
+    return m_rows.at(rowIndex).getCellAt(columnIndex);
+}
+
 DisplayTableRow& DisplayTable::getLastRow()
 {
     return m_rows.back();
 }
 
-DisplayTableRow& DisplayTable::getRowReference(unsigned int rowIndex)
+DisplayTableRow& DisplayTable::getRowReferenceAt(unsigned int rowIndex)
 {
     return m_rows[rowIndex];
 }
 
-DisplayTableCell& DisplayTable::getCellReference(unsigned int rowIndex, unsigned int columnIndex)
+DisplayTableCell& DisplayTable::getCellReferenceAt(unsigned int rowIndex, unsigned int columnIndex)
 {
-    return m_rows[rowIndex].getCellReference(columnIndex);
-}
-
-DisplayTableCell const& DisplayTable::getCellConstReference(unsigned int rowIndex, unsigned int columnIndex) const
-{
-    return m_rows[rowIndex].getCellConstReference(columnIndex);
+    return m_rows[rowIndex].getCellReferenceAt(columnIndex);
 }
 
 void DisplayTable::addRow()
 {
-    m_rows.emplace_back();
-}
+    m_rows.emplace_back();}
 
 void DisplayTable::setBorders(string const& horizontalBorder, string const& verticalBorder)
-{
-    m_horizontalBorder = horizontalBorder;
+{    m_horizontalBorder = horizontalBorder;
     m_verticalBorder = verticalBorder;
 }
 
-string DisplayTable::getCellText(DisplayTableCell const& cell, unsigned int length) const
+string DisplayTable::drawOutput()
+{
+    calculateLengthPerColumn();
+    string horizontalLine(getHorizontalBorderLine());
+    string buffer(horizontalLine);
+    for(DisplayTableRow const& row : m_rows)
+    {
+        string line(getVerticalBorderPoint());
+        unsigned int column=0;
+        for(DisplayTableCell const& cell : row.getCells())
+        {
+            line+=getCellTextWithDesiredLength(cell, m_calculatedLengthPerColumn[column]);
+            column++;
+            line+=getVerticalBorderPoint();
+        }
+        buffer+=line+"\n";
+        buffer+=horizontalLine;
+    }
+    return buffer;
+}
+
+void DisplayTable::calculateLengthPerColumn()
+{
+    unsigned int totalColumns = getTotalColumns();
+    m_calculatedLengthPerColumn.resize(totalColumns, 0);
+    for(DisplayTableRow & row : m_rows)
+    {
+        unsigned int column=0;
+        for(DisplayTableCell & cell : row.getCellsReference())
+        {
+            m_calculatedLengthPerColumn[column] = max(m_calculatedLengthPerColumn[column], static_cast<unsigned int>(cell.getText().size()));
+            column++;
+        }
+    }
+}
+
+string DisplayTable::getCellTextWithDesiredLength(DisplayTableCell const& cell, unsigned int const desiredLength) const
 {
     DisplayTableCellMode mode = cell.getHorizontalMode();
     string result;
     switch(mode)
     {
     case DisplayTableCellMode::justify:
-        result = getStringWithJustifyAlignment(cell.getText(), length);
+        result = getStringWithJustifyAlignment(cell.getText(), desiredLength);
         break;
     case DisplayTableCellMode::center:
-        result = getStringWithCenterAlignment(cell.getText(), length);
+        result = getStringWithCenterAlignment(cell.getText(), desiredLength);
         break;
     case DisplayTableCellMode::right:
-        result = getStringWithRightAlignment(cell.getText(), length);
+        result = getStringWithRightAlignment(cell.getText(), desiredLength);
         break;
     case DisplayTableCellMode::left:
-        result = getStringWithLeftAlignment(cell.getText(), length);
+        result = getStringWithLeftAlignment(cell.getText(), desiredLength);
         break;
     }
     return result;
 }
 
-void DisplayTable::calculateLengthPerColumn()
-{
-    unsigned int totalColumns = getTotalColumns();
-    m_calculatedLengthPerColumn.resize(totalColumns);
-    for(unsigned int i=0; i<totalColumns; i++)
-    {
-        m_calculatedLengthPerColumn[i]=0;
-    }
-    for(DisplayTableRow & row : m_rows)
-    {
-        unsigned int column=0;
-        for(DisplayTableCell & cell : row.getCellsReference())
-        {
-            if(row.isAlign())
-            {
-                m_calculatedLengthPerColumn[column] = max(m_calculatedLengthPerColumn[column], static_cast<unsigned int>(cell.getText().size()));
-            }
-            column++;
-        }
-    }
-}
-
 unsigned int DisplayTable::getTotalColumnLength() const
 {
-    unsigned int totalColumnLength=0;
-    for(unsigned int lengthPerColumn : m_calculatedLengthPerColumn)
+    unsigned int totalColumnLength=0;    for(unsigned int lengthPerColumn : m_calculatedLengthPerColumn)
     {
         totalColumnLength+=lengthPerColumn;
-    }
-    return totalColumnLength;
+    }    return totalColumnLength;
 }
 
 string DisplayTable::getHorizontalBorderLine() const
@@ -240,30 +229,6 @@ unsigned int DisplayTable::getVerticalBorderLength() const
 unsigned int DisplayTable::getHorizontalBorderLength(unsigned int const totalColumnLength) const
 {
     return ((getTotalColumns()+1)*getVerticalBorderLength())+totalColumnLength;
-}
-
-string DisplayTable::drawOutput()
-{
-    calculateLengthPerColumn();
-    string horizontalLine(getHorizontalBorderLine());
-    string buffer(horizontalLine);
-    for(DisplayTableRow & row : m_rows)
-    {
-        string line(getVerticalBorderPoint());
-        unsigned int column=0;
-        for(DisplayTableCell & cell : row.getCellsReference())
-        {
-            if(row.isAlign())
-            {
-                line+=getCellText(cell, m_calculatedLengthPerColumn[column]);
-            }
-            column++;
-            line+=getVerticalBorderPoint();
-        }
-        buffer+=line+"\n";
-        buffer+=horizontalLine;
-    }
-    return buffer;
 }
 
 

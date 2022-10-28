@@ -25,72 +25,64 @@ class DisplayTableCell
 {
 public:
     DisplayTableCell();
-    DisplayTableCell(std::string const& text);
-    DisplayTableCell(std::string const& text, DisplayTableCellMode const horizontalMode, DisplayTableCellMode const verticalMode);
+    DisplayTableCell(std::string const& displayText);
+    DisplayTableCell(std::string const& displayText, DisplayTableCellMode const horizontalMode);
 
     std::string getText() const;
     DisplayTableCellMode getHorizontalMode() const;
-    DisplayTableCellMode getVerticalMode() const;
 
     void setText(std::string const& text);
     void setHorizontalMode(DisplayTableCellMode const mode);
-    void setVerticalMode(DisplayTableCellMode const mode);
 private:
-    std::string m_textToDisplay;
+    std::string m_displayText;
     DisplayTableCellMode m_horizontalMode;
-    DisplayTableCellMode m_verticalMode;
 };
 
 using Cells = std::vector<DisplayTableCell>;
-
 class DisplayTableRow
 {
 public:
     DisplayTableRow();
-    bool isAlign() const;
+
     unsigned int getNumberOfColumns() const;
     unsigned int getCharacters() const;
+    Cells const& getCells() const;
+    DisplayTableCell const& getCellAt(unsigned int columnIndex) const;
 
     Cells& getCellsReference();
-    DisplayTableCell& getCellReference(unsigned int columnIndex);
-    DisplayTableCell const& getCellConstReference(unsigned int columnIndex) const;
+    DisplayTableCell& getCellReferenceAt(unsigned int columnIndex);
     void addCell(std::string const& text);
-    void addCell(std::string const & text, DisplayTableCellMode const horizontalMode, DisplayTableCellMode const verticalMode);
+    void addCell(std::string const & text, DisplayTableCellMode const horizontalMode);
 
 private:
-    DisplayTableRowMode m_rowMode;
     Cells m_cells;
 };
-
 class DisplayTable
 {
 public:
     DisplayTable() = default;
+
     unsigned int getTotalRows() const;
     unsigned int getTotalColumns() const;
     unsigned int getMaxCharactersInOneRow() const;
-    std::string getCellText(DisplayTableCell const& cell, unsigned int length) const;
+    DisplayTableCell const& getCellAt(unsigned int rowIndex, unsigned int columnIndex) const;
 
     DisplayTableRow& getLastRow();
-    DisplayTableRow& getRowReference(unsigned int rowIndex);
-    DisplayTableCell& getCellReference(unsigned int rowIndex, unsigned int columnIndex);
-    DisplayTableCell const& getCellConstReference(unsigned int rowIndex, unsigned int columnIndex) const;
-
+    DisplayTableRow& getRowReferenceAt(unsigned int rowIndex);
+    DisplayTableCell& getCellReferenceAt(unsigned int rowIndex, unsigned int columnIndex);
     void addRow();
     void setBorders(std::string const& horizontalBorder, std::string const& verticalBorder);
-
     std::string drawOutput();
 private:
 
     void calculateLengthPerColumn();
+    std::string getCellTextWithDesiredLength(DisplayTableCell const& cell, unsigned int const desiredLength) const;
     unsigned int getTotalColumnLength() const;
     std::string getHorizontalBorderLine() const;
-    std::string getVerticalBorderPoint() const;
-    unsigned int getVerticalBorderLength() const;
+    std::string getVerticalBorderPoint() const;    unsigned int getVerticalBorderLength() const;
     unsigned int getHorizontalBorderLength(unsigned int const totalColumnLength) const;
 
-    std::string m_horizontalBorder;
-    std::string m_verticalBorder;
+    std::string m_horizontalBorder;    std::string m_verticalBorder;
     std::vector<DisplayTableRow> m_rows;
     std::vector<unsigned int> m_calculatedLengthPerColumn;
 };

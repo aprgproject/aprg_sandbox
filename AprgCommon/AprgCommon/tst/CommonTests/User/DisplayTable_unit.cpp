@@ -52,15 +52,14 @@ TEST(DisplayTable, CellWithAlignmentCanBeAdded)
     table.addRow();
     table.getLastRow().addCell("12345");
     table.addRow();
-    table.getLastRow().addCell("C", DisplayTableCellMode::center, DisplayTableCellMode::center);
+    table.getLastRow().addCell("C", DisplayTableCellMode::center);
     table.addRow();
-    table.getLastRow().addCell("L", DisplayTableCellMode::left, DisplayTableCellMode::center);
+    table.getLastRow().addCell("L", DisplayTableCellMode::left);
     table.addRow();
-    table.getLastRow().addCell("R", DisplayTableCellMode::right, DisplayTableCellMode::center);
+    table.getLastRow().addCell("R", DisplayTableCellMode::right);
     table.addRow();
-    table.getLastRow().addCell("J", DisplayTableCellMode::justify, DisplayTableCellMode::center);
+    table.getLastRow().addCell("J", DisplayTableCellMode::justify);
     EXPECT_EQ("12345\n  C  \nL    \n    R\n  J  \n", table.drawOutput());
     cout<<table.drawOutput();
 }
-
 }

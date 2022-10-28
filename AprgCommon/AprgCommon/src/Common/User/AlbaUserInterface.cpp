@@ -56,22 +56,20 @@ NumberType AlbaUserInterface::displayQuestionAndChoicesAndGetNumberAnswer(string
 
     DisplayTable table;
     table.addRow();
-    table.getLastRow().addCell("Choice", DisplayTableCellMode::right, DisplayTableCellMode::center);
+    table.getLastRow().addCell("Choice", DisplayTableCellMode::right);
     table.getLastRow().addCell("  :  ");
-    table.getLastRow().addCell("Description", DisplayTableCellMode::left, DisplayTableCellMode::center);
+    table.getLastRow().addCell("Description", DisplayTableCellMode::left);
     for(auto const& choice: choices)
     {
         table.addRow();
-        table.getLastRow().addCell(string("["+converter.convert<NumberType>(choice.first)+"]"), DisplayTableCellMode::right, DisplayTableCellMode::center);
+        table.getLastRow().addCell(string("["+converter.convert<NumberType>(choice.first)+"]"), DisplayTableCellMode::right);
         table.getLastRow().addCell("  :  ");
-        table.getLastRow().addCell(choice.second, DisplayTableCellMode::left, DisplayTableCellMode::center);
+        table.getLastRow().addCell(choice.second, DisplayTableCellMode::left);
     }
     cout<<table.drawOutput()<<endl;
-
     cout << "Input your answer: ";
     return convertStringToNumber<NumberType>(getUserInput());
-}
-template int AlbaUserInterface::displayQuestionAndChoicesAndGetNumberAnswer(string const& question, Choices<int> const& choices);
+}template int AlbaUserInterface::displayQuestionAndChoicesAndGetNumberAnswer(string const& question, Choices<int> const& choices);
 template unsigned int AlbaUserInterface::displayQuestionAndChoicesAndGetNumberAnswer(string const& question, Choices<unsigned int> const& choices);
 
 
@@ -81,20 +79,18 @@ string AlbaUserInterface::displayQuestionAndChoicesAndGetStringAnswerInAllCapita
 
     DisplayTable table;
     table.addRow();
-    table.getLastRow().addCell("Choice", DisplayTableCellMode::right, DisplayTableCellMode::center);
+    table.getLastRow().addCell("Choice", DisplayTableCellMode::right);
     table.getLastRow().addCell("  :  ");
-    table.getLastRow().addCell("Description", DisplayTableCellMode::left, DisplayTableCellMode::center);
+    table.getLastRow().addCell("Description", DisplayTableCellMode::left);
     for(auto const& choice: choices)
     {
         table.addRow();
-        table.getLastRow().addCell(string("["+getStringWithCapitalLetters(choice.first)+"]"), DisplayTableCellMode::right, DisplayTableCellMode::center);
+        table.getLastRow().addCell(string("["+getStringWithCapitalLetters(choice.first)+"]"), DisplayTableCellMode::right);
         table.getLastRow().addCell("  :  ");
-        table.getLastRow().addCell(choice.second, DisplayTableCellMode::left, DisplayTableCellMode::center);
+        table.getLastRow().addCell(choice.second, DisplayTableCellMode::left);
     }
     cout<<table.drawOutput()<<endl;
-
     cout << "Input your answer: ";
     return getStringWithCapitalLetters(getUserInput());
 }
-
 }//namespace alba
