@@ -1,15 +1,13 @@
 #pragma once
 
 #include <ChessUtilities/ChessEngineHandler.hpp>
-#include <Common/String/AlbaStringHelper.hpp>
+#include <ChessUtilities/Engine/CalculationDetails.hpp>
 
 #include <deque>
-#include <fstream>
-#include <string>
+#include <fstream>#include <string>
 
 namespace alba
 {
-
 namespace chess
 {
 
@@ -32,29 +30,12 @@ public:
         Stop,
     };
 
-    struct CalculationDetails
-    {
-        unsigned int depth;
-        unsigned int selectiveDepth;
-        unsigned int time;
-        unsigned int nodes;
-        unsigned int nodesPerSecond;
-        stringHelper::strings pvMovesInBestLine;
-        int scoreInCentipawns;
-        unsigned int mateInNumberOfMoves;
-        stringHelper::strings currentlySearchingMoves;
-        std::string bestMove;
-        std::string ponderMove;
-    };
-
     struct Command
     {
-        CommandType commandType;
-        std::string commandString;
+        CommandType commandType;        std::string commandString;
     };
 
     using StepsInCalculationMonitoring = std::function<void(CalculationDetails const&)> ;
-
     ChessEngineControllerWithUci(ChessEngineHandler & engineHandler);
 
     void resetToNewGame();

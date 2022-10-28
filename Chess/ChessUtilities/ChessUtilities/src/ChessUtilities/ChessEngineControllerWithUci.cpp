@@ -1,15 +1,14 @@
 #include "ChessEngineControllerWithUci.hpp"
 
+#include <ChessUtilities/Uci/UciUtilities.hpp>
 #include <Common/Macros/AlbaMacros.hpp>
-#include <Common/String/AlbaStringHelper.hpp>
 #include <Common/Time/AlbaLocalTimer.hpp>
+#include <Common/String/AlbaStringHelper.hpp>
 
 #include <iostream>
 #include <sstream>
-
 using namespace alba::stringHelper;
 using namespace std;
-
 namespace alba
 {
 
@@ -316,120 +315,15 @@ void ChessEngineControllerWithUci::processInWaitingForUciOkay(
 void ChessEngineControllerWithUci::processInCalculating(
         string const& stringFromEngine)
 {
-    strings tokens;
-    splitToStrings<SplitStringType::WithoutDelimeters>(tokens, getStringWithoutStartingAndTrailingWhiteSpace(stringFromEngine), " ");
+    retrieveCalculationDetailsOnStringFromEngine(m_currentCalculationDetails, stringFromEngine);
 
-    enum class TokenState
-    {
-        OneValueHeaderFound,
-        Idle,
-        PvLineFound,
-    };
-
-    bool hasBestMove(false);
-    TokenState state;
-    string headerToken;
-    strings movesInBestLine;
-    string currentMove;
-    string currentMoveNumber;
-    for(string const& token : tokens)
-    {
-        if(TokenState::OneValueHeaderFound == state)
-        {
-            if("depth" == headerToken)
-            {
-                m_currentCalculationDetails.depth = convertStringToNumber<unsigned int>(token);
-            }
-            else if("selectiveDepth" == headerToken)
-            {
-                m_currentCalculationDetails.selectiveDepth = convertStringToNumber<unsigned int>(token);
-            }
-            else if("time" == headerToken)
-            {
-                m_currentCalculationDetails.time = convertStringToNumber<unsigned int>(token);
-            }
-            else if("nodes" == headerToken)
-            {
-                m_currentCalculationDetails.nodes = convertStringToNumber<unsigned int>(token);
-            }
-            else if("nps" == headerToken)
-            {
-                m_currentCalculationDetails.nodesPerSecond = convertStringToNumber<unsigned int>(token);
-            }
-            else if("cp" == headerToken)
-            {
-                m_currentCalculationDetails.scoreInCentipawns = convertStringToNumber<unsigned int>(token);
-            }
-            else if("mate" == headerToken)
-            {
-                m_currentCalculationDetails.mateInNumberOfMoves = convertStringToNumber<unsigned int>(token);
-            }
-            else if("currmove" == headerToken)
-            {
-                currentMove = token;
-            }
-            else if("currmovenumber" == headerToken)
-            {
-                currentMoveNumber = token;
-            }
-            else if("bestmove" == headerToken)
-            {
-                m_currentCalculationDetails.bestMove = token;
-                hasBestMove = true;
-            }
-            else if("ponder" == headerToken)
-            {
-                m_currentCalculationDetails.ponderMove = token;
-            }
-            if(!currentMove.empty() && !currentMoveNumber.empty())
-            {
-                unsigned int index = convertStringToNumber<unsigned int>(currentMoveNumber) - 1;
-                if(index < 100)
-                {
-                    if(index >= m_currentCalculationDetails.currentlySearchingMoves.size())
-                    {
-                        m_currentCalculationDetails.currentlySearchingMoves.resize(index+1);
-                    }
-                    m_currentCalculationDetails.currentlySearchingMoves[index] = currentMove;
-                }
-                currentMove.clear();
-                currentMoveNumber.clear();
-            }
-
-            state = TokenState::Idle;
-        }
-        else if(TokenState::PvLineFound == state)
-        {
-            if(!token.empty())
-            {
-                movesInBestLine.emplace_back(token);
-            }
-        }
-        else if("depth" == token || "selectiveDepth" == token || "time" == token || "nodes" == token
-                || "nps" == token || "cp" == token || "mate" == token || "currmove" == token || "currmovenumber" == token
-                || "bestmove" == token || "ponder" == token)
-        {
-            state = TokenState::OneValueHeaderFound;
-            headerToken = token;
-        }
-        else if("pv" == token)
-        {
-            state = TokenState::PvLineFound;
-        }
-    }
-    if(!movesInBestLine.empty())
-    {
-        m_currentCalculationDetails.pvMovesInBestLine = movesInBestLine;
-    }
-    if(hasBestMove)
+    if(!m_currentCalculationDetails.bestMove.empty())
     {
         proceedToIdleAndProcessPendingCommands();
     }
-
     if(m_additionalStepsInCalculationMonitoring)
     {
-        m_additionalStepsInCalculationMonitoring.getConstReference()(m_currentCalculationDetails);
-    }
+        m_additionalStepsInCalculationMonitoring.getConstReference()(m_currentCalculationDetails);    }
 }
 
 void ChessEngineControllerWithUci::changeState(
