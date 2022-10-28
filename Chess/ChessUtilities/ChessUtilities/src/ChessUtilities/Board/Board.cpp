@@ -4,8 +4,10 @@
 #include <ChessUtilities/Board/Piece.hpp>
 #include <Common/Container/AlbaValueRange.hpp>
 #include <Common/String/AlbaStringHelper.hpp>
+
 #include <algorithm>
 #include <sstream>
+
 using namespace alba::stringHelper;
 using namespace std;
 
@@ -63,9 +65,11 @@ bool Board::canBeCaptured(Coordinate const& coordinate) const
 
 bool Board::isMovePossible(Move const& move) const
 {
-    Moves moves(getPossibleMoves(move.first));    auto it = find(moves.cbegin(), moves.cend(), move);
+    Moves moves(getPossibleMoves(move.first));
+    auto it = find(moves.cbegin(), moves.cend(), move);
     return it != moves.cend();
 }
+
 bool Board::isPromotionMove(Move const& move) const
 {
     return PieceType::Pawn == getPieceAt(move.first).getType()
@@ -161,7 +165,8 @@ std::string Board::getFenString() const
             if(piece.isEmpty())
             {
                 emptyCellsInRank++;
-            }            else
+            }
+            else
             {
                 if(emptyCellsInRank != 0)
                 {
@@ -170,10 +175,12 @@ std::string Board::getFenString() const
                 ssFenInRank << piece.getCharacter();
                 emptyCellsInRank = 0;
             }
-        });        if (emptyCellsInRank != 0)
+        });
+        if (emptyCellsInRank != 0)
         {
             ssFenInRank << emptyCellsInRank;
-        }        result += ssFenInRank.str();
+        }
+        result += ssFenInRank.str();
         if(rank != end)
         {
             result += "/";
@@ -411,10 +418,12 @@ bool Board::canBeKingCaptured(Coordinate const& coordinate, PieceColor const opp
 
 bool Board::isCastlingMove(Move const& move, Move & savedRookMove) const
 {
-    bool result(false);    Piece pieceAtKing(getPieceAt(move.first));
+    bool result(false);
+    Piece pieceAtKing(getPieceAt(move.first));
     if(PieceType::King == pieceAtKing.getType())
     {
-        if(Board::Orientation::BlackUpWhiteDown == m_orientation)        {
+        if(Board::Orientation::BlackUpWhiteDown == m_orientation)
+        {
             if(Coordinate(4, 0) == move.first && PieceColor::Black == pieceAtKing.getColor()) // black king
             {
                 if(Coordinate(2, 0) == move.second) // queen side castle
@@ -505,10 +514,12 @@ Coordinates Board::getOneStepDeltaCoordinates() const
 
 void Board::retrievePossibleMovesBaseFromPieceType(
         Moves & result,
-        Coordinate const& coordinate) const{
+        Coordinate const& coordinate) const
+{
     Piece piece(getPieceAt(coordinate));
     PieceType pieceType = piece.getType();
-    switch(pieceType)    {
+    switch(pieceType)
+    {
     case PieceType::Pawn:
     {
         retrievePossiblePawnMoves(result, coordinate);
@@ -602,7 +613,8 @@ void Board::retrievePossibleKnightMoves(
     }
 }
 
-void Board::retrievePossibleBishopMoves(        Moves & result,
+void Board::retrievePossibleBishopMoves(
+        Moves & result,
         Coordinate const& coordinate) const
 {
     Coordinates diagonalIncrementDeltaCoordinates(getDiagonalIncrementDeltaCoordinates());
@@ -612,7 +624,8 @@ void Board::retrievePossibleBishopMoves(        Moves & result,
     }
 }
 
-void Board::retrievePossibleRookMoves(        Moves & result,
+void Board::retrievePossibleRookMoves(
+        Moves & result,
         Coordinate const& coordinate) const
 {
     Coordinates straightlIncrementDeltaCoordinates(getStraightIncrementDeltaCoordinates());
@@ -622,10 +635,12 @@ void Board::retrievePossibleRookMoves(        Moves & result,
     }
 }
 
-void Board::retrievePossibleQueenMoves(        Moves & result,
+void Board::retrievePossibleQueenMoves(
+        Moves & result,
         Coordinate const& coordinate) const
 {
-    retrievePossibleBishopMoves(result, coordinate);    retrievePossibleRookMoves(result, coordinate);
+    retrievePossibleBishopMoves(result, coordinate);
+    retrievePossibleRookMoves(result, coordinate);
 }
 
 void Board::retrievePossibleKingMoves(
@@ -639,9 +654,11 @@ void Board::retrievePossibleKingMoves(
     }
     retrievePossibleKingCastlingMoves(result, coordinate);
 }
+
 void Board::retrievePossibleKingCastlingMoves(
         Moves & result,
-        Coordinate const& coordinate) const{
+        Coordinate const& coordinate) const
+{
     Piece pieceAtKing(getPieceAt(coordinate));
     if(Board::Orientation::BlackUpWhiteDown == m_orientation)
     {

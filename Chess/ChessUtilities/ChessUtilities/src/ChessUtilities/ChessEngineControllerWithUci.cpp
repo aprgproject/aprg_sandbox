@@ -7,8 +7,10 @@
 
 #include <iostream>
 #include <sstream>
+
 using namespace alba::stringHelper;
 using namespace std;
+
 namespace alba
 {
 
@@ -321,9 +323,11 @@ void ChessEngineControllerWithUci::processInCalculating(
     {
         proceedToIdleAndProcessPendingCommands();
     }
+
     if(m_additionalStepsInCalculationMonitoring)
     {
-        m_additionalStepsInCalculationMonitoring.getConstReference()(m_currentCalculationDetails);    }
+        m_additionalStepsInCalculationMonitoring.getConstReference()(m_currentCalculationDetails);
+    }
 }
 
 void ChessEngineControllerWithUci::changeState(

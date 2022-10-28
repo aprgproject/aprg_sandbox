@@ -22,10 +22,12 @@ Piece ChessPieceConverter::convertBitValueToPiece(
     PieceType pieceType{};
     if(PieceColor::White == pieceColor)
     {
-        pieceType = getPieceTypeFromBitValue(m_whitePiecesToBitValuesMap, bitValue);    }
+        pieceType = getPieceTypeFromBitValue(m_whitePiecesToBitValuesMap, bitValue);
+    }
     else
     {
-        pieceType = getPieceTypeFromBitValue(m_blackPiecesToBitValuesMap, bitValue);    }
+        pieceType = getPieceTypeFromBitValue(m_blackPiecesToBitValuesMap, bitValue);
+    }
     return Piece(pieceColor, pieceType);
 }
 
@@ -52,10 +54,12 @@ PieceType ChessPieceConverter::getPieceTypeFromBitValue(
     PieceType result{};
     if(bestFitTypes.size() == 1)
     {
-        result = bestFitTypes.back();    }
+        result = bestFitTypes.back();
+    }
     else if(m_logFileStreamOptional)
     {
-        auto & logStream(m_logFileStreamOptional.getReference());        logStream << "Cannot determine bestFitType with bitValue: " << bitValue << endl;
+        auto & logStream(m_logFileStreamOptional.getReference());
+        logStream << "Cannot determine bestFitType with bitValue: " << bitValue << endl;
         logStream << "BestFitTypes with size " << bestFitTypes.size() << " :{";
         for(PieceType const bestFit : bestFitTypes)
         {

@@ -24,7 +24,9 @@ public:
     ChessPeek();
     using BitSet64 = std::bitset<64>;
     using ChessCellBitValueMatrix = matrix::AlbaMatrix<uint64_t>;
-    using EngineCalculationDetails=ChessEngineControllerWithUci::CalculationDetails;
+    using EngineCalculationDetails=CalculationDetails;
+    using BoardAndMovePair = std::pair<Board, Move>;
+    using BoardAndMovePairs = std::vector<BoardAndMovePair>;
 
     struct ChessCellCoordinates
     {
@@ -36,10 +38,13 @@ public:
 
     struct PeekCalculationDetails
     {
-        std::string bestMove;        int scoreInCentipawns;
+        unsigned int depth;
+        int scoreInCentipawns;
         unsigned int mateInNumberOfMoves;
+        std::string bestMove;
         stringHelper::strings currentlySearchingMoves;
-        stringHelper::strings pvMovesInBestLine;    };
+        stringHelper::strings pvMovesInBestLine;
+    };
 
     void runForever();
     void runOneIteration();
@@ -48,27 +53,31 @@ public:
     void startAnalysisUsingEngine();
     void calculationMonitoringCallBack(EngineCalculationDetails const& engineCalculationDetails);
 
-    void setOpponentKingCoordinateIfPossible(Coordinate chessCoordinate, Piece chessPiece, PieceColor opponentColor);
+    void setKingDetailsIfPossible(Coordinate chessCoordinate, Piece chessPiece, PieceColor opponentColor);
 
 private:
     bool canAnalyzeBoard() const;
-    bool doCorrectKingsExists() const;
+    bool doCorrectKingsExist() const;
+    bool isPlayerKingAndOpponentKingValid() const;
     bool isOpponentKingOnCheck() const;
     void saveCalculationDetails(EngineCalculationDetails const& engineCalculationDetails);
     void checkCalculationDetails();
+
     void checkSnippetAndSaveDetails(AprgBitmap::BitmapSnippet & snippet);
     ChessCellCoordinates getChessCellCoordinates(unsigned int const i,  unsigned int const j, double const startX, double const startY, double const deltaX, double const deltaY);
     Piece getChessPieceIfPossible(BitSet64 const& blackValue, BitSet64 const& whiteValue);
     void updatePlayerSideAndOrientation(unsigned int const pieceCount);
     void setOrientationDependingOnPlayerColor(PieceColor const newColor);
-    void setOpponentKingCoordinateIfPossible(Coordinate const& chessCoordinate, Piece const& chessPiece);
+    void setKingDetailsIfPossible(Coordinate const& chessCoordinate, Piece const& chessPiece);
 
     void printCalculationDetails() const;
-    void printCurrentMovesIfNeeded(alba::stringHelper::strings const& currentMoves) const;    void printFutureMovesIfNeeded(alba::stringHelper::strings const& futureMoves) const;
+    void printCurrentMovesIfNeeded(Moves const& currentMoves) const;
+    void printFutureMovesIfNeeded(BoardAndMovePairs const& futureBoardsAndMoves) const;
     std::string getBestMoveToDisplayString() const;
-    alba::stringHelper::strings getCurrentMoves(std::string const& bestMoveToDisplay) const;
-    alba::stringHelper::strings getFutureMoves() const;    DisplayTable getDisplayTableForCurrentMoves(alba::stringHelper::strings const& currentMoves) const;
-    DisplayTable getDisplayTableForFutureMoves(alba::stringHelper::strings const& futureMoves) const;
+    Moves getCurrentMoves(std::string const& bestMoveToDisplay) const;
+    BoardAndMovePairs getFutureBoardsAndMoves() const;
+    DisplayTable getDisplayTableForCurrentMoves(Moves const& currentMoves) const;
+    DisplayTable getDisplayTableForFutureMoves(BoardAndMovePairs const& futureBoardsAndMoves) const;
     void addCellForSpaceIfNotFirst(bool & isFirst, DisplayTable & displayTable) const;
     std::string getCellInDisplayTable(
             Board const& chessBoard,
@@ -81,18 +90,22 @@ private:
     double calculateColorIntensityDecimal(uint32_t const color) const;
     uint8_t extractRed(uint32_t const color) const;
     uint8_t extractGreen(uint32_t const color) const;
-    uint8_t extractBlue(uint32_t const color) const;    void initialize();
+    uint8_t extractBlue(uint32_t const color) const;
+    void initialize();
 
     ChessEngineHandler m_chessEngineHandler;
-    ChessEngineControllerWithUci m_chessEngineController;    ChessPieceConverter m_chessPieceConverter;
+    ChessEngineControllerWithUci m_chessEngineController;
+    ChessPieceConverter m_chessPieceConverter;
     AlbaLocalUserAutomation m_userAutomation;
     PeekCalculationDetails m_savedCalculationDetails;
     Board m_chessBoard;
     PieceColor m_playerColor;
     Coordinate m_playerKingCoordinate;
     Coordinate m_opponentKingCoordinate;
+    unsigned int m_numberOfDetectedKings;
     bool m_isEngineNewlyReseted;
 };
+
 }
 
 }

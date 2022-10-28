@@ -77,10 +77,12 @@ TEST(BoardTest, CanBeCapturedWorks)
 
 TEST(BoardTest, IsMovePossibleWorks)
 {
-    Board board(Board::Orientation::BlackUpWhiteDown);    Move possibleMove1{{3, 6}, {3, 5}};
+    Board board(Board::Orientation::BlackUpWhiteDown);
+    Move possibleMove1{{3, 6}, {3, 5}};
     Move possibleMove2{{3, 6}, {3, 4}};
     Move notPossibleMove1{{3, 6}, {3, 3}};
     Move notPossibleMove2{{3, 6}, {3, 2}};
+
     EXPECT_TRUE(board.isMovePossible(possibleMove1));
     EXPECT_TRUE(board.isMovePossible(possibleMove2));
     EXPECT_FALSE(board.isMovePossible(notPossibleMove1));
