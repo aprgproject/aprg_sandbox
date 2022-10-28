@@ -12,14 +12,26 @@ namespace alba
 namespace chess
 {
 
+bool isCoordinateOnBoard(Coordinate const& coordinate)
+{
+    auto x(coordinate.getX());
+    auto y(coordinate.getY());
+    return (x>=0 && x<=7) && (y>=0 && y<=7);
+}
+
+bool isValidMove(Move const& move)
+{
+    return move.first != move.second
+            && isCoordinateOnBoard(move.first)
+            && isCoordinateOnBoard(move.second);
+}
+
 PieceColor getOppositeColor(PieceColor const pieceColor)
 {
-    PieceColor result{};
-    if(PieceColor::White == pieceColor)
+    PieceColor result{};    if(PieceColor::White == pieceColor)
     {
         result = PieceColor::Black;
-    }
-    else if(PieceColor::Black == pieceColor)
+    }    else if(PieceColor::Black == pieceColor)
     {
         result = PieceColor::White;
     }

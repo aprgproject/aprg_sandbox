@@ -35,15 +35,12 @@ public:
     Board(Orientation const& orientation);
     Board(Orientation const& orientation, InitializerList const& initializerList);
 
-    bool isCoordinateOnBoard(Coordinate const& coordinate) const;
     bool isEmptyAt(Coordinate const& coordinate) const;
     bool canBeCaptured(Coordinate const& coordinate) const;
-    bool isMovePossible(Move const& move) const;
-    bool isPromotionMove(Move const& move) const;
+    bool isMovePossible(Move const& move) const;    bool isPromotionMove(Move const& move) const;
     bool isCastlingMove(Move const& move) const;
 
-    Orientation getOrientation() const;
-    PieceMatrix const& getPieceMatrix() const;
+    Orientation getOrientation() const;    PieceMatrix const& getPieceMatrix() const;
     Piece getPieceAt(Coordinate const& coordinate) const;
     Coordinate getCoordinateFromLetterNumberNotation(std::string const& letterNumber) const;
     Move getMoveFromTwoLetterNumberNotation(std::string const& twoLetterNumber) const;
