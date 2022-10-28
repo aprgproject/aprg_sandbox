@@ -376,6 +376,16 @@ TEST(SoosaTest, DISABLED_Noise100PercentWorks)
     checkAnswersForCharityPayWardsPattern1(soosa);
 }
 
+TEST(SoosaTest, ProcessWorksWithADirectory)
+{
+    AlbaLocalPathHandler inputFile(APRG_DIR R"(\SOOSA\FilesForTests\DEM)");
+    SoosaConfiguration soosaConfiguration(getSoosaConfiguration());
+    InputConfiguration inputConfiguration(getInputConfigurationForDemObas(inputFile.getFullPath()));
+    SOOSA soosa(soosaConfiguration, inputConfiguration);
+
+    soosa.process();
+}
+
 }
 
 }
