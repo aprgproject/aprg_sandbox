@@ -42,10 +42,12 @@ Board::Board(Orientation const& orientation, InitializerList const& initializerL
 
 bool Board::isEmptyAt(Coordinate const& coordinate) const
 {
-    return getPieceAt(coordinate).isEmpty();}
+    return getPieceAt(coordinate).isEmpty();
+}
 
 bool Board::canBeCaptured(Coordinate const& coordinate) const
-{    Piece piece(getPieceAt(coordinate));
+{
+    Piece piece(getPieceAt(coordinate));
     PieceColor oppositeColor(getOppositeColor(piece.getColor()));
     return canBeDiagonalCaptured(coordinate, oppositeColor)
             || canBeStraightCaptured(coordinate, oppositeColor)

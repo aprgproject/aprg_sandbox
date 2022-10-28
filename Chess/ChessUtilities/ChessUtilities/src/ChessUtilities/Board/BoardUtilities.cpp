@@ -28,10 +28,12 @@ bool isValidMove(Move const& move)
 
 PieceColor getOppositeColor(PieceColor const pieceColor)
 {
-    PieceColor result{};    if(PieceColor::White == pieceColor)
+    PieceColor result{};
+    if(PieceColor::White == pieceColor)
     {
         result = PieceColor::Black;
-    }    else if(PieceColor::Black == pieceColor)
+    }
+    else if(PieceColor::Black == pieceColor)
     {
         result = PieceColor::White;
     }

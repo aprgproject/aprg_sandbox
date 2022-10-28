@@ -30,7 +30,8 @@ string DisplayTableCell::getText() const
     return m_displayText;
 }
 
-DisplayTableCellMode DisplayTableCell::getHorizontalMode() const{
+DisplayTableCellMode DisplayTableCell::getHorizontalMode() const
+{
     return m_horizontalMode;
 }
 
@@ -39,19 +40,23 @@ void DisplayTableCell::setText(string const& text)
     m_displayText = text;
 }
 
-void DisplayTableCell::setHorizontalMode(DisplayTableCellMode const mode){
+void DisplayTableCell::setHorizontalMode(DisplayTableCellMode const mode)
+{
     m_horizontalMode = mode;
 }
 
-DisplayTableRow::DisplayTableRow()
+DisplayTableRow::DisplayTableRow(unsigned int const numberOfCells)
+    : m_cells(numberOfCells)
 {}
 
 unsigned int DisplayTableRow::getNumberOfColumns() const
 {
-    return m_cells.size();}
+    return m_cells.size();
+}
 
 unsigned int DisplayTableRow::getCharacters() const
-{    unsigned int numberOfCharacters(0);
+{
+    unsigned int numberOfCharacters(0);
     for(DisplayTableCell const & cell : m_cells)
     {
         numberOfCharacters+=cell.getText().size();
@@ -64,7 +69,7 @@ Cells const& DisplayTableRow::getCells() const
     return m_cells;
 }
 
-DisplayTableCell const& DisplayTableRow::getCellAt(unsigned int columnIndex) const
+DisplayTableCell const& DisplayTableRow::getCellAt(unsigned int const columnIndex) const
 {
     return m_cells.at(columnIndex);
 }
@@ -74,10 +79,11 @@ Cells& DisplayTableRow::getCellsReference()
     return m_cells;
 }
 
-DisplayTableCell& DisplayTableRow::getCellReferenceAt(unsigned int columnIndex)
+DisplayTableCell& DisplayTableRow::getCellReferenceAt(unsigned int const columnIndex)
 {
     return m_cells[columnIndex];
 }
+
 void DisplayTableRow::addCell(string const & text)
 {
     m_cells.emplace_back(text);
@@ -88,9 +94,17 @@ void DisplayTableRow::addCell(string const & text, DisplayTableCellMode const ho
     m_cells.emplace_back(text, horizontalMode);
 }
 
-unsigned int DisplayTable::getTotalRows() const{
+DisplayTable::DisplayTable(
+        unsigned int const numberOfColumns,
+        unsigned int const numberOfRows)
+    : m_rows(numberOfRows, numberOfColumns)
+{}
+
+unsigned int DisplayTable::getTotalRows() const
+{
     return m_rows.size();
 }
+
 unsigned int DisplayTable::getTotalColumns() const
 {
     unsigned int maxColumns=0;
@@ -111,7 +125,7 @@ unsigned int DisplayTable::getMaxCharactersInOneRow() const
     return maxCharacters;
 }
 
-DisplayTableCell const& DisplayTable::getCellAt(unsigned int rowIndex, unsigned int columnIndex) const
+DisplayTableCell const& DisplayTable::getCellAt(unsigned int const columnIndex, unsigned int const rowIndex) const
 {
     return m_rows.at(rowIndex).getCellAt(columnIndex);
 }
@@ -121,22 +135,24 @@ DisplayTableRow& DisplayTable::getLastRow()
     return m_rows.back();
 }
 
-DisplayTableRow& DisplayTable::getRowReferenceAt(unsigned int rowIndex)
+DisplayTableRow& DisplayTable::getRowReferenceAt(unsigned int const rowIndex)
 {
     return m_rows[rowIndex];
 }
 
-DisplayTableCell& DisplayTable::getCellReferenceAt(unsigned int rowIndex, unsigned int columnIndex)
+DisplayTableCell& DisplayTable::getCellReferenceAt(unsigned int const columnIndex,unsigned int const rowIndex)
 {
     return m_rows[rowIndex].getCellReferenceAt(columnIndex);
 }
 
 void DisplayTable::addRow()
 {
-    m_rows.emplace_back();}
+    m_rows.emplace_back();
+}
 
 void DisplayTable::setBorders(string const& horizontalBorder, string const& verticalBorder)
-{    m_horizontalBorder = horizontalBorder;
+{
+    m_horizontalBorder = horizontalBorder;
     m_verticalBorder = verticalBorder;
 }
 
@@ -200,10 +216,12 @@ string DisplayTable::getCellTextWithDesiredLength(DisplayTableCell const& cell, 
 
 unsigned int DisplayTable::getTotalColumnLength() const
 {
-    unsigned int totalColumnLength=0;    for(unsigned int lengthPerColumn : m_calculatedLengthPerColumn)
+    unsigned int totalColumnLength=0;
+    for(unsigned int lengthPerColumn : m_calculatedLengthPerColumn)
     {
         totalColumnLength+=lengthPerColumn;
-    }    return totalColumnLength;
+    }
+    return totalColumnLength;
 }
 
 string DisplayTable::getHorizontalBorderLine() const

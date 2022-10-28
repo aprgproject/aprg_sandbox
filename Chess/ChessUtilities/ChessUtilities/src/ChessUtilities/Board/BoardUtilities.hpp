@@ -15,10 +15,12 @@ bool isValidMove(Move const& move);
 
 PieceColor getOppositeColor(PieceColor const pieceColor);
 
-std::string getEnumString(PieceColor const pieceColor);std::string getEnumString(PieceType const pieceType);
+std::string getEnumString(PieceColor const pieceColor);
+std::string getEnumString(PieceType const pieceType);
 
 std::string constructFenString(
-        Board const& board,        PieceColor const colorToMove,
+        Board const& board,
+        PieceColor const colorToMove,
         std::string const& castlingAvailability,
         std::string const& enPassantTarget,
         unsigned int const halfMoveClock,

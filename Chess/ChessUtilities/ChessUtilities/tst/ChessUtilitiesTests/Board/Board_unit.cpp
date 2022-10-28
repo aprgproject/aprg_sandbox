@@ -39,7 +39,8 @@ TEST(BoardTest, ConstructionWorks)
 
 TEST(BoardTest, IsEmptyWorks)
 {
-    Board board(Board::Orientation::BlackUpWhiteDown);    Coordinate emptyCoordinate{4, 4};
+    Board board(Board::Orientation::BlackUpWhiteDown);
+    Coordinate emptyCoordinate{4, 4};
     Coordinate nonEmptyCoordinate{3, 6};
 
     EXPECT_TRUE(board.isEmptyAt(emptyCoordinate));
@@ -49,10 +50,12 @@ TEST(BoardTest, IsEmptyWorks)
 TEST(BoardTest, CanBeCapturedWorksOnExample1)
 {
     Board board(Board::Orientation::BlackUpWhiteDown,
-    {12,10,11,13,14,11,10,12,     9,9,9,9,0,9,9,9,
+    {12,10,11,13,14,11,10,12,
+     9,9,9,9,0,9,9,9,
      0,0,0,0,0,0,0,0,
      0,0,0,9,0,0,0,0,
-     0,0,0,0,1,0,0,0,     0,0,0,0,0,0,0,0,
+     0,0,0,0,1,0,0,0,
+     0,0,0,0,0,0,0,0,
      1,1,1,1,0,1,1,1,
      4,2,3,5,6,3,2,4});
 
@@ -79,10 +82,12 @@ TEST(BoardTest, CanBeCapturedWorksOnExample2)
 
 TEST(BoardTest, IsMovePossibleWorks)
 {
-    Board board(Board::Orientation::BlackUpWhiteDown);    Move possibleMove1{{3, 6}, {3, 5}};
+    Board board(Board::Orientation::BlackUpWhiteDown);
+    Move possibleMove1{{3, 6}, {3, 5}};
     Move possibleMove2{{3, 6}, {3, 4}};
     Move notPossibleMove1{{3, 6}, {3, 3}};
     Move notPossibleMove2{{3, 6}, {3, 2}};
+
     EXPECT_TRUE(board.isMovePossible(possibleMove1));
     EXPECT_TRUE(board.isMovePossible(possibleMove2));
     EXPECT_FALSE(board.isMovePossible(notPossibleMove1));
