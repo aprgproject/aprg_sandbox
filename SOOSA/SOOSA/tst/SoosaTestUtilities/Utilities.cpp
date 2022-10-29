@@ -126,14 +126,34 @@ InputConfiguration getInputConfigurationForDemObas(string const& inputPath)
     return inputConfiguration;
 }
 
+InputConfiguration getInputConfigurationForSpecialUnits(string const& inputPath)
+{
+    InputConfiguration inputConfiguration;
+    inputConfiguration.setPath(inputPath);
+    inputConfiguration.setFormDetailsTitle("Form Title");
+    inputConfiguration.setMainParameters("area", "period", 12.345, 3U);
+    inputConfiguration.addQuestion(1, "01. Hospital Environment - cleanliness of the area");
+    inputConfiguration.addQuestion(1, "02. Hospital Environment - ventilation/air-conditioning");
+    inputConfiguration.addQuestion(1, "03. Hospital Environment - lighting");
+    inputConfiguration.addQuestion(1, "04. Nursing Care - promptness of service");
+    inputConfiguration.addQuestion(1, "05. Nursing Care - quality of patient care");
+    inputConfiguration.addQuestion(1, "06. Nursing Care - courtesy in dealing with patients/watchers");
+    inputConfiguration.addQuestion(1, "07. Medical Care - promptness of service");
+    inputConfiguration.addQuestion(1, "08. Medical Care - quality of care and treatment");
+    inputConfiguration.addQuestion(1, "09. Medical Care - courtesy in dealing with patients");
+    inputConfiguration.addQuestion(1, "10. Pharmacy - availability of medicines and medical supplies");
+    inputConfiguration.addQuestion(1, "11. Pharmacy - promptness of  service");
+    inputConfiguration.addQuestion(1, "12. Pharmacy - courtesy of staff");
+    inputConfiguration.addQuestion(1, "13. Overall assessment of the hospital");
+    return inputConfiguration;
+}
+
 void checkAnswersForCharityPayWardsPattern1(SOOSA const& soosa)
 {
-    EXPECT_EQ(39U, soosa.getNumberOfAnswers());
-    EXPECT_EQ(5U, soosa.getAnswerToQuestion(0));
+    EXPECT_EQ(39U, soosa.getNumberOfAnswers());    EXPECT_EQ(5U, soosa.getAnswerToQuestion(0));
     EXPECT_EQ(4U, soosa.getAnswerToQuestion(1));
     EXPECT_EQ(3U, soosa.getAnswerToQuestion(2));
-    EXPECT_EQ(2U, soosa.getAnswerToQuestion(3));
-    EXPECT_EQ(1U, soosa.getAnswerToQuestion(4));
+    EXPECT_EQ(2U, soosa.getAnswerToQuestion(3));    EXPECT_EQ(1U, soosa.getAnswerToQuestion(4));
     EXPECT_EQ(2U, soosa.getAnswerToQuestion(5));
     EXPECT_EQ(3U, soosa.getAnswerToQuestion(6));
     EXPECT_EQ(4U, soosa.getAnswerToQuestion(7));
@@ -345,10 +365,45 @@ void checkAnswersForDemObasPattern5(SOOSA const& soosa)
     EXPECT_EQ(0U, soosa.getAnswerToQuestion(29));
 }
 
+void checkAnswersForSpecialUnitsPattern1(SOOSA const& soosa)
+{
+    EXPECT_EQ(13U, soosa.getNumberOfAnswers());
+    EXPECT_EQ(5U, soosa.getAnswerToQuestion(0));
+    EXPECT_EQ(5U, soosa.getAnswerToQuestion(1));
+    EXPECT_EQ(5U, soosa.getAnswerToQuestion(2));
+    EXPECT_EQ(5U, soosa.getAnswerToQuestion(3));
+    EXPECT_EQ(5U, soosa.getAnswerToQuestion(4));
+    EXPECT_EQ(5U, soosa.getAnswerToQuestion(5));
+    EXPECT_EQ(5U, soosa.getAnswerToQuestion(6));
+    EXPECT_EQ(5U, soosa.getAnswerToQuestion(7));
+    EXPECT_EQ(5U, soosa.getAnswerToQuestion(8));
+    EXPECT_EQ(4U, soosa.getAnswerToQuestion(9));
+    EXPECT_EQ(5U, soosa.getAnswerToQuestion(10));
+    EXPECT_EQ(5U, soosa.getAnswerToQuestion(11));
+    EXPECT_EQ(5U, soosa.getAnswerToQuestion(12));
+}
+
+void checkAnswersForSpecialUnitsPattern2(SOOSA const& soosa)
+{
+    EXPECT_EQ(13U, soosa.getNumberOfAnswers());
+    EXPECT_EQ(5U, soosa.getAnswerToQuestion(0));
+    EXPECT_EQ(5U, soosa.getAnswerToQuestion(1));
+    EXPECT_EQ(4U, soosa.getAnswerToQuestion(2));
+    EXPECT_EQ(4U, soosa.getAnswerToQuestion(3));
+    EXPECT_EQ(3U, soosa.getAnswerToQuestion(4));
+    EXPECT_EQ(4U, soosa.getAnswerToQuestion(5));
+    EXPECT_EQ(3U, soosa.getAnswerToQuestion(6));
+    EXPECT_EQ(3U, soosa.getAnswerToQuestion(7));
+    EXPECT_EQ(3U, soosa.getAnswerToQuestion(8));
+    EXPECT_EQ(3U, soosa.getAnswerToQuestion(9));
+    EXPECT_EQ(3U, soosa.getAnswerToQuestion(10));
+    EXPECT_EQ(3U, soosa.getAnswerToQuestion(11));
+    EXPECT_EQ(3U, soosa.getAnswerToQuestion(12));
+}
+
 void checkAnswersForEmptyForm(SOOSA const& soosa)
 {
-    EXPECT_EQ(0U, soosa.getNumberOfAnswers());
-}
+    EXPECT_EQ(0U, soosa.getNumberOfAnswers());}
 
 }
 

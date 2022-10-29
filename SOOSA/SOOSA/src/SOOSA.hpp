@@ -135,14 +135,13 @@ private:
     void addPointAndWidthPairIfAcceptable(PointAndWidthPairs & pointAndWidthPairs, BitmapSnippet const& snippet, Line const& line, Point const& blackPoint) const;
 
     // Height functions
+    void retainOnlyContinuousBarPointsBasedOnHeightDistances(TwoDimensionKMeans & kMeansForBarPoints, unsigned int const numberQuestionsInColumn) const;
     void removeIncorrectBarPointsBasedFromHeight(TwoDimensionKMeans & kMeansForBarPoints, unsigned int const numberQuestionsInColumn) const;
     void addAndRetainBarPointsIfPossible(TwoDimensionKMeans & kMeansForBarPoints, GroupOfTwoDimensionSamples const& listOfGroupOfBarPoints, unsigned int const indexToRemove) const;
-    OneDimensionSamples getBarHeights(GroupOfTwoDimensionSamples const& groupOfBarPoints) const;
-    double getHeight(TwoDimensionSamples const& barPoints) const;
+    OneDimensionSamples getBarHeights(GroupOfTwoDimensionSamples const& groupOfBarPoints) const;    double getHeight(TwoDimensionSamples const& barPoints) const;
 
     // output related functions
-    std::string getCsvFilePath(std::string const& path) const;
-    std::string getReportHtmlFilePath(std::string const& path) const;
+    std::string getCsvFilePath(std::string const& path) const;    std::string getReportHtmlFilePath(std::string const& path) const;
     std::string getPrintableStringForPercentage(double const numerator, double const denominator) const;
     void setAnswerToQuestionInColumn(unsigned int const columnNumber, unsigned int const questionOffsetInColumn, unsigned int const answer);
     void saveDataToCsvFile(std::string const& processedFilePath) const;
