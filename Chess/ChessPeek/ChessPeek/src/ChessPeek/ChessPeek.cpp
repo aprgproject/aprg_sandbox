@@ -2,9 +2,9 @@
 
 #include <ChessUtilities/Board/BoardUtilities.hpp>
 #include <Common/Bit/AlbaBitManipulation.hpp>
+#include <Common/Container/AlbaContainerHelper.hpp>
 #include <Common/Math/Helpers/DivisibilityHelpers.hpp>
 #include <Common/User/DisplayTable.hpp>
-
 #include <algorithm>
 #include <iostream>
 
@@ -12,25 +12,12 @@
 //#define CHESS_ENGINE_PATH APRG_DIR R"(\Chess\ChessPeek\Files\zappa.exe)"
 #define SCREEN_SHOT_PATH APRG_DIR R"(\Chess\ChessPeek\Files\ScreenShot.bmp)"
 
-// Chess.com - user vs user
-#define CHESS_BOARD_TOP_LEFT_CORNER 2200, 151
-#define CHESS_BOARD_BOTTOM_RIGHT_CORNER 3023, 974
-#define TOP_BOTTOM_INDENTION 0.05
-#define LEFT_RIGHT_INDENTION 0.03
-#define WHITE_COLOR_LIMIT 0.91
-#define BLACK_COLOR_LIMIT 0.40
 
-// Chess.com - user vs computer
-//#define CHESS_BOARD_TOP_LEFT_CORNER 2207, 151
-//#define CHESS_BOARD_BOTTOM_RIGHT_CORNER 3014, 958
-//#define TOP_BOTTOM_INDENTION 0.05
-//#define LEFT_RIGHT_INDENTION 0.03
-//#define WHITE_COLOR_LIMIT 0.91
-//#define BLACK_COLOR_LIMIT 0.40
+
+#include <Common/Debug/AlbaDebug.hpp>
 
 using namespace alba::AprgBitmap;
-using namespace alba::mathHelper;
-using namespace alba::stringHelper;
+using namespace alba::mathHelper;using namespace alba::stringHelper;
 using namespace std;
 
 namespace alba
@@ -40,16 +27,16 @@ namespace chess
 {
 
 ChessPeek::ChessPeek()
-    : m_chessEngineHandler(CHESS_ENGINE_PATH)
+    : m_configuration(ChessPeekConfigurationType::ChessDotComUserVsUser)
+    , m_chessPieceConverter(m_configuration.getType())
+    , m_chessEngineHandler(CHESS_ENGINE_PATH)
     , m_chessEngineController(m_chessEngineHandler)
-    , m_chessPieceConverter()
     , m_userAutomation()
-    , m_chessBoard(Board::Orientation::WhiteUpBlackDown, {})
-    , m_playerColor(PieceColor::Black)
+    , m_chessBoard(Board::Orientation::BlackUpWhiteDown, {})
+    , m_playerColor(PieceColor::White)
     , m_playerKingCoordinate{}
     , m_opponentKingCoordinate{}
-    , m_isEngineNewlyReseted(true)
-{
+    , m_isEngineNewlyReseted(true){
     initialize();
 }
 
@@ -67,26 +54,24 @@ void ChessPeek::runOneIteration()
 {
     Board::PieceMatrix previousPieceMatrix(m_chessBoard.getPieceMatrix());
     checkScreenAndSaveDetails();
-    if((m_isEngineNewlyReseted || previousPieceMatrix != m_chessBoard.getPieceMatrix()) && canAnalyzeBoard())
+    if(canAnalyzeBoard() && (m_isEngineNewlyReseted || didBoardChange(previousPieceMatrix)))
     {
-        startAnalysisUsingEngine();
+        startEngineAnalysisOfNewPosition();
     }
 }
-
 void ChessPeek::checkScreenAndSaveDetails()
 {
     m_userAutomation.saveBitmapOnScreen(SCREEN_SHOT_PATH);
     Bitmap bitmap(SCREEN_SHOT_PATH);
-    BitmapSnippet snippet(bitmap.getSnippetReadFromFile(BitmapXY(CHESS_BOARD_TOP_LEFT_CORNER), BitmapXY(CHESS_BOARD_BOTTOM_RIGHT_CORNER)));
+    BitmapSnippet snippet(bitmap.getSnippetReadFromFile(m_configuration.getTopLeftCorner(), m_configuration.getBottomRightCorner()));
     checkSnippetAndSaveDetails(snippet);
     //bitmap.setSnippetWriteToFile(snippet);//
 }
 
-void ChessPeek::startAnalysisUsingEngine()
+void ChessPeek::startEngineAnalysisOfNewPosition()
 {
     string fenString(constructFenString(m_chessBoard, m_playerColor, m_chessBoard.getCastlingFenString(), "-", 0, 1));
-    m_chessEngineController.stop();
-    m_chessEngineController.setupFenString(fenString);
+    m_chessEngineController.stop();    m_chessEngineController.setupFenString(fenString);
     if(!m_chessEngineController.waitTillReadyAndReturnIfResetWasPerformed()) // reset was not performed
     {
         m_chessEngineController.goWithPonder();
@@ -98,14 +83,18 @@ void ChessPeek::startAnalysisUsingEngine()
     }
 }
 
-void ChessPeek::calculationMonitoringCallBack(EngineCalculationDetails const& calculationDetails)
+void ChessPeek::calculationMonitoringCallBackForEngine(EngineCalculationDetails const& calculationDetails)
 {
     saveCalculationDetails(calculationDetails);
-    checkCalculationDetails();
+    checkCalculationDetailsFromEngine();
 }
 
-bool ChessPeek::canAnalyzeBoard() const
+bool ChessPeek::didBoardChange(Board::PieceMatrix const& previousPieceMatrix) const
 {
+    return previousPieceMatrix != m_chessBoard.getPieceMatrix();
+}
+
+bool ChessPeek::canAnalyzeBoard() const{
     return doCorrectKingsExist() && !isOpponentKingOnCheck();
 }
 
@@ -116,54 +105,19 @@ bool ChessPeek::doCorrectKingsExist() const
 
 bool ChessPeek::isPlayerKingAndOpponentKingValid() const
 {
-    Piece playerKing(m_chessBoard.getPieceAt(m_playerKingCoordinate));
-    Piece opponentKing(m_chessBoard.getPieceAt(m_opponentKingCoordinate));
-    return (PieceType::King == playerKing.getType() && m_playerColor == playerKing.getColor())
-            || (PieceType::King == opponentKing.getType() && getOppositeColor(m_playerColor) == opponentKing.getColor());
+    Piece pieceAtPlayerKing(m_chessBoard.getPieceAt(m_playerKingCoordinate));
+    Piece pieceAtOpponentKing(m_chessBoard.getPieceAt(m_opponentKingCoordinate));
+    return PieceType::King == pieceAtPlayerKing.getType() && m_playerColor == pieceAtPlayerKing.getColor()
+            && PieceType::King == pieceAtOpponentKing.getType() && getOppositeColor(m_playerColor) == pieceAtOpponentKing.getColor();
 }
 
-bool ChessPeek::isOpponentKingOnCheck() const
-{
+bool ChessPeek::isOpponentKingOnCheck() const{
     return m_chessBoard.canBeCaptured(m_opponentKingCoordinate);
-}
-
-void ChessPeek::saveCalculationDetails(EngineCalculationDetails const& engineCalculationDetails)
-{
-    constexpr unsigned int minimumNumberOfPvMovesForUpdate = 3U;
-    m_savedCalculationDetails.depth = engineCalculationDetails.depth;
-    m_savedCalculationDetails.scoreInCentipawns = engineCalculationDetails.scoreInCentipawns;
-    m_savedCalculationDetails.mateInNumberOfMoves = engineCalculationDetails.mateInNumberOfMoves;
-    if(!engineCalculationDetails.bestMove.empty())
-    {
-        m_savedCalculationDetails.bestMove = engineCalculationDetails.bestMove;
-    }
-    if(!engineCalculationDetails.currentlySearchingMoves.empty())
-    {
-        m_savedCalculationDetails.currentlySearchingMoves = engineCalculationDetails.currentlySearchingMoves;
-    }
-    if(m_savedCalculationDetails.mateInNumberOfMoves > 0
-            || engineCalculationDetails.pvMovesInBestLine.size() >= minimumNumberOfPvMovesForUpdate)
-    {
-        m_savedCalculationDetails.pvMovesInBestLine = engineCalculationDetails.pvMovesInBestLine;
-    }
-}
-
-void ChessPeek::checkCalculationDetails()
-{
-    string bestMoveToDisplayString(getBestMoveToDisplayString());
-    Moves currentMoves(getCurrentMoves(bestMoveToDisplayString));
-    BoardAndMovePairs futureBoardsAndMoves(getFutureBoardsAndMoves());
-
-    printCalculationDetails();
-    printCurrentMovesIfNeeded(currentMoves);
-    printFutureMovesIfNeeded(futureBoardsAndMoves);
-    cout<<endl;
 }
 
 void ChessPeek::checkSnippetAndSaveDetails(BitmapSnippet & snippet)
 {
-    double startX = snippet.getTopLeftCorner().getX();
-    double startY = snippet.getTopLeftCorner().getY();
+    double startX = snippet.getTopLeftCorner().getX();    double startY = snippet.getTopLeftCorner().getY();
     double endX = snippet.getBottomRightCorner().getX();
     double endY = snippet.getBottomRightCorner().getY();
     double deltaX = (endX-startX)/8;
@@ -202,13 +156,12 @@ ChessPeek::ChessCellCoordinates ChessPeek::getChessCellCoordinates(
         double const deltaX,
         double const deltaY)
 {
-    return ChessCellCoordinates {static_cast<unsigned int>(round(startX + deltaX*i + deltaX*LEFT_RIGHT_INDENTION)),
-                static_cast<unsigned int>(round(startX + deltaX*(i+1) - deltaX*LEFT_RIGHT_INDENTION)),
-                static_cast<unsigned int>(round(startY + deltaY*j + deltaX*TOP_BOTTOM_INDENTION)),
-                static_cast<unsigned int>(round(startY + deltaY*(j+1) - deltaX*TOP_BOTTOM_INDENTION)),
+    return ChessCellCoordinates {static_cast<unsigned int>(round(startX + deltaX*i + deltaX*m_configuration.getXIndentionMultiplier())),
+                static_cast<unsigned int>(round(startX + deltaX*(i+1) - deltaX*m_configuration.getXIndentionMultiplier())),
+                static_cast<unsigned int>(round(startY + deltaY*j + deltaX*m_configuration.getYIndentionMultiplier())),
+                static_cast<unsigned int>(round(startY + deltaY*(j+1) - deltaX*m_configuration.getYIndentionMultiplier())),
     };
 }
-
 Piece ChessPeek::getChessPieceIfPossible(BitSet64 const& blackValue, BitSet64 const& whiteValue)
 {
     Piece chessPiece;
@@ -277,56 +230,92 @@ void ChessPeek::setKingDetailsIfPossible(
     }
 }
 
-void ChessPeek::printCalculationDetails() const
+void ChessPeek::saveCalculationDetails(EngineCalculationDetails const& engineCalculationDetails)
 {
-    cout << "Depth: " << m_savedCalculationDetails.depth
-         << " Score: " << static_cast<double>(m_savedCalculationDetails.scoreInCentipawns) / 100
-         << " Mate: " << m_savedCalculationDetails.mateInNumberOfMoves << endl;
-    cout << "Best move: [" << m_savedCalculationDetails.bestMove << "]" << endl;
-    cout << "Searching moves: ";
-    unsigned int i=1;
-    for(string const& searchingMoves : m_savedCalculationDetails.currentlySearchingMoves)
+    constexpr unsigned int minimumNumberOfPvMovesForUpdate = 3U;
+    m_savedCalculationDetails.depth = engineCalculationDetails.depth;
+    m_savedCalculationDetails.scoreInCentipawns = engineCalculationDetails.scoreInCentipawns;
+    m_savedCalculationDetails.mateInNumberOfMoves = engineCalculationDetails.mateInNumberOfMoves;
+    if(!engineCalculationDetails.bestMove.empty())
     {
-        cout << searchingMoves << " ";
-        if(i++==20)
+        m_savedCalculationDetails.bestMove = engineCalculationDetails.bestMove;
+    }
+    if(!engineCalculationDetails.currentlySearchingMoves.empty())
+    {
+        m_savedCalculationDetails.currentlySearchingMoves = engineCalculationDetails.currentlySearchingMoves;
+    }
+    if(m_savedCalculationDetails.mateInNumberOfMoves > 0
+            || engineCalculationDetails.pvMovesInBestLine.size() >= minimumNumberOfPvMovesForUpdate)
+    {
+        m_savedCalculationDetails.pvMovesInBestLine = engineCalculationDetails.pvMovesInBestLine;
+    }
+}
+
+void ChessPeek::checkCalculationDetailsFromEngine()
+{
+    string bestMoveToDisplayString(getBestMoveToDisplayString());
+    Moves currentMoves(getCurrentMoves(bestMoveToDisplayString));
+    Moves futureMoves(getFutureMoves());
+
+    printCalculationDetails();
+    printMoveTables(currentMoves, futureMoves);
+    cout<<endl;
+}
+
+Moves ChessPeek::getCurrentMoves(
+        string const& bestMoveToDisplay) const
+{
+    constexpr unsigned int maxNumberOfCurrentMoves = 5U;
+    Moves result;
+    result.reserve(maxNumberOfCurrentMoves);
+
+    strings const& searchingMovesStrings(m_savedCalculationDetails.currentlySearchingMoves);
+    for(string const& searchingMoveString : searchingMovesStrings)
+    {
+        Move move(m_chessBoard.getMoveFromTwoLetterNumberNotation(searchingMoveString));
+        if(isValidMove(move))
         {
-            break;
+            result.emplace_back(move);
+            if(result.size() >= maxNumberOfCurrentMoves)
+            {
+                break;
+            }
         }
     }
-    cout << endl;
-    cout << "PV: ";
-    i=1;
-    for(string const& moveInPv : m_savedCalculationDetails.pvMovesInBestLine)
+
+    Move bestMove(m_chessBoard.getMoveFromTwoLetterNumberNotation(bestMoveToDisplay));
+    if(isValidMove(bestMove) && result.empty())
     {
-        cout << moveInPv << " ";
-        if(i++==20)
+        result.emplace_back(bestMove);
+    }
+
+    return result;
+}
+
+Moves ChessPeek::getFutureMoves() const
+{
+    constexpr unsigned int maxNumberOfFuturePlayerMoves = 5U;
+    Moves result;
+    result.reserve(maxNumberOfFuturePlayerMoves);
+
+    strings const& pvMovesStrings(m_savedCalculationDetails.pvMovesInBestLine);
+    unsigned int maxNumberOfFutureMoves = maxNumberOfFuturePlayerMoves<=0 ? 0 : (maxNumberOfFuturePlayerMoves*2U)-1U;
+    for(string const& pvMoveString : pvMovesStrings)
+    {
+        Move move(m_chessBoard.getMoveFromTwoLetterNumberNotation(pvMoveString));
+        if(isValidMove(move))
         {
-            break;
+            result.emplace_back(move);
+            if(result.size() >= maxNumberOfFutureMoves)
+            {
+                break;
+            }
         }
     }
-    cout << endl;
+    return result;
 }
 
-void ChessPeek::printCurrentMovesIfNeeded(Moves const& currentMoves) const
-{
-    if(!currentMoves.empty())
-    {
-        DisplayTable displayTable(getDisplayTableForCurrentMoves(currentMoves));
-        cout << displayTable.drawOutput();
-    }
-}
-
-void ChessPeek::printFutureMovesIfNeeded(BoardAndMovePairs const& futureBoardsAndMoves) const
-{
-    if(!futureBoardsAndMoves.empty())
-    {
-        DisplayTable displayTable(getDisplayTableForFutureMoves(futureBoardsAndMoves));
-        cout << displayTable.drawOutput();
-    }
-}
-
-string ChessPeek::getBestMoveToDisplayString() const
-{
+string ChessPeek::getBestMoveToDisplayString() const{
     if(!m_savedCalculationDetails.bestMove.empty())
     {
         return m_savedCalculationDetails.bestMove;
@@ -350,151 +339,161 @@ string ChessPeek::getBestMoveToDisplayString() const
     return string();
 }
 
-Moves ChessPeek::getCurrentMoves(
-        string const& bestMoveToDisplay) const
+void ChessPeek::printCalculationDetails() const
 {
-    constexpr unsigned int maxNumberOfCurrentMoves = 5U;
-    Moves result;
-    result.reserve(maxNumberOfCurrentMoves);
+    constexpr unsigned int maxNumberOfMovesToDisplay = 20U;
+    cout << "Depth: " << m_savedCalculationDetails.depth
+         << " Score: " << static_cast<double>(m_savedCalculationDetails.scoreInCentipawns) / 100
+         << " Mate: " << m_savedCalculationDetails.mateInNumberOfMoves << endl;
+    cout << "Best move: [" << m_savedCalculationDetails.bestMove << "]" << endl;
 
-    Move bestMove(m_chessBoard.getMoveFromTwoLetterNumberNotation(bestMoveToDisplay));
-    if(isValidMove(bestMove))
-    {
-        result.emplace_back(bestMove);
-    }
+    cout << "Searching moves: ";
+    ostream_iterator<string> outputIterator(cout, ", ");
+    auto itStart = m_savedCalculationDetails.currentlySearchingMoves.cbegin();
+    auto itEnd = min(m_savedCalculationDetails.currentlySearchingMoves.cend(), itStart+maxNumberOfMovesToDisplay);
+    copy(itStart, itEnd, outputIterator);
+    cout << endl;
 
-    strings const& searchingMovesStrings(m_savedCalculationDetails.currentlySearchingMoves);
-    for(string const& searchingMoveString : searchingMovesStrings)
-    {
-        Move move(m_chessBoard.getMoveFromTwoLetterNumberNotation(searchingMoveString));
-        if(isValidMove(move))
-        {
-            result.emplace_back(move);
-            if(result.size() == maxNumberOfCurrentMoves)
-            {
-                break;
-            }
-        }
-    }
-    return result;
+    cout << "PV: ";
+    itStart = m_savedCalculationDetails.pvMovesInBestLine.cbegin();
+    itEnd = min(m_savedCalculationDetails.pvMovesInBestLine.cend(), itStart+maxNumberOfMovesToDisplay);
+    copy(itStart, itEnd, outputIterator);
+    cout << endl;
 }
 
-ChessPeek::BoardAndMovePairs ChessPeek::getFutureBoardsAndMoves() const
+void ChessPeek::printMoveTables(Moves const& currentMoves, Moves const& futureMoves) const
 {
-    constexpr unsigned int maxNumberOfFutureMoves = 5U;
-    BoardAndMovePairs result;
-    result.reserve(maxNumberOfFutureMoves);
-
-    Board board(m_chessBoard);
-    strings const& pvMovesStrings(m_savedCalculationDetails.pvMovesInBestLine);
-    unsigned int count=1;
-    for(string const& pvMoveString : pvMovesStrings)
+    if(!currentMoves.empty())
     {
-        Move move(m_chessBoard.getMoveFromTwoLetterNumberNotation(pvMoveString));
-        if(isValidMove(move))
-        {
-            if(isOdd(count++))
-            {
-                result.emplace_back(board, move);
-            }
-            board.move(move);
-
-            if(result.size() == maxNumberOfFutureMoves)
-            {
-                break;
-            }
-        }
+        putCurrentMovesTable(currentMoves);
+        cout << endl;
     }
-    return result;
+    if(!futureMoves.empty())
+    {
+        printFutureMovesTable(futureMoves);
+        cout << endl;
+    }
 }
 
-DisplayTable ChessPeek::getDisplayTableForCurrentMoves(Moves const& currentMoves) const
+void ChessPeek::putCurrentMovesTable(
+        Moves const& currentMoves) const
 {
-    DisplayTable displayTable;
+    constexpr unsigned int offsetToNextTable=9U;
+    unsigned int numberOfColumns = getNumberOfColumnsOfDisplayTable(currentMoves.size());
+    DisplayTable displayTable(numberOfColumns, 8U);
+    displayTable.setBorders("-", "|");
+
+    // put separators
     for(CoordinateDataType j=0; j<8; j++)
     {
-        displayTable.addRow();
-        bool isFirst(true);
-        for(Move const& currentMove : currentMoves)
+        for(unsigned int separatorIndex=8; separatorIndex<numberOfColumns; separatorIndex+=offsetToNextTable)
         {
-            addCellForSpaceIfNotFirst(isFirst, displayTable);
-            for(CoordinateDataType i=0; i<8; i++)
-            {
-                displayTable.getLastRow().addCell(
-                            getCellInDisplayTable(m_chessBoard, Coordinate(i, j), currentMove, 1U));
-            }
+            displayTable.getCellReferenceAt(separatorIndex, j).setText("     ");
         }
     }
-    displayTable.setBorders("-", "|");
-    return displayTable;
-}
 
-DisplayTable ChessPeek::getDisplayTableForFutureMoves(BoardAndMovePairs const& futureBoardsAndMoves) const
-{
-    DisplayTable displayTable;
+    // put chess board
     for(CoordinateDataType j=0; j<8; j++)
     {
-        displayTable.addRow();
-        bool isFirst(true);
-        unsigned int moveNumberStart=1U;
-        for(auto const& futureBoardAndMove : futureBoardsAndMoves)
+        for(CoordinateDataType i=0; i<8; i++)
         {
-            addCellForSpaceIfNotFirst(isFirst, displayTable);
-            for(CoordinateDataType i=0; i<8; i++)
+            for(unsigned int offset=0; offset<numberOfColumns; offset+=offsetToNextTable)
             {
-                displayTable.getLastRow().addCell(
-                            getCellInDisplayTable(
-                                futureBoardAndMove.first, Coordinate(i, j), futureBoardAndMove.second, moveNumberStart));
+                Piece piece(m_chessBoard.getPieceAt(Coordinate(i, j)));
+                displayTable.getCellReferenceAt(i+offset, j).setText(getChessCellForDisplay(piece, 0U));
             }
-            moveNumberStart++;
         }
     }
-    displayTable.setBorders("-", "|");
-    return displayTable;
+
+    // put moves
+    unsigned int offset=0U;
+    for(Move const& currentMove : currentMoves)
+    {
+        Piece piece(m_chessBoard.getPieceAt(currentMove.first));
+        displayTable.getCellReferenceAt(currentMove.first.getX()+offset, currentMove.first.getY()).setText(
+                    getChessCellForDisplay(piece, 1U));
+        displayTable.getCellReferenceAt(currentMove.second.getX()+offset, currentMove.second.getY()).setText(
+                    getChessCellForDisplay(piece, 2U));
+        offset+=offsetToNextTable;
+    }
+
+    cout << displayTable.drawOutput();
 }
 
-void ChessPeek::addCellForSpaceIfNotFirst(bool & isFirst, DisplayTable & displayTable) const
+
+void ChessPeek::printFutureMovesTable(
+        Moves const& futureMoves) const
 {
-    if(isFirst)
+    constexpr unsigned int offsetToNextTable=9U;
+    unsigned int numberOfColumns = getNumberOfColumnsOfDisplayTable((futureMoves.size()+1U)/2U);
+    DisplayTable displayTable(numberOfColumns, 8U);
+    displayTable.setBorders("-", "|");
+
+    // put separators
+    for(CoordinateDataType j=0; j<8; j++)
     {
-        isFirst=false;
+        for(unsigned int separatorIndex=8; separatorIndex<numberOfColumns; separatorIndex+=offsetToNextTable)
+        {
+            displayTable.getCellReferenceAt(separatorIndex, j).setText("     ");
+        }
     }
-    else
+
+    // put board and moves
+    unsigned int moveNumber=1U;
+    unsigned int offset=0U;
+    unsigned int futureMoveCount=1U;
+    Board temporaryBoard(m_chessBoard);
+    for(Move const& futureMove : futureMoves)
     {
-        displayTable.getLastRow().addCell("     ");
+        if(isOdd(futureMoveCount))
+        {
+            // put chess board
+            for(CoordinateDataType j=0; j<8; j++)
+            {
+                for(CoordinateDataType i=0; i<8; i++)
+                {
+                    Piece piece(temporaryBoard.getPieceAt(Coordinate(i, j)));
+                    displayTable.getCellReferenceAt(i+offset, j).setText(getChessCellForDisplay(piece, 0U));
+                }
+            }
+
+            Piece piece(temporaryBoard.getPieceAt(futureMove.first));
+            displayTable.getCellReferenceAt(futureMove.first.getX()+offset, futureMove.first.getY()).setText(
+                        getChessCellForDisplay(piece, moveNumber));
+            displayTable.getCellReferenceAt(futureMove.second.getX()+offset, futureMove.second.getY()).setText(
+                        getChessCellForDisplay(piece, moveNumber+1));
+
+            moveNumber++;
+            offset+=offsetToNextTable;
+        }
+        temporaryBoard.move(futureMove);
+        futureMoveCount++;
     }
+
+    cout << displayTable.drawOutput();
 }
 
-string ChessPeek::getCellInDisplayTable(
-        Board const& chessBoard,
-        Coordinate const& coordinate,
-        Move const& moveToDisplay,
-        unsigned int const moveNumberStart) const
+string ChessPeek::getChessCellForDisplay(
+        Piece const& piece,
+        unsigned int const moveNumber) const
 {
     string result(3, ' ');
-    if(moveToDisplay.first == coordinate)
+    if(moveNumber != 0)
     {
-        char moveNumber = '0'+ static_cast<char>(moveNumberStart);
-        result[0]=moveNumber;
-        result[1]=chessBoard.getPieceAt(moveToDisplay.first).getCharacter();
-        result[2]=moveNumber;
+        char moveNumberCharacter = '0'+ static_cast<char>(moveNumber);
+        result[0]=moveNumberCharacter;
+        result[2]=moveNumberCharacter;
     }
-    else if(moveToDisplay.second == coordinate)
-    {
-        char moveNumber = '0'+ static_cast<char>(moveNumberStart) + 1;
-        result[0]=moveNumber;
-        result[1]=chessBoard.getPieceAt(moveToDisplay.first).getCharacter();
-        result[2]=moveNumber;
-    }
-    else
-    {
-        result[1]=chessBoard.getPieceAt(coordinate).getCharacter();
-    }
-    return string(result);
+    result[1]=piece.getCharacter();
+    return result;
 }
 
-void ChessPeek::retrieveChessCellDataBasedFromPixels(
-        BitSet64 & whiteValue,
+unsigned int ChessPeek::getNumberOfColumnsOfDisplayTable(unsigned int const numberOfChessBoards) const
+{
+    return numberOfChessBoards<=0 ? 0U : numberOfChessBoards*8U + numberOfChessBoards-1;
+}
+
+void ChessPeek::retrieveChessCellDataBasedFromPixels(        BitSet64 & whiteValue,
         BitSet64 & blackValue,
         BitmapSnippet & snippet,
         ChessCellCoordinates const& square) const
@@ -538,12 +537,11 @@ void ChessPeek::retrieveDataBasedFromPixel(
             maximum = currentIntensity;
         }
     }
-    whiteValue[index] = (maximum > WHITE_COLOR_LIMIT) ? 1 : 0;
-    blackValue[index] = (minimum < BLACK_COLOR_LIMIT) ? 1 : 0;
+    whiteValue[index] = (maximum > m_configuration.getWhiteColorLimit()) ? 1 : 0;
+    blackValue[index] = (minimum < m_configuration.getBlackColorLimit()) ? 1 : 0;
 }
 
-double ChessPeek::calculateColorIntensityDecimal(uint32_t const color) const
-{
+double ChessPeek::calculateColorIntensityDecimal(uint32_t const color) const{
     return (((double)extractRed(color)+extractGreen(color)+extractBlue(color))/0xFF)/3;
 }
 
@@ -568,10 +566,9 @@ void ChessPeek::initialize()
     m_chessEngineController.setLogFile(APRG_DIR R"(\Chess\ChessPeek\Files\EngineController.log)");
     m_chessEngineController.setAdditionalStepsInCalculationMonitoring([&](EngineCalculationDetails const& engineCalculationDetails)
     {
-        calculationMonitoringCallBack(engineCalculationDetails);
+        calculationMonitoringCallBackForEngine(engineCalculationDetails);
     });
 }
-
 }
 
 }

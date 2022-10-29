@@ -23,10 +23,9 @@ TEST(ChessPeekTest, StartNewAnalysisUsingEngineWorks)
 {
     ChessPeek chessPeek;
 
-    chessPeek.startAnalysisUsingEngine();
+    chessPeek.startEngineAnalysisOfNewPosition();
     Sleep(10000);
 }
-
 TEST(ChessPeekTest, RunOneIterationWorks)
 {
     ChessPeek chessPeek;

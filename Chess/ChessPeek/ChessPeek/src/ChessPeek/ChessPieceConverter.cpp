@@ -10,13 +10,13 @@ namespace alba
 namespace chess
 {
 
-ChessPieceConverter::ChessPieceConverter()
+ChessPieceConverter::ChessPieceConverter(
+        ChessPeekConfigurationType const type)
 {
-    initialize();
+    initialize(type);
 }
 
-Piece ChessPieceConverter::convertBitValueToPiece(
-        PieceColor const pieceColor,
+Piece ChessPieceConverter::convertBitValueToPiece(        PieceColor const pieceColor,
         uint64_t const bitValue)
 {
     PieceType pieceType{};
@@ -42,10 +42,37 @@ void ChessPieceConverter::setLogFile(string const& logFilePath)
     }
 }
 
+void ChessPieceConverter::initialize(ChessPeekConfigurationType const type)
+{
+    if(ChessPeekConfigurationType::ChessDotComUserVsUser == type
+            || ChessPeekConfigurationType::ChessDotComUserVsUser == type)
+    {
+        initializeConverterToChessDotCom();
+    }
+}
+
+void ChessPieceConverter::initializeConverterToChessDotCom()
+{
+    m_whitePiecesToBitValuesMap[PieceType::Empty]  = 0;
+    m_whitePiecesToBitValuesMap[PieceType::Pawn]   = 0B0000000000011000000110000001000000111100000100000011110001111110;
+    m_whitePiecesToBitValuesMap[PieceType::Knight] = 0B0001000000111100001111100111111001101100001110100011111001111110;
+    m_whitePiecesToBitValuesMap[PieceType::Bishop] = 0B0001100000010000001011000011110000111100001110000011110001111110;
+    m_whitePiecesToBitValuesMap[PieceType::Rook]   = 0B0000000000111100001111000011010000111000001110000011110001111110;
+    m_whitePiecesToBitValuesMap[PieceType::Queen]  = 0B0011110000111000101111110111111001111100001110000011111001111110;
+    m_whitePiecesToBitValuesMap[PieceType::King]   = 0B0001100000011000011111101111111111111111011111000111111001111110;
+
+    m_blackPiecesToBitValuesMap[PieceType::Empty]  = 0;
+    m_blackPiecesToBitValuesMap[PieceType::Pawn]   = 0B0000000000011000000110000001100000111100000110000001110001111110;
+    m_blackPiecesToBitValuesMap[PieceType::Knight] = 0B0011000000111100001111000111111001011110001111100010011001111110;
+    m_blackPiecesToBitValuesMap[PieceType::Bishop] = 0B0001100000010000001111000011110000111100001111000110010001111110;
+    m_blackPiecesToBitValuesMap[PieceType::Rook]   = 0B0000000000111100001111000011110000111100001111000110011001111110;
+    m_blackPiecesToBitValuesMap[PieceType::Queen]  = 0B0011110000111100111111110111111001111110001111000110011001111110;
+    m_blackPiecesToBitValuesMap[PieceType::King]   = 0B0001100000011000011111101101101111111111011111100110011001111110;
+}
+
 PieceType ChessPieceConverter::getPieceTypeFromBitValue(
         PieceTypeToBitValueMap const& pieceTypeToBitValueMap,
-        uint64_t const bitValue)
-{
+        uint64_t const bitValue){
     PieceTypeToBitValueMap differenceMap(getDifferenceMap(pieceTypeToBitValueMap, bitValue));
     PieceTypeToCountPerByteMap pieceTypeToDifferenceOfEachByteMap(getDifferenceOfEachByteMap(differenceMap));
     PieceTypeToCountMap pieceTypeToScoreMap(getPieceTypeToScoreMap(pieceTypeToDifferenceOfEachByteMap));
@@ -164,30 +191,6 @@ PieceTypes ChessPieceConverter::getBestFitTypes(
         }
     }
     return bestFitTypes;
-}
-
-void ChessPieceConverter::initialize()
-{
-    initializeToChessDotCom();
-}
-
-void ChessPieceConverter::initializeToChessDotCom()
-{
-    m_whitePiecesToBitValuesMap[PieceType::Empty]  = 0;
-    m_whitePiecesToBitValuesMap[PieceType::Pawn]   = 0B0000000000011000000110000001000000111100000100000011110001111110;
-    m_whitePiecesToBitValuesMap[PieceType::Knight] = 0B0001000000111100001111100111111001101100001110100011111001111110;
-    m_whitePiecesToBitValuesMap[PieceType::Bishop] = 0B0001100000010000001011000011110000111100001110000011110001111110;
-    m_whitePiecesToBitValuesMap[PieceType::Rook]   = 0B0000000000111100001111000011010000111000001110000011110001111110;
-    m_whitePiecesToBitValuesMap[PieceType::Queen]  = 0B0011110000111000101111110111111001111100001110000011111001111110;
-    m_whitePiecesToBitValuesMap[PieceType::King]   = 0B0001100000011000011111101111111111111111011111000111111001111110;
-
-    m_blackPiecesToBitValuesMap[PieceType::Empty]  = 0;
-    m_blackPiecesToBitValuesMap[PieceType::Pawn]   = 0B0000000000011000000110000001100000111100000110000001110001111110;
-    m_blackPiecesToBitValuesMap[PieceType::Knight] = 0B0011000000111100001111000111111001011110001111100010011001111110;
-    m_blackPiecesToBitValuesMap[PieceType::Bishop] = 0B0001100000010000001111000011110000111100001111000110010001111110;
-    m_blackPiecesToBitValuesMap[PieceType::Rook]   = 0B0000000000111100001111000011110000111100001111000110011001111110;
-    m_blackPiecesToBitValuesMap[PieceType::Queen]  = 0B0011110000111100111111110111111001111110001111000110011001111110;
-    m_blackPiecesToBitValuesMap[PieceType::King]   = 0B0001100000011000011111101101101111111111011111100110011001111110;
 }
 
 }
