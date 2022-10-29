@@ -17,7 +17,9 @@ m_maximumDistanceForANewBarHeightInitialValue: 20.00
 m_maximumDistanceForANewBarHeightMultiplier: 0.10
 m_acceptableSdOverMeanDeviationForBarHeight: 0.10
 m_removalRatioForBarHeight: 0.02
+
 // Choices related parameters
 m_numberOfChoices: 5
-m_colorIntensityForWhite: 170m_barHeightToDiameterMultiplier: 0.75
+m_colorIntensityForWhite: 170
+m_barHeightToDiameterMultiplier: 0.75
 m_minimumPercentageOfBlackPixelsForAFilledCircle: 0.40

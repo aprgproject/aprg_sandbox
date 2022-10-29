@@ -26,6 +26,7 @@ TEST(ChessPeekTest, StartNewAnalysisUsingEngineWorks)
     chessPeek.startEngineAnalysisOfNewPosition();
     Sleep(10000);
 }
+
 TEST(ChessPeekTest, RunOneIterationWorks)
 {
     ChessPeek chessPeek;

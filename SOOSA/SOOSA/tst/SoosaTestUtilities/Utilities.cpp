@@ -22,10 +22,12 @@ SoosaConfiguration getSoosaConfiguration()
     soosaConfiguration.bufferNameAndValueString("m_lineBarWidthSearchInitialBlackPointsValue", "20");
     soosaConfiguration.bufferNameAndValueString("m_lineBarWidthSearchAcceptedRunningBlackRatio", "0.80");
     soosaConfiguration.bufferNameAndValueString("m_acceptableDistanceOverWidthRatioFromWidthMidpoint", "0.40");
-    soosaConfiguration.bufferNameAndValueString("m_acceptableMinimumDistanceFromWidthMidpoint", "4");
+    soosaConfiguration.bufferNameAndValueString("m_acceptableMinimumDistanceFromWidthMidpoint", "4.00");
     soosaConfiguration.bufferNameAndValueString("m_acceptableSdOverMeanDeviationForLine", "0.50");
     soosaConfiguration.bufferNameAndValueString("m_acceptableSdOverMeanDeviationForBar", "0.10");
     soosaConfiguration.bufferNameAndValueString("m_removalRatioForLineAndBar", "0.05");
+    soosaConfiguration.bufferNameAndValueString("m_maximumDistanceForANewBarHeightInitialValue", "20.00");
+    soosaConfiguration.bufferNameAndValueString("m_maximumDistanceForANewBarHeightMultiplier", "0.10");
     soosaConfiguration.bufferNameAndValueString("m_acceptableSdOverMeanDeviationForBarHeight", "0.10");
     soosaConfiguration.bufferNameAndValueString("m_removalRatioForBarHeight", "0.02");
 
@@ -150,10 +152,12 @@ InputConfiguration getInputConfigurationForSpecialUnits(string const& inputPath)
 
 void checkAnswersForCharityPayWardsPattern1(SOOSA const& soosa)
 {
-    EXPECT_EQ(39U, soosa.getNumberOfAnswers());    EXPECT_EQ(5U, soosa.getAnswerToQuestion(0));
+    EXPECT_EQ(39U, soosa.getNumberOfAnswers());
+    EXPECT_EQ(5U, soosa.getAnswerToQuestion(0));
     EXPECT_EQ(4U, soosa.getAnswerToQuestion(1));
     EXPECT_EQ(3U, soosa.getAnswerToQuestion(2));
-    EXPECT_EQ(2U, soosa.getAnswerToQuestion(3));    EXPECT_EQ(1U, soosa.getAnswerToQuestion(4));
+    EXPECT_EQ(2U, soosa.getAnswerToQuestion(3));
+    EXPECT_EQ(1U, soosa.getAnswerToQuestion(4));
     EXPECT_EQ(2U, soosa.getAnswerToQuestion(5));
     EXPECT_EQ(3U, soosa.getAnswerToQuestion(6));
     EXPECT_EQ(4U, soosa.getAnswerToQuestion(7));
@@ -401,9 +405,28 @@ void checkAnswersForSpecialUnitsPattern2(SOOSA const& soosa)
     EXPECT_EQ(3U, soosa.getAnswerToQuestion(12));
 }
 
+void checkAnswersForSpecialUnitsPattern3(SOOSA const& soosa)
+{
+    EXPECT_EQ(13U, soosa.getNumberOfAnswers());
+    EXPECT_EQ(5U, soosa.getAnswerToQuestion(0));
+    EXPECT_EQ(5U, soosa.getAnswerToQuestion(1));
+    EXPECT_EQ(5U, soosa.getAnswerToQuestion(2));
+    EXPECT_EQ(5U, soosa.getAnswerToQuestion(3));
+    EXPECT_EQ(5U, soosa.getAnswerToQuestion(4));
+    EXPECT_EQ(5U, soosa.getAnswerToQuestion(5));
+    EXPECT_EQ(5U, soosa.getAnswerToQuestion(6));
+    EXPECT_EQ(5U, soosa.getAnswerToQuestion(7));
+    EXPECT_EQ(5U, soosa.getAnswerToQuestion(8));
+    EXPECT_EQ(5U, soosa.getAnswerToQuestion(9));
+    EXPECT_EQ(5U, soosa.getAnswerToQuestion(10));
+    EXPECT_EQ(5U, soosa.getAnswerToQuestion(11));
+    EXPECT_EQ(5U, soosa.getAnswerToQuestion(12));
+}
+
 void checkAnswersForEmptyForm(SOOSA const& soosa)
 {
-    EXPECT_EQ(0U, soosa.getNumberOfAnswers());}
+    EXPECT_EQ(0U, soosa.getNumberOfAnswers());
+}
 
 }
 

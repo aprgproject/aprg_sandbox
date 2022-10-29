@@ -70,6 +70,16 @@ double SoosaConfiguration::getRemovalRatioForLineAndBar() const
     return m_removalRatioForLineAndBar;
 }
 
+double SoosaConfiguration::getMaximumDistanceForANewBarHeightInitialValue() const
+{
+    return m_maximumDistanceForANewBarHeightInitialValue;
+}
+
+double SoosaConfiguration::getMaximumDistanceForANewBarHeightMultiplier() const
+{
+    return m_maximumDistanceForANewBarHeightMultiplier;
+}
+
 double SoosaConfiguration::getAcceptableSdOverMeanDeviationForBarHeight() const
 {
     return m_acceptableSdOverMeanDeviationForBarHeight;
@@ -133,10 +143,12 @@ void SoosaConfiguration::update()
     UPDATE_PARAMETER(m_lineBarWidthSearchInitialBlackPointsValue, unsigned int);
     UPDATE_PARAMETER(m_lineBarWidthSearchAcceptedRunningBlackRatio, double);
     UPDATE_PARAMETER(m_acceptableDistanceOverWidthRatioFromWidthMidpoint, double);
-    UPDATE_PARAMETER(m_acceptableMinimumDistanceFromWidthMidpoint, unsigned int);
+    UPDATE_PARAMETER(m_acceptableMinimumDistanceFromWidthMidpoint, double);
     UPDATE_PARAMETER(m_acceptableSdOverMeanDeviationForLine, double);
     UPDATE_PARAMETER(m_acceptableSdOverMeanDeviationForBar, double);
     UPDATE_PARAMETER(m_removalRatioForLineAndBar, double);
+    UPDATE_PARAMETER(m_maximumDistanceForANewBarHeightInitialValue, double);
+    UPDATE_PARAMETER(m_maximumDistanceForANewBarHeightMultiplier, double);
     UPDATE_PARAMETER(m_acceptableSdOverMeanDeviationForBarHeight, double);
     UPDATE_PARAMETER(m_removalRatioForBarHeight, double);
 

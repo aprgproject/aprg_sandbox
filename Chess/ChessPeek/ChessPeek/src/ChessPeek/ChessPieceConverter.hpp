@@ -3,7 +3,8 @@
 #include <ChessPeek/ChessPeekConfigurationType.hpp>
 #include <ChessUtilities/Board/BoardTypes.hpp>
 #include <ChessUtilities/Board/Piece.hpp>
-#include <Common/Bit/AlbaBitManipulation.hpp>#include <Common/Bit/AlbaBitValueUtilities.hpp>
+#include <Common/Bit/AlbaBitManipulation.hpp>
+#include <Common/Bit/AlbaBitValueUtilities.hpp>
 #include <Common/Container/AlbaOptional.hpp>
 
 #include <array>
@@ -22,7 +23,8 @@ class ChessPieceConverter
 public:
     using Count = unsigned int;
     using CountPerByte = std::array<Count, 8>;
-    using PieceTypeToCountPerByteMap = std::map<PieceType, CountPerByte>;    using PieceTypeToCountMap = std::map<PieceType, Count>;
+    using PieceTypeToCountPerByteMap = std::map<PieceType, CountPerByte>;
+    using PieceTypeToCountMap = std::map<PieceType, Count>;
     using CountToPieceTypeMultiMap = std::multimap<Count, PieceType>;
     using PieceTypeToBitValueMap = std::map<PieceType, uint64_t>;
     using BitManipulator = AlbaBitManipulation<uint64_t>;
@@ -41,6 +43,7 @@ private:
     PieceType getPieceTypeFromBitValue(
             PieceTypeToBitValueMap const& pieceTypeToBitValueMap,
             uint64_t const bitValue);
+
     PieceTypeToBitValueMap getDifferenceMap(
             PieceTypeToBitValueMap const& pieceTypeToBitValueMap,
             uint64_t const bitValue) const;
@@ -53,6 +56,7 @@ private:
     PieceTypeToBitValueMap m_whitePiecesToBitValuesMap;
     PieceTypeToBitValueMap m_blackPiecesToBitValuesMap;
     AlbaOptional<std::ofstream> m_logFileStreamOptional;
+
 };
 
 }

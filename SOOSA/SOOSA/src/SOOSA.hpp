@@ -81,11 +81,14 @@ public:
     using PointAndWidthPair = std::pair<Point, double>;
     using PointAndWidthPairs = std::vector<PointAndWidthPair>;
     using DequeOfPoints = std::deque<Point>;
+    using EndPointIndexes=std::pair<unsigned int, unsigned int>;
+    using CountToEndPointIndexesMultiMap=std::multimap<unsigned int, EndPointIndexes>;
 
     SOOSA(SoosaConfiguration const& soosaConfiguration, InputConfiguration const& inputConfiguration);
     unsigned int getNumberOfAnswers() const;
     unsigned int getAnswerToQuestion(unsigned int const questionIndex) const;
     void process();
+
 
 private:
 
@@ -135,13 +138,17 @@ private:
     void addPointAndWidthPairIfAcceptable(PointAndWidthPairs & pointAndWidthPairs, BitmapSnippet const& snippet, Line const& line, Point const& blackPoint) const;
 
     // Height functions
-    void retainOnlyContinuousBarPointsBasedOnHeightDistances(TwoDimensionKMeans & kMeansForBarPoints, unsigned int const numberQuestionsInColumn) const;
-    void removeIncorrectBarPointsBasedFromHeight(TwoDimensionKMeans & kMeansForBarPoints, unsigned int const numberQuestionsInColumn) const;
+    void removeBarPointsWithFewHeightPoints(TwoDimensionKMeans & kMeansForBarPoints, unsigned int const numberQuestionsInColumn) const;
+    CountToEndPointIndexesMultiMap getHeightPointsCountToEndPointIndexesMultimap(TwoDimensionKMeans& kMeansForBarPoints) const;
+    void removeBarPointsWithFewHeightPointsCount(TwoDimensionKMeans & kMeansForBarPoints, unsigned int const numberQuestionsInColumn, CountToEndPointIndexesMultiMap const& countToEndPointsIndexesMultiMap) const;
+    void removeBarPointsToGetConsistentHeight(TwoDimensionKMeans & kMeansForBarPoints, unsigned int const numberQuestionsInColumn) const;
     void addAndRetainBarPointsIfPossible(TwoDimensionKMeans & kMeansForBarPoints, GroupOfTwoDimensionSamples const& listOfGroupOfBarPoints, unsigned int const indexToRemove) const;
-    OneDimensionSamples getBarHeights(GroupOfTwoDimensionSamples const& groupOfBarPoints) const;    double getHeight(TwoDimensionSamples const& barPoints) const;
+    OneDimensionSamples getBarHeights(GroupOfTwoDimensionSamples const& groupOfBarPoints) const;
+    double getHeight(TwoDimensionSamples const& barPoints) const;
 
     // output related functions
-    std::string getCsvFilePath(std::string const& path) const;    std::string getReportHtmlFilePath(std::string const& path) const;
+    std::string getCsvFilePath(std::string const& path) const;
+    std::string getReportHtmlFilePath(std::string const& path) const;
     std::string getPrintableStringForPercentage(double const numerator, double const denominator) const;
     void setAnswerToQuestionInColumn(unsigned int const columnNumber, unsigned int const questionOffsetInColumn, unsigned int const answer);
     void saveDataToCsvFile(std::string const& processedFilePath) const;

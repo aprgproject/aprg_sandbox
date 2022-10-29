@@ -16,7 +16,8 @@ ChessPieceConverter::ChessPieceConverter(
     initialize(type);
 }
 
-Piece ChessPieceConverter::convertBitValueToPiece(        PieceColor const pieceColor,
+Piece ChessPieceConverter::convertBitValueToPiece(
+        PieceColor const pieceColor,
         uint64_t const bitValue)
 {
     PieceType pieceType{};
@@ -72,7 +73,8 @@ void ChessPieceConverter::initializeConverterToChessDotCom()
 
 PieceType ChessPieceConverter::getPieceTypeFromBitValue(
         PieceTypeToBitValueMap const& pieceTypeToBitValueMap,
-        uint64_t const bitValue){
+        uint64_t const bitValue)
+{
     PieceTypeToBitValueMap differenceMap(getDifferenceMap(pieceTypeToBitValueMap, bitValue));
     PieceTypeToCountPerByteMap pieceTypeToDifferenceOfEachByteMap(getDifferenceOfEachByteMap(differenceMap));
     PieceTypeToCountMap pieceTypeToScoreMap(getPieceTypeToScoreMap(pieceTypeToDifferenceOfEachByteMap));

@@ -5,6 +5,7 @@
 #include <Common/Container/AlbaContainerHelper.hpp>
 #include <Common/Math/Helpers/DivisibilityHelpers.hpp>
 #include <Common/User/DisplayTable.hpp>
+
 #include <algorithm>
 #include <iostream>
 
@@ -17,7 +18,8 @@
 #include <Common/Debug/AlbaDebug.hpp>
 
 using namespace alba::AprgBitmap;
-using namespace alba::mathHelper;using namespace alba::stringHelper;
+using namespace alba::mathHelper;
+using namespace alba::stringHelper;
 using namespace std;
 
 namespace alba
@@ -36,7 +38,8 @@ ChessPeek::ChessPeek()
     , m_playerColor(PieceColor::White)
     , m_playerKingCoordinate{}
     , m_opponentKingCoordinate{}
-    , m_isEngineNewlyReseted(true){
+    , m_isEngineNewlyReseted(true)
+{
     initialize();
 }
 
@@ -59,6 +62,7 @@ void ChessPeek::runOneIteration()
         startEngineAnalysisOfNewPosition();
     }
 }
+
 void ChessPeek::checkScreenAndSaveDetails()
 {
     m_userAutomation.saveBitmapOnScreen(SCREEN_SHOT_PATH);
@@ -71,7 +75,8 @@ void ChessPeek::checkScreenAndSaveDetails()
 void ChessPeek::startEngineAnalysisOfNewPosition()
 {
     string fenString(constructFenString(m_chessBoard, m_playerColor, m_chessBoard.getCastlingFenString(), "-", 0, 1));
-    m_chessEngineController.stop();    m_chessEngineController.setupFenString(fenString);
+    m_chessEngineController.stop();
+    m_chessEngineController.setupFenString(fenString);
     if(!m_chessEngineController.waitTillReadyAndReturnIfResetWasPerformed()) // reset was not performed
     {
         m_chessEngineController.goWithPonder();
@@ -94,7 +99,8 @@ bool ChessPeek::didBoardChange(Board::PieceMatrix const& previousPieceMatrix) co
     return previousPieceMatrix != m_chessBoard.getPieceMatrix();
 }
 
-bool ChessPeek::canAnalyzeBoard() const{
+bool ChessPeek::canAnalyzeBoard() const
+{
     return doCorrectKingsExist() && !isOpponentKingOnCheck();
 }
 
@@ -111,13 +117,15 @@ bool ChessPeek::isPlayerKingAndOpponentKingValid() const
             && PieceType::King == pieceAtOpponentKing.getType() && getOppositeColor(m_playerColor) == pieceAtOpponentKing.getColor();
 }
 
-bool ChessPeek::isOpponentKingOnCheck() const{
+bool ChessPeek::isOpponentKingOnCheck() const
+{
     return m_chessBoard.canBeCaptured(m_opponentKingCoordinate);
 }
 
 void ChessPeek::checkSnippetAndSaveDetails(BitmapSnippet & snippet)
 {
-    double startX = snippet.getTopLeftCorner().getX();    double startY = snippet.getTopLeftCorner().getY();
+    double startX = snippet.getTopLeftCorner().getX();
+    double startY = snippet.getTopLeftCorner().getY();
     double endX = snippet.getBottomRightCorner().getX();
     double endY = snippet.getBottomRightCorner().getY();
     double deltaX = (endX-startX)/8;
@@ -162,6 +170,7 @@ ChessPeek::ChessCellCoordinates ChessPeek::getChessCellCoordinates(
                 static_cast<unsigned int>(round(startY + deltaY*(j+1) - deltaX*m_configuration.getYIndentionMultiplier())),
     };
 }
+
 Piece ChessPeek::getChessPieceIfPossible(BitSet64 const& blackValue, BitSet64 const& whiteValue)
 {
     Piece chessPiece;
@@ -315,7 +324,8 @@ Moves ChessPeek::getFutureMoves() const
     return result;
 }
 
-string ChessPeek::getBestMoveToDisplayString() const{
+string ChessPeek::getBestMoveToDisplayString() const
+{
     if(!m_savedCalculationDetails.bestMove.empty())
     {
         return m_savedCalculationDetails.bestMove;
@@ -493,7 +503,8 @@ unsigned int ChessPeek::getNumberOfColumnsOfDisplayTable(unsigned int const numb
     return numberOfChessBoards<=0 ? 0U : numberOfChessBoards*8U + numberOfChessBoards-1;
 }
 
-void ChessPeek::retrieveChessCellDataBasedFromPixels(        BitSet64 & whiteValue,
+void ChessPeek::retrieveChessCellDataBasedFromPixels(
+        BitSet64 & whiteValue,
         BitSet64 & blackValue,
         BitmapSnippet & snippet,
         ChessCellCoordinates const& square) const
@@ -541,7 +552,8 @@ void ChessPeek::retrieveDataBasedFromPixel(
     blackValue[index] = (minimum < m_configuration.getBlackColorLimit()) ? 1 : 0;
 }
 
-double ChessPeek::calculateColorIntensityDecimal(uint32_t const color) const{
+double ChessPeek::calculateColorIntensityDecimal(uint32_t const color) const
+{
     return (((double)extractRed(color)+extractGreen(color)+extractBlue(color))/0xFF)/3;
 }
 
@@ -569,6 +581,7 @@ void ChessPeek::initialize()
         calculationMonitoringCallBackForEngine(engineCalculationDetails);
     });
 }
+
 }
 
 }
