@@ -1,12 +1,13 @@
 #include "ChessPieceConverter.hpp"
 
+#include <ChessUtilities/Board/BoardUtilities.hpp>
+
+#include <bitset>
 #include <iostream>
 
 using namespace std;
-
 namespace alba
 {
-
 namespace chess
 {
 
@@ -46,18 +47,20 @@ void ChessPieceConverter::setLogFile(string const& logFilePath)
 void ChessPieceConverter::initialize(ChessPeekConfigurationType const type)
 {
     if(ChessPeekConfigurationType::ChessDotComUserVsUser == type
-            || ChessPeekConfigurationType::ChessDotComUserVsUser == type)
+            || ChessPeekConfigurationType::ChessDotComUserVsComputer == type)
     {
         initializeConverterToChessDotCom();
     }
+    else if(ChessPeekConfigurationType::LichessDotOrg == type)
+    {
+        initializeConverterToLichessDotOrg();
+    }
 }
 
-void ChessPieceConverter::initializeConverterToChessDotCom()
-{
+void ChessPieceConverter::initializeConverterToChessDotCom(){
     m_whitePiecesToBitValuesMap[PieceType::Empty]  = 0;
     m_whitePiecesToBitValuesMap[PieceType::Pawn]   = 0B0000000000011000000110000001000000111100000100000011110001111110;
-    m_whitePiecesToBitValuesMap[PieceType::Knight] = 0B0001000000111100001111100111111001101100001110100011111001111110;
-    m_whitePiecesToBitValuesMap[PieceType::Bishop] = 0B0001100000010000001011000011110000111100001110000011110001111110;
+    m_whitePiecesToBitValuesMap[PieceType::Knight] = 0B0001000000111100001111100111111001101100001110100011111001111110;    m_whitePiecesToBitValuesMap[PieceType::Bishop] = 0B0001100000010000001011000011110000111100001110000011110001111110;
     m_whitePiecesToBitValuesMap[PieceType::Rook]   = 0B0000000000111100001111000011010000111000001110000011110001111110;
     m_whitePiecesToBitValuesMap[PieceType::Queen]  = 0B0011110000111000101111110111111001111100001110000011111001111110;
     m_whitePiecesToBitValuesMap[PieceType::King]   = 0B0001100000011000011111101111111111111111011111000111111001111110;
@@ -71,14 +74,31 @@ void ChessPieceConverter::initializeConverterToChessDotCom()
     m_blackPiecesToBitValuesMap[PieceType::King]   = 0B0001100000011000011111101101101111111111011111100110011001111110;
 }
 
+void ChessPieceConverter::initializeConverterToLichessDotOrg()
+{
+    m_whitePiecesToBitValuesMap[PieceType::Empty]  = 0;
+    m_whitePiecesToBitValuesMap[PieceType::Pawn]   = 0B0000000000011000000110000011110000011000001111000111111001111110;
+    m_whitePiecesToBitValuesMap[PieceType::Knight] = 0B0001000000111100011111101111111011111111110111110011111100111111;
+    m_whitePiecesToBitValuesMap[PieceType::Bishop] = 0B0001100000011000001111000011110000111100001111000011110011111111;
+    m_whitePiecesToBitValuesMap[PieceType::Rook]   = 0B0000000001111110001111000011110000111100001111000111111001111110;
+    m_whitePiecesToBitValuesMap[PieceType::Queen]  = 0B0011110010000101101111011111111101111110011111100111111001111110;
+    m_whitePiecesToBitValuesMap[PieceType::King]   = 0B0001100000000000011111101111111111111111011111100111111000111100;
+
+    m_blackPiecesToBitValuesMap[PieceType::Empty]  = 0;
+    m_blackPiecesToBitValuesMap[PieceType::Pawn]   = 0B0000000000011000000110000011110000111100001111000111111001111110;
+    m_blackPiecesToBitValuesMap[PieceType::Knight] = 0B0001000000111000011111100111111011111111110111110011111100111111;
+    m_blackPiecesToBitValuesMap[PieceType::Bishop] = 0B0001100000011000001111000011110000111100001111000011110011111111;
+    m_blackPiecesToBitValuesMap[PieceType::Rook]   = 0B0000000001111110011111100011110000111100001111000111111001111110;
+    m_blackPiecesToBitValuesMap[PieceType::Queen]  = 0B0001100010100101101111011111111101111110011111100111111001111110;
+    m_blackPiecesToBitValuesMap[PieceType::King]   = 0B0000000000000000010111101111111111111111011111100111110000111100;
+}
+
 PieceType ChessPieceConverter::getPieceTypeFromBitValue(
         PieceTypeToBitValueMap const& pieceTypeToBitValueMap,
-        uint64_t const bitValue)
-{
+        uint64_t const bitValue){
     PieceTypeToBitValueMap differenceMap(getDifferenceMap(pieceTypeToBitValueMap, bitValue));
     PieceTypeToCountPerByteMap pieceTypeToDifferenceOfEachByteMap(getDifferenceOfEachByteMap(differenceMap));
-    PieceTypeToCountMap pieceTypeToScoreMap(getPieceTypeToScoreMap(pieceTypeToDifferenceOfEachByteMap));
-    PieceTypes bestFitTypes(getBestFitTypes(pieceTypeToScoreMap));
+    PieceTypeToCountMap pieceTypeToScoreMap(getPieceTypeToScoreMap(pieceTypeToDifferenceOfEachByteMap));    PieceTypes bestFitTypes(getBestFitTypes(pieceTypeToScoreMap));
 
     PieceType result{};
     if(bestFitTypes.size() == 1)
@@ -88,18 +108,17 @@ PieceType ChessPieceConverter::getPieceTypeFromBitValue(
     else if(m_logFileStreamOptional)
     {
         auto & logStream(m_logFileStreamOptional.getReference());
-        logStream << "Cannot determine bestFitType with bitValue: " << bitValue << endl;
+        bitset<64> bitsetValue(bitValue);
+        logStream << "Cannot determine bestFitType with bitValue: " << bitsetValue.to_string() << endl;
         logStream << "BestFitTypes with size " << bestFitTypes.size() << " :{";
         for(PieceType const bestFit : bestFitTypes)
         {
-            logStream << static_cast<unsigned int>(bestFit) << ", ";
+            logStream << getEnumString(bestFit) << ", ";
         }
         logStream << "}" << endl;
     }
-
     return result;
 }
-
 ChessPieceConverter::PieceTypeToBitValueMap ChessPieceConverter::getDifferenceMap(
         PieceTypeToBitValueMap const& pieceTypeToBitValueMap,
         uint64_t const bitValue) const

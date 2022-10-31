@@ -13,18 +13,12 @@
 //#define CHESS_ENGINE_PATH APRG_DIR R"(\Chess\ChessPeek\Files\zappa.exe)"
 #define SCREEN_SHOT_PATH APRG_DIR R"(\Chess\ChessPeek\Files\ScreenShot.bmp)"
 
-
-
-#include <Common/Debug/AlbaDebug.hpp>
-
 using namespace alba::AprgBitmap;
 using namespace alba::mathHelper;
-using namespace alba::stringHelper;
-using namespace std;
+using namespace alba::stringHelper;using namespace std;
 
 namespace alba
 {
-
 namespace chess
 {
 
@@ -48,15 +42,13 @@ void ChessPeek::runForever()
     while(true)
     {
         runOneIteration();
-        //Sleep(1);
+        Sleep(1);
         //break; //
     }
 }
-
 void ChessPeek::runOneIteration()
 {
-    Board::PieceMatrix previousPieceMatrix(m_chessBoard.getPieceMatrix());
-    checkScreenAndSaveDetails();
+    Board::PieceMatrix previousPieceMatrix(m_chessBoard.getPieceMatrix());    checkScreenAndSaveDetails();
     if(canAnalyzeBoard() && (m_isEngineNewlyReseted || didBoardChange(previousPieceMatrix)))
     {
         startEngineAnalysisOfNewPosition();
@@ -77,15 +69,13 @@ void ChessPeek::startEngineAnalysisOfNewPosition()
     string fenString(constructFenString(m_chessBoard, m_playerColor, m_chessBoard.getCastlingFenString(), "-", 0, 1));
     m_chessEngineController.stop();
     m_chessEngineController.setupFenString(fenString);
-    if(!m_chessEngineController.waitTillReadyAndReturnIfResetWasPerformed()) // reset was not performed
+    if(!m_chessEngineController.waitTillReadyAndReturnIfResetWasPerformed())
     {
         m_chessEngineController.goWithPonder();
-        m_isEngineNewlyReseted=false;
-    }
+        m_isEngineNewlyReseted=false;    }
     else
     {
-        m_isEngineNewlyReseted=true;
-    }
+        m_isEngineNewlyReseted=true;    }
 }
 
 void ChessPeek::calculationMonitoringCallBackForEngine(EngineCalculationDetails const& calculationDetails)
@@ -130,29 +120,26 @@ void ChessPeek::checkSnippetAndSaveDetails(BitmapSnippet & snippet)
     double endY = snippet.getBottomRightCorner().getY();
     double deltaX = (endX-startX)/8;
     double deltaY = (endY-startY)/8;
-    //snippet.setPixelAt(snippet.getTopLeftCorner(), 0xA1BA00);//
-    //snippet.setPixelAt(snippet.getBottomRightCorner(), 0xA1BA00);//
+    //snippet.setPixelAt(snippet.getTopLeftCorner(), 0x00A1BA);//
+    //snippet.setPixelAt(snippet.getBottomRightCorner(), 0x00A1BA);//
 
     m_numberOfDetectedKings = 0U;
-    unsigned int pieceCount = 0U;
-    for(unsigned int j=0; j<8; j++)
+    unsigned int pieceCount = 0U;    for(unsigned int j=0; j<8; j++)
     {
         for(unsigned int i=0; i<8; i++)
-        {
-            ChessCellCoordinates chessCellCoordinates(getChessCellCoordinates(i, j, startX, startY, deltaX, deltaY));
+        {            ChessCellCoordinates chessCellCoordinates(getChessCellCoordinates(i, j, startX, startY, deltaX, deltaY));
             BitSet64 whiteValue, blackValue;
             retrieveChessCellDataBasedFromPixels(whiteValue, blackValue, snippet, chessCellCoordinates);
 
             Coordinate chessCoordinate(i, j);
             Piece chessPiece(getChessPieceIfPossible(blackValue, whiteValue));
+
             m_chessBoard.setPieceAt(chessCoordinate, chessPiece);
             if(!chessPiece.isEmpty())
-            {
-                setKingDetailsIfPossible(chessCoordinate, chessPiece);
+            {                setKingDetailsIfPossible(chessCoordinate, chessPiece);
                 pieceCount++;
             }
-        }
-    }
+        }    }
     updatePlayerSideAndOrientation(pieceCount);
 }
 
@@ -164,17 +151,15 @@ ChessPeek::ChessCellCoordinates ChessPeek::getChessCellCoordinates(
         double const deltaX,
         double const deltaY)
 {
-    return ChessCellCoordinates {static_cast<unsigned int>(round(startX + deltaX*i + deltaX*m_configuration.getXIndentionMultiplier())),
-                static_cast<unsigned int>(round(startX + deltaX*(i+1) - deltaX*m_configuration.getXIndentionMultiplier())),
-                static_cast<unsigned int>(round(startY + deltaY*j + deltaX*m_configuration.getYIndentionMultiplier())),
-                static_cast<unsigned int>(round(startY + deltaY*(j+1) - deltaX*m_configuration.getYIndentionMultiplier())),
+    return ChessCellCoordinates {static_cast<unsigned int>(round(startX + deltaX*i + deltaX*m_configuration.getLeftIndentionMultiplier())),
+                static_cast<unsigned int>(round(startX + deltaX*(i+1) - deltaX*m_configuration.getRightIndentionMultiplier())),
+                static_cast<unsigned int>(round(startY + deltaY*j + deltaX*m_configuration.getTopIndentionMultiplier())),
+                static_cast<unsigned int>(round(startY + deltaY*(j+1) - deltaX*m_configuration.getBottomIndentionMultiplier())),
     };
 }
-
 Piece ChessPeek::getChessPieceIfPossible(BitSet64 const& blackValue, BitSet64 const& whiteValue)
 {
-    Piece chessPiece;
-    uint64_t chessCellBitValue;
+    Piece chessPiece;    uint64_t chessCellBitValue;
     PieceColor pieceColor = (whiteValue.count() >= blackValue.count()) ? PieceColor::White : PieceColor::Black;
     chessCellBitValue = whiteValue.to_ullong() | blackValue.to_ullong();
     if(chessCellBitValue != 0U)
@@ -297,14 +282,11 @@ Moves ChessPeek::getCurrentMoves(
     {
         result.emplace_back(bestMove);
     }
-
     return result;
 }
-
 Moves ChessPeek::getFutureMoves() const
 {
-    constexpr unsigned int maxNumberOfFuturePlayerMoves = 5U;
-    Moves result;
+    constexpr unsigned int maxNumberOfFuturePlayerMoves = 5U;    Moves result;
     result.reserve(maxNumberOfFuturePlayerMoves);
 
     strings const& pvMovesStrings(m_savedCalculationDetails.pvMovesInBestLine);
@@ -574,14 +556,13 @@ uint8_t ChessPeek::extractBlue(uint32_t const color) const
 
 void ChessPeek::initialize()
 {
+    m_chessPieceConverter.setLogFile(APRG_DIR R"(\Chess\ChessPeek\Files\PieceConverter.log)");
     m_chessEngineHandler.setLogFile(APRG_DIR R"(\Chess\ChessPeek\Files\EngineHandler.log)");
     m_chessEngineController.setLogFile(APRG_DIR R"(\Chess\ChessPeek\Files\EngineController.log)");
-    m_chessEngineController.setAdditionalStepsInCalculationMonitoring([&](EngineCalculationDetails const& engineCalculationDetails)
-    {
+    m_chessEngineController.setAdditionalStepsInCalculationMonitoring([&](EngineCalculationDetails const& engineCalculationDetails)    {
         calculationMonitoringCallBackForEngine(engineCalculationDetails);
     });
 }
-
 }
 
 }
