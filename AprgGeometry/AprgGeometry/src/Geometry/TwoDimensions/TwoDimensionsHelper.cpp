@@ -167,15 +167,13 @@ ConicSectionType getConicSectionBasedOnGeneralForm(
         double const e)
 {
     // A*x^2 + B*x*y + C*y^2 + D*x + E*y + C
-    ConicSectionType result;
+    ConicSectionType result(ConicSectionType::Unknown);
 
     if(isAlmostEqual(b, 0.0))
-    {
-        if(isAlmostEqual(a, 0.0) && isAlmostEqual(c, 0.0))
+    {        if(isAlmostEqual(a, 0.0) && isAlmostEqual(c, 0.0))
         {
             if(isAlmostEqual(d, 0.0) || isAlmostEqual(e, 0.0))
-            {
-                result = ConicSectionType::Point;
+            {                result = ConicSectionType::Point;
             }
             else
             {
@@ -586,16 +584,13 @@ Points getConvexHullPointsUsingGrahamScan(Points const& points)
     // Motion planning (go from one point to another point when there is polygon obstacle)
     // Farthest point pair problem
 
-    unsigned int size = points.size();
-    assert(size >= 3);
+    assert(points.size() >= 3);
 
     auto minmaxResult = minmax_element(points.cbegin(), points.cend(), [](Point const& point1, Point const& point2)
-    {return point1.getY() < point2.getY();});
-    Point pointWithMinimumY(*(minmaxResult.first)); // find the bottom point
+    {return point1.getY() < point2.getY();});    Point pointWithMinimumY(*(minmaxResult.first)); // find the bottom point
 
     struct CompareData
-    {
-        AlbaAngle angle;
+    {        AlbaAngle angle;
         double distance;
         CompareData(AlbaAngle const& angleAsParameter, double const distanceAsParameter)
             : angle(angleAsParameter), distance(distanceAsParameter)
