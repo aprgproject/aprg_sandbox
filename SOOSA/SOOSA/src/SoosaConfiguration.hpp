@@ -30,15 +30,13 @@ public:
     double getAcceptableSdOverMeanDeviationForLine() const;
     double getAcceptableSdOverMeanDeviationForBar() const;
     double getRemovalRatioForLineAndBar() const;
-    double getMaximumDistanceForANewBarHeightInitialValue() const;
-    double getMaximumDistanceForANewBarHeightMultiplier() const;
+    double getInitialValueForMaximumDistanceBetweenBarHeights() const;
+    double getMultiplierForMaximumDistanceBetweenBarHeights() const;
     double getAcceptableSdOverMeanDeviationForBarHeight() const;
     double getRemovalRatioForBarHeight() const;
-
     // Choices related parameters
     unsigned int getNumberOfChoices() const;
-    unsigned int getColorIntensityForWhite() const;
-    double getBarHeightToDiameterMultiplier() const;
+    unsigned int getColorIntensityForWhite() const;    double getBarHeightToDiameterMultiplier() const;
     double getMinimumPercentageOfBlackPixelsForAFilledCircle() const;
 
     void loadConfigurationFromFile(std::string const& filePath);
@@ -62,15 +60,13 @@ private:
     double m_acceptableSdOverMeanDeviationForLine;
     double m_acceptableSdOverMeanDeviationForBar;
     double m_removalRatioForLineAndBar;
-    double m_maximumDistanceForANewBarHeightInitialValue;
-    double m_maximumDistanceForANewBarHeightMultiplier;
+    double m_initialValueForMaximumDistanceBetweenBarHeights;
+    double m_multiplierForMaximumDistanceBetweenBarHeights;
     double m_acceptableSdOverMeanDeviationForBarHeight;
     double m_removalRatioForBarHeight;
-
     // Choices related parameters
     unsigned int m_numberOfChoices;
-    unsigned int m_colorIntensityForWhite;
-    double m_barHeightToDiameterMultiplier;
+    unsigned int m_colorIntensityForWhite;    double m_barHeightToDiameterMultiplier;
     double m_minimumPercentageOfBlackPixelsForAFilledCircle;
 
     // Buffer

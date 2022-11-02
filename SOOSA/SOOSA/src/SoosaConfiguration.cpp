@@ -70,21 +70,19 @@ double SoosaConfiguration::getRemovalRatioForLineAndBar() const
     return m_removalRatioForLineAndBar;
 }
 
-double SoosaConfiguration::getMaximumDistanceForANewBarHeightInitialValue() const
+double SoosaConfiguration::getInitialValueForMaximumDistanceBetweenBarHeights() const
 {
-    return m_maximumDistanceForANewBarHeightInitialValue;
+    return m_initialValueForMaximumDistanceBetweenBarHeights;
 }
 
-double SoosaConfiguration::getMaximumDistanceForANewBarHeightMultiplier() const
+double SoosaConfiguration::getMultiplierForMaximumDistanceBetweenBarHeights() const
 {
-    return m_maximumDistanceForANewBarHeightMultiplier;
+    return m_multiplierForMaximumDistanceBetweenBarHeights;
 }
 
-double SoosaConfiguration::getAcceptableSdOverMeanDeviationForBarHeight() const
-{
+double SoosaConfiguration::getAcceptableSdOverMeanDeviationForBarHeight() const{
     return m_acceptableSdOverMeanDeviationForBarHeight;
 }
-
 double SoosaConfiguration::getRemovalRatioForBarHeight() const
 {
     return m_removalRatioForBarHeight;
@@ -147,15 +145,13 @@ void SoosaConfiguration::update()
     UPDATE_PARAMETER(m_acceptableSdOverMeanDeviationForLine, double);
     UPDATE_PARAMETER(m_acceptableSdOverMeanDeviationForBar, double);
     UPDATE_PARAMETER(m_removalRatioForLineAndBar, double);
-    UPDATE_PARAMETER(m_maximumDistanceForANewBarHeightInitialValue, double);
-    UPDATE_PARAMETER(m_maximumDistanceForANewBarHeightMultiplier, double);
+    UPDATE_PARAMETER(m_initialValueForMaximumDistanceBetweenBarHeights, double);
+    UPDATE_PARAMETER(m_multiplierForMaximumDistanceBetweenBarHeights, double);
     UPDATE_PARAMETER(m_acceptableSdOverMeanDeviationForBarHeight, double);
     UPDATE_PARAMETER(m_removalRatioForBarHeight, double);
-
     // Choices related parameters
     UPDATE_PARAMETER(m_numberOfChoices, unsigned int);
-    UPDATE_PARAMETER(m_colorIntensityForWhite, unsigned int);
-    UPDATE_PARAMETER(m_barHeightToDiameterMultiplier, double);
+    UPDATE_PARAMETER(m_colorIntensityForWhite, unsigned int);    UPDATE_PARAMETER(m_barHeightToDiameterMultiplier, double);
     UPDATE_PARAMETER(m_minimumPercentageOfBlackPixelsForAFilledCircle, double);
 
 #undef UPDATE_PARAMETER

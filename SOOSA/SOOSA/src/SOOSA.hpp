@@ -140,14 +140,13 @@ private:
     // Height functions
     void removeBarPointsWithFewHeightPoints(TwoDimensionKMeans & kMeansForBarPoints, unsigned int const numberQuestionsInColumn) const;
     CountToEndPointIndexesMultiMap getHeightPointsCountToEndPointIndexesMultimap(TwoDimensionKMeans& kMeansForBarPoints) const;
+    double getMaximumDistanceForBetweenBarHeights(double const previousHeight) const;
     void removeBarPointsWithFewHeightPointsCount(TwoDimensionKMeans & kMeansForBarPoints, unsigned int const numberQuestionsInColumn, CountToEndPointIndexesMultiMap const& countToEndPointsIndexesMultiMap) const;
     void removeBarPointsToGetConsistentHeight(TwoDimensionKMeans & kMeansForBarPoints, unsigned int const numberQuestionsInColumn) const;
-    void addAndRetainBarPointsIfPossible(TwoDimensionKMeans & kMeansForBarPoints, GroupOfTwoDimensionSamples const& listOfGroupOfBarPoints, unsigned int const indexToRemove) const;
-    OneDimensionSamples getBarHeights(GroupOfTwoDimensionSamples const& groupOfBarPoints) const;
+    void addAndRetainBarPointsIfPossible(TwoDimensionKMeans & kMeansForBarPoints, GroupOfTwoDimensionSamples const& listOfGroupOfBarPoints, unsigned int const indexToRemove) const;    OneDimensionSamples getBarHeights(GroupOfTwoDimensionSamples const& groupOfBarPoints) const;
     double getHeight(TwoDimensionSamples const& barPoints) const;
 
-    // output related functions
-    std::string getCsvFilePath(std::string const& path) const;
+    // output related functions    std::string getCsvFilePath(std::string const& path) const;
     std::string getReportHtmlFilePath(std::string const& path) const;
     std::string getPrintableStringForPercentage(double const numerator, double const denominator) const;
     void setAnswerToQuestionInColumn(unsigned int const columnNumber, unsigned int const questionOffsetInColumn, unsigned int const answer);
