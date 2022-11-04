@@ -90,15 +90,25 @@ public:
         return *this;
     }
 
+    AlbaXY& operator*=(CoordinateType const& multiplier)
+    {
+        x*=multiplier; y*=multiplier;
+        return *this;
+    }
+
+    AlbaXY& operator/=(CoordinateType const& divisor)
+    {
+        x/=divisor; y/=divisor;
+        return *this;
+    }
+
     bool isEmpty() const
     {
-        return CoordinateType{}==x && CoordinateType{}==y;
-    }
+        return CoordinateType{}==x && CoordinateType{}==y;    }
 
     CoordinateType getX() const
     {
-        return x;
-    }
+        return x;    }
 
     CoordinateType getY() const
     {

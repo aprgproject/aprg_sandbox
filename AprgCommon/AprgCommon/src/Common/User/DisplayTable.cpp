@@ -35,15 +35,18 @@ DisplayTableCellMode DisplayTableCell::getHorizontalMode() const
     return m_horizontalMode;
 }
 
+string& DisplayTableCell::getTextReference()
+{
+    return m_displayText;
+}
+
 void DisplayTableCell::setText(string const& text)
 {
-    m_displayText = text;
-}
+    m_displayText = text;}
 
 void DisplayTableCell::setHorizontalMode(DisplayTableCellMode const mode)
 {
-    m_horizontalMode = mode;
-}
+    m_horizontalMode = mode;}
 
 DisplayTableRow::DisplayTableRow(unsigned int const numberOfCells)
     : m_cells(numberOfCells)
