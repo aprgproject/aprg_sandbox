@@ -10,31 +10,39 @@ namespace alba
 namespace chess
 {
 
-PieceColor Piece::extractColor(uint16_t const value)
+PieceColor Piece::extractColor(uint8_t const value)
 {
     return static_cast<PieceColor>(value>>3 & 0B1);
 }
 
-PieceType Piece::extractType(uint16_t const value)
+PieceType Piece::extractType(uint8_t const value)
 {
     return static_cast<PieceType>(value & 0B111);
 }
 
-uint16_t Piece::getValueFromColorAndType(PieceColor const color, PieceType const type)
+PieceColorAndType Piece::extractColorAndType(uint8_t const value)
 {
-    return ((static_cast<uint16_t>(color) & 0B1) << 3) | (static_cast<uint16_t>(type) & 0B111);
+    return static_cast<PieceColorAndType>(value & 0B1111);
 }
 
-char Piece::convertToCharacter(uint16_t const value)
+uint8_t Piece::getValueFromColorAndType(PieceColorAndType const pieceColorAndType)
+{
+    return static_cast<uint8_t>(pieceColorAndType) & 0B1111;
+}
+
+uint8_t Piece::getValueFromColorAndType(PieceColor const color, PieceType const type)
+{
+    return ((static_cast<uint8_t>(color) & 0B1) << 3) | (static_cast<uint8_t>(type) & 0B111);
+}
+
+char Piece::convertToCharacter(uint8_t const value)
 {
     char result{};
     PieceType pieceType(extractType(value));
-    switch(pieceType)
-    {
+    switch(pieceType)    {
     case PieceType::Empty:
     {
-        result = ' ';
-        break;
+        result = ' ';        break;
     }
     case PieceType::Pawn:
     {
@@ -79,18 +87,20 @@ Piece::Piece()
     : m_underlyingValue(0U)
 {}
 
-Piece::Piece(uint16_t const underlyingValue)
+Piece::Piece(uint8_t const underlyingValue)
     : m_underlyingValue(underlyingValue)
+{}
+
+Piece::Piece(PieceColorAndType const colorAndType)
+    : m_underlyingValue(getValueFromColorAndType(colorAndType))
 {}
 
 Piece::Piece(PieceColor const color, PieceType const type)
     : m_underlyingValue(getValueFromColorAndType(color, type))
 {}
-
 bool Piece::operator==(Piece const& piece) const
 {
-    return m_underlyingValue == piece.m_underlyingValue;
-}
+    return m_underlyingValue == piece.m_underlyingValue;}
 
 bool Piece::operator!=(Piece const& piece) const
 {
@@ -112,15 +122,18 @@ PieceType Piece::getType() const
     return extractType(m_underlyingValue);
 }
 
-uint16_t Piece::getUnderlyingValue() const
+PieceColorAndType Piece::getColorAndType() const
+{
+    return extractColorAndType(m_underlyingValue);
+}
+
+uint8_t Piece::getUnderlyingValue() const
 {
     return m_underlyingValue;
 }
-
 char Piece::getCharacter() const
 {
-    return convertToCharacter(m_underlyingValue);
-}
+    return convertToCharacter(m_underlyingValue);}
 
 ostream & operator<<(ostream & out, Piece const& piece)
 {

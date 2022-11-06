@@ -66,14 +66,33 @@ std::string getEnumString(PieceType const pieceType)
         return "default";
     }
 }
+std::string getEnumString(PieceColorAndType const pieceColorAndType)
+{
+    switch(pieceColorAndType)
+    {
+    ALBA_MACROS_CASE_ENUM_SHORT_STRING(PieceColorAndType::Empty, "Empty")
+            ALBA_MACROS_CASE_ENUM_SHORT_STRING(PieceColorAndType::WhitePawn, "WhitePawn")
+            ALBA_MACROS_CASE_ENUM_SHORT_STRING(PieceColorAndType::WhiteKnight, "WhiteKnight")
+            ALBA_MACROS_CASE_ENUM_SHORT_STRING(PieceColorAndType::WhiteBishop, "WhiteBishop")
+            ALBA_MACROS_CASE_ENUM_SHORT_STRING(PieceColorAndType::WhiteRook, "WhiteRook")
+            ALBA_MACROS_CASE_ENUM_SHORT_STRING(PieceColorAndType::WhiteQueen, "WhiteQueen")
+            ALBA_MACROS_CASE_ENUM_SHORT_STRING(PieceColorAndType::WhiteKing, "WhiteKing")
+            ALBA_MACROS_CASE_ENUM_SHORT_STRING(PieceColorAndType::BlackPawn, "BlackPawn")
+            ALBA_MACROS_CASE_ENUM_SHORT_STRING(PieceColorAndType::BlackKnight, "BlackKnight")
+            ALBA_MACROS_CASE_ENUM_SHORT_STRING(PieceColorAndType::BlackBishop, "BlackBishop")
+            ALBA_MACROS_CASE_ENUM_SHORT_STRING(PieceColorAndType::BlackRook, "BlackRook")
+            ALBA_MACROS_CASE_ENUM_SHORT_STRING(PieceColorAndType::BlackQueen, "BlackQueen")
+            ALBA_MACROS_CASE_ENUM_SHORT_STRING(PieceColorAndType::BlackKing, "BlackKing")
+            default:
+        return "default";
+    }
+}
 
 string constructFenString(
-        Board const& board,
-        PieceColor const colorToMove,
+        Board const& board,        PieceColor const colorToMove,
         string const& castlingAvailability,
         string const& enPassantTarget,
-        unsigned int const halfMoveClock,
-        unsigned int const fullMoveNumber)
+        unsigned int const halfMoveClock,        unsigned int const fullMoveNumber)
 {
     stringstream ss;
     ss << board.getFenString() << " ";

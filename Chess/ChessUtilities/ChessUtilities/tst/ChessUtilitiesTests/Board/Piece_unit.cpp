@@ -36,14 +36,29 @@ TEST(PieceTest, ExtractTypeWorks)
     EXPECT_EQ(PieceType::King, Piece::extractType(14U));
 }
 
+TEST(PieceTest, ExtractColorAndTypeWorks)
+{
+    EXPECT_EQ(PieceColorAndType::Empty, Piece::extractColorAndType(0U));
+    EXPECT_EQ(PieceColorAndType::WhitePawn, Piece::extractColorAndType(1U));
+    EXPECT_EQ(PieceColorAndType::WhiteKnight, Piece::extractColorAndType(2U));
+    EXPECT_EQ(PieceColorAndType::WhiteBishop, Piece::extractColorAndType(3U));
+    EXPECT_EQ(PieceColorAndType::WhiteRook, Piece::extractColorAndType(4U));
+    EXPECT_EQ(PieceColorAndType::WhiteQueen, Piece::extractColorAndType(5U));
+    EXPECT_EQ(PieceColorAndType::WhiteKing, Piece::extractColorAndType(6U));
+    EXPECT_EQ(PieceColorAndType::BlackPawn, Piece::extractColorAndType(9U));
+    EXPECT_EQ(PieceColorAndType::BlackKnight, Piece::extractColorAndType(10U));
+    EXPECT_EQ(PieceColorAndType::BlackBishop, Piece::extractColorAndType(11U));
+    EXPECT_EQ(PieceColorAndType::BlackRook, Piece::extractColorAndType(12U));
+    EXPECT_EQ(PieceColorAndType::BlackQueen, Piece::extractColorAndType(13U));
+    EXPECT_EQ(PieceColorAndType::BlackKing, Piece::extractColorAndType(14U));
+}
+
 TEST(PieceTest, GetColorWorks)
 {
-    Piece piece1(0U);
-    Piece piece2(13U);
+    Piece piece1(0U);    Piece piece2(13U);
 
     EXPECT_EQ(PieceColor::White, piece1.getColor());
-    EXPECT_EQ(PieceColor::Black, piece2.getColor());
-}
+    EXPECT_EQ(PieceColor::Black, piece2.getColor());}
 
 TEST(PieceTest, GetTypeWorks)
 {
@@ -52,6 +67,15 @@ TEST(PieceTest, GetTypeWorks)
 
     EXPECT_EQ(PieceType::Empty, piece1.getType());
     EXPECT_EQ(PieceType::Queen, piece2.getType());
+}
+
+TEST(PieceTest, GetColorAndTypeWorks)
+{
+    Piece piece1(0U);
+    Piece piece2(13U);
+
+    EXPECT_EQ(PieceColorAndType::Empty, piece1.getColorAndType());
+    EXPECT_EQ(PieceColorAndType::BlackQueen, piece2.getColorAndType());
 }
 
 }
