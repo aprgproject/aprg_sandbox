@@ -1,13 +1,14 @@
 #include "FractionHelpers.hpp"
 
+
+#include <vector>
+
 using namespace std;
 
-namespace alba
-{
+namespace alba{
 
 namespace mathHelper
 {
-
 namespace
 {
 //internal functions
@@ -33,20 +34,18 @@ FractionDetails getFractionFromPartialNumerators(
     double numerator(0), denominator(0);
     if(!calculatedPartialNumerators.empty())
     {
-        numerator = calculatedPartialNumerators.at(calculatedPartialNumerators.size()-1);
+        numerator = calculatedPartialNumerators.back();
         denominator = 1;
-        for(int i=calculatedPartialNumerators.size()-2; i>=0; i--)
+        for(auto itPartialNumerator=calculatedPartialNumerators.crbegin()+1; itPartialNumerator!=calculatedPartialNumerators.crend(); itPartialNumerator++)
         {
             double previousNumerator = numerator;
-            numerator = (calculatedPartialNumerators.at(i) * numerator) + denominator;
+            numerator = (*itPartialNumerator * numerator) + denominator;
             denominator = previousNumerator;
             isBeyondUnsignedIntegerLimits =
-                    isValueBeyondLimits<unsigned int>(numerator) || isValueBeyondLimits<unsigned int>(denominator);
-            if(isBeyondUnsignedIntegerLimits) { break; }
+                    isValueBeyondLimits<unsigned int>(numerator) || isValueBeyondLimits<unsigned int>(denominator);            if(isBeyondUnsignedIntegerLimits) { break; }
         }
     }
-    return FractionDetails{
-        1,
+    return FractionDetails{        1,
         getIntegerAfterRoundingADoubleValue<unsigned int>(numerator),
                 getIntegerAfterRoundingADoubleValue<unsigned int>(denominator)};
 }
