@@ -129,28 +129,56 @@ void ChessPieceRetriever::initializeConverterToChessDotCom()
     {{67, 65}, WhiteOrBlack::Black}, {{73, 26}, WhiteOrBlack::Black}, {{74, 59}, WhiteOrBlack::Black}, {{76, 25}, WhiteOrBlack::Black},
     {{80, 48}, WhiteOrBlack::Black}, {{83, 39}, WhiteOrBlack::Black}, {{86, 52}, WhiteOrBlack::Black}, {{87, 33}, WhiteOrBlack::Black}};
     m_piecesToChessCellValuesMap[PieceColorAndType::Empty] = 0;
-    m_piecesToChessCellValuesMap[PieceColorAndType::WhitePawn]  = 0B0000000000000010110111010000000000000000011100000001000100000000;
-    m_piecesToChessCellValuesMap[PieceColorAndType::WhiteKnight]  = 0B0011101111101111010111111110000000000000000000010000000000001000;
-    m_piecesToChessCellValuesMap[PieceColorAndType::WhiteBishop]  = 0B0000001010111011001011111010000000000110000001010010000000100000;
-    m_piecesToChessCellValuesMap[PieceColorAndType::WhiteRook]  = 0B0000010101111001100111101000100000001001000000000000000101010000;
+    m_piecesToChessCellValuesMap[PieceColorAndType::WhitePawn]   = 0B0000000000000010110111010000000000000000011100000001000100000000;
+    m_piecesToChessCellValuesMap[PieceColorAndType::WhiteKnight] = 0B0011101111101111010111111110000000000000000000010000000000001000;
+    m_piecesToChessCellValuesMap[PieceColorAndType::WhiteBishop] = 0B0000001010111011001011111010000000000110000001010010000000100000;
+    m_piecesToChessCellValuesMap[PieceColorAndType::WhiteRook]   = 0B0000010101111001100111101000100000001001000000000000000101010000;
     m_piecesToChessCellValuesMap[PieceColorAndType::WhiteQueen]  = 0B1101001000011110100011111111001100000000000000000000000000001001;
-    m_piecesToChessCellValuesMap[PieceColorAndType::WhiteKing]  = 0B0111100100100011111111110000011000000000000000000000000000000000;
-    m_piecesToChessCellValuesMap[PieceColorAndType::BlackPawn]  = 0B0000000000000000000000000000000000000000011111011111110100000000;
-    m_piecesToChessCellValuesMap[PieceColorAndType::BlackKnight]  = 0B0000000000000000000000000000000000110110011111011111110110101000;
-    m_piecesToChessCellValuesMap[PieceColorAndType::BlackBishop]  = 0B0000000000000000000000000000000000000111111111111111110110100000;
-    m_piecesToChessCellValuesMap[PieceColorAndType::BlackRook]  = 0B0000000000000000000000000000000000001011111111011111110111010000;
+    m_piecesToChessCellValuesMap[PieceColorAndType::WhiteKing]   = 0B0111100100100011111111110000011000000000000000000000000000000000;
+    m_piecesToChessCellValuesMap[PieceColorAndType::BlackPawn]   = 0B0000000000000000000000000000000000000000011111011111110100000000;
+    m_piecesToChessCellValuesMap[PieceColorAndType::BlackKnight] = 0B0000000000000000000000000000000000110110011111011111110110101000;
+    m_piecesToChessCellValuesMap[PieceColorAndType::BlackBishop] = 0B0000000000000000000000000000000000000111111111111111110110100000;
+    m_piecesToChessCellValuesMap[PieceColorAndType::BlackRook]   = 0B0000000000000000000000000000000000001011111111011111110111010000;
     m_piecesToChessCellValuesMap[PieceColorAndType::BlackQueen]  = 0B0000000000000000000000000000000010100101111110011111111110101101;
-    m_piecesToChessCellValuesMap[PieceColorAndType::BlackKing]  = 0B0000000000000000000000000000000011110111110111111111100010101110;
+    m_piecesToChessCellValuesMap[PieceColorAndType::BlackKing]   = 0B0000000000000000000000000000000011110111110111111111100010101110;
 }
 
 void ChessPieceRetriever::initializeConverterToLichessDotOrg()
 {
+    m_checkMaxPoint = BitmapXY(93, 93);
+    m_checkDetails = CheckDetails
+    {{{12, 25}, WhiteOrBlack::White}, {{16, 44}, WhiteOrBlack::White}, {{17, 59}, WhiteOrBlack::White}, {{22, 49}, WhiteOrBlack::White},
+    {{26, 42}, WhiteOrBlack::White}, {{27, 25}, WhiteOrBlack::White}, {{29, 18}, WhiteOrBlack::White}, {{33, 44}, WhiteOrBlack::White},
+    {{33, 53}, WhiteOrBlack::White}, {{38, 33}, WhiteOrBlack::White}, {{39, 46}, WhiteOrBlack::White}, {{41, 51}, WhiteOrBlack::White},
+    {{46, 16}, WhiteOrBlack::White}, {{47, 26}, WhiteOrBlack::White}, {{47, 39}, WhiteOrBlack::White}, {{47, 49}, WhiteOrBlack::White},
+    {{47, 79}, WhiteOrBlack::White}, {{54, 46}, WhiteOrBlack::White}, {{56, 33}, WhiteOrBlack::White}, {{61, 43}, WhiteOrBlack::White},
+    {{61, 53}, WhiteOrBlack::White}, {{64, 19}, WhiteOrBlack::White}, {{67, 25}, WhiteOrBlack::White}, {{67, 45}, WhiteOrBlack::White},
+    {{67, 62}, WhiteOrBlack::White}, {{70, 50}, WhiteOrBlack::White}, {{71, 42}, WhiteOrBlack::White}, {{71, 67}, WhiteOrBlack::White},
+    {{73, 47}, WhiteOrBlack::White}, {{76, 67}, WhiteOrBlack::White}, {{77, 44}, WhiteOrBlack::White}, {{81, 25}, WhiteOrBlack::White},
+    {{12, 25}, WhiteOrBlack::Black}, {{13, 59}, WhiteOrBlack::Black}, {{14, 79}, WhiteOrBlack::Black}, {{15, 32}, WhiteOrBlack::Black},
+    {{20, 39}, WhiteOrBlack::Black}, {{21, 48}, WhiteOrBlack::Black}, {{23, 24}, WhiteOrBlack::Black}, {{25, 19}, WhiteOrBlack::Black},
+    {{25, 54}, WhiteOrBlack::Black}, {{28, 22}, WhiteOrBlack::Black}, {{29, 19}, WhiteOrBlack::Black}, {{29, 44}, WhiteOrBlack::Black},
+    {{34, 48}, WhiteOrBlack::Black}, {{39, 47}, WhiteOrBlack::Black}, {{46, 48}, WhiteOrBlack::Black}, {{46, 79}, WhiteOrBlack::Black},
+    {{47, 26}, WhiteOrBlack::Black}, {{47, 38}, WhiteOrBlack::Black}, {{53, 48}, WhiteOrBlack::Black}, {{60, 48}, WhiteOrBlack::Black},
+    {{64, 15}, WhiteOrBlack::Black}, {{64, 19}, WhiteOrBlack::Black}, {{68, 19}, WhiteOrBlack::Black}, {{69, 54}, WhiteOrBlack::Black},
+    {{70, 50}, WhiteOrBlack::Black}, {{71, 23}, WhiteOrBlack::Black}, {{73, 64}, WhiteOrBlack::Black}, {{76, 76}, WhiteOrBlack::Black},
+    {{79, 31}, WhiteOrBlack::Black}, {{79, 79}, WhiteOrBlack::Black}, {{80, 67}, WhiteOrBlack::Black}, {{81, 25}, WhiteOrBlack::Black}};
     m_piecesToChessCellValuesMap[PieceColorAndType::Empty] = 0;
-    m_piecesToChessCellValuesMap[PieceColorAndType::WhitePawn]  = 0B0000000000011000000110000011110000011000001111000111111001111110;
+    m_piecesToChessCellValuesMap[PieceColorAndType::WhitePawn]   = 0B0000000000110111110000000000000000000000000010000001000000000000;
+    m_piecesToChessCellValuesMap[PieceColorAndType::WhiteKnight] = 0B0011100111100110111110011111110001001000011000110100000000010110;
+    m_piecesToChessCellValuesMap[PieceColorAndType::WhiteBishop] = 0B0000000101111101011100000000000000100000000100010100000000010100;
+    m_piecesToChessCellValuesMap[PieceColorAndType::WhiteRook]   = 0B0000010111110111111110100000000000000011001100010000011001010000;
+    m_piecesToChessCellValuesMap[PieceColorAndType::WhiteQueen]  = 0B1001001110001011100101000100100100011001110101001110101100001000;
+    m_piecesToChessCellValuesMap[PieceColorAndType::WhiteKing]   = 0B0101100110110010110110010110101000000000000000101000000000000000;
+    m_piecesToChessCellValuesMap[PieceColorAndType::BlackPawn]   = 0B0000000000000000000000000000000000000000000011111111000000000000;
+    m_piecesToChessCellValuesMap[PieceColorAndType::BlackKnight] = 0B0000000000000000000000000010110001001100111111111111000110100110;
+    m_piecesToChessCellValuesMap[PieceColorAndType::BlackBishop] = 0B0000000000010010000000000000000000100000000111111011000000010100;
+    m_piecesToChessCellValuesMap[PieceColorAndType::BlackRook]   = 0B0000000001000000001000000000000000000011011111111111011001010000;
+    m_piecesToChessCellValuesMap[PieceColorAndType::BlackQueen]  = 0B0000000000000000000000000000000010011101111111111111111110001001;
+    m_piecesToChessCellValuesMap[PieceColorAndType::BlackKing]   = 0B0000000000000001000000001000000000001100100111011111000110000000;
 }
 
-bool ChessPieceRetriever::isBitValueAsserted(
-        BitmapSnippet const& chessBoardSnippet,
+bool ChessPieceRetriever::isBitValueAsserted(        BitmapSnippet const& chessBoardSnippet,
         CheckDetail const& checkDetail,
         BitmapXY const& chessCellTopLeft,
         BitmapXY const& chessCellBottomRight) const

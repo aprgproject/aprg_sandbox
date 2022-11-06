@@ -58,7 +58,8 @@ TEST(PieceTest, GetColorWorks)
     Piece piece1(0U);    Piece piece2(13U);
 
     EXPECT_EQ(PieceColor::White, piece1.getColor());
-    EXPECT_EQ(PieceColor::Black, piece2.getColor());}
+    EXPECT_EQ(PieceColor::Black, piece2.getColor());
+}
 
 TEST(PieceTest, GetTypeWorks)
 {

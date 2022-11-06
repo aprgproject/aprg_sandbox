@@ -184,10 +184,21 @@ TEST(AnalyzePieceRetrieverTest, DISABLED_CheckChessBitValue_ForChessDotComUserVs
     printChessBitValuesWithBlackUpWhiteDown(retriever, inputSnippet);
 }
 
+TEST(AnalyzePieceRetrieverTest, DISABLED_CheckChessBitValue_ForLichessDotOrg)
+{
+    AlbaLocalPathHandler inputFile(APRG_DIR R"(\Chess\ChessPeek\Files\RetrieverBasis\LichessDotOrg\LichessDotOrg.bmp)");
+
+    ChessPeekConfiguration configuration(ChessPeekConfigurationType::LichessDotOrg);
+    Bitmap inputBitmap(inputFile.getFullPath());
+    BitmapSnippet inputSnippet(inputBitmap.getSnippetReadFromFile(configuration.getTopLeftCorner(), configuration.getBottomRightCorner()));
+    ChessPieceRetriever retriever(configuration);
+
+    printChessBitValuesWithBlackUpWhiteDown(retriever, inputSnippet);
+}
+
 TEST(AnalyzePieceRetrieverTest, DISABLED_FindImportantPoints_ForChessDotComUserVsUser)
 {
-    AlbaLocalPathHandler inputFile(APRG_DIR R"(\Chess\ChessPeek\Files\RetrieverBasis\ChessDotComUserVsUser\ChessDotComUserVsUser.bmp)");
-    AlbaLocalPathHandler outputFileForWhite(APRG_DIR R"(\Chess\ChessPeek\Files\RetrieverBasis\ChessDotComUserVsUser\White.bmp)");
+    AlbaLocalPathHandler inputFile(APRG_DIR R"(\Chess\ChessPeek\Files\RetrieverBasis\ChessDotComUserVsUser\ChessDotComUserVsUser.bmp)");    AlbaLocalPathHandler outputFileForWhite(APRG_DIR R"(\Chess\ChessPeek\Files\RetrieverBasis\ChessDotComUserVsUser\White.bmp)");
     AlbaLocalPathHandler outputFileForBlack(APRG_DIR R"(\Chess\ChessPeek\Files\RetrieverBasis\ChessDotComUserVsUser\Black.bmp)");
     AlbaLocalPathHandler blackFile(APRG_DIR R"(\Chess\ChessPeek\Files\RetrieverBasis\Blank.bmp)");
     blackFile.copyToNewFile(outputFileForWhite.getFullPath());

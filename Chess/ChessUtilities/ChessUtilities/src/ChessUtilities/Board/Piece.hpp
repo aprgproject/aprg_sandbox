@@ -7,7 +7,8 @@
 #include <cstdint>#include <ostream>
 #include <vector>
 
-namespace alba{
+namespace alba
+{
 
 namespace chess
 {
@@ -46,4 +47,5 @@ using Pieces = std::vector<Piece>;
 std::ostream & operator<<(std::ostream & out, Piece const& piece);
 
 }
+
 }

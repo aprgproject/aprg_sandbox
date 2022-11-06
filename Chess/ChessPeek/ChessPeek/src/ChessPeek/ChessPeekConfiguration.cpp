@@ -117,9 +117,8 @@ void ChessPeekConfiguration::initializeLichessDotOrg()
     m_topIndentionMultiplier = 0.21;
     m_bottomIndentionMultiplier = 0.15;
     m_whiteColorLimit = 0.91;
-    m_blackColorLimit = 0.40;
+    m_blackColorLimit = 0.30;
 }
 
 }
-
 }

@@ -78,6 +78,30 @@ TEST(ChessPieceRetrieverTest, GetChessCellPieceWorksForChessDotComUserVsComputer
     verifyGetChessCellPieceForBlackUpWhiteDown(retriever, inputSnippet);
 }
 
+TEST(ChessPieceRetrieverTest, GetChessCellPieceWorksForLichessDotOrg)
+{
+    AlbaLocalPathHandler inputFile(APRG_DIR R"(\Chess\ChessPeek\Files\RetrieverBasis\LichessDotOrg\LichessDotOrg.bmp)");
+
+    ChessPeekConfiguration configuration(ChessPeekConfigurationType::LichessDotOrg);
+    Bitmap inputBitmap(inputFile.getFullPath());
+    BitmapSnippet inputSnippet(inputBitmap.getSnippetReadFromFile(configuration.getTopLeftCorner(), configuration.getBottomRightCorner()));
+    ChessPieceRetriever retriever(configuration);
+
+    verifyGetChessCellPieceForBlackUpWhiteDown(retriever, inputSnippet);
+}
+
+TEST(ChessPieceRetrieverTest, GetChessCellPieceWorksForLichessDotOrg_CircleChoicesAreNotPawns)
+{
+    AlbaLocalPathHandler inputFile(APRG_DIR R"(\Chess\ChessPeek\Files\RetrieverBasis\LichessDotOrg\ChoiceCirclesAreNotPawns.bmp)");
+
+    ChessPeekConfiguration configuration(ChessPeekConfigurationType::LichessDotOrg);
+    Bitmap inputBitmap(inputFile.getFullPath());
+    BitmapSnippet inputSnippet(inputBitmap.getSnippetReadFromFile(configuration.getTopLeftCorner(), configuration.getBottomRightCorner()));
+    ChessPieceRetriever retriever(configuration);
+
+    EXPECT_EQ(Piece(PieceColorAndType::Empty), retriever.getChessCellPiece(inputSnippet, 0U, 1U));
+}
+
 }
 
 }
