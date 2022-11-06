@@ -12,13 +12,18 @@ namespace alba
 namespace chess
 {
 
-TEST(ChessPeekTest, CheckScreenAndSaveDetailsWorks)
+TEST(ChessPeekTest, SaveBitmapOnScreenWorks)
 {
     ChessPeek chessPeek;
 
-    chessPeek.checkScreenAndSaveDetails();
+    chessPeek.saveBitmapOnScreen();
 }
 
+TEST(ChessPeekTest, CheckScreenAndSaveDetailsWorks)
+{
+    ChessPeek chessPeek;
+    chessPeek.checkScreenAndSaveDetails();
+}
 TEST(ChessPeekTest, StartNewAnalysisUsingEngineWorks)
 {
     ChessPeek chessPeek;
