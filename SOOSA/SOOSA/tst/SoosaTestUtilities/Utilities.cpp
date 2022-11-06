@@ -30,9 +30,11 @@ SoosaConfiguration getSoosaConfiguration()
     soosaConfiguration.bufferNameAndValueString("m_multiplierForMaximumDistanceBetweenBarHeights", "0.10");
     soosaConfiguration.bufferNameAndValueString("m_acceptableSdOverMeanDeviationForBarHeight", "0.10");
     soosaConfiguration.bufferNameAndValueString("m_removalRatioForBarHeight", "0.02");
+
     // Choices related parameters
     soosaConfiguration.bufferNameAndValueString("m_numberOfChoices", "5");
-    soosaConfiguration.bufferNameAndValueString("m_colorIntensityForWhite", "170");    soosaConfiguration.bufferNameAndValueString("m_barHeightToDiameterMultiplier", "0.75");
+    soosaConfiguration.bufferNameAndValueString("m_colorIntensityForWhite", "170");
+    soosaConfiguration.bufferNameAndValueString("m_barHeightToDiameterMultiplier", "0.75");
     soosaConfiguration.bufferNameAndValueString("m_minimumPercentageOfBlackPixelsForAFilledCircle", "0.40");
 
     soosaConfiguration.update();

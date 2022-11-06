@@ -6,8 +6,10 @@
 #include <iostream>
 
 using namespace std;
+
 namespace alba
 {
+
 namespace chess
 {
 
@@ -57,10 +59,12 @@ void ChessPieceConverter::initialize(ChessPeekConfigurationType const type)
     }
 }
 
-void ChessPieceConverter::initializeConverterToChessDotCom(){
+void ChessPieceConverter::initializeConverterToChessDotCom()
+{
     m_whitePiecesToBitValuesMap[PieceType::Empty]  = 0;
     m_whitePiecesToBitValuesMap[PieceType::Pawn]   = 0B0000000000011000000110000001000000111100000100000011110001111110;
-    m_whitePiecesToBitValuesMap[PieceType::Knight] = 0B0001000000111100001111100111111001101100001110100011111001111110;    m_whitePiecesToBitValuesMap[PieceType::Bishop] = 0B0001100000010000001011000011110000111100001110000011110001111110;
+    m_whitePiecesToBitValuesMap[PieceType::Knight] = 0B0001000000111100001111100111111001101100001110100011111001111110;
+    m_whitePiecesToBitValuesMap[PieceType::Bishop] = 0B0001100000010000001011000011110000111100001110000011110001111110;
     m_whitePiecesToBitValuesMap[PieceType::Rook]   = 0B0000000000111100001111000011010000111000001110000011110001111110;
     m_whitePiecesToBitValuesMap[PieceType::Queen]  = 0B0011110000111000101111110111111001111100001110000011111001111110;
     m_whitePiecesToBitValuesMap[PieceType::King]   = 0B0001100000011000011111101111111111111111011111000111111001111110;
@@ -95,10 +99,12 @@ void ChessPieceConverter::initializeConverterToLichessDotOrg()
 
 PieceType ChessPieceConverter::getPieceTypeFromBitValue(
         PieceTypeToBitValueMap const& pieceTypeToBitValueMap,
-        uint64_t const bitValue){
+        uint64_t const bitValue)
+{
     PieceTypeToBitValueMap differenceMap(getDifferenceMap(pieceTypeToBitValueMap, bitValue));
     PieceTypeToCountPerByteMap pieceTypeToDifferenceOfEachByteMap(getDifferenceOfEachByteMap(differenceMap));
-    PieceTypeToCountMap pieceTypeToScoreMap(getPieceTypeToScoreMap(pieceTypeToDifferenceOfEachByteMap));    PieceTypes bestFitTypes(getBestFitTypes(pieceTypeToScoreMap));
+    PieceTypeToCountMap pieceTypeToScoreMap(getPieceTypeToScoreMap(pieceTypeToDifferenceOfEachByteMap));
+    PieceTypes bestFitTypes(getBestFitTypes(pieceTypeToScoreMap));
 
     PieceType result{};
     if(bestFitTypes.size() == 1)
@@ -117,8 +123,10 @@ PieceType ChessPieceConverter::getPieceTypeFromBitValue(
         }
         logStream << "}" << endl;
     }
+
     return result;
 }
+
 ChessPieceConverter::PieceTypeToBitValueMap ChessPieceConverter::getDifferenceMap(
         PieceTypeToBitValueMap const& pieceTypeToBitValueMap,
         uint64_t const bitValue) const

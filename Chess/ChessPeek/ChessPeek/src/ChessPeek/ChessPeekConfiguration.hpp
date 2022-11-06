@@ -25,6 +25,7 @@ public:
     double getBottomIndentionMultiplier() const;
     double getWhiteColorLimit() const;
     double getBlackColorLimit() const;
+
 private:
     void initialize();
     void initializeChessDotComUserVsUser();
@@ -41,6 +42,7 @@ private:
     double m_whiteColorLimit;
     double m_blackColorLimit;
 };
+
 }
 
 }

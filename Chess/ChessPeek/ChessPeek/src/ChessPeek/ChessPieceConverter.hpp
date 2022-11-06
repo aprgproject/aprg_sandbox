@@ -42,10 +42,12 @@ private:
     void initializeConverterToLichessDotOrg();
 
     PieceType getPieceTypeFromBitValue(
-            PieceTypeToBitValueMap const& pieceTypeToBitValueMap,            uint64_t const bitValue);
+            PieceTypeToBitValueMap const& pieceTypeToBitValueMap,
+            uint64_t const bitValue);
 
     PieceTypeToBitValueMap getDifferenceMap(
-            PieceTypeToBitValueMap const& pieceTypeToBitValueMap,            uint64_t const bitValue) const;
+            PieceTypeToBitValueMap const& pieceTypeToBitValueMap,
+            uint64_t const bitValue) const;
     PieceTypeToCountPerByteMap getDifferenceOfEachByteMap(
             PieceTypeToBitValueMap const& differenceMap) const;
     PieceTypeToCountMap getPieceTypeToScoreMap(

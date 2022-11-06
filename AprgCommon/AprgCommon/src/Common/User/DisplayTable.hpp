@@ -34,9 +34,11 @@ public:
     std::string& getTextReference();
     void setText(std::string const& text);
     void setHorizontalMode(DisplayTableCellMode const mode);
-private:    std::string m_displayText;
+private:
+    std::string m_displayText;
     DisplayTableCellMode m_horizontalMode;
 };
+
 using Cells = std::vector<DisplayTableCell>;
 
 class DisplayTableRow
