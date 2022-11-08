@@ -121,4 +121,5 @@ void ChessPeekConfiguration::initializeLichessDotOrg()
 }
 
 }
+
 }

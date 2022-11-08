@@ -99,11 +99,11 @@ int getRotationValue(string const& mainString, string const& rotation)
     int result = static_cast<int>(string::npos);
     if(mainString.length() == rotation.length())
     {
-        string doubleMainString = mainString + mainString;        result = static_cast<int>(doubleMainString.find(rotation));
+        string doubleMainString = mainString + mainString;
+        result = static_cast<int>(doubleMainString.find(rotation));
     }
     return result;
 }
-
 int getPeriodValue(string const& mainString, string const& period)
 {
     // A period is a prefix of a string such that the string can be constructed by repeating the period.

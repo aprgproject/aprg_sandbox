@@ -28,11 +28,12 @@ ChessPeek::ChessPeek()
     : m_configuration(ChessPeekConfigurationType::LichessDotOrg)
     , m_pieceRetriever(m_configuration)
     , m_chessEngineHandler(CHESS_ENGINE_PATH)
-    , m_chessEngineController(m_chessEngineHandler)    , m_userAutomation()    , m_chessBoard(Board::Orientation::BlackUpWhiteDown, {})
+    , m_chessEngineController(m_chessEngineHandler)
+    , m_userAutomation()
+    , m_chessBoard(Board::Orientation::BlackUpWhiteDown, {})
     , m_playerColor(PieceColor::White)
     , m_playerKingCoordinate{}
-    , m_opponentKingCoordinate{}
-    , m_isEngineNewlyReseted(true)
+    , m_opponentKingCoordinate{}    , m_isEngineNewlyReseted(true)
 {
     initialize();
 }
@@ -67,11 +68,11 @@ void ChessPeek::checkScreenAndSaveDetails()
     saveBitmapOnScreen();
     Bitmap bitmap(SCREEN_SHOT_PATH);
     BitmapSnippet snippet(bitmap.getSnippetReadFromFile(m_configuration.getTopLeftCorner(), m_configuration.getBottomRightCorner()));
-    checkSnippetAndSaveDetails(snippet);    //bitmap.setSnippetWriteToFile(snippet);//
+    checkSnippetAndSaveDetails(snippet);
+    //bitmap.setSnippetWriteToFile(snippet);//
 }
 
-void ChessPeek::startEngineAnalysisOfNewPosition()
-{
+void ChessPeek::startEngineAnalysisOfNewPosition(){
     string fenString(constructFenString(m_chessBoard, m_playerColor, m_chessBoard.getCastlingFenString(), "-", 0, 1));
     m_chessEngineController.stop();
     m_chessEngineController.setupFenString(fenString);
@@ -124,31 +125,31 @@ void ChessPeek::checkSnippetAndSaveDetails(BitmapSnippet & snippet)
 {
     //snippet.setPixelAt(snippet.getTopLeftCorner(), 0x00A1BA);//
     //snippet.setPixelAt(snippet.getBottomRightCorner(), 0x00A1BA);//
+
     m_numberOfDetectedKings = 0U;
     unsigned int pieceCount = 0U;
-    for(unsigned int j=0; j<8; j++)
-    {
+    for(unsigned int j=0; j<8; j++)    {
         for(unsigned int i=0; i<8; i++)
         {
             Piece chessPiece(m_pieceRetriever.getChessCellPiece(snippet, i, j));
             Coordinate chessCoordinate(i, j);
             m_chessBoard.setPieceAt(chessCoordinate, chessPiece);
             if(!chessPiece.isEmpty())
-            {                setKingDetailsIfPossible(chessCoordinate, chessPiece);
+            {
+                setKingDetailsIfPossible(chessCoordinate, chessPiece);
                 pieceCount++;
             }
-        }
-    }
+        }    }
     updatePlayerSideAndOrientation(pieceCount);
 }
 
 void ChessPeek::updatePlayerSideAndOrientation(unsigned int const pieceCount)
 {
-    Piece pieceAtKingWhitePosition(m_chessBoard.getPieceAt(Coordinate(4, 7)));    Piece pieceAtKingBlackPosition(m_chessBoard.getPieceAt(Coordinate(3, 7)));
+    Piece pieceAtKingWhitePosition(m_chessBoard.getPieceAt(Coordinate(4, 7)));
+    Piece pieceAtKingBlackPosition(m_chessBoard.getPieceAt(Coordinate(3, 7)));
     if(pieceCount >= 24U)
     {
-        PieceColor newPlayerColor(m_playerColor);
-        if(PieceType::King == pieceAtKingWhitePosition.getType() && PieceColor::White == pieceAtKingWhitePosition.getColor())
+        PieceColor newPlayerColor(m_playerColor);        if(PieceType::King == pieceAtKingWhitePosition.getType() && PieceColor::White == pieceAtKingWhitePosition.getColor())
         {
             newPlayerColor = PieceColor::White;
         }
@@ -234,10 +235,10 @@ Moves ChessPeek::getCurrentMoves(
     constexpr unsigned int maxNumberOfCurrentMoves = 3U;
     Moves result;
     result.reserve(maxNumberOfCurrentMoves);
+
     strings const& searchingMovesStrings(m_savedCalculationDetails.currentlySearchingMoves);
     for(string const& searchingMoveString : searchingMovesStrings)
-    {
-        Move move(m_chessBoard.getMoveFromTwoLetterNumberNotation(searchingMoveString));
+    {        Move move(m_chessBoard.getMoveFromTwoLetterNumberNotation(searchingMoveString));
         if(isValidMove(move))
         {
             result.emplace_back(move);
@@ -261,10 +262,10 @@ Moves ChessPeek::getFutureMoves() const
     constexpr unsigned int maxNumberOfFuturePlayerMoves = 3U;
     Moves result;
     result.reserve(maxNumberOfFuturePlayerMoves);
+
     strings const& pvMovesStrings(m_savedCalculationDetails.pvMovesInBestLine);
     unsigned int maxNumberOfFutureMoves = maxNumberOfFuturePlayerMoves<=0 ? 0 : (maxNumberOfFuturePlayerMoves*2U)-1U;
-    for(string const& pvMoveString : pvMovesStrings)
-    {
+    for(string const& pvMoveString : pvMovesStrings)    {
         Move move(m_chessBoard.getMoveFromTwoLetterNumberNotation(pvMoveString));
         if(isValidMove(move))
         {
@@ -308,11 +309,11 @@ void ChessPeek::printCalculationDetails() const
     constexpr unsigned int maxNumberOfMovesToDisplay = 10U;
     cout << "Depth: " << m_savedCalculationDetails.depth
          << " Score: " << static_cast<double>(m_savedCalculationDetails.scoreInCentipawns) / 100
-         << " Mate: " << m_savedCalculationDetails.mateInNumberOfMoves << endl;    cout << "Best move: [" << m_savedCalculationDetails.bestMove << "]" << endl;
+         << " Mate: " << m_savedCalculationDetails.mateInNumberOfMoves << endl;
+    cout << "Best move: [" << m_savedCalculationDetails.bestMove << "]" << endl;
 
     cout << "Searching moves: ";
-    ostream_iterator<string> outputIterator(cout, ", ");
-    auto itStart = m_savedCalculationDetails.currentlySearchingMoves.cbegin();
+    ostream_iterator<string> outputIterator(cout, ", ");    auto itStart = m_savedCalculationDetails.currentlySearchingMoves.cbegin();
     auto itEnd = min(m_savedCalculationDetails.currentlySearchingMoves.cend(), itStart+maxNumberOfMovesToDisplay);
     copy(itStart, itEnd, outputIterator);
     cout << endl;
@@ -461,11 +462,11 @@ void ChessPeek::initialize()
     m_pieceRetriever.setLogFile(APRG_DIR R"(\Chess\ChessPeek\Files\PieceConverter.log)");
     m_chessEngineHandler.setLogFile(APRG_DIR R"(\Chess\ChessPeek\Files\EngineHandler.log)");
     m_chessEngineController.setLogFile(APRG_DIR R"(\Chess\ChessPeek\Files\EngineController.log)");
-    m_chessEngineController.setAdditionalStepsInCalculationMonitoring([&](EngineCalculationDetails const& engineCalculationDetails)    {
+    m_chessEngineController.setAdditionalStepsInCalculationMonitoring([&](EngineCalculationDetails const& engineCalculationDetails)
+    {
         calculationMonitoringCallBackForEngine(engineCalculationDetails);
     });
 }
-
 }
 
 }

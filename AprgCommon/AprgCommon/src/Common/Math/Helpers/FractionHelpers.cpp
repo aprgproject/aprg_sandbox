@@ -5,11 +5,11 @@
 
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 namespace mathHelper
 {
-
 namespace
 {
 //internal functions
@@ -43,11 +43,11 @@ FractionDetails getFractionFromPartialNumerators(
             numerator = (*itPartialNumerator * numerator) + denominator;
             denominator = previousNumerator;
             isBeyondUnsignedIntegerLimits =
-                    isValueBeyondLimits<unsigned int>(numerator) || isValueBeyondLimits<unsigned int>(denominator);            if(isBeyondUnsignedIntegerLimits) { break; }
+                    isValueBeyondLimits<unsigned int>(numerator) || isValueBeyondLimits<unsigned int>(denominator);
+            if(isBeyondUnsignedIntegerLimits) { break; }
         }
     }
-    return FractionDetails{
-        1,
+    return FractionDetails{        1,
         getIntegerAfterRoundingADoubleValue<unsigned int>(numerator),
                 getIntegerAfterRoundingADoubleValue<unsigned int>(denominator)};
 }

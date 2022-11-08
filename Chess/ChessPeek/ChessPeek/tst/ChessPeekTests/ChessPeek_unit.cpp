@@ -22,9 +22,9 @@ TEST(ChessPeekTest, SaveBitmapOnScreenWorks)
 TEST(ChessPeekTest, CheckScreenAndSaveDetailsWorks)
 {
     ChessPeek chessPeek;
+
     chessPeek.checkScreenAndSaveDetails();
 }
-
 TEST(ChessPeekTest, StartNewAnalysisUsingEngineWorks)
 {
     ChessPeek chessPeek;

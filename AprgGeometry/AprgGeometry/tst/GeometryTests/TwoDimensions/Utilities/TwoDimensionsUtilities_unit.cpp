@@ -72,11 +72,12 @@ TEST(TwoDimensionsUtilitiesTest, GetCosineOfAngleUsing1DeltaWorks)
 
 TEST(TwoDimensionsUtilitiesTest, GetCosineOfAngleUsing2DeltasWorks)
 {
-    EXPECT_DOUBLE_EQ(1, getCosineOfAngleUsing2Deltas(2,4,8,16));
+    Vector deltaVector1{2, 4};
+    Vector deltaVector2{8, 16};
+    EXPECT_DOUBLE_EQ(1, getCosineOfAngleUsing2Deltas(deltaVector1, deltaVector2));
 }
 
-TEST(TwoDimensionsUtilitiesTest, GetArcLengthWorks)
-{
+TEST(TwoDimensionsUtilitiesTest, GetArcLengthWorks){
     EXPECT_DOUBLE_EQ(314.15926535897933, getArcLength(AlbaAngle(AngleUnitType::Degrees, 180), 100));
     EXPECT_DOUBLE_EQ(1000, getArcLength(AlbaAngle(AngleUnitType::Radians, 10), 100));
 }
@@ -87,10 +88,25 @@ TEST(TwoDimensionsUtilitiesTest, GetSignedCounterClockwiseTriangleAreaOfOriginAn
     EXPECT_DOUBLE_EQ(-2, getSignedCounterClockwiseTriangleAreaOfOriginAnd2Points(Point(2, 2), Point(3, 1)));
 }
 
+TEST(TwoDimensionsUtilitiesTest, GetSignedCounterClockwiseTriangleSquaredAreaOf3PointsWorks)
+{
+    EXPECT_DOUBLE_EQ(-4, getSignedCounterClockwiseTriangleSquaredAreaOf3Points(Point(0, 0), Point(0, 2), Point(2, 0)));
+    EXPECT_DOUBLE_EQ(4, getSignedCounterClockwiseTriangleSquaredAreaOf3Points(Point(0, 0), Point(2, 0), Point(0, 2)));
+    EXPECT_DOUBLE_EQ(4, getSignedCounterClockwiseTriangleSquaredAreaOf3Points(Point(0, 0), Point(2, 2), Point(1, 3)));
+    EXPECT_DOUBLE_EQ(-4, getSignedCounterClockwiseTriangleSquaredAreaOf3Points(Point(0, 0), Point(2, 2), Point(3, 1)));
+}
+
+TEST(TwoDimensionsUtilitiesTest, GetSignedCounterClockwiseTriangleAreaOf3PointsWorks)
+{
+    EXPECT_DOUBLE_EQ(-2, getSignedCounterClockwiseTriangleAreaOf3Points(Point(0, 0), Point(0, 2), Point(2, 0)));
+    EXPECT_DOUBLE_EQ(2, getSignedCounterClockwiseTriangleAreaOf3Points(Point(0, 0), Point(2, 0), Point(0, 2)));
+    EXPECT_DOUBLE_EQ(2, getSignedCounterClockwiseTriangleAreaOf3Points(Point(0, 0), Point(2, 2), Point(1, 3)));
+    EXPECT_DOUBLE_EQ(-2, getSignedCounterClockwiseTriangleAreaOf3Points(Point(0, 0), Point(2, 2), Point(3, 1)));
+}
+
 TEST(TwoDimensionsUtilitiesTest, GetAreaForPolygonWorksForTriangle)
 {
-    Triangle triangle(Point(0,0), Point(0,4), Point(4,0));
-    EXPECT_DOUBLE_EQ(8, getArea<3>(triangle));
+    Triangle triangle(Point(0,0), Point(0,4), Point(4,0));    EXPECT_DOUBLE_EQ(8, getArea<3>(triangle));
 }
 
 TEST(TwoDimensionsUtilitiesTest, GetAreaForPolygonWorksForRectangle)

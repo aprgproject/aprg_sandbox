@@ -39,11 +39,11 @@ char Piece::convertToCharacter(uint8_t const value)
 {
     char result{};
     PieceType pieceType(extractType(value));
-    switch(pieceType)    {
+    switch(pieceType)
+    {
     case PieceType::Empty:
     {
-        result = ' ';
-        break;
+        result = ' ';        break;
     }
     case PieceType::Pawn:
     {
@@ -99,10 +99,10 @@ Piece::Piece(PieceColorAndType const colorAndType)
 Piece::Piece(PieceColor const color, PieceType const type)
     : m_underlyingValue(getValueFromColorAndType(color, type))
 {}
+
 bool Piece::operator==(Piece const& piece) const
 {
-    return m_underlyingValue == piece.m_underlyingValue;
-}
+    return m_underlyingValue == piece.m_underlyingValue;}
 
 bool Piece::operator!=(Piece const& piece) const
 {
@@ -133,10 +133,10 @@ uint8_t Piece::getUnderlyingValue() const
 {
     return m_underlyingValue;
 }
+
 char Piece::getCharacter() const
 {
-    return convertToCharacter(m_underlyingValue);
-}
+    return convertToCharacter(m_underlyingValue);}
 
 ostream & operator<<(ostream & out, Piece const& piece)
 {

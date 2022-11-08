@@ -30,10 +30,10 @@ template <typename ValueType, template <typename ContainerValueType, typename Co
 void printParameter(std::ostream & outputStream, Adapter<ValueType, std::deque<ValueType>> const& adapter);
 
 
+
 // printParameterWithName declaration
 
-template <typename ParameterType>
-void printParameterWithName(std::ostream & outputStream, std::string const& parameterName, ParameterType const& parameter);
+template <typename ParameterType>void printParameterWithName(std::ostream & outputStream, std::string const& parameterName, ParameterType const& parameter);
 template <typename ParameterPointerType>
 void printParameterWithName(std::ostream & outputStream, std::string const& parameterName, ParameterPointerType * parameterPointer);
 template <>
@@ -58,10 +58,10 @@ template <typename ValueType, template <typename ContainerValueType, typename Co
 void printParameterWithName(std::ostream & outputStream, std::string const& parameterName, Adapter<ValueType, std::deque<ValueType>> const& adapter);
 
 
+
 // Utilities
 
-template<unsigned int index, typename... ValueTypes>
-typename std::enable_if<index == sizeof...(ValueTypes), void>::type
+template<unsigned int index, typename... ValueTypes>typename std::enable_if<index == sizeof...(ValueTypes), void>::type
 printParametersRecusively(std::ostream &, std::tuple<ValueTypes...> const&)
 {
 }
@@ -158,10 +158,10 @@ void printParameter(std::ostream & outputStream, Container<KeyType, ValueType> c
 template <typename ValueType, template <typename ContainerValueType, typename Container> class Adapter>
 void printParameter(std::ostream & outputStream, Adapter<ValueType, std::deque<ValueType>> const& adapter)
 {
-    outputStream << "{adapter: ";    printParameter(outputStream, getUnderlyingContainer(adapter));
+    outputStream << "{adapter: ";
+    printParameter(outputStream, getUnderlyingContainer(adapter));
     outputStream << "}";
 }
-
 
 
 // printParameterWithName
@@ -265,8 +265,8 @@ void printParameterWithName(std::ostream & outputStream, std::string const& para
 template <typename ValueType, template <typename ContainerValueType, typename Container> class Adapter>
 void printParameterWithName(std::ostream & outputStream, std::string const& parameterName, Adapter<ValueType, std::deque<ValueType>> const& adapter)
 {
-    outputStream << parameterName << " : [";    printParameter(outputStream, adapter);
+    outputStream << parameterName << " : [";
+    printParameter(outputStream, adapter);
     outputStream<< "]";
 }
-
 }//namespace alba

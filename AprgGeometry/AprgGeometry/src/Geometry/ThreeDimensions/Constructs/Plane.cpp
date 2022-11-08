@@ -5,10 +5,10 @@
 #include <Geometry/ThreeDimensions/Utilities/ThreeDimensionsUtilities.hpp>
 
 #include <cmath>
+
 using namespace alba::mathHelper;
 using namespace alba::ThreeDimensions::threeDimensionsUtilities;
 using namespace std;
-
 namespace alba
 {
 
@@ -37,10 +37,10 @@ Plane::Plane(Point const& first, Point const& second, Point const& third)
     m_cCoefficient = perpendicularVector.getValueAt(2);
     calculateDCoefficientUsingCoefficientsABCAndAPoint(first);
 }
+
 Plane::Plane(
         double const aCoefficient,
-        double const bCoefficient,
-        double const cCoefficient,
+        double const bCoefficient,        double const cCoefficient,
         Point const& pointInPlane)
     : m_aCoefficient(aCoefficient)
     , m_bCoefficient(bCoefficient)

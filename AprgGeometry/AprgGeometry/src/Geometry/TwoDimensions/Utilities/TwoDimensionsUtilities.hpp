@@ -14,9 +14,10 @@
 #include <Geometry/TwoDimensions/Constructs/Quadrants.hpp>
 #include <Geometry/TwoDimensions/Constructs/RotationDirection.hpp>
 #include <Geometry/TwoDimensions/Constructs/Triangle.hpp>
+#include <Geometry/TwoDimensions/Constructs/Vector.hpp>
+
 
 #include <functional>
-
 namespace alba
 {
 
@@ -37,13 +38,14 @@ double getDistance(Point const& point1, Point const& point2);
 double getDistance(Line const& line, Point const& point);
 double getDistance(Line const& line1, Line const& line2);
 double getCosineOfAngleUsing1Delta(double const deltaX1, double const deltaY1);
-double getCosineOfAngleUsing2Deltas(double const deltaX1, double const deltaY1, double const deltaX2, double const deltaY2);
+double getCosineOfAngleUsing2Deltas(Vector const& deltaVector1, Vector const& deltaVector2);
 double getArcLength(AlbaAngle const& angle, double const radius);
 double getSignedCounterClockwiseTriangleAreaOfOriginAnd2Points(Point const& point1, Point const& point2);
+double getSignedCounterClockwiseTriangleSquaredAreaOf3Points(Point const& a, Point const& b, Point const& c);
+double getSignedCounterClockwiseTriangleAreaOf3Points(Point const& a, Point const& b, Point const& c);
 template<unsigned int numberOfVertices> double getArea(Polygon<numberOfVertices> const& polygon);
 
-ConicSectionType getConicSectionBasedOnEccentricity(double const eccentricity);
-ConicSectionType getConicSectionBasedOnGeneralForm(double const a, double const b, double const c, double const e, double const f);
+ConicSectionType getConicSectionBasedOnEccentricity(double const eccentricity);ConicSectionType getConicSectionBasedOnGeneralForm(double const a, double const b, double const c, double const e, double const f);
 Quadrant getQuadrantOfAPoint(Point const& point);
 RotationDirection getRotationDirectionTraversing3Points(Point const a, Point const b, Point const c);
 
