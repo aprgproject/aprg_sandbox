@@ -5,6 +5,7 @@
 #include <Geometry/TwoDimensions/Constructs/Point.hpp>
 
 #include <array>
+
 namespace alba
 {
 

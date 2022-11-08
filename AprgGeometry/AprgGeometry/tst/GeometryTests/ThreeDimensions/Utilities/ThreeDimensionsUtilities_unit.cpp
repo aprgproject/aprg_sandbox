@@ -7,7 +7,8 @@
 using namespace alba::ThreeDimensions::threeDimensionsUtilities;
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 namespace ThreeDimensions
 {
@@ -15,7 +16,8 @@ namespace ThreeDimensions
 TEST(ThreeDimensionsUtilitiesTest, PointCanBeCheckedIfItsOnLineWithSlope)
 {
     Point pointOnLine(-2,2,-2);
-    Point pointNotOnLine(2,2,2);    Line line(Point(0,0,0), Point(-1,1,-1));
+    Point pointNotOnLine(2,2,2);
+    Line line(Point(0,0,0), Point(-1,1,-1));
 
     EXPECT_TRUE(isPointInLine(pointOnLine, line));
     EXPECT_FALSE(isPointInLine(pointNotOnLine, line));
@@ -24,7 +26,8 @@ TEST(ThreeDimensionsUtilitiesTest, PointCanBeCheckedIfItsOnLineWithSlope)
 TEST(ThreeDimensionsUtilitiesTest, PointCanBeCheckedIfItsOnHorizontalLine)
 {
     Point pointOnLine(6,3,-12);
-    Point pointNotOnLine(6,0,-12);    Line horizontalLine(Point(-2,3,4), Point(2,3,-4));
+    Point pointNotOnLine(6,0,-12);
+    Line horizontalLine(Point(-2,3,4), Point(2,3,-4));
 
     EXPECT_TRUE(isPointInLine(pointOnLine, horizontalLine));
     EXPECT_FALSE(isPointInLine(pointNotOnLine, horizontalLine));
@@ -33,7 +36,8 @@ TEST(ThreeDimensionsUtilitiesTest, PointCanBeCheckedIfItsOnHorizontalLine)
 TEST(ThreeDimensionsUtilitiesTest, PointCanBeCheckedIfItsOnVerticalLine)
 {
     Point pointOnLine(2,9,-18);
-    Point pointNotOnLine(0,9,-18);    Line verticalLine(Point(2,-3, 6), Point(2,3, -6));
+    Point pointNotOnLine(0,9,-18);
+    Line verticalLine(Point(2,-3, 6), Point(2,3, -6));
 
     EXPECT_TRUE(isPointInLine(pointOnLine, verticalLine));
     EXPECT_FALSE(isPointInLine(pointNotOnLine, verticalLine));
@@ -42,7 +46,8 @@ TEST(ThreeDimensionsUtilitiesTest, PointCanBeCheckedIfItsOnVerticalLine)
 TEST(ThreeDimensionsUtilitiesTest, PointCanBeCheckedIfItsOnLineParallelWithZAxis)
 {
     Point pointOnLine(6,-12,6);
-    Point pointNotOnLine(6,-12,0);    Line lineParallelInZAxis(Point(-2,4,6), Point(2,-4,6));
+    Point pointNotOnLine(6,-12,0);
+    Line lineParallelInZAxis(Point(-2,4,6), Point(2,-4,6));
 
     EXPECT_TRUE(isPointInLine(pointOnLine, lineParallelInZAxis));
     EXPECT_FALSE(isPointInLine(pointNotOnLine, lineParallelInZAxis));
@@ -51,7 +56,8 @@ TEST(ThreeDimensionsUtilitiesTest, PointCanBeCheckedIfItsOnLineParallelWithZAxis
 TEST(ThreeDimensionsUtilitiesTest, PointCanBeCheckedIfItsOnEmptyPlane)
 {
     Point pointOnLine(1,1,1);
-    Point pointNotOnLine(1,-1,1);    Plane plane;
+    Point pointNotOnLine(1,-1,1);
+    Plane plane;
 
     EXPECT_TRUE(isPointInPlane(pointOnLine, plane));
     EXPECT_TRUE(isPointInPlane(pointNotOnLine, plane));
@@ -60,7 +66,8 @@ TEST(ThreeDimensionsUtilitiesTest, PointCanBeCheckedIfItsOnEmptyPlane)
 TEST(ThreeDimensionsUtilitiesTest, PointCanBeCheckedIfItsOnInvalidPlane)
 {
     Point pointOnLine(1,1,1);
-    Point pointNotOnLine(1,-1,1);    Plane plane(Point(3,3,3), Point(3,3,3), Point(3,3,3));
+    Point pointNotOnLine(1,-1,1);
+    Plane plane(Point(3,3,3), Point(3,3,3), Point(3,3,3));
 
     EXPECT_TRUE(isPointInPlane(pointOnLine, plane));
     EXPECT_TRUE(isPointInPlane(pointNotOnLine, plane));
@@ -69,7 +76,8 @@ TEST(ThreeDimensionsUtilitiesTest, PointCanBeCheckedIfItsOnInvalidPlane)
 TEST(ThreeDimensionsUtilitiesTest, PointCanBeCheckedIfItsOnPlaneWithConstantZ)
 {
     Point pointOnLine(1,1,0);
-    Point pointNotOnLine(5,5,5);    Plane plane(Point(1,1,0), Point(-2,2,0), Point(2,-1,0));
+    Point pointNotOnLine(5,5,5);
+    Plane plane(Point(1,1,0), Point(-2,2,0), Point(2,-1,0));
 
     EXPECT_TRUE(isPointInPlane(pointOnLine, plane));
     EXPECT_FALSE(isPointInPlane(pointNotOnLine, plane));
@@ -78,7 +86,8 @@ TEST(ThreeDimensionsUtilitiesTest, PointCanBeCheckedIfItsOnPlaneWithConstantZ)
 TEST(ThreeDimensionsUtilitiesTest, PointCanBeCheckedIfItsOnPlaneWithConstantY)
 {
     Point pointOnLine(1,0,1);
-    Point pointNotOnLine(5,5,5);    Plane plane(Point(1,0,1), Point(-2,0,2), Point(2,0,-1));
+    Point pointNotOnLine(5,5,5);
+    Plane plane(Point(1,0,1), Point(-2,0,2), Point(2,0,-1));
 
     EXPECT_TRUE(isPointInPlane(pointOnLine, plane));
     EXPECT_FALSE(isPointInPlane(pointNotOnLine, plane));
@@ -87,7 +96,8 @@ TEST(ThreeDimensionsUtilitiesTest, PointCanBeCheckedIfItsOnPlaneWithConstantY)
 TEST(ThreeDimensionsUtilitiesTest, PointCanBeCheckedIfItsOnPlaneWithConstantX)
 {
     Point pointOnLine(0,1,1);
-    Point pointNotOnLine(5,5,5);    Plane plane(Point(0,1,1), Point(0,-2,2), Point(0,2,-1));
+    Point pointNotOnLine(5,5,5);
+    Plane plane(Point(0,1,1), Point(0,-2,2), Point(0,2,-1));
 
     EXPECT_TRUE(isPointInPlane(pointOnLine, plane));
     EXPECT_FALSE(isPointInPlane(pointNotOnLine, plane));
@@ -96,7 +106,8 @@ TEST(ThreeDimensionsUtilitiesTest, PointCanBeCheckedIfItsOnPlaneWithConstantX)
 TEST(ThreeDimensionsUtilitiesTest, PointCanBeCheckedIfItsOnPlaneWithSlope)
 {
     Point pointOnLine(1,1,1);
-    Point pointNotOnLine(5,5,5);    Plane plane(Point(1,1,1), Point(2,0,2), Point(3,3,0));
+    Point pointNotOnLine(5,5,5);
+    Plane plane(Point(1,1,1), Point(2,0,2), Point(3,3,0));
 
     EXPECT_TRUE(isPointInPlane(pointOnLine, plane));
     EXPECT_FALSE(isPointInPlane(pointNotOnLine, plane));
@@ -105,7 +116,8 @@ TEST(ThreeDimensionsUtilitiesTest, PointCanBeCheckedIfItsOnPlaneWithSlope)
 TEST(ThreeDimensionsUtilitiesTest, LineCanBeCheckedIfItsOnPlaneWithSlope)
 {
     Line lineOnPlane(Point(1,1,1), Point(2,0,2));
-    Line lineNotOnPlane(Point(1,1,1), Point(2,2,2));    Plane plane(Point(1,1,1), Point(2,0,2), Point(3,3,0));
+    Line lineNotOnPlane(Point(1,1,1), Point(2,2,2));
+    Plane plane(Point(1,1,1), Point(2,0,2), Point(3,3,0));
 
     EXPECT_TRUE(isLineInPlane(lineOnPlane, plane));
     EXPECT_FALSE(isLineInPlane(lineNotOnPlane, plane));
@@ -115,6 +127,7 @@ TEST(ThreeDimensionsUtilitiesTest, LineCanBeCheckedIfItsParallel)
 {
     EXPECT_TRUE(areLinesParallel(Line(Point(5,5,1), Point(5,5,2)), Line(Point(6,6,78), Point(6,6,108))));
     EXPECT_FALSE(areLinesParallel(Line(Point(5,5,1), Point(5,5,2)), Line(Point(6,78,6), Point(6,108,6))));
+
     EXPECT_TRUE(areLinesParallel(Line(Point(0,0,0), Point(1,1,1)), Line(Point(5,0,0), Point(6,1,1))));
     EXPECT_FALSE(areLinesParallel(Line(Point(0,0,0), Point(1,1,1)), Line(Point(5,0,0), Point(6,1,7))));
 }
@@ -161,11 +174,10 @@ TEST(ThreeDimensionsUtilitiesTest, DistanceBetween2PlanesCanBeCalculated)
 
 TEST(ThreeDimensionsUtilitiesTest, GetConsineOfAngleUsing2DeltasWorks)
 {
-    Coordinate coordinate1(2, 4, 8);
-    Coordinate coordinate2(16, 32, 64);
+    Vector coordinate1{2, 4, 8};
+    Vector coordinate2{16, 32, 64};
     EXPECT_EQ(1, getCosineOfAngleUsing2Deltas(coordinate1, coordinate2));
 }
-
 TEST(ThreeDimensionsUtilitiesTest, MidpointBetweenTwoPointsCanBeCalculated)
 {
     EXPECT_EQ(Point(0,0,0), getMidpoint(Point(0,0,0), Point(0,0,0)));
@@ -177,13 +189,15 @@ TEST(ThreeDimensionsUtilitiesTest, GetPointOfIntersectionOfTwoLinesWorks)
 {
     Line line1(Point(2,4,6), Point(3,3,3));
     Line line2(Point(4,4,4), Point(3,3,3));
+
     EXPECT_EQ(Point(3,3,3), getPointOfIntersectionOfTwoLines(line1, line2));
 }
 
 TEST(ThreeDimensionsUtilitiesTest, GetPointOfIntersectionOfAPlaneAndALineWorks)
 {
     Plane inputPlane(Point(1,0,0), Point(0,1,0), Point(0,0,1));
-    Line inputLine(Point(0,0,0), Point(1,1,1));    Point expectedPoint(getPointOfIntersectionOfAPlaneAndALine(inputPlane, inputLine));
+    Line inputLine(Point(0,0,0), Point(1,1,1));
+    Point expectedPoint(getPointOfIntersectionOfAPlaneAndALine(inputPlane, inputLine));
 
     EXPECT_EQ(static_cast<double>(1)/3, expectedPoint.getX());
     EXPECT_EQ(static_cast<double>(1)/3, expectedPoint.getY());
@@ -225,20 +239,10 @@ TEST(TwoDimensionsUtilitiesTest, GetTheLargerDihedralAngleBetweenTwoPlanesWorks)
     EXPECT_DOUBLE_EQ(135, getTheLargerDihedralAngleBetweenTwoPlanes(Plane(Point(0,0,0), Point(1,0,0), Point(1,1,0)), Plane(Point(0,0,0), Point(0,1,1), Point(1,1,1))).getDegrees());
 }
 
-TEST(ThreeDimensionsUtilitiesTest, GetCrossProductWorks)
-{
-    Coordinate input1(1,2,3);
-    Coordinate input2(4,5,6);    Coordinate expectedCoefficients(getCrossProduct(input1, input2));
-
-    EXPECT_EQ(-3, expectedCoefficients.getX());
-    EXPECT_EQ(6, expectedCoefficients.getY());
-    EXPECT_EQ(-3, expectedCoefficients.getZ());
-}
-
 TEST(ThreeDimensionsUtilitiesTest, GetLineWithSameSlopeAndPoint)
 {
-    Line lineInput(Point(0,0,0), Point(-1,1,1));
-    Line expectedLine(getLineWithSameSlope(lineInput, Point(2,2,2)));
+    Line lineInput(Point(0,0,0), Point(-1,1,1));    Line expectedLine(getLineWithSameSlope(lineInput, Point(2,2,2)));
+
     EXPECT_EQ(-1, expectedLine.getACoefficient());
     EXPECT_EQ(1, expectedLine.getBCoefficient());
     EXPECT_EQ(1, expectedLine.getCCoefficient());
@@ -250,7 +254,8 @@ TEST(ThreeDimensionsUtilitiesTest, GetLineWithSameSlopeAndPoint)
 TEST(ThreeDimensionsUtilitiesTest, GetLineOfIntersectionOfTwoPlaneWorks)
 {
     Plane input1(Point(1,0,0), Point(0,1,0), Point(0,0,1));
-    Plane input2(Point(0,0,0), Point(1,1,1), Point(0,1,1));    Line expectedLine(getLineOfIntersectionOfTwoPlanes(input1, input2));
+    Plane input2(Point(0,0,0), Point(1,1,1), Point(0,1,1));
+    Line expectedLine(getLineOfIntersectionOfTwoPlanes(input1, input2));
 
     EXPECT_EQ(-2, expectedLine.getACoefficient());
     EXPECT_EQ(1, expectedLine.getBCoefficient());
@@ -264,6 +269,7 @@ TEST(ThreeDimensionsUtilitiesTest, GetPerpendicularLineOfPlaneWithAPointWorks)
 {
     Plane planeInput(1, -1, 1, 0);
     Line expectedLine(getPerpendicularLineOfPlaneWithAPoint(planeInput, Point(0,0,0)));
+
     EXPECT_DOUBLE_EQ(1, expectedLine.getACoefficient());
     EXPECT_DOUBLE_EQ(-1, expectedLine.getBCoefficient());
     EXPECT_DOUBLE_EQ(1, expectedLine.getCCoefficient());
@@ -275,7 +281,8 @@ TEST(ThreeDimensionsUtilitiesTest, GetPerpendicularLineOfPlaneWithAPointWorks)
 TEST(ThreeDimensionsUtilitiesTest, GetProjectedLineInPlaneOfASkewedPlaneAndLineWorks)
 {
     Plane planeInput(Point(1,0,0), Point(0,1,0), Point(0,0,1));
-    Line lineInput(Point(0,0,0), Point(1,2,4));    Line expectedLine(getProjectedLineInPlaneOfASkewedPlaneAndLine(planeInput, lineInput));
+    Line lineInput(Point(0,0,0), Point(1,2,4));
+    Line expectedLine(getProjectedLineInPlaneOfASkewedPlaneAndLine(planeInput, lineInput));
 
     EXPECT_EQ(4, expectedLine.getACoefficient());
     EXPECT_EQ(1, expectedLine.getBCoefficient());
@@ -288,6 +295,7 @@ TEST(ThreeDimensionsUtilitiesTest, GetProjectedLineInPlaneOfASkewedPlaneAndLineW
 TEST(ThreeDimensionsUtilitiesTest, GetPlaneWithContainsALineAndAPointWorks)
 {
     Plane expectedPlane(getPlaneWithContainsALineAndAPoint(Line(Point(0,0,0), Point(1,1,1)), Point(1,0,0)));
+
     EXPECT_EQ(0, expectedPlane.getACoefficient());
     EXPECT_EQ(1, expectedPlane.getBCoefficient());
     EXPECT_EQ(-1, expectedPlane.getCCoefficient());
@@ -297,6 +305,7 @@ TEST(ThreeDimensionsUtilitiesTest, GetPlaneWithContainsALineAndAPointWorks)
 TEST(ThreeDimensionsUtilitiesTest, GetPlaneWithTwoIntersectingLinesWorks)
 {
     Plane expectedPlane(getPlaneWithTwoIntersectingLines(Line(Point(0,0,0), Point(1,1,1)), Line(Point(0,0,0), Point(1,0,0))));
+
     EXPECT_EQ(0, expectedPlane.getACoefficient());
     EXPECT_EQ(1, expectedPlane.getBCoefficient());
     EXPECT_EQ(-1, expectedPlane.getCCoefficient());
@@ -306,7 +315,8 @@ TEST(ThreeDimensionsUtilitiesTest, GetPlaneWithTwoIntersectingLinesWorks)
 TEST(ThreeDimensionsUtilitiesTest, GetPlaneOfTwoDifferentLinesWithSameSlopeWorks)
 {
     Plane expectedPlane(getPlaneOfTwoDifferentLinesWithSameSlope(Line(Point(0,0,0), Point(1,1,1)), Line(Point(0,0,1), Point(1,1,2))));
-    EXPECT_EQ(1, expectedPlane.getACoefficient());    EXPECT_EQ(-1, expectedPlane.getBCoefficient());
+    EXPECT_EQ(1, expectedPlane.getACoefficient());
+    EXPECT_EQ(-1, expectedPlane.getBCoefficient());
     EXPECT_EQ(0, expectedPlane.getCCoefficient());
     EXPECT_EQ(0, expectedPlane.getDCoefficient());
 }
@@ -314,6 +324,7 @@ TEST(ThreeDimensionsUtilitiesTest, GetPlaneOfTwoDifferentLinesWithSameSlopeWorks
 TEST(ThreeDimensionsUtilitiesTest, GetPerpendicularPlaneWithALineAndAPointWorks)
 {
     Plane expectedPlane(getPerpendicularPlaneOfALineAndUsingAPointInThePlane(Line(Point(0,0,0), Point(1,1,1)), Point(1,0,0)));
+
     EXPECT_EQ(1, expectedPlane.getACoefficient());
     EXPECT_EQ(1, expectedPlane.getBCoefficient());
     EXPECT_EQ(1, expectedPlane.getCCoefficient());

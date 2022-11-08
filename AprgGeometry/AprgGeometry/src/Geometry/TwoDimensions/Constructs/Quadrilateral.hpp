@@ -3,6 +3,7 @@
 #include <Geometry/TwoDimensions/Constructs/Polygon.hpp>
 
 #include <functional>
+
 namespace alba
 {
 

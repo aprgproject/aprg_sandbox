@@ -9,7 +9,8 @@
 using namespace alba::TwoDimensions::twoDimensionsUtilities;
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 namespace TwoDimensions
 {
@@ -17,14 +18,16 @@ namespace TwoDimensions
 TEST(TwoDimensionsUtilitiesTest, IsOriginWorks)
 {
     EXPECT_FALSE(isOrigin(Point(-3,-3)));
-    EXPECT_FALSE(isOrigin(Point(5,0)));    EXPECT_FALSE(isOrigin(Point(0,10)));
+    EXPECT_FALSE(isOrigin(Point(5,0)));
+    EXPECT_FALSE(isOrigin(Point(0,10)));
     EXPECT_TRUE(isOrigin(Point(0,0)));
 }
 
 TEST(TwoDimensionsUtilitiesTest, IsInsideTwoPointsWorks)
 {
     Points points;
-    Point minimumXAndY(-1,-1);    Point maximumXAndY(1,1);
+    Point minimumXAndY(-1,-1);
+    Point maximumXAndY(1,1);
     EXPECT_FALSE(isInsideTwoPoints(Point(-3,-3), minimumXAndY, maximumXAndY));
     EXPECT_FALSE(isInsideTwoPoints(Point(-2,-2), minimumXAndY, maximumXAndY));
     EXPECT_TRUE(isInsideTwoPoints(Point(-1,-1), minimumXAndY, maximumXAndY));
@@ -37,7 +40,8 @@ TEST(TwoDimensionsUtilitiesTest, IsInsideTwoPointsWorks)
 TEST(TwoDimensionsUtilitiesTest, PointCanBeCheckedIfItsOnLine)
 {
     Point pointOnLine(-2,2);
-    Point pointNotOnLine(2,2);    Line line(Point(0,0), Point(-1,1));
+    Point pointNotOnLine(2,2);
+    Line line(Point(0,0), Point(-1,1));
 
     EXPECT_TRUE(isPointInLine(pointOnLine, line));
     EXPECT_FALSE(isPointInLine(pointNotOnLine, line));
@@ -99,6 +103,7 @@ TEST(TwoDimensionsUtilitiesTest, LineAndLineIntersectionCanBeFound)
 {
     Line line1(Point(2,4), Point(3,3));
     Line line2(Point(4,4), Point(3,3));
+
     EXPECT_EQ(Point(3,3), getIntersectionOfTwoLines(line1, line2));
 }
 
@@ -119,7 +124,8 @@ TEST(TwoDimensionsUtilitiesTest, MidpointBetweenTwoPointsCanBeCalculated)
 TEST(TwoDimensionsUtilitiesTest, GetPointAlongALineWithDistanceFromAPointWorks)
 {
     EXPECT_EQ(Point(2,2), getPointAlongALineWithDistanceFromAPoint(Line(Point(0,0), Point(1,1)), Point(1,1), sqrt(2), true));
-    EXPECT_EQ(Point(2,-2), getPointAlongALineWithDistanceFromAPoint(Line(Point(0,0), Point(1,-1)), Point(1,-1), sqrt(2), true));    EXPECT_EQ(Point(-2,2), getPointAlongALineWithDistanceFromAPoint(Line(Point(0,0), Point(-1,1)), Point(-1,1), sqrt(2), false));
+    EXPECT_EQ(Point(2,-2), getPointAlongALineWithDistanceFromAPoint(Line(Point(0,0), Point(1,-1)), Point(1,-1), sqrt(2), true));
+    EXPECT_EQ(Point(-2,2), getPointAlongALineWithDistanceFromAPoint(Line(Point(0,0), Point(-1,1)), Point(-1,1), sqrt(2), false));
     EXPECT_EQ(Point(-2,-2), getPointAlongALineWithDistanceFromAPoint(Line(Point(0,0), Point(-1,-1)), Point(-1,-1), sqrt(2), false));
 }
 
@@ -127,6 +133,7 @@ TEST(TwoDimensionsUtilitiesTest, GetIntersectionsOfParabolaAndLineWorksOnParabol
 {
     Parabola<ParabolaOrientation::PolynomialX> parabola(1, -5, 4);
     Line line(Point(0,-0.25), Point(1,0));
+
     Points points(getIntersectionsOfParabolaAndLine(parabola, line));
 
     ASSERT_EQ(2U, points.size());
@@ -138,6 +145,7 @@ TEST(TwoDimensionsUtilitiesTest, GetIntersectionsOfParabolaAndLineWorksOnParabol
 {
     Parabola<ParabolaOrientation::PolynomialY> parabola(1, -5, 4);
     Line line(Point(-0.25,0), Point(0,1));
+
     Points points(getIntersectionsOfParabolaAndLine(parabola, line));
 
     ASSERT_EQ(2U, points.size());
@@ -148,7 +156,8 @@ TEST(TwoDimensionsUtilitiesTest, GetIntersectionsOfParabolaAndLineWorksOnParabol
 TEST(TwoDimensionsUtilitiesTest, PopNearestPointWorks)
 {
     Points points;
-    points.emplace_back(4,4);    points.emplace_back(1,1);
+    points.emplace_back(4,4);
+    points.emplace_back(1,1);
     points.emplace_back(3,3);
     points.emplace_back(2,2);
 
@@ -163,28 +172,32 @@ TEST(TwoDimensionsUtilitiesTest, PopNearestPointWorks)
 TEST(TwoDimensionsUtilitiesTest, RotateAxisByAngleWorks)
 {
     EXPECT_EQ(Point(1,-1), rotateAxisByAngle(Point(1, 1), AlbaAngle(AngleUnitType::Degrees, 90)));
-    EXPECT_EQ(Point(-1,-1), rotateAxisByAngle(Point(1, 1), AlbaAngle(AngleUnitType::Degrees, 180)));    EXPECT_EQ(Point(-1,1), rotateAxisByAngle(Point(1, 1), AlbaAngle(AngleUnitType::Degrees, 270)));
+    EXPECT_EQ(Point(-1,-1), rotateAxisByAngle(Point(1, 1), AlbaAngle(AngleUnitType::Degrees, 180)));
+    EXPECT_EQ(Point(-1,1), rotateAxisByAngle(Point(1, 1), AlbaAngle(AngleUnitType::Degrees, 270)));
     EXPECT_EQ(Point(1,1), rotateAxisByAngle(Point(1, 1), AlbaAngle(AngleUnitType::Degrees, 360)));
 }
 
 TEST(TwoDimensionsUtilitiesTest, RotateAxisBackByAngleWorks)
 {
     EXPECT_EQ(Point(-1,1), rotateAxisBackByAngle(Point(1, 1), AlbaAngle(AngleUnitType::Degrees, 90)));
-    EXPECT_EQ(Point(-1,-1), rotateAxisBackByAngle(Point(1, 1), AlbaAngle(AngleUnitType::Degrees, 180)));    EXPECT_EQ(Point(1,-1), rotateAxisBackByAngle(Point(1, 1), AlbaAngle(AngleUnitType::Degrees, 270)));
+    EXPECT_EQ(Point(-1,-1), rotateAxisBackByAngle(Point(1, 1), AlbaAngle(AngleUnitType::Degrees, 180)));
+    EXPECT_EQ(Point(1,-1), rotateAxisBackByAngle(Point(1, 1), AlbaAngle(AngleUnitType::Degrees, 270)));
     EXPECT_EQ(Point(1,1), rotateAxisBackByAngle(Point(1, 1), AlbaAngle(AngleUnitType::Degrees, 360)));
 }
 
 TEST(TwoDimensionsUtilitiesTest, ConvertFromPolarCoordinatesWorks)
 {
     EXPECT_EQ(Point(0,5), convertFromPolarCoordinates(PolarCoordinate{5, AlbaAngle(AngleUnitType::Degrees, 90)}));
-    EXPECT_EQ(Point(-10,0), convertFromPolarCoordinates(PolarCoordinate{10, AlbaAngle(AngleUnitType::Degrees, 180)}));    EXPECT_EQ(Point(0,-15), convertFromPolarCoordinates(PolarCoordinate{15, AlbaAngle(AngleUnitType::Degrees, 270)}));
+    EXPECT_EQ(Point(-10,0), convertFromPolarCoordinates(PolarCoordinate{10, AlbaAngle(AngleUnitType::Degrees, 180)}));
+    EXPECT_EQ(Point(0,-15), convertFromPolarCoordinates(PolarCoordinate{15, AlbaAngle(AngleUnitType::Degrees, 270)}));
     EXPECT_EQ(Point(20,0), convertFromPolarCoordinates(PolarCoordinate{20, AlbaAngle(AngleUnitType::Degrees, 360)}));
 }
 
 TEST(TwoDimensionsUtilitiesTest, ConvertToPolarCoordinateWorks)
 {
     PolarCoordinate polarCoordinate1(convertToPolarCoordinate(Point(0,5)));
-    PolarCoordinate polarCoordinate2(convertToPolarCoordinate(Point(-10,0)));    PolarCoordinate polarCoordinate3(convertToPolarCoordinate(Point(0,-15)));
+    PolarCoordinate polarCoordinate2(convertToPolarCoordinate(Point(-10,0)));
+    PolarCoordinate polarCoordinate3(convertToPolarCoordinate(Point(0,-15)));
     PolarCoordinate polarCoordinate4(convertToPolarCoordinate(Point(20,0)));
 
     EXPECT_DOUBLE_EQ(5, polarCoordinate1.radius);
@@ -200,7 +213,8 @@ TEST(TwoDimensionsUtilitiesTest, ConvertToPolarCoordinateWorks)
 TEST(TwoDimensionsUtilitiesTest, GetConicSectionBasedOnEccentricityWorks)
 {
     Circle circle(Point(1, 1), 1);
-    Parabola<ParabolaOrientation::PolynomialX> parabola(1, 1, 1);    Ellipse ellipse(Point(1, 1), 2, 3);
+    Parabola<ParabolaOrientation::PolynomialX> parabola(1, 1, 1);
+    Ellipse ellipse(Point(1, 1), 2, 3);
     Hyperbola hyperbola(Point(1, 1), 2, 3);
 
     EXPECT_EQ(ConicSectionType::Circle, getConicSectionBasedOnEccentricity(circle.getEccentricity()));
@@ -212,7 +226,8 @@ TEST(TwoDimensionsUtilitiesTest, GetConicSectionBasedOnEccentricityWorks)
 TEST(TwoDimensionsUtilitiesTest, GetConicSectionBasedOnGeneralFormWorks)
 {
     EXPECT_EQ(ConicSectionType::Point, getConicSectionBasedOnGeneralForm(0, 0, 0, 0, 1));
-    EXPECT_EQ(ConicSectionType::Point, getConicSectionBasedOnGeneralForm(0, 0, 0, 1, 0));    EXPECT_EQ(ConicSectionType::Line, getConicSectionBasedOnGeneralForm(0, 0, 0, 1, 1));
+    EXPECT_EQ(ConicSectionType::Point, getConicSectionBasedOnGeneralForm(0, 0, 0, 1, 0));
+    EXPECT_EQ(ConicSectionType::Line, getConicSectionBasedOnGeneralForm(0, 0, 0, 1, 1));
     EXPECT_EQ(ConicSectionType::Circle, getConicSectionBasedOnGeneralForm(1, 0, 1, 1, 1));
     EXPECT_EQ(ConicSectionType::Parabola, getConicSectionBasedOnGeneralForm(1, 0, 0, 1, 1));
     EXPECT_EQ(ConicSectionType::Parabola, getConicSectionBasedOnGeneralForm(0, 0, 1, 1, 1));
@@ -223,7 +238,8 @@ TEST(TwoDimensionsUtilitiesTest, GetConicSectionBasedOnGeneralFormWorks)
 TEST(TwoDimensionsUtilitiesTest, GetQuadrantOfAPointWorks)
 {
     EXPECT_EQ(Quadrant::Invalid, getQuadrantOfAPoint(Point(0,0)));
-    EXPECT_EQ(Quadrant::I, getQuadrantOfAPoint(Point(1,1)));    EXPECT_EQ(Quadrant::II, getQuadrantOfAPoint(Point(-1,1)));
+    EXPECT_EQ(Quadrant::I, getQuadrantOfAPoint(Point(1,1)));
+    EXPECT_EQ(Quadrant::II, getQuadrantOfAPoint(Point(-1,1)));
     EXPECT_EQ(Quadrant::III, getQuadrantOfAPoint(Point(-1,-1)));
     EXPECT_EQ(Quadrant::IV, getQuadrantOfAPoint(Point(1,-1)));
     EXPECT_EQ(Quadrant::II, getQuadrantOfAPoint(Point(0,1)));
@@ -235,7 +251,8 @@ TEST(TwoDimensionsUtilitiesTest, GetQuadrantOfAPointWorks)
 TEST(TwoDimensionsUtilitiesTest, GetAngleOfPointWithRespectToOriginWorks)
 {
     EXPECT_DOUBLE_EQ(0, getAngleOfPointWithRespectToOrigin(Point(0,0)).getDegrees());
-    EXPECT_DOUBLE_EQ(45, getAngleOfPointWithRespectToOrigin(Point(1,1)).getDegrees());    EXPECT_DOUBLE_EQ(135, getAngleOfPointWithRespectToOrigin(Point(-1,1)).getDegrees());
+    EXPECT_DOUBLE_EQ(45, getAngleOfPointWithRespectToOrigin(Point(1,1)).getDegrees());
+    EXPECT_DOUBLE_EQ(135, getAngleOfPointWithRespectToOrigin(Point(-1,1)).getDegrees());
     EXPECT_DOUBLE_EQ(225, getAngleOfPointWithRespectToOrigin(Point(-1,-1)).getDegrees());
     EXPECT_DOUBLE_EQ(315, getAngleOfPointWithRespectToOrigin(Point(1,-1)).getDegrees());
     EXPECT_DOUBLE_EQ(90, getAngleOfPointWithRespectToOrigin(Point(0,1)).getDegrees());
@@ -272,7 +289,8 @@ TEST(TwoDimensionsUtilitiesTest, GetLargerAngleBetweenTwoLinesWorks)
 TEST(TwoDimensionsUtilitiesTest, PointsInParabolaCanBeConnected)
 {
     Parabola<ParabolaOrientation::PolynomialX> parabola{1,2,3};
-    Points parabolaPoints(parabola.getPoints(-2, 2, 1));    Points connectedPoints(getConnectedPointsUsingALine(parabolaPoints, 1));
+    Points parabolaPoints(parabola.getPoints(-2, 2, 1));
+    Points connectedPoints(getConnectedPointsUsingALine(parabolaPoints, 1));
 
     ASSERT_EQ(11U, connectedPoints.size());
     EXPECT_EQ(Point(-2,3), connectedPoints.at(0));
@@ -291,7 +309,8 @@ TEST(TwoDimensionsUtilitiesTest, PointsInParabolaCanBeConnected)
 TEST(TwoDimensionsUtilitiesTest, GetConvexHullPointsUsingGrahamScanWorks)
 {
     Points inputPoints{{-7,8},{-4,6},{2,6},{6,4},{8,6},{7,-2},{4,-6},{8,-7},{0,0},
-                       {3,-2},{6,-10},{0,-6},{-9,-5},{-8,-2},{-8,0},{-10,3},{-2,2},{-10,4}};    Points actualPoints(getConvexHullPointsUsingGrahamScan(inputPoints));
+                       {3,-2},{6,-10},{0,-6},{-9,-5},{-8,-2},{-8,0},{-10,3},{-2,2},{-10,4}};
+    Points actualPoints(getConvexHullPointsUsingGrahamScan(inputPoints));
 
     Points expectedPoints{Point(-9,-5), Point(-10,3), Point(-10,4), Point(-7,8), Point(8,6), Point(8,-7), Point(6,-10)};
     ASSERT_EQ(expectedPoints, actualPoints);
@@ -301,6 +320,7 @@ TEST(TwoDimensionsUtilitiesTest, GetLineWithSameSlopeAndPoint)
 {
     Line lineInput(Point(0,0), Point(-1,1));
     Line expectedLine(getLineWithSameSlope(lineInput, Point(2,2)));
+
     EXPECT_EQ(4, expectedLine.getYIntercept());
     EXPECT_EQ(4, expectedLine.getXIntercept());
     EXPECT_EQ(-1, expectedLine.getSlope());
@@ -313,6 +333,7 @@ TEST(TwoDimensionsUtilitiesTest, GetLineWithInverseSlopeAndPoint)
 {
     Line lineInput(Point(0,0), Point(1,1));
     Line expectedLine(getLineWithPerpendicularSlope(lineInput, Point(2,2)));
+
     EXPECT_EQ(4, expectedLine.getYIntercept());
     EXPECT_EQ(4, expectedLine.getXIntercept());
     EXPECT_EQ(-1, expectedLine.getSlope());
@@ -324,7 +345,8 @@ TEST(TwoDimensionsUtilitiesTest, GetLineWithInverseSlopeAndPoint)
 TEST(TwoDimensionsUtilitiesTest, GetTangentLineForCircleIsCorrect)
 {
     Circle circle(Point(1,2), 3);
-    Line expectedLine1(getTangentLineAt(circle, Point(1,5)));    Line expectedLine2(getTangentLineAt(circle, Point(4,2)));
+    Line expectedLine1(getTangentLineAt(circle, Point(1,5)));
+    Line expectedLine2(getTangentLineAt(circle, Point(4,2)));
     Line expectedLine3(getTangentLineAt(circle, Point(2.5,3.5)));
 
     EXPECT_EQ(LineType::Horizontal, expectedLine1.getType());
@@ -345,7 +367,8 @@ TEST(TwoDimensionsUtilitiesTest, GetTangentLineForCircleIsCorrect)
 TEST(TwoDimensionsUtilitiesTest, GetTangentLineForPolynomialIsCorrect)
 {
     Parabola<ParabolaOrientation::PolynomialX> parabola{1,2,3};
-    Line expectedLine1(getPolynomialTangentLineAt(parabola, -1));    Line expectedLine2(getPolynomialTangentLineAt(parabola, 0));
+    Line expectedLine1(getPolynomialTangentLineAt(parabola, -1));
+    Line expectedLine2(getPolynomialTangentLineAt(parabola, 0));
     Line expectedLine3(getPolynomialTangentLineAt(parabola, 1));
 
     EXPECT_EQ(LineType::Horizontal, expectedLine1.getType());
@@ -367,7 +390,8 @@ TEST(TwoDimensionsUtilitiesTest, GetTangentLineForPolynomialIsCorrect)
 TEST(TwoDimensionsUtilitiesTest, AddPointIfInsideTwoPointsWorks)
 {
     Points points;
-    Point minimumXAndY(-1,-1);    Point maximumXAndY(1,1);
+    Point minimumXAndY(-1,-1);
+    Point maximumXAndY(1,1);
     addPointIfInsideTwoPoints(points, Point(-3,-3), minimumXAndY, maximumXAndY);
     addPointIfInsideTwoPoints(points, Point(-2,-2), minimumXAndY, maximumXAndY);
     addPointIfInsideTwoPoints(points, Point(-1,-1), minimumXAndY, maximumXAndY);
@@ -386,6 +410,7 @@ TEST(TwoDimensionsUtilitiesTest, GetPointsFromTwoPointsUsingALineWithoutLastPoin
 {
     Points pointsWithoutLastPoint;
     savePointsFromTwoPointsUsingALineWithoutLastPoint(pointsWithoutLastPoint, Point(0,0), Point(-5,-5), 1);
+
     ASSERT_EQ(5U, pointsWithoutLastPoint.size());
     EXPECT_EQ(Point(0,0), pointsWithoutLastPoint.at(0));
     EXPECT_EQ(Point(-1,-1), pointsWithoutLastPoint.at(1));
@@ -397,6 +422,7 @@ TEST(TwoDimensionsUtilitiesTest, GetPointsFromTwoPointsUsingALineWithoutLastPoin
 TEST(TwoDimensionsUtilitiesTest, TraverseCircleAreaBetweenTwoRadiusWorks)
 {
     Points pointsInAreaTraversal;
+
     traverseCircleAreaBetweenTwoRadius(
                 Point(3,3),
                 1,

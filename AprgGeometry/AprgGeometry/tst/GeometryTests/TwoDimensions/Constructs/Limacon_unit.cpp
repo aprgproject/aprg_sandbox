@@ -1,6 +1,7 @@
 #include <Geometry/TwoDimensions/Constructs/Limacon.hpp>
 
 #include <gtest/gtest.h>
+
 using namespace std;
 
 namespace alba

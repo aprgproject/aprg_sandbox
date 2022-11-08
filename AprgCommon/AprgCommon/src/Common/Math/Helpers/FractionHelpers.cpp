@@ -9,6 +9,7 @@ namespace alba{
 
 namespace mathHelper
 {
+
 namespace
 {
 //internal functions
@@ -45,7 +46,8 @@ FractionDetails getFractionFromPartialNumerators(
                     isValueBeyondLimits<unsigned int>(numerator) || isValueBeyondLimits<unsigned int>(denominator);            if(isBeyondUnsignedIntegerLimits) { break; }
         }
     }
-    return FractionDetails{        1,
+    return FractionDetails{
+        1,
         getIntegerAfterRoundingADoubleValue<unsigned int>(numerator),
                 getIntegerAfterRoundingADoubleValue<unsigned int>(denominator)};
 }

@@ -6,7 +6,8 @@ using namespace alba::mathHelper;
 using namespace alba::ThreeDimensions::threeDimensionsUtilities;
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 namespace ThreeDimensions
 {

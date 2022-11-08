@@ -32,7 +32,8 @@ void printParameter(std::ostream & outputStream, Adapter<ValueType, std::deque<V
 
 // printParameterWithName declaration
 
-template <typename ParameterType>void printParameterWithName(std::ostream & outputStream, std::string const& parameterName, ParameterType const& parameter);
+template <typename ParameterType>
+void printParameterWithName(std::ostream & outputStream, std::string const& parameterName, ParameterType const& parameter);
 template <typename ParameterPointerType>
 void printParameterWithName(std::ostream & outputStream, std::string const& parameterName, ParameterPointerType * parameterPointer);
 template <>
@@ -59,7 +60,8 @@ void printParameterWithName(std::ostream & outputStream, std::string const& para
 
 // Utilities
 
-template<unsigned int index, typename... ValueTypes>typename std::enable_if<index == sizeof...(ValueTypes), void>::type
+template<unsigned int index, typename... ValueTypes>
+typename std::enable_if<index == sizeof...(ValueTypes), void>::type
 printParametersRecusively(std::ostream &, std::tuple<ValueTypes...> const&)
 {
 }
@@ -159,6 +161,7 @@ void printParameter(std::ostream & outputStream, Adapter<ValueType, std::deque<V
     outputStream << "{adapter: ";    printParameter(outputStream, getUnderlyingContainer(adapter));
     outputStream << "}";
 }
+
 
 
 // printParameterWithName
@@ -265,4 +268,5 @@ void printParameterWithName(std::ostream & outputStream, std::string const& para
     outputStream << parameterName << " : [";    printParameter(outputStream, adapter);
     outputStream<< "]";
 }
+
 }//namespace alba

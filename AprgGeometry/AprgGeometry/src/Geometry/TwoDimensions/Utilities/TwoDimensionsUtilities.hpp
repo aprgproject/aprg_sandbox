@@ -16,6 +16,7 @@
 #include <Geometry/TwoDimensions/Constructs/Triangle.hpp>
 
 #include <functional>
+
 namespace alba
 {
 
@@ -25,7 +26,8 @@ namespace TwoDimensions
 namespace twoDimensionsUtilities
 {
 
-bool isOrigin(Point const& point);bool isInsideTwoPoints(Point const& point, Point const& minimumXAndY, Point const& maximumXAndY);
+bool isOrigin(Point const& point);
+bool isInsideTwoPoints(Point const& point, Point const& minimumXAndY, Point const& maximumXAndY);
 bool isPointInLine(Point const& point, Line const& line);
 bool isCongruent(Triangle const& triangle1, Triangle const& triangle2);
 bool areLinesParallel(Line const& line1, Line const& line2);

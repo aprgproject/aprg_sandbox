@@ -4,6 +4,7 @@
 #include <Geometry/ThreeDimensions/Constructs/Point.hpp>
 
 #include <vector>
+
 namespace alba
 {
 

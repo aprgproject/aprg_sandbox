@@ -4,7 +4,8 @@
 #include <Geometry/TwoDimensions/Constructs/Rectangle.hpp>
 
 #include <algorithm>
-#include <cmath>#include <stack>
+#include <cmath>
+#include <stack>
 
 using namespace alba::mathHelper;
 using namespace std;
@@ -18,7 +19,8 @@ namespace TwoDimensions
 namespace twoDimensionsUtilities
 {
 
-bool isOrigin(Point const& point){
+bool isOrigin(Point const& point)
+{
     return point.getX()==0 && point.getY()==0;
 }
 

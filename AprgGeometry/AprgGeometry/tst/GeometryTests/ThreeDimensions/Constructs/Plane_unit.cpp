@@ -1,6 +1,7 @@
 #include <Geometry/ThreeDimensions/Constructs/Plane.hpp>
 
 #include <gtest/gtest.h>
+
 #include <cmath>
 
 using namespace std;

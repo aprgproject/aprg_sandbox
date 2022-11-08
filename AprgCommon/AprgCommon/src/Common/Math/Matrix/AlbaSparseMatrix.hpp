@@ -185,7 +185,8 @@ public:
             if(!isEqualForMathMatrixDataType(dataSampleValues.at(i), static_cast<DataType>(0)))            {
                 m_matrixData[i] = dataSampleValues.at(i);
             }
-        }    }
+        }
+    }
 
     void clearAndResize(unsigned int const numberOfColumns, unsigned int const numberOfRows)
     {

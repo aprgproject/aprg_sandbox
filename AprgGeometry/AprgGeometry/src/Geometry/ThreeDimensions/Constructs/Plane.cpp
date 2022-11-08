@@ -1,15 +1,16 @@
 #include "Plane.hpp"
 
 #include <Common/Container/AlbaValueRange.hpp>
+#include <Common/Math/Vector/AlbaMathVectorUtilities.hpp>
 #include <Geometry/ThreeDimensions/Utilities/ThreeDimensionsUtilities.hpp>
 
 #include <cmath>
-
 using namespace alba::mathHelper;
 using namespace alba::ThreeDimensions::threeDimensionsUtilities;
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 namespace ThreeDimensions
 {
@@ -27,16 +28,15 @@ Plane::Plane(Point const& first, Point const& second, Point const& third)
     , m_cCoefficient(0)
     , m_dCoefficient(0)
 {
-    Coordinate perpendicularCoefficients(
+    Vector perpendicularVector(
                 getCrossProduct(
-                    Coordinate(first.getX()-second.getX(), first.getY()-second.getY(), first.getZ()-second.getZ()),
-                    Coordinate(first.getX()-third.getX(), first.getY()-third.getY(), first.getZ()-third.getZ())));
-    m_aCoefficient = perpendicularCoefficients.getX();
-    m_bCoefficient = perpendicularCoefficients.getY();
-    m_cCoefficient = perpendicularCoefficients.getZ();
+                    Vector{first.getX()-second.getX(), first.getY()-second.getY(), first.getZ()-second.getZ()},
+                    Vector{first.getX()-third.getX(), first.getY()-third.getY(), first.getZ()-third.getZ()}));
+    m_aCoefficient = perpendicularVector.getValueAt(0);
+    m_bCoefficient = perpendicularVector.getValueAt(1);
+    m_cCoefficient = perpendicularVector.getValueAt(2);
     calculateDCoefficientUsingCoefficientsABCAndAPoint(first);
 }
-
 Plane::Plane(
         double const aCoefficient,
         double const bCoefficient,

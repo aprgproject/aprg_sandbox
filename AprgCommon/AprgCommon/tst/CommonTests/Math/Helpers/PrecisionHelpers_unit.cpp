@@ -7,6 +7,7 @@
 using namespace std;
 namespace alba
 {
+
 namespace mathHelper
 {
 
@@ -33,7 +34,8 @@ TEST(PrecisionHelpersTest, DoubleTypesCanBeConsideredEqual)
 }
 TEST(PrecisionHelpersTest, IsAlmostAnIntegerWorks)
 {
-    EXPECT_TRUE((isAlmostAnInteger<float, int>(0)));    EXPECT_TRUE((isAlmostAnInteger<float, int>(1)));
+    EXPECT_TRUE((isAlmostAnInteger<float, int>(0)));
+    EXPECT_TRUE((isAlmostAnInteger<float, int>(1)));
     EXPECT_TRUE((isAlmostAnInteger<float, int>(2)));
     EXPECT_FALSE((isAlmostAnInteger<float, int>(3.00001)));
     EXPECT_TRUE((isAlmostAnInteger<float, int>(3.0000000000001)));

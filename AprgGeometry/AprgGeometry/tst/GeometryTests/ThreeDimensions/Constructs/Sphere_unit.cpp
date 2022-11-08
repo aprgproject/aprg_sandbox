@@ -1,6 +1,7 @@
 #include <Geometry/ThreeDimensions/Constructs/Sphere.hpp>
 
 #include <gtest/gtest.h>
+
 #include <cmath>
 
 using namespace alba::mathHelper;
