@@ -7,22 +7,22 @@ if(WIN32)
     #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -mwindows")
 endif()
 
-message("CMAKE_C_FLAGS are: [${CMAKE_C_FLAGS}]")
-message("CMAKE_CXX_FLAGS are: [${CMAKE_CXX_FLAGS}]")
+message("Initial CMAKE_C_FLAGS are: [${CMAKE_C_FLAGS}]")
+message("Initial CMAKE_CXX_FLAGS are: [${CMAKE_CXX_FLAGS}]")
 
 #APRG unique flags
 set(APRG_COMPILER_FLAGS_FOR_DEBUG "-g --coverage")
+set(APRG_COMPILER_FLAGS_FOR_DEBUG_WITH_MORE_SPEED "-g --coverage -Ofast")
 set(APRG_COMPILER_FLAGS_FOR_RELEASE_WITH_SPEED "-O3 -DNDEBUG")
 set(APRG_COMPILER_FLAGS_FOR_RELEASE_WITH_MIN_SIZE "-Os -DNDEBUG")
 set(APRG_COMPILER_FLAGS_FOR_RELEASE_WITH_DEBUG "-O2 -g -DNDEBUG")
+set(APRG_COMPILER_FLAGS_FOR_RELEASE_WITH_MORE_SPEED "-Ofast -DNDEBUG")
 set(APRG_LINKER_FLAGS_FOR_RELEASE "-static") # "-static" is needed to make the program work in other deployments (GCC/QT libraries are missing in other deployments)
 set(APRG_LINKER_FLAGS_FOR_RELEASE_WITH_STRIP "-static -s")
 
-
 # Some notes
 # Sources:
-# --> https://gcc.gnu.org/onlinedocs/gcc/Option-Summary.html
-# --> https://caiorss.github.io/C-Cpp-Notes/compiler-flags-options.html
+# --> https://gcc.gnu.org/onlinedocs/gcc/Option-Summary.html# --> https://caiorss.github.io/C-Cpp-Notes/compiler-flags-options.html
 
 # Search Path and Library Linking Flags
 # Flag: -l[linalg]
