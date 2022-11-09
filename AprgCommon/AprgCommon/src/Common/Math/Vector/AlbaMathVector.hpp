@@ -25,29 +25,24 @@ public:
     using ValuesInArray=std::array<DataType, SIZE>;
 
     AlbaMathVector()
-    {
-        std::fill(m_values.begin(), m_values.end(), DataType(0));
-    }
+        : m_values{}
+    {}
 
     AlbaMathVector(ValuesInArray const& values)
-    {
-        std::copy(values.begin(), values.end(), m_values.begin());
-    }
+        : m_values(values)
+    {}
 
     AlbaMathVector(std::initializer_list<DataType> const& values)
+        : m_values{}
     {
-        static_assert(SIZE>0, "The SIZE of AlbaMathVector should be positive.");
         unsigned int limit = std::min(SIZE, static_cast<unsigned int>(values.size()));
         std::copy(values.begin(), values.begin()+limit, m_values.begin());
-        std::fill(m_values.begin()+limit, m_values.end(), DataType(0));
     }
 
-    bool operator==(AlbaMathVectorType const& second) const
-    {
+    bool operator==(AlbaMathVectorType const& second) const    {
         return std::equal(m_values.cbegin(), m_values.cend(), second.m_values.cbegin(),
                           [](DataType const first, DataType const second)
-        {
-            return isEqualForMathVectorDataType(first, second);
+        {            return isEqualForMathVectorDataType(first, second);
         });
     }
 

@@ -94,15 +94,21 @@ TEST(AlbaMathVectorUtilitiesTest, GetDotProductWorks)
     EXPECT_DOUBLE_EQ(6, getDotProduct(mathVector1, mathVector2));
 }
 
-TEST(AlbaMathVectorUtilitiesTest, GetCrossProductWorks)
+TEST(AlbaMathVectorUtilitiesTest, GetCrossProductWorksForTwoDimensions)
+{
+    VectorTwoElements mathVector1{2, 1};
+    VectorTwoElements mathVector2{3, -1};
+
+    EXPECT_DOUBLE_EQ(-5, getCrossProduct(mathVector1, mathVector2));
+}
+
+TEST(AlbaMathVectorUtilitiesTest, GetCrossProductWorksForThreeDimensions)
 {
     VectorThreeElements mathVector1{2, 1, -3};
     VectorThreeElements mathVector2{3, -1, 4};
-
     VectorThreeElements vectorToExpect{1, -17, -5};
     EXPECT_EQ(vectorToExpect, getCrossProduct(mathVector1, mathVector2));
 }
-
 TEST(AlbaMathVectorUtilitiesTest, GetAngleBetweenTwoVectorsWorks)
 {
     VectorTwoElements mathVector1{0, 4};
