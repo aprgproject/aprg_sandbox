@@ -39,10 +39,10 @@ public:
     double getCCoefficient() const;
     double getAUnitIncreaseInX() const;
     double getAUnitIncreaseInY() const;
+    Point getAPoint() const;
     Points getPoints(Point const& first, Point const& second, double const interval) const;
     Points getPointsWithoutLastPoint(Point const& first, Point const& second, double const interval) const;
-    double calculateYFromX(double const x) const;
-    double calculateXFromY(double const y) const;
+    double calculateYFromX(double const x) const;    double calculateXFromY(double const y) const;
 
     std::string getDisplayableString() const;
 

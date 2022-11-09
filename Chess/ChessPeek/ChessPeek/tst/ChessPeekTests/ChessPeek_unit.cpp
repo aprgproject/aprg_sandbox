@@ -25,6 +25,7 @@ TEST(ChessPeekTest, CheckScreenAndSaveDetailsWorks)
 
     chessPeek.checkScreenAndSaveDetails();
 }
+
 TEST(ChessPeekTest, StartNewAnalysisUsingEngineWorks)
 {
     ChessPeek chessPeek;

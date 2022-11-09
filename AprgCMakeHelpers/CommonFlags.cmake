@@ -23,7 +23,8 @@ set(APRG_LINKER_FLAGS_FOR_RELEASE_WITH_STRIP "-static -s")
 
 # Some notes
 # Sources:
-# --> https://gcc.gnu.org/onlinedocs/gcc/Option-Summary.html# --> https://caiorss.github.io/C-Cpp-Notes/compiler-flags-options.html
+# --> https://gcc.gnu.org/onlinedocs/gcc/Option-Summary.html
+# --> https://caiorss.github.io/C-Cpp-Notes/compiler-flags-options.html
 
 # Search Path and Library Linking Flags
 # Flag: -l[linalg]

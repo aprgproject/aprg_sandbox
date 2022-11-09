@@ -8,7 +8,8 @@
 #include <ostream>
 #include <vector>
 
-namespace alba{
+namespace alba
+{
 
 namespace chess
 {
@@ -33,7 +34,8 @@ public:
     bool operator!=(Piece const& piece) const;
     bool isEmpty() const;
 
-    PieceColor getColor() const;    PieceType getType() const;
+    PieceColor getColor() const;
+    PieceType getType() const;
     PieceColorAndType getColorAndType() const;
     uint8_t getUnderlyingValue() const;
     char getCharacter() const;
@@ -48,4 +50,5 @@ using Pieces = std::vector<Piece>;
 std::ostream & operator<<(std::ostream & out, Piece const& piece);
 
 }
+
 }

@@ -4,12 +4,17 @@
 #include <Common/Math/Vector/AlbaMathVectorUtilities.hpp>
 #include <Geometry/TwoDimensions/Constructs/Rectangle.hpp>
 
-#include <algorithm>#include <cmath>
+#include <algorithm>
+#include <cmath>
 #include <stack>
+
+
+
+
+#include <Common/Debug/AlbaDebug.hpp>
 
 using namespace alba::mathHelper;
 using namespace std;
-
 namespace alba
 {
 
@@ -62,21 +67,45 @@ bool areLinesPerpendicular(Line const& line1, Line const& line2)
 
 double getDistance(Point const& point1, Point const& point2)
 {
-    double deltaX = point2.getX() - point1.getX();
-    double deltaY = point2.getY() - point1.getY();
-    return getSquareRootOfXSquaredPlusYSquared<double>(deltaX, deltaY);
+    Point delta = point2-point1;
+    return constructVector(delta).getMagnitude();
 }
 
 double getDistance(Line const& line, Point const& point)
 {
-    Point nearestPoint(getIntersectionOfTwoLines(line, getLineWithPerpendicularSlope(line, point)));
-    return getDistance(point, nearestPoint);
+    Point pointInLine1(line.getAPoint());
+    Point pointInLine2(pointInLine1 + Point(line.getAUnitIncreaseInX(), line.getAUnitIncreaseInY()));
+
+    ALBA_PRINT3(pointInLine1, pointInLine2, point);
+    return getDistance(LineSegment{pointInLine1, pointInLine2}, point);
+}
+
+double getDistance(LineSegment const& lineSegment, Point const& point)
+{
+    // Point distance from a line
+    // Another feature of cross products is that the area of a triangle can be calculated using the formula
+    // distance = |(a-c)x(b-c)|/2
+    // where a, b and c are the vertices of the triangle.
+
+    // Using this fact, we can derive a formula for calculating the shortest distance between a point and a line.
+    // For example, in the following picture d is the shortest distance between the point p and the line that is defined by the points s1 and s2:
+
+    // The area of the triangle whose vertices are s1, s2 and p can be calculated in two ways:
+    // -> it is both |s2-s1|*d/2 or ((s1-p)x(s2-p))/2.
+    // Thus, the shortest distance is d = (s1-p)x(s2-p) / |s2-s1|
+
+    Point deltaS1AndP = lineSegment.first-point;
+    Point deltaS2AndP = lineSegment.second-point;
+    Point deltaS1AndS2 = lineSegment.second-lineSegment.first;
+
+    ALBA_PRINT3(deltaS1AndP, deltaS2AndP, deltaS1AndS2);
+    return getAbsoluteValue(getCrossProduct(constructVector(deltaS1AndP), constructVector(deltaS2AndP)))
+            / constructVector(deltaS1AndS2).getMagnitude();
 }
 
 double getDistance(Line const& line1, Line const& line2)
 {
-    double distance(0);
-    if(!areLinesParallel(line1, line2))
+    double distance(0);    if(!areLinesParallel(line1, line2))
     {
         Line perpendicularLine(getLineWithPerpendicularSlope(line1, Point(0,0)));
         Point pointOfIntersectionInLine1(getIntersectionOfTwoLines(perpendicularLine, line1));
@@ -101,6 +130,7 @@ double getCosineOfAngleUsing2Deltas(Vector const& deltaVector1, Vector const& de
     double denominatorPart = deltaVector1.getMagnitude() * deltaVector2.getMagnitude();
     return numeratorPart/denominatorPart;
 }
+
 double getArcLength(AlbaAngle const& angle, double const radius)
 {
     return angle.getRadians() * radius;
@@ -108,42 +138,67 @@ double getArcLength(AlbaAngle const& angle, double const radius)
 
 double getSignedCounterClockwiseTriangleAreaOfOriginAnd2Points(Point const& point1, Point const& point2)
 {
-    return getCrossProduct(Vector{point1.getX(), point1.getY()}, Vector{point2.getX(), point2.getY()}) / 2;
+    return getCrossProduct(constructVector(point1), constructVector(point2)) / 2;
 }
 
-double getSignedCounterClockwiseTriangleSquaredAreaOf3Points(Point const& a, Point const& b, Point const& c)
-{
+double getSignedCounterClockwiseTriangleSquaredAreaOf3Points(Point const& a, Point const& b, Point const& c){
     Point deltaBA(b-a);
     Point deltaCA(c-a);
-    Vector deltaVectorBA{deltaBA.getX(), deltaBA.getY()};
-    Vector deltaVectorCA{deltaCA.getX(), deltaCA.getY()};
 
-    return getCrossProduct(deltaVectorBA, deltaVectorCA);
+    return getCrossProduct(constructVector(deltaBA), constructVector(deltaCA));
 }
 
-double getSignedCounterClockwiseTriangleAreaOf3Points(Point const& a, Point const& b, Point const& c)
-{
+double getSignedCounterClockwiseTriangleAreaOf3Points(Point const& a, Point const& b, Point const& c){
     double signedAreaSquared(getSignedCounterClockwiseTriangleSquaredAreaOf3Points(a, b, c));
     return getSign(signedAreaSquared)*sqrt(getAbsoluteValue(signedAreaSquared));
 }
 
-template<unsigned int numberOfVertices>double getArea(Polygon<numberOfVertices> const& polygon)
+double getAreaOfTriangleUsingHeronsFormula(Triangle const& triangle)
 {
-    //shoelace formula
-    //https://en.wikipedia.org/wiki/Shoelace_formula
-    //check also: https://en.wikipedia.org/wiki/Green%27s_theorem
+    // The area of a triangle can be calculated, for example, using Heron’s formula:
+    // area = sqrt(s(s-a)(s-b)(s-c)),
+    // where a, b and c are the lengths of the triangle’s sides and s = (a+b+c)/2.
+    auto sides(triangle.getLengthOfSides());
+    double s = (sides.at(0)+sides.at(1)+sides.at(2))/2;
+    return sqrt(s * (s-sides.at(0)) * (s-sides.at(1)) * (s-sides.at(2)));
+}
+
+double getAreaOfQuadrilateral(Quadrilateral const& quadrilateral)
+{
+    // Namely, there is a general formula:
+    // area = x1y2 - x2y1 + x2y3 - x3y2 + x3y4 - x4y3 + x4y1 - x1y4
+    // that calculates the area of a quadrilateral whose vertices are (x1, y1), (x2, y2), (x3, y3) and (x4, y4).
+    // This formula is easy to implement, there are no special cases, and we can even generalize the formula to all polygons.
+    // Note: This is same with shoelace formula
+
+    Points points(quadrilateral.getVertices());
+    return getAbsoluteValue(points.at(0).getX()*points.at(1).getY()
+            - points.at(1).getX()*points.at(0).getY()
+            + points.at(1).getX()*points.at(2).getY()
+            - points.at(2).getX()*points.at(1).getY()
+            + points.at(2).getX()*points.at(3).getY()
+            - points.at(3).getX()*points.at(2).getY()
+            + points.at(3).getX()*points.at(0).getY()
+            - points.at(0).getX()*points.at(3).getY())/2;
+}
+
+template<unsigned int numberOfVertices>
+double getArea(Polygon<numberOfVertices> const& polygon)
+{
+    // shoelace formula
+    // https://en.wikipedia.org/wiki/Shoelace_formula
+    // check also: https://en.wikipedia.org/wiki/Green%27s_theorem
+
     double area(0);
     Points const& vertices(polygon.getVertices());
-    int sizeMinusOne = static_cast<int>(vertices.size())-1;
-    for(int i=0; i<sizeMinusOne; i++)
+    int sizeMinusOne = static_cast<int>(vertices.size())-1;    for(int i=0; i<sizeMinusOne; i++)
     {
         area += getSignedCounterClockwiseTriangleAreaOfOriginAnd2Points(vertices[i], vertices[i+1]);
     }
-    area += getSignedCounterClockwiseTriangleAreaOfOriginAnd2Points(vertices[0], vertices[sizeMinusOne]);
+    area += getSignedCounterClockwiseTriangleAreaOfOriginAnd2Points(vertices[sizeMinusOne], vertices[0]);
     area = getAbsoluteValue(area);
     return area;
-}
-template double getArea<3>(Polygon<3> const& polygon);
+}template double getArea<3>(Polygon<3> const& polygon);
 template double getArea<4>(Polygon<4> const& polygon);
 
 ConicSectionType getConicSectionBasedOnEccentricity(
@@ -169,10 +224,19 @@ ConicSectionType getConicSectionBasedOnEccentricity(
     return result;
 }
 
+Vector constructVector(AlbaXY<double> const& xy)
+{
+    return Vector{xy.getX(), xy.getY()};
+}
+
+Vector constructDeltaVector(Line const& line)
+{
+    return Vector{line.getAUnitIncreaseInX(), line.getAUnitIncreaseInY()};
+}
+
 ConicSectionType getConicSectionBasedOnGeneralForm(
         double const a,
-        double const b,
-        double const c,
+        double const b,        double const c,
         double const d,
         double const e)
 {
@@ -270,21 +334,23 @@ Quadrant getQuadrantOfAPoint(Point const& point)
 
 RotationDirection getRotationDirectionTraversing3Points(Point const a, Point const b, Point const c)
 {
+    // The cross product axb of vectors a = (x1,y1) and b = (x2,y2) is calculated using he formula x1 y2¡x2 y1.
+    // The cross product tells us whether b turns left (positive value),
+    //does not turn (zero) or turns right (negative value) when it is placed directly after a.
+
     RotationDirection result(RotationDirection::None);
     Point deltaBA(b-a);
     Point deltaCA(c-a);
-    Vector deltaVectorBA{deltaBA.getX(), deltaBA.getY()};
-    Vector deltaVectorCA{deltaCA.getX(), deltaCA.getY()};
 
-    double area = getCrossProduct(deltaVectorBA, deltaVectorCA);
-    if (area > 0)
+    double crossProduct = getCrossProduct(constructVector(deltaBA), constructVector(deltaCA));
+    if (crossProduct > 0)
     {
-        result = RotationDirection::CounterClockWise;    }
-    else if (area < 0)
+        result = RotationDirection::CounterClockWise;
+    }
+    else if (crossProduct < 0)
     {
         result = RotationDirection::ClockWise;
-    }
-    return result;
+    }    return result;
 }
 
 AlbaAngle getAngleOfPointWithRespectToOrigin(Point const& point)
@@ -318,13 +384,10 @@ AlbaAngle getTheInnerAngleUsingThreePoints(
     Point deltaBA(firstPoint-commonPoint);
     Point deltaCA(secondPoint-commonPoint);
 
-    Vector deltaVectorBA{deltaBA.getX(), deltaBA.getY()};
-    Vector deltaVectorCA{deltaCA.getX(), deltaCA.getY()};
-    return AlbaAngle(AngleUnitType::Radians, acos(getCosineOfAngleUsing2Deltas(deltaVectorBA, deltaVectorCA)));
+    return AlbaAngle(AngleUnitType::Radians, acos(getCosineOfAngleUsing2Deltas(constructVector(deltaBA), constructVector(deltaCA))));
 }
 
-AlbaAngle getTheSmallerAngleBetweenTwoLines(Line const& line1, Line const& line2)
-{
+AlbaAngle getTheSmallerAngleBetweenTwoLines(Line const& line1, Line const& line2){
     AlbaAngle result;
     if(areLinesParallel(line1, line2))
     {
@@ -337,38 +400,69 @@ AlbaAngle getTheSmallerAngleBetweenTwoLines(Line const& line1, Line const& line2
     else
     {
         //absolute value is used to ensure lower angle
-
-        Vector lineVector1{line1.getAUnitIncreaseInX(), line1.getAUnitIncreaseInY()};
-        Vector lineVector2{line2.getAUnitIncreaseInX(), line2.getAUnitIncreaseInY()};
-        result = AlbaAngle(AngleUnitType::Radians, acos(getAbsoluteValue(getCosineOfAngleUsing2Deltas(lineVector1, lineVector2))));
+        result = AlbaAngle(
+                    AngleUnitType::Radians,
+                    acos(getAbsoluteValue(getCosineOfAngleUsing2Deltas(constructDeltaVector(line1), constructDeltaVector(line2)))));
     }
     return result;
 }
-
-AlbaAngle getTheLargerAngleBetweenTwoLines(Line const& line1, Line const& line2){
+AlbaAngle getTheLargerAngleBetweenTwoLines(Line const& line1, Line const& line2)
+{
     AlbaAngle smallerAngle(getTheSmallerAngleBetweenTwoLines(line1, line2));
     return AlbaAngle(AngleUnitType::Degrees, 180-smallerAngle.getDegrees());
 }
 
 Point getIntersectionOfTwoLines(Line const& line1, Line const& line2)
 {
-    Vector bcVector1{line1.getBCoefficient(), line1.getCCoefficient()};
-    Vector bcVector2{line2.getBCoefficient(), line2.getCCoefficient()};
     Vector abVector1{line1.getACoefficient(), line1.getBCoefficient()};
     Vector abVector2{line2.getACoefficient(), line2.getBCoefficient()};
+    Vector bcVector1{line1.getBCoefficient(), line1.getCCoefficient()};
+    Vector bcVector2{line2.getBCoefficient(), line2.getCCoefficient()};
     Vector acVector1{line1.getACoefficient(), line1.getCCoefficient()};
     Vector acVector2{line2.getACoefficient(), line2.getCCoefficient()};
-    Vector baVector1{line1.getBCoefficient(), line1.getACoefficient()};
-    Vector baVector2{line2.getBCoefficient(), line2.getACoefficient()};
+    double abCrossProduct = getCrossProduct(abVector1, abVector2);
 
-    double xOfIntersection = getCrossProduct(bcVector1, bcVector2) / getCrossProduct(abVector1, abVector2);
-    double yOfIntersection = getCrossProduct(acVector1, acVector2) / getCrossProduct(baVector1, baVector2);
+    double xOfIntersection = getCrossProduct(bcVector1, bcVector2) / abCrossProduct;
+    double yOfIntersection = getCrossProduct(acVector1, acVector2) / -abCrossProduct;
     return Point(xOfIntersection, yOfIntersection);
 }
+
+Point getIntersectionOfTwoLineSegment(LineSegment const& segment1, LineSegment const& segment2)
+{
+    // Next we consider the problem of testing whether two line segments ab and cd intersect.
+    // The possible cases are:
+    // ---> Case 1: The line segments are on the same line and they overlap each other.
+    // In this case, there is an infinite number of intersection points.
+    // In this case, we can use cross products to check if all points are on the same line.
+    // After this, we can sort the points and check whether the line segments overlap each other.
+    // ---> Case 2: The line segments have a common vertex that is the only intersection point.
+    // This case is easy to check, because there are only four possibilities for the intersection point: a=c, a=d, b=c and b=d.
+    // ---> Case 3: There is exactly one intersection point that is not a vertex of any line segment.
+    // In the following picture, the point p is the intersection point:
+    // In this case, the line segments intersect exactly when both points c and d are on different sides of a line through a and b,
+    // and points a and b are on different sides of a line through c and d. We can use cross products to check this.
+
+    RotationDirection direction1 = getRotationDirectionTraversing3Points(segment1.first, segment1.second, segment2.first);
+    RotationDirection direction2 = getRotationDirectionTraversing3Points(segment1.first, segment1.second, segment2.second);
+    Point result;
+    if(RotationDirection::None == direction1 && RotationDirection::None != direction2)
+    {
+        result = Point(segment2.first);
+    }
+    else if(RotationDirection::None != direction1 && RotationDirection::None == direction2)
+    {
+        result = Point(segment2.second);
+    }
+    else if(RotationDirection::None != direction1 && RotationDirection::None != direction2)
+    {
+        result = getIntersectionOfTwoLines(Line(segment1.first, segment1.second), Line(segment2.first, segment2.second));
+    }
+    return result;
+}
+
 Point getMidpoint(Point const& point1, Point const& point2)
 {
-    return Point((point1.getX()+point2.getX())/2,  (point1.getY()+point2.getY())/2);
-}
+    return Point((point1.getX()+point2.getX())/2,  (point1.getY()+point2.getY())/2);}
 
 Point getPointAlongALineWithDistanceFromAPoint(
         Line const& line,
@@ -480,11 +574,10 @@ Point convertFromPolarCoordinates(PolarCoordinate const& coordinate)
 PolarCoordinate convertToPolarCoordinate(Point const& point)
 {
     PolarCoordinate polarCoordinate;
-    polarCoordinate.radius = getSquareRootOfXSquaredPlusYSquared<double>(point.getX(), point.getY());
+    polarCoordinate.radius = constructVector(point).getMagnitude();
     polarCoordinate.angle = getAngleOfPointWithRespectToOrigin(point);
     return polarCoordinate;
 }
-
 Points getConnectedPointsUsingALine(Points const& inputPoints, double const interval)
 {
     Points resultingPoints;

@@ -17,6 +17,7 @@ namespace alba
 
 namespace chess
 {
+
 class ChessPeek
 {
 public:
@@ -31,7 +32,8 @@ public:
         int scoreInCentipawns;
         unsigned int mateInNumberOfMoves;
         std::string bestMove;
-        stringHelper::strings currentlySearchingMoves;        stringHelper::strings pvMovesInBestLine;
+        stringHelper::strings currentlySearchingMoves;
+        stringHelper::strings pvMovesInBestLine;
     };
 
     ChessPeek();
@@ -46,7 +48,8 @@ public:
 
 private:
     bool didBoardChange(Board::PieceMatrix const& previousPieceMatrix) const;
-    bool canAnalyzeBoard() const;    bool doCorrectKingsExist() const;
+    bool canAnalyzeBoard() const;
+    bool doCorrectKingsExist() const;
     bool isPlayerKingAndOpponentKingValid() const;
     bool isOpponentKingOnCheck() const;
 
@@ -57,6 +60,7 @@ private:
 
     void saveCalculationDetails(EngineCalculationDetails const& engineCalculationDetails);
     void checkCalculationDetailsFromEngine();
+
     Moves getCurrentMoves(std::string const& bestMoveToDisplay) const;
     Moves getFutureMoves() const;
     std::string getBestMoveToDisplayString() const;
@@ -79,7 +83,8 @@ private:
     PeekCalculationDetails m_savedCalculationDetails;
     Board m_chessBoard;
     PieceColor m_playerColor;
-    Coordinate m_playerKingCoordinate;    Coordinate m_opponentKingCoordinate;
+    Coordinate m_playerKingCoordinate;
+    Coordinate m_opponentKingCoordinate;
     unsigned int m_numberOfDetectedKings;
     bool m_isEngineNewlyReseted;
 };

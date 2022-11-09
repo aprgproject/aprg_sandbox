@@ -9,6 +9,7 @@
 
 using namespace alba::mathHelper;
 using namespace std;
+
 namespace alba
 {
 
@@ -42,7 +43,8 @@ bool isCoordinateValuesInLineEqual(
         double const coordinate2Value,
         double const coordinate2InitialValue,
         AlbaOptional<double> const& coordinateOptionalToCompare2,
-        double const coordinate3Value,        double const coordinate3InitialValue)
+        double const coordinate3Value,
+        double const coordinate3InitialValue)
 {
     bool result(false);
     if(coordinateOptionalToCompare1.hasContent())
@@ -102,6 +104,7 @@ bool isPointInLine(Point const& point, Line const& line)
             && isCoordinateValuesInLineEqual(point.getY(), line.calculateYFromX(point.getX()), point.getX(), line.getXInitialValue(), line.calculateYFromZ(point.getZ()), point.getZ(), line.getZInitialValue())
             && isCoordinateValuesInLineEqual(point.getZ(), line.calculateZFromX(point.getX()), point.getX(), line.getXInitialValue(), line.calculateZFromY(point.getY()), point.getY(), line.getYInitialValue());
 }
+
 bool isPointInPlane(Point const& point, Plane const& plane)
 {
     return isCoordinateValuesInPlaneEqual(point.getX(), plane.calculateXFromYAndZ(point.getY(), point.getZ()))
@@ -118,39 +121,46 @@ bool isLineInPlane(Line const& line, Plane const& plane)
 
 bool areLinesParallel(Line const& line1, Line const& line2)
 {
-    Vector lineVector1{line1.getACoefficient(), line1.getBCoefficient(), line1.getCCoefficient()};
-    Vector lineVector2{line2.getACoefficient(), line2.getBCoefficient(), line2.getCCoefficient()};
-    return areVectorsParallel(lineVector1, lineVector2);
+    return areVectorsParallel(constructDeltaVector(line1), constructDeltaVector(line2));
 }
 
 bool arePlanesParallel(Plane const& plane1, Plane const& plane2)
 {
-    Vector planeVector1{plane1.getACoefficient(), plane1.getBCoefficient(), plane1.getCCoefficient()};
-    Vector planeVector2{plane2.getACoefficient(), plane2.getBCoefficient(), plane2.getCCoefficient()};
-    return areVectorsParallel(planeVector1, planeVector2);
+    return areVectorsParallel(constructNormalVector(plane1), constructNormalVector(plane2));
 }
 
 bool areLinesPerpendicular(Line const& line1, Line const& line2)
 {
-    Vector line1Vector{line1.getACoefficient(), line1.getBCoefficient(), line1.getCCoefficient()};
-    Vector line2Coefficients{line2.getACoefficient(), line2.getBCoefficient(), line2.getCCoefficient()};
-    return areVectorsPerpendicular(line1Vector, line2Coefficients);
+    return areVectorsPerpendicular(constructDeltaVector(line1), constructDeltaVector(line2));
 }
 
 bool arePlanesPerpendicular(Plane const& plane1, Plane const& plane2)
 {
-    Vector planeVector1{plane1.getACoefficient(), plane1.getBCoefficient(), plane1.getCCoefficient()};
-    Vector planeVector2{plane2.getACoefficient(), plane2.getBCoefficient(), plane2.getCCoefficient()};
-    return areVectorsPerpendicular(planeVector1, planeVector2);
+    return areVectorsPerpendicular(constructNormalVector(plane1), constructNormalVector(plane2));
+}
+
+Vector constructVector(AlbaXYZ<double> const& xyz)
+{
+    return Vector{xyz.getX(), xyz.getY(), xyz.getZ()};
+}
+
+Vector constructDeltaVector(Line const& line)
+{
+    return Vector{line.getACoefficient(), line.getBCoefficient(), line.getCCoefficient()};
+}
+
+Vector constructNormalVector(Plane const& plane)
+{
+    return Vector{plane.getACoefficient(), plane.getBCoefficient(), plane.getCCoefficient()};
 }
 
 double getDistance(Point const& point1, Point const& point2)
 {
-    Point delta(point2 - point1);
-    return getSquareRootOfXSquaredPlusYSquaredPlusZSquared<double>(delta.getX(), delta.getY(), delta.getZ());
+    Point delta(point2 - point1);    return getSquareRootOfXSquaredPlusYSquaredPlusZSquared<double>(delta.getX(), delta.getY(), delta.getZ());
 }
 
-double getDistance(Line const& line, Point const& point){
+double getDistance(Line const& line, Point const& point)
+{
     Plane perpendicularPlane(getPerpendicularPlaneOfALineAndUsingAPointInThePlane(line, point));
     Point nearestPoint(getPointOfIntersectionOfAPlaneAndALine(perpendicularPlane, line));
     return getDistance(point, nearestPoint);
@@ -168,13 +178,9 @@ double getDistance(Line const& line1, Line const& line2)
     }
     else
     {
-        Vector directionVector1{line1.getACoefficient(), line1.getBCoefficient(), line1.getCCoefficient()};
-        Vector directionVector2{line2.getACoefficient(), line2.getBCoefficient(), line2.getCCoefficient()};
-        Vector perpendicularVector(getCrossProduct(directionVector1, directionVector2));
-
+        Vector perpendicularVector(getCrossProduct(constructDeltaVector(line1), constructDeltaVector(line2)));
         Point pointInLine1(line1.getXInitialValue(), line1.getYInitialValue(), line1.getZInitialValue());
         Point pointInLine2(line2.getXInitialValue(), line2.getYInitialValue(), line2.getZInitialValue());
-
         Plane plane1(perpendicularVector.getValueAt(0), perpendicularVector.getValueAt(1), perpendicularVector.getValueAt(2), pointInLine1);
         Plane plane2(perpendicularVector.getValueAt(0), perpendicularVector.getValueAt(1), perpendicularVector.getValueAt(2), pointInLine2);
 
@@ -183,7 +189,8 @@ double getDistance(Line const& line1, Line const& line2)
     return distance;
 }
 
-double getDistance(Plane const& plane1, Plane const& plane2){
+double getDistance(Plane const& plane1, Plane const& plane2)
+{
     double distance(0);
     if(arePlanesParallel(plane1, plane2))
     {
@@ -205,32 +212,32 @@ double getCosineOfAngleUsing2Deltas(Vector const& deltaVector1, Vector const& de
 
 AlbaAngle getTheInnerAngleUsingThreePoints(Point const& pointA, Point const& pointB, Point const& pointC)
 {
-    Point deltaBA(pointB-pointA);    Point deltaCA(pointC-pointA);
-    Vector deltaVectorBA{deltaBA.getX(), deltaBA.getY(), deltaBA.getZ()};
-    Vector deltaVectorCA{deltaCA.getX(), deltaCA.getY(), deltaCA.getZ()};
-    return AlbaAngle(AngleUnitType::Radians, acos(getCosineOfAngleUsing2Deltas(deltaVectorBA, deltaVectorCA)));
+    Point deltaBA(pointB-pointA);
+    Point deltaCA(pointC-pointA);
+    return AlbaAngle(AngleUnitType::Radians, acos(getCosineOfAngleUsing2Deltas(constructVector(deltaBA), constructVector(deltaCA))));
 }
 
-AlbaAngle getTheSmallerAngleBetweenTwoLines(Line const& line1, Line const& line2)
-{
+AlbaAngle getTheSmallerAngleBetweenTwoLines(Line const& line1, Line const& line2){
     AlbaAngle smallerAngle;
     if(areLinesParallel(line1, line2))
-    {        smallerAngle = AlbaAngle(AngleUnitType::Degrees, 0);
+    {
+        smallerAngle = AlbaAngle(AngleUnitType::Degrees, 0);
     }
     else
     {
         //absolute value is used to ensure lower angle
         //from cos theta = (dotproduct of coefficients v1 and v2)/(magnitude of v1 * magnitude of v2)
-        Vector lineVector1{line1.getACoefficient(), line1.getBCoefficient(), line1.getCCoefficient()};
-        Vector lineVector2{line2.getACoefficient(), line2.getBCoefficient(), line2.getCCoefficient()};
-        smallerAngle = AlbaAngle(AngleUnitType::Radians, acos(getAbsoluteValue(getCosineOfAngleUsing2Deltas(lineVector1, lineVector2))));
+
+        smallerAngle = AlbaAngle(
+                    AngleUnitType::Radians,
+                    acos(getAbsoluteValue(getCosineOfAngleUsing2Deltas(constructDeltaVector(line1), constructDeltaVector(line2)))));
     }
     return smallerAngle;
 }
-
 AlbaAngle getTheLargerAngleBetweenTwoLines(Line const& line1, Line const& line2)
 {
-    AlbaAngle smallerAngle(getTheSmallerAngleBetweenTwoLines(line1, line2));    return AlbaAngle(AngleUnitType::Degrees, 180-smallerAngle.getDegrees());
+    AlbaAngle smallerAngle(getTheSmallerAngleBetweenTwoLines(line1, line2));
+    return AlbaAngle(AngleUnitType::Degrees, 180-smallerAngle.getDegrees());
 }
 
 AlbaAngle getTheSmallerDihedralAngleBetweenTwoPlanes(Plane const& plane1, Plane const& plane2)
@@ -242,16 +249,16 @@ AlbaAngle getTheSmallerDihedralAngleBetweenTwoPlanes(Plane const& plane1, Plane 
     }
     else
     {
-        Vector planeVector1{plane1.getACoefficient(), plane1.getBCoefficient(), plane1.getCCoefficient()};
-        Vector planeVector2{plane2.getACoefficient(), plane2.getBCoefficient(), plane2.getCCoefficient()};
-        result = AlbaAngle(AngleUnitType::Radians, acos(getAbsoluteValue(getCosineOfAngleUsing2Deltas(planeVector1, planeVector2))));
+        result = AlbaAngle(
+                    AngleUnitType::Radians,
+                    acos(getAbsoluteValue(getCosineOfAngleUsing2Deltas(constructNormalVector(plane1), constructNormalVector(plane2)))));
     }
     return result;
 }
-
 AlbaAngle getTheLargerDihedralAngleBetweenTwoPlanes(Plane const& plane1, Plane const& plane2)
 {
-    AlbaAngle smallerAngle(getTheSmallerDihedralAngleBetweenTwoPlanes(plane1, plane2));    return AlbaAngle(AngleUnitType::Degrees, 180-smallerAngle.getDegrees());
+    AlbaAngle smallerAngle(getTheSmallerDihedralAngleBetweenTwoPlanes(plane1, plane2));
+    return AlbaAngle(AngleUnitType::Degrees, 180-smallerAngle.getDegrees());
 }
 
 Point getMidpoint(Point const& point1, Point const& point2)
@@ -295,13 +302,10 @@ Line getLineWithSameSlope(Line const& line, Point const& point)
 Line getLineOfIntersectionOfTwoPlanes(Plane const& plane1, Plane const& plane2)
 {
     Vector perpendicularVector
-            = getCrossProduct(
-                Vector{plane1.getACoefficient(), plane1.getBCoefficient(), plane1.getCCoefficient()},
-                Vector{plane2.getACoefficient(), plane2.getBCoefficient(), plane2.getCCoefficient()});
+            = getCrossProduct(constructNormalVector(plane1), constructNormalVector(plane2));
     double yCoordinateIntersection = getCoordinateinLineIntersection(
                 plane1.getACoefficient(), plane2.getACoefficient(), plane1.getBCoefficient(),
                 plane2.getBCoefficient(), plane1.getDCoefficient(), plane2.getDCoefficient());
-
     //format is a1x+b1y+c1z+d1 = 0
     //format is a2x+b2y+c2z+d2 = 0
     //assuming z=0
@@ -315,7 +319,8 @@ Line getLineOfIntersectionOfTwoPlanes(Plane const& plane1, Plane const& plane2)
 
 Line getPerpendicularLineOfPlaneWithAPoint(Plane const& plane, Point const& point)
 {
-    return Line(plane.getACoefficient(), plane.getBCoefficient(), plane.getCCoefficient(), point.getX(), point.getY(), point.getZ());}
+    return Line(plane.getACoefficient(), plane.getBCoefficient(), plane.getCCoefficient(), point.getX(), point.getY(), point.getZ());
+}
 
 Line getProjectedLineInPlaneOfASkewedPlaneAndLine(Plane const& plane, Line const& line)
 {
@@ -331,7 +336,8 @@ Plane getPlaneWithContainsALineAndAPoint(Line const& line, Point const& point)
 {
     Point point1InLine(line.getXInitialValue(), line.getYInitialValue(), line.getZInitialValue());
     Point point2InLine(point1InLine+Point(line.getACoefficient(), line.getBCoefficient(), line.getCCoefficient()));
-    return Plane(point, point1InLine, point2InLine);}
+    return Plane(point, point1InLine, point2InLine);
+}
 
 Plane getPlaneWithTwoIntersectingLines(Line const& line1, Line const& line2)
 {

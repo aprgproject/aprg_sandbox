@@ -202,7 +202,8 @@ TEST(AnalyzePieceRetrieverTest, DISABLED_FindImportantPoints_ForChessDotComUserV
     AlbaLocalPathHandler outputFileForWhite(APRG_DIR R"(\Chess\ChessPeek\Files\RetrieverBasis\ChessDotComUserVsUser\White.bmp)");
     AlbaLocalPathHandler outputFileForBlack(APRG_DIR R"(\Chess\ChessPeek\Files\RetrieverBasis\ChessDotComUserVsUser\Black.bmp)");
     AlbaLocalPathHandler blackFile(APRG_DIR R"(\Chess\ChessPeek\Files\RetrieverBasis\Blank.bmp)");
-    blackFile.copyToNewFile(outputFileForWhite.getFullPath());    blackFile.copyToNewFile(outputFileForBlack.getFullPath());
+    blackFile.copyToNewFile(outputFileForWhite.getFullPath());
+    blackFile.copyToNewFile(outputFileForBlack.getFullPath());
 
     ChessPeekConfiguration configuration(ChessPeekConfigurationType::ChessDotComUserVsUser);
     Bitmap inputBitmap(inputFile.getFullPath());

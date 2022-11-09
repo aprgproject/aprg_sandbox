@@ -6,18 +6,19 @@
 #include <Geometry/TwoDimensions/Constructs/Ellipse.hpp>
 #include <Geometry/TwoDimensions/Constructs/Hyperbola.hpp>
 #include <Geometry/TwoDimensions/Constructs/Line.hpp>
+#include <Geometry/TwoDimensions/Constructs/LineSegment.hpp>
 #include <Geometry/TwoDimensions/Constructs/Parabola.hpp>
 #include <Geometry/TwoDimensions/Constructs/Point.hpp>
-#include <Geometry/TwoDimensions/Constructs/PolarCoordinate.hpp>
-#include <Geometry/TwoDimensions/Constructs/Polygon.hpp>
+#include <Geometry/TwoDimensions/Constructs/PolarCoordinate.hpp>#include <Geometry/TwoDimensions/Constructs/Polygon.hpp>
 #include <Geometry/TwoDimensions/Constructs/Polynomial.hpp>
 #include <Geometry/TwoDimensions/Constructs/Quadrants.hpp>
+#include <Geometry/TwoDimensions/Constructs/Quadrilateral.hpp>
 #include <Geometry/TwoDimensions/Constructs/RotationDirection.hpp>
 #include <Geometry/TwoDimensions/Constructs/Triangle.hpp>
 #include <Geometry/TwoDimensions/Constructs/Vector.hpp>
 
-
 #include <functional>
+
 namespace alba
 {
 
@@ -36,18 +37,23 @@ bool areLinesPerpendicular(Line const& line1, Line const& line2);
 
 double getDistance(Point const& point1, Point const& point2);
 double getDistance(Line const& line, Point const& point);
+double getDistance(LineSegment const& lineSegment, Point const& point);
 double getDistance(Line const& line1, Line const& line2);
 double getCosineOfAngleUsing1Delta(double const deltaX1, double const deltaY1);
-double getCosineOfAngleUsing2Deltas(Vector const& deltaVector1, Vector const& deltaVector2);
-double getArcLength(AlbaAngle const& angle, double const radius);
+double getCosineOfAngleUsing2Deltas(Vector const& deltaVector1, Vector const& deltaVector2);double getArcLength(AlbaAngle const& angle, double const radius);
 double getSignedCounterClockwiseTriangleAreaOfOriginAnd2Points(Point const& point1, Point const& point2);
 double getSignedCounterClockwiseTriangleSquaredAreaOf3Points(Point const& a, Point const& b, Point const& c);
 double getSignedCounterClockwiseTriangleAreaOf3Points(Point const& a, Point const& b, Point const& c);
+double getAreaOfTriangleUsingHeronsFormula(Triangle const& triangle);
+double getAreaOfQuadrilateral(Quadrilateral const& quadrilateral);
 template<unsigned int numberOfVertices> double getArea(Polygon<numberOfVertices> const& polygon);
 
-ConicSectionType getConicSectionBasedOnEccentricity(double const eccentricity);ConicSectionType getConicSectionBasedOnGeneralForm(double const a, double const b, double const c, double const e, double const f);
-Quadrant getQuadrantOfAPoint(Point const& point);
-RotationDirection getRotationDirectionTraversing3Points(Point const a, Point const b, Point const c);
+Vector constructVector(AlbaXY<double> const& xy);
+Vector constructDeltaVector(Line const& line);
+
+ConicSectionType getConicSectionBasedOnEccentricity(double const eccentricity);
+ConicSectionType getConicSectionBasedOnGeneralForm(double const a, double const b, double const c, double const e, double const f);
+Quadrant getQuadrantOfAPoint(Point const& point);RotationDirection getRotationDirectionTraversing3Points(Point const a, Point const b, Point const c);
 
 AlbaAngle getAngleOfPointWithRespectToOrigin(Point const& point);
 AlbaAngle getTheInnerAngleUsingThreePoints(Point const& commonPoint, Point const& firstPoint, Point const& secondPoint);
@@ -55,10 +61,10 @@ AlbaAngle getTheSmallerAngleBetweenTwoLines(Line const& line1, Line const& line2
 AlbaAngle getTheLargerAngleBetweenTwoLines(Line const& line1, Line const& line2);
 
 Point getIntersectionOfTwoLines(Line const& line1, Line const& line2);
+Point getIntersectionOfTwoLineSegment(LineSegment const& segment1, LineSegment const& segment2);
 Point getMidpoint(Point const& point1, Point const& point2);
 Point getPointAlongALineWithDistanceFromAPoint(Line const& line, Point const& referencePoint, double const distance, bool const isIncreasedOnX);
-Point popNearestPoint(Points & points, Point const& point);
-Point rotateAxisByAngle(Point const& point, AlbaAngle const& angle);
+Point popNearestPoint(Points & points, Point const& point);Point rotateAxisByAngle(Point const& point, AlbaAngle const& angle);
 Point rotateAxisBackByAngle(Point const& point, AlbaAngle const& angle);
 
 Point convertFromPolarCoordinates(PolarCoordinate const& coordinate);

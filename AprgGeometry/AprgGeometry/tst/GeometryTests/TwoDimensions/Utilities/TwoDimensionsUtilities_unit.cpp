@@ -65,10 +65,16 @@ TEST(TwoDimensionsUtilitiesTest, DistanceBetweenPointAndLineCanBeCalculated)
     EXPECT_DOUBLE_EQ(2*pow(2, 0.5), getDistance(Line(1,1,0), Point(2,2)));
 }
 
+TEST(TwoDimensionsUtilitiesTest, DistanceBetweenPointAndLineSegmentCanBeCalculated)
+{
+    EXPECT_DOUBLE_EQ(2, getDistance(LineSegment{Point(0,4),Point(1,4)}, Point(2,2)));
+    EXPECT_DOUBLE_EQ(2, getDistance(LineSegment{Point(4,0),Point(4,1)}, Point(2,2)));
+    EXPECT_DOUBLE_EQ(2*pow(2, 0.5), getDistance(LineSegment{Point(0,0),Point(-1,1)}, Point(2,2)));
+}
+
 TEST(TwoDimensionsUtilitiesTest, GetCosineOfAngleUsing1DeltaWorks)
 {
-    EXPECT_DOUBLE_EQ(0.6, getCosineOfAngleUsing1Delta(3,4));
-}
+    EXPECT_DOUBLE_EQ(0.6, getCosineOfAngleUsing1Delta(3,4));}
 
 TEST(TwoDimensionsUtilitiesTest, GetCosineOfAngleUsing2DeltasWorks)
 {
@@ -77,7 +83,8 @@ TEST(TwoDimensionsUtilitiesTest, GetCosineOfAngleUsing2DeltasWorks)
     EXPECT_DOUBLE_EQ(1, getCosineOfAngleUsing2Deltas(deltaVector1, deltaVector2));
 }
 
-TEST(TwoDimensionsUtilitiesTest, GetArcLengthWorks){
+TEST(TwoDimensionsUtilitiesTest, GetArcLengthWorks)
+{
     EXPECT_DOUBLE_EQ(314.15926535897933, getArcLength(AlbaAngle(AngleUnitType::Degrees, 180), 100));
     EXPECT_DOUBLE_EQ(1000, getArcLength(AlbaAngle(AngleUnitType::Radians, 10), 100));
 }
@@ -104,21 +111,37 @@ TEST(TwoDimensionsUtilitiesTest, GetSignedCounterClockwiseTriangleAreaOf3PointsW
     EXPECT_DOUBLE_EQ(-2, getSignedCounterClockwiseTriangleAreaOf3Points(Point(0, 0), Point(2, 2), Point(3, 1)));
 }
 
+TEST(TwoDimensionsUtilitiesTest, GetAreaOfTriangleUsingHeronsFormulaWorks)
+{
+    EXPECT_DOUBLE_EQ(3, getAreaOfTriangleUsingHeronsFormula(Triangle(Point(0, 0), Point(0, 2), Point(3, 0))));
+}
+
+TEST(TwoDimensionsUtilitiesTest, GetAreaOfQuadrilateralWorks)
+{
+    EXPECT_DOUBLE_EQ(6, getAreaOfQuadrilateral(Quadrilateral(Point(0, 0), Point(0, 2), Point(3, 2), Point(3, 0))));
+}
+
 TEST(TwoDimensionsUtilitiesTest, GetAreaForPolygonWorksForTriangle)
 {
-    Triangle triangle(Point(0,0), Point(0,4), Point(4,0));    EXPECT_DOUBLE_EQ(8, getArea<3>(triangle));
+    Triangle triangle(Point(0,0), Point(0,4), Point(4,0));
+    EXPECT_DOUBLE_EQ(8, getArea(triangle));
 }
 
 TEST(TwoDimensionsUtilitiesTest, GetAreaForPolygonWorksForRectangle)
 {
     Rectangle rectangle(Point(0,5), Point(4,0));
-    EXPECT_DOUBLE_EQ(20, getArea<4>(rectangle));
+    EXPECT_DOUBLE_EQ(20, getArea(rectangle));
+}
+
+TEST(TwoDimensionsUtilitiesTest, GetAreaForPolygonWorksForQuadrilateral)
+{
+    Quadrilateral quadrilateral(Point(0, 0), Point(0, 2), Point(3, 2), Point(3, 0));
+    EXPECT_DOUBLE_EQ(6, getArea(quadrilateral));
 }
 
 TEST(TwoDimensionsUtilitiesTest, LineAndLineIntersectionCanBeFound)
 {
-    Line line1(Point(2,4), Point(3,3));
-    Line line2(Point(4,4), Point(3,3));
+    Line line1(Point(2,4), Point(3,3));    Line line2(Point(4,4), Point(3,3));
 
     EXPECT_EQ(Point(3,3), getIntersectionOfTwoLines(line1, line2));
 }
@@ -127,13 +150,27 @@ TEST(TwoDimensionsUtilitiesTest, VerticalLineAndHorizontalLineIntersectionCanBeF
 {
     Line line1(Point(4,3), Point(3,3));
     Line line2(Point(3,4), Point(3,3));
+
     EXPECT_EQ(Point(3,3), getIntersectionOfTwoLines(line1, line2));
+}
+
+TEST(TwoDimensionsUtilitiesTest, GetIntersectionOfTwoLineSegmentWorks)
+{
+    LineSegment commonSegment(Point(0,0), Point(2,2));
+    LineSegment crossSegment(Point(0,2), Point(2,0));
+    LineSegment parallelSegment(Point(2,2), Point(3,3));
+    LineSegment segmentWithPointInLine1(Point(2,2), Point(3,4));
+    LineSegment segmentWithPointInLine2(Point(3,4), Point(2,2));
+
+    EXPECT_EQ(Point(1,1), getIntersectionOfTwoLineSegment(commonSegment, crossSegment));
+    EXPECT_EQ(Point(0,0), getIntersectionOfTwoLineSegment(commonSegment, parallelSegment));
+    EXPECT_EQ(Point(2,2), getIntersectionOfTwoLineSegment(commonSegment, segmentWithPointInLine1));
+    EXPECT_EQ(Point(2,2), getIntersectionOfTwoLineSegment(commonSegment, segmentWithPointInLine2));
 }
 
 TEST(TwoDimensionsUtilitiesTest, MidpointBetweenTwoPointsCanBeCalculated)
 {
-    EXPECT_EQ(Point(0,0), getMidpoint(Point(0,0), Point(0,0)));
-    EXPECT_EQ(Point(2,2), getMidpoint(Point(1,1), Point(3,3)));
+    EXPECT_EQ(Point(0,0), getMidpoint(Point(0,0), Point(0,0)));    EXPECT_EQ(Point(2,2), getMidpoint(Point(1,1), Point(3,3)));
     EXPECT_EQ(Point(-450,-900), getMidpoint(Point(100,200), Point(-1000,-2000)));
 }
 
@@ -264,10 +301,33 @@ TEST(TwoDimensionsUtilitiesTest, GetQuadrantOfAPointWorks)
     EXPECT_EQ(Quadrant::III, getQuadrantOfAPoint(Point(-1,0)));
 }
 
+TEST(TwoDimensionsUtilitiesTest, GetRotationDirectionTraversing3PointsWorks)
+{
+    EXPECT_EQ(RotationDirection::CounterClockWise, getRotationDirectionTraversing3Points(Point(0,0), Point(2,2), Point(1,3)));
+    EXPECT_EQ(RotationDirection::ClockWise, getRotationDirectionTraversing3Points(Point(0,0), Point(2,2), Point(3,1)));
+    EXPECT_EQ(RotationDirection::None, getRotationDirectionTraversing3Points(Point(0,0), Point(2,2), Point(3,3)));
+}
+
+TEST(TwoDimensionsUtilitiesTest, GetRotationDirectionTraversing3PointsWorksOnDeterminingPointLocation)
+{
+    // Point location
+    // Cross products can be used to test whether a point is located on the left or right side of a line.
+    // Assume that the line goes through points s1 and s2, we are looking from s1 to s2 and the point is p.
+
+    // The cross product (p-s1)x(p-s2) tells us the location of the point p.
+    // If the cross product is positive, p is located on the left side,
+    // and if the cross product is negative, p is located on the right side.
+    // Finally, if the cross product is zero, points s1, s2 and p are on the same line.
+    Point s1(0,0), s2(2,2);
+
+    EXPECT_EQ(RotationDirection::CounterClockWise, getRotationDirectionTraversing3Points(s1, s2, Point(1,3)));
+    EXPECT_EQ(RotationDirection::ClockWise, getRotationDirectionTraversing3Points(s1, s2, Point(3,1)));
+    EXPECT_EQ(RotationDirection::None, getRotationDirectionTraversing3Points(s1, s2, Point(3,3)));
+}
+
 TEST(TwoDimensionsUtilitiesTest, GetAngleOfPointWithRespectToOriginWorks)
 {
-    EXPECT_DOUBLE_EQ(0, getAngleOfPointWithRespectToOrigin(Point(0,0)).getDegrees());
-    EXPECT_DOUBLE_EQ(45, getAngleOfPointWithRespectToOrigin(Point(1,1)).getDegrees());
+    EXPECT_DOUBLE_EQ(0, getAngleOfPointWithRespectToOrigin(Point(0,0)).getDegrees());    EXPECT_DOUBLE_EQ(45, getAngleOfPointWithRespectToOrigin(Point(1,1)).getDegrees());
     EXPECT_DOUBLE_EQ(135, getAngleOfPointWithRespectToOrigin(Point(-1,1)).getDegrees());
     EXPECT_DOUBLE_EQ(225, getAngleOfPointWithRespectToOrigin(Point(-1,-1)).getDegrees());
     EXPECT_DOUBLE_EQ(315, getAngleOfPointWithRespectToOrigin(Point(1,-1)).getDegrees());
@@ -281,11 +341,10 @@ TEST(TwoDimensionsUtilitiesTest, GetAngleOfPointWithRespectToOriginWorks)
     EXPECT_DOUBLE_EQ(233.13010235415598, getAngleOfPointWithRespectToOrigin(Point(-3,-4)).getDegrees());
 }
 
-TEST(TwoDimensionsUtilitiesTest, getTheInnerAngleUsingThreePointsWorks)
+TEST(TwoDimensionsUtilitiesTest, GetTheInnerAngleUsingThreePointsWorks)
 {
     EXPECT_EQ(0, getTheInnerAngleUsingThreePoints(Point(0,0), Point(0,1), Point(0,1)).getDegrees());
-    EXPECT_EQ(90, getTheInnerAngleUsingThreePoints(Point(0,0), Point(0,1), Point(1,0)).getDegrees());
-    EXPECT_DOUBLE_EQ(45, getTheInnerAngleUsingThreePoints(Point(0,0), Point(0,1), Point(1,1)).getDegrees());
+    EXPECT_EQ(90, getTheInnerAngleUsingThreePoints(Point(0,0), Point(0,1), Point(1,0)).getDegrees());    EXPECT_DOUBLE_EQ(45, getTheInnerAngleUsingThreePoints(Point(0,0), Point(0,1), Point(1,1)).getDegrees());
 }
 
 TEST(TwoDimensionsUtilitiesTest, GetSmallerAngleBetweenTwoLinesWorks)

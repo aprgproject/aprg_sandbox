@@ -182,7 +182,8 @@ bool ChessPieceRetriever::isBitValueAsserted(
         BitmapSnippet const& chessBoardSnippet,
         CheckDetail const& checkDetail,
         BitmapXY const& chessCellTopLeft,
-        BitmapXY const& chessCellBottomRight) const{
+        BitmapXY const& chessCellBottomRight) const
+{
     static const BitmapXYs aroundOffsets{BitmapXY(0, -1), BitmapXY(0, 1), BitmapXY(-1, 0), BitmapXY(1, 0)};
 
     bool result(false);

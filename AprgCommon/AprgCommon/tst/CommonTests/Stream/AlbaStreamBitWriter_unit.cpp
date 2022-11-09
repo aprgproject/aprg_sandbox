@@ -104,7 +104,8 @@ TEST(AlbaStreamBitWriterTest, WriteBitsetDataWorks)
 
 TEST(AlbaStreamBitWriterTest, FlushWorks)
 {
-    stringstream ss;    AlbaStreamBitWriter writer(ss);
+    stringstream ss;
+    AlbaStreamBitWriter writer(ss);
     writer.writeBoolData(true);
 
     writer.flush();
