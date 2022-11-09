@@ -53,10 +53,19 @@ TEST(TwoDimensionsUtilitiesTest, IsCongruentWorksForTriangles)
     EXPECT_FALSE(isCongruent(Triangle(Point(0,0), Point(0,1), Point(1,0)), Triangle(Point(0,0), Point(0,1), Point(2,0))));
 }
 
+TEST(TwoDimensionsUtilitiesTest, IsPointInsidePolygonWorks)
+{
+    Triangle triangle(Point(0,0), Point(0,4), Point(4,0));
+
+    EXPECT_TRUE(isPointInsidePolygon(triangle, Point(1,1), Point(-1,1)));
+    EXPECT_FALSE(isPointInsidePolygon(triangle, Point(2,2), Point(-1,1))); // on the border
+    EXPECT_FALSE(isPointInsidePolygon(triangle, Point(3,3), Point(-1,1)));
+    EXPECT_FALSE(isPointInsidePolygon(triangle, Point(4,4), Point(-1,1)));
+}
+
 TEST(TwoDimensionsUtilitiesTest, DistanceBetween2PointsCanBeCalculated)
 {
-    EXPECT_DOUBLE_EQ(pow(2, 0.5), getDistance(Point(0,0), Point(1,1)));
-}
+    EXPECT_DOUBLE_EQ(pow(2, 0.5), getDistance(Point(0,0), Point(1,1)));}
 
 TEST(TwoDimensionsUtilitiesTest, DistanceBetweenPointAndLineCanBeCalculated)
 {
@@ -72,13 +81,34 @@ TEST(TwoDimensionsUtilitiesTest, DistanceBetweenPointAndLineSegmentCanBeCalculat
     EXPECT_DOUBLE_EQ(2*pow(2, 0.5), getDistance(LineSegment{Point(0,0),Point(-1,1)}, Point(2,2)));
 }
 
+TEST(TwoDimensionsUtilitiesTest, GetEuclideanDistanceWorks)
+{
+    EXPECT_DOUBLE_EQ(pow(2, 0.5), getEuclideanDistance(Point(0,0), Point(1,1)));
+}
+
+TEST(TwoDimensionsUtilitiesTest, GetManhattanDistanceWorks)
+{
+    EXPECT_DOUBLE_EQ(2, getManhattanDistance(Point(0,0), Point(1,1)));
+}
+
+TEST(TwoDimensionsUtilitiesTest, GetManhattanDistanceAlternateWayWorks)
+{
+    EXPECT_DOUBLE_EQ(2, getManhattanDistanceAlternateWay(Point(0,0), Point(1,1)));
+}
+
+TEST(TwoDimensionsUtilitiesTest, GetMaximumManhattanDistanceOfTwoPointsWorks)
+{
+    Points points{{1, 3}, {2, 1}, {4, 4}, {4, 2}};
+    EXPECT_DOUBLE_EQ(5, getMaximumManhattanDistanceOfTwoPoints(points));
+}
+
 TEST(TwoDimensionsUtilitiesTest, GetCosineOfAngleUsing1DeltaWorks)
 {
-    EXPECT_DOUBLE_EQ(0.6, getCosineOfAngleUsing1Delta(3,4));}
+    EXPECT_DOUBLE_EQ(0.6, getCosineOfAngleUsing1Delta(3,4));
+}
 
 TEST(TwoDimensionsUtilitiesTest, GetCosineOfAngleUsing2DeltasWorks)
-{
-    Vector deltaVector1{2, 4};
+{    Vector deltaVector1{2, 4};
     Vector deltaVector2{8, 16};
     EXPECT_DOUBLE_EQ(1, getCosineOfAngleUsing2Deltas(deltaVector1, deltaVector2));
 }
@@ -121,10 +151,23 @@ TEST(TwoDimensionsUtilitiesTest, GetAreaOfQuadrilateralWorks)
     EXPECT_DOUBLE_EQ(6, getAreaOfQuadrilateral(Quadrilateral(Point(0, 0), Point(0, 2), Point(3, 2), Point(3, 0))));
 }
 
+TEST(TwoDimensionsUtilitiesTest, GetAreaUsingPicksTheoremWorks)
+{
+    // Points: (2,4), (4,1), (4,3), (5,5), (7,3)
+    // | | | | | | | |
+    // | | | | |O| | |
+    // | |O|I|I|I|O| |
+    // | | | |O|I|I|O|
+    // | | | |O|I| | |
+    // | | | |O| | | |
+    // Legend: 'O' is for outside, 'I' is for inside
+
+    EXPECT_DOUBLE_EQ(8.5, getAreaUsingPicksTheorem(6U, 7U));
+}
+
 TEST(TwoDimensionsUtilitiesTest, GetAreaForPolygonWorksForTriangle)
 {
-    Triangle triangle(Point(0,0), Point(0,4), Point(4,0));
-    EXPECT_DOUBLE_EQ(8, getArea(triangle));
+    Triangle triangle(Point(0,0), Point(0,4), Point(4,0));    EXPECT_DOUBLE_EQ(8, getArea(triangle));
 }
 
 TEST(TwoDimensionsUtilitiesTest, GetAreaForPolygonWorksForRectangle)
@@ -141,13 +184,19 @@ TEST(TwoDimensionsUtilitiesTest, GetAreaForPolygonWorksForQuadrilateral)
 
 TEST(TwoDimensionsUtilitiesTest, LineAndLineIntersectionCanBeFound)
 {
-    Line line1(Point(2,4), Point(3,3));    Line line2(Point(4,4), Point(3,3));
+    Line line1(Point(2,4), Point(3,3));
+    Line line2(Point(4,4), Point(3,3));
+    Line line3(Point(3,3), Point(3,3));
+    Line line4(Point(0,1), Point(1,2));
 
     EXPECT_EQ(Point(3,3), getIntersectionOfTwoLines(line1, line2));
+    Point verifyIfNan(getIntersectionOfTwoLines(line2, line3));
+    EXPECT_TRUE(isnan(verifyIfNan.getX()));
+    EXPECT_TRUE(isnan(verifyIfNan.getY()));
+    EXPECT_EQ(Point(INFINITY,INFINITY), getIntersectionOfTwoLines(line2, line4));
 }
 
-TEST(TwoDimensionsUtilitiesTest, VerticalLineAndHorizontalLineIntersectionCanBeFound)
-{
+TEST(TwoDimensionsUtilitiesTest, VerticalLineAndHorizontalLineIntersectionCanBeFound){
     Line line1(Point(4,3), Point(3,3));
     Line line2(Point(3,4), Point(3,3));
 
@@ -163,17 +212,19 @@ TEST(TwoDimensionsUtilitiesTest, GetIntersectionOfTwoLineSegmentWorks)
     LineSegment segmentWithPointInLine2(Point(3,4), Point(2,2));
 
     EXPECT_EQ(Point(1,1), getIntersectionOfTwoLineSegment(commonSegment, crossSegment));
-    EXPECT_EQ(Point(0,0), getIntersectionOfTwoLineSegment(commonSegment, parallelSegment));
+    Point verifyIfNan(getIntersectionOfTwoLineSegment(commonSegment, parallelSegment));
+    EXPECT_TRUE(isnan(verifyIfNan.getX()));
+    EXPECT_TRUE(isnan(verifyIfNan.getY()));
     EXPECT_EQ(Point(2,2), getIntersectionOfTwoLineSegment(commonSegment, segmentWithPointInLine1));
     EXPECT_EQ(Point(2,2), getIntersectionOfTwoLineSegment(commonSegment, segmentWithPointInLine2));
 }
 
 TEST(TwoDimensionsUtilitiesTest, MidpointBetweenTwoPointsCanBeCalculated)
 {
-    EXPECT_EQ(Point(0,0), getMidpoint(Point(0,0), Point(0,0)));    EXPECT_EQ(Point(2,2), getMidpoint(Point(1,1), Point(3,3)));
+    EXPECT_EQ(Point(0,0), getMidpoint(Point(0,0), Point(0,0)));
+    EXPECT_EQ(Point(2,2), getMidpoint(Point(1,1), Point(3,3)));
     EXPECT_EQ(Point(-450,-900), getMidpoint(Point(100,200), Point(-1000,-2000)));
 }
-
 TEST(TwoDimensionsUtilitiesTest, GetPointAlongALineWithDistanceFromAPointWorks)
 {
     EXPECT_EQ(Point(2,2), getPointAlongALineWithDistanceFromAPoint(Line(Point(0,0), Point(1,1)), Point(1,1), sqrt(2), true));
@@ -327,11 +378,11 @@ TEST(TwoDimensionsUtilitiesTest, GetRotationDirectionTraversing3PointsWorksOnDet
 
 TEST(TwoDimensionsUtilitiesTest, GetAngleOfPointWithRespectToOriginWorks)
 {
-    EXPECT_DOUBLE_EQ(0, getAngleOfPointWithRespectToOrigin(Point(0,0)).getDegrees());    EXPECT_DOUBLE_EQ(45, getAngleOfPointWithRespectToOrigin(Point(1,1)).getDegrees());
+    EXPECT_DOUBLE_EQ(0, getAngleOfPointWithRespectToOrigin(Point(0,0)).getDegrees());
+    EXPECT_DOUBLE_EQ(45, getAngleOfPointWithRespectToOrigin(Point(1,1)).getDegrees());
     EXPECT_DOUBLE_EQ(135, getAngleOfPointWithRespectToOrigin(Point(-1,1)).getDegrees());
     EXPECT_DOUBLE_EQ(225, getAngleOfPointWithRespectToOrigin(Point(-1,-1)).getDegrees());
-    EXPECT_DOUBLE_EQ(315, getAngleOfPointWithRespectToOrigin(Point(1,-1)).getDegrees());
-    EXPECT_DOUBLE_EQ(90, getAngleOfPointWithRespectToOrigin(Point(0,1)).getDegrees());
+    EXPECT_DOUBLE_EQ(315, getAngleOfPointWithRespectToOrigin(Point(1,-1)).getDegrees());    EXPECT_DOUBLE_EQ(90, getAngleOfPointWithRespectToOrigin(Point(0,1)).getDegrees());
     EXPECT_DOUBLE_EQ(270, getAngleOfPointWithRespectToOrigin(Point(0,-1)).getDegrees());
     EXPECT_DOUBLE_EQ(0, getAngleOfPointWithRespectToOrigin(Point(1,0)).getDegrees());
     EXPECT_DOUBLE_EQ(180, getAngleOfPointWithRespectToOrigin(Point(-1,0)).getDegrees());
@@ -344,11 +395,11 @@ TEST(TwoDimensionsUtilitiesTest, GetAngleOfPointWithRespectToOriginWorks)
 TEST(TwoDimensionsUtilitiesTest, GetTheInnerAngleUsingThreePointsWorks)
 {
     EXPECT_EQ(0, getTheInnerAngleUsingThreePoints(Point(0,0), Point(0,1), Point(0,1)).getDegrees());
-    EXPECT_EQ(90, getTheInnerAngleUsingThreePoints(Point(0,0), Point(0,1), Point(1,0)).getDegrees());    EXPECT_DOUBLE_EQ(45, getTheInnerAngleUsingThreePoints(Point(0,0), Point(0,1), Point(1,1)).getDegrees());
+    EXPECT_EQ(90, getTheInnerAngleUsingThreePoints(Point(0,0), Point(0,1), Point(1,0)).getDegrees());
+    EXPECT_DOUBLE_EQ(45, getTheInnerAngleUsingThreePoints(Point(0,0), Point(0,1), Point(1,1)).getDegrees());
 }
 
-TEST(TwoDimensionsUtilitiesTest, GetSmallerAngleBetweenTwoLinesWorks)
-{
+TEST(TwoDimensionsUtilitiesTest, GetSmallerAngleBetweenTwoLinesWorks){
     EXPECT_EQ(0, getTheSmallerAngleBetweenTwoLines(Line(Point(0,0), Point(0,1)), Line(Point(0,0), Point(0,1))).getDegrees());
     EXPECT_EQ(90, getTheSmallerAngleBetweenTwoLines(Line(Point(0,0), Point(0,1)), Line(Point(0,0), Point(1,0))).getDegrees());
     EXPECT_DOUBLE_EQ(45, getTheSmallerAngleBetweenTwoLines(Line(Point(0,0), Point(0,1)), Line(Point(0,0), Point(1,1))).getDegrees());

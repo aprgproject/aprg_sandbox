@@ -18,10 +18,10 @@ using StringPairs = std::vector<StringPair>;
 
 std::string const WHITESPACE_STRING = " \t\n\r";
 std::string const ALPHA_NUMERIC_CHAR_MAP = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+
 inline bool isWhiteSpace(char const c)
 {
-    return (' '==c || '\t'==c || '\n'==c || '\r'==c);
-}
+    return (' '==c || '\t'==c || '\n'==c || '\r'==c);}
 
 inline bool isNewline(char const c)
 {

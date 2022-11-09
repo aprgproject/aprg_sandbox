@@ -9,7 +9,7 @@ namespace TwoDimensions
 {
 
 using LineSegment=std::pair<Point, Point>;
+using LineSegments=std::vector<LineSegment>;
 
 }
-
 }

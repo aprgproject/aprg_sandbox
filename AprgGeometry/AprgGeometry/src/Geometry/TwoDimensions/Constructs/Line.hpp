@@ -42,10 +42,10 @@ public:
     Point getAPoint() const;
     Points getPoints(Point const& first, Point const& second, double const interval) const;
     Points getPointsWithoutLastPoint(Point const& first, Point const& second, double const interval) const;
-    double calculateYFromX(double const x) const;    double calculateXFromY(double const y) const;
+    double calculateYFromX(double const x) const;
+    double calculateXFromY(double const y) const;
 
     std::string getDisplayableString() const;
-
 private:
     void setLineParametersBasedOnDeltas(double const deltaX, double const deltaY, Point const& point);
     void setLineParametersBasedOnCoefficients(double const aCoefficient, double const bCoefficient, double const cCoefficient);
