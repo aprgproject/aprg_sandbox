@@ -18,24 +18,21 @@ class PathSearchUsingDijkstra : public BasePathSearchWithRelax<Vertex, Weight, E
 public:
     using Graph = EdgeWeightedGraph;
     using BaseClass = BasePathSearchWithRelax<Vertex, Weight, Graph, ComparatorTemplateType>;
-    using VertexWithWeight = typename GraphTypesWithWeights<Vertex, Weight>::VertexWithWeight;
+    using VertexOrderedByWeight = typename GraphTypesWithWeights<Vertex, Weight>::VertexOrderedByWeight;
     template<typename ValueType>
     struct ReverseComparator
-    {
-        bool operator()(ValueType const& first, ValueType const& second) const
+    {        bool operator()(ValueType const& first, ValueType const& second) const
         {
             return ComparatorTemplateType<ValueType>()(second, first);
         }
     };
-    using VertexWithWeightPriorityQueue = std::priority_queue<VertexWithWeight, std::deque<VertexWithWeight>, ReverseComparator<VertexWithWeight>>;
+    using VertexOrderedByWeightPriorityQueue = std::priority_queue<VertexOrderedByWeight, std::deque<VertexOrderedByWeight>, ReverseComparator<VertexOrderedByWeight>>;
 
     PathSearchUsingDijkstra(EdgeWeightedGraph const& graph, Vertex const& startVertex)
-        : BaseClass(graph, startVertex)
-        , b_graph(BaseClass::m_graph)
+        : BaseClass(graph, startVertex)        , b_graph(BaseClass::m_graph)
         , b_startVertex(BaseClass::m_startVertex)
     {
-        searchForPathIfPossible();
-    }
+        searchForPathIfPossible();    }
 
 private:
 
@@ -56,25 +53,26 @@ private:
 
     void searchForPath()
     {
-        VertexWithWeightPriorityQueue foundVerticesOrderedByWeight;
+        VertexOrderedByWeightPriorityQueue foundVerticesOrderedByWeight;
         foundVerticesOrderedByWeight.emplace(b_startVertex, Weight{}); // start vertex with weight zero for start
         while(!foundVerticesOrderedByWeight.empty())
         {
             // loops all current best weight vertices and only updates if the weight is better
             // this essentially prims algorithm but here weight is accumulated from the start vertex (Prim just take the closest)
-            VertexWithWeight vertexWithBestWeight(foundVerticesOrderedByWeight.top());
+
+            VertexOrderedByWeight vertexWithBestWeight(foundVerticesOrderedByWeight.top());
             foundVerticesOrderedByWeight.pop();
             this->relaxAt(vertexWithBestWeight.vertex, [&](Vertex const&, Vertex const& destinationVertex, Weight const& newWeight)
             {
-                foundVerticesOrderedByWeight.emplace(destinationVertex, newWeight); // this step is after relaxation on every adjacent vertex (only if weight is changed)
+                // this step is after relaxation on every adjacent vertex
+                // this always add new entry if weight is changed -> this is important for longest path
+                foundVerticesOrderedByWeight.emplace(destinationVertex, newWeight);
             });
         }
     }
-
     Graph const& b_graph;
     Vertex const& b_startVertex;
 };
-
 // Dijkstra algorithm computes a shortest path tree in any edge-weighted digraph with non negative weights,
 // Proof:
 // -> Each edge e=v->w is relaxed exactly once (when v is relaxed), leaving distTo[w] <= distTo[v] + e.weight()

@@ -18,16 +18,14 @@ public:
     using Graph = EdgeWeightedGraph;
     using Comparator=ComparatorTemplateType<Weight>;
     using Path = typename GraphTypes<Vertex>::Path;
-    using EdgeWithWeight = typename GraphTypesWithWeights<Vertex, Weight>::EdgeWithWeight;
+    using EdgeOrderedByWeight = typename GraphTypesWithWeights<Vertex, Weight>::EdgeOrderedByWeight;
     using EdgesWithWeight = typename GraphTypesWithWeights<Vertex, Weight>::EdgesWithWeight;
-    using VertexToEdgeWithWeightMap = typename GraphTypesWithWeights<Vertex, Weight>::VertexToEdgeWithWeightMap;
+    using VertexToEdgeOrderedByWeightMap = typename GraphTypesWithWeights<Vertex, Weight>::VertexToEdgeOrderedByWeightMap;
     using AdditionalRelaxationStepsWithNewWeight = std::function<void(Vertex const&, Vertex const&, Weight const&)>;
     using AdditionalRelaxationSteps = std::function<void(void)>;
-
     BasePathSearchWithRelax(EdgeWeightedGraph const& graph, Vertex const& startVertex)
         : m_graph(graph)
-        , m_startVertex(startVertex)
-    {}
+        , m_startVertex(startVertex)    {}
 
     virtual ~BasePathSearchWithRelax() = default;
 
@@ -70,15 +68,13 @@ public:
         return m_startVertex;
     }
 
-    VertexToEdgeWithWeightMap const& getVertexToEdgeWithBestWeightMap() const
+    VertexToEdgeOrderedByWeightMap const& getVertexToEdgeWithBestWeightMap() const
     {
         return m_vertexToEdgeWithBestWeightMap;
     }
-
 protected:
 
-    bool hasNoWeightSaved(Vertex const& vertex) const
-    {
+    bool hasNoWeightSaved(Vertex const& vertex) const    {
         return m_vertexToEdgeWithBestWeightMap.find(vertex) == m_vertexToEdgeWithBestWeightMap.cend();
     }
 
@@ -95,15 +91,13 @@ protected:
 
     void setStartVertexWeightToZero()
     {
-        m_vertexToEdgeWithBestWeightMap[m_startVertex] = EdgeWithWeight(m_startVertex, m_startVertex, Weight{});
+        m_vertexToEdgeWithBestWeightMap[m_startVertex] = EdgeOrderedByWeight(m_startVertex, m_startVertex, Weight{});
     }
 
-    void relaxAt(
-            Vertex const& vertex,
+    void relaxAt(            Vertex const& vertex,
             AdditionalRelaxationStepsWithNewWeight const& additionalRelaxationStepsWithNewWeight = getNoStepsWithNewWeight(),
             AdditionalRelaxationSteps const& additionalRelaxationSteps = getNoSteps())
-    {
-        // Relaxing means recalculating the shortest/longest path (there might be a new way with better weight)
+    {        // Relaxing means recalculating the shortest/longest path (there might be a new way with better weight)
         // Here all the information from the given vertex to its adjacent vertices are updated
         for(Vertex const& adjacentVertex : m_graph.getAdjacentVerticesAt(vertex))
         {
@@ -114,15 +108,13 @@ protected:
                     || m_comparator(savedWeightAtVertex + weightOfCurrentEdge, savedWeightAtAdjacentVertex))
             {
                 Weight newWeight(savedWeightAtVertex + weightOfCurrentEdge);
-                m_vertexToEdgeWithBestWeightMap[adjacentVertex] = EdgeWithWeight(vertex, adjacentVertex, newWeight);
+                m_vertexToEdgeWithBestWeightMap[adjacentVertex] = EdgeOrderedByWeight(vertex, adjacentVertex, newWeight);
                 additionalRelaxationStepsWithNewWeight(vertex, adjacentVertex, newWeight);
             }
-        }
-        additionalRelaxationSteps();
+        }        additionalRelaxationSteps();
     }
 
-    static AdditionalRelaxationStepsWithNewWeight getNoStepsWithNewWeight()
-    {
+    static AdditionalRelaxationStepsWithNewWeight getNoStepsWithNewWeight()    {
         static AdditionalRelaxationStepsWithNewWeight noRelaxationSteps
                 = [](Vertex const&, Vertex const&, Weight const&){};
         return noRelaxationSteps;
@@ -137,9 +129,8 @@ protected:
     Graph const& m_graph;
     Vertex m_startVertex;
     Comparator m_comparator;
-    VertexToEdgeWithWeightMap m_vertexToEdgeWithBestWeightMap;
+    VertexToEdgeOrderedByWeightMap m_vertexToEdgeWithBestWeightMap;
 };
 
 }
-
 }

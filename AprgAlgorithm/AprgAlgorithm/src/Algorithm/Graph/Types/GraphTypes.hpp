@@ -44,72 +44,69 @@ struct GraphTypes
 template <typename Vertex, typename Weight>
 struct GraphTypesWithWeights
 {
-    struct VertexWithWeight
+    struct VertexOrderedByWeight
     {
-        VertexWithWeight(Vertex const& vertexParameter, Weight const& weightParameter)
+        VertexOrderedByWeight(Vertex const& vertexParameter, Weight const& weightParameter)
             : vertex(vertexParameter)
             , weight(weightParameter)
         {}
 
-        bool operator<(VertexWithWeight const& otherVertex) const
+        bool operator<(VertexOrderedByWeight const& otherVertex) const
         {
             return weight < otherVertex.weight;
         }
 
-        bool operator>(VertexWithWeight const& otherVertex) const
+        bool operator>(VertexOrderedByWeight const& otherVertex) const
         {
             return weight > otherVertex.weight;
         }
 
-        bool operator==(VertexWithWeight const& otherVertex) const
+        bool operator==(VertexOrderedByWeight const& otherVertex) const
         {
             return weight == otherVertex.weight;
-        }
-        Vertex vertex;
+        }        Vertex vertex;
         Weight weight;
     };
-    using VerticesWithWeight = std::vector<VertexWithWeight>;
-    using SetOfVerticesWithWeight = std::set<VertexWithWeight>;
+    using VerticesWithWeight = std::vector<VertexOrderedByWeight>;
+    using SetOfVerticesWithWeight = std::set<VertexOrderedByWeight>;
 
 
-    struct EdgeWithWeight : public GraphTypes<Vertex>::Edge
+    struct EdgeOrderedByWeight : public GraphTypes<Vertex>::Edge
     {
         using Edge = typename GraphTypes<Vertex>::Edge;
 
-        EdgeWithWeight()
+        EdgeOrderedByWeight()
             : Edge{}
             , weight{}
         {}
 
-        EdgeWithWeight(Vertex const& vertex1, Vertex const& vertex2, Weight const& weightParameter)
+        EdgeOrderedByWeight(Vertex const& vertex1, Vertex const& vertex2, Weight const& weightParameter)
             : Edge{vertex1, vertex2}
             , weight(weightParameter)
         {}
 
-        bool operator<(EdgeWithWeight const& otherEdge) const
+        bool operator<(EdgeOrderedByWeight const& otherEdge) const
         {
             return weight < otherEdge.weight;
         }
 
-        bool operator>(EdgeWithWeight const& otherEdge) const
+        bool operator>(EdgeOrderedByWeight const& otherEdge) const
         {
             return weight > otherEdge.weight;
         }
 
-        bool operator==(EdgeWithWeight const& otherEdge) const
+        bool operator==(EdgeOrderedByWeight const& otherEdge) const
         {
             return weight == otherEdge.weight;
         }
-
         Weight weight;
     };
-    using EdgesWithWeight = std::vector<EdgeWithWeight>;
-    using SetOfEdgesWithWeight = std::set<EdgeWithWeight>;
+    using EdgesWithWeight = std::vector<EdgeOrderedByWeight>;
+    using SetOfEdgesWithWeight = std::set<EdgeOrderedByWeight>;
 
     //Complicated Types
-    using VertexToEdgeWithWeightMap = std::map<Vertex, EdgeWithWeight>;
+    using VertexToEdgeOrderedByWeightMap = std::map<Vertex, EdgeOrderedByWeight>;
 };
 
 }
-
 }

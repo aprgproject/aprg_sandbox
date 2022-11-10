@@ -20,35 +20,31 @@ public:
     using Graph = EdgeWeightedGraph;
     using Edge = typename GraphTypes<Vertex>::Edge;
     using Edges = typename GraphTypes<Vertex>::Edges;
-    using EdgeWithWeight = typename GraphTypesWithWeights<Vertex, Weight>::EdgeWithWeight;
-    using VertexWithWeight = typename GraphTypesWithWeights<Vertex, Weight>::VertexWithWeight;
-    using VertexWithWeightMinimumPriorityQueue = std::priority_queue<VertexWithWeight, std::deque<VertexWithWeight>, std::greater<VertexWithWeight>>;
-    using VertexToEdgeWithWeightMap = typename GraphTypesWithWeights<Vertex, Weight>::VertexToEdgeWithWeightMap;
+    using EdgeOrderedByWeight = typename GraphTypesWithWeights<Vertex, Weight>::EdgeOrderedByWeight;
+    using VertexOrderedByWeight = typename GraphTypesWithWeights<Vertex, Weight>::VertexOrderedByWeight;
+    using VertexOrderedByWeightMinimumPriorityQueue = std::priority_queue<VertexOrderedByWeight, std::deque<VertexOrderedByWeight>, std::greater<VertexOrderedByWeight>>;
+    using VertexToEdgeOrderedByWeightMap = typename GraphTypesWithWeights<Vertex, Weight>::VertexToEdgeOrderedByWeightMap;
     using CheckableVerticesWithVertex = CheckableVertices<Vertex>;
 
-    PrimAlgorithmEagerVersion(EdgeWeightedGraph const& graph, Vertex const& startVertex)
-        : m_graph(graph)
+    PrimAlgorithmEagerVersion(EdgeWeightedGraph const& graph, Vertex const& startVertex)        : m_graph(graph)
         , m_startVertex(startVertex)
     {
-        searchForMinimumSpanningTree();
-    }
+        searchForMinimumSpanningTree();    }
 
     Edges getMinimumSpanningTreeEdges() const
     {
         Edges result;
         result.reserve(m_vertexToEdgeWithMinimumWeightMap.size());
         std::transform(m_vertexToEdgeWithMinimumWeightMap.cbegin(), m_vertexToEdgeWithMinimumWeightMap.cend(), std::back_inserter(result),
-                       [](auto const& vertexToEdgeWithWeightPair)
+                       [](auto const& vertexToEdgeOrderedByWeightPair)
         {
-            return static_cast<Edge>(vertexToEdgeWithWeightPair.second);
+            return static_cast<Edge>(vertexToEdgeOrderedByWeightPair.second);
         });
         return result;
     }
-
 private:
 
-    bool hasNoWeightSaved(Vertex const& vertex) const
-    {
+    bool hasNoWeightSaved(Vertex const& vertex) const    {
         return m_vertexToEdgeWithMinimumWeightMap.find(vertex) == m_vertexToEdgeWithMinimumWeightMap.cend();
     }
 
@@ -60,15 +56,13 @@ private:
             // continue to grow the MST by processing the current nearest edge and only adding only edges with minimum weight
             // Since this is eager algorithm (nearest vertices are kept),
             // -> we know the vertex to check if not yet included in tree (since its an adjacent vertex previously)
-            VertexWithWeight nearestVertex(m_nearestVerticesToTree.top());
+            VertexOrderedByWeight nearestVertex(m_nearestVerticesToTree.top());
             m_nearestVerticesToTree.pop();
             checkAdjacentVerticesWithLowestWeightOfVertex(nearestVertex.vertex);
-        }
-    }
+        }    }
 
     void checkAdjacentVerticesWithLowestWeightOfVertex(
-            Vertex const& vertex)
-    {
+            Vertex const& vertex)    {
         m_processedVertices.putVertex(vertex);
         for(Vertex const& adjacentVertex : m_graph.getAdjacentVerticesAt(vertex))
         {
@@ -91,22 +85,19 @@ private:
             Weight const& lowestWeight)
     {
         m_vertexToEdgeWithMinimumWeightMap[adjacentVertex]
-                = createSortedEdgeWithWeight<Vertex, Weight, EdgeWithWeight>(vertex, adjacentVertex, lowestWeight);
+                = createSortedEdgeOrderedByWeight<Vertex, Weight, EdgeOrderedByWeight>(vertex, adjacentVertex, lowestWeight);
         m_nearestVerticesToTree.emplace(adjacentVertex, lowestWeight);
     }
-
     Graph const& m_graph;
     Vertex m_startVertex;
     CheckableVerticesWithVertex m_processedVertices;
-    VertexToEdgeWithWeightMap m_vertexToEdgeWithMinimumWeightMap;
-    VertexWithWeightMinimumPriorityQueue m_nearestVerticesToTree; // makes this eager algorithm (nearest vertices is kept to find nearest edges easier)
+    VertexToEdgeOrderedByWeightMap m_vertexToEdgeWithMinimumWeightMap;
+    VertexOrderedByWeightMinimumPriorityQueue m_nearestVerticesToTree; // makes this eager algorithm (nearest vertices is kept to find nearest edges easier)
 
 };
-
 // Running time:
 // depends on Indexed-PQ implementation: Total = V inserts + V deletemins + E decrease-keys
-// array: insert(1), delete-min(V), decrease-key(1) -> total = V^2
-// binary heap: insert(log V), delete-min(log V), decrease-key(log V) -> total = E log V
+// array: insert(1), delete-min(V), decrease-key(1) -> total = V^2// binary heap: insert(log V), delete-min(log V), decrease-key(log V) -> total = E log V
 // d-way heap: insert(d logd V)), delete-min(d logd V), decrease-key(d logd V) -> total = E log(E/V) V
 // Fibonacci heap: insert(1*), delete-min(log V*), decrease-key(1*) -> total = E + V log V
 // * means amortized

@@ -35,15 +35,13 @@ public:
         , m_accumulator(accumulator)
         , m_inverseAccumulator(inverseAccumulator)
     {
-        initializePartialSums(valuesToCheck);
+        initializePartialSums();
     }
 
-    Value getAccumulatedValueOnInterval(Index const start, Index const end) const
-    {
+    Value getAccumulatedValueOnInterval(Index const start, Index const end) const    {
         // This has log(N) running time
         Value result{};
-        if(start<=end && start<m_partialTreeSums.size() && end<m_partialTreeSums.size())
-        {
+        if(start<=end && start<m_partialTreeSums.size() && end<m_partialTreeSums.size())        {
             // No possibility to find a partial sum because binary index tree does not guarantee a common index when traversing from different two indexes.
             if(0<start)
             {
@@ -95,36 +93,36 @@ public:
 
 private:
 
-    void initializePartialSums(Values const& valuesToCheck)
+    void initializePartialSums()
     {
-        m_partialTreeSums.reserve(valuesToCheck.size());
+        // This has N*log(N) running time
+        m_partialTreeSums.reserve(m_values.size());
         // Indexes here have plus one (for easier end loop conditions)
-        for(Index indexPlusOne=1; indexPlusOne<=valuesToCheck.size(); indexPlusOne++)
+        for(Index indexPlusOne=1; indexPlusOne<=m_values.size(); indexPlusOne++)
         {
             Index powerOf2Factor(getGreatestPowerOf2Factor(indexPlusOne));
-            m_partialTreeSums.emplace_back(getPartialTreeSum(indexPlusOne-powerOf2Factor, indexPlusOne-1));
+            m_partialTreeSums.emplace_back(getPartialTreeSum(powerOf2Factor, indexPlusOne));
         }
         m_partialTreeSums.shrink_to_fit();
     }
 
-    Value getPartialTreeSum(unsigned int const start, unsigned int const end) const
+    Value getPartialTreeSum(unsigned int const powerOf2Factor, unsigned int const indexPlusOne) const
     {
-        Value result{};
-        if(start<=end && start<m_values.size())
+        // This has log(N) running time
+        Value result(m_values.at(indexPlusOne-1));
+        unsigned int powerOf2FactorForPartialSum = powerOf2Factor/2;
+        for(unsigned int indexPlusOneForPartialSum = indexPlusOne-powerOf2FactorForPartialSum;
+            powerOf2FactorForPartialSum>0;
+            powerOf2FactorForPartialSum/=2, indexPlusOneForPartialSum += powerOf2FactorForPartialSum)
         {
-            result = m_values.at(start);
-            for(unsigned int i=start+1; i<=end && i<m_values.size(); i++)
-            {
-                result = m_accumulator(result, m_values.at(i));
-            }
+            // continuously accumulate partial sums (located at power of 2 distances) to get new partial sum
+            result = m_accumulator(result, m_partialTreeSums.at(indexPlusOneForPartialSum-1));
         }
         return result;
     }
-
     Index getGreatestPowerOf2Factor(Index const index) const
     {
-        return mathHelper::getGreatestPowerOf2Factor(index);
-    }
+        return mathHelper::getGreatestPowerOf2Factor(index);    }
 
     Values m_values;
     Values m_partialTreeSums;
