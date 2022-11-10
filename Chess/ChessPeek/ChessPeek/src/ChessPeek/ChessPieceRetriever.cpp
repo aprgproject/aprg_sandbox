@@ -6,17 +6,11 @@
 #include <bitset>
 #include <iostream>
 
-
-
-#include <Common/Debug/AlbaDebug.hpp>
-
 using namespace alba::AprgBitmap;
 using namespace alba::mathHelper;
 using namespace std;
-
 namespace alba
 {
-
 namespace chess
 {
 
@@ -32,15 +26,13 @@ Piece ChessPieceRetriever::getChessCellPiece(
         unsigned int const xIndex,
         unsigned int const yIndex) const
 {
-    return Piece(getPieceFromBitValue(m_piecesToChessCellValuesMap, getChessCellBitValue(chessBoardSnippet, xIndex, yIndex).to_ullong()));
+    return Piece(getBestPieceFromChessCellBitValue(getChessCellBitValue(chessBoardSnippet, xIndex, yIndex).to_ullong()));
 }
 
-ChessPieceRetriever::BitSet64 ChessPieceRetriever::getChessCellBitValue(
-        BitmapSnippet const& chessBoardSnippet,
+ChessPieceRetriever::BitSet64 ChessPieceRetriever::getChessCellBitValue(        BitmapSnippet const& chessBoardSnippet,
         unsigned int const xIndex,
         unsigned int const yIndex) const
-{
-    BitmapXY chessCellTopLeft, chessCellBottomRight;
+{    BitmapXY chessCellTopLeft, chessCellBottomRight;
     retrieveChessCellTopLeftAndBottomRight(chessCellTopLeft, chessCellBottomRight, chessBoardSnippet, xIndex, yIndex);
 
     BitSet64 result; // The object is initialized with zeros.
@@ -128,27 +120,25 @@ void ChessPieceRetriever::initializeConverterToChessDotCom()
     {{62, 78}, WhiteOrBlack::Black}, {{63, 55}, WhiteOrBlack::Black}, {{66, 16}, WhiteOrBlack::Black}, {{67, 54}, WhiteOrBlack::Black},
     {{67, 65}, WhiteOrBlack::Black}, {{73, 26}, WhiteOrBlack::Black}, {{74, 59}, WhiteOrBlack::Black}, {{76, 25}, WhiteOrBlack::Black},
     {{80, 48}, WhiteOrBlack::Black}, {{83, 39}, WhiteOrBlack::Black}, {{86, 52}, WhiteOrBlack::Black}, {{87, 33}, WhiteOrBlack::Black}};
-    m_piecesToChessCellValuesMap[PieceColorAndType::Empty] = 0;
-    m_piecesToChessCellValuesMap[PieceColorAndType::WhitePawn]   = 0B0000000000000010110111010000000000000000011100000001000100000000;
-    m_piecesToChessCellValuesMap[PieceColorAndType::WhiteKnight] = 0B0011101111101111010111111110000000000000000000010000000000001000;
-    m_piecesToChessCellValuesMap[PieceColorAndType::WhiteBishop] = 0B0000001010111011001011111010000000000110000001010010000000100000;
-    m_piecesToChessCellValuesMap[PieceColorAndType::WhiteRook]   = 0B0000010101111001100111101000100000001001000000000000000101010000;
-    m_piecesToChessCellValuesMap[PieceColorAndType::WhiteQueen]  = 0B1101001000011110100011111111001100000000000000000000000000001001;
-    m_piecesToChessCellValuesMap[PieceColorAndType::WhiteKing]   = 0B0111100100100011111111110000011000000000000000000000000000000000;
-    m_piecesToChessCellValuesMap[PieceColorAndType::BlackPawn]   = 0B0000000000000000000000000000000000000000011111011111110100000000;
-    m_piecesToChessCellValuesMap[PieceColorAndType::BlackKnight] = 0B0000000000000000000000000000000000110110011111011111110110101000;
-    m_piecesToChessCellValuesMap[PieceColorAndType::BlackBishop] = 0B0000000000000000000000000000000000000111111111111111110110100000;
-    m_piecesToChessCellValuesMap[PieceColorAndType::BlackRook]   = 0B0000000000000000000000000000000000001011111111011111110111010000;
-    m_piecesToChessCellValuesMap[PieceColorAndType::BlackQueen]  = 0B0000000000000000000000000000000010100101111110011111111110101101;
-    m_piecesToChessCellValuesMap[PieceColorAndType::BlackKing]   = 0B0000000000000000000000000000000011110111110111111111100010101110;
+    m_piecesToChessCellBitValuesMap[PieceColorAndType::Empty] = 0;
+    m_piecesToChessCellBitValuesMap[PieceColorAndType::WhitePawn]   = 0B0000000000000010110111010000000000000000011100000001000100000000;
+    m_piecesToChessCellBitValuesMap[PieceColorAndType::WhiteKnight] = 0B0011101111101111010111111110000000000000000000010000000000001000;
+    m_piecesToChessCellBitValuesMap[PieceColorAndType::WhiteBishop] = 0B0000001010111011001011111010000000000110000001010010000000100000;
+    m_piecesToChessCellBitValuesMap[PieceColorAndType::WhiteRook]   = 0B0000010101111001100111101000100000001001000000000000000101010000;
+    m_piecesToChessCellBitValuesMap[PieceColorAndType::WhiteQueen]  = 0B1101001000011110100011111111001100000000000000000000000000001001;
+    m_piecesToChessCellBitValuesMap[PieceColorAndType::WhiteKing]   = 0B0111100100100011111111110000011000000000000000000000000000000000;
+    m_piecesToChessCellBitValuesMap[PieceColorAndType::BlackPawn]   = 0B0000000000000000000000000000000000000000011111011111110100000000;
+    m_piecesToChessCellBitValuesMap[PieceColorAndType::BlackKnight] = 0B0000000000000000000000000000000000110110011111011111110110101000;
+    m_piecesToChessCellBitValuesMap[PieceColorAndType::BlackBishop] = 0B0000000000000000000000000000000000000111111111111111110110100000;
+    m_piecesToChessCellBitValuesMap[PieceColorAndType::BlackRook]   = 0B0000000000000000000000000000000000001011111111011111110111010000;
+    m_piecesToChessCellBitValuesMap[PieceColorAndType::BlackQueen]  = 0B0000000000000000000000000000000010100101111110011111111110101101;
+    m_piecesToChessCellBitValuesMap[PieceColorAndType::BlackKing]   = 0B0000000000000000000000000000000011110111110111111111100010101110;
 }
 
-void ChessPieceRetriever::initializeConverterToLichessDotOrg()
-{
+void ChessPieceRetriever::initializeConverterToLichessDotOrg(){
     m_checkMaxPoint = BitmapXY(93, 93);
     m_checkDetails = CheckDetails
-    {{{12, 25}, WhiteOrBlack::White}, {{16, 44}, WhiteOrBlack::White}, {{17, 59}, WhiteOrBlack::White}, {{22, 49}, WhiteOrBlack::White},
-    {{26, 42}, WhiteOrBlack::White}, {{27, 25}, WhiteOrBlack::White}, {{29, 18}, WhiteOrBlack::White}, {{33, 44}, WhiteOrBlack::White},
+    {{{12, 25}, WhiteOrBlack::White}, {{16, 44}, WhiteOrBlack::White}, {{17, 59}, WhiteOrBlack::White}, {{22, 49}, WhiteOrBlack::White},    {{26, 42}, WhiteOrBlack::White}, {{27, 25}, WhiteOrBlack::White}, {{29, 18}, WhiteOrBlack::White}, {{33, 44}, WhiteOrBlack::White},
     {{33, 53}, WhiteOrBlack::White}, {{38, 33}, WhiteOrBlack::White}, {{39, 46}, WhiteOrBlack::White}, {{41, 51}, WhiteOrBlack::White},
     {{46, 16}, WhiteOrBlack::White}, {{47, 26}, WhiteOrBlack::White}, {{47, 39}, WhiteOrBlack::White}, {{47, 49}, WhiteOrBlack::White},
     {{47, 79}, WhiteOrBlack::White}, {{54, 46}, WhiteOrBlack::White}, {{56, 33}, WhiteOrBlack::White}, {{61, 43}, WhiteOrBlack::White},
@@ -163,27 +153,25 @@ void ChessPieceRetriever::initializeConverterToLichessDotOrg()
     {{64, 15}, WhiteOrBlack::Black}, {{64, 19}, WhiteOrBlack::Black}, {{68, 19}, WhiteOrBlack::Black}, {{69, 54}, WhiteOrBlack::Black},
     {{70, 50}, WhiteOrBlack::Black}, {{71, 23}, WhiteOrBlack::Black}, {{73, 64}, WhiteOrBlack::Black}, {{76, 76}, WhiteOrBlack::Black},
     {{79, 31}, WhiteOrBlack::Black}, {{79, 79}, WhiteOrBlack::Black}, {{80, 67}, WhiteOrBlack::Black}, {{81, 25}, WhiteOrBlack::Black}};
-    m_piecesToChessCellValuesMap[PieceColorAndType::Empty] = 0;
-    m_piecesToChessCellValuesMap[PieceColorAndType::WhitePawn]   = 0B0000000000110111110000000000000000000000000010000001000000000000;
-    m_piecesToChessCellValuesMap[PieceColorAndType::WhiteKnight] = 0B0011100111100110111110011111110001001000011000110100000000010110;
-    m_piecesToChessCellValuesMap[PieceColorAndType::WhiteBishop] = 0B0000000101111101011100000000000000100000000100010100000000010100;
-    m_piecesToChessCellValuesMap[PieceColorAndType::WhiteRook]   = 0B0000010111110111111110100000000000000011001100010000011001010000;
-    m_piecesToChessCellValuesMap[PieceColorAndType::WhiteQueen]  = 0B1001001110001011100101000100100100011001110101001110101100001000;
-    m_piecesToChessCellValuesMap[PieceColorAndType::WhiteKing]   = 0B0101100110110010110110010110101000000000000000101000000000000000;
-    m_piecesToChessCellValuesMap[PieceColorAndType::BlackPawn]   = 0B0000000000000000000000000000000000000000000011111111000000000000;
-    m_piecesToChessCellValuesMap[PieceColorAndType::BlackKnight] = 0B0000000000000000000000000010110001001100111111111111000110100110;
-    m_piecesToChessCellValuesMap[PieceColorAndType::BlackBishop] = 0B0000000000010010000000000000000000100000000111111011000000010100;
-    m_piecesToChessCellValuesMap[PieceColorAndType::BlackRook]   = 0B0000000001000000001000000000000000000011011111111111011001010000;
-    m_piecesToChessCellValuesMap[PieceColorAndType::BlackQueen]  = 0B0000000000000000000000000000000010011101111111111111111110001001;
-    m_piecesToChessCellValuesMap[PieceColorAndType::BlackKing]   = 0B0000000000000001000000001000000000001100100111011111000110000000;
+    m_piecesToChessCellBitValuesMap[PieceColorAndType::Empty] = 0;
+    m_piecesToChessCellBitValuesMap[PieceColorAndType::WhitePawn]   = 0B0000000000110111110000000000000000000000000010000001000000000000;
+    m_piecesToChessCellBitValuesMap[PieceColorAndType::WhiteKnight] = 0B0011100111100110111110011111110001001000011000110100000000010110;
+    m_piecesToChessCellBitValuesMap[PieceColorAndType::WhiteBishop] = 0B0000000101111101011100000000000000100000000100010100000000010100;
+    m_piecesToChessCellBitValuesMap[PieceColorAndType::WhiteRook]   = 0B0000010111110111111110100000000000000011001100010000011001010000;
+    m_piecesToChessCellBitValuesMap[PieceColorAndType::WhiteQueen]  = 0B1001001110001011100101000100100100011001110101001110101100001000;
+    m_piecesToChessCellBitValuesMap[PieceColorAndType::WhiteKing]   = 0B0101100110110010110110010110101000000000000000101000000000000000;
+    m_piecesToChessCellBitValuesMap[PieceColorAndType::BlackPawn]   = 0B0000000000000000000000000000000000000000000011111111000000000000;
+    m_piecesToChessCellBitValuesMap[PieceColorAndType::BlackKnight] = 0B0000000000000000000000000010110001001100111111111111000110100110;
+    m_piecesToChessCellBitValuesMap[PieceColorAndType::BlackBishop] = 0B0000000000010010000000000000000000100000000111111011000000010100;
+    m_piecesToChessCellBitValuesMap[PieceColorAndType::BlackRook]   = 0B0000000001000000001000000000000000000011011111111111011001010000;
+    m_piecesToChessCellBitValuesMap[PieceColorAndType::BlackQueen]  = 0B0000000000000000000000000000000010011101111111111111111110001001;
+    m_piecesToChessCellBitValuesMap[PieceColorAndType::BlackKing]   = 0B0000000000000001000000001000000000001100100111011111000110000000;
 }
 
-bool ChessPieceRetriever::isBitValueAsserted(
-        BitmapSnippet const& chessBoardSnippet,
+bool ChessPieceRetriever::isBitValueAsserted(        BitmapSnippet const& chessBoardSnippet,
         CheckDetail const& checkDetail,
         BitmapXY const& chessCellTopLeft,
-        BitmapXY const& chessCellBottomRight) const
-{
+        BitmapXY const& chessCellBottomRight) const{
     static const BitmapXYs aroundOffsets{BitmapXY(0, -1), BitmapXY(0, 1), BitmapXY(-1, 0), BitmapXY(1, 0)};
 
     bool result(false);
@@ -220,26 +208,19 @@ bool ChessPieceRetriever::isBitValueAsserted(
         }
         result = minimum < m_configuration.getBlackColorLimit();
     }
-    //ALBA_PRINT6(result, chessCellTopLeft, chessCellBottomRight, pointToCheck, checkDetail.pointOffset, (int)checkDetail.condition);
     return result;
 }
 
-PieceColorAndType ChessPieceRetriever::getPieceFromBitValue(
-        PieceToBitValueMap const& pieceToBitValueMap,
-        uint64_t const bitValue) const
+PieceColorAndType ChessPieceRetriever::getBestPieceFromChessCellBitValue(
+        uint64_t const chessCellBitValue) const
 {
-    PieceToBitValueMap differenceMap(getDifferenceMap(pieceToBitValueMap, bitValue));
-    PieceToCountPerByteMap pieceToDifferenceOfEachByteMap(getDifferenceOfEachByteMap(differenceMap));
-    PieceToCountMap pieceToScoreMap(getPieceToScoreMap(pieceToDifferenceOfEachByteMap));
-    PieceColorAndTypes bestFitPieces(getBestFitPieces(pieceToScoreMap));
+    PieceColorAndTypes bestFitPieces(getBestFitPiecesFromChessCellBitValue(chessCellBitValue));
 
     PieceColorAndType result{};
-    if(bestFitPieces.size() == 1)
-    {
+    if(bestFitPieces.size() == 1)    {
         result = bestFitPieces.back();
     }
-    /*else if(m_logFileStreamOptional)
-    {
+    /*else if(m_logFileStreamOptional)    {
         auto & logStream(m_logFileStreamOptional.getReference());
         bitset<64> bitsetValue(bitValue);
         logStream << "Cannot determine bestFitType with bitValue: " << bitsetValue.to_string() << endl;
@@ -253,112 +234,36 @@ PieceColorAndType ChessPieceRetriever::getPieceFromBitValue(
     return result;
 }
 
-ChessPieceRetriever::PieceToBitValueMap ChessPieceRetriever::getDifferenceMap(
-        PieceToBitValueMap const& pieceToBitValueMap,
-        uint64_t const bitValue) const
+ChessPieceRetriever::PieceColorAndTypes ChessPieceRetriever::getBestFitPiecesFromChessCellBitValue(
+        uint64_t const chessCellBitValue) const
 {
-    PieceToBitValueMap differenceMap(pieceToBitValueMap);
-    for(auto & pieceAndBitValuePair : differenceMap)
+    PieceColorAndTypes result;
+    Count minimumDifferenceCount(65U);
+    for(auto & pieceAndChessCellBitValuePair : m_piecesToChessCellBitValuesMap)
     {
-        pieceAndBitValuePair.second ^= bitValue;
-    }
-    return differenceMap;
-}
-
-ChessPieceRetriever::PieceToCountPerByteMap ChessPieceRetriever::getDifferenceOfEachByteMap(
-        PieceToBitValueMap const& differenceMap) const
-{
-    PieceToCountPerByteMap differenceOfEachByteMap;
-    for(auto const& pieceAndDifferencePair : differenceMap)
-    {
-        uint64_t difference(pieceAndDifferencePair.second);
-        CountPerByte & differencePerByte(differenceOfEachByteMap[pieceAndDifferencePair.first]);
-        differencePerByte[0] = static_cast<Count>(BitValueUtilities::getNumberOfOnes(BitManipulator::getByteAt<0>(difference)));
-        differencePerByte[1] = static_cast<Count>(BitValueUtilities::getNumberOfOnes(BitManipulator::getByteAt<1>(difference)));
-        differencePerByte[2] = static_cast<Count>(BitValueUtilities::getNumberOfOnes(BitManipulator::getByteAt<2>(difference)));
-        differencePerByte[3] = static_cast<Count>(BitValueUtilities::getNumberOfOnes(BitManipulator::getByteAt<3>(difference)));
-        differencePerByte[4] = static_cast<Count>(BitValueUtilities::getNumberOfOnes(BitManipulator::getByteAt<4>(difference)));
-        differencePerByte[5] = static_cast<Count>(BitValueUtilities::getNumberOfOnes(BitManipulator::getByteAt<5>(difference)));
-        differencePerByte[6] = static_cast<Count>(BitValueUtilities::getNumberOfOnes(BitManipulator::getByteAt<6>(difference)));
-        differencePerByte[7] = static_cast<Count>(BitValueUtilities::getNumberOfOnes(BitManipulator::getByteAt<7>(difference)));
-    }
-    return differenceOfEachByteMap;
-}
-
-ChessPieceRetriever::PieceToCountMap ChessPieceRetriever::getPieceToScoreMap(
-        PieceToCountPerByteMap const& pieceToDifferenceOfEachByteMap) const
-{
-    PieceToCountMap pieceToScoreMap
-    {{PieceColorAndType::WhitePawn, 0U}, {PieceColorAndType::WhiteKnight, 0U}, {PieceColorAndType::WhiteBishop, 0U},
-        {PieceColorAndType::WhiteRook, 0U}, {PieceColorAndType::WhiteQueen, 0U}, {PieceColorAndType::WhiteKing, 0U},
-        {PieceColorAndType::BlackPawn, 0U}, {PieceColorAndType::BlackKnight, 0U}, {PieceColorAndType::BlackBishop, 0U},
-        {PieceColorAndType::BlackRook, 0U}, {PieceColorAndType::BlackQueen, 0U}, {PieceColorAndType::BlackKing, 0U}};
-    for(unsigned int byteIndex=0; byteIndex<8; byteIndex++)
-    {
-        PieceColorAndTypes piecesWithMinimum;
-        Count minimumDifference(9U);
-        for(auto const& pieceToDifferenceOfEachBytePair : pieceToDifferenceOfEachByteMap)
+        PieceColorAndType piece(pieceAndChessCellBitValuePair.first);
+        uint64_t pieceChessCellBitValue(pieceAndChessCellBitValuePair.second);
+        Count differenceCount = static_cast<Count>(BitValueUtilities::getNumberOfOnes(pieceChessCellBitValue^chessCellBitValue));
+        if(minimumDifferenceCount > differenceCount)
         {
-            PieceColorAndType piece(pieceToDifferenceOfEachBytePair.first);
-            CountPerByte const& differencePerByte(pieceToDifferenceOfEachBytePair.second);
-            Count differenceAtByte(differencePerByte.at(byteIndex));
-            if(minimumDifference > differenceAtByte)
-            {
-                minimumDifference = differenceAtByte;
-                piecesWithMinimum.clear();
-                piecesWithMinimum.emplace_back(piece);
-            }
-            else if(minimumDifference == differenceAtByte)
-            {
-                piecesWithMinimum.emplace_back(piece);
-            }
+            minimumDifferenceCount = differenceCount;
+            result.clear();
+            result.emplace_back(piece);
         }
-        for(PieceColorAndType const pieceWithMinimum : piecesWithMinimum)
+        else if(minimumDifferenceCount == differenceCount)
         {
-            pieceToScoreMap[pieceWithMinimum]++;
+            result.emplace_back(piece);
         }
     }
-    return pieceToScoreMap;
-}
-
-ChessPieceRetriever::PieceColorAndTypes ChessPieceRetriever::getBestFitPieces(
-        PieceToCountMap const& pieceToScoreMap) const
-{
-    PieceColorAndTypes bestFitTypes;
-    CountToPieceMultiMap scoreToPieceMultimap;
-    for(auto const& pieceAndScorePair : pieceToScoreMap)
-    {
-        scoreToPieceMultimap.emplace(pieceAndScorePair.second, pieceAndScorePair.first);
-    }
-    if(!scoreToPieceMultimap.empty())
-    {
-        auto it = scoreToPieceMultimap.crbegin();
-        Count maximumScore = it->first;
-        bestFitTypes.emplace_back(it->second);
-        it++;
-        for(; it!=scoreToPieceMultimap.crend(); it++)
-        {
-            if(maximumScore == it->first)
-            {
-                bestFitTypes.emplace_back(it->second);
-            }
-            else
-            {
-                break;
-            }
-        }
-    }
-    return bestFitTypes;
+    return result;
 }
 
 void ChessPieceRetriever::retrieveChessCellTopLeftAndBottomRight(
         BitmapXY & chessCellTopLeft,
-        BitmapXY & chessCellBottomRight,
-        BitmapSnippet const& chessBoardSnippet,
+        BitmapXY & chessCellBottomRight,        BitmapSnippet const& chessBoardSnippet,
         unsigned int const xIndex,
         unsigned int const yIndex) const
-{
-    double startX = chessBoardSnippet.getTopLeftCorner().getX();
+{    double startX = chessBoardSnippet.getTopLeftCorner().getX();
     double startY = chessBoardSnippet.getTopLeftCorner().getY();
     double endX = chessBoardSnippet.getBottomRightCorner().getX();
     double endY = chessBoardSnippet.getBottomRightCorner().getY();

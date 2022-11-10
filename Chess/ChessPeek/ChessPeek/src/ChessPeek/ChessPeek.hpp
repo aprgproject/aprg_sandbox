@@ -70,15 +70,13 @@ private:
     void putSeparators(DisplayTable & displayTable) const;
     void putCurrentMovesTable(Moves const& currentMoves) const;
     void printFutureMovesTable(Moves const& futureMoves) const;
-    std::string getChessCellForDisplay(Piece const& piece, unsigned int const moveNumberStart) const;
+    std::string getChessCellForDisplay(Piece const& piece, unsigned int const moveNumberStart, bool const canPreMove) const;
     unsigned int getNumberOfColumnsOfDisplayTable(unsigned int const numberOfChessBoards) const;
 
     void initialize();
-
     ChessPeekConfiguration m_configuration;
     ChessPieceRetriever m_pieceRetriever;
-    ChessEngineHandler m_chessEngineHandler;
-    ChessEngineControllerWithUci m_chessEngineController;
+    ChessEngineHandler m_chessEngineHandler;    ChessEngineControllerWithUci m_chessEngineController;
     AlbaLocalUserAutomation m_userAutomation;
     PeekCalculationDetails m_savedCalculationDetails;
     Board m_chessBoard;
