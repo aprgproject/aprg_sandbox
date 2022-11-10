@@ -15,19 +15,17 @@ LongestIncreasingSubsequence::Length LongestIncreasingSubsequence::getLongestInc
     for (Length index=0; index<m_sequenceToCheck.size(); index++)
     {
         bool isLongestPartialFound(false);
-        for(auto it = lengthToIndexMap.crbegin(); it!=lengthToIndexMap.crend(); it++)
+        for(auto itWithMaxLength = lengthToIndexMap.crbegin(); itWithMaxLength!=lengthToIndexMap.crend(); itWithMaxLength++)
         {
-            if(m_sequenceToCheck.at(it->second) < m_sequenceToCheck.at(index))
+            if(m_sequenceToCheck.at(itWithMaxLength->second) < m_sequenceToCheck.at(index))
             {
-                lengthToIndexMap.emplace(it->first + 1U, index);
+                lengthToIndexMap.emplace(itWithMaxLength->first + 1U, index);
                 isLongestPartialFound = true;
                 break;
-            }
-        }
+            }        }
         if(!isLongestPartialFound)
         {
-            lengthToIndexMap.emplace(1U, index);
-        }
+            lengthToIndexMap.emplace(1U, index);        }
     }
     Length result{};
     if(!lengthToIndexMap.empty())

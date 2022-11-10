@@ -16,23 +16,22 @@ CountingSubGrids::CountingSubGrids(BitGrid const& bitGrid)
 unsigned int CountingSubGrids::countSubGridsWithAllBlackCorners() const
 {
     unsigned int result = 0;
-    for(unsigned int row1=0; row1<m_bitValueGrid.getNumberOfRows(); row1++)
+    for(unsigned int row=0; row<m_bitValueGrid.getNumberOfRows(); row++)
     {
-        for(unsigned int row2=row1+1; row2<m_bitValueGrid.getNumberOfRows(); row2++)
+        for(unsigned int nextRow=row+1; nextRow<m_bitValueGrid.getNumberOfRows(); nextRow++)
         {
+            unsigned int commonBlackColumns(0U);
             for (unsigned int i=0; i<m_bitValueGrid.getNumberOfColumns(); i++)
             {
-                unsigned int commonBlackColumns = BitValueUtilities::getNumberOfOnes(m_bitValueGrid.getEntry(i, row1) & m_bitValueGrid.getEntry(i, row2));
-                result += commonBlackColumns*(commonBlackColumns-1)/2;
+                commonBlackColumns += BitValueUtilities::getNumberOfOnes(m_bitValueGrid.getEntry(i, row) & m_bitValueGrid.getEntry(i, nextRow));
             }
+            result += commonBlackColumns*(commonBlackColumns-1)/2; // combinations of subgrids based on common black columns
         }
     }
-    return result;
-}
+    return result;}
 
 void CountingSubGrids::initialize(BitGrid const& bitGrid)
-{
-    if(bitGrid.getNumberOfRows() <= bitGrid.getNumberOfColumns())
+{    if(bitGrid.getNumberOfRows() <= bitGrid.getNumberOfColumns())
     {
         unsigned int newColumns((bitGrid.getNumberOfColumns()+NUMBER_OF_BITS-1)/NUMBER_OF_BITS);
         unsigned int newRows(bitGrid.getNumberOfRows());

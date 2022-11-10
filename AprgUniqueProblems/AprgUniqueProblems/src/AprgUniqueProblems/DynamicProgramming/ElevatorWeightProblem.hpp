@@ -43,7 +43,7 @@ private:
     PeopleBits removePerson(PeopleBits const peopleBits, Person const person) const;
     Weight m_maximumElevatorWeight;
     Weights m_peopleWeights;
-    NumberOfRidesAndWeights m_numberOfRidesAndLastWeight;
+    NumberOfRidesAndWeights m_numberOfRidesAndLastWeights;
 };
 
 }

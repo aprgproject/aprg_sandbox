@@ -29,15 +29,13 @@ public:
     using ProductAndDayPair = std::pair<Product, Day>;
     using ProductAndDayPairs = std::vector<ProductAndDayPair>;
 
-    ProductDayProblem(PriceMatrix const& pricesInProductByDay);
+    ProductDayProblem(PriceMatrix const& pricesInDayByProduct);
 
     Price getProductAndDayPairsForMinimumPrice();
-private:
-    bool isProductIncluded(ProductBits const productBits, Product const product) const;
+private:    bool isProductIncluded(ProductBits const productBits, Product const product) const;
     Product getNumberOfProducts() const;
     Day getNumberOfDays() const;
-    ProductBits getNumberOfProductsSubsets() const;
-    ProductBits getProductBits(Product const product) const;
+    ProductBits getNumberOfProductsSubsets() const;    ProductBits getProductBits(Product const product) const;
     ProductBits removeProduct(ProductBits const productBits, Product const product) const;
     void initialize();
     PriceMatrix m_pricesInDayByProduct;
