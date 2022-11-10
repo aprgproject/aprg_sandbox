@@ -93,3 +93,17 @@ private:
 }
 
 }
+
+// Given a set of n line segments, each of them being either horizontal or vertical,
+// consider the problem of counting the total number of intersection points.
+
+// It is easy to solve the problem in O(n2) time, because we can go through all possible pairs of line segments and check if they intersect.
+// However, we can solve the problem more efficiently in O(nlogn) time using a sweep line algorithm and a range query data structure.
+// The idea is to process the endpoints of the line segments from left to right and focus on three types of events:
+// -> (1) horizontal segment begins
+// -> (2) horizontal segment ends
+// -> (3) vertical segment
+
+// We go through the events from left to right and use a data structure that maintains a set of y coordinates where there is an active horizontal segment.
+// To store y coordinates of horizontal segments, we can use a binary indexed or segment tree, possibly with index compression.
+// When such structures are used, processing each event takes O(logn) time, so the total running time of the algorithm is O(nlogn).
