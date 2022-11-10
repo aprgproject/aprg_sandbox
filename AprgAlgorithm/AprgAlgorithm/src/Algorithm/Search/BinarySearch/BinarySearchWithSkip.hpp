@@ -21,53 +21,97 @@ public:
 
     Value findNearestValue(Value const& value)
     {
-        Index index(0);
-        Index size(m_sortedValues.size());
-        for(Index skip = size/2; skip>=1; skip/=2) // skip start from half of size, then quarter of size, then eighth of size and soon
+        Value result{};
+        if(!m_sortedValues.empty())
         {
-            while(index+skip < size && m_sortedValues.at(index+skip) <= value)
-            {
-                index += skip;
-            }
-        }
-        return getNearestValueOnCurrentIndex(value, index);
-    }
-
-private:
-
-    Value getNearestValueOnCurrentIndex(Value const& value, Index const index) const
-    {
-        Value firstValue(getValueAt(index));
-        Value secondValue(getValueAt(index+1));
-        Value distanceFromFirstValue(mathHelper::getPositiveDelta(value, firstValue));
-        Value distanceFromSecondValue(mathHelper::getPositiveDelta(value, secondValue));
-        Value lowestDistance(std::min(distanceFromFirstValue, distanceFromSecondValue));
-        Value result;
-        if(lowestDistance==distanceFromFirstValue)
-        {
-            result = firstValue;
-        }
-        else if(lowestDistance==distanceFromSecondValue)
-        {
-            result = secondValue;
+            Index lowerIndex(getNearestLowerIndex(value));
+            result = getNearestValue(value, lowerIndex);
         }
         return result;
     }
 
-    inline Value getValueAt(Index const index) const
+    Index findIndexOfNearestValue(Value const& value)
     {
-        Value value{};
-        if(index<m_sortedValues.size())
+        Index result{};
+        if(!m_sortedValues.empty())
         {
-            value = m_sortedValues.at(index);
+            Index lowerIndex(getNearestLowerIndex(value));
+            result = getIndexOfNearestValue(value, lowerIndex);
         }
-        return value;
+        return result;
+    }
+
+private:
+
+    Index getNearestLowerIndex(Value const& value)
+    {
+        Index result(0);
+        Index size(m_sortedValues.size());
+        for(Index forwardSkip = size/2; forwardSkip>=1; forwardSkip/=2) // forward skip start from half of size, then quarter of size, then eighth of size and soon
+        {
+            while(result+forwardSkip < size && m_sortedValues.at(result+forwardSkip) <= value)
+            {
+                result += forwardSkip;
+            }
+        }
+        return result;
+    }
+
+    Value getNearestValue(Value const& value, Index const lowerIndex) const
+    {
+        Value result{};
+        Value lowerValue(m_sortedValues.at(lowerIndex));
+        if(value == lowerValue)
+        {
+            result = value;
+        }
+        else
+        {
+            Value higherValue(m_sortedValues.at(getHigherIndex(lowerIndex)));
+            Value distanceFromLower(mathHelper::getPositiveDelta(value, lowerValue));
+            Value distanceFromHigher(mathHelper::getPositiveDelta(value, higherValue));
+            result = (distanceFromLower <= distanceFromHigher) ? lowerValue : higherValue;
+        }
+        return result;
+    }
+
+    Index getIndexOfNearestValue(Value const& value, Index const lowerIndex) const
+    {
+        Index result{};
+        Value lowerValue(m_sortedValues.at(lowerIndex));
+        if(value == lowerValue)
+        {
+            result = lowerIndex;
+        }
+        else
+        {
+            Value higherIndex(getHigherIndex(lowerIndex));
+            Value higherValue(m_sortedValues.at(higherIndex));
+            Value distanceFromLower(mathHelper::getPositiveDelta(value, lowerValue));
+            Value distanceFromHigher(mathHelper::getPositiveDelta(value, higherValue));
+            result = (distanceFromLower <= distanceFromHigher) ? lowerIndex : higherIndex;
+        }
+        return result;
+    }
+
+    Index getHigherIndex(Index const lowerIndex) const
+    {
+        return std::min(lowerIndex+1, m_sortedValues.size()-1);
     }
 
 private:
     Values const& m_sortedValues;
 };
-
 }
 
 }
+
+// An alternative method to implement binary search is based on an efficient way to iterate through the elements of the array.
+// The idea is to make jumps and slow the speed when we get closer to the target element.
+
+// The search goes through the array from left to right, and the initial jump length is n/2.
+// At each step, the jump length will be halved: first n/4, then n/8, n/16, etc., until finally the length is 1.
+// After the jumps, either the target element has been found or we know that it does not appear in the array.
+
+// During the search, the variable b contains the current jump length.
+// The time complexity of the algorithm is O(logn), because the code in the while loop is performed at most twice for each jump length.

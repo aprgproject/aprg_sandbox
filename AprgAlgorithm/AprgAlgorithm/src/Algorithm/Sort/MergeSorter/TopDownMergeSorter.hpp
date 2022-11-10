@@ -73,6 +73,20 @@ private:
 
 // Duplicate keys -> If no effect on merge operation, no effect on overall algorithm.
 
+
+// Other discussions:
+// It is possible to sort an array efficiently in O(nlogn) time using algorithms that are not limited to swapping consecutive elements.
+// One such algorithm is merge sort, which is based on recursion.
+// Merge sort sorts a subarray array[a...b] as follows:
+// 1. If a = b, do not do anything, because the subarray is already sorted.
+// 2. Calculate the position of the middle element: k = b(a+b)/2.
+// 3. Recursively sort the subarray array[a...k].
+// 4. Recursively sort the subarray array[k+1...b].
+// 5. Merge the sorted subarrays array[a...k] and array[k+1...b] into a sorted subarray array[a...b].
+// Merge sort is an efficient algorithm, because it halves the size of the subarray at each step.
+// The recursion consists of O(logn) levels, and processing each level takes O(n) time.
+// Merging the subarrays array[a...k] and array[k +1...b] is possible in linear time, because they are already sorted.
+
 }
 
 }

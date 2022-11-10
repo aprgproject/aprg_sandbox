@@ -18,20 +18,18 @@ public:
     {
         Values auxiliary(valuesToSort);
         unsigned int const size = valuesToSort.size();
-        for(unsigned int sizeToSort=1; sizeToSort<size; sizeToSort+=sizeToSort)
+        for(unsigned int sizeToSort=1; sizeToSort<size; sizeToSort*=2U)
         {
-            for(unsigned int lowest=0; lowest < size-sizeToSort; lowest+=2*sizeToSort)
+            for(unsigned int lowest=0; lowest < size-sizeToSort; lowest+=sizeToSort*2U)
             {
                 unsigned int middle = lowest+sizeToSort-1;
-                unsigned int highest = std::min(lowest+(2*sizeToSort)-1, size-1);
+                unsigned int highest = std::min(lowest+(sizeToSort*2U)-1, size-1);
                 mergeTheTwoSortedParts(valuesToSort, auxiliary, lowest, middle, highest);
             }
-        }
-    }
+        }    }
 };
 
-// No recursion approach
-// Concise industrial-strength code, if you have the space
+// No recursion approach// Concise industrial-strength code, if you have the space
 
 // Takes N*log2(N) as well
 
