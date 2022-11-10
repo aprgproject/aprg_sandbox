@@ -38,13 +38,20 @@ public:
 
     static Subsets generateSubsetsUsingOnlyRecursion(Objects const& objects)
     {
+        // An elegant way to go through all subsets of a set is to use recursion.
+        // The following function search generates the subsets of the set {0,1,...,n¡1}.
+        // The function maintains a vector subset that will contain the elements of each subset.
+        // The search begins when the function is called with parameter 0.
+
+        // When the function search is called with parameter k, it decides whether to include the element k in the subset or not,
+        // and in both cases, then calls itself with parameter k+1.
+        // However, if k=n, the function notices that all elements have been processed and a subset has been generated.
+
         Subsets result;
         Subset currentSubset;
-        collectSubsetsUsingOnlyRecursion(result, currentSubset, objects, 0);
-        return result;
+        collectSubsetsUsingOnlyRecursion(result, currentSubset, objects, 0);        return result;
     }
 private:
-
     static void collectOrderedSubsetsUsingDfs(Subsets & subsets, Subset & currentSubset, Objects const& objects, unsigned int const index)
     {
         //DFS like traversal

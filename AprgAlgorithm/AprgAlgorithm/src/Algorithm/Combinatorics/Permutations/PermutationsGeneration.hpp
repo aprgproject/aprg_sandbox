@@ -37,26 +37,35 @@ public:
 
     static Permutations generatePermutationsUsingCppFunctions(Objects const& objects)
     {
+        // Another method for generating permutations is to begin with the permutation {0,1,...,n-1}
+        // and repeatedly use a function that constructs the next permutation in increasing order.
+        // The C++ standard library contains the function next_permutation that can be used for this.
+
         Permutations result;
         Permutation currentPermutation(objects);
-        do
-        {
+        do        {
             result.emplace_back(currentPermutation);
         }
-        while(std::next_permutation(currentPermutation.begin(), currentPermutation.end()));
-        return result;
+        while(std::next_permutation(currentPermutation.begin(), currentPermutation.end()));        return result;
     }
 
     static Permutations generatePermutationsUsingRecursion(Objects const& objects)
     {
+        // Like subsets, permutations can be generated using recursion.
+        // The following function search goes through the permutations of the set {0,1,...,n-1}.
+        // The function builds a vector permutation that contains the permutation,
+        // and the search begins when the function is called without parameters..
+
+        // Each function call adds a new element to permutation.
+        // The array "chosen" indicates which elements are already included in the permutation.
+        // If the size of permutation equals the size of the set, a permutation has been generated.
+
         Permutations result;
         RecursionData recursionData(createRecursionData(result, objects, objects.size()));
-        collectPermutationsUsingRecursion(recursionData);
-        return result;
+        collectPermutationsUsingRecursion(recursionData);        return result;
     }
 
-    static Permutations generatePermutationsWithLength(Objects const& objects, unsigned int const targetPermutationLength)
-    {
+    static Permutations generatePermutationsWithLength(Objects const& objects, unsigned int const targetPermutationLength)    {
         Permutations result;
         RecursionData recursionData(createRecursionData(result, objects, std::min(targetPermutationLength, objects.size())));
         collectPermutationsUsingRecursion(recursionData);
