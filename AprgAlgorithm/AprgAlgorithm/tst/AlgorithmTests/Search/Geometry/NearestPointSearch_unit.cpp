@@ -17,19 +17,23 @@ using PointForTest = SearchForTest::Point;
 using PointPairForTest = SearchForTest::PointPair;
 }
 
-TEST(NearestPointSearchTest, GetNearestPointWorksWhenPointIsAtTheLeft){
+TEST(NearestPointSearchTest, GetNearestPointWorksWhenPointIsAtTheLeft)
+{
     SearchForTest search;
     search.addPoint({0, 0});
-    search.addPoint({-5, 0});    search.addPoint({5, 0});
+    search.addPoint({-5, 0});
+    search.addPoint({5, 0});
 
     auto pointToVerify(search.getNearestPoint({-3, 0}));
 
     PointForTest pointToExpect{-5, 0};
     EXPECT_EQ(pointToExpect, pointToVerify);
 }
+
 TEST(NearestPointSearchTest, GetNearestPointWorksWhenPointIsAtTheRight)
 {
-    SearchForTest search;    search.addPoint({0, 0});
+    SearchForTest search;
+    search.addPoint({0, 0});
     search.addPoint({-5, 0});
     search.addPoint({5, 0});
 
@@ -38,9 +42,11 @@ TEST(NearestPointSearchTest, GetNearestPointWorksWhenPointIsAtTheRight)
     PointForTest pointToExpect{5, 0};
     EXPECT_EQ(pointToExpect, pointToVerify);
 }
+
 TEST(NearestPointSearchTest, GetNearestPointWorksOnComplicatedExample)
 {
-    SearchForTest search;    search.addPoint({0, 0});
+    SearchForTest search;
+    search.addPoint({0, 0});
     search.addPoint({3, -2});
     search.addPoint({-2, 2});
     search.addPoint({-3, -4});

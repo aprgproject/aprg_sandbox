@@ -110,6 +110,7 @@ TEST(AlbaMathVectorUtilitiesTest, GetCrossProductWorksForThreeDimensions)
     VectorThreeElements vectorToExpect{1, -17, -5};
     EXPECT_EQ(vectorToExpect, getCrossProduct(mathVector1, mathVector2));
 }
+
 TEST(AlbaMathVectorUtilitiesTest, GetAngleBetweenTwoVectorsWorks)
 {
     VectorTwoElements mathVector1{0, 4};

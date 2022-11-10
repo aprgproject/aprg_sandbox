@@ -43,7 +43,8 @@ public:
     {
         return std::equal(m_values.cbegin(), m_values.cend(), second.m_values.cbegin(),
                           [](DataType const first, DataType const second)
-        {            return isEqualForMathVectorDataType(first, second);
+        {
+            return isEqualForMathVectorDataType(first, second);
         });
     }
 

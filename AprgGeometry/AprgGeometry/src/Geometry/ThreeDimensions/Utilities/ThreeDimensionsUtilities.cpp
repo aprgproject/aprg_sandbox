@@ -145,7 +145,8 @@ double getDistance(Point const& point1, Point const& point2)
     return getSquareRootOfXSquaredPlusYSquaredPlusZSquared<double>(delta.getX(), delta.getY(), delta.getZ());
 }
 
-double getDistance(Line const& line, Point const& point){
+double getDistance(Line const& line, Point const& point)
+{
     Plane perpendicularPlane(getPerpendicularPlaneOfALineAndUsingAPointInThePlane(line, point));
     Point nearestPoint(getPointOfIntersectionOfAPlaneAndALine(perpendicularPlane, line));
     return getDistance(point, nearestPoint);
@@ -169,6 +170,7 @@ double getDistance(Line const& line1, Line const& line2)
 
         Plane plane1(perpendicularVector.getValueAt(0), perpendicularVector.getValueAt(1), perpendicularVector.getValueAt(2), pointInLine1);
         Plane plane2(perpendicularVector.getValueAt(0), perpendicularVector.getValueAt(1), perpendicularVector.getValueAt(2), pointInLine2);
+
         distance = getDistance(plane1, plane2);
     }
     return distance;
@@ -212,7 +214,8 @@ Vector constructNormalVector(Plane const& plane)
 
 AlbaAngle getTheInnerAngleUsingThreePoints(Point const& pointA, Point const& pointB, Point const& pointC)
 {
-    Point deltaBA(pointB-pointA);    Point deltaCA(pointC-pointA);
+    Point deltaBA(pointB-pointA);
+    Point deltaCA(pointC-pointA);
     return AlbaAngle(AngleUnitType::Radians, acos(getCosineOfAngleUsing2Deltas(constructVector(deltaBA), constructVector(deltaCA))));
 }
 
@@ -220,7 +223,8 @@ AlbaAngle getTheSmallerAngleBetweenTwoLines(Line const& line1, Line const& line2
 {
     AlbaAngle smallerAngle;
     if(areLinesParallel(line1, line2))
-    {        smallerAngle = AlbaAngle(AngleUnitType::Degrees, 0);
+    {
+        smallerAngle = AlbaAngle(AngleUnitType::Degrees, 0);
     }
     else
     {
@@ -236,7 +240,8 @@ AlbaAngle getTheSmallerAngleBetweenTwoLines(Line const& line1, Line const& line2
 
 AlbaAngle getTheLargerAngleBetweenTwoLines(Line const& line1, Line const& line2)
 {
-    AlbaAngle smallerAngle(getTheSmallerAngleBetweenTwoLines(line1, line2));    return AlbaAngle(AngleUnitType::Degrees, 180-smallerAngle.getDegrees());
+    AlbaAngle smallerAngle(getTheSmallerAngleBetweenTwoLines(line1, line2));
+    return AlbaAngle(AngleUnitType::Degrees, 180-smallerAngle.getDegrees());
 }
 
 AlbaAngle getTheSmallerDihedralAngleBetweenTwoPlanes(Plane const& plane1, Plane const& plane2)
@@ -257,7 +262,8 @@ AlbaAngle getTheSmallerDihedralAngleBetweenTwoPlanes(Plane const& plane1, Plane 
 
 AlbaAngle getTheLargerDihedralAngleBetweenTwoPlanes(Plane const& plane1, Plane const& plane2)
 {
-    AlbaAngle smallerAngle(getTheSmallerDihedralAngleBetweenTwoPlanes(plane1, plane2));    return AlbaAngle(AngleUnitType::Degrees, 180-smallerAngle.getDegrees());
+    AlbaAngle smallerAngle(getTheSmallerDihedralAngleBetweenTwoPlanes(plane1, plane2));
+    return AlbaAngle(AngleUnitType::Degrees, 180-smallerAngle.getDegrees());
 }
 
 Point getMidpoint(Point const& point1, Point const& point2)
@@ -308,7 +314,8 @@ Line getLineOfIntersectionOfTwoPlanes(Plane const& plane1, Plane const& plane2)
 
     //format is a1x+b1y+c1z+d1 = 0
     //format is a2x+b2y+c2z+d2 = 0
-    //assuming z=0    //yCoordinateIntersection calculation is (a1d2-a2d1)/(a2b1-a1b2)
+    //assuming z=0
+    //yCoordinateIntersection calculation is (a1d2-a2d1)/(a2b1-a1b2)
 
     double xCoordinateIntersection = plane1.calculateXFromYAndZ(yCoordinateIntersection, 0.0).getConstReference();
     Point point1(xCoordinateIntersection, yCoordinateIntersection, 0.0);

@@ -26,10 +26,12 @@ public:
                 unsigned int highest = std::min(lowest+(sizeToSort*2U)-1, size-1);
                 mergeTheTwoSortedParts(valuesToSort, auxiliary, lowest, middle, highest);
             }
-        }    }
+        }
+    }
 };
 
-// No recursion approach// Concise industrial-strength code, if you have the space
+// No recursion approach
+// Concise industrial-strength code, if you have the space
 
 // Takes N*log2(N) as well
 

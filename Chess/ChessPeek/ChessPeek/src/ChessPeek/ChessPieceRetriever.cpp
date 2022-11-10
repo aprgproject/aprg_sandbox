@@ -9,8 +9,10 @@
 using namespace alba::AprgBitmap;
 using namespace alba::mathHelper;
 using namespace std;
+
 namespace alba
 {
+
 namespace chess
 {
 
@@ -29,10 +31,12 @@ Piece ChessPieceRetriever::getChessCellPiece(
     return Piece(getBestPieceFromChessCellBitValue(getChessCellBitValue(chessBoardSnippet, xIndex, yIndex).to_ullong()));
 }
 
-ChessPieceRetriever::BitSet64 ChessPieceRetriever::getChessCellBitValue(        BitmapSnippet const& chessBoardSnippet,
+ChessPieceRetriever::BitSet64 ChessPieceRetriever::getChessCellBitValue(
+        BitmapSnippet const& chessBoardSnippet,
         unsigned int const xIndex,
         unsigned int const yIndex) const
-{    BitmapXY chessCellTopLeft, chessCellBottomRight;
+{
+    BitmapXY chessCellTopLeft, chessCellBottomRight;
     retrieveChessCellTopLeftAndBottomRight(chessCellTopLeft, chessCellBottomRight, chessBoardSnippet, xIndex, yIndex);
 
     BitSet64 result; // The object is initialized with zeros.
@@ -135,10 +139,12 @@ void ChessPieceRetriever::initializeConverterToChessDotCom()
     m_piecesToChessCellBitValuesMap[PieceColorAndType::BlackKing]   = 0B0000000000000000000000000000000011110111110111111111100010101110;
 }
 
-void ChessPieceRetriever::initializeConverterToLichessDotOrg(){
+void ChessPieceRetriever::initializeConverterToLichessDotOrg()
+{
     m_checkMaxPoint = BitmapXY(93, 93);
     m_checkDetails = CheckDetails
-    {{{12, 25}, WhiteOrBlack::White}, {{16, 44}, WhiteOrBlack::White}, {{17, 59}, WhiteOrBlack::White}, {{22, 49}, WhiteOrBlack::White},    {{26, 42}, WhiteOrBlack::White}, {{27, 25}, WhiteOrBlack::White}, {{29, 18}, WhiteOrBlack::White}, {{33, 44}, WhiteOrBlack::White},
+    {{{12, 25}, WhiteOrBlack::White}, {{16, 44}, WhiteOrBlack::White}, {{17, 59}, WhiteOrBlack::White}, {{22, 49}, WhiteOrBlack::White},
+    {{26, 42}, WhiteOrBlack::White}, {{27, 25}, WhiteOrBlack::White}, {{29, 18}, WhiteOrBlack::White}, {{33, 44}, WhiteOrBlack::White},
     {{33, 53}, WhiteOrBlack::White}, {{38, 33}, WhiteOrBlack::White}, {{39, 46}, WhiteOrBlack::White}, {{41, 51}, WhiteOrBlack::White},
     {{46, 16}, WhiteOrBlack::White}, {{47, 26}, WhiteOrBlack::White}, {{47, 39}, WhiteOrBlack::White}, {{47, 49}, WhiteOrBlack::White},
     {{47, 79}, WhiteOrBlack::White}, {{54, 46}, WhiteOrBlack::White}, {{56, 33}, WhiteOrBlack::White}, {{61, 43}, WhiteOrBlack::White},
@@ -168,10 +174,12 @@ void ChessPieceRetriever::initializeConverterToLichessDotOrg(){
     m_piecesToChessCellBitValuesMap[PieceColorAndType::BlackKing]   = 0B0000000000000001000000001000000000001100100111011111000110000000;
 }
 
-bool ChessPieceRetriever::isBitValueAsserted(        BitmapSnippet const& chessBoardSnippet,
+bool ChessPieceRetriever::isBitValueAsserted(
+        BitmapSnippet const& chessBoardSnippet,
         CheckDetail const& checkDetail,
         BitmapXY const& chessCellTopLeft,
-        BitmapXY const& chessCellBottomRight) const{
+        BitmapXY const& chessCellBottomRight) const
+{
     static const BitmapXYs aroundOffsets{BitmapXY(0, -1), BitmapXY(0, 1), BitmapXY(-1, 0), BitmapXY(1, 0)};
 
     bool result(false);
@@ -217,10 +225,12 @@ PieceColorAndType ChessPieceRetriever::getBestPieceFromChessCellBitValue(
     PieceColorAndTypes bestFitPieces(getBestFitPiecesFromChessCellBitValue(chessCellBitValue));
 
     PieceColorAndType result{};
-    if(bestFitPieces.size() == 1)    {
+    if(bestFitPieces.size() == 1)
+    {
         result = bestFitPieces.back();
     }
-    /*else if(m_logFileStreamOptional)    {
+    /*else if(m_logFileStreamOptional)
+    {
         auto & logStream(m_logFileStreamOptional.getReference());
         bitset<64> bitsetValue(bitValue);
         logStream << "Cannot determine bestFitType with bitValue: " << bitsetValue.to_string() << endl;
@@ -260,10 +270,12 @@ ChessPieceRetriever::PieceColorAndTypes ChessPieceRetriever::getBestFitPiecesFro
 
 void ChessPieceRetriever::retrieveChessCellTopLeftAndBottomRight(
         BitmapXY & chessCellTopLeft,
-        BitmapXY & chessCellBottomRight,        BitmapSnippet const& chessBoardSnippet,
+        BitmapXY & chessCellBottomRight,
+        BitmapSnippet const& chessBoardSnippet,
         unsigned int const xIndex,
         unsigned int const yIndex) const
-{    double startX = chessBoardSnippet.getTopLeftCorner().getX();
+{
+    double startX = chessBoardSnippet.getTopLeftCorner().getX();
     double startY = chessBoardSnippet.getTopLeftCorner().getY();
     double endX = chessBoardSnippet.getBottomRightCorner().getX();
     double endY = chessBoardSnippet.getBottomRightCorner().getY();

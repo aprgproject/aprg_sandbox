@@ -6,8 +6,10 @@
 
 namespace alba
 {
+
 namespace chess
 {
+
 class ChessPeekConfiguration
 {
 public:
@@ -43,4 +45,5 @@ private:
 };
 
 }
+
 }

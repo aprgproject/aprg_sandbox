@@ -39,10 +39,12 @@ public:
     using PieceToChessCellBitValueMap = std::map<PieceColorAndType, uint64_t>;
     using BitValueUtilities = AlbaBitValueUtilities<uint64_t>;
     using PieceColorAndTypes = std::vector<PieceColorAndType>;
-    using CheckDetails = std::vector<CheckDetail>;    using BoolFunction = std::function<bool(double const)>;
+    using CheckDetails = std::vector<CheckDetail>;
+    using BoolFunction = std::function<bool(double const)>;
 
     ChessPieceRetriever() = delete;
     ChessPieceRetriever(ChessPeekConfiguration const& configuration);
+
     Piece getChessCellPiece(AprgBitmap::BitmapSnippet const& chessBoardSnippet, unsigned int const xIndex, unsigned int const yIndex) const;
     BitSet64 getChessCellBitValue(AprgBitmap::BitmapSnippet const& chessBoardSnippet, unsigned int const xIndex, unsigned int const yIndex) const;
 
@@ -63,9 +65,11 @@ private:
 
     void retrieveChessCellTopLeftAndBottomRight(AprgBitmap::BitmapXY & chessCellTopLeft, AprgBitmap::BitmapXY & chessCellBottomRight, AprgBitmap::BitmapSnippet const& chessBoardSnippet, unsigned int const xIndex, unsigned int const yIndex) const;
     void retrieveOffsetPointsWithCondition(AprgBitmap::BitmapXYs & bitmapXYs, AprgBitmap::BitmapSnippet const& chessBoardSnippet, unsigned int const xIndex, unsigned int const yIndex, BoolFunction const& condition) const;
+
     double calculateColorIntensityDecimal(uint32_t const color) const;
     uint8_t extractRed(uint32_t const color) const;
-    uint8_t extractGreen(uint32_t const color) const;    uint8_t extractBlue(uint32_t const color) const;
+    uint8_t extractGreen(uint32_t const color) const;
+    uint8_t extractBlue(uint32_t const color) const;
 
     ChessPeekConfiguration m_configuration;
     AprgBitmap::BitmapXY m_checkMaxPoint;
@@ -74,6 +78,7 @@ private:
     AlbaOptional<std::ofstream> m_logFileStreamOptional;
 
 };
+
 }
 
 }

@@ -11,10 +11,12 @@
 
 using namespace alba::AprgBitmap;
 using namespace alba::mathHelper;
-using namespace alba::stringHelper;using namespace std;
+using namespace alba::stringHelper;
+using namespace std;
 
 namespace alba
 {
+
 namespace chess
 {
 
@@ -25,10 +27,12 @@ ChessPeek::ChessPeek()
     , m_chessEngineController(m_chessEngineHandler, m_configuration.getUciOptionNamesAndValuePairs())
     , m_userAutomation()
     , m_chessBoard(Board::Orientation::BlackUpWhiteDown, {})
-    , m_playerColor(PieceColor::White)    , m_playerKingCoordinate{}
+    , m_playerColor(PieceColor::White)
+    , m_playerKingCoordinate{}
     , m_opponentKingCoordinate{}
     , m_isEngineNewlyReseted(true)
-{    initialize();
+{
+    initialize();
 }
 
 void ChessPeek::runForever()
@@ -40,9 +44,11 @@ void ChessPeek::runForever()
         //break; //
     }
 }
+
 void ChessPeek::runOneIteration()
 {
-    Board::PieceMatrix previousPieceMatrix(m_chessBoard.getPieceMatrix());    checkScreenAndSaveDetails();
+    Board::PieceMatrix previousPieceMatrix(m_chessBoard.getPieceMatrix());
+    checkScreenAndSaveDetails();
     if(canAnalyzeBoard() && (m_isEngineNewlyReseted || didBoardChange(previousPieceMatrix)))
     {
         startEngineAnalysisOfNewPosition();
@@ -63,10 +69,12 @@ void ChessPeek::checkScreenAndSaveDetails()
     bitmap.setSnippetWriteToFile(snippet);//
 }
 
-void ChessPeek::startEngineAnalysisOfNewPosition(){
+void ChessPeek::startEngineAnalysisOfNewPosition()
+{
     string fenString(constructFenString(m_chessBoard, m_playerColor, m_chessBoard.getCastlingFenString(), "-", 0, 1));
     m_chessEngineController.stop();
-    m_chessEngineController.setupFenString(fenString);    if(!m_chessEngineController.waitTillReadyAndReturnIfResetWasPerformed())
+    m_chessEngineController.setupFenString(fenString);
+    if(!m_chessEngineController.waitTillReadyAndReturnIfResetWasPerformed())
     {
         m_chessEngineController.goWithPonder();
         m_isEngineNewlyReseted=false;
@@ -117,10 +125,12 @@ void ChessPeek::checkSnippetAndSaveDetails(BitmapSnippet & snippet)
     snippet.setPixelAt(snippet.getBottomRightCorner(), 0x00A1BA);//
 
     m_numberOfDetectedKings = 0U;
-    unsigned int pieceCount = 0U;    for(unsigned int j=0; j<8; j++)
+    unsigned int pieceCount = 0U;
+    for(unsigned int j=0; j<8; j++)
     {
         for(unsigned int i=0; i<8; i++)
-        {            Piece chessPiece(m_pieceRetriever.getChessCellPiece(snippet, i, j));
+        {
+            Piece chessPiece(m_pieceRetriever.getChessCellPiece(snippet, i, j));
             Coordinate chessCoordinate(i, j);
             m_chessBoard.setPieceAt(chessCoordinate, chessPiece);
             if(!chessPiece.isEmpty())
@@ -362,6 +372,7 @@ void ChessPeek::putCurrentMovesTable(
             }
         }
     }
+
     // put moves
     unsigned int offset=0U;
     for(Move const& currentMove : currentMoves)
@@ -373,8 +384,10 @@ void ChessPeek::putCurrentMovesTable(
                     getChessCellForDisplay(piece, 2U, false));
         offset+=offsetToNextTable;
     }
+
     cout << displayTable.drawOutput();
 }
+
 
 void ChessPeek::printFutureMovesTable(
         Moves const& futureMoves) const
@@ -403,7 +416,8 @@ void ChessPeek::printFutureMovesTable(
     bool hasPreviouslyOneWayOfCapture(false);
     for(Move const& futureMove : futureMoves)
     {
-        if(isOdd(futureMoveCount))        {
+        if(isOdd(futureMoveCount))
+        {
             // put chess board
             for(CoordinateDataType j=0; j<8; j++)
             {
@@ -435,6 +449,7 @@ void ChessPeek::printFutureMovesTable(
         temporaryBoard.move(futureMove);
         futureMoveCount++;
     }
+
     cout << displayTable.drawOutput();
 }
 
@@ -457,10 +472,12 @@ string ChessPeek::getChessCellForDisplay(
         }
         result[2]=moveNumberCharacter;
     }
-    result[1]=piece.getCharacter();    return result;
+    result[1]=piece.getCharacter();
+    return result;
 }
 
-unsigned int ChessPeek::getNumberOfColumnsOfDisplayTable(unsigned int const numberOfChessBoards) const{
+unsigned int ChessPeek::getNumberOfColumnsOfDisplayTable(unsigned int const numberOfChessBoards) const
+{
     return numberOfChessBoards<=0 ? 0U : numberOfChessBoards*8U + numberOfChessBoards-1;
 }
 

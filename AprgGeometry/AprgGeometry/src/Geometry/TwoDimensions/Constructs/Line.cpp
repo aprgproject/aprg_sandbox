@@ -89,6 +89,7 @@ double Line::getSlope() const
 {
     return -m_aCoefficient/m_bCoefficient;
 }
+
 double Line::getPerpendicularSlope() const
 {
     return m_bCoefficient/m_aCoefficient;
@@ -145,7 +146,8 @@ Points Line::getPoints(Point const& first, Point const& second, double const int
     if(m_type == LineType::Vertical)
     {
         getPointsForVerticalLine(points, first, second, interval);
-    }    else if(m_type == LineType::Horizontal)
+    }
+    else if(m_type == LineType::Horizontal)
     {
         getPointsForHorizontalLine(points, first, second, interval);
     }

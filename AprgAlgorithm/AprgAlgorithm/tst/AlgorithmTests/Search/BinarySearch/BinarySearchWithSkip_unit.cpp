@@ -16,41 +16,68 @@ using ValuesForTest = vector<unsigned int>;
 using SearchForTest = BinarySearchWithSkip<ValuesForTest>;
 }
 
-TEST(BinarySearchWithSkipTest, FindNearestValueWorks)
+TEST(BinarySearchWithSkipTest, GetNearestValueWorks)
 {
     ValuesForTest sortedValues{6, 13, 14, 25, 33, 43, 51, 53, 64, 72, 84, 93, 95, 96, 97};
     SearchForTest binarySearch(sortedValues);
-    EXPECT_EQ(33U, binarySearch.findNearestValue(33));
+
+    EXPECT_EQ(33U, binarySearch.getNearestValue(33));
 }
 
-TEST(BinarySearchWithSkipTest, FindNearestValueWorksAndDoesNotCrashWhenEmpty)
+TEST(BinarySearchWithSkipTest, GetNearestValueWorksAndDoesNotCrashWhenEmpty)
 {
     ValuesForTest valuesForTest;
     SearchForTest binarySearch(valuesForTest);
 
-    EXPECT_EQ(0U, binarySearch.findNearestValue(33));
+    EXPECT_EQ(0U, binarySearch.getNearestValue(33));
 }
 
-TEST(BinarySearchWithSkipTest, FindNearestValueWorksWhenNearestValueIsLower)
+TEST(BinarySearchWithSkipTest, GetNearestValueWorksWhenNearestValueIsLower)
 {
     ValuesForTest sortedValues{6, 13, 14, 25, 33, 43, 51, 53, 64, 72, 84, 93, 95, 96, 97};
     SearchForTest binarySearch(sortedValues);
-    EXPECT_EQ(33U, binarySearch.findNearestValue(34));
+
+    EXPECT_EQ(33U, binarySearch.getNearestValue(34));
 }
 
-TEST(BinarySearchWithSkipTest, FindNearestValueWorksWhenNearestValueIsHigher)
+TEST(BinarySearchWithSkipTest, GetNearestValueWorksWhenNearestValueIsHigher)
 {
     ValuesForTest sortedValues{6, 13, 14, 25, 33, 43, 51, 53, 64, 72, 84, 93, 95, 96, 97};
     SearchForTest binarySearch(sortedValues);
-    EXPECT_EQ(43U, binarySearch.findNearestValue(42));
+
+    EXPECT_EQ(43U, binarySearch.getNearestValue(42));
 }
 
-TEST(BinarySearchWithSkipTest, FindIndexOfNearestValueWorks)
+TEST(BinarySearchWithSkipTest, GetIndexOfNearestValueWorks)
 {
     ValuesForTest valuesForTest{6, 13, 14, 25, 33, 43, 51, 53, 64, 72, 84, 93, 95, 96, 97};
     SearchForTest binarySearch(valuesForTest);
 
-    EXPECT_EQ(4U, binarySearch.findIndexOfNearestValue(33));
+    EXPECT_EQ(4U, binarySearch.getIndexOfNearestValue(33));
+}
+
+TEST(BinarySearchWithSkipTest, GetIndexOfNearestValueWorksAndDoesNotCrashWhenEmpty)
+{
+    ValuesForTest valuesForTest;
+    SearchForTest binarySearch(valuesForTest);
+
+    EXPECT_EQ(0U, binarySearch.getIndexOfNearestValue(33));
+}
+
+TEST(BinarySearchWithSkipTest, GetIndexOfNearestValueWorksWhenNearestValueIsLower)
+{
+    ValuesForTest sortedValues{6, 13, 14, 25, 33, 43, 51, 53, 64, 72, 84, 93, 95, 96, 97};
+    SearchForTest binarySearch(sortedValues);
+
+    EXPECT_EQ(4U, binarySearch.getIndexOfNearestValue(34));
+}
+
+TEST(BinarySearchWithSkipTest, GetIndexOfNearestValueWorksWhenNearestValueIsHigher)
+{
+    ValuesForTest sortedValues{6, 13, 14, 25, 33, 43, 51, 53, 64, 72, 84, 93, 95, 96, 97};
+    SearchForTest binarySearch(sortedValues);
+
+    EXPECT_EQ(5U, binarySearch.getIndexOfNearestValue(42));
 }
 
 }

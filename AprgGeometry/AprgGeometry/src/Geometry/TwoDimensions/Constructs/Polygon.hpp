@@ -6,6 +6,7 @@
 #include <Geometry/TwoDimensions/Constructs/Point.hpp>
 
 #include <array>
+
 namespace alba
 {
 
@@ -29,7 +30,8 @@ public:
     LineSegments getLineSegments() const;
     Points getVertices() const;
     Distances getLengthOfSides() const;
-    AlbaAngles getAnglesAtVertices() const;    AlbaAngle getSumOfAngles() const;
+    AlbaAngles getAnglesAtVertices() const;
+    AlbaAngle getSumOfAngles() const;
 
     Points getPoints(double const interval) const;
     void getPointsFromVerticesWithoutLastPoint(Points & points, double const interval, unsigned int vertexIndex1, unsigned int vertexIndex2) const;

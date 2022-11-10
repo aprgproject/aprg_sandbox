@@ -86,6 +86,36 @@ TEST(BinarySearchWithTwoIndicesTest, FindIndexOfNearestValueWorks)
     EXPECT_EQ(5U, binarySearch.getHigherIndex());
 }
 
+TEST(BinarySearchWithTwoIndicesTest, FindIndexOfNearestValueWorksAndDoesNotCrashWhenEmpty)
+{
+    ValuesForTest valuesForTest;
+    SearchForTest binarySearch(valuesForTest);
+
+    EXPECT_EQ(0U, binarySearch.findIndexOfNearestValue(33));
+    EXPECT_EQ(0U, binarySearch.getLowerIndex());
+    EXPECT_EQ(0U, binarySearch.getHigherIndex());
+}
+
+TEST(BinarySearchWithTwoIndicesTest, FindIndexOfNearestValueWorksWhenNearestValueIsLower)
+{
+    ValuesForTest valuesForTest{6, 13, 14, 25, 33, 43, 51, 53, 64, 72, 84, 93, 95, 96, 97};
+    SearchForTest binarySearch(valuesForTest);
+
+    EXPECT_EQ(4U, binarySearch.findIndexOfNearestValue(33));
+    EXPECT_EQ(4U, binarySearch.getLowerIndex());
+    EXPECT_EQ(5U, binarySearch.getHigherIndex());
+}
+
+TEST(BinarySearchWithTwoIndicesTest, FindIndexOfNearestValueWorksWhenNearestValueIsHigher)
+{
+    ValuesForTest valuesForTest{6, 13, 14, 25, 33, 43, 51, 53, 64, 72, 84, 93, 95, 96, 97};
+    SearchForTest binarySearch(valuesForTest);
+
+    EXPECT_EQ(5U, binarySearch.findIndexOfNearestValue(42));
+    EXPECT_EQ(4U, binarySearch.getLowerIndex());
+    EXPECT_EQ(5U, binarySearch.getHigherIndex());
+}
+
 TEST(BinarySearchWithTwoIndicesTest, HighLowMiddleValuesCanFetchedInOneItem)
 {
     ValuesForTest valuesForTest{6};
@@ -114,4 +144,5 @@ TEST(BinarySearchWithTwoIndicesTest, HighLowMiddleValuesCanFetchedInFourItems)
 }
 
 }
+
 }

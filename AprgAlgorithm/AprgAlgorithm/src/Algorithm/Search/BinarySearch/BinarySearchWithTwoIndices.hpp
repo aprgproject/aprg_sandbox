@@ -19,7 +19,9 @@ public:
         : m_lowerIndex(0)
         , m_higherIndex(sortedValues.size()-1)
         , m_sortedValues(sortedValues)
-    {}
+    {
+        fixInitialIndexes();
+    }
 
     BinarySearchWithTwoIndices(Index const indexOfLower, Index const indexOfHigher, Values const& sortedValues)
         : m_lowerIndex(indexOfLower)
@@ -34,7 +36,7 @@ public:
         Value result{};
         if(!m_sortedValues.empty())
         {
-            moveIndexesUntilCloseToValue(value);
+            findAndMoveIndexesUntilCloseToValue(value);
             result = getCurrentNearestValue(value);
         }
         return result;
@@ -45,7 +47,7 @@ public:
         Value result{};
         if(!m_sortedValues.empty())
         {
-            moveIndexesUntilCloseToValue(value);
+            findAndMoveIndexesUntilCloseToValue(value);
             result = getIndexOfCurrentNearestValue(value);
         }
         return result;
@@ -92,9 +94,9 @@ public:
         {
             Value lowerValue(getLowerValueWithoutCheck());
             Value higherValue(getHigherValueWithoutCheck());
-            Value distanceFromLower(mathHelper::getPositiveDelta(value, lowerValue));
-            Value distanceFromHigher(mathHelper::getPositiveDelta(value, higherValue));
-            result = (distanceFromLower <= distanceFromHigher) ? lowerValue : higherValue;
+            Value deviationFromLower(mathHelper::getPositiveDelta(value, lowerValue));
+            Value deviationFromHigher(mathHelper::getPositiveDelta(value, higherValue));
+            result = (deviationFromLower <= deviationFromHigher) ? lowerValue : higherValue;
         }
         return result;
     }
@@ -109,9 +111,9 @@ public:
         }
         else
         {
-            Value distanceFromLower(mathHelper::getPositiveDelta(value, getLowerValueWithoutCheck()));
-            Value distanceFromHigher(mathHelper::getPositiveDelta(value, getHigherValueWithoutCheck()));
-            result = (distanceFromLower <= distanceFromHigher) ? m_lowerIndex : m_higherIndex;
+            Value deviationFromLower(mathHelper::getPositiveDelta(value, getLowerValueWithoutCheck()));
+            Value deviationFromHigher(mathHelper::getPositiveDelta(value, getHigherValueWithoutCheck()));
+            result = (deviationFromLower <= deviationFromHigher) ? m_lowerIndex : m_higherIndex;
         }
         return result;
     }
@@ -157,7 +159,7 @@ private:
         }
     }
 
-    void moveIndexesUntilCloseToValue(Value const& value)
+    void findAndMoveIndexesUntilCloseToValue(Value const& value)
     {
         while(m_higherIndex-m_lowerIndex > 2)
         {
@@ -203,6 +205,7 @@ private:
     Index m_higherIndex;
     Values const& m_sortedValues;
 };
+
 }
 
 }

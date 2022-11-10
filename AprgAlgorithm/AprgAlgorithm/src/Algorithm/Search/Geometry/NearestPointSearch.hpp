@@ -8,8 +8,10 @@
 
 namespace alba
 {
+
 namespace algorithm
 {
+
 template <typename Key> bool isEqualThanWithDepth(Key const& key1, Key const& key2, unsigned int const depth)
 {
     if(mathHelper::isOdd(depth))
@@ -54,9 +56,11 @@ public:
     using PointPair = std::pair<Point, Point>;
     using TwoDTree = KdTree<Point>;
     using NodeUniquePointer = typename TwoDTree::NodeUniquePointer;
+
     enum class SearchAction
     {
-        Nothing,        GoToLeftChild,
+        Nothing,
+        GoToLeftChild,
         GoToRightChild,
         GoToBoth
     };
@@ -99,11 +103,13 @@ public:
 
     void addPoint(Point const& point)
     {
-        m_twoDTree.put(point);    }
+        m_twoDTree.put(point);
+    }
 
 private:
 
-    void searchNearestPoint(NodeUniquePointer const& nodePointer, SearchDetails & searchDetails) const    {
+    void searchNearestPoint(NodeUniquePointer const& nodePointer, SearchDetails & searchDetails) const
+    {
         static unsigned int depth=0;
         depth++;
         if(nodePointer)
@@ -130,9 +136,11 @@ private:
         }
         depth--;
     }
+
     SearchAction getSearchAction(NodeUniquePointer const& nodePointer, Point const& pointToCheck, unsigned int const depth) const
     {
-        SearchAction result(SearchAction::Nothing);        if(nodePointer)
+        SearchAction result(SearchAction::Nothing);
+        if(nodePointer)
         {
             Point const& currentPoint(nodePointer->key);
             if(mathHelper::isOdd(depth))
@@ -230,6 +238,7 @@ private:
 
     TwoDTree m_twoDTree;
 };
+
 }
 
 }

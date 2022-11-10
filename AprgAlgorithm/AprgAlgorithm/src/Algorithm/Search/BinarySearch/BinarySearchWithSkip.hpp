@@ -19,35 +19,35 @@ public:
         : m_sortedValues(sortedValues)
     {}
 
-    Value findNearestValue(Value const& value)
+    Value getNearestValue(Value const& value) const
     {
         Value result{};
         if(!m_sortedValues.empty())
         {
-            Index lowerIndex(getNearestLowerIndex(value));
-            result = getNearestValue(value, lowerIndex);
+            Index lowerIndex(getNearestLowerBoundIndex(value));
+            result = getNearestValueFromLowerBoundIndex(value, lowerIndex);
         }
         return result;
     }
 
-    Index findIndexOfNearestValue(Value const& value)
+    Index getIndexOfNearestValue(Value const& value) const
     {
         Index result{};
         if(!m_sortedValues.empty())
         {
-            Index lowerIndex(getNearestLowerIndex(value));
-            result = getIndexOfNearestValue(value, lowerIndex);
+            Index lowerIndex(getNearestLowerBoundIndex(value));
+            result = getIndexOfNearestValueFromLowerIndex(value, lowerIndex);
         }
         return result;
     }
 
 private:
 
-    Index getNearestLowerIndex(Value const& value)
+    Index getNearestLowerBoundIndex(Value const& value) const
     {
         Index result(0);
         Index size(m_sortedValues.size());
-        for(Index forwardSkip = size/2; forwardSkip>=1; forwardSkip/=2) // forward skip start from half of size, then quarter of size, then eighth of size and soon
+        for(Index forwardSkip = size/2; forwardSkip>=1; forwardSkip/=2) // forward skip start from half of size, then quarter of size, then eighth of size and so on
         {
             while(result+forwardSkip < size && m_sortedValues.at(result+forwardSkip) <= value)
             {
@@ -57,39 +57,38 @@ private:
         return result;
     }
 
-    Value getNearestValue(Value const& value, Index const lowerIndex) const
+    Value getNearestValueFromLowerBoundIndex(Value const& value, Index const lowerIndex) const
     {
         Value result{};
-        Value lowerValue(m_sortedValues.at(lowerIndex));
-        if(value == lowerValue)
+        Value lowerBoundValue(m_sortedValues.at(lowerIndex));
+        if(value == lowerBoundValue)
         {
             result = value;
         }
         else
         {
-            Value higherValue(m_sortedValues.at(getHigherIndex(lowerIndex)));
-            Value distanceFromLower(mathHelper::getPositiveDelta(value, lowerValue));
-            Value distanceFromHigher(mathHelper::getPositiveDelta(value, higherValue));
-            result = (distanceFromLower <= distanceFromHigher) ? lowerValue : higherValue;
+            Value higherBoundValue(m_sortedValues.at(getHigherIndex(lowerIndex)));
+            Value deviationFromLower(mathHelper::getPositiveDelta(value, lowerBoundValue));
+            Value deviationFromHigher(mathHelper::getPositiveDelta(value, higherBoundValue));
+            result = (deviationFromLower <= deviationFromHigher) ? lowerBoundValue : higherBoundValue;
         }
         return result;
     }
 
-    Index getIndexOfNearestValue(Value const& value, Index const lowerIndex) const
+    Index getIndexOfNearestValueFromLowerIndex(Value const& value, Index const lowerIndex) const
     {
         Index result{};
-        Value lowerValue(m_sortedValues.at(lowerIndex));
-        if(value == lowerValue)
+        Value lowerBoundValue(m_sortedValues.at(lowerIndex));
+        if(value == lowerBoundValue)
         {
             result = lowerIndex;
         }
         else
         {
             Value higherIndex(getHigherIndex(lowerIndex));
-            Value higherValue(m_sortedValues.at(higherIndex));
-            Value distanceFromLower(mathHelper::getPositiveDelta(value, lowerValue));
-            Value distanceFromHigher(mathHelper::getPositiveDelta(value, higherValue));
-            result = (distanceFromLower <= distanceFromHigher) ? lowerIndex : higherIndex;
+            Value deviationFromLower(mathHelper::getPositiveDelta(value, lowerBoundValue));
+            Value deviationFromHigher(mathHelper::getPositiveDelta(value, m_sortedValues.at(higherIndex)));
+            result = (deviationFromLower <= deviationFromHigher) ? lowerIndex : higherIndex;
         }
         return result;
     }
@@ -99,9 +98,9 @@ private:
         return std::min(lowerIndex+1, m_sortedValues.size()-1);
     }
 
-private:
     Values const& m_sortedValues;
 };
+
 }
 
 }

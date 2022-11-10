@@ -13,6 +13,7 @@ using namespace std;
 
 namespace alba
 {
+
 namespace TwoDimensions
 {
 
@@ -65,12 +66,14 @@ double getDistance(Point const& point1, Point const& point2)
     return getEuclideanDistance(point1, point2);
 }
 
-double getDistance(Line const& line, Point const& point){
+double getDistance(Line const& line, Point const& point)
+{
     Point pointInLine1(line.getAPoint());
     Point pointInLine2(pointInLine1 + Point(line.getAUnitIncreaseInX(), line.getAUnitIncreaseInY()));
 
     return getDistance(LineSegment{pointInLine1, pointInLine2}, point);
 }
+
 double getDistance(LineSegment const& lineSegment, Point const& point)
 {
     // Point distance from a line
@@ -99,7 +102,8 @@ double getDistance(Line const& line1, Line const& line2)
     if(!areLinesParallel(line1, line2))
     {
         Line perpendicularLine(getLineWithPerpendicularSlope(line1, Point(0,0)));
-        Point pointOfIntersectionInLine1(getIntersectionOfTwoLines(perpendicularLine, line1));        Point pointOfIntersectionInLine2(getIntersectionOfTwoLines(perpendicularLine, line2));
+        Point pointOfIntersectionInLine1(getIntersectionOfTwoLines(perpendicularLine, line1));
+        Point pointOfIntersectionInLine2(getIntersectionOfTwoLines(perpendicularLine, line2));
         distance = getDistance(pointOfIntersectionInLine1, pointOfIntersectionInLine2);
     }
     return distance;
@@ -163,7 +167,8 @@ double getMaximumManhattanDistanceOfTwoPoints(Points const& points)
 
 double getCosineOfAngleUsing1Delta(double const deltaX1, double const deltaY1)
 {
-    //cos theta = adjacent/hypotenuse    double adjacent = deltaX1;
+    //cos theta = adjacent/hypotenuse
+    double adjacent = deltaX1;
     double hypotenuse = getSquareRootOfXSquaredPlusYSquared(deltaX1, deltaY1);
     return adjacent/hypotenuse;
 }
@@ -199,6 +204,7 @@ double getSignedCounterClockwiseTriangleAreaOf3Points(Point const& a, Point cons
     double signedAreaSquared(getSignedCounterClockwiseTriangleSquaredAreaOf3Points(a, b, c));
     return getSign(signedAreaSquared)*sqrt(getAbsoluteValue(signedAreaSquared));
 }
+
 double getAreaOfTriangleUsingHeronsFormula(Triangle const& triangle)
 {
     // The area of a triangle can be calculated, for example, using Heron’s formula:
@@ -236,7 +242,8 @@ double getAreaUsingPicksTheorem(
 }
 
 ConicSectionType getConicSectionBasedOnEccentricity(
-        double const eccentricity){
+        double const eccentricity)
+{
     ConicSectionType result(ConicSectionType::Unknown);
     if(isAlmostEqual(eccentricity, 0.0))
     {
@@ -273,7 +280,8 @@ ConicSectionType getConicSectionBasedOnGeneralForm(
         double const c,
         double const d,
         double const e)
-{    // A*x^2 + B*x*y + C*y^2 + D*x + E*y + C
+{
+    // A*x^2 + B*x*y + C*y^2 + D*x + E*y + C
     ConicSectionType result(ConicSectionType::Unknown);
 
     if(isAlmostEqual(b, 0.0))
@@ -387,7 +395,8 @@ RotationDirection getRotationDirectionTraversing3Points(Point const a, Point con
     return result;
 }
 
-AlbaAngle getAngleOfPointWithRespectToOrigin(Point const& point){
+AlbaAngle getAngleOfPointWithRespectToOrigin(Point const& point)
+{
     AlbaAngle angle;
     if(!isOrigin(point))
     {
@@ -424,7 +433,8 @@ AlbaAngle getTheSmallerAngleBetweenTwoLines(Line const& line1, Line const& line2
 {
     AlbaAngle result;
     if(areLinesParallel(line1, line2))
-    {        result = AlbaAngle(AngleUnitType::Degrees, 0);
+    {
+        result = AlbaAngle(AngleUnitType::Degrees, 0);
     }
     else if(areLinesPerpendicular(line1, line2))
     {
@@ -442,7 +452,8 @@ AlbaAngle getTheSmallerAngleBetweenTwoLines(Line const& line1, Line const& line2
 
 AlbaAngle getTheLargerAngleBetweenTwoLines(Line const& line1, Line const& line2)
 {
-    AlbaAngle smallerAngle(getTheSmallerAngleBetweenTwoLines(line1, line2));    return AlbaAngle(AngleUnitType::Degrees, 180-smallerAngle.getDegrees());
+    AlbaAngle smallerAngle(getTheSmallerAngleBetweenTwoLines(line1, line2));
+    return AlbaAngle(AngleUnitType::Degrees, 180-smallerAngle.getDegrees());
 }
 
 Point getIntersectionOfTwoLines(Line const& line1, Line const& line2)
@@ -513,7 +524,8 @@ Point getMidpoint(Point const& point1, Point const& point2)
 }
 
 Point getPointAlongALineWithDistanceFromAPoint(
-        Line const& line,        Point const& referencePoint,
+        Line const& line,
+        Point const& referencePoint,
         double const distance,
         bool const isIncreasedOnX)
 {
@@ -628,7 +640,8 @@ PolarCoordinate convertToPolarCoordinate(Point const& point)
 
 Points getConnectedPointsUsingALine(Points const& inputPoints, double const interval)
 {
-    Points resultingPoints;    if(!inputPoints.empty())
+    Points resultingPoints;
+    if(!inputPoints.empty())
     {
         Point previousPoint(inputPoints.front());
         for(Point const& currentPoint: inputPoints)

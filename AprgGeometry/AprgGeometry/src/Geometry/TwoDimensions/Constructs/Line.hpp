@@ -46,6 +46,7 @@ public:
     double calculateXFromY(double const y) const;
 
     std::string getDisplayableString() const;
+
 private:
     void setLineParametersBasedOnDeltas(double const deltaX, double const deltaY, Point const& point);
     void setLineParametersBasedOnCoefficients(double const aCoefficient, double const bCoefficient, double const cCoefficient);

@@ -4,7 +4,8 @@
 #include <Common/Math/Helpers/DivisibilityHelpers.hpp>
 #include <Geometry/TwoDimensions/Constructs/Circle.hpp>
 #include <Geometry/TwoDimensions/Constructs/ConicSectionTypes.hpp>
-#include <Geometry/TwoDimensions/Constructs/Ellipse.hpp>#include <Geometry/TwoDimensions/Constructs/Hyperbola.hpp>
+#include <Geometry/TwoDimensions/Constructs/Ellipse.hpp>
+#include <Geometry/TwoDimensions/Constructs/Hyperbola.hpp>
 #include <Geometry/TwoDimensions/Constructs/Line.hpp>
 #include <Geometry/TwoDimensions/Constructs/LineSegment.hpp>
 #include <Geometry/TwoDimensions/Constructs/Parabola.hpp>
@@ -13,7 +14,8 @@
 #include <Geometry/TwoDimensions/Constructs/Polygon.hpp>
 #include <Geometry/TwoDimensions/Constructs/Polynomial.hpp>
 #include <Geometry/TwoDimensions/Constructs/Quadrants.hpp>
-#include <Geometry/TwoDimensions/Constructs/Quadrilateral.hpp>#include <Geometry/TwoDimensions/Constructs/RotationDirection.hpp>
+#include <Geometry/TwoDimensions/Constructs/Quadrilateral.hpp>
+#include <Geometry/TwoDimensions/Constructs/RotationDirection.hpp>
 #include <Geometry/TwoDimensions/Constructs/Triangle.hpp>
 #include <Geometry/TwoDimensions/Constructs/Vector.hpp>
 
@@ -23,6 +25,7 @@
 
 namespace alba
 {
+
 namespace TwoDimensions
 {
 
@@ -63,7 +66,8 @@ Quadrant getQuadrantOfAPoint(Point const& point);
 RotationDirection getRotationDirectionTraversing3Points(Point const a, Point const b, Point const c);
 
 AlbaAngle getAngleOfPointWithRespectToOrigin(Point const& point);
-AlbaAngle getTheInnerAngleUsingThreePoints(Point const& commonPoint, Point const& firstPoint, Point const& secondPoint);AlbaAngle getTheSmallerAngleBetweenTwoLines(Line const& line1, Line const& line2);
+AlbaAngle getTheInnerAngleUsingThreePoints(Point const& commonPoint, Point const& firstPoint, Point const& secondPoint);
+AlbaAngle getTheSmallerAngleBetweenTwoLines(Line const& line1, Line const& line2);
 AlbaAngle getTheLargerAngleBetweenTwoLines(Line const& line1, Line const& line2);
 
 Point getIntersectionOfTwoLines(Line const& line1, Line const& line2);
@@ -74,7 +78,8 @@ Point popNearestPoint(Points & points, Point const& point);
 Point rotateAxisByAngle(Point const& point, AlbaAngle const& angle);
 Point rotateAxisBackByAngle(Point const& point, AlbaAngle const& angle);
 
-Point convertFromPolarCoordinates(PolarCoordinate const& coordinate);PolarCoordinate convertToPolarCoordinate(Point const& point);
+Point convertFromPolarCoordinates(PolarCoordinate const& coordinate);
+PolarCoordinate convertToPolarCoordinate(Point const& point);
 
 template<ParabolaOrientation parabolaOrientation> Points getIntersectionsOfParabolaAndLine(Parabola<parabolaOrientation> const& parabola, Line const& line);
 template<> Points getIntersectionsOfParabolaAndLine(Parabola<ParabolaOrientation::PolynomialX> const& parabola, Line const& line);
@@ -148,7 +153,8 @@ double getArea(Polygon<numberOfVertices> const& polygon)
 
 template<unsigned int numberOfCoefficients>
 Line getPolynomialTangentLineAt(PolynomialInXEqualsY<numberOfCoefficients> polynomial, double const x)
-{    double slope = polynomial.getSlopeAt(x);
+{
+    double slope = polynomial.getSlopeAt(x);
     double y = polynomial.calculateYfromX(x);
     return Line(Point(x, y), Point(x+1, y+slope));
 }
@@ -164,4 +170,5 @@ Line getPolynomialTangentLineAt(PolynomialInYEqualsX<numberOfCoefficients> polyn
 }
 
 }
+
 }

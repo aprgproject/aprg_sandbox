@@ -121,7 +121,8 @@ AlbaMathVector<DataType, 3U> getCrossProduct(
 }
 
 template <typename DataType, unsigned int SIZE>
-DataType getAngleBetweenTwoVectors(        AlbaMathVector<DataType, SIZE> const& vector1,
+DataType getAngleBetweenTwoVectors(
+        AlbaMathVector<DataType, SIZE> const& vector1,
         AlbaMathVector<DataType, SIZE> const& vector2)
 {
     return acos(getDotProduct(vector1, vector2) / (vector1.getMagnitude() * vector2.getMagnitude()));
