@@ -57,15 +57,13 @@ public:
             }
             else if(EventType::CheckVerticalLineSegment == event.eventType)
             {
-                auto yLocationHits(containerHelper::getItemsInBetween(yCheckInterval, event.yLocation1, event.yLocation2));
+                auto yLocationHits(containerHelper::getItemsInBetweenForSet(yCheckInterval, event.yLocation1, event.yLocation2));
                 for(auto const& yLocationHit : yLocationHits)
                 {
-                    result.emplace_back(Point{event.xLocation, yLocationHit});
-                }
+                    result.emplace_back(Point{event.xLocation, yLocationHit});                }
             }
             else if(EventType::EndOfHorizontalLineSegment == event.eventType)
-            {
-                yCheckInterval.erase(event.yLocation1);
+            {                yCheckInterval.erase(event.yLocation1);
             }
         }
         return result;
