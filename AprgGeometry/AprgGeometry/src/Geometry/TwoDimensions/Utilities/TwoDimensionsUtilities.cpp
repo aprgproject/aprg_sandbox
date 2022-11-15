@@ -1,19 +1,18 @@
 #include "TwoDimensionsUtilities.hpp"
 
+#include <Common/Container/AlbaContainerHelper.hpp>
 #include <Common/Math/Number/Interval/AlbaNumberInterval.hpp>
 #include <Common/Math/Number/Interval/AlbaNumberIntervalHelpers.hpp>
-#include <Common/Math/Helpers/ComputationHelpers.hpp>
-#include <Common/Math/Vector/AlbaMathVectorUtilities.hpp>
+#include <Common/Math/Helpers/ComputationHelpers.hpp>#include <Common/Math/Vector/AlbaMathVectorUtilities.hpp>
 #include <Geometry/TwoDimensions/Constructs/Rectangle.hpp>
 
 #include <stack>
 
+using namespace alba::containerHelper;
 using namespace alba::mathHelper;
 using namespace std;
-
 namespace alba
 {
-
 namespace TwoDimensions
 {
 
@@ -757,14 +756,22 @@ Points getConvexHullPointsUsingGrahamScan(Points const& points)
     // Motion planning (go from one point to another point when there is polygon obstacle)
     // Farthest point pair problem
 
+    // Andrew’s algorithm provides an easy way to construct the convex hull  for a set of points in O(nlogn) time.
+    // The algorithm first locates the leftmost and rightmost points, and then constructs the convex hull in two parts:
+    // first the upper hull and then the lower hull.
+    // Both parts are similar, so we can focus on constructing the upper hull.
+    // First, we sort the points primarily according to x coordinates and secondarily according to y coordinates.
+    // After this, we go through the points and add each point to the hull.
+    // Always after adding a point to the hull, we make sure that the last line segment in the hull does not turn left.
+    // As long as it turns left, we repeatedly remove the second last point from the hull.
+    // Note that implementation below are working on y coordinates (looks for the bottom point)
+
     assert(points.size() >= 3);
 
-    auto minmaxResult = minmax_element(points.cbegin(), points.cend(), [](Point const& point1, Point const& point2)
-    {return point1.getY() < point2.getY();});
+    auto minmaxResult = minmax_element(points.cbegin(), points.cend(), [](Point const& point1, Point const& point2)    {return point1.getY() < point2.getY();});
     Point pointWithMinimumY(*(minmaxResult.first)); // find the bottom point
 
-    struct CompareData
-    {
+    struct CompareData    {
         AlbaAngle angle;
         double distance;
         CompareData(AlbaAngle const& angleAsParameter, double const distanceAsParameter)
@@ -784,14 +791,13 @@ Points getConvexHullPointsUsingGrahamScan(Points const& points)
             return result;
         }
     };
+
     multimap<CompareData, Point> compareDataToPointMap;
     for(Point const& point : points)
-    {
-        compareDataToPointMap.emplace(
+    {        compareDataToPointMap.emplace(
         CompareData(getAngleOfPointWithRespectToOrigin(point - pointWithMinimumY), getDistance(pointWithMinimumY, point)),
                     point); // sort points by polar angle
     }
-
     stack<Point> convertHullPoints;
     unsigned int i=0;
     for(auto const& compareDataAndPointPair : compareDataToPointMap)
@@ -803,35 +809,30 @@ Points getConvexHullPointsUsingGrahamScan(Points const& points)
         }
         else
         {
-            Point top = convertHullPoints.top();
+            Point previousTop = convertHullPoints.top();
             convertHullPoints.pop();
             while (!convertHullPoints.empty() &&
-                   RotationDirection::CounterClockWise != getRotationDirectionTraversing3Points(convertHullPoints.top(), top, currentPoint))
+                   RotationDirection::ClockWise != getRotationDirectionTraversing3Points(previousTop, convertHullPoints.top(), currentPoint))
                 // Counter clock wise must be maintained
             {
                 // Remove point when non counter clock wise
-                top = convertHullPoints.top();
+                previousTop = convertHullPoints.top();
                 convertHullPoints.pop();
             }
-            convertHullPoints.push(top);
+            convertHullPoints.push(previousTop);
             convertHullPoints.push(currentPoint);
         }
-        i++;
-    };
+        i++;    };
 
     Points results;
-    while(!convertHullPoints.empty())
-    {
-        results.emplace_back(convertHullPoints.top());
-        convertHullPoints.pop();
-    }
+    results.reserve(convertHullPoints.size());
+    auto const& underlyingContainer(getUnderlyingContainer(convertHullPoints));
+    reverse_copy(underlyingContainer.cbegin(), underlyingContainer.cend(), back_inserter(results));
     return results;
 }
-
 Line getLineWithSameSlope(Line const& line, Point const& point)
 {
-    return Line(line.getACoefficient(), line.getBCoefficient(), -1*((line.getACoefficient()*point.getX())+(line.getBCoefficient()*point.getY())));
-}
+    return Line(line.getACoefficient(), line.getBCoefficient(), -1*((line.getACoefficient()*point.getX())+(line.getBCoefficient()*point.getY())));}
 
 Line getLineWithPerpendicularSlope(Line const& line, Point const& point)
 {

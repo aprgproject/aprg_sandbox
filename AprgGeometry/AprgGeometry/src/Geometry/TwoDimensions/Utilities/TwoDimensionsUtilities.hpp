@@ -98,15 +98,12 @@ Line getTangentLineAt(Circle const& circle, Point const& point);
 Line getTangentLineAt(Ellipse const& ellipse, Point const& point);
 Line getTangentLineAt(Hyperbola const& hyperbola, Point const& point);
 
-
 void addPointIfInsideTwoPoints(Points & pointsAtBorder, Point const& point, Point const& minimumXAndY, Point const& maximumXAndY);
 void savePointsFromTwoPointsUsingALineWithoutLastPoint(Points & points, Point const& previousPoint, Point const& currentPoint, double const interval);
-void sortPointsInYAndThenX(Points & points);
-void traverseCircleAreaBetweenTwoRadius(
+void sortPointsInYAndThenX(Points & points);void traverseCircleAreaBetweenTwoRadius(
         Point const& center,
         double const innerRadius,
-        double const outerRadius,
-        double const interval,
+        double const outerRadius,        double const interval,
         Circle::TraverseOperation const& traverseOperation);
 
 
