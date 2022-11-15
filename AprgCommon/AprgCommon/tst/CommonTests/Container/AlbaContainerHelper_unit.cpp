@@ -26,55 +26,96 @@ TEST(ContainerTest, GetDelimeterBasedOnFormatWorks)
     EXPECT_EQ("\n", getDelimeterBasedOnFormat(StreamFormat::File));
 }
 
-TEST(ContainerTest, GetLowerAndUpperConstIteratorsInSetWorks)
+TEST(ContainerTest, GetLowerAndUpperConstIteratorsForNonSetWorks)
 {
-    set<int> sampleSet{-10,-5,1,2,4,5,23,50};
+    vector<int> sortedVector{-10,-5,1,2,4,5,23,50};
 
-    auto iteratorPairToVerify(getLowerAndUpperConstIteratorsInSet(sampleSet, 7));
+    auto iteratorPairToVerify(getLowerAndUpperConstIteratorsForNonSet(sortedVector, 7));
 
     EXPECT_EQ(5, *(iteratorPairToVerify.first));
     EXPECT_EQ(23, *(iteratorPairToVerify.second));
 }
 
-TEST(ContainerTest, GetLowerAndUpperValuesInSetWorks)
+TEST(ContainerTest, GetLowerAndUpperValuesForNonSetWorks)
+{
+    vector<int> sortedVector{-10,-5,1,2,4,5,23,50};
+
+    EXPECT_EQ((pair<int,int>(-10, -10)), getLowerAndUpperValuesForNonSet(sortedVector, -100));
+    EXPECT_EQ((pair<int,int>(-10, -10)), getLowerAndUpperValuesForNonSet(sortedVector, -10));
+    EXPECT_EQ((pair<int,int>(50, 50)), getLowerAndUpperValuesForNonSet(sortedVector, 50));
+    EXPECT_EQ((pair<int,int>(50, 50)), getLowerAndUpperValuesForNonSet(sortedVector, 10000));
+    EXPECT_EQ((pair<int,int>(23, 23)), getLowerAndUpperValuesForNonSet(sortedVector, 23));
+    EXPECT_EQ((pair<int,int>(5, 23)), getLowerAndUpperValuesForNonSet(sortedVector, 7));
+}
+
+TEST(ContainerTest, CountItemsInBetweenForNonSetWorks)
+{
+    vector<char> sortedVector{'A', 'C', 'E', 'H', 'M', 'R', 'S', 'X'};
+
+    EXPECT_EQ(5U, countItemsInBetweenForNonSet(sortedVector, 'E', 'S'));
+    EXPECT_EQ(5U, countItemsInBetweenForNonSet(sortedVector, 'E', 'T'));
+    EXPECT_EQ(4U, countItemsInBetweenForNonSet(sortedVector, 'F', 'T'));
+}
+
+TEST(ContainerTest, GetItemsInBetweenForNonSetWorks)
+{
+    vector<char> sortedVector{'A', 'C', 'E', 'H', 'M', 'R', 'S', 'X'};
+
+    vector<char> expectedVector1{'E', 'H', 'M', 'R', 'S'};
+    vector<char> expectedVector2{'E', 'H', 'M', 'R', 'S'};
+    vector<char> expectedVector3{'H', 'M', 'R', 'S'};
+    EXPECT_EQ(expectedVector1, getItemsInBetweenForNonSet(sortedVector, 'E', 'S'));
+    EXPECT_EQ(expectedVector2, getItemsInBetweenForNonSet(sortedVector, 'E', 'T'));
+    EXPECT_EQ(expectedVector3, getItemsInBetweenForNonSet(sortedVector, 'F', 'T'));
+}
+
+TEST(ContainerTest, GetLowerAndUpperConstIteratorsForSetWorks)
 {
     set<int> sampleSet{-10,-5,1,2,4,5,23,50};
 
-    EXPECT_EQ((pair<int,int>(-10, -10)), getLowerAndUpperValuesInSet(sampleSet, -100));
-    EXPECT_EQ((pair<int,int>(-10, -10)), getLowerAndUpperValuesInSet(sampleSet, -10));
-    EXPECT_EQ((pair<int,int>(50, 50)), getLowerAndUpperValuesInSet(sampleSet, 50));
-    EXPECT_EQ((pair<int,int>(50, 50)), getLowerAndUpperValuesInSet(sampleSet, 10000));
-    EXPECT_EQ((pair<int,int>(23, 23)), getLowerAndUpperValuesInSet(sampleSet, 23));
-    EXPECT_EQ((pair<int,int>(5, 23)), getLowerAndUpperValuesInSet(sampleSet, 7));
+    auto iteratorPairToVerify(getLowerAndUpperConstIteratorsForNonSet(sampleSet, 7));
+
+    EXPECT_EQ(5, *(iteratorPairToVerify.first));
+    EXPECT_EQ(23, *(iteratorPairToVerify.second));
 }
 
-TEST(ContainerTest, CountItemsInBetweenWorks)
+TEST(ContainerTest, GetLowerAndUpperValuesForSetWorks)
 {
-    set<char> sampleSet{'E', 'A', 'C', 'H', 'M', 'R', 'S', 'X'};
+    set<int> sampleSet{-10,-5,1,2,4,5,23,50};
 
-    EXPECT_EQ(5U, countItemsInBetween(sampleSet, 'E', 'S'));
-    EXPECT_EQ(5U, countItemsInBetween(sampleSet, 'E', 'T'));
-    EXPECT_EQ(4U, countItemsInBetween(sampleSet, 'F', 'T'));
+    EXPECT_EQ((pair<int,int>(-10, -10)), getLowerAndUpperValuesForNonSet(sampleSet, -100));
+    EXPECT_EQ((pair<int,int>(-10, -10)), getLowerAndUpperValuesForNonSet(sampleSet, -10));
+    EXPECT_EQ((pair<int,int>(50, 50)), getLowerAndUpperValuesForNonSet(sampleSet, 50));
+    EXPECT_EQ((pair<int,int>(50, 50)), getLowerAndUpperValuesForNonSet(sampleSet, 10000));
+    EXPECT_EQ((pair<int,int>(23, 23)), getLowerAndUpperValuesForNonSet(sampleSet, 23));
+    EXPECT_EQ((pair<int,int>(5, 23)), getLowerAndUpperValuesForNonSet(sampleSet, 7));
 }
 
-TEST(ContainerTest, GetItemsInBetweenWorks)
+TEST(ContainerTest, CountItemsInBetweenForSetWorks)
 {
-    set<char> sampleSet{'E', 'A', 'C', 'H', 'M', 'R', 'S', 'X'};
+    set<char> sampleSet{'A', 'C', 'E', 'H', 'M', 'R', 'S', 'X'};
+
+    EXPECT_EQ(5U, countItemsInBetweenForNonSet(sampleSet, 'E', 'S'));
+    EXPECT_EQ(5U, countItemsInBetweenForNonSet(sampleSet, 'E', 'T'));
+    EXPECT_EQ(4U, countItemsInBetweenForNonSet(sampleSet, 'F', 'T'));
+}
+
+TEST(ContainerTest, GetItemsInBetweenForSetWorks)
+{
+    set<char> sampleSet{'A', 'C', 'E', 'H', 'M', 'R', 'S', 'X'};
 
     set<char> expectedSet1{'E', 'H', 'M', 'R', 'S'};
     set<char> expectedSet2{'E', 'H', 'M', 'R', 'S'};
     set<char> expectedSet3{'H', 'M', 'R', 'S'};
-    EXPECT_EQ(expectedSet1, getItemsInBetween(sampleSet, 'E', 'S'));
-    EXPECT_EQ(expectedSet2, getItemsInBetween(sampleSet, 'E', 'T'));
-    EXPECT_EQ(expectedSet3, getItemsInBetween(sampleSet, 'F', 'T'));
+    EXPECT_EQ(expectedSet1, getItemsInBetweenForNonSet(sampleSet, 'E', 'S'));
+    EXPECT_EQ(expectedSet2, getItemsInBetweenForNonSet(sampleSet, 'E', 'T'));
+    EXPECT_EQ(expectedSet3, getItemsInBetweenForNonSet(sampleSet, 'F', 'T'));
 }
 
-TEST(ContainerTest, GetLowerAndUpperConstIteratorsInMapWorks)
-{
+TEST(ContainerTest, GetLowerAndUpperConstIteratorsInMapWorks){
     map<unsigned int, unsigned int> sampleMap{{1, 10}, {3, 30}, {5, 50}};
     using MapIterator=map<unsigned int, unsigned int>::const_iterator;
     using PairOfIterators=pair<MapIterator, MapIterator>;
-
     MapIterator firstIterator=sampleMap.find(1);
     MapIterator secondIterator=sampleMap.find(3);
     MapIterator thirdIterator=sampleMap.find(5);
@@ -232,204 +273,170 @@ TEST(ContainerTest, GetUnderlyingContainerReferenceWorksOnStack)
     EXPECT_TRUE(adapter.empty());
 }
 
-TEST(ContainerTest, SaveVectorOfIntegersToFileWorks)
+TEST(ContainerTest, SaveContentsToStreamWorksForAVectorOfIntegersToFile)
 {
     AlbaLocalPathHandler testFilePath(APRG_COMMON_TEST_FILE_TO_READ);
-    array<int, 6> temporaryArray{0, -23, 4, 379,- 482, 37};
-    ofstream outputTestFile(testFilePath.getFullPath());
+    array<int, 6> temporaryArray{0, -23, 4, 379,- 482, 37};    ofstream outputTestFile(testFilePath.getFullPath());
 
     saveContentsToStream(outputTestFile, temporaryArray, StreamFormat::File);
     outputTestFile.close();
 
     ifstream inputTestFile(testFilePath.getFullPath());
     ASSERT_TRUE(inputTestFile.is_open());
-
     AlbaFileReader fileReader(inputTestFile);
     ASSERT_TRUE(inputTestFile.good());
-    ASSERT_FALSE(inputTestFile.eof());
-    EXPECT_TRUE(fileReader.isNotFinished());
+    ASSERT_FALSE(inputTestFile.eof());    EXPECT_TRUE(fileReader.isNotFinished());
     EXPECT_EQ("0", fileReader.getLine());
     EXPECT_EQ("-23", fileReader.getLine());
-    EXPECT_EQ("4", fileReader.getLine());
-    EXPECT_EQ("379", fileReader.getLine());
+    EXPECT_EQ("4", fileReader.getLine());    EXPECT_EQ("379", fileReader.getLine());
     EXPECT_EQ("-482", fileReader.getLine());
     EXPECT_EQ("37", fileReader.getLine());
     EXPECT_TRUE(fileReader.getLine().empty());
     EXPECT_FALSE(fileReader.isNotFinished());
 }
 
-TEST(ContainerTest, SaveArrayOfIntegersToFileWorks)
+TEST(ContainerTest, SaveContentsToStreamWorksForAnArrayOfIntegersToFile)
 {
     AlbaLocalPathHandler testFilePath(APRG_COMMON_TEST_FILE_TO_READ);
-    vector<int> temporaryVector{0, -23, 4, 379,- 482, 37};
-    ofstream outputTestFile(testFilePath.getFullPath());
+    vector<int> temporaryVector{0, -23, 4, 379,- 482, 37};    ofstream outputTestFile(testFilePath.getFullPath());
 
     saveContentsToStream(outputTestFile, temporaryVector, StreamFormat::File);
     outputTestFile.close();
 
     ifstream inputTestFile(testFilePath.getFullPath());
     ASSERT_TRUE(inputTestFile.is_open());
-
     AlbaFileReader fileReader(inputTestFile);
     ASSERT_TRUE(inputTestFile.good());
-    ASSERT_FALSE(inputTestFile.eof());
-    EXPECT_TRUE(fileReader.isNotFinished());
+    ASSERT_FALSE(inputTestFile.eof());    EXPECT_TRUE(fileReader.isNotFinished());
     EXPECT_EQ("0", fileReader.getLine());
     EXPECT_EQ("-23", fileReader.getLine());
-    EXPECT_EQ("4", fileReader.getLine());
-    EXPECT_EQ("379", fileReader.getLine());
+    EXPECT_EQ("4", fileReader.getLine());    EXPECT_EQ("379", fileReader.getLine());
     EXPECT_EQ("-482", fileReader.getLine());
     EXPECT_EQ("37", fileReader.getLine());
     EXPECT_TRUE(fileReader.getLine().empty());
     EXPECT_FALSE(fileReader.isNotFinished());
 }
 
-TEST(ContainerTest, SaveSetOfIntegersToFileWorks)
+TEST(ContainerTest, SaveContentsToStreamWorksForASetOfIntegersToFile)
 {
     AlbaLocalPathHandler testFilePath(APRG_COMMON_TEST_FILE_TO_READ);
-    set<int> temporarySet{0, -23, 4, 379,- 482, 37};
-    ofstream outputTestFile(testFilePath.getFullPath());
+    set<int> temporarySet{0, -23, 4, 379,- 482, 37};    ofstream outputTestFile(testFilePath.getFullPath());
 
     saveContentsToStream(outputTestFile, temporarySet, StreamFormat::File);
     outputTestFile.close();
 
     ifstream inputTestFile(testFilePath.getFullPath());
     ASSERT_TRUE(inputTestFile.is_open());
-
     AlbaFileReader fileReader(inputTestFile);
     ASSERT_TRUE(inputTestFile.good());
-    ASSERT_FALSE(inputTestFile.eof());
-    EXPECT_TRUE(fileReader.isNotFinished());
+    ASSERT_FALSE(inputTestFile.eof());    EXPECT_TRUE(fileReader.isNotFinished());
     EXPECT_EQ("-482", fileReader.getLine());
     EXPECT_EQ("-23", fileReader.getLine());
-    EXPECT_EQ("0", fileReader.getLine());
-    EXPECT_EQ("4", fileReader.getLine());
+    EXPECT_EQ("0", fileReader.getLine());    EXPECT_EQ("4", fileReader.getLine());
     EXPECT_EQ("37", fileReader.getLine());
     EXPECT_EQ("379", fileReader.getLine());
     EXPECT_TRUE(fileReader.getLine().empty());
     EXPECT_FALSE(fileReader.isNotFinished());
 }
 
-TEST(ContainerTest, SaveMapOfIntegersToFileWorks)
+TEST(ContainerTest, SaveContentsToStreamWorksForAMapOfIntegersToFile)
 {
     AlbaLocalPathHandler testFilePath(APRG_COMMON_TEST_FILE_TO_READ);
-    map<int,int> temporaryMap;
-    temporaryMap[83] = 95;
+    map<int,int> temporaryMap;    temporaryMap[83] = 95;
     temporaryMap[2348] = 17;
     temporaryMap[-76] = 74;
-
     ofstream outputTestFile(testFilePath.getFullPath());
 
-    saveContentsToStream(outputTestFile, temporaryMap, StreamFormat::File);
-    outputTestFile.close();
+    saveContentsToStream(outputTestFile, temporaryMap, StreamFormat::File);    outputTestFile.close();
 
     ifstream inputTestFile(testFilePath.getFullPath());
     ASSERT_TRUE(inputTestFile.is_open());
-
     AlbaFileReader fileReader(inputTestFile);
     ASSERT_TRUE(inputTestFile.good());
-    ASSERT_FALSE(inputTestFile.eof());
-    EXPECT_TRUE(fileReader.isNotFinished());
+    ASSERT_FALSE(inputTestFile.eof());    EXPECT_TRUE(fileReader.isNotFinished());
     EXPECT_EQ("-76", fileReader.getLine());
     EXPECT_EQ("74", fileReader.getLine());
-    EXPECT_EQ("83", fileReader.getLine());
-    EXPECT_EQ("95", fileReader.getLine());
+    EXPECT_EQ("83", fileReader.getLine());    EXPECT_EQ("95", fileReader.getLine());
     EXPECT_EQ("2348", fileReader.getLine());
     EXPECT_EQ("17", fileReader.getLine());
     EXPECT_TRUE(fileReader.getLine().empty());
     EXPECT_FALSE(fileReader.isNotFinished());
 }
 
-TEST(ContainerTest, RetrieveVectorOfIntegersFromFileWorks)
+TEST(ContainerTest, FetrieveContentsFromStreamWorksForAVectorOfIntegersFromFile)
 {
     AlbaLocalPathHandler testFilePath(APRG_COMMON_TEST_FILE_TO_READ);
-    array<int, 4> temporaryArray{};
-    ofstream outputTestFile(testFilePath.getFullPath());
+    array<int, 4> temporaryArray{};    ofstream outputTestFile(testFilePath.getFullPath());
     outputTestFile<<"18723"<<endl;
     outputTestFile<<"-608"<<endl;
     outputTestFile<<"-43735"<<endl;
     outputTestFile<<"23234"<<endl;
     outputTestFile.close();
-
     ifstream inputTestFile(testFilePath.getFullPath());
     ASSERT_TRUE(inputTestFile.is_open());
-
     retrieveContentsFromStream(inputTestFile, temporaryArray);
 
-    ASSERT_EQ(4U, temporaryArray.size());
-    auto it = temporaryArray.begin();
+    ASSERT_EQ(4U, temporaryArray.size());    auto it = temporaryArray.begin();
     EXPECT_EQ(18723, *(it++));
     EXPECT_EQ(-608, *(it++));
     EXPECT_EQ(-43735, *(it++));
     EXPECT_EQ(23234, *(it++));
 }
 
-TEST(ContainerTest, RetrieveArrayOfIntegersFromFileWorks)
+TEST(ContainerTest, FetrieveContentsFromStreamWorksForAnArrayOfIntegersFromFile)
 {
     AlbaLocalPathHandler testFilePath(APRG_COMMON_TEST_FILE_TO_READ);
-    vector<int> temporaryVector;
-    ofstream outputTestFile(testFilePath.getFullPath());
+    vector<int> temporaryVector;    ofstream outputTestFile(testFilePath.getFullPath());
     outputTestFile<<"18723"<<endl;
     outputTestFile<<"-608"<<endl;
     outputTestFile<<"-43735"<<endl;
     outputTestFile<<"23234"<<endl;
     outputTestFile.close();
-
     ifstream inputTestFile(testFilePath.getFullPath());
     ASSERT_TRUE(inputTestFile.is_open());
-
     retrieveContentsFromStream(inputTestFile, temporaryVector);
 
-    ASSERT_EQ(4U, temporaryVector.size());
-    auto it = temporaryVector.begin();
+    ASSERT_EQ(4U, temporaryVector.size());    auto it = temporaryVector.begin();
     EXPECT_EQ(18723, *(it++));
     EXPECT_EQ(-608, *(it++));
     EXPECT_EQ(-43735, *(it++));
     EXPECT_EQ(23234, *(it++));
 }
 
-TEST(ContainerTest, RetrieveSetOfIntegersFromFileWorks)
+TEST(ContainerTest, FetrieveContentsFromStreamWorksForASetOfIntegersFromFile)
 {
     AlbaLocalPathHandler testFilePath(APRG_COMMON_TEST_FILE_TO_READ);
-    set<int> temporarySet;
-    ofstream outputTestFile(testFilePath.getFullPath());
+    set<int> temporarySet;    ofstream outputTestFile(testFilePath.getFullPath());
     outputTestFile<<"18723"<<endl;
     outputTestFile<<"-608"<<endl;
     outputTestFile<<"-43735"<<endl;
     outputTestFile<<"23234"<<endl;
     outputTestFile.close();
-
     ifstream inputTestFile(testFilePath.getFullPath());
     ASSERT_TRUE(inputTestFile.is_open());
-
     retrieveContentsFromStream(inputTestFile, temporarySet);
 
-    ASSERT_EQ(4U, temporarySet.size());
-    auto it = temporarySet.begin();
+    ASSERT_EQ(4U, temporarySet.size());    auto it = temporarySet.begin();
     EXPECT_EQ(-43735, *(it++));
     EXPECT_EQ(-608, *(it++));
     EXPECT_EQ(18723, *(it++));
     EXPECT_EQ(23234, *(it++));
 }
 
-TEST(ContainerTest, RetrieveMapOfIntegersFromFileWorks)
+TEST(ContainerTest, FetrieveContentsFromStreamWorksForAMapOfIntegersFromFile)
 {
     AlbaLocalPathHandler testFilePath(APRG_COMMON_TEST_FILE_TO_READ);
-    map<int,int> temporaryMap;
-    ofstream outputTestFile(testFilePath.getFullPath());
+    map<int,int> temporaryMap;    ofstream outputTestFile(testFilePath.getFullPath());
     outputTestFile<<"1"<<endl;
     outputTestFile<<"2"<<endl;
     outputTestFile<<"3"<<endl;
     outputTestFile<<"4"<<endl;
     outputTestFile.close();
-
     ifstream inputTestFile(testFilePath.getFullPath());
     ASSERT_TRUE(inputTestFile.is_open());
-
     retrieveContentsFromStream(inputTestFile, temporaryMap);
 
-    ASSERT_EQ(2U, temporaryMap.size());
-    auto it = temporaryMap.begin();
+    ASSERT_EQ(2U, temporaryMap.size());    auto it = temporaryMap.begin();
     EXPECT_EQ(1, it->first);
     EXPECT_EQ(2, it->second);
     it++;

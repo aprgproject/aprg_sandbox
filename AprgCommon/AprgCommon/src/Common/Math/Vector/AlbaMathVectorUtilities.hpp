@@ -1,25 +1,20 @@
 #pragma once
 
-#include <Common/Math/Vector/AlbaMathVector.hpp>
+#include <Common/Math/Vector/AlbaMathVectorUtilitiesHeaders.hpp>
 
 #include <cmath>
-
 namespace alba
 {
 
 template <typename DataType>
 bool isEqualForMathVectorDataType(DataType const& value1, DataType const& value2);
 
-
-
 template <typename DataType, unsigned int SIZE>
 bool areVectorsPerpendicular(
-        AlbaMathVector<DataType, SIZE> const& vector1,
-        AlbaMathVector<DataType, SIZE> const& vector2)
+        AlbaMathVector<DataType, SIZE> const& vector1,        AlbaMathVector<DataType, SIZE> const& vector2)
 {
     return isEqualForMathVectorDataType(getDotProduct(vector1, vector2), DataType(0));
 }
-
 template <typename DataType, unsigned int SIZE>
 bool areVectorsParallel(
         AlbaMathVector<DataType, SIZE> const& vector1,
@@ -56,15 +51,13 @@ bool isDotProductEqualToProductOfMagnitudesWithCosineOfAngle(
 {
     return isEqualForMathVectorDataType(
                 getDotProduct(vector1, vector2),
-                (vector1.getMagnitude() * vector2.getMagnitude() * cos(getAngleBetweenTwoVectors(vector1, vector2))));
+                (vector1.getMagnitude() * vector2.getMagnitude() * cos(getAngleBetweenTwoVectors(vector1, vector2).getRadians())));
 }
 
-template <typename DataType, unsigned int SIZE>
-AlbaMathVector<DataType, SIZE> createZeroVector()
+template <typename DataType, unsigned int SIZE>AlbaMathVector<DataType, SIZE> createZeroVector()
 {
     return AlbaMathVector<DataType, SIZE>();
 }
-
 template <typename DataType, unsigned int SIZE>
 AlbaMathVector<DataType, SIZE> getUnitVector(
         AlbaMathVector<DataType, SIZE> const& vector)
@@ -101,14 +94,13 @@ DataType getDotProduct(
     return result;
 }
 
+// cross product on 2D results in vector on the Z axis
 template <typename DataType>
 DataType getCrossProduct(
-        AlbaMathVector<DataType, 2U> const& vector1,
-        AlbaMathVector<DataType, 2U> const& vector2)
+        AlbaMathVector<DataType, 2U> const& vector1,        AlbaMathVector<DataType, 2U> const& vector2)
 {
     return vector1.getValueAt(0)*vector2.getValueAt(1) - vector1.getValueAt(1)*vector2.getValueAt(0);
 }
-
 template <typename DataType>
 AlbaMathVector<DataType, 3U> getCrossProduct(
         AlbaMathVector<DataType, 3U> const& vector1,
@@ -121,19 +113,30 @@ AlbaMathVector<DataType, 3U> getCrossProduct(
 }
 
 template <typename DataType, unsigned int SIZE>
-DataType getAngleBetweenTwoVectors(
+AlbaAngle getAngleBetweenTwoVectors(
         AlbaMathVector<DataType, SIZE> const& vector1,
         AlbaMathVector<DataType, SIZE> const& vector2)
 {
-    return acos(getDotProduct(vector1, vector2) / (vector1.getMagnitude() * vector2.getMagnitude()));
+    // In 2D, in c++ complex number class this is same with arg(v).
+    return AlbaAngle(AngleUnitType::Radians, acos(getDotProduct(vector1, vector2) / (vector1.getMagnitude() * vector2.getMagnitude())));
 }
 
-template <typename DataType, unsigned int SIZE>
-DataType getScalarProjection(
+template <typename DataType, unsigned int SIZE>DataType getScalarProjection(
         AlbaMathVector<DataType, SIZE> const& vectorToProjectTo,
         AlbaMathVector<DataType, SIZE> const& vectorToProjectFrom)
 {
     return getDotProduct(vectorToProjectTo, vectorToProjectFrom) / vectorToProjectTo.getMagnitude();
 }
+
+template <typename DataType>
+AlbaMathVector<DataType, 2U> rotateVectorCounterClockwise(
+        AlbaMathVector<DataType, 2U> const& vectorToBeRotated,
+        AlbaAngle const& angle)
+{
+    double magnitude = vectorToBeRotated.getMagnitude();
+    double newAngleInRadians = angle.getRadians() + acos(vectorToBeRotated.getValueAt(0)/magnitude);
+    return AlbaMathVector<DataType, 2U>{magnitude*cos(newAngleInRadians), magnitude*sin(newAngleInRadians)};
+}
+
 
 }
