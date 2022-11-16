@@ -193,26 +193,27 @@ double getSignedCounterClockwiseTriangleAreaOfOriginAnd2Points(Point const& poin
     return getCrossProduct(constructVector(point1), constructVector(point2)) / 2;
 }
 
-double getSignedCounterClockwiseTriangleSquaredAreaOf3Points(Point const& a, Point const& b, Point const& c)
+double getSignedCounterClockwiseTriangleAreaOf3Points(Point const& a, Point const& b, Point const& c)
 {
     Point deltaBA(b-a);
     Point deltaCA(c-a);
 
-    return getCrossProduct(constructVector(deltaBA), constructVector(deltaCA));
+    return getCrossProduct(constructVector(deltaBA), constructVector(deltaCA)) / 2;
 }
 
-double getSignedCounterClockwiseTriangleAreaOf3Points(Point const& a, Point const& b, Point const& c)
-{
-    double signedAreaSquared(getSignedCounterClockwiseTriangleSquaredAreaOf3Points(a, b, c));
-    return getSign(signedAreaSquared)*sqrt(getAbsoluteValue(signedAreaSquared));
-}
-
-double getAreaOfTriangleUsingHeronsFormula(Triangle const& triangle)
+double getAreaOfTriangleUsingThreePoints(Triangle const& triangle)
 {
     // The area of a triangle can be calculated, for example, using Heron’s formula:
     // area = sqrt(s(s-a)(s-b)(s-c)),
     // where a, b and c are the lengths of the triangle’s sides and s = (a+b+c)/2.
-    auto sides(triangle.getLengthOfSides());
+    auto vertices(triangle.getVertices());
+    return mathHelper::getAbsoluteValue(getSignedCounterClockwiseTriangleAreaOf3Points(vertices.at(0), vertices.at(1), vertices.at(2)));
+}
+
+double getAreaOfTriangleUsingHeronsFormula(Triangle const& triangle){
+    // The area of a triangle can be calculated, for example, using Heron’s formula:
+    // area = sqrt(s(s-a)(s-b)(s-c)),
+    // where a, b and c are the lengths of the triangle’s sides and s = (a+b+c)/2.    auto sides(triangle.getLengthOfSides());
     double s = (sides.at(0)+sides.at(1)+sides.at(2))/2;
     return sqrt(s * (s-sides.at(0)) * (s-sides.at(1)) * (s-sides.at(2)));
 }

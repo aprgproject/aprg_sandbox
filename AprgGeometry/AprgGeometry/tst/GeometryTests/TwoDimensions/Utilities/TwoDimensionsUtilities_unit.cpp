@@ -127,32 +127,28 @@ TEST(TwoDimensionsUtilitiesTest, GetSignedCounterClockwiseTriangleAreaOfOriginAn
     EXPECT_DOUBLE_EQ(-2, getSignedCounterClockwiseTriangleAreaOfOriginAnd2Points(Point(2, 2), Point(3, 1)));
 }
 
-TEST(TwoDimensionsUtilitiesTest, GetSignedCounterClockwiseTriangleSquaredAreaOf3PointsWorks)
-{
-    EXPECT_DOUBLE_EQ(-4, getSignedCounterClockwiseTriangleSquaredAreaOf3Points(Point(0, 0), Point(0, 2), Point(2, 0)));
-    EXPECT_DOUBLE_EQ(4, getSignedCounterClockwiseTriangleSquaredAreaOf3Points(Point(0, 0), Point(2, 0), Point(0, 2)));
-    EXPECT_DOUBLE_EQ(4, getSignedCounterClockwiseTriangleSquaredAreaOf3Points(Point(0, 0), Point(2, 2), Point(1, 3)));
-    EXPECT_DOUBLE_EQ(-4, getSignedCounterClockwiseTriangleSquaredAreaOf3Points(Point(0, 0), Point(2, 2), Point(3, 1)));
-}
-
 TEST(TwoDimensionsUtilitiesTest, GetSignedCounterClockwiseTriangleAreaOf3PointsWorks)
 {
-    EXPECT_DOUBLE_EQ(-2, getSignedCounterClockwiseTriangleAreaOf3Points(Point(0, 0), Point(0, 2), Point(2, 0)));
-    EXPECT_DOUBLE_EQ(2, getSignedCounterClockwiseTriangleAreaOf3Points(Point(0, 0), Point(2, 0), Point(0, 2)));
+    EXPECT_DOUBLE_EQ(-2, getSignedCounterClockwiseTriangleAreaOf3Points(Point(0, 0), Point(0, 2), Point(2, 0)));    EXPECT_DOUBLE_EQ(2, getSignedCounterClockwiseTriangleAreaOf3Points(Point(0, 0), Point(2, 0), Point(0, 2)));
     EXPECT_DOUBLE_EQ(2, getSignedCounterClockwiseTriangleAreaOf3Points(Point(0, 0), Point(2, 2), Point(1, 3)));
     EXPECT_DOUBLE_EQ(-2, getSignedCounterClockwiseTriangleAreaOf3Points(Point(0, 0), Point(2, 2), Point(3, 1)));
+}
+
+TEST(TwoDimensionsUtilitiesTest, GetAreaOfTriangleUsingThreePointsWorks)
+{
+    EXPECT_DOUBLE_EQ(3, getAreaOfTriangleUsingThreePoints(Triangle(Point(0, 0), Point(0, 2), Point(3, 0))));
+    EXPECT_DOUBLE_EQ(3, getAreaOfTriangleUsingThreePoints(Triangle(Point(0, 0), Point(2, 0), Point(0, 3))));
 }
 
 TEST(TwoDimensionsUtilitiesTest, GetAreaOfTriangleUsingHeronsFormulaWorks)
 {
     EXPECT_DOUBLE_EQ(3, getAreaOfTriangleUsingHeronsFormula(Triangle(Point(0, 0), Point(0, 2), Point(3, 0))));
+    EXPECT_DOUBLE_EQ(3, getAreaOfTriangleUsingHeronsFormula(Triangle(Point(0, 0), Point(2, 0), Point(0, 3))));
 }
 
-TEST(TwoDimensionsUtilitiesTest, GetAreaOfQuadrilateralWorks)
-{
+TEST(TwoDimensionsUtilitiesTest, GetAreaOfQuadrilateralWorks){
     EXPECT_DOUBLE_EQ(6, getAreaOfQuadrilateral(Quadrilateral(Point(0, 0), Point(0, 2), Point(3, 2), Point(3, 0))));
 }
-
 TEST(TwoDimensionsUtilitiesTest, GetAreaUsingPicksTheoremWorks)
 {
     // Points: (2,4), (4,1), (4,3), (5,5), (7,3)
