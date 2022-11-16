@@ -54,13 +54,13 @@ public:
 
     Vertices getVerticesInTopologicalOrder(Vertex const& startVertex)
     {
+        // Algorithm in short terms: Traverse DFS post order("add vertex after DFS is done for the vertex"), then reverse the order
+
         return getVerticesInThisOrder(startVertex, VertexTraversalOrder::ReversePostOrder);
     }
-
 private:
 
-    void reverseVerticesIfNeeded(Vertices & traversedVertices, VertexTraversalOrder const traversalOrder) const
-    {
+    void reverseVerticesIfNeeded(Vertices & traversedVertices, VertexTraversalOrder const traversalOrder) const    {
         if(VertexTraversalOrder::ReversePostOrder == traversalOrder)
         {
             std::reverse(traversedVertices.begin(), traversedVertices.end());

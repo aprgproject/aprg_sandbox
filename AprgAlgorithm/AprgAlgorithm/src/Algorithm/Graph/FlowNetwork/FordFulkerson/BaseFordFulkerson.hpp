@@ -135,14 +135,12 @@ protected:
 // -> Find an undirected path from s to t such that (this is called the augmenting path):
 // ---> Can increase flow on forward edges (not full)
 // ---> Can decrease flow on backward edge (not empty)
-// -> Termination All paths s to t are blocked by either a:
+// -> Termination: All paths s to t are blocked by either a:
 // ---> full forward edge
 // ---> empty backward edge
-
 // Process:
 // -> Start with 0 flow
-// -> While there exists an augmenting path:
-// ---> Find an augmenting path
+// -> While there exists an augmenting path:// ---> Find an augmenting path
 // ---> Compute bottleneck capacity
 // ---> Increase flow on that path by bottleneck capacity.
 
@@ -202,21 +200,19 @@ protected:
 // The Ford–Fulkerson algorithm does not specify how we should choose the paths that increase the flow.
 // In any case, the algorithm will terminate sooner or later and correctly find the maximum flow.
 // However, the efficiency of the algorithm depends on the way the paths are chosen.
-// A simple way to find paths is to use depth-first search (BFS IS IMPLEMENTED ABOVE).
+// A simple way to find paths is to use depth-first search (BFS IS IMPLEMENTED ON ANOTHER FILE).
 // Usually, this works well, but in the worst case, each path only increases the flow by 1 and the algorithm is slow.
 // Fortunately, we can avoid this situation by using one of the following techniques:
 // 1) Edmonds–Karp algorithm
 // -> The Edmonds–Karp algorithm chooses each path so that the number of edges on the path is as small as possible.
-// -> This can be done by using breadthfirst search instead of depth-first search for finding paths. THIS IS IMPLELENTED ABOVE.
-// -> It can be proven that this guarantees that the flow increases quickly, and the time complexity of the algorithm is O(m2n).
+// -> This can be done by using breadthfirst search instead of depth-first search for finding paths. THIS IS IMPLEMENTED ON ANOTHER FILE.
+// -> It can be proven that this guarantees that the flow increases quickly, and the time complexity of the algorithm is O(m^2 * n).
 // 2) Scaling algorithm
 // -> The scaling algorithm uses depth-first search to find paths where each edge weight is at least a threshold value.
-// -> Initially, the threshold value is some large number, for example the sum of all edge weights of the graph.
-// -> Always when a path cannot be found, the threshold value is divided by 2.
+// -> Initially, the threshold value is some large number, for example the sum of all edge weights of the graph.// -> Always when a path cannot be found, the threshold value is divided by 2.
 // -> The time complexity of the algorithm is O(m^2 * logc), where c is the initial threshold value.
 
-// Minimum cuts
-// It turns out that once the Ford–Fulkerson algorithm has found a maximum flow, it has also determined a minimum cut.
+// Minimum cuts// It turns out that once the Ford–Fulkerson algorithm has found a maximum flow, it has also determined a minimum cut.
 // Let A be the set of nodes that can be reached from the source using positive-weight edges.
 // Now the minimum cut consists of the edges of the original graph that start at some node in A,
 // end at some node outside A, and whose capacity is fully used in the maximum flow.

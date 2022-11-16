@@ -75,14 +75,16 @@ private:
     EdgeOrderedByWeightsPriorityQueue m_edgesInOrder;
 };
 
+
+// Algorithm in short terms: Add shortest edges (if does not create a cycle) in the tree
+
+
 // Proposition: Kruskal's algorithm computes MST.
 // Proof:
-// -> Kruskal algorithm is a special case of the greedy MST algorithm.
-// -> Suppose Kruskal algorithm colors the edge e = v-w black.
+// -> Kruskal algorithm is a special case of the greedy MST algorithm.// -> Suppose Kruskal algorithm colors the edge e = v-w black.
 // -> Cut = set of vertices connected to v in tree T
 // -> No crossing edge is black
 // -> No crossing edge has lower weight.
-
 // Proposition: Kruskal's algorithm computes MST in time proportional to E log E (in the worst case).
 // Proof:
 // -> Time for each part:
@@ -93,10 +95,15 @@ private:
 
 
 // Other discussion:
+// In Kruskal’s algorithm, the initial spanning tree only contains the nodes of the graph and does not contain any edges.
+// Then the algorithm goes through the edges ordered by their weights, and always adds an edge to the tree if it does not create a cycle.
+// The algorithm maintains the components of the tree. Initially, each node of the graph belongs to a separate component.
+// Always when an edge is added to the tree, two components are joined.
+// Finally, all nodes belong to the same component, and a minimum spanning tree has been found.
+
 // -> Why does this work? Why does the greedy strategy guarantee that we will find a minimum spanning tree?
 // ---> Is it possible that a non minimum weight edge of the graph is not included in the spanning tree?
 // ---> No, because minimum weight edges are processed first. If there is some connection to vertex V to the MST, it is processed first.
-
 }
 
 }

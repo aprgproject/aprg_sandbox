@@ -103,14 +103,17 @@ private:
 
 };
 
+
+// Algorithm in short terms: Add nearest vertices in the tree.
+// Since its eager, nearest vertices are checked every time a new one is added on the tree.
+
+
 // Running time:
 // depends on Indexed-PQ implementation: Total = V inserts + V deletemins + E decrease-keys
-// array: insert(1), delete-min(V), decrease-key(1) -> total = V^2
-// binary heap: insert(log V), delete-min(log V), decrease-key(log V) -> total = E log V
+// array: insert(1), delete-min(V), decrease-key(1) -> total = V^2// binary heap: insert(log V), delete-min(log V), decrease-key(log V) -> total = E log V
 // d-way heap: insert(d logd V)), delete-min(d logd V), decrease-key(d logd V) -> total = E log(E/V) V
 // Fibonacci heap: insert(1*), delete-min(log V*), decrease-key(1*) -> total = E + V log V
-// * means amortized
-// Bottom line:
+// * means amortized// Bottom line:
 // -> Array implementation optimal for dense graphs
 // -> Binary heap is faster for sparse graphs
 // -> 4 way heap is worth the trouble in performance-critical situations

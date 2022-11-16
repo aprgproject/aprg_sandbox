@@ -54,14 +54,13 @@ public:
         // A path cover is a set of paths in a graph such that each node of the graph belongs to at least one path.
         // It turns out that in directed, acyclic graphs,
         // we can reduce the problem of finding a minimum path cover to the problem of finding a maximum flow in another graph.
+
         Edges result;
         if(GraphUtilities::isDirectedAcyclicGraph(m_graph))
-        {
-            result = getEdgesOfNodeDisjointPathCoverUsingFordFulkerson(newSourceVertex, newSinkVertex);
+        {            result = getEdgesOfNodeDisjointPathCoverUsingFordFulkerson(newSourceVertex, newSinkVertex);
         }
         return result;
     }
-
 private:
 
     Paths getNodeDisjointPathCover(

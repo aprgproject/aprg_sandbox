@@ -72,13 +72,12 @@ public:
         // Using Dilworth's theorem:
         // An antichain is a set of nodes of a graph such that there is no path from any node to another node using the edges of the graph.
         // Dilworth’s theorem states that in a directed acyclic graph, the size of a minimum general path cover equals the size of a maximum antichain.
+
         return getGeneralPathCover(newSourceVertex, newSinkVertex).size();
     }
-
 private:
 
-    Paths getGeneralPathCover(
-            VertexPairs const& vertexPairs) const
+    Paths getGeneralPathCover(            VertexPairs const& vertexPairs) const
     {
         Paths result;
         Edges allEdges(m_graph.getEdges());

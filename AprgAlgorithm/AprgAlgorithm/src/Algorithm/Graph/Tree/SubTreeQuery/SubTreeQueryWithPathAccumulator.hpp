@@ -74,35 +74,30 @@ protected:
         if(m_processedVertices.isNotFound(startVertex) && !m_graph.getAdjacentVerticesAt(startVertex).empty()) // dont include invalid vertex
         {
             unsigned int treeSize(0);
-            Vertex pathResult(startVertex);
-            traverseUsingDfs(treeSize, pathResult, startVertex);
+            Vertex startValue(startVertex);
+            traverseUsingDfs(treeSize, startValue, startVertex);
 
             m_verticesInDfsPreOrder.shrink_to_fit();
-            m_accumulatedValuesOfPaths.shrink_to_fit();
-        }
+            m_accumulatedValuesOfPaths.shrink_to_fit();        }
     }
 
-    void traverseUsingDfs(unsigned int & treeSize, Vertex & pathResult, Vertex const& vertex)
+    void traverseUsingDfs(unsigned int & treeSize, Vertex const& pathAccumulatedValue, Vertex const& vertex)
     {
         m_processedVertices.putVertex(vertex);
         m_verticesInDfsPreOrder.emplace_back(vertex);
-        m_accumulatedValuesOfPaths.emplace_back(pathResult);
-        Vertex pathResultAtVertex = pathResult;
+        m_accumulatedValuesOfPaths.emplace_back(pathAccumulatedValue);
         unsigned int index = treeSize++;
         for(Vertex const& adjacentVertex : m_graph.getAdjacentVerticesAt(vertex))
         {
             if(m_processedVertices.isNotFound(adjacentVertex))
             {
-                pathResult = m_accumulator(pathResultAtVertex, adjacentVertex);
-                traverseUsingDfs(treeSize, pathResult, adjacentVertex);
+                traverseUsingDfs(treeSize, m_accumulator(pathAccumulatedValue, adjacentVertex), adjacentVertex);
             }
         }
-        m_vertexToIndexMap[vertex] = index;
-    }
+        m_vertexToIndexMap[vertex] = index;    }
 
     BaseUndirectedGraphWithVertex const& m_graph;
-    Vertex m_rootOfTree;
-    AccumulatorFunction m_accumulator;
+    Vertex m_rootOfTree;    AccumulatorFunction m_accumulator;
     CheckableVerticesWithVertex m_processedVertices;
     Vertices m_verticesInDfsPreOrder;
     Vertices m_accumulatedValuesOfPaths;

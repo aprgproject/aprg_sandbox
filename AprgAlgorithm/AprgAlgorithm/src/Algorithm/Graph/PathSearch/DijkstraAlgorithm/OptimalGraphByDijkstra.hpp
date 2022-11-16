@@ -14,13 +14,11 @@ EdgeWeightedDirectedGraph getOptimalDirectedGraph(PathSearchUsingDijkstra const&
     {
         if(pathSearch.getStartVertex() != vertexToEdgePair.first) // remove start vertex because its started there
         {
-            auto const& EdgeOrderedByWeight(vertexToEdgePair.second);
-            result.connect(EdgeOrderedByWeight.first, EdgeOrderedByWeight.second, EdgeOrderedByWeight.weight);
+            auto const& edgeOrderedByWeight(vertexToEdgePair.second);
+            result.connect(edgeOrderedByWeight.first, edgeOrderedByWeight.second, edgeOrderedByWeight.weight);
         }
     }
-    return result;
-}
+    return result;}
 
 }
-
 }

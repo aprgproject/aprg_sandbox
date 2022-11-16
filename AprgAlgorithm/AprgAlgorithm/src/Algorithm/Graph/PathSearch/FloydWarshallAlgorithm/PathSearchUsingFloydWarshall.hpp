@@ -73,15 +73,13 @@ private:
 
     void addToPath(DequeOfVertices & pathInDeque, DequeDirection const direction, Vertex const& first, Vertex const& second) const
     {
-        if(first != second && m_pathDetailsMatrix.isInside(first, second) && pathInDeque.size() < 10)
+        if(first != second && m_pathDetailsMatrix.isInside(first, second))
         {
             PathDetails const& firstToSecond(m_pathDetailsMatrix.getEntryConstReference(first, second));
-            if(firstToSecond.hasAPath)
-            {
+            if(firstToSecond.hasAPath)            {
                 if(first != firstToSecond.bestAdjacentVertex && second != firstToSecond.bestAdjacentVertex)
                 {
-                    if(DequeDirection::Front == direction)
-                    {
+                    if(DequeDirection::Front == direction)                    {
                         pathInDeque.emplace_front(firstToSecond.bestAdjacentVertex);
                     }
                     else if(DequeDirection::Back == direction)
@@ -97,6 +95,63 @@ private:
                     {
                         addToPath(pathInDeque, DequeDirection::Front, first, firstToSecond.bestAdjacentVertex);
                         addToPath(pathInDeque, DequeDirection::Back, firstToSecond.bestAdjacentVertex, second);
+                    }
+                }
+            }
+        }
+    }
+
+    void searchForBestPaths()
+    {
+        initializePathDetailsWithEdgeWeights();        initializePathDetailsInTheDiagonal();
+        checkAllIntermediateVertices();
+    }
+
+    void initializePathDetailsWithEdgeWeights()
+    {
+        for(EdgeOrderedByWeight const& edgeOrderedByWeight : m_graph.getEdgesWithWeight())
+        {
+            m_pathDetailsMatrix.setEntry(edgeOrderedByWeight.first, edgeOrderedByWeight.second, {true, edgeOrderedByWeight.first, edgeOrderedByWeight.weight});
+        }
+    }
+    void initializePathDetailsInTheDiagonal()
+    {
+        for(Vertex const& vertex : m_graph.getVertices())        {
+            PathDetails & diagonalPathDetails(m_pathDetailsMatrix.getEntryReference(vertex, vertex));
+            diagonalPathDetails.hasAPath = true;
+            diagonalPathDetails.bestAdjacentVertex = vertex;
+        }
+    }
+
+    void checkAllIntermediateVertices()
+    {
+        Vertices vertices(m_graph.getVertices());
+        for(Vertex const& inbetweenVertex : vertices)
+        {
+            for(Vertex const& startVertex : vertices)
+            {
+                if(startVertex != inbetweenVertex)
+                {
+                    PathDetails & startToIntermediateDetails(m_pathDetailsMatrix.getEntryReference(startVertex, inbetweenVertex));
+                    for(Vertex const& endVertex : vertices)
+                    {
+                        if(endVertex != inbetweenVertex && startVertex != endVertex)
+                        {
+                            PathDetails & startToEndDetails(m_pathDetailsMatrix.getEntryReference(startVertex, endVertex));
+                            PathDetails & intermediateToEndDetails(m_pathDetailsMatrix.getEntryReference(inbetweenVertex, endVertex));
+                            if(startToIntermediateDetails.hasAPath && intermediateToEndDetails.hasAPath)
+                            {
+                                Weight possibleNewWeight = startToIntermediateDetails.bestWeight + intermediateToEndDetails.bestWeight;
+                                if(!startToEndDetails.hasAPath)
+                                {
+                                    startToEndDetails = {true, inbetweenVertex, possibleNewWeight};
+                                }
+                                else if(m_comparator(possibleNewWeight, startToEndDetails.bestWeight))
+                                {
+                                    startToEndDetails.bestAdjacentVertex = inbetweenVertex;
+                                    startToEndDetails.bestWeight = possibleNewWeight;
+                                }
+                            }                        }
                     }
                 }
             }
@@ -134,87 +189,24 @@ private:
         return std::string("\n") + displayTable.drawOutput();
     }
 
-    void searchForBestPaths()
-    {
-        initializePathDetailsWithEdgeWeights();
-        initializePathDetailsInTheDiagonal();
-        checkAllIntermediateVertices();
-    }
-
-    void initializePathDetailsWithEdgeWeights()
-    {
-        for(EdgeOrderedByWeight const& EdgeOrderedByWeight : m_graph.getEdgesWithWeight())
-        {
-            m_pathDetailsMatrix.setEntry(EdgeOrderedByWeight.first, EdgeOrderedByWeight.second, {true, EdgeOrderedByWeight.first, EdgeOrderedByWeight.weight});
-        }
-    }
-
-    void initializePathDetailsInTheDiagonal()
-    {
-        for(Vertex const& vertex : m_graph.getVertices())
-        {
-            PathDetails & diagonalPathDetails(m_pathDetailsMatrix.getEntryReference(vertex, vertex));
-            diagonalPathDetails.hasAPath = true;
-            diagonalPathDetails.bestAdjacentVertex = vertex;
-        }
-    }
-
-    void checkAllIntermediateVertices()
-    {
-        Vertices vertices(m_graph.getVertices());
-        for(Vertex const& intermediateVertex : vertices)
-        {
-            for(Vertex const& startVertex : vertices)
-            {
-                if(startVertex != intermediateVertex)
-                {
-                    PathDetails & startToIntermediateDetails(m_pathDetailsMatrix.getEntryReference(startVertex, intermediateVertex));
-                    for(Vertex const& endVertex : vertices)
-                    {
-                        if(endVertex != intermediateVertex && startVertex != endVertex)
-                        {
-                            PathDetails & startToEndDetails(m_pathDetailsMatrix.getEntryReference(startVertex, endVertex));
-                            PathDetails & intermediateToEndDetails(m_pathDetailsMatrix.getEntryReference(intermediateVertex, endVertex));
-                            if(startToIntermediateDetails.hasAPath && intermediateToEndDetails.hasAPath)
-                            {
-                                Weight possibleNewWeight = startToIntermediateDetails.bestWeight + intermediateToEndDetails.bestWeight;
-                                if(!startToEndDetails.hasAPath)
-                                {
-                                    startToEndDetails = {true, intermediateVertex, possibleNewWeight};
-                                }
-                                else if(m_comparator(possibleNewWeight, startToEndDetails.bestWeight))
-                                {
-                                    startToEndDetails.bestAdjacentVertex = intermediateVertex;
-                                    startToEndDetails.bestWeight = possibleNewWeight;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-
     Graph const& m_graph;
     Comparator m_comparator;
-    PathDetailsMatrix m_pathDetailsMatrix;
-};
+    PathDetailsMatrix m_pathDetailsMatrix;};
 
 template <typename Vertex, typename Weight, typename EdgeWeightedGraph, template<class> class ComparatorTemplateType>
-std::ostream & operator<<(std::ostream & out, typename PathSearchUsingFloydWarshall<Vertex, Weight, EdgeWeightedGraph, ComparatorTemplateType>::PathDetails const& pathDetails)
-{
+std::ostream & operator<<(std::ostream & out, typename PathSearchUsingFloydWarshall<Vertex, Weight, EdgeWeightedGraph, ComparatorTemplateType>::PathDetails const& pathDetails){
     out << pathDetails.hasAPath << "," << pathDetails.bestAdjacentVertex << "," << pathDetails.bestWeight;
     return out;
 }
 
 
-// The Floyd–Warshall algorithm4 provides an alternative way to approach the problem of finding best (shortest/longest) paths.
+// Algorithm in short terms: Use a "adjacent/best weight" matrix to find shortest/longest by checking vertices in between vertices.
+
+// The Floyd–Warshall algorithm provides an alternative way to approach the problem of finding best (shortest/longest) paths.
 // The algorithm maintains a two-dimensional array that contains distances between the nodes.
 // First, distances are calculated only using direct edges between the nodes, and after this, the algorithm reduces distances by using intermediate nodes in paths.
-
 // Analysis
 // The time complexity of the algorithm is O(n3), because it contains three nested loops that go through the nodes of the graph.
-
 // Comments
 // Since the implementation of the Floyd–Warshall algorithm is simple,
 // the algorithm can be a good choice even if it is only needed to find a single shortest path in the graph.

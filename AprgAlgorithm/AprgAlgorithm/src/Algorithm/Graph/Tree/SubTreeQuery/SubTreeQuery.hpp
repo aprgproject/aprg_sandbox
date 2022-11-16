@@ -44,18 +44,16 @@ public:
         {
             unsigned int indexOfSubRoot = it->second;
             unsigned int subTreeSizeAtSubRoot = m_subTreeSize.at(indexOfSubRoot);
-            for(unsigned int i=0; i<subTreeSizeAtSubRoot; i++)
-            {
-                result.emplace_back(m_verticesInDfsPreOrder.at(indexOfSubRoot+i));
-            }
+            result.reserve(subTreeSizeAtSubRoot);
+            auto start = m_verticesInDfsPreOrder.cbegin()+indexOfSubRoot;
+            auto end = m_verticesInDfsPreOrder.cbegin()+indexOfSubRoot+subTreeSizeAtSubRoot;
+            std::copy(start, end, std::back_inserter(result));
         }
         return result;
     }
-
 protected:
 
-    void initializeIfNeeded()
-    {
+    void initializeIfNeeded()    {
         if(GraphUtilities::isATree(m_graph))
         {
             initialize();
@@ -94,16 +92,14 @@ protected:
                 traverseUsingDfs(treeSize, adjacentVertex);
             }
         }
-        m_subTreeSize[beforeTreeSize] = treeSize-beforeTreeSize; // Sub tree size = "total tree size" - "before tree size"
         m_vertexToIndexMap[vertex] = beforeTreeSize;
+        m_subTreeSize[beforeTreeSize] = treeSize-beforeTreeSize; // Sub tree size = "total tree size" - "before tree size"
     }
 
-    BaseUndirectedGraphWithVertex const& m_graph;
-    Vertex m_rootOfTree;
+    BaseUndirectedGraphWithVertex const& m_graph;    Vertex m_rootOfTree;
     CheckableVerticesWithVertex m_processedVertices;
     Vertices m_verticesInDfsPreOrder;
-    Counts m_subTreeSize;
-    VertexToIndexMap m_vertexToIndexMap;
+    Counts m_subTreeSize;    VertexToIndexMap m_vertexToIndexMap;
 };
 
 }
