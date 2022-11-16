@@ -127,15 +127,13 @@ double getManhattanDistance(Point const& point1, Point const& point2)
     return getAbsoluteValue(delta.getX()) + getAbsoluteValue(delta.getY());
 }
 
-double getManhattanDistanceAlternateWay(Point const& point1, Point const& point2)
+double getManhattanDistanceWithAlternateWay(Point const& point1, Point const& point2)
 {
     // A useful technique related to Manhattan distances is to rotate all coordinates 45 degrees so that a point (x, y) becomes (x+y, y-x).
-    // Consider two points p1=(x1,y1) and p2=(x2,y2) whose rotated coordinates p1'=(x1',y1') and p2'=(x2',y2')
-    // Now there are two ways to express the Manhattan distance between p1 and p2:
+    // Consider two points p1=(x1,y1) and p2=(x2,y2) whose rotated coordinates p1'=(x1',y1') and p2'=(x2',y2')    // Now there are two ways to express the Manhattan distance between p1 and p2:
     // |x1-x2|+|y1-y2| = max(|x1'-x2'|,|y1'-y2'|)
 
     // Note that "addition operation" transforms to "maximum operation"
-
     Point point1Rotated(point1.getX()+point1.getY(), point1.getY()-point1.getX());
     Point point2Rotated(point2.getX()+point2.getY(), point2.getY()-point2.getX());
     Point deltaRotated = point1Rotated-point2Rotated;

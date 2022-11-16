@@ -94,15 +94,13 @@ TEST(TwoDimensionsUtilitiesTest, GetManhattanDistanceWorks)
 
 TEST(TwoDimensionsUtilitiesTest, GetManhattanDistanceAlternateWayWorks)
 {
-    EXPECT_DOUBLE_EQ(2, getManhattanDistanceAlternateWay(Point(0,0), Point(1,1)));
+    EXPECT_DOUBLE_EQ(2, getManhattanDistanceWithAlternateWay(Point(0,0), Point(1,1)));
 }
 
-TEST(TwoDimensionsUtilitiesTest, GetMaximumManhattanDistanceOfTwoPointsWorks)
-{
+TEST(TwoDimensionsUtilitiesTest, GetMaximumManhattanDistanceOfTwoPointsWorks){
     Points points{{1, 3}, {2, 1}, {4, 4}, {4, 2}};
     EXPECT_DOUBLE_EQ(5, getMaximumManhattanDistanceOfTwoPoints(points));
 }
-
 TEST(TwoDimensionsUtilitiesTest, GetCosineOfAngleUsing1DeltaWorks)
 {
     EXPECT_DOUBLE_EQ(0.6, getCosineOfAngleUsing1Delta(3,4));
@@ -152,20 +150,19 @@ TEST(TwoDimensionsUtilitiesTest, GetAreaOfQuadrilateralWorks){
 TEST(TwoDimensionsUtilitiesTest, GetAreaUsingPicksTheoremWorks)
 {
     // Points: (2,4), (4,1), (4,3), (5,5), (7,3)
-    // | | | | | | | |
-    // | | | | |O| | |
-    // | |O|I|I|I|O| |
-    // | | | |O|I|I|O|
-    // | | | |O|I| | |
-    // | | | |O| | | |
+    // |6| | | | | | | |
+    // |5| | | | |O| | |
+    // |4| |O|I|I|I|O| |
+    // |3| | | |O|I|I|O|
+    // |2| | | |O|I| | |
+    // |1| | | |O| | | |
+    // |X|1|2|3|4|5|6|7|
     // Legend: 'O' is for outside, 'I' is for inside
 
-    EXPECT_DOUBLE_EQ(8.5, getAreaUsingPicksTheorem(6U, 7U));
-}
+    EXPECT_DOUBLE_EQ(8.5, getAreaUsingPicksTheorem(6U, 7U));}
 
 TEST(TwoDimensionsUtilitiesTest, GetAreaForPolygonWorksForTriangle)
-{
-    Triangle triangle(Point(0,0), Point(0,4), Point(4,0));
+{    Triangle triangle(Point(0,0), Point(0,4), Point(4,0));
     EXPECT_DOUBLE_EQ(8, getArea(triangle));
 }
 
