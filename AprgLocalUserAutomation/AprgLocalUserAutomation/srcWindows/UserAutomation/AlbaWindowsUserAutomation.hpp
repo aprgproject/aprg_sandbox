@@ -10,7 +10,7 @@
 namespace alba
 {
 
-using  MousePosition = AlbaXY<int>;
+using MousePosition = AlbaXY<int>;
 
 
 class AlbaWindowsUserAutomation
@@ -38,11 +38,11 @@ public:
     void sleepWithRealisticDelay() const;
     void sleep(unsigned int const milliseconds) const;
 
+    void saveBitmapOnScreen(std::string const& filePath) const; // Note: the difference on partially capturing the screen is negligible
+
     std::string getStringFromClipboard() const;
     void setStringToClipboard(std::string const& clipBoardText) const;
     void saveBitmapFromClipboard(std::string const& filePath) const;
-
-    void saveBitmapOnScreen(std::string const& filePath) const;
 
 private:
     unsigned int convertToVirtualKey(char const character) const;

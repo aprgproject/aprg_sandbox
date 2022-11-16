@@ -23,9 +23,11 @@ public:
     using VertexToEdgeOrderedByWeightMap = typename GraphTypesWithWeights<Vertex, Weight>::VertexToEdgeOrderedByWeightMap;
     using AdditionalRelaxationStepsWithNewWeight = std::function<void(Vertex const&, Vertex const&, Weight const&)>;
     using AdditionalRelaxationSteps = std::function<void(void)>;
+
     BasePathSearchWithRelax(EdgeWeightedGraph const& graph, Vertex const& startVertex)
         : m_graph(graph)
-        , m_startVertex(startVertex)    {}
+        , m_startVertex(startVertex)
+    {}
 
     virtual ~BasePathSearchWithRelax() = default;
 
@@ -72,9 +74,11 @@ public:
     {
         return m_vertexToEdgeWithBestWeightMap;
     }
+
 protected:
 
-    bool hasNoWeightSaved(Vertex const& vertex) const    {
+    bool hasNoWeightSaved(Vertex const& vertex) const
+    {
         return m_vertexToEdgeWithBestWeightMap.find(vertex) == m_vertexToEdgeWithBestWeightMap.cend();
     }
 
@@ -94,10 +98,12 @@ protected:
         m_vertexToEdgeWithBestWeightMap[m_startVertex] = EdgeOrderedByWeight(m_startVertex, m_startVertex, Weight{});
     }
 
-    void relaxAt(            Vertex const& vertex,
+    void relaxAt(
+            Vertex const& vertex,
             AdditionalRelaxationStepsWithNewWeight const& additionalRelaxationStepsWithNewWeight = getNoStepsWithNewWeight(),
             AdditionalRelaxationSteps const& additionalRelaxationSteps = getNoSteps())
-    {        // Relaxing means recalculating the shortest/longest path (there might be a new way with better weight)
+    {
+        // Relaxing means recalculating the shortest/longest path (there might be a new way with better weight)
         // Here all the information from the given vertex to its adjacent vertices are updated
         for(Vertex const& adjacentVertex : m_graph.getAdjacentVerticesAt(vertex))
         {
@@ -111,10 +117,12 @@ protected:
                 m_vertexToEdgeWithBestWeightMap[adjacentVertex] = EdgeOrderedByWeight(vertex, adjacentVertex, newWeight);
                 additionalRelaxationStepsWithNewWeight(vertex, adjacentVertex, newWeight);
             }
-        }        additionalRelaxationSteps();
+        }
+        additionalRelaxationSteps();
     }
 
-    static AdditionalRelaxationStepsWithNewWeight getNoStepsWithNewWeight()    {
+    static AdditionalRelaxationStepsWithNewWeight getNoStepsWithNewWeight()
+    {
         static AdditionalRelaxationStepsWithNewWeight noRelaxationSteps
                 = [](Vertex const&, Vertex const&, Weight const&){};
         return noRelaxationSteps;
@@ -133,4 +141,5 @@ protected:
 };
 
 }
+
 }

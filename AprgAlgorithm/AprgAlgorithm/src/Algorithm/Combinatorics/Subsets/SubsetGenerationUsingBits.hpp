@@ -38,10 +38,12 @@ public:
 
         Subsets result;
         BitDataType finalValue = 1 << objects.size();
-        for(BitDataType iteration=0; iteration<finalValue; iteration++)        {
+        for(BitDataType iteration=0; iteration<finalValue; iteration++)
+        {
             Subset currentSubset;
             std::bitset<AlbaBitValueUtilities<BitDataType>::getNumberOfBits()> iterationBits(iteration);
-            for(unsigned int index=0; index<objects.size(); index++)            {
+            for(unsigned int index=0; index<objects.size(); index++)
+            {
                 if(iterationBits[index])
                 {
                     currentSubset.emplace_back(objects.at(index));

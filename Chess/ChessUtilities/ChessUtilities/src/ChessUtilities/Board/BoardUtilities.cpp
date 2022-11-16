@@ -151,10 +151,12 @@ Moves getSequenceOfMoves(
             if((piece1 == piece2 && board1.isPossibleMove(moveFrom1To2))
                     || board1.isPromotionMove(moveFrom1To2))
             {
-                possibleMoves.emplace_back(moveFrom1To2);            }
+                possibleMoves.emplace_back(moveFrom1To2);
+            }
         }
     }
-    return possibleMoves;}
+    return possibleMoves;
+}
 
 }
 

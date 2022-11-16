@@ -21,7 +21,8 @@ public:
     using VertexOrderedByWeight = typename GraphTypesWithWeights<Vertex, Weight>::VertexOrderedByWeight;
     template<typename ValueType>
     struct ReverseComparator
-    {        bool operator()(ValueType const& first, ValueType const& second) const
+    {
+        bool operator()(ValueType const& first, ValueType const& second) const
         {
             return ComparatorTemplateType<ValueType>()(second, first);
         }
@@ -29,10 +30,12 @@ public:
     using VertexOrderedByWeightPriorityQueue = std::priority_queue<VertexOrderedByWeight, std::deque<VertexOrderedByWeight>, ReverseComparator<VertexOrderedByWeight>>;
 
     PathSearchUsingDijkstra(EdgeWeightedGraph const& graph, Vertex const& startVertex)
-        : BaseClass(graph, startVertex)        , b_graph(BaseClass::m_graph)
+        : BaseClass(graph, startVertex)
+        , b_graph(BaseClass::m_graph)
         , b_startVertex(BaseClass::m_startVertex)
     {
-        searchForPathIfPossible();    }
+        searchForPathIfPossible();
+    }
 
 private:
 
@@ -70,9 +73,11 @@ private:
             });
         }
     }
+
     Graph const& b_graph;
     Vertex const& b_startVertex;
 };
+
 // Dijkstra algorithm computes a shortest path tree in any edge-weighted digraph with non negative weights,
 // Proof:
 // -> Each edge e=v->w is relaxed exactly once (when v is relaxed), leaving distTo[w] <= distTo[v] + e.weight()

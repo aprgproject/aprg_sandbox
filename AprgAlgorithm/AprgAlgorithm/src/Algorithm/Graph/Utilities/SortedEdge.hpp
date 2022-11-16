@@ -23,10 +23,12 @@ template <typename Vertex, typename Weight, typename EdgeType>
 EdgeType createSortedEdgeOrderedByWeight(Vertex const& vertex1, Vertex const& vertex2, Weight const& weight)
 {
     if(vertex1 <= vertex2)
-    {        return EdgeType(vertex1, vertex2, weight);
+    {
+        return EdgeType(vertex1, vertex2, weight);
     }
     else
-    {        return EdgeType(vertex2, vertex1, weight);
+    {
+        return EdgeType(vertex2, vertex1, weight);
     }
 }
 

@@ -22,4 +22,5 @@ TEST(ProductDayProblemTest, GetProductAndDayPairsForMinimumPriceWorksOnExample1)
 
     EXPECT_EQ(5U, searchToTest.getProductAndDayPairsForMinimumPrice());
 }
+
 }

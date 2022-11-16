@@ -17,16 +17,15 @@ namespace alba
 
 bool AlbaWindowsUserAutomation::isLetterPressed(char const letter) const
 {
-    USHORT status = GetAsyncKeyState(::toupper(letter));
-    return (( ( status & 0x8000 ) >> 15 ) == 1); //|| (( status & 1 ) == 1);
+    // https://docs.microsoft.com/en-us/windows/desktop/api/winuser/nf-winuser-getasynckeystate
+    // If the function succeeds, the return value specifies whether the key was pressed since the last call to GetAsyncKeyState,
+    // and whether the key is currently up or down.
+    // If the most significant bit is set, the key is down.
+    // If the least significant bit is set, the key was pressed after the previous call to GetAsyncKeyState.
+    // However, you should not rely on this last behavior; for more information, see the Remarks.
 
-    /*
-     https://docs.microsoft.com/en-us/windows/desktop/api/winuser/nf-winuser-getasynckeystate
-If the function succeeds, the return value specifies whether the key was pressed since the last call to GetAsyncKeyState,
-and whether the key is currently up or down. I
-f the most significant bit is set, the key is down, and if the least significant bit is set, the key was pressed after the previous call to GetAsyncKeyState.
-However, you should not rely on this last behavior; for more information, see the Remarks.
-*/
+    USHORT status = GetAsyncKeyState(::toupper(letter));
+    return (status & 0x8000) >> 15  == 1; // || (status & 1) == 1;
 }
 
 MousePosition AlbaWindowsUserAutomation::getMousePosition() const
@@ -220,7 +219,7 @@ string AlbaWindowsUserAutomation::getClassNameOfForegroundWindow() const
     return string(className);
 }
 
-void AlbaWindowsUserAutomation::setForegroundWindowWithClassName(std::string const& className) const
+void AlbaWindowsUserAutomation::setForegroundWindowWithClassName(string const& className) const
 {
     Sleep(2000);
     int const LENGTH = 1000;
@@ -233,7 +232,7 @@ void AlbaWindowsUserAutomation::setForegroundWindowWithClassName(std::string con
     setForegroundWindowWithWindowHandle(windowHandle);
 }
 
-void AlbaWindowsUserAutomation::setForegroundWindowWithWindowName(std::string const& windowName) const
+void AlbaWindowsUserAutomation::setForegroundWindowWithWindowName(string const& windowName) const
 {
     HWND windowHandle = FindWindowEx(nullptr, nullptr, nullptr, windowName.c_str());
     setForegroundWindowWithWindowHandle(windowHandle);
@@ -249,6 +248,12 @@ void AlbaWindowsUserAutomation::sleep(unsigned int const milliseconds) const
     Sleep(milliseconds);
 }
 
+void AlbaWindowsUserAutomation::saveBitmapOnScreen(string const& filePath) const
+{
+    typeKey(VK_SNAPSHOT);
+    saveBitmapFromClipboard(filePath);
+}
+
 string AlbaWindowsUserAutomation::getStringFromClipboard() const
 {
     string stringInClipboard;
@@ -261,7 +266,7 @@ string AlbaWindowsUserAutomation::getStringFromClipboard() const
     return stringInClipboard;
 }
 
-void AlbaWindowsUserAutomation::setStringToClipboard(std::string const& clipBoardText) const
+void AlbaWindowsUserAutomation::setStringToClipboard(string const& clipBoardText) const
 {
     HANDLE hData;
     char *pointerData = NULL;//pointer to allow char copying
@@ -275,52 +280,46 @@ void AlbaWindowsUserAutomation::setStringToClipboard(std::string const& clipBoar
     CloseClipboard();
 }
 
-void AlbaWindowsUserAutomation::saveBitmapFromClipboard(std::string const& filePath) const
+void AlbaWindowsUserAutomation::saveBitmapFromClipboard(string const& filePath) const
 {
-    if(IsClipboardFormatAvailable(CF_DIB))
+    AlbaLocalPathHandler pathHandler(filePath);
+    ofstream outputBitmapFile(pathHandler.getFullPath(), ios::out | ios::binary);
+    if (outputBitmapFile)
     {
-        if(OpenClipboard(NULL))
+        if(IsClipboardFormatAvailable(CF_DIB))
         {
-            HANDLE hClipboard = GetClipboardData(CF_DIB);
-            if (hClipboard != NULL && hClipboard != INVALID_HANDLE_VALUE)
+            if(OpenClipboard(NULL))
             {
-                void* dib = GlobalLock(hClipboard);
-                if(dib != nullptr)
+                HANDLE hClipboard = GetClipboardData(CF_DIB);
+                if (hClipboard != NULL && hClipboard != INVALID_HANDLE_VALUE)
                 {
-                    BITMAPINFOHEADER* info = reinterpret_cast<BITMAPINFOHEADER*>(dib);
-                    if(info != nullptr)
+                    void* dib = GlobalLock(hClipboard);
+                    if(dib != nullptr)
                     {
-                        BITMAPFILEHEADER fileHeader{};
-                        fileHeader.bfType = 0x4D42;
-                        fileHeader.bfOffBits = 54;
-                        fileHeader.bfSize = (((info->biWidth * info->biBitCount + 31) & ~31) / 8
-                                             * info->biHeight) + fileHeader.bfOffBits;
-
-                        info->biCompression = 0;
-
-                        AlbaLocalPathHandler pathHandler(filePath);
-                        std::ofstream file(pathHandler.getFullPath(), std::ios::out | std::ios::binary);
-                        if (file)
+                        BITMAPINFOHEADER* bitmapInfoPointer = reinterpret_cast<BITMAPINFOHEADER*>(dib);
+                        if(bitmapInfoPointer != nullptr)
                         {
-                            file.write(reinterpret_cast<char*>(&fileHeader), sizeof(BITMAPFILEHEADER));
-                            file.write(reinterpret_cast<char*>(info), sizeof(BITMAPINFOHEADER));
-                            auto sizeImage(info->biSizeImage);
-                            file.write(reinterpret_cast<char*>(++info), sizeImage);
-                        }
-                    }
-                    GlobalUnlock(dib);
-                }
-            }
+                            BITMAPFILEHEADER fileHeader{};
+                            fileHeader.bfType = 0x4D42;
+                            fileHeader.bfOffBits = 54;
+                            fileHeader.bfSize = (((bitmapInfoPointer->biWidth * bitmapInfoPointer->biBitCount + 31) & ~31) / 8
+                                                 * bitmapInfoPointer->biHeight) + fileHeader.bfOffBits;
+                            bitmapInfoPointer->biCompression = 0;
 
-            CloseClipboard();
+                            outputBitmapFile.write(reinterpret_cast<char*>(&fileHeader), sizeof(BITMAPFILEHEADER));
+                            outputBitmapFile.write(reinterpret_cast<char*>(bitmapInfoPointer), sizeof(BITMAPINFOHEADER));
+
+                            unsigned long long sizeOfBitmapData = bitmapInfoPointer->biSizeImage;
+                            char* startOfBitmapDataPointer = reinterpret_cast<char*>(++bitmapInfoPointer);
+                            outputBitmapFile.write(startOfBitmapDataPointer, sizeOfBitmapData);
+                        }
+                        GlobalUnlock(dib);
+                    }
+                }
+                CloseClipboard();
+            }
         }
     }
-}
-
-void AlbaWindowsUserAutomation::saveBitmapOnScreen(std::string const& filePath) const
-{
-    typeKey(VK_SNAPSHOT);
-    saveBitmapFromClipboard(filePath);
 }
 
 unsigned int AlbaWindowsUserAutomation::convertToVirtualKey(char const character) const
@@ -342,14 +341,15 @@ void AlbaWindowsUserAutomation::setForegroundWindowWithWindowHandle(HWND const w
     bool isSuccessful(false);
     if(windowHandle != nullptr)
     {
-        isSuccessful = (bool)SetWindowPos(windowHandle,       // handle to window
-                                          HWND_TOPMOST,  // placement-order handle
-                                          0,     // horizontal position
-                                          0,      // vertical position
-                                          0,  // width
-                                          0, // height
-                                          SWP_SHOWWINDOW|SWP_NOSIZE|SWP_NOMOVE// window-positioning options
-                                          );
+        isSuccessful = (bool)SetWindowPos(
+                    windowHandle,       // handle to window
+                    HWND_TOPMOST,  // placement-order handle
+                    0,     // horizontal position
+                    0,      // vertical position
+                    0,  // width
+                    0, // height
+                    SWP_SHOWWINDOW|SWP_NOSIZE|SWP_NOMOVE// window-positioning options
+                    );
     }
     if(!isSuccessful)
     {

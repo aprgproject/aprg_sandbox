@@ -49,9 +49,11 @@ public:
 
         Subsets result;
         Subset currentSubset;
-        collectSubsetsUsingOnlyRecursion(result, currentSubset, objects, 0);        return result;
+        collectSubsetsUsingOnlyRecursion(result, currentSubset, objects, 0);
+        return result;
     }
 private:
+
     static void collectOrderedSubsetsUsingDfs(Subsets & subsets, Subset & currentSubset, Objects const& objects, unsigned int const index)
     {
         //DFS like traversal

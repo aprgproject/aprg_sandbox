@@ -72,9 +72,11 @@ CoinProblem::Coins CoinProblem::getFewestCoinsUsingLoops(Coin const total)
                     fewestCoinsForValue.emplace_back(availableCoin);
                 }
             }
-        }    }
+        }
+    }
     return m_fewestCoins.at(total);
 }
+
 unsigned int CoinProblem::getNumberOfCoinPermutations(Coin const total)
 {
     // using loops
@@ -83,16 +85,19 @@ unsigned int CoinProblem::getNumberOfCoinPermutations(Coin const total)
         Coin previousSize=m_countPerValue.size();
         unsigned int newSize = max(total+1, *(minmax_element(m_availableCoins.cbegin(), m_availableCoins.cend()).second));
         m_countPerValue.resize(newSize, 0U);
-        for(Coin const availableCoin : m_availableCoins)        {
+        for(Coin const availableCoin : m_availableCoins)
+        {
             m_countPerValue[availableCoin] = 1;
         }
         for(Coin partialValue=previousSize; partialValue<newSize; partialValue++)
         {
             for(Coin const availableCoin : m_availableCoins)
-            {                if(partialValue > availableCoin)
+            {
+                if(partialValue > availableCoin)
                 {
                     m_countPerValue[partialValue] += m_countPerValue.at(partialValue-availableCoin);
-                }            }
+                }
+            }
         }
     }
     return m_countPerValue.at(total);
@@ -106,9 +111,11 @@ CoinProblem::CoinPermutations CoinProblem::getCoinPermutationsUsingLoops(Coin co
         Coin previousSize=m_coinPermutations.size();
         unsigned int newSize = max(total+1, *(minmax_element(m_availableCoins.cbegin(), m_availableCoins.cend()).second));
         m_coinPermutations.resize(newSize);
+
         for(Coin const availableCoin : m_availableCoins)
         {
-            if(m_coinPermutations.at(availableCoin).empty())            {
+            if(m_coinPermutations.at(availableCoin).empty())
+            {
                 m_coinPermutations[availableCoin].emplace(CoinPermutation{availableCoin});
             }
         }
@@ -116,10 +123,12 @@ CoinProblem::CoinPermutations CoinProblem::getCoinPermutationsUsingLoops(Coin co
         for(Coin partialValue=previousSize; partialValue<newSize; partialValue++)
         {
             CoinPermutations & coinPermutations(m_coinPermutations[partialValue]);
-            for(Coin const availableCoin : m_availableCoins)            {
+            for(Coin const availableCoin : m_availableCoins)
+            {
                 if(partialValue > availableCoin)
                 {
-                    for(CoinPermutation const& permutationWithoutCoin : m_coinPermutations.at(partialValue-availableCoin))                    {
+                    for(CoinPermutation const& permutationWithoutCoin : m_coinPermutations.at(partialValue-availableCoin))
+                    {
                         CoinPermutation permutationWithCoin(permutationWithoutCoin);
                         permutationWithCoin.emplace_back(availableCoin);
                         coinPermutations.emplace(permutationWithCoin);
@@ -142,17 +151,20 @@ unsigned int CoinProblem::getNumberOfCoinCombinations(Coin const total)
             Coin previousSize=m_countPerValuePerCoin.size();
             unsigned int newSize = max(total+1, *(minmax_element(m_availableCoins.cbegin(), m_availableCoins.cend()).second));
             CountPerValue countPerValue(m_availableCoins.size(), 0U);
-            countPerValue.shrink_to_fit();            m_countPerValuePerCoin.resize(newSize, countPerValue);
+            countPerValue.shrink_to_fit();
+            m_countPerValuePerCoin.resize(newSize, countPerValue);
 
             for(Coin coinIndex=0; coinIndex<m_availableCoins.size(); coinIndex++)
             {
                 for(Coin partialValue=previousSize; partialValue<newSize; partialValue++)
                 {
                     if(partialValue == 0)
-                    {                        m_countPerValuePerCoin[partialValue][coinIndex] = 1; // null set when partial value is zero
+                    {
+                        m_countPerValuePerCoin[partialValue][coinIndex] = 1; // null set when partial value is zero
                         continue;
                     }
-                    if(coinIndex == 0)                    {
+                    if(coinIndex == 0)
+                    {
                         m_countPerValuePerCoin[partialValue][coinIndex] = (partialValue % m_availableCoins.at(coinIndex) == 0) ? 1 : 0; // one if divisible?
                         continue;
                     }
@@ -213,9 +225,11 @@ CoinProblem::CoinCombinations CoinProblem::getCoinCombinationsUsingLoops(Coin co
         Coin previousSize=m_coinCombinations.size();
         unsigned int newSize = max(total+1, *(minmax_element(m_availableCoins.cbegin(), m_availableCoins.cend()).second));
         m_coinCombinations.resize(newSize);
+
         for(Coin const availableCoin : m_availableCoins)
         {
-            if(m_coinCombinations.at(availableCoin).empty())            {
+            if(m_coinCombinations.at(availableCoin).empty())
+            {
                 m_coinCombinations[availableCoin].emplace(CoinCombination{availableCoin});
             }
         }
@@ -223,10 +237,12 @@ CoinProblem::CoinCombinations CoinProblem::getCoinCombinationsUsingLoops(Coin co
         for(Coin partialValue=previousSize; partialValue<newSize; partialValue++)
         {
             CoinCombinations & coinCombinations(m_coinCombinations[partialValue]);
-            for(Coin const availableCoin : m_availableCoins)            {
+            for(Coin const availableCoin : m_availableCoins)
+            {
                 if(partialValue > availableCoin)
                 {
-                    for(CoinCombination const& combinationWithoutCoin : m_coinCombinations.at(partialValue-availableCoin))                    {
+                    for(CoinCombination const& combinationWithoutCoin : m_coinCombinations.at(partialValue-availableCoin))
+                    {
                         CoinCombination combinationWithCoin(combinationWithoutCoin);
                         combinationWithCoin.emplace(availableCoin);
                         coinCombinations.emplace(combinationWithCoin);

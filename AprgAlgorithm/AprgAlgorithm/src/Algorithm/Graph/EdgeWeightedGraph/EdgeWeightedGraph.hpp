@@ -22,9 +22,11 @@ public:
     using EdgeOrderedByWeight = typename GraphTypesWithWeights<Vertex, Weight>::EdgeOrderedByWeight;
     using EdgesWithWeight = typename GraphTypesWithWeights<Vertex, Weight>::EdgesWithWeight;
     using Weights = std::vector<Weight>;
+
     EdgeWeightedGraph() = default;
 
-    bool hasAUniqueMinimumSpanningTree() const    {
+    bool hasAUniqueMinimumSpanningTree() const
+    {
         return hasNoDuplicateWeights(getSortedWeights());
     }
 
@@ -61,6 +63,7 @@ public:
         });
         return result;
     }
+
     std::string getDisplayableString() const override
     {
         std::string firstPart(BaseClass::getDisplayableString());
@@ -71,10 +74,12 @@ public:
             ss << EdgeOrderedByWeight.first.first << "<->" << EdgeOrderedByWeight.first.second << "("<< EdgeOrderedByWeight.second << "), ";
         }
         ss << "}";
-        return firstPart + ss.str();    }
+        return firstPart + ss.str();
+    }
 
     void connect(Vertex const& vertex1, Vertex const& vertex2, Weight const& weight)
-    {        BaseClass::connect(vertex1, vertex2);
+    {
+        BaseClass::connect(vertex1, vertex2);
         m_edgeToWeightMap[createEdgeInMap(vertex1, vertex2)] = weight;
     }
 

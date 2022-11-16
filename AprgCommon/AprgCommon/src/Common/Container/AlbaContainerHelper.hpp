@@ -3,10 +3,12 @@
 #include <algorithm>
 #include <iostream>
 #include <iterator>
-#include <map>#include <memory>
+#include <map>
+#include <memory>
 #include <set>
 #include <sstream>
 #include <string>
+
 namespace alba
 {
 
@@ -25,10 +27,12 @@ template <typename ValueType, typename Container, typename Iterator>
 void adjustLowerAndUpperIterators(
         Container const& container,
         ValueType const& value,
-        Iterator & itLower,        Iterator & itUpper)
+        Iterator & itLower,
+        Iterator & itUpper)
 {
     if(!container.empty())
-    {        if(itLower!=container.cbegin())
+    {
+        if(itLower!=container.cbegin())
         {
             if(itLower==container.cend())
             {
@@ -166,10 +170,12 @@ template <typename KeyType, typename Container, typename Iterator>
 void adjustLowerAndUpperIteratorsInMap(
         Container const& container,
         KeyType const& keyValue,
-        Iterator & itLower,        Iterator & itUpper)
+        Iterator & itLower,
+        Iterator & itUpper)
 {
     if(!container.empty())
-    {        if(itLower!=container.cbegin())
+    {
+        if(itLower!=container.cbegin())
         {
             if(itLower==container.cend())
             {
@@ -209,10 +215,12 @@ getLowerAndUpperConstIteratorsInMap(ContainerType const& container, KeyType cons
     adjustLowerAndUpperIteratorsInMap(container, keyValue, itLower, itUpper);
     result.first = itLower;
     result.second = itUpper;
-    return result;}
+    return result;
+}
 
 template <typename KeyType, typename ContainerType>
-std::pair<typename ContainerType::iterator, typename ContainerType::iterator>getLowerAndUpperIteratorsInMap(ContainerType & container, KeyType const& keyValue)
+std::pair<typename ContainerType::iterator, typename ContainerType::iterator>
+getLowerAndUpperIteratorsInMap(ContainerType & container, KeyType const& keyValue)
 {
     using Iterator = typename ContainerType::iterator;
     std::pair<Iterator, Iterator> result;
@@ -221,10 +229,12 @@ std::pair<typename ContainerType::iterator, typename ContainerType::iterator>get
     adjustLowerAndUpperIteratorsInMap(container, keyValue, itLower, itUpper);
     result.first = itLower;
     result.second = itUpper;
-    return result;}
+    return result;
+}
 
 template <typename Adapter>
-typename Adapter::container_type const& getUnderlyingContainer(Adapter const& adapter){
+typename Adapter::container_type const& getUnderlyingContainer(Adapter const& adapter)
+{
     struct AdapterParent : Adapter
     {
         static typename Adapter::container_type const& get(Adapter const& adapterAsParameter)

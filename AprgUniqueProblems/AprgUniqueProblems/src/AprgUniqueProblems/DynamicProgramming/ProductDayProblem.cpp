@@ -12,6 +12,7 @@ ProductDayProblem::ProductDayProblem(PriceMatrix const& pricesInDayByProduct)
 {
     initialize();
 }
+
 ProductDayProblem::Price ProductDayProblem::getProductAndDayPairsForMinimumPrice()
 {
     // fill up remaining days
@@ -22,7 +23,8 @@ ProductDayProblem::Price ProductDayProblem::getProductAndDayPairsForMinimumPrice
             m_totalInDayByProductBits.setEntry(day, productBits, m_totalInDayByProductBits.getEntry(day-1, productBits)); // put total of previous day
             for(Product product=0; product<getNumberOfProducts(); product++)
             {
-                if(isProductIncluded(productBits, product))                {
+                if(isProductIncluded(productBits, product))
+                {
                     Price currentMinimum = min(
                                 m_totalInDayByProductBits.getEntry(day, productBits), // current value
                                 m_totalInDayByProductBits.getEntry(day-1, removeProduct(productBits, product)) // get total of previous day without the product
@@ -31,10 +33,12 @@ ProductDayProblem::Price ProductDayProblem::getProductAndDayPairsForMinimumPrice
                     m_totalInDayByProductBits.setEntry(day, productBits, currentMinimum);
                 }
             }
-        }    }
+        }
+    }
     Price result{};
     if(m_totalInDayByProductBits.isInside(getNumberOfDays()-1, getNumberOfProductsSubsets()-1))
-    {        result = m_totalInDayByProductBits.getEntry(getNumberOfDays()-1, getNumberOfProductsSubsets()-1);
+    {
+        result = m_totalInDayByProductBits.getEntry(getNumberOfDays()-1, getNumberOfProductsSubsets()-1);
     }
     return result;
 }

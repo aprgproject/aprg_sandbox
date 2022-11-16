@@ -390,6 +390,7 @@ TEST(BitmapReadTest, DISABLED_ExperimentTest)
     EXPECT_TRUE(bitmap.getConfiguration().isValid());
     EXPECT_TRUE(bitmap.getConfiguration().isCompressedMethodSupported());
 }
+
 }
 
 }

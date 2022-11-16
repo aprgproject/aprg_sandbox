@@ -35,8 +35,10 @@ TEST(SortedEdgeTest, CreateSortedEdgeOrderedByWeightWorks)
     EdgeForTest sortedEdge2ToVerify(createSortedEdgeOrderedByWeight<VertexForTest, WeightForTest, EdgeForTest>(5U, 4U, 9.9));
 
     EdgeForTest expectedSortedEdge(4U, 5U, 9.9);
-    EXPECT_EQ(expectedSortedEdge, sortedEdge1ToVerify);    EXPECT_EQ(expectedSortedEdge, sortedEdge2ToVerify);
+    EXPECT_EQ(expectedSortedEdge, sortedEdge1ToVerify);
+    EXPECT_EQ(expectedSortedEdge, sortedEdge2ToVerify);
 }
 
 }
+
 }

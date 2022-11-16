@@ -22,4 +22,5 @@ using MovePair = std::pair<Move, Move>;
 using MovePairs = std::vector<MovePair>;
 
 }
+
 }

@@ -28,10 +28,12 @@ unsigned int CountingSubGrids::countSubGridsWithAllBlackCorners() const
             result += commonBlackColumns*(commonBlackColumns-1)/2; // combinations of subgrids based on common black columns
         }
     }
-    return result;}
+    return result;
+}
 
 void CountingSubGrids::initialize(BitGrid const& bitGrid)
-{    if(bitGrid.getNumberOfRows() <= bitGrid.getNumberOfColumns())
+{
+    if(bitGrid.getNumberOfRows() <= bitGrid.getNumberOfColumns())
     {
         unsigned int newColumns((bitGrid.getNumberOfColumns()+NUMBER_OF_BITS-1)/NUMBER_OF_BITS);
         unsigned int newRows(bitGrid.getNumberOfRows());

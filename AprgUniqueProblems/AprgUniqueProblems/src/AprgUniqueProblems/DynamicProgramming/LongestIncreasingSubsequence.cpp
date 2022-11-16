@@ -22,10 +22,12 @@ LongestIncreasingSubsequence::Length LongestIncreasingSubsequence::getLongestInc
                 lengthToIndexMap.emplace(itWithMaxLength->first + 1U, index);
                 isLongestPartialFound = true;
                 break;
-            }        }
+            }
+        }
         if(!isLongestPartialFound)
         {
-            lengthToIndexMap.emplace(1U, index);        }
+            lengthToIndexMap.emplace(1U, index);
+        }
     }
     Length result{};
     if(!lengthToIndexMap.empty())

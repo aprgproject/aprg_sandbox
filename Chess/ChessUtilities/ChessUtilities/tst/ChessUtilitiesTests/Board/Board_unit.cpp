@@ -83,7 +83,8 @@ TEST(BoardTest, CanBeCapturedWorksOnExample2)
 TEST(BoardTest, IsPossibleMoveWorks)
 {
     Board board(Board::Orientation::BlackUpWhiteDown);
-    Move possibleMove1{{3, 6}, {3, 5}};    Move possibleMove2{{3, 6}, {3, 4}};
+    Move possibleMove1{{3, 6}, {3, 5}};
+    Move possibleMove2{{3, 6}, {3, 4}};
     Move notPossibleMove1{{3, 6}, {3, 3}};
     Move notPossibleMove2{{3, 6}, {3, 2}};
 
@@ -93,10 +94,12 @@ TEST(BoardTest, IsPossibleMoveWorks)
     EXPECT_FALSE(board.isPossibleMove(notPossibleMove2));
 }
 
-TEST(BoardTest, IsPromotionMoveWorks){
+TEST(BoardTest, IsPromotionMoveWorks)
+{
     Board board(Board::Orientation::BlackUpWhiteDown,
     {0,0,0,0,0,0,0,0,
-     0,1,0,0,0,0,0,0,     0,0,1,0,0,0,0,0,
+     0,1,0,0,0,0,0,0,
+     0,0,1,0,0,0,0,0,
      0,0,0,0,0,0,0,0,
      0,0,0,0,0,0,0,0,
      0,0,0,0,0,0,0,0,
@@ -256,9 +259,11 @@ TEST(BoardTest, GetFenStringWorks)
 TEST(BoardTest, MoveWorksForExample1)
 {
     Board board(Board::Orientation::BlackUpWhiteDown);
+
     board.move(Move{{2,6},{2,4}});
 
-    Board::PieceMatrix expectedMatrix(8U, 8U,    {12,10,11,13,14,11,10,12,
+    Board::PieceMatrix expectedMatrix(8U, 8U,
+    {12,10,11,13,14,11,10,12,
      9,9,9,9,9,9,9,9,
      0,0,0,0,0,0,0,0,
      0,0,0,0,0,0,0,0,
@@ -297,10 +302,12 @@ TEST(BoardTest, MoveWorksForExample2)
 
 TEST(BoardTest, MoveWorksWithCastling)
 {
-    Board board(Board::Orientation::BlackUpWhiteDown,    {12,10,11,13,14,11,10,12,
+    Board board(Board::Orientation::BlackUpWhiteDown,
+    {12,10,11,13,14,11,10,12,
      9,9,9,9,9,9,9,9,
      0,0,0,0,0,0,0,0,
-     0,0,0,0,0,0,0,0,     0,0,0,0,0,0,0,0,
+     0,0,0,0,0,0,0,0,
+     0,0,0,0,0,0,0,0,
      0,0,0,0,0,0,0,0,
      1,1,1,1,1,1,1,1,
      4,0,0,0,6,3,2,4});

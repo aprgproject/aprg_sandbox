@@ -71,10 +71,12 @@ private:
         auto lowerAndUpperBoundItPair = containerHelper::getLowerAndUpperConstIteratorsForNonSet(m_sortedValues, value); // assumption is non set
         Value result{};
         Value lowerBoundValue(*(lowerAndUpperBoundItPair.first));
-        if(value == lowerBoundValue)        {
+        if(value == lowerBoundValue)
+        {
             result = value;
         }
-        else        {
+        else
+        {
             Value higherBoundValue(*(lowerAndUpperBoundItPair.second));
             Value deviationFromLower(mathHelper::getPositiveDelta(value, lowerBoundValue));
             Value deviationFromHigher(mathHelper::getPositiveDelta(value, higherBoundValue));
@@ -88,10 +90,12 @@ private:
         auto lowerAndUpperBoundItPair = containerHelper::getLowerAndUpperConstIteratorsForNonSet(m_sortedValues, value); // works in logarithmic time
         Index result{};
         Index lowerBoundIndex = std::distance(m_sortedValues.cbegin(), lowerAndUpperBoundItPair.first);
-        Value lowerBoundValue(*(lowerAndUpperBoundItPair.first));        if(value == lowerBoundValue)
+        Value lowerBoundValue(*(lowerAndUpperBoundItPair.first));
+        if(value == lowerBoundValue)
         {
             result = lowerBoundIndex;
-        }        else
+        }
+        else
         {
             Value higherBoundValue(*(lowerAndUpperBoundItPair.second));
             Value deviationFromLower(mathHelper::getPositiveDelta(value, lowerBoundValue));

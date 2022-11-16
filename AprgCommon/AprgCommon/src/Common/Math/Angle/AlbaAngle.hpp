@@ -18,10 +18,12 @@ public:
     AlbaAngle();
     AlbaAngle(AngleUnitType const angleUnitType, double const angleValue);
     bool operator==(AlbaAngle const& angle) const;
-    bool operator!=(AlbaAngle const& angle) const;    bool operator<(AlbaAngle const& angle) const;
+    bool operator!=(AlbaAngle const& angle) const;
+    bool operator<(AlbaAngle const& angle) const;
     AlbaAngle operator+(AlbaAngle const& secondAngle) const;
     AlbaAngle operator-(AlbaAngle const& secondAngle) const;
-    AlbaAngle operator+() const;    AlbaAngle operator-() const;
+    AlbaAngle operator+() const;
+    AlbaAngle operator-() const;
     AlbaAngle& operator+=(AlbaAngle const& secondAngle);
     AlbaAngle& operator-=(AlbaAngle const& secondAngle);
     double getDegrees() const;

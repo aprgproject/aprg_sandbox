@@ -24,7 +24,8 @@ public:
     using VertexToEdgeOrderedByWeightMap = typename GraphTypesWithWeights<Vertex, Weight>::VertexToEdgeOrderedByWeightMap;
 
     PathSearchUsingBellmanFord(EdgeWeightedGraph const& graph, Vertex const& startVertex)
-        : BaseClass(graph, startVertex)        , b_graph(BaseClass::m_graph)
+        : BaseClass(graph, startVertex)
+        , b_graph(BaseClass::m_graph)
         , b_startVertex(BaseClass::m_startVertex)
         , b_vertexToEdgeWithBestWeightMap(BaseClass::m_vertexToEdgeWithBestWeightMap)
         , m_hasPositiveOrNegativeCycle(false)
@@ -38,7 +39,8 @@ private:
     void searchForPathUsingAutomaticCycleDetection()
     {
         unsigned int numberOfVertices(b_graph.getNumberOfVertices());
-        unsigned int numberOfVerticesProcessed(0U);        enqueue(b_startVertex);
+        unsigned int numberOfVerticesProcessed(0U);
+        enqueue(b_startVertex);
         while(!m_queueOfVertices.empty() && !m_hasPositiveOrNegativeCycle)
         {
             // Repeat V times: Relax each edge
@@ -51,7 +53,8 @@ private:
                 isNewWeightFound = true;
                 if(m_verticesInQueue.isNotFound(destinationVertex))
                 {
-                    enqueue(destinationVertex);                }
+                    enqueue(destinationVertex);
+                }
             },
             [&]()
             {
@@ -68,7 +71,8 @@ private:
     void searchForPathUsingOriginalBellmanFord() // manually positive or negative cycle
     {
         unsigned int numberOfVertices(b_graph.getNumberOfVertices());
-        unsigned int numberOfVerticesProcessed(0U);        enqueue(b_startVertex);
+        unsigned int numberOfVerticesProcessed(0U);
+        enqueue(b_startVertex);
         while(!m_queueOfVertices.empty() && !m_hasPositiveOrNegativeCycle)
         {
             // Repeat V times: Relax each edge
@@ -77,7 +81,8 @@ private:
             {
                 if(m_verticesInQueue.isNotFound(destinationVertex))
                 {
-                    enqueue(destinationVertex);                }
+                    enqueue(destinationVertex);
+                }
             },
             [&]()
             {
@@ -87,10 +92,12 @@ private:
                     findAPositiveOrNegativeCycle();
                 }
             });
-        }    }
+        }
+    }
 
     void enqueue(Vertex const& vertex)
-    {        m_queueOfVertices.emplace_back(vertex);
+    {
+        m_queueOfVertices.emplace_back(vertex);
         m_verticesInQueue.putVertex(vertex);
     }
 
@@ -131,7 +138,9 @@ private:
     VertexToEdgeOrderedByWeightMap & b_vertexToEdgeWithBestWeightMap;
     bool m_hasPositiveOrNegativeCycle;
     DequeOfVertices m_queueOfVertices;
-    CheckableVertices<Vertex> m_verticesInQueue;};
+    CheckableVertices<Vertex> m_verticesInQueue;
+};
+
 
 
 // Negative weights failed attempts:

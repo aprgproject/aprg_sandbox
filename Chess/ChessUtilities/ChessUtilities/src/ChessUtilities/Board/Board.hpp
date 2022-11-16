@@ -42,6 +42,7 @@ public:
     bool canBeCaptured(Coordinate const& destination) const;
     bool isPromotionMove(Move const& move) const;
     bool isCastlingMove(Move const& move) const;
+
     Orientation getOrientation() const;
     PieceMatrix const& getPieceMatrix() const;
     Piece getPieceAt(Coordinate const& coordinate) const;
@@ -50,6 +51,7 @@ public:
     Moves getPossibleMoves(Coordinate const& start) const;
     std::string getFenString() const;
     std::string getCastlingFenString() const;
+
     void setOrientation(Orientation const orientation);
     void setPieceAt(Coordinate const& coordinate, Piece const& piece);
     void move(Move const& move);
@@ -107,9 +109,11 @@ private:
 
     PieceMatrix::MatrixData getInitialValues(Orientation const& inputType) const;
     void changePieceMatrixWithMove(Move const& move);
+
     Orientation m_orientation;
     PieceMatrix m_pieceMatrix;
 };
+
 }
 
 }

@@ -3,7 +3,8 @@
 #include <Common/Container/AlbaContainerHelper.hpp>
 #include <Common/Math/Number/Interval/AlbaNumberInterval.hpp>
 #include <Common/Math/Number/Interval/AlbaNumberIntervalHelpers.hpp>
-#include <Common/Math/Helpers/ComputationHelpers.hpp>#include <Common/Math/Vector/AlbaMathVectorUtilities.hpp>
+#include <Common/Math/Helpers/ComputationHelpers.hpp>
+#include <Common/Math/Vector/AlbaMathVectorUtilities.hpp>
 #include <Geometry/TwoDimensions/Constructs/Rectangle.hpp>
 
 #include <stack>
@@ -11,8 +12,10 @@
 using namespace alba::containerHelper;
 using namespace alba::mathHelper;
 using namespace std;
+
 namespace alba
 {
+
 namespace TwoDimensions
 {
 
@@ -768,10 +771,12 @@ Points getConvexHullPointsUsingGrahamScan(Points const& points)
 
     assert(points.size() >= 3);
 
-    auto minmaxResult = minmax_element(points.cbegin(), points.cend(), [](Point const& point1, Point const& point2)    {return point1.getY() < point2.getY();});
+    auto minmaxResult = minmax_element(points.cbegin(), points.cend(), [](Point const& point1, Point const& point2)
+    {return point1.getY() < point2.getY();});
     Point pointWithMinimumY(*(minmaxResult.first)); // find the bottom point
 
-    struct CompareData    {
+    struct CompareData
+    {
         AlbaAngle angle;
         double distance;
         CompareData(AlbaAngle const& angleAsParameter, double const distanceAsParameter)
@@ -794,10 +799,12 @@ Points getConvexHullPointsUsingGrahamScan(Points const& points)
 
     multimap<CompareData, Point> compareDataToPointMap;
     for(Point const& point : points)
-    {        compareDataToPointMap.emplace(
+    {
+        compareDataToPointMap.emplace(
         CompareData(getAngleOfPointWithRespectToOrigin(point - pointWithMinimumY), getDistance(pointWithMinimumY, point)),
                     point); // sort points by polar angle
     }
+
     stack<Point> convertHullPoints;
     unsigned int i=0;
     for(auto const& compareDataAndPointPair : compareDataToPointMap)
@@ -822,7 +829,8 @@ Points getConvexHullPointsUsingGrahamScan(Points const& points)
             convertHullPoints.push(previousTop);
             convertHullPoints.push(currentPoint);
         }
-        i++;    };
+        i++;
+    };
 
     Points results;
     results.reserve(convertHullPoints.size());
@@ -830,9 +838,11 @@ Points getConvexHullPointsUsingGrahamScan(Points const& points)
     reverse_copy(underlyingContainer.cbegin(), underlyingContainer.cend(), back_inserter(results));
     return results;
 }
+
 Line getLineWithSameSlope(Line const& line, Point const& point)
 {
-    return Line(line.getACoefficient(), line.getBCoefficient(), -1*((line.getACoefficient()*point.getX())+(line.getBCoefficient()*point.getY())));}
+    return Line(line.getACoefficient(), line.getBCoefficient(), -1*((line.getACoefficient()*point.getX())+(line.getBCoefficient()*point.getY())));
+}
 
 Line getLineWithPerpendicularSlope(Line const& line, Point const& point)
 {

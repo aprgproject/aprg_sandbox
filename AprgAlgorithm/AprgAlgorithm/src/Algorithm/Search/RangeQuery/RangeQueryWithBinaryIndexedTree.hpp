@@ -38,10 +38,12 @@ public:
         initializePartialSums();
     }
 
-    Value getAccumulatedValueOnInterval(Index const start, Index const end) const    {
+    Value getAccumulatedValueOnInterval(Index const start, Index const end) const
+    {
         // This has log(N) running time
         Value result{};
-        if(start<=end && start<m_partialTreeSums.size() && end<m_partialTreeSums.size())        {
+        if(start<=end && start<m_partialTreeSums.size() && end<m_partialTreeSums.size())
+        {
             // No possibility to find a partial sum because binary index tree does not guarantee a common index when traversing from different two indexes.
             if(0<start)
             {
@@ -120,9 +122,11 @@ private:
         }
         return result;
     }
+
     Index getGreatestPowerOf2Factor(Index const index) const
     {
-        return mathHelper::getGreatestPowerOf2Factor(index);    }
+        return mathHelper::getGreatestPowerOf2Factor(index);
+    }
 
     Values m_values;
     Values m_partialTreeSums;

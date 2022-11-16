@@ -26,10 +26,12 @@ public:
     using VertexToEdgeOrderedByWeightMap = typename GraphTypesWithWeights<Vertex, Weight>::VertexToEdgeOrderedByWeightMap;
     using CheckableVerticesWithVertex = CheckableVertices<Vertex>;
 
-    PrimAlgorithmEagerVersion(EdgeWeightedGraph const& graph, Vertex const& startVertex)        : m_graph(graph)
+    PrimAlgorithmEagerVersion(EdgeWeightedGraph const& graph, Vertex const& startVertex)
+        : m_graph(graph)
         , m_startVertex(startVertex)
     {
-        searchForMinimumSpanningTree();    }
+        searchForMinimumSpanningTree();
+    }
 
     Edges getMinimumSpanningTreeEdges() const
     {
@@ -42,9 +44,11 @@ public:
         });
         return result;
     }
+
 private:
 
-    bool hasNoWeightSaved(Vertex const& vertex) const    {
+    bool hasNoWeightSaved(Vertex const& vertex) const
+    {
         return m_vertexToEdgeWithMinimumWeightMap.find(vertex) == m_vertexToEdgeWithMinimumWeightMap.cend();
     }
 
@@ -59,10 +63,12 @@ private:
             VertexOrderedByWeight nearestVertex(m_nearestVerticesToTree.top());
             m_nearestVerticesToTree.pop();
             checkAdjacentVerticesWithLowestWeightOfVertex(nearestVertex.vertex);
-        }    }
+        }
+    }
 
     void checkAdjacentVerticesWithLowestWeightOfVertex(
-            Vertex const& vertex)    {
+            Vertex const& vertex)
+    {
         m_processedVertices.putVertex(vertex);
         for(Vertex const& adjacentVertex : m_graph.getAdjacentVerticesAt(vertex))
         {
@@ -88,6 +94,7 @@ private:
                 = createSortedEdgeOrderedByWeight<Vertex, Weight, EdgeOrderedByWeight>(vertex, adjacentVertex, lowestWeight);
         m_nearestVerticesToTree.emplace(adjacentVertex, lowestWeight);
     }
+
     Graph const& m_graph;
     Vertex m_startVertex;
     CheckableVerticesWithVertex m_processedVertices;
@@ -95,9 +102,11 @@ private:
     VertexOrderedByWeightMinimumPriorityQueue m_nearestVerticesToTree; // makes this eager algorithm (nearest vertices is kept to find nearest edges easier)
 
 };
+
 // Running time:
 // depends on Indexed-PQ implementation: Total = V inserts + V deletemins + E decrease-keys
-// array: insert(1), delete-min(V), decrease-key(1) -> total = V^2// binary heap: insert(log V), delete-min(log V), decrease-key(log V) -> total = E log V
+// array: insert(1), delete-min(V), decrease-key(1) -> total = V^2
+// binary heap: insert(log V), delete-min(log V), decrease-key(log V) -> total = E log V
 // d-way heap: insert(d logd V)), delete-min(d logd V), decrease-key(d logd V) -> total = E log(E/V) V
 // Fibonacci heap: insert(1*), delete-min(log V*), decrease-key(1*) -> total = E + V log V
 // * means amortized

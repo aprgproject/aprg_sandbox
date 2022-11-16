@@ -101,7 +101,7 @@ TEST(AlbaWindowsUserAutomationTest, DISABLED_IsLetterPressedTest)
     {
         char letter = 'q';
         bool isPressed = userAutomation.isLetterPressed(letter);
-        cout<<"letter: "<<letter<<" isPressed: "<<isPressed<<endl;
+        cout << "letter: " << letter << " isPressed: " << isPressed << endl;
         if(isPressed)
         {
             break;
@@ -128,6 +128,13 @@ TEST(AlbaWindowsUserAutomationTest, DISABLED_SetActiveWindowBasedWindowName)
     userAutomation.setForegroundWindowWithWindowName("Untitled - Notepad");
 }
 
+TEST(AlbaWindowsUserAutomationTest, DISABLED_SaveBitmapOnScreen)
+{
+    string bitmapFilePath = APRG_DIR R"(\AprgLocalUserAutomation\FilesForTests\BitmapFromScreen.bmp)";
+    AlbaWindowsUserAutomation userAutomation;
+    userAutomation.saveBitmapOnScreen(bitmapFilePath);
+}
+
 TEST(AlbaWindowsUserAutomationTest, DISABLED_GetStringFromClipboard)
 {
     AlbaWindowsUserAutomation userAutomation;
@@ -145,13 +152,6 @@ TEST(AlbaWindowsUserAutomationTest, DISABLED_SaveBitmapFromClipboard)
     string bitmapFilePath = APRG_DIR R"(\AprgLocalUserAutomation\FilesForTests\BitmapFromClipboard.bmp)";
     AlbaWindowsUserAutomation userAutomation;
     userAutomation.saveBitmapFromClipboard(bitmapFilePath);
-}
-
-TEST(AlbaWindowsUserAutomationTest, DISABLED_SaveBitmapOnScreen)
-{
-    string bitmapFilePath = APRG_DIR R"(\AprgLocalUserAutomation\FilesForTests\BitmapFromScreen.bmp)";
-    AlbaWindowsUserAutomation userAutomation;
-    userAutomation.saveBitmapOnScreen(bitmapFilePath);
 }
 
 }

@@ -64,7 +64,8 @@ struct GraphTypesWithWeights
         bool operator==(VertexOrderedByWeight const& otherVertex) const
         {
             return weight == otherVertex.weight;
-        }        Vertex vertex;
+        }
+        Vertex vertex;
         Weight weight;
     };
     using VerticesWithWeight = std::vector<VertexOrderedByWeight>;
@@ -99,6 +100,7 @@ struct GraphTypesWithWeights
         {
             return weight == otherEdge.weight;
         }
+
         Weight weight;
     };
     using EdgesWithWeight = std::vector<EdgeOrderedByWeight>;
@@ -109,4 +111,5 @@ struct GraphTypesWithWeights
 };
 
 }
+
 }
