@@ -2,14 +2,13 @@
 
 #include <ChessUtilities/ChessEngineHandler.hpp>
 #include <ChessUtilities/Engine/CalculationDetails.hpp>
+#include <Common/String/AlbaStringHelper.hpp>
 
 #include <deque>
-#include <fstream>
-#include <string>
+#include <fstream>#include <string>
 
 namespace alba
 {
-
 namespace chess
 {
 
@@ -27,72 +26,80 @@ public:
     enum class CommandType
     {
         Uci,
+        UciOption,
         Position,
         Go,
-        Stop,
-    };
+        Stop,    };
 
     struct Command
-    {
-        CommandType commandType;
+    {        CommandType commandType;
         std::string commandString;
     };
 
     using StepsInCalculationMonitoring = std::function<void(CalculationDetails const&)> ;
 
-    ChessEngineControllerWithUci(ChessEngineHandler & engineHandler);
+    ChessEngineControllerWithUci(
+            ChessEngineHandler & engineHandler,
+            stringHelper::StringPairs const& uciOptionNamesAndValuePairs = {});
 
     void resetToNewGame();
-    void setupStartPosition();
-    void setupMoves(std::string const& moves);
+    void setupStartPosition();    void setupMoves(std::string const& moves);
     void setupFenString(std::string const& fenString);
     void go();
-    void goWithPonder();
-    void goWithDepth(unsigned int const depth);
+    void goWithPonder();    void goWithDepth(unsigned int const depth);
     void goInfinite();
     bool waitTillReadyAndReturnIfResetWasPerformed();
     void stop();
 
-    void setLogFile(std::string const& logFilePath);
     void setAdditionalStepsInCalculationMonitoring(StepsInCalculationMonitoring const& additionalSteps);
+    void setLogFile(std::string const& logFilePath);
 
 private:
 
-    void clearData();
     void initialize();
     void resetEngine();
-    void proceedToIdleAndProcessPendingCommands();
+
+    // clear functions
+    void clearData();
     void clearCalculationDetails();
 
+    // state functions
+    void changeState(ControllerState const state);
+    void proceedToIdleStateAndProcessPendingCommands();
+
+    // log functions
+    void log(std::string const& logString);
+
+    // send functions
     void forceSend(std::string const& commandString);
     void sendStopIfCalculating();
+    void sendUciAndUciOptions();
     void sendUci();
     void sendStop();
+    void sendUciOptions();
     void send(CommandType const& commandType, std::string const& commandString);
     void send(Command const& command);
 
+    // process functions
     void processInWaitingForReadyOkay(std::string const& stringFromEngine);
     void processAStringFromEngine(std::string const& stringFromEngine);
     void processInWaitingForUciOkay(std::string const& stringToProcess);
     void processInCalculating(std::string const& stringToProcess);
 
-    void changeState(ControllerState const state);
-
-    void log(std::string const& logString);
+    std::string constructUciOptionCommand(std::string const& name, std::string const& value);
 
     ChessEngineHandler & m_engineHandler;
+    stringHelper::StringPairs m_uciOptionNamesAndValuePairs;
+    AlbaOptional<StepsInCalculationMonitoring> m_additionalStepsInCalculationMonitoring;
+    AlbaOptional<std::ofstream> m_logFileStreamOptional;
     ControllerState m_state;
     bool m_waitingForReadyOkay;
     CalculationDetails m_currentCalculationDetails;
     std::deque<Command> m_pendingCommands;
-    AlbaOptional<std::ofstream> m_logFileStreamOptional;
-    AlbaOptional<StepsInCalculationMonitoring> m_additionalStepsInCalculationMonitoring;
 };
 
-std::string getEnumString(ChessEngineControllerWithUci::ControllerState const state);
-std::ostream & operator<<(std::ostream & out, ChessEngineControllerWithUci::ControllerState const state);
+std::string getEnumString(ChessEngineControllerWithUci::ControllerState const state);std::ostream & operator<<(std::ostream & out, ChessEngineControllerWithUci::ControllerState const state);
 
 
 }
-
 }

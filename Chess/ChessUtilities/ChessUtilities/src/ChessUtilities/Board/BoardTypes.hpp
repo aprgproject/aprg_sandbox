@@ -13,12 +13,13 @@ namespace chess
 {
 
 using PieceTypes = std::vector<PieceType>;
-using CoordinateDataType = int8_t;
+using CoordinateDataType = int32_t;
 using Coordinate = AlbaXY<CoordinateDataType>;
 using Coordinates = std::vector<Coordinate>;
 using Move = std::pair<Coordinate, Coordinate>;
 using Moves = std::vector<Move>;
+using MovePair = std::pair<Move, Move>;
+using MovePairs = std::vector<MovePair>;
 
 }
-
 }

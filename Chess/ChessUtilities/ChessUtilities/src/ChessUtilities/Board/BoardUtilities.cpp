@@ -148,15 +148,13 @@ Moves getSequenceOfMoves(
             Coordinate const& coordinate2(coordinatesWithPiecesInDifference2.at(i));
             Piece piece2(board2.getPieceAt(coordinate2));
             Move moveFrom1To2(coordinate1, coordinate2);
-            if((piece1 == piece2 && board1.isMovePossible(moveFrom1To2))
+            if((piece1 == piece2 && board1.isPossibleMove(moveFrom1To2))
                     || board1.isPromotionMove(moveFrom1To2))
             {
-                possibleMoves.emplace_back(moveFrom1To2);
-            }
+                possibleMoves.emplace_back(moveFrom1To2);            }
         }
     }
-    return possibleMoves;
-}
+    return possibleMoves;}
 
 }
 
