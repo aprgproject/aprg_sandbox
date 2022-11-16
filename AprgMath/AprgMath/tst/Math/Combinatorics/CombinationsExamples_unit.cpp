@@ -192,64 +192,63 @@ TEST(CombinationsExamplesTest, CatalanNumbersFormulaWorks)
     // )))((( -> | | | |o|o|o|
     EXPECT_EQ(20U, getNumberOfCombinations(6U, 3U));
 
-    // If a parenthesis expression is not valid, it has to contain a prefix
-    // where the number of right parentheses EXCEEDS the number of left parentheses.
-    // The idea is to REVERSE each parenthesis that belongs to such a prefix.
-    // For example, the expression ())()( contains a prefix ()),
-    // and after reversing the prefix, the expression becomes )((()(.
 
-    // So:
-    // In the prefix, right parentheses in the prefix - left parentheses in the prefix = 1. (2[right prefix] - 1[left prefix] = 1)
-    // Thus, NOT in the prefix:
-    // Left parentheses NOT in the prefix = n - left parentheses in the prefix (2[left non prefix] = 3 - 1[left prefix])
-    // right parentheses NOT in the prefix = n - right parentheses in the prefix (1[right non prefix] = 3 - 2[right prefix])
+    // This proof uses André's reflection method, which was originally used in connection with Bertrand's ballot theorem.
+    // The reflection principle has been widely attributed to Désiré André,
+    // but his method did not actually use reflections and the reflection method is a variation due to Aebly and Mirimanoff.
 
-    // After reversing:
-    // In the prefix, left parentheses in REVERSE prefix - right parentheses in REVERSE prefix =  1. (2[left reverse prefix] - 1[right reverse prefix] = 1)
+    // We count the number of paths which start and end on the diagonal of a n×n grid.
+    // All such paths have n-right steps (lets assign it to left parentheses) and n-up steps (lets assign it to right parentheses).
+    // Since we can choose which of the 2*n steps are up or right, there are in total (2*n, n) monotonic paths of this type.
+    // A bad path crosses the main diagonal and touches the next higher (fatal) diagonal ('F' in the illustration).
 
-    // Calculating the total:
-    // Total left parentheses = left parentheses in REVERSE prefix + left parentheses NOT in the prefix
-    // Total right parentheses = right parentheses in REVERSE prefix + right parentheses NOT in the prefix
+    // Illustration of nxn grid :
+    // | | | |F|x|
+    // | | |F|x| |
+    // | |F|x| | |
+    // |F|x| | | |
+    // |x| | | | |
 
-    // Since:
-    // n = left parentheses in the prefix + left parentheses NOT in the prefix, n - left parentheses in the prefix = left parentheses NOT in the prefix
-    // n = right parentheses in the prefix + right parentheses NOT in the prefix, n - right parentheses in the prefix = right parentheses NOT in the prefix
+    // The part of the path after the fatal touch is flipped about the fatal diagonal.
+    // This SWAPS all the right steps to up steps and vice versa.
+    // In the section of the path that is not reflected, there is one more up step than right steps,
+    // so therefore the remaining section of the bad path has one more right step than up steps.
+    // When this portion of the path is reflected, it will have one more up step than right steps.
 
-    // Substituting:
-    // Total left parentheses = n + left parentheses in REVERSE prefix - left parentheses in the prefix (4 = 3 + 2[left reverse prefix] -1[left prefix])
-    // Total right parentheses = n + right parentheses in REVERSE prefix - right parentheses in the prefix (2 = 3 + 1[right reverse prefix] -2[right prefix])
+    // Since there are still 2n steps, there are now be n+1 up steps (right parentheses) and n−1 right steps (left parentheses).
+    // So, instead of reaching (n, n), all bad paths after reflection end at (n−1, n+1).
+    // Because every monotonic path in the (n−1) × (n+1) grid meets the fatal diagonal,
+    // and because the reflection process is reversible,
+    // the reflection is therefore a bijection between bad paths in the original grid and monotonic paths in the new grid.
 
-    // Total left parentheses = n + 1
-    // Total right parentheses = n - 1
-
-    // The resulting expression consists of n+1 left parentheses and n-1 right parentheses.
-    // The number of such expressions is (2n, n+1), which equals the number of non-valid parenthesis expressions.
+    // After reflection:
+    // The number of right parentheses=n+1 and the number of left parentheses=n-1.
+    // The number of bad paths is therefore:
+    // (n+1+n-1, n+1) = (2*n, n-1) = (2*n, n+1)
 
     // This formula is correct because its reduces to boxes and balls formula.
-    // For example when n=3, we can assign balls to left parentheses and boxes to right parentheses, so its 6 taken 2:
+    // For example when n=3, we can assign balls to left parentheses and boxes to right parentheses, so its 6 taken 2 (or 6 taken 4):
     // INVALID:
-    // (()))( -> |o|o| | | |o|
-    // ()())( -> |o| |o| | |o|
-    // ())(() -> |o| | |o|o| |
-    // ())()( -> |o| | |o| |o|
-    // ()))(( -> |o| | | |o|o|
-    // )((()) -> | |o|o|o| | |
-    // )(()() -> | |o|o| |o| |
-    // )(())( -> | |o|o| | |o|
-    // )()(() -> | |o| |o|o| |
-    // )()()( -> | |o| |o| |o|
-    // )())(( -> | |o| | |o|o|
-    // ))((() -> | | |o|o|o| |
-    // ))(()( -> | | |o|o| |o|
-    // ))()(( -> | | |o| |o|o|
-    // )))((( -> | | | |o|o|o|
+    // (()))( -> non reflected part:[(())] + fatal part:[)] + reflected part:[)] -> |o|o| | | | |
+    // ()())( -> non reflected part:[()()] + fatal part:[)] + reflected part:[)] -> |o| |o| | | |
+    // ()))(( -> non reflected part:[()] + fatal part:[)] + reflected part:[())] -> |o| | |o| | |
+    // ())()( -> non reflected part:[()] + fatal part:[)] + reflected part:[)()] -> |o| | | |o| |
+    // ())(() -> non reflected part:[()] + fatal part:[)] + reflected part:[))(] -> |o| | | | |o|
+    // )))((( -> non reflected part:[] + fatal part:[)] + reflected part:[(()))] -> | |o|o| | | |
+    // ))()(( -> non reflected part:[] + fatal part:[)] + reflected part:[()())] -> | |o| |o| | |
+    // ))(()( -> non reflected part:[] + fatal part:[)] + reflected part:[())()] -> | |o| | |o| |
+    // ))((() -> non reflected part:[] + fatal part:[)] + reflected part:[()))(] -> | |o| | | |o|
+    // )())(( -> non reflected part:[] + fatal part:[)] + reflected part:[)(())] -> | | |o|o| | |
+    // )()()( -> non reflected part:[] + fatal part:[)] + reflected part:[)()()] -> | | |o| |o| |
+    // )()(() -> non reflected part:[] + fatal part:[)] + reflected part:[)())(] -> | | |o| | |o|
+    // )(())( -> non reflected part:[] + fatal part:[)] + reflected part:[))(()] -> | | | |o|o| |
+    // )(()() -> non reflected part:[] + fatal part:[)] + reflected part:[))()(] -> | | | |o| |o|
+    // )((()) -> non reflected part:[] + fatal part:[)] + reflected part:[)))((] -> | | | | |o|o|
     EXPECT_EQ(15U, getNumberOfCombinations(6U, 2U));
-
 
     // Thus, the number of valid parenthesis expressions can be calculated using the formula
     // (2n, n) - (2n, n+1) = (2n, n) - (2n, n) * n/(n+1) = (2n, n) * (n+1-n)/(n+1) = (2n, n)/(n+1)
-    // VALID:
-    // ((())) -> |o|o|o| | | |
+    // VALID:    // ((())) -> |o|o|o| | | |
     // (()()) -> |o|o| |o| | |
     // (())() -> |o|o| | |o| |
     // ()(()) -> |o| |o|o| | |
