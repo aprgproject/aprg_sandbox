@@ -83,10 +83,12 @@ private:
 
 // Dijkstra algorithm computes a shortest path tree in any edge-weighted digraph with non negative weights,
 // Proof:
-// -> Each edge e=v->w is relaxed exactly once (when v is relaxed), leaving distTo[w] <= distTo[v] + e.weight()// -> Inequality holds until algorithm terminates because:
+// -> Each edge e=v->w is relaxed exactly once (when v is relaxed), leaving distTo[w] <= distTo[v] + e.weight()
+// -> Inequality holds until algorithm terminates because:
 // ---> distTo[w] cannot decrease (relax prevents this)
 // ---> distTo[v] will not change at all
 // ---> Thus, upon termination shortest path optimality conditions hold.
+
 // Running time:
 // depends on Indexed-PQ implementation: Total = V inserts + V deletemins + E decrease-keys
 // array: insert(1), delete-min(V), decrease-key(1) -> total = V^2

@@ -18,7 +18,9 @@ EdgeWeightedDirectedGraph getOptimalDirectedGraph(PathSearchUsingDijkstra const&
             result.connect(edgeOrderedByWeight.first, edgeOrderedByWeight.second, edgeOrderedByWeight.weight);
         }
     }
-    return result;}
+    return result;
+}
 
 }
+
 }

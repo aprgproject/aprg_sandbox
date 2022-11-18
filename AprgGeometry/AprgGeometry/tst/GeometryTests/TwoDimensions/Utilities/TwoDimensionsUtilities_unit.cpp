@@ -97,10 +97,12 @@ TEST(TwoDimensionsUtilitiesTest, GetManhattanDistanceAlternateWayWorks)
     EXPECT_DOUBLE_EQ(2, getManhattanDistanceWithAlternateWay(Point(0,0), Point(1,1)));
 }
 
-TEST(TwoDimensionsUtilitiesTest, GetMaximumManhattanDistanceOfTwoPointsWorks){
+TEST(TwoDimensionsUtilitiesTest, GetMaximumManhattanDistanceOfTwoPointsWorks)
+{
     Points points{{1, 3}, {2, 1}, {4, 4}, {4, 2}};
     EXPECT_DOUBLE_EQ(5, getMaximumManhattanDistanceOfTwoPoints(points));
 }
+
 TEST(TwoDimensionsUtilitiesTest, GetCosineOfAngleUsing1DeltaWorks)
 {
     EXPECT_DOUBLE_EQ(0.6, getCosineOfAngleUsing1Delta(3,4));
@@ -127,7 +129,8 @@ TEST(TwoDimensionsUtilitiesTest, GetSignedCounterClockwiseTriangleAreaOfOriginAn
 
 TEST(TwoDimensionsUtilitiesTest, GetSignedCounterClockwiseTriangleAreaOf3PointsWorks)
 {
-    EXPECT_DOUBLE_EQ(-2, getSignedCounterClockwiseTriangleAreaOf3Points(Point(0, 0), Point(0, 2), Point(2, 0)));    EXPECT_DOUBLE_EQ(2, getSignedCounterClockwiseTriangleAreaOf3Points(Point(0, 0), Point(2, 0), Point(0, 2)));
+    EXPECT_DOUBLE_EQ(-2, getSignedCounterClockwiseTriangleAreaOf3Points(Point(0, 0), Point(0, 2), Point(2, 0)));
+    EXPECT_DOUBLE_EQ(2, getSignedCounterClockwiseTriangleAreaOf3Points(Point(0, 0), Point(2, 0), Point(0, 2)));
     EXPECT_DOUBLE_EQ(2, getSignedCounterClockwiseTriangleAreaOf3Points(Point(0, 0), Point(2, 2), Point(1, 3)));
     EXPECT_DOUBLE_EQ(-2, getSignedCounterClockwiseTriangleAreaOf3Points(Point(0, 0), Point(2, 2), Point(3, 1)));
 }
@@ -144,9 +147,11 @@ TEST(TwoDimensionsUtilitiesTest, GetAreaOfTriangleUsingHeronsFormulaWorks)
     EXPECT_DOUBLE_EQ(3, getAreaOfTriangleUsingHeronsFormula(Triangle(Point(0, 0), Point(2, 0), Point(0, 3))));
 }
 
-TEST(TwoDimensionsUtilitiesTest, GetAreaOfQuadrilateralWorks){
+TEST(TwoDimensionsUtilitiesTest, GetAreaOfQuadrilateralWorks)
+{
     EXPECT_DOUBLE_EQ(6, getAreaOfQuadrilateral(Quadrilateral(Point(0, 0), Point(0, 2), Point(3, 2), Point(3, 0))));
 }
+
 TEST(TwoDimensionsUtilitiesTest, GetAreaUsingPicksTheoremWorks)
 {
     // Points: (2,4), (4,1), (4,3), (5,5), (7,3)
@@ -159,10 +164,12 @@ TEST(TwoDimensionsUtilitiesTest, GetAreaUsingPicksTheoremWorks)
     // |X|1|2|3|4|5|6|7|
     // Legend: 'O' is for outside, 'I' is for inside
 
-    EXPECT_DOUBLE_EQ(8.5, getAreaUsingPicksTheorem(6U, 7U));}
+    EXPECT_DOUBLE_EQ(8.5, getAreaUsingPicksTheorem(6U, 7U));
+}
 
 TEST(TwoDimensionsUtilitiesTest, GetAreaForPolygonWorksForTriangle)
-{    Triangle triangle(Point(0,0), Point(0,4), Point(4,0));
+{
+    Triangle triangle(Point(0,0), Point(0,4), Point(4,0));
     EXPECT_DOUBLE_EQ(8, getArea(triangle));
 }
 

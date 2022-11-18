@@ -130,10 +130,12 @@ double getManhattanDistance(Point const& point1, Point const& point2)
 double getManhattanDistanceWithAlternateWay(Point const& point1, Point const& point2)
 {
     // A useful technique related to Manhattan distances is to rotate all coordinates 45 degrees so that a point (x, y) becomes (x+y, y-x).
-    // Consider two points p1=(x1,y1) and p2=(x2,y2) whose rotated coordinates p1'=(x1',y1') and p2'=(x2',y2')    // Now there are two ways to express the Manhattan distance between p1 and p2:
+    // Consider two points p1=(x1,y1) and p2=(x2,y2) whose rotated coordinates p1'=(x1',y1') and p2'=(x2',y2')
+    // Now there are two ways to express the Manhattan distance between p1 and p2:
     // |x1-x2|+|y1-y2| = max(|x1'-x2'|,|y1'-y2'|)
 
     // Note that "addition operation" transforms to "maximum operation"
+
     Point point1Rotated(point1.getX()+point1.getY(), point1.getY()-point1.getX());
     Point point2Rotated(point2.getX()+point2.getY(), point2.getY()-point2.getX());
     Point deltaRotated = point1Rotated-point2Rotated;
@@ -191,6 +193,13 @@ double getSignedCounterClockwiseTriangleAreaOfOriginAnd2Points(Point const& poin
     return getCrossProduct(constructVector(point1), constructVector(point2)) / 2;
 }
 
+double getSignedCounterClockwiseDoubleTriangleAreaOfOriginAnd2Points(Point const& point1, Point const& point2)
+{
+    // This actually a quadrilateral area, one mirror/ghost point is implicitly generated for it to be a quadrilateral.
+
+    return getCrossProduct(constructVector(point1), constructVector(point2));
+}
+
 double getSignedCounterClockwiseTriangleAreaOf3Points(Point const& a, Point const& b, Point const& c)
 {
     Point deltaBA(b-a);
@@ -208,10 +217,12 @@ double getAreaOfTriangleUsingThreePoints(Triangle const& triangle)
     return mathHelper::getAbsoluteValue(getSignedCounterClockwiseTriangleAreaOf3Points(vertices.at(0), vertices.at(1), vertices.at(2)));
 }
 
-double getAreaOfTriangleUsingHeronsFormula(Triangle const& triangle){
+double getAreaOfTriangleUsingHeronsFormula(Triangle const& triangle)
+{
     // The area of a triangle can be calculated, for example, using Heron’s formula:
     // area = sqrt(s(s-a)(s-b)(s-c)),
-    // where a, b and c are the lengths of the triangle’s sides and s = (a+b+c)/2.    auto sides(triangle.getLengthOfSides());
+    // where a, b and c are the lengths of the triangle’s sides and s = (a+b+c)/2.
+    auto sides(triangle.getLengthOfSides());
     double s = (sides.at(0)+sides.at(1)+sides.at(2))/2;
     return sqrt(s * (s-sides.at(0)) * (s-sides.at(1)) * (s-sides.at(2)));
 }

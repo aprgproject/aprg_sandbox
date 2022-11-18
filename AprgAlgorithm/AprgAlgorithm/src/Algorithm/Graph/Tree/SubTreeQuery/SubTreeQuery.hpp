@@ -51,9 +51,11 @@ public:
         }
         return result;
     }
+
 protected:
 
-    void initializeIfNeeded()    {
+    void initializeIfNeeded()
+    {
         if(GraphUtilities::isATree(m_graph))
         {
             initialize();
@@ -96,10 +98,12 @@ protected:
         m_subTreeSize[beforeTreeSize] = treeSize-beforeTreeSize; // Sub tree size = "total tree size" - "before tree size"
     }
 
-    BaseUndirectedGraphWithVertex const& m_graph;    Vertex m_rootOfTree;
+    BaseUndirectedGraphWithVertex const& m_graph;
+    Vertex m_rootOfTree;
     CheckableVerticesWithVertex m_processedVertices;
     Vertices m_verticesInDfsPreOrder;
-    Counts m_subTreeSize;    VertexToIndexMap m_vertexToIndexMap;
+    Counts m_subTreeSize;
+    VertexToIndexMap m_vertexToIndexMap;
 };
 
 }

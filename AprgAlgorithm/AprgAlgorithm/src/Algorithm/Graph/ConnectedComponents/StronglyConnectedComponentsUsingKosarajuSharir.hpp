@@ -98,10 +98,12 @@ private:
 
 // Linear time because DFS.
 
-// Strong components in a graph is the same with the graph with reversed directions// Contract each strong component into a single vertex
+// Strong components in a graph is the same with the graph with reversed directions
+// Contract each strong component into a single vertex
 
 // Simple algorithm for computing strong components.
-// -> Phase 1: run DFS on GR(graph with reversed directions) to compute reverse postorder.// -> Phase 2: run DFS on G(original graph), traversing vertices in the order determined in the first phase
+// -> Phase 1: run DFS on GR(graph with reversed directions) to compute reverse postorder.
+// -> Phase 2: run DFS on G(original graph), traversing vertices in the order determined in the first phase
 
 // Kosaraju-Sharir algorithm
 // Proposition: Kosaraju-Sharir algorithm computes the strong components of a digraph in time proportional to E+V.
@@ -120,6 +122,7 @@ private:
 // Other analysis:
 // The time complexity of the algorithm is O(n + m), because the algorithm performs two depth-first searches.
 // Note: n is the number of nodes and m is the number of edges.
+
 }
 
 }

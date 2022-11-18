@@ -48,14 +48,19 @@ double getManhattanDistance(Point const& point1, Point const& point2);
 double getManhattanDistanceWithAlternateWay(Point const& point1, Point const& point2);
 double getMaximumManhattanDistanceOfTwoPoints(Points const& points);
 double getCosineOfAngleUsing1Delta(double const deltaX1, double const deltaY1);
-double getCosineOfAngleUsing2Deltas(Vector const& deltaVector1, Vector const& deltaVector2);double getArcLength(AlbaAngle const& angle, double const radius);
+double getCosineOfAngleUsing2Deltas(Vector const& deltaVector1, Vector const& deltaVector2);
+double getArcLength(AlbaAngle const& angle, double const radius);
 double getSignedCounterClockwiseTriangleAreaOfOriginAnd2Points(Point const& point1, Point const& point2);
+double getSignedCounterClockwiseDoubleTriangleAreaOfOriginAnd2Points(Point const& point1, Point const& point2);
 double getSignedCounterClockwiseTriangleAreaOf3Points(Point const& a, Point const& b, Point const& c);
-double getAreaOfTriangleUsingThreePoints(Triangle const& triangle);double getAreaOfTriangleUsingHeronsFormula(Triangle const& triangle);
+double getAreaOfTriangleUsingThreePoints(Triangle const& triangle);
+double getAreaOfTriangleUsingHeronsFormula(Triangle const& triangle);
 double getAreaOfQuadrilateral(Quadrilateral const& quadrilateral);
 double getAreaUsingPicksTheorem(unsigned int const numberOfPointsInside, unsigned int const numberOfPointsOnTheBoundary);
+
 Vector constructVector(AlbaXY<double> const& xy);
 Vector constructDeltaVector(Line const& line);
+
 ConicSectionType getConicSectionBasedOnEccentricity(double const eccentricity);
 ConicSectionType getConicSectionBasedOnGeneralForm(double const a, double const b, double const c, double const e, double const f);
 Quadrant getQuadrantOfAPoint(Point const& point);
@@ -139,10 +144,10 @@ double getArea(Polygon<numberOfVertices> const& polygon)
     int sizeMinusOne = static_cast<int>(vertices.size())-1;
     for(int i=0; i<sizeMinusOne; i++)
     {
-        area += getSignedCounterClockwiseTriangleAreaOfOriginAnd2Points(vertices[i], vertices[i+1]);
+        area += getSignedCounterClockwiseDoubleTriangleAreaOfOriginAnd2Points(vertices[i], vertices[i+1]);
     }
-    area += getSignedCounterClockwiseTriangleAreaOfOriginAnd2Points(vertices[sizeMinusOne], vertices[0]);
-    area = mathHelper::getAbsoluteValue(area);
+    area += getSignedCounterClockwiseDoubleTriangleAreaOfOriginAnd2Points(vertices[sizeMinusOne], vertices[0]);
+    area = mathHelper::getAbsoluteValue(area)/2;
     return area;
 }
 

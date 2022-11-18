@@ -48,9 +48,11 @@ TEST(TaylorSeriesTest, GetValueAtIndexWorks)
     EXPECT_EQ(stringToExpect5, series.getValueAtIndex(4, 0).getDisplayableString());
 }
 
-TEST(TaylorSeriesTest, GetValueForMaclaurinSeriesAtIndexWorks){
+TEST(TaylorSeriesTest, GetValueForMaclaurinSeriesAtIndexWorks)
+{
     Term formula(createExpressionIfPossible({getEAsATerm(), "^", "x"}));
     TaylorSeries series(formula, "x");
+
     string stringToExpect1("1");
     string stringToExpect2("(1[x] + 1)");
     string stringToExpect3("((1/2)[x^2] + 1[x] + 1)");
@@ -64,4 +66,5 @@ TEST(TaylorSeriesTest, GetValueForMaclaurinSeriesAtIndexWorks){
 }
 
 }
+
 }

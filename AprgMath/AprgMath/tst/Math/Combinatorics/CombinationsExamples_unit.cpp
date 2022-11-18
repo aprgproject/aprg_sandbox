@@ -246,9 +246,11 @@ TEST(CombinationsExamplesTest, CatalanNumbersFormulaWorks)
     // )((()) -> non reflected part:[] + fatal part:[)] + reflected part:[)))((] -> | | | | |o|o|
     EXPECT_EQ(15U, getNumberOfCombinations(6U, 2U));
 
+
     // Thus, the number of valid parenthesis expressions can be calculated using the formula
     // (2n, n) - (2n, n+1) = (2n, n) - (2n, n) * n/(n+1) = (2n, n) * (n+1-n)/(n+1) = (2n, n)/(n+1)
-    // VALID:    // ((())) -> |o|o|o| | | |
+    // VALID:
+    // ((())) -> |o|o|o| | | |
     // (()()) -> |o|o| |o| | |
     // (())() -> |o|o| | |o| |
     // ()(()) -> |o| |o|o| | |

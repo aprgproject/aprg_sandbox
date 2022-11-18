@@ -78,7 +78,8 @@ protected:
             traverseUsingDfs(treeSize, startValue, startVertex);
 
             m_verticesInDfsPreOrder.shrink_to_fit();
-            m_accumulatedValuesOfPaths.shrink_to_fit();        }
+            m_accumulatedValuesOfPaths.shrink_to_fit();
+        }
     }
 
     void traverseUsingDfs(unsigned int & treeSize, Vertex const& pathAccumulatedValue, Vertex const& vertex)
@@ -94,10 +95,12 @@ protected:
                 traverseUsingDfs(treeSize, m_accumulator(pathAccumulatedValue, adjacentVertex), adjacentVertex);
             }
         }
-        m_vertexToIndexMap[vertex] = index;    }
+        m_vertexToIndexMap[vertex] = index;
+    }
 
     BaseUndirectedGraphWithVertex const& m_graph;
-    Vertex m_rootOfTree;    AccumulatorFunction m_accumulator;
+    Vertex m_rootOfTree;
+    AccumulatorFunction m_accumulator;
     CheckableVerticesWithVertex m_processedVertices;
     Vertices m_verticesInDfsPreOrder;
     Vertices m_accumulatedValuesOfPaths;

@@ -75,9 +75,11 @@ public:
 
         return getGeneralPathCover(newSourceVertex, newSinkVertex).size();
     }
+
 private:
 
-    Paths getGeneralPathCover(            VertexPairs const& vertexPairs) const
+    Paths getGeneralPathCover(
+            VertexPairs const& vertexPairs) const
     {
         Paths result;
         Edges allEdges(m_graph.getEdges());

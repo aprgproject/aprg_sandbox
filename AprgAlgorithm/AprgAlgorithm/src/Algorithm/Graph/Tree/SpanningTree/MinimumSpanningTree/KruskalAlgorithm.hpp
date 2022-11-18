@@ -81,10 +81,12 @@ private:
 
 // Proposition: Kruskal's algorithm computes MST.
 // Proof:
-// -> Kruskal algorithm is a special case of the greedy MST algorithm.// -> Suppose Kruskal algorithm colors the edge e = v-w black.
+// -> Kruskal algorithm is a special case of the greedy MST algorithm.
+// -> Suppose Kruskal algorithm colors the edge e = v-w black.
 // -> Cut = set of vertices connected to v in tree T
 // -> No crossing edge is black
 // -> No crossing edge has lower weight.
+
 // Proposition: Kruskal's algorithm computes MST in time proportional to E log E (in the worst case).
 // Proof:
 // -> Time for each part:
@@ -104,6 +106,7 @@ private:
 // -> Why does this work? Why does the greedy strategy guarantee that we will find a minimum spanning tree?
 // ---> Is it possible that a non minimum weight edge of the graph is not included in the spanning tree?
 // ---> No, because minimum weight edges are processed first. If there is some connection to vertex V to the MST, it is processed first.
+
 }
 
 }

@@ -138,9 +138,11 @@ protected:
 // -> Termination: All paths s to t are blocked by either a:
 // ---> full forward edge
 // ---> empty backward edge
+
 // Process:
 // -> Start with 0 flow
-// -> While there exists an augmenting path:// ---> Find an augmenting path
+// -> While there exists an augmenting path:
+// ---> Find an augmenting path
 // ---> Compute bottleneck capacity
 // ---> Increase flow on that path by bottleneck capacity.
 
@@ -209,10 +211,12 @@ protected:
 // -> It can be proven that this guarantees that the flow increases quickly, and the time complexity of the algorithm is O(m^2 * n).
 // 2) Scaling algorithm
 // -> The scaling algorithm uses depth-first search to find paths where each edge weight is at least a threshold value.
-// -> Initially, the threshold value is some large number, for example the sum of all edge weights of the graph.// -> Always when a path cannot be found, the threshold value is divided by 2.
+// -> Initially, the threshold value is some large number, for example the sum of all edge weights of the graph.
+// -> Always when a path cannot be found, the threshold value is divided by 2.
 // -> The time complexity of the algorithm is O(m^2 * logc), where c is the initial threshold value.
 
-// Minimum cuts// It turns out that once the Ford–Fulkerson algorithm has found a maximum flow, it has also determined a minimum cut.
+// Minimum cuts
+// It turns out that once the Ford–Fulkerson algorithm has found a maximum flow, it has also determined a minimum cut.
 // Let A be the set of nodes that can be reached from the source using positive-weight edges.
 // Now the minimum cut consists of the edges of the original graph that start at some node in A,
 // end at some node outside A, and whose capacity is fully used in the maximum flow.
