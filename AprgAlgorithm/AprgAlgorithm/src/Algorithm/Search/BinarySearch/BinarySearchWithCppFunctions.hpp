@@ -11,21 +11,20 @@ namespace alba
 namespace algorithm
 {
 
-template <typename Values>
-class BinarySearchWithCPlusPlusFunctions
+template <typename Values> // this should be a non set container to be efficient because std::lower_bound and std::upper_bound are used
+class BinarySearchWithCppFunctions
 {
 public:
     using Index = unsigned int;
     using Value = typename Values::value_type;
+    static constexpr Index INVALID_INDEX = std::numeric_limits<Index>::max();
 
-    BinarySearchWithCPlusPlusFunctions(Values const& sortedValues)
+    BinarySearchWithCppFunctions(Values const& sortedValues)
         : m_sortedValues(sortedValues)
     {}
-
     Value getNearestValue(Value const& value) const
     {
-        Value result{};
-        if(!m_sortedValues.empty())
+        Value result{};        if(!m_sortedValues.empty())
         {
             result = getNearestValueUsingEqualRange(value);
         }
@@ -34,14 +33,12 @@ public:
 
     Index getIndexOfNearestValue(Value const& value) const
     {
-        Index result{};
+        Index result(INVALID_INDEX);
         if(!m_sortedValues.empty())
         {
-            result = getIndexOfNearestValueUsingEqualRange(value);
-        }
+            result = getIndexOfNearestValueUsingEqualRange(value);        }
         return result;
     }
-
     Value getLowerBound(Value const& value) const
     {
         Value result{};
@@ -87,16 +84,14 @@ private:
 
     Index getIndexOfNearestValueUsingEqualRange(Value const& value) const
     {
-        auto lowerAndUpperBoundItPair = containerHelper::getLowerAndUpperConstIteratorsForNonSet(m_sortedValues, value); // works in logarithmic time
-        Index result{};
+        auto lowerAndUpperBoundItPair = containerHelper::getLowerAndUpperConstIteratorsForNonSet(m_sortedValues, value); // assumption is non set
+        Index result(INVALID_INDEX);
         Index lowerBoundIndex = std::distance(m_sortedValues.cbegin(), lowerAndUpperBoundItPair.first);
         Value lowerBoundValue(*(lowerAndUpperBoundItPair.first));
-        if(value == lowerBoundValue)
-        {
+        if(value == lowerBoundValue)        {
             result = lowerBoundIndex;
         }
-        else
-        {
+        else        {
             Value higherBoundValue(*(lowerAndUpperBoundItPair.second));
             Value deviationFromLower(mathHelper::getPositiveDelta(value, lowerBoundValue));
             Value deviationFromHigher(mathHelper::getPositiveDelta(value, higherBoundValue));

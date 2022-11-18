@@ -1,85 +1,60 @@
 #include <Algorithm/Search/BinarySearch/BinarySearchWithCppFunctions.hpp>
+#include <AlgorithmTests/Search/Utilities/CommonTestsWithSearch.hpp>
 
 #include <gtest/gtest.h>
 
+using namespace alba::algorithm::CommonTestsWithSearch;
 using namespace std;
 
-namespace alba
-{
+namespace alba{
 
 namespace algorithm
 {
-
 namespace
 {
 using ValuesForTest = vector<unsigned int>;
-using SearchForTest = BinarySearchWithCPlusPlusFunctions<ValuesForTest>;
+using SearchForTest = BinarySearchWithCppFunctions<ValuesForTest>;
 }
 
-TEST(BinarySearchWithCPlusPlusFunctionsTest, GetNearestValueWorks)
+TEST(BinarySearchWithCppFunctionsTest, GetNearestValueWorksAndDoesNotCrashWhenEmpty)
 {
-    ValuesForTest sortedValues{6, 13, 14, 25, 33, 43, 51, 53, 64, 72, 84, 93, 95, 96, 97};
-    SearchForTest binarySearch(sortedValues);
-
-    EXPECT_EQ(33U, binarySearch.getNearestValue(33));
+    testGetNearestValueDoesNotCrashWithEmptyUnsignedInts<SearchForTest, ValuesForTest>();
 }
 
-TEST(BinarySearchWithCPlusPlusFunctionsTest, GetNearestValueWorksAndDoesNotCrashWhenEmpty)
+TEST(BinarySearchWithCppFunctionsTest, GetNearestValueWorks)
 {
-    ValuesForTest valuesForTest;
-    SearchForTest binarySearch(valuesForTest);
-
-    EXPECT_EQ(0U, binarySearch.getNearestValue(33));
+    testGetNearestValueWithSortedUnsignedInts<SearchForTest, ValuesForTest>();
 }
 
-TEST(BinarySearchWithCPlusPlusFunctionsTest, GetNearestValueWorksWhenNearestValueIsLower)
+TEST(BinarySearchWithCppFunctionsTest, GetNearestValueWorksWhenNearestValueIsLower)
 {
-    ValuesForTest sortedValues{6, 13, 14, 25, 33, 43, 51, 53, 64, 72, 84, 93, 95, 96, 97};
-    SearchForTest binarySearch(sortedValues);
-
-    EXPECT_EQ(33U, binarySearch.getNearestValue(34));
+    testGetNearestValueWhenNearestValueIsLowerWithSortedUnsignedInts<SearchForTest, ValuesForTest>();
 }
 
-TEST(BinarySearchWithCPlusPlusFunctionsTest, GetNearestValueWorksWhenNearestValueIsHigher)
+TEST(BinarySearchWithCppFunctionsTest, GetNearestValueWorksWhenNearestValueIsHigher)
 {
-    ValuesForTest sortedValues{6, 13, 14, 25, 33, 43, 51, 53, 64, 72, 84, 93, 95, 96, 97};
-    SearchForTest binarySearch(sortedValues);
-
-    EXPECT_EQ(43U, binarySearch.getNearestValue(42));
+    testGetNearestValueWhenNearestValueIsHigherWithSortedUnsignedInts<SearchForTest, ValuesForTest>();
 }
 
-TEST(BinarySearchWithCPlusPlusFunctionsTest, GetIndexOfNearestValueWorks)
+TEST(BinarySearchWithCppFunctionsTest, GetIndexOfNearestValueWorksAndDoesNotCrashWhenEmpty)
 {
-    ValuesForTest valuesForTest{6, 13, 14, 25, 33, 43, 51, 53, 64, 72, 84, 93, 95, 96, 97};
-    SearchForTest binarySearch(valuesForTest);
-
-    EXPECT_EQ(4U, binarySearch.getIndexOfNearestValue(33));
+    testGetIndexOfNearestValueDoesNotCrashWithEmptyUnsignedInts<SearchForTest, ValuesForTest>();
 }
 
-TEST(BinarySearchWithCPlusPlusFunctionsTest, GetIndexOfNearestValueWorksAndDoesNotCrashWhenEmpty)
+TEST(BinarySearchWithCppFunctionsTest, GetIndexOfNearestValueWorks)
 {
-    ValuesForTest valuesForTest;
-    SearchForTest binarySearch(valuesForTest);
-
-    EXPECT_EQ(0U, binarySearch.getIndexOfNearestValue(33));
+    testGetIndexOfNearestValueWithSortedUnsignedInts<SearchForTest, ValuesForTest>();
 }
 
-TEST(BinarySearchWithCPlusPlusFunctionsTest, GetIndexOfNearestValueWorksWhenNearestValueIsLower)
+TEST(BinarySearchWithCppFunctionsTest, GetIndexOfNearestValueWorksWhenNearestValueIsLower)
 {
-    ValuesForTest sortedValues{6, 13, 14, 25, 33, 43, 51, 53, 64, 72, 84, 93, 95, 96, 97};
-    SearchForTest binarySearch(sortedValues);
-
-    EXPECT_EQ(4U, binarySearch.getIndexOfNearestValue(34));
+    testGetIndexOfNearestValueWhenNearestValueIsLowerWithSortedUnsignedInts<SearchForTest, ValuesForTest>();
 }
 
-TEST(BinarySearchWithCPlusPlusFunctionsTest, GetIndexOfNearestValueWorksWhenNearestValueIsHigher)
+TEST(BinarySearchWithCppFunctionsTest, GetIndexOfNearestValueWorksWhenNearestValueIsHigher)
 {
-    ValuesForTest sortedValues{6, 13, 14, 25, 33, 43, 51, 53, 64, 72, 84, 93, 95, 96, 97};
-    SearchForTest binarySearch(sortedValues);
-
-    EXPECT_EQ(5U, binarySearch.getIndexOfNearestValue(42));
+    testGetIndexOfNearestValueWhenNearestValueIsHigherWithSortedUnsignedInts<SearchForTest, ValuesForTest>();
 }
 
 }
-
 }

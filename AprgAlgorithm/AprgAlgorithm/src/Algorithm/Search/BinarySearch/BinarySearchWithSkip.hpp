@@ -14,14 +14,13 @@ class BinarySearchWithSkip
 public:
     using Index = unsigned int;
     using Value = typename Values::value_type;
+    static constexpr Index INVALID_INDEX = std::numeric_limits<Index>::max();
 
     BinarySearchWithSkip(Values const& sortedValues)
-        : m_sortedValues(sortedValues)
-    {}
+        : m_sortedValues(sortedValues)    {}
 
     Value getNearestValue(Value const& value) const
-    {
-        Value result{};
+    {        Value result{};
         if(!m_sortedValues.empty())
         {
             Index lowerIndex(getNearestLowerBoundIndex(value));
@@ -32,15 +31,13 @@ public:
 
     Index getIndexOfNearestValue(Value const& value) const
     {
-        Index result{};
+        Index result(INVALID_INDEX);
         if(!m_sortedValues.empty())
         {
-            Index lowerIndex(getNearestLowerBoundIndex(value));
-            result = getIndexOfNearestValueFromLowerIndex(value, lowerIndex);
+            Index lowerIndex(getNearestLowerBoundIndex(value));            result = getIndexOfNearestValueFromLowerIndex(value, lowerIndex);
         }
         return result;
     }
-
 private:
 
     Index getNearestLowerBoundIndex(Value const& value) const
@@ -77,15 +74,13 @@ private:
 
     Index getIndexOfNearestValueFromLowerIndex(Value const& value, Index const lowerIndex) const
     {
-        Index result{};
+        Index result(INVALID_INDEX);
         Value lowerBoundValue(m_sortedValues.at(lowerIndex));
         if(value == lowerBoundValue)
-        {
-            result = lowerIndex;
+        {            result = lowerIndex;
         }
         else
-        {
-            Value higherIndex(getHigherIndex(lowerIndex));
+        {            Value higherIndex(getHigherIndex(lowerIndex));
             Value deviationFromLower(mathHelper::getPositiveDelta(value, lowerBoundValue));
             Value deviationFromHigher(mathHelper::getPositiveDelta(value, m_sortedValues.at(higherIndex)));
             result = (deviationFromLower <= deviationFromHigher) ? lowerIndex : higherIndex;
