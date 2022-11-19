@@ -58,6 +58,22 @@ TEST(LinearSearchWithTwoIndicesTest, GetIndexOfNearestValueWorksWhenNearestValue
     testGetIndexOfNearestValueWhenNearestValueIsHigherWithUnsortedUnsignedInts<SearchForTest, ValuesForTest>();
 }
 
+TEST(LinearSearchWithTwoIndicesTest, GetNearestValueWorksWithInitialIndexesWhenDistanceFromLowerToHigherIsOne)
+{
+    ValuesForTest unsortedValues{43, 96, 53, 25, 95, 72, 6, 84, 14, 64, 33, 97, 51, 93, 13};
+    SearchForTest search(4U, 5U, unsortedValues);
+
+    EXPECT_EQ(72U, search.getNearestValue(33));
+}
+
+TEST(LinearSearchWithTwoIndicesTest, GetNearestValueWorksWithInitialIndexesWhenDistanceFromLowerToHigherIsTwo)
+{
+    ValuesForTest unsortedValues{43, 96, 53, 25, 95, 72, 6, 84, 14, 64, 33, 97, 51, 93, 13};
+    SearchForTest search(4U, 6U, unsortedValues);
+
+    EXPECT_EQ(6U, search.getNearestValue(33));
+}
+
 }
 
 }

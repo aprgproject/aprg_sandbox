@@ -20,17 +20,28 @@ public:
 
     LinearSearchWithOneIndex(Values const& values) // values can be unsorted
         : m_selectedIndex(INVALID_INDEX)
+        , m_startIndex(INVALID_INDEX)
+        , m_endIndex(INVALID_INDEX)
         , m_values(values)
-    {}
+    {
+        setInitialIndexes();
+    }
+
+    LinearSearchWithOneIndex(Index const lowerIndex, Index const higherIndex, Values const& sortedValues)
+        : m_selectedIndex(INVALID_INDEX)
+        , m_startIndex(INVALID_INDEX)
+        , m_endIndex(INVALID_INDEX)
+        , m_values(sortedValues)
+    {
+        setInitialIndexes(lowerIndex, higherIndex);
+    }
 
     Value getNearestValue(Value const& valueToCheck)
     {
-        Value result{};
-        findNearestValueAndSetIndex(valueToCheck);
+        Value result{};        findNearestValueAndSetIndex(valueToCheck);
         if(m_selectedIndex != INVALID_INDEX)
         {
-            result = m_values.at(m_selectedIndex);
-        }
+            result = m_values.at(m_selectedIndex);        }
         return result;
     }
 
@@ -42,38 +53,58 @@ public:
 
 private:
 
+    void setInitialIndexes()
+    {
+        if(!m_values.empty())
+        {
+            m_startIndex = 0U;
+            m_endIndex = m_values.size(); // half open interval
+        }
+    }
+
+    void setInitialIndexes(Index const lowerIndex, Index const higherIndex)
+    {
+        if(!m_values.empty())
+        {
+            m_startIndex = std::min(lowerIndex, m_values.size()-1);
+            m_endIndex = std::min(higherIndex+1U, m_values.size());  // half open interval
+        }
+    }
+
     void findNearestValueAndSetIndex(Value const& valueToCheck)
     {
-        Index index(0U);
-        Value minimumDeviation(std::numeric_limits<Value>::max());
-        for(Value const& value : m_values)
+        if(!m_values.empty())
         {
-            if(value == valueToCheck)
+            Value minimumDeviation(std::numeric_limits<Value>::max());
+            for(auto it=m_values.cbegin()+m_startIndex; it!=m_values.cbegin()+m_endIndex; it++)
             {
-                m_selectedIndex = index;
-                break;
-            }
-            else
-            {
-                Value currentDeviation(mathHelper::getPositiveDelta(value, valueToCheck));
-                if(minimumDeviation > currentDeviation)
+                Value value = *it;
+                if(value == valueToCheck)
                 {
-                    minimumDeviation = currentDeviation;
-                    m_selectedIndex = index;
+                    m_selectedIndex = std::distance(m_values.cbegin(), it);
+                    break;
+                }
+                else
+                {
+                    Value currentDeviation(mathHelper::getPositiveDelta(value, valueToCheck));
+                    if(minimumDeviation > currentDeviation)
+                    {
+                        minimumDeviation = currentDeviation;
+                        m_selectedIndex = std::distance(m_values.cbegin(), it);
+                    }
                 }
             }
-            index++;
         }
     }
 
     Index m_selectedIndex;
+    Index m_startIndex;
+    Index m_endIndex;
     Values const& m_values;
 };
-
 }
 
 }
-
 // A simple approach is to do a linear search, i.e
 // -> Start from the leftmost element of arr[] and one by one compare x with each element of arr[]
 // -> If x matches with an element, return the index.
