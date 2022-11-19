@@ -74,6 +74,14 @@ TEST(LinearSearchWithOneIndexTest, GetNearestValueWorksWithInitialIndexesWhenDis
     EXPECT_EQ(6U, search.getNearestValue(33));
 }
 
+TEST(LinearSearchWithOneIndexTest, GetNearestValueWithInitialIndexesWhenDistanceFromLowerToHigherIsOdd)
+{
+    ValuesForTest unsortedValues{6, 13, 14, 25, 33, 43, 51, 53, 64, 72, 84, 93, 95, 96, 97};
+    SearchForTest search(1U, 8U, unsortedValues);
+
+    EXPECT_EQ(33U, search.getNearestValue(33));
+}
+
 }
 
 }

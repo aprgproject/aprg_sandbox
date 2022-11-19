@@ -88,46 +88,20 @@ private:
 
     Value getNearestValueFromLowerAndHigherIndices(Value const& value) const
     {
-        Value result{};
         Value lowerValue(getLowerValueWithoutCheck());
         Value higherValue(getHigherValueWithoutCheck());
-        if(value == lowerValue)
-        {
-            result = lowerValue;
-        }
-        else if(value == higherValue)
-        {
-            result = higherValue;
-        }
-        else
-        {
-            Value deviationFromLower(mathHelper::getPositiveDelta(value, lowerValue));
-            Value deviationFromHigher(mathHelper::getPositiveDelta(value, higherValue));
-            result = (deviationFromLower <= deviationFromHigher) ? lowerValue : higherValue;
-        }
-        return result;
+        Value deviationFromLower(mathHelper::getPositiveDelta(value, lowerValue));
+        Value deviationFromHigher(mathHelper::getPositiveDelta(value, higherValue));
+        return (deviationFromLower <= deviationFromHigher) ? lowerValue : higherValue;
     }
 
     Index getIndexNearestValueFromLowerAndHigherIndices(Value const& value) const
     {
-        Index result(INVALID_INDEX);
         Value lowerValue(getLowerValueWithoutCheck());
         Value higherValue(getHigherValueWithoutCheck());
-        if(value == lowerValue)
-        {
-            result = m_lowerIndex;
-        }
-        else if(value == higherValue)
-        {
-            result = m_higherIndex;
-        }
-        else
-        {
-            Value deviationFromLower(mathHelper::getPositiveDelta(value, lowerValue));
-            Value deviationFromHigher(mathHelper::getPositiveDelta(value, higherValue));
-            result = (deviationFromLower <= deviationFromHigher) ? m_lowerIndex : m_higherIndex;
-        }
-        return result;
+        Value deviationFromLower(mathHelper::getPositiveDelta(value, lowerValue));
+        Value deviationFromHigher(mathHelper::getPositiveDelta(value, higherValue));
+        return (deviationFromLower <= deviationFromHigher) ? m_lowerIndex : m_higherIndex;
     }
 
     void setInitialIndexes()

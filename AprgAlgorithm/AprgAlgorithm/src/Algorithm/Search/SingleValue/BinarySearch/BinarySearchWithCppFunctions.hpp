@@ -70,42 +70,23 @@ private:
     Value getNearestValueUsingEqualRange(Value const& value) const
     {
         auto lowerAndUpperBoundItPair = containerHelper::getLowerAndUpperConstIteratorsForNonSet(m_sortedValues, value); // assumption is non set
-        Value result{};
         Value lowerBoundValue(*(lowerAndUpperBoundItPair.first));
-        if(value == lowerBoundValue)
-        {
-            result = value;
-        }
-        else
-        {
-            Value higherBoundValue(*(lowerAndUpperBoundItPair.second));
-            Value deviationFromLower(mathHelper::getPositiveDelta(value, lowerBoundValue));
-            Value deviationFromHigher(mathHelper::getPositiveDelta(value, higherBoundValue));
-            result = (deviationFromLower <= deviationFromHigher) ? lowerBoundValue : higherBoundValue;
-        }
-        return result;
+        Value higherBoundValue(*(lowerAndUpperBoundItPair.second));
+        Value deviationFromLower(mathHelper::getPositiveDelta(value, lowerBoundValue));
+        Value deviationFromHigher(mathHelper::getPositiveDelta(value, higherBoundValue));
+        return (deviationFromLower <= deviationFromHigher) ? lowerBoundValue : higherBoundValue;
     }
 
     Index getIndexOfNearestValueUsingEqualRange(Value const& value) const
     {
         auto lowerAndUpperBoundItPair = containerHelper::getLowerAndUpperConstIteratorsForNonSet(m_sortedValues, value); // assumption is non set
-        Index result(INVALID_INDEX);
-        Index lowerBoundIndex = std::distance(m_sortedValues.cbegin(), lowerAndUpperBoundItPair.first);
         Value lowerBoundValue(*(lowerAndUpperBoundItPair.first));
-        if(value == lowerBoundValue)
-        {
-            result = lowerBoundIndex;
-        }
-        else
-        {
-            Value higherBoundValue(*(lowerAndUpperBoundItPair.second));
-            Value deviationFromLower(mathHelper::getPositiveDelta(value, lowerBoundValue));
-            Value deviationFromHigher(mathHelper::getPositiveDelta(value, higherBoundValue));
-            result = (deviationFromLower <= deviationFromHigher)
-                    ? lowerBoundIndex
-                    : std::distance(m_sortedValues.cbegin(), lowerAndUpperBoundItPair.second);
-        }
-        return result;
+        Value higherBoundValue(*(lowerAndUpperBoundItPair.second));
+        Value deviationFromLower(mathHelper::getPositiveDelta(value, lowerBoundValue));
+        Value deviationFromHigher(mathHelper::getPositiveDelta(value, higherBoundValue));
+        return (deviationFromLower <= deviationFromHigher)
+                ? std::distance(m_sortedValues.cbegin(), lowerAndUpperBoundItPair.first)
+                : std::distance(m_sortedValues.cbegin(), lowerAndUpperBoundItPair.second);
     }
 
     Values const& m_sortedValues;

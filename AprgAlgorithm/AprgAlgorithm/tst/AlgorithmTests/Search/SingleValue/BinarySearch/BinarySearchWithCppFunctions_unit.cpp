@@ -58,6 +58,15 @@ TEST(BinarySearchWithCppFunctionsTest, GetIndexOfNearestValueWorksWhenNearestVal
     testGetIndexOfNearestValueWhenNearestValueIsHigherWithSortedUnsignedInts<SearchForTest, ValuesForTest>();
 }
 
+TEST(BinarySearchWithCppFunctionsTest, GetLowerBoundAndGetHigherBoundWorks)
+{
+    ValuesForTest sortedValues{6, 13, 14, 25, 33, 43, 51, 53, 64, 72, 84, 93, 95, 96, 97};
+    SearchForTest search(sortedValues);
+
+    EXPECT_EQ(43U, search.getLowerBound(34));
+    EXPECT_EQ(43U, search.getHigherBound(34));
+}
+
 }
 
 }

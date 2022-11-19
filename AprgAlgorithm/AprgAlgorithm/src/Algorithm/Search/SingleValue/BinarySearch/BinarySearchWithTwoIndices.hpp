@@ -38,27 +38,30 @@ public:
         if(!m_sortedValues.empty())
         {
             moveIndexesUntilCloseToValue(value);
-            result = getNearestValueFromLowerMiddleAndHigherIndices(value);
+            result = getNearestValueInBetweenTwoIndices(value);
         }
         return result;
     }
+
     Index getIndexOfNearestValue(Value const& value)
     {
         Index result(INVALID_INDEX);
         if(!m_sortedValues.empty())
         {
             moveIndexesUntilCloseToValue(value);
-            result = getIndexOfNearestValueFromLowerMiddleAndHigherIndices(value);
+            result = getIndexOfNearestValueInBetweenTwoIndices(value);
         }
         return result;
     }
 
     inline Index getLowerIndex() const
     {
-        return m_lowerIndex;    }
+        return m_lowerIndex;
+    }
 
     inline Index getHigherIndex() const
-    {        return m_higherIndex;
+    {
+        return m_higherIndex;
     }
 
     Value getLowerValue() const
@@ -103,35 +106,20 @@ private:
         return m_sortedValues.at(m_higherIndex);
     }
 
-    Value getNearestValueFromLowerMiddleAndHigherIndices(Value const& value) const
+    Value getNearestValueInBetweenTwoIndices(Value const& value) const
     {
-        Value result{};
-        if(value == getMiddleValueWithoutCheck())
-        {            result = value;
-        }
-        else
-        {            Value lowerValue(getLowerValueWithoutCheck());
-            Value higherValue(getHigherValueWithoutCheck());
-            Value deviationFromLower(mathHelper::getPositiveDelta(value, lowerValue));
-            Value deviationFromHigher(mathHelper::getPositiveDelta(value, higherValue));
-            result = (deviationFromLower <= deviationFromHigher) ? lowerValue : higherValue;
-        }
-        return result;
+        Value lowerValue(getLowerValueWithoutCheck());
+        Value higherValue(getHigherValueWithoutCheck());
+        Value deviationFromLower(mathHelper::getPositiveDelta(value, lowerValue));
+        Value deviationFromHigher(mathHelper::getPositiveDelta(value, higherValue));
+        return (deviationFromLower <= deviationFromHigher) ? lowerValue : higherValue;
     }
 
-    Index getIndexOfNearestValueFromLowerMiddleAndHigherIndices(Value const& value) const
+    Index getIndexOfNearestValueInBetweenTwoIndices(Value const& value) const
     {
-        Index result(INVALID_INDEX);
-        Index middleIndex(getMiddleIndex());        if(value == m_sortedValues.at(middleIndex))
-        {
-            result = middleIndex;
-        }        else
-        {
-            Value deviationFromLower(mathHelper::getPositiveDelta(value, getLowerValueWithoutCheck()));
-            Value deviationFromHigher(mathHelper::getPositiveDelta(value, getHigherValueWithoutCheck()));
-            result = (deviationFromLower <= deviationFromHigher) ? m_lowerIndex : m_higherIndex;
-        }
-        return result;
+        Value deviationFromLower(mathHelper::getPositiveDelta(value, m_sortedValues.at(m_lowerIndex)));
+        Value deviationFromHigher(mathHelper::getPositiveDelta(value, m_sortedValues.at(m_higherIndex)));
+        return (deviationFromLower <= deviationFromHigher) ? m_lowerIndex : m_higherIndex;
     }
 
     void setInitialIndexes()
@@ -142,6 +130,7 @@ private:
             m_higherIndex = m_sortedValues.size()-1; // fully closed interval
         }
     }
+
     void setInitialIndexes(Index const lowerIndex, Index const higherIndex)
     {
         if(!m_sortedValues.empty())
@@ -151,7 +140,8 @@ private:
             m_higherIndex = std::min(higherIndex, maxIndex); // fully closed interval
             if(m_lowerIndex > m_higherIndex)
             {
-                std::swap(m_lowerIndex, m_higherIndex);            }
+                std::swap(m_lowerIndex, m_higherIndex);
+            }
         }
     }
 
@@ -159,14 +149,14 @@ private:
     {
         if(!m_sortedValues.empty())
         {
-            moveIndexesCloserUntilDistanceIsLessThanOrEqualToTwo(value);
-            moveIndexesCloserWhenDistanceIsLessThanOrEqualToTwo(value);
+            moveIndexesCloserUntilDistanceIsLessThanOrEqualToOne(value);
+            moveIndexesCloserWhenValueIsBeyondTheIndices(value);
         }
     }
 
-    void moveIndexesCloserUntilDistanceIsLessThanOrEqualToTwo(Value const& value)
+    void moveIndexesCloserUntilDistanceIsLessThanOrEqualToOne(Value const& value)
     {
-        while(m_lowerIndex + 2U < m_higherIndex)
+        while(m_lowerIndex + 1U < m_higherIndex)
         {
             Index middleIndex(getMiddleIndex());
             Value middleValue(m_sortedValues.at(middleIndex));
@@ -180,26 +170,35 @@ private:
             {
                 m_lowerIndex = middleIndex+1;
             }
-            else if(value < middleValue)            {
+            else if(value < middleValue)
+            {
                 m_higherIndex = middleIndex-1;
+            }
+
+            if(value < m_sortedValues.at(m_lowerIndex))
+            {
+                m_higherIndex = m_lowerIndex--;
+                break;
+            }
+            else if(m_sortedValues.at(m_higherIndex) < value)
+            {
+                m_lowerIndex = m_higherIndex++;
+                break;
             }
         }
     }
-    void moveIndexesCloserWhenDistanceIsLessThanOrEqualToTwo(Value const& value)
+
+    void moveIndexesCloserWhenValueIsBeyondTheIndices(Value const& value)
     {
-        Index middleIndex(getMiddleIndex());        Value middleValue(m_sortedValues.at(middleIndex));
-        if(middleValue == value)
+        if(m_sortedValues.at(m_lowerIndex) > value)
         {
-            m_lowerIndex=middleIndex;
-            m_higherIndex=middleIndex;
+            m_higherIndex=m_lowerIndex;
         }
-        else if(middleValue < value)
+        else if(m_sortedValues.at(m_higherIndex) < value)
         {
-            m_lowerIndex=middleIndex;
-        }        else if(middleValue > value)
-        {
-            m_higherIndex=middleIndex;
-        }    }
+            m_lowerIndex=m_higherIndex;
+        }
+    }
 
     Index m_lowerIndex;
     Index m_higherIndex;

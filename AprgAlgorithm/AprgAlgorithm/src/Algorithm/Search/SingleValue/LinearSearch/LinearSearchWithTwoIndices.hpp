@@ -19,8 +19,7 @@ public:
     static constexpr Index INVALID_INDEX = std::numeric_limits<Index>::max();
 
     LinearSearchWithTwoIndices(Values const& values) // values can be unsorted
-        : m_selectedIndex(INVALID_INDEX)
-        , m_startIndex(INVALID_INDEX)
+        : m_startIndex(INVALID_INDEX)
         , m_endIndex(INVALID_INDEX)
         , m_values(values)
     {
@@ -28,8 +27,7 @@ public:
     }
 
     LinearSearchWithTwoIndices(Index const lowerIndex, Index const higherIndex, Values const& sortedValues)
-        : m_selectedIndex(INVALID_INDEX)
-        , m_startIndex(INVALID_INDEX)
+        : m_startIndex(INVALID_INDEX)
         , m_endIndex(INVALID_INDEX)
         , m_values(sortedValues)
     {
@@ -38,17 +36,55 @@ public:
 
     Value getNearestValue(Value const& valueToCheck)
     {
-        Value result{};        findNearestValueAndSetIndex(valueToCheck);
-        if(m_selectedIndex != INVALID_INDEX)
+        Value result{};
+        Index selectedIndex(getIndexOfNearestValue(valueToCheck));
+        if(selectedIndex != INVALID_INDEX)
         {
-            result = m_values.at(m_selectedIndex);        }
+            result = m_values.at(selectedIndex);
+        }
         return result;
     }
 
     Index getIndexOfNearestValue(Value const& valueToCheck)
     {
-        findNearestValueAndSetIndex(valueToCheck);
-        return m_selectedIndex;
+        Index result(INVALID_INDEX);
+        if(!m_values.empty())
+        {
+            Value minimumDeviation(std::numeric_limits<Value>::max());
+            for(auto itLower=m_values.cbegin()+m_startIndex, itHigher=m_values.cbegin()+m_endIndex;
+                itLower<itHigher;
+                itLower++, itHigher--)
+            {
+                Value valueAtLower = *itLower;
+                Value valueAtHigher = *itHigher;
+                if(valueAtLower == valueToCheck)
+                {
+                    result = std::distance(m_values.cbegin(), itLower);
+                    break;
+                }
+                else if(valueAtHigher == valueToCheck)
+                {
+                    result = std::distance(m_values.cbegin(), itHigher);
+                    break;
+                }
+                else
+                {
+                    Value deviationAtLower(mathHelper::getPositiveDelta(valueAtLower, valueToCheck));
+                    Value deviationAtHigher(mathHelper::getPositiveDelta(valueAtHigher, valueToCheck));
+                    if(deviationAtLower < deviationAtHigher && minimumDeviation > deviationAtLower)
+                    {
+                        minimumDeviation = deviationAtLower;
+                        result = std::distance(m_values.cbegin(), itLower);
+                    }
+                    else if(deviationAtLower > deviationAtHigher && minimumDeviation > deviationAtHigher)
+                    {
+                        minimumDeviation = deviationAtHigher;
+                        result = std::distance(m_values.cbegin(), itHigher);
+                    }
+                }
+            }
+        }
+        return result;
     }
 
 private:
@@ -75,53 +111,15 @@ private:
         }
     }
 
-    void findNearestValueAndSetIndex(Value const& valueToCheck)
-    {
-        if(!m_values.empty())
-        {
-            Value minimumDeviation(std::numeric_limits<Value>::max());
-            for(auto itLower=m_values.cbegin()+m_startIndex, itHigher=m_values.cbegin()+m_endIndex;
-                itLower<itHigher;
-                itLower++, itHigher--)
-            {
-                Value valueAtLower = *itLower;
-                Value valueAtHigher = *itHigher;
-                if(valueAtLower == valueToCheck)
-                {
-                    m_selectedIndex = std::distance(m_values.cbegin(), itLower);
-                    break;
-                }
-                else if(valueAtHigher == valueToCheck)
-                {
-                    m_selectedIndex = std::distance(m_values.cbegin(), itHigher);
-                    break;
-                }
-                else
-                {
-                    Value deviationAtLower(mathHelper::getPositiveDelta(valueAtLower, valueToCheck));
-                    Value deviationAtHigher(mathHelper::getPositiveDelta(valueAtHigher, valueToCheck));
-                    if(deviationAtLower < deviationAtHigher && minimumDeviation > deviationAtLower)
-                    {
-                        minimumDeviation = deviationAtLower;
-                        m_selectedIndex = std::distance(m_values.cbegin(), itLower);
-                    }
-                    else if(deviationAtLower > deviationAtHigher && minimumDeviation > deviationAtHigher)
-                    {
-                        minimumDeviation = deviationAtHigher;
-                        m_selectedIndex = std::distance(m_values.cbegin(), itHigher);
-                    }
-                }
-            }        }
-    }
-
-    Index m_selectedIndex;
     Index m_startIndex;
     Index m_endIndex;
     Values const& m_values;
 };
+
 }
 
 }
+
 // Improve Linear Search Worst-Case Complexity
 // if element Found at last  O(n) to O(1)
 // if element Not found O(n) to O(n/2) so still O(n)

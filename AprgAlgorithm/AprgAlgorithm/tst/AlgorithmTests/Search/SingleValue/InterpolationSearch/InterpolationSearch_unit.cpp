@@ -58,6 +58,30 @@ TEST(InterpolationSearchTest, GetIndexOfNearestValueWorksWhenNearestValueIsHighe
     testGetIndexOfNearestValueWhenNearestValueIsHigherWithSortedUnsignedInts<SearchForTest, ValuesForTest>();
 }
 
+TEST(InterpolationSearchTest, GetNearestValueWorksWithInitialIndexesWhenDistanceFromLowerToHigherIsOne)
+{
+    ValuesForTest sortedValues{6, 13, 14, 25, 33, 43, 51, 53, 64, 72, 84, 93, 95, 96, 97};
+    SearchForTest search(5U, 6U, sortedValues);
+
+    EXPECT_EQ(43U, search.getNearestValue(33));
+}
+
+TEST(InterpolationSearchTest, GetNearestValueWithInitialIndexesWhenDistanceFromLowerToHigherIsTwo)
+{
+    ValuesForTest sortedValues{6, 13, 14, 25, 33, 43, 51, 53, 64, 72, 84, 93, 95, 96, 97};
+    SearchForTest search(3U, 5U, sortedValues);
+
+    EXPECT_EQ(33U, search.getNearestValue(33));
+}
+
+TEST(InterpolationSearchTest, GetNearestValueWithInitialIndexesWhenDistanceFromLowerToHigherIsOdd)
+{
+    ValuesForTest sortedValues{6, 13, 14, 25, 33, 43, 51, 53, 64, 72, 84, 93, 95, 96, 97};
+    SearchForTest search(1U, 8U, sortedValues);
+
+    EXPECT_EQ(33U, search.getNearestValue(33));
+}
+
 }
 
 }

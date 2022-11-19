@@ -60,38 +60,20 @@ private:
 
     Value getNearestValueFromLowerBoundIndex(Value const& value, Index const lowerIndex) const
     {
-        Value result{};
         Value lowerBoundValue(m_sortedValues.at(lowerIndex));
-        if(value == lowerBoundValue)
-        {
-            result = value;
-        }
-        else
-        {
-            Value higherBoundValue(m_sortedValues.at(getHigherIndex(lowerIndex)));
-            Value deviationFromLower(mathHelper::getPositiveDelta(value, lowerBoundValue));
-            Value deviationFromHigher(mathHelper::getPositiveDelta(value, higherBoundValue));
-            result = (deviationFromLower <= deviationFromHigher) ? lowerBoundValue : higherBoundValue;
-        }
-        return result;
+        Value higherBoundValue(m_sortedValues.at(getHigherIndex(lowerIndex)));
+        Value deviationFromLower(mathHelper::getPositiveDelta(value, lowerBoundValue));
+        Value deviationFromHigher(mathHelper::getPositiveDelta(value, higherBoundValue));
+        return (deviationFromLower <= deviationFromHigher) ? lowerBoundValue : higherBoundValue;
     }
 
     Index getIndexOfNearestValueFromLowerIndex(Value const& value, Index const lowerIndex) const
     {
-        Index result(INVALID_INDEX);
         Value lowerBoundValue(m_sortedValues.at(lowerIndex));
-        if(value == lowerBoundValue)
-        {
-            result = lowerIndex;
-        }
-        else
-        {
-            Value higherIndex(getHigherIndex(lowerIndex));
-            Value deviationFromLower(mathHelper::getPositiveDelta(value, lowerBoundValue));
-            Value deviationFromHigher(mathHelper::getPositiveDelta(value, m_sortedValues.at(higherIndex)));
-            result = (deviationFromLower <= deviationFromHigher) ? lowerIndex : higherIndex;
-        }
-        return result;
+        Value higherIndex(getHigherIndex(lowerIndex));
+        Value deviationFromLower(mathHelper::getPositiveDelta(value, lowerBoundValue));
+        Value deviationFromHigher(mathHelper::getPositiveDelta(value, m_sortedValues.at(higherIndex)));
+        return (deviationFromLower <= deviationFromHigher) ? lowerIndex : higherIndex;
     }
 
     Index getHigherIndex(Index const lowerIndex) const
