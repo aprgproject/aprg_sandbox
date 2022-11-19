@@ -65,11 +65,13 @@ public:
 
     inline Index getLowerIndex() const
     {
-        return m_lowerIndex;    }
+        return m_lowerIndex;
+    }
 
     inline Index getHigherIndex() const
     {
-        return m_higherIndex;    }
+        return m_higherIndex;
+    }
 
     Value getLowerValue() const
     {
@@ -114,10 +116,12 @@ public:
         Index result(INVALID_INDEX);
         Index middleIndex(getMiddleIndex());
         if(value == m_sortedValues.at(middleIndex))
-        {            result = middleIndex;
+        {
+            result = middleIndex;
         }
         else
-        {            Value deviationFromLower(mathHelper::getPositiveDelta(value, getLowerValueWithoutCheck()));
+        {
+            Value deviationFromLower(mathHelper::getPositiveDelta(value, getLowerValueWithoutCheck()));
             Value deviationFromHigher(mathHelper::getPositiveDelta(value, getHigherValueWithoutCheck()));
             result = (deviationFromLower <= deviationFromHigher) ? m_lowerIndex : m_higherIndex;
         }
@@ -164,17 +168,20 @@ private:
             m_higherIndex = std::min(higherIndex, maxIndex);
             if(m_lowerIndex > m_higherIndex)
             {
-                std::swap(m_lowerIndex, m_higherIndex);            }
+                std::swap(m_lowerIndex, m_higherIndex);
+            }
         }
     }
 
     void moveIndexesCloserUntilDistanceIsLessThanOrEqualToTwo(Value const& value)
     {
         while(m_higherIndex-m_lowerIndex > 2)
-        {            Index middleIndex(getMiddleIndex());
+        {
+            Index middleIndex(getMiddleIndex());
             Value middleValue(m_sortedValues.at(middleIndex));
             if(value > middleValue)
-            {                m_lowerIndex = middleIndex+1;
+            {
+                m_lowerIndex = middleIndex+1;
             }
             else if(value < middleValue)
             {
@@ -191,10 +198,12 @@ private:
     void moveIndexesCloserWhenDistanceIsLessThanOrEqualToTwo(Value const& value)
     {
         Index middleIndex(getMiddleIndex());
-        Value middleValue(m_sortedValues.at(middleIndex));        if(middleValue == value)
+        Value middleValue(m_sortedValues.at(middleIndex));
+        if(middleValue == value)
         {
             m_lowerIndex=middleIndex;
-            m_higherIndex=middleIndex;        }
+            m_higherIndex=middleIndex;
+        }
         if(middleValue < value)
         {
             m_lowerIndex=middleIndex;

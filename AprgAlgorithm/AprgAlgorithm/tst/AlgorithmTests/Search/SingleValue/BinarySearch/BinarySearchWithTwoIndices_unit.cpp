@@ -1,15 +1,17 @@
-#include <Algorithm/Search/BinarySearch/BinarySearchWithTwoIndices.hpp>
-#include <AlgorithmTests/Search/Utilities/CommonTestsWithSearch.hpp>
+#include <Algorithm/Search/SingleValue/BinarySearch/BinarySearchWithTwoIndices.hpp>
+#include <AlgorithmTests/Search/SingleValue/Utilities/CommonTestsWithSearch.hpp>
 
 #include <gtest/gtest.h>
 
 using namespace alba::algorithm::CommonTestsWithSearch;
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 namespace algorithm
 {
+
 namespace
 {
 using ValuesForTest = vector<unsigned int>;
@@ -148,4 +150,5 @@ TEST(BinarySearchWithTwoIndicesTest, SearchWorksWithInitialIndexesWhenDistanceFr
 }
 
 }
+
 }

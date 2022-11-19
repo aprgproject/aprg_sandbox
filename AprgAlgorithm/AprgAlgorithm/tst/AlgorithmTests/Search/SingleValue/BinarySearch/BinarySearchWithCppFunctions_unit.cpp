@@ -1,60 +1,63 @@
-#include <Algorithm/Search/BinarySearch/BinarySearchWithSkip.hpp>
-#include <AlgorithmTests/Search/Utilities/CommonTestsWithSearch.hpp>
+#include <Algorithm/Search/SingleValue/BinarySearch/BinarySearchWithCppFunctions.hpp>
+#include <AlgorithmTests/Search/SingleValue/Utilities/CommonTestsWithSearch.hpp>
 
 #include <gtest/gtest.h>
 
 using namespace alba::algorithm::CommonTestsWithSearch;
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 namespace algorithm
 {
+
 namespace
 {
 using ValuesForTest = vector<unsigned int>;
-using SearchForTest = BinarySearchWithSkip<ValuesForTest>;
+using SearchForTest = BinarySearchWithCppFunctions<ValuesForTest>;
 }
 
-TEST(BinarySearchWithSkipTest, GetNearestValueWorksAndDoesNotCrashWhenEmpty)
+TEST(BinarySearchWithCppFunctionsTest, GetNearestValueWorksAndDoesNotCrashWhenEmpty)
 {
     testGetNearestValueDoesNotCrashWithEmptyUnsignedInts<SearchForTest, ValuesForTest>();
 }
 
-TEST(BinarySearchWithSkipTest, GetNearestValueWorks)
+TEST(BinarySearchWithCppFunctionsTest, GetNearestValueWorks)
 {
     testGetNearestValueWithSortedUnsignedInts<SearchForTest, ValuesForTest>();
 }
 
-TEST(BinarySearchWithSkipTest, GetNearestValueWorksWhenNearestValueIsLower)
+TEST(BinarySearchWithCppFunctionsTest, GetNearestValueWorksWhenNearestValueIsLower)
 {
     testGetNearestValueWhenNearestValueIsLowerWithSortedUnsignedInts<SearchForTest, ValuesForTest>();
 }
 
-TEST(BinarySearchWithSkipTest, GetNearestValueWorksWhenNearestValueIsHigher)
+TEST(BinarySearchWithCppFunctionsTest, GetNearestValueWorksWhenNearestValueIsHigher)
 {
     testGetNearestValueWhenNearestValueIsHigherWithSortedUnsignedInts<SearchForTest, ValuesForTest>();
 }
 
-TEST(BinarySearchWithSkipTest, GetIndexOfNearestValueWorksAndDoesNotCrashWhenEmpty)
+TEST(BinarySearchWithCppFunctionsTest, GetIndexOfNearestValueWorksAndDoesNotCrashWhenEmpty)
 {
     testGetIndexOfNearestValueDoesNotCrashWithEmptyUnsignedInts<SearchForTest, ValuesForTest>();
 }
 
-TEST(BinarySearchWithSkipTest, GetIndexOfNearestValueWorks)
+TEST(BinarySearchWithCppFunctionsTest, GetIndexOfNearestValueWorks)
 {
     testGetIndexOfNearestValueWithSortedUnsignedInts<SearchForTest, ValuesForTest>();
 }
 
-TEST(BinarySearchWithSkipTest, GetIndexOfNearestValueWorksWhenNearestValueIsLower)
+TEST(BinarySearchWithCppFunctionsTest, GetIndexOfNearestValueWorksWhenNearestValueIsLower)
 {
     testGetIndexOfNearestValueWhenNearestValueIsLowerWithSortedUnsignedInts<SearchForTest, ValuesForTest>();
 }
 
-TEST(BinarySearchWithSkipTest, GetIndexOfNearestValueWorksWhenNearestValueIsHigher)
+TEST(BinarySearchWithCppFunctionsTest, GetIndexOfNearestValueWorksWhenNearestValueIsHigher)
 {
     testGetIndexOfNearestValueWhenNearestValueIsHigherWithSortedUnsignedInts<SearchForTest, ValuesForTest>();
 }
 
 }
+
 }

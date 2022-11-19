@@ -1,4 +1,4 @@
-#include <Algorithm/Search/BinarySearch/FindSmallestValueWithTrue.hpp>
+#include <Algorithm/Search/SingleValue/BinarySearch/FindSmallestValueWithTrue.hpp>
 
 #include <gtest/gtest.h>
 
