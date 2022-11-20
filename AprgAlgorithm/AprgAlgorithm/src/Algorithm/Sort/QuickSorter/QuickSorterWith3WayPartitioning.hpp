@@ -58,6 +58,10 @@ private:
     }
 };
 
+}
+
+}
+
 // The motivation of this algorithm is to handle items with duplicate keys more efficiently. (compared to original quick sort algorithm)
 // Put the equal items in place and focus(sort/partition) on items that are not equal.
 
@@ -87,7 +91,3 @@ private:
 // -> Now widely used: C C++ Java
 // -> Solid right? NO! A killer input exists that causes a stack overflow and crashes the program and would take quadratic if if didnt crash.
 // ---> This is because there is no shuffling done.
-
-}
-
-}

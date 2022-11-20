@@ -15,6 +15,10 @@ public:
     virtual void sort(Values & valuesToSort) const = 0;
 };
 
+}
+
+}
+
 // Applications
 // Obvious:
 // -> Sort a list of names
@@ -44,7 +48,3 @@ public:
 // -> Initially random ordered?
 // -> Need a performance guarantee?
 // No sorting algorithm out there that covers all attributes. Usually system sort is good enough.
-
-}
-
-}

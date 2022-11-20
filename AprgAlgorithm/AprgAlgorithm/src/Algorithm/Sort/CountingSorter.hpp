@@ -32,6 +32,10 @@ public:
     }
 };
 
+}
+
+}
+
 // This is a linear algorithm
 // This algorithm depends on values as indices so the max value corresponds to the space cost
 
@@ -50,7 +54,3 @@ public:
 // Thus, the total time complexity of counting sort is O(n).
 // Counting sort is a very efficient algorithm but it can only be used when the constant c is small enough,
 // so that the array elements can be used as indices in the bookkeeping array.
-
-}
-
-}

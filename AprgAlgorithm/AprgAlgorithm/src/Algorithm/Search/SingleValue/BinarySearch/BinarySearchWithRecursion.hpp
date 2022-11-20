@@ -86,10 +86,12 @@ private:
                 result = getIndexOfNearestValueWithoutCheck(lowerIndex, middleIndex-1, value);
             }
         }
-        return result;    }
+        return result;
+    }
 
     Index getIndexOfNearestValueInBetweenTwoIndices(Index const lowerIndex, Index const higherIndex, Value const& value) const
-    {        Value deviationFromLower(mathHelper::getPositiveDelta(value, m_sortedValues.at(lowerIndex)));
+    {
+        Value deviationFromLower(mathHelper::getPositiveDelta(value, m_sortedValues.at(lowerIndex)));
         Value deviationFromHigher(mathHelper::getPositiveDelta(value, m_sortedValues.at(higherIndex)));
         return (deviationFromLower <= deviationFromHigher) ? lowerIndex : higherIndex;
     }
