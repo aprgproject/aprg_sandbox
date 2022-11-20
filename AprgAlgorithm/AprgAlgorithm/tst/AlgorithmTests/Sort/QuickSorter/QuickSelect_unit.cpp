@@ -12,27 +12,37 @@ namespace algorithm
 
 namespace
 {
-using ValuesForTest = vector<char>;
-using SelectForTest = QuickSelect<ValuesForTest>;
+using Characters = vector<char>;
+using Integers = vector<int>;
+using CharacterSelect = QuickSelect<Characters>;
+using IntegerSelect = QuickSelect<Integers>;
 }
 
 TEST(QuickSelectTest, DoNthElementWorksOnCharactersUsingExample1)
 {
-    SelectForTest select;
-    ValuesForTest valuesToTest{'S', 'O', 'R', 'T', 'E', 'X', 'A', 'M', 'P', 'L', 'E'};
+    CharacterSelect select;
+    Characters valuesToTest{'S', 'O', 'R', 'T', 'E', 'X', 'A', 'M', 'P', 'L', 'E'};
 
     select.doNthElement(valuesToTest, 5);
 
-    ValuesForTest valuesToExpect{'A', 'L', 'M', 'E', 'E', 'O', 'P', 'R', 'S', 'X', 'T'};
+    Characters valuesToExpect{'A', 'L', 'M', 'E', 'E', 'O', 'P', 'R', 'S', 'X', 'T'};
     EXPECT_EQ(valuesToExpect, valuesToTest);
 }
 
 TEST(QuickSelectTest, GetNthSelectWorksOnCharactersUsingExample1)
 {
-    SelectForTest select;
-    ValuesForTest valuesToTest{'S', 'O', 'R', 'T', 'E', 'X', 'A', 'M', 'P', 'L', 'E'};
+    CharacterSelect select;
+    Characters valuesToTest{'S', 'O', 'R', 'T', 'E', 'X', 'A', 'M', 'P', 'L', 'E'};
 
     EXPECT_EQ('O', select.getNthSelect(valuesToTest, 5));
+}
+
+TEST(QuickSelectTest, GetNthSelectWorksOnPositiveAndNegativeIntegersUsingExample1)
+{
+    IntegerSelect select;
+    Integers valuesToTest{-5, -10, 0, -3, 8, 5, -1, 10};
+
+    EXPECT_EQ(-1, select.getNthSelect(valuesToTest, 3));
 }
 
 }

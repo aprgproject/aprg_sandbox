@@ -14,18 +14,25 @@ namespace algorithm
 
 namespace
 {
-using ValuesForTest = vector<char>;
-using SorterForTest = TopDownMergeSorter<ValuesForTest>;
+using Characters = vector<char>;
+using Integers = vector<int>;
+using CharacterSorter = TopDownMergeSorter<Characters>;
+using IntegerSorter = TopDownMergeSorter<Integers>;
 }
 
 TEST(TopDownMergeSorterTest, SortWorksOnCharactersUsingExample1)
 {
-    testSortUsingExample1WithCharacters<SorterForTest, ValuesForTest>();
+    testSortUsingExample1WithCharacters<CharacterSorter, Characters>();
 }
 
 TEST(TopDownMergeSorterTest, SortWorksOnCharactersUsingExample2)
 {
-    testSortUsingExample2WithCharacters<SorterForTest, ValuesForTest>();
+    testSortUsingExample2WithCharacters<CharacterSorter, Characters>();
+}
+
+TEST(TopDownMergeSorterTest, SortWorksOnPositiveAndNegativeIntegersUsingExample1)
+{
+    testSortUsingExample1WithPositiveAndNegativeIntegers<IntegerSorter, Integers>();
 }
 
 }

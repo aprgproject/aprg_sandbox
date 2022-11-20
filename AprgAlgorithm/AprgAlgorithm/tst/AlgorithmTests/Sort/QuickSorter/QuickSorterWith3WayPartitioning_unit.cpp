@@ -14,18 +14,25 @@ namespace algorithm
 
 namespace
 {
-using ValuesForTest = vector<char>;
-using SorterForTest = QuickSorterWith3WayPartitioning<ValuesForTest>;
+using Characters = vector<char>;
+using Integers = vector<int>;
+using CharacterSorter = QuickSorterWith3WayPartitioning<Characters>;
+using IntegerSorter = QuickSorterWith3WayPartitioning<Integers>;
 }
 
 TEST(QuickSorterWith3WayPartitioningTest, SortWorksOnCharactersUsingExample1)
 {
-    testSortUsingExample1WithCharacters<SorterForTest, ValuesForTest>();
+    testSortUsingExample1WithCharacters<CharacterSorter, Characters>();
 }
 
 TEST(QuickSorterWith3WayPartitioningTest, SortWorksOnCharactersUsingExample2)
 {
-    testSortUsingExample2WithCharacters<SorterForTest, ValuesForTest>();
+    testSortUsingExample2WithCharacters<CharacterSorter, Characters>();
+}
+
+TEST(QuickSorterWith3WayPartitioningTest, SortWorksOnPositiveAndNegativeIntegersUsingExample1)
+{
+    testSortUsingExample1WithPositiveAndNegativeIntegers<IntegerSorter, Integers>();
 }
 
 }

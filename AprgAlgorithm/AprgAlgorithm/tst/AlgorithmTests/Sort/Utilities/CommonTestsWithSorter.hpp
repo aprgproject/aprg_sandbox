@@ -37,6 +37,18 @@ void testSortUsingExample2WithCharacters()
     EXPECT_EQ(valuesToExpect, valuesToTest);
 }
 
+template <typename Sorter, typename Values>
+void testSortUsingExample1WithPositiveAndNegativeIntegers()
+{
+    Sorter sorter;
+    Values valuesToTest{-5, -10, 0, -3, 8, 5, -1, 10};
+
+    sorter.sort(valuesToTest);
+
+    Values valuesToExpect{-10, -5, -3, -1, 0, 5, 8, 10};
+    EXPECT_EQ(valuesToExpect, valuesToTest);
+}
+
 }
 
 }

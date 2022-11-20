@@ -4,6 +4,7 @@
 
 namespace alba
 {
+
 namespace algorithm
 {
 
@@ -15,23 +16,30 @@ public:
 
     void sort(Values & valuesToSort) const override
     {
-        ArrayOfCountPerValue countPerValue{}; // important to initialize to zero        for(auto const& value : valuesToSort)
+        ArrayOfCountPerValue countPerValue{}; // important to initialize to zero
+        for(auto const& value : valuesToSort)
         {
-            countPerValue[value]++; // count each value
+            countPerValue[convertValueToIndexableValue(value)]++; // count each value
         }
 
         unsigned int i=0;
-        for(unsigned int value=0; value<countPerValue.size(); value++) // Linear because i runs on valuesToSort.size()
+        for(unsigned int indexableValue=0; indexableValue<countPerValue.size(); indexableValue++) // Linear because i runs on valuesToSort.size()
         {
-            for(unsigned int currentCount=0; currentCount<countPerValue.at(value); currentCount++)
+            for(unsigned int currentCount=0; currentCount<countPerValue.at(indexableValue); currentCount++)
             {
-                valuesToSort[i++] = static_cast<Value>(value); // put the value multiple times depending on the current count
+                valuesToSort[i++] = convertIndexableValueToValue(indexableValue); // put the value multiple times depending on the current count
             }
         }
-    }};
+    }
+
+private:
+
+    // index compression
+    unsigned int convertValueToIndexableValue(Value const& value) const; // Implementation will be provided by the user
+    Value convertIndexableValueToValue(unsigned int const indexableValue) const; // Implementation will be provided by the user
+};
 
 }
-
 }
 
 // This is a linear algorithm
@@ -52,3 +60,5 @@ public:
 // Thus, the total time complexity of counting sort is O(n).
 // Counting sort is a very efficient algorithm but it can only be used when the constant c is small enough,
 // so that the array elements can be used as indices in the bookkeeping array.
+
+// Improvement: Index compression (IMPLEMENTED ABOVE) is used to handle non-indexable values (such as negative integers).

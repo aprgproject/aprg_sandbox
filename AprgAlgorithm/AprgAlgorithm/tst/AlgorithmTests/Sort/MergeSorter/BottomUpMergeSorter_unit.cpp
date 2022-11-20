@@ -14,18 +14,25 @@ namespace algorithm
 
 namespace
 {
-using ValuesForTest = vector<char>;
-using SorterForTest = BottomUpMergeSorter<ValuesForTest>;
+using Characters = vector<char>;
+using Integers = vector<int>;
+using CharacterSorter = BottomUpMergeSorter<Characters>;
+using IntegerSorter = BottomUpMergeSorter<Integers>;
 }
 
 TEST(BottomUpMergeSorterTest, SortWorksOnCharactersUsingExample1)
 {
-    testSortUsingExample1WithCharacters<SorterForTest, ValuesForTest>();
+    testSortUsingExample1WithCharacters<CharacterSorter, Characters>();
 }
 
 TEST(BottomUpMergeSorterTest, SortWorksOnCharactersUsingExample2)
 {
-    testSortUsingExample2WithCharacters<SorterForTest, ValuesForTest>();
+    testSortUsingExample2WithCharacters<CharacterSorter, Characters>();
+}
+
+TEST(BottomUpMergeSorterTest, SortWorksOnPositiveAndNegativeIntegersUsingExample1)
+{
+    testSortUsingExample1WithPositiveAndNegativeIntegers<IntegerSorter, Integers>();
 }
 
 }

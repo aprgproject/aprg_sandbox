@@ -14,18 +14,25 @@ namespace algorithm
 
 namespace
 {
-using ValuesForTest = vector<char>;
-using SorterForTest = QuickSorter<ValuesForTest>;
+using Characters = vector<char>;
+using Integers = vector<int>;
+using CharacterSorter = QuickSorter<Characters>;
+using IntegerSorter = QuickSorter<Integers>;
 }
 
 TEST(QuickSorterTest, SortWorksOnCharactersUsingExample1)
 {
-    testSortUsingExample1WithCharacters<SorterForTest, ValuesForTest>();
+    testSortUsingExample1WithCharacters<CharacterSorter, Characters>();
 }
 
 TEST(QuickSorterTest, SortWorksOnCharactersUsingExample2)
 {
-    testSortUsingExample2WithCharacters<SorterForTest, ValuesForTest>();
+    testSortUsingExample2WithCharacters<CharacterSorter, Characters>();
+}
+
+TEST(QuickSorterTest, SortWorksOnPositiveAndNegativeIntegersUsingExample1)
+{
+    testSortUsingExample1WithPositiveAndNegativeIntegers<IntegerSorter, Integers>();
 }
 
 }

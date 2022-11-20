@@ -14,18 +14,25 @@ namespace algorithm
 
 namespace
 {
-using ValuesForTest = vector<char>;
-using SorterForTest = BubbleSorter<ValuesForTest>;
+using Characters = vector<char>;
+using Integers = vector<int>;
+using CharacterSorter = BubbleSorter<Characters>;
+using IntegerSorter = BubbleSorter<Integers>;
 }
 
 TEST(BubbleSorterTest, SortWorksOnCharactersUsingExample1)
 {
-    testSortUsingExample1WithCharacters<SorterForTest, ValuesForTest>();
+    testSortUsingExample1WithCharacters<CharacterSorter, Characters>();
 }
 
 TEST(BubbleSorterTest, SortWorksOnCharactersUsingExample2)
 {
-    testSortUsingExample2WithCharacters<SorterForTest, ValuesForTest>();
+    testSortUsingExample2WithCharacters<CharacterSorter, Characters>();
+}
+
+TEST(BubbleSorterTest, SortWorksOnPositiveAndNegativeIntegersUsingExample1)
+{
+    testSortUsingExample1WithPositiveAndNegativeIntegers<IntegerSorter, Integers>();
 }
 
 }
