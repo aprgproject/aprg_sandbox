@@ -58,13 +58,12 @@ private:
         // 2) [0][0][cumulate with a][cumulate with c][cumulate with c]...
         // 3) [0][a starting index][b starting index][c starting index][d starting index]...
         // 4) [a low index][b low index (a high index-1)][c low index (b high index-1)][d low index (c high index-1)]...
+
         unsigned int limit(std::min(highStringIndex+1, stringsToSort.size()));
         for(unsigned int i=lowStringIndex; i<limit; i++) // starts at low string index and ends at high string index
-        {
-            frequencyOfEachCharacter[getCharacterAtIfPossible(stringsToSort.at(i), digitIndex)+2]++;
+        {            frequencyOfEachCharacter[getCharacterAtIfPossible(stringsToSort.at(i), digitIndex)+2]++;
         }
     }
-
     void computeCumulatesToGetNewIndexes(
             ArrayOfFrequencies & newIndexes) const
     {

@@ -1,4 +1,4 @@
-#include <Algorithm/Sort/CountingSorter.hpp>
+#include <Algorithm/Sort/BubbleSorter.hpp>
 #include <AlgorithmTests/Sort/Utilities/CommonTestsWithSorter.hpp>
 
 #include <gtest/gtest.h>
@@ -15,16 +15,15 @@ namespace algorithm
 namespace
 {
 using ValuesForTest = vector<char>;
-using ArrayOfCountPerCharacter = array<unsigned int, 256>;
-using SorterForTest = CountingSorter<ValuesForTest, ArrayOfCountPerCharacter>;
+using SorterForTest = BubbleSorter<ValuesForTest>;
 }
 
-TEST(CountingSorterTest, SortWorksOnCharactersUsingExample1)
+TEST(BubbleSorterTest, SortWorksOnCharactersUsingExample1)
 {
     testSortUsingExample1WithCharacters<SorterForTest, ValuesForTest>();
 }
 
-TEST(CountingSorterTest, SortWorksOnCharactersUsingExample2)
+TEST(BubbleSorterTest, SortWorksOnCharactersUsingExample2)
 {
     testSortUsingExample2WithCharacters<SorterForTest, ValuesForTest>();
 }

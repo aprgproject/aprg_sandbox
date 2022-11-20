@@ -49,13 +49,12 @@ private:
         // 1) [0][a count][b count][c count]...
         // 2) [0][cumulate with a][cumulate with b][cumulate with c]...
         // 3) [a starting index][b starting index][c starting index][d starting index]...
+
         unsigned int numberOfStrings(stringsToSort.size());
         for(unsigned int i=0; i<numberOfStrings; i++)
-        {
-            frequencyOfEachCharacter[getCharacterAtIfPossible(stringsToSort.at(i), digitIndex)+1]++;
+        {            frequencyOfEachCharacter[getCharacterAtIfPossible(stringsToSort.at(i), digitIndex)+1]++;
         }
     }
-
     void computeCumulatesToGetNewIndexes(
             ArrayOfFrequencies & newIndexes) const
     {
