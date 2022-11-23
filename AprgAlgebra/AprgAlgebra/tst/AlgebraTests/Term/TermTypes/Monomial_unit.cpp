@@ -172,29 +172,9 @@ TEST(MonomialTest, GetExponentForVariableWorks)
     EXPECT_DOUBLE_EQ(0, monomial2.getExponentForVariable("z").getDouble());
 }
 
-TEST(MonomialTest, GetDisplayableStringWorks)
-{
-    Monomial monomial1;
-    Monomial monomial2(-54, {{"x", 6}, {"y", -1.25}});
-    Monomial monomial3(-54, {{"x", 6}});
-    Monomial monomial4(-54, {{"x", 1}});
-    Monomial monomial5(0, {{"x", 1}});
-    Monomial monomial6(1, {{"x", 1}});
-    Monomial monomial7(1, {});
-
-    EXPECT_EQ("0", monomial1.getDisplayableString());
-    EXPECT_EQ("-54[x^6][y^-1.25]", monomial2.getDisplayableString());
-    EXPECT_EQ("-54[x^6]", monomial3.getDisplayableString());
-    EXPECT_EQ("-54[x]", monomial4.getDisplayableString());
-    EXPECT_EQ("0[x]", monomial5.getDisplayableString());
-    EXPECT_EQ("1[x]", monomial6.getDisplayableString());
-    EXPECT_EQ("1", monomial7.getDisplayableString());
-}
-
 TEST(MonomialTest, ClearWorks)
 {
-    Monomial monomial1;
-    Monomial monomial2(1, {{"x", 1}});
+    Monomial monomial1;    Monomial monomial2(1, {{"x", 1}});
 
     monomial1.clear();
     monomial2.clear();
@@ -418,6 +398,23 @@ TEST(MonomialTest, ClearSimplifiedFlagWorks)
     monomial.clearSimplifiedFlag();
 
     EXPECT_FALSE(monomial.isSimplified());
+}
+
+TEST(MonomialTest, OutputStreamOperatorWorks)
+{
+    stringstream ss;
+    Monomial monomial1;
+    Monomial monomial2(-54, {{"x", 6}, {"y", -1.25}});
+    Monomial monomial3(-54, {{"x", 6}});
+    Monomial monomial4(-54, {{"x", 1}});
+    Monomial monomial5(0, {{"x", 1}});
+    Monomial monomial6(1, {{"x", 1}});
+    Monomial monomial7(1, {});
+
+    ss << monomial1 << "," << monomial2 << "," << monomial3 << "," << monomial4 << ","
+       << monomial5 << "," << monomial6 << "," << monomial7;
+
+    EXPECT_EQ("0,-54[x^6][y^-1.25],-54[x^6],-54[x],0[x],1[x],1", ss.str());
 }
 
 }

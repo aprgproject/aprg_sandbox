@@ -1,9 +1,9 @@
 #include "MultipleVariableSolutionSet.hpp"
 
 #include <algorithm>
+#include <sstream>
 
 using namespace std;
-
 namespace alba
 {
 
@@ -32,11 +32,10 @@ string MultipleVariableSolutionSet::getDisplayableString() const
     stringstream result;
     for(auto const& pair : m_variableNameToSolutionSetMap)
     {
-        result << "Variable:{" << pair.first << "} SolutionSet:{" << pair.second << "} ";
+        result << "Variable:{" << pair.first << "} SolutionSet:{" << pair.second << "}" << endl;
     }
     return result.str();
 }
-
 VariableNamesSet MultipleVariableSolutionSet::getVariableNames() const
 {
     VariableNamesSet result;
@@ -69,12 +68,6 @@ void MultipleVariableSolutionSet::addSolutionSetForVariable(
         SolutionSet const& solutionSet)
 {
     m_variableNameToSolutionSetMap[variableName] = solutionSet;
-}
-
-ostream & operator<<(ostream & out, MultipleVariableSolutionSet const& solutionSet)
-{
-    out << solutionSet.getDisplayableString();
-    return out;
 }
 
 }

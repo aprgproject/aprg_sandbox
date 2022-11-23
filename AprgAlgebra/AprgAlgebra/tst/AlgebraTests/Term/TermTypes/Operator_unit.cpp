@@ -286,33 +286,9 @@ TEST(OperatorTest, GetOperatorStringValueWorks)
     EXPECT_EQ("invalid", invalidOperator.getOperatorString());
 }
 
-TEST(OperatorTest, GetDisplayableStringWorks)
-{
-    Operator nullOperator;
-    Operator addOperator("+");
-    Operator subtractOperator("-");
-    Operator multiplyOperator("*");
-    Operator divideOperator("/");
-    Operator raiseToPowerOperator("^");
-    Operator openingGroupOperator("(");
-    Operator closingGroupOperator(")");
-    Operator invalidOperator("invalid");
-
-    EXPECT_TRUE(nullOperator.getDisplayableString().empty());
-    EXPECT_EQ("+", addOperator.getDisplayableString());
-    EXPECT_EQ("-", subtractOperator.getDisplayableString());
-    EXPECT_EQ("*", multiplyOperator.getDisplayableString());
-    EXPECT_EQ("/", divideOperator.getDisplayableString());
-    EXPECT_EQ("^", raiseToPowerOperator.getDisplayableString());
-    EXPECT_EQ("(", openingGroupOperator.getDisplayableString());
-    EXPECT_EQ(")", closingGroupOperator.getDisplayableString());
-    EXPECT_EQ("invalid", invalidOperator.getDisplayableString());
-}
-
 TEST(OperatorTest, SettingANewOperatingStringWorks)
 {
-    Operator operatorForTest1;
-    Operator operatorForTest2;
+    Operator operatorForTest1;    Operator operatorForTest2;
 
     operatorForTest2.setOperatorString("multiply");
 
@@ -342,17 +318,36 @@ TEST(OperatorTest, ReverseOperationWorks)
     closingGroupOperator.reverseOperation();
     invalidOperator.reverseOperation();
 
-    EXPECT_TRUE(nullOperator.getDisplayableString().empty());
-    EXPECT_EQ("-", addOperator.getDisplayableString());
-    EXPECT_EQ("+", subtractOperator.getDisplayableString());
-    EXPECT_EQ("/", multiplyOperator.getDisplayableString());
-    EXPECT_EQ("*", divideOperator.getDisplayableString());
-    EXPECT_EQ("^", raiseToPowerOperator.getDisplayableString());
-    EXPECT_EQ("(", openingGroupOperator.getDisplayableString());
-    EXPECT_EQ(")", closingGroupOperator.getDisplayableString());
-    EXPECT_EQ("invalid", invalidOperator.getDisplayableString());
+    EXPECT_TRUE(nullOperator.getOperatorString().empty());
+    EXPECT_EQ("-", addOperator.getOperatorString());
+    EXPECT_EQ("+", subtractOperator.getOperatorString());
+    EXPECT_EQ("/", multiplyOperator.getOperatorString());
+    EXPECT_EQ("*", divideOperator.getOperatorString());
+    EXPECT_EQ("^", raiseToPowerOperator.getOperatorString());
+    EXPECT_EQ("(", openingGroupOperator.getOperatorString());
+    EXPECT_EQ(")", closingGroupOperator.getOperatorString());
+    EXPECT_EQ("invalid", invalidOperator.getOperatorString());
+}
+
+TEST(OperatorTest, OutputStreamOperatorWorks)
+{
+    stringstream ss;
+    Operator nullOperator;
+    Operator addOperator("+");
+    Operator subtractOperator("-");
+    Operator multiplyOperator("*");
+    Operator divideOperator("/");
+    Operator raiseToPowerOperator("^");
+    Operator openingGroupOperator("(");
+    Operator closingGroupOperator(")");
+    Operator invalidOperator("invalid");
+
+    ss << nullOperator << "," << addOperator << "," << subtractOperator << "," << multiplyOperator << ","
+       << divideOperator << "," << raiseToPowerOperator << "," << openingGroupOperator << "," << closingGroupOperator << ","
+       << invalidOperator;
+
+    EXPECT_EQ(",+,-,*,/,^,(,),invalid", ss.str());
 }
 
 }
-
 }

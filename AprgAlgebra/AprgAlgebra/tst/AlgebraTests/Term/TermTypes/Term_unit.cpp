@@ -675,11 +675,10 @@ TEST(TermTest, GetDebugStringWorks)
     });
     Term term8(function1);
 
-    EXPECT_EQ("{Empty}", term1.getDebugString());
+    EXPECT_EQ("{EmptyTerm}{Empty}", term1.getDebugString());
     EXPECT_EQ("0{Constant}", term2.getDebugString());
     EXPECT_EQ("length{Variable}", term3.getDebugString());
-    EXPECT_EQ("+{Operator}", term4.getDebugString());
-    EXPECT_EQ("-1.5[distance^-3.75][power^4.5]{Monomial}", term5.getDebugString());
+    EXPECT_EQ("+{Operator}", term4.getDebugString());    EXPECT_EQ("-1.5[distance^-3.75][power^4.5]{Monomial}", term5.getDebugString());
     EXPECT_EQ("(3 + -1.5[distance^-3.75][power^4.5]){Polynomial}", term6.getDebugString());
     EXPECT_EQ("( {+-}||5{Constant}{POS}+interest{Variable}{POS} ){Expression}", term7.getDebugString());
     EXPECT_EQ("functionName(5{Constant}){Function}", term8.getDebugString());

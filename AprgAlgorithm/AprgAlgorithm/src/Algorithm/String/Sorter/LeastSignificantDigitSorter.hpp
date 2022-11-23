@@ -52,10 +52,10 @@ private:
 
         unsigned int numberOfStrings(stringsToSort.size());
         for(unsigned int i=0; i<numberOfStrings; i++)
-        {            frequencyOfEachCharacter[getCharacterAtIfPossible(stringsToSort.at(i), digitIndex)+1]++;
+        {
+            frequencyOfEachCharacter[getCharacterAtIfPossible(stringsToSort.at(i), digitIndex)+1]++;
         }
     }
-
     void computeCumulatesToGetNewIndexes(
             ArrayOfFrequencies & newIndexes) const
     {

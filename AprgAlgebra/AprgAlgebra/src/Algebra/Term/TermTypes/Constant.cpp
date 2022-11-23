@@ -1,9 +1,10 @@
 #include "Constant.hpp"
 
+#include <sstream>
+
 using namespace std;
 
-namespace alba
-{
+namespace alba{
 
 namespace algebra
 {
@@ -47,22 +48,15 @@ AlbaNumber const& Constant::getNumberConstReference() const
     return m_constantValue;
 }
 
-string Constant::getDisplayableString() const
-{
-    return m_constantValue.getDisplayableString();
-}
-
 void Constant::setNumber(AlbaNumber const& constantValue)
 {
-    m_constantValue = constantValue;
-}
+    m_constantValue = constantValue;}
 
 ostream & operator<<(ostream & out, Constant const& constant)
 {
-    out << constant.getDisplayableString();
+    out << constant.m_constantValue;
     return out;
 }
-
 }
 
 }

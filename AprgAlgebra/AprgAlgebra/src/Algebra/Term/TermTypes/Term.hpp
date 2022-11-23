@@ -64,12 +64,11 @@ public:
     Expression const& getExpressionConstReference() const;
     Function const& getFunctionConstReference() const;
     AlbaNumber const& getConstantValueConstReference() const;
-    std::string getDisplayableString() const override;
-    std::string getDebugString() const override;
+    std::string getDisplayableString() const;
+    std::string getDebugString() const;
 
     Constant & getConstantReference();
-    Variable & getVariableReference();
-    Operator & getOperatorReference();
+    Variable & getVariableReference();    Operator & getOperatorReference();
     Monomial & getMonomialReference();
     Polynomial & getPolynomialReference();
     Expression & getExpressionReference();
@@ -86,14 +85,14 @@ public:
 private:
     void resetBaseDataTermPointerBasedFromTerm(Term const& term);
     void initializeBasedOnString(std::string const& stringAsParameter);
+
+    friend std::ostream & operator<<(std::ostream & out, Term const& term);
+
     TermType m_type;
     bool m_isSimplified;
-    std::unique_ptr<BaseTermData> m_baseTermDataPointer;
-};
+    std::unique_ptr<BaseTermData> m_baseTermDataPointer;};
 
 using Terms = std::vector<Term>;
-
-std::ostream & operator<<(std::ostream & out, Term const& term);
 
 }
 

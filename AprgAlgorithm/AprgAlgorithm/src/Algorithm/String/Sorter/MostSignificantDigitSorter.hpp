@@ -61,10 +61,10 @@ private:
 
         unsigned int limit(std::min(highStringIndex+1, stringsToSort.size()));
         for(unsigned int i=lowStringIndex; i<limit; i++) // starts at low string index and ends at high string index
-        {            frequencyOfEachCharacter[getCharacterAtIfPossible(stringsToSort.at(i), digitIndex)+2]++;
+        {
+            frequencyOfEachCharacter[getCharacterAtIfPossible(stringsToSort.at(i), digitIndex)+2]++;
         }
     }
-
     void computeCumulatesToGetNewIndexes(
             ArrayOfFrequencies & newIndexes) const
     {

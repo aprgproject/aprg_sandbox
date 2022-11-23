@@ -27,15 +27,14 @@ public:
     bool isAnEqualityVariant() const;
     bool isALessThanVariant() const;
     bool isAGreaterThanVariant() const;
-
     std::string getOperatorString() const;
-    std::string getDisplayableString() const;
 
 private:
+
+    friend std::ostream & operator<<(std::ostream & out, EquationOperator const& equationOperator);
+
     std::string m_operatingString;
 };
-
-std::ostream & operator<<(std::ostream & out, EquationOperator const& equationOperator);
 
 }
 

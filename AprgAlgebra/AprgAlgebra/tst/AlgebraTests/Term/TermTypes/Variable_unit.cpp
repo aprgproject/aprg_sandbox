@@ -55,22 +55,23 @@ TEST(VariableTest, LessThanOperatorWorks)
     EXPECT_TRUE(Variable("x") < Variable("y"));
 }
 
-TEST(VariableTest, GetDisplayableStringWorks)
-{
-    Variable variable1;
-    Variable variable2("time");
-
-    EXPECT_EQ("", variable1.getDisplayableString());
-    EXPECT_EQ("time", variable2.getDisplayableString());
-}
-
 TEST(VariableTest, SettingANewVariableNameWorks)
 {
-    Variable variableForTest;
-    EXPECT_EQ("", variableForTest.getVariableName());
+    Variable variableForTest;    EXPECT_EQ("", variableForTest.getVariableName());
 
     variableForTest.setVariableName("omega");
     EXPECT_EQ("omega", variableForTest.getVariableName());
+}
+
+TEST(VariableTest, OutputStreamOperatorWorks)
+{
+    stringstream ss;
+    Variable variable1;
+    Variable variable2("time");
+
+    ss << variable1 << "," << variable2;
+
+    EXPECT_EQ(",time", ss.str());
 }
 
 }

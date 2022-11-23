@@ -80,17 +80,11 @@ string EquationOperator::getOperatorString() const
     return m_operatingString;
 }
 
-string EquationOperator::getDisplayableString() const
-{
-    return m_operatingString;
-}
-
 ostream & operator<<(ostream & out, EquationOperator const& equationOperator)
 {
-    out << equationOperator.getDisplayableString();
+    out << equationOperator.m_operatingString;
     return out;
 }
-
 }
 
 }

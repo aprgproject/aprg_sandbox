@@ -101,14 +101,13 @@ private:
             TermsWithDetails const& termsWithDetails2);
     void distributeAndMultiply(Expression const& multiplicand, BaseTerm const& multiplier, bool const isAdd);
 
+    friend std::ostream & operator<<(std::ostream & out, Expression const& expression);
+
     OperatorLevel m_commonOperatorLevel;
     TermsWithAssociation m_termsWithAssociation;
-    bool m_isSimplified;
-};
+    bool m_isSimplified;};
 
 using Expressions=std::vector<Expression>;
-
-std::ostream & operator<<(std::ostream & out, Expression const& expression);
 
 }
 

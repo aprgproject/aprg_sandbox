@@ -89,19 +89,9 @@ TEST(TermWithDetailsTest, GetAssociationPriorityWorks)
     EXPECT_EQ(2U, termWithDetails2.getAssociationPriority());
 }
 
-TEST(TermWithDetailsTest, GetDisplayableStringWorks)
-{
-    TermWithDetails termWithDetails1(Term(10), TermAssociationType::Positive);
-    TermWithDetails termWithDetails2(Term(10), TermAssociationType::Negative);
-
-    EXPECT_EQ("[{POS}{10}]", termWithDetails1.getDisplayableString());
-    EXPECT_EQ("[{NEG}{10}]", termWithDetails2.getDisplayableString());
-}
-
 TEST(TermWithDetailsTest, ClearWorks)
 {
     TermWithDetails termWithDetails(Term(10), TermAssociationType::Negative);
-
     termWithDetails.clear();
 
     EXPECT_EQ(nullptr, termWithDetails.baseTermSharedPointer.get());

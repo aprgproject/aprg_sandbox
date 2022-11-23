@@ -285,29 +285,24 @@ TEST(EquationOperatorTest, GetEquationOperatorStringValueWorks)
     EXPECT_EQ("invalid", invalidEquationOperator.getOperatorString());
 }
 
-TEST(EquationOperatorTest, GetDisplayableStringWorks)
+TEST(EquationOperatorTest, OutputStreamOperatorWorks)
 {
+    stringstream ss;
     EquationOperator nullOperator;
     EquationOperator singleEqualityOperator("=");
-    EquationOperator doubleEqualityOperator("==");
-    EquationOperator inequalityOperator("!=");
+    EquationOperator doubleEqualityOperator("==");    EquationOperator inequalityOperator("!=");
     EquationOperator lessThanOperator("<");
     EquationOperator greaterThanOperator(">");
     EquationOperator lessThanOperatorOrEqual("<=");
     EquationOperator greaterThanOperatorOrEqual(">=");
     EquationOperator invalidEquationOperator("invalid");
 
-    EXPECT_TRUE(nullOperator.getDisplayableString().empty());
-    EXPECT_EQ("=", singleEqualityOperator.getDisplayableString());
-    EXPECT_EQ("==", doubleEqualityOperator.getDisplayableString());
-    EXPECT_EQ("!=", inequalityOperator.getDisplayableString());
-    EXPECT_EQ("<", lessThanOperator.getDisplayableString());
-    EXPECT_EQ(">", greaterThanOperator.getDisplayableString());
-    EXPECT_EQ("<=", lessThanOperatorOrEqual.getDisplayableString());
-    EXPECT_EQ(">=", greaterThanOperatorOrEqual.getDisplayableString());
-    EXPECT_EQ("invalid", invalidEquationOperator.getDisplayableString());
+    ss << nullOperator << "," << singleEqualityOperator << "," << doubleEqualityOperator << "," << inequalityOperator << ","
+       << lessThanOperator << "," << greaterThanOperator << "," << lessThanOperatorOrEqual << "," << greaterThanOperatorOrEqual << ","
+       << invalidEquationOperator;
+
+    EXPECT_EQ(",=,==,!=,<,>,<=,>=,invalid", ss.str());
 }
 
 }
-
 }

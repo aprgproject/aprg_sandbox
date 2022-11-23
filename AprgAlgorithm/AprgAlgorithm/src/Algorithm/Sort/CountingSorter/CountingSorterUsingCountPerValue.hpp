@@ -40,10 +40,10 @@ private:
 };
 
 }
+
 }
 
-// This is a linear algorithm
-// This algorithm depends on values as indices so the max value corresponds to the space cost
+// This is a linear algorithm// This algorithm depends on values as indices so the max value corresponds to the space cost
 
 // Counting sort
 // The lower bound nlogn does not apply to algorithms that do not compare array elements but use some other information.

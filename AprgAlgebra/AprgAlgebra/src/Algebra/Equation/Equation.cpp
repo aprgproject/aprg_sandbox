@@ -84,13 +84,12 @@ Term const& Equation::getRightHandTerm() const
 
 string Equation::getDisplayableString() const
 {
-    return m_leftHandTerm.getDisplayableString()
-            + " " + m_equationOperator.getDisplayableString()
-            + " " + m_rightHandTerm.getDisplayableString();
+    stringstream ss;
+    ss << *this;
+    return ss.str();
 }
 
-Term & Equation::getLeftHandTermReference()
-{
+Term & Equation::getLeftHandTermReference(){
     return m_leftHandTerm;
 }
 
@@ -108,10 +107,11 @@ void Equation::simplify()
 
 ostream & operator<<(ostream & out, Equation const& equation)
 {
-    out << equation.getDisplayableString();
+    out << equation.m_leftHandTerm << " "
+        << equation.m_equationOperator << " "
+        << equation.m_rightHandTerm;
     return out;
 }
-
 }
 
 }

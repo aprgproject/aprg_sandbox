@@ -1,9 +1,9 @@
 #include "StringHelpers.hpp"
 
 #include <Algebra/Constructs/TermsAggregator.hpp>
+#include <Algebra/Term/Utilities/BaseTermHelpers.hpp>
 #include <Algebra/Term/Utilities/EnumHelpers.hpp>
 #include <Common/String/AlbaStringHelper.hpp>
-
 using namespace alba::stringHelper;
 using namespace std;
 
@@ -118,33 +118,33 @@ string getFirstStringIfNegativeAssociation(
 
 string getString(TermsWithDetails const& termsWithDetails)
 {
-    string result;
+    stringstream ss;
     if(!termsWithDetails.empty())
     {
-        result += getString(termsWithDetails.front());
+        ss << getString(termsWithDetails.front());
         for(auto it=termsWithDetails.cbegin()+1; it!=termsWithDetails.cend(); it++)
         {
-            result += ", ";
-            result += getString(*it);
+            ss << ", " << getString(*it);
         }
     }
-    return result;
+    return ss.str();
 }
 
 string getString(TermWithDetails const& termWithDetails)
 {
-    return string("{")+termWithDetails.baseTermSharedPointer->getDisplayableString()
-            +"}{"+getEnumShortString(termWithDetails.association)+"}";
+    stringstream ss;
+    ss << "{" << getTermConstReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer)
+       << "}{" << getEnumShortString(termWithDetails.association)
+       << "}";
+    return ss.str();
 }
 
 string createVariableNameForSubstitution(Term const& term)
 {
-    string variableName = string("{") + term.getDisplayableString() + "}";
-    return variableName;
+    return string("{") + term.getDisplayableString() + "}";
 }
 
-Term buildTermIfPossible(string const& termString)
-{
+Term buildTermIfPossible(string const& termString){
     Term result;
     TermsAggregator aggregator(tokenizeToTerms(termString));
     aggregator.simplifyTerms();

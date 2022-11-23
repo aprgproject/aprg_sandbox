@@ -124,27 +124,9 @@ AlbaNumber Monomial::getExponentForVariable(string const& variableName) const
     return exponent;
 }
 
-string Monomial::getDisplayableString() const
-{
-    stringstream result;
-    result << m_constant.getDisplayableString();
-    for(auto const& variableExponentsPair : m_variablesToExponentsMap)
-    {
-        result << "[" << variableExponentsPair.first;
-        AlbaNumber const& exponent(variableExponentsPair.second);
-        if(!(exponent.isIntegerType() && exponent.getInteger()==1))
-        {
-            result << "^" << variableExponentsPair.second.getDisplayableString();
-        }
-        result << "]";
-    }
-    return result.str();
-}
-
 void Monomial::clear()
 {
-    m_constant = AlbaNumber(0);
-    m_variablesToExponentsMap.clear();
+    m_constant = AlbaNumber(0);    m_variablesToExponentsMap.clear();
     clearSimplifiedFlag();
 }
 
@@ -294,10 +276,19 @@ void Monomial::removeZeroExponents()
 
 ostream & operator<<(ostream & out, Monomial const& monomial)
 {
-    out << monomial.getDisplayableString();
+    out << monomial.m_constant;
+    for(auto const& variableExponentsPair : monomial.m_variablesToExponentsMap)
+    {
+        out << "[" << variableExponentsPair.first;
+        AlbaNumber const& exponent(variableExponentsPair.second);
+        if(!(exponent.isIntegerType() && exponent.getInteger()==1))
+        {
+            out << "^" << variableExponentsPair.second;
+        }
+        out << "]";
+    }
     return out;
 }
-
 }
 
 }

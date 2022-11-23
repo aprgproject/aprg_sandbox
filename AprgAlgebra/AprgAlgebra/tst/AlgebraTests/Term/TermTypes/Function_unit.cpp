@@ -155,20 +155,9 @@ TEST(FunctionTest, GetFunctionNameWorks)
     EXPECT_EQ("functionName", function2.getFunctionName());
 }
 
-TEST(FunctionTest, GetDisplayableStringWorks)
-{
-    Function functionObject("functionName", Term(5), [](AlbaNumber const&  number) -> AlbaNumber
-    {
-        return number;
-    });
-
-    EXPECT_EQ("functionName(5)", functionObject.getDisplayableString());
-}
-
 TEST(FunctionTest, GetDebugStringWorks)
 {
-    Function functionObject("functionName", Term(5), [](AlbaNumber const&  number) -> AlbaNumber
-    {
+    Function functionObject("functionName", Term(5), [](AlbaNumber const&  number) -> AlbaNumber    {
         return number;
     });
 
@@ -311,6 +300,19 @@ TEST(FunctionTest, ClearAllInnerSimplifiedFlagsWorks)
 
     EXPECT_FALSE(functionObject.isSimplified());
     EXPECT_FALSE(getTermConstReferenceFromBaseTerm(functionObject.getInputTermConstReference()).isSimplified());
+}
+
+TEST(FunctionTest, OutputStreamOperatorWorks)
+{
+    stringstream ss;
+    Function functionObject("functionName", Term(5), [](AlbaNumber const&  number) -> AlbaNumber
+    {
+        return number;
+    });
+
+    ss << functionObject;
+
+    EXPECT_EQ("functionName(5)", ss.str());
 }
 
 }

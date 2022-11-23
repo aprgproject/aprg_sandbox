@@ -36,8 +36,6 @@ private:
 
 using MultipleVariableSolutionSets = std::vector<MultipleVariableSolutionSet>;
 
-std::ostream & operator<<(std::ostream & out, MultipleVariableSolutionSet const& solutionSet);
-
 }
 
 }

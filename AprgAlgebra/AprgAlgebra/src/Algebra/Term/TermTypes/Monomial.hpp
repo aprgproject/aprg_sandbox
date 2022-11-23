@@ -43,11 +43,9 @@ public:
     AlbaNumber const& getConstantConstReference() const;
     VariablesToExponentsMap const& getVariablesToExponentsMapConstReference() const;
     AlbaNumber getExponentForVariable(std::string const& variableName) const;
-    std::string getDisplayableString() const;
 
     void clear();
-    void simplify();
-    void setConstant(AlbaNumber const& constant);
+    void simplify();    void setConstant(AlbaNumber const& constant);
     void multiplyNumber(AlbaNumber const& number);
     void divideNumber(AlbaNumber const& number);
     void raiseToPowerNumber(AlbaNumber const& number);
@@ -66,14 +64,14 @@ private:
             Monomial const& monomial2) const;
     void setNanIfNeeded();
     void removeZeroExponents();
+
+    friend std::ostream & operator<<(std::ostream & out, Monomial const& monomial);
+
     AlbaNumber m_constant;
     VariablesToExponentsMap m_variablesToExponentsMap;
-    bool m_isSimplified;
-};
+    bool m_isSimplified;};
 
 using Monomials=std::vector<Monomial>;
-
-std::ostream & operator<<(std::ostream & out, Monomial const& monomial);
 
 }
 

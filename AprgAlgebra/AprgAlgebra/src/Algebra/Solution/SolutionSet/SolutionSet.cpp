@@ -1,14 +1,15 @@
 #include "SolutionSet.hpp"
 
+#include <Common/Print/AlbaPrintFunctions.hpp>
 #include <Common/Math/Helpers/ComputationHelpers.hpp>
 #include <Common/Math/Helpers/SignRelatedHelpers.hpp>
 #include <Common/Math/Number/Interval/AlbaNumberIntervalHelpers.hpp>
 
 #include <algorithm>
+#include <sstream>
 
 using namespace alba::mathHelper;
 using namespace std;
-
 namespace alba
 {
 
@@ -41,36 +42,13 @@ AlbaNumberIntervals const& SolutionSet::getAcceptedIntervals() const
 string SolutionSet::getDisplayableString() const
 {
     stringstream ss;
-    if(!m_acceptedValues.empty())
-    {
-        ss << "AcceptedValues:{" << m_acceptedValues.front();
-        for(auto it=m_acceptedValues.cbegin()+1; it!=m_acceptedValues.cend(); it++)
-        {
-            ss << ", " << *it;
-        }
-        ss << "} ";
-    }
-    if(!m_rejectedValues.empty())
-    {
-        ss << "RejectedValues:{" << m_rejectedValues.front();
-        for(auto it=m_rejectedValues.cbegin()+1; it!=m_rejectedValues.cend(); it++)
-        {
-            ss << ", " << *it;
-        }
-        ss << "} ";
-    }
-    if(!m_acceptedIntervals.empty())
-    {
-        ss << "AcceptedInterval:{" << m_acceptedIntervals.front();
-        for(auto it=m_acceptedIntervals.cbegin()+1; it!=m_acceptedIntervals.cend(); it++)
-        {
-            ss << ", " << *it;
-        }
-        ss << "}";
-    }
+    printParameterWithName(ss, "AcceptedValues:", m_acceptedValues);
+    ss << " ";
+    printParameterWithName(ss, "RejectedValues:", m_rejectedValues);
+    ss << " ";
+    printParameterWithName(ss, "AcceptedIntervals:", m_acceptedIntervals);
     return ss.str();
 }
-
 void SolutionSet::addAcceptedValue(AlbaNumber const& value)
 {
     m_acceptedValues.emplace_back(value);

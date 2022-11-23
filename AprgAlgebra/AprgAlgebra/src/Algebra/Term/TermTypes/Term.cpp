@@ -328,81 +328,50 @@ AlbaNumber const& Term::getConstantValueConstReference() const
 
 string Term::getDisplayableString() const
 {
-    string result;
-    if(m_type==TermType::Empty)
-    {
-        result = "{EmptyTerm}";
-    }
-    else if(m_type==TermType::Constant)
-    {
-        result = getConstantConstReference().getDisplayableString();
-    }
-    else if(m_type==TermType::Variable)
-    {
-        result = getVariableConstReference().getDisplayableString();
-    }
-    else if(m_type==TermType::Operator)
-    {
-        result = getOperatorConstReference().getDisplayableString();
-    }
-    else if(m_type==TermType::Monomial)
-    {
-        result = getMonomialConstReference().getDisplayableString();
-    }
-    else if(m_type==TermType::Polynomial)
-    {
-        result = getPolynomialConstReference().getDisplayableString();
-    }
-    else if(m_type==TermType::Expression)
-    {
-        result = getExpressionConstReference().getDisplayableString();
-    }
-    else if(m_type==TermType::Function)
-    {
-        result = getFunctionConstReference().getDisplayableString();
-    }
-    return result;
+    stringstream ss;
+    ss.precision(16);
+    ss << *this;
+    return ss.str();
 }
 
 string Term::getDebugString() const
 {
-    string result;
-    if(m_type==TermType::Constant)
+    stringstream ss;
+    ss.precision(16);
+    switch (m_type)
     {
-        result = getConstantConstReference().getDisplayableString();
+    case TermType::Empty:
+        ss << "{EmptyTerm}";
+        break;
+    case TermType::Constant:
+        ss << getConstantConstReference();
+        break;
+    case TermType::Variable:
+        ss << getVariableConstReference();
+        break;
+    case TermType::Operator:
+        ss << getOperatorConstReference();
+        break;
+    case TermType::Monomial:
+        ss << getMonomialConstReference();
+        break;
+    case TermType::Polynomial:
+        ss << getPolynomialConstReference();
+        break;
+    case TermType::Expression:
+        ss << getExpressionConstReference().getDebugString();
+        break;
+    case TermType::Function:
+        ss << getFunctionConstReference().getDebugString();
+        break;
+    default:
+        break;
     }
-    else if(m_type==TermType::Variable)
-    {
-        result = getVariableConstReference().getDisplayableString();
-    }
-    else if(m_type==TermType::Operator)
-    {
-        result = getOperatorConstReference().getDisplayableString();
-    }
-    else if(m_type==TermType::Monomial)
-    {
-        result = getMonomialConstReference().getDisplayableString();
-    }
-    else if(m_type==TermType::Polynomial)
-    {
-        result = getPolynomialConstReference().getDisplayableString();
-    }
-    else if(m_type==TermType::Expression)
-    {
-        result = getExpressionConstReference().getDebugString();
-    }
-    else if(m_type==TermType::Function)
-    {
-        result = getFunctionConstReference().getDebugString();
-    }
-    result += "{";
-    result += getEnumShortString(m_type);
-    result += "}";
-    return result;
+    ss << "{" << getEnumShortString(m_type) << "}";
+    return ss.str();
 }
 
-Constant & Term::getConstantReference()
-{
+Constant & Term::getConstantReference(){
     clearSimplifiedFlag();
     assert(m_type==TermType::Constant);
     return *dynamic_cast<Constant*>(m_baseTermDataPointer.get());
@@ -585,10 +554,37 @@ void Term::initializeBasedOnString(string const& stringAsParameter)
 
 ostream & operator<<(ostream & out, Term const& term)
 {
-    out << term.getDisplayableString();
+    switch (term.m_type)
+    {
+    case TermType::Empty:
+        out << "{EmptyTerm}";
+        break;
+    case TermType::Constant:
+        out << term.getConstantConstReference();
+        break;
+    case TermType::Variable:
+        out << term.getVariableConstReference();
+        break;
+    case TermType::Operator:
+        out << term.getOperatorConstReference();
+        break;
+    case TermType::Monomial:
+        out << term.getMonomialConstReference();
+        break;
+    case TermType::Polynomial:
+        out << term.getPolynomialConstReference();
+        break;
+    case TermType::Expression:
+        out << term.getExpressionConstReference();
+        break;
+    case TermType::Function:
+        out << term.getFunctionConstReference();
+        break;
+    default:
+        break;
+    }
     return out;
 }
-
 
 }
 

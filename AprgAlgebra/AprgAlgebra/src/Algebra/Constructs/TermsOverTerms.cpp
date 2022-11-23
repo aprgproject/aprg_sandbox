@@ -13,10 +13,10 @@
 #include <Algebra/Term/Utilities/SegregateHelpers.hpp>
 #include <Algebra/Term/Utilities/TermUtilities.hpp>
 #include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>
+#include <Common/Print/AlbaPrintFunctions.hpp>
 #include <Common/Math/Helpers/SignRelatedHelpers.hpp>
 
-#include <algorithm>
-#include <sstream>
+#include <algorithm>#include <sstream>
 
 using namespace alba::algebra::Factorization;
 using namespace alba::mathHelper;
@@ -176,19 +176,10 @@ void TermsOverTerms::flip()
 string TermsOverTerms::getDisplayableString() const
 {
     stringstream result;
-    result << "Numerators:" << endl;
-    for(Term const& numerator : m_numerators)
-    {
-        result << "[" << numerator.getDisplayableString() << "]" << endl;
-    }
-    result << "Denominators:" << endl;
-    for(Term const& denominator : m_denominators)
-    {
-        result << "[" << denominator.getDisplayableString() << "]" << endl;
-    }
+    printParameterWithName(result, "Numerators:", m_numerators);
+    printParameterWithName(result, "Denominators:", m_denominators);
     return result.str();
 }
-
 void TermsOverTerms::setAsShouldSimplifyToFactors(
         bool const shouldSimplifyToFactors)
 {

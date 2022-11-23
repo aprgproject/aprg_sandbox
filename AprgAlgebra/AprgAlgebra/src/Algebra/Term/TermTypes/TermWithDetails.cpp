@@ -66,29 +66,14 @@ unsigned int TermWithDetails::getAssociationPriority() const
     return algebra::getAssociationPriority(association);
 }
 
-string TermWithDetails::getDisplayableString() const
-{
-    stringstream ss;
-    Term const& term(getTermConstReferenceFromSharedPointer(baseTermSharedPointer));
-    ss << "[" << getEnumShortString(association) << "{" << term.getDisplayableString() << "}]";
-    return ss.str();
-}
-
 void TermWithDetails::clear()
 {
-    baseTermSharedPointer.reset();
-    association = TermAssociationType::Positive;
+    baseTermSharedPointer.reset();    association = TermAssociationType::Positive;
 }
 
 void TermWithDetails::reverseAssociation()
 {
     association = getReversedAssociationType(association);
-}
-
-ostream & operator<<(ostream & out, TermWithDetails const& termWithDetails)
-{
-    out << termWithDetails.getDisplayableString();
-    return out;
 }
 
 }

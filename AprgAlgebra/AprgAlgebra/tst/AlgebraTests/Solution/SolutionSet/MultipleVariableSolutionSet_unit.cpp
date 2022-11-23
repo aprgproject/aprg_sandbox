@@ -54,12 +54,12 @@ TEST(MultipleVariableSolutionSetTest, GetDisplayableStringWorks)
     solutionSet.addSolutionSetForVariable("a", solutionSetForVariable);
     solutionSet.addSolutionSetForVariable("b", solutionSetForVariable);
 
-    EXPECT_EQ("Variable:{a} SolutionSet:{AcceptedValues:{3.7, 5.6} RejectedValues:{6.5} AcceptedInterval:{(87, 99)}} "
-              "Variable:{b} SolutionSet:{AcceptedValues:{3.7, 5.6} RejectedValues:{6.5} AcceptedInterval:{(87, 99)}} ", solutionSet.getDisplayableString());
+    EXPECT_EQ("Variable:{a} SolutionSet:{AcceptedValues: : [{size: 2 | 3.7, 5.6, }] RejectedValues: : [{size: 1 | 6.5, }] AcceptedIntervals: : [{size: 1 | (87, 99), }]}\n"
+              "Variable:{b} SolutionSet:{AcceptedValues: : [{size: 2 | 3.7, 5.6, }] RejectedValues: : [{size: 1 | 6.5, }] AcceptedIntervals: : [{size: 1 | (87, 99), }]}\n",
+              solutionSet.getDisplayableString());
 }
 
-TEST(MultipleVariableSolutionSetTest, GetVariableNamesWorks)
-{
+TEST(MultipleVariableSolutionSetTest, GetVariableNamesWorks){
     MultipleVariableSolutionSet solutionSet;
     SolutionSet solutionSetForVariable;
     solutionSetForVariable.addAcceptedValue(AlbaNumber(58));

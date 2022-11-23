@@ -8,9 +8,10 @@
 #include <Algebra/Term/Utilities/TermUtilities.hpp>
 #include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>
 
+#include <sstream>
+
 using namespace alba::algebra::Simplification;
 using namespace std;
-
 namespace alba
 {
 
@@ -118,48 +119,36 @@ TermsWithAssociation const& Expression::getTermsWithAssociation() const
 
 string Expression::getDisplayableString() const
 {
-    stringstream result;
-    TermsWithDetails const& termsWithDetails(m_termsWithAssociation.getTermsWithDetails());
-    result << "(";
-    if(!termsWithDetails.empty())
-    {
-        TermWithDetails const& firstTermWithDetails(termsWithDetails.front());
-        result << getFirstStringIfNegativeAssociation(m_commonOperatorLevel, firstTermWithDetails.association);
-        result << firstTermWithDetails.baseTermSharedPointer->getDisplayableString();
-        for(auto it=termsWithDetails.cbegin()+1; it!=termsWithDetails.cend(); it++)
-        {
-            TermWithDetails const& termWithDetails(*it);
-            result << getOperatingString(m_commonOperatorLevel, termWithDetails.association);
-            result << termWithDetails.baseTermSharedPointer->getDisplayableString();
-        }
-    }
-    result << ")";
-    return result.str();
+    stringstream ss;
+    ss.precision(16);
+    ss << *this;
+    return ss.str();
 }
 
 string Expression::getDebugString() const
 {
-    stringstream result;
+    stringstream ss;
     TermsWithDetails const& termsWithDetails(m_termsWithAssociation.getTermsWithDetails());
-    result << "( " << getEnumShortString(m_commonOperatorLevel) << "||";
+    ss << "( " << getEnumShortString(m_commonOperatorLevel) << "||";
     if(!termsWithDetails.empty())
     {
         TermWithDetails const& firstTermWithDetails(termsWithDetails.front());
-        result << getFirstStringIfNegativeAssociation(m_commonOperatorLevel, firstTermWithDetails.association);
-        result << firstTermWithDetails.baseTermSharedPointer->getDebugString() << getEnumShortString(firstTermWithDetails.association);
+        ss << getFirstStringIfNegativeAssociation(m_commonOperatorLevel, firstTermWithDetails.association)
+           << getTermConstReferenceFromSharedPointer(firstTermWithDetails.baseTermSharedPointer).getDebugString()
+           << getEnumShortString(firstTermWithDetails.association);
         for(auto it=termsWithDetails.cbegin()+1; it!=termsWithDetails.cend(); it++)
         {
             TermWithDetails const& termWithDetails(*it);
-            result << getOperatingString(m_commonOperatorLevel, termWithDetails.association);
-            result << termWithDetails.baseTermSharedPointer->getDebugString() << getEnumShortString(termWithDetails.association);
+            ss << getOperatingString(m_commonOperatorLevel, termWithDetails.association)
+               << getTermConstReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer).getDebugString()
+               << getEnumShortString(termWithDetails.association);
         }
     }
-    result << " )";
-    return result.str();
+    ss << " )";
+    return ss.str();
 }
 
-TermsWithAssociation & Expression::getTermsWithAssociationReference()
-{
+TermsWithAssociation & Expression::getTermsWithAssociationReference(){
     clearSimplifiedFlag();
     return m_termsWithAssociation;
 }
@@ -765,10 +754,23 @@ void Expression::distributeAndMultiply(
 
 ostream & operator<<(ostream & out, Expression const& expression)
 {
-    out << expression.getDisplayableString();
+    TermsWithDetails const& termsWithDetails(expression.m_termsWithAssociation.getTermsWithDetails());
+    out << "(";
+    if(!termsWithDetails.empty())
+    {
+        TermWithDetails const& firstTermWithDetails(termsWithDetails.front());
+        out << getFirstStringIfNegativeAssociation(expression.m_commonOperatorLevel, firstTermWithDetails.association)
+            << getTermConstReferenceFromSharedPointer(firstTermWithDetails.baseTermSharedPointer);
+        for(auto it=termsWithDetails.cbegin()+1; it!=termsWithDetails.cend(); it++)
+        {
+            TermWithDetails const& termWithDetails(*it);
+            out << getOperatingString(expression.m_commonOperatorLevel, termWithDetails.association)
+                << getTermConstReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer);
+        }
+    }
+    out << ")";
     return out;
 }
-
 }
 
 }

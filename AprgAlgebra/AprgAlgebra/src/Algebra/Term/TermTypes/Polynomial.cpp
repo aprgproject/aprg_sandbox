@@ -92,35 +92,9 @@ Monomials const& Polynomial::getMonomialsConstReference() const
     return m_monomials;
 }
 
-string Polynomial::getDisplayableString() const
-{
-    stringstream result;
-    if(m_monomials.empty())
-    {
-        result << "(EmptyPolynomial)";
-    }
-    else
-    {
-        result << "(";
-        bool shouldPutPlusSymbol(false);
-        for(Monomial const& monomial : m_monomials)
-        {
-            if(shouldPutPlusSymbol)
-            {
-                result << " + ";
-            }
-            shouldPutPlusSymbol=true;
-            result << monomial.getDisplayableString();
-        }
-        result << ")";
-    }
-    return result.str();
-}
-
 Monomials & Polynomial::getMonomialsReference()
 {
-    clearSimplifiedFlag();
-    return m_monomials;
+    clearSimplifiedFlag();    return m_monomials;
 }
 
 void Polynomial::clear()
@@ -296,10 +270,22 @@ void Polynomial::simplifyMonomialsAndReAdd()
 
 ostream & operator<<(ostream & out, Polynomial const& polynomial)
 {
-    out << polynomial.getDisplayableString();
+    Monomials const& monomials(polynomial.m_monomials);
+    if(monomials.empty())
+    {
+        out << "(EmptyPolynomial)";
+    }
+    else
+    {
+        out << "(" << monomials.front();
+        for(auto it=monomials.cbegin()+1; it!=monomials.cend(); it++)
+        {
+            out << " + " << *it;
+        }
+        out << ")";
+    }
     return out;
 }
-
 }
 
 }

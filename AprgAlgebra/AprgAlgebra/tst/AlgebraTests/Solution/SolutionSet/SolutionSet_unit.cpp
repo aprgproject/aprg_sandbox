@@ -245,9 +245,9 @@ TEST(SolutionSetTest, GetDisplayableStringWorks)
     solutionSet.addRejectedValue(6.5);
     solutionSet.addAcceptedInterval(AlbaNumberInterval(createOpenEndpoint(87), createOpenEndpoint(99)));
 
-    EXPECT_EQ("AcceptedValues:{3.7, 5.6} RejectedValues:{6.5} AcceptedInterval:{(87, 99)}", solutionSet.getDisplayableString());
+    EXPECT_EQ("AcceptedValues: : [{size: 2 | 3.7, 5.6, }] RejectedValues: : [{size: 1 | 6.5, }] AcceptedIntervals: : [{size: 1 | (87, 99), }]",
+              solutionSet.getDisplayableString());
 }
 
 }
-
 }
