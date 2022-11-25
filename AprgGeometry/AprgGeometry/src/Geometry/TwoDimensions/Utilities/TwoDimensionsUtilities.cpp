@@ -44,13 +44,12 @@ bool isCongruent(Triangle const& triangle1, Triangle const& triangle2)
     AlbaAngles anglesInTriangle2(triangle2.getAnglesAtVertices());
     sort(anglesInTriangle1.begin(), anglesInTriangle1.end());
     sort(anglesInTriangle2.begin(), anglesInTriangle2.end());
-    return (anglesInTriangle1[0]==anglesInTriangle2[0]) &&
-            (anglesInTriangle1[1]==anglesInTriangle2[1]) &&
-            (anglesInTriangle1[2]==anglesInTriangle2[2]);
+    return (anglesInTriangle1.at(0)==anglesInTriangle2.at(0)) &&
+            (anglesInTriangle1.at(1)==anglesInTriangle2.at(1)) &&
+            (anglesInTriangle1.at(2)==anglesInTriangle2.at(2));
 }
 
-bool areLinesParallel(Line const& line1, Line const& line2)
-{
+bool areLinesParallel(Line const& line1, Line const& line2){
     return (line1.getType()==LineType::Horizontal && line2.getType()==LineType::Horizontal) ||
             (line1.getType()==LineType::Vertical && line2.getType()==LineType::Vertical) ||
             (isAlmostEqual(line1.getSlope(), line2.getSlope()));
@@ -602,13 +601,12 @@ Point popNearestPoint(Points & points, Point const& point)
     Point result;
     if(!points.empty())
     {
-        double nearestDistance=getDistance(points[0], point);
+        double nearestDistance=getDistance(points.front(), point);
         Points::iterator nearestPointIterator = points.begin();
-        for(Points::iterator it = points.begin(); it != points.end(); it++)
+        for(Points::iterator it=points.begin()+1U; it!=points.end(); it++)
         {
             double currentDistance(getDistance(*it, point));
-            if(nearestDistance>currentDistance)
-            {
+            if(nearestDistance>currentDistance)            {
                 nearestDistance = currentDistance;
                 nearestPointIterator = it;
             }

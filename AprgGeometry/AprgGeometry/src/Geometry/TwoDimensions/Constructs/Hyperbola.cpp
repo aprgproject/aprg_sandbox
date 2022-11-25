@@ -152,17 +152,9 @@ double Hyperbola::calculateXFromYWithoutCenter(double const y, double const sign
     return pow(1 + pow(y/m_bValue, 2), 0.5)*signOfRoot*m_aValue;
 }
 
-string Hyperbola::getDisplayableString() const
-{
-    std::stringstream ss;
-    ss << "(center: " << m_center.getDisplayableString() << " a: " << m_aValue << " b: " << m_bValue << ")";
-    return ss.str();
-}
-
 Points Hyperbola::getPointsInTraversingXAndY(double const signOfX, double const signOfY, double const interval) const
 {
-    Points result;
-    Points pointsFromTraversingX(getPointsInTraversingX(signOfX, signOfY, interval));
+    Points result;    Points pointsFromTraversingX(getPointsInTraversingX(signOfX, signOfY, interval));
     Points pointsFromTraversingY(getPointsInTraversingY(signOfX, signOfY, interval));
     if(signOfX>0 && signOfY>0) //first quarter
     {
@@ -208,9 +200,11 @@ Points Hyperbola::getPointsInTraversingX(double const signOfX, double const sign
 
 ostream & operator<<(ostream & out, Hyperbola const& hyperbola)
 {
-    out << hyperbola.getDisplayableString();
+    out << "(center: " << hyperbola.m_center
+        << " a: " << hyperbola.m_aValue
+        << " b: " << hyperbola.m_bValue
+        << ")";
     return out;
 }
-
 }
 }

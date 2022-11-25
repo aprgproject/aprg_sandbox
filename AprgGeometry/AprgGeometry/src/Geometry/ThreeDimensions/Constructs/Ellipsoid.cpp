@@ -79,19 +79,15 @@ double Ellipsoid::calculateZFromXAndY(double const x, double const y, double con
     return pow(1 - pow((x-m_center.getX())/m_aValue, 2) - pow((y-m_center.getY())/m_bValue, 2), 0.5) * signOfRoot * m_cValue + m_center.getZ();
 }
 
-string Ellipsoid::getDisplayableString() const
-{
-    std::stringstream ss;
-    ss << "(center: " << m_center.getDisplayableString() << " a: " << m_aValue << " b: " << m_bValue << " c: " << m_cValue << ")";
-    return ss.str();
-}
-
 ostream & operator<<(ostream & out, Ellipsoid const& ellipsoid)
 {
-    out << ellipsoid.getDisplayableString();
+    out << "(center: " << ellipsoid.m_center
+        << " a: " << ellipsoid.m_aValue
+        << " b: " << ellipsoid.m_bValue
+        << " c: " << ellipsoid.m_cValue
+        << ")";
     return out;
 }
-
 }
 
 }

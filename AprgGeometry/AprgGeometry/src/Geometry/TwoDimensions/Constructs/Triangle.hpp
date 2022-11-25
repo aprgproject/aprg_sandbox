@@ -18,10 +18,9 @@ public:
     bool isIsoceles() const;
     bool isRightTriangle() const;
 
-    std::string getDisplayableString() const;
+private:
+    friend std::ostream & operator<<(std::ostream & out, Triangle const& triangle);
 };
-
-std::ostream & operator<<(std::ostream & out, Triangle const& triangle);
 
 }
 }

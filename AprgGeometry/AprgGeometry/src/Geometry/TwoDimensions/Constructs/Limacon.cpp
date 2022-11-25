@@ -104,26 +104,9 @@ AlbaAngle Limacon::calculateThetaFromRadius(double const radius) const
     return performInverseTrigonometricFunction((radius-m_aValue)/m_bValue);
 }
 
-string Limacon::getDisplayableString() const
-{
-    std::stringstream ss;
-    ss << "(a: " << m_aValue << " b: " << m_bValue << " ";
-    if(LimaconTrigonometricFunctionType::Sine == m_trigonometricFunctionType)
-    {
-        ss << "Sine";
-    }
-    else if(LimaconTrigonometricFunctionType::Cosine == m_trigonometricFunctionType)
-    {
-        ss << "Cosine";
-    }
-    ss << ")";
-    return ss.str();
-}
-
 double Limacon::performTrigonometricFunction(AlbaAngle const& theta) const
 {
-    double result(0);
-    if(LimaconTrigonometricFunctionType::Sine == m_trigonometricFunctionType)
+    double result(0);    if(LimaconTrigonometricFunctionType::Sine == m_trigonometricFunctionType)
     {
         result = sin(theta.getRadians());
     }
@@ -150,9 +133,18 @@ AlbaAngle Limacon::performInverseTrigonometricFunction(double const ratio) const
 
 ostream & operator<<(ostream & out, Limacon const& limacon)
 {
-    out << limacon.getDisplayableString();
+    out << "(a: " << limacon.m_aValue << " b: " << limacon.m_bValue << " ";
+    switch (limacon.m_trigonometricFunctionType)
+    {
+    case LimaconTrigonometricFunctionType::Sine:
+        out << "Sine";
+        break;
+    case LimaconTrigonometricFunctionType::Cosine:
+        out << "Cosine";
+        break;
+    }
+    out << ")";
     return out;
 }
-
 }
 }

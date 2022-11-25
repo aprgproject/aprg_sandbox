@@ -46,17 +46,9 @@ void Quadrilateral::traverseArea(
     }
 }
 
-string Quadrilateral::getDisplayableString() const
-{
-    std::stringstream ss;
-    ss << "[" << m_vertices[0] << "][" << m_vertices[1] << "][" << m_vertices[2] << "][" << m_vertices[3] << "]";
-    return ss.str();
-}
-
 Quadrilateral::GroupOfPoints Quadrilateral::getGroupOfPointsBasedOnYValue() const
 {
-    GroupOfPoints result;
-    Points vertices(m_vertices.begin(), m_vertices.end());
+    GroupOfPoints result;    Points vertices(m_vertices.begin(), m_vertices.end());
     if(!vertices.empty())
     {
         sortPointsInYAndThenX(vertices);
@@ -356,9 +348,12 @@ Quadrilateral::ListOfStartEndOfXAndY Quadrilateral::getStartEndForXsFor4Points(
 
 ostream & operator<<(ostream & out, Quadrilateral const& quadrilateral)
 {
-    out << quadrilateral.getDisplayableString();
+    out << "[" << quadrilateral.m_vertices.at(0)
+        << "][" << quadrilateral.m_vertices.at(1)
+        << "][" << quadrilateral.m_vertices.at(2)
+        << "][" << quadrilateral.m_vertices.at(3)
+        << "]";
     return out;
 }
-
 }
 }

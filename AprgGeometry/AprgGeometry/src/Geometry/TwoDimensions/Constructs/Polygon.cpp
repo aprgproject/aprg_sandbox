@@ -57,12 +57,11 @@ Lines Polygon<numberOfVertices>::getLines() const
     int sizeMinusOne = static_cast<int>(m_vertices.size())-1;
     for(int i=0; i<sizeMinusOne; i++)
     {
-        lines.emplace_back(m_vertices[i], m_vertices[i+1]);
+        lines.emplace_back(m_vertices.at(i), m_vertices.at(i+1));
     }
-    lines.emplace_back(m_vertices[sizeMinusOne], m_vertices[0]);
+    lines.emplace_back(m_vertices[sizeMinusOne], m_vertices.at(0));
     return lines; //RVO
 }
-
 template<unsigned int numberOfVertices>
 LineSegments Polygon<numberOfVertices>::getLineSegments() const
 {
@@ -70,12 +69,11 @@ LineSegments Polygon<numberOfVertices>::getLineSegments() const
     int sizeMinusOne = static_cast<int>(m_vertices.size())-1;
     for(int i=0; i<sizeMinusOne; i++)
     {
-        lineSegments.emplace_back(m_vertices[i], m_vertices[i+1]);
+        lineSegments.emplace_back(m_vertices.at(i), m_vertices.at(i+1));
     }
-    lineSegments.emplace_back(m_vertices[sizeMinusOne], m_vertices[0]);
+    lineSegments.emplace_back(m_vertices[sizeMinusOne], m_vertices.at(0));
     return lineSegments; //RVO
 }
-
 template<unsigned int numberOfVertices>
 typename Polygon<numberOfVertices>::Distances Polygon<numberOfVertices>::getLengthOfSides() const
 {
@@ -83,12 +81,11 @@ typename Polygon<numberOfVertices>::Distances Polygon<numberOfVertices>::getLeng
     int sizeMinusOne = static_cast<int>(m_vertices.size())-1;
     for(int i=0; i<sizeMinusOne; i++)
     {
-        lengthOfSides[i] = getDistance(m_vertices[i], m_vertices[i+1]);
+        lengthOfSides[i] = getDistance(m_vertices.at(i), m_vertices.at(i+1));
     }
-    lengthOfSides[sizeMinusOne] = getDistance(m_vertices[sizeMinusOne], m_vertices[0]);
+    lengthOfSides[sizeMinusOne] = getDistance(m_vertices.at(sizeMinusOne), m_vertices.at(0));
     return lengthOfSides; //RVO
 }
-
 template<unsigned int numberOfVertices>
 Points Polygon<numberOfVertices>::getVertices() const
 {

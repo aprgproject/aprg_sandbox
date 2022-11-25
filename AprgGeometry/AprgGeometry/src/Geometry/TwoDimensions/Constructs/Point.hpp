@@ -18,11 +18,12 @@ public:
     Point();
     Point(PointParent const& pointParent);
     Point(double const xValue, double const yValue);
+
+private:
+    friend std::ostream & operator<<(std::ostream & out, Point const& point);
 };
 
 using Points = std::vector<Point>;
-
-std::ostream & operator<<(std::ostream & out, Point const& point);
 
 }
 }

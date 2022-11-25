@@ -14,10 +14,10 @@ public:
     Rectangle();
     Rectangle(Point const& topLeft, Point const& bottomRight);
 
-    std::string getDisplayableString() const;
-};
+private:
+    friend std::ostream & operator<<(std::ostream & out, Rectangle const& rectangle);
 
-std::ostream & operator<<(std::ostream & out, Rectangle const& rectangle);
+};
 
 }
 }

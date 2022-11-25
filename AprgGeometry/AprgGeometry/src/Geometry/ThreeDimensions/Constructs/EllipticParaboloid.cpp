@@ -23,21 +23,20 @@ EllipticParaboloid::EllipticParaboloid(Point const& center, double const aCoeffi
     , m_cValue(cCoefficient)
 {}
 
-bool EllipticParaboloid::operator==(EllipticParaboloid const& ellipsoid) const
+bool EllipticParaboloid::operator==(EllipticParaboloid const& ellipticParaboloid) const
 {
-    return (m_center == ellipsoid.m_center)
-            && isAlmostEqual(m_aValue, ellipsoid.m_aValue)
-            && isAlmostEqual(m_bValue, ellipsoid.m_bValue)
-            && isAlmostEqual(m_cValue, ellipsoid.m_cValue);
+    return (m_center == ellipticParaboloid.m_center)
+            && isAlmostEqual(m_aValue, ellipticParaboloid.m_aValue)
+            && isAlmostEqual(m_bValue, ellipticParaboloid.m_bValue)
+            && isAlmostEqual(m_cValue, ellipticParaboloid.m_cValue);
 }
 
-bool EllipticParaboloid::operator!=(EllipticParaboloid const& ellipsoid) const
+bool EllipticParaboloid::operator!=(EllipticParaboloid const& ellipticParaboloid) const
 {
-    return !((*this)==ellipsoid);
+    return !((*this)==ellipticParaboloid);
 }
 
-Point EllipticParaboloid::getCenter() const
-{
+Point EllipticParaboloid::getCenter() const{
     return m_center;
 }
 
@@ -71,19 +70,15 @@ double EllipticParaboloid::calculateZFromXAndY(double const x, double const y) c
     return (pow((x-m_center.getX())/m_aValue, 2) + pow((y-m_center.getY())/m_bValue, 2)) * m_cValue + m_center.getZ();
 }
 
-string EllipticParaboloid::getDisplayableString() const
+ostream & operator<<(ostream & out, EllipticParaboloid const& ellipticParaboloid)
 {
-    std::stringstream ss;
-    ss << "(center: " << m_center.getDisplayableString() << " a: " << m_aValue << " b: " << m_bValue << " c: " << m_cValue << ")";
-    return ss.str();
-}
-
-ostream & operator<<(ostream & out, EllipticParaboloid const& ellipsoid)
-{
-    out << ellipsoid.getDisplayableString();
+    out << "(center: " << ellipticParaboloid.m_center
+        << " a: " << ellipticParaboloid.m_aValue
+        << " b: " << ellipticParaboloid.m_bValue
+        << " c: " << ellipticParaboloid.m_cValue
+        << ")";
     return out;
 }
-
 }
 
 }

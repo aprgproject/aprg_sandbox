@@ -43,19 +43,17 @@ public:
     double calculateRadiusFromTheta(AlbaAngle const& theta) const;
     AlbaAngle calculateThetaFromRadius(double const radius) const;
 
-    std::string getDisplayableString() const;
-
 private:
     double performTrigonometricFunction(AlbaAngle const& theta) const;
     AlbaAngle performInverseTrigonometricFunction(double const ratio) const;
+
+    friend std::ostream & operator<<(std::ostream & out, Limacon const& limacon);
+
     double m_aValue;
     double m_bValue;
-    LimaconTrigonometricFunctionType m_trigonometricFunctionType;
-};
+    LimaconTrigonometricFunctionType m_trigonometricFunctionType;};
 
 using Limacons = std::vector<Limacon>;
-
-std::ostream & operator<<(std::ostream & out, Limacon const& limacon);
 
 }
 }

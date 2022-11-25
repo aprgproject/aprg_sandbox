@@ -178,17 +178,9 @@ double Line::calculateXFromY(double const y) const
     return -1*(m_bCoefficient*y + m_cCoefficient)/m_aCoefficient; //form: x = -(b*y + c)/a
 }
 
-string Line::getDisplayableString() const
-{
-    std::stringstream ss;
-    ss << m_aCoefficient << "*x + "<< m_bCoefficient << "*y + " << m_cCoefficient << " = 0";
-    return ss.str();
-}
-
 void Line::setLineParametersBasedOnDeltas(double const deltaX, double const deltaY, Point const& point)
 {
-    m_type = determineLineTypeUsingDeltaXandDeltaY(deltaY, deltaX);
-    setCoefficientsUsingLineTypeAndDeltaXandDeltaYAndAPoint(deltaY, deltaX, point);
+    m_type = determineLineTypeUsingDeltaXandDeltaY(deltaY, deltaX);    setCoefficientsUsingLineTypeAndDeltaXandDeltaYAndAPoint(deltaY, deltaX, point);
 }
 
 void Line::setLineParametersBasedOnCoefficients(double const aCoefficient, double const bCoefficient, double const cCoefficient)
@@ -400,9 +392,11 @@ LineType Line::determineLineTypeUsingCoefficients(double const aCoefficient, dou
 
 ostream & operator<<(ostream & out, Line const& line)
 {
-    out << line.getDisplayableString();
+    out << line.m_aCoefficient << "*x + "
+        << line.m_bCoefficient << "*y + "
+        << line.m_cCoefficient
+        << " = 0";
     return out;
 }
-
 }
 }

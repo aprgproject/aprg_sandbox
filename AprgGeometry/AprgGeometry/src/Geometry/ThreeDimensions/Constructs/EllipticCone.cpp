@@ -23,21 +23,20 @@ EllipticCone::EllipticCone(Point const& center, double const aCoefficient, doubl
     , m_cValue(cCoefficient)
 {}
 
-bool EllipticCone::operator==(EllipticCone const& ellipsoid) const
+bool EllipticCone::operator==(EllipticCone const& ellipticCone) const
 {
-    return (m_center == ellipsoid.m_center)
-            && isAlmostEqual(m_aValue, ellipsoid.m_aValue)
-            && isAlmostEqual(m_bValue, ellipsoid.m_bValue)
-            && isAlmostEqual(m_cValue, ellipsoid.m_cValue);
+    return (m_center == ellipticCone.m_center)
+            && isAlmostEqual(m_aValue, ellipticCone.m_aValue)
+            && isAlmostEqual(m_bValue, ellipticCone.m_bValue)
+            && isAlmostEqual(m_cValue, ellipticCone.m_cValue);
 }
 
-bool EllipticCone::operator!=(EllipticCone const& ellipsoid) const
+bool EllipticCone::operator!=(EllipticCone const& ellipticCone) const
 {
-    return !((*this)==ellipsoid);
+    return !((*this)==ellipticCone);
 }
 
-Point EllipticCone::getCenter() const
-{
+Point EllipticCone::getCenter() const{
     return m_center;
 }
 
@@ -71,19 +70,15 @@ double EllipticCone::calculateZFromXAndY(double const x, double const y, double 
     return pow(- pow((x-m_center.getX())/m_aValue, 2) - pow((y-m_center.getY())/m_bValue, 2), 0.5) * signOfRoot * m_cValue + m_center.getZ();
 }
 
-string EllipticCone::getDisplayableString() const
+ostream & operator<<(ostream & out, EllipticCone const& ellipticCone)
 {
-    std::stringstream ss;
-    ss << "(center: " << m_center.getDisplayableString() << " a: " << m_aValue << " b: " << m_bValue << " c: " << m_cValue << ")";
-    return ss.str();
-}
-
-ostream & operator<<(ostream & out, EllipticCone const& ellipsoid)
-{
-    out << ellipsoid.getDisplayableString();
+    out << "(center: " << ellipticCone.m_center
+        << " a: " << ellipticCone.m_aValue
+        << " b: " << ellipticCone.m_bValue
+        << " c: " << ellipticCone.m_cValue
+        << ")";
     return out;
 }
-
 }
 
 }

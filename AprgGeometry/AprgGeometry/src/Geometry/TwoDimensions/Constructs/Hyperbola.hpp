@@ -36,20 +36,18 @@ public:
     double calculateYFromXWithoutCenter(double const x, double const signOfRoot) const;
     double calculateXFromYWithoutCenter(double const y, double const signOfRoot) const;
 
-    std::string getDisplayableString() const;
-
 private:
     Points getPointsInTraversingXAndY(double const signOfX, double const signOfY, double const interval) const;
     Points getPointsInTraversingY(double const signOfX, double const signOfY, double const interval) const;
     Points getPointsInTraversingX(double const signOfX, double const signOfY, double const interval) const;
+
+    friend std::ostream & operator<<(std::ostream & out, Hyperbola const& hyperbola);
+
     Point m_center;
     double m_aValue;
-    double m_bValue;
-};
+    double m_bValue;};
 
 using Hyperbolas = std::vector<Hyperbola>;
-
-std::ostream & operator<<(std::ostream & out, Hyperbola const& hyperbola);
 
 }
 }

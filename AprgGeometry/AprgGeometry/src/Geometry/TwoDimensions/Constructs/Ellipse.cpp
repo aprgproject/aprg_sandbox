@@ -270,17 +270,9 @@ double Ellipse::calculateXFromYWithoutCenter(double const y, double const signOf
     return pow(1 - pow(y/m_bValue, 2), 0.5)*signOfRoot*m_aValue;
 }
 
-string Ellipse::getDisplayableString() const
-{
-    std::stringstream ss;
-    ss << "(center: " << m_center.getDisplayableString() << " a: " << m_aValue << " b: " << m_bValue << ")";
-    return ss.str();
-}
-
 Points Ellipse::getPointsInTraversingXAndY(double const signOfX, double const signOfY, double const interval) const
 {
-    Points result;
-    Points pointsFromTraversingX(getPointsInTraversingX(signOfX, signOfY, interval));
+    Points result;    Points pointsFromTraversingX(getPointsInTraversingX(signOfX, signOfY, interval));
     Points pointsFromTraversingY(getPointsInTraversingY(signOfX, signOfY, interval));
     if(signOfX>0 && signOfY>0)
     {
@@ -325,9 +317,11 @@ Points Ellipse::getPointsInTraversingX(double const signOfX, double const signOf
 
 ostream & operator<<(ostream & out, Ellipse const& ellipse)
 {
-    out << ellipse.getDisplayableString();
+    out << "(center: " << ellipse.m_center
+        << " a: " << ellipse.m_aValue
+        << " b: " << ellipse.m_bValue
+        << ")";
     return out;
 }
-
 }
 }

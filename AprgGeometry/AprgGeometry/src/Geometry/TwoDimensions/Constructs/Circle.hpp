@@ -36,21 +36,19 @@ public:
     Point getPointAtAngle(double const angleInRadians);
     Point getNearestPointInCircumference(Point const& pointNotCircumference) const;
 
-    std::string getDisplayableString() const;
-
 private:
     void determineAndSaveCenterAndRadiusFromCoefficients(double const a, double const d, double const e, double const f);
     Points getPointsInTraversingXAndY(double const signOfX, double const signOfY, double const interval) const;
     Points getPointsInTraversingY(double const signOfX, double const signOfY, double const interval) const;
     Points getPointsInTraversingX(double const signOfX, double const signOfY, double const interval) const;
+
+    friend std::ostream & operator<<(std::ostream & out, Circle const& circle);
+
     Point m_center;
     double m_radius;
-    double m_radiusSquared;
-};
+    double m_radiusSquared;};
 
 using Circles = std::vector<Circle>;
-
-std::ostream & operator<<(std::ostream & out, Circle const& circle);
 
 }
 }

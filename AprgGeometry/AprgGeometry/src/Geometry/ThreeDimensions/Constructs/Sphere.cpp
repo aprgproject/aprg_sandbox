@@ -96,18 +96,10 @@ AlbaOptional<double> Sphere::calculateZFromXAndY(double const x, double const y,
     return result;
 }
 
-string Sphere::getDisplayableString() const
-{
-    std::stringstream ss;
-    ss << "(center: " << m_center.getDisplayableString() << " radius: " << m_radius << ")";
-    return ss.str();
-}
-
 ostream & operator<<(ostream & out, Sphere const& sphere)
 {
-    out << sphere.getDisplayableString();
+    out << "(center: " << sphere.m_center << " radius: " << sphere.m_radius << ")";
     return out;
 }
-
 }
 }

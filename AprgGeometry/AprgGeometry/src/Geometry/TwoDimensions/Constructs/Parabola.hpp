@@ -153,29 +153,21 @@ public:
         return directrix;
     }
 
-    std::string getDisplayableString() const
+    friend std::ostream & operator<<(std::ostream & out, Parabola<parabolaOrientation> const& parabola)
     {
-        std::stringstream ss;
         if(ParabolaOrientation::PolynomialX == parabolaOrientation)
         {
-            ss << getA() << "*[x^2] + " << getB() << "*x + " << getC() << " = 0";
+            out << getA() << "*[x^2] + " << getB() << "*x + " << getC() << " = 0";
         }
         else if(ParabolaOrientation::PolynomialY == parabolaOrientation)
         {
-            ss << getA() << "*[y^2] + " << getB() << "*y + " << getC() << " = 0";
+            out << getA() << "*[y^2] + " << getB() << "*y + " << getC() << " = 0";
         }
-        return ss.str();
+        return out;
     }
 
 private:
 };
-
-template<ParabolaOrientation parabolaOrientation>
-std::ostream & operator<<(std::ostream & out, Parabola<parabolaOrientation> const& parabola)
-{
-    out << parabola.getDisplayableString();
-    return out;
-}
 
 }
 }

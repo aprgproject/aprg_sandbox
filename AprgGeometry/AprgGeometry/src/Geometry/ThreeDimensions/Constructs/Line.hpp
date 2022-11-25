@@ -42,23 +42,21 @@ public:
     AlbaOptional<double> calculateZFromX(double const x) const;
     AlbaOptional<double> calculateZFromY(double const y) const;
 
-    std::string getDisplayableString() const;
-
 private:
     void calculateAndSaveInitialValuesIfPossible(Point const& first);
     AlbaOptional<double> calculateOtherCoordinate(double const& initialValue1, double const coefficient1, double const& initialValue2, double const coefficient2, double const coordinate2) const;
     bool areAllCoefficientsZero() const;
+
+    friend std::ostream & operator<<(std::ostream & out, Line const& line);
+
     double m_aCoefficient; //form: (x-x0)/a = (y-y0)/b = (z-z0)/c
     double m_bCoefficient; //form: (x-x0)/a = (y-y0)/b = (z-z0)/c
-    double m_cCoefficient; //form: (x-x0)/a = (y-y0)/b = (z-z0)/c
-    double m_xInitialValue; //form: (x-x0)/a = (y-y0)/b = (z-z0)/c
+    double m_cCoefficient; //form: (x-x0)/a = (y-y0)/b = (z-z0)/c    double m_xInitialValue; //form: (x-x0)/a = (y-y0)/b = (z-z0)/c
     double m_yInitialValue; //form: (x-x0)/a = (y-y0)/b = (z-z0)/c
     double m_zInitialValue; //form: (x-x0)/a = (y-y0)/b = (z-z0)/c
 };
 
 using Lines = std::vector<Line>;
-
-std::ostream & operator<<(std::ostream & out, Line const& line);
 
 }
 }

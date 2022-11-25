@@ -23,21 +23,20 @@ HyperbolicParaboloid::HyperbolicParaboloid(Point const& center, double const aCo
     , m_cValue(cCoefficient)
 {}
 
-bool HyperbolicParaboloid::operator==(HyperbolicParaboloid const& ellipsoid) const
+bool HyperbolicParaboloid::operator==(HyperbolicParaboloid const& hyperbolicParaboloid) const
 {
-    return (m_center == ellipsoid.m_center)
-            && isAlmostEqual(m_aValue, ellipsoid.m_aValue)
-            && isAlmostEqual(m_bValue, ellipsoid.m_bValue)
-            && isAlmostEqual(m_cValue, ellipsoid.m_cValue);
+    return (m_center == hyperbolicParaboloid.m_center)
+            && isAlmostEqual(m_aValue, hyperbolicParaboloid.m_aValue)
+            && isAlmostEqual(m_bValue, hyperbolicParaboloid.m_bValue)
+            && isAlmostEqual(m_cValue, hyperbolicParaboloid.m_cValue);
 }
 
-bool HyperbolicParaboloid::operator!=(HyperbolicParaboloid const& ellipsoid) const
+bool HyperbolicParaboloid::operator!=(HyperbolicParaboloid const& hyperbolicParaboloid) const
 {
-    return !((*this)==ellipsoid);
+    return !((*this)==hyperbolicParaboloid);
 }
 
-Point HyperbolicParaboloid::getCenter() const
-{
+Point HyperbolicParaboloid::getCenter() const{
     return m_center;
 }
 
@@ -71,19 +70,15 @@ double HyperbolicParaboloid::calculateZFromXAndY(double const x, double const y)
     return (pow((y-m_center.getY())/m_bValue, 2) - pow((x-m_center.getX())/m_aValue, 2)) * m_cValue + m_center.getZ();
 }
 
-string HyperbolicParaboloid::getDisplayableString() const
+ostream & operator<<(ostream & out, HyperbolicParaboloid const& hyperbolicParaboloid)
 {
-    std::stringstream ss;
-    ss << "(center: " << m_center.getDisplayableString() << " a: " << m_aValue << " b: " << m_bValue << " c: " << m_cValue << ")";
-    return ss.str();
-}
-
-ostream & operator<<(ostream & out, HyperbolicParaboloid const& ellipsoid)
-{
-    out << ellipsoid.getDisplayableString();
+    out << "(center: " << hyperbolicParaboloid.m_center
+        << " a: " << hyperbolicParaboloid.m_aValue
+        << " b: " << hyperbolicParaboloid.m_bValue
+        << " c: " << hyperbolicParaboloid.m_cValue
+        << ")";
     return out;
 }
-
 }
 
 }

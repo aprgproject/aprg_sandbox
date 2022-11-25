@@ -22,9 +22,8 @@ Point::Point(double const xValue, double const yValue)
 
 ostream & operator<<(ostream & out, Point const& point)
 {
-    out << point.getDisplayableString();
+    out << dynamic_cast<PointParent const&>(point);
     return out;
 }
-
 }
 }

@@ -17,29 +17,32 @@ EllipticHyperboloid::EllipticHyperboloid()
     , m_oneWithSign(0)
 {}
 
-EllipticHyperboloid::EllipticHyperboloid(Point const& center, double const aCoefficient, double const bCoefficient, double const cCoefficient, bool const isOneNegative)
+EllipticHyperboloid::EllipticHyperboloid(
+        Point const& center,
+        double const aCoefficient,
+        double const bCoefficient,
+        double const cCoefficient,
+        bool const isOneNegative)
     : m_center(center)
     , m_aValue(aCoefficient)
-    , m_bValue(bCoefficient)
-    , m_cValue(cCoefficient)
+    , m_bValue(bCoefficient)    , m_cValue(cCoefficient)
     , m_oneWithSign(isOneNegative ? -1 : 1)
 {}
 
-bool EllipticHyperboloid::operator==(EllipticHyperboloid const& ellipsoid) const
+bool EllipticHyperboloid::operator==(EllipticHyperboloid const& ellipticHyperboloid) const
 {
-    return (m_center == ellipsoid.m_center)
-            && isAlmostEqual(m_aValue, ellipsoid.m_aValue)
-            && isAlmostEqual(m_bValue, ellipsoid.m_bValue)
-            && isAlmostEqual(m_cValue, ellipsoid.m_cValue);
+    return (m_center == ellipticHyperboloid.m_center)
+            && isAlmostEqual(m_aValue, ellipticHyperboloid.m_aValue)
+            && isAlmostEqual(m_bValue, ellipticHyperboloid.m_bValue)
+            && isAlmostEqual(m_cValue, ellipticHyperboloid.m_cValue);
 }
 
-bool EllipticHyperboloid::operator!=(EllipticHyperboloid const& ellipsoid) const
+bool EllipticHyperboloid::operator!=(EllipticHyperboloid const& ellipticHyperboloid) const
 {
-    return !((*this)==ellipsoid);
+    return !((*this)==ellipticHyperboloid);
 }
 
-Point EllipticHyperboloid::getCenter() const
-{
+Point EllipticHyperboloid::getCenter() const{
     return m_center;
 }
 
@@ -81,19 +84,15 @@ double EllipticHyperboloid::calculateZFromXAndY(double const x, double const y, 
     return pow(m_oneWithSign - pow((x-m_center.getX())/m_aValue, 2) - pow((y-m_center.getY())/m_bValue, 2), 0.5) * signOfRoot * m_cValue + m_center.getZ();
 }
 
-string EllipticHyperboloid::getDisplayableString() const
+ostream & operator<<(ostream & out, EllipticHyperboloid const& ellipticHyperboloid)
 {
-    std::stringstream ss;
-    ss << "(center: " << m_center.getDisplayableString() << " a: " << m_aValue << " b: " << m_bValue << " c: " << m_cValue << ")";
-    return ss.str();
-}
-
-ostream & operator<<(ostream & out, EllipticHyperboloid const& ellipsoid)
-{
-    out << ellipsoid.getDisplayableString();
+    out << "(center: " << ellipticHyperboloid.m_center
+        << " a: " << ellipticHyperboloid.m_aValue
+        << " b: " << ellipticHyperboloid.m_bValue
+        << " c: " << ellipticHyperboloid.m_cValue
+        << ")";
     return out;
 }
-
 }
 
 }
