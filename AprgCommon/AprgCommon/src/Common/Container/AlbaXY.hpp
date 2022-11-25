@@ -2,34 +2,31 @@
 
 #include <Common/Math/Helpers/PrecisionHelpers.hpp>
 
-#include <sstream>
-#include <string>
+#include <ostream>
 
 namespace alba
 {
-
 template <typename CoordinateType>
 class AlbaXY
 {
 public:
 
     AlbaXY()
-        : x{}
-        , y{}
+        : m_x{}
+        , m_y{}
     {}
 
     AlbaXY(CoordinateType const& xValue, CoordinateType const& yValue)
-        : x(xValue)
-        , y(yValue)
+        : m_x(xValue)
+        , m_y(yValue)
     {}
 
     bool operator==(AlbaXY const& xy) const
     {
-        return mathHelper::isAlmostEqual(x, xy.x) && mathHelper::isAlmostEqual(y, xy.y);
+        return mathHelper::isAlmostEqual(m_x, xy.m_x) && mathHelper::isAlmostEqual(m_y, xy.m_y);
     }
 
-    bool operator!=(AlbaXY const& secondXy) const
-    {
+    bool operator!=(AlbaXY const& secondXy) const    {
         AlbaXY const& firstXy(*this);
         return !(firstXy==secondXy);
     }
@@ -37,17 +34,16 @@ public:
     bool operator<(AlbaXY const& xy) const // this is added so it can be used in map
     {
         bool result(false);
-        if(x < xy.x)
+        if(m_x < xy.m_x)
         {
             result = true;
         }
-        else if(x == xy.x)
+        else if(m_x == xy.m_x)
         {
-            result = (y < xy.y);
+            result = (m_y < xy.m_y);
         }
         return result;
     }
-
     AlbaXY operator+() const
     {
         return *this;
@@ -55,131 +51,123 @@ public:
 
     AlbaXY operator-() const
     {
-        return AlbaXY(-x, -y);
+        return AlbaXY(-m_x, -m_y);
     }
 
     AlbaXY operator+(AlbaXY const& secondXy) const
     {
-        return AlbaXY(x+secondXy.x, y+secondXy.y);
+        return AlbaXY(m_x+secondXy.m_x, m_y+secondXy.m_y);
     }
 
     AlbaXY operator-(AlbaXY const& secondXy) const
     {
-        return AlbaXY(x-secondXy.x, y-secondXy.y);
+        return AlbaXY(m_x-secondXy.m_x, m_y-secondXy.m_y);
     }
 
     AlbaXY operator*(CoordinateType const& multiplier) const
     {
-        return AlbaXY(x*multiplier, y*multiplier);
+        return AlbaXY(m_x*multiplier, m_y*multiplier);
     }
 
     AlbaXY operator/(CoordinateType const& divisor) const
     {
-        return AlbaXY(x/divisor, y/divisor);
+        return AlbaXY(m_x/divisor, m_y/divisor);
     }
 
     AlbaXY& operator+=(AlbaXY const& secondXy)
     {
-        x+=secondXy.x; y+=secondXy.y;
+        m_x+=secondXy.m_x; m_y+=secondXy.m_y;
         return *this;
     }
 
     AlbaXY& operator-=(AlbaXY const& secondXy)
     {
-        x-=secondXy.x; y-=secondXy.y;
+        m_x-=secondXy.m_x; m_y-=secondXy.m_y;
         return *this;
     }
 
     AlbaXY& operator*=(CoordinateType const& multiplier)
     {
-        x*=multiplier; y*=multiplier;
+        m_x*=multiplier; m_y*=multiplier;
         return *this;
     }
 
     AlbaXY& operator/=(CoordinateType const& divisor)
     {
-        x/=divisor; y/=divisor;
+        m_x/=divisor; m_y/=divisor;
         return *this;
     }
 
     bool isEmpty() const
     {
-        return CoordinateType{}==x && CoordinateType{}==y;
+        return CoordinateType{}==m_x && CoordinateType{}==m_y;
     }
 
     CoordinateType getX() const
     {
-        return x;
+        return m_x;
     }
 
     CoordinateType getY() const
     {
-        return y;
+        return m_y;
     }
 
     CoordinateType getXTimesY() const
     {
-        return x*y;
-    }
-
-    std::string getDisplayableString() const
-    {
-        std::stringstream ss;
-        ss.precision(30);
-        ss<<"("<<x<<","<<y<<")";
-        return ss.str();
+        return m_x*m_y;
     }
 
     void setX(CoordinateType const& xValue)
     {
-        x = xValue;
+        m_x = xValue;
     }
 
     void setY(CoordinateType const& yValue)
     {
-        y = yValue;
+        m_y = yValue;
     }
 
     void setXAndY(CoordinateType const& xValue, CoordinateType const& yValue)
     {
-        x = xValue;
-        y = yValue;
+        m_x = xValue;
+        m_y = yValue;
     }
 
     void saveMinimumXAndY(AlbaXY const xy)
     {
-        if(x > xy.x)
+        if(m_x > xy.m_x)
         {
-            x = xy.x;
+            m_x = xy.m_x;
         }
-        if(y > xy.y)
+        if(m_y > xy.m_y)
         {
-            y = xy.y;
+            m_y = xy.m_y;
         }
     }
 
     void saveMaximumXAndY(AlbaXY const xy)
     {
-        if(x < xy.x)
+        if(m_x < xy.m_x)
         {
-            x = xy.x;
+            m_x = xy.m_x;
         }
-        if(y < xy.y)
+        if(m_y < xy.m_y)
         {
-            y = xy.y;
+            m_y = xy.m_y;
         }
     }
 
 private:
-    CoordinateType x;
-    CoordinateType y;
-};
 
-template <typename CoordinateType>
-std::ostream & operator<<(std::ostream & out, AlbaXY<CoordinateType> const& xy)
-{
-    out << xy.getDisplayableString();
-    return out;
-}
+    friend std::ostream & operator<<(std::ostream & out, AlbaXY<CoordinateType> const& xy)
+    {
+        out << "(" << xy.m_x << "," << xy.m_y << ")";
+        return out;
+    }
+
+    CoordinateType m_x;
+    CoordinateType m_y;
+};
 
 }

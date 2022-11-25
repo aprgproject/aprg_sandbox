@@ -911,32 +911,9 @@ unsigned int AlbaNumber::getNumberDataSize() const
     return sizeof(m_data);
 }
 
-string AlbaNumber::getDisplayableString() const
-{
-    stringstream result;
-    if(m_type==Type::Integer)
-    {
-        result << m_data.intData;
-    }
-    else if(m_type==Type::Double)
-    {
-        putDisplayableStringForDouble(result, m_data.doubleData);
-    }
-    else if(m_type==Type::Fraction)
-    {
-        result << "(" << m_data.fractionData.numerator << "/" << m_data.fractionData.denominator << ")";
-    }
-    else if(m_type==Type::ComplexNumber)
-    {
-        result << ComplexFloat(m_data.complexNumberData.realPart, m_data.complexNumberData.imaginaryPart).getDisplayableString();
-    }
-    return result.str();
-}
-
 void AlbaNumber::convertToInteger()
 {
-    *this = AlbaNumber(getInteger());
-}
+    *this = AlbaNumber(getInteger());}
 
 void AlbaNumber::convertToFraction()
 {
@@ -1233,35 +1210,41 @@ AlbaNumber AlbaNumber::raisePowerOfFractionsAndIntegerAndReturnNumber(
     }
 }
 
-void AlbaNumber::putDisplayableStringForDouble(
-        stringstream & result,
-        double const& doubleValue) const
-{
-    if(PI_DOUBLE_VALUE == doubleValue)
-    {
-        result << "(pi)";
-    }
-    else if(E_DOUBLE_VALUE == doubleValue)
-    {
-        result << "(e)";
-    }
-    else
-    {
-        result.precision(16);
-        result << m_data.doubleData;
-    }
-}
-
-template <>
-AlbaNumber::ConfigurationDetails getDefaultConfigurationDetails<AlbaNumber::ConfigurationDetails>()
-{
-    return AlbaNumber::ConfigurationDetails{COMPARISON_TOLERANCE_FOR_DOUBLE, AlbaNumber::ADJUSTMENT_FLOAT_TOLERANCE};
-}
-
 ostream & operator<<(ostream & out, AlbaNumber const& number)
 {
-    out << number.getDisplayableString();
+    if(number.m_type == AlbaNumber::Type::Integer)
+    {
+        out << number.m_data.intData;
+    }
+    else if(number.m_type == AlbaNumber::Type::Double)
+    {
+        if(PI_DOUBLE_VALUE == number.m_data.doubleData)
+        {
+            out << "(pi)";
+        }
+        else if(E_DOUBLE_VALUE == number.m_data.doubleData)
+        {
+            out << "(e)";
+        }
+        else
+        {
+            out << number.m_data.doubleData;
+        }
+    }
+    else if(number.m_type == AlbaNumber::Type::Fraction)
+    {
+        out << "(" << number.m_data.fractionData.numerator << "/" << number.m_data.fractionData.denominator << ")";
+    }
+    else if(number.m_type == AlbaNumber::Type::ComplexNumber)
+    {
+        out << AlbaNumber::ComplexFloat(number.m_data.complexNumberData.realPart, number.m_data.complexNumberData.imaginaryPart);
+    }
     return out;
+}
+
+template <>AlbaNumber::ConfigurationDetails getDefaultConfigurationDetails<AlbaNumber::ConfigurationDetails>()
+{
+    return AlbaNumber::ConfigurationDetails{COMPARISON_TOLERANCE_FOR_DOUBLE, AlbaNumber::ADJUSTMENT_FLOAT_TOLERANCE};
 }
 
 

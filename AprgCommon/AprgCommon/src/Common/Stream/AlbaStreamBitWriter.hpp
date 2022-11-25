@@ -7,12 +7,11 @@
 
 #include <bitset>
 #include <deque>
-#include <ostream>
 #include <string>
+#include <ostream>
 
 namespace alba
 {
-
 class AlbaStreamBitWriter
 {
 public:

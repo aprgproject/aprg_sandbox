@@ -393,17 +393,16 @@ private:
         }
     }
 
+    friend std::ostream & operator<<(std::ostream & out, AlbaMatrix<DataType> const& matrix)
+    {
+        out << matrix.getString();
+        return out;
+    }
+
     unsigned int m_numberOfColumns;
     unsigned int m_numberOfRows;
     MatrixData m_matrixData;
 };
-
-template <typename DataType>
-std::ostream & operator<<(std::ostream & out, AlbaMatrix<DataType> const& matrix)
-{
-    out << matrix.getString();
-    return out;
-}
 
 }
 

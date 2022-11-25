@@ -77,23 +77,24 @@ TEST(AlbaNumberIntervalEndpointTest, GetTypeStringForEndpointWorks)
     EXPECT_EQ("Close", endpoint2.getTypeString());
 }
 
-TEST(AlbaNumberIntervalEndpointTest, GetDisplayableStringForEndpointWorks)
-{
-    AlbaNumberIntervalEndpoint endpoint1(AlbaNumberIntervalEndpoint::Type::Open, 645);
-    AlbaNumberIntervalEndpoint endpoint2(AlbaNumberIntervalEndpoint::Type::Close, 784);
-
-    EXPECT_EQ("(Open, 645)", endpoint1.getDisplayableString());
-    EXPECT_EQ("(Close, 784)", endpoint2.getDisplayableString());
-}
-
 TEST(AlbaNumberIntervalEndpointTest, SetTypeForEndpointWorks)
 {
     AlbaNumberIntervalEndpoint endpoint(AlbaNumberIntervalEndpoint::Type::Open, 784);
-
     endpoint.setType(AlbaNumberIntervalEndpoint::Type::Close);
 
     EXPECT_EQ(AlbaNumberIntervalEndpoint::Type::Close, endpoint.getType());
     EXPECT_EQ(784, endpoint.getValue().getInteger());
+}
+
+TEST(AlbaNumberIntervalEndpointTest, OutputStreamOperatorWorks)
+{
+    stringstream ss;
+    AlbaNumberIntervalEndpoint endpoint1(AlbaNumberIntervalEndpoint::Type::Open, 645);
+    AlbaNumberIntervalEndpoint endpoint2(AlbaNumberIntervalEndpoint::Type::Close, 784);
+
+    ss << endpoint1 << endpoint2;
+
+    EXPECT_EQ("(Open,645)(Close,784)", ss.str());
 }
 
 

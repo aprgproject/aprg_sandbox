@@ -2,12 +2,9 @@
 
 #include <Common/Macros/AlbaMacros.hpp>
 
-#include <sstream>
-
 using namespace std;
 
-namespace alba
-{
+namespace alba{
 
 AlbaNumberIntervalEndpoint::AlbaNumberIntervalEndpoint(
         AlbaNumberIntervalEndpoint::Type const type,
@@ -53,22 +50,13 @@ string AlbaNumberIntervalEndpoint::getTypeString() const
     }
 }
 
-string AlbaNumberIntervalEndpoint::getDisplayableString() const
-{
-    stringstream result;
-    result << "(" << getTypeString() << ", " << m_value << ")";
-    return result.str();
-}
-
 void AlbaNumberIntervalEndpoint::setType(Type const type)
 {
-    m_type = type;
-}
+    m_type = type;}
 
 ostream & operator<<(ostream & out, AlbaNumberIntervalEndpoint const& endpoint)
 {
-    out << endpoint.getDisplayableString();
+    out << "(" << endpoint.getTypeString() << "," << endpoint.m_value << ")";
     return out;
 }
-
 }

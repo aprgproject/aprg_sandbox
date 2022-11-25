@@ -21,11 +21,10 @@ enum class State
 };
 using DfaForTest = AlbaDfaUsingMatrix<State, unsigned int>;
 
-std::ostream & operator<<(std::ostream & out, State const& state)
+std::ostream & operator<<(std::ostream & out, State const state)
 {
     out << "State" << static_cast<unsigned int>(state);
-    return out;
-}
+    return out;}
 }
 
 TEST(AlbaDfaUsingMatrixTest, GetNextStateTest)

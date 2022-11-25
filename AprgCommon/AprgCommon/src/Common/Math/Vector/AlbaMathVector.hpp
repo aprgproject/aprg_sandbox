@@ -7,10 +7,10 @@
 #include <numeric>
 #include <sstream>
 #include <string>
+#include <ostream>
 
 namespace alba
 {
-
 template <typename DataType>
 bool isEqualForMathVectorDataType(DataType const& value1, DataType const& value2);
 
@@ -184,18 +184,9 @@ public:
     std::string getDisplayableString() const
     {
         std::stringstream ss;
-        if(!m_values.empty())
-        {
-            ss << "{" << m_values.front();
-            for(auto it=m_values.cbegin()+1; it!=m_values.cend(); it++)
-            {
-                ss << ", " << *it;
-            }
-            ss << "}";
-        }
+        ss << *this;
         return ss.str();
     }
-
     DataType & getValueReferenceAt(unsigned int const index)
     {
         assert(index<SIZE);
@@ -208,14 +199,23 @@ public:
     }
 
 private:
+
+    friend std::ostream & operator<<(std::ostream & out, AlbaMathVector<DataType, SIZE> const& mathVector)
+    {
+        ValuesInArray const& values(mathVector.m_values);
+        if(!values.empty())
+        {
+            out << "{" << values.front();
+            for(auto it=values.cbegin()+1; it!=values.cend(); it++)
+            {
+                out << ", " << *it;
+            }
+            out << "}";
+        }
+        return out;
+    }
+
     ValuesInArray m_values;
 };
-
-template <typename DataType, unsigned int SIZE>
-std::ostream & operator<<(std::ostream & out, AlbaMathVector<DataType, SIZE> const& mathVector)
-{
-    out << mathVector.getDisplayableString();
-    return out;
-}
 
 }

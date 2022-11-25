@@ -4,13 +4,11 @@
 #include <Common/Math/AlbaMathConstants.hpp>
 #include <Common/Math/Number/AlbaComplexNumber.hpp>
 
-#include <ostream>
-#include <sstream>
 #include <string>
+#include <ostream>
 
 namespace alba
 {
-
 class AlbaNumber
 {
 public:
@@ -163,11 +161,9 @@ public:
     ComplexNumberData getComplexNumberData() const;
 
     unsigned int getNumberDataSize() const;
-    std::string getDisplayableString() const;
 
     void convertToInteger();
     void convertToFraction();
-
 private:
 
     // private constructors
@@ -228,16 +224,12 @@ private:
     AlbaNumber raisePowerOfFractionsAndIntegerAndReturnNumber(
             FractionData const& baseFractionData,
             long long int const exponent) const;
-    void putDisplayableStringForDouble(
-            std::stringstream & result,
-            double const& doubleValue) const;
+
+    friend std::ostream & operator<<(std::ostream & out, AlbaNumber const& number);
 
     Type m_type;
-    NumberUnionData m_data;
-};
+    NumberUnionData m_data;};
 
 template <> AlbaNumber::ConfigurationDetails getDefaultConfigurationDetails<AlbaNumber::ConfigurationDetails>();
-
-std::ostream & operator<<(std::ostream & out, AlbaNumber const& number);
 
 }

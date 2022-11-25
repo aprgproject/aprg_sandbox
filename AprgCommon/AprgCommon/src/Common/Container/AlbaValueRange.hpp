@@ -3,12 +3,11 @@
 #include <Common/Math/Helpers/SignRelatedHelpers.hpp>
 
 #include <functional>
-#include <sstream>
 #include <string>
+#include <ostream>
 
 namespace alba
 {
-
 enum class AlbaValueRangeType
 {
     Unknown,
@@ -90,17 +89,9 @@ public:
         return getTerminationCondition(getRangeType());
     }
 
-    std::string getDisplayableString() const
-    {
-        std::stringstream ss;
-        ss<<"["<<m_startValue<<" <- "<<getInterval()<<" -> "<<m_endValue<<"]";
-        return ss.str();
-    }
-
     DataType getDelta() const
     {
-        DataType delta(m_endValue - m_startValue);
-        return (delta<0) ? delta*-1 : delta;
+        DataType delta(m_endValue - m_startValue);        return (delta<0) ? delta*-1 : delta;
     }
 
     DataType getMidpointValue() const
@@ -221,9 +212,14 @@ private:
         return rangeType;
     }
 
+    friend std::ostream & operator<<(std::ostream & out, AlbaValueRange<DataType> const& valueRange)
+    {
+        out << "[" << valueRange.m_startValue << " <- " << valueRange.getInterval() << " -> " << valueRange.m_endValue << "]";
+        return out;
+    }
+
     DataType m_startValue;
     DataType m_endValue;
-    DataType m_intervalMagnitude;
-};
+    DataType m_intervalMagnitude;};
 
 }

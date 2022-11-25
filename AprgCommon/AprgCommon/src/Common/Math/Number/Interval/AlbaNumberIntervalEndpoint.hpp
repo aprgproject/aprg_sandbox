@@ -21,20 +21,18 @@ public:
     bool operator==(AlbaNumberIntervalEndpoint const& second) const;
     bool isOpen() const;
     bool isClose() const;
-
     Type getType() const;
     AlbaNumber const& getValue() const;
-
     std::string getTypeString() const;
-    std::string getDisplayableString() const;
 
     void setType(Type const type);
 
 private:
+
+    friend std::ostream & operator<<(std::ostream & out, AlbaNumberIntervalEndpoint const& endpoint);
+
     Type m_type;
     AlbaNumber m_value;
 };
-
-std::ostream & operator<<(std::ostream & out, AlbaNumberIntervalEndpoint const& endpoint);
 
 }

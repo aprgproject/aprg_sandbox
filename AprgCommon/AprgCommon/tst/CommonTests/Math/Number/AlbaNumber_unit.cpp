@@ -1691,31 +1691,9 @@ TEST(AlbaNumberTest, GetComplexNumberDataWorks)
     EXPECT_FLOAT_EQ(3.5, complexNumberData10.imaginaryPart);
 }
 
-TEST(AlbaNumberTest, GetDisplayableStringWorks)
-{
-    AlbaNumber number1;
-    AlbaNumber number2(3484);
-    AlbaNumber number3(-1561);
-    AlbaNumber number4(-85.45631);
-    AlbaNumber number5(AlbaNumber::Value::pi);
-    AlbaNumber number6(AlbaNumber::Value::e);
-    AlbaNumber number7(AlbaNumber::createFraction(-415, 41745));
-    AlbaNumber number8(AlbaNumber::createComplexNumber(8.9, 7.8));
-
-    EXPECT_EQ("0", number1.getDisplayableString());
-    EXPECT_EQ("3484", number2.getDisplayableString());
-    EXPECT_EQ("-1561", number3.getDisplayableString());
-    EXPECT_EQ("-85.45631", number4.getDisplayableString());
-    EXPECT_EQ("(pi)", number5.getDisplayableString());
-    EXPECT_EQ("(e)", number6.getDisplayableString());
-    EXPECT_EQ("(-83/8349)", number7.getDisplayableString());
-    EXPECT_EQ("(8.9 + 7.8i)", number8.getDisplayableString());
-}
-
 TEST(AlbaNumberTest, ConvertToIntegerWorks)
 {
-    AlbaNumber number1(-1561);
-    AlbaNumber number2(-85.25);
+    AlbaNumber number1(-1561);    AlbaNumber number2(-85.25);
     AlbaNumber number3(-2.99999821186066);
     AlbaNumber number4(AlbaNumber::createFraction(-415, 41));
     AlbaNumber number5(AlbaNumber::createFraction(-3, 2));
@@ -1844,6 +1822,23 @@ TEST(AlbaNumberTest, PrecisionWorksOnSquareRootAndPolynomialCalculation)
     EXPECT_DOUBLE_EQ(-3.637978807091713e-012, denominator.getDouble());
     EXPECT_EQ(AlbaNumber::Type::Integer, numberToVerify.getType());
     EXPECT_EQ(0, numberToVerify.getInteger());
+}
+
+TEST(AlbaNumberTest, OutputStreamOperatorWorks)
+{
+    stringstream ss;
+    AlbaNumber number1;
+    AlbaNumber number2(3484);
+    AlbaNumber number3(-1561);
+    AlbaNumber number4(-85.45631);
+    AlbaNumber number5(AlbaNumber::Value::pi);
+    AlbaNumber number6(AlbaNumber::Value::e);
+    AlbaNumber number7(AlbaNumber::createFraction(-415, 41745));
+    AlbaNumber number8(AlbaNumber::createComplexNumber(8.9, 7.8));
+
+    ss << number1 << "," << number2 << "," << number3 << "," << number4 << "," << number5 << "," << number6 << "," << number7 << "," << number8;
+
+    EXPECT_EQ("0,3484,-1561,-85.4563,(pi),(e),(-83/8349),(8.9 + 7.8i)", ss.str());
 }
 
 }

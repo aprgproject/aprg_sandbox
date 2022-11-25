@@ -1,10 +1,9 @@
 #pragma once
 
-#include <string>
+#include <ostream>
 
 namespace alba
 {
-
 template <typename DataType>
 class AlbaComplexNumber
 {
@@ -38,11 +37,9 @@ public:
     AlbaComplexNumber<DataType> getNthRoot(
             unsigned int const rootIndex,
             unsigned int const rootDegree) const;
-    std::string getDisplayableString() const;
 
 private:
-    DataType getRealPartInMultiplication(
-            DataType const firstRealPart,
+    DataType getRealPartInMultiplication(            DataType const firstRealPart,
             DataType const firstImaginaryPart,
             DataType const secondRealPart,
             DataType const secondImaginaryPart) const;
@@ -62,11 +59,14 @@ private:
             DataType const secondRealPart,
             DataType const secondImaginaryPart) const;
 
+    friend std::ostream & operator<<(std::ostream & out, AlbaComplexNumber<DataType> const& complexNumber)
+    {
+        out << "(" << complexNumber.m_realPart << " + " << complexNumber.m_imaginaryPart << "i)";
+        return out;
+    }
+
     DataType m_realPart;
     DataType m_imaginaryPart;
 };
-
-template <typename DataType>
-std::ostream & operator<<(std::ostream & out, AlbaComplexNumber<DataType> const& complexNumber);
 
 }

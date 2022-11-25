@@ -5,11 +5,9 @@
 #include <Common/Math/Helpers/PrecisionHelpers.hpp>
 
 #include <cmath>
-#include <sstream>
 
 using namespace alba::mathHelper;
 using namespace std;
-
 namespace alba
 {
 
@@ -84,17 +82,9 @@ void AlbaAngle::setAngleValueInDegreesNearestToZero()
     m_angleValueInDegrees = nearestPositiveAngleValueInDegrees<=180 ? nearestPositiveAngleValueInDegrees : nearestPositiveAngleValueInDegrees-360;
 }
 
-string AlbaAngle::getDisplayableString() const
-{
-    stringstream ss;
-    ss << "Angle in degrees: " << m_angleValueInDegrees;
-    return ss.str();
-}
-
 double AlbaAngle::calculateAngleValueInDegrees(AngleUnitType const angleInputType, double const angleValue) const
 {
-    double angleValueInDegrees=0;
-    if(AngleUnitType::Degrees == angleInputType)
+    double angleValueInDegrees=0;    if(AngleUnitType::Degrees == angleInputType)
     {
         angleValueInDegrees = angleValue;
     }
@@ -107,8 +97,7 @@ double AlbaAngle::calculateAngleValueInDegrees(AngleUnitType const angleInputTyp
 
 ostream & operator<<(ostream & out, AlbaAngle const& angle)
 {
-    out << angle.getDisplayableString();
+    out << "Angle in degrees: " << angle.m_angleValueInDegrees;
     return out;
 }
-
 }

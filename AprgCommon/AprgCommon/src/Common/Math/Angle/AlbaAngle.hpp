@@ -30,15 +30,14 @@ public:
     double getRadians() const;
     void setAngleValueInDegreesNearestToZero();
 
-    std::string getDisplayableString() const;
-
 private:
     double calculateAngleValueInDegrees(AngleUnitType const angleInputType, double const angleValue) const;
+
+    friend std::ostream & operator<<(std::ostream & out, AlbaAngle const& angle);
+
     double m_angleValueInDegrees;
 };
 
 using AlbaAngles = std::vector<AlbaAngle>;
-
-std::ostream & operator<<(std::ostream & out, AlbaAngle const& angle);
 
 }

@@ -9,11 +9,9 @@
 
 #include <functional>
 #include <iostream>
-#include <sstream>
 #include <string>
 
-using namespace alba::stringHelper;
-using namespace std;
+using namespace alba::stringHelper;using namespace std;
 
 namespace alba
 {

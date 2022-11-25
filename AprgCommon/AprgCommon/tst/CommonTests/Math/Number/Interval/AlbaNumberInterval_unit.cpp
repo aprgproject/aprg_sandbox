@@ -141,17 +141,9 @@ TEST(AlbaNumberIntervalTest, GetHigherEndpointWorks)
     EXPECT_EQ(784, interval.getHigherEndpoint().getValue().getInteger());
 }
 
-TEST(AlbaNumberIntervalTest, GetDisplayableStringForIntervalWorks)
-{
-    AlbaNumberInterval interval(createOpenEndpoint(645), createCloseEndpoint(784));
-
-    EXPECT_EQ("(645, 784]", interval.getDisplayableString());
-}
-
 TEST(AlbaNumberIntervalTest, SetNewEndpointWorks)
 {
-    AlbaNumberInterval interval1(createOpenEndpoint(645), createOpenEndpoint(784));
-    AlbaNumberInterval interval2(createOpenEndpoint(645), createOpenEndpoint(784));
+    AlbaNumberInterval interval1(createOpenEndpoint(645), createOpenEndpoint(784));    AlbaNumberInterval interval2(createOpenEndpoint(645), createOpenEndpoint(784));
     AlbaNumberInterval interval3(createOpenEndpoint(645), createOpenEndpoint(784));
     AlbaNumberInterval interval4(createOpenEndpoint(645), createOpenEndpoint(784));
 
@@ -168,6 +160,16 @@ TEST(AlbaNumberIntervalTest, SetNewEndpointWorks)
     EXPECT_EQ(createOpenEndpoint(784), interval3.getHigherEndpoint());
     EXPECT_EQ(createOpenEndpoint(645), interval4.getLowerEndpoint());
     EXPECT_EQ(createCloseEndpoint(784), interval4.getHigherEndpoint());
+}
+
+TEST(AlbaNumberIntervalTest, OutputStreamOperatorWorks)
+{
+    stringstream ss;
+    AlbaNumberInterval interval(createOpenEndpoint(645), createCloseEndpoint(784));
+
+    ss << interval;
+
+    EXPECT_EQ("(645, 784]", ss.str());
 }
 
 }
