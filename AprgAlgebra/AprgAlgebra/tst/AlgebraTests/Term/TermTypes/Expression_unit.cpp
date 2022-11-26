@@ -1614,6 +1614,21 @@ TEST(ExpressionTest, ClearAllInnerSimplifiedFlagsWorks)
     EXPECT_FALSE(getTermConstReferenceFromBaseTerm(expression.getFirstTermConstReference()).isSimplified());
 }
 
+TEST(ExpressionTest, OutputStreamOperatorWorks)
+{
+    stringstream ss;
+    Expression expression1;
+    Expression expression2(createExpressionIfPossible({695, "-", "interest", "+", "debt"}));
+    Expression expression3;
+    expression3.putTermWithDivisionIfNeeded(Term(96));
+    Expression expression4(createExpressionIfPossible({expression2, "^", "cash"}));
+
+    ss << expression1 << "," << expression2 << "," << expression3 << "," << expression4 ;
+
+    EXPECT_EQ("(),(695-interest+debt),(1/96),((695-interest+debt)^cash)",
+              ss.str());
+}
+
 }
 
 }

@@ -820,6 +820,29 @@ TEST(TermTest, ClearAllInnerSimplifiedFlagsWorks)
     EXPECT_FALSE(term.getMonomialConstReference().isSimplified());
 }
 
+TEST(TermTest, OutputStreamOperatorWorks)
+{
+    stringstream ss;
+    Term term1;
+    Term term2(0);
+    Term term3(Variable("length"));
+    Term term4(Operator("+"));
+    Term term5(Monomial(-1.5, {{"distance", -3.75}, {"power", 4.5}}));
+    Term term6(Polynomial{Monomial(3, {}), Monomial(-1.5, {{"distance", -3.75}, {"power", 4.5}})});
+    Term term7(createExpressionIfPossible({5, "+", "interest"}));
+    Function function1("functionName", Term(5), [](AlbaNumber const&  number) -> AlbaNumber
+    {
+        return number;
+    });
+    Term term8(function1);
+
+    ss << term1 << "," << term2 << "," << term3 << "," << term4 << ","
+       << term5 << "," << term6 << "," << term7 << "," << term8;
+
+    EXPECT_EQ("{EmptyTerm},0,length,+,-1.5[distance^-3.75][power^4.5],(3 + -1.5[distance^-3.75][power^4.5]),(5+interest),functionName(5)",
+              ss.str());
+}
+
 }
 
 }
