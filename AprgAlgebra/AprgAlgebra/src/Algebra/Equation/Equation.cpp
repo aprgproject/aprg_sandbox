@@ -89,7 +89,8 @@ string Equation::getDisplayableString() const
     return ss.str();
 }
 
-Term & Equation::getLeftHandTermReference(){
+Term & Equation::getLeftHandTermReference()
+{
     return m_leftHandTerm;
 }
 
@@ -112,6 +113,7 @@ ostream & operator<<(ostream & out, Equation const& equation)
         << equation.m_rightHandTerm;
     return out;
 }
+
 }
 
 }

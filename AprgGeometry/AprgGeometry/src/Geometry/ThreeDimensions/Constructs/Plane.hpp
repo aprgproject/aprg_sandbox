@@ -44,7 +44,8 @@ private:
 
     void calculateDCoefficientUsingCoefficientsABCAndAPoint(Point const& first);
     double m_aCoefficient; //form: a*x + b*y + c*z + d = 0
-    double m_bCoefficient; //form: a*x + b*y + c*z + d = 0    double m_cCoefficient; //form: a*x + b*y + c*z + d = 0
+    double m_bCoefficient; //form: a*x + b*y + c*z + d = 0
+    double m_cCoefficient; //form: a*x + b*y + c*z + d = 0
     double m_dCoefficient; //form: a*x + b*y + c*z + d = 0
 };
 

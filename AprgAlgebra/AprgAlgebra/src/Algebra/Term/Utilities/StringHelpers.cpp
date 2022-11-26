@@ -4,6 +4,7 @@
 #include <Algebra/Term/Utilities/BaseTermHelpers.hpp>
 #include <Algebra/Term/Utilities/EnumHelpers.hpp>
 #include <Common/String/AlbaStringHelper.hpp>
+
 using namespace alba::stringHelper;
 using namespace std;
 
@@ -144,7 +145,8 @@ string createVariableNameForSubstitution(Term const& term)
     return string("{") + term.getDisplayableString() + "}";
 }
 
-Term buildTermIfPossible(string const& termString){
+Term buildTermIfPossible(string const& termString)
+{
     Term result;
     TermsAggregator aggregator(tokenizeToTerms(termString));
     aggregator.simplifyTerms();

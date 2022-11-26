@@ -25,6 +25,7 @@ std::string getString(
 std::string createVariableTermNameForSubstitution(Term const& term);
 
 Term buildTermIfPossible(std::string const& termString);
+
 Terms tokenizeToTerms(std::string const& inputString);
 void addValueTermIfNotEmpty(Terms & terms, std::string const& valueString);
 

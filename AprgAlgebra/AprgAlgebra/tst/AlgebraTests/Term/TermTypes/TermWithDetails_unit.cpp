@@ -92,6 +92,7 @@ TEST(TermWithDetailsTest, GetAssociationPriorityWorks)
 TEST(TermWithDetailsTest, ClearWorks)
 {
     TermWithDetails termWithDetails(Term(10), TermAssociationType::Negative);
+
     termWithDetails.clear();
 
     EXPECT_EQ(nullptr, termWithDetails.baseTermSharedPointer.get());

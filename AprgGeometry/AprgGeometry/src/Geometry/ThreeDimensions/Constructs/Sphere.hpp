@@ -29,7 +29,8 @@ private:
 
     Point m_center;
     double m_radius;
-    double m_radiusSquared;};
+    double m_radiusSquared;
+};
 
 using Spheres = std::vector<Sphere>;
 

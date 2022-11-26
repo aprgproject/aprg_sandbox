@@ -12,6 +12,7 @@
 
 namespace alba
 {
+
 class AlbaStreamBitWriter
 {
 public:

@@ -124,6 +124,7 @@ public:
         ss << *this;
         return ss.str();
     }
+
     std::string getEquivalentString() const
     {
         return getEquivalentString(getMaxLengthOfEquivalentString());

@@ -36,7 +36,8 @@ bool EllipticCone::operator!=(EllipticCone const& ellipticCone) const
     return !((*this)==ellipticCone);
 }
 
-Point EllipticCone::getCenter() const{
+Point EllipticCone::getCenter() const
+{
     return m_center;
 }
 
@@ -79,6 +80,7 @@ ostream & operator<<(ostream & out, EllipticCone const& ellipticCone)
         << ")";
     return out;
 }
+
 }
 
 }

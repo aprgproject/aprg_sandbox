@@ -65,7 +65,8 @@ TEST(ConstantTest, NotOperationWorks)
 
 TEST(ConstantTest, SettingANewNumberWorks)
 {
-    Constant constant(true);    EXPECT_TRUE(constant.getBooleanValue());
+    Constant constant(true);
+    EXPECT_TRUE(constant.getBooleanValue());
 
     constant.setValue(false);
     EXPECT_FALSE(constant.getBooleanValue());

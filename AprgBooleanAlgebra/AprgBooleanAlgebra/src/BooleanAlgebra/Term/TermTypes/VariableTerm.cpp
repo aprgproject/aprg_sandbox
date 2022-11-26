@@ -72,7 +72,8 @@ bool VariableTerm::isNegated() const
 
 string VariableTerm::getVariableTermName() const
 {
-    return m_variableName;}
+    return m_variableName;
+}
 
 void VariableTerm::setVariableTermName(string const& variableName)
 {
@@ -108,6 +109,7 @@ ostream & operator<<(ostream & out, VariableTerm const& variableTerm)
     }
     return out;
 }
+
 }
 
 }

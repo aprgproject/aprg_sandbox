@@ -49,7 +49,8 @@ bool isCongruent(Triangle const& triangle1, Triangle const& triangle2)
             (anglesInTriangle1.at(2)==anglesInTriangle2.at(2));
 }
 
-bool areLinesParallel(Line const& line1, Line const& line2){
+bool areLinesParallel(Line const& line1, Line const& line2)
+{
     return (line1.getType()==LineType::Horizontal && line2.getType()==LineType::Horizontal) ||
             (line1.getType()==LineType::Vertical && line2.getType()==LineType::Vertical) ||
             (isAlmostEqual(line1.getSlope(), line2.getSlope()));
@@ -606,7 +607,8 @@ Point popNearestPoint(Points & points, Point const& point)
         for(Points::iterator it=points.begin()+1U; it!=points.end(); it++)
         {
             double currentDistance(getDistance(*it, point));
-            if(nearestDistance>currentDistance)            {
+            if(nearestDistance>currentDistance)
+            {
                 nearestDistance = currentDistance;
                 nearestPointIterator = it;
             }

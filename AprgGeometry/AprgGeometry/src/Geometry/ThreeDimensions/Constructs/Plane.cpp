@@ -158,7 +158,8 @@ AlbaOptional<double> Plane::calculateZFromXAndY(double const x, double const y) 
 
 void Plane::calculateDCoefficientUsingCoefficientsABCAndAPoint(Point const& first)
 {
-    m_dCoefficient = -(m_aCoefficient*first.getX())-(m_bCoefficient*first.getY())-(m_cCoefficient*first.getZ());}
+    m_dCoefficient = -(m_aCoefficient*first.getX())-(m_bCoefficient*first.getY())-(m_cCoefficient*first.getZ());
+}
 
 ostream & operator<<(ostream & out, Plane const& plane)
 {
@@ -169,6 +170,7 @@ ostream & operator<<(ostream & out, Plane const& plane)
        << " = 0";
     return out;
 }
+
 
 }
 }

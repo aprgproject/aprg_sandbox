@@ -36,7 +36,8 @@ bool EllipticParaboloid::operator!=(EllipticParaboloid const& ellipticParaboloid
     return !((*this)==ellipticParaboloid);
 }
 
-Point EllipticParaboloid::getCenter() const{
+Point EllipticParaboloid::getCenter() const
+{
     return m_center;
 }
 
@@ -79,6 +80,7 @@ ostream & operator<<(ostream & out, EllipticParaboloid const& ellipticParaboloid
         << ")";
     return out;
 }
+
 }
 
 }

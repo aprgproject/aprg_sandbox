@@ -913,7 +913,8 @@ unsigned int AlbaNumber::getNumberDataSize() const
 
 void AlbaNumber::convertToInteger()
 {
-    *this = AlbaNumber(getInteger());}
+    *this = AlbaNumber(getInteger());
+}
 
 void AlbaNumber::convertToFraction()
 {
@@ -1242,7 +1243,8 @@ ostream & operator<<(ostream & out, AlbaNumber const& number)
     return out;
 }
 
-template <>AlbaNumber::ConfigurationDetails getDefaultConfigurationDetails<AlbaNumber::ConfigurationDetails>()
+template <>
+AlbaNumber::ConfigurationDetails getDefaultConfigurationDetails<AlbaNumber::ConfigurationDetails>()
 {
     return AlbaNumber::ConfigurationDetails{COMPARISON_TOLERANCE_FOR_DOUBLE, AlbaNumber::ADJUSTMENT_FLOAT_TOLERANCE};
 }

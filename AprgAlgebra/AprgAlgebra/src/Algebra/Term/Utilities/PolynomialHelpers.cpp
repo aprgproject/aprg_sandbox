@@ -182,7 +182,8 @@ pair<AlbaNumber, AlbaNumber> getMinmaxDegree(
     pair<AlbaNumber, AlbaNumber> result;
     Monomials const& monomials(polynomial.getMonomialsConstReference());
     if(!monomials.empty())
-    {        result.first = getDegree(monomials.front());
+    {
+        result.first = getDegree(monomials.front());
         result.second = result.first;
         for(auto it=monomials.cbegin()+1; it!=monomials.cend(); it++)
         {

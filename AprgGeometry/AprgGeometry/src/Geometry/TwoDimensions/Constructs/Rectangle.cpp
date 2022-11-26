@@ -25,5 +25,6 @@ ostream & operator<<(ostream & out, Rectangle const& rectangle)
         << "]";
     return out;
 }
+
 }
 }

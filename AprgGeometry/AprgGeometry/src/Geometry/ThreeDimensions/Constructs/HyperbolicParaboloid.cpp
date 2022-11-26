@@ -36,7 +36,8 @@ bool HyperbolicParaboloid::operator!=(HyperbolicParaboloid const& hyperbolicPara
     return !((*this)==hyperbolicParaboloid);
 }
 
-Point HyperbolicParaboloid::getCenter() const{
+Point HyperbolicParaboloid::getCenter() const
+{
     return m_center;
 }
 
@@ -79,6 +80,7 @@ ostream & operator<<(ostream & out, HyperbolicParaboloid const& hyperbolicParabo
         << ")";
     return out;
 }
+
 }
 
 }

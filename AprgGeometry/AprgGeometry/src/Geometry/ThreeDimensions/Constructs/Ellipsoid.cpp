@@ -88,6 +88,7 @@ ostream & operator<<(ostream & out, Ellipsoid const& ellipsoid)
         << ")";
     return out;
 }
+
 }
 
 }

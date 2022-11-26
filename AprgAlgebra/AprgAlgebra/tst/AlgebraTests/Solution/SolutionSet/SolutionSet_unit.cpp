@@ -250,4 +250,5 @@ TEST(SolutionSetTest, GetDisplayableStringWorks)
 }
 
 }
+
 }

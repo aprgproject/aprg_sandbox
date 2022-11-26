@@ -18,7 +18,8 @@ public:
     bool operator!=(EllipticHyperboloid const& ellipticHyperboloid) const;
     Point getCenter() const;
     double getAValue() const;
-    double getBValue() const;    double getCValue() const;
+    double getBValue() const;
+    double getCValue() const;
     bool isInside(Point const& point) const;
     double calculateXFromYAndZ(double const y, double const z, double const signOfRoot) const;
     double calculateYFromXAndZ(double const x, double const z, double const signOfRoot) const;
@@ -29,7 +30,8 @@ private:
 
     Point m_center;
     double m_aValue;
-    double m_bValue;    double m_cValue;
+    double m_bValue;
+    double m_cValue;
     int m_oneWithSign;
 };
 

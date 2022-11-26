@@ -54,7 +54,8 @@ TEST(StringHelpersTest, GetStringForWrappedTermsWorks)
     EXPECT_EQ("[true], [true]", getString(wrappedTerms));
 }
 
-TEST(StringHelpersTest, CreateVariableTermNameForSubstitutionWorks){
+TEST(StringHelpersTest, CreateVariableTermNameForSubstitutionWorks)
+{
     Term term(createVariableTermNameForSubstitution(Term("x")));
 
     EXPECT_EQ("{{x}}", createVariableTermNameForSubstitution(term));

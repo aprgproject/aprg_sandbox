@@ -85,4 +85,5 @@ TEST(ConstantTest, OutputStreamOperatorWorks)
 }
 
 }
+
 }

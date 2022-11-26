@@ -62,6 +62,7 @@ TEST(WrappedTermTest, LessThanOperatorWorks)
 TEST(WrappedTermTest, ClearWorks)
 {
     WrappedTerm wrappedTerm(Term(10));
+
     wrappedTerm.clear();
 
     EXPECT_EQ(nullptr, wrappedTerm.baseTermSharedPointer.get());

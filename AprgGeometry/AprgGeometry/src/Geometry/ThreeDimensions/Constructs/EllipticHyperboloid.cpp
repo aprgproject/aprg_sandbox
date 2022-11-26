@@ -25,7 +25,8 @@ EllipticHyperboloid::EllipticHyperboloid(
         bool const isOneNegative)
     : m_center(center)
     , m_aValue(aCoefficient)
-    , m_bValue(bCoefficient)    , m_cValue(cCoefficient)
+    , m_bValue(bCoefficient)
+    , m_cValue(cCoefficient)
     , m_oneWithSign(isOneNegative ? -1 : 1)
 {}
 
@@ -42,7 +43,8 @@ bool EllipticHyperboloid::operator!=(EllipticHyperboloid const& ellipticHyperbol
     return !((*this)==ellipticHyperboloid);
 }
 
-Point EllipticHyperboloid::getCenter() const{
+Point EllipticHyperboloid::getCenter() const
+{
     return m_center;
 }
 
@@ -93,6 +95,7 @@ ostream & operator<<(ostream & out, EllipticHyperboloid const& ellipticHyperbolo
         << ")";
     return out;
 }
+
 }
 
 }

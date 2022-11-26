@@ -287,7 +287,8 @@ TEST(OperatorTest, OutputStreamOperatorWorks)
     stringstream ss;
     Operator nullOperator;
     Operator notOperator("~");
-    Operator andOperator("&");    Operator orOperator("|");
+    Operator andOperator("&");
+    Operator orOperator("|");
     Operator openingGroupOperator("(");
     Operator closingGroupOperator(")");
     Operator invalidOperator("invalid");
@@ -299,4 +300,5 @@ TEST(OperatorTest, OutputStreamOperatorWorks)
 }
 
 }
+
 }

@@ -59,7 +59,8 @@ TEST(MultipleVariableSolutionSetTest, GetDisplayableStringWorks)
               solutionSet.getDisplayableString());
 }
 
-TEST(MultipleVariableSolutionSetTest, GetVariableNamesWorks){
+TEST(MultipleVariableSolutionSetTest, GetVariableNamesWorks)
+{
     MultipleVariableSolutionSet solutionSet;
     SolutionSet solutionSetForVariable;
     solutionSetForVariable.addAcceptedValue(AlbaNumber(58));

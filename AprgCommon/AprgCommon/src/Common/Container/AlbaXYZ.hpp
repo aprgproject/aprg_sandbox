@@ -6,6 +6,7 @@
 
 namespace alba
 {
+
 template <typename CoordinateType>
 class AlbaXYZ
 {
@@ -30,7 +31,8 @@ public:
                 && mathHelper::isAlmostEqual(m_z, xyz.m_z);
     }
 
-    bool operator!=(AlbaXYZ const& secondXyz) const    {
+    bool operator!=(AlbaXYZ const& secondXyz) const
+    {
         AlbaXYZ const& firstXyz(*this);
         return !(firstXyz==secondXyz);
     }
@@ -53,7 +55,8 @@ public:
                 result = (m_z < xyz.m_z);
             }
             else
-            {                result = false;
+            {
+                result = false;
             }
         }
         else

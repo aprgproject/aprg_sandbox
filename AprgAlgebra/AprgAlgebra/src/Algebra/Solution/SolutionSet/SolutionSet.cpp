@@ -10,6 +10,7 @@
 
 using namespace alba::mathHelper;
 using namespace std;
+
 namespace alba
 {
 
@@ -49,6 +50,7 @@ string SolutionSet::getDisplayableString() const
     printParameterWithName(ss, "AcceptedIntervals:", m_acceptedIntervals);
     return ss.str();
 }
+
 void SolutionSet::addAcceptedValue(AlbaNumber const& value)
 {
     m_acceptedValues.emplace_back(value);

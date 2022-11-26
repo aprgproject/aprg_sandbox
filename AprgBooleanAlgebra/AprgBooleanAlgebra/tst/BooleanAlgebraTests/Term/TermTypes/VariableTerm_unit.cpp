@@ -83,7 +83,8 @@ TEST(VariableTermTest, IsNegatedWorks)
 
 TEST(VariableTermTest, SettingANewVariableTermNameWorks)
 {
-    VariableTerm variableForTest;    EXPECT_EQ("", variableForTest.getVariableTermName());
+    VariableTerm variableForTest;
+    EXPECT_EQ("", variableForTest.getVariableTermName());
 
     variableForTest.setVariableTermName("omega");
     EXPECT_EQ("omega", variableForTest.getVariableTermName());

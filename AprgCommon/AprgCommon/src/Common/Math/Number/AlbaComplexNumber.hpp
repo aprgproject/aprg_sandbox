@@ -4,6 +4,7 @@
 
 namespace alba
 {
+
 template <typename DataType>
 class AlbaComplexNumber
 {
@@ -39,7 +40,8 @@ public:
             unsigned int const rootDegree) const;
 
 private:
-    DataType getRealPartInMultiplication(            DataType const firstRealPart,
+    DataType getRealPartInMultiplication(
+            DataType const firstRealPart,
             DataType const firstImaginaryPart,
             DataType const secondRealPart,
             DataType const secondImaginaryPart) const;

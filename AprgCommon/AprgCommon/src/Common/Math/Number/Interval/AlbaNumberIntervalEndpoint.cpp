@@ -4,7 +4,8 @@
 
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 AlbaNumberIntervalEndpoint::AlbaNumberIntervalEndpoint(
         AlbaNumberIntervalEndpoint::Type const type,
@@ -52,11 +53,13 @@ string AlbaNumberIntervalEndpoint::getTypeString() const
 
 void AlbaNumberIntervalEndpoint::setType(Type const type)
 {
-    m_type = type;}
+    m_type = type;
+}
 
 ostream & operator<<(ostream & out, AlbaNumberIntervalEndpoint const& endpoint)
 {
     out << "(" << endpoint.getTypeString() << "," << endpoint.m_value << ")";
     return out;
 }
+
 }

@@ -160,7 +160,8 @@ AlbaOptional<double> Line::calculateZFromY(double const y) const
 
 void Line::calculateAndSaveInitialValuesIfPossible(Point const& first)
 {
-    if(!isInvalid())    {
+    if(!isInvalid())
+    {
         double minimizedMultiplierForInitialValue=0;
         if(!isAlmostEqual(m_aCoefficient+m_bCoefficient+m_cCoefficient, 0.0))
         {
@@ -219,5 +220,6 @@ ostream & operator<<(ostream & out, Line const& line)
         << " = (z-" << line.m_zInitialValue << ")/" << line.m_cCoefficient;
     return out;
 }
+
 }
 }

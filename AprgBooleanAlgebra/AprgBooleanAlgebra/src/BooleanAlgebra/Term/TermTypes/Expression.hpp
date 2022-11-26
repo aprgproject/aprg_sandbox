@@ -76,7 +76,8 @@ private:
 
     OperatorLevel m_commonOperatorLevel;
     WrappedTerms m_wrappedTerms;
-    bool m_isSimplified;};
+    bool m_isSimplified;
+};
 
 using Expressions=std::vector<Expression>;
 

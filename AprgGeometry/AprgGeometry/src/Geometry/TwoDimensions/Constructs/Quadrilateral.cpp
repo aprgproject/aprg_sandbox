@@ -48,7 +48,8 @@ void Quadrilateral::traverseArea(
 
 Quadrilateral::GroupOfPoints Quadrilateral::getGroupOfPointsBasedOnYValue() const
 {
-    GroupOfPoints result;    Points vertices(m_vertices.begin(), m_vertices.end());
+    GroupOfPoints result;
+    Points vertices(m_vertices.begin(), m_vertices.end());
     if(!vertices.empty())
     {
         sortPointsInYAndThenX(vertices);
@@ -355,5 +356,6 @@ ostream & operator<<(ostream & out, Quadrilateral const& quadrilateral)
         << "]";
     return out;
 }
+
 }
 }

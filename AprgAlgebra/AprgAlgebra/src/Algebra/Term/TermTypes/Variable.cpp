@@ -32,7 +32,8 @@ bool Variable::operator<(Variable const& second) const
 
 string Variable::getVariableName() const
 {
-    return m_variableName;}
+    return m_variableName;
+}
 
 void Variable::setVariableName(string const& variableName)
 {
@@ -44,6 +45,7 @@ ostream & operator<<(ostream & out, Variable const& variable)
     out << variable.m_variableName;
     return out;
 }
+
 }
 
 }

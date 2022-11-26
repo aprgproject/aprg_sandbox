@@ -43,13 +43,15 @@ bool WrappedTerm::operator<(WrappedTerm const& second) const
 
 void WrappedTerm::clear()
 {
-    baseTermSharedPointer.reset();}
+    baseTermSharedPointer.reset();
+}
 
 ostream & operator<<(ostream & out, WrappedTerm const& wrappedTerm)
 {
     out << getTermConstReferenceFromSharedPointer(wrappedTerm.baseTermSharedPointer);
     return out;
 }
+
 }
 
 }

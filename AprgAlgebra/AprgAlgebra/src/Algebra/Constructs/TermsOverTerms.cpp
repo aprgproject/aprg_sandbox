@@ -16,7 +16,8 @@
 #include <Common/Print/AlbaPrintFunctions.hpp>
 #include <Common/Math/Helpers/SignRelatedHelpers.hpp>
 
-#include <algorithm>#include <sstream>
+#include <algorithm>
+#include <sstream>
 
 using namespace alba::algebra::Factorization;
 using namespace alba::mathHelper;
@@ -180,6 +181,7 @@ string TermsOverTerms::getDisplayableString() const
     printParameterWithName(result, "Denominators:", m_denominators);
     return result.str();
 }
+
 void TermsOverTerms::setAsShouldSimplifyToFactors(
         bool const shouldSimplifyToFactors)
 {

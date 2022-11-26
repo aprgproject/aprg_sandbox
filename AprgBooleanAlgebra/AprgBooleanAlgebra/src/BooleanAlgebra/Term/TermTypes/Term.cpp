@@ -270,7 +270,8 @@ string Term::getDebugString() const
     return ss.str();
 }
 
-Constant & Term::getConstantReference(){
+Constant & Term::getConstantReference()
+{
     clearSimplifiedFlag();
     assert(m_type==TermType::Constant);
     return *dynamic_cast<Constant*>(m_baseTermDataPointer.get());
@@ -433,6 +434,7 @@ ostream & operator<<(ostream & out, Term const& term)
     }
     return out;
 }
+
 
 }
 

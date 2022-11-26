@@ -9,6 +9,7 @@
 
 namespace alba
 {
+
 class AlbaNumber
 {
 public:
@@ -164,6 +165,7 @@ public:
 
     void convertToInteger();
     void convertToFraction();
+
 private:
 
     // private constructors
@@ -228,7 +230,8 @@ private:
     friend std::ostream & operator<<(std::ostream & out, AlbaNumber const& number);
 
     Type m_type;
-    NumberUnionData m_data;};
+    NumberUnionData m_data;
+};
 
 template <> AlbaNumber::ConfigurationDetails getDefaultConfigurationDetails<AlbaNumber::ConfigurationDetails>();
 

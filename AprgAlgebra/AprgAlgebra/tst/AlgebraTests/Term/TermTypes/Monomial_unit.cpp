@@ -174,7 +174,8 @@ TEST(MonomialTest, GetExponentForVariableWorks)
 
 TEST(MonomialTest, ClearWorks)
 {
-    Monomial monomial1;    Monomial monomial2(1, {{"x", 1}});
+    Monomial monomial1;
+    Monomial monomial2(1, {{"x", 1}});
 
     monomial1.clear();
     monomial2.clear();

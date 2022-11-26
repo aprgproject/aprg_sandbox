@@ -46,7 +46,8 @@ private:
 
     Point m_center;
     double m_radius;
-    double m_radiusSquared;};
+    double m_radiusSquared;
+};
 
 using Circles = std::vector<Circle>;
 

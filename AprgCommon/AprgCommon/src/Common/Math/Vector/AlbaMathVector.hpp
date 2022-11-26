@@ -11,6 +11,7 @@
 
 namespace alba
 {
+
 template <typename DataType>
 bool isEqualForMathVectorDataType(DataType const& value1, DataType const& value2);
 
@@ -187,6 +188,7 @@ public:
         ss << *this;
         return ss.str();
     }
+
     DataType & getValueReferenceAt(unsigned int const index)
     {
         assert(index<SIZE);

@@ -30,7 +30,8 @@ private:
 
     Point m_center;
     double m_aValue;
-    double m_bValue;    double m_cValue;
+    double m_bValue;
+    double m_cValue;
 };
 
 using Ellipsoids = std::vector<Ellipsoid>;

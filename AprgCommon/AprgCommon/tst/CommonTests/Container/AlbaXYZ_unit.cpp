@@ -150,6 +150,7 @@ TEST(AlbaXYZTest, GetXTimesYTimesZWorks)
 TEST(AlbaXYZTest, SetXWorks)
 {
     IntXYZ xyz(-5,5,10);
+
     xyz.setX(23);
 
     EXPECT_EQ(IntXYZ(23,5,10), xyz);

@@ -111,6 +111,7 @@ TEST(PolynomialTest, GetMonomialsConstReferenceWorks)
 TEST(PolynomialTest, GetMonomialsReferenceWorks)
 {
     Polynomial polynomial{Monomial(6, {}), Monomial(-7, {{"x", 2}, {"y", 3}, {"z", 4}})};
+
     Monomials & monomialsToChange(polynomial.getMonomialsReference());
     monomialsToChange.at(0).setConstant(22);
     monomialsToChange.at(1).putVariableWithExponent("a", 5);

@@ -401,7 +401,8 @@ TEST(TermTest, GetDebugStringWorks)
     EXPECT_EQ("{EmptyTerm}{Empty}", term1.getDebugString());
     EXPECT_EQ("[false]{Constant}", term2.getDebugString());
     EXPECT_EQ("x{VariableTerm}", term3.getDebugString());
-    EXPECT_EQ("&{Operator}", term4.getDebugString());    EXPECT_EQ("( {?}||x{VariableTerm} ){Expression}", term5.getDebugString());
+    EXPECT_EQ("&{Operator}", term4.getDebugString());
+    EXPECT_EQ("( {?}||x{VariableTerm} ){Expression}", term5.getDebugString());
 }
 
 TEST(TermTest, ClearWorks)

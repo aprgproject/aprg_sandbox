@@ -4,6 +4,7 @@
 #include <sstream>
 
 using namespace std;
+
 namespace alba
 {
 
@@ -36,6 +37,7 @@ string MultipleVariableSolutionSet::getDisplayableString() const
     }
     return result.str();
 }
+
 VariableNamesSet MultipleVariableSolutionSet::getVariableNames() const
 {
     VariableNamesSet result;

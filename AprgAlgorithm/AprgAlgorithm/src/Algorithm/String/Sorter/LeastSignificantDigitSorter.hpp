@@ -56,6 +56,7 @@ private:
             frequencyOfEachCharacter[getCharacterAtIfPossible(stringsToSort.at(i), digitIndex)+1]++;
         }
     }
+
     void computeCumulatesToGetNewIndexes(
             ArrayOfFrequencies & newIndexes) const
     {

@@ -38,7 +38,8 @@ public:
 
 private:
     GroupOfPoints getGroupOfPointsBasedOnYValue() const;
-    ListOfStartEndOfXAndY getStartEndForXs(            GroupOfPoints const& groupOfPointsBasedOnYValue,
+    ListOfStartEndOfXAndY getStartEndForXs(
+            GroupOfPoints const& groupOfPointsBasedOnYValue,
             double const interval) const;
     ListOfStartEndOfXAndY getStartEndForXsFor1Points(
             Points const& points) const;

@@ -6,6 +6,7 @@
 
 namespace alba
 {
+
 template <typename CoordinateType>
 class AlbaXY
 {
@@ -26,7 +27,8 @@ public:
         return mathHelper::isAlmostEqual(m_x, xy.m_x) && mathHelper::isAlmostEqual(m_y, xy.m_y);
     }
 
-    bool operator!=(AlbaXY const& secondXy) const    {
+    bool operator!=(AlbaXY const& secondXy) const
+    {
         AlbaXY const& firstXy(*this);
         return !(firstXy==secondXy);
     }
@@ -44,6 +46,7 @@ public:
         }
         return result;
     }
+
     AlbaXY operator+() const
     {
         return *this;

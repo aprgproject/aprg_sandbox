@@ -143,7 +143,8 @@ TEST(AlbaNumberIntervalTest, GetHigherEndpointWorks)
 
 TEST(AlbaNumberIntervalTest, SetNewEndpointWorks)
 {
-    AlbaNumberInterval interval1(createOpenEndpoint(645), createOpenEndpoint(784));    AlbaNumberInterval interval2(createOpenEndpoint(645), createOpenEndpoint(784));
+    AlbaNumberInterval interval1(createOpenEndpoint(645), createOpenEndpoint(784));
+    AlbaNumberInterval interval2(createOpenEndpoint(645), createOpenEndpoint(784));
     AlbaNumberInterval interval3(createOpenEndpoint(645), createOpenEndpoint(784));
     AlbaNumberInterval interval4(createOpenEndpoint(645), createOpenEndpoint(784));
 

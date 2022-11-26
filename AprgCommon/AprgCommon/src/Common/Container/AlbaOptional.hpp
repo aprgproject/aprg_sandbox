@@ -125,7 +125,8 @@ private:
 
     friend std::ostream & operator<<(std::ostream & out, AlbaOptional<ContentType> const& optional)
     {
-        out << "hasContent: " << optional.hasContent();        if(optional.hasContent())
+        out << "hasContent: " << optional.hasContent();
+        if(optional.hasContent())
         {
             out << " value: " << optional.getConstReference();
         }
@@ -134,6 +135,7 @@ private:
 
     std::unique_ptr<ContentType> m_contentPointer;
 };
+
 template <typename ContentType> class AlbaOptional<ContentType &>
 {
 public:
@@ -143,7 +145,8 @@ public:
 
     AlbaOptional()
         : m_hasContent(false)
-        , m_contentPointer(nullptr)    {}
+        , m_contentPointer(nullptr)
+    {}
 
     AlbaOptional(ContentType & content)
         : m_hasContent(true)
@@ -211,7 +214,8 @@ public:
 
 private:
     inline bool isContentPointerValid() const
-    {        return m_contentPointer != nullptr;
+    {
+        return m_contentPointer != nullptr;
     }
 
     bool m_hasContent;
@@ -230,4 +234,5 @@ private:
     }
 };
 
-template <typename ContentType> ContentType AlbaOptional<ContentType&>::m_empty;} // namespace alba
+template <typename ContentType> ContentType AlbaOptional<ContentType&>::m_empty;
+} // namespace alba

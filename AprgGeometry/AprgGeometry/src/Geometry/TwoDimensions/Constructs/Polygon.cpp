@@ -62,6 +62,7 @@ Lines Polygon<numberOfVertices>::getLines() const
     lines.emplace_back(m_vertices[sizeMinusOne], m_vertices.at(0));
     return lines; //RVO
 }
+
 template<unsigned int numberOfVertices>
 LineSegments Polygon<numberOfVertices>::getLineSegments() const
 {
@@ -74,6 +75,7 @@ LineSegments Polygon<numberOfVertices>::getLineSegments() const
     lineSegments.emplace_back(m_vertices[sizeMinusOne], m_vertices.at(0));
     return lineSegments; //RVO
 }
+
 template<unsigned int numberOfVertices>
 typename Polygon<numberOfVertices>::Distances Polygon<numberOfVertices>::getLengthOfSides() const
 {
@@ -86,6 +88,7 @@ typename Polygon<numberOfVertices>::Distances Polygon<numberOfVertices>::getLeng
     lengthOfSides[sizeMinusOne] = getDistance(m_vertices.at(sizeMinusOne), m_vertices.at(0));
     return lengthOfSides; //RVO
 }
+
 template<unsigned int numberOfVertices>
 Points Polygon<numberOfVertices>::getVertices() const
 {

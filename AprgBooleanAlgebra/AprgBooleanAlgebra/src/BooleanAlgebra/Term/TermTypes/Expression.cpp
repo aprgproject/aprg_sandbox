@@ -127,7 +127,8 @@ string Expression::getDisplayableString() const
     return ss.str();
 }
 
-string Expression::getDebugString() const{
+string Expression::getDebugString() const
+{
     stringstream result;
     result << "( " << getEnumShortString(m_commonOperatorLevel) << "||";
     for(WrappedTerm const& wrappedTerm : m_wrappedTerms)
@@ -136,7 +137,8 @@ string Expression::getDebugString() const{
         result << getString(m_commonOperatorLevel) << term.getDebugString();
     }
     result << " )";
-    return result.str();}
+    return result.str();
+}
 
 WrappedTerms & Expression::getWrappedTermsReference()
 {
@@ -429,6 +431,7 @@ ostream & operator<<(ostream & out, Expression const& expression)
     out << ")";
     return out;
 }
+
 }
 
 }

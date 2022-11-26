@@ -45,7 +45,8 @@ bool Constant::getBooleanValue() const
 
 void Constant::setValue(bool const boolValue)
 {
-    m_booleanValue = boolValue;}
+    m_booleanValue = boolValue;
+}
 
 void Constant::negate()
 {
@@ -64,6 +65,7 @@ ostream & operator<<(ostream & out, Constant const& constant)
     }
     return out;
 }
+
 }
 
 }

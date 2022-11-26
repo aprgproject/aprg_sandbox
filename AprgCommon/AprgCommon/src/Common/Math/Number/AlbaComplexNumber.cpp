@@ -10,6 +10,7 @@
 
 using namespace alba::mathHelper;
 using namespace std;
+
 namespace alba
 {
 
@@ -280,7 +281,8 @@ template AlbaComplexNumber<double> AlbaComplexNumber<double>::getNthRoot(
 
 template <typename DataType>
 DataType AlbaComplexNumber<DataType>::getRealPartInMultiplication(
-        DataType const firstRealPart,        DataType const firstImaginaryPart,
+        DataType const firstRealPart,
+        DataType const firstImaginaryPart,
         DataType const secondRealPart,
         DataType const secondImaginaryPart) const
 {

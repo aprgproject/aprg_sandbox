@@ -8,6 +8,7 @@
 
 using namespace alba::mathHelper;
 using namespace std;
+
 namespace alba
 {
 
@@ -84,7 +85,8 @@ void AlbaAngle::setAngleValueInDegreesNearestToZero()
 
 double AlbaAngle::calculateAngleValueInDegrees(AngleUnitType const angleInputType, double const angleValue) const
 {
-    double angleValueInDegrees=0;    if(AngleUnitType::Degrees == angleInputType)
+    double angleValueInDegrees=0;
+    if(AngleUnitType::Degrees == angleInputType)
     {
         angleValueInDegrees = angleValue;
     }
@@ -100,4 +102,5 @@ ostream & operator<<(ostream & out, AlbaAngle const& angle)
     out << "Angle in degrees: " << angle.m_angleValueInDegrees;
     return out;
 }
+
 }

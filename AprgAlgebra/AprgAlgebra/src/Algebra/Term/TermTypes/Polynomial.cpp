@@ -94,7 +94,8 @@ Monomials const& Polynomial::getMonomialsConstReference() const
 
 Monomials & Polynomial::getMonomialsReference()
 {
-    clearSimplifiedFlag();    return m_monomials;
+    clearSimplifiedFlag();
+    return m_monomials;
 }
 
 void Polynomial::clear()
@@ -286,6 +287,7 @@ ostream & operator<<(ostream & out, Polynomial const& polynomial)
     }
     return out;
 }
+
 }
 
 }

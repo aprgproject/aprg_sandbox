@@ -25,5 +25,6 @@ ostream & operator<<(ostream & out, Point const& point)
     out << dynamic_cast<PointParent const&>(point);
     return out;
 }
+
 }
 }

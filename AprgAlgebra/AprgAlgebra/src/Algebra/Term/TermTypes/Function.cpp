@@ -84,7 +84,8 @@ string Function::getFunctionName() const
 
 string Function::getDebugString() const
 {
-    return m_functionName + "(" + getTermConstReferenceFromBaseTerm(getInputTermConstReference()).getDebugString() + ")";}
+    return m_functionName + "(" + getTermConstReferenceFromBaseTerm(getInputTermConstReference()).getDebugString() + ")";
+}
 
 AlbaNumber Function::performFunctionAndReturnResultIfPossible() const
 {
@@ -147,6 +148,7 @@ ostream & operator<<(ostream & out, Function const& functionObject)
         << "(" << getTermConstReferenceFromUniquePointer(functionObject.m_inputTermPointer) << ")";
     return out;
 }
+
 }
 
 }

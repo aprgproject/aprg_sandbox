@@ -57,7 +57,8 @@ TEST(VariableTest, LessThanOperatorWorks)
 
 TEST(VariableTest, SettingANewVariableNameWorks)
 {
-    Variable variableForTest;    EXPECT_EQ("", variableForTest.getVariableName());
+    Variable variableForTest;
+    EXPECT_EQ("", variableForTest.getVariableName());
 
     variableForTest.setVariableName("omega");
     EXPECT_EQ("omega", variableForTest.getVariableName());

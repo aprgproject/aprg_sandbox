@@ -126,7 +126,8 @@ AlbaNumber Monomial::getExponentForVariable(string const& variableName) const
 
 void Monomial::clear()
 {
-    m_constant = AlbaNumber(0);    m_variablesToExponentsMap.clear();
+    m_constant = AlbaNumber(0);
+    m_variablesToExponentsMap.clear();
     clearSimplifiedFlag();
 }
 
@@ -289,6 +290,7 @@ ostream & operator<<(ostream & out, Monomial const& monomial)
     }
     return out;
 }
+
 }
 
 }

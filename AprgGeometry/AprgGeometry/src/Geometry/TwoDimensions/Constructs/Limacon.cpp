@@ -106,7 +106,8 @@ AlbaAngle Limacon::calculateThetaFromRadius(double const radius) const
 
 double Limacon::performTrigonometricFunction(AlbaAngle const& theta) const
 {
-    double result(0);    if(LimaconTrigonometricFunctionType::Sine == m_trigonometricFunctionType)
+    double result(0);
+    if(LimaconTrigonometricFunctionType::Sine == m_trigonometricFunctionType)
     {
         result = sin(theta.getRadians());
     }
@@ -146,5 +147,6 @@ ostream & operator<<(ostream & out, Limacon const& limacon)
     out << ")";
     return out;
 }
+
 }
 }

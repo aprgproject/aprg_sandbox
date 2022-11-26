@@ -288,7 +288,8 @@ TEST(OperatorTest, GetOperatorStringValueWorks)
 
 TEST(OperatorTest, SettingANewOperatingStringWorks)
 {
-    Operator operatorForTest1;    Operator operatorForTest2;
+    Operator operatorForTest1;
+    Operator operatorForTest2;
 
     operatorForTest2.setOperatorString("multiply");
 
@@ -350,4 +351,5 @@ TEST(OperatorTest, OutputStreamOperatorWorks)
 }
 
 }
+
 }

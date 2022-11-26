@@ -1693,7 +1693,8 @@ TEST(AlbaNumberTest, GetComplexNumberDataWorks)
 
 TEST(AlbaNumberTest, ConvertToIntegerWorks)
 {
-    AlbaNumber number1(-1561);    AlbaNumber number2(-85.25);
+    AlbaNumber number1(-1561);
+    AlbaNumber number2(-85.25);
     AlbaNumber number3(-2.99999821186066);
     AlbaNumber number4(AlbaNumber::createFraction(-415, 41));
     AlbaNumber number5(AlbaNumber::createFraction(-3, 2));

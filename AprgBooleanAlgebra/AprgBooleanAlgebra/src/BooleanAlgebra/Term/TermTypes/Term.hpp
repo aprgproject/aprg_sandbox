@@ -55,7 +55,8 @@ public:
     std::string getDebugString() const;
 
     Constant & getConstantReference();
-    VariableTerm & getVariableTermReference();    Operator & getOperatorReference();
+    VariableTerm & getVariableTermReference();
+    Operator & getOperatorReference();
     Expression & getExpressionReference();
 
     void clear();
@@ -75,7 +76,8 @@ private:
 
     TermType m_type;
     bool m_isSimplified;
-    std::unique_ptr<BaseTermData> m_baseTermDataPointer;};
+    std::unique_ptr<BaseTermData> m_baseTermDataPointer;
+};
 
 using Terms = std::vector<Term>;
 

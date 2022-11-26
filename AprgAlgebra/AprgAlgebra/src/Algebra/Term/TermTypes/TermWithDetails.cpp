@@ -68,7 +68,8 @@ unsigned int TermWithDetails::getAssociationPriority() const
 
 void TermWithDetails::clear()
 {
-    baseTermSharedPointer.reset();    association = TermAssociationType::Positive;
+    baseTermSharedPointer.reset();
+    association = TermAssociationType::Positive;
 }
 
 void TermWithDetails::reverseAssociation()

@@ -74,7 +74,8 @@ bool canBeMergedInAMonomialByAdditionOrSubtraction(Variable const& variable1, Va
     return variable1 == variable2;
 }
 
-bool doesCoefficientsHaveSameSign(Monomial const& monomial1, Monomial const& monomial2){
+bool doesCoefficientsHaveSameSign(Monomial const& monomial1, Monomial const& monomial2)
+{
     return getSign(monomial1.getConstantConstReference()) == getSign(monomial2.getConstantConstReference());
 }
 

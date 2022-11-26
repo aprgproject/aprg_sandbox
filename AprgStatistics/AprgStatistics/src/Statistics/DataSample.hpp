@@ -62,7 +62,8 @@ public:
 
     void setValueAt(unsigned int index, double const dataSampleValue)
     {
-        if(isIndexValid(index))        {
+        if(isIndexValid(index))
+        {
             m_data[index] = dataSampleValue;
         }
     }

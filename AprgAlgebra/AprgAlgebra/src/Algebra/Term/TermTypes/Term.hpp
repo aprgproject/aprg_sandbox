@@ -68,7 +68,8 @@ public:
     std::string getDebugString() const;
 
     Constant & getConstantReference();
-    Variable & getVariableReference();    Operator & getOperatorReference();
+    Variable & getVariableReference();
+    Operator & getOperatorReference();
     Monomial & getMonomialReference();
     Polynomial & getPolynomialReference();
     Expression & getExpressionReference();
@@ -90,7 +91,8 @@ private:
 
     TermType m_type;
     bool m_isSimplified;
-    std::unique_ptr<BaseTermData> m_baseTermDataPointer;};
+    std::unique_ptr<BaseTermData> m_baseTermDataPointer;
+};
 
 using Terms = std::vector<Term>;
 

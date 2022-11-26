@@ -101,5 +101,6 @@ ostream & operator<<(ostream & out, Sphere const& sphere)
     out << "(center: " << sphere.m_center << " radius: " << sphere.m_radius << ")";
     return out;
 }
+
 }
 }

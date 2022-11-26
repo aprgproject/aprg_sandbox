@@ -272,7 +272,8 @@ double Ellipse::calculateXFromYWithoutCenter(double const y, double const signOf
 
 Points Ellipse::getPointsInTraversingXAndY(double const signOfX, double const signOfY, double const interval) const
 {
-    Points result;    Points pointsFromTraversingX(getPointsInTraversingX(signOfX, signOfY, interval));
+    Points result;
+    Points pointsFromTraversingX(getPointsInTraversingX(signOfX, signOfY, interval));
     Points pointsFromTraversingY(getPointsInTraversingY(signOfX, signOfY, interval));
     if(signOfX>0 && signOfY>0)
     {
@@ -323,5 +324,6 @@ ostream & operator<<(ostream & out, Ellipse const& ellipse)
         << ")";
     return out;
 }
+
 }
 }

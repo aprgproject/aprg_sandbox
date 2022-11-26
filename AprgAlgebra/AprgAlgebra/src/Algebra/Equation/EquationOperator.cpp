@@ -85,6 +85,7 @@ ostream & operator<<(ostream & out, EquationOperator const& equationOperator)
     out << equationOperator.m_operatingString;
     return out;
 }
+
 }
 
 }

@@ -290,7 +290,8 @@ TEST(EquationOperatorTest, OutputStreamOperatorWorks)
     stringstream ss;
     EquationOperator nullOperator;
     EquationOperator singleEqualityOperator("=");
-    EquationOperator doubleEqualityOperator("==");    EquationOperator inequalityOperator("!=");
+    EquationOperator doubleEqualityOperator("==");
+    EquationOperator inequalityOperator("!=");
     EquationOperator lessThanOperator("<");
     EquationOperator greaterThanOperator(">");
     EquationOperator lessThanOperatorOrEqual("<=");
@@ -305,4 +306,5 @@ TEST(EquationOperatorTest, OutputStreamOperatorWorks)
 }
 
 }
+
 }

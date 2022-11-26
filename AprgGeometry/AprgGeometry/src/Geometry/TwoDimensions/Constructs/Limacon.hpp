@@ -51,7 +51,8 @@ private:
 
     double m_aValue;
     double m_bValue;
-    LimaconTrigonometricFunctionType m_trigonometricFunctionType;};
+    LimaconTrigonometricFunctionType m_trigonometricFunctionType;
+};
 
 using Limacons = std::vector<Limacon>;
 

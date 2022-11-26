@@ -28,7 +28,8 @@ bool Triangle::isIsoceles() const
              || isAlmostEqual(lengthOfSides.at(2), lengthOfSides.at(0));
 }
 
-bool Triangle::isRightTriangle() const{
+bool Triangle::isRightTriangle() const
+{
     AlbaAngles anglesAtVertices(getAnglesAtVertices());
     return any_of(anglesAtVertices.cbegin(), anglesAtVertices.cend(), [](AlbaAngle const& angleAtVertex)
     {
@@ -44,5 +45,6 @@ ostream & operator<<(ostream & out, Triangle const& triangle)
         << "]";
     return out;
 }
+
 }
 }

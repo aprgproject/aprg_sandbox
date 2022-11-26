@@ -8,6 +8,7 @@
 
 namespace alba
 {
+
 enum class AlbaValueRangeType
 {
     Unknown,
@@ -91,7 +92,8 @@ public:
 
     DataType getDelta() const
     {
-        DataType delta(m_endValue - m_startValue);        return (delta<0) ? delta*-1 : delta;
+        DataType delta(m_endValue - m_startValue);
+        return (delta<0) ? delta*-1 : delta;
     }
 
     DataType getMidpointValue() const
@@ -220,6 +222,7 @@ private:
 
     DataType m_startValue;
     DataType m_endValue;
-    DataType m_intervalMagnitude;};
+    DataType m_intervalMagnitude;
+};
 
 }

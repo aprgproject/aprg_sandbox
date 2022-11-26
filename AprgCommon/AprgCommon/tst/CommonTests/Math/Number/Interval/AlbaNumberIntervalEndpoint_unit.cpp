@@ -80,6 +80,7 @@ TEST(AlbaNumberIntervalEndpointTest, GetTypeStringForEndpointWorks)
 TEST(AlbaNumberIntervalEndpointTest, SetTypeForEndpointWorks)
 {
     AlbaNumberIntervalEndpoint endpoint(AlbaNumberIntervalEndpoint::Type::Open, 784);
+
     endpoint.setType(AlbaNumberIntervalEndpoint::Type::Close);
 
     EXPECT_EQ(AlbaNumberIntervalEndpoint::Type::Close, endpoint.getType());

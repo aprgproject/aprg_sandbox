@@ -54,6 +54,7 @@ public:
         ss << *this;
         return ss.str();
     }
+
     void addImplicant(Implicant const& implicant)
     {
         m_implicantsData.emplace(implicant);

@@ -8,6 +8,7 @@
 #include <ostream>
 
 using namespace alba::containerHelper;
+
 namespace alba
 {
 

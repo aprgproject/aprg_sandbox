@@ -4,7 +4,8 @@
 
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 namespace algebra
 {
@@ -50,13 +51,15 @@ AlbaNumber const& Constant::getNumberConstReference() const
 
 void Constant::setNumber(AlbaNumber const& constantValue)
 {
-    m_constantValue = constantValue;}
+    m_constantValue = constantValue;
+}
 
 ostream & operator<<(ostream & out, Constant const& constant)
 {
     out << constant.m_constantValue;
     return out;
 }
+
 }
 
 }

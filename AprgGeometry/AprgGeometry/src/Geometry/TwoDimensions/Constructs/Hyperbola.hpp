@@ -45,7 +45,8 @@ private:
 
     Point m_center;
     double m_aValue;
-    double m_bValue;};
+    double m_bValue;
+};
 
 using Hyperbolas = std::vector<Hyperbola>;
 

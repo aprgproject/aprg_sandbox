@@ -47,7 +47,8 @@ public:
 
 private:
     void setLineParametersBasedOnDeltas(double const deltaX, double const deltaY, Point const& point);
-    void setLineParametersBasedOnCoefficients(double const aCoefficient, double const bCoefficient, double const cCoefficient);    void setCoefficientsUsingLineTypeAndDeltaXandDeltaYAndAPoint(double const deltaY, double const deltaX, Point const& point);
+    void setLineParametersBasedOnCoefficients(double const aCoefficient, double const bCoefficient, double const cCoefficient);
+    void setCoefficientsUsingLineTypeAndDeltaXandDeltaYAndAPoint(double const deltaY, double const deltaX, Point const& point);
     void getPointsForVerticalLine(Points & points, Point const& first, Point const& second, double const interval) const;
     void getPointsForHorizontalLine(Points & points, Point const& first, Point const& second, double const interval) const;
     void getPointsForLineWithSlope(Points & points, Point const& first, Point const& second, double const interval) const;
@@ -59,7 +60,8 @@ private:
 
     LineType m_type;
     double m_aCoefficient; //form: a*x + b*y + c = 0
-    double m_bCoefficient; //form: a*x + b*y + c = 0    double m_cCoefficient; //form: a*x + b*y + c = 0
+    double m_bCoefficient; //form: a*x + b*y + c = 0
+    double m_cCoefficient; //form: a*x + b*y + c = 0
 };
 
 using Lines = std::vector<Line>;

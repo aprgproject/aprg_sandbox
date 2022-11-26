@@ -105,7 +105,8 @@ private:
 
     OperatorLevel m_commonOperatorLevel;
     TermsWithAssociation m_termsWithAssociation;
-    bool m_isSimplified;};
+    bool m_isSimplified;
+};
 
 using Expressions=std::vector<Expression>;
 

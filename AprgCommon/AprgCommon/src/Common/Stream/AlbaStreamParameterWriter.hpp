@@ -6,7 +6,8 @@
 #include <ostream>
 #include <vector>
 
-namespace alba{
+namespace alba
+{
 
 class AlbaStreamParameterWriter
 {

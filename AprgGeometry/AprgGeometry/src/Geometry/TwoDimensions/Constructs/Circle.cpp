@@ -203,7 +203,8 @@ Point Circle::getNearestPointInCircumference(Point const& point) const
 
 void Circle::determineAndSaveCenterAndRadiusFromCoefficients(
         double const a,
-        double const d,        double const e,
+        double const d,
+        double const e,
         double const f)
 {
     double xPart = d/a/2;
@@ -272,5 +273,6 @@ ostream & operator<<(ostream & out, Circle const& circle)
     out << "(center: " << circle.m_center << " radius: " << circle.m_radius << ")";
     return out;
 }
+
 }
 }

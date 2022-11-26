@@ -2,7 +2,8 @@
 
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 AlbaNumberInterval::AlbaNumberInterval(
         AlbaNumberIntervalEndpoint const& firstEndpoint,
@@ -83,7 +84,8 @@ AlbaNumberIntervalEndpoint const& AlbaNumberInterval::getHigherEndpoint() const
 
 void AlbaNumberInterval::setNewEndpoint(AlbaNumberIntervalEndpoint const& endpoint)
 {
-    if(endpoint.getValue() < m_lowerEndpoint.getValue())    {
+    if(endpoint.getValue() < m_lowerEndpoint.getValue())
+    {
         m_lowerEndpoint = endpoint;
     }
     else if(endpoint.getValue() > m_higherEndpoint.getValue())
@@ -109,4 +111,5 @@ ostream & operator<<(ostream & out, AlbaNumberInterval const& interval)
     out << startPrefix << interval.m_lowerEndpoint.getValue() << ", " << interval.m_higherEndpoint.getValue() << endPostfix;
     return out;
 }
+
 }

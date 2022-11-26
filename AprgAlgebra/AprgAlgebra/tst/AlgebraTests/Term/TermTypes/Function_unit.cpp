@@ -157,7 +157,8 @@ TEST(FunctionTest, GetFunctionNameWorks)
 
 TEST(FunctionTest, GetDebugStringWorks)
 {
-    Function functionObject("functionName", Term(5), [](AlbaNumber const&  number) -> AlbaNumber    {
+    Function functionObject("functionName", Term(5), [](AlbaNumber const&  number) -> AlbaNumber
+    {
         return number;
     });
 

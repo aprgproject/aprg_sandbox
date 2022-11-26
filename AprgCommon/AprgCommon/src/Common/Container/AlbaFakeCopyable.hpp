@@ -4,6 +4,7 @@
 
 namespace alba
 {
+
 template <class ObjectType>
 class AlbaFakeCopyable
 {
@@ -11,7 +12,8 @@ public:
 
     AlbaFakeCopyable() = default;
 
-    AlbaFakeCopyable(ObjectType const& object)        : m_object(object)
+    AlbaFakeCopyable(ObjectType const& object)
+        : m_object(object)
     {}
 
     AlbaFakeCopyable(AlbaFakeCopyable const&) // copy constructor does nothing

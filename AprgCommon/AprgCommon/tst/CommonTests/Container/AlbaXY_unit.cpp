@@ -135,6 +135,7 @@ TEST(AlbaXYTest, GetXTimesYWorks)
 TEST(AlbaXYTest, SetXWorks)
 {
     IntXY xy(-5,5);
+
     xy.setX(23);
 
     EXPECT_EQ(IntXY(23,5), xy);
