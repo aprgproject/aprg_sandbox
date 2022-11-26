@@ -115,27 +115,22 @@ public:
 
     std::string getDisplayableString() const override
     {
-        std::string firstPartOfString("Adjacency ");
         matrix::AlbaMatrix<std::string> matrixToDisplay(MAX_VERTEX_VALUE+1, MAX_VERTEX_VALUE+1);
         stringHelper::NumberToStringConverter converter;
-        matrixToDisplay.setEntry(0, 0, "X");
-        for(unsigned int i=0; i<MAX_VERTEX_VALUE; i++)
+        matrixToDisplay.setEntry(0, 0, "X");        for(unsigned int i=0; i<MAX_VERTEX_VALUE; i++)
         {
             matrixToDisplay.setEntry(i+1, 0, std::string("[")+converter.convert(i)+std::string("]"));
-            matrixToDisplay.setEntry(0, i+1, std::string("[")+converter.convert(i)+std::string("]"));
-        }
+            matrixToDisplay.setEntry(0, i+1, std::string("[")+converter.convert(i)+std::string("]"));        }
         m_adjacencyMatrix.iterateAllThroughYAndThenX([&](unsigned int const x, unsigned int const y)
         {
             matrixToDisplay.setEntry(x+1, y+1, converter.convert(isDirectlyConnected(x, y)));
         });
-        return firstPartOfString + matrixToDisplay.getString();
+        return std::string("Adjacency ") + matrixToDisplay.getString();
     }
 
-    AdjacencyMatrix const& getAdjacencyMatrix() const
-    {
+    AdjacencyMatrix const& getAdjacencyMatrix() const    {
         return m_adjacencyMatrix;
     }
-
     void connect(Vertex const& vertex1, Vertex const& vertex2) override
     {
         if(!isDirectlyConnected(vertex1, vertex2))
