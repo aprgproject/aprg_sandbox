@@ -60,21 +60,9 @@ public:
         return result;
     }
 
-    std::string getDisplayableString() const
-    {
-        std::stringstream result;
-        result.precision(20);
-        for(auto const& data : m_data)
-        {
-            result << data << ", ";
-        }
-        return result.str();
-    }
-
     void setValueAt(unsigned int index, double const dataSampleValue)
     {
-        if(isIndexValid(index))
-        {
+        if(isIndexValid(index))        {
             m_data[index] = dataSampleValue;
         }
     }
@@ -177,21 +165,14 @@ public:
         return result;
     }
 
+    friend std::ostream & operator<<(std::ostream & out, DataSample<DIMENSIONS> const& sample)
+    {
+        containerHelper::saveContentsToStream(out, sample.m_data, containerHelper::StreamFormat::String);
+        return out;
+    }
+
 private:
     BufferType m_data;
 };
-
-template <unsigned int DIMENSIONS>
-std::ostream & operator<<(std::ostream & out, DataSample<DIMENSIONS> const& sample)
-{
-    out << "(";
-    for(unsigned int i=0; i<sample.getSize(); i++)
-    {
-        out << sample.getValueAt(i) << ",";
-
-    }
-    out << ")";
-    return out;
-}
 
 }
