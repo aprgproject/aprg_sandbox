@@ -122,35 +122,21 @@ WrappedTerms const& Expression::getWrappedTerms() const
 
 string Expression::getDisplayableString() const
 {
-    stringstream result;
-    result << "(";
-    if(!m_wrappedTerms.empty())
-    {
-        result << m_wrappedTerms.front().baseTermSharedPointer->getDisplayableString();
-        for(auto it=m_wrappedTerms.cbegin()+1; it!=m_wrappedTerms.cend(); it++)
-        {
-            Term const& term(getTermConstReferenceFromSharedPointer(it->baseTermSharedPointer));
-            result << getString(m_commonOperatorLevel);
-            result << term.getDisplayableString();
-        }
-    }
-    result << ")";
-    return result.str();
+    stringstream ss;
+    ss << *this;
+    return ss.str();
 }
 
-string Expression::getDebugString() const
-{
+string Expression::getDebugString() const{
     stringstream result;
     result << "( " << getEnumShortString(m_commonOperatorLevel) << "||";
     for(WrappedTerm const& wrappedTerm : m_wrappedTerms)
     {
         Term const& term(getTermConstReferenceFromSharedPointer(wrappedTerm.baseTermSharedPointer));
-        result << getString(m_commonOperatorLevel);
-        result << term.getDebugString();
+        result << getString(m_commonOperatorLevel) << term.getDebugString();
     }
     result << " )";
-    return result.str();
-}
+    return result.str();}
 
 WrappedTerms & Expression::getWrappedTermsReference()
 {
@@ -428,10 +414,21 @@ void Expression::putTermForExpressionAndNonExpressions(
 
 ostream & operator<<(ostream & out, Expression const& expression)
 {
-    out << expression.getDisplayableString();
+    WrappedTerms const& wrappedTerms(expression.m_wrappedTerms);
+    string operatorString(getString(expression.m_commonOperatorLevel));
+    out << "(";
+    if(!wrappedTerms.empty())
+    {
+        out << getTermConstReferenceFromSharedPointer(wrappedTerms.front().baseTermSharedPointer);
+        for(auto it=wrappedTerms.cbegin()+1; it!=wrappedTerms.cend(); it++)
+        {
+            Term const& term(getTermConstReferenceFromSharedPointer(it->baseTermSharedPointer));
+            out << operatorString << term;
+        }
+    }
+    out << ")";
     return out;
 }
-
 }
 
 }

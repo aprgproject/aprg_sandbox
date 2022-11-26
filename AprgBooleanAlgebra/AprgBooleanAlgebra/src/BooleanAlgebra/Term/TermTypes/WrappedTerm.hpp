@@ -18,14 +18,14 @@ struct WrappedTerm
     bool operator==(WrappedTerm const& second) const;
     bool operator!=(WrappedTerm const& second) const;
     bool operator<(WrappedTerm const& second) const;
-    std::string getDisplayableString() const;
     void clear();
+
+    friend std::ostream & operator<<(std::ostream & out, WrappedTerm const& wrappedTerm);
+
     BaseTermSharedPointer baseTermSharedPointer;
 };
 
 using WrappedTerms=std::vector<WrappedTerm>;
-
-std::ostream & operator<<(std::ostream & out, WrappedTerm const& wrappedTerm);
 
 }
 

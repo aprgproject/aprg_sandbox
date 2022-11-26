@@ -63,21 +63,9 @@ TEST(ConstantTest, NotOperationWorks)
     EXPECT_EQ(Constant(false), ~Constant(true));
 }
 
-TEST(ConstantTest, GetDisplayableStringWorks)
-{
-    Constant constant1;
-    Constant constant2(true);
-    Constant constant3(false);
-
-    EXPECT_EQ("[false]", constant1.getDisplayableString());
-    EXPECT_EQ("[true]", constant2.getDisplayableString());
-    EXPECT_EQ("[false]", constant3.getDisplayableString());
-}
-
 TEST(ConstantTest, SettingANewNumberWorks)
 {
-    Constant constant(true);
-    EXPECT_TRUE(constant.getBooleanValue());
+    Constant constant(true);    EXPECT_TRUE(constant.getBooleanValue());
 
     constant.setValue(false);
     EXPECT_FALSE(constant.getBooleanValue());
@@ -93,6 +81,18 @@ TEST(ConstantTest, NegateWorks)
 
     EXPECT_TRUE(constant1.getBooleanValue());
     EXPECT_FALSE(constant2.getBooleanValue());
+}
+
+TEST(ConstantTest, OutputStreamOperatorWorks)
+{
+    stringstream ss;
+    Constant constant1;
+    Constant constant2(true);
+    Constant constant3(false);
+
+    ss << constant1 << "," << constant2 << "," << constant3;
+
+    EXPECT_EQ("[false],[true],[false]", ss.str());
 }
 
 }

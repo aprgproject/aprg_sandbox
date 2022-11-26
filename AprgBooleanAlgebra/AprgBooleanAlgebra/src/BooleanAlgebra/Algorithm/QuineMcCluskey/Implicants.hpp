@@ -51,10 +51,9 @@ public:
     std::string getDisplayableString() const
     {
         std::stringstream ss;
-        printParameterWithName(ss, "Implicants", m_implicantsData);
+        ss << *this;
         return ss.str();
     }
-
     void addImplicant(Implicant const& implicant)
     {
         m_implicantsData.emplace(implicant);
@@ -78,15 +77,15 @@ public:
     }
 
 private:
+
+    friend std::ostream & operator<<(std::ostream & out, Implicants<Minterm> const& implicants)
+    {
+        printParameterWithName(out, "Implicants", implicants.m_implicantsData);
+        return out;
+    }
+
     ImplicantData m_implicantsData;
 };
-
-template <typename Minterm>
-std::ostream & operator<<(std::ostream & out, Implicants<Minterm> const& implicants)
-{
-    out << implicants.getDisplayableString();
-    return out;
-}
 
 }
 

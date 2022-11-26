@@ -43,22 +43,9 @@ bool Constant::getBooleanValue() const
     return m_booleanValue;
 }
 
-string Constant::getDisplayableString() const
-{
-    if(m_booleanValue)
-    {
-        return "[true]";
-    }
-    else
-    {
-        return "[false]";
-    }
-}
-
 void Constant::setValue(bool const boolValue)
 {
-    m_booleanValue = boolValue;
-}
+    m_booleanValue = boolValue;}
 
 void Constant::negate()
 {
@@ -67,10 +54,16 @@ void Constant::negate()
 
 ostream & operator<<(ostream & out, Constant const& constant)
 {
-    out << constant.getDisplayableString();
+    if(constant.m_booleanValue)
+    {
+        out << "[true]";
+    }
+    else
+    {
+        out << "[false]";
+    }
     return out;
 }
-
 }
 
 }

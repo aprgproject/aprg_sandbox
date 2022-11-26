@@ -271,25 +271,6 @@ TEST(OperatorTest, GetOperatorStringValueWorks)
     EXPECT_EQ("invalid", invalidOperator.getOperatorString());
 }
 
-TEST(OperatorTest, GetDisplayableStringWorks)
-{
-    Operator nullOperator;
-    Operator notOperator("~");
-    Operator andOperator("&");
-    Operator orOperator("|");
-    Operator openingGroupOperator("(");
-    Operator closingGroupOperator(")");
-    Operator invalidOperator("invalid");
-
-    EXPECT_TRUE(nullOperator.getDisplayableString().empty());
-    EXPECT_EQ("~", notOperator.getDisplayableString());
-    EXPECT_EQ("&", andOperator.getDisplayableString());
-    EXPECT_EQ("|", orOperator.getDisplayableString());
-    EXPECT_EQ("(", openingGroupOperator.getDisplayableString());
-    EXPECT_EQ(")", closingGroupOperator.getDisplayableString());
-    EXPECT_EQ("invalid", invalidOperator.getDisplayableString());
-}
-
 TEST(OperatorTest, SettingANewOperatingStringWorks)
 {
     Operator operatorForTest1;
@@ -301,6 +282,21 @@ TEST(OperatorTest, SettingANewOperatingStringWorks)
     EXPECT_EQ("multiply", operatorForTest2.getOperatorString());
 }
 
+TEST(OperatorTest, OutputStreamOperatorWorks)
+{
+    stringstream ss;
+    Operator nullOperator;
+    Operator notOperator("~");
+    Operator andOperator("&");    Operator orOperator("|");
+    Operator openingGroupOperator("(");
+    Operator closingGroupOperator(")");
+    Operator invalidOperator("invalid");
+
+    ss << nullOperator << "," << notOperator << "," << andOperator << "," << orOperator << ","
+       << openingGroupOperator << "," << closingGroupOperator << "," << invalidOperator;
+
+    EXPECT_EQ(",~,&,|,(,),invalid", ss.str());
 }
 
+}
 }

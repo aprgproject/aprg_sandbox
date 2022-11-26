@@ -31,18 +31,16 @@ public:
     bool isUnaryOperator() const;
     bool isBinaryOperator() const;
     bool isSameOperatorInputType(OperatorInputType const operatorInputType) const;
-
     OperatorType getOperatorType() const;
     std::string getOperatorString() const;
-    std::string getDisplayableString() const;
 
     void setOperatorString(std::string const& operatingString);
 
 private:
+    friend std::ostream & operator<<(std::ostream & out, Operator const& operatorObject);
+
     std::string m_operatingString;
 };
-
-std::ostream & operator<<(std::ostream & out, Operator const& operatorTerm);
 
 }
 

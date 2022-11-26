@@ -398,11 +398,10 @@ TEST(TermTest, GetDebugStringWorks)
     Term term4(Operator("&"));
     Term term5(createExpressionIfPossible({true, "&", "x"}));
 
-    EXPECT_EQ("{Empty}", term1.getDebugString());
+    EXPECT_EQ("{EmptyTerm}{Empty}", term1.getDebugString());
     EXPECT_EQ("[false]{Constant}", term2.getDebugString());
     EXPECT_EQ("x{VariableTerm}", term3.getDebugString());
-    EXPECT_EQ("&{Operator}", term4.getDebugString());
-    EXPECT_EQ("( {?}||x{VariableTerm} ){Expression}", term5.getDebugString());
+    EXPECT_EQ("&{Operator}", term4.getDebugString());    EXPECT_EQ("( {?}||x{VariableTerm} ){Expression}", term5.getDebugString());
 }
 
 TEST(TermTest, ClearWorks)
@@ -524,6 +523,20 @@ TEST(TermTest, ClearAllInnerSimplifiedFlagsWorks)
 
     EXPECT_FALSE(term.isSimplified());
     EXPECT_FALSE(term.getExpressionConstReference().isSimplified());
+}
+
+TEST(TermTest, OutputStreamOperatorWorks)
+{
+    stringstream ss;
+    Term term1;
+    Term term2(false);
+    Term term3(VariableTerm("x"));
+    Term term4(Operator("&"));
+    Term term5(createExpressionIfPossible({true, "&", "x"}));
+
+    ss << term1 << "," << term2 << "," << term3 << "," << term4 << "," << term5;
+
+    EXPECT_EQ("{EmptyTerm},[false],x,&,(x)", ss.str());
 }
 
 }

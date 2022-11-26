@@ -238,57 +238,39 @@ bool Term::getBooleanValue() const
 
 string Term::getDisplayableString() const
 {
-    string result;
-    if(m_type==TermType::Empty)
-    {
-        result = "{EmptyTerm}";
-    }
-    else if(m_type==TermType::Constant)
-    {
-        result = getConstantConstReference().getDisplayableString();
-    }
-    else if(m_type==TermType::VariableTerm)
-    {
-        result = getVariableTermConstReference().getDisplayableString();
-    }
-    else if(m_type==TermType::Operator)
-    {
-        result = getOperatorConstReference().getDisplayableString();
-    }
-    else if(m_type==TermType::Expression)
-    {
-        result = getExpressionConstReference().getDisplayableString();
-    }
-    return result;
+    stringstream ss;
+    ss << *this;
+    return ss.str();
 }
 
 string Term::getDebugString() const
 {
-    string result;
-    if(m_type==TermType::Constant)
+    stringstream ss;
+    switch (m_type)
     {
-        result = getConstantConstReference().getDisplayableString();
+    case TermType::Empty:
+        ss << "{EmptyTerm}";
+        break;
+    case TermType::Constant:
+        ss << getConstantConstReference();
+        break;
+    case TermType::VariableTerm:
+        ss << getVariableTermConstReference();
+        break;
+    case TermType::Operator:
+        ss << getOperatorConstReference();
+        break;
+    case TermType::Expression:
+        ss << getExpressionConstReference().getDebugString();
+        break;
+    default:
+        break;
     }
-    else if(m_type==TermType::VariableTerm)
-    {
-        result = getVariableTermConstReference().getDisplayableString();
-    }
-    else if(m_type==TermType::Operator)
-    {
-        result = getOperatorConstReference().getDisplayableString();
-    }
-    else if(m_type==TermType::Expression)
-    {
-        result = getExpressionConstReference().getDebugString();
-    }
-    result += "{";
-    result += getEnumShortString(m_type);
-    result += "}";
-    return result;
+    ss << "{" << getEnumShortString(m_type) << "}";
+    return ss.str();
 }
 
-Constant & Term::getConstantReference()
-{
+Constant & Term::getConstantReference(){
     clearSimplifiedFlag();
     assert(m_type==TermType::Constant);
     return *dynamic_cast<Constant*>(m_baseTermDataPointer.get());
@@ -429,10 +411,28 @@ void Term::initializeBasedOnString(string const& stringAsParameter)
 
 ostream & operator<<(ostream & out, Term const& term)
 {
-    out << term.getDisplayableString();
+    switch (term.m_type)
+    {
+    case TermType::Empty:
+        out << "{EmptyTerm}";
+        break;
+    case TermType::Constant:
+        out << term.getConstantConstReference();
+        break;
+    case TermType::VariableTerm:
+        out << term.getVariableTermConstReference();
+        break;
+    case TermType::Operator:
+        out << term.getOperatorConstReference();
+        break;
+    case TermType::Expression:
+        out << term.getExpressionConstReference();
+        break;
+    default:
+        break;
+    }
     return out;
 }
-
 
 }
 

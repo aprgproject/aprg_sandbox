@@ -121,19 +121,9 @@ public:
     std::string getDisplayableString() const
     {
         std::stringstream ss;
-        ss << getEquivalentString() << " (";
-        if(m_minterms.size() == 1)
-        {
-            ss << *(m_minterms.cbegin());
-        }
-        else
-        {
-            containerHelper::saveContentsToStream(ss, m_minterms, containerHelper::StreamFormat::String);
-        }
-        ss << ")";
+        ss << *this;
         return ss.str();
     }
-
     std::string getEquivalentString() const
     {
         return getEquivalentString(getMaxLengthOfEquivalentString());
@@ -223,15 +213,24 @@ private:
         });
     }
 
+    friend std::ostream & operator<<(std::ostream & out, Implicant<Minterm> const& implicant)
+    {
+        Minterms const& minterms(implicant.m_minterms);
+        out << "'" << implicant.getEquivalentString() << " (";
+        if(minterms.size() == 1)
+        {
+            out << *(minterms.cbegin());
+        }
+        else
+        {
+            containerHelper::saveContentsToStream(out, minterms, containerHelper::StreamFormat::String);
+        }
+        out << ")'";
+        return out;
+    }
+
     Minterms m_minterms;
 };
-
-template <typename Minterm>
-std::ostream & operator<<(std::ostream & out, Implicant<Minterm> const& implicant)
-{
-    out << "'" << implicant.getDisplayableString() << "'";
-    return out;
-}
 
 }
 

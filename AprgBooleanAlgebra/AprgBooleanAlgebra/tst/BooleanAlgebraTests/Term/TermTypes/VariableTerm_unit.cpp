@@ -81,19 +81,9 @@ TEST(VariableTermTest, IsNegatedWorks)
     EXPECT_TRUE(variableTerm2.isNegated());
 }
 
-TEST(VariableTermTest, GetDisplayableStringWorks)
-{
-    VariableTerm variableTerm1;
-    VariableTerm variableTerm2("time");
-
-    EXPECT_EQ("", variableTerm1.getDisplayableString());
-    EXPECT_EQ("time", variableTerm2.getDisplayableString());
-}
-
 TEST(VariableTermTest, SettingANewVariableTermNameWorks)
 {
-    VariableTerm variableForTest;
-    EXPECT_EQ("", variableForTest.getVariableTermName());
+    VariableTerm variableForTest;    EXPECT_EQ("", variableForTest.getVariableTermName());
 
     variableForTest.setVariableTermName("omega");
     EXPECT_EQ("omega", variableForTest.getVariableTermName());
@@ -112,6 +102,17 @@ TEST(VariableTermTest, NegateWorks)
     EXPECT_EQ(VariableTerm("'"), variableTerm1);
     EXPECT_EQ(VariableTerm("time'"), variableTerm2);
     EXPECT_EQ(VariableTerm("time"), variableTerm3);
+}
+
+TEST(VariableTermTest, OutputStreamOperatorWorks)
+{
+    stringstream ss;
+    VariableTerm variableTerm1;
+    VariableTerm variableTerm2("time");
+
+    ss << variableTerm1 << "," << variableTerm2;
+
+    EXPECT_EQ(",time", ss.str());
 }
 
 }

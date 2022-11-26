@@ -754,6 +754,20 @@ TEST(ExpressionTest, ClearAllInnerSimplifiedFlagsWorks)
     EXPECT_FALSE(getTermConstReferenceFromBaseTerm(expression.getFirstTermConstReference()).isSimplified());
 }
 
+TEST(ExpressionTest, OutputStreamOperatorWorks)
+{
+    stringstream ss;
+    Expression expression1;
+    Expression expression2(createExpressionIfPossible({true, "&", "x", "|", "y"}));
+    Expression expression3;
+    expression3.putTermWithAndOperationIfNeeded(Term(true));
+    Expression expression4(createExpressionIfPossible({expression2, "&", "z"}));
+
+    ss << expression1 << "," << expression2 << "," << expression3 << "," << expression4;
+
+    EXPECT_EQ("(),(x|y),([true]),((x|y)&z)", ss.str());
+}
+
 }
 
 }

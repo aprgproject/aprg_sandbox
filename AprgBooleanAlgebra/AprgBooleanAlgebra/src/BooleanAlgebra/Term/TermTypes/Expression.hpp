@@ -72,14 +72,13 @@ private:
     void putTermForExpressionAndNonExpressions(
             BaseTerm const& baseTerm);
 
+    friend std::ostream & operator<<(std::ostream & out, Expression const& expression);
+
     OperatorLevel m_commonOperatorLevel;
     WrappedTerms m_wrappedTerms;
-    bool m_isSimplified;
-};
+    bool m_isSimplified;};
 
 using Expressions=std::vector<Expression>;
-
-std::ostream & operator<<(std::ostream & out, Expression const& expression);
 
 }
 
