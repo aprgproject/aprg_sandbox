@@ -38,15 +38,13 @@ private:
                     // swap so that elements that are less than are kept to the left of boundaryIndexForLessThan
                     std::swap(valuesToSort[boundaryIndexForLessThan++], valuesToSort[i++]); // i is moved here as well (to keep i within the boundary)
                 }
-                else if(valuesToSort.at(i) > partitionValue)
+                else if(partitionValue < valuesToSort.at(i))
                 {
                     // swap so that elements that are greater than are kept to the right of boundaryIndexForGreaterThan
-                    std::swap(valuesToSort[i], valuesToSort[boundaryIndexForGreaterThan--]);
-                }
+                    std::swap(valuesToSort[i], valuesToSort[boundaryIndexForGreaterThan--]);                }
                 else
                 {
-                    i++; // equal to parition value so just move to the next item
-                }
+                    i++; // equal to parition value so just move to the next item                }
             }
             if(boundaryIndexForLessThan > 0) // prevent negative index
             {
@@ -64,14 +62,13 @@ private:
 
 // The motivation of this algorithm is to handle items with duplicate keys more efficiently. (compared to original quick sort algorithm)
 // Put the equal items in place and focus(sort/partition) on items that are not equal.
+// This version of quicksort is still NOT STABLE.
 
 // This algorithm runs by dividing the partition into 3 parts:
-// 1) Values less than the partition value is on the left
-// 2) Values greater than the partition value is on the right
+// 1) Values less than the partition value is on the left// 2) Values greater than the partition value is on the right
 // 3) Values equal to the partition value is between (1) and (2)
 
 // This is proposed by Djisktra and he was interested in the correctness of programs.
-
 // Worst case (Lower bound): When the keys are distinct so no need to divide the partition into 3 parts.
 // What is interesting about this algorithm is that the number compares its using is equal to the lower bound within a constant factor.
 // Proof: provided by Sedgewick-Bentley in 1997

@@ -18,22 +18,20 @@ public:
     void sort(Values & valuesToSort) const override
     {
         unsigned int const size = valuesToSort.size();
-        for(unsigned int index1=0; index1<size-1; index1++)
+        for(unsigned int i=0; i<size-1; i++)
         {
             bool noSwapHappened(true);
-            for(unsigned int index2=0; index2<size-index1-1; index2++)
+            for(unsigned int j=0; j<size-i-1; j++)
             {
-                if(valuesToSort.at(index2) > valuesToSort.at(index2+1))
+                if(valuesToSort.at(j+1) < valuesToSort.at(j))
                 {
-                    std::swap(valuesToSort[index2], valuesToSort[index2+1]);
+                    std::swap(valuesToSort[j], valuesToSort[j+1]);
                     noSwapHappened = false;
                 }
-            }
-            if(noSwapHappened)
+            }            if(noSwapHappened)
             {
                 break;
-            }
-        }
+            }        }
     }
 };
 

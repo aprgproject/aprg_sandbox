@@ -27,15 +27,12 @@ public:
             newPosition[c] += newPosition.at(c-1);
         }
 
-
         Values copiedValues(valuesToSort);
         for(int i=copiedValues.size()-1; i>=0; i--) // For stable algorithm, reverse the traversal in copied values
-        {
-            Value copiedValue(copiedValues.at(i));
+        {            Value copiedValue(copiedValues.at(i));
             unsigned int indexableValue(convertValueToIndexableValue(copiedValue));
             valuesToSort[--newPosition[indexableValue]] = copiedValue;
-        }
-    }
+        }    }
 
 private:
 
