@@ -2,24 +2,34 @@
 
 #include <Algorithm/Sort/BaseSorter.hpp>
 
+#include <functional>
+
 namespace alba
 {
 
 namespace algorithm
 {
 
-template <typename Values, typename ArrayOfCountPerValue>
+template <typename Values, unsigned int MAX_NUMBER_OF_VALUES>
 class CountingSorterUsingNewPositions : public BaseSorter<Values>
 {
 public:
     using Value = typename Values::value_type;
+    using ArrayOfCountPerValue = std::array<unsigned int, MAX_NUMBER_OF_VALUES>;
+    using ValueToIndexableValueFunction = std::function<unsigned int(Value const&)>;
+
+    CountingSorterUsingNewPositions() = delete;
+    CountingSorterUsingNewPositions(
+            ValueToIndexableValueFunction const& valueToIndexableValueFunction)
+        : m_valueToIndexableValueFunction(valueToIndexableValueFunction)
+    {}
 
     void sort(Values & valuesToSort) const override
     {
         ArrayOfCountPerValue newPosition{}; // important to initialize to zero
         for(auto const& value : valuesToSort)
         {
-            newPosition[convertValueToIndexableValue(value)]++; // count each value
+            newPosition[m_valueToIndexableValueFunction(value)]++; // count each value
         }
 
         for(unsigned int c=1; c<newPosition.size(); c++) // Change count[i] so that count[i] now contains actual position of this character in output array
@@ -29,15 +39,15 @@ public:
 
         Values copiedValues(valuesToSort);
         for(int i=copiedValues.size()-1; i>=0; i--) // For stable algorithm, reverse the traversal in copied values
-        {            Value copiedValue(copiedValues.at(i));
-            unsigned int indexableValue(convertValueToIndexableValue(copiedValue));
+        {
+            Value const& copiedValue(copiedValues.at(i));
+            unsigned int indexableValue(m_valueToIndexableValueFunction(copiedValue));
             valuesToSort[--newPosition[indexableValue]] = copiedValue;
-        }    }
+        }
+    }
 
 private:
-
-    // index compression
-    unsigned int convertValueToIndexableValue(Value const& value) const; // Implementation will be provided by the user
+    ValueToIndexableValueFunction m_valueToIndexableValueFunction;
 };
 
 }

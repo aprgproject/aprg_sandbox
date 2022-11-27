@@ -21,9 +21,10 @@ public:
             unsigned int const lowDigitIndex,
             unsigned int const highDigitIndex) const
     {
-        for(unsigned int digitIndex=highDigitIndex+1; digitIndex>lowDigitIndex; digitIndex--)
+        for(int digitIndex=static_cast<int>(highDigitIndex); static_cast<int>(lowDigitIndex)<=digitIndex; digitIndex--)
         {
-            sortByLeastSignificantDigit(stringsToSort, digitIndex-1);
+            // highest index so least signficant first;
+            sortByLeastSignificantDigit(stringsToSort, static_cast<unsigned int>(digitIndex));
         }
     }
 
@@ -31,6 +32,13 @@ public:
             stringHelper::strings & stringsToSort,
             unsigned int const digitIndex) const
     {
+        // This is called: "key indexed counting"
+        // Character index starts in 1 because this array will be used to compute cumulates
+        // For example (alphabet is a, b, c, d...), position translate to this:
+        // 1) [0][a count][b count][c count]...
+        // 2) [0][cumulate with a][cumulate with b][cumulate with c]...
+        // 3) [a starting index][b starting index][c starting index][d starting index]...
+
         ArrayOfFrequencies newIndexes{};
         countTheFrequencyForEachCharacterAt(newIndexes, stringsToSort, digitIndex);
         computeCumulatesToGetNewIndexes(newIndexes);
@@ -43,17 +51,9 @@ private:
             stringHelper::strings const& stringsToSort,
             unsigned int const digitIndex) const
     {
-        // This is called: "key indexed counting"
-        // Character index starts in 1 because this array will be used to compute cumulates
-        // For example (alphabet is a, b, c, d...), position translate to this:
-        // 1) [0][a count][b count][c count]...
-        // 2) [0][cumulate with a][cumulate with b][cumulate with c]...
-        // 3) [a starting index][b starting index][c starting index][d starting index]...
-
-        unsigned int numberOfStrings(stringsToSort.size());
-        for(unsigned int i=0; i<numberOfStrings; i++)
+        for(std::string const& stringToSort : stringsToSort)
         {
-            frequencyOfEachCharacter[getCharacterAtIfPossible(stringsToSort.at(i), digitIndex)+1]++;
+            frequencyOfEachCharacter[getCharacterAtIfPossible(stringToSort, digitIndex)+1]++;
         }
     }
 
@@ -62,9 +62,9 @@ private:
     {
         // By getting the partial sum of each character index, we will know the new string index to put each string with this character
         unsigned int newIndexesSize = newIndexes.size();
-        for(unsigned int i=0; i<newIndexesSize; i++)
+        for(unsigned int i=0; i+1U<newIndexesSize; i++)
         {
-            newIndexes[i+1] += newIndexes.at(i);
+            newIndexes[i+1U] += newIndexes.at(i);
         }
     }
 
@@ -74,10 +74,9 @@ private:
             unsigned int const digitIndex) const
     {
         stringHelper::strings copiedStrings(stringsToSort); // copy first and then copy back to output in the new indexes;
-        unsigned int numberOfStrings(stringsToSort.size());
-        for(unsigned int i=0; i<numberOfStrings; i++)
+        for(std::string const& copiedString : copiedStrings)
         {
-            stringsToSort[newIndexes[getCharacterAtIfPossible(copiedStrings.at(i), digitIndex)]++] = copiedStrings.at(i);
+            stringsToSort[newIndexes[getCharacterAtIfPossible(copiedString, digitIndex)]++] = copiedString;
         }
     }
 

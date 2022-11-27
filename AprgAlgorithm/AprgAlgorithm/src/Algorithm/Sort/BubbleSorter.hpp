@@ -15,6 +15,9 @@ template <typename Values>
 class BubbleSorter : public BaseSorter<Values>
 {
 public:
+
+    BubbleSorter() = default;
+
     void sort(Values & valuesToSort) const override
     {
         unsigned int const size = valuesToSort.size();
@@ -28,10 +31,12 @@ public:
                     std::swap(valuesToSort[j], valuesToSort[j+1]);
                     noSwapHappened = false;
                 }
-            }            if(noSwapHappened)
+            }
+            if(noSwapHappened)
             {
                 break;
-            }        }
+            }
+        }
     }
 };
 

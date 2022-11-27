@@ -16,6 +16,8 @@ class QuickSelect
 public:
     using Value = typename Values::value_type;
 
+    QuickSelect() = default;
+
     Value getNthSelect(Values & valuesToSort, unsigned int const selectionIndex) const
     {
         doNthElement(valuesToSort, selectionIndex);

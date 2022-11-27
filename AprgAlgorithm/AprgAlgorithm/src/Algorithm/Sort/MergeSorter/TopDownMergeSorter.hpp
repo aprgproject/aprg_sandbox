@@ -13,6 +13,9 @@ template <typename Values>
 class TopDownMergeSorter : public BaseSorter<Values>
 {
 public:
+
+    TopDownMergeSorter() = default;
+
     void sort(Values & valuesToSort) const override
     {
         if(!valuesToSort.empty())

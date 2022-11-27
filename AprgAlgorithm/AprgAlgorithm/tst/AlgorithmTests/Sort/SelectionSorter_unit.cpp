@@ -3,8 +3,10 @@
 #include <AlgorithmTests/Sort/Utilities/StabilityCheckObject.hpp>
 
 #include <gtest/gtest.h>
+
 using namespace alba::algorithm::CommonTestsWithSorter;
 using namespace std;
+
 namespace alba
 {
 
@@ -21,22 +23,28 @@ using IntegerSorter = SelectionSorter<Integers>;
 using StabilityCheckSorter = SelectionSorter<StabilityCheckObjects>;
 }
 
-TEST(SelectionSorterTest, SortWorksOnCharactersUsingExample1){
-    testSortUsingExample1WithCharacters<CharacterSorter, Characters>();
+TEST(SelectionSorterTest, SortWorksOnCharactersUsingExample1)
+{
+    CharacterSorter sorter;
+    testSortUsingExample1WithCharacters<CharacterSorter, Characters>(sorter);
 }
+
 TEST(SelectionSorterTest, SortWorksOnCharactersUsingExample2)
 {
-    testSortUsingExample2WithCharacters<CharacterSorter, Characters>();
+    CharacterSorter sorter;
+    testSortUsingExample2WithCharacters<CharacterSorter, Characters>(sorter);
 }
 
 TEST(SelectionSorterTest, SortWorksOnPositiveAndNegativeIntegersUsingExample1)
 {
-    testSortUsingExample1WithPositiveAndNegativeIntegers<IntegerSorter, Integers>();
+    IntegerSorter sorter;
+    testSortUsingExample1WithPositiveAndNegativeIntegers<IntegerSorter, Integers>(sorter);
 }
 
 TEST(SelectionSorterTest, SortWorksAsStableOnStabilityCheckObjectsUsingExample1)
 {
-    testSortAsStableUsingExample1WithStabilityCheckObjects<StabilityCheckSorter, StabilityCheckObjects>();
+    StabilityCheckSorter sorter;
+    testSortAsStableUsingExample1WithStabilityCheckObjects<StabilityCheckSorter, StabilityCheckObjects>(sorter);
 }
 
 }

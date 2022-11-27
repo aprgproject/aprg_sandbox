@@ -15,6 +15,8 @@ class ShellSorter : public BaseSorter<Values> // This is invented by Shell in 19
 {
 public:
 
+    ShellSorter() = default;
+
     void sort(Values & valuesToSort) const override
     {
         unsigned int skipValue(getSkipValue(valuesToSort.size()));
@@ -43,10 +45,12 @@ private:
         for(unsigned int i=startingIndex; i>=skipValue && valuesToSort.at(i) < valuesToSort.at(i-skipValue); i-=skipValue)
         {
             std::swap(valuesToSort[i], valuesToSort[i-skipValue]);
-        }    }
+        }
+    }
 
     unsigned int getSkipValue(unsigned int const size) const
-    {        // Knuth approach. This returns: 1, 4, 13, 40, 121, 364, 1093
+    {
+        // Knuth approach. This returns: 1, 4, 13, 40, 121, 364, 1093
         unsigned int result(1);
         while(result < size/3)
         {

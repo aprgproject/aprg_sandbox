@@ -15,6 +15,8 @@ class InsertionSorter : public BaseSorter<Values>
 {
 public:
 
+    InsertionSorter() = default;
+
     void sort(Values & valuesToSort) const override
     {
         unsigned int const size = valuesToSort.size();
@@ -30,10 +32,12 @@ private:
         for(unsigned int i=startingIndex; i>0 && valuesToSort.at(i) < valuesToSort.at(i-1); i--)
         {
             std::swap(valuesToSort[i], valuesToSort[i-1]);
-        }    }
+        }
+    }
 };
 
 }
+
 }
 
 // Proposition: To sort a randomly ordered array with distinct keys, insertion sort uses ~(1/4)N^2 compares and ~(1/4)N^2 exchanges on average.

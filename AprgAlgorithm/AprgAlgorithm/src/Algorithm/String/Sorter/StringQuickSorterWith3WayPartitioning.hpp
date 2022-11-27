@@ -28,33 +28,32 @@ public:
     {
         if(lowStringIndex < highStringIndex)
         {
-            unsigned int indexForLessThan = lowStringIndex, i = lowStringIndex+1, indexForGreaterThan = highStringIndex;
-            char v(getCharacterAtIfPossible(stringsToSort.at(lowStringIndex), digitIndex));
-            while(i <= indexForGreaterThan)
+            unsigned int lowIndexWithEqualValue = lowStringIndex, i = lowStringIndex+1, highIndexWithEqualValue = highStringIndex;
+            std::string const& partitionString(stringsToSort.at(lowStringIndex));
+            bool shouldEqualPartProceed(isDigitValid(partitionString, digitIndex));
+            char partitionDigit(getCharacterAtIfPossible(partitionString, digitIndex)); // use digit at lowStringIndex as partition
+            while(i <= highIndexWithEqualValue)
             {
-                char t(getCharacterAtIfPossible(stringsToSort.at(i), digitIndex));
-                if(t < v)
+                char currentDigit(getCharacterAtIfPossible(stringsToSort.at(i), digitIndex));
+                if(currentDigit < partitionDigit)
                 {
-                    std::swap(stringsToSort[indexForLessThan++], stringsToSort[i]);
+                    std::swap(stringsToSort[lowIndexWithEqualValue++], stringsToSort[i]);
                 }
-                else if(t > v)
+                else if(currentDigit > partitionDigit)
                 {
-                    std::swap(stringsToSort[i], stringsToSort[indexForGreaterThan--]);
+                    std::swap(stringsToSort[i], stringsToSort[highIndexWithEqualValue--]);
                 }
                 else
                 {
                     i++;
                 }
             }
-            // sort lower part
-            sort(stringsToSort, lowStringIndex, indexForLessThan-1, digitIndex);
-            if(v >= 0)
+            sort(stringsToSort, lowStringIndex, lowIndexWithEqualValue-1, digitIndex); // sort lower part
+            if(shouldEqualPartProceed)
             {
-                // sort equal part
-                sort(stringsToSort, indexForLessThan, indexForGreaterThan, digitIndex+1);
+                sort(stringsToSort, lowIndexWithEqualValue, highIndexWithEqualValue, digitIndex+1); // sort equal part
             }
-            // sort higher part
-            sort(stringsToSort, indexForGreaterThan+1, highStringIndex, digitIndex);
+            sort(stringsToSort, highIndexWithEqualValue+1, highStringIndex, digitIndex); // sort higher part
         }
     }
 
@@ -63,12 +62,19 @@ private:
             std::string const& currentString,
             unsigned int const digitIndex) const
     {
-        char result(-1);
+        char result(0U);
         if(digitIndex < currentString.length())
         {
             result = currentString.at(digitIndex);
         }
         return result;
+    }
+
+    bool isDigitValid(
+            std::string const& currentString,
+            unsigned int const digitIndex) const
+    {
+        return digitIndex < currentString.length();
     }
 };
 

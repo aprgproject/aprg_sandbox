@@ -19,6 +19,8 @@ public:
     static constexpr unsigned int NUMBER_OF_CHILDREN_IN_HEAP_TREE=2U;
     using MaxHeapTreeAdapter = HeapTreeAdapter<Values, NUMBER_OF_CHILDREN_IN_HEAP_TREE, std::less>;
 
+    HeapSorter() = default;
+
     void sort(Values & valuesToSort) const override
     {
         MaxHeapTreeAdapter maxHeapTreeAdapter(valuesToSort);

@@ -188,7 +188,8 @@ public:
         ss << BaseClass::getDisplayableString() << "Flow edges: {";
         for(auto const& edgeAndDetailsPair : m_edgeToFlowEdgeDetailsMap)
         {
-            ss << edgeAndDetailsPair.first.first << "->"               << edgeAndDetailsPair.first.second
+            ss << edgeAndDetailsPair.first.first << "->"
+               << edgeAndDetailsPair.first.second
                << "(capacity: " << edgeAndDetailsPair.second.capacity
                << " flow: "<< edgeAndDetailsPair.second.flow << "), ";
         }
@@ -196,10 +197,12 @@ public:
         return ss.str();
     }
 
-    void connect(Vertex const& vertex1, Vertex const& vertex2, FlowDataType const& capacity, FlowDataType const& flow)    {
+    void connect(Vertex const& vertex1, Vertex const& vertex2, FlowDataType const& capacity, FlowDataType const& flow)
+    {
         connect(vertex1, vertex2);
         m_edgeToFlowEdgeDetailsMap[Edge{vertex1, vertex2}] = {capacity, flow};
     }
+
     void disconnect(Vertex const& vertex1, Vertex const& vertex2) override
     {
         BaseClass::disconnect(vertex1, vertex2);

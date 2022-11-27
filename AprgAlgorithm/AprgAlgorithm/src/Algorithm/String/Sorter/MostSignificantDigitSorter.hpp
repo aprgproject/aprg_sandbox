@@ -15,8 +15,8 @@ class MostSignificantDigitSorter
 {
 public:
     static constexpr unsigned int MAX_NUMBER_OF_CHARACTERS=256;
-    static constexpr unsigned int CUTOFF_TO_SMALLER_SORT=0; // dont do smaller sorts
-    using ArrayOfFrequencies = std::array<FrequencyDataType, MAX_NUMBER_OF_CHARACTERS+2>;
+    static constexpr unsigned int CUTOFF_TO_SMALLER_SORT=0; // switch to different sort when size is small
+    using ArrayOfFrequencies = std::array<FrequencyDataType, MAX_NUMBER_OF_CHARACTERS+1U>;
 
     void sortByMostSignificantDigit(stringHelper::strings & stringsToSort) const
     {
@@ -29,40 +29,76 @@ public:
             unsigned int const highStringIndex,
             unsigned int const digitIndex) const
     {
-        if(highStringIndex <= lowStringIndex + CUTOFF_TO_SMALLER_SORT)
+        if(lowStringIndex < stringsToSort.size() && highStringIndex < stringsToSort.size() && lowStringIndex < highStringIndex)
         {
-            std::sort(stringsToSort.begin()+lowStringIndex, stringsToSort.begin()+highStringIndex+1);
+            sortByMostSignificantDigitInternal(stringsToSort, lowStringIndex, highStringIndex, digitIndex);
         }
-        else
+    }
+
+private:
+
+    void sortByMostSignificantDigitInternal(
+            stringHelper::strings & stringsToSort,
+            unsigned int const lowStringIndex,
+            unsigned int const highStringIndex,
+            unsigned int const digitIndex) const
+    {
+            if(highStringIndex <= lowStringIndex + CUTOFF_TO_SMALLER_SORT)
+            {
+                sortForSmallerSizes(stringsToSort, lowStringIndex, highStringIndex);
+            }
+            else
+            {
+                sortByMostSignificantDigitUsingNewIndexes(stringsToSort, lowStringIndex, highStringIndex, digitIndex);
+            }
+    }
+
+    void sortForSmallerSizes(
+            stringHelper::strings & stringsToSort,
+            unsigned int const lowStringIndex,
+            unsigned int const highStringIndex) const
+    {
+        std::sort(stringsToSort.begin()+lowStringIndex, stringsToSort.begin()+highStringIndex+1U);
+    }
+
+    void sortByMostSignificantDigitUsingNewIndexes(
+            stringHelper::strings & stringsToSort,
+            unsigned int const lowStringIndex,
+            unsigned int const highStringIndex,
+            unsigned int const digitIndex) const
+    {
+        ArrayOfFrequencies newIndexes{};
+        // Key indexed counting
+        // Character index start at 2 because interval must be noted
+        // For example (alphabet is a, b, c, d...), position translate to this:
+        // 1) [0][a count][b count][c count]...
+        // 2) [0][cumulate with a][cumulate with b][cumulate with c]...
+        // 3) [a starting index][b starting index][c starting index][d starting index]...
+
+        bool areAllDigitsInvalid(true);
+        saveFrequencyForEachCharacterAt(newIndexes, areAllDigitsInvalid, stringsToSort, lowStringIndex, highStringIndex, digitIndex);
+        if(!areAllDigitsInvalid)
         {
-            ArrayOfFrequencies newIndexes{};
-            saveFrequencyForEachCharacterAt(newIndexes, stringsToSort, lowStringIndex, highStringIndex, digitIndex);
             computeCumulatesToGetNewIndexes(newIndexes);
             copyBackUsingNewIndexes(stringsToSort, newIndexes, lowStringIndex, highStringIndex, digitIndex);
             sortForEachCharacterValue(stringsToSort, newIndexes, lowStringIndex, digitIndex);
         }
     }
 
-private:
     void saveFrequencyForEachCharacterAt(
             ArrayOfFrequencies & frequencyOfEachCharacter,
+            bool & areAllDigitsInvalid,
             stringHelper::strings const& stringsToSort,
             unsigned int const lowStringIndex,
             unsigned int const highStringIndex,
             unsigned int const digitIndex) const
     {
-        // Key indexed counting
-        // Character index start at 2 because interval must be noted
-        // For example (alphabet is a, b, c, d...), position translate to this:
-        // 1) [0][0][a count][b count][c count]...
-        // 2) [0][0][cumulate with a][cumulate with c][cumulate with c]...
-        // 3) [0][a starting index][b starting index][c starting index][d starting index]...
-        // 4) [a low index][b low index (a high index-1)][c low index (b high index-1)][d low index (c high index-1)]...
-
         unsigned int limit(std::min(highStringIndex+1, stringsToSort.size()));
-        for(unsigned int i=lowStringIndex; i<limit; i++) // starts at low string index and ends at high string index
+        for(auto it=stringsToSort.cbegin()+lowStringIndex; it!=stringsToSort.cbegin()+limit; it++) // starts at low string index and ends at high string index
         {
-            frequencyOfEachCharacter[getCharacterAtIfPossible(stringsToSort.at(i), digitIndex)+2]++;
+            std::string const& stringToSort(*it);
+            frequencyOfEachCharacter[getCharacterAtIfPossible(stringToSort, digitIndex)+1U]++;
+            areAllDigitsInvalid &= isDigitInvalid(stringToSort, digitIndex);
         }
     }
 
@@ -85,12 +121,13 @@ private:
             unsigned int const digitIndex) const
     {
         stringHelper::strings copiedStrings(stringsToSort); // copy first and then copy back to output in the new indexes;
-        unsigned int limit(std::min(highStringIndex+1, stringsToSort.size()));
-        for(unsigned int i=lowStringIndex; i<limit; i++) // starts at low string index and ends at high string index
+        unsigned int limit(std::min(highStringIndex+1, copiedStrings.size()));
+        for(auto it=copiedStrings.cbegin()+lowStringIndex; it!=copiedStrings.cbegin()+limit; it++) // starts at low string index and ends at high string index
         {
             // replace index uses the character index before it
-            unsigned int replaceIndex = lowStringIndex + newIndexes[getCharacterAtIfPossible(copiedStrings.at(i), digitIndex)+1]++;
-            stringsToSort[replaceIndex] = copiedStrings.at(i);
+            std::string const& copiedString(*it);
+            unsigned int replaceIndex = lowStringIndex + newIndexes[getCharacterAtIfPossible(copiedString, digitIndex)]++;
+            stringsToSort[replaceIndex] = copiedString;
         }
     }
 
@@ -100,23 +137,16 @@ private:
             unsigned int const lowStringIndex,
             unsigned int const digitIndex) const
     {
+        unsigned int newLowStringIndex = lowStringIndex;
         for(unsigned int i=0; i<MAX_NUMBER_OF_CHARACTERS; i++)
         {
-            unsigned int newLowStringIndex(lowStringIndex+newIndexes.at(i));
-            unsigned int newHighStringIndex(lowStringIndex+newIndexes.at(i+1));
-            if(newHighStringIndex>0)
+            unsigned int newHighStringIndex = lowStringIndex + newIndexes.at(i);
+            newHighStringIndex -= newHighStringIndex > 0U ? 1U : 0U;
+            if(newLowStringIndex < newHighStringIndex)
             {
-                newHighStringIndex--;
+                sortByMostSignificantDigitInternal(stringsToSort, newLowStringIndex, newHighStringIndex, digitIndex+1);
             }
-            // sort the sub arrays
-            if(newLowStringIndex<newHighStringIndex)
-            {
-                sortByMostSignificantDigit(
-                            stringsToSort,
-                            newLowStringIndex,
-                            newHighStringIndex,
-                            digitIndex+1);
-            }
+            newLowStringIndex = newHighStringIndex+1U;
         }
     }
 
@@ -124,12 +154,19 @@ private:
             std::string const& currentString,
             unsigned int const digitIndex) const
     {
-        char result(-1);
+        char result(0);
         if(digitIndex < currentString.length())
         {
             result = currentString.at(digitIndex);
         }
         return result;
+    }
+
+    bool isDigitInvalid(
+            std::string const& currentString,
+            unsigned int const digitIndex) const
+    {
+        return digitIndex >= currentString.length();
     }
 };
 

@@ -12,8 +12,10 @@ namespace algorithm
 template <typename Values>
 class BottomUpMergeSorter : public BaseSorter<Values>
 {
-
 public:
+
+    BottomUpMergeSorter() = default;
+
     void sort(Values & valuesToSort) const override
     {
         Values auxiliary(valuesToSort);

@@ -15,6 +15,9 @@ template <typename Values>
 class SelectionSorter : public BaseSorter<Values>
 {
 public:
+
+    SelectionSorter() = default;
+
     void sort(Values & valuesToSort) const override
     {
         unsigned int const size = valuesToSort.size();

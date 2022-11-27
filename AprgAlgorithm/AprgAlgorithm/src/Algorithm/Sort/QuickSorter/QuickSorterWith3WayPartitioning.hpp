@@ -13,8 +13,10 @@ namespace algorithm
 template <typename Values>
 class QuickSorterWith3WayPartitioning : public BaseSorter<Values>
 {
-
 public:
+
+    QuickSorterWith3WayPartitioning() = default;
+
     void sort(Values & valuesToSort) const override
     {
         // You can randomize inputs here to remove dependence on input (quick sort works best if input is not sorted)
@@ -41,10 +43,12 @@ private:
                 else if(partitionValue < valuesToSort.at(i))
                 {
                     // swap so that elements that are greater than are kept to the right of boundaryIndexForGreaterThan
-                    std::swap(valuesToSort[i], valuesToSort[boundaryIndexForGreaterThan--]);                }
+                    std::swap(valuesToSort[i], valuesToSort[boundaryIndexForGreaterThan--]);
+                }
                 else
                 {
-                    i++; // equal to parition value so just move to the next item                }
+                    i++; // equal to parition value so just move to the next item
+                }
             }
             if(boundaryIndexForLessThan > 0) // prevent negative index
             {
@@ -65,10 +69,12 @@ private:
 // This version of quicksort is still NOT STABLE.
 
 // This algorithm runs by dividing the partition into 3 parts:
-// 1) Values less than the partition value is on the left// 2) Values greater than the partition value is on the right
+// 1) Values less than the partition value is on the left
+// 2) Values greater than the partition value is on the right
 // 3) Values equal to the partition value is between (1) and (2)
 
 // This is proposed by Djisktra and he was interested in the correctness of programs.
+
 // Worst case (Lower bound): When the keys are distinct so no need to divide the partition into 3 parts.
 // What is interesting about this algorithm is that the number compares its using is equal to the lower bound within a constant factor.
 // Proof: provided by Sedgewick-Bentley in 1997

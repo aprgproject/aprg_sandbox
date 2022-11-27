@@ -2,24 +2,38 @@
 
 #include <Algorithm/Sort/BaseSorter.hpp>
 
+#include <array>
+#include <functional>
+
 namespace alba
 {
 
 namespace algorithm
 {
 
-template <typename Values, typename ArrayOfCountPerValue>
+template <typename Values, unsigned int MAX_NUMBER_OF_VALUES>
 class CountingSorterUsingCountPerValue : public BaseSorter<Values>
 {
 public:
     using Value = typename Values::value_type;
+    using ArrayOfCountPerValue = std::array<unsigned int, MAX_NUMBER_OF_VALUES>;
+    using ValueToIndexableValueFunction = std::function<unsigned int(Value const&)>;
+    using IndexableValueToValueFunction = std::function<Value(unsigned int const)>;
+
+    CountingSorterUsingCountPerValue() = delete;
+    CountingSorterUsingCountPerValue(
+            ValueToIndexableValueFunction const& valueToIndexableValueFunction,
+            IndexableValueToValueFunction const& indexableValueToValueFunction)
+        : m_valueToIndexableValueFunction(valueToIndexableValueFunction)
+        , m_indexableValueToValueFunction(indexableValueToValueFunction)
+    {}
 
     void sort(Values & valuesToSort) const override
     {
         ArrayOfCountPerValue countPerValue{}; // important to initialize to zero
         for(auto const& value : valuesToSort)
         {
-            countPerValue[convertValueToIndexableValue(value)]++; // count each value
+            countPerValue[m_valueToIndexableValueFunction(value)]++; // count each value
         }
 
         unsigned int i=0;
@@ -27,16 +41,14 @@ public:
         {
             for(unsigned int currentCount=0; currentCount<countPerValue.at(indexableValue); currentCount++)
             {
-                valuesToSort[i++] = convertIndexableValueToValue(indexableValue); // put the value multiple times depending on the current count
+                valuesToSort[i++] = m_indexableValueToValueFunction(indexableValue); // put the value multiple times depending on the current count
             }
         }
     }
 
 private:
-
-    // index compression
-    unsigned int convertValueToIndexableValue(Value const& value) const; // Implementation will be provided by the user
-    Value convertIndexableValueToValue(unsigned int const indexableValue) const; // Implementation will be provided by the user
+    ValueToIndexableValueFunction m_valueToIndexableValueFunction;
+    IndexableValueToValueFunction m_indexableValueToValueFunction;
 };
 
 }

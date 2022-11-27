@@ -11,18 +11,18 @@ namespace algorithm
 class StabilityCheckObject
 {
 public:
-    StabilityCheckObject(char const partOfLessThan, unsigned int const notPartOfLessThan);
+    StabilityCheckObject(char const visiblePart, unsigned int const notVisiblePart);
 
     bool operator==(StabilityCheckObject const& object) const;
     bool operator<(StabilityCheckObject const& object) const;
-    char getPartOfLessThan() const;
-    unsigned int getNotPartOfLessThan() const;
+    char getVisiblePart() const;
+    unsigned int getNotVisiblePart() const;
 
     friend std::ostream & operator<<(std::ostream & out, StabilityCheckObject const& object);
 
 private:
-    char m_partOfLessThan;
-    unsigned int m_notPartOfLessThan;
+    char m_visiblePart;
+    unsigned int m_notVisiblePart;
 };
 
 }

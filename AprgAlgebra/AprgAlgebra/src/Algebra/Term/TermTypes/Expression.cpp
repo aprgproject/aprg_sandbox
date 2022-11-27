@@ -770,7 +770,8 @@ ostream & operator<<(ostream & out, Expression const& expression)
             out << getOperatingString(operatorLevel, termWithDetails.association)
                 << getTermConstReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer);
         }
-    }    out << ")";
+    }
+    out << ")";
     return out;
 }
 

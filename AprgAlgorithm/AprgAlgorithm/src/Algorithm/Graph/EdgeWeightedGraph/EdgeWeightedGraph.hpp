@@ -76,10 +76,12 @@ public:
         return ss.str();
     }
 
-    void connect(Vertex const& vertex1, Vertex const& vertex2, Weight const& weight)    {
+    void connect(Vertex const& vertex1, Vertex const& vertex2, Weight const& weight)
+    {
         BaseClass::connect(vertex1, vertex2);
         m_edgeToWeightMap[createEdgeInMap(vertex1, vertex2)] = weight;
     }
+
     void disconnect(Vertex const& vertex1, Vertex const& vertex2) override
     {
         BaseClass::disconnect(vertex1, vertex2);
