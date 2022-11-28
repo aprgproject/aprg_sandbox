@@ -17,16 +17,16 @@ namespace
 {
 using Characters = vector<char>;
 using Integers = vector<int>;
+using Strings = vector<string>;
 using StabilityCheckObjects = vector<StabilityCheckObject>;
 using CharacterSorter = QuickSorterWith3WayPartitioning<Characters>;
 using IntegerSorter = QuickSorterWith3WayPartitioning<Integers>;
+using StringSorter = QuickSorterWith3WayPartitioning<Strings>;
 using StabilityCheckSorter = QuickSorterWith3WayPartitioning<StabilityCheckObjects>;
 }
-
 TEST(QuickSorterWith3WayPartitioningTest, SortWorksOnCharactersUsingExample1)
 {
-    CharacterSorter sorter;
-    testSortUsingExample1WithCharacters<CharacterSorter, Characters>(sorter);
+    CharacterSorter sorter;    testSortUsingExample1WithCharacters<CharacterSorter, Characters>(sorter);
 }
 
 TEST(QuickSorterWith3WayPartitioningTest, SortWorksOnCharactersUsingExample2)
@@ -41,12 +41,16 @@ TEST(QuickSorterWith3WayPartitioningTest, SortWorksOnPositiveAndNegativeIntegers
     testSortUsingExample1WithPositiveAndNegativeIntegers<IntegerSorter, Integers>(sorter);
 }
 
+TEST(QuickSorterWith3WayPartitioningTest, SortWorksOnStringsUsingExample1)
+{
+    StringSorter sorter;
+    testSortUsingExample1WithStrings<StringSorter, Strings>(sorter);
+}
+
 TEST(QuickSorterWith3WayPartitioningTest, SortWorksAsNotStableOnStabilityCheckObjectsUsingExample1)
 {
-    StabilityCheckSorter sorter;
-    testSortAsNotStableUsingExample1WithStabilityCheckObjects<StabilityCheckSorter, StabilityCheckObjects>(sorter);
+    StabilityCheckSorter sorter;    testSortAsNotStableUsingExample1WithStabilityCheckObjects<StabilityCheckSorter, StabilityCheckObjects>(sorter);
 }
 
 }
-
 }

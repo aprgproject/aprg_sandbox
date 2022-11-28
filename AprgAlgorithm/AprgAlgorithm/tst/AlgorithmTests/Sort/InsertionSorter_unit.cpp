@@ -17,16 +17,16 @@ namespace
 {
 using Characters = vector<char>;
 using Integers = vector<int>;
+using Strings = vector<string>;
 using StabilityCheckObjects = vector<StabilityCheckObject>;
 using CharacterSorter = InsertionSorter<Characters>;
 using IntegerSorter = InsertionSorter<Integers>;
+using StringSorter = InsertionSorter<Strings>;
 using StabilityCheckSorter = InsertionSorter<StabilityCheckObjects>;
 }
-
 TEST(InsertionSorterTest, SortWorksOnCharactersUsingExample1)
 {
-    CharacterSorter sorter;
-    testSortUsingExample1WithCharacters<CharacterSorter, Characters>(sorter);
+    CharacterSorter sorter;    testSortUsingExample1WithCharacters<CharacterSorter, Characters>(sorter);
 }
 
 TEST(InsertionSorterTest, SortWorksOnCharactersUsingExample2)
@@ -41,12 +41,16 @@ TEST(InsertionSorterTest, SortWorksOnPositiveAndNegativeIntegersUsingExample1)
     testSortUsingExample1WithPositiveAndNegativeIntegers<IntegerSorter, Integers>(sorter);
 }
 
+TEST(InsertionSorterTest, SortWorksOnStringsUsingExample1)
+{
+    StringSorter sorter;
+    testSortUsingExample1WithStrings<StringSorter, Strings>(sorter);
+}
+
 TEST(InsertionSorterTest, SortWorksAsStableOnStabilityCheckObjectsUsingExample1)
 {
-    StabilityCheckSorter sorter;
-    testSortAsStableUsingExample1WithStabilityCheckObjects<StabilityCheckSorter, StabilityCheckObjects>(sorter);
+    StabilityCheckSorter sorter;    testSortAsStableUsingExample1WithStabilityCheckObjects<StabilityCheckSorter, StabilityCheckObjects>(sorter);
 }
 
 }
-
 }

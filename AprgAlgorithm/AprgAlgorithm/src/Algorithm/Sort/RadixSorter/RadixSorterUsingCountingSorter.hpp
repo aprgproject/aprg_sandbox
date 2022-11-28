@@ -31,15 +31,12 @@ public:
     void sort(Values & valuesToSort) const override
     {
         unsigned int numberOfDigits(m_getNumberOfDigitsFunction(valuesToSort));
-
-        for(unsigned int digitIndex=0; digitIndex<numberOfDigits; digitIndex++)
+        for(unsigned int digitIndex=0; digitIndex<numberOfDigits; digitIndex++) // start at least significant digit
         {
             auto m_getDigitFunction = std::bind(m_getDigitAtFunction, std::placeholders::_1, digitIndex);
-            CountingSorterUsingNewPositions<Values, MAX_NUMBER_OF_VALUES> countingSorter(m_getDigitFunction);
-            countingSorter.sort(valuesToSort);
+            CountingSorterUsingNewPositions<Values, MAX_NUMBER_OF_VALUES> countingSorter(m_getDigitFunction);            countingSorter.sort(valuesToSort);
         }
     }
-
 private:
     GetNumberOfDigitsFunction m_getNumberOfDigitsFunction;
     GetDigitAtFunction m_getDigitAtFunction;
