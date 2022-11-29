@@ -16,22 +16,19 @@ namespace algorithm
 namespace
 {
 constexpr unsigned int MAX_NUMBER_OF_NIBBLES=16U;
-constexpr unsigned int MAX_NUMBER_OF_CHARS=256U;
+constexpr unsigned int MAX_NUMBER_OF_CHARACTERS=256U;
 using Characters = vector<char>;
 using Integers = vector<int>;
-using Strings = vector<string>;
-using StabilityCheckObjects = vector<StabilityCheckObject>;
+using Strings = vector<string>;using StabilityCheckObjects = vector<StabilityCheckObject>;
 using CharacterSorter = RadixSorterUsingCountingSorter<Characters, MAX_NUMBER_OF_NIBBLES>;
 using SmallIntegerSorter = RadixSorterUsingCountingSorter<Integers, MAX_NUMBER_OF_NIBBLES>;
-using StringSorter = RadixSorterUsingCountingSorter<Strings, MAX_NUMBER_OF_CHARS>;
+using StringSorter = RadixSorterUsingCountingSorter<Strings, MAX_NUMBER_OF_CHARACTERS>;
 using StabilityCheckSorter = RadixSorterUsingCountingSorter<StabilityCheckObjects, MAX_NUMBER_OF_NIBBLES>;
 
-CharacterSorter::GetNumberOfDigitsFunction getNumberOfNibblesForCharacter = [](Characters const&) -> unsigned int
-{
+CharacterSorter::GetNumberOfDigitsFunction getNumberOfNibblesForCharacter = [](Characters const&) -> unsigned int{
     return 2U;
 };
-CharacterSorter::GetDigitAtFunction getNibbleAtForCharacter = [](char const& value, unsigned int const digitIndex) -> unsigned int
-{
+CharacterSorter::GetDigitAtFunction getNibbleAtForCharacter = [](char const& value, unsigned int const digitIndex) -> unsigned int{
     return (value >> (digitIndex*4U)) & 0xFU;
 };
 
@@ -56,24 +53,22 @@ StringSorter::GetNumberOfDigitsFunction getNumberOfCharactersForStrings = [](Str
 };
 StringSorter::GetDigitAtFunction getCharacterAtForString = [](string const& value, unsigned int const leastSignificantDigitIndex) -> unsigned int
 {
-    unsigned int characterValue{};
+    unsigned int digitValue{};
     if(leastSignificantDigitIndex < s_maxNumberOfCharacters)
     {
         unsigned int mostSignificantDigitIndex = s_maxNumberOfCharacters-leastSignificantDigitIndex-1U;
         if(mostSignificantDigitIndex < value.length())
         {
-            characterValue = value.at(mostSignificantDigitIndex) & 0xFF;
+            digitValue = value.at(mostSignificantDigitIndex) & 0xFF;
         }
     }
-    return characterValue;
+    return digitValue;
 };
 
-StabilityCheckSorter::GetNumberOfDigitsFunction getNumberOfNibblesForStabilityCheckObject = [](StabilityCheckObjects const&) -> unsigned int
-{
+StabilityCheckSorter::GetNumberOfDigitsFunction getNumberOfNibblesForStabilityCheckObject = [](StabilityCheckObjects const&) -> unsigned int{
     return 2U;
 };
-StabilityCheckSorter::GetDigitAtFunction getNibbleAtForStabilityCheckObject = [](StabilityCheckObject const& value, unsigned int const digitIndex) -> unsigned int
-{
+StabilityCheckSorter::GetDigitAtFunction getNibbleAtForStabilityCheckObject = [](StabilityCheckObject const& value, unsigned int const digitIndex) -> unsigned int{
     return (value.getVisiblePart() >> (digitIndex*4U)) & 0xFU;
 };
 }

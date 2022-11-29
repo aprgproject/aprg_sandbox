@@ -15,22 +15,20 @@ namespace algorithm
 
 namespace
 {
-constexpr unsigned int MAX_NUMBER_OF_CHARS=256U;
+constexpr unsigned int MAX_NUMBER_OF_CHARACTERS=256U;
 constexpr unsigned int MAX_NUMBER_OF_SMALL_INTS=21U;
 using Characters = vector<char>;
 using Integers = vector<int>;
 using StabilityCheckObjects = vector<StabilityCheckObject>;
-using CharacterSorter = CountingSorterUsingCountPerValue<Characters, MAX_NUMBER_OF_CHARS>;
+using CharacterSorter = CountingSorterUsingCountPerValue<Characters, MAX_NUMBER_OF_CHARACTERS>;
 using SmallIntegerSorter = CountingSorterUsingCountPerValue<Integers, MAX_NUMBER_OF_SMALL_INTS>;
-using StabilityCheckSorter = CountingSorterUsingCountPerValue<StabilityCheckObjects, MAX_NUMBER_OF_CHARS>;
+using StabilityCheckSorter = CountingSorterUsingCountPerValue<StabilityCheckObjects, MAX_NUMBER_OF_CHARACTERS>;
 
 CharacterSorter::ValueToIndexableValueFunction characterToIndexableValueFunction = [](char const& value) -> unsigned int
-{
-    return value & 0xFFU; // already converts to unsigned integer
+{    return value & 0xFFU; // already converts to unsigned integer
 };
 CharacterSorter::IndexableValueToValueFunction indexableValueToCharacterFunction = [](unsigned int const indexableValue) -> char
-{
-    return static_cast<char>(indexableValue & 0xFFU);
+{    return static_cast<char>(indexableValue & 0xFFU);
 };
 
 SmallIntegerSorter::ValueToIndexableValueFunction smallIntToIndexableValueFunction = [](int const& value) -> unsigned int
