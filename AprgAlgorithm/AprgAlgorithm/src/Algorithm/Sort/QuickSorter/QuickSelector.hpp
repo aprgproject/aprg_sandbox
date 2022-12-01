@@ -19,7 +19,8 @@ public:
     QuickSelector() = default;
 
     Value getNthSelect(Values & valuesToSort, unsigned int const selectionIndex) const
-    {        doNthElement(valuesToSort, selectionIndex);
+    {
+        doNthElement(valuesToSort, selectionIndex);
         return valuesToSort.at(selectionIndex);
     }
 

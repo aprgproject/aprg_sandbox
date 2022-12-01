@@ -19,16 +19,19 @@ constexpr unsigned int MAX_NUMBER_OF_NIBBLES=16U;
 constexpr unsigned int MAX_NUMBER_OF_CHARACTERS=256U;
 using Characters = vector<char>;
 using Integers = vector<int>;
-using Strings = vector<string>;using StabilityCheckObjects = vector<StabilityCheckObject>;
+using Strings = vector<string>;
+using StabilityCheckObjects = vector<StabilityCheckObject>;
 using CharacterSorter = RadixSorterUsingCountingSorter<Characters, MAX_NUMBER_OF_NIBBLES>;
 using SmallIntegerSorter = RadixSorterUsingCountingSorter<Integers, MAX_NUMBER_OF_NIBBLES>;
 using StringSorter = RadixSorterUsingCountingSorter<Strings, MAX_NUMBER_OF_CHARACTERS>;
 using StabilityCheckSorter = RadixSorterUsingCountingSorter<StabilityCheckObjects, MAX_NUMBER_OF_NIBBLES>;
 
-CharacterSorter::GetNumberOfDigitsFunction getNumberOfNibblesForCharacter = [](Characters const&) -> unsigned int{
+CharacterSorter::GetNumberOfDigitsFunction getNumberOfNibblesForCharacter = [](Characters const&) -> unsigned int
+{
     return 2U;
 };
-CharacterSorter::GetDigitAtFunction getNibbleAtForCharacter = [](char const& value, unsigned int const digitIndex) -> unsigned int{
+CharacterSorter::GetDigitAtFunction getNibbleAtForCharacter = [](char const& value, unsigned int const digitIndex) -> unsigned int
+{
     return (value >> (digitIndex*4U)) & 0xFU;
 };
 
@@ -65,10 +68,12 @@ StringSorter::GetDigitAtFunction getCharacterAtForString = [](string const& valu
     return digitValue;
 };
 
-StabilityCheckSorter::GetNumberOfDigitsFunction getNumberOfNibblesForStabilityCheckObject = [](StabilityCheckObjects const&) -> unsigned int{
+StabilityCheckSorter::GetNumberOfDigitsFunction getNumberOfNibblesForStabilityCheckObject = [](StabilityCheckObjects const&) -> unsigned int
+{
     return 2U;
 };
-StabilityCheckSorter::GetDigitAtFunction getNibbleAtForStabilityCheckObject = [](StabilityCheckObject const& value, unsigned int const digitIndex) -> unsigned int{
+StabilityCheckSorter::GetDigitAtFunction getNibbleAtForStabilityCheckObject = [](StabilityCheckObject const& value, unsigned int const digitIndex) -> unsigned int
+{
     return (value.getVisiblePart() >> (digitIndex*4U)) & 0xFU;
 };
 }
@@ -102,6 +107,7 @@ TEST(RadixSorterUsingCountingSorterTest, SortWorksAsStableOnStabilityCheckObject
     StabilityCheckSorter sorter(getNumberOfNibblesForStabilityCheckObject, getNibbleAtForStabilityCheckObject);
     testSortAsStableUsingExample1WithStabilityCheckObjects<StabilityCheckSorter, StabilityCheckObjects>(sorter);
 }
+
 }
 
 }

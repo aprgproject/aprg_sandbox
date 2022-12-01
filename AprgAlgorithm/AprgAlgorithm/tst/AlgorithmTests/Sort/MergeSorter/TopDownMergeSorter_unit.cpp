@@ -24,9 +24,11 @@ using IntegerSorter = TopDownMergeSorter<Integers>;
 using StringSorter = TopDownMergeSorter<Strings>;
 using StabilityCheckSorter = TopDownMergeSorter<StabilityCheckObjects>;
 }
+
 TEST(TopDownMergeSorterTest, SortWorksOnCharactersUsingExample1)
 {
-    CharacterSorter sorter;    testSortUsingExample1WithCharacters<CharacterSorter, Characters>(sorter);
+    CharacterSorter sorter;
+    testSortUsingExample1WithCharacters<CharacterSorter, Characters>(sorter);
 }
 
 TEST(TopDownMergeSorterTest, SortWorksOnCharactersUsingExample2)
@@ -49,8 +51,10 @@ TEST(TopDownMergeSorterTest, SortWorksOnStringsUsingExample1)
 
 TEST(TopDownMergeSorterTest, SortWorksAsStableOnStabilityCheckObjectsUsingExample1)
 {
-    StabilityCheckSorter sorter;    testSortAsStableUsingExample1WithStabilityCheckObjects<StabilityCheckSorter, StabilityCheckObjects>(sorter);
+    StabilityCheckSorter sorter;
+    testSortAsStableUsingExample1WithStabilityCheckObjects<StabilityCheckSorter, StabilityCheckObjects>(sorter);
 }
 
 }
+
 }

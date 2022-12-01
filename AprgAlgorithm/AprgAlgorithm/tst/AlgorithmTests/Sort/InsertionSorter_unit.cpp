@@ -24,9 +24,11 @@ using IntegerSorter = InsertionSorter<Integers>;
 using StringSorter = InsertionSorter<Strings>;
 using StabilityCheckSorter = InsertionSorter<StabilityCheckObjects>;
 }
+
 TEST(InsertionSorterTest, SortWorksOnCharactersUsingExample1)
 {
-    CharacterSorter sorter;    testSortUsingExample1WithCharacters<CharacterSorter, Characters>(sorter);
+    CharacterSorter sorter;
+    testSortUsingExample1WithCharacters<CharacterSorter, Characters>(sorter);
 }
 
 TEST(InsertionSorterTest, SortWorksOnCharactersUsingExample2)
@@ -49,8 +51,10 @@ TEST(InsertionSorterTest, SortWorksOnStringsUsingExample1)
 
 TEST(InsertionSorterTest, SortWorksAsStableOnStabilityCheckObjectsUsingExample1)
 {
-    StabilityCheckSorter sorter;    testSortAsStableUsingExample1WithStabilityCheckObjects<StabilityCheckSorter, StabilityCheckObjects>(sorter);
+    StabilityCheckSorter sorter;
+    testSortAsStableUsingExample1WithStabilityCheckObjects<StabilityCheckSorter, StabilityCheckObjects>(sorter);
 }
 
 }
+
 }

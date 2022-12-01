@@ -1,7 +1,5 @@
 #include "StabilityCheckObject.hpp"
 
-#include <sstream>
-
 using namespace std;
 
 namespace alba
@@ -29,6 +27,21 @@ bool StabilityCheckObject::operator<(
     return m_visiblePart < object.m_visiblePart;
 }
 
+StabilityCheckObject StabilityCheckObject::operator+(StabilityCheckObject const& second) const
+{
+    return StabilityCheckObject(m_visiblePart+second.m_visiblePart, 0U);
+}
+
+StabilityCheckObject StabilityCheckObject::operator-(StabilityCheckObject const& second) const
+{
+    return StabilityCheckObject(m_visiblePart-second.m_visiblePart, 0U);
+}
+
+double StabilityCheckObject::operator*(double const multiplier) const
+{
+    return m_visiblePart*multiplier;
+}
+
 char StabilityCheckObject::getVisiblePart() const
 {
     return m_visiblePart;
@@ -37,6 +50,11 @@ char StabilityCheckObject::getVisiblePart() const
 unsigned int StabilityCheckObject::getNotVisiblePart() const
 {
     return m_notVisiblePart;
+}
+
+double operator/(double const dividend, StabilityCheckObject const& divisor)
+{
+    return dividend / divisor.m_visiblePart;
 }
 
 ostream & operator<<(ostream & out, StabilityCheckObject const& object)

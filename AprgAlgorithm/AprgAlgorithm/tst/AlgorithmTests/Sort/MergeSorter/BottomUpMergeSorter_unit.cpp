@@ -24,9 +24,11 @@ using IntegerSorter = BottomUpMergeSorter<Integers>;
 using StringSorter = BottomUpMergeSorter<Strings>;
 using StabilityCheckSorter = BottomUpMergeSorter<StabilityCheckObjects>;
 }
+
 TEST(BottomUpMergeSorterTest, SortWorksOnCharactersUsingExample1)
 {
-    CharacterSorter sorter;    testSortUsingExample1WithCharacters<CharacterSorter, Characters>(sorter);
+    CharacterSorter sorter;
+    testSortUsingExample1WithCharacters<CharacterSorter, Characters>(sorter);
 }
 
 TEST(BottomUpMergeSorterTest, SortWorksOnCharactersUsingExample2)
@@ -49,8 +51,10 @@ TEST(BottomUpMergeSorterTest, SortWorksOnStringsUsingExample1)
 
 TEST(BottomUpMergeSorterTest, SortWorksAsStableOnStabilityCheckObjectsUsingExample1)
 {
-    StabilityCheckSorter sorter;    testSortAsStableUsingExample1WithStabilityCheckObjects<StabilityCheckSorter, StabilityCheckObjects>(sorter);
+    StabilityCheckSorter sorter;
+    testSortAsStableUsingExample1WithStabilityCheckObjects<StabilityCheckSorter, StabilityCheckObjects>(sorter);
 }
 
 }
+
 }

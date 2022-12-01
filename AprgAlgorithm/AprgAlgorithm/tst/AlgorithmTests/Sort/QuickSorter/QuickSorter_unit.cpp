@@ -24,9 +24,11 @@ using IntegerSorter = QuickSorter<Integers>;
 using StringSorter = QuickSorter<Strings>;
 using StabilityCheckSorter = QuickSorter<StabilityCheckObjects>;
 }
+
 TEST(QuickSorterTest, SortWorksOnCharactersUsingExample1)
 {
-    CharacterSorter sorter;    testSortUsingExample1WithCharacters<CharacterSorter, Characters>(sorter);
+    CharacterSorter sorter;
+    testSortUsingExample1WithCharacters<CharacterSorter, Characters>(sorter);
 }
 
 TEST(QuickSorterTest, SortWorksOnCharactersUsingExample2)
@@ -49,8 +51,10 @@ TEST(QuickSorterTest, SortWorksOnStringsUsingExample1)
 
 TEST(QuickSorterTest, SortWorksAsNotStableOnStabilityCheckObjectsUsingExample1)
 {
-    StabilityCheckSorter sorter;    testSortAsNotStableUsingExample1WithStabilityCheckObjects<StabilityCheckSorter, StabilityCheckObjects>(sorter);
+    StabilityCheckSorter sorter;
+    testSortAsNotStableUsingExample1WithStabilityCheckObjects<StabilityCheckSorter, StabilityCheckObjects>(sorter);
 }
 
 }
+
 }

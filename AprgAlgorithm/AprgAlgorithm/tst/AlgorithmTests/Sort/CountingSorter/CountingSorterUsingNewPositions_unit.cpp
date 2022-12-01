@@ -25,10 +25,12 @@ using SmallIntegerSorter = CountingSorterUsingNewPositions<Integers, MAX_NUMBER_
 using StabilityCheckSorter = CountingSorterUsingNewPositions<StabilityCheckObjects, MAX_NUMBER_OF_CHARACTERS>;
 
 CharacterSorter::ValueToIndexableValueFunction characterToIndexableValueFunction = [](char const& value) -> unsigned int
-{    return value & 0xFFU; // already converts to unsigned integer
+{
+    return value & 0xFFU; // already converts to unsigned integer
 };
 
-SmallIntegerSorter::ValueToIndexableValueFunction smallIntToIndexableValueFunction = [](int const& value) -> unsigned int{
+SmallIntegerSorter::ValueToIndexableValueFunction smallIntToIndexableValueFunction = [](int const& value) -> unsigned int
+{
     // Input: {-5, -10, 0, -3, 8, 5, -1, 10}
     return static_cast<unsigned int>(10+value);
 };
