@@ -56,22 +56,20 @@ private:
             unsigned int const highContainerIndex,
             unsigned int const digitIndex) const
     {
-            if(highContainerIndex <= lowContainerIndex + CUTOFF_TO_SMALLER_SORT)
-            {
-                sortForSmallerSizes(valuesToSort, lowContainerIndex, highContainerIndex);
-            }
-            else
-            {
-                sortStartingAtMostSignificantDigitUsingNewIndexes(valuesToSort, lowContainerIndex, highContainerIndex, digitIndex);
-            }
+        if(highContainerIndex <= lowContainerIndex + CUTOFF_TO_SMALLER_SORT)
+        {
+            sortForSmallerSizes(valuesToSort, lowContainerIndex, highContainerIndex);
+        }
+        else
+        {
+            sortStartingAtMostSignificantDigitUsingNewIndexes(valuesToSort, lowContainerIndex, highContainerIndex, digitIndex);
+        }
     }
 
-    void sortForSmallerSizes(
-            Values & valuesToSort,
+    void sortForSmallerSizes(            Values & valuesToSort,
             unsigned int const lowContainerIndex,
             unsigned int const highContainerIndex) const
-    {
-        std::sort(valuesToSort.begin()+lowContainerIndex, valuesToSort.begin()+highContainerIndex+1U);
+    {        std::sort(valuesToSort.begin()+lowContainerIndex, valuesToSort.begin()+highContainerIndex+1U);
     }
 
     void sortStartingAtMostSignificantDigitUsingNewIndexes(
