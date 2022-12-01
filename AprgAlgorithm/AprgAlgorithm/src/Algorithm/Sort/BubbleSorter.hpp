@@ -2,15 +2,12 @@
 
 #include <Algorithm/Sort/BaseSorter.hpp>
 
-#include <algorithm>
 #include <utility>
 
-namespace alba
-{
+namespace alba{
 
 namespace algorithm
 {
-
 template <typename Values>
 class BubbleSorter : public BaseSorter<Values>
 {

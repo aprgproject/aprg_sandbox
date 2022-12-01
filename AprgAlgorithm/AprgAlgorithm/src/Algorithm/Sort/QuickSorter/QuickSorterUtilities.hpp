@@ -1,13 +1,11 @@
 #pragma once
 
-#include <algorithm>
+#include <utility>
 
 namespace alba
 {
-
 namespace algorithm
 {
-
 template <typename Values>
 unsigned int partitionAndGetPartitionIndex(
         Values & valuesToSort,
