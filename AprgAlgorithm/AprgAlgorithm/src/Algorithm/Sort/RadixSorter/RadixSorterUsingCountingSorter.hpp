@@ -74,28 +74,44 @@ private:
 // 2, 24, 45, 66, 75, 90, 170, 802
 
 // What is the running time of Radix Sort?
-// Let there be d digits in input integers.
-// Radix Sort takes O(d*(n+b)) time where b is the base for representing numbers, for example, for the decimal system, b is 10.
-// What is the value of d? If k is the maximum possible value, then d would be O(logb(k)).
-// So overall time complexity is O((n+b) * logb(k)).
-// Which looks more than the time complexity of comparison-based sorting algorithms for a large k.
-// Let us first limit k. Let k <= nc where c is a constant. In that case, the complexity becomes O(nLogb(n)).
-// But it still doesn’t beat comparison-based sorting algorithms.
+// -> Radix Sort takes O(("size of input" + "number of digit values") * "number of digits")
+// ---> Or it can be expressed as O((n+b)*d)
+// -> Let the "size of input" be "n".
+// -> Let the "maximum possible value" be "k".
+// ---> In a 32-bit unsigned integer its 0xFFFFFFFF or 4294967295.
+// -> Let the "number of digit values" be "b".
+// ---> The "number of digit values" is also the BASE for digit value.
+// -----> For example, in the decimal system the "number of digit values" is 10.
+// -----> For example, in the hexadecimal system the "number of digit values" is 16.
+// -> Let the "number of digits" be "d".
+// ---> The "number of digits" is also equal to O(log"number of digit values"("maximum possible value")).
+// So overall time complexity is O(("size of input"+"number of digit values") * log"number of digit values"("maximum possible value")).
+// -> Or it can be expressed as O((n+b) * logb(k))
 
-// What if we make the value of b larger?
+// The time complexity for a large k ("maximum possible value"), would be similar to comparison-based sorting algorithms.
+// Let us first limit k. Let k <= nc where c is a constant. In that case, the complexity becomes O(nLogb(n)).
+// So its still doesn’t beat comparison-based sorting algorithms.
+
+// What if we make the value of b ("number of digit values") larger?
 // What should be the value of b to make the time complexity linear?
-// If we set b as n, we get the time complexity as O(n).
+// If we set b as scalable with n, we get the time complexity as O(n).
+// -> So its linear/O(n) if the "number of digit values" is scalable with the "size of input".
 // In other words, we can sort an array of integers with a range from 1 to nc if the numbers are represented in base n (or every digit takes log2(n) bits).
-// -> So if there if the value is 0 to 15, its better to have base 16 (where every digit is four bits).
-// -> So if there if the value is 1 to 100, its better to have base 64 (where every digit is six bits).
+// -> So if there are 16 numbers (with range 1 to 16c), its better to have base 16 (where every digit is four bits).
+// -> So if there are 100 numbers (with range 1 to 100c), its better to have base 64 (where every digit is six bits).
+// -> So if there are 1000000 numbers (with range 1 to 1000000c), its better to have base 1048576 (where every digit is 20 bits).
+// -> Interview question: Sort a million 32-bit integers?
+// ---> Radix sort is better because of fixed width.
+// ---> For each digit, we can use 20 bits (or 16 bits which is more practical).
+// -----> If we use 16 bits: O((n+b) * logb(k)) = 1000000+65536 * log65536(2^32) = 1065536 * 2 = 2131072
+// -----> In comparison for a comparison based algorithm: O(n*lg(n)) = 1000000*lg(1000000) = 1000000*lg(19.93....) = 19931568.
+// -----> So Radix sort is better.
 
 // Applications of Radix Sort :
-// -> In a typical computer, which is a sequential random-access machine, where the records are keyed by multiple fields radix sort is used.
-// ---> For eg., you want to sort on three keys month, day and year.
+// -> In a typical computer, which is a sequential random-access machine, where the records are keyed by multiple fields radix sort is used.// ---> For eg., you want to sort on three keys month, day and year.
 // ---> You could compare two records on year, then on a tie on month and finally on the date.
 // ---> Alternatively, sorting the data three times using Radix sort first on the date, then on month, and finally on year could be used.
-// -> It was used in card sorting machines that had 80 columns, and in each column, the machine could punch a hole only in 12 places.
-// ---> The sorter was then programmed to sort the cards, depending upon which place the card had been punched.
+// -> It was used in card sorting machines that had 80 columns, and in each column, the machine could punch a hole only in 12 places.// ---> The sorter was then programmed to sort the cards, depending upon which place the card had been punched.
 // ---> This was then used by the operator to collect the cards which had the 1st row punched, followed by the 2nd row, and so on.
 
 // Is Radix Sort preferable to Comparison based sorting algorithms like Quick-Sort?
