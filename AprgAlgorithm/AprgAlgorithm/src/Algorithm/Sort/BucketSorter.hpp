@@ -43,18 +43,16 @@ public:
             }
         }
 
-        auto copyIt = valuesToSort.begin();
+        auto itCopy = valuesToSort.begin();
         for(Bucket & bucket : buckets)
         {
             std::sort(bucket.begin(), bucket.end()); // change to stable sort if its need to be stable
-            copyIt = std::copy(bucket.cbegin(), bucket.cend(), copyIt); // copy back to original container
+            itCopy = std::copy(bucket.cbegin(), bucket.cend(), itCopy); // copy back to original container
         }
     }
-
     Value m_minValue;
     Value m_maxValue;
 };
-
 }
 
 }

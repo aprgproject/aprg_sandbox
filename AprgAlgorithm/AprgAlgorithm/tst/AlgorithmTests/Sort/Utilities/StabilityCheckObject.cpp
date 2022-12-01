@@ -21,14 +21,18 @@ bool StabilityCheckObject::operator==(
     return m_visiblePart == object.m_visiblePart && m_notVisiblePart == object.m_notVisiblePart;
 }
 
-bool StabilityCheckObject::operator<(
+bool StabilityCheckObject::operator!=(
         StabilityCheckObject const& object) const
 {
-    return m_visiblePart < object.m_visiblePart;
+    return !operator==(object);
 }
 
-StabilityCheckObject StabilityCheckObject::operator+(StabilityCheckObject const& second) const
-{
+bool StabilityCheckObject::operator<(
+        StabilityCheckObject const& object) const
+{    return m_visiblePart < object.m_visiblePart;
+}
+
+StabilityCheckObject StabilityCheckObject::operator+(StabilityCheckObject const& second) const{
     return StabilityCheckObject(m_visiblePart+second.m_visiblePart, 0U);
 }
 
