@@ -32,9 +32,11 @@ CharactersSorter::IsDigitFunction isNibbleDigitValidForCharacter = [](char const
 {
     return digitIndex < 2U;
 };
+
 SmallIntegerSorter::GetDigitAtFunction getNibbleAtForSmallInteger = [](int const& value, unsigned int const mostSignificantDigitIndex) -> unsigned int
 {
-    return ((value+10) >> ((7U-mostSignificantDigitIndex)*4U)) & 0xFU;};
+    return ((value+10) >> ((7U-mostSignificantDigitIndex)*4U)) & 0xFU;
+};
 SmallIntegerSorter::IsDigitFunction isNibbleDigitValidForSmallInteger = [](int const&, unsigned int const digitIndex) -> unsigned int
 {
     return digitIndex < 8U;
@@ -43,7 +45,8 @@ SmallIntegerSorter::IsDigitFunction isNibbleDigitValidForSmallInteger = [](int c
 StringsSorter::GetDigitAtFunction getCharacterAtForString = [](string const& value, unsigned int const mostSignificantDigitIndex) -> char
 {
     char digitValue{};
-    if(mostSignificantDigitIndex < value.length())    {
+    if(mostSignificantDigitIndex < value.length())
+    {
         digitValue = value.at(mostSignificantDigitIndex);
     }
     return digitValue;
@@ -61,7 +64,14 @@ StabilityCheckObjectsSorter::GetDigitAtFunction getNibbleAtForStabilityCheckObje
 StabilityCheckObjectsSorter::IsDigitFunction isNibbleDigitValidForStabilityCheckObject
 = [](StabilityCheckObject const&, unsigned int const digitIndex) -> unsigned int
 {
-    return digitIndex < 2U;};
+    return digitIndex < 2U;
+};
+}
+
+TEST(RadixSorterUsingQuickSortWith3WayPartitioningTest, SortWorksOnCharactersAndDoesNotCrashUsingEmptyExample)
+{
+    CharactersSorter sorter(getNibbleAtForCharacter, isNibbleDigitValidForCharacter);
+    testSortUsingEmptyExampleWithCharacters<CharactersSorter, Characters>(sorter);
 }
 
 TEST(RadixSorterUsingQuickSortWith3WayPartitioningTest, SortWorksOnCharactersUsingExample1)
@@ -80,7 +90,8 @@ TEST(RadixSorterUsingQuickSortWith3WayPartitioningTest, SortWorksOnCharactersUsi
 
 TEST(RadixSorterUsingQuickSortWith3WayPartitioningTest, SortWorksOnPositiveAndNegativeIntegersUsingExample1)
 {
-    SmallIntegerSorter sorter(getNibbleAtForSmallInteger, isNibbleDigitValidForSmallInteger);    testSortUsingExample1WithPositiveAndNegativeIntegers<SmallIntegerSorter, Integers>(sorter);
+    SmallIntegerSorter sorter(getNibbleAtForSmallInteger, isNibbleDigitValidForSmallInteger);
+    testSortUsingExample1WithPositiveAndNegativeIntegers<SmallIntegerSorter, Integers>(sorter);
 }
 
 // CANNOT SORT DOUBLE VALUES
@@ -103,6 +114,7 @@ TEST(RadixSorterUsingQuickSortWith3WayPartitioningTest, SortStartingAtMostSignif
     Strings stringsToTest{"spongebob", "patrick", "mr. crabs", "squidward", "sandy", "ms. puff", "pearl", "larry", "plankton"};
 
     sorter.sortStartingAtMostSignificantDigit(stringsToTest, 2U, 5U, 1U);
+
     Strings expectedStrings{"spongebob", "patrick", "sandy", "squidward", "mr. crabs", "ms. puff", "pearl", "larry", "plankton"};
     EXPECT_EQ(expectedStrings, stringsToTest);
 }
@@ -113,6 +125,7 @@ TEST(RadixSorterUsingQuickSortWith3WayPartitioningTest, SortStartingAtMostSignif
     Strings stringsToTest{"spongebob", "patrick", "mr. crabs", "squidward", "sandy", "ms. puff", "pearl", "larry", "plankton"};
 
     sorter.sortStartingAtMostSignificantDigit(stringsToTest, 2U, 5U, 6U);
+
     Strings expectedStrings{"spongebob", "patrick", "sandy", "mr. crabs", "squidward", "ms. puff", "pearl", "larry", "plankton"};
     EXPECT_EQ(expectedStrings, stringsToTest);
 }
@@ -123,9 +136,11 @@ TEST(RadixSorterUsingQuickSortWith3WayPartitioningTest, SortStartingAtMostSignif
     Strings stringsToTest{"spongebob", "patrick", "mr. crabs", "squidward", "sandy", "ms. puff", "pearl", "larry", "plankton"};
 
     sorter.sortStartingAtMostSignificantDigit(stringsToTest, 2U, 5U, 9U);
+
     Strings expectedStrings{"spongebob", "patrick", "mr. crabs", "squidward", "sandy", "ms. puff", "pearl", "larry", "plankton"};
     EXPECT_EQ(expectedStrings, stringsToTest);
 }
+
 }
 
 }

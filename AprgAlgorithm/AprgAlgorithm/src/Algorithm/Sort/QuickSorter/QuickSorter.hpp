@@ -20,9 +20,12 @@ public:
 
     void sort(Values & valuesToSort) const override
     {
-        // You can randomize inputs here to remove dependence on input (quick sort works best if input is not sorted)
-        // std::shuffle should help
-        sort(valuesToSort, 0U, valuesToSort.size()-1);
+        if(!valuesToSort.empty())
+        {
+            // You can randomize inputs here to remove dependence on input (quick sort works best if input is not sorted)
+            // std::shuffle should help
+            sort(valuesToSort, 0U, valuesToSort.size()-1);
+        }
     }
 
 private:

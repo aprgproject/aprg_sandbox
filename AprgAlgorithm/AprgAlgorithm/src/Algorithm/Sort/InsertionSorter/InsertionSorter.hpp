@@ -5,10 +5,12 @@
 #include <iterator>
 #include <utility>
 
-namespace alba{
+namespace alba
+{
 
 namespace algorithm
 {
+
 template <typename Values>
 class InsertionSorter : public BaseSorter<Values>
 {
@@ -18,11 +20,14 @@ public:
 
     void sort(Values & valuesToSort) const override
     {
-        auto insertedIt=valuesToSort.begin();
-        insertedIt++;
-        for(; insertedIt!=valuesToSort.end(); insertedIt++)
+        if(!valuesToSort.empty())
         {
-            continuouslySwapDownIfStillOutOfOrder(valuesToSort, insertedIt);
+            auto insertedIt=valuesToSort.begin();
+            insertedIt++;
+            for(; insertedIt!=valuesToSort.end(); insertedIt++)
+            {
+                continuouslySwapDownIfStillOutOfOrder(valuesToSort, insertedIt);
+            }
         }
     }
 
@@ -38,9 +43,11 @@ private:
         }
     }
 };
+
 }
 
 }
+
 // Proposition: To sort a randomly ordered array with distinct keys, insertion sort uses ~(1/4)N^2 compares and ~(1/4)N^2 exchanges on average.
 // Proof: Expect each entry to move halfway back. Only half of the elements along the diagonal is involved in the sort.
 

@@ -34,9 +34,11 @@ CharactersSorter::GetDigitAtFunction getNibbleAtForCharacter = [](char const& va
 {
     return (value >> (digitIndex*4U)) & 0xFU;
 };
+
 SmallIntegerSorter::GetNumberOfDigitsFunction getNumberOfNibblesForInteger = [](Integers const&) -> unsigned int
 {
-    return 8U;};
+    return 8U;
+};
 SmallIntegerSorter::GetDigitAtFunction getNibbleAtForSmallInteger = [](int const& value, unsigned int const digitIndex) -> unsigned int
 {
     return ((value+10) >> (digitIndex*4U)) & 0xFU;
@@ -46,7 +48,8 @@ unsigned int s_maxNumberOfCharacters{};
 StringsSorter::GetNumberOfDigitsFunction getNumberOfCharactersForStrings = [](Strings const& strings) -> unsigned int
 {
     s_maxNumberOfCharacters=0U;
-    for(string const& stringObject : strings)    {
+    for(string const& stringObject : strings)
+    {
         s_maxNumberOfCharacters = max(s_maxNumberOfCharacters, stringObject.length());
     }
     return s_maxNumberOfCharacters;
@@ -54,10 +57,12 @@ StringsSorter::GetNumberOfDigitsFunction getNumberOfCharactersForStrings = [](St
 StringsSorter::GetDigitAtFunction getCharacterAtForString = [](string const& value, unsigned int const leastSignificantDigitIndex) -> unsigned int
 {
     unsigned int digitValue{};
-    if(leastSignificantDigitIndex < s_maxNumberOfCharacters)    {
+    if(leastSignificantDigitIndex < s_maxNumberOfCharacters)
+    {
         unsigned int mostSignificantDigitIndex = s_maxNumberOfCharacters-leastSignificantDigitIndex-1U;
         if(mostSignificantDigitIndex < value.length())
-        {            digitValue = value.at(mostSignificantDigitIndex) & 0xFF;
+        {
+            digitValue = value.at(mostSignificantDigitIndex) & 0xFF;
         }
     }
     return digitValue;
@@ -70,7 +75,14 @@ StabilityCheckObjectsSorter::GetNumberOfDigitsFunction getNumberOfNibblesForStab
 StabilityCheckObjectsSorter::GetDigitAtFunction getNibbleAtForStabilityCheckObject = [](StabilityCheckObject const& value, unsigned int const digitIndex) -> unsigned int
 {
     return (value.getVisiblePart() >> (digitIndex*4U)) & 0xFU;
-};}
+};
+}
+
+TEST(RadixSorterUsingCountingSorterTest, SortWorksOnCharactersAndDoesNotCrashUsingEmptyExample)
+{
+    CharactersSorter sorter(getNumberOfNibblesForCharacter, getNibbleAtForCharacter);
+    testSortUsingEmptyExampleWithCharacters<CharactersSorter, Characters>(sorter);
+}
 
 TEST(RadixSorterUsingCountingSorterTest, SortWorksOnCharactersUsingExample1)
 {
@@ -88,7 +100,8 @@ TEST(RadixSorterUsingCountingSorterTest, SortWorksOnCharactersUsingExample2)
 
 TEST(RadixSorterUsingCountingSorterTest, SortWorksOnPositiveAndNegativeIntegersUsingExample1)
 {
-    SmallIntegerSorter sorter(getNumberOfNibblesForInteger, getNibbleAtForSmallInteger);    testSortUsingExample1WithPositiveAndNegativeIntegers<SmallIntegerSorter, Integers>(sorter);
+    SmallIntegerSorter sorter(getNumberOfNibblesForInteger, getNibbleAtForSmallInteger);
+    testSortUsingExample1WithPositiveAndNegativeIntegers<SmallIntegerSorter, Integers>(sorter);
 }
 
 // CANNOT SORT DOUBLE VALUES
@@ -106,4 +119,5 @@ TEST(RadixSorterUsingCountingSorterTest, SortWorksAsStableOnStabilityCheckObject
 }
 
 }
+
 }

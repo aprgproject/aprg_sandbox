@@ -27,6 +27,12 @@ using StringsSorter = CombSorter<Strings>;
 using StabilityCheckObjectsSorter = CombSorter<StabilityCheckObjects>;
 }
 
+TEST(CombSorterTest, SortWorksOnCharactersAndDoesNotCrashUsingEmptyExample)
+{
+    CharactersSorter sorter;
+    testSortUsingEmptyExampleWithCharacters<CharactersSorter, Characters>(sorter);
+}
+
 TEST(CombSorterTest, SortWorksOnCharactersUsingExample1)
 {
     CharactersSorter sorter;
@@ -66,4 +72,5 @@ TEST(CombSorterTest, SortWorksAsNotStableOnStabilityCheckObjectsUsingExample1) /
 }
 
 }
+
 }

@@ -34,9 +34,11 @@ CharactersSorter::IsDigitFunction isNibbleDigitInvalidForCharacter = [](char con
 {
     return digitIndex >= 2U;
 };
+
 SmallIntegerSorter::GetDigitAtFunction getNibbleAtForSmallInteger = [](int const& value, unsigned int const mostSignificantDigitIndex) -> unsigned int
 {
-    return ((value+10) >> ((7U-mostSignificantDigitIndex)*4U)) & 0xFU;};
+    return ((value+10) >> ((7U-mostSignificantDigitIndex)*4U)) & 0xFU;
+};
 SmallIntegerSorter::IsDigitFunction isNibbleDigitInvalidForSmallInteger = [](int const&, unsigned int const digitIndex) -> unsigned int
 {
     return digitIndex >= 8U;
@@ -45,7 +47,8 @@ SmallIntegerSorter::IsDigitFunction isNibbleDigitInvalidForSmallInteger = [](int
 StringsSorter::GetDigitAtFunction getCharacterAtForString = [](string const& value, unsigned int const mostSignificantDigitIndex) -> unsigned int
 {
     unsigned int digitValue{};
-    if(mostSignificantDigitIndex < value.length())    {
+    if(mostSignificantDigitIndex < value.length())
+    {
         digitValue = value.at(mostSignificantDigitIndex);
     }
     return digitValue;
@@ -63,7 +66,14 @@ StabilityCheckObjectsSorter::GetDigitAtFunction getNibbleAtForStabilityCheckObje
 StabilityCheckObjectsSorter::IsDigitFunction isNibbleDigitInvalidForStabilityCheckObject
 = [](StabilityCheckObject const&, unsigned int const digitIndex) -> unsigned int
 {
-    return digitIndex >= 2U;};
+    return digitIndex >= 2U;
+};
+}
+
+TEST(MostSignificantDigitSorterTest, SortWorksOnCharactersAndDoesNotCrashUsingEmptyExample)
+{
+    CharactersSorter sorter(getNibbleAtForCharacter, isNibbleDigitInvalidForCharacter);
+    testSortUsingEmptyExampleWithCharacters<CharactersSorter, Characters>(sorter);
 }
 
 TEST(MostSignificantDigitSorterTest, SortWorksOnCharactersUsingExample1)
@@ -82,7 +92,8 @@ TEST(MostSignificantDigitSorterTest, SortWorksOnCharactersUsingExample2)
 
 TEST(MostSignificantDigitSorterTest, SortWorksOnPositiveAndNegativeIntegersUsingExample1)
 {
-    SmallIntegerSorter sorter(getNibbleAtForSmallInteger, isNibbleDigitInvalidForSmallInteger);    testSortUsingExample1WithPositiveAndNegativeIntegers<SmallIntegerSorter, Integers>(sorter);
+    SmallIntegerSorter sorter(getNibbleAtForSmallInteger, isNibbleDigitInvalidForSmallInteger);
+    testSortUsingExample1WithPositiveAndNegativeIntegers<SmallIntegerSorter, Integers>(sorter);
 }
 
 // CANNOT SORT DOUBLE VALUES
@@ -105,6 +116,7 @@ TEST(MostSignificantDigitSorterTest, SortStartingAtMostSignificantDigitWorksWith
     Strings stringsToTest{"spongebob", "patrick", "mr. crabs", "squidward", "sandy", "ms. puff", "pearl", "larry", "plankton"};
 
     sorter.sortStartingAtMostSignificantDigit(stringsToTest, 2U, 5U, 1U);
+
     Strings expectedStrings{"spongebob", "patrick", "sandy", "squidward", "mr. crabs", "ms. puff", "pearl", "larry", "plankton"};
     EXPECT_EQ(expectedStrings, stringsToTest);
 }
@@ -115,6 +127,7 @@ TEST(MostSignificantDigitSorterTest, SortStartingAtMostSignificantDigitWorksWith
     Strings stringsToTest{"spongebob", "patrick", "mr. crabs", "squidward", "sandy", "ms. puff", "pearl", "larry", "plankton"};
 
     sorter.sortStartingAtMostSignificantDigit(stringsToTest, 2U, 5U, 6U);
+
     Strings expectedStrings{"spongebob", "patrick", "sandy", "mr. crabs", "squidward", "ms. puff", "pearl", "larry", "plankton"};
     EXPECT_EQ(expectedStrings, stringsToTest);
 }
@@ -125,9 +138,11 @@ TEST(MostSignificantDigitSorterTest, SortStartingAtMostSignificantDigitWorksWith
     Strings stringsToTest{"spongebob", "patrick", "mr. crabs", "squidward", "sandy", "ms. puff", "pearl", "larry", "plankton"};
 
     sorter.sortStartingAtMostSignificantDigit(stringsToTest, 2U, 5U, 9U);
+
     Strings expectedStrings{"spongebob", "patrick", "mr. crabs", "squidward", "sandy", "ms. puff", "pearl", "larry", "plankton"};
     EXPECT_EQ(expectedStrings, stringsToTest);
 }
+
 }
 
 }

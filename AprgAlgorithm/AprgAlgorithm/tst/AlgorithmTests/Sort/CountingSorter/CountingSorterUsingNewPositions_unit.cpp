@@ -28,6 +28,7 @@ CharactersSorter::ValueToIndexableValueFunction characterToIndexableValueFunctio
 {
     return value & 0xFFU; // already converts to unsigned integer
 };
+
 SmallIntegerSorter::ValueToIndexableValueFunction smallIntToIndexableValueFunction = [](int const& value) -> unsigned int
 {
     // Input: {-5, -10, 0, -3, 8, 5, -1, 10}
@@ -37,7 +38,14 @@ SmallIntegerSorter::ValueToIndexableValueFunction smallIntToIndexableValueFuncti
 StabilityCheckObjectsSorter::ValueToIndexableValueFunction stabilityCheckObjectToIndexableValueFunction = [](StabilityCheckObject const& value) -> unsigned int
 {
     return value.getVisiblePart() & 0xFFU; // there is some splicing here
-};}
+};
+}
+
+TEST(CountingSorterUsingNewPositionsTest, SortWorksOnCharactersAndDoesNotCrashUsingEmptyExample)
+{
+    CharactersSorter sorter(characterToIndexableValueFunction);
+    testSortUsingEmptyExampleWithCharacters<CharactersSorter, Characters>(sorter);
+}
 
 TEST(CountingSorterUsingNewPositionsTest, SortWorksOnCharactersUsingExample1)
 {
@@ -55,10 +63,12 @@ TEST(CountingSorterUsingNewPositionsTest, SortWorksOnCharactersUsingExample2)
 
 TEST(CountingSorterUsingNewPositionsTest, SortWorksOnPositiveAndNegativeIntegersUsingExample1)
 {
-    SmallIntegerSorter sorter(smallIntToIndexableValueFunction);    testSortUsingExample1WithPositiveAndNegativeIntegers<SmallIntegerSorter, Integers>(sorter);
+    SmallIntegerSorter sorter(smallIntToIndexableValueFunction);
+    testSortUsingExample1WithPositiveAndNegativeIntegers<SmallIntegerSorter, Integers>(sorter);
 }
 
 // CANNOT SORT DOUBLE VALUES
+
 // CANNOT SORT STRINGS
 
 TEST(CountingSorterUsingNewPositionsTest, SortWorksAsStableOnStabilityCheckObjectsUsingExample1) // STABLE
@@ -68,4 +78,5 @@ TEST(CountingSorterUsingNewPositionsTest, SortWorksAsStableOnStabilityCheckObjec
 }
 
 }
+
 }

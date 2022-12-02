@@ -27,6 +27,12 @@ using StringsSorter = CycleSorter<Strings>;
 using StabilityCheckObjectsSorter = CycleSorter<StabilityCheckObjects>;
 }
 
+TEST(CycleSorterTest, SortWorksOnCharactersAndDoesNotCrashUsingEmptyExample)
+{
+    CharactersSorter sorter;
+    testSortUsingEmptyExampleWithCharacters<CharactersSorter, Characters>(sorter);
+}
+
 TEST(CycleSorterTest, SortWorksOnCharactersUsingExample1)
 {
     CharactersSorter sorter;
@@ -66,4 +72,5 @@ TEST(CycleSorterTest, SortWorksAsNotStableOnStabilityCheckObjectsUsingExample1) 
 }
 
 }
+
 }

@@ -19,24 +19,30 @@ public:
 
     void sort(Values & valuesToSort) const override
     {
-        unsigned int const size = valuesToSort.size();
-        for(unsigned int sortedCount=0; sortedCount<size-1; sortedCount++)
+        if(!valuesToSort.empty())
         {
-            bool noSwapHappened(true);
-            auto itFirst = valuesToSort.begin();
-            auto itSecond = valuesToSort.begin();
-            itSecond++;
-            for(unsigned int unsortedIndex=0; unsortedIndex<size-sortedCount-1; unsortedIndex++, itFirst++, itSecond++)
+            auto itStart=valuesToSort.begin();
+            itStart++;
+            for(auto itEnd=valuesToSort.end(); itStart!=itEnd; itEnd--)
             {
-                if(*itSecond < *itFirst)
+                bool noSwapHappened(true);
+                auto itFirst = valuesToSort.begin();
+                auto itSecond = valuesToSort.begin();
+                itSecond++;
+                for(; itSecond!=itEnd; itFirst++,itSecond++)
                 {
-                    std::swap(*itFirst, *itSecond);
-                    noSwapHappened = false;
+                    if(*itSecond < *itFirst)
+                    {
+                        std::swap(*itFirst, *itSecond);
+                        noSwapHappened = false;
+                    }
                 }
-            }            if(noSwapHappened)
-            {
-                break;
-            }        }
+                if(noSwapHappened)
+                {
+                    break;
+                }
+            }
+        }
     }
 };
 

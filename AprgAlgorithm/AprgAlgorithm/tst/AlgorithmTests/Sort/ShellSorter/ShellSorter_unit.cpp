@@ -27,6 +27,12 @@ using StringsSorter = ShellSorter<Strings>;
 using StabilityCheckObjectsSorter = ShellSorter<StabilityCheckObjects>;
 }
 
+TEST(ShellSorterTest, SortWorksOnCharactersAndDoesNotCrashUsingEmptyExample)
+{
+    CharactersSorter sorter;
+    testSortUsingEmptyExampleWithCharacters<CharactersSorter, Characters>(sorter);
+}
+
 TEST(ShellSorterTest, SortWorksOnCharactersUsingExample1)
 {
     CharactersSorter sorter;
@@ -66,4 +72,5 @@ TEST(ShellSorterTest, SortWorksAsNotStableOnStabilityCheckObjectsUsingExample1) 
 }
 
 }
+
 }

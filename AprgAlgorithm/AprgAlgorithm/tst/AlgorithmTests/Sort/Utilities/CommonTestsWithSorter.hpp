@@ -18,6 +18,16 @@ namespace CommonTestsWithSorter
 {
 
 template <typename Sorter, typename Values>
+void testSortUsingEmptyExampleWithCharacters(Sorter const& sorter)
+{
+    Values empty;
+
+    sorter.sort(empty);
+
+    EXPECT_TRUE(empty.empty());
+}
+
+template <typename Sorter, typename Values>
 void testSortUsingExample1WithCharacters(Sorter const& sorter)
 {
     Values valuesToTest{'S', 'O', 'R', 'T', 'E', 'X', 'A', 'M', 'P', 'L', 'E'};

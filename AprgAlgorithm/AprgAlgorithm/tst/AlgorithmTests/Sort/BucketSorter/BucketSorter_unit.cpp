@@ -9,8 +9,10 @@
 
 using namespace alba::algorithm::CommonTestsWithSorter;
 using namespace std;
+
 namespace alba
 {
+
 namespace algorithm
 {
 
@@ -28,6 +30,12 @@ using IntegersSorter = BucketSorter<Integers, 10U>;
 using DoublesSorter = BucketSorter<Doubles, 10U>;
 using StringsSorter = BucketSorter<Strings, 10U>;
 using StabilityCheckObjectsSorter = BucketSorter<StabilityCheckObjects, 10U>;
+}
+
+TEST(BucketSorterTest, SortWorksOnCharactersAndDoesNotCrashUsingEmptyExample)
+{
+    CharactersSorter sorter('A', 'Z');
+    testSortUsingEmptyExampleWithCharacters<CharactersSorter, Characters>(sorter);
 }
 
 TEST(BucketSorterTest, SortWorksOnCharactersUsingExample1)
@@ -56,7 +64,8 @@ TEST(BucketSorterTest, SortWorksOnPositiveAndNegativeIntegersUsingExample1)
     testSortUsingExample1WithPositiveAndNegativeIntegers<IntegersSorter, Integers>(sorter);
 }
 
-TEST(BucketSorterTest, SortWorksOnDoublesUsingExample1){
+TEST(BucketSorterTest, SortWorksOnDoublesUsingExample1)
+{
     // Input is {0.897, 0.565, 0.656, 0.1234, 0.665, 0.3434};
 
     DoublesSorter sorter(0, 1);
@@ -64,6 +73,7 @@ TEST(BucketSorterTest, SortWorksOnDoublesUsingExample1){
 }
 
 // CANNOT SORT STRINGS
+
 TEST(BucketSorterTest, SortWorksAsStableOnStabilityCheckObjectsUsingExample1) // NOT REALLY STABLE
 {
     // Not really stable but samples are too few
@@ -73,4 +83,5 @@ TEST(BucketSorterTest, SortWorksAsStableOnStabilityCheckObjectsUsingExample1) //
 }
 
 }
+
 }

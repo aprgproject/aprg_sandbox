@@ -19,18 +19,23 @@ public:
 
     void sort(Values & valuesToSort) const override
     {
-        auto itEndMinus1 = valuesToSort.end();
-        itEndMinus1--;
-        for(auto itToSwap=valuesToSort.begin(); itToSwap!=itEndMinus1; itToSwap++)
+        if(!valuesToSort.empty())
         {
-            auto currentMinimumIt = std::min_element(itToSwap, valuesToSort.end());
-            std::swap(*itToSwap, *currentMinimumIt);
+            auto itEndMinus1 = valuesToSort.end();
+            itEndMinus1--;
+            for(auto itToSwap=valuesToSort.begin(); itToSwap!=itEndMinus1; itToSwap++)
+            {
+                auto currentMinimumIt = std::min_element(itToSwap, valuesToSort.end());
+                std::swap(*itToSwap, *currentMinimumIt);
+            }
         }
     }
 };
+
 }
 
 }
+
 // Proposition: Selection sort uses (N-1)+(N-2)+....+1+0 = (N^2)/2 compares and N exchanges
 // Proof: Trace the algorithm, double loop only happens for compare (second loop only covers not yet processed items)
 // and single loop happens in swapping the elements

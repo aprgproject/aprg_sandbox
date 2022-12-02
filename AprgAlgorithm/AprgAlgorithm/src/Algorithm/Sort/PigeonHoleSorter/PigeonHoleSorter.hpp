@@ -23,28 +23,31 @@ public:
 
     void sort(Values & valuesToSort) const override
     {
-        auto minmaxItPair = std::minmax_element(valuesToSort.cbegin(), valuesToSort.cend());
-        Value minimumValue = *(minmaxItPair.first);
-        Value maximumValue = *(minmaxItPair.second);
-        Value range = maximumValue - minimumValue + 1; // Find range
-
-        // Create an array of vectors.
-        // Size of array range.
-        // Each vector represents a hole that is going to contain matching elements.
-        Holes holes(range);
-
-        // Traverse through input array and put every element in its respective hole
-        for (Value const& value : valuesToSort)
+        if(!valuesToSort.empty())
         {
-            holes[value-minimumValue].emplace_back(value);
-        }
+            auto minmaxItPair = std::minmax_element(valuesToSort.cbegin(), valuesToSort.cend());
+            Value minimumValue = *(minmaxItPair.first);
+            Value maximumValue = *(minmaxItPair.second);
+            Value range = maximumValue - minimumValue + 1; // Find range
 
-        // Traverse through all holes one by one.
-        // For every hole, take its elements and put in array.
-        auto itCopy = valuesToSort.begin();
-        for(Hole const& hole : holes)
-        {
-            itCopy = std::copy(hole.cbegin(), hole.cend(), itCopy);
+            // Create an array of vectors.
+            // Size of array range.
+            // Each vector represents a hole that is going to contain matching elements.
+            Holes holes(range);
+
+            // Traverse through input array and put every element in its respective hole
+            for (Value const& value : valuesToSort)
+            {
+                holes[value-minimumValue].emplace_back(value);
+            }
+
+            // Traverse through all holes one by one.
+            // For every hole, take its elements and put in array.
+            auto itCopy = valuesToSort.begin();
+            for(Hole const& hole : holes)
+            {
+                itCopy = std::copy(hole.cbegin(), hole.cend(), itCopy);
+            }
         }
     }
 };

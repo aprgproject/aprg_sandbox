@@ -27,6 +27,12 @@ using StringsSorter = QuickSorterWith3WayPartitioning<Strings>;
 using StabilityCheckObjectsSorter = QuickSorterWith3WayPartitioning<StabilityCheckObjects>;
 }
 
+TEST(QuickSorterWith3WayPartitioningTest, SortWorksOnCharactersAndDoesNotCrashUsingEmptyExample)
+{
+    CharactersSorter sorter;
+    testSortUsingEmptyExampleWithCharacters<CharactersSorter, Characters>(sorter);
+}
+
 TEST(QuickSorterWith3WayPartitioningTest, SortWorksOnCharactersUsingExample1)
 {
     CharactersSorter sorter;
@@ -66,4 +72,5 @@ TEST(QuickSorterWith3WayPartitioningTest, SortWorksAsNotStableOnStabilityCheckOb
 }
 
 }
+
 }

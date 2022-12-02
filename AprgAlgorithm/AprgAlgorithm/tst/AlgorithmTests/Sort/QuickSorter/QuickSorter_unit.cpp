@@ -27,6 +27,12 @@ using StringsSorter = QuickSorter<Strings>;
 using StabilityCheckObjectsSorter = QuickSorter<StabilityCheckObjects>;
 }
 
+TEST(QuickSorterTest, SortWorksOnCharactersAndDoesNotCrashUsingEmptyExample)
+{
+    CharactersSorter sorter;
+    testSortUsingEmptyExampleWithCharacters<CharactersSorter, Characters>(sorter);
+}
+
 TEST(QuickSorterTest, SortWorksOnCharactersUsingExample1)
 {
     CharactersSorter sorter;
@@ -66,4 +72,5 @@ TEST(QuickSorterTest, SortWorksAsNotStableOnStabilityCheckObjectsUsingExample1) 
 }
 
 }
+
 }

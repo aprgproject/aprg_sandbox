@@ -8,8 +8,10 @@
 
 using namespace alba::algorithm::CommonTestsWithSorter;
 using namespace std;
+
 namespace alba
 {
+
 namespace algorithm
 {
 
@@ -34,9 +36,11 @@ CharactersSorter::IndexableValueToValueFunction indexableValueToCharacterFunctio
 {
     return static_cast<char>(indexableValue & 0xFFU);
 };
+
 SmallIntegerSorter::ValueToIndexableValueFunction smallIntToIndexableValueFunction = [](int const& value) -> unsigned int
 {
-    // Input: {-5, -10, 0, -3, 8, 5, -1, 10}    return static_cast<unsigned int>(10+value);
+    // Input: {-5, -10, 0, -3, 8, 5, -1, 10}
+    return static_cast<unsigned int>(10+value);
 };
 SmallIntegerSorter::IndexableValueToValueFunction indexableValueToSmallIntFunction = [](unsigned int const indexableValue) -> int
 {
@@ -52,6 +56,13 @@ StabilityCheckObjectsSorter::IndexableValueToValueFunction indexableValueToStabi
 {
     return StabilityCheckObject(indexableValue & 0xFFU, 0U);
 };
+
+}
+
+TEST(CountingSorterUsingCountPerValueTest, SortWorksOnCharactersAndDoesNotCrashUsingEmptyExample)
+{
+    CharactersSorter sorter(characterToIndexableValueFunction, indexableValueToCharacterFunction);
+    testSortUsingEmptyExampleWithCharacters<CharactersSorter, Characters>(sorter);
 }
 
 TEST(CountingSorterUsingCountPerValueTest, SortWorksOnCharactersUsingExample1)
@@ -74,10 +85,12 @@ TEST(CountingSorterUsingCountPerValueTest, SortWorksOnListOfCharactersUsingExamp
 
 TEST(CountingSorterUsingCountPerValueTest, SortWorksOnPositiveAndNegativeIntegersUsingExample1)
 {
-    SmallIntegerSorter sorter(smallIntToIndexableValueFunction, indexableValueToSmallIntFunction);    testSortUsingExample1WithPositiveAndNegativeIntegers<SmallIntegerSorter, Integers>(sorter);
+    SmallIntegerSorter sorter(smallIntToIndexableValueFunction, indexableValueToSmallIntFunction);
+    testSortUsingExample1WithPositiveAndNegativeIntegers<SmallIntegerSorter, Integers>(sorter);
 }
 
 // CANNOT SORT DOUBLE VALUES
+
 // CANNOT SORT STRINGS
 
 TEST(CountingSorterUsingCountPerValueTest, SortWorksAsNotStableOnStabilityCheckObjectsUsingExample1) // NOT STABLE
@@ -87,4 +100,5 @@ TEST(CountingSorterUsingCountPerValueTest, SortWorksAsNotStableOnStabilityCheckO
 }
 
 }
+
 }

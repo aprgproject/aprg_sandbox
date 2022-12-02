@@ -19,21 +19,23 @@ public:
 
     void sort(Values & valuesToSort) const override
     {
-        unsigned int size = valuesToSort.size();
-        unsigned int skip = size;
-
-        bool didSwapHappened(true);
-
-        while(didSwapHappened || skip != 1)
+        if(!valuesToSort.empty())
         {
-            didSwapHappened = false;
-            skip = getNextSkipValue(skip);
-            for(unsigned int i=0; i<size-skip; i++)
+            unsigned int size = valuesToSort.size();
+            unsigned int skip = size;
+
+            bool didSwapHappened(true);
+            while(didSwapHappened || skip != 1)
             {
-                if(valuesToSort.at(i+skip) < valuesToSort.at(i))
+                didSwapHappened = false;
+                skip = getNextSkipValue(skip);
+                for(unsigned int i=0; i<size-skip; i++)
                 {
-                    didSwapHappened = true;
-                    std::swap(valuesToSort[i], valuesToSort[i+skip]);
+                    if(valuesToSort.at(i+skip) < valuesToSort.at(i))
+                    {
+                        didSwapHappened = true;
+                        std::swap(valuesToSort[i], valuesToSort[i+skip]);
+                    }
                 }
             }
         }

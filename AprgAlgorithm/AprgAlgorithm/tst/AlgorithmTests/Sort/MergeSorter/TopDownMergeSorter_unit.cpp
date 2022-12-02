@@ -27,6 +27,12 @@ using StringsSorter = TopDownMergeSorter<Strings>;
 using StabilityCheckObjectsSorter = TopDownMergeSorter<StabilityCheckObjects>;
 }
 
+TEST(TopDownMergeSorterTest, SortWorksOnCharactersAndDoesNotCrashUsingEmptyExample)
+{
+    CharactersSorter sorter;
+    testSortUsingEmptyExampleWithCharacters<CharactersSorter, Characters>(sorter);
+}
+
 TEST(TopDownMergeSorterTest, SortWorksOnCharactersUsingExample1)
 {
     CharactersSorter sorter;
@@ -66,4 +72,5 @@ TEST(TopDownMergeSorterTest, SortWorksAsStableOnStabilityCheckObjectsUsingExampl
 }
 
 }
+
 }
