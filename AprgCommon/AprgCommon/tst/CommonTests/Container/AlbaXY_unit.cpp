@@ -185,11 +185,11 @@ TEST(AlbaXYTest, SaveMaximumXAndYWorks)
 
 TEST(AlbaXYTest, OutputStreamOperatorWorks)
 {
-    IntXY xy(-5,5);
     stringstream ss;
+    IntXY xy(-5,5);
+
     ss<<xy;
 
-    EXPECT_EQ("(-5,5)", ss.str());
-}
+    EXPECT_EQ("(-5,5)", ss.str());}
 
 }

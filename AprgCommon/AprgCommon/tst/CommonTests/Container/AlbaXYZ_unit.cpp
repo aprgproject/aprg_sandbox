@@ -209,11 +209,11 @@ TEST(AlbaXYZTest, SaveMaximumXAndYAndZWorks)
 
 TEST(AlbaXYZTest, OutputStreamOperatorWorks)
 {
-    IntXYZ xyz(-5,5,10);
     stringstream ss;
+    IntXYZ xyz(-5,5,10);
+
     ss<<xyz;
 
-    EXPECT_EQ("(-5,5,10)", ss.str());
-}
+    EXPECT_EQ("(-5,5,10)", ss.str());}
 
 }
