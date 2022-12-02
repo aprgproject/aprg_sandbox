@@ -57,12 +57,11 @@ TEST(CycleSorterTest, SortWorksOnStringsUsingExample1)
     testSortUsingExample1WithStrings<StringSorter, Strings>(sorter);
 }
 
-/*TEST(CycleSorterTest, SortWorksAsNotStableOnStabilityCheckObjectsUsingExample1) // NOT STABLE
+TEST(CycleSorterTest, SortWorksAsNotStableOnStabilityCheckObjectsUsingExample1) // NOT STABLE
 {
     StabilityCheckSorter sorter;
     testSortAsNotStableUsingExample1WithStabilityCheckObjects<StabilityCheckSorter, StabilityCheckObjects>(sorter);
-}*/
-
 }
 
+}
 }

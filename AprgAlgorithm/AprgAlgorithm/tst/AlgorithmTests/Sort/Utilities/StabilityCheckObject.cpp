@@ -24,15 +24,13 @@ StabilityCheckObject::StabilityCheckObject(
 bool StabilityCheckObject::operator==(
         StabilityCheckObject const& object) const
 {
-    return m_visiblePart == object.m_visiblePart && m_notVisiblePart == object.m_notVisiblePart;
+    return m_visiblePart == object.m_visiblePart;
 }
 
-bool StabilityCheckObject::operator!=(
-        StabilityCheckObject const& object) const
+bool StabilityCheckObject::operator!=(        StabilityCheckObject const& object) const
 {
     return !operator==(object);
 }
-
 bool StabilityCheckObject::operator<(
         StabilityCheckObject const& object) const
 {
@@ -84,12 +82,17 @@ double operator/(double const dividend, StabilityCheckObject const& divisor)
     return dividend / divisor.m_visiblePart;
 }
 
+bool areObjectsEqualOnVisibleAndNotVisiblePart(
+        StabilityCheckObject const& object1,
+        StabilityCheckObject const& object2)
+{
+    return object1.m_visiblePart == object2.m_visiblePart && object1.m_notVisiblePart == object2.m_notVisiblePart;
+}
+
 ostream & operator<<(ostream & out, StabilityCheckObject const& object)
 {
-    out << "(" << object.m_visiblePart << object.m_notVisiblePart << ")";
-    return out;
+    out << "(" << object.m_visiblePart << object.m_notVisiblePart << ")";    return out;
 }
 
 }
-
 }

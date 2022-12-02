@@ -2,14 +2,13 @@
 
 #include <Algorithm/Sort/BaseSorter.hpp>
 
+#include <algorithm>
 #include <utility>
 
-namespace alba
-{
+namespace alba{
 
 namespace algorithm
 {
-
 template <typename Values>
 class CycleSorter : public BaseSorter<Values>
 {
@@ -21,74 +20,60 @@ public:
     void sort(Values & valuesToSort) const override
     {
         unsigned int numberOfWrites(0U);
-
-        // traverse array elements and put it to on
-        // the right place
-        for (unsigned int cycleStartingPoint = 0; cycleStartingPoint+2U <= valuesToSort.size(); cycleStartingPoint++)
+        for (unsigned int incorrectPosition = 0; incorrectPosition+2U <= valuesToSort.size(); incorrectPosition++)
         {
-
-            Value value = valuesToSort.at(cycleStartingPoint); // initialize item as starting point
-
-            // Find position where we put the item. We basically count all smaller elements on right side of item.
-            unsigned int position = cycleStartingPoint;
-            for (unsigned int i = cycleStartingPoint+1U; i<valuesToSort.size(); i++)
+            Value currentCycleValue = valuesToSort.at(incorrectPosition);
+            unsigned int correctPosition = getCorrectPositionForValue(valuesToSort, currentCycleValue, incorrectPosition);
+            if (correctPosition != incorrectPosition) // check first unsorted
             {
-                if (valuesToSort.at(i) < value)
+                movePositionForwardUntilValueIsDifferent(valuesToSort, currentCycleValue, correctPosition);
+                if (correctPosition != incorrectPosition)
                 {
-                    position++;
-                }
-            }
-
-            if (position == cycleStartingPoint) // If item is already in correct position
-            {
-                continue;
-            }
-
-            // ignore all duplicate  elements
-            while (value == valuesToSort.at(position))
-            {
-                position++;
-            }
-
-            // put the item to it's right position
-            if (position != cycleStartingPoint)
-            {
-                std::swap(value, valuesToSort.at(position));
-                numberOfWrites++;
-            }
-
-            // Rotate rest of the cycle
-            while (position != cycleStartingPoint)
-            {
-                position = cycleStartingPoint;
-
-                // Find position where we put the element
-                for (unsigned int i = cycleStartingPoint + 1; i < valuesToSort.size(); i++)
-                {
-                    position += (valuesToSort.at(i) < value) ? 1U : 0U;
-                }
-
-                // ignore all duplicate  elements
-                while (value == valuesToSort.at(position))
-                {
-                    position++;
-                }
-
-                // put the item to it's right position
-                if (value != valuesToSort.at(position))
-                {
-                    std::swap(value, valuesToSort[position]);
+                    std::swap(currentCycleValue, valuesToSort[correctPosition]);
                     numberOfWrites++;
+                }
+
+                while (correctPosition != incorrectPosition) // continue to fix cycles until cycle ends (cycle ends if it returned to original position)
+                {
+                    correctPosition = getCorrectPositionForValue(valuesToSort, currentCycleValue, incorrectPosition);
+                    movePositionForwardUntilValueIsDifferent(valuesToSort, currentCycleValue, correctPosition);
+                    if (currentCycleValue != valuesToSort.at(correctPosition))
+                    {
+                        std::swap(currentCycleValue, valuesToSort[correctPosition]);
+                        numberOfWrites++;
+                    }
                 }
             }
         }
     }
+
+private:
+
+    unsigned int getCorrectPositionForValue(Values const& valuesToSort, Value const& currentCycleValue, unsigned int const incorrectPosition) const
+    {
+        unsigned int numberOfLessValues = std::count_if(valuesToSort.cbegin()+incorrectPosition+1U, valuesToSort.cend(), [&](Value const& valueToSort)
+        {
+            return valueToSort < currentCycleValue;
+        });
+        return incorrectPosition + numberOfLessValues;
+    }
+
+    void movePositionForwardUntilValueIsDifferent(Values const& valuesToSort, Value const& currentCycleValue, unsigned int & correctPosition) const
+    {
+        // The purpose of the move is to ensure that we are getting a correctPosition with a different value from currentCycleValue.
+        // This is to avoid redundant cycles and even infinite cycles.
+        // -> Remember after we swap values, we have to look for a new cycle value.
+        // ---> Its redundant to look for the value again.
+
+        while (currentCycleValue == valuesToSort.at(correctPosition))
+        {
+            correctPosition++;
+        }
+    }
 };
-
 }
 
 }
-
 
 // Cycle sort is an in-place sorting Algorithm, unstable sorting algorithm,
 // a comparison sort that is theoretically optimal in terms of the total number of writes to the original array.
@@ -145,3 +130,21 @@ public:
 // Best Case : O(n2)
 // This sorting algorithm is best suited for situations where memory write or swap operations are costly.
 
+
+
+// Which sorting algorithm makes minimum number of memory writes?
+
+// Minimizing the number of writes is useful when making writes to some huge data set is very expensive,
+// such as with EEPROMs or Flash memory, where each write reduces the lifespan of the memory.
+// Among the sorting algorithms that we generally study in our data structure and algorithm courses,
+// Selection Sort makes least number of writes (it makes O(n) swaps).
+// But, Cycle Sort almost always makes less number of writes compared to Selection Sort.
+// In Cycle Sort, each value is either written zero times, if it’s already in its correct position, or written one time to its correct position.
+// This matches the minimal number of overwrites required for a completed in-place sort.
+
+
+// Selection sort vs Cycle sort
+
+// Cycle sort has less writes compared to selection sort because it only writes one value in the container
+// (the previous value is saved on separate variable) per iteration.
+// -> This is less compared to selection sort which swaps the two values per iteration (which have two writes in the container).

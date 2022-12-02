@@ -28,12 +28,14 @@ public:
     unsigned int getNotVisiblePart() const;
 
     friend double operator/(double const dividend, StabilityCheckObject const& divisor);
+    friend bool areObjectsEqualOnVisibleAndNotVisiblePart(StabilityCheckObject const& object1, StabilityCheckObject const& object2);
     friend std::ostream & operator<<(std::ostream & out, StabilityCheckObject const& object);
 
-private:
-    char m_visiblePart;
+private:    char m_visiblePart;
     unsigned int m_notVisiblePart;
 };
+
+bool areObjectsEqualOnVisibleAndNotVisiblePart(StabilityCheckObject const& object1, StabilityCheckObject const& object2);
 
 }
 
