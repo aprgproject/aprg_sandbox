@@ -12,15 +12,22 @@ class StabilityCheckObject
 {
 public:
     StabilityCheckObject(char const visiblePart, unsigned int const notVisiblePart);
+    StabilityCheckObject(int const value);
 
     bool operator==(StabilityCheckObject const& object) const;
     bool operator!=(StabilityCheckObject const& object) const;
     bool operator<(StabilityCheckObject const& object) const;
+    operator int() const;
     StabilityCheckObject operator+(StabilityCheckObject const& second) const;
-    StabilityCheckObject operator-(StabilityCheckObject const& second) const;    double operator*(double const multiplier) const; // needed for bucket sort
+    StabilityCheckObject operator-(StabilityCheckObject const& second) const;
+    StabilityCheckObject operator+(int const second) const;
+    StabilityCheckObject operator-(int const second) const;
+    double operator*(double const multiplier) const;
+
     char getVisiblePart() const;
     unsigned int getNotVisiblePart() const;
-    friend double operator/(double const dividend, StabilityCheckObject const& divisor); // needed for bucket sort
+
+    friend double operator/(double const dividend, StabilityCheckObject const& divisor);
     friend std::ostream & operator<<(std::ostream & out, StabilityCheckObject const& object);
 
 private:

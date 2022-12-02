@@ -71,13 +71,15 @@ TEST(LeastSignificantDigitSorterTest, SortWorksOnPositiveAndNegativeIntegersUsin
     testSortUsingExample1WithPositiveAndNegativeIntegers<SmallIntegerSorter, Integers>(sorter);
 }
 
+// CANNOT SORT DOUBLE VALUES
+
 TEST(LeastSignificantDigitSorterTest, SortWorksOnStringsUsingExample1)
 {
     StringSorter sorter(getCharacterAtForString);
     testSortUsingExample1WithStrings<StringSorter, Strings>(sorter);
 }
 
-TEST(LeastSignificantDigitSorterTest, SortWorksAsStableOnStabilityCheckObjectsUsingExample1)
+TEST(LeastSignificantDigitSorterTest, SortWorksAsStableOnStabilityCheckObjectsUsingExample1) // STABLE
 {
     StabilityCheckSorter sorter(getNibbleAtForStabilityCheckObject);
     testSortAsStableUsingExample1WithStabilityCheckObjects<StabilityCheckSorter, StabilityCheckObjects>(sorter);

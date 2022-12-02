@@ -19,10 +19,12 @@ namespace
 {
 using Characters = vector<char>;
 using Integers = vector<int>;
+using Doubles = vector<double>;
 using Strings = vector<string>;
 using StabilityCheckObjects = vector<StabilityCheckObject>;
 using CharacterSorter = BucketSorter<Characters, 10U>;
 using IntegerSorter = BucketSorter<Integers, 10U>;
+using DoubleSorter = BucketSorter<Doubles, 10U>;
 using StringSorter = BucketSorter<Strings, 10U>;
 using StabilityCheckSorter = BucketSorter<StabilityCheckObjects, 10U>;
 }
@@ -47,7 +49,17 @@ TEST(BucketSorterTest, SortWorksOnPositiveAndNegativeIntegersUsingExample1)
     testSortUsingExample1WithPositiveAndNegativeIntegers<IntegerSorter, Integers>(sorter);
 }
 
-TEST(BucketSorterTest, SortWorksAsStableOnStabilityCheckObjectsUsingExample1)
+TEST(BucketSorterTest, SortWorksOnDoublesUsingExample1)
+{
+    // Input is {0.897, 0.565, 0.656, 0.1234, 0.665, 0.3434};
+
+    DoubleSorter sorter(0, 1);
+    testSortUsingExample1WithDoubleValues<DoubleSorter, Doubles>(sorter);
+}
+
+// CANNOT SORT STRINGS
+
+TEST(BucketSorterTest, SortWorksAsStableOnStabilityCheckObjectsUsingExample1) // NOT REALLY STABLE
 {
     // Not really stable but samples are too few
 

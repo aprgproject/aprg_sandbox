@@ -86,13 +86,15 @@ TEST(RadixSorterUsingQuickSortWith3WayPartitioningTest, SortWorksOnPositiveAndNe
     testSortUsingExample1WithPositiveAndNegativeIntegers<SmallIntegerSorter, Integers>(sorter);
 }
 
+// CANNOT SORT DOUBLE VALUES
+
 TEST(RadixSorterUsingQuickSortWith3WayPartitioningTest, SortWorksOnStringsUsingExample1)
 {
     StringSorter sorter(getCharacterAtForString, isDigitValidForString);
     testSortUsingExample1WithStrings<StringSorter, Strings>(sorter);
 }
 
-TEST(RadixSorterUsingQuickSortWith3WayPartitioningTest, SortWorksAsNotStableOnStabilityCheckObjectsUsingExample1)
+TEST(RadixSorterUsingQuickSortWith3WayPartitioningTest, SortWorksAsNotStableOnStabilityCheckObjectsUsingExample1) // STABLE
 {
     StabilityCheckSorter sorter(getNibbleAtForStabilityCheckObject, isNibbleDigitValidForStabilityCheckObject);
     testSortAsNotStableUsingExample1WithStabilityCheckObjects<StabilityCheckSorter, StabilityCheckObjects>(sorter);

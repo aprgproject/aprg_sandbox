@@ -17,10 +17,12 @@ namespace
 {
 using Characters = vector<char>;
 using Integers = vector<int>;
+using Doubles = vector<double>;
 using Strings = vector<string>;
 using StabilityCheckObjects = vector<StabilityCheckObject>;
 using CharacterSorter = PigeonholeSorter<Characters>;
 using IntegerSorter = PigeonholeSorter<Integers>;
+using DoubleSorter = PigeonholeSorter<Doubles>;
 using StringSorter = PigeonholeSorter<Strings>;
 using StabilityCheckSorter = PigeonholeSorter<StabilityCheckObjects>;
 }
@@ -43,11 +45,15 @@ TEST(PigeonholeSorterTest, SortWorksOnPositiveAndNegativeIntegersUsingExample1)
     testSortUsingExample1WithPositiveAndNegativeIntegers<IntegerSorter, Integers>(sorter);
 }
 
-/*TEST(PigeonholeSorterTest, SortWorksAsNotStableOnStabilityCheckObjectsUsingExample1)
+// CANNOT SORT DOUBLE VALUES
+
+// CANNOT SORT STRINGS
+
+TEST(PigeonholeSorterTest, SortWorksAsStableOnStabilityCheckObjectsUsingExample1) // STABLE
 {
     StabilityCheckSorter sorter;
-    testSortAsNotStableUsingExample1WithStabilityCheckObjects<StabilityCheckSorter, StabilityCheckObjects>(sorter);
-}*/
+    testSortAsStableUsingExample1WithStabilityCheckObjects<StabilityCheckSorter, StabilityCheckObjects>(sorter);
+}
 
 }
 

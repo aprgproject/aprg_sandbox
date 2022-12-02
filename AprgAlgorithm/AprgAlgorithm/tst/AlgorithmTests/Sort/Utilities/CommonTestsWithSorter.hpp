@@ -47,6 +47,17 @@ void testSortUsingExample1WithPositiveAndNegativeIntegers(Sorter const& sorter)
 }
 
 template <typename Sorter, typename Values>
+void testSortUsingExample1WithDoubleValues(Sorter const& sorter)
+{
+    Values valuesToTest{0.897, 0.565, 0.656, 0.1234, 0.665, 0.3434};
+
+    sorter.sort(valuesToTest);
+
+    Values valuesToExpect{0.1234, 0.3434, 0.565, 0.656, 0.665, 0.897};
+    EXPECT_EQ(valuesToExpect, valuesToTest);
+}
+
+template <typename Sorter, typename Values>
 void testSortUsingExample1WithStrings(Sorter const& sorter)
 {
     Values valuesToTest{"spongebob", "patrick", "mr. crabs", "squidward", "sandy", "ms. puff", "pearl", "larry", "plankton"};

@@ -17,10 +17,12 @@ namespace
 {
 using Characters = vector<char>;
 using Integers = vector<int>;
+using Doubles = vector<double>;
 using Strings = vector<string>;
 using StabilityCheckObjects = vector<StabilityCheckObject>;
 using CharacterSorter = InsertionSorter<Characters>;
 using IntegerSorter = InsertionSorter<Integers>;
+using DoubleSorter = InsertionSorter<Doubles>;
 using StringSorter = InsertionSorter<Strings>;
 using StabilityCheckSorter = InsertionSorter<StabilityCheckObjects>;
 }
@@ -43,13 +45,19 @@ TEST(InsertionSorterTest, SortWorksOnPositiveAndNegativeIntegersUsingExample1)
     testSortUsingExample1WithPositiveAndNegativeIntegers<IntegerSorter, Integers>(sorter);
 }
 
+TEST(InsertionSorterTest, SortWorksOnDoublesUsingExample1)
+{
+    DoubleSorter sorter;
+    testSortUsingExample1WithDoubleValues<DoubleSorter, Doubles>(sorter);
+}
+
 TEST(InsertionSorterTest, SortWorksOnStringsUsingExample1)
 {
     StringSorter sorter;
     testSortUsingExample1WithStrings<StringSorter, Strings>(sorter);
 }
 
-TEST(InsertionSorterTest, SortWorksAsStableOnStabilityCheckObjectsUsingExample1)
+TEST(InsertionSorterTest, SortWorksAsStableOnStabilityCheckObjectsUsingExample1) // STABLE
 {
     StabilityCheckSorter sorter;
     testSortAsStableUsingExample1WithStabilityCheckObjects<StabilityCheckSorter, StabilityCheckObjects>(sorter);

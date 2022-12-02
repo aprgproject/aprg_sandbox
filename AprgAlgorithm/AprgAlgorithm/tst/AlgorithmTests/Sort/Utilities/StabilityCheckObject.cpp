@@ -15,6 +15,12 @@ StabilityCheckObject::StabilityCheckObject(
     , m_notVisiblePart(notVisiblePart)
 {}
 
+StabilityCheckObject::StabilityCheckObject(
+        int const value)
+    : m_visiblePart(static_cast<int>(value))
+    , m_notVisiblePart(0U)
+{}
+
 bool StabilityCheckObject::operator==(
         StabilityCheckObject const& object) const
 {
@@ -29,16 +35,33 @@ bool StabilityCheckObject::operator!=(
 
 bool StabilityCheckObject::operator<(
         StabilityCheckObject const& object) const
-{    return m_visiblePart < object.m_visiblePart;
+{
+    return m_visiblePart < object.m_visiblePart;
 }
 
-StabilityCheckObject StabilityCheckObject::operator+(StabilityCheckObject const& second) const{
+StabilityCheckObject::operator int() const
+{
+    return m_visiblePart;
+}
+
+StabilityCheckObject StabilityCheckObject::operator+(StabilityCheckObject const& second) const
+{
     return StabilityCheckObject(m_visiblePart+second.m_visiblePart, 0U);
 }
 
 StabilityCheckObject StabilityCheckObject::operator-(StabilityCheckObject const& second) const
 {
     return StabilityCheckObject(m_visiblePart-second.m_visiblePart, 0U);
+}
+
+StabilityCheckObject StabilityCheckObject::operator+(int const second) const
+{
+    return StabilityCheckObject(m_visiblePart+second, m_notVisiblePart);
+}
+
+StabilityCheckObject StabilityCheckObject::operator-(int const second) const
+{
+    return StabilityCheckObject(m_visiblePart-second, m_notVisiblePart);
 }
 
 double StabilityCheckObject::operator*(double const multiplier) const

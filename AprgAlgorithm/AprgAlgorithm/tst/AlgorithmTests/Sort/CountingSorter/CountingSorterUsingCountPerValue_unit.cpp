@@ -73,7 +73,11 @@ TEST(CountingSorterUsingCountPerValueTest, SortWorksOnPositiveAndNegativeInteger
     testSortUsingExample1WithPositiveAndNegativeIntegers<SmallIntegerSorter, Integers>(sorter);
 }
 
-TEST(CountingSorterUsingCountPerValueTest, SortWorksAsNotStableOnStabilityCheckObjectsUsingExample1)
+// CANNOT SORT DOUBLE VALUES
+
+// CANNOT SORT STRINGS
+
+TEST(CountingSorterUsingCountPerValueTest, SortWorksAsNotStableOnStabilityCheckObjectsUsingExample1) // NOT STABLE
 {
     StabilityCheckSorter sorter(stabilityCheckObjectToIndexableValueFunction, indexableValueToStabilityCheckObjectFunction);
     testSortAsNotStableUsingExample1WithStabilityCheckObjects<StabilityCheckSorter, StabilityCheckObjects>(sorter);

@@ -59,7 +59,11 @@ TEST(CountingSorterUsingNewPositionsTest, SortWorksOnPositiveAndNegativeIntegers
     testSortUsingExample1WithPositiveAndNegativeIntegers<SmallIntegerSorter, Integers>(sorter);
 }
 
-TEST(CountingSorterUsingNewPositionsTest, SortWorksAsStableOnStabilityCheckObjectsUsingExample1)
+// CANNOT SORT DOUBLE VALUES
+
+// CANNOT SORT STRINGS
+
+TEST(CountingSorterUsingNewPositionsTest, SortWorksAsStableOnStabilityCheckObjectsUsingExample1) // STABLE
 {
     StabilityCheckSorter sorter(stabilityCheckObjectToIndexableValueFunction);
     testSortAsStableUsingExample1WithStabilityCheckObjects<StabilityCheckSorter, StabilityCheckObjects>(sorter);
