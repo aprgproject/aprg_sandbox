@@ -20,49 +20,50 @@ using Integers = vector<int>;
 using Doubles = vector<double>;
 using Strings = vector<string>;
 using StabilityCheckObjects = vector<StabilityCheckObject>;
-using CharacterSorter = BottomUpMergeSorter<Characters>;
-using IntegerSorter = BottomUpMergeSorter<Integers>;
-using DoubleSorter = BottomUpMergeSorter<Doubles>;
-using StringSorter = BottomUpMergeSorter<Strings>;
-using StabilityCheckSorter = BottomUpMergeSorter<StabilityCheckObjects>;
+using CharactersSorter = BottomUpMergeSorter<Characters>;
+using IntegersSorter = BottomUpMergeSorter<Integers>;
+using DoublesSorter = BottomUpMergeSorter<Doubles>;
+using StringsSorter = BottomUpMergeSorter<Strings>;
+using StabilityCheckObjectsSorter = BottomUpMergeSorter<StabilityCheckObjects>;
 }
 
 TEST(BottomUpMergeSorterTest, SortWorksOnCharactersUsingExample1)
 {
-    CharacterSorter sorter;
-    testSortUsingExample1WithCharacters<CharacterSorter, Characters>(sorter);
+    CharactersSorter sorter;
+    testSortUsingExample1WithCharacters<CharactersSorter, Characters>(sorter);
 }
 
 TEST(BottomUpMergeSorterTest, SortWorksOnCharactersUsingExample2)
 {
-    CharacterSorter sorter;
-    testSortUsingExample2WithCharacters<CharacterSorter, Characters>(sorter);
+    CharactersSorter sorter;
+    testSortUsingExample2WithCharacters<CharactersSorter, Characters>(sorter);
 }
+
+// CANNOT SORT STD::LIST
 
 TEST(BottomUpMergeSorterTest, SortWorksOnPositiveAndNegativeIntegersUsingExample1)
 {
-    IntegerSorter sorter;
-    testSortUsingExample1WithPositiveAndNegativeIntegers<IntegerSorter, Integers>(sorter);
+    IntegersSorter sorter;
+    testSortUsingExample1WithPositiveAndNegativeIntegers<IntegersSorter, Integers>(sorter);
 }
 
 TEST(BottomUpMergeSorterTest, SortWorksOnDoublesUsingExample1)
 {
-    DoubleSorter sorter;
-    testSortUsingExample1WithDoubleValues<DoubleSorter, Doubles>(sorter);
+    DoublesSorter sorter;
+    testSortUsingExample1WithDoubleValues<DoublesSorter, Doubles>(sorter);
 }
 
 TEST(BottomUpMergeSorterTest, SortWorksOnStringsUsingExample1)
 {
-    StringSorter sorter;
-    testSortUsingExample1WithStrings<StringSorter, Strings>(sorter);
+    StringsSorter sorter;
+    testSortUsingExample1WithStrings<StringsSorter, Strings>(sorter);
 }
 
 TEST(BottomUpMergeSorterTest, SortWorksAsStableOnStabilityCheckObjectsUsingExample1) // STABLE
 {
-    StabilityCheckSorter sorter;
-    testSortAsStableUsingExample1WithStabilityCheckObjects<StabilityCheckSorter, StabilityCheckObjects>(sorter);
+    StabilityCheckObjectsSorter sorter;
+    testSortAsStableUsingExample1WithStabilityCheckObjects<StabilityCheckObjectsSorter, StabilityCheckObjects>(sorter);
 }
 
 }
-
 }

@@ -19,120 +19,113 @@ using Characters = vector<char>;
 using Integers = vector<int>;
 using Strings = vector<string>;
 using StabilityCheckObjects = vector<StabilityCheckObject>;
-using CharacterSorter = RadixSorterUsingQuickSortWith3WayPartitioning<Characters, unsigned int>;
+using CharactersSorter = RadixSorterUsingQuickSortWith3WayPartitioning<Characters, unsigned int>;
 using SmallIntegerSorter = RadixSorterUsingQuickSortWith3WayPartitioning<Integers, unsigned int>;
-using StringSorter = RadixSorterUsingQuickSortWith3WayPartitioning<Strings, char>;
-using StabilityCheckSorter = RadixSorterUsingQuickSortWith3WayPartitioning<StabilityCheckObjects, unsigned int>;
+using StringsSorter = RadixSorterUsingQuickSortWith3WayPartitioning<Strings, char>;
+using StabilityCheckObjectsSorter = RadixSorterUsingQuickSortWith3WayPartitioning<StabilityCheckObjects, unsigned int>;
 
-CharacterSorter::GetDigitAtFunction getNibbleAtForCharacter = [](char const& value, unsigned int const mostSignificantDigitIndex) -> unsigned int
+CharactersSorter::GetDigitAtFunction getNibbleAtForCharacter = [](char const& value, unsigned int const mostSignificantDigitIndex) -> unsigned int
 {
     return (value >> ((1U-mostSignificantDigitIndex)*4U)) & 0xFU;
 };
-CharacterSorter::IsDigitFunction isNibbleDigitValidForCharacter = [](char const&, unsigned int const digitIndex) -> unsigned int
+CharactersSorter::IsDigitFunction isNibbleDigitValidForCharacter = [](char const&, unsigned int const digitIndex) -> unsigned int
 {
     return digitIndex < 2U;
 };
-
 SmallIntegerSorter::GetDigitAtFunction getNibbleAtForSmallInteger = [](int const& value, unsigned int const mostSignificantDigitIndex) -> unsigned int
 {
-    return ((value+10) >> ((7U-mostSignificantDigitIndex)*4U)) & 0xFU;
-};
+    return ((value+10) >> ((7U-mostSignificantDigitIndex)*4U)) & 0xFU;};
 SmallIntegerSorter::IsDigitFunction isNibbleDigitValidForSmallInteger = [](int const&, unsigned int const digitIndex) -> unsigned int
 {
     return digitIndex < 8U;
 };
 
-StringSorter::GetDigitAtFunction getCharacterAtForString = [](string const& value, unsigned int const mostSignificantDigitIndex) -> char
+StringsSorter::GetDigitAtFunction getCharacterAtForString = [](string const& value, unsigned int const mostSignificantDigitIndex) -> char
 {
     char digitValue{};
-    if(mostSignificantDigitIndex < value.length())
-    {
+    if(mostSignificantDigitIndex < value.length())    {
         digitValue = value.at(mostSignificantDigitIndex);
     }
     return digitValue;
 };
-StringSorter::IsDigitFunction isDigitValidForString = [](string const& value, unsigned int const digitIndex) -> unsigned int
+StringsSorter::IsDigitFunction isDigitValidForString = [](string const& value, unsigned int const digitIndex) -> unsigned int
 {
     return digitIndex < value.length();
 };
 
-StabilityCheckSorter::GetDigitAtFunction getNibbleAtForStabilityCheckObject
+StabilityCheckObjectsSorter::GetDigitAtFunction getNibbleAtForStabilityCheckObject
 = [](StabilityCheckObject const& value, unsigned int const mostSignificantDigitIndex) -> unsigned int
 {
     return (value.getVisiblePart() >> ((1U-mostSignificantDigitIndex)*4U)) & 0xFU;
 };
-StabilityCheckSorter::IsDigitFunction isNibbleDigitValidForStabilityCheckObject
+StabilityCheckObjectsSorter::IsDigitFunction isNibbleDigitValidForStabilityCheckObject
 = [](StabilityCheckObject const&, unsigned int const digitIndex) -> unsigned int
 {
-    return digitIndex < 2U;
-};
+    return digitIndex < 2U;};
 }
 
 TEST(RadixSorterUsingQuickSortWith3WayPartitioningTest, SortWorksOnCharactersUsingExample1)
 {
-    CharacterSorter sorter(getNibbleAtForCharacter, isNibbleDigitValidForCharacter);
-    testSortUsingExample1WithCharacters<CharacterSorter, Characters>(sorter);
+    CharactersSorter sorter(getNibbleAtForCharacter, isNibbleDigitValidForCharacter);
+    testSortUsingExample1WithCharacters<CharactersSorter, Characters>(sorter);
 }
 
 TEST(RadixSorterUsingQuickSortWith3WayPartitioningTest, SortWorksOnCharactersUsingExample2)
 {
-    CharacterSorter sorter(getNibbleAtForCharacter, isNibbleDigitValidForCharacter);
-    testSortUsingExample2WithCharacters<CharacterSorter, Characters>(sorter);
+    CharactersSorter sorter(getNibbleAtForCharacter, isNibbleDigitValidForCharacter);
+    testSortUsingExample2WithCharacters<CharactersSorter, Characters>(sorter);
 }
+
+// CANNOT SORT STD::LIST, actually it might be possible if we change indexes to iterators
 
 TEST(RadixSorterUsingQuickSortWith3WayPartitioningTest, SortWorksOnPositiveAndNegativeIntegersUsingExample1)
 {
-    SmallIntegerSorter sorter(getNibbleAtForSmallInteger, isNibbleDigitValidForSmallInteger);
-    testSortUsingExample1WithPositiveAndNegativeIntegers<SmallIntegerSorter, Integers>(sorter);
+    SmallIntegerSorter sorter(getNibbleAtForSmallInteger, isNibbleDigitValidForSmallInteger);    testSortUsingExample1WithPositiveAndNegativeIntegers<SmallIntegerSorter, Integers>(sorter);
 }
 
 // CANNOT SORT DOUBLE VALUES
 
 TEST(RadixSorterUsingQuickSortWith3WayPartitioningTest, SortWorksOnStringsUsingExample1)
 {
-    StringSorter sorter(getCharacterAtForString, isDigitValidForString);
-    testSortUsingExample1WithStrings<StringSorter, Strings>(sorter);
+    StringsSorter sorter(getCharacterAtForString, isDigitValidForString);
+    testSortUsingExample1WithStrings<StringsSorter, Strings>(sorter);
 }
 
 TEST(RadixSorterUsingQuickSortWith3WayPartitioningTest, SortWorksAsNotStableOnStabilityCheckObjectsUsingExample1) // STABLE
 {
-    StabilityCheckSorter sorter(getNibbleAtForStabilityCheckObject, isNibbleDigitValidForStabilityCheckObject);
-    testSortAsNotStableUsingExample1WithStabilityCheckObjects<StabilityCheckSorter, StabilityCheckObjects>(sorter);
+    StabilityCheckObjectsSorter sorter(getNibbleAtForStabilityCheckObject, isNibbleDigitValidForStabilityCheckObject);
+    testSortAsNotStableUsingExample1WithStabilityCheckObjects<StabilityCheckObjectsSorter, StabilityCheckObjects>(sorter);
 }
 
 TEST(RadixSorterUsingQuickSortWith3WayPartitioningTest, SortStartingAtMostSignificantDigitWorksWithDigitThatExistsInAllStrings)
 {
-    StringSorter sorter(getCharacterAtForString, isDigitValidForString);
+    StringsSorter sorter(getCharacterAtForString, isDigitValidForString);
     Strings stringsToTest{"spongebob", "patrick", "mr. crabs", "squidward", "sandy", "ms. puff", "pearl", "larry", "plankton"};
 
     sorter.sortStartingAtMostSignificantDigit(stringsToTest, 2U, 5U, 1U);
-
     Strings expectedStrings{"spongebob", "patrick", "sandy", "squidward", "mr. crabs", "ms. puff", "pearl", "larry", "plankton"};
     EXPECT_EQ(expectedStrings, stringsToTest);
 }
 
 TEST(RadixSorterUsingQuickSortWith3WayPartitioningTest, SortStartingAtMostSignificantDigitWorksWithDigitThatExistsInSomeOfTheStrings)
 {
-    StringSorter sorter(getCharacterAtForString, isDigitValidForString);
+    StringsSorter sorter(getCharacterAtForString, isDigitValidForString);
     Strings stringsToTest{"spongebob", "patrick", "mr. crabs", "squidward", "sandy", "ms. puff", "pearl", "larry", "plankton"};
 
     sorter.sortStartingAtMostSignificantDigit(stringsToTest, 2U, 5U, 6U);
-
     Strings expectedStrings{"spongebob", "patrick", "sandy", "mr. crabs", "squidward", "ms. puff", "pearl", "larry", "plankton"};
     EXPECT_EQ(expectedStrings, stringsToTest);
 }
 
 TEST(RadixSorterUsingQuickSortWith3WayPartitioningTest, SortStartingAtMostSignificantDigitWorksWithDigitThatDoesNotExistInOfTheStrings)
 {
-    StringSorter sorter(getCharacterAtForString, isDigitValidForString);
+    StringsSorter sorter(getCharacterAtForString, isDigitValidForString);
     Strings stringsToTest{"spongebob", "patrick", "mr. crabs", "squidward", "sandy", "ms. puff", "pearl", "larry", "plankton"};
 
     sorter.sortStartingAtMostSignificantDigit(stringsToTest, 2U, 5U, 9U);
-
     Strings expectedStrings{"spongebob", "patrick", "mr. crabs", "squidward", "sandy", "ms. puff", "pearl", "larry", "plankton"};
     EXPECT_EQ(expectedStrings, stringsToTest);
 }
-
 }
 
 }

@@ -22,49 +22,50 @@ using Integers = vector<int>;
 using Doubles = vector<double>;
 using Strings = vector<string>;
 using StabilityCheckObjects = vector<StabilityCheckObject>;
-using CharacterSorter = HeapSorter<Characters>;
-using IntegerSorter = HeapSorter<Integers>;
-using DoubleSorter = HeapSorter<Doubles>;
-using StringSorter = HeapSorter<Strings>;
-using StabilityCheckSorter = HeapSorter<StabilityCheckObjects>;
+using CharactersSorter = HeapSorter<Characters>;
+using IntegersSorter = HeapSorter<Integers>;
+using DoublesSorter = HeapSorter<Doubles>;
+using StringsSorter = HeapSorter<Strings>;
+using StabilityCheckObjectsSorter = HeapSorter<StabilityCheckObjects>;
 }
 
 TEST(HeapSorterTest, SortWorksOnCharactersUsingExample1)
 {
-    CharacterSorter sorter;
-    testSortUsingExample1WithCharacters<CharacterSorter, Characters>(sorter);
+    CharactersSorter sorter;
+    testSortUsingExample1WithCharacters<CharactersSorter, Characters>(sorter);
 }
 
 TEST(HeapSorterTest, SortWorksOnCharactersUsingExample2)
 {
-    CharacterSorter sorter;
-    testSortUsingExample2WithCharacters<CharacterSorter, Characters>(sorter);
+    CharactersSorter sorter;
+    testSortUsingExample2WithCharacters<CharactersSorter, Characters>(sorter);
 }
+
+// CANNOT SORT STD::LIST
 
 TEST(HeapSorterTest, SortWorksOnPositiveAndNegativeIntegersUsingExample1)
 {
-    IntegerSorter sorter;
-    testSortUsingExample1WithPositiveAndNegativeIntegers<IntegerSorter, Integers>(sorter);
+    IntegersSorter sorter;
+    testSortUsingExample1WithPositiveAndNegativeIntegers<IntegersSorter, Integers>(sorter);
 }
 
 TEST(HeapSorterTest, SortWorksOnDoublesUsingExample1)
 {
-    DoubleSorter sorter;
-    testSortUsingExample1WithDoubleValues<DoubleSorter, Doubles>(sorter);
+    DoublesSorter sorter;
+    testSortUsingExample1WithDoubleValues<DoublesSorter, Doubles>(sorter);
 }
 
 TEST(HeapSorterTest, SortWorksOnStringsUsingExample1)
 {
-    StringSorter sorter;
-    testSortUsingExample1WithStrings<StringSorter, Strings>(sorter);
+    StringsSorter sorter;
+    testSortUsingExample1WithStrings<StringsSorter, Strings>(sorter);
 }
 
 TEST(HeapSorterTest, SortWorksAsNotStableOnStabilityCheckObjectsUsingExample1) // NOT STABLE
 {
-    StabilityCheckSorter sorter;
-    testSortAsNotStableUsingExample1WithStabilityCheckObjects<StabilityCheckSorter, StabilityCheckObjects>(sorter);
+    StabilityCheckObjectsSorter sorter;
+    testSortAsNotStableUsingExample1WithStabilityCheckObjects<StabilityCheckObjectsSorter, StabilityCheckObjects>(sorter);
 }
 
 }
-
 }

@@ -36,20 +36,18 @@ public:
             countPerValue[m_valueToIndexableValueFunction(value)]++; // count each value
         }
 
-        unsigned int i=0;
+        auto it = valuesToSort.begin();
         for(unsigned int indexableValue=0; indexableValue<countPerValue.size(); indexableValue++) // Linear because i runs on valuesToSort.size()
         {
             for(unsigned int currentCount=0; currentCount<countPerValue.at(indexableValue); currentCount++)
             {
-                valuesToSort[i++] = m_indexableValueToValueFunction(indexableValue); // put the value multiple times depending on the current count
+                *(it++) = m_indexableValueToValueFunction(indexableValue); // put the value multiple times depending on the current count
             }
         }
     }
-
 private:
     ValueToIndexableValueFunction m_valueToIndexableValueFunction;
-    IndexableValueToValueFunction m_indexableValueToValueFunction;
-};
+    IndexableValueToValueFunction m_indexableValueToValueFunction;};
 
 }
 

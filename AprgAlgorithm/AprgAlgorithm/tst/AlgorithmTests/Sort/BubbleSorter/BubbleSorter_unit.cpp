@@ -4,65 +4,72 @@
 
 #include <gtest/gtest.h>
 
+#include <list>
+
 using namespace alba::algorithm::CommonTestsWithSorter;
 using namespace std;
-
 namespace alba
 {
-
 namespace algorithm
 {
 
 namespace
 {
 using Characters = vector<char>;
+using ListOfCharacters = list<char>;
 using Integers = vector<int>;
 using Doubles = vector<double>;
 using Strings = vector<string>;
 using StabilityCheckObjects = vector<StabilityCheckObject>;
-using CharacterSorter = BubbleSorter<Characters>;
-using IntegerSorter = BubbleSorter<Integers>;
-using DoubleSorter = BubbleSorter<Doubles>;
-using StringSorter = BubbleSorter<Strings>;
-using StabilityCheckSorter = BubbleSorter<StabilityCheckObjects>;
+using CharactersSorter = BubbleSorter<Characters>;
+using ListOfCharactersSorter = BubbleSorter<ListOfCharacters>;
+using IntegersSorter = BubbleSorter<Integers>;
+using DoublesSorter = BubbleSorter<Doubles>;
+using StringsSorter = BubbleSorter<Strings>;
+using StabilityCheckObjectsSorter = BubbleSorter<StabilityCheckObjects>;
 }
 
 TEST(BubbleSorterTest, SortWorksOnCharactersUsingExample1)
 {
-    CharacterSorter sorter;
-    testSortUsingExample1WithCharacters<CharacterSorter, Characters>(sorter);
+    CharactersSorter sorter;
+    testSortUsingExample1WithCharacters<CharactersSorter, Characters>(sorter);
 }
 
 TEST(BubbleSorterTest, SortWorksOnCharactersUsingExample2)
 {
-    CharacterSorter sorter;
-    testSortUsingExample2WithCharacters<CharacterSorter, Characters>(sorter);
+    CharactersSorter sorter;
+    testSortUsingExample2WithCharacters<CharactersSorter, Characters>(sorter);
+}
+
+TEST(BubbleSorterTest, SortWorksOnListOfCharactersUsingExample1)
+{
+    ListOfCharactersSorter sorter;
+    testSortUsingExample1WithCharacters<ListOfCharactersSorter, ListOfCharacters>(sorter);
 }
 
 TEST(BubbleSorterTest, SortWorksOnPositiveAndNegativeIntegersUsingExample1)
 {
-    IntegerSorter sorter;
-    testSortUsingExample1WithPositiveAndNegativeIntegers<IntegerSorter, Integers>(sorter);
+    IntegersSorter sorter;
+    testSortUsingExample1WithPositiveAndNegativeIntegers<IntegersSorter, Integers>(sorter);
 }
 
 TEST(BubbleSorterTest, SortWorksOnDoublesUsingExample1)
 {
-    DoubleSorter sorter;
-    testSortUsingExample1WithDoubleValues<DoubleSorter, Doubles>(sorter);
+    DoublesSorter sorter;
+    testSortUsingExample1WithDoubleValues<DoublesSorter, Doubles>(sorter);
 }
 
 TEST(BubbleSorterTest, SortWorksOnStringsUsingExample1)
 {
-    StringSorter sorter;
-    testSortUsingExample1WithStrings<StringSorter, Strings>(sorter);
+    StringsSorter sorter;
+    testSortUsingExample1WithStrings<StringsSorter, Strings>(sorter);
 }
 
 TEST(BubbleSorterTest, SortWorksAsStableOnStabilityCheckObjectsUsingExample1) // STABLE
 {
-    StabilityCheckSorter sorter;
-    testSortAsStableUsingExample1WithStabilityCheckObjects<StabilityCheckSorter, StabilityCheckObjects>(sorter);
+    StabilityCheckObjectsSorter sorter;
+    testSortAsStableUsingExample1WithStabilityCheckObjects<StabilityCheckObjectsSorter, StabilityCheckObjects>(sorter);
 }
 
 }
-
 }

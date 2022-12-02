@@ -20,49 +20,50 @@ using Integers = vector<int>;
 using Doubles = vector<double>;
 using Strings = vector<string>;
 using StabilityCheckObjects = vector<StabilityCheckObject>;
-using CharacterSorter = QuickSorterWith3WayPartitioning<Characters>;
-using IntegerSorter = QuickSorterWith3WayPartitioning<Integers>;
-using DoubleSorter = QuickSorterWith3WayPartitioning<Doubles>;
-using StringSorter = QuickSorterWith3WayPartitioning<Strings>;
-using StabilityCheckSorter = QuickSorterWith3WayPartitioning<StabilityCheckObjects>;
+using CharactersSorter = QuickSorterWith3WayPartitioning<Characters>;
+using IntegersSorter = QuickSorterWith3WayPartitioning<Integers>;
+using DoublesSorter = QuickSorterWith3WayPartitioning<Doubles>;
+using StringsSorter = QuickSorterWith3WayPartitioning<Strings>;
+using StabilityCheckObjectsSorter = QuickSorterWith3WayPartitioning<StabilityCheckObjects>;
 }
 
 TEST(QuickSorterWith3WayPartitioningTest, SortWorksOnCharactersUsingExample1)
 {
-    CharacterSorter sorter;
-    testSortUsingExample1WithCharacters<CharacterSorter, Characters>(sorter);
+    CharactersSorter sorter;
+    testSortUsingExample1WithCharacters<CharactersSorter, Characters>(sorter);
 }
 
 TEST(QuickSorterWith3WayPartitioningTest, SortWorksOnCharactersUsingExample2)
 {
-    CharacterSorter sorter;
-    testSortUsingExample2WithCharacters<CharacterSorter, Characters>(sorter);
+    CharactersSorter sorter;
+    testSortUsingExample2WithCharacters<CharactersSorter, Characters>(sorter);
 }
+
+// CANNOT SORT STD::LIST, actually it might be possible if we change indexes to iterators
 
 TEST(QuickSorterWith3WayPartitioningTest, SortWorksOnPositiveAndNegativeIntegersUsingExample1)
 {
-    IntegerSorter sorter;
-    testSortUsingExample1WithPositiveAndNegativeIntegers<IntegerSorter, Integers>(sorter);
+    IntegersSorter sorter;
+    testSortUsingExample1WithPositiveAndNegativeIntegers<IntegersSorter, Integers>(sorter);
 }
 
 TEST(QuickSorterWith3WayPartitioningTest, SortWorksOnDoublesUsingExample1)
 {
-    DoubleSorter sorter;
-    testSortUsingExample1WithDoubleValues<DoubleSorter, Doubles>(sorter);
+    DoublesSorter sorter;
+    testSortUsingExample1WithDoubleValues<DoublesSorter, Doubles>(sorter);
 }
 
 TEST(QuickSorterWith3WayPartitioningTest, SortWorksOnStringsUsingExample1)
 {
-    StringSorter sorter;
-    testSortUsingExample1WithStrings<StringSorter, Strings>(sorter);
+    StringsSorter sorter;
+    testSortUsingExample1WithStrings<StringsSorter, Strings>(sorter);
 }
 
 TEST(QuickSorterWith3WayPartitioningTest, SortWorksAsNotStableOnStabilityCheckObjectsUsingExample1) // NOT STABLE
 {
-    StabilityCheckSorter sorter;
-    testSortAsNotStableUsingExample1WithStabilityCheckObjects<StabilityCheckSorter, StabilityCheckObjects>(sorter);
+    StabilityCheckObjectsSorter sorter;
+    testSortAsNotStableUsingExample1WithStabilityCheckObjects<StabilityCheckObjectsSorter, StabilityCheckObjects>(sorter);
 }
 
 }
-
 }

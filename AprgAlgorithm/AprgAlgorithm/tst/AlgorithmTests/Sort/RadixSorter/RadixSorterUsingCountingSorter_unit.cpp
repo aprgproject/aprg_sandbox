@@ -21,95 +21,89 @@ using Characters = vector<char>;
 using Integers = vector<int>;
 using Strings = vector<string>;
 using StabilityCheckObjects = vector<StabilityCheckObject>;
-using CharacterSorter = RadixSorterUsingCountingSorter<Characters, MAX_NUMBER_OF_NIBBLES>;
+using CharactersSorter = RadixSorterUsingCountingSorter<Characters, MAX_NUMBER_OF_NIBBLES>;
 using SmallIntegerSorter = RadixSorterUsingCountingSorter<Integers, MAX_NUMBER_OF_NIBBLES>;
-using StringSorter = RadixSorterUsingCountingSorter<Strings, MAX_NUMBER_OF_CHARACTERS>;
-using StabilityCheckSorter = RadixSorterUsingCountingSorter<StabilityCheckObjects, MAX_NUMBER_OF_NIBBLES>;
+using StringsSorter = RadixSorterUsingCountingSorter<Strings, MAX_NUMBER_OF_CHARACTERS>;
+using StabilityCheckObjectsSorter = RadixSorterUsingCountingSorter<StabilityCheckObjects, MAX_NUMBER_OF_NIBBLES>;
 
-CharacterSorter::GetNumberOfDigitsFunction getNumberOfNibblesForCharacter = [](Characters const&) -> unsigned int
+CharactersSorter::GetNumberOfDigitsFunction getNumberOfNibblesForCharacter = [](Characters const&) -> unsigned int
 {
     return 2U;
 };
-CharacterSorter::GetDigitAtFunction getNibbleAtForCharacter = [](char const& value, unsigned int const digitIndex) -> unsigned int
+CharactersSorter::GetDigitAtFunction getNibbleAtForCharacter = [](char const& value, unsigned int const digitIndex) -> unsigned int
 {
     return (value >> (digitIndex*4U)) & 0xFU;
 };
-
 SmallIntegerSorter::GetNumberOfDigitsFunction getNumberOfNibblesForInteger = [](Integers const&) -> unsigned int
 {
-    return 8U;
-};
+    return 8U;};
 SmallIntegerSorter::GetDigitAtFunction getNibbleAtForSmallInteger = [](int const& value, unsigned int const digitIndex) -> unsigned int
 {
     return ((value+10) >> (digitIndex*4U)) & 0xFU;
 };
 
 unsigned int s_maxNumberOfCharacters{};
-StringSorter::GetNumberOfDigitsFunction getNumberOfCharactersForStrings = [](Strings const& strings) -> unsigned int
+StringsSorter::GetNumberOfDigitsFunction getNumberOfCharactersForStrings = [](Strings const& strings) -> unsigned int
 {
     s_maxNumberOfCharacters=0U;
-    for(string const& stringObject : strings)
-    {
+    for(string const& stringObject : strings)    {
         s_maxNumberOfCharacters = max(s_maxNumberOfCharacters, stringObject.length());
     }
     return s_maxNumberOfCharacters;
 };
-StringSorter::GetDigitAtFunction getCharacterAtForString = [](string const& value, unsigned int const leastSignificantDigitIndex) -> unsigned int
+StringsSorter::GetDigitAtFunction getCharacterAtForString = [](string const& value, unsigned int const leastSignificantDigitIndex) -> unsigned int
 {
     unsigned int digitValue{};
-    if(leastSignificantDigitIndex < s_maxNumberOfCharacters)
-    {
+    if(leastSignificantDigitIndex < s_maxNumberOfCharacters)    {
         unsigned int mostSignificantDigitIndex = s_maxNumberOfCharacters-leastSignificantDigitIndex-1U;
         if(mostSignificantDigitIndex < value.length())
-        {
-            digitValue = value.at(mostSignificantDigitIndex) & 0xFF;
+        {            digitValue = value.at(mostSignificantDigitIndex) & 0xFF;
         }
     }
     return digitValue;
 };
 
-StabilityCheckSorter::GetNumberOfDigitsFunction getNumberOfNibblesForStabilityCheckObject = [](StabilityCheckObjects const&) -> unsigned int
+StabilityCheckObjectsSorter::GetNumberOfDigitsFunction getNumberOfNibblesForStabilityCheckObject = [](StabilityCheckObjects const&) -> unsigned int
 {
     return 2U;
 };
-StabilityCheckSorter::GetDigitAtFunction getNibbleAtForStabilityCheckObject = [](StabilityCheckObject const& value, unsigned int const digitIndex) -> unsigned int
+StabilityCheckObjectsSorter::GetDigitAtFunction getNibbleAtForStabilityCheckObject = [](StabilityCheckObject const& value, unsigned int const digitIndex) -> unsigned int
 {
     return (value.getVisiblePart() >> (digitIndex*4U)) & 0xFU;
-};
-}
+};}
 
 TEST(RadixSorterUsingCountingSorterTest, SortWorksOnCharactersUsingExample1)
 {
-    CharacterSorter sorter(getNumberOfNibblesForCharacter, getNibbleAtForCharacter);
-    testSortUsingExample1WithCharacters<CharacterSorter, Characters>(sorter);
+    CharactersSorter sorter(getNumberOfNibblesForCharacter, getNibbleAtForCharacter);
+    testSortUsingExample1WithCharacters<CharactersSorter, Characters>(sorter);
 }
 
 TEST(RadixSorterUsingCountingSorterTest, SortWorksOnCharactersUsingExample2)
 {
-    CharacterSorter sorter(getNumberOfNibblesForCharacter, getNibbleAtForCharacter);
-    testSortUsingExample2WithCharacters<CharacterSorter, Characters>(sorter);
+    CharactersSorter sorter(getNumberOfNibblesForCharacter, getNibbleAtForCharacter);
+    testSortUsingExample2WithCharacters<CharactersSorter, Characters>(sorter);
 }
+
+// CANNOT SORT STD::LIST, because CountingSorterUsingNewPositions is used in RadixSorter
 
 TEST(RadixSorterUsingCountingSorterTest, SortWorksOnPositiveAndNegativeIntegersUsingExample1)
 {
-    SmallIntegerSorter sorter(getNumberOfNibblesForInteger, getNibbleAtForSmallInteger);
-    testSortUsingExample1WithPositiveAndNegativeIntegers<SmallIntegerSorter, Integers>(sorter);
+    SmallIntegerSorter sorter(getNumberOfNibblesForInteger, getNibbleAtForSmallInteger);    testSortUsingExample1WithPositiveAndNegativeIntegers<SmallIntegerSorter, Integers>(sorter);
 }
 
 // CANNOT SORT DOUBLE VALUES
 
 TEST(RadixSorterUsingCountingSorterTest, SortWorksOnStringsUsingExample1)
 {
-    StringSorter sorter(getNumberOfCharactersForStrings, getCharacterAtForString);
-    testSortUsingExample1WithStrings<StringSorter, Strings>(sorter);
+    StringsSorter sorter(getNumberOfCharactersForStrings, getCharacterAtForString);
+    testSortUsingExample1WithStrings<StringsSorter, Strings>(sorter);
 }
 
 TEST(RadixSorterUsingCountingSorterTest, SortWorksAsStableOnStabilityCheckObjectsUsingExample1) // STABLE
 {
-    StabilityCheckSorter sorter(getNumberOfNibblesForStabilityCheckObject, getNibbleAtForStabilityCheckObject);
-    testSortAsStableUsingExample1WithStabilityCheckObjects<StabilityCheckSorter, StabilityCheckObjects>(sorter);
+    StabilityCheckObjectsSorter sorter(getNumberOfNibblesForStabilityCheckObject, getNibbleAtForStabilityCheckObject);
+    testSortAsStableUsingExample1WithStabilityCheckObjects<StabilityCheckObjectsSorter, StabilityCheckObjects>(sorter);
 }
 
 }
-
 }

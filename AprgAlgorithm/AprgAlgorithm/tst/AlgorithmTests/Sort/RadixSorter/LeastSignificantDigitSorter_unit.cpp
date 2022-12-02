@@ -21,103 +21,97 @@ using Characters = vector<char>;
 using Integers = vector<int>;
 using Strings = vector<string>;
 using StabilityCheckObjects = vector<StabilityCheckObject>;
-using CharacterSorter = LeastSignificantDigitSorter<Characters, MAX_NUMBER_OF_NIBBLES>;
+using CharactersSorter = LeastSignificantDigitSorter<Characters, MAX_NUMBER_OF_NIBBLES>;
 using SmallIntegerSorter = LeastSignificantDigitSorter<Integers, MAX_NUMBER_OF_NIBBLES>;
-using StringSorter = LeastSignificantDigitSorter<Strings, MAX_NUMBER_OF_CHARACTERS>;
-using StabilityCheckSorter = LeastSignificantDigitSorter<StabilityCheckObjects, MAX_NUMBER_OF_NIBBLES>;
+using StringsSorter = LeastSignificantDigitSorter<Strings, MAX_NUMBER_OF_CHARACTERS>;
+using StabilityCheckObjectsSorter = LeastSignificantDigitSorter<StabilityCheckObjects, MAX_NUMBER_OF_NIBBLES>;
 
-CharacterSorter::GetDigitAtFunction getNibbleAtForCharacter = [](char const& value, unsigned int const mostSignificantDigitIndex) -> unsigned int
+CharactersSorter::GetDigitAtFunction getNibbleAtForCharacter = [](char const& value, unsigned int const mostSignificantDigitIndex) -> unsigned int
 {
     return (value >> ((1U-mostSignificantDigitIndex)*4U)) & 0xFU;
 };
-
 SmallIntegerSorter::GetDigitAtFunction getNibbleAtForSmallInteger = [](int const& value, unsigned int const mostSignificantDigitIndex) -> unsigned int
 {
     return ((value+10) >> ((7U-mostSignificantDigitIndex)*4U)) & 0xFU;
 };
 
-StringSorter::GetDigitAtFunction getCharacterAtForString = [](string const& value, unsigned int const mostSignificantDigitIndex) -> unsigned int
+StringsSorter::GetDigitAtFunction getCharacterAtForString = [](string const& value, unsigned int const mostSignificantDigitIndex) -> unsigned int
 {
     unsigned int digitValue{};
-    if(mostSignificantDigitIndex < value.length())
-    {
+    if(mostSignificantDigitIndex < value.length())    {
         digitValue = value.at(mostSignificantDigitIndex);
     }
     return digitValue;
 };
 
-StabilityCheckSorter::GetDigitAtFunction getNibbleAtForStabilityCheckObject
+StabilityCheckObjectsSorter::GetDigitAtFunction getNibbleAtForStabilityCheckObject
 = [](StabilityCheckObject const& value, unsigned int const mostSignificantDigitIndex) -> unsigned int
 {
-    return (value.getVisiblePart() >> ((1U-mostSignificantDigitIndex)*4U)) & 0xFU;
-};
+    return (value.getVisiblePart() >> ((1U-mostSignificantDigitIndex)*4U)) & 0xFU;};
 }
 
 TEST(LeastSignificantDigitSorterTest, SortWorksOnCharactersUsingExample1)
 {
-    CharacterSorter sorter(getNibbleAtForCharacter);
-    testSortUsingExample1WithCharacters<CharacterSorter, Characters>(sorter);
+    CharactersSorter sorter(getNibbleAtForCharacter);
+    testSortUsingExample1WithCharacters<CharactersSorter, Characters>(sorter);
 }
 
 TEST(LeastSignificantDigitSorterTest, SortWorksOnCharactersUsingExample2)
 {
-    CharacterSorter sorter(getNibbleAtForCharacter);
-    testSortUsingExample2WithCharacters<CharacterSorter, Characters>(sorter);
+    CharactersSorter sorter(getNibbleAtForCharacter);
+    testSortUsingExample2WithCharacters<CharactersSorter, Characters>(sorter);
 }
+
+// CANNOT SORT STD::LIST
 
 TEST(LeastSignificantDigitSorterTest, SortWorksOnPositiveAndNegativeIntegersUsingExample1)
 {
-    SmallIntegerSorter sorter(getNibbleAtForSmallInteger);
-    testSortUsingExample1WithPositiveAndNegativeIntegers<SmallIntegerSorter, Integers>(sorter);
+    SmallIntegerSorter sorter(getNibbleAtForSmallInteger);    testSortUsingExample1WithPositiveAndNegativeIntegers<SmallIntegerSorter, Integers>(sorter);
 }
 
 // CANNOT SORT DOUBLE VALUES
 
 TEST(LeastSignificantDigitSorterTest, SortWorksOnStringsUsingExample1)
 {
-    StringSorter sorter(getCharacterAtForString);
-    testSortUsingExample1WithStrings<StringSorter, Strings>(sorter);
+    StringsSorter sorter(getCharacterAtForString);
+    testSortUsingExample1WithStrings<StringsSorter, Strings>(sorter);
 }
 
 TEST(LeastSignificantDigitSorterTest, SortWorksAsStableOnStabilityCheckObjectsUsingExample1) // STABLE
 {
-    StabilityCheckSorter sorter(getNibbleAtForStabilityCheckObject);
-    testSortAsStableUsingExample1WithStabilityCheckObjects<StabilityCheckSorter, StabilityCheckObjects>(sorter);
+    StabilityCheckObjectsSorter sorter(getNibbleAtForStabilityCheckObject);
+    testSortAsStableUsingExample1WithStabilityCheckObjects<StabilityCheckObjectsSorter, StabilityCheckObjects>(sorter);
 }
 
 TEST(LeastSignificantDigitSorterTest, SortAtLeastSignificantDigitWorksWithDigitThatExistsInAllStrings)
 {
-    StringSorter sorter(getCharacterAtForString);
+    StringsSorter sorter(getCharacterAtForString);
     Strings stringsToTest{"spongebob", "patrick", "mr. crabs", "squidward", "sandy", "ms. puff", "pearl", "larry", "plankton"};
 
     sorter.sortAtLeastSignificantDigit(stringsToTest, 1U);
-
     Strings expectedStrings{"patrick", "sandy", "larry", "pearl", "plankton", "spongebob", "squidward", "mr. crabs", "ms. puff"};
     EXPECT_EQ(expectedStrings, stringsToTest);
 }
 
 TEST(LeastSignificantDigitSorterTest, SortAtLeastSignificantDigitWorksWithDigitThatExistsInSomeOfTheStrings)
 {
-    StringSorter sorter(getCharacterAtForString);
+    StringsSorter sorter(getCharacterAtForString);
     Strings stringsToTest{"spongebob", "patrick", "mr. crabs", "squidward", "sandy", "ms. puff", "pearl", "larry", "plankton"};
 
     sorter.sortAtLeastSignificantDigit(stringsToTest, 6U);
-
     Strings expectedStrings{"sandy", "pearl", "larry", "mr. crabs", "squidward", "spongebob", "ms. puff", "patrick", "plankton"};
     EXPECT_EQ(expectedStrings, stringsToTest);
 }
 
 TEST(LeastSignificantDigitSorterTest, SortAtLeastSignificantDigitWorksWithDigitThatDoesNotExistInOfTheStrings)
 {
-    StringSorter sorter(getCharacterAtForString);
+    StringsSorter sorter(getCharacterAtForString);
     Strings stringsToTest{"spongebob", "patrick", "mr. crabs", "squidward", "sandy", "ms. puff", "pearl", "larry", "plankton"};
 
     sorter.sortAtLeastSignificantDigit(stringsToTest, 9U);
-
     Strings expectedStrings{"spongebob", "patrick", "mr. crabs", "squidward", "sandy", "ms. puff", "pearl", "larry", "plankton"};
     EXPECT_EQ(expectedStrings, stringsToTest);
 }
-
 }
 
 }

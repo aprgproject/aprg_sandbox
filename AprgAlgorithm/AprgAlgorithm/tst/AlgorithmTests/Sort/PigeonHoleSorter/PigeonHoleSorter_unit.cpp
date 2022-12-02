@@ -4,57 +4,63 @@
 
 #include <gtest/gtest.h>
 
+#include <list>
+
 using namespace alba::algorithm::CommonTestsWithSorter;
 using namespace std;
-
 namespace alba
 {
-
 namespace algorithm
 {
 
 namespace
 {
 using Characters = vector<char>;
+using ListOfCharacters = list<char>;
 using Integers = vector<int>;
 using Doubles = vector<double>;
 using Strings = vector<string>;
 using StabilityCheckObjects = vector<StabilityCheckObject>;
-using CharacterSorter = PigeonHoleSorter<Characters>;
-using IntegerSorter = PigeonHoleSorter<Integers>;
-using DoubleSorter = PigeonHoleSorter<Doubles>;
-using StringSorter = PigeonHoleSorter<Strings>;
-using StabilityCheckSorter = PigeonHoleSorter<StabilityCheckObjects>;
+using CharactersSorter = PigeonHoleSorter<Characters>;
+using ListOfCharactersSorter = PigeonHoleSorter<ListOfCharacters>;
+using IntegersSorter = PigeonHoleSorter<Integers>;
+using DoublesSorter = PigeonHoleSorter<Doubles>;
+using StringsSorter = PigeonHoleSorter<Strings>;
+using StabilityCheckObjectsSorter = PigeonHoleSorter<StabilityCheckObjects>;
 }
 
 TEST(PigeonHoleSorterTest, SortWorksOnCharactersUsingExample1)
 {
-    CharacterSorter sorter;
-    testSortUsingExample1WithCharacters<CharacterSorter, Characters>(sorter);
+    CharactersSorter sorter;
+    testSortUsingExample1WithCharacters<CharactersSorter, Characters>(sorter);
 }
 
 TEST(PigeonHoleSorterTest, SortWorksOnCharactersUsingExample2)
 {
-    CharacterSorter sorter;
-    testSortUsingExample2WithCharacters<CharacterSorter, Characters>(sorter);
+    CharactersSorter sorter;
+    testSortUsingExample2WithCharacters<CharactersSorter, Characters>(sorter);
+}
+
+TEST(PigeonHoleSorterTest, SortWorksOnListOfCharactersUsingExample1)
+{
+    ListOfCharactersSorter sorter;
+    testSortUsingExample1WithCharacters<ListOfCharactersSorter, ListOfCharacters>(sorter);
 }
 
 TEST(PigeonHoleSorterTest, SortWorksOnPositiveAndNegativeIntegersUsingExample1)
 {
-    IntegerSorter sorter;
-    testSortUsingExample1WithPositiveAndNegativeIntegers<IntegerSorter, Integers>(sorter);
+    IntegersSorter sorter;
+    testSortUsingExample1WithPositiveAndNegativeIntegers<IntegersSorter, Integers>(sorter);
 }
 
 // CANNOT SORT DOUBLE VALUES
-
 // CANNOT SORT STRINGS
 
 TEST(PigeonHoleSorterTest, SortWorksAsStableOnStabilityCheckObjectsUsingExample1) // STABLE
 {
-    StabilityCheckSorter sorter;
-    testSortAsStableUsingExample1WithStabilityCheckObjects<StabilityCheckSorter, StabilityCheckObjects>(sorter);
+    StabilityCheckObjectsSorter sorter;
+    testSortAsStableUsingExample1WithStabilityCheckObjects<StabilityCheckObjectsSorter, StabilityCheckObjects>(sorter);
 }
 
 }
-
 }

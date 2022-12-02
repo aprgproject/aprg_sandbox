@@ -20,22 +20,23 @@ public:
     void sort(Values & valuesToSort) const override
     {
         unsigned int const size = valuesToSort.size();
-        for(unsigned int i=0; i<size-1; i++)
+        for(unsigned int sortedCount=0; sortedCount<size-1; sortedCount++)
         {
             bool noSwapHappened(true);
-            for(unsigned int j=0; j<size-i-1; j++)
+            auto itFirst = valuesToSort.begin();
+            auto itSecond = valuesToSort.begin();
+            itSecond++;
+            for(unsigned int unsortedIndex=0; unsortedIndex<size-sortedCount-1; unsortedIndex++, itFirst++, itSecond++)
             {
-                if(valuesToSort.at(j+1) < valuesToSort.at(j))
+                if(*itSecond < *itFirst)
                 {
-                    std::swap(valuesToSort[j], valuesToSort[j+1]);
+                    std::swap(*itFirst, *itSecond);
                     noSwapHappened = false;
                 }
-            }
-            if(noSwapHappened)
+            }            if(noSwapHappened)
             {
                 break;
-            }
-        }
+            }        }
     }
 };
 
