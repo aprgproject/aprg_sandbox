@@ -1,4 +1,4 @@
-#include <Algorithm/Sort/PigeonholeSorter.hpp>
+#include <Algorithm/Sort/PigeonHoleSorter/PigeonHoleSorter.hpp>
 #include <AlgorithmTests/Sort/Utilities/CommonTestsWithSorter.hpp>
 #include <AlgorithmTests/Sort/Utilities/StabilityCheckObject.hpp>
 
@@ -20,26 +20,26 @@ using Integers = vector<int>;
 using Doubles = vector<double>;
 using Strings = vector<string>;
 using StabilityCheckObjects = vector<StabilityCheckObject>;
-using CharacterSorter = PigeonholeSorter<Characters>;
-using IntegerSorter = PigeonholeSorter<Integers>;
-using DoubleSorter = PigeonholeSorter<Doubles>;
-using StringSorter = PigeonholeSorter<Strings>;
-using StabilityCheckSorter = PigeonholeSorter<StabilityCheckObjects>;
+using CharacterSorter = PigeonHoleSorter<Characters>;
+using IntegerSorter = PigeonHoleSorter<Integers>;
+using DoubleSorter = PigeonHoleSorter<Doubles>;
+using StringSorter = PigeonHoleSorter<Strings>;
+using StabilityCheckSorter = PigeonHoleSorter<StabilityCheckObjects>;
 }
 
-TEST(PigeonholeSorterTest, SortWorksOnCharactersUsingExample1)
+TEST(PigeonHoleSorterTest, SortWorksOnCharactersUsingExample1)
 {
     CharacterSorter sorter;
     testSortUsingExample1WithCharacters<CharacterSorter, Characters>(sorter);
 }
 
-TEST(PigeonholeSorterTest, SortWorksOnCharactersUsingExample2)
+TEST(PigeonHoleSorterTest, SortWorksOnCharactersUsingExample2)
 {
     CharacterSorter sorter;
     testSortUsingExample2WithCharacters<CharacterSorter, Characters>(sorter);
 }
 
-TEST(PigeonholeSorterTest, SortWorksOnPositiveAndNegativeIntegersUsingExample1)
+TEST(PigeonHoleSorterTest, SortWorksOnPositiveAndNegativeIntegersUsingExample1)
 {
     IntegerSorter sorter;
     testSortUsingExample1WithPositiveAndNegativeIntegers<IntegerSorter, Integers>(sorter);
@@ -49,7 +49,7 @@ TEST(PigeonholeSorterTest, SortWorksOnPositiveAndNegativeIntegersUsingExample1)
 
 // CANNOT SORT STRINGS
 
-TEST(PigeonholeSorterTest, SortWorksAsStableOnStabilityCheckObjectsUsingExample1) // STABLE
+TEST(PigeonHoleSorterTest, SortWorksAsStableOnStabilityCheckObjectsUsingExample1) // STABLE
 {
     StabilityCheckSorter sorter;
     testSortAsStableUsingExample1WithStabilityCheckObjects<StabilityCheckSorter, StabilityCheckObjects>(sorter);

@@ -190,6 +190,7 @@ TEST(AlbaXYTest, OutputStreamOperatorWorks)
 
     ss<<xy;
 
-    EXPECT_EQ("(-5,5)", ss.str());}
+    EXPECT_EQ("(-5,5)", ss.str());
+}
 
 }

@@ -5,10 +5,12 @@
 #include <algorithm>
 #include <utility>
 
-namespace alba{
+namespace alba
+{
 
 namespace algorithm
 {
+
 template <typename Values>
 class CycleSorter : public BaseSorter<Values>
 {
@@ -71,9 +73,11 @@ private:
         }
     }
 };
+
 }
 
 }
+
 
 // Cycle sort is an in-place sorting Algorithm, unstable sorting algorithm,
 // a comparison sort that is theoretically optimal in terms of the total number of writes to the original array.

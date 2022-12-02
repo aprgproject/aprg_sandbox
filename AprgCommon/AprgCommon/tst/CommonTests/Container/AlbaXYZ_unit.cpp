@@ -214,6 +214,7 @@ TEST(AlbaXYZTest, OutputStreamOperatorWorks)
 
     ss<<xyz;
 
-    EXPECT_EQ("(-5,5,10)", ss.str());}
+    EXPECT_EQ("(-5,5,10)", ss.str());
+}
 
 }

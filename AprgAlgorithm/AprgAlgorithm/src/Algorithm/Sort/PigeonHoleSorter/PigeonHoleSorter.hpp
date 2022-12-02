@@ -12,14 +12,14 @@ namespace algorithm
 {
 
 template <typename Values>
-class PigeonholeSorter : public BaseSorter<Values>
+class PigeonHoleSorter : public BaseSorter<Values>
 {
 public:
     using Value = typename Values::value_type;
     using Hole = std::vector<Value>;
     using Holes = std::vector<Hole>;
 
-    PigeonholeSorter() = default;
+    PigeonHoleSorter() = default;
 
     void sort(Values & valuesToSort) const override
     {

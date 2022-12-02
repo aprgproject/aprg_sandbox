@@ -1,4 +1,4 @@
-#include <Algorithm/Sort/BubbleSorter.hpp>
+#include <Algorithm/Sort/BubbleSorter/BubbleSorter.hpp>
 #include <AlgorithmTests/Sort/Utilities/CommonTestsWithSorter.hpp>
 #include <AlgorithmTests/Sort/Utilities/StabilityCheckObject.hpp>
 

@@ -1,4 +1,4 @@
-#include <Algorithm/Sort/BucketSorter.hpp>
+#include <Algorithm/Sort/BucketSorter/BucketSorter.hpp>
 #include <AlgorithmTests/Sort/Utilities/CommonTestsWithSorter.hpp>
 #include <AlgorithmTests/Sort/Utilities/StabilityCheckObject.hpp>
 

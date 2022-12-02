@@ -31,7 +31,8 @@ public:
     friend bool areObjectsEqualOnVisibleAndNotVisiblePart(StabilityCheckObject const& object1, StabilityCheckObject const& object2);
     friend std::ostream & operator<<(std::ostream & out, StabilityCheckObject const& object);
 
-private:    char m_visiblePart;
+private:
+    char m_visiblePart;
     unsigned int m_notVisiblePart;
 };
 

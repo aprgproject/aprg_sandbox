@@ -1,4 +1,4 @@
-#include <Algorithm/Sort/CombSorter.hpp>
+#include <Algorithm/Sort/CombSorter/CombSorter.hpp>
 #include <AlgorithmTests/Sort/Utilities/CommonTestsWithSorter.hpp>
 #include <AlgorithmTests/Sort/Utilities/StabilityCheckObject.hpp>
 

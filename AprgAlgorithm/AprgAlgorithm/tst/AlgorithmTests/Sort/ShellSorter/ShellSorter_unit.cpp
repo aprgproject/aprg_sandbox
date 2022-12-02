@@ -1,4 +1,4 @@
-#include <Algorithm/Sort/SelectionSorter.hpp>
+#include <Algorithm/Sort/ShellSorter/ShellSorter.hpp>
 #include <AlgorithmTests/Sort/Utilities/CommonTestsWithSorter.hpp>
 #include <AlgorithmTests/Sort/Utilities/StabilityCheckObject.hpp>
 
@@ -20,47 +20,47 @@ using Integers = vector<int>;
 using Doubles = vector<double>;
 using Strings = vector<string>;
 using StabilityCheckObjects = vector<StabilityCheckObject>;
-using CharacterSorter = SelectionSorter<Characters>;
-using IntegerSorter = SelectionSorter<Integers>;
-using DoubleSorter = SelectionSorter<Doubles>;
-using StringSorter = SelectionSorter<Strings>;
-using StabilityCheckSorter = SelectionSorter<StabilityCheckObjects>;
+using CharacterSorter = ShellSorter<Characters>;
+using IntegerSorter = ShellSorter<Integers>;
+using DoubleSorter = ShellSorter<Doubles>;
+using StringSorter = ShellSorter<Strings>;
+using StabilityCheckSorter = ShellSorter<StabilityCheckObjects>;
 }
 
-TEST(SelectionSorterTest, SortWorksOnCharactersUsingExample1)
+TEST(ShellSorterTest, SortWorksOnCharactersUsingExample1)
 {
     CharacterSorter sorter;
     testSortUsingExample1WithCharacters<CharacterSorter, Characters>(sorter);
 }
 
-TEST(SelectionSorterTest, SortWorksOnCharactersUsingExample2)
+TEST(ShellSorterTest, SortWorksOnCharactersUsingExample2)
 {
     CharacterSorter sorter;
     testSortUsingExample2WithCharacters<CharacterSorter, Characters>(sorter);
 }
 
-TEST(SelectionSorterTest, SortWorksOnPositiveAndNegativeIntegersUsingExample1)
+TEST(ShellSorterTest, SortWorksOnPositiveAndNegativeIntegersUsingExample1)
 {
     IntegerSorter sorter;
     testSortUsingExample1WithPositiveAndNegativeIntegers<IntegerSorter, Integers>(sorter);
 }
 
-TEST(SelectionSorterTest, SortWorksOnDoublesUsingExample1)
+TEST(ShellSorterTest, SortWorksOnDoublesUsingExample1)
 {
     DoubleSorter sorter;
     testSortUsingExample1WithDoubleValues<DoubleSorter, Doubles>(sorter);
 }
 
-TEST(SelectionSorterTest, SortWorksOnStringsUsingExample1)
+TEST(ShellSorterTest, SortWorksOnStringsUsingExample1)
 {
     StringSorter sorter;
     testSortUsingExample1WithStrings<StringSorter, Strings>(sorter);
 }
 
-TEST(SelectionSorterTest, SortWorksAsStableOnStabilityCheckObjectsUsingExample1) // STABLE
+TEST(ShellSorterTest, SortWorksAsNotStableOnStabilityCheckObjectsUsingExample1) // NOT STABLE
 {
     StabilityCheckSorter sorter;
-    testSortAsStableUsingExample1WithStabilityCheckObjects<StabilityCheckSorter, StabilityCheckObjects>(sorter);
+    testSortAsNotStableUsingExample1WithStabilityCheckObjects<StabilityCheckSorter, StabilityCheckObjects>(sorter);
 }
 
 }
