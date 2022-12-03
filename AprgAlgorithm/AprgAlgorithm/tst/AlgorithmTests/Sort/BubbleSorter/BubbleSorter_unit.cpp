@@ -37,14 +37,18 @@ TEST(BubbleSorterTest, SortWorksOnCharactersAndDoesNotCrashUsingEmptyExample)
     testSortUsingEmptyExampleWithCharacters<CharactersSorter, Characters>(sorter);
 }
 
-TEST(BubbleSorterTest, SortWorksOnCharactersUsingExample1)
+TEST(BubbleSorterTest, SortWorksOnCharactersUsingOneValueExample)
 {
     CharactersSorter sorter;
-    testSortUsingExample1WithCharacters<CharactersSorter, Characters>(sorter);
+    testSortUsingOneValueExampleWithCharacters<CharactersSorter, Characters>(sorter);
 }
 
-TEST(BubbleSorterTest, SortWorksOnCharactersUsingExample2)
+TEST(BubbleSorterTest, SortWorksOnCharactersUsingExample1)
 {
+    CharactersSorter sorter;    testSortUsingExample1WithCharacters<CharactersSorter, Characters>(sorter);
+}
+
+TEST(BubbleSorterTest, SortWorksOnCharactersUsingExample2){
     CharactersSorter sorter;
     testSortUsingExample2WithCharacters<CharactersSorter, Characters>(sorter);
 }

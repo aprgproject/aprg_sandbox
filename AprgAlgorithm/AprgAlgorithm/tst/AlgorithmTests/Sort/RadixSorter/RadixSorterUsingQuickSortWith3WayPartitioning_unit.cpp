@@ -74,14 +74,18 @@ TEST(RadixSorterUsingQuickSortWith3WayPartitioningTest, SortWorksOnCharactersAnd
     testSortUsingEmptyExampleWithCharacters<CharactersSorter, Characters>(sorter);
 }
 
-TEST(RadixSorterUsingQuickSortWith3WayPartitioningTest, SortWorksOnCharactersUsingExample1)
+TEST(RadixSorterUsingQuickSortWith3WayPartitioningTest, SortWorksOnCharactersUsingOneValueExample)
 {
     CharactersSorter sorter(getNibbleAtForCharacter, isNibbleDigitValidForCharacter);
-    testSortUsingExample1WithCharacters<CharactersSorter, Characters>(sorter);
+    testSortUsingOneValueExampleWithCharacters<CharactersSorter, Characters>(sorter);
 }
 
-TEST(RadixSorterUsingQuickSortWith3WayPartitioningTest, SortWorksOnCharactersUsingExample2)
+TEST(RadixSorterUsingQuickSortWith3WayPartitioningTest, SortWorksOnCharactersUsingExample1)
 {
+    CharactersSorter sorter(getNibbleAtForCharacter, isNibbleDigitValidForCharacter);    testSortUsingExample1WithCharacters<CharactersSorter, Characters>(sorter);
+}
+
+TEST(RadixSorterUsingQuickSortWith3WayPartitioningTest, SortWorksOnCharactersUsingExample2){
     CharactersSorter sorter(getNibbleAtForCharacter, isNibbleDigitValidForCharacter);
     testSortUsingExample2WithCharacters<CharactersSorter, Characters>(sorter);
 }

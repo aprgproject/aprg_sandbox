@@ -33,14 +33,18 @@ TEST(QuickSorterTest, SortWorksOnCharactersAndDoesNotCrashUsingEmptyExample)
     testSortUsingEmptyExampleWithCharacters<CharactersSorter, Characters>(sorter);
 }
 
-TEST(QuickSorterTest, SortWorksOnCharactersUsingExample1)
+TEST(QuickSorterTest, SortWorksOnCharactersUsingOneValueExample)
 {
     CharactersSorter sorter;
-    testSortUsingExample1WithCharacters<CharactersSorter, Characters>(sorter);
+    testSortUsingOneValueExampleWithCharacters<CharactersSorter, Characters>(sorter);
 }
 
-TEST(QuickSorterTest, SortWorksOnCharactersUsingExample2)
+TEST(QuickSorterTest, SortWorksOnCharactersUsingExample1)
 {
+    CharactersSorter sorter;    testSortUsingExample1WithCharacters<CharactersSorter, Characters>(sorter);
+}
+
+TEST(QuickSorterTest, SortWorksOnCharactersUsingExample2){
     CharactersSorter sorter;
     testSortUsingExample2WithCharacters<CharactersSorter, Characters>(sorter);
 }

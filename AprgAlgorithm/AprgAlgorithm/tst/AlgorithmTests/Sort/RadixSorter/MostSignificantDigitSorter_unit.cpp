@@ -76,14 +76,18 @@ TEST(MostSignificantDigitSorterTest, SortWorksOnCharactersAndDoesNotCrashUsingEm
     testSortUsingEmptyExampleWithCharacters<CharactersSorter, Characters>(sorter);
 }
 
-TEST(MostSignificantDigitSorterTest, SortWorksOnCharactersUsingExample1)
+TEST(MostSignificantDigitSorterTest, SortWorksOnCharactersUsingOneValueExample)
 {
     CharactersSorter sorter(getNibbleAtForCharacter, isNibbleDigitInvalidForCharacter);
-    testSortUsingExample1WithCharacters<CharactersSorter, Characters>(sorter);
+    testSortUsingOneValueExampleWithCharacters<CharactersSorter, Characters>(sorter);
 }
 
-TEST(MostSignificantDigitSorterTest, SortWorksOnCharactersUsingExample2)
+TEST(MostSignificantDigitSorterTest, SortWorksOnCharactersUsingExample1)
 {
+    CharactersSorter sorter(getNibbleAtForCharacter, isNibbleDigitInvalidForCharacter);    testSortUsingExample1WithCharacters<CharactersSorter, Characters>(sorter);
+}
+
+TEST(MostSignificantDigitSorterTest, SortWorksOnCharactersUsingExample2){
     CharactersSorter sorter(getNibbleAtForCharacter, isNibbleDigitInvalidForCharacter);
     testSortUsingExample2WithCharacters<CharactersSorter, Characters>(sorter);
 }

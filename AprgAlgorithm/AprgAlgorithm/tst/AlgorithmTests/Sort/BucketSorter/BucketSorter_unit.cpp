@@ -38,14 +38,18 @@ TEST(BucketSorterTest, SortWorksOnCharactersAndDoesNotCrashUsingEmptyExample)
     testSortUsingEmptyExampleWithCharacters<CharactersSorter, Characters>(sorter);
 }
 
-TEST(BucketSorterTest, SortWorksOnCharactersUsingExample1)
+TEST(BucketSorterTest, SortWorksOnCharactersUsingOneValueExample)
 {
     CharactersSorter sorter('A', 'Z');
-    testSortUsingExample1WithCharacters<CharactersSorter, Characters>(sorter);
+    testSortUsingOneValueExampleWithCharacters<CharactersSorter, Characters>(sorter);
 }
 
-TEST(BucketSorterTest, SortWorksOnCharactersUsingExample2)
+TEST(BucketSorterTest, SortWorksOnCharactersUsingExample1)
 {
+    CharactersSorter sorter('A', 'Z');    testSortUsingExample1WithCharacters<CharactersSorter, Characters>(sorter);
+}
+
+TEST(BucketSorterTest, SortWorksOnCharactersUsingExample2){
     CharactersSorter sorter('A', 'Z');
     testSortUsingExample2WithCharacters<CharactersSorter, Characters>(sorter);
 }

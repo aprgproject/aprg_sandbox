@@ -21,17 +21,15 @@ public:
     {
         if(!valuesToSort.empty())
         {
-            auto itStart=valuesToSort.begin();
-            itStart++;
-            for(auto itEnd=valuesToSort.end(); itStart!=itEnd; itEnd--)
+            auto itStop=valuesToSort.begin();
+            itStop++;
+            for(auto itEnd=valuesToSort.end(); itStop!=itEnd; itEnd--)
             {
                 bool noSwapHappened(true);
-                auto itFirst = valuesToSort.begin();
-                auto itSecond = valuesToSort.begin();
+                auto itFirst = valuesToSort.begin();                auto itSecond = valuesToSort.begin();
                 itSecond++;
                 for(; itSecond!=itEnd; itFirst++,itSecond++)
-                {
-                    if(*itSecond < *itFirst)
+                {                    if(*itSecond < *itFirst)
                     {
                         std::swap(*itFirst, *itSecond);
                         noSwapHappened = false;
