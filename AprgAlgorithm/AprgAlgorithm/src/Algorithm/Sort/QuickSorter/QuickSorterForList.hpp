@@ -58,4 +58,10 @@ private:
 
 }
 
+// Time Complexity: Time complexity of the above implementation is same as time complexity of QuickSort() for arrays.
+// -> It takes O(n^2) time in the worst case and O(nLogn) in average and best cases.
+// -> The worst case occurs when the linked list is already sorted.
 
+// Can we implement random quicksort for a linked list?
+// -> Quicksort can be implemented for Linked List only when we can pick a fixed point as the pivot (like the first or last element).
+// -> Random QuickSort cannot be efficiently implemented for Linked Lists by picking random pivot.
