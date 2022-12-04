@@ -23,40 +23,59 @@ TEST(InterpolationSearchTest, GetNearestValueWorksAndDoesNotCrashWhenEmpty)
     testGetNearestValueDoesNotCrashWithEmptyUnsignedInts<SearchForTest, ValuesForTest>();
 }
 
-TEST(InterpolationSearchTest, GetNearestValueWorks)
+TEST(InterpolationSearchTest, GetNearestValueWorksWhenThereIsOneValue)
 {
-    testGetNearestValueWithSortedUnsignedInts<SearchForTest, ValuesForTest>();
+    testGetNearestValueWithOneUnsignedInt<SearchForTest, ValuesForTest>();
+}
+
+TEST(InterpolationSearchTest, GetNearestValueWorksWhenThereAreDuplicateValues)
+{
+    testGetNearestValueWithDuplicateUnsignedInts<SearchForTest, ValuesForTest>();
+}
+
+TEST(InterpolationSearchTest, GetNearestValueWorksWhenThereAreMultipleValues)
+{
+    testGetNearestValueWithMultipleSortedUnsignedInts<SearchForTest, ValuesForTest>();
 }
 
 TEST(InterpolationSearchTest, GetNearestValueWorksWhenNearestValueIsLower)
 {
-    testGetNearestValueWhenNearestValueIsLowerWithSortedUnsignedInts<SearchForTest, ValuesForTest>();
-}
+    testGetNearestValueWhenNearestValueIsLowerWithSortedUnsignedInts<SearchForTest, ValuesForTest>();}
 
 TEST(InterpolationSearchTest, GetNearestValueWorksWhenNearestValueIsHigher)
 {
-    testGetNearestValueWhenNearestValueIsHigherWithSortedUnsignedInts<SearchForTest, ValuesForTest>();
-}
+    testGetNearestValueWhenNearestValueIsHigherWithSortedUnsignedInts<SearchForTest, ValuesForTest>();}
 
 TEST(InterpolationSearchTest, GetIndexOfNearestValueWorksAndDoesNotCrashWhenEmpty)
 {
     testGetIndexOfNearestValueDoesNotCrashWithEmptyUnsignedInts<SearchForTest, ValuesForTest>();
 }
 
-TEST(InterpolationSearchTest, GetIndexOfNearestValueWorks)
+TEST(InterpolationSearchTest, GetIndexOfNearestValueWorksWhenThereIsOneValue)
 {
-    testGetIndexOfNearestValueWithSortedUnsignedInts<SearchForTest, ValuesForTest>();
+    testGetIndexOfNearestValueWithOneUnsignedInt<SearchForTest, ValuesForTest>();
+}
+
+TEST(InterpolationSearchTest, GetIndexOfNearestValueWorksWhenThereAreDuplicateValues)
+{
+    ValuesForTest duplicateValues{0, 0, 0, 0, 0};
+    SearchForTest search(duplicateValues);
+
+    EXPECT_EQ(3U, search.getIndexOfNearestValue(33));
+}
+
+TEST(InterpolationSearchTest, GetIndexOfNearestValueWorksWhenThereAreMultipleValues)
+{
+    testGetIndexOfNearestValueWithMultipleSortedUnsignedInts<SearchForTest, ValuesForTest>();
 }
 
 TEST(InterpolationSearchTest, GetIndexOfNearestValueWorksWhenNearestValueIsLower)
 {
-    testGetIndexOfNearestValueWhenNearestValueIsLowerWithSortedUnsignedInts<SearchForTest, ValuesForTest>();
-}
+    testGetIndexOfNearestValueWhenNearestValueIsLowerWithSortedUnsignedInts<SearchForTest, ValuesForTest>();}
 
 TEST(InterpolationSearchTest, GetIndexOfNearestValueWorksWhenNearestValueIsHigher)
 {
-    testGetIndexOfNearestValueWhenNearestValueIsHigherWithSortedUnsignedInts<SearchForTest, ValuesForTest>();
-}
+    testGetIndexOfNearestValueWhenNearestValueIsHigherWithSortedUnsignedInts<SearchForTest, ValuesForTest>();}
 
 TEST(InterpolationSearchTest, GetNearestValueWorksWithInitialIndexesWhenDistanceFromLowerToHigherIsOne)
 {

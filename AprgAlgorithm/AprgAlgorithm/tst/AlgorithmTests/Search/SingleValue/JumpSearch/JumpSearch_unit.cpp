@@ -23,40 +23,59 @@ TEST(JumpSearchTest, GetNearestValueWorksAndDoesNotCrashWhenEmpty)
     testGetNearestValueDoesNotCrashWithEmptyUnsignedInts<SearchForTest, ValuesForTest>();
 }
 
-TEST(JumpSearchTest, GetNearestValueWorks)
+TEST(JumpSearchTest, GetNearestValueWorksWhenThereIsOneValue)
 {
-    testGetNearestValueWithSortedUnsignedInts<SearchForTest, ValuesForTest>();
+    testGetNearestValueWithOneUnsignedInt<SearchForTest, ValuesForTest>();
+}
+
+TEST(JumpSearchTest, GetNearestValueWorksWhenThereAreDuplicateValues)
+{
+    testGetNearestValueWithDuplicateUnsignedInts<SearchForTest, ValuesForTest>();
+}
+
+TEST(JumpSearchTest, GetNearestValueWorksWhenThereAreMultipleValues)
+{
+    testGetNearestValueWithMultipleSortedUnsignedInts<SearchForTest, ValuesForTest>();
 }
 
 TEST(JumpSearchTest, GetNearestValueWorksWhenNearestValueIsLower)
 {
-    testGetNearestValueWhenNearestValueIsLowerWithSortedUnsignedInts<SearchForTest, ValuesForTest>();
-}
+    testGetNearestValueWhenNearestValueIsLowerWithSortedUnsignedInts<SearchForTest, ValuesForTest>();}
 
 TEST(JumpSearchTest, GetNearestValueWorksWhenNearestValueIsHigher)
 {
-    testGetNearestValueWhenNearestValueIsHigherWithSortedUnsignedInts<SearchForTest, ValuesForTest>();
-}
+    testGetNearestValueWhenNearestValueIsHigherWithSortedUnsignedInts<SearchForTest, ValuesForTest>();}
 
 TEST(JumpSearchTest, GetIndexOfNearestValueWorksAndDoesNotCrashWhenEmpty)
 {
     testGetIndexOfNearestValueDoesNotCrashWithEmptyUnsignedInts<SearchForTest, ValuesForTest>();
 }
 
-TEST(JumpSearchTest, GetIndexOfNearestValueWorks)
+TEST(JumpSearchTest, GetIndexOfNearestValueWorksWhenThereIsOneValue)
 {
-    testGetIndexOfNearestValueWithSortedUnsignedInts<SearchForTest, ValuesForTest>();
+    testGetIndexOfNearestValueWithOneUnsignedInt<SearchForTest, ValuesForTest>();
+}
+
+TEST(JumpSearchTest, GetIndexOfNearestValueWorksWhenThereAreDuplicateValues)
+{
+    ValuesForTest duplicateValues{0, 0, 0, 0, 0};
+    SearchForTest search(duplicateValues);
+
+    EXPECT_EQ(4U, search.getIndexOfNearestValue(33));
+}
+
+TEST(JumpSearchTest, GetIndexOfNearestValueWorksWhenThereAreMultipleValues)
+{
+    testGetIndexOfNearestValueWithMultipleSortedUnsignedInts<SearchForTest, ValuesForTest>();
 }
 
 TEST(JumpSearchTest, GetIndexOfNearestValueWorksWhenNearestValueIsLower)
 {
-    testGetIndexOfNearestValueWhenNearestValueIsLowerWithSortedUnsignedInts<SearchForTest, ValuesForTest>();
-}
+    testGetIndexOfNearestValueWhenNearestValueIsLowerWithSortedUnsignedInts<SearchForTest, ValuesForTest>();}
 
 TEST(JumpSearchTest, GetIndexOfNearestValueWorksWhenNearestValueIsHigher)
 {
-    testGetIndexOfNearestValueWhenNearestValueIsHigherWithSortedUnsignedInts<SearchForTest, ValuesForTest>();
-}
+    testGetIndexOfNearestValueWhenNearestValueIsHigherWithSortedUnsignedInts<SearchForTest, ValuesForTest>();}
 
 }
 

@@ -23,40 +23,59 @@ TEST(ExponentialSearchTest, GetNearestValueWorksAndDoesNotCrashWhenEmpty)
     testGetNearestValueDoesNotCrashWithEmptyUnsignedInts<SearchForTest, ValuesForTest>();
 }
 
-TEST(ExponentialSearchTest, GetNearestValueWorks)
+TEST(ExponentialSearchTest, GetNearestValueWorksWhenThereIsOneValue)
 {
-    testGetNearestValueWithSortedUnsignedInts<SearchForTest, ValuesForTest>();
+    testGetNearestValueWithOneUnsignedInt<SearchForTest, ValuesForTest>();
+}
+
+TEST(ExponentialSearchTest, GetNearestValueWorksWhenThereAreDuplicateValues)
+{
+    testGetNearestValueWithDuplicateUnsignedInts<SearchForTest, ValuesForTest>();
+}
+
+TEST(ExponentialSearchTest, GetNearestValueWorksWhenThereAreMultipleValues)
+{
+    testGetNearestValueWithMultipleSortedUnsignedInts<SearchForTest, ValuesForTest>();
 }
 
 TEST(ExponentialSearchTest, GetNearestValueWorksWhenNearestValueIsLower)
 {
-    testGetNearestValueWhenNearestValueIsLowerWithSortedUnsignedInts<SearchForTest, ValuesForTest>();
-}
+    testGetNearestValueWhenNearestValueIsLowerWithSortedUnsignedInts<SearchForTest, ValuesForTest>();}
 
 TEST(ExponentialSearchTest, GetNearestValueWorksWhenNearestValueIsHigher)
 {
-    testGetNearestValueWhenNearestValueIsHigherWithSortedUnsignedInts<SearchForTest, ValuesForTest>();
-}
+    testGetNearestValueWhenNearestValueIsHigherWithSortedUnsignedInts<SearchForTest, ValuesForTest>();}
 
 TEST(ExponentialSearchTest, GetIndexOfNearestValueWorksAndDoesNotCrashWhenEmpty)
 {
     testGetIndexOfNearestValueDoesNotCrashWithEmptyUnsignedInts<SearchForTest, ValuesForTest>();
 }
 
-TEST(ExponentialSearchTest, GetIndexOfNearestValueWorks)
+TEST(ExponentialSearchTest, GetIndexOfNearestValueWorksWhenThereIsOneValue)
 {
-    testGetIndexOfNearestValueWithSortedUnsignedInts<SearchForTest, ValuesForTest>();
+    testGetIndexOfNearestValueWithOneUnsignedInt<SearchForTest, ValuesForTest>();
+}
+
+TEST(ExponentialSearchTest, GetIndexOfNearestValueWorksWhenThereAreDuplicateValues)
+{
+    ValuesForTest duplicateValues{0, 0, 0, 0, 0};
+    SearchForTest search(duplicateValues);
+
+    EXPECT_EQ(4U, search.getIndexOfNearestValue(33));
+}
+
+TEST(ExponentialSearchTest, GetIndexOfNearestValueWorksWhenThereAreMultipleValues)
+{
+    testGetIndexOfNearestValueWithMultipleSortedUnsignedInts<SearchForTest, ValuesForTest>();
 }
 
 TEST(ExponentialSearchTest, GetIndexOfNearestValueWorksWhenNearestValueIsLower)
 {
-    testGetIndexOfNearestValueWhenNearestValueIsLowerWithSortedUnsignedInts<SearchForTest, ValuesForTest>();
-}
+    testGetIndexOfNearestValueWhenNearestValueIsLowerWithSortedUnsignedInts<SearchForTest, ValuesForTest>();}
 
 TEST(ExponentialSearchTest, GetIndexOfNearestValueWorksWhenNearestValueIsHigher)
 {
-    testGetIndexOfNearestValueWhenNearestValueIsHigherWithSortedUnsignedInts<SearchForTest, ValuesForTest>();
-}
+    testGetIndexOfNearestValueWhenNearestValueIsHigherWithSortedUnsignedInts<SearchForTest, ValuesForTest>();}
 
 }
 

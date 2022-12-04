@@ -52,15 +52,13 @@ public:
         {
             Value minimumDeviation(std::numeric_limits<Value>::max());
             for(auto itLower=m_values.cbegin()+m_startIndex, itHigher=m_values.cbegin()+m_endIndex;
-                itLower<itHigher;
+                itLower<=itHigher;
                 itLower++, itHigher--)
             {
-                Value valueAtLower = *itLower;
-                Value valueAtHigher = *itHigher;
+                Value valueAtLower = *itLower;                Value valueAtHigher = *itHigher;
                 if(valueAtLower == valueToCheck)
                 {
-                    result = std::distance(m_values.cbegin(), itLower);
-                    break;
+                    result = std::distance(m_values.cbegin(), itLower);                    break;
                 }
                 else if(valueAtHigher == valueToCheck)
                 {
@@ -71,15 +69,13 @@ public:
                 {
                     Value deviationAtLower(mathHelper::getPositiveDelta(valueAtLower, valueToCheck));
                     Value deviationAtHigher(mathHelper::getPositiveDelta(valueAtHigher, valueToCheck));
-                    if(deviationAtLower < deviationAtHigher && minimumDeviation > deviationAtLower)
+                    if(deviationAtLower <= deviationAtHigher && minimumDeviation > deviationAtLower)
                     {
                         minimumDeviation = deviationAtLower;
-                        result = std::distance(m_values.cbegin(), itLower);
-                    }
+                        result = std::distance(m_values.cbegin(), itLower);                    }
                     else if(deviationAtLower > deviationAtHigher && minimumDeviation > deviationAtHigher)
                     {
-                        minimumDeviation = deviationAtHigher;
-                        result = std::distance(m_values.cbegin(), itHigher);
+                        minimumDeviation = deviationAtHigher;                        result = std::distance(m_values.cbegin(), itHigher);
                     }
                 }
             }

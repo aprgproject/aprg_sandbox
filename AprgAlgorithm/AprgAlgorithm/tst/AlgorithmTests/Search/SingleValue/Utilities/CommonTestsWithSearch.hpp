@@ -25,14 +25,30 @@ void testGetNearestValueDoesNotCrashWithEmptyUnsignedInts()
 }
 
 template <typename Search, typename Values>
-void testGetNearestValueWithUnsortedUnsignedInts()
+void testGetNearestValueWithOneUnsignedInt()
+{
+    Values oneValue{10};
+    Search search(oneValue);
+
+    EXPECT_EQ(10U, search.getNearestValue(33));
+}
+
+template <typename Search, typename Values>
+void testGetNearestValueWithDuplicateUnsignedInts()
+{
+    Values duplicateValues{0, 0, 0, 0, 0};
+    Search search(duplicateValues);
+
+    EXPECT_EQ(0U, search.getNearestValue(33));
+}
+
+template <typename Search, typename Values>
+void testGetNearestValueWithMultipleUnsortedUnsignedInts()
 {
     Values unsortedValues{43, 96, 53, 25, 95, 72, 6, 84, 14, 64, 33, 97, 51, 93, 13};
     Search search(unsortedValues);
-
     EXPECT_EQ(33U, search.getNearestValue(33));
 }
-
 template <typename Search, typename Values>
 void testGetNearestValueWhenNearestValueIsLowerWithUnsortedUnsignedInts()
 {
@@ -52,14 +68,12 @@ void testGetNearestValueWhenNearestValueIsHigherWithUnsortedUnsignedInts()
 }
 
 template <typename Search, typename Values>
-void testGetNearestValueWithSortedUnsignedInts()
+void testGetNearestValueWithMultipleSortedUnsignedInts()
 {
     Values sortedValues{6, 13, 14, 25, 33, 43, 51, 53, 64, 72, 84, 93, 95, 96, 97};
     Search search(sortedValues);
-
     EXPECT_EQ(33U, search.getNearestValue(33));
 }
-
 template <typename Search, typename Values>
 void testGetNearestValueWhenNearestValueIsLowerWithSortedUnsignedInts()
 {
@@ -93,14 +107,21 @@ void testGetIndexOfNearestValueDoesNotCrashWithEmptyUnsignedInts()
 }
 
 template <typename Search, typename Values>
-void testGetIndexOfNearestValueWithUnsortedUnsignedInts()
+void testGetIndexOfNearestValueWithOneUnsignedInt()
+{
+    Values oneValue{10};
+    Search search(oneValue);
+
+    EXPECT_EQ(0U, search.getIndexOfNearestValue(33));
+}
+
+template <typename Search, typename Values>
+void testGetIndexOfNearestValueWithMultipleUnsortedUnsignedInts()
 {
     Values unsortedValues{43, 96, 53, 25, 95, 72, 6, 84, 14, 64, 33, 97, 51, 93, 13};
     Search search(unsortedValues);
-
     EXPECT_EQ(10U, search.getIndexOfNearestValue(33));
 }
-
 template <typename Search, typename Values>
 void testGetIndexOfNearestValueWhenNearestValueIsLowerWithUnsortedUnsignedInts()
 {
@@ -120,14 +141,12 @@ void testGetIndexOfNearestValueWhenNearestValueIsHigherWithUnsortedUnsignedInts(
 }
 
 template <typename Search, typename Values>
-void testGetIndexOfNearestValueWithSortedUnsignedInts()
+void testGetIndexOfNearestValueWithMultipleSortedUnsignedInts()
 {
     Values sortedValues{6, 13, 14, 25, 33, 43, 51, 53, 64, 72, 84, 93, 95, 96, 97};
     Search search(sortedValues);
-
     EXPECT_EQ(4U, search.getIndexOfNearestValue(33));
 }
-
 template <typename Search, typename Values>
 void testGetIndexOfNearestValueWhenNearestValueIsLowerWithSortedUnsignedInts()
 {

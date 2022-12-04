@@ -18,23 +18,24 @@ public:
 
     SortAKSortedContainer() = default;
 
-    void sort(unsigned int const k, Values & valuesToSort) const
+    void sort(unsigned int const maximumDistanceFromCorrectPosition,
+              Values & valuesToSort) const
     {
-        if(k <= valuesToSort.size())
+        if(maximumDistanceFromCorrectPosition <= valuesToSort.size())
         {
-            unsigned int pqSize = (k==valuesToSort.size()) ? k  : k+1;
+            unsigned int pqSize
+                    = (maximumDistanceFromCorrectPosition==valuesToSort.size()) ? maximumDistanceFromCorrectPosition
+                    : maximumDistanceFromCorrectPosition+1;
             KPriorityQueue pq(valuesToSort.cbegin(), valuesToSort.cbegin()+pqSize);
 
             unsigned int sortedIndex(0U);
-            for(unsigned int newPqIndex=k+1; newPqIndex<valuesToSort.size(); newPqIndex++)
+            for(unsigned int newPqIndex=maximumDistanceFromCorrectPosition+1; newPqIndex<valuesToSort.size(); newPqIndex++)
             {
                 valuesToSort[sortedIndex++] = pq.top();
-                pq.pop();
-                pq.push(valuesToSort.at(newPqIndex));
+                pq.pop();                pq.push(valuesToSort.at(newPqIndex));
             }
 
-            while(!pq.empty())
-            {
+            while(!pq.empty())            {
                 valuesToSort[sortedIndex++] = pq.top();
                 pq.pop();
             }
