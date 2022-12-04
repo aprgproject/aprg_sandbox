@@ -67,10 +67,12 @@ TEST(LeastSignificantDigitSorterTest, SortWorksOnCharactersUsingOneValueExample)
 
 TEST(LeastSignificantDigitSorterTest, SortWorksOnCharactersUsingExample1)
 {
-    CharactersSorter sorter(getNibbleAtForCharacter);    testSortUsingExample1WithCharacters<CharactersSorter, Characters>(sorter);
+    CharactersSorter sorter(getNibbleAtForCharacter);
+    testSortUsingExample1WithCharacters<CharactersSorter, Characters>(sorter);
 }
 
-TEST(LeastSignificantDigitSorterTest, SortWorksOnCharactersUsingExample2){
+TEST(LeastSignificantDigitSorterTest, SortWorksOnCharactersUsingExample2)
+{
     CharactersSorter sorter(getNibbleAtForCharacter);
     testSortUsingExample2WithCharacters<CharactersSorter, Characters>(sorter);
 }

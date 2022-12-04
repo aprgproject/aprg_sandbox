@@ -38,7 +38,7 @@ private:
         else
         {
             // Split to two parts
-            Values firstPart, secondPart; // this is costly, in a more controllable forward link list we can split it more easily
+            Values firstPart, secondPart; // THIS IS COSTLY, in a more controllable forward link list we can split it more easily
             Iterator itNewFirstPart=firstPart.before_begin(), itNewSecondPart=secondPart.before_begin();
             for(ConstIterator it=unsortedValues.cbegin(); it!=middle; it++)
             {
@@ -101,10 +101,38 @@ private:
         }
         return result;
     }
-
 };
 
 }
 
 }
+
+// Merge sort is often preferred for sorting a linked list.
+// The slow random-access performance of a linked list makes some other algorithms (such as quicksort) perform poorly,
+// and others (such as heapsort) completely impossible.
+
+// Approach 2: This approach is simpler and uses log n space.
+
+// mergeSort():
+// -> If the size of the linked list is 1 then return the head
+// -> Find mid using The Tortoise and The Hare Approach
+// -> Store the next of mid in head2 i.e. the right sub-linked list.
+// -> Now Make the next midpoint null.
+// -> Recursively call mergeSort() on both left and right sub-linked list and store the new head of the left and right linked list.
+// -> Call merge() given the arguments new heads of left and right sub-linked lists and store the final head returned after merging.
+// -> Return the final head of the merged linkedlist.
+
+// merge(head1, head2):
+// -> Take a pointer say merged to store the merged list in it and store a dummy node in it.
+// -> Take a pointer temp and assign merge to it.
+// -> Else store head2 in next of temp & move head2 to the next of head2.
+// -> Move temp to the next of temp.
+// -> Repeat steps 3, 4 & 5 until head1 is not equal to null and head2 is not equal to null.
+// -> Now add any remaining nodes of the first or the second linked list to the merged linked list.
+// -> Return the next of merged(that will ignore the dummy and return the head of the final merged linked list)
+
+// Time Complexity: O(n*log n)
+// Space Complexity: O(log n)
+
+
 

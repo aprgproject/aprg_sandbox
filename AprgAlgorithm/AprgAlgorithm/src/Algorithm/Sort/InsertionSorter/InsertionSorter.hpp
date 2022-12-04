@@ -37,10 +37,12 @@ private:
         auto itHigh = std::make_reverse_iterator(insertedIt); //make_reverse_iterator advances it by one (so there is decrement after)
         auto itLow = itHigh;
         itHigh--;
-        for(; itLow!=valuesToSort.rend() && *itLow > *itHigh; itLow++, itHigh++)        {
+        for(; itLow!=valuesToSort.rend() && *itLow > *itHigh; itLow++, itHigh++)
+        {
             std::swap(*itLow, *itHigh);
         }
-    }};
+    }
+};
 
 }
 

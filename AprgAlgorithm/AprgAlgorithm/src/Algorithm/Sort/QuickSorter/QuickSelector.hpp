@@ -2,8 +2,6 @@
 
 #include <Algorithm/Sort/QuickSorter/QuickSorterUtilities.hpp>
 
-#include <utility>
-
 namespace alba
 {
 

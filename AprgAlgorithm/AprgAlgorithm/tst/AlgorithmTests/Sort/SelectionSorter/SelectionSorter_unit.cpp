@@ -45,10 +45,12 @@ TEST(SelectionSorterTest, SortWorksOnCharactersUsingOneValueExample)
 
 TEST(SelectionSorterTest, SortWorksOnCharactersUsingExample1)
 {
-    CharactersSorter sorter;    testSortUsingExample1WithCharacters<CharactersSorter, Characters>(sorter);
+    CharactersSorter sorter;
+    testSortUsingExample1WithCharacters<CharactersSorter, Characters>(sorter);
 }
 
-TEST(SelectionSorterTest, SortWorksOnCharactersUsingExample2){
+TEST(SelectionSorterTest, SortWorksOnCharactersUsingExample2)
+{
     CharactersSorter sorter;
     testSortUsingExample2WithCharacters<CharactersSorter, Characters>(sorter);
 }

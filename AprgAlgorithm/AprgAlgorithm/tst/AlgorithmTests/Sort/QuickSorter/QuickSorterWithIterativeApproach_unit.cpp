@@ -1,4 +1,4 @@
-#include <Algorithm/Sort/CycleSorter/CycleSorter.hpp>
+#include <Algorithm/Sort/QuickSorter/QuickSorter.hpp>
 #include <AlgorithmTests/Sort/Utilities/CommonTestsWithSorter.hpp>
 #include <AlgorithmTests/Sort/Utilities/StabilityCheckObject.hpp>
 
@@ -20,58 +20,58 @@ using Integers = vector<int>;
 using Doubles = vector<double>;
 using Strings = vector<string>;
 using StabilityCheckObjects = vector<StabilityCheckObject>;
-using CharactersSorter = CycleSorter<Characters>;
-using IntegersSorter = CycleSorter<Integers>;
-using DoublesSorter = CycleSorter<Doubles>;
-using StringsSorter = CycleSorter<Strings>;
-using StabilityCheckObjectsSorter = CycleSorter<StabilityCheckObjects>;
+using CharactersSorter = QuickSorter<Characters>;
+using IntegersSorter = QuickSorter<Integers>;
+using DoublesSorter = QuickSorter<Doubles>;
+using StringsSorter = QuickSorter<Strings>;
+using StabilityCheckObjectsSorter = QuickSorter<StabilityCheckObjects>;
 }
 
-TEST(CycleSorterTest, SortWorksOnCharactersAndDoesNotCrashUsingEmptyExample)
+TEST(QuickSorterTest, SortWorksOnCharactersAndDoesNotCrashUsingEmptyExample)
 {
     CharactersSorter sorter;
     testSortUsingEmptyExampleWithCharacters<CharactersSorter, Characters>(sorter);
 }
 
-TEST(CycleSorterTest, SortWorksOnCharactersUsingOneValueExample)
+TEST(QuickSorterTest, SortWorksOnCharactersUsingOneValueExample)
 {
     CharactersSorter sorter;
     testSortUsingOneValueExampleWithCharacters<CharactersSorter, Characters>(sorter);
 }
 
-TEST(CycleSorterTest, SortWorksOnCharactersUsingExample1)
+TEST(QuickSorterTest, SortWorksOnCharactersUsingExample1)
 {
     CharactersSorter sorter;
     testSortUsingExample1WithCharacters<CharactersSorter, Characters>(sorter);
 }
 
-TEST(CycleSorterTest, SortWorksOnCharactersUsingExample2)
+TEST(QuickSorterTest, SortWorksOnCharactersUsingExample2)
 {
     CharactersSorter sorter;
     testSortUsingExample2WithCharacters<CharactersSorter, Characters>(sorter);
 }
 
-// CANNOT SORT STD::LIST
+// CANNOT SORT STD::LIST, actually it might be possible if we change indexes to iterators
 
-TEST(CycleSorterTest, SortWorksOnPositiveAndNegativeIntegersUsingExample1)
+TEST(QuickSorterTest, SortWorksOnPositiveAndNegativeIntegersUsingExample1)
 {
     IntegersSorter sorter;
     testSortUsingExample1WithPositiveAndNegativeIntegers<IntegersSorter, Integers>(sorter);
 }
 
-TEST(CycleSorterTest, SortWorksOnDoublesUsingExample1)
+TEST(QuickSorterTest, SortWorksOnDoublesUsingExample1)
 {
     DoublesSorter sorter;
     testSortUsingExample1WithDoubleValues<DoublesSorter, Doubles>(sorter);
 }
 
-TEST(CycleSorterTest, SortWorksOnStringsUsingExample1)
+TEST(QuickSorterTest, SortWorksOnStringsUsingExample1)
 {
     StringsSorter sorter;
     testSortUsingExample1WithStrings<StringsSorter, Strings>(sorter);
 }
 
-TEST(CycleSorterTest, SortWorksAsNotStableOnStabilityCheckObjectsUsingExample1) // NOT STABLE
+TEST(QuickSorterTest, SortWorksAsNotStableOnStabilityCheckObjectsUsingExample1) // NOT STABLE
 {
     StabilityCheckObjectsSorter sorter;
     testSortAsNotStableUsingExample1WithStabilityCheckObjects<StabilityCheckObjectsSorter, StabilityCheckObjects>(sorter);

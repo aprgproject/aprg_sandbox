@@ -3,8 +3,6 @@
 #include <Algorithm/Sort/BaseSorter.hpp>
 #include <Algorithm/Sort/QuickSorter/QuickSorterUtilities.hpp>
 
-#include <utility>
-
 namespace alba
 {
 
@@ -186,7 +184,6 @@ private:
 // Quick Sort requires a lot of this kind of access.
 // In linked list to access i’th index, we have to travel each and every node from the head to i’th node as we don’t have continuous block of memory.
 // Therefore, the overhead increases for quick sort. Merge sort accesses data sequentially and the need of random access is low.
-
 
 // When does the worst case of Quicksort occur?
 // The answer depends on strategy for choosing pivot.

@@ -55,10 +55,12 @@ TEST(CountingSorterUsingNewPositionsTest, SortWorksOnCharactersUsingOneValueExam
 
 TEST(CountingSorterUsingNewPositionsTest, SortWorksOnCharactersUsingExample1)
 {
-    CharactersSorter sorter(characterToIndexableValueFunction);    testSortUsingExample1WithCharacters<CharactersSorter, Characters>(sorter);
+    CharactersSorter sorter(characterToIndexableValueFunction);
+    testSortUsingExample1WithCharacters<CharactersSorter, Characters>(sorter);
 }
 
-TEST(CountingSorterUsingNewPositionsTest, SortWorksOnCharactersUsingExample2){
+TEST(CountingSorterUsingNewPositionsTest, SortWorksOnCharactersUsingExample2)
+{
     CharactersSorter sorter(characterToIndexableValueFunction);
     testSortUsingExample2WithCharacters<CharactersSorter, Characters>(sorter);
 }

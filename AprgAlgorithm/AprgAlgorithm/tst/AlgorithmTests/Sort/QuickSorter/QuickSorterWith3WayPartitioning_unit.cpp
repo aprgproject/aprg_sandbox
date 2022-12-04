@@ -41,10 +41,12 @@ TEST(QuickSorterWith3WayPartitioningTest, SortWorksOnCharactersUsingOneValueExam
 
 TEST(QuickSorterWith3WayPartitioningTest, SortWorksOnCharactersUsingExample1)
 {
-    CharactersSorter sorter;    testSortUsingExample1WithCharacters<CharactersSorter, Characters>(sorter);
+    CharactersSorter sorter;
+    testSortUsingExample1WithCharacters<CharactersSorter, Characters>(sorter);
 }
 
-TEST(QuickSorterWith3WayPartitioningTest, SortWorksOnCharactersUsingExample2){
+TEST(QuickSorterWith3WayPartitioningTest, SortWorksOnCharactersUsingExample2)
+{
     CharactersSorter sorter;
     testSortUsingExample2WithCharacters<CharactersSorter, Characters>(sorter);
 }

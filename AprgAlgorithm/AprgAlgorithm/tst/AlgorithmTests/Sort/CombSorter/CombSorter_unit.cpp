@@ -41,10 +41,12 @@ TEST(CombSorterTest, SortWorksOnCharactersUsingOneValueExample)
 
 TEST(CombSorterTest, SortWorksOnCharactersUsingExample1)
 {
-    CharactersSorter sorter;    testSortUsingExample1WithCharacters<CharactersSorter, Characters>(sorter);
+    CharactersSorter sorter;
+    testSortUsingExample1WithCharacters<CharactersSorter, Characters>(sorter);
 }
 
-TEST(CombSorterTest, SortWorksOnCharactersUsingExample2){
+TEST(CombSorterTest, SortWorksOnCharactersUsingExample2)
+{
     CharactersSorter sorter;
     testSortUsingExample2WithCharacters<CharactersSorter, Characters>(sorter);
 }

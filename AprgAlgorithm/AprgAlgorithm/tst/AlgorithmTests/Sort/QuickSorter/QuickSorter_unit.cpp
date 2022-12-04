@@ -1,4 +1,4 @@
-#include <Algorithm/Sort/QuickSorter/QuickSorter.hpp>
+#include <Algorithm/Sort/QuickSorter/QuickSorterWithIterativeApproach.hpp>
 #include <AlgorithmTests/Sort/Utilities/CommonTestsWithSorter.hpp>
 #include <AlgorithmTests/Sort/Utilities/StabilityCheckObject.hpp>
 
@@ -20,56 +20,58 @@ using Integers = vector<int>;
 using Doubles = vector<double>;
 using Strings = vector<string>;
 using StabilityCheckObjects = vector<StabilityCheckObject>;
-using CharactersSorter = QuickSorter<Characters>;
-using IntegersSorter = QuickSorter<Integers>;
-using DoublesSorter = QuickSorter<Doubles>;
-using StringsSorter = QuickSorter<Strings>;
-using StabilityCheckObjectsSorter = QuickSorter<StabilityCheckObjects>;
+using CharactersSorter = QuickSorterWithIterativeApproach<Characters>;
+using IntegersSorter = QuickSorterWithIterativeApproach<Integers>;
+using DoublesSorter = QuickSorterWithIterativeApproach<Doubles>;
+using StringsSorter = QuickSorterWithIterativeApproach<Strings>;
+using StabilityCheckObjectsSorter = QuickSorterWithIterativeApproach<StabilityCheckObjects>;
 }
 
-TEST(QuickSorterTest, SortWorksOnCharactersAndDoesNotCrashUsingEmptyExample)
+TEST(QuickSorterWithIterativeApproachTest, SortWorksOnCharactersAndDoesNotCrashUsingEmptyExample)
 {
     CharactersSorter sorter;
     testSortUsingEmptyExampleWithCharacters<CharactersSorter, Characters>(sorter);
 }
 
-TEST(QuickSorterTest, SortWorksOnCharactersUsingOneValueExample)
+TEST(QuickSorterWithIterativeApproachTest, SortWorksOnCharactersUsingOneValueExample)
 {
     CharactersSorter sorter;
     testSortUsingOneValueExampleWithCharacters<CharactersSorter, Characters>(sorter);
 }
 
-TEST(QuickSorterTest, SortWorksOnCharactersUsingExample1)
+TEST(QuickSorterWithIterativeApproachTest, SortWorksOnCharactersUsingExample1)
 {
-    CharactersSorter sorter;    testSortUsingExample1WithCharacters<CharactersSorter, Characters>(sorter);
+    CharactersSorter sorter;
+    testSortUsingExample1WithCharacters<CharactersSorter, Characters>(sorter);
 }
 
-TEST(QuickSorterTest, SortWorksOnCharactersUsingExample2){
+TEST(QuickSorterWithIterativeApproachTest, SortWorksOnCharactersUsingExample2)
+{
     CharactersSorter sorter;
     testSortUsingExample2WithCharacters<CharactersSorter, Characters>(sorter);
 }
 
 // CANNOT SORT STD::LIST, actually it might be possible if we change indexes to iterators
 
-TEST(QuickSorterTest, SortWorksOnPositiveAndNegativeIntegersUsingExample1)
+TEST(QuickSorterWithIterativeApproachTest, SortWorksOnPositiveAndNegativeIntegersUsingExample1)
 {
     IntegersSorter sorter;
     testSortUsingExample1WithPositiveAndNegativeIntegers<IntegersSorter, Integers>(sorter);
 }
 
-TEST(QuickSorterTest, SortWorksOnDoublesUsingExample1)
+TEST(QuickSorterWithIterativeApproachTest, SortWorksOnDoublesUsingExample1)
 {
     DoublesSorter sorter;
     testSortUsingExample1WithDoubleValues<DoublesSorter, Doubles>(sorter);
 }
 
-TEST(QuickSorterTest, SortWorksOnStringsUsingExample1)
+TEST(QuickSorterWithIterativeApproachTest, SortWorksOnStringsUsingExample1)
 {
     StringsSorter sorter;
     testSortUsingExample1WithStrings<StringsSorter, Strings>(sorter);
 }
 
-TEST(QuickSorterTest, SortWorksAsNotStableOnStabilityCheckObjectsUsingExample1) // NOT STABLE
+TEST(QuickSorterWithIterativeApproachTest, SortWorksAsNotStableOnStabilityCheckObjectsUsingExample1) // NOT STABLE
 {
     StabilityCheckObjectsSorter sorter;
     testSortAsNotStableUsingExample1WithStabilityCheckObjects<StabilityCheckObjectsSorter, StabilityCheckObjects>(sorter);

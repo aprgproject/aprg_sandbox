@@ -46,10 +46,12 @@ TEST(BucketSorterTest, SortWorksOnCharactersUsingOneValueExample)
 
 TEST(BucketSorterTest, SortWorksOnCharactersUsingExample1)
 {
-    CharactersSorter sorter('A', 'Z');    testSortUsingExample1WithCharacters<CharactersSorter, Characters>(sorter);
+    CharactersSorter sorter('A', 'Z');
+    testSortUsingExample1WithCharacters<CharactersSorter, Characters>(sorter);
 }
 
-TEST(BucketSorterTest, SortWorksOnCharactersUsingExample2){
+TEST(BucketSorterTest, SortWorksOnCharactersUsingExample2)
+{
     CharactersSorter sorter('A', 'Z');
     testSortUsingExample2WithCharacters<CharactersSorter, Characters>(sorter);
 }
