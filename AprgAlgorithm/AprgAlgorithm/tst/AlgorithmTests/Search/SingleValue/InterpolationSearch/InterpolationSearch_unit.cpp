@@ -40,11 +40,13 @@ TEST(InterpolationSearchTest, GetNearestValueWorksWhenThereAreMultipleValues)
 
 TEST(InterpolationSearchTest, GetNearestValueWorksWhenNearestValueIsLower)
 {
-    testGetNearestValueWhenNearestValueIsLowerWithSortedUnsignedInts<SearchForTest, ValuesForTest>();}
+    testGetNearestValueWhenNearestValueIsLowerWithSortedUnsignedInts<SearchForTest, ValuesForTest>();
+}
 
 TEST(InterpolationSearchTest, GetNearestValueWorksWhenNearestValueIsHigher)
 {
-    testGetNearestValueWhenNearestValueIsHigherWithSortedUnsignedInts<SearchForTest, ValuesForTest>();}
+    testGetNearestValueWhenNearestValueIsHigherWithSortedUnsignedInts<SearchForTest, ValuesForTest>();
+}
 
 TEST(InterpolationSearchTest, GetIndexOfNearestValueWorksAndDoesNotCrashWhenEmpty)
 {
@@ -71,11 +73,13 @@ TEST(InterpolationSearchTest, GetIndexOfNearestValueWorksWhenThereAreMultipleVal
 
 TEST(InterpolationSearchTest, GetIndexOfNearestValueWorksWhenNearestValueIsLower)
 {
-    testGetIndexOfNearestValueWhenNearestValueIsLowerWithSortedUnsignedInts<SearchForTest, ValuesForTest>();}
+    testGetIndexOfNearestValueWhenNearestValueIsLowerWithSortedUnsignedInts<SearchForTest, ValuesForTest>();
+}
 
 TEST(InterpolationSearchTest, GetIndexOfNearestValueWorksWhenNearestValueIsHigher)
 {
-    testGetIndexOfNearestValueWhenNearestValueIsHigherWithSortedUnsignedInts<SearchForTest, ValuesForTest>();}
+    testGetIndexOfNearestValueWhenNearestValueIsHigherWithSortedUnsignedInts<SearchForTest, ValuesForTest>();
+}
 
 TEST(InterpolationSearchTest, GetNearestValueWorksWithInitialIndexesWhenDistanceFromLowerToHigherIsOne)
 {

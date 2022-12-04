@@ -20,10 +20,12 @@ unsigned int partitionAndGetPartitionIndex(
     while(indexWithGreaterValue < indexWithLesserValue)
     {
         // take note that that loop has increment first
-        // starting from lowest+1 to highest, find a value greater than partitionValue        while(valuesToSort.at(++indexWithGreaterValue) < partitionValue && indexWithGreaterValue < highestIndex);
+        // starting from lowest+1 to highest, find a value greater than partitionValue
+        while(valuesToSort.at(++indexWithGreaterValue) < partitionValue && indexWithGreaterValue < highestIndex);
 
         // take note that that loop has decrement first
-        // starting from highest to lowest, find a value less than partitionValue        // actually this condition "indexWithLesserValue > lowestIndex" is redundant because partition value is at lowestIndex
+        // starting from highest to lowest, find a value less than partitionValue
+        // actually this condition "indexWithLesserValue > lowestIndex" is redundant because partition value is at lowestIndex
         // so first condition will not be satisfied anyway
         while(partitionValue < valuesToSort.at(--indexWithLesserValue) && indexWithLesserValue > lowestIndex);
 

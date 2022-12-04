@@ -40,11 +40,13 @@ TEST(LinearSearchWithTwoIndicesTest, GetNearestValueWorksWhenThereAreMultipleVal
 
 TEST(LinearSearchWithTwoIndicesTest, GetNearestValueWorksWhenNearestValueIsLower)
 {
-    testGetNearestValueWhenNearestValueIsLowerWithUnsortedUnsignedInts<SearchForTest, ValuesForTest>();}
+    testGetNearestValueWhenNearestValueIsLowerWithUnsortedUnsignedInts<SearchForTest, ValuesForTest>();
+}
 
 TEST(LinearSearchWithTwoIndicesTest, GetNearestValueWorksWhenNearestValueIsHigher)
 {
-    testGetNearestValueWhenNearestValueIsHigherWithUnsortedUnsignedInts<SearchForTest, ValuesForTest>();}
+    testGetNearestValueWhenNearestValueIsHigherWithUnsortedUnsignedInts<SearchForTest, ValuesForTest>();
+}
 
 TEST(LinearSearchWithTwoIndicesTest, GetIndexOfNearestValueWorksAndDoesNotCrashWhenEmpty)
 {
@@ -71,11 +73,13 @@ TEST(LinearSearchWithTwoIndicesTest, GetIndexOfNearestValueWorksWhenThereAreMult
 
 TEST(LinearSearchWithTwoIndicesTest, GetIndexOfNearestValueWorksWhenNearestValueIsLower)
 {
-    testGetIndexOfNearestValueWhenNearestValueIsLowerWithUnsortedUnsignedInts<SearchForTest, ValuesForTest>();}
+    testGetIndexOfNearestValueWhenNearestValueIsLowerWithUnsortedUnsignedInts<SearchForTest, ValuesForTest>();
+}
 
 TEST(LinearSearchWithTwoIndicesTest, GetIndexOfNearestValueWorksWhenNearestValueIsHigher)
 {
-    testGetIndexOfNearestValueWhenNearestValueIsHigherWithUnsortedUnsignedInts<SearchForTest, ValuesForTest>();}
+    testGetIndexOfNearestValueWhenNearestValueIsHigherWithUnsortedUnsignedInts<SearchForTest, ValuesForTest>();
+}
 
 TEST(LinearSearchWithTwoIndicesTest, GetNearestValueWorksWithInitialIndexesWhenDistanceFromLowerToHigherIsOne)
 {

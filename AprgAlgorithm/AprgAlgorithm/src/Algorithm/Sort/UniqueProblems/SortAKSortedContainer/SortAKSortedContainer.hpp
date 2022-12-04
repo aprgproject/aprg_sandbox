@@ -32,10 +32,12 @@ public:
             for(unsigned int newPqIndex=maximumDistanceFromCorrectPosition+1; newPqIndex<valuesToSort.size(); newPqIndex++)
             {
                 valuesToSort[sortedIndex++] = pq.top();
-                pq.pop();                pq.push(valuesToSort.at(newPqIndex));
+                pq.pop();
+                pq.push(valuesToSort.at(newPqIndex));
             }
 
-            while(!pq.empty())            {
+            while(!pq.empty())
+            {
                 valuesToSort[sortedIndex++] = pq.top();
                 pq.pop();
             }

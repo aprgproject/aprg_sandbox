@@ -40,11 +40,13 @@ TEST(BinarySearchWithCppFunctionsTest, GetNearestValueWorksWhenThereAreMultipleV
 
 TEST(BinarySearchWithCppFunctionsTest, GetNearestValueWorksWhenNearestValueIsLower)
 {
-    testGetNearestValueWhenNearestValueIsLowerWithSortedUnsignedInts<SearchForTest, ValuesForTest>();}
+    testGetNearestValueWhenNearestValueIsLowerWithSortedUnsignedInts<SearchForTest, ValuesForTest>();
+}
 
 TEST(BinarySearchWithCppFunctionsTest, GetNearestValueWorksWhenNearestValueIsHigher)
 {
-    testGetNearestValueWhenNearestValueIsHigherWithSortedUnsignedInts<SearchForTest, ValuesForTest>();}
+    testGetNearestValueWhenNearestValueIsHigherWithSortedUnsignedInts<SearchForTest, ValuesForTest>();
+}
 
 TEST(BinarySearchWithCppFunctionsTest, GetIndexOfNearestValueWorksAndDoesNotCrashWhenEmpty)
 {
@@ -71,11 +73,13 @@ TEST(BinarySearchWithCppFunctionsTest, GetIndexOfNearestValueWorksWhenThereAreMu
 
 TEST(BinarySearchWithCppFunctionsTest, GetIndexOfNearestValueWorksWhenNearestValueIsLower)
 {
-    testGetIndexOfNearestValueWhenNearestValueIsLowerWithSortedUnsignedInts<SearchForTest, ValuesForTest>();}
+    testGetIndexOfNearestValueWhenNearestValueIsLowerWithSortedUnsignedInts<SearchForTest, ValuesForTest>();
+}
 
 TEST(BinarySearchWithCppFunctionsTest, GetIndexOfNearestValueWorksWhenNearestValueIsHigher)
 {
-    testGetIndexOfNearestValueWhenNearestValueIsHigherWithSortedUnsignedInts<SearchForTest, ValuesForTest>();}
+    testGetIndexOfNearestValueWhenNearestValueIsHigherWithSortedUnsignedInts<SearchForTest, ValuesForTest>();
+}
 
 TEST(BinarySearchWithCppFunctionsTest, GetLowerBoundAndGetHigherBoundWorks)
 {

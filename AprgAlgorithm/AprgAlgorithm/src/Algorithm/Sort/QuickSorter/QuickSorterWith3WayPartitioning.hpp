@@ -53,10 +53,12 @@ private:
                     i++; // equal to partition value so just move to the next item
                 }
             }
-            if(boundaryIndexForLessThan > 0) // prevent negative index            {
+            if(boundaryIndexForLessThan > 0) // prevent negative index
+            {
                 sort(valuesToSort, lowest, boundaryIndexForLessThan-1); // sort items that are less than the partitionValue
             }
-            sort(valuesToSort, boundaryIndexForGreaterThan+1, highest); // sort items that are greater than the partitionValue            // do nothing for items that are equal to the partitionValue
+            sort(valuesToSort, boundaryIndexForGreaterThan+1, highest); // sort items that are greater than the partitionValue
+            // do nothing for items that are equal to the partitionValue
         }
     }
 };

@@ -40,11 +40,13 @@ TEST(ExponentialSearchTest, GetNearestValueWorksWhenThereAreMultipleValues)
 
 TEST(ExponentialSearchTest, GetNearestValueWorksWhenNearestValueIsLower)
 {
-    testGetNearestValueWhenNearestValueIsLowerWithSortedUnsignedInts<SearchForTest, ValuesForTest>();}
+    testGetNearestValueWhenNearestValueIsLowerWithSortedUnsignedInts<SearchForTest, ValuesForTest>();
+}
 
 TEST(ExponentialSearchTest, GetNearestValueWorksWhenNearestValueIsHigher)
 {
-    testGetNearestValueWhenNearestValueIsHigherWithSortedUnsignedInts<SearchForTest, ValuesForTest>();}
+    testGetNearestValueWhenNearestValueIsHigherWithSortedUnsignedInts<SearchForTest, ValuesForTest>();
+}
 
 TEST(ExponentialSearchTest, GetIndexOfNearestValueWorksAndDoesNotCrashWhenEmpty)
 {
@@ -71,11 +73,13 @@ TEST(ExponentialSearchTest, GetIndexOfNearestValueWorksWhenThereAreMultipleValue
 
 TEST(ExponentialSearchTest, GetIndexOfNearestValueWorksWhenNearestValueIsLower)
 {
-    testGetIndexOfNearestValueWhenNearestValueIsLowerWithSortedUnsignedInts<SearchForTest, ValuesForTest>();}
+    testGetIndexOfNearestValueWhenNearestValueIsLowerWithSortedUnsignedInts<SearchForTest, ValuesForTest>();
+}
 
 TEST(ExponentialSearchTest, GetIndexOfNearestValueWorksWhenNearestValueIsHigher)
 {
-    testGetIndexOfNearestValueWhenNearestValueIsHigherWithSortedUnsignedInts<SearchForTest, ValuesForTest>();}
+    testGetIndexOfNearestValueWhenNearestValueIsHigherWithSortedUnsignedInts<SearchForTest, ValuesForTest>();
+}
 
 }
 

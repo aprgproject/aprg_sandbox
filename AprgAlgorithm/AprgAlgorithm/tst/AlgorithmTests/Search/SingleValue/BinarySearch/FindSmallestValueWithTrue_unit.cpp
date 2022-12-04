@@ -19,10 +19,12 @@ using SearchForTest = FindSmallestValueWithTrue<ValueForTest>;
 TEST(FindSmallestValueWithTrueTest, GetNearestValueWorksWhenThereAreMultipleValues)
 {
     SearchForTest binarySearch([](ValueForTest const value)
-    {        return value>=111U;
+    {
+        return value>=111U;
     });
 
-    EXPECT_EQ(111U, binarySearch.getSmallestValueWithTrue(45U, 500U));}
+    EXPECT_EQ(111U, binarySearch.getSmallestValueWithTrue(45U, 500U));
+}
 
 }
 
