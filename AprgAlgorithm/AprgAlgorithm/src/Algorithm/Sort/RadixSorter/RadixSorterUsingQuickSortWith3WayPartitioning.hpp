@@ -97,15 +97,13 @@ private:
 };
 
 // Overview: Do 3 way partitioning on the dth character.
-// -> Less overhead than R-way parition in MSD string sort
+// -> Less overhead than R-way partition in MSD string sort
 // -> Does not re-examine character equal to the partitioning char (but does re-examine characters not equal to the partitioning char)
 
-// Standard quicksort vs 3-way string radix sort
-// -> Standard quicksort
+// Standard quicksort vs 3-way string radix sort// -> Standard quicksort
 // ---> Uses ~2N ln (N) string compares on average
 // ---> Costly for keys with long common prefixes (and this is a common case!)
-// -> 3-way string radix sort
-// ---> Uses ~2N ln (N) character compares on average for random strings
+// -> 3-way string radix sort// ---> Uses ~2N ln (N) character compares on average for random strings
 // ---> Avoids re-comparing long common prefixes
 
 // MSD string sort vs 3-way string radix sort

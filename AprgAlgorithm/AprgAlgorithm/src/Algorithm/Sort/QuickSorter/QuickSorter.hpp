@@ -37,18 +37,16 @@ private:
             unsigned int partitionIndex = partitionAndGetPartitionIndex(valuesToSort, lowestIndex, highestIndex);
             if(lowestIndex != partitionIndex)
             {
-                sort(valuesToSort, lowestIndex, partitionIndex-1); // recursively sort/partition the low part without the parition index
+                sort(valuesToSort, lowestIndex, partitionIndex-1); // recursively sort/partition the low part without the partition index
             }
-            if(highestIndex != partitionIndex)
+            if(partitionIndex != highestIndex)
             {
-                sort(valuesToSort, partitionIndex+1, highestIndex); // recursively sort/partition the high part without the parition index
+                sort(valuesToSort, partitionIndex+1, highestIndex); // recursively sort/partition the high part without the partition index
             }
         }
-    }
-};
+    }};
 
 }
-
 }
 
 // Quicksort is an in-place sorting algorithm
