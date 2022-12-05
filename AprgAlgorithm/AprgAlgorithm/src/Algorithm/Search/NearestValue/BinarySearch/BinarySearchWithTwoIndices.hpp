@@ -9,14 +9,14 @@ namespace algorithm
 {
 
 template <typename Values>
-class BinarySearchWithTwoIndices
+class BinaryNearestValueSearchWithTwoIndices
 {
 public:
     using Index = unsigned int;
     using Value = typename Values::value_type;
     static constexpr Index INVALID_INDEX = std::numeric_limits<Index>::max();
 
-    BinarySearchWithTwoIndices(Values const& sortedValues)
+    BinaryNearestValueSearchWithTwoIndices(Values const& sortedValues)
         : m_lowerIndex(INVALID_INDEX)
         , m_higherIndex(INVALID_INDEX)
         , m_sortedValues(sortedValues)
@@ -24,7 +24,7 @@ public:
         setInitialIndexes();
     }
 
-    BinarySearchWithTwoIndices(Index const lowerIndex, Index const higherIndex, Values const& sortedValues)
+    BinaryNearestValueSearchWithTwoIndices(Index const lowerIndex, Index const higherIndex, Values const& sortedValues)
         : m_lowerIndex(INVALID_INDEX)
         , m_higherIndex(INVALID_INDEX)
         , m_sortedValues(sortedValues)
@@ -199,14 +199,3 @@ private:
 }
 
 }
-
-// The usual way to implement binary search resembles looking for a word in a dictionary.
-// The search maintains an active region in the array, which initially contains all array elements.
-// Then, a number of steps is performed, each of which halves the size of the region.
-
-// At each step, the search checks the middle element of the active region.
-// If the middle element is the target element, the search terminates.
-// Otherwise, the search recursively continues to the left or right half of the region, depending on the value of the middle element.
-
-// In this implementation, the active region is a...b, and initially the region is 0...n-1.
-// The algorithm halves the size of the region at each step, so the time complexity is O(logn).

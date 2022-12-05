@@ -12,14 +12,14 @@ namespace algorithm
 {
 
 template <typename Values> // this should be a non set container to be efficient because std::lower_bound and std::upper_bound are used
-class BinarySearchWithCppFunctions
+class BinaryNearestValueSearchWithCppFunctions
 {
 public:
     using Index = unsigned int;
     using Value = typename Values::value_type;
     static constexpr Index INVALID_INDEX = std::numeric_limits<Index>::max();
 
-    BinarySearchWithCppFunctions(Values const& sortedValues)
+    BinaryNearestValueSearchWithCppFunctions(Values const& sortedValues)
         : m_sortedValues(sortedValues)
     {}
 
@@ -95,11 +95,3 @@ private:
 }
 
 }
-
-// The C++ standard library contains the following functions that are based on binary search and work in logarithmic time:
-// • lower_bound returns a pointer to the first array element whose value is at least x.
-// • upper_bound returns a pointer to the first array element whose value is larger than x.
-// • equal_range returns both above pointers.
-
-// The functions assume that the array is sorted.
-// If there is no such element, the pointer points to the element after the last array element.

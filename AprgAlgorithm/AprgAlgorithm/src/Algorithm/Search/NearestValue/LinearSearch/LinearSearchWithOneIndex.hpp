@@ -11,14 +11,14 @@ namespace algorithm
 {
 
 template <typename Values>
-class LinearSearchWithOneIndex
+class LinearNearestValueSearchWithOneIndex
 {
 public:
     using Index = unsigned int;
     using Value = typename Values::value_type;
     static constexpr Index INVALID_INDEX = std::numeric_limits<Index>::max();
 
-    LinearSearchWithOneIndex(Values const& values) // values can be unsorted
+    LinearNearestValueSearchWithOneIndex(Values const& values) // values can be unsorted
         : m_startIndex(INVALID_INDEX)
         , m_endIndex(INVALID_INDEX)
         , m_values(values)
@@ -26,7 +26,7 @@ public:
         setInitialIndexes();
     }
 
-    LinearSearchWithOneIndex(Index const lowerIndex, Index const higherIndex, Values const& sortedValues)
+    LinearNearestValueSearchWithOneIndex(Index const lowerIndex, Index const higherIndex, Values const& sortedValues)
         : m_startIndex(INVALID_INDEX)
         , m_endIndex(INVALID_INDEX)
         , m_values(sortedValues)
@@ -101,12 +101,3 @@ private:
 }
 
 }
-
-// A simple approach is to do a linear search, i.e
-// -> Start from the leftmost element of arr[] and one by one compare x with each element of arr[]
-// -> If x matches with an element, return the index.
-// -> If x doesn’t match with any of elements, return -1.
-
-// The time complexity of the above algorithm is O(n).
-// Linear search is rarely used practically because other search algorithms such as
-// the binary search algorithm and hash tables allow significantly faster-searching comparison to linear search.

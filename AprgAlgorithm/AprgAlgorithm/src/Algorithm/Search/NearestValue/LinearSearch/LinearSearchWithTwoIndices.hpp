@@ -11,14 +11,14 @@ namespace algorithm
 {
 
 template <typename Values>
-class LinearSearchWithTwoIndices
+class LinearNearestValueSearchWithTwoIndices
 {
 public:
     using Index = unsigned int;
     using Value = typename Values::value_type;
     static constexpr Index INVALID_INDEX = std::numeric_limits<Index>::max();
 
-    LinearSearchWithTwoIndices(Values const& values) // values can be unsorted
+    LinearNearestValueSearchWithTwoIndices(Values const& values) // values can be unsorted
         : m_startIndex(INVALID_INDEX)
         , m_endIndex(INVALID_INDEX)
         , m_values(values)
@@ -26,7 +26,7 @@ public:
         setInitialIndexes();
     }
 
-    LinearSearchWithTwoIndices(Index const lowerIndex, Index const higherIndex, Values const& sortedValues)
+    LinearNearestValueSearchWithTwoIndices(Index const lowerIndex, Index const higherIndex, Values const& sortedValues)
         : m_startIndex(INVALID_INDEX)
         , m_endIndex(INVALID_INDEX)
         , m_values(sortedValues)
@@ -119,7 +119,3 @@ private:
 }
 
 }
-
-// Improve Linear Search Worst-Case Complexity
-// if element Found at last  O(n) to O(1)
-// if element Not found O(n) to O(n/2) so still O(n)
