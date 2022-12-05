@@ -34,6 +34,7 @@ CharactersSorter::IsDigitFunction isNibbleDigitInvalidForCharacter = [](char con
 {
     return digitIndex >= 2U;
 };
+
 SmallIntegerSorter::GetDigitAtFunction getNibbleAtForSmallInteger = [](int const& value, unsigned int const mostSignificantDigitIndex) -> unsigned int
 {
     return ((value+10) >> ((7U-mostSignificantDigitIndex)*4U)) & 0xFU;
@@ -42,9 +43,11 @@ SmallIntegerSorter::IsDigitFunction isNibbleDigitInvalidForSmallInteger = [](int
 {
     return digitIndex >= 8U;
 };
+
 StringsSorter::GetDigitAtFunction getCharacterAtForString = [](string const& value, unsigned int const mostSignificantDigitIndex) -> unsigned int
 {
-    unsigned int digitValue{};    if(mostSignificantDigitIndex < value.length())
+    unsigned int digitValue{};
+    if(mostSignificantDigitIndex < value.length())
     {
         digitValue = value.at(mostSignificantDigitIndex);
     }
@@ -54,6 +57,7 @@ StringsSorter::IsDigitFunction isDigitInvalidForString = [](string const& value,
 {
     return digitIndex >= value.length();
 };
+
 StabilityCheckObjectsSorter::GetDigitAtFunction getNibbleAtForStabilityCheckObject
 = [](StabilityCheckObject const& value, unsigned int const mostSignificantDigitIndex) -> unsigned int
 {
@@ -63,10 +67,12 @@ StabilityCheckObjectsSorter::IsDigitFunction isNibbleDigitInvalidForStabilityChe
 = [](StabilityCheckObject const&, unsigned int const digitIndex) -> bool
 {
     return digitIndex >= 2U;
-};}
+};
+}
 
 TEST(MostSignificantDigitSorterTest, SortWorksOnCharactersAndDoesNotCrashUsingEmptyExample)
-{    CharactersSorter sorter(getNibbleAtForCharacter, isNibbleDigitInvalidForCharacter);
+{
+    CharactersSorter sorter(getNibbleAtForCharacter, isNibbleDigitInvalidForCharacter);
     testSortUsingEmptyExampleWithCharacters<CharactersSorter, Characters>(sorter);
 }
 

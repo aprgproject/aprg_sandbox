@@ -178,9 +178,11 @@ private:
             }
         }
     }
+
     void moveIndexesCloserWhenValueIsBeyondTheIndices(Value const& value)
     {
-        if(m_sortedValues.at(m_lowerIndex) > value)        {
+        if(m_sortedValues.at(m_lowerIndex) > value)
+        {
             m_higherIndex=m_lowerIndex;
         }
         else if(m_sortedValues.at(m_higherIndex) < value)

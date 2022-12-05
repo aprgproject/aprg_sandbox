@@ -1,9 +1,9 @@
-#include <Algorithm/Search/SingleValue/LinearSearch/LinearSearchWithTwoIndices.hpp>
-#include <AlgorithmTests/Search/SingleValue/Utilities/CommonTestsWithSearch.hpp>
+#include <Algorithm/Search/NearestValue/LinearSearch/LinearSearchWithTwoIndices.hpp>
+#include <AlgorithmTests/Search/NearestValue/Utilities/CommonTestsWithNearestValueSearch.hpp>
 
 #include <gtest/gtest.h>
 
-using namespace alba::algorithm::CommonTestsWithSearch;
+using namespace alba::algorithm::CommonTestsWithNearestValueSearch;
 using namespace std;
 
 namespace alba

@@ -14,10 +14,12 @@ namespace algorithm
 template <typename Values, unsigned int MAX_NUMBER_OF_DIGIT_VALUES>
 class RadixSorterUsingCountingSorter : public BaseSorter<Values>
 {
-public:    using Value = typename Values::value_type;
+public:
+    using Value = typename Values::value_type;
     using DigitValue = unsigned int; // this needs to be indexable as its used on CountingSorter
     using GetNumberOfDigitsFunction = std::function<unsigned int(Values const&)>;
     using GetDigitAtFunction = std::function<DigitValue(Value const&, unsigned int const)>;
+
     RadixSorterUsingCountingSorter() = delete;
     RadixSorterUsingCountingSorter(
             GetNumberOfDigitsFunction const& getNumberOfDigitsFunction,
@@ -36,9 +38,11 @@ public:    using Value = typename Values::value_type;
             countingSorter.sort(valuesToSort);
         }
     }
+
 private:
     GetNumberOfDigitsFunction m_getNumberOfDigitsFunction;
-    GetDigitAtFunction m_getDigitAtFunction;};
+    GetDigitAtFunction m_getDigitAtFunction;
+};
 
 }
 

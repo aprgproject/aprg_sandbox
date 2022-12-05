@@ -1,9 +1,9 @@
-#include <Algorithm/Search/SingleValue/BinarySearch/BinarySearchWithSkip.hpp>
-#include <AlgorithmTests/Search/SingleValue/Utilities/CommonTestsWithSearch.hpp>
+#include <Algorithm/Search/NearestValue/ExponentialSearch/ExponentialSearch.hpp>
+#include <AlgorithmTests/Search/NearestValue/Utilities/CommonTestsWithNearestValueSearch.hpp>
 
 #include <gtest/gtest.h>
 
-using namespace alba::algorithm::CommonTestsWithSearch;
+using namespace alba::algorithm::CommonTestsWithNearestValueSearch;
 using namespace std;
 
 namespace alba
@@ -15,50 +15,50 @@ namespace algorithm
 namespace
 {
 using ValuesForTest = vector<unsigned int>;
-using SearchForTest = BinarySearchWithSkip<ValuesForTest>;
+using SearchForTest = ExponentialSearch<ValuesForTest>;
 }
 
-TEST(BinarySearchWithSkipTest, GetNearestValueWorksAndDoesNotCrashWhenEmpty)
+TEST(ExponentialSearchTest, GetNearestValueWorksAndDoesNotCrashWhenEmpty)
 {
     testGetNearestValueDoesNotCrashWithEmptyUnsignedInts<SearchForTest, ValuesForTest>();
 }
 
-TEST(BinarySearchWithSkipTest, GetNearestValueWorksWhenThereIsOneValue)
+TEST(ExponentialSearchTest, GetNearestValueWorksWhenThereIsOneValue)
 {
     testGetNearestValueWithOneUnsignedInt<SearchForTest, ValuesForTest>();
 }
 
-TEST(BinarySearchWithSkipTest, GetNearestValueWorksWhenThereAreDuplicateValues)
+TEST(ExponentialSearchTest, GetNearestValueWorksWhenThereAreDuplicateValues)
 {
     testGetNearestValueWithDuplicateUnsignedInts<SearchForTest, ValuesForTest>();
 }
 
-TEST(BinarySearchWithSkipTest, GetNearestValueWorksWhenThereAreMultipleValues)
+TEST(ExponentialSearchTest, GetNearestValueWorksWhenThereAreMultipleValues)
 {
     testGetNearestValueWithMultipleSortedUnsignedInts<SearchForTest, ValuesForTest>();
 }
 
-TEST(BinarySearchWithSkipTest, GetNearestValueWorksWhenNearestValueIsLower)
+TEST(ExponentialSearchTest, GetNearestValueWorksWhenNearestValueIsLower)
 {
     testGetNearestValueWhenNearestValueIsLowerWithSortedUnsignedInts<SearchForTest, ValuesForTest>();
 }
 
-TEST(BinarySearchWithSkipTest, GetNearestValueWorksWhenNearestValueIsHigher)
+TEST(ExponentialSearchTest, GetNearestValueWorksWhenNearestValueIsHigher)
 {
     testGetNearestValueWhenNearestValueIsHigherWithSortedUnsignedInts<SearchForTest, ValuesForTest>();
 }
 
-TEST(BinarySearchWithSkipTest, GetIndexOfNearestValueWorksAndDoesNotCrashWhenEmpty)
+TEST(ExponentialSearchTest, GetIndexOfNearestValueWorksAndDoesNotCrashWhenEmpty)
 {
     testGetIndexOfNearestValueDoesNotCrashWithEmptyUnsignedInts<SearchForTest, ValuesForTest>();
 }
 
-TEST(BinarySearchWithSkipTest, GetIndexOfNearestValueWorksWhenThereIsOneValue)
+TEST(ExponentialSearchTest, GetIndexOfNearestValueWorksWhenThereIsOneValue)
 {
     testGetIndexOfNearestValueWithOneUnsignedInt<SearchForTest, ValuesForTest>();
 }
 
-TEST(BinarySearchWithSkipTest, GetIndexOfNearestValueWorksWhenThereAreDuplicateValues)
+TEST(ExponentialSearchTest, GetIndexOfNearestValueWorksWhenThereAreDuplicateValues)
 {
     ValuesForTest duplicateValues{0, 0, 0, 0, 0};
     SearchForTest search(duplicateValues);
@@ -66,17 +66,17 @@ TEST(BinarySearchWithSkipTest, GetIndexOfNearestValueWorksWhenThereAreDuplicateV
     EXPECT_EQ(4U, search.getIndexOfNearestValue(33));
 }
 
-TEST(BinarySearchWithSkipTest, GetIndexOfNearestValueWorksWhenThereAreMultipleValues)
+TEST(ExponentialSearchTest, GetIndexOfNearestValueWorksWhenThereAreMultipleValues)
 {
     testGetIndexOfNearestValueWithMultipleSortedUnsignedInts<SearchForTest, ValuesForTest>();
 }
 
-TEST(BinarySearchWithSkipTest, GetIndexOfNearestValueWorksWhenNearestValueIsLower)
+TEST(ExponentialSearchTest, GetIndexOfNearestValueWorksWhenNearestValueIsLower)
 {
     testGetIndexOfNearestValueWhenNearestValueIsLowerWithSortedUnsignedInts<SearchForTest, ValuesForTest>();
 }
 
-TEST(BinarySearchWithSkipTest, GetIndexOfNearestValueWorksWhenNearestValueIsHigher)
+TEST(ExponentialSearchTest, GetIndexOfNearestValueWorksWhenNearestValueIsHigher)
 {
     testGetIndexOfNearestValueWhenNearestValueIsHigherWithSortedUnsignedInts<SearchForTest, ValuesForTest>();
 }

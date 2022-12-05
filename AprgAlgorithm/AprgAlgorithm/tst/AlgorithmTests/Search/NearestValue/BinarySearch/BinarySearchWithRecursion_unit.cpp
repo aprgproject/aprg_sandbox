@@ -1,9 +1,9 @@
-#include <Algorithm/Search/SingleValue/TernarySearch/TernarySearch.hpp>
-#include <AlgorithmTests/Search/SingleValue/Utilities/CommonTestsWithSearch.hpp>
+#include <Algorithm/Search/NearestValue/BinarySearch/BinarySearchWithRecursion.hpp>
+#include <AlgorithmTests/Search/NearestValue/Utilities/CommonTestsWithNearestValueSearch.hpp>
 
 #include <gtest/gtest.h>
 
-using namespace alba::algorithm::CommonTestsWithSearch;
+using namespace alba::algorithm::CommonTestsWithNearestValueSearch;
 using namespace std;
 
 namespace alba
@@ -15,81 +15,81 @@ namespace algorithm
 namespace
 {
 using ValuesForTest = vector<unsigned int>;
-using SearchForTest = TernarySearch<ValuesForTest>;
+using SearchForTest = BinarySearchWithRecursion<ValuesForTest>;
 }
 
-TEST(TernarySearchTest, GetNearestValueWorksAndDoesNotCrashWhenEmpty)
+TEST(BinarySearchWithRecursionTest, GetNearestValueWorksAndDoesNotCrashWhenEmpty)
 {
     testGetNearestValueDoesNotCrashWithEmptyUnsignedInts<SearchForTest, ValuesForTest>();
 }
 
-TEST(TernarySearchTest, GetNearestValueWorksWhenThereIsOneValue)
+TEST(BinarySearchWithRecursionTest, GetNearestValueWorksWhenThereIsOneValue)
 {
     testGetNearestValueWithOneUnsignedInt<SearchForTest, ValuesForTest>();
 }
 
-TEST(TernarySearchTest, GetNearestValueWorksWhenThereAreDuplicateValues)
+TEST(BinarySearchWithRecursionTest, GetNearestValueWorksWhenThereAreDuplicateValues)
 {
     testGetNearestValueWithDuplicateUnsignedInts<SearchForTest, ValuesForTest>();
 }
 
-TEST(TernarySearchTest, GetNearestValueWorksWhenThereAreMultipleValues)
+TEST(BinarySearchWithRecursionTest, GetNearestValueWorksWhenThereAreMultipleValues)
 {
     testGetNearestValueWithMultipleSortedUnsignedInts<SearchForTest, ValuesForTest>();
 }
 
-TEST(TernarySearchTest, GetNearestValueWorksWhenNearestValueIsLower)
+TEST(BinarySearchWithRecursionTest, GetNearestValueWorksWhenNearestValueIsLower)
 {
     testGetNearestValueWhenNearestValueIsLowerWithSortedUnsignedInts<SearchForTest, ValuesForTest>();
 }
 
-TEST(TernarySearchTest, GetNearestValueWorksWhenNearestValueIsHigher)
+TEST(BinarySearchWithRecursionTest, GetNearestValueWorksWhenNearestValueIsHigher)
 {
     testGetNearestValueWhenNearestValueIsHigherWithSortedUnsignedInts<SearchForTest, ValuesForTest>();
 }
 
-TEST(TernarySearchTest, GetIndexOfNearestValueWorksAndDoesNotCrashWhenEmpty)
+TEST(BinarySearchWithRecursionTest, GetIndexOfNearestValueWorksAndDoesNotCrashWhenEmpty)
 {
     testGetIndexOfNearestValueDoesNotCrashWithEmptyUnsignedInts<SearchForTest, ValuesForTest>();
 }
 
-TEST(TernarySearchTest, GetIndexOfNearestValueWorksWhenThereIsOneValue)
+TEST(BinarySearchWithRecursionTest, GetIndexOfNearestValueWorksWhenThereIsOneValue)
 {
     testGetIndexOfNearestValueWithOneUnsignedInt<SearchForTest, ValuesForTest>();
 }
 
-TEST(TernarySearchTest, GetIndexOfNearestValueWorksWhenThereAreDuplicateValues)
+TEST(BinarySearchWithRecursionTest, GetIndexOfNearestValueWorksWhenThereAreDuplicateValues)
 {
     ValuesForTest duplicateValues{0, 0, 0, 0, 0};
     SearchForTest search(duplicateValues);
 
-    EXPECT_EQ(4U, search.getIndexOfNearestValue(33));
+    EXPECT_EQ(3U, search.getIndexOfNearestValue(33));
 }
 
-TEST(TernarySearchTest, GetIndexOfNearestValueWorksWhenThereAreMultipleValues)
+TEST(BinarySearchWithRecursionTest, GetIndexOfNearestValueWorksWhenThereAreMultipleValues)
 {
     testGetIndexOfNearestValueWithMultipleSortedUnsignedInts<SearchForTest, ValuesForTest>();
 }
 
-TEST(TernarySearchTest, GetIndexOfNearestValueWorksWhenNearestValueIsLower)
+TEST(BinarySearchWithRecursionTest, GetIndexOfNearestValueWorksWhenNearestValueIsLower)
 {
     testGetIndexOfNearestValueWhenNearestValueIsLowerWithSortedUnsignedInts<SearchForTest, ValuesForTest>();
 }
 
-TEST(TernarySearchTest, GetIndexOfNearestValueWorksWhenNearestValueIsHigher)
+TEST(BinarySearchWithRecursionTest, GetIndexOfNearestValueWorksWhenNearestValueIsHigher)
 {
     testGetIndexOfNearestValueWhenNearestValueIsHigherWithSortedUnsignedInts<SearchForTest, ValuesForTest>();
 }
 
-TEST(TernarySearchTest, GetIndexOfNearestValueWorksWithIndexesWhenDistanceFromLowerToHigherIsOne)
+TEST(BinarySearchWithRecursionTest, GetIndexOfNearestValueWorksWithIndexesWhenDistanceFromLowerToHigherIsOne)
 {
     ValuesForTest sortedValues{6, 13, 14, 25, 33, 43, 51, 53, 64, 72, 84, 93, 95, 96, 97};
     SearchForTest search(sortedValues);
 
-    EXPECT_EQ(4U, search.getIndexOfNearestValue(5U, 6U, 33U));
+    EXPECT_EQ(5U, search.getIndexOfNearestValue(5U, 6U, 33U));
 }
 
-TEST(TernarySearchTest, GetIndexOfNearestValueWorksWithIndexesWhenDistanceFromLowerToHigherIsTwo)
+TEST(BinarySearchWithRecursionTest, GetIndexOfNearestValueWorksWithIndexesWhenDistanceFromLowerToHigherIsTwo)
 {
     ValuesForTest sortedValues{6, 13, 14, 25, 33, 43, 51, 53, 64, 72, 84, 93, 95, 96, 97};
     SearchForTest search(sortedValues);
@@ -97,7 +97,7 @@ TEST(TernarySearchTest, GetIndexOfNearestValueWorksWithIndexesWhenDistanceFromLo
     EXPECT_EQ(4U, search.getIndexOfNearestValue(3U, 5U, 33U));
 }
 
-TEST(TernarySearchTest, GetIndexOfNearestValueWorksWithndexesWhenDistanceFromLowerToHigherIsOdd)
+TEST(BinarySearchWithRecursionTest, GetIndexOfNearestValueWorksWithndexesWhenDistanceFromLowerToHigherIsOdd)
 {
     ValuesForTest sortedValues{6, 13, 14, 25, 33, 43, 51, 53, 64, 72, 84, 93, 95, 96, 97};
     SearchForTest search(sortedValues);

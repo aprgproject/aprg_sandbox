@@ -32,6 +32,7 @@ CharactersSorter::IsDigitFunction isNibbleDigitValidForCharacter = [](char const
 {
     return digitIndex < 2U;
 };
+
 SmallIntegerSorter::GetDigitAtFunction getNibbleAtForSmallInteger = [](int const& value, unsigned int const mostSignificantDigitIndex) -> unsigned int
 {
     return ((value+10) >> ((7U-mostSignificantDigitIndex)*4U)) & 0xFU;
@@ -40,9 +41,11 @@ SmallIntegerSorter::IsDigitFunction isNibbleDigitValidForSmallInteger = [](int c
 {
     return digitIndex < 8U;
 };
+
 StringsSorter::GetDigitAtFunction getCharacterAtForString = [](string const& value, unsigned int const mostSignificantDigitIndex) -> char
 {
-    char digitValue{};    if(mostSignificantDigitIndex < value.length())
+    char digitValue{};
+    if(mostSignificantDigitIndex < value.length())
     {
         digitValue = value.at(mostSignificantDigitIndex);
     }
@@ -52,6 +55,7 @@ StringsSorter::IsDigitFunction isDigitValidForString = [](string const& value, u
 {
     return digitIndex < value.length();
 };
+
 StabilityCheckObjectsSorter::GetDigitAtFunction getNibbleAtForStabilityCheckObject
 = [](StabilityCheckObject const& value, unsigned int const mostSignificantDigitIndex) -> unsigned int
 {
@@ -61,10 +65,12 @@ StabilityCheckObjectsSorter::IsDigitFunction isNibbleDigitValidForStabilityCheck
 = [](StabilityCheckObject const&, unsigned int const digitIndex) -> bool
 {
     return digitIndex < 2U;
-};}
+};
+}
 
 TEST(RadixSorterUsingQuickSortWith3WayPartitioningTest, SortWorksOnCharactersAndDoesNotCrashUsingEmptyExample)
-{    CharactersSorter sorter(getNibbleAtForCharacter, isNibbleDigitValidForCharacter);
+{
+    CharactersSorter sorter(getNibbleAtForCharacter, isNibbleDigitValidForCharacter);
     testSortUsingEmptyExampleWithCharacters<CharactersSorter, Characters>(sorter);
 }
 

@@ -22,9 +22,11 @@ public:
     using GetDigitAtFunction = std::function<DigitValue(Value const&, unsigned int const)>;
     using IsDigitFunction = std::function<bool(Value const&, unsigned int const)>;
     static constexpr unsigned int CUTOFF_TO_SMALLER_SORT=0; // switch to different sort when size is small
+
     MostSignificantDigitSorter() = delete;
     MostSignificantDigitSorter(
-            GetDigitAtFunction const& getDigitAtFunction,            IsDigitFunction const& isDigitInvalidFunction)
+            GetDigitAtFunction const& getDigitAtFunction,
+            IsDigitFunction const& isDigitInvalidFunction)
         : m_getDigitAtFunction(getDigitAtFunction)
         , m_isDigitInvalidFunction(isDigitInvalidFunction)
     {}
@@ -152,10 +154,12 @@ private:
         for(unsigned int i=0; i<MAX_NUMBER_OF_DIGIT_VALUES; i++)
         {
             unsigned int newLowContainerIndex(lowContainerIndex+newIndexes.at(i));
-            unsigned int newHighContainerIndex(lowContainerIndex+newIndexes.at(i+1)-1U);            if(newLowContainerIndex < newHighContainerIndex)
+            unsigned int newHighContainerIndex(lowContainerIndex+newIndexes.at(i+1)-1U);
+            if(newLowContainerIndex < newHighContainerIndex)
             {
                 sortStartingAtMostSignificantDigitInternal(valuesToSort, newLowContainerIndex, newHighContainerIndex, digitIndex+1);
-            }        }
+            }
+        }
     }
 
     GetDigitAtFunction m_getDigitAtFunction;

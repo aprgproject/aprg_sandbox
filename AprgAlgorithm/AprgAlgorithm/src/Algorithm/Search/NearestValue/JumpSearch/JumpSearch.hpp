@@ -1,6 +1,6 @@
 #pragma once
 
-#include <Algorithm/Search/SingleValue/LinearSearch/LinearSearchWithTwoIndices.hpp>
+#include <Algorithm/Search/NearestValue/LinearSearch/LinearSearchWithTwoIndices.hpp>
 #include <Common/Math/Helpers/SignRelatedHelpers.hpp>
 #include <Common/Math/Helpers/PrecisionHelpers.hpp>
 

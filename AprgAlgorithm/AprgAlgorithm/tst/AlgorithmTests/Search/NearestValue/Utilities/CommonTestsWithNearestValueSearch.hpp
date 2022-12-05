@@ -10,7 +10,7 @@ namespace alba
 namespace algorithm
 {
 
-namespace CommonTestsWithSearch
+namespace CommonTestsWithNearestValueSearch
 {
 
 // getNearestValue
