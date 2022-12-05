@@ -15,14 +15,12 @@ namespace algorithm
 namespace
 {
 using ValuesForTest = vector<unsigned int>;
-using SearchForTest = InterpolationSearch<ValuesForTest>;
+using SearchForTest = InterpolationNearestValueSearch<ValuesForTest>;
 }
 
-TEST(InterpolationSearchTest, GetNearestValueWorksAndDoesNotCrashWhenEmpty)
-{
+TEST(InterpolationSearchTest, GetNearestValueWorksAndDoesNotCrashWhenEmpty){
     testGetNearestValueDoesNotCrashWithEmptyUnsignedInts<SearchForTest, ValuesForTest>();
 }
-
 TEST(InterpolationSearchTest, GetNearestValueWorksWhenThereIsOneValue)
 {
     testGetNearestValueWithOneUnsignedInt<SearchForTest, ValuesForTest>();

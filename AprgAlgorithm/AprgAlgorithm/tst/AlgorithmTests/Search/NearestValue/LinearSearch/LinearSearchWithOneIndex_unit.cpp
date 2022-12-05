@@ -15,14 +15,12 @@ namespace algorithm
 namespace
 {
 using ValuesForTest = vector<unsigned int>;
-using SearchForTest = LinearSearchWithOneIndex<ValuesForTest>;
+using SearchForTest = LinearNearestValueSearchWithOneIndex<ValuesForTest>;
 }
 
-TEST(LinearSearchWithOneIndexTest, GetNearestValueWorksAndDoesNotCrashWhenEmpty)
-{
+TEST(LinearSearchWithOneIndexTest, GetNearestValueWorksAndDoesNotCrashWhenEmpty){
     testGetNearestValueDoesNotCrashWithEmptyUnsignedInts<SearchForTest, ValuesForTest>();
 }
-
 TEST(LinearSearchWithOneIndexTest, GetNearestValueWorksWhenThereIsOneValue)
 {
     testGetNearestValueWithOneUnsignedInt<SearchForTest, ValuesForTest>();

@@ -15,14 +15,12 @@ namespace algorithm
 namespace
 {
 using ValuesForTest = vector<unsigned int>;
-using SearchForTest = TernarySearch<ValuesForTest>;
+using SearchForTest = TernaryNearestValueSearch<ValuesForTest>;
 }
 
-TEST(TernarySearchTest, GetNearestValueWorksAndDoesNotCrashWhenEmpty)
-{
+TEST(TernarySearchTest, GetNearestValueWorksAndDoesNotCrashWhenEmpty){
     testGetNearestValueDoesNotCrashWithEmptyUnsignedInts<SearchForTest, ValuesForTest>();
 }
-
 TEST(TernarySearchTest, GetNearestValueWorksWhenThereIsOneValue)
 {
     testGetNearestValueWithOneUnsignedInt<SearchForTest, ValuesForTest>();
