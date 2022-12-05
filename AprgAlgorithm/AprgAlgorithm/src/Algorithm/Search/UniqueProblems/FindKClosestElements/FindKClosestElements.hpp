@@ -3,10 +3,12 @@
 #include <Algorithm/Utilities/InvalidIndex.hpp>
 #include <Algorithm/Search/NearestValue/BinarySearch/BinaryNearestValueSearchWithTwoIndices.hpp>
 
-namespace alba{
+namespace alba
+{
 
 namespace algorithm
 {
+
 template <typename Values>
 class FindKClosestElements
 {
@@ -17,10 +19,12 @@ public:
     static constexpr Index INVALID_INDEX = getInvalidIndex<Index>();
 
     FindKClosestElements(Values const& values) // values can be unsorted
-        : m_values(values)    {}
+        : m_values(values)
+    {}
 
     IndexPair getIndexPairClosestElements(
-            unsigned int const numberOfClosestElements,            Value const& valueToCheck)
+            unsigned int const numberOfClosestElements,
+            Value const& valueToCheck)
     {
         IndexPair result{INVALID_INDEX, INVALID_INDEX};
 

@@ -4,8 +4,10 @@
 #include <Common/Container/AlbaContainerHelper.hpp>
 
 #include <algorithm>
+
 namespace alba
 {
+
 namespace algorithm
 {
 
@@ -18,10 +20,12 @@ public:
     static constexpr Index INVALID_INDEX = getInvalidIndex<Index>();
 
     BinarySearchWithCppFunctions(Values const& sortedValues)
-        : m_sortedValues(sortedValues)    {}
+        : m_sortedValues(sortedValues)
+    {}
 
     Index getIndexOfValue(Value const& value) const
-    {        Index result(INVALID_INDEX);
+    {
+        Index result(INVALID_INDEX);
         if(!m_sortedValues.empty())
         {
             auto lowerBoundIt = std::lower_bound(m_sortedValues.cbegin(), m_sortedValues.cend(), value); // assumption is non set

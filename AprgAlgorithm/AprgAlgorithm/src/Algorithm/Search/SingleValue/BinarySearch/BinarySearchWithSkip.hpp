@@ -4,8 +4,10 @@
 
 namespace alba
 {
+
 namespace algorithm
 {
+
 template <typename Values>
 class BinarySearchWithSkip
 {
@@ -15,10 +17,12 @@ public:
     static constexpr Index INVALID_INDEX = getInvalidIndex<Index>();
 
     BinarySearchWithSkip(Values const& sortedValues)
-        : m_sortedValues(sortedValues)    {}
+        : m_sortedValues(sortedValues)
+    {}
 
     Index getIndexOfValue(Value const& value) const
-    {        Index result(INVALID_INDEX);
+    {
+        Index result(INVALID_INDEX);
         if(!m_sortedValues.empty())
         {
             Index possibleIndex(getIndexUsingForwardSkip(value));

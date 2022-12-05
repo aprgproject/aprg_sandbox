@@ -22,6 +22,7 @@ TEST(SortAKSortedContainerTest, SortWorksOnIntegersAndDoesNotCrashUsingEmptyExam
     Integers emptyContainer;
 
     sorter.sort(3U, emptyContainer);
+
     EXPECT_TRUE(emptyContainer.empty());
 }
 
@@ -57,6 +58,7 @@ TEST(SortAKSortedContainerTest, SortWorksOnIntegersUsingExample2)
     Integers valuesToExpect{4, 7, 8, 9, 10, 11, 12, 13};
     EXPECT_EQ(valuesToExpect, valuesToTest);
 }
+
 }
 
 }

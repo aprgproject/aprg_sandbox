@@ -6,8 +6,10 @@
 
 namespace alba
 {
+
 namespace algorithm
 {
+
 template <typename Values>
 class LinearSearchWithOneIndex
 {
@@ -17,10 +19,12 @@ public:
     static constexpr Index INVALID_INDEX = getInvalidIndex<Index>();
 
     LinearSearchWithOneIndex(Values const& values) // values can be unsorted
-        : m_values(values)    {}
+        : m_values(values)
+    {}
 
     Index getIndexOfValue(Value const& value) const
-    {        Index result(INVALID_INDEX);
+    {
+        Index result(INVALID_INDEX);
         if(!m_values.empty())
         {
             result = getIndexOfValueWithoutCheck(0U, m_values.size()-1, value);

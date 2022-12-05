@@ -5,8 +5,10 @@
 
 namespace alba
 {
+
 namespace algorithm
 {
+
 template <typename Values>
 class ExponentialNearestValueSearch
 {
@@ -16,10 +18,12 @@ public:
     static constexpr Index INVALID_INDEX = getInvalidIndex<Index>();
 
     ExponentialNearestValueSearch(Values const& values) // values can be unsorted
-        : m_values(values)    {}
+        : m_values(values)
+    {}
 
     Value getNearestValue(Value const& valueToCheck)
-    {        Value result{};
+    {
+        Value result{};
         Index selectedIndex(getIndexOfNearestValue(valueToCheck));
         if(selectedIndex != INVALID_INDEX)
         {

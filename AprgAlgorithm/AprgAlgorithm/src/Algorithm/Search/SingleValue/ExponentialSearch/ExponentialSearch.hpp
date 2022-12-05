@@ -5,8 +5,10 @@
 
 namespace alba
 {
+
 namespace algorithm
 {
+
 template <typename Values>
 class ExponentialSearch
 {
@@ -16,10 +18,12 @@ public:
     static constexpr Index INVALID_INDEX = getInvalidIndex<Index>();
 
     ExponentialSearch(Values const& values) // values can be unsorted
-        : m_values(values)    {}
+        : m_values(values)
+    {}
 
     Index getIndexOfValue(Value const& valueToCheck)
-    {        Index result(INVALID_INDEX);
+    {
+        Index result(INVALID_INDEX);
 
         if(!m_values.empty())
         {

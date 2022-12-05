@@ -5,8 +5,10 @@
 
 namespace alba
 {
+
 namespace algorithm
 {
+
 template <typename Values>
 class LinearNearestValueSearchWithTwoIndices
 {
@@ -16,10 +18,12 @@ public:
     static constexpr Index INVALID_INDEX = getInvalidIndex<Index>();
 
     LinearNearestValueSearchWithTwoIndices(Values const& values) // values can be unsorted
-        : m_startIndex(INVALID_INDEX)        , m_endIndex(INVALID_INDEX)
+        : m_startIndex(INVALID_INDEX)
+        , m_endIndex(INVALID_INDEX)
         , m_values(values)
     {
-        setInitialIndexes();    }
+        setInitialIndexes();
+    }
 
     LinearNearestValueSearchWithTwoIndices(Index const lowerIndex, Index const higherIndex, Values const& sortedValues)
         : m_startIndex(INVALID_INDEX)

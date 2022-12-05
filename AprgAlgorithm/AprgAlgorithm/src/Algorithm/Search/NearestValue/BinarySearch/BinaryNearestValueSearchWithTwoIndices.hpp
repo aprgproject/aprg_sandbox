@@ -3,10 +3,12 @@
 #include <Algorithm/Utilities/InvalidIndex.hpp>
 #include <Common/Math/Helpers/SignRelatedHelpers.hpp>
 
-namespace alba{
+namespace alba
+{
 
 namespace algorithm
 {
+
 template <typename Values>
 class BinaryNearestValueSearchWithTwoIndices
 {
@@ -16,10 +18,12 @@ public:
     static constexpr Index INVALID_INDEX = getInvalidIndex<Index>();
 
     BinaryNearestValueSearchWithTwoIndices(Values const& sortedValues)
-        : m_lowerIndex(INVALID_INDEX)        , m_higherIndex(INVALID_INDEX)
+        : m_lowerIndex(INVALID_INDEX)
+        , m_higherIndex(INVALID_INDEX)
         , m_sortedValues(sortedValues)
     {
-        setInitialIndexes();    }
+        setInitialIndexes();
+    }
 
     BinaryNearestValueSearchWithTwoIndices(Index const lowerIndex, Index const higherIndex, Values const& sortedValues)
         : m_lowerIndex(INVALID_INDEX)

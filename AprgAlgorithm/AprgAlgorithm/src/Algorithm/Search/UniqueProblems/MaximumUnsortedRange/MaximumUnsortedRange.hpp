@@ -7,8 +7,10 @@
 
 namespace alba
 {
+
 namespace algorithm
 {
+
 template <typename Values>
 class MaximumUnsortedRange
 {
@@ -23,9 +25,11 @@ public:
     static constexpr Index INVALID_INDEX = getInvalidIndex<Index>();
 
     MaximumUnsortedRange() = default;
+
     IndexPair getMaximumUnsortedRange(Values const& valuesToSort) const
     {
-        IndexPair result{INVALID_INDEX, INVALID_INDEX};        if(!valuesToSort.empty())
+        IndexPair result{INVALID_INDEX, INVALID_INDEX};
+        if(!valuesToSort.empty())
         {
             Index startIndex(getStartIndex(valuesToSort));
             if(startIndex+1U < valuesToSort.size())

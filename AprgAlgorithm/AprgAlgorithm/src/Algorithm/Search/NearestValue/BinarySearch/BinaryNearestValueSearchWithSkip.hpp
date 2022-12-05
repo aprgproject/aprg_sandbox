@@ -3,10 +3,12 @@
 #include <Algorithm/Utilities/InvalidIndex.hpp>
 #include <Common/Math/Helpers/SignRelatedHelpers.hpp>
 
-namespace alba{
+namespace alba
+{
 
 namespace algorithm
 {
+
 template <typename Values>
 class BinaryNearestValueSearchWithSkip
 {
@@ -16,10 +18,12 @@ public:
     static constexpr Index INVALID_INDEX = getInvalidIndex<Index>();
 
     BinaryNearestValueSearchWithSkip(Values const& sortedValues)
-        : m_sortedValues(sortedValues)    {}
+        : m_sortedValues(sortedValues)
+    {}
 
     Value getNearestValue(Value const& value) const
-    {        Value result{};
+    {
+        Value result{};
         if(!m_sortedValues.empty())
         {
             Index lowerIndex(getNearestLowerBoundIndex(value));

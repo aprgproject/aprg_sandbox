@@ -3,8 +3,6 @@
 #include <AlgorithmTests/Sort/Utilities/StabilityCheckObject.hpp>
 
 #include <gtest/gtest.h>
-
-#include <limits>
 #include <list>
 
 using namespace alba::algorithm::CommonTestsWithSorter;
