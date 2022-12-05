@@ -169,12 +169,10 @@ private:
             else if(value < middleValue)
             {
                 m_higherIndex = middleIndex;
-                // m_higherIndex = (m_lowerIndex+1 == middleIndex) ? middleIndex : middleIndex-1; // search we are searching nearest values we cant use this
             }
             else if(middleValue < value)
             {
                 m_lowerIndex = middleIndex;
-                // m_lowerIndex = (middleIndex+1 == m_higherIndex) ? middleIndex : middleIndex+1; // search we are searching nearest values we cant use this
             }
         }
     }

@@ -1,6 +1,6 @@
 #pragma once
 
-#include <Algorithm/Search/NearestValue/LinearSearch/LinearSearchWithTwoIndices.hpp>
+#include <Algorithm/Search/NearestValue/LinearSearch/LinearNearestValueSearchWithTwoIndices.hpp>
 #include <Common/Math/Helpers/SignRelatedHelpers.hpp>
 #include <Common/Math/Helpers/PrecisionHelpers.hpp>
 
@@ -21,7 +21,7 @@ public:
     static constexpr Index INVALID_INDEX = std::numeric_limits<Index>::max();
 
     JumpNearestValueSearch(Values const& values) // values can be unsorted
-        : m_blockSize(std::max(1U, mathHelper::getIntegerAfterFloorOfDoubleValue<Index>(sqrt(values.size()))))
+        : m_blockSize(getOptimalSize(values))
         , m_values(values)
     {}
 
@@ -58,13 +58,20 @@ public:
         if(shouldContinueToLinearSearch)
         {
             // continue to linear search
-            LinearNearestValueSearchWithTwoIndices<Values> linearSearch(blockStartIndex, blockEndIndex, m_values); // perform linear search on that block
+            LinearNearestValueSearchWithTwoIndices<Values> linearSearch(
+                        blockStartIndex, blockEndIndex, m_values); // perform linear search on that block
             result = linearSearch.getIndexOfNearestValue(valueToCheck);
         }
         return result;
     }
 
 private:
+
+    Index getOptimalSize(Values const& values) const
+    {
+        // optimal size is squareroot size
+        return std::max(1U, mathHelper::getIntegerAfterFloorOfDoubleValue<Index>(sqrt(values.size())));
+    }
 
     Index m_blockSize;
     Values const& m_values;

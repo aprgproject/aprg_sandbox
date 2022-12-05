@@ -1,6 +1,6 @@
 #pragma once
 
-#include <Algorithm/Search/NearestValue/BinarySearch/BinarySearchWithTwoIndices.hpp>
+#include <Algorithm/Search/NearestValue/BinarySearch/BinaryNearestValueSearchWithTwoIndices.hpp>
 
 #include <limits>
 

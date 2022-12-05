@@ -1,4 +1,4 @@
-#include <Algorithm/Search/NearestValue/InterpolationSearch/InterpolationSearch.hpp>
+#include <Algorithm/Search/NearestValue/InterpolationSearch/InterpolationNearestValueSearch.hpp>
 #include <AlgorithmTests/Search/NearestValue/Utilities/CommonTestsWithNearestValueSearch.hpp>
 
 #include <gtest/gtest.h>
@@ -18,45 +18,47 @@ using ValuesForTest = vector<unsigned int>;
 using SearchForTest = InterpolationNearestValueSearch<ValuesForTest>;
 }
 
-TEST(InterpolationSearchTest, GetNearestValueWorksAndDoesNotCrashWhenEmpty){
+TEST(InterpolationNearestValueSearchTest, GetNearestValueWorksAndDoesNotCrashWhenEmpty)
+{
     testGetNearestValueDoesNotCrashWithEmptyUnsignedInts<SearchForTest, ValuesForTest>();
 }
-TEST(InterpolationSearchTest, GetNearestValueWorksWhenThereIsOneValue)
+
+TEST(InterpolationNearestValueSearchTest, GetNearestValueWorksWhenThereIsOneValue)
 {
     testGetNearestValueWithOneUnsignedInt<SearchForTest, ValuesForTest>();
 }
 
-TEST(InterpolationSearchTest, GetNearestValueWorksWhenThereAreDuplicateValues)
+TEST(InterpolationNearestValueSearchTest, GetNearestValueWorksWhenThereAreDuplicateValues)
 {
     testGetNearestValueWithDuplicateUnsignedInts<SearchForTest, ValuesForTest>();
 }
 
-TEST(InterpolationSearchTest, GetNearestValueWorksWhenThereAreMultipleValues)
+TEST(InterpolationNearestValueSearchTest, GetNearestValueWorksWhenThereAreMultipleValues)
 {
     testGetNearestValueWithMultipleSortedUnsignedInts<SearchForTest, ValuesForTest>();
 }
 
-TEST(InterpolationSearchTest, GetNearestValueWorksWhenNearestValueIsLower)
+TEST(InterpolationNearestValueSearchTest, GetNearestValueWorksWhenNearestValueIsLower)
 {
     testGetNearestValueWhenNearestValueIsLowerWithSortedUnsignedInts<SearchForTest, ValuesForTest>();
 }
 
-TEST(InterpolationSearchTest, GetNearestValueWorksWhenNearestValueIsHigher)
+TEST(InterpolationNearestValueSearchTest, GetNearestValueWorksWhenNearestValueIsHigher)
 {
     testGetNearestValueWhenNearestValueIsHigherWithSortedUnsignedInts<SearchForTest, ValuesForTest>();
 }
 
-TEST(InterpolationSearchTest, GetIndexOfNearestValueWorksAndDoesNotCrashWhenEmpty)
+TEST(InterpolationNearestValueSearchTest, GetIndexOfNearestValueWorksAndDoesNotCrashWhenEmpty)
 {
     testGetIndexOfNearestValueDoesNotCrashWithEmptyUnsignedInts<SearchForTest, ValuesForTest>();
 }
 
-TEST(InterpolationSearchTest, GetIndexOfNearestValueWorksWhenThereIsOneValue)
+TEST(InterpolationNearestValueSearchTest, GetIndexOfNearestValueWorksWhenThereIsOneValue)
 {
     testGetIndexOfNearestValueWithOneUnsignedInt<SearchForTest, ValuesForTest>();
 }
 
-TEST(InterpolationSearchTest, GetIndexOfNearestValueWorksWhenThereAreDuplicateValues)
+TEST(InterpolationNearestValueSearchTest, GetIndexOfNearestValueWorksWhenThereAreDuplicateValues)
 {
     ValuesForTest duplicateValues{0, 0, 0, 0, 0};
     SearchForTest search(duplicateValues);
@@ -64,22 +66,22 @@ TEST(InterpolationSearchTest, GetIndexOfNearestValueWorksWhenThereAreDuplicateVa
     EXPECT_EQ(3U, search.getIndexOfNearestValue(33));
 }
 
-TEST(InterpolationSearchTest, GetIndexOfNearestValueWorksWhenThereAreMultipleValues)
+TEST(InterpolationNearestValueSearchTest, GetIndexOfNearestValueWorksWhenThereAreMultipleValues)
 {
     testGetIndexOfNearestValueWithMultipleSortedUnsignedInts<SearchForTest, ValuesForTest>();
 }
 
-TEST(InterpolationSearchTest, GetIndexOfNearestValueWorksWhenNearestValueIsLower)
+TEST(InterpolationNearestValueSearchTest, GetIndexOfNearestValueWorksWhenNearestValueIsLower)
 {
     testGetIndexOfNearestValueWhenNearestValueIsLowerWithSortedUnsignedInts<SearchForTest, ValuesForTest>();
 }
 
-TEST(InterpolationSearchTest, GetIndexOfNearestValueWorksWhenNearestValueIsHigher)
+TEST(InterpolationNearestValueSearchTest, GetIndexOfNearestValueWorksWhenNearestValueIsHigher)
 {
     testGetIndexOfNearestValueWhenNearestValueIsHigherWithSortedUnsignedInts<SearchForTest, ValuesForTest>();
 }
 
-TEST(InterpolationSearchTest, GetNearestValueWorksWithInitialIndexesWhenDistanceFromLowerToHigherIsOne)
+TEST(InterpolationNearestValueSearchTest, GetNearestValueWorksWithInitialIndexesWhenDistanceFromLowerToHigherIsOne)
 {
     ValuesForTest sortedValues{6, 13, 14, 25, 33, 43, 51, 53, 64, 72, 84, 93, 95, 96, 97};
     SearchForTest search(5U, 6U, sortedValues);
@@ -87,7 +89,7 @@ TEST(InterpolationSearchTest, GetNearestValueWorksWithInitialIndexesWhenDistance
     EXPECT_EQ(43U, search.getNearestValue(33));
 }
 
-TEST(InterpolationSearchTest, GetNearestValueWithInitialIndexesWhenDistanceFromLowerToHigherIsTwo)
+TEST(InterpolationNearestValueSearchTest, GetNearestValueWithInitialIndexesWhenDistanceFromLowerToHigherIsTwo)
 {
     ValuesForTest sortedValues{6, 13, 14, 25, 33, 43, 51, 53, 64, 72, 84, 93, 95, 96, 97};
     SearchForTest search(3U, 5U, sortedValues);
@@ -95,7 +97,7 @@ TEST(InterpolationSearchTest, GetNearestValueWithInitialIndexesWhenDistanceFromL
     EXPECT_EQ(33U, search.getNearestValue(33));
 }
 
-TEST(InterpolationSearchTest, GetNearestValueWithInitialIndexesWhenDistanceFromLowerToHigherIsOdd)
+TEST(InterpolationNearestValueSearchTest, GetNearestValueWithInitialIndexesWhenDistanceFromLowerToHigherIsOdd)
 {
     ValuesForTest sortedValues{6, 13, 14, 25, 33, 43, 51, 53, 64, 72, 84, 93, 95, 96, 97};
     SearchForTest search(1U, 8U, sortedValues);

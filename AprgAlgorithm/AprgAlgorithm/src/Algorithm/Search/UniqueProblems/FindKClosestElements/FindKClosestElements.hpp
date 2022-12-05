@@ -1,6 +1,6 @@
 #pragma once
 
-#include <Algorithm/Search/NearestValue/BinarySearch/BinarySearchWithTwoIndices.hpp>
+#include <Algorithm/Search/NearestValue/BinarySearch/BinaryNearestValueSearchWithTwoIndices.hpp>
 
 namespace alba
 {
@@ -27,7 +27,7 @@ public:
     {
         IndexPair result{INVALID_INDEX, INVALID_INDEX};
 
-        BinarySearchWithTwoIndices<Values> binarySearch(m_values);
+        BinaryNearestValueSearchWithTwoIndices<Values> binarySearch(m_values);
         Index nearestIndex(binarySearch.getIndexOfNearestValue(valueToCheck));
         if(nearestIndex != INVALID_INDEX)
         {

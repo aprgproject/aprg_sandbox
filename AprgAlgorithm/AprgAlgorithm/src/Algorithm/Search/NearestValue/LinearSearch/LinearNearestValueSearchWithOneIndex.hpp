@@ -26,12 +26,12 @@ public:
         setInitialIndexes();
     }
 
-    LinearNearestValueSearchWithOneIndex(Index const lowerIndex, Index const higherIndex, Values const& sortedValues)
+    LinearNearestValueSearchWithOneIndex(Index const startIndex, Index const endIndex, Values const& values)
         : m_startIndex(INVALID_INDEX)
         , m_endIndex(INVALID_INDEX)
-        , m_values(sortedValues)
+        , m_values(values)
     {
-        setInitialIndexes(lowerIndex, higherIndex);
+        setInitialIndexes(startIndex, endIndex);
     }
 
     Value getNearestValue(Value const& valueToCheck)
@@ -53,7 +53,7 @@ public:
             Value minimumDeviation(std::numeric_limits<Value>::max());
             for(auto it=m_values.cbegin()+m_startIndex; it!=m_values.cbegin()+m_endIndex; it++)
             {
-                Value value = *it;
+                Value value(*it);
                 if(value == valueToCheck)
                 {
                     result = std::distance(m_values.cbegin(), it);
