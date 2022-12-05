@@ -182,6 +182,18 @@ TEST(BinarySearchWithTwoIndicesTest, SearchWorksWithInitialIndexesWhenDistanceFr
     EXPECT_EQ(33U, search.getHigherValue());
 }
 
+TEST(BinarySearchWithTwoIndicesTest, SearchWorksWithInitialIndexesWhenDistanceFromLowerToHigherIsOddAndValueIsHigher)
+{
+    ValuesForTest sortedValues{6, 13, 14, 25, 33, 43, 51, 53, 64, 72, 84, 93, 95, 96, 97};
+    SearchForTest search(1U, 8U, sortedValues);
+
+    EXPECT_EQ(13U, search.getLowerValue());
+    EXPECT_EQ(64U, search.getHigherValue());
+    EXPECT_EQ(33U, search.getNearestValue(34));
+    EXPECT_EQ(33U, search.getLowerValue());
+    EXPECT_EQ(43U, search.getHigherValue());
+}
+
 }
 
 }

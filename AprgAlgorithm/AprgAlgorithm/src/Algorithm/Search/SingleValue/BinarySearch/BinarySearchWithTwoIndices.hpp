@@ -166,34 +166,21 @@ private:
                 m_higherIndex = middleIndex;
                 break;
             }
-            else if(value > middleValue)
-            {
-                m_lowerIndex = middleIndex+1;
-            }
             else if(value < middleValue)
             {
-                m_higherIndex = middleIndex-1;
+                m_higherIndex = middleIndex;
+                // m_higherIndex = (m_lowerIndex+1 == middleIndex) ? middleIndex : middleIndex-1; // search we are searching nearest values we cant use this
             }
-
-            if(value < m_sortedValues.at(m_lowerIndex))
+            else if(middleValue < value)
             {
-                m_higherIndex = m_lowerIndex;
-                m_lowerIndex -= (m_lowerIndex>0U) ? 1U : 0U;
-                break;
-            }
-            else if(m_sortedValues.at(m_higherIndex) < value)
-            {
-                m_lowerIndex = m_higherIndex;
-                m_higherIndex += (m_higherIndex+1U<m_sortedValues.size()) ? 1U : 0U;
-                break;
+                m_lowerIndex = middleIndex;
+                // m_lowerIndex = (middleIndex+1 == m_higherIndex) ? middleIndex : middleIndex+1; // search we are searching nearest values we cant use this
             }
         }
     }
-
     void moveIndexesCloserWhenValueIsBeyondTheIndices(Value const& value)
     {
-        if(m_sortedValues.at(m_lowerIndex) > value)
-        {
+        if(m_sortedValues.at(m_lowerIndex) > value)        {
             m_higherIndex=m_lowerIndex;
         }
         else if(m_sortedValues.at(m_higherIndex) < value)
