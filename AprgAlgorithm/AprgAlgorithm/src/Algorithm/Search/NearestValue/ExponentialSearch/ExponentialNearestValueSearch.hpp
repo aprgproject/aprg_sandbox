@@ -1,30 +1,25 @@
 #pragma once
 
+#include <Algorithm/Utilities/InvalidIndex.hpp>
 #include <Algorithm/Search/NearestValue/BinarySearch/BinaryNearestValueSearchWithTwoIndices.hpp>
-
-#include <limits>
 
 namespace alba
 {
-
 namespace algorithm
 {
-
 template <typename Values>
 class ExponentialNearestValueSearch
 {
 public:
     using Index = unsigned int;
     using Value = typename Values::value_type;
-    static constexpr Index INVALID_INDEX = std::numeric_limits<Index>::max();
+    static constexpr Index INVALID_INDEX = getInvalidIndex<Index>();
 
     ExponentialNearestValueSearch(Values const& values) // values can be unsorted
-        : m_values(values)
-    {}
+        : m_values(values)    {}
 
     Value getNearestValue(Value const& valueToCheck)
-    {
-        Value result{};
+    {        Value result{};
         Index selectedIndex(getIndexOfNearestValue(valueToCheck));
         if(selectedIndex != INVALID_INDEX)
         {

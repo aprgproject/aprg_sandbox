@@ -1,13 +1,12 @@
 #pragma once
 
 #include <Algorithm/Search/SingleValue/LinearSearch/LinearSearchWithTwoIndices.hpp>
+#include <Algorithm/Utilities/InvalidIndex.hpp>
 #include <Common/Math/Helpers/PrecisionHelpers.hpp>
 
 #include <limits>
-
 namespace alba
 {
-
 namespace algorithm
 {
 
@@ -17,25 +16,21 @@ class JumpSearch
 public:
     using Index = unsigned int;
     using Value = typename Values::value_type;
-    static constexpr Index INVALID_INDEX = std::numeric_limits<Index>::max();
+    static constexpr Index INVALID_INDEX = getInvalidIndex<Index>();
 
     JumpSearch(Values const& values) // values can be unsorted
-        : m_blockSize(getOptimalSize(values))
-        , m_values(values)
+        : m_blockSize(getOptimalSize(values))        , m_values(values)
     {}
 
     Index getIndexOfValue(Value const& valueToCheck)
     {
         Index result(INVALID_INDEX);
-        bool shouldContinueToLinearSearch(true);
 
         // find the block where value is included
-        Index blockStartIndex(0U);
-        Index blockEndIndex(0U);
+        Index blockStartIndex(0U);        Index blockEndIndex(0U);
         while(blockEndIndex<m_values.size() && m_values.at(blockEndIndex)<valueToCheck)
         {
-            blockStartIndex = blockEndIndex;
-            blockEndIndex += m_blockSize;
+            blockStartIndex = blockEndIndex;            blockEndIndex += m_blockSize;
         }
 
         LinearSearchWithTwoIndices<Values> linearSearch(m_values); // perform linear search on that block

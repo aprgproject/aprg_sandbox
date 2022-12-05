@@ -1,30 +1,25 @@
 #pragma once
 
+#include <Algorithm/Utilities/InvalidIndex.hpp>
 #include <Common/Math/Helpers/SignRelatedHelpers.hpp>
-
-#include <limits>
 
 namespace alba
 {
-
 namespace algorithm
 {
-
 template <typename Values>
 class LinearNearestValueSearchWithTwoIndices
 {
 public:
     using Index = unsigned int;
     using Value = typename Values::value_type;
-    static constexpr Index INVALID_INDEX = std::numeric_limits<Index>::max();
+    static constexpr Index INVALID_INDEX = getInvalidIndex<Index>();
 
     LinearNearestValueSearchWithTwoIndices(Values const& values) // values can be unsorted
-        : m_startIndex(INVALID_INDEX)
-        , m_endIndex(INVALID_INDEX)
+        : m_startIndex(INVALID_INDEX)        , m_endIndex(INVALID_INDEX)
         , m_values(values)
     {
-        setInitialIndexes();
-    }
+        setInitialIndexes();    }
 
     LinearNearestValueSearchWithTwoIndices(Index const lowerIndex, Index const higherIndex, Values const& sortedValues)
         : m_startIndex(INVALID_INDEX)

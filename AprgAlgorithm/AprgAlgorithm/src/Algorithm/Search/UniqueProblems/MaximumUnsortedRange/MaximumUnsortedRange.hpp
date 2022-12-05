@@ -1,13 +1,14 @@
 #pragma once
 
+#include <Algorithm/Utilities/InvalidIndex.hpp>
+
 #include <algorithm>
+#include <utility>
 
 namespace alba
 {
-
 namespace algorithm
 {
-
 template <typename Values>
 class MaximumUnsortedRange
 {
@@ -19,14 +20,12 @@ public:
     using Index = unsigned int;
     using IndexPair = std::pair<Index, Index>;
     using ValuePair = std::pair<Value, Index>;
-    static constexpr Index INVALID_INDEX = std::numeric_limits<Index>::max();
+    static constexpr Index INVALID_INDEX = getInvalidIndex<Index>();
 
     MaximumUnsortedRange() = default;
-
     IndexPair getMaximumUnsortedRange(Values const& valuesToSort) const
     {
-        IndexPair result{INVALID_INDEX, INVALID_INDEX};
-        if(!valuesToSort.empty())
+        IndexPair result{INVALID_INDEX, INVALID_INDEX};        if(!valuesToSort.empty())
         {
             Index startIndex(getStartIndex(valuesToSort));
             if(startIndex+1U < valuesToSort.size())

@@ -1,28 +1,25 @@
 #pragma once
 
+#include <Algorithm/Utilities/InvalidIndex.hpp>
 #include <Common/Math/Helpers/PrecisionHelpers.hpp>
 
-namespace alba
-{
+namespace alba{
 
 namespace algorithm
 {
-
 template <typename Values>
 class InterpolationSearch
 {
 public:
     using Index = unsigned int;
     using Value = typename Values::value_type;
-    static constexpr Index INVALID_INDEX = std::numeric_limits<Index>::max();
+    static constexpr Index INVALID_INDEX = getInvalidIndex<Index>();
 
     InterpolationSearch(Values const& sortedValues)
-        : m_sortedValues(sortedValues)
-    {}
+        : m_sortedValues(sortedValues)    {}
 
     Index getIndexOfValue(Value const& value) const
-    {
-        Index result(INVALID_INDEX);
+    {        Index result(INVALID_INDEX);
         if(!m_sortedValues.empty())
         {
             result = getIndexOfValueWithoutCheck(0U, m_sortedValues.size()-1, value);

@@ -1,12 +1,11 @@
 #pragma once
 
+#include <Algorithm/Utilities/InvalidIndex.hpp>
 #include <Common/Math/Helpers/SignRelatedHelpers.hpp>
 
 #include <limits>
-
 namespace alba
 {
-
 namespace algorithm
 {
 
@@ -16,15 +15,13 @@ class LinearNearestValueSearchWithOneIndex
 public:
     using Index = unsigned int;
     using Value = typename Values::value_type;
-    static constexpr Index INVALID_INDEX = std::numeric_limits<Index>::max();
+    static constexpr Index INVALID_INDEX = getInvalidIndex<Index>();
 
     LinearNearestValueSearchWithOneIndex(Values const& values) // values can be unsorted
-        : m_startIndex(INVALID_INDEX)
-        , m_endIndex(INVALID_INDEX)
+        : m_startIndex(INVALID_INDEX)        , m_endIndex(INVALID_INDEX)
         , m_values(values)
     {
-        setInitialIndexes();
-    }
+        setInitialIndexes();    }
 
     LinearNearestValueSearchWithOneIndex(Index const startIndex, Index const endIndex, Values const& values)
         : m_startIndex(INVALID_INDEX)

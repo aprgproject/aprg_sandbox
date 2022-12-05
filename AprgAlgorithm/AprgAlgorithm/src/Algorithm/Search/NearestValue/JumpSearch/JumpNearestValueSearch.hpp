@@ -1,13 +1,12 @@
 #pragma once
 
 #include <Algorithm/Search/NearestValue/LinearSearch/LinearNearestValueSearchWithTwoIndices.hpp>
+#include <Algorithm/Utilities/InvalidIndex.hpp>
 #include <Common/Math/Helpers/SignRelatedHelpers.hpp>
 #include <Common/Math/Helpers/PrecisionHelpers.hpp>
-
 #include <limits>
 
-namespace alba
-{
+namespace alba{
 
 namespace algorithm
 {
@@ -18,15 +17,13 @@ class JumpNearestValueSearch
 public:
     using Index = unsigned int;
     using Value = typename Values::value_type;
-    static constexpr Index INVALID_INDEX = std::numeric_limits<Index>::max();
+    static constexpr Index INVALID_INDEX = getInvalidIndex<Index>();
 
     JumpNearestValueSearch(Values const& values) // values can be unsorted
-        : m_blockSize(getOptimalSize(values))
-        , m_values(values)
+        : m_blockSize(getOptimalSize(values))        , m_values(values)
     {}
 
-    Value getNearestValue(Value const& valueToCheck)
-    {
+    Value getNearestValue(Value const& valueToCheck)    {
         Value result{};
         Index selectedIndex(getIndexOfNearestValue(valueToCheck));
         if(selectedIndex != INVALID_INDEX)

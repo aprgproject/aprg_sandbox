@@ -12,53 +12,51 @@ namespace algorithm
 
 namespace
 {
-using Characters = vector<char>;
-using CharactersSorter = SortAKSortedContainer<Characters>;
+using Integers = vector<int>;
+using IntegersSorter = SortAKSortedContainer<Integers>;
 }
 
-TEST(SortAKSortedContainerTest, SortWorksOnCharactersAndDoesNotCrashUsingEmptyExample)
+TEST(SortAKSortedContainerTest, SortWorksOnIntegersAndDoesNotCrashUsingEmptyExample)
 {
-    CharactersSorter sorter;
-    Characters emptyContainer;
+    IntegersSorter sorter;
+    Integers emptyContainer;
 
     sorter.sort(3U, emptyContainer);
-
     EXPECT_TRUE(emptyContainer.empty());
 }
 
-TEST(SortAKSortedContainerTest, SortWorksOnCharactersUsingOneValueExample)
+TEST(SortAKSortedContainerTest, SortWorksOnIntegersUsingOneValueExample)
 {
-    CharactersSorter sorter;
-    Characters valuesToTest{'E'};
+    IntegersSorter sorter;
+    Integers valuesToTest{5};
 
     sorter.sort(3U, valuesToTest);
 
-    Characters valuesToExpect{'E'};
+    Integers valuesToExpect{5};
     EXPECT_EQ(valuesToExpect, valuesToTest);
 }
 
-TEST(SortAKSortedContainerTest, SortWorksOnCharactersUsingExample1)
+TEST(SortAKSortedContainerTest, SortWorksOnIntegersUsingExample1)
 {
-    CharactersSorter sorter;
-    Characters valuesToTest{'F', 'E', 'C', 'B', 'H', 'J', 'I'};
+    IntegersSorter sorter;
+    Integers valuesToTest{6, 5, 3, 2, 8, 10, 9};
 
     sorter.sort(3U, valuesToTest);
 
-    Characters valuesToExpect{'B', 'C', 'E', 'F', 'H', 'I', 'J'};
+    Integers valuesToExpect{2, 3, 5, 6, 8, 9, 10};
     EXPECT_EQ(valuesToExpect, valuesToTest);
 }
 
-TEST(SortAKSortedContainerTest, SortWorksOnCharactersUsingExample2)
+TEST(SortAKSortedContainerTest, SortWorksOnIntegersUsingExample2)
 {
-    CharactersSorter sorter;
-    Characters valuesToTest{'J', 'I', 'H', 'G', 'D', 'M', 'L', 'K'};
+    IntegersSorter sorter;
+    Integers valuesToTest{10, 9, 8, 7, 4, 13, 12, 11};
 
     sorter.sort(4U, valuesToTest);
 
-    Characters valuesToExpect{'D', 'G', 'H', 'I', 'J', 'K', 'L', 'M'};
+    Integers valuesToExpect{4, 7, 8, 9, 10, 11, 12, 13};
     EXPECT_EQ(valuesToExpect, valuesToTest);
 }
-
 }
 
 }

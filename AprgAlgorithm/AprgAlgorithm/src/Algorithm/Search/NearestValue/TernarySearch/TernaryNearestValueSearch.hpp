@@ -1,28 +1,25 @@
 #pragma once
 
+#include <Algorithm/Utilities/InvalidIndex.hpp>
 #include <Common/Math/Helpers/SignRelatedHelpers.hpp>
 
-namespace alba
-{
+namespace alba{
 
 namespace algorithm
 {
-
 template <typename Values>
 class TernaryNearestValueSearch
 {
 public:
     using Index = unsigned int;
     using Value = typename Values::value_type;
-    static constexpr Index INVALID_INDEX = std::numeric_limits<Index>::max();
+    static constexpr Index INVALID_INDEX = getInvalidIndex<Index>();
 
     TernaryNearestValueSearch(Values const& sortedValues)
-        : m_sortedValues(sortedValues)
-    {}
+        : m_sortedValues(sortedValues)    {}
 
     Value getNearestValue(Value const& value) const
-    {
-        Value result{};
+    {        Value result{};
         if(!m_sortedValues.empty())
         {
             Index selectedIndex(getIndexOfNearestValueWithoutCheck(0U, m_sortedValues.size()-1, value));
