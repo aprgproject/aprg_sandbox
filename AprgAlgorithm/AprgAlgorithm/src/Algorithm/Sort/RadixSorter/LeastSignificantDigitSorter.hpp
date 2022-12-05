@@ -11,32 +11,35 @@ namespace alba
 namespace algorithm
 {
 
-template <typename Values, unsigned int MAX_NUMBER_OF_VALUES>
+template <typename Values, unsigned int MAX_NUMBER_OF_DIGIT_VALUES>
 class LeastSignificantDigitSorter : public BaseSorter<Values>
 {
 public:
     using Value = typename Values::value_type;
     using DigitValue = unsigned int; // this needs to be indexable
-    using ArrayOfCountPerDigitValue = std::array<unsigned int, MAX_NUMBER_OF_VALUES+1>;
+    using ArrayOfCountPerDigitValue = std::array<unsigned int, MAX_NUMBER_OF_DIGIT_VALUES+1>;
+    using GetNumberOfDigitsFunction = std::function<unsigned int(Values const&)>;
     using GetDigitAtFunction = std::function<DigitValue(Value const&, unsigned int const)>;
 
     LeastSignificantDigitSorter() = delete;
     LeastSignificantDigitSorter(
+            GetNumberOfDigitsFunction const& getNumberOfDigitsFunction,
             GetDigitAtFunction const& getDigitAtFunction)
-        : m_getDigitAtFunction(getDigitAtFunction)
+        : m_getNumberOfDigitsFunction(getNumberOfDigitsFunction)
+        , m_getDigitAtFunction(getDigitAtFunction)
     {}
 
     void sort(Values & valuesToSort) const override
     {
-        for(int digitIndex=valuesToSort.size()-1; 0<=digitIndex; digitIndex--) // highest index so least signficant first
+        for(int digitIndex=static_cast<int>(m_getNumberOfDigitsFunction(valuesToSort))-1;
+            0<=digitIndex;
+            digitIndex--) // highest index so least signficant first
         {
             sortAtLeastSignificantDigit(valuesToSort, static_cast<unsigned int>(digitIndex));
-        }
-    }
+        }    }
 
     void sortAtLeastSignificantDigit(
-            Values & valuesToSort,
-            unsigned int const digitIndex) const
+            Values & valuesToSort,            unsigned int const digitIndex) const
     {
         // This is called: "key indexed counting"
         // Character index starts in 1 because this array will be used to compute cumulates
@@ -85,13 +88,12 @@ private:
         }
     }
 
+    GetNumberOfDigitsFunction m_getNumberOfDigitsFunction;
     GetDigitAtFunction m_getDigitAtFunction;
 };
-
 // Proposition: Key indexed counting uses ~11N+4R array accesses to sort N items whose keys are integers between 0 and R-1
 // Proposition: Key indexed counting uses extra space proportional to N+R.
 // This is stable
-
 // LSD string (radix) sort
 // -> Consider characters from right to left
 // -> Stably sort using dth character as the key (using key-indexed counting).

@@ -11,15 +11,13 @@ namespace alba
 namespace algorithm
 {
 
-template <typename Values, unsigned int MAX_NUMBER_OF_VALUES>
+template <typename Values, unsigned int MAX_NUMBER_OF_DIGIT_VALUES>
 class RadixSorterUsingCountingSorter : public BaseSorter<Values>
 {
-public:
-    using Value = typename Values::value_type;
+public:    using Value = typename Values::value_type;
     using DigitValue = unsigned int; // this needs to be indexable as its used on CountingSorter
     using GetNumberOfDigitsFunction = std::function<unsigned int(Values const&)>;
     using GetDigitAtFunction = std::function<DigitValue(Value const&, unsigned int const)>;
-
     RadixSorterUsingCountingSorter() = delete;
     RadixSorterUsingCountingSorter(
             GetNumberOfDigitsFunction const& getNumberOfDigitsFunction,
@@ -34,15 +32,13 @@ public:
         for(unsigned int digitIndex=0; digitIndex<numberOfDigits; digitIndex++) // start at least significant digit
         {
             auto m_getDigitFunction = std::bind(m_getDigitAtFunction, std::placeholders::_1, digitIndex);
-            CountingSorterUsingNewPositions<Values, MAX_NUMBER_OF_VALUES> countingSorter(m_getDigitFunction);
+            CountingSorterUsingNewPositions<Values, MAX_NUMBER_OF_DIGIT_VALUES> countingSorter(m_getDigitFunction);
             countingSorter.sort(valuesToSort);
         }
     }
-
 private:
     GetNumberOfDigitsFunction m_getNumberOfDigitsFunction;
-    GetDigitAtFunction m_getDigitAtFunction;
-};
+    GetDigitAtFunction m_getDigitAtFunction;};
 
 }
 
