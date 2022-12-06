@@ -17,7 +17,9 @@ class QuickSorterWithIterativeApproach : public BaseSorter<Values>
 public:
     using Value = typename Values::value_type;
 
-    QuickSorterWithIterativeApproach() = default;
+    QuickSorterWithIterativeApproach(PivotType const pivotType)
+        : m_pivotType(pivotType)
+    {}
 
     void sort(Values & valuesToSort) const override
     {
@@ -47,7 +49,7 @@ private:
             unsigned int lowIndex = inputIndicesStack.top();
             inputIndicesStack.pop();
 
-            unsigned int partitionIndex = partitionAndGetPartitionIndex(valuesToSort, lowIndex, highIndex);
+            unsigned int partitionIndex = partitionAndGetPartitionIndex(valuesToSort, lowIndex, highIndex, m_pivotType);
             if(lowIndex + 1U < partitionIndex)
             {
                 inputIndicesStack.push(lowIndex);
@@ -60,6 +62,9 @@ private:
             }
         }
     }
+
+private:
+    PivotType m_pivotType;
 };
 
 }

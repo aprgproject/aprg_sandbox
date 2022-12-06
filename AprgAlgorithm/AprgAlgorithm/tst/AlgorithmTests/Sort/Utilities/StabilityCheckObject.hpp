@@ -11,6 +11,7 @@ namespace algorithm
 class StabilityCheckObject
 {
 public:
+    StabilityCheckObject();
     StabilityCheckObject(char const visiblePart, unsigned int const notVisiblePart);
     StabilityCheckObject(int const value);
 

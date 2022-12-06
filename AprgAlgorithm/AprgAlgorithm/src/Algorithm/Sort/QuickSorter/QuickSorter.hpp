@@ -14,7 +14,9 @@ class QuickSorter : public BaseSorter<Values>
 {
 public:
 
-    QuickSorter() = default;
+    QuickSorter(PivotType const pivotType)
+        : m_pivotType(pivotType)
+    {}
 
     void sort(Values & valuesToSort) const override
     {
@@ -34,7 +36,7 @@ private:
     {
         if(lowestIndex < highestIndex)
         {
-            unsigned int partitionIndex = partitionAndGetPartitionIndex(valuesToSort, lowestIndex, highestIndex);
+            unsigned int partitionIndex = partitionAndGetPartitionIndex(valuesToSort, lowestIndex, highestIndex, m_pivotType);
             if(lowestIndex != partitionIndex)
             {
                 sort(valuesToSort, lowestIndex, partitionIndex-1); // recursively sort/partition the low part without the partition index
@@ -45,6 +47,9 @@ private:
             }
         }
     }
+
+private:
+    PivotType m_pivotType;
 };
 
 }
@@ -92,7 +97,7 @@ private:
 
 // It picks an element as pivot and partitions the given array around the picked pivot.
 // There are many different versions of quickSort that pick pivot in different ways.
-// -> Always pick first element as pivot (IMPLEMENTED).
+// -> Always pick first element as pivot.
 // -> Always pick last element as pivot
 // -> Pick a random element as pivot.
 // -> Pick median as pivot.

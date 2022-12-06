@@ -29,25 +29,25 @@ using StabilityCheckObjectsSorter = QuickSorterWith3WayPartitioning<StabilityChe
 
 TEST(QuickSorterWith3WayPartitioningTest, SortWorksOnCharactersAndDoesNotCrashUsingEmptyExample)
 {
-    CharactersSorter sorter;
+    CharactersSorter sorter(PivotType::ValueAtLowestIndex);
     testSortUsingEmptyExampleWithCharacters<CharactersSorter, Characters>(sorter);
 }
 
 TEST(QuickSorterWith3WayPartitioningTest, SortWorksOnCharactersUsingOneValueExample)
 {
-    CharactersSorter sorter;
+    CharactersSorter sorter(PivotType::ValueAtLowestIndex);
     testSortUsingOneValueExampleWithCharacters<CharactersSorter, Characters>(sorter);
 }
 
 TEST(QuickSorterWith3WayPartitioningTest, SortWorksOnCharactersUsingExample1)
 {
-    CharactersSorter sorter;
+    CharactersSorter sorter(PivotType::ValueAtLowestIndex);
     testSortUsingExample1WithCharacters<CharactersSorter, Characters>(sorter);
 }
 
 TEST(QuickSorterWith3WayPartitioningTest, SortWorksOnCharactersUsingExample2)
 {
-    CharactersSorter sorter;
+    CharactersSorter sorter(PivotType::ValueAtLowestIndex);
     testSortUsingExample2WithCharacters<CharactersSorter, Characters>(sorter);
 }
 
@@ -55,26 +55,50 @@ TEST(QuickSorterWith3WayPartitioningTest, SortWorksOnCharactersUsingExample2)
 
 TEST(QuickSorterWith3WayPartitioningTest, SortWorksOnPositiveAndNegativeIntegersUsingExample1)
 {
-    IntegersSorter sorter;
+    IntegersSorter sorter(PivotType::ValueAtLowestIndex);
     testSortUsingExample1WithPositiveAndNegativeIntegers<IntegersSorter, Integers>(sorter);
 }
 
 TEST(QuickSorterWith3WayPartitioningTest, SortWorksOnDoublesUsingExample1)
 {
-    DoublesSorter sorter;
+    DoublesSorter sorter(PivotType::ValueAtLowestIndex);
     testSortUsingExample1WithDoubleValues<DoublesSorter, Doubles>(sorter);
 }
 
 TEST(QuickSorterWith3WayPartitioningTest, SortWorksOnStringsUsingExample1)
 {
-    StringsSorter sorter;
+    StringsSorter sorter(PivotType::ValueAtLowestIndex);
     testSortUsingExample1WithStrings<StringsSorter, Strings>(sorter);
 }
 
 TEST(QuickSorterWith3WayPartitioningTest, SortWorksAsNotStableOnStabilityCheckObjectsUsingExample1) // NOT STABLE
 {
-    StabilityCheckObjectsSorter sorter;
+    StabilityCheckObjectsSorter sorter(PivotType::ValueAtLowestIndex);
     testSortAsNotStableUsingExample1WithStabilityCheckObjects<StabilityCheckObjectsSorter, StabilityCheckObjects>(sorter);
+}
+
+TEST(QuickSorterWith3WayPartitioningTest, SortWorksOnCharactersUsingExample1WithPivotWithValueAtLowestIndex)
+{
+    CharactersSorter sorter(PivotType::ValueAtLowestIndex);
+    testSortUsingExample1WithCharacters<CharactersSorter, Characters>(sorter);
+}
+
+TEST(QuickSorterWith3WayPartitioningTest, SortWorksOnCharactersUsingExample1WithPivotWithValueAtHighestIndex)
+{
+    CharactersSorter sorter(PivotType::ValueAtHighestIndex);
+    testSortUsingExample1WithCharacters<CharactersSorter, Characters>(sorter);
+}
+
+TEST(QuickSorterWith3WayPartitioningTest, SortWorksOnCharactersUsingExample1WithPivotWithValueAtRandomIndex)
+{
+    CharactersSorter sorter(PivotType::ValueAtRandomIndex);
+    testSortUsingExample1WithCharacters<CharactersSorter, Characters>(sorter);
+}
+
+TEST(QuickSorterWith3WayPartitioningTest, SortWorksOnCharactersUsingExample1WithPivotWithValueAtMedianOfMedians)
+{
+    CharactersSorter sorter(PivotType::ValueAtMedianOfMedians);
+    testSortUsingExample1WithCharacters<CharactersSorter, Characters>(sorter);
 }
 
 }

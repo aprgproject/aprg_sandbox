@@ -1,4 +1,4 @@
-#include <Algorithm/Sort/QuickSorter/QuickSorterWithIterativeApproach.hpp>
+#include <Algorithm/Sort/QuickSorter/QuickSorter.hpp>
 #include <AlgorithmTests/Sort/Utilities/CommonTestsWithSorter.hpp>
 #include <AlgorithmTests/Sort/Utilities/StabilityCheckObject.hpp>
 
@@ -20,61 +20,85 @@ using Integers = vector<int>;
 using Doubles = vector<double>;
 using Strings = vector<string>;
 using StabilityCheckObjects = vector<StabilityCheckObject>;
-using CharactersSorter = QuickSorterWithIterativeApproach<Characters>;
-using IntegersSorter = QuickSorterWithIterativeApproach<Integers>;
-using DoublesSorter = QuickSorterWithIterativeApproach<Doubles>;
-using StringsSorter = QuickSorterWithIterativeApproach<Strings>;
-using StabilityCheckObjectsSorter = QuickSorterWithIterativeApproach<StabilityCheckObjects>;
+using CharactersSorter = QuickSorter<Characters>;
+using IntegersSorter = QuickSorter<Integers>;
+using DoublesSorter = QuickSorter<Doubles>;
+using StringsSorter = QuickSorter<Strings>;
+using StabilityCheckObjectsSorter = QuickSorter<StabilityCheckObjects>;
 }
 
-TEST(QuickSorterWithIterativeApproachTest, SortWorksOnCharactersAndDoesNotCrashUsingEmptyExample)
+TEST(QuickSorterTest, SortWorksOnCharactersAndDoesNotCrashUsingEmptyExample)
 {
-    CharactersSorter sorter;
+    CharactersSorter sorter(PivotType::ValueAtLowestIndex);
     testSortUsingEmptyExampleWithCharacters<CharactersSorter, Characters>(sorter);
 }
 
-TEST(QuickSorterWithIterativeApproachTest, SortWorksOnCharactersUsingOneValueExample)
+TEST(QuickSorterTest, SortWorksOnCharactersUsingOneValueExample)
 {
-    CharactersSorter sorter;
+    CharactersSorter sorter(PivotType::ValueAtLowestIndex);
     testSortUsingOneValueExampleWithCharacters<CharactersSorter, Characters>(sorter);
 }
 
-TEST(QuickSorterWithIterativeApproachTest, SortWorksOnCharactersUsingExample1)
+TEST(QuickSorterTest, SortWorksOnCharactersUsingExample1)
 {
-    CharactersSorter sorter;
+    CharactersSorter sorter(PivotType::ValueAtLowestIndex);
     testSortUsingExample1WithCharacters<CharactersSorter, Characters>(sorter);
 }
 
-TEST(QuickSorterWithIterativeApproachTest, SortWorksOnCharactersUsingExample2)
+TEST(QuickSorterTest, SortWorksOnCharactersUsingExample2)
 {
-    CharactersSorter sorter;
+    CharactersSorter sorter(PivotType::ValueAtLowestIndex);
     testSortUsingExample2WithCharacters<CharactersSorter, Characters>(sorter);
 }
 
 // CANNOT SORT STD::LIST, actually it might be possible if we change indexes to iterators
 
-TEST(QuickSorterWithIterativeApproachTest, SortWorksOnPositiveAndNegativeIntegersUsingExample1)
+TEST(QuickSorterTest, SortWorksOnPositiveAndNegativeIntegersUsingExample1)
 {
-    IntegersSorter sorter;
+    IntegersSorter sorter(PivotType::ValueAtLowestIndex);
     testSortUsingExample1WithPositiveAndNegativeIntegers<IntegersSorter, Integers>(sorter);
 }
 
-TEST(QuickSorterWithIterativeApproachTest, SortWorksOnDoublesUsingExample1)
+TEST(QuickSorterTest, SortWorksOnDoublesUsingExample1)
 {
-    DoublesSorter sorter;
+    DoublesSorter sorter(PivotType::ValueAtLowestIndex);
     testSortUsingExample1WithDoubleValues<DoublesSorter, Doubles>(sorter);
 }
 
-TEST(QuickSorterWithIterativeApproachTest, SortWorksOnStringsUsingExample1)
+TEST(QuickSorterTest, SortWorksOnStringsUsingExample1)
 {
-    StringsSorter sorter;
+    StringsSorter sorter(PivotType::ValueAtLowestIndex);
     testSortUsingExample1WithStrings<StringsSorter, Strings>(sorter);
 }
 
-TEST(QuickSorterWithIterativeApproachTest, SortWorksAsNotStableOnStabilityCheckObjectsUsingExample1) // NOT STABLE
+TEST(QuickSorterTest, SortWorksAsNotStableOnStabilityCheckObjectsUsingExample1) // NOT STABLE
 {
-    StabilityCheckObjectsSorter sorter;
+    StabilityCheckObjectsSorter sorter(PivotType::ValueAtLowestIndex);
     testSortAsNotStableUsingExample1WithStabilityCheckObjects<StabilityCheckObjectsSorter, StabilityCheckObjects>(sorter);
+}
+
+TEST(QuickSorterTest, SortWorksOnCharactersUsingExample1WithPivotWithValueAtLowestIndex)
+{
+    CharactersSorter sorter(PivotType::ValueAtLowestIndex);
+    testSortUsingExample1WithCharacters<CharactersSorter, Characters>(sorter);
+}
+
+TEST(QuickSorterTest, SortWorksOnCharactersUsingExample1WithPivotWithValueAtHighestIndex)
+{
+    CharactersSorter sorter(PivotType::ValueAtHighestIndex);
+    testSortUsingExample1WithCharacters<CharactersSorter, Characters>(sorter);
+}
+
+TEST(QuickSorterTest, SortWorksOnCharactersUsingExample1WithPivotWithValueAtRandomIndex)
+{
+    CharactersSorter sorter(PivotType::ValueAtRandomIndex);
+    testSortUsingExample1WithCharacters<CharactersSorter, Characters>(sorter);
+}
+
+TEST(QuickSorterTest, SortWorksOnCharactersUsingExample1WithPivotWithValueAtMedianOfMedians)
+{
+    CharactersSorter sorter(PivotType::ValueAtMedianOfMedians);
+    testSortUsingExample1WithCharacters<CharactersSorter, Characters>(sorter);
 }
 
 }

@@ -8,6 +8,11 @@ namespace alba
 namespace algorithm
 {
 
+StabilityCheckObject::StabilityCheckObject()
+    : m_visiblePart(0U)
+    , m_notVisiblePart(0U)
+{}
+
 StabilityCheckObject::StabilityCheckObject(
         char const visiblePart,
         unsigned int const notVisiblePart)
