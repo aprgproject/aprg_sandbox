@@ -15,34 +15,31 @@ template <typename Values>
 class InsertionSorter : public BaseSorter<Values>
 {
 public:
-
+    using Iterator = typename Values::iterator;
     InsertionSorter() = default;
 
-    void sort(Values & valuesToSort) const override
-    {
+    void sort(Values & valuesToSort) const override    {
         if(!valuesToSort.empty())
         {
-            auto insertedIt=valuesToSort.begin();
-            insertedIt++;
-            for(; insertedIt!=valuesToSort.end(); insertedIt++)
+            auto insertIt=valuesToSort.begin();
+            insertIt++;
+            for(; insertIt!=valuesToSort.end(); insertIt++)
             {
-                continuouslySwapDownIfStillOutOfOrder(valuesToSort, insertedIt);
+                continuouslySwapDownIfStillOutOfOrder(valuesToSort, insertIt);
             }
         }
     }
 
 private:
-    void continuouslySwapDownIfStillOutOfOrder(Values& valuesToSort, typename Values::iterator const insertedIt) const
+    void continuouslySwapDownIfStillOutOfOrder(Values& valuesToSort, Iterator const insertIt) const
     {
-        auto itHigh = std::make_reverse_iterator(insertedIt); //make_reverse_iterator advances it by one (so there is decrement after)
+        auto itHigh = std::make_reverse_iterator(insertIt); //make_reverse_iterator advances it by one (so there is decrement after)
         auto itLow = itHigh;
         itHigh--;
-        for(; itLow!=valuesToSort.rend() && *itLow > *itHigh; itLow++, itHigh++)
-        {
+        for(; itLow!=valuesToSort.rend() && *itLow > *itHigh; itLow++, itHigh++)        {
             std::swap(*itLow, *itHigh);
         }
-    }
-};
+    }};
 
 }
 

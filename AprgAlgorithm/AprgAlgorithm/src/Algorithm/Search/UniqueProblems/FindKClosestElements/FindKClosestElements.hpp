@@ -1,14 +1,12 @@
 #pragma once
 
-#include <Algorithm/Utilities/InvalidIndex.hpp>
 #include <Algorithm/Search/NearestValue/BinarySearch/BinaryNearestValueSearchWithTwoIndices.hpp>
+#include <Algorithm/Utilities/InvalidIndex.hpp>
 
 namespace alba
 {
-
 namespace algorithm
 {
-
 template <typename Values>
 class FindKClosestElements
 {

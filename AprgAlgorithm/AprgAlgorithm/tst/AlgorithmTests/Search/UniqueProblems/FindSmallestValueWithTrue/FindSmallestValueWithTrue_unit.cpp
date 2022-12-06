@@ -16,13 +16,21 @@ using ValueForTest = unsigned int;
 using SearchForTest = FindSmallestValueWithTrue<ValueForTest>;
 }
 
-TEST(FindSmallestValueWithTrueTest, GetNearestValueWorksWhenThereAreMultipleValues)
+TEST(FindSmallestValueWithTrueTest, GetNearestValueWorksWhenItsAlwaysFalse)
 {
-    SearchForTest binarySearch([](ValueForTest const value)
+    SearchForTest binarySearch([](ValueForTest const)
     {
-        return value>=111U;
+        return false;
     });
 
+    EXPECT_EQ(0U, binarySearch.getSmallestValueWithTrue(45U, 500U));
+}
+
+TEST(FindSmallestValueWithTrueTest, GetNearestValueWorksWhenThereAreMultipleValues)
+{
+    SearchForTest binarySearch([](ValueForTest const value)    {
+        return value>=111U;
+    });
     EXPECT_EQ(111U, binarySearch.getSmallestValueWithTrue(45U, 500U));
 }
 

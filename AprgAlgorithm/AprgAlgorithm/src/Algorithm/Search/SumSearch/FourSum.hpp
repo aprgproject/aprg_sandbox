@@ -76,36 +76,26 @@ private:
         PairOfSumOfPairOfValues result{};
         if(!sumOfPairOfValues.empty())
         {
-            bool isFound(false);
             Index lowerIndex=0, higherIndex=sumOfPairOfValues.size()-1;
             while(shouldContinue(lowerIndex, higherIndex))
-            {
-                Value currentSum(std::get<0>(sumOfPairOfValues.at(lowerIndex)) + std::get<0>(sumOfPairOfValues.at(higherIndex)));
+            {                Value currentSum(std::get<0>(sumOfPairOfValues.at(lowerIndex)) + std::get<0>(sumOfPairOfValues.at(higherIndex)));
                 if(currentSum==targetSum)
                 {
-                    isFound = true;
+                    result = {sumOfPairOfValues.at(lowerIndex), sumOfPairOfValues.at(higherIndex)};
                     break;
                 }
-                else if(currentSum>targetSum)
-                {
+                else if(currentSum>targetSum)                {
                     higherIndex--;
                 }
-                else if(currentSum<targetSum)
-                {
+                else if(currentSum<targetSum)                {
                     lowerIndex++;
                 }
-            }
-            if(isFound) // empty if not found
-            {
-                result = {sumOfPairOfValues.at(lowerIndex), sumOfPairOfValues.at(higherIndex)};
             }
         }
         return result;
     }
-
     Values const& m_sortedValues;
 };
-
 }
 
 }

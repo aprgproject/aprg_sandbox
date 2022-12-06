@@ -40,22 +40,31 @@ public:
     Value getSmallestValueWithTrue(Value const& startValue, Value const& endValue) const
     {
         // Binary search with skip
-        Value result(startValue);
-        for(Value forwardSkip = (endValue-startValue)/2; forwardSkip>=1; forwardSkip/=2) // start from half of delta, then quarter of size, then eighth of size and so on
+
+        Value result{};
+        Value checkValue(startValue);
+
+        // start from half of delta, then quarter of size, then eighth of size and so on
+        for(Value forwardSkip = (endValue-startValue)/2; forwardSkip>=1; forwardSkip/=2)
         {
-            while(!m_boolFunction(result+forwardSkip))
+            while(checkValue+forwardSkip<endValue && !m_boolFunction(checkValue+forwardSkip))
             {
-                result += forwardSkip;
+                checkValue += forwardSkip;
             }
         }
-        result++;
+        if(checkValue+1U < endValue && !m_boolFunction(checkValue)) // if last value is false, move one
+        {
+            checkValue++;
+        }
+        if(m_boolFunction(checkValue)) // if its last value is true, save it to result
+        {
+            result = checkValue;
+        }
         return result;
     }
-
 private:
 
-    BoolFunction const& m_boolFunction;
-};
+    BoolFunction const& m_boolFunction;};
 
 }
 

@@ -25,22 +25,18 @@ public:
         Values result;
         if(!m_valuesToCheck.empty())
         {
-            bool isFound(false);
             Index start=0, end=0, size=m_valuesToCheck.size();
             Value currentSum=m_valuesToCheck.at(0);
-            while(start<size && end<size)
-            {
+            while(start<size && end<size)            {
                 if(currentSum==targetSum)
                 {
-                    isFound = true;
+                    result = Values(m_valuesToCheck.cbegin()+start, m_valuesToCheck.cbegin()+end+1);
                     break;
                 }
-                else if(currentSum>targetSum)
-                {
+                else if(currentSum>targetSum)                {
                     if(start<end)
                     {
-                        currentSum-=m_valuesToCheck.at(start);
-                        start++;
+                        currentSum-=m_valuesToCheck.at(start);                        start++;
                     }
                     else if(end+1<size)
                     {
@@ -66,18 +62,12 @@ public:
                     }
                 }
             }
-            if(isFound) // empty if not found
-            {
-                result = Values(m_valuesToCheck.cbegin()+start, m_valuesToCheck.cbegin()+end+1);
-            }
         }
         return result;
     }
-
 private:
     Values const& m_valuesToCheck;
 };
-
 }
 
 }
