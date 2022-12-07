@@ -112,14 +112,32 @@ void testGetIndexOfValueWhenValueIsNotFoundWithSortedUnsignedInts()
 }
 
 template <typename Search, typename Values>
-void testGetIndexOfValueWhenValueIsFoundWithSortedUnsignedInts()
+void testGetIndexOfValueWhenValueIsLessThanTheLowestValueWithSortedUnsignedInts()
 {
     Values sortedValues{6, 13, 14, 25, 33, 43, 51, 53, 64, 72, 84, 93, 95, 96, 97};
     Search search(sortedValues);
+    auto INVALID_INDEX = Search::INVALID_INDEX;
+
+    EXPECT_EQ(INVALID_INDEX, search.getIndexOfValue(3U));
+}
+
+template <typename Search, typename Values>
+void testGetIndexOfValueWhenValueIsGreaterThanTheHighestValueWithSortedUnsignedInts()
+{
+    Values sortedValues{6, 13, 14, 25, 33, 43, 51, 53, 64, 72, 84, 93, 95, 96, 97};
+    Search search(sortedValues);
+    auto INVALID_INDEX = Search::INVALID_INDEX;
+
+    EXPECT_EQ(INVALID_INDEX, search.getIndexOfValue(100U));
+}
+
+template <typename Search, typename Values>
+void testGetIndexOfValueWhenValueIsFoundWithSortedUnsignedInts()
+{
+    Values sortedValues{6, 13, 14, 25, 33, 43, 51, 53, 64, 72, 84, 93, 95, 96, 97};    Search search(sortedValues);
 
     EXPECT_EQ(4U, search.getIndexOfValue(33U));
 }
-
 
 // getIndexOfValue with indices
 

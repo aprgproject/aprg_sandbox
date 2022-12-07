@@ -34,15 +34,13 @@ public:
     Index getIndexOfValue(Index const startIndex, Index const endIndex, Value const& value) const
     {
         Index result(INVALID_INDEX);
-        if(startIndex < m_sortedValues.size() && endIndex < m_sortedValues.size())
+        if(startIndex < m_sortedValues.size() && endIndex < m_sortedValues.size() && startIndex <= endIndex)
         {
             result = getIndexOfValueWithoutCheck(startIndex, endIndex, value);
-        }
-        return result;
+        }        return result;
     }
 
 private:
-
     Index getIndexOfValueWithoutCheck(Index const startIndex, Index const endIndex, Value const& targetValue) const
     {
         Index result(INVALID_INDEX);
@@ -69,15 +67,13 @@ private:
                 {
                     higherIndex = interpolatedIndex-1;
                 }
-                else if(valueAtInterpolatedIndex < targetValue)
+                else // valueAtInterpolatedIndex < targetValue
                 {
                     lowerIndex = interpolatedIndex+1;
-                }
-            }
+                }            }
         }
         return result;
     }
-
     Values const& m_sortedValues;
 };
 
