@@ -152,21 +152,16 @@ NearestEqualCells::Coordinate NearestEqualCells::getCoordinateUsingBfs(
                 result = coordinate;
                 isFirst=false;
             }
-            else
+            else if(distance < minimumDistance)
             {
-                if(distance < minimumDistance)
-                {
-                    minimumDistance = distance;
-                    result = coordinate;
-                }
+                minimumDistance = distance;
+                result = coordinate;
             }
         }
-    }
-    return result;
+    }    return result;
 }
 
-unsigned int NearestEqualCells::getDistance(Coordinate const& coordinate1, Coordinate const& coordinate2) const
-{
+unsigned int NearestEqualCells::getDistance(Coordinate const& coordinate1, Coordinate const& coordinate2) const{
     return getPositiveDelta(coordinate1.first, coordinate2.first) + getPositiveDelta(coordinate1.second, coordinate2.second);
 }
 
