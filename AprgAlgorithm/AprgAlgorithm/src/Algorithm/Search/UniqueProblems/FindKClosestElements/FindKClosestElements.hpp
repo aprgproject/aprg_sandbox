@@ -18,14 +18,12 @@ public:
     using IndexPair = std::pair<Index, Index>;
     static constexpr Index INVALID_INDEX = getInvalidIndex<Index>();
 
-    FindKClosestElements(Values const& values) // values can be unsorted
+    FindKClosestElements(Values const& values)
         : m_values(values)
     {}
-
     IndexPair getIndexPairClosestElements(
             unsigned int const numberOfClosestElements,
-            Value const& valueToCheck)
-    {
+            Value const& valueToCheck)    {
         IndexPair result{INVALID_INDEX, INVALID_INDEX};
 
         BinaryNearestValueSearchWithTwoIndices<Values> binarySearch(m_values);

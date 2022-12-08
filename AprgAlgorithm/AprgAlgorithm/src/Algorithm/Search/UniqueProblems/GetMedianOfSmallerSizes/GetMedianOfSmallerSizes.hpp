@@ -91,28 +91,25 @@ private:
     {
         // this is similar to insertion sort for link list
         bool isInserted(false);
-        for(auto it=m_halfSizeSortedValues.cbegin(); it!=m_halfSizeSortedValues.cend(); it++) //  keep this small
+        for(auto it=m_halfSizeSortedValues.cbegin(); it!=m_halfSizeSortedValues.cend(); it++)
         {
             if(value < *it)
-            {
-                m_halfSizeSortedValues.emplace(it, value);
+            {                m_halfSizeSortedValues.emplace(it, value);
                 isInserted = true;
                 break;
             }
         }
-        if(m_halfSizeSortedValues.size()<m_maxMedianIndex && !isInserted)
+        if(m_halfSizeSortedValues.size()<m_maxMedianIndex && !isInserted) // keep the size small
         {
             m_halfSizeSortedValues.emplace_back(value);
         }
-        else if(m_halfSizeSortedValues.size()>m_maxMedianIndex && isInserted)
+        else if(m_halfSizeSortedValues.size()>m_maxMedianIndex && isInserted) // keep the size small
         {
             m_halfSizeSortedValues.pop_back();
-        }
-    }
+        }    }
 
     Index m_size;
-    Index m_maxMedianIndex;
-    MedianValues m_halfSizeSortedValues;
+    Index m_maxMedianIndex;    MedianValues m_halfSizeSortedValues;
 };
 
 }
