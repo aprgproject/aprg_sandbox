@@ -1,4 +1,4 @@
-#include <Algorithm/Sort/QuickSorter/QuickSorterForList.hpp>
+#include <Algorithm/Sort/MergeSorter/MergeSorterForList.hpp>
 #include <AlgorithmTests/Sort/Utilities/CommonTestsWithSorter.hpp>
 #include <AlgorithmTests/Sort/Utilities/StabilityCheckObject.hpp>
 
@@ -20,59 +20,59 @@ using Integers = list<int>;
 using Doubles = list<double>;
 using Strings = list<string>;
 using StabilityCheckObjects = list<StabilityCheckObject>;
-using CharactersSorter = QuickSorterForList<char>;
-using IntegersSorter = QuickSorterForList<int>;
-using DoublesSorter = QuickSorterForList<double>;
-using StringsSorter = QuickSorterForList<string>;
-using StabilityCheckObjectsSorter = QuickSorterForList<StabilityCheckObject>;
+using CharactersSorter = MergeSorterForList<char>;
+using IntegersSorter = MergeSorterForList<int>;
+using DoublesSorter = MergeSorterForList<double>;
+using StringsSorter = MergeSorterForList<string>;
+using StabilityCheckObjectsSorter = MergeSorterForList<StabilityCheckObject>;
 }
 
-TEST(QuickSorterForListTest, SortWorksOnCharactersAndDoesNotCrashUsingEmptyExample)
+TEST(MergeSorterForListTest, SortWorksOnCharactersAndDoesNotCrashUsingEmptyExample)
 {
     CharactersSorter sorter;
     testSortUsingEmptyExampleWithCharacters<CharactersSorter, Characters>(sorter);
 }
 
-TEST(QuickSorterForListTest, SortWorksOnCharactersUsingOneValueExample)
+TEST(MergeSorterForListTest, SortWorksOnCharactersUsingOneValueExample)
 {
     CharactersSorter sorter;
     testSortUsingOneValueExampleWithCharacters<CharactersSorter, Characters>(sorter);
 }
 
-TEST(QuickSorterForListTest, SortWorksOnCharactersUsingExample1)
+TEST(MergeSorterForListTest, SortWorksOnCharactersUsingExample1)
 {
     CharactersSorter sorter;
     testSortUsingExample1WithCharacters<CharactersSorter, Characters>(sorter);
 }
 
-TEST(QuickSorterForListTest, SortWorksOnCharactersUsingExample2)
+TEST(MergeSorterForListTest, SortWorksOnCharactersUsingExample2)
 {
     CharactersSorter sorter;
     testSortUsingExample2WithCharacters<CharactersSorter, Characters>(sorter);
 }
 
-TEST(QuickSorterForListTest, SortWorksOnPositiveAndNegativeIntegersUsingExample1)
+TEST(MergeSorterForListTest, SortWorksOnPositiveAndNegativeIntegersUsingExample1)
 {
     IntegersSorter sorter;
     testSortUsingExample1WithPositiveAndNegativeIntegers<IntegersSorter, Integers>(sorter);
 }
 
-TEST(QuickSorterForListTest, SortWorksOnDoublesUsingExample1)
+TEST(MergeSorterForListTest, SortWorksOnDoublesUsingExample1)
 {
     DoublesSorter sorter;
     testSortUsingExample1WithDoubleValues<DoublesSorter, Doubles>(sorter);
 }
 
-TEST(QuickSorterForListTest, SortWorksOnStringsUsingExample1)
+TEST(MergeSorterForListTest, SortWorksOnStringsUsingExample1)
 {
     StringsSorter sorter;
     testSortUsingExample1WithStrings<StringsSorter, Strings>(sorter);
 }
 
-TEST(QuickSorterForListTest, SortWorksAsNotStableOnStabilityCheckObjectsUsingExample1) // NOT STABLE
+TEST(MergeSorterForListTest, SortWorksAsStableOnStabilityCheckObjectsUsingExample1) // STABLE
 {
     StabilityCheckObjectsSorter sorter;
-    testSortAsNotStableUsingExample1WithStabilityCheckObjects<StabilityCheckObjectsSorter, StabilityCheckObjects>(sorter);
+    testSortAsStableUsingExample1WithStabilityCheckObjects<StabilityCheckObjectsSorter, StabilityCheckObjects>(sorter);
 }
 
 }

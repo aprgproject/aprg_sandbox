@@ -24,10 +24,12 @@ public:
     getIndexOfValue(Value const& value) const
     {
         Index result(INVALID_INDEX);
-        if(!m_sortedValues.empty())        {
+        if(!m_sortedValues.empty())
+        {
             result = getIndexOfValueWithoutCheck(0U, m_sortedValues.size()-1, value);
         }
-        return result;    }
+        return result;
+    }
 
     Index getIndexOfValue(Index const startIndex, Index const endIndex, Value const& value) const
     {
@@ -35,38 +37,47 @@ public:
         if(startIndex < m_sortedValues.size() && endIndex < m_sortedValues.size() && startIndex <= endIndex)
         {
             result = getIndexOfValueWithoutCheck(startIndex, endIndex, value);
-        }        return result;
+        }
+        return result;
     }
 
 private:
+
     Index getIndexOfValueWithoutCheck(Index const startIndex, Index const endIndex, Value const& value) const
     {
         Index result(INVALID_INDEX);
         Index lowerIndex(startIndex), higherIndex(endIndex);
-        while(lowerIndex<higherIndex)
+        while(lowerIndex<=higherIndex)
         {
             Index middleIndex = (lowerIndex+higherIndex)/2;
-            Value middleValue(m_sortedValues.at(middleIndex));            if(value == middleValue)
+            Value middleValue(m_sortedValues.at(middleIndex));
+            if(value == middleValue)
             {
                 result = middleIndex;
-                break;            }
+                break;
+            }
             else if(value < middleValue)
             {
-                higherIndex = middleIndex-1;
+                if(middleIndex > 0U)
+                {
+                    higherIndex = middleIndex-1;
+                }
+                else
+                {
+                    break;
+                }
             }
             else // (middleValue < value)
             {
                 lowerIndex = middleIndex+1;
             }
         }
-        if(value == m_sortedValues.at(lowerIndex))
-        {
-            result = lowerIndex;
-        }
         return result;
     }
+
     Values const& m_sortedValues;
 };
+
 }
 
 }

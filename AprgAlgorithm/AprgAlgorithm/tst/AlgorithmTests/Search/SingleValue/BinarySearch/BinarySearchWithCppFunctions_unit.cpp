@@ -60,7 +60,8 @@ TEST(BinarySearchWithCppFunctionsTest, GetIndexOfValueWorksWhenValueIsLessThanTh
 
 TEST(BinarySearchWithCppFunctionsTest, GetIndexOfValueWorksWhenValueIsFoundAndWhenThereAreMultipleValues)
 {
-    testGetIndexOfValueWhenValueIsFoundWithSortedUnsignedInts<SearchForTest, ValuesForTest>();}
+    testGetIndexOfValueWhenValueIsFoundWithSortedUnsignedInts<SearchForTest, ValuesForTest>();
+}
 
 }
 

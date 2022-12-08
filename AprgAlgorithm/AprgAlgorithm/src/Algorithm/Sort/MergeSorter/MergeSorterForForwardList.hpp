@@ -132,7 +132,7 @@ private:
 // -> Return the next of merged(that will ignore the dummy and return the head of the final merged linked list)
 
 // Time Complexity: O(n*log n)
-// Space Complexity: O(log n)
+// Auxiliary Space Complexity: O(log n)
 
 
 

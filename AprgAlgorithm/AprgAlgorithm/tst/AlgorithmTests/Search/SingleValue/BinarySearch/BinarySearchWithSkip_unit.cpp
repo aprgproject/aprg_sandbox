@@ -60,7 +60,8 @@ TEST(BinarySearchWithSkipTest, GetIndexOfValueWorksWhenValueIsLessThanTheHighest
 
 TEST(BinarySearchWithSkipTest, GetIndexOfValueWorksWhenValueIsFoundAndWhenThereAreMultipleValues)
 {
-    testGetIndexOfValueWhenValueIsFoundWithSortedUnsignedInts<SearchForTest, ValuesForTest>();}
+    testGetIndexOfValueWhenValueIsFoundWithSortedUnsignedInts<SearchForTest, ValuesForTest>();
+}
 
 }
 

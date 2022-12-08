@@ -92,10 +92,12 @@ private:
         // this is similar to insertion sort for link list
         bool isInserted(false);
         for(auto it=m_halfSizeSortedValues.cbegin(); it!=m_halfSizeSortedValues.cend(); it++) //  keep this small
-        {            if(value < *it)
+        {
+            if(value < *it)
             {
                 m_halfSizeSortedValues.emplace(it, value);
-                isInserted = true;                break;
+                isInserted = true;
+                break;
             }
         }
         if(m_halfSizeSortedValues.size()<m_maxMedianIndex && !isInserted)

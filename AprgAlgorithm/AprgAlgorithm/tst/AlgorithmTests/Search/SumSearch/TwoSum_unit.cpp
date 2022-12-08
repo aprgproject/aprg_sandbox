@@ -18,7 +18,8 @@ using ValueForTest = SumSearch::Value;
 using ValuePairForTest = SumSearch::ValuePair;
 }
 
-TEST(TwoSumTest, GetNonDuplicateTwoValuesWithSumWorksOnExample1){
+TEST(TwoSumTest, GetNonDuplicateTwoValuesWithSumWorksOnExample1)
+{
     ValuesForTest sortedValues{1U, 4U, 5U, 6U, 7U, 9U, 9U, 10U};
     SumSearch search(sortedValues);
 
@@ -27,6 +28,7 @@ TEST(TwoSumTest, GetNonDuplicateTwoValuesWithSumWorksOnExample1){
     ValuePairForTest pairToExpect{5U, 7U};
     EXPECT_EQ(pairToExpect, pairToVerify);
 }
+
 TEST(TwoSumTest, GetNonDuplicateTwoValuesWithSumWithIndexesWorksOnExample1)
 {
     ValuesForTest sortedValues{1U, 4U, 5U, 6U, 7U, 9U, 9U, 10U};
@@ -37,6 +39,7 @@ TEST(TwoSumTest, GetNonDuplicateTwoValuesWithSumWithIndexesWorksOnExample1)
     ValuePairForTest pairToExpect{5U, 7U};
     EXPECT_EQ(pairToExpect, pairToVerify);
 }
+
 TEST(TwoSumTest, GetNonDuplicateTwoValuesWithSumWithIndexesDoesNotWorkOnExample1)
 {
     ValuesForTest sortedValues{1U, 4U, 5U, 6U, 7U, 9U, 9U, 10U};
@@ -47,6 +50,7 @@ TEST(TwoSumTest, GetNonDuplicateTwoValuesWithSumWithIndexesDoesNotWorkOnExample1
     ValuePairForTest pairToExpect{0U, 0U};
     EXPECT_EQ(pairToExpect, pairToVerify);
 }
+
 TEST(TwoSumTest, GetPossibleDuplicatedTwoValuesWithSumWorksOnExample1)
 {
     ValuesForTest sortedValues{1U, 4U, 5U, 6U, 7U, 9U, 10U};
@@ -57,6 +61,7 @@ TEST(TwoSumTest, GetPossibleDuplicatedTwoValuesWithSumWorksOnExample1)
     ValuePairForTest pairToExpect{9U, 9U};
     EXPECT_EQ(pairToExpect, pairToVerify);
 }
+
 TEST(TwoSumTest, GetPossibleDuplicatedTwoValuesWithSumWithIndexesWorksOnExample1)
 {
     ValuesForTest sortedValues{1U, 4U, 5U, 6U, 7U, 9U, 10U};
@@ -67,6 +72,7 @@ TEST(TwoSumTest, GetPossibleDuplicatedTwoValuesWithSumWithIndexesWorksOnExample1
     ValuePairForTest pairToExpect{9U, 9U};
     EXPECT_EQ(pairToExpect, pairToVerify);
 }
+
 TEST(TwoSumTest, GetPossibleDuplicatedTwoValuesWithSumWithIndexesDoesNotWorkOnExample1)
 {
     ValuesForTest sortedValues{1U, 4U, 5U, 6U, 7U, 9U, 10U};
@@ -77,6 +83,7 @@ TEST(TwoSumTest, GetPossibleDuplicatedTwoValuesWithSumWithIndexesDoesNotWorkOnEx
     ValuePairForTest pairToExpect{0U, 0U};
     EXPECT_EQ(pairToExpect, pairToVerify);
 }
+
 }
 
 }

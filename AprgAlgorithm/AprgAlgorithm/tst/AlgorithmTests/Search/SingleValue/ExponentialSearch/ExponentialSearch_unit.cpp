@@ -63,7 +63,8 @@ TEST(ExponentialSearchTest, GetIndexOfValueWorksWhenValueIsLessThanTheHighestVal
 
 TEST(ExponentialSearchTest, GetIndexOfValueWorksWhenValueIsFoundAndWhenThereAreMultipleValues)
 {
-    testGetIndexOfValueWhenValueIsFoundWithSortedUnsignedInts<SearchForTest, ValuesForTest>();}
+    testGetIndexOfValueWhenValueIsFoundWithSortedUnsignedInts<SearchForTest, ValuesForTest>();
+}
 
 }
 

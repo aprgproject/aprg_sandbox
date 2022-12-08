@@ -18,7 +18,8 @@ public:
     using Iterator = typename Values::iterator;
     InsertionSorter() = default;
 
-    void sort(Values & valuesToSort) const override    {
+    void sort(Values & valuesToSort) const override
+    {
         if(!valuesToSort.empty())
         {
             auto insertIt=valuesToSort.begin();
@@ -36,10 +37,12 @@ private:
         auto itHigh = std::make_reverse_iterator(insertIt); //make_reverse_iterator advances it by one (so there is decrement after)
         auto itLow = itHigh;
         itHigh--;
-        for(; itLow!=valuesToSort.rend() && *itLow > *itHigh; itLow++, itHigh++)        {
+        for(; itLow!=valuesToSort.rend() && *itLow > *itHigh; itLow++, itHigh++)
+        {
             std::swap(*itLow, *itHigh);
         }
-    }};
+    }
+};
 
 }
 

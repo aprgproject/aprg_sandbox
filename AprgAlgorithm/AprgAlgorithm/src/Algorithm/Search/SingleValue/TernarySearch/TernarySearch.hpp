@@ -36,20 +36,24 @@ public:
         if(startIndex < m_sortedValues.size() && endIndex < m_sortedValues.size() && startIndex <= endIndex)
         {
             result = getIndexOfValueWithoutCheck(startIndex, endIndex, value);
-        }        return result;
+        }
+        return result;
     }
 
 private:
+
     Index getIndexOfValueWithoutCheck(Index const lowerIndex, Index const higherIndex, Value const& value) const
     {
         Index result(INVALID_INDEX);
-        if(lowerIndex < higherIndex)
+        if(lowerIndex <= higherIndex)
         {
             Index oneThirdSize = (higherIndex-lowerIndex)/3;
-            Index firstMiddleIndex = lowerIndex + oneThirdSize;            Index secondMiddleIndex = firstMiddleIndex + oneThirdSize;
+            Index firstMiddleIndex = lowerIndex + oneThirdSize;
+            Index secondMiddleIndex = firstMiddleIndex + oneThirdSize;
             Value firstMiddleValue(m_sortedValues.at(firstMiddleIndex));
             Value secondMiddleValue(m_sortedValues.at(secondMiddleIndex));
-            if(value == firstMiddleValue)            {
+            if(value == firstMiddleValue)
+            {
                 result = firstMiddleIndex;
             }
             else if(value == secondMiddleValue)
@@ -58,7 +62,10 @@ private:
             }
             else if(value < firstMiddleValue) // if on the first one-third part
             {
-                result = getIndexOfValueWithoutCheck(lowerIndex, firstMiddleIndex-1, value);
+                if(firstMiddleIndex > 0U)
+                {
+                    result = getIndexOfValueWithoutCheck(lowerIndex, firstMiddleIndex-1, value);
+                }
             }
             else if(secondMiddleValue < value) // if on the third one-third part
             {
@@ -69,14 +76,12 @@ private:
                 result = getIndexOfValueWithoutCheck(firstMiddleIndex+1, secondMiddleIndex-1, value);
             }
         }
-        if(value == m_sortedValues.at(lowerIndex))
-        {
-            result = lowerIndex;
-        }
         return result;
     }
+
     Values const& m_sortedValues;
 };
+
 }
 
 }

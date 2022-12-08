@@ -134,10 +134,12 @@ void testGetIndexOfValueWhenValueIsGreaterThanTheHighestValueWithSortedUnsignedI
 template <typename Search, typename Values>
 void testGetIndexOfValueWhenValueIsFoundWithSortedUnsignedInts()
 {
-    Values sortedValues{6, 13, 14, 25, 33, 43, 51, 53, 64, 72, 84, 93, 95, 96, 97};    Search search(sortedValues);
+    Values sortedValues{6, 13, 14, 25, 33, 43, 51, 53, 64, 72, 84, 93, 95, 96, 97};
+    Search search(sortedValues);
 
     EXPECT_EQ(4U, search.getIndexOfValue(33U));
 }
+
 
 // getIndexOfValue with indices
 

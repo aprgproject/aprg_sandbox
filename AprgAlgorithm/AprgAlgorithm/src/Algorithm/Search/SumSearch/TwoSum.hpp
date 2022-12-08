@@ -22,19 +22,22 @@ public:
     using ValuePair = std::pair<Value, Value>;
     using Comparator = std::function<bool(Index const, Index const)>;
 
-    TwoSum(Values const& sortedValues)        : m_sortedValues(sortedValues)
+    TwoSum(Values const& sortedValues)
+        : m_sortedValues(sortedValues)
     {}
 
     ValuePair getNonDuplicateTwoValuesWithSum(
             Value const& targetSum) const
     {
-        // std::less because index must be distinct        return getTwoValuesWithSum(targetSum, 0, m_sortedValues.size()-1, std::less<Index>());
+        // std::less because index must be distinct
+        return getTwoValuesWithSum(targetSum, 0, m_sortedValues.size()-1, std::less<Index>());
     }
 
     ValuePair getNonDuplicateTwoValuesWithSum(
             Value const& targetSum,
             Index const lowerIndex,
-            Index const higherIndex) const    {
+            Index const higherIndex) const
+    {
         // std::less because index must be distinct
         return getTwoValuesWithSum(targetSum, lowerIndex, higherIndex, std::less<Index>());
     }
@@ -42,13 +45,15 @@ public:
     ValuePair getPossibleDuplicatedTwoValuesWithSum(
             Value const& targetSum) const
     {
-        // std::less_equal because index can be equal        return getTwoValuesWithSum(targetSum, 0, m_sortedValues.size()-1, std::less_equal<Index>());
+        // std::less_equal because index can be equal
+        return getTwoValuesWithSum(targetSum, 0, m_sortedValues.size()-1, std::less_equal<Index>());
     }
 
     ValuePair getPossibleDuplicatedTwoValuesWithSum(
             Value const& targetSum,
             Index const lowerIndex,
-            Index const higherIndex) const    {
+            Index const higherIndex) const
+    {
         // std::less_equal because index can be equal
         return getTwoValuesWithSum(targetSum, lowerIndex, higherIndex, std::less_equal<Index>());
     }
@@ -66,24 +71,29 @@ private:
         {
             Index lowerIndex=lowestIndex, higherIndex=highestIndex;
             while(shouldContinue(lowerIndex, higherIndex))
-            {                Value currentSum(m_sortedValues.at(lowerIndex) + m_sortedValues.at(higherIndex));
+            {
+                Value currentSum(m_sortedValues.at(lowerIndex) + m_sortedValues.at(higherIndex));
                 if(currentSum==targetSum)
                 {
                     result = {m_sortedValues.at(lowerIndex), m_sortedValues.at(higherIndex)};
                     break;
                 }
-                else if(currentSum>targetSum)                {
+                else if(currentSum>targetSum)
+                {
                     higherIndex--;
                 }
-                else if(currentSum<targetSum)                {
+                else if(currentSum<targetSum)
+                {
                     lowerIndex++;
                 }
             }
         }
         return result;
     }
+
     Values const& m_sortedValues;
 };
+
 }
 
 }

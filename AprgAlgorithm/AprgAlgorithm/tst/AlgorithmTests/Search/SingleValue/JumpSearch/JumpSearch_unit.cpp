@@ -60,7 +60,8 @@ TEST(JumpSearchTest, GetIndexOfValueWorksWhenValueIsLessThanTheHighestValueAndWh
 
 TEST(JumpSearchTest, GetIndexOfValueWorksWhenValueIsFoundAndWhenThereAreMultipleValues)
 {
-    testGetIndexOfValueWhenValueIsFoundWithSortedUnsignedInts<SearchForTest, ValuesForTest>();}
+    testGetIndexOfValueWhenValueIsFoundWithSortedUnsignedInts<SearchForTest, ValuesForTest>();
+}
 
 }
 

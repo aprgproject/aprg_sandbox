@@ -36,36 +36,41 @@ public:
         if(startIndex < m_sortedValues.size() && endIndex < m_sortedValues.size() && startIndex <= endIndex)
         {
             result = getIndexOfValueWithoutCheck(startIndex, endIndex, value);
-        }        return result;
+        }
+        return result;
     }
 
 private:
+
     Index getIndexOfValueWithoutCheck(Index const lowerIndex, Index const higherIndex, Value const& value) const
     {
         Index result(INVALID_INDEX);
-        if(lowerIndex<higherIndex)
+        if(lowerIndex<=higherIndex)
         {
             Index middleIndex = (lowerIndex+higherIndex)/2;
-            Value middleValue(m_sortedValues.at(middleIndex));            if(value == middleValue)
+            Value middleValue(m_sortedValues.at(middleIndex));
+            if(value == middleValue)
             {
                 result = middleIndex;
-            }            else if(value < middleValue)
+            }
+            else if(value < middleValue)
             {
-                result = getIndexOfValueWithoutCheck(lowerIndex, middleIndex-1, value);
+                if(middleIndex > 0U)
+                {
+                    result = getIndexOfValueWithoutCheck(lowerIndex, middleIndex-1, value);
+                }
             }
             else // middleValue < value
             {
                 result = getIndexOfValueWithoutCheck(middleIndex+1, higherIndex, value);
             }
         }
-        else if(value == m_sortedValues.at(lowerIndex))
-        {
-            result = lowerIndex;
-        }
         return result;
     }
+
     Values const& m_sortedValues;
 };
+
 }
 
 }
