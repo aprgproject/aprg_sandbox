@@ -108,22 +108,54 @@ private:
 // If there is an edge with negative weights, the algorithm may give incorrect results.
 
 
-
 // Other discussion:
 // Dijkstra’s algorithm finds shortest paths from the starting node to all nodes of the graph, like the Bellman–Ford algorithm.
-// The benefit of Dijsktra’s algorithm is that it is more efficient and can be used for processing large graphs.
-// However, the algorithm requires that there are no negative weight edges in the graph.
+// The benefit of Dijsktra’s algorithm is that it is more efficient and can be used for processing large graphs.// However, the algorithm requires that there are no negative weight edges in the graph.
 
 // Like in the Bellman–Ford algorithm, initially the distance to the starting node is 0 and the distance to all other nodes is infinite.
 // At each step, Dijkstra’s algorithm selects a node that has not been processed yet and whose distance is as small as possible.
 // The first such node is node 1 with distance 0.
-// A remarkable property in Dijkstra’s algorithm is that whenever a node is selected (selected in the PQ), its distance is final (because there are no negative weights).
+// A remarkable property in Dijkstra’s algorithm is that whenever a node is selected (selected in the PQ), its distance is final
+// (because there are no negative weights).
+
+
+// Dijkstra’s algorithm is very similar to Prim’s algorithm for minimum spanning tree.
+// Like Prim’s MST, we generate a SPT (shortest path tree) with a given source as a root.
+// We maintain two sets, one set contains vertices included in the shortest-path tree,
+// other set includes vertices not yet included in the shortest-path tree.
+// At every step of the algorithm, we find a vertex that is in the other set (set of not yet included) and has a minimum distance from the source.
+// Below are the detailed steps used in Dijkstra’s algorithm to find the shortest path from a single source vertex to all other vertices in the given graph.
+
+// Algorithm
+// -> 1) Create a set sptSet (shortest path tree set) that keeps track of vertices included in the shortest-path tree, i.e., whose minimum distance from the source is calculated and finalized. Initially, this set is empty.
+// -> 2) Assign a distance value to all vertices in the input graph. Initialize all distance values as INFINITE. Assign distance value as 0 for the source vertex so that it is picked first.
+// -> 3) While sptSet doesn’t include all vertices
+// ---> 3.a) Pick a vertex u which is not there in sptSet and has a minimum distance value.
+// ---> 3.b) Include u to sptSet.
+// ---> 3.c) Update distance value of all adjacent vertices of u.
+// -----> To update the distance values, iterate through all adjacent vertices.
+// -----> For every adjacent vertex v, if the sum of distance value of u (from source)
+// -----> and weight of edge u-v, is less than the distance value of v, then update the distance value of v.
+
+// Notes:
+// -> 1) The code calculates the shortest distance but doesn’t calculate the path information.
+// ---> We can create a parent array, update the parent array when distance is updated (like prim’s implementation)
+// ---> and use it to show the shortest path from source to different vertices.
+// -> 2) The code is for undirected graphs, the same Dijkstra function can be used for directed graphs also.
+// -> 3) The code finds the shortest distances from the source to all vertices.
+// ---> If we are interested only in the shortest distance from the source to a single target,
+// ---> we can break the for loop when the picked minimum distance vertex is equal to the target (Step 3.a of the algorithm).
+// -> 4) Time Complexity of the implementation is O(V^2).
+// ---> If the input graph is represented using adjacency list, it can be reduced to O(E log V) with the help of a binary heap.
+// -> 5) Dijkstra’s algorithm doesn’t work for graphs with negative weight cycles.
+// ---> It may give correct results for a graph with negative edges but you must allow a vertex can be visited multiple times
+// ---> and that version will lose its fast time complexity.
+// ---> For graphs with negative weight edges and cycles, Bellman–Ford algorithm can be used, we will soon be discussing it as a separate post.
+
 
 // Other analysis:
 // The time complexity of the above implementation is O(n + mlogm). Note: 'n' is nodes and 'm' is edges.
-// This because the algorithm goes through all nodes of the graph and adds for each edge at most one distance to the priority queue.
-// Note: In the implementation above, relax function uses a map to store weights which will result to have a different running time instead.
+// This because the algorithm goes through all nodes of the graph and adds for each edge at most one distance to the priority queue.// Note: In the implementation above, relax function uses a map to store weights which will result to have a different running time instead.
 
 }
-
 }

@@ -344,6 +344,79 @@ private:
 
 // Running time for encoding -> N*R*log(R) -> Where R is the RADIX
 
+
+// Other discussions:
+
+// Huffman coding is a lossless data compression algorithm.
+// The idea is to assign variable-length codes to input characters,
+// lengths of the assigned codes are based on the frequencies of corresponding characters.
+// The most frequent character gets the smallest code and the least frequent character gets the largest code.
+// The variable-length codes assigned to input characters are Prefix Codes,
+// means the codes (bit sequences) are assigned in such a way that the code assigned to one character
+// is not the prefix of code assigned to any other character.
+// This is how Huffman Coding makes sure that there is no ambiguity when decoding the generated bitstream.
+
+// Let us understand prefix codes with a counter example.
+// Let there be four characters a, b, c and d, and their corresponding variable length codes be 00, 01, 0 and 1.
+// This coding leads to ambiguity because code assigned to c is the prefix of codes assigned to a and b.
+// If the compressed bit stream is 0001, the de-compressed output may be “cccd” or “ccb” or “acd” or “ab”.
+
+// There are mainly two major parts in Huffman Coding
+// -> Build a Huffman Tree from input characters.
+// -> Traverse the Huffman Tree and assign codes to characters.
+
+// Steps to build Huffman Tree
+// Input is an array of unique characters along with their frequency of occurrences and output is Huffman Tree.
+// 1) Create a leaf node for each unique character and build a min heap of all leaf nodes (Min Heap is used as a priority queue.
+// -> The value of frequency field is used to compare two nodes in min heap. Initially, the least frequent character is at root)
+// 2) Extract two nodes with the minimum frequency from the min heap.
+// 3) Create a new internal node with a frequency equal to the sum of the two nodes frequencies.
+// -> Make the first extracted node as its left child and the other extracted node as its right child.
+// -> Add this node to the min heap.
+// 4) Repeat steps#2 and #3 until the heap contains only one node.
+// -> The remaining node is the root node and the tree is complete.
+
+// Steps to print codes from Huffman Tree:
+// 1) Traverse the tree formed starting from the root.
+// 2) Maintain an auxiliary array.
+// 3.1) While moving to the left child, write 0 to the array.
+// 3.2) While moving to the right child, write 1 to the array.
+// 4) Print the array when a leaf node is encountered.
+
+// Time complexity: O(nlogn) where n is the number of unique characters.
+// If there are n nodes, extractMin() is called 2*(n – 1) times, extractMin() takes O(logn) time as it calles minHeapify().
+// So, overall complexity is O(nlogn).
+// If the input array is sorted, there exists a linear time algorithm. We will soon be discussing in our next post.
+
+// Applications of Huffman Coding:
+// -> They are used for transmitting fax and text.
+// -> They are used by conventional compression formats like PKZIP, GZIP, etc.
+// It is useful in cases where there is a series of frequently occurring characters.
+
+// Improvements:
+
+// Efficient Huffman Coding for Sorted Input (NOT IMPLEMENTED)
+// Time complexity of the algorithm discussed in above is O(nLogn).
+// If we know that the given array is sorted (by non-decreasing order of frequency), we can generate Huffman codes in O(n) time.
+// Following is a O(n) algorithm for sorted input:
+// Step 1: Create two empty queues.
+// Step 2: Create a leaf node for each unique character and enqueue it to the first queue in non-decreasing order of frequency.
+// -> Initially second queue is empty.
+// Step 3: Dequeue two nodes with the minimum frequency by examining the front of both queues.
+// -> Repeat following steps two times
+// ---> 3.1: If second queue is empty, dequeue from first queue.
+// ---> 3.2: If first queue is empty, dequeue from second queue.
+// ---> 3.3: Else, compare the front of two queues and dequeue the minimum.
+// Step 4: Create a new internal node with frequency equal to the sum of the two nodes frequencies.
+// -> Make the first dequeued node as its left child and the second dequeued node as right child. Enqueue this node to second queue.
+// Step 5: Repeat steps#3 and #4 while there is more than one node in the queues.
+// -> The remaining node is the root node and the tree is complete.
+// Time complexity: O(n) for sorted input
+// -> If the input is not sorted, it need to be sorted first before it can be processed by the above algorithm.
+// -> Sorting can be done using heap-sort or merge-sort both of which run in Theta(nlogn).
+// -> So, the overall time complexity becomes O(nlogn) for unsorted input.
+
+
 }
 
 }

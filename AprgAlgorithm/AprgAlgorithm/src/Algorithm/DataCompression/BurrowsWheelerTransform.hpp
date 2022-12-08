@@ -85,15 +85,14 @@ public :
 // The algorithm can be implemented efficiently using a suffix array thus reaching linear time complexity.
 
 // When a character string is transformed by the BWT, the transformation permutes the order of the characters.
-// If the original string had several substrings that occurred often, then the transformed string will have several places where a single character is repeated multiple times in a row.
+// If the original string had several substrings that occurred often,
+// then the transformed string will have several places where a single character is repeated multiple times in a row.
 // The output is easier to compress because it has many repeated characters.
 
-// The transformation works like this:
-// -> 1. Input
+// The transformation works like this:// -> 1. Input
 // ^BANANA|
 // -> 2. All get all rotations
-// ^BANANA|
-// |^BANANA
+// ^BANANA|// |^BANANA
 // A|^BANAN
 // NA|^BANA
 // ANA|^BAN

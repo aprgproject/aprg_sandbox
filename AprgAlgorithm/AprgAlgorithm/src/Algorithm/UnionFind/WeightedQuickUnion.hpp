@@ -43,26 +43,23 @@ public:
         return result;
     }
 
-    Object getRootWithPassCompressionOnePass(Object const& object) // no longer const
+    Object getRootWithPathCompressionOnePass(Object const& object) // no longer const
     {
         Object result(object);
-        while(result != m_relativeRoots.at(object))
-        {
+        while(result != m_relativeRoots.at(object))        {
             m_relativeRoots[object] = m_relativeRoots.at(m_relativeRoots.at(object)); // make every relative root point to its grandparent
             result = m_relativeRoots.at(object);
         }
         return result;
     }
 
-    Object getRootWithPassCompressionTwoPass(Object const& object) // no longer const
+    Object getRootWithPathCompressionTwoPass(Object const& object) // no longer const
     {
         std::vector<Object> relativeRoots;
-        Object mainRoot(object);
-        Object currentRoot(m_relativeRoots.at(object));
+        Object mainRoot(object);        Object currentRoot(m_relativeRoots.at(object));
         while(mainRoot != currentRoot)
         {
-            mainRoot = currentRoot;
-            relativeRoots.emplace_back(currentRoot);
+            mainRoot = currentRoot;            relativeRoots.emplace_back(currentRoot);
             currentRoot = m_relativeRoots.at(mainRoot);
         }
         for(Object const& relativeRoot : relativeRoots) // set found root to all examined relative roots -> makes the tree really flat (Hopcroft Ulman Tarjan proof -> almost linear)

@@ -58,55 +58,51 @@ TEST(WeightedQuickUnionTest, GetRootWorks)
     EXPECT_EQ(4U, unionFind.getRoot(9));
 }
 
-TEST(WeightedQuickUnionTest, GetRootWithPassCompressionOnePassWorks)
+TEST(WeightedQuickUnionTest, GetRootWithPathCompressionOnePassWorks)
 {
     // Change test does not really check implementation
-    UnionFindForTest unionFind;
-    unionFind.connect(4, 3);
+    UnionFindForTest unionFind;    unionFind.connect(4, 3);
     unionFind.connect(3, 8);
     unionFind.connect(6, 5);
     unionFind.connect(9, 4);
     unionFind.connect(2, 1);
 
-    EXPECT_EQ(0U, unionFind.getRootWithPassCompressionOnePass(0));
-    EXPECT_EQ(2U, unionFind.getRootWithPassCompressionOnePass(1));
-    EXPECT_EQ(2U, unionFind.getRootWithPassCompressionOnePass(2));
-    EXPECT_EQ(4U, unionFind.getRootWithPassCompressionOnePass(3));
-    EXPECT_EQ(4U, unionFind.getRootWithPassCompressionOnePass(4));
-    EXPECT_EQ(6U, unionFind.getRootWithPassCompressionOnePass(5));
-    EXPECT_EQ(6U, unionFind.getRootWithPassCompressionOnePass(6));
-    EXPECT_EQ(7U, unionFind.getRootWithPassCompressionOnePass(7));
-    EXPECT_EQ(4U, unionFind.getRootWithPassCompressionOnePass(8));
-    EXPECT_EQ(4U, unionFind.getRootWithPassCompressionOnePass(9));
+    EXPECT_EQ(0U, unionFind.getRootWithPathCompressionOnePass(0));
+    EXPECT_EQ(2U, unionFind.getRootWithPathCompressionOnePass(1));
+    EXPECT_EQ(2U, unionFind.getRootWithPathCompressionOnePass(2));
+    EXPECT_EQ(4U, unionFind.getRootWithPathCompressionOnePass(3));
+    EXPECT_EQ(4U, unionFind.getRootWithPathCompressionOnePass(4));
+    EXPECT_EQ(6U, unionFind.getRootWithPathCompressionOnePass(5));
+    EXPECT_EQ(6U, unionFind.getRootWithPathCompressionOnePass(6));
+    EXPECT_EQ(7U, unionFind.getRootWithPathCompressionOnePass(7));
+    EXPECT_EQ(4U, unionFind.getRootWithPathCompressionOnePass(8));
+    EXPECT_EQ(4U, unionFind.getRootWithPathCompressionOnePass(9));
 }
 
-TEST(WeightedQuickUnionTest, GetRootWithPassCompressionTwoPassWorks)
+TEST(WeightedQuickUnionTest, GetRootWithPathCompressionTwoPassWorks)
 {
     // Change test does not really check implementation
-    UnionFindForTest unionFind;
-    unionFind.connect(4, 3);
+    UnionFindForTest unionFind;    unionFind.connect(4, 3);
     unionFind.connect(3, 8);
     unionFind.connect(6, 5);
     unionFind.connect(9, 4);
     unionFind.connect(2, 1);
 
-    EXPECT_EQ(0U, unionFind.getRootWithPassCompressionTwoPass(0));
-    EXPECT_EQ(2U, unionFind.getRootWithPassCompressionTwoPass(1));
-    EXPECT_EQ(2U, unionFind.getRootWithPassCompressionTwoPass(2));
-    EXPECT_EQ(4U, unionFind.getRootWithPassCompressionTwoPass(3));
-    EXPECT_EQ(4U, unionFind.getRootWithPassCompressionTwoPass(4));
-    EXPECT_EQ(6U, unionFind.getRootWithPassCompressionTwoPass(5));
-    EXPECT_EQ(6U, unionFind.getRootWithPassCompressionTwoPass(6));
-    EXPECT_EQ(7U, unionFind.getRootWithPassCompressionTwoPass(7));
-    EXPECT_EQ(4U, unionFind.getRootWithPassCompressionTwoPass(8));
-    EXPECT_EQ(4U, unionFind.getRootWithPassCompressionTwoPass(9));
+    EXPECT_EQ(0U, unionFind.getRootWithPathCompressionTwoPass(0));
+    EXPECT_EQ(2U, unionFind.getRootWithPathCompressionTwoPass(1));
+    EXPECT_EQ(2U, unionFind.getRootWithPathCompressionTwoPass(2));
+    EXPECT_EQ(4U, unionFind.getRootWithPathCompressionTwoPass(3));
+    EXPECT_EQ(4U, unionFind.getRootWithPathCompressionTwoPass(4));
+    EXPECT_EQ(6U, unionFind.getRootWithPathCompressionTwoPass(5));
+    EXPECT_EQ(6U, unionFind.getRootWithPathCompressionTwoPass(6));
+    EXPECT_EQ(7U, unionFind.getRootWithPathCompressionTwoPass(7));
+    EXPECT_EQ(4U, unionFind.getRootWithPathCompressionTwoPass(8));
+    EXPECT_EQ(4U, unionFind.getRootWithPathCompressionTwoPass(9));
 }
 
-TEST(WeightedQuickUnionTest, GetNumberOfUnconnectedWorks)
-{
+TEST(WeightedQuickUnionTest, GetNumberOfUnconnectedWorks){
     UnionFindForTest unionFind;
     EXPECT_EQ(13U, unionFind.getNumberOfUnconnected());
-
     unionFind.connect(4, 3);
     unionFind.connect(3, 8);
     unionFind.connect(6, 5);

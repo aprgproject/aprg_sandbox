@@ -58,15 +58,13 @@ private:
             },
             [&]()
             {
-                // As soon as processed number vertices reached the total number of vertices check for a postive/negative cycle.
+                // As soon as processed number vertices reached the total number of vertices check for a positive/negative cycle.
                 if(numberOfVerticesProcessed++!=0 && numberOfVerticesProcessed >= numberOfVertices)
                 {
-                    // there is a positive or negative cycle if new weight is found when number total number of vertices is reached
-                    m_hasPositiveOrNegativeCycle = isNewWeightFound;
+                    // there is a positive or negative cycle if new weight is found when number total number of vertices is reached                    m_hasPositiveOrNegativeCycle = isNewWeightFound;
                 }
             });
-        }
-    }
+        }    }
 
     void searchForPathUsingOriginalBellmanFord() // manually positive or negative cycle
     {
