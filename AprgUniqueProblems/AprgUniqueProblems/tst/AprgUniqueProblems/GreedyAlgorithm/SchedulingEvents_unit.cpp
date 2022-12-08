@@ -47,4 +47,33 @@ TEST(SchedulingEventsTest, GetAsMuchEventsAsPossibleWorksAndEarlyEventsAreNotImm
     EXPECT_EQ(expectedNames, actualNames);
 }
 
+TEST(SchedulingEventsTest, GetAsMuchEventsAsPossibleWorksOnExample2)
+{
+    SchedulingEvents schedulingEvents;
+    schedulingEvents.addEvent("A", 10U, 20U);
+    schedulingEvents.addEvent("B", 12U, 25U);
+    schedulingEvents.addEvent("C", 20U, 30U);
+
+    SchedulingEvents::EventNames actualNames(schedulingEvents.getAsMuchEventsAsPossible());
+
+    SchedulingEvents::EventNames expectedNames{"A", "C"};
+    EXPECT_EQ(expectedNames, actualNames);
+}
+
+TEST(SchedulingEventsTest, GetAsMuchEventsAsPossibleWorksOnExample3)
+{
+    SchedulingEvents schedulingEvents;
+    schedulingEvents.addEvent("A", 1U, 2U);
+    schedulingEvents.addEvent("B", 3U, 4U);
+    schedulingEvents.addEvent("C", 0U, 6U);
+    schedulingEvents.addEvent("D", 5U, 7U);
+    schedulingEvents.addEvent("E", 8U, 9U);
+    schedulingEvents.addEvent("F", 5U, 9U);
+
+    SchedulingEvents::EventNames actualNames(schedulingEvents.getAsMuchEventsAsPossible());
+
+    SchedulingEvents::EventNames expectedNames{"A", "B", "D", "E"};
+    EXPECT_EQ(expectedNames, actualNames);
+}
+
 }
