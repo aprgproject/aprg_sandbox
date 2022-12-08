@@ -16,17 +16,16 @@ template <typename Object, unsigned int SIZE>
 class QuickUnion : public BaseUnionFind<Object>
 {
 public:
+    using RootArray = std::array<Object, SIZE>;
+
     QuickUnion()
         : m_relativeRoots()
-        , m_numberOfUnconnected(SIZE)
     {
         initialize();
     }
-
     bool isConnected(Object const& object1, Object const& object2) const override
     {
-        return getRoot(object1) == getRoot(object2);
-    }
+        return getRoot(object1) == getRoot(object2);    }
 
     Object getRoot(Object const& object) const override
     {
@@ -50,26 +49,22 @@ public:
         if(root1 != root2)
         {
             m_relativeRoots[root1] = root2; // the relative root tree might take too tall (check weighted union find for implementation that consider sizes)
-            m_numberOfUnconnected--;
         }
     }
 
-    unsigned int getNumberOfUnconnected() const
+    RootArray const& getRelativeRootArray() const
     {
-        return m_numberOfUnconnected;
+        return m_relativeRoots;
     }
 
 private:
-
     void initialize() // runs in linear time
     {
         std::iota(m_relativeRoots.begin(), m_relativeRoots.end(), 0);
     }
 
-    std::array<Object, SIZE> m_relativeRoots;
-    unsigned int m_numberOfUnconnected;
+    RootArray m_relativeRoots;
 };
 
 }
-
 }

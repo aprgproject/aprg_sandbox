@@ -15,17 +15,16 @@ template <typename Object, unsigned int SIZE>
 class QuickFind : public BaseUnionFind<Object>
 {
 public:
+    using RootArray = std::array<Object, SIZE>;
+
     QuickFind()
         : m_roots()
-        , m_numberOfUnconnected(SIZE)
     {
         initialize();
     }
-
     bool isConnected(Object const& object1, Object const& object2) const override
     {
-        return getRoot(object1) == getRoot(object2);
-    }
+        return getRoot(object1) == getRoot(object2);    }
 
     Object getRoot(Object const& object) const override
     {
@@ -39,21 +38,18 @@ public:
         if(root1 != root2)
         {
             replaceAllOldRootsWithNewRoot(root2, root1); // this is an eager approach (every connect -> update new root to all old roots)
-            m_numberOfUnconnected--;
         }
     }
 
-    unsigned int getNumberOfUnconnected() const
+    RootArray const& getRootArray() const
     {
-        return m_numberOfUnconnected;
+        return m_roots;
     }
 
 private:
-
     void initialize() // runs in linear time
     {
-        std::iota(m_roots.begin(), m_roots.end(), 0);
-    }
+        std::iota(m_roots.begin(), m_roots.end(), 0);    }
 
     void replaceAllOldRootsWithNewRoot(Object const& oldRoot, Object const& newRoot)
     {
@@ -66,10 +62,8 @@ private:
         }
     }
 
-    std::array<Object, SIZE> m_roots;
-    unsigned int m_numberOfUnconnected;
+    RootArray m_roots;
 };
 
 }
-
 }

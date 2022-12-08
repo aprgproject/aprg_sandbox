@@ -14,40 +14,42 @@ namespace algorithm
 
 namespace
 {
-using QuickFindForTest = QuickFind<unsigned int, 13>;
+using UnionFindForTest = QuickFind<unsigned int, 13>;
 }
 
 TEST(QuickFindTest, IsConnectedWorks)
 {
-    testIsConnectedWithUnsignedInt<QuickFindForTest>();
+    UnionFindForTest unionFind;
+    testIsConnectedWithUnsignedInt<UnionFindForTest>(unionFind);
 }
 
 TEST(QuickFindTest, ConnectWorks)
 {
-    testConnectWithUnsignedInt<QuickFindForTest>();
+    UnionFindForTest unionFind;
+    testConnectWithUnsignedInt<UnionFindForTest>(unionFind);
 }
 
 TEST(QuickFindTest, ConnectWorksWithExample1)
 {
-    testConnectUsingExample1WithUnsignedInt<QuickFindForTest>();
+    UnionFindForTest unionFind;
+    testConnectUsingExample1WithUnsignedInt<UnionFindForTest>(unionFind);
 }
 
 TEST(QuickFindTest, ConnectWorksWithExample2)
 {
-    testConnectUsingExample2WithUnsignedInt<QuickFindForTest>();
+    UnionFindForTest unionFind;
+    testConnectUsingExample2WithUnsignedInt<UnionFindForTest>(unionFind);
 }
 
 TEST(QuickFindTest, GetRootWorks)
 {
-    QuickFindForTest unionFind;
+    UnionFindForTest unionFind;
     unionFind.connect(4, 3);
     unionFind.connect(3, 8);
-    unionFind.connect(6, 5);
-    unionFind.connect(9, 4);
+    unionFind.connect(6, 5);    unionFind.connect(9, 4);
     unionFind.connect(2, 1);
 
-    EXPECT_EQ(0U, unionFind.getRoot(0));
-    EXPECT_EQ(2U, unionFind.getRoot(1));
+    EXPECT_EQ(0U, unionFind.getRoot(0));    EXPECT_EQ(2U, unionFind.getRoot(1));
     EXPECT_EQ(2U, unionFind.getRoot(2));
     EXPECT_EQ(9U, unionFind.getRoot(3));
     EXPECT_EQ(9U, unionFind.getRoot(4));
@@ -58,19 +60,22 @@ TEST(QuickFindTest, GetRootWorks)
     EXPECT_EQ(9U, unionFind.getRoot(9));
 }
 
-TEST(QuickFindTest, GetNumberOfUnconnectedWorks)
+TEST(QuickFindTest, GetRootArrayWorks)
 {
-    QuickFindForTest unionFind;
-    EXPECT_EQ(13U, unionFind.getNumberOfUnconnected());
+    UnionFindForTest unionFind;
+
+    UnionFindForTest::RootArray expectedInitialRootArray{0U, 1U, 2U, 3U, 4U, 5U, 6U, 7U, 8U, 9U, 10U, 11U, 12U};
+    EXPECT_EQ(expectedInitialRootArray, unionFind.getRootArray());
 
     unionFind.connect(4, 3);
     unionFind.connect(3, 8);
     unionFind.connect(6, 5);
     unionFind.connect(9, 4);
     unionFind.connect(2, 1);
-    EXPECT_EQ(8U, unionFind.getNumberOfUnconnected());
+
+    UnionFindForTest::RootArray expectedRootArray{0U, 2U, 2U, 9U, 9U, 6U, 6U, 7U, 9U, 9U, 10U, 11U, 12U};
+    EXPECT_EQ(expectedRootArray, unionFind.getRootArray());
 }
 
 }
-
 }

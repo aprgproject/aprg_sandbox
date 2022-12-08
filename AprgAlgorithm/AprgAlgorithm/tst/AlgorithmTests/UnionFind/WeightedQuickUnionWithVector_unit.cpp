@@ -1,4 +1,4 @@
-#include <Algorithm/UnionFind/WeightedQuickUnion.hpp>
+#include <Algorithm/UnionFind/WeightedQuickUnionWithVector.hpp>
 #include <AlgorithmTests/UnionFind/Utilities/CommonTestsWithUnionFind.hpp>
 
 #include <gtest/gtest.h>
@@ -14,32 +14,36 @@ namespace algorithm
 
 namespace
 {
-using UnionFindForTest = WeightedQuickUnion<unsigned int, 13>;
+using UnionFindForTest = WeightedQuickUnionWithVector<unsigned int>;
 }
 
-TEST(WeightedQuickUnionTest, IsConnectedWorks)
+TEST(WeightedQuickUnionWithVectorTest, IsConnectedWorks)
 {
-    testIsConnectedWithUnsignedInt<UnionFindForTest>();
+    UnionFindForTest unionFind(13U);
+    testIsConnectedWithUnsignedInt<UnionFindForTest>(unionFind);
 }
 
-TEST(WeightedQuickUnionTest, ConnectWorks)
+TEST(WeightedQuickUnionWithVectorTest, ConnectWorks)
 {
-    testConnectWithUnsignedInt<UnionFindForTest>();
+    UnionFindForTest unionFind(13U);
+    testConnectWithUnsignedInt<UnionFindForTest>(unionFind);
 }
 
-TEST(WeightedQuickUnionTest, ConnectWorksWithExample1)
+TEST(WeightedQuickUnionWithVectorTest, ConnectWorksWithExample1)
 {
-    testConnectUsingExample1WithUnsignedInt<UnionFindForTest>();
+    UnionFindForTest unionFind(13U);
+    testConnectUsingExample1WithUnsignedInt<UnionFindForTest>(unionFind);
 }
 
-TEST(WeightedQuickUnionTest, ConnectWorksWithExample2)
+TEST(WeightedQuickUnionWithVectorTest, ConnectWorksWithExample2)
 {
-    testConnectUsingExample2WithUnsignedInt<UnionFindForTest>();
+    UnionFindForTest unionFind(13U);
+    testConnectUsingExample2WithUnsignedInt<UnionFindForTest>(unionFind);
 }
 
-TEST(WeightedQuickUnionTest, GetRootWorks)
+TEST(WeightedQuickUnionWithVectorTest, GetRootWorks)
 {
-    UnionFindForTest unionFind;
+    UnionFindForTest unionFind(13U);
     unionFind.connect(4, 3);
     unionFind.connect(3, 8);
     unionFind.connect(6, 5);
@@ -58,10 +62,10 @@ TEST(WeightedQuickUnionTest, GetRootWorks)
     EXPECT_EQ(4U, unionFind.getRoot(9));
 }
 
-TEST(WeightedQuickUnionTest, GetRootWithPathCompressionOnePassWorks)
+TEST(WeightedQuickUnionWithVectorTest, GetRootWithPathCompressionOnePassWorks)
 {
     // Change test does not really check implementation
-    UnionFindForTest unionFind;
+    UnionFindForTest unionFind(13U);
     unionFind.connect(4, 3);
     unionFind.connect(3, 8);
     unionFind.connect(6, 5);
@@ -80,10 +84,10 @@ TEST(WeightedQuickUnionTest, GetRootWithPathCompressionOnePassWorks)
     EXPECT_EQ(4U, unionFind.getRootWithPathCompressionOnePass(9));
 }
 
-TEST(WeightedQuickUnionTest, GetRootWithPathCompressionTwoPassWorks)
+TEST(WeightedQuickUnionWithVectorTest, GetRootWithPathCompressionTwoPassWorks)
 {
     // Change test does not really check implementation
-    UnionFindForTest unionFind;
+    UnionFindForTest unionFind(13U);
     unionFind.connect(4, 3);
     unionFind.connect(3, 8);
     unionFind.connect(6, 5);
@@ -102,17 +106,38 @@ TEST(WeightedQuickUnionTest, GetRootWithPathCompressionTwoPassWorks)
     EXPECT_EQ(4U, unionFind.getRootWithPathCompressionTwoPass(9));
 }
 
-TEST(WeightedQuickUnionTest, GetNumberOfUnconnectedWorks)
+TEST(WeightedQuickUnionWithVectorTest, GetRelativeRootVectorWorks)
 {
-    UnionFindForTest unionFind;
-    EXPECT_EQ(13U, unionFind.getNumberOfUnconnected());
+    UnionFindForTest unionFind(13U);
+
+    UnionFindForTest::RootVector expectedInitialRelativeRootVector{0U, 1U, 2U, 3U, 4U, 5U, 6U, 7U, 8U, 9U, 10U, 11U, 12U};
+    EXPECT_EQ(expectedInitialRelativeRootVector, unionFind.getRelativeRootVector());
 
     unionFind.connect(4, 3);
     unionFind.connect(3, 8);
     unionFind.connect(6, 5);
     unionFind.connect(9, 4);
     unionFind.connect(2, 1);
-    EXPECT_EQ(8U, unionFind.getNumberOfUnconnected());
+
+    UnionFindForTest::RootVector expectedRelativeRootVector{0U, 2U, 2U, 4U, 4U, 6U, 6U, 7U, 4U, 4U, 10U, 11U, 12U};
+    EXPECT_EQ(expectedRelativeRootVector, unionFind.getRelativeRootVector());
+}
+
+TEST(WeightedQuickUnionWithVectorTest, GetSizesOfRootsVectorWorks)
+{
+    UnionFindForTest unionFind(13U);
+
+    UnionFindForTest::SizeVector expectedInitialRelativeRootVector{1U, 1U, 1U, 1U, 1U, 1U, 1U, 1U, 1U, 1U, 1U, 1U, 1U};
+    EXPECT_EQ(expectedInitialRelativeRootVector, unionFind.getSizesOfRootsVector());
+
+    unionFind.connect(4, 3);
+    unionFind.connect(3, 8);
+    unionFind.connect(6, 5);
+    unionFind.connect(9, 4);
+    unionFind.connect(2, 1);
+
+    UnionFindForTest::SizeVector expectedRelativeRootVector{1U, 1U, 2U, 1U, 4U, 1U, 2U, 1U, 1U, 1U, 1U, 1U, 1U};
+    EXPECT_EQ(expectedRelativeRootVector, unionFind.getSizesOfRootsVector());
 }
 
 }

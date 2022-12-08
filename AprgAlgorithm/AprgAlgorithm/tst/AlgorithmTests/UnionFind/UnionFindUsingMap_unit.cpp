@@ -19,30 +19,32 @@ using UnionFindForTest = UnionFindUsingMap<unsigned int>;
 
 TEST(UnionFindUsingMapTest, IsConnectedWorks)
 {
-    testIsConnectedWithUnsignedInt<UnionFindForTest>();
+    UnionFindForTest unionFind;
+    testIsConnectedWithUnsignedInt<UnionFindForTest>(unionFind);
 }
 
 TEST(UnionFindUsingMapTest, ConnectWorks)
 {
-    testConnectWithUnsignedInt<UnionFindForTest>();
+    UnionFindForTest unionFind;
+    testConnectWithUnsignedInt<UnionFindForTest>(unionFind);
 }
 
 TEST(UnionFindUsingMapTest, ConnectWorksWithExample1)
 {
-    testConnectUsingExample1WithUnsignedInt<UnionFindForTest>();
+    UnionFindForTest unionFind;
+    testConnectUsingExample1WithUnsignedInt<UnionFindForTest>(unionFind);
 }
 
 TEST(UnionFindUsingMapTest, ConnectWorksWithExample2)
 {
-    testConnectUsingExample2WithUnsignedInt<UnionFindForTest>();
+    UnionFindForTest unionFind;
+    testConnectUsingExample2WithUnsignedInt<UnionFindForTest>(unionFind);
 }
 
-TEST(UnionFindUsingMapTest, GetRootWorks)
-{
+TEST(UnionFindUsingMapTest, GetRootWorks){
     UnionFindForTest unionFind;
     unionFind.connect(4, 3);
-    unionFind.connect(3, 8);
-    unionFind.connect(6, 5);
+    unionFind.connect(3, 8);    unionFind.connect(6, 5);
     unionFind.connect(9, 4);
     unionFind.connect(2, 1);
 
@@ -56,6 +58,23 @@ TEST(UnionFindUsingMapTest, GetRootWorks)
     EXPECT_EQ(7U, unionFind.getRoot(7));
     EXPECT_EQ(3U, unionFind.getRoot(8));
     EXPECT_EQ(3U, unionFind.getRoot(9));
+}
+
+TEST(UnionFindUsingMapTest, GetConnectionMapWorks)
+{
+    UnionFindForTest unionFind;
+
+    UnionFindForTest::ConnectionMap expectedInitialConnectionMap;
+    EXPECT_EQ(expectedInitialConnectionMap, unionFind.getConnectionMap());
+
+    unionFind.connect(4, 3);
+    unionFind.connect(3, 8);
+    unionFind.connect(6, 5);
+    unionFind.connect(9, 4);
+    unionFind.connect(2, 1);
+
+    UnionFindForTest::ConnectionMap expectedConnectionMap{{1U, 1U}, {2U, 1U}, {3U, 3U}, {4U, 3U}, {5U, 5U}, {6U, 5U}, {8U, 3U}, {9U, 3U}};
+    EXPECT_EQ(expectedConnectionMap, unionFind.getConnectionMap());
 }
 
 }
