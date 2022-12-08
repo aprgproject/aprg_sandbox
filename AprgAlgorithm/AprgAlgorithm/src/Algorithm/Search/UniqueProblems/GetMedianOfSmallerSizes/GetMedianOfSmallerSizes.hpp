@@ -94,7 +94,8 @@ private:
         for(auto it=m_halfSizeSortedValues.cbegin(); it!=m_halfSizeSortedValues.cend(); it++)
         {
             if(value < *it)
-            {                m_halfSizeSortedValues.emplace(it, value);
+            {
+                m_halfSizeSortedValues.emplace(it, value);
                 isInserted = true;
                 break;
             }
@@ -106,10 +107,12 @@ private:
         else if(m_halfSizeSortedValues.size()>m_maxMedianIndex && isInserted) // keep the size small
         {
             m_halfSizeSortedValues.pop_back();
-        }    }
+        }
+    }
 
     Index m_size;
-    Index m_maxMedianIndex;    MedianValues m_halfSizeSortedValues;
+    Index m_maxMedianIndex;
+    MedianValues m_halfSizeSortedValues;
 };
 
 }
