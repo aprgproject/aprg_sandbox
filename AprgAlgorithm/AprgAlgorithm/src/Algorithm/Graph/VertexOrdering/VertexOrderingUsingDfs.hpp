@@ -165,7 +165,7 @@ private:
 // Note: In the algorithm above, its possible to have a cycle and vertex ordering will ignore it and will return current ordering.
 // -> So if there are cycles, vertex ordering will depend which vertex was used to start DFS.
 
-// Other discussion:
+// Other discussions:
 // An acyclic graph always has a topological sort.
 // However, if the graph contains a cycle, it is not possible to form a topological sort,
 // because no node of the cycle can appear before the other nodes of the cycle in the ordering.

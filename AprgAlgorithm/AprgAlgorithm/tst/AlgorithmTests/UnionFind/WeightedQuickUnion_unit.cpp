@@ -61,7 +61,8 @@ TEST(WeightedQuickUnionTest, GetRootWorks)
 TEST(WeightedQuickUnionTest, GetRootWithPathCompressionOnePassWorks)
 {
     // Change test does not really check implementation
-    UnionFindForTest unionFind;    unionFind.connect(4, 3);
+    UnionFindForTest unionFind;
+    unionFind.connect(4, 3);
     unionFind.connect(3, 8);
     unionFind.connect(6, 5);
     unionFind.connect(9, 4);
@@ -82,7 +83,8 @@ TEST(WeightedQuickUnionTest, GetRootWithPathCompressionOnePassWorks)
 TEST(WeightedQuickUnionTest, GetRootWithPathCompressionTwoPassWorks)
 {
     // Change test does not really check implementation
-    UnionFindForTest unionFind;    unionFind.connect(4, 3);
+    UnionFindForTest unionFind;
+    unionFind.connect(4, 3);
     unionFind.connect(3, 8);
     unionFind.connect(6, 5);
     unionFind.connect(9, 4);
@@ -100,9 +102,11 @@ TEST(WeightedQuickUnionTest, GetRootWithPathCompressionTwoPassWorks)
     EXPECT_EQ(4U, unionFind.getRootWithPathCompressionTwoPass(9));
 }
 
-TEST(WeightedQuickUnionTest, GetNumberOfUnconnectedWorks){
+TEST(WeightedQuickUnionTest, GetNumberOfUnconnectedWorks)
+{
     UnionFindForTest unionFind;
     EXPECT_EQ(13U, unionFind.getNumberOfUnconnected());
+
     unionFind.connect(4, 3);
     unionFind.connect(3, 8);
     unionFind.connect(6, 5);

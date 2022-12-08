@@ -109,7 +109,7 @@ Baseball elimination problem?
 
 
 
-Other discussion:
+Other discussions:
 
 Flows and cuts
 In this chapter, we focus on the following two problems:

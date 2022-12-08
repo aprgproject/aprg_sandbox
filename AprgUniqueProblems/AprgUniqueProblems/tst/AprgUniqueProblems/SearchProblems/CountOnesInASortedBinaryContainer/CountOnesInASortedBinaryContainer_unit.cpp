@@ -16,9 +16,11 @@ using ValuesForTest = vector<bool>;
 using QueryForTest = CountOnesInASortedBinaryContainer<ValuesForTest>;
 }
 
-TEST(CountOnesInASortedBinaryContainerTest, GetNumberOfOnesInASortedBinaryContainerWorksOnEmpty){
+TEST(CountOnesInASortedBinaryContainerTest, GetNumberOfOnesInASortedBinaryContainerWorksOnEmpty)
+{
     ValuesForTest valuesForTest;
     QueryForTest query;
+
     EXPECT_EQ(0U, query.getNumberOfOnesInASortedBinaryContainer(valuesForTest));
 }
 

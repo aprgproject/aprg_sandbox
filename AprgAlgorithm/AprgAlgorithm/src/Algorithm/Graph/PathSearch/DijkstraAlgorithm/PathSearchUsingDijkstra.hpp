@@ -108,9 +108,10 @@ private:
 // If there is an edge with negative weights, the algorithm may give incorrect results.
 
 
-// Other discussion:
+// Other discussions:
 // Dijkstra’s algorithm finds shortest paths from the starting node to all nodes of the graph, like the Bellman–Ford algorithm.
-// The benefit of Dijsktra’s algorithm is that it is more efficient and can be used for processing large graphs.// However, the algorithm requires that there are no negative weight edges in the graph.
+// The benefit of Dijsktra’s algorithm is that it is more efficient and can be used for processing large graphs.
+// However, the algorithm requires that there are no negative weight edges in the graph.
 
 // Like in the Bellman–Ford algorithm, initially the distance to the starting node is 0 and the distance to all other nodes is infinite.
 // At each step, Dijkstra’s algorithm selects a node that has not been processed yet and whose distance is as small as possible.
@@ -155,7 +156,9 @@ private:
 
 // Other analysis:
 // The time complexity of the above implementation is O(n + mlogm). Note: 'n' is nodes and 'm' is edges.
-// This because the algorithm goes through all nodes of the graph and adds for each edge at most one distance to the priority queue.// Note: In the implementation above, relax function uses a map to store weights which will result to have a different running time instead.
+// This because the algorithm goes through all nodes of the graph and adds for each edge at most one distance to the priority queue.
+// Note: In the implementation above, relax function uses a map to store weights which will result to have a different running time instead.
 
 }
+
 }

@@ -113,7 +113,7 @@ private:
 // -> implementation: easy
 
 
-// Other discussion:
+// Other discussions:
 // Kosaraju’s algorithm is an efficient method for finding the strongly connected components of a directed graph.
 // The algorithm performs two depth-first searches:
 // the first search constructs a list of nodes according to the structure of the graph,

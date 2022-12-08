@@ -96,7 +96,7 @@ private:
 // ---> UnionFind isConnected = E(frequency) * log* V(time per operation)
 
 
-// Other discussion:
+// Other discussions:
 // In Kruskal’s algorithm, the initial spanning tree only contains the nodes of the graph and does not contain any edges.
 // Then the algorithm goes through the edges ordered by their weights, and always adds an edge to the tree if it does not create a cycle.
 // The algorithm maintains the components of the tree. Initially, each node of the graph belongs to a separate component.

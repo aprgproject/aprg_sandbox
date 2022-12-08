@@ -177,7 +177,7 @@ protected:
 
 
 
-// Other discussion:
+// Other discussions:
 
 // The Ford–Fulkerson algorithm finds the maximum flow in a graph.
 // The algorithm begins with an empty flow, and at each step finds a path from the source to the sink that generates more flow.

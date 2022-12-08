@@ -131,6 +131,7 @@ private:
 // Other discussions:
 // Difference between eager and lazy?
 // -> Eager only adds (vertex) to search when it has better weight
+
 // The time complexity of Prim’s algorithm is O(n + mlogm) that equals the time complexity of Dijkstra’s algorithm. Note: 'n' is nodes and 'm' is edges.
 // In practice, Prim’s and Kruskal’s algorithms are both efficient, and the choice of the algorithm is a matter of taste.
 // Still, most competitive programmers use Kruskal’s algorithm.

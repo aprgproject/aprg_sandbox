@@ -129,3 +129,5 @@ Therefore this tour is within a factor of two of optimal.
 –--> k clustering problem can be viewed as finding an MST and deleting the k-1 most expensive edges.
 
 
+
+

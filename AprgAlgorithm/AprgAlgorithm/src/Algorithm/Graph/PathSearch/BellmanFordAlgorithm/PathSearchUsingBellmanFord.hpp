@@ -61,10 +61,12 @@ private:
                 // As soon as processed number vertices reached the total number of vertices check for a positive/negative cycle.
                 if(numberOfVerticesProcessed++!=0 && numberOfVerticesProcessed >= numberOfVertices)
                 {
-                    // there is a positive or negative cycle if new weight is found when number total number of vertices is reached                    m_hasPositiveOrNegativeCycle = isNewWeightFound;
+                    // there is a positive or negative cycle if new weight is found when number total number of vertices is reached
+                    m_hasPositiveOrNegativeCycle = isNewWeightFound;
                 }
             });
-        }    }
+        }
+    }
 
     void searchForPathUsingOriginalBellmanFord() // manually positive or negative cycle
     {
@@ -171,7 +173,7 @@ private:
 
 
 
-// Other discussion:
+// Other discussions:
 // The Bellman–Ford algorithm finds shortest paths from a starting node to all nodes of the graph.
 // The algorithm can process all kinds of graphs, provided that the graph does not contain a cycle with negative length.
 // If the graph contains a negative cycle, the algorithm can detect this.
