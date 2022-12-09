@@ -1,4 +1,4 @@
-#include <AprgUniqueProblems/SearchProblems/NextFreeIndex/NextFreeIndexWithSegmentTree.hpp>
+#include <AprgUniqueProblems/SearchProblems/GetFreeIndex/GetNextFreeIndexWithUnionFind.hpp>
 
 #include <gtest/gtest.h>
 
@@ -13,11 +13,10 @@ namespace algorithm
 namespace
 {
 using IndexForTest = unsigned int;
-using IndexesForTest = vector<IndexForTest>;
-using QueryForTest = NextFreeIndexWithSegmentTree<IndexesForTest>;
+using QueryForTest = GetNextFreeIndexWithUnionFind<IndexForTest>;
 }
 
-TEST(NextFreeIndexWithSegmentTreeTest, GetNextFreeIndexAtWorksWithZeroSize)
+TEST(GetNextFreeIndexWithUnionFindTest, GetNextFreeIndexAtWorksWithZeroSize)
 {
     QueryForTest query(0U);
 
@@ -26,7 +25,7 @@ TEST(NextFreeIndexWithSegmentTreeTest, GetNextFreeIndexAtWorksWithZeroSize)
     EXPECT_EQ(0U, query.getNextFreeIndexAt(2U));
 }
 
-TEST(NextFreeIndexWithSegmentTreeTest, GetNextFreeIndexAtWorks)
+TEST(GetNextFreeIndexWithUnionFindTest, GetNextFreeIndexAtWorks)
 {
     QueryForTest query(28U);
 
@@ -41,7 +40,7 @@ TEST(NextFreeIndexWithSegmentTreeTest, GetNextFreeIndexAtWorks)
     EXPECT_EQ(0U, query.getNextFreeIndexAt(28U));
 }
 
-TEST(NextFreeIndexWithSegmentTreeTest, SetAsNotFreeWorks)
+TEST(GetNextFreeIndexWithUnionFindTest, SetAsNotFreeWorks)
 {
     QueryForTest query(28U);
 
@@ -52,13 +51,13 @@ TEST(NextFreeIndexWithSegmentTreeTest, SetAsNotFreeWorks)
     EXPECT_EQ(2U, query.getNextFreeIndexAt(2U));
     EXPECT_EQ(14U, query.getNextFreeIndexAt(14U));
     EXPECT_EQ(16U, query.getNextFreeIndexAt(15U));
-    EXPECT_EQ(17U, query.getNextFreeIndexAt(16U));
-    EXPECT_EQ(27U, query.getNextFreeIndexAt(26U));
-    EXPECT_EQ(0U, query.getNextFreeIndexAt(27U));
+    EXPECT_EQ(16U, query.getNextFreeIndexAt(16U));
+    EXPECT_EQ(26U, query.getNextFreeIndexAt(26U));
+    EXPECT_EQ(27U, query.getNextFreeIndexAt(27U));
     EXPECT_EQ(0U, query.getNextFreeIndexAt(28U));
 }
 
-TEST(NextFreeIndexWithSegmentTreeTest, SetAsFreeWorks)
+TEST(GetNextFreeIndexWithUnionFindTest, SetAsFreeWorks)
 {
     QueryForTest query(28U);
     query.setAsNotFree(15U);
