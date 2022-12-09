@@ -24,7 +24,8 @@ public:
     }
     bool isConnected(Object const& object1, Object const& object2) const override
     {
-        return getRoot(object1) == getRoot(object2);    }
+        return getRoot(object1) == getRoot(object2);
+    }
 
     Object getRoot(Object const& object) const override
     {
@@ -49,7 +50,8 @@ public:
 private:
     void initialize() // runs in linear time
     {
-        std::iota(m_roots.begin(), m_roots.end(), 0);    }
+        std::iota(m_roots.begin(), m_roots.end(), 0);
+    }
 
     void replaceAllOldRootsWithNewRoot(Object const& oldRoot, Object const& newRoot)
     {

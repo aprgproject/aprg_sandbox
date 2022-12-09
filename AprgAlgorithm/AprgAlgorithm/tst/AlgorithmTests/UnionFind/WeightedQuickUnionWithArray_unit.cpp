@@ -2,6 +2,7 @@
 #include <AlgorithmTests/UnionFind/Utilities/CommonTestsWithUnionFind.hpp>
 
 #include <gtest/gtest.h>
+
 using namespace alba::algorithm::CommonTestsWithUnionFind;
 using namespace std;
 
@@ -43,7 +44,8 @@ TEST(WeightedQuickUnionWithArrayTest, ConnectWorksWithExample2)
 TEST(WeightedQuickUnionWithArrayTest, GetRootWorks)
 {
     UnionFindForTest unionFind;
-    unionFind.connect(4, 3);    unionFind.connect(3, 8);
+    unionFind.connect(4, 3);
+    unionFind.connect(3, 8);
     unionFind.connect(6, 5);
     unionFind.connect(9, 4);
     unionFind.connect(2, 1);
@@ -63,7 +65,8 @@ TEST(WeightedQuickUnionWithArrayTest, GetRootWorks)
 TEST(WeightedQuickUnionWithArrayTest, GetRootWithPathCompressionOnePassWorks)
 {
     // Change test does not really check implementation
-    UnionFindForTest unionFind;    unionFind.connect(4, 3);
+    UnionFindForTest unionFind;
+    unionFind.connect(4, 3);
     unionFind.connect(3, 8);
     unionFind.connect(6, 5);
     unionFind.connect(9, 4);
@@ -84,7 +87,8 @@ TEST(WeightedQuickUnionWithArrayTest, GetRootWithPathCompressionOnePassWorks)
 TEST(WeightedQuickUnionWithArrayTest, GetRootWithPathCompressionTwoPassWorks)
 {
     // Change test does not really check implementation
-    UnionFindForTest unionFind;    unionFind.connect(4, 3);
+    UnionFindForTest unionFind;
+    unionFind.connect(4, 3);
     unionFind.connect(3, 8);
     unionFind.connect(6, 5);
     unionFind.connect(9, 4);
@@ -120,4 +124,5 @@ TEST(WeightedQuickUnionWithArrayTest, GetRelativeRootArrayWorks)
 }
 
 }
+
 }

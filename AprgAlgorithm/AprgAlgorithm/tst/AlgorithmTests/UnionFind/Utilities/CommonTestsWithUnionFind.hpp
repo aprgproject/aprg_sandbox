@@ -20,7 +20,8 @@ void testIsConnectedWithUnsignedInt(UnionFind & unionFind)
     EXPECT_FALSE(unionFind.isConnected(3, 4));
     unionFind.connect(3, 4);
 
-    EXPECT_FALSE(unionFind.isConnected(1, 2));    EXPECT_FALSE(unionFind.isConnected(2, 1));
+    EXPECT_FALSE(unionFind.isConnected(1, 2));
+    EXPECT_FALSE(unionFind.isConnected(2, 1));
     EXPECT_TRUE(unionFind.isConnected(3, 4));
     EXPECT_TRUE(unionFind.isConnected(4, 3));
 }
@@ -33,6 +34,7 @@ void testConnectWithUnsignedInt(UnionFind & unionFind)
     EXPECT_FALSE(unionFind.isConnected(3, 5));    EXPECT_FALSE(unionFind.isConnected(5, 3));
     EXPECT_FALSE(unionFind.isConnected(4, 5));
     EXPECT_FALSE(unionFind.isConnected(5, 4));
+
     unionFind.connect(3, 4);
     unionFind.connect(4, 5);
 
@@ -52,7 +54,8 @@ void testConnectUsingExample1WithUnsignedInt(UnionFind & unionFind)
     unionFind.connect(6, 5);    unionFind.connect(9, 4);
     unionFind.connect(2, 1);
 
-    EXPECT_TRUE(unionFind.isConnected(8,9));    EXPECT_FALSE(unionFind.isConnected(5,4));
+    EXPECT_TRUE(unionFind.isConnected(8,9));
+    EXPECT_FALSE(unionFind.isConnected(5,4));
     EXPECT_TRUE(unionFind.isConnected(4,9));
     EXPECT_TRUE(unionFind.isConnected(4,3));
     EXPECT_FALSE(unionFind.isConnected(4,7));
@@ -70,7 +73,8 @@ void testConnectUsingExample2WithUnsignedInt(UnionFind & unionFind)
     unionFind.connect(0, 5);    unionFind.connect(0, 6);
     unionFind.connect(3, 4);
     unionFind.connect(3, 5);
-    unionFind.connect(4, 5);    unionFind.connect(4, 6);
+    unionFind.connect(4, 5);
+    unionFind.connect(4, 6);
     unionFind.connect(7, 8);
     unionFind.connect(9, 10);
     unionFind.connect(9, 11);

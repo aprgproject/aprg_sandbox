@@ -49,7 +49,8 @@ TEST(QuickUnionTest, GetRootWorks)
     unionFind.connect(6, 5);    unionFind.connect(9, 4);
     unionFind.connect(2, 1);
 
-    EXPECT_EQ(0U, unionFind.getRoot(0));    EXPECT_EQ(1U, unionFind.getRoot(1));
+    EXPECT_EQ(0U, unionFind.getRoot(0));
+    EXPECT_EQ(1U, unionFind.getRoot(1));
     EXPECT_EQ(1U, unionFind.getRoot(2));
     EXPECT_EQ(8U, unionFind.getRoot(3));
     EXPECT_EQ(8U, unionFind.getRoot(4));

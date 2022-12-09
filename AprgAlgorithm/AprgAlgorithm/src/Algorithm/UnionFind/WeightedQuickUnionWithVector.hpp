@@ -108,7 +108,8 @@ private:
     void initialize(unsigned int const maximumSize) // runs in linear time    {
         m_relativeRoots.reserve(maximumSize);
         for(unsigned int i=0; i<maximumSize; i++)
-        {            m_relativeRoots.emplace_back(i);
+        {
+            m_relativeRoots.emplace_back(i);
         }
         m_sizesOfRoots.resize(maximumSize, Object{1U});
     }

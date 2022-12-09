@@ -25,7 +25,8 @@ public:
     }
     bool isConnected(Object const& object1, Object const& object2) const override
     {
-        return getRoot(object1) == getRoot(object2);    }
+        return getRoot(object1) == getRoot(object2);
+    }
 
     Object getRoot(Object const& object) const override
     {

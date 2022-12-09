@@ -21,6 +21,7 @@ public:
     bool isConnected(Object const& object1, Object const& object2) const override    {
         return getRoot(object1) == getRoot(object2);
     }
+
     Object getRoot(Object const& object) const override
     {
         // Is it log(N) * log(N) * log(N)...?
@@ -60,6 +61,7 @@ private:
     }
     ConnectionMap m_connectionMap;
 };
+
 }
 
 }
