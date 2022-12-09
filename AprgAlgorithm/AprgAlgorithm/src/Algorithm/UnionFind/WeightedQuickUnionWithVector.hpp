@@ -60,14 +60,13 @@ public:
         std::vector<Object> relativeRoots;
         Object mainRoot(object);
         Object currentRoot(m_relativeRoots.at(object));
+
         while(mainRoot != currentRoot)
         {
-            mainRoot = currentRoot;
-            relativeRoots.emplace_back(currentRoot);
+            mainRoot = currentRoot;            relativeRoots.emplace_back(currentRoot);
             currentRoot = m_relativeRoots.at(mainRoot);
         }
-        for(Object const& relativeRoot : relativeRoots) // set found root to all examined relative roots -> makes the tree really flat (Hopcroft Ulman Tarjan proof -> almost linear)
-        {
+        for(Object const& relativeRoot : relativeRoots) // set found root to all examined relative roots -> makes the tree really flat (Hopcroft Ulman Tarjan proof -> almost linear)        {
             m_relativeRoots[relativeRoot] = mainRoot;
         }
         return mainRoot;

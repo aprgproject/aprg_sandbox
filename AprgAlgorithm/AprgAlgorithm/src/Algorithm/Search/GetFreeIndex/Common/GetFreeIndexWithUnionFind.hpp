@@ -35,22 +35,19 @@ public:
 
 protected:
 
-    Index getFreeIndexAt(Index const index) const
+    Index getFreeIndexAt(Index const index)
     {
         // This has log(N) running time
-
         Index result{};
         if(index<m_numberOfIndexes)
         {
-            result = m_unionFind.getRoot(index);
+            result = m_unionFind.getRootWithPathCompressionTwoPass(index);
         }
         return result;
     }
-
     Index m_numberOfIndexes;
     UnionFind m_unionFind;
 };
-
 }
 
 }

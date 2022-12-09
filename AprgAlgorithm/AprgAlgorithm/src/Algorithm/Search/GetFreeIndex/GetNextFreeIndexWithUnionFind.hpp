@@ -21,13 +21,11 @@ public:
         , b_unionFind(BaseClass::m_unionFind)
     {}
 
-    Index getNextFreeIndexAt(Index const index) const
+    Index getNextFreeIndexAt(Index const index)
     {
         // This has log(N) running time
-
         return BaseClass::getFreeIndexAt(index);
     }
-
     void setAsNotFree(Index const index)
     {
         if(index+1 < b_numberOfIndexes)
