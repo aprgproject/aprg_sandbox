@@ -27,11 +27,9 @@ public:
 
     TaskNames getTasksOrderWithMaximumScore() const;
 
-    void addTask(std::string const& eventName, unsigned int const startTime, unsigned int const endTime);
+    void addTask(std::string const& taskName, unsigned int const duration, unsigned int const deadline);
 
 private:
-    Tasks m_tasks;
-};
+    Tasks m_tasks;};
 
 }
-
