@@ -2,12 +2,12 @@
 
 #include <Algorithm/Graph/PathSearch/Common/BasePathSearchWithBfsAndDfs.hpp>
 
+#include <functional>
+
 namespace alba
 {
-
 namespace algorithm
 {
-
 template <typename Vertex>
 class PathSearchUsingDfs : public BasePathSearchWithBfsAndDfs<Vertex>
 {
@@ -19,37 +19,45 @@ public:
     using VertexToVertexMap = typename GraphTypes<Vertex>::VertexToVertexMap;
     using VertexToUnsignedIntMap = typename GraphTypes<Vertex>::VertexToUnsignedIntMap;
     using CheckableVerticesWithVertex = CheckableVertices<Vertex>;
+    using UpdateFunction = std::function<void(Vertex const&, Vertex const&)>;
 
     PathSearchUsingDfs(BaseGraphWithVertex const& graph, Vertex const& startVertex)
-        : BaseClass(graph)
-        , b_graph(BaseClass::m_graph)
+        : BaseClass(graph)        , b_graph(BaseClass::m_graph)
         , b_startVertices(BaseClass::m_startVertices)
         , b_processedVertices(BaseClass::m_processedVertices)
         , b_vertexToPreviousVertexMap(BaseClass::m_vertexToPreviousVertexMap)
-        , b_vertexToDistanceToStartMap(BaseClass::m_vertexToDistanceToStartMap)
+        , m_updateFunction(getNoUpdateFunction())
     {
         reinitializeStartingFrom({startVertex});
     }
-
     PathSearchUsingDfs(BaseGraphWithVertex const& graph, Vertices const& startVertices)
         : BaseClass(graph)
         , b_graph(BaseClass::m_graph)
         , b_startVertices(BaseClass::m_startVertices)
         , b_processedVertices(BaseClass::m_processedVertices)
         , b_vertexToPreviousVertexMap(BaseClass::m_vertexToPreviousVertexMap)
-        , b_vertexToDistanceToStartMap(BaseClass::m_vertexToDistanceToStartMap)
+        , m_updateFunction(getNoUpdateFunction())
+    {
+        reinitializeStartingFrom(startVertices);
+    }
+
+    PathSearchUsingDfs(BaseGraphWithVertex const& graph, Vertices const& startVertices, UpdateFunction const& updateFunction)
+        : BaseClass(graph)
+        , b_graph(BaseClass::m_graph)
+        , b_startVertices(BaseClass::m_startVertices)
+        , b_processedVertices(BaseClass::m_processedVertices)
+        , b_vertexToPreviousVertexMap(BaseClass::m_vertexToPreviousVertexMap)
+        , m_updateFunction(updateFunction)
     {
         reinitializeStartingFrom(startVertices);
     }
 
     Path getOrderedPathTo(Vertex const& endVertex) const
     {
-        return this->getPathTo(endVertex);
-    }
+        return this->getPathTo(endVertex);    }
 
     void reinitializeStartingFrom(Vertices const& startVertices) override
-    {
-        this->clear();
+    {        this->clear();
         this->initializeWithStartVertices(startVertices);
         for(Vertex const& startVertex : b_startVertices.getVertices())  // to maintain order, get the vertices in start vertices (because its sorted)
         {
@@ -58,32 +66,38 @@ public:
     }
 
 private:
+
     void traverseUsingDfs(Vertex const& vertex)
     {
-        b_processedVertices.putVertex(vertex);
-        for(Vertex const& adjacentVertex : b_graph.getAdjacentVerticesAt(vertex))
+        b_processedVertices.putVertex(vertex);        for(Vertex const& adjacentVertex : b_graph.getAdjacentVerticesAt(vertex))
         {
             if(b_processedVertices.isNotFound(adjacentVertex))
             {
                 b_vertexToPreviousVertexMap[adjacentVertex] = vertex;
-                b_vertexToDistanceToStartMap[adjacentVertex] = b_vertexToDistanceToStartMap.at(vertex)+1;
+                m_updateFunction(adjacentVertex, vertex);
+
                 traverseUsingDfs(adjacentVertex);
             }
         }
     }
+
+    static UpdateFunction getNoUpdateFunction()
+    {
+        static UpdateFunction noUpdateFunction = [](Vertex const&, Vertex const&){};
+        return noUpdateFunction;
+    }
+
     BaseGraphWithVertex const& b_graph;
     CheckableVerticesWithVertex & b_startVertices;
     CheckableVerticesWithVertex & b_processedVertices;
     VertexToVertexMap & b_vertexToPreviousVertexMap;
-    VertexToUnsignedIntMap & b_vertexToDistanceToStartMap;
+    UpdateFunction m_updateFunction;
 };
 
-// Proposition: DFS marks all vertices connected to s in time proportional to the sum of their degrees
-// Proof:
+// Proposition: DFS marks all vertices connected to s in time proportional to the sum of their degrees// Proof:
 // -> If w is marked, then w is connected to s
 // -> If w is connected to s, then w is marked.
-// --> If w is unmarked, then consider last edge on a path from s to w that goes from a marked vertex to an unmarked one.
-// Proof (running time):
+// --> If w is unmarked, then consider last edge on a path from s to w that goes from a marked vertex to an unmarked one.// Proof (running time):
 // -> Each vertex connected to s is visited once
 
 // Other analysis:

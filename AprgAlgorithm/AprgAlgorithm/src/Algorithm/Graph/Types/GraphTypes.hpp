@@ -107,9 +107,9 @@ struct GraphTypesWithWeights
     using SetOfEdgesWithWeight = std::set<EdgeOrderedByWeight>;
 
     //Complicated Types
+    using VertexToWeightMap = std::map<Vertex, Weight>;
     using VertexToEdgeOrderedByWeightMap = std::map<Vertex, EdgeOrderedByWeight>;
 };
-
 }
 
 }

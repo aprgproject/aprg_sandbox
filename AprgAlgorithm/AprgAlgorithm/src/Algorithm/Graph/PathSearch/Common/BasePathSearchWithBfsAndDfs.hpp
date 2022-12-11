@@ -3,14 +3,10 @@
 #include <Algorithm/Graph/BaseGraph.hpp>
 #include <Algorithm/Graph/Utilities/CheckableVertices.hpp>
 
-#include <map>
-
 namespace alba
 {
-
 namespace algorithm
 {
-
 template <typename Vertex>
 class BasePathSearchWithBfsAndDfs
 {
@@ -74,54 +70,28 @@ public:
         return result;
     }
 
-    unsigned int getDistanceTo(Vertex const& endVertex) const
-    {
-        unsigned int result(0);
-        auto it = m_vertexToDistanceToStartMap.find(endVertex);
-        if(it != m_vertexToDistanceToStartMap.cend())
-        {
-            result = it->second;
-        }
-        return result;
-    }
-
     VertexToVertexMap const& getVertexToPreviousVertexMap() const
     {
         return m_vertexToPreviousVertexMap;
     }
-
-    VertexToUnsignedIntMap const& getVertexDistanceToStartMap() const
-    {
-        return m_vertexToDistanceToStartMap;
-    }
-
     virtual void reinitializeStartingFrom(Vertices const& startVertices) = 0;
 
 protected:
-
     void clear()
     {
-        m_processedVertices.clear();
-        m_startVertices.clear();
+        m_processedVertices.clear();        m_startVertices.clear();
         m_vertexToPreviousVertexMap.clear();
     }
 
     void initializeWithStartVertices(Vertices const& startVertices)
     {
         m_startVertices.putVertices(startVertices);
-        for(Vertex const& startVertex : startVertices)
-        {
-            m_vertexToDistanceToStartMap[startVertex] = 0;
-        }
     }
 
-    BaseGraphWithVertex const& m_graph;
-    CheckableVerticesWithVertex m_startVertices;
+    BaseGraphWithVertex const& m_graph;    CheckableVerticesWithVertex m_startVertices;
     CheckableVerticesWithVertex m_processedVertices;
     VertexToVertexMap m_vertexToPreviousVertexMap;
-    VertexToUnsignedIntMap m_vertexToDistanceToStartMap;
 };
 
 }
-
 }

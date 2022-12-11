@@ -3,14 +3,10 @@
 #include <Algorithm/Graph/BaseGraph.hpp>
 #include <Algorithm/Graph/Utilities/CheckableVertices.hpp>
 
-#include <map>
-
 namespace alba
 {
-
 namespace algorithm
 {
-
 template <typename Vertex>
 class HamiltonianPathSearchWithDfs // The Traveling Salesman Problem. // This is an intractable problem (classical NP-complete problem)
 {
