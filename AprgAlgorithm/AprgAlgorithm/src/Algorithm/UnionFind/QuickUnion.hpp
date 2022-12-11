@@ -23,6 +23,7 @@ public:
     {
         initialize();
     }
+
     bool isConnected(Object const& object1, Object const& object2) const override
     {
         return getRoot(object1) == getRoot(object2);
@@ -59,6 +60,7 @@ public:
     }
 
 private:
+
     void initialize() // runs in linear time
     {
         std::iota(m_relativeRoots.begin(), m_relativeRoots.end(), 0);
@@ -68,4 +70,5 @@ private:
 };
 
 }
+
 }

@@ -19,29 +19,25 @@ public:
     using BaseBfs = PathSearchUsingDfs<Vertex>;
     using BaseGraphWithVertex = BaseGraph<Vertex>;
     using Vertices = typename GraphTypes<Vertex>::Vertices;
-    using UpdateFunction = typename BaseBfs::UpdateFunction;
+    using InitializeDataFunction = typename BaseBfs::InitializeDataFunction;
+    using UpdateDataFunction = typename BaseBfs::UpdateDataFunction;
 
     PathSearchUsingDfsWithDistanceCount(BaseGraphWithVertex const& graph, Vertices const& startVertices)
         : BaseDistanceCount()
-        , BaseBfs(graph, startVertices, getUpdateFunction())
+        , BaseBfs(graph, startVertices, getInitializeDataFunction(), getUpdateDataFunction())
     {}
 
 private:
 
-    void updateDistance(Vertex const& adjacentVertex, Vertex const& vertex)
+    InitializeDataFunction getInitializeDataFunction()
     {
-        unsigned int distanceToVertex(0U);
-        auto it = this->m_endVertexToDistanceCountMap.find(vertex);
-        if(it != this->m_endVertexToDistanceCountMap.cend())
-        {
-            distanceToVertex = it->second;
-        }
-        this->m_endVertexToDistanceCountMap[adjacentVertex] = distanceToVertex+1U;
+        return std::bind(&BaseDistanceCount::initializeDistances, this, std::placeholders::_1);
+         // scope resolution "::" has the highest precedence
     }
 
-    UpdateFunction getUpdateFunction()
+    UpdateDataFunction getUpdateDataFunction()
     {
-        return std::bind(&PathSearchUsingDfsWithDistanceCount::updateDistance, this, std::placeholders::_1, std::placeholders::_2);
+        return std::bind(&BaseDistanceCount::updateDistance, this, std::placeholders::_1, std::placeholders::_2);
          // scope resolution "::" has the highest precedence
     }
 };

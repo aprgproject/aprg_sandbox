@@ -50,7 +50,7 @@ TEST(PathSearchUsingDfsWithDistanceCountTest, GetEndVertexToDistanceCountMapWork
     putConnectionsForTest(graph);
     PathSearchForTest pathSearch(graph, {0U});
 
-    ContentMapForTest expectedMap{{1U, 1U}, {2U, 2U}, {3U, 3U}, {4U, 4U}, {5U, 4U}};
+    ContentMapForTest expectedMap{{0U, 0U}, {1U, 1U}, {2U, 2U}, {3U, 3U}, {4U, 4U}, {5U, 4U}};
     EXPECT_EQ(expectedMap, pathSearch.getEndVertexToDistanceCountMap());
 }
 

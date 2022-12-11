@@ -12,6 +12,7 @@ template <typename Vertex, typename Weight, typename EdgeWeightedGraph>
 class BasePathSearchWithDistanceSum
 {
 public:
+    using Vertices = typename GraphTypes<Vertex>::Vertices;
     using VertexToWeightMap = typename GraphTypesWithWeights<Vertex, Weight>::VertexToWeightMap;
 
     BasePathSearchWithDistanceSum(EdgeWeightedGraph const& graph)
@@ -36,7 +37,28 @@ public:
         return m_endVertexToDistanceSumMap;
     }
 
-protected:
+    void initializeDistances(Vertices const& vertices)
+    {
+        for(Vertex const& vertex : vertices)
+        {
+            m_endVertexToDistanceSumMap.emplace(vertex, Vertex{});
+        }
+    }
+
+    void updateDistance(Vertex const& adjacentVertex, Vertex const& vertex)
+    {
+        Weight distanceToVertex(0U);
+        auto it = this->m_endVertexToDistanceSumMap.find(vertex);
+        if(it != this->m_endVertexToDistanceSumMap.cend())
+        {
+            distanceToVertex = it->second;
+        }
+        this->m_endVertexToDistanceSumMap[adjacentVertex]
+                = distanceToVertex + m_graph.getWeight(vertex, adjacentVertex);
+    }
+
+private:
+
     EdgeWeightedGraph const& m_graph;
     VertexToWeightMap m_endVertexToDistanceSumMap;
 };

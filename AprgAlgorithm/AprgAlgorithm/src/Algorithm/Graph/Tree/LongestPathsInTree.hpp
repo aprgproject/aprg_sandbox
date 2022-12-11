@@ -3,8 +3,10 @@
 #include <Algorithm/Graph/PathSearch/DepthFirstSearch/PathSearchUsingDfsWithDistanceCount.hpp>
 #include <Algorithm/Graph/Utilities/GraphUtilitiesHeaders.hpp>
 #include <Common/Container/AlbaFakeCopyable.hpp>
+
 namespace alba
 {
+
 namespace algorithm
 {
 
@@ -19,9 +21,11 @@ public:
     using Dfs = PathSearchUsingDfsWithDistanceCount<Vertex>;
     using DfsEntry = AlbaFakeCopyable<Dfs>;
     using VertexToDfsEntry = std::map<Vertex, DfsEntry>;
+
     LongestPathsInTree(BaseUndirectedGraphWithVertex const& graph)
         : m_graph(graph)
-    {        initializeIfNeeded();
+    {
+        initializeIfNeeded();
     }
 
     EndPointPairs const& getEndPointPairsOfLongestPaths() const
@@ -136,9 +140,11 @@ private:
             return m_vertexToDfs.at(vertex).getObject();
         }
     }
+
     BaseUndirectedGraphWithVertex const& m_graph;
     Vertices m_allVertices;
-    Vertices m_startVerticesOfLongestPath;    EndPointPairs m_endPointPairsOfLongestPaths;
+    Vertices m_startVerticesOfLongestPath;
+    EndPointPairs m_endPointPairsOfLongestPaths;
     VertexToDfsEntry m_vertexToDfs;
 };
 

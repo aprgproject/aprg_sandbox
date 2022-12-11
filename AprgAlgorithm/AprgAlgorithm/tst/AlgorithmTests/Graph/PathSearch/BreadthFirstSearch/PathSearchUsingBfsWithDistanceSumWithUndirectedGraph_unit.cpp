@@ -41,8 +41,8 @@ TEST(PathSearchUsingBfsWithDistanceSumTest, GetDistanceToWorksWithUndirectedGrap
     EXPECT_DOUBLE_EQ(0, pathSearch.getDistanceTo(0U));
     EXPECT_DOUBLE_EQ(0.05, pathSearch.getDistanceTo(1U));
     EXPECT_DOUBLE_EQ(0.1, pathSearch.getDistanceTo(2U));
-    EXPECT_DOUBLE_EQ(0.25, pathSearch.getDistanceTo(3U));
-    EXPECT_DOUBLE_EQ(0.3, pathSearch.getDistanceTo(4U));
+    EXPECT_DOUBLE_EQ(0.35, pathSearch.getDistanceTo(3U));
+    EXPECT_DOUBLE_EQ(0.4, pathSearch.getDistanceTo(4U));
     EXPECT_DOUBLE_EQ(0.15, pathSearch.getDistanceTo(5U));
     EXPECT_DOUBLE_EQ(0, pathSearch.getDistanceTo(6U));
 }
@@ -53,7 +53,7 @@ TEST(PathSearchUsingBfsWithDistanceSumTest, GetEndVertexToDistanceSumMapWorksWit
     putConnectionsForTest(graph);
     PathSearchForTest pathSearch(graph, {0U});
 
-    ContentMapForTest expectedMap{{1U, 0.05}, {2U, 0.1}, {3U, 0.25}, {4U, 0.3}, {5U, 0.15}};
+    ContentMapForTest expectedMap{{0U, 0.0}, {1U, 0.05}, {2U, 0.1}, {3U, 0.35}, {4U, 0.4}, {5U, 0.15}};
     EXPECT_EQ(expectedMap, pathSearch.getEndVertexToDistanceSumMap());
 }
 

@@ -63,10 +63,12 @@ public:
 
         while(mainRoot != currentRoot)
         {
-            mainRoot = currentRoot;            relativeRoots.emplace_back(currentRoot);
+            mainRoot = currentRoot;
+            relativeRoots.emplace_back(currentRoot);
             currentRoot = m_relativeRoots.at(mainRoot);
         }
-        for(Object const& relativeRoot : relativeRoots) // set found root to all examined relative roots -> makes the tree really flat (Hopcroft Ulman Tarjan proof -> almost linear)        {
+        for(Object const& relativeRoot : relativeRoots) // set found root to all examined relative roots -> makes the tree really flat (Hopcroft Ulman Tarjan proof -> almost linear)
+        {
             m_relativeRoots[relativeRoot] = mainRoot;
         }
         return mainRoot;
@@ -104,7 +106,8 @@ public:
 
 private:
 
-    void initialize(unsigned int const maximumSize) // runs in linear time    {
+    void initialize(unsigned int const maximumSize) // runs in linear time
+    {
         m_relativeRoots.reserve(maximumSize);
         for(unsigned int i=0; i<maximumSize; i++)
         {

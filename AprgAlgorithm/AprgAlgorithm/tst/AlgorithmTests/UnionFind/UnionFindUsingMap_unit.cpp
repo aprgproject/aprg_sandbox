@@ -41,7 +41,8 @@ TEST(UnionFindUsingMapTest, ConnectWorksWithExample2)
     testConnectUsingExample2WithUnsignedInt<UnionFindForTest>(unionFind);
 }
 
-TEST(UnionFindUsingMapTest, GetRootWorks){
+TEST(UnionFindUsingMapTest, GetRootWorks)
+{
     UnionFindForTest unionFind;
     unionFind.connect(4, 3);
     unionFind.connect(3, 8);

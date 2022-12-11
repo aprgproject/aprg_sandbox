@@ -3,6 +3,7 @@
 #include <Algorithm/UnionFind/WeightedQuickUnionWithArray.hpp>
 #include <Common/Randomizer/AlbaRandomizer.hpp>
 #include <Common/User/DisplayTable.hpp>
+
 #include <string>
 #include <vector>
 
@@ -167,6 +168,7 @@ private:
     unsigned int m_numberOfOpenSites;
     AlbaRandomizer m_randomizer;
 };
+
 }
 
 }

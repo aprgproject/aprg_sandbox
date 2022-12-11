@@ -53,7 +53,7 @@ TEST(PathSearchUsingDfsWithDistanceSumTest, GetEndVertexToDistanceSumMapWorksWit
     putConnectionsForTest(graph);
     PathSearchForTest pathSearch(graph, {0U});
 
-    ContentMapForTest expectedMap{{1U, 0.05}, {2U, 0.25}, {3U, 0.5}, {4U, 0.85}, {5U, 0.9}};
+    ContentMapForTest expectedMap{{0U, 0.0}, {1U, 0.05}, {2U, 0.25}, {3U, 0.5}, {4U, 0.85}, {5U, 0.9}};
     EXPECT_EQ(expectedMap, pathSearch.getEndVertexToDistanceSumMap());
 }
 

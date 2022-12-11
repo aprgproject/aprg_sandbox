@@ -12,6 +12,7 @@ template <typename Vertex>
 class BasePathSearchWithDistanceCount
 {
 public:
+    using Vertices = typename GraphTypes<Vertex>::Vertices;
     using VertexToUnsignedIntMap = typename GraphTypes<Vertex>::VertexToUnsignedIntMap;
 
     BasePathSearchWithDistanceCount() = default;
@@ -34,7 +35,27 @@ public:
         return m_endVertexToDistanceCountMap;
     }
 
-protected:
+    void initializeDistances(Vertices const& vertices)
+    {
+        for(Vertex const& vertex : vertices)
+        {
+            m_endVertexToDistanceCountMap.emplace(vertex, 0U);
+        }
+    }
+
+    void updateDistance(Vertex const& adjacentVertex, Vertex const& vertex)
+    {
+        unsigned int distanceToVertex(0U);
+        auto it = this->m_endVertexToDistanceCountMap.find(vertex);
+        if(it != this->m_endVertexToDistanceCountMap.cend())
+        {
+            distanceToVertex = it->second;
+        }
+        this->m_endVertexToDistanceCountMap[adjacentVertex] = distanceToVertex+1U;
+    }
+
+private:
+
     VertexToUnsignedIntMap m_endVertexToDistanceCountMap;
 };
 

@@ -18,30 +18,25 @@ public:
     using BaseDistanceSum = BasePathSearchWithDistanceSum<Vertex, Weight, EdgeWeightedGraph>;
     using BaseBfs = PathSearchUsingDfs<Vertex>;
     using Vertices = typename GraphTypes<Vertex>::Vertices;
-    using UpdateFunction = typename BaseBfs::UpdateFunction;
+    using InitializeDataFunction = typename BaseBfs::InitializeDataFunction;
+    using UpdateDataFunction = typename BaseBfs::UpdateDataFunction;
 
     PathSearchUsingDfsWithDistanceSum(EdgeWeightedGraph const& graph, Vertices const& startVertices)
         : BaseDistanceSum(graph)
-        , BaseBfs(graph, startVertices, getUpdateFunction())
+        , BaseBfs(graph, startVertices, getInitializeDataFunction(), getUpdateDataFunction())
     {}
 
 private:
 
-    void updateDistance(Vertex const& adjacentVertex, Vertex const& vertex)
+    InitializeDataFunction getInitializeDataFunction()
     {
-        Weight distanceToVertex(0U);
-        auto it = this->m_endVertexToDistanceSumMap.find(vertex);
-        if(it != this->m_endVertexToDistanceSumMap.cend())
-        {
-            distanceToVertex = it->second;
-        }
-        this->m_endVertexToDistanceSumMap[adjacentVertex]
-                = distanceToVertex + BaseDistanceSum::m_graph.getWeight(vertex, adjacentVertex);
+        return std::bind(&BaseDistanceSum::initializeDistances, this, std::placeholders::_1);
+         // scope resolution "::" has the highest precedence
     }
 
-    UpdateFunction getUpdateFunction()
+    UpdateDataFunction getUpdateDataFunction()
     {
-        return std::bind(&PathSearchUsingDfsWithDistanceSum::updateDistance, this, std::placeholders::_1, std::placeholders::_2);
+        return std::bind(&BaseDistanceSum::updateDistance, this, std::placeholders::_1, std::placeholders::_2);
          // scope resolution "::" has the highest precedence
     }
 };

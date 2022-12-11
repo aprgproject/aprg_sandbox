@@ -18,7 +18,8 @@ public:
 
     UnionFindUsingMap() = default;
 
-    bool isConnected(Object const& object1, Object const& object2) const override    {
+    bool isConnected(Object const& object1, Object const& object2) const override
+    {
         return getRoot(object1) == getRoot(object2);
     }
 
@@ -57,7 +58,8 @@ public:
 
 private:
     void initializeToConnectionMapIfNeeded(Object const& object)
-    {        m_connectionMap.emplace(object, object);
+    {
+        m_connectionMap.emplace(object, object);
     }
     ConnectionMap m_connectionMap;
 };

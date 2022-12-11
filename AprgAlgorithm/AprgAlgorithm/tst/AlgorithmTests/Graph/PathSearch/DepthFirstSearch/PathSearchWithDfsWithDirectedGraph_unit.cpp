@@ -91,10 +91,12 @@ TEST(PathSearchUsingDfsTest, GetPreviousVertexWorksWithDirectedGraph)
 
 TEST(PathSearchUsingDfsTest, ReinitializeStartingFromWorksWithDirectedGraph)
 {
-    GraphForTest graph;    putConnectionsForTest(graph);
+    GraphForTest graph;
+    putConnectionsForTest(graph);
     PathSearchForTest pathSearch(graph, 0U);
 
     pathSearch.reinitializeStartingFrom({2U});
+
     EXPECT_EQ(PathForTest(), pathSearch.getOrderedPathTo(0U));
     EXPECT_EQ(PathForTest({2U, 1U}), pathSearch.getOrderedPathTo(1U));
     EXPECT_EQ(PathForTest(), pathSearch.getOrderedPathTo(2U));

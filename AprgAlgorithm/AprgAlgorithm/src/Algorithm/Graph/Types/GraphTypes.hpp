@@ -110,6 +110,7 @@ struct GraphTypesWithWeights
     using VertexToWeightMap = std::map<Vertex, Weight>;
     using VertexToEdgeOrderedByWeightMap = std::map<Vertex, EdgeOrderedByWeight>;
 };
+
 }
 
 }

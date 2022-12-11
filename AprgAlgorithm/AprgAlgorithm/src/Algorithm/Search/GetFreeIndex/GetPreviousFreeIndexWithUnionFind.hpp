@@ -24,8 +24,10 @@ public:
     Index getPreviousFreeIndexAt(Index const index)
     {
         // This has log(N) running time
+
         return BaseClass::getFreeIndexAt(index);
     }
+
     void setAsNotFree(Index const index)
     {
         if(index>0 && index<b_numberOfIndexes)

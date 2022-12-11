@@ -5,8 +5,10 @@
 
 namespace alba
 {
+
 namespace algorithm
 {
+
 template <typename Vertex>
 class BasePathSearchWithBfsAndDfs
 {
@@ -77,9 +79,11 @@ public:
     virtual void reinitializeStartingFrom(Vertices const& startVertices) = 0;
 
 protected:
+
     void clear()
     {
-        m_processedVertices.clear();        m_startVertices.clear();
+        m_processedVertices.clear();
+        m_startVertices.clear();
         m_vertexToPreviousVertexMap.clear();
     }
 
@@ -88,10 +92,12 @@ protected:
         m_startVertices.putVertices(startVertices);
     }
 
-    BaseGraphWithVertex const& m_graph;    CheckableVerticesWithVertex m_startVertices;
+    BaseGraphWithVertex const& m_graph;
+    CheckableVerticesWithVertex m_startVertices;
     CheckableVerticesWithVertex m_processedVertices;
     VertexToVertexMap m_vertexToPreviousVertexMap;
 };
 
 }
+
 }

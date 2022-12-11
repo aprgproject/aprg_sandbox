@@ -38,6 +38,7 @@ protected:
     Index getFreeIndexAt(Index const index)
     {
         // This has log(N) running time
+
         Index result{};
         if(index<m_numberOfIndexes)
         {
@@ -45,9 +46,11 @@ protected:
         }
         return result;
     }
+
     Index m_numberOfIndexes;
     UnionFind m_unionFind;
 };
+
 }
 
 }
