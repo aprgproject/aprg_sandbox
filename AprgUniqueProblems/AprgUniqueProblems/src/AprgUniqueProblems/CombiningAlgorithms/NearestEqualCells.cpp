@@ -127,27 +127,23 @@ NearestEqualCells::Coordinate NearestEqualCells::getSecondCoordinateUsingBfs(
         Value const value,
         Coordinate const& firstCoordinate) const
 {
-    Bfs bfs(m_coordinateGraph, firstCoordinate);
+    Bfs bfs(m_coordinateGraph, {firstCoordinate});
     return getCoordinateUsingBfs(value, firstCoordinate, bfs);
 }
-
 NearestEqualCells::Coordinate NearestEqualCells::getCoordinateUsingBfs(
         Value const value,
-        Coordinate const& firstCoordinate,
-        Bfs & bfs) const
+        Coordinate const& firstCoordinate,        Bfs & bfs) const
 {
     Coordinate result{};
     bool isFirst(true);
     unsigned int minimumDistance{};
-    for(auto const& vertexDistancePair : bfs.getVertexDistanceToStartMap())
+    for(auto const& vertexDistancePair : bfs.getEndVertexToDistanceCountMap())
     {
         Coordinate const& coordinate(vertexDistancePair.first);
-        unsigned int distance(vertexDistancePair.second);
-        if(value == m_valueMatrix.getEntryConstReference(coordinate.first, coordinate.second)
+        unsigned int distance(vertexDistancePair.second);        if(value == m_valueMatrix.getEntryConstReference(coordinate.first, coordinate.second)
                 && firstCoordinate != coordinate)
         {
-            if(isFirst)
-            {
+            if(isFirst)            {
                 minimumDistance = distance;
                 result = coordinate;
                 isFirst=false;
