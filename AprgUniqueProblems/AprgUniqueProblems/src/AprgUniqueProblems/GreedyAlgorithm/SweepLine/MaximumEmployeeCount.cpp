@@ -30,7 +30,7 @@ unsigned int MaximumEmployeeCount::getMaximumCountOfEmployeesAtATime() const
 
     unsigned int count(0U);
     unsigned int maxCount(0U);
-    for(Event const& event : m_events)
+    for(Event const& event : m_sortedEvents)
     {
         if(EventType::StartOfDayOfEmployee == event.eventType)
         {
@@ -47,8 +47,8 @@ unsigned int MaximumEmployeeCount::getMaximumCountOfEmployeesAtATime() const
 
 void MaximumEmployeeCount::addEmployeeSchedule(unsigned int const startTime, unsigned int const endTime)
 {
-    m_events.emplace(Event{startTime, EventType::StartOfDayOfEmployee});
-    m_events.emplace(Event{endTime, EventType::EndOfDayOfEmployee});
+    m_sortedEvents.emplace(Event{startTime, EventType::StartOfDayOfEmployee});
+    m_sortedEvents.emplace(Event{endTime, EventType::EndOfDayOfEmployee});
 }
 
 }

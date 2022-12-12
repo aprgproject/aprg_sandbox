@@ -1,4 +1,4 @@
-#include <AprgUniqueProblems/SweepLineAlgorithm/MaximumEmployeeCount.hpp>
+#include <AprgUniqueProblems/GreedyAlgorithm/SweepLine/MaximumEmployeeCount.hpp>
 
 #include <gtest/gtest.h>
 
