@@ -51,18 +51,18 @@ public:
     }
 
     InputAndOutputPairs getInputAndOutputPairsUsingMoAlgorithm(
-            Ranges const& inputRanges) const
+            Ranges const& inputRequestsRanges) const
     {
         InputAndOutputPairs result;
-        Ranges validRanges(getValidRangesAndSortForMoAlgorithm(inputRanges));
-        if(!validRanges.empty())
+        Ranges validRequestsRanges(getValidRangesAndSortForMoAlgorithm(inputRequestsRanges));
+        if(!validRequestsRanges.empty())
         {
             Index numberOfDistinct(0);
             FrequencyArray frequencyArray{};
-            Index start = validRanges.front().first;
+            Index start = validRequestsRanges.front().first;
             Range previousRange{start, start};
             addValueWithIndex(numberOfDistinct, frequencyArray, start);
-            for(Range const currentRange : validRanges)
+            for(Range const currentRange : validRequestsRanges)
             {
                 moveToTargetRange(numberOfDistinct, frequencyArray, previousRange, currentRange);
                 result.emplace_back(currentRange, numberOfDistinct);
@@ -99,23 +99,19 @@ private:
 
         while(currentRange.first < targetRange.first)
         {
-            removeValueWithIndex(numberOfDistinct, frequencyArray,currentRange.first);
-            currentRange.first++;
+            removeValueWithIndex(numberOfDistinct, frequencyArray, currentRange.first++);
         }
         while(currentRange.first > targetRange.first)
         {
-            currentRange.first--;
-            addValueWithIndex(numberOfDistinct, frequencyArray, currentRange.first);
+            addValueWithIndex(numberOfDistinct, frequencyArray, --currentRange.first);
         }
         while(currentRange.second < targetRange.second)
         {
-            currentRange.second++;
-            addValueWithIndex(numberOfDistinct, frequencyArray, currentRange.second);
+            addValueWithIndex(numberOfDistinct, frequencyArray, ++currentRange.second);
         }
         while(currentRange.second > targetRange.second)
         {
-            removeValueWithIndex(numberOfDistinct, frequencyArray, currentRange.second);
-            currentRange.second--;
+            removeValueWithIndex(numberOfDistinct, frequencyArray, currentRange.second--);
         }
     }
 

@@ -171,6 +171,7 @@ private:
 // Time Complexity of the above program is O(V^2).
 // If the input graph is represented using adjacency list,
 // then the time complexity of Prim’s algorithm can be reduced to O(E log V) with the help of binary heap.
+// NOTE: This is roughly the same as Kruskal algorithm.
 
 
 }

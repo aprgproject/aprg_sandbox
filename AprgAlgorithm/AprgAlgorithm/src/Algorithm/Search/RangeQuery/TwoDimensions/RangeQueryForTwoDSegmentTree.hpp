@@ -17,11 +17,11 @@ public:
     // Such a tree can be implemented as nested segment trees:
     // a big tree corresponds to the rows of the array, and each node contains a small tree that corresponds to a column.
 
-    // The operations of a two-dimensional segment tree take O(log(n)^2) time, because the big tree and each small tree consist of O(log(n)) levels.
+    // The operations of a two-dimensional segment tree take O(log(n)^2) time, because the big tree
+    // and each small tree consist of O(log(n)) levels.
     // The tree requires O(n^2) memory, because each small tree contains O(n) values.
 
     using Index = unsigned int;
-    using Count = unsigned int;
     using ValueMatrix = matrix::AlbaMatrix<Value>;
     using Values = typename ValueMatrix::MatrixData;
     using ListOfValues = typename ValueMatrix::ListOfMatrixData;
@@ -39,20 +39,26 @@ public:
         , m_twoDSegmentTree(createAllRowSegmentTrees(), getFunctionForSegmentTree2D())
     {}
 
-    Value getValueOn2DInterval(Index const topLeftX, Index const topLeftY, Index const bottomRightX, Index const bottomRightY) const
+    Value getValueOn2DInterval(
+            Index const topLeftX,
+            Index const topLeftY,
+            Index const bottomRightX,
+            Index const bottomRightY) const
     {
-        return m_twoDSegmentTree.getValueOnInterval(topLeftX, bottomRightX).getValueOnInterval(topLeftY, bottomRightY);
+        // Works on O(log(n)^2) time
+
+        return m_twoDSegmentTree.getValueOnInterval(topLeftY, bottomRightY).getValueOnInterval(topLeftX, bottomRightX);
     }
 
     void changeValueAt(Index const x, Index const y, Value const& newValue)
     {
         m_valueMatrix.setEntry(x, y, newValue);
-        m_twoDSegmentTree.changeValueAtIndex(x, createRowSegmentTree(y));
+        m_twoDSegmentTree.changeValueAtIndex(y, createRowSegmentTree(y));
     }
 
 private:
 
-    OneDSegmentTrees createRowSegmentTree(Index const y) const
+    OneDSegmentTree createRowSegmentTree(Index const y) const
     {
         Values row;
         m_valueMatrix.retrieveRow(row, y);
@@ -69,6 +75,7 @@ private:
         {
             result.emplace_back(row, m_function);
         }
+        result.shrink_to_fit();
         return result;
     }
 
@@ -87,6 +94,7 @@ private:
             {
                 newValues.emplace_back(m_function(treeValues1.at(i1), treeValues2.at(i2)));
             }
+            newValues.shrink_to_fit();
             return OneDSegmentTree(newValues, m_function);
         };
     }

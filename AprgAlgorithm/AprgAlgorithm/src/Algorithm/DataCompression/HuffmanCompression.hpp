@@ -280,6 +280,10 @@ private:
     }
 };
 
+}
+
+}
+
 // Variable length codes
 // -> use different numbers of bit to encode different chars
 // ---> example: Morse code
@@ -417,6 +421,35 @@ private:
 // -> So, the overall time complexity becomes O(nlogn) for unsorted input.
 
 
-}
+// Example Huffman tree:
+// -> Example original string: "abbccddeee"
+// -> Huffman tree will be:
+// ->               ##
+// ->              #  #
+// ->             #    #
+// ->           0#      #1
+// ->           #        #
+// ->          #          #
+// ->         #            #
+// ->        ##            ##
+// ->      0#  #1        0#  #1
+// ->      #    #        #    #
+// ->     ##    e(3)    c(2)  d(2)
+// ->   0#  #1
+// ->   #    #
+// -> a(1)   b(2)
+//
+// -> Notes:
+// ---> Order of construction:
+// -----> Step1: Characters with lowest frequency are 'a' and 'b'. So, a(1) and b(2) is combined to ab(3).
+// -----> Step2: Characters with lowest frequency are 'c' and 'd'. So, c(2) and d(2) is combined to cd(4).
+// -----> Step3: Characters with lowest frequency are 'ab' and 'e'. So, ab(3)and e(3) is combined to abe(6).
+// -----> Step3: Characters with lowest frequency are 'abe' and 'cd'. So, abe(6)and cd(4) is combined to abcde(10), which is the whole tree.
+// ---> Generated huffman codes:
+// -----> a -> 000(if left 0 and right 1) or 111(if left 1 and right 0)
+// -----> b -> 001(if left 0 and right 1) or 110(if left 1 and right 0)
+// -----> c -> 10(if left 0 and right 1) or 01(if left 1 and right 0)
+// -----> d -> 11(if left 0 and right 1) or 00(if left 1 and right 0)
+// -----> e -> 01(if left 0 and right 1) or 10(if left 1 and right 0)
+// ---> "abbccddeee" converts to "00000100110101111010101" which is 23 bits
 
-}
