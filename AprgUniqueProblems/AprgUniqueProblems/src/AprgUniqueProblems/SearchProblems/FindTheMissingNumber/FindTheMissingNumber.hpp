@@ -19,29 +19,35 @@ public:
 
     FindTheMissingNumber() = default;
 
-    Count getTheMissingNumber(Values const& values) // values can be unsorted because of xor
+    Value getTheMissingNumberUsingSum(Values const& values) // values can be unsorted because of xor
     {
         static_assert(std::is_integral<Value>::value, "Value needs to be an integer.");
 
-        Count result(0U);
-        if(!values.empty())
+        // There is only one loop here.
+        Value totalCountOfNumbers(values.size()+1);
+        Value actualSum = std::accumulate(values.cbegin(), values.cend(), static_cast<Value>(0), std::plus<Value>());
+        Value expectedSum = (totalCountOfNumbers+1)*totalCountOfNumbers/2;
+
+        return expectedSum-actualSum;
+    }
+
+    Value getTheMissingNumberUsingXor(Values const& values) // values can be unsorted because of xor
+    {
+        static_assert(std::is_integral<Value>::value, "Value needs to be an integer.");
+
+        // There are two loops here (std::accumulate and for loop)
+        Value totalCountOfNumbers(values.size()+1);
+        Value accumulatedXor = std::accumulate(values.cbegin(), values.cend(), static_cast<Value>(1), std::bit_xor<Value>());
+        for(Value number(2); number<=totalCountOfNumbers; number++) // start with 2 (skip 1 because its processed in accumulate)
         {
-            Count accumulatedXor = std::accumulate(values.cbegin(), values.cend(), static_cast<Value>(1), std::bit_xor<Value>());
-            Count totalCountOfNumbers(values.size()+1);
-            for(Value number(2); number<=totalCountOfNumbers; number++) // start with 2 (skip 1 because its processed in accumulate)
-            {
-                accumulatedXor ^= number;
-            }
-            result = accumulatedXor;
+            accumulatedXor ^= number;
         }
-        return result;
+        return accumulatedXor;
     }
 };
-
 }
 
 }
-
 // Find the Missing Number
 
 // You are given a list of n-1 integers and these integers are in the range of 1 to n.
