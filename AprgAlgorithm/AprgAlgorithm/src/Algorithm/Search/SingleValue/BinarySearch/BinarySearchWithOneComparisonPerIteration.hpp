@@ -3,29 +3,33 @@
 #include <Algorithm/Utilities/MidpointOfIndexes.hpp>
 #include <Algorithm/Utilities/InvalidIndex.hpp>
 
-namespace alba{
+namespace alba
+{
 
 namespace algorithm
 {
+
 template <typename Values>
-class BinarySearchWithTwoIndices
+class BinarySearchWithOneComparisonPerIteration
 {
 public:
     using Index = unsigned int;
     using Value = typename Values::value_type;
     static constexpr Index INVALID_INDEX = getInvalidIndex<Index>();
 
-    BinarySearchWithTwoIndices(Values const& sortedValues)
+    BinarySearchWithOneComparisonPerIteration(Values const& sortedValues)
         : m_sortedValues(sortedValues)
     {}
 
     Index getIndexOfValue(Value const& value) const
     {
         Index result(INVALID_INDEX);
-        if(!m_sortedValues.empty())        {
+        if(!m_sortedValues.empty())
+        {
             result = getIndexOfValueWithoutCheck(0U, m_sortedValues.size()-1, value);
         }
-        return result;    }
+        return result;
+    }
 
     Index getIndexOfValue(Index const startIndex, Index const endIndex, Value const& value) const
     {
@@ -43,28 +47,26 @@ private:
     {
         Index result(INVALID_INDEX);
         Index lowerIndex(startIndex), higherIndex(endIndex);
-        while(lowerIndex<=higherIndex)
+        while(lowerIndex+1U < higherIndex)
         {
             Index middleIndex = getMidpointOfIndexes(lowerIndex, higherIndex);
             Value middleValue(m_sortedValues.at(middleIndex));
-            if(value == middleValue)
-            {                result = middleIndex;
-                break;
-            }
-            else if(value < middleValue)            {
-                if(middleIndex > 0U)
-                {
-                    higherIndex = middleIndex-1;
-                }
-                else
-                {
-                    break;
-                }
-            }
-            else // (middleValue < value)
+            if(value <= middleValue)
             {
-                lowerIndex = middleIndex+1;
+                higherIndex = middleIndex;
             }
+            else
+            {
+                lowerIndex = middleIndex;
+            }
+        }
+        if(value == m_sortedValues.at(lowerIndex))
+        {
+            result = lowerIndex;
+        }
+        else if(value == m_sortedValues.at(higherIndex))
+        {
+            result = higherIndex;
         }
         return result;
     }
@@ -76,13 +78,11 @@ private:
 
 }
 
-// The usual way to implement binary search resembles looking for a word in a dictionary.
-// The search maintains an active region in the array, which initially contains all array elements.
-// Then, a number of steps is performed, each of which halves the size of the region.
+// Theoretically we need log N + 1 comparisons in worst case.
+// If we observe, we are using two comparisons per iteration except during final successful match, if any.
+// In practice, comparison would be costly operation, it won’t be just primitive type comparison.
+// It is more economical to minimize comparisons as that of theoretical limit.
 
-// At each step, the search checks the middle element of the active region.
-// If the middle element is the target element, the search terminates.
-// Otherwise, the search recursively continues to the left or right half of the region, depending on the value of the middle element.
-
-// In this implementation, the active region is a...b, and initially the region is 0...n-1.
-// The algorithm halves the size of the region at each step, so the time complexity is O(logn).
+// In the while loop we are depending only on one comparison.
+// The search space converges to place l and r point two different consecutive elements.
+// We need one more comparison to trace search status.
