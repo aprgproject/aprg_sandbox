@@ -1,7 +1,6 @@
-#include <AprgUniqueProblems/DynamicProgramming/LongestIncreasingSubsequence.hpp>
+#include <AprgUniqueProblems/DynamicProgramming/Subsequence/LongestIncreasingSubsequence.hpp>
 
 #include <gtest/gtest.h>
-
 using namespace std;
 
 namespace alba
