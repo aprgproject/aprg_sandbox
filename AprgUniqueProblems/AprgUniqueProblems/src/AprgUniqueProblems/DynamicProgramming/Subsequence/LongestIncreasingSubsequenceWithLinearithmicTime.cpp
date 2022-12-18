@@ -73,14 +73,13 @@ LongestIncreasingSubsequenceWithLinearithmicTime::Sequence LongestIncreasingSubs
         // construct longest sequence
         longestSequence.resize(longestLength, Value{});
         Index maxIndex=longestLength-1;
-        for(Index indexInSequence=lengthToEndIndex.at(maxIndex), i=0;
-            indexInSequence!=UNUSED_VALUE && i<=maxIndex;
-            indexInSequence=indexToPreviousIndex.at(indexInSequence), i++) // reverse traversal of values
+        for(Index inputIndex=lengthToEndIndex.at(maxIndex), outputIndex=0;
+            inputIndex!=UNUSED_VALUE && outputIndex<=maxIndex;
+            inputIndex=indexToPreviousIndex.at(inputIndex), outputIndex++)
         {
-            longestSequence[maxIndex-i] = m_sequenceToCheck.at(indexInSequence);
+            longestSequence[maxIndex-outputIndex] = m_sequenceToCheck.at(inputIndex); // reverse in output
         }
     }
-    return longestSequence;
-}
+    return longestSequence;}
 
 }

@@ -1,6 +1,7 @@
 #include <AprgUniqueProblems/DynamicProgramming/String/StringConstruction.hpp>
 
 #include <gtest/gtest.h>
+
 using namespace std;
 
 namespace alba

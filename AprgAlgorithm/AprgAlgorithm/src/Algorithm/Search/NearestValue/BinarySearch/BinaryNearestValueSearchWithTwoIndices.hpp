@@ -6,6 +6,7 @@
 
 namespace alba
 {
+
 namespace algorithm
 {
 
@@ -46,7 +47,8 @@ public:
 
     Index getIndexOfNearestValue(Value const& value)
     {
-        Index result(INVALID_INDEX);        if(!m_sortedValues.empty())
+        Index result(INVALID_INDEX);
+        if(!m_sortedValues.empty())
         {
             moveIndexesUntilCloseToValue(value);
             result = getIndexOfNearestValueInBetweenTwoIndices(value);
@@ -92,6 +94,7 @@ private:
         Value deviationFromHigher(mathHelper::getPositiveDelta(value, m_sortedValues.at(m_higherIndex)));
         return (deviationFromLower <= deviationFromHigher) ? m_lowerIndex : m_higherIndex;
     }
+
     void setInitialIndexes()
     {
         if(!m_sortedValues.empty())
@@ -144,7 +147,8 @@ private:
     }
 
     void moveIndexesCloserWhenValueIsBeyondTheIndices(Value const& value)
-    {        if(value <= m_sortedValues.at(m_lowerIndex))
+    {
+        if(value <= m_sortedValues.at(m_lowerIndex))
         {
             m_higherIndex=m_lowerIndex;
         }
@@ -155,7 +159,8 @@ private:
     }
 
     Index m_lowerIndex;
-    Index m_higherIndex;    Values const& m_sortedValues;
+    Index m_higherIndex;
+    Values const& m_sortedValues;
 };
 
 }

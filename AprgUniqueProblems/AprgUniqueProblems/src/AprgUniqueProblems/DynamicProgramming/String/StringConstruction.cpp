@@ -23,7 +23,8 @@ StringConstruction::StringConstruction(
 
 unsigned int StringConstruction::getCount()
 {
-    unsigned int result(0);    if(!m_stringToConstruct.empty())
+    unsigned int result(0);
+    if(!m_stringToConstruct.empty())
     {
         result = getCount(m_stringToConstruct.length());
     }
@@ -100,7 +101,8 @@ unsigned int StringConstruction::count(unsigned int const prefixLength)
     for(string const& subString : m_subStrings)
     {
         unsigned int subStringLength = subString.length();
-        if(subStringLength < prefixLength                && subString == m_stringToConstruct.substr(prefixLength-subStringLength, subStringLength))
+        if(subStringLength < prefixLength
+                && subString == m_stringToConstruct.substr(prefixLength-subStringLength, subStringLength))
         {
             result += getCount(prefixLength-subStringLength);
         }

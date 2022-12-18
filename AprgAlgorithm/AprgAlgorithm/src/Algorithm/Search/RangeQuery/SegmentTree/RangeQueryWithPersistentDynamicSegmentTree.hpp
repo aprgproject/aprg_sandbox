@@ -10,6 +10,7 @@
 
 namespace alba
 {
+
 namespace algorithm
 {
 
@@ -113,7 +114,8 @@ protected:
             {
                 result = m_function(
                             getValueOnIntervalFromTopToBottom(startInterval, endInterval, nodePointer->leftChildPointer, baseLeft, baseMidPoint),
-                            getValueOnIntervalFromTopToBottom(startInterval, endInterval, nodePointer->rightChildPointer, baseMidPoint+1, baseRight));            }
+                            getValueOnIntervalFromTopToBottom(startInterval, endInterval, nodePointer->rightChildPointer, baseMidPoint+1, baseRight));
+            }
             else if(isLeftPartIncluded)
             {
                 result = getValueOnIntervalFromTopToBottom(startInterval, endInterval, nodePointer->leftChildPointer, baseLeft, baseMidPoint);
@@ -179,7 +181,8 @@ protected:
                 setValuesFromTopToBottom(values, nodePointer->rightChildPointer, baseMidPoint+1, baseRight);
             }
             nodePointer->value = getCombinedValueBasedFromChildren(nodePointer);
-        }    }
+        }
+    }
 
     void changeValueOnIndexFromTopToBottom(
             Index const index,
@@ -206,7 +209,8 @@ protected:
                     changeValueOnIndexFromTopToBottom(
                                 index, newValue, previousTreeNode->leftChildPointer, newTreeNode->leftChildPointer, baseLeft, baseMidPoint);
                 }
-                else                {
+                else
+                {
                     newTreeNode.reset(new Node{Value{}, previousTreeNode->leftChildPointer, nullptr});
                     changeValueOnIndexFromTopToBottom(
                                 index, newValue, previousTreeNode->rightChildPointer, newTreeNode->rightChildPointer, baseMidPoint+1, baseRight);

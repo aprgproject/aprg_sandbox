@@ -1,9 +1,14 @@
 #include "LongestIncreasingSubsequence.hpp"
 
+#include <algorithm>
+
+
+
+#include <Common/Debug/AlbaDebug.hpp>
+
 using namespace std;
 
-namespace alba
-{
+namespace alba{
 
 LongestIncreasingSubsequence::LongestIncreasingSubsequence(Sequence const& sequenceToCheck)
     : m_sequenceToCheck(sequenceToCheck)
@@ -11,66 +16,71 @@ LongestIncreasingSubsequence::LongestIncreasingSubsequence(Sequence const& seque
 
 LongestIncreasingSubsequence::Index LongestIncreasingSubsequence::getLongestIncreasingSubsequenceLength()
 {
-    IndexToIndexMap lengthToIndexMap;
-    for (Index index=0; index<m_sequenceToCheck.size(); index++)
+
+    Index result(0U);
+    if(!m_sequenceToCheck.empty())
     {
-        bool isLongestPartialFound(false);
-        for(auto itWithMaxLength = lengthToIndexMap.crbegin(); itWithMaxLength!=lengthToIndexMap.crend(); itWithMaxLength++)
+        IndexToIndex indexToLength(m_sequenceToCheck.size(), 0U);
+        indexToLength[0U]=1U;
+
+        // Quadratic time because of double loop
+        for (Index index=1U; index<m_sequenceToCheck.size(); index++)
         {
-            if(m_sequenceToCheck.at(itWithMaxLength->second) < m_sequenceToCheck.at(index))
+            indexToLength[index]=1U;
+            for (Index lowerIndex=0U; lowerIndex<index; lowerIndex++)
             {
-                lengthToIndexMap.emplace(itWithMaxLength->first + 1U, index);                isLongestPartialFound = true;
-                break;
+                if(m_sequenceToCheck.at(lowerIndex) < m_sequenceToCheck.at(index)
+                        && indexToLength.at(index) < indexToLength.at(lowerIndex)+1U)
+                {
+                    indexToLength[index] = indexToLength.at(lowerIndex)+1U;
+                }
             }
         }
-        if(!isLongestPartialFound)
-        {
-            lengthToIndexMap.emplace(1U, index);
-        }
-    }
-    Index result{};
-    if(!lengthToIndexMap.empty())
-    {
-        auto it = lengthToIndexMap.crbegin();
-        result = it->first;
+        result = *max_element(indexToLength.cbegin(), indexToLength.cend());
     }
     return result;
 }
+
 LongestIncreasingSubsequence::Sequence LongestIncreasingSubsequence::getLongestIncreasingSubsequence()
 {
-    // Quadratic time because of double loop
-    Sequences savedSequences;
-    IndexToIndexMap lengthToIndexMap;
-    for (Index index=0; index<m_sequenceToCheck.size(); index++)
+
+    Sequence longestSequence;
+    if(!m_sequenceToCheck.empty())
     {
-        bool isLongestPartialFound(false);
-        for(auto it = lengthToIndexMap.crbegin(); it!=lengthToIndexMap.crend(); it++)
+        Value unusedValue(UNUSED_VALUE);
+        IndexToIndex indexToPreviousIndex(m_sequenceToCheck.size(), unusedValue);
+        IndexToIndex indexToLength(m_sequenceToCheck.size(), 0U);
+        indexToLength[0U]=1U;
+
+        // Quadratic time because of double loop
+        for (Index index=1U; index<m_sequenceToCheck.size(); index++)
         {
-            if(m_sequenceToCheck.at(it->second) < m_sequenceToCheck.at(index))
+            indexToLength[index]=1U;
+            for (Index lowerIndex=0U; lowerIndex<index; lowerIndex++)
             {
-                Sequence longestPartial(savedSequences.at(it->second));                longestPartial.emplace_back(m_sequenceToCheck.at(index));
-                savedSequences.emplace_back(longestPartial);
-                lengthToIndexMap.emplace(it->first + 1U, index);
-                isLongestPartialFound = true;
-                break; // even though there is break here, it does not guarantee this is only run once
+                if(m_sequenceToCheck.at(lowerIndex) < m_sequenceToCheck.at(index)
+                        && indexToLength.at(index) < indexToLength.at(lowerIndex)+1U)
+                {
+                    indexToPreviousIndex[index] = lowerIndex;
+                    indexToLength[index] = indexToLength.at(lowerIndex)+1U;
+                }
             }
         }
-        if(!isLongestPartialFound)
+
+        // construct longest sequence
+        auto it=max_element(indexToLength.cbegin(), indexToLength.cend());
+        Index indexOfLongestLength = std::distance(indexToLength.cbegin(), it);
+        Index longestLength = *it;
+        longestSequence.resize(longestLength, Value{});
+        Index maxIndex=longestLength-1;
+        for(Index inputIndex=indexOfLongestLength, outputIndex=0;
+            inputIndex!=UNUSED_VALUE && outputIndex<=maxIndex;
+            inputIndex=indexToPreviousIndex.at(inputIndex), outputIndex++)
         {
-            lengthToIndexMap.emplace(1U, index);
-            savedSequences.emplace_back(Sequence{m_sequenceToCheck.at(index)});
+            longestSequence[maxIndex-outputIndex] = m_sequenceToCheck.at(inputIndex); // reverse in output
         }
     }
-    Sequence result{};
-    if(!lengthToIndexMap.empty())
-    {
-        auto it = lengthToIndexMap.crbegin();
-        if(it->second < savedSequences.size())
-        {
-            result = savedSequences.at(it->second);
-        }
-    }
-    return result;
+    return longestSequence;
 }
 
 }

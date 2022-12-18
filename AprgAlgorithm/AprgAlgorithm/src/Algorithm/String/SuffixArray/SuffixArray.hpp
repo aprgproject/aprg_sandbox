@@ -7,6 +7,7 @@
 
 namespace alba
 {
+
 namespace algorithm
 {
 
@@ -41,7 +42,8 @@ public:
             }
             else if(key > m_suffixes.at(mid))
             {
-                low = mid+1;            }
+                low = mid+1;
+            }
             else
             {
                 low = mid;

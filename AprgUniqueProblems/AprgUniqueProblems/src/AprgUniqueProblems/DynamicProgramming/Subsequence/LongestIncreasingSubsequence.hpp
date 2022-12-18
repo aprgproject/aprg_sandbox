@@ -1,10 +1,9 @@
 #pragma once
 
-#include <map>
+#include <limits>
 #include <vector>
 
-namespace alba
-{
+namespace alba{
 
 class LongestIncreasingSubsequence
 {
@@ -12,11 +11,11 @@ public:
     using Index = unsigned int;
     using Value = unsigned int;
     using Sequence = std::vector<Value>;
-    using IndexToIndexMap = std::multimap<Index, Index>;
+    using IndexToIndex = std::vector<Index>;
     using Sequences = std::vector<Sequence>;
+    static constexpr Value UNUSED_VALUE=std::numeric_limits<Value>::max();
 
     LongestIncreasingSubsequence(Sequence const& sequenceToCheck);
-
     Index getLongestIncreasingSubsequenceLength();
     Sequence getLongestIncreasingSubsequence();
 private:
@@ -25,6 +24,7 @@ private:
 };
 
 }
+
 // A subsequence is a sequence of (not necessarily consecutive) characters in a string in their original order.
 // A string of length n has 2n-1 subsequences.
 // For example, the subsequences of ABCD are A, B, C, D, AB, AC, AD, BC, BD, CD, ABC, ABD, ACD, BCD and ABCD.

@@ -33,6 +33,7 @@ public:
 
     Count getNumberOfSolutionsUsingDynamicProgramming();
     Count getNumberOfSolutionsUsingCompleteSearch();
+
 private:
     std::string getEmptyRowString(Count const length) const;
     void searchNextRow(

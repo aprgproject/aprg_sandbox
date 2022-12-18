@@ -9,6 +9,7 @@ namespace alba
 
 namespace algorithm
 {
+
 template <typename Values>
 class TopDownMergeSorter : public BaseSorter<Values>
 {
@@ -42,7 +43,8 @@ private:
             if(!isAlreadySorted)
             {
                 mergeTheTwoSortedParts(valuesToSort, auxiliary, lowest, middle, highest); // merge the two sorted parts
-            }        }
+            }
+        }
     }
 };
 

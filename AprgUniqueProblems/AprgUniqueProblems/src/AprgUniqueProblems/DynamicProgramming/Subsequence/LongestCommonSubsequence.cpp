@@ -12,16 +12,15 @@ LongestCommonSubsequence::LongestCommonSubsequence(Sequence const& sequence1, Se
     , m_sequence2(sequence2)
 {}
 
-LongestCommonSubsequence::Length LongestCommonSubsequence::getLongestCommonSubsequenceLengthUsingRecursion() const
+LongestCommonSubsequence::Index LongestCommonSubsequence::getLongestCommonSubsequenceLengthUsingRecursion() const
 {
     return getLongestCommonSubsequenceLengthUsingRecursion(m_sequence1.size(), m_sequence2.size());
 }
 
-LongestCommonSubsequence::Length LongestCommonSubsequence::getLongestCommonSubsequenceLengthUsingDynamicProgramming() const
+LongestCommonSubsequence::Index LongestCommonSubsequence::getLongestCommonSubsequenceLengthUsingDynamicProgramming() const
 {
     matrix::AlbaMatrix<Value> lengthMatrix(m_sequence1.size()+1U, m_sequence2.size()+1U);
-    for (Index i=0; i<=m_sequence1.size(); i++)
-    {
+    for (Index i=0; i<=m_sequence1.size(); i++)    {
         for (Index j=0; j<=m_sequence2.size(); j++)
         {
             if (i == 0 || j == 0)

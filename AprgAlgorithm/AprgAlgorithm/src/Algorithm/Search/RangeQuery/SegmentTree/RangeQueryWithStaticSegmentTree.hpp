@@ -7,6 +7,7 @@
 
 namespace alba
 {
+
 namespace algorithm
 {
 
@@ -172,7 +173,8 @@ protected:
             {
                 result = m_function(
                             getValueOnIntervalFromTopToBottom(startInterval, endInterval, Utilities::getLeftChild(currentChild), baseLeft, baseMidPoint),
-                            getValueOnIntervalFromTopToBottom(startInterval, endInterval, Utilities::getRightChild(currentChild), baseMidPoint+1, baseRight));            }
+                            getValueOnIntervalFromTopToBottom(startInterval, endInterval, Utilities::getRightChild(currentChild), baseMidPoint+1, baseRight));
+            }
             else if(doesLeftPartIntersect)
             {
                 result = getValueOnIntervalFromTopToBottom(startInterval, endInterval, Utilities::getLeftChild(currentChild), baseLeft, baseMidPoint);

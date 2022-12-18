@@ -66,7 +66,8 @@ KnapsackProblem::Values KnapsackProblem::getAllPossiblePartialSumsWithSquareRoot
     }
 
     Value sum(accumulate(m_inputValues.cbegin(), m_inputValues.cend(), 0));
-    vector<bool> isAPossiblePartialSum(sum+1, false); // zero index is for zero value, sum index is for the sum    isAPossiblePartialSum[0] = true;
+    vector<bool> isAPossiblePartialSum(sum+1, false); // zero index is for zero value, sum index is for the sum
+    isAPossiblePartialSum[0] = true;
 
     for(auto const& inputValueAndCountPair : inputValueToCount) // sqrt(n) distinct numbers
     {
@@ -89,6 +90,7 @@ KnapsackProblem::Values KnapsackProblem::getAllPossiblePartialSumsWithSquareRoot
             result.emplace_back(partialSumIndex);
         }
     }
-    return result;}
+    return result;
+}
 
 }

@@ -8,18 +8,15 @@ namespace alba
 class LongestCommonSubsequence
 {
 public:
-    using Length = unsigned int;
     using Index = unsigned int;
     using Value = unsigned int;
     using Sequence = std::vector<Value>;
-
     LongestCommonSubsequence(Sequence const& sequence1, Sequence const& sequence2);
 
-    Length getLongestCommonSubsequenceLengthUsingRecursion() const;
-    Length getLongestCommonSubsequenceLengthUsingDynamicProgramming() const;
+    Index getLongestCommonSubsequenceLengthUsingRecursion() const;
+    Index getLongestCommonSubsequenceLengthUsingDynamicProgramming() const;
 
 private:
-
     Index getLongestCommonSubsequenceLengthUsingRecursion(Index const index1, Index const index2) const;
     Sequence m_sequence1;
     Sequence m_sequence2;

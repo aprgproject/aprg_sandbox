@@ -8,6 +8,7 @@ namespace alba
 
 namespace algorithm
 {
+
 template <typename Values>
 class BinarySearchWithRecursion
 {
@@ -54,7 +55,8 @@ private:
                 result = middleIndex;
             }
             else if(value < middleValue)
-            {                if(middleIndex > 0U)
+            {
+                if(middleIndex > 0U)
                 {
                     result = getIndexOfValueWithoutCheck(lowerIndex, middleIndex-1, value);
                 }
