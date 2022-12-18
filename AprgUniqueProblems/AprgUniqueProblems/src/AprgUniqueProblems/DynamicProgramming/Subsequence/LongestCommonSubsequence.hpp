@@ -28,38 +28,67 @@ private:
 
 }
 
-// A subsequence is a sequence of (not necessarily consecutive) characters in a string in their original order.
-// A string of length n has 2n-1 subsequences.
-// For example, the subsequences of ABCD are A, B, C, D, AB, AC, AD, BC, BD, CD, ABC, ABD, ACD, BCD and ABCD.
+// LCS Problem Statement:
+// Given two sequences, find the length of longest subsequence present in both of them.
+// A subsequence is a sequence that appears in the same relative order, but not necessarily contiguous.
+// For example, “abc”, “abg”, “bdf”, “aeg”, ‘”acefg”, .. etc are subsequences of “abcdefg”.
 
+// In order to find out the complexity of brute force approach,
+// we need to first know the number of possible different subsequences of a string with length n, i.e.,
+// find the number of subsequences with lengths ranging from 1,2,..n-1.
 
-// Our first problem is to find the longest increasing subsequence in an array of n elements.
-// This is a maximum-length sequence of array elements that goes from left to right,
-// and each element in the sequence is larger than the previous element.
+// Recall from theory of permutation and combination that number of combinations with 1 element are nC1.
+// Number of combinations with 2 elements are nC2 and so forth and so on.
+// We know that nC0 + nC1 + nC2 + … nCn = 2n. So a string of length n has 2n-1 different possible subsequences
+// since we do not consider the subsequence with length 0.
+// This implies that the time complexity of the brute force approach will be O(n * 2n).
+// Note that it takes O(n) time to check if a subsequence is common to both the strings.
+// This time complexity can be improved using dynamic programming.
 
-// Recurrence formulation:
-// -> Let length(k) denote the length of the longest increasing subsequence that ends at position k.
-// -> Thus, if we calculate all values of length(k) where 0<=k<=n-1, we will find out the length of the longest increasing subsequence.
+// It is a classic computer science problem, the basis of diff (a file comparison program that outputs the differences between two files),
+// and has applications in bioinformatics.
 
-// Other discussions:
-// The Longest Increasing Subsequence (LIS) problem is to find the length of the longest subsequence of a given sequence
-// such that all elements of the subsequence are sorted in increasing order.
-// For example, the length of LIS for {10, 22, 9, 33, 21, 50, 41, 60, 80} is 6 and LIS is {10, 22, 33, 50, 60, 80}.
+// Examples:
+// LCS for input Sequences “ABCDGH” and “AEDFHR” is “ADH” of length 3.
+// LCS for input Sequences “AGGTAB” and “GXTXAYB” is “GTAB” of length 4.
 
-//Examples:
-// -> Input: arr[] = {3, 10, 2, 1, 20}
-// ---> Output: Length of LIS = 3
-// ---> The longest increasing subsequence is 3, 10, 20
-// -> Input: arr[] = {3, 2}
-// ---> Output: Length of LIS = 1
-// ---> The longest increasing subsequences are {3} and {2}
-// -> Input: arr[] = {50, 3, 10, 7, 40, 80}
-// ---> Output: Length of LIS = 4
-// ---> The longest increasing subsequence is {3, 7, 40, 80}
+// The naive solution for this problem is to generate all subsequences of both given sequences and find the longest matching subsequence.
+// This solution is exponential in term of time complexity.
+// Let us see how this problem possesses both important properties of a Dynamic Programming (DP) Problem.
 
-// So this problem has Overlapping Substructure property and recomputation of same subproblems
-// can be avoided by either using Memoization or Tabulation.
+// 1) Optimal Substructure:
+// Let the input sequences be X[0..m-1] and Y[0..n-1] of lengths m and n respectively.
+// And let L(X[0..m-1], Y[0..n-1]) be the length of LCS of the two sequences X and Y.
+// Following is the recursive definition of L(X[0..m-1], Y[0..n-1]).
 
-// Complexity Analysis:
-// Time Complexity: O(n2). As nested loop is used.
-// Auxiliary Space: O(n). Use of any array to store LIS values at each index.
+// If last characters of both sequences match (or X[m-1] == Y[n-1]) then
+// L(X[0..m-1], Y[0..n-1]) = 1 + L(X[0..m-2], Y[0..n-2])
+
+// If last characters of both sequences do not match (or X[m-1] != Y[n-1]) then
+// L(X[0..m-1], Y[0..n-1]) = MAX ( L(X[0..m-2], Y[0..n-1]), L(X[0..m-1], Y[0..n-2]) )
+
+// Examples:
+// 1) Consider the input strings “AGGTAB” and “GXTXAYB”.
+// Last characters match for the strings.
+// So length of LCS can be written as:
+// L(“AGGTAB”, “GXTXAYB”) = 1 + L(“AGGTA”, “GXTXAY”)
+// Matrix:
+//  |A|G|G|T|A|B|
+// G|-|-|4|-|-|-|
+// X|-|-|-|-|-|-|
+// T|-|-|-|3|-|-|
+// X|-|-|-|-|-|-|
+// A|-|-|-|-|2|-|
+// X|-|-|-|-|-|-|
+// B|-|-|-|-|-|1|
+// 2) Consider the input strings “ABCDGH” and “AEDFHR.
+// Last characters do not match for the strings.
+// So length of LCS can be written as:
+// L(“ABCDGH”, “AEDFHR”) = MAX ( L(“ABCDG”, “AEDFHR”), L(“ABCDGH”, “AEDFH”) )
+// So the LCS problem has optimal substructure property as the main problem can be solved using solutions to subproblems.
+
+// 2) Overlapping Subproblems:
+// Following is simple recursive implementation of the LCS problem.
+// The implementation simply follows the recursive structure mentioned above.
+
+// Time Complexity of the above implementation is O(mn) which is much better than the worst-case time complexity of Naive Recursive implementation.
