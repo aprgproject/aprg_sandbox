@@ -52,7 +52,8 @@ private:
         Index result(0);        Index size(m_sortedValues.size());
         for(Index forwardSkip = size/2; forwardSkip>=1; forwardSkip/=2) // forward skip start from half of size, then quarter of size, then eighth of size and so on
         {
-            while(result+forwardSkip < size && m_sortedValues.at(result+forwardSkip) <= value)            {
+            while(result+forwardSkip < size && m_sortedValues.at(result+forwardSkip) <= value)
+            {
                 result += forwardSkip;
             }
         }
@@ -64,7 +65,8 @@ private:
         Value lowerBoundValue(m_sortedValues.at(lowerIndex));        Value higherIndex(getHigherIndex(lowerIndex));
         Value deviationFromLower(mathHelper::getPositiveDelta(value, lowerBoundValue));
         Value deviationFromHigher(mathHelper::getPositiveDelta(value, m_sortedValues.at(higherIndex)));
-        return (deviationFromLower <= deviationFromHigher) ? lowerIndex : higherIndex;    }
+        return (deviationFromLower <= deviationFromHigher) ? lowerIndex : higherIndex;
+    }
 
     Index getHigherIndex(Index const lowerIndex) const
     {

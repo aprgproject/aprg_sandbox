@@ -7,6 +7,7 @@
 #include <functional>
 namespace alba
 {
+
 namespace algorithm
 {
 
@@ -80,7 +81,8 @@ protected:
             if(isLeftPartIncluded && isRightPartIncluded)            {
                 result = m_function(
                             getValueOnIntervalFromTopToBottom(startInterval, endInterval, nodePointer->leftChildPointer, baseLeft, baseMidPoint),
-                            getValueOnIntervalFromTopToBottom(startInterval, endInterval, nodePointer->rightChildPointer, baseMidPoint+1, baseRight));            }
+                            getValueOnIntervalFromTopToBottom(startInterval, endInterval, nodePointer->rightChildPointer, baseMidPoint+1, baseRight));
+            }
             else if(isLeftPartIncluded)
             {
                 result = getValueOnIntervalFromTopToBottom(startInterval, endInterval, nodePointer->leftChildPointer, baseLeft, baseMidPoint);
@@ -144,7 +146,8 @@ protected:
             {                setValuesFromTopToBottom(values, nodePointer->rightChildPointer, baseMidPoint+1, baseRight);
             }
             nodePointer->value = getCombinedValueBasedFromChildren(nodePointer);
-        }    }
+        }
+    }
 
     void changeValueOnIndexFromTopToBottom(
             Index const index,
@@ -169,7 +172,8 @@ protected:
                     changeValueOnIndexFromTopToBottom(index, newValue, nodePointer->leftChildPointer, baseLeft, baseMidPoint);                }
                 else
                 {
-                    changeValueOnIndexFromTopToBottom(index, newValue, nodePointer->rightChildPointer, baseMidPoint+1, baseRight);                }
+                    changeValueOnIndexFromTopToBottom(index, newValue, nodePointer->rightChildPointer, baseMidPoint+1, baseRight);
+                }
                 nodePointer->value = getCombinedValueBasedFromChildren(nodePointer);
             }
         }

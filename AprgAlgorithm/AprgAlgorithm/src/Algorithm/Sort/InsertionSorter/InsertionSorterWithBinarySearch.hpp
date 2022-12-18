@@ -7,6 +7,7 @@
 #include <utility>
 namespace alba
 {
+
 namespace algorithm
 {
 
@@ -57,7 +58,8 @@ private:
             {                result = middleIndex;
                 if(middleIndex > 0U)
                 {
-                    higherIndex = middleIndex-1;                }
+                    higherIndex = middleIndex-1;
+                }
                 else
                 {
                     break;

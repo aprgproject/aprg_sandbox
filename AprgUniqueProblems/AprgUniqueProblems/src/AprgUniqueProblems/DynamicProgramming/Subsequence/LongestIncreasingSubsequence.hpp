@@ -9,18 +9,18 @@ namespace alba
 class LongestIncreasingSubsequence
 {
 public:
-    using Length = unsigned int;
+    using Index = unsigned int;
     using Value = unsigned int;
-    using Sequence = std::vector<Value>;    using LengthToIndexMap = std::multimap<Length, Length>;
+    using Sequence = std::vector<Value>;
+    using IndexToIndexMap = std::multimap<Index, Index>;
     using Sequences = std::vector<Sequence>;
 
     LongestIncreasingSubsequence(Sequence const& sequenceToCheck);
 
-    Length getLongestIncreasingSubsequenceLength();
+    Index getLongestIncreasingSubsequenceLength();
     Sequence getLongestIncreasingSubsequence();
 private:
     Sequence m_sequenceToCheck;
-
 };
 
 }

@@ -6,6 +6,7 @@
 #include <vector>
 namespace alba
 {
+
 namespace algorithm
 {
 
@@ -134,7 +135,8 @@ public:
     }
     static Key selectAt(unsigned int const index, Keys const& keys)
     {
-        Key result{};        if(index < keys.size())
+        Key result{};
+        if(index < keys.size())
         {
             result = keys.at(index);
         }

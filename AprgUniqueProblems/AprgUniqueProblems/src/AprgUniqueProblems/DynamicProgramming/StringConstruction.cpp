@@ -16,10 +16,10 @@ StringConstruction::StringConstruction(
         stringHelper::strings const& subStrings)
     : m_stringToConstruct(stringToConstruct)
     , m_subStrings(subStrings)
+    , m_prefixLengthToCount(stringToConstruct.length()+1, UNUSED_VALUE)
 {
     initialize();
 }
-
 unsigned int StringConstruction::getCount()
 {
     unsigned int result(0);
@@ -74,44 +74,29 @@ void StringConstruction::saveHashOfAllSubstrings()
 
 unsigned int StringConstruction::getCount(unsigned int const prefixLength)
 {
-    unsigned int result{};
-    auto it = m_prefixLengthToCountMap.find(prefixLength);
-    if(it != m_prefixLengthToCountMap.cend())
+    if(UNUSED_VALUE == m_prefixLengthToCount.at(prefixLength))
     {
-        result = it->second;
+        m_prefixLengthToCount[prefixLength] = count(prefixLength);
     }
-    else
-    {
-        result = count(prefixLength);
-        m_prefixLengthToCountMap[prefixLength] = result;
-    }
-    return result;
+    return m_prefixLengthToCount.at(prefixLength);
 }
 
 unsigned int StringConstruction::getCountSquareRootAlgorithm(unsigned int const prefixLength)
 {
-    unsigned int result{};
-    auto it = m_prefixLengthToCountMap.find(prefixLength);
-    if(it != m_prefixLengthToCountMap.cend())
+    if(UNUSED_VALUE == m_prefixLengthToCount.at(prefixLength))
     {
-        result = it->second;
+        m_prefixLengthToCount[prefixLength] = countSquareRootAlgorithm(prefixLength);
     }
-    else
-    {
-        result = countSquareRootAlgorithm(prefixLength);
-        m_prefixLengthToCountMap[prefixLength] = result;
-    }
-    return result;
+    return m_prefixLengthToCount.at(prefixLength);
 }
 
 unsigned int StringConstruction::count(unsigned int const prefixLength)
 {
     // We can solve the problem using dynamic programming:
-    // Let count(k) denote  the number of ways to construct the prefix s[0...k] using the strings in D.
+    // Let count(k) denote the number of ways to construct the prefix s[0...k] using the strings in D.
     // Now count(n-1) gives the answer to the problem, and we can solve the problem in O(n2) time using a trie structure.
 
-    unsigned int result(0U);
-    for(string const& subString : m_subStrings)
+    unsigned int result(0U);    for(string const& subString : m_subStrings)
     {
         unsigned int subStringLength = subString.length();
         if(subStringLength < prefixLength

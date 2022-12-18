@@ -5,6 +5,7 @@
 #include <Common/Math/Helpers/SignRelatedHelpers.hpp>
 namespace alba
 {
+
 namespace algorithm
 {
 
@@ -44,7 +45,8 @@ public:
     }
     Index getIndexOfNearestValue(Value const& value)
     {
-        Index result(INVALID_INDEX);        if(!m_sortedValues.empty())
+        Index result(INVALID_INDEX);
+        if(!m_sortedValues.empty())
         {
             moveIndexesUntilCloseToValue(value);
             result = getIndexOfNearestValueInBetweenTwoIndices(value);
@@ -89,6 +91,7 @@ private:
         Value deviationFromLower(mathHelper::getPositiveDelta(value, m_sortedValues.at(m_lowerIndex)));        Value deviationFromHigher(mathHelper::getPositiveDelta(value, m_sortedValues.at(m_higherIndex)));
         return (deviationFromLower <= deviationFromHigher) ? m_lowerIndex : m_higherIndex;
     }
+
     void setInitialIndexes()
     {
         if(!m_sortedValues.empty())
@@ -151,7 +154,8 @@ private:
         }    }
 
     Index m_lowerIndex;
-    Index m_higherIndex;    Values const& m_sortedValues;
+    Index m_higherIndex;
+    Values const& m_sortedValues;
 };
 
 }

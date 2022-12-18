@@ -7,6 +7,7 @@
 #include <functional>
 namespace alba
 {
+
 namespace algorithm
 {
 
@@ -120,7 +121,8 @@ protected:
             if(doesLeftPartIntersect && doesRightPartIntersect)            {
                 result = m_function(
                             getValueOnIntervalFromTopToBottom(startInterval, endInterval, nodePointer->leftChildPointer, baseLeft, baseMidPoint),
-                            getValueOnIntervalFromTopToBottom(startInterval, endInterval, nodePointer->rightChildPointer, baseMidPoint+1, baseRight));            }
+                            getValueOnIntervalFromTopToBottom(startInterval, endInterval, nodePointer->rightChildPointer, baseMidPoint+1, baseRight));
+            }
             else if(doesLeftPartIntersect)
             {
                 result = getValueOnIntervalFromTopToBottom(startInterval, endInterval, nodePointer->leftChildPointer, baseLeft, baseMidPoint);
@@ -158,7 +160,8 @@ protected:
                 setValueOnIndexFromTopToBottom(index, valueToSet, nodePointer->leftChildPointer, baseLeft, baseMidPoint);            }
             else
             {
-                setValueOnIndexFromTopToBottom(index, valueToSet, nodePointer->rightChildPointer, baseMidPoint+1, baseRight);            }
+                setValueOnIndexFromTopToBottom(index, valueToSet, nodePointer->rightChildPointer, baseMidPoint+1, baseRight);
+            }
             nodePointer->value = getCombinedValueBasedFromChildren(nodePointer);
         }
     }

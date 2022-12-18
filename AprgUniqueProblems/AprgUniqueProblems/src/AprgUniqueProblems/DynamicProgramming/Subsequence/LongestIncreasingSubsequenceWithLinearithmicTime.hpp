@@ -1,24 +1,26 @@
 #pragma once
 
+#include <limits>
 #include <vector>
 
-namespace alba
-{
+namespace alba{
 
 class LongestIncreasingSubsequenceWithLinearithmicTime
 {
 public:
-    using Length = unsigned int;
     using Index = unsigned int;
     using Value = unsigned int;
     using Sequence = std::vector<Value>;
+    using IndexToIndex = std::vector<Index>;
+    using IndexToValue = std::vector<Value>;
+    static constexpr Value UNUSED_VALUE=std::numeric_limits<Value>::max();
 
     LongestIncreasingSubsequenceWithLinearithmicTime(Sequence const& sequenceToCheck);
 
-    Length getLongestIncreasingSubsequenceLength();
+    Index getLongestIncreasingSubsequenceLength() const;
+    Sequence getLongestIncreasingSubsequence() const;
 private:
     Sequence m_sequenceToCheck;
-
 };
 
 }

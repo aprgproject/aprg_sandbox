@@ -7,6 +7,7 @@ namespace alba
 {
 namespace algorithm
 {
+
 template <typename Values>
 class RangeQueryWithAccumulatorLazySegmentTree
         : private RangeQueryWithStaticSegmentTree<Values>
@@ -112,7 +113,8 @@ private:
             if(doesLeftPartIntersect && doesRightPartIntersect)            {
                 result = b_function(
                             getValueOnIntervalFromTopToBottom(startInterval, endInterval, Utilities::getLeftChild(currentChild), baseLeft, baseMidPoint),
-                            getValueOnIntervalFromTopToBottom(startInterval, endInterval, Utilities::getRightChild(currentChild), baseMidPoint+1, baseRight));            }
+                            getValueOnIntervalFromTopToBottom(startInterval, endInterval, Utilities::getRightChild(currentChild), baseMidPoint+1, baseRight));
+            }
             else if(doesLeftPartIntersect)
             {
                 result = getValueOnIntervalFromTopToBottom(startInterval, endInterval, Utilities::getLeftChild(currentChild), baseLeft, baseMidPoint);
@@ -168,7 +170,8 @@ private:
             if(doesLeftPartIntersect && doesRightPartIntersect)            {
                 increaseAtRangeFromTopToBottom(startInterval, endInterval, Utilities::getLeftChild(currentChild), baseLeft, baseMidPoint, incrementValue);
                 increaseAtRangeFromTopToBottom(startInterval, endInterval, Utilities::getRightChild(currentChild), baseMidPoint+1, baseRight, incrementValue);
-            }            else if(doesLeftPartIntersect)
+            }
+            else if(doesLeftPartIntersect)
             {
                 increaseAtRangeFromTopToBottom(startInterval, endInterval, Utilities::getLeftChild(currentChild), baseLeft, baseMidPoint, incrementValue);
             }

@@ -7,6 +7,7 @@ namespace alba
 {
 namespace algorithm
 {
+
 template <typename Indexes>
 class GetAccumulatedNextFreeIndexWithSegmentTree
 {
@@ -79,7 +80,8 @@ private:
                     result = getNextFreeIndexAt(index, leftChild, baseLeft, baseMidPoint);                }
                 else
                 {
-                    result = getNextFreeIndexAt(index-leftChildSum, Utilities::getRightChild(currentChild), baseMidPoint+1, baseRight);                }
+                    result = getNextFreeIndexAt(index-leftChildSum, Utilities::getRightChild(currentChild), baseMidPoint+1, baseRight);
+                }
             }
         }
         return result;

@@ -7,6 +7,7 @@ namespace alba{
 
 namespace algorithm
 {
+
 template <typename Values>
 class BinarySearchWithTwoIndices
 {
@@ -25,7 +26,8 @@ public:
         if(!m_sortedValues.empty())        {
             result = getIndexOfValueWithoutCheck(0U, m_sortedValues.size()-1, value);
         }
-        return result;    }
+        return result;
+    }
 
     Index getIndexOfValue(Index const startIndex, Index const endIndex, Value const& value) const
     {
@@ -51,7 +53,8 @@ private:
             {                result = middleIndex;
                 break;
             }
-            else if(value < middleValue)            {
+            else if(value < middleValue)
+            {
                 if(middleIndex > 0U)
                 {
                     higherIndex = middleIndex-1;

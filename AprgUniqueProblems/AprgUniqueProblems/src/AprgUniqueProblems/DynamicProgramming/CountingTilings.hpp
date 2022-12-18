@@ -27,10 +27,9 @@ public:
         std::string nextNonFilledRow;
     };
     using NextIterationDetails = std::vector<NextIterationDetail>;
-    using StringToNextIterationDetailsMap=std::map<std::string, NextIterationDetails>;
+    using StringToNextIterationDetailsMap=std::map<std::string, NextIterationDetails>; // This also can be represented by vector using bitstrings
 
     CountingTilings(Count const numberOfColumns, Count const numberOfRows);
-
     Count getNumberOfSolutionsUsingDynamicProgramming();
     Count getNumberOfSolutionsUsingCompleteSearch();
 
