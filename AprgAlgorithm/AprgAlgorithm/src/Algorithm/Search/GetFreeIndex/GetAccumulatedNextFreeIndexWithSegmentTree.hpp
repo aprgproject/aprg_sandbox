@@ -5,9 +5,9 @@
 
 namespace alba
 {
+
 namespace algorithm
 {
-
 template <typename Indexes>
 class GetAccumulatedNextFreeIndexWithSegmentTree
 {
@@ -77,11 +77,11 @@ private:
                 Index baseMidPoint = getMidpointOfIndexes(baseLeft, baseRight);
                 if(index+1 <= leftChildSum)
                 {
-                    result = getNextFreeIndexAt(index, leftChild, baseLeft, baseMidPoint);                }
+                    result = getNextFreeIndexAt(index, leftChild, baseLeft, baseMidPoint);
+                }
                 else
                 {
-                    result = getNextFreeIndexAt(index-leftChildSum, Utilities::getRightChild(currentChild), baseMidPoint+1, baseRight);
-                }
+                    result = getNextFreeIndexAt(index-leftChildSum, Utilities::getRightChild(currentChild), baseMidPoint+1, baseRight);                }
             }
         }
         return result;

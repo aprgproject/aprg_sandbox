@@ -5,11 +5,11 @@
 #include <Algorithm/Utilities/MidpointOfIndexes.hpp>
 #include <Common/Container/AlbaFakeCopyable.hpp>
 
-#include <functional>#include <list>
+#include <functional>
+#include <list>
 
 namespace alba
 {
-
 namespace algorithm
 {
 
@@ -109,11 +109,11 @@ protected:
             Index baseMidPoint = getMidpointOfIndexes(baseLeft, baseRight);
             bool isLeftPartIncluded = nodePointer->leftChildPointer && !(endInterval<baseLeft || baseMidPoint<startInterval);
             bool isRightPartIncluded = nodePointer->rightChildPointer && !(endInterval<baseMidPoint+1 || baseRight<startInterval);
-            if(isLeftPartIncluded && isRightPartIncluded)            {
+            if(isLeftPartIncluded && isRightPartIncluded)
+            {
                 result = m_function(
                             getValueOnIntervalFromTopToBottom(startInterval, endInterval, nodePointer->leftChildPointer, baseLeft, baseMidPoint),
-                            getValueOnIntervalFromTopToBottom(startInterval, endInterval, nodePointer->rightChildPointer, baseMidPoint+1, baseRight));
-            }
+                            getValueOnIntervalFromTopToBottom(startInterval, endInterval, nodePointer->rightChildPointer, baseMidPoint+1, baseRight));            }
             else if(isLeftPartIncluded)
             {
                 result = getValueOnIntervalFromTopToBottom(startInterval, endInterval, nodePointer->leftChildPointer, baseLeft, baseMidPoint);
@@ -175,11 +175,11 @@ protected:
             Index baseMidPoint = getMidpointOfIndexes(baseLeft, baseRight);
             setValuesFromTopToBottom(values, nodePointer->leftChildPointer, baseLeft, baseMidPoint);
             if(baseMidPoint+1<values.size())
-            {                setValuesFromTopToBottom(values, nodePointer->rightChildPointer, baseMidPoint+1, baseRight);
+            {
+                setValuesFromTopToBottom(values, nodePointer->rightChildPointer, baseMidPoint+1, baseRight);
             }
             nodePointer->value = getCombinedValueBasedFromChildren(nodePointer);
-        }
-    }
+        }    }
 
     void changeValueOnIndexFromTopToBottom(
             Index const index,
@@ -202,11 +202,11 @@ protected:
                 Index baseMidPoint = getMidpointOfIndexes(baseLeft, baseRight);
                 if(index <= baseMidPoint)
                 {
-                    newTreeNode.reset(new Node{Value{}, nullptr, previousTreeNode->rightChildPointer});                    changeValueOnIndexFromTopToBottom(
+                    newTreeNode.reset(new Node{Value{}, nullptr, previousTreeNode->rightChildPointer});
+                    changeValueOnIndexFromTopToBottom(
                                 index, newValue, previousTreeNode->leftChildPointer, newTreeNode->leftChildPointer, baseLeft, baseMidPoint);
                 }
-                else
-                {
+                else                {
                     newTreeNode.reset(new Node{Value{}, previousTreeNode->leftChildPointer, nullptr});
                     changeValueOnIndexFromTopToBottom(
                                 index, newValue, previousTreeNode->rightChildPointer, newTreeNode->rightChildPointer, baseMidPoint+1, baseRight);

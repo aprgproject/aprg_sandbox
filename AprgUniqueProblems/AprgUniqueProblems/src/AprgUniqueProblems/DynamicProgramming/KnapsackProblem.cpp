@@ -62,11 +62,11 @@ KnapsackProblem::Values KnapsackProblem::getAllPossiblePartialSumsWithSquareRoot
     for(Value const inputValue : m_inputValues) // n*log(n)
     {
         inputValueToCount.emplace(inputValue, 0U);
-        inputValueToCount[inputValue]++;    }
+        inputValueToCount[inputValue]++;
+    }
 
     Value sum(accumulate(m_inputValues.cbegin(), m_inputValues.cend(), 0));
-    vector<bool> isAPossiblePartialSum(sum+1, false); // zero index is for zero value, sum index is for the sum
-    isAPossiblePartialSum[0] = true;
+    vector<bool> isAPossiblePartialSum(sum+1, false); // zero index is for zero value, sum index is for the sum    isAPossiblePartialSum[0] = true;
 
     for(auto const& inputValueAndCountPair : inputValueToCount) // sqrt(n) distinct numbers
     {
@@ -78,16 +78,17 @@ KnapsackProblem::Values KnapsackProblem::getAllPossiblePartialSumsWithSquareRoot
                 for(unsigned int i=1; i<=inputValueAndCountPair.second; i++) // near constant time
                 {
                     isAPossiblePartialSum[static_cast<Value>(partialSumIndex)+(i*inputValueAndCountPair.first)] = true;
-                }            }
+                }
+            }
         }
     }
     for(unsigned int partialSumIndex=0; partialSumIndex<=sum; partialSumIndex++) // O(n) or linear time
     {
         if(isAPossiblePartialSum.at(partialSumIndex))
-        {            result.emplace_back(partialSumIndex);
+        {
+            result.emplace_back(partialSumIndex);
         }
     }
-    return result;
-}
+    return result;}
 
 }

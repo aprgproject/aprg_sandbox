@@ -5,9 +5,9 @@
 #include <Algorithm/Utilities/MidpointOfIndexes.hpp>
 
 #include <functional>
+
 namespace alba
 {
-
 namespace algorithm
 {
 
@@ -118,11 +118,11 @@ protected:
             Index baseMidPoint = getMidpointOfIndexes(baseLeft, baseRight);
             bool doesLeftPartIntersect = !(endInterval<baseLeft || baseMidPoint<startInterval);
             bool doesRightPartIntersect = !(endInterval<baseMidPoint+1 || baseRight<startInterval);
-            if(doesLeftPartIntersect && doesRightPartIntersect)            {
+            if(doesLeftPartIntersect && doesRightPartIntersect)
+            {
                 result = m_function(
                             getValueOnIntervalFromTopToBottom(startInterval, endInterval, nodePointer->leftChildPointer, baseLeft, baseMidPoint),
-                            getValueOnIntervalFromTopToBottom(startInterval, endInterval, nodePointer->rightChildPointer, baseMidPoint+1, baseRight));
-            }
+                            getValueOnIntervalFromTopToBottom(startInterval, endInterval, nodePointer->rightChildPointer, baseMidPoint+1, baseRight));            }
             else if(doesLeftPartIntersect)
             {
                 result = getValueOnIntervalFromTopToBottom(startInterval, endInterval, nodePointer->leftChildPointer, baseLeft, baseMidPoint);
@@ -157,11 +157,11 @@ protected:
             Index baseMidPoint = getMidpointOfIndexes(baseLeft, baseRight);
             if(index <= baseMidPoint)
             {
-                setValueOnIndexFromTopToBottom(index, valueToSet, nodePointer->leftChildPointer, baseLeft, baseMidPoint);            }
+                setValueOnIndexFromTopToBottom(index, valueToSet, nodePointer->leftChildPointer, baseLeft, baseMidPoint);
+            }
             else
             {
-                setValueOnIndexFromTopToBottom(index, valueToSet, nodePointer->rightChildPointer, baseMidPoint+1, baseRight);
-            }
+                setValueOnIndexFromTopToBottom(index, valueToSet, nodePointer->rightChildPointer, baseMidPoint+1, baseRight);            }
             nodePointer->value = getCombinedValueBasedFromChildren(nodePointer);
         }
     }

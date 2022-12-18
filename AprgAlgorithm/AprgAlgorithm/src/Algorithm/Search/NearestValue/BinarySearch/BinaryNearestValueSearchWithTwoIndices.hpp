@@ -3,9 +3,9 @@
 #include <Algorithm/Utilities/MidpointOfIndexes.hpp>
 #include <Algorithm/Utilities/InvalidIndex.hpp>
 #include <Common/Math/Helpers/SignRelatedHelpers.hpp>
+
 namespace alba
 {
-
 namespace algorithm
 {
 
@@ -43,10 +43,10 @@ public:
         }
         return result;
     }
+
     Index getIndexOfNearestValue(Value const& value)
     {
-        Index result(INVALID_INDEX);
-        if(!m_sortedValues.empty())
+        Index result(INVALID_INDEX);        if(!m_sortedValues.empty())
         {
             moveIndexesUntilCloseToValue(value);
             result = getIndexOfNearestValueInBetweenTwoIndices(value);
@@ -88,10 +88,10 @@ private:
 
     Index getIndexOfNearestValueInBetweenTwoIndices(Value const& value) const
     {
-        Value deviationFromLower(mathHelper::getPositiveDelta(value, m_sortedValues.at(m_lowerIndex)));        Value deviationFromHigher(mathHelper::getPositiveDelta(value, m_sortedValues.at(m_higherIndex)));
+        Value deviationFromLower(mathHelper::getPositiveDelta(value, m_sortedValues.at(m_lowerIndex)));
+        Value deviationFromHigher(mathHelper::getPositiveDelta(value, m_sortedValues.at(m_higherIndex)));
         return (deviationFromLower <= deviationFromHigher) ? m_lowerIndex : m_higherIndex;
     }
-
     void setInitialIndexes()
     {
         if(!m_sortedValues.empty())
@@ -140,22 +140,22 @@ private:
             {
                 m_lowerIndex = middleIndex;
             }
-        }    }
+        }
+    }
 
     void moveIndexesCloserWhenValueIsBeyondTheIndices(Value const& value)
-    {
-        if(value <= m_sortedValues.at(m_lowerIndex))
+    {        if(value <= m_sortedValues.at(m_lowerIndex))
         {
             m_higherIndex=m_lowerIndex;
         }
         else if(m_sortedValues.at(m_higherIndex) <= value)
         {
             m_lowerIndex=m_higherIndex;
-        }    }
+        }
+    }
 
     Index m_lowerIndex;
-    Index m_higherIndex;
-    Values const& m_sortedValues;
+    Index m_higherIndex;    Values const& m_sortedValues;
 };
 
 }

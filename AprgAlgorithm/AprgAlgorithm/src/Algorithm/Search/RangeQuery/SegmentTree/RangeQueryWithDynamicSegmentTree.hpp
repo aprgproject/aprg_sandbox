@@ -5,9 +5,9 @@
 #include <Algorithm/Utilities/MidpointOfIndexes.hpp>
 
 #include <functional>
+
 namespace alba
 {
-
 namespace algorithm
 {
 
@@ -78,11 +78,11 @@ protected:
             Index baseMidPoint = getMidpointOfIndexes(baseLeft, baseRight);
             bool isLeftPartIncluded = nodePointer->leftChildPointer && !(endInterval<baseLeft || baseMidPoint<startInterval);
             bool isRightPartIncluded = nodePointer->rightChildPointer && !(endInterval<baseMidPoint+1 || baseRight<startInterval);
-            if(isLeftPartIncluded && isRightPartIncluded)            {
+            if(isLeftPartIncluded && isRightPartIncluded)
+            {
                 result = m_function(
                             getValueOnIntervalFromTopToBottom(startInterval, endInterval, nodePointer->leftChildPointer, baseLeft, baseMidPoint),
-                            getValueOnIntervalFromTopToBottom(startInterval, endInterval, nodePointer->rightChildPointer, baseMidPoint+1, baseRight));
-            }
+                            getValueOnIntervalFromTopToBottom(startInterval, endInterval, nodePointer->rightChildPointer, baseMidPoint+1, baseRight));            }
             else if(isLeftPartIncluded)
             {
                 result = getValueOnIntervalFromTopToBottom(startInterval, endInterval, nodePointer->leftChildPointer, baseLeft, baseMidPoint);
@@ -143,11 +143,11 @@ protected:
             Index baseMidPoint = getMidpointOfIndexes(baseLeft, baseRight);
             setValuesFromTopToBottom(values, nodePointer->leftChildPointer, baseLeft, baseMidPoint);
             if(baseMidPoint+1<values.size())
-            {                setValuesFromTopToBottom(values, nodePointer->rightChildPointer, baseMidPoint+1, baseRight);
+            {
+                setValuesFromTopToBottom(values, nodePointer->rightChildPointer, baseMidPoint+1, baseRight);
             }
             nodePointer->value = getCombinedValueBasedFromChildren(nodePointer);
-        }
-    }
+        }    }
 
     void changeValueOnIndexFromTopToBottom(
             Index const index,
@@ -169,11 +169,11 @@ protected:
                 Index baseMidPoint = getMidpointOfIndexes(baseLeft, baseRight);
                 if(index <= baseMidPoint)
                 {
-                    changeValueOnIndexFromTopToBottom(index, newValue, nodePointer->leftChildPointer, baseLeft, baseMidPoint);                }
+                    changeValueOnIndexFromTopToBottom(index, newValue, nodePointer->leftChildPointer, baseLeft, baseMidPoint);
+                }
                 else
                 {
-                    changeValueOnIndexFromTopToBottom(index, newValue, nodePointer->rightChildPointer, baseMidPoint+1, baseRight);
-                }
+                    changeValueOnIndexFromTopToBottom(index, newValue, nodePointer->rightChildPointer, baseMidPoint+1, baseRight);                }
                 nodePointer->value = getCombinedValueBasedFromChildren(nodePointer);
             }
         }

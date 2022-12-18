@@ -3,11 +3,11 @@
 #include <Algorithm/Utilities/MidpointOfIndexes.hpp>
 #include <Algorithm/Utilities/InvalidIndex.hpp>
 
-namespace alba{
+namespace alba
+{
 
 namespace algorithm
 {
-
 template <typename Values>
 class BinarySearchWithTwoIndices
 {
@@ -23,11 +23,11 @@ public:
     Index getIndexOfValue(Value const& value) const
     {
         Index result(INVALID_INDEX);
-        if(!m_sortedValues.empty())        {
+        if(!m_sortedValues.empty())
+        {
             result = getIndexOfValueWithoutCheck(0U, m_sortedValues.size()-1, value);
         }
-        return result;
-    }
+        return result;    }
 
     Index getIndexOfValue(Index const startIndex, Index const endIndex, Value const& value) const
     {
@@ -50,11 +50,11 @@ private:
             Index middleIndex = getMidpointOfIndexes(lowerIndex, higherIndex);
             Value middleValue(m_sortedValues.at(middleIndex));
             if(value == middleValue)
-            {                result = middleIndex;
+            {
+                result = middleIndex;
                 break;
             }
-            else if(value < middleValue)
-            {
+            else if(value < middleValue)            {
                 if(middleIndex > 0U)
                 {
                     higherIndex = middleIndex-1;

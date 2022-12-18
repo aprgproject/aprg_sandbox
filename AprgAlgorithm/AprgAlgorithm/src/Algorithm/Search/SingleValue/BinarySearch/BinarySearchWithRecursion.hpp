@@ -3,11 +3,11 @@
 #include <Algorithm/Utilities/MidpointOfIndexes.hpp>
 #include <Algorithm/Utilities/InvalidIndex.hpp>
 
-namespace alba{
+namespace alba
+{
 
 namespace algorithm
 {
-
 template <typename Values>
 class BinarySearchWithRecursion
 {
@@ -50,11 +50,11 @@ private:
             Index middleIndex = getMidpointOfIndexes(lowerIndex, higherIndex);
             Value middleValue(m_sortedValues.at(middleIndex));
             if(value == middleValue)
-            {                result = middleIndex;
+            {
+                result = middleIndex;
             }
             else if(value < middleValue)
-            {
-                if(middleIndex > 0U)
+            {                if(middleIndex > 0U)
                 {
                     result = getIndexOfValueWithoutCheck(lowerIndex, middleIndex-1, value);
                 }

@@ -7,9 +7,9 @@
 
 namespace alba
 {
+
 namespace algorithm
 {
-
 template <typename Values>
 class RangeQueryWithAccumulatorLazySegmentTreeWithDifferentValuesInUpdate
         : private RangeQueryWithStaticSegmentTree<Values>
@@ -80,11 +80,11 @@ private:
             Index baseMidPoint = getMidpointOfIndexes(baseLeft, baseRight);
             bool doesLeftPartIntersect = !(endInterval<baseLeft || baseMidPoint<startInterval);
             bool doesRightPartIntersect = !(endInterval<baseMidPoint+1 || baseRight<startInterval);
-            if(doesLeftPartIntersect && doesRightPartIntersect)            {
+            if(doesLeftPartIntersect && doesRightPartIntersect)
+            {
                 result = b_function(
                             getValueOnIntervalFromTopToBottom(startInterval, endInterval, Utilities::getLeftChild(currentChild), baseLeft, baseMidPoint),
-                            getValueOnIntervalFromTopToBottom(startInterval, endInterval, Utilities::getRightChild(currentChild), baseMidPoint+1, baseRight));
-            }
+                            getValueOnIntervalFromTopToBottom(startInterval, endInterval, Utilities::getRightChild(currentChild), baseMidPoint+1, baseRight));            }
             else if(doesLeftPartIntersect)
             {
                 result = getValueOnIntervalFromTopToBottom(startInterval, endInterval, Utilities::getLeftChild(currentChild), baseLeft, baseMidPoint);
@@ -124,11 +124,11 @@ private:
             Index baseMidPoint = getMidpointOfIndexes(baseLeft, baseRight);
             bool doesLeftPartIntersect = !(endInterval<baseLeft || startInterval>baseMidPoint);
             bool doesRightPartIntersect = !(endInterval<baseMidPoint+1 || startInterval>baseRight);
-            if(doesLeftPartIntersect && doesRightPartIntersect)            {
+            if(doesLeftPartIntersect && doesRightPartIntersect)
+            {
                 increaseAtRangeFromTopToBottom(startInterval, endInterval, Utilities::getLeftChild(currentChild), baseLeft, baseMidPoint);
                 increaseAtRangeFromTopToBottom(startInterval, endInterval, Utilities::getRightChild(currentChild), baseMidPoint+1, baseRight);
-            }
-            else if(doesLeftPartIntersect)
+            }            else if(doesLeftPartIntersect)
             {
                 increaseAtRangeFromTopToBottom(startInterval, endInterval, Utilities::getLeftChild(currentChild), baseLeft, baseMidPoint);
             }
@@ -153,10 +153,10 @@ private:
                 Index baseMidPoint = getMidpointOfIndexes(baseLeft, baseRight);
                 incrementOrUpdateAtIndex(Utilities::getLeftChild(index), baseLeft, baseMidPoint, startIndexForPendingUpdate);
                 incrementOrUpdateAtIndex(Utilities::getRightChild(index), baseMidPoint+1, baseRight, startIndexForPendingUpdate);
-                startIndexForPendingUpdate.clear();            }
+                startIndexForPendingUpdate.clear();
+            }
         }
     }
-
     inline void incrementOrUpdateAtIndex(
             Index const index,
             Index const baseLeft,
