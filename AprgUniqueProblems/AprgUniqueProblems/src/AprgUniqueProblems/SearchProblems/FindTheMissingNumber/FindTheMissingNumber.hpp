@@ -45,10 +45,10 @@ public:
         return accumulatedXor;
     }
 };
-}
 
 }
-// Find the Missing Number
+
+}// Find the Missing Number
 
 // You are given a list of n-1 integers and these integers are in the range of 1 to n.
 // There are no duplicates in the list.
