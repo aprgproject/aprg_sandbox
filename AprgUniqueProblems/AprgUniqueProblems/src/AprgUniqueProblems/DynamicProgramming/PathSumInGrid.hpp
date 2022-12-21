@@ -26,10 +26,10 @@ public:
 
     Value getMaxSumInRightOrDownTraversal() const;
     Path getMaxPathInRightOrDownTraversal() const;
+
 private:
     void calculatePartialSums();
-    Grid m_gridToCheck;
-    Grid m_partialSumGrid;
+    Grid m_gridToCheck;    Grid m_partialSumGrid;
 };
 
 }
