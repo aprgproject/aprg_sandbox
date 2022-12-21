@@ -20,14 +20,13 @@ public:
     Index getLevenshteinDistanceUsingRecursion() const;
     Index getLevenshteinDistanceUsingTabularDP() const;
     Index getLevenshteinDistanceUsingEfficientSpaceDP() const;
-    Index getLevenshteinDistanceUsingMemoization() const;
+    Index getLevenshteinDistanceUsingMemoizationDP() const;
 private:
     Index getLevenshteinDistanceUsingRecursion(Index const index1, Index const index2) const;
-    Index getLevenshteinDistanceUsingMemoization(IndexGrid & indexGrid, Index const index1, Index const index2) const;
+    Index getLevenshteinDistanceUsingMemoizationDP(IndexGrid & indexGrid, Index const index1, Index const index2) const;
     std::string m_string1;
     std::string m_string2;
 };
-
 }
 // Note this ia dynamic programming solution
 // -> There is an implementation in AlbaStringHelper and it takes less space

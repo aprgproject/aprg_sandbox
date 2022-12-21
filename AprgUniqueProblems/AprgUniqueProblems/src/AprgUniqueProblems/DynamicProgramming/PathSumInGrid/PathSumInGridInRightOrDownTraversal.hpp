@@ -1,0 +1,64 @@
+#pragma once
+
+#include <Common/Math/Matrix/AlbaMatrix.hpp>
+
+#include <vector>
+
+namespace alba
+{
+
+class PathSumInGridInRightOrDownTraversal
+{
+public:
+    // Our next problem is to find a path from the upper-left corner to the lower-right corner of an n X n grid, such that we only move down and right.
+    // Each square contains a positive integer, and the path should be constructed so that the sum of the values along the path is as large as possible.
+
+    // Recurrence formulation:
+    // -> Let sum(y, x) denote the maximum sum on a path from the upper-left corner to square (y, x).
+    // -> Thus sum(n,n) tells us the maximum sum from the upper-left corner to the lower-right corner.
+    // -> sum(y, x) = max(sum(y, x-1),sum(y-1, x)) + value[y][x]
+
+    using Index = unsigned int;
+    using Value = unsigned int;
+    using Grid = matrix::AlbaMatrix<Value>;
+    using Path = std::vector<Value>;
+    static constexpr Index UNUSED_INDEX = std::numeric_limits<Index>::max();
+
+    PathSumInGridInRightOrDownTraversal(Grid const& gridToCheck);
+
+    Value getMaxPathSumUsingRecursion() const;
+    Value getMaxPathSumUsingTabularDP() const;
+    Value getMaxPathSumUsingMemoizationDP() const;
+    Path getMaxPathUsingTabularDP() const;
+
+private:
+    Value getMaxPathSumUsingRecursion(Index const x, Index const y) const;
+    Value getMaxPathSumUsingRecursion(Grid & partialSumGrid, Index const x, Index const y) const;
+    Grid getPartialSumGridUsingTabularDP() const;
+    Value getMaxPathSumUsingMemoizationDP(Grid & partialSumGrid, Index const x, Index const y) const;
+    Grid m_gridToCheck;
+};
+
+}
+
+// SIMILAR PROBLEM MIN COST WITH DIAGONAL:
+// Given a cost matrix cost[][] and a position (m, n) in cost[][],
+// write a function that returns cost of minimum cost path to reach (m, n) from (0, 0).
+// Each cell of the matrix represents a cost to traverse through that cell.
+// The total cost of a path to reach (m, n) is the sum of all the costs on that path (including both source and destination).
+// You can only traverse down, right and diagonally lower cells from a given cell, i.e.,
+// from a given cell (i, j), cells (i+1, j), (i, j+1), and (i+1, j+1) can be traversed.
+// You may assume that all costs are positive integers.
+
+// 1) Optimal Substructure
+// The path to reach (m, n) must be through one of the 3 cells: (m-1, n-1) or (m-1, n) or (m, n-1).
+// So minimum cost to reach (m, n) can be written as “minimum of the 3 cells plus cost[m][n]”.
+// minCost(m, n) = min (minCost(m-1, n-1), minCost(m-1, n), minCost(m, n-1)) + cost[m][n]
+
+// 2) Overlapping Subproblems
+// It should be noted that the above function computes the same subproblems again and again.
+// See the following recursion tree, there are many nodes which appear more than once.
+// The time complexity of this naive recursive solution is exponential and it is terribly slow.
+// So the MCP problem has both properties (see this and this) of a dynamic programming problem.
+// Like other typical Dynamic Programming(DP) problems,
+// recomputations of the same subproblems can be avoided by constructing a temporary array tc[][] in a bottom-up manner.
