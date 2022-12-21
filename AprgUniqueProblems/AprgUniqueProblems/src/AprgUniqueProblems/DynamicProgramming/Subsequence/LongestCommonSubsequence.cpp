@@ -14,32 +14,31 @@ LongestCommonSubsequence::LongestCommonSubsequence(Sequence const& sequence1, Se
 
 LongestCommonSubsequence::Index LongestCommonSubsequence::getLongestCommonSubsequenceLengthUsingRecursion() const
 {
+    // Naive recursive solution
     return getLongestCommonSubsequenceLengthUsingRecursion(m_sequence1.size(), m_sequence2.size());
 }
 
 LongestCommonSubsequence::Index LongestCommonSubsequence::getLongestCommonSubsequenceLengthUsingDynamicProgramming() const
 {
     matrix::AlbaMatrix<Value> lengthMatrix(m_sequence1.size()+1U, m_sequence2.size()+1U);
-    for (Index i=0; i<=m_sequence1.size(); i++)    {
-        for (Index j=0; j<=m_sequence2.size(); j++)
+
+    lengthMatrix.iterateAllThroughYAndThenX([&](unsigned int x, unsigned int y)
+    {
+        if (x == 0 || y == 0)
         {
-            if (i == 0 || j == 0)
-            {
-                continue;
-            }
-            else if (m_sequence1.at(i-1) == m_sequence2.at(j-1))
-            {
-                lengthMatrix.setEntry(i, j, lengthMatrix.getEntryConstReference(i-1, j-1)+1);
-            }
-            else
-            {
-                lengthMatrix.setEntry(i, j, max(lengthMatrix.getEntryConstReference(i-1, j), lengthMatrix.getEntryConstReference(i, j-1)));
-            }
+            // do nothing
         }
-    }
+        else if (m_sequence1.at(x-1) == m_sequence2.at(y-1))
+        {
+            lengthMatrix.setEntry(x, y, lengthMatrix.getEntryConstReference(x-1, y-1)+1);
+        }
+        else
+        {
+            lengthMatrix.setEntry(x, y, max(lengthMatrix.getEntryConstReference(x-1, y), lengthMatrix.getEntryConstReference(x, y-1)));
+        }
+    });
     return lengthMatrix.getEntry(m_sequence1.size(), m_sequence2.size());
 }
-
 LongestCommonSubsequence::Index LongestCommonSubsequence::getLongestCommonSubsequenceLengthUsingRecursion(
         Index const index1,
         Index const index2) const

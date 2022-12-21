@@ -2,17 +2,13 @@
 
 #include <algorithm>
 
-
-
-#include <Common/Debug/AlbaDebug.hpp>
-
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 LongestIncreasingSubsequence::LongestIncreasingSubsequence(Sequence const& sequenceToCheck)
-    : m_sequenceToCheck(sequenceToCheck)
-{}
+    : m_sequenceToCheck(sequenceToCheck){}
 
 LongestIncreasingSubsequence::Index LongestIncreasingSubsequence::getLongestIncreasingSubsequenceLength()
 {

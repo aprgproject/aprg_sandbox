@@ -45,7 +45,7 @@ private:
     std::string m_stringToConstruct;
     stringHelper::strings m_subStrings;
     HashValues m_subStringHash;
-    std::vector<unsigned int> m_prefixLengthToCount; // dynamic programming
+    std::vector<unsigned int> m_prefixLengthToCount; // dynamic programming using memoization
 };
 
 }

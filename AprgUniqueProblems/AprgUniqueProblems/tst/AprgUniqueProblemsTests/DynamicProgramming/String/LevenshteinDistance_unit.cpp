@@ -9,21 +9,27 @@ namespace alba
 
 namespace
 {
-using Distance=LevenshteinDistance::Distance;
+using Distance=LevenshteinDistance::Index;
 }
 
-TEST(LevenshteinDistanceTest, GetMaxSumInRightOrDownTraversalWorksOnExample1)
+TEST(LevenshteinDistanceTest, GetLevenshteinDistanceWorksOnExample1)
 {
     LevenshteinDistance searchToTest("MOVIE", "LOVE");
 
-    EXPECT_EQ(2U, searchToTest.getLevenshteinDistance());
+    EXPECT_EQ(2U, searchToTest.getLevenshteinDistanceUsingRecursion());
+    EXPECT_EQ(2U, searchToTest.getLevenshteinDistanceUsingTabularDP());
+    EXPECT_EQ(2U, searchToTest.getLevenshteinDistanceUsingEfficientSpaceDP());
+    EXPECT_EQ(2U, searchToTest.getLevenshteinDistanceUsingMemoization());
 }
 
-TEST(LevenshteinDistanceTest, GetMaxSumInRightOrDownTraversalWorksOnExample2)
+TEST(LevenshteinDistanceTest, GetLevenshteinDistanceWorksOnExample2)
 {
     LevenshteinDistance searchToTest("This is a statement", "This is not a statement");
 
-    EXPECT_EQ(4U, searchToTest.getLevenshteinDistance());
+    EXPECT_EQ(4U, searchToTest.getLevenshteinDistanceUsingRecursion());
+    EXPECT_EQ(4U, searchToTest.getLevenshteinDistanceUsingTabularDP());
+    EXPECT_EQ(4U, searchToTest.getLevenshteinDistanceUsingEfficientSpaceDP());
+    EXPECT_EQ(4U, searchToTest.getLevenshteinDistanceUsingMemoization());
 }
 
 }

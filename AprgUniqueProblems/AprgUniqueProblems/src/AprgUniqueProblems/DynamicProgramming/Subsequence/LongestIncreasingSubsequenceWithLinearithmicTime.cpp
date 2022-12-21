@@ -80,6 +80,7 @@ LongestIncreasingSubsequenceWithLinearithmicTime::Sequence LongestIncreasingSubs
             longestSequence[maxIndex-outputIndex] = m_sequenceToCheck.at(inputIndex); // reverse in output
         }
     }
-    return longestSequence;}
+    return longestSequence;
+}
 
 }

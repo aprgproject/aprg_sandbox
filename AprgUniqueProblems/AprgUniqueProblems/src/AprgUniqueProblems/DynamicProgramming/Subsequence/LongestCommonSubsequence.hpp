@@ -11,16 +11,17 @@ public:
     using Index = unsigned int;
     using Value = unsigned int;
     using Sequence = std::vector<Value>;
+
     LongestCommonSubsequence(Sequence const& sequence1, Sequence const& sequence2);
 
     Index getLongestCommonSubsequenceLengthUsingRecursion() const;
     Index getLongestCommonSubsequenceLengthUsingDynamicProgramming() const;
 
 private:
+
     Index getLongestCommonSubsequenceLengthUsingRecursion(Index const index1, Index const index2) const;
     Sequence m_sequence1;
     Sequence m_sequence2;
-
 };
 
 }
@@ -85,7 +86,4 @@ private:
 // So the LCS problem has optimal substructure property as the main problem can be solved using solutions to subproblems.
 
 // 2) Overlapping Subproblems:
-// Following is simple recursive implementation of the LCS problem.
-// The implementation simply follows the recursive structure mentioned above.
-
 // Time Complexity of the above implementation is O(mn) which is much better than the worst-case time complexity of Naive Recursive implementation.
