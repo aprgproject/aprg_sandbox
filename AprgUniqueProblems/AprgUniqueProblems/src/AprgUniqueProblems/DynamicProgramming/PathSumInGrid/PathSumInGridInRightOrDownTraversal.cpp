@@ -59,25 +59,21 @@ PathSumInGridInRightOrDownTraversal::Path PathSumInGridInRightOrDownTraversal::g
         path = {m_gridToCheck.getEntry(x, y)};
         while(true)
         {
-            bool isNextXInside = partialSumGrid.isInside(x-1, y);
-            bool isNextYInside = partialSumGrid.isInside(x, y-1);
-            if(!isNextXInside && !isNextYInside)
+            if(x==0 && y==0)
             {
                 break;
             }
-            else if(!isNextXInside)
+            else if(x==0)
             {
                 path.emplace_back(m_gridToCheck.getEntry(x, --y));
             }
-            else if(!isNextYInside)
+            else if(y==0)
             {
                 path.emplace_back(m_gridToCheck.getEntry(--x, y));
-            }
-            else if(m_compareFunction(partialSumGrid.getEntry(x-1, y), partialSumGrid.getEntry(x, y-1)))
+            }            else if(m_compareFunction(partialSumGrid.getEntry(x-1, y), partialSumGrid.getEntry(x, y-1)))
             {
                 path.emplace_back(m_gridToCheck.getEntry(--x, y));
-            }
-            else
+            }            else
             {
                 path.emplace_back(m_gridToCheck.getEntry(x, --y));
             }
