@@ -16,6 +16,7 @@ PathSumInGridInRightOrDownTraversal::PathSumInGridInRightOrDownTraversal(
 PathSumInGridInRightOrDownTraversal::Value PathSumInGridInRightOrDownTraversal::getBestPathSumUsingRecursion() const
 {
     // Naive recursion approach
+
     Value pathSum(0);
     if(!m_gridToCheck.isEmpty())
     {
@@ -27,9 +28,11 @@ PathSumInGridInRightOrDownTraversal::Value PathSumInGridInRightOrDownTraversal::
 PathSumInGridInRightOrDownTraversal::Value PathSumInGridInRightOrDownTraversal::getBestPathSumUsingTabularDP() const
 {
     // Time Complexity of the DP implementation is O(mn) which is much better than Naive Recursive implementation.
+
     Value pathSum(0);
     if(!m_gridToCheck.isEmpty())
-    {        Grid partialSumGrid(getPartialSumGridUsingTabularDP());
+    {
+        Grid partialSumGrid(getPartialSumGridUsingTabularDP());
         pathSum = partialSumGrid.getEntry(partialSumGrid.getNumberOfColumns()-1, partialSumGrid.getNumberOfRows()-1);
     }
     return pathSum;
@@ -40,7 +43,7 @@ PathSumInGridInRightOrDownTraversal::Value PathSumInGridInRightOrDownTraversal::
     Value pathSum(0);
     if(!m_gridToCheck.isEmpty())
     {
-        Grid partialSumGrid(m_gridToCheck.getNumberOfColumns(), m_gridToCheck.getNumberOfRows(), UNUSED_INDEX);
+        Grid partialSumGrid(m_gridToCheck.getNumberOfColumns(), m_gridToCheck.getNumberOfRows(), UNUSED_VALUE);
         pathSum = getBestPathSumUsingMemoizationDP(partialSumGrid, m_gridToCheck.getNumberOfColumns()-1, m_gridToCheck.getNumberOfRows()-1);
     }
     return pathSum;
@@ -49,10 +52,12 @@ PathSumInGridInRightOrDownTraversal::Value PathSumInGridInRightOrDownTraversal::
 PathSumInGridInRightOrDownTraversal::Path PathSumInGridInRightOrDownTraversal::getBestPathUsingTabularDP() const
 {
     Path path;
-    if(!m_gridToCheck.isEmpty())    {
+    if(!m_gridToCheck.isEmpty())
+    {
         Grid partialSumGrid(getPartialSumGridUsingTabularDP());
         Index x=partialSumGrid.getNumberOfColumns()-1, y=partialSumGrid.getNumberOfRows()-1;
-        path = {m_gridToCheck.getEntry(x, y)};        while(true)
+        path = {m_gridToCheck.getEntry(x, y)};
+        while(true)
         {
             bool isNextXInside = partialSumGrid.isInside(x-1, y);
             bool isNextYInside = partialSumGrid.isInside(x, y-1);
@@ -71,10 +76,12 @@ PathSumInGridInRightOrDownTraversal::Path PathSumInGridInRightOrDownTraversal::g
             else if(m_compareFunction(partialSumGrid.getEntry(x-1, y), partialSumGrid.getEntry(x, y-1)))
             {
                 path.emplace_back(m_gridToCheck.getEntry(--x, y));
-            }            else
+            }
+            else
             {
                 path.emplace_back(m_gridToCheck.getEntry(x, --y));
-            }        }
+            }
+        }
         reverse(path.begin(), path.end());
     }
     return path;
@@ -86,53 +93,73 @@ PathSumInGridInRightOrDownTraversal::Value PathSumInGridInRightOrDownTraversal::
 {
     // Naive recursion approach
 
-    Value bestNeighbor(m_defaultValue);
-    if(m_gridToCheck.isInside(x-1, y))
+
+    Value result(m_gridToCheck.getEntry(x, y));
+    if(!(x==0 && y==0))
     {
-        bestNeighbor = m_minMaxFunction(bestNeighbor, getBestPathSumUsingRecursion(x-1, y));
+        if(x==0)
+        {
+            result += getBestPathSumUsingRecursion(x, y-1);
+        }
+        else if(y==0)
+        {
+            result += getBestPathSumUsingRecursion(x-1, y);
+        }
+        else
+        {
+            result += m_minMaxFunction(getBestPathSumUsingRecursion(x-1, y), getBestPathSumUsingRecursion(x, y-1));
+        }
     }
-    if(m_gridToCheck.isInside(x, y-1))
-    {
-        bestNeighbor = m_minMaxFunction(bestNeighbor, getBestPathSumUsingRecursion(x, y-1));
-    }
-    return m_gridToCheck.getEntry(x, y) + bestNeighbor;
+    return result;
 }
 
-PathSumInGridInRightOrDownTraversal::Grid PathSumInGridInRightOrDownTraversal::getPartialSumGridUsingTabularDP() const{
+PathSumInGridInRightOrDownTraversal::Grid PathSumInGridInRightOrDownTraversal::getPartialSumGridUsingTabularDP() const
+{
     Grid result(m_gridToCheck);
-    result.iterateAllThroughYAndThenX([&](Index const x, Index const y)
+    for(Index x=1; x<result.getNumberOfColumns(); x++)  // first row has only left neighbors
     {
-        Value bestNeighbor(m_defaultValue);
-        if(result.isInside(x-1, y))
+        result.getEntryReference(x, 0) += result.getEntry(x-1, 0);
+    }
+    for(Index y=1; y<result.getNumberOfRows(); y++) // first column has only up neighbors
+    {
+        result.getEntryReference(0, y) += result.getEntry(0, y-1);
+    }
+    for(Index x=1; x<result.getNumberOfColumns(); x++) // the rest of the matrix
+    {
+        for(Index y=1; y<result.getNumberOfRows(); y++)
         {
-            bestNeighbor = m_minMaxFunction(bestNeighbor, result.getEntry(x-1, y));
+            result.getEntryReference(x, y)
+                    += m_minMaxFunction(result.getEntry(x-1, y), result.getEntry(x, y-1));
         }
-        if(result.isInside(x, y-1))
-        {
-            bestNeighbor = m_minMaxFunction(bestNeighbor, result.getEntry(x, y-1));
-        }
-        result.getEntryReference(x, y) += bestNeighbor;
-    });
+    }
     return result;
 }
 
 PathSumInGridInRightOrDownTraversal::Value PathSumInGridInRightOrDownTraversal::getBestPathSumUsingMemoizationDP(
         Grid & partialSumGrid,
         Index const x,
-        Index const y) const{
-    Value result(partialSumGrid.getEntryConstReference(x, y));
-    if(UNUSED_INDEX == result)
+        Index const y) const
+{
+    Value result(partialSumGrid.getEntry(x, y));
+    if(UNUSED_VALUE == result)
     {
-        Value bestNeighbor(m_defaultValue);
-        if(m_gridToCheck.isInside(x-1, y))
+        result = m_gridToCheck.getEntry(x, y);
+        if(!(x==0 && y==0))
         {
-            bestNeighbor = m_minMaxFunction(bestNeighbor, getBestPathSumUsingMemoizationDP(partialSumGrid, x-1, y));
+            if(x==0)
+            {
+                result += getBestPathSumUsingMemoizationDP(partialSumGrid, x, y-1);
+            }
+            else if(y==0)
+            {
+                result += getBestPathSumUsingMemoizationDP(partialSumGrid, x-1, y);
+            }
+            else
+            {
+                result += m_minMaxFunction(getBestPathSumUsingMemoizationDP(partialSumGrid, x-1, y),
+                                           getBestPathSumUsingMemoizationDP(partialSumGrid, x, y-1));
+            }
         }
-        if(m_gridToCheck.isInside(x, y-1))
-        {
-            bestNeighbor = m_minMaxFunction(bestNeighbor, getBestPathSumUsingMemoizationDP(partialSumGrid, x, y-1));
-        }
-        result = m_gridToCheck.getEntry(x, y) + bestNeighbor;
         partialSumGrid.setEntry(x, y, result);
     }
     return result;
@@ -147,7 +174,6 @@ void PathSumInGridInRightOrDownTraversal::initialize(Type const type)
         {
             return min(value1, value2);
         };
-        m_defaultValue = MAX_VALUE;
     }
     else if(Type::MaximumSum == type)
     {
@@ -156,7 +182,6 @@ void PathSumInGridInRightOrDownTraversal::initialize(Type const type)
         {
             return max(value1, value2);
         };
-        m_defaultValue = MIN_VALUE;
     }
 }
 

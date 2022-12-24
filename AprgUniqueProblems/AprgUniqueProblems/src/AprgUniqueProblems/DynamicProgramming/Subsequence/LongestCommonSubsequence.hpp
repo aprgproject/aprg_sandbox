@@ -22,6 +22,7 @@ private:
     Index getLongestCommonSubsequenceLengthUsingRecursion(Index const index1, Index const index2) const;
     Sequence m_sequence1;
     Sequence m_sequence2;
+
 };
 
 }

@@ -39,6 +39,7 @@ LongestCommonSubsequence::Index LongestCommonSubsequence::getLongestCommonSubseq
     });
     return lengthMatrix.getEntry(m_sequence1.size(), m_sequence2.size());
 }
+
 LongestCommonSubsequence::Index LongestCommonSubsequence::getLongestCommonSubsequenceLengthUsingRecursion(
         Index const index1,
         Index const index2) const

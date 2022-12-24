@@ -5,10 +5,12 @@
 #include <functional>
 #include <vector>
 
-namespace alba{
+namespace alba
+{
 
 class PathSumInGridInRightOrDownTraversal
-{public:
+{
+public:
     // Our next problem is to find a path from the upper-left corner to the lower-right corner of an n X n grid, such that we only move down and right.
     // Each square contains a positive integer, and the path should be constructed so that the sum of the values along the path is as large as possible.
 
@@ -28,9 +30,7 @@ class PathSumInGridInRightOrDownTraversal
     using Path = std::vector<Value>;
     using CompareFunction = std::function<bool(Value const&, Value const&)>;
     using MinMaxFunction = std::function<Value(Value const&, Value const&)>;
-    static constexpr Value MIN_VALUE = std::numeric_limits<Value>::min();
-    static constexpr Value MAX_VALUE = std::numeric_limits<Value>::max();
-    static constexpr Index UNUSED_INDEX = std::numeric_limits<Index>::max();
+    static constexpr Index UNUSED_VALUE = std::numeric_limits<Index>::max();
 
     PathSumInGridInRightOrDownTraversal(Type const type, Grid const& gridToCheck);
 
@@ -48,13 +48,14 @@ private:
     Grid m_gridToCheck;
     CompareFunction m_compareFunction;
     MinMaxFunction m_minMaxFunction;
-    Value m_defaultValue;
 };
 
 }
+
 // SIMILAR PROBLEM MIN COST WITH DIAGONAL:
 // Given a cost matrix cost[][] and a position (m, n) in cost[][],
-// write a function that returns cost of minimum cost path to reach (m, n) from (0, 0).// Each cell of the matrix represents a cost to traverse through that cell.
+// write a function that returns cost of minimum cost path to reach (m, n) from (0, 0).
+// Each cell of the matrix represents a cost to traverse through that cell.
 // The total cost of a path to reach (m, n) is the sum of all the costs on that path (including both source and destination).
 // You can only traverse down, right and diagonally lower cells from a given cell, i.e.,
 // from a given cell (i, j), cells (i+1, j), (i, j+1), and (i+1, j+1) can be traversed.

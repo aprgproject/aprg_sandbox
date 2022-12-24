@@ -10,6 +10,7 @@ namespace alba
 TEST(FibonacciExampleTest, DISABLED_GetFibonacciUsingRecursionWorks) // takes too long
 {
     FibonacciExample fibonacciExample;
+
     EXPECT_EQ(102334155U, fibonacciExample.getFibonacciUsingRecursion(40U));
 }
 

@@ -26,7 +26,8 @@ LevenshteinDistance::Index LevenshteinDistance::getLevenshteinDistanceUsingTabul
 
     // The allowed editing operations are as follows:
     // -> insert a character (e.g. ABC ! ABCA)
-    // -> remove a character (e.g. ABC ! AC)    // -> modify a character (e.g. ABC ! ADC)
+    // -> remove a character (e.g. ABC ! AC)
+    // -> modify a character (e.g. ABC ! ADC)
     // We can calculate values of distance as follows:
     // -> distance(a,b) = min(distance(a,b-1)+1,
     //                     distance(a-1,b)+1,
@@ -111,7 +112,8 @@ LevenshteinDistance::Index LevenshteinDistance::getLevenshteinDistanceUsingMemoi
     return getLevenshteinDistanceUsingMemoizationDP(indexGrid, m_string1.length(), m_string2.length());
 }
 
-LevenshteinDistance::Index LevenshteinDistance::getLevenshteinDistanceUsingRecursion(        Index const index1,
+LevenshteinDistance::Index LevenshteinDistance::getLevenshteinDistanceUsingRecursion(
+        Index const index1,
         Index const index2) const
 {
     if (index1==0)
@@ -138,7 +140,8 @@ LevenshteinDistance::Index LevenshteinDistance::getLevenshteinDistanceUsingRecur
 LevenshteinDistance::Index LevenshteinDistance::getLevenshteinDistanceUsingMemoizationDP(
         IndexGrid & indexGrid,
         Index const index1,
-        Index const index2) const{
+        Index const index2) const
+{
     // Time Complexity: O(m x n) because of memoization
     // Auxiliary Space: O(m x n)
 

@@ -22,7 +22,8 @@ TEST(LevenshteinDistanceTest, GetLevenshteinDistanceWorksOnExample1)
     EXPECT_EQ(2U, searchToTest.getLevenshteinDistanceUsingMemoizationDP());
 }
 
-TEST(LevenshteinDistanceTest, GetLevenshteinDistanceWorksOnExample2){
+TEST(LevenshteinDistanceTest, GetLevenshteinDistanceWorksOnExample2)
+{
     LevenshteinDistance searchToTest("This is a statement", "This is not a statement");
 
     EXPECT_EQ(4U, searchToTest.getLevenshteinDistanceUsingRecursion());

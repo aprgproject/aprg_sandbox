@@ -7,7 +7,8 @@ namespace alba
 {
 
 class LongestIncreasingSubsequence
-{public:
+{
+public:
     using Index = unsigned int;
     using Value = unsigned int;
     using Sequence = std::vector<Value>;
@@ -19,7 +20,8 @@ class LongestIncreasingSubsequence
 
     Index getLongestIncreasingSubsequenceLength();
     Sequence getLongestIncreasingSubsequence();
-private:    Sequence m_sequenceToCheck;
+private:
+    Sequence m_sequenceToCheck;
 
 };
 
