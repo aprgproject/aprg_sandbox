@@ -51,14 +51,12 @@ public:
     {
         for(WrappedTerm const& wrappedTerm : expression.getWrappedTerms())
         {
-            retrieveFromTerm(getTermConstReferenceFromUniquePointer(wrappedTerm.baseTermPointer));
+            retrieveFromTerm(getTermConstReferenceFromSharedPointer(wrappedTerm.baseTermSharedPointer));
         }
     }
-
 protected:
 
-    DataType m_savedData;
-};
+    DataType m_savedData;};
 
 }
 

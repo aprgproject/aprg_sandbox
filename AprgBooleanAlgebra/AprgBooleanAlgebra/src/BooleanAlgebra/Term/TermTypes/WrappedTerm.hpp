@@ -14,28 +14,18 @@ namespace booleanAlgebra
 struct WrappedTerm
 {
     WrappedTerm(BaseTerm const& baseTerm);
-    WrappedTerm(BaseTerm && baseTerm);
-
-    // rule of five or six
-    ~WrappedTerm() = default;
-    WrappedTerm(WrappedTerm const& termWithDetails);
-    WrappedTerm & operator=(WrappedTerm const& termWithDetails);
-    WrappedTerm(WrappedTerm && termWithDetails) = default;
-    WrappedTerm & operator=(WrappedTerm && termWithDetails) = default;
-
+    WrappedTerm(WrappedTerm const& wrappedTerm);
     bool operator==(WrappedTerm const& second) const;
     bool operator!=(WrappedTerm const& second) const;
     bool operator<(WrappedTerm const& second) const;
-
     void clear();
 
     friend std::ostream & operator<<(std::ostream & out, WrappedTerm const& wrappedTerm);
 
-    BaseTermUniquePointer baseTermPointer;
+    BaseTermSharedPointer baseTermSharedPointer;
 };
 
 using WrappedTerms=std::vector<WrappedTerm>;
-
 }
 
 }

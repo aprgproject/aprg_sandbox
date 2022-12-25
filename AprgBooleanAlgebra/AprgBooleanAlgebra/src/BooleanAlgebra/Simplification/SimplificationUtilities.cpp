@@ -94,15 +94,13 @@ void distributeTermsWithRecursion(
     {
         for(WrappedTerm const& subExpressionTerm : innerExpressions.at(index).getWrappedTerms())
         {
-            innerTermsCombinations.emplace_back(getTermConstReferenceFromUniquePointer(subExpressionTerm.baseTermPointer));
+            innerTermsCombinations.emplace_back(getTermConstReferenceFromSharedPointer(subExpressionTerm.baseTermSharedPointer));
             distributeTermsWithRecursion(outputTerm, innerTermsCombinations, innerExpressions, outerFactor, outerOperation, innerOperation, index+1);
             innerTermsCombinations.pop_back();
-        }
-    }
+        }    }
     else
     {
-        Term partialTerm(outerFactor);
-        accumulateTerms(partialTerm, innerTermsCombinations, outerOperation);
+        Term partialTerm(outerFactor);        accumulateTerms(partialTerm, innerTermsCombinations, outerOperation);
         accumulateTerms(outputTerm, {partialTerm}, innerOperation);
     }
 }
@@ -114,15 +112,13 @@ Terms getTermOrSubTerms(Term const& term)
     {
         for(WrappedTerm const& subTerm : term.getExpressionConstReference().getWrappedTerms())
         {
-            terms.emplace_back(getTermConstReferenceFromUniquePointer(subTerm.baseTermPointer));
+            terms.emplace_back(getTermConstReferenceFromSharedPointer(subTerm.baseTermSharedPointer));
         }
     }
-    else
-    {
+    else    {
         terms.emplace_back(term);
     }
-    return terms;
-}
+    return terms;}
 
 OperatorLevel getSubOperatorLevel(
         Term const& term1,
@@ -211,15 +207,13 @@ void simplifyAndCopyTermsAndChangeOperatorLevelIfNeeded(
 {
     for(WrappedTerm const& oldWrappedTerm : oldWrappedTerms)
     {
-        Term const& term(getTermConstReferenceFromUniquePointer(oldWrappedTerm.baseTermPointer));
+        Term const& term(getTermConstReferenceFromSharedPointer(oldWrappedTerm.baseTermSharedPointer));
         if(term.isExpression())
         {
-            Expression subExpression(term.getExpressionConstReference());
-            subExpression.simplify();
+            Expression subExpression(term.getExpressionConstReference());            subExpression.simplify();
             simplifyAndCopyTermsFromAnExpressionAndChangeOperatorLevelIfNeeded(
                         newWrappedTerms, mainOperatorLevel, subExpression);
-        }
-        else if(isNonEmptyOrNonOperatorType(term))
+        }        else if(isNonEmptyOrNonOperatorType(term))
         {
             Term newTerm(term);
             newTerm.simplify();
@@ -235,15 +229,13 @@ Terms createUniqueTerms(
     result.reserve(terms.size());
     transform(terms.cbegin(), terms.cend(), back_inserter(result), [](WrappedTerm const& wrappedTerm)
     {
-        return getTermConstReferenceFromUniquePointer(wrappedTerm.baseTermPointer);
+        return getTermConstReferenceFromSharedPointer(wrappedTerm.baseTermSharedPointer);
     });
     sort(result.begin(), result.end());
-    result.erase(unique(result.begin(), result.end()), result.end());
-    return result;
+    result.erase(unique(result.begin(), result.end()), result.end());    return result;
 }
 
-void combineComplementaryTerms(
-        Terms & termsToCombine,
+void combineComplementaryTerms(        Terms & termsToCombine,
         OperatorLevel const operatorLevel)
 {
     // Convert complimentary terms
@@ -369,15 +361,13 @@ void distributeTermsIfNeeded(
                     {
                         for(WrappedTerm const& subExpressionTerm : subExpression.getWrappedTerms())
                         {
-                            outerFactors.emplace_back(getTermConstReferenceFromUniquePointer(subExpressionTerm.baseTermPointer));
+                            outerFactors.emplace_back(getTermConstReferenceFromSharedPointer(subExpressionTerm.baseTermSharedPointer));
                         }
                     }
-                }
-                else
+                }                else
                 {
                     outerFactors.emplace_back(inputTerm);
-                }
-            }
+                }            }
             if(!innerExpressions.empty())
             {
                 Term outerFactor;

@@ -34,10 +34,9 @@ void BaseMutator::mutateExpression(Expression & expression)
 {
     for(WrappedTerm & wrappedTerm : expression.getWrappedTermsReference())
     {
-        mutateTerm(getTermReferenceFromUniquePointer(wrappedTerm.baseTermPointer));
+        mutateTerm(getTermReferenceFromSharedPointer(wrappedTerm.baseTermSharedPointer));
     }
 }
-
 }
 
 }

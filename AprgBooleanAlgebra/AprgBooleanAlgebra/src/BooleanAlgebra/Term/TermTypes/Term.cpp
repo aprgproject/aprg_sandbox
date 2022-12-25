@@ -23,18 +23,18 @@ Term::Term()
     , m_baseTermDataPointer(nullptr)
 {}
 
-Term::Term(TermType const type, bool const isSimplified, BaseTermDataPointer && baseTermDataPointer) // for move
-    : m_type(type)
-    , m_isSimplified(isSimplified)
-    , m_baseTermDataPointer(move(baseTermDataPointer))
-{}
+Term::Term(Term const& term)
+    : m_type(term.getTermType())
+    , m_isSimplified(term.m_isSimplified)
+    , m_baseTermDataPointer(nullptr)
+{
+    resetBaseDataTermPointerBasedFromTerm(term);
+}
 
 Term::Term(bool const boolValue)
-    : m_type(TermType::Constant)
-    , m_isSimplified(false)
+    : m_type(TermType::Constant)    , m_isSimplified(false)
     , m_baseTermDataPointer(make_unique<Constant>(boolValue))
 {}
-
 Term::Term(char const* const characterString)
     : m_type(TermType::Empty)
     , m_isSimplified(false)
@@ -60,39 +60,34 @@ Term::Term(Constant const& constant)
 Term::Term(VariableTerm const& variableTerm)
     : m_type(TermType::VariableTerm)
     , m_isSimplified(false)
-    , m_baseTermDataPointer(make_unique<VariableTerm>(variableTerm))
-{}
+    , m_baseTermDataPointer(nullptr)
+{
+    m_baseTermDataPointer = make_unique<VariableTerm>(variableTerm);
+}
 
 Term::Term(Operator const& operatorTerm)
     : m_type(TermType::Operator)
     , m_isSimplified(false)
-    , m_baseTermDataPointer(make_unique<Operator>(operatorTerm))
-{}
+    , m_baseTermDataPointer(nullptr)
+{
+    m_baseTermDataPointer = make_unique<Operator>(operatorTerm);
+}
 
 Term::Term(Expression const& expression)
-    : m_type(TermType::Expression)
-    , m_isSimplified(false)
+    : m_type(TermType::Expression)    , m_isSimplified(false)
     , m_baseTermDataPointer(make_unique<Expression>(expression))
-{}
-
-Term::Term(Term const& term)
-    : m_type(term.getTermType())
-    , m_isSimplified(term.m_isSimplified)
-    , m_baseTermDataPointer(createANewPointerFrom(term))
 {}
 
 Term& Term::operator=(Term const& term)
 {
     m_type = term.m_type;
     m_isSimplified = term.m_isSimplified;
-    m_baseTermDataPointer = createANewPointerFrom(term);
+    resetBaseDataTermPointerBasedFromTerm(term);
     return *this;
 }
-
 bool Term::operator==(Term const& second) const
 {
-    bool result(false);
-    if(m_type==second.m_type)
+    bool result(false);    if(m_type==second.m_type)
     {
         if(m_type==TermType::Empty)
         {
@@ -298,23 +293,11 @@ Expression & Term::getExpressionReference()
     return *dynamic_cast<Expression*>(m_baseTermDataPointer.get());
 }
 
-BaseTermUniquePointer Term::createBasePointerByCopy() const
-{
-    return static_cast<BaseTermUniquePointer>(make_unique<Term>(*this));
-}
-
-BaseTermUniquePointer Term::createBasePointerByMove()
-{
-    return static_cast<BaseTermUniquePointer>(make_unique<Term>(m_type, m_isSimplified, move(m_baseTermDataPointer)));
-}
-
 void Term::clear()
 {
-    m_type=TermType::Empty;
-    m_baseTermDataPointer.reset();
+    m_type=TermType::Empty;    m_baseTermDataPointer.reset();
     clearSimplifiedFlag();
 }
-
 void Term::simplify()
 {
     if(!m_isSimplified)
@@ -376,35 +359,31 @@ void Term::clearAllInnerSimplifiedFlags()
     clearSimplifiedFlag();
 }
 
-Term::BaseTermDataPointer Term::createANewPointerFrom(Term const& term)
+void Term::resetBaseDataTermPointerBasedFromTerm(Term const& term)
 {
-    BaseTermDataPointer result;
     switch(term.getTermType())
     {
     case TermType::Empty:
         break;
     case TermType::Constant:
-        result = make_unique<Constant>(term.getConstantConstReference());
+        m_baseTermDataPointer = make_unique<Constant>(term.getConstantConstReference());
         break;
     case TermType::VariableTerm:
-        result = make_unique<VariableTerm>(term.getVariableTermConstReference());
+        m_baseTermDataPointer = make_unique<VariableTerm>(term.getVariableTermConstReference());
         break;
     case TermType::Operator:
-        result = make_unique<Operator>(term.getOperatorConstReference());
+        m_baseTermDataPointer = make_unique<Operator>(term.getOperatorConstReference());
         break;
     case TermType::Expression:
-        result = make_unique<Expression>(term.getExpressionConstReference());
+        m_baseTermDataPointer = make_unique<Expression>(term.getExpressionConstReference());
         break;
     }
-    return result;
 }
 
-void Term::initializeBasedOnString(string const& stringAsParameter)
-{
+void Term::initializeBasedOnString(string const& stringAsParameter){
     if(stringAsParameter.empty())
     {
-        // do nothing
-    }
+        // do nothing    }
     else if(booleanAlgebra::isConstant(stringAsParameter))
     {
         m_type=TermType::Constant;

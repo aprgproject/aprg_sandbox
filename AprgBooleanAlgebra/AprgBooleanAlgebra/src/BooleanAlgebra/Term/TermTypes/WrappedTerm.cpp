@@ -15,54 +15,40 @@ namespace booleanAlgebra
 
 WrappedTerm::WrappedTerm(
         BaseTerm const& baseTerm)
-    : baseTermPointer(getTermConstReferenceFromBaseTerm(baseTerm).createBasePointerByCopy())
-{}
-
-WrappedTerm::WrappedTerm(
-        BaseTerm && baseTerm)
-    : baseTermPointer(getTermRValueReferenceFromBaseTerm(move(baseTerm)).createBasePointerByMove())
+    : baseTermSharedPointer(copyAndCreateNewTermAndReturnSharedPointer(getTermConstReferenceFromBaseTerm(baseTerm)))
 {}
 
 WrappedTerm::WrappedTerm(WrappedTerm const& wrappedTerm)
-    : baseTermPointer(duplicateUniquePointer(wrappedTerm.baseTermPointer))
+    : baseTermSharedPointer(createNewTermAndReturnSharedPointer(wrappedTerm.baseTermSharedPointer))
 {}
-
-WrappedTerm & WrappedTerm::operator=(WrappedTerm const& wrappedTerm)
-{
-    baseTermPointer = duplicateUniquePointer(wrappedTerm.baseTermPointer);
-    return *this;
-}
 
 bool WrappedTerm::operator==(WrappedTerm const& second) const
 {
-    Term const& term1(getTermConstReferenceFromUniquePointer(baseTermPointer));
-    Term const& term2(getTermConstReferenceFromUniquePointer(second.baseTermPointer));
+    Term const& term1(getTermConstReferenceFromSharedPointer(baseTermSharedPointer));
+    Term const& term2(getTermConstReferenceFromSharedPointer(second.baseTermSharedPointer));
     return term1 == term2;
 }
-
 bool WrappedTerm::operator!=(WrappedTerm const& second) const
 {
-    return !(operator==(second));
-}
+    return !(operator==(second));}
 
 bool WrappedTerm::operator<(WrappedTerm const& second) const
 {
-    Term const& term1(getTermConstReferenceFromUniquePointer(baseTermPointer));
-    Term const& term2(getTermConstReferenceFromUniquePointer(second.baseTermPointer));
+    Term const& term1(getTermConstReferenceFromSharedPointer(baseTermSharedPointer));
+    Term const& term2(getTermConstReferenceFromSharedPointer(second.baseTermSharedPointer));
     return term1 < term2;
 }
 
 void WrappedTerm::clear()
 {
-    baseTermPointer.reset();
+    baseTermSharedPointer.reset();
 }
 
 ostream & operator<<(ostream & out, WrappedTerm const& wrappedTerm)
 {
-    out << getTermConstReferenceFromUniquePointer(wrappedTerm.baseTermPointer);
+    out << getTermConstReferenceFromSharedPointer(wrappedTerm.baseTermSharedPointer);
     return out;
 }
-
 }
 
 }
