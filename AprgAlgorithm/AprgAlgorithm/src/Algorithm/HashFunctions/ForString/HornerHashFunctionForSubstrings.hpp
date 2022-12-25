@@ -62,15 +62,14 @@ public:
         {
             if(startIndex > 0)
             {
-                result = ( m_largeRandomPrime + m_hParts.at(endIndex) - ((m_hParts.at(startIndex-1)*m_pParts.at(endIndex-startIndex+1)) % m_largeRandomPrime) )
+                result = (m_largeRandomPrime + m_hParts.at(endIndex)
+                           - ((m_hParts.at(startIndex-1)*m_pParts.at(endIndex-startIndex+1)) % m_largeRandomPrime))
                         % m_largeRandomPrime;
             }
-            else
-            {
+            else            {
                 result = m_hParts.at(endIndex);
             }
-        }
-        return result;
+        }        return result;
     }
 
     void setNewString(std::string const& newStringToHash)
@@ -195,9 +194,10 @@ private:
 // It is unlikely that a collision would occur in all hash values at the same time.
 // For example, two hash values with parameter B is near 10^9 correspond to one hash value with parameter B is near 10^18,
 // which makes the probability of a collision very small.
-// Some people use constants B =2^32 and B=2^64, which is convenient, because operations with 32 and 64 bit integers are calculated modulo 2^32 and 2^64.
-// However, this is not a good choice, because it is possible to construct stringToHashs that always generate collisions when constants of the form 2^x are used.
+// Some people use constants B =2^32 and B=2^64, which is convenient,
+// because operations with 32 and 64 bit integers are calculated modulo 2^32 and 2^64.
+// However, this is not a good choice, because it is possible to construct stringToHashs
+// that always generate collisions when constants of the form 2^x are used.
 
 }
-
 }
