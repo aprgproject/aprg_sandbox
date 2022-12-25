@@ -15,9 +15,9 @@ using ListOfPeople=ElevatorWeightProblem::ListOfPeople;
 
 TEST(ElevatorWeightProblemTest, GetNumberOfOptimalRidesWorksOnExample1)
 {
-    ElevatorWeightProblem searchToTest(10U, {2U, 3U, 3U, 5U, 6U});
+    ElevatorWeightProblem queryForTest(10U, {2U, 3U, 3U, 5U, 6U});
 
-    EXPECT_EQ(2U, searchToTest.getNumberOfOptimalRides());
+    EXPECT_EQ(2U, queryForTest.getNumberOfOptimalRides());
 }
 
 }

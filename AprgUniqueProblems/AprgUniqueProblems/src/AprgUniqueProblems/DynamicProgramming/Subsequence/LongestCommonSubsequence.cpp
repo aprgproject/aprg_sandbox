@@ -12,18 +12,15 @@ LongestCommonSubsequence::LongestCommonSubsequence(Sequence const& sequence1, Se
     , m_sequence2(sequence2)
 {}
 
-LongestCommonSubsequence::Index LongestCommonSubsequence::getLongestCommonSubsequenceLengthUsingRecursion() const
+LongestCommonSubsequence::Index LongestCommonSubsequence::getLongestCommonSubsequenceLengthUsingNaiveRecursion() const
 {
-    // Naive recursive solution
-    return getLongestCommonSubsequenceLengthUsingRecursion(m_sequence1.size(), m_sequence2.size());
+    return getLongestCommonSubsequenceLengthUsingNaiveRecursion(m_sequence1.size(), m_sequence2.size());
 }
 
-LongestCommonSubsequence::Index LongestCommonSubsequence::getLongestCommonSubsequenceLengthUsingDynamicProgramming() const
-{
+LongestCommonSubsequence::Index LongestCommonSubsequence::getLongestCommonSubsequenceLengthUsingDynamicProgramming() const{
     matrix::AlbaMatrix<Value> lengthMatrix(m_sequence1.size()+1U, m_sequence2.size()+1U);
 
-    lengthMatrix.iterateAllThroughYAndThenX([&](unsigned int x, unsigned int y)
-    {
+    lengthMatrix.iterateAllThroughYAndThenX([&](unsigned int x, unsigned int y)    {
         if (x == 0 || y == 0)
         {
             // do nothing
@@ -40,23 +37,21 @@ LongestCommonSubsequence::Index LongestCommonSubsequence::getLongestCommonSubseq
     return lengthMatrix.getEntry(m_sequence1.size(), m_sequence2.size());
 }
 
-LongestCommonSubsequence::Index LongestCommonSubsequence::getLongestCommonSubsequenceLengthUsingRecursion(
+LongestCommonSubsequence::Index LongestCommonSubsequence::getLongestCommonSubsequenceLengthUsingNaiveRecursion(
         Index const index1,
         Index const index2) const
-{
-    if (index1==0 || index2==0)
+{    if (index1==0 || index2==0)
     {
         return 0;
     }
     else if (m_sequence1.at(index1-1) == m_sequence2.at(index2-1))
     {
-        return 1 + getLongestCommonSubsequenceLengthUsingRecursion(index1-1, index2-1);
+        return 1 + getLongestCommonSubsequenceLengthUsingNaiveRecursion(index1-1, index2-1);
     }
     else
     {
-        return max(getLongestCommonSubsequenceLengthUsingRecursion(index1, index2-1),
-                   getLongestCommonSubsequenceLengthUsingRecursion(index1-1, index2));
+        return max(getLongestCommonSubsequenceLengthUsingNaiveRecursion(index1, index2-1),
+                   getLongestCommonSubsequenceLengthUsingNaiveRecursion(index1-1, index2));
     }
 }
-
 }

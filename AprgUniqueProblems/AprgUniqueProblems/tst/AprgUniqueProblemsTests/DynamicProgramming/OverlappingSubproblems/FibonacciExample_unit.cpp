@@ -7,19 +7,17 @@ using namespace std;
 namespace alba
 {
 
-TEST(FibonacciExampleTest, DISABLED_GetFibonacciUsingRecursionWorks) // takes too long
+TEST(FibonacciExampleTest, DISABLED_GetFibonacciUsingNaiveRecursionWorks) // takes too long
 {
     FibonacciExample fibonacciExample;
 
-    EXPECT_EQ(102334155U, fibonacciExample.getFibonacciUsingRecursion(40U));
+    EXPECT_EQ(102334155U, fibonacciExample.getFibonacciUsingNaiveRecursion(40U));
 }
 
-TEST(FibonacciExampleTest, GetFibonacciUsingMemoizationWorks)
-{
+TEST(FibonacciExampleTest, GetFibonacciUsingMemoizationWorks){
     FibonacciExample fibonacciExample;
 
-    EXPECT_EQ(102334155U, fibonacciExample.getFibonacciUsingMemoization(40U));
-}
+    EXPECT_EQ(102334155U, fibonacciExample.getFibonacciUsingMemoization(40U));}
 
 TEST(FibonacciExampleTest, GetFibonacciUsingTabulationWorks)
 {

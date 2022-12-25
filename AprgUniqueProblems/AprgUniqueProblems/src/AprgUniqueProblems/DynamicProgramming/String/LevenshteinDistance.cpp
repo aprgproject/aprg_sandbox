@@ -10,20 +10,18 @@ LevenshteinDistance::LevenshteinDistance(string const& string1, string const& st
     , m_string2(string2)
 {}
 
-LevenshteinDistance::Index LevenshteinDistance::getLevenshteinDistanceUsingRecursion() const
+LevenshteinDistance::Index LevenshteinDistance::getLevenshteinDistanceUsingNaiveRecursion() const
 {
     // The time complexity of above solution is exponential.
     // In worst case, we may end up doing O(3m) operations.
     // The worst case happens when none of characters of two strings match.
 
-    return getLevenshteinDistanceUsingRecursion(m_string1.length(), m_string2.length());
+    return getLevenshteinDistanceUsingNaiveRecursion(m_string1.length(), m_string2.length());
 }
 
-LevenshteinDistance::Index LevenshteinDistance::getLevenshteinDistanceUsingTabularDP() const
-{
+LevenshteinDistance::Index LevenshteinDistance::getLevenshteinDistanceUsingTabularDP() const{
     // Time Complexity: O(m x n)
     // Auxiliary Space: O(m x n)
-
     // The allowed editing operations are as follows:
     // -> insert a character (e.g. ABC ! ABCA)
     // -> remove a character (e.g. ABC ! AC)
@@ -112,35 +110,31 @@ LevenshteinDistance::Index LevenshteinDistance::getLevenshteinDistanceUsingMemoi
     return getLevenshteinDistanceUsingMemoizationDP(indexGrid, m_string1.length(), m_string2.length());
 }
 
-LevenshteinDistance::Index LevenshteinDistance::getLevenshteinDistanceUsingRecursion(
+LevenshteinDistance::Index LevenshteinDistance::getLevenshteinDistanceUsingNaiveRecursion(
         Index const index1,
         Index const index2) const
-{
-    if (index1==0)
+{    if (index1==0)
     {
         return index2;
-    }
-    else if (index2==0)
+    }    else if (index2==0)
     {
         return index1;
     }
     else if (m_string1.at(index1-1) == m_string2.at(index2-1))
     {
-        return getLevenshteinDistanceUsingRecursion(index1-1, index2-1);
+        return getLevenshteinDistanceUsingNaiveRecursion(index1-1, index2-1);
     }
     else
     {
-        Index replaceDistance = getLevenshteinDistanceUsingRecursion(index1-1, index2-1);
-        Index deleteDistance = getLevenshteinDistanceUsingRecursion(index1-1, index2);
-        Index insertDistance = getLevenshteinDistanceUsingRecursion(index1, index2-1);
+        Index replaceDistance = getLevenshteinDistanceUsingNaiveRecursion(index1-1, index2-1);
+        Index deleteDistance = getLevenshteinDistanceUsingNaiveRecursion(index1-1, index2);
+        Index insertDistance = getLevenshteinDistanceUsingNaiveRecursion(index1, index2-1);
         return min(min(replaceDistance, deleteDistance), insertDistance)+1;
     }
 }
-
 LevenshteinDistance::Index LevenshteinDistance::getLevenshteinDistanceUsingMemoizationDP(
         IndexGrid & indexGrid,
-        Index const index1,
-        Index const index2) const
+        Index const index1,        Index const index2) const
 {
     // Time Complexity: O(m x n) because of memoization
     // Auxiliary Space: O(m x n)
@@ -158,19 +152,17 @@ LevenshteinDistance::Index LevenshteinDistance::getLevenshteinDistanceUsingMemoi
         }
         else if (m_string1.at(index1-1) == m_string2.at(index2-1))
         {
-            result = getLevenshteinDistanceUsingRecursion(index1-1, index2-1);
+            result = getLevenshteinDistanceUsingNaiveRecursion(index1-1, index2-1);
         }
         else
         {
-            Index replaceDistance = getLevenshteinDistanceUsingRecursion(index1-1, index2-1);
-            Index deleteDistance = getLevenshteinDistanceUsingRecursion(index1-1, index2);
-            Index insertDistance = getLevenshteinDistanceUsingRecursion(index1, index2-1);
+            Index replaceDistance = getLevenshteinDistanceUsingNaiveRecursion(index1-1, index2-1);
+            Index deleteDistance = getLevenshteinDistanceUsingNaiveRecursion(index1-1, index2);
+            Index insertDistance = getLevenshteinDistanceUsingNaiveRecursion(index1, index2-1);
             result = min(min(replaceDistance, deleteDistance), insertDistance)+1;
         }
-        indexGrid.setEntry(index1, index2, result);
-    }
+        indexGrid.setEntry(index1, index2, result);    }
     return result;
 }
-
 
 }

@@ -13,22 +13,19 @@ FibonacciExample::FibonacciExample()
     initialize();
 }
 
-FibonacciExample::Number FibonacciExample::getFibonacciUsingRecursion(Number const number) const
+FibonacciExample::Number FibonacciExample::getFibonacciUsingNaiveRecursion(Number const number) const
 {
     if (number<=1)
-    {
-        return number;
+    {        return number;
     }
     else
     {
-        return getFibonacciUsingRecursion(number-1) + getFibonacciUsingRecursion(number-2);
+        return getFibonacciUsingNaiveRecursion(number-1) + getFibonacciUsingNaiveRecursion(number-2);
     }
 }
-
 FibonacciExample::Number FibonacciExample::getFibonacciUsingMemoization(Number const number)
 {
-    // a) Memoization (Top Down):
-    // The memoized program for a problem is similar to the recursive version
+    // a) Memoization (Top Down):    // The memoized program for a problem is similar to the recursive version
     // with a small modification that it looks into a lookup table before computing solutions.
     // We initialize a lookup array with all initial values as NIL.
     // Whenever we need the solution to a subproblem, we first look into the lookup table.

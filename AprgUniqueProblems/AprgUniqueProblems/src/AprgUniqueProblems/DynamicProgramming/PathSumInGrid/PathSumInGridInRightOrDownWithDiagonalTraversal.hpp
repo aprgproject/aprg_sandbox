@@ -34,22 +34,20 @@ public:
 
     PathSumInGridInRightOrDownWithDiagonalTraversal(Type const type, Grid const& gridToCheck);
 
-    Value getBestPathSumUsingRecursion() const;
+    Value getBestPathSumUsingNaiveRecursion() const;
     Value getBestPathSumUsingTabularDP() const;
     Value getBestPathSumUsingMemoizationDP() const;
     Path getBestPathUsingTabularDP() const;
 
 private:
-    Value getBestPathSumUsingRecursion(Index const x, Index const y) const;
-    Value getBestPathSumUsingRecursion(Grid & partialSumGrid, Index const x, Index const y) const;
+    Value getBestPathSumUsingNaiveRecursion(Index const x, Index const y) const;
+    Value getBestPathSumUsingNaiveRecursion(Grid & partialSumGrid, Index const x, Index const y) const;
     Grid getPartialSumGridUsingTabularDP() const;
     Value getBestPathSumUsingMemoizationDP(Grid & partialSumGrid, Index const x, Index const y) const;
-    void initialize(Type const type);
-    Grid m_gridToCheck;
+    void initialize(Type const type);    Grid m_gridToCheck;
     CompareFunction m_compareFunction;
     MinMaxFunction m_minMaxFunction;
 };
-
 }
 
 // MIN COST WITH DIAGONAL:

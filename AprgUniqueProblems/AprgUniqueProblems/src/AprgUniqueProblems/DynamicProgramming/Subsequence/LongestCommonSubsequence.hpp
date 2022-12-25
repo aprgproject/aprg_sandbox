@@ -14,19 +14,17 @@ public:
 
     LongestCommonSubsequence(Sequence const& sequence1, Sequence const& sequence2);
 
-    Index getLongestCommonSubsequenceLengthUsingRecursion() const;
+    Index getLongestCommonSubsequenceLengthUsingNaiveRecursion() const;
     Index getLongestCommonSubsequenceLengthUsingDynamicProgramming() const;
 
 private:
 
-    Index getLongestCommonSubsequenceLengthUsingRecursion(Index const index1, Index const index2) const;
+    Index getLongestCommonSubsequenceLengthUsingNaiveRecursion(Index const index1, Index const index2) const;
     Sequence m_sequence1;
     Sequence m_sequence2;
-
 };
 
 }
-
 // LCS Problem Statement:
 // Given two sequences, find the length of longest subsequence present in both of them.
 // A subsequence is a sequence that appears in the same relative order, but not necessarily contiguous.

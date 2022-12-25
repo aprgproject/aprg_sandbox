@@ -17,20 +17,18 @@ public:
 
     LevenshteinDistance(std::string const& string1, std::string const& string2);
 
-    Index getLevenshteinDistanceUsingRecursion() const;
+    Index getLevenshteinDistanceUsingNaiveRecursion() const;
     Index getLevenshteinDistanceUsingTabularDP() const;
     Index getLevenshteinDistanceUsingEfficientSpaceDP() const;
     Index getLevenshteinDistanceUsingMemoizationDP() const;
 private:
-    Index getLevenshteinDistanceUsingRecursion(Index const index1, Index const index2) const;
+    Index getLevenshteinDistanceUsingNaiveRecursion(Index const index1, Index const index2) const;
     Index getLevenshteinDistanceUsingMemoizationDP(IndexGrid & indexGrid, Index const index1, Index const index2) const;
     std::string m_string1;
-    std::string m_string2;
-};
+    std::string m_string2;};
 
 }
-// Note this ia dynamic programming solution
-// -> There is an implementation in AlbaStringHelper and it takes less space
+// Note this ia dynamic programming solution// -> There is an implementation in AlbaStringHelper and it takes less space
 // ---> (but there is a swapping vector operation in the algorithm (so the last 2 rows in the dynamic programming matrix are maintained))
 
 // The edit distance or Levenshtein distance is the minimum number of editing operations needed to transform a string into another string.
