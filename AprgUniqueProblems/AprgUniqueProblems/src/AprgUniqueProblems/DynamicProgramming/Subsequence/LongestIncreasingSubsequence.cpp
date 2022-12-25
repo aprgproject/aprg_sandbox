@@ -66,7 +66,7 @@ LongestIncreasingSubsequence::Sequence LongestIncreasingSubsequence::getLongestI
 
         // construct longest sequence
         auto it=max_element(indexToLength.cbegin(), indexToLength.cend());
-        Index indexOfLongestLength = std::distance(indexToLength.cbegin(), it);
+        Index indexOfLongestLength = distance(indexToLength.cbegin(), it);
         Index longestLength = *it;
         longestSequence.resize(longestLength, Value{});
         Index maxIndex=longestLength-1;

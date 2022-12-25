@@ -62,10 +62,12 @@ private:
             // std::advance with 2 for hare? no, because we need to check if we exceeded
             turtoise++;
             hare++;
-            if(hare!=values.cend())            {
+            if(hare!=values.cend())
+            {
                 hare++;
             }
-        }        return turtoise;
+        }
+        return turtoise;
     }
 
     Values mergeTwoRanges(

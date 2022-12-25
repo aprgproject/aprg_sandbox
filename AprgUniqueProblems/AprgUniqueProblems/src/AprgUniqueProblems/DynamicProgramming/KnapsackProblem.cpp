@@ -58,7 +58,7 @@ KnapsackProblem::Values KnapsackProblem::getAllPossiblePartialSumsWithSquareRoot
 
     Values result;
 
-    std::map<Value, unsigned int> inputValueToCount; // divide into groups of distinct weights and count number of same weights
+    map<Value, unsigned int> inputValueToCount; // divide into groups of distinct weights and count number of same weights
     for(Value const inputValue : m_inputValues) // n*log(n)
     {
         inputValueToCount.emplace(inputValue, 0U);

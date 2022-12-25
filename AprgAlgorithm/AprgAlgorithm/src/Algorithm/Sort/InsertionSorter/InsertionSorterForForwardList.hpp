@@ -29,9 +29,11 @@ public:
             for(auto insertIt=std::next(valuesToSort.begin(), 1U); insertIt!=valuesToSort.end(); insertIt++)
             {
                 insertToSortedList(sortedList, *insertIt);
-            }            valuesToSort = sortedList;
+            }
+            valuesToSort = sortedList;
         }
     }
+
 private:
     void insertToSortedList(Values & sortedList, Value const& value) const
     {
@@ -40,10 +42,12 @@ private:
         for(auto it=sortedList.begin(); it!=sortedList.end(); it++, previousIt++)
         {
             if(value < *it)
-            {                sortedList.emplace_after(previousIt, value);
+            {
+                sortedList.emplace_after(previousIt, value);
                 isInserted = true;
                 break;
-            }        }
+            }
+        }
         if(!isInserted)
         {
             sortedList.emplace_after(previousIt, value);

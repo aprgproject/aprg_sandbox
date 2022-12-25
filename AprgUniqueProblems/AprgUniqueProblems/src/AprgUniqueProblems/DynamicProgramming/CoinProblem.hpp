@@ -1,5 +1,6 @@
 #pragma once
 
+#include <limits>
 #include <set>
 #include <vector>
 
@@ -27,40 +28,83 @@ public:
     // ---> if x=0 : 1
     // ---> if x>0 : summation of (solve(x-coins)) for all coins
 
-    using Coin = unsigned int;
-    using Coins = std::vector<Coin>;
-    using CoinSet = std::set<Coin>;
-    using CoinPermutation = std::vector<Coin>;
+    using Value = unsigned int;
+    using Coins = std::vector<Value>;
+    using CoinSet = std::set<Value>;
+    using CoinPermutation = std::vector<Value>;
     using CoinPermutations = std::set<CoinPermutation>;
-    using CoinCombination = std::multiset<Coin>;
+    using CoinCombination = std::multiset<Value>;
     using CoinCombinations = std::set<CoinCombination>;
     using CountPerValue = std::vector<unsigned int>;
     using CountPerValueAndPerCoin = std::vector<std::vector<unsigned int>>;
     using VectorOfCoins = std::vector<Coins>;
-    using VectorOfCoinPermutations = std::vector<CoinPermutations>;
-    using VectorOfCoinCombinations = std::vector<CoinCombinations>;
+    using CoinPermutationsPerValue = std::vector<CoinPermutations>;
+    using CoinCombinationsPerValue = std::vector<CoinCombinations>;
+    static constexpr unsigned int UNUSED_COUNT=std::numeric_limits<unsigned int>::max();
+    static constexpr unsigned int MAX_COUNT=UNUSED_COUNT-1;
 
     CoinProblem(Coins const& availableCoins);
 
-    Coins getFewestCoinsUsingRecursion(Coin const total);
-    Coins getFewestCoinsUsingLoops(Coin const total);
-    unsigned int getNumberOfCoinPermutations(Coin const total);
-    CoinPermutations getCoinPermutationsUsingLoops(Coin const total);
-    unsigned int getNumberOfCoinCombinations(Coin const total);
-    CoinCombinations getCoinCombinationsUsingRecursion(Coin const total);
-    CoinCombinations getCoinCombinationsUsingLoops(Coin const total);
+    // fewest coins
+    unsigned int getNumberOfFewestCoinsUsingMemoizationDP(Value const total) const;
+    unsigned int getNumberOfFewestCoinsTabularDP(Value const total) const;
+    Coins getFewestCoinsUsingMemoizationDP(Value const total) const;
+    Coins getFewestCoinsUsingTabularDP(Value const total) const;
+
+    // permutations
+    unsigned int getNumberOfCoinPermutationsMemoizationDP(Value const total) const;
+    unsigned int getNumberOfCoinPermutationsTabularDP(Value const total) const;
+    CoinPermutations getCoinPermutationsUsingMemoizationDP(Value const total) const;
+    CoinPermutations getCoinPermutationsUsingTabularDP(Value const total) const;
+
+    // combinations
+    unsigned int getNumberOfCoinCombinationsUsingMemoizationDP(Value const total) const;
+    unsigned int getNumberOfCoinCombinationsUsingTabularDP(Value const total) const;
+    CoinCombinations getCoinCombinationsUsingMemoizationDP(Value const total) const;
+    CoinCombinations getCoinCombinationsUsingTabularDP(Value const total) const;
+
 private:
-    void addSolutionWithFewestCoins(Coin const total, Coins const& fewestCoinSolution);
+    Value getMaxAvailableCoin() const;
+    Value getMaxOfTotalAndMaxCoin(Value const total) const;
+
+    // fewest coins
+    unsigned int getNumberOfFewestCoinsUsingMemoizationDPInternal(CountPerValue & countPerValue, Value const total) const;
+    Coins getFewestCoinsUsingMemoizationDPInternal(VectorOfCoins & fewestCoins, Value const total) const;
+
+    // permutations
+    unsigned int getNumberOfCoinPermutationsMemoizationDPInternal(CountPerValue & countPerValue, Value const total) const;
+    CoinPermutations getCoinPermutationsUsingMemoizationDPInternal(CoinPermutationsPerValue & coinPermutationsPerValue, Value const total) const;
+
+    // combinations
+    unsigned int getNumberOfCoinCombinationsUsingMemoizationDPInternal(CountPerValueAndPerCoin & countPerValuePerCoin, unsigned int const coinIndex, Value const total) const;
+    CoinCombinations getCoinCombinationsUsingMemoizationDPInternal(CoinCombinationsPerValue & coinCombinationsPerValue, Value const total) const;
     Coins m_availableCoins;
-    VectorOfCoins m_fewestCoins;
-    CountPerValue m_countPerValue;
-    CountPerValueAndPerCoin m_countPerValuePerCoin;
-    VectorOfCoinPermutations m_coinPermutations;
-    VectorOfCoinCombinations m_coinCombinations;
 };
 
 }
 
+// COIN COMBINATIONS PROBLEM:
+// Given a value N, if we want to make change for N cents,
+// and we have infinite supply of each of S = { S1, S2, .. , Sm} valued coins,
+// how many ways can we make the change?
+// The order of coins doesn’t matter.
+
+// Examples:
+// For N = 4 and S = {1,2,3}, there are four solutions: {1,1,1,1},{1,1,2},{2,2},{1,3}.
+// -> So output should be 4.
+// For N = 10 and S = {2, 5, 3, 6}, there are five solutions: {2,2,2,2,2}, {2,2,3,3}, {2,2,6}, {2,3,5} and {5,5}.
+// -> So the output should be 5.
+
+// 1) Optimal Substructure
+// -> To count the total number of solutions, we can divide all set solutions into two sets.
+// ---> 1) Solutions that do not contain mth coin (or Sm).
+// ---> 2) Solutions that contain at least one Sm.
+// -> Let count(S[], m, n) be the function to count the number of solutions,
+// then it can be written as sum of count(S[], m-1, n) and count(S[], m, n-Sm).
+// -> Therefore, the problem has optimal substructure property as the problem can be solved using solutions to subproblems.
+
+
+// FEWEST COIN PROBLEM:
 // Given a value V, if we want to make change for V cents, and we have infinite supply of each of C = { C1, C2, .. , Cm} valued coins,
 // what is the minimum number of coins to make the change?
 
@@ -68,7 +112,6 @@ private:
 // -> Input: coins[] = {25, 10, 5}, V = 30
 // ---> Output: Minimum 2 coins required
 // ---> We can use one coin of 25 cents and one of 5 cents
-
 // -> Input: coins[] = {9, 6, 5, 1}, V = 11
 // ---> Output: Minimum 2 coins required
 // ---> We can use one coin of 6 cents and 1 coin of 5 cents
@@ -89,3 +132,6 @@ private:
 // Like other typical Dynamic Programming(DP) problems,
 // recomputations of same subproblems can be avoided by constructing a temporary array table[][] in bottom up manner.
 // Time complexity of DP solution using loops is O(mV).
+
+
+

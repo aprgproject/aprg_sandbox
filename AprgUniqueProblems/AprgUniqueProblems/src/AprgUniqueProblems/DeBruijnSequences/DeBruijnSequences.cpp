@@ -10,7 +10,7 @@ namespace alba
 
 DeBruijnSequences::DeBruijnSequences(
         unsigned int const substringSize,
-        std::string const& alphabet)
+        string const& alphabet)
     : m_substringSize(substringSize)
     , m_alphabet(alphabet)
 {

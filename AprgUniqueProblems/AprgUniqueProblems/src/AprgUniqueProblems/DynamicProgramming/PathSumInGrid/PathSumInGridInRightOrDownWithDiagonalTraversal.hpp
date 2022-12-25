@@ -8,7 +8,7 @@
 namespace alba
 {
 
-class PathSumInGridInRightOrDownTraversal
+class PathSumInGridInRightOrDownWithDiagonalTraversal
 {
 public:
     // Our next problem is to find a path from the upper-left corner to the lower-right corner of an n X n grid, such that we only move down and right.
@@ -32,7 +32,7 @@ public:
     using MinMaxFunction = std::function<Value(Value const&, Value const&)>;
     static constexpr Index UNUSED_VALUE = std::numeric_limits<Index>::max();
 
-    PathSumInGridInRightOrDownTraversal(Type const type, Grid const& gridToCheck);
+    PathSumInGridInRightOrDownWithDiagonalTraversal(Type const type, Grid const& gridToCheck);
 
     Value getBestPathSumUsingRecursion() const;
     Value getBestPathSumUsingTabularDP() const;
@@ -51,3 +51,25 @@ private:
 };
 
 }
+
+// MIN COST WITH DIAGONAL:
+// Given a cost matrix cost[][] and a position (m, n) in cost[][],
+// write a function that returns cost of minimum cost path to reach (m, n) from (0, 0).
+// Each cell of the matrix represents a cost to traverse through that cell.
+// The total cost of a path to reach (m, n) is the sum of all the costs on that path (including both source and destination).
+// You can only traverse down, right and diagonally lower cells from a given cell, i.e.,
+// from a given cell (i, j), cells (i+1, j), (i, j+1), and (i+1, j+1) can be traversed.
+// You may assume that all costs are positive integers.
+
+// 1) Optimal Substructure
+// The path to reach (m, n) must be through one of the 3 cells: (m-1, n-1) or (m-1, n) or (m, n-1).
+// So minimum cost to reach (m, n) can be written as “minimum of the 3 cells plus cost[m][n]”.
+// minCost(m, n) = min (minCost(m-1, n-1), minCost(m-1, n), minCost(m, n-1)) + cost[m][n]
+
+// 2) Overlapping Subproblems
+// It should be noted that the above function computes the same subproblems again and again.
+// See the following recursion tree, there are many nodes which appear more than once.
+// The time complexity of this naive recursive solution is exponential and it is terribly slow.
+// So the MCP problem has both properties (see this and this) of a dynamic programming problem.
+// Like other typical Dynamic Programming(DP) problems,
+// recomputations of the same subproblems can be avoided by constructing a temporary array tc[][] in a bottom-up manner.

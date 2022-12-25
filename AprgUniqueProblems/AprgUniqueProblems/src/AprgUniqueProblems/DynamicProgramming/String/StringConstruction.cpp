@@ -12,7 +12,7 @@ namespace alba
 {
 
 StringConstruction::StringConstruction(
-        std::string const& stringToConstruct,
+        string const& stringToConstruct,
         stringHelper::strings const& subStrings)
     : m_stringToConstruct(stringToConstruct)
     , m_subStrings(subStrings)

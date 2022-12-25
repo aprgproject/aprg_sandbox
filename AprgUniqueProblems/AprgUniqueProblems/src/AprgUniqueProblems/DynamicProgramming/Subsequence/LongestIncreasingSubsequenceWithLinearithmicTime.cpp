@@ -60,7 +60,7 @@ LongestIncreasingSubsequenceWithLinearithmicTime::Sequence LongestIncreasingSubs
             }
             else
             {
-                Index currentLength = std::distance(lengthToEndValue.begin(), lowerBoundItForEndValue);
+                Index currentLength = distance(lengthToEndValue.begin(), lowerBoundItForEndValue);
                 if(currentLength > 0)
                 {
                     indexToPreviousIndex[i] = lengthToEndIndex[currentLength-1];
