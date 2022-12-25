@@ -2,16 +2,12 @@
 
 #include <Algorithm/UnionFind/BaseUnionFind.hpp>
 
-#include <algorithm>
-#include <numeric>
 #include <vector>
 
-namespace alba
-{
+namespace alba{
 
 namespace algorithm
 {
-
 template <typename Object>
 class WeightedQuickUnionWithVector : public BaseUnionFind<Object>
 {
@@ -34,22 +30,20 @@ public:
     Object getRoot(Object const& object) const override // worst case runs in logarithmic time (base 2 log) -> acceptable
     {
         // Continuously find relative root until its equal to the previous root
-        Object result(object);
-        Object currentRoot(m_relativeRoots.at(object));
-        while(result != currentRoot)
+        Object currentRoot(object);
+        Object nextRoot(m_relativeRoots.at(object));
+        while(currentRoot != nextRoot)
         {
-            result = currentRoot;
-            currentRoot = m_relativeRoots.at(result);
+            currentRoot = nextRoot;
+            nextRoot = m_relativeRoots.at(currentRoot);
         }
-        return result;
+        return currentRoot;
     }
 
-    Object getRootWithPathCompressionOnePass(Object const& object) // no longer const
-    {
+    Object getRootWithPathCompressionOnePass(Object const& object) // no longer const    {
         Object result(object);
         while(result != m_relativeRoots.at(object))
-        {
-            m_relativeRoots[object] = m_relativeRoots.at(m_relativeRoots.at(object)); // make every relative root point to its grandparent
+        {            m_relativeRoots[object] = m_relativeRoots.at(m_relativeRoots.at(object)); // make every relative root point to its grandparent
             result = m_relativeRoots.at(object);
         }
         return result;
@@ -58,28 +52,26 @@ public:
     Object getRootWithPathCompressionTwoPass(Object const& object) // no longer const
     {
         std::vector<Object> relativeRoots;
-        Object mainRoot(object);
-        Object currentRoot(m_relativeRoots.at(object));
+        Object currentRoot(object);
+        Object nextRoot(m_relativeRoots.at(object));
 
-        while(mainRoot != currentRoot)
+        while(currentRoot != nextRoot)
         {
-            mainRoot = currentRoot;
-            relativeRoots.emplace_back(currentRoot);
-            currentRoot = m_relativeRoots.at(mainRoot);
+            currentRoot = nextRoot;
+            relativeRoots.emplace_back(nextRoot);
+            nextRoot = m_relativeRoots.at(currentRoot);
         }
         for(Object const& relativeRoot : relativeRoots) // set found root to all examined relative roots -> makes the tree really flat (Hopcroft Ulman Tarjan proof -> almost linear)
         {
-            m_relativeRoots[relativeRoot] = mainRoot;
+            m_relativeRoots[relativeRoot] = currentRoot;
         }
-        return mainRoot;
+        return currentRoot;
     }
 
-    void connect(Object const& object1, Object const& object2) override // worst case runs in logarithmic time because of getRoot() -> acceptable
-    {
+    void connect(Object const& object1, Object const& object2) override // worst case runs in logarithmic time because of getRoot() -> acceptable    {
         Object root1(getRoot(object1));
         Object root2(getRoot(object2));
-        if(root1 != root2)
-        {
+        if(root1 != root2)        {
             connectRootsBasedOnSize(root2, root1);
         }
     }
@@ -113,15 +105,16 @@ private:
         {
             m_relativeRoots.emplace_back(i);
         }
+        m_relativeRoots.shrink_to_fit();
+
         m_sizesOfRoots.resize(maximumSize, Object{1U});
+        m_sizesOfRoots.shrink_to_fit();
     }
 
-    void connectRootsBasedOnSize(Object const root2, Object const root1)
-    {
+    void connectRootsBasedOnSize(Object const root2, Object const root1)    {
         // assign the root of the smaller root to the larger root (to make it flatter)
         if(m_sizesOfRoots.at(root1) < m_sizesOfRoots.at(root2))
-        {
-            m_relativeRoots[root1] = root2;
+        {            m_relativeRoots[root1] = root2;
             m_sizesOfRoots[root2] += m_sizesOfRoots.at(root1);
         }
         else

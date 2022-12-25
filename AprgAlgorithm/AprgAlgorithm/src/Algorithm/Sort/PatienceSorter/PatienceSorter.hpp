@@ -90,18 +90,16 @@ public:
 // can be implemented to take O(n log n) comparisons in the worst case for an n-element input array:
 // there will be at most n piles, and by construction, the top cards of the piles form an increasing sequence from left to right,
 // so the desired pile can be found by binary search.
-// The second phase, the merging of piles, can be done in O(n log n) time as well using a priority queue.[1]
+// The second phase, the merging of piles, can be done in O(n log n) time as well using a priority queue.
 
 // When the input data contain natural "runs", i.e., non-decreasing subarrays, then performance can be strictly better.
 // In fact, when the input array is already sorted, all values form a single pile and both phases run in O(n) time.
 // The average-case complexity is still O(n log n):
 // any uniformly random sequence of values will produce an expected number of O(√n) piles,
-// which take O(n log √n) = O(n log n) time to produce and merge.[1]
+// which take O(n log √n) = O(n log n) time to produce and merge.
 
 // An evaluation of the practical performance of patience sort is given by Chandramouli and Goldstein,
-// who show that a naïve version is about ten to twenty times slower than a state-of-the-art quicksort on their benchmark problem.
-// They attribute this to the relatively small amount of research put into patience sort,
+// who show that a naïve version is about ten to twenty times slower than a state-of-the-art quicksort on their benchmark problem.// They attribute this to the relatively small amount of research put into patience sort,
 // and develop several optimizations that bring its performance to within a factor two of that of quicksort.
 
-// If values of cards are in the range 1, . . . , n, there is an efficient implementation with O(n log n)
-// worst-case running time for putting the cards into piles, relying on a Van Emde Boas tree.
+// If values of cards are in the range 1, . . . , n, there is an efficient implementation with O(n log n)// worst-case running time for putting the cards into piles, relying on a Van Emde Boas tree.
