@@ -44,10 +44,12 @@ private:
     Value getBestPathSumUsingNaiveRecursion(Grid & partialSumGrid, Index const x, Index const y) const;
     Grid getPartialSumGridUsingTabularDP() const;
     Value getBestPathSumUsingMemoizationDP(Grid & partialSumGrid, Index const x, Index const y) const;
-    void initialize(Type const type);    Grid m_gridToCheck;
+    void initialize(Type const type);
+    Grid m_gridToCheck;
     CompareFunction m_compareFunction;
     MinMaxFunction m_minMaxFunction;
 };
+
 }
 
 // MIN COST WITH DIAGONAL:

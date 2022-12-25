@@ -17,10 +17,12 @@ LongestCommonSubsequence::Index LongestCommonSubsequence::getLongestCommonSubseq
     return getLongestCommonSubsequenceLengthUsingNaiveRecursion(m_sequence1.size(), m_sequence2.size());
 }
 
-LongestCommonSubsequence::Index LongestCommonSubsequence::getLongestCommonSubsequenceLengthUsingDynamicProgramming() const{
+LongestCommonSubsequence::Index LongestCommonSubsequence::getLongestCommonSubsequenceLengthUsingDynamicProgramming() const
+{
     matrix::AlbaMatrix<Value> lengthMatrix(m_sequence1.size()+1U, m_sequence2.size()+1U);
 
-    lengthMatrix.iterateAllThroughYAndThenX([&](unsigned int x, unsigned int y)    {
+    lengthMatrix.iterateAllThroughYAndThenX([&](unsigned int x, unsigned int y)
+    {
         if (x == 0 || y == 0)
         {
             // do nothing
@@ -40,7 +42,8 @@ LongestCommonSubsequence::Index LongestCommonSubsequence::getLongestCommonSubseq
 LongestCommonSubsequence::Index LongestCommonSubsequence::getLongestCommonSubsequenceLengthUsingNaiveRecursion(
         Index const index1,
         Index const index2) const
-{    if (index1==0 || index2==0)
+{
+    if (index1==0 || index2==0)
     {
         return 0;
     }
@@ -54,4 +57,5 @@ LongestCommonSubsequence::Index LongestCommonSubsequence::getLongestCommonSubseq
                    getLongestCommonSubsequenceLengthUsingNaiveRecursion(index1-1, index2));
     }
 }
+
 }

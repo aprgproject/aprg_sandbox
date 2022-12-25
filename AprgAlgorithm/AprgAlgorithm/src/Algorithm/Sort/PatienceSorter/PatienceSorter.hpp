@@ -99,7 +99,8 @@ public:
 // which take O(n log √n) = O(n log n) time to produce and merge.
 
 // An evaluation of the practical performance of patience sort is given by Chandramouli and Goldstein,
-// who show that a naïve version is about ten to twenty times slower than a state-of-the-art quicksort on their benchmark problem.// They attribute this to the relatively small amount of research put into patience sort,
+// who show that a naïve version is about ten to twenty times slower than a state-of-the-art quicksort on their benchmark problem.
+// They attribute this to the relatively small amount of research put into patience sort,
 // and develop several optimizations that bring its performance to within a factor two of that of quicksort.
 
 // If values of cards are in the range 1, . . . , n, there is an efficient implementation with O(n log n)

@@ -16,9 +16,11 @@ public:
     Number getFibonacciUsingNaiveRecursion(Number const number) const;
     Number getFibonacciUsingMemoization(Number const number);
     Number getFibonacciUsingTabulation(Number const number);
+
 private:
     void initialize();
     void initializeForTabulation();
+
     std::vector<Number> m_memoizationData;
     std::vector<Number> m_tabulationData;
 };

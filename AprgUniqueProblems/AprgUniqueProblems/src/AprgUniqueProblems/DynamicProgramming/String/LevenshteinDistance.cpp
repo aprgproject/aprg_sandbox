@@ -19,9 +19,11 @@ LevenshteinDistance::Index LevenshteinDistance::getLevenshteinDistanceUsingNaive
     return getLevenshteinDistanceUsingNaiveRecursion(m_string1.length(), m_string2.length());
 }
 
-LevenshteinDistance::Index LevenshteinDistance::getLevenshteinDistanceUsingTabularDP() const{
+LevenshteinDistance::Index LevenshteinDistance::getLevenshteinDistanceUsingTabularDP() const
+{
     // Time Complexity: O(m x n)
     // Auxiliary Space: O(m x n)
+
     // The allowed editing operations are as follows:
     // -> insert a character (e.g. ABC ! ABCA)
     // -> remove a character (e.g. ABC ! AC)
@@ -113,10 +115,12 @@ LevenshteinDistance::Index LevenshteinDistance::getLevenshteinDistanceUsingMemoi
 LevenshteinDistance::Index LevenshteinDistance::getLevenshteinDistanceUsingNaiveRecursion(
         Index const index1,
         Index const index2) const
-{    if (index1==0)
+{
+    if (index1==0)
     {
         return index2;
-    }    else if (index2==0)
+    }
+    else if (index2==0)
     {
         return index1;
     }
@@ -132,9 +136,11 @@ LevenshteinDistance::Index LevenshteinDistance::getLevenshteinDistanceUsingNaive
         return min(min(replaceDistance, deleteDistance), insertDistance)+1;
     }
 }
+
 LevenshteinDistance::Index LevenshteinDistance::getLevenshteinDistanceUsingMemoizationDP(
         IndexGrid & indexGrid,
-        Index const index1,        Index const index2) const
+        Index const index1,
+        Index const index2) const
 {
     // Time Complexity: O(m x n) because of memoization
     // Auxiliary Space: O(m x n)
@@ -161,8 +167,10 @@ LevenshteinDistance::Index LevenshteinDistance::getLevenshteinDistanceUsingMemoi
             Index insertDistance = getLevenshteinDistanceUsingNaiveRecursion(index1, index2-1);
             result = min(min(replaceDistance, deleteDistance), insertDistance)+1;
         }
-        indexGrid.setEntry(index1, index2, result);    }
+        indexGrid.setEntry(index1, index2, result);
+    }
     return result;
 }
+
 
 }

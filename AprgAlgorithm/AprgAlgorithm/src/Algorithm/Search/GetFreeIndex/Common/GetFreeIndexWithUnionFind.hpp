@@ -4,6 +4,7 @@
 
 namespace alba
 {
+
 namespace algorithm
 {
 
@@ -14,7 +15,8 @@ public:
     using UnionFind = QuickUnionWithPathCompressionWithVector<Index>;
 
     GetFreeIndexWithUnionFind(Index const numberOfIndexes)
-        : m_numberOfIndexes(numberOfIndexes)        , m_unionFind(numberOfIndexes)
+        : m_numberOfIndexes(numberOfIndexes)
+        , m_unionFind(numberOfIndexes)
     {}
 
 protected:
@@ -23,7 +25,8 @@ protected:
     {
         Index result{};
         if(index<m_numberOfIndexes)
-        {            result = m_unionFind.getRootWithPathCompressionTwoPass(index);
+        {
+            result = m_unionFind.getRootWithPathCompressionTwoPass(index);
         }
         return result;
     }

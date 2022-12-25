@@ -58,7 +58,8 @@ TEST(GetNextFreeIndexWithUnionFindTest, SetAsNotFreeWorks)
     EXPECT_EQ(17U, query.getNextFreeIndexAt(17U));
     EXPECT_EQ(26U, query.getNextFreeIndexAt(26U));
     EXPECT_EQ(27U, query.getNextFreeIndexAt(27U));
-    EXPECT_EQ(0U, query.getNextFreeIndexAt(28U));}
+    EXPECT_EQ(0U, query.getNextFreeIndexAt(28U));
+}
 
 TEST(GetNextFreeIndexWithUnionFindTest, SetAsFreeWorks)
 {
@@ -68,6 +69,7 @@ TEST(GetNextFreeIndexWithUnionFindTest, SetAsFreeWorks)
     query.setAsNotFree(16U);
 
     query.setAsFree(15U);
+
     EXPECT_EQ(0U, query.getNextFreeIndexAt(0U));
     EXPECT_EQ(1U, query.getNextFreeIndexAt(1U));
     EXPECT_EQ(2U, query.getNextFreeIndexAt(2U));
@@ -78,7 +80,8 @@ TEST(GetNextFreeIndexWithUnionFindTest, SetAsFreeWorks)
     EXPECT_EQ(17U, query.getNextFreeIndexAt(17U));
     EXPECT_EQ(26U, query.getNextFreeIndexAt(26U));
     EXPECT_EQ(27U, query.getNextFreeIndexAt(27U));
-    EXPECT_EQ(0U, query.getNextFreeIndexAt(28U));}
+    EXPECT_EQ(0U, query.getNextFreeIndexAt(28U));
+}
 
 }
 

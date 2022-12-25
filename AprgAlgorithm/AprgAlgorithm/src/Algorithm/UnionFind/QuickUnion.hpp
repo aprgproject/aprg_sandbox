@@ -4,6 +4,7 @@
 
 #include <array>
 #include <numeric>
+
 namespace alba
 {
 
@@ -42,7 +43,8 @@ public:
         return currentRoot;
     }
 
-    void connect(Object const& object1, Object const& object2) override    {
+    void connect(Object const& object1, Object const& object2) override
+    {
         Object root1(getRoot(object1));
         Object root2(getRoot(object2));
         if(root1 != root2)

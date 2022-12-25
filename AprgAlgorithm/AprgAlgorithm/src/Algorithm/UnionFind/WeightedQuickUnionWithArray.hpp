@@ -8,6 +8,7 @@
 
 namespace alba
 {
+
 namespace algorithm
 {
 
@@ -43,7 +44,8 @@ public:
         return currentRoot;
     }
 
-    Object getRootWithPathCompressionOnePass(Object const& object) // no longer const    {
+    Object getRootWithPathCompressionOnePass(Object const& object) // no longer const
+    {
         Object result(object);
         while(result != m_relativeRoots.at(object))
         {
@@ -71,7 +73,8 @@ public:
         return currentRoot;
     }
 
-    void connect(Object const& object1, Object const& object2) override // worst case runs in logarithmic time because of getRoot() -> acceptable    {
+    void connect(Object const& object1, Object const& object2) override // worst case runs in logarithmic time because of getRoot() -> acceptable
+    {
         Object root1(getRoot(object1));
         Object root2(getRoot(object2));
         if(root1 != root2)

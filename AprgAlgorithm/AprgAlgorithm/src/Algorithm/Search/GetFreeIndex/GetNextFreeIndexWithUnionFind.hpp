@@ -25,6 +25,7 @@ public:
     {
         return BaseClass::getFreeIndexAt(index);
     }
+
     void setAsNotFree(Index const index)
     {
         if(index+1 < b_numberOfIndexes)
@@ -55,7 +56,8 @@ public:
 
 private:
     Index & b_numberOfIndexes;
-    UnionFind & b_unionFind;};
+    UnionFind & b_unionFind;
+};
 
 }
 

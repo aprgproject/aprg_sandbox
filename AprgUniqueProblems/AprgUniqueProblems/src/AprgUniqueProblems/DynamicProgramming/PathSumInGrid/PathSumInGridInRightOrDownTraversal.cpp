@@ -22,9 +22,11 @@ PathSumInGridInRightOrDownTraversal::Value PathSumInGridInRightOrDownTraversal::
     }
     return pathSum;
 }
+
 PathSumInGridInRightOrDownTraversal::Value PathSumInGridInRightOrDownTraversal::getBestPathSumUsingTabularDP() const
 {
     // Time Complexity of the DP implementation is O(mn) which is much better than Naive Recursive implementation.
+
     Value pathSum(0);
     if(!m_gridToCheck.isEmpty())
     {
@@ -84,10 +86,12 @@ PathSumInGridInRightOrDownTraversal::Path PathSumInGridInRightOrDownTraversal::g
 PathSumInGridInRightOrDownTraversal::Value PathSumInGridInRightOrDownTraversal::getBestPathSumUsingNaiveRecursion(
         Index const x,
         Index const y) const
-{    // Naive recursion approach
+{
+    // Naive recursion approach
 
 
-    Value result(m_gridToCheck.getEntry(x, y));    if(!(x==0 && y==0))
+    Value result(m_gridToCheck.getEntry(x, y));
+    if(!(x==0 && y==0))
     {
         if(x==0)
         {
@@ -102,10 +106,12 @@ PathSumInGridInRightOrDownTraversal::Value PathSumInGridInRightOrDownTraversal::
             result += m_minMaxFunction(getBestPathSumUsingNaiveRecursion(x-1, y), getBestPathSumUsingNaiveRecursion(x, y-1));
         }
     }
-    return result;}
+    return result;
+}
 
 PathSumInGridInRightOrDownTraversal::Grid PathSumInGridInRightOrDownTraversal::getPartialSumGridUsingTabularDP() const
-{    Grid result(m_gridToCheck);
+{
+    Grid result(m_gridToCheck);
     for(Index x=1; x<result.getNumberOfColumns(); x++)  // first row has only left neighbors
     {
         result.getEntryReference(x, 0) += result.getEntry(x-1, 0);

@@ -5,6 +5,7 @@
 #include <limits>
 #include <set>
 #include <vector>
+
 namespace alba
 {
 
@@ -44,6 +45,7 @@ public:
     static constexpr unsigned int UNUSED_COUNT=std::numeric_limits<unsigned int>::max();
 
     CoinProblem(Coins const& availableCoins);
+
     // fewest coins
     unsigned int getNumberOfFewestCoinsUsingMemoizationDP(Value const total) const;
     unsigned int getNumberOfFewestCoinsTabularDP(Value const total) const;
@@ -68,7 +70,8 @@ private:
     Value getMaxOfTotalPlusOneAndMaxCoin(Value const total) const;
 
     // fewest coins
-    unsigned int getNumberOfFewestCoinsUsingMemoizationDPInternal(CountPerValue & countPerValue, Value const total) const;    Coins getFewestCoinsUsingMemoizationDPInternal(VectorOfCoins & fewestCoins, Value const total) const;
+    unsigned int getNumberOfFewestCoinsUsingMemoizationDPInternal(CountPerValue & countPerValue, Value const total) const;
+    Coins getFewestCoinsUsingMemoizationDPInternal(VectorOfCoins & fewestCoins, Value const total) const;
 
     // permutations
     unsigned int getNumberOfCoinPermutationsMemoizationDPInternal(CountPerValue & countPerValue, Value const total) const;
@@ -79,6 +82,7 @@ private:
     CoinCombinations getCoinCombinationsUsingMemoizationDPInternal(CoinCombinationsPerValue & coinCombinationsPerValue, Value const total) const;
     Coins m_availableCoins;
 };
+
 }
 
 // COIN COMBINATIONS PROBLEM:
@@ -127,6 +131,7 @@ private:
 // FEWEST COIN PROBLEM:
 // Given a value V, if we want to make change for V cents, and we have infinite supply of each of C = { C1, C2, .. , Cm} valued coins,
 // what is the minimum number of coins to make the change?
+
 // Examples:
 // -> Input: coins[] = {25, 10, 5}, V = 30
 // ---> Output: Minimum 2 coins required
