@@ -98,15 +98,35 @@ private:
 // then it can be written as sum of count(S[], m-1, n) and count(S[], m, n-Sm).
 // -> Therefore, the problem has optimal substructure property as the problem can be solved using solutions to subproblems.
 
+// It should be noted that without memoization the above function computes the same subproblems again and again.
+// See the following recursion tree for S = {1, 2, 3} and n = 5.
+// The function C({1}, 3) is called two times.
+// If we draw the complete tree, then we can see that there are many subproblems being called more than once.
+// Note that C() is the function for counting the combinations
+//                             C({1,2,3}, 5)
+//                            |             |
+//                          |                 |
+//              C({1,2,3}, 2)                 C({1,2}, 5)
+//             |       |                      |      |
+//            |         |                    |         |
+// C({1,2,3}, -1)  C({1,2}, 2)        C({1,2}, 3)    C({1}, 5)
+//                |    |             |     |           |     |
+//              |       |           |       |         |        |
+//     C({1,2},0)  C({1},2)   C({1,2},1) C({1},3)    C({1}, 4)  C({}, 5)
+//                    | |     | |        ||         |     |
+//                   |   |   |   |     |   |       |       |
+//                 .      .  .     .   .     .   C({1}, 3) C({}, 4)
+//                                                | |
+//                                               |   |
+//                                              .      .
+
 
 // FEWEST COIN PROBLEM:
 // Given a value V, if we want to make change for V cents, and we have infinite supply of each of C = { C1, C2, .. , Cm} valued coins,
 // what is the minimum number of coins to make the change?
-
 // Examples:
 // -> Input: coins[] = {25, 10, 5}, V = 30
-// ---> Output: Minimum 2 coins required
-// ---> We can use one coin of 25 cents and one of 5 cents
+// ---> Output: Minimum 2 coins required// ---> We can use one coin of 25 cents and one of 5 cents
 // -> Input: coins[] = {9, 6, 5, 1}, V = 11
 // ---> Output: Minimum 2 coins required
 // ---> We can use one coin of 6 cents and 1 coin of 5 cents
