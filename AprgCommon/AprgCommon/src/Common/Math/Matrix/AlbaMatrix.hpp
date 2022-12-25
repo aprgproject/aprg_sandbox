@@ -147,11 +147,13 @@ public:
 
     bool isInside(unsigned int const x, unsigned int const y) const
     {
-        return (x < m_numberOfColumns) && (y < m_numberOfRows);    }
+        return (x < m_numberOfColumns) && (y < m_numberOfRows);
+    }
 
     unsigned int getNumberOfColumns() const
     {
-        return m_numberOfColumns;    }
+        return m_numberOfColumns;
+    }
 
     unsigned int getNumberOfRows() const
     {

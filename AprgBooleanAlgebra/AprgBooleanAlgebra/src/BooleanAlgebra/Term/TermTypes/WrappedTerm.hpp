@@ -14,6 +14,7 @@ namespace booleanAlgebra
 struct WrappedTerm
 {
     WrappedTerm(BaseTerm const& baseTerm);
+    WrappedTerm(BaseTerm && baseTerm);
 
     // rule of five or six
     ~WrappedTerm() = default;
@@ -34,6 +35,7 @@ struct WrappedTerm
 };
 
 using WrappedTerms=std::vector<WrappedTerm>;
+
 }
 
 }

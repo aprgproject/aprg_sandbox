@@ -322,9 +322,11 @@ TEST(AlbaMatrixTest, IsEmptyWorks)
 TEST(AlbaMatrixTest, IsInsideTheMatrixWorks)
 {
     AlbaMatrix<unsigned int> matrix(14, 6);
+
     EXPECT_FALSE(matrix.isInside(14, 6));
     EXPECT_FALSE(matrix.isInside(14, 5));
-    EXPECT_FALSE(matrix.isInside(13, 6));    EXPECT_TRUE(matrix.isInside(13, 5));
+    EXPECT_FALSE(matrix.isInside(13, 6));
+    EXPECT_TRUE(matrix.isInside(13, 5));
 }
 
 TEST(AlbaMatrixTest, GetColumnsWorks)

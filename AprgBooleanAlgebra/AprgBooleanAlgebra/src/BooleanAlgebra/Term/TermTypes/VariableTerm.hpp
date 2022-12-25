@@ -21,10 +21,12 @@ public:
 
     static VariableTerm createNegatedVariableTerm(std::string const& variableName);
 
-    bool operator==(VariableTerm const& second) const;    bool operator!=(VariableTerm const& second) const;
+    bool operator==(VariableTerm const& second) const;
+    bool operator!=(VariableTerm const& second) const;
     bool operator<(VariableTerm const& second) const;
 
     VariableTerm operator~() const;
+
     bool isNegated() const;
 
     std::string getVariableTermName() const;
@@ -36,9 +38,11 @@ private:
     void initializeIfNotEmpty();
 
     friend std::ostream & operator<<(std::ostream & out, VariableTerm const& variableTerm);
+
     std::string m_variableName;
     bool m_isNegated;
 };
+
 using VariableTerms = std::vector<VariableTerm>;
 
 }

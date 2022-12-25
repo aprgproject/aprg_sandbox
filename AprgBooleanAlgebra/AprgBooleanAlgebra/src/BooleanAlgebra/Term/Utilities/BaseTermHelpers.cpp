@@ -4,20 +4,17 @@ using namespace std;
 
 namespace alba
 {
+
 namespace booleanAlgebra
 {
 
-BaseTermUniquePointer createAUniquePointerFromTerm(Term const& term)
+BaseTermUniquePointer duplicateUniquePointer(BaseTermUniquePointer const& uniquePointer)
 {
-    return static_cast<BaseTermUniquePointer>(make_unique<Term>(term));
+    return make_unique<Term>(getTermConstReferenceFromUniquePointer(uniquePointer));
 }
 
-BaseTermSharedPointer createASharedPointerFromTerm(Term const& term)
+Term const& getTermConstReferenceFromBaseTerm(BaseTerm const& baseTerm)
 {
-    return static_cast<BaseTermSharedPointer>(make_shared<Term>(term));
-}
-
-Term const& getTermConstReferenceFromBaseTerm(BaseTerm const& baseTerm){
     return dynamic_cast<Term const&>(baseTerm);
 }
 
@@ -26,49 +23,41 @@ Term const& getTermConstReferenceFromUniquePointer(BaseTermUniquePointer const& 
     return dynamic_cast<Term const&>(*uniquePointer.get());
 }
 
-Term const& getTermConstReferenceFromSharedPointer(BaseTermSharedPointer const& sharedPointer)
+Term && getTermRValueReferenceFromBaseTerm(BaseTerm && baseTerm)
 {
-    return dynamic_cast<Term const&>(*sharedPointer.get());
+    return static_cast<Term &&>(baseTerm);
 }
 
-Term & getTermReferenceFromBaseTerm(BaseTerm & baseTerm){
+Term & getTermReferenceFromBaseTerm(BaseTerm & baseTerm)
+{
     return dynamic_cast<Term &>(baseTerm);
 }
 
-Term & getTermReferenceFromUniquePointer(BaseTermUniquePointer & uniquePointer){
+Term & getTermReferenceFromUniquePointer(BaseTermUniquePointer & uniquePointer)
+{
     return *dynamic_cast<Term*>(uniquePointer.get());
 }
 
-Term & getTermReferenceFromSharedPointer(BaseTermSharedPointer & sharedPointer)
+BaseTerm const& getBaseTermConstReferenceFromTerm(Term const& term)
 {
-    return *dynamic_cast<Term*>(sharedPointer.get());
-}
-
-BaseTerm const& getBaseTermConstReferenceFromTerm(Term const& term){
     return dynamic_cast<BaseTerm const&>(term);
 }
 
-BaseTerm const& getBaseTermConstReferenceFromUniquePointer(BaseTermUniquePointer const& uniquePointer){
+BaseTerm const& getBaseTermConstReferenceFromUniquePointer(BaseTermUniquePointer const& uniquePointer)
+{
     return dynamic_cast<BaseTerm const&>(*uniquePointer.get());
 }
 
-BaseTerm const& getBaseTermConstReferenceFromSharedPointer(BaseTermSharedPointer const& sharedPointer)
+BaseTerm & getBaseTermReferenceFromTerm(Term & term)
 {
-    return dynamic_cast<BaseTerm const&>(*sharedPointer.get());
-}
-
-BaseTerm & getBaseTermReferenceFromTerm(Term & term){
     return dynamic_cast<BaseTerm &>(term);
 }
 
-BaseTerm & getBaseTermReferenceFromUniquePointer(BaseTermUniquePointer const& uniquePointer){
+BaseTerm & getBaseTermReferenceFromUniquePointer(BaseTermUniquePointer const& uniquePointer)
+{
     return dynamic_cast<BaseTerm &>(*uniquePointer.get());
 }
 
-BaseTerm & getBaseTermReferenceFromSharedPointer(BaseTermSharedPointer const& sharedPointer)
-{
-    return dynamic_cast<BaseTerm &>(*sharedPointer.get());
 }
 
-}
 }

@@ -32,7 +32,8 @@ unsigned int generateUniqueId(string const& mainString)
 unsigned int getLevenshteinDistance(string const& otherString, string const& basisString)
 {
     // The edit distance or Levenshtein distance is the minimum number of editing operations needed to transform a string into another string.
-    // The allowed editing operations are as follows:    // -> insert a character (e.g. ABC ! ABCA)
+    // The allowed editing operations are as follows:
+    // -> insert a character (e.g. ABC ! ABCA)
     // -> remove a character (e.g. ABC ! AC)
     // -> modify a character (e.g. ABC ! ADC)
 
@@ -58,10 +59,12 @@ unsigned int getLevenshteinDistance(string const& otherString, string const& bas
     return previous.at(basisString.size());
 }
 
-unsigned int getHammingDistance(string const& string1, string const& string2){
+unsigned int getHammingDistance(string const& string1, string const& string2)
+{
     // The Hamming distance hamming(a,b) between two strings a and b of equal length is the number of positions where the strings differ.
     unsigned int result(0);
-    unsigned int commonLength = min(string1.length(), string2.length());    for(unsigned int i=0; i<commonLength; i++)
+    unsigned int commonLength = min(string1.length(), string2.length());
+    for(unsigned int i=0; i<commonLength; i++)
     {
         if(string1.at(i) != string2.at(i))
         {
@@ -209,10 +212,12 @@ bool isSuffix(string const& mainString, string const& suffix)
     for(int i = static_cast<int>(mainString.length()) - 1; i>=0 && j>=0; i--, j--)
     {
         if(mainString.at(i) != suffix.at(j))
-        {            break;
+        {
+            break;
         }
     }
-    return j == -1;}
+    return j == -1;
+}
 
 bool isRotation(string const& mainString, string const& rotation)
 {

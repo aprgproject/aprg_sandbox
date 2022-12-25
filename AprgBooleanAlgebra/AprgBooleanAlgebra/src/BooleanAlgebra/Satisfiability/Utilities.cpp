@@ -23,9 +23,11 @@ unsigned int getSatisfiabilityLevel(
     }
     return result;
 }
+
 SatisfiabilityTerms getSatisfiabilityTerms(
         Term const& term)
-{    SatisfiabilityTerms result;
+{
+    SatisfiabilityTerms result;
     if(term.isVariableTerm())
     {
         result.emplace_back(SatisfiabilityTerm{term.getVariableTermConstReference()});
@@ -53,7 +55,8 @@ SatisfiabilityTerms getSatisfiabilityTerms(
             Term const& termInAnd(getTermConstReferenceFromUniquePointer(subWrappedTerm.baseTermPointer));
             if(termInAnd.isVariableTerm())
             {
-                result.emplace_back(SatisfiabilityTerm{termInAnd.getVariableTermConstReference()});            }
+                result.emplace_back(SatisfiabilityTerm{termInAnd.getVariableTermConstReference()});
+            }
             else if(termInAnd.isExpression() && OperatorLevel::Or == termInAnd.getExpressionConstReference().getCommonOperatorLevel())
             {
                 SatisfiabilityTerm satisfiabilityTerm;
@@ -62,10 +65,12 @@ SatisfiabilityTerms getSatisfiabilityTerms(
                     Term const& termInOr(getTermConstReferenceFromUniquePointer(subSubWrappedTerm.baseTermPointer));
                     if(termInOr.isVariableTerm())
                     {
-                        satisfiabilityTerm.emplace_back(termInOr.getVariableTermConstReference());                    }
+                        satisfiabilityTerm.emplace_back(termInOr.getVariableTermConstReference());
+                    }
                     else
                     {
-                        isInvalid = true;                        break;
+                        isInvalid = true;
+                        break;
                     }
                 }
                 result.emplace_back(satisfiabilityTerm);

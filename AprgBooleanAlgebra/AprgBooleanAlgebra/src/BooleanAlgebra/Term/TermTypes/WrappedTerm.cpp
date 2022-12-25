@@ -15,16 +15,21 @@ namespace booleanAlgebra
 
 WrappedTerm::WrappedTerm(
         BaseTerm const& baseTerm)
-    : baseTermPointer(createAUniquePointerFromTerm(getTermConstReferenceFromBaseTerm(baseTerm)))
+    : baseTermPointer(getTermConstReferenceFromBaseTerm(baseTerm).createBasePointerByCopy())
 {}
 
-WrappedTerm::WrappedTerm(WrappedTerm const& termWithDetails)
-    : baseTermPointer(createAUniquePointerFromTerm(getTermConstReferenceFromUniquePointer(termWithDetails.baseTermPointer)))
+WrappedTerm::WrappedTerm(
+        BaseTerm && baseTerm)
+    : baseTermPointer(getTermRValueReferenceFromBaseTerm(move(baseTerm)).createBasePointerByMove())
 {}
 
-WrappedTerm & WrappedTerm::operator=(WrappedTerm const& termWithDetails)
+WrappedTerm::WrappedTerm(WrappedTerm const& wrappedTerm)
+    : baseTermPointer(duplicateUniquePointer(wrappedTerm.baseTermPointer))
+{}
+
+WrappedTerm & WrappedTerm::operator=(WrappedTerm const& wrappedTerm)
 {
-    baseTermPointer = createAUniquePointerFromTerm(getTermConstReferenceFromUniquePointer(termWithDetails.baseTermPointer));
+    baseTermPointer = duplicateUniquePointer(wrappedTerm.baseTermPointer);
     return *this;
 }
 
@@ -34,9 +39,11 @@ bool WrappedTerm::operator==(WrappedTerm const& second) const
     Term const& term2(getTermConstReferenceFromUniquePointer(second.baseTermPointer));
     return term1 == term2;
 }
+
 bool WrappedTerm::operator!=(WrappedTerm const& second) const
 {
-    return !(operator==(second));}
+    return !(operator==(second));
+}
 
 bool WrappedTerm::operator<(WrappedTerm const& second) const
 {
@@ -55,6 +62,7 @@ ostream & operator<<(ostream & out, WrappedTerm const& wrappedTerm)
     out << getTermConstReferenceFromUniquePointer(wrappedTerm.baseTermPointer);
     return out;
 }
+
 }
 
 }

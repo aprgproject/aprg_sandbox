@@ -97,10 +97,12 @@ void distributeTermsWithRecursion(
             innerTermsCombinations.emplace_back(getTermConstReferenceFromUniquePointer(subExpressionTerm.baseTermPointer));
             distributeTermsWithRecursion(outputTerm, innerTermsCombinations, innerExpressions, outerFactor, outerOperation, innerOperation, index+1);
             innerTermsCombinations.pop_back();
-        }    }
+        }
+    }
     else
     {
-        Term partialTerm(outerFactor);        accumulateTerms(partialTerm, innerTermsCombinations, outerOperation);
+        Term partialTerm(outerFactor);
+        accumulateTerms(partialTerm, innerTermsCombinations, outerOperation);
         accumulateTerms(outputTerm, {partialTerm}, innerOperation);
     }
 }
@@ -115,10 +117,12 @@ Terms getTermOrSubTerms(Term const& term)
             terms.emplace_back(getTermConstReferenceFromUniquePointer(subTerm.baseTermPointer));
         }
     }
-    else    {
+    else
+    {
         terms.emplace_back(term);
     }
-    return terms;}
+    return terms;
+}
 
 OperatorLevel getSubOperatorLevel(
         Term const& term1,
@@ -210,10 +214,12 @@ void simplifyAndCopyTermsAndChangeOperatorLevelIfNeeded(
         Term const& term(getTermConstReferenceFromUniquePointer(oldWrappedTerm.baseTermPointer));
         if(term.isExpression())
         {
-            Expression subExpression(term.getExpressionConstReference());            subExpression.simplify();
+            Expression subExpression(term.getExpressionConstReference());
+            subExpression.simplify();
             simplifyAndCopyTermsFromAnExpressionAndChangeOperatorLevelIfNeeded(
                         newWrappedTerms, mainOperatorLevel, subExpression);
-        }        else if(isNonEmptyOrNonOperatorType(term))
+        }
+        else if(isNonEmptyOrNonOperatorType(term))
         {
             Term newTerm(term);
             newTerm.simplify();
@@ -232,10 +238,12 @@ Terms createUniqueTerms(
         return getTermConstReferenceFromUniquePointer(wrappedTerm.baseTermPointer);
     });
     sort(result.begin(), result.end());
-    result.erase(unique(result.begin(), result.end()), result.end());    return result;
+    result.erase(unique(result.begin(), result.end()), result.end());
+    return result;
 }
 
-void combineComplementaryTerms(        Terms & termsToCombine,
+void combineComplementaryTerms(
+        Terms & termsToCombine,
         OperatorLevel const operatorLevel)
 {
     // Convert complimentary terms
@@ -364,10 +372,12 @@ void distributeTermsIfNeeded(
                             outerFactors.emplace_back(getTermConstReferenceFromUniquePointer(subExpressionTerm.baseTermPointer));
                         }
                     }
-                }                else
+                }
+                else
                 {
                     outerFactors.emplace_back(inputTerm);
-                }            }
+                }
+            }
             if(!innerExpressions.empty())
             {
                 Term outerFactor;

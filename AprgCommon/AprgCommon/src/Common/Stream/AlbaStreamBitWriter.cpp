@@ -13,9 +13,11 @@ AlbaStreamBitWriter::AlbaStreamBitWriter(ostream& stream)
     , m_stream(stream)
 {}
 
-AlbaStreamBitWriter::~AlbaStreamBitWriter(){
+AlbaStreamBitWriter::~AlbaStreamBitWriter()
+{
     transferAllToStream();
 }
+
 void AlbaStreamBitWriter::writeBoolData(bool const data)
 {
     putBoolDataToBuffer(data);
