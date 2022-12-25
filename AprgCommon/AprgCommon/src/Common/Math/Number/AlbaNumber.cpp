@@ -973,15 +973,13 @@ AlbaNumber AlbaNumber::addBothIntegersAndReturnNumber(
         long long int const integerValue1,
         long long int const integerValue2) const
 {
-    double doubleValue = static_cast<double>(integerValue1) + integerValue2;
+    double doubleValue = static_cast<double>(integerValue1) + static_cast<double>(integerValue2);
     if(isValueWithinLimits<long long int>(doubleValue))
     {
-        return AlbaNumber(integerValue1 + integerValue2);
-    }
+        return AlbaNumber(integerValue1 + integerValue2);    }
     else
     {
-        return AlbaNumber(doubleValue);
-    }
+        return AlbaNumber(doubleValue);    }
 }
 
 AlbaNumber AlbaNumber::addBothDoubleAndReturnNumber(
@@ -999,20 +997,18 @@ AlbaNumber AlbaNumber::addBothFractionsAndReturnNumber(
     long long int newNumerator =
             static_cast<long long int>(lcd/fractionData1.denominator)*fractionData1.numerator
             + static_cast<long long int>(lcd/fractionData2.denominator)*fractionData2.numerator;
-    if(isValueWithinLimits<int>(newNumerator) && isValueWithinLimits<unsigned int>(lcd))
+    if(isValueWithinLimits<int>(static_cast<double>(newNumerator)) && isValueWithinLimits<unsigned int>(static_cast<double>(lcd)))
     {
         return AlbaNumber::createFraction(static_cast<int>(newNumerator), static_cast<unsigned int>(lcd));
     }
     else
     {
-        return AlbaNumber(static_cast<double>(newNumerator)/lcd);
+        return AlbaNumber(static_cast<double>(newNumerator)/static_cast<double>(lcd));
     }
 }
-
 AlbaNumber AlbaNumber::addIntegerAndDoubleAndReturnNumber(
         long long int const integerValue,
-        double const doubleValue) const
-{
+        double const doubleValue) const{
     return AlbaNumber(static_cast<double>(integerValue) + doubleValue);
 }
 
@@ -1023,15 +1019,13 @@ AlbaNumber AlbaNumber::addIntegerAndFractionAndReturnNumber(
     double doubleNumerator = static_cast<double>(integerValue) * fractionData.denominator + fractionData.numerator;
     if(isValueWithinLimits<int>(doubleNumerator))
     {
-        int integerNumerator = integerValue * fractionData.denominator + fractionData.numerator;
+        int integerNumerator = static_cast<int>(integerValue * fractionData.denominator + fractionData.numerator);
         return AlbaNumber::createFraction(integerNumerator, fractionData.denominator);
     }
-    else
-    {
+    else    {
         return AlbaNumber(doubleNumerator/fractionData.denominator);
     }
 }
-
 AlbaNumber AlbaNumber::addFractionAndDoubleAndReturnNumber(FractionData const& fractionData, double const doubleValue) const
 {
     return AlbaNumber(
@@ -1044,15 +1038,13 @@ AlbaNumber AlbaNumber::multiplyBothIntegersAndReturnNumber(
         long long int const integerValue1,
         long long int const integerValue2) const
 {
-    double doubleValue = static_cast<double>(integerValue1) * integerValue2;
+    double doubleValue = static_cast<double>(integerValue1) * static_cast<double>(integerValue2);
     if(isValueWithinLimits<long long int>(doubleValue))
     {
-        return AlbaNumber(integerValue1 * integerValue2);
-    }
+        return AlbaNumber(integerValue1 * integerValue2);    }
     else
     {
-        return AlbaNumber(doubleValue);
-    }
+        return AlbaNumber(doubleValue);    }
 }
 
 AlbaNumber AlbaNumber::multiplyBothDoubleAndReturnNumber(double const doubleValue1, double const doubleValue2) const
@@ -1066,20 +1058,18 @@ AlbaNumber AlbaNumber::multiplyBothFractionsAndReturnNumber(
 {
     long long int newNumerator = static_cast<long long int>(fractionData1.numerator) * fractionData2.numerator;
     unsigned long long int newDenominator = static_cast<unsigned long long int>(fractionData1.denominator) * fractionData2.denominator;
-    if(isValueWithinLimits<int>(newNumerator) && isValueWithinLimits<unsigned int>(newDenominator))
+    if(isValueWithinLimits<int>(static_cast<double>(newNumerator)) && isValueWithinLimits<unsigned int>(static_cast<double>(newDenominator)))
     {
         return AlbaNumber::createFraction(static_cast<int>(newNumerator), static_cast<unsigned int>(newDenominator));
     }
     else
     {
-        return AlbaNumber(static_cast<double>(newNumerator)/newDenominator);
+        return AlbaNumber(static_cast<double>(newNumerator)/static_cast<double>(newDenominator));
     }
 }
-
 AlbaNumber AlbaNumber::multiplyIntegerAndDoubleAndReturnNumber(
         long long int const integerValue,
-        double const doubleValue) const
-{
+        double const doubleValue) const{
     return AlbaNumber(static_cast<double>(integerValue) * doubleValue);
 }
 
@@ -1090,14 +1080,12 @@ AlbaNumber AlbaNumber::multiplyIntegerAndFractionAndReturnNumber(
     double doubleNumerator = static_cast<double>(integerValue) * fractionData.numerator;
     if(isValueWithinLimits<int>(doubleNumerator))
     {
-        return AlbaNumber::createFraction(integerValue * fractionData.numerator, fractionData.denominator);
+        return AlbaNumber::createFraction(static_cast<int>(integerValue * fractionData.numerator), fractionData.denominator);
     }
     else
-    {
-        return AlbaNumber(doubleNumerator/fractionData.denominator);
+    {        return AlbaNumber(doubleNumerator/fractionData.denominator);
     }
 }
-
 AlbaNumber AlbaNumber::multiplyFractionAndDoubleAndReturnNumber(FractionData const& fractionData, double const doubleValue) const
 {
     return AlbaNumber(
@@ -1112,20 +1100,18 @@ AlbaNumber AlbaNumber::divideBothIntegersAndReturnNumber(
 {
     long long int newDividend(dividend), newDivisor(divisor);
     changeFractionToSimplestFormForSigned(newDividend, newDivisor);
-    if(isValueWithinLimits<int>(newDividend) && isValueWithinLimits<unsigned int>(newDivisor))
+    if(isValueWithinLimits<int>(static_cast<double>(newDividend)) && isValueWithinLimits<unsigned int>(static_cast<double>(newDivisor)))
     {
         return AlbaNumber::createFraction(static_cast<int>(newDividend), static_cast<unsigned int>(newDivisor));
     }
     else
     {
-        return AlbaNumber(static_cast<double>(newDividend)/newDivisor);
+        return AlbaNumber(static_cast<double>(newDividend)/static_cast<double>(newDivisor));
     }
 }
-
 AlbaNumber AlbaNumber::divideDividendsAndDivisorsAndReturnNumber(
         long long int const dividendInteger,
-        unsigned int const dividendUnsignedInteger,
-        long long int const divisorInteger,
+        unsigned int const dividendUnsignedInteger,        long long int const divisorInteger,
         unsigned int const divisorUnsignedInteger) const
 {
     double doubleNumerator = static_cast<double>(dividendInteger) * dividendUnsignedInteger;

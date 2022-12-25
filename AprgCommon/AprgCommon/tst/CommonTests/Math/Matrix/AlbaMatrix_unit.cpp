@@ -310,14 +310,21 @@ TEST(AlbaMatrixTest, OperatorMultiplyAssignmentWorks_WithMatrixAndMatrix)
     EXPECT_EQ(expectedMatrix, matrix1);
 }
 
+TEST(AlbaMatrixTest, IsEmptyWorks)
+{
+    AlbaMatrix<unsigned int> emptyMatrix;
+    AlbaMatrix<unsigned int> nonEmptyMatrix(14, 6);
+
+    EXPECT_TRUE(emptyMatrix.isEmpty());
+    EXPECT_FALSE(nonEmptyMatrix.isEmpty());
+}
+
 TEST(AlbaMatrixTest, IsInsideTheMatrixWorks)
 {
     AlbaMatrix<unsigned int> matrix(14, 6);
-
     EXPECT_FALSE(matrix.isInside(14, 6));
     EXPECT_FALSE(matrix.isInside(14, 5));
-    EXPECT_FALSE(matrix.isInside(13, 6));
-    EXPECT_TRUE(matrix.isInside(13, 5));
+    EXPECT_FALSE(matrix.isInside(13, 6));    EXPECT_TRUE(matrix.isInside(13, 5));
 }
 
 TEST(AlbaMatrixTest, GetColumnsWorks)
