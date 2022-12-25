@@ -81,4 +81,5 @@ TEST(GetPreviousFreeIndexWithUnionFindTest, SetAsFreeWorks)
     EXPECT_EQ(0U, query.getPreviousFreeIndexAt(28U));}
 
 }
+
 }

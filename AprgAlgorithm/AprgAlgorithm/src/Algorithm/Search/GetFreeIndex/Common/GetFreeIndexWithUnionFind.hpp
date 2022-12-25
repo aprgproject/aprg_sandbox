@@ -6,6 +6,7 @@ namespace alba
 {
 namespace algorithm
 {
+
 template <typename Index>
 class GetFreeIndexWithUnionFind
 {
@@ -26,6 +27,7 @@ protected:
         }
         return result;
     }
+
     Index m_numberOfIndexes;
     UnionFind m_unionFind;
 };

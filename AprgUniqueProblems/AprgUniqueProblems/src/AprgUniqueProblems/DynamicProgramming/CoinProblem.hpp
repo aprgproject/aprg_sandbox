@@ -7,6 +7,7 @@
 #include <vector>
 namespace alba
 {
+
 class CoinProblem
 {
 public:
@@ -45,7 +46,8 @@ public:
     CoinProblem(Coins const& availableCoins);
     // fewest coins
     unsigned int getNumberOfFewestCoinsUsingMemoizationDP(Value const total) const;
-    unsigned int getNumberOfFewestCoinsTabularDP(Value const total) const;    Coins getFewestCoinsUsingMemoizationDP(Value const total) const;
+    unsigned int getNumberOfFewestCoinsTabularDP(Value const total) const;
+    Coins getFewestCoinsUsingMemoizationDP(Value const total) const;
     Coins getFewestCoinsUsingTabularDP(Value const total) const;
 
     // permutations
@@ -79,7 +81,8 @@ private:
 };
 }
 
-// COIN COMBINATIONS PROBLEM:// Given a value N, if we want to make change for N cents,
+// COIN COMBINATIONS PROBLEM:
+// Given a value N, if we want to make change for N cents,
 // and we have infinite supply of each of S = { S1, S2, .. , Sm} valued coins,
 // how many ways can we make the change?
 // The order of coins doesn’t matter.
@@ -126,7 +129,8 @@ private:
 // what is the minimum number of coins to make the change?
 // Examples:
 // -> Input: coins[] = {25, 10, 5}, V = 30
-// ---> Output: Minimum 2 coins required// ---> We can use one coin of 25 cents and one of 5 cents
+// ---> Output: Minimum 2 coins required
+// ---> We can use one coin of 25 cents and one of 5 cents
 // -> Input: coins[] = {9, 6, 5, 1}, V = 11
 // ---> Output: Minimum 2 coins required
 // ---> We can use one coin of 6 cents and 1 coin of 5 cents

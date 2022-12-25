@@ -102,4 +102,5 @@ public:
 // who show that a naïve version is about ten to twenty times slower than a state-of-the-art quicksort on their benchmark problem.// They attribute this to the relatively small amount of research put into patience sort,
 // and develop several optimizations that bring its performance to within a factor two of that of quicksort.
 
-// If values of cards are in the range 1, . . . , n, there is an efficient implementation with O(n log n)// worst-case running time for putting the cards into piles, relying on a Van Emde Boas tree.
+// If values of cards are in the range 1, . . . , n, there is an efficient implementation with O(n log n)
+// worst-case running time for putting the cards into piles, relying on a Van Emde Boas tree.

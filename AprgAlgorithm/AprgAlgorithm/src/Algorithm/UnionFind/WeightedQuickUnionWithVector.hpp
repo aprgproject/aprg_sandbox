@@ -8,6 +8,7 @@ namespace alba{
 
 namespace algorithm
 {
+
 template <typename Object>
 class WeightedQuickUnionWithVector : public BaseUnionFind<Object>
 {
@@ -43,7 +44,8 @@ public:
     Object getRootWithPathCompressionOnePass(Object const& object) // no longer const    {
         Object result(object);
         while(result != m_relativeRoots.at(object))
-        {            m_relativeRoots[object] = m_relativeRoots.at(m_relativeRoots.at(object)); // make every relative root point to its grandparent
+        {
+            m_relativeRoots[object] = m_relativeRoots.at(m_relativeRoots.at(object)); // make every relative root point to its grandparent
             result = m_relativeRoots.at(object);
         }
         return result;
@@ -71,7 +73,8 @@ public:
     void connect(Object const& object1, Object const& object2) override // worst case runs in logarithmic time because of getRoot() -> acceptable    {
         Object root1(getRoot(object1));
         Object root2(getRoot(object2));
-        if(root1 != root2)        {
+        if(root1 != root2)
+        {
             connectRootsBasedOnSize(root2, root1);
         }
     }
@@ -114,7 +117,8 @@ private:
     void connectRootsBasedOnSize(Object const root2, Object const root1)    {
         // assign the root of the smaller root to the larger root (to make it flatter)
         if(m_sizesOfRoots.at(root1) < m_sizesOfRoots.at(root2))
-        {            m_relativeRoots[root1] = root2;
+        {
+            m_relativeRoots[root1] = root2;
             m_sizesOfRoots[root2] += m_sizesOfRoots.at(root1);
         }
         else

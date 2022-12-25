@@ -153,7 +153,8 @@ TEST(CoinProblemTest, GetCoinCombinationsUsingMemoizationDPWorksOnExample1)
     CoinProblem coinProblem({1U, 3U, 4U});
     EXPECT_EQ((CoinCombinations{{1U, 1U, 1U, 1U, 1U}, {1U, 1U, 3U}, {1U, 4U}}),
               coinProblem.getCoinCombinationsUsingMemoizationDP(5U));
-    EXPECT_EQ((CoinCombinations{{{1U, 1U, 1U, 1U, 1U, 1U, 1U}, {1U, 1U, 1U, 1U, 3U}, {1U, 1U, 1U, 4U}, {1U, 3U, 3U}, {3U, 4U}}}),              coinProblem.getCoinCombinationsUsingMemoizationDP(7U));
+    EXPECT_EQ((CoinCombinations{{{1U, 1U, 1U, 1U, 1U, 1U, 1U}, {1U, 1U, 1U, 1U, 3U}, {1U, 1U, 1U, 4U}, {1U, 3U, 3U}, {3U, 4U}}}),
+              coinProblem.getCoinCombinationsUsingMemoizationDP(7U));
 }
 
 TEST(CoinProblemTest, GetCoinCombinationsUsingTabularDPWorksOnExample1)
