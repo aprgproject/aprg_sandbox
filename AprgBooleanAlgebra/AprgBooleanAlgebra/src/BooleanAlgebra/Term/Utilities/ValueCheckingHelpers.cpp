@@ -62,12 +62,10 @@ bool isTheValue(Expression const& expression, bool const value)
     if(wrappedTerms.size() == 1)
     {
         result = isTheValue(
-                    getTermConstReferenceFromSharedPointer(wrappedTerms.front().baseTermSharedPointer),
+                    getTermConstReferenceFromUniquePointer(wrappedTerms.front().baseTermPointer),
                     value);
     }
-    return result;
-}
+    return result;}
 
 }
-
 }

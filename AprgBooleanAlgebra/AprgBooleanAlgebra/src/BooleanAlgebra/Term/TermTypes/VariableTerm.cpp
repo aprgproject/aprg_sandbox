@@ -23,15 +23,13 @@ VariableTerm::VariableTerm(string const& variableName)
     : m_variableName(getStringWithoutStartingAndTrailingWhiteSpace(variableName))
     , m_isNegated(false)
 {
-    initialize();
+    initializeIfNotEmpty();
 }
 
-VariableTerm VariableTerm::createNegatedVariableTerm(
-        string const& variableName)
+VariableTerm VariableTerm::createNegatedVariableTerm(        string const& variableName)
 {
     VariableTerm result(variableName);
-    result.negate();
-    return result;
+    result.negate();    return result;
 }
 
 bool VariableTerm::operator==(VariableTerm const& second) const
@@ -85,15 +83,13 @@ void VariableTerm::negate()
     m_isNegated = !m_isNegated;
 }
 
-void VariableTerm::initialize()
+void VariableTerm::initializeIfNotEmpty()
 {
     int lastIndex = m_variableName.length()-1;
-    int index=lastIndex;
-    for(; index>=0; index--)
+    int index=lastIndex;    for(; index>=0; index--)
     {
         if(!isPrime(m_variableName.at(index)))
-        {
-            break;
+        {            break;
         }
     }
     m_isNegated = isOdd(lastIndex-index);

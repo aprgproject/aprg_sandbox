@@ -9,15 +9,13 @@ namespace booleanAlgebra
 {
 
 Constant::Constant()
-    : m_booleanValue{}
+    : m_booleanValue(false)
 {}
 
-Constant::Constant(bool const boolValue)
-    : m_booleanValue(boolValue)
+Constant::Constant(bool const boolValue)    : m_booleanValue(boolValue)
 {}
 
-bool Constant::operator==(Constant const& second) const
-{
+bool Constant::operator==(Constant const& second) const{
    return  m_booleanValue == second.m_booleanValue;
 }
 

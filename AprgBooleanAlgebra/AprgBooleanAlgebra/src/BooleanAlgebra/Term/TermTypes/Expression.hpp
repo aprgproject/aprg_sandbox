@@ -18,19 +18,17 @@ class Expression : public BaseTermData
 public:
 
     Expression();
-    Expression(Expression const& expression);
     Expression(BaseTerm const& baseTerm);
     Expression(OperatorLevel const operatorLevel, WrappedTerms const& wrappedTerms);
-    ~Expression();
+
+    // rule of zero
 
     bool operator==(Expression const& second) const;
     bool operator!=(Expression const& second) const;
     bool operator<(Expression const& second) const;
-
     Expression operator~() const;
 
-    bool isEmpty() const;
-    bool isSimplified() const;
+    bool isEmpty() const;    bool isSimplified() const;
     bool containsOnlyOneTerm() const;
 
     OperatorLevel getCommonOperatorLevel() const;
