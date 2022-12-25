@@ -1,12 +1,12 @@
 #pragma once
 
+#include <Common/Math/Matrix/AlbaMatrix.hpp>
+
 #include <limits>
 #include <set>
 #include <vector>
-
 namespace alba
 {
-
 class CoinProblem
 {
 public:
@@ -36,19 +36,16 @@ public:
     using CoinCombination = std::multiset<Value>;
     using CoinCombinations = std::set<CoinCombination>;
     using CountPerValue = std::vector<unsigned int>;
-    using CountPerValueAndPerCoin = std::vector<std::vector<unsigned int>>;
+    using CountMatrix = matrix::AlbaMatrix<unsigned int>;
     using VectorOfCoins = std::vector<Coins>;
     using CoinPermutationsPerValue = std::vector<CoinPermutations>;
     using CoinCombinationsPerValue = std::vector<CoinCombinations>;
     static constexpr unsigned int UNUSED_COUNT=std::numeric_limits<unsigned int>::max();
-    static constexpr unsigned int MAX_COUNT=UNUSED_COUNT-1;
 
     CoinProblem(Coins const& availableCoins);
-
     // fewest coins
     unsigned int getNumberOfFewestCoinsUsingMemoizationDP(Value const total) const;
-    unsigned int getNumberOfFewestCoinsTabularDP(Value const total) const;
-    Coins getFewestCoinsUsingMemoizationDP(Value const total) const;
+    unsigned int getNumberOfFewestCoinsTabularDP(Value const total) const;    Coins getFewestCoinsUsingMemoizationDP(Value const total) const;
     Coins getFewestCoinsUsingTabularDP(Value const total) const;
 
     // permutations
@@ -60,31 +57,29 @@ public:
     // combinations
     unsigned int getNumberOfCoinCombinationsUsingMemoizationDP(Value const total) const;
     unsigned int getNumberOfCoinCombinationsUsingTabularDP(Value const total) const;
+    unsigned int getNumberOfCoinCombinationsUsingTabularDPAndSpaceEfficient(Value const total) const;
     CoinCombinations getCoinCombinationsUsingMemoizationDP(Value const total) const;
     CoinCombinations getCoinCombinationsUsingTabularDP(Value const total) const;
 
 private:
     Value getMaxAvailableCoin() const;
-    Value getMaxOfTotalAndMaxCoin(Value const total) const;
+    Value getMaxOfTotalPlusOneAndMaxCoin(Value const total) const;
 
     // fewest coins
-    unsigned int getNumberOfFewestCoinsUsingMemoizationDPInternal(CountPerValue & countPerValue, Value const total) const;
-    Coins getFewestCoinsUsingMemoizationDPInternal(VectorOfCoins & fewestCoins, Value const total) const;
+    unsigned int getNumberOfFewestCoinsUsingMemoizationDPInternal(CountPerValue & countPerValue, Value const total) const;    Coins getFewestCoinsUsingMemoizationDPInternal(VectorOfCoins & fewestCoins, Value const total) const;
 
     // permutations
     unsigned int getNumberOfCoinPermutationsMemoizationDPInternal(CountPerValue & countPerValue, Value const total) const;
     CoinPermutations getCoinPermutationsUsingMemoizationDPInternal(CoinPermutationsPerValue & coinPermutationsPerValue, Value const total) const;
 
     // combinations
-    unsigned int getNumberOfCoinCombinationsUsingMemoizationDPInternal(CountPerValueAndPerCoin & countPerValuePerCoin, unsigned int const coinIndex, Value const total) const;
+    unsigned int getNumberOfCoinCombinationsUsingMemoizationDPInternal(CountMatrix & countByValueByCoin, Value const total, unsigned int const coinIndex) const;
     CoinCombinations getCoinCombinationsUsingMemoizationDPInternal(CoinCombinationsPerValue & coinCombinationsPerValue, Value const total) const;
     Coins m_availableCoins;
 };
-
 }
 
-// COIN COMBINATIONS PROBLEM:
-// Given a value N, if we want to make change for N cents,
+// COIN COMBINATIONS PROBLEM:// Given a value N, if we want to make change for N cents,
 // and we have infinite supply of each of S = { S1, S2, .. , Sm} valued coins,
 // how many ways can we make the change?
 // The order of coins doesn’t matter.

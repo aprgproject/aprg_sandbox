@@ -136,14 +136,24 @@ TEST(CoinProblemTest, GetNumberOfCoinCombinationsUsingTabularDPWorksOnExample1)
     EXPECT_EQ(24U, coinProblem.getNumberOfCoinCombinationsUsingTabularDP(20U));
 }
 
-TEST(CoinProblemTest, GetCoinCombinationsUsingMemoizationDPWorksOnExample1)
+TEST(CoinProblemTest, GetNumberOfCoinCombinationsUsingTabularDPAndSpaceEfficientWorksOnExample1)
 {
     CoinProblem coinProblem({1U, 3U, 4U});
 
+    EXPECT_EQ(1U, coinProblem.getNumberOfCoinCombinationsUsingTabularDPAndSpaceEfficient(0U)); // null set
+    EXPECT_EQ(2U, coinProblem.getNumberOfCoinCombinationsUsingTabularDPAndSpaceEfficient(3U));
+    EXPECT_EQ(3U, coinProblem.getNumberOfCoinCombinationsUsingTabularDPAndSpaceEfficient(5U));
+    EXPECT_EQ(5U, coinProblem.getNumberOfCoinCombinationsUsingTabularDPAndSpaceEfficient(7U));
+    EXPECT_EQ(6U, coinProblem.getNumberOfCoinCombinationsUsingTabularDPAndSpaceEfficient(8U));
+    EXPECT_EQ(24U, coinProblem.getNumberOfCoinCombinationsUsingTabularDPAndSpaceEfficient(20U));
+}
+
+TEST(CoinProblemTest, GetCoinCombinationsUsingMemoizationDPWorksOnExample1)
+{
+    CoinProblem coinProblem({1U, 3U, 4U});
     EXPECT_EQ((CoinCombinations{{1U, 1U, 1U, 1U, 1U}, {1U, 1U, 3U}, {1U, 4U}}),
               coinProblem.getCoinCombinationsUsingMemoizationDP(5U));
-    EXPECT_EQ((CoinCombinations{{{1U, 1U, 1U, 1U, 1U, 1U, 1U}, {1U, 1U, 1U, 1U, 3U}, {1U, 1U, 1U, 4U}, {1U, 3U, 3U}, {3U, 4U}}}),
-              coinProblem.getCoinCombinationsUsingMemoizationDP(7U));
+    EXPECT_EQ((CoinCombinations{{{1U, 1U, 1U, 1U, 1U, 1U, 1U}, {1U, 1U, 1U, 1U, 3U}, {1U, 1U, 1U, 4U}, {1U, 3U, 3U}, {3U, 4U}}}),              coinProblem.getCoinCombinationsUsingMemoizationDP(7U));
 }
 
 TEST(CoinProblemTest, GetCoinCombinationsUsingTabularDPWorksOnExample1)
