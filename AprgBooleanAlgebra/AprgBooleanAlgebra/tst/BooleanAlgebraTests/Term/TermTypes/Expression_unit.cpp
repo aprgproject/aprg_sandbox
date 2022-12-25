@@ -30,17 +30,20 @@ TEST(ExpressionTest, ConstructionWorks)
     EXPECT_EQ(Term(false), getTermConstReferenceFromSharedPointer(termsToVerify2.at(0).baseTermSharedPointer));
     EXPECT_EQ(OperatorLevel::Unknown, expression3.getCommonOperatorLevel());
     WrappedTerms const& termsToVerify3(expression3.getWrappedTerms());
-    EXPECT_TRUE(termsToVerify3.empty());    EXPECT_EQ(OperatorLevel::And, expression4.getCommonOperatorLevel());
+    EXPECT_TRUE(termsToVerify3.empty());
+    EXPECT_EQ(OperatorLevel::And, expression4.getCommonOperatorLevel());
     WrappedTerms const& termsToVerify4(expression4.getWrappedTerms());
     ASSERT_EQ(2U, termsToVerify4.size());
     EXPECT_EQ(Term(false), getTermConstReferenceFromSharedPointer(termsToVerify4.at(0).baseTermSharedPointer));
     EXPECT_EQ(Term(true), getTermConstReferenceFromSharedPointer(termsToVerify4.at(1).baseTermSharedPointer));
 }
 
-TEST(ExpressionTest, ExpressionThatIsDefaultConstructedHasIsSimplifiedFlagNotSet){
+TEST(ExpressionTest, ExpressionThatIsDefaultConstructedHasIsSimplifiedFlagNotSet)
+{
     Expression expression;
 
-    EXPECT_FALSE(expression.isSimplified());}
+    EXPECT_FALSE(expression.isSimplified());
+}
 
 TEST(ExpressionTest, ExpressionThatIsCopyConstructedHasIsSimplifiedFlagCopied)
 {
@@ -207,10 +210,12 @@ TEST(ExpressionTest, GetWrappedTermsWorks)
     EXPECT_EQ(Term("y"), getTermConstReferenceFromSharedPointer(wrappedTermsToVerify.at(1).baseTermSharedPointer));
 }
 
-TEST(ExpressionTest, GetDisplayableStringWorks){
+TEST(ExpressionTest, GetDisplayableStringWorks)
+{
     Expression expression1;
     Expression expression2(createExpressionIfPossible({true, "&", "x", "|", "y"}));
-    Expression expression3;    expression3.putTermWithAndOperationIfNeeded(Term(true));
+    Expression expression3;
+    expression3.putTermWithAndOperationIfNeeded(Term(true));
     Expression expression4(createExpressionIfPossible({expression2, "&", "z"}));
 
     EXPECT_EQ("()", expression1.getDisplayableString());
@@ -286,10 +291,12 @@ TEST(ExpressionTest, PutTermWorks)
     EXPECT_EQ(Term("d"), getTermConstReferenceFromSharedPointer(termsToVerify.at(3).baseTermSharedPointer));
 }
 
-TEST(ExpressionTest, PutTermWithOperationLevelWorks){
+TEST(ExpressionTest, PutTermWithOperationLevelWorks)
+{
     Expression expressionToTest;
 
-    expressionToTest.putTerm(Term("a"), OperatorLevel::And);    expressionToTest.putTerm(Term("b"), OperatorLevel::Or);
+    expressionToTest.putTerm(Term("a"), OperatorLevel::And);
+    expressionToTest.putTerm(Term("b"), OperatorLevel::Or);
     expressionToTest.putTerm(Term("c"), OperatorLevel::And);
     expressionToTest.putTerm(Term("d"), OperatorLevel::Or);
 
@@ -584,10 +591,12 @@ TEST(ExpressionTest, PutWrappedTermWorks)
     EXPECT_EQ(Term(true), getTermConstReferenceFromSharedPointer(termsToVerify.at(2).baseTermSharedPointer));
 }
 
-TEST(ExpressionTest, PutWrappedTermsWorks){
+TEST(ExpressionTest, PutWrappedTermsWorks)
+{
     Expression expressionToTest;
     WrappedTerms wrappedTerms;
-    wrappedTerms.emplace_back(Term(true));    wrappedTerms.emplace_back(Term(false));
+    wrappedTerms.emplace_back(Term(true));
+    wrappedTerms.emplace_back(Term(false));
     wrappedTerms.emplace_back(Term(true));
 
     expressionToTest.putWrappedTerms(wrappedTerms);
@@ -599,9 +608,11 @@ TEST(ExpressionTest, PutWrappedTermsWorks){
     EXPECT_EQ(Term(true), getTermConstReferenceFromSharedPointer(termsToVerify.at(2).baseTermSharedPointer));
 }
 
-TEST(ExpressionTest, SetWorks){
+TEST(ExpressionTest, SetWorks)
+{
     Expression expression;
     WrappedTerms wrappedTerms{Term(true), Term(false)};
+
     expression.set(OperatorLevel::And, wrappedTerms);
 
     EXPECT_EQ("([true]&[false])", expression.getDisplayableString());

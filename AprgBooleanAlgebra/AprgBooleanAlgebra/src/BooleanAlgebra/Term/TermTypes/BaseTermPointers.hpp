@@ -16,4 +16,5 @@ using BaseTermUniquePointer = std::unique_ptr<BaseTerm>;
 using BaseTermSharedPointers = std::vector<BaseTermSharedPointer>;
 
 }
+
 }

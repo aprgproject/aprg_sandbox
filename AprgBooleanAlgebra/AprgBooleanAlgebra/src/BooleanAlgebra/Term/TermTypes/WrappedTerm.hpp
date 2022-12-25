@@ -26,6 +26,7 @@ struct WrappedTerm
 };
 
 using WrappedTerms=std::vector<WrappedTerm>;
+
 }
 
 }

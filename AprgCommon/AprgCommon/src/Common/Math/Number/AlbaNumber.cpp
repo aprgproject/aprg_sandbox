@@ -973,7 +973,7 @@ AlbaNumber AlbaNumber::addBothIntegersAndReturnNumber(
         long long int const integerValue1,
         long long int const integerValue2) const
 {
-    double doubleValue = static_cast<double>(integerValue1) + static_cast<double>(integerValue2);
+    double doubleValue = static_cast<double>(integerValue1) + integerValue2;
     if(isValueWithinLimits<long long int>(doubleValue))
     {
         return AlbaNumber(integerValue1 + integerValue2);
@@ -999,13 +999,13 @@ AlbaNumber AlbaNumber::addBothFractionsAndReturnNumber(
     long long int newNumerator =
             static_cast<long long int>(lcd/fractionData1.denominator)*fractionData1.numerator
             + static_cast<long long int>(lcd/fractionData2.denominator)*fractionData2.numerator;
-    if(isValueWithinLimits<int>(static_cast<double>(newNumerator)) && isValueWithinLimits<unsigned int>(static_cast<double>(lcd)))
+    if(isValueWithinLimits<int>(newNumerator) && isValueWithinLimits<unsigned int>(lcd))
     {
         return AlbaNumber::createFraction(static_cast<int>(newNumerator), static_cast<unsigned int>(lcd));
     }
     else
     {
-        return AlbaNumber(static_cast<double>(newNumerator)/static_cast<double>(lcd));
+        return AlbaNumber(static_cast<double>(newNumerator)/lcd);
     }
 }
 
@@ -1023,7 +1023,7 @@ AlbaNumber AlbaNumber::addIntegerAndFractionAndReturnNumber(
     double doubleNumerator = static_cast<double>(integerValue) * fractionData.denominator + fractionData.numerator;
     if(isValueWithinLimits<int>(doubleNumerator))
     {
-        int integerNumerator = static_cast<int>(integerValue * fractionData.denominator + fractionData.numerator);
+        int integerNumerator = integerValue * fractionData.denominator + fractionData.numerator;
         return AlbaNumber::createFraction(integerNumerator, fractionData.denominator);
     }
     else
@@ -1044,7 +1044,7 @@ AlbaNumber AlbaNumber::multiplyBothIntegersAndReturnNumber(
         long long int const integerValue1,
         long long int const integerValue2) const
 {
-    double doubleValue = static_cast<double>(integerValue1) * static_cast<double>(integerValue2);
+    double doubleValue = static_cast<double>(integerValue1) * integerValue2;
     if(isValueWithinLimits<long long int>(doubleValue))
     {
         return AlbaNumber(integerValue1 * integerValue2);
@@ -1066,13 +1066,13 @@ AlbaNumber AlbaNumber::multiplyBothFractionsAndReturnNumber(
 {
     long long int newNumerator = static_cast<long long int>(fractionData1.numerator) * fractionData2.numerator;
     unsigned long long int newDenominator = static_cast<unsigned long long int>(fractionData1.denominator) * fractionData2.denominator;
-    if(isValueWithinLimits<int>(static_cast<double>(newNumerator)) && isValueWithinLimits<unsigned int>(static_cast<double>(newDenominator)))
+    if(isValueWithinLimits<int>(newNumerator) && isValueWithinLimits<unsigned int>(newDenominator))
     {
         return AlbaNumber::createFraction(static_cast<int>(newNumerator), static_cast<unsigned int>(newDenominator));
     }
     else
     {
-        return AlbaNumber(static_cast<double>(newNumerator)/static_cast<double>(newDenominator));
+        return AlbaNumber(static_cast<double>(newNumerator)/newDenominator);
     }
 }
 
@@ -1090,7 +1090,7 @@ AlbaNumber AlbaNumber::multiplyIntegerAndFractionAndReturnNumber(
     double doubleNumerator = static_cast<double>(integerValue) * fractionData.numerator;
     if(isValueWithinLimits<int>(doubleNumerator))
     {
-        return AlbaNumber::createFraction(static_cast<int>(integerValue * fractionData.numerator), fractionData.denominator);
+        return AlbaNumber::createFraction(integerValue * fractionData.numerator, fractionData.denominator);
     }
     else
     {
@@ -1112,13 +1112,13 @@ AlbaNumber AlbaNumber::divideBothIntegersAndReturnNumber(
 {
     long long int newDividend(dividend), newDivisor(divisor);
     changeFractionToSimplestFormForSigned(newDividend, newDivisor);
-    if(isValueWithinLimits<int>(static_cast<double>(newDividend)) && isValueWithinLimits<unsigned int>(static_cast<double>(newDivisor)))
+    if(isValueWithinLimits<int>(newDividend) && isValueWithinLimits<unsigned int>(newDivisor))
     {
         return AlbaNumber::createFraction(static_cast<int>(newDividend), static_cast<unsigned int>(newDivisor));
     }
     else
     {
-        return AlbaNumber(static_cast<double>(newDividend)/static_cast<double>(newDivisor));
+        return AlbaNumber(static_cast<double>(newDividend)/newDivisor);
     }
 }
 

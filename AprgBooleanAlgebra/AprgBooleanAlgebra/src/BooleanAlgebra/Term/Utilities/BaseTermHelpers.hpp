@@ -25,4 +25,5 @@ BaseTerm & getBaseTermReferenceFromSharedPointer(BaseTermSharedPointer const& sh
 BaseTerm & getBaseTermReferenceFromUniquePointer(BaseTermUniquePointer const& uniquePointer);
 
 }
+
 }

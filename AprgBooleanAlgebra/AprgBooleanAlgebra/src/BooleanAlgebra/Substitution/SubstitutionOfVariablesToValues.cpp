@@ -17,10 +17,12 @@ SubstitutionOfVariablesToValues::SubstitutionOfVariablesToValues()
 
 SubstitutionOfVariablesToValues::SubstitutionOfVariablesToValues(initializer_list<VariableValuePair> const& variablesWithValues)
 {
-    putVariablesWithValues(variablesWithValues);}
+    putVariablesWithValues(variablesWithValues);
+}
 
 SubstitutionOfVariablesToValues::SubstitutionOfVariablesToValues(VariablesToValuesMap const& variablesWithValues)
-{    putVariablesWithValues(variablesWithValues);
+{
+    putVariablesWithValues(variablesWithValues);
 }
 
 bool SubstitutionOfVariablesToValues::isEmpty() const
@@ -128,6 +130,7 @@ void SubstitutionOfVariablesToValues::performSubstitutionForWrappedTerms(Wrapped
         term = performSubstitutionTo(term);
     }
 }
+
 }
 
 }

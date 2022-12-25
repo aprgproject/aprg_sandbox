@@ -2,6 +2,7 @@
 
 namespace alba
 {
+
 namespace booleanAlgebra
 {
 
@@ -19,7 +20,8 @@ BaseTermSharedPointer copyAndCreateNewTermAndReturnSharedPointer(Term const& ter
                         new Term(term)));
 }
 
-Term const& getTermConstReferenceFromBaseTerm(BaseTerm const& baseTerm){
+Term const& getTermConstReferenceFromBaseTerm(BaseTerm const& baseTerm)
+{
     return dynamic_cast<Term const&>(baseTerm);
 }
 
@@ -33,7 +35,8 @@ Term const& getTermConstReferenceFromUniquePointer(BaseTermUniquePointer const& 
     return dynamic_cast<Term const&>(*uniquePointer.get());
 }
 
-Term & getTermReferenceFromBaseTerm(BaseTerm & baseTerm){
+Term & getTermReferenceFromBaseTerm(BaseTerm & baseTerm)
+{
     return dynamic_cast<Term &>(baseTerm);
 }
 
@@ -44,7 +47,8 @@ Term & getTermReferenceFromSharedPointer(BaseTermSharedPointer & sharedPointer)
 
 Term & getTermReferenceFromUniquePointer(BaseTermUniquePointer & uniquePointer)
 {
-    return *dynamic_cast<Term*>(uniquePointer.get());}
+    return *dynamic_cast<Term*>(uniquePointer.get());
+}
 
 BaseTerm const& getBaseTermConstReferenceFromTerm(Term const& term)
 {
@@ -58,7 +62,8 @@ BaseTerm const& getBaseTermConstReferenceFromSharedPointer(BaseTermSharedPointer
 
 BaseTerm const& getBaseTermConstReferenceFromUniquePointer(BaseTermUniquePointer const& uniquePointer)
 {
-    return dynamic_cast<BaseTerm const&>(*uniquePointer.get());}
+    return dynamic_cast<BaseTerm const&>(*uniquePointer.get());
+}
 
 BaseTerm & getBaseTermReferenceFromTerm(Term & term)
 {
@@ -72,7 +77,8 @@ BaseTerm & getBaseTermReferenceFromSharedPointer(BaseTermSharedPointer const& sh
 
 BaseTerm & getBaseTermReferenceFromUniquePointer(BaseTermUniquePointer const& uniquePointer)
 {
-    return dynamic_cast<BaseTerm &>(*uniquePointer.get());}
+    return dynamic_cast<BaseTerm &>(*uniquePointer.get());
+}
 
 }
 

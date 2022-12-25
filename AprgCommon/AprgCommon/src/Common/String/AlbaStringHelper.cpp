@@ -29,34 +29,36 @@ unsigned int generateUniqueId(string const& mainString)
     return uniqueId;
 }
 
-unsigned int getLevenshteinDistance(string const& otherString, string const& basisString)
+unsigned int getLevenshteinDistance(string const& string1, string const& string2)
 {
     // The edit distance or Levenshtein distance is the minimum number of editing operations needed to transform a string into another string.
     // The allowed editing operations are as follows:
     // -> insert a character (e.g. ABC ! ABCA)
     // -> remove a character (e.g. ABC ! AC)
     // -> modify a character (e.g. ABC ! ADC)
+    unsigned int string1Length = static_cast<unsigned int>(string1.size());
+    unsigned int string2Length = static_cast<unsigned int>(string2.size());
 
-    vector<unsigned int> current(basisString.size() + 1);
-    vector<unsigned int> previous(basisString.size() + 1);
+    vector<unsigned int> current(string2Length + 1);
+    vector<unsigned int> previous(string2Length + 1);
     iota(previous.begin(), previous.end(), 0);
 
     // current and previous are the rows in the dynamic programming solution
-    for(unsigned int otherIndex=0; otherIndex<otherString.size(); ++otherIndex)
+    for (unsigned int i=0; i<string1Length; ++i)
     {
-        current[0] = otherIndex+1;
-        for(unsigned int basisIndex=0; basisIndex<basisString.size(); ++basisIndex)
+        current[0] = i+1;
+        for (unsigned int j=0; j<string2Length; ++j)
         {
             // next value is the minimum of
             // 1) index-1 in current // remove operation
             // 2) index in previous // insert operation
             // 2) index-1 in previous // modify operation (if characters are different)
-            unsigned int cost = otherString.at(otherIndex) == basisString.at(basisIndex) ? 0 : 1;
-            current[basisIndex+1] = min(min(current.at(basisIndex)+1, previous.at(basisIndex+1)+1), previous.at(basisIndex)+cost);
+            unsigned int cost = string1.at(i) == string2.at(j) ? 0 : 1;
+            current[j+1] = min(min(current.at(j) + 1, previous.at(j+1) + 1), previous.at(j) + cost);
         }
         current.swap(previous);
     }
-    return previous.at(basisString.size());
+    return previous.at(string2Length);
 }
 
 unsigned int getHammingDistance(string const& string1, string const& string2)
@@ -208,8 +210,8 @@ bool isSuffix(string const& mainString, string const& suffix)
     // A suffix is a substring that ends at the end of a string.
     // For example, the suffixes of ABCD are D, CD, BCD and ABCD.
 
-    int j = static_cast<int>(suffix.length()) - 1;
-    for(int i = static_cast<int>(mainString.length()) - 1; i>=0 && j>=0; i--, j--)
+    int j = suffix.length()-1;
+    for(int i = mainString.length()-1; i>=0 && j>=0; i--, j--)
     {
         if(mainString.at(i) != suffix.at(j))
         {

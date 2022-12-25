@@ -28,10 +28,12 @@ TEST(BaseTermHelpersTest, CopyAndCreateNewTermAndReturnSharedPointerWorks)
     EXPECT_EQ(1, sharedPointerToVerify.use_count());
 }
 
-TEST(BaseTermHelpersTest, GetTermConstReferenceFromBaseTermWorks){
+TEST(BaseTermHelpersTest, GetTermConstReferenceFromBaseTermWorks)
+{
     Term originalTerm(7896);
 
     Term const& termToVerify(getTermConstReferenceFromBaseTerm(dynamic_cast<BaseTerm const&>(originalTerm)));
+
     EXPECT_EQ(Term(7896), termToVerify);
 }
 
@@ -50,8 +52,10 @@ TEST(BaseTermHelpersTest, GetTermConstReferenceFromUniquePointerWorks)
     BaseTermUniquePointer uniquePointer(dynamic_cast<BaseTerm*>(new Term(9541)));
 
     Term const& termToVerify(getTermConstReferenceFromUniquePointer(uniquePointer));
+
     EXPECT_EQ(Term(9541), termToVerify);
 }
+
 TEST(BaseTermHelpersTest, GetTermReferenceFromBaseTermWorks)
 {
     Term originalTerm(7896);
@@ -80,9 +84,11 @@ TEST(BaseTermHelpersTest, GetTermReferenceFromUniquePointerWorks)
 
     Term & termToChange(getTermReferenceFromUniquePointer(uniquePointer));
     termToChange.getConstantReference().setValue(763);
+
     Term const& termToVerify(getTermConstReferenceFromUniquePointer(uniquePointer));
     EXPECT_EQ(Term(763), termToVerify);
 }
+
 TEST(BaseTermHelpersTest, GetBaseTermConstReferenceFromTermWorks)
 {
     Term originalTerm(7896);
@@ -109,9 +115,11 @@ TEST(BaseTermHelpersTest, GetBaseTermConstReferenceFromUniquePointerWorks)
     BaseTermUniquePointer uniquePointer(new Term(6415));
 
     BaseTerm const& baseTerm(getBaseTermConstReferenceFromUniquePointer(uniquePointer));
+
     Term const& termToVerify(dynamic_cast<Term const&>(baseTerm));
     EXPECT_EQ(Term(6415), termToVerify);
 }
+
 TEST(BaseTermHelpersTest, GetBaseTermReferenceFromTermWorks)
 {
     Term originalTerm(7896);
@@ -139,9 +147,11 @@ TEST(BaseTermHelpersTest, GetBaseTermReferenceFromUniquePointerWorks)
     BaseTermUniquePointer uniquePointer(new Term(6415));
 
     BaseTerm & baseTerm(getBaseTermReferenceFromUniquePointer(uniquePointer));
+
     Term const& termToVerify(dynamic_cast<Term const&>(baseTerm));
     EXPECT_EQ(Term(6415), termToVerify);
 }
+
 }
 
 }

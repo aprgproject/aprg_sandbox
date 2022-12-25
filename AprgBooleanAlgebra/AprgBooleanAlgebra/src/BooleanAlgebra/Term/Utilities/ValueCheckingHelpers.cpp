@@ -65,7 +65,9 @@ bool isTheValue(Expression const& expression, bool const value)
                     getTermConstReferenceFromSharedPointer(wrappedTerms.front().baseTermSharedPointer),
                     value);
     }
-    return result;}
+    return result;
+}
 
 }
+
 }

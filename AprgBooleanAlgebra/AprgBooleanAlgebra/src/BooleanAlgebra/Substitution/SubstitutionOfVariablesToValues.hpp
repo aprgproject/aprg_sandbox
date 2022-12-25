@@ -19,9 +19,11 @@ public:
     SubstitutionOfVariablesToValues();
     SubstitutionOfVariablesToValues(std::initializer_list<VariableValuePair> const& variablesWithValues);
     SubstitutionOfVariablesToValues(VariablesToValuesMap const& variablesWithValues);
+
     bool isEmpty() const;
     bool isVariableFound(std::string const& variable) const;
-    unsigned int getSize() const;    bool getValueForVariable(std::string const& variable) const;
+    unsigned int getSize() const;
+    bool getValueForVariable(std::string const& variable) const;
     VariablesToValuesMap const& getVariableToValuesMap() const;
 
     Term performSubstitutionTo(VariableTerm const& variableTerm) const;

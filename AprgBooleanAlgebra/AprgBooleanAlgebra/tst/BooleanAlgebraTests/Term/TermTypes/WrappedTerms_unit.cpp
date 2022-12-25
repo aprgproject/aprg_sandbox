@@ -20,10 +20,12 @@ TEST(WrappedTermTest, ConstructionWorks)
     EXPECT_EQ(Term(10), getTermConstReferenceFromSharedPointer(wrappedTerm2.baseTermSharedPointer));
 }
 
-TEST(WrappedTermTest, EqualityOperatorWorks){
+TEST(WrappedTermTest, EqualityOperatorWorks)
+{
     WrappedTerm wrappedTerm1(Term(true));
     WrappedTerm const& wrappedTerm2(wrappedTerm1);
-    WrappedTerm wrappedTerm3(Term(false));    WrappedTerm wrappedTerm4(Term(true));
+    WrappedTerm wrappedTerm3(Term(false));
+    WrappedTerm wrappedTerm4(Term(true));
 
     EXPECT_TRUE(wrappedTerm1==wrappedTerm1);
     EXPECT_TRUE(wrappedTerm1==wrappedTerm2);
@@ -66,10 +68,12 @@ TEST(WrappedTermTest, ClearWorks)
     EXPECT_EQ(nullptr, wrappedTerm.baseTermSharedPointer.get());
 }
 
-TEST(WrappedTermTest, OutputStreamOperatorWorks){
+TEST(WrappedTermTest, OutputStreamOperatorWorks)
+{
     stringstream ss;
     WrappedTerm wrappedTerm1(Term(true));
     WrappedTerm wrappedTerm2(Term(false));
+
     ss << wrappedTerm1 << "," << wrappedTerm2;
 
     EXPECT_EQ("[true],[false]", ss.str());

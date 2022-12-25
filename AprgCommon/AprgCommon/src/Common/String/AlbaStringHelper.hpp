@@ -106,7 +106,7 @@ inline bool isLessThanStringLength(std::string const& mainString, int const inde
 }
 
 unsigned int generateUniqueId(std::string const& mainString);
-unsigned int getLevenshteinDistance(std::string const& otherString, std::string const& basisString);
+unsigned int getLevenshteinDistance(std::string const& string1, std::string const& string2);
 unsigned int getHammingDistance(std::string const& string1, std::string const& string2);
 unsigned int getNumberOfSubStrings(std::string const& mainString);
 unsigned int getNumberOfSubsequences(std::string const& mainString);
