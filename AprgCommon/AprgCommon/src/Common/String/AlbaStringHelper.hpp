@@ -109,8 +109,10 @@ unsigned int generateUniqueId(std::string const& mainString);
 unsigned int getLevenshteinDistance(std::string const& otherString, std::string const& basisString);
 unsigned int getHammingDistance(std::string const& string1, std::string const& string2);
 unsigned int getNumberOfSubStrings(std::string const& mainString);
-unsigned int getNumberOfSubsequences(std::string const& mainString);int getRotationValue(std::string const& mainString, std::string const& rotation);
+unsigned int getNumberOfSubsequences(std::string const& mainString);
+int getRotationValue(std::string const& mainString, std::string const& rotation);
 int getPeriodValue(std::string const& mainString, std::string const& period);
+
 
 bool isNumber(std::string const& mainString);
 bool isWhiteSpace(std::string const& mainString);
