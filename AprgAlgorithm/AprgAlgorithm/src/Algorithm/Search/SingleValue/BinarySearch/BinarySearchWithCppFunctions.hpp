@@ -26,9 +26,9 @@ public:
     Index getIndexOfValue(Value const& value) const
     {
         Index result(INVALID_INDEX);
-        if(!m_sortedValues.empty())
+        auto lowerBoundIt = std::lower_bound(m_sortedValues.cbegin(), m_sortedValues.cend(), value); // assumption is non set
+        if(lowerBoundIt!=m_sortedValues.cend())
         {
-            auto lowerBoundIt = std::lower_bound(m_sortedValues.cbegin(), m_sortedValues.cend(), value); // assumption is non set
             if(*lowerBoundIt == value)
             {
                 result = std::distance(m_sortedValues.cbegin(), lowerBoundIt);

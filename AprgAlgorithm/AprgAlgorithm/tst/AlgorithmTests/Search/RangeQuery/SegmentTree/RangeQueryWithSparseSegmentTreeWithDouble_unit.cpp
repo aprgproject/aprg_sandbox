@@ -14,7 +14,7 @@ namespace
 {
 using ValueForTest = double;
 using RangeQueryForTest = RangeQueryWithSparseSegmentTree<ValueForTest>;
-RangeQueryForTest::Function multipliesFunction = multiplies<ValueForTest>();
+RangeQueryForTest::Function multipliesFunction = multiplies<>();
 }
 
 TEST(RangeQueryWithSparseSegmentTreeTest, GetValueOnIntervalWithGeometricSumWorksWithEmptySetOfValues)

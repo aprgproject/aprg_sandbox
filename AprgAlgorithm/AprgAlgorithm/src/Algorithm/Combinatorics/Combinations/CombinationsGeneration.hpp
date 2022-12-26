@@ -1,5 +1,6 @@
 #pragma once
 
+#include <algorithm>
 #include <set>
 #include <vector>
 
@@ -39,7 +40,7 @@ public:
     {
         Combinations result;
         Combination currentCombination;
-        RecursionData recursionData(createRecursionData(result, currentCombination, objects, std::min(targetCombinationLength, objects.size())));
+        RecursionData recursionData(createRecursionData(result, currentCombination, objects, std::min(targetCombinationLength, static_cast<unsigned int>(objects.size()))));
         collectCombinationsUsingRecursion(recursionData);
         return result;
     }

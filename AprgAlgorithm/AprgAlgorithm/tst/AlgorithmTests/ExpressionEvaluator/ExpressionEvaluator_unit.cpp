@@ -16,10 +16,10 @@ namespace ExpressionEvaluator
 {
 
 template <>
-int performUnaryOperation<int, string>(string const& operatorString, int const& value)
+int performUnaryOperation<int, string>(string const& operatorObject, int const& value)
 {
     int result(0);
-    if(operatorString == "~")
+    if(operatorObject == "~")
     {
         result = ~value;
     }
@@ -27,22 +27,22 @@ int performUnaryOperation<int, string>(string const& operatorString, int const& 
 }
 
 template <>
-int performBinaryOperation<int, string>(int const& value1, string const& operatorString, int const& value2)
+int performBinaryOperation<int, string>(int const& value1, string const& operatorObject, int const& value2)
 {
     int result(0);
-    if(operatorString == "+")
+    if(operatorObject == "+")
     {
         result = value1+value2;
     }
-    else if(operatorString == "-")
+    else if(operatorObject == "-")
     {
         result = value1-value2;
     }
-    else if(operatorString == "*")
+    else if(operatorObject == "*")
     {
         result = value1*value2;
     }
-    else if(operatorString == "/")
+    else if(operatorObject == "/")
     {
         result = value1/value2;
     }

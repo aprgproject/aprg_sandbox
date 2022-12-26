@@ -49,7 +49,7 @@ StringsSorter::GetNumberOfDigitsFunction getNumberOfCharactersForStrings = [](St
     unsigned int maxNumberOfCharacters(0U);
     for(string const& stringObject : strings)
     {
-        maxNumberOfCharacters = max(maxNumberOfCharacters, stringObject.length());
+        maxNumberOfCharacters = max(maxNumberOfCharacters, static_cast<unsigned int>(stringObject.length()));
     }
     return maxNumberOfCharacters;
 };

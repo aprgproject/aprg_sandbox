@@ -15,8 +15,8 @@ namespace
 using ValuesForTest = vector<unsigned int>;
 using RangeQueryForTest = RangeQueryWithAccumulatorLazySegmentTree<ValuesForTest>;
 using ValueForTest = RangeQueryForTest::Value;
-RangeQueryForTest::Function plusFunction = plus<ValueForTest>();
-RangeQueryForTest::Function minusFunction = minus<ValueForTest>();
+RangeQueryForTest::Function plusFunction = plus<>();
+RangeQueryForTest::Function minusFunction = minus<>();
 }
 
 TEST(RangeQueryWithAccumulatorLazySegmentTreeTest, GetValueOnIntervalWithMinimumWorksWithEmptySetOfValues)

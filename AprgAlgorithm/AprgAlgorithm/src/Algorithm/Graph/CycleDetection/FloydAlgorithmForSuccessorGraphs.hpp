@@ -10,16 +10,17 @@ namespace algorithm
 {
 
 template <typename Vertex>
-class FloydAlgorithmforSuccessorGraphs
+class FloydAlgorithmForSuccessorGraphs
 {
 public:
     using BaseDirectedGraphWithVertex = BaseDirectedGraph<Vertex>;
     using Walker = WalkInSuccessorGraph<Vertex>;
     using Path = typename GraphTypes<Vertex>::Path;
 
-    FloydAlgorithmforSuccessorGraphs(BaseDirectedGraphWithVertex const& graph)
+    FloydAlgorithmForSuccessorGraphs(BaseDirectedGraphWithVertex const& graph)
         : m_graph(graph)
         , m_walker(graph)
+        , m_hasACycle(false)
     {}
 
     bool hasACycle() const

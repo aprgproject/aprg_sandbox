@@ -18,7 +18,7 @@ using GraphForTest = UndirectedGraphWithListOfEdges<VertexForTest>;
 using SubTreeQueryForTest = SubTreeQueryWithPathAccumulator<VertexForTest>;
 using VerticesForTest = SubTreeQueryForTest::Vertices;
 using CountsForTest = SubTreeQueryForTest::Counts;
-SubTreeQueryForTest::AccumulatorFunction plusAccumulator = plus<VertexForTest>();
+SubTreeQueryForTest::AccumulatorFunction plusAccumulator = plus<>();
 }
 
 TEST(SubTreeQueryWithPathAccumulatorTest, Example1Works)

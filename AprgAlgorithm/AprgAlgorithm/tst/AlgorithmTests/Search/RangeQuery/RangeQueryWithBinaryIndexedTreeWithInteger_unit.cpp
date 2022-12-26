@@ -15,8 +15,8 @@ namespace
 using ValuesForTest = vector<unsigned int>;
 using RangeQueryForTest = RangeQueryWithBinaryIndexedTree<ValuesForTest>;
 using ValueForTest = RangeQueryForTest::Value;
-RangeQueryForTest::AccumulatorFunction plusAccumulator = plus<ValueForTest>();
-RangeQueryForTest::AccumulatorFunction minusAccumulator = minus<ValueForTest>();
+RangeQueryForTest::AccumulatorFunction plusAccumulator = plus<>();
+RangeQueryForTest::AccumulatorFunction minusAccumulator = minus<>();
 }
 
 TEST(RangeQueryWithBinaryIndexedTreeTest, GetAccumulatedValueOnIntervalWithSumWorksWithEmptySetOfValues)

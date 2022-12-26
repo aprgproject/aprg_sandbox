@@ -26,7 +26,7 @@ RangeQueryForTest::Function maximumFunction = [](ValueForTest const& value1, Val
     return max(value1, value2);
 };
 
-RangeQueryForTest::Function plusFunction = plus<ValueForTest>();
+RangeQueryForTest::Function plusFunction = plus<>();
 }
 
 TEST(RangeQueryWithDynamicSegmentTreeTest, GetValueOnIntervalWithMinimumWorksWithEmptySetOfValues)

@@ -20,7 +20,7 @@ uint64_t getUniqueVertexIdentifier<uint64_t, double>(double const& object)
         uint64_t vertex;
         double object;
     };
-    SharedValue sharedValue;
+    SharedValue sharedValue{};
     sharedValue.object = object;
     return sharedValue.vertex;
 }

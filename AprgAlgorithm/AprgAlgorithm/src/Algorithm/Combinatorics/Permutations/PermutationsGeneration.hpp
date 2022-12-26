@@ -71,7 +71,7 @@ public:
     static Permutations generatePermutationsWithLength(Objects const& objects, unsigned int const targetPermutationLength)
     {
         Permutations result;
-        RecursionData recursionData(createRecursionData(result, objects, std::min(targetPermutationLength, objects.size())));
+        RecursionData recursionData(createRecursionData(result, objects, std::min(targetPermutationLength, static_cast<unsigned int>(objects.size()))));
         collectPermutationsUsingRecursion(recursionData);
         return result;
     }

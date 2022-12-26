@@ -15,8 +15,8 @@ namespace
 using ValueForTest = unsigned int;
 using RangeQueryForTest = RangeQueryForTwoDimensionsWithAccumulator<unsigned int>;
 using ValueMatrixForTest = RangeQueryForTest::ValueMatrix;
-RangeQueryForTest::AccumulatorFunction plusAccumulator = plus<ValueForTest>();
-RangeQueryForTest::AccumulatorFunction minusAccumulator = minus<ValueForTest>();
+RangeQueryForTest::AccumulatorFunction plusAccumulator = plus<>();
+RangeQueryForTest::AccumulatorFunction minusAccumulator = minus<>();
 }
 
 TEST(RangeQueryForTwoDimensionsWithAccumulatorTest, GetValueOn2DIntervalWorksOnExample1)

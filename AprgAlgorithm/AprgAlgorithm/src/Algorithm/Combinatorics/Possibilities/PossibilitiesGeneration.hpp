@@ -46,7 +46,7 @@ public:
     static Possibilities generatePossibilitiesWithLength(Objects const& objects, unsigned int const possibilityLength)
     {
         Possibilities result;
-        RecursionData recursionData(createRecursionData(result, objects, std::min(possibilityLength, objects.size())));
+        RecursionData recursionData(createRecursionData(result, objects, std::min(possibilityLength, static_cast<unsigned int>(objects.size()))));
         collectPossibilitiesUsingRecursion(recursionData);
         return result;
     }

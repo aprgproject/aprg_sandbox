@@ -15,8 +15,8 @@ namespace
 using ValuesForTest = vector<double>;
 using RangeQueryForTest = RangeQueryWithBinaryIndexedTree<ValuesForTest>;
 using ValueForTest = RangeQueryForTest::Value;
-RangeQueryForTest::AccumulatorFunction multipliesAccumulator = multiplies<ValueForTest>();
-RangeQueryForTest::AccumulatorFunction dividesAccumulator = divides<ValueForTest>();
+RangeQueryForTest::AccumulatorFunction multipliesAccumulator = multiplies<>();
+RangeQueryForTest::AccumulatorFunction dividesAccumulator = divides<>();
 }
 
 TEST(RangeQueryWithBinaryIndexedTreeTest, GetAccumulatedValueOnIntervalWithGeometricSumWorksWithEmptySetOfValues)

@@ -15,10 +15,10 @@ namespace
 using ValuesForTest = vector<unsigned int>;
 using RangeQueryForTest = RangeQueryWithAccumulator<ValuesForTest>;
 using ValueForTest = RangeQueryForTest::Value;
-RangeQueryForTest::AccumulatorFunction plusAccumulator = plus<ValueForTest>();
-RangeQueryForTest::AccumulatorFunction minusAccumulator = minus<ValueForTest>();
-RangeQueryForTest::AccumulatorFunction multipliesAccumulator = multiplies<ValueForTest>();
-RangeQueryForTest::AccumulatorFunction dividesAccumulator = divides<ValueForTest>();
+RangeQueryForTest::AccumulatorFunction plusAccumulator = plus<>();
+RangeQueryForTest::AccumulatorFunction minusAccumulator = minus<>();
+RangeQueryForTest::AccumulatorFunction multipliesAccumulator = multiplies<>();
+RangeQueryForTest::AccumulatorFunction dividesAccumulator = divides<>();
 }
 
 TEST(RangeQueryWithAccumulatorTest, GetAccumulatedValueOnIntervalWithSumWorksWithEmptySetOfValues)

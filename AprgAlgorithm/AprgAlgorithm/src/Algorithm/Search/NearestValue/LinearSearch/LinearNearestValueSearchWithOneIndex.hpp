@@ -89,8 +89,8 @@ private:
     {
         if(!m_values.empty())
         {
-            m_startIndex = std::min(lowerIndex, m_values.size()-1);
-            m_endIndex = std::min(higherIndex+1U, m_values.size());  // half open interval
+            m_startIndex = std::min(lowerIndex, static_cast<unsigned int>(m_values.size()-1));
+            m_endIndex = std::min(higherIndex+1U, static_cast<unsigned int>(m_values.size()));  // half open interval
         }
     }
 

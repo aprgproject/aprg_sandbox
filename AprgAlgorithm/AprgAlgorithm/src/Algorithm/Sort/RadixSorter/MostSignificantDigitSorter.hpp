@@ -108,7 +108,7 @@ private:
             unsigned int const highContainerIndex,
             unsigned int const digitIndex) const
     {
-        unsigned int limit(std::min(highContainerIndex+1, valuesToSort.size()));
+        unsigned int limit(std::min(highContainerIndex+1, static_cast<unsigned int>(valuesToSort.size())));
         for(auto it=valuesToSort.cbegin()+lowContainerIndex; it!=valuesToSort.cbegin()+limit; it++) // starts at low container index and ends at high container index
         {
             Value const& value(*it);
@@ -120,8 +120,7 @@ private:
     void computeCumulatesToGetNewIndexes(
             ArrayOfCountPerDigitValue & newIndexes) const
     {
-        unsigned int newIndexesSize = newIndexes.size();
-        for(unsigned int i=0; i<newIndexesSize; i++)
+        for(unsigned int i=0; i+1<newIndexes.size(); i++)
         {
             newIndexes[i+1] += newIndexes.at(i);
         }
@@ -135,7 +134,7 @@ private:
             unsigned int const digitIndex) const
     {
         Values copiedValues(valuesToSort); // copy first and then copy back to output in the new indexes;
-        unsigned int limit(std::min(highContainerIndex+1, copiedValues.size()));
+        unsigned int limit(std::min(highContainerIndex+1, static_cast<unsigned int>(copiedValues.size())));
         for(auto it=copiedValues.cbegin()+lowContainerIndex; it!=copiedValues.cbegin()+limit; it++) // starts at low container index and ends at high container index
         {
             // replace index uses the character index before it
@@ -153,10 +152,10 @@ private:
     {
         for(unsigned int i=0; i<MAX_NUMBER_OF_DIGIT_VALUES; i++)
         {
-            unsigned int newLowContainerIndex(lowContainerIndex+newIndexes.at(i));
-            unsigned int newHighContainerIndex(lowContainerIndex+newIndexes.at(i+1)-1U);
-            if(newLowContainerIndex < newHighContainerIndex)
+            if(newIndexes.at(i)+1 < newIndexes.at(i+1))
             {
+                unsigned int newLowContainerIndex(lowContainerIndex+newIndexes.at(i));
+                unsigned int newHighContainerIndex(lowContainerIndex+newIndexes.at(i+1)-1U);
                 sortStartingAtMostSignificantDigitInternal(valuesToSort, newLowContainerIndex, newHighContainerIndex, digitIndex+1);
             }
         }
@@ -165,6 +164,10 @@ private:
     GetDigitAtFunction m_getDigitAtFunction;
     IsDigitFunction m_isDigitInvalidFunction;
 };
+
+}
+
+}
 
 // MSD string (radix) sort.
 // -> Partition the array into R pieces according to first character (use key-index counting).
@@ -194,6 +197,3 @@ private:
 // ---> Has to rescan many characters in keys with long prefix matches
 // Goal combine advantages of MSD and quick sort
 
-}
-
-}

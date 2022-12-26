@@ -54,7 +54,7 @@ StabilityCheckObjectsSorter::ValueToIndexableValueFunction stabilityCheckObjectT
 };
 StabilityCheckObjectsSorter::IndexableValueToValueFunction indexableValueToStabilityCheckObjectFunction = [](unsigned int const indexableValue) -> StabilityCheckObject
 {
-    return StabilityCheckObject(indexableValue & 0xFFU, 0U);
+    return StabilityCheckObject(static_cast<char>(indexableValue & 0xFFU), 0U);
 };
 
 }

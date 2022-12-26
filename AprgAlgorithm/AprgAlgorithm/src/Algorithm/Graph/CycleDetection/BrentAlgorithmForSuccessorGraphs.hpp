@@ -10,16 +10,17 @@ namespace algorithm
 {
 
 template <typename Vertex>
-class BrentAlgorithmforSuccessorGraphs
+class BrentAlgorithmForSuccessorGraphs
 {
 public:
     using BaseDirectedGraphWithVertex = BaseDirectedGraph<Vertex>;
     using Walker = WalkInSuccessorGraph<Vertex>;
     using Path = typename GraphTypes<Vertex>::Path;
 
-    BrentAlgorithmforSuccessorGraphs(BaseDirectedGraphWithVertex const& graph)
+    BrentAlgorithmForSuccessorGraphs(BaseDirectedGraphWithVertex const& graph)
         : m_graph(graph)
         , m_walker(graph)
+        , m_hasACycle(false)
     {}
 
     bool hasACycle() const

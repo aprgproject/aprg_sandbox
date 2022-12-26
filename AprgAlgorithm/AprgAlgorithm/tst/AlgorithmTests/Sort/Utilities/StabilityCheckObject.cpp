@@ -22,7 +22,7 @@ StabilityCheckObject::StabilityCheckObject(
 
 StabilityCheckObject::StabilityCheckObject(
         int const value)
-    : m_visiblePart(static_cast<int>(value))
+    : m_visiblePart(static_cast<char>(value))
     , m_notVisiblePart(0U)
 {}
 
@@ -51,22 +51,22 @@ StabilityCheckObject::operator int() const
 
 StabilityCheckObject StabilityCheckObject::operator+(StabilityCheckObject const& second) const
 {
-    return StabilityCheckObject(m_visiblePart+second.m_visiblePart, 0U);
+    return StabilityCheckObject(static_cast<char>(m_visiblePart+second.m_visiblePart), 0U);
 }
 
 StabilityCheckObject StabilityCheckObject::operator-(StabilityCheckObject const& second) const
 {
-    return StabilityCheckObject(m_visiblePart-second.m_visiblePart, 0U);
+    return StabilityCheckObject(static_cast<char>(m_visiblePart-second.m_visiblePart), 0U);
 }
 
 StabilityCheckObject StabilityCheckObject::operator+(int const second) const
 {
-    return StabilityCheckObject(m_visiblePart+second, m_notVisiblePart);
+    return StabilityCheckObject(static_cast<char>(m_visiblePart+second), m_notVisiblePart);
 }
 
 StabilityCheckObject StabilityCheckObject::operator-(int const second) const
 {
-    return StabilityCheckObject(m_visiblePart-second, m_notVisiblePart);
+    return StabilityCheckObject(static_cast<char>(m_visiblePart-second), m_notVisiblePart);
 }
 
 double StabilityCheckObject::operator*(double const multiplier) const

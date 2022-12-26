@@ -50,7 +50,7 @@ StringsSorter::GetNumberOfDigitsFunction getNumberOfCharactersForStrings = [](St
     s_maxNumberOfCharacters=0U;
     for(string const& stringObject : strings)
     {
-        s_maxNumberOfCharacters = max(s_maxNumberOfCharacters, stringObject.length());
+        s_maxNumberOfCharacters = max(s_maxNumberOfCharacters, static_cast<unsigned int>(stringObject.length()));
     }
     return s_maxNumberOfCharacters;
 };

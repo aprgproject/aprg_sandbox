@@ -16,7 +16,7 @@ using ValueForTest = unsigned int;
 using RangeQueryForTest = RangeQueryForTwoDSegmentTree<unsigned int>;
 using ValueMatrixForTest = RangeQueryForTest::ValueMatrix;
 using Function = typename RangeQueryForTest::OneDFunction;
-Function plusFunction = plus<ValueForTest>();
+Function plusFunction = plus<>();
 }
 
 TEST(RangeQueryForTwoDSegmentTreeTest, GetValueOn2DIntervalWorksOnExample1)

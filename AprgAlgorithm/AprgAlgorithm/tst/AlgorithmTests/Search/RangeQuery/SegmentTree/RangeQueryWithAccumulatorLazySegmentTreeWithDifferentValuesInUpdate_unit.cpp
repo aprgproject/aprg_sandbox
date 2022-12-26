@@ -16,7 +16,7 @@ using ValuesForTest = vector<unsigned int>;
 using RangeQueryForTest = RangeQueryWithAccumulatorLazySegmentTreeWithDifferentValuesInUpdate<ValuesForTest>;
 using ValueForTest = RangeQueryForTest::Value;
 using IndexForTest = RangeQueryForTest::Index;
-RangeQueryForTest::Function plusFunction = plus<ValueForTest>();
+RangeQueryForTest::Function plusFunction = plus<>();
 RangeQueryForTest::IncrementFunction incrementFunction = [](IndexForTest const intervalStart, IndexForTest const intervalEnd)
 {
     // Increase the first value in range [a,b] by 1, the second value by 2, the third value by 3, and so on.

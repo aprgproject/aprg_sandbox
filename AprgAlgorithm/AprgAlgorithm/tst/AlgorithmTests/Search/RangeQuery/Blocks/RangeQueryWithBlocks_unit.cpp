@@ -2,6 +2,8 @@
 
 #include <gtest/gtest.h>
 
+#include <numeric>
+
 using namespace std;
 
 namespace alba
@@ -20,7 +22,7 @@ using ValueForTest = typename RangeQueryForTest::Value;
 RangeQueryForTest::ValuesFunction plusForARangeOfValues = [](
         ValuesForTest::const_iterator itStart, ValuesForTest::const_iterator itEnd)
 {
-    return std::accumulate(itStart+1, itEnd, *itStart, plus<ValueForTest>());
+    return std::accumulate(itStart+1, itEnd, *itStart, plus<>());
 };
 
 RangeQueryForTest::ValuesFunction countFoursForARangeOfValues = [](
@@ -32,7 +34,7 @@ RangeQueryForTest::ValuesFunction countFoursForARangeOfValues = [](
 RangeQueryForTest::ValuesFunction plusForARangeOfBlockValues = [](
         BlockValuesForTest::const_iterator itStart, BlockValuesForTest::const_iterator itEnd)
 {
-    return std::accumulate(itStart+1, itEnd, *itStart, plus<ValueForTest>());
+    return std::accumulate(itStart+1, itEnd, *itStart, plus<>());
 };
 
 }

@@ -15,7 +15,7 @@ namespace
 using ValuesForTest = vector<double>;
 using RangeQueryForTest = RangeQueryWithPersistentDynamicSegmentTree<ValuesForTest>;
 using ValueForTest = RangeQueryForTest::Value;
-RangeQueryForTest::Function multipliesFunction = multiplies<ValueForTest>();
+RangeQueryForTest::Function multipliesFunction = multiplies<>();
 }
 
 TEST(RangeQueryWithPersistentDynamicSegmentTreeTest, GetValueOnIntervalWithGeometricSumWorksWithEmptySetOfValues)

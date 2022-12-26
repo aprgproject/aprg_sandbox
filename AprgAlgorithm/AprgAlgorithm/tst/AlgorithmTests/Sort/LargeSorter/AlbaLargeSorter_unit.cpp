@@ -22,57 +22,56 @@ namespace alba
 namespace algorithm
 {
 
-class TestObject
+struct TestObject
 {
-public:
     TestObject()
-        : m_valueInteger{}
-        , m_valueDouble{}
-        , m_valueCharacter{}
-        , m_valueString()
+        : valueInteger{}
+        , valueDouble{}
+        , valueCharacter{}
+        , valueString()
     {}
 
     TestObject(
-            int const valueInteger,
-            double const valueDouble,
-            char const valueCharacter,
-            string const& valueString)
-        : m_valueInteger(valueInteger)
-        , m_valueDouble(valueDouble)
-        , m_valueCharacter(valueCharacter)
-        , m_valueString(valueString)
+            int const valueIntegerParameter,
+            double const valueDoubleParameter,
+            char const valueCharacterParameter,
+            string const& valueStringParameter)
+        : valueInteger(valueIntegerParameter)
+        , valueDouble(valueDoubleParameter)
+        , valueCharacter(valueCharacterParameter)
+        , valueString(valueStringParameter)
     {}
     bool operator<(TestObject const& testObject) const
     {
-        return m_valueInteger < testObject.m_valueInteger;
+        return valueInteger < testObject.valueInteger;
     }
     bool operator>(TestObject const& testObject) const
     {
-        return m_valueInteger > testObject.m_valueInteger;
+        return valueInteger > testObject.valueInteger;
     }
     bool operator==(TestObject const& testObject) const
     {
-        return m_valueInteger == testObject.m_valueInteger;
+        return valueInteger == testObject.valueInteger;
     }
 
     friend ostream& operator<<(ostream & out, TestObject const& testObject);
     friend istream& operator>>(istream & in, TestObject& testObject);
 
-    int m_valueInteger;
-    double m_valueDouble;
-    char m_valueCharacter;
-    string m_valueString;
+    int valueInteger;
+    double valueDouble;
+    char valueCharacter;
+    string valueString;
 };
 
 ostream& operator<<(ostream & out, TestObject const& testObject)
 {
-    out << testObject.m_valueInteger << endl;
-    out << testObject.m_valueDouble << endl;
-    out << testObject.m_valueCharacter << endl;
-    out << testObject.m_valueString.empty() << endl;
-    if(!testObject.m_valueString.empty())
+    out << testObject.valueInteger << endl;
+    out << testObject.valueDouble << endl;
+    out << testObject.valueCharacter << endl;
+    out << testObject.valueString.empty() << endl;
+    if(!testObject.valueString.empty())
     {
-        out << testObject.m_valueString;
+        out << testObject.valueString;
     }
     return out;
 }
@@ -80,13 +79,13 @@ ostream& operator<<(ostream & out, TestObject const& testObject)
 istream& operator>>(istream & in, TestObject& testObject)
 {
     bool isEmpty(true);
-    in >> testObject.m_valueInteger;
-    in >> testObject.m_valueDouble;
-    in >> testObject.m_valueCharacter;
+    in >> testObject.valueInteger;
+    in >> testObject.valueDouble;
+    in >> testObject.valueCharacter;
     in >> isEmpty;
     if(!isEmpty)
     {
-        in >> testObject.m_valueString;
+        in >> testObject.valueString;
     }
     return in;
 }
@@ -104,28 +103,28 @@ TEST(AlbaLargeSorterTest, ObjectsCanBeSavedAndLoadFromFile)
     TestObject testObject;
 
     inputTestFile>>testObject;
-    EXPECT_EQ(0, testObject.m_valueInteger);
-    EXPECT_DOUBLE_EQ(0, testObject.m_valueDouble);
-    EXPECT_EQ('0', testObject.m_valueCharacter);
-    EXPECT_EQ("", testObject.m_valueString);
+    EXPECT_EQ(0, testObject.valueInteger);
+    EXPECT_DOUBLE_EQ(0, testObject.valueDouble);
+    EXPECT_EQ('0', testObject.valueCharacter);
+    EXPECT_EQ("", testObject.valueString);
 
     inputTestFile>>testObject;
-    EXPECT_EQ(1, testObject.m_valueInteger);
-    EXPECT_DOUBLE_EQ(1.1, testObject.m_valueDouble);
-    EXPECT_EQ('a', testObject.m_valueCharacter);
-    EXPECT_EQ("firstString", testObject.m_valueString);
+    EXPECT_EQ(1, testObject.valueInteger);
+    EXPECT_DOUBLE_EQ(1.1, testObject.valueDouble);
+    EXPECT_EQ('a', testObject.valueCharacter);
+    EXPECT_EQ("firstString", testObject.valueString);
 
     inputTestFile>>testObject;
-    EXPECT_EQ(2000, testObject.m_valueInteger);
-    EXPECT_DOUBLE_EQ(1.222, testObject.m_valueDouble);
-    EXPECT_EQ('b', testObject.m_valueCharacter);
-    EXPECT_EQ("secondString", testObject.m_valueString);
+    EXPECT_EQ(2000, testObject.valueInteger);
+    EXPECT_DOUBLE_EQ(1.222, testObject.valueDouble);
+    EXPECT_EQ('b', testObject.valueCharacter);
+    EXPECT_EQ("secondString", testObject.valueString);
 
     inputTestFile>>testObject;
-    EXPECT_EQ(333333, testObject.m_valueInteger);
-    EXPECT_DOUBLE_EQ(3.3, testObject.m_valueDouble);
-    EXPECT_EQ('c', testObject.m_valueCharacter);
-    EXPECT_EQ("thirdString", testObject.m_valueString);
+    EXPECT_EQ(333333, testObject.valueInteger);
+    EXPECT_DOUBLE_EQ(3.3, testObject.valueDouble);
+    EXPECT_EQ('c', testObject.valueCharacter);
+    EXPECT_EQ("thirdString", testObject.valueString);
 
     inputTestFile.close();
 }
@@ -467,21 +466,21 @@ TEST(AlbaLargeSorterTest, ObjectsAreSortedWhenBlocksAreCreated)
     {
         switch(expectedValue)
         {
-        case 1: EXPECT_EQ(1, testObject.m_valueInteger); EXPECT_DOUBLE_EQ(1.01, testObject.m_valueDouble); EXPECT_EQ('a', testObject.m_valueCharacter); EXPECT_EQ("firstString", testObject.m_valueString); break;
-        case 2: EXPECT_EQ(2, testObject.m_valueInteger); EXPECT_DOUBLE_EQ(2.02, testObject.m_valueDouble); EXPECT_EQ('b', testObject.m_valueCharacter); EXPECT_EQ("secondString", testObject.m_valueString); break;
-        case 3: EXPECT_EQ(3, testObject.m_valueInteger); EXPECT_DOUBLE_EQ(3.03, testObject.m_valueDouble); EXPECT_EQ('c', testObject.m_valueCharacter); EXPECT_EQ("thirdString", testObject.m_valueString); break;
-        case 4: EXPECT_EQ(4, testObject.m_valueInteger); EXPECT_DOUBLE_EQ(4.04, testObject.m_valueDouble); EXPECT_EQ('d', testObject.m_valueCharacter); EXPECT_EQ("fourthString", testObject.m_valueString); break;
-        case 5: EXPECT_EQ(5, testObject.m_valueInteger); EXPECT_DOUBLE_EQ(5.05, testObject.m_valueDouble); EXPECT_EQ('e', testObject.m_valueCharacter); EXPECT_EQ("fifthString", testObject.m_valueString); break;
-        case 6: EXPECT_EQ(6, testObject.m_valueInteger); EXPECT_DOUBLE_EQ(6.06, testObject.m_valueDouble); EXPECT_EQ('f', testObject.m_valueCharacter); EXPECT_EQ("sixthString", testObject.m_valueString); break;
-        case 7: EXPECT_EQ(7, testObject.m_valueInteger); EXPECT_DOUBLE_EQ(7.07, testObject.m_valueDouble); EXPECT_EQ('g', testObject.m_valueCharacter); EXPECT_EQ("seventhString", testObject.m_valueString); break;
-        case 8: EXPECT_EQ(8, testObject.m_valueInteger); EXPECT_DOUBLE_EQ(8.08, testObject.m_valueDouble); EXPECT_EQ('h', testObject.m_valueCharacter); EXPECT_EQ("eighthString", testObject.m_valueString); break;
-        case 9: EXPECT_EQ(9, testObject.m_valueInteger); EXPECT_DOUBLE_EQ(9.09, testObject.m_valueDouble); EXPECT_EQ('i', testObject.m_valueCharacter); EXPECT_EQ("ninthString", testObject.m_valueString); break;
-        case 10: EXPECT_EQ(10, testObject.m_valueInteger); EXPECT_DOUBLE_EQ(10.10, testObject.m_valueDouble); EXPECT_EQ('j', testObject.m_valueCharacter); EXPECT_EQ("tenthString", testObject.m_valueString); break;
-        case 11: EXPECT_EQ(11, testObject.m_valueInteger); EXPECT_DOUBLE_EQ(11.11, testObject.m_valueDouble); EXPECT_EQ('k', testObject.m_valueCharacter); EXPECT_EQ("eleventhString", testObject.m_valueString); break;
-        case 12: EXPECT_EQ(12, testObject.m_valueInteger); EXPECT_DOUBLE_EQ(12.12, testObject.m_valueDouble); EXPECT_EQ('l', testObject.m_valueCharacter); EXPECT_EQ("twelvethString", testObject.m_valueString); break;
-        case 13: EXPECT_EQ(13, testObject.m_valueInteger); EXPECT_DOUBLE_EQ(13.13, testObject.m_valueDouble); EXPECT_EQ('m', testObject.m_valueCharacter); EXPECT_EQ("thirteenthString", testObject.m_valueString); break;
-        case 14: EXPECT_EQ(14, testObject.m_valueInteger); EXPECT_DOUBLE_EQ(14.14, testObject.m_valueDouble); EXPECT_EQ('n', testObject.m_valueCharacter); EXPECT_EQ("fourteenthString", testObject.m_valueString); break;
-        case 15: EXPECT_EQ(15, testObject.m_valueInteger); EXPECT_DOUBLE_EQ(15.15, testObject.m_valueDouble); EXPECT_EQ('o', testObject.m_valueCharacter); EXPECT_EQ("fifteenthString", testObject.m_valueString); break;
+        case 1: EXPECT_EQ(1, testObject.valueInteger); EXPECT_DOUBLE_EQ(1.01, testObject.valueDouble); EXPECT_EQ('a', testObject.valueCharacter); EXPECT_EQ("firstString", testObject.valueString); break;
+        case 2: EXPECT_EQ(2, testObject.valueInteger); EXPECT_DOUBLE_EQ(2.02, testObject.valueDouble); EXPECT_EQ('b', testObject.valueCharacter); EXPECT_EQ("secondString", testObject.valueString); break;
+        case 3: EXPECT_EQ(3, testObject.valueInteger); EXPECT_DOUBLE_EQ(3.03, testObject.valueDouble); EXPECT_EQ('c', testObject.valueCharacter); EXPECT_EQ("thirdString", testObject.valueString); break;
+        case 4: EXPECT_EQ(4, testObject.valueInteger); EXPECT_DOUBLE_EQ(4.04, testObject.valueDouble); EXPECT_EQ('d', testObject.valueCharacter); EXPECT_EQ("fourthString", testObject.valueString); break;
+        case 5: EXPECT_EQ(5, testObject.valueInteger); EXPECT_DOUBLE_EQ(5.05, testObject.valueDouble); EXPECT_EQ('e', testObject.valueCharacter); EXPECT_EQ("fifthString", testObject.valueString); break;
+        case 6: EXPECT_EQ(6, testObject.valueInteger); EXPECT_DOUBLE_EQ(6.06, testObject.valueDouble); EXPECT_EQ('f', testObject.valueCharacter); EXPECT_EQ("sixthString", testObject.valueString); break;
+        case 7: EXPECT_EQ(7, testObject.valueInteger); EXPECT_DOUBLE_EQ(7.07, testObject.valueDouble); EXPECT_EQ('g', testObject.valueCharacter); EXPECT_EQ("seventhString", testObject.valueString); break;
+        case 8: EXPECT_EQ(8, testObject.valueInteger); EXPECT_DOUBLE_EQ(8.08, testObject.valueDouble); EXPECT_EQ('h', testObject.valueCharacter); EXPECT_EQ("eighthString", testObject.valueString); break;
+        case 9: EXPECT_EQ(9, testObject.valueInteger); EXPECT_DOUBLE_EQ(9.09, testObject.valueDouble); EXPECT_EQ('i', testObject.valueCharacter); EXPECT_EQ("ninthString", testObject.valueString); break;
+        case 10: EXPECT_EQ(10, testObject.valueInteger); EXPECT_DOUBLE_EQ(10.10, testObject.valueDouble); EXPECT_EQ('j', testObject.valueCharacter); EXPECT_EQ("tenthString", testObject.valueString); break;
+        case 11: EXPECT_EQ(11, testObject.valueInteger); EXPECT_DOUBLE_EQ(11.11, testObject.valueDouble); EXPECT_EQ('k', testObject.valueCharacter); EXPECT_EQ("eleventhString", testObject.valueString); break;
+        case 12: EXPECT_EQ(12, testObject.valueInteger); EXPECT_DOUBLE_EQ(12.12, testObject.valueDouble); EXPECT_EQ('l', testObject.valueCharacter); EXPECT_EQ("twelvethString", testObject.valueString); break;
+        case 13: EXPECT_EQ(13, testObject.valueInteger); EXPECT_DOUBLE_EQ(13.13, testObject.valueDouble); EXPECT_EQ('m', testObject.valueCharacter); EXPECT_EQ("thirteenthString", testObject.valueString); break;
+        case 14: EXPECT_EQ(14, testObject.valueInteger); EXPECT_DOUBLE_EQ(14.14, testObject.valueDouble); EXPECT_EQ('n', testObject.valueCharacter); EXPECT_EQ("fourteenthString", testObject.valueString); break;
+        case 15: EXPECT_EQ(15, testObject.valueInteger); EXPECT_DOUBLE_EQ(15.15, testObject.valueDouble); EXPECT_EQ('o', testObject.valueCharacter); EXPECT_EQ("fifteenthString", testObject.valueString); break;
         default: break;
         }
         expectedValue++;
@@ -513,21 +512,21 @@ TEST(AlbaLargeSorterTest, ObjectsAreStableSortedWhenDuplicateValuesAreExisting)
     {
         switch(expectedValue)
         {
-        case 1: EXPECT_EQ(1, testObject.m_valueInteger); EXPECT_DOUBLE_EQ(1.01, testObject.m_valueDouble); EXPECT_EQ('a', testObject.m_valueCharacter); EXPECT_EQ("firstString", testObject.m_valueString); break;
-        case 2: EXPECT_EQ(1, testObject.m_valueInteger); EXPECT_DOUBLE_EQ(2.02, testObject.m_valueDouble); EXPECT_EQ('b', testObject.m_valueCharacter); EXPECT_EQ("secondString", testObject.m_valueString); break;
-        case 3: EXPECT_EQ(1, testObject.m_valueInteger); EXPECT_DOUBLE_EQ(3.03, testObject.m_valueDouble); EXPECT_EQ('c', testObject.m_valueCharacter); EXPECT_EQ("thirdString", testObject.m_valueString); break;
-        case 4: EXPECT_EQ(1, testObject.m_valueInteger); EXPECT_DOUBLE_EQ(4.04, testObject.m_valueDouble); EXPECT_EQ('d', testObject.m_valueCharacter); EXPECT_EQ("fourthString", testObject.m_valueString); break;
-        case 5: EXPECT_EQ(2, testObject.m_valueInteger); EXPECT_DOUBLE_EQ(5.05, testObject.m_valueDouble); EXPECT_EQ('e', testObject.m_valueCharacter); EXPECT_EQ("fifthString", testObject.m_valueString); break;
-        case 6: EXPECT_EQ(2, testObject.m_valueInteger); EXPECT_DOUBLE_EQ(6.06, testObject.m_valueDouble); EXPECT_EQ('f', testObject.m_valueCharacter); EXPECT_EQ("sixthString", testObject.m_valueString); break;
-        case 7: EXPECT_EQ(2, testObject.m_valueInteger); EXPECT_DOUBLE_EQ(7.07, testObject.m_valueDouble); EXPECT_EQ('g', testObject.m_valueCharacter); EXPECT_EQ("seventhString", testObject.m_valueString); break;
-        case 8: EXPECT_EQ(3, testObject.m_valueInteger); EXPECT_DOUBLE_EQ(8.08, testObject.m_valueDouble); EXPECT_EQ('h', testObject.m_valueCharacter); EXPECT_EQ("eighthString", testObject.m_valueString); break;
-        case 9: EXPECT_EQ(3, testObject.m_valueInteger); EXPECT_DOUBLE_EQ(9.09, testObject.m_valueDouble); EXPECT_EQ('i', testObject.m_valueCharacter); EXPECT_EQ("ninthString", testObject.m_valueString); break;
-        case 10: EXPECT_EQ(3, testObject.m_valueInteger); EXPECT_DOUBLE_EQ(10.10, testObject.m_valueDouble); EXPECT_EQ('j', testObject.m_valueCharacter); EXPECT_EQ("tenthString", testObject.m_valueString); break;
-        case 11: EXPECT_EQ(3, testObject.m_valueInteger); EXPECT_DOUBLE_EQ(11.11, testObject.m_valueDouble); EXPECT_EQ('k', testObject.m_valueCharacter); EXPECT_EQ("eleventhString", testObject.m_valueString); break;
-        case 12: EXPECT_EQ(3, testObject.m_valueInteger); EXPECT_DOUBLE_EQ(12.12, testObject.m_valueDouble); EXPECT_EQ('l', testObject.m_valueCharacter); EXPECT_EQ("twelvethString", testObject.m_valueString); break;
-        case 13: EXPECT_EQ(3, testObject.m_valueInteger); EXPECT_DOUBLE_EQ(13.13, testObject.m_valueDouble); EXPECT_EQ('m', testObject.m_valueCharacter); EXPECT_EQ("thirteenthString", testObject.m_valueString); break;
-        case 14: EXPECT_EQ(3, testObject.m_valueInteger); EXPECT_DOUBLE_EQ(14.14, testObject.m_valueDouble); EXPECT_EQ('n', testObject.m_valueCharacter); EXPECT_EQ("fourteenthString", testObject.m_valueString); break;
-        case 15: EXPECT_EQ(4, testObject.m_valueInteger); EXPECT_DOUBLE_EQ(15.15, testObject.m_valueDouble); EXPECT_EQ('o', testObject.m_valueCharacter); EXPECT_EQ("fifteenthString", testObject.m_valueString); break;
+        case 1: EXPECT_EQ(1, testObject.valueInteger); EXPECT_DOUBLE_EQ(1.01, testObject.valueDouble); EXPECT_EQ('a', testObject.valueCharacter); EXPECT_EQ("firstString", testObject.valueString); break;
+        case 2: EXPECT_EQ(1, testObject.valueInteger); EXPECT_DOUBLE_EQ(2.02, testObject.valueDouble); EXPECT_EQ('b', testObject.valueCharacter); EXPECT_EQ("secondString", testObject.valueString); break;
+        case 3: EXPECT_EQ(1, testObject.valueInteger); EXPECT_DOUBLE_EQ(3.03, testObject.valueDouble); EXPECT_EQ('c', testObject.valueCharacter); EXPECT_EQ("thirdString", testObject.valueString); break;
+        case 4: EXPECT_EQ(1, testObject.valueInteger); EXPECT_DOUBLE_EQ(4.04, testObject.valueDouble); EXPECT_EQ('d', testObject.valueCharacter); EXPECT_EQ("fourthString", testObject.valueString); break;
+        case 5: EXPECT_EQ(2, testObject.valueInteger); EXPECT_DOUBLE_EQ(5.05, testObject.valueDouble); EXPECT_EQ('e', testObject.valueCharacter); EXPECT_EQ("fifthString", testObject.valueString); break;
+        case 6: EXPECT_EQ(2, testObject.valueInteger); EXPECT_DOUBLE_EQ(6.06, testObject.valueDouble); EXPECT_EQ('f', testObject.valueCharacter); EXPECT_EQ("sixthString", testObject.valueString); break;
+        case 7: EXPECT_EQ(2, testObject.valueInteger); EXPECT_DOUBLE_EQ(7.07, testObject.valueDouble); EXPECT_EQ('g', testObject.valueCharacter); EXPECT_EQ("seventhString", testObject.valueString); break;
+        case 8: EXPECT_EQ(3, testObject.valueInteger); EXPECT_DOUBLE_EQ(8.08, testObject.valueDouble); EXPECT_EQ('h', testObject.valueCharacter); EXPECT_EQ("eighthString", testObject.valueString); break;
+        case 9: EXPECT_EQ(3, testObject.valueInteger); EXPECT_DOUBLE_EQ(9.09, testObject.valueDouble); EXPECT_EQ('i', testObject.valueCharacter); EXPECT_EQ("ninthString", testObject.valueString); break;
+        case 10: EXPECT_EQ(3, testObject.valueInteger); EXPECT_DOUBLE_EQ(10.10, testObject.valueDouble); EXPECT_EQ('j', testObject.valueCharacter); EXPECT_EQ("tenthString", testObject.valueString); break;
+        case 11: EXPECT_EQ(3, testObject.valueInteger); EXPECT_DOUBLE_EQ(11.11, testObject.valueDouble); EXPECT_EQ('k', testObject.valueCharacter); EXPECT_EQ("eleventhString", testObject.valueString); break;
+        case 12: EXPECT_EQ(3, testObject.valueInteger); EXPECT_DOUBLE_EQ(12.12, testObject.valueDouble); EXPECT_EQ('l', testObject.valueCharacter); EXPECT_EQ("twelvethString", testObject.valueString); break;
+        case 13: EXPECT_EQ(3, testObject.valueInteger); EXPECT_DOUBLE_EQ(13.13, testObject.valueDouble); EXPECT_EQ('m', testObject.valueCharacter); EXPECT_EQ("thirteenthString", testObject.valueString); break;
+        case 14: EXPECT_EQ(3, testObject.valueInteger); EXPECT_DOUBLE_EQ(14.14, testObject.valueDouble); EXPECT_EQ('n', testObject.valueCharacter); EXPECT_EQ("fourteenthString", testObject.valueString); break;
+        case 15: EXPECT_EQ(4, testObject.valueInteger); EXPECT_DOUBLE_EQ(15.15, testObject.valueDouble); EXPECT_EQ('o', testObject.valueCharacter); EXPECT_EQ("fifteenthString", testObject.valueString); break;
         default: break;
         }
         expectedValue++;
@@ -566,21 +565,21 @@ TEST(AlbaLargeSorterTest, ObjectsAreSortedWhenUsingRandomShuffle)
     {
         switch(expectedValue)
         {
-        case 1: EXPECT_EQ(1, testObject.m_valueInteger); EXPECT_DOUBLE_EQ(1.01, testObject.m_valueDouble); EXPECT_EQ('a', testObject.m_valueCharacter); EXPECT_EQ("firstString", testObject.m_valueString); break;
-        case 2: EXPECT_EQ(2, testObject.m_valueInteger); EXPECT_DOUBLE_EQ(2.02, testObject.m_valueDouble); EXPECT_EQ('b', testObject.m_valueCharacter); EXPECT_EQ("secondString", testObject.m_valueString); break;
-        case 3: EXPECT_EQ(3, testObject.m_valueInteger); EXPECT_DOUBLE_EQ(3.03, testObject.m_valueDouble); EXPECT_EQ('c', testObject.m_valueCharacter); EXPECT_EQ("thirdString", testObject.m_valueString); break;
-        case 4: EXPECT_EQ(4, testObject.m_valueInteger); EXPECT_DOUBLE_EQ(4.04, testObject.m_valueDouble); EXPECT_EQ('d', testObject.m_valueCharacter); EXPECT_EQ("fourthString", testObject.m_valueString); break;
-        case 5: EXPECT_EQ(5, testObject.m_valueInteger); EXPECT_DOUBLE_EQ(5.05, testObject.m_valueDouble); EXPECT_EQ('e', testObject.m_valueCharacter); EXPECT_EQ("fifthString", testObject.m_valueString); break;
-        case 6: EXPECT_EQ(6, testObject.m_valueInteger); EXPECT_DOUBLE_EQ(6.06, testObject.m_valueDouble); EXPECT_EQ('f', testObject.m_valueCharacter); EXPECT_EQ("sixthString", testObject.m_valueString); break;
-        case 7: EXPECT_EQ(7, testObject.m_valueInteger); EXPECT_DOUBLE_EQ(7.07, testObject.m_valueDouble); EXPECT_EQ('g', testObject.m_valueCharacter); EXPECT_EQ("seventhString", testObject.m_valueString); break;
-        case 8: EXPECT_EQ(8, testObject.m_valueInteger); EXPECT_DOUBLE_EQ(8.08, testObject.m_valueDouble); EXPECT_EQ('h', testObject.m_valueCharacter); EXPECT_EQ("eighthString", testObject.m_valueString); break;
-        case 9: EXPECT_EQ(9, testObject.m_valueInteger); EXPECT_DOUBLE_EQ(9.09, testObject.m_valueDouble); EXPECT_EQ('i', testObject.m_valueCharacter); EXPECT_EQ("ninthString", testObject.m_valueString); break;
-        case 10: EXPECT_EQ(10, testObject.m_valueInteger); EXPECT_DOUBLE_EQ(10.10, testObject.m_valueDouble); EXPECT_EQ('j', testObject.m_valueCharacter); EXPECT_EQ("tenthString", testObject.m_valueString); break;
-        case 11: EXPECT_EQ(11, testObject.m_valueInteger); EXPECT_DOUBLE_EQ(11.11, testObject.m_valueDouble); EXPECT_EQ('k', testObject.m_valueCharacter); EXPECT_EQ("eleventhString", testObject.m_valueString); break;
-        case 12: EXPECT_EQ(12, testObject.m_valueInteger); EXPECT_DOUBLE_EQ(12.12, testObject.m_valueDouble); EXPECT_EQ('l', testObject.m_valueCharacter); EXPECT_EQ("twelvethString", testObject.m_valueString); break;
-        case 13: EXPECT_EQ(13, testObject.m_valueInteger); EXPECT_DOUBLE_EQ(13.13, testObject.m_valueDouble); EXPECT_EQ('m', testObject.m_valueCharacter); EXPECT_EQ("thirteenthString", testObject.m_valueString); break;
-        case 14: EXPECT_EQ(14, testObject.m_valueInteger); EXPECT_DOUBLE_EQ(14.14, testObject.m_valueDouble); EXPECT_EQ('n', testObject.m_valueCharacter); EXPECT_EQ("fourteenthString", testObject.m_valueString); break;
-        case 15: EXPECT_EQ(15, testObject.m_valueInteger); EXPECT_DOUBLE_EQ(15.15, testObject.m_valueDouble); EXPECT_EQ('o', testObject.m_valueCharacter); EXPECT_EQ("fifteenthString", testObject.m_valueString); break;
+        case 1: EXPECT_EQ(1, testObject.valueInteger); EXPECT_DOUBLE_EQ(1.01, testObject.valueDouble); EXPECT_EQ('a', testObject.valueCharacter); EXPECT_EQ("firstString", testObject.valueString); break;
+        case 2: EXPECT_EQ(2, testObject.valueInteger); EXPECT_DOUBLE_EQ(2.02, testObject.valueDouble); EXPECT_EQ('b', testObject.valueCharacter); EXPECT_EQ("secondString", testObject.valueString); break;
+        case 3: EXPECT_EQ(3, testObject.valueInteger); EXPECT_DOUBLE_EQ(3.03, testObject.valueDouble); EXPECT_EQ('c', testObject.valueCharacter); EXPECT_EQ("thirdString", testObject.valueString); break;
+        case 4: EXPECT_EQ(4, testObject.valueInteger); EXPECT_DOUBLE_EQ(4.04, testObject.valueDouble); EXPECT_EQ('d', testObject.valueCharacter); EXPECT_EQ("fourthString", testObject.valueString); break;
+        case 5: EXPECT_EQ(5, testObject.valueInteger); EXPECT_DOUBLE_EQ(5.05, testObject.valueDouble); EXPECT_EQ('e', testObject.valueCharacter); EXPECT_EQ("fifthString", testObject.valueString); break;
+        case 6: EXPECT_EQ(6, testObject.valueInteger); EXPECT_DOUBLE_EQ(6.06, testObject.valueDouble); EXPECT_EQ('f', testObject.valueCharacter); EXPECT_EQ("sixthString", testObject.valueString); break;
+        case 7: EXPECT_EQ(7, testObject.valueInteger); EXPECT_DOUBLE_EQ(7.07, testObject.valueDouble); EXPECT_EQ('g', testObject.valueCharacter); EXPECT_EQ("seventhString", testObject.valueString); break;
+        case 8: EXPECT_EQ(8, testObject.valueInteger); EXPECT_DOUBLE_EQ(8.08, testObject.valueDouble); EXPECT_EQ('h', testObject.valueCharacter); EXPECT_EQ("eighthString", testObject.valueString); break;
+        case 9: EXPECT_EQ(9, testObject.valueInteger); EXPECT_DOUBLE_EQ(9.09, testObject.valueDouble); EXPECT_EQ('i', testObject.valueCharacter); EXPECT_EQ("ninthString", testObject.valueString); break;
+        case 10: EXPECT_EQ(10, testObject.valueInteger); EXPECT_DOUBLE_EQ(10.10, testObject.valueDouble); EXPECT_EQ('j', testObject.valueCharacter); EXPECT_EQ("tenthString", testObject.valueString); break;
+        case 11: EXPECT_EQ(11, testObject.valueInteger); EXPECT_DOUBLE_EQ(11.11, testObject.valueDouble); EXPECT_EQ('k', testObject.valueCharacter); EXPECT_EQ("eleventhString", testObject.valueString); break;
+        case 12: EXPECT_EQ(12, testObject.valueInteger); EXPECT_DOUBLE_EQ(12.12, testObject.valueDouble); EXPECT_EQ('l', testObject.valueCharacter); EXPECT_EQ("twelvethString", testObject.valueString); break;
+        case 13: EXPECT_EQ(13, testObject.valueInteger); EXPECT_DOUBLE_EQ(13.13, testObject.valueDouble); EXPECT_EQ('m', testObject.valueCharacter); EXPECT_EQ("thirteenthString", testObject.valueString); break;
+        case 14: EXPECT_EQ(14, testObject.valueInteger); EXPECT_DOUBLE_EQ(14.14, testObject.valueDouble); EXPECT_EQ('n', testObject.valueCharacter); EXPECT_EQ("fourteenthString", testObject.valueString); break;
+        case 15: EXPECT_EQ(15, testObject.valueInteger); EXPECT_DOUBLE_EQ(15.15, testObject.valueDouble); EXPECT_EQ('o', testObject.valueCharacter); EXPECT_EQ("fifteenthString", testObject.valueString); break;
         default: break;
         }
         expectedValue++;

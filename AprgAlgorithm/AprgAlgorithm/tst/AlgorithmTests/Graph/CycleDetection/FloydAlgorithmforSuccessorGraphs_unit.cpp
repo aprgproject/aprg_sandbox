@@ -1,4 +1,4 @@
-#include <Algorithm/Graph/CycleDetection/FloydAlgorithmforSuccessorGraphs.hpp>
+#include <Algorithm/Graph/CycleDetection/FloydAlgorithmForSuccessorGraphs.hpp>
 #include <Algorithm/Graph/DirectedGraph/DirectedGraphWithListOfEdges.hpp>
 
 #include <gtest/gtest.h>
@@ -15,10 +15,10 @@ using VertexForTest = unsigned int;
 using PathForTest = GraphTypes<VertexForTest>::Path;
 using PathsForTest = GraphTypes<VertexForTest>::Paths;
 using GraphForTest = DirectedGraphWithListOfEdges<VertexForTest>;
-using CycleDetectionForTest = FloydAlgorithmforSuccessorGraphs<VertexForTest>;
+using CycleDetectionForTest = FloydAlgorithmForSuccessorGraphs<VertexForTest>;
 }
 
-TEST(FloydAlgorithmforSuccessorGraphsTest, CycleDetectionWorksWhenGraphIsEmpty)
+TEST(FloydAlgorithmForSuccessorGraphsTest, CycleDetectionWorksWhenGraphIsEmpty)
 {
     GraphForTest graph;
     CycleDetectionForTest cycleDetection(graph);
@@ -27,7 +27,7 @@ TEST(FloydAlgorithmforSuccessorGraphsTest, CycleDetectionWorksWhenGraphIsEmpty)
     EXPECT_TRUE(cycleDetection.getCycle().empty());
 }
 
-TEST(FloydAlgorithmforSuccessorGraphsTest, CycleDetectionWorksWhenThereIsNoCycle)
+TEST(FloydAlgorithmForSuccessorGraphsTest, CycleDetectionWorksWhenThereIsNoCycle)
 {
     GraphForTest graph;
     graph.connect(0U, 1U);
@@ -41,7 +41,7 @@ TEST(FloydAlgorithmforSuccessorGraphsTest, CycleDetectionWorksWhenThereIsNoCycle
     EXPECT_TRUE(cycleDetection.getCycle().empty());
 }
 
-TEST(FloydAlgorithmforSuccessorGraphsTest, CycleDetectionWorksUsingExample1)
+TEST(FloydAlgorithmForSuccessorGraphsTest, CycleDetectionWorksUsingExample1)
 {
     GraphForTest graph;
     graph.connect(0U, 1U);

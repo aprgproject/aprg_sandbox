@@ -74,7 +74,7 @@ private:
 
     Index getHigherIndex(Index const lowerIndex) const
     {
-        return std::min(lowerIndex+1, m_sortedValues.size()-1);
+        return std::min(lowerIndex+1, static_cast<unsigned int>(m_sortedValues.size()-1));
     }
 
     Values const& m_sortedValues;

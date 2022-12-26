@@ -2,6 +2,8 @@
 
 #include <gtest/gtest.h>
 
+#include <numeric>
+
 using namespace std;
 
 namespace alba
@@ -20,19 +22,19 @@ using BlockValueForTest = typename RangeQueryForTest::BlockValue;
 using RangesForTest = typename RangeQueryForTest::Ranges;
 using InputAndOutputPairsForTest = typename RangeQueryForTest::InputAndOutputPairs;
 
-RangeQueryForTest::TwoBlocksFunction plusForAPairOfBlockValues = plus<BlockValueForTest>();
-RangeQueryForTest::TwoBlocksFunction minusForPairOfBlockValues = minus<BlockValueForTest>();
+RangeQueryForTest::TwoBlocksFunction plusForAPairOfBlockValues = plus<>();
+RangeQueryForTest::TwoBlocksFunction minusForPairOfBlockValues = minus<>();
 
 RangeQueryForTest::ValuesFunction plusForARangeOfValues = [](
         ValuesForTest::const_iterator itStart, ValuesForTest::const_iterator itEnd)
 {
-    return std::accumulate(itStart+1, itEnd, *itStart, plus<ValueForTest>());
+    return std::accumulate(itStart+1, itEnd, *itStart, plus<>());
 };
 
 RangeQueryForTest::ValuesFunction plusForARangeOfBlockValues = [](
         BlockValuesForTest::const_iterator itStart, BlockValuesForTest::const_iterator itEnd)
 {
-    return std::accumulate(itStart+1, itEnd, *itStart, plus<ValueForTest>());
+    return std::accumulate(itStart+1, itEnd, *itStart, plus<>());
 };
 }
 

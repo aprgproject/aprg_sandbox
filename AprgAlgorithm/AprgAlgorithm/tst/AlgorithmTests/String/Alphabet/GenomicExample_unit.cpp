@@ -32,7 +32,7 @@ string compressCharactersToValues(string const& characters)
         bitset<2U> valueBitset(dnaAlphabet.getDigitValue(reader.readCharData()));
         if(!inputSs.eof())
         {
-            writer.writeBitsetData(valueBitset, 0, 1);
+            writer.writeBitsetData<2U>(valueBitset, 0U, 1U);
         }
         else
         {

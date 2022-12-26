@@ -1,4 +1,4 @@
-#include <Algorithm/Graph/CycleDetection/BrentAlgorithmforSuccessorGraphs.hpp>
+#include <Algorithm/Graph/CycleDetection/BrentAlgorithmForSuccessorGraphs.hpp>
 #include <Algorithm/Graph/DirectedGraph/DirectedGraphWithListOfEdges.hpp>
 
 #include <gtest/gtest.h>
@@ -15,10 +15,10 @@ using VertexForTest = unsigned int;
 using PathForTest = GraphTypes<VertexForTest>::Path;
 using PathsForTest = GraphTypes<VertexForTest>::Paths;
 using GraphForTest = DirectedGraphWithListOfEdges<VertexForTest>;
-using CycleDetectionForTest = BrentAlgorithmforSuccessorGraphs<VertexForTest>;
+using CycleDetectionForTest = BrentAlgorithmForSuccessorGraphs<VertexForTest>;
 }
 
-TEST(BrentAlgorithmforSuccessorGraphsTest, CycleDetectionWorksWhenGraphIsEmpty)
+TEST(BrentAlgorithmForSuccessorGraphsTest, CycleDetectionWorksWhenGraphIsEmpty)
 {
     GraphForTest graph;
     CycleDetectionForTest cycleDetection(graph);
@@ -27,7 +27,7 @@ TEST(BrentAlgorithmforSuccessorGraphsTest, CycleDetectionWorksWhenGraphIsEmpty)
     EXPECT_TRUE(cycleDetection.getCycle().empty());
 }
 
-TEST(BrentAlgorithmforSuccessorGraphsTest, CycleDetectionWorksWhenThereIsNoCycle)
+TEST(BrentAlgorithmForSuccessorGraphsTest, CycleDetectionWorksWhenThereIsNoCycle)
 {
     GraphForTest graph;
     graph.connect(0U, 1U);
@@ -41,7 +41,7 @@ TEST(BrentAlgorithmforSuccessorGraphsTest, CycleDetectionWorksWhenThereIsNoCycle
     EXPECT_TRUE(cycleDetection.getCycle().empty());
 }
 
-TEST(BrentAlgorithmforSuccessorGraphsTest, CycleDetectionWorksUsingExample1)
+TEST(BrentAlgorithmForSuccessorGraphsTest, CycleDetectionWorksUsingExample1)
 {
     GraphForTest graph;
     graph.connect(0U, 1U);

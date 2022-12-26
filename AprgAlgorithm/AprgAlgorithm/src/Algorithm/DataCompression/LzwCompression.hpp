@@ -18,7 +18,7 @@ class LzwCompression
 {
 public :
     static constexpr unsigned int RADIX=256U;
-    static constexpr Code CODE_WORD_WIDTH = 12;
+    static constexpr unsigned int CODE_WORD_WIDTH = 12;
     static constexpr Code MAX_NUMBER_CODE_WORDS = 1 << CODE_WORD_WIDTH;
 
     using SymbolTableUsingTrie = TernarySearchTrie<Code>;
@@ -112,12 +112,12 @@ private:
     void writeCode(AlbaStreamBitWriter & writer, Code const& code)
     {
         std::bitset<CODE_WORD_WIDTH> bitsetToWrite(code);
-        writer.writeBitsetData(bitsetToWrite, CODE_WORD_WIDTH-1, 0);
+        writer.writeBitsetData<CODE_WORD_WIDTH>(bitsetToWrite, CODE_WORD_WIDTH-1, 0U);
     }
 
     Code readOneCodeword(AlbaStreamBitReader & reader)
     {
-        std::bitset<CODE_WORD_WIDTH> bitsetCodeword(reader.readBitsetData<CODE_WORD_WIDTH>(static_cast<unsigned int>(CODE_WORD_WIDTH-1), static_cast<unsigned int>(0)));
+        std::bitset<CODE_WORD_WIDTH> bitsetCodeword(reader.readBitsetData<CODE_WORD_WIDTH>(CODE_WORD_WIDTH-1, 0U));
         return static_cast<Code>(bitsetCodeword.to_ullong());
     }
 };
