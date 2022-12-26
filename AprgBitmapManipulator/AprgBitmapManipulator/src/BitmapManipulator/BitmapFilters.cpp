@@ -9,16 +9,13 @@
 #include <Common/Container/AlbaOptional.hpp>
 #include <Common/Math/Helpers/SignRelatedHelpers.hpp>
 #include <Common/PathHandler/AlbaLocalPathHandler.hpp>
-#include <Geometry/TwoDimensions/TwoDimensionsHelper.hpp>
-
+#include <Geometry/TwoDimensions/Utilities/TwoDimensionsUtilities.hpp>
 
 using namespace alba::AprgBitmap::ColorUtilities;
-using namespace alba::mathHelper;
-using namespace alba::TwoDimensions;
+using namespace alba::mathHelper;using namespace alba::TwoDimensions;
 using namespace std;
 
-namespace alba
-{
+namespace alba{
 
 namespace AprgBitmap
 {
@@ -674,16 +671,14 @@ bool BitmapFilters::isThisPenCircleBetter(
     if(circleToCheck.getRadius() == circleToCompare.getRadius())
     {
         Point penPoint(convertBitmapXYToPoint(penBitmapXY));
-        isBetter = twoDimensionsHelper::getDistance(penPoint, circleToCheck.getCenter())
-                < twoDimensionsHelper::getDistance(penPoint, circleToCompare.getCenter());
+        isBetter = twoDimensionsUtilities::getDistance(penPoint, circleToCheck.getCenter())
+                < twoDimensionsUtilities::getDistance(penPoint, circleToCompare.getCenter());
     }
     else
-    {
-        isBetter = circleToCheck.getRadius() > circleToCompare.getRadius();
+    {        isBetter = circleToCheck.getRadius() > circleToCompare.getRadius();
     }
     return isBetter;
 }
-
 uint32_t BitmapFilters::getBlurredColor(
         uint32_t const centerColor,
         uint32_t const colorToCompare,
@@ -736,15 +731,13 @@ uint32_t BitmapFilters::getBlurredColorUsingACircle(
         if(isIncludedInBlur(centerColor, currentColor, pointInCircle))
         {
             isChanged=true;
-            double distanceFromCenter(twoDimensionsHelper::getDistance(convertBitmapXYToPoint(centerXY), convertBitmapXYToPoint(pointInCircle)));
+            double distanceFromCenter(twoDimensionsUtilities::getDistance(convertBitmapXYToPoint(centerXY), convertBitmapXYToPoint(pointInCircle)));
             double blurWeight(getBlurWeight(distanceFromCenter, blurRadius));
             totalBlurredColorRed+=blurWeight*extractRed(currentColor);
-            totalBlurredColorGreen+=blurWeight*extractGreen(currentColor);
-            totalBlurredColorBlue+=blurWeight*extractBlue(currentColor);
+            totalBlurredColorGreen+=blurWeight*extractGreen(currentColor);            totalBlurredColorBlue+=blurWeight*extractBlue(currentColor);
             totalBlurWeight+=blurWeight;
         }
-    });
-    uint32_t blurredColor(m_backgroundColor);
+    });    uint32_t blurredColor(m_backgroundColor);
     if(isChanged)
     {
         blurredColor = combineRgbToColor(

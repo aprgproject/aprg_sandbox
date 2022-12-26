@@ -111,22 +111,21 @@ void AprgColorStatistics::saveColorStatistics(string const& path)
     OneDimensionStatistics luma601Statistics(luma601Samples);
     OneDimensionStatistics luma709Statistics(luma709Samples);
 
-    statisticsFileStream << "Color Intensity Mean: " << colorIntensityStatistics.getMean().getDisplayableString()
-                         << " StdDev: " << colorIntensityStatistics.getSampleStandardDeviation().getDisplayableString() << endl;
-    statisticsFileStream << "Saturation Lightness Mean: " << saturationLightnessStatistics.getMean().getDisplayableString()
-                         << " StdDev: " << saturationLightnessStatistics.getSampleStandardDeviation().getDisplayableString() << endl;
-    statisticsFileStream << "Lightness Mean: " << lightnessStatistics.getMean().getDisplayableString()
-                         << " StdDev: " << lightnessStatistics.getSampleStandardDeviation().getDisplayableString() << endl;
-    statisticsFileStream << "Saturation Value Mean: " << saturationValueStatistics.getMean().getDisplayableString()
-                         << " StdDev: " << saturationValueStatistics.getSampleStandardDeviation().getDisplayableString() << endl;
-    statisticsFileStream << "Value Mean: " << valueStatistics.getMean().getDisplayableString()
-                         << " StdDev: " << valueStatistics.getSampleStandardDeviation().getDisplayableString() << endl;
-    statisticsFileStream << "Luma 601 Mean: " << luma601Statistics.getMean().getDisplayableString()
-                         << " StdDev: " << luma601Statistics.getSampleStandardDeviation().getDisplayableString() << endl;
-    statisticsFileStream << "Luma 709 Mean: " << luma709Statistics.getMean().getDisplayableString()
-                         << " StdDev: " << luma709Statistics.getSampleStandardDeviation().getDisplayableString() << endl;
+    statisticsFileStream << "Color Intensity Mean: " << colorIntensityStatistics.getMean()
+                         << " StdDev: " << colorIntensityStatistics.getSampleStandardDeviation() << endl;
+    statisticsFileStream << "Saturation Lightness Mean: " << saturationLightnessStatistics.getMean()
+                         << " StdDev: " << saturationLightnessStatistics.getSampleStandardDeviation() << endl;
+    statisticsFileStream << "Lightness Mean: " << lightnessStatistics.getMean()
+                         << " StdDev: " << lightnessStatistics.getSampleStandardDeviation() << endl;
+    statisticsFileStream << "Saturation Value Mean: " << saturationValueStatistics.getMean()
+                         << " StdDev: " << saturationValueStatistics.getSampleStandardDeviation() << endl;
+    statisticsFileStream << "Value Mean: " << valueStatistics.getMean()
+                         << " StdDev: " << valueStatistics.getSampleStandardDeviation() << endl;
+    statisticsFileStream << "Luma 601 Mean: " << luma601Statistics.getMean()
+                         << " StdDev: " << luma601Statistics.getSampleStandardDeviation() << endl;
+    statisticsFileStream << "Luma 709 Mean: " << luma709Statistics.getMean()
+                         << " StdDev: " << luma709Statistics.getSampleStandardDeviation() << endl;
 }
 
 }
-
 }
