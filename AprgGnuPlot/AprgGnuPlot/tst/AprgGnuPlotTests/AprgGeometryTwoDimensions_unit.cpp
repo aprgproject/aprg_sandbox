@@ -1,21 +1,19 @@
 #include <AprgGnuPlot/AprgGnuPlot2D.hpp>
-#include <Geometry/TwoDimensions/Circle.hpp>
-#include <Geometry/TwoDimensions/Hyperbola.hpp>
-#include <Geometry/TwoDimensions/Line.hpp>
-#include <Geometry/TwoDimensions/TwoDimensionsHelper.hpp>
+#include <Geometry/TwoDimensions/Constructs/Circle.hpp>
+#include <Geometry/TwoDimensions/Constructs/Hyperbola.hpp>
+#include <Geometry/TwoDimensions/Constructs/Line.hpp>
+#include <Geometry/TwoDimensions/Utilities/TwoDimensionsUtilities.hpp>
 
 #include <gtest/gtest.h>
 
 using namespace alba::TwoDimensions;
-using namespace alba::TwoDimensions::twoDimensionsHelper;
+using namespace alba::TwoDimensions::twoDimensionsUtilities;
 using namespace std;
 
-namespace alba
-{
+namespace alba{
 
 TEST(AprgGeometryTwoDimensionsTest, DISABLED_CircleAtOriginWithRadius)
-{
-    Circle circle(Point(0,0), 3);
+{    Circle circle(Point(0,0), 3);
     Points points(circle.getLocus(0.001));
 
     AprgGnuPlot2D gnuPlot2D;

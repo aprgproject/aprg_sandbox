@@ -1,21 +1,19 @@
 #include <AprgGnuPlot/AprgGnuPlot3D.hpp>
-#include <Geometry/ThreeDimensions/Line.hpp>
-#include <Geometry/ThreeDimensions/Plane.hpp>
-#include <Geometry/ThreeDimensions/Point.hpp>
-#include <Geometry/ThreeDimensions/ThreeDimensionsHelper.hpp>
+#include <Geometry/ThreeDimensions/Constructs/Line.hpp>
+#include <Geometry/ThreeDimensions/Constructs/Plane.hpp>
+#include <Geometry/ThreeDimensions/Constructs/Point.hpp>
+#include <Geometry/ThreeDimensions/Utilities/ThreeDimensionsUtilities.hpp>
 
 #include <gtest/gtest.h>
 
 using namespace alba::ThreeDimensions;
-using namespace alba::ThreeDimensions::threeDimensionsHelper;
+using namespace alba::ThreeDimensions::threeDimensionsUtilities;
 using namespace std;
 
-namespace alba
-{
+namespace alba{
 
 TEST(AprgGeometryThreeDimensionsTest, DISABLED_LineWithSlope)
-{
-    Line line(Point(0,0,0), Point(2,3,-4));
+{    Line line(Point(0,0,0), Point(2,3,-4));
     AprgGnuPlot3D::PointsInGraph points;
     for(double x=-10; x<10; x+=0.1)
     {
