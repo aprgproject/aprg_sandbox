@@ -1,13 +1,13 @@
 #include "LevenshteinDistance.hpp"
 
+#include <numeric>
+
 using namespace std;
 
-namespace alba
-{
+namespace alba{
 
 LevenshteinDistance::LevenshteinDistance(string const& string1, string const& string2)
-    : m_string1(string1)
-    , m_string2(string2)
+    : m_string1(string1)    , m_string2(string2)
 {}
 
 LevenshteinDistance::Index LevenshteinDistance::getLevenshteinDistanceUsingNaiveRecursion() const

@@ -1,11 +1,9 @@
-#include <AprgUniqueProblems/DynamicProgramming/MatrixMultiplicationOrder.hpp>
+#include <AprgUniqueProblems/DynamicProgramming/Math/MatrixMultiplicationOrder.hpp>
 
 #include <gtest/gtest.h>
-
 using namespace std;
 
-namespace alba
-{
+namespace alba{
 
 TEST(MatrixMultiplicationOrderTest, GetMinimumNumberOfOperationsWorksOnExample1)
 {

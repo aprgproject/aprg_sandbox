@@ -5,17 +5,12 @@ using namespace std;
 namespace alba
 {
 
-constexpr FibonacciExample::Number FibonacciExample::UNUSED_VALUE;
-
-
 FibonacciExample::FibonacciExample()
 {
-    initialize();
-}
+    initialize();}
 
 FibonacciExample::Number FibonacciExample::getFibonacciUsingNaiveRecursion(Number const number) const
-{
-    if (number<=1)
+{    if (number<=1)
     {
         return number;
     }
@@ -37,15 +32,13 @@ FibonacciExample::Number FibonacciExample::getFibonacciUsingMemoization(Number c
 
     if(m_memoizationData.size() <= number+1)
     {
-        m_memoizationData.resize(number+1, UNUSED_VALUE);
+        m_memoizationData.resize(number+1, static_cast<unsigned int>(UNUSED_VALUE));
     }
 
-    Number & resultForNumber(m_memoizationData[number]);
-    if (resultForNumber == UNUSED_VALUE)
+    Number & resultForNumber(m_memoizationData[number]);    if (resultForNumber == UNUSED_VALUE)
     {
         if (number<=1)
-        {
-            resultForNumber = number;
+        {            resultForNumber = number;
         }
         else
         {
@@ -65,15 +58,13 @@ FibonacciExample::Number FibonacciExample::getFibonacciUsingTabulation(Number co
     Number newStart = m_tabulationData.size();
     if(m_tabulationData.size() <= number+1)
     {
-        m_tabulationData.resize(number+1, UNUSED_VALUE);
+        m_tabulationData.resize(number+1, static_cast<unsigned int>(UNUSED_VALUE));
     }
 
-    for (Number i=newStart; i<=number; i++)
-    {
+    for (Number i=newStart; i<=number; i++)    {
         m_tabulationData[i] = m_tabulationData.at(i-1)+m_tabulationData.at(i-2);
     }
-    return m_tabulationData.at(number);
-}
+    return m_tabulationData.at(number);}
 
 void FibonacciExample::initialize()
 {
