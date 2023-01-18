@@ -6,21 +6,13 @@ set(OUTFILE ${PROJECT_NAME})
 set(CURL_CPP_DIR ${CMAKE_CURRENT_SOURCE_DIR})
 
 #Locate APRG Directory first because its used on other cmakes
-get_filename_component(ABSOLUTE_CURRENT_DIR "${CMAKE_CURRENT_LIST_DIR}" ABSOLUTE)
-get_filename_component(CURRENT_DIR_NAME "$${ABSOLUTE_CURRENT_DIR}" NAME)
-while(NOT ${CURRENT_DIR_NAME} MATCHES "APRG")
-    get_filename_component(ABSOLUTE_CURRENT_DIR "${ABSOLUTE_CURRENT_DIR}/.." ABSOLUTE)
-    get_filename_component(CURRENT_DIR_NAME "$${ABSOLUTE_CURRENT_DIR}" NAME)
-endwhile()
-set(APRG_DIR ${ABSOLUTE_CURRENT_DIR})
+include(${CURL_CPP_DIR}/cmake/LocateAprgDirectory.cmake)
 
 #Assign common flags, definitions and macros
-include(${APRG_DIR}/AprgCMakeHelpers/CommonFlags.cmake)
-include(${APRG_DIR}/AprgCMakeHelpers/CommonDefinitions.cmake)
+include(${APRG_DIR}/AprgCMakeHelpers/CommonFlags.cmake)include(${APRG_DIR}/AprgCMakeHelpers/CommonDefinitions.cmake)
 
 # Add MacPorts
-if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
-  set(CMAKE_PREFIX_PATH /opt/local ${CMAKE_PREFIX_PATH})
+if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")  set(CMAKE_PREFIX_PATH /opt/local ${CMAKE_PREFIX_PATH})
 endif()
 
 #Include other projects
@@ -35,7 +27,10 @@ set(CURL_CPP_TESTS
 )
 
 #Do final steps
+set(CMAKE_C_FLAGS "${APRG_COMPILER_COMMON_FLAGS} ${APRG_COMPILER_FLAGS_FOR_DEBUG}") # no -std=c17
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${APRG_COMPILER_FLAGS_FOR_DEBUG}")
 add_executable(${OUTFILE} ${CURL_CPP_SOURCES} ${CURL_CPP_TESTS})
 include_directories(${CURL_CPP_INCLUDE_DIRECTORIES} ${GTEST_INCLUDE_DIRS})
 target_link_libraries(${OUTFILE} CURL_LIB wsock32 ws2_32 APRG_COMMON)
 add_test(${OUTFILE} ${OUTFILE})
+include(${APRG_DIR}/AprgCMakeHelpers/LastStep.cmake)
