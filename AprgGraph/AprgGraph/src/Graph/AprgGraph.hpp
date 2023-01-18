@@ -6,18 +6,16 @@
 #include <Bitmap/BitmapSnippet.hpp>
 #include <Common/Container/AlbaValueRange.hpp>
 #include <Common/String/AlbaStringHelper.hpp>
-#include <Geometry/TwoDimensions/Circle.hpp>
-#include <Geometry/TwoDimensions/Ellipse.hpp>
-#include <Geometry/TwoDimensions/Hyperbola.hpp>
-#include <Geometry/TwoDimensions/Line.hpp>
-#include <Geometry/TwoDimensions/Point.hpp>
+#include <Geometry/TwoDimensions/Constructs/Circle.hpp>
+#include <Geometry/TwoDimensions/Constructs/Ellipse.hpp>
+#include <Geometry/TwoDimensions/Constructs/Hyperbola.hpp>
+#include <Geometry/TwoDimensions/Constructs/Line.hpp>
+#include <Geometry/TwoDimensions/Constructs/Point.hpp>
 
 #include <functional>
 #include <string>
-
 namespace alba
 {
-
 class AprgGraph
 {
 public:
