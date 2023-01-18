@@ -478,15 +478,13 @@ void LyxGenerator::saveDisplayTable(DisplayTable const& displayTable, ofstream &
                                 string tableCellTemplateLine(tableCellTemplateReader.getLine());
                                 if(isStringFoundInsideTheOtherStringCaseSensitive(tableCellTemplateLine,"LYX_TABLE_CELL_REPLACE"))
                                 {
-                                    displayTableStream << displayTable.getCellConstReference(row, column).getText()<<endl;
+                                    displayTableStream << displayTable.getCellAt(row, column).getText()<<endl;
                                 }
                                 else
-                                {
-                                    displayTableStream << tableCellTemplateLine << endl;
+                                {                                    displayTableStream << tableCellTemplateLine << endl;
                                 }
                             }
-                        }
-                    }
+                        }                    }
                     else
                     {
                         displayTableStream << tableRowTemplateLine << endl;

@@ -2,12 +2,12 @@
 
 #include <Common/State/AlbaBaseStateMachine.hpp>
 
+#include <string>
+
 namespace alba
 {
-
 namespace CommentStateMachineNamespace
 {
-
 enum class State
 {
     NotInComment,
