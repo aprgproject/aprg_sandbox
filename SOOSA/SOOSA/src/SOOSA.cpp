@@ -7,26 +7,22 @@
 #include <Common/PathHandler/AlbaLocalPathHandler.hpp>
 #include <Common/Print/AlbaPrintFunctions.hpp>
 #include <Common/User/AlbaUserInterface.hpp>
-#include <Geometry/TwoDimensions/Circle.hpp>
-#include <Geometry/TwoDimensions/TwoDimensionsHelper.hpp>
+#include <Geometry/TwoDimensions/Constructs/Circle.hpp>
+#include <Geometry/TwoDimensions/Utilities/TwoDimensionsUtilities.hpp>
 #include <Statistics/DataStatistics.hpp>
 #include <Statistics/FrequencyStatistics.hpp>
-
 #include <algorithm>
 #include <iostream>
 #include <sstream>
-
 using namespace alba::AprgBitmap;
 using namespace alba::mathHelper;
 using namespace alba::TwoDimensions;
-using namespace alba::TwoDimensions::twoDimensionsHelper;
+using namespace alba::TwoDimensions::twoDimensionsUtilities;
 using namespace alba::FrequencyStatistics;
 using namespace alba::TwoDimensionsStatistics;
 using namespace std;
-
 namespace alba
 {
-
 namespace soosa
 {
 
