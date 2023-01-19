@@ -4,8 +4,10 @@
 #include <gnuplot-iostream.h>
 
 #include <functional>
+
 namespace alba
 {
+
 class AprgGnuPlotBase
 {
 public:

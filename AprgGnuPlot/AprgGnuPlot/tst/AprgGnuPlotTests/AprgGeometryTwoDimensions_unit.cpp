@@ -10,10 +10,12 @@ using namespace alba::TwoDimensions;
 using namespace alba::TwoDimensions::twoDimensionsUtilities;
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 TEST(AprgGeometryTwoDimensionsTest, DISABLED_CircleAtOriginWithRadius)
-{    Circle circle(Point(0,0), 3);
+{
+    Circle circle(Point(0,0), 3);
     Points points(circle.getLocus(0.001));
 
     AprgGnuPlot2D gnuPlot2D;

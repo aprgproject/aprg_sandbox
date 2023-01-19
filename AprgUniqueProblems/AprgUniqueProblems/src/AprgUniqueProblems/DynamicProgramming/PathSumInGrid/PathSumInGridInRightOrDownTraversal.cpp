@@ -168,14 +168,17 @@ void PathSumInGridInRightOrDownTraversal::initialize(Type const type)
         m_compareFunction = less_equal<>();
         m_minMaxFunction = [](Value const& value1, Value const& value2)
         {
-            return min(value1, value2);        };
+            return min(value1, value2);
+        };
     }
     else if(Type::MaximumSum == type)
     {
         m_compareFunction = greater_equal<>();
         m_minMaxFunction = [](Value const& value1, Value const& value2)
         {
-            return max(value1, value2);        };
+            return max(value1, value2);
+        };
     }
 }
+
 }

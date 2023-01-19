@@ -11,9 +11,11 @@
 #include <Geometry/TwoDimensions/Utilities/TwoDimensionsUtilities.hpp>
 #include <Statistics/DataStatistics.hpp>
 #include <Statistics/FrequencyStatistics.hpp>
+
 #include <algorithm>
 #include <iostream>
 #include <sstream>
+
 using namespace alba::AprgBitmap;
 using namespace alba::mathHelper;
 using namespace alba::TwoDimensions;
@@ -21,8 +23,10 @@ using namespace alba::TwoDimensions::twoDimensionsUtilities;
 using namespace alba::FrequencyStatistics;
 using namespace alba::TwoDimensionsStatistics;
 using namespace std;
+
 namespace alba
 {
+
 namespace soosa
 {
 

@@ -9,10 +9,12 @@
 #include <Geometry/TwoDimensions/Constructs/Point.hpp>
 #include <InputConfiguration.hpp>
 #include <SoosaConfiguration.hpp>
-#include <Statistics/DataCollection.hpp>#include <Statistics/KMeansClustering.hpp>
+#include <Statistics/DataCollection.hpp>
+#include <Statistics/KMeansClustering.hpp>
 #include <Statistics/TwoDimensionsStatistics.hpp>
 
-#include <array>#include <deque>
+#include <array>
+#include <deque>
 #include <fstream>
 #include <map>
 #include <string>

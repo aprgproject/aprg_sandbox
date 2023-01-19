@@ -16,7 +16,8 @@ unsigned int CoinProblem::getNumberOfFewestCoinsUsingMemoizationDP(Value const t
     CountPerValue countPerValue(getMaxOfTotalAndMaxCoinPlusOne(total), static_cast<unsigned int>(UNUSED_COUNT));
     countPerValue[0] = 1; // null set
     for(Value const availableCoin : m_availableCoins)
-    {        countPerValue[availableCoin] = 1;
+    {
+        countPerValue[availableCoin] = 1;
     }
     return getNumberOfFewestCoinsUsingMemoizationDPInternal(countPerValue, total);
 }
@@ -31,10 +32,12 @@ unsigned int CoinProblem::getNumberOfFewestCoinsTabularDP(Value const total) con
         countPerValue[availableCoin] = 1U;
     }
     for(Value partialValue=1; partialValue<=total; partialValue++)
-    {        for(Value const availableCoin : m_availableCoins)
+    {
+        for(Value const availableCoin : m_availableCoins)
         {
             if(partialValue > availableCoin)
-            {                unsigned int subCount = countPerValue.at(partialValue-availableCoin);
+            {
+                unsigned int subCount = countPerValue.at(partialValue-availableCoin);
                 if(UNUSED_COUNT != subCount)
                 {
                     countPerValue[partialValue] = min(countPerValue.at(partialValue), subCount+1);
@@ -107,10 +110,12 @@ CoinProblem::CoinPermutations CoinProblem::getCoinPermutationsUsingTabularDP(Val
     CoinPermutationsPerValue coinPermutationsPerValue(getMaxOfTotalAndMaxCoinPlusOne(total));
 
     for(Value const availableCoin : m_availableCoins)
-    {        coinPermutationsPerValue[availableCoin].emplace(CoinPermutation{availableCoin});
+    {
+        coinPermutationsPerValue[availableCoin].emplace(CoinPermutation{availableCoin});
     }
     for(Value partialValue=0; partialValue<coinPermutationsPerValue.size(); partialValue++)
-    {        CoinPermutations & coinPermutations(coinPermutationsPerValue[partialValue]);
+    {
+        CoinPermutations & coinPermutations(coinPermutationsPerValue[partialValue]);
         for(Value const availableCoin : m_availableCoins)
         {
             if(partialValue > availableCoin)
@@ -187,7 +192,8 @@ unsigned int CoinProblem::getNumberOfCoinCombinationsUsingTabularDPAndSpaceEffic
     {
         for(Value partialValue=availableCoin; partialValue<=total; partialValue++)
         {
-            countPerValue[partialValue] += countPerValue.at(partialValue-availableCoin);        }
+            countPerValue[partialValue] += countPerValue.at(partialValue-availableCoin);
+        }
     }
     return countPerValue.at(total);
 }
@@ -203,10 +209,12 @@ CoinProblem::CoinCombinations CoinProblem::getCoinCombinationsUsingTabularDP(Val
     CoinCombinationsPerValue coinCombinationsPerValue(getMaxOfTotalAndMaxCoinPlusOne(total));
 
     for(Value const availableCoin : m_availableCoins)
-    {        if(coinCombinationsPerValue.at(availableCoin).empty())
+    {
+        if(coinCombinationsPerValue.at(availableCoin).empty())
         {
             coinCombinationsPerValue[availableCoin].emplace(CoinCombination{availableCoin});
-        }    }
+        }
+    }
     for(Value partialValue=1; partialValue<coinCombinationsPerValue.size(); partialValue++)
     {
         CoinCombinations & combinations(coinCombinationsPerValue[partialValue]);
@@ -241,7 +249,8 @@ CoinProblem::Value CoinProblem::getMaxOfTotalAndMaxCoinPlusOne(Value const total
     return max(total, getMaxAvailableCoin())+1;
 }
 
-unsigned int CoinProblem::getNumberOfFewestCoinsUsingMemoizationDPInternal(        CountPerValue & countPerValue,
+unsigned int CoinProblem::getNumberOfFewestCoinsUsingMemoizationDPInternal(
+        CountPerValue & countPerValue,
         Value const total) const
 {
     unsigned int result(countPerValue.at(total));
@@ -250,10 +259,12 @@ unsigned int CoinProblem::getNumberOfFewestCoinsUsingMemoizationDPInternal(     
         // result is already set to max value so we can use min
         for(Value const availableCoin : m_availableCoins)
         {
-            if(total > availableCoin)            {
+            if(total > availableCoin)
+            {
                 unsigned int subCount(getNumberOfFewestCoinsUsingMemoizationDPInternal(countPerValue, total-availableCoin));
                 if(UNUSED_COUNT!=subCount)
-                {                    result = min(result, subCount+1);
+                {
+                    result = min(result, subCount+1);
                 }
             }
         }

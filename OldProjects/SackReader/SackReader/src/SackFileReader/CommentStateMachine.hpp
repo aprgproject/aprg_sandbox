@@ -6,8 +6,10 @@
 
 namespace alba
 {
+
 namespace CommentStateMachineNamespace
 {
+
 enum class State
 {
     NotInComment,

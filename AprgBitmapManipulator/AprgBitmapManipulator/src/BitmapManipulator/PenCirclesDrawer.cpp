@@ -15,10 +15,12 @@ using namespace alba::TwoDimensions;
 using namespace alba::TwoDimensions::twoDimensionsUtilities;
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 namespace AprgBitmap
 {
+
 PenCirclesDrawer::ColorDetails::ColorDetails()
     : totalRed(0)
     , totalGreen(0)
@@ -222,10 +224,12 @@ void PenCirclesDrawer::putCircleConnectionsAndRemoveProcessedCircles()
             AlbaAngle referenceAngle(getAngleOfPointWithRespectToOrigin(referenceDelta));
             double radiusDifference = circle1.getRadius() - circle2.getRadius();
             double distanceOfCenters = getDistance(centerPoint1, centerPoint2);
-            double ratioForArcCos = radiusDifference/distanceOfCenters;            if(ratioForArcCos <= 1)
+            double ratioForArcCos = radiusDifference/distanceOfCenters;
+            if(ratioForArcCos <= 1)
             {
                 AlbaAngle deltaAngle(AngleUnitType::Radians, acos(ratioForArcCos));
-                AlbaAngle angle1(referenceAngle+deltaAngle);                AlbaAngle angle2(referenceAngle-deltaAngle);
+                AlbaAngle angle1(referenceAngle+deltaAngle);
+                AlbaAngle angle2(referenceAngle-deltaAngle);
                 Point tangentPoint1InCircle1(circle1.getPointAtAngle(angle1.getRadians()));
                 Point tangentPoint2InCircle1(circle1.getPointAtAngle(angle2.getRadians()));
                 Point tangentPoint1InCircle2(circle2.getPointAtAngle(angle1.getRadians()));

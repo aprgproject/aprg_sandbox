@@ -13,8 +13,10 @@
 
 #include <deque>
 #include <functional>
+
 namespace alba
 {
+
 namespace AprgBitmap
 {
 

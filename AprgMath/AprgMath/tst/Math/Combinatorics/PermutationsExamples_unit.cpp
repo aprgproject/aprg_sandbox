@@ -78,10 +78,12 @@ TEST(PermutationsExamplesTest, BasicExamplesWorks)
     EXPECT_EQ(12U, 3U*2U*1U*2U);
 }
 
-TEST(PermutationsExamplesTest, SeatsWithPeopleExampleScenario1Works){
+TEST(PermutationsExamplesTest, SeatsWithPeopleExampleScenario1Works)
+{
     // Scenario 1: Each seat can contain at most one person.
 
-    // For example, when n=4(seats) and k=2(people), there are 12 solutions:    // |A|B| | |    Positions{A,B}: {1, 2}
+    // For example, when n=4(seats) and k=2(people), there are 12 solutions:
+    // |A|B| | |    Positions{A,B}: {1, 2}
     // |A| |B| |    Positions{A,B}: {1, 3}
     // |A| | |B|    Positions{A,B}: {1, 4}
     // |B|A| | |    Positions{A,B}: {2, 1}

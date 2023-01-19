@@ -4,8 +4,10 @@ using namespace std;
 
 namespace alba
 {
+
 namespace CommentStateMachineNamespace
 {
+
 CommentStateMachine::CommentStateMachine()
     : AlbaBaseStateMachine(State::NotInComment)
 {}

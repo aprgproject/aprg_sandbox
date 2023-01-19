@@ -2,15 +2,19 @@
 
 Common commands:
 
--> Stage or add a file one by one (can be changed files or modified files):
+-> Help:
+---> git help
+
+-> Stage or add a file one by one to be tracked by git (can be changed files or modified files):
 ---> git add FileName1 FileName2
 -----> Note: git add for deleted files as well
 
--> Stage or add multiple files (multiple changed files or modified files):
+-> Stage or add multiple files to be tracked by git (multiple changed files or modified files):
 ---> git add .   // all files
 ---> git add *.html  // all html files
+---> git add :/   // adds all files under this directory
 
--> Unstage or remove a file one by one (remove file from staging area):
+-> Unstage or remove a file one by one to be tracked by git (remove file from staging area):
 ---> git rm FileName1 FileName2
 ---> git rm --cached FileName1 FileName2
 -----> When --cached is given, the staged content has to match either the tip of the branch or the file on disk, allowing the file to be removed from just the index.
@@ -19,10 +23,17 @@ Common commands:
 ---> git status
 
 -> Check changes:
----> git diff
+---> check changes from current commit
+-----> git diff
+-----> git diff FileName   // for one file
+---> check changes from staging area
+-----> git diff --cached
 
 -> Check all commits:
 ---> git log
+-----> by default, git log shows you a flatten version of the version history
+---> git log --all --graph --decorate   // shows the changes in a graph
+---> git log --all --graph --decorate --oneline   // shows the changes in a graph with less detail
 
 -> Commit to local repository:
 ---> git commit -m "Message title test" -m "Message description text"
@@ -36,14 +47,15 @@ Common commands:
 
 -> push changes to remote repository:
 ---> git push   // works without any arguments if upstream is set
----> git push origin master   // origin is reserved word the stands for the location of the git remote repository, master is the branch we have to push
+---> git push origin master   // origin is reserved word the stands for the git remote repository, master is the branch we have to push
 ---> git push -u origin master   // "-u" is "--set-upstream" sets the upstream to origin so we don't have to type "origin master" in the future
 ---> git push origin HEAD:refs/for/BranchName   // This is for using a reference
 
 -> pull changes from remote repository:
 ---> git pull   // works without any arguments if upstream is set
 ---> git push origin master   // origin is reserved word the stands for the location of the git remote repository, master is the branch we have to pull
----> git push --set-upstream origin master   // "--set-upstream" sets the upstream to origin we don't have to type "origin master" in the future
+---> git pull --set-upstream origin master   // "--set-upstream" sets the upstream to origin we don't have to type "origin master" in the future
+-----> git pull = git fetch + git merge
 
 -> undoing changes
 ---> undo staging (git add was already used, and we need to undo "git add")
@@ -53,7 +65,7 @@ Common commands:
 ---> undo a commit (git commit was already used, and we need to undo "git commit")
 -----> git reset HEAD~1  // HEAD points to the last commit, "~1" means the one commit before that. 
 -------> NOTE: The changes still exists we just let git point to one commit before HEAD. Do "git status" to check.
----> go to a specific commit (git commit were used multiple times, and we need to undo several "git commit"s)
+---> go to a specific commit (git commit were used multiple times, and we need to undo several "git commits)
 -----> get the unique hash of the commit
 -------> git log
 -----> use the unique hash of the commit in git reset
@@ -62,6 +74,8 @@ Common commands:
 -----> undo changes and reflect it on the files
 -------> git reset --hard
 ---------> NOTE: The "--hard" option means that the changes are also removed. Do "git status" to check.
+---> undo a git merge
+-----> git merge --abort
 
 -> ignore files for staging
 ---> create file ".gitignore"
@@ -96,16 +110,22 @@ Less common commands:
 
 -> Clone:
 ---> git clone git@github.com:detectivemark7/aprg.git
+---> git clone --shallow URL    // --shallow means avoid getting the whole version history and get just the latest snapshot (useful for big repositories)
 
 -> Create a git local repository:
 ---> git init   
 -----> NOTE: This repository is not connected to origin (since this not remotely created(github)). 
 -----> When this is pushed and the remote repository is not connected, GIT will say I have no idea where to push this to.
 
--> Connect your local repository to remote repository
+-> Connect your local repository to remote repository (not necessarily in the web but the common repository for other collaborators)
 ---> git remote add origin git@github.com:detectivemark7/aprgPython.git
+---> git remote add origin DirectoryPathOfCommonRepository
+-----> Then you can create a branch in the remote using:
+-------> git push -u RemoteName LocalBranch:RemoteBranch
+-------> git push -u origin master:master   // this creates a master branch in remote does not have one
 -----> Then you can set the upstream as master using:
 -------> git push -u origin master   // you can use --set-upstream as well
+-------> git branch --set-upstream-to=origin master   // you can use git branch as well
 
 -> Check what is the connected remote repository of this local repository:
 ---> git remote -v
@@ -115,6 +135,7 @@ Less common commands:
 -----> git branch
 -------> outputs the local branches available currently
 -------> * represents that its currently on that branch
+-----> git branch -vv    // Very verbose (shows origin branch details as well)
 ---> create a new branch: 
 -----> git branch BranchName (this does not switch the current branch)
 -----> git checkout -b BranchName (this also switch the current branch)
@@ -124,7 +145,7 @@ Less common commands:
 -----> git checkout BranchName
 -----> git checkout master
 ---> remotely git checkout can also be used to discard changes in the working directory
------> git checkout -- FileName ...
+-----> git checkout FileName ...
 ---> before merging, check what is the diff of the specified branch with respect to the current branch
 -----> git diff BranchName
 ---> merge diff of the specified branch to the current branch
@@ -132,13 +153,34 @@ Less common commands:
 -----> git merge --verbose BranchName
 -------> useful to merge a feature branch to master (for pushing changes to remote master)
 -------> useful to merge a master to a feature branch (for keeping up with remote master)
--------> If there is a conflict, manually change the file (delete "<<<<<<< HEAD" "=======" and ">>>>>>> master" ), then use git commit to apply the changes.---> push a specified branch to a remote repository (creating this specified branch in the remote repository)
+---------> If there is a conflict, manually change the file (delete "<<<<<<< HEAD" "=======" and ">>>>>>> master" ), 
+---------> then use git add for the conflicted files
+---------> then use git merge --continue (or use git commit to apply the changes).
+-----> git merge --abort
+-------> undo the previous git merge
+-----> git merge --continue
+-------> after fixing the conflicts
+---> push a specified branch to a remote repository (creating this specified branch in the remote repository)
 -----> git push -u origin FakeFeatureBranch   // you can use --set-upstream as well
 -------> this commits a FakeFeatureBranch to remote repository, then we can merge this branch to the master branch of the remote repository using a remote tool(GitHub, generate a pull request)
----> checkout to a specific version:-----> git checkout TCOM_SBTS20A_integration_REL3 b32d6f740504
+---> checkout to a specific version of the current branch:
+-----> git checkout b32d6f740504
+-------> Puts HEAD reference in a "detached HEAD state". The HEAD is not the latest commit of the branch anymore.
+---> checkout to a specific version of a specific branch:
+-----> git checkout BranchName b32d6f740504 (this also switch the current branch)
 
--> Git fetch from review:
----> git fetch "ssh://malba@gerrit.ext.net.nokia.com:29418/MN/WCDMA/CPLANE/tcom" refs/changes/64/1785164/8 && git checkout FETCH_HEAD
+-> fetch changes from remote repository and track it to GIT but dont change any files in local directory
+---> git fetch
+-----> only gets the changes from remote repository, but doesn't change local files
+-----> check origin using git log
+-----> git pull = git fetch + git merge
+---> fetch from review:
+-----> git fetch "ssh://malba@gerrit.ext.net.nokia.com:29418/MN/WCDMA/CPLANE/tcom" refs/changes/64/1785164/8 && git checkout FETCH_HEAD
+
+-> prints detail of a git object (see "GIT underneath")
+---> git cat-file -p 42fb7a2    // prints details about an object, notice that only first 6 digits of the hash string of an object can be used as argument
+---> git cat-file -p 42fb7a21b52dd0f6026a0d9d434129db61acb4bf2    // prints details about an object, notice that all 40 digits of an object can be used as argument
+
 
 -> Forking
 ---> Can be done on remote repository (github)
@@ -170,9 +212,62 @@ SSH key related:
 
 
 
+GIT underneath:
+
+-> Git uses this constructs:
+---> "tree" stands for folder
+---> "blob" stands for a file
+---> "commit" contains information about a commit
+-----> parents: array of commits
+-----> author: string
+-----> message: string
+-----> snapshot: tree
+-----> Actually objects are addressed by their hash
+-----> The relationship between commits is a DAG (Directed acyclic graph)
+---> "object" can be a "tree", "blob" or a "commit"
+
+-> git maintains a map of objects in its DB
+---> objects = map<hash string, object>
+---> NOTE: Git commits uses SHA1 hash of the object (40 characters)
+---> storing an object into this map just sets the hash string of the object to the object 
+-----> objects[getHash(object)] = object
+---> getting an object just use the hash string of the object
+-----> objects.at(getHash(object))
+
+-> git maintains a map of references in its DB
+---> objects = map<human readable name, hash string>
+-----> HEAD is a human readable name of the current commit or the current snapshot of the current branch
+-----> master is a human readable name of latest commit of a the first/default branch
+-----> origin is human readable name for the git remote repository (not necessarily on the web but the common repository for other collaborators)
+
+-> objects are immutable (because hash string is derived from the contents of the object)
+-> git has a "staging area" which tells what changes should be included in the next snapshot we take
+
+-> commands explanation
+-> git init
+---> creates the git contents (but still empty)
+-> git add
+---> adds a change in the staging area
+-> git commit
+---> creates a object(commit) and adds it in the DB
+-> git log
+---> by default, git log shows you a flatten version of the version history
+-> git cat-file
+---> prints details about an object
+-> git checkout
+---> wacky command that lets you do a bunch of things
+---> this moves the HEAD reference and also modifies the current directory
+
+-> In merge, "Fast forward" means it just moved from commit to commit in the DAG (no merge happened)
 
 
 
+
+Other interesting topics:
+
+-> Git is highly configurable
+---> use git config
+---> edit ".gitconfig" manually
 
 
 

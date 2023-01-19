@@ -70,10 +70,12 @@ private:
     Value getMaxOfTotalAndMaxCoinPlusOne(Value const total) const;
 
     // fewest coins
-    unsigned int getNumberOfFewestCoinsUsingMemoizationDPInternal(CountPerValue & countPerValue, Value const total) const;    Coins getFewestCoinsUsingMemoizationDPInternal(VectorOfCoins & fewestCoins, Value const total) const;
+    unsigned int getNumberOfFewestCoinsUsingMemoizationDPInternal(CountPerValue & countPerValue, Value const total) const;
+    Coins getFewestCoinsUsingMemoizationDPInternal(VectorOfCoins & fewestCoins, Value const total) const;
 
     // permutations
-    unsigned int getNumberOfCoinPermutationsMemoizationDPInternal(CountPerValue & countPerValue, Value const total) const;    CoinPermutations getCoinPermutationsUsingMemoizationDPInternal(CoinPermutationsPerValue & coinPermutationsPerValue, Value const total) const;
+    unsigned int getNumberOfCoinPermutationsMemoizationDPInternal(CountPerValue & countPerValue, Value const total) const;
+    CoinPermutations getCoinPermutationsUsingMemoizationDPInternal(CoinPermutationsPerValue & coinPermutationsPerValue, Value const total) const;
 
     // combinations
     unsigned int getNumberOfCoinCombinationsUsingMemoizationDPInternal(CountMatrix & countByValueByCoin, Value const total, unsigned int const coinIndex) const;

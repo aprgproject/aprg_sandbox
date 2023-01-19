@@ -29,10 +29,12 @@ TEST(UciUtilitiesTest, RetrieveCalculationDetailsOnStringFromEngineWorksOnInfoEx
     EXPECT_EQ(0, actualDetails.scoreInCentipawns);
     EXPECT_EQ(1U, actualDetails.mateInNumberOfMoves);
     EXPECT_TRUE(actualDetails.currentlySearchingMoves.empty());
-    EXPECT_TRUE(actualDetails.bestMove.empty());    EXPECT_TRUE(actualDetails.ponderMove.empty());
+    EXPECT_TRUE(actualDetails.bestMove.empty());
+    EXPECT_TRUE(actualDetails.ponderMove.empty());
 }
 
-TEST(UciUtilitiesTest, RetrieveCalculationDetailsOnStringFromEngineWorksOnInfoExample2){
+TEST(UciUtilitiesTest, RetrieveCalculationDetailsOnStringFromEngineWorksOnInfoExample2)
+{
     CalculationDetails actualDetails{};
     string stringFromEngine(
                 "info depth 10 seldepth 12 multipv 1 score cp 14 nodes 20559 nps 1082052 tbhits 0 time 19 pv f6e4 b1d2 d8f6 g1e2 c7c5 d2e4 f5e4 f3f6 f8f6");

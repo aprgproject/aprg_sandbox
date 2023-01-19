@@ -23,10 +23,12 @@ TEST(CoinProblemTest, GetNumberOfFewestCoinsUsingMemoizationDPWorksOnExample1)
     //EXPECT_EQ(3U, coinProblem.getNumberOfFewestCoinsUsingMemoizationDP(13U));
 }
 
-TEST(CoinProblemTest, GetNumberOfFewestCoinsTabularDPWorksOnExample1){
+TEST(CoinProblemTest, GetNumberOfFewestCoinsTabularDPWorksOnExample1)
+{
     CoinProblem coinProblem({1U, 2U, 5U, 10U, 20U, 50U, 100U, 200U});
 
-    EXPECT_EQ(4U, coinProblem.getNumberOfFewestCoinsTabularDP(520U));    EXPECT_EQ(6U, coinProblem.getNumberOfFewestCoinsTabularDP(99U));
+    EXPECT_EQ(4U, coinProblem.getNumberOfFewestCoinsTabularDP(520U));
+    EXPECT_EQ(6U, coinProblem.getNumberOfFewestCoinsTabularDP(99U));
     EXPECT_EQ(3U, coinProblem.getNumberOfFewestCoinsTabularDP(13U));
 }
 
@@ -39,10 +41,12 @@ TEST(CoinProblemTest, GetFewestCoinsUsingMemoizationDPWorksOnExample1)
     //EXPECT_EQ((Coins{10U, 2U, 1U}), coinProblem.getFewestCoinsUsingMemoizationDP(13U));
 }
 
-TEST(CoinProblemTest, GetFewestCoinsUsingMemoizationDPWorksOnExample2){
+TEST(CoinProblemTest, GetFewestCoinsUsingMemoizationDPWorksOnExample2)
+{
     CoinProblem coinProblem({1U, 3U, 4U});
 
-    EXPECT_EQ((Coins{4U, 1U}), coinProblem.getFewestCoinsUsingMemoizationDP(5U));    EXPECT_EQ((Coins{4U, 3U, 3U}), coinProblem.getFewestCoinsUsingMemoizationDP(10U));
+    EXPECT_EQ((Coins{4U, 1U}), coinProblem.getFewestCoinsUsingMemoizationDP(5U));
+    EXPECT_EQ((Coins{4U, 3U, 3U}), coinProblem.getFewestCoinsUsingMemoizationDP(10U));
     EXPECT_EQ((Coins{4U, 4U, 4U, 4U, 4U}), coinProblem.getFewestCoinsUsingMemoizationDP(20U));
 }
 

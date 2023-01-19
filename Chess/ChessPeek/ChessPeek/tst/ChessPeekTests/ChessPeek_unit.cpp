@@ -29,6 +29,7 @@ TEST(ChessPeekTest, DISABLED_CheckScreenAndSaveDetailsWorks)
 TEST(ChessPeekTest, DISABLED_StartNewAnalysisUsingEngineWorks)
 {
     ChessPeek chessPeek;
+
     chessPeek.startEngineAnalysisOfNewPosition();
     Sleep(10000);
 }
@@ -36,6 +37,7 @@ TEST(ChessPeekTest, DISABLED_StartNewAnalysisUsingEngineWorks)
 TEST(ChessPeekTest, DISABLED_RunOneIterationWorks)
 {
     ChessPeek chessPeek;
+
     chessPeek.runOneIteration();
     Sleep(10000);
 }
@@ -43,8 +45,10 @@ TEST(ChessPeekTest, DISABLED_RunOneIterationWorks)
 TEST(ChessPeekTest, DISABLED_RunForeverWorks)
 {
     ChessPeek chessPeek;
+
     chessPeek.runForever();
 }
+
 }
 
 }

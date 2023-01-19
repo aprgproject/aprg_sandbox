@@ -5,8 +5,10 @@
 #include <numeric>
 
 using namespace std;
+
 namespace alba
 {
+
 KnapsackProblem::KnapsackProblem(Values const& values)
     : m_inputValues(values)
 {}
@@ -26,10 +28,12 @@ KnapsackProblem::Values KnapsackProblem::getAllPossiblePartialSums() const
                 isAPossiblePartialSum[static_cast<Value>(partialSumIndex)+inputValue] = true;
             }
         }
-    }    for(unsigned int partialSumIndex=0; partialSumIndex<=sum; partialSumIndex++)
+    }
+    for(unsigned int partialSumIndex=0; partialSumIndex<=sum; partialSumIndex++)
     {
         if(isAPossiblePartialSum.at(partialSumIndex))
-        {            result.emplace_back(partialSumIndex);
+        {
+            result.emplace_back(partialSumIndex);
         }
     }
     return result;
@@ -65,9 +69,11 @@ KnapsackProblem::Values KnapsackProblem::getAllPossiblePartialSumsWithSquareRoot
     Value sum(accumulate(m_inputValues.cbegin(), m_inputValues.cend(), 0U));
     vector<bool> isAPossiblePartialSum(sum+1, false); // zero index is for zero value, sum index is for the sum
     isAPossiblePartialSum[0] = true;
+
     for(auto const& inputValueAndCountPair : inputValueToCount) // sqrt(n) distinct numbers
     {
-        // reverse traversal so that the changed values wont be changed again in one iteration        for(int partialSumIndex=sum; partialSumIndex>=0; partialSumIndex--) // O(n) or linear time
+        // reverse traversal so that the changed values wont be changed again in one iteration
+        for(int partialSumIndex=sum; partialSumIndex>=0; partialSumIndex--) // O(n) or linear time
         {
             if(isAPossiblePartialSum.at(partialSumIndex))
             {

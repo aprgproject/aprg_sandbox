@@ -128,4 +128,5 @@ void AprgColorStatistics::saveColorStatistics(string const& path)
 }
 
 }
+
 }

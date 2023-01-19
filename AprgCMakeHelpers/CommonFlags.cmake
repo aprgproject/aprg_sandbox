@@ -21,10 +21,12 @@ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${APRG_COMPILER_COMMON_FLAGS} ${APRG_COMPILE
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${APRG_COMPILER_COMMON_FLAGS} ${APRG_COMPILER_COMMON_CPP_FLAGS}")
 
 # Some notes
-# Sources:# --> https://gcc.gnu.org/onlinedocs/gcc/Option-Summary.html
+# Sources:
+# --> https://gcc.gnu.org/onlinedocs/gcc/Option-Summary.html
 # --> https://caiorss.github.io/C-Cpp-Notes/compiler-flags-options.html
 
-# Search Path and Library Linking Flags# Flag: -l[linalg]
+# Search Path and Library Linking Flags
+# Flag: -l[linalg]
 # --> Links to shared library or shared object
 # --> Specifically, it links to linalg.dll on Windows, liblinalg.so (on Unix-like oses like Linux, BSD, AIX, …) or linalg.dylib on MacOSX.
 # Flag: -L[/path/to/shared-libraries]
@@ -182,9 +184,11 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${APRG_COMPILER_COMMON_FLAGS} ${APRG_COM
 
 
 #  Linker Flags
+
 # Flag: "-Xlinker option"
 # --> Pass option as an option to the linker. You can use this to supply system-specific linker options that GCC does not recognize.
-# --> If you want to pass an option that takes a separate argument, you must use -Xlinker twice, once for the option and once for the argument.# For example, to pass -assert definitions, you must write -Xlinker -assert -Xlinker definitions.
+# --> If you want to pass an option that takes a separate argument, you must use -Xlinker twice, once for the option and once for the argument.
+# For example, to pass -assert definitions, you must write -Xlinker -assert -Xlinker definitions.
 # It does not work to write -Xlinker "-assert definitions", because this passes the entire string as a single argument, which is not what the linker expects.
 # --> When using the GNU linker, it is usually more convenient to pass arguments to linker options using the option=value syntax than as separate arguments. For example, you can specify -Xlinker -Map=output.map rather than -Xlinker -Map -Xlinker output.map. Other linkers may not support this syntax for command-line options.
 
