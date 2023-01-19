@@ -1,0 +1,183 @@
+
+
+Common commands:
+
+-> Stage or add a file one by one (can be changed files or modified files):
+---> git add FileName1 FileName2
+-----> Note: git add for deleted files as well
+
+-> Stage or add multiple files (multiple changed files or modified files):
+---> git add .   // all files
+---> git add *.html  // all html files
+
+-> Unstage or remove a file one by one (remove file from staging area):
+---> git rm FileName1 FileName2
+---> git rm --cached FileName1 FileName2
+-----> When --cached is given, the staged content has to match either the tip of the branch or the file on disk, allowing the file to be removed from just the index.
+
+-> Track changes:
+---> git status
+
+-> Check changes:
+---> git diff
+
+-> Check all commits:
+---> git log
+
+-> Commit to local repository:
+---> git commit -m "Message title test" -m "Message description text"
+-----> The option "-m <msg> or --message=<msg>" will se the given <msg> as the commit message. 
+-----> If multiple -m options are given, their values are concatenated as separate paragraphs.
+-----> NOTE: if there is no message, it will fail the commit
+---> git commit -am "Message title test" -m "Message description text"
+-----> The option "-a or -all" will commit all MODIFIED files (no need to git add, works for MODIFIED files ONLY)
+---> git commit -F ../CommitMessageFile.txt    // This is use a text file for the commit message
+-----> The option "-F <file> or --file=<file>" will take the commit message from the given file. Use - to read the message from the standard input.
+
+-> push changes to remote repository:
+---> git push   // works without any arguments if upstream is set
+---> git push origin master   // origin is reserved word the stands for the location of the git remote repository, master is the branch we have to push
+---> git push -u origin master   // "-u" is "--set-upstream" sets the upstream to origin so we don't have to type "origin master" in the future
+---> git push origin HEAD:refs/for/BranchName   // This is for using a reference
+
+-> pull changes from remote repository:
+---> git pull   // works without any arguments if upstream is set
+---> git push origin master   // origin is reserved word the stands for the location of the git remote repository, master is the branch we have to pull
+---> git push --set-upstream origin master   // "--set-upstream" sets the upstream to origin we don't have to type "origin master" in the future
+
+-> undoing changes
+---> undo staging (git add was already used, and we need to undo "git add")
+-----> git reset   // undo staging for all changes
+-----> git reset FileName   // undo staging for one file
+-------> NOTE: The changes still exists we just "unstage" it. Do "git status" to check.
+---> undo a commit (git commit was already used, and we need to undo "git commit")
+-----> git reset HEAD~1  // HEAD points to the last commit, "~1" means the one commit before that. 
+-------> NOTE: The changes still exists we just let git point to one commit before HEAD. Do "git status" to check.
+---> go to a specific commit (git commit were used multiple times, and we need to undo several "git commit"s)
+-----> get the unique hash of the commit
+-------> git log
+-----> use the unique hash of the commit in git reset
+-------> git reset HashOfTheCommit
+---------> NOTE: The changes still exists we just let git point to a commit. Do "git status" to check.
+-----> undo changes and reflect it on the files
+-------> git reset --hard
+---------> NOTE: The "--hard" option means that the changes are also removed. Do "git status" to check.
+
+-> ignore files for staging
+---> create file ".gitignore"
+-----> touch .gitignore
+---> then we can add FileToIgnore in ".gitignore" (put it in a new line)
+---> then we can add DirectoryToIgnore in ".gitignore" (put it in a new line)
+---> then we can add *.html in ".gitignore" (put it in a new line)
+
+-> delete unversioned files:
+---> check files to removed
+-----> git clean -n
+---> remove files (forced)
+-----> git clean -f
+---> remove directories (forced)
+-----> git clean -fd
+
+-> apply diffs:
+---> git apply --check --verbose DiffName.diff
+---> git apply --verbose DiffName.diff
+
+-> get diff from a commit:
+---> git format-patch -1 <commit hash value>
+
+
+
+
+Less common commands:
+
+-> Set name and email 
+---> git config --global user.email "detectivemark7@gmail.com"
+---> git config --global user.name "detectivemark7"
+
+-> Clone:
+---> git clone git@github.com:detectivemark7/aprg.git
+
+-> Create a git local repository:
+---> git init   
+-----> NOTE: This repository is not connected to origin (since this not remotely created(github)). 
+-----> When this is pushed and the remote repository is not connected, GIT will say I have no idea where to push this to.
+
+-> Connect your local repository to remote repository
+---> git remote add origin git@github.com:detectivemark7/aprgPython.git
+-----> Then you can set the upstream as master using:
+-------> git push -u origin master   // you can use --set-upstream as well
+
+-> Check what is the connected remote repository of this local repository:
+---> git remote -v
+
+-> For local branches (for feature branches or hot fix branches):
+---> To view branches: 
+-----> git branch
+-------> outputs the local branches available currently
+-------> * represents that its currently on that branch
+---> create a new branch: 
+-----> git branch BranchName (this does not switch the current branch)
+-----> git checkout -b BranchName (this also switch the current branch)
+---> delete a branch: 
+-----> git branch -d BranchName
+---> switch branches: 
+-----> git checkout BranchName
+-----> git checkout master
+---> remotely git checkout can also be used to discard changes in the working directory
+-----> git checkout -- FileName ...
+---> before merging, check what is the diff of the specified branch with respect to the current branch
+-----> git diff BranchName
+---> merge diff of the specified branch to the current branch
+-----> git merge BranchName
+-------> useful to merge a feature branch to master (for pushing changes to remote master)
+-------> useful to merge a master to a feature branch (for keeping up with remote master)
+-------> If there is a conflict, manually change the file (delete "<<<<<<< HEAD" "=======" and ">>>>>>> master" ), then use git commit to apply the changes.
+---> push a specified branch to a remote repository (creating this specified branch in the remote repository)
+-----> git push -u origin FakeFeatureBranch   // you can use --set-upstream as well
+-------> this commits a FakeFeatureBranch to remote repository, then we can merge this branch to the master branch of the remote repository using a remote tool(GitHub, generate a pull request)
+---> checkout to a specific version:
+-----> git checkout TCOM_SBTS20A_integration_REL3 b32d6f740504
+
+-> Git fetch from review:
+---> git fetch "ssh://malba@gerrit.ext.net.nokia.com:29418/MN/WCDMA/CPLANE/tcom" refs/changes/64/1785164/8 && git checkout FETCH_HEAD
+
+-> Forking
+---> Can be done on remote repository (github)
+---> Copy a separate repository and make it your own
+-----> Useful to capture a separate repository at specific time (useful to copy external sources)
+-------> Can send changes or make a contribution on the external sources (generate a pull request)
+
+
+
+
+SSH key related:
+
+-> SSH key guide:
+---> https://docs.github.com/en/github/authenticating-to-github/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent
+
+-> Generating a new SSH key: 
+---> ssh-keygen -t ed25519 -C "detectivemark7@gmail.com"
+
+-> SSH key location: 
+---> C:\Users\detectivemark7\.ssh
+
+-> Note about the keys:
+---> ~/.ssh/id_ed25519    // This is the private key (don't share this with anyone).
+---> ~/.ssh/id_ed25519.pub   // This is the public key
+
+-> Copy SSH public key:
+---> clip < ~/.ssh/id_ed25519.pub
+
+
+
+
+
+
+
+
+
+
+
+
+
+
