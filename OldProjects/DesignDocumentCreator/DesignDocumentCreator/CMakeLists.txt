@@ -27,15 +27,13 @@ include(${DD_CREATOR_DIR}/cmake/CommonFilesAndDirectories.cmake)
 #Feature include
 set(FEATURE_FOLDER "CNI21985")
 include(${DD_CREATOR_DIR}/cmake/FeatureFilesAndDirectories.cmake)
-add_definitions(-DLOG_LOCATION="${APRG_DIR}/DesignDocumentCreator/DesignDocumentCreatorLogs/RP001749")
+add_definitions(-DLOG_LOCATION="${DD_CREATOR_DIR}/../DesignDocumentCreatorLogs")
 
 #Assign Sack Directory
 set(SackDirectory "N:/Branches/ControlPlane/sbts1/tcom")
-
 set(SACKS_DIR_TO_INCLUDE
     ${SackDirectory}/I_Interface/Private/SC_TCOM/Temp
-    ${SackDirectory}/I_Interface/Global_Env/Definitions
-    ${SackDirectory}/I_Interface/Global_Env/Messages
+    ${SackDirectory}/I_Interface/Global_Env/Definitions    ${SackDirectory}/I_Interface/Global_Env/Messages
     ${SackDirectory}/I_Interface/Application_Env
     ${SackDirectory}/I_Interface/Application_Env/Wn_Env/Bs_Env
     ${SackDirectory}/I_Interface/Application_Env/Definitions
