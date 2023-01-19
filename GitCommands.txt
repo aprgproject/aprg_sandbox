@@ -129,14 +129,13 @@ Less common commands:
 -----> git diff BranchName
 ---> merge diff of the specified branch to the current branch
 -----> git merge BranchName
+-----> git merge --verbose BranchName
 -------> useful to merge a feature branch to master (for pushing changes to remote master)
 -------> useful to merge a master to a feature branch (for keeping up with remote master)
--------> If there is a conflict, manually change the file (delete "<<<<<<< HEAD" "=======" and ">>>>>>> master" ), then use git commit to apply the changes.
----> push a specified branch to a remote repository (creating this specified branch in the remote repository)
+-------> If there is a conflict, manually change the file (delete "<<<<<<< HEAD" "=======" and ">>>>>>> master" ), then use git commit to apply the changes.---> push a specified branch to a remote repository (creating this specified branch in the remote repository)
 -----> git push -u origin FakeFeatureBranch   // you can use --set-upstream as well
 -------> this commits a FakeFeatureBranch to remote repository, then we can merge this branch to the master branch of the remote repository using a remote tool(GitHub, generate a pull request)
----> checkout to a specific version:
------> git checkout TCOM_SBTS20A_integration_REL3 b32d6f740504
+---> checkout to a specific version:-----> git checkout TCOM_SBTS20A_integration_REL3 b32d6f740504
 
 -> Git fetch from review:
 ---> git fetch "ssh://malba@gerrit.ext.net.nokia.com:29418/MN/WCDMA/CPLANE/tcom" refs/changes/64/1785164/8 && git checkout FETCH_HEAD
