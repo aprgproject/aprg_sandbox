@@ -1,10 +1,15 @@
 
+The Three States
+Thi is the main thing to remember about Git if you want the rest of your learning process to go smoothly. 
+Git has three main states that your files can reside in: modified, staged, and committed:
+-> Modified means that you have changed the file but have not committed it to your database yet.
+-> Staged means that you have marked a modified file in its current version to go into your next commit snapshot.
+-> Committed means that the data is safely stored in your local database.
+
 
 Common commands:
-
 -> Help:
 ---> git help
-
 -> Stage or add a file one by one to be tracked by git (can be changed files or modified files):
 ---> git add FileName1 FileName2
 -----> Note: git add for deleted files as well
@@ -14,14 +19,12 @@ Common commands:
 ---> git add *.html  // all html files
 ---> git add :/   // adds all files under this directory
 
--> Unstage or remove a file one by one to be tracked by git (remove file from staging area):
+-> Unstage or remove a file one by one that is tracked by git (remove file from staging area):
 ---> git rm FileName1 FileName2
 ---> git rm --cached FileName1 FileName2
 -----> When --cached is given, the staged content has to match either the tip of the branch or the file on disk, allowing the file to be removed from just the index.
-
 -> Track changes:
 ---> git status
-
 -> Check changes:
 ---> check changes from current commit
 -----> git diff
@@ -57,14 +60,20 @@ Common commands:
 ---> git pull --set-upstream origin master   // "--set-upstream" sets the upstream to origin we don't have to type "origin master" in the future
 -----> git pull = git fetch + git merge
 
+-> fetch changes from remote repository and track it to GIT but dont change any files in local directory
+---> git fetch
+-----> only gets the changes from remote repository, but doesn't change local files
+-----> check origin using git log
+-----> git pull = git fetch + git merge
+---> fetch from review:
+-----> git fetch "ssh://malba@gerrit.ext.net.nokia.com:29418/MN/WCDMA/CPLANE/tcom" refs/changes/64/1785164/8 && git checkout FETCH_HEAD
+
 -> undoing changes
 ---> undo staging (git add was already used, and we need to undo "git add")
------> git reset   // undo staging for all changes
------> git reset FileName   // undo staging for one file
+-----> git reset   // undo staging for all changes-----> git reset FileName   // undo staging for one file
 -------> NOTE: The changes still exists we just "unstage" it. Do "git status" to check.
 ---> undo a commit (git commit was already used, and we need to undo "git commit")
------> git reset HEAD~1  // HEAD points to the last commit, "~1" means the one commit before that. 
--------> NOTE: The changes still exists we just let git point to one commit before HEAD. Do "git status" to check.
+-----> git reset HEAD~1  // HEAD points to the last commit, "~1" means the one commit before that. -------> NOTE: The changes still exists we just let git point to one commit before HEAD. Do "git status" to check.
 ---> go to a specific commit (git commit were used multiple times, and we need to undo several "git commits)
 -----> get the unique hash of the commit
 -------> git log
@@ -85,13 +94,13 @@ Common commands:
 ---> then we can add *.html in ".gitignore" (put it in a new line)
 
 -> delete unversioned files:
+---> discard changes
+-----> git checkout
 ---> check files to removed
 -----> git clean -n
----> remove files (forced)
------> git clean -f
+---> remove files (forced)-----> git clean -f
 ---> remove directories (forced)
 -----> git clean -fd
-
 -> apply diffs:
 ---> git apply --check --verbose DiffName.diff
 ---> git apply --verbose DiffName.diff
@@ -99,7 +108,17 @@ Common commands:
 -> get diff from a commit:
 ---> git format-patch -1 <commit hash value>
 
+-> blame
+---> git blame FileName
 
+-> show changes (useful after git blame)
+---> git show HashStringOfTheCommit
+
+-> stash
+---> git stash
+-----> save the changes in git and revert the local files to latest commit
+---> git stash pop
+-----> revert back the local files with the changes
 
 
 Less common commands:
@@ -169,23 +188,13 @@ Less common commands:
 ---> checkout to a specific version of a specific branch:
 -----> git checkout BranchName b32d6f740504 (this also switch the current branch)
 
--> fetch changes from remote repository and track it to GIT but dont change any files in local directory
----> git fetch
------> only gets the changes from remote repository, but doesn't change local files
------> check origin using git log
------> git pull = git fetch + git merge
----> fetch from review:
------> git fetch "ssh://malba@gerrit.ext.net.nokia.com:29418/MN/WCDMA/CPLANE/tcom" refs/changes/64/1785164/8 && git checkout FETCH_HEAD
-
 -> prints detail of a git object (see "GIT underneath")
 ---> git cat-file -p 42fb7a2    // prints details about an object, notice that only first 6 digits of the hash string of an object can be used as argument
 ---> git cat-file -p 42fb7a21b52dd0f6026a0d9d434129db61acb4bf2    // prints details about an object, notice that all 40 digits of an object can be used as argument
 
-
 -> Forking
 ---> Can be done on remote repository (github)
----> Copy a separate repository and make it your own
------> Useful to capture a separate repository at specific time (useful to copy external sources)
+---> Copy a separate repository and make it your own-----> Useful to capture a separate repository at specific time (useful to copy external sources)
 -------> Can send changes or make a contribution on the external sources (generate a pull request)
 
 
@@ -269,7 +278,7 @@ Other interesting topics:
 ---> use git config
 ---> edit ".gitconfig" manually
 
-
+-> git bisect can be used to find when a test started to fail
 
 
 
