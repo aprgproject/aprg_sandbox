@@ -20,10 +20,12 @@ public:
     using RootVector = std::vector<Object>;
     using SizeArray = std::array<unsigned int, SIZE>;
 
-    WeightedQuickUnionWithArray()        : m_relativeRoots()
+    WeightedQuickUnionWithArray()
+        : m_relativeRoots()
         , m_sizesOfRoots()
     {
-        initialize();    }
+        initialize();
+    }
 
     bool isConnected(Object const& object1, Object const& object2) const override
     {
@@ -59,10 +61,12 @@ public:
         RootVector relativeRoots;
         Object currentRoot(object);
         Object nextRoot(m_relativeRoots.at(object));
-        while(currentRoot != nextRoot)        {
+        while(currentRoot != nextRoot)
+        {
             currentRoot = nextRoot;
             relativeRoots.emplace_back(nextRoot);
-            nextRoot = m_relativeRoots.at(currentRoot);        }
+            nextRoot = m_relativeRoots.at(currentRoot);
+        }
         for(Object const& relativeRoot : relativeRoots) // set found root to all examined relative roots -> makes the tree really flat (Hopcroft Ulman Tarjan proof -> almost linear)
         {
             m_relativeRoots[relativeRoot] = currentRoot;

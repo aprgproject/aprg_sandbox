@@ -64,10 +64,12 @@ unsigned int getLevenshteinDistance(string const& otherString, string const& bas
     return lastPrevious.at(basisString.length());
 }
 
-unsigned int getHammingDistance(string const& string1, string const& string2){
+unsigned int getHammingDistance(string const& string1, string const& string2)
+{
     // The Hamming distance hamming(a,b) between two strings a and b of equal length is the number of positions where the strings differ.
     unsigned int result(0);
-    unsigned int commonLength = min(string1.length(), string2.length());    for(unsigned int i=0; i<commonLength; i++)
+    unsigned int commonLength = min(string1.length(), string2.length());
+    for(unsigned int i=0; i<commonLength; i++)
     {
         if(string1.at(i) != string2.at(i))
         {

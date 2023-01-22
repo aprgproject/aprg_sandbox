@@ -4,6 +4,7 @@
 
 namespace alba
 {
+
 namespace algorithm
 {
 
@@ -35,6 +36,7 @@ public:
             m_unionFind.connect(index, index-1);
         }
     }
+
     void setAsFree(Index const index)
     {
         // NOTE: This is linear
@@ -45,10 +47,12 @@ public:
             auto & relativeRoots(m_unionFind.getRelativeRootVectorReference());
 
             relativeRoots[index] = index;
-            for(Index i=index+1; i<relativeRoots.size(); i++)            {
+            for(Index i=index+1; i<relativeRoots.size(); i++)
+            {
                 if(relativeRoots.at(i) == rootOfIndex)
                 {
-                    relativeRoots[i] = index;                }
+                    relativeRoots[i] = index;
+                }
             }
         }
     }
@@ -59,4 +63,5 @@ private:
 };
 
 }
+
 }

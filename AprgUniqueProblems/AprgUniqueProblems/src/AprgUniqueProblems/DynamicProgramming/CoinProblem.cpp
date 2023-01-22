@@ -191,10 +191,12 @@ unsigned int CoinProblem::getNumberOfCoinCombinationsUsingTabularDPAndSpaceEffic
 
     CountPerValue countPerValue(total+1, 0);
     countPerValue[0]=1;
-    for(Value const& availableCoin : m_availableCoins)    {
+    for(Value const& availableCoin : m_availableCoins)
+    {
         for(Value partialValue=availableCoin; partialValue<=total; partialValue++)
         {
-            countPerValue[partialValue] += countPerValue.at(partialValue-availableCoin);        }
+            countPerValue[partialValue] += countPerValue.at(partialValue-availableCoin);
+        }
     }
     return countPerValue.at(total);
 }

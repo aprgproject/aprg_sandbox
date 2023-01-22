@@ -5,16 +5,22 @@
 namespace alba
 {
 
-class KnapsackProblem
+class AllPartialSumsInKnapsack
 {
 public:
 
     using Value = unsigned int;
     using Values = std::vector<Value>;
-    KnapsackProblem(Values const& values);
+    using BooleanVector = std::vector<bool>;
 
-    Values getAllPossiblePartialSums() const;    Values getAllPossiblePartialSumsWithSquareRootAlgorithm();
+    AllPartialSumsInKnapsack(Values const& values);
+
+    Values getAllPossiblePartialSums() const;
+    Values getAllPossiblePartialSumsWithSquareRootAlgorithm();
+
 private:
+    Values getAllPossiblePartialSums(BooleanVector const& isAPossiblePartialSum) const;
+
     Values m_inputValues;
 };
 

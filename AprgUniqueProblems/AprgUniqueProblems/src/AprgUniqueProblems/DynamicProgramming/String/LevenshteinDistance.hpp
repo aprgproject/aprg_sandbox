@@ -28,9 +28,11 @@ private:
     std::string m_string1;
     std::string m_string2;
 };
+
 }
 // Note this ia dynamic programming solution
-// -> There is an implementation in AlbaStringHelper and it takes less space// ---> (but there is a swapping vector operation in the algorithm (so the last 2 rows in the dynamic programming matrix are maintained))
+// -> There is an implementation in AlbaStringHelper and it takes less space
+// ---> (but there is a swapping vector operation in the algorithm (so the last 2 rows in the dynamic programming matrix are maintained))
 
 // The edit distance or Levenshtein distance is the minimum number of editing operations needed to transform a string into another string.
 // The allowed editing operations are as follows:

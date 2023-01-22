@@ -8,8 +8,10 @@ Git has three main states that your files can reside in: modified, staged, and c
 
 
 Common commands:
+
 -> Help:
 ---> git help
+
 -> Stage or add a file one by one to be tracked by git (can be changed files or modified files):
 ---> git add FileName1 FileName2
 -----> Note: git add for deleted files as well
@@ -23,8 +25,10 @@ Common commands:
 ---> git rm FileName1 FileName2
 ---> git rm --cached FileName1 FileName2
 -----> When --cached is given, the staged content has to match either the tip of the branch or the file on disk, allowing the file to be removed from just the index.
+
 -> Track changes:
 ---> git status
+
 -> Check changes:
 ---> check changes from current commit
 -----> git diff
@@ -70,10 +74,12 @@ Common commands:
 
 -> undoing changes
 ---> undo staging (git add was already used, and we need to undo "git add")
------> git reset   // undo staging for all changes-----> git reset FileName   // undo staging for one file
+-----> git reset   // undo staging for all changes
+-----> git reset FileName   // undo staging for one file
 -------> NOTE: The changes still exists we just "unstage" it. Do "git status" to check.
 ---> undo a commit (git commit was already used, and we need to undo "git commit")
------> git reset HEAD~1  // HEAD points to the last commit, "~1" means the one commit before that. -------> NOTE: The changes still exists we just let git point to one commit before HEAD. Do "git status" to check.
+-----> git reset HEAD~1  // HEAD points to the last commit, "~1" means the one commit before that. 
+-------> NOTE: The changes still exists we just let git point to one commit before HEAD. Do "git status" to check.
 ---> go to a specific commit (git commit were used multiple times, and we need to undo several "git commits)
 -----> get the unique hash of the commit
 -------> git log
@@ -98,9 +104,11 @@ Common commands:
 -----> git checkout
 ---> check files to removed
 -----> git clean -n
----> remove files (forced)-----> git clean -f
+---> remove files (forced)
+-----> git clean -f
 ---> remove directories (forced)
 -----> git clean -fd
+
 -> apply diffs:
 ---> git apply --check --verbose DiffName.diff
 ---> git apply --verbose DiffName.diff
@@ -119,6 +127,8 @@ Common commands:
 -----> save the changes in git and revert the local files to latest commit
 ---> git stash pop
 -----> revert back the local files with the changes
+
+
 
 
 Less common commands:
@@ -192,9 +202,11 @@ Less common commands:
 ---> git cat-file -p 42fb7a2    // prints details about an object, notice that only first 6 digits of the hash string of an object can be used as argument
 ---> git cat-file -p 42fb7a21b52dd0f6026a0d9d434129db61acb4bf2    // prints details about an object, notice that all 40 digits of an object can be used as argument
 
+
 -> Forking
 ---> Can be done on remote repository (github)
----> Copy a separate repository and make it your own-----> Useful to capture a separate repository at specific time (useful to copy external sources)
+---> Copy a separate repository and make it your own
+-----> Useful to capture a separate repository at specific time (useful to copy external sources)
 -------> Can send changes or make a contribution on the external sources (generate a pull request)
 
 
@@ -279,6 +291,8 @@ Other interesting topics:
 ---> edit ".gitconfig" manually
 
 -> git bisect can be used to find when a test started to fail
+
+
 
 
 

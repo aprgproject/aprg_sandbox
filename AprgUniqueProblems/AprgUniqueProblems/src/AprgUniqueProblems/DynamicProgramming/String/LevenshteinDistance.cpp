@@ -15,7 +15,8 @@ LevenshteinDistance::LevenshteinDistance(string const& string1, string const& st
 LevenshteinDistance::Count LevenshteinDistance::getLevenshteinDistanceUsingNaiveRecursion() const
 {
     // The time complexity of above solution is exponential.
-    // In worst case, we may end up doing O(3m) operations.    // The worst case happens when none of characters of two strings match.
+    // In worst case, we may end up doing O(3m) operations.
+    // The worst case happens when none of characters of two strings match.
 
     return getLevenshteinDistanceUsingNaiveRecursion(m_string1.length(), m_string2.length());
 }
@@ -24,9 +25,11 @@ LevenshteinDistance::Count LevenshteinDistance::getLevenshteinDistanceUsingTabul
 {
     // Time Complexity: O(m x n)
     // Auxiliary Space: O(m x n)
+
     // The allowed editing operations are as follows:
     // -> insert a character (e.g. ABC ! ABCA)
-    // -> remove a character (e.g. ABC ! AC)    // -> modify a character (e.g. ABC ! ADC)
+    // -> remove a character (e.g. ABC ! AC)
+    // -> modify a character (e.g. ABC ! ADC)
     // We can calculate values of distance as follows:
     // -> distance(a,b) = min(distance(a,b-1)+1,
     //                     distance(a-1,b)+1,
@@ -43,10 +46,12 @@ LevenshteinDistance::Count LevenshteinDistance::getLevenshteinDistanceUsingTabul
     CountGrid indexGrid(m_string1.length()+1, m_string2.length()+1);
     indexGrid.iterateAllThroughYAndThenX([&](Index const x, Index const y)
     {
-        if(x==0)        {
+        if(x==0)
+        {
             indexGrid.setEntry(x, y, y);
         }
-        else if(y==0)        {
+        else if(y==0)
+        {
             indexGrid.setEntry(x, y, x);
         }
         else if(m_string1.at(x-1) ==  m_string2.at(y-1))
@@ -78,7 +83,8 @@ LevenshteinDistance::Count LevenshteinDistance::getLevenshteinDistanceUsingTabul
 
     // Space Complex Solution:
     // In the other solution we require O(m x n) space.
-    // This will not be suitable if the length of strings is greater than 2000 as it can only create 2D array of 2000 x 2000.    // To fill a row in DP array we require only one row the upper row.
+    // This will not be suitable if the length of strings is greater than 2000 as it can only create 2D array of 2000 x 2000.
+    // To fill a row in DP array we require only one row the upper row.
     // For example, if we are filling the i = 10 rows in DP array we require only values of 9th row.
     // So we simply create a DP array of 2 x str1 length.
     // This approach reduces the space complexity.
@@ -115,10 +121,12 @@ LevenshteinDistance::Count LevenshteinDistance::getLevenshteinDistanceUsingMemoi
 LevenshteinDistance::Count LevenshteinDistance::getLevenshteinDistanceUsingNaiveRecursion(
         Index const index1,
         Index const index2) const
-{    if (index1==0)
+{
+    if (index1==0)
     {
         return index2;
-    }    else if (index2==0)
+    }
+    else if (index2==0)
     {
         return index1;
     }
@@ -139,10 +147,12 @@ LevenshteinDistance::Count LevenshteinDistance::getLevenshteinDistanceUsingMemoi
         CountGrid & indexGrid,
         Index const index1,
         Index const index2) const
-{    // Time Complexity: O(m x n) because of memoization
+{
+    // Time Complexity: O(m x n) because of memoization
     // Auxiliary Space: O(m x n)
 
-    Index result = indexGrid.getEntryConstReference(index1, index2);    if(UNUSED_INDEX == result)
+    Index result = indexGrid.getEntryConstReference(index1, index2);
+    if(UNUSED_INDEX == result)
     {
         if (index1==0)
         {

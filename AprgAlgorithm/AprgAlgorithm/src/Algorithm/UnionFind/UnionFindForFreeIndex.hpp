@@ -19,17 +19,20 @@ public:
     UnionFindForFreeIndex(unsigned int const maximumSize)
         : m_relativeRoots()
     {
-        initialize(maximumSize);    }
+        initialize(maximumSize);
+    }
 
     bool isConnected(Object const& object1, Object const& object2) const override
-    {        return getRoot(object1) == getRoot(object2);
+    {
+        return getRoot(object1) == getRoot(object2);
     }
 
     Object getRoot(Object const& object) const override
     {
         Object currentRoot(object);
         Object nextRoot(m_relativeRoots.at(object));
-        while(currentRoot != nextRoot)        {
+        while(currentRoot != nextRoot)
+        {
             currentRoot = nextRoot;
             nextRoot = m_relativeRoots.at(currentRoot);
         }
@@ -54,9 +57,11 @@ public:
         saveNewRootOnRelativeRoots(mainRoot, relativeRoots);
     }
 
-    RootVector const& getRelativeRootVector() const    {
+    RootVector const& getRelativeRootVector() const
+    {
         return m_relativeRoots;
     }
+
     RootVector & getRelativeRootVectorReference()
     {
         return m_relativeRoots;
@@ -98,6 +103,7 @@ private:
 
     RootVector m_relativeRoots;
 };
+
 }
 
 }

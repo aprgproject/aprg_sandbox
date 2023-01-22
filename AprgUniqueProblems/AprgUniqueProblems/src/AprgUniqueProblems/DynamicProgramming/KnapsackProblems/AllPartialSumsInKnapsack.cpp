@@ -1,4 +1,4 @@
-#include "KnapsackProblem.hpp"
+#include "AllPartialSumsInKnapsack.hpp"
 
 #include <algorithm>
 #include <map>
@@ -9,15 +9,14 @@ using namespace std;
 namespace alba
 {
 
-KnapsackProblem::KnapsackProblem(Values const& values)
+AllPartialSumsInKnapsack::AllPartialSumsInKnapsack(Values const& values)
     : m_inputValues(values)
 {}
 
-KnapsackProblem::Values KnapsackProblem::getAllPossiblePartialSums() const
+AllPartialSumsInKnapsack::Values AllPartialSumsInKnapsack::getAllPossiblePartialSums() const
 {
-    Values result;
     Value sum(accumulate(m_inputValues.cbegin(), m_inputValues.cend(), 0U));
-    vector<bool> isAPossiblePartialSum(sum+1, false); // zero index is for zero value, sum index is for the sum
+    BooleanVector isAPossiblePartialSum(sum+1, false); // zero index is for zero value, sum index is for the sum
     isAPossiblePartialSum[0] = true;
     for(Value const& inputValue : m_inputValues)
     {
@@ -29,17 +28,10 @@ KnapsackProblem::Values KnapsackProblem::getAllPossiblePartialSums() const
             }
         }
     }
-    for(unsigned int partialSumIndex=0; partialSumIndex<=sum; partialSumIndex++)
-    {
-        if(isAPossiblePartialSum.at(partialSumIndex))
-        {
-            result.emplace_back(partialSumIndex);
-        }
-    }
-    return result;
+    return getAllPossiblePartialSums(isAPossiblePartialSum);
 }
 
-KnapsackProblem::Values KnapsackProblem::getAllPossiblePartialSumsWithSquareRootAlgorithm()
+AllPartialSumsInKnapsack::Values AllPartialSumsInKnapsack::getAllPossiblePartialSumsWithSquareRootAlgorithm()
 {
     // Some square root algorithms are based on the following observation:
     // if a positive integer n is represented as a sum of positive integers,
@@ -57,8 +49,6 @@ KnapsackProblem::Values KnapsackProblem::getAllPossiblePartialSumsWithSquareRoot
     // To process a group of weights, we scan the array from left to right
     // and record the new sums of weights that can be formed using this group and the previous groups.
 
-    Values result;
-
     map<Value, unsigned int> inputValueToCount; // divide into groups of distinct weights and count number of same weights
     for(Value const inputValue : m_inputValues) // n*log(n)
     {
@@ -67,7 +57,7 @@ KnapsackProblem::Values KnapsackProblem::getAllPossiblePartialSumsWithSquareRoot
     }
 
     Value sum(accumulate(m_inputValues.cbegin(), m_inputValues.cend(), 0U));
-    vector<bool> isAPossiblePartialSum(sum+1, false); // zero index is for zero value, sum index is for the sum
+    BooleanVector isAPossiblePartialSum(sum+1, false); // zero index is for zero value, sum index is for the sum
     isAPossiblePartialSum[0] = true;
 
     for(auto const& inputValueAndCountPair : inputValueToCount) // sqrt(n) distinct numbers
@@ -84,7 +74,14 @@ KnapsackProblem::Values KnapsackProblem::getAllPossiblePartialSumsWithSquareRoot
             }
         }
     }
-    for(unsigned int partialSumIndex=0; partialSumIndex<=sum; partialSumIndex++) // O(n) or linear time
+    return getAllPossiblePartialSums(isAPossiblePartialSum);
+}
+
+AllPartialSumsInKnapsack::Values AllPartialSumsInKnapsack::getAllPossiblePartialSums(
+        BooleanVector const& isAPossiblePartialSum) const
+{
+    Values result;
+    for(unsigned int partialSumIndex=0; partialSumIndex<isAPossiblePartialSum.size(); partialSumIndex++) // O(n) or linear time
     {
         if(isAPossiblePartialSum.at(partialSumIndex))
         {

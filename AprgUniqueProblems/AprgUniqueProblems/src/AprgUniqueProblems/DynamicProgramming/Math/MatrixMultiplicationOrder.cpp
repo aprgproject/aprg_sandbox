@@ -104,9 +104,11 @@ MatrixMultiplicationOrder::Count MatrixMultiplicationOrder::getMinimumNumberOfOp
                         + getMinimumNumberOfOperationsUsingMemoizationDP(countMatrix, inBetween, rightParenthesis)
                         + m_dimensions.at(leftParenthesis) * m_dimensions.at(inBetween) * m_dimensions.at(rightParenthesis);
                 result = min(result, currentCount);
-            }            countMatrix.setEntry(leftParenthesis, rightParenthesis, result);
+            }
+            countMatrix.setEntry(leftParenthesis, rightParenthesis, result);
         }
     }
-    return result;}
+    return result;
+}
 
 }

@@ -40,9 +40,11 @@ TEST(CombinatoricsHelpersTest, GetNumberOfCombinationsWorks)
     EXPECT_EQ(10U, getNumberOfCombinations(5U, 2U));
     EXPECT_EQ(1U, getNumberOfCombinations(4U, 4U));
     EXPECT_EQ(1U, getNumberOfCombinations(4U, 0U));
-    EXPECT_EQ(4U, getNumberOfCombinations(4U, 1U));    EXPECT_EQ(0U, getNumberOfCombinations(4U, 5U));
+    EXPECT_EQ(4U, getNumberOfCombinations(4U, 1U));
+    EXPECT_EQ(0U, getNumberOfCombinations(4U, 5U));
     EXPECT_EQ(2333606220U, getNumberOfCombinations(34U, 17U));
 }
+
 TEST(CombinatoricsHelpersTest, GetValueAtPascalTriangleWorks)
 {
     EXPECT_EQ(1U, getValueAtPascalTriangle(0U, 0U));

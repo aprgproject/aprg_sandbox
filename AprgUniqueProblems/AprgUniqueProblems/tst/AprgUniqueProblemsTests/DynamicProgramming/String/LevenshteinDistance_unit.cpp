@@ -21,6 +21,7 @@ TEST(LevenshteinDistanceTest, GetLevenshteinDistanceWorksOnExample1)
     EXPECT_EQ(2U, queryForTest.getLevenshteinDistanceUsingTabularDPAndSpaceEfficient());
     EXPECT_EQ(2U, queryForTest.getLevenshteinDistanceUsingMemoizationDP());
 }
+
 TEST(LevenshteinDistanceTest, GetLevenshteinDistanceWorksOnExample2)
 {
     LevenshteinDistance queryForTest("This is a statement", "This is not a statement");
@@ -30,4 +31,5 @@ TEST(LevenshteinDistanceTest, GetLevenshteinDistanceWorksOnExample2)
     EXPECT_EQ(4U, queryForTest.getLevenshteinDistanceUsingTabularDPAndSpaceEfficient());
     EXPECT_EQ(4U, queryForTest.getLevenshteinDistanceUsingMemoizationDP());
 }
+
 }
