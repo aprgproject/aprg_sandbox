@@ -1,11 +1,9 @@
-#include <AprgUniqueProblems/DynamicProgramming/ProductDayProblem.hpp>
+#include <AprgUniqueProblems/DynamicProgramming/Other/ProductDayProblem.hpp>
 
 #include <gtest/gtest.h>
-
 using namespace std;
 
-namespace alba
-{
+namespace alba{
 
 namespace
 {

@@ -1,11 +1,9 @@
-#include <AprgUniqueProblems/DynamicProgramming/CoinProblem.hpp>
+#include <AprgUniqueProblems/DynamicProgramming/Other/CoinProblem.hpp>
 
 #include <gtest/gtest.h>
-
 using namespace std;
 
-namespace alba
-{
+namespace alba{
 
 namespace
 {

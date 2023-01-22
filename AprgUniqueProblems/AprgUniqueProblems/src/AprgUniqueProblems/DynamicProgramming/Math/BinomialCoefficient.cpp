@@ -94,15 +94,13 @@ BinomialCoefficient::Value BinomialCoefficient::getBinomialCoefficientUsingTabul
         for(Value n=1; n<=m_n; n++)
         {
             Value lastK = min(n, m_k);
-            for(Value k=lastK; k>0; k--)
+            for(Value k=lastK; k>0; k--) // reverse traversal to avoid accessing already computed values
             {
                 partialValues[k] += partialValues.at(k-1);
-            }
-        }
+            }        }
         result = partialValues.back();
     }
-    return result;
-}
+    return result;}
 BinomialCoefficient::Value BinomialCoefficient::getBinomialCoefficientUsingMemoizationDP() const
 {
     // Time Complexity: O(n*k) (should be same as Tabular DP)    // Auxiliary Space: O(n*k)
