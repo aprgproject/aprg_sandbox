@@ -21,6 +21,12 @@ LevenshteinDistance::Count LevenshteinDistance::getLevenshteinDistanceUsingNaive
     return getLevenshteinDistanceUsingNaiveRecursion(m_string1.length(), m_string2.length());
 }
 
+LevenshteinDistance::Count LevenshteinDistance::getLevenshteinDistanceUsingMemoizationDP() const
+{
+    CountGrid indexGrid(m_string1.length()+1, m_string2.length()+1, UNUSED_INDEX);
+    return getLevenshteinDistanceUsingMemoizationDP(indexGrid, m_string1.length(), m_string2.length());
+}
+
 LevenshteinDistance::Count LevenshteinDistance::getLevenshteinDistanceUsingTabularDP() const
 {
     // Time Complexity: O(m x n)
@@ -112,10 +118,6 @@ LevenshteinDistance::Count LevenshteinDistance::getLevenshteinDistanceUsingTabul
     return lastPrevious.back();
 }
 
-LevenshteinDistance::Count LevenshteinDistance::getLevenshteinDistanceUsingMemoizationDP() const{
-    CountGrid indexGrid(m_string1.length()+1, m_string2.length()+1, UNUSED_INDEX);
-    return getLevenshteinDistanceUsingMemoizationDP(indexGrid, m_string1.length(), m_string2.length());
-}
 LevenshteinDistance::Count LevenshteinDistance::getLevenshteinDistanceUsingNaiveRecursion(
         Index const index1,
         Index const index2) const

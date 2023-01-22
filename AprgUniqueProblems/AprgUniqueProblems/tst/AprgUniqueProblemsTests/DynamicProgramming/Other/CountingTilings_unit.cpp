@@ -1,9 +1,11 @@
 #include <AprgUniqueProblems/DynamicProgramming/Other/CountingTilings.hpp>
 
 #include <gtest/gtest.h>
+
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 TEST(CountingTilingsTest, GetNumberOfSolutionsUsingDynamicProgrammingWorksOnExample1)
 {

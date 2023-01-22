@@ -22,9 +22,9 @@ public:
     LongestCommonSubsequence(Sequence const& sequence1, Sequence const& sequence2);
 
     Count getLongestCommonSubsequenceLengthUsingNaiveRecursion() const;
+    Count getLongestCommonSubsequenceLengthUsingMemoizationDP() const;
     Count getLongestCommonSubsequenceLengthUsingTabularDP() const;
     Count getLongestCommonSubsequenceLengthUsingTabularDPAndSpaceEfficient() const;
-    Count getLongestCommonSubsequenceLengthUsingMemoizationDP() const;
 
 private:
 

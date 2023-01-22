@@ -19,9 +19,9 @@ TEST(LongestCommonSubsequenceTest, GetLongestCommonSubsequenceLengthWorksOnExamp
     {1U, 5U, 4U, 6U, 8U, 18U});
 
     EXPECT_EQ(3U, queryForTest.getLongestCommonSubsequenceLengthUsingNaiveRecursion());
+    EXPECT_EQ(3U, queryForTest.getLongestCommonSubsequenceLengthUsingMemoizationDP());
     EXPECT_EQ(3U, queryForTest.getLongestCommonSubsequenceLengthUsingTabularDP());
     EXPECT_EQ(3U, queryForTest.getLongestCommonSubsequenceLengthUsingTabularDPAndSpaceEfficient());
-    EXPECT_EQ(3U, queryForTest.getLongestCommonSubsequenceLengthUsingMemoizationDP());
 }
 
 }

@@ -19,9 +19,9 @@ public:
     LevenshteinDistance(std::string const& string1, std::string const& string2);
 
     Count getLevenshteinDistanceUsingNaiveRecursion() const;
+    Count getLevenshteinDistanceUsingMemoizationDP() const;
     Count getLevenshteinDistanceUsingTabularDP() const;
     Count getLevenshteinDistanceUsingTabularDPAndSpaceEfficient() const;
-    Count getLevenshteinDistanceUsingMemoizationDP() const;
 private:
     Count getLevenshteinDistanceUsingNaiveRecursion(Index const index1, Index const index2) const;
     Count getLevenshteinDistanceUsingMemoizationDP(CountGrid & indexGrid, Index const index1, Index const index2) const;

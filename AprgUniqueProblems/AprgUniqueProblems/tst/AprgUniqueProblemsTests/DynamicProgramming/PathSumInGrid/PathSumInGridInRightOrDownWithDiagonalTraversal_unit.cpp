@@ -24,8 +24,8 @@ TEST(PathSumInGridInRightOrDownWithDiagonalTraversalTest, GetBestPathSumWithMini
     PathSumInGridInRightOrDownWithDiagonalTraversal queryForTest(PathSumInGridInRightOrDownWithDiagonalTraversal::Type::MinimumSum, inputGrid);
 
     EXPECT_EQ(32U, queryForTest.getBestPathSumUsingNaiveRecursion());
-    EXPECT_EQ(32U, queryForTest.getBestPathSumUsingTabularDP());
     EXPECT_EQ(32U, queryForTest.getBestPathSumUsingMemoizationDP());
+    EXPECT_EQ(32U, queryForTest.getBestPathSumUsingTabularDP());
 }
 
 TEST(PathSumInGridInRightOrDownWithDiagonalTraversalTest, GetBestPathSumWithMinimumTypeWorksOnExample2)
@@ -37,8 +37,8 @@ TEST(PathSumInGridInRightOrDownWithDiagonalTraversalTest, GetBestPathSumWithMini
     PathSumInGridInRightOrDownWithDiagonalTraversal queryForTest(PathSumInGridInRightOrDownWithDiagonalTraversal::Type::MinimumSum, inputGrid);
 
     EXPECT_EQ(8U, queryForTest.getBestPathSumUsingNaiveRecursion());
-    EXPECT_EQ(8U, queryForTest.getBestPathSumUsingTabularDP());
     EXPECT_EQ(8U, queryForTest.getBestPathSumUsingMemoizationDP());
+    EXPECT_EQ(8U, queryForTest.getBestPathSumUsingTabularDP());
 }
 
 TEST(PathSumInGridInRightOrDownWithDiagonalTraversalTest, GetBestPathSumWithMaximumTypeWorksOnExample1)
@@ -52,8 +52,8 @@ TEST(PathSumInGridInRightOrDownWithDiagonalTraversalTest, GetBestPathSumWithMaxi
     PathSumInGridInRightOrDownWithDiagonalTraversal queryForTest(PathSumInGridInRightOrDownWithDiagonalTraversal::Type::MaximumSum, inputGrid);
 
     EXPECT_EQ(67U, queryForTest.getBestPathSumUsingNaiveRecursion());
-    EXPECT_EQ(67U, queryForTest.getBestPathSumUsingTabularDP());
     EXPECT_EQ(67U, queryForTest.getBestPathSumUsingMemoizationDP());
+    EXPECT_EQ(67U, queryForTest.getBestPathSumUsingTabularDP());
 }
 
 TEST(PathSumInGridInRightOrDownWithDiagonalTraversalTest, GetBestPathSumWithMaximumTypeWorksOnExample2)
@@ -65,8 +65,8 @@ TEST(PathSumInGridInRightOrDownWithDiagonalTraversalTest, GetBestPathSumWithMaxi
     PathSumInGridInRightOrDownWithDiagonalTraversal queryForTest(PathSumInGridInRightOrDownWithDiagonalTraversal::Type::MaximumSum, inputGrid);
 
     EXPECT_EQ(21U, queryForTest.getBestPathSumUsingNaiveRecursion());
-    EXPECT_EQ(21U, queryForTest.getBestPathSumUsingTabularDP());
     EXPECT_EQ(21U, queryForTest.getBestPathSumUsingMemoizationDP());
+    EXPECT_EQ(21U, queryForTest.getBestPathSumUsingTabularDP());
 }
 
 TEST(PathSumInGridInRightOrDownWithDiagonalTraversalTest, GetBestPathWithMinimumTypeWorksOnExample1)

@@ -35,8 +35,8 @@ public:
     PathSumInGridInRightOrDownWithDiagonalTraversal(Type const type, Grid const& gridToCheck);
 
     Value getBestPathSumUsingNaiveRecursion() const;
-    Value getBestPathSumUsingTabularDP() const;
     Value getBestPathSumUsingMemoizationDP() const;
+    Value getBestPathSumUsingTabularDP() const;
     Path getBestPathUsingTabularDP() const;
 
 private:

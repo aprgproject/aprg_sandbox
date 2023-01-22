@@ -97,13 +97,17 @@ BinomialCoefficient::Value BinomialCoefficient::getBinomialCoefficientUsingTabul
             for(Value k=lastK; k>0; k--) // reverse traversal to avoid accessing already computed values
             {
                 partialValues[k] += partialValues.at(k-1);
-            }        }
+            }
+        }
         result = partialValues.back();
     }
-    return result;}
+    return result;
+}
+
 BinomialCoefficient::Value BinomialCoefficient::getBinomialCoefficientUsingMemoizationDP() const
 {
-    // Time Complexity: O(n*k) (should be same as Tabular DP)    // Auxiliary Space: O(n*k)
+    // Time Complexity: O(n*k) (should be same as Tabular DP)
+    // Auxiliary Space: O(n*k)
 
     Value result(0);
     if(m_n>=m_k)
@@ -160,9 +164,11 @@ BinomialCoefficient::Value BinomialCoefficient::getBinomialCoefficientUsingMemoi
 
 }
 
-BinomialCoefficient::Value BinomialCoefficient::getBinomialCoefficientUsingGcf() const{
+BinomialCoefficient::Value BinomialCoefficient::getBinomialCoefficientUsingGcf() const
+{
     // Time Complexity: O(n*log(n))
     // Auxiliary Space: O(1)
+
     // Same as with mathHelper
 
     Value result(0);
