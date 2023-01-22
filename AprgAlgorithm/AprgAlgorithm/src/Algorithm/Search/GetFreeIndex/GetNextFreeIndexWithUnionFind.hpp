@@ -1,64 +1,62 @@
 #pragma once
 
-#include <Algorithm/Search/GetFreeIndex/Common/GetFreeIndexWithUnionFind.hpp>
+#include <Algorithm/UnionFind/UnionFindForFreeIndex.hpp>
 
 namespace alba
 {
-
 namespace algorithm
 {
 
 template <typename Index>
-class GetNextFreeIndexWithUnionFind : public GetFreeIndexWithUnionFind<Index>
+class GetNextFreeIndexWithUnionFind
 {
 public:
-    using BaseClass = GetFreeIndexWithUnionFind<Index>;
-    using UnionFind = typename BaseClass::UnionFind;
+    using UnionFind = UnionFindForFreeIndex<Index>;
 
     GetNextFreeIndexWithUnionFind(Index const numberOfIndexes)
-        : BaseClass(numberOfIndexes)
-        , b_numberOfIndexes(BaseClass::m_numberOfIndexes)
-        , b_unionFind(BaseClass::m_unionFind)
+        : m_numberOfIndexes(numberOfIndexes)
+        , m_unionFind(numberOfIndexes)
     {}
 
     Index getNextFreeIndexAt(Index const index)
     {
-        return BaseClass::getFreeIndexAt(index);
+        Index result{};
+        if(index<m_numberOfIndexes)
+        {
+            result = m_unionFind.getRootWithPathCompression(index);
+        }
+        return result;
     }
 
     void setAsNotFree(Index const index)
     {
-        if(index+1 < b_numberOfIndexes)
+        if(index+1 < m_numberOfIndexes)
         {
-            b_unionFind.connect(index, index+1);
+            m_unionFind.connect(index, index+1);
         }
     }
-
     void setAsFree(Index const index)
     {
         // NOTE: This is linear
 
-        Index rootOfIndex(b_unionFind.getRoot(index));
-        if(index<b_numberOfIndexes && rootOfIndex != index)
+        Index rootOfIndex(m_unionFind.getRoot(index));
+        if(index<m_numberOfIndexes && rootOfIndex != index)
         {
-            auto & relativeRoots(b_unionFind.getRelativeRootVectorReference());
+            auto & relativeRoots(m_unionFind.getRelativeRootVectorReference());
 
             relativeRoots[index] = index;
-            for(Index i=0; i<index; i++)
-            {
+            for(Index i=0; i<index; i++)            {
                 if(relativeRoots.at(i) == rootOfIndex)
                 {
-                    relativeRoots[i] = index;
-                }
+                    relativeRoots[i] = index;                }
             }
         }
     }
 
 private:
-    Index & b_numberOfIndexes;
-    UnionFind & b_unionFind;
+    Index m_numberOfIndexes;
+    UnionFind m_unionFind;
 };
 
 }
-
 }
