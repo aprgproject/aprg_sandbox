@@ -109,15 +109,13 @@ LevenshteinDistance::Count LevenshteinDistance::getLevenshteinDistanceUsingTabul
     }
 
     Counts const& lastPrevious(previousAndCurrentCounts.at(m_string2.length()%2));
-    return lastPrevious.at(m_string1.length());
+    return lastPrevious.back();
 }
 
-LevenshteinDistance::Count LevenshteinDistance::getLevenshteinDistanceUsingMemoizationDP() const
-{
+LevenshteinDistance::Count LevenshteinDistance::getLevenshteinDistanceUsingMemoizationDP() const{
     CountGrid indexGrid(m_string1.length()+1, m_string2.length()+1, UNUSED_INDEX);
     return getLevenshteinDistanceUsingMemoizationDP(indexGrid, m_string1.length(), m_string2.length());
 }
-
 LevenshteinDistance::Count LevenshteinDistance::getLevenshteinDistanceUsingNaiveRecursion(
         Index const index1,
         Index const index2) const

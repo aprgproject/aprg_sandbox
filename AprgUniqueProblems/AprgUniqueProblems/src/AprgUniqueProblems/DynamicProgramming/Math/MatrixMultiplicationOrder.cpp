@@ -91,24 +91,25 @@ MatrixMultiplicationOrder::Count MatrixMultiplicationOrder::getMinimumNumberOfOp
         Index const leftParenthesis,
         Index const rightParenthesis) const
 {
-    Count result(0);
-    if(leftParenthesis+2 <= rightParenthesis) // distance should be two for at least three elements
+    Count result(countMatrix.getEntry(leftParenthesis, rightParenthesis));
+    if(MAX_COUNT == result)
     {
-        result = countMatrix.getEntry(leftParenthesis, rightParenthesis);
-        if(MAX_COUNT == result)
+        if(leftParenthesis+2 <= rightParenthesis) // distance should be two for at least three elements
         {
             // result is already set to MAX_COUNT so we can proceed on using min
-            for(Index inBetween=leftParenthesis+1; inBetween<rightParenthesis; inBetween++)
-            {
+            for(Index inBetween=leftParenthesis+1; inBetween<rightParenthesis; inBetween++)            {
                 Count currentCount = getMinimumNumberOfOperationsUsingMemoizationDP(countMatrix, leftParenthesis, inBetween)
                         + getMinimumNumberOfOperationsUsingMemoizationDP(countMatrix, inBetween, rightParenthesis)
                         + m_dimensions.at(leftParenthesis) * m_dimensions.at(inBetween) * m_dimensions.at(rightParenthesis);
                 result = min(result, currentCount);
             }
-            countMatrix.setEntry(leftParenthesis, rightParenthesis, result);
         }
+        else
+        {
+            result = 0;
+        }
+        countMatrix.setEntry(leftParenthesis, rightParenthesis, result);
     }
     return result;
 }
-
 }
