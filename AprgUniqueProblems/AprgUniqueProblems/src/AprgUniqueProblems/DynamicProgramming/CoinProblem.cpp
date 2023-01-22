@@ -183,17 +183,18 @@ unsigned int CoinProblem::getNumberOfCoinCombinationsUsingTabularDP(Value const 
 unsigned int CoinProblem::getNumberOfCoinCombinationsUsingTabularDPAndSpaceEfficient(Value const total) const
 {
     // Time Complexity: O(mn)
-    // Following is a simplified version of getNumberOfCoinCombinationsUsingTabularDP().
     // The auxiliary space required here is O(n) only.
+
+    // Space efficiency analysis:
+    // Since accessing the previous partial values requires only one row above,
+    // we only really need 1 row (not a matrix) to keep track partial values.
 
     CountPerValue countPerValue(total+1, 0);
     countPerValue[0]=1;
-    for(Value const& availableCoin : m_availableCoins)
-    {
+    for(Value const& availableCoin : m_availableCoins)    {
         for(Value partialValue=availableCoin; partialValue<=total; partialValue++)
         {
-            countPerValue[partialValue] += countPerValue.at(partialValue-availableCoin);
-        }
+            countPerValue[partialValue] += countPerValue.at(partialValue-availableCoin);        }
     }
     return countPerValue.at(total);
 }

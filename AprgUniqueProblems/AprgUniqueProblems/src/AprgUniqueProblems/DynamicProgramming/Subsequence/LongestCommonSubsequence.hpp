@@ -1,32 +1,39 @@
 #pragma once
 
+#include <Common/Math/Matrix/AlbaMatrix.hpp>
+
+#include <limits>
 #include <vector>
 
-namespace alba
-{
+namespace alba{
 
 class LongestCommonSubsequence
 {
 public:
     using Index = unsigned int;
+    using Count = unsigned int;
     using Value = unsigned int;
     using Sequence = std::vector<Value>;
+    using Counts = std::vector<Count>;
+    using CountMatrix = matrix::AlbaMatrix<Count>;
+    static constexpr Value UNUSED_COUNT=std::numeric_limits<Count>::max();
 
     LongestCommonSubsequence(Sequence const& sequence1, Sequence const& sequence2);
 
-    Index getLongestCommonSubsequenceLengthUsingNaiveRecursion() const;
-    Index getLongestCommonSubsequenceLengthUsingDynamicProgramming() const;
+    Count getLongestCommonSubsequenceLengthUsingNaiveRecursion() const;
+    Count getLongestCommonSubsequenceLengthUsingTabularDP() const;
+    Count getLongestCommonSubsequenceLengthUsingTabularDPAndSpaceEfficient() const;
+    Count getLongestCommonSubsequenceLengthUsingMemoizationDP() const;
 
 private:
 
-    Index getLongestCommonSubsequenceLengthUsingNaiveRecursion(Index const index1, Index const index2) const;
+    Count getLongestCommonSubsequenceLengthUsingNaiveRecursion(Index const index1, Index const index2) const;
+    Count getLongestCommonSubsequenceLengthUsingMemoizationDP(CountMatrix & lengthMatrix, Index const index1, Index const index2) const;
     Sequence m_sequence1;
     Sequence m_sequence2;
-
 };
 
 }
-
 // LCS Problem Statement:
 // Given two sequences, find the length of longest subsequence present in both of them.
 // A subsequence is a sequence that appears in the same relative order, but not necessarily contiguous.
