@@ -11,14 +11,12 @@ LongestIncreasingSubsequence::LongestIncreasingSubsequence(Sequence const& seque
     : m_sequenceToCheck(sequenceToCheck)
 {}
 
-LongestIncreasingSubsequence::Index LongestIncreasingSubsequence::getLongestIncreasingSubsequenceLength()
+LongestIncreasingSubsequence::Index LongestIncreasingSubsequence::getLongestLength()
 {
     Index result(0U);
-    if(!m_sequenceToCheck.empty())
-    {
+    if(!m_sequenceToCheck.empty())    {
         IndexToIndex indexToLength(m_sequenceToCheck.size(), 0U);
         indexToLength[0U]=1U;
-
         // Quadratic time because of double loop
         for (Index index=1U; index<m_sequenceToCheck.size(); index++)
         {
@@ -37,15 +35,13 @@ LongestIncreasingSubsequence::Index LongestIncreasingSubsequence::getLongestIncr
     return result;
 }
 
-LongestIncreasingSubsequence::Sequence LongestIncreasingSubsequence::getLongestIncreasingSubsequence()
+LongestIncreasingSubsequence::Sequence LongestIncreasingSubsequence::getLongestSubsequence()
 {
     Sequence longestSequence;
-    if(!m_sequenceToCheck.empty())
-    {
+    if(!m_sequenceToCheck.empty())    {
         Value unusedValue(UNUSED_VALUE);
         IndexToIndex indexToPreviousIndex(m_sequenceToCheck.size(), unusedValue);
-        IndexToIndex indexToLength(m_sequenceToCheck.size(), 0U);
-        indexToLength[0U]=1U;
+        IndexToIndex indexToLength(m_sequenceToCheck.size(), 0U);        indexToLength[0U]=1U;
 
         // Quadratic time because of double loop
         for (Index index=1U; index<m_sequenceToCheck.size(); index++)

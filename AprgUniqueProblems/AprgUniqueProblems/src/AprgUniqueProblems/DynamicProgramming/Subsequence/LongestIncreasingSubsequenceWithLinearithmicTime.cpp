@@ -9,58 +9,51 @@ LongestIncreasingSubsequenceWithLinearithmicTime::LongestIncreasingSubsequenceWi
     : m_sequenceToCheck(sequenceToCheck)
 {}
 
-LongestIncreasingSubsequenceWithLinearithmicTime::Index LongestIncreasingSubsequenceWithLinearithmicTime::getLongestIncreasingSubsequenceLength() const
+LongestIncreasingSubsequenceWithLinearithmicTime::Index LongestIncreasingSubsequenceWithLinearithmicTime::getLongestLength() const
 {
     Index longestLength(0U);
-    if (!m_sequenceToCheck.empty())
+    if(!m_sequenceToCheck.empty())
     {
         IndexToValue lengthToEndValue(m_sequenceToCheck.size(), 0U); // dynamic programming
-        lengthToEndValue[0] = m_sequenceToCheck.front();
-        longestLength = 1U;
+        lengthToEndValue[0] = m_sequenceToCheck.front();        longestLength = 1U;
         for (auto itValue=m_sequenceToCheck.cbegin()+1; itValue!=m_sequenceToCheck.cend(); itValue++)
         {
             auto beginIt = lengthToEndValue.begin(), endIt = lengthToEndValue.begin() + longestLength;
             auto lowerBoundItForEndValue = lower_bound(beginIt, endIt, *itValue);
 
-            if (lowerBoundItForEndValue == endIt) // if current value is the highest
+            if(lowerBoundItForEndValue == endIt) // if current value is the highest
             {
                 lengthToEndValue[longestLength++] = *itValue; // extend
-            }
-            else
+            }            else
             {
                 *lowerBoundItForEndValue = *itValue; // replace
-            }
-        }
+            }        }
     }
     return longestLength;
 }
 
-LongestIncreasingSubsequenceWithLinearithmicTime::Sequence LongestIncreasingSubsequenceWithLinearithmicTime::getLongestIncreasingSubsequence() const
+LongestIncreasingSubsequenceWithLinearithmicTime::Sequence LongestIncreasingSubsequenceWithLinearithmicTime::getLongestSubsequence() const
 {
     Sequence longestSequence;
-    if (!m_sequenceToCheck.empty())
+    if(!m_sequenceToCheck.empty())
     {
         Index longestLength(1U);
-        Value unusedValue(UNUSED_VALUE);
-        IndexToValue lengthToEndValue(m_sequenceToCheck.size(), 0U); // dynamic programming
+        Value unusedValue(UNUSED_VALUE);        IndexToValue lengthToEndValue(m_sequenceToCheck.size(), 0U); // dynamic programming
         IndexToIndex lengthToEndIndex(m_sequenceToCheck.size(), unusedValue);
         IndexToIndex indexToPreviousIndex(m_sequenceToCheck.size(), unusedValue);
-        lengthToEndValue[0] = m_sequenceToCheck.front();
-        for (Index i=1; i<m_sequenceToCheck.size(); i++)
+        lengthToEndValue[0] = m_sequenceToCheck.front();        for (Index i=1; i<m_sequenceToCheck.size(); i++)
         {
             Value const& value(m_sequenceToCheck.at(i));
             auto beginIt = lengthToEndValue.begin(), endIt = lengthToEndValue.begin() + longestLength;
             auto lowerBoundItForEndValue = lower_bound(beginIt, endIt, value);
 
-            if (lowerBoundItForEndValue == endIt) // if current value is the highest
+            if(lowerBoundItForEndValue == endIt) // if current value is the highest
             {
                 indexToPreviousIndex[i] = lengthToEndIndex.at(longestLength-1);
-                lengthToEndIndex[longestLength] = i;
-                lengthToEndValue[longestLength++] = value; // extend
+                lengthToEndIndex[longestLength] = i;                lengthToEndValue[longestLength++] = value; // extend
             }
             else
-            {
-                Index currentLength = distance(lengthToEndValue.begin(), lowerBoundItForEndValue);
+            {                Index currentLength = distance(lengthToEndValue.begin(), lowerBoundItForEndValue);
                 if(currentLength > 0)
                 {
                     indexToPreviousIndex[i] = lengthToEndIndex[currentLength-1];
