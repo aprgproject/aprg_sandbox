@@ -5,27 +5,25 @@ using namespace std;
 namespace alba
 {
 
-LongestIncreasingSubsequenceWithLinearithmicTime::LongestIncreasingSubsequenceWithLinearithmicTime(Sequence const& sequenceToCheck)
-    : m_sequenceToCheck(sequenceToCheck)
+LongestIncreasingSubsequenceWithLinearithmicTime::LongestIncreasingSubsequenceWithLinearithmicTime(Values const& sequence)
+    : m_sequence(sequence)
 {}
 
 LongestIncreasingSubsequenceWithLinearithmicTime::Index LongestIncreasingSubsequenceWithLinearithmicTime::getLongestLength() const
 {
     Index longestLength(0U);
-    if(!m_sequenceToCheck.empty())
+    if(!m_sequence.empty())
     {
-        IndexToValue lengthToEndValue(m_sequenceToCheck.size(), 0U); // dynamic programming
-        lengthToEndValue[0] = m_sequenceToCheck.front();
+        IndexToValue lengthToEndValue(m_sequence.size(), 0U); // dynamic programming
+        lengthToEndValue[0] = m_sequence.front();
         longestLength = 1U;
-        for (auto itValue=m_sequenceToCheck.cbegin()+1; itValue!=m_sequenceToCheck.cend(); itValue++)
+        for (auto itValue=m_sequence.cbegin()+1; itValue!=m_sequence.cend(); itValue++)
         {
             auto beginIt = lengthToEndValue.begin(), endIt = lengthToEndValue.begin() + longestLength;
             auto lowerBoundItForEndValue = lower_bound(beginIt, endIt, *itValue);
-
             if(lowerBoundItForEndValue == endIt) // if current value is the highest
             {
-                lengthToEndValue[longestLength++] = *itValue; // extend
-            }
+                lengthToEndValue[longestLength++] = *itValue; // extend            }
             else
             {
                 *lowerBoundItForEndValue = *itValue; // replace
@@ -35,27 +33,25 @@ LongestIncreasingSubsequenceWithLinearithmicTime::Index LongestIncreasingSubsequ
     return longestLength;
 }
 
-LongestIncreasingSubsequenceWithLinearithmicTime::Sequence LongestIncreasingSubsequenceWithLinearithmicTime::getLongestSubsequence() const
+LongestIncreasingSubsequenceWithLinearithmicTime::Values LongestIncreasingSubsequenceWithLinearithmicTime::getLongestSubsequence() const
 {
-    Sequence longestSequence;
-    if(!m_sequenceToCheck.empty())
+    Values result;
+    if(!m_sequence.empty())
     {
         Index longestLength(1U);
         Value unusedValue(UNUSED_VALUE);
-        IndexToValue lengthToEndValue(m_sequenceToCheck.size(), 0U); // dynamic programming
-        IndexToIndex lengthToEndIndex(m_sequenceToCheck.size(), unusedValue);
-        IndexToIndex indexToPreviousIndex(m_sequenceToCheck.size(), unusedValue);
-        lengthToEndValue[0] = m_sequenceToCheck.front();
-        for (Index i=1; i<m_sequenceToCheck.size(); i++)
+        IndexToValue lengthToEndValue(m_sequence.size(), 0U); // dynamic programming
+        IndexToIndex lengthToEndIndex(m_sequence.size(), unusedValue);
+        IndexToIndex indexToPreviousIndex(m_sequence.size(), unusedValue);
+        lengthToEndValue[0] = m_sequence.front();
+        for (Index i=1; i<m_sequence.size(); i++)
         {
-            Value const& value(m_sequenceToCheck.at(i));
+            Value const& value(m_sequence.at(i));
             auto beginIt = lengthToEndValue.begin(), endIt = lengthToEndValue.begin() + longestLength;
             auto lowerBoundItForEndValue = lower_bound(beginIt, endIt, value);
-
             if(lowerBoundItForEndValue == endIt) // if current value is the highest
             {
-                indexToPreviousIndex[i] = lengthToEndIndex.at(longestLength-1);
-                lengthToEndIndex[longestLength] = i;
+                indexToPreviousIndex[i] = lengthToEndIndex.at(longestLength-1);                lengthToEndIndex[longestLength] = i;
                 lengthToEndValue[longestLength++] = value; // extend
             }
             else
@@ -71,16 +67,16 @@ LongestIncreasingSubsequenceWithLinearithmicTime::Sequence LongestIncreasingSubs
         }
 
         // construct longest sequence
-        longestSequence.resize(longestLength, Value{});
+        result.resize(longestLength, Value{});
         Index maxIndex=longestLength-1;
         for(Index inputIndex=lengthToEndIndex.at(maxIndex), outputIndex=0;
             inputIndex!=UNUSED_VALUE && outputIndex<=maxIndex;
             inputIndex=indexToPreviousIndex.at(inputIndex), outputIndex++)
         {
-            longestSequence[maxIndex-outputIndex] = m_sequenceToCheck.at(inputIndex); // reverse in output
+            result[maxIndex-outputIndex] = m_sequence.at(inputIndex); // reverse in output
         }
     }
-    return longestSequence;
+    return result;
 }
 
 }

@@ -5,15 +5,13 @@ using namespace std;
 namespace alba
 {
 
-LongestCommonSubsequence::LongestCommonSubsequence(Sequence const& sequence1, Sequence const& sequence2)
+LongestCommonSubsequence::LongestCommonSubsequence(Values const& sequence1, Values const& sequence2)
     : m_sequence1(sequence1)
     , m_sequence2(sequence2)
 {}
-
 LongestCommonSubsequence::Count LongestCommonSubsequence::getLongestLengthUsingNaiveRecursion() const
 {
-    return getLongestLengthUsingNaiveRecursion(m_sequence1.size(), m_sequence2.size());
-}
+    return getLongestLengthUsingNaiveRecursion(m_sequence1.size(), m_sequence2.size());}
 
 LongestCommonSubsequence::Count LongestCommonSubsequence::getLongestLengthUsingMemoizationDP() const
 {
