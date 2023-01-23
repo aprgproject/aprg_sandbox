@@ -21,9 +21,11 @@ LongestIncreasingSubsequenceWithLinearithmicTime::Index LongestIncreasingSubsequ
         {
             auto beginIt = lengthToEndValue.begin(), endIt = lengthToEndValue.begin() + longestLength;
             auto lowerBoundItForEndValue = lower_bound(beginIt, endIt, *itValue);
+
             if(lowerBoundItForEndValue == endIt) // if current value is the highest
             {
-                lengthToEndValue[longestLength++] = *itValue; // extend            }
+                lengthToEndValue[longestLength++] = *itValue; // extend
+            }
             else
             {
                 *lowerBoundItForEndValue = *itValue; // replace
@@ -49,9 +51,11 @@ LongestIncreasingSubsequenceWithLinearithmicTime::Values LongestIncreasingSubseq
             Value const& value(m_sequence.at(i));
             auto beginIt = lengthToEndValue.begin(), endIt = lengthToEndValue.begin() + longestLength;
             auto lowerBoundItForEndValue = lower_bound(beginIt, endIt, value);
+
             if(lowerBoundItForEndValue == endIt) // if current value is the highest
             {
-                indexToPreviousIndex[i] = lengthToEndIndex.at(longestLength-1);                lengthToEndIndex[longestLength] = i;
+                indexToPreviousIndex[i] = lengthToEndIndex.at(longestLength-1);
+                lengthToEndIndex[longestLength] = i;
                 lengthToEndValue[longestLength++] = value; // extend
             }
             else

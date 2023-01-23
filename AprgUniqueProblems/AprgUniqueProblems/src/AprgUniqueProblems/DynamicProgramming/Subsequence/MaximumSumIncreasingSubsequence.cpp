@@ -19,16 +19,15 @@ MaximumSumIncreasingSubsequence::Value MaximumSumIncreasingSubsequence::getMaxim
         Values partialSums(m_sequence.size(), 0U);
         for (Index index=0U; index<m_sequence.size(); index++)
         {
-            Value maxPartialSum(0);
+            Value & partialSum(partialSums[index]);
             for (Index lowerIndex=0U; lowerIndex<index; lowerIndex++)
             {
                 if(m_sequence.at(lowerIndex) < m_sequence.at(index))
                 {
-                    maxPartialSum = max(maxPartialSum, partialSums.at(lowerIndex));
+                    partialSum = max(partialSum, partialSums.at(lowerIndex));
                 }
             }
-            maxPartialSum += m_sequence.at(index);
-            partialSums[index] = maxPartialSum;
+            partialSum += m_sequence.at(index);
         }
         result = *max_element(partialSums.cbegin(), partialSums.cend());
     }
@@ -48,20 +47,18 @@ MaximumSumIncreasingSubsequence::Values MaximumSumIncreasingSubsequence::getSubs
 
         for (Index index=0U; index<m_sequence.size(); index++)
         {
-            Value maxPartialSum(0);
-            Index indexWithMaxPartialSum(0);
+            Value & partialSum(partialSums[index]);
+            Value & previousIndex(indexToPreviousIndex[index]);
             for (Index lowerIndex=0U; lowerIndex<index; lowerIndex++)
             {
                 if(m_sequence.at(lowerIndex) < m_sequence.at(index)
-                        && maxPartialSum < partialSums.at(lowerIndex))
+                        && partialSum < partialSums.at(lowerIndex))
                 {
-                    maxPartialSum = partialSums.at(lowerIndex);
-                    indexWithMaxPartialSum = lowerIndex; // save maximum
+                    partialSum = partialSums.at(lowerIndex);
+                    previousIndex = lowerIndex; // save maximum
                 }
             }
-            maxPartialSum += m_sequence.at(index);
-            partialSums[index] = maxPartialSum;
-            indexToPreviousIndex[index] = indexWithMaxPartialSum;
+            partialSum += m_sequence.at(index);
         }
 
         // construct longest sequence

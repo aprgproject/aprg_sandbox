@@ -18,18 +18,19 @@ LongestIncreasingSubsequence::Index LongestIncreasingSubsequence::getLongestLeng
     Index result(0U);
     if(!m_sequence.empty())
     {
-        IndexToIndex indexToLength(m_sequence.size(), 0U);
+        IndexToIndex subLengths(m_sequence.size(), 1U);
         for (Index index=0U; index<m_sequence.size(); index++)
         {
-            indexToLength[index]=1U;
+            Value & subLength(subLengths[index]);
             for (Index lowerIndex=0U; lowerIndex<index; lowerIndex++)
             {
                 if(m_sequence.at(lowerIndex) < m_sequence.at(index))
                 {
-                    indexToLength[index] = max(indexToLength.at(index), indexToLength.at(lowerIndex)+1U); // save maximum
+                    subLength = max(subLength, subLengths.at(lowerIndex)+1U); // save maximum
                 }
             }
-        }        result = *max_element(indexToLength.cbegin(), indexToLength.cend());
+        }
+        result = *max_element(subLengths.cbegin(), subLengths.cend());
     }
     return result;
 }
@@ -41,26 +42,28 @@ LongestIncreasingSubsequence::Values LongestIncreasingSubsequence::getLongestSub
     Values result;
     if(!m_sequence.empty())
     {
-        IndexToIndex indexToLength(m_sequence.size(), 0U);
+        IndexToIndex subLengths(m_sequence.size(), 1U);
         IndexToIndex indexToPreviousIndex(m_sequence.size());
         iota(indexToPreviousIndex.begin(), indexToPreviousIndex.end(), 0);
 
         for (Index index=0U; index<m_sequence.size(); index++)
         {
-            indexToLength[index]=1U;
+            Value & subLength(subLengths[index]);
+            Value & previousIndex(indexToPreviousIndex[index]);
             for (Index lowerIndex=0U; lowerIndex<index; lowerIndex++)
             {
                 if(m_sequence.at(lowerIndex) < m_sequence.at(index)
-                        && indexToLength.at(index) < indexToLength.at(lowerIndex)+1U)
+                        && subLength < subLengths.at(lowerIndex)+1U)
                 {
-                    indexToPreviousIndex[index] = lowerIndex;                    indexToLength[index] = indexToLength.at(lowerIndex)+1U;
+                    subLength = subLengths.at(lowerIndex)+1U;
+                    previousIndex = lowerIndex;
                 }
             }
         }
 
         // construct longest sequence
-        auto itMax = max_element(indexToLength.cbegin(), indexToLength.cend());
-        Index indexOfLongestLength = distance(indexToLength.cbegin(), itMax);
+        auto itMax = max_element(subLengths.cbegin(), subLengths.cend());
+        Index indexOfLongestLength = distance(subLengths.cbegin(), itMax);
         Index traverseIndex=indexOfLongestLength;
         for(; traverseIndex!=indexToPreviousIndex.at(traverseIndex); traverseIndex=indexToPreviousIndex.at(traverseIndex))
         {

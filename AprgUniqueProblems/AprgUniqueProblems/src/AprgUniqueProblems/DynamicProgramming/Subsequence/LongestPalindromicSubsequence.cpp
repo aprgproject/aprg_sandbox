@@ -5,7 +5,7 @@ using namespace std;
 namespace alba
 {
 
-LongestPalindromicSubsequence::LongestPalindromicSubsequence(std::string const& stringParameter)
+LongestPalindromicSubsequence::LongestPalindromicSubsequence(string const& stringParameter)
     : m_string(stringParameter)
 {}
 
