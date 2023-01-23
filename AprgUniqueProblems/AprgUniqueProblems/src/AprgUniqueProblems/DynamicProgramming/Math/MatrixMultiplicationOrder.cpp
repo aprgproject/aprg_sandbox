@@ -38,11 +38,13 @@ MatrixMultiplicationOrder::Count MatrixMultiplicationOrder::getMinimumNumberOfOp
 
 MatrixMultiplicationOrder::Count MatrixMultiplicationOrder::getMinimumNumberOfOperationsUsingTabularDP() const
 {
-    // Time Complexity: O(n^3)    // Auxiliary Space: O(n^2)
+    // Time Complexity: O(n^3)
+    // Auxiliary Space: O(n^2)
 
     Count result(0);
     if(!m_dimensions.empty())
-    {        CountMatrix countMatrix(m_dimensions.size(), m_dimensions.size());
+    {
+        CountMatrix countMatrix(m_dimensions.size(), m_dimensions.size());
 
         for(Index length=2; length<m_dimensions.size(); length++)
         {
@@ -67,10 +69,12 @@ MatrixMultiplicationOrder::Count MatrixMultiplicationOrder::getMinimumNumberOfOp
 
 MatrixMultiplicationOrder::Count MatrixMultiplicationOrder::getMinimumNumberOfOperationsUsingNaiveRecursion(
         Index const leftParenthesis,
-        Index const rightParenthesis) const{
+        Index const rightParenthesis) const
+{
     Count result(0);
     if(leftParenthesis+2 <= rightParenthesis) // distance should be two for at least three elements
-    {        result = MAX_COUNT;
+    {
+        result = MAX_COUNT;
         for(Index inBetween=leftParenthesis+1; inBetween<rightParenthesis; inBetween++)
         {
             Count currentCount = getMinimumNumberOfOperationsUsingNaiveRecursion(leftParenthesis, inBetween)

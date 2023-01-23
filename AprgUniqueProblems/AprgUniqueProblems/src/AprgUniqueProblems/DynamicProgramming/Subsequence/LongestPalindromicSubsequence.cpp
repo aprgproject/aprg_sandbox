@@ -32,6 +32,9 @@ LongestPalindromicSubsequence::Count LongestPalindromicSubsequence::getLongestLe
 
 LongestPalindromicSubsequence::Count LongestPalindromicSubsequence::getLongestLengthUsingTabularDP() const
 {
+    // Time Complexity: O(n^2)
+    // Auxiliary Space: O(n^2)
+
     Count result(0);
     if(!m_string.empty())
     {
@@ -66,8 +69,8 @@ LongestPalindromicSubsequence::Count LongestPalindromicSubsequence::getLongestLe
 {
     // Note this is same implementation in AlbaStringHelper
 
-    // Time Complexity: O(m x n)
-    // Auxiliary Space: O(m)
+    // Time Complexity: O(n^2)
+    // Auxiliary Space: O(n)
 
     // Space efficiency analysis:
     // Since accessing the previous partial values requires only one column or one row above,
@@ -95,7 +98,7 @@ LongestPalindromicSubsequence::Count LongestPalindromicSubsequence::getLongestLe
         }
     }
 
-    Counts const& lastCurrent(previousAndCurrentCounts.at((m_string.size()+1)%2));
+    Counts const& lastCurrent(previousAndCurrentCounts.at(stringLength%2));
     return lastCurrent.front();
 }
 

@@ -39,11 +39,13 @@ BinomialCoefficient::Value BinomialCoefficient::getBinomialCoefficientUsingMemoi
 
 BinomialCoefficient::Value BinomialCoefficient::getBinomialCoefficientUsingTabularDP() const
 {
-    // Time Complexity: O(n*k)    // Auxiliary Space: O(n*k)
+    // Time Complexity: O(n*k)
+    // Auxiliary Space: O(n*k)
 
     Value result(0);
     if(m_n>=m_k)
-    {        ValueMatrix valueMatrix(m_n+1, m_k+1, 0);
+    {
+        ValueMatrix valueMatrix(m_n+1, m_k+1, 0);
         for(Value n=0; n<=m_n; n++)
         {
             valueMatrix.setEntry(n, 0, 1);
@@ -155,9 +157,11 @@ BinomialCoefficient::Value BinomialCoefficient::getBinomialCoefficientUsingGcf()
     }
     return result;
 }
+
 BinomialCoefficient::Value BinomialCoefficient::getBinomialCoefficientUsingNaiveRecursion(
         Value const n,
-        Value const k) const{
+        Value const k) const
+{
     if(n<k)
     {
         return 0;

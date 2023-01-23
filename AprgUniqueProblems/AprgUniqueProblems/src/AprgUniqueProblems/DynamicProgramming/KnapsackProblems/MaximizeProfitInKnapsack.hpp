@@ -23,14 +23,14 @@ public:
 
     MaximizeProfitInKnapsack(Weight const maximumWeight, Items const items);
 
-    Profit getBestProfitInKnapsackUsingNaiveRecursion() const;
-    Profit getBestProfitInKnapsackUsingMemoizationDP() const;
-    Profit getBestProfitInKnapsackUsingTabularDP() const;
-    Profit getBestProfitInKnapsackUsingTabularDPAndSpaceEfficient() const;
+    Profit getBestProfitUsingNaiveRecursion() const;
+    Profit getBestProfitUsingMemoizationDP() const;
+    Profit getBestProfitUsingTabularDP() const;
+    Profit getBestProfitUsingTabularDPAndSpaceEfficient() const;
 
 private:
-    Profit getBestProfitInKnapsackUsingNaiveRecursion(Weight const remainingWeight, ItemIndex const itemIndex) const;
-    Profit getBestProfitInKnapsackUsingMemoizationDP(ProfitMatrix & valueMatrix, Weight const remainingWeight, ItemIndex const itemIndex) const;
+    Profit getBestProfitUsingNaiveRecursion(Weight const remainingWeight, ItemIndex const itemIndex) const;
+    Profit getBestProfitUsingMemoizationDP(ProfitMatrix & profitMatrix, Weight const remainingWeight, ItemIndex const itemIndex) const;
     Weight getSmallestItemWeight() const;
     Weight const m_maximumWeight;
     Items const m_items;

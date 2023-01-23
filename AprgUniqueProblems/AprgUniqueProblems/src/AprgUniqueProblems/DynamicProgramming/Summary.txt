@@ -102,8 +102,10 @@ int solve(int x)
         return dp[x];
     return (dp[x] = x * solve(x-1));
 }
+
 As we can see we are storing the most recent cache up to a limit so that if next time we got a call from the same state we simply return it from the memory. 
 So, this is why we call it memoization as we are storing the most recent state values. 
+
 In this case the memory layout is linear that’s why it may seem that the memory is being filled in a sequential manner like the tabulation method, 
 but you may consider any other top down DP having 2D memory layout like Min Cost Path, here the memory is not filled in a sequential manner. 
 

@@ -15,10 +15,12 @@ FibonacciExample::Number FibonacciExample::getFibonacciUsingNaiveRecursion(Numbe
     if(number<=1)
     {
         return number;
-    }    else
+    }
+    else
     {
         return getFibonacciUsingNaiveRecursion(number-1) + getFibonacciUsingNaiveRecursion(number-2);
-    }}
+    }
+}
 
 FibonacciExample::Number FibonacciExample::getFibonacciUsingMemoization(Number const number)
 {
@@ -41,10 +43,12 @@ FibonacciExample::Number FibonacciExample::getFibonacciUsingMemoization(Number c
         if(number<=1)
         {
             resultForNumber = number;
-        }        else
+        }
+        else
         {
             resultForNumber = getFibonacciUsingMemoization(number-1) + getFibonacciUsingMemoization(number-2);
-        }    }
+        }
+    }
     return resultForNumber;
 }
 

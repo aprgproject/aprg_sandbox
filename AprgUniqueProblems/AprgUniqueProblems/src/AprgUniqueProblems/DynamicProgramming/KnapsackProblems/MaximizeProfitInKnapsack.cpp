@@ -12,15 +12,31 @@ MaximizeProfitInKnapsack::MaximizeProfitInKnapsack(
     , m_items(items)
 {}
 
-MaximizeProfitInKnapsack::Profit MaximizeProfitInKnapsack::getBestProfitInKnapsackUsingNaiveRecursion() const
+MaximizeProfitInKnapsack::Profit MaximizeProfitInKnapsack::getBestProfitUsingNaiveRecursion() const
 {
-    // Time Complexity: O(2n)
+    // Time Complexity: O(2^n)
     // Auxiliary Space :O(1)
 
-    return getBestProfitInKnapsackUsingNaiveRecursion(m_maximumWeight, 0);
+    return getBestProfitUsingNaiveRecursion(m_maximumWeight, 0);
 }
 
-MaximizeProfitInKnapsack::Profit MaximizeProfitInKnapsack::getBestProfitInKnapsackUsingTabularDP() const
+MaximizeProfitInKnapsack::Profit MaximizeProfitInKnapsack::getBestProfitUsingMemoizationDP() const
+{
+    // Time Complexity: O(N*W).
+    // -> As redundant calculations of states are avoided.
+    // Auxiliary Space: O(N*W).
+    // -> The use of 2D array data structure for storing intermediate states.
+
+    Profit result(0);
+    if(!m_items.empty())
+    {
+        ProfitMatrix profitMatrix(m_maximumWeight+1, m_items.size()+1, static_cast<Profit>(UNUSED_VALUE));
+        result = getBestProfitUsingMemoizationDP(profitMatrix, m_maximumWeight, 0);
+    }
+    return result;
+}
+
+MaximizeProfitInKnapsack::Profit MaximizeProfitInKnapsack::getBestProfitUsingTabularDP() const
 {
     // Time Complexity: O(N*W).
     // -> where ‘N’ is the number of weight element and ‘W’ is capacity. As for every weight element we traverse through all weight capacities 1<=w<=W.
@@ -30,28 +46,27 @@ MaximizeProfitInKnapsack::Profit MaximizeProfitInKnapsack::getBestProfitInKnapsa
     Profit result(0);
     if(!m_items.empty())
     {
-        ProfitMatrix profitMatrix(m_maximumWeight+1, m_items.size(), 0);
-        Weight smallestItemWeight(getSmallestItemWeight());
-        for(Weight weight=smallestItemWeight; weight<profitMatrix.getNumberOfColumns(); weight++)
+        ProfitMatrix profitMatrix(m_maximumWeight+1, m_items.size()+1, 0);
+        for(int itemIndex=static_cast<int>(m_items.size())-1; itemIndex>=0; itemIndex--)
         {
-            for(ItemIndex itemIndex=1; itemIndex<profitMatrix.getNumberOfRows(); itemIndex++)
+            Weight itemWeight(m_items.at(itemIndex).first);
+            Profit itemProfit(m_items.at(itemIndex).second);
+            for(Weight weight(getSmallestItemWeight()); weight<profitMatrix.getNumberOfColumns(); weight++)
             {
-                Weight itemWeight(m_items.at(itemIndex).first);
-                Profit itemProfit(m_items.at(itemIndex).second);
                 if(weight >= itemWeight)
                 {
-                    Profit & profitAtWeight(profitMatrix.getEntryReference(weight, itemIndex));
-                    Profit bestWeightWithoutItem = itemIndex>0 ? profitMatrix.getEntry(weight-itemWeight, itemIndex-1) : 0;
-                    profitAtWeight = max(profitAtWeight, bestWeightWithoutItem+itemProfit);
+                    Profit profit = max(profitMatrix.getEntry(weight, itemIndex+1),
+                                        itemProfit + profitMatrix.getEntry(weight-itemWeight, itemIndex+1));
+                    profitMatrix.setEntry(weight, itemIndex, profit);
                 }
             }
         }
-        result = profitMatrix.getEntry(profitMatrix.getNumberOfColumns()-1, profitMatrix.getNumberOfRows()-1);
+        result = profitMatrix.getEntry(profitMatrix.getNumberOfColumns()-1, 0);
     }
     return result;
 }
 
-MaximizeProfitInKnapsack::Profit MaximizeProfitInKnapsack::getBestProfitInKnapsackUsingTabularDPAndSpaceEfficient() const
+MaximizeProfitInKnapsack::Profit MaximizeProfitInKnapsack::getBestProfitUsingTabularDPAndSpaceEfficient() const
 {
     // Complexity Analysis:
     // Time Complexity: O(N*W). As redundant calculations of states are avoided.
@@ -84,23 +99,9 @@ MaximizeProfitInKnapsack::Profit MaximizeProfitInKnapsack::getBestProfitInKnapsa
     return result;
 }
 
-MaximizeProfitInKnapsack::Profit MaximizeProfitInKnapsack::getBestProfitInKnapsackUsingMemoizationDP() const
-{
-    // Time Complexity: O(N*W).
-    // -> As redundant calculations of states are avoided.
-    // Auxiliary Space: O(N*W).
-    // -> The use of 2D array data structure for storing intermediate states.
-
-    Profit result(0);
-    if(!m_items.empty())
-    {
-        ProfitMatrix profitMatrix(m_maximumWeight+1, m_items.size()+1, static_cast<Profit>(UNUSED_VALUE));
-        result = getBestProfitInKnapsackUsingMemoizationDP(profitMatrix, m_maximumWeight, 0);
-    }
-    return result;}
-
-MaximizeProfitInKnapsack::Profit MaximizeProfitInKnapsack::getBestProfitInKnapsackUsingNaiveRecursion(
-        Weight const remainingWeight,        ItemIndex const itemIndex) const
+MaximizeProfitInKnapsack::Profit MaximizeProfitInKnapsack::getBestProfitUsingNaiveRecursion(
+        Weight const remainingWeight,
+        ItemIndex const itemIndex) const
 {
     Profit result(0);
     if(itemIndex < m_items.size())
@@ -109,14 +110,14 @@ MaximizeProfitInKnapsack::Profit MaximizeProfitInKnapsack::getBestProfitInKnapsa
         Profit itemProfit(m_items.at(itemIndex).second);
         if(remainingWeight >= itemWeight)
         {
-            result = max(getBestProfitInKnapsackUsingNaiveRecursion(remainingWeight, itemIndex+1),
-                         itemProfit + getBestProfitInKnapsackUsingNaiveRecursion(remainingWeight-itemWeight, itemIndex+1));
+            result = max(getBestProfitUsingNaiveRecursion(remainingWeight, itemIndex+1),
+                         itemProfit + getBestProfitUsingNaiveRecursion(remainingWeight-itemWeight, itemIndex+1));
         }
     }
     return result;
 }
 
-MaximizeProfitInKnapsack::Profit MaximizeProfitInKnapsack::getBestProfitInKnapsackUsingMemoizationDP(
+MaximizeProfitInKnapsack::Profit MaximizeProfitInKnapsack::getBestProfitUsingMemoizationDP(
         ProfitMatrix & profitMatrix,
         Weight const remainingWeight,
         ItemIndex const itemIndex) const
@@ -131,13 +132,15 @@ MaximizeProfitInKnapsack::Profit MaximizeProfitInKnapsack::getBestProfitInKnapsa
             Profit itemProfit(m_items.at(itemIndex).second);
             if(remainingWeight >= itemWeight)
             {
-                result = max(getBestProfitInKnapsackUsingMemoizationDP(profitMatrix, remainingWeight, itemIndex+1),
-                             itemProfit + getBestProfitInKnapsackUsingMemoizationDP(profitMatrix, remainingWeight-itemWeight, itemIndex+1));
+                result = max(getBestProfitUsingMemoizationDP(profitMatrix, remainingWeight, itemIndex+1),
+                             itemProfit + getBestProfitUsingMemoizationDP(profitMatrix, remainingWeight-itemWeight, itemIndex+1));
             }
         }
-        profitMatrix.setEntry(remainingWeight, itemIndex, result);    }
+        profitMatrix.setEntry(remainingWeight, itemIndex, result);
+    }
     return result;
 }
+
 MaximizeProfitInKnapsack::Weight MaximizeProfitInKnapsack::getSmallestItemWeight() const
 {
     Weight result(m_items.front().first);

@@ -19,8 +19,8 @@ TEST(CoinProblemTest, GetNumberOfFewestCoinsUsingMemoizationDPWorksOnExample1)
     CoinProblem coinProblem({1U, 2U, 5U, 10U, 20U, 50U, 100U, 200U});
 
     //EXPECT_EQ(4U, coinProblem.getNumberOfFewestCoinsUsingMemoizationDP(520U)); // causes crash
-    //EXPECT_EQ(6U, coinProblem.getNumberOfFewestCoinsUsingMemoizationDP(99U));
-    //EXPECT_EQ(3U, coinProblem.getNumberOfFewestCoinsUsingMemoizationDP(13U));
+    EXPECT_EQ(6U, coinProblem.getNumberOfFewestCoinsUsingMemoizationDP(99U));
+    EXPECT_EQ(3U, coinProblem.getNumberOfFewestCoinsUsingMemoizationDP(13U));
 }
 
 TEST(CoinProblemTest, GetNumberOfFewestCoinsTabularDPWorksOnExample1)

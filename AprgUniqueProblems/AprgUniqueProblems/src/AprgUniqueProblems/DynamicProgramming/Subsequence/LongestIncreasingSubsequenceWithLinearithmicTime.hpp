@@ -22,9 +22,11 @@ public:
     Sequence getLongestSubsequence() const;
 private:
     Sequence m_sequenceToCheck;
+
 };
 
 }
+
 // Given an array of random numbers.
 // Find longest increasing subsequence (LIS) in the array.
 // I know many of you might have read recursive and dynamic programming (DP) solutions.
