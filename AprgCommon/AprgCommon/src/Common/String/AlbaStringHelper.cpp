@@ -38,38 +38,33 @@ unsigned int getLevenshteinDistance(string const& otherString, string const& bas
     // -> modify a character (e.g. ABC ! ADC)
 
     using Counts = vector<unsigned int>;
-    vector<Counts> currentAndPreviousCounts(2, Counts(basisString.length()+1));
-    Counts & firstPrevious(currentAndPreviousCounts[0]);
-    iota(firstPrevious.begin(), firstPrevious.end(), 0); // first row is equal to basis
 
-    // current and previous are the rows in the dynamic programming solution
-    for(unsigned int otherIndex=0; otherIndex<otherString.length(); ++otherIndex)
+    vector<Counts> previousAndCurrentCounts(2, Counts(basisString.length()+1)); // string1 as basis
+    Counts & firstPrevious(previousAndCurrentCounts[1]);
+    iota(firstPrevious.begin(), firstPrevious.end(), 0); // first row
+
+    for(unsigned int otherIndex=1; otherIndex<=otherString.length(); otherIndex++)
     {
-        Counts & previousCounts(currentAndPreviousCounts[otherIndex%2]);
-        Counts & currentCounts(currentAndPreviousCounts[(otherIndex+1)%2]);
+        Counts & previousCounts(previousAndCurrentCounts[otherIndex%2]);
+        Counts & currentCounts(previousAndCurrentCounts[(otherIndex+1)%2]);
 
-        currentCounts[0] = otherIndex+1;
-        for (unsigned int basisIndex=0; basisIndex<basisString.length(); ++basisIndex)
+        currentCounts[0] = otherIndex; // first column
+        for (unsigned int basisIndex=1; basisIndex<=basisString.length(); basisIndex++)
         {
-            // next value is the minimum of
-            // 1) index-1 in current // remove operation
-            // 2) index in previous // insert operation
-            // 2) index-1 in previous // modify operation (if characters are different)
-            unsigned int cost = otherString.at(otherIndex)==basisString.at(basisIndex) ? 0 : 1;
-            currentCounts[basisIndex+1] = min(min(currentCounts.at(basisIndex)+1, previousCounts.at(basisIndex+1)+1), previousCounts.at(basisIndex)+cost);
+            unsigned int cost = basisString.at(basisIndex-1)==otherString.at(otherIndex-1) ? 0 : 1;
+            currentCounts[basisIndex]
+                    = min(min(currentCounts.at(basisIndex-1)+1, previousCounts.at(basisIndex)+1), previousCounts.at(basisIndex-1)+cost);
         }
     }
 
-    Counts const& lastPrevious(currentAndPreviousCounts.at(otherString.length()%2));
-    return lastPrevious.at(basisString.length());
+    Counts const& lastCurrent(previousAndCurrentCounts.at((otherString.length()+1)%2));
+    return lastCurrent.back();
 }
 
-unsigned int getHammingDistance(string const& string1, string const& string2)
-{
+unsigned int getHammingDistance(string const& string1, string const& string2){
     // The Hamming distance hamming(a,b) between two strings a and b of equal length is the number of positions where the strings differ.
     unsigned int result(0);
-    unsigned int commonLength = min(string1.length(), string2.length());
-    for(unsigned int i=0; i<commonLength; i++)
+    unsigned int commonLength = min(string1.length(), string2.length());    for(unsigned int i=0; i<commonLength; i++)
     {
         if(string1.at(i) != string2.at(i))
         {
