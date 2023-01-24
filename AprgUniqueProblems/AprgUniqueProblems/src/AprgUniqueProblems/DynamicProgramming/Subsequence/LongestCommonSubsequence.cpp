@@ -44,20 +44,18 @@ LongestCommonSubsequence::Count LongestCommonSubsequence::getLongestLengthUsingT
             Count entryResult(0);
             if(m_sequence1.at(index1-1) == m_sequence2.at(index2-1))
             {
-                entryResult = 1 + lengthMatrix.getEntryConstReference(index1-1, index2-1);
+                entryResult = 1 + lengthMatrix.getEntry(index1-1, index2-1);
             }
             else
             {
-                entryResult = max(lengthMatrix.getEntryConstReference(index1-1, index2),
-                                  lengthMatrix.getEntryConstReference(index1, index2-1));
+                entryResult = max(lengthMatrix.getEntry(index1-1, index2),
+                                  lengthMatrix.getEntry(index1, index2-1));
 
             }
-            lengthMatrix.setEntry(index1, index2, entryResult);
-        }
+            lengthMatrix.setEntry(index1, index2, entryResult);        }
     }
     return lengthMatrix.getEntry(m_sequence1.size(), m_sequence2.size());
 }
-
 LongestCommonSubsequence::Count LongestCommonSubsequence::getLongestLengthUsingTabularDPAndSpaceEfficient() const
 {
     // Note this is same implementation in AlbaStringHelper
