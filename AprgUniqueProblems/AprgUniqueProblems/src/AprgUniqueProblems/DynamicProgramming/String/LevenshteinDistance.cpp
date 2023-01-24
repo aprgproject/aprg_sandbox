@@ -99,31 +99,28 @@ LevenshteinDistance::Count LevenshteinDistance::getLevenshteinDistanceUsingTabul
 
     // current and previous are the rows in the dynamic programming solution
     vector<Counts> previousAndCurrentCounts(2, Counts(m_string1.length()+1)); // string1 as basis
-    Counts & firstPrevious(previousAndCurrentCounts[1]);
+    Counts & firstPrevious(previousAndCurrentCounts[0]);
     iota(firstPrevious.begin(), firstPrevious.end(), 0); // first row
 
     for(Index index2=1; index2<=m_string2.length(); index2++)
     {
-        Counts & previousCounts(previousAndCurrentCounts[index2%2]);
-        Counts & currentCounts(previousAndCurrentCounts[(index2+1)%2]);
+        Counts & previousCounts(previousAndCurrentCounts[(index2-1)%2]);
+        Counts & currentCounts(previousAndCurrentCounts[index2%2]);
 
         currentCounts[0] = index2; // first column
-        for (Index index1=1; index1<=m_string1.length(); index1++)
-        {
+        for (Index index1=1; index1<=m_string1.length(); index1++)        {
             unsigned int cost = m_string1.at(index1-1)==m_string2.at(index2-1) ? 0 : 1;
             currentCounts[index1]
                     = min(min(currentCounts.at(index1-1)+1, previousCounts.at(index1)+1), previousCounts.at(index1-1)+cost);
         }
     }
 
-    Counts const& lastCurrent(previousAndCurrentCounts.at((m_string2.length()+1)%2));
+    Counts const& lastCurrent(previousAndCurrentCounts.at(m_string2.length()%2));
     return lastCurrent.back();
 }
-
 LevenshteinDistance::Count LevenshteinDistance::getLevenshteinDistanceUsingNaiveRecursion(
         Index const index1,
-        Index const index2) const
-{
+        Index const index2) const{
     if(index1==0)
     {
         return index2;

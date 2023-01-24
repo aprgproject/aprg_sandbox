@@ -22,15 +22,13 @@ JobWithProfitAndDeadlines::JobNames JobWithProfitAndDeadlines::getJobsOrderWithM
         return job1.profit > job2.profit;
     });
 
-    PreviousFreeIndex availableSchedule(getMaximumDeadline() + 1U); // plus one because deadline should indexable
+    PreviousFreeIndex availableSchedule(getMaximumDeadline() + 1); // plus one because deadline should indexable
     for(Job const& job : jobToSchedule)
     {
-        unsigned int availableTime = availableSchedule.getPreviousFreeIndexAt(job.deadline);
-        bool isAvailableTime = availableSchedule.getPreviousFreeIndexAt(0U) != availableSchedule.getPreviousFreeIndexAt(job.deadline);
+        unsigned int availableTime = availableSchedule.getPreviousFreeIndexAt(job.deadline);        bool isAvailableTime = availableSchedule.getPreviousFreeIndexAt(0U) != availableSchedule.getPreviousFreeIndexAt(job.deadline);
         if(isAvailableTime)
         {
-            availableSchedule.setAsNotFree(availableTime);
-            result.emplace_back(job.jobName);
+            availableSchedule.setAsNotFree(availableTime);            result.emplace_back(job.jobName);
         }
     }
 
