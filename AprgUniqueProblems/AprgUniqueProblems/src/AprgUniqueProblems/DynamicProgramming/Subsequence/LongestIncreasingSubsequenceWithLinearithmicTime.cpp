@@ -19,10 +19,12 @@ LongestIncreasingSubsequenceWithLinearithmicTime::Index LongestIncreasingSubsequ
         longestLength = 1;
         for (auto itValue=m_sequence.cbegin()+1; itValue!=m_sequence.cend(); itValue++)
         {
-            auto beginIt = lengthToEndValue.begin(), endIt = lengthToEndValue.begin() + longestLength;            auto lowerBoundItForEndValue = lower_bound(beginIt, endIt, *itValue);
+            auto beginIt = lengthToEndValue.begin(), endIt = lengthToEndValue.begin() + longestLength;
+            auto lowerBoundItForEndValue = lower_bound(beginIt, endIt, *itValue);
 
             if(lowerBoundItForEndValue == endIt) // if current value is the highest
-            {                lengthToEndValue[longestLength++] = *itValue; // extend
+            {
+                lengthToEndValue[longestLength++] = *itValue; // extend
             }
             else
             {
@@ -43,10 +45,12 @@ LongestIncreasingSubsequenceWithLinearithmicTime::Values LongestIncreasingSubseq
         IndexToValue lengthToEndValue(m_sequence.size(), 0); // dynamic programming
         IndexToIndex lengthToEndIndex(m_sequence.size(), unusedValue);
         IndexToIndex indexToPreviousIndex(m_sequence.size(), unusedValue);
-        lengthToEndValue[0] = m_sequence.front();        for (Index i=1; i<m_sequence.size(); i++)
+        lengthToEndValue[0] = m_sequence.front();
+        for (Index i=1; i<m_sequence.size(); i++)
         {
             Value const& value(m_sequence.at(i));
-            auto beginIt = lengthToEndValue.begin(), endIt = lengthToEndValue.begin() + longestLength;            auto lowerBoundItForEndValue = lower_bound(beginIt, endIt, value);
+            auto beginIt = lengthToEndValue.begin(), endIt = lengthToEndValue.begin() + longestLength;
+            auto lowerBoundItForEndValue = lower_bound(beginIt, endIt, value);
 
             if(lowerBoundItForEndValue == endIt) // if current value is the highest
             {

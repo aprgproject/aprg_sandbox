@@ -20,9 +20,11 @@ public:
     Values getLongestSubsequence() const;
 private:
     Values m_sequence;
+
 };
 
 }
+
 // A subsequence is a sequence of (not necessarily consecutive) characters in a string in their original order.
 // A string of length n has 2n-1 subsequences.
 // For example, the subsequences of ABCD are A, B, C, D, AB, AC, AD, BC, BD, CD, ABC, ABD, ACD, BCD and ABCD.

@@ -108,7 +108,8 @@ LevenshteinDistance::Count LevenshteinDistance::getLevenshteinDistanceUsingTabul
         Counts & currentCounts(previousAndCurrentCounts[index2%2]);
 
         currentCounts[0] = index2; // first column
-        for (Index index1=1; index1<=m_string1.length(); index1++)        {
+        for (Index index1=1; index1<=m_string1.length(); index1++)
+        {
             unsigned int cost = m_string1.at(index1-1)==m_string2.at(index2-1) ? 0 : 1;
             currentCounts[index1]
                     = min(min(currentCounts.at(index1-1)+1, previousCounts.at(index1)+1), previousCounts.at(index1-1)+cost);
@@ -118,9 +119,11 @@ LevenshteinDistance::Count LevenshteinDistance::getLevenshteinDistanceUsingTabul
     Counts const& lastCurrent(previousAndCurrentCounts.at(m_string2.length()%2));
     return lastCurrent.back();
 }
+
 LevenshteinDistance::Count LevenshteinDistance::getLevenshteinDistanceUsingNaiveRecursion(
         Index const index1,
-        Index const index2) const{
+        Index const index2) const
+{
     if(index1==0)
     {
         return index2;

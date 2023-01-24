@@ -143,7 +143,9 @@ unsigned int StringConstruction::countSquareRootAlgorithm(unsigned int const pre
                 && subStringHash == mainHashFunction.getHashCodeOfSubstring(0U, prefixLength-1))
         {
             result++;
-        }    }
+        }
+    }
     return result;
 }
+
 }
