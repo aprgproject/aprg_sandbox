@@ -1,4 +1,4 @@
-#include "LongestIncreasingSubsequence.hpp"
+#include "MaximumLengthChainOfPairs.hpp"
 
 #include <algorithm>
 
@@ -7,39 +7,46 @@ using namespace std;
 namespace alba
 {
 
-LongestIncreasingSubsequence::LongestIncreasingSubsequence(Values const& sequence)
+MaximumLengthChainOfPairs::MaximumLengthChainOfPairs(Values const& sequence)
     : m_sequence(sequence)
-{}
+{
+    // SORT is needed to process correctly
+    sort(m_sequence.begin(), m_sequence.end());
+}
 
-LongestIncreasingSubsequence::Index LongestIncreasingSubsequence::getLongestLength() const
+MaximumLengthChainOfPairs::Index MaximumLengthChainOfPairs::getLongestLength() const
 {
     // Time Complexity: O(n^2)
     // Auxilliary space: O(n)
 
     Index result(0);
-    if(!m_sequence.empty())    {
+    if(!m_sequence.empty())
+    {
         IndexToIndex subLengths(m_sequence.size(), 1);
         for (Index index(0); index<m_sequence.size(); index++)
         {
             Index & subLength(subLengths[index]);
             for (Index lowerIndex=0; lowerIndex<index; lowerIndex++)
             {
-                if(m_sequence.at(lowerIndex) < m_sequence.at(index))                {
+                if(m_sequence.at(lowerIndex).second < m_sequence.at(index).first)
+                {
                     subLength = max(subLength, subLengths.at(lowerIndex)+1);
                 }
-            }        }
+            }
+        }
         result = *max_element(subLengths.cbegin(), subLengths.cend());
     }
     return result;
 }
 
-LongestIncreasingSubsequence::Values LongestIncreasingSubsequence::getLongestSubsequence() const
+MaximumLengthChainOfPairs::Values MaximumLengthChainOfPairs::getLongestSubsequence() const
 {
     // Time Complexity: O(n^2)
     // Auxilliary space: O(n)
 
     Values result;
-    if(!m_sequence.empty())    {
+    if(!m_sequence.empty())
+    {
         IndexToIndex subLengths(m_sequence.size(), 1);
         IndexToIndex indexToPreviousIndex(m_sequence.size());
         iota(indexToPreviousIndex.begin(), indexToPreviousIndex.end(), 0);
@@ -50,10 +57,12 @@ LongestIncreasingSubsequence::Values LongestIncreasingSubsequence::getLongestSub
             Index & previousIndex(indexToPreviousIndex[index]);
             for (Index lowerIndex=0; lowerIndex<index; lowerIndex++)
             {
-                if(m_sequence.at(lowerIndex) < m_sequence.at(index)                        && subLength < subLengths.at(lowerIndex)+1)
+                if(m_sequence.at(lowerIndex).second < m_sequence.at(index).first
+                        && subLength < subLengths.at(lowerIndex)+1)
                 {
                     subLength = subLengths.at(lowerIndex)+1;
-                    previousIndex = lowerIndex;                }
+                    previousIndex = lowerIndex;
+                }
             }
         }
 
