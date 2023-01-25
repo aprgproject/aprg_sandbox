@@ -47,19 +47,18 @@ MaximizeProfitInKnapsack::Profit MaximizeProfitInKnapsack::getBestProfitUsingTab
     if(!m_items.empty())
     {
         ProfitMatrix profitMatrix(m_maximumWeight+1, m_items.size()+1, 0);
+        Weight smallestItemWeight(getSmallestItemWeight());
         for(int itemIndex=static_cast<int>(m_items.size())-1; itemIndex>=0; itemIndex--)
         {
             Weight itemWeight(m_items.at(itemIndex).first);
             Profit itemProfit(m_items.at(itemIndex).second);
-            for(Weight weight(getSmallestItemWeight()); weight<profitMatrix.getNumberOfColumns(); weight++)
+            for(Weight weight(smallestItemWeight); weight<profitMatrix.getNumberOfColumns(); weight++)
             {
                 if(weight >= itemWeight)
-                {
-                    Profit profit = max(profitMatrix.getEntry(weight, itemIndex+1),
+                {                    Profit profit = max(profitMatrix.getEntry(weight, itemIndex+1),
                                         itemProfit + profitMatrix.getEntry(weight-itemWeight, itemIndex+1));
                     profitMatrix.setEntry(weight, itemIndex, profit);
-                }
-            }
+                }            }
         }
         result = profitMatrix.getEntry(profitMatrix.getNumberOfColumns()-1, 0);
     }
