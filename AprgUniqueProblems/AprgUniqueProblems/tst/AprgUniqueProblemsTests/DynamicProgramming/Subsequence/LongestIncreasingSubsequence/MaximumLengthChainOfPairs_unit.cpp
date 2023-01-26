@@ -1,13 +1,15 @@
 #include <AprgUniqueProblems/DynamicProgramming/Subsequence/LongestIncreasingSubsequence/MaximumLengthChainOfPairs.hpp>
 
 #include <gtest/gtest.h>
+
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 namespace
 {
-using Values=MaximumLengthChainOfPairs::Values;
+using Values=MaximumLengthChainOfPairs::Pairs;
 }
 
 TEST(MaximumLengthChainOfPairsTest, GetLongestLengthWorksOnExample1)

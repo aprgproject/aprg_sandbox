@@ -1,5 +1,7 @@
 #include "MaximumSumIncreasingSubsequence.hpp"
 
+#include <numeric>
+
 using namespace std;
 
 namespace alba

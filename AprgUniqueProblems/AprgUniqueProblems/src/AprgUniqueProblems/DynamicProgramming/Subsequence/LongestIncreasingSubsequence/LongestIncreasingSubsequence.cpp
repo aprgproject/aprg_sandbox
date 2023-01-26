@@ -1,6 +1,7 @@
 #include "LongestIncreasingSubsequence.hpp"
 
 #include <algorithm>
+#include <numeric>
 
 using namespace std;
 
@@ -17,17 +18,20 @@ LongestIncreasingSubsequence::Index LongestIncreasingSubsequence::getLongestLeng
     // Auxilliary space: O(n)
 
     Index result(0);
-    if(!m_sequence.empty())    {
+    if(!m_sequence.empty())
+    {
         IndexToIndex subLengths(m_sequence.size(), 1);
         for (Index index(0); index<m_sequence.size(); index++)
         {
             Index & subLength(subLengths[index]);
             for (Index lowerIndex=0; lowerIndex<index; lowerIndex++)
             {
-                if(m_sequence.at(lowerIndex) < m_sequence.at(index))                {
+                if(m_sequence.at(lowerIndex) < m_sequence.at(index))
+                {
                     subLength = max(subLength, subLengths.at(lowerIndex)+1);
                 }
-            }        }
+            }
+        }
         result = *max_element(subLengths.cbegin(), subLengths.cend());
     }
     return result;
@@ -39,7 +43,8 @@ LongestIncreasingSubsequence::Values LongestIncreasingSubsequence::getLongestSub
     // Auxilliary space: O(n)
 
     Values result;
-    if(!m_sequence.empty())    {
+    if(!m_sequence.empty())
+    {
         IndexToIndex subLengths(m_sequence.size(), 1);
         IndexToIndex indexToPreviousIndex(m_sequence.size());
         iota(indexToPreviousIndex.begin(), indexToPreviousIndex.end(), 0);
@@ -50,10 +55,12 @@ LongestIncreasingSubsequence::Values LongestIncreasingSubsequence::getLongestSub
             Index & previousIndex(indexToPreviousIndex[index]);
             for (Index lowerIndex=0; lowerIndex<index; lowerIndex++)
             {
-                if(m_sequence.at(lowerIndex) < m_sequence.at(index)                        && subLength < subLengths.at(lowerIndex)+1)
+                if(m_sequence.at(lowerIndex) < m_sequence.at(index)
+                        && subLength < subLengths.at(lowerIndex)+1)
                 {
                     subLength = subLengths.at(lowerIndex)+1;
-                    previousIndex = lowerIndex;                }
+                    previousIndex = lowerIndex;
+                }
             }
         }
 

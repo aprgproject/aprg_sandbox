@@ -36,7 +36,7 @@ WordWrapProblemWithoutLineWidth::Cost WordWrapProblemWithoutLineWidth::getOptimi
     if(totalLength > 0)
     {
         Costs costsAtLength(totalLength, static_cast<Cost>(MAX_COST));
-        for(Index targetLineLength=1; targetLineLength<=totalLength; targetLineLength++)
+        for(Index targetLineLength=1; targetLineLength<totalLength; targetLineLength++)
         {
             Cost costAtLength(0);
             bool hasNoSolutions(false);

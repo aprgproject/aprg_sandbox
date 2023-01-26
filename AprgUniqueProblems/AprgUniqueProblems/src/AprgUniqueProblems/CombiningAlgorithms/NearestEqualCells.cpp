@@ -146,10 +146,12 @@ NearestEqualCells::Coordinate NearestEqualCells::getCoordinateUsingBfs(
         if(value == m_valueMatrix.getEntry(coordinate.first, coordinate.second)
                 && firstCoordinate != coordinate)
         {
-            if(isFirst)            {
+            if(isFirst)
+            {
                 minimumDistance = distance;
                 result = coordinate;
-                isFirst=false;            }
+                isFirst=false;
+            }
             else if(distance < minimumDistance)
             {
                 minimumDistance = distance;

@@ -5,14 +5,16 @@
 #include <limits>
 #include <vector>
 
-namespace alba{
+namespace alba
+{
 
 class ProductDayProblem
 {
 public:
 
     using Price = unsigned int;
-    using Product = unsigned int;    using Day = unsigned int;
+    using Product = unsigned int;
+    using Day = unsigned int;
     using ProductBits = unsigned int;
     using PriceMatrix = matrix::AlbaMatrix<Price>;
     using ProductAndDayPair = std::pair<Product, Day>;

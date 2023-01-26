@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <list>
+#include <numeric>
 
 using namespace std;
 
@@ -18,10 +19,12 @@ LongestBitonicSubsequence::Index LongestBitonicSubsequence::getLongestLength() c
     // Auxiliary Space: O(n)
 
     Index result(0);
-    if(!m_sequence.empty())    {
+    if(!m_sequence.empty())
+    {
         IndexToIndex subIncreasingLengths(m_sequence.size(), 1);
         IndexToIndex subDecreasingLengths(m_sequence.size(), 1);
-        for (Index index(0); index<m_sequence.size(); index++)        {
+        for (Index index(0); index<m_sequence.size(); index++)
+        {
             Value & subIncreasingLength(subIncreasingLengths[index]);
             for (Index lowerIndex=0; lowerIndex<index; lowerIndex++)
             {
@@ -57,10 +60,12 @@ LongestBitonicSubsequence::Values LongestBitonicSubsequence::getLongestSubsequen
     // Auxiliary Space: O(n)
 
     Values result;
-    if(!m_sequence.empty())    {
+    if(!m_sequence.empty())
+    {
         IndexToIndex subIncreasingLengths(m_sequence.size(), 1);
         IndexToIndex subDecreasingLengths(m_sequence.size(), 1);
-        IndexToIndex indexToIncreasingPreviousIndex(m_sequence.size());        IndexToIndex indexToDecreasingPreviousIndex(m_sequence.size());
+        IndexToIndex indexToIncreasingPreviousIndex(m_sequence.size());
+        IndexToIndex indexToDecreasingPreviousIndex(m_sequence.size());
         iota(indexToIncreasingPreviousIndex.begin(), indexToIncreasingPreviousIndex.end(), 0);
         iota(indexToDecreasingPreviousIndex.begin(), indexToDecreasingPreviousIndex.end(), 0);
 

@@ -1,5 +1,8 @@
 #include "LongestIncreasingSubsequenceWithLinearithmicTime.hpp"
 
+#include <algorithm>
+#include <numeric>
+
 using namespace std;
 
 namespace alba
@@ -41,10 +44,10 @@ LongestIncreasingSubsequenceWithLinearithmicTime::Values LongestIncreasingSubseq
     if(!m_sequence.empty())
     {
         Index longestLength(1);
-        Value unusedValue(UNUSED_VALUE);
         IndexToValue lengthToEndValue(m_sequence.size(), 0); // dynamic programming
-        IndexToIndex lengthToEndIndex(m_sequence.size(), unusedValue);
-        IndexToIndex indexToPreviousIndex(m_sequence.size(), unusedValue);
+        IndexToIndex lengthToEndIndex(m_sequence.size(), 0);
+        IndexToIndex indexToPreviousIndex(m_sequence.size());
+        iota(indexToPreviousIndex.begin(), indexToPreviousIndex.end(), 0);
         lengthToEndValue[0] = m_sequence.front();
         for (Index i=1; i<m_sequence.size(); i++)
         {
@@ -71,14 +74,13 @@ LongestIncreasingSubsequenceWithLinearithmicTime::Values LongestIncreasingSubseq
         }
 
         // construct longest sequence
-        result.resize(longestLength, Value{});
-        Index maxIndex=longestLength-1;
-        for(Index inputIndex=lengthToEndIndex.at(maxIndex), outputIndex=0;
-            inputIndex!=UNUSED_VALUE && outputIndex<=maxIndex;
-            inputIndex=indexToPreviousIndex.at(inputIndex), outputIndex++)
+        Index traverseIndex=lengthToEndIndex.at(longestLength-1);
+        for(; traverseIndex!=indexToPreviousIndex.at(traverseIndex); traverseIndex=indexToPreviousIndex.at(traverseIndex))
         {
-            result[maxIndex-outputIndex] = m_sequence.at(inputIndex); // reverse in output
+            result.emplace_back(m_sequence.at(traverseIndex));
         }
+        result.emplace_back(m_sequence.at(traverseIndex));
+        reverse(result.begin(), result.end());
     }
     return result;
 }

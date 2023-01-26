@@ -1,13 +1,14 @@
 #include "MaximumLengthChainOfPairs.hpp"
 
 #include <algorithm>
+#include <numeric>
 
 using namespace std;
 
 namespace alba
 {
 
-MaximumLengthChainOfPairs::MaximumLengthChainOfPairs(Values const& sequence)
+MaximumLengthChainOfPairs::MaximumLengthChainOfPairs(Pairs const& sequence)
     : m_sequence(sequence)
 {
     // SORT is needed to process correctly
@@ -39,12 +40,12 @@ MaximumLengthChainOfPairs::Index MaximumLengthChainOfPairs::getLongestLength() c
     return result;
 }
 
-MaximumLengthChainOfPairs::Values MaximumLengthChainOfPairs::getLongestSubsequence() const
+MaximumLengthChainOfPairs::Pairs MaximumLengthChainOfPairs::getLongestSubsequence() const
 {
     // Time Complexity: O(n^2)
     // Auxilliary space: O(n)
 
-    Values result;
+    Pairs result;
     if(!m_sequence.empty())
     {
         IndexToIndex subLengths(m_sequence.size(), 1);

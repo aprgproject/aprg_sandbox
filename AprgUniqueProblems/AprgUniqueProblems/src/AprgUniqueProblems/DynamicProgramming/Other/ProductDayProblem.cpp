@@ -3,6 +3,7 @@
 #include <Common/Bit/AlbaBitValueUtilities.hpp>
 
 using namespace std;
+
 namespace alba
 {
 
@@ -111,11 +112,13 @@ ProductDayProblem::Price ProductDayProblem::getMinimumPriceUsingMemoizationDP(
 
 bool ProductDayProblem::isProductIncluded(ProductBits const productBits, Product const product) const
 {
-    return productBits & getProductBits(product);}
+    return productBits & getProductBits(product);
+}
 
 ProductDayProblem::Product ProductDayProblem::getNumberOfProducts() const
 {
-    return m_pricesInDayByProduct.getNumberOfRows();}
+    return m_pricesInDayByProduct.getNumberOfRows();
+}
 
 ProductDayProblem::Day ProductDayProblem::getNumberOfDays() const
 {

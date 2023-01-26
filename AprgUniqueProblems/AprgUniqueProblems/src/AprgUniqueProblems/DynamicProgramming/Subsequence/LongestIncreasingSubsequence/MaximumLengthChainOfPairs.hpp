@@ -10,16 +10,16 @@ class MaximumLengthChainOfPairs
 {
 public:
     using Index = unsigned int;
-    using Value = std::pair<unsigned int, unsigned int>;
-    using Values = std::vector<Value>;
+    using Pair = std::pair<unsigned int, unsigned int>;
+    using Pairs = std::vector<Pair>;
     using IndexToIndex = std::vector<Index>;
 
-    MaximumLengthChainOfPairs(Values const& sequence);
+    MaximumLengthChainOfPairs(Pairs const& sequence);
 
     Index getLongestLength() const;
-    Values getLongestSubsequence() const;
+    Pairs getLongestSubsequence() const;
 private:
-    Values m_sequence;
+    Pairs m_sequence;
 
 };
 
@@ -29,10 +29,12 @@ private:
 
 // You are given n pairs of numbers.
 // In every pair, the first number is always smaller than the second number.
-// A pair (c, d) can follow another pair (a, b) if b < c.// Chain of pairs can be formed in this fashion.
+// A pair (c, d) can follow another pair (a, b) if b < c.
+// Chain of pairs can be formed in this fashion.
 // Find the longest chain which can be formed from a given set of pairs.
 
-// For example, if the given pairs are {{5, 24}, {39, 60}, {15, 28}, {27, 40}, {50, 90} },// -> then the longest chain that can be formed is of length 3, and the chain is {{5, 24}, {27, 40}, {50, 90}}
+// For example, if the given pairs are {{5, 24}, {39, 60}, {15, 28}, {27, 40}, {50, 90} },
+// -> then the longest chain that can be formed is of length 3, and the chain is {{5, 24}, {27, 40}, {50, 90}}
 
 // This problem is a variation of standard Longest Increasing Subsequence problem.
 // Following is a simple two step process:
