@@ -80,38 +80,36 @@ WordWrapProblemWithLineWidth::Cost WordWrapProblemWithLineWidth::getOptimizedCos
     if(!m_words.empty())
     {
         int numberOfWords = static_cast<int>(m_words.size());
-        vector<int> dp(numberOfWords);
-        for(int i=numberOfWords-2; i>=0; i--)
+        vector<int> costs(numberOfWords);
+        for(int wordIndex1=numberOfWords-2; wordIndex1>=0; wordIndex1--)
         {
             int currentLength = -1;
-            dp[i] = numeric_limits<int>::max();
-            for(int j=i; j<numberOfWords; j++)
+            costs[wordIndex1] = numeric_limits<int>::max();
+            for(int wordIndex2=wordIndex1; wordIndex2<numberOfWords; wordIndex2++)
             {
-                currentLength += m_words.at(j).length()+1;
+                currentLength += m_words.at(wordIndex2).length()+1;
                 if(currentLength > static_cast<int>(m_lineWidth))
                 {
                     break;
                 }
                 int cost(0);
-                if(j+1 != numberOfWords)
+                if(wordIndex2+1 != numberOfWords)
                 {
-                    cost = getCostFromExtraSpaces(m_lineWidth-currentLength) + dp[j+1];
+                    cost = getCostFromExtraSpaces(m_lineWidth-currentLength) + costs[wordIndex2+1];
                 }
-                if(cost < dp.at(i))
+                if(cost < costs.at(wordIndex1))
                 {
-                    dp[i] = cost;
+                    costs[wordIndex1] = cost;
                 }
             }
         }
-        result = dp.front()+1;
+        result = costs.front()+1;
     }
     return result;
 }
-
 WordWrapProblemWithLineWidth::Cost WordWrapProblemWithLineWidth::getOptimizedCostUsingNaiveRecursion(
         RecursionDetails const& recursionDetails,
-        Index const wordIndex) const
-{
+        Index const wordIndex) const{
     Cost result(0);
     if(wordIndex < m_words.size())
     {
