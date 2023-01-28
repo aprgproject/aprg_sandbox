@@ -6,7 +6,8 @@
 #include <numeric>
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 BuildingBridges::BuildingBridges(Bridges const& bridges)
     : m_bridges(bridges)
