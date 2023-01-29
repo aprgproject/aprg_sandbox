@@ -2,13 +2,13 @@
 
 #include <Common/Bit/AlbaBitValueUtilities.hpp>
 
+#include <array>
+
 namespace alba
 {
-
 // Non class functions
 
-constexpr unsigned int getNumberOfOnesForOneByte(uint8_t const value)
-{
+constexpr unsigned int getNumberOfOnesForOneByte(uint8_t const value){
     constexpr std::array<uint8_t, 256> savedValues
     {0U, 1U, 1U, 2U, 1U, 2U, 2U, 3U, 1U, 2U, 2U, 3U, 2U, 3U, 3U, 4U, 1U, 2U, 2U, 3U, 2U, 3U, 3U, 4U, 2U, 3U, 3U, 4U, 3U, 4U, 4U, 5U,
         1U, 2U, 2U, 3U, 2U, 3U, 3U, 4U, 2U, 3U, 3U, 4U, 3U, 4U, 4U, 5U, 2U, 3U, 3U, 4U, 3U, 4U, 4U, 5U, 3U, 4U, 4U, 5U, 4U, 5U, 5U, 6U,

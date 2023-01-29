@@ -162,13 +162,30 @@ bool isOneWord(string const& mainString)
     return (!mainString.empty()) && none_of(mainString.begin(), mainString.end(), [](char const character){ return isWhiteSpace(character);});
 }
 
+bool isPalindrome(string const& mainString)
+{
+    bool result(false);
+    if(!mainString.empty())
+    {
+        result=true;
+        unsigned int left(0), right(mainString.length()-1);
+        while(left<right)
+        {
+            if(mainString.at(left++) != mainString.at(right--))
+            {
+                result=false;
+                break;
+            }
+        }
+    }
+    return result;
+}
+
 bool isSubstring(string const& mainString, string const& subString)
 {
-    // A substring is a sequence of consecutive characters in a string.
-    // We use the notation s[a...b] to refer to a substring of s that begins at position a and ends at position b.
+    // A substring is a sequence of consecutive characters in a string.    // We use the notation s[a...b] to refer to a substring of s that begins at position a and ends at position b.
     // A string of length n has n(n+1)/2 substrings.
     // For example, the substrings of ABCD are A, B, C, D, AB, BC, CD, ABC, BCD and ABCD.
-
     return isNotNpos(static_cast<int>(mainString.find(subString)));
 }
 

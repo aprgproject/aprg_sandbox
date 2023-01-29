@@ -1,16 +1,16 @@
 #pragma once
 
-#include <array>
+#include <Common/Bit/AlbaBitConstants.hpp>
+#include <Common/Math/Helpers/DivisibilityHelpers.hpp>
+
 #include <cmath>
-#include <limits>
+#include <type_traits>
 
 namespace alba
 {
-
 template <typename DataTypeToManipulate>
 class AlbaBitValueUtilities
-{
-public:
+{public:
 
     // rule of five or six
     AlbaBitValueUtilities() = delete;
@@ -33,22 +33,23 @@ public:
 
         static_assert(std::is_integral<DataTypeToManipulate>::value, "DataTypeToManipulate must be an integer");
 
-        return getNumberOfOnes(value)%2 == 0;
+        return mathHelper::isEven(getNumberOfOnes(value));
     }
 
     static constexpr inline unsigned int getNumberOfBits()
     {
         static_assert(std::is_integral<DataTypeToManipulate>::value, "DataTypeToManipulate must be an integer");
 
-        return std::numeric_limits<DataTypeToManipulate>::digits
-                + (std::numeric_limits<DataTypeToManipulate>::is_signed ? 1 : 0);
+        // return std::numeric_limits<DataTypeToManipulate>::digits + (std::numeric_limits<DataTypeToManipulate>::is_signed ? 1 : 0);
+
+        // Use sizeof instead.
+        // -> sizeof: Yields the size in bytes of the object representation of type.
+        return sizeof(DataTypeToManipulate) * AlbaBitConstants::BYTE_SIZE_IN_BITS;
     }
 
-    static constexpr inline unsigned int getNumberOfOnes(DataTypeToManipulate const)
-    {
+    static constexpr inline unsigned int getNumberOfOnes(DataTypeToManipulate const)    {
         // This is similar with __builtin_popcount(x)
         // std::bitset can be used here but it would no longer be constexpr
-
         static_assert(std::is_integral<DataTypeToManipulate>::value, "DataTypeToManipulate must be an integer");
         static_assert(sizeof(DataTypeToManipulate) != sizeof(DataTypeToManipulate), "This size or type is not supported. Please add a specialization if needed.");
         return 0;
