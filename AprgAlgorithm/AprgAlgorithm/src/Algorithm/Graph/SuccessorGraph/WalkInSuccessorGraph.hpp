@@ -1,13 +1,12 @@
 #pragma once
 
 #include <Algorithm/Graph/DirectedGraph/BaseDirectedGraph.hpp>
+#include <Common/Math/Helpers/FactorAndMulitplesHelpers.hpp>
 
 namespace alba
 {
-
 namespace algorithm
 {
-
 template <typename Vertex>
 class WalkInSuccessorGraph
 {
@@ -60,15 +59,13 @@ private:
                         result = adjacentVertices.front();
                     }
                 }
-                if(distance%2 == 0 || distance == 1)
+                if(mathHelper::isPowerOfTwo(distance)) // save distance if power of 2
                 {
                     m_startAndDistancePairToDestinationMap.emplace(VertexAndCountPair{vertex, distance}, result);
-                }
-            }
+                }            }
         }
         return result;
     }
-
     BaseDirectedGraphWithVertex const& m_graph;
     VertexAndCountPairToVertexMap m_startAndDistancePairToDestinationMap; // dynamic programming
 };
