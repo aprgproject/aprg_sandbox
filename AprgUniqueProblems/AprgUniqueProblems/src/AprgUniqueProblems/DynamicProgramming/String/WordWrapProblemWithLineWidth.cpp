@@ -78,22 +78,20 @@ WordWrapProblemWithLineWidth::Cost WordWrapProblemWithLineWidth::getOptimizedCos
     {
         Index numberOfWords(m_words.size());
         Costs costsIfFirstWord(numberOfWords, static_cast<Cost>(MAX_COST));
-        for(int firstWordIndex=numberOfWords-1; firstWordIndex>=0; firstWordIndex--)
+        for(int firstWordIndex=numberOfWords-1; firstWordIndex>=0; firstWordIndex--) // try all first word in lines
         {
             Cost & costIfFirstWord(costsIfFirstWord[firstWordIndex]);
             Index lineLength(0);
-            for(Index lastWordIndex=firstWordIndex; lastWordIndex<numberOfWords; lastWordIndex++)
+            for(Index lastWordIndex=firstWordIndex; lastWordIndex<numberOfWords; lastWordIndex++) // try all last word in lines
             {
                 lineLength += m_words.at(lastWordIndex).length();
-                lineLength += (firstWordIndex<lastWordIndex) ? 1 : 0; // add space character
+                lineLength += (static_cast<Index>(firstWordIndex)<lastWordIndex) ? 1 : 0; // add space character
                 if(lineLength <= m_maxLineLength)
                 {
-                    Cost possibleCost = getCostFromExtraSpaces(m_maxLineLength-lineLength);
-                    possibleCost += (lastWordIndex+1 < numberOfWords) ? costsIfFirstWord.at(lastWordIndex+1) : 0; // add cost of next lines
+                    Cost possibleCost = getCostFromExtraSpaces(m_maxLineLength-lineLength);                    possibleCost += (lastWordIndex+1 < numberOfWords) ? costsIfFirstWord.at(lastWordIndex+1) : 0; // add cost of next lines
                     costIfFirstWord = min(costIfFirstWord, possibleCost);
                 }
-            }
-        }
+            }        }
         result = costsIfFirstWord.front();
     }
     return result;
