@@ -18,15 +18,13 @@ bool IsPartialSumPossibleInKnapsack::isPartialSumPossibleUsingNaiveRecursion() c
 {
     // Time Complexity: O(2^n)
     // -> In the worst case, this solution tries two possibilities (whether to include or exclude) for every element.
-    // Auxiliary Space :O(1)
+    // Auxiliary Space: O(1)
 
     bool result(false);
-    if(!m_inputValues.empty())
-    {
+    if(!m_inputValues.empty())    {
         result = isPartialSumPossibleUsingNaiveRecursion(m_targetSum, 0);
     }
-    return result;
-}
+    return result;}
 
 bool IsPartialSumPossibleInKnapsack::isPartialSumPossibleUsingMemoizationDP() const
 {
