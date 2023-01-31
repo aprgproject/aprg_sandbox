@@ -2,17 +2,17 @@
 
 #include <Algorithm/Search/SumSearch/FourSum.hpp>
 #include <Common/Math/Helpers/PrecisionHelpers.hpp>
+#include <Common/Math/Matrix/Utilities/AlbaMatrixUtilities.hpp>
 
 using namespace alba::algorithm;
 using namespace alba::mathHelper;
+using namespace alba::matrix;
 using namespace std;
 
-namespace alba
-{
+namespace alba{
 
 namespace math
 {
-
 namespace
 {
 
@@ -91,28 +91,123 @@ bool isZeckendorfTheoremTrue(UnsignedInteger const number)
 
 UnsignedInteger getNthFibonacciNumber(UnsignedInteger const number)
 {
+    // NOTE: The time complexity is linear but its accurate
+
+    if(number==0)
+    {
+        return 0;
+    }
+    else
+    {
+        UnsignedInteger previousFibonacci(0);
+        UnsignedInteger currentFibonacci(1);
+        for(UnsignedInteger n=2; n<=number; n++)
+        {
+            UnsignedInteger nextFibonacci = currentFibonacci + previousFibonacci;
+            previousFibonacci = currentFibonacci;
+            currentFibonacci = nextFibonacci;
+        }
+        return currentFibonacci;
+    }
+}
+
+UnsignedInteger getNthFibonacciNumberUsingBinetsFormula(UnsignedInteger const number)
+{
+    // NOTE: The time complexity is constant but it uses double precision so its not that accurate
+    // NOTE: The pow() might be logarithmic but its not clearly written on the standard.
+
     // Binets formula:
     double sqrtOf5 = sqrt(5);
-    double fibonacciInDouble = (pow(1+sqrtOf5, number)-pow(1-sqrtOf5, number)) / (pow(2, number)*sqrtOf5);
-    return getIntegerAfterRoundingADoubleValue<UnsignedInteger>(fibonacciInDouble);
+    double phi = (1+sqrtOf5)/2;
+    return getIntegerAfterRoundingADoubleValue<UnsignedInteger>(pow(phi, number)/sqrtOf5);
+}
+
+UnsignedInteger getNthFibonacciUsingMatrixPowerWithLogarithmicTime(UnsignedInteger const number)
+{
+    // NOTE: The time complexity is logarithmic.
+    // NOTE: This is discussed in linear recurrence section in Matrix as well
+
+    if(number==0)
+    {
+        return 0;
+    }
+    else
+    {
+        // Matrix representation:
+        // |f(n-1)|f(n)  |
+        // |f(n)  |f(n+1)|
+
+        UnsignedIntegerMatrix formulaicTransform(2, 2,
+        {0, 1,
+         1, 1});
+
+        UnsignedIntegerMatrix fibonacciMatrix(getMatrixRaiseToScalarPower(formulaicTransform, number-1)); // logarithmic
+        return fibonacciMatrix.getEntry(1U, 1U);
+    }
+}
+
+UnsignedInteger getNthFibonacciUsingLogarithmicTabularDP(UnsignedInteger const number)
+{
+    // Derived using matrix power
+
+    UnsignedInteger result(number);
+    if(number > 1)
+    {
+        UnsignedInteger size = max(number+1, 2ULL);
+        UnsignedIntegers tabularData(size);
+        tabularData[0] = 0;
+        tabularData[1] = 1;
+
+        SetOfUnsignedIntegers logarithmicSteps{number};
+        UnsignedInteger k(number);
+        while(k >= 3)
+        {
+            k = mathHelper::isOdd(k) ? (k+1)/2 : k/2;
+            logarithmicSteps.emplace(k);
+            logarithmicSteps.emplace(k-1);
+        }
+
+        for(UnsignedInteger const step : logarithmicSteps)
+        {
+            UnsignedInteger & resultForStep(tabularData[step]);
+            if(mathHelper::isOdd(step))
+            {
+                UnsignedInteger k = (step+1)/2;
+                UnsignedInteger fibonacciAtK = tabularData.at(k);
+                UnsignedInteger fibonacciAtKMinus1 = tabularData.at(k-1);
+                resultForStep = fibonacciAtK*fibonacciAtK + fibonacciAtKMinus1*fibonacciAtKMinus1;
+            }
+            else
+            {
+                UnsignedInteger k = step/2;
+                UnsignedInteger fibonacciAtK = tabularData.at(k);
+                UnsignedInteger fibonacciAtKMinus1 = tabularData.at(k-1);
+                resultForStep = (2*fibonacciAtKMinus1 + fibonacciAtK)*fibonacciAtK;
+            }
+        }
+        result = tabularData.at(number);
+    }
+    return result;
 }
 
 UnsignedIntegers getFibonacciNumbersBelowThisNumber(UnsignedInteger const number)
 {
     UnsignedIntegers result;
-    UnsignedInteger previousPreviousFibonacci(0);
     UnsignedInteger previousFibonacci(0);
     UnsignedInteger currentFibonacci(1);
+    if(0 < number)
+    {
+        result.emplace_back(0); // zero is included if number is higher than zero
+    }
     while(currentFibonacci < number)
     {
         result.emplace_back(currentFibonacci);
-        previousPreviousFibonacci = previousFibonacci;
+        UnsignedInteger nextFibonacci = currentFibonacci + previousFibonacci;
         previousFibonacci = currentFibonacci;
-        currentFibonacci = previousFibonacci + previousPreviousFibonacci;
+        currentFibonacci = nextFibonacci;
     }
     return result;
 }
-
 }
 
 }
