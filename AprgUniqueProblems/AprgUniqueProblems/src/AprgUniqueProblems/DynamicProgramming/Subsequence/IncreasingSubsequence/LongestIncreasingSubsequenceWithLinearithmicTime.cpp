@@ -17,17 +17,17 @@ LongestIncreasingSubsequenceWithLinearithmicTime::Index LongestIncreasingSubsequ
     Index longestLength(0);
     if(!m_sequence.empty())
     {
-        IndexToValue lengthToEndValue(m_sequence.size(), 0); // dynamic programming
-        lengthToEndValue[0] = m_sequence.front();
+        IndexToValue lengthMinus1ToEndValue(m_sequence.size(), 0); // dynamic programming
+        lengthMinus1ToEndValue[0] = m_sequence.front();
         longestLength = 1;
         for (auto itValue=m_sequence.cbegin()+1; itValue!=m_sequence.cend(); itValue++)
         {
-            auto beginIt = lengthToEndValue.begin(), endIt = lengthToEndValue.begin() + longestLength;
+            auto beginIt = lengthMinus1ToEndValue.begin(), endIt = lengthMinus1ToEndValue.begin() + longestLength;
             auto lowerBoundItForEndValue = lower_bound(beginIt, endIt, *itValue);
 
             if(lowerBoundItForEndValue == endIt) // if current value is the highest
             {
-                lengthToEndValue[longestLength++] = *itValue; // extend
+                lengthMinus1ToEndValue[longestLength++] = *itValue; // extend
             }
             else
             {
@@ -44,37 +44,37 @@ LongestIncreasingSubsequenceWithLinearithmicTime::Values LongestIncreasingSubseq
     if(!m_sequence.empty())
     {
         Index longestLength(1);
-        IndexToValue lengthToEndValue(m_sequence.size(), 0); // dynamic programming
-        IndexToIndex lengthToEndIndex(m_sequence.size(), 0);
+        IndexToValue lengthMinus1ToEndValue(m_sequence.size(), 0); // length minus one because its length index
+        IndexToIndex lengthMinus1ToEndIndex(m_sequence.size(), 0);
         IndexToIndex indexToPreviousIndex(m_sequence.size());
         iota(indexToPreviousIndex.begin(), indexToPreviousIndex.end(), 0);
-        lengthToEndValue[0] = m_sequence.front();
+        lengthMinus1ToEndValue[0] = m_sequence.front();
         for (Index i=1; i<m_sequence.size(); i++)
         {
             Value const& value(m_sequence.at(i));
-            auto beginIt = lengthToEndValue.begin(), endIt = lengthToEndValue.begin() + longestLength;
+            auto beginIt = lengthMinus1ToEndValue.begin(), endIt = lengthMinus1ToEndValue.begin() + longestLength;
             auto lowerBoundItForEndValue = lower_bound(beginIt, endIt, value);
 
             if(lowerBoundItForEndValue == endIt) // if current value is the highest
             {
-                indexToPreviousIndex[i] = lengthToEndIndex.at(longestLength-1);
-                lengthToEndIndex[longestLength] = i;
-                lengthToEndValue[longestLength++] = value; // extend
+                indexToPreviousIndex[i] = lengthMinus1ToEndIndex.at(longestLength-1);
+                lengthMinus1ToEndIndex[longestLength] = i;
+                lengthMinus1ToEndValue[longestLength++] = value; // extend
             }
             else
             {
-                Index currentLength = distance(lengthToEndValue.begin(), lowerBoundItForEndValue);
+                Index currentLength = distance(lengthMinus1ToEndValue.begin(), lowerBoundItForEndValue);
                 if(currentLength > 0)
                 {
-                    indexToPreviousIndex[i] = lengthToEndIndex[currentLength-1];
+                    indexToPreviousIndex[i] = lengthMinus1ToEndIndex[currentLength-1];
                 }
-                lengthToEndIndex[currentLength] = i;
+                lengthMinus1ToEndIndex[currentLength] = i;
                 *lowerBoundItForEndValue = value; // replace
             }
         }
 
         // construct longest sequence
-        Index traverseIndex=lengthToEndIndex.at(longestLength-1);
+        Index traverseIndex=lengthMinus1ToEndIndex.at(longestLength-1);
         for(; traverseIndex!=indexToPreviousIndex.at(traverseIndex); traverseIndex=indexToPreviousIndex.at(traverseIndex))
         {
             result.emplace_back(m_sequence.at(traverseIndex));

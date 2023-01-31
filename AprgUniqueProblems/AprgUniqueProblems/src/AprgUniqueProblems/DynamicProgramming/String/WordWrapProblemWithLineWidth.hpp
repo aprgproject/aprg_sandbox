@@ -37,6 +37,7 @@ private:
     Index m_maxLineLength;
     stringHelper::strings m_words;
 };
+
 }
 
 // Word Wrap Problem
@@ -160,4 +161,5 @@ private:
 // -> Compare this cost with minimum cost find so far for this line in dp[i] and update dp[i] and ans[i] accordingly.
 // -> Repeat above procedure for each value of i, 1 <= i <= n.
 // -> The starting and ending words of each line will be at index i and index ans[i], where next value of i for line l+1 is ans[i] + 1.
+
 

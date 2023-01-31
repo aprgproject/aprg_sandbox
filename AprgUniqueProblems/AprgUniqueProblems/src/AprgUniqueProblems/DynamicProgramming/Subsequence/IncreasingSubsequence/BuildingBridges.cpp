@@ -4,6 +4,7 @@
 
 #include <algorithm>
 #include <numeric>
+
 using namespace std;
 
 namespace alba
@@ -51,37 +52,37 @@ BuildingBridges::Bridges BuildingBridges::getPossibleBridges() const
         });
 
         Index longestLength(1);
-        IndexToValue lengthToEndValue(secondPoints.size(), 0); // dynamic programming
-        IndexToIndex lengthToEndIndex(secondPoints.size(), 0);
+        IndexToValue lengthMinus1ToEndValue(secondPoints.size(), 0); // length minus one because its index
+        IndexToIndex lengthMinus1ToEndIndex(secondPoints.size(), 0);
         IndexToIndex indexToPreviousIndex(secondPoints.size());
         iota(indexToPreviousIndex.begin(), indexToPreviousIndex.end(), 0);
-        lengthToEndValue[0] = secondPoints.front();
+        lengthMinus1ToEndValue[0] = secondPoints.front();
         for (Index i=1; i<secondPoints.size(); i++)
         {
             Value const& value(secondPoints.at(i));
-            auto beginIt = lengthToEndValue.begin(), endIt = lengthToEndValue.begin() + longestLength;
+            auto beginIt = lengthMinus1ToEndValue.begin(), endIt = lengthMinus1ToEndValue.begin() + longestLength;
             auto lowerBoundItForEndValue = lower_bound(beginIt, endIt, value);
 
             if(lowerBoundItForEndValue == endIt) // if current value is the highest
             {
-                indexToPreviousIndex[i] = lengthToEndIndex.at(longestLength-1);
-                lengthToEndIndex[longestLength] = i;
-                lengthToEndValue[longestLength++] = value; // extend
+                indexToPreviousIndex[i] = lengthMinus1ToEndIndex.at(longestLength-1);
+                lengthMinus1ToEndIndex[longestLength] = i;
+                lengthMinus1ToEndValue[longestLength++] = value; // extend
             }
             else
             {
-                Index currentLength = distance(lengthToEndValue.begin(), lowerBoundItForEndValue);
+                Index currentLength = distance(lengthMinus1ToEndValue.begin(), lowerBoundItForEndValue);
                 if(currentLength > 0)
                 {
-                    indexToPreviousIndex[i] = lengthToEndIndex[currentLength-1];
+                    indexToPreviousIndex[i] = lengthMinus1ToEndIndex[currentLength-1];
                 }
-                lengthToEndIndex[currentLength] = i;
+                lengthMinus1ToEndIndex[currentLength] = i;
                 *lowerBoundItForEndValue = value; // replace
             }
         }
 
         // construct longest sequence
-        Index traverseIndex=lengthToEndIndex.at(longestLength-1);
+        Index traverseIndex=lengthMinus1ToEndIndex.at(longestLength-1);
         for(; traverseIndex!=indexToPreviousIndex.at(traverseIndex); traverseIndex=indexToPreviousIndex.at(traverseIndex))
         {
             result.emplace_back(sortedBridges.at(traverseIndex));

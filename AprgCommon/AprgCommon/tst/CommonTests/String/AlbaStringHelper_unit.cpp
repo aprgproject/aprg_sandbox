@@ -626,9 +626,11 @@ TEST(BooleanStringTest, IsPalindromeTest)
 TEST(BooleanStringTest, IsSubstringTest)
 {
     // For example, the substrings of ABCD are A, B, C, D, AB, BC, CD, ABC, BCD and ABCD.
+
     EXPECT_TRUE(isSubstring("ABCD", "A"));
     EXPECT_TRUE(isSubstring("ABCD", "B"));
-    EXPECT_TRUE(isSubstring("ABCD", "C"));    EXPECT_TRUE(isSubstring("ABCD", "D"));
+    EXPECT_TRUE(isSubstring("ABCD", "C"));
+    EXPECT_TRUE(isSubstring("ABCD", "D"));
     EXPECT_TRUE(isSubstring("ABCD", "AB"));
     EXPECT_TRUE(isSubstring("ABCD", "BC"));
     EXPECT_TRUE(isSubstring("ABCD", "CD"));

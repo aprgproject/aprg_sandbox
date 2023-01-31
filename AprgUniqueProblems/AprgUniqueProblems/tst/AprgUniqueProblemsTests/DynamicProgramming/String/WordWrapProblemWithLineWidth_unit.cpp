@@ -16,7 +16,8 @@ TEST(WordWrapProblemWithLineWidthTest, GetWordWrapProblemWithLineWidthWorksOnExa
     EXPECT_EQ(35U, queryForTest.getOptimizedCostByCheckingFirstAndLastWords());
 }
 
-TEST(WordWrapProblemWithLineWidthTest, GetWordWrapProblemWithLineWidthWorksOnExample2){
+TEST(WordWrapProblemWithLineWidthTest, GetWordWrapProblemWithLineWidthWorksOnExample2)
+{
     WordWrapProblemWithLineWidth queryForTest(6U, {"aaa", "bb", "cc", "ddddd"});
 
     EXPECT_EQ(29U, queryForTest.getOptimizedCostUsingNaiveRecursion());

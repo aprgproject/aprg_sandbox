@@ -1,6 +1,7 @@
 #include <AprgUniqueProblems/DynamicProgramming/Subsequence/IncreasingSubsequence/LongestIncreasingSubsequenceWithLinearithmicTime.hpp>
 
 #include <gtest/gtest.h>
+
 using namespace std;
 
 namespace alba

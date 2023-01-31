@@ -10,9 +10,11 @@
 using namespace alba::mathHelper;
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 constexpr unsigned int TCOM_FSP_ADDRESS = 0x1200;
+
 HardwareConfiguration::HardwareConfiguration()
     : m_sharedLcgId(0)
     , m_tcomFspAddress(0)
@@ -377,9 +379,11 @@ NyquistType HardwareConfiguration::computeNyquistTypeBasedOnDspAddress(unsigned 
     bool isCpuEven = isEven((dspAddress & 0x00F0) >> 4);
     return isCpuEven ? NyquistType::TurboNyquist : NyquistType::Nyquist;
 }
+
 SmType HardwareConfiguration::getSmTypeBasedOnAddress(unsigned int const fspAddress) const
 {
-    return ((fspAddress & 0xF000) >> 12 == 1) ? SmType::MSM : SmType::ESM;}
+    return ((fspAddress & 0xF000) >> 12 == 1) ? SmType::MSM : SmType::ESM;
+}
 
 
 }

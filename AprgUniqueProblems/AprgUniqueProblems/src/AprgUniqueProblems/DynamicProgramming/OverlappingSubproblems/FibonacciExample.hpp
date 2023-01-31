@@ -5,7 +5,8 @@
 #include <set>
 #include <vector>
 
-namespace alba{
+namespace alba
+{
 
 class FibonacciExample
 {

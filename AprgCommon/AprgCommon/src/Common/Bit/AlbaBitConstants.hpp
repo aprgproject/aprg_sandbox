@@ -3,7 +3,8 @@
 #include <climits>
 #include <cstdint>
 
-namespace alba{
+namespace alba
+{
 
 namespace AlbaBitConstants
 {
@@ -15,6 +16,7 @@ namespace AlbaBitConstants
     uint8_t const NIBBLE_SIZE_IN_BITS = 4;
     uint8_t const NIBBLE_MASK = 0x0F;
     uint8_t const BIT_MASK = 0x01;
-    uint8_t const NUMBER_OF_NIBBLES_IN_BYTE = 2;}
+    uint8_t const NUMBER_OF_NIBBLES_IN_BYTE = 2;
+}
 
 }

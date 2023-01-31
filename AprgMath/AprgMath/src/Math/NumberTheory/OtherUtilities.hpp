@@ -18,4 +18,5 @@ UnsignedInteger getNthFibonacciUsingLogarithmicTabularDP(UnsignedInteger const n
 UnsignedIntegers getFibonacciNumbersBelowThisNumber(UnsignedInteger const number);
 
 }
+
 }

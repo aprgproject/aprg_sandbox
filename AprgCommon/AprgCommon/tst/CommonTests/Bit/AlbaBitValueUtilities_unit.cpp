@@ -17,10 +17,12 @@ TEST(AlbaBitValueUtilitiesTest, IsPowerOfTwoWorks)
     EXPECT_FALSE(AlbaBitValueUtilities<uint8_t>::isPowerOfTwo(6U));
 }
 
-TEST(AlbaBitValueUtilitiesTest, IsEvenParityWorks){
+TEST(AlbaBitValueUtilitiesTest, IsEvenParityWorks)
+{
     EXPECT_TRUE(AlbaBitValueUtilities<uint8_t>::isEvenParity(0U));
     EXPECT_FALSE(AlbaBitValueUtilities<uint8_t>::isEvenParity(1U));
-    EXPECT_FALSE(AlbaBitValueUtilities<uint8_t>::isEvenParity(2U));    EXPECT_TRUE(AlbaBitValueUtilities<uint8_t>::isEvenParity(3U));
+    EXPECT_FALSE(AlbaBitValueUtilities<uint8_t>::isEvenParity(2U));
+    EXPECT_TRUE(AlbaBitValueUtilities<uint8_t>::isEvenParity(3U));
     EXPECT_FALSE(AlbaBitValueUtilities<uint8_t>::isEvenParity(4U));
 }
 

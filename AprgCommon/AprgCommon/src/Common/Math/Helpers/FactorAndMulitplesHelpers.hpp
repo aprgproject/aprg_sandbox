@@ -46,8 +46,10 @@ template <typename NumberType> NumberType isPowerOfTwo(NumberType const number)
 template <typename NumberType> NumberType getGreatestPowerOf2Factor(NumberType const number)
 {
     static_assert(std::is_integral<NumberType>::value, "Number type must be an integer");
+
     return AlbaBitValueUtilities<NumberType>::getGreatestPowerOf2Factor(number);
 }
+
 template <typename NumberType> NumberType getGreatestCommonFactor(NumberType const firstNumber, NumberType const secondNumber)
 {
     static_assert(std::is_integral<NumberType>::value, "Number type must be an integer");

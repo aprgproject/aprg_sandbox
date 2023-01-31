@@ -65,13 +65,15 @@ MaximumSumIncreasingSubsequence::Values MaximumSumIncreasingSubsequence::getSubs
 
         // construct longest sequence
         auto itMax = max_element(partialSums.cbegin(), partialSums.cend());
-        Index indexOfMaxSum = distance(partialSums.cbegin(), itMax);
+        Index indexOfMaxSum = distance(partialSums.cbegin(), itMax );
         Index traverseIndex=indexOfMaxSum;
         for(; traverseIndex!=indexToPreviousIndex.at(traverseIndex); traverseIndex=indexToPreviousIndex.at(traverseIndex))
-        {            result.emplace_back(m_sequence.at(traverseIndex));
+        {
+            result.emplace_back(m_sequence.at(traverseIndex));
         }
         result.emplace_back(m_sequence.at(traverseIndex));
-        reverse(result.begin(), result.end());    }
+        reverse(result.begin(), result.end());
+    }
     return result;
 }
 

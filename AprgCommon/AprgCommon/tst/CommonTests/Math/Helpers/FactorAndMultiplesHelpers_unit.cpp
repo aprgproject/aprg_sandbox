@@ -34,10 +34,12 @@ TEST(FactorAndMulitplesHelpersTest, IsPowerOfTwoWorks)
 
 TEST(FactorAndMulitplesHelpersTest, GetGreatestCommonPowerOf2FactorWorks)
 {
-    EXPECT_EQ(0U, getGreatestPowerOf2Factor(0U));    EXPECT_EQ(1U, getGreatestPowerOf2Factor(1U));
+    EXPECT_EQ(0U, getGreatestPowerOf2Factor(0U));
+    EXPECT_EQ(1U, getGreatestPowerOf2Factor(1U));
     EXPECT_EQ(2U, getGreatestPowerOf2Factor(2U));
     EXPECT_EQ(4U, getGreatestPowerOf2Factor(4U));
-    EXPECT_EQ(8U, getGreatestPowerOf2Factor(8U));    EXPECT_EQ(16U, getGreatestPowerOf2Factor(16U));
+    EXPECT_EQ(8U, getGreatestPowerOf2Factor(8U));
+    EXPECT_EQ(16U, getGreatestPowerOf2Factor(16U));
     EXPECT_EQ(1U, getGreatestPowerOf2Factor(5U));
     EXPECT_EQ(2U, getGreatestPowerOf2Factor(10U));
     EXPECT_EQ(4U, getGreatestPowerOf2Factor(12U));

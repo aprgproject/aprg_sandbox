@@ -11,6 +11,7 @@ WordWrapProblemWithLineWidth::WordWrapProblemWithLineWidth(
     : m_maxLineLength(lineWidth)
     , m_words(words)
 {}
+
 WordWrapProblemWithLineWidth::Cost WordWrapProblemWithLineWidth::getOptimizedCostUsingNaiveRecursion() const
 {
     // Time Complexity: O(2^numberOfWords) (since there are two tries)
@@ -23,7 +24,8 @@ WordWrapProblemWithLineWidth::Cost WordWrapProblemWithLineWidth::getOptimizedCos
         RecursionDetails recursionDetails{Indices{firstWordLength}}; // bad idea to have structure as argument
         result = getOptimizedCostUsingNaiveRecursion(recursionDetails, 1U);
     }
-    return result;}
+    return result;
+}
 
 WordWrapProblemWithLineWidth::Cost WordWrapProblemWithLineWidth::getOptimizedCostByTryingAllLengths() const
 {
@@ -37,7 +39,8 @@ WordWrapProblemWithLineWidth::Cost WordWrapProblemWithLineWidth::getOptimizedCos
         for(Index targetLineLength=1; targetLineLength<=m_maxLineLength; targetLineLength++)
         {
             Cost costAtLength(0);
-            bool hasNoSolutions(false);            Index lineLength(m_words.front().length());
+            bool hasNoSolutions(false);
+            Index lineLength(m_words.front().length());
             for(auto it=m_words.cbegin()+1; it!=m_words.cend(); it++)
             {
                 Index wordLength(it->length());
@@ -61,7 +64,8 @@ WordWrapProblemWithLineWidth::Cost WordWrapProblemWithLineWidth::getOptimizedCos
                 costAtLength += getCostFromExtraSpaces(m_maxLineLength-lineLength);
                 costsAtLength[targetLineLength] = costAtLength;
             }
-        }        result = *min_element(costsAtLength.cbegin(), costsAtLength.cend());
+        }
+        result = *min_element(costsAtLength.cbegin(), costsAtLength.cend());
     }
     return result;
 }
@@ -88,14 +92,18 @@ WordWrapProblemWithLineWidth::Cost WordWrapProblemWithLineWidth::getOptimizedCos
                 lineLength += (static_cast<Index>(firstWordIndex)<lastWordIndex) ? 1 : 0; // add space character
                 if(lineLength <= m_maxLineLength)
                 {
-                    Cost possibleCost = getCostFromExtraSpaces(m_maxLineLength-lineLength);                    possibleCost += (lastWordIndex+1 < numberOfWords) ? costsIfFirstWord.at(lastWordIndex+1) : 0; // add cost of next lines
+                    Cost possibleCost = getCostFromExtraSpaces(m_maxLineLength-lineLength);
+                    possibleCost += (lastWordIndex+1 < numberOfWords) ? costsIfFirstWord.at(lastWordIndex+1) : 0; // add cost of next lines
                     costIfFirstWord = min(costIfFirstWord, possibleCost);
                 }
-            }        }
+            }
+        }
         result = costsIfFirstWord.front();
     }
     return result;
-}WordWrapProblemWithLineWidth::Cost WordWrapProblemWithLineWidth::getOptimizedCostUsingNaiveRecursion(
+}
+
+WordWrapProblemWithLineWidth::Cost WordWrapProblemWithLineWidth::getOptimizedCostUsingNaiveRecursion(
         RecursionDetails const& recursionDetails,
         Index const wordIndex) const
 {
@@ -129,6 +137,7 @@ WordWrapProblemWithLineWidth::Cost WordWrapProblemWithLineWidth::getOptimizedCos
     }
     return result;
 }
+
 WordWrapProblemWithLineWidth::Cost WordWrapProblemWithLineWidth::getTotalLength() const
 {
     Index result(0);
@@ -152,6 +161,7 @@ WordWrapProblemWithLineWidth::Cost WordWrapProblemWithLineWidth::getTotalCostOfA
     }
     return result;
 }
+
 WordWrapProblemWithLineWidth::Cost WordWrapProblemWithLineWidth::getCostFromExtraSpaces(Index const numberOfExtraSpaces) const
 {
     return numberOfExtraSpaces*numberOfExtraSpaces*numberOfExtraSpaces; // sum of cubes is used for cost to avoid single long lengths

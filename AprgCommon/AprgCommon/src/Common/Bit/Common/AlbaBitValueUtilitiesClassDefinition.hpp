@@ -8,9 +8,11 @@
 
 namespace alba
 {
+
 template <typename DataTypeToManipulate>
 class AlbaBitValueUtilities
-{public:
+{
+public:
 
     // rule of five or six
     AlbaBitValueUtilities() = delete;
@@ -47,9 +49,11 @@ class AlbaBitValueUtilities
         return sizeof(DataTypeToManipulate) * AlbaBitConstants::BYTE_SIZE_IN_BITS;
     }
 
-    static constexpr inline unsigned int getNumberOfOnes(DataTypeToManipulate const)    {
+    static constexpr inline unsigned int getNumberOfOnes(DataTypeToManipulate const)
+    {
         // This is similar with __builtin_popcount(x)
         // std::bitset can be used here but it would no longer be constexpr
+
         static_assert(std::is_integral<DataTypeToManipulate>::value, "DataTypeToManipulate must be an integer");
         static_assert(sizeof(DataTypeToManipulate) != sizeof(DataTypeToManipulate), "This size or type is not supported. Please add a specialization if needed.");
         return 0;

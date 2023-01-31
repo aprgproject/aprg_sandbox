@@ -20,12 +20,14 @@ public:
     Values getLongestSubsequence() const;
     
 private:
-    void computeSubIncreasingLengths(IndexToIndex & subIncreasingLengths, IndexToIndex & indexToIncreasingPreviousIndex) const;
-    void computeSubDecreasingLengths(IndexToIndex & subDecreasingLengths, IndexToIndex & indexToDecreasingPreviousIndex) const;
+    void computeIncreasingPartialLengths(IndexToIndex & increasingPartialLengths) const;
+    void computeDecreasingPartialLengths(IndexToIndex & decreasingPartialLengths) const;
+    void computeIncreasingPartialLengths(IndexToIndex & increasingPartialLengths, IndexToIndex & indexToIncreasingPreviousIndex) const;
+    void computeDecreasingPartialLengths(IndexToIndex & decreasingPartialLengths, IndexToIndex & indexToDecreasingPreviousIndex) const;
 
     Values getLongestSubsequence(
-            IndexToIndex & subIncreasingLengths,
-            IndexToIndex & subDecreasingLengths,
+            IndexToIndex & increasingPartialLengths,
+            IndexToIndex & decreasingPartialLengths,
             IndexToIndex & indexToIncreasingPreviousIndex,
             IndexToIndex & indexToDecreasingPreviousIndex) const;
     Values m_sequence;

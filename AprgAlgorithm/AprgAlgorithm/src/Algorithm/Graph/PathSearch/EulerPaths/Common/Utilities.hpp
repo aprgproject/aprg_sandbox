@@ -8,8 +8,10 @@
 
 namespace alba
 {
+
 namespace algorithm
 {
+
 namespace
 {
 
@@ -23,7 +25,8 @@ bool areAllDegreesEven(BaseUndirectedGraph<Vertex> const& graph)
     });
 }
 
-template <typename Vertex>bool isAtMostTwoVerticesHaveOddDegrees(BaseUndirectedGraph<Vertex> const& graph)
+template <typename Vertex>
+bool isAtMostTwoVerticesHaveOddDegrees(BaseUndirectedGraph<Vertex> const& graph)
 {
     unsigned int countOfOdd(0U);
     for(Vertex const& vertex : graph.getVertices())
@@ -31,10 +34,12 @@ template <typename Vertex>bool isAtMostTwoVerticesHaveOddDegrees(BaseUndirectedG
         if(mathHelper::isOdd(GraphUtilities::getDegreeAt(graph, vertex)))
         {
             countOfOdd++;
-        }        if(countOfOdd > 2)
+        }
+        if(countOfOdd > 2)
         {
             break;
-        }    }
+        }
+    }
     return countOfOdd <= 2;
 }
 

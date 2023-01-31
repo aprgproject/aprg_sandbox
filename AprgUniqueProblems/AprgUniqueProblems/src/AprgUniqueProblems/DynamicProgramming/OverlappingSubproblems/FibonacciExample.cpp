@@ -264,9 +264,11 @@ FibonacciExample::Number FibonacciExample::getNthFibonacciUsingLogarithmicMemoiz
 }
 
 }
+
 // Like Divide and Conquer, Dynamic Programming combines solutions to sub-problems.
 // Dynamic Programming is mainly used when solutions of same subproblems are needed again and again.
-// In dynamic programming, computed solutions to subproblems are stored in a table so that these don’t have to be recomputed.// So Dynamic Programming is not useful when there are no common (overlapping) subproblems
+// In dynamic programming, computed solutions to subproblems are stored in a table so that these don’t have to be recomputed.
+// So Dynamic Programming is not useful when there are no common (overlapping) subproblems
 // because there is no point storing the solutions if they are not needed again.
 // For example, Binary Search doesn’t have common subproblems.
 // If we take an example of following recursive program for Fibonacci Numbers,
