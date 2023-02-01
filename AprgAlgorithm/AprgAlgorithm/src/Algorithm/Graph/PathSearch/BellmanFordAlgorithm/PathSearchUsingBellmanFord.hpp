@@ -59,7 +59,7 @@ private:
             [&]()
             {
                 // As soon as processed number vertices reached the total number of vertices check for a positive/negative cycle.
-                if(numberOfVerticesProcessed++!=0 && numberOfVerticesProcessed >= numberOfVertices)
+                if(numberOfVerticesProcessed++ >= numberOfVertices)
                 {
                     // there is a positive or negative cycle if new weight is found when number total number of vertices is reached
                     m_hasPositiveOrNegativeCycle = isNewWeightFound;
@@ -141,6 +141,10 @@ private:
     CheckableVertices<Vertex> m_verticesInQueue;
 };
 
+}
+
+}
+
 // Algorithm in short terms: Relax all nodes.
 
 
@@ -172,6 +176,71 @@ private:
 // We can just check if there are any cycles when relax happened V times. This is implemented above.
 
 
+// Other discusssions:
+
+// Bellman–Ford Algorithm
+// Given a graph and a source vertex src in graph, find shortest paths from src to all vertices in the given graph.
+// The graph may contain negative weight edges.
+// We have discussed Dijkstra’s algorithm for this problem.
+// Dijkstra’s algorithm is a Greedy algorithm and time complexity is O(V+E LogV) (with the use of Fibonacci heap).
+// Dijkstra doesn’t work for Graphs with negative weight edges, Bellman-Ford works for such graphs.
+// Bellman-Ford is also simpler than Dijkstra and suites well for distributed systems.
+// But time complexity of Bellman-Ford is O(VE), which is more than Dijkstra.
+
+// Algorithm
+// Following are the detailed steps.
+// Input: Graph and a source vertex src
+// Output: Shortest distance to all vertices from src.
+// If there is a negative weight cycle, then shortest distances are not calculated, negative weight cycle is reported.
+// -> 1) This step initializes distances from the source to all vertices as infinite and distance to the source itself as 0.
+// ---> Create an array dist[] of size |V| with all values as infinite except dist[src] where src is source vertex.
+// -> 2) This step calculates shortest distances. Do following |V|-1 times where |V| is the number of vertices in given graph.
+// ---> a) Do following for each edge u-v
+// -----> If dist[v] > dist[u] + weight of edge uv, then update dist[v]
+// -------> dist[v] = dist[u] + weight of edge uv
+// -> 3) This step reports if there is a negative weight cycle in graph. Do following for each edge u-v
+// ---> If dist[v] > dist[u] + weight of edge uv, then “Graph contains negative weight cycle”
+
+// The idea of step 3 is, step 2 guarantees the shortest distances if the graph doesn’t contain a negative weight cycle.
+// If we iterate through all edges one more time and get a shorter path for any vertex, then there is a negative weight cycle. (AUTOMATIC CYCLE DETECTION)
+
+// How does this work?
+// -> Like other Dynamic Programming Problems, the algorithm calculates shortest paths in a bottom-up manner.
+// -> It first calculates the shortest distances which have at-most one edge in the path.
+// -> Then, it calculates the shortest paths with at-most 2 edges, and so on.
+// -> After the i-th iteration of the outer loop, the shortest paths with at most i edges are calculated.
+// -> There can be maximum |V|–1 edges in any simple path, that is why the outer loop runs |v|–1 times.
+// -> The idea is, assuming that there is no negative weight cycle,
+// -> if we have calculated shortest paths with at most i edges,
+// -> then an iteration over all edges guarantees to give shortest path with at-most (i+1) edges.
+// Proof:
+// -> Correctness if G(V, E) has no negative weight cycles, then Bellman-Ford terminate with d[v] = S(s,v) for all v is an element of V.
+// -> Proof approach: Consider any v in V, by monotonicity and correctness (d[v]>=S(s,v)) only need to show that d[v]=S(s,v) at the same time.
+// -> Let: Path p = v0->v1->v2-> ... ->vk, be a shortest path from s to v with the minimum number edges.
+// ---> So p is a simple path (no repeating vertices)
+// ---> S(s, vi) = S(s, vi-1) + w(vi-1, vi) (by optimal substructure)
+// ---> d[V0] = 0 = S(s, v0)
+// -> Assume by induction that d[vj] = S(s, vj) after j rounds for j<i.
+// -> Before last round: After i-1 rounds d[vi-1] = S(s, vi-1)
+// -> During round i: relax (vi-1, vi) ->  so d[vi] = S(s, vi) (by correctness lemma)
+// -> After k rounds, we have the correct answer for vk. k<=|V|-1 because p is simple.
+// Corollary (contrapositive): If the Bellman Ford for fails to converge after |V|-1 round, then there must be a negative weight cycle.
+
+// Notes:
+// -> 1) Negative weights are found in various applications of graphs.
+// For example, instead of paying cost for a path, we may get some advantage if we follow the path.
+// -> 2) Bellman-Ford works better (better than Dijkstra’s) for distributed systems (for example in a network).
+// Unlike Dijkstra’s where we need to find the minimum value of all vertices, in Bellman-Ford, edges are considered one by one.
+// -> 3) Bellman-Ford does not work with undirected graph with negative edges as it will declared as negative cycle.
+
+// Exercise:
+// -> 1) The standard Bellman-Ford algorithm reports the shortest path only if there are no negative weight cycles.
+// Modify it so that it reports minimum distances even if there is a negative weight cycle.
+// -> 2) Can we use Dijkstra’s algorithm for shortest paths
+// for graphs with negative weights – one idea can be, calculate the minimum weight value,
+// add a positive value (equal to absolute value of minimum weight value)
+// to all weights and run the Dijkstra’s algorithm for the modified graph. Will this algorithm work?
+
 
 // Other discussions:
 // The Bellman–Ford algorithm finds shortest paths from a starting node to all nodes of the graph.
@@ -198,6 +267,4 @@ private:
 // Note: This is implemented above.
 
 
-}
 
-}

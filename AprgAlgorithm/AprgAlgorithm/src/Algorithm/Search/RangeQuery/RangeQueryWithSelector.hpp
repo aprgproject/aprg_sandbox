@@ -18,7 +18,7 @@ public:
     // Example for "range query with selector" is minimum queries
     // Minimum queries are more difficult to process than sum queries.
 
-    // Still, there is a quite simple O(nlogn) time preprocessing method after which we can answer any minimum query in O(1) time1.
+    // Still, there is a quite simple O(nlogn) time preprocessing method after which we can answer any minimum query in O(1) time.
     //Note that since minimum and maximum queries can be processed similarly, we can focus on minimum queries.
 
     using Index = unsigned int;
@@ -35,9 +35,9 @@ public:
 
     Value getSelectedValueOnInterval(Index const start, Index const end) const
     {
-        // This is now constant time
+        // This is on constant time
         Value result{};
-        if(start<m_selectedValueMatrix.getNumberOfColumns() && end<m_selectedValueMatrix.getNumberOfColumns())
+        if(start<m_selectedValueMatrix.getNumberOfColumns() && end<m_selectedValueMatrix.getNumberOfColumns()) // this condition is correct
         {
             if(start<end)
             {

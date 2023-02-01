@@ -78,6 +78,10 @@ private:
     Vertex const& b_startVertex;
 };
 
+}
+
+}
+
 // Algorithm in short terms: Relax the current shortest/longest node.
 
 
@@ -158,7 +162,3 @@ private:
 // The time complexity of the above implementation is O(n + mlogm). Note: 'n' is nodes and 'm' is edges.
 // This because the algorithm goes through all nodes of the graph and adds for each edge at most one distance to the priority queue.
 // Note: In the implementation above, relax function uses a map to store weights which will result to have a different running time instead.
-
-}
-
-}

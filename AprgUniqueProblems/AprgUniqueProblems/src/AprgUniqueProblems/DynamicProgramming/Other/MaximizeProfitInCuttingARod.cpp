@@ -19,9 +19,11 @@ MaximizeProfitInCuttingARod::Profit MaximizeProfitInCuttingARod::getBestProfitUs
 
     return getBestProfitUsingNaiveRecursion(m_length);
 }
+
 MaximizeProfitInCuttingARod::Profit MaximizeProfitInCuttingARod::getBestProfitUsingMemoizationDP() const
 {
-    // Time Complexity: O(n^2).    // Auxiliary Space: O(n).
+    // Time Complexity: O(n^2).
+    // Auxiliary Space: O(n).
 
     Profit result(0);
     if(!m_rods.empty())

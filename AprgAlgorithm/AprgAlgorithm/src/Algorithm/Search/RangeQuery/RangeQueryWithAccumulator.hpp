@@ -35,7 +35,7 @@ public:
 
     Value getAccumulatedValueOnInterval(Index const start, Index const end) const
     {
-        // This is now constant time
+        // This is on constant time
         Value result{};
         if(start<=end && start<m_partialResults.size() && end<m_partialResults.size())
         {

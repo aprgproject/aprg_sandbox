@@ -19,9 +19,11 @@ MaximizeProfitInKnapsack::Profit MaximizeProfitInKnapsack::getBestProfitUsingNai
 
     return getBestProfitUsingNaiveRecursion(m_maximumWeight, 0);
 }
+
 MaximizeProfitInKnapsack::Profit MaximizeProfitInKnapsack::getBestProfitUsingMemoizationDP() const
 {
-    // Time Complexity: O(N*W).    // -> As redundant calculations of states are avoided.
+    // Time Complexity: O(N*W).
+    // -> As redundant calculations of states are avoided.
     // Auxiliary Space: O(N*W).
     // -> The use of 2D array data structure for storing intermediate states.
 
