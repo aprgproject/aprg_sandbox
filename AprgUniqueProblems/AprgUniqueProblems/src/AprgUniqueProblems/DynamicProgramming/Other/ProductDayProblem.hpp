@@ -23,19 +23,21 @@ public:
     static constexpr Price UNUSED_PRICE = INVALID_PRICE-1;
 
     ProductDayProblem(PriceMatrix const& pricesInDayByProduct);
+
     Price getMinimumPriceUsingMemoizationDP() const;
     Price getMinimumPriceUsingTabularDP() const;
+
 private:
     Price getMinimumPriceUsingMemoizationDP(PriceMatrix & minimumPrices, Day const day, ProductBits const productBits) const;
 
-    inline bool isProductIncluded(ProductBits const productBits, Product const product) const;
-    inline Product getNumberOfProducts() const;
-    inline Day getNumberOfDays() const;
-    inline ProductBits getNumberOfProductsSubsets() const;
-    inline ProductBits getProductBitsWithAllProducts() const;
-    inline ProductBits getProductBits(Product const product) const;
-    inline ProductBits addProduct(ProductBits const productBits, Product const product) const;
-    inline ProductBits removeProduct(ProductBits const productBits, Product const product) const;
+    bool isProductIncluded(ProductBits const productBits, Product const product) const;
+    Product getNumberOfProducts() const;
+    Day getNumberOfDays() const;
+    ProductBits getNumberOfProductsSubsets() const;
+    ProductBits getProductBitsWithAllProducts() const;
+    ProductBits getProductBits(Product const product) const;
+    ProductBits addProduct(ProductBits const productBits, Product const product) const;
+    ProductBits removeProduct(ProductBits const productBits, Product const product) const;
     PriceMatrix m_pricesInDayByProduct;
 };
 

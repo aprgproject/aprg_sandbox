@@ -170,7 +170,7 @@ MaximumSizeSquareSubMatrixWithAllOnes::Unit MaximumSizeSquareSubMatrixWithAllOne
     return result;
 }
 
-MaximumSizeSquareSubMatrixWithAllOnes::Unit MaximumSizeSquareSubMatrixWithAllOnes::getUnitAt(
+inline MaximumSizeSquareSubMatrixWithAllOnes::Unit MaximumSizeSquareSubMatrixWithAllOnes::getUnitAt(
         Index const x,
         Index const y) const
 {

@@ -23,7 +23,7 @@ public:
 
 private:
     Unit getMaximumSideUsingMemoizationDP(UnitMatrix & sideMatrix, Index const x, Index const y) const;
-    inline Unit getUnitAt(Index const x, Index const y) const;
+    Unit getUnitAt(Index const x, Index const y) const;
     BooleanMatrix const m_booleanMatrix;
 };
 

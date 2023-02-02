@@ -162,7 +162,7 @@ WordWrapProblemWithLineWidth::Cost WordWrapProblemWithLineWidth::getTotalCostOfA
     return result;
 }
 
-WordWrapProblemWithLineWidth::Cost WordWrapProblemWithLineWidth::getCostFromExtraSpaces(Index const numberOfExtraSpaces) const
+inline WordWrapProblemWithLineWidth::Cost WordWrapProblemWithLineWidth::getCostFromExtraSpaces(Index const numberOfExtraSpaces) const
 {
     return numberOfExtraSpaces*numberOfExtraSpaces*numberOfExtraSpaces; // sum of cubes is used for cost to avoid single long lengths
 }

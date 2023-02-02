@@ -15,6 +15,7 @@ class RangeQueryWithQuadraticAuxiliarySize
 {
 public:
     // This supports "accumulator" and "selector" type queries.
+
     using Index = unsigned int;
     using Value = typename Values::value_type;
     using ValueMatrix = matrix::AlbaMatrix<Value>;
@@ -23,10 +24,12 @@ public:
     RangeQueryWithQuadraticAuxiliarySize(Values const& valuesToCheck, Function const& selector)
         : m_partialValueMatrix(valuesToCheck.size(), valuesToCheck.size(), 0U)
         , m_function(selector)
-    {        initialize(valuesToCheck);
+    {
+        initialize(valuesToCheck);
     }
 
-    Value getValueOnInterval(Index const start, Index const end) const    {
+    Value getValueOnInterval(Index const start, Index const end) const
+    {
         // This is on constant time
         Value result{};
         if(start<=end && start<m_partialValueMatrix.getNumberOfColumns() && end<m_partialValueMatrix.getNumberOfRows())

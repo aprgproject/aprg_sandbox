@@ -1,9 +1,11 @@
 #include <Algorithm/Search/RangeQuery/RangeQueryWithQuadraticAuxiliarySize.hpp>
 
 #include <gtest/gtest.h>
+
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 namespace algorithm
 {
@@ -14,9 +16,11 @@ using ValuesForTest = vector<unsigned int>;
 using RangeQueryForTest = RangeQueryWithQuadraticAuxiliarySize<ValuesForTest>;
 using ValueForTest = RangeQueryForTest::Value;
 
-RangeQueryForTest::Function minimumSelector = [](ValueForTest const& value1, ValueForTest const& value2){
+RangeQueryForTest::Function minimumSelector = [](ValueForTest const& value1, ValueForTest const& value2)
+{
     return min(value1, value2);
 };
+
 RangeQueryForTest::Function maximumSelector = [](ValueForTest const& value1, ValueForTest const& value2)
 {
     return max(value1, value2);
@@ -29,6 +33,7 @@ TEST(RangeQueryWithQuadraticAuxiliarySizeTest, GetValueOnIntervalWithMinimumWork
 {
     ValuesForTest values;
     RangeQueryForTest minimumRangeQuery(values, minimumSelector);
+
     EXPECT_EQ(0U, minimumRangeQuery.getValueOnInterval(0U, 0U));
 }
 
@@ -36,9 +41,11 @@ TEST(RangeQueryWithQuadraticAuxiliarySizeTest, GetValueOnIntervalWithMinimumWork
 {
     ValuesForTest values{5U, 9U, 4U, 8U, 6U, 1U, 4U, 2U, 0U};
     RangeQueryForTest minimumRangeQuery(values, minimumSelector);
+
     EXPECT_EQ(5U, minimumRangeQuery.getValueOnInterval(0U, 0U));
     EXPECT_EQ(5U, minimumRangeQuery.getValueOnInterval(0U, 1U));
-    EXPECT_EQ(4U, minimumRangeQuery.getValueOnInterval(0U, 2U));    EXPECT_EQ(4U, minimumRangeQuery.getValueOnInterval(0U, 3U));
+    EXPECT_EQ(4U, minimumRangeQuery.getValueOnInterval(0U, 2U));
+    EXPECT_EQ(4U, minimumRangeQuery.getValueOnInterval(0U, 3U));
     EXPECT_EQ(4U, minimumRangeQuery.getValueOnInterval(0U, 4U));
     EXPECT_EQ(1U, minimumRangeQuery.getValueOnInterval(0U, 5U));
     EXPECT_EQ(1U, minimumRangeQuery.getValueOnInterval(0U, 6U));
@@ -53,9 +60,11 @@ TEST(RangeQueryWithQuadraticAuxiliarySizeTest, GetValueOnIntervalWithMaximumWork
 {
     ValuesForTest values{5U, 9U, 4U, 8U, 6U, 1U, 4U, 2U, 10U};
     RangeQueryForTest maximumRangeQuery(values, maximumSelector);
+
     EXPECT_EQ(5U, maximumRangeQuery.getValueOnInterval(0U, 0U));
     EXPECT_EQ(9U, maximumRangeQuery.getValueOnInterval(0U, 1U));
-    EXPECT_EQ(9U, maximumRangeQuery.getValueOnInterval(0U, 2U));    EXPECT_EQ(9U, maximumRangeQuery.getValueOnInterval(0U, 3U));
+    EXPECT_EQ(9U, maximumRangeQuery.getValueOnInterval(0U, 2U));
+    EXPECT_EQ(9U, maximumRangeQuery.getValueOnInterval(0U, 3U));
     EXPECT_EQ(9U, maximumRangeQuery.getValueOnInterval(0U, 4U));
     EXPECT_EQ(9U, maximumRangeQuery.getValueOnInterval(0U, 5U));
     EXPECT_EQ(9U, maximumRangeQuery.getValueOnInterval(0U, 6U));
@@ -70,9 +79,11 @@ TEST(RangeQueryWithQuadraticAuxiliarySizeTest, GetValueOnIntervalWithSumWorksOnE
 {
     ValuesForTest values{1U, 3U, 4U, 8U, 6U, 1U, 4U, 2U, 9U};
     RangeQueryForTest sumRangeQuery(values, plusAccumulator);
+
     EXPECT_EQ(1U, sumRangeQuery.getValueOnInterval(0U, 0U));
     EXPECT_EQ(4U, sumRangeQuery.getValueOnInterval(0U, 1U));
-    EXPECT_EQ(8U, sumRangeQuery.getValueOnInterval(0U, 2U));    EXPECT_EQ(16U, sumRangeQuery.getValueOnInterval(0U, 3U));
+    EXPECT_EQ(8U, sumRangeQuery.getValueOnInterval(0U, 2U));
+    EXPECT_EQ(16U, sumRangeQuery.getValueOnInterval(0U, 3U));
     EXPECT_EQ(22U, sumRangeQuery.getValueOnInterval(0U, 4U));
     EXPECT_EQ(23U, sumRangeQuery.getValueOnInterval(0U, 5U));
     EXPECT_EQ(27U, sumRangeQuery.getValueOnInterval(0U, 6U));
@@ -89,9 +100,11 @@ TEST(RangeQueryWithQuadraticAuxiliarySizeTest, GetValueOnIntervalWithSumWorksOnE
 {
     ValuesForTest values{1U, 3U, 4U, 3U, 6U, 1U, 4U, 2U, 9U};
     RangeQueryForTest sumRangeQuery(values, plusAccumulator);
+
     EXPECT_EQ(1U, sumRangeQuery.getValueOnInterval(0U, 0U));
     EXPECT_EQ(4U, sumRangeQuery.getValueOnInterval(0U, 1U));
-    EXPECT_EQ(8U, sumRangeQuery.getValueOnInterval(0U, 2U));    EXPECT_EQ(11U, sumRangeQuery.getValueOnInterval(0U, 3U));
+    EXPECT_EQ(8U, sumRangeQuery.getValueOnInterval(0U, 2U));
+    EXPECT_EQ(11U, sumRangeQuery.getValueOnInterval(0U, 3U));
     EXPECT_EQ(17U, sumRangeQuery.getValueOnInterval(0U, 4U));
     EXPECT_EQ(18U, sumRangeQuery.getValueOnInterval(0U, 5U));
     EXPECT_EQ(22U, sumRangeQuery.getValueOnInterval(0U, 6U));
@@ -108,9 +121,11 @@ TEST(RangeQueryWithQuadraticAuxiliarySizeTest, GetValueOnIntervalWithGeometricSu
 {
     ValuesForTest values{1U, 3U, 4U, 8U, 6U, 1U, 4U, 2U, 9U};
     RangeQueryForTest geometricSumRangeQuery(values, multipliesAccumulator);
+
     EXPECT_EQ(1U, geometricSumRangeQuery.getValueOnInterval(0U, 0U));
     EXPECT_EQ(3U, geometricSumRangeQuery.getValueOnInterval(0U, 1U));
-    EXPECT_EQ(12U, geometricSumRangeQuery.getValueOnInterval(0U, 2U));    EXPECT_EQ(96U, geometricSumRangeQuery.getValueOnInterval(0U, 3U));
+    EXPECT_EQ(12U, geometricSumRangeQuery.getValueOnInterval(0U, 2U));
+    EXPECT_EQ(96U, geometricSumRangeQuery.getValueOnInterval(0U, 3U));
     EXPECT_EQ(576U, geometricSumRangeQuery.getValueOnInterval(0U, 4U));
     EXPECT_EQ(576U, geometricSumRangeQuery.getValueOnInterval(0U, 5U));
     EXPECT_EQ(2304U, geometricSumRangeQuery.getValueOnInterval(0U, 6U));
@@ -127,9 +142,11 @@ TEST(RangeQueryWithQuadraticAuxiliarySizeTest, GetValueOnIntervalWithGeometricSu
 {
     ValuesForTest values{1U, 3U, 4U, 3U, 6U, 1U, 4U, 2U, 9U};
     RangeQueryForTest geometricSumRangeQuery(values, multipliesAccumulator);
+
     EXPECT_EQ(1U, geometricSumRangeQuery.getValueOnInterval(0U, 0U));
     EXPECT_EQ(3U, geometricSumRangeQuery.getValueOnInterval(0U, 1U));
-    EXPECT_EQ(12U, geometricSumRangeQuery.getValueOnInterval(0U, 2U));    EXPECT_EQ(36U, geometricSumRangeQuery.getValueOnInterval(0U, 3U));
+    EXPECT_EQ(12U, geometricSumRangeQuery.getValueOnInterval(0U, 2U));
+    EXPECT_EQ(36U, geometricSumRangeQuery.getValueOnInterval(0U, 3U));
     EXPECT_EQ(216U, geometricSumRangeQuery.getValueOnInterval(0U, 4U));
     EXPECT_EQ(216U, geometricSumRangeQuery.getValueOnInterval(0U, 5U));
     EXPECT_EQ(864U, geometricSumRangeQuery.getValueOnInterval(0U, 6U));

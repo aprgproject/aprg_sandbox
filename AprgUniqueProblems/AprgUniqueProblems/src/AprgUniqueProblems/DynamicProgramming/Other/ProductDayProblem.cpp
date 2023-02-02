@@ -19,10 +19,12 @@ ProductDayProblem::Price ProductDayProblem::getMinimumPriceUsingMemoizationDP() 
         PriceMatrix minimumPrices(getNumberOfDays(), getNumberOfProductsSubsets(), static_cast<Price>(UNUSED_PRICE));
         for(Day day=0; day<getNumberOfDays(); day++) // set zero cost on empty product bits
         {
-            minimumPrices.setEntry(day, 0, 0);        }
+            minimumPrices.setEntry(day, 0, 0);
+        }
         for(Product product=0; product<getNumberOfProducts(); product++) // fill up first day
         {
-            minimumPrices.setEntry(0, getProductBits(product), m_pricesInDayByProduct.getEntry(0, product));        }
+            minimumPrices.setEntry(0, getProductBits(product), m_pricesInDayByProduct.getEntry(0, product));
+        }
         result = getMinimumPriceUsingMemoizationDP(minimumPrices, getNumberOfDays()-1, getProductBitsWithAllProducts());
     }
     return result;
@@ -34,10 +36,12 @@ ProductDayProblem::Price ProductDayProblem::getMinimumPriceUsingTabularDP() cons
     PriceMatrix minimumPrices(getNumberOfDays(), getNumberOfProductsSubsets(), static_cast<Price>(UNUSED_PRICE));
 
     for(Day day=0; day<getNumberOfDays(); day++) // set zero cost on empty product bits
-    {        minimumPrices.setEntry(day, 0, 0);
+    {
+        minimumPrices.setEntry(day, 0, 0);
     }
 
-    for(Product product=0; product<getNumberOfProducts(); product++) // fill up first day    {
+    for(Product product=0; product<getNumberOfProducts(); product++) // fill up first day
+    {
         minimumPrices.setEntry(0, getProductBits(product), m_pricesInDayByProduct.getEntry(0, product));
     }
 
@@ -55,10 +59,12 @@ ProductDayProblem::Price ProductDayProblem::getMinimumPriceUsingTabularDP() cons
                     if(UNUSED_PRICE != previousDayWithoutProduct)
                     {
                         Price currentMinimum = min(
-                                    minimumPrices.getEntry(day, productBits), // current value                                    previousDayWithoutProduct + m_pricesInDayByProduct.getEntry(day, product)); // plus price of the product today
+                                    minimumPrices.getEntry(day, productBits), // current value
+                                    previousDayWithoutProduct + m_pricesInDayByProduct.getEntry(day, product)); // plus price of the product today
                         minimumPrices.setEntry(day, productBits, currentMinimum);
                     }
-                }            }
+                }
+            }
         }
     }
 
@@ -81,17 +87,20 @@ ProductDayProblem::Price ProductDayProblem::getMinimumPriceUsingMemoizationDP(
         if(UNUSED_PRICE == result)
         {
             result = getMinimumPriceUsingMemoizationDP(minimumPrices, day-1, productBits); // put total of previous day
-            for(Product product=0; product<getNumberOfProducts(); product++)            {
+            for(Product product=0; product<getNumberOfProducts(); product++)
+            {
                 if(isProductIncluded(productBits, product))
                 {
                     Price previousDayWithoutProduct = getMinimumPriceUsingMemoizationDP(minimumPrices, day-1, removeProduct(productBits, product));
                     if(INVALID_PRICE != previousDayWithoutProduct)
                     {
                         result = min(result, // current value
-                                     previousDayWithoutProduct // get total of previous day without the product                                     + m_pricesInDayByProduct.getEntry(day, product)); // plus price of the product today
+                                     previousDayWithoutProduct // get total of previous day without the product
+                                     + m_pricesInDayByProduct.getEntry(day, product)); // plus price of the product today
                     }
                 }
-            }            minimumPrices.setEntry(day, productBits, result);
+            }
+            minimumPrices.setEntry(day, productBits, result);
         }
         return result;
     }
@@ -100,41 +109,43 @@ ProductDayProblem::Price ProductDayProblem::getMinimumPriceUsingMemoizationDP(
         return INVALID_PRICE;
     }
 }
-bool ProductDayProblem::isProductIncluded(ProductBits const productBits, Product const product) const
-{
-    return productBits & getProductBits(product);}
 
-ProductDayProblem::Product ProductDayProblem::getNumberOfProducts() const
+inline bool ProductDayProblem::isProductIncluded(ProductBits const productBits, Product const product) const
+{
+    return productBits & getProductBits(product);
+}
+
+inline ProductDayProblem::Product ProductDayProblem::getNumberOfProducts() const
 {
     return m_pricesInDayByProduct.getNumberOfRows();
 }
 
-ProductDayProblem::Day ProductDayProblem::getNumberOfDays() const
+inline ProductDayProblem::Day ProductDayProblem::getNumberOfDays() const
 {
     return m_pricesInDayByProduct.getNumberOfColumns();
 }
 
-ProductDayProblem::ProductBits ProductDayProblem::getNumberOfProductsSubsets() const
+inline ProductDayProblem::ProductBits ProductDayProblem::getNumberOfProductsSubsets() const
 {
     return 1<<getNumberOfProducts();
 }
 
-ProductDayProblem::ProductBits ProductDayProblem::getProductBitsWithAllProducts() const
+inline ProductDayProblem::ProductBits ProductDayProblem::getProductBitsWithAllProducts() const
 {
     return AlbaBitValueUtilities<ProductBits>::generateOnesWithNumberOfBits(getNumberOfProducts());
 }
 
-ProductDayProblem::ProductBits ProductDayProblem::getProductBits(Product const product) const
+inline ProductDayProblem::ProductBits ProductDayProblem::getProductBits(Product const product) const
 {
     return 1<<product;
 }
 
-ProductDayProblem::ProductBits ProductDayProblem::addProduct(ProductBits const productBits, Product const product) const
+inline ProductDayProblem::ProductBits ProductDayProblem::addProduct(ProductBits const productBits, Product const product) const
 {
     return productBits | (1 << product);
 }
 
-ProductDayProblem::ProductBits ProductDayProblem::removeProduct(ProductBits const productBits, Product const product) const
+inline ProductDayProblem::ProductBits ProductDayProblem::removeProduct(ProductBits const productBits, Product const product) const
 {
     return productBits & ~(1 << product);
 }
