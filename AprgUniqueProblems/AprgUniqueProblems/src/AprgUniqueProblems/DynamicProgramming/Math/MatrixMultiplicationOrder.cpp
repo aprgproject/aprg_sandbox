@@ -46,19 +46,17 @@ MatrixMultiplicationOrder::Count MatrixMultiplicationOrder::getMinimumNumberOfOp
     {
         CountMatrix countMatrix(m_dimensions.size(), m_dimensions.size());
 
-        for(Index length=2; length<m_dimensions.size(); length++)
+        for(Index length=3; length<=m_dimensions.size(); length++)
         {
-            for(Index leftParenthesis=0; leftParenthesis+length<countMatrix.getNumberOfColumns(); leftParenthesis++)
+            for(Index leftParenthesis=0; leftParenthesis+length<=countMatrix.getNumberOfColumns(); leftParenthesis++)
             {
-                Index rightParenthesis = leftParenthesis+length;
+                Index rightParenthesis = leftParenthesis+length-1;
                 Count minimumCount(MAX_COUNT);
                 for(Index inBetween=leftParenthesis+1; inBetween<rightParenthesis; inBetween++)
-                {
-                    Count currentCount = countMatrix.getEntry(leftParenthesis, inBetween)
+                {                    Count currentCount = countMatrix.getEntry(leftParenthesis, inBetween)
                             + countMatrix.getEntry(inBetween, rightParenthesis)
                             + m_dimensions.at(leftParenthesis) * m_dimensions.at(inBetween) * m_dimensions.at(rightParenthesis);
-                    minimumCount = min(minimumCount, currentCount);
-                }
+                    minimumCount = min(minimumCount, currentCount);                }
                 countMatrix.setEntry(leftParenthesis, rightParenthesis, minimumCount);
             }
         }
