@@ -18,14 +18,13 @@ bool IsPartialSumPossibleInKnapsack::isPartialSumPossibleUsingNaiveRecursion() c
 {
     // Time Complexity: O(2^n)
     // -> In the worst case, this solution tries two possibilities (whether to include or exclude) for every element.
+    // The problem is in-fact NP-Complete (There is no known polynomial time solution for this problem).
     // Auxiliary Space: O(1)
 
-    bool result(false);
-    if(!m_inputValues.empty())
+    bool result(false);    if(!m_inputValues.empty())
     {
         result = isPartialSumPossibleUsingNaiveRecursion(m_targetSum, 0);
-    }
-    return result;
+    }    return result;
 }
 
 bool IsPartialSumPossibleInKnapsack::isPartialSumPossibleUsingMemoizationDP() const
@@ -61,26 +60,24 @@ bool IsPartialSumPossibleInKnapsack::isPartialSumPossibleUsingTabularDP() const
         }
         for(Value partialSum=1; partialSum<=m_targetSum; partialSum++)
         {
-            for(int valueIndex=static_cast<int>(m_inputValues.size())-1; valueIndex>=0; valueIndex--)
+            for(Index valueIndex=1; valueIndex<=m_inputValues.size(); valueIndex++)
             {
-                Value currentValue(m_inputValues.at(valueIndex));
-                if(partialSum >= currentValue)
+                Value previousValue(m_inputValues.at(valueIndex-1));
+                bool entryResult(isPossibleMatrix.getEntry(partialSum, valueIndex-1)); // get previous entry result
+                if(partialSum >= previousValue)
                 {
-                    bool entryResult = isPossibleMatrix.getEntry(partialSum, valueIndex+1)
-                            || isPossibleMatrix.getEntry(partialSum-currentValue, valueIndex+1);
-                    isPossibleMatrix.setEntry(partialSum, valueIndex, entryResult);
+                    entryResult = entryResult || isPossibleMatrix.getEntry(partialSum-previousValue, valueIndex-1);
                 }
+                isPossibleMatrix.setEntry(partialSum, valueIndex, entryResult);
             }
         }
-        result = isPossibleMatrix.getEntry(m_targetSum, 0U);
+        result = isPossibleMatrix.getEntry(isPossibleMatrix.getNumberOfColumns()-1, isPossibleMatrix.getNumberOfRows()-1);
     }
     return result;
 }
-
 bool IsPartialSumPossibleInKnapsack::isPartialSumPossibleUsingTabularDPAndSpaceEfficient() const
 {
-    // Time Complexity: O(sum * n)
-    // Auxiliary Space: O(sum)
+    // Time Complexity: O(sum * n)    // Auxiliary Space: O(sum)
 
     bool result(false);
     if(!m_inputValues.empty())
@@ -110,22 +107,24 @@ bool IsPartialSumPossibleInKnapsack::isPartialSumPossibleUsingNaiveRecursion(
     if(valueIndex < m_inputValues.size())
     {
         Value currentValue(m_inputValues.at(valueIndex));
-        if(partialSum > currentValue)
-        {
-            result =  isPartialSumPossibleUsingNaiveRecursion(partialSum, valueIndex+1)
-                    || isPartialSumPossibleUsingNaiveRecursion(partialSum-currentValue, valueIndex+1);
-        }
-        else if(partialSum == currentValue)
+        if(partialSum == currentValue)
         {
             result = true;
         }
+        else if(partialSum > currentValue)
+        {
+            result = isPartialSumPossibleUsingNaiveRecursion(partialSum, valueIndex+1) // skip value
+                    || isPartialSumPossibleUsingNaiveRecursion(partialSum-currentValue, valueIndex+1); // reserve value to sum
+        }
+        else // partialSum < currentValue
+        {
+            result = isPartialSumPossibleUsingNaiveRecursion(partialSum, valueIndex+1); // skip value
+        }
     }
-    return result;
-}
+    return result;}
 
 bool IsPartialSumPossibleInKnapsack::isPartialSumPossibleUsingMemoizationDP(
-        StateMatrix & stateMatrix,
-        Value const partialSum,
+        StateMatrix & stateMatrix,        Value const partialSum,
         Index const valueIndex) const
 {
     State resultState = stateMatrix.getEntry(partialSum, valueIndex);
@@ -137,16 +136,18 @@ bool IsPartialSumPossibleInKnapsack::isPartialSumPossibleUsingMemoizationDP(
             Value currentValue(m_inputValues.at(valueIndex));
             if(partialSum >= currentValue)
             {
-                result = isPartialSumPossibleUsingMemoizationDP(stateMatrix, partialSum, valueIndex+1)
-                        || isPartialSumPossibleUsingMemoizationDP(stateMatrix, partialSum-currentValue, valueIndex+1);
+                result = isPartialSumPossibleUsingMemoizationDP(stateMatrix, partialSum, valueIndex+1) // skip value
+                        || isPartialSumPossibleUsingMemoizationDP(stateMatrix, partialSum-currentValue, valueIndex+1); // reserve value to sum
+            }
+            else
+            {
+                result = isPartialSumPossibleUsingMemoizationDP(stateMatrix, partialSum, valueIndex+1); // skip value
             }
         }
-        stateMatrix.setEntry(partialSum, valueIndex, result ? State::True : State::False);
-        return result;
+        stateMatrix.setEntry(partialSum, valueIndex, result ? State::True : State::False);        return result;
     }
     else
-    {
-        return (State::True==resultState) ? true : false;
+    {        return (State::True==resultState) ? true : false;
     }
 }
 

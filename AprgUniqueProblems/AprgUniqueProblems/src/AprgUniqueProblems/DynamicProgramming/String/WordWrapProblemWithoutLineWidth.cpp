@@ -131,10 +131,10 @@ WordWrapProblemWithoutLineWidth::Cost WordWrapProblemWithoutLineWidth::getCost(I
     return result;
 }
 
+// inline optimization can work here because the usage belongs to same translation unit
 inline WordWrapProblemWithoutLineWidth::Cost WordWrapProblemWithoutLineWidth::getCostFromExtraSpaces(Index const numberOfExtraSpaces) const
 {
-    return numberOfExtraSpaces*numberOfExtraSpaces*numberOfExtraSpaces; // sum of cubes is used for cost to avoid single long lengths
-}
+    return numberOfExtraSpaces*numberOfExtraSpaces*numberOfExtraSpaces; // sum of cubes is used for cost to avoid single long lengths}
 
 
 }

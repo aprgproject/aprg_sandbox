@@ -10,15 +10,12 @@ namespace alba
 class IsPartialSumPossibleInKnapsack
 {
 public:
-
     using Index = unsigned int;
     using Value = unsigned int;
-    enum class State
-    {
+    enum class State    {
         Unused,
         False,
-        True
-    };
+        True    };
     using Values = std::vector<Value>;
     using Booleans = std::vector<bool>;
     using BooleanMatrix = matrix::AlbaMatrix<bool>;
@@ -41,14 +38,72 @@ private:
 
 }
 
+// Subset Sum Problem
+// Given a set of non-negative integers, and a value sum, determine if there is a subset of the given set with sum equal to given sum.
+
+// Example:
+// -> Input: set[] = {3, 34, 4, 12, 5, 2}, sum = 9
+// ---> Output: True
+// ---> There is a subset (4, 5) with sum 9.
+// -> Input: set[] = {3, 34, 4, 12, 5, 2}, sum = 30
+// ---> Output: False
+// ---> There is no subset that add up to 30.
+
+
+// Method 1: (Naive Recursion method):
+// Approach: For the recursive approach we will consider two cases.
+// -> Consider the last element and now the required sum = target sum – value of ‘last’ element and number of elements = total elements – 1
+// -> Leave the ‘last’ element and now the required sum = target sum and number of elements = total elements – 1
+// Following is the recursive formula for isSubsetSum() problem.
+// -> isSubsetSum(set, n, sum)
+// -> = isSubsetSum(set, n-1, sum) ||
+// ->   isSubsetSum(set, n-1, sum-set[n-1])
+// Base Cases:
+// -> isSubsetSum(set, n, sum) = false, if sum > 0 and n == 0
+// -> isSubsetSum(set, n, sum) = true, if sum == 0
+
+
+// Complexity Analysis: The naive recursive solution may try all subsets of given set in worst case.
+// Therefore time complexity of the above solution is exponential.
+// The problem is in-fact NP-Complete (There is no known polynomial time solution for this problem).
+
+
+// Method 2 (Tabular method):
+// To solve the problem in Pseudo-polynomial time use the Dynamic programming.
+// So we will create a 2D array of size (arr.size() + 1) * (target + 1) of type boolean.
+// The state DP[i][j] will be true if there exists a subset of elements from A[0….i] with sum value = ‘j’.
+// The approach for the problem is:
+// -> if (A[i-1] > j)
+// ---> DP[i][j] = DP[i-1][j]
+// -> else
+// ---> DP[i][j] = DP[i-1][j] OR DP[i-1][j-A[i-1]]
+// This means that if current element has value greater than ‘current sum value’ we will copy the answer for previous cases
+// And if the current sum value is greater than the ‘ith’ element we will see if any of previous states have already experienced the sum=’j’ OR any previous states experienced a value ‘j – A[i]’ which will solve our purpose.
+
+
+// Method 3 (Memoization method):
+// -> In this method, we also follow the recursive approach but In this method,
+// we use another 2-D matrix in  we first initialize with -1 or any negative value.
+// -> In this method, we avoid the few of the recursive call which is repeated itself that’s why we use 2-D matrix.
+// In this matrix we store the value of the previous call value.
+
+
+// Method 4 (Tabular method with less space):
+// To further reduce space complexity, we create a boolean 1D array subset[sum+1].
+// Using bottom up manner we can fill up this table.
+// The idea is that we can check if the sum till position “i” is possible
+// then if the current element in the array at position j is x, then sum i+x is also possible.
+// We traverse the sum array from back to front so that we don’t count any element twice.
+
+
+
+
 // RELATED PROBLEM:
 // Partition problem
-// Partition problem is to determine whether a given set can be partitioned into two subsets such that the sum of elements in both subsets is the same.
-// Examples:
+// Partition problem is to determine whether a given set can be partitioned into two subsets such that the sum of elements in both subsets is the same.// Examples:
 // -> arr[] = {1, 5, 11, 5}
 // ---> Output: true
-// ---> The array can be partitioned as {1, 5, 5} and {11}
-// -> arr[] = {1, 5, 3}
+// ---> The array can be partitioned as {1, 5, 5} and {11}// -> arr[] = {1, 5, 3}
 // ---> Output: false
 // ---> The array cannot be partitioned into equal sum sets.
 
