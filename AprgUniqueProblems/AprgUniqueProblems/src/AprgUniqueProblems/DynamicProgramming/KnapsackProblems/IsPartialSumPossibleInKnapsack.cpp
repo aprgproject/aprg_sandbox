@@ -21,10 +21,12 @@ bool IsPartialSumPossibleInKnapsack::isPartialSumPossibleUsingNaiveRecursion() c
     // The problem is in-fact NP-Complete (There is no known polynomial time solution for this problem).
     // Auxiliary Space: O(1)
 
-    bool result(false);    if(!m_inputValues.empty())
+    bool result(false);
+    if(!m_inputValues.empty())
     {
         result = isPartialSumPossibleUsingNaiveRecursion(m_targetSum, 0);
-    }    return result;
+    }
+    return result;
 }
 
 bool IsPartialSumPossibleInKnapsack::isPartialSumPossibleUsingMemoizationDP() const
@@ -75,9 +77,11 @@ bool IsPartialSumPossibleInKnapsack::isPartialSumPossibleUsingTabularDP() const
     }
     return result;
 }
+
 bool IsPartialSumPossibleInKnapsack::isPartialSumPossibleUsingTabularDPAndSpaceEfficient() const
 {
-    // Time Complexity: O(sum * n)    // Auxiliary Space: O(sum)
+    // Time Complexity: O(sum * n)
+    // Auxiliary Space: O(sum)
 
     bool result(false);
     if(!m_inputValues.empty())
@@ -121,10 +125,12 @@ bool IsPartialSumPossibleInKnapsack::isPartialSumPossibleUsingNaiveRecursion(
             result = isPartialSumPossibleUsingNaiveRecursion(partialSum, valueIndex+1); // skip value
         }
     }
-    return result;}
+    return result;
+}
 
 bool IsPartialSumPossibleInKnapsack::isPartialSumPossibleUsingMemoizationDP(
-        StateMatrix & stateMatrix,        Value const partialSum,
+        StateMatrix & stateMatrix,
+        Value const partialSum,
         Index const valueIndex) const
 {
     State resultState = stateMatrix.getEntry(partialSum, valueIndex);
@@ -144,10 +150,12 @@ bool IsPartialSumPossibleInKnapsack::isPartialSumPossibleUsingMemoizationDP(
                 result = isPartialSumPossibleUsingMemoizationDP(stateMatrix, partialSum, valueIndex+1); // skip value
             }
         }
-        stateMatrix.setEntry(partialSum, valueIndex, result ? State::True : State::False);        return result;
+        stateMatrix.setEntry(partialSum, valueIndex, result ? State::True : State::False);
+        return result;
     }
     else
-    {        return (State::True==resultState) ? true : false;
+    {
+        return (State::True==resultState) ? true : false;
     }
 }
 

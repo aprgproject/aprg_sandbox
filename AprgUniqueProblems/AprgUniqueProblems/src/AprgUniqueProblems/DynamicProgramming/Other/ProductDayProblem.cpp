@@ -113,10 +113,12 @@ ProductDayProblem::Price ProductDayProblem::getMinimumPriceUsingMemoizationDP(
 // inline optimization can work here because the usage belongs to same translation unit
 inline bool ProductDayProblem::isProductIncluded(ProductBits const productBits, Product const product) const
 {
-    return productBits & getProductBits(product);}
+    return productBits & getProductBits(product);
+}
 
 inline ProductDayProblem::Product ProductDayProblem::getNumberOfProducts() const
-{    return m_pricesInDayByProduct.getNumberOfRows();
+{
+    return m_pricesInDayByProduct.getNumberOfRows();
 }
 
 inline ProductDayProblem::Day ProductDayProblem::getNumberOfDays() const

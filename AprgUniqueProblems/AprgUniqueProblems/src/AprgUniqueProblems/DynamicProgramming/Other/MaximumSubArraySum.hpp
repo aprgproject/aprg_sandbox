@@ -19,9 +19,11 @@ public:
         Value sum;
     };
     static constexpr Value MIN_VALUE=std::numeric_limits<Value>::min();
+
     MaximumSubArraySum(Values const& values);
 
-    Value getMaximumSubArraySum() const;    SubArrayDetails getMaximumSubArraySumWithDetails() const;
+    Value getMaximumSubArraySum() const;
+    SubArrayDetails getMaximumSubArraySumWithDetails() const;
 private:
     Values const m_values;
 };

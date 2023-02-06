@@ -1,4 +1,4 @@
-#include <AprgUniqueProblems/DynamicProgramming/Other/CountNumberOfBinaryStringsWithoutConsecutiveOnes.hpp>
+#include <AprgUniqueProblems/DynamicProgramming/Math/NumberTheory/FibonacciProblems/CountNumberOfBinaryStringsWithoutConsecutiveOnes.hpp>
 
 #include <gtest/gtest.h>
 
@@ -45,15 +45,6 @@ TEST(CountNumberOfBinaryStringsWithoutConsecutiveOnesTest, GetCountWorksOnExampl
     EXPECT_EQ(144U, queryForTest.getCountUsingTabularDP());
     EXPECT_EQ(144U, queryForTest.getCountUsingTabularDPAndSpaceEfficient());
     EXPECT_EQ(144U, queryForTest.getCountUsingFibonacci());
-}
-
-TEST(CountNumberOfBinaryStringsWithoutConsecutiveOnesTest, CheckTest)
-{
-    CountNumberOfBinaryStringsWithoutConsecutiveOnes queryForTest(11U);
-
-    EXPECT_EQ(3U, queryForTest.getCountUsingMultipleReturns());
-    EXPECT_EQ(3U, queryForTest.getCountUsingSingleReturn());
-    EXPECT_EQ(3U, queryForTest.getCountUsingTernaryReturn());
 }
 
 

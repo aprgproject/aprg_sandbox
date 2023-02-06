@@ -49,4 +49,5 @@ TEST(MaximumSubArraySumTest, GetMaximumSubArraySumWithDetailsWorksOnExample2)
     EXPECT_EQ(2U, subArrayDetailsToVerify.highIndex);
     EXPECT_EQ(-1, subArrayDetailsToVerify.sum);
 }
+
 }

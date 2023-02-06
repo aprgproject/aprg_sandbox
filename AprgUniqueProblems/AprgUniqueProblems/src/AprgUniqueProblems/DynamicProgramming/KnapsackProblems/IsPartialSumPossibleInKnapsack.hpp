@@ -12,10 +12,12 @@ class IsPartialSumPossibleInKnapsack
 public:
     using Index = unsigned int;
     using Value = unsigned int;
-    enum class State    {
+    enum class State
+    {
         Unused,
         False,
-        True    };
+        True
+    };
     using Values = std::vector<Value>;
     using Booleans = std::vector<bool>;
     using BooleanMatrix = matrix::AlbaMatrix<bool>;
@@ -100,10 +102,12 @@ private:
 
 // RELATED PROBLEM:
 // Partition problem
-// Partition problem is to determine whether a given set can be partitioned into two subsets such that the sum of elements in both subsets is the same.// Examples:
+// Partition problem is to determine whether a given set can be partitioned into two subsets such that the sum of elements in both subsets is the same.
+// Examples:
 // -> arr[] = {1, 5, 11, 5}
 // ---> Output: true
-// ---> The array can be partitioned as {1, 5, 5} and {11}// -> arr[] = {1, 5, 3}
+// ---> The array can be partitioned as {1, 5, 5} and {11}
+// -> arr[] = {1, 5, 3}
 // ---> Output: false
 // ---> The array cannot be partitioned into equal sum sets.
 

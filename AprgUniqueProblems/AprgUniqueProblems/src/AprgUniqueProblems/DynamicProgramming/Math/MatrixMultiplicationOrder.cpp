@@ -44,7 +44,7 @@ MatrixMultiplicationOrder::Count MatrixMultiplicationOrder::getMinimumNumberOfOp
     Count result(0);
     if(!m_dimensions.empty())
     {
-        CountMatrix countMatrix(m_dimensions.size(), m_dimensions.size());
+        CountMatrix countMatrix(m_dimensions.size(), m_dimensions.size(), 0U);
 
         for(Index length=3; length<=m_dimensions.size(); length++)
         {

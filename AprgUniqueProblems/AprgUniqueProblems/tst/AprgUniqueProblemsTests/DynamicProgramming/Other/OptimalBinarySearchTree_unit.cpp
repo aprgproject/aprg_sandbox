@@ -22,4 +22,5 @@ TEST(OptimalBinarySearchTreeTest, GetMinimumCostWorksOnExample2)
     EXPECT_EQ(142U, queryForTest.getMinimumCostUsingNaiveRecursion());
     EXPECT_EQ(142U, queryForTest.getMinimumCostUsingTabularDP());
 }
+
 }
