@@ -26,24 +26,21 @@ MobileNumericKeypadProblem::Count MobileNumericKeypadProblem::getCountUsingNaive
     return result;
 }
 
-MobileNumericKeypadProblem::Count MobileNumericKeypadProblem::getCountUsingMemoization() const
+MobileNumericKeypadProblem::Count MobileNumericKeypadProblem::getCountUsingMemoizationDP() const
 {
     // Time Complexity: Exponential -> Since there are two calls per iteration:  O(5^n) (5 is maximum recursion calls in one function call)
     // Auxiliary Space: Constant
-
     Count result(0);
     CountMatrix countMatrix(m_length+1, 10, UNUSED_VALUE);
     for(NumpadValue numpadValue=0; numpadValue<=9; numpadValue++)
     {
-        result += getCountForValueUsingMemoization(countMatrix, m_length, numpadValue);
+        result += getCountForValueUsingMemoizationDP(countMatrix, m_length, numpadValue);
     }
     return result;
 }
-
 MobileNumericKeypadProblem::Count MobileNumericKeypadProblem::getCountUsingTabularDP() const
 {
-    // Time Complexity: O(n*d)
-    // Auxiliary Space: O(n*d)
+    // Time Complexity: O(n*d)    // Auxiliary Space: O(n*d)
 
     Count result(0);
     if(m_length>0)
@@ -187,83 +184,79 @@ MobileNumericKeypadProblem::Count MobileNumericKeypadProblem::getCountForValueUs
     return result;
 }
 
-MobileNumericKeypadProblem::Count MobileNumericKeypadProblem::getCountForValueUsingMemoization(
+MobileNumericKeypadProblem::Count MobileNumericKeypadProblem::getCountForValueUsingMemoizationDP(
         CountMatrix & countMatrix,
         Count const length,
-        NumpadValue const numpadValue) const
-{
+        NumpadValue const numpadValue) const{
     Count result(countMatrix.getEntry(length, numpadValue));
     if(UNUSED_VALUE == result)
-    {
-        result = 0;
+    {        result = 0;
         if(length > 1)
         {
             Count lengthMinus1 = length-1;
             switch(numpadValue)
             {
             case 0:
-                result = getCountForValueUsingMemoization(countMatrix, lengthMinus1, 0)
-                        + getCountForValueUsingMemoization(countMatrix, lengthMinus1, 8);
+                result = getCountForValueUsingMemoizationDP(countMatrix, lengthMinus1, 0)
+                        + getCountForValueUsingMemoizationDP(countMatrix, lengthMinus1, 8);
                 break;
             case 1:
-                result = getCountForValueUsingMemoization(countMatrix, lengthMinus1, 1)
-                        + getCountForValueUsingMemoization(countMatrix, lengthMinus1, 2)
-                        + getCountForValueUsingMemoization(countMatrix, lengthMinus1, 4);
+                result = getCountForValueUsingMemoizationDP(countMatrix, lengthMinus1, 1)
+                        + getCountForValueUsingMemoizationDP(countMatrix, lengthMinus1, 2)
+                        + getCountForValueUsingMemoizationDP(countMatrix, lengthMinus1, 4);
                 break;
             case 2:
-                result = getCountForValueUsingMemoization(countMatrix, lengthMinus1, 2)
-                        + getCountForValueUsingMemoization(countMatrix, lengthMinus1, 1)
-                        + getCountForValueUsingMemoization(countMatrix, lengthMinus1, 3)
-                        + getCountForValueUsingMemoization(countMatrix, lengthMinus1, 5);
+                result = getCountForValueUsingMemoizationDP(countMatrix, lengthMinus1, 2)
+                        + getCountForValueUsingMemoizationDP(countMatrix, lengthMinus1, 1)
+                        + getCountForValueUsingMemoizationDP(countMatrix, lengthMinus1, 3)
+                        + getCountForValueUsingMemoizationDP(countMatrix, lengthMinus1, 5);
                 break;
             case 3:
-                result = getCountForValueUsingMemoization(countMatrix, lengthMinus1, 3)
-                        + getCountForValueUsingMemoization(countMatrix, lengthMinus1, 2)
-                        + getCountForValueUsingMemoization(countMatrix, lengthMinus1, 6);
+                result = getCountForValueUsingMemoizationDP(countMatrix, lengthMinus1, 3)
+                        + getCountForValueUsingMemoizationDP(countMatrix, lengthMinus1, 2)
+                        + getCountForValueUsingMemoizationDP(countMatrix, lengthMinus1, 6);
                 break;
             case 4:
-                result = getCountForValueUsingMemoization(countMatrix, lengthMinus1, 4)
-                        + getCountForValueUsingMemoization(countMatrix, lengthMinus1, 1)
-                        + getCountForValueUsingMemoization(countMatrix, lengthMinus1, 5)
-                        + getCountForValueUsingMemoization(countMatrix, lengthMinus1, 7);
+                result = getCountForValueUsingMemoizationDP(countMatrix, lengthMinus1, 4)
+                        + getCountForValueUsingMemoizationDP(countMatrix, lengthMinus1, 1)
+                        + getCountForValueUsingMemoizationDP(countMatrix, lengthMinus1, 5)
+                        + getCountForValueUsingMemoizationDP(countMatrix, lengthMinus1, 7);
                 break;
             case 5:
-                result = getCountForValueUsingMemoization(countMatrix, lengthMinus1, 5)
-                        + getCountForValueUsingMemoization(countMatrix, lengthMinus1, 2)
-                        + getCountForValueUsingMemoization(countMatrix, lengthMinus1, 4)
-                        + getCountForValueUsingMemoization(countMatrix, lengthMinus1, 6)
-                        + getCountForValueUsingMemoization(countMatrix, lengthMinus1, 8);
+                result = getCountForValueUsingMemoizationDP(countMatrix, lengthMinus1, 5)
+                        + getCountForValueUsingMemoizationDP(countMatrix, lengthMinus1, 2)
+                        + getCountForValueUsingMemoizationDP(countMatrix, lengthMinus1, 4)
+                        + getCountForValueUsingMemoizationDP(countMatrix, lengthMinus1, 6)
+                        + getCountForValueUsingMemoizationDP(countMatrix, lengthMinus1, 8);
                 break;
             case 6:
-                result = getCountForValueUsingMemoization(countMatrix, lengthMinus1, 6)
-                        + getCountForValueUsingMemoization(countMatrix, lengthMinus1, 3)
-                        + getCountForValueUsingMemoization(countMatrix, lengthMinus1, 5)
-                        + getCountForValueUsingMemoization(countMatrix, lengthMinus1, 6);
+                result = getCountForValueUsingMemoizationDP(countMatrix, lengthMinus1, 6)
+                        + getCountForValueUsingMemoizationDP(countMatrix, lengthMinus1, 3)
+                        + getCountForValueUsingMemoizationDP(countMatrix, lengthMinus1, 5)
+                        + getCountForValueUsingMemoizationDP(countMatrix, lengthMinus1, 6);
                 break;
             case 7:
-                result = getCountForValueUsingMemoization(countMatrix, lengthMinus1, 7)
-                        + getCountForValueUsingMemoization(countMatrix, lengthMinus1, 4)
-                        + getCountForValueUsingMemoization(countMatrix, lengthMinus1, 8);
+                result = getCountForValueUsingMemoizationDP(countMatrix, lengthMinus1, 7)
+                        + getCountForValueUsingMemoizationDP(countMatrix, lengthMinus1, 4)
+                        + getCountForValueUsingMemoizationDP(countMatrix, lengthMinus1, 8);
                 break;
             case 8:
-                result = getCountForValueUsingMemoization(countMatrix, lengthMinus1, 8)
-                        + getCountForValueUsingMemoization(countMatrix, lengthMinus1, 5)
-                        + getCountForValueUsingMemoization(countMatrix, lengthMinus1, 7)
-                        + getCountForValueUsingMemoization(countMatrix, lengthMinus1, 9)
-                        + getCountForValueUsingMemoization(countMatrix, lengthMinus1, 0);
+                result = getCountForValueUsingMemoizationDP(countMatrix, lengthMinus1, 8)
+                        + getCountForValueUsingMemoizationDP(countMatrix, lengthMinus1, 5)
+                        + getCountForValueUsingMemoizationDP(countMatrix, lengthMinus1, 7)
+                        + getCountForValueUsingMemoizationDP(countMatrix, lengthMinus1, 9)
+                        + getCountForValueUsingMemoizationDP(countMatrix, lengthMinus1, 0);
                 break;
             case 9:
-                result = getCountForValueUsingMemoization(countMatrix, lengthMinus1, 9)
-                        + getCountForValueUsingMemoization(countMatrix, lengthMinus1, 6)
-                        + getCountForValueUsingMemoization(countMatrix, lengthMinus1, 8);
+                result = getCountForValueUsingMemoizationDP(countMatrix, lengthMinus1, 9)
+                        + getCountForValueUsingMemoizationDP(countMatrix, lengthMinus1, 6)
+                        + getCountForValueUsingMemoizationDP(countMatrix, lengthMinus1, 8);
                 break;
             default:
-                break;
-            }
+                break;            }
         }
         else if(length == 1)
-        {
-            result = 1;
+        {            result = 1;
         }
         countMatrix.setEntry(length, numpadValue, result);
     }

@@ -32,28 +32,24 @@ public:
     using MinMaxFunction = std::function<Value(Value const&, Value const&)>;
     static constexpr Index UNUSED_VALUE = std::numeric_limits<Index>::max();
 
-    PathSumInGridInRightOrDownWithDiagonalTraversal(Type const type, Grid const& gridToCheck);
+    PathSumInGridInRightOrDownWithDiagonalTraversal(Type const type, Grid const& inputGrid);
 
     Value getBestPathSumUsingNaiveRecursion() const;
-    Value getBestPathSumUsingMemoizationDP() const;
-    Value getBestPathSumUsingTabularDP() const;
+    Value getBestPathSumUsingMemoizationDP() const;    Value getBestPathSumUsingTabularDP() const;
     Path getBestPathUsingTabularDP() const;
 
-private:
-    Value getBestPathSumUsingNaiveRecursion(Index const x, Index const y) const;
+private:    Value getBestPathSumUsingNaiveRecursion(Index const x, Index const y) const;
     Value getBestPathSumUsingNaiveRecursion(Grid & partialSumGrid, Index const x, Index const y) const;
     Grid getPartialSumGridUsingTabularDP() const;
     Value getBestPathSumUsingMemoizationDP(Grid & partialSumGrid, Index const x, Index const y) const;
     void initialize(Type const type);
-    Grid m_gridToCheck;
+    Grid m_inputGrid;
     CompareFunction m_compareFunction;
     MinMaxFunction m_minMaxFunction;
 };
-
 }
 
-// MIN COST WITH DIAGONAL:
-// Given a cost matrix cost[][] and a position (m, n) in cost[][],
+// MIN COST WITH DIAGONAL:// Given a cost matrix cost[][] and a position (m, n) in cost[][],
 // write a function that returns cost of minimum cost path to reach (m, n) from (0, 0).
 // Each cell of the matrix represents a cost to traverse through that cell.
 // The total cost of a path to reach (m, n) is the sum of all the costs on that path (including both source and destination).
