@@ -47,5 +47,14 @@ TEST(CountNumberOfBinaryStringsWithoutConsecutiveOnesTest, GetCountWorksOnExampl
     EXPECT_EQ(144U, queryForTest.getCountUsingFibonacci());
 }
 
+TEST(CountNumberOfBinaryStringsWithoutConsecutiveOnesTest, CheckTest)
+{
+    CountNumberOfBinaryStringsWithoutConsecutiveOnes queryForTest(11U);
+
+    EXPECT_EQ(3U, queryForTest.getCountUsingMultipleReturns());
+    EXPECT_EQ(3U, queryForTest.getCountUsingSingleReturn());
+    EXPECT_EQ(3U, queryForTest.getCountUsingTernaryReturn());
+}
+
 
 }

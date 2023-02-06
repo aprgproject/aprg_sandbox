@@ -78,14 +78,39 @@ CountNumberOfBinaryStringsWithoutConsecutiveOnes::Count CountNumberOfBinaryStrin
     return result;
 }
 
+CountNumberOfBinaryStringsWithoutConsecutiveOnes::Count CountNumberOfBinaryStringsWithoutConsecutiveOnes::getCountUsingMultipleReturns() const
+{
+    if(m_length%2 == 0)
+    {
+        return 2;
+    }
+    else
+    {
+        return 3;
+    }
+}
+
+CountNumberOfBinaryStringsWithoutConsecutiveOnes::Count CountNumberOfBinaryStringsWithoutConsecutiveOnes::getCountUsingSingleReturn() const
+{
+    Count result(3);
+    if(m_length%2 == 0)
+    {
+        result = 2;
+    }
+    return result;
+}
+
+CountNumberOfBinaryStringsWithoutConsecutiveOnes::Count CountNumberOfBinaryStringsWithoutConsecutiveOnes::getCountUsingTernaryReturn() const
+{
+    return (m_length%2 == 0) ? 2 : 3;
+}
+
 CountNumberOfBinaryStringsWithoutConsecutiveOnes::Count CountNumberOfBinaryStringsWithoutConsecutiveOnes::getCountUsingNaiveRecursion(
         bool const previousValue,
-        Count const length) const
-{
+        Count const length) const{
     if(length > 0)
     {
-        if(previousValue)
-        {
+        if(previousValue)        {
             return getCountUsingNaiveRecursion(false, length-1);
         }
         else

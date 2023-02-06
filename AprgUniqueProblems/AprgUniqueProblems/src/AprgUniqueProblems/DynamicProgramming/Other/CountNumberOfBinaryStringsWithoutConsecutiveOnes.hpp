@@ -23,14 +23,15 @@ public:
     Count getCountUsingTabularDPAndSpaceEfficient() const;
     Count getCountUsingFibonacci() const;
 
+    Count getCountUsingMultipleReturns() const;
+    Count getCountUsingSingleReturn() const;
+    Count getCountUsingTernaryReturn() const;
 private:
     Count getCountUsingNaiveRecursion(bool const previousValue, Count const length) const;
-    // no memoization because there is no recomputation
-    Count const m_length;
+    // no memoization because there is no recomputation    Count const m_length;
 };
 
 }
-
 // Given a positive integer N, count all possible distinct binary strings of length N such that there are no consecutive 1’s.
 
 // Examples:
