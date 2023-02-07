@@ -16,24 +16,21 @@ public:
     using CountMatrix = matrix::AlbaMatrix<Count>;
     static constexpr Count UNUSED_COUNT=std::numeric_limits<Count>::max();
 
-    CountOfNDigitNumbersWhoseSumOfDigitsEqualsToGivenSum(Count const numberOfDigits, Value const sum);
+    CountOfNDigitNumbersWhoseSumOfDigitsEqualsToGivenSum(Count const numberOfDigits, Value const sumOfDigits);
 
     Count getCountUsingNaiveRecursion() const;
-    Count getCountUsingMemoizationDP() const;
-    Count getCountUsingTabularDP() const;
+    Count getCountUsingMemoizationDP() const;    Count getCountUsingTabularDP() const;
     Count getCountUsingTabularDPAndSpaceEfficient() const;
     Count getCountBySearchingValuesWith1And9Increment() const;
 
 private:
-    Count getCountUsingNaiveRecursion(Count const digitIndex, Value const partialSum) const;
-    Count getCountUsingMemoizationDP(CountMatrix & countMatrix, Count const digitIndex, Value const partialSum) const;
+    Count getCountUsingNaiveRecursion(Value const partialSum, Count const digitIndex) const;
+    Count getCountUsingMemoizationDP(CountMatrix & countMatrix, Value const partialSum, Count const digitIndex) const;
 
     Count const m_numberOfDigits;
-    Value const m_sumOfDigits;
-};
+    Value const m_sumOfDigits;};
 
 }
-
 // Count of n digit numbers whose sum of digits equals to given sum
 
 // Given two integers ‘n’ and ‘sum’, find count of all n digit numbers with sum of digits as ‘sum’. Leading 0’s are not counted as digits.

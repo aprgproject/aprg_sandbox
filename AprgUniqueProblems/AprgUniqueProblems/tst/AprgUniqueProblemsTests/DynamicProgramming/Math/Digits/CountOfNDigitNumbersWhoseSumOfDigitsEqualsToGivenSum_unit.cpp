@@ -1,11 +1,9 @@
-#include <AprgUniqueProblems/DynamicProgramming/Math/CountOfNDigitNumbersWhoseSumOfDigitsEqualsToGivenSum.hpp>
+#include <AprgUniqueProblems/DynamicProgramming/Math/Digits/CountOfNDigitNumbersWhoseSumOfDigitsEqualsToGivenSum.hpp>
 
 #include <gtest/gtest.h>
-
 using namespace std;
 
-namespace alba
-{
+namespace alba{
 
 TEST(CountOfNDigitNumbersWhoseSumOfDigitsEqualsToGivenSumTest, GetCountWorksOnExample1)
 {
