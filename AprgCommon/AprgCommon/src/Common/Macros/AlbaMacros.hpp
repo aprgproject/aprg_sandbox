@@ -5,19 +5,29 @@
 #define ALBA_MACROS_PP_N_REVERSE_SEQUENCE() 63,62,61,60,59,58,57,56,55,54,53,52,51,50,49,48,47,46,45,44,43,42,41,40,39,38,37,36,35,34,33,32,31,30, \
     29,28,27,26,25,24,23,22,21,20,19,18,17,16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1,0
 
+// Source(for a lot more macros): https://docs.microsoft.com/en-us/cpp/preprocessor/predefined-macros?view=msvc-160
+// Standard predefined macros
+#define ALBA_MACROS_GET_FILE __FILE__
+#define ALBA_MACROS_GET_LINE __LINE__
+#define ALBA_MACROS_GET_COMPILATION_DATE __DATE__
+#define ALBA_MACROS_GET_TIME_OF_TRANSLATION __TIME__
+#define ALBA_MACROS_GET_COMPILER_VERSION __cplusplus
+// Note: You can use the compilation date as some sort of version control to display when it was compiled.
+
+// Compiler specific predefined macros
+#define ALBA_MACROS_GET_FUNCTION __FUNCTION__
+#define ALBA_MACROS_GET_UNIQUE_COUNTER_VALUE __COUNTER__
 
 #define ALBA_MACROS_EXPAND_TO_LITERAL_TEXT(parameter) #parameter
-#define ALBA_MACROS_GET_VALUE(parameter) ALBA_MACROS_EXPAND_TO_LITERAL_TEXT(parameter)
-#define ALBA_MACROS_DISPLAY_VALUE_PRAGMA_MESSAGE(var) #var "="  ALBA_MACROS_GET_VALUE(var)
+#define ALBA_MACROS_GET_VALUE(parameter) ALBA_MACROS_EXPAND_TO_LITERAL_TEXT(parameter)#define ALBA_MACROS_DISPLAY_VALUE_PRAGMA_MESSAGE(var) #var "="  ALBA_MACROS_GET_VALUE(var)
 
 #define ALBA_MACROS_GET_STRING_LITERAL(parameter) #parameter // The number-sign or "stringizing" operator.
 //#define ALBA_MACROS_GET_CHAR_LITERAL(x) #@x // The charizing operator. Its not supported.
 //#define ALBA_MACROS_GET_AS_A_TOKEN(parameter) ##parameter //The double-number-sign or token-pasting operator (##). This needs to be used in the macro.
+// Note: The token pasting operator can be used in combination with the counter value macro to generate new named macros.
 
 #define ALBA_MACROS_CASE_ENUM_STRING(parameter) \
-    case parameter: \
-    return ALBA_MACROS_GET_STRING_LITERAL(parameter);
+    case parameter: \    return ALBA_MACROS_GET_STRING_LITERAL(parameter);
 
 #define ALBA_MACROS_CASE_ENUM_SHORT_STRING(parameter, shortName) \
-    case parameter: \
-    return shortName;
+    case parameter: \    return shortName;
