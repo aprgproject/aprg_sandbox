@@ -109,14 +109,34 @@ TotalNumberOfNonDecreasingNumbersWithNDigits::Count TotalNumberOfNonDecreasingNu
     return result;
 }
 
+TotalNumberOfNonDecreasingNumbersWithNDigits::Count TotalNumberOfNonDecreasingNumbersWithNDigits::getCountUsingSummationFormula() const
+{
+    // Using integration for finite calculus:
+    // When length=1, then formula=1.
+    // When length=2, then formula=(x+1).
+    // When length=3, then formula=(x+1)*(x+2)/2.
+    // When length=4, then formula=(x+1)*(x+2)*(x+3)/2/3.
+    // Based from this, we can have this algorithm.
+
+    Count result(0);
+    if(m_numberOfDigits>0)
+    {
+        result = 1;
+        for(Count digitCount=1; digitCount<=m_numberOfDigits; digitCount++)
+        {
+            result *= (9+digitCount);
+            result /= digitCount;
+        }
+    }
+    return result;
+}
+
 TotalNumberOfNonDecreasingNumbersWithNDigits::Count TotalNumberOfNonDecreasingNumbersWithNDigits::getCountUsingNaiveRecursion(
         Value const digitValue,
-        Count const digitIndex) const
-{
+        Count const digitIndex) const{
     Count result(0);
     if(digitIndex>0)
-    {
-        for(Value beforeDigitValue=0; beforeDigitValue<=digitValue; beforeDigitValue++)
+    {        for(Value beforeDigitValue=0; beforeDigitValue<=digitValue; beforeDigitValue++)
         {
             result += getCountUsingNaiveRecursion(beforeDigitValue, digitIndex-1);
         }

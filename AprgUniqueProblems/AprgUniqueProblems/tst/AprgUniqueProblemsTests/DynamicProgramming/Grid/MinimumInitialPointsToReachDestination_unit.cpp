@@ -1,11 +1,9 @@
-#include <AprgUniqueProblems/DynamicProgramming/PathSumInGrid/MinimumInitialPointsToReachDestination.hpp>
+#include <AprgUniqueProblems/DynamicProgramming/Grid/MinimumInitialPointsToReachDestination.hpp>
 
 #include <gtest/gtest.h>
-
 using namespace std;
 
-namespace alba
-{
+namespace alba{
 
 namespace
 {
