@@ -3,27 +3,36 @@ set(APRG_COMPILER_COMMON_FLAGS "-Wall -Wextra -pedantic")
 set(APRG_COMPILER_COMMON_C_FLAGS "-std=c17")
 set(APRG_COMPILER_COMMON_CPP_FLAGS "-std=c++17")
 set(APRG_COMPILER_FLAGS_FOR_DEBUG "-g --coverage")
-set(APRG_COMPILER_FLAGS_FOR_DEBUG_WITH_NO_STACK_PROTECTOR "-g --coverage -fno-stack-protector") #let the stack smash (for debugging)
 set(APRG_COMPILER_FLAGS_FOR_DEBUG_WITH_FAST_COMPILATION "-g --coverage -O0") #-O0 is actually the default so this is useless
 set(APRG_COMPILER_FLAGS_FOR_DEBUG_WITH_SPEED "-g --coverage -O3")
 set(APRG_COMPILER_FLAGS_FOR_DEBUG_WITH_MORE_SPEED "-g --coverage -Ofast")
+set(APRG_COMPILER_FLAGS_FOR_DEBUG_WITH_NO_STACK_PROTECTOR "-g --coverage -fno-stack-protector") #let the stack smash (for debugging)
+set(APRG_COMPILER_FLAGS_FOR_DEBUG_WITH_ASAN "-g --coverage -fsanitize=address -fno-omit-frame-pointer")
+set(APRG_COMPILER_FLAGS_FOR_DEBUG_WITH_LSAN_ONLY "-g --coverage -fsanitize=leak -fno-omit-frame-pointer")
+set(APRG_COMPILER_FLAGS_FOR_DEBUG_WITH_TSAN "-g --coverage -fsanitize=thread")
+set(APRG_COMPILER_FLAGS_FOR_DEBUG_WITH_MSAN "-g --coverage -fsanitize=memory -fno-omit-frame-pointer -fPIE -pie") # not supported by gcc only on clang
+set(APRG_COMPILER_FLAGS_FOR_DEBUG_WITH_UBSAN "-g --coverage -fsanitize=undefined") # looks like not working
 set(APRG_COMPILER_FLAGS_FOR_RELEASE_WITH_SPEED "-O3 -DNDEBUG")
 set(APRG_COMPILER_FLAGS_FOR_RELEASE_WITH_MIN_SIZE "-Os -DNDEBUG")
-set(APRG_COMPILER_FLAGS_FOR_RELEASE_WITH_DEBUG "-O2 -g -DNDEBUG")
-set(APRG_COMPILER_FLAGS_FOR_RELEASE_WITH_MORE_SPEED "-Ofast -DNDEBUG")
+set(APRG_COMPILER_FLAGS_FOR_RELEASE_WITH_DEBUG "-O2 -g -DNDEBUG")set(APRG_COMPILER_FLAGS_FOR_RELEASE_WITH_MORE_SPEED "-Ofast -DNDEBUG")
 set(APRG_COMPILER_FLAGS_FOR_RELEASE_WITH_STACK_PROTECTOR "-fstack-protector -DNDEBUG")
 set(APRG_COMPILER_FLAGS_WINDOWS_NON_CONSOLE "-mwindows")
 set(APRG_LINKER_FLAGS_FOR_RELEASE "-static") # "-static" is needed to make the program work in other deployments (GCC/QT libraries are missing in other deployments)
 set(APRG_LINKER_FLAGS_FOR_RELEASE_WITH_STRIP "-static -s")
 set(APRG_LINKER_FLAGS_FOR_PTHREAD "-pthread")
+set(APRG_LINKER_FLAGS_WITH_ASAN "-fsanitize=address") #Looks like this link flags are not needed in linux
+set(APRG_LINKER_FLAGS_WITH_LSAN_ONLY "-fsanitize=leak") #Looks like this link flags are not needed in linux
+set(APRG_LINKER_FLAGS_WITH_TSAN "-fsanitize=thread") #Looks like this link flags are not needed in linux
+set(APRG_LINKER_FLAGS_WITH_MSAN "-fsanitize=memory") #Looks like this link flags are not needed in linux
+set(APRG_LINKER_FLAGS_WITH_UBSAN "-fsanitize=undefined") #Looks like this link flags are not needed in linux
+
+
 
 #APRG Common flags
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${APRG_COMPILER_COMMON_FLAGS} ${APRG_COMPILER_COMMON_C_FLAGS}")
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${APRG_COMPILER_COMMON_FLAGS} ${APRG_COMPILER_COMMON_CPP_FLAGS}")
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${APRG_COMPILER_COMMON_FLAGS} ${APRG_COMPILER_COMMON_C_FLAGS}")set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${APRG_COMPILER_COMMON_FLAGS} ${APRG_COMPILER_COMMON_CPP_FLAGS}")
 
 # Some notes
-# Sources:
-# --> https://gcc.gnu.org/onlinedocs/gcc/Option-Summary.html
+# Sources:# --> https://gcc.gnu.org/onlinedocs/gcc/Option-Summary.html
 # --> https://caiorss.github.io/C-Cpp-Notes/compiler-flags-options.html
 
 # Search Path and Library Linking Flags
@@ -67,16 +76,12 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${APRG_COMPILER_COMMON_FLAGS} ${APRG_COM
 # Special Options
 # --> -g: Builds executable with debugging symbols for GDB GNU Debugger or LLDB Clang/LLVM Debugger. It should only be used during development for debugging builds.
 # --> -c: Compiler source(s) to object-code (input to linker). This option is better for incremental compilation when using multiple files.
-# --> -pie: Builds a dynamically linked position independent executable.
-# --> -static-pie: Builds a staticlaly linked position independent executable.
 # --> -shared: Build a shared library (.so or .dylib on U*nix-like Oses) or .dll on MS-Windows.
 # --> -fno-exceptions: Disable C++ exceptions (it may be better for embedded systems or anything where exceptiions may not be acceptable).
-# --> -fno-rtti:  Disable RTTI (Runtime Type Information)
-# There many texts around where game and embedded systems developers report that they disable RTTI due to performance concerns.
+# --> -fno-rtti:  Disable RTTI (Runtime Type Information)# There many texts around where game and embedded systems developers report that they disable RTTI due to performance concerns.
 # --> -fvisibility=hidden: Make library symbols hidden by default, in a similar way to what happens in Windows DLLs
 # where exported symbols must have the prefix __declspec(dllexport) or __declspec(dllimport).
 # When all symbols are exported by default, it may increase the likelyhood of undefined behavior if there a multiple definitions of same symbol during linking.
-
 
 
 # Compiler Flags:
@@ -181,15 +186,37 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${APRG_COMPILER_COMMON_FLAGS} ${APRG_COM
 # --> If a guard check fails, an error message is printed and the program exits.
 # --> Only variables that are actually allocated on the stack are considered, optimized away variables or variables allocated in registers don’t count.
 
-
+# Compiler code generations flags:
+# Flag: "-fpic (for position independent code)
+# -> Generate position-independent code (PIC) suitable for use in a shared library, if supported for the target machine.
+# -> Such code accesses all constant addresses through a global offset table (GOT).
+# -> The dynamic loader resolves the GOT entries when the program starts (the dynamic loader is not part of GCC; it is part of the operating system).
+# -> If the GOT size for the linked executable exceeds a machine-specific maximum size,
+# -> you get an error message from the linker indicating that -fpic does not work; in that case, recompile with -fPIC instead.
+# -> (These maximums are 8k on the SPARC, 28k on AArch64 and 32k on the m68k and RS/6000. The x86 has no such limit.)
+# -> Position-independent code requires special support, and therefore works only on certain machines.
+# -> For the x86, GCC supports PIC for System V but not for the Sun 386i.
+# -> Code generated for the IBM RS/6000 is always position-independent.
+# -> When this flag is set, the macros __pic__ and __PIC__ are defined to 1.
+# Flag: "-fPIC (for position independent code)
+# -> If supported for the target machine, emit position-independent code, suitable for dynamic linking and avoiding any limit on the size of the global offset table.
+# -> This option makes a difference on AArch64, m68k, PowerPC and SPARC.
+# -> Position-independent code requires special support, and therefore works only on certain machines.
+# -> When this flag is set, the macros __pic__ and __PIC__ are defined to 2.
+# Flag: "-fpie" "-fPIE" (position independent executable)
+# -> These options are similar to -fpic and -fPIC, but the generated position-independent code can be only linked into executables.
+# -> Usually these options are used to compile code that will be linked using the -pie GCC option.
+# -> -fpie and -fPIE both define the macros __pie__ and __PIE__. The macros have the value 1 for -fpie and 2 for -fPIE.
+# Flag: "-pie"
+# -> Builds a dynamically linked position independent executable.
+# Flag: "-static-pie"
+# -> Builds a statically linked position independent executable.
 
 
 #  Linker Flags
-
 # Flag: "-Xlinker option"
 # --> Pass option as an option to the linker. You can use this to supply system-specific linker options that GCC does not recognize.
-# --> If you want to pass an option that takes a separate argument, you must use -Xlinker twice, once for the option and once for the argument.
-# For example, to pass -assert definitions, you must write -Xlinker -assert -Xlinker definitions.
+# --> If you want to pass an option that takes a separate argument, you must use -Xlinker twice, once for the option and once for the argument.# For example, to pass -assert definitions, you must write -Xlinker -assert -Xlinker definitions.
 # It does not work to write -Xlinker "-assert definitions", because this passes the entire string as a single argument, which is not what the linker expects.
 # --> When using the GNU linker, it is usually more convenient to pass arguments to linker options using the option=value syntax than as separate arguments. For example, you can specify -Xlinker -Map=output.map rather than -Xlinker -Map -Xlinker output.map. Other linkers may not support this syntax for command-line options.
 
@@ -343,3 +370,44 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${APRG_COMPILER_COMMON_FLAGS} ${APRG_COM
 # --> *.dylib -> Extension used on MacOSX.
 # Static Library
 # --> *.a - extension
+
+
+
+#Sanitizers (from https://github.com/google/sanitizers)
+
+# Using AddressSanitizer
+# In order to use AddressSanitizer you will need to COMPILE and LINK your program using clang with the -fsanitize=address switch.
+# To get a reasonable performance add -O1 or higher. To get nicer stack traces in error messages add -fno-omit-frame-pointer.
+# Note: Clang 3.1 release uses another flag syntax.
+
+# Using LeakSanitizer
+# LeakSanitizer is ENABLED BY DEFAULT in ASAN builds of x86_64 Linux, and can be enabled with ASAN_OPTIONS=detect_leaks=1 on x86_64 OS X.
+# LSan lies dormant until the very end of the process, at which point there is an extra leak detection phase.
+# In performance-critical scenarios, LSan can also be used without ASan instrumentation.
+# Stand-alone mode
+# If you just need leak detection, and don't want to bear the ASan slowdown, you can build with -fsanitize=leak instead of -fsanitize=address.
+# This will link your program against a runtime library containing just the bare necessities required for LeakSanitizer to work.
+# No compile-time instrumentation will be applied.
+# Be aware that the stand-alone mode is less well tested compared to running LSan on top of ASan.
+
+# Using ThreadSanitizer
+# To use TSan, COMPILE and LINK your program with -fsanitize=thread.
+
+# Using MemorySanitizer
+# To use MSan, COMPILE and LINK your program with -fsanitize=memory -fPIE -pie.
+# To get any stack traces, add -fno-omit-frame-pointer.
+
+# Using UndefinedBehaviorSanitizer
+# Use clang++ to COMPILE and LINK  your program with -fsanitize=undefined flag.
+# Make sure to use clang++ (not ld) as a linker, so that your executable is linked with proper UBSan runtime libraries.
+# You can use clang instead of clang++ if you’re compiling/linking C code.
+# You can enable only a subset of checks offered by UBSan, and define the desired behavior for each kind of check:
+#     -fsanitize=...: print a verbose error report and continue execution (default);
+#     -fno-sanitize-recover=...: print a verbose error report and exit the program;
+#     -fsanitize-trap=...: execute a trap instruction (doesn’t require UBSan run-time support).
+#     -fno-sanitize=...: disable any check, e.g., -fno-sanitize=alignment.
+# Note that the trap / recover options do not enable the corresponding sanitizer, and in general need to be accompanied by a suitable -fsanitize= flag.
+# For example if you compile/link your program as:
+# % clang++ -fsanitize=signed-integer-overflow,null,alignment -fno-sanitize-recover=null -fsanitize-trap=alignment
+# the program will continue execution after signed integer overflows,
+# exit after the first invalid use of a null pointer, and trap after the first use of misaligned pointer.
