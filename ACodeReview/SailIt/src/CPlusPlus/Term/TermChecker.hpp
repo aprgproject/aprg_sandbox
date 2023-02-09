@@ -14,9 +14,11 @@ using std::optional;
 
 namespace codeReview
 {
+
 enum class TermCheckerType
 {
-    ConcreteTerm,    isAssignmentOperator,
+    ConcreteTerm,
+    isAssignmentOperator,
     isBiDirectionalOperator,
     isConstant,
     isProcessed,

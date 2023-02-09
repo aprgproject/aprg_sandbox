@@ -69,10 +69,10 @@ TEST(BrentMethodTest, GetSolutionWorks)
     brentMethod2.runMaxNumberOfIterationsOrUntilFinished(1000);
 
     AlbaNumberOptional solution1(brentMethod1.getSolution());
-    ASSERT_FALSE(solution1.hasContent());
+    ASSERT_FALSE(solution1);
     AlbaNumberOptional solution2(brentMethod2.getSolution());
-    ASSERT_TRUE(solution2.hasContent());
-    EXPECT_EQ(AlbaNumber(-2), solution2.getConstReference());
+    ASSERT_TRUE(solution2);
+    EXPECT_EQ(AlbaNumber(-2), solution2.value());
 }
 
 TEST(BrentMethodTest, ResetCalculationWorksBeforeRunning)
@@ -120,22 +120,22 @@ TEST(BrentMethodTest, ResetCalculationWorksWhenContinuouslyCalledBetweenRunning)
     brentMethod.resetCalculation(-315, -1.14592390790722);
     brentMethod.runMaxNumberOfIterationsOrUntilFinished(1000);
     AlbaNumberOptional solution1(brentMethod.getSolution());
-    ASSERT_TRUE(solution1.hasContent());
-    EXPECT_EQ(AlbaNumber::createFraction(-7, 6), solution1.getConstReference());
+    ASSERT_TRUE(solution1);
+    EXPECT_EQ(AlbaNumber::createFraction(-7, 6), solution1.value());
     EXPECT_EQ(53U, brentMethod.getNumberOfIterationsExecuted());
 
     brentMethod.resetCalculation(-1.14592390790722, 0.451479463462771);
     brentMethod.runMaxNumberOfIterationsOrUntilFinished(1000);
     AlbaNumberOptional solution2(brentMethod.getSolution());
-    ASSERT_TRUE(solution2.hasContent());
-    EXPECT_EQ(AlbaNumber::createFraction(-9, 8), solution2.getConstReference());
+    ASSERT_TRUE(solution2);
+    EXPECT_EQ(AlbaNumber::createFraction(-9, 8), solution2.value());
     EXPECT_EQ(45U, brentMethod.getNumberOfIterationsExecuted());
 
     brentMethod.resetCalculation(0.451479463462771, 315);
     brentMethod.runMaxNumberOfIterationsOrUntilFinished(1000);
     AlbaNumberOptional solution3(brentMethod.getSolution());
-    ASSERT_TRUE(solution3.hasContent());
-    EXPECT_EQ(AlbaNumber::createFraction(5, 4), solution3.getConstReference());
+    ASSERT_TRUE(solution3);
+    EXPECT_EQ(AlbaNumber::createFraction(5, 4), solution3.value());
     EXPECT_EQ(56U, brentMethod.getNumberOfIterationsExecuted());
 }
 
@@ -241,7 +241,7 @@ TEST(BrentMethodTest, RunWorksWithNoRealRoots)
     brentMethod.runMaxNumberOfIterationsOrUntilFinished(1000);
 
     AlbaNumberOptional solution(brentMethod.getSolution());
-    ASSERT_FALSE(solution.hasContent());
+    ASSERT_FALSE(solution);
     EXPECT_EQ(1000U, brentMethod.getNumberOfIterationsExecuted());
 }
 
@@ -253,8 +253,8 @@ TEST(BrentMethodTest, RunWorksOnPerfectSquare)
     brentMethod.runMaxNumberOfIterationsOrUntilFinished(1000);
 
     AlbaNumberOptional solution(brentMethod.getSolution());
-    ASSERT_TRUE(solution.hasContent());
-    EXPECT_EQ(AlbaNumber(-2), solution.getConstReference());
+    ASSERT_TRUE(solution);
+    EXPECT_EQ(AlbaNumber(-2), solution.value());
     EXPECT_EQ(2U, brentMethod.getNumberOfIterationsExecuted());
 }
 
@@ -266,8 +266,8 @@ TEST(BrentMethodTest, RunWorksOnPerfectSquareWithACoefficient)
     brentMethod.runMaxNumberOfIterationsOrUntilFinished(1000);
 
     AlbaNumberOptional solution(brentMethod.getSolution());
-    ASSERT_TRUE(solution.hasContent());
-    EXPECT_EQ(AlbaNumber::createFraction(-1, 3), solution.getConstReference());
+    ASSERT_TRUE(solution);
+    EXPECT_EQ(AlbaNumber::createFraction(-1, 3), solution.value());
     EXPECT_EQ(26U, brentMethod.getNumberOfIterationsExecuted());
 }
 
@@ -279,8 +279,8 @@ TEST(BrentMethodTest, RunWorksOnQuadraticExample)
     brentMethod.runMaxNumberOfIterationsOrUntilFinished(1000);
 
     AlbaNumberOptional solution(brentMethod.getSolution());
-    ASSERT_TRUE(solution.hasContent());
-    EXPECT_EQ(AlbaNumber::createFraction(-7, 6), solution.getConstReference());
+    ASSERT_TRUE(solution);
+    EXPECT_EQ(AlbaNumber::createFraction(-7, 6), solution.value());
     EXPECT_EQ(47U, brentMethod.getNumberOfIterationsExecuted());
 }
 
@@ -292,8 +292,8 @@ TEST(BrentMethodTest, RunWorksOnDifferenceOfSquares)
     brentMethod.runMaxNumberOfIterationsOrUntilFinished(1000);
 
     AlbaNumberOptional solution(brentMethod.getSolution());
-    ASSERT_TRUE(solution.hasContent());
-    EXPECT_EQ(AlbaNumber(-16), solution.getConstReference());
+    ASSERT_TRUE(solution);
+    EXPECT_EQ(AlbaNumber(-16), solution.value());
     EXPECT_EQ(47U, brentMethod.getNumberOfIterationsExecuted());
 }
 
@@ -305,8 +305,8 @@ TEST(BrentMethodTest, RunWorksOnDifferenceOfCubes)
     brentMethod.runMaxNumberOfIterationsOrUntilFinished(1000);
 
     AlbaNumberOptional solution(brentMethod.getSolution());
-    ASSERT_TRUE(solution.hasContent());
-    EXPECT_EQ(AlbaNumber::createFraction(3, 2), solution.getConstReference());
+    ASSERT_TRUE(solution);
+    EXPECT_EQ(AlbaNumber::createFraction(3, 2), solution.value());
     EXPECT_EQ(50U, brentMethod.getNumberOfIterationsExecuted());
 }
 
@@ -318,8 +318,8 @@ TEST(BrentMethodTest, RunWorksOnSumOfCubes)
     brentMethod.runMaxNumberOfIterationsOrUntilFinished(1000);
 
     AlbaNumberOptional solution(brentMethod.getSolution());
-    ASSERT_TRUE(solution.hasContent());
-    EXPECT_EQ(AlbaNumber::createFraction(-3, 2), solution.getConstReference());
+    ASSERT_TRUE(solution);
+    EXPECT_EQ(AlbaNumber::createFraction(-3, 2), solution.value());
     EXPECT_EQ(50U, brentMethod.getNumberOfIterationsExecuted());
 }
 
@@ -331,8 +331,8 @@ TEST(BrentMethodTest, RunWorksOnCubicExample)
     brentMethod.runMaxNumberOfIterationsOrUntilFinished(1000);
 
     AlbaNumberOptional solution(brentMethod.getSolution());
-    ASSERT_TRUE(solution.hasContent());
-    EXPECT_EQ(AlbaNumber::createFraction(5, 4), solution.getConstReference());
+    ASSERT_TRUE(solution);
+    EXPECT_EQ(AlbaNumber::createFraction(5, 4), solution.value());
     EXPECT_EQ(57U, brentMethod.getNumberOfIterationsExecuted());
 }
 
@@ -344,7 +344,7 @@ TEST(BrentMethodTest, RunWorksOnQuarticExample_FailedExampleBasedOnInitialValues
     brentMethod.runMaxNumberOfIterationsOrUntilFinished(1000);
 
     AlbaNumberOptional solution(brentMethod.getSolution());
-    ASSERT_FALSE(solution.hasContent());
+    ASSERT_FALSE(solution);
     EXPECT_EQ(1000U, brentMethod.getNumberOfIterationsExecuted());
 }
 
@@ -356,8 +356,8 @@ TEST(BrentMethodTest, RunWorksOnQuarticExample_SuccessfulExampleBasedOnInitialVa
     brentMethod.runMaxNumberOfIterationsOrUntilFinished(1000);
 
     AlbaNumberOptional solution(brentMethod.getSolution());
-    ASSERT_TRUE(solution.hasContent());
-    EXPECT_DOUBLE_EQ(-1.1460171174121716, solution.getConstReference().getDouble());
+    ASSERT_TRUE(solution);
+    EXPECT_DOUBLE_EQ(-1.1460171174121716, solution->getDouble());
     EXPECT_EQ(66U, brentMethod.getNumberOfIterationsExecuted());
 }
 
@@ -369,8 +369,8 @@ TEST(BrentMethodTest, RunWorksOnQuarticExample)
     brentMethod.runMaxNumberOfIterationsOrUntilFinished(1000);
 
     AlbaNumberOptional solution(brentMethod.getSolution());
-    ASSERT_TRUE(solution.hasContent());
-    EXPECT_EQ(AlbaNumber(-2), solution.getConstReference());
+    ASSERT_TRUE(solution);
+    EXPECT_EQ(AlbaNumber(-2), solution.value());
     EXPECT_EQ(4U, brentMethod.getNumberOfIterationsExecuted());
 }
 
@@ -382,8 +382,8 @@ TEST(BrentMethodTest, RunWorksOnPrecisionExample)
     brentMethod.runMaxNumberOfIterationsOrUntilFinished(1000);
 
     AlbaNumberOptional solution(brentMethod.getSolution());
-    ASSERT_TRUE(solution.hasContent());
-    EXPECT_DOUBLE_EQ(-0.5108729549290731, solution.getConstReference().getDouble());
+    ASSERT_TRUE(solution);
+    EXPECT_DOUBLE_EQ(-0.5108729549290731, solution->getDouble());
     EXPECT_EQ(49U, brentMethod.getNumberOfIterationsExecuted());
 }
 

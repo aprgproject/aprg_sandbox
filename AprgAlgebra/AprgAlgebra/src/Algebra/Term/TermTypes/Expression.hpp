@@ -35,7 +35,6 @@ public:
     BaseTerm const& getFirstTermConstReference() const;
     TermAssociationType getFirstAssociationType() const;
     TermsWithAssociation const& getTermsWithAssociation() const;
-    std::string getDisplayableString() const;
     std::string getDebugString() const;
 
     TermsWithAssociation & getTermsWithAssociationReference();

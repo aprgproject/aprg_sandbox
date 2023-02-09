@@ -117,32 +117,11 @@ string getFirstStringIfNegativeAssociation(
     return result;
 }
 
-string getString(TermsWithDetails const& termsWithDetails)
-{
-    stringstream ss;
-    if(!termsWithDetails.empty())
-    {
-        ss << getString(termsWithDetails.front());
-        for(auto it=termsWithDetails.cbegin()+1; it!=termsWithDetails.cend(); it++)
-        {
-            ss << ", " << getString(*it);
-        }
-    }
-    return ss.str();
-}
-
-string getString(TermWithDetails const& termWithDetails)
-{
-    stringstream ss;
-    ss << "{" << getTermConstReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer)
-       << "}{" << getEnumShortString(termWithDetails.association)
-       << "}";
-    return ss.str();
-}
-
 string createVariableNameForSubstitution(Term const& term)
 {
-    return string("{") + term.getDisplayableString() + "}";
+    stringstream ss;
+    ss << "{" << term << "}";
+    return ss.str();
 }
 
 Term buildTermIfPossible(string const& termString)

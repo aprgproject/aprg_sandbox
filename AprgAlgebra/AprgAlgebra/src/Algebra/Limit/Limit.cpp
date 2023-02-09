@@ -13,7 +13,9 @@
 #include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>
 #include <Common/Math/Helpers/ComputationHelpers.hpp>
 #include <Common/Math/Helpers/PrecisionHelpers.hpp>
+#include <Common/Math/Number/AlbaNumberConstants.hpp>
 
+using namespace alba::AlbaNumberConstants;
 using namespace alba::algebra::Simplification;
 using namespace alba::mathHelper;
 using namespace std;
@@ -59,8 +61,8 @@ bool hasHorizontalAsymptoteAtValue(
         AlbaNumber const& valueToApproach)
 {
     bool result(false);
-    Term limitAtPositiveInfinity(getLimitAtInfinity(term, variableName, AlbaNumber::Value::PositiveInfinity));
-    Term limitAtNegativeInfinity(getLimitAtInfinity(term, variableName, AlbaNumber::Value::NegativeInfinity));
+    Term limitAtPositiveInfinity(getLimitAtInfinity(term, variableName, ALBA_NUMBER_POSITIVE_INFINITY));
+    Term limitAtNegativeInfinity(getLimitAtInfinity(term, variableName, ALBA_NUMBER_NEGATIVE_INFINITY));
     if(limitAtPositiveInfinity.isConstant() && limitAtNegativeInfinity.isConstant())
     {
         result = limitAtPositiveInfinity.getConstantValueConstReference() == valueToApproach
@@ -121,7 +123,7 @@ AlbaNumber getLimitAtAValueInBothSides(
         string const& variableName,
         AlbaNumber const& valueToApproach)
 {
-    AlbaNumber result(AlbaNumber::Value::NotANumber);
+    AlbaNumber result(ALBA_NUMBER_NOT_A_NUMBER);
     AlbaNumber limitPositiveSide(getLimitAtAValueInThePositiveSide(term, variableName, valueToApproach));
     AlbaNumber limitNegativeSide(getLimitAtAValueInTheNegativeSide(term, variableName, valueToApproach));
     if(isAlmostEqualForLimitChecking(limitPositiveSide, limitNegativeSide)) //limit only exists if both sides are equal  (Calculus Theorem)
@@ -164,8 +166,8 @@ AlbaNumber getLimitAtAValueByIterationAndLinearInterpolation(
         AlbaNumber const& initialValueForIteration,
         unsigned int maxNumberOfIterations)
 {
-    AlbaNumber::ScopeObject scopeObject;
-    scopeObject.setInThisScopeTheTolerancesToZero();
+    AlbaNumber::ScopeConfigurationObject scopeConfigurationObject;
+    scopeConfigurationObject.setInThisScopeTheTolerancesToZero();
 
     SubstitutionOfVariablesToValues substitution;
     AlbaNumber currentInput(initialValueForIteration);
@@ -214,10 +216,10 @@ AlbaNumber getLimitAtAValueUsingTrendOfValues(
         AlbaNumber const& previousAcceptedInput,
         AlbaNumber const& previousOfPreviousAcceptedInput)
 {
-    AlbaNumber::ScopeObject scopeObject;
-    scopeObject.setInThisScopeTheTolerancesToZero();
+    AlbaNumber::ScopeConfigurationObject scopeConfigurationObject;
+    scopeConfigurationObject.setInThisScopeTheTolerancesToZero();
 
-    AlbaNumber result(AlbaNumber::Value::NotANumber);
+    AlbaNumber result(ALBA_NUMBER_NOT_A_NUMBER);
     SubstitutionOfVariablesToValues substitution;
     substitution.putVariableWithValue(variableName, valueToApproach);
     Term outputTermAtValueToApproach(substitution.performSubstitutionTo(term));
@@ -236,8 +238,8 @@ AlbaNumber getLimitAtAValueUsingTrendOfValues(
         if(outputAtValueToApproach.isPositiveOrNegativeInfinity())
         {
             result = (previousAcceptedOutput<0) ?
-                        AlbaNumber(AlbaNumber::Value::NegativeInfinity) :
-                        AlbaNumber(AlbaNumber::Value::PositiveInfinity);
+                        ALBA_NUMBER_NEGATIVE_INFINITY :
+                        ALBA_NUMBER_POSITIVE_INFINITY;
         }
         else
         {
@@ -265,7 +267,7 @@ AlbaNumber getValueUsingLinearInterpolation(
     AlbaNumber result;
     if(deltaInput == 0)
     {
-        result = AlbaNumber(AlbaNumber::Value::NotANumber);
+        result = ALBA_NUMBER_NOT_A_NUMBER;
     }
     else
     {
@@ -302,7 +304,7 @@ Term getLimitWithMultipleVariablesWithDifferentApproaches(
         {
             if(result != *it)
             {
-                result = AlbaNumber(AlbaNumber::Value::NotANumber);
+                result = ALBA_NUMBER_NOT_A_NUMBER;
                 break;
             }
         }
@@ -379,7 +381,7 @@ Term getLimitAtAValueOrInfinity(
     Term result;
     if(valueToApproach.isPositiveOrNegativeInfinity())
     {
-        result = getLimitAtInfinity(term, variableName, valueToApproach.getDefinedValue());
+        result = getLimitAtInfinity(term, variableName, valueToApproach);
     }
     else
     {
@@ -421,7 +423,7 @@ Term simplifyAndGetLimitAtAValue(
 Term getLimitAtInfinity(
         Term const& term,
         string const& variableName,
-        AlbaNumber::Value const infinityValue)
+        AlbaNumber const infinityValue)
 {
     LimitsAtInfinity limitsAtInfinity(term, variableName);
     return limitsAtInfinity.getValueAtInfinity(infinityValue);
@@ -438,11 +440,11 @@ Term getObliqueAsymptote(Term const& term)
 
     Term result;
     PolynomialOverPolynomialOptional popOptional(createPolynomialOverPolynomialFromTermIfPossible(term));
-    if(popOptional.hasContent())
+    if(popOptional)
     {
-        if(getMaxDegree(popOptional.getConstReference().getDenominator()) > 0)
+        if(getMaxDegree(popOptional->getDenominator()) > 0)
         {
-            PolynomialOverPolynomial::QuotientAndRemainder quotientAndRemainder(popOptional.getReference().simplifyAndDivide());
+            PolynomialOverPolynomial::QuotientAndRemainder quotientAndRemainder(popOptional->simplifyAndDivide());
             Polynomial const& quotient(quotientAndRemainder.quotient);
             VariableNamesRetriever retriever;
             retriever.retrieveFromPolynomial(quotient);

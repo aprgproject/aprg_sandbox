@@ -1,7 +1,9 @@
 #include <Algebra/Isolation/IsolationOfOneVariableOnEqualityEquations.hpp>
+#include <Common/String/AlbaStringHelper.hpp>
 
 #include <gtest/gtest.h>
 
+using namespace alba::stringHelper;
 using namespace std;
 
 namespace alba
@@ -25,8 +27,8 @@ TEST(IsolationOfOneVariableOnEqualityEquationsTest, IsolateTermWithVariableWorks
 
     string stringToExpect1("l");
     string stringToExpect2("-2[z^-1]");
-    EXPECT_EQ(stringToExpect1, termWithVariable.getDisplayableString());
-    EXPECT_EQ(stringToExpect2, termWithoutVariable.getDisplayableString());
+    EXPECT_EQ(stringToExpect1, convertToString(termWithVariable));
+    EXPECT_EQ(stringToExpect2, convertToString(termWithoutVariable));
 }
 
 TEST(IsolationOfOneVariableOnEqualityEquationsTest, GetEquivalentTermByIsolatingAVariableWorks)
@@ -41,7 +43,7 @@ TEST(IsolationOfOneVariableOnEqualityEquationsTest, GetEquivalentTermByIsolating
     Term termToVerify(isolation.getEquivalentTermByIsolatingAVariable("l"));
 
     string stringToExpect("-2[z^-1]");
-    EXPECT_EQ(stringToExpect, termToVerify.getDisplayableString());
+    EXPECT_EQ(stringToExpect, convertToString(termToVerify));
 }
 
 }

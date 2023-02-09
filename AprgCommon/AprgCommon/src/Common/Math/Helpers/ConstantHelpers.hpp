@@ -19,4 +19,5 @@ inline double getE()
 }
 
 }//namespace mathHelper
+
 }//namespace alba

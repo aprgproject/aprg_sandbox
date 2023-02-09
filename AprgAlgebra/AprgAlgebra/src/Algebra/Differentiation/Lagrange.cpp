@@ -74,10 +74,8 @@ strings getLagrangeMultiplierNames(unsigned int const size)
 
 string getLagrangeMultiplierName(unsigned int const index)
 {
-    NumberToStringConverter converter;
-    converter.setFieldWidth(3);
-    converter.setFillCharacter('0');
-    return "multiplier" + converter.convert(index);
+    static StringConverterWithFormatting converter(3, '0');
+    return "multiplier" + converter.convertToString(index);
 }
 
 

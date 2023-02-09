@@ -1,7 +1,9 @@
 #include <Algebra/Equation/Equation.hpp>
+#include <Common/String/AlbaStringHelper.hpp>
 
 #include <gtest/gtest.h>
 
+using namespace alba::stringHelper;
 using namespace std;
 
 namespace alba
@@ -126,15 +128,6 @@ TEST(EquationTest, GetRightHandTermWorks)
     EXPECT_EQ(Term(8), equation2.getRightHandTerm());
 }
 
-TEST(EquationTest, GetDisplayableStringWorks)
-{
-    Equation equation1(Term(), "=", Term());
-    Equation equation2(7, ">", 8);
-
-    EXPECT_EQ("{EmptyTerm} = {EmptyTerm}", equation1.getDisplayableString());
-    EXPECT_EQ("7 > 8", equation2.getDisplayableString());
-}
-
 TEST(EquationTest, GetLeftHandTermReferenceWorks)
 {
     Equation equation2(7, ">", 8);
@@ -162,6 +155,15 @@ TEST(EquationTest, SimplifyWorks)
     EXPECT_EQ(Term(Polynomial{Monomial(1, {{"x", 1}}), Monomial(-1, {{"y", 1}})}), equation.getLeftHandTerm());
     EXPECT_EQ("<", equation.getEquationOperator().getOperatorString());
     EXPECT_EQ(Term(0), equation.getRightHandTerm());
+}
+
+TEST(EquationTest, OutputStreamOperatorWorks)
+{
+    Equation equation1(Term(), "=", Term());
+    Equation equation2(7, ">", 8);
+
+    EXPECT_EQ("{EmptyTerm} = {EmptyTerm}", convertToString(equation1));
+    EXPECT_EQ("7 > 8", convertToString(equation2));
 }
 
 }

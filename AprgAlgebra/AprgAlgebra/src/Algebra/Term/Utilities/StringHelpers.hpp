@@ -21,10 +21,6 @@ std::string getOperatingString(
 std::string getFirstStringIfNegativeAssociation(
         OperatorLevel const operatorLevel,
         TermAssociationType const association);
-std::string getString(
-        TermsWithDetails const& termsWithDetails);
-std::string getString(
-        TermWithDetails const& termWithDetails);
 std::string createVariableNameForSubstitution(Term const& term);
 
 Term buildTermIfPossible(std::string const& termString);

@@ -1,8 +1,8 @@
 #pragma once
 
 #include <Algebra/Term/TermTypes/Polynomial.hpp>
-#include <Common/Container/AlbaOptional.hpp>
 
+#include <optional>
 #include <vector>
 
 namespace alba
@@ -53,7 +53,7 @@ private:
 };
 
 using ListOfPolynomialOverPolynomial = std::vector<PolynomialOverPolynomial>;
-using PolynomialOverPolynomialOptional = AlbaOptional<PolynomialOverPolynomial>;
+using PolynomialOverPolynomialOptional = std::optional<PolynomialOverPolynomial>;
 
 }
 

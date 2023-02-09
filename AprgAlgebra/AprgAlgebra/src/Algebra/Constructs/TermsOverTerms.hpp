@@ -34,7 +34,6 @@ public:
             Terms & nonPolynomialDenominators) const;
     TermsRaiseToNumbers getTermsRaiseToNumbers() const;
     TermsRaiseToTerms getTermsRaiseToTerms() const;
-    std::string getDisplayableString() const;
 
     void flip();
 
@@ -96,7 +95,9 @@ private:
             Polynomial & polynomialDenominator) const;
     void simplifyMonomialsToPolynomialOverPolynomial();
     void simplifyPolynomialsToPolynomialOverPolynomial();
-    bool isPolynomialAndhasDoubleValue(Term const& term) const;
+
+    friend std::ostream & operator<<(std::ostream & out, TermsOverTerms const& termsOverTerms);
+
     Terms m_numerators;
     Terms m_denominators;
     bool m_shouldSimplifyToFactors;

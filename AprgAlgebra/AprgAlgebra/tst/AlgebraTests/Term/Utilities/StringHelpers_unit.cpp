@@ -63,22 +63,6 @@ TEST(StringHelpersTest, GetFirstStringIfNegativeAssociationWorks)
     EXPECT_TRUE(getFirstStringIfNegativeAssociation(OperatorLevel::RaiseToPower, TermAssociationType::Negative).empty());
 }
 
-TEST(StringHelpersTest, GetStringForTermWithDetailsWorks)
-{
-    TermWithDetails termWithDetails(Term(10), TermAssociationType::Negative);
-
-    EXPECT_EQ("{10}{{NEG}}", getString(termWithDetails));
-}
-
-TEST(StringHelpersTest, GetStringForTermsWithDetailsWorks)
-{
-    TermsWithDetails termsWithDetails;
-    termsWithDetails.emplace_back(Term(10), TermAssociationType::Negative);
-    termsWithDetails.emplace_back(Term(20), TermAssociationType::Positive);
-
-    EXPECT_EQ("{10}{{NEG}}, {20}{{POS}}", getString(termsWithDetails));
-}
-
 TEST(StringHelpersTest, CreateVariableNameForSubstitutionWorks)
 {
     Term term(Polynomial{Monomial(6, {}), Monomial(-7, {{"x", 2}, {"y", 3}, {"z", 4}})});

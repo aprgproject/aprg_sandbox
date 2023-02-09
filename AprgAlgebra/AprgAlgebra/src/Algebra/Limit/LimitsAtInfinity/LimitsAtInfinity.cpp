@@ -36,9 +36,9 @@ Term LimitsAtInfinity::getSimplifiedTermAtInfinity() const
 }
 
 Term LimitsAtInfinity::getValueAtInfinity(
-        AlbaNumber::Value const infinityValue) const
+        AlbaNumber const infinityValue) const
 {
-    SubstitutionOfVariablesToValues substitution{{m_variableName, AlbaNumber(infinityValue)}};
+    SubstitutionOfVariablesToValues substitution{{m_variableName, infinityValue}};
     return substitution.performSubstitutionTo(m_simplifiedTermAtInfinity);
 }
 

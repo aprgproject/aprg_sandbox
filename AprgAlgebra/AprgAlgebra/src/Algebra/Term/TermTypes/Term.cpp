@@ -326,14 +326,6 @@ AlbaNumber const& Term::getConstantValueConstReference() const
     return getConstantConstReference().getNumberConstReference();
 }
 
-string Term::getDisplayableString() const
-{
-    stringstream ss;
-    ss.precision(16);
-    ss << *this;
-    return ss.str();
-}
-
 string Term::getDebugString() const
 {
     stringstream ss;

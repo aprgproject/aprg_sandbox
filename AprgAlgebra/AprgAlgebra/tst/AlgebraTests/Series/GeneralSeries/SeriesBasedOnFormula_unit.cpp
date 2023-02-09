@@ -133,8 +133,8 @@ TEST(SeriesBasedOnFormulaTest, GetGreatestLowerBoundWorks)
 
     AlbaNumberOptional greatestLowerBoundOptional(series.getGreatestLowerBound());
 
-    ASSERT_TRUE(greatestLowerBoundOptional.hasContent());
-    EXPECT_EQ(AlbaNumber::createFraction(-4, 15), greatestLowerBoundOptional.getConstReference());
+    ASSERT_TRUE(greatestLowerBoundOptional);
+    EXPECT_EQ(AlbaNumber::createFraction(-4, 15), greatestLowerBoundOptional.value());
 }
 
 TEST(SeriesBasedOnFormulaTest, GetLeastUpperBoundWorks)
@@ -146,8 +146,8 @@ TEST(SeriesBasedOnFormulaTest, GetLeastUpperBoundWorks)
 
     AlbaNumberOptional leastUpperBoundOptional(series.getLeastUpperBound());
 
-    ASSERT_TRUE(leastUpperBoundOptional.hasContent());
-    EXPECT_EQ(AlbaNumber::createFraction(1, 2), leastUpperBoundOptional.getConstReference());
+    ASSERT_TRUE(leastUpperBoundOptional);
+    EXPECT_EQ(AlbaNumber::createFraction(1, 2), leastUpperBoundOptional.value());
 }
 
 }

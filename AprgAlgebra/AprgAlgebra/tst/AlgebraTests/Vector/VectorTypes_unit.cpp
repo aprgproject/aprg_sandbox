@@ -1,10 +1,12 @@
 #include <Algebra/Functions/CommonFunctionLibrary.hpp>
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
 #include <Algebra/Vector/VectorTypes.hpp>
+#include <Common/String/AlbaStringHelper.hpp>
 
 #include <gtest/gtest.h>
 
 using namespace alba::algebra::Functions;
+using namespace alba::stringHelper;
 using namespace std;
 
 namespace alba
@@ -23,7 +25,7 @@ TEST(VectorTypesTest, GettingMagnitudeWorks)
     magnitude.simplify();
 
     string stringToExpect("((((2*cos(t))^2)+((2*sin(t))^2))^(1/2))");
-    EXPECT_EQ(stringToExpect, magnitude.getDisplayableString());
+    EXPECT_EQ(stringToExpect, convertToString(magnitude));
 }
 
 }

@@ -13,7 +13,9 @@
 #include <Algebra/Term/Utilities/PolynomialHelpers.hpp>
 #include <Algebra/Term/Utilities/StringHelpers.hpp>
 #include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>
+#include <Common/Math/Number/AlbaNumberConstants.hpp>
 
+using namespace alba::AlbaNumberConstants;
 using namespace alba::algebra::Factorization;
 using namespace std;
 
@@ -133,14 +135,14 @@ AlbaNumber getDegree(Term const& term)
         }
         else if(OperatorLevel::RaiseToPower == expression.getCommonOperatorLevel())
         {
-            result = AlbaNumber(AlbaNumber::Value::PositiveInfinity);
+            result = ALBA_NUMBER_POSITIVE_INFINITY;
         }
     }
     else if(term.isFunction())
     {
         if("ln" == term.getFunctionConstReference().getFunctionName())
         {
-            result = AlbaNumber(AlbaNumber::Value::NegativeInfinity);
+            result = ALBA_NUMBER_NEGATIVE_INFINITY;
         }
         else
         {
@@ -171,22 +173,22 @@ AlbaNumberPairs evaluateAndGetInputOutputPair(
 
 Term getPiAsATerm()
 {
-    return AlbaNumber(AlbaNumber::Value::pi);
+    return ALBA_NUMBER_PI;
 }
 
 Term getEAsATerm()
 {
-    return AlbaNumber(AlbaNumber::Value::e);
+    return ALBA_NUMBER_E;
 }
 
 Term getPositiveInfinityAsATerm()
 {
-    return AlbaNumber(AlbaNumber::Value::PositiveInfinity);
+    return ALBA_NUMBER_POSITIVE_INFINITY;
 }
 
 Term getNegativeInfinityAsATerm()
 {
-    return AlbaNumber(AlbaNumber::Value::NegativeInfinity);
+    return ALBA_NUMBER_NEGATIVE_INFINITY;
 }
 
 Term convertPositiveTermIfNegative(Term const& term)

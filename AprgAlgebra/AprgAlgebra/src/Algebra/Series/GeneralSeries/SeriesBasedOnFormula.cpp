@@ -9,9 +9,11 @@
 #include <Algebra/Summation/Summation.hpp>
 #include <Algebra/Term/Operators/TermOperators.hpp>
 #include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>
+#include <Common/Math/Number/AlbaNumberConstants.hpp>
 
 #include <algorithm>
 
+using namespace alba::AlbaNumberConstants;
 using namespace alba::algebra::Simplification;
 using namespace std;
 
@@ -55,7 +57,7 @@ bool SeriesBasedOnFormula::isBounded() const
 {
     AlbaNumberOptional greatestLowerBound(getGreatestLowerBound());
     AlbaNumberOptional leastUpperBound(getLeastUpperBound());
-    return greatestLowerBound.hasContent() && leastUpperBound.hasContent();
+    return greatestLowerBound && leastUpperBound;
 }
 
 Term SeriesBasedOnFormula::getFormulaForSeries() const
@@ -81,12 +83,12 @@ Term SeriesBasedOnFormula::getSumStartingAtIndexAndToInfinity(
         int const startingIndex) const
 {
     Summation summation(m_formulaForSeries, m_nameForVariableInFormula);
-    return summation.getSum(startingIndex, AlbaNumber(AlbaNumber::Value::PositiveInfinity));
+    return summation.getSum(startingIndex, ALBA_NUMBER_POSITIVE_INFINITY);
 }
 
 Term SeriesBasedOnFormula::getValueAtInfinity() const
 {
-    return getLimit(m_formulaForSeries, m_nameForVariableInFormula, AlbaNumber(AlbaNumber::Value::PositiveInfinity));
+    return getLimit(m_formulaForSeries, m_nameForVariableInFormula, ALBA_NUMBER_POSITIVE_INFINITY);
 }
 
 Term SeriesBasedOnFormula::getRemainderAtIndex(int const index) const
@@ -104,14 +106,14 @@ AlbaNumberOptional SeriesBasedOnFormula::getGreatestLowerBound() const
         auto it = min_element(boundValues.cbegin(), boundValues.cend());
         if(it != boundValues.cend())
         {
-            result.setConstReference(*it);
+            result = *it;
         }
     }
     else if(boundValues.size() == 1)
     {
         if(isIncreasing())
         {
-            result.setConstReference(boundValues.back());
+            result = boundValues.back();
         }
     }
     return result;
@@ -126,14 +128,14 @@ AlbaNumberOptional SeriesBasedOnFormula::getLeastUpperBound() const
         auto it = max_element(boundValues.cbegin(), boundValues.cend());
         if(it != boundValues.cend())
         {
-            result.setConstReference(*it);
+            result = *it;
         }
     }
     else if(boundValues.size() == 1)
     {
         if(isDecreasing())
         {
-            result.setConstReference(boundValues.back());
+            result = boundValues.back();
         }
     }
     return result;

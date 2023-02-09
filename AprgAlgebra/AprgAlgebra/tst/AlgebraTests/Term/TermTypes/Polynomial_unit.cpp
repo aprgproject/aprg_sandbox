@@ -1,7 +1,9 @@
 #include <Algebra/Term/TermTypes/Polynomial.hpp>
+#include <Common/Math/Number/AlbaNumberConstants.hpp>
 
 #include <gtest/gtest.h>
 
+using namespace alba::AlbaNumberConstants;
 using namespace std;
 
 namespace alba
@@ -151,7 +153,7 @@ TEST(PolynomialTest, SimplifyWorks)
     Polynomial polynomial2{Monomial(6, {})};
     Polynomial polynomial3{Monomial(6, {}), Monomial(-6, {})};
     Polynomial polynomial4{Monomial(-6, {{"y", 0}, {"z", 0}})};
-    Polynomial polynomial5{Monomial(1, {{"x", 2}}), Monomial(3, {{"x", AlbaNumber(AlbaNumber::Value::NotANumber)}})};
+    Polynomial polynomial5{Monomial(1, {{"x", 2}}), Monomial(3, {{"x", ALBA_NUMBER_NOT_A_NUMBER}})};
 
     polynomial1.simplify();
     polynomial2.simplify();
@@ -231,7 +233,7 @@ TEST(PolynomialTest, SimplifyWorksAsSkippedWhenIsSimplifiedIsSet)
 
 TEST(PolynomialTest, SimplifyWithNotANumberDoesNotCrash)
 {
-    Polynomial polynomial{Monomial(AlbaNumber::Value::NotANumber, {})};
+    Polynomial polynomial{Monomial(ALBA_NUMBER_NOT_A_NUMBER, {})};
 
     polynomial.simplify();
 

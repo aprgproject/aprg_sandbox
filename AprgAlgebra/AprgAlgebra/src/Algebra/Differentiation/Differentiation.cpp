@@ -9,9 +9,11 @@
 #include <Algebra/Term/Operators/TermOperators.hpp>
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
 #include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>
+#include <Common/Math/Number/AlbaNumberConstants.hpp>
 
 #include <algorithm>
 
+using namespace alba::AlbaNumberConstants;
 using namespace alba::algebra::Functions;
 using namespace alba::algebra::Simplification;
 using namespace std;
@@ -320,7 +322,7 @@ Polynomial Differentiation::differentiateMonomialWithChangingVariables(
 Term Differentiation::differentiateAsTermOrExpressionIfNeeded(
         Expression const& expression) const
 {
-    Term result(AlbaNumber(AlbaNumber::Value::NotANumber));
+    Term result(ALBA_NUMBER_NOT_A_NUMBER);
     Term simplifiedTerm(expression);
     simplifyForDifferentiation(simplifiedTerm);
     if(simplifiedTerm.isExpression())
@@ -337,7 +339,7 @@ Term Differentiation::differentiateAsTermOrExpressionIfNeeded(
 Term Differentiation::differentiateSimplifiedExpressionOnly(
         Expression const& expression) const
 {
-    Term result(AlbaNumber(AlbaNumber::Value::NotANumber));
+    Term result(ALBA_NUMBER_NOT_A_NUMBER);
     if(OperatorLevel::AdditionAndSubtraction == expression.getCommonOperatorLevel())
     {
         result = differentiateTermsInAdditionOrSubtraction(expression);
@@ -391,9 +393,9 @@ Term Differentiation::differentiateByProcessingAsPolynomialsOverPolynomials(
 {
     Term result;
     PolynomialOverPolynomialOptional popOptional(createPolynomialOverPolynomialFromTermIfPossible(term));
-    if(popOptional.hasContent())
+    if(popOptional)
     {
-        PolynomialOverPolynomial & pop(popOptional.getReference());
+        PolynomialOverPolynomial & pop(popOptional.value());
         PolynomialOverPolynomial::QuotientAndRemainder quotientAndRemainder(pop.simplifyAndDivide());
         if(!quotientAndRemainder.quotient.isEmpty()
                 && !hasNegativeExponentsWithVariable(quotientAndRemainder.quotient, m_nameOfVariableToDifferentiate))
@@ -442,7 +444,7 @@ Term Differentiation::differentiateTermsInRaiseToPower(
         Expression const& expression) const
 {
     TermsWithDetails const& termsWithDetails(expression.getTermsWithAssociation().getTermsWithDetails());
-    Term result(AlbaNumber(AlbaNumber::Value::NotANumber));
+    Term result(ALBA_NUMBER_NOT_A_NUMBER);
     TermRaiseToTerms termRaiseToTerms(termsWithDetails);
     termRaiseToTerms.simplify();
     Term firstTerm(termRaiseToTerms.getBase());
@@ -488,13 +490,13 @@ Term Differentiation::differentiateChangingTermRaiseToChangingTerm(
         Term const& ,
         Term const& ) const
 {
-    return AlbaNumber(AlbaNumber::Value::NotANumber);
+    return ALBA_NUMBER_NOT_A_NUMBER;
 }
 
 Term Differentiation::differentiateFunctionOnly(
         Function const& functionObject) const
 {
-    Term derivativeOfFunction(AlbaNumber(AlbaNumber::Value::NotANumber));
+    Term derivativeOfFunction(ALBA_NUMBER_NOT_A_NUMBER);
     Term const& inputTerm(getTermConstReferenceFromBaseTerm(functionObject.getInputTermConstReference()));
     if("abs" == functionObject.getFunctionName())
     {

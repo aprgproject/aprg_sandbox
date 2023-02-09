@@ -12,7 +12,9 @@
 #include <Algebra/Term/Operators/TermOperators.hpp>
 #include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>
 #include <Common/Math/Number/Interval/AlbaNumberIntervalHelpers.hpp>
+#include <Common/Math/Number/AlbaNumberConstants.hpp>
 
+using namespace alba::AlbaNumberConstants;
 using namespace std;
 
 namespace alba
@@ -126,13 +128,13 @@ Term evaluate(
         Term const& value)
 {
     Term result;
-    if(isTheValue(value, AlbaNumber(AlbaNumber::Value::PositiveInfinity)))
+    if(isTheValue(value, ALBA_NUMBER_POSITIVE_INFINITY))
     {
-        result = getLimit(term, variableName, AlbaNumber(AlbaNumber::Value::PositiveInfinity));
+        result = getLimit(term, variableName, ALBA_NUMBER_POSITIVE_INFINITY);
     }
-    else if(isTheValue(value, AlbaNumber(AlbaNumber::Value::NegativeInfinity)))
+    else if(isTheValue(value, ALBA_NUMBER_NEGATIVE_INFINITY))
     {
-        result = getLimit(term, variableName, AlbaNumber(AlbaNumber::Value::NegativeInfinity));
+        result = getLimit(term, variableName, ALBA_NUMBER_NEGATIVE_INFINITY);
     }
     else
     {
@@ -157,7 +159,7 @@ Term getAreaUnderACurveUsingReimannSums(
     Summation summation(areaOfARectangle, variableName);
     Term sumOfAreaOfAllRectangles(summation.getSum(1, "n"));
     LimitsAtInfinity limits(sumOfAreaOfAllRectangles, "n");
-    return limits.getValueAtInfinity(AlbaNumber::Value::PositiveInfinity); // Let number of rectangles approach infinity
+    return limits.getValueAtInfinity(ALBA_NUMBER_POSITIVE_INFINITY); // Let number of rectangles approach infinity
 }
 
 LowerAndHigherValues getApproximateValuesForDefiniteIntegral(

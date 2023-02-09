@@ -22,7 +22,6 @@ public:
 
     bool isValueAcceptedForVariable(std::string const& variableName, AlbaNumber const& value) const;
     unsigned int getNumberOfVariablesWithSolutions() const;
-    std::string getDisplayableString() const;
 
     VariableNamesSet getVariableNames() const;
     SolutionSet getSolutionSetForVariable(std::string const& variableName) const;
@@ -31,6 +30,9 @@ public:
     void addSolutionSetForVariable(std::string const& variableName, SolutionSet const& solutionSet);
 
 private:
+
+    friend std::ostream & operator<<(std::ostream & out, MultipleVariableSolutionSet const& equation);
+
     VariableNameToSolutionSetMap m_variableNameToSolutionSetMap;
 };
 

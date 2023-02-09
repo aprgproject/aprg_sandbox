@@ -1,10 +1,12 @@
 #include <Algebra/Differentiation/DifferentiationForFiniteCalculus.hpp>
 #include <Algebra/Functions/CommonFunctionLibrary.hpp>
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
+#include <Common/String/AlbaStringHelper.hpp>
 
 #include <gtest/gtest.h>
 
 using namespace alba::algebra::Functions;
+using namespace alba::stringHelper;
 using namespace std;
 
 namespace alba
@@ -142,7 +144,7 @@ TEST(DifferentiationForFiniteCalculusTest, DifferentiateWorksForEquation)
     Equation equationToVerify(differentiationForX.differentiate(equation));
 
     string stringToExpect("(6[x^5] + 15[x^4] + 20[x^3] + 15[x^2] + 6[x] + -1) = 0");
-    EXPECT_EQ(stringToExpect, equationToVerify.getDisplayableString());
+    EXPECT_EQ(stringToExpect, convertToString(equationToVerify));
 }
 
 TEST(DifferentiationForFiniteCalculusTest, DifferentiateMultipleTimesWorksForTerm)
@@ -181,9 +183,9 @@ TEST(DifferentiationForFiniteCalculusTest, DifferentiateMultipleTimesWorksForEqu
     string stringToExpect1("3[x^4] = 5[x^6]");
     string stringToExpect2("(30[x^5] + 75[x^4] + 88[x^3] + 57[x^2] + 18[x] + 2) = 0");
     string stringToExpect3("(75[x^4] + 300[x^3] + 507[x^2] + 414[x] + 134) = 0");
-    EXPECT_EQ(stringToExpect1, equationToVerify1.getDisplayableString());
-    EXPECT_EQ(stringToExpect2, equationToVerify2.getDisplayableString());
-    EXPECT_EQ(stringToExpect3, equationToVerify3.getDisplayableString());
+    EXPECT_EQ(stringToExpect1, convertToString(equationToVerify1));
+    EXPECT_EQ(stringToExpect2, convertToString(equationToVerify2));
+    EXPECT_EQ(stringToExpect3, convertToString(equationToVerify3));
 }
 
 TEST(DifferentiationForFiniteCalculusTest, DifferentiateTermWorks)
@@ -332,9 +334,9 @@ TEST(DifferentiationForFiniteCalculusTest, DifferentiateWorksWithTermRaiseToTerm
     string stringToExpect3("(((1[x] + 1)^n)-(x^n))");
     string stringToExpect4("(((1[x] + 1)^(1[x] + 1))-(x^x))");
     EXPECT_EQ(termToExpect1, termToVerify1);
-    EXPECT_EQ(stringToExpect2, termToVerify2.getDisplayableString());
-    EXPECT_EQ(stringToExpect3, termToVerify3.getDisplayableString());
-    EXPECT_EQ(stringToExpect4, termToVerify4.getDisplayableString());
+    EXPECT_EQ(stringToExpect2, convertToString(termToVerify2));
+    EXPECT_EQ(stringToExpect3, convertToString(termToVerify3));
+    EXPECT_EQ(stringToExpect4, convertToString(termToVerify4));
 }
 
 TEST(DifferentiationForFiniteCalculusTest, DifferentiateFunctionWorks)
@@ -363,8 +365,8 @@ TEST(DifferentiationForFiniteCalculusTest, DifferentiateEquationWorks)
 
     string stringToExpect1("(6[x^5] + 15[x^4] + 20[x^3] + 15[x^2] + 6[x] + -1) = 0");
     string stringToExpect2("(12[x^3][y^2] + 18[x^2][y^2] + 12[x][y^2] + -7[y^3] + 3[y^2]) = 0");
-    EXPECT_EQ(stringToExpect1, equationToVerify1.getDisplayableString());
-    EXPECT_EQ(stringToExpect2, equationToVerify2.getDisplayableString());
+    EXPECT_EQ(stringToExpect1, convertToString(equationToVerify1));
+    EXPECT_EQ(stringToExpect2, convertToString(equationToVerify2));
 }
 
 }

@@ -19,7 +19,8 @@
 #define ALBA_MACROS_GET_UNIQUE_COUNTER_VALUE __COUNTER__
 
 #define ALBA_MACROS_EXPAND_TO_LITERAL_TEXT(parameter) #parameter
-#define ALBA_MACROS_GET_VALUE(parameter) ALBA_MACROS_EXPAND_TO_LITERAL_TEXT(parameter)#define ALBA_MACROS_DISPLAY_VALUE_PRAGMA_MESSAGE(var) #var "="  ALBA_MACROS_GET_VALUE(var)
+#define ALBA_MACROS_GET_VALUE(parameter) ALBA_MACROS_EXPAND_TO_LITERAL_TEXT(parameter)
+#define ALBA_MACROS_DISPLAY_VALUE_PRAGMA_MESSAGE(var) #var "="  ALBA_MACROS_GET_VALUE(var)
 
 #define ALBA_MACROS_GET_STRING_LITERAL(parameter) #parameter // The number-sign or "stringizing" operator.
 //#define ALBA_MACROS_GET_CHAR_LITERAL(x) #@x // The charizing operator. Its not supported.
@@ -27,7 +28,9 @@
 // Note: The token pasting operator can be used in combination with the counter value macro to generate new named macros.
 
 #define ALBA_MACROS_CASE_ENUM_STRING(parameter) \
-    case parameter: \    return ALBA_MACROS_GET_STRING_LITERAL(parameter);
+    case parameter: \
+    return ALBA_MACROS_GET_STRING_LITERAL(parameter);
 
 #define ALBA_MACROS_CASE_ENUM_SHORT_STRING(parameter, shortName) \
-    case parameter: \    return shortName;
+    case parameter: \
+    return shortName;

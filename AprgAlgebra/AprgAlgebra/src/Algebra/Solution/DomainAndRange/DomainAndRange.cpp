@@ -6,7 +6,9 @@
 #include <Algebra/Substitution/SubstitutionOfVariablesToValues.hpp>
 #include <Common/Math/Helpers/ComputationHelpers.hpp>
 #include <Common/Math/Number/Interval/AlbaNumberIntervalHelpers.hpp>
+#include <Common/Math/Number/AlbaNumberConstants.hpp>
 
+using namespace alba::AlbaNumberConstants;
 using namespace alba::mathHelper;
 using namespace std;
 
@@ -137,7 +139,7 @@ SolutionSet calculateDomainForEquationWithVariableToSubstitute(
             Equation simplifiedEquation(substitution.performSubstitutionTo(equation));
             Equation equationToSolve(simplifiedEquation.getLeftHandTerm(), "=", 0);
             SolutionSet solutionSet(solver.calculateSolutionAndReturnSolutionSet(equationToSolve));
-            AlbaNumber computedValue(AlbaNumber::Value::NotANumber);
+            AlbaNumber computedValue(ALBA_NUMBER_NOT_A_NUMBER);
             AlbaNumbers acceptedValues(solutionSet.getAcceptedValues());
             if(!acceptedValues.empty()){computedValue = acceptedValues.back();}
             return computedValue;});

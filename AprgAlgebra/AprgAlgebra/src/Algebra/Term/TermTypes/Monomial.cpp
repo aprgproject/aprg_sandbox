@@ -2,9 +2,11 @@
 
 #include <Algebra/Term/Utilities/MonomialHelpers.hpp>
 #include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>
+#include <Common/Math/Number/AlbaNumberConstants.hpp>
 
 #include <set>
 
+using namespace alba::AlbaNumberConstants;
 using namespace std;
 
 namespace alba
@@ -258,7 +260,7 @@ void Monomial::setNanIfNeeded()
     if(hasNan(*this))
     {
         m_variablesToExponentsMap.clear();
-        setConstant(AlbaNumber(AlbaNumber::Value::NotANumber));
+        setConstant(ALBA_NUMBER_NOT_A_NUMBER);
     }
 }
 

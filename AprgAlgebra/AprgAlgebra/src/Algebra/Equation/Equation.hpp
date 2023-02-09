@@ -31,7 +31,6 @@ public:
     EquationOperator const& getEquationOperator() const;
     Term const& getLeftHandTerm() const;
     Term const& getRightHandTerm() const;
-    std::string getDisplayableString() const;
 
     Term & getLeftHandTermReference();
     Term & getRightHandTermReference();

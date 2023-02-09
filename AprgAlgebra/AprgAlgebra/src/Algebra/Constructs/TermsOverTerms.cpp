@@ -15,10 +15,12 @@
 #include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>
 #include <Common/Print/AlbaPrintFunctions.hpp>
 #include <Common/Math/Helpers/SignRelatedHelpers.hpp>
+#include <Common/Math/Number/AlbaNumberConstants.hpp>
 
 #include <algorithm>
 #include <sstream>
 
+using namespace alba::AlbaNumberConstants;
 using namespace alba::algebra::Factorization;
 using namespace alba::mathHelper;
 using namespace std;
@@ -174,14 +176,6 @@ void TermsOverTerms::flip()
     swap(m_numerators, m_denominators);
 }
 
-string TermsOverTerms::getDisplayableString() const
-{
-    stringstream result;
-    printParameterWithName(result, "Numerators:", m_numerators);
-    printParameterWithName(result, "Denominators:", m_denominators);
-    return result.str();
-}
-
 void TermsOverTerms::setAsShouldSimplifyToFactors(
         bool const shouldSimplifyToFactors)
 {
@@ -291,7 +285,7 @@ void TermsOverTerms::handleZerosInNumeratorOrDenominator(
     {
         numerators.clear();
         denominators.clear();
-        numerators.emplace_back(AlbaNumber(AlbaNumber::Value::NotANumber));
+        numerators.emplace_back(ALBA_NUMBER_NOT_A_NUMBER);
     }
     else if(hasZeroOnNumerators)
     {
@@ -541,6 +535,13 @@ void TermsOverTerms::simplifyPolynomialsToPolynomialOverPolynomial()
     simplifyPolynomialNumeratorAndPolynomialDenominator(polynomialNumerator, polynomialDenominator);
     clearTermsThenEmplacePolynomialAndRemainingTerms(polynomialNumerator, nonPolynomialNumerators, m_numerators);
     clearTermsThenEmplacePolynomialAndRemainingTerms(polynomialDenominator, nonPolynomialDenominators, m_denominators);
+}
+
+ostream & operator<<(ostream & out, TermsOverTerms const& termsOverTerms)
+{
+    printParameterWithName(out, "Numerators:", termsOverTerms.m_numerators);
+    printParameterWithName(out, "Denominators:", termsOverTerms.m_denominators);
+    return out;
 }
 
 }

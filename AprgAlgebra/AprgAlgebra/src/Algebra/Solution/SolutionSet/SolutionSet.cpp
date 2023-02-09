@@ -4,10 +4,12 @@
 #include <Common/Math/Helpers/ComputationHelpers.hpp>
 #include <Common/Math/Helpers/SignRelatedHelpers.hpp>
 #include <Common/Math/Number/Interval/AlbaNumberIntervalHelpers.hpp>
+#include <Common/Math/Number/AlbaNumberConstants.hpp>
 
 #include <algorithm>
 #include <sstream>
 
+using namespace alba::AlbaNumberConstants;
 using namespace alba::mathHelper;
 using namespace std;
 
@@ -38,17 +40,6 @@ AlbaNumbers const& SolutionSet::getRejectedValues() const
 AlbaNumberIntervals const& SolutionSet::getAcceptedIntervals() const
 {
     return m_acceptedIntervals;
-}
-
-string SolutionSet::getDisplayableString() const
-{
-    stringstream ss;
-    printParameterWithName(ss, "AcceptedValues:", m_acceptedValues);
-    ss << " ";
-    printParameterWithName(ss, "RejectedValues:", m_rejectedValues);
-    ss << " ";
-    printParameterWithName(ss, "AcceptedIntervals:", m_acceptedIntervals);
-    return ss.str();
 }
 
 void SolutionSet::addAcceptedValue(AlbaNumber const& value)
@@ -126,7 +117,7 @@ void SolutionSet::checkValuesAndPutIntervals(
     {
         AlbaNumber const& firstValueToCheck(valuesToCheck.front());
         AlbaNumber intervalValueToCheck(firstValueToCheck - getAbsoluteValue(firstValueToCheck));
-        addInterval(AlbaNumber::Value::NegativeInfinity, intervalValueToCheck, firstValueToCheck, isValueAcceptedFunction);
+        addInterval(ALBA_NUMBER_NEGATIVE_INFINITY, intervalValueToCheck, firstValueToCheck, isValueAcceptedFunction);
         AlbaNumber previousValueToCheck(firstValueToCheck);
         for(auto it=valuesToCheck.cbegin()+1; it!=valuesToCheck.cend(); it++)
         {
@@ -136,7 +127,7 @@ void SolutionSet::checkValuesAndPutIntervals(
             previousValueToCheck = valueToCheck;
         }
         intervalValueToCheck = previousValueToCheck + getAbsoluteValue(previousValueToCheck);
-        addInterval(previousValueToCheck, intervalValueToCheck, AlbaNumber::Value::PositiveInfinity, isValueAcceptedFunction);
+        addInterval(previousValueToCheck, intervalValueToCheck, ALBA_NUMBER_POSITIVE_INFINITY, isValueAcceptedFunction);
     }
 }
 
@@ -170,9 +161,9 @@ void SolutionSet::combineAcceptedIntervalsIfPossible()
     AlbaNumberIntervalOptional intervalToSaveOptional;
     for(AlbaNumberInterval const& interval : intervals)
     {
-        if(intervalToSaveOptional.hasContent())
+        if(intervalToSaveOptional)
         {
-            AlbaNumberInterval & intervalToSave(intervalToSaveOptional.getReference());
+            AlbaNumberInterval & intervalToSave(intervalToSaveOptional.value());
             if(intervalToSave.getHigherEndpoint().isClose()
                     && interval.getLowerEndpoint().isClose()
                     && intervalToSave.getHigherEndpoint().getValue() == interval.getLowerEndpoint().getValue())
@@ -182,23 +173,27 @@ void SolutionSet::combineAcceptedIntervalsIfPossible()
             else
             {
                 m_acceptedIntervals.emplace_back(intervalToSave);
-                intervalToSaveOptional.setConstReference(interval);
+                intervalToSaveOptional = interval;
             }
         }
         else
         {
-            intervalToSaveOptional.setConstReference(interval);
+            intervalToSaveOptional = interval;
         }
     }
-    if(intervalToSaveOptional.hasContent())
+    if(intervalToSaveOptional)
     {
-        m_acceptedIntervals.emplace_back(intervalToSaveOptional.getReference());
+        m_acceptedIntervals.emplace_back(intervalToSaveOptional.value());
     }
 }
 
 ostream & operator<<(ostream & out, SolutionSet const& solutionSet)
 {
-    out << solutionSet.getDisplayableString();
+    printParameterWithName(out, "AcceptedValues:", solutionSet.m_acceptedValues);
+    out << " ";
+    printParameterWithName(out, "RejectedValues:", solutionSet.m_rejectedValues);
+    out << " ";
+    printParameterWithName(out, "AcceptedIntervals:", solutionSet.m_acceptedIntervals);
     return out;
 }
 

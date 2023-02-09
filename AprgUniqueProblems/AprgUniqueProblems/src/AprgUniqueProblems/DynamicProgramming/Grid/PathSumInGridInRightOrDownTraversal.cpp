@@ -12,6 +12,7 @@ PathSumInGridInRightOrDownTraversal::PathSumInGridInRightOrDownTraversal(
 {
     initialize(type);
 }
+
 PathSumInGridInRightOrDownTraversal::Value PathSumInGridInRightOrDownTraversal::getBestPathSumUsingNaiveRecursion() const
 {
     Value pathSum(0);
@@ -21,6 +22,7 @@ PathSumInGridInRightOrDownTraversal::Value PathSumInGridInRightOrDownTraversal::
     }
     return pathSum;
 }
+
 PathSumInGridInRightOrDownTraversal::Value PathSumInGridInRightOrDownTraversal::getBestPathSumUsingMemoizationDP() const
 {
     Value pathSum(0);
@@ -31,6 +33,7 @@ PathSumInGridInRightOrDownTraversal::Value PathSumInGridInRightOrDownTraversal::
     }
     return pathSum;
 }
+
 PathSumInGridInRightOrDownTraversal::Value PathSumInGridInRightOrDownTraversal::getBestPathSumUsingTabularDP() const
 {
     // Time Complexity of the DP implementation is O(mn) which is much better than Naive Recursive implementation.
@@ -39,7 +42,8 @@ PathSumInGridInRightOrDownTraversal::Value PathSumInGridInRightOrDownTraversal::
     if(!m_inputGrid.isEmpty())
     {
         Grid partialSumGrid(getPartialSumGridUsingTabularDP());
-        pathSum = partialSumGrid.getEntry(partialSumGrid.getNumberOfColumns()-1, partialSumGrid.getNumberOfRows()-1);    }
+        pathSum = partialSumGrid.getEntry(partialSumGrid.getNumberOfColumns()-1, partialSumGrid.getNumberOfRows()-1);
+    }
     return pathSum;
 }
 
@@ -53,7 +57,8 @@ PathSumInGridInRightOrDownTraversal::Path PathSumInGridInRightOrDownTraversal::g
         path = {m_inputGrid.getEntry(x, y)};
         while(true)
         {
-            if(x==0 && y==0)            {
+            if(x==0 && y==0)
+            {
                 break;
             }
             else if(x==0)
@@ -73,9 +78,11 @@ PathSumInGridInRightOrDownTraversal::Path PathSumInGridInRightOrDownTraversal::g
                 path.emplace_back(m_inputGrid.getEntry(x, --y));
             }
         }
-        reverse(path.begin(), path.end());    }
+        reverse(path.begin(), path.end());
+    }
     return path;
 }
+
 PathSumInGridInRightOrDownTraversal::Value PathSumInGridInRightOrDownTraversal::getBestPathSumUsingNaiveRecursion(
         Index const x,
         Index const y) const
@@ -85,10 +92,12 @@ PathSumInGridInRightOrDownTraversal::Value PathSumInGridInRightOrDownTraversal::
     Value result(m_inputGrid.getEntry(x, y));
     if(!(x==0 && y==0))
     {
-        if(x==0)        {
+        if(x==0)
+        {
             result += getBestPathSumUsingNaiveRecursion(x, y-1);
         }
-        else if(y==0)        {
+        else if(y==0)
+        {
             result += getBestPathSumUsingNaiveRecursion(x-1, y);
         }
         else
@@ -101,7 +110,8 @@ PathSumInGridInRightOrDownTraversal::Value PathSumInGridInRightOrDownTraversal::
 
 PathSumInGridInRightOrDownTraversal::Value PathSumInGridInRightOrDownTraversal::getBestPathSumUsingMemoizationDP(
         Grid & partialSumGrid,
-        Index const x,        Index const y) const
+        Index const x,
+        Index const y) const
 {
     Value result(partialSumGrid.getEntry(x, y));
     if(UNUSED_VALUE == result)
@@ -109,10 +119,12 @@ PathSumInGridInRightOrDownTraversal::Value PathSumInGridInRightOrDownTraversal::
         result = m_inputGrid.getEntry(x, y);
         if(!(x==0 && y==0))
         {
-            if(x==0)            {
+            if(x==0)
+            {
                 result += getBestPathSumUsingMemoizationDP(partialSumGrid, x, y-1);
             }
-            else if(y==0)            {
+            else if(y==0)
+            {
                 result += getBestPathSumUsingMemoizationDP(partialSumGrid, x-1, y);
             }
             else
@@ -150,10 +162,12 @@ PathSumInGridInRightOrDownTraversal::Grid PathSumInGridInRightOrDownTraversal::g
 
 void PathSumInGridInRightOrDownTraversal::initialize(Type const type)
 {
-    if(Type::MinimumSum == type)    {
+    if(Type::MinimumSum == type)
+    {
         m_compareFunction = less_equal<>();
         m_minMaxFunction = [](Value const& value1, Value const& value2)
-        {            return min(value1, value2);
+        {
+            return min(value1, value2);
         };
     }
     else if(Type::MaximumSum == type)

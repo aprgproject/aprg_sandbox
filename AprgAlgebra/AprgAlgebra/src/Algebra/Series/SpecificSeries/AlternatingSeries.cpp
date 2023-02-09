@@ -3,7 +3,9 @@
 #include <Algebra/Limit/Limit.hpp>
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
 #include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>
+#include <Common/Math/Number/AlbaNumberConstants.hpp>
 
+using namespace alba::AlbaNumberConstants;
 using namespace std;
 
 namespace alba
@@ -19,7 +21,7 @@ AlternatingSeries::AlternatingSeries(Term const& formulaForEachTermWithoutSign, 
 
 bool AlternatingSeries::isConvergent() const
 {
-    Term limit(getLimit(m_formulaForEachTermWithoutSign, getNameForVariableInFormula(), AlbaNumber(AlbaNumber::Value::PositiveInfinity)));
+    Term limit(getLimit(m_formulaForEachTermWithoutSign, getNameForVariableInFormula(), ALBA_NUMBER_POSITIVE_INFINITY));
     return isTheValue(limit, 0);
 }
 

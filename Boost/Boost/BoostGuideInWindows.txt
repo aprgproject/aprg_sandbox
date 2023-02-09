@@ -29,7 +29,8 @@ Installing boost libraries for GCC (MinGW) on Windows APRG
 NOTE: Remember to replace the xxxxx!!!
 
 -> boost building
-1) Open Command Prompt and navigate to "APRG\Boost\Boost\boost".2) Run:
+1) Open Command Prompt and navigate to "APRG\Boost\Boost\boost".
+2) Run:
 ---> b2 --build-dir="xxxxx\APRG\Boost\Boost\boost\build" --prefix="xxxxx\APRG\Boost\Boost\boost" toolset=gcc install
 2.1) The option “--build-type=complete” causes Boost.Build to build all supported variants of the libraries. 
 2.2) In particular, to limit the amount of time spent building, you may be interested in:
@@ -39,7 +40,9 @@ NOTE: Remember to replace the xxxxx!!!
 NOTE: Remember to replace the xxxxx!!!
 
 
--> create boost libraries1) Open Command Prompt and go to "APRG\Boost\Boost\boost".
+
+-> create boost libraries
+1) Open Command Prompt and go to "APRG\Boost\Boost\boost".
 2) Header-Only Libraries
 ---> The first thing many people want to know is, “how do I build Boost?” The good news is that often, there's nothing to build.
 ---> Most Boost libraries are header-only: they consist entirely of header files containing templates and inline functions, and require no separately-compiled library binaries or special treatment when linking.
@@ -54,9 +57,11 @@ NOTE: Remember to replace the xxxxx!!!
 5) Add library on boost cmake
 ---> Open "APRG\Boost\Boost\cmake\IncludeBoost.cmake" and add library during searching for boost.
 -----> Edit this line: "find_package(Boost COMPONENTS system locale filesystem iostreams)"
+
 -> Project setup
 1) Add include folder, i.e. C:\Program Files\boost\include\boost-1_59.
----> "APRG\Boost\Boost\cmake\IncludeBoost.cmake" should contain:-----> set(BOOST_INCLUDEDIR    ${BOOST_DIR}/)
+---> "APRG\Boost\Boost\cmake\IncludeBoost.cmake" should contain:
+-----> set(BOOST_INCLUDEDIR    ${BOOST_DIR}/)
 2) Add linker folder, i.e. C:\Program Files\boost\lib..
 ---> "APRG\Boost\Boost\cmake\IncludeBoost.cmake" should contain:
 -----> set(BOOST_LIBRARYDIR    ${BOOST_DIR}/boost/lib)

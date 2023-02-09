@@ -31,7 +31,7 @@ BrentMethod::BrentMethod(AlbaNumbers const& coefficients)
 
 bool BrentMethod::isFinished() const
 {
-    return m_values.solutionOptional.hasContent();
+    return m_values.solutionOptional.has_value();
 }
 
 unsigned int BrentMethod::getNumberOfIterationsExecuted() const
@@ -58,7 +58,7 @@ AlbaNumberOptional const& BrentMethod::getSolution()
 void BrentMethod::resetCalculation(AlbaNumber const& start, AlbaNumber const& end)
 {
     m_numberOfIterationsExecuted=0;
-    m_values.solutionOptional.clear();
+    m_values.solutionOptional.reset();
     m_values.a = start;
     m_values.b = end;
     m_values.d = 0;
@@ -77,43 +77,43 @@ void BrentMethod::resetCalculation(AlbaNumber const& start, AlbaNumber const& en
 
 void BrentMethod::runOneIteration()
 {
-    AlbaNumber::ScopeObject scopeObject;
-    scopeObject.setInThisScopeTheTolerancesToZero();
+    AlbaNumber::ScopeConfigurationObject scopeConfigurationObject;
+    scopeConfigurationObject.setInThisScopeTheTolerancesToZero();
 
     if(isAlmostEqualForBrentMethod(calculate(m_values.s), 0))
     {
-        m_values.solutionOptional.setValue(m_values.s);
+        m_values.solutionOptional=m_values.s;
         return;
     }
     if(isAlmostEqualForBrentMethod(calculate(m_values.b), 0))
     {
-        m_values.solutionOptional.setValue(m_values.b);
+        m_values.solutionOptional=m_values.b;
         return;
     }
     if(isAlmostEqualForBrentMethod(m_values.a, m_values.b)
             && isAlmostEqual(calculate(m_values.a).getDouble(), 0.0, BRENT_METHOD_TOLERANCE_TO_ZERO_FOR_A_AND_B))
     {
-        m_values.solutionOptional.setValue(m_values.a);
+        m_values.solutionOptional=m_values.a;
         return;
     }
     AlbaNumber fc = calculate(m_values.c);
     if(!isAlmostEqualForBrentMethod(m_values.fa, fc) && !isAlmostEqualForBrentMethod(m_values.fb, fc))
     {
         AlbaNumberOptional sOptional(calculateInverseQuadraticInterpolation(m_values.a, m_values.b, m_values.c));
-        if(!sOptional.hasContent())
+        if(!sOptional)
         {
             return;
         }
-        m_values.s = sOptional.getConstReference();
+        m_values.s = sOptional.value();
     }
     else if(!isAlmostEqualForBrentMethod(m_values.fa, m_values.fb))
     {
         AlbaNumberOptional sOptional(calculateSecantMethod(m_values.a, m_values.b));
-        if(!sOptional.hasContent())
+        if(!sOptional)
         {
             return;
         }
-        m_values.s = sOptional.getConstReference();
+        m_values.s = sOptional.value();
     }
     if(isBisectionMethodNeeded(m_values.a, m_values.b, m_values.c, m_values.d, m_values.s, m_values.mflag)
             || isAlmostEqualForBrentMethod(m_values.a, m_values.s)
@@ -198,7 +198,7 @@ AlbaNumberOptional BrentMethod::calculateInverseQuadraticInterpolation(
         AlbaNumber firstPart = (a*fb*fc) / firstDenominator;
         AlbaNumber secondPart = (b*fa*fc) / secondDenominator;
         AlbaNumber thirdPart = (c*fa*fb) / thirdDenominator;
-        result.setValue(firstPart+secondPart+thirdPart);
+        result = firstPart+secondPart+thirdPart;
     }
     return result;
 }
@@ -215,7 +215,7 @@ AlbaNumberOptional BrentMethod::calculateSecantMethod(
     {
         AlbaNumber firstPart = b;
         AlbaNumber secondPart = (fb*(b-a)) / (denominator);
-        result.setValue(firstPart-secondPart);
+        result = firstPart-secondPart;
     }
     return result;
 }
@@ -250,17 +250,17 @@ bool BrentMethod::isBisectionMethodNeeded(
 
 void BrentMethod::convertSolutionToIntegerIfNeeded()
 {
-    if(m_values.solutionOptional.hasContent() && !m_coefficients.empty())
+    if(m_values.solutionOptional && !m_coefficients.empty())
     {
         AlbaNumber aCoefficient(m_coefficients.front());
         if(aCoefficient.isIntegerOrFractionType())
         {
-            AlbaNumber possibleValue(m_values.solutionOptional.getConstReference()*aCoefficient);
+            AlbaNumber possibleValue(m_values.solutionOptional.value()*aCoefficient);
             possibleValue.convertToInteger();
             possibleValue = possibleValue/aCoefficient;
             if(isAlmostEqualForBrentMethod(calculate(possibleValue), 0.0))
             {
-                m_values.solutionOptional.setValue(possibleValue);
+                m_values.solutionOptional = possibleValue;
             }
         }
     }

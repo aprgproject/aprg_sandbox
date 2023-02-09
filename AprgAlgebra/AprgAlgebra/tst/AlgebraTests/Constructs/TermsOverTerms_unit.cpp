@@ -3,10 +3,12 @@
 #include <Algebra/Term/Utilities/BaseTermHelpers.hpp>
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
 #include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>
+#include <Common/String/AlbaStringHelper.hpp>
 
 #include <gtest/gtest.h>
 
 using namespace alba::algebra::Functions;
+using namespace alba::stringHelper;
 using namespace std;
 
 namespace alba
@@ -596,7 +598,7 @@ TEST(TermsOverTermsTest, SimplifyWorksOnDistributingTerms)
     string stringToExpect("((x*cos(ln(x)))-(x*sin(ln(x))))");
     Terms numeratorsToVerify(termsOverTerms.getNumerators());
     ASSERT_EQ(1U, numeratorsToVerify.size());
-    EXPECT_EQ(stringToExpect, numeratorsToVerify.at(0).getDisplayableString());
+    EXPECT_EQ(stringToExpect, convertToString(numeratorsToVerify.at(0)));
     Term expectedDenominator1(2);
     Terms denominatorsToVerify(termsOverTerms.getDenominators());
     ASSERT_EQ(1U, denominatorsToVerify.size());

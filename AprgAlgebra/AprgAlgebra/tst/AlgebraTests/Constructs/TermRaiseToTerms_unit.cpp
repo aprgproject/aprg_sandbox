@@ -3,9 +3,11 @@
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
 #include <Algebra/Term/Utilities/TermUtilities.hpp>
 #include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>
+#include <Common/Math/Number/AlbaNumberConstants.hpp>
 
 #include <gtest/gtest.h>
 
+using namespace alba::AlbaNumberConstants;
 using namespace alba::algebra::Functions;
 
 namespace alba
@@ -281,7 +283,7 @@ TEST(TermRaiseToTermsTest, SimplifyWorksWithReducingExponentialToLogarithmicWith
 TEST(TermRaiseToTermsTest, SimplifyWorksWithNegativeNumberRaiseToInfinity)
 {
     Term base(-1);
-    Term exponent(AlbaNumber(AlbaNumber::Value::PositiveInfinity));
+    Term exponent(ALBA_NUMBER_POSITIVE_INFINITY);
     TermRaiseToTerms termRaiseToTerms(base, exponent);
 
     termRaiseToTerms.simplify();

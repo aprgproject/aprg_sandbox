@@ -1,8 +1,10 @@
 #include <Algebra/Factorization/FactorizationConfiguration.hpp>
 #include <Algebra/Factorization/FactorizationOfPolynomial.hpp>
+#include <Common/Math/Number/AlbaNumberConstants.hpp>
 
 #include <gtest/gtest.h>
 
+using namespace alba::AlbaNumberConstants;
 using namespace std;
 
 namespace alba
@@ -428,12 +430,12 @@ TEST(FactorizationOfPolynomialsTest, Example3_FactorizeWorks)
 
 TEST(FactorizationOfPolynomialsTest, PolynomialWithPositiveInfinityNumber_FactorizeWorks)
 {
-    Polynomial polynomialToTest{Monomial(4, {{"x", 1}}), Monomial(AlbaNumber(AlbaNumber::Value::PositiveInfinity), {})};
+    Polynomial polynomialToTest{Monomial(4, {{"x", 1}}), Monomial(ALBA_NUMBER_POSITIVE_INFINITY, {})};
 
     Polynomials polynomialsToVerify(factorizeAPolynomial(polynomialToTest));
 
     ASSERT_EQ(1U, polynomialsToVerify.size());
-    Polynomial polynomialToExpect{Monomial(4, {{"x", 1}}), Monomial(AlbaNumber(AlbaNumber::Value::PositiveInfinity), {})};
+    Polynomial polynomialToExpect{Monomial(4, {{"x", 1}}), Monomial(ALBA_NUMBER_POSITIVE_INFINITY, {})};
     EXPECT_EQ(polynomialToExpect, polynomialsToVerify.at(0));
 }
 

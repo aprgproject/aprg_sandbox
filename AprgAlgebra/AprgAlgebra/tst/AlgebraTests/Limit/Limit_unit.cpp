@@ -5,10 +5,14 @@
 #include <Algebra/Term/Utilities/StringHelpers.hpp>
 #include <Algebra/Term/Utilities/TermUtilities.hpp>
 #include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>
+#include <Common/String/AlbaStringHelper.hpp>
+#include <Common/Math/Number/AlbaNumberConstants.hpp>
 
 #include <gtest/gtest.h>
 
+using namespace alba::AlbaNumberConstants;
 using namespace alba::algebra::Functions;
+using namespace alba::stringHelper;
 using namespace std;
 
 namespace alba
@@ -19,8 +23,8 @@ namespace algebra
 
 TEST(LimitTest, IsAlmostEqualForLimitIterationWorks)
 {
-    AlbaNumber::ScopeObject scopeObject;
-    scopeObject.setInThisScopeTheTolerancesToZero();
+    AlbaNumber::ScopeConfigurationObject scopeConfigurationObject;
+    scopeConfigurationObject.setInThisScopeTheTolerancesToZero();
 
     EXPECT_TRUE(isAlmostEqualForLimitIteration(AlbaNumber(0), AlbaNumber(0)));
     EXPECT_FALSE(isAlmostEqualForLimitIteration(AlbaNumber(0.1), AlbaNumber(0.2)));
@@ -120,8 +124,8 @@ TEST(LimitTest, GetLimitAtAValueUsingTrendOfValuesWorks)
     Term denominator(Polynomial{Monomial(1, {{"x", 1}}), Monomial(-2, {})});
     Term constantOverPolynomialTerm(createExpressionIfPossible({3, "/", denominator}));
 
-    EXPECT_EQ(AlbaNumber(AlbaNumber::Value::PositiveInfinity), getLimitAtAValueUsingTrendOfValues(constantOverPolynomialTerm, "x", 2, 3, 4));
-    EXPECT_EQ(AlbaNumber(AlbaNumber::Value::NegativeInfinity), getLimitAtAValueUsingTrendOfValues(constantOverPolynomialTerm, "x", 2, 1, 0));
+    EXPECT_EQ(ALBA_NUMBER_POSITIVE_INFINITY, getLimitAtAValueUsingTrendOfValues(constantOverPolynomialTerm, "x", 2, 3, 4));
+    EXPECT_EQ(ALBA_NUMBER_NEGATIVE_INFINITY, getLimitAtAValueUsingTrendOfValues(constantOverPolynomialTerm, "x", 2, 1, 0));
     EXPECT_EQ(AlbaNumber::createFraction(9, 10), getLimitAtAValueUsingTrendOfValues(constantOverPolynomialTerm, "x", 5, 6, 7));
 }
 
@@ -178,7 +182,7 @@ TEST(LimitTest, GetLimitUsingLhopitalsRuleWorks)
 
     Term termToVerify1(getLimitUsingLhopitalsRule(termToTest1, "x", 5));
     Term termToVerify2(getLimitUsingLhopitalsRule(termToTest2, "x", 0));
-    Term termToVerify3(getLimitUsingLhopitalsRule(termToTest3, "x", AlbaNumber(AlbaNumber::Value::PositiveInfinity)));
+    Term termToVerify3(getLimitUsingLhopitalsRule(termToTest3, "x", ALBA_NUMBER_POSITIVE_INFINITY));
 
     EXPECT_EQ(Term(5), termToVerify1);
     EXPECT_EQ(Term(-1), termToVerify2);
@@ -195,14 +199,14 @@ TEST(LimitTest, GetTermUsingLhopitalsRuleWorks)
 
     Term termToVerify1(getTermUsingLhopitalsRule(termToTest1, "x", 5));
     Term termToVerify2(getTermUsingLhopitalsRule(termToTest2, "x", 0));
-    Term termToVerify3(getTermUsingLhopitalsRule(termToTest3, "x", AlbaNumber(AlbaNumber::Value::PositiveInfinity)));
+    Term termToVerify3(getTermUsingLhopitalsRule(termToTest3, "x", ALBA_NUMBER_POSITIVE_INFINITY));
 
     string stringToExpect1("x");
     string stringToExpect2("(-1/((e)^x))");
     string stringToExpect3("((1[x^2] + 1)*cos((1/x))/1[x^2])");
-    EXPECT_EQ(stringToExpect1, termToVerify1.getDisplayableString());
-    EXPECT_EQ(stringToExpect2, termToVerify2.getDisplayableString());
-    EXPECT_EQ(stringToExpect3, termToVerify3.getDisplayableString());
+    EXPECT_EQ(stringToExpect1, convertToString(termToVerify1));
+    EXPECT_EQ(stringToExpect2, convertToString(termToVerify2));
+    EXPECT_EQ(stringToExpect3, convertToString(termToVerify3));
 }
 
 TEST(LimitTest, CalculateTermAndLimitUsingLhopitalsRuleWorksUsingTrigonometricExample)
@@ -211,11 +215,11 @@ TEST(LimitTest, CalculateTermAndLimitUsingLhopitalsRuleWorksUsingTrigonometricEx
     Term termToTest(createExpressionIfPossible({sin(oneOverX), "/", arctan(oneOverX)}));
 
     Term newTerm, limitValue;
-    calculateTermAndLimitUsingLhopitalsRule(newTerm, limitValue, termToTest, "x", AlbaNumber(AlbaNumber::Value::PositiveInfinity));
+    calculateTermAndLimitUsingLhopitalsRule(newTerm, limitValue, termToTest, "x", ALBA_NUMBER_POSITIVE_INFINITY);
 
     string stringToExpect("((1[x^2] + 1)*cos((1/x))/1[x^2])");
     EXPECT_EQ(Term(1), limitValue);
-    EXPECT_EQ(stringToExpect, newTerm.getDisplayableString());
+    EXPECT_EQ(stringToExpect, convertToString(newTerm));
 }
 
 TEST(LimitTest, CalculateTermAndLimitUsingLhopitalsRuleWorksUsingLogarithmicAndExponentialExample)
@@ -226,11 +230,11 @@ TEST(LimitTest, CalculateTermAndLimitUsingLhopitalsRuleWorksUsingLogarithmicAndE
     Term termToTest(createExpressionIfPossible({numerator, "/", denominator}));
 
     Term newTerm, limitValue;
-    calculateTermAndLimitUsingLhopitalsRule(newTerm, limitValue, termToTest, "x", AlbaNumber(AlbaNumber::Value::PositiveInfinity));
+    calculateTermAndLimitUsingLhopitalsRule(newTerm, limitValue, termToTest, "x", ALBA_NUMBER_POSITIVE_INFINITY);
 
     string stringToExpect("(1/3)");
     EXPECT_EQ(Term(AlbaNumber::createFraction(1, 3)), limitValue);
-    EXPECT_EQ(stringToExpect, newTerm.getDisplayableString());
+    EXPECT_EQ(stringToExpect, convertToString(newTerm));
 }
 
 TEST(LimitTest, CalculateTermAndLimitUsingLhopitalsRuleWorksUsingTrigonometricExample2)
@@ -245,7 +249,7 @@ TEST(LimitTest, CalculateTermAndLimitUsingLhopitalsRuleWorksUsingTrigonometricEx
 
     string stringToExpect("((sec(x)^2)/(2+(1[x^2]*(sec(x)^2))+(2[x]*tan(x))))");
     EXPECT_EQ(Term(AlbaNumber::createFraction(1, 2)), limitValue);
-    EXPECT_EQ(stringToExpect, newTerm.getDisplayableString());
+    EXPECT_EQ(stringToExpect, convertToString(newTerm));
 }
 
 TEST(LimitTest, GetLimitAtAValueOrInfinityWorks)
@@ -254,7 +258,7 @@ TEST(LimitTest, GetLimitAtAValueOrInfinityWorks)
     Term termToTest2(createExpressionIfPossible({1, "/", "x"}));
 
     EXPECT_EQ(Term(5), getLimitAtAValueOrInfinity(termToTest1, "x", 3));
-    EXPECT_EQ(Term(0), getLimitAtAValueOrInfinity(termToTest2, "x", AlbaNumber(AlbaNumber::Value::PositiveInfinity)));
+    EXPECT_EQ(Term(0), getLimitAtAValueOrInfinity(termToTest2, "x", ALBA_NUMBER_POSITIVE_INFINITY));
 }
 
 TEST(LimitTest, GetLimitAtAValueWorksWhichDoesNotResultToConstant)
@@ -397,7 +401,7 @@ TEST(LimitTest, GetLimitAtAValueWorksForASpecifiedFunction)
         }
         else
         {
-            result = AlbaNumber(AlbaNumber::Value::NotANumber);
+            result = ALBA_NUMBER_NOT_A_NUMBER;
         }
         return result;
     });
@@ -410,8 +414,8 @@ TEST(LimitTest, GetLimitAtAValueWorksForASpecifiedFunction)
 
 TEST(LimitTest, GetLimitAtInfinityWorks)
 {
-    EXPECT_EQ(getNegativeInfinityAsATerm(), getLimitAtInfinity("x", "x", AlbaNumber::Value::NegativeInfinity));
-    EXPECT_EQ(getPositiveInfinityAsATerm(), getLimitAtInfinity("x", "x", AlbaNumber::Value::PositiveInfinity));
+    EXPECT_EQ(getNegativeInfinityAsATerm(), getLimitAtInfinity("x", "x", ALBA_NUMBER_NEGATIVE_INFINITY));
+    EXPECT_EQ(getPositiveInfinityAsATerm(), getLimitAtInfinity("x", "x", ALBA_NUMBER_POSITIVE_INFINITY));
 }
 
 TEST(LimitTest, GetObliqueAsymptoteWorksAsResultIsEmptyWhenItsALine)

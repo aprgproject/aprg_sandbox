@@ -28,9 +28,11 @@ template <> inline bool isAlmostEqual<double>(double const value1, double const 
     return value1 == value2 || getAbsoluteValue(value1-value2) < AlbaMathConstants::COMPARISON_TOLERANCE_FOR_DOUBLE;
 }
 
-template <typename FloatingType, typename IntegerType> inline bool isAlmostAnInteger(FloatingType const value){
+template <typename FloatingType, typename IntegerType> inline bool isAlmostAnInteger(FloatingType const value)
+{
     static_assert(std::is_floating_point<FloatingType>::value, "FloatingType must be an floating type");
     static_assert(std::is_integral<IntegerType>::value, "IntegerType must be an integer");
+
     return isAlmostEqual(
                 value,
                 static_cast<FloatingType>(static_cast<IntegerType>(round(value))));

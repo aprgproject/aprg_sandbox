@@ -114,7 +114,7 @@ Term simplifyAndGetLimitAtAValue(
 Term getLimitAtInfinity(
         Term const& term,
         std::string const& variableName,
-        AlbaNumber::Value const infinityValue);
+        AlbaNumber const infinityValue);
 
 Term getObliqueAsymptote(Term const& term);
 

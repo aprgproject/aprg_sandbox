@@ -60,9 +60,9 @@ void OneEquationOneVariableNonEqualitySolver::calculateForTermAndVariable(
 {
     PolynomialOverPolynomialOptional popOptional(
                 createPolynomialOverPolynomialFromTermIfPossible(term));
-    if(popOptional.hasContent())
+    if(popOptional)
     {
-        PolynomialOverPolynomial const& pop(popOptional.getConstReference());
+        PolynomialOverPolynomial const& pop(popOptional.value());
         AlbaNumbers numeratorRoots(getRoots(RootType::RealAndImaginaryRoots, pop.getNumerator()));
         AlbaNumbers denominatorRoots(getRoots(RootType::RealAndImaginaryRoots, pop.getDenominator()));
         m_calculatedValues.reserve(numeratorRoots.size() + denominatorRoots.size());

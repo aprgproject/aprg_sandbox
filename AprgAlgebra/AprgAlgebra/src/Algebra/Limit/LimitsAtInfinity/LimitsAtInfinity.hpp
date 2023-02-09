@@ -20,7 +20,7 @@ public:
             std::string const& variableName);
 
     Term getSimplifiedTermAtInfinity() const;
-    Term getValueAtInfinity(AlbaNumber::Value const infinityValue) const;
+    Term getValueAtInfinity(AlbaNumber const infinityValue) const;
 
 private:
     void simplify();

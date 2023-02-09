@@ -1,9 +1,11 @@
 #include <Algebra/Series/SpecificSeries/TaylorSeries.hpp>
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
 #include <Algebra/Term/Utilities/TermUtilities.hpp>
+#include <Common/String/AlbaStringHelper.hpp>
 
 #include <gtest/gtest.h>
 
+using namespace alba::stringHelper;
 using namespace std;
 
 namespace alba
@@ -24,7 +26,7 @@ TEST(TaylorSeriesTest, GetFormulaForTaylorSeriesWorks)
     TaylorSeries series(formula, "x");
 
     string stringToExpect("((e)^x)");
-    EXPECT_EQ(stringToExpect, series.getFormulaForTaylorSeries().getDisplayableString());
+    EXPECT_EQ(stringToExpect, convertToString(series.getFormulaForTaylorSeries()));
 }
 
 TEST(TaylorSeriesTest, GetValueAtIndexWorks)
@@ -41,11 +43,11 @@ TEST(TaylorSeriesTest, GetValueAtIndexWorks)
     string stringToExpect3("((1/2)[x^2] + 1[x] + 1)");
     string stringToExpect4("((1/6)[x^3] + (1/2)[x^2] + 1[x] + 1)");
     string stringToExpect5("((1/24)[x^4] + (1/6)[x^3] + (1/2)[x^2] + 1[x] + 1)");
-    EXPECT_EQ(stringToExpect1, series.getValueAtIndex(0, 0).getDisplayableString());
-    EXPECT_EQ(stringToExpect2, series.getValueAtIndex(1, 0).getDisplayableString());
-    EXPECT_EQ(stringToExpect3, series.getValueAtIndex(2, 0).getDisplayableString());
-    EXPECT_EQ(stringToExpect4, series.getValueAtIndex(3, 0).getDisplayableString());
-    EXPECT_EQ(stringToExpect5, series.getValueAtIndex(4, 0).getDisplayableString());
+    EXPECT_EQ(stringToExpect1, convertToString(series.getValueAtIndex(0, 0)));
+    EXPECT_EQ(stringToExpect2, convertToString(series.getValueAtIndex(1, 0)));
+    EXPECT_EQ(stringToExpect3, convertToString(series.getValueAtIndex(2, 0)));
+    EXPECT_EQ(stringToExpect4, convertToString(series.getValueAtIndex(3, 0)));
+    EXPECT_EQ(stringToExpect5, convertToString(series.getValueAtIndex(4, 0)));
 }
 
 TEST(TaylorSeriesTest, GetValueForMaclaurinSeriesAtIndexWorks)
@@ -58,11 +60,11 @@ TEST(TaylorSeriesTest, GetValueForMaclaurinSeriesAtIndexWorks)
     string stringToExpect3("((1/2)[x^2] + 1[x] + 1)");
     string stringToExpect4("((1/6)[x^3] + (1/2)[x^2] + 1[x] + 1)");
     string stringToExpect5("((1/24)[x^4] + (1/6)[x^3] + (1/2)[x^2] + 1[x] + 1)");
-    EXPECT_EQ(stringToExpect1, series.getValueForMaclaurinSeriesAtIndex(0).getDisplayableString());
-    EXPECT_EQ(stringToExpect2, series.getValueForMaclaurinSeriesAtIndex(1).getDisplayableString());
-    EXPECT_EQ(stringToExpect3, series.getValueForMaclaurinSeriesAtIndex(2).getDisplayableString());
-    EXPECT_EQ(stringToExpect4, series.getValueForMaclaurinSeriesAtIndex(3).getDisplayableString());
-    EXPECT_EQ(stringToExpect5, series.getValueForMaclaurinSeriesAtIndex(4).getDisplayableString());
+    EXPECT_EQ(stringToExpect1, convertToString(series.getValueForMaclaurinSeriesAtIndex(0)));
+    EXPECT_EQ(stringToExpect2, convertToString(series.getValueForMaclaurinSeriesAtIndex(1)));
+    EXPECT_EQ(stringToExpect3, convertToString(series.getValueForMaclaurinSeriesAtIndex(2)));
+    EXPECT_EQ(stringToExpect4, convertToString(series.getValueForMaclaurinSeriesAtIndex(3)));
+    EXPECT_EQ(stringToExpect5, convertToString(series.getValueForMaclaurinSeriesAtIndex(4)));
 }
 
 }

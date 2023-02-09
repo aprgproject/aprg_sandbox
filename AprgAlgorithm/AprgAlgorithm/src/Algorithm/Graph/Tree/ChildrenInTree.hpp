@@ -5,8 +5,10 @@
 
 namespace alba
 {
+
 namespace algorithm
 {
+
 template <typename Vertex>
 class ChildrenInTree
 {
@@ -35,9 +37,11 @@ public:
     }
 
 private:
+
     void initializeIfNeeded()
     {
-        if(GraphUtilities::isATree(m_graph))        {
+        if(GraphUtilities::isATree(m_graph))
+        {
             initialize();
         }
     }

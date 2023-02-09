@@ -9,11 +9,12 @@
 #include <Algebra/Substitution/SubstitutionOfVariablesToValues.hpp>
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
 #include <Algebra/Term/Utilities/StringHelpers.hpp>
-#include <Common/Math/AlbaMathConstants.hpp>
 #include <Common/Math/Number/Interval/AlbaNumberIntervalHelpers.hpp>
+#include <Common/Math/Number/AlbaNumberConstants.hpp>
 
 #include <gtest/gtest.h>
 
+using namespace alba::AlbaNumberConstants;
 using namespace alba::algebra::Simplification;
 using namespace std;
 
@@ -169,13 +170,15 @@ TEST(ComboTest, DifferentiationRelatedRatesConeWaterExampleTest)
     Equation equation(term1ForEquation, "=", term2ForEquation);
     Differentiation differentiation("t", {"V", "h"});
     Equation differentiatedEquation(differentiation.differentiate(equation));
-    SubstitutionOfVariablesToValues substitution({{"d[V]/d[t]", 2}, {"h", 5}, {"pi", AlbaNumber(AlbaNumber::Value::pi)}});
+    SubstitutionOfVariablesToValues substitution({{"d[V]/d[t]", 2}, {"h", 5}, {"pi", ALBA_NUMBER_PI}});
     Equation solutionEquation(substitution.performSubstitutionTo(differentiatedEquation));
     OneEquationOneVariableEqualitySolver solver;
     SolutionSet solutionSet(solver.calculateSolutionAndReturnSolutionSet(solutionEquation));
+
     EXPECT_TRUE(solver.isSolved());
     EXPECT_TRUE(solver.isACompleteSolution());
-    EXPECT_EQ(AlbaNumbers{0.4074366543152521}, solutionSet.getAcceptedValues());}
+    EXPECT_EQ(AlbaNumbers{0.4074366543152521}, solutionSet.getAcceptedValues());
+}
 
 }
 

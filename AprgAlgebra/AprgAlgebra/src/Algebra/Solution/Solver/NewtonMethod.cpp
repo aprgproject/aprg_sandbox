@@ -47,8 +47,8 @@ AlbaNumber const& NewtonMethod::getCurrentValue() const
 
 void NewtonMethod::runOneIteration()
 {
-    AlbaNumber::ScopeObject scopeObject;
-    scopeObject.setInThisScopeTheTolerancesToZero();
+    AlbaNumber::ScopeConfigurationObject scopeConfigurationObject;
+    scopeConfigurationObject.setInThisScopeTheTolerancesToZero();
 
     AlbaNumber newValue = m_currentValue
             - (m_functionToIterate(m_currentValue) / getSlopeApproximationAt(m_currentValue));

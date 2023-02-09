@@ -28,7 +28,7 @@ PolynomialOverPolynomialOptional createPolynomialOverPolynomialFromTermIfPossibl
     PolynomialOverPolynomialOptional result;
     if(canBeConvertedToPolynomial(term))
     {
-        result.setConstReference(PolynomialOverPolynomial(createPolynomialIfPossible(term), createPolynomialFromNumber(1)));
+        result.emplace(createPolynomialIfPossible(term), createPolynomialFromNumber(1));
     }
     else if(term.isExpression())
     {
@@ -61,13 +61,13 @@ PolynomialOverPolynomialOptional createPolynomialOverPolynomialFromTermIfPossibl
             }
             if(canBeConvertedToPolynomialOverPolynomial)
             {
-                result.setConstReference(PolynomialOverPolynomial(numerator, denominator));
+                result.emplace(numerator, denominator);
             }
         }
     }
-    if(result.hasContent())
+    if(result)
     {
-        result.getReference().simplify();
+        result->simplify();
     }
     return result;
 }

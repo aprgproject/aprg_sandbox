@@ -1,9 +1,11 @@
 #include <Algebra/Simplification/SimplificationUtilities.hpp>
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
 #include <Algebra/Term/Utilities/StringHelpers.hpp>
+#include <Common/String/AlbaStringHelper.hpp>
 
 #include <gtest/gtest.h>
 
+using namespace alba::stringHelper;
 using namespace std;
 
 namespace alba
@@ -52,7 +54,7 @@ TEST(SimplificationUtilitiesTest, SimplifyToACommonDenominatorWorks_OnExponentPl
     bool didItOccurOnTopLevelExpression = simplifyToACommonDenominatorForExpressionAndReturnIfAdditionOrSubtractionOfTermsOverTermsOccurred(expression);
 
     string stringToExpect("((1+(x*(2^x))+(2^(1[x] + 1)))/(1[x] + 2))");
-    EXPECT_EQ(stringToExpect, expression.getDisplayableString());
+    EXPECT_EQ(stringToExpect, convertToString(expression));
     EXPECT_TRUE(didItOccurOnTopLevelExpression);
 }
 

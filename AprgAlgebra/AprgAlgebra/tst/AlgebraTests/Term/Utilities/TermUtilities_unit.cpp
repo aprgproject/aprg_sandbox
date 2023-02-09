@@ -1,9 +1,11 @@
 #include <Algebra/Functions/CommonFunctionLibrary.hpp>
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
 #include <Algebra/Term/Utilities/TermUtilities.hpp>
+#include <Common/Math/Number/AlbaNumberConstants.hpp>
 
 #include <gtest/gtest.h>
 
+using namespace alba::AlbaNumberConstants;
 using namespace alba::algebra::Functions;
 
 namespace alba
@@ -126,22 +128,22 @@ TEST(TermUtilitiesTest, EvaluateAndGetInputOutputPairWorks)
 
 TEST(TermUtilitiesTest, GetPiAsTermWorks)
 {
-    EXPECT_EQ(Term(AlbaNumber(AlbaNumber::Value::pi)), getPiAsATerm());
+    EXPECT_EQ(Term(ALBA_NUMBER_PI), getPiAsATerm());
 }
 
 TEST(TermUtilitiesTest, GetEAsTermWorks)
 {
-    EXPECT_EQ(Term(AlbaNumber(AlbaNumber::Value::e)), getEAsATerm());
+    EXPECT_EQ(Term(ALBA_NUMBER_E), getEAsATerm());
 }
 
 TEST(TermUtilitiesTest, GetPositiveInfinityAsATermWorks)
 {
-    EXPECT_EQ(Term(AlbaNumber(AlbaNumber::Value::PositiveInfinity)), getPositiveInfinityAsATerm());
+    EXPECT_EQ(Term(ALBA_NUMBER_POSITIVE_INFINITY), getPositiveInfinityAsATerm());
 }
 
 TEST(TermUtilitiesTest, GetNegativeInfinityAsATermWorks)
 {
-    EXPECT_EQ(Term(AlbaNumber(AlbaNumber::Value::NegativeInfinity)), getNegativeInfinityAsATerm());
+    EXPECT_EQ(Term(ALBA_NUMBER_NEGATIVE_INFINITY), getNegativeInfinityAsATerm());
 }
 
 TEST(TermUtilitiesTest, ConvertPositiveTermIfNegativeWorks)

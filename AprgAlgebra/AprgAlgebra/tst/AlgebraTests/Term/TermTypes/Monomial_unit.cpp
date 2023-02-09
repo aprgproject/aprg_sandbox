@@ -1,7 +1,9 @@
 #include <Algebra/Term/TermTypes/Monomial.hpp>
+#include <Common/Math/Number/AlbaNumberConstants.hpp>
 
 #include <gtest/gtest.h>
 
+using namespace alba::AlbaNumberConstants;
 using namespace std;
 
 namespace alba
@@ -195,7 +197,7 @@ TEST(MonomialTest, SimplifyWorks)
     Monomial monomial3(1, {{"x", 1}});
     Monomial monomial4(10, {{"x", 0}});
     Monomial monomial5(58, {{"x", 7}, {"y", 0}});
-    Monomial monomial6(58, {{"x", 7}, {"y", AlbaNumber(AlbaNumber::Value::NotANumber)}});
+    Monomial monomial6(58, {{"x", 7}, {"y", ALBA_NUMBER_NOT_A_NUMBER}});
 
     monomial1.simplify();
     monomial2.simplify();

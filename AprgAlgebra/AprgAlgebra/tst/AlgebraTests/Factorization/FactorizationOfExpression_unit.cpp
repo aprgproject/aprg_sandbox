@@ -2,10 +2,12 @@
 #include <Algebra/Factorization/FactorizationOfExpression.hpp>
 #include <Algebra/Functions/CommonFunctionLibrary.hpp>
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
+#include <Common/String/AlbaStringHelper.hpp>
 
 #include <gtest/gtest.h>
 
 using namespace alba::algebra::Functions;
+using namespace alba::stringHelper;
 using namespace std;
 
 namespace alba
@@ -120,8 +122,8 @@ TEST(FactorizationOfExpressionTest, FactorizeAnExpressionWorksDerivativeDefiniti
     string stringToExpect1("deltaX");
     string stringToExpect2("(1[x^(2/3)]+(1[x^(1/3)]*((1[deltaX] + 1[x])^(1/3)))+((1[deltaX] + 1[x])^(2/3)))");
     ASSERT_EQ(2U, termsToVerify.size());
-    EXPECT_EQ(stringToExpect1, termsToVerify.at(0).getDisplayableString());
-    EXPECT_EQ(stringToExpect2, termsToVerify.at(1).getDisplayableString());
+    EXPECT_EQ(stringToExpect1, convertToString(termsToVerify.at(0)));
+    EXPECT_EQ(stringToExpect2, convertToString(termsToVerify.at(1)));
 }
 
 TEST(FactorizationOfExpressionTest, FactorizeAnExpressionWorksWhenSomeAddendsAreSame)
@@ -143,7 +145,7 @@ TEST(FactorizationOfExpressionTest, FactorizeAnExpressionWorksWhenSomeAddendsAre
 
     string stringToExpect1("(1+cos(2[x])+cos(2[x])+cos(2[x])+(3*cos(2[x])*cos(2[x]))+(cos(2[x])^3))");
     ASSERT_EQ(1U, termsToVerify.size());
-    EXPECT_EQ(stringToExpect1, termsToVerify.at(0).getDisplayableString());
+    EXPECT_EQ(stringToExpect1, convertToString(termsToVerify.at(0)));
 }
 
 }

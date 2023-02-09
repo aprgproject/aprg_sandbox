@@ -11,7 +11,9 @@
 #include <Algebra/Term/Utilities/TermUtilities.hpp>
 #include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>
 #include <Algebra/Utilities/KnownNames.hpp>
+#include <Common/Math/Number/AlbaNumberConstants.hpp>
 
+using namespace alba::AlbaNumberConstants;
 using namespace alba::algebra::Functions;
 using namespace std;
 
@@ -30,8 +32,8 @@ bool isAxiomOfCompletenessTrue(
 
     AlbaNumberOptional greatestLowerBound(series.getGreatestLowerBound());
     AlbaNumberOptional leastUpperBound(series.getLeastUpperBound());
-    return (greatestLowerBound.hasContent() && leastUpperBound.hasContent())
-            || (!greatestLowerBound.hasContent() && !leastUpperBound.hasContent());
+    return (greatestLowerBound && leastUpperBound)
+            || (!greatestLowerBound && !leastUpperBound);
 }
 
 bool isBoundedMonotonicSeriesConvergent(
@@ -112,7 +114,7 @@ void performLimitComparisonTest(
     Term formula1(series1.getFormulaForEachTermInSummation());
     Term formula2(series2.getFormulaForEachTermInSummation());
     Term termForLimitChecking(formula1/formula2);
-    Term limit(getLimit(termForLimitChecking, variableName, AlbaNumber(AlbaNumber::Value::PositiveInfinity)));
+    Term limit(getLimit(termForLimitChecking, variableName, ALBA_NUMBER_POSITIVE_INFINITY));
     if(isTheValue(limit, 0))
     {
         if(series2.isConvergent())
@@ -120,7 +122,7 @@ void performLimitComparisonTest(
             isConvergent = true;
         }
     }
-    else if(isTheValue(limit, AlbaNumber(AlbaNumber::Value::PositiveInfinity)))
+    else if(isTheValue(limit, ALBA_NUMBER_POSITIVE_INFINITY))
     {
         if(!series2.isConvergent())
         {
@@ -137,8 +139,8 @@ void performIntegralTest(
 {
     Integration integration(variableName);
     Term integratedTerm(integration.integrateAtDefiniteTerms(
-              series.getFormulaForEachTermInSummation(), 1, AlbaNumber(AlbaNumber::Value::PositiveInfinity)));
-    if(isTheValue(integratedTerm, AlbaNumber(AlbaNumber::Value::PositiveInfinity)))
+              series.getFormulaForEachTermInSummation(), 1, ALBA_NUMBER_POSITIVE_INFINITY));
+    if(isTheValue(integratedTerm, ALBA_NUMBER_POSITIVE_INFINITY))
     {
         isDivergent = true;
     }
@@ -180,7 +182,7 @@ void performRootTest(
     TermsRaiseToTerms termsRaiseToTerms(termsOverTerms.getTermsRaiseToTerms());
     termsRaiseToTerms.multiplyToExponents(Monomial(1, {{variableName, -1}}));
     Term termForLimit(termsRaiseToTerms.getCombinedTerm());
-    Term limitTerm(getLimit(termForLimit, variableName, AlbaNumber(AlbaNumber::Value::PositiveInfinity)));
+    Term limitTerm(getLimit(termForLimit, variableName, ALBA_NUMBER_POSITIVE_INFINITY));
     if(limitTerm.isConstant())
     {
         AlbaNumber limitValue(limitTerm.getConstantValueConstReference());
@@ -204,7 +206,7 @@ Term getLimitForRatioTest(
     Term formulaForEachTerm(series.getFormulaForEachTermInSummation());
     Term formulaForEachTermWithPlusOne(substitution.performSubstitutionTo(formulaForEachTerm));
     Term termForLimit(convertPositiveTermIfNegative(formulaForEachTermWithPlusOne) / convertPositiveTermIfNegative(formulaForEachTerm));
-    return getLimit(termForLimit, variableName, AlbaNumber(AlbaNumber::Value::PositiveInfinity));
+    return getLimit(termForLimit, variableName, ALBA_NUMBER_POSITIVE_INFINITY);
 }
 
 Term getSumOfArithmeticSeriesUsingFirstAndLastTerm(

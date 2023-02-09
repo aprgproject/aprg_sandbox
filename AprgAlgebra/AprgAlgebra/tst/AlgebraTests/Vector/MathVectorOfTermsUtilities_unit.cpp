@@ -3,11 +3,13 @@
 #include <Algebra/Term/Utilities/TermUtilities.hpp>
 #include <Algebra/Vector/MathVectorOfTermsUtilities.hpp>
 #include <Common/Math/Helpers/ConstantHelpers.hpp>
+#include <Common/String/AlbaStringHelper.hpp>
 
 #include <gtest/gtest.h>
 
 using namespace alba::algebra::Functions;
 using namespace alba::mathHelper;
+using namespace alba::stringHelper;
 using namespace std;
 
 namespace alba
@@ -66,7 +68,7 @@ TEST(MathVectorOfTermsUtilitiesTest, GetDyOverDxWorks)
     Term termToVerify(getDyOverDx(termVector, "t"));
 
     string stringToExpect("(-1 + -2[t^-1])");
-    EXPECT_EQ(stringToExpect, termToVerify.getDisplayableString());
+    EXPECT_EQ(stringToExpect, convertToString(termToVerify));
 }
 
 TEST(MathVectorOfTermsUtilitiesTest, GetDirectionalDerivativeInTwoDimensionsWorks)
@@ -76,8 +78,8 @@ TEST(MathVectorOfTermsUtilitiesTest, GetDirectionalDerivativeInTwoDimensionsWork
 
     Term termToVerify(getDirectionalDerivativeInTwoDimensions(termToTest, {"x", "y"}, angle));
 
-    string stringToExpect("(0.08838834764831845[x] + 0.1571348402636772[y])");
-    EXPECT_EQ(stringToExpect, termToVerify.getDisplayableString());
+    string stringToExpect("(0.0883883[x] + 0.157135[y])");
+    EXPECT_EQ(stringToExpect, convertToString(termToVerify));
 }
 
 TEST(MathVectorOfTermsUtilitiesTest, GetDirectionalDerivativeInThreeDimensionsWorks)
@@ -90,8 +92,8 @@ TEST(MathVectorOfTermsUtilitiesTest, GetDirectionalDerivativeInThreeDimensionsWo
 
     Term termToVerify(getDirectionalDerivativeInThreeDimensions(termToTest, {"x", "y", "z"}, {alpha, beta, gamma}));
 
-    string stringToExpect("(5.051657681494233[x] + -3.394986600097681[y] + 0.92303381319393[z])");
-    EXPECT_EQ(stringToExpect, termToVerify.getDisplayableString());
+    string stringToExpect("(5.05166[x] + -3.39499[y] + 0.923034[z])");
+    EXPECT_EQ(stringToExpect, convertToString(termToVerify));
 }
 
 TEST(MathVectorOfTermsUtilitiesTest, GetLineIntegralOfAClosedNonIntersectingPathUsingGreensTheoremWorks)
@@ -105,7 +107,7 @@ TEST(MathVectorOfTermsUtilitiesTest, GetLineIntegralOfAClosedNonIntersectingPath
     Term termToVerify(getLineIntegralOfAClosedNonIntersectingPathUsingGreensTheorem(vectorField, {"x", "y"}, xDetailsForLinePath, yDetailsForLinePath));
 
     string stringToExpect("(-64/15)");
-    EXPECT_EQ(stringToExpect, termToVerify.getDisplayableString());
+    EXPECT_EQ(stringToExpect, convertToString(termToVerify));
 }
 
 TEST(MathVectorOfTermsUtilitiesTest, GetAreaOfAClosedNonIntersectingPathUsingGreensTheoremWorks)
@@ -118,7 +120,7 @@ TEST(MathVectorOfTermsUtilitiesTest, GetAreaOfAClosedNonIntersectingPathUsingGre
     Term termToVerify(getAreaOfAClosedNonIntersectingPathUsingGreensTheorem({"x", "y"}, linePath, {"t", 0, 2*getPiAsATerm()}));
 
     string stringToExpect("(pi)[a][b]");
-    EXPECT_EQ(stringToExpect, termToVerify.getDisplayableString());
+    EXPECT_EQ(stringToExpect, convertToString(termToVerify));
 }
 
 TEST(MathVectorOfTermsUtilitiesTest, GetNormalOfASurfaceOnAPointWorks)
@@ -129,7 +131,7 @@ TEST(MathVectorOfTermsUtilitiesTest, GetNormalOfASurfaceOnAPointWorks)
     MathVectorOfThreeTerms vectorToVerify(getNormalOfASurfaceOnAPoint(equationToTest, {"x", "y", "z"}, {2, 4, 2}));
 
     string stringToExpect("{16, 8, -16}");
-    EXPECT_EQ(stringToExpect, vectorToVerify.getDisplayableString());
+    EXPECT_EQ(stringToExpect, convertToString(vectorToVerify));
 }
 
 TEST(MathVectorOfTermsUtilitiesTest, GetTangentPlaneOnAPointOfASurfaceWorks)
@@ -140,7 +142,7 @@ TEST(MathVectorOfTermsUtilitiesTest, GetTangentPlaneOnAPointOfASurfaceWorks)
     Equation equationToVerify(getTangentPlaneOnAPointOfASurface(equationToTest, {"x", "y", "z"}, {2, 4, 2}));
 
     string stringToExpect("(2[x] + 1[y] + -2[z] + -4) = 0");
-    EXPECT_EQ(stringToExpect, equationToVerify.getDisplayableString());
+    EXPECT_EQ(stringToExpect, convertToString(equationToVerify));
 }
 
 TEST(MathVectorOfTermsUtilitiesTest, GetPerpendicularLineOnAPointOfASurfaceWorks)
@@ -153,8 +155,8 @@ TEST(MathVectorOfTermsUtilitiesTest, GetPerpendicularLineOnAPointOfASurfaceWorks
     string stringToExpect1("(1[x] + -2[y] + 6) = 0");
     string stringToExpect2("(1[x] + 1[z] + -4) = 0");
     ASSERT_EQ(2U, equationsToVerify.size());
-    EXPECT_EQ(stringToExpect1, equationsToVerify.at(0).getDisplayableString());
-    EXPECT_EQ(stringToExpect2, equationsToVerify.at(1).getDisplayableString());
+    EXPECT_EQ(stringToExpect1, convertToString(equationsToVerify.at(0)));
+    EXPECT_EQ(stringToExpect2, convertToString(equationsToVerify.at(1)));
 }
 
 TEST(MathVectorOfTermsUtilitiesTest, GetCurlWorks)
@@ -167,7 +169,7 @@ TEST(MathVectorOfTermsUtilitiesTest, GetCurlWorks)
     MathVectorOfThreeTerms vectorToVerify(getCurl(vectorField, {"x", "y", "z"}));
 
     string stringToExpect("{(-3[x^2][y] + 4[y][z]), -1, 6[x][y][z]}");
-    EXPECT_EQ(stringToExpect, vectorToVerify.getDisplayableString());
+    EXPECT_EQ(stringToExpect, convertToString(vectorToVerify));
 }
 
 TEST(MathVectorOfTermsUtilitiesTest, IsContinuousAtWorks)
@@ -204,7 +206,7 @@ TEST(MathVectorOfTermsUtilitiesTest, GetLengthOfArcDerivativeWorks)
     Term termToVerify(getLengthOfArcDerivative(termVector, "t"));
 
     string stringToExpect("((9[t^4] + 16[t^2])^(1/2))");
-    EXPECT_EQ(stringToExpect, termToVerify.getDisplayableString());
+    EXPECT_EQ(stringToExpect, convertToString(termToVerify));
 }
 
 TEST(MathVectorOfTermsUtilitiesTest, GetLengthOfArcWorks)
@@ -216,7 +218,7 @@ TEST(MathVectorOfTermsUtilitiesTest, GetLengthOfArcWorks)
     Term termToVerify(getLengthOfArc(termVector, "t"));
 
     string stringToExpect("(((9[t^2] + 16)^(3/2))/27)");
-    EXPECT_EQ(stringToExpect, termToVerify.getDisplayableString());
+    EXPECT_EQ(stringToExpect, convertToString(termToVerify));
 }
 
 TEST(MathVectorOfTermsUtilitiesTest, GetLengthOfArcFromStartToEndWorks)
@@ -239,7 +241,7 @@ TEST(MathVectorOfTermsUtilitiesTest, GetCurvatureWorks)
     Term termToVerify(getCurvature(termVector, "t"));
 
     string stringToExpect("(12[t^-1]/((9[t^2] + 16)^(3/2)))");
-    EXPECT_EQ(stringToExpect, termToVerify.getDisplayableString());
+    EXPECT_EQ(stringToExpect, convertToString(termToVerify));
 }
 
 TEST(MathVectorOfTermsUtilitiesTest, GetTermThatYieldsToThisGradientWorksWithExample1)
@@ -252,7 +254,7 @@ TEST(MathVectorOfTermsUtilitiesTest, GetTermThatYieldsToThisGradientWorksWithExa
     Term termToVerify(getTermThatYieldsToThisGradient(gradient, {"x", "y"}, isExactDifferential));
 
     string stringToExpect("(1[x][y^2] + 1[x^2] + 2[y^2] + 4[x] + -5[y])");
-    EXPECT_EQ(stringToExpect, termToVerify.getDisplayableString());
+    EXPECT_EQ(stringToExpect, convertToString(termToVerify));
     EXPECT_TRUE(isExactDifferential);
 }
 
@@ -266,7 +268,7 @@ TEST(MathVectorOfTermsUtilitiesTest, GetTermThatYieldsToThisGradientWorksWithExa
     Term termToVerify(getTermThatYieldsToThisGradient(gradient, {"x", "y"}, isExactDifferential));
 
     string stringToExpect("{EmptyTerm}");
-    EXPECT_EQ(stringToExpect, termToVerify.getDisplayableString());
+    EXPECT_EQ(stringToExpect, convertToString(termToVerify));
     EXPECT_FALSE(isExactDifferential);
 }
 
@@ -283,7 +285,7 @@ TEST(MathVectorOfTermsUtilitiesTest, GetTermThatYieldsToThisGradientWorksWithExa
     Term termToVerify(getTermThatYieldsToThisGradient(gradient, {"x", "y", "z"}, isExactDifferential));
 
     string stringToExpect("((2[x][y][z] + 1[z^3] + 1[y^2])+(((e)^x)*sin(z)))");
-    EXPECT_EQ(stringToExpect, termToVerify.getDisplayableString());
+    EXPECT_EQ(stringToExpect, convertToString(termToVerify));
     EXPECT_TRUE(isExactDifferential);
 }
 
@@ -297,7 +299,7 @@ TEST(MathVectorOfTermsUtilitiesTest, GetPotentialFunctionForVectorFieldGradientW
     Term termToVerify(getPotentialFunctionForVectorFieldGradient(gradient, {"x", "y"}, isConservative));
 
     string stringToExpect("1[x][y^-1]");
-    EXPECT_EQ(stringToExpect, termToVerify.getDisplayableString());
+    EXPECT_EQ(stringToExpect, convertToString(termToVerify));
     EXPECT_TRUE(isConservative);
 }
 
@@ -311,7 +313,7 @@ TEST(MathVectorOfTermsUtilitiesTest, GetDivergenceWorks)
     Term termToVerify(getDivergence(vectorField, {"x", "y", "z"}));
 
     string stringToExpect("((2*((e)^2[x]))+3[x^2][z]+2[y^2])");
-    EXPECT_EQ(stringToExpect, termToVerify.getDisplayableString());
+    EXPECT_EQ(stringToExpect, convertToString(termToVerify));
 }
 
 TEST(MathVectorOfTermsUtilitiesTest, GetLaplaceTermWorks)
@@ -324,7 +326,7 @@ TEST(MathVectorOfTermsUtilitiesTest, GetLaplaceTermWorks)
     Term termToVerify(getLaplaceTerm(vectorField, {"x", "y", "z"}));
 
     string stringToExpect("((4*((e)^2[x]))+6[x^2][z]+4[y^2])");
-    EXPECT_EQ(stringToExpect, termToVerify.getDisplayableString());
+    EXPECT_EQ(stringToExpect, convertToString(termToVerify));
 }
 
 TEST(MathVectorOfTermsUtilitiesTest, GetLineIntegralWorksOnExample1)
@@ -340,7 +342,7 @@ TEST(MathVectorOfTermsUtilitiesTest, GetLineIntegralWorksOnExample1)
     Term termToVerify(getLineIntegral(vectorField, {"x", "y"}, linePath, {"t", -1, 2}));
 
     string stringToExpect("(363/5)");
-    EXPECT_EQ(stringToExpect, termToVerify.getDisplayableString());
+    EXPECT_EQ(stringToExpect, convertToString(termToVerify));
 }
 
 TEST(MathVectorOfTermsUtilitiesTest, GetLineIntegralWorksOnExample2)
@@ -353,8 +355,8 @@ TEST(MathVectorOfTermsUtilitiesTest, GetLineIntegralWorksOnExample2)
 
     Term termToVerify(getLineIntegral(vectorField, {"x", "y", "z"}, linePath, {"t", 0, 2*getPiAsATerm()}));
 
-    string stringToExpect("19.73920880217872");
-    EXPECT_EQ(stringToExpect, termToVerify.getDisplayableString());
+    string stringToExpect("19.7392");
+    EXPECT_EQ(stringToExpect, convertToString(termToVerify));
 }
 
 TEST(MathVectorOfTermsUtilitiesTest, GetLineIntegralIndependentOfPathWorksOnExample1)
@@ -366,7 +368,7 @@ TEST(MathVectorOfTermsUtilitiesTest, GetLineIntegralIndependentOfPathWorksOnExam
     Term termToVerify(getLineIntegralIndependentOfPath(vectorField, {"x", "y"}, {0, 0}, {1, 1}));
 
     string stringToExpect("3");
-    EXPECT_EQ(stringToExpect, termToVerify.getDisplayableString());
+    EXPECT_EQ(stringToExpect, convertToString(termToVerify));
 }
 
 TEST(MathVectorOfTermsUtilitiesTest, GetLineIntegralIndependentOfPathWorksOnExample2)
@@ -379,7 +381,7 @@ TEST(MathVectorOfTermsUtilitiesTest, GetLineIntegralIndependentOfPathWorksOnExam
     Term termToVerify(getLineIntegralIndependentOfPath(vectorField, {"x", "y", "z"}, {4, -2, 1}, {-1, 2, 0}));
 
     string stringToExpect("-13");
-    EXPECT_EQ(stringToExpect, termToVerify.getDisplayableString());
+    EXPECT_EQ(stringToExpect, convertToString(termToVerify));
 }
 
 TEST(MathVectorOfTermsUtilitiesTest, GetLineIntegralEqualsGetLineIntegralIndependentOfPath)
@@ -404,7 +406,7 @@ TEST(MathVectorOfTermsUtilitiesTest, GetLimitWorks)
     MathVectorOfTwoTerms vectorToVerify(getLimit(termVector, "t", 0));
 
     string stringToExpect("{1, 2}");
-    EXPECT_EQ(stringToExpect, vectorToVerify.getDisplayableString());
+    EXPECT_EQ(stringToExpect, convertToString(vectorToVerify));
 }
 
 TEST(MathVectorOfTermsUtilitiesTest, DifferentiateWorks)
@@ -416,7 +418,7 @@ TEST(MathVectorOfTermsUtilitiesTest, DifferentiateWorks)
     MathVectorOfTwoTerms vectorToVerify(differentiate(termVector, "t"));
 
     string stringToExpect("{cos(t), (-1*sin(t))}");
-    EXPECT_EQ(stringToExpect, vectorToVerify.getDisplayableString());
+    EXPECT_EQ(stringToExpect, convertToString(vectorToVerify));
 }
 
 TEST(MathVectorOfTermsUtilitiesTest, IntegrateWorks)
@@ -428,7 +430,7 @@ TEST(MathVectorOfTermsUtilitiesTest, IntegrateWorks)
     MathVectorOfTwoTerms vectorToVerify(integrate(termVector, "t"));
 
     string stringToExpect("{(-1*cos(t)), (-3*sin(t))}");
-    EXPECT_EQ(stringToExpect, vectorToVerify.getDisplayableString());
+    EXPECT_EQ(stringToExpect, convertToString(vectorToVerify));
 }
 
 TEST(MathVectorOfTermsUtilitiesTest, GetUnitTangentVectorWorks)
@@ -440,7 +442,7 @@ TEST(MathVectorOfTermsUtilitiesTest, GetUnitTangentVectorWorks)
     MathVectorOfTwoTerms vectorToVerify(getUnitTangentVector(termVector, "t"));
 
     string stringToExpect("{(3[t]/((9[t^2] + 16)^(1/2))), (4/((9[t^2] + 16)^(1/2)))}");
-    EXPECT_EQ(stringToExpect, vectorToVerify.getDisplayableString());
+    EXPECT_EQ(stringToExpect, convertToString(vectorToVerify));
 }
 
 TEST(MathVectorOfTermsUtilitiesTest, GetUnitNormalVectorWorks)
@@ -452,7 +454,7 @@ TEST(MathVectorOfTermsUtilitiesTest, GetUnitNormalVectorWorks)
     MathVectorOfTwoTerms vectorToVerify(getUnitNormalVector(termVector, "t"));
 
     string stringToExpect("{(4/((9[t^2] + 16)^(1/2))), (-3[t]/((9[t^2] + 16)^(1/2)))}");
-    EXPECT_EQ(stringToExpect, vectorToVerify.getDisplayableString());
+    EXPECT_EQ(stringToExpect, convertToString(vectorToVerify));
 }
 
 TEST(MathVectorOfTermsUtilitiesTest, GetCurvatureVectorWorks)
@@ -464,7 +466,7 @@ TEST(MathVectorOfTermsUtilitiesTest, GetCurvatureVectorWorks)
     MathVectorOfTwoTerms vectorToVerify(getCurvatureVector(termVector, "t"));
 
     string stringToExpect("{(48/(81[t^5] + 288[t^3] + 256[t])), (-36/(81[t^4] + 288[t^2] + 256))}");
-    EXPECT_EQ(stringToExpect, vectorToVerify.getDisplayableString());
+    EXPECT_EQ(stringToExpect, convertToString(vectorToVerify));
 }
 
 TEST(MathVectorOfTermsUtilitiesTest, GetGradientWorks)
@@ -474,7 +476,7 @@ TEST(MathVectorOfTermsUtilitiesTest, GetGradientWorks)
     MathVectorOfTwoTerms vectorToVerify(getGradient<2U>(termToTest, {"x", "y"}));
 
     string stringToExpect("{(1/8)[x], (2/9)[y]}");
-    EXPECT_EQ(stringToExpect, vectorToVerify.getDisplayableString());
+    EXPECT_EQ(stringToExpect, convertToString(vectorToVerify));
 }
 
 TEST(MathVectorOfTermsUtilitiesTest, GetDelWorks)
@@ -486,7 +488,7 @@ TEST(MathVectorOfTermsUtilitiesTest, GetDelWorks)
     MathVectorOfTwoTerms vectorToVerify(getDel(termVector, {"x", "y"}));
 
     string stringToExpect("{1[y^2], 4[x^3][y^3]}");
-    EXPECT_EQ(stringToExpect, vectorToVerify.getDisplayableString());
+    EXPECT_EQ(stringToExpect, convertToString(vectorToVerify));
 }
 
 }

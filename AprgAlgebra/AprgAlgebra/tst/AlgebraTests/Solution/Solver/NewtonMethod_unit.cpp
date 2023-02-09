@@ -1,7 +1,9 @@
 #include <Algebra/Solution/Solver/NewtonMethod.hpp>
+#include <Common/Math/Number/AlbaNumberConstants.hpp>
 
 #include <gtest/gtest.h>
 
+using namespace alba::AlbaNumberConstants;
 using namespace std;
 
 namespace alba
@@ -39,7 +41,7 @@ TEST(NewtonMethodTest, IsFinishedWorks)
     };
     NewtonMethod newtonMethod1(4, functionToIterate);
     NewtonMethod newtonMethod2(16, functionToIterate);
-    NewtonMethod newtonMethod3(AlbaNumber::Value::PositiveInfinity, functionToIterate);
+    NewtonMethod newtonMethod3(ALBA_NUMBER_POSITIVE_INFINITY, functionToIterate);
 
     EXPECT_TRUE(newtonMethod1.isFinished());
     EXPECT_FALSE(newtonMethod2.isFinished());

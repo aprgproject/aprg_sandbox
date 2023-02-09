@@ -82,13 +82,6 @@ Term const& Equation::getRightHandTerm() const
     return m_rightHandTerm;
 }
 
-string Equation::getDisplayableString() const
-{
-    stringstream ss;
-    ss << *this;
-    return ss.str();
-}
-
 Term & Equation::getLeftHandTermReference()
 {
     return m_leftHandTerm;

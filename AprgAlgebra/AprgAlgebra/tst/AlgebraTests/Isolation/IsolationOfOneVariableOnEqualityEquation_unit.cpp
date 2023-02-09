@@ -1,8 +1,10 @@
 #include <Algebra/Isolation/IsolationOfOneVariableOnEqualityEquation.hpp>
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
+#include <Common/String/AlbaStringHelper.hpp>
 
 #include <gtest/gtest.h>
 
+using namespace alba::stringHelper;
 using namespace std;
 
 namespace alba
@@ -190,7 +192,7 @@ TEST(IsolationOfOneVariableOnEqualityEquationTest, IsolateTermWithVariableWorksO
     Term expectedTermWithX("x");
     isolation.isolateTermWithVariable("x", termWithVariable, termWithoutVariable);
     EXPECT_EQ(expectedTermWithX, termWithVariable);
-    EXPECT_EQ("((2^z)/1[y^2])", termWithoutVariable.getDisplayableString());
+    EXPECT_EQ("((2^z)/1[y^2])", convertToString(termWithoutVariable));
 }
 
 TEST(IsolationOfOneVariableOnEqualityEquationTest, IsolateTermWithVariableWorksOnPolynomialEquation_Example1UsingDerivatives)

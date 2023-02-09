@@ -3,9 +3,11 @@
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
 #include <Algebra/Term/Utilities/TermUtilities.hpp>
 #include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>
+#include <Common/Math/Number/AlbaNumberConstants.hpp>
 
 #include <gtest/gtest.h>
 
+using namespace alba::AlbaNumberConstants;
 using namespace alba::algebra::Functions;
 using namespace std;
 
@@ -20,8 +22,8 @@ TEST(LimitsAtInfinityTest, XWorksAndSimplifiesToZero)
     LimitsAtInfinity limits("x", "x");
 
     EXPECT_EQ(Term("x"), limits.getSimplifiedTermAtInfinity());
-    EXPECT_EQ(getNegativeInfinityAsATerm(), limits.getValueAtInfinity(AlbaNumber::Value::NegativeInfinity));
-    EXPECT_EQ(getPositiveInfinityAsATerm(), limits.getValueAtInfinity(AlbaNumber::Value::PositiveInfinity));
+    EXPECT_EQ(getNegativeInfinityAsATerm(), limits.getValueAtInfinity(ALBA_NUMBER_NEGATIVE_INFINITY));
+    EXPECT_EQ(getPositiveInfinityAsATerm(), limits.getValueAtInfinity(ALBA_NUMBER_POSITIVE_INFINITY));
 }
 
 TEST(LimitsAtInfinityTest, OneOverXWorksAndSimplifiesToZero)
@@ -33,8 +35,8 @@ TEST(LimitsAtInfinityTest, OneOverXWorksAndSimplifiesToZero)
     Term expectedTerm(0);
     Term expectedValueTerm(0);
     EXPECT_EQ(expectedTerm, limits.getSimplifiedTermAtInfinity());
-    EXPECT_EQ(expectedValueTerm, limits.getValueAtInfinity(AlbaNumber::Value::NegativeInfinity));
-    EXPECT_EQ(expectedValueTerm, limits.getValueAtInfinity(AlbaNumber::Value::PositiveInfinity));
+    EXPECT_EQ(expectedValueTerm, limits.getValueAtInfinity(ALBA_NUMBER_NEGATIVE_INFINITY));
+    EXPECT_EQ(expectedValueTerm, limits.getValueAtInfinity(ALBA_NUMBER_POSITIVE_INFINITY));
 }
 
 TEST(LimitsAtInfinityTest, PolynomialOverPolynomialWithEqualDegreeWorks)
@@ -48,8 +50,8 @@ TEST(LimitsAtInfinityTest, PolynomialOverPolynomialWithEqualDegreeWorks)
     Term expectedTerm(2);
     Term expectedValueTerm(2);
     EXPECT_EQ(expectedTerm, limits.getSimplifiedTermAtInfinity());
-    EXPECT_EQ(expectedValueTerm, limits.getValueAtInfinity(AlbaNumber::Value::NegativeInfinity));
-    EXPECT_EQ(expectedValueTerm, limits.getValueAtInfinity(AlbaNumber::Value::PositiveInfinity));
+    EXPECT_EQ(expectedValueTerm, limits.getValueAtInfinity(ALBA_NUMBER_NEGATIVE_INFINITY));
+    EXPECT_EQ(expectedValueTerm, limits.getValueAtInfinity(ALBA_NUMBER_POSITIVE_INFINITY));
 }
 
 TEST(LimitsAtInfinityTest, PolynomialOverPolynomialWithNumeratorDegreeIsGreaterAndPositiveWorks)
@@ -61,8 +63,8 @@ TEST(LimitsAtInfinityTest, PolynomialOverPolynomialWithNumeratorDegreeIsGreaterA
     LimitsAtInfinity limits(term, "x");
 
     EXPECT_EQ(Term("x"), limits.getSimplifiedTermAtInfinity());
-    EXPECT_EQ(getNegativeInfinityAsATerm(), limits.getValueAtInfinity(AlbaNumber::Value::NegativeInfinity));
-    EXPECT_EQ(getPositiveInfinityAsATerm(), limits.getValueAtInfinity(AlbaNumber::Value::PositiveInfinity));
+    EXPECT_EQ(getNegativeInfinityAsATerm(), limits.getValueAtInfinity(ALBA_NUMBER_NEGATIVE_INFINITY));
+    EXPECT_EQ(getPositiveInfinityAsATerm(), limits.getValueAtInfinity(ALBA_NUMBER_POSITIVE_INFINITY));
 }
 
 TEST(LimitsAtInfinityTest, PolynomialOverPolynomialWithNumeratorDegreeIsGreaterAndNegativeWorks)
@@ -74,8 +76,8 @@ TEST(LimitsAtInfinityTest, PolynomialOverPolynomialWithNumeratorDegreeIsGreaterA
     LimitsAtInfinity limits(term, "x");
 
     EXPECT_EQ(Term(Monomial(-2, {{"x", 1}})), limits.getSimplifiedTermAtInfinity());
-    EXPECT_EQ(getPositiveInfinityAsATerm(), limits.getValueAtInfinity(AlbaNumber::Value::NegativeInfinity));
-    EXPECT_EQ(getNegativeInfinityAsATerm(), limits.getValueAtInfinity(AlbaNumber::Value::PositiveInfinity));
+    EXPECT_EQ(getPositiveInfinityAsATerm(), limits.getValueAtInfinity(ALBA_NUMBER_NEGATIVE_INFINITY));
+    EXPECT_EQ(getNegativeInfinityAsATerm(), limits.getValueAtInfinity(ALBA_NUMBER_POSITIVE_INFINITY));
 }
 
 TEST(LimitsAtInfinityTest, PolynomialOverPolynomialWithDenominatorDegreeIsGreaterWorks)
@@ -89,8 +91,8 @@ TEST(LimitsAtInfinityTest, PolynomialOverPolynomialWithDenominatorDegreeIsGreate
     Term expectedTerm(0);
     Term expectedValueTerm(0);
     EXPECT_EQ(expectedTerm, limits.getSimplifiedTermAtInfinity());
-    EXPECT_EQ(expectedValueTerm, limits.getValueAtInfinity(AlbaNumber::Value::NegativeInfinity));
-    EXPECT_EQ(expectedValueTerm, limits.getValueAtInfinity(AlbaNumber::Value::PositiveInfinity));
+    EXPECT_EQ(expectedValueTerm, limits.getValueAtInfinity(ALBA_NUMBER_NEGATIVE_INFINITY));
+    EXPECT_EQ(expectedValueTerm, limits.getValueAtInfinity(ALBA_NUMBER_POSITIVE_INFINITY));
 }
 
 TEST(LimitsAtInfinityTest, PolynomialOverSquareRootOfPolynomialWithEqualDegreeWorks)
@@ -105,8 +107,8 @@ TEST(LimitsAtInfinityTest, PolynomialOverSquareRootOfPolynomialWithEqualDegreeWo
     Term expectedTerm(1);
     Term expectedValueTerm(1);
     EXPECT_EQ(expectedTerm, limits.getSimplifiedTermAtInfinity());
-    EXPECT_EQ(expectedValueTerm, limits.getValueAtInfinity(AlbaNumber::Value::NegativeInfinity));
-    EXPECT_EQ(expectedValueTerm, limits.getValueAtInfinity(AlbaNumber::Value::PositiveInfinity));
+    EXPECT_EQ(expectedValueTerm, limits.getValueAtInfinity(ALBA_NUMBER_NEGATIVE_INFINITY));
+    EXPECT_EQ(expectedValueTerm, limits.getValueAtInfinity(ALBA_NUMBER_POSITIVE_INFINITY));
 }
 
 TEST(LimitsAtInfinityTest, ExpressionWithTrigonometricFunctionsWorks)
@@ -118,8 +120,8 @@ TEST(LimitsAtInfinityTest, ExpressionWithTrigonometricFunctionsWorks)
     LimitsAtInfinity limits(term, "x");
 
     EXPECT_TRUE(isNan(limits.getSimplifiedTermAtInfinity()));
-    EXPECT_TRUE(isNan(limits.getValueAtInfinity(AlbaNumber::Value::NegativeInfinity)));
-    EXPECT_TRUE(isNan(limits.getValueAtInfinity(AlbaNumber::Value::PositiveInfinity)));
+    EXPECT_TRUE(isNan(limits.getValueAtInfinity(ALBA_NUMBER_NEGATIVE_INFINITY)));
+    EXPECT_TRUE(isNan(limits.getValueAtInfinity(ALBA_NUMBER_POSITIVE_INFINITY)));
 }
 
 }

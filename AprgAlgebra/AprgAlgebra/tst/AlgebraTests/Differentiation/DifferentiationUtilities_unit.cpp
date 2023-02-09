@@ -4,10 +4,14 @@
 #include <Algebra/Term/Utilities/TermUtilities.hpp>
 #include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>
 #include <Common/Math/Number/Interval/AlbaNumberIntervalHelpers.hpp>
+#include <Common/String/AlbaStringHelper.hpp>
+#include <Common/Math/Number/AlbaNumberConstants.hpp>
 
 #include <gtest/gtest.h>
 
+using namespace alba::AlbaNumberConstants;
 using namespace alba::algebra::Functions;
+using namespace alba::stringHelper;
 using namespace std;
 
 namespace alba
@@ -60,7 +64,7 @@ TEST(DifferentiationUtilitiesTest, GetDerivativeDefinitionWorksWithRadical)
     Term derivative(getDerivativeDefinition(termToTest, "a"));
 
     string stringToExpect("(1/(1[x^(2/3)]+(1[x^(1/3)]*((1[deltaX] + 1[x])^(1/3)))+((1[deltaX] + 1[x])^(2/3))))");
-    EXPECT_EQ(stringToExpect, derivative.getDisplayableString());
+    EXPECT_EQ(stringToExpect, convertToString(derivative));
 }
 
 TEST(DifferentiationUtilitiesTest, GetDerivativeAtUsingLimitWorksWhenInputIsAConstant)
@@ -156,9 +160,9 @@ TEST(DifferentiationUtilitiesTest, GetRelationshipOfDerivativeOfTheInverseAndThe
     string stringToExpect1("1 = 1");
     string stringToExpect2("((1/2)/((1[d] + -2)^(1/2))) = (1/2)[c^-1]");
     string stringToExpect3("((1/3)/((1[d] + -3)^(2/3))) = (1/3)[c^-2]");
-    EXPECT_EQ(stringToExpect1, equation1.getDisplayableString());
-    EXPECT_EQ(stringToExpect2, equation2.getDisplayableString());
-    EXPECT_EQ(stringToExpect3, equation3.getDisplayableString());
+    EXPECT_EQ(stringToExpect1, convertToString(equation1));
+    EXPECT_EQ(stringToExpect2, convertToString(equation2));
+    EXPECT_EQ(stringToExpect3, convertToString(equation3));
 }
 
 TEST(DifferentiationUtilitiesTest, GetIntegralEquationForFirstOrderDifferentialEquationWorks)
@@ -169,7 +173,7 @@ TEST(DifferentiationUtilitiesTest, GetIntegralEquationForFirstOrderDifferentialE
     Equation equationToVerify(getIntegralEquationForFirstOrderDifferentialEquation(equationToTest, "x", "y"));
 
     string stringToExpect("y = ((((e)^1[x^2][y])*-3/2[y^2]/((e)^1[x^2][y]))+(((e)^1[x^2][y])*(e)*((e)^1[x^2][y])))");
-    EXPECT_EQ(stringToExpect, equationToVerify.getDisplayableString());
+    EXPECT_EQ(stringToExpect, convertToString(equationToVerify));
 }
 
 TEST(DifferentiationUtilitiesTest, GetLogarithmicDifferentiationToYieldDyOverDxWorks)
@@ -194,7 +198,7 @@ TEST(DifferentiationUtilitiesTest, GetCartesianDerivativeOfTermInPolarCoordinate
     Term dyOverDx(getCartesianDerivativeOfTermInPolarCoordinates(radiusOfLimacon, thetaName));
 
     string stringToExpect("(((4*cos(theta)*sin(theta))+(3*cos(theta)))/((2*cos(theta)*cos(theta))-(3*sin(theta))-(2*sin(theta)*sin(theta))))");
-    EXPECT_EQ(stringToExpect, dyOverDx.getDisplayableString());
+    EXPECT_EQ(stringToExpect, convertToString(dyOverDx));
 }
 
 TEST(DifferentiationUtilitiesTest, GetSlopeOfTermInPolarCoordinatesWorks)
@@ -203,7 +207,7 @@ TEST(DifferentiationUtilitiesTest, GetSlopeOfTermInPolarCoordinatesWorks)
     Term theta(thetaName);
     Term radiusOfLimacon(createExpressionIfPossible({3, "+", 2, "*", cos(theta)}));
 
-    Term termToVerify(getSlopeOfTermInPolarCoordinates(radiusOfLimacon, thetaName, AlbaNumber(AlbaNumber::Value::pi)/2));
+    Term termToVerify(getSlopeOfTermInPolarCoordinates(radiusOfLimacon, thetaName, ALBA_NUMBER_PI/2));
 
     EXPECT_EQ(Term(AlbaNumber::createFraction(2, 3)), termToVerify);
 }
@@ -215,7 +219,7 @@ TEST(DifferentiationUtilitiesTest, GetApproximationUsingTaylorsFormulaWorksForET
     Term termToVerify(getApproximationUsingTaylorsFormula(termToTest, "x", 0, "q", 3));
 
     string stringToExpect("((1/6)[q^3] + (1/2)[q^2] + 1[q] + 1)");
-    EXPECT_EQ(stringToExpect, termToVerify.getDisplayableString());
+    EXPECT_EQ(stringToExpect, convertToString(termToVerify));
 }
 
 TEST(DifferentiationUtilitiesTest, GetApproximationUsingTaylorsFormulaWorksForSin)
@@ -225,7 +229,7 @@ TEST(DifferentiationUtilitiesTest, GetApproximationUsingTaylorsFormulaWorksForSi
     Term termToVerify(getApproximationUsingTaylorsFormula(termToTest, "x", 0, "q", 8));
 
     string stringToExpect("((-1/5040)[q^7] + (1/120)[q^5] + (-1/6)[q^3] + 1[q])");
-    EXPECT_EQ(stringToExpect, termToVerify.getDisplayableString());
+    EXPECT_EQ(stringToExpect, convertToString(termToVerify));
 }
 
 TEST(DifferentiationUtilitiesTest, GetApproximationUsingTaylorsRemainderWorks)
@@ -250,7 +254,7 @@ TEST(DifferentiationUtilitiesTest, GetTotalDerivativeWithInnerTermsUsingChainRul
     Term termToVerify(getTotalDerivativeWithInnerTermsUsingChainRule(termToTest, substitution, "t"));
 
     string stringToExpect1("((2[t]*(cos(t)^2))+(4[t]*cos(t)*sin(t))-(2[t^2]*(sin(t)^2))+(2[t^2]*(cos(t)^2))+(2[t]*(sin(t)^2)))");
-    EXPECT_EQ(stringToExpect1, termToVerify.getDisplayableString());
+    EXPECT_EQ(stringToExpect1, convertToString(termToVerify));
 }
 
 TEST(DifferentiationUtilitiesTest, GetTotalDerivativeWorks)
@@ -260,7 +264,7 @@ TEST(DifferentiationUtilitiesTest, GetTotalDerivativeWorks)
     Term termToVerify(getTotalDerivative(termToTest, {"x", "y"}));
 
     string stringToExpect1("(3[d[x]][x^2] + -15[d[y]][y^2] + 3[d[x]][y] + 3[d[y]][x])");
-    EXPECT_EQ(stringToExpect1, termToVerify.getDisplayableString());
+    EXPECT_EQ(stringToExpect1, convertToString(termToVerify));
 }
 
 TEST(DifferentiationUtilitiesTest, GetPartialDerivativeWorks)
@@ -272,8 +276,8 @@ TEST(DifferentiationUtilitiesTest, GetPartialDerivativeWorks)
 
     string stringToExpect1("(3[x^2] + 3[y])");
     string stringToExpect2("(-15[y^2] + 3[x])");
-    EXPECT_EQ(stringToExpect1, termToVerify1.getDisplayableString());
-    EXPECT_EQ(stringToExpect2, termToVerify2.getDisplayableString());
+    EXPECT_EQ(stringToExpect1, convertToString(termToVerify1));
+    EXPECT_EQ(stringToExpect2, convertToString(termToVerify2));
 }
 
 TEST(DifferentiationUtilitiesTest, GetPartialDerivativeContinuouslyWorks)
@@ -285,7 +289,7 @@ TEST(DifferentiationUtilitiesTest, GetPartialDerivativeContinuouslyWorks)
     Term termToVerify(getPartialDerivative(getPartialDerivative(getPartialDerivative(termToTest, "y"), "y"), "x"));
 
     string stringToExpect("(-1*((e)^x)*sin(y))");
-    EXPECT_EQ(stringToExpect, termToVerify.getDisplayableString());
+    EXPECT_EQ(stringToExpect, convertToString(termToVerify));
 }
 
 TEST(DifferentiationUtilitiesTest, GetDifferentiabilityDomainWorks)
@@ -313,7 +317,7 @@ TEST(DifferentiationUtilitiesTest, SimplifyDerivativeByDefinitionWorks)
     simplifyDerivativeByDefinition(termToTest);
 
     string stringToExpect("(x*((1[x] + 1)^(1/2)))");
-    EXPECT_EQ(stringToExpect, termToTest.getDisplayableString());
+    EXPECT_EQ(stringToExpect, convertToString(termToTest));
 }
 
 }

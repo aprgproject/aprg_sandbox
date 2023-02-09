@@ -64,7 +64,6 @@ public:
     Expression const& getExpressionConstReference() const;
     Function const& getFunctionConstReference() const;
     AlbaNumber const& getConstantValueConstReference() const;
-    std::string getDisplayableString() const;
     std::string getDebugString() const;
 
     Constant & getConstantReference();

@@ -1,7 +1,9 @@
 #include <Algebra/Series/SpecificSeries/BinomialSeries.hpp>
+#include <Common/String/AlbaStringHelper.hpp>
 
 #include <gtest/gtest.h>
 
+using namespace alba::stringHelper;
 using namespace std;
 
 namespace alba
@@ -37,10 +39,10 @@ TEST(BinomialSeriesTest, GetValueAtIndexWorks)
     string stringToExpect2("((1/3)[x] + 1)");
     string stringToExpect3("((-1/9)[x^2] + (1/3)[x] + 1)");
     string stringToExpect4("((5/81)[x^3] + (-1/9)[x^2] + (1/3)[x] + 1)");
-    EXPECT_EQ(stringToExpect1, series.getValueAtIndex(0).getDisplayableString());
-    EXPECT_EQ(stringToExpect2, series.getValueAtIndex(1).getDisplayableString());
-    EXPECT_EQ(stringToExpect3, series.getValueAtIndex(2).getDisplayableString());
-    EXPECT_EQ(stringToExpect4, series.getValueAtIndex(3).getDisplayableString());
+    EXPECT_EQ(stringToExpect1, convertToString(series.getValueAtIndex(0)));
+    EXPECT_EQ(stringToExpect2, convertToString(series.getValueAtIndex(1)));
+    EXPECT_EQ(stringToExpect3, convertToString(series.getValueAtIndex(2)));
+    EXPECT_EQ(stringToExpect4, convertToString(series.getValueAtIndex(3)));
 }
 
 }

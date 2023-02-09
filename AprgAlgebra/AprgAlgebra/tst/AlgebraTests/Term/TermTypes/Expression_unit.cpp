@@ -1,9 +1,11 @@
 #include <Algebra/Term/TermTypes/Expression.hpp>
 #include <Algebra/Term/Utilities/BaseTermHelpers.hpp>
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
+#include <Common/String/AlbaStringHelper.hpp>
 
 #include <gtest/gtest.h>
 
+using namespace alba::stringHelper;
 using namespace std;
 
 namespace alba
@@ -228,20 +230,6 @@ TEST(ExpressionTest, GetTermsWithAssociationWorks)
     EXPECT_EQ(TermAssociationType::Negative, termsWithDetailsToVerify.at(1).association);
     EXPECT_EQ(Term("debt"), getTermConstReferenceFromSharedPointer(termsWithDetailsToVerify.at(2).baseTermSharedPointer));
     EXPECT_EQ(TermAssociationType::Positive, termsWithDetailsToVerify.at(2).association);
-}
-
-TEST(ExpressionTest, GetDisplayableStringWorks)
-{
-    Expression expression1;
-    Expression expression2(createExpressionIfPossible({695, "-", "interest", "+", "debt"}));
-    Expression expression3;
-    expression3.putTermWithDivisionIfNeeded(Term(96));
-    Expression expression4(createExpressionIfPossible({expression2, "^", "cash"}));
-
-    EXPECT_EQ("()", expression1.getDisplayableString());
-    EXPECT_EQ("(695-interest+debt)", expression2.getDisplayableString());
-    EXPECT_EQ("(1/96)", expression3.getDisplayableString());
-    EXPECT_EQ("((695-interest+debt)^cash)", expression4.getDisplayableString());
 }
 
 TEST(ExpressionTest, GetDebugStringWorks)
@@ -1148,7 +1136,7 @@ TEST(ExpressionTest, PutExpressionWithMultiplicationWorksOnExpressionWithEmptyEx
     expressionToTest.putExpressionWithMultiplication(expressionToApply);
 
     string stringToExpect1("((2^x)+(1[x] + 1)+1)");
-    EXPECT_EQ(stringToExpect1, expressionToTest.getDisplayableString());
+    EXPECT_EQ(stringToExpect1, convertToString(expressionToTest));
 }
 
 TEST(ExpressionTest, PutExpressionWithMultiplicationWorksOnAdditionAndSubtractionExpression)
@@ -1174,11 +1162,11 @@ TEST(ExpressionTest, PutExpressionWithMultiplicationWorksOnAdditionAndSubtractio
     string stringToExpect3("(((a+b)/(c+d)*x)+((a+b)/(c+d)*y)+((a+b)/(c+d)))");
     string stringToExpect4("((((a+b)^(c+d))*x)+(((a+b)^(c+d))*y)+((a+b)^(c+d)))");
     string stringToExpect5("((a*(a+b)/(c+d))+(b*(a+b)/(c+d))-(c*(a+b)/(c+d))-(d*(a+b)/(c+d)))");
-    EXPECT_EQ(stringToExpect1, expression1.getDisplayableString());
-    EXPECT_EQ(stringToExpect2, expression2.getDisplayableString());
-    EXPECT_EQ(stringToExpect3, expression3.getDisplayableString());
-    EXPECT_EQ(stringToExpect4, expression4.getDisplayableString());
-    EXPECT_EQ(stringToExpect5, expression5.getDisplayableString());
+    EXPECT_EQ(stringToExpect1, convertToString(expression1));
+    EXPECT_EQ(stringToExpect2, convertToString(expression2));
+    EXPECT_EQ(stringToExpect3, convertToString(expression3));
+    EXPECT_EQ(stringToExpect4, convertToString(expression4));
+    EXPECT_EQ(stringToExpect5, convertToString(expression5));
 }
 
 TEST(ExpressionTest, PutExpressionWithMultiplicationWorksOnMultiplicationAndDivisionExpression)
@@ -1206,11 +1194,11 @@ TEST(ExpressionTest, PutExpressionWithMultiplicationWorksOnMultiplicationAndDivi
     string stringToExpect3("((a*b/c/d*x*x)-(a*b/c/d*y*y))");
     string stringToExpect4("((((a*b)^(c*d))*x*x)-(((a*b)^(c*d))*y*y))");
     string stringToExpect5("((a*b*x*x)-(c*d*x*x))");
-    EXPECT_EQ(stringToExpect1, expression1.getDisplayableString());
-    EXPECT_EQ(stringToExpect2, expression2.getDisplayableString());
-    EXPECT_EQ(stringToExpect3, expression3.getDisplayableString());
-    EXPECT_EQ(stringToExpect4, expression4.getDisplayableString());
-    EXPECT_EQ(stringToExpect5, expression5.getDisplayableString());
+    EXPECT_EQ(stringToExpect1, convertToString(expression1));
+    EXPECT_EQ(stringToExpect2, convertToString(expression2));
+    EXPECT_EQ(stringToExpect3, convertToString(expression3));
+    EXPECT_EQ(stringToExpect4, convertToString(expression4));
+    EXPECT_EQ(stringToExpect5, convertToString(expression5));
 }
 
 TEST(ExpressionTest, PutExpressionWithMultiplicationWorksOnRaiseToPowerExpression)
@@ -1238,11 +1226,11 @@ TEST(ExpressionTest, PutExpressionWithMultiplicationWorksOnRaiseToPowerExpressio
     string stringToExpect3("(((a^b)/(c^d)*(x^x))-((a^b)/(c^d)*(y^y)))");
     string stringToExpect4("(((a^b^(c^d))*(x^x))-((a^b^(c^d))*(y^y)))");
     string stringToExpect5("(((a^b)*(x^x))-((c^d)*(x^x)))");
-    EXPECT_EQ(stringToExpect1, expression1.getDisplayableString());
-    EXPECT_EQ(stringToExpect2, expression2.getDisplayableString());
-    EXPECT_EQ(stringToExpect3, expression3.getDisplayableString());
-    EXPECT_EQ(stringToExpect4, expression4.getDisplayableString());
-    EXPECT_EQ(stringToExpect5, expression5.getDisplayableString());
+    EXPECT_EQ(stringToExpect1, convertToString(expression1));
+    EXPECT_EQ(stringToExpect2, convertToString(expression2));
+    EXPECT_EQ(stringToExpect3, convertToString(expression3));
+    EXPECT_EQ(stringToExpect4, convertToString(expression4));
+    EXPECT_EQ(stringToExpect5, convertToString(expression5));
 }
 
 TEST(ExpressionTest, PutTermWithDetailsWorks)

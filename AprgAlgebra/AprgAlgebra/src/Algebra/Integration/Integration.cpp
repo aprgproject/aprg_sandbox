@@ -23,7 +23,9 @@
 #include <Algebra/Utilities/KnownNames.hpp>
 #include <Common/Math/Helpers/DivisibilityHelpers.hpp>
 #include <Common/String/AlbaStringHelper.hpp>
+#include <Common/Math/Number/AlbaNumberConstants.hpp>
 
+using namespace alba::AlbaNumberConstants;
 using namespace alba::algebra::Factorization;
 using namespace alba::algebra::Functions;
 using namespace alba::algebra::Simplification;
@@ -308,7 +310,7 @@ Term Integration::integrateAsTermOrExpressionIfNeeded(
     }
     if(result.isEmpty())
     {
-        result = AlbaNumber(AlbaNumber::Value::NotANumber);
+        result = ALBA_NUMBER_NOT_A_NUMBER;
     }
     return result;
 }
@@ -423,7 +425,7 @@ Term Integration::integrateFunctionInternally(
     }
     if(result.isEmpty())
     {
-        result = AlbaNumber(AlbaNumber::Value::NotANumber);
+        result = ALBA_NUMBER_NOT_A_NUMBER;
     }
     return result;
 }
@@ -438,7 +440,7 @@ void Integration::integrateFunctionOnly(
         string const& functionName(functionObject.getFunctionName());
         if("abs" == functionName)
         {
-            result = AlbaNumber(AlbaNumber::Value::NotANumber);
+            result = ALBA_NUMBER_NOT_A_NUMBER;
         }
         else if("sin" == functionName)
         {
@@ -523,7 +525,7 @@ void Integration::integrateNonChangingAndChangingTermsInMultiplicationOrDivision
         Term integratedChangingTerm(integrateInternallyWithPurpose(changingTermCombined, IntegrationPurpose::NoChange));
         if(isNan(integratedChangingTerm))
         {
-            result = AlbaNumber(AlbaNumber::Value::NotANumber);
+            result = ALBA_NUMBER_NOT_A_NUMBER;
         }
         else
         {
@@ -620,7 +622,7 @@ void Integration::integrateChangingTermRaiseToChangingTerm(
         Term const& ,
         Term const& )
 {
-    result = AlbaNumber(AlbaNumber::Value::NotANumber);
+    result = ALBA_NUMBER_NOT_A_NUMBER;
 }
 
 void Integration::segregateNonChangingAndChangingTerms(
@@ -1123,9 +1125,9 @@ void Integration::integrateAsPolynomialOverPolynomialIfPossible(
         simplifiedTerm.clearAllInnerSimplifiedFlags();
         simplifiedTerm.simplify();
         PolynomialOverPolynomialOptional popOptional(createPolynomialOverPolynomialFromTermIfPossible(simplifiedTerm));
-        if(popOptional.hasContent())
+        if(popOptional)
         {
-            integrateAsPolynomialOverPolynomial(result, popOptional.getConstReference(), *(variableNames.begin()), canProceedToPartialPolynomialFractions);
+            integrateAsPolynomialOverPolynomial(result, popOptional.value(), *(variableNames.begin()), canProceedToPartialPolynomialFractions);
         }
     }
 }
@@ -1413,17 +1415,8 @@ string Integration::getNewVariableNameForPartialFractions() const
         variableCount=0;
     }
 
-    static bool isFirst(true);
-    static NumberToStringConverter converter;
-
-    if(isFirst)
-    {
-        converter.setFieldWidth(3);
-        converter.setFillCharacter('0');
-        isFirst=false;
-    }
-
-    return string("v") + converter.convert(variableCount);
+    static StringConverterWithFormatting converter(3, '0');
+    return string("v") + converter.convertToString(variableCount);
 }
 
 void Integration::integrateByTryingIntegrationByParts(

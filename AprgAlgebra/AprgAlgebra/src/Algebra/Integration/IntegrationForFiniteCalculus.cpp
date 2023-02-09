@@ -12,9 +12,11 @@
 #include <Algebra/Utilities/KnownNames.hpp>
 #include <Common/Math/Helpers/CombinatoricsHelpers.hpp>
 #include <Common/Math/Helpers/SignRelatedHelpers.hpp>
+#include <Common/Math/Number/AlbaNumberConstants.hpp>
 
 #include <algorithm>
 
+using namespace alba::AlbaNumberConstants;
 using namespace alba::algebra::Functions;
 using namespace alba::mathHelper;
 using namespace std;
@@ -197,13 +199,13 @@ Term IntegrationForFiniteCalculus::integrateMonomial(
             }
             else
             {
-                result = AlbaNumber(AlbaNumber::Value::NotANumber);
+                result = ALBA_NUMBER_NOT_A_NUMBER;
             }
         }
     }
     else
     {
-        result = AlbaNumber(AlbaNumber::Value::NotANumber);
+        result = ALBA_NUMBER_NOT_A_NUMBER;
     }
     return result;
 }
@@ -234,7 +236,7 @@ Term IntegrationForFiniteCalculus::integrateExpression(
 Term IntegrationForFiniteCalculus::integrateFunction(
         Function const& ) const
 {
-    return AlbaNumber(AlbaNumber::Value::NotANumber);
+    return ALBA_NUMBER_NOT_A_NUMBER;
 }
 
 Monomial IntegrationForFiniteCalculus::integrateMonomialInFallingPower(
@@ -375,7 +377,7 @@ Term IntegrationForFiniteCalculus::integrateSimplifiedExpressionOnly(
     }
     if(result.isEmpty())
     {
-        result = AlbaNumber(AlbaNumber::Value::NotANumber);
+        result = ALBA_NUMBER_NOT_A_NUMBER;
     }
     return result;
 }
@@ -405,7 +407,7 @@ Term IntegrationForFiniteCalculus::integrateTermsInMultiplicationOrDivision(
         Expression const& expression) const
 {
     TermsWithDetails const& termsWithDetails(expression.getTermsWithAssociation().getTermsWithDetails());
-    Term result(AlbaNumber(AlbaNumber::Value::NotANumber));
+    Term result(ALBA_NUMBER_NOT_A_NUMBER);
     integrateNonChangingAndChangingTermsInMultiplicationOrDivision(result, termsWithDetails);
     return result;
 }
@@ -444,7 +446,7 @@ Term IntegrationForFiniteCalculus::integrateNonChangingTermRaiseToChangingTerm(
         Term const& base,
         Term const& exponent) const
 {
-    Term result(AlbaNumber(AlbaNumber::Value::NotANumber));
+    Term result(ALBA_NUMBER_NOT_A_NUMBER);
     // Process:
     // Dx(c^x) = c^(x+1) - c^x
     // Dx(c^x) = (c-1) * (c^x)
@@ -472,14 +474,14 @@ Term IntegrationForFiniteCalculus::integrateChangingTermRaiseToNonChangingTerm(
         Term const& ,
         Term const& ) const
 {
-    return AlbaNumber(AlbaNumber::Value::NotANumber);
+    return ALBA_NUMBER_NOT_A_NUMBER;
 }
 
 Term IntegrationForFiniteCalculus::integrateChangingTermRaiseToChangingTerm(
         Term const& ,
         Term const& ) const
 {
-    return AlbaNumber(AlbaNumber::Value::NotANumber);
+    return ALBA_NUMBER_NOT_A_NUMBER;
 }
 
 void IntegrationForFiniteCalculus::integrateNonChangingAndChangingTermsInMultiplicationOrDivision(
@@ -500,7 +502,7 @@ void IntegrationForFiniteCalculus::integrateNonChangingAndChangingTermsInMultipl
         Term integratedChangingTerm(integrateTerm(changingTermCombined));
         if(isNan(integratedChangingTerm))
         {
-            result = AlbaNumber(AlbaNumber::Value::NotANumber);
+            result = ALBA_NUMBER_NOT_A_NUMBER;
         }
         else
         {
@@ -514,7 +516,7 @@ void IntegrationForFiniteCalculus::integrateChangingTermsInMultiplicationOrDivis
         TermsWithDetails const& ) const
 {
     // no impl
-    result = AlbaNumber(AlbaNumber::Value::NotANumber);
+    result = ALBA_NUMBER_NOT_A_NUMBER;
 }
 
 void IntegrationForFiniteCalculus::segregateNonChangingAndChangingTerms(

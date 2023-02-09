@@ -6,10 +6,12 @@
 using namespace alba::AlbaMathConstants;
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 namespace mathHelper
 {
+
 TEST(FractionHelpersTest, ChangeFractionToSimplestFormWorksWithIntAndUnsignedInt)
 {
     int numerator1=0; unsigned int denominator1=0;

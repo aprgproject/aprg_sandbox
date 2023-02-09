@@ -1,8 +1,10 @@
 #include <Algebra/Series/Utilities/SeriesUtilities.hpp>
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
+#include <Common/String/AlbaStringHelper.hpp>
 
 #include <gtest/gtest.h>
 
+using namespace alba::stringHelper;
 using namespace std;
 
 namespace alba
@@ -220,11 +222,11 @@ TEST(SeriesUtilitiesTest, GetEToTheXPowerSeriesWorks)
     string stringToExpect4("((1/6)[x^3] + (1/2)[x^2] + 1[x] + 1)");
     string stringToExpect5("(1/factorial(n)*(x^n))");
     EXPECT_FALSE(series.isSummationModelValid());
-    EXPECT_EQ(stringToExpect1, series.getValueAtIndex(0).getDisplayableString());
-    EXPECT_EQ(stringToExpect2, series.getValueAtIndex(1).getDisplayableString());
-    EXPECT_EQ(stringToExpect3, series.getValueAtIndex(2).getDisplayableString());
-    EXPECT_EQ(stringToExpect4, series.getValueAtIndex(3).getDisplayableString());
-    EXPECT_EQ(stringToExpect5, series.getFormulaForEachTermInSummation().getDisplayableString());
+    EXPECT_EQ(stringToExpect1, convertToString(series.getValueAtIndex(0)));
+    EXPECT_EQ(stringToExpect2, convertToString(series.getValueAtIndex(1)));
+    EXPECT_EQ(stringToExpect3, convertToString(series.getValueAtIndex(2)));
+    EXPECT_EQ(stringToExpect4, convertToString(series.getValueAtIndex(3)));
+    EXPECT_EQ(stringToExpect5, convertToString(series.getFormulaForEachTermInSummation()));
 }
 
 }

@@ -4,11 +4,13 @@
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
 #include <Algebra/Term/Utilities/TermUtilities.hpp>
 #include <Common/Math/Helpers/ConstantHelpers.hpp>
+#include <Common/String/AlbaStringHelper.hpp>
 
 #include <gtest/gtest.h>
 
 using namespace alba::algebra::Functions;
 using namespace alba::mathHelper;
+using namespace alba::stringHelper;
 using namespace std;
 
 namespace alba
@@ -53,7 +55,7 @@ TEST(IntegrationGeometryUtilitiesTest, GetSurfaceAreaBasedOnSolidOfRevolutionWor
     Term termToVerify(getSurfaceAreaUsingOnSolidOfRevolution(edgeOfTheConeInY, {"y", 0, "height"}));
 
     string stringToExpect("((pi)[radius]*((1[height^2] + 1[radius^2])^(1/2)))");
-    EXPECT_EQ(stringToExpect, termToVerify.getDisplayableString());
+    EXPECT_EQ(stringToExpect, convertToString(termToVerify));
 }
 
 TEST(IntegrationGeometryUtilitiesTest, GetVolumeAndSurfaceAreaBasedOnSolidOfRevolutionWorksOnGabrielsHorn)

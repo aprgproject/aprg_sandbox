@@ -7,7 +7,9 @@
 #include <Algebra/Term/Utilities/TermUtilities.hpp>
 #include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>
 #include <Common/Math/Helpers/SignRelatedHelpers.hpp>
+#include <Common/Math/Number/AlbaNumberConstants.hpp>
 
+using namespace alba::AlbaNumberConstants;
 using namespace alba::algebra::Simplification;
 using namespace alba::mathHelper;
 using namespace std;
@@ -87,7 +89,7 @@ void SignMutator::mutatePolynomial(Polynomial & polynomial)
     }
     else
     {
-        polynomial = createPolynomialFromNumber(AlbaNumber(AlbaNumber::Value::NotANumber));
+        polynomial = createPolynomialFromNumber(ALBA_NUMBER_NOT_A_NUMBER);
     }
 }
 
@@ -142,7 +144,7 @@ Term SignMutator::getTermForMutationOfVariable(
     Term result(m_substitution.performSubstitutionTo(variable));
     if(!isTheValue(result, 1) && !isTheValue(result, -1))
     {
-        result = AlbaNumber(AlbaNumber::Value::NotANumber);
+        result = ALBA_NUMBER_NOT_A_NUMBER;
     }
     return result;
 }
@@ -166,12 +168,12 @@ Term SignMutator::getTermForMutationOfFunction(
         }
         else
         {
-            result = AlbaNumber(AlbaNumber::Value::NotANumber);
+            result = ALBA_NUMBER_NOT_A_NUMBER;
         }
     }
     else if(!result.isConstant())
     {
-        result = AlbaNumber(AlbaNumber::Value::NotANumber);
+        result = ALBA_NUMBER_NOT_A_NUMBER;
     }
     return result;
 }
@@ -203,7 +205,7 @@ void SignMutator::mutateExpressionWithAdditionAndSubtraction(
     }
     else
     {
-        expression = createOrCopyExpressionFromATerm(AlbaNumber(AlbaNumber::Value::NotANumber));
+        expression = createOrCopyExpressionFromATerm(ALBA_NUMBER_NOT_A_NUMBER);
     }
 }
 
@@ -219,7 +221,7 @@ void SignMutator::mutateExpressionWithMultiplicationAndDivision(
     expression.simplify();
     if(!isTheValue(expression, 1) && !isTheValue(expression, -1))
     {
-        expression = createOrCopyExpressionFromATerm(AlbaNumber(AlbaNumber::Value::NotANumber));
+        expression = createOrCopyExpressionFromATerm(ALBA_NUMBER_NOT_A_NUMBER);
     }
 }
 
@@ -247,7 +249,7 @@ void SignMutator::mutateExpressionWithRaiseToPower(
     }
     if(!isExpressionSignKnown)
     {
-        expression = createOrCopyExpressionFromATerm(AlbaNumber(AlbaNumber::Value::NotANumber));
+        expression = createOrCopyExpressionFromATerm(ALBA_NUMBER_NOT_A_NUMBER);
     }
 }
 

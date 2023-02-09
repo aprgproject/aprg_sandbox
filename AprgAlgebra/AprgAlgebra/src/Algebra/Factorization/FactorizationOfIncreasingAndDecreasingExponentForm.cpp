@@ -192,9 +192,9 @@ AlbaNumbers calculatePolynomialRootsUsingBrentMethod(
         brentMethod.resetCalculation(valuesForRootFinding.at(i), valuesForRootFinding.at(j));
         brentMethod.runMaxNumberOfIterationsOrUntilFinished(NUMBER_OF_ITERATIONS_IN_BRENT_METHOD);
         AlbaNumberOptional rootOptional(brentMethod.getSolution());
-        if(rootOptional.hasContent())
+        if(rootOptional)
         {
-            AlbaNumber const& root(rootOptional.getConstReference());
+            AlbaNumber const& root(rootOptional.value());
             result.emplace_back(root);
         }
     }

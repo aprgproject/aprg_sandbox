@@ -5,7 +5,9 @@
 #include <Algebra/Term/Utilities/BaseTermHelpers.hpp>
 #include <Algebra/Term/Utilities/TermUtilities.hpp>
 #include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>
+#include <Common/Math/Number/AlbaNumberConstants.hpp>
 
+using namespace alba::AlbaNumberConstants;
 using namespace std;
 
 namespace alba
@@ -69,7 +71,7 @@ void accumulateTermsForAdditionAndSubtraction(
         Term const& term(getTermConstReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer));
         if(isNan(combinedTerm) || isNan(term))
         {
-            combinedTerm = AlbaNumber(AlbaNumber::Value::NotANumber);
+            combinedTerm = ALBA_NUMBER_NOT_A_NUMBER;
             break;
         }
         else if(willHaveNoEffectOnAdditionOrSubtraction(term))

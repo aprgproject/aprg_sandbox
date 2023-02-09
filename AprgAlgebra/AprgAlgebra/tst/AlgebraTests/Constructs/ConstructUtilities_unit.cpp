@@ -20,8 +20,8 @@ TEST(ConstructUtilitiesTest, CreatePolynomialOverPolynomialFromTermIfPossibleWor
 
     PolynomialOverPolynomialOptional popOptional(createPolynomialOverPolynomialFromTermIfPossible(polynomialTerm));
 
-    ASSERT_TRUE(popOptional.hasContent());
-    PolynomialOverPolynomial const& pop(popOptional.getConstReference());
+    ASSERT_TRUE(popOptional);
+    PolynomialOverPolynomial const& pop(popOptional.value());
     EXPECT_EQ(polynomial, pop.getNumerator());
     EXPECT_EQ(createPolynomialFromNumber(1), pop.getDenominator());
 }
@@ -37,8 +37,8 @@ TEST(ConstructUtilitiesTest, CreatePolynomialOverPolynomialFromTermIfPossibleWor
 
     Polynomial expectedNumerator{Monomial(2, {{"x", 9}, {"y", 8}})};
     Polynomial expectedDenominator{Monomial(3, {{"z", 7}})};
-    ASSERT_TRUE(popOptional.hasContent());
-    PolynomialOverPolynomial const& pop(popOptional.getConstReference());
+    ASSERT_TRUE(popOptional);
+    PolynomialOverPolynomial const& pop(popOptional.value());
     EXPECT_EQ(expectedNumerator, pop.getNumerator());
     EXPECT_EQ(expectedDenominator, pop.getDenominator());
 }
@@ -56,8 +56,8 @@ TEST(ConstructUtilitiesTest, CreatePolynomialOverPolynomialFromTermIfPossibleWor
 
     Polynomial expectedNumerator{Monomial(1, {{"x", 2}}), Monomial(2, {{"x", 1}}), Monomial(1, {})};
     Polynomial expectedDenominator{Monomial(2, {{"x", 1}}), Monomial(3, {})};
-    ASSERT_TRUE(popOptional.hasContent());
-    PolynomialOverPolynomial const& pop(popOptional.getConstReference());
+    ASSERT_TRUE(popOptional);
+    PolynomialOverPolynomial const& pop(popOptional.value());
     EXPECT_EQ(expectedNumerator, pop.getNumerator());
     EXPECT_EQ(expectedDenominator, pop.getDenominator());
 }
@@ -69,7 +69,7 @@ TEST(ConstructUtilitiesTest, CreatePolynomialOverPolynomialFromTermIfPossibleWor
 
     PolynomialOverPolynomialOptional popOptional(createPolynomialOverPolynomialFromTermIfPossible(expressionTerm));
 
-    EXPECT_FALSE(popOptional.hasContent());
+    EXPECT_FALSE(popOptional);
 }
 
 TEST(ConstructUtilitiesTest, CreateTermsOverTermsFromTermWorksForNonExpression)

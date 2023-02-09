@@ -1,10 +1,14 @@
 #include <Algebra/Solution/SolutionSet/SolutionSet.hpp>
 #include <Common/Math/Number/Interval/AlbaNumberIntervalHelpers.hpp>
+#include <Common/String/AlbaStringHelper.hpp>
+#include <Common/Math/Number/AlbaNumberConstants.hpp>
 
 #include <gtest/gtest.h>
 
 #include <algorithm>
 
+using namespace alba::AlbaNumberConstants;
+using namespace alba::stringHelper;
 using namespace std;
 
 namespace alba
@@ -170,10 +174,10 @@ TEST(SolutionSetTest, DetermineAndAddAcceptedIntervalsWorksWithRedundantInfiniti
 
     AlbaNumbers addedValuesToCheck{
         1,
-        AlbaNumber::Value::PositiveInfinity,
-                AlbaNumber::Value::NegativeInfinity,
-                AlbaNumber::Value::PositiveInfinity,
-                AlbaNumber::Value::NegativeInfinity};
+        ALBA_NUMBER_POSITIVE_INFINITY,
+                ALBA_NUMBER_NEGATIVE_INFINITY,
+                ALBA_NUMBER_POSITIVE_INFINITY,
+                ALBA_NUMBER_NEGATIVE_INFINITY};
     AlbaNumbers valuesThatAreNotAccepted{1};
     solutionSet.determineAndAddAcceptedIntervals(addedValuesToCheck, [&](AlbaNumber const& numberToCheck)
     {
@@ -237,7 +241,7 @@ TEST(SolutionSetTest, DetermineAndAddAcceptedIntervalsWorksAndNotAcceptedInterva
     EXPECT_EQ(AlbaNumberInterval(createOpenEndpoint(2), createPositiveInfinityOpenEndpoint()), actualIntervals.at(1));
 }
 
-TEST(SolutionSetTest, GetDisplayableStringWorks)
+TEST(SolutionSetTest, OutputStreamOperatorWorks)
 {
     SolutionSet solutionSet;
     solutionSet.addAcceptedValue(3.7);
@@ -246,7 +250,7 @@ TEST(SolutionSetTest, GetDisplayableStringWorks)
     solutionSet.addAcceptedInterval(AlbaNumberInterval(createOpenEndpoint(87), createOpenEndpoint(99)));
 
     EXPECT_EQ("AcceptedValues: : [{size: 2 | 3.7, 5.6, }] RejectedValues: : [{size: 1 | 6.5, }] AcceptedIntervals: : [{size: 1 | (87, 99), }]",
-              solutionSet.getDisplayableString());
+              convertToString(solutionSet));
 }
 
 }

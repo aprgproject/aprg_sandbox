@@ -18,7 +18,8 @@ TEST(TotalNumberOfNonDecreasingNumbersWithNDigitsTest, GetCountWorksOnExample1)
     EXPECT_EQ(0U, queryForTest.getCountUsingSummationFormula());
 }
 
-TEST(TotalNumberOfNonDecreasingNumbersWithNDigitsTest, GetCountWorksOnExample2){
+TEST(TotalNumberOfNonDecreasingNumbersWithNDigitsTest, GetCountWorksOnExample2)
+{
     TotalNumberOfNonDecreasingNumbersWithNDigits queryForTest(1U);
 
     EXPECT_EQ(10U, queryForTest.getCountUsingNaiveRecursion());
@@ -28,7 +29,8 @@ TEST(TotalNumberOfNonDecreasingNumbersWithNDigitsTest, GetCountWorksOnExample2){
     EXPECT_EQ(10U, queryForTest.getCountUsingSummationFormula());
 }
 
-TEST(TotalNumberOfNonDecreasingNumbersWithNDigitsTest, GetCountWorksOnExample3){
+TEST(TotalNumberOfNonDecreasingNumbersWithNDigitsTest, GetCountWorksOnExample3)
+{
     TotalNumberOfNonDecreasingNumbersWithNDigits queryForTest(2U);
 
     EXPECT_EQ(55U, queryForTest.getCountUsingNaiveRecursion());
@@ -38,7 +40,8 @@ TEST(TotalNumberOfNonDecreasingNumbersWithNDigitsTest, GetCountWorksOnExample3){
     EXPECT_EQ(55U, queryForTest.getCountUsingSummationFormula());
 }
 
-TEST(TotalNumberOfNonDecreasingNumbersWithNDigitsTest, GetCountWorksOnExample4){
+TEST(TotalNumberOfNonDecreasingNumbersWithNDigitsTest, GetCountWorksOnExample4)
+{
     TotalNumberOfNonDecreasingNumbersWithNDigits queryForTest(3U);
 
     EXPECT_EQ(220U, queryForTest.getCountUsingNaiveRecursion());

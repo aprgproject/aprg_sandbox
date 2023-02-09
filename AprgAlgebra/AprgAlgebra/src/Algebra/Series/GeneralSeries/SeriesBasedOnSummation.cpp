@@ -4,7 +4,9 @@
 #include <Algebra/Limit/Limit.hpp>
 #include <Algebra/Substitution/SubstitutionOfVariablesToValues.hpp>
 #include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>
+#include <Common/Math/Number/AlbaNumberConstants.hpp>
 
+using namespace alba::AlbaNumberConstants;
 using namespace alba::algebra::Functions;
 using namespace std;
 
@@ -38,7 +40,7 @@ bool SeriesBasedOnSummation::isConvergent() const
     }
     else
     {
-        result = getLimit(m_formulaForEachTermInSummation, m_nameForVariableInFormula, AlbaNumber(AlbaNumber::Value::PositiveInfinity)) == 0;
+        result = getLimit(m_formulaForEachTermInSummation, m_nameForVariableInFormula, ALBA_NUMBER_POSITIVE_INFINITY) == 0;
     }
     return result;
 }

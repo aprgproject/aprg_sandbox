@@ -1,9 +1,11 @@
 #include <Algebra/Term/TermTypes/Term.hpp>
 #include <Algebra/Term/Utilities/BaseTermHelpers.hpp>
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
+#include <Common/String/AlbaStringHelper.hpp>
 
 #include <gtest/gtest.h>
 
+using namespace alba::stringHelper;
 using namespace std;
 
 namespace alba
@@ -356,14 +358,14 @@ TEST(TermTest, AssignmentOperatorWorks)
     Term term2(5);
     term2 = 7;
     Term term3(8);
-    term3 = term3;
+    term3 = term2;
 
     ASSERT_EQ(TermType::Constant, term1.getTermType());
     EXPECT_EQ(2, term1.getConstantValueConstReference().getInteger());
     ASSERT_EQ(TermType::Constant, term2.getTermType());
     EXPECT_EQ(7, term2.getConstantValueConstReference().getInteger());
     ASSERT_EQ(TermType::Constant, term3.getTermType());
-    EXPECT_EQ(8, term3.getConstantValueConstReference().getInteger());
+    EXPECT_EQ(7, term3.getConstantValueConstReference().getInteger());
 }
 
 TEST(TermTest, TermThatIsAssignedHasIsSimplifiedFlagCopied)
@@ -633,31 +635,6 @@ TEST(TermTest, GetTermTypeWorks)
     EXPECT_EQ(TermType::Polynomial, term6.getTermType());
     EXPECT_EQ(TermType::Expression, term7.getTermType());
     EXPECT_EQ(TermType::Function, term8.getTermType());
-}
-
-TEST(TermTest, GetDisplayableStringWorks)
-{
-    Term term1;
-    Term term2(0);
-    Term term3(Variable("length"));
-    Term term4(Operator("+"));
-    Term term5(Monomial(-1.5, {{"distance", -3.75}, {"power", 4.5}}));
-    Term term6(Polynomial{Monomial(3, {}), Monomial(-1.5, {{"distance", -3.75}, {"power", 4.5}})});
-    Term term7(createExpressionIfPossible({5, "+", "interest"}));
-    Function function1("functionName", Term(5), [](AlbaNumber const&  number) -> AlbaNumber
-    {
-        return number;
-    });
-    Term term8(function1);
-
-    EXPECT_EQ("{EmptyTerm}", term1.getDisplayableString());
-    EXPECT_EQ("0", term2.getDisplayableString());
-    EXPECT_EQ("length", term3.getDisplayableString());
-    EXPECT_EQ("+", term4.getDisplayableString());
-    EXPECT_EQ("-1.5[distance^-3.75][power^4.5]", term5.getDisplayableString());
-    EXPECT_EQ("(3 + -1.5[distance^-3.75][power^4.5])", term6.getDisplayableString());
-    EXPECT_EQ("(5+interest)", term7.getDisplayableString());
-    EXPECT_EQ("functionName(5)", term8.getDisplayableString());
 }
 
 TEST(TermTest, GetDebugStringWorks)

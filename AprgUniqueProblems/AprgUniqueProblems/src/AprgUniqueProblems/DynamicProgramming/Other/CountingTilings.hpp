@@ -14,10 +14,12 @@ class CountingTilings
 public:
 
     using Count = unsigned int;
-    using Grid = matrix::AlbaMatrix<char>;    struct NextIterationDetail
+    using Grid = matrix::AlbaMatrix<char>;
+    struct NextIterationDetail
     {
         std::string currentFilledRow;
-        std::string nextNonFilledRow;    };
+        std::string nextNonFilledRow;
+    };
     using NextIterationDetails = std::vector<NextIterationDetail>;
     using StringToNextIterationDetailsMap=std::map<std::string, NextIterationDetails>; // This also can be represented by vector using bitstrings
 

@@ -1,11 +1,13 @@
 #include <Algebra/Constructs/TermRaiseToANumber.hpp>
 #include <Algebra/Functions/CommonFunctionLibrary.hpp>
+#include <Common/String/AlbaStringHelper.hpp>
 
 #include <gtest/gtest.h>
 
 #include <string>
 
 using namespace alba::algebra::Functions;
+using namespace alba::stringHelper;
 using namespace std;
 
 namespace alba
@@ -51,9 +53,9 @@ TEST(TermRaiseToANumberTest, GetCombinedTermWorks)
     string stringToExpect1("x");
     string stringToExpect2("78125[x^42]");
     string stringToExpect3("(sin(x)^7)");
-    EXPECT_EQ(stringToExpect1, baseAndExponent1.getCombinedTerm().getDisplayableString());
-    EXPECT_EQ(stringToExpect2, baseAndExponent2.getCombinedTerm().getDisplayableString());
-    EXPECT_EQ(stringToExpect3, baseAndExponent3.getCombinedTerm().getDisplayableString());
+    EXPECT_EQ(stringToExpect1, convertToString(baseAndExponent1.getCombinedTerm()));
+    EXPECT_EQ(stringToExpect2, convertToString(baseAndExponent2.getCombinedTerm()));
+    EXPECT_EQ(stringToExpect3, convertToString(baseAndExponent3.getCombinedTerm()));
 }
 
 TEST(TermRaiseToANumberTest, GetBaseWorks)

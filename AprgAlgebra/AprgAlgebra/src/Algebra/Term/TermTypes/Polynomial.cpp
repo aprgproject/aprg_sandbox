@@ -2,9 +2,11 @@
 
 #include <Algebra/Term/Utilities/MonomialHelpers.hpp>
 #include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>
+#include <Common/Math/Number/AlbaNumberConstants.hpp>
 
 #include <algorithm>
 
+using namespace alba::AlbaNumberConstants;
 using namespace std;
 
 namespace alba
@@ -238,7 +240,7 @@ bool Polynomial::isFurtherSimplificationNeeded(
 void Polynomial::setNan()
 {
     m_monomials.clear();
-    addMonomial(Monomial(AlbaNumber(AlbaNumber::Value::NotANumber), {}));
+    addMonomial(Monomial(ALBA_NUMBER_NOT_A_NUMBER, {}));
 }
 
 void Polynomial::simplifyContinuouslyIfChanged()

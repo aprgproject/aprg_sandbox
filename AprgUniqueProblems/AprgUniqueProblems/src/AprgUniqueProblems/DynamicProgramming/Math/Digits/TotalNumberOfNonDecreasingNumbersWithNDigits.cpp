@@ -133,10 +133,12 @@ TotalNumberOfNonDecreasingNumbersWithNDigits::Count TotalNumberOfNonDecreasingNu
 
 TotalNumberOfNonDecreasingNumbersWithNDigits::Count TotalNumberOfNonDecreasingNumbersWithNDigits::getCountUsingNaiveRecursion(
         Value const digitValue,
-        Count const digitIndex) const{
+        Count const digitIndex) const
+{
     Count result(0);
     if(digitIndex>0)
-    {        for(Value beforeDigitValue=0; beforeDigitValue<=digitValue; beforeDigitValue++)
+    {
+        for(Value beforeDigitValue=0; beforeDigitValue<=digitValue; beforeDigitValue++)
         {
             result += getCountUsingNaiveRecursion(beforeDigitValue, digitIndex-1);
         }

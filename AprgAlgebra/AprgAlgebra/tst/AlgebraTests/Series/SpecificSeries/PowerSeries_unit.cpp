@@ -1,9 +1,11 @@
 #include <Algebra/Series/SpecificSeries/PowerSeries.hpp>
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
 #include <Common/Math/Number/Interval/AlbaNumberIntervalHelpers.hpp>
+#include <Common/String/AlbaStringHelper.hpp>
 
 #include <gtest/gtest.h>
 
+using namespace alba::stringHelper;
 using namespace std;
 
 namespace alba
@@ -46,7 +48,7 @@ TEST(PowerSeriesTest, DifferentiateWorks)
     series.differentiate();
 
     string stringToExpect("(1[n^2]*((1[x] + -2)^(1[n] + -1)))");
-    EXPECT_EQ(stringToExpect, series.getFormulaForEachTermInSummation().getDisplayableString());
+    EXPECT_EQ(stringToExpect, convertToString(series.getFormulaForEachTermInSummation()));
 }
 
 TEST(PowerSeriesTest, IntegrateWorks)
@@ -57,7 +59,7 @@ TEST(PowerSeriesTest, IntegrateWorks)
     series.integrate();
 
     string stringToExpect("(n*((1[x] + -2)^(1[n] + 1))/(1[n] + 1))");
-    EXPECT_EQ(stringToExpect, series.getFormulaForEachTermInSummation().getDisplayableString());
+    EXPECT_EQ(stringToExpect, convertToString(series.getFormulaForEachTermInSummation()));
 }
 
 }

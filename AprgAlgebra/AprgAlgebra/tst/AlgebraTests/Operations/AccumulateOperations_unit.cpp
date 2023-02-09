@@ -1,9 +1,11 @@
 #include <Algebra/Operations/AccumulateOperations.hpp>
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
 #include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>
+#include <Common/Math/Number/AlbaNumberConstants.hpp>
 
 #include <gtest/gtest.h>
 
+using namespace alba::AlbaNumberConstants;
 using namespace std;
 
 namespace alba
@@ -65,7 +67,7 @@ TEST(AccumulateOperationsTest, AccumulateTermsForAdditionAndSubtractionWorksWith
     Term termToTest;
     Term term1(1);
     Term term2(2);
-    Term term3(AlbaNumber(AlbaNumber::Value::NotANumber));
+    Term term3(ALBA_NUMBER_NOT_A_NUMBER);
     TermsWithDetails termsWithDetails
     {TermWithDetails(term1, TermAssociationType::Positive),
                 TermWithDetails(term2, TermAssociationType::Positive),

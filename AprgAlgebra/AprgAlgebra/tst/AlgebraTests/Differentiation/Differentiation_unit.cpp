@@ -2,10 +2,12 @@
 #include <Algebra/Functions/CommonFunctionLibrary.hpp>
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
 #include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>
+#include <Common/String/AlbaStringHelper.hpp>
 
 #include <gtest/gtest.h>
 
 using namespace alba::algebra::Functions;
+using namespace alba::stringHelper;
 using namespace std;
 
 namespace alba
@@ -134,7 +136,7 @@ TEST(DifferentiationTest, DifferentiateWorksForEquation)
     Equation equation1(term1ForEquation1, "=", term2ForEquation1);
 
     EXPECT_EQ("(18[d[y]/d[x]][y^5] + 5[d[y]/d[x]][y^4] + -6[x^5] + -2[d[y]/d[x]][y] + 2) = 0",
-              differentiationForXWithY.differentiate(equation1).getDisplayableString());
+              convertToString(differentiationForXWithY.differentiate(equation1)));
 }
 
 TEST(DifferentiationTest, DifferentiateWithDefiniteValueWorks)
@@ -384,18 +386,18 @@ TEST(DifferentiationTest, DifferentiateFunctionWorksWithFunctionsInCommonFunctio
     EXPECT_EQ(termToExpect08, termToVerify08);
     EXPECT_EQ(termToExpect09, termToVerify09);
     EXPECT_EQ(termToExpect10, termToVerify10);
-    EXPECT_EQ(stringToExpect11, termToVerify11.getDisplayableString());
-    EXPECT_EQ(stringToExpect12, termToVerify12.getDisplayableString());
-    EXPECT_EQ(stringToExpect13, termToVerify13.getDisplayableString());
-    EXPECT_EQ(stringToExpect14, termToVerify14.getDisplayableString());
-    EXPECT_EQ(stringToExpect15, termToVerify15.getDisplayableString());
-    EXPECT_EQ(stringToExpect16, termToVerify16.getDisplayableString());
-    EXPECT_EQ(stringToExpect17, termToVerify17.getDisplayableString());
-    EXPECT_EQ(stringToExpect18, termToVerify18.getDisplayableString());
-    EXPECT_EQ(stringToExpect19, termToVerify19.getDisplayableString());
-    EXPECT_EQ(stringToExpect20, termToVerify20.getDisplayableString());
-    EXPECT_EQ(stringToExpect21, termToVerify21.getDisplayableString());
-    EXPECT_EQ(stringToExpect22, termToVerify22.getDisplayableString());
+    EXPECT_EQ(stringToExpect11, convertToString(termToVerify11));
+    EXPECT_EQ(stringToExpect12, convertToString(termToVerify12));
+    EXPECT_EQ(stringToExpect13, convertToString(termToVerify13));
+    EXPECT_EQ(stringToExpect14, convertToString(termToVerify14));
+    EXPECT_EQ(stringToExpect15, convertToString(termToVerify15));
+    EXPECT_EQ(stringToExpect16, convertToString(termToVerify16));
+    EXPECT_EQ(stringToExpect17, convertToString(termToVerify17));
+    EXPECT_EQ(stringToExpect18, convertToString(termToVerify18));
+    EXPECT_EQ(stringToExpect19, convertToString(termToVerify19));
+    EXPECT_EQ(stringToExpect20, convertToString(termToVerify20));
+    EXPECT_EQ(stringToExpect21, convertToString(termToVerify21));
+    EXPECT_EQ(stringToExpect22, convertToString(termToVerify22));
 }
 
 TEST(DifferentiationTest, DifferentiateFunctionWorksWithChainRule)
@@ -424,8 +426,8 @@ TEST(DifferentiationTest, DifferentiateEquationWorks)
 
     string stringToExpect1("(18[d[y]/d[x]][y^5] + 5[d[y]/d[x]][y^4] + -6[x^5] + -2[d[y]/d[x]][y] + 2) = 0");
     string stringToExpect2("(6[d[y]/d[x]][x^4][y] + 12[x^3][y^2] + -21[d[y]/d[x]][x][y^2] + -7[y^3] + -8[d[y]/d[x]]) = 0");
-    EXPECT_EQ(stringToExpect1, equationToVerify1.getDisplayableString());
-    EXPECT_EQ(stringToExpect2, equationToVerify2.getDisplayableString());
+    EXPECT_EQ(stringToExpect1, convertToString(equationToVerify1));
+    EXPECT_EQ(stringToExpect2, convertToString(equationToVerify2));
 }
 
 TEST(DifferentiationTest, DifferentiateWorksOnOneOverPolynomial)
@@ -453,7 +455,7 @@ TEST(DifferentiationTest, DifferentiateTwoMultipliedTermsWorks)
     Term termToVerify(differentiationForX.differentiateTwoMultipliedTerms(term1, term2));
 
     string stringToExpect("(((2[x^2] + -4[x])*(6[x] + 7))+((3[x^2] + 7[x])*(4[x] + -4)))");
-    EXPECT_EQ(stringToExpect, termToVerify.getDisplayableString());
+    EXPECT_EQ(stringToExpect, convertToString(termToVerify));
 }
 
 TEST(DifferentiationTest, DifferentiateTwoDividedTermsWorks)
@@ -465,7 +467,7 @@ TEST(DifferentiationTest, DifferentiateTwoDividedTermsWorks)
     Term termToVerify(differentiationForX.differentiateTwoDividedTerms(numerator, denominator));
 
     string stringToExpect("((((1[x^2] + -4[x] + 1)*6[x^2])-((2[x^3] + 4)*(2[x] + -4)))/((1[x^2] + -4[x] + 1)^2))");
-    EXPECT_EQ(stringToExpect, termToVerify.getDisplayableString());
+    EXPECT_EQ(stringToExpect, convertToString(termToVerify));
 }
 
 TEST(DifferentiationTest, DifferentiateWorksWithTermRaiseToTerm)
@@ -500,7 +502,7 @@ TEST(DifferentiationTest, DifferentiateWorksWithDivisionExpressionRaiseToAConsta
     Term termToVerify(differentiationForX.differentiate(termToTest));
 
     string stringToExpect("(-160/((1[x] + -1)^6))");
-    EXPECT_EQ(stringToExpect, termToVerify.getDisplayableString());
+    EXPECT_EQ(stringToExpect, convertToString(termToVerify));
 }
 
 TEST(DifferentiationTest, DifferentiateWorksWithChainRule)
@@ -511,7 +513,7 @@ TEST(DifferentiationTest, DifferentiateWorksWithChainRule)
     Term termToVerify(differentiationForX.differentiate(termToTest));
 
     string stringToExpect("(16[x]*(sec(2[x^2])^4)*tan(2[x^2]))");
-    EXPECT_EQ(stringToExpect, termToVerify.getDisplayableString());
+    EXPECT_EQ(stringToExpect, convertToString(termToVerify));
 }
 
 TEST(DifferentiationTest, DifferentiateWorksWithSquareRootOfAPolynomial)
@@ -523,7 +525,7 @@ TEST(DifferentiationTest, DifferentiateWorksWithSquareRootOfAPolynomial)
     Term termToVerify(differentiationForX.differentiate(termToTest));
 
     string stringToExpect("((3[x^2] + -2)/((2[x^3] + -4[x] + 5)^(1/2)))");
-    EXPECT_EQ(stringToExpect, termToVerify.getDisplayableString());
+    EXPECT_EQ(stringToExpect, convertToString(termToVerify));
 }
 
 }

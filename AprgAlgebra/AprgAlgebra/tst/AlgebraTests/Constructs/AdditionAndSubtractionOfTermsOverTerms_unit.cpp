@@ -1,8 +1,10 @@
 #include <Algebra/Constructs/AdditionAndSubtractionOfTermsOverTerms.hpp>
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
+#include <Common/String/AlbaStringHelper.hpp>
 
 #include <gtest/gtest.h>
 
+using namespace alba::stringHelper;
 using namespace std;
 
 namespace alba
@@ -342,7 +344,7 @@ TEST(AdditionAndSubtractionOfTermsOverTermsTest, GetCombinedExpressionAndSimplif
     expressionToVerify.simplify();
 
     string stringToExpect("((1+(x*(2^x))+(2^(1[x] + 1)))/(1[x] + 2))");
-    EXPECT_EQ(stringToExpect, expressionToVerify.getDisplayableString());
+    EXPECT_EQ(stringToExpect, convertToString(expressionToVerify));
 }
 
 TEST(AdditionAndSubtractionOfTermsOverTermsTest, GetCombinedExpressionAndSimplifyUsingExample1Works)

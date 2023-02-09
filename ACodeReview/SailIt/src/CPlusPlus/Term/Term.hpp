@@ -13,9 +13,11 @@ using std::optional;
 
 namespace codeReview
 {
+
 enum class TermType
 {
-    Class,    Comment,
+    Class,
+    Comment,
     Constant_Boolean,
     Constant_Character,
     Constant_Number,
@@ -84,4 +86,5 @@ private:
     std::Optional<CPlusPlusType> m_ValueTypeOptional;
 
 };
+
 }

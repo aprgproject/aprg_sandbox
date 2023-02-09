@@ -118,14 +118,6 @@ TermsWithAssociation const& Expression::getTermsWithAssociation() const
     return m_termsWithAssociation;
 }
 
-string Expression::getDisplayableString() const
-{
-    stringstream ss;
-    ss.precision(16);
-    ss << *this;
-    return ss.str();
-}
-
 string Expression::getDebugString() const
 {
     stringstream ss;

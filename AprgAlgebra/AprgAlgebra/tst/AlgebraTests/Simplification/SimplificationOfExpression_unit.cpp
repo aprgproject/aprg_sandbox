@@ -4,10 +4,12 @@
 #include <Algebra/Term/Utilities/StringHelpers.hpp>
 #include <Algebra/Term/Utilities/TermUtilities.hpp>
 #include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>
+#include <Common/String/AlbaStringHelper.hpp>
 
 #include <gtest/gtest.h>
 
 using namespace alba::algebra::Functions;
+using namespace alba::stringHelper;
 using namespace std;
 
 namespace alba
@@ -606,7 +608,7 @@ TEST(SimplificationOfExpressionTest, ShouldSimplifyToACommonDenominatorWorksWith
 
     Expression expressionToVerify(simplification.getExpression());
     EXPECT_EQ("(((((e)^x)*sin(x))-(((e)^x)*cos(x)))/2)",
-              expressionToVerify.getDisplayableString());
+              convertToString(expressionToVerify));
 }
 
 TEST(SimplificationOfExpressionTest, SimplifyWithEvenExponentsCancellationAndPutAbsoluteValueAtBaseWorksAsDefault)
@@ -991,8 +993,8 @@ TEST(SimplificationOfExpressionTest, SimplifyBySimplifyingToFactorsWorks)
     simplification.simplify();
 
     Expression expressionToVerify(simplification.getExpression());
-    string stringToExpect("(1/117649/((1[x] + -0.5227579585747166)^6)/((1[x^2] + 0.5227579585747166[x] + 0.2732758832532051)^6))");
-    EXPECT_EQ(stringToExpect, expressionToVerify.getDisplayableString());
+    string stringToExpect("(1/117649/((1[x] + -0.522758)^6)/((1[x^2] + 0.522758[x] + 0.273276)^6))");
+    EXPECT_EQ(stringToExpect, convertToString(expressionToVerify));
 }
 
 TEST(SimplificationOfExpressionTest, ShouldSimplifyToACommonDenominatorAndShouldSimplifyToFactorsWorksToConvertPolynomialOverPolynomial)

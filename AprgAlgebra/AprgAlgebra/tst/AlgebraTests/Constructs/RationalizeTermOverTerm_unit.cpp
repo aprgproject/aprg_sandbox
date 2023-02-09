@@ -1,8 +1,10 @@
 #include <Algebra/Constructs/RationalizeTermOverTerm.hpp>
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
+#include <Common/String/AlbaStringHelper.hpp>
 
 #include <gtest/gtest.h>
 
+using namespace alba::stringHelper;
 using namespace std;
 
 namespace alba
@@ -176,7 +178,7 @@ TEST(RationalizeTermOverTermTest, RationalizeNumeratorWorksForExpressionOverExpr
     string expectedDenominatorString("(((1[x^2] + -6[x] + 8)^(1/2))-((1[x^2] + -7[x] + 12)^(1/2))"
                                      "+((1[x^2] + -7[x] + 10)^(1/2))-((1[x^2] + -8[x] + 15)^(1/2)))");
     EXPECT_EQ(expectedNumerator, rationalizeTermOverTerm.getNumerator());
-    EXPECT_EQ(expectedDenominatorString, rationalizeTermOverTerm.getDenominator().getDisplayableString());
+    EXPECT_EQ(expectedDenominatorString, convertToString(rationalizeTermOverTerm.getDenominator()));
 }
 
 TEST(RationalizeTermOverTermTest, RationalizeDenominatorWorksForExpressionOverExpressionWithSquareRoot)
@@ -198,7 +200,7 @@ TEST(RationalizeTermOverTermTest, RationalizeDenominatorWorksForExpressionOverEx
     string expectedNumeratorString("(((1[x^2] + -6[x] + 8)^(1/2))-((1[x^2] + -7[x] + 10)^(1/2))"
                                    "+((1[x^2] + -7[x] + 12)^(1/2))-((1[x^2] + -8[x] + 15)^(1/2)))");
     Term expectedDenominator(1);
-    EXPECT_EQ(expectedNumeratorString, rationalizeTermOverTerm.getNumerator().getDisplayableString());
+    EXPECT_EQ(expectedNumeratorString, convertToString(rationalizeTermOverTerm.getNumerator()));
     EXPECT_EQ(expectedDenominator, rationalizeTermOverTerm.getDenominator());
 }
 
@@ -222,7 +224,7 @@ TEST(RationalizeTermOverTermTest, RationalizeNumeratorWorksForExpressionOverExpr
     string expectedDenominatorString("(((1[x^3] + -8[x^2] + 20[x] + -16)^(1/3))-((1[x^3] + -9[x^2] + 26[x] + -24)^(1/3))+((1[x^3] + -10[x^2] + 33[x] + -36)^(1/3))"
                                      "+((1[x^3] + -9[x^2] + 24[x] + -20)^(1/3))-((1[x^3] + -10[x^2] + 31[x] + -30)^(1/3))+((1[x^3] + -11[x^2] + 39[x] + -45)^(1/3)))");
     EXPECT_EQ(expectedNumerator, rationalizeTermOverTerm.getNumerator());
-    EXPECT_EQ(expectedDenominatorString, rationalizeTermOverTerm.getDenominator().getDisplayableString());
+    EXPECT_EQ(expectedDenominatorString, convertToString(rationalizeTermOverTerm.getDenominator()));
 }
 
 TEST(RationalizeTermOverTermTest, RationalizeDenominatorWorksForExpressionOverExpressionWithCubeRoot)
@@ -244,7 +246,7 @@ TEST(RationalizeTermOverTermTest, RationalizeDenominatorWorksForExpressionOverEx
     string expectedNumeratorString("(((1[x^3] + -10[x^2] + 32[x] + -32)^(1/3))-((1[x^3] + -11[x^2] + 38[x] + -40)^(1/3))+((1[x^3] + -12[x^2] + 45[x] + -50)^(1/3))"
                                    "+((1[x^3] + -11[x^2] + 40[x] + -48)^(1/3))-((1[x^3] + -12[x^2] + 47[x] + -60)^(1/3))+((1[x^3] + -13[x^2] + 55[x] + -75)^(1/3)))");
     Term expectedDenominator(Polynomial{Monomial(2, {{"x", 1}}), Monomial(-9, {})});
-    EXPECT_EQ(expectedNumeratorString, rationalizeTermOverTerm.getNumerator().getDisplayableString());
+    EXPECT_EQ(expectedNumeratorString, convertToString(rationalizeTermOverTerm.getNumerator()));
     EXPECT_EQ(expectedDenominator, rationalizeTermOverTerm.getDenominator());
 }
 
@@ -259,9 +261,9 @@ TEST(RationalizeTermOverTermTest, RationalizeNumeratorForExample1)
     rationalizeTermOverTerm.rationalizeNumerator();
 
     string expectedNumeratorString("(1[deltaX] + -4)");
-    string expectedDenominatorString("(1.587401051968199[deltaX]+((1[deltaX^(5/2)] + -2[deltaX^(3/2)])^(2/3))+((2[deltaX^4] + -4[deltaX^3])^(1/3)))");
-    EXPECT_EQ(expectedNumeratorString, rationalizeTermOverTerm.getNumerator().getDisplayableString());
-    EXPECT_EQ(expectedDenominatorString, rationalizeTermOverTerm.getDenominator().getDisplayableString());
+    string expectedDenominatorString("(1.5874[deltaX]+((1[deltaX^(5/2)] + -2[deltaX^(3/2)])^(2/3))+((2[deltaX^4] + -4[deltaX^3])^(1/3)))");
+    EXPECT_EQ(expectedNumeratorString, convertToString(rationalizeTermOverTerm.getNumerator()));
+    EXPECT_EQ(expectedDenominatorString, convertToString(rationalizeTermOverTerm.getDenominator()));
 }
 
 TEST(RationalizeTermOverTermTest, RationalizeNumeratorWorksOnWithInnerAndOuterFractions)
@@ -277,8 +279,8 @@ TEST(RationalizeTermOverTermTest, RationalizeNumeratorWorksOnWithInnerAndOuterFr
 
     string stringToExpect1("((-3[x^(1/2)] + 10)/(1[x^(1/2)] + -3))");
     string stringToExpect2("((2[x^(1/2)] + -6)+(((1[x^(3/2)] + -2[x])/(1[x^(1/2)] + -3))^(1/2))-(((9[x^(1/2)] + -18)/(1[x^(1/2)] + -3))^(1/2)))");
-    EXPECT_EQ(stringToExpect1, rationalizeTermOverTerm.getNumerator().getDisplayableString());
-    EXPECT_EQ(stringToExpect2, rationalizeTermOverTerm.getDenominator().getDisplayableString());
+    EXPECT_EQ(stringToExpect1, convertToString(rationalizeTermOverTerm.getNumerator()));
+    EXPECT_EQ(stringToExpect2, convertToString(rationalizeTermOverTerm.getDenominator()));
 }
 
 }

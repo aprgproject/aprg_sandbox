@@ -7,7 +7,9 @@
 #include <Algebra/Term/Operators/TermOperators.hpp>
 #include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>
 #include <Algebra/Utilities/KnownNames.hpp>
+#include <Common/Math/Number/AlbaNumberConstants.hpp>
 
+using namespace alba::AlbaNumberConstants;
 using namespace std;
 
 namespace alba
@@ -58,7 +60,7 @@ Term Summation::getSum(
     }
     else
     {
-        result = AlbaNumber(AlbaNumber::Value::NotANumber);
+        result = ALBA_NUMBER_NOT_A_NUMBER;
     }
     return result;
 }
@@ -83,7 +85,7 @@ void Summation::calculateSumFromANumberToANumber(
     }
     else
     {
-        result = AlbaNumber(AlbaNumber::Value::NotANumber);
+        result = ALBA_NUMBER_NOT_A_NUMBER;
     }
 }
 
@@ -98,7 +100,7 @@ void Summation::calculateSumStartingFromANumber(
 
         if(end.isConstant() && end.getConstantValueConstReference().isPositiveInfinity())
         {
-            result = getLimit(summationModelWithConstant, m_variableToSubstitute, AlbaNumber::Value::PositiveInfinity);
+            result = getLimit(summationModelWithConstant, m_variableToSubstitute, ALBA_NUMBER_POSITIVE_INFINITY);
         }
         else
         {
@@ -108,7 +110,7 @@ void Summation::calculateSumStartingFromANumber(
     }
     else
     {
-        result = AlbaNumber(AlbaNumber::Value::NotANumber);
+        result = ALBA_NUMBER_NOT_A_NUMBER;
     }
 }
 

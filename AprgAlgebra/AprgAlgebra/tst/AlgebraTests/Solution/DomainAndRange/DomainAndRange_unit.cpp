@@ -2,9 +2,11 @@
 #include <Algebra/Solution/DomainAndRange/DomainAndRange.hpp>
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
 #include <Common/Math/Number/Interval/AlbaNumberIntervalHelpers.hpp>
+#include <Common/Math/Number/AlbaNumberConstants.hpp>
 
 #include <gtest/gtest.h>
 
+using namespace alba::AlbaNumberConstants;
 using namespace std;
 
 namespace alba
@@ -36,7 +38,7 @@ TEST(DomainAndRangeTest, CalculateDomainUsingTransitionValuesWorksWithFunctionWi
 
     SolutionSet actualDomain = calculateDomainUsingTransitionValues(values, [](AlbaNumber const& number)
     {
-        return (number == 3) ? AlbaNumber(AlbaNumber::Value::NotANumber) : number;
+        return (number == 3) ? ALBA_NUMBER_NOT_A_NUMBER : number;
     });
 
     AlbaNumberIntervals acceptedIntervals(actualDomain.getAcceptedIntervals());

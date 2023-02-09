@@ -16,6 +16,7 @@ TEST(MobileNumericKeypadProblemTest, GetMinimumCostWorksOnExample1)
     EXPECT_EQ(10U, queryForTest.getCountUsingTabularDP());
     EXPECT_EQ(10U, queryForTest.getCountUsingTabularDPAndSpaceEfficient());
 }
+
 TEST(MobileNumericKeypadProblemTest, GetMinimumCostWorksOnExample2)
 {
     MobileNumericKeypadProblem queryForTest(2);
@@ -25,6 +26,7 @@ TEST(MobileNumericKeypadProblemTest, GetMinimumCostWorksOnExample2)
     EXPECT_EQ(36U, queryForTest.getCountUsingTabularDP());
     EXPECT_EQ(36U, queryForTest.getCountUsingTabularDPAndSpaceEfficient());
 }
+
 TEST(MobileNumericKeypadProblemTest, GetMinimumCostWorksOnExample3)
 {
     MobileNumericKeypadProblem queryForTest(10);
@@ -34,4 +36,5 @@ TEST(MobileNumericKeypadProblemTest, GetMinimumCostWorksOnExample3)
     EXPECT_EQ(1944059U, queryForTest.getCountUsingTabularDP());
     EXPECT_EQ(1944059U, queryForTest.getCountUsingTabularDPAndSpaceEfficient());
 }
+
 }
