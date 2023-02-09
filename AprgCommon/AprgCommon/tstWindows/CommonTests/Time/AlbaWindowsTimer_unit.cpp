@@ -1,10 +1,9 @@
+/*
 #include <Common/Time/AlbaWindowsTimer.hpp>
 
 #include <gtest/gtest.h>
-
 namespace alba
 {
-
 TEST(AlbaWindowsTimerTest, DISABLED_StopTimerWorks)
 {
     AlbaWindowsTimer timer;
@@ -64,3 +63,4 @@ TEST(AlbaWindowsTimerTest, DISABLED_GetElapsedTimeInMicrosecondsWorks) // this i
 
 
 }
+*/

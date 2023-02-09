@@ -1,33 +1,34 @@
 #pragma once
 
+#include <Common/Time/AlbaDateTime.hpp>
+#include <Common/Time/AlbaLibraryTimeTypes.hpp>
+
+#include <chrono>
 #include <string>
-
-#ifdef OS_WINDOWS
-#include <Common/Time/AlbaWindowsTimer.hpp>
-#endif
-
-#ifdef OS_LINUX
-#include <Common/Time/AlbaLinuxTimer.hpp>
-#endif
-
-#if !defined(OS_WINDOWS) && !defined(OS_LINUX)
-static_assert(false, "WINDOWS and LINUX are the only supported OS yet.");
-#endif
 
 namespace alba
 {
 
-
-#ifdef OS_WINDOWS
-class AlbaLocalTimer: public AlbaWindowsTimer
-#endif
-
-#ifdef OS_LINUX
-class AlbaLocalTimer: public AlbaLinuxTimer
-#endif
+class AlbaLocalTimer
 {
 public:
+
+    AlbaLocalTimer();
+    void resetTimer();
+    void stopTimer();
+
+    unsigned int getElapsedTimeInNanoseconds() const;
+    unsigned int getElapsedTimeInMicroseconds() const;
+    unsigned int getElapsedTimeInMilliseconds() const;
+    unsigned int getElapsedTimeInSeconds() const;
+    unsigned int getElapsedTimeInMinutes() const;
+    unsigned int getElapsedTimeInHours() const;
+    AlbaDateTime getDifferenceAsAlbaDateTime() const;
     std::string getElapsedTimeDisplayableString() const;
+
+private:
+    LibrarySteadyTime m_time1;
+    LibrarySteadyTime m_time2;
 
 };
 

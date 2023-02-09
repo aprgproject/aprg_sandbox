@@ -1,13 +1,10 @@
 #include "FractionHelpers.hpp"
 
-
 #include <vector>
 
 using namespace std;
-
 namespace alba
 {
-
 namespace mathHelper
 {
 

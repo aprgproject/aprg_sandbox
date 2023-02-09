@@ -15,13 +15,12 @@ class AlbaRaiiafPointer
 public:
     AlbaRaiiafPointer()
         : m_hasContent(0)
+        , m_voidPointer(nullptr)
     {}
 
-    ~AlbaRaiiafPointer()
-    {
+    ~AlbaRaiiafPointer()    {
         assert(!m_hasContent);
     }
-
     template <typename Type> Type get()
     {
         return *(static_cast<Type*>(m_voidPointer));

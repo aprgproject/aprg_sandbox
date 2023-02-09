@@ -51,29 +51,25 @@ NumberType AlbaUserInterface::displayQuestionAndChoicesAndGetNumberAnswer(string
 {
     cout<<question<<endl;
 
-    NumberToStringConverter converter;
-    converter.setFieldWidth(5);
+    StringConverterWithFormatting converter(5, ' ');
 
     DisplayTable table;
-    table.addRow();
-    table.getLastRow().addCell("Choice", DisplayTableCellMode::right);
+    table.addRow();    table.getLastRow().addCell("Choice", DisplayTableCellMode::right);
     table.getLastRow().addCell("  :  ");
     table.getLastRow().addCell("Description", DisplayTableCellMode::left);
     for(auto const& choice: choices)
     {
         table.addRow();
-        table.getLastRow().addCell(string("["+converter.convert<NumberType>(choice.first)+"]"), DisplayTableCellMode::right);
+        table.getLastRow().addCell(string("["+converter.convertToString<NumberType>(choice.first)+"]"), DisplayTableCellMode::right);
         table.getLastRow().addCell("  :  ");
         table.getLastRow().addCell(choice.second, DisplayTableCellMode::left);
     }
-    cout<<table.drawOutput()<<endl;
+    cout<<table<<endl;
 
     cout << "Input your answer: ";
-    return convertStringToNumber<NumberType>(getUserInput());
-}
+    return convertStringToNumber<NumberType>(getUserInput());}
 template int AlbaUserInterface::displayQuestionAndChoicesAndGetNumberAnswer(string const& question, Choices<int> const& choices);
 template unsigned int AlbaUserInterface::displayQuestionAndChoicesAndGetNumberAnswer(string const& question, Choices<unsigned int> const& choices);
-
 
 string AlbaUserInterface::displayQuestionAndChoicesAndGetStringAnswerInAllCapitals(string const& question, Choices<string> const& choices)
 {
@@ -91,10 +87,9 @@ string AlbaUserInterface::displayQuestionAndChoicesAndGetStringAnswerInAllCapita
         table.getLastRow().addCell("  :  ");
         table.getLastRow().addCell(choice.second, DisplayTableCellMode::left);
     }
-    cout<<table.drawOutput()<<endl;
+    cout<<table<<endl;
 
     cout << "Input your answer: ";
-    return getStringWithCapitalLetters(getUserInput());
-}
+    return getStringWithCapitalLetters(getUserInput());}
 
 }//namespace alba

@@ -23,11 +23,10 @@ public:
 
 private:
     void save(std::string const& path) override;
+    void setPath(std::string const& path);
     void splitPathToBeforeAndAfterProtocol(std::string const& path, std::string & protocolWithSymbols, std::string & pathAfterProtocol);
     void setUrlParameters(std::string const& urlParameters);
-    std::string m_protocolWithSymbols;
-    std::string m_urlParameters;
+    std::string m_protocolWithSymbols;    std::string m_urlParameters;
     bool m_hasProtocol;
 };
-
 }//namespace alba

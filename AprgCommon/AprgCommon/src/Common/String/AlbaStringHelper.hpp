@@ -1,31 +1,26 @@
 #pragma once
 
-#include <Common/Container/AlbaOptional.hpp>
 #include <Common/Math/Number/AlbaNumber.hpp>
 
 #include <iomanip>
+#include <optional>
 #include <string>
 #include <vector>
-
 namespace alba
 {
-
 namespace stringHelper
 {
 using strings = std::vector<std::string>;
 using StringPair = std::pair<std::string, std::string>;
 using StringPairs = std::vector<StringPair>;
 
-std::string const WHITESPACE_STRING = " \t\n\r";
-std::string const ALPHA_NUMERIC_CHAR_MAP = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+constexpr auto WHITESPACE_STRING = " \t\n\r";
 
 inline bool isWhiteSpace(char const c)
-{
-    return (' '==c || '\t'==c || '\n'==c || '\r'==c);
+{    return (' '==c || '\t'==c || '\n'==c || '\r'==c);
 }
 
-inline bool isNewline(char const c)
-{
+inline bool isNewline(char const c){
     return ('\n'==c || '\r'==c);
 }
 
@@ -225,13 +220,12 @@ template <char slashCharacterString> std::string getImmediateDirectoryName(std::
 
 
 // string to type converters
+// NOTE: Consider stoul, stoull, stoi, stol, stoll, stof, stod, stold for this conversions
 
 bool convertStringToBool(std::string const& stringToConvert);
-template <typename NumberType> NumberType convertStringToNumber(std::string const& stringToConvert);
-template <typename NumberType> NumberType convertHexCharacterToNumber(char const character);
+template <typename NumberType> NumberType convertStringToNumber(std::string const& stringToConvert);template <typename NumberType> NumberType convertHexCharacterToNumber(char const character);
 template <typename NumberType> NumberType convertHexStringToNumber(std::string const& stringToConvert);
 AlbaNumber convertStringToAlbaNumber(std::string const& stringToConvert);
-
 template <typename NumberType>
 NumberType convertStringToNumber(std::string const& stringToConvert)
 {
@@ -308,50 +302,91 @@ NumberType convertHexStringToNumber(std::string const& stringToConvert)
 
 
 // type to string converters
+// NOTE: Consider std::to_string for this conversions
 
 std::string convertBoolToString(bool const value);
 
-class NumberToStringConverter
+template <typename AnyType>
+inline std::string convertToString(AnyType const& object)
+{
+    std::stringstream temporaryStream;
+    temporaryStream << object;
+    return temporaryStream.str();
+}
+
+class StringConverterWithFormatting
 {
 public:
-    template <typename NumberType> std::string convert(NumberType const number);
-    std::string convert(AlbaNumber const& number);
+    using IntOptional = std::optional<int>;
+    using CharOptional = std::optional<char>;
+    using UnsignedIntOptional = std::optional<unsigned int>;
+
+    StringConverterWithFormatting() = default;
+
+    StringConverterWithFormatting(int const precision)
+        : m_precisionOptional(precision)
+        , m_fieldWidthOptional()
+        , m_fillCharacterOptional()
+        , m_maximumLengthOptional()
+    {}
+
+    StringConverterWithFormatting(int const fieldWidth, char const fillCharacter)
+        : m_precisionOptional()
+        , m_fieldWidthOptional(fieldWidth)
+        , m_fillCharacterOptional(fillCharacter)
+        , m_maximumLengthOptional()
+    {}
+
+    StringConverterWithFormatting(unsigned int const maximumLength)
+        : m_precisionOptional()
+        , m_fieldWidthOptional()
+        , m_fillCharacterOptional()
+        , m_maximumLengthOptional(maximumLength)
+    {}
+
+    StringConverterWithFormatting(int const precision, int const fieldWidth, char const fillCharacter, unsigned int const maximumLength)
+        : m_precisionOptional(precision)
+        , m_fieldWidthOptional(fieldWidth)
+        , m_fillCharacterOptional(fillCharacter)
+        , m_maximumLengthOptional(maximumLength)
+    {}
+
+    template <typename AnyType> std::string convertToString(AnyType const& object) const
+    {
+        std::string result;
+        std::stringstream temporaryStream;
+        if(m_precisionOptional)
+        {
+            temporaryStream.precision(m_precisionOptional.value());
+        }
+        if(m_fillCharacterOptional)
+        {
+            temporaryStream << std::setfill(m_fillCharacterOptional.value());
+        }
+        if(m_fieldWidthOptional)
+        {
+            temporaryStream << std::setw(m_fieldWidthOptional.value());
+        }
+        temporaryStream << object;
+        result = temporaryStream.str();
+        if(m_maximumLengthOptional)
+        {
+            result = result.substr(m_maximumLengthOptional.value());
+        }
+        return result;
+    }
+
     void setPrecision(int const precision);
     void setFieldWidth(int const fieldWidth);
     void setFillCharacter(char const fillCharacter);
     void setMaximumLength(unsigned int const maximumLength);
-private:
-    alba::AlbaOptional<int> m_precisionOptional;
-    alba::AlbaOptional<int> m_fieldWidthOptional;
-    alba::AlbaOptional<char> m_fillCharacterOptional;
-    alba::AlbaOptional<unsigned int> m_maximumLengthOptional;
-};
 
-template <typename NumberType>
-std::string NumberToStringConverter::convert(NumberType const number)
-{
-    std::string result;
-    std::stringstream temporaryStream;
-    if(m_precisionOptional)
-    {
-        temporaryStream.precision(m_precisionOptional.getReference());
-    }
-    if(m_fillCharacterOptional)
-    {
-        temporaryStream << std::setfill(m_fillCharacterOptional.getReference());
-    }
-    if(m_fieldWidthOptional)
-    {
-        temporaryStream << std::setw(m_fieldWidthOptional.getReference());
-    }
-    temporaryStream << number;
-    result = temporaryStream.str();
-    if(m_maximumLengthOptional)
-    {
-        result = result.substr(m_maximumLengthOptional.getReference());
-    }
-    return result;
-}
+private:
+    IntOptional m_precisionOptional;
+    IntOptional m_fieldWidthOptional;
+    CharOptional m_fillCharacterOptional;
+    UnsignedIntOptional m_maximumLengthOptional;
+};
 
 } //namespace stringHelper
 

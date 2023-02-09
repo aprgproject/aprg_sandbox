@@ -7,23 +7,23 @@ namespace alba
 
 namespace dateTimeHelper
 {
-    bool isLeapYear(unsigned int const year);
-    unsigned int getNumberOfDaysInAYear(unsigned int const year);
-    unsigned int getNumberOfDaysInAMonth(unsigned int const monthIndex, unsigned int const year);
-    unsigned int getNumberOfLeapYearsBeforeThisYear(unsigned int const year);
-    unsigned int getNumberOfDaysInTheYearBeforeThisMonth(unsigned int const monthIndex, unsigned int const year);
-    unsigned int getMonthFromNumberOfDaysInANonLeapYear(unsigned int const numberOfDays);
-    unsigned int getMonthFromNumberOfDaysInALeapYear(unsigned int const numberOfDays);
-    unsigned int getMonthFromNumberOfDays(unsigned int const numberOfDays, unsigned int const year);
-    unsigned int getNumberOfDaysBeforeThisYear(unsigned int const year);
-    unsigned int getTotalDays(unsigned int const years, unsigned int const monthIndex, unsigned int const days);
-    unsigned int getTotalSeconds(unsigned int const hours, unsigned int const minutes, unsigned int const seconds);
-    void reorganizeOverflowValues(unsigned int & totalDays, unsigned int & totalSeconds, unsigned int & totalMicroSeconds);
-    void reorganizeUnderflowValues(int & totalDays, int & totalSeconds, int & totalMicroSeconds);
-    unsigned int retrieveAndRemoveYearsFromTotalDays(unsigned int & remainingDays);
-    unsigned int retrieveAndRemoveMonthsFromTotalDays(unsigned int & remainingDays, unsigned int const year);
-    unsigned int retrieveAndRemoveHoursFromTotalSeconds(unsigned int & remainingSeconds);
-    unsigned int retrieveAndRemoveMinutesFromTotalSeconds(unsigned int & remainingSeconds);
+    bool isLeapYear(uint32_t const year);
+    uint32_t getNumberOfDaysInAYear(uint32_t const year);
+    uint32_t getNumberOfDaysInAMonth(uint32_t const monthIndex, uint32_t const year);
+    uint32_t getNumberOfLeapYearsBeforeThisYear(uint32_t const year);
+    uint32_t getNumberOfDaysInTheYearBeforeThisMonth(uint32_t const monthIndex, uint32_t const year);
+    uint32_t getMonthFromNumberOfDaysInANonLeapYear(uint32_t const numberOfDays);
+    uint32_t getMonthFromNumberOfDaysInALeapYear(uint32_t const numberOfDays);
+    uint32_t getMonthFromNumberOfDays(uint32_t const numberOfDays, uint32_t const year);
+    uint32_t getNumberOfDaysBeforeThisYear(uint32_t const year);
+    uint32_t getTotalDays(uint32_t const years, uint32_t const monthIndex, uint32_t const days);
+    uint32_t getTotalSeconds(uint32_t const hours, uint32_t const minutes, uint32_t const seconds);
+    void reorganizeOverflowValues(uint32_t & totalDays, uint32_t & totalSeconds, uint32_t & totalMicroSeconds);
+    void reorganizeUnderflowValues(int32_t & totalDays, int32_t & totalSeconds, int32_t & totalMicroSeconds);
+    uint32_t retrieveAndRemoveYearsFromTotalDays(uint32_t & remainingDays);
+    uint32_t retrieveAndRemoveMonthsFromTotalDays(uint32_t & remainingDays, uint32_t const year);
+    uint32_t retrieveAndRemoveHoursFromTotalSeconds(uint32_t & remainingSeconds);
+    uint32_t retrieveAndRemoveMinutesFromTotalSeconds(uint32_t & remainingSeconds);
 }
 
 }//namespace alba

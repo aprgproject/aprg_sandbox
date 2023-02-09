@@ -94,28 +94,25 @@ double AlbaFileReader::getCurrentLocation() const
 
 double AlbaFileReader::getFileSize() const
 {
-    m_stream.seekg(0, m_stream.end);
+    m_stream.seekg(0, std::ifstream::end);
     double fileSize = m_stream.tellg();
     moveToTheBeginning();
-    return fileSize;
-}
+    return fileSize;}
 
 void AlbaFileReader::moveToTheBeginning() const
 {
-    m_stream.seekg(0, m_stream.beg);
+    m_stream.seekg(0, std::ifstream::beg);
 }
 
 void AlbaFileReader::moveLocation(unsigned long long const location) const
 {
-    m_stream.seekg(static_cast<long>(location), m_stream.beg);
+    m_stream.seekg(static_cast<long>(location), std::ifstream::beg);
 }
 
-void AlbaFileReader::setMaxBufferSize(unsigned int const bufferSize)
-{
+void AlbaFileReader::setMaxBufferSize(unsigned int const bufferSize){
     //This is ensuring that buffer always contains one.
     //1) This is for "front()".
-    //2) This is for null terminator.
-    m_characterBuffer.resize(bufferSize+1);
+    //2) This is for null terminator.    m_characterBuffer.resize(bufferSize+1);
 }
 
 unsigned int AlbaFileReader::getMaxBufferSize() const

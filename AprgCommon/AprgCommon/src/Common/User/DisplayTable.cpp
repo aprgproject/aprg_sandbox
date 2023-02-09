@@ -3,13 +3,12 @@
 #include <Common/String/AlbaStringHelper.hpp>
 
 #include <algorithm>
+#include <numeric>
 
 using namespace alba::stringHelper;
 using namespace std;
-
 namespace alba
 {
-
 DisplayTableCell::DisplayTableCell()
     : m_displayText()
     , m_horizontalMode(DisplayTableCellMode::center)
@@ -61,19 +60,17 @@ unsigned int DisplayTableRow::getNumberOfColumns() const
 
 unsigned int DisplayTableRow::getCharacters() const
 {
-    unsigned int numberOfCharacters(0);
-    for(DisplayTableCell const & cell : m_cells)
+    return accumulate(m_cells.cbegin(), m_cells.cend(), 0U, [](
+               unsigned int partialSum, DisplayTableCell const & cell)
     {
-        numberOfCharacters+=cell.getText().size();
-    }
-    return numberOfCharacters;
+        partialSum+=cell.getText().size();
+        return partialSum;
+    });
 }
 
-Cells const& DisplayTableRow::getCells() const
-{
+Cells const& DisplayTableRow::getCells() const{
     return m_cells;
 }
-
 DisplayTableCell const& DisplayTableRow::getCellAt(unsigned int const columnIndex) const
 {
     return m_cells.at(columnIndex);
@@ -161,50 +158,12 @@ void DisplayTable::setBorders(string const& horizontalBorder, string const& vert
     m_verticalBorder = verticalBorder;
 }
 
-string DisplayTable::drawOutput()
-{
-    calculateLengthPerColumn();
-    string horizontalLine(getHorizontalBorderLine());
-    string buffer(horizontalLine);
-    for(DisplayTableRow const& row : m_rows)
-    {
-        string line(getVerticalBorderPoint());
-        unsigned int column=0;
-        for(DisplayTableCell const& cell : row.getCells())
-        {
-            line+=getCellTextWithDesiredLength(cell, m_calculatedLengthPerColumn[column]);
-            column++;
-            line+=getVerticalBorderPoint();
-        }
-        buffer+=line+"\n";
-        buffer+=horizontalLine;
-    }
-    return buffer;
-}
-
-void DisplayTable::calculateLengthPerColumn()
-{
-    unsigned int totalColumns = getTotalColumns();
-    m_calculatedLengthPerColumn.resize(totalColumns, 0);
-    for(DisplayTableRow & row : m_rows)
-    {
-        unsigned int column=0;
-        for(DisplayTableCell & cell : row.getCellsReference())
-        {
-            m_calculatedLengthPerColumn[column] = max(m_calculatedLengthPerColumn[column], static_cast<unsigned int>(cell.getText().size()));
-            column++;
-        }
-    }
-}
-
 string DisplayTable::getCellTextWithDesiredLength(DisplayTableCell const& cell, unsigned int const desiredLength) const
 {
-    DisplayTableCellMode mode = cell.getHorizontalMode();
-    string result;
+    DisplayTableCellMode mode = cell.getHorizontalMode();    string result;
     switch(mode)
     {
-    case DisplayTableCellMode::justify:
-        result = getStringWithJustifyAlignment(cell.getText(), desiredLength);
+    case DisplayTableCellMode::justify:        result = getStringWithJustifyAlignment(cell.getText(), desiredLength);
         break;
     case DisplayTableCellMode::center:
         result = getStringWithCenterAlignment(cell.getText(), desiredLength);
@@ -219,30 +178,18 @@ string DisplayTable::getCellTextWithDesiredLength(DisplayTableCell const& cell, 
     return result;
 }
 
-unsigned int DisplayTable::getTotalColumnLength() const
-{
-    unsigned int totalColumnLength=0;
-    for(unsigned int lengthPerColumn : m_calculatedLengthPerColumn)
-    {
-        totalColumnLength+=lengthPerColumn;
-    }
-    return totalColumnLength;
-}
-
-string DisplayTable::getHorizontalBorderLine() const
+string DisplayTable::getHorizontalBorderLine(unsigned int const totalColumnLength) const
 {
     string result;
     if(!m_horizontalBorder.empty())
     {
-        result = getStringByRepeatingUntilDesiredLength(m_horizontalBorder, getHorizontalBorderLength(getTotalColumnLength()))+"\n";
+        result = getStringByRepeatingUntilDesiredLength(m_horizontalBorder, getHorizontalBorderLength(totalColumnLength))+"\n";
     }
     return result;
 }
-
 string DisplayTable::getVerticalBorderPoint() const
 {
-    return m_verticalBorder;
-}
+    return m_verticalBorder;}
 
 unsigned int DisplayTable::getVerticalBorderLength() const
 {
@@ -252,6 +199,45 @@ unsigned int DisplayTable::getVerticalBorderLength() const
 unsigned int DisplayTable::getHorizontalBorderLength(unsigned int const totalColumnLength) const
 {
     return ((getTotalColumns()+1)*getVerticalBorderLength())+totalColumnLength;
+}
+
+ostream & operator<<(ostream & out, DisplayTable const& displayTable)
+{
+    vector<unsigned int> calculatedLengthPerColumn(displayTable.getTotalColumns(), 0);
+    for(DisplayTableRow const& row : displayTable.m_rows)
+    {
+        unsigned int column=0;
+        for(DisplayTableCell const& cell : row.getCells())
+        {
+            calculatedLengthPerColumn[column] = max(calculatedLengthPerColumn[column], static_cast<unsigned int>(cell.getText().size()));
+            column++;
+        }
+    }
+
+    unsigned int totalColumnLength = accumulate(calculatedLengthPerColumn.cbegin(), calculatedLengthPerColumn.cend(), 0U, [](
+               unsigned int partialSum, unsigned int const lengthPerColumn)
+    {
+        partialSum+=lengthPerColumn;
+        return partialSum;
+    });
+
+    string horizontalLine(displayTable.getHorizontalBorderLine(totalColumnLength));
+    string verticalBorderPoint(displayTable.getVerticalBorderPoint());
+    out << horizontalLine;
+    for(DisplayTableRow const& row : displayTable.m_rows)
+    {
+        out << verticalBorderPoint;
+        unsigned int column=0;
+        for(DisplayTableCell const& cell : row.getCells())
+        {
+            out << displayTable.getCellTextWithDesiredLength(cell, calculatedLengthPerColumn[column]);
+            column++;
+            out << verticalBorderPoint;
+        }
+        out << endl;
+        out << horizontalLine;
+    }
+    return out;
 }
 
 

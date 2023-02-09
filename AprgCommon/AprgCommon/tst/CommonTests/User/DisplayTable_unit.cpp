@@ -1,39 +1,36 @@
+#include <Common/String/AlbaStringHelper.hpp>
 #include <Common/User/DisplayTable.hpp>
 
 #include <gtest/gtest.h>
 
+using namespace alba::stringHelper;
 using namespace std;
 
-namespace alba
-{
+namespace alba{
 
 TEST(DisplayTableTest, TableCanOutputProvideText)
-{
-    DisplayTable table;
+{    DisplayTable table;
 
     table.addRow();
     table.getLastRow().addCell("Test");
 
-    EXPECT_EQ("Test\n", table.drawOutput());
+    EXPECT_EQ("Test\n", convertToString(table));
 }
 
-TEST(DisplayTableTest, TableCanOutputTextWithBorders)
-{
+TEST(DisplayTableTest, TableCanOutputTextWithBorders){
     DisplayTable table;
 
     table.setBorders("X","X");
     table.addRow();
     table.getLastRow().addCell("Test");
 
-    EXPECT_EQ("XXXXXX\nXTestX\nXXXXXX\n", table.drawOutput());
+    EXPECT_EQ("XXXXXX\nXTestX\nXXXXXX\n", convertToString(table));
 }
 
-TEST(DisplayTableTest, TableCanOutputTextFor3by3Table)
-{
+TEST(DisplayTableTest, TableCanOutputTextFor3by3Table){
     DisplayTable table;
 
-    table.setBorders("-","|");
-    table.addRow();
+    table.setBorders("-","|");    table.addRow();
     table.getLastRow().addCell("1000");
     table.getLastRow().addCell("2");
     table.getLastRow().addCell("3");
@@ -47,15 +44,13 @@ TEST(DisplayTableTest, TableCanOutputTextFor3by3Table)
     table.getLastRow().addCell("9000000");
 
     EXPECT_EQ("----------------\n|1000|2|   3   |\n----------------\n|4.1 |5| 6.55  |\n----------------\n| 7  |8|9000000|\n----------------\n",
-              table.drawOutput());
+              convertToString(table));
 }
 
-TEST(DisplayTableTest, CellWithAlignmentCanBeAdded)
-{
+TEST(DisplayTableTest, CellWithAlignmentCanBeAdded){
     DisplayTable table;
 
-    table.addRow();
-    table.getLastRow().addCell("12345");
+    table.addRow();    table.getLastRow().addCell("12345");
     table.addRow();
     table.getLastRow().addCell("C", DisplayTableCellMode::center);
     table.addRow();
@@ -65,15 +60,13 @@ TEST(DisplayTableTest, CellWithAlignmentCanBeAdded)
     table.addRow();
     table.getLastRow().addCell("J", DisplayTableCellMode::justify);
 
-    EXPECT_EQ("12345\n  C  \nL    \n    R\n  J  \n", table.drawOutput());
+    EXPECT_EQ("12345\n  C  \nL    \n    R\n  J  \n", convertToString(table));
 }
 
-TEST(DisplayTableTest, CanBeConstructedWithNumberOfColumnsAndRows)
-{
+TEST(DisplayTableTest, CanBeConstructedWithNumberOfColumnsAndRows){
     DisplayTable table(2U, 3U);
 
-    table.setBorders("-","|");
-    table.getCellReferenceAt(0U, 0U).setText("(0,0)");
+    table.setBorders("-","|");    table.getCellReferenceAt(0U, 0U).setText("(0,0)");
     table.getCellReferenceAt(0U, 1U).setText("(0,1)");
     table.getCellReferenceAt(0U, 2U).setText("(0,2)");
     table.getCellReferenceAt(1U, 0U).setText("(1,0)");
@@ -81,7 +74,7 @@ TEST(DisplayTableTest, CanBeConstructedWithNumberOfColumnsAndRows)
     table.getCellReferenceAt(1U, 2U).setText("(1,2)");
 
     EXPECT_EQ("-------------\n|(0,0)|(1,0)|\n-------------\n|(0,1)|(1,1)|\n-------------\n|(0,2)|(1,2)|\n-------------\n",
-              table.drawOutput());
+              convertToString(table));
 }
 
 }

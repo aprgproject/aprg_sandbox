@@ -15,15 +15,13 @@ AlbaWebPathHandler::AlbaWebPathHandler(string const& path)
     : AlbaPathHandler("/")
     , m_hasProtocol(false)
 {
-    save(path);
+    setPath(path);
 }
 
-void AlbaWebPathHandler::clear()
-{
+void AlbaWebPathHandler::clear(){
     AlbaPathHandler::clear();
     m_protocolWithSymbols.clear();
-    m_urlParameters.clear();
-    m_hasProtocol = false;
+    m_urlParameters.clear();    m_hasProtocol = false;
 }
 
 string AlbaWebPathHandler::getFullPath() const
@@ -77,13 +75,16 @@ void AlbaWebPathHandler::setProtocolWithSymbols(string const& protocolWithSymbol
 
 void AlbaWebPathHandler::save(string const& path)
 {
+    setPath(path);
+}
+
+void AlbaWebPathHandler::setPath(string const& path)
+{
     string protocolWithSymbols;
-    string pathAfterProtocol;
-    splitPathToBeforeAndAfterProtocol(path, protocolWithSymbols, pathAfterProtocol);
+    string pathAfterProtocol;    splitPathToBeforeAndAfterProtocol(path, protocolWithSymbols, pathAfterProtocol);
     string correctPathAfterProtocol(getCorrectPathWithReplacedSlashCharacters(pathAfterProtocol, m_slashCharacterString));
     string correctPathAfterProtocolWithoutUrlParameters(getCorrectPathWithoutUrlParameters(correctPathAfterProtocol));
-    setProtocolWithSymbols(protocolWithSymbols);
-    setExtensionFromPath(correctPathAfterProtocolWithoutUrlParameters);
+    setProtocolWithSymbols(protocolWithSymbols);    setExtensionFromPath(correctPathAfterProtocolWithoutUrlParameters);
     setDirectoryAndFileFromPath(correctPathAfterProtocolWithoutUrlParameters);
     setFileType();
     setUrlParameters(getUrlParameters(correctPathAfterProtocol));

@@ -5,14 +5,13 @@
 #include <Common/Math/Matrix/AlbaMatrixDataTypes.hpp>
 #include <Common/Math/Matrix/Utilities/AlbaMatrixUtilities.hpp>
 #include <Common/Math/Matrix/Utilities/GaussJordanReduction.hpp>
+#include <Common/String/AlbaStringHelper.hpp>
 #include <Common/User/DisplayTable.hpp>
 
-#include <cassert>
-#include <functional>
+#include <cassert>#include <functional>
 #include <sstream>
 
-namespace alba
-{
+namespace alba{
 
 namespace matrix
 {
@@ -187,32 +186,12 @@ public:
         return m_matrixData;
     }
 
-    std::string getString() const
-    {
-        DisplayTable table;
-        table.setBorders("-","|");
-        for(unsigned int y=0; y<m_numberOfRows; y++)
-        {
-            table.addRow();
-            for(unsigned int x=0; x<m_numberOfColumns; x++)
-            {
-                std::stringstream ss;
-                ss << getEntry(x, y);
-                table.getLastRow().addCell(ss.str());
-            }
-        }
-        std::string firstLine("Matrix output:\n");
-        return firstLine + table.drawOutput();
-    }
-
     void retrieveColumn(MatrixData & column, unsigned int const x) const
     {
-        column.reserve(m_numberOfRows);
-        for(unsigned int y=0; y<m_numberOfRows; y++)
+        column.reserve(m_numberOfRows);        for(unsigned int y=0; y<m_numberOfRows; y++)
         {
             column.emplace_back(getEntry(x, y));
-        }
-    }
+        }    }
 
     void retrieveRow(MatrixData & row, unsigned int const y) const
     {
@@ -400,14 +379,23 @@ private:
 
     friend std::ostream & operator<<(std::ostream & out, AlbaMatrix<DataType> const& matrix)
     {
-        out << matrix.getString();
+        DisplayTable table;
+        table.setBorders("-","|");
+        for(unsigned int y=0; y<matrix.m_numberOfRows; y++)
+        {
+            table.addRow();
+            for(unsigned int x=0; x<matrix.m_numberOfColumns; x++)
+            {
+                table.getLastRow().addCell(alba::stringHelper::convertToString(matrix.getEntryConstReference(x, y)));
+            }
+        }
+
+        out << "Matrix output:\n" << table;
         return out;
     }
-
     unsigned int m_numberOfColumns;
     unsigned int m_numberOfRows;
-    MatrixData m_matrixData;
-};
+    MatrixData m_matrixData;};
 
 }
 

@@ -10,40 +10,35 @@ using namespace std;
 namespace alba
 {
 
-bool dateTimeHelper::isLeapYear(unsigned int const year)
+bool dateTimeHelper::isLeapYear(uint32_t const year)
 {
     bool result(true);
-    if (year%4 != 0) result = false;
-    else if (year%100 != 0) result = true;
+    if (year%4 != 0) result = false;    else if (year%100 != 0) result = true;
     else if (year%400 != 0) result = false;
     return result;
 }
 
-unsigned int dateTimeHelper::getNumberOfDaysInAYear(unsigned int const year)
+uint32_t dateTimeHelper::getNumberOfDaysInAYear(uint32_t const year)
 {
-    unsigned int numberOfDays=0;
+    uint32_t numberOfDays=0;
     if(isLeapYear(year))
     {
-        numberOfDays=NUMBER_OF_DAYS_IN_LEAP_YEAR;
-    }
+        numberOfDays=NUMBER_OF_DAYS_IN_LEAP_YEAR;    }
     else
     {
-        numberOfDays=NUMBER_OF_DAYS_IN_NON_LEAP_YEAR;
-    }
+        numberOfDays=NUMBER_OF_DAYS_IN_NON_LEAP_YEAR;    }
     return numberOfDays;
 }
 
-unsigned int dateTimeHelper::getNumberOfDaysInAMonth(unsigned int const monthIndex, unsigned int const year)
+uint32_t dateTimeHelper::getNumberOfDaysInAMonth(uint32_t const monthIndex, uint32_t const year)
 {
-    unsigned int numberOfDays=31;
+    uint32_t numberOfDays=31;
     if(monthIndex==3 || monthIndex==5 || monthIndex==8 || monthIndex==10)
     {
-        numberOfDays=30;
-    }
+        numberOfDays=30;    }
     else if(monthIndex==1)
     {
-        if(isLeapYear(year))
-        {
+        if(isLeapYear(year))        {
             numberOfDays=29;
         }
         else
@@ -54,28 +49,25 @@ unsigned int dateTimeHelper::getNumberOfDaysInAMonth(unsigned int const monthInd
     return numberOfDays;
 }
 
-unsigned int dateTimeHelper::getNumberOfLeapYearsBeforeThisYear(unsigned int const year)
+uint32_t dateTimeHelper::getNumberOfLeapYearsBeforeThisYear(uint32_t const year)
 {
     unsigned numberOfLeapYears(0);
-    if(year>0)
-    {
+    if(year>0)    {
         unsigned beforeThisYear = year-1;
         numberOfLeapYears = (beforeThisYear/4)-(beforeThisYear/100)+(beforeThisYear/400)+1;
     }
     return numberOfLeapYears;
 }
 
-unsigned int dateTimeHelper::getNumberOfDaysInTheYearBeforeThisMonth(unsigned int const monthIndex, unsigned int const year)
+uint32_t dateTimeHelper::getNumberOfDaysInTheYearBeforeThisMonth(uint32_t const monthIndex, uint32_t const year)
 {
-    unsigned int numberOfDays=0;
+    uint32_t numberOfDays=0;
     switch(monthIndex)
     {
-    case 0: numberOfDays=0; break;
-    case 1: numberOfDays=31; break;
+    case 0: numberOfDays=0; break;    case 1: numberOfDays=31; break;
     case 2: numberOfDays=59; break;
     case 3: numberOfDays=90; break;
-    case 4: numberOfDays=120; break;
-    case 5: numberOfDays=151; break;
+    case 4: numberOfDays=120; break;    case 5: numberOfDays=151; break;
     case 6: numberOfDays=181; break;
     case 7: numberOfDays=212; break;
     case 8: numberOfDays=243; break;
@@ -91,17 +83,15 @@ unsigned int dateTimeHelper::getNumberOfDaysInTheYearBeforeThisMonth(unsigned in
     return numberOfDays;
 }
 
-unsigned int dateTimeHelper::getMonthFromNumberOfDaysInANonLeapYear(unsigned int const numberOfDays)
+uint32_t dateTimeHelper::getMonthFromNumberOfDaysInANonLeapYear(uint32_t const numberOfDays)
 {
-    unsigned int monthIndex=0;
+    uint32_t monthIndex=0;
     if(numberOfDays>334)
     {
-        monthIndex=11;
-    }
+        monthIndex=11;    }
     else if(numberOfDays>304)
     {
-        monthIndex=10;
-    }
+        monthIndex=10;    }
     else if(numberOfDays>273)
     {
         monthIndex=9;
@@ -141,17 +131,15 @@ unsigned int dateTimeHelper::getMonthFromNumberOfDaysInANonLeapYear(unsigned int
     return monthIndex;
 }
 
-unsigned int dateTimeHelper::getMonthFromNumberOfDaysInALeapYear(unsigned int const numberOfDays)
+uint32_t dateTimeHelper::getMonthFromNumberOfDaysInALeapYear(uint32_t const numberOfDays)
 {
-    unsigned int monthIndex=0;
+    uint32_t monthIndex=0;
     if(numberOfDays>335)
     {
-        monthIndex=11;
-    }
+        monthIndex=11;    }
     else if(numberOfDays>305)
     {
-        monthIndex=10;
-    }
+        monthIndex=10;    }
     else if(numberOfDays>274)
     {
         monthIndex=9;
@@ -191,96 +179,91 @@ unsigned int dateTimeHelper::getMonthFromNumberOfDaysInALeapYear(unsigned int co
     return monthIndex;
 }
 
-unsigned int dateTimeHelper::getMonthFromNumberOfDays(unsigned int const numberOfDays, unsigned int const year)
+uint32_t dateTimeHelper::getMonthFromNumberOfDays(uint32_t const numberOfDays, uint32_t const year)
 {
-    unsigned int monthIndex=0;
+    uint32_t monthIndex=0;
     if(isLeapYear(year))
     {
-        monthIndex=getMonthFromNumberOfDaysInALeapYear(numberOfDays);
-    }
+        monthIndex=getMonthFromNumberOfDaysInALeapYear(numberOfDays);    }
     else
     {
-        monthIndex=getMonthFromNumberOfDaysInANonLeapYear(numberOfDays);
-    }
+        monthIndex=getMonthFromNumberOfDaysInANonLeapYear(numberOfDays);    }
     return monthIndex;
 }
 
-unsigned int dateTimeHelper::getNumberOfDaysBeforeThisYear(unsigned int const year)
+uint32_t dateTimeHelper::getNumberOfDaysBeforeThisYear(uint32_t const year)
 {
-    unsigned int numberOfDays=0;
+    uint32_t numberOfDays=0;
     if(year>0)
     {
-        numberOfDays = year*NUMBER_OF_DAYS_IN_NON_LEAP_YEAR + getNumberOfLeapYearsBeforeThisYear(year);
-    }
+        numberOfDays = year*NUMBER_OF_DAYS_IN_NON_LEAP_YEAR + getNumberOfLeapYearsBeforeThisYear(year);    }
     return numberOfDays;
 }
 
-unsigned int dateTimeHelper::getTotalDays(unsigned int const years, unsigned int const monthIndex, unsigned int const days)
+uint32_t dateTimeHelper::getTotalDays(uint32_t const years, uint32_t const monthIndex, uint32_t const days)
 {
     return getNumberOfDaysBeforeThisYear(years) + getNumberOfDaysInTheYearBeforeThisMonth(monthIndex, years) + days;
 }
 
-unsigned int dateTimeHelper::getTotalSeconds(unsigned int const hours, unsigned int const minutes, unsigned int const seconds)
+uint32_t dateTimeHelper::getTotalSeconds(uint32_t const hours, uint32_t const minutes, uint32_t const seconds)
 {
     return (hours*NUMBER_OF_SECONDS_IN_AN_HOUR) + (minutes*NUMBER_OF_SECONDS_IN_A_MINUTE) + seconds;
 }
 
-void dateTimeHelper::reorganizeOverflowValues(unsigned int & totalDays, unsigned int & totalSeconds, unsigned int & totalMicroSeconds)
+void dateTimeHelper::reorganizeOverflowValues(uint32_t & totalDays, uint32_t & totalSeconds, uint32_t & totalMicroSeconds)
 {
     totalSeconds += totalMicroSeconds/NUMBER_OF_MICROSECONDS_IN_A_SECOND;
-    totalMicroSeconds = totalMicroSeconds%NUMBER_OF_MICROSECONDS_IN_A_SECOND;
-    totalDays += totalSeconds/NUMBER_OF_SECONDS_IN_A_DAY;
+    totalMicroSeconds = totalMicroSeconds%NUMBER_OF_MICROSECONDS_IN_A_SECOND;    totalDays += totalSeconds/NUMBER_OF_SECONDS_IN_A_DAY;
     totalSeconds = totalSeconds%NUMBER_OF_SECONDS_IN_A_DAY;
 }
 
-void dateTimeHelper::reorganizeUnderflowValues(int & totalDays, int & totalSeconds, int & totalMicroSeconds)
+void dateTimeHelper::reorganizeUnderflowValues(int32_t & totalDays, int32_t & totalSeconds, int32_t & totalMicroSeconds)
 {
     if(totalMicroSeconds<0)
     {
-        int neededSeconds = static_cast<int>((ceil((static_cast<double>(-1)*totalMicroSeconds)/NUMBER_OF_MICROSECONDS_IN_A_SECOND)));
+        int32_t neededSeconds = static_cast<int32_t>((ceil((static_cast<double>(-1)*totalMicroSeconds)/NUMBER_OF_MICROSECONDS_IN_A_SECOND)));
         totalSeconds -= neededSeconds;
-        totalMicroSeconds += neededSeconds * static_cast<int>(NUMBER_OF_MICROSECONDS_IN_A_SECOND);
+        totalMicroSeconds += neededSeconds * static_cast<int32_t>(NUMBER_OF_MICROSECONDS_IN_A_SECOND);
     }
     if(totalSeconds<0)
     {
-        int neededDays = static_cast<int>((ceil((static_cast<double>(-1)*totalSeconds)/NUMBER_OF_SECONDS_IN_A_DAY)));
+        int32_t neededDays = static_cast<int32_t>((ceil((static_cast<double>(-1)*totalSeconds)/NUMBER_OF_SECONDS_IN_A_DAY)));
         totalDays -= neededDays;
-        totalSeconds += neededDays * static_cast<int>(NUMBER_OF_SECONDS_IN_A_DAY);
+        totalSeconds += neededDays * static_cast<int32_t>(NUMBER_OF_SECONDS_IN_A_DAY);
     }
 }
 
-unsigned int dateTimeHelper::retrieveAndRemoveYearsFromTotalDays(unsigned int & remainingDays)
+uint32_t dateTimeHelper::retrieveAndRemoveYearsFromTotalDays(uint32_t & remainingDays)
 {
-    unsigned int years(remainingDays/NUMBER_OF_DAYS_IN_NON_LEAP_YEAR);
-    int remainingDaysTemp = static_cast<int>(remainingDays)-static_cast<int>(getNumberOfDaysBeforeThisYear(years));
+    uint32_t years(remainingDays/NUMBER_OF_DAYS_IN_NON_LEAP_YEAR);
+    int32_t remainingDaysTemp = static_cast<int32_t>(remainingDays)-static_cast<int32_t>(getNumberOfDaysBeforeThisYear(years));
     while(remainingDaysTemp<=0 && years>0)
     {
         years--;
-        remainingDaysTemp += static_cast<int>(getNumberOfDaysInAYear(years));
+        remainingDaysTemp += static_cast<int32_t>(getNumberOfDaysInAYear(years));
     }
-    remainingDays=static_cast<unsigned int>(remainingDaysTemp);
+    remainingDays=static_cast<uint32_t>(remainingDaysTemp);
     return years;
 }
 
-unsigned int dateTimeHelper::retrieveAndRemoveMonthsFromTotalDays(unsigned int & remainingDays, unsigned int const year)
+uint32_t dateTimeHelper::retrieveAndRemoveMonthsFromTotalDays(uint32_t & remainingDays, uint32_t const year)
 {
-    unsigned int monthIndex(getMonthFromNumberOfDays(remainingDays, year));
+    uint32_t monthIndex(getMonthFromNumberOfDays(remainingDays, year));
     remainingDays-=getNumberOfDaysInTheYearBeforeThisMonth(monthIndex, year);
     return monthIndex;
 }
 
-unsigned int dateTimeHelper::retrieveAndRemoveHoursFromTotalSeconds(unsigned int & remainingSeconds)
+uint32_t dateTimeHelper::retrieveAndRemoveHoursFromTotalSeconds(uint32_t & remainingSeconds)
 {
-    unsigned int hours = remainingSeconds/NUMBER_OF_SECONDS_IN_AN_HOUR;
+    uint32_t hours = remainingSeconds/NUMBER_OF_SECONDS_IN_AN_HOUR;
     remainingSeconds = remainingSeconds%NUMBER_OF_SECONDS_IN_AN_HOUR;
     return hours;
 }
 
-unsigned int dateTimeHelper::retrieveAndRemoveMinutesFromTotalSeconds(unsigned int & remainingSeconds)
+uint32_t dateTimeHelper::retrieveAndRemoveMinutesFromTotalSeconds(uint32_t & remainingSeconds)
 {
-    unsigned int minutes = remainingSeconds/NUMBER_OF_SECONDS_IN_A_MINUTE;
+    uint32_t minutes = remainingSeconds/NUMBER_OF_SECONDS_IN_A_MINUTE;
     remainingSeconds = remainingSeconds%NUMBER_OF_SECONDS_IN_A_MINUTE;
     return minutes;
 }
-
 }//namespace alba

@@ -418,15 +418,14 @@ template <typename ValueType,
 std::string getStringFromContentsWithNumberFormat(Container<ValueType> const& container)
 {
     std::ostringstream result;
-    std::ostream_iterator<unsigned int> outputIterator(result, getDelimeterBasedOnFormat(StreamFormat::String).c_str());
+    std::string delimeter = getDelimeterBasedOnFormat(StreamFormat::String);
+    std::ostream_iterator<unsigned int> outputIterator(result, delimeter.c_str());
 
     result<<"Decimal values: {"<<std::dec;
-    std::copy(container.cbegin(), container.cend(), outputIterator);
-    result<<"}\n";
+    std::copy(container.cbegin(), container.cend(), outputIterator);    result<<"}\n";
 
     result<<"Hexadecimal values: {"<<std::hex;
-    std::copy(container.cbegin(), container.cend(), outputIterator);
-    result<<"}\n";
+    std::copy(container.cbegin(), container.cend(), outputIterator);    result<<"}\n";
 
     return result.str();
 }

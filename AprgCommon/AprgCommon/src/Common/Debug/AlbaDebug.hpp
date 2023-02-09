@@ -42,7 +42,5 @@ static ofstream debugStream(ALBA_PRINT_OUTPUT_STREAM_FILE_PATH);
 #define ALBA_PRINT_PRECISION(parameter)                                      ALBA_PRINT_OUTPUT_STREAM.precision(parameter)
 #define ALBA_PRINT_MANIPULATE_OUTPUT(ioParameter)                            ALBA_PRINT_OUTPUT_STREAM << ioParameter
 
-#define ALBA_EXIT exit(0)
-
 
 }//namespace alba

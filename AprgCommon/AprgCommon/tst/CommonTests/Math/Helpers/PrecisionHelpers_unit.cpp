@@ -1,17 +1,17 @@
 #include <Common/Math/Helpers/PrecisionHelpers.hpp>
+#include <Common/Math/Number/AlbaNumberConstants.hpp>
 
 #include <climits>
 
 #include <gtest/gtest.h>
 
+using namespace alba::AlbaNumberConstants;
 using namespace std;
 
-namespace alba
-{
+namespace alba{
 
 namespace mathHelper
 {
-
 TEST(PrecisionHelpersTest, IntegerTypesCanBeConsideredEqual)
 {
     EXPECT_TRUE(isAlmostEqual(static_cast<int>(100), static_cast<int>(100)));
@@ -98,23 +98,21 @@ TEST(PrecisionHelpersTest, IsValueWithinLongLongIntegerLimitsWorks)
     EXPECT_FALSE(isValueWithinLimits<long long int>(static_cast<double>(LLONG_MIN)*2));
     EXPECT_TRUE(isValueWithinLimits<long long int>(LLONG_MIN));
     EXPECT_TRUE(isValueWithinLimits<long long int>(1000));
-    EXPECT_TRUE(isValueWithinLimits<long long int>(LLONG_MAX));
+    EXPECT_TRUE(isValueWithinLimits<long long int>(static_cast<double>(LLONG_MAX)));
     EXPECT_FALSE(isValueWithinLimits<long long int>(static_cast<double>(LLONG_MAX)*2));
 }
 
 TEST(PrecisionHelpersTest, IsValueWithinUnsignedLongLongIntegerLimitsWorks)
 {
-    EXPECT_FALSE(isValueWithinLimits<unsigned long long int>(static_cast<double>(0)-ULLONG_MAX));
+    EXPECT_FALSE(isValueWithinLimits<unsigned long long int>(static_cast<double>(0)-static_cast<double>(ULLONG_MAX)));
     EXPECT_TRUE(isValueWithinLimits<unsigned long long int>(0));
     EXPECT_TRUE(isValueWithinLimits<unsigned long long int>(1000));
-    EXPECT_TRUE(isValueWithinLimits<unsigned long long int>(ULLONG_MAX));
+    EXPECT_TRUE(isValueWithinLimits<unsigned long long int>(static_cast<double>(ULLONG_MAX)));
     EXPECT_FALSE(isValueWithinLimits<unsigned long long int>(static_cast<double>(ULLONG_MAX)*2));
 }
-
 TEST(PrecisionHelpersTest, IsValueBeyondLimitsWorksForInteger)
 {
-    EXPECT_TRUE(isValueBeyondLimits<int>(static_cast<double>(INT_MIN)-1));
-    EXPECT_FALSE(isValueBeyondLimits<int>(INT_MIN));
+    EXPECT_TRUE(isValueBeyondLimits<int>(static_cast<double>(INT_MIN)-1));    EXPECT_FALSE(isValueBeyondLimits<int>(INT_MIN));
     EXPECT_FALSE(isValueBeyondLimits<int>(1000));
     EXPECT_FALSE(isValueBeyondLimits<int>(INT_MAX));
     EXPECT_TRUE(isValueBeyondLimits<int>(static_cast<double>(INT_MAX)+1));
@@ -161,23 +159,21 @@ TEST(PrecisionHelpersTest, IsValueBeyondLongLongIntegerLimitsWorks)
     EXPECT_TRUE(isValueBeyondLimits<long long int>(static_cast<double>(LLONG_MIN)*2));
     EXPECT_FALSE(isValueBeyondLimits<long long int>(LLONG_MIN));
     EXPECT_FALSE(isValueBeyondLimits<long long int>(1000));
-    EXPECT_FALSE(isValueBeyondLimits<long long int>(LLONG_MAX));
+    EXPECT_FALSE(isValueBeyondLimits<long long int>(static_cast<double>(LLONG_MAX)));
     EXPECT_TRUE(isValueBeyondLimits<long long int>(static_cast<double>(LLONG_MAX)*2));
 }
 
 TEST(PrecisionHelpersTest, IsValueBeyondUnsignedLongLongIntegerLimitsWorks)
 {
-    EXPECT_TRUE(isValueBeyondLimits<unsigned long long int>(static_cast<double>(0)-ULLONG_MAX));
+    EXPECT_TRUE(isValueBeyondLimits<unsigned long long int>(static_cast<double>(0)-static_cast<double>(ULLONG_MAX)));
     EXPECT_FALSE(isValueBeyondLimits<unsigned long long int>(0));
     EXPECT_FALSE(isValueBeyondLimits<unsigned long long int>(1000));
-    EXPECT_FALSE(isValueBeyondLimits<unsigned long long int>(ULLONG_MAX));
+    EXPECT_FALSE(isValueBeyondLimits<unsigned long long int>(static_cast<double>(ULLONG_MAX)));
     EXPECT_TRUE(isValueBeyondLimits<unsigned long long int>(static_cast<double>(ULLONG_MAX)*2));
 }
-
 TEST(PrecisionHelpersTest, GetIntegerAfterRoundingADoubleValueWorks)
 {
-    EXPECT_EQ(0, getIntegerAfterRoundingADoubleValue<int>(0));
-    EXPECT_EQ(1, getIntegerAfterRoundingADoubleValue<int>(1));
+    EXPECT_EQ(0, getIntegerAfterRoundingADoubleValue<int>(0));    EXPECT_EQ(1, getIntegerAfterRoundingADoubleValue<int>(1));
     EXPECT_EQ(2, getIntegerAfterRoundingADoubleValue<int>(1.5));
     EXPECT_EQ(-2, getIntegerAfterRoundingADoubleValue<int>(-1.5));
     EXPECT_EQ(652, getIntegerAfterRoundingADoubleValue<int>(652.426542));
@@ -263,10 +259,9 @@ TEST(PrecisionHelpersTest, FractionalPartInDoubleWorks)
 TEST(PrecisionHelpersTest, ConvertIfInfinityToNearestFiniteValueWorks)
 {
     EXPECT_DOUBLE_EQ(45.625, convertIfInfinityToNearestFiniteValue(AlbaNumber(45.625)).getDouble());
-    EXPECT_DOUBLE_EQ(1.7976931348623157e+308, convertIfInfinityToNearestFiniteValue(AlbaNumber(AlbaNumber::Value::PositiveInfinity)).getDouble());
-    EXPECT_DOUBLE_EQ(-1.7976931348623157e+308, convertIfInfinityToNearestFiniteValue(AlbaNumber(AlbaNumber::Value::NegativeInfinity)).getDouble());
+    EXPECT_DOUBLE_EQ(1.7976931348623157e+308, convertIfInfinityToNearestFiniteValue(ALBA_NUMBER_POSITIVE_INFINITY).getDouble());
+    EXPECT_DOUBLE_EQ(-1.7976931348623157e+308, convertIfInfinityToNearestFiniteValue(ALBA_NUMBER_NEGATIVE_INFINITY).getDouble());
 }
 
 }
-
 }

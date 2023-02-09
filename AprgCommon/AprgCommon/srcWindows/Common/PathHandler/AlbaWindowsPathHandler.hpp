@@ -49,14 +49,13 @@ public:
             ListOfPaths& listOfDirectories) const;
 private:
     void save(std::string const& path) override;
+    void setPath(std::string const& path);
     void setDriveOrRoot();
     void findFilesAndDirectoriesWithDepth(
-            std::string const& currentDirectory,
-            std::string const& wildCardSearch,
+            std::string const& currentDirectory,            std::string const& wildCardSearch,
             ListOfPaths& listOfFiles,
             ListOfPaths& listOfDirectories,
-            int depth) const;
-    bool canBeLocated(std::string const& fullPath) const;
+            int depth) const;    bool canBeLocated(std::string const& fullPath) const;
     bool isSlashNeededAtTheEnd(std::string const& correctedPath, std::string const& originalPath) const;
     std::string m_driveOrRoot;
     bool m_foundInLocalSystem;

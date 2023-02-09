@@ -2,12 +2,12 @@
 
 #include <Common/Math/Number/AlbaNumberTypes.hpp>
 
+#include <cmath>
+
 namespace alba
 {
-
 namespace mathHelper
 {
-
 enum class RootType
 {
     RealRootsOnly,

@@ -1,11 +1,11 @@
+// NOTE: Use std::variant or std::any instead! (needs c++17)
+
 #pragma once
 
 #include <Common/Types/AlbaTypeId.hpp>
-
 #include <type_traits>
 
-namespace alba
-{
+namespace alba{
 
 namespace detail
 {

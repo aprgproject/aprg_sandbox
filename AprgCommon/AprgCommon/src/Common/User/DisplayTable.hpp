@@ -78,23 +78,20 @@ public:
     void addRow();
     void setBorders(std::string const& horizontalBorder, std::string const& verticalBorder);
 
-    std::string drawOutput();
 private:
 
-    void calculateLengthPerColumn();
     std::string getCellTextWithDesiredLength(DisplayTableCell const& cell, unsigned int const desiredLength) const;
-    unsigned int getTotalColumnLength() const;
-    std::string getHorizontalBorderLine() const;
+    std::string getHorizontalBorderLine(unsigned int const length) const;
     std::string getVerticalBorderPoint() const;
     unsigned int getVerticalBorderLength() const;
     unsigned int getHorizontalBorderLength(unsigned int const totalColumnLength) const;
 
+    friend std::ostream & operator<<(std::ostream & out, DisplayTable const& displayTable);
+
     std::string m_horizontalBorder;
     std::string m_verticalBorder;
     std::vector<DisplayTableRow> m_rows;
-    std::vector<unsigned int> m_calculatedLengthPerColumn;
 };
-
 
 
 }//namespace alba
