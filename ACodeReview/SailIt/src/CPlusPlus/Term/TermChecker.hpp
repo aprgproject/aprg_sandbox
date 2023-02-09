@@ -3,22 +3,20 @@
 #include "MultipleTerms.hpp"
 #include "Term.hpp"
 
-#include <Common/Container/AlbaOptional.hpp>
+#include <optional>
 
 #include <ostream>
 #include <string>
 
 using std::ostream;
 using std::string;
-using alba::AlbaOptional;
+using std::optional;
 
 namespace codeReview
 {
-
 enum class TermCheckerType
 {
-    ConcreteTerm,
-    isAssignmentOperator,
+    ConcreteTerm,    isAssignmentOperator,
     isBiDirectionalOperator,
     isConstant,
     isProcessed,
@@ -57,7 +55,7 @@ public:
 private:
     TermCheckerType m_termCheckerType;
     Term m_term;
-    AlbaOptional<MultipleTerms> m_multipleTermsOptional;
+    std::Optional<MultipleTerms> m_multipleTermsOptional;
 };
 
 }// namespace codeReview

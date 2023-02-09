@@ -2,22 +2,20 @@
 
 #include "../Database/CPlusPlusType.hpp"
 
-#include <Common/Container/AlbaOptional.hpp>
+#include <optional>
 
 #include <ostream>
 #include <string>
 
 using std::string;
 using std::ostream;
-using alba::AlbaOptional;
+using std::optional;
 
 namespace codeReview
 {
-
 enum class TermType
 {
-    Class,
-    Comment,
+    Class,    Comment,
     Constant_Boolean,
     Constant_Character,
     Constant_Number,
@@ -83,8 +81,7 @@ private:
     string m_content;
     string m_valueType;
     unsigned int m_lineNumber;
-    AlbaOptional<CPlusPlusType> m_ValueTypeOptional;
+    std::Optional<CPlusPlusType> m_ValueTypeOptional;
 
 };
-
 }
