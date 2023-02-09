@@ -10,12 +10,11 @@
 
 #include <cmath>
 
+using namespace alba::AlbaMathConstants;
 using namespace alba::mathHelper;
 using namespace std;
-
 namespace alba
 {
-
 AlbaNumber::ConfigurationDetails AlbaNumber::Configuration::getConfigurationDetailsWithZeroTolerance()
 {
     return ConfigurationDetails{0.0, 0.0};
