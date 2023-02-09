@@ -6,15 +6,12 @@
 #include <BitmapManipulator/Utilities.hpp>
 #include <BitmapManipulator/Traversal/OutwardCircleTraversal.hpp>
 #include <BitmapManipulator/Traversal/OutwardSnakeLikeTraversal.hpp>
-#include <Common/Container/AlbaOptional.hpp>
 #include <Common/Math/Helpers/SignRelatedHelpers.hpp>
 #include <Common/PathHandler/AlbaLocalPathHandler.hpp>
 #include <Geometry/TwoDimensions/Utilities/TwoDimensionsUtilities.hpp>
-
 using namespace alba::AprgBitmap::ColorUtilities;
 using namespace alba::mathHelper;
-using namespace alba::TwoDimensions;
-using namespace std;
+using namespace alba::TwoDimensions;using namespace std;
 
 namespace alba
 {
@@ -60,21 +57,19 @@ BitmapSnippet BitmapFilters::getBlankSnippetWithColor(
     return getBlankSnippet(static_cast<uint8_t>(color & 0xFF));
 }
 
-AlbaOptional<Circle> BitmapFilters::getPossiblePenCircle(
+optional<Circle> BitmapFilters::getPossiblePenCircle(
         BitmapSnippet const& inputSnippet,
         BitmapXY const& centerPoint,
         uint32_t const similarityColorLimit,
         double const acceptablePenPercentage)
 {
-    AlbaOptional<Circle> result;
+    optional<Circle> result;
     uint32_t const centerColor(inputSnippet.getColorAt(centerPoint));
     unsigned int similarPixelsCount(0);
-    unsigned int totalPixelCount(0);
-    BitmapSnippetTraversal snippetTraversal(inputSnippet);
+    unsigned int totalPixelCount(0);    BitmapSnippetTraversal snippetTraversal(inputSnippet);
     OutwardCircleTraversal outwardTraversal(MAX_PEN_CIRCLE_RADIUS_COORDINATE);
     OutwardCircleTraversal::RadiusToCoordinates const& radiusToCoordinates(
-                outwardTraversal.getRadiusToCoordinates());
-    double currentRadius(0);
+                outwardTraversal.getRadiusToCoordinates());    double currentRadius(0);
     double previousRadius(0);
     for(auto const& radiusAndCoordinatePair : radiusToCoordinates)
     {
@@ -97,25 +92,21 @@ AlbaOptional<Circle> BitmapFilters::getPossiblePenCircle(
             double calculatedPenPercentage = (double)similarPixelsCount/totalPixelCount;
             if(calculatedPenPercentage < acceptablePenPercentage)
             {
-                Circle penCircle(convertBitmapXYToPoint(centerPoint), previousRadius);
-                result.setConstReference(penCircle);
+                result.emplace(convertBitmapXYToPoint(centerPoint), previousRadius);
                 break;
             }
             previousRadius = currentRadius;
         }
     }
-    if(!result.hasContent())
+    if(!result)
     {
-        Circle penCircle(convertBitmapXYToPoint(centerPoint), currentRadius);
-        result.setConstReference(penCircle);
+        result.emplace(convertBitmapXYToPoint(centerPoint), currentRadius);
     }
     return result;
 }
-
 void BitmapFilters::determinePenPoints(
         PenPoints & penPoints,
-        BitmapSnippet const& inputSnippet,
-        double const penSearchRadius,
+        BitmapSnippet const& inputSnippet,        double const penSearchRadius,
         uint32_t const similarityColorLimit)
 {
     inputSnippet.traverse([&](BitmapXY const& centerXY, uint32_t const centerColor)
@@ -597,18 +588,16 @@ void BitmapFilters::determinePenPointsToPenCircles(
     PenPoints::PenPointsSet const& penPointsSet(penPoints.getPenPoints());
     for(BitmapXY const& penPoint : penPointsSet)
     {
-        AlbaOptional<Circle> penCircleOptional(getPossiblePenCircle(inputSnippet, penPoint, similarityColorLimit, acceptablePenPercentage));
-        if(penCircleOptional.hasContent())
+        optional<Circle> penCircleOptional(getPossiblePenCircle(inputSnippet, penPoint, similarityColorLimit, acceptablePenPercentage));
+        if(penCircleOptional)
         {
-            Circle const& possiblePenCircle(penCircleOptional.getConstReference());
+            Circle const& possiblePenCircle(penCircleOptional.value());
             BitmapSnippetTraversal snippetTraversal(inputSnippet);
             snippetTraversal.traverseCircleArea(possiblePenCircle, [&](BitmapXY const& pointInPossibleCircle)
-            {
-                bool isPointInCircleAPenPoint(penPoints.isPenPoint(pointInPossibleCircle));
+            {                bool isPointInCircleAPenPoint(penPoints.isPenPoint(pointInPossibleCircle));
                 if(isPointInCircleAPenPoint
                         && isThisPenCircleBetter(pointInPossibleCircle, possiblePenCircle, penPointsToPenCircles[pointInPossibleCircle]))
-                {
-                    penPointsToPenCircles[pointInPossibleCircle] = possiblePenCircle;
+                {                    penPointsToPenCircles[pointInPossibleCircle] = possiblePenCircle;
                 }
             });
         }

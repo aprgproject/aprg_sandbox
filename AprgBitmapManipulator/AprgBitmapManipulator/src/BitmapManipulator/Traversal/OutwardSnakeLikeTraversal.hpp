@@ -1,14 +1,13 @@
 #pragma once
 
 #include <Bitmap/CommonTypes.hpp>
-#include <Common/Container/AlbaOptional.hpp>
+
+#include <optional>
 
 namespace alba
 {
-
 namespace AprgBitmap
 {
-
 class OutwardSnakeLikeTraversal
 {
 public:
@@ -48,16 +47,14 @@ private:
     bool cannotTeleport() const;
     BitmapXY m_currentPoint;
     Direction m_direction;
-    AlbaOptional<Direction> m_scheduledTeleportDirection;
-    AlbaOptional<Direction> m_previousMovementDirection;
+    std::optional<Direction> m_scheduledTeleportDirection;
+    std::optional<Direction> m_previousMovementDirection;
     unsigned int m_lowestLeft;
     unsigned int m_highestRight;
-    unsigned int m_lowestTop;
-    unsigned int m_highestBottom;
+    unsigned int m_lowestTop;    unsigned int m_highestBottom;
     unsigned int m_lastMostLeft;
     unsigned int m_lastMostRight;
-    unsigned int m_lastMostTop;
-    unsigned int m_lastMostBottom;
+    unsigned int m_lastMostTop;    unsigned int m_lastMostBottom;
     bool m_isStart;
     bool m_isFinished;
 };
