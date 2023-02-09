@@ -52,15 +52,13 @@ public:
 
     Key getMinimum() const override
     {
-        Key result;
+        Key result{};
         bool isFirst(true);
         for(auto const& smallerSymbolTables : m_smallerSymbolTables)
-        {
-            if(!smallerSymbolTables.isEmpty())
+        {            if(!smallerSymbolTables.isEmpty())
             {
                 if(isFirst)
-                {
-                    result = smallerSymbolTables.getMinimum();
+                {                    result = smallerSymbolTables.getMinimum();
                     isFirst=false;
                 }
                 else

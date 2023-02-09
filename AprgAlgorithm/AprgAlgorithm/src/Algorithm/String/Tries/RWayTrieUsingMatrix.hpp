@@ -122,49 +122,44 @@ public:
 
     std::string getMatrixString() const
     {
-        stringHelper::NumberToStringConverter converter;
         DisplayTable table;
         table.setBorders("-","|");
-        table.addRow();
-        table.getLastRow().addCell(" ");
+        table.addRow();        table.getLastRow().addCell(" ");
         for(unsigned int c=0; c<RADIX; c++)
         {
             if(stringHelper::isDisplayableCharacter(c))
             {
-                table.getLastRow().addCell(converter.convert<char>(static_cast<char>(c)));
+                table.getLastRow().addCell(stringHelper::convertToString(static_cast<char>(c)));
             }
             else
-            {
-                table.getLastRow().addCell(" ");
+            {                table.getLastRow().addCell(" ");
             }
         }
         for(unsigned int y=0; y<m_nodePointerMatrix.getNumberOfRows(); y++)
         {
             table.addRow();
-            table.getLastRow().addCell(converter.convert(y));
+            table.getLastRow().addCell(stringHelper::convertToString(y));
             for(unsigned int x=0; x<m_nodePointerMatrix.getNumberOfColumns(); x++)
             {
                 NodePointer const& nodePointer(m_nodePointerMatrix.getEntryConstReference(x, y).getObject());
                 if(nodePointer)
                 {
-                    table.getLastRow().addCell(converter.convert(nodePointer->nextNodeId));
+                    table.getLastRow().addCell(stringHelper::convertToString(nodePointer->nextNodeId));
                 }
                 else
-                {
-                    table.getLastRow().addCell(" ");
+                {                    table.getLastRow().addCell(" ");
                 }
             }
         }
-        std::string firstLine("Next node matrix:\n");
-        return firstLine + table.drawOutput();
+        std::stringstream ss;
+        ss << "Next node matrix:\n" << table;
+        return ss.str();
     }
 
 private:
-
     bool isValidNodeId(NodeId const nodeId) const
     {
-        return nodeId < m_nodePointerMatrix.getNumberOfRows();
-    }
+        return nodeId < m_nodePointerMatrix.getNumberOfRows();    }
 
     bool isNodeEmpty(NodeId const nodeId) const
     {

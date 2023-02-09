@@ -5,14 +5,11 @@
 
 #include <algorithm>
 #include <map>
-#include <sstream>
 
 namespace alba
 {
-
 namespace algorithm
 {
-
 template <typename Vertex>
 class UndirectedGraphWithVertexToAdjacencyListsMap : public BaseUndirectedGraph<Vertex>
 {
@@ -121,32 +118,12 @@ public:
         return result;
     }
 
-    std::string getDisplayableString() const override
-    {
-        std::stringstream ss;
-        ss << "Adjacency Lists: \n";
-        for(auto const& vertexAndAdjacencyListPair : m_adjacencyLists)
-        {
-            Vertex const& vertex(vertexAndAdjacencyListPair.first);
-            AdjacencyList const& adjacencyList(vertexAndAdjacencyListPair.second);
-            if(!adjacencyList.empty())
-            {
-                ss << "Adjacent with vertex " << vertex << ": {";
-                containerHelper::saveContentsToStream(ss, adjacencyList, containerHelper::StreamFormat::String);
-                ss << "} \n";
-            }
-        }
-        return ss.str();
-    }
-
     void connect(Vertex const& vertex1, Vertex const& vertex2) override
     {
-        if(!isDirectlyConnected(vertex1, vertex2))
-        {
+        if(!isDirectlyConnected(vertex1, vertex2))        {
             m_numberOfEdges++;
             m_adjacencyLists[vertex1].emplace(vertex2);
-            m_adjacencyLists[vertex2].emplace(vertex1);
-        }
+            m_adjacencyLists[vertex2].emplace(vertex1);        }
     }
 
     void disconnect(Vertex const& vertex1, Vertex const& vertex2) override
@@ -166,10 +143,27 @@ public:
     }
 
 protected:
+
+    friend std::ostream & operator<<(std::ostream & out, UndirectedGraphWithVertexToAdjacencyListsMap const& graph)
+    {
+        out << "Adjacency Lists: \n";
+        for(auto const& vertexAndAdjacencyListPair : graph.m_adjacencyLists)
+        {
+            Vertex const& vertex(vertexAndAdjacencyListPair.first);
+            AdjacencyList const& adjacencyList(vertexAndAdjacencyListPair.second);
+            if(!adjacencyList.empty())
+            {
+                out << "Adjacent with vertex " << vertex << ": {";
+                containerHelper::saveContentsToStream(out, adjacencyList, containerHelper::StreamFormat::String);
+                out << "} \n";
+            }
+        }
+        return out;
+    }
+
     unsigned int m_numberOfEdges;
     AdjacencyLists m_adjacencyLists;
 };
-
 }
 
 }

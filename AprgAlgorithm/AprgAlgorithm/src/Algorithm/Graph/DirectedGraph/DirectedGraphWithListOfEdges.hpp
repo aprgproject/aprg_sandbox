@@ -3,14 +3,12 @@
 #include <Algorithm/Graph/DirectedGraph/BaseDirectedGraph.hpp>
 
 #include <algorithm>
-#include <sstream>
+#include <ostream>
 
 namespace alba
 {
-
 namespace algorithm
 {
-
 template <typename Vertex>
 class DirectedGraphWithListOfEdges : public BaseDirectedGraph<Vertex>
 {
@@ -72,26 +70,12 @@ public:
         return result;
     }
 
-    std::string getDisplayableString() const override
-    {
-        std::stringstream ss;
-        ss << "Edges: {";
-        for(auto const& edge : m_edges)
-        {
-            ss << edge.first << "->" << edge.second << ", ";
-        }
-        ss << "}";
-        return ss.str();
-    }
-
     void connect(Vertex const& sourceVertex, Vertex const& destinationVertex) override
     {
-        if(!isDirectlyConnected(sourceVertex, destinationVertex))
-        {
+        if(!isDirectlyConnected(sourceVertex, destinationVertex))        {
             m_numberOfEdges++;
             m_edges.emplace(sourceVertex, destinationVertex);
-        }
-    }
+        }    }
 
     void disconnect(Vertex const& sourceVertex, Vertex const& destinationVertex) override
     {
@@ -109,14 +93,24 @@ public:
     }
 
 protected:
+
+    friend std::ostream & operator<<(std::ostream & out, DirectedGraphWithListOfEdges const& graph)
+    {
+        out << "Edges: {";
+        for(auto const& edge : graph.m_edges)
+        {
+            out << edge.first << "->" << edge.second << ", ";
+        }
+        out << "}";
+        return out;
+    }
+
     SetOfVertices getUniqueVertices() const
     {
-        SetOfVertices uniqueVertices;
-        for(auto const& edge : m_edges)
+        SetOfVertices uniqueVertices;        for(auto const& edge : m_edges)
         {
             uniqueVertices.emplace(edge.first);
-            uniqueVertices.emplace(edge.second);
-        }
+            uniqueVertices.emplace(edge.second);        }
         return uniqueVertices;
     }
     unsigned int m_numberOfEdges;

@@ -1,16 +1,16 @@
 #include <Algorithm/Graph/UndirectedGraph/UndirectedGraphWithArrayOfAdjacencyLists.hpp>
 #include <AlgorithmTests/Graph/UndirectedGraph/Utilities/CommonTestsWithUndirectedGraph.hpp>
+#include <Common/String/AlbaStringHelper.hpp>
 
 #include <gtest/gtest.h>
 
 using namespace alba::algorithm::CommonTestsWithUndirectedGraph;
+using namespace alba::stringHelper;
 
 namespace alba
 {
-
 namespace algorithm
 {
-
 namespace
 {
 using GraphForTest = UndirectedGraphWithArrayOfAdjacencyLists<unsigned int, 13>;
@@ -121,16 +121,15 @@ TEST(UndirectedGraphWithArrayOfAdjacencyListsTest, ComplicatedTestWorks)
     testWithComplicatedExampleWithVertexAsUnsignedInt<GraphForTest>();
 }
 
-TEST(UndirectedGraphWithArrayOfAdjacencyListsTest, GetDisplayableStringWorks)
+TEST(UndirectedGraphWithArrayOfAdjacencyListsTest, OutputStreamOperatorWorks)
 {
     GraphForTest graph;
 
     graph.connect(0U, 1U);
     graph.connect(0U, 2U);
 
-    EXPECT_EQ("Adjacency Lists: \nAdjacent with vertex 0: {1, 2, } \nAdjacent with vertex 1: {0, } \nAdjacent with vertex 2: {0, } \n", graph.getDisplayableString());
+    EXPECT_EQ("Adjacency Lists: \nAdjacent with vertex 0: {1, 2, } \nAdjacent with vertex 1: {0, } \nAdjacent with vertex 2: {0, } \n", convertToString(graph));
 }
 
 }
-
 }

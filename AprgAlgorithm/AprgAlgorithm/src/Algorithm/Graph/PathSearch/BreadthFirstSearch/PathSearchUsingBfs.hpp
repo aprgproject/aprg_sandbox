@@ -70,23 +70,23 @@ public:
         return this->getPathTo(endVertex);
     }
 
-    void reinitializeStartingFrom(Vertices const& startVertices) override
+    void reinitializeStartingFrom(Vertices const& startVertices)
     {
-        this->clear();
-        this->initializeWithStartVertices(startVertices);
+        clear();
+        initializeWithStartVertices(startVertices);
         m_initializeDataFunction(startVertices);
         traverseUsingBfs(startVertices);
     }
 
 private:
+    using BaseClass::clear;
+    using BaseClass::initializeWithStartVertices;
 
     void traverseUsingBfs(Vertices const& startVertices)
-    {
-        b_processedVertices.putVertices(startVertices);
+    {        b_processedVertices.putVertices(startVertices);
 
         std::deque<Vertex> nearestVertices;
-        std::copy(startVertices.cbegin(), startVertices.cend(), std::back_inserter(nearestVertices));
-        // for multiple-source shortest path so multiple vertices here
+        std::copy(startVertices.cbegin(), startVertices.cend(), std::back_inserter(nearestVertices));        // for multiple-source shortest path so multiple vertices here
         while(!nearestVertices.empty())
         {
             Vertex vertex(nearestVertices.back());

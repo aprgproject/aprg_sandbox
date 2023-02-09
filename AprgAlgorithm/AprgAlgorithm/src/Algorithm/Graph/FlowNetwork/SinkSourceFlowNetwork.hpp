@@ -3,14 +3,11 @@
 #include <Algorithm/Graph/FlowNetwork/FlowNetwork.hpp>
 
 #include <algorithm>
-#include <sstream>
 
 namespace alba
 {
-
 namespace algorithm
 {
-
 template <typename VertexUnderlyingType, typename FlowDataTypeUnderlyingType, typename DirectedGraph>
 class SinkSourceFlowNetwork : public FlowNetwork<VertexUnderlyingType, FlowDataTypeUnderlyingType, DirectedGraph>
 {

@@ -76,14 +76,11 @@ public:
     {
         return m_vertexToPreviousVertexMap;
     }
-    virtual void reinitializeStartingFrom(Vertices const& startVertices) = 0;
 
 protected:
-
     void clear()
     {
-        m_processedVertices.clear();
-        m_startVertices.clear();
+        m_processedVertices.clear();        m_startVertices.clear();
         m_vertexToPreviousVertexMap.clear();
     }
 

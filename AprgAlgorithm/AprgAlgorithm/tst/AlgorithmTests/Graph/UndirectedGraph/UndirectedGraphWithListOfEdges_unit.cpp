@@ -1,16 +1,16 @@
 #include <Algorithm/Graph/UndirectedGraph/UndirectedGraphWithListOfEdges.hpp>
 #include <AlgorithmTests/Graph/UndirectedGraph/Utilities/CommonTestsWithUndirectedGraph.hpp>
+#include <Common/String/AlbaStringHelper.hpp>
 
 #include <gtest/gtest.h>
 
 using namespace alba::algorithm::CommonTestsWithUndirectedGraph;
+using namespace alba::stringHelper;
 
 namespace alba
 {
-
 namespace algorithm
 {
-
 namespace
 {
 using GraphForTest = UndirectedGraphWithListOfEdges<unsigned int>;
@@ -121,16 +121,15 @@ TEST(UndirectedGraphWithListOfEdgesTest, ComplicatedTestWorks)
     testWithComplicatedExampleWithVertexAsUnsignedInt<GraphForTest>();
 }
 
-TEST(UndirectedGraphWithListOfEdgesTest, GetDisplayableStringWorks)
+TEST(UndirectedGraphWithListOfEdgesTest, OutputStreamOperatorWorks)
 {
     GraphForTest graph;
 
     graph.connect(0U, 1U);
     graph.connect(0U, 2U);
 
-    EXPECT_EQ("Edges: {0<->1, 0<->2, 1<->0, 2<->0, }", graph.getDisplayableString());
+    EXPECT_EQ("Edges: {0<->1, 0<->2, 1<->0, 2<->0, }", convertToString(graph));
 }
 
 }
-
 }

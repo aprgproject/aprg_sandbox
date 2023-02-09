@@ -1,16 +1,16 @@
 #include <Algorithm/Graph/DirectedGraph/DirectedGraphWithListOfEdges.hpp>
 #include <AlgorithmTests/Graph/DirectedGraph/Utilities/CommonTestsWithDirectedGraph.hpp>
+#include <Common/String/AlbaStringHelper.hpp>
 
 #include <gtest/gtest.h>
 
 using namespace alba::algorithm::CommonTestsWithDirectedGraph;
+using namespace alba::stringHelper;
 
 namespace alba
 {
-
 namespace algorithm
 {
-
 namespace
 {
 using GraphForTest = DirectedGraphWithListOfEdges<unsigned int>;
@@ -116,16 +116,15 @@ TEST(DirectedGraphWithListOfEdgesTest, ComplicatedTestWorks)
     testWithComplicatedExampleWithVertexAsUnsignedInt<GraphForTest>();
 }
 
-TEST(DirectedGraphWithListOfEdgesTest, GetDisplayableStringWorks)
+TEST(DirectedGraphWithListOfEdgesTest, OutputStreamOperatorWorks)
 {
     GraphForTest graph;
 
     graph.connect(0U, 1U);
     graph.connect(2U, 0U);
 
-    EXPECT_EQ("Edges: {0->1, 2->0, }", graph.getDisplayableString());
+    EXPECT_EQ("Edges: {0->1, 2->0, }", convertToString(graph));
 }
 
 }
-
 }

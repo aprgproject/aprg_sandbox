@@ -164,42 +164,35 @@ private:
         }
     }
 
-    std::string getDisplayableString()
+    friend std::ostream & operator<<(std::ostream & out, PathSearchUsingFloydWarshall const& pathSearch)
     {
         DisplayTable displayTable;
-        for(unsigned int y=0; y<m_pathDetailsMatrix.getNumberOfRows(); y++)
+        displayTable.setBorders("-", "|");
+        for(unsigned int y=0; y<pathSearch.m_pathDetailsMatrix.getNumberOfRows(); y++)
         {
             displayTable.addRow();
-            for(unsigned int x=0; x<m_pathDetailsMatrix.getNumberOfRows(); x++)
+            for(unsigned int x=0; x<pathSearch.m_pathDetailsMatrix.getNumberOfRows(); x++)
             {
-                std::stringstream ss;
-                ss<<m_pathDetailsMatrix.getEntryConstReference(x,y).hasAPath;
-                displayTable.getLastRow().addCell(ss.str());
+                displayTable.getLastRow().addCell(stringHelper::convertToString(pathSearch.m_pathDetailsMatrix.getEntryConstReference(x,y).hasAPath));
             }
             displayTable.getLastRow().addCell("   ");
-            for(unsigned int x=0; x<m_pathDetailsMatrix.getNumberOfRows(); x++)
+            for(unsigned int x=0; x<pathSearch.m_pathDetailsMatrix.getNumberOfRows(); x++)
             {
-                std::stringstream ss;
-                ss<<m_pathDetailsMatrix.getEntryConstReference(x,y).bestAdjacentVertex;
-                displayTable.getLastRow().addCell(ss.str());
+                displayTable.getLastRow().addCell(stringHelper::convertToString(pathSearch.m_pathDetailsMatrix.getEntryConstReference(x,y).bestAdjacentVertex));
             }
             displayTable.getLastRow().addCell("   ");
-            for(unsigned int x=0; x<m_pathDetailsMatrix.getNumberOfRows(); x++)
+            for(unsigned int x=0; x<pathSearch.m_pathDetailsMatrix.getNumberOfRows(); x++)
             {
-                std::stringstream ss;
-                ss<<m_pathDetailsMatrix.getEntryConstReference(x,y).bestWeight;
-                displayTable.getLastRow().addCell(ss.str());
+                displayTable.getLastRow().addCell(stringHelper::convertToString(pathSearch.m_pathDetailsMatrix.getEntryConstReference(x,y).bestWeight));
             }
         }
-        displayTable.setBorders("-", "|");
-        return std::string("\n") + displayTable.drawOutput();
+        out << std::endl << displayTable;
+        return out;
     }
 
-    Graph const& m_graph;
-    Comparator m_comparator;
+    Graph const& m_graph;    Comparator m_comparator;
     PathDetailsMatrix m_pathDetailsMatrix;
 };
-
 template <typename Vertex, typename Weight, typename EdgeWeightedGraph, template<class> class ComparatorTemplateType>
 std::ostream & operator<<(std::ostream & out, typename PathSearchUsingFloydWarshall<Vertex, Weight, EdgeWeightedGraph, ComparatorTemplateType>::PathDetails const& pathDetails)
 {
