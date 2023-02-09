@@ -92,16 +92,14 @@ void ChessPeekConfiguration::initializeCommonParameters()
 
 void ChessPeekConfiguration::initializeChessDotComUserVsUser()
 {
-    m_topLeftCorner = BitmapXY(2213, 151);
-    m_bottomRightCorner = BitmapXY(3028, 966);
+    m_topLeftCorner = BitmapXY(2218, 151);
+    m_bottomRightCorner = BitmapXY(3033, 966);
     m_whiteColorLimit = 0.91;
     m_blackColorLimit = 0.40;
 }
-
 void ChessPeekConfiguration::initializeChessDotComUserVsComputer()
 {
-    m_topLeftCorner = BitmapXY(2215, 151);
-    m_bottomRightCorner = BitmapXY(3022, 958);
+    m_topLeftCorner = BitmapXY(2215, 151);    m_bottomRightCorner = BitmapXY(3022, 958);
     m_whiteColorLimit = 0.91;
     m_blackColorLimit = 0.40;
 }

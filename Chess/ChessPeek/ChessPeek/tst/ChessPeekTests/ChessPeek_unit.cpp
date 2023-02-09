@@ -42,13 +42,11 @@ TEST(ChessPeekTest, DISABLED_RunOneIterationWorks)
     Sleep(10000);
 }
 
-TEST(ChessPeekTest, DISABLED_RunForeverWorks)
+TEST(ChessPeekTest, RunForeverWorks)
 {
     ChessPeek chessPeek;
-
     chessPeek.runForever();
 }
-
 }
 
 }
