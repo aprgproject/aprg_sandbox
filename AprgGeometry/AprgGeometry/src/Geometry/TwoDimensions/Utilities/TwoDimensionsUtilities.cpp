@@ -928,35 +928,36 @@ void traverseCircleAreaBetweenTwoRadius(
     Circle outerCircle(center, outerRadius);
     for(double y=0; y<outerRadius; y+=interval)
     {
-        double xAtInnerCircle(innerCircle.calculateXFromYWithoutCenter(y, 1));
-        double xAtOuterCircle(outerCircle.calculateXFromYWithoutCenter(y, 1));
-        for(double x=xAtInnerCircle; x<xAtOuterCircle; x+=interval)
+        auto xAtInnerCircleOptional(innerCircle.calculateXFromYWithoutCenter(y, 1));
+        auto xAtOuterCircleOptional(outerCircle.calculateXFromYWithoutCenter(y, 1));
+        if(xAtInnerCircleOptional && xAtOuterCircleOptional)
         {
-            if(x==0 && y==0)
+            for(double x=xAtInnerCircleOptional.value(); x<xAtOuterCircleOptional.value(); x+=interval)
             {
-                traverseOperation(center);
-            }
-            else if(x==0)
-            {
-                traverseOperation(Point(center.getX(), center.getY()+y));
-                traverseOperation(Point(center.getX(), center.getY()-y));
-            }
-            else if(y==0)
-            {
-                traverseOperation(Point(center.getX()+x, center.getY()));
-                traverseOperation(Point(center.getX()-x, center.getY()));
-            }
-            else
-            {
-                traverseOperation(Point(center.getX()+x, center.getY()+y));
-                traverseOperation(Point(center.getX()-x, center.getY()+y));
-                traverseOperation(Point(center.getX()+x, center.getY()-y));
-                traverseOperation(Point(center.getX()-x, center.getY()-y));
+                if(x==0 && y==0)
+                {
+                    traverseOperation(center);
+                }
+                else if(x==0)
+                {
+                    traverseOperation(Point(center.getX(), center.getY()+y));
+                    traverseOperation(Point(center.getX(), center.getY()-y));
+                }
+                else if(y==0)
+                {
+                    traverseOperation(Point(center.getX()+x, center.getY()));
+                    traverseOperation(Point(center.getX()-x, center.getY()));
+                }
+                else
+                {
+                    traverseOperation(Point(center.getX()+x, center.getY()+y));
+                    traverseOperation(Point(center.getX()-x, center.getY()+y));
+                    traverseOperation(Point(center.getX()+x, center.getY()-y));
+                    traverseOperation(Point(center.getX()-x, center.getY()-y));
+                }
             }
         }
-    }
-}
+    }}
 
 }
-}
-}
+}}

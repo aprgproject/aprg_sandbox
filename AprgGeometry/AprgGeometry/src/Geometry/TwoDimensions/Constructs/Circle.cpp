@@ -113,82 +113,83 @@ void Circle::traverseArea(double const interval, TraverseOperation const& traver
 {
     for(double y=0; y<=m_radius; y+=interval)
     {
-        double xAtTheEdgeOfCircle(calculateXFromYWithoutCenter(y, 1));
-        for(double x=0; x<=xAtTheEdgeOfCircle; x+=interval)
+        auto xAtTheEdgeOfCircleOptional(calculateXFromYWithoutCenter(y, 1));
+        if(xAtTheEdgeOfCircleOptional)
         {
-            if(x==0 && y==0)
+            for(double x=0; x<=xAtTheEdgeOfCircleOptional.value(); x+=interval)
             {
-                traverseOperation(m_center);
-            }
-            else if(x==0)
-            {
-                traverseOperation(Point(m_center.getX(), m_center.getY()+y));
-                traverseOperation(Point(m_center.getX(), m_center.getY()-y));
-            }
-            else if(y==0)
-            {
-                traverseOperation(Point(m_center.getX()+x, m_center.getY()));
-                traverseOperation(Point(m_center.getX()-x, m_center.getY()));
-            }
-            else
-            {
-                traverseOperation(Point(m_center.getX()+x, m_center.getY()+y));
-                traverseOperation(Point(m_center.getX()-x, m_center.getY()+y));
-                traverseOperation(Point(m_center.getX()+x, m_center.getY()-y));
-                traverseOperation(Point(m_center.getX()-x, m_center.getY()-y));
+                if(x==0 && y==0)
+                {
+                    traverseOperation(m_center);
+                }
+                else if(x==0)
+                {
+                    traverseOperation(Point(m_center.getX(), m_center.getY()+y));
+                    traverseOperation(Point(m_center.getX(), m_center.getY()-y));
+                }
+                else if(y==0)
+                {
+                    traverseOperation(Point(m_center.getX()+x, m_center.getY()));
+                    traverseOperation(Point(m_center.getX()-x, m_center.getY()));
+                }
+                else
+                {
+                    traverseOperation(Point(m_center.getX()+x, m_center.getY()+y));
+                    traverseOperation(Point(m_center.getX()-x, m_center.getY()+y));
+                    traverseOperation(Point(m_center.getX()+x, m_center.getY()-y));
+                    traverseOperation(Point(m_center.getX()-x, m_center.getY()-y));
+                }
             }
         }
     }
 }
 
-AlbaOptional<double> Circle::calculateYFromX(double const x, double const signOfRoot) const
+optional<double> Circle::calculateYFromX(double const x, double const signOfRoot) const
 {
-    AlbaOptional<double> result;
+    optional<double> result;
     double discriminant = m_radiusSquared - pow(x-m_center.getX(), 2);
     if(discriminant > 0)
     {
-        result.setValue(pow(discriminant, 0.5)*signOfRoot + m_center.getY());
+        result = pow(discriminant, 0.5)*signOfRoot + m_center.getY();
     }
     return result;
 }
 
-AlbaOptional<double> Circle::calculateXFromY(double const y, double const signOfRoot) const
+optional<double> Circle::calculateXFromY(double const y, double const signOfRoot) const
 {
-    AlbaOptional<double> result;
+    optional<double> result;
     double discriminant = m_radiusSquared - pow(y-m_center.getY(), 2);
     if(discriminant > 0)
     {
-        result.setValue(pow(discriminant, 0.5)*signOfRoot + m_center.getX());
+        result = pow(discriminant, 0.5)*signOfRoot + m_center.getX();
     }
     return result;
 }
 
-AlbaOptional<double> Circle::calculateYFromXWithoutCenter(double const x, double const signOfRoot) const
+optional<double> Circle::calculateYFromXWithoutCenter(double const x, double const signOfRoot) const
 {
-    AlbaOptional<double> result;
+    optional<double> result;
     double discriminant = m_radiusSquared - pow(x, 2);
     if(discriminant > 0)
     {
-        result.setValue(pow(discriminant, 0.5)*signOfRoot);
+        result = pow(discriminant, 0.5)*signOfRoot;
     }
     return result;
 }
 
-AlbaOptional<double> Circle::calculateXFromYWithoutCenter(double const y, double const signOfRoot) const
+optional<double> Circle::calculateXFromYWithoutCenter(double const y, double const signOfRoot) const
 {
-    AlbaOptional<double> result;
+    optional<double> result;
     double discriminant = m_radiusSquared - pow(y, 2);
     if(discriminant >= 0)
     {
-        result.setValue(pow(discriminant, 0.5)*signOfRoot);
+        result = pow(discriminant, 0.5)*signOfRoot;
     }
     return result;
 }
-
 Point Circle::getPointAtAngle(double const angleInRadians)
 {
-    double deltaX = cos(angleInRadians) * m_radius;
-    double deltaY = sin(angleInRadians) * m_radius;
+    double deltaX = cos(angleInRadians) * m_radius;    double deltaY = sin(angleInRadians) * m_radius;
     return Point(m_center.getX()+deltaX, m_center.getY()+deltaY);
 }
 
@@ -244,33 +245,29 @@ Points Circle::getPointsInTraversingY(double const signOfX, double const signOfY
     AlbaValueRange<double> yRange(m_center.getY(), m_center.getY()+(m_radius*signOfY), interval);
     yRange.traverse([&](double const yValue)
     {
-        AlbaOptional<double> xCoordinate = calculateXFromY(yValue, signOfX);
-        if(xCoordinate.hasContent())
+        optional<double> xCoordinate = calculateXFromY(yValue, signOfX);
+        if(xCoordinate)
         {
-            result.emplace_back(xCoordinate.getConstReference(), yValue);
+            result.emplace_back(xCoordinate.value(), yValue);
         }
     });
-    return result;
-}
+    return result;}
 
 Points Circle::getPointsInTraversingX(double const signOfX, double const signOfY, double const interval) const
-{
-    Points result;
+{    Points result;
     AlbaValueRange<double> xRange(m_center.getX(), m_center.getX()+(m_radius*signOfX), interval);
     xRange.traverse([&](double const xValue)
     {
-        AlbaOptional<double> yCoordinate = calculateYFromX(xValue, signOfY);
-        if(yCoordinate.hasContent())
+        optional<double> yCoordinate = calculateYFromX(xValue, signOfY);
+        if(yCoordinate)
         {
-            result.emplace_back(xValue, yCoordinate.getConstReference());
+            result.emplace_back(xValue, yCoordinate.value());
         }
     });
-    return result;
-}
+    return result;}
 
 ostream & operator<<(ostream & out, Circle const& circle)
-{
-    out << "(center: " << circle.m_center << " radius: " << circle.m_radius << ")";
+{    out << "(center: " << circle.m_center << " radius: " << circle.m_radius << ")";
     return out;
 }
 

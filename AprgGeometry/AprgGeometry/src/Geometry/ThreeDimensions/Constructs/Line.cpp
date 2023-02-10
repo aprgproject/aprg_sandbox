@@ -128,40 +128,38 @@ double Line::getCCoefficient() const
     return m_cCoefficient;
 }
 
-AlbaOptional<double> Line::calculateXFromY(double const y) const
+optional<double> Line::calculateXFromY(double const y) const
 {
     return calculateOtherCoordinate(m_xInitialValue, m_aCoefficient, m_yInitialValue, m_bCoefficient, y);
 }
 
-AlbaOptional<double> Line::calculateXFromZ(double const z) const
+optional<double> Line::calculateXFromZ(double const z) const
 {
     return calculateOtherCoordinate(m_xInitialValue, m_aCoefficient, m_zInitialValue, m_cCoefficient, z);
 }
 
-AlbaOptional<double> Line::calculateYFromX(double const x) const
+optional<double> Line::calculateYFromX(double const x) const
 {
     return calculateOtherCoordinate(m_yInitialValue, m_bCoefficient, m_xInitialValue, m_aCoefficient, x);
 }
 
-AlbaOptional<double> Line::calculateYFromZ(double const z) const
+optional<double> Line::calculateYFromZ(double const z) const
 {
     return calculateOtherCoordinate(m_yInitialValue, m_bCoefficient, m_zInitialValue, m_cCoefficient, z);
 }
 
-AlbaOptional<double> Line::calculateZFromX(double const x) const
+optional<double> Line::calculateZFromX(double const x) const
 {
     return calculateOtherCoordinate(m_zInitialValue, m_cCoefficient, m_xInitialValue, m_aCoefficient, x);
 }
 
-AlbaOptional<double> Line::calculateZFromY(double const y) const
+optional<double> Line::calculateZFromY(double const y) const
 {
     return calculateOtherCoordinate(m_zInitialValue, m_cCoefficient, m_yInitialValue, m_bCoefficient, y);
 }
-
 void Line::calculateAndSaveInitialValuesIfPossible(Point const& first)
 {
-    if(!isInvalid())
-    {
+    if(!isInvalid())    {
         double minimizedMultiplierForInitialValue=0;
         if(!isAlmostEqual(m_aCoefficient+m_bCoefficient+m_cCoefficient, 0.0))
         {
@@ -198,20 +196,18 @@ void Line::calculateAndSaveInitialValuesIfPossible(Point const& first)
     }
 }
 
-AlbaOptional<double> Line::calculateOtherCoordinate(double const& initialValue1, double const coefficient1, double const& initialValue2, double const coefficient2, double const coordinate2) const
+optional<double> Line::calculateOtherCoordinate(double const& initialValue1, double const coefficient1, double const& initialValue2, double const coefficient2, double const coordinate2) const
 {
-    AlbaOptional<double> result;
+    optional<double> result;
     if(!isAlmostEqual(coefficient2, 0.0))
     {
-        result.setValue( ((coordinate2-initialValue2)/coefficient2*coefficient1) + initialValue1 );
+        result = ((coordinate2-initialValue2)/coefficient2*coefficient1) + initialValue1;
     }
     return result;
 }
-
 bool Line::areAllCoefficientsZero() const
 {
-    return isAlmostEqual(m_aCoefficient, 0.0) && isAlmostEqual(m_cCoefficient, 0.0) && isAlmostEqual(m_cCoefficient, 0.0);
-}
+    return isAlmostEqual(m_aCoefficient, 0.0) && isAlmostEqual(m_cCoefficient, 0.0) && isAlmostEqual(m_cCoefficient, 0.0);}
 
 ostream & operator<<(ostream & out, Line const& line)
 {

@@ -96,70 +96,68 @@ double Plane::getDCoefficient() const
     return m_dCoefficient;
 }
 
-AlbaOptional<double> Plane::getXIntercept() const
+optional<double> Plane::getXIntercept() const
 {
-    AlbaOptional<double> xIntercept;
+    optional<double> xIntercept;
     if(!isAlmostEqual(m_aCoefficient, 0.0))
     {
-        xIntercept.setValue(-m_dCoefficient/m_aCoefficient);
+        xIntercept = -m_dCoefficient/m_aCoefficient;
     }
     return xIntercept;
 }
 
-AlbaOptional<double> Plane::getYIntercept() const
+optional<double> Plane::getYIntercept() const
 {
-    AlbaOptional<double> yIntercept;
+    optional<double> yIntercept;
     if(!isAlmostEqual(m_bCoefficient, 0.0))
     {
-        yIntercept.setValue(-m_dCoefficient/m_bCoefficient);
+        yIntercept = -m_dCoefficient/m_bCoefficient;
     }
     return yIntercept;
 }
 
-AlbaOptional<double> Plane::getZIntercept() const
+optional<double> Plane::getZIntercept() const
 {
-    AlbaOptional<double> zIntercept;
+    optional<double> zIntercept;
     if(!isAlmostEqual(m_cCoefficient, 0.0))
     {
-        zIntercept.setValue(-m_dCoefficient/m_cCoefficient);
+        zIntercept = -m_dCoefficient/m_cCoefficient;
     }
     return zIntercept;
 }
 
-AlbaOptional<double> Plane::calculateXFromYAndZ(double const y, double const z) const
+optional<double> Plane::calculateXFromYAndZ(double const y, double const z) const
 {
-    AlbaOptional<double> result;
+    optional<double> result;
     if(!isAlmostEqual(m_aCoefficient, 0.0))
     {
-        result.setValue((-m_dCoefficient-(m_bCoefficient*y)-(m_cCoefficient*z))/m_aCoefficient);
+        result = (-m_dCoefficient-(m_bCoefficient*y)-(m_cCoefficient*z))/m_aCoefficient;
     }
     return result;
 }
 
-AlbaOptional<double> Plane::calculateYFromXAndZ(double const x, double const z) const
+optional<double> Plane::calculateYFromXAndZ(double const x, double const z) const
 {
-    AlbaOptional<double> result;
+    optional<double> result;
     if(!isAlmostEqual(m_bCoefficient, 0.0))
     {
-        result.setValue((-m_dCoefficient-(m_aCoefficient*x)-(m_cCoefficient*z))/m_bCoefficient);
+        result = (-m_dCoefficient-(m_aCoefficient*x)-(m_cCoefficient*z))/m_bCoefficient;
     }
     return result;
 }
 
-AlbaOptional<double> Plane::calculateZFromXAndY(double const x, double const y) const
+optional<double> Plane::calculateZFromXAndY(double const x, double const y) const
 {
-    AlbaOptional<double> result;
+    optional<double> result;
     if(!isAlmostEqual(m_cCoefficient, 0.0))
     {
-        result.setValue((-m_dCoefficient-(m_aCoefficient*x)-(m_bCoefficient*y))/m_cCoefficient);
+        result = (-m_dCoefficient-(m_aCoefficient*x)-(m_bCoefficient*y))/m_cCoefficient;
     }
     return result;
 }
-
 void Plane::calculateDCoefficientUsingCoefficientsABCAndAPoint(Point const& first)
 {
-    m_dCoefficient = -(m_aCoefficient*first.getX())-(m_bCoefficient*first.getY())-(m_cCoefficient*first.getZ());
-}
+    m_dCoefficient = -(m_aCoefficient*first.getX())-(m_bCoefficient*first.getY())-(m_cCoefficient*first.getZ());}
 
 ostream & operator<<(ostream & out, Plane const& plane)
 {

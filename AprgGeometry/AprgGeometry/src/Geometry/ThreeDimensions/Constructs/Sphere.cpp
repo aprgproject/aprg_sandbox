@@ -63,43 +63,41 @@ bool Sphere::isInside(Point const& point) const
     return getDistance(m_center, point) <= m_radius;
 }
 
-AlbaOptional<double> Sphere::calculateXFromYAndZ(double const y, double const z, double const signOfRoot) const
+optional<double> Sphere::calculateXFromYAndZ(double const y, double const z, double const signOfRoot) const
 {
-    AlbaOptional<double> result;
+    optional<double> result;
     double discriminant = m_radiusSquared - pow(y-m_center.getY(), 2) - pow(z-m_center.getZ(), 2);
     if(discriminant > 0)
     {
-        result.setValue(pow(discriminant, 0.5)*signOfRoot + m_center.getX());
+        result = pow(discriminant, 0.5)*signOfRoot + m_center.getX();
     }
     return result;
 }
 
-AlbaOptional<double> Sphere::calculateYFromXAndZ(double const x, double const z, double const signOfRoot) const
+optional<double> Sphere::calculateYFromXAndZ(double const x, double const z, double const signOfRoot) const
 {
-    AlbaOptional<double> result;
+    optional<double> result;
     double discriminant = m_radiusSquared - pow(x-m_center.getX(), 2) - pow(z-m_center.getZ(), 2);
     if(discriminant > 0)
     {
-        result.setValue(pow(discriminant, 0.5)*signOfRoot + m_center.getY());
+        result = pow(discriminant, 0.5)*signOfRoot + m_center.getY();
     }
     return result;
 }
 
-AlbaOptional<double> Sphere::calculateZFromXAndY(double const x, double const y, double const signOfRoot) const
+optional<double> Sphere::calculateZFromXAndY(double const x, double const y, double const signOfRoot) const
 {
-    AlbaOptional<double> result;
+    optional<double> result;
     double discriminant = m_radiusSquared - pow(x-m_center.getX(), 2) - pow(y-m_center.getY(), 2);
     if(discriminant > 0)
     {
-        result.setValue(pow(discriminant, 0.5)*signOfRoot + m_center.getZ());
+        result = pow(discriminant, 0.5)*signOfRoot + m_center.getZ();
     }
     return result;
 }
-
 ostream & operator<<(ostream & out, Sphere const& sphere)
 {
-    out << "(center: " << sphere.m_center << " radius: " << sphere.m_radius << ")";
-    return out;
+    out << "(center: " << sphere.m_center << " radius: " << sphere.m_radius << ")";    return out;
 }
 
 }
