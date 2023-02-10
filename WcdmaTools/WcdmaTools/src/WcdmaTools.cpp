@@ -9,14 +9,13 @@
 #include <QPixmap>
 
 using namespace alba;
+using namespace alba::stringHelper;
 using namespace std;
 
-namespace alba
-{
+namespace alba{
 
 namespace ProgressCounters
-{
-extern int getOverAllProgress();
+{extern int getOverAllProgress();
 extern void resetProgressCounters();
 }
 
@@ -51,15 +50,12 @@ void WcdmaTools::setInputFileOrDirectory(string const& inputFileOrDirectory)
 
 void WcdmaTools::updateGuiUsingConfiguration()
 {
-    stringHelper::NumberToStringConverter converter;
     ui->extractStepCheckBox->setChecked(m_configuration.isExtractStepOn);
     ui->combineAndSortStepCheckBox->setChecked(m_configuration.isCombineAndSortStepOn);
-    ui->grepStepCheckBox->setChecked(m_configuration.isGrepStepOn);
-    ui->cropStepCheckBox->setChecked(m_configuration.isCropStepOn);
+    ui->grepStepCheckBox->setChecked(m_configuration.isGrepStepOn);    ui->cropStepCheckBox->setChecked(m_configuration.isCropStepOn);
     ui->filterSubStepCheckBox->setChecked(m_configuration.isFilterSubStepOn);
     ui->tcomCheckBox->setChecked(m_configuration.isGrepTcomEnabled);
-    ui->errCheckBox->setChecked(m_configuration.isGrepErrEnabled);
-    ui->errWrnNoSpamCheckBox->setChecked(m_configuration.isGrepErrWrnNoSpamEnabled);
+    ui->errCheckBox->setChecked(m_configuration.isGrepErrEnabled);    ui->errWrnNoSpamCheckBox->setChecked(m_configuration.isGrepErrWrnNoSpamEnabled);
     ui->btsStatusCheckBox->setChecked(m_configuration.isGrepBtsStatusEnabled);
     ui->recoveryCheckBox->setChecked(m_configuration.isGrepRecoveryEnabled);
     ui->allocationCheckBox->setChecked(m_configuration.isGrepAllocationEnabled);
@@ -87,15 +83,13 @@ void WcdmaTools::updateGuiUsingConfiguration()
     ui->filterConditionTextBox->setText(QString::fromStdString(m_configuration.filterGrepCondition));
     ui->otherTextBox->setText(QString::fromStdString(m_configuration.otherGrepCondition));
     ui->prioritizedLogConditionTextBox->setText(QString::fromStdString(m_configuration.prioritizedLogCondition));
-    ui->cropSizeTextBox->setText(QString::fromStdString(converter.convert(m_configuration.cropSize)));
+    ui->cropSizeTextBox->setText(QString::fromStdString(convertToString(m_configuration.cropSize)));
     updateFilterConditionTextBox(m_configuration.isFilterSubStepOn);
     setReadOnlyForLineEdit(ui->grepFinalConditionTextBox, true);
-    updateGrepFinalCondition();
-}
+    updateGrepFinalCondition();}
 
 void WcdmaTools::updateProgressBar()
-{
-    ui->progressBar->setValue(ProgressCounters::getOverAllProgress());
+{    ui->progressBar->setValue(ProgressCounters::getOverAllProgress());
 }
 
 void WcdmaTools::updateFilterConditionTextBox(bool const isFilterSubStepOn)
@@ -393,5 +387,5 @@ void WcdmaTools::on_prioritizedLogConditionTextBox_editingFinished()
 
 void WcdmaTools::on_cropSizeTextBox_editingFinished()
 {
-    m_configuration.cropSize = stringHelper::convertStringToNumber<double>(ui->cropSizeTextBox->text().toStdString());
+    m_configuration.cropSize = convertStringToNumber<double>(ui->cropSizeTextBox->text().toStdString());
 }
