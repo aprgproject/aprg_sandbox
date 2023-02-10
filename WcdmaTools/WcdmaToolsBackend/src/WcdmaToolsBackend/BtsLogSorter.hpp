@@ -53,9 +53,8 @@ private:
     alba::algorithm::AlbaLargeSorter<BtsLogPrint> m_sorterWithoutPcTime;
     std::string m_directoryOfLogsWithoutPcTime;
     std::string m_pathOfStartupLog;
-    alba::AlbaOptional<std::ofstream> m_startupLogStreamOptional;
+    std::optional<std::ofstream> m_startupLogStreamOptional;
     BtsLogPrint m_currentPrintToWrite;
     std::set<std::string> m_foundHardwareAddresses;
 };
-
 }
