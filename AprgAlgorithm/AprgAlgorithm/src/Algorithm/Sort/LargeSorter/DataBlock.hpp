@@ -11,10 +11,12 @@
 #include <optional>
 #include <string>
 
-namespace alba{
+namespace alba
+{
 
 namespace algorithm
 {
+
 enum class DataBlockType
 {
     Empty,
@@ -67,10 +69,12 @@ public:
             numberOfObjectsInMemory = m_memoryBlockHandler->getContainerConstReference().size();
         }
         return numberOfObjectsInMemory;
-    }    ObjectToSort getLowestObject() const
+    }
+    ObjectToSort getLowestObject() const
     {
         return m_lowestValue;
-    }    bool isFileStreamOpened() const
+    }
+    bool isFileStreamOpened() const
     {
         bool isOpened = false;
         if(m_blockFileHandler)
@@ -78,7 +82,8 @@ public:
             isOpened = m_blockFileHandler->isFileStreamOpened();
         }
         return isOpened;
-    }    void add(ObjectToSort const& objectToSort)
+    }
+    void add(ObjectToSort const& objectToSort)
     {
         switch(m_blockType)
         {
@@ -95,7 +100,8 @@ public:
             m_memoryBlockHandler->add(objectToSort);
             break;
         }
-        setLowestObjectIfNeeded(objectToSort);        m_numberOfObjects++;
+        setLowestObjectIfNeeded(objectToSort);
+        m_numberOfObjects++;
     }
     void addAtTheStart(ObjectToSort const& objectToSort)
     {
@@ -110,7 +116,8 @@ public:
         MemoryContainer & contents(m_memoryBlockHandler->getContainerReference());
         std::stable_sort(contents.begin(), contents.end());
         for(ObjectToSort const& objectToSort : contents)
-        {            doFunctionForAllObjects(objectToSort);
+        {
+            doFunctionForAllObjects(objectToSort);
         }
         clearAll();
     }
@@ -120,10 +127,12 @@ public:
         MemoryContainer & contents(m_memoryBlockHandler->getContainerReference());
         typename MemoryContainer::iterator iteratorForStart = contents.begin();
         for(unsigned int const& index : indexes)
-        {            typename MemoryContainer::iterator iteratorForNext = contents.begin()+index;
+        {
+            typename MemoryContainer::iterator iteratorForNext = contents.begin()+index;
             std::nth_element(iteratorForStart, iteratorForNext, contents.end());
             iteratorForStart = iteratorForNext;
-        }        for(ObjectToSort const& objectToSort : contents)
+        }
+        for(ObjectToSort const& objectToSort : contents)
         {
             doFunctionForAllObjects(objectToSort);
         }
@@ -142,7 +151,8 @@ public:
         m_memoryBlockHandler.reset();
         m_blockType = DataBlockType::File;
     }
-    void switchToMemoryMode()    {
+    void switchToMemoryMode()
+    {
         createMemoryHandlerIfNeeded();
         if(m_blockFileHandler)
         {
@@ -160,7 +170,8 @@ public:
         m_blockFileHandler->releaseFileStream();
     }
 
-private:    void createMemoryHandlerIfNeeded()
+private:
+    void createMemoryHandlerIfNeeded()
     {
         if(!m_memoryBlockHandler)
         {
@@ -180,10 +191,12 @@ private:    void createMemoryHandlerIfNeeded()
         m_blockFileHandler.reset();
         m_blockType = DataBlockType::Empty;
         m_numberOfObjects = 0;
-    }    void setLowestObjectIfNeeded(ObjectToSort const& objectToSort)
+    }
+    void setLowestObjectIfNeeded(ObjectToSort const& objectToSort)
     {
         if(objectToSort < m_lowestValue || m_numberOfObjects == 0)
-        {            m_lowestValue = objectToSort;
+        {
+            m_lowestValue = objectToSort;
         }
     }
     DataBlockType m_blockType;
@@ -196,4 +209,5 @@ private:    void createMemoryHandlerIfNeeded()
 };
 
 }
+
 }//namespace alba

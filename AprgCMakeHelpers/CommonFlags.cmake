@@ -14,7 +14,8 @@ set(APRG_COMPILER_FLAGS_FOR_DEBUG_WITH_MSAN "-g --coverage -fsanitize=memory -fn
 set(APRG_COMPILER_FLAGS_FOR_DEBUG_WITH_UBSAN "-g --coverage -fsanitize=undefined") # looks like not working
 set(APRG_COMPILER_FLAGS_FOR_RELEASE_WITH_SPEED "-O3 -DNDEBUG")
 set(APRG_COMPILER_FLAGS_FOR_RELEASE_WITH_MIN_SIZE "-Os -DNDEBUG")
-set(APRG_COMPILER_FLAGS_FOR_RELEASE_WITH_DEBUG "-O2 -g -DNDEBUG")set(APRG_COMPILER_FLAGS_FOR_RELEASE_WITH_MORE_SPEED "-Ofast -DNDEBUG")
+set(APRG_COMPILER_FLAGS_FOR_RELEASE_WITH_DEBUG "-O2 -g -DNDEBUG")
+set(APRG_COMPILER_FLAGS_FOR_RELEASE_WITH_MORE_SPEED "-Ofast -DNDEBUG")
 set(APRG_COMPILER_FLAGS_FOR_RELEASE_WITH_STACK_PROTECTOR "-fstack-protector -DNDEBUG")
 set(APRG_COMPILER_FLAGS_WINDOWS_NON_CONSOLE "-mwindows")
 set(APRG_LINKER_FLAGS_FOR_RELEASE "-static") # "-static" is needed to make the program work in other deployments (GCC/QT libraries are missing in other deployments)
@@ -29,10 +30,12 @@ set(APRG_LINKER_FLAGS_WITH_UBSAN "-fsanitize=undefined") #Looks like this link f
 
 
 #APRG Common flags
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${APRG_COMPILER_COMMON_FLAGS} ${APRG_COMPILER_COMMON_C_FLAGS}")set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${APRG_COMPILER_COMMON_FLAGS} ${APRG_COMPILER_COMMON_CPP_FLAGS}")
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${APRG_COMPILER_COMMON_FLAGS} ${APRG_COMPILER_COMMON_C_FLAGS}")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${APRG_COMPILER_COMMON_FLAGS} ${APRG_COMPILER_COMMON_CPP_FLAGS}")
 
 # Some notes
-# Sources:# --> https://gcc.gnu.org/onlinedocs/gcc/Option-Summary.html
+# Sources:
+# --> https://gcc.gnu.org/onlinedocs/gcc/Option-Summary.html
 # --> https://caiorss.github.io/C-Cpp-Notes/compiler-flags-options.html
 
 # Search Path and Library Linking Flags
@@ -78,10 +81,12 @@ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${APRG_COMPILER_COMMON_FLAGS} ${APRG_COMPILE
 # --> -c: Compiler source(s) to object-code (input to linker). This option is better for incremental compilation when using multiple files.
 # --> -shared: Build a shared library (.so or .dylib on U*nix-like Oses) or .dll on MS-Windows.
 # --> -fno-exceptions: Disable C++ exceptions (it may be better for embedded systems or anything where exceptiions may not be acceptable).
-# --> -fno-rtti:  Disable RTTI (Runtime Type Information)# There many texts around where game and embedded systems developers report that they disable RTTI due to performance concerns.
+# --> -fno-rtti:  Disable RTTI (Runtime Type Information)
+# There many texts around where game and embedded systems developers report that they disable RTTI due to performance concerns.
 # --> -fvisibility=hidden: Make library symbols hidden by default, in a similar way to what happens in Windows DLLs
 # where exported symbols must have the prefix __declspec(dllexport) or __declspec(dllimport).
 # When all symbols are exported by default, it may increase the likelyhood of undefined behavior if there a multiple definitions of same symbol during linking.
+
 
 
 # Compiler Flags:
@@ -214,9 +219,11 @@ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${APRG_COMPILER_COMMON_FLAGS} ${APRG_COMPILE
 
 
 #  Linker Flags
+
 # Flag: "-Xlinker option"
 # --> Pass option as an option to the linker. You can use this to supply system-specific linker options that GCC does not recognize.
-# --> If you want to pass an option that takes a separate argument, you must use -Xlinker twice, once for the option and once for the argument.# For example, to pass -assert definitions, you must write -Xlinker -assert -Xlinker definitions.
+# --> If you want to pass an option that takes a separate argument, you must use -Xlinker twice, once for the option and once for the argument.
+# For example, to pass -assert definitions, you must write -Xlinker -assert -Xlinker definitions.
 # It does not work to write -Xlinker "-assert definitions", because this passes the entire string as a single argument, which is not what the linker expects.
 # --> When using the GNU linker, it is usually more convenient to pass arguments to linker options using the option=value syntax than as separate arguments. For example, you can specify -Xlinker -Map=output.map rather than -Xlinker -Map -Xlinker output.map. Other linkers may not support this syntax for command-line options.
 
@@ -411,3 +418,4 @@ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${APRG_COMPILER_COMMON_FLAGS} ${APRG_COMPILE
 # % clang++ -fsanitize=signed-integer-overflow,null,alignment -fno-sanitize-recover=null -fsanitize-trap=alignment
 # the program will continue execution after signed integer overflows,
 # exit after the first invalid use of a null pointer, and trap after the first use of misaligned pointer.
+

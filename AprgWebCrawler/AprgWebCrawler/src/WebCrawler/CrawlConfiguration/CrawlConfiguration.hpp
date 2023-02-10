@@ -1,7 +1,8 @@
 #pragma once
 
-#include <Common/Container/AlbaOptional.hpp>
 #include <WebCrawler/CrawlMode.hpp>
+
+#include <optional>
 
 namespace aprgWebCrawler
 {
@@ -11,7 +12,7 @@ struct DownloadLowSpeedLimitConfiguration
     int m_lowSpeedLimit;
     int m_lowSpeedTime;
 };
-typedef alba::AlbaOptional<DownloadLowSpeedLimitConfiguration> DownloadLowSpeedLimitConfigurationOptional;
+typedef std::optional<DownloadLowSpeedLimitConfiguration> DownloadLowSpeedLimitConfigurationOptional;
 
 class CrawlConfiguration
 {

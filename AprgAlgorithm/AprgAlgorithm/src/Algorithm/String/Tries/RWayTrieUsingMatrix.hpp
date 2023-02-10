@@ -124,7 +124,8 @@ public:
     {
         DisplayTable table;
         table.setBorders("-","|");
-        table.addRow();        table.getLastRow().addCell(" ");
+        table.addRow();
+        table.getLastRow().addCell(" ");
         for(unsigned int c=0; c<RADIX; c++)
         {
             if(stringHelper::isDisplayableCharacter(c))
@@ -132,7 +133,8 @@ public:
                 table.getLastRow().addCell(stringHelper::convertToString(static_cast<char>(c)));
             }
             else
-            {                table.getLastRow().addCell(" ");
+            {
+                table.getLastRow().addCell(" ");
             }
         }
         for(unsigned int y=0; y<m_nodePointerMatrix.getNumberOfRows(); y++)
@@ -147,7 +149,8 @@ public:
                     table.getLastRow().addCell(stringHelper::convertToString(nodePointer->nextNodeId));
                 }
                 else
-                {                    table.getLastRow().addCell(" ");
+                {
+                    table.getLastRow().addCell(" ");
                 }
             }
         }
@@ -157,9 +160,11 @@ public:
     }
 
 private:
+
     bool isValidNodeId(NodeId const nodeId) const
     {
-        return nodeId < m_nodePointerMatrix.getNumberOfRows();    }
+        return nodeId < m_nodePointerMatrix.getNumberOfRows();
+    }
 
     bool isNodeEmpty(NodeId const nodeId) const
     {

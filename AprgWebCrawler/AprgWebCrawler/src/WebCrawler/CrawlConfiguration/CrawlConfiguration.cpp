@@ -16,9 +16,9 @@ CrawlConfiguration::CrawlConfiguration(CrawlMode const mode)
         m_isFileToBeDownloadUntilSuccessful=false;
         m_numberOfRetries = 10;
         m_minimumFileSize = 0;
-        m_lowSpeedLimitOptional.createObjectUsingDefaultConstructor();
-        m_lowSpeedLimitOptional.getReference().m_lowSpeedLimit=1000;
-        m_lowSpeedLimitOptional.getReference().m_lowSpeedTime=10;
+        m_lowSpeedLimitOptional.emplace();
+        m_lowSpeedLimitOptional->m_lowSpeedLimit=1000;
+        m_lowSpeedLimitOptional->m_lowSpeedTime=10;
         break;
     case CrawlMode::DoujinMoe:
     case CrawlMode::GuroManga:

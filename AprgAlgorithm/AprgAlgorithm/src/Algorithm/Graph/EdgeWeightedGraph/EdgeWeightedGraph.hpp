@@ -8,8 +8,10 @@
 
 namespace alba
 {
+
 namespace algorithm
 {
+
 template <typename Vertex, typename Weight, typename Graph>
 class EdgeWeightedGraph : public Graph
 {
@@ -64,10 +66,12 @@ public:
 
     void connect(Vertex const& vertex1, Vertex const& vertex2, Weight const& weight)
     {
-        BaseClass::connect(vertex1, vertex2);        m_edgeToWeightMap[createEdgeInMap(vertex1, vertex2)] = weight;
+        BaseClass::connect(vertex1, vertex2);
+        m_edgeToWeightMap[createEdgeInMap(vertex1, vertex2)] = weight;
     }
 
-    void disconnect(Vertex const& vertex1, Vertex const& vertex2) override    {
+    void disconnect(Vertex const& vertex1, Vertex const& vertex2) override
+    {
         BaseClass::disconnect(vertex1, vertex2);
         m_edgeToWeightMap.erase(createEdgeInMap(vertex1, vertex2));
     }
@@ -115,6 +119,7 @@ private:
 
     EdgeToWeightMap m_edgeToWeightMap;
 };
+
 }
 
 }

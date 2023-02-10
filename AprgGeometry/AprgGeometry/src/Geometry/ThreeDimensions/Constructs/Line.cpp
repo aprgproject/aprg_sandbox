@@ -157,9 +157,11 @@ optional<double> Line::calculateZFromY(double const y) const
 {
     return calculateOtherCoordinate(m_zInitialValue, m_cCoefficient, m_yInitialValue, m_bCoefficient, y);
 }
+
 void Line::calculateAndSaveInitialValuesIfPossible(Point const& first)
 {
-    if(!isInvalid())    {
+    if(!isInvalid())
+    {
         double minimizedMultiplierForInitialValue=0;
         if(!isAlmostEqual(m_aCoefficient+m_bCoefficient+m_cCoefficient, 0.0))
         {
@@ -205,9 +207,11 @@ optional<double> Line::calculateOtherCoordinate(double const& initialValue1, dou
     }
     return result;
 }
+
 bool Line::areAllCoefficientsZero() const
 {
-    return isAlmostEqual(m_aCoefficient, 0.0) && isAlmostEqual(m_cCoefficient, 0.0) && isAlmostEqual(m_cCoefficient, 0.0);}
+    return isAlmostEqual(m_aCoefficient, 0.0) && isAlmostEqual(m_cCoefficient, 0.0) && isAlmostEqual(m_cCoefficient, 0.0);
+}
 
 ostream & operator<<(ostream & out, Line const& line)
 {

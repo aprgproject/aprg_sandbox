@@ -8,8 +8,10 @@
 
 namespace alba
 {
+
 namespace algorithm
 {
+
 template <typename Vertex>
 class UndirectedGraphWithVertexToAdjacencyListsMap : public BaseUndirectedGraph<Vertex>
 {
@@ -120,10 +122,12 @@ public:
 
     void connect(Vertex const& vertex1, Vertex const& vertex2) override
     {
-        if(!isDirectlyConnected(vertex1, vertex2))        {
+        if(!isDirectlyConnected(vertex1, vertex2))
+        {
             m_numberOfEdges++;
             m_adjacencyLists[vertex1].emplace(vertex2);
-            m_adjacencyLists[vertex2].emplace(vertex1);        }
+            m_adjacencyLists[vertex2].emplace(vertex1);
+        }
     }
 
     void disconnect(Vertex const& vertex1, Vertex const& vertex2) override
@@ -164,6 +168,7 @@ protected:
     unsigned int m_numberOfEdges;
     AdjacencyLists m_adjacencyLists;
 };
+
 }
 
 }

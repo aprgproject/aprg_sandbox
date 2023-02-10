@@ -92,10 +92,12 @@ public:
 
     void connect(Vertex const& vertex1, Vertex const& vertex2) override
     {
-        if(!isDirectlyConnected(vertex1, vertex2))        {
+        if(!isDirectlyConnected(vertex1, vertex2))
+        {
             if(!hasAnyConnection(vertex1))
             {
-                m_numberOfVertices++;            }
+                m_numberOfVertices++;
+            }
             if(!hasAnyConnection(vertex2))
             {
                 m_numberOfVertices++;
@@ -154,7 +156,9 @@ protected:
 
     unsigned int m_numberOfVertices;
     unsigned int m_numberOfEdges;
-    AdjacencyLists m_adjacencyLists;};
+    AdjacencyLists m_adjacencyLists;
+};
 
 }
+
 }

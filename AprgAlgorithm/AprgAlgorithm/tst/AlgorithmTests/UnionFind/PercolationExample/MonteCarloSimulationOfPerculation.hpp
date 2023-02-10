@@ -12,8 +12,10 @@ using namespace alba::stringHelper;
 
 namespace alba
 {
+
 namespace algorithm
 {
+
 template <unsigned int DIMENSION>
 class MonteCarloSimulationOfPerculation
 {
@@ -52,10 +54,12 @@ public:
         return convertToString(displayTable);
     }
 
-    void addOpenSitesUntilItPercolates()    {
+    void addOpenSitesUntilItPercolates()
+    {
         while(!isPercolated())
         {
-            addOpenSite();        }
+            addOpenSite();
+        }
     }
 
     void addOpenSite()

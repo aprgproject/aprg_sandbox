@@ -57,4 +57,5 @@ private:
     BtsLogPrint m_currentPrintToWrite;
     std::set<std::string> m_foundHardwareAddresses;
 };
+
 }

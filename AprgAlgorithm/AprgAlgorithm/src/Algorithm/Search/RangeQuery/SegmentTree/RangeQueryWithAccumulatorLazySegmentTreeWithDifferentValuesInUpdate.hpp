@@ -4,10 +4,12 @@
 #include <Algorithm/Utilities/MidpointOfIndexes.hpp>
 #include <Common/Math/Helpers/ComputationHelpers.hpp>
 
-namespace alba{
+namespace alba
+{
 
 namespace algorithm
 {
+
 template <typename Values>
 class RangeQueryWithAccumulatorLazySegmentTreeWithDifferentValuesInUpdate
         : private RangeQueryWithStaticSegmentTree<Values>
@@ -25,10 +27,12 @@ public:
     using PendingUpdateDetail = std::optional<UpdateDetail>;
     using PendingUpdateDetails = std::vector<PendingUpdateDetail>;
 
-    RangeQueryWithAccumulatorLazySegmentTreeWithDifferentValuesInUpdate(            Values const& valuesToCheck,
+    RangeQueryWithAccumulatorLazySegmentTreeWithDifferentValuesInUpdate(
+            Values const& valuesToCheck,
             Function const& functionObject,
             IncrementFunction const& incrementFunction)
-        : BaseClass(valuesToCheck, functionObject)        , b_startOfChildren(BaseClass::m_startOfChildren)
+        : BaseClass(valuesToCheck, functionObject)
+        , b_startOfChildren(BaseClass::m_startOfChildren)
         , b_treeValues(BaseClass::m_treeValues)
         , b_function(BaseClass::m_function)
         , m_incrementFunction(incrementFunction)
@@ -113,9 +117,11 @@ private:
             m_startIndexesForPendingUpdates[currentChild] = startInterval;
         }
         else
-        {            Index intersectionLeft = std::max(startInterval, baseLeft);
+        {
+            Index intersectionLeft = std::max(startInterval, baseLeft);
             Index intersectionRight = std::min(endInterval, baseRight);
             increment(b_treeValues[currentChild], startInterval, intersectionLeft, intersectionRight);
+
             Index baseMidPoint = getMidpointOfIndexes(baseLeft, baseRight);
             bool doesLeftPartIntersect = !(endInterval<baseLeft || startInterval>baseMidPoint);
             bool doesRightPartIntersect = !(endInterval<baseMidPoint+1 || startInterval>baseRight);
@@ -153,9 +159,11 @@ private:
             }
         }
     }
+
     inline void incrementOrUpdateAtIndex(
             Index const index,
-            Index const baseLeft,            Index const baseRight,
+            Index const baseLeft,
+            Index const baseRight,
             PendingUpdateDetail const& startIndexForPendingUpdate)
     {
         if(isAParent(index))
@@ -168,9 +176,11 @@ private:
             increment(b_treeValues[index], startIndexForPendingUpdate.value(), baseLeft, baseRight);
         }
     }
+
     inline void increment(Value & valueToChange, Index const startIndex, Index const left, Index const right) const
     {
-        Index numberOfChildren = b_treeValues.size() - b_startOfChildren;        Index startInterval = std::min(left, numberOfChildren-1) - startIndex;
+        Index numberOfChildren = b_treeValues.size() - b_startOfChildren;
+        Index startInterval = std::min(left, numberOfChildren-1) - startIndex;
         Index endInterval = std::min(right, numberOfChildren-1) - startIndex;
         valueToChange = b_function(valueToChange, m_incrementFunction(startInterval, endInterval));
     }

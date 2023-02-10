@@ -185,21 +185,19 @@ void UserInterface::inputDownloadDirectoryTask()
 
 void UserInterface::copyWorkingDirectoriesToChoices(AlbaUserInterface::Choices<string> & choices)
 {
-    stringHelper::NumberToStringConverter converter;
     unsigned int displayedIndex(0);
     for(string const& workingDirectory : m_workingDirectories)
     {
-        choices.emplace(converter.convert<unsigned int>(displayedIndex++), workingDirectory);
+        choices.emplace(convertToString(displayedIndex++), workingDirectory);
     }
 }
 
 void UserInterface::copyDownloadDirectoriesToChoices(AlbaUserInterface::Choices<string> & choices)
 {
-    stringHelper::NumberToStringConverter converter;
     unsigned int displayedIndex(0);
     for(DownloadDirectoryDetails const& downloadDirectoryDetails : m_downloadDirectories)
     {
-        choices.emplace(converter.convert<unsigned int>(displayedIndex++), downloadDirectoryDetails.downloadDirectory+" "+downloadDirectoryDetails.modeString+" "+downloadDirectoryDetails.stateString);
+        choices.emplace(convertToString(displayedIndex++), downloadDirectoryDetails.downloadDirectory+" "+downloadDirectoryDetails.modeString+" "+downloadDirectoryDetails.stateString);
     }
 }
 

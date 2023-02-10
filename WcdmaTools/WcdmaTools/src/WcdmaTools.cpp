@@ -12,10 +12,12 @@ using namespace alba;
 using namespace alba::stringHelper;
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 namespace ProgressCounters
-{extern int getOverAllProgress();
+{
+extern int getOverAllProgress();
 extern void resetProgressCounters();
 }
 
@@ -52,10 +54,12 @@ void WcdmaTools::updateGuiUsingConfiguration()
 {
     ui->extractStepCheckBox->setChecked(m_configuration.isExtractStepOn);
     ui->combineAndSortStepCheckBox->setChecked(m_configuration.isCombineAndSortStepOn);
-    ui->grepStepCheckBox->setChecked(m_configuration.isGrepStepOn);    ui->cropStepCheckBox->setChecked(m_configuration.isCropStepOn);
+    ui->grepStepCheckBox->setChecked(m_configuration.isGrepStepOn);
+    ui->cropStepCheckBox->setChecked(m_configuration.isCropStepOn);
     ui->filterSubStepCheckBox->setChecked(m_configuration.isFilterSubStepOn);
     ui->tcomCheckBox->setChecked(m_configuration.isGrepTcomEnabled);
-    ui->errCheckBox->setChecked(m_configuration.isGrepErrEnabled);    ui->errWrnNoSpamCheckBox->setChecked(m_configuration.isGrepErrWrnNoSpamEnabled);
+    ui->errCheckBox->setChecked(m_configuration.isGrepErrEnabled);
+    ui->errWrnNoSpamCheckBox->setChecked(m_configuration.isGrepErrWrnNoSpamEnabled);
     ui->btsStatusCheckBox->setChecked(m_configuration.isGrepBtsStatusEnabled);
     ui->recoveryCheckBox->setChecked(m_configuration.isGrepRecoveryEnabled);
     ui->allocationCheckBox->setChecked(m_configuration.isGrepAllocationEnabled);
@@ -86,10 +90,12 @@ void WcdmaTools::updateGuiUsingConfiguration()
     ui->cropSizeTextBox->setText(QString::fromStdString(convertToString(m_configuration.cropSize)));
     updateFilterConditionTextBox(m_configuration.isFilterSubStepOn);
     setReadOnlyForLineEdit(ui->grepFinalConditionTextBox, true);
-    updateGrepFinalCondition();}
+    updateGrepFinalCondition();
+}
 
 void WcdmaTools::updateProgressBar()
-{    ui->progressBar->setValue(ProgressCounters::getOverAllProgress());
+{
+    ui->progressBar->setValue(ProgressCounters::getOverAllProgress());
 }
 
 void WcdmaTools::updateFilterConditionTextBox(bool const isFilterSubStepOn)

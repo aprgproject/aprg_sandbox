@@ -8,8 +8,10 @@
 
 namespace alba
 {
+
 namespace algorithm
 {
+
 template <typename Vertex, typename FlowDataType, typename DirectedGraph>
 class FlowNetwork : public DirectedGraph
 {
@@ -181,10 +183,12 @@ public:
 
     void connect(Vertex const& vertex1, Vertex const& vertex2, FlowDataType const& capacity, FlowDataType const& flow)
     {
-        connect(vertex1, vertex2);        m_edgeToFlowEdgeDetailsMap[Edge{vertex1, vertex2}] = {capacity, flow};
+        connect(vertex1, vertex2);
+        m_edgeToFlowEdgeDetailsMap[Edge{vertex1, vertex2}] = {capacity, flow};
     }
 
-    void disconnect(Vertex const& vertex1, Vertex const& vertex2) override    {
+    void disconnect(Vertex const& vertex1, Vertex const& vertex2) override
+    {
         BaseClass::disconnect(vertex1, vertex2);
         m_edgeToFlowEdgeDetailsMap.erase({vertex1, vertex2});
     }
@@ -248,6 +252,7 @@ private:
 
     EdgeToFlowEdgeDetailsMap m_edgeToFlowEdgeDetailsMap;
 };
+
 }
 
 }

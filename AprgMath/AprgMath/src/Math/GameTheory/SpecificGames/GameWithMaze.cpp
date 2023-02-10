@@ -128,10 +128,12 @@ string GameWithMaze::getString()
     return ss.str();
 }
 
-SetOfUnsignedIntegers GameWithMaze::getNextGrundyNumbers(        Coordinate const& coordinate)
+SetOfUnsignedIntegers GameWithMaze::getNextGrundyNumbers(
+        Coordinate const& coordinate)
 {
     SetOfUnsignedIntegers result;
-    Coordinates nextCoorindates(getNextCoordinates(coordinate));    transform(nextCoorindates.cbegin(), nextCoorindates.cend(), inserter(result, result.begin()),
+    Coordinates nextCoorindates(getNextCoordinates(coordinate));
+    transform(nextCoorindates.cbegin(), nextCoorindates.cend(), inserter(result, result.begin()),
               [&](Coordinate const& nextCoordinate)
     {
         return getGrundyNumberAt(nextCoordinate);

@@ -7,8 +7,10 @@
 
 namespace alba
 {
+
 namespace algorithm
 {
+
 template <typename Vertex>
 class DirectedGraphWithListOfEdges : public BaseDirectedGraph<Vertex>
 {
@@ -72,10 +74,12 @@ public:
 
     void connect(Vertex const& sourceVertex, Vertex const& destinationVertex) override
     {
-        if(!isDirectlyConnected(sourceVertex, destinationVertex))        {
+        if(!isDirectlyConnected(sourceVertex, destinationVertex))
+        {
             m_numberOfEdges++;
             m_edges.emplace(sourceVertex, destinationVertex);
-        }    }
+        }
+    }
 
     void disconnect(Vertex const& sourceVertex, Vertex const& destinationVertex) override
     {
@@ -107,10 +111,12 @@ protected:
 
     SetOfVertices getUniqueVertices() const
     {
-        SetOfVertices uniqueVertices;        for(auto const& edge : m_edges)
+        SetOfVertices uniqueVertices;
+        for(auto const& edge : m_edges)
         {
             uniqueVertices.emplace(edge.first);
-            uniqueVertices.emplace(edge.second);        }
+            uniqueVertices.emplace(edge.second);
+        }
         return uniqueVertices;
     }
     unsigned int m_numberOfEdges;

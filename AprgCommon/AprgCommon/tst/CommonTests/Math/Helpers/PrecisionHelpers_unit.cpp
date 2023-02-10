@@ -8,10 +8,12 @@
 using namespace alba::AlbaNumberConstants;
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 namespace mathHelper
 {
+
 TEST(PrecisionHelpersTest, IntegerTypesCanBeConsideredEqual)
 {
     EXPECT_TRUE(isAlmostEqual(static_cast<int>(100), static_cast<int>(100)));
@@ -110,9 +112,11 @@ TEST(PrecisionHelpersTest, IsValueWithinUnsignedLongLongIntegerLimitsWorks)
     EXPECT_TRUE(isValueWithinLimits<unsigned long long int>(static_cast<double>(ULLONG_MAX)));
     EXPECT_FALSE(isValueWithinLimits<unsigned long long int>(static_cast<double>(ULLONG_MAX)*2));
 }
+
 TEST(PrecisionHelpersTest, IsValueBeyondLimitsWorksForInteger)
 {
-    EXPECT_TRUE(isValueBeyondLimits<int>(static_cast<double>(INT_MIN)-1));    EXPECT_FALSE(isValueBeyondLimits<int>(INT_MIN));
+    EXPECT_TRUE(isValueBeyondLimits<int>(static_cast<double>(INT_MIN)-1));
+    EXPECT_FALSE(isValueBeyondLimits<int>(INT_MIN));
     EXPECT_FALSE(isValueBeyondLimits<int>(1000));
     EXPECT_FALSE(isValueBeyondLimits<int>(INT_MAX));
     EXPECT_TRUE(isValueBeyondLimits<int>(static_cast<double>(INT_MAX)+1));
@@ -171,9 +175,11 @@ TEST(PrecisionHelpersTest, IsValueBeyondUnsignedLongLongIntegerLimitsWorks)
     EXPECT_FALSE(isValueBeyondLimits<unsigned long long int>(static_cast<double>(ULLONG_MAX)));
     EXPECT_TRUE(isValueBeyondLimits<unsigned long long int>(static_cast<double>(ULLONG_MAX)*2));
 }
+
 TEST(PrecisionHelpersTest, GetIntegerAfterRoundingADoubleValueWorks)
 {
-    EXPECT_EQ(0, getIntegerAfterRoundingADoubleValue<int>(0));    EXPECT_EQ(1, getIntegerAfterRoundingADoubleValue<int>(1));
+    EXPECT_EQ(0, getIntegerAfterRoundingADoubleValue<int>(0));
+    EXPECT_EQ(1, getIntegerAfterRoundingADoubleValue<int>(1));
     EXPECT_EQ(2, getIntegerAfterRoundingADoubleValue<int>(1.5));
     EXPECT_EQ(-2, getIntegerAfterRoundingADoubleValue<int>(-1.5));
     EXPECT_EQ(652, getIntegerAfterRoundingADoubleValue<int>(652.426542));
@@ -264,4 +270,5 @@ TEST(PrecisionHelpersTest, ConvertIfInfinityToNearestFiniteValueWorks)
 }
 
 }
+
 }

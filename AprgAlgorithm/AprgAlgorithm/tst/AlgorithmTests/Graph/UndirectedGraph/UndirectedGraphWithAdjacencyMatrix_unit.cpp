@@ -9,8 +9,10 @@ using namespace alba::stringHelper;
 
 namespace alba
 {
+
 namespace algorithm
 {
+
 namespace
 {
 using GraphForTest = UndirectedGraphWithAdjacencyMatrix<unsigned int, 13>;
@@ -124,6 +126,7 @@ TEST(UndirectedGraphWithAdjacencyMatrixTest, ComplicatedTestWorks)
 TEST(UndirectedGraphWithAdjacencyMatrixTest, OutputStreamOperatorWorks)
 {
     UndirectedGraphWithAdjacencyMatrix<unsigned int, 3> graph;
+
     graph.connect(0U, 1U);
     graph.connect(0U, 2U);
 
@@ -133,4 +136,5 @@ TEST(UndirectedGraphWithAdjacencyMatrixTest, OutputStreamOperatorWorks)
 }
 
 }
+
 }

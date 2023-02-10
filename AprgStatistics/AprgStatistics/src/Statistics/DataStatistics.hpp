@@ -9,9 +9,11 @@
 
 namespace alba
 {
+
 template <unsigned int DIMENSIONS>
 class DataStatistics
-{public:
+{
+public:
     using Sample = DataSample<DIMENSIONS>;
     using Samples = std::vector<Sample>;
     using StatisticsUtilities = DataStatisticsUtilities<DIMENSIONS>;
@@ -20,6 +22,7 @@ class DataStatistics
 
     DataStatistics()
     {}
+
     DataStatistics(Samples const& samples)
         : m_samples(samples)
     {}
@@ -35,7 +38,8 @@ class DataStatistics
         m_dispersionAroundTheCentroid.reset();
     }
 
-    Samples const& getSamples() const    {
+    Samples const& getSamples() const
+    {
         return m_samples;
     }
 
@@ -81,13 +85,15 @@ class DataStatistics
         return m_dispersionAroundTheCentroid.value();
     }
 
-protected:    void calculateSumIfNeeded()
+protected:
+    void calculateSumIfNeeded()
     {
         if(!m_sum)
         {
             m_sum = StatisticsUtilities::calculateSum(m_samples);
         }
     }
+
     void calculateMeanIfNeeded()
     {
         if(!m_mean)
@@ -97,9 +103,11 @@ protected:    void calculateSumIfNeeded()
             m_mean = m_sum.value()/sampleSize;
         }
     }
+
     void calculateSampleVarianceIfNeeded()
     {
-        calculateVarianceIfNeeded(m_sampleVariance, m_samples.size()-1);    }
+        calculateVarianceIfNeeded(m_sampleVariance, m_samples.size()-1);
+    }
 
     void calculateSampleStandardDeviationIfNeeded()
     {
@@ -137,6 +145,7 @@ protected:    void calculateSumIfNeeded()
             }
         }
     }
+
     void calculateStandardDeviationIfNeeded(SampleOptional & standardDeviation, SampleOptional & variance, unsigned int sampleSize)
     {
         if(!standardDeviation)
@@ -147,6 +156,7 @@ protected:    void calculateSumIfNeeded()
             standardDeviation = standardDeviationTemp;
         }
     }
+
     void calculateDispersionAroundTheCentroidIfNeeded()
     {
         if(!m_dispersionAroundTheCentroid)
@@ -157,9 +167,11 @@ protected:    void calculateSumIfNeeded()
             m_dispersionAroundTheCentroid = pow((double)dispersionCalculationTemp.getSum(), 0.5);
         }
     }
+
     SampleOptional m_sum;
     SampleOptional m_mean;
-    SampleOptional m_sampleVariance;    SampleOptional m_sampleStandardDeviation;
+    SampleOptional m_sampleVariance;
+    SampleOptional m_sampleStandardDeviation;
     SampleOptional m_populationVariance;
     SampleOptional m_populationStandardDeviation;
     DoubleOptional m_dispersionAroundTheCentroid;

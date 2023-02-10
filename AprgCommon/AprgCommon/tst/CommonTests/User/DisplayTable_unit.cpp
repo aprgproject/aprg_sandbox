@@ -6,10 +6,12 @@
 using namespace alba::stringHelper;
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 TEST(DisplayTableTest, TableCanOutputProvideText)
-{    DisplayTable table;
+{
+    DisplayTable table;
 
     table.addRow();
     table.getLastRow().addCell("Test");
@@ -17,7 +19,8 @@ TEST(DisplayTableTest, TableCanOutputProvideText)
     EXPECT_EQ("Test\n", convertToString(table));
 }
 
-TEST(DisplayTableTest, TableCanOutputTextWithBorders){
+TEST(DisplayTableTest, TableCanOutputTextWithBorders)
+{
     DisplayTable table;
 
     table.setBorders("X","X");
@@ -27,10 +30,12 @@ TEST(DisplayTableTest, TableCanOutputTextWithBorders){
     EXPECT_EQ("XXXXXX\nXTestX\nXXXXXX\n", convertToString(table));
 }
 
-TEST(DisplayTableTest, TableCanOutputTextFor3by3Table){
+TEST(DisplayTableTest, TableCanOutputTextFor3by3Table)
+{
     DisplayTable table;
 
-    table.setBorders("-","|");    table.addRow();
+    table.setBorders("-","|");
+    table.addRow();
     table.getLastRow().addCell("1000");
     table.getLastRow().addCell("2");
     table.getLastRow().addCell("3");
@@ -47,10 +52,12 @@ TEST(DisplayTableTest, TableCanOutputTextFor3by3Table){
               convertToString(table));
 }
 
-TEST(DisplayTableTest, CellWithAlignmentCanBeAdded){
+TEST(DisplayTableTest, CellWithAlignmentCanBeAdded)
+{
     DisplayTable table;
 
-    table.addRow();    table.getLastRow().addCell("12345");
+    table.addRow();
+    table.getLastRow().addCell("12345");
     table.addRow();
     table.getLastRow().addCell("C", DisplayTableCellMode::center);
     table.addRow();
@@ -63,10 +70,12 @@ TEST(DisplayTableTest, CellWithAlignmentCanBeAdded){
     EXPECT_EQ("12345\n  C  \nL    \n    R\n  J  \n", convertToString(table));
 }
 
-TEST(DisplayTableTest, CanBeConstructedWithNumberOfColumnsAndRows){
+TEST(DisplayTableTest, CanBeConstructedWithNumberOfColumnsAndRows)
+{
     DisplayTable table(2U, 3U);
 
-    table.setBorders("-","|");    table.getCellReferenceAt(0U, 0U).setText("(0,0)");
+    table.setBorders("-","|");
+    table.getCellReferenceAt(0U, 0U).setText("(0,0)");
     table.getCellReferenceAt(0U, 1U).setText("(0,1)");
     table.getCellReferenceAt(0U, 2U).setText("(0,2)");
     table.getCellReferenceAt(1U, 0U).setText("(1,0)");

@@ -6,10 +6,12 @@
 #include <optional>
 #include <string>
 
-namespace alba{
+namespace alba
+{
 
 class AlbaCropFile
-{public:
+{
+public:
     struct LocationsInFile
     {
         double startLocation;

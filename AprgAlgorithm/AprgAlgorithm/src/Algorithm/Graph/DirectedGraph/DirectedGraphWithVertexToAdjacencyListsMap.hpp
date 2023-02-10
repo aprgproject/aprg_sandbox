@@ -8,8 +8,10 @@
 
 namespace alba
 {
+
 namespace algorithm
 {
+
 template <typename Vertex>
 class DirectedGraphWithVertexToAdjacencyListsMap : public BaseDirectedGraph<Vertex>
 {
@@ -88,10 +90,12 @@ public:
 
     void connect(Vertex const& sourceVertex, Vertex const& destinationVertex) override
     {
-        if(!isDirectlyConnected(sourceVertex, destinationVertex))        {
+        if(!isDirectlyConnected(sourceVertex, destinationVertex))
+        {
             m_numberOfEdges++;
             m_adjacencyLists[sourceVertex].emplace(destinationVertex);
-        }    }
+        }
+    }
 
     void disconnect(Vertex const& sourceVertex, Vertex const& destinationVertex) override
     {
@@ -112,10 +116,12 @@ protected:
 
     SetOfVertices getUniqueVertices() const
     {
-        SetOfVertices uniqueVertices;        for(auto const& vertexAndAdjacencyListPair : m_adjacencyLists)
+        SetOfVertices uniqueVertices;
+        for(auto const& vertexAndAdjacencyListPair : m_adjacencyLists)
         {
             Vertex const& sourceVertex(vertexAndAdjacencyListPair.first);
-            AdjacencyList const& adjacencyList(vertexAndAdjacencyListPair.second);            uniqueVertices.emplace(sourceVertex);
+            AdjacencyList const& adjacencyList(vertexAndAdjacencyListPair.second);
+            uniqueVertices.emplace(sourceVertex);
             std::copy(adjacencyList.cbegin(), adjacencyList.cend(), std::inserter(uniqueVertices, uniqueVertices.cbegin()));
         }
         return uniqueVertices;
@@ -141,6 +147,7 @@ protected:
     unsigned int m_numberOfEdges;
     AdjacencyLists m_adjacencyLists;
 };
+
 }
 
 }

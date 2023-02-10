@@ -7,8 +7,10 @@
 
 using namespace alba::stringHelper;
 using namespace std;
+
 namespace alba
 {
+
 DisplayTableCell::DisplayTableCell()
     : m_displayText()
     , m_horizontalMode(DisplayTableCellMode::center)
@@ -68,9 +70,11 @@ unsigned int DisplayTableRow::getCharacters() const
     });
 }
 
-Cells const& DisplayTableRow::getCells() const{
+Cells const& DisplayTableRow::getCells() const
+{
     return m_cells;
 }
+
 DisplayTableCell const& DisplayTableRow::getCellAt(unsigned int const columnIndex) const
 {
     return m_cells.at(columnIndex);
@@ -160,10 +164,12 @@ void DisplayTable::setBorders(string const& horizontalBorder, string const& vert
 
 string DisplayTable::getCellTextWithDesiredLength(DisplayTableCell const& cell, unsigned int const desiredLength) const
 {
-    DisplayTableCellMode mode = cell.getHorizontalMode();    string result;
+    DisplayTableCellMode mode = cell.getHorizontalMode();
+    string result;
     switch(mode)
     {
-    case DisplayTableCellMode::justify:        result = getStringWithJustifyAlignment(cell.getText(), desiredLength);
+    case DisplayTableCellMode::justify:
+        result = getStringWithJustifyAlignment(cell.getText(), desiredLength);
         break;
     case DisplayTableCellMode::center:
         result = getStringWithCenterAlignment(cell.getText(), desiredLength);
@@ -187,9 +193,11 @@ string DisplayTable::getHorizontalBorderLine(unsigned int const totalColumnLengt
     }
     return result;
 }
+
 string DisplayTable::getVerticalBorderPoint() const
 {
-    return m_verticalBorder;}
+    return m_verticalBorder;
+}
 
 unsigned int DisplayTable::getVerticalBorderLength() const
 {

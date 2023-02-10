@@ -10,8 +10,10 @@
 
 namespace alba
 {
+
 namespace algorithm
 {
+
 template <typename ObjectToSort>
 class DataBlocks
 {

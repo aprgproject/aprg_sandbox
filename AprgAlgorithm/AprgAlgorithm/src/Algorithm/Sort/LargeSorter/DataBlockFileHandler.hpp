@@ -7,10 +7,12 @@
 #include <optional>
 #include <string>
 
-namespace alba{
+namespace alba
+{
 
 namespace algorithm
 {
+
 template <typename ObjectToSort>
 class DataBlockFileHandler
 {
@@ -34,9 +36,11 @@ public:
         }
         return false;
     }
+
     void openFileIfNeeded(std::string const& path)
     {
-        if(!m_fileOptional)        {
+        if(!m_fileOptional)
+        {
             AlbaLocalPathHandler filePathHandler(path);
             //filePathHandler.createDirectoriesForNonExisitingDirectories(); //is this needed?
             m_path = filePathHandler.getFullPath();
@@ -44,7 +48,8 @@ public:
             std::ofstream & fileStream (m_fileOptional.value());
             fileStream.open(m_path, std::ios::ate|std::ios::app);
             assert(!fileStream.fail());
-        }    }
+        }
+    }
 
     void add(ObjectToSort const& objectToSort)
     {
@@ -63,4 +68,5 @@ private:
 };
 
 }
+
 }//namespace alba

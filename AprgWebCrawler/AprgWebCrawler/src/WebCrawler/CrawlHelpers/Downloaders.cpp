@@ -26,8 +26,8 @@ bool Downloaders::downloadBinaryFile(
     DownloadLowSpeedLimitConfigurationOptional downloadLowSpeedLimitConfigurationOptional(configuration.getDownloadLowSpeedLimitConfigurationOptional());
     if(downloadLowSpeedLimitConfigurationOptional)
     {
-        curl::CurlInterface::lowSpeedLimit = downloadLowSpeedLimitConfigurationOptional.getReference().m_lowSpeedLimit;
-        curl::CurlInterface::lowSpeedTime = downloadLowSpeedLimitConfigurationOptional.getReference().m_lowSpeedTime;
+        curl::CurlInterface::lowSpeedLimit = downloadLowSpeedLimitConfigurationOptional->m_lowSpeedLimit;
+        curl::CurlInterface::lowSpeedTime = downloadLowSpeedLimitConfigurationOptional->m_lowSpeedTime;
     }
     if(configuration.isFileToBeDownloadUntilSuccessful())
     {

@@ -115,10 +115,12 @@ public:
 
     AdjacencyMatrix const& getAdjacencyMatrix() const
     {
-        return m_adjacencyMatrix;    }
+        return m_adjacencyMatrix;
+    }
 
     void connect(Vertex const& vertex1, Vertex const& vertex2) override
-    {        if(!isDirectlyConnected(vertex1, vertex2))
+    {
+        if(!isDirectlyConnected(vertex1, vertex2))
         {
             m_numberOfEdges++;
             m_adjacencyMatrix.setEntry(vertex1, vertex2, true);
@@ -164,6 +166,7 @@ protected:
     unsigned int m_numberOfEdges;
     AdjacencyMatrix m_adjacencyMatrix; // vertex by adjacent matrix
 };
+
 }
 
 }

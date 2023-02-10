@@ -9,8 +9,10 @@ using namespace alba::stringHelper;
 
 namespace alba
 {
+
 namespace algorithm
 {
+
 namespace
 {
 using GraphForTest = DirectedGraphWithVertexToAdjacencyListsMap<unsigned int>;
@@ -127,4 +129,5 @@ TEST(DirectedGraphWithVertexToAdjacencyListsMapTest, OutputStreamOperatorWorks)
 }
 
 }
+
 }

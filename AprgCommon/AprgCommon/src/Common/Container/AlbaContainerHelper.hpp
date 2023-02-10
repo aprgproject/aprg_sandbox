@@ -422,10 +422,12 @@ std::string getStringFromContentsWithNumberFormat(Container<ValueType> const& co
     std::ostream_iterator<unsigned int> outputIterator(result, delimeter.c_str());
 
     result<<"Decimal values: {"<<std::dec;
-    std::copy(container.cbegin(), container.cend(), outputIterator);    result<<"}\n";
+    std::copy(container.cbegin(), container.cend(), outputIterator);
+    result<<"}\n";
 
     result<<"Hexadecimal values: {"<<std::hex;
-    std::copy(container.cbegin(), container.cend(), outputIterator);    result<<"}\n";
+    std::copy(container.cbegin(), container.cend(), outputIterator);
+    result<<"}\n";
 
     return result.str();
 }

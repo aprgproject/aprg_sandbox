@@ -6,8 +6,10 @@
 #include <optional>
 #include <utility>
 #include <vector>
+
 namespace alba
 {
+
 namespace AprgAudio
 {
 
@@ -27,7 +29,9 @@ using Indexes=std::vector<unsigned int>;
 using DoubleOptional=std::optional<double>;
 using Samples=std::vector<double>;
 using AudioInDouble=Audio<double>;
+
 using ValuesToIndexes=std::multimap<double, unsigned int>;
 
 }
+
 }

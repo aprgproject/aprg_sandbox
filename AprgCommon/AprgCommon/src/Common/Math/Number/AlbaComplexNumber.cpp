@@ -9,10 +9,12 @@
 #include <cassert>
 #include <cmath>
 
-using namespace alba::mathHelper;using namespace std;
+using namespace alba::mathHelper;
+using namespace std;
 
 namespace alba
 {
+
 template <typename DataType>
 AlbaComplexNumber<DataType>::AlbaComplexNumber()
     : m_realPart(0)

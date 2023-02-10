@@ -8,10 +8,12 @@
 #include <Common/String/AlbaStringHelper.hpp>
 #include <Common/User/DisplayTable.hpp>
 
-#include <cassert>#include <functional>
+#include <cassert>
+#include <functional>
 #include <sstream>
 
-namespace alba{
+namespace alba
+{
 
 namespace matrix
 {
@@ -188,10 +190,12 @@ public:
 
     void retrieveColumn(MatrixData & column, unsigned int const x) const
     {
-        column.reserve(m_numberOfRows);        for(unsigned int y=0; y<m_numberOfRows; y++)
+        column.reserve(m_numberOfRows);
+        for(unsigned int y=0; y<m_numberOfRows; y++)
         {
             column.emplace_back(getEntry(x, y));
-        }    }
+        }
+    }
 
     void retrieveRow(MatrixData & row, unsigned int const y) const
     {
@@ -393,9 +397,11 @@ private:
         out << "Matrix output:\n" << table;
         return out;
     }
+
     unsigned int m_numberOfColumns;
     unsigned int m_numberOfRows;
-    MatrixData m_matrixData;};
+    MatrixData m_matrixData;
+};
 
 }
 

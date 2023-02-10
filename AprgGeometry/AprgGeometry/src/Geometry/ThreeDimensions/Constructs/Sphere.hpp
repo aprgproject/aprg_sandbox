@@ -6,8 +6,10 @@
 
 namespace alba
 {
+
 namespace ThreeDimensions
 {
+
 class Sphere
 {
 public:
@@ -25,9 +27,11 @@ public:
 
 private:
     friend std::ostream & operator<<(std::ostream & out, Sphere const& sphere);
+
     Point m_center;
     double m_radius;
-    double m_radiusSquared;};
+    double m_radiusSquared;
+};
 
 using Spheres = std::vector<Sphere>;
 

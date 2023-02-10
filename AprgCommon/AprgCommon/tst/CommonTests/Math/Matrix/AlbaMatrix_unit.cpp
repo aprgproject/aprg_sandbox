@@ -7,10 +7,12 @@
 using namespace alba::stringHelper;
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 namespace matrix
 {
+
 TEST(AlbaMatrixTest, MatrixConstructor_AlbaMatrixCanBeCreatedByDefaultConstructor)
 {
     AlbaMatrix<unsigned int> matrix;
@@ -408,9 +410,11 @@ TEST(AlbaMatrixTest, GetMatrixDataWorks)
 
 TEST(AlbaMatrixTest, RetrieveColumnWorks)
 {
-    AlbaMatrix<unsigned int> matrix(2, 3,    {1, 2,
+    AlbaMatrix<unsigned int> matrix(2, 3,
+    {1, 2,
      3, 4,
      5, 6});
+
     AlbaMatrix<unsigned int>::MatrixData secondColumn;
     matrix.retrieveColumn(secondColumn, 1);
 

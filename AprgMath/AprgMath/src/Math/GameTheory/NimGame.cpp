@@ -4,10 +4,12 @@
 
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 namespace math
 {
+
 GameState NimGame::getGameState(NimState const& nimState)
 {
     return getGameState(getNimSum(nimState));

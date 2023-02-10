@@ -7,8 +7,10 @@
 #include <optional>
 #include <set>
 #include <vector>
+
 namespace alba
 {
+
 using AlbaNumbersSet=std::set<AlbaNumber>;
 using AlbaNumberMap=std::map<AlbaNumber, AlbaNumber>;
 using AlbaNumbers=std::vector<AlbaNumber>;

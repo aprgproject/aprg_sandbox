@@ -9,8 +9,10 @@ using namespace alba::stringHelper;
 
 namespace alba
 {
+
 namespace algorithm
 {
+
 namespace
 {
 using GraphForTest = UndirectedGraphWithArrayOfAdjacencyLists<unsigned int, 13>;
@@ -132,4 +134,5 @@ TEST(UndirectedGraphWithArrayOfAdjacencyListsTest, OutputStreamOperatorWorks)
 }
 
 }
+
 }

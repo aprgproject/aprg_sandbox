@@ -6,8 +6,10 @@
 
 namespace alba
 {
+
 namespace algorithm
 {
+
 template <typename VertexUnderlyingType, typename FlowDataTypeUnderlyingType, typename DirectedGraph>
 class SinkSourceFlowNetwork : public FlowNetwork<VertexUnderlyingType, FlowDataTypeUnderlyingType, DirectedGraph>
 {

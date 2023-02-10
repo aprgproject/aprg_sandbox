@@ -24,7 +24,8 @@ TEST(AlbaMacroArgumentCounter, StringTest)
 TEST(AlbaMacrosTest, StandardPredefinedMacrosValueTest)
 {
     EXPECT_FALSE(string(ALBA_MACROS_GET_FILE).empty());
-    EXPECT_EQ(27, ALBA_MACROS_GET_LINE);    EXPECT_FALSE(string(ALBA_MACROS_GET_COMPILATION_DATE).empty());
+    EXPECT_EQ(27, ALBA_MACROS_GET_LINE);
+    EXPECT_FALSE(string(ALBA_MACROS_GET_COMPILATION_DATE).empty());
     EXPECT_FALSE(string(ALBA_MACROS_GET_TIME_OF_TRANSLATION).empty());
     EXPECT_LT(201100, ALBA_MACROS_GET_COMPILER_VERSION); // it should be above 2011 compiler
 }
@@ -32,7 +33,8 @@ TEST(AlbaMacrosTest, StandardPredefinedMacrosValueTest)
 TEST(AlbaMacrosTest, CompilerSpecificPredefinedMacrosValueTest)
 {
     EXPECT_EQ("TestBody", string(ALBA_MACROS_GET_FUNCTION));
-    EXPECT_EQ(0, ALBA_MACROS_GET_UNIQUE_COUNTER_VALUE);    EXPECT_EQ(1, ALBA_MACROS_GET_UNIQUE_COUNTER_VALUE);
+    EXPECT_EQ(0, ALBA_MACROS_GET_UNIQUE_COUNTER_VALUE);
+    EXPECT_EQ(1, ALBA_MACROS_GET_UNIQUE_COUNTER_VALUE);
     EXPECT_EQ(2, ALBA_MACROS_GET_UNIQUE_COUNTER_VALUE);
     EXPECT_EQ(3, ALBA_MACROS_GET_UNIQUE_COUNTER_VALUE);
 }
@@ -47,9 +49,11 @@ TEST(AlbaMacrosTest, DisplayMessageTest)
 TEST(AlbaMacrosTest, GetStringLiteral)
 {
     enum class SampleEnumClass
-    {        Type1,
+    {
+        Type1,
         Type2
     };
+
     EXPECT_EQ("12345", ALBA_MACROS_GET_STRING_LITERAL(12345));
     EXPECT_EQ("SampleEnumClass::Type1", ALBA_MACROS_GET_STRING_LITERAL(SampleEnumClass::Type1));
     EXPECT_EQ("SampleEnumClass::Type2", ALBA_MACROS_GET_STRING_LITERAL(SampleEnumClass::Type2));
@@ -58,10 +62,12 @@ TEST(AlbaMacrosTest, GetStringLiteral)
 TEST(AlbaMacrosTest, CaseEnumStringLiteral)
 {
     enum class SampleEnumClass
-    {        Type1,
+    {
+        Type1,
         Type2
     };
-    struct SampleClass    {
+    struct SampleClass
+    {
         string getString(SampleEnumClass const enumValue)
         {
             switch(enumValue)
@@ -84,10 +90,12 @@ TEST(AlbaMacrosTest, CaseEnumStringLiteral)
 TEST(AlbaMacrosTest, CaseEnumShortStringLiteral)
 {
     enum class SampleEnumClass
-    {        Type1,
+    {
+        Type1,
         Type2
     };
-    struct SampleClass    {
+    struct SampleClass
+    {
         string getString(SampleEnumClass const enumValue)
         {
             switch(enumValue)

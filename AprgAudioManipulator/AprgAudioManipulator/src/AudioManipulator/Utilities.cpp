@@ -122,9 +122,11 @@ DoubleOptional compareDeltasAndGetDifference(
     }
     return result;
 }
+
 void searchForBestSampleIndexes(
         SearchResultsDetails & replicateAndSearchIndexes,
-        unsigned int const sampleIntervalForReplication,        unsigned int const numberOfSamplesForReplication,
+        unsigned int const sampleIntervalForReplication,
+        unsigned int const numberOfSamplesForReplication,
         unsigned int const numberOfSearchSamplesPerReplication,
         Samples const& samplesToReplicate,
         Samples const& samplesToSearch)
@@ -169,10 +171,12 @@ void searchForBestSampleIndexes(
                         searchResult.minDifference=differenceOptional.value();
                         isFirst=false;
                     }
-                }            }
+                }
+            }
         }
         replicateAndSearchIndexes.emplace_back(searchResult);
-    }}
+    }
+}
 
 void searchAndTryToReplicateSamples(
         AudioInDouble & audioToChange,

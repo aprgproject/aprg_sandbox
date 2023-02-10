@@ -64,4 +64,5 @@ void AlbaGrepFile::updateAfterOneIteration(double const percentage)
         m_updateFunctionAfterOneIterationOptional.value()(percentage);
     }
 }
+
 }

@@ -6,8 +6,10 @@
 
 namespace alba
 {
+
 namespace mathHelper
 {
+
 enum class RootType
 {
     RealRootsOnly,

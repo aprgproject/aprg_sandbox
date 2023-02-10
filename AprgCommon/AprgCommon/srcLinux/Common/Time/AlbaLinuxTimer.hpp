@@ -2,9 +2,11 @@
 #pragma once
 
 #include <Common/Time/AlbaDateTime.hpp>
+
 #include <ctime>
 
-namespace alba{
+namespace alba
+{
 
 class AlbaLinuxTimer
 {

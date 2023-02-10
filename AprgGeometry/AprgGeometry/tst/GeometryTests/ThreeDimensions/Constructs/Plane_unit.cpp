@@ -60,10 +60,12 @@ TEST(PlaneTest, PlaneWithConstantZ)
     ASSERT_TRUE(plane.calculateZFromXAndY(1.0, 1.0)); EXPECT_EQ(0, plane.calculateZFromXAndY(1.0, 1.0).value());
 }
 
-TEST(PlaneTest, PlaneWithConstantY){
+TEST(PlaneTest, PlaneWithConstantY)
+{
     Plane plane(Point(1,0,1), Point(-2,0,2), Point(2,0,-1));
 
-    EXPECT_EQ(0, plane.getACoefficient());    EXPECT_EQ(-5, plane.getBCoefficient());
+    EXPECT_EQ(0, plane.getACoefficient());
+    EXPECT_EQ(-5, plane.getBCoefficient());
     EXPECT_EQ(0, plane.getCCoefficient());
     EXPECT_EQ(0, plane.getDCoefficient());
     EXPECT_FALSE(plane.getXIntercept());
@@ -73,9 +75,11 @@ TEST(PlaneTest, PlaneWithConstantY){
     ASSERT_TRUE(plane.calculateYFromXAndZ(1.0, 1.0)); EXPECT_EQ(0, plane.calculateYFromXAndZ(1.0, 1.0).value());
     EXPECT_FALSE(plane.calculateZFromXAndY(1.0, 1.0));
 }
+
 TEST(PlaneTest, PlaneWithConstantX)
 {
     Plane plane(Point(0,1,1), Point(0,-2,2), Point(0,2,-1));
+
     EXPECT_EQ(5, plane.getACoefficient());
     EXPECT_EQ(0, plane.getBCoefficient());
     EXPECT_EQ(0, plane.getCCoefficient());
@@ -87,6 +91,7 @@ TEST(PlaneTest, PlaneWithConstantX)
     EXPECT_FALSE(plane.calculateYFromXAndZ(1.0, 1.0));
     EXPECT_FALSE(plane.calculateZFromXAndY(1.0, 1.0));
 }
+
 }
 
 }

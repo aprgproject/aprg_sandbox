@@ -32,10 +32,12 @@ AlbaWindowsPathHandler::AlbaWindowsPathHandler(string const& path)
     setPath(path);
 }
 
-void AlbaWindowsPathHandler::clear(){
+void AlbaWindowsPathHandler::clear()
+{
     AlbaPathHandler::clear();
     m_driveOrRoot.clear();
-    m_foundInLocalSystem = false;    m_relativePath = false;
+    m_foundInLocalSystem = false;
+    m_relativePath = false;
 }
 
 string AlbaWindowsPathHandler::getDriveOrRoot() const
@@ -328,10 +330,12 @@ void AlbaWindowsPathHandler::save(string const& path)
 void AlbaWindowsPathHandler::setPath(string const& path)
 {
     string correctPath(getCorrectPathWithoutDoublePeriod(
-                           getCorrectPathWithReplacedSlashCharacters(                               path, m_slashCharacterString), m_slashCharacterString));
+                           getCorrectPathWithReplacedSlashCharacters(
+                               path, m_slashCharacterString), m_slashCharacterString));
     if(isSlashNeededAtTheEnd(correctPath, path))
     {
-        correctPath = getCorrectPathWithoutDoublePeriod(correctPath + m_slashCharacterString, m_slashCharacterString);    }
+        correctPath = getCorrectPathWithoutDoublePeriod(correctPath + m_slashCharacterString, m_slashCharacterString);
+    }
 
     setExtensionFromPath(correctPath);
     setDirectoryAndFileFromPath(correctPath);

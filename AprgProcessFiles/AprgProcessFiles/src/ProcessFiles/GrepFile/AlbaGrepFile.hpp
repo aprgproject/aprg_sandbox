@@ -6,10 +6,12 @@
 #include <optional>
 #include <string>
 
-namespace alba{
+namespace alba
+{
 
 class AlbaGrepFile
-{public:
+{
+public:
     using UpdateFunctionWithPercentage = std::function<void(double)>;
 
     AlbaGrepFile(std::string const& lineCondition);

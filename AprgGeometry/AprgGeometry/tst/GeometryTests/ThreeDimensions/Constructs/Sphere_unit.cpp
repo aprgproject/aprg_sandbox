@@ -32,7 +32,8 @@ TEST(SphereTest, SphereAtOriginWithRadius)
     EXPECT_EQ(optional<double>(-6.2449979983983983), sphere.calculateZFromXAndY(5, 6, -1));
 }
 
-TEST(SphereTest, SphereNotAtOriginWithRadius){
+TEST(SphereTest, SphereNotAtOriginWithRadius)
+{
     Sphere sphere(Point(1, 2, 3), 10);
 
     EXPECT_EQ(Point(1, 2, 3), sphere.getCenter());
@@ -42,10 +43,12 @@ TEST(SphereTest, SphereNotAtOriginWithRadius){
     EXPECT_EQ(optional<double>(-5.2462112512353212), sphere.calculateZFromXAndY(5, 6, -1));
 }
 
-TEST(SphereTest, IsInsideWorks){
+TEST(SphereTest, IsInsideWorks)
+{
     Sphere sphere(Point(1, 2, 3), 10);
 
-    EXPECT_TRUE(sphere.isInside(Point(0, 0, 0)));}
+    EXPECT_TRUE(sphere.isInside(Point(0, 0, 0)));
+}
 
 }
 

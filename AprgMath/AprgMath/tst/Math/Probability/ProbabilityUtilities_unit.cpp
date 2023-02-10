@@ -6,10 +6,12 @@
 using namespace alba::AlbaNumberConstants;
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 namespace math
 {
+
 TEST(ProbabilityUtilitiesTest, DoesExpectedValuesHaveLinearityWorks)
 {
     ValueAndProbabilityPairs firstPairs
@@ -33,9 +35,11 @@ TEST(ProbabilityUtilitiesTest, GetCorrectProbabilityWorks)
     EXPECT_EQ(AlbaNumber(0), getCorrectProbability(AlbaNumber::createFraction(3, 0U)));
     EXPECT_EQ(AlbaNumber(0), getCorrectProbability(AlbaNumber::createFraction(0, 0U)));
 }
+
 TEST(ProbabilityUtilitiesTest, GetProbabilityWorks)
 {
-    EXPECT_EQ(AlbaNumber(0), getProbability(0U, 0U));    EXPECT_EQ(AlbaNumber(0), getProbability(0U, 1U));
+    EXPECT_EQ(AlbaNumber(0), getProbability(0U, 0U));
+    EXPECT_EQ(AlbaNumber(0), getProbability(0U, 1U));
     EXPECT_EQ(AlbaNumber(0), getProbability(1U, 0U));
     EXPECT_EQ(AlbaNumber(0), getProbability(-11U, 0U));
     EXPECT_EQ(AlbaNumber(1), getProbability(3U, 1U));

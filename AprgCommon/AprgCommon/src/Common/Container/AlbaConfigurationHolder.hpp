@@ -59,9 +59,11 @@ public:
         // put a try catch here to ensure that it will not throw? nah, we dont use exceptions anyway
         setInThisScopeTheValuesBack();
     }
+
     void setInThisScopeThisConfiguration(
             ConfigurationDetails const& configurationDetails) const
-    {        AlbaConfigurationHolder<ConfigurationDetails>::getInstance().setConfigurationDetails(configurationDetails);
+    {
+        AlbaConfigurationHolder<ConfigurationDetails>::getInstance().setConfigurationDetails(configurationDetails);
     }
 
 private:

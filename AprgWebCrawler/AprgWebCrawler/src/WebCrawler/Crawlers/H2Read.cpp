@@ -42,8 +42,7 @@ void OneDownloadPerPageCrawler::retrieveLinksForH2Read(AlbaWebPathHandler const&
             else if(isStringFoundInsideTheOtherStringCaseSensitive(lineInHtmlFile, R"('currentURL' : ')"))
             {
                 index++;
-                NumberToStringConverter converter;
-                m_linkForNextHtml = getStringInBetweenTwoStrings(lineInHtmlFile, R"('currentURL' : ')", R"(',)")+converter.convert<unsigned int>(index);
+                m_linkForNextHtml = getStringInBetweenTwoStrings(lineInHtmlFile, R"('currentURL' : ')", R"(',)")+convertToString(index);
             }
         }
         AlbaWebPathHandler imageWebPathHandler(webLinkPathHandler);

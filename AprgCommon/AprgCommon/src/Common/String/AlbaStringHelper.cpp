@@ -8,10 +8,12 @@
 #include <cstring>
 #include <functional>
 #include <numeric>
-#include <set>#include <sstream>
+#include <set>
+#include <sstream>
 
 using namespace alba::mathHelper;
 using namespace std;
+
 namespace alba
 {
 
@@ -469,6 +471,7 @@ string getStringWithoutCharAtTheEnd(string const& mainString, char const char1)
     unsigned int end = (length == 0) ? 0 : (mainString[length-1] == char1) ? length-1 : length;
     return mainString.substr(0, end);
 }
+
 string getStringWithoutOpeningClosingOperators(string const& mainString, char const openingOperator, char const closingOperator)
 {
     unsigned int length = mainString.length();
@@ -476,9 +479,11 @@ string getStringWithoutOpeningClosingOperators(string const& mainString, char co
     unsigned int end = (length == 0) ? 0 : (mainString[length-1] == closingOperator) ? length-1 : length;
     return mainString.substr(start, end-start);
 }
+
 string getLongestCommonPrefix(string const& first, string const& second)
 {
-    unsigned int i=0;    for(; i<first.length() && i<second.length(); i++)
+    unsigned int i=0;
+    for(; i<first.length() && i<second.length(); i++)
     {
         if(first.at(i) != second.at(i))
         {
@@ -648,10 +653,12 @@ string getRandomAlphaNumericString(unsigned int const length)
     int alphaNumericCharMapIndexMax = static_cast<int>(strlen(ALPHA_NUMERIC_CHAR_MAP))-1;
     string result;
     result.reserve(length);
-    generate_n(back_inserter(result), length, [&]()    {
+    generate_n(back_inserter(result), length, [&]()
+    {
         return ALPHA_NUMERIC_CHAR_MAP[static_cast<unsigned int>(randomizer.getRandomValueInUniformDistribution(0, alphaNumericCharMapIndexMax))];
     });
-    return result;}
+    return result;
+}
 
 strings getArgumentsToStringInMain(int const argc, char const * const argv[])
 {
@@ -797,10 +804,12 @@ void splitToStringsUsingASeriesOfDelimeters(strings & listOfStrings, string cons
             unsigned int delimiterIndex = mainString.find(delimeter, startingIndexOfFind);
             if(isNpos(static_cast<int>(delimiterIndex)))
             {
-                break;            }
+                break;
+            }
             if(startingIndexOfFind != delimiterIndex)
             {
-                listOfStrings.emplace_back(mainString.substr(startingIndexOfFind, delimiterIndex-startingIndexOfFind));            }
+                listOfStrings.emplace_back(mainString.substr(startingIndexOfFind, delimiterIndex-startingIndexOfFind));
+            }
             startingIndexOfFind = delimiterIndex + delimeter.length();
         }
         if(startingIndexOfFind != mainStringLength)
@@ -1122,4 +1131,5 @@ void StringConverterWithFormatting::setMaximumLength(unsigned int const maximumL
 }
 
 }//namespace stringHelper
+
 }//namespace alba

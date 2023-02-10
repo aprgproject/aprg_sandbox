@@ -12,7 +12,8 @@ TEST(UniqueVariantTest, AcquiringVariantTypeInvokesDefaultConstructor)
     {
         ExampleStructure1()
             : unsignedField(0)
-            , floatField(0.F)        {}
+            , floatField(0.F)
+        {}
 
         unsigned unsignedField;
         float floatField;
@@ -22,10 +23,12 @@ TEST(UniqueVariantTest, AcquiringVariantTypeInvokesDefaultConstructor)
     {
         ExampleStructure2()
             : doubleField(0.0)
-            , charField('\0')        {}
+            , charField('\0')
+        {}
 
         double doubleField;
-        char charField;    };
+        char charField;
+    };
 
     UniqueVariant<ExampleStructure1, ExampleStructure2> variant;
 
@@ -40,6 +43,7 @@ TEST(UniqueVariantTest, AcquiringVariantTypeInvokesDefaultConstructor)
     ASSERT_EQ('\0', exampleStructure2.charField);
 }
 
+
 class DestructorClass : public VariantDataType
 {
 public:
@@ -47,10 +51,12 @@ public:
     ~DestructorClass()
     {
         s_destructorInvoked = true;
-    }};
+    }
+};
 bool DestructorClass::s_destructorInvoked = false;
 
-TEST(UniqueVariantTest, AcquiringVariantTypeDifferentThanAlreadyInVariantInvokesDestructor){
+TEST(UniqueVariantTest, AcquiringVariantTypeDifferentThanAlreadyInVariantInvokesDestructor)
+{
     // Given
     UniqueVariant<DestructorClass, VariantDataType> variant;
 
@@ -92,10 +98,12 @@ TEST(UniqueVariantTest, PolymorphismIsSupportedByUniqueVariant)
         int getValue() const override
         {
             return valueFromTest;
-        }    };
+        }
+    };
 
     // When
-    UniqueVariant<Derived> variant;    Base & baseRef = variant.acquire<Derived>();
+    UniqueVariant<Derived> variant;
+    Base & baseRef = variant.acquire<Derived>();
 
     // Then
     ASSERT_EQ(valueFromTest, baseRef.getValue());

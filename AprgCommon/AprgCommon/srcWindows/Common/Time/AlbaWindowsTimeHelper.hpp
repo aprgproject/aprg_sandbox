@@ -10,3 +10,4 @@ namespace alba
 AlbaDateTime convertSystemTimeToAlbaDateTime(SYSTEMTIME const& systemTime);
 
 }//namespace alba
+

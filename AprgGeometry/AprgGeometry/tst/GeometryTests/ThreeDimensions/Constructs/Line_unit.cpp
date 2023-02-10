@@ -68,9 +68,11 @@ TEST(ThreeDimensionsLineTest, HorizontalLine)
     ASSERT_TRUE(line.calculateZFromX(1)); EXPECT_EQ(-2, line.calculateZFromX(1).value());
     EXPECT_FALSE(line.calculateZFromY(1));
 }
+
 TEST(ThreeDimensionsLineTest, VerticalLine)
 {
     Line line(Point(2,-3, 6), Point(2,3, -6));
+
     EXPECT_FALSE(line.isInvalid());
     EXPECT_EQ(0, line.getACoefficient());
     EXPECT_EQ(6, line.getBCoefficient());
@@ -86,10 +88,12 @@ TEST(ThreeDimensionsLineTest, VerticalLine)
     ASSERT_TRUE(line.calculateZFromY(1)); EXPECT_EQ(-2, line.calculateZFromY(1).value());
 }
 
-TEST(ThreeDimensionsLineTest, ParallelWithZAxis){
+TEST(ThreeDimensionsLineTest, ParallelWithZAxis)
+{
     Line line(Point(-2,4,6), Point(2,-4,6));
 
-    EXPECT_FALSE(line.isInvalid());    EXPECT_EQ(4, line.getACoefficient());
+    EXPECT_FALSE(line.isInvalid());
+    EXPECT_EQ(4, line.getACoefficient());
     EXPECT_EQ(-8, line.getBCoefficient());
     EXPECT_EQ(0, line.getCCoefficient());
     EXPECT_EQ(6, line.getXInitialValue());
@@ -103,10 +107,12 @@ TEST(ThreeDimensionsLineTest, ParallelWithZAxis){
     ASSERT_TRUE(line.calculateZFromY(1)); EXPECT_EQ(6, line.calculateZFromY(1).value());
 }
 
-TEST(ThreeDimensionsLineTest, LineNotParallelWithXYZAxis){
+TEST(ThreeDimensionsLineTest, LineNotParallelWithXYZAxis)
+{
     Line line(Point(2,4,5), Point(3,3,3));
 
-    EXPECT_FALSE(line.isInvalid());    EXPECT_EQ(-1, line.getACoefficient());
+    EXPECT_FALSE(line.isInvalid());
+    EXPECT_EQ(-1, line.getACoefficient());
     EXPECT_EQ(1, line.getBCoefficient());
     EXPECT_EQ(2, line.getCCoefficient());
     EXPECT_EQ(7.5, line.getXInitialValue());
@@ -120,10 +126,12 @@ TEST(ThreeDimensionsLineTest, LineNotParallelWithXYZAxis){
     ASSERT_TRUE(line.calculateZFromY(1)); EXPECT_EQ(-1, line.calculateZFromY(1).value());
 }
 
-TEST(ThreeDimensionsLineTest, LineWithSlopeSet){
+TEST(ThreeDimensionsLineTest, LineWithSlopeSet)
+{
     Line line(3, 2, 1, Point(1,2,3));
 
-    EXPECT_FALSE(line.isInvalid());    EXPECT_EQ(3, line.getACoefficient());
+    EXPECT_FALSE(line.isInvalid());
+    EXPECT_EQ(3, line.getACoefficient());
     EXPECT_EQ(2, line.getBCoefficient());
     EXPECT_EQ(1, line.getCCoefficient());
     EXPECT_EQ(-2, line.getXInitialValue());
@@ -137,10 +145,12 @@ TEST(ThreeDimensionsLineTest, LineWithSlopeSet){
     ASSERT_TRUE(line.calculateZFromY(1)); EXPECT_EQ(2.5, line.calculateZFromY(1).value());
 }
 
-TEST(ThreeDimensionsLineTest, LineWithSumOfCoefficientsEqualToZero){
+TEST(ThreeDimensionsLineTest, LineWithSumOfCoefficientsEqualToZero)
+{
     Line line(-2, 1, 1, Point(1,0,0));
 
-    EXPECT_FALSE(line.isInvalid());    EXPECT_EQ(-2, line.getACoefficient());
+    EXPECT_FALSE(line.isInvalid());
+    EXPECT_EQ(-2, line.getACoefficient());
     EXPECT_EQ(1, line.getBCoefficient());
     EXPECT_EQ(1, line.getCCoefficient());
     EXPECT_EQ(1, line.getXInitialValue());
@@ -154,10 +164,12 @@ TEST(ThreeDimensionsLineTest, LineWithSumOfCoefficientsEqualToZero){
     ASSERT_TRUE(line.calculateZFromY(1)); EXPECT_EQ(1, line.calculateZFromY(1).value());
 }
 
-TEST(ThreeDimensionsLineTest, LineWithSomeZeroCoefficientWorks){
+TEST(ThreeDimensionsLineTest, LineWithSomeZeroCoefficientWorks)
+{
     Line line(Point(0,40,0), Point(40,0,0));
 
-    EXPECT_FALSE(line.isInvalid());    EXPECT_EQ(40, line.getACoefficient());
+    EXPECT_FALSE(line.isInvalid());
+    EXPECT_EQ(40, line.getACoefficient());
     EXPECT_EQ(-40, line.getBCoefficient());
     EXPECT_EQ(0, line.getCCoefficient());
     EXPECT_EQ(40, line.getXInitialValue());

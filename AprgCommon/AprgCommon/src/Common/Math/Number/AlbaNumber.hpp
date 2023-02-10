@@ -19,10 +19,12 @@ public:
 
     enum class Type
     {
-        Integer,        Double,
+        Integer,
+        Double,
         Fraction,
         ComplexNumber
-    };    struct FractionData
+    };
+    struct FractionData
     {
         int numerator;
         unsigned int denominator;
@@ -47,9 +49,11 @@ public:
     };
     class Configuration
             : public AlbaConfigurationHolder<ConfigurationDetails>
-    {    public:
+    {
+    public:
         using BaseConfigurationHolder=AlbaConfigurationHolder<ConfigurationDetails>;
         static ConfigurationDetails getConfigurationDetailsWithZeroTolerance();
+
         void setConfigurationTolerancesToZero();
         void setComparisonTolerance(double const comparisonTolerance);
         void setFloatAdjustmentTolerance(double const comparisonTolerance);
@@ -112,10 +116,12 @@ public:
     // This should be constexpr as well but a lot of coding is needed
     bool operator==(AlbaNumber const& second) const;
     bool operator!=(AlbaNumber const& second) const;
-    bool operator<=(AlbaNumber const& second) const;    bool operator>=(AlbaNumber const& second) const;
+    bool operator<=(AlbaNumber const& second) const;
+    bool operator>=(AlbaNumber const& second) const;
     bool operator<(AlbaNumber const& second) const;
     bool operator>(AlbaNumber const& second) const;
-    AlbaNumber operator+() const;    AlbaNumber operator-() const;
+    AlbaNumber operator+() const;
+    AlbaNumber operator-() const;
     AlbaNumber operator+(AlbaNumber const& second) const;
     AlbaNumber operator-(AlbaNumber const& second) const;
     AlbaNumber operator*(AlbaNumber const& second) const;
@@ -180,9 +186,11 @@ public:
     double getDouble() const;
     FractionData getFractionData() const;
     ComplexNumberData getComplexNumberData() const;
+
     unsigned int getNumberDataSize() const;
 
-    void convertToInteger();    void convertToFraction();
+    void convertToInteger();
+    void convertToFraction();
 
 private:
 
@@ -198,10 +206,12 @@ private:
     void constructBasedFromComplexNumberDetails(NumberType1 const realPart, NumberType2 const imaginaryPart);
 
     AlbaNumber addBothIntegersAndReturnNumber(
-            long long int const integerValue1,            long long int const integerValue2) const;
+            long long int const integerValue1,
+            long long int const integerValue2) const;
     AlbaNumber addBothDoubleAndReturnNumber(double const doubleValue1, double const doubleValue2) const;
     AlbaNumber addBothFractionsAndReturnNumber(
-            FractionData const& fractionData1,            FractionData const& fractionData2) const;
+            FractionData const& fractionData1,
+            FractionData const& fractionData2) const;
     AlbaNumber addIntegerAndDoubleAndReturnNumber(
             long long int const integerValue,
             double const doubleValue) const;
@@ -248,4 +258,5 @@ private:
 };
 
 template <> AlbaNumber::ConfigurationDetails getDefaultConfigurationDetails<AlbaNumber::ConfigurationDetails>();
+
 }

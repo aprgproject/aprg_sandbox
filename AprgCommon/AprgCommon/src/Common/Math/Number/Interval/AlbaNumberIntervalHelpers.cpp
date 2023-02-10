@@ -7,10 +7,12 @@
 using namespace alba::AlbaNumberConstants;
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 bool isValueInsideTheIntervals(AlbaNumber const innerValue, AlbaNumberIntervals const& outerIntervals)
-{    return any_of(outerIntervals.cbegin(), outerIntervals.cend(), [&](AlbaNumberInterval const& interval)
+{
+    return any_of(outerIntervals.cbegin(), outerIntervals.cend(), [&](AlbaNumberInterval const& interval)
     {
         return interval.isValueInsideTheInterval(innerValue);
     });
@@ -64,10 +66,12 @@ AlbaNumberIntervalEndpoint createNegativeInfinityOpenEndpoint()
     return createOpenEndpoint(ALBA_NUMBER_NEGATIVE_INFINITY);
 }
 
-AlbaNumberInterval createAllRealValuesInterval(){
+AlbaNumberInterval createAllRealValuesInterval()
+{
     return AlbaNumberInterval(
                 createNegativeInfinityOpenEndpoint(),
-                createPositiveInfinityOpenEndpoint());}
+                createPositiveInfinityOpenEndpoint());
+}
 
 AlbaNumbers getNumbersInsideTheInterval(
         AlbaNumbers const& numbersToCheck,

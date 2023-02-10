@@ -190,9 +190,11 @@ private:
         return out;
     }
 
-    Graph const& m_graph;    Comparator m_comparator;
+    Graph const& m_graph;
+    Comparator m_comparator;
     PathDetailsMatrix m_pathDetailsMatrix;
 };
+
 template <typename Vertex, typename Weight, typename EdgeWeightedGraph, template<class> class ComparatorTemplateType>
 std::ostream & operator<<(std::ostream & out, typename PathSearchUsingFloydWarshall<Vertex, Weight, EdgeWeightedGraph, ComparatorTemplateType>::PathDetails const& pathDetails)
 {

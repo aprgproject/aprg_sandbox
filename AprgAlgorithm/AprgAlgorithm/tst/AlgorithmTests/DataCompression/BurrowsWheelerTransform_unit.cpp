@@ -4,8 +4,10 @@
 
 using namespace alba::stringHelper;
 using namespace std;
+
 namespace alba
 {
+
 namespace algorithm
 {
 

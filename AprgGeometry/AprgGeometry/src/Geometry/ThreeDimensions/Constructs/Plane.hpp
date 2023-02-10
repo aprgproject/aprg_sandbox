@@ -5,10 +5,12 @@
 #include <optional>
 #include <vector>
 
-namespace alba{
+namespace alba
+{
 
 namespace ThreeDimensions
 {
+
 class Plane
 {
 public:
@@ -39,9 +41,11 @@ public:
 
 private:
     friend std::ostream & operator<<(std::ostream & out, Plane const& plane);
+
     void calculateDCoefficientUsingCoefficientsABCAndAPoint(Point const& first);
     double m_aCoefficient; //form: a*x + b*y + c*z + d = 0
-    double m_bCoefficient; //form: a*x + b*y + c*z + d = 0    double m_cCoefficient; //form: a*x + b*y + c*z + d = 0
+    double m_bCoefficient; //form: a*x + b*y + c*z + d = 0
+    double m_cCoefficient; //form: a*x + b*y + c*z + d = 0
     double m_dCoefficient; //form: a*x + b*y + c*z + d = 0
 };
 

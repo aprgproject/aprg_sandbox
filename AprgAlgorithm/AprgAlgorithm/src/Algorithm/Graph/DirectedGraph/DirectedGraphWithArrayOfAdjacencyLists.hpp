@@ -75,10 +75,12 @@ public:
 
     void connect(Vertex const& sourceVertex, Vertex const& destinationVertex) override
     {
-        if(!isDirectlyConnected(sourceVertex, destinationVertex))        {
+        if(!isDirectlyConnected(sourceVertex, destinationVertex))
+        {
             m_numberOfEdges++;
             m_adjacencyLists[sourceVertex].emplace(destinationVertex);
-        }    }
+        }
+    }
 
     void disconnect(Vertex const& sourceVertex, Vertex const& destinationVertex) override
     {
@@ -133,6 +135,7 @@ protected:
     unsigned int m_numberOfEdges;
     AdjacencyLists m_adjacencyLists;
 };
+
 }
 
 }

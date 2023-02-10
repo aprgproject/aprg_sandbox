@@ -56,10 +56,12 @@ bool isCoordinateValuesInLineEqual(
         result = isAlmostEqual(coordinateValueToCompare, coordinateOptionalToCompare2.value());
     }
     else
-    {        result = isAlmostEqual(coordinate2Value, coordinate2InitialValue)
+    {
+        result = isAlmostEqual(coordinate2Value, coordinate2InitialValue)
                 && isAlmostEqual(coordinate3Value, coordinate3InitialValue);
     }
-    return result;}
+    return result;
+}
 
 bool isCoordinateValuesInPlaneEqual(
         double const coordinateValueToCompare,
@@ -71,10 +73,12 @@ bool isCoordinateValuesInPlaneEqual(
         result = isAlmostEqual(coordinateValueToCompare, coordinateOptionalToCompare.value());
     }
     else
-    {        result = true;
+    {
+        result = true;
     }
     return result;
 }
+
 double getCoordinateinLineIntersection(
         double const coefficientOfCommonCoordinate1,
         double const coefficientOfCommonCoordinate2,
@@ -316,10 +320,12 @@ Line getLineOfIntersectionOfTwoPlanes(Plane const& plane1, Plane const& plane2)
     double xCoordinateIntersection = plane1.calculateXFromYAndZ(yCoordinateIntersection, 0.0).value();
     Point point1(xCoordinateIntersection, yCoordinateIntersection, 0.0);
     Point point2(point1 + Point(perpendicularVector.getValueAt(0), perpendicularVector.getValueAt(1), perpendicularVector.getValueAt(2)));
-    return Line(point1, point2);}
+    return Line(point1, point2);
+}
 
 Line getPerpendicularLineOfPlaneWithAPoint(Plane const& plane, Point const& point)
-{    return Line(plane.getACoefficient(), plane.getBCoefficient(), plane.getCCoefficient(), point.getX(), point.getY(), point.getZ());
+{
+    return Line(plane.getACoefficient(), plane.getBCoefficient(), plane.getCCoefficient(), point.getX(), point.getY(), point.getZ());
 }
 
 Line getProjectedLineInPlaneOfASkewedPlaneAndLine(Plane const& plane, Line const& line)

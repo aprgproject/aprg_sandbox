@@ -6,8 +6,10 @@
 #include <optional>
 #include <string>
 #include <vector>
+
 namespace alba
 {
+
 namespace stringHelper
 {
 using strings = std::vector<std::string>;
@@ -17,10 +19,12 @@ using StringPairs = std::vector<StringPair>;
 constexpr auto WHITESPACE_STRING = " \t\n\r";
 
 inline bool isWhiteSpace(char const c)
-{    return (' '==c || '\t'==c || '\n'==c || '\r'==c);
+{
+    return (' '==c || '\t'==c || '\n'==c || '\r'==c);
 }
 
-inline bool isNewline(char const c){
+inline bool isNewline(char const c)
+{
     return ('\n'==c || '\r'==c);
 }
 
@@ -223,9 +227,11 @@ template <char slashCharacterString> std::string getImmediateDirectoryName(std::
 // NOTE: Consider stoul, stoull, stoi, stol, stoll, stof, stod, stold for this conversions
 
 bool convertStringToBool(std::string const& stringToConvert);
-template <typename NumberType> NumberType convertStringToNumber(std::string const& stringToConvert);template <typename NumberType> NumberType convertHexCharacterToNumber(char const character);
+template <typename NumberType> NumberType convertStringToNumber(std::string const& stringToConvert);
+template <typename NumberType> NumberType convertHexCharacterToNumber(char const character);
 template <typename NumberType> NumberType convertHexStringToNumber(std::string const& stringToConvert);
 AlbaNumber convertStringToAlbaNumber(std::string const& stringToConvert);
+
 template <typename NumberType>
 NumberType convertStringToNumber(std::string const& stringToConvert)
 {
