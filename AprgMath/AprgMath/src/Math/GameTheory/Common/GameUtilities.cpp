@@ -1,13 +1,13 @@
 #include "GameUtilities.hpp"
 
+#include <numeric>
+
 using namespace std;
 
-namespace alba
-{
+namespace alba{
 
 namespace math
 {
-
 GameState reverseGameState(GameState const gameState)
 {
     if(GameState::Losing == gameState)
