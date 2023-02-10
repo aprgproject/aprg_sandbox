@@ -18,21 +18,17 @@ void AlbaRenameFiles::renameWithIncreasingNumbers(
         unsigned int const startingNumber,
         unsigned int const fieldWidth) const
 {
-    NumberToStringConverter converter;
-    converter.setFillCharacter('0');
-    converter.setFieldWidth(static_cast<int>(fieldWidth));
+    StringConverterWithFormatting converter(fieldWidth, '0');
 
     ListOfPaths listOfFiles;
-    ListOfPaths listOfDirectories;
-    m_directoryPathHandler.findFilesAndDirectoriesOneDepth("*.*", listOfFiles, listOfDirectories);
+    ListOfPaths listOfDirectories;    m_directoryPathHandler.findFilesAndDirectoriesOneDepth("*.*", listOfFiles, listOfDirectories);
 
     unsigned int count=startingNumber;
     for(string const& file : listOfFiles)
     {
         AlbaLocalPathHandler filePathHandler(file);
-        filePathHandler.renameFile(prefix+converter.convert(count++)+string(".")+filePathHandler.getExtension());
+        filePathHandler.renameFile(prefix+converter.convertToString(count++)+string(".")+filePathHandler.getExtension());
     }
-
 
 }
 

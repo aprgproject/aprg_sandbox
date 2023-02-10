@@ -136,8 +136,7 @@ void AlbaCropFile::updateAfterOneIteration(double const percentage)
 {
     if(m_updateFunctionAfterOneIterationOptional)
     {
-        m_updateFunctionAfterOneIterationOptional.get()(percentage);
+        m_updateFunctionAfterOneIterationOptional.value()(percentage);
     }
 }
-
 }
