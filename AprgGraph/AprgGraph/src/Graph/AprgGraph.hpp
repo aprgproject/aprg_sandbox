@@ -73,7 +73,7 @@ private:
     double m_lowestInterval;
     TwoDimensions::Point m_realUpLeftPoint;
     TwoDimensions::Point m_realDownRightPoint;
-    alba::stringHelper::NumberToStringConverter m_numberToStringConverter;
+    alba::stringHelper::StringConverterWithFormatting m_numberToStringConverter;
 };
 
 }
