@@ -82,18 +82,16 @@ void ChessPieceRetriever::retrieveBlackOffsetPoints(
 
 void ChessPieceRetriever::setLogFile(string const& logFilePath)
 {
-    m_logFileStreamOptional.createObjectUsingDefaultConstructor();
-    m_logFileStreamOptional.getReference().open(logFilePath);
+    m_logFileStreamOptional.emplace();
+    m_logFileStreamOptional->open(logFilePath);
 
-    if(!m_logFileStreamOptional.getReference().is_open())
+    if(!m_logFileStreamOptional->is_open())
     {
         cout << string("Cannot open log file") << logFilePath;
-    }
-}
+    }}
 
 void ChessPieceRetriever::initialize(ChessPeekConfigurationType const type)
-{
-    if(ChessPeekConfigurationType::ChessDotComUserVsUser == type
+{    if(ChessPeekConfigurationType::ChessDotComUserVsUser == type
             || ChessPeekConfigurationType::ChessDotComUserVsComputer == type)
     {
         initializeConverterToChessDotCom();
