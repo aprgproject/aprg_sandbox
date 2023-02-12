@@ -1,19 +1,17 @@
 #pragma once
 
-#include <Common/Container/AlbaOptional.hpp>
-
 #include <windows.h>
 
+#include <functional>
 #include <fstream>
 #include <mutex>
+#include <optional>
 #include <string>
 
-namespace alba
-{
+namespace alba{
 
 namespace chess
 {
-
 class ChessEngineHandler
 {
 public:
@@ -50,10 +48,9 @@ private:
     DWORD m_threadId;
     HANDLE m_inputStreamOnEngineThread, m_outputStreamOnEngineThread;
     HANDLE m_inputStreamOnHandler, m_outputStreamOnHandler;
-    AlbaOptional<std::ofstream> m_logFileStreamOptional;
-    AlbaOptional<ProcessAStringFunction> m_additionalStepsInProcessingAStringFromEngine;
+    std::optional<std::ofstream> m_logFileStreamOptional;
+    std::optional<ProcessAStringFunction> m_additionalStepsInProcessingAStringFromEngine;
 };
 
 }
-
 }
