@@ -13,13 +13,12 @@
 #include <Statistics/FrequencyStatistics.hpp>
 
 #include <algorithm>
+#include <optional>
 #include <iostream>
 #include <sstream>
-
 using namespace alba::AprgBitmap;
 using namespace alba::mathHelper;
-using namespace alba::TwoDimensions;
-using namespace alba::TwoDimensions::twoDimensionsUtilities;
+using namespace alba::TwoDimensions;using namespace alba::TwoDimensions::twoDimensionsUtilities;
 using namespace alba::FrequencyStatistics;
 using namespace alba::TwoDimensionsStatistics;
 using namespace std;
@@ -32,45 +31,42 @@ namespace soosa
 
 /*namespace // for debug
 {
-AlbaOptional<BitmapSnippet> s_debugSnippetOptional;
+
+optional<BitmapSnippet> s_debugSnippetOptional;
 
 void enableDebugSnippet(Bitmap const& bitmap)
 {
-    s_debugSnippetOptional.setConstReference(bitmap.getSnippetReadFromFileWholeBitmap());
+    s_debugSnippetOptional = bitmap.getSnippetReadFromFileWholeBitmap();
 }
 
 void writePointInDebug(BitmapXY const& point, unsigned int const color)
 {
-    BitmapSnippet & debugSnippet(s_debugSnippetOptional.getReference());
+    BitmapSnippet & debugSnippet(s_debugSnippetOptional.value());
     debugSnippet.setPixelAt(BitmapXY(point.getX(), point.getY()), color);
 }
 
 void writeLineInDebug(Line const& line, unsigned int const color)
 {
-    BitmapSnippet & debugSnippet(s_debugSnippetOptional.getReference());
+    BitmapSnippet & debugSnippet(s_debugSnippetOptional.value());
     BitmapXY topLeft(0,0);
     BitmapXY bottomRight(debugSnippet.getConfiguration().getBitmapWidth()-1, debugSnippet.getConfiguration().getBitmapHeight()-1);
-
     Points points(line.getPoints(Point(topLeft.getX(), topLeft.getY()), Point(bottomRight.getX(), bottomRight.getY()), 1));
     for (Point point: points)
-    {
-        debugSnippet.setPixelAt(BitmapXY(point.getX(), point.getY()), color);
+    {        debugSnippet.setPixelAt(BitmapXY(point.getX(), point.getY()), color);
     }
 }
 
 void saveDebugSnippet(Bitmap const& bitmap)
 {
     Bitmap bitmapCopy(bitmap);
-    BitmapSnippet const& debugSnippet(s_debugSnippetOptional.getConstReference());
+    BitmapSnippet const& debugSnippet(s_debugSnippetOptional.value());
     bitmapCopy.setSnippetWriteToFile(debugSnippet);
 }
 }*/
 
-
 SOOSA::FrequencyDatabase::FrequencyDatabase(unsigned int const numberOfQuestions, unsigned int const numberOfChoices)
     : m_numberOfQuestions(numberOfQuestions)
-    , m_numberOfChoices(numberOfChoices)
-{
+    , m_numberOfChoices(numberOfChoices){
     initialize();
 }
 
