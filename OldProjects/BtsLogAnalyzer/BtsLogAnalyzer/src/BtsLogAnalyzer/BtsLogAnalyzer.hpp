@@ -1,30 +1,26 @@
 #pragma once
 
-#include <Common/Container/AlbaOptional.hpp>
 #include <WcdmaToolsBackend/BtsLogTime.hpp>
 
 #include <fstream>
 #include <map>
+#include <optional>
 #include <string>
 
-using alba::AlbaOptional;
 using wcdmaToolsBackend::BtsLogTime;
 
-namespace alba
-{
+namespace alba{
 
 struct BtsLogDelay
 {
-    AlbaOptional<BtsLogTime> startTimeOptional;
-    AlbaOptional<BtsLogTime> endTimeOptional;
+    std::optional<BtsLogTime> startTimeOptional;
+    std::optional<BtsLogTime> endTimeOptional;
 };
 
-struct UniqueId
-{
+struct UniqueId{
     UniqueId()
         : crnccId(0)
-        , nbccId(0)
-        , transactionId(0)
+        , nbccId(0)        , transactionId(0)
     {}
     int crnccId;
     int nbccId;
@@ -45,16 +41,14 @@ struct UniqueId
 
 struct WireSharkDelay
 {
-    AlbaOptional<double> startTimeOptional;
-    AlbaOptional<double> endTimeOptional;
+    std::optional<double> startTimeOptional;
+    std::optional<double> endTimeOptional;
 };
 
-class BtsLogAnalyzer
-{
+class BtsLogAnalyzer{
 public:
     BtsLogAnalyzer();
-    BtsLogAnalyzer(std::string const& pathOfOutputFile);
-    void processFileForToCountUsersWithTracing(std::string const& filePath);
+    BtsLogAnalyzer(std::string const& pathOfOutputFile);    void processFileForToCountUsersWithTracing(std::string const& filePath);
     void processDirectoryForWireSharkDelay(std::string const& directoryPath);
     void processFileForWireSharkDelay(std::string const& filePath);
     void processFileForMsgQueuingTime(std::string const& filePath);
