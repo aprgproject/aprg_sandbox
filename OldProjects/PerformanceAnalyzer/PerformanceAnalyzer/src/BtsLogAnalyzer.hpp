@@ -1,22 +1,19 @@
 #pragma once
 
-#include <Common/Container/AlbaOptional.hpp>
 #include <Common/PathHandler/AlbaLocalPathHandler.hpp>
 #include <Statistics/DataCollection.hpp>
-#include <UserIdentifiers.hpp>
-#include <WcdmaToolsBackend/BtsLogPrint.hpp>
+#include <UserIdentifiers.hpp>#include <WcdmaToolsBackend/BtsLogPrint.hpp>
 #include <WcdmaToolsBackend/BtsLogTime.hpp>
 
 #include <fstream>
 #include <map>
+#include <optional>
 #include <string>
 
-namespace alba
-{
+namespace alba{
 
 class BtsLogAnalyzer
 {
-
 public:
     enum class LogType
     {
@@ -62,14 +59,12 @@ public:
         unsigned int nbrOfEnhHsupaUsers;
         unsigned int dchUsers;
     };
-    using LogTime = alba::AlbaOptional<wcdmaToolsBackend::BtsLogTime>;
+    using LogTime = std::optional<wcdmaToolsBackend::BtsLogTime>;
     using LogTimePair = std::pair<LogTime, LogTime>;
     using LogTimePairs = std::map<alba::UserIdentifiers, LogTimePair>;
-    using UserIdentifierToPrintsAvailablePair = std::pair<alba::UserIdentifiers, PrintsAvailable>;
-    using PrintsAvailableMap = std::map<alba::UserIdentifiers, PrintsAvailable>;
+    using UserIdentifierToPrintsAvailablePair = std::pair<alba::UserIdentifiers, PrintsAvailable>;    using PrintsAvailableMap = std::map<alba::UserIdentifiers, PrintsAvailable>;
     using DspDataPair = std::pair<unsigned int, DspData>;
     using DspDataMap = std::map<unsigned int, DspData>;
-
 
     BtsLogAnalyzer();
     void clear();
@@ -119,11 +114,10 @@ private:
     DspData m_maxDspData;
     DspDataMap m_dspDataMap;
     PrintsAvailableMap m_rlSetupPrintsAvailableMap;
-    AlbaOptional<std::ofstream> messageQueueingTimeFileStreamOptional;
-    AlbaOptional<std::ofstream> rlSetupTimeFileStreamOptional;
-    AlbaOptional<std::ofstream> rlDeletionTimeFileStreamOptional;
-    AlbaOptional<std::ofstream> rlSetupPerSecondFileStreamOptional;
+    std::optional<std::ofstream> messageQueueingTimeFileStreamOptional;
+    std::optional<std::ofstream> rlSetupTimeFileStreamOptional;
+    std::optional<std::ofstream> rlDeletionTimeFileStreamOptional;
+    std::optional<std::ofstream> rlSetupPerSecondFileStreamOptional;
 
 };
-
 }

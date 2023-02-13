@@ -1,18 +1,16 @@
 #pragma once
 
-#include <Common/Container/AlbaOptional.hpp>
 #include <Common/PathHandler/AlbaLocalPathHandler.hpp>
 #include <Common/String/AlbaStringHelper.hpp>
 #include <WcdmaToolsBackend/BtsLogPrint.hpp>
 #include <WcdmaToolsBackend/BtsLogTime.hpp>
 
 #include <fstream>
+#include <optional>
 #include <string>
 #include <vector>
-
 namespace alba
 {
-
 struct LogDetails
 {
      stringHelper::strings logStrings;
