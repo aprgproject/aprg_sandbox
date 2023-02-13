@@ -6,14 +6,13 @@
 
 #include <algorithm>
 #include <iostream>
+#include <numeric>
 #include <string>
 
-using namespace std;
-using namespace DesignDocumentCreator::StringHelpers;
+using namespace std;using namespace DesignDocumentCreator::StringHelpers;
 
 namespace DesignDocumentCreator
 {
-
 Component::Component(ComponentName const componentName)
     : m_componentName(componentName)
     , m_componentNameInString(convertToString(componentName))

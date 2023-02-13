@@ -94,15 +94,13 @@ unsigned int UmlLogger::getOptimizedTargetLength(stringHelper::strings const& li
         unsigned int totalDifference(0);
         for(string const& lineInNote: linesInNote)
         {
-            totalDifference+=getDifferenceFromGreaterMultiple(targetLength, lineInNote.length());
+            totalDifference+=getDifferenceFromGreaterMultiple(targetLength, static_cast<unsigned int>(lineInNote.length()));
         }
         if(smallestDifference>totalDifference)
-        {
-            smallestDifference = totalDifference;
+        {            smallestDifference = totalDifference;
             targetLengthWithSmallestDifference = targetLength;
         }
-    }
-    return targetLengthWithSmallestDifference;
+    }    return targetLengthWithSmallestDifference;
 }
 
 string UmlLogger::getUmlLogsForStart() const
