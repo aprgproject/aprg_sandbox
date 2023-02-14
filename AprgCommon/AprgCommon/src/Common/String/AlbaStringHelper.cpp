@@ -437,15 +437,13 @@ string getStringWithoutRedundantWhiteSpace(string const& mainString)
         if(isNpos(static_cast<int>(indexNotWhiteSpace))){break;}
         unsigned int indexWhiteSpace = mainString.find_first_of(WHITESPACE_STRING, indexNotWhiteSpace);
         index = (isNotNpos(static_cast<int>(indexWhiteSpace))) ? indexWhiteSpace : length;
-        result += (!result.empty()) ? " " : string();
+        result += (!result.empty()) ? " "s : string();
         result += mainString.substr(indexNotWhiteSpace, index-indexNotWhiteSpace);
     }
-    return result;
-}
+    return result;}
 
 string getStringWithoutQuotations(string const& mainString)
-{
-    unsigned int length = mainString.length();
+{    unsigned int length = mainString.length();
     if(length>2 && mainString[0] == '\"' && mainString[length-1] == '\"')
     {
         return mainString.substr(1, length-2);
@@ -588,15 +586,13 @@ string getStringAndReplaceNonAlphanumericCharactersToUnderScore(string const& pa
     {
             if(!isPreviousCharacterNonAlphanumeric)
     {
-            partialResult += "_";
+            partialResult += "_"s;
 }
 }
-            else
-    {
+            else    {
             partialResult += currentCharacter;
 }
-            isPreviousCharacterNonAlphanumeric = !isLetterOrNumber(currentCharacter);
-            return partialResult;
+            isPreviousCharacterNonAlphanumeric = !isLetterOrNumber(currentCharacter);            return partialResult;
 });
     return correctPath;
 }
@@ -829,122 +825,118 @@ string convertWideStringToString(wstring const& wstringInput)
     return string(wstringInput.begin(), wstringInput.end());
 }
 
-string getStringWithJustifyAlignment(string const& mainString, unsigned int const length)
+string getStringWithJustifyAlignment(string const& mainString, unsigned int const targetLength)
 {
     string result;
     string noRedundantWhiteSpace(getStringWithoutRedundantWhiteSpace(mainString));
     string noWhiteSpace(getStringWithoutWhiteSpace(mainString));
     if(mainString.empty())
     {
-        string gap(length, ' ');
+        string gap(targetLength, ' ');
         result = gap;
     }
-    else if(noRedundantWhiteSpace.length()>=length)
+    else if(noRedundantWhiteSpace.length()>=targetLength)
     {
         result = noRedundantWhiteSpace;
     }
     else if(isOneWord(mainString))
     {
         unsigned int noRedundantWhiteSpaceLength = noRedundantWhiteSpace.length();
-        unsigned int gapLength = (length-noWhiteSpace.length())/(noRedundantWhiteSpaceLength+1);
+        unsigned int gapLength = (targetLength-noWhiteSpace.length())/(noRedundantWhiteSpaceLength+1);
         string gap(gapLength, ' ');
         result += gap;
-        for(unsigned int i=0; i<noRedundantWhiteSpaceLength; i++)
-        {
+        for(unsigned int i=0; i<noRedundantWhiteSpaceLength; i++)        {
             result += noRedundantWhiteSpace[i];
             result += gap;
         }
-        result += string(length-result.length(), ' ');
+        result += string(targetLength-result.length(), ' ');
     }
     else
     {
         strings actualStrings;
         splitToStrings<SplitStringType::WithoutDelimeters>(actualStrings, noRedundantWhiteSpace, " ");
         unsigned int numberOfStrings = actualStrings.size();
-        unsigned int gapLength = (length-noWhiteSpace.length())/(numberOfStrings-1);
+        unsigned int gapLength = (targetLength-noWhiteSpace.length())/(numberOfStrings-1);
         string gap(gapLength, ' ');
         for(unsigned int i=0; i<numberOfStrings; i++)
-        {
-            result += actualStrings[i];
+        {            result += actualStrings[i];
             if(i<numberOfStrings-1)
             {
                 result += gap;
             }
         }
-        result += string(length-result.length(), ' ');
+        result += string(targetLength-result.length(), ' ');
     }
     return result;
 }
 
-string getStringWithCenterAlignment(string const& mainString, unsigned int const length)
+string getStringWithCenterAlignment(string const& mainString, unsigned int const targetLength)
 {
     string result;
     string noRedundantWhiteSpace(getStringWithoutRedundantWhiteSpace(mainString));
     if(mainString.empty())
     {
-        string gap(length, ' ');
+        string gap(targetLength, ' ');
         result = gap;
     }
-    else if(noRedundantWhiteSpace.length()>=length)
+    else if(noRedundantWhiteSpace.length()>=targetLength)
     {
         result = noRedundantWhiteSpace;
     }
     else
     {
-        unsigned int gapLength = (length-noRedundantWhiteSpace.length())/2;
+        unsigned int gapLength = (targetLength-noRedundantWhiteSpace.length())/2;
         result += string(gapLength, ' ');
         result += noRedundantWhiteSpace;
-        result += string(length-result.length(), ' ');
+        result += string(targetLength-result.length(), ' ');
     }
     return result;
 }
 
-string getStringWithRightAlignment(string const& mainString, unsigned int const length)
+string getStringWithRightAlignment(string const& mainString, unsigned int const targetLength)
 {
     string result;
     string noRedundantWhiteSpace(getStringWithoutRedundantWhiteSpace(mainString));
     if(mainString.empty())
     {
-        string gap(length, ' ');
+        string gap(targetLength, ' ');
         result = gap;
     }
-    else if(noRedundantWhiteSpace.length()>=length)
+    else if(noRedundantWhiteSpace.length()>=targetLength)
     {
         result = noRedundantWhiteSpace;
     }
     else
     {
-        unsigned int gapLength = (length-noRedundantWhiteSpace.length());
+        unsigned int gapLength = (targetLength-noRedundantWhiteSpace.length());
         result += string(gapLength, ' ');
         result += noRedundantWhiteSpace;
     }
     return result;
 }
 
-string getStringWithLeftAlignment(string const& mainString, unsigned int const length)
+string getStringWithLeftAlignment(string const& mainString, unsigned int const targetLength)
 {
     string result;
     string noRedundantWhiteSpace(getStringWithoutRedundantWhiteSpace(mainString));
     if(mainString.empty())
     {
-        string gap(length, ' ');
+        string gap(targetLength, ' ');
         result = gap;
     }
-    else if(noRedundantWhiteSpace.length()>=length)
+    else if(noRedundantWhiteSpace.length()>=targetLength)
     {
         result = noRedundantWhiteSpace;
     }
     else
     {
-        unsigned int gapLength = (length-noRedundantWhiteSpace.length());
+        unsigned int gapLength = (targetLength-noRedundantWhiteSpace.length());
         result += noRedundantWhiteSpace;
         result += string(gapLength, ' ');
-    }
-    return result;
+    }    return result;
 }
 
-string getCorrectPathWithoutUrlParameters(string const& path)
-{
+string getCorrectPathWithoutUrlParameters(string const& path){
     string correctPathWithoutUrlParameters(path);
     unsigned int indexOfQuestionMark = path.find_first_of('?');
     if(isNotNpos(static_cast<int>(indexOfQuestionMark)))
@@ -995,15 +987,13 @@ string getCorrectPathWithoutDoublePeriod(string const& mainString, string const&
     {
         isDirectoryChanged = false;
         string stringToFind(slashCharacterString);
-        stringToFind += string("..");
+        stringToFind += ".."s;
         stringToFind += slashCharacterString;
         unsigned int indexOfDoublePeriod = correctPath.find(stringToFind);
-        if(isNotNpos(static_cast<int>(indexOfDoublePeriod)))
-        {
+        if(isNotNpos(static_cast<int>(indexOfDoublePeriod)))        {
             unsigned int indexOfNearestSlash = correctPath.find_last_of(slashCharacterString, indexOfDoublePeriod-1);
             if(isNotNpos(static_cast<int>(indexOfNearestSlash)))
-            {
-                isDirectoryChanged = true;
+            {                isDirectoryChanged = true;
                 correctPath.erase(indexOfNearestSlash, indexOfDoublePeriod+3-indexOfNearestSlash);
             }
         }
@@ -1013,14 +1003,12 @@ string getCorrectPathWithoutDoublePeriod(string const& mainString, string const&
 
 string getStringBeforeDoublePeriod(string const& mainString, string const& slashCharacterString)
 {
-    unsigned int indexOfLastDoublePeriod = mainString.rfind(string("..")+slashCharacterString);
+    unsigned int indexOfLastDoublePeriod = mainString.rfind(".."s + slashCharacterString);
     if(isNotNpos(static_cast<int>(indexOfLastDoublePeriod)))
     {
-        return mainString.substr(indexOfLastDoublePeriod+3);
-    }
+        return mainString.substr(indexOfLastDoublePeriod+3);    }
     return mainString;
 }
-
 string getImmediateDirectoryName(string const& mainString, string const& slashCharacterString)
 {
     unsigned int indexLastCharacterToSearch = mainString.length();
@@ -1041,39 +1029,34 @@ string getImmediateDirectoryName(string const& mainString, string const& slashCh
 template <char slashCharacter>
 string getCorrectPathWithReplacedSlashCharacters(string const& path)
 {
-    return getCorrectPathWithReplacedSlashCharacters(path, string()+slashCharacter);
+    return getCorrectPathWithReplacedSlashCharacters(path, string(1, slashCharacter));
 }
 template string getCorrectPathWithReplacedSlashCharacters<'\\'>(string const& path);
 template string getCorrectPathWithReplacedSlashCharacters<'/'>(string const& path);
-
 template <char slashCharacter>
 string getCorrectPathWithoutDoublePeriod(string const& path)
 {
-    return getCorrectPathWithoutDoublePeriod(path, string()+slashCharacter);
+    return getCorrectPathWithoutDoublePeriod(path, string(1, slashCharacter));
 }
 template string getCorrectPathWithoutDoublePeriod<'\\'>(string const& path);
 template string getCorrectPathWithoutDoublePeriod<'/'>(string const& path);
-
 template <char slashCharacter>
 string getStringBeforeDoublePeriod(string const& path)
 {
-    return getStringBeforeDoublePeriod(path, string()+slashCharacter);
+    return getStringBeforeDoublePeriod(path, string(1, slashCharacter));
 }
 template string getStringBeforeDoublePeriod<'\\'>(string const& path);
 template string getStringBeforeDoublePeriod<'/'>(string const& path);
-
 template <char slashCharacter>
 string getImmediateDirectoryName(string const& path)
 {
-    return getImmediateDirectoryName(path, string()+slashCharacter);
+    return getImmediateDirectoryName(path, string(1, slashCharacter));
 }
 template string getImmediateDirectoryName<'\\'>(string const& path);
 template string getImmediateDirectoryName<'/'>(string const& path);
-
 bool convertStringToBool(string const& stringToConvert)
 {
-    string allCapital(getStringWithCapitalLetters(stringToConvert));
-    bool result(false);
+    string allCapital(getStringWithCapitalLetters(stringToConvert));    bool result(false);
     if("TRUE" == allCapital)
     {
         result = true;

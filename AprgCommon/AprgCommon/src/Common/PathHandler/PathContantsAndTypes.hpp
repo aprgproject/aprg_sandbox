@@ -11,6 +11,6 @@ enum class PathInitialValueSource
     DetectedLocalPath
 };
 
-typedef std::set<std::string> ListOfPaths;
+using ListOfPaths = std::set<std::string>;
 
 }//namespace alba

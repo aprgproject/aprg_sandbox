@@ -36,16 +36,29 @@ public:
     };
     union NumberUnionData
     {
+        constexpr NumberUnionData()
+            : intData{}
+        {}
+        constexpr NumberUnionData(long long int const integer)
+            : intData(integer)
+        {}
+        constexpr NumberUnionData(double const doubleValue)
+            : doubleData(doubleValue)
+        {}
+        constexpr NumberUnionData(FractionData const& fractionData)
+            : fractionData(fractionData)
+        {}
+        constexpr NumberUnionData(ComplexNumberData const& complexNumberData)
+            : complexNumberData(complexNumberData)
+        {}
         long long int intData;
-        FractionData fractionData;
         double doubleData;
+        FractionData fractionData;
         ComplexNumberData complexNumberData;
     };
-
     struct ConfigurationDetails
     {
-        double comparisonTolerance;
-        double floatAdjustmentTolerance;
+        double comparisonTolerance;        double floatAdjustmentTolerance;
     };
     class Configuration
             : public AlbaConfigurationHolder<ConfigurationDetails>
@@ -74,52 +87,44 @@ public:
 
     constexpr AlbaNumber()
         : m_type(Type::Integer)
-        , m_data{}
+        , m_data()
     {}
 
     constexpr AlbaNumber(int const integerValue)
         : m_type(Type::Integer)
-        , m_data{integerValue}
+        , m_data(static_cast<long long int>(integerValue))
     {}
 
     constexpr AlbaNumber(unsigned int const integerValue)
         : m_type(Type::Integer)
-        , m_data{integerValue}
+        , m_data(static_cast<long long int>(integerValue))
     {}
 
     constexpr AlbaNumber(long long int const integerValue)
         : m_type(Type::Integer)
-        , m_data{integerValue}
+        , m_data(integerValue)
     {}
 
     constexpr AlbaNumber(double const doubleValue)
         : m_type(Type::Double)
-        , m_data{}
-    {
-        m_data.doubleData = doubleValue;
-    }
+        , m_data(doubleValue)
+    {}
 
     constexpr AlbaNumber(FractionData const& fractionData)
         : m_type(Type::Fraction)
-        , m_data{}
-    {
-        m_data.fractionData = fractionData;
-    }
+        , m_data(fractionData)
+    {}
 
     constexpr AlbaNumber(ComplexNumberData const& complexNumberData)
         : m_type(Type::ComplexNumber)
-        , m_data{}
-    {
-        m_data.complexNumberData = complexNumberData;
-    }
+        , m_data(complexNumberData)
+    {}
 
     // This should be constexpr as well but a lot of coding is needed
-    bool operator==(AlbaNumber const& second) const;
-    bool operator!=(AlbaNumber const& second) const;
+    bool operator==(AlbaNumber const& second) const;    bool operator!=(AlbaNumber const& second) const;
     bool operator<=(AlbaNumber const& second) const;
     bool operator>=(AlbaNumber const& second) const;
-    bool operator<(AlbaNumber const& second) const;
-    bool operator>(AlbaNumber const& second) const;
+    bool operator<(AlbaNumber const& second) const;    bool operator>(AlbaNumber const& second) const;
     AlbaNumber operator+() const;
     AlbaNumber operator-() const;
     AlbaNumber operator+(AlbaNumber const& second) const;

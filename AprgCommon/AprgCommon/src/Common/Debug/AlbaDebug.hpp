@@ -9,14 +9,13 @@ namespace alba
 {
 
 #pragma warning("The class AlbaDebug is used. Please remove after your done debugging.")
+//#warning("The class AlbaDebug is used. Please remove after your done debugging.")
 
 #ifdef ALBA_PRINT_OUTPUT_STREAM_FILE_PATH
-static ofstream debugStream(ALBA_PRINT_OUTPUT_STREAM_FILE_PATH);
-#define ALBA_PRINT_OUTPUT_STREAM debugStream
+static ofstream debugStream(ALBA_PRINT_OUTPUT_STREAM_FILE_PATH);#define ALBA_PRINT_OUTPUT_STREAM debugStream
 #else
 #define ALBA_PRINT_OUTPUT_STREAM std::cout
 #endif
-
 // Internal macros
 #define Z_ALBA_PRIVATE_PRINT_PARAMETER(parameter)                           printParameterWithName(ALBA_PRINT_OUTPUT_STREAM, ALBA_MACROS_GET_STRING_LITERAL(parameter), parameter);
 #define Z_ALBA_PRIVATE_PRINT_SEPARATOR                                      ALBA_PRINT_OUTPUT_STREAM << " ";

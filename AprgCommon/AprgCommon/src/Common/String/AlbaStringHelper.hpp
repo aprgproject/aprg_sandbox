@@ -1,14 +1,13 @@
 #pragma once
 
 #include <Common/Math/Number/AlbaNumber.hpp>
+#include <Common/Types/AlbaTypeHelper.hpp>
 
 #include <iomanip>
-#include <optional>
-#include <string>
+#include <optional>#include <string>
 #include <vector>
 
-namespace alba
-{
+namespace alba{
 
 namespace stringHelper
 {
@@ -191,25 +190,39 @@ void splitLinesToAchieveTargetLength(strings & listOfStrings, std::string const&
 void splitToStringsUsingASeriesOfDelimeters(strings & listOfStrings, std::string const& mainString, strings const& seriesOfDelimiters);
 
 
+// basic_string variants
+template <typename StringType>
+constexpr bool isBasicStringVariant()
+{
+    return typeHelper::areSameTypes<StringType, std::string>()
+            || typeHelper::areSameTypes<StringType, std::wstring>()
+            || typeHelper::areSameTypes<StringType, std::u16string>()
+            || typeHelper::areSameTypes<StringType, std::u32string>();
+}
 
-// Wide string related
+// basic_string variants
+template <typename InputStringType, typename OutputStringType>
+OutputStringType convertToAnotherBasicStringVariant(InputStringType const& inputString)
+{
+    static_assert(isBasicStringVariant<InputStringType>(), "Input should be a basic string variant.");
+    static_assert(isBasicStringVariant<OutputStringType>(), "Output should be a basic string variant.");
+    //static_assert(!typeHelper::areSameTypes<InputStringType, OutputStringType>(), "Input and output should be different types."); // can be UTF8 encoded
+    return OutputStringType(inputString.cbegin(), inputString.cend());
+}
 
 std::wstring convertStringToWideString(std::string const& stringInput);
 std::string convertWideStringToString(std::wstring const& wstringInput);
 
 
-
 // Alignments
 
-std::string getStringWithJustifyAlignment(std::string const& mainString, unsigned int const length);
-std::string getStringWithCenterAlignment(std::string const& mainString, unsigned int const length);
-std::string getStringWithRightAlignment(std::string const& mainString, unsigned int const length);
-std::string getStringWithLeftAlignment(std::string const& mainString, unsigned int const length);
-
+std::string getStringWithJustifyAlignment(std::string const& mainString, unsigned int const targetLength);
+std::string getStringWithCenterAlignment(std::string const& mainString, unsigned int const targetLength);
+std::string getStringWithRightAlignment(std::string const& mainString, unsigned int const targetLength);
+std::string getStringWithLeftAlignment(std::string const& mainString, unsigned int const targetLength);
 
 
 // PathHelpers
-
 std::string getCorrectPathWithoutUrlParameters(std::string const& path);
 std::string getUrlParameters(std::string const& path);
 std::string getCorrectPathWithReplacedSlashCharacters(std::string const& path, std::string const& slashCharacterString);

@@ -3,14 +3,11 @@
 #include <Common/Bit/AlbaBitValueUtilities.hpp>
 
 #include <cmath>
-#include <type_traits>
 
 namespace alba
 {
-
 namespace mathHelper
 {
-
 inline double getLogarithm(double const base, double const inputForLogarithm)
 {
     // change of base formula
@@ -26,24 +23,21 @@ inline double getLogarithm(double const base, double const inputForLogarithm)
 
 template <typename NumberType> inline NumberType getLogarithmWithBase2Of(NumberType const value)
 {
-    static_assert(std::is_integral<NumberType>::value, "Number type must be an integer");
+    static_assert(typeHelper::isIntegralType<NumberType>(), "Number type must be an integer");
 
     return AlbaBitValueUtilities<NumberType>::getLogarithmWithBase2Of(value);
 }
-
 template <typename NumberType> NumberType getLogarithmForIntegers(NumberType const base, NumberType const inputForLogarithm)
 {
     // This is always correct and faster than pow (check performance test for comparison)
 
-    static_assert(std::is_integral<NumberType>::value, "Number type must be an integer");
+    static_assert(typeHelper::isIntegralType<NumberType>(), "Number type must be an integer");
 
     NumberType result(0);
-    if(base > 1 && inputForLogarithm > 0) // base must be at least 2 and input should be positive
-    {
+    if(base > 1 && inputForLogarithm > 0) // base must be at least 2 and input should be positive    {
         NumberType currentCount(1), currentBase(base), remainingValue(inputForLogarithm);
         while(remainingValue > 0)
-        {
-            NumberType nextRemainingValue = remainingValue / currentBase;
+        {            NumberType nextRemainingValue = remainingValue / currentBase;
             if(nextRemainingValue > 0)
             {
                 result += currentCount;

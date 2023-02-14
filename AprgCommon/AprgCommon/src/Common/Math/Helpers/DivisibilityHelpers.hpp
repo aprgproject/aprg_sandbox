@@ -1,38 +1,35 @@
 #pragma once
 
-#include <type_traits>
+#include <Common/Types/AlbaTypeHelper.hpp>
 
 namespace alba
 {
-
 namespace mathHelper
 {
 
 template <typename NumberType> inline bool isDivisible(NumberType const dividend, NumberType const divisor)
 {
-    static_assert(std::is_integral<NumberType>::value, "Number type must be an integer");
+    static_assert(typeHelper::isIntegralType<NumberType>(), "Number type must be an integer");
 
     return (divisor==0) ? false : (dividend % divisor)==0;
 }
 
 template <typename NumberType> inline bool isEven(NumberType const number)
 {
-    static_assert(std::is_integral<NumberType>::value, "Number type must be an integer");
+    static_assert(typeHelper::isIntegralType<NumberType>(), "Number type must be an integer");
 
     return !(static_cast<bool>(number % 2));
 }
 
 template <typename NumberType> inline bool isOdd(NumberType const number)
 {
-    static_assert(std::is_integral<NumberType>::value, "Number type must be an integer");
+    static_assert(typeHelper::isIntegralType<NumberType>(), "Number type must be an integer");
 
     return static_cast<bool>(number % 2);
 }
-
 // Even or odd discussion:
 // -> Bitwise operators might be better because almost all processors supports bitwise operations to take one instruction.
-// -> But it will not work for negative numbers:
-// -> The C standard stipulates that negative numbers can be represented in 3 ways:
+// -> But it will not work for negative numbers:// -> The C standard stipulates that negative numbers can be represented in 3 ways:
 // ---> 2's complement
 // ---> 1's complement
 // ---> sign and magnitude

@@ -60,16 +60,14 @@ FractionDetails getFractionFromPartialNumerators(
 template <typename NumberType1, typename NumberType2, typename GcfType>
 void changeFractionToSimplestForm(NumberType1 & numerator, NumberType2 & denominator)
 {
-    static_assert(std::is_integral<NumberType1>::value, "Number type 1 must be an integer");
-    static_assert(std::is_integral<NumberType2>::value, "Number type 2 must be an integer");
+    static_assert(typeHelper::isIntegralType<NumberType1>(), "Number type 1 must be an integer");
+    static_assert(typeHelper::isIntegralType<NumberType2>(), "Number type 2 must be an integer");
 
     GcfType gcf = getGreatestCommonFactor<GcfType>(numerator, denominator);
-    if(gcf!=0)
-    {
+    if(gcf!=0)    {
         numerator = static_cast<NumberType1>(numerator/gcf);
         denominator = static_cast<NumberType2>(denominator/gcf);
-        numerator = getAbsoluteValue(numerator) * getSign(numerator) * getSign(denominator);
-        denominator = getAbsoluteValue(denominator);
+        numerator = getAbsoluteValue(numerator) * getSign(numerator) * getSign(denominator);        denominator = getAbsoluteValue(denominator);
     }
 }
 

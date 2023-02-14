@@ -51,15 +51,13 @@ double AlbaWindowsPathHandler::getFileSizeEstimate()
     WIN32_FILE_ATTRIBUTE_DATA attributeData;
     if (GetFileAttributesExW(convertStringToWideString(getFullPath()).c_str(), GetFileExInfoStandard, &attributeData))
     {
-        fileSizeEstimate = (double)attributeData.nFileSizeHigh * 0x100000000 + attributeData.nFileSizeLow;
+        fileSizeEstimate = (double)attributeData.nFileSizeHigh * 0x100'000'000 + attributeData.nFileSizeLow;
     }
     else
-    {
-        cout<<"Error in AlbaWindowsPathHandler::getFileSizeEstimate() path:"<<getFullPath()<<endl;
+    {        cout<<"Error in AlbaWindowsPathHandler::getFileSizeEstimate() path:"<<getFullPath()<<endl;
         cout<<AlbaWindowsHelper::getLastFormattedErrorMessage()<<endl;
     }
-    return fileSizeEstimate;
-}
+    return fileSizeEstimate;}
 
 AlbaDateTime AlbaWindowsPathHandler::getFileCreationTime()
 {

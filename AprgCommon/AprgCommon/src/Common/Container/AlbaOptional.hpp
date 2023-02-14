@@ -1,23 +1,20 @@
-// NOTE: Use std::optional instead! (needs c++17)
 
 #pragma once
-
 #include <cassert>
 #include <memory>
 #include <ostream>
-
 namespace alba
 {
 
-template <typename ContentType> class AlbaOptional
+template <typename ContentType>
+//class [[deprecated("Use std::optional instead! (needs c++17)")]] AlbaOptional // lets remove [[deprecated]] to avoid unnecessary warnings
+class AlbaOptional
 {
     // This requires copy constructor and default constructor on ContentType
 public:
-
     AlbaOptional() = default;
 
-    AlbaOptional(ContentType content)
-        : m_contentPointer(std::make_unique<ContentType>(content))
+    AlbaOptional(ContentType content)        : m_contentPointer(std::make_unique<ContentType>(content))
     {}
 
     AlbaOptional(ContentType& content)
@@ -138,28 +135,26 @@ private:
     std::unique_ptr<ContentType> m_contentPointer;
 };
 
-template <typename ContentType> class AlbaOptional<ContentType &>
+template <typename ContentType>
+// class [[deprecated("Use std::optional instead! (needs c++17)")]] AlbaOptional // lets remove [[deprecated]] to avoid unnecessary warnings
+class AlbaOptional<ContentType &>
 {
 public:
 
 //#warning Please make sure that object still exists in the life time of an optional reference object
 
-
     AlbaOptional()
         : m_hasContent(false)
-        , m_contentPointer(nullptr)
-    {}
+        , m_contentPointer(nullptr)    {}
 
     AlbaOptional(ContentType & content)
         : m_hasContent(true)
-        , m_contentPointer(&content)
+        , m_contentPointer(std::addressof(content)) // std::addressof should be used because & might be overloaded
     {}
 
-    AlbaOptional(AlbaOptional<ContentType&> const& optional)
-        : m_hasContent(optional.m_hasContent)
+    AlbaOptional(AlbaOptional<ContentType&> const& optional)        : m_hasContent(optional.m_hasContent)
         , m_contentPointer(optional.m_contentPointer)
     {}
-
     void operator=(AlbaOptional<ContentType&> const& optional)
     {
         m_hasContent = optional.m_hasContent;
@@ -177,15 +172,13 @@ public:
     void setReference(ContentType& content)
     {
         m_hasContent = true;
-        m_contentPointer = &content;
+        m_contentPointer = std::addressof(content);
     }
 
-    void clear()
-    {
+    void clear()    {
         m_hasContent = false;
         m_contentPointer = nullptr;
     }
-
     bool hasContent() const
     {
         return m_hasContent;
