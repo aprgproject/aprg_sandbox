@@ -67,15 +67,13 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${APRG_COMPILER_COMMON_FLAGS} ${APRG_COM
 # Optmization - docs
 # --> -O0: No optmization, faster compilation time, better for debugging builds.
 # --> -O2, -O3: Higher level of optmization. Slower compile-time, better for production builds.
-# --> -OFast: Enables higher level of optmization than (-O3). It enables lots of flags as can be seen src (-ffloat-store, -ffsast-math, -ffinite-math-only, -O3 …)
+# --> -OFast: Enables higher level of optmization than (-O3). It enables lots of flags as can be seen src (-ffloat-store, -ffast-math, -ffinite-math-only, -O3 …)
 # --> -finline-functions
 # --> -m64
-# --> -funroll-loops
-# --> -fvectorize
+# --> -funroll-loops# --> -fvectorize
 # --> -fprofile-generate
 
-# Misc
-# --> -fexceptions -fstack-protector-strong –param=ssp-buffer-size=4
+# Misc# --> -fexceptions -fstack-protector-strong –param=ssp-buffer-size=4
 # Special Options
 # --> -g: Builds executable with debugging symbols for GDB GNU Debugger or LLDB Clang/LLVM Debugger. It should only be used during development for debugging builds.
 # --> -c: Compiler source(s) to object-code (input to linker). This option is better for incremental compilation when using multiple files.
@@ -152,13 +150,25 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${APRG_COMPILER_COMMON_FLAGS} ${APRG_COM
 # -ftree-loop-distribution, -ftree-loop-vectorize, -ftree-partial-pre, -ftree-slp-vectorize, -funswitch-loops, -fvect-cost-model, -fvect-cost-model=dynamic,
 # -fversion-loops-for-strides
 
+# Flag: "-Ofast"
+# --> Disregard strict standards compliance.
+# --> -Ofast enables all -O3 optimizations.
+# --> It also enables optimizations that are not valid for all standard-compliant programs.
+# --> It turns on -ffast-math, -fallow-store-data-races and the Fortran-specific -fstack-arrays, unless -fmax-stack-var-size is specified, and -fno-protect-parens.
+
+# Flag: "-ffast-math"
+# --> Sets the options -fno-math-errno, -funsafe-math-optimizations, -ffinite-math-only,
+# -fno-rounding-math, -fno-signaling-nans, -fcx-limited-range and -fexcess-precision=fast.
+# --> This option causes the preprocessor macro __FAST_MATH__ to be defined.
+# --> This option is not turned on by any -O option besides -Ofast since it can result in incorrect output
+# --> for programs that depend on an exact implementation of IEEE or ISO rules/specifications for math functions.
+# --> It may, however, yield faster code for programs that do not require the guarantees of these specifications.
+
 # Flag: "-Os"
 # --> Optimize for size. -Os enables all -O2 optimizations except those that often increase code size: "
 # -falign-functions, -falign-jumps, -falign-labels  -falign-loops, -fprefetch-loop-arrays  -freorder-blocks-algorithm=st
-
 # Flag: "-DNDEBUG"
 # --> disable assertions
-
 # Peformance Optimization Flags
 # Flag: "-O0"
 # --> Optimization Level 0 (No optimization, default)
