@@ -1,14 +1,11 @@
 #pragma once
 
 #include <limits>
-#include <type_traits>
 
 namespace alba
 {
-
 namespace algorithm
 {
-
 template <typename IndexType>
 inline IndexType getMidpointOfIndexes(IndexType const lowIndex, IndexType const highIndex)
 {
