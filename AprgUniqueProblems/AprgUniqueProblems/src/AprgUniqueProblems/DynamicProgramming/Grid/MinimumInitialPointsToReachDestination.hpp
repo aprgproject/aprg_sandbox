@@ -23,13 +23,27 @@ private:
 
 }
 
+// APPROACH:
+// 1) Dynamic Programming by Tabular method:
+// -> Each "cell" has a value of "needed points to make path"
+// -> Reverse traversal (from bottom-right to top-left)
+// -> Traversal uses previous values to compute for a new value
+// -> The computation of the "needed points to make path" of each cell is:
+// ---> Get the "needed points from neighbors"
+// -----> Get value of bottom neighbor and right neighbor
+// -----> Return minimum value of the two neighbors and subtract the value of this cell
+// ---> Get maximum of "minimum points to move (which is 1)" and "needed points from neighbors"
+// -> Optimization:
+// ---> Last row has no bottom neighbors and last column has no right neighbors so it will be easier to compute for one neighbor
+
+
+
+
 // Minimum Initial Points to Reach Destination
 
-// Given a grid with each cell consisting of positive, negative or no points i.e, zero points.
-// We can move across a cell only if we have positive points ( > 0 ).
+// Given a grid with each cell consisting of positive, negative or no points i.e, zero points.// We can move across a cell only if we have positive points ( > 0 ).
 // Whenever we pass through a cell, points in that cell are added to our overall points.
 // We need to find minimum initial points to reach cell (m-1, n-1) from (0, 0).
-
 // Constraints:
 // -> From a cell (i, j) we can move to (i+1, j) or (i, j+1).
 // -> We cannot move from (i, j) if your overall points at (i, j) is <= 0.

@@ -24,28 +24,26 @@ MinimumInitialPointsToReachDestination::Value MinimumInitialPointsToReachDestina
         Grid neededPointsGrid(m_inputGrid.getNumberOfColumns(), m_inputGrid.getNumberOfRows());
         neededPointsGrid.setEntry(lastX, lastY, lastValue);
 
-        for(int x=lastX-1; x>=0; x--)  // last row has only left neighbors
+        for(int x=lastX-1; x>=0; x--)  // last row has no bottom neighbors
         {
-            Value currentValue = max(1, neededPointsGrid.getEntry(x+1, lastY)-m_inputGrid.getEntry(x, lastY));
-            neededPointsGrid.setEntry(x, lastY, currentValue);
+            Value neededPointsForThisCell = max(1, neededPointsGrid.getEntry(x+1, lastY)-m_inputGrid.getEntry(x, lastY));
+            neededPointsGrid.setEntry(x, lastY, neededPointsForThisCell);
         }
-        for(int y=lastY-1; y>=0; y--) // last column has only up neighbors
+        for(int y=lastY-1; y>=0; y--) // last column has no right neighbors
         {
-            Value currentValue = max(1, neededPointsGrid.getEntry(lastX, y+1)-m_inputGrid.getEntry(lastX, y));
-            neededPointsGrid.setEntry(lastX, y, currentValue);
+            Value neededPointsForThisCell = max(1, neededPointsGrid.getEntry(lastX, y+1)-m_inputGrid.getEntry(lastX, y));
+            neededPointsGrid.setEntry(lastX, y, neededPointsForThisCell);
         }
-        for(int x=lastX-1; x>=0; x--) // the rest of the matrix
+        for(int y=lastY-1; y>=0; y--) // the rest of the matrix
         {
-            for(int y=lastY-1; y>=0; y--)
+            for(int x=lastX-1; x>=0; x--)
             {
                 Value minFromRightOrDown = min(neededPointsGrid.getEntry(x+1, y), neededPointsGrid.getEntry(x, y+1));
-                Value currentValue = max(1, minFromRightOrDown-m_inputGrid.getEntry(x, y));
-                neededPointsGrid.setEntry(x, y, currentValue);
+                Value neededPointsForThisCell = max(1, minFromRightOrDown-m_inputGrid.getEntry(x, y));
+                neededPointsGrid.setEntry(x, y, neededPointsForThisCell);
             }
         }
-        result = neededPointsGrid.getEntry(0, 0);
-    }
+        result = neededPointsGrid.getEntry(0, 0);    }
     return result;
 }
-
 }

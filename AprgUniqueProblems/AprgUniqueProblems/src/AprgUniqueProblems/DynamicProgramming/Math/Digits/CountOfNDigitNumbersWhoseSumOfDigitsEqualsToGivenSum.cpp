@@ -12,62 +12,55 @@ CountOfNDigitNumbersWhoseSumOfDigitsEqualsToGivenSum::CountOfNDigitNumbersWhoseS
         Count const numberOfDigits,
         Value const sumOfDigits)
     : m_numberOfDigits(numberOfDigits)
-    , m_sumOfDigits(sumOfDigits)
+    , m_targetSumOfDigits(sumOfDigits)
 {}
 
-CountOfNDigitNumbersWhoseSumOfDigitsEqualsToGivenSum::Count CountOfNDigitNumbersWhoseSumOfDigitsEqualsToGivenSum::getCountUsingNaiveRecursion() const
-{
+CountOfNDigitNumbersWhoseSumOfDigitsEqualsToGivenSum::Count CountOfNDigitNumbersWhoseSumOfDigitsEqualsToGivenSum::getCountUsingNaiveRecursion() const{
     // Time Complexity: Exponential -> Since there are two calls per iteration:  O(2^n)
     // Auxiliary Space: Constant
 
     Count result(0);
     if(m_numberOfDigits>0)
     {
-        result = getCountUsingNaiveRecursion(m_sumOfDigits, m_numberOfDigits-1);
+        result = getCountUsingNaiveRecursion(m_targetSumOfDigits, m_numberOfDigits-1);
     }
     return result;
 }
-
 CountOfNDigitNumbersWhoseSumOfDigitsEqualsToGivenSum::Count CountOfNDigitNumbersWhoseSumOfDigitsEqualsToGivenSum::getCountUsingMemoizationDP() const
 {
-    // Time Complexity: O(numberOfDigits * sumOfDigits * 9) (same as tabular)
-    // Auxiliary Space: O(numberOfDigits * sumOfDigits)
+    // Time Complexity: O(numberOfDigits * sumOfDigits * 9) (same as tabular)    // Auxiliary Space: O(numberOfDigits * sumOfDigits)
 
     Count result(0);
     if(m_numberOfDigits>0)
     {
-        CountMatrix countMatrix(m_sumOfDigits+1, m_numberOfDigits, UNUSED_COUNT);
-        result = getCountUsingMemoizationDP(countMatrix, m_sumOfDigits, m_numberOfDigits-1);
+        CountMatrix countMatrix(m_targetSumOfDigits+1, m_numberOfDigits, UNUSED_COUNT);
+        result = getCountUsingMemoizationDP(countMatrix, m_targetSumOfDigits, m_numberOfDigits-1);
     }
     return result;
 }
-
 CountOfNDigitNumbersWhoseSumOfDigitsEqualsToGivenSum::Count CountOfNDigitNumbersWhoseSumOfDigitsEqualsToGivenSum::getCountUsingTabularDP() const
 {
-    // Time Complexity: O(numberOfDigits * sumOfDigits * 9)
-    // Auxiliary Space: O(numberOfDigits * sumOfDigits)
+    // Time Complexity: O(numberOfDigits * sumOfDigits * 9)    // Auxiliary Space: O(numberOfDigits * sumOfDigits)
 
     Count result(0);
     if(m_numberOfDigits>0)
     {
-        CountMatrix countMatrix(m_sumOfDigits+1, m_numberOfDigits, 0U);
+        CountMatrix countMatrix(m_targetSumOfDigits+1, m_numberOfDigits, 0U);
 
-        for(Value digitValue=0; digitValue<=min(m_sumOfDigits, 9U); digitValue++)
+        for(Value digitValue=0; digitValue<=min(m_targetSumOfDigits, 9U); digitValue++)
         {
             countMatrix.setEntry(digitValue, 0, 1);
         }
         for(Count digitIndex=1; digitIndex<m_numberOfDigits; digitIndex++)
         {
             countMatrix.setEntry(0, digitIndex, 1);
-            for(Value partialSum=1; partialSum<=m_sumOfDigits; partialSum++)
+            for(Value partialSum=1; partialSum<=m_targetSumOfDigits; partialSum++)
             {
                 for(Value digitValue=0; digitValue<=min(partialSum-1, 9U); digitValue++)
-                {
-                    countMatrix.getEntryReference(partialSum, digitIndex) += countMatrix.getEntry(partialSum-digitValue, digitIndex-1);
+                {                    countMatrix.getEntryReference(partialSum, digitIndex) += countMatrix.getEntry(partialSum-digitValue, digitIndex-1);
                 }
             }
-        }
-        result = countMatrix.getEntry(countMatrix.getNumberOfColumns()-1, countMatrix.getNumberOfRows()-1);
+        }        result = countMatrix.getEntry(countMatrix.getNumberOfColumns()-1, countMatrix.getNumberOfRows()-1);
     }
     return result;
 }
@@ -80,22 +73,20 @@ CountOfNDigitNumbersWhoseSumOfDigitsEqualsToGivenSum::Count CountOfNDigitNumbers
     Count result(0);
     if(m_numberOfDigits>0)
     {
-        Counts partialSumToCount(m_sumOfDigits+1);
-        for(Value digitValue=0; digitValue<=min(m_sumOfDigits, 9U); digitValue++)
+        Counts partialSumToCount(m_targetSumOfDigits+1);
+        for(Value digitValue=0; digitValue<=min(m_targetSumOfDigits, 9U); digitValue++)
         {
             partialSumToCount[digitValue]=1;
         }
         for(Count digitCount=1; digitCount<m_numberOfDigits; digitCount++)
         {
-            for(Value partialSum=m_sumOfDigits; partialSum>=1; partialSum--)
+            for(Value partialSum=m_targetSumOfDigits; partialSum>0; partialSum--)
             {
                 for(Value digitValue=1; digitValue<=min(partialSum-1, 9U); digitValue++)
-                {
-                    partialSumToCount[partialSum] += partialSumToCount.at(partialSum-digitValue);
+                {                    partialSumToCount[partialSum] += partialSumToCount.at(partialSum-digitValue);
                 }
             }
-        }
-        result = partialSumToCount.back();
+        }        result = partialSumToCount.back();
     }
     return result;
 }
@@ -111,23 +102,20 @@ CountOfNDigitNumbersWhoseSumOfDigitsEqualsToGivenSum::Count CountOfNDigitNumbers
         Value start = getRaiseToPowerForIntegers(10U, m_numberOfDigits-1);
         Value end = getRaiseToPowerForIntegers(10U, m_numberOfDigits);
 
-        for(Value value=start; value<end; value += (value==m_sumOfDigits) ? 9 : 1) // once sum is found just add 9 to find the next one
+        for(Value value=start; value<end; value += (value==m_targetSumOfDigits) ? 9 : 1) // once sum is found just add 9 to find the next one
         {
             Value currentSumOfDigits=0, remainingDigits=value;
-            while(remainingDigits != 0)
-            {
+            while(remainingDigits != 0)            {
                 currentSumOfDigits += remainingDigits % 10;
                 remainingDigits /= 10;
             }
-            if(currentSumOfDigits == m_sumOfDigits)
+            if(currentSumOfDigits == m_targetSumOfDigits)
             {
                 result++;
             }
-
         }
     }
-    return result;
-}
+    return result;}
 
 CountOfNDigitNumbersWhoseSumOfDigitsEqualsToGivenSum::Count CountOfNDigitNumbersWhoseSumOfDigitsEqualsToGivenSum::getCountUsingNaiveRecursion(
         Value const partialSum,

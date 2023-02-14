@@ -39,14 +39,12 @@ TEST(IsPartialSumPossibleInKnapsackTest, GetBestProfitWorksOnExample3)
 
 TEST(IsPartialSumPossibleInKnapsackTest, GetBestProfitWorksOnExample4)
 {
-    IsPartialSumPossibleInKnapsack queryForTest(11U, {{1U, 5U, 8U}});
+    IsPartialSumPossibleInKnapsack queryForTest(2U, {{1U, 5U, 8U}});
 
     EXPECT_FALSE(queryForTest.isPartialSumPossibleUsingNaiveRecursion());
-    EXPECT_FALSE(queryForTest.isPartialSumPossibleUsingMemoizationDP());
-    EXPECT_FALSE(queryForTest.isPartialSumPossibleUsingTabularDP());
+    EXPECT_FALSE(queryForTest.isPartialSumPossibleUsingMemoizationDP());    EXPECT_FALSE(queryForTest.isPartialSumPossibleUsingTabularDP());
     EXPECT_FALSE(queryForTest.isPartialSumPossibleUsingTabularDPAndSpaceEfficient());
 }
-
 TEST(IsPartialSumPossibleInKnapsackTest, GetBestProfitWorksOnExample5)
 {
     IsPartialSumPossibleInKnapsack queryForTest(9U, {{1U, 5U, 8U}});

@@ -29,14 +29,22 @@ private:
 
 }
 
+
+// APPROACH:
+// 1) Naive Recursion /  Dynamic Programming by Memoization:
+// -> Each "cell" has a count for "longest length" and this can be computed by:
+// ---> Search for the neighbors with the next value
+// ---> Recursively call the count of these neighbors
+// ---> Return the maximum of the neighbors counts and add one for this cell
+
+
+
 // Find length of the longest consecutive path from a given starting character.
 
-// Given a matrix of characters.
-// Find length of the longest path from a given character,
+// Given a matrix of characters.// Find length of the longest path from a given character,
 // such that all characters in the path are consecutive to each other,
 // i.e., every character in path is next to previous in alphabetical order.
 // It is allowed to move in all 8 directions from a cell.
-
 // Examples:
 // Input: mat[][] = { {a, c, d},
 //                    {h, b, e},

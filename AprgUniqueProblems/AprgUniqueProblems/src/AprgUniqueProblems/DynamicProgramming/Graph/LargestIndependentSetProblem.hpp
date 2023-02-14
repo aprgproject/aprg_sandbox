@@ -38,13 +38,21 @@ private:
 
 }
 
+
+// APPROACH:
+// 1) Naive Recursion /  Dynamic Programming by Memoization:
+// -> Each "node/vertex" has a "maximum count" and this can be computed by:
+// ---> Get count when vertex is included (recursively call the count of grandchildren and add 1 for this vertex)
+// ---> Get count when vertex is not included (recursively call the count of children)
+// ---> Return the maximum of the two counts
+
+
+
 // Given a Binary Tree, find size of the Largest Independent Set(LIS) in it.
 // A subset of all tree nodes is an independent set if there is no edge between any two nodes of the subset.
-
 // For example, consider the following binary tree. The largest independent set(LIS) is {10, 40, 60, 70, 80} and size of the LIS is 5.
 //       10
-//      |  |
-//    20   30
+//      |  |//    20   30
 //   |  |   |
 //  40  50   60
 //     |  |

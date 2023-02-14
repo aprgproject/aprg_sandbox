@@ -116,15 +116,13 @@ State              | State transition relation is difficult to think            
 ------------------------------------------------------------------------------------------------------------------------------------------------------------
 Code               | Code gets complicated when a lot of conditions are required | Code is easy and less complicated
 ------------------------------------------------------------------------------------------------------------------------------------------------------------
-Speed              | Fast, as we directly access previous states from the table  | Slow due to a lot of recursive calls and return statements
+Speed              | Fast, as we directly access previous states from the table  | Slow due to a lot of recursively calls and return statements
 ------------------------------------------------------------------------------------------------------------------------------------------------------------
 Subproblem solving | If all subproblems must be solved at least once,            | If some sub problems in the subproblem space need not be solved at all, 
-approach           | a bottom-up dynamic programming algorithm usually out       | the memoized solution has the advantage of solving only 
-                   | performs a top-down memoized algorithm by a constant factor | those subproblems that are definitely required
+approach           | a bottom-up dynamic programming algorithm usually out       | the memoized solution has the advantage of solving only                    | performs a top-down memoized algorithm by a constant factor | those subproblems that are definitely required
 ------------------------------------------------------------------------------------------------------------------------------------------------------------
 Table entries      | In tabulated version, starting from the first entry,        | Unlike the tabulated version, all entries of the lookup table are not 
-Table entries      | all entries are filled one by one                           | necessarily filled in Memoized version. The table is filled on demand.
-------------------------------------------------------------------------------------------------------------------------------------------------------------
+Table entries      | all entries are filled one by one                           | necessarily filled in Memoized version. The table is filled on demand.------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
 

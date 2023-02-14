@@ -1,16 +1,15 @@
 #pragma once
 
+#include <Common/Types/AlbaTypeHelper.hpp>
+
 #include <algorithm>
 #include <functional>
 #include <numeric>
-#include <type_traits>
 
 namespace alba
 {
-
 namespace algorithm
 {
-
 template <typename Values>
 class FindTheMissingNumber
 {
@@ -23,27 +22,23 @@ public:
 
     Value getTheMissingNumberUsingSum(Values const& values) // values can be unsorted because of xor
     {
-        static_assert(std::is_integral<Value>::value, "Value needs to be an integer.");
+        static_assert(typeHelper::isIntegralType<Value>(), "Value needs to be an integer.");
 
         // There is only one loop here.
-        Value totalCountOfNumbers(values.size()+1);
-        Value actualSum = std::accumulate(values.cbegin(), values.cend(), static_cast<Value>(0), std::plus<Value>());
+        Value totalCountOfNumbers(values.size()+1);        Value actualSum = std::accumulate(values.cbegin(), values.cend(), static_cast<Value>(0), std::plus<Value>());
         Value expectedSum = (totalCountOfNumbers+1)*totalCountOfNumbers/2;
 
-        return expectedSum-actualSum;
-    }
+        return expectedSum-actualSum;    }
 
     Value getTheMissingNumberUsingXor(Values const& values) // values can be unsorted because of xor
     {
-        static_assert(std::is_integral<Value>::value, "Value needs to be an integer.");
+        static_assert(typeHelper::isIntegralType<Value>(), "Value needs to be an integer.");
 
         // There are two loops here (std::accumulate and for loop)
-        Value totalCountOfNumbers(values.size()+1);
-        Value accumulatedXor = std::accumulate(values.cbegin(), values.cend(), static_cast<Value>(1), std::bit_xor<Value>());
+        Value totalCountOfNumbers(values.size()+1);        Value accumulatedXor = std::accumulate(values.cbegin(), values.cend(), static_cast<Value>(1), std::bit_xor<Value>());
         for(Value number(2); number<=totalCountOfNumbers; number++) // start with 2 (skip 1 because its processed in accumulate)
         {
-            accumulatedXor ^= number;
-        }
+            accumulatedXor ^= number;        }
         return accumulatedXor;
     }
 };
