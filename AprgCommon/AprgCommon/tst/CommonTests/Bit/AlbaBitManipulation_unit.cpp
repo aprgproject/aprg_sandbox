@@ -95,10 +95,12 @@ TEST(AlbaBitManipulationTest, RotateBitToTheRightWithShiftValueWorks)
     EXPECT_EQ(0x1000'000AU, AlbaBitManipulation<unsigned int>::rotateBitToTheRightWithShiftValue(0xA100'0000, 28U));
 }
 
-TEST(AlbaBitManipulationTest, ConcatenationBytesWorksWithArgumentsSizeLessThanResult){
+TEST(AlbaBitManipulationTest, ConcatenationBytesWorksWithArgumentsSizeLessThanResult)
+{
     // Given
     const unsigned char byte1 = 0xA1;
     const unsigned char byte2 = 0xBA;
+
     // When
     unsigned int result = AlbaBitManipulation<unsigned int>::concatenateBytes(byte1, byte2);
 
@@ -225,9 +227,11 @@ TEST(AlbaBitManipulationTest, DataIsSuccessfullySwappedWhenU64IsUsed)
     EXPECT_EQ(0xF0DE'BC9A'7856'3412U, AlbaBitManipulation<uint64_t>::swap(input));
 }
 
+
 TEST(AlbaBitManipulationTest, DataIsSuccessfullySwappedForTwoBytes)
 {
-    // Given    const uint16_t input = 0x1234;
+    // Given
+    const uint16_t input = 0x1234;
 
     // When
 

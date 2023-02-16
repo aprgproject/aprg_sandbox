@@ -9,8 +9,10 @@
 #include <optional>
 #include <string>
 #include <vector>
+
 namespace alba
 {
+
 struct LogDetails
 {
      stringHelper::strings logStrings;

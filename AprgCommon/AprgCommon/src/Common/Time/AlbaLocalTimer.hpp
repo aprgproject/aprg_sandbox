@@ -24,7 +24,6 @@ public:
     unsigned int getElapsedTimeInMinutes() const;
     unsigned int getElapsedTimeInHours() const;
     AlbaDateTime getDifferenceAsAlbaDateTime() const;
-    std::string getElapsedTimeDisplayableString() const;
 
 private:
     LibrarySteadyTime m_time1;

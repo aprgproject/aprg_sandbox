@@ -4,8 +4,10 @@
 
 using namespace alba::mathHelper;
 using namespace std;
+
 namespace alba
 {
+
 TotalNumberOfNonDecreasingNumbersWithNDigits::TotalNumberOfNonDecreasingNumbersWithNDigits(
         Count const numberOfDigits)
     : m_numberOfDigits(numberOfDigits)

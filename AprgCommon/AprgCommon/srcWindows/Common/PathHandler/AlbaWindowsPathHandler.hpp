@@ -16,9 +16,11 @@ public:
     AlbaWindowsPathHandler(PathInitialValueSource const initialValueSource);
     AlbaWindowsPathHandler(std::string const& path);
     virtual ~AlbaWindowsPathHandler() = default;
+
     void clear() override;
     std::string getDriveOrRoot() const;
-    double getFileSizeEstimate();    AlbaDateTime getFileCreationTime();
+    double getFileSizeEstimate();
+    AlbaDateTime getFileCreationTime();
     bool isFoundInLocalSystem() const;
     bool isRelativePath() const;
     void setPathToDetectedLocalPath();

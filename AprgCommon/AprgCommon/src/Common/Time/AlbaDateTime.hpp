@@ -3,7 +3,7 @@
 #include <Common/Bit/AlbaBitManipulation.hpp>
 
 #include <cstdint>
-#include <string>
+#include <ostream>
 
 namespace alba
 {
@@ -16,24 +16,31 @@ public:
     constexpr AlbaYearMonthDay()
         : m_yearMonthDay{}
     {}
-    constexpr AlbaYearMonthDay(uint16_t const years, uint8_t const monthIndex, uint8_t const days)
-        : m_yearMonthDay(convertToYearMonthDayFormat(years, monthIndex, days))
+    constexpr AlbaYearMonthDay(uint16_t const years, uint8_t const month, uint8_t const days)
+        : m_yearMonthDay(convertToYearMonthDayFormat(years, month, days))
     {}
 
     static AlbaYearMonthDay createFromTotalDays(uint32_t const totalDays);
 
-    void clear();
+    bool operator<(AlbaYearMonthDay const& second) const;
+    bool operator>(AlbaYearMonthDay const& second) const;
+    bool operator==(AlbaYearMonthDay const& second) const;
+    bool operator!=(AlbaYearMonthDay const& second) const;
+
+    bool isEmpty() const;
     uint32_t getYears() const;
-    uint32_t getMonthIndex() const;
+    uint32_t getMonths() const;
     uint32_t getDays() const;
-    uint32_t getYearMonthDay() const;
+    uint32_t getTotalDays() const;
+
+    void clear();
     void setTime(uint32_t const totalDays);
-    void setTime(uint16_t const years, uint8_t const monthIndex, uint8_t const days);
+    void setTime(uint16_t const years, uint8_t const month, uint8_t const days);
 
 private:
-    constexpr uint32_t convertToYearMonthDayFormat(uint16_t const years, uint8_t const monthIndex, uint8_t const days) const
+    constexpr uint32_t convertToYearMonthDayFormat(uint16_t const years, uint8_t const month, uint8_t const days) const
     {
-        return UInt32BitHelper::shiftBytesToTheLeft<2>(years) | UInt32BitHelper::shiftBytesToTheLeft<1>(monthIndex) | days;
+        return UInt32BitHelper::shiftBytesToTheLeft<2>(years) | UInt32BitHelper::shiftBytesToTheLeft<1>(month) | days;
     }
     uint32_t m_yearMonthDay;
 };
@@ -51,11 +58,18 @@ public:
 
     static AlbaHourMinuteSecond createFromTotalSeconds(uint32_t const totalSeconds);
 
-    void clear();
+    bool operator<(AlbaHourMinuteSecond const& second) const;
+    bool operator>(AlbaHourMinuteSecond const& second) const;
+    bool operator==(AlbaHourMinuteSecond const& second) const;
+    bool operator!=(AlbaHourMinuteSecond const& second) const;
+
+    bool isEmpty() const;
     uint32_t getHours() const;
     uint32_t getMinutes() const;
     uint32_t getSeconds() const;
-    uint32_t getHourMinuteSecond() const;
+    uint32_t getTotalSeconds() const;
+
+    void clear();
     void setTime(uint32_t const totalSeconds);
     void setTime(uint8_t const hours, uint8_t const minutes, uint8_t const seconds);
 
@@ -71,6 +85,23 @@ private:
 class AlbaDateTime
 {
 public:
+
+    enum class PrintFormat
+    {
+        Type1, // NN YYYY-MM-DD HH:MM:SS.MMMMMM
+        Type2, // HH:MM:SS
+        Type3  // HH:MM:SS.MMMMMM
+    };
+
+    template <PrintFormat printFormat>
+    struct PrintObject
+    {
+        PrintObject(AlbaDateTime const*const objectPointer)
+            : dateTimePointer(objectPointer)
+        {}
+        AlbaDateTime const*const dateTimePointer{nullptr};
+    };
+
     constexpr AlbaDateTime()
         : m_sign(1)
         , m_yearMonthDay{}
@@ -95,7 +126,7 @@ public:
             uint8_t const seconds,
             uint32_t const microseconds)
         : m_sign(1)
-        , m_yearMonthDay(years, convertMonthToCorrectMonthIndex(months), days)
+        , m_yearMonthDay(years, months, days)
         , m_hourMinuteSecond(hours, minutes, seconds)
         , m_microseconds(microseconds)
     {}
@@ -105,6 +136,13 @@ public:
             uint32_t const totalSeconds,
             uint32_t const totalMicroseconds);
 
+    bool operator<(AlbaDateTime const& secondDateTime) const;
+    bool operator>(AlbaDateTime const& secondDateTime) const;
+    bool operator==(AlbaDateTime const& secondDateTime) const;
+    bool operator!=(AlbaDateTime const& secondDateTime) const;
+    AlbaDateTime operator+(AlbaDateTime const& secondDateTime) const;
+    AlbaDateTime operator-(AlbaDateTime const& secondDateTime) const;
+
     bool isEmpty() const;
     uint32_t getYears() const;
     uint32_t getMonths() const;
@@ -113,37 +151,25 @@ public:
     uint32_t getMinutes() const;
     uint32_t getSeconds() const;
     uint32_t getMicroSeconds() const;
-    void clearMicroSeconds();
-    uint32_t getTotalDaysInYearMonthDays() const;
-    uint32_t getTotalSecondsInHourMinutesSeconds() const;
+    AlbaYearMonthDay const& getYearMonthDay() const;
+    AlbaHourMinuteSecond const& getHourMinutesSecond() const;
 
-    std::string getPrintableStringFormat1() const; //NN YYYY-MM-DD HH:MM:SS.MMMMMM
-    std::string getPrintableStringFormat2() const; // HH:MM:SS
-    std::string getPrintableStringFormat3() const; // HH:MM:SS.MMMMMM
-
-    bool operator<(AlbaDateTime const& secondDateTime) const;
-    bool operator>(AlbaDateTime const& secondDateTime) const;
-    bool operator==(AlbaDateTime const& secondDateTime) const;
-    bool operator!=(AlbaDateTime const& secondDateTime) const;
-    AlbaDateTime operator+(AlbaDateTime const& secondDateTime) const;
-    AlbaDateTime operator-(AlbaDateTime const& secondDateTime) const;
+    AlbaYearMonthDay& getYearMonthDayReference();
+    AlbaHourMinuteSecond& getHourMinutesSecondReference();
+    uint32_t& getMicroSecondsReference();
 
     void clear();
     void negate();
     void setTime(uint16_t const years, uint8_t const months, uint8_t const days, uint8_t const hours, uint8_t const minutes, uint8_t const seconds, uint32_t const microseconds);
-    void reorganizeValues(); // NOTE: This class needs to be manually reorganized since constructor is constexpr
+    void reorganizeValues(); // NOTE: AlbaDateTime class needs to be manually reorganized (if needed) since the constructor is constexpr.
+
+    template <PrintFormat printFormat>
+    PrintObject<printFormat> getPrintObject() const
+    {
+        return PrintObject<printFormat>(this);
+    }
 
 private:
-
-    constexpr uint8_t convertMonthToCorrectMonthIndex(uint8_t const month)
-    {
-        uint8_t result=0;
-        if(month>=1 && month<=12)
-        {
-            result = month-1;
-        }
-        return result;
-    }
 
     bool isLessThanInMagnitude(AlbaDateTime const& firstDateTime, AlbaDateTime const& secondDateTime) const;
     bool isGreaterThanInMagnitude(AlbaDateTime const& firstDateTime, AlbaDateTime const& secondDateTime) const;
@@ -151,6 +177,10 @@ private:
     AlbaDateTime executeAddOrSubtract(AlbaDateTime const& firstDateTime, AlbaDateTime const& secondDateTime) const;
     AlbaDateTime addDateTimeMagnitude(AlbaDateTime const& firstDateTime, AlbaDateTime const& secondDateTime) const;
     AlbaDateTime subtractDateTimeMagnitude(AlbaDateTime const& firstDateTime, AlbaDateTime const& secondDateTime) const;
+
+    template <PrintFormat printFormat> friend std::ostream & operator<<(std::ostream & out, AlbaDateTime::PrintObject<printFormat> const&);
+    friend std::ostream & operator<<(std::ostream & out, AlbaDateTime const& dateTime);
+
     int32_t m_sign; // sign is the hottest parameter (based from my evaluation)
     AlbaYearMonthDay m_yearMonthDay;
     AlbaHourMinuteSecond m_hourMinuteSecond;

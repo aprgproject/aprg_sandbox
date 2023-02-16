@@ -87,10 +87,12 @@ private:
 
 // Count of n digit numbers whose sum of digits equals to given sum
 
-// Given two integers ‘n’ and ‘sum’, find count of all n digit numbers with sum of digits as ‘sum’. Leading 0’s are not counted as digits.// -> 1 <= n <= 100 and
+// Given two integers ‘n’ and ‘sum’, find count of all n digit numbers with sum of digits as ‘sum’. Leading 0’s are not counted as digits.
+// -> 1 <= n <= 100 and
 // -> 1 <= sum <= 500
 
-// Example:// Input:  n = 2, sum = 2
+// Example:
+// Input:  n = 2, sum = 2
 // -> Output: 2
 // -> Explanation: Numbers are 11 and 20
 // Input:  n = 2, sum = 5

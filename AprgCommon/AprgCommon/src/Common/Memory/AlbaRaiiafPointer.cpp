@@ -1,3 +1,5 @@
+#include <Common/Memory/AlbaRaiiafPointer.hpp>
+
 namespace alba
 {
 

@@ -5,7 +5,7 @@
 namespace alba
 {
 
-TEST(UniqueVariantTest, AcquiringVariantTypeInvokesDefaultConstructor)
+TEST(AlbaUniqueVariantTest, AcquiringVariantTypeInvokesDefaultConstructor)
 {
     // Given
     struct ExampleStructure1 : public VariantDataType
@@ -55,7 +55,7 @@ public:
 };
 bool DestructorClass::s_destructorInvoked = false;
 
-TEST(UniqueVariantTest, AcquiringVariantTypeDifferentThanAlreadyInVariantInvokesDestructor)
+TEST(AlbaUniqueVariantTest, AcquiringVariantTypeDifferentThanAlreadyInVariantInvokesDestructor)
 {
     // Given
     UniqueVariant<DestructorClass, VariantDataType> variant;
@@ -69,7 +69,7 @@ TEST(UniqueVariantTest, AcquiringVariantTypeDifferentThanAlreadyInVariantInvokes
 }
 
 
-TEST(UniqueVariantTest, PolymorphismIsSupportedByUniqueVariant)
+TEST(AlbaUniqueVariantTest, PolymorphismIsSupportedByUniqueVariant)
 {
     // Given
     constexpr int valueFromTest = 467;

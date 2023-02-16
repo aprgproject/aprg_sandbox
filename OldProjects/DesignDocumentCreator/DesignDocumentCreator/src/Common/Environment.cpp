@@ -14,7 +14,8 @@ Environment::Environment()
     m_resetableMembers.emplace();
 }
 
-Environment& Environment::getInstance(){
+Environment& Environment::getInstance()
+{
     static Environment instance;
     return instance;
 }
@@ -39,9 +40,11 @@ UmlLogger& Environment::getUmlLogger()
     return m_resetableMembers->umlLogger;
 }
 
-Component* Environment::getComponentPointer(ComponentName const componentName){
+Component* Environment::getComponentPointer(ComponentName const componentName)
+{
     return getComponentsReference().getComponentPointer(componentName);
 }
+
 void Environment::send(GenericMessage const& message)
 {
     performSend(message);

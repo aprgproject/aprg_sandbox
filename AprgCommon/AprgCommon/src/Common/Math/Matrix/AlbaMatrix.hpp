@@ -394,7 +394,7 @@ private:
             }
         }
 
-        out << "Matrix output:\n" << table;
+        out << "Matrix output:" << std::endl << table;
         return out;
     }
 

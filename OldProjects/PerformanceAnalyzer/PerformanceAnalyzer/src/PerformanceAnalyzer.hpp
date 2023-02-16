@@ -6,10 +6,12 @@
 #include <optional>
 #include <string>
 
-namespace alba{
+namespace alba
+{
 
 class PerformanceAnalyzer
-{private:
+{
+private:
     struct UniqueUserId
     {
         UniqueUserId();
@@ -31,10 +33,12 @@ class PerformanceAnalyzer
         std::optional<wcdmaToolsBackend::BtsLogTime> endTimeOptional;
     };
 
-public:    PerformanceAnalyzer();
+public:
+    PerformanceAnalyzer();
     void setFileForRawDataDump(std::string const& rawDataPath);
     void logLineInRawDataFile(std::string const& line);
-    void logStringInRawDataFile(std::string const& line);    std::string extract(std::string const& inputPath) const;
+    void logStringInRawDataFile(std::string const& line);
+    std::string extract(std::string const& inputPath) const;
     std::string combineAndSort(std::string const& inputPath) const;
     void processFileForMsgQueueingTime(std::string const& filePath);
     void processFileForRlSetupDelayInRlh(std::string const& filePath);

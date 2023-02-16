@@ -18,4 +18,5 @@ namespace AlbaBitConstants
     constexpr uint8_t BIT_MASK = 0B00000001;
     constexpr uint8_t NUMBER_OF_NIBBLES_IN_BYTE = 2;
 }
+
 }

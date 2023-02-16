@@ -18,8 +18,9 @@ public:
     operator bool() const;
     bool hasContent() const;
     unsigned int getSize() const;
-    void* getBufferPointer();
     void const* getConstantBufferPointer() const;
+
+    void* getBufferPointer();
     void clear();
     void clearAndSetNewData(void* sourcePointer, unsigned int const size);
     void resize(unsigned int const size);
@@ -27,6 +28,7 @@ public:
     void* resizeWithAdditionalSizeAndReturnBeginOfAdditionalData(unsigned int const size);
     void addData(void const* sourcePointer, unsigned int const size);
     std::string getDisplayableString() const;
+
     template <typename ObjectType> void saveObject(ObjectType const& object)
     {
         unsigned int objectSize = sizeof(object);
@@ -35,12 +37,21 @@ public:
         void * destinationVoidPointer = getBufferPointer();
         memcpy(destinationVoidPointer, sourcePointer, objectSize);
     }
-    template <typename ObjectType> ObjectType& retrieveObject()
+
+    template <typename ObjectType> ObjectType retrieveObjectAsConstReference() const
+    {
+        return *reinterpret_cast<ObjectType const*>(getConstantBufferPointer());
+    }
+
+    template <typename ObjectType> ObjectType& retrieveObjectAsReference()
     {
         return *reinterpret_cast<ObjectType *>(getBufferPointer());
     }
 
 private:
+
+    friend std::ostream & operator<<(std::ostream & out, AlbaMemoryBuffer const& memoryBuffer);
+
     std::vector<uint8_t> m_buffer;
 };
 

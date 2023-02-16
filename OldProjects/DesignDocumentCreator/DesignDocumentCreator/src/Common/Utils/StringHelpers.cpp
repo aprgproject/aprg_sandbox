@@ -7,8 +7,10 @@
 
 using namespace alba;
 using namespace std;
+
 namespace DesignDocumentCreator
 {
+
 #define GET_ENUM_STRING(en) case en: result = #en; break;
 
 string StringHelpers::convertToString(ComponentName const componentName)

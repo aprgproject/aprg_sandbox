@@ -100,10 +100,12 @@ private:
     std::optional<std::ofstream> m_logFileStreamOptional;
     ControllerState m_state;
     bool m_waitingForReadyOkay;
-    CalculationDetails m_currentCalculationDetails;    std::deque<Command> m_pendingCommands;
+    CalculationDetails m_currentCalculationDetails;
+    std::deque<Command> m_pendingCommands;
 };
 
-std::string getEnumString(ChessEngineControllerWithUci::ControllerState const state);std::ostream & operator<<(std::ostream & out, ChessEngineControllerWithUci::ControllerState const state);
+std::string getEnumString(ChessEngineControllerWithUci::ControllerState const state);
+std::ostream & operator<<(std::ostream & out, ChessEngineControllerWithUci::ControllerState const state);
 
 
 }

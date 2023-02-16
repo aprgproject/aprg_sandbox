@@ -1850,6 +1850,18 @@ TEST(AlbaNumberTest, PrecisionWorksOnSquareRootAndPolynomialCalculation)
     EXPECT_EQ(0, numberToVerify.getInteger());
 }
 
+TEST(AlbaNumberTest, UserDefinedLiteralForAlbaNumberWorks)
+{
+    stringstream ss;
+    AlbaNumber number1 = 3484_AS_ALBA_NUMBER;
+    AlbaNumber number2 = -85.45631_AS_ALBA_NUMBER;
+
+    EXPECT_EQ(AlbaNumber::Type::Integer, number1.getType());
+    EXPECT_EQ(3484, number1.getInteger());
+    EXPECT_EQ(AlbaNumber::Type::Double, number2.getType());
+    EXPECT_DOUBLE_EQ(-85.45631, number2.getDouble());
+}
+
 TEST(AlbaNumberTest, OutputStreamOperatorWorks)
 {
     stringstream ss;

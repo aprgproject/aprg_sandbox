@@ -6,8 +6,10 @@
 #include <optional>
 #include <string>
 #include <vector>
+
 namespace alba
 {
+
 class RttAnalyzer2
 {
 public:

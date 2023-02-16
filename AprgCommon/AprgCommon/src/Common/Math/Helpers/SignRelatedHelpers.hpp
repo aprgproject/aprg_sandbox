@@ -6,8 +6,10 @@
 
 namespace alba
 {
+
 namespace mathHelper
 {
+
 template <typename NumberType> inline NumberType getAbsoluteValue(NumberType const value)
 {
     return (value<0) ? value*-1 : value;

@@ -46,18 +46,20 @@ TEST(AlbaBitValueUtilitiesTest, GetNumberOfOnesWorks)
     EXPECT_EQ(32U, AlbaBitValueUtilities<uint64_t>::getNumberOfOnes(0xA1BA'A1BA'A1BA'A1BAU));
 }
 
-TEST(AlbaBitValueUtilitiesTest, GetNumberOfConsecutiveZerosFromMsbWorks){
+TEST(AlbaBitValueUtilitiesTest, GetNumberOfConsecutiveZerosFromMsbWorks)
+{
     EXPECT_EQ(0U, AlbaBitValueUtilities<uint8_t>::getNumberOfConsecutiveZerosFromMsb(0x80U));
     EXPECT_EQ(3U, AlbaBitValueUtilities<uint8_t>::getNumberOfConsecutiveZerosFromMsb(0x10U));
-    EXPECT_EQ(7U, AlbaBitValueUtilities<uint8_t>::getNumberOfConsecutiveZerosFromMsb(0x01U));    EXPECT_EQ(0U, AlbaBitValueUtilities<uint16_t>::getNumberOfConsecutiveZerosFromMsb(0x8000U));
+    EXPECT_EQ(7U, AlbaBitValueUtilities<uint8_t>::getNumberOfConsecutiveZerosFromMsb(0x01U));
+    EXPECT_EQ(0U, AlbaBitValueUtilities<uint16_t>::getNumberOfConsecutiveZerosFromMsb(0x8000U));
     EXPECT_EQ(3U, AlbaBitValueUtilities<uint16_t>::getNumberOfConsecutiveZerosFromMsb(0x1000U));
     EXPECT_EQ(15U, AlbaBitValueUtilities<uint16_t>::getNumberOfConsecutiveZerosFromMsb(0x0001U));
-    EXPECT_EQ(0U, AlbaBitValueUtilities<uint32_t>::getNumberOfConsecutiveZerosFromMsb(0x80000000U));
-    EXPECT_EQ(3U, AlbaBitValueUtilities<uint32_t>::getNumberOfConsecutiveZerosFromMsb(0x10000000U));
-    EXPECT_EQ(31U, AlbaBitValueUtilities<uint32_t>::getNumberOfConsecutiveZerosFromMsb(0x00000001U));
-    EXPECT_EQ(0U, AlbaBitValueUtilities<uint64_t>::getNumberOfConsecutiveZerosFromMsb(0x8000000000000000U));
-    EXPECT_EQ(3U, AlbaBitValueUtilities<uint64_t>::getNumberOfConsecutiveZerosFromMsb(0x1000000000000000U));
-    EXPECT_EQ(63U, AlbaBitValueUtilities<uint64_t>::getNumberOfConsecutiveZerosFromMsb(0x0000000000000001U));
+    EXPECT_EQ(0U, AlbaBitValueUtilities<uint32_t>::getNumberOfConsecutiveZerosFromMsb(0x8000'0000U));
+    EXPECT_EQ(3U, AlbaBitValueUtilities<uint32_t>::getNumberOfConsecutiveZerosFromMsb(0x1000'0000U));
+    EXPECT_EQ(31U, AlbaBitValueUtilities<uint32_t>::getNumberOfConsecutiveZerosFromMsb(0x0000'0001U));
+    EXPECT_EQ(0U, AlbaBitValueUtilities<uint64_t>::getNumberOfConsecutiveZerosFromMsb(0x8000'0000'0000'0000U));
+    EXPECT_EQ(3U, AlbaBitValueUtilities<uint64_t>::getNumberOfConsecutiveZerosFromMsb(0x1000'0000'0000'0000U));
+    EXPECT_EQ(63U, AlbaBitValueUtilities<uint64_t>::getNumberOfConsecutiveZerosFromMsb(0x0000'0000'0000'0001U));
 }
 
 TEST(AlbaBitValueUtilitiesTest, GetNumberOfConsecutiveZerosFromLsbWorks)
@@ -68,12 +70,12 @@ TEST(AlbaBitValueUtilitiesTest, GetNumberOfConsecutiveZerosFromLsbWorks)
     EXPECT_EQ(15U, AlbaBitValueUtilities<uint16_t>::getNumberOfConsecutiveZerosFromLsb(0x8000U));
     EXPECT_EQ(3U, AlbaBitValueUtilities<uint16_t>::getNumberOfConsecutiveZerosFromLsb(0x0008U));
     EXPECT_EQ(0U, AlbaBitValueUtilities<uint16_t>::getNumberOfConsecutiveZerosFromLsb(0x0001U));
-    EXPECT_EQ(31U, AlbaBitValueUtilities<uint32_t>::getNumberOfConsecutiveZerosFromLsb(0x80000000U));
-    EXPECT_EQ(3U, AlbaBitValueUtilities<uint32_t>::getNumberOfConsecutiveZerosFromLsb(0x00000008U));
-    EXPECT_EQ(0U, AlbaBitValueUtilities<uint32_t>::getNumberOfConsecutiveZerosFromLsb(0x00000001U));
-    EXPECT_EQ(63U, AlbaBitValueUtilities<uint64_t>::getNumberOfConsecutiveZerosFromLsb(0x8000000000000000U));
-    EXPECT_EQ(3U, AlbaBitValueUtilities<uint64_t>::getNumberOfConsecutiveZerosFromLsb(0x0000000000000008U));
-    EXPECT_EQ(0U, AlbaBitValueUtilities<uint64_t>::getNumberOfConsecutiveZerosFromLsb(0x0000000000000001U));
+    EXPECT_EQ(31U, AlbaBitValueUtilities<uint32_t>::getNumberOfConsecutiveZerosFromLsb(0x8000'0000U));
+    EXPECT_EQ(3U, AlbaBitValueUtilities<uint32_t>::getNumberOfConsecutiveZerosFromLsb(0x0000'0008U));
+    EXPECT_EQ(0U, AlbaBitValueUtilities<uint32_t>::getNumberOfConsecutiveZerosFromLsb(0x0000'0001U));
+    EXPECT_EQ(63U, AlbaBitValueUtilities<uint64_t>::getNumberOfConsecutiveZerosFromLsb(0x8000'0000'0000'0000U));
+    EXPECT_EQ(3U, AlbaBitValueUtilities<uint64_t>::getNumberOfConsecutiveZerosFromLsb(0x0000'0000'0000'0008U));
+    EXPECT_EQ(0U, AlbaBitValueUtilities<uint64_t>::getNumberOfConsecutiveZerosFromLsb(0x0000'0000'0000'0001U));
 }
 
 TEST(AlbaBitValueUtilitiesTest, GetHammingDistanceWorks)
@@ -136,16 +138,16 @@ TEST(AlbaBitValueUtilitiesTest, GetOnesComplementWorks)
 {
     EXPECT_EQ(0x5EU, AlbaBitValueUtilities<uint8_t>::getOnesComplement(0xA1U));
     EXPECT_EQ(0x5E45U, AlbaBitValueUtilities<uint16_t>::getOnesComplement(0xA1BAU));
-    EXPECT_EQ(0x5E455E45U, AlbaBitValueUtilities<uint32_t>::getOnesComplement(0xA1BAA1BAU));
-    EXPECT_EQ(0x5E455E455E455E45U, AlbaBitValueUtilities<uint64_t>::getOnesComplement(0xA1BAA1BAA1BAA1BAU));
+    EXPECT_EQ(0x5E455E45U, AlbaBitValueUtilities<uint32_t>::getOnesComplement(0xA1BA'A1BAU));
+    EXPECT_EQ(0x5E455E455E455E45U, AlbaBitValueUtilities<uint64_t>::getOnesComplement(0xA1BA'A1BA'A1BA'A1BAU));
 }
 
 TEST(AlbaBitValueUtilitiesTest, GetTwosComplementWorks)
 {
     EXPECT_EQ(0x5FU, AlbaBitValueUtilities<uint8_t>::getTwosComplement(0xA1U));
     EXPECT_EQ(0x5E46U, AlbaBitValueUtilities<uint16_t>::getTwosComplement(0xA1BAU));
-    EXPECT_EQ(0x5E455E46U, AlbaBitValueUtilities<uint32_t>::getTwosComplement(0xA1BAA1BAU));
-    EXPECT_EQ(0x5E455E455E455E46U, AlbaBitValueUtilities<uint64_t>::getTwosComplement(0xA1BAA1BAA1BAA1BAU));
+    EXPECT_EQ(0x5E455E46U, AlbaBitValueUtilities<uint32_t>::getTwosComplement(0xA1BA'A1BAU));
+    EXPECT_EQ(0x5E455E455E455E46U, AlbaBitValueUtilities<uint64_t>::getTwosComplement(0xA1BA'A1BA'A1BA'A1BAU));
 }
 
 TEST(AlbaBitValueUtilitiesTest, GetGreatestPowerOf2FactorWorks)

@@ -29,14 +29,14 @@ unsigned int AlbaMemoryBuffer::getSize() const
     return m_buffer.size();
 }
 
-void* AlbaMemoryBuffer::getBufferPointer()
-{
-    return m_buffer.begin().base();
-}
-
 void const* AlbaMemoryBuffer::getConstantBufferPointer() const
 {
-    return m_buffer.begin().base();
+    return static_cast<void const*>(m_buffer.data());
+}
+
+void* AlbaMemoryBuffer::getBufferPointer()
+{
+    return static_cast<void *>(m_buffer.data());
 }
 
 void AlbaMemoryBuffer::clear()
@@ -73,9 +73,10 @@ void AlbaMemoryBuffer::addData(void const* sourcePointer, unsigned int const add
     memcpy(destinationVoidPointer, sourcePointer, additionalSize);
 }
 
-string AlbaMemoryBuffer::getDisplayableString() const
+std::ostream & operator<<(std::ostream & out, AlbaMemoryBuffer const& memoryBuffer)
 {
-    return containerHelper::getStringFromContentsWithNumberFormat(m_buffer);
+    containerHelper::saveContentsInDecimalAndHexadecimalFormat(out, memoryBuffer.m_buffer);
+    return out;
 }
 
 

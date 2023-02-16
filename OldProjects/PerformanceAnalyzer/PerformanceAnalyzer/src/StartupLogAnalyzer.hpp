@@ -8,8 +8,10 @@
 #include <optional>
 #include <string>
 #include <vector>
+
 namespace alba
 {
+
 class StartupLogAnalyzer
 {
 

@@ -4,10 +4,12 @@
 #include <Common/Types/AlbaTypeHelper.hpp>
 
 #include <iomanip>
-#include <optional>#include <string>
+#include <optional>
+#include <string>
 #include <vector>
 
-namespace alba{
+namespace alba
+{
 
 namespace stringHelper
 {
@@ -214,6 +216,7 @@ std::wstring convertStringToWideString(std::string const& stringInput);
 std::string convertWideStringToString(std::wstring const& wstringInput);
 
 
+
 // Alignments
 
 std::string getStringWithJustifyAlignment(std::string const& mainString, unsigned int const targetLength);
@@ -222,7 +225,9 @@ std::string getStringWithRightAlignment(std::string const& mainString, unsigned 
 std::string getStringWithLeftAlignment(std::string const& mainString, unsigned int const targetLength);
 
 
+
 // PathHelpers
+
 std::string getCorrectPathWithoutUrlParameters(std::string const& path);
 std::string getUrlParameters(std::string const& path);
 std::string getCorrectPathWithReplacedSlashCharacters(std::string const& path, std::string const& slashCharacterString);

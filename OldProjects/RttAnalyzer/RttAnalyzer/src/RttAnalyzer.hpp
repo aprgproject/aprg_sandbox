@@ -6,8 +6,10 @@
 #include <optional>
 #include <string>
 #include <vector>
+
 namespace alba
 {
+
 struct RttDetails
 {
     std::string dateTime;
@@ -32,4 +34,5 @@ private:
     unsigned int m_posNumber;
 
 };
+
 }

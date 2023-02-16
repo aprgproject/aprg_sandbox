@@ -5,9 +5,12 @@
 
 namespace alba
 {
-typedef uintptr_t TypeId;
 
-namespace detail{
+using TypeId = uintptr_t;
+static constexpr TypeId EMPTY_TYPE_ID = 0;
+
+namespace detail
+{
 
 // generates unique integer type id, as an address of static method
 template <class T>
@@ -19,9 +22,11 @@ public:
         return reinterpret_cast<TypeId>(std::addressof(GetTypeId));
     }
 };
+
 } // namespace details
 
-template <class T>TypeId GetTypeId()
+template <class T>
+TypeId GetTypeId()
 {
     return detail::TypeIdGenerator<T>::GetTypeId();
 }

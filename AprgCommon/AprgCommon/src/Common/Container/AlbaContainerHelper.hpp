@@ -316,6 +316,22 @@ void saveContentsToStream(std::ostream & outputStream, Container<KeyType, ValueT
     }
 }
 
+template <typename ValueType,
+          template <typename, typename = std::allocator<ValueType>> class Container>
+void saveContentsInDecimalAndHexadecimalFormat(std::ostream & outputStream, Container<ValueType> const& container)
+{
+    std::string delimeter = getDelimeterBasedOnFormat(StreamFormat::String);
+    std::ostream_iterator<unsigned int> outputIterator(outputStream, delimeter.c_str());
+
+    outputStream << "Decimal values: {" << std::dec;
+    std::copy(container.cbegin(), container.cend(), outputIterator);
+    outputStream << "}" << std::endl;
+
+    outputStream << "Hexadecimal values: {" << std::hex;
+    std::copy(container.cbegin(), container.cend(), outputIterator);
+    outputStream << "}" << std::endl;
+}
+
 
 //RetrieveContentsFromStream
 template <typename ValueType, std::size_t SIZE,
@@ -376,9 +392,9 @@ template <typename ValueType, std::size_t SIZE,
 std::string getStringFromContents(Container<ValueType, SIZE> const& container)
 {
     //tested on array
-    std::ostringstream result;
-    saveContentsToStream(result, container, StreamFormat::String);
-    return result.str();
+    std::ostringstream oss;
+    saveContentsToStream(oss, container, StreamFormat::String);
+    return oss.str();
 }
 
 template <typename ValueType,
@@ -386,9 +402,9 @@ template <typename ValueType,
 std::string getStringFromContents(Container<ValueType> const& container)
 {
     //tested on vector
-    std::ostringstream result;
-    saveContentsToStream(result, container, StreamFormat::String);
-    return result.str();
+    std::ostringstream oss;
+    saveContentsToStream(oss, container, StreamFormat::String);
+    return oss.str();
 }
 
 template <typename ValueType,
@@ -396,9 +412,9 @@ template <typename ValueType,
 std::string getStringFromContents(Container<ValueType> const& container)
 {
     //tested on set
-    std::ostringstream result;
-    saveContentsToStream(result, container, StreamFormat::String);
-    return result.str();
+    std::ostringstream oss;
+    saveContentsToStream(oss, container, StreamFormat::String);
+    return oss.str();
 }
 
 template <typename KeyType, typename ValueType,
@@ -406,30 +422,22 @@ template <typename KeyType, typename ValueType,
 std::string getStringFromContents(Container<KeyType, ValueType> const& container)
 {
     //tested on map
-    std::stringstream result;
-    saveContentsToStream(result, container, StreamFormat::String);
-    return result.str();
+    std::stringstream oss;
+    saveContentsToStream(oss, container, StreamFormat::String);
+    return oss.str();
 }
 
 
+
 //GetStringOtherFormats
+
 template <typename ValueType,
           template <typename, typename = std::allocator<ValueType>> class Container>
-std::string getStringFromContentsWithNumberFormat(Container<ValueType> const& container)
+std::string getStringInDecimalAndHexadecimalFormat(Container<ValueType> const& container)
 {
-    std::ostringstream result;
-    std::string delimeter = getDelimeterBasedOnFormat(StreamFormat::String);
-    std::ostream_iterator<unsigned int> outputIterator(result, delimeter.c_str());
-
-    result<<"Decimal values: {"<<std::dec;
-    std::copy(container.cbegin(), container.cend(), outputIterator);
-    result<<"}\n";
-
-    result<<"Hexadecimal values: {"<<std::hex;
-    std::copy(container.cbegin(), container.cend(), outputIterator);
-    result<<"}\n";
-
-    return result.str();
+    std::ostringstream oss;
+    saveContentsInDecimalAndHexadecimalFormat(oss, container);
+    return oss.str();
 }
 
 } //namespace containerHelper

@@ -1,7 +1,10 @@
+#include <Common/String/AlbaStringHelper.hpp>
 #include <Common/Time/AlbaLocalTimeHelper.hpp>
 #include <Common/Time/AlbaLocalTimer.hpp>
 
 #include <gtest/gtest.h>
+
+using namespace alba::stringHelper;
 
 namespace alba
 {
@@ -31,21 +34,21 @@ TEST(AlbaLocalTimerHelperTest, DISABLED_ConvertSystemTimeToAlbaDateTimeWorks) //
 {
     AlbaDateTime currentTime(convertSystemTimeToAlbaDateTime(getSystemTimeNow()));
 
-    EXPECT_EQ(" 1 * 2021-09-13 02:39:51.893963", currentTime.getPrintableStringFormat1());
+    EXPECT_EQ(" 1 * 2021-09-13 02:39:51.893963", convertToString(currentTime));
 }
 
 TEST(AlbaLocalTimerHelperTest, DISABLED_ConvertSinceEpochTimeToAlbaDateTimeWorksForSystemTime) // this is unstable because time varies
 {
     AlbaDateTime currentTime(convertSinceEpochTimeToAlbaDateTime(getSystemTimeNow()));
 
-    EXPECT_EQ(" 1 * 0051-09-11 18:49:14.042623", currentTime.getPrintableStringFormat1());
+    EXPECT_EQ(" 1 * 0051-09-11 18:49:14.042623", convertToString(currentTime));
 }
 
 TEST(AlbaLocalTimerHelperTest, DISABLED_ConvertSinceEpochTimeToAlbaDateTimeWorksForSteadyTime) // this is unstable because time varies
 {
     AlbaDateTime currentTime(convertSinceEpochTimeToAlbaDateTime(getSteadyTimeNow()));
 
-    EXPECT_EQ(" 1 * 0000-01-00 07:45:15.164525", currentTime.getPrintableStringFormat1());
+    EXPECT_EQ(" 1 * 0000-01-00 07:45:15.164525", convertToString(currentTime));
 }
 
 TEST(AlbaLocalTimerHelperTest, DISABLED_ConvertAlbaDateTimeToSystemTimeWorks)
@@ -55,12 +58,12 @@ TEST(AlbaLocalTimerHelperTest, DISABLED_ConvertAlbaDateTimeToSystemTimeWorks)
     LibrarySystemTime systemTime(convertAlbaDateTimeToSystemTime(inputTime));
 
     AlbaDateTime timeConvertedBack(convertSystemTimeToAlbaDateTime(systemTime));
-    EXPECT_EQ(" 1 * 1990-04-13 07:07:07.000007", timeConvertedBack.getPrintableStringFormat1());
+    EXPECT_EQ(" 1 * 1990-04-13 07:07:07.000007", convertToString(timeConvertedBack));
 }
 
 TEST(AlbaLocalTimerHelperTest, DISABLED_GetCurrentDateTimeWorks) // this is unstable because time varies
 {
-    EXPECT_EQ(" 1 * 2021-09-13 02:39:51.893963", getCurrentDateTime().getPrintableStringFormat1());
+    EXPECT_EQ(" 1 * 2021-09-13 02:39:51.893963", convertToString(getCurrentDateTime()));
 }
 
 }

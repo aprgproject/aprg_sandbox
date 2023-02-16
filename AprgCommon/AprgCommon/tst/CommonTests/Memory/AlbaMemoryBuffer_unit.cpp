@@ -146,25 +146,15 @@ TEST(AlbaMemoryBufferTest, DataForMemoryBufferCanBeWrittenConsecutivelyOutsideTh
     EXPECT_EQ(0x21U, reader[7]);
 }
 
-TEST(AlbaMemoryBufferTest, GetDisplayableStringWorks)
-{
-    int input = 0x12345678;
-    AlbaMemoryBuffer buffer(static_cast<void*>(&input), sizeof(input));
-
-    EXPECT_TRUE(buffer);
-    EXPECT_TRUE(buffer.hasContent());
-    EXPECT_EQ(4U, buffer.getSize());
-    EXPECT_FALSE(buffer.getDisplayableString().empty());
-}
-
 TEST(AlbaMemoryBufferTest, SettingAndRetrievingPrimitiveObjectWorks)
 {
     AlbaMemoryBuffer buffer;
     int input = 0x12345678;
 
     buffer.saveObject<int>(input);
-    int& output(buffer.retrieveObject<int>());
+    int& output(buffer.retrieveObjectAsReference<int>());
 
+    EXPECT_EQ(input, buffer.retrieveObjectAsConstReference<int>());
     EXPECT_EQ(input, output);
 }
 
@@ -182,13 +172,24 @@ TEST(AlbaMemoryBufferTest, SettingAndRetrievingDynamicSizeObjectWorks)
     dynamicInput.integers.emplace_back(33);
     dynamicInput.integers.emplace_back(44);
     buffer.saveObject<SampleDynamicClass>(dynamicInput);
-    SampleDynamicClass& output(buffer.retrieveObject<SampleDynamicClass>());
+    SampleDynamicClass& output(buffer.retrieveObjectAsReference<SampleDynamicClass>());
 
     ASSERT_EQ(4U, output.integers.size());
     EXPECT_EQ(11, output.integers[0]);
     EXPECT_EQ(22, output.integers[1]);
     EXPECT_EQ(33, output.integers[2]);
     EXPECT_EQ(44, output.integers[3]);
+}
+
+TEST(AlbaMemoryBufferTest, OutputStreamOperatorWorks)
+{
+    int input = 0x12345678;
+    AlbaMemoryBuffer buffer(static_cast<void*>(&input), sizeof(input));
+    stringstream ss;
+
+    ss<<buffer;
+
+    EXPECT_EQ("Decimal values: {120, 86, 52, 18, }\nHexadecimal values: {78, 56, 34, 12, }\n", ss.str());
 }
 
 }

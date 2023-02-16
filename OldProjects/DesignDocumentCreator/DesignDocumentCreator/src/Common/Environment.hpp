@@ -7,9 +7,11 @@
 
 namespace DesignDocumentCreator
 {
+
 class Environment
 {
-private:    Environment();
+private:
+    Environment();
 public:
     struct ResetableMembers
     {
@@ -31,4 +33,5 @@ private:
     std::optional<ResetableMembers> m_resetableMembers;
     void performSend(GenericMessage const& messageToRoute);
 };
+
 }

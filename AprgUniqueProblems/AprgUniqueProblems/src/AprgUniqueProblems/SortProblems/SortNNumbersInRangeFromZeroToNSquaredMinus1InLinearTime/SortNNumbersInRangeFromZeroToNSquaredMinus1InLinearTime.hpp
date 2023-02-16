@@ -6,8 +6,10 @@
 
 namespace alba
 {
+
 namespace algorithm
 {
+
 template <typename Integers>
 class SortNNumbersInRangeFromZeroToNSquaredMinus1InLinearTime
 {
@@ -24,10 +26,12 @@ public:
         static_assert(typeHelper::isIntegralType<Integer>(), "Data type must be an integer");
 
         unsigned int size = valuesToSort.size();
-        if(size > 1U)        {
+        if(size > 1U)
+        {
             // If we set b as n, the value of O(logb(n)) becomes O(1) and overall time complexity becomes O(n).
             unsigned int numberOfBitsInDigit = AlbaBitValueUtilities<unsigned int>::getCeilOfLogarithmWithBase2Of(size);
-            unsigned int numberOfDigits = (AlbaBitValueUtilities<Integer>::getNumberOfBits()+numberOfBitsInDigit-1)/numberOfBitsInDigit;            Integer mask = AlbaBitValueUtilities<Integer>::generateOnesWithNumberOfBits(numberOfBitsInDigit);
+            unsigned int numberOfDigits = (AlbaBitValueUtilities<Integer>::getNumberOfBits()+numberOfBitsInDigit-1)/numberOfBitsInDigit;
+            Integer mask = AlbaBitValueUtilities<Integer>::generateOnesWithNumberOfBits(numberOfBitsInDigit);
 
             GetDigitAtFunction getDigitAt = [&](Integer const& value, unsigned int const mostSignificantDigitIndex) -> Integer
             {

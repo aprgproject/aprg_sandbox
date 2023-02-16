@@ -19,6 +19,7 @@ string getDelimeterBasedOnFormat(StreamFormat const streamFormat)
         return ", "s;
     }
 }
+
 }
 
 }//namespace alba

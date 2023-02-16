@@ -1,7 +1,9 @@
 #include "AlbaLocalTimer.hpp"
 
+#include <Common/String/AlbaStringHelper.hpp>
 #include <Common/Time/AlbaLocalTimeHelper.hpp>
 
+using namespace alba::stringHelper;
 using namespace std;
 using namespace std::chrono;
 
@@ -59,11 +61,6 @@ AlbaDateTime AlbaLocalTimer::getDifferenceAsAlbaDateTime() const
     AlbaDateTime result(0, 0, 0, 0, 0, 0, getElapsedTimeInMicroseconds()); // might overflow
     result.reorganizeValues();
     return result;
-}
-
-string AlbaLocalTimer::getElapsedTimeDisplayableString() const
-{
-    return getDifferenceAsAlbaDateTime().getPrintableStringFormat3();
 }
 
 }//namespace alba

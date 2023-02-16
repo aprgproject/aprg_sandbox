@@ -43,7 +43,9 @@ MinimumInitialPointsToReachDestination::Value MinimumInitialPointsToReachDestina
                 neededPointsGrid.setEntry(x, y, neededPointsForThisCell);
             }
         }
-        result = neededPointsGrid.getEntry(0, 0);    }
+        result = neededPointsGrid.getEntry(0, 0);
+    }
     return result;
 }
+
 }

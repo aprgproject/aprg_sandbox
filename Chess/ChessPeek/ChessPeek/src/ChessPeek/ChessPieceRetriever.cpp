@@ -88,10 +88,12 @@ void ChessPieceRetriever::setLogFile(string const& logFilePath)
     if(!m_logFileStreamOptional->is_open())
     {
         cout << string("Cannot open log file") << logFilePath;
-    }}
+    }
+}
 
 void ChessPieceRetriever::initialize(ChessPeekConfigurationType const type)
-{    if(ChessPeekConfigurationType::ChessDotComUserVsUser == type
+{
+    if(ChessPeekConfigurationType::ChessDotComUserVsUser == type
             || ChessPeekConfigurationType::ChessDotComUserVsComputer == type)
     {
         initializeConverterToChessDotCom();

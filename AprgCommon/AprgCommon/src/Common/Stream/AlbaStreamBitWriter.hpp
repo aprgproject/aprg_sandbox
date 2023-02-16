@@ -41,9 +41,11 @@ private:
     std::ostream& m_stream;
     std::deque<bool> m_bitBuffer;
 };
+
 template <typename TypeToWrite>
 void AlbaStreamBitWriter::writeNumberData(AlbaStreamBitEndianType const endianType, TypeToWrite const& data)
-{    if(AlbaStreamBitEndianType::BigEndian == endianType)
+{
+    if(AlbaStreamBitEndianType::BigEndian == endianType)
     {
         putBigEndianNumberDataInBuffer<TypeToWrite>(data);
     }

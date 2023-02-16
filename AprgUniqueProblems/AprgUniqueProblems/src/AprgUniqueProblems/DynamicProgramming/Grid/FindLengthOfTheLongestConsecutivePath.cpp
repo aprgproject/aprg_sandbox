@@ -52,7 +52,8 @@ FindLengthOfTheLongestConsecutivePath::Count FindLengthOfTheLongestConsecutivePa
     Count result(0);
     Value nextValue = m_inputGrid.getEntry(x,y)+1;
 
-    for(auto const& neighborOffset : neighborOffsets)    {
+    for(auto const& neighborOffset : neighborOffsets)
+    {
         Index neighborX = x+neighborOffset.first, neighborY = y+neighborOffset.second;
         if(m_inputGrid.isInside(neighborX, neighborY) && m_inputGrid.getEntry(neighborX, neighborY)==nextValue)
         {
@@ -62,9 +63,11 @@ FindLengthOfTheLongestConsecutivePath::Count FindLengthOfTheLongestConsecutivePa
     result++; // count this node
     return result;
 }
+
 FindLengthOfTheLongestConsecutivePath::Count FindLengthOfTheLongestConsecutivePath::getLongestLengthStartingAtUsingMemoizationDP(
         Index const x,
-        Index const y) const{
+        Index const y) const
+{
     Count result(0);
     if(!m_inputGrid.isEmpty())
     {
@@ -85,7 +88,8 @@ FindLengthOfTheLongestConsecutivePath::Count FindLengthOfTheLongestConsecutivePa
         result = 0;
         Value nextValue = m_inputGrid.getEntry(x,y)+1;
 
-        for(auto const& neighborOffset : neighborOffsets)        {
+        for(auto const& neighborOffset : neighborOffsets)
+        {
             Index neighborX = x+neighborOffset.first, neighborY = y+neighborOffset.second;
             if(m_inputGrid.isInside(neighborX, neighborY) && m_inputGrid.getEntry(neighborX, neighborY)==nextValue)
             {
@@ -95,6 +99,7 @@ FindLengthOfTheLongestConsecutivePath::Count FindLengthOfTheLongestConsecutivePa
         result++; // count this node
         countGrid.setEntry(x, y, result);
     }
-    return result;}
+    return result;
+}
 
 }

@@ -62,6 +62,7 @@ void UserIdentifiers::saveNbccId(std::string const& lineInLogs)
         m_nbccIdOptional = nbccId;
     }
 }
+
 void UserIdentifiers::saveCrnccId(std::string const& lineInLogs)
 {
     unsigned int crncId = stringHelper::convertStringToNumber<unsigned int>(stringHelper::getNumberAfterThisString(lineInLogs, "crncId: "));
@@ -75,6 +76,7 @@ void UserIdentifiers::saveCrnccId(std::string const& lineInLogs)
         m_crnccIdOptional = crnccId;
     }
 }
+
 void UserIdentifiers::saveTransactionId(std::string const& lineInLogs)
 {
     unsigned int transactionId = stringHelper::convertStringToNumber<int>(stringHelper::getNumberAfterThisString(lineInLogs, "transactionId: "));
@@ -83,6 +85,7 @@ void UserIdentifiers::saveTransactionId(std::string const& lineInLogs)
         m_transactionIdOptional = transactionId;
     }
 }
+
 unsigned int UserIdentifiers::getNbccId() const
 {
     unsigned int result(0);
@@ -92,6 +95,7 @@ unsigned int UserIdentifiers::getNbccId() const
     }
     return result;
 }
+
 unsigned int UserIdentifiers::getCrnccId() const
 {
     unsigned int result(0);
@@ -101,6 +105,7 @@ unsigned int UserIdentifiers::getCrnccId() const
     }
     return result;
 }
+
 unsigned int UserIdentifiers::getTransactionId() const
 {
     unsigned int result(0);
@@ -110,4 +115,5 @@ unsigned int UserIdentifiers::getTransactionId() const
     }
     return result;
 }
+
 }

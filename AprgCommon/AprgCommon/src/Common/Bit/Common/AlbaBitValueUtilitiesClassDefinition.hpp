@@ -8,9 +8,11 @@
 
 namespace alba
 {
+
 template <typename DataTypeToManipulate>
 class AlbaBitValueUtilities
-{public:
+{
+public:
 
     // rule of five or six
     AlbaBitValueUtilities() = delete;
@@ -26,6 +28,7 @@ class AlbaBitValueUtilities
 
         return (value & (value-1))==0;
     }
+
     static constexpr inline bool isEvenParity(DataTypeToManipulate const value)
     {
         // This is similar with __builtin_parity(x)
@@ -40,9 +43,11 @@ class AlbaBitValueUtilities
         static_assert(typeHelper::isIntegralType<DataTypeToManipulate>(), "DataTypeToManipulate must be an integer");
 
         // return std::numeric_limits<DataTypeToManipulate>::digits + (std::numeric_limits<DataTypeToManipulate>::is_signed ? 1 : 0);
+
         // Use sizeof instead.
         // -> sizeof: Yields the size in bytes of the object representation of type.
-        return sizeof(DataTypeToManipulate) * AlbaBitConstants::BYTE_SIZE_IN_BITS;    }
+        return sizeof(DataTypeToManipulate) * AlbaBitConstants::BYTE_SIZE_IN_BITS;
+    }
 
     static constexpr inline unsigned int getNumberOfOnes(DataTypeToManipulate const)
     {
@@ -53,6 +58,7 @@ class AlbaBitValueUtilities
         static_assert(sizeof(DataTypeToManipulate) != sizeof(DataTypeToManipulate), "This size or type is not supported. Please add a specialization if needed.");
         return 0;
     }
+
     static constexpr inline unsigned int getNumberOfConsecutiveZerosFromMsb(DataTypeToManipulate const)
     {
         // Think about this
@@ -62,6 +68,7 @@ class AlbaBitValueUtilities
         static_assert(sizeof(DataTypeToManipulate) != sizeof(DataTypeToManipulate), "This size or type is not supported. Please add a specialization if needed.");
         return 0;
     }
+
     static constexpr inline unsigned int getNumberOfConsecutiveZerosFromLsb(DataTypeToManipulate const)
     {
         // Think about this
@@ -70,7 +77,8 @@ class AlbaBitValueUtilities
         static_assert(typeHelper::isIntegralType<DataTypeToManipulate>(), "DataTypeToManipulate must be an integer");
         static_assert(sizeof(DataTypeToManipulate) != sizeof(DataTypeToManipulate),
                       "This size or type is not supported. Please add a specialization if needed.");
-        return 0;    }
+        return 0;
+    }
 
     static constexpr inline unsigned int getHammingDistance(DataTypeToManipulate const value1, DataTypeToManipulate const value2)
     {
@@ -93,6 +101,7 @@ class AlbaBitValueUtilities
         static_assert(typeHelper::isIntegralType<DataTypeToManipulate>(), "DataTypeToManipulate must be an integer");
         static_assert(sizeof(DataTypeToManipulate) != sizeof(DataTypeToManipulate),
                       "This size or type is not supported. Please add a specialization if needed.");
+
         return 0;
     }
 
@@ -108,7 +117,8 @@ class AlbaBitValueUtilities
         static_assert(typeHelper::isIntegralType<DataTypeToManipulate>(), "DataTypeToManipulate must be an integer");
 
         DataTypeToManipulate result = getNumberOfBits() - getNumberOfConsecutiveZerosFromMsb(value);
-        result = (result == 0) ? 0 : result-1;        return result;
+        result = (result == 0) ? 0 : result-1;
+        return result;
     }
 
     static constexpr inline DataTypeToManipulate getCeilOfLogarithmWithBase2Of(DataTypeToManipulate const value)
@@ -116,7 +126,8 @@ class AlbaBitValueUtilities
         static_assert(typeHelper::isIntegralType<DataTypeToManipulate>(), "DataTypeToManipulate must be an integer");
 
         DataTypeToManipulate result = getNumberOfBits() - getNumberOfConsecutiveZerosFromMsb(value);
-        result = (result == 0) ? 0 : isPowerOfTwo(value) ? result-1 : result;        return result;
+        result = (result == 0) ? 0 : isPowerOfTwo(value) ? result-1 : result;
+        return result;
     }
 
     static constexpr inline DataTypeToManipulate getOnesComplement(DataTypeToManipulate const value)
@@ -138,6 +149,7 @@ class AlbaBitValueUtilities
         static_assert(typeHelper::isIntegralType<DataTypeToManipulate>(), "DataTypeToManipulate must be an integer");
 
         return value & (-value);
-    }};
+    }
+};
 
 }

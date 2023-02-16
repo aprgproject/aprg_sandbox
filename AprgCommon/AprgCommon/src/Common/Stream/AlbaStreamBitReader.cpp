@@ -11,9 +11,11 @@ AlbaStreamBitReader::AlbaStreamBitReader(istream& stream)
     : m_stream(stream)
 {}
 
-bool AlbaStreamBitReader::noRemainingBitsInBuffer() const{
+bool AlbaStreamBitReader::noRemainingBitsInBuffer() const
+{
     return m_bitBuffer.empty();
 }
+
 bool AlbaStreamBitReader::readBoolData()
 {
     readIfNeeded(1U);

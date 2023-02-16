@@ -64,10 +64,12 @@ void changeFractionToSimplestForm(NumberType1 & numerator, NumberType2 & denomin
     static_assert(typeHelper::isIntegralType<NumberType2>(), "Number type 2 must be an integer");
 
     GcfType gcf = getGreatestCommonFactor<GcfType>(numerator, denominator);
-    if(gcf!=0)    {
+    if(gcf!=0)
+    {
         numerator = static_cast<NumberType1>(numerator/gcf);
         denominator = static_cast<NumberType2>(denominator/gcf);
-        numerator = getAbsoluteValue(numerator) * getSign(numerator) * getSign(denominator);        denominator = getAbsoluteValue(denominator);
+        numerator = getAbsoluteValue(numerator) * getSign(numerator) * getSign(denominator);
+        denominator = getAbsoluteValue(denominator);
     }
 }
 

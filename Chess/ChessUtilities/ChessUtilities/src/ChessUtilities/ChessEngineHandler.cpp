@@ -53,10 +53,12 @@ ChessEngineHandler::~ChessEngineHandler()
     m_logFileStreamOptional->close();
 }
 
-void ChessEngineHandler::reset(){
+void ChessEngineHandler::reset()
+{
     log(LogType::HandlerStatus, "Resetting engine");
     shutdownEngine();
-    initializeEngine();}
+    initializeEngine();
+}
 
 void ChessEngineHandler::sendStringToEngine(string const& stringToEngine)
 {
@@ -93,9 +95,11 @@ void ChessEngineHandler::processStringFromEngine(string const& stringFromEngine)
         m_additionalStepsInProcessingAStringFromEngine.value()(stringFromEngine);
     }
 }
+
 void ChessEngineHandler::startMonitoringEngineOutput()
 {
-    std::lock_guard<std::mutex> const lockGuard(m_readMutex);    unsigned long bytesRead; //bytes read
+    std::lock_guard<std::mutex> const lockGuard(m_readMutex);
+    unsigned long bytesRead; //bytes read
     unsigned long bytesAvailable; //bytes available
     char buffer[MAX_BUFFER_SIZE];
     string stringBuffer;
@@ -150,7 +154,8 @@ void ChessEngineHandler::setLogFile(string const& logFilePath)
     if(!m_logFileStreamOptional->is_open())
     {
         log(LogType::HandlerStatus, string("Cannot open log file") + logFilePath);
-    }}
+    }
+}
 
 void ChessEngineHandler::setAdditionalStepsInProcessingAStringFromEngine(
         ProcessAStringFunction const& additionalSteps)
@@ -158,9 +163,11 @@ void ChessEngineHandler::setAdditionalStepsInProcessingAStringFromEngine(
     m_additionalStepsInProcessingAStringFromEngine = additionalSteps;
 }
 
-void ChessEngineHandler::initializeEngine(){
+void ChessEngineHandler::initializeEngine()
+{
     SECURITY_DESCRIPTOR securityDescriptor; //security information for pipes
     SECURITY_ATTRIBUTES securityAttributes;
+
     if (IsWinNT())
     {
         InitializeSecurityDescriptor(&securityDescriptor, SECURITY_DESCRIPTOR_REVISION);
@@ -217,10 +224,12 @@ void ChessEngineHandler::log(LogType const logtype, string const& logString)
         m_logFileStreamOptional.value() << getLogHeader(logtype) << logString << endl;
     }
 #ifdef APRG_TEST_MODE_ON
-    //cout << getLogHeader(logtype) << logString << endl;#else
+    //cout << getLogHeader(logtype) << logString << endl;
+#else
     if(LogType::FromEngine == logtype)
     {
-        cout << logString << endl;    }
+        cout << logString << endl;
+    }
 #endif
 }
 

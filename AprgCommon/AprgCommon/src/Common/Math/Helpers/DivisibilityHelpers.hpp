@@ -4,6 +4,7 @@
 
 namespace alba
 {
+
 namespace mathHelper
 {
 
@@ -27,9 +28,11 @@ template <typename NumberType> inline bool isOdd(NumberType const number)
 
     return static_cast<bool>(number % 2);
 }
+
 // Even or odd discussion:
 // -> Bitwise operators might be better because almost all processors supports bitwise operations to take one instruction.
-// -> But it will not work for negative numbers:// -> The C standard stipulates that negative numbers can be represented in 3 ways:
+// -> But it will not work for negative numbers:
+// -> The C standard stipulates that negative numbers can be represented in 3 ways:
 // ---> 2's complement
 // ---> 1's complement
 // ---> sign and magnitude

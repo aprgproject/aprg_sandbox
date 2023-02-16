@@ -2,7 +2,8 @@
 
 #include <Common/PathHandler/AlbaLocalPathHandler.hpp>
 #include <Statistics/DataCollection.hpp>
-#include <UserIdentifiers.hpp>#include <WcdmaToolsBackend/BtsLogPrint.hpp>
+#include <UserIdentifiers.hpp>
+#include <WcdmaToolsBackend/BtsLogPrint.hpp>
 #include <WcdmaToolsBackend/BtsLogTime.hpp>
 
 #include <fstream>
@@ -10,10 +11,12 @@
 #include <optional>
 #include <string>
 
-namespace alba{
+namespace alba
+{
 
 class BtsLogAnalyzer
 {
+
 public:
     enum class LogType
     {
@@ -62,9 +65,11 @@ public:
     using LogTime = std::optional<wcdmaToolsBackend::BtsLogTime>;
     using LogTimePair = std::pair<LogTime, LogTime>;
     using LogTimePairs = std::map<alba::UserIdentifiers, LogTimePair>;
-    using UserIdentifierToPrintsAvailablePair = std::pair<alba::UserIdentifiers, PrintsAvailable>;    using PrintsAvailableMap = std::map<alba::UserIdentifiers, PrintsAvailable>;
+    using UserIdentifierToPrintsAvailablePair = std::pair<alba::UserIdentifiers, PrintsAvailable>;
+    using PrintsAvailableMap = std::map<alba::UserIdentifiers, PrintsAvailable>;
     using DspDataPair = std::pair<unsigned int, DspData>;
     using DspDataMap = std::map<unsigned int, DspData>;
+
 
     BtsLogAnalyzer();
     void clear();
@@ -120,4 +125,5 @@ private:
     std::optional<std::ofstream> rlSetupPerSecondFileStreamOptional;
 
 };
+
 }

@@ -73,9 +73,11 @@ bool IsPartialSumPossibleInKnapsack::isPartialSumPossibleUsingTabularDP() const
                 isPossibleMatrix.setEntry(partialSum, valueIndex, isPossible);
             }
         }
-        result = isPossibleMatrix.getEntry(isPossibleMatrix.getNumberOfColumns()-1, isPossibleMatrix.getNumberOfRows()-1);    }
+        result = isPossibleMatrix.getEntry(isPossibleMatrix.getNumberOfColumns()-1, isPossibleMatrix.getNumberOfRows()-1);
+    }
     return result;
 }
+
 bool IsPartialSumPossibleInKnapsack::isPartialSumPossibleUsingTabularDPAndSpaceEfficient() const
 {
     // Time Complexity: O(sum * n)
@@ -93,10 +95,12 @@ bool IsPartialSumPossibleInKnapsack::isPartialSumPossibleUsingTabularDPAndSpaceE
                 if(partialSum >= inputValue && isPartialSumPossible.at(partialSum-inputValue))
                 {
                     isPartialSumPossible[partialSum] = true;
-                }            }
+                }
+            }
         }
         result = isPartialSumPossible.at(m_targetSum);
-    }    return result;
+    }
+    return result;
 }
 
 bool IsPartialSumPossibleInKnapsack::isPartialSumPossibleUsingNaiveRecursion(

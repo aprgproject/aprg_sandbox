@@ -53,10 +53,12 @@ AllPartialSumsInKnapsack::Values AllPartialSumsInKnapsack::getAllPossiblePartial
     return getAllPossiblePartialSums(isPartialSumPossible);
 }
 
-AllPartialSumsInKnapsack::Values AllPartialSumsInKnapsack::getAllPossiblePartialSumsWithSquareRootAlgorithm(){
+AllPartialSumsInKnapsack::Values AllPartialSumsInKnapsack::getAllPossiblePartialSumsWithSquareRootAlgorithm()
+{
     // Some square root algorithms are based on the following observation:
     // if a positive integer n is represented as a sum of positive integers,
-    // such a sum always contains at most O(sqrt(n)) distinct numbers.    // The reason for this is that to construct a sum that contains a maximum number of distinct numbers,
+    // such a sum always contains at most O(sqrt(n)) distinct numbers.
+    // The reason for this is that to construct a sum that contains a maximum number of distinct numbers,
     // we should choose small numbers.
     // If we choose the numbers 1,2,...,k, the resulting sum is (k*(k+1))/2
     // Thus, the maximum amount of distinct numbers is k = O(sqrt(n)).
@@ -106,7 +108,9 @@ AllPartialSumsInKnapsack::Values AllPartialSumsInKnapsack::getAllPossiblePartial
         if(isPartialSumPossible.at(partialSumIndex))
         {
             result.emplace_back(partialSumIndex);
-        }    }
+        }
+    }
     return result;
 }
+
 }

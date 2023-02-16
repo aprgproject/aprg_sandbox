@@ -3,10 +3,12 @@
 #include <optional>
 #include <string>
 
-namespace alba{
+namespace alba
+{
 
 struct UserIdentifiers
-{    UserIdentifiers();
+{
+    UserIdentifiers();
     UserIdentifiers(std::string const& lineInLogs);
     void saveUserIndentfiers(std::string const& lineInLogs);
     bool operator<(UserIdentifiers const& userIdentifiers) const;

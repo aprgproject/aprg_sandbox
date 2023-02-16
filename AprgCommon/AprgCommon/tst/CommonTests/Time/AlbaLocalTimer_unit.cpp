@@ -75,14 +75,4 @@ TEST(AlbaLocalTimerTest, DISABLED_GetDifferenceAsAlbaDateTimeWorks) // this is u
     EXPECT_EQ(expectedTime, timer.getDifferenceAsAlbaDateTime());
 }
 
-TEST(AlbaLocalTimerTest, DISABLED_GetElapsedTimeDisplayableStringWorks) // this is unstable because its not precise
-{
-    AlbaLocalTimer timer;
-    sleepFor(4321);
-    timer.stopTimer();
-
-    EXPECT_EQ("00:00:04.320919", timer.getElapsedTimeDisplayableString());
-}
-
-
 }

@@ -8,7 +8,8 @@
 #include <Common/Bit/AlbaBitValueUtilities.hpp>
 
 #include <array>
-#include <bitset>#include <cstdint>
+#include <bitset>
+#include <cstdint>
 #include <fstream>
 #include <functional>
 #include <map>
@@ -16,8 +17,10 @@
 
 namespace alba
 {
+
 namespace chess
 {
+
 class ChessPieceRetriever
 {
 public:
@@ -75,6 +78,7 @@ private:
     std::optional<std::ofstream> m_logFileStreamOptional;
 
 };
+
 }
 
 }
