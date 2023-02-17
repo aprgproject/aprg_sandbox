@@ -276,14 +276,12 @@ private:
             }
         }
 
-        out << "Matrix output:" << std::endl << table;
+        out << "Matrix output:\n" << table;
         return out;
     }
-
     unsigned int m_numberOfColumns;
     unsigned int m_numberOfRows;
-    MatrixData m_matrixData;
-};
+    MatrixData m_matrixData;};
 
 }
 

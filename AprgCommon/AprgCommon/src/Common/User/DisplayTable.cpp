@@ -242,11 +242,10 @@ ostream & operator<<(ostream & out, DisplayTable const& displayTable)
             column++;
             out << verticalBorderPoint;
         }
-        out << endl;
+        out << "\n";
         out << horizontalLine;
     }
-    return out;
-}
+    return out;}
 
 
 }//namespace alba

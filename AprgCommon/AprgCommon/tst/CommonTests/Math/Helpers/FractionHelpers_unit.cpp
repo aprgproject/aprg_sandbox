@@ -14,36 +14,34 @@ namespace mathHelper
 
 TEST(FractionHelpersTest, ChangeFractionToSimplestFormWorksWithIntAndUnsignedInt)
 {
-    int numerator1=0; unsigned int denominator1=0;
-    changeFractionToSimplestForm<int, unsigned int, long long int>(numerator1, denominator1);
+    int32_t numerator1=0; uint32_t denominator1=0;
+    changeFractionToSimplestForm<int32_t, uint32_t, int64_t>(numerator1, denominator1);
     EXPECT_EQ(0, numerator1);
     EXPECT_EQ(0U, denominator1);
 
-    int numerator2=1; unsigned int denominator2=1;
-    changeFractionToSimplestForm<int, unsigned int, long long int>(numerator2, denominator2);
+    int32_t numerator2=1; uint32_t denominator2=1;
+    changeFractionToSimplestForm<int32_t, uint32_t, int64_t>(numerator2, denominator2);
     EXPECT_EQ(1, numerator2);
     EXPECT_EQ(1U, denominator2);
 
-    int numerator3=98; unsigned int denominator3=56;
-    changeFractionToSimplestForm<int, unsigned int, long long int>(numerator3, denominator3);
+    int32_t numerator3=98; uint32_t denominator3=56;
+    changeFractionToSimplestForm<int32_t, uint32_t, int64_t>(numerator3, denominator3);
     EXPECT_EQ(7, numerator3);
     EXPECT_EQ(4U, denominator3);
 
-    int numerator4=-98; unsigned int denominator4=56;
-    changeFractionToSimplestForm<int, unsigned int, long long int>(numerator4, denominator4);
+    int32_t numerator4=-98; uint32_t denominator4=56;
+    changeFractionToSimplestForm<int32_t, uint32_t, int64_t>(numerator4, denominator4);
     EXPECT_EQ(-7, numerator4);
     EXPECT_EQ(4U, denominator4);
 
-    int numerator5=-2147483646; unsigned int denominator5=4294967294;
-    changeFractionToSimplestForm<int, unsigned int, long long int>(numerator5, denominator5);
+    int32_t numerator5=-2147483646; uint32_t denominator5=4294967294;
+    changeFractionToSimplestForm<int32_t, uint32_t, int64_t>(numerator5, denominator5);
     EXPECT_EQ(-1073741823, numerator5);
     EXPECT_EQ(2147483647U, denominator5);
 }
-
 TEST(FractionHelpersTest, ChangeFractionToSimplestFormForUnsignedWorks)
 {
-    unsigned int numerator1=0; unsigned int denominator1=0;
-    changeFractionToSimplestFormForUnsigned(numerator1, denominator1);
+    unsigned int numerator1=0; unsigned int denominator1=0;    changeFractionToSimplestFormForUnsigned(numerator1, denominator1);
     EXPECT_EQ(0U, numerator1);
     EXPECT_EQ(0U, denominator1);
 

@@ -483,14 +483,13 @@ TEST(BasicStringVariantTest, IsBasicStringVariantWorks)
 
 TEST(BasicStringVariantTest, ConvertToAnotherBasicStringVariantWorks)
 {
+    EXPECT_EQ("ThisABasicStringVariant", (convertToAnotherBasicStringVariant<string, string>(R"delimeter(ThisABasicStringVariant)delimeter")));
     EXPECT_EQ(L"ThisABasicStringVariant"s, (convertToAnotherBasicStringVariant<string, wstring>("ThisABasicStringVariant"s)));
     EXPECT_EQ(u"ThisABasicStringVariant"s, (convertToAnotherBasicStringVariant<string, u16string>("ThisABasicStringVariant"s)));
-    EXPECT_EQ(U"ThisABasicStringVariant"s, (convertToAnotherBasicStringVariant<string, u32string>("ThisABasicStringVariant"s)));
-    EXPECT_EQ("ThisABasicStringVariant"s, (convertToAnotherBasicStringVariant<wstring, string>(L"ThisABasicStringVariant"s)));
+    EXPECT_EQ(U"ThisABasicStringVariant"s, (convertToAnotherBasicStringVariant<string, u32string>("ThisABasicStringVariant"s)));    EXPECT_EQ("ThisABasicStringVariant"s, (convertToAnotherBasicStringVariant<wstring, string>(L"ThisABasicStringVariant"s)));
     EXPECT_EQ("ThisABasicStringVariant"s, (convertToAnotherBasicStringVariant<u16string, string>(u"ThisABasicStringVariant"s)));
     EXPECT_EQ("ThisABasicStringVariant"s, (convertToAnotherBasicStringVariant<u32string, string>(U"ThisABasicStringVariant"s)));
-    EXPECT_EQ("ThisABasicStringVariant"s, (convertToAnotherBasicStringVariant<string, string>(u8"ThisABasicStringVariant"s))); // UTF-8 encoded (UTF-8 is backwards compatible with ASCII)
-    EXPECT_EQ(u8"ThisABasicStringVariant"s, (convertToAnotherBasicStringVariant<string, string>("ThisABasicStringVariant"s))); // UTF-8 encoded (UTF-8 is backwards compatible with ASCII)
+    EXPECT_EQ("ThisABasicStringVariant"s, (convertToAnotherBasicStringVariant<string, string>(u8"ThisABasicStringVariant"s))); // UTF-8 encoded (UTF-8 is backwards compatible with ASCII)    EXPECT_EQ(u8"ThisABasicStringVariant"s, (convertToAnotherBasicStringVariant<string, string>("ThisABasicStringVariant"s))); // UTF-8 encoded (UTF-8 is backwards compatible with ASCII)
 }
 
 TEST(CombineStringTest, CombinedStringsWithComma)

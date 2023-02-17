@@ -13,11 +13,10 @@ template <>
 void AlbaStreamParameterWriter::writeData(string const& data) const
 {
     bool isExisting(!data.empty());
-    m_stream << isExisting << endl;
+    m_stream << isExisting << "\n";
     if(isExisting)
     {
-        m_stream << data << endl;
+        m_stream << data << "\n";
     }
 }
-
 }//namespace alba

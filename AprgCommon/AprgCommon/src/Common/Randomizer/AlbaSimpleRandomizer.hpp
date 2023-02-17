@@ -3,12 +3,11 @@
 namespace alba
 {
 
-class AlbaRandomizer
+class AlbaSimpleRandomizer
 {
 public:
-    AlbaRandomizer();
-    void resetRandomSeed();//remove windows here get local timer
+    AlbaSimpleRandomizer();
+    void resetRandomSeed();
     int getRandomValueInUniformDistribution(int const first, int const second) const;
 };
-
 }//namespace alba

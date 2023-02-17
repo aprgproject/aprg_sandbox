@@ -17,15 +17,13 @@ class AlbaLinuxPathHandler: public AlbaPathHandler
 public:
     AlbaLinuxPathHandler(PathInitialValueSource const initialValueSource);
     AlbaLinuxPathHandler(std::string const& path);
-    virtual ~AlbaLinuxPathHandler() = default;
+    // no need for virtual destructor because base destructor is virtual (similar to other virtual functions)
 
     void clear() override;
-    double getFileSizeEstimate();
-    AlbaDateTime getFileCreationTime();
+    double getFileSizeEstimate();    AlbaDateTime getFileCreationTime();
     bool isFoundInLocalSystem() const;
     bool isRelativePath() const;
-    void setPathToDetectedLocalPath();
-    void createDirectoriesForNonExisitingDirectories() const;
+    void setPathToDetectedLocalPath();    void createDirectoriesForNonExisitingDirectories() const;
     bool deleteFile();
     bool deleteDirectoryWithoutFilesAndDirectories(); //do tests
     void deleteFilesInDirectory(); //do tests

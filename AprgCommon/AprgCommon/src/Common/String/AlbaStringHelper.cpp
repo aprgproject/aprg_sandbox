@@ -1,15 +1,13 @@
 #include "AlbaStringHelper.hpp"
 
 #include <Common/Container/AlbaContainerHelper.hpp>
-#include <Common/Randomizer/AlbaRandomizer.hpp>
+#include <Common/Randomizer/AlbaSimpleRandomizer.hpp>
 #include <Common/Math/Helpers/PowerHelpers.hpp>
 
-#include <algorithm>
-#include <cstring>
+#include <algorithm>#include <cstring>
 #include <functional>
 #include <numeric>
-#include <set>
-#include <sstream>
+#include <set>#include <sstream>
 
 using namespace alba::mathHelper;
 using namespace std;
@@ -649,15 +647,13 @@ string constructFileLocator(string const& file, int const lineNumber)
 string getRandomAlphaNumericString(unsigned int const length)
 {
     constexpr auto ALPHA_NUMERIC_CHAR_MAP = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
-    AlbaRandomizer randomizer;
+    AlbaSimpleRandomizer randomizer;
     int alphaNumericCharMapIndexMax = static_cast<int>(strlen(ALPHA_NUMERIC_CHAR_MAP))-1;
     string result;
-    result.reserve(length);
-    generate_n(back_inserter(result), length, [&]()
+    result.reserve(length);    generate_n(back_inserter(result), length, [&]()
     {
         return ALPHA_NUMERIC_CHAR_MAP[static_cast<unsigned int>(randomizer.getRandomValueInUniformDistribution(0, alphaNumericCharMapIndexMax))];
-    });
-    return result;
+    });    return result;
 }
 
 strings getArgumentsToStringInMain(int const argc, char const * const argv[])

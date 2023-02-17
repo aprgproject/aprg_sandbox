@@ -71,14 +71,12 @@ private:
 
     friend std::ostream & operator<<(std::ostream & out, AlbaAny const& any)
     {
-        out << "hasContent: " << any.hasContent() << std::endl;
+        out << "hasContent: " << any.hasContent() << "\n";
         if(any.hasContent())
         {
-            out << " savedMemory: " << any.m_savedMemory;
-        }
+            out << " savedMemory: " << any.m_savedMemory;        }
         return out;
     }
-
     AlbaMemoryBuffer m_savedMemory; // void* approach was disregarded because we need to remember the type (which leads to enable RTTI).
     TypeId m_typeId;
 };

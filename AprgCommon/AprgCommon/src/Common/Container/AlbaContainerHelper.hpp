@@ -325,18 +325,16 @@ void saveContentsInDecimalAndHexadecimalFormat(std::ostream & outputStream, Cont
 
     outputStream << "Decimal values: {" << std::dec;
     std::copy(container.cbegin(), container.cend(), outputIterator);
-    outputStream << "}" << std::endl;
+    outputStream << "}\n";
 
     outputStream << "Hexadecimal values: {" << std::hex;
     std::copy(container.cbegin(), container.cend(), outputIterator);
-    outputStream << "}" << std::endl;
+    outputStream << "}\n";
 }
-
 
 //RetrieveContentsFromStream
 template <typename ValueType, std::size_t SIZE,
-          template <typename, std::size_t> class Container>
-void retrieveContentsFromStream(std::istream & inputStream, Container<ValueType, SIZE> & container)
+          template <typename, std::size_t> class Container>void retrieveContentsFromStream(std::istream & inputStream, Container<ValueType, SIZE> & container)
 {
     //tested on array
     std::istream_iterator<ValueType> inputIterator(inputStream);

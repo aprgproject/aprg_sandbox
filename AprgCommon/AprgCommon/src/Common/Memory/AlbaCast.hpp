@@ -2,11 +2,11 @@
 
 #include <Common/Types/AlbaTypeHelper.hpp>
 
+// NOTE: APRG is compiled with no RTTI so dynamic_cast can't be used.
+
 // From: https://stackoverflow.com/questions/332030/when-should-static-cast-dynamic-cast-const-cast-and-reinterpret-cast-be-used
 
-
 // static_cast
-
 // -> static_cast is the first cast you should attempt to use.
 // -> It does things like implicit conversions between types (such as int to float, or pointer to void*),
 // -> and it can also call explicit conversion functions (or implicit ones).

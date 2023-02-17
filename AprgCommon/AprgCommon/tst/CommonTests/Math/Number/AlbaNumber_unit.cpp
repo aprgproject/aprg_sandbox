@@ -15,22 +15,12 @@ using namespace std;
 namespace alba
 {
 
-TEST(AlbaNumberTest, SizeValueIsExpected)
-{
-    AlbaNumber number;
-
-    EXPECT_EQ(16U, sizeof(number));
-    EXPECT_EQ(8U, number.getNumberDataSize());
-}
-
 TEST(AlbaNumberTest, GetDefaultConfigurationDetailsWorks)
 {
-    AlbaNumber::ConfigurationDetails configurationDetails(
-                getDefaultConfigurationDetails<AlbaNumber::ConfigurationDetails>());
+    AlbaNumber::ConfigurationDetails configurationDetails(                getDefaultConfigurationDetails<AlbaNumber::ConfigurationDetails>());
 
     EXPECT_DOUBLE_EQ(COMPARISON_TOLERANCE_FOR_DOUBLE, configurationDetails.comparisonTolerance);
-    EXPECT_DOUBLE_EQ(AlbaNumber::ADJUSTMENT_FLOAT_TOLERANCE, configurationDetails.floatAdjustmentTolerance);
-}
+    EXPECT_DOUBLE_EQ(AlbaNumber::ADJUSTMENT_FLOAT_TOLERANCE, configurationDetails.floatAdjustmentTolerance);}
 
 TEST(AlbaNumberConfigurationTest, GetConfigurationDetailsWorksAtDefault)
 {
@@ -209,48 +199,12 @@ TEST(AlbaNumberTest, ConstructionWorksWithValue)
     EXPECT_DOUBLE_EQ(2.7182818284590452354, number6.getDouble());
 }
 
-TEST(AlbaNumberTest, CreateIntegerWorks)
-{
-    AlbaNumber number1(AlbaNumber::createInteger(-81237));
-    AlbaNumber number2(AlbaNumber::createInteger(34095093U));
-    AlbaNumber number3(AlbaNumber::createInteger(1000000000000000000LL));
-
-    EXPECT_EQ(AlbaNumber::Type::Integer, number1.getType());
-    EXPECT_EQ(-81237, number1.getInteger());
-    EXPECT_EQ(AlbaNumber::Type::Integer, number2.getType());
-    EXPECT_EQ(34095093, number2.getInteger());
-    EXPECT_EQ(AlbaNumber::Type::Integer, number3.getType());
-    EXPECT_EQ(1000000000000000000LL, number3.getInteger());
-}
-
-TEST(AlbaNumberTest, CreateDoubleWorks)
-{
-    AlbaNumber number1(AlbaNumber::createDouble(3.01));
-    AlbaNumber number2(AlbaNumber::createDouble(3.0000000000001));
-    AlbaNumber number3(AlbaNumber::createDouble(POSITIVE_INFINITY_DOUBLE_VALUE));
-    AlbaNumber number4(AlbaNumber::createDouble(NEGATIVE_INFINITY_DOUBLE_VALUE));
-    AlbaNumber number5(AlbaNumber::createDouble(NAN_DOUBLE_VALUE));
-
-    EXPECT_EQ(AlbaNumber::Type::Double, number1.getType());
-    EXPECT_EQ(3.01, number1.getDouble());
-    EXPECT_EQ(AlbaNumber::Type::Double, number2.getType());
-    EXPECT_EQ(3.0000000000001, number2.getDouble());
-    EXPECT_EQ(AlbaNumber::Type::Double, number3.getType());
-    EXPECT_TRUE(number3.isPositiveInfinity());
-    EXPECT_EQ(AlbaNumber::Type::Double, number4.getType());
-    EXPECT_TRUE(number4.isNegativeInfinity());
-    EXPECT_EQ(AlbaNumber::Type::Double, number5.getType());
-    EXPECT_TRUE(number5.isNotANumber());
-}
-
 TEST(AlbaNumberTest, CreateNumberFromDoubleAndRoundIfNeededWorks)
 {
-    AlbaNumber number1(AlbaNumber::createNumberFromDoubleAndRoundIfNeeded(3.01));
-    AlbaNumber number2(AlbaNumber::createNumberFromDoubleAndRoundIfNeeded(3.0000000000001));
+    AlbaNumber number1(AlbaNumber::createNumberFromDoubleAndRoundIfNeeded(3.01));    AlbaNumber number2(AlbaNumber::createNumberFromDoubleAndRoundIfNeeded(3.0000000000001));
     AlbaNumber number3(AlbaNumber::createNumberFromDoubleAndRoundIfNeeded(POSITIVE_INFINITY_DOUBLE_VALUE));
     AlbaNumber number4(AlbaNumber::createNumberFromDoubleAndRoundIfNeeded(NEGATIVE_INFINITY_DOUBLE_VALUE));
     AlbaNumber number5(AlbaNumber::createNumberFromDoubleAndRoundIfNeeded(NAN_DOUBLE_VALUE));
-
     EXPECT_EQ(AlbaNumber::Type::Double, number1.getType());
     EXPECT_EQ(3.01, number1.getDouble());
     EXPECT_EQ(AlbaNumber::Type::Integer, number2.getType());
