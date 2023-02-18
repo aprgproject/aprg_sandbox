@@ -18,25 +18,22 @@ void Findings::printFindings(ostream& outputStream)
     //output iterator?
     for (auto& finding : m_findings)
     {
-        outputStream<<"Finding "<<m_fileName<<"["<<finding.first<<"]"<<" -> "<<finding.second<<endl;
+        outputStream<<"Finding "<<m_fileName<<"["<<finding.first<<"] -> "<<finding.second<<"\n";
     }
 }
-
 void Findings::printFindings(ostream& outputStream, string const& details)
 {
     for (auto& finding : m_findings)
     {
         if(details == finding.second.getDetails())
         {
-            outputStream<<"Finding "<<m_fileName<<"["<<finding.first<<"]"<<" -> "<<finding.second<<endl;
+            outputStream<<"Finding "<<m_fileName<<"["<<finding.first<<"] -> "<<finding.second<<"\n";
         }
     }
 }
-
 void Findings::addFinding(unsigned int const lineNumber, string const& fileLocator, string const& content)
 {
-    m_findings.emplace(lineNumber, Finding(fileLocator, content));
-}
+    m_findings.emplace(lineNumber, Finding(fileLocator, content));}
 
 void Findings::addFinding(unsigned int const lineNumber, string const& fileLocator, string const& content, string const& locator)
 {

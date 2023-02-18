@@ -41,21 +41,19 @@ TermTranslator::TermTranslator(string const& fileName, Findings& findings, Deque
         }
         else
         {
-            cout<<"TermTranslator::constructor| Cannot read cmake file: ["<<pathHandler.getFullPath()<<"]."<<endl;
-            cout<<"TermTranslator::constructor| Problem in FileI/O!"<<endl;
+            cout<<"TermTranslator::constructor| Cannot read cmake file: ["<<pathHandler.getFullPath()<<"].\n";
+            cout<<"TermTranslator::constructor| Problem in FileI/O!\n";
         }
     }
     else
     {
-        cout<<"TermTranslator::constructor| Cannot read cmake file: ["<<pathHandler.getFullPath()<<"]."<<endl;
-        cout<<"TermTranslator::constructor| File does not exist!"<<endl;
+        cout<<"TermTranslator::constructor| Cannot read cmake file: ["<<pathHandler.getFullPath()<<"].\n";
+        cout<<"TermTranslator::constructor| File does not exist!\n";
     }
 }
-
 bool TermTranslator::isFileValid()
 {
-    return m_isFileValid;
-}
+    return m_isFileValid;}
 
 void TermTranslator::readFile()
 {

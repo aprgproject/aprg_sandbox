@@ -54,15 +54,13 @@ void TermAnalyzer::analyze()
 {
     if(m_optionalSailIt)
     {
-        cout << "analyze file=["<<m_baseDirectory+m_fileName<<"]"<<endl;
+        cout << "analyze file=["<<m_baseDirectory+m_fileName<<"]\n";
     }
     if(!m_terms.empty())
-    {
-        analyzeThisScope(Looper(m_terms, m_uniqueFileId));
+    {        analyzeThisScope(Looper(m_terms, m_uniqueFileId));
     }
     m_findingsBuffer.copyAllFindings(m_findings);
-    m_findingsBuffer.clearAll();
-}
+    m_findingsBuffer.clearAll();}
 
 void TermAnalyzer::analyzeThisScope(Looper const& startLooper)
 {

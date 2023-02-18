@@ -43,21 +43,19 @@ SubCMakeDatabases& CMakeDatabase::getSubCMakeDatabasesReference()
 void CMakeDatabase::printFilesAndDirectories() const
 {
         //use output iterator here
-    cout << "CMakeDatabase::printFilesAndDirectories| CMakeFile [" << m_cMakeFileDirectoryPath << "] contains:" << endl;
+    cout << "CMakeDatabase::printFilesAndDirectories| CMakeFile [" << m_cMakeFileDirectoryPath << "] contains:\n";
     for (auto& directory :  m_setOfDirectories)
     {
-        cout << "CMakeDatabase::printFilesAndDirectories| Directory: [" << directory << "]" << endl;
+        cout << "CMakeDatabase::printFilesAndDirectories| Directory: [" << directory << "]\n";
     }
     for (auto& file :  m_setOfFiles)
     {
-        cout << "CMakeDatabase::printFilesAndDirectories| File: [" << file << "]" << endl;
+        cout << "CMakeDatabase::printFilesAndDirectories| File: [" << file << "]\n";
     }
     for (auto& subCMakeDatabase :  m_subCMakeDatabases)
-    {
-        subCMakeDatabase.printFilesAndDirectories();
+    {        subCMakeDatabase.printFilesAndDirectories();
     }
 }
-
 void CMakeDatabase::addFileOrDirectory(string const& fileOrDirectory)
 {
     AlbaLocalPathHandler pathHandler;
@@ -76,14 +74,12 @@ void CMakeDatabase::addFileOrDirectory(string const& fileOrDirectory)
     }
     else
     {
-        cout << "CMakeDatabase::addFileOrDirectory| InvalidFileAndDirectory: [" << fileOrDirectory << "]" << endl;
+        cout << "CMakeDatabase::addFileOrDirectory| InvalidFileAndDirectory: [" << fileOrDirectory << "]\n";
     }
 }
-
 void CMakeDatabase::setCMakeFileDirectoryPath(string const& cMakeFileDirectoryPath)
 {
-    m_cMakeFileDirectoryPath = cMakeFileDirectoryPath;
-}
+    m_cMakeFileDirectoryPath = cMakeFileDirectoryPath;}
 
 void CMakeDatabase::allowNonExistentDirectories()
 {

@@ -36,21 +36,19 @@ CMakeReader::CMakeReader(string const& fileName, CMakeDatabase& fileDirectoryDat
         }
         else
         {
-            cout<<"CMakeReader::constructor| Cannot read cmake file: ["<<pathHandler.getFullPath()<<"]."<<endl;
-            cout<<"CMakeReader::constructor| Problem in FileI/O!"<<endl;
+            cout<<"CMakeReader::constructor| Cannot read cmake file: ["<<pathHandler.getFullPath()<<"].\n";
+            cout<<"CMakeReader::constructor| Problem in FileI/O!\n";
         }
     }
     else
     {
-        cout<<"CMakeReader::constructor| Cannot read cmake file: ["<<pathHandler.getFullPath()<<"]."<<endl;
-        cout<<"CMakeReader::constructor| File does not exist!"<<endl;
+        cout<<"CMakeReader::constructor| Cannot read cmake file: ["<<pathHandler.getFullPath()<<"].\n";
+        cout<<"CMakeReader::constructor| File does not exist!\n";
     }
 }
-
 bool CMakeReader::isFileValid()
 {
-    return m_isFileValid;
-}
+    return m_isFileValid;}
 
 VariableMapType& CMakeReader::getVariableMapReference()
 {
@@ -60,25 +58,23 @@ VariableMapType& CMakeReader::getVariableMapReference()
 void CMakeReader::printVariables()
 {
     //output iterator
-    cout << "CMakeReader::printVariables| File:" << m_fullPathOfFile <<endl;
-    cout << "CMakeReader::printVariables| Variables contains:" <<endl;
+    cout << "CMakeReader::printVariables| File:" << m_fullPathOfFile <<"\n";
+    cout << "CMakeReader::printVariables| Variables contains:" <<"\n";
     for (auto& variableMap : m_variableMap)
     {
-        cout << "CMakeReader::printVariables| VariableName: " << variableMap.first  <<endl;
+        cout << "CMakeReader::printVariables| VariableName: " << variableMap.first  <<"\n";
         for (auto& value : variableMap.second)
         {
-            cout << "CMakeReader::printVariables| Variable Values-> "<<value<<endl;
+            cout << "CMakeReader::printVariables| Variable Values-> "<<value<<"\n";
         }
     }
-    cout << endl;
+    cout << "\n";
 }
 
-void CMakeReader::addVariable(string const& variableName, string const& contents)
-{
+void CMakeReader::addVariable(string const& variableName, string const& contents){
     m_variableMap[variableName].emplace(
                 getStringWithoutRedundantWhiteSpace(
-                    getCorrectPathWithoutDoublePeriod<'\\'>(
-                        getCorrectPathWithReplacedSlashCharacters<'\\'>(contents))));
+                    getCorrectPathWithoutDoublePeriod<'\\'>(                        getCorrectPathWithReplacedSlashCharacters<'\\'>(contents))));
 }
 
 void CMakeReader::clearVariable(string const& variableName)
@@ -179,15 +175,13 @@ void CMakeReader::processIncludeDirectoriesCommand(string& lineString, int& inde
     lineString = lineString.substr(index);
     index = 0;
     string contents(extractContentsUntilCloseParenthesis(lineString, index));
-    //cout << "CMakeReader::processIncludeDirectoriesCommand File:"<<m_fullPathOfFile<<" lineString:"<<"["<<lineString<<"]"<<endl;
+    //cout << "CMakeReader::processIncludeDirectoriesCommand File:"<<m_fullPathOfFile<<" lineString:["<<lineString<<"]\n";
     replaceVariableWithRealValuesInStringAndDoOperation(m_variableMap.begin(), contents, [&](string stringWithRealValues)
     {
-        addToFilesAndDirectoriesDatabase(stringWithRealValues);
-    });
+        addToFilesAndDirectoriesDatabase(stringWithRealValues);    });
 }
 
-void CMakeReader::processIncludeCommand(string& lineString, int& index)
-{
+void CMakeReader::processIncludeCommand(string& lineString, int& index){
     findOpeningParenthesisAndProceed(lineString, index);
     lineString = lineString.substr(index);
     index = 0;
@@ -262,13 +256,11 @@ void CMakeReader::includeSecondArgumentToFilesAndDirectories(string& lineString,
     lineString = lineString.substr(index);
     index = 0;
     string contents(extractContentsUntilCloseParenthesis(lineString, index));
-    //cout << "CMakeReader::includeSecondArgumentToFilesAndDirectories: File:"<<m_fullPathOfFile<<" lineString:"<<"["<<lineString<<"]"<<endl;
+    //cout << "CMakeReader::includeSecondArgumentToFilesAndDirectories: File:"<<m_fullPathOfFile<<" lineString:["<<lineString<<"]\n";
     replaceVariableWithRealValuesInStringAndDoOperation(m_variableMap.begin(), contents, [&](string stringWithRealValues)
     {
-        addToFilesAndDirectoriesDatabase(stringWithRealValues);
-    });
+        addToFilesAndDirectoriesDatabase(stringWithRealValues);    });
 }
-
 
 void CMakeReader::replaceVariableWithRealValuesInStringAndDoOperation(
         VariableMapIterator startIterator,

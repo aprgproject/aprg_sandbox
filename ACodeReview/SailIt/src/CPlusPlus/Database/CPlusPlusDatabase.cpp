@@ -38,38 +38,36 @@ void CPlusPlusDatabase::print(ostream& outputStream)
     //accumulate anyone?
     outputStream<<"Include Files: ";
     copy(m_includedFiles.begin(), m_includedFiles.end(), std::ostream_iterator<IncludeFile>(outputStream, ", "));
-    outputStream<<endl;
+    outputStream<<"\n";
     outputStream<<"Variables: ";
     for(VariablePair variablePair :m_variables)
     {
         outputStream<<variablePair.first<<", ";
     }
-    outputStream<<endl;
+    outputStream<<"\n";
     outputStream<<"Functions: ";
     for(FunctionPair functionPair :m_functions)
     {
         outputStream<<functionPair.first<<", ";
     }
-    outputStream<<endl;
+    outputStream<<"\n";
     outputStream<<"Macros: ";
     for(MacroPair macroPair :m_macros)
     {
         outputStream<<macroPair.first<<", ";
     }
-    outputStream<<endl;
+    outputStream<<"\n";
     outputStream<<"Types: ";
     for(TypePair typePair :m_types)
     {
         outputStream<<typePair.first<<", ";
     }
-    outputStream<<endl;
+    outputStream<<"\n";
 }
 
-bool CPlusPlusDatabase::isDatabaseModified() const
-{
+bool CPlusPlusDatabase::isDatabaseModified() const{
     return m_isModified;
 }
-
 bool CPlusPlusDatabase::isClass(string const& className) const
 {
     return m_classes.find(className) != m_classes.end();

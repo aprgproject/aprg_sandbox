@@ -14,18 +14,16 @@ void FileDirectoryDatabase::printFilesAndDirectories(ostream& outputStream) cons
 {
     for (auto& directory :  m_directories)
     {
-        outputStream << "FileDirectoryDatabase | Directory: [" << directory << "]" << endl;
+        outputStream << "FileDirectoryDatabase | Directory: [" << directory << "]\n";
     }
     for (auto& file :  m_files)
     {
-        outputStream << "FileDirectoryDatabase | File: [" << file << "]" << endl;
+        outputStream << "FileDirectoryDatabase | File: [" << file << "]\n";
     }
 }
-
 bool FileDirectoryDatabase::isFileIncluded(string const& baseDirectory, string const& fileName) const
 {
-    string whereItShouldBePath(
-                getCorrectPathWithoutDoublePeriod<'\\'>(
+    string whereItShouldBePath(                getCorrectPathWithoutDoublePeriod<'\\'>(
                     getCorrectPathWithReplacedSlashCharacters<'\\'>(baseDirectory+fileName)));
     for(auto fullPathOfFileFromDatabase : m_files)
     {
@@ -90,17 +88,15 @@ string FileDirectoryDatabase::getFullPathOfFile(string const& baseDirectory, str
     }
     if(count > 1)
     {
-        cout<<"FileDirectoryDatabase::getFullPathOfFile| Warning: multiple files found for file: "<<fileName<<endl;
-        cout<<"WhereItShouldBe:"<<whereItShouldBePath<<endl;
-        cout<<"WhereItIs: "<<fullPathOfFirstFileFound<<endl;
+        cout<<"FileDirectoryDatabase::getFullPathOfFile| Warning: multiple files found for file: "<<fileName<<"\n";
+        cout<<"WhereItShouldBe:"<<whereItShouldBePath<<"\n";
+        cout<<"WhereItIs: "<<fullPathOfFirstFileFound<<"\n";
     }
     return fullPathOfFirstFileFound;
 }
-
 SetOfFiles& FileDirectoryDatabase::getSetOfFilesReference()
 {
-    return m_files;
-}
+    return m_files;}
 
 SetOfDirectories& FileDirectoryDatabase::getSetOfDirectoriesReference()
 {
@@ -130,6 +126,6 @@ void FileDirectoryDatabase::addFileOrDirectory(string const& fileOrDirectory)
     }
     else
     {
-        cout << "FileDirectoryDatabase::addFileOrDirectory| InvalidFileAndDirectory: [" << fileOrDirectory << "]" << endl;
+        cout << "FileDirectoryDatabase::addFileOrDirectory| InvalidFileAndDirectory: [" << fileOrDirectory << "]\n";
     }
 }

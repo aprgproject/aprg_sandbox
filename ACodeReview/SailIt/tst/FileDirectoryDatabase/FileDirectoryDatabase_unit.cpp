@@ -13,14 +13,12 @@ TEST(FileDirectoryDatabaseTest, DISABLED_ActualTest)
 {
     FileDirectoryDatabase fileDirectoryDatabase;
     fileDirectoryDatabase.addFileOrDirectory("C:\\Qt\\Qt5.3.2\\Tools\\mingw482_32\\i686-w64-mingw32\\include\\c++\\");
-    cout<<"FullPath of iostream: "<<fileDirectoryDatabase.getFullPathOfFile("", "iostream")<<endl;
+    cout<<"FullPath of iostream: "<<fileDirectoryDatabase.getFullPathOfFile("", "iostream")<<"\n";
     //fileDirectoryDatabase.printFilesAndDirectories(cout);
 }
-
 TEST(FileDirectoryDatabaseTest, FilesAndDirectoriesAreRecognizedWhenAdded)
 {
-    string directory(MT_FILE_READER_TEST_DIRECTORY);
-    FileDirectoryDatabase fileDirectoryDatabase;
+    string directory(MT_FILE_READER_TEST_DIRECTORY);    FileDirectoryDatabase fileDirectoryDatabase;
     fileDirectoryDatabase.allowNonExistentDirectories();
     fileDirectoryDatabase.addFileOrDirectory(directory+"file3.hpp");
     fileDirectoryDatabase.addFileOrDirectory(directory+"file6.hpp");

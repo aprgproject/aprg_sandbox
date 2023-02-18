@@ -18,68 +18,61 @@ TermTranslator::TermTranslator(string const& fileName, ListOfTerms& listOfTerms)
     , m_albaFileReader(m_fileStream)
     , m_isFileValid(false)
     , m_terms(listOfTerms)
-    , m_listOfOperators{"typeid", "const_cast", "dynamic_cast", "reinterpret_cast", "static_cast", "sizeof", "new", "delete", "throw", "->*", "<<=", ">>=",
+    , m_listOfOperators{"typeid", "const_cast", "static_cast", "reinterpret_cast", "static_cast", "sizeof", "new", "delete", "throw", "->*", "<<=", ">>=",
                         "::", "++", "--", "->", ".*", "<<", ">>", "<=", ">=", "==", "!=", "&&", "||", "+=", "-=", "*=", "/=", "%=", "&=", "^=", "|=",
                         "(", ")", "[", "]", ".", "+", "-", "!", "~", "*", "&", "/", "%", "<", ">", "^", "|", "?", ":", "=", ","}
 {
     AlbaWindowsPathHandler pathHandler;
     pathHandler.inputPath(fileName);
-    cout<<"TermTranslator::constructor| ReadFile: "<<pathHandler.getFullPath()<<endl;
+    cout<<"TermTranslator::constructor| ReadFile: "<<pathHandler.getFullPath()<<"\n";
     if(pathHandler.isFoundInLocalSystem() && pathHandler.isFile())
     {
-        if(m_fileStream.is_open())
-        {
+        if(m_fileStream.is_open())        {
             m_isFileValid = true;
         }
         else
         {
-            cout<<"TermTranslator::constructor| Cannot read cmake file: ["<<pathHandler.getFullPath()<<"]."<<endl;
-            cout<<"TermTranslator::constructor| Problem in FileI/O!"<<endl;
+            cout<<"TermTranslator::constructor| Cannot read cmake file: ["<<pathHandler.getFullPath()<<"]."<<"\n";
+            cout<<"TermTranslator::constructor| Problem in FileI/O!"<<"\n";
         }
     }
     else
     {
-        cout<<"TermTranslator::constructor| Cannot read cmake file: ["<<pathHandler.getFullPath()<<"]."<<endl;
-        cout<<"TermTranslator::constructor| File does not exist!"<<endl;
+        cout<<"TermTranslator::constructor| Cannot read cmake file: ["<<pathHandler.getFullPath()<<"]."<<"\n";
+        cout<<"TermTranslator::constructor| File does not exist!"<<"\n";
     }
 }
-
 bool TermTranslator::isFileValid()
 {
-    return m_isFileValid;
-}
+    return m_isFileValid;}
 
 void TermTranslator::printTerms()
 {
     //output iterator?
     for (auto& term : m_terms)
     {
-        cout<<term<<endl;
+        cout<<term<<"\n";
     }
 }
-
 void TermTranslator::readFile()
 {
-    if(m_isFileValid)
-    {
+    if(m_isFileValid)    {
         while(m_fileStream.good())
         {
             string lineString(getLine());
-            cout<<"TermTranslator::readFile| LineString: ["<<lineString<<"]"<<endl;
+            cout<<"TermTranslator::readFile| LineString: ["<<lineString<<"]"<<"\n";
             int index = lineString.find_first_not_of(WHITESPACE_STRING);
             if(isNotNpos(index))
             {
                 while(getCPlusPlusTerm(lineString, index))
                 {
-                    cout<<"infiniteloop:"<<"| LineString: ["<<lineString<<"] "<<index<<"["<<lineString[index]<<"]"<<endl;
+                    cout<<"infiniteloop:"<<"| LineString: ["<<lineString<<"] "<<index<<"["<<lineString[index]<<"]"<<"\n";
                 }
                 m_terms.emplace_back(TermType::NewLine);
-            }
-            else
+            }            else
             {
                 m_terms.emplace_back(TermType::NewLine);
             }
-
         }
     }
 }
@@ -113,15 +106,13 @@ bool TermTranslator::getCPlusPlusTerm(string& lineString, int & index)
         {
             stringLiteral += readAndAccumulateUntilStringIfFound(lineString, index, "\"");
             slashCharacterIndex = stringLiteral.length()-2;
-            cout<<"StringLiteral:["<<stringLiteral<<"]"<<endl;
+            cout<<"StringLiteral:["<<stringLiteral<<"]"<<"\n";
         }
         while(slashCharacterIndex>0 && '\\'==stringLiteral[slashCharacterIndex]);
-        m_terms.emplace_back(TermType::Constant, stringLiteral);
-        return true;
+        m_terms.emplace_back(TermType::Constant, stringLiteral);        return true;
     }
     else if(isApostrophe(lineString[index]))
-    {
-        string stringLiteral("\'");
+    {        string stringLiteral("\'");
         int slashCharacterIndex;
         index++;
         do
@@ -214,15 +205,13 @@ string TermTranslator::readAndAccumulateUntilStringIfFound(string & lineString, 
     lineString = lineString.substr(index);
     while(m_fileStream.good())
     {
-        cout<<"TermTranslator::accumulateUntilStringIfFound| LineString: ["<<lineString<<"]"<<endl;
+        cout<<"TermTranslator::accumulateUntilStringIfFound| LineString: ["<<lineString<<"]"<<"\n";
         index = lineString.find(stringToFind);
         if(isNotNpos(index))
-        {
-            int end =  index+stringToFind.length();
+        {            int end =  index+stringToFind.length();
             result += lineString.substr(0, end);
             lineString.erase(0, end);
-            index=0;
-            return result;
+            index=0;            return result;
         }
         result += lineString;
         result += "\n";

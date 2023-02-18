@@ -15,14 +15,12 @@ void CPlusPlusFunctionSignature::printSignature() const
     {
         cout<<"[Name: "<<parameter.getName()<<" Type: "<<parameter.getType()<<"]";
     }
-    cout<<endl;
+    cout<<"\n";
 }
 
-CPlusPlusType& CPlusPlusFunctionSignature::getReturnTypeReference()
-{
+CPlusPlusType& CPlusPlusFunctionSignature::getReturnTypeReference(){
     return m_returnType;
 }
-
 CPlusPlusType CPlusPlusFunctionSignature::getReturnType() const
 {
     return m_returnType;
