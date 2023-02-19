@@ -38,15 +38,13 @@ TEST(NumberOfTermsRetrieverTest, RetrieveFromTermWorks)
     Function functionObject(
                 "functionName",
                 Term(createExpressionIfPossible({"a", "^", 2})),
-                [](AlbaNumber const&  number) -> AlbaNumber
+                [](AlbaNumber const& number) -> AlbaNumber
     {
         return number;
     });
-
     retriever.retrieveFromTerm(Constant(1.234));
     retriever.retrieveFromTerm(Variable("b"));
-    retriever.retrieveFromTerm(Monomial(34, {{"c", 5}, {"d", 6}}));
-    retriever.retrieveFromTerm(Polynomial{Monomial(516, {{"e", 7}}), Monomial(643, {{"f", 8}})});
+    retriever.retrieveFromTerm(Monomial(34, {{"c", 5}, {"d", 6}}));    retriever.retrieveFromTerm(Polynomial{Monomial(516, {{"e", 7}}), Monomial(643, {{"f", 8}})});
     retriever.retrieveFromTerm(createExpressionIfPossible({678, "+", Monomial(576, {{"g", 9}})}));
     retriever.retrieveFromTerm(functionObject);
 
@@ -104,15 +102,13 @@ TEST(NumberOfTermsRetrieverTest, RetrieveFromFunctionWorks)
     Function functionObject(
                 "functionName",
                 Term(createExpressionIfPossible({4516, "+", Monomial(7895, {{"x", 10}})})),
-                [](AlbaNumber const&  number) -> AlbaNumber
+                [](AlbaNumber const& number) -> AlbaNumber
     {
         return number;
     });
-
     retriever.retrieveFromFunction(functionObject);
 
-    EXPECT_EQ(4U, retriever.getSavedData());
-}
+    EXPECT_EQ(4U, retriever.getSavedData());}
 
 TEST(NumberOfTermsRetrieverTest, RetrieveFromPolynomialsWorks)
 {

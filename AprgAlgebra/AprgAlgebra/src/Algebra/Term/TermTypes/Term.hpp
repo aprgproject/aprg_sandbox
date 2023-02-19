@@ -10,14 +10,13 @@
 #include <Algebra/Term/TermTypes/TermType.hpp>
 #include <Algebra/Term/TermTypes/Variable.hpp>
 #include <Common/Math/Number/AlbaNumber.hpp>
+#include <Common/Types/AlbaTypeHelper.hpp>
 
 #include <memory>
-#include <string>
-#include <vector>
+#include <string>#include <vector>
 
 namespace alba
 {
-
 namespace algebra
 {
 
@@ -26,28 +25,26 @@ class Term : public BaseTerm
 public:
     Term();
     Term(Term const& term);
-    Term(int const signedValue);
-    Term(unsigned int const unsignedValue);
-    Term(double const doubleValue);
     Term(AlbaNumber const& number);
     Term(char const* const characterString);
-    Term(std::string const& stringAsParameter);
-    Term(Constant const& constant);
+    Term(std::string const& stringAsParameter);    Term(Constant const& constant);
     Term(Variable const& variable);
     Term(Operator const& operatorTerm);
-    Term(Monomial const& monomial);
-    Term(Polynomial const& polynomial);
+    Term(Monomial const& monomial);    Term(Polynomial const& polynomial);
     Term(Expression const& expression);
     Term(Function const& function);
 
+    template< typename ArithmeticType, typename = std::enable_if_t<typeHelper::isArithmeticType<ArithmeticType>()>> // enabled via a type template parameter
+    Term(ArithmeticType const value)
+        : Term(AlbaNumber(value))
+    {}
+
     Term & operator=(Term const& term);
 
-    bool operator==(Term const& second) const;
-    bool operator!=(Term const& second) const;
+    bool operator==(Term const& second) const;    bool operator!=(Term const& second) const;
     bool operator<(Term const& second) const;
     bool isEmpty() const;
-    bool isConstant() const;
-    bool isVariable() const;
+    bool isConstant() const;    bool isVariable() const;
     bool isOperator() const;
     bool isMonomial() const;
     bool isPolynomial() const;

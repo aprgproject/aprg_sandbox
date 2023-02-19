@@ -15,14 +15,16 @@ LinearDiophantineEquationCoefficientSolver::LinearDiophantineEquationCoefficient
     : m_solutionStatus(SolutionStatus::Unknown)
     , m_x{}
     , m_y{}
+    , m_a{}
+    , m_b{}
+    , m_c{}
+    , m_gcfOfAAndB{}
 {
     solve(a, b, c);
 }
-
 bool LinearDiophantineEquationCoefficientSolver::isSolved() const
 {
-    return SolutionStatus::Solved == m_solutionStatus;
-}
+    return SolutionStatus::Solved == m_solutionStatus;}
 
 LinearDiophantineEquationCoefficientSolver::SolutionStatus LinearDiophantineEquationCoefficientSolver::getSolutionStatus() const
 {

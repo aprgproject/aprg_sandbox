@@ -69,14 +69,12 @@ Equation getEllipticParaboloidEquation()
     Term bSquared(createExpressionIfPossible({b, "^", 2}));
     Term zOverC(createExpressionIfPossible({zMinusZ0, "/", c}));
     Term leftHandSide(createExpressionIfPossible({xSquared, "/", aSquared, "+", ySquared, "/", bSquared}));
-    Term rightHandSide(zOverC);
+    Term const& rightHandSide(zOverC);
     return Equation(leftHandSide, "=", rightHandSide);
 }
-
 Equation getHyperbolicParaboloidEquation()
 {
-    Term xMinusX0(createExpressionIfPossible({x, "-", x0}));
-    Term yMinusY0(createExpressionIfPossible({y, "-", y0}));
+    Term xMinusX0(createExpressionIfPossible({x, "-", x0}));    Term yMinusY0(createExpressionIfPossible({y, "-", y0}));
     Term zMinusZ0(createExpressionIfPossible({z, "-", z0}));
     Term xSquared(createExpressionIfPossible({xMinusX0, "^", 2}));
     Term ySquared(createExpressionIfPossible({yMinusY0, "^", 2}));
@@ -84,14 +82,12 @@ Equation getHyperbolicParaboloidEquation()
     Term bSquared(createExpressionIfPossible({b, "^", 2}));
     Term zOverC(createExpressionIfPossible({zMinusZ0, "/", c}));
     Term leftHandSide(createExpressionIfPossible({ySquared, "/", bSquared, "-", xSquared, "/", aSquared}));
-    Term rightHandSide(zOverC);
+    Term const& rightHandSide(zOverC);
     return Equation(leftHandSide, "=", rightHandSide);
 }
-
 Equations getLineEquations()
 {
-    Equations result;
-    Term xMinusX0(createExpressionIfPossible({x, "-", x0}));
+    Equations result;    Term xMinusX0(createExpressionIfPossible({x, "-", x0}));
     Term yMinusY0(createExpressionIfPossible({y, "-", y0}));
     Term zMinusZ0(createExpressionIfPossible({z, "-", z0}));
     Term xSide(createExpressionIfPossible({xMinusX0, "/", a}));
@@ -129,12 +125,10 @@ Equation getSphereEquation()
     Term zSquared(createExpressionIfPossible({zMinusZ0, "^", 2}));
     Term rSquared(createExpressionIfPossible({r, "^", 2}));
     Term leftHandSide(createExpressionIfPossible({xSquared, "+", ySquared, "+", zSquared}));
-    Term rightHandSide(rSquared);
+    Term const& rightHandSide(rSquared);
     return Equation(leftHandSide, "=", rightHandSide);
 }
-
 }
 
 }
-
 }

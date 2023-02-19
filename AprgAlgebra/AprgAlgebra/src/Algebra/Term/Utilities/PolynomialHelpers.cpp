@@ -132,15 +132,13 @@ IntegerCoefficient getBinomialCoefficient(
 
 IntegerCoefficient getMultinomialCoefficient(
         IntegerCoefficient const power,
-        IntegerCoefficients const variableExponents)
+        IntegerCoefficients const& variableExponents)
 {
     // The multinomial coefficient is n! / (k1! * k2! * k3! *... * km!)
-    //  This is equals the number of ways we can divide n elements into subsets of sizes k1,k2,...,km, where k1+k2+...+km = n.
-    // Multinomial coefficients can be seen as a generalization of binomial cofficients;
+    //  This is equals the number of ways we can divide n elements into subsets of sizes k1,k2,...,km, where k1+k2+...+km = n.    // Multinomial coefficients can be seen as a generalization of binomial cofficients;
     // if m=2, the above formula corresponds to the binomial coefficient formula.
 
-    IntegerCoefficient numerator(getFactorial(power));
-    IntegerCoefficient denominator(1);
+    IntegerCoefficient numerator(getFactorial(power));    IntegerCoefficient denominator(1);
     for(IntegerCoefficient const variableExponent : variableExponents)
     {
         denominator *= getFactorial(variableExponent);

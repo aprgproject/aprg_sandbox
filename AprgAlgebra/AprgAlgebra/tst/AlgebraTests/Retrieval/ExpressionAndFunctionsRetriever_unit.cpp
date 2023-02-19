@@ -42,15 +42,13 @@ TEST(ExpressionAndFunctionsRetrieverTest, RetrieveFromTermWorks)
     Function functionObject(
                 "functionName",
                 expesssionTerm1,
-                [](AlbaNumber const&  number) -> AlbaNumber
+                [](AlbaNumber const& number) -> AlbaNumber
     {
         return number;
-    });
-    Term functionTerm1(functionObject);
+    });    Term functionTerm1(functionObject);
 
     retriever.retrieveFromTerm(Constant(1.234));
-    retriever.retrieveFromTerm(Variable("b"));
-    retriever.retrieveFromTerm(Monomial(34, {{"c", 5}, {"d", 6}}));
+    retriever.retrieveFromTerm(Variable("b"));    retriever.retrieveFromTerm(Monomial(34, {{"c", 5}, {"d", 6}}));
     retriever.retrieveFromTerm(Polynomial{Monomial(516, {{"e", 7}}), Monomial(643, {{"f", 8}})});
     retriever.retrieveFromTerm(expesssionTerm2);
     retriever.retrieveFromTerm(functionTerm1);
@@ -123,15 +121,13 @@ TEST(ExpressionAndFunctionsRetrieverTest, RetrieveFromFunctionWorks)
     Function functionObject(
                 "functionName",
                 Term(expression),
-                [](AlbaNumber const&  number) -> AlbaNumber
+                [](AlbaNumber const& number) -> AlbaNumber
     {
         return number;
     });
-
     retriever.retrieveFromFunction(functionObject);
 
-    TermSet const& termsSet(retriever.getSavedData());
-    ASSERT_EQ(2U, termsSet.size());
+    TermSet const& termsSet(retriever.getSavedData());    ASSERT_EQ(2U, termsSet.size());
     TermSet::const_iterator it = termsSet.cbegin();
     EXPECT_EQ(Term(expression), *(it++));
     EXPECT_EQ(Term(functionObject), *(it++));

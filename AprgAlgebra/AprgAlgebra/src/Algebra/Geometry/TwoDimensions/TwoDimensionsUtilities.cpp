@@ -25,14 +25,12 @@ Equation getCircleEquation()
     Term ySquared(createExpressionIfPossible({yMinusY0, "^", 2}));
     Term rSquared(createExpressionIfPossible({r, "^", 2}));
     Term leftHandSide(createExpressionIfPossible({xSquared, "+", ySquared}));
-    Term rightHandSide(rSquared);
+    Term const& rightHandSide(rSquared);
     return Equation(leftHandSide, "=", rightHandSide);
 }
-
 Equation getEllipseEquation()
 {
-    Term xMinusX0(createExpressionIfPossible({x, "-", x0}));
-    Term yMinusY0(createExpressionIfPossible({y, "-", y0}));
+    Term xMinusX0(createExpressionIfPossible({x, "-", x0}));    Term yMinusY0(createExpressionIfPossible({y, "-", y0}));
     Term xSquared(createExpressionIfPossible({xMinusX0, "^", 2}));
     Term ySquared(createExpressionIfPossible({yMinusY0, "^", 2}));
     Term aSquared(createExpressionIfPossible({a, "^", 2}));

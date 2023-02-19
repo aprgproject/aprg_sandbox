@@ -48,19 +48,17 @@ public:
 
 private:
     void separateNonChangingAndChangingVariables(
-            Monomial & unaffectedVariablesAndConstant,
+            Monomial & nonChangingVariablesAndConstant,
             Monomial & affectedVariables,
             Monomial const& monomial) const;
     Polynomial differentiateMonomialWithChangingVariables(
-            Monomial const& affectedVariables) const;
+            Monomial const& changingVariables) const;
     Term differentiateAsTermOrExpressionIfNeeded(
             Expression const& expression) const;
-    Term differentiateSimplifiedExpressionOnly(
-            Expression const& expression) const;
+    Term differentiateSimplifiedExpressionOnly(            Expression const& expression) const;
     Term differentiateTermsInAdditionOrSubtraction(
             Expression const& expression) const;
-    Term differentiateTermsInMultiplicationOrDivision(
-            Expression const& expression) const;
+    Term differentiateTermsInMultiplicationOrDivision(            Expression const& expression) const;
     Term differentiateByProcessingAsPolynomialsOverPolynomials(
             Term const& term) const;
     Term differentiateTermsInMultiplicationOrDivisionTermByTerm(

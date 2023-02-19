@@ -14,15 +14,13 @@ template <typename DataType>
 class BaseRetriever
 {
 public:
-    virtual ~BaseRetriever() = default;
+    virtual ~BaseRetriever() = default; // virtual destructor because of virtual functions (vtable exists)
 
     DataType const& getSavedData() const
-    {
-        return m_savedData;
+    {        return m_savedData;
     }
 
-    DataType & getSavedDataReference()
-    {
+    DataType & getSavedDataReference()    {
         return m_savedData;
     }
 

@@ -31,13 +31,11 @@ public:
 
 private:
 
-    friend std::ostream & operator<<(std::ostream & out, MultipleVariableSolutionSet const& equation);
+    friend std::ostream & operator<<(std::ostream & out, MultipleVariableSolutionSet const& solutionSet);
 
     VariableNameToSolutionSetMap m_variableNameToSolutionSetMap;
 };
-
 using MultipleVariableSolutionSets = std::vector<MultipleVariableSolutionSet>;
 
 }
-
 }

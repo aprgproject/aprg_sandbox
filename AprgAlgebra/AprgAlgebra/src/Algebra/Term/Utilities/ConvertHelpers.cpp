@@ -111,15 +111,13 @@ Term convertExpressionToSimplestTerm(Expression const& expression)
     }
     else if(expression.containsOnlyOnePositivelyAssociatedTerm())
     {
-        Term const& term = dynamic_cast<Term const&>(expression.getFirstTermConstReference());
+        Term const& term = static_cast<Term const&>(expression.getFirstTermConstReference());
         newTerm = term;
         newTerm.simplify();
-    }
-    return newTerm;
+    }    return newTerm;
 }
 
-Term convertFunctionToSimplestTerm(Function const& functionObject)
-{
+Term convertFunctionToSimplestTerm(Function const& functionObject){
     SimplificationOfFunctionToTerm simplification;
     return simplification.simplifyToTerm(functionObject);
 }

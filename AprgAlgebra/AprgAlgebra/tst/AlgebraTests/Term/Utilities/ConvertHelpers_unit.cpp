@@ -103,19 +103,17 @@ TEST(ConvertHelpersTest, SimplifyAndConvertExpressionToSimplestTermWorks)
 TEST(ConvertHelpersTest, SimplifyAndConvertFunctionToSimplestTermWorks)
 {
     Function function1;
-    Function function2("functionName", Term(5), [](AlbaNumber const&  number) -> AlbaNumber
+    Function function2("functionName", Term(5), [](AlbaNumber const& number) -> AlbaNumber
     {
         return number;
     });
-    Function function3("functionName", Term(createExpressionIfPossible({5, "+", 5})), [](AlbaNumber const&  number) -> AlbaNumber
+    Function function3("functionName", Term(createExpressionIfPossible({5, "+", 5})), [](AlbaNumber const& number) -> AlbaNumber
     {
         return number;
     });
-
     Term termToVerify1(simplifyAndConvertFunctionToSimplestTerm(function1));
     Term termToVerify2(simplifyAndConvertFunctionToSimplestTerm(function2));
     Term termToVerify3(simplifyAndConvertFunctionToSimplestTerm(function3));
-
     ASSERT_TRUE(termToVerify1.isFunction());
     EXPECT_EQ(function1, termToVerify1.getFunctionConstReference());
     EXPECT_EQ(Term(5), termToVerify2);
@@ -172,19 +170,17 @@ TEST(ConvertHelpersTest, ConvertExpressionToSimplestTermWorks)
 TEST(ConvertHelpersTest, ConvertFunctionToSimplestTermWorks)
 {
     Function function1;
-    Function function2("functionName", Term(5), [](AlbaNumber const&  number) -> AlbaNumber
+    Function function2("functionName", Term(5), [](AlbaNumber const& number) -> AlbaNumber
     {
         return number;
     });
-    Function function3("functionName", Term("x"), [](AlbaNumber const&  number) -> AlbaNumber
+    Function function3("functionName", Term("x"), [](AlbaNumber const& number) -> AlbaNumber
     {
         return number;
-    });
-    Term multiplicationAndDivisionExpression(createExpressionIfPossible({"x", "*", "y", "/", "z"}));
+    });    Term multiplicationAndDivisionExpression(createExpressionIfPossible({"x", "*", "y", "/", "z"}));
 
     Term termToVerify1(convertFunctionToSimplestTerm(function1));
-    Term termToVerify2(convertFunctionToSimplestTerm(function2));
-    Term termToVerify3(convertFunctionToSimplestTerm(function3));
+    Term termToVerify2(convertFunctionToSimplestTerm(function2));    Term termToVerify3(convertFunctionToSimplestTerm(function3));
     Term termToVerify4(convertFunctionToSimplestTerm(ln(multiplicationAndDivisionExpression)));
 
     Term termToExpect(createExpressionIfPossible({ln("x"), "+", ln("y"), "-", ln("z")}));

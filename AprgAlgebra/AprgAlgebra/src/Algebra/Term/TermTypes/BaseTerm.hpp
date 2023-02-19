@@ -12,11 +12,8 @@ class BaseTerm
 {
 public:
     BaseTerm() = default;
-    virtual ~BaseTerm() = default;
-
-private:
+    virtual ~BaseTerm() = default; // virtual destructor because it needs to be polymorphically deleted
 };
 
 }
-
 }

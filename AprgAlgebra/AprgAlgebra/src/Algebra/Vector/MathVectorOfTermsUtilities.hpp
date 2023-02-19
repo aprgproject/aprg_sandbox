@@ -29,15 +29,13 @@ bool isGaussDivergenceTheoremInAPlaneTrue(
         MathVectorOfTwoTerms const& vectorField,
         MathVectorOfTwoTerms const& regionOfLineIntegral,
         MathVectorOfTwoTerms const& unitOutwardNormal,
-        DetailsForDefiniteIntegralWithTerms const& unitOutwardNormalDetails,
+        DetailsForDefiniteIntegralWithTerms const& lineIntegralDetails,
         DetailsForDefiniteIntegralWithTerms const& areaDetailsInX,
         DetailsForDefiniteIntegralWithTerms const& areaDetailsInY,
-        ArrayOfTwoStrings const& coordinateVariables);
-bool isStokesTheoremInAPlaneTrue(
+        ArrayOfTwoStrings const& coordinateVariables);bool isStokesTheoremInAPlaneTrue(
         MathVectorOfTwoTerms const& vectorField,
         MathVectorOfTwoTerms const& regionOfLineIntegral,
-        MathVectorOfTwoTerms const& unitTangentVector,
-        DetailsForDefiniteIntegralWithTerms const& lineIntegralDetails,
+        MathVectorOfTwoTerms const& unitTangentVector,        DetailsForDefiniteIntegralWithTerms const& lineIntegralDetails,
         DetailsForDefiniteIntegralWithTerms const& areaDetailsInX,
         DetailsForDefiniteIntegralWithTerms const& areaDetailsInY,
         ArrayOfTwoStrings const& coordinateVariables);
