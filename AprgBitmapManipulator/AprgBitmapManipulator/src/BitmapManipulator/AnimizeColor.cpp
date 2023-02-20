@@ -72,25 +72,23 @@ void AnimizeColor::saveColorData(string const& path)
 {
     ofstream colorDataFileStream(path);
 
-    colorDataFileStream << "lightness, newLightness"<< endl;
+    colorDataFileStream << "lightness, newLightness\n";
     for(ValueAndColorDataPair const lightnessCountPair : m_lightnessData)
     {
         colorDataFileStream << lightnessCountPair.first
                             << ", " << lightnessCountPair.second.newValue
-                            << endl;
+                            << "\n";
         /*for(unsigned int i=0; i<lightnessCountPair.second.count; i++)
         {
             colorDataFileStream << lightnessCountPair.first
                                 << ", " << lightnessCountPair.second.newLightness
-                                << endl;
+                                << "\n";
         }*/
     }
 }
-
 bool AnimizeColor::isValueIncluded(double const value) const
 {
-    return value >= m_lowestIncludedValue && value <= m_highestIncludedValue;
-}
+    return value >= m_lowestIncludedValue && value <= m_highestIncludedValue;}
 
 void AnimizeColor::addCountToValue(
         ColorDataMap & colorDataMap,

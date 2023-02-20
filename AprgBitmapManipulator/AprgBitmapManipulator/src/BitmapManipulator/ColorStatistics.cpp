@@ -76,15 +76,13 @@ void AprgColorStatistics::saveColorData(string const& path)
             << "saturationValueI, "
             << "value, "
             << "luma601, "
-            << "luma709" << endl;
+            << "luma709" << "\n";
     unsigned int count=0;
     unsigned int size = min(colorIntensitySet.size(),
-                            min(hueDegreesSet.size(),
-                                min(saturationLightnessSet.size(),
+                            min(hueDegreesSet.size(),                                min(saturationLightnessSet.size(),
                                     min(lightnessSet.size(),
                                         min(saturationValueSet.size(),
-                                            min(valueSet.size(),
-                                                min(luma601Set.size(), luma601Set.size())))))));
+                                            min(valueSet.size(),                                                min(luma601Set.size(), luma601Set.size())))))));
     while(count<size)
     {
         colorDataFileStream
@@ -95,15 +93,13 @@ void AprgColorStatistics::saveColorData(string const& path)
                 << *saturationValueIterator++ << ", "
                 << *valueIterator++ << ", "
                 << *luma601Iterator++ << ", "
-                << *luma709Iterator++ << endl;
+                << *luma709Iterator++ << "\n";
         count++;
     }
 }
-
 void AprgColorStatistics::saveColorStatistics(string const& path)
 {
-    ofstream statisticsFileStream(path);
-    OneDimensionStatistics colorIntensityStatistics(colorIntensitySamples);
+    ofstream statisticsFileStream(path);    OneDimensionStatistics colorIntensityStatistics(colorIntensitySamples);
     OneDimensionStatistics saturationLightnessStatistics(saturationLightnessSamples);
     OneDimensionStatistics lightnessStatistics(lightnessSamples);
     OneDimensionStatistics saturationValueStatistics(saturationValueSamples);
@@ -112,21 +108,20 @@ void AprgColorStatistics::saveColorStatistics(string const& path)
     OneDimensionStatistics luma709Statistics(luma709Samples);
 
     statisticsFileStream << "Color Intensity Mean: " << colorIntensityStatistics.getMean()
-                         << " StdDev: " << colorIntensityStatistics.getSampleStandardDeviation() << endl;
+                         << " StdDev: " << colorIntensityStatistics.getSampleStandardDeviation() << "\n";
     statisticsFileStream << "Saturation Lightness Mean: " << saturationLightnessStatistics.getMean()
-                         << " StdDev: " << saturationLightnessStatistics.getSampleStandardDeviation() << endl;
+                         << " StdDev: " << saturationLightnessStatistics.getSampleStandardDeviation() << "\n";
     statisticsFileStream << "Lightness Mean: " << lightnessStatistics.getMean()
-                         << " StdDev: " << lightnessStatistics.getSampleStandardDeviation() << endl;
+                         << " StdDev: " << lightnessStatistics.getSampleStandardDeviation() << "\n";
     statisticsFileStream << "Saturation Value Mean: " << saturationValueStatistics.getMean()
-                         << " StdDev: " << saturationValueStatistics.getSampleStandardDeviation() << endl;
+                         << " StdDev: " << saturationValueStatistics.getSampleStandardDeviation() << "\n";
     statisticsFileStream << "Value Mean: " << valueStatistics.getMean()
-                         << " StdDev: " << valueStatistics.getSampleStandardDeviation() << endl;
+                         << " StdDev: " << valueStatistics.getSampleStandardDeviation() << "\n";
     statisticsFileStream << "Luma 601 Mean: " << luma601Statistics.getMean()
-                         << " StdDev: " << luma601Statistics.getSampleStandardDeviation() << endl;
+                         << " StdDev: " << luma601Statistics.getSampleStandardDeviation() << "\n";
     statisticsFileStream << "Luma 709 Mean: " << luma709Statistics.getMean()
-                         << " StdDev: " << luma709Statistics.getSampleStandardDeviation() << endl;
+                         << " StdDev: " << luma709Statistics.getSampleStandardDeviation() << "\n";
 }
 
 }
-
 }
