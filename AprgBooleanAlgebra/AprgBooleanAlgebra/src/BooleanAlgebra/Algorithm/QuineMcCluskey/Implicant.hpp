@@ -5,13 +5,12 @@
 
 #include <algorithm>
 #include <bitset>
+#include <numeric>
 #include <set>
 #include <sstream>
 #include <string>
-
 namespace alba
 {
-
 namespace booleanAlgebra
 {
 

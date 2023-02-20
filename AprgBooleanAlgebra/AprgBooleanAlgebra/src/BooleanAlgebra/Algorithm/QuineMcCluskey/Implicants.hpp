@@ -16,21 +16,19 @@ template <typename Minterm>
 class Implicants
 {
 public:
-    using Implicant = Implicant<Minterm>;
-    using ImplicantsInitializerList = std::initializer_list<Implicant>;
-    using ImplicantData = std::set<Implicant>;
+    using ImplicantWithMinterm = Implicant<Minterm>;
+    using ImplicantWithMintermInitializerList = std::initializer_list<ImplicantWithMinterm>;
+    using ImplicantWithMintermSet = std::set<ImplicantWithMinterm>;
 
     Implicants()
     {}
 
-    Implicants(ImplicantsInitializerList const& implicants)
+    Implicants(ImplicantWithMintermInitializerList const& implicants)
         : m_implicantsData(implicants)
     {}
-
     bool operator==(Implicants const& second) const
     {
-        return m_implicantsData == second.m_implicantsData;
-    }
+        return m_implicantsData == second.m_implicantsData;    }
 
     bool operator!=(Implicants const& second) const
     {
@@ -43,35 +41,31 @@ public:
         return m_implicantsData.size();
     }
 
-    ImplicantData const& getImplicantsData() const&
+    ImplicantWithMintermSet const& getImplicantsData() const&
     {
         return m_implicantsData;
     }
-
     std::string getDisplayableString() const
     {
-        std::stringstream ss;
-        ss << *this;
+        std::stringstream ss;        ss << *this;
         return ss.str();
     }
 
-    void addImplicant(Implicant const& implicant)
+    void addImplicant(ImplicantWithMinterm const& implicant)
     {
         m_implicantsData.emplace(implicant);
     }
 
-    void addFinalImplicant(Implicant const& implicant)
+    void addFinalImplicant(ImplicantWithMinterm const& implicant)
     {
         bool isAlreadyRepresented(false);
-        for(Implicant const& iteratorImplicant : m_implicantsData)
+        for(ImplicantWithMinterm const& iteratorImplicant : m_implicantsData)
         {
             if(implicant.isSubset(iteratorImplicant))
-            {
-                isAlreadyRepresented = true;
+            {                isAlreadyRepresented = true;
                 break;
             }
-        }
-        if(!isAlreadyRepresented)
+        }        if(!isAlreadyRepresented)
         {
             m_implicantsData.emplace(implicant);
         }
@@ -85,9 +79,8 @@ private:
         return out;
     }
 
-    ImplicantData m_implicantsData;
+    ImplicantWithMintermSet m_implicantsData;
 };
 
 }
-
 }
