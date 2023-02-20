@@ -1,12 +1,11 @@
 #include <Algorithm/Graph/SymbolGraph/SymbolGraph.hpp>
 #include <Algorithm/Graph/UndirectedGraph/UndirectedGraphWithListOfEdges.hpp>
+#include <Common/Memory/AlbaCast.hpp>
 
 #include <gtest/gtest.h>
-
 #include <cstdint>
 
-namespace alba
-{
+namespace alba{
 
 namespace algorithm
 {
@@ -14,23 +13,13 @@ namespace algorithm
 template <>
 uint64_t getUniqueVertexIdentifier<uint64_t, double>(double const& object)
 {
-    static_assert(sizeof(uint64_t) == sizeof(object), "The vertex should same size with object.");
-    union SharedValue
-    {
-        uint64_t vertex;
-        double object;
-    };
-    SharedValue sharedValue{};
-    sharedValue.object = object;
-    return sharedValue.vertex;
+    return getFloatingPointMemoryRepresentation<double, uint64_t>(object);
 }
 
-template <>
-void removeUniqueVertexIdentifierIfNeeded<uint64_t, double>(double const&)
+template <>void removeUniqueVertexIdentifierIfNeeded<uint64_t, double>(double const&)
 {
     // do nothing
 }
-
 namespace
 {
 using GraphForTest = UndirectedGraphWithListOfEdges<uint64_t>;

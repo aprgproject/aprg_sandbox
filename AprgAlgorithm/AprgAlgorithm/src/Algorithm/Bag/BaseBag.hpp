@@ -14,14 +14,12 @@ class BaseBag // Bag data stucture just collects data and can traverse the data 
 public:
     using TraverseFunction = std::function<void(Object const& object)>;
 
-    virtual ~BaseBag() = default;
+    virtual ~BaseBag() = default; // virtual destructor because of virtual functions (vtable exists)
 
     virtual bool isEmpty() const = 0;
-    virtual unsigned int getSize() const = 0;
-    virtual void add(Object const& object) = 0;
+    virtual unsigned int getSize() const = 0;    virtual void add(Object const& object) = 0;
     virtual void traverse(TraverseFunction const& traverseFunction) = 0;
 };
-
 }
 
 }

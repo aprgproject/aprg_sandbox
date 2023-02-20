@@ -16,9 +16,8 @@ class BaseBinarySearchTreeSymbolTable
         : public BaseSymbolTableWithBaseTree<Value, BaseBinarySearchTree<Key, BasicTreeNodeWithValue<Key, Value>, BaseSymbolTable<Key, Value>>>
 {
 public:
-    virtual ~BaseBinarySearchTreeSymbolTable() = default;
+    ~BaseBinarySearchTreeSymbolTable() override = default; // no need for virtual destructor because base destructor is virtual (similar to other virtual functions)
 };
 
 }
-
 }

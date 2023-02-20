@@ -19,15 +19,13 @@ public:
         : b_root(BaseTree::m_root)
     {}
 
-    virtual ~BaseSetWithBaseTree() = default;
+    virtual ~BaseSetWithBaseTree() = default; // virtual destructor because of virtual functions (vtable exists)
 
     void put(Key const& key) override // overrides in BaseSet
-    {
-        putStartingOnThisNode(b_root, key);
+    {        putStartingOnThisNode(b_root, key);
     }
 
 protected:
-
     void copyContents(Node & destinationNode, Node const& sourceNode) const override // overrides in BaseTree
     {
         destinationNode.key = sourceNode.key;

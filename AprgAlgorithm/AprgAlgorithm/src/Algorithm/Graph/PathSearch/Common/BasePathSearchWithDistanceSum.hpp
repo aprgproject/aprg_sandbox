@@ -19,16 +19,12 @@ public:
         : m_graph(graph)
     {}
 
-    virtual ~BasePathSearchWithDistanceSum() = default;
-
     Weight getDistanceTo(Vertex const& endVertex) const
     {
-        Weight result(0);
-        auto it = m_endVertexToDistanceSumMap.find(endVertex);
+        Weight result(0);        auto it = m_endVertexToDistanceSumMap.find(endVertex);
         if(it != m_endVertexToDistanceSumMap.cend())
         {
-            result = it->second;
-        }
+            result = it->second;        }
         return result;
     }
 
@@ -57,12 +53,16 @@ public:
                 = distanceToVertex + m_graph.getWeight(vertex, adjacentVertex);
     }
 
+protected:
+    // No need for virtual destructor because this class is not destroyed polymorphically.
+    // Guideline #4: A base class destructor should be either public and virtual, or protected and nonvirtual.
+    // Source: http://www.gotw.ca/publications/mill18.htm
+    ~BasePathSearchWithDistanceSum() = default;
+
 private:
 
-    EdgeWeightedGraph const& m_graph;
-    VertexToWeightMap m_endVertexToDistanceSumMap;
+    EdgeWeightedGraph const& m_graph;    VertexToWeightMap m_endVertexToDistanceSumMap;
 };
 
 }
-
 }

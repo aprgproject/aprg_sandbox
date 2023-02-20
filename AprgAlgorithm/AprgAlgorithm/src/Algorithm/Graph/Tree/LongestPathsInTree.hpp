@@ -2,14 +2,11 @@
 
 #include <Algorithm/Graph/PathSearch/DepthFirstSearch/PathSearchUsingDfsWithDistanceCount.hpp>
 #include <Algorithm/Graph/Utilities/GraphUtilitiesHeaders.hpp>
-#include <Common/Container/AlbaFakeCopyable.hpp>
 
 namespace alba
 {
-
 namespace algorithm
 {
-
 template <typename Vertex>
 class LongestPathsInTree
 {
@@ -19,15 +16,12 @@ public:
     using EndPointPair = std::pair<Vertex, Vertex>;
     using EndPointPairs = std::vector<EndPointPair>;
     using Dfs = PathSearchUsingDfsWithDistanceCount<Vertex>;
-    using DfsEntry = AlbaFakeCopyable<Dfs>;
-    using VertexToDfsEntry = std::map<Vertex, DfsEntry>;
+    using VertexToDfs = std::map<Vertex, Dfs>;
 
     LongestPathsInTree(BaseUndirectedGraphWithVertex const& graph)
-        : m_graph(graph)
-    {
+        : m_graph(graph)    {
         initializeIfNeeded();
     }
-
     EndPointPairs const& getEndPointPairsOfLongestPaths() const
     {
         return m_endPointPairsOfLongestPaths;
@@ -132,22 +126,20 @@ private:
         auto it = m_vertexToDfs.find(vertex);
         if(it != m_vertexToDfs.cend())
         {
-            return it->second.getObject();
+            return it->second;
         }
         else
         {
             m_vertexToDfs.emplace(vertex, Dfs(m_graph, {vertex}));
-            return m_vertexToDfs.at(vertex).getObject();
+            return m_vertexToDfs.at(vertex);
         }
     }
-
     BaseUndirectedGraphWithVertex const& m_graph;
     Vertices m_allVertices;
     Vertices m_startVerticesOfLongestPath;
     EndPointPairs m_endPointPairsOfLongestPaths;
-    VertexToDfsEntry m_vertexToDfs;
+    VertexToDfs m_vertexToDfs;
 };
 
 }
-
 }

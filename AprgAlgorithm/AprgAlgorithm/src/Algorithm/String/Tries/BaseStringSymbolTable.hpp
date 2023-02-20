@@ -17,15 +17,13 @@ public:
     using Key = std::string;
     using Keys = stringHelper::strings;
 
-    virtual ~BaseStringSymbolTable() = default;
+    virtual ~BaseStringSymbolTable() = default; // virtual destructor because of virtual functions (vtable exists)
 
     virtual bool isEmpty() const = 0; // is the symbol table empty
     virtual bool doesContain(Key const& key) const = 0; // is key exists on symbol table
-
     virtual unsigned int getSize() const = 0; // get number of key-value pairs
     virtual Value get(Key const& key) const = 0; // get value paired with key
     virtual Key getLongestPrefixOf(Key const& keyToCheck) const = 0; // get the longest key that has a prefix
-
     virtual void put(Key const& key, Value const& value) = 0; // put key-value pair
     virtual void deleteBasedOnKey(Key const& key) = 0; // remove key (and its value) from the symbol table
 

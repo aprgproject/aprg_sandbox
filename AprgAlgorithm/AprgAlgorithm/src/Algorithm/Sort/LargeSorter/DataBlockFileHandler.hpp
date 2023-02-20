@@ -53,15 +53,13 @@ public:
 
     void add(ObjectToSort const& objectToSort)
     {
-        m_fileOptional.value()<<objectToSort<<std::endl;
+        m_fileOptional.value()<<objectToSort<<"\n";
     }
 
-    void releaseFileStream()
-    {
+    void releaseFileStream()    {
         //m_fileOptional->close(); // close does not work why?
         m_fileOptional.reset();
     }
-
 private:
     std::string m_path;
     std::optional<std::ofstream> m_fileOptional;

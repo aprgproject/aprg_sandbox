@@ -17,20 +17,18 @@ class BaseOrderedArray : public BaseDataStructure
 public:
     using Keys = std::vector<Key>;
 
-    virtual ~BaseOrderedArray() = default;
-
     BaseOrderedArray()
         : m_size(0U)
     {}
 
+    ~BaseOrderedArray() override = default; // no need for virtual destructor because base destructor is virtual (similar to other virtual functions)
+
     bool isEmpty() const override
     {
-        return m_size == 0U;
-    }
+        return m_size == 0U;    }
 
     bool doesContain(Key const& key) const override
-    {
-        bool result(false);
+    {        bool result(false);
         if(!isEmpty())
         {
             unsigned int rank(getRank(key));

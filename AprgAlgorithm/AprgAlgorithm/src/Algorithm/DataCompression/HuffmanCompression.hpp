@@ -1,13 +1,10 @@
 #pragma once
 
-#include <Common/Container/AlbaFakeCopyable.hpp>
 #include <Common/Stream/AlbaStreamBitReader.hpp>
 #include <Common/Stream/AlbaStreamBitWriter.hpp>
-
 #include <array>
 #include <iostream>
-#include <memory>
-#include <queue>
+#include <memory>#include <queue>
 
 namespace alba
 {
@@ -76,14 +73,11 @@ public :
         TrieNodeUniquePointer left;
         TrieNodeUniquePointer right;
     };
-    using TrieNodeArrayEntry=AlbaFakeCopyable<TrieNodeUniquePointer>;
 
     HuffmanCompression() = default;
-
     void compress(std::istream & input, std::ostream & output)
     {
-        AlbaStreamBitReader reader(input);
-        AlbaStreamBitWriter writer(output);
+        AlbaStreamBitReader reader(input);        AlbaStreamBitWriter writer(output);
 
         Characters allInputCharacters(readAllCharacters(reader));
         FrequencyOfEachCharacter frequency(getFrequencyOfEachCharacter(allInputCharacters));
@@ -226,38 +220,34 @@ private:
         // This is quite different from the original huffman algorithm
         // Here, frequency is not placed on the trie because its not really needed after building the trie.
         std::priority_queue<CharacterFrequency, std::deque<CharacterFrequency>, std::greater<CharacterFrequency>> frequenciesInMinimumOrder; // min priority queue
-        std::array<TrieNodeArrayEntry, RADIX> characterNode{};
+        std::array<TrieNodeUniquePointer, RADIX> characterNode{};
         for(Count c=0; c < RADIX; c++)
         {
             if(frequency.at(c) > 0)
             {
                 frequenciesInMinimumOrder.emplace(static_cast<char>(c), frequency.at(c), false); // This PQ is used to prioritize low frequency characters first
-                characterNode[c].getObjectReference() = std::make_unique<TrieNode>(static_cast<char>(c), nullptr, nullptr); // These character nodes are used to build trie later on
+                characterNode[c] = std::make_unique<TrieNode>(static_cast<char>(c), nullptr, nullptr); // These character nodes are used to build trie later on
             }
         }
-
         while(frequenciesInMinimumOrder.size() > 1) // Needs to be 2 or higher because we are popping 2 items per iteration
         {
-            // process the frequencies (minimum first) and build the trie by combining two nodes with lowest frequencies
-            CharacterFrequency first(frequenciesInMinimumOrder.top());
+            // process the frequencies (minimum first) and build the trie by combining two nodes with lowest frequencies            CharacterFrequency first(frequenciesInMinimumOrder.top());
             frequenciesInMinimumOrder.pop();
             CharacterFrequency second(frequenciesInMinimumOrder.top());
             frequenciesInMinimumOrder.pop();
             frequenciesInMinimumOrder.emplace(first.character, first.frequency+second.frequency, true); // use first character to keep track
-            TrieNodeUniquePointer firstNode(std::move(characterNode[first.character].getObjectReference()));
-            TrieNodeUniquePointer secondNode(std::move(characterNode[second.character].getObjectReference()));
-            characterNode[first.character].getObjectReference() = std::make_unique<TrieNode>('\0', std::move(firstNode), std::move(secondNode)); // only leafs have characters
+            TrieNodeUniquePointer firstNode(std::move(characterNode[first.character]));
+            TrieNodeUniquePointer secondNode(std::move(characterNode[second.character]));
+            characterNode[first.character] = std::make_unique<TrieNode>('\0', std::move(firstNode), std::move(secondNode)); // only leafs have characters
         }
         CharacterFrequency last(frequenciesInMinimumOrder.top());
-        return std::move(characterNode[last.character].getObjectReference());
+        return std::move(characterNode[last.character]);
     }
 
-    HuffmanCodeTable buildHuffmanCodeTableFromTrie(TrieNodeUniquePointer const& root)
-    {
+    HuffmanCodeTable buildHuffmanCodeTableFromTrie(TrieNodeUniquePointer const& root)    {
         HuffmanCodeTable result{};
         buildHuffmanCodeTableFromTrie(result, root, {});
-        return result;
-    }
+        return result;    }
 
     void buildHuffmanCodeTableFromTrie(HuffmanCodeTable & huffmanCodeTable, TrieNodeUniquePointer const& nodePointer, HuffmanCode const& huffmanCode)
     {

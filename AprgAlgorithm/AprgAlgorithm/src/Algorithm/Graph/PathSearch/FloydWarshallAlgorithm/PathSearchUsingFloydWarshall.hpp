@@ -186,14 +186,12 @@ private:
                 displayTable.getLastRow().addCell(stringHelper::convertToString(pathSearch.m_pathDetailsMatrix.getEntryConstReference(x,y).bestWeight));
             }
         }
-        out << std::endl << displayTable;
+        out << "\n" << displayTable;
         return out;
     }
-
     Graph const& m_graph;
     Comparator m_comparator;
-    PathDetailsMatrix m_pathDetailsMatrix;
-};
+    PathDetailsMatrix m_pathDetailsMatrix;};
 
 template <typename Vertex, typename Weight, typename EdgeWeightedGraph, template<class> class ComparatorTemplateType>
 std::ostream & operator<<(std::ostream & out, typename PathSearchUsingFloydWarshall<Vertex, Weight, EdgeWeightedGraph, ComparatorTemplateType>::PathDetails const& pathDetails)

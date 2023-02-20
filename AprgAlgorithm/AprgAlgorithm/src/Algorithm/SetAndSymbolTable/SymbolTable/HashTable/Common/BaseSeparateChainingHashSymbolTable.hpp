@@ -21,9 +21,8 @@ class BaseSeparateChainingHashSymbolTable
         OrderedArraySymbolTable<Key, Value>, UnorderedLinkedListSymbolTable<Key, Value>, BaseSymbolTable<Key, Value>>>
 {
 public:
-    virtual ~BaseSeparateChainingHashSymbolTable() = default;
+    ~BaseSeparateChainingHashSymbolTable() override = default; // no need for virtual destructor because base destructor is virtual (similar to other virtual functions)
 };
 
 }
-
 }

@@ -50,10 +50,9 @@ TEST(AlbaLargeSorterProfileTest, DISABLED_FirstTest)
             largeSorter.add(sample);
         }
         timer.stopTimer();
-        cout<<"Executed in "<<timer.getElapsedTimeInMilliseconds()<<" ms"<<endl;
+        cout<<"Executed in "<<timer.getElapsedTimeInMilliseconds()<<" ms\n";
     //}
 }
-
 }
 
 }

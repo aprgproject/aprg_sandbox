@@ -16,9 +16,8 @@ class BaseBinarySearchTreeSet
         : public BaseSetWithBaseTree<BaseBinarySearchTree<Key, BasicTreeNode<Key>, BaseSet<Key>>>
 {
 public:
-    virtual ~BaseBinarySearchTreeSet() = default;
+    ~BaseBinarySearchTreeSet() override = default; // no need for virtual destructor because base destructor is virtual (similar to other virtual functions)
 };
 
 }
-
 }

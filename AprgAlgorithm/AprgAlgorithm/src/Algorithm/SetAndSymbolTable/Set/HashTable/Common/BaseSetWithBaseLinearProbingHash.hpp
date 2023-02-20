@@ -20,15 +20,13 @@ public:
         , b_entryPointers(BaseLinearProbingHash::m_entryPointers)
     {}
 
-    virtual ~BaseSetWithBaseLinearProbingHash() = default;
+    ~BaseSetWithBaseLinearProbingHash() override = default; // no need for virtual destructor because base destructor is virtual (similar to other virtual functions)
 
     void put(Key const& key) override // overrides in BaseSet
-    {
-        this->resizeOnPutIfNeeded();
+    {        this->resizeOnPutIfNeeded();
         bool isFound(false);
         unsigned int i = this->getHash(key);
-        for(; b_entryPointers[i]; this->incrementHashTableIndexWithWrapAround(i))
-        {
+        for(; b_entryPointers[i]; this->incrementHashTableIndexWithWrapAround(i))        {
             EntryUniquePointer & entryPointer(b_entryPointers[i]);
             if(key == entryPointer->key)
             {
