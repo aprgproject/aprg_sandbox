@@ -102,46 +102,44 @@ void printChessBitValuesWithBlackUpWhiteDown(
         ChessPieceRetriever const& retriever,
         BitmapSnippet const& inputSnippet)
 {
-    cout << "White pawn:   [" << retriever.getChessCellBitValue(inputSnippet, 0U, 6U).to_string() << "]" << endl;
-    cout << "White pawn:   [" << retriever.getChessCellBitValue(inputSnippet, 1U, 6U).to_string() << "]" << endl;
-    cout << "White pawn:   [" << retriever.getChessCellBitValue(inputSnippet, 2U, 6U).to_string() << "]" << endl;
-    cout << "White pawn:   [" << retriever.getChessCellBitValue(inputSnippet, 3U, 6U).to_string() << "]" << endl;
-    cout << "White pawn:   [" << retriever.getChessCellBitValue(inputSnippet, 4U, 6U).to_string() << "]" << endl;
-    cout << "White pawn:   [" << retriever.getChessCellBitValue(inputSnippet, 5U, 6U).to_string() << "]" << endl;
-    cout << "White pawn:   [" << retriever.getChessCellBitValue(inputSnippet, 6U, 6U).to_string() << "]" << endl;
-    cout << "White pawn:   [" << retriever.getChessCellBitValue(inputSnippet, 7U, 6U).to_string() << "]" << endl;
-    cout << "White rook:   [" << retriever.getChessCellBitValue(inputSnippet, 0U, 7U).to_string() << "]" << endl;
-    cout << "White rook:   [" << retriever.getChessCellBitValue(inputSnippet, 7U, 7U).to_string() << "]" << endl;
-    cout << "White knight: [" << retriever.getChessCellBitValue(inputSnippet, 1U, 7U).to_string() << "]" << endl;
-    cout << "White knight: [" << retriever.getChessCellBitValue(inputSnippet, 6U, 7U).to_string() << "]" << endl;
-    cout << "White bishop: [" << retriever.getChessCellBitValue(inputSnippet, 2U, 7U).to_string() << "]" << endl;
-    cout << "White bishop: [" << retriever.getChessCellBitValue(inputSnippet, 5U, 7U).to_string() << "]" << endl;
-    cout << "White queen:  [" << retriever.getChessCellBitValue(inputSnippet, 3U, 7U).to_string() << "]" << endl;
-    cout << "White king:   [" << retriever.getChessCellBitValue(inputSnippet, 4U, 7U).to_string() << "]" << endl;
-    cout << "Black pawn:   [" << retriever.getChessCellBitValue(inputSnippet, 0U, 1U).to_string() << "]" << endl;
-    cout << "Black pawn:   [" << retriever.getChessCellBitValue(inputSnippet, 1U, 1U).to_string() << "]" << endl;
-    cout << "Black pawn:   [" << retriever.getChessCellBitValue(inputSnippet, 2U, 1U).to_string() << "]" << endl;
-    cout << "Black pawn:   [" << retriever.getChessCellBitValue(inputSnippet, 3U, 1U).to_string() << "]" << endl;
-    cout << "Black pawn:   [" << retriever.getChessCellBitValue(inputSnippet, 4U, 1U).to_string() << "]" << endl;
-    cout << "Black pawn:   [" << retriever.getChessCellBitValue(inputSnippet, 5U, 1U).to_string() << "]" << endl;
-    cout << "Black pawn:   [" << retriever.getChessCellBitValue(inputSnippet, 6U, 1U).to_string() << "]" << endl;
-    cout << "Black pawn:   [" << retriever.getChessCellBitValue(inputSnippet, 7U, 1U).to_string() << "]" << endl;
-    cout << "Black rook:   [" << retriever.getChessCellBitValue(inputSnippet, 0U, 0U).to_string() << "]" << endl;
-    cout << "Black rook:   [" << retriever.getChessCellBitValue(inputSnippet, 7U, 0U).to_string() << "]" << endl;
-    cout << "Black knight: [" << retriever.getChessCellBitValue(inputSnippet, 1U, 0U).to_string() << "]" << endl;
-    cout << "Black knight: [" << retriever.getChessCellBitValue(inputSnippet, 6U, 0U).to_string() << "]" << endl;
-    cout << "Black bishop: [" << retriever.getChessCellBitValue(inputSnippet, 2U, 0U).to_string() << "]" << endl;
-    cout << "Black bishop: [" << retriever.getChessCellBitValue(inputSnippet, 5U, 0U).to_string() << "]" << endl;
-    cout << "Black queen:  [" << retriever.getChessCellBitValue(inputSnippet, 3U, 0U).to_string() << "]" << endl;
-    cout << "Black king:   [" << retriever.getChessCellBitValue(inputSnippet, 4U, 0U).to_string() << "]" << endl;
+    cout << "White pawn:   [" << retriever.getChessCellBitValue(inputSnippet, 0U, 6U).to_string() << "]\n";
+    cout << "White pawn:   [" << retriever.getChessCellBitValue(inputSnippet, 1U, 6U).to_string() << "]\n";
+    cout << "White pawn:   [" << retriever.getChessCellBitValue(inputSnippet, 2U, 6U).to_string() << "]\n";
+    cout << "White pawn:   [" << retriever.getChessCellBitValue(inputSnippet, 3U, 6U).to_string() << "]\n";
+    cout << "White pawn:   [" << retriever.getChessCellBitValue(inputSnippet, 4U, 6U).to_string() << "]\n";
+    cout << "White pawn:   [" << retriever.getChessCellBitValue(inputSnippet, 5U, 6U).to_string() << "]\n";
+    cout << "White pawn:   [" << retriever.getChessCellBitValue(inputSnippet, 6U, 6U).to_string() << "]\n";
+    cout << "White pawn:   [" << retriever.getChessCellBitValue(inputSnippet, 7U, 6U).to_string() << "]\n";
+    cout << "White rook:   [" << retriever.getChessCellBitValue(inputSnippet, 0U, 7U).to_string() << "]\n";
+    cout << "White rook:   [" << retriever.getChessCellBitValue(inputSnippet, 7U, 7U).to_string() << "]\n";
+    cout << "White knight: [" << retriever.getChessCellBitValue(inputSnippet, 1U, 7U).to_string() << "]\n";
+    cout << "White knight: [" << retriever.getChessCellBitValue(inputSnippet, 6U, 7U).to_string() << "]\n";
+    cout << "White bishop: [" << retriever.getChessCellBitValue(inputSnippet, 2U, 7U).to_string() << "]\n";
+    cout << "White bishop: [" << retriever.getChessCellBitValue(inputSnippet, 5U, 7U).to_string() << "]\n";
+    cout << "White queen:  [" << retriever.getChessCellBitValue(inputSnippet, 3U, 7U).to_string() << "]\n";
+    cout << "White king:   [" << retriever.getChessCellBitValue(inputSnippet, 4U, 7U).to_string() << "]\n";
+    cout << "Black pawn:   [" << retriever.getChessCellBitValue(inputSnippet, 0U, 1U).to_string() << "]\n";
+    cout << "Black pawn:   [" << retriever.getChessCellBitValue(inputSnippet, 1U, 1U).to_string() << "]\n";
+    cout << "Black pawn:   [" << retriever.getChessCellBitValue(inputSnippet, 2U, 1U).to_string() << "]\n";
+    cout << "Black pawn:   [" << retriever.getChessCellBitValue(inputSnippet, 3U, 1U).to_string() << "]\n";
+    cout << "Black pawn:   [" << retriever.getChessCellBitValue(inputSnippet, 4U, 1U).to_string() << "]\n";
+    cout << "Black pawn:   [" << retriever.getChessCellBitValue(inputSnippet, 5U, 1U).to_string() << "]\n";
+    cout << "Black pawn:   [" << retriever.getChessCellBitValue(inputSnippet, 6U, 1U).to_string() << "]\n";
+    cout << "Black pawn:   [" << retriever.getChessCellBitValue(inputSnippet, 7U, 1U).to_string() << "]\n";
+    cout << "Black rook:   [" << retriever.getChessCellBitValue(inputSnippet, 0U, 0U).to_string() << "]\n";
+    cout << "Black rook:   [" << retriever.getChessCellBitValue(inputSnippet, 7U, 0U).to_string() << "]\n";
+    cout << "Black knight: [" << retriever.getChessCellBitValue(inputSnippet, 1U, 0U).to_string() << "]\n";
+    cout << "Black knight: [" << retriever.getChessCellBitValue(inputSnippet, 6U, 0U).to_string() << "]\n";
+    cout << "Black bishop: [" << retriever.getChessCellBitValue(inputSnippet, 2U, 0U).to_string() << "]\n";
+    cout << "Black bishop: [" << retriever.getChessCellBitValue(inputSnippet, 5U, 0U).to_string() << "]\n";
+    cout << "Black queen:  [" << retriever.getChessCellBitValue(inputSnippet, 3U, 0U).to_string() << "]\n";
+    cout << "Black king:   [" << retriever.getChessCellBitValue(inputSnippet, 4U, 0U).to_string() << "]\n";
 }
 
-unsigned int getLabelBasedOnSetOfPieces(SetOfPieces const& setOfPieces)
-{
+unsigned int getLabelBasedOnSetOfPieces(SetOfPieces const& setOfPieces){
     unsigned int result(0U);
     for(PieceColorAndType const piece : setOfPieces)
-    {
-        result += static_cast<unsigned int>(piece)*13U;
+    {        result += static_cast<unsigned int>(piece)*13U;
     }
     return result;
 }
