@@ -16,15 +16,13 @@ TEST(AlbaWindowsUserAutomationTest, DISABLED_ShowMousePosition)
     while(1)
     {
         MousePosition position(userAutomation.getMousePosition());
-        cout<<"X: "<<position.getX()<<" Y: "<<position.getY()<<endl;
+        cout<<"X: "<<position.getX()<<" Y: "<<position.getY()<<"\n";
         if(0==position.getX() && 0==position.getY())
         {
-            break;
-        }
+            break;        }
         Sleep(100);
     }
 }
-
 TEST(AlbaWindowsUserAutomationTest, DISABLED_DeleteThisTestDontGoToSleepSetMouseTest) // DISABLED_DeleteThisTestDontGoToSleepSetMouseTest)
 {
     AlbaWindowsUserAutomation userAutomation;
@@ -101,27 +99,23 @@ TEST(AlbaWindowsUserAutomationTest, DISABLED_IsLetterPressedTest)
     {
         char letter = 'q';
         bool isPressed = userAutomation.isLetterPressed(letter);
-        cout << "letter: " << letter << " isPressed: " << isPressed << endl;
+        cout << "letter: " << letter << " isPressed: " << isPressed << "\n";
         if(isPressed)
         {
-            break;
-        }
+            break;        }
         Sleep(100);
     }
 }
-
 TEST(AlbaWindowsUserAutomationTest, DISABLED_GetClassNameOfForegroundWindow)
 {
     AlbaWindowsUserAutomation userAutomation;
-    cout<<userAutomation.getClassNameOfForegroundWindow()<<endl;
+    cout << userAutomation.getClassNameOfForegroundWindow() << "\n";
 }
 
-TEST(AlbaWindowsUserAutomationTest, DISABLED_SetActiveWindowBasedClassName)
-{
+TEST(AlbaWindowsUserAutomationTest, DISABLED_SetActiveWindowBasedClassName){
     AlbaWindowsUserAutomation userAutomation;
     userAutomation.setForegroundWindowWithClassName("Notepad");
 }
-
 TEST(AlbaWindowsUserAutomationTest, DISABLED_SetActiveWindowBasedWindowName)
 {
     AlbaWindowsUserAutomation userAutomation;
@@ -138,15 +132,13 @@ TEST(AlbaWindowsUserAutomationTest, DISABLED_SaveBitmapOnScreen)
 TEST(AlbaWindowsUserAutomationTest, DISABLED_GetStringFromClipboard)
 {
     AlbaWindowsUserAutomation userAutomation;
-    cout <<  userAutomation.getStringFromClipboard() << endl;
+    cout <<  userAutomation.getStringFromClipboard() << "\n";
 }
 
-TEST(AlbaWindowsUserAutomationTest, DISABLED_SetStringFromClipboard)
-{
+TEST(AlbaWindowsUserAutomationTest, DISABLED_SetStringFromClipboard){
     AlbaWindowsUserAutomation userAutomation;
     userAutomation.setStringToClipboard("TestString");
 }
-
 TEST(AlbaWindowsUserAutomationTest, DISABLED_SaveBitmapFromClipboard)
 {
     string bitmapFilePath = APRG_DIR R"(\AprgLocalUserAutomation\FilesForTests\BitmapFromClipboard.bmp)";

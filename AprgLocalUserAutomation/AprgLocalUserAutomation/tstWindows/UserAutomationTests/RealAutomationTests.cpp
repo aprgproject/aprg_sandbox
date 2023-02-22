@@ -235,13 +235,11 @@ TEST(RealAutomationTest, DISABLED_NormalizeAudioForMp3Files)
                 }
                 else
                 {
-                    cout << "Ignored file: " << filePath << ": size: " << filePathHandler.getFileSizeEstimate() << endl;
+                    cout << "Ignored file: " << filePath << ": size: " << filePathHandler.getFileSizeEstimate() << "\n";
                 }
             }
-            break;
-        }
+            break;        }
         Sleep(100);
     }
 }
-
 }
