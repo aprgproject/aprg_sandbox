@@ -42,15 +42,13 @@ void AlbaGrepFile::processFile(string const& inputFilePath, string const& output
         if(m_lineGrepEvaluator.evaluate(lineInLogs))
         {
             m_isOutputFileWritten=true;
-            outputFileStream << lineInLogs << endl;
+            outputFileStream << lineInLogs << "\n";
         }
         if(fileReader.isNotFinished())
-        {
-            updateAfterOneIteration(fileReader.getCurrentLocation()*100/sizeOfFile);
+        {            updateAfterOneIteration(fileReader.getCurrentLocation()*100/sizeOfFile);
         }
     }
-    updateAfterOneIteration(100);
-}
+    updateAfterOneIteration(100);}
 
 AlbaGrepStringEvaluator& AlbaGrepFile::getGrepEvaluator()
 {

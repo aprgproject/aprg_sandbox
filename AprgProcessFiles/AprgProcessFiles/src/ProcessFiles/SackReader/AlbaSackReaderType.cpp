@@ -61,12 +61,11 @@ void AlbaSackReaderType::printAll() const
 {
     for(AlbaSackReaderParameter const& parameter : m_parameters)
     {
-        cout<<"Parameter: "<<parameter.getTypeName()<<" "<<parameter.getParameterName()<<endl;
+        cout<<"Parameter: "<<parameter.getTypeName()<<" "<<parameter.getParameterName()<<"\n";
     }
     for(string const& otherType : m_otherTypes)
     {
-        cout<<"OtherType: "<<otherType<<endl;
+        cout<<"OtherType: "<<otherType<<"\n";
     }
 }
-
 }

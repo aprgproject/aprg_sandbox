@@ -84,15 +84,13 @@ void CPlusPlusFileFixer::processDirectory(string const& path)
 
 void CPlusPlusFileFixer::processFile(string const& path)
 {
-    //cout<<"ProcessFile: "<<path<<endl;
+    //cout<<"ProcessFile: "<<path<<"\n";
     clear();
     checkFile(path);
-    fix(path);
-    writeFile(path);
+    fix(path);    writeFile(path);
 }
 
-void CPlusPlusFileFixer::clear()
-{
+void CPlusPlusFileFixer::clear(){
     m_linesAfterTheHeader.clear();
     m_headerListFromAngleBrackets.clear();
     m_headerListFromQuotations.clear();
@@ -170,59 +168,51 @@ void CPlusPlusFileFixer::notifyIfThereAreCommentsInHeader(string const& path, st
 {
     if(isStringFoundInsideTheOtherStringCaseSensitive(line, "//"))
     {
-        cout<<"CHECK THIS: Header comments on:["<<path<<"] in line:["<<line<<"]"<<endl;
+        cout<<"CHECK THIS: Header comments on:["<<path<<"] in line:["<<line<<"]\n";
     }
 }
-
 void CPlusPlusFileFixer::notifyIfAlbaDebugHeaderExistInProductionCode(string const& path) const
 {
     bool isAlbaDebugHeaderFound = (find(m_headerListFromAngleBrackets.cbegin(), m_headerListFromAngleBrackets.cend(), string("Debug/AlbaDebug.hpp")) != m_headerListFromAngleBrackets.end());
     if(isAlbaDebugHeaderFound) // !isUnitTest)
     {
-        cout<<"CHECK THIS: AlbaDebug found in:["<<path<<"]."<<endl;
+        cout<<"CHECK THIS: AlbaDebug found in:["<<path<<"].\n";
     }
 }
-
 void CPlusPlusFileFixer::notifyIfIostreamHeaderExistInProductionCode(string const& path) const
 {
-    AlbaLocalPathHandler filePathHandler(path);
-    bool isIostreamFound = (find(m_headerListFromAngleBrackets.cbegin(), m_headerListFromAngleBrackets.cend(), string("iostream")) != m_headerListFromAngleBrackets.end());
+    AlbaLocalPathHandler filePathHandler(path);    bool isIostreamFound = (find(m_headerListFromAngleBrackets.cbegin(), m_headerListFromAngleBrackets.cend(), string("iostream")) != m_headerListFromAngleBrackets.end());
     //bool isCpp = filePathHandler.getExtension() == "cpp";
     bool isUnitTest = isStringFoundInsideTheOtherStringCaseSensitive(filePathHandler.getFile(), "_unit.cpp");
     if(isIostreamFound && !isUnitTest)// && !isCpp) // !isUnitTest)
     {
-        cout<<"CHECK THIS: iostream found in:["<<path<<"]."<<endl;
+        cout<<"CHECK THIS: iostream found in:["<<path<<"].\n";
     }
 }
-
 void CPlusPlusFileFixer::notifyIfCAssertHeaderExistInProductionCode(string const& path) const
 {
     bool isCAssertFound = (find(m_headerListFromAngleBrackets.cbegin(), m_headerListFromAngleBrackets.cend(), string("cassert")) != m_headerListFromAngleBrackets.end());
     if(isCAssertFound)
     {
-        cout<<"CHECK THIS: cassert found in:["<<path<<"]."<<endl;
+        cout<<"CHECK THIS: cassert found in:["<<path<<"].\n";
     }
 }
-
 void CPlusPlusFileFixer::notifyIfMoreThanLoopsAreCascaded(string const& path) const
 {
-    set<unsigned int> indentionsOfLoops;
-    for(string const& line : m_linesAfterTheHeader)
+    set<unsigned int> indentionsOfLoops;    for(string const& line : m_linesAfterTheHeader)
     {
         if(isLineWithALoopStart(line))
         {
             indentionsOfLoops.emplace(getStringThatContainsWhiteSpaceIndention(line).size());
             if(indentionsOfLoops.size()>=2)
             {
-                cout<<"CHECK THIS: More than 2 loops found in:["<<path<<"] in line:["<<line<<"]."<<endl;
+                cout<<"CHECK THIS: More than 2 loops found in:["<<path<<"] in line:["<<line<<"].\n";
             }
         }
-        else if(isLineWithALoopEnd(line))
-        {
+        else if(isLineWithALoopEnd(line))        {
             auto it = indentionsOfLoops.find(getStringThatContainsWhiteSpaceIndention(line).size());
             if(it!=indentionsOfLoops.end())
-            {
-                indentionsOfLoops.erase(it);
+            {                indentionsOfLoops.erase(it);
             }
         }
     }
@@ -356,58 +346,52 @@ void CPlusPlusFileFixer::writeFile(string const& path)
     ofstream outputLogFileStream(filePathHandler.getFullPath());
     if(m_isPragmaOnceFound)
     {
-        outputLogFileStream<<"#pragma once"<<endl;
-        outputLogFileStream<<endl;
+        outputLogFileStream<<"#pragma once\n";
+        outputLogFileStream<<"\n";
     }
     if(!m_headerListFromQuotations.empty())
-    {
-        writeHeadersWithQuotations(outputLogFileStream);
+    {        writeHeadersWithQuotations(outputLogFileStream);
     }
     if(!m_headerListFromAngleBrackets.empty())
-    {
-        writeHeadersWithAngleBrackets(outputLogFileStream);
+    {        writeHeadersWithAngleBrackets(outputLogFileStream);
     }
     for(string const& line: m_linesAfterTheHeader)
     {
-        outputLogFileStream<<line<<endl;
+        outputLogFileStream<<line<<"\n";
     }
 }
-
 void CPlusPlusFileFixer::writeHeadersWithQuotations(ofstream & outputLogFileStream) const
 {
     for(string const& header: m_headerListFromQuotations)
     {
         if(!header.empty())
         {
-            outputLogFileStream<<R"(#include ")"<<header<<R"(")"<<endl;
+            outputLogFileStream<<R"(#include ")"<<header<<R"(")"<<"\n";
         }
         else
         {
-            outputLogFileStream<<endl;
+            outputLogFileStream<<"\n";
         }
     }
-    outputLogFileStream<<endl;
+    outputLogFileStream<<"\n";
 }
 
-void CPlusPlusFileFixer::writeHeadersWithAngleBrackets(ofstream & outputLogFileStream) const
-{
+void CPlusPlusFileFixer::writeHeadersWithAngleBrackets(ofstream & outputLogFileStream) const{
     for(string const& header: m_headerListFromAngleBrackets)
     {
         if(!header.empty())
         {
-            outputLogFileStream<<R"(#include <)"<<header<<R"(>)"<<endl;
+            outputLogFileStream<<R"(#include <)"<<header<<R"(>)"<<"\n";
         }
         else
         {
-            outputLogFileStream<<endl;
+            outputLogFileStream<<"\n";
         }
     }
 }
-
 bool CPlusPlusFileFixer::isLineWithALoopStart(string const& line) const
 {
-    bool result(false);
-    if(isStringFoundInsideTheOtherStringCaseSensitive(line, "for(") ||
+    bool result(false);    if(isStringFoundInsideTheOtherStringCaseSensitive(line, "for(") ||
             isStringFoundInsideTheOtherStringCaseSensitive(line, "while("))
     {
         result=true;

@@ -25,29 +25,27 @@ TEST(CPlusPlusFileFixerTest, CPlusPlusFileHeadersAreCorrected)
     AlbaLocalPathHandler file1ToReadPathHandler(APRG_PROCESS_FILES_TEST_FILE1_TO_READ);
     ofstream testFile(file1ToReadPathHandler.getFullPath());
     ASSERT_TRUE(testFile.is_open());
-    testFile << R"(#include <file2.hpp>)" << endl;
-    testFile << R"(#include<string>)" << endl;
-    testFile << R"(#include <gtest/gtest.h> )" << endl;
-    testFile << R"(#include <windows.h> )" << endl;
-    testFile << R"(#include <sys/types.h> )" << endl;
-    testFile << "   #pragma once\t\t\t " << endl;
-    testFile << R"()"<< endl;
-    testFile << R"(#include "file1.hpp")" << endl;
-    testFile << R"()"<< endl;
-    testFile << R"(#include <QDebug>)" << endl;
-    testFile << R"(#include <QtWidgets>)" << endl;
-    testFile << R"(#include <Test1\Test1.hpp>)" << endl;
-    testFile << R"(#include <Test1\Test1_unit.hpp>)" << endl;
-    testFile << R"(         This is a line in the code)" << endl;
-    testFile << "       \t\t\t\t       This is another line in the code    " << endl;
+    testFile << R"(#include <file2.hpp>)" << "\n";
+    testFile << R"(#include<string>)" << "\n";
+    testFile << R"(#include <gtest/gtest.h> )" << "\n";
+    testFile << R"(#include <windows.h> )" << "\n";
+    testFile << R"(#include <sys/types.h> )" << "\n";
+    testFile << "   #pragma once\t\t\t \n";
+    testFile << R"()" << "\n";
+    testFile << R"(#include "file1.hpp")" << "\n";
+    testFile << R"()" << "\n";
+    testFile << R"(#include <QDebug>)" << "\n";
+    testFile << R"(#include <QtWidgets>)" << "\n";
+    testFile << R"(#include <Test1\Test1.hpp>)" << "\n";
+    testFile << R"(#include <Test1\Test1_unit.hpp>)" << "\n";
+    testFile << R"(         This is a line in the code)" << "\n";
+    testFile << "       \t\t\t\t       This is another line in the code    \n";
     testFile.close();
 
     fixer.processFile(file1ToReadPathHandler.getFullPath());
-
     ifstream inputTestFile(file1ToReadPathHandler.getFullPath());
     ASSERT_TRUE(inputTestFile.is_open());
-    AlbaFileReader fileReader(inputTestFile);
-    ASSERT_TRUE(inputTestFile.good());
+    AlbaFileReader fileReader(inputTestFile);    ASSERT_TRUE(inputTestFile.good());
     ASSERT_FALSE(inputTestFile.eof());
     EXPECT_TRUE(fileReader.isNotFinished());
     EXPECT_EQ(R"(#pragma once)", fileReader.getLine());
@@ -78,16 +76,14 @@ TEST(CPlusPlusFileFixerTest, CPlusPlusFileMainHeaderIsConvertedToQuotationHeader
     AlbaLocalPathHandler file1ToReadPathHandler(APRG_PROCESS_FILES_TEST_FILE1_TO_READ);
     ofstream testFile(file1ToReadPathHandler.getFullPath());
     ASSERT_TRUE(testFile.is_open());
-    testFile << R"(#include <)" << file1ToReadPathHandler.getFile() << R"(>)" << endl;
-    testFile << R"(#include <DirectoryDoesNotMatch/)" << file1ToReadPathHandler.getFile() << R"(>)" << endl;
+    testFile << R"(#include <)" << file1ToReadPathHandler.getFile() << R"(>)" << "\n";
+    testFile << R"(#include <DirectoryDoesNotMatch/)" << file1ToReadPathHandler.getFile() << R"(>)" << "\n";
     testFile.close();
 
     fixer.processFile(file1ToReadPathHandler.getFullPath());
-
     ifstream inputTestFile(file1ToReadPathHandler.getFullPath());
     ASSERT_TRUE(inputTestFile.is_open());
-    AlbaFileReader fileReader(inputTestFile);
-    ASSERT_TRUE(inputTestFile.good());
+    AlbaFileReader fileReader(inputTestFile);    ASSERT_TRUE(inputTestFile.good());
     ASSERT_FALSE(inputTestFile.eof());
     EXPECT_TRUE(fileReader.isNotFinished());
     EXPECT_EQ(R"(#include "Test1.txt")", fileReader.getLine());
@@ -104,21 +100,15 @@ TEST(CPlusPlusFileFixerTest, TrailingEmptyLineAreRemoved)
     AlbaLocalPathHandler file1ToReadPathHandler(APRG_PROCESS_FILES_TEST_FILE1_TO_READ);
     ofstream testFile(file1ToReadPathHandler.getFullPath());
     ASSERT_TRUE(testFile.is_open());
-    testFile << R"(         This is a line in the code)" << endl;
-    testFile << "       \t\t\t\t       This is another line in the code    " << endl;
-    testFile << R"()"<< endl;
-    testFile << R"()"<< endl;
-    testFile << R"()"<< endl;
-    testFile << R"()"<< endl;
-    testFile << R"()"<< endl;
+    testFile << R"(         This is a line in the code)" << "\n";
+    testFile << "       \t\t\t\t       This is another line in the code    \n";
+    testFile << "\n\n\n\n\n";
     testFile.close();
 
     fixer.processFile(file1ToReadPathHandler.getFullPath());
-
     ifstream inputTestFile(file1ToReadPathHandler.getFullPath());
     ASSERT_TRUE(inputTestFile.is_open());
-    AlbaFileReader fileReader(inputTestFile);
-    ASSERT_TRUE(inputTestFile.good());
+    AlbaFileReader fileReader(inputTestFile);    ASSERT_TRUE(inputTestFile.good());
     ASSERT_FALSE(inputTestFile.eof());
     EXPECT_TRUE(fileReader.isNotFinished());
     EXPECT_EQ(R"(         This is a line in the code)", fileReader.getLine());
@@ -133,16 +123,14 @@ TEST(CPlusPlusFileFixerTest, NamespaceFormattingIsCorrected)
     AlbaLocalPathHandler file1ToReadPathHandler(APRG_PROCESS_FILES_TEST_FILE1_TO_READ);
     ofstream testFile(file1ToReadPathHandler.getFullPath());
     ASSERT_TRUE(testFile.is_open());
-    testFile << R"(namespace samplenamespace {)" << endl;
-    testFile << R"(})" << endl;
+    testFile << R"(namespace samplenamespace {)" << "\n";
+    testFile << R"(})" << "\n";
     testFile.close();
 
     fixer.processFile(file1ToReadPathHandler.getFullPath());
-
     ifstream inputTestFile(file1ToReadPathHandler.getFullPath());
     ASSERT_TRUE(inputTestFile.is_open());
-    AlbaFileReader fileReader(inputTestFile);
-    ASSERT_TRUE(inputTestFile.good());
+    AlbaFileReader fileReader(inputTestFile);    ASSERT_TRUE(inputTestFile.good());
     ASSERT_FALSE(inputTestFile.eof());
     EXPECT_TRUE(fileReader.isNotFinished());
     EXPECT_EQ(R"(namespace samplenamespace )", fileReader.getLine());
@@ -158,27 +146,25 @@ TEST(CPlusPlusFileFixerTest, SmallUInNumberIsConvertedToCapitalU)
     AlbaLocalPathHandler file1ToReadPathHandler(APRG_PROCESS_FILES_TEST_FILE1_TO_READ);
     ofstream testFile(file1ToReadPathHandler.getFullPath());
     ASSERT_TRUE(testFile.is_open());
-    testFile << R"(u)" << endl;
-    testFile << R"(u1)" << endl;
-    testFile << R"(uname)" << endl;
-    testFile << R"(u_)" << endl;
-    testFile << R"(u )" << endl;
-    testFile << R"(5uname)" << endl;
-    testFile << R"(5u1)" << endl;
-    testFile << R"(5u_)" << endl;
-    testFile << R"(5U)" << endl;
-    testFile << R"(5U )" << endl;
-    testFile << R"(5U/)" << endl;
-    testFile << R"(10050U)" << endl;
-    testFile << R"(1uname 99u)" << endl;
+    testFile << R"(u)" << "\n";
+    testFile << R"(u1)" << "\n";
+    testFile << R"(uname)" << "\n";
+    testFile << R"(u_)" << "\n";
+    testFile << R"(u )" << "\n";
+    testFile << R"(5uname)" << "\n";
+    testFile << R"(5u1)" << "\n";
+    testFile << R"(5u_)" << "\n";
+    testFile << R"(5U)" << "\n";
+    testFile << R"(5U )" << "\n";
+    testFile << R"(5U/)" << "\n";
+    testFile << R"(10050U)" << "\n";
+    testFile << R"(1uname 99u)" << "\n";
     testFile.close();
 
     fixer.processFile(file1ToReadPathHandler.getFullPath());
-
     ifstream inputTestFile(file1ToReadPathHandler.getFullPath());
     ASSERT_TRUE(inputTestFile.is_open());
-    AlbaFileReader fileReader(inputTestFile);
-    ASSERT_TRUE(inputTestFile.good());
+    AlbaFileReader fileReader(inputTestFile);    ASSERT_TRUE(inputTestFile.good());
     ASSERT_FALSE(inputTestFile.eof());
     EXPECT_TRUE(fileReader.isNotFinished());
     EXPECT_EQ(R"(u)", fileReader.getLine());
@@ -204,15 +190,14 @@ TEST(CPlusPlusFileFixerTest, DISABLED_TwoCascadingLoopsDetection)
     AlbaLocalPathHandler file1ToReadPathHandler(APRG_PROCESS_FILES_TEST_FILE1_TO_READ);
     ofstream testFile(file1ToReadPathHandler.getFullPath());
     ASSERT_TRUE(testFile.is_open());
-    testFile << R"(for(SomeDetailsHere))" << endl;
-    testFile << R"(    while(SomeAdditionalDetailsHere))" << endl;
-    testFile << R"(         while(SomeAdditionalDetailsHere))" << endl;
-    testFile << R"(         })" << endl;
-    testFile << R"(    })" << endl;
-    testFile << R"(})" << endl;
+    testFile << R"(for(SomeDetailsHere))" << "\n";
+    testFile << R"(    while(SomeAdditionalDetailsHere))" << "\n";
+    testFile << R"(         while(SomeAdditionalDetailsHere))" << "\n";
+    testFile << R"(         })" << "\n";
+    testFile << R"(    })" << "\n";
+    testFile << R"(})" << "\n";
     testFile.close();
 
-    fixer.processFile(file1ToReadPathHandler.getFullPath());
-}
+    fixer.processFile(file1ToReadPathHandler.getFullPath());}
 
 }
