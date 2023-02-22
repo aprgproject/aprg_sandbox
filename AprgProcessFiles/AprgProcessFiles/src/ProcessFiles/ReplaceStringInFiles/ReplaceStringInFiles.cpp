@@ -19,9 +19,11 @@ void ReplaceStringInFiles::replaceCToCPlusPlusStylePrintOnDirectories(string con
     AlbaLocalPathHandler inputPathHandler(inputDirectory);
     AlbaLocalPathHandler outputPathHandler(outputDirectory);
     inputPathHandler.findFilesAndDirectoriesUnlimitedDepth("*.*", files, directories);
+
     for(string const& file: files)
     {
-        AlbaLocalPathHandler inputFilePathHandler(file);        if(isCOrCPlusPlusFile(inputFilePathHandler.getExtension()))
+        AlbaLocalPathHandler inputFilePathHandler(file);
+        if(isCOrCPlusPlusFile(inputFilePathHandler.getExtension()))
         {
             string outputFilePath(inputFilePathHandler.getFullPath());
             transformReplaceStringIfFound(outputFilePath, inputPathHandler.getFullPath(), outputPathHandler.getFullPath());
@@ -68,10 +70,12 @@ void ReplaceStringInFiles::replaceCToCPlusPlusStylePrintOnFile(string const& inp
                     outputFile << gethCPlusPlusStylePrintFromC(getStringWithoutStartingAndTrailingWhiteSpace(print)) << "\n";
                     print.clear();
                     isOnPrint=false;
-                }                else
+                }
+                else
                 {
                     print+=" ";
-                    print+=lineInInputFile;                }
+                    print+=lineInInputFile;
+                }
             }
             else
             {
@@ -81,7 +85,8 @@ void ReplaceStringInFiles::replaceCToCPlusPlusStylePrintOnFile(string const& inp
                     outputFile << gethCPlusPlusStylePrintFromC(getStringWithoutStartingAndTrailingWhiteSpace(print)) << "\n";
                     print.clear();
                 }
-                else if(hasPrintInLineInInputFile)                {
+                else if(hasPrintInLineInInputFile)
+                {
                     print+=lineInInputFile;
                     isOnPrint=true;
                 }
@@ -90,10 +95,12 @@ void ReplaceStringInFiles::replaceCToCPlusPlusStylePrintOnFile(string const& inp
                     outputFile << lineInInputFile <<"\n";
                 }
             }
-        }    }
+        }
+    }
 }
 
-string ReplaceStringInFiles::gethCPlusPlusStylePrintFromC(string const& inputString) const{
+string ReplaceStringInFiles::gethCPlusPlusStylePrintFromC(string const& inputString) const
+{
     string result;
     strings splittedStrings;
     strings delimeters{R"((")", R"(",)", ");"};

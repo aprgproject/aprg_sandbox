@@ -68,4 +68,5 @@ void AlbaSackReaderType::printAll() const
         cout<<"OtherType: "<<otherType<<"\n";
     }
 }
+
 }

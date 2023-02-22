@@ -22,9 +22,11 @@ public:
     ~BaseSetWithBaseSeparateChainingHash() override = default; // no need for virtual destructor because base destructor is virtual (similar to other virtual functions)
 
     void put(Key const& key) override
-    {        b_smallerSymbolTables[this->getHash(key)].put(key);
+    {
+        b_smallerSymbolTables[this->getHash(key)].put(key);
         b_size++;
     }
+
 private:
     unsigned int & b_size;
     HashTable & b_smallerSymbolTables;

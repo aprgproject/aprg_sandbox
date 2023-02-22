@@ -218,10 +218,12 @@ void TermAnalyzer::copyDatabaseOfIncludeFile(Looper const& startLooper, string c
                 cout<<"Types: "<<m_fileName<<" :: "<<includeFileName<<" :: "<<type.first<<"\n";
             }
             m_database.copyContentsOf(copyThis);
-        }        else
+        }
+        else
         {
             addFinding(constructFileLocator(__FILE__, __LINE__), "Include file:"+includeFileName+" is not found.", startLooper);
-        }    }
+        }
+    }
 }
 
 bool TermAnalyzer::isEndOfMacroFoundAndMoveLooper(Looper& movableLooper)

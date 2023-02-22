@@ -23,10 +23,12 @@ public:
     ~BaseSymbolTableWithBaseLinearProbingHash() override = default; // no need for virtual destructor because base destructor is virtual (similar to other virtual functions)
 
     Value get(Key const& key) const override
-    {        Value result{};
+    {
+        Value result{};
         for(unsigned int i(this->getHash(key)); b_entryPointers[i]; this->incrementHashTableIndexWithWrapAround(i))
         {
-            EntryUniquePointer const& entryPointer(b_entryPointers[i]);            if(key == entryPointer->key)
+            EntryUniquePointer const& entryPointer(b_entryPointers[i]);
+            if(key == entryPointer->key)
             {
                 result = entryPointer->value;
                 break;

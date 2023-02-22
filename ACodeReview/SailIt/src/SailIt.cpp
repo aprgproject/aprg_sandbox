@@ -26,6 +26,7 @@ void SailIt::printAll(ostream& outputStream)
        m_fileFindingsMap[fileCPlusPlusDatabasesPair.first].printFindings(outputStream);
    }
 }
+
 void SailIt::printFindings(ostream& outputStream, string const& finding)
 {
    for(FileCPlusPlusDatabasesPair fileCPlusPlusDatabasesPair :m_fileCPlusPlusDatabasesMap)
@@ -34,9 +35,11 @@ void SailIt::printFindings(ostream& outputStream, string const& finding)
        m_fileFindingsMap[fileCPlusPlusDatabasesPair.first].printFindings(outputStream, finding);
    }
 }
+
 bool SailIt::isCPlusPlusDatabaseAvailableForThisFile(string const& fullPathFile)
 {
-    return m_fileCPlusPlusDatabasesMap.find(fullPathFile) != m_fileCPlusPlusDatabasesMap.end();}
+    return m_fileCPlusPlusDatabasesMap.find(fullPathFile) != m_fileCPlusPlusDatabasesMap.end();
+}
 
 FileDirectoryDatabase& SailIt::getFileDirectoryDatabaseReference()
 {

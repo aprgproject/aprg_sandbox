@@ -17,10 +17,12 @@ namespace alba
 
 TEST(AlbaNumberTest, GetDefaultConfigurationDetailsWorks)
 {
-    AlbaNumber::ConfigurationDetails configurationDetails(                getDefaultConfigurationDetails<AlbaNumber::ConfigurationDetails>());
+    AlbaNumber::ConfigurationDetails configurationDetails(
+                getDefaultConfigurationDetails<AlbaNumber::ConfigurationDetails>());
 
     EXPECT_DOUBLE_EQ(COMPARISON_TOLERANCE_FOR_DOUBLE, configurationDetails.comparisonTolerance);
-    EXPECT_DOUBLE_EQ(AlbaNumber::ADJUSTMENT_FLOAT_TOLERANCE, configurationDetails.floatAdjustmentTolerance);}
+    EXPECT_DOUBLE_EQ(AlbaNumber::ADJUSTMENT_FLOAT_TOLERANCE, configurationDetails.floatAdjustmentTolerance);
+}
 
 TEST(AlbaNumberConfigurationTest, GetConfigurationDetailsWorksAtDefault)
 {
@@ -201,10 +203,12 @@ TEST(AlbaNumberTest, ConstructionWorksWithValue)
 
 TEST(AlbaNumberTest, CreateNumberFromDoubleAndRoundIfNeededWorks)
 {
-    AlbaNumber number1(AlbaNumber::createNumberFromDoubleAndRoundIfNeeded(3.01));    AlbaNumber number2(AlbaNumber::createNumberFromDoubleAndRoundIfNeeded(3.0000000000001));
+    AlbaNumber number1(AlbaNumber::createNumberFromDoubleAndRoundIfNeeded(3.01));
+    AlbaNumber number2(AlbaNumber::createNumberFromDoubleAndRoundIfNeeded(3.0000000000001));
     AlbaNumber number3(AlbaNumber::createNumberFromDoubleAndRoundIfNeeded(POSITIVE_INFINITY_DOUBLE_VALUE));
     AlbaNumber number4(AlbaNumber::createNumberFromDoubleAndRoundIfNeeded(NEGATIVE_INFINITY_DOUBLE_VALUE));
     AlbaNumber number5(AlbaNumber::createNumberFromDoubleAndRoundIfNeeded(NAN_DOUBLE_VALUE));
+
     EXPECT_EQ(AlbaNumber::Type::Double, number1.getType());
     EXPECT_EQ(3.01, number1.getDouble());
     EXPECT_EQ(AlbaNumber::Type::Integer, number2.getType());

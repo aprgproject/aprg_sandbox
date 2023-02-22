@@ -2,9 +2,11 @@
 #include <Common/Randomizer/AlbaSimpleRandomizer.hpp>
 
 #include <gtest/gtest.h>
+
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 namespace mathHelper
 {
@@ -105,10 +107,12 @@ TEST(LogarithmHelpersPerformanceTest, DISABLED_GetLogarithmPerformanceTest_WithR
     AlbaSimpleRandomizer randomizer;
     int minValue(2), maxValue(2000);
     for(unsigned int iterations=1; iterations<10000000ULL; iterations++)
-    {        unsigned int base = static_cast<unsigned int>(randomizer.getRandomValueInUniformDistribution(minValue, maxValue));
+    {
+        unsigned int base = static_cast<unsigned int>(randomizer.getRandomValueInUniformDistribution(minValue, maxValue));
         unsigned int exponent = static_cast<unsigned int>(randomizer.getRandomValueInUniformDistribution(minValue, maxValue));
         result = max(result, getLogarithmForIntegers(base, exponent));
-    }    EXPECT_LT(0ULL, result);
+    }
+    EXPECT_LT(0ULL, result);
 }
 
 TEST(LogarithmHelpersPerformanceTest, DISABLED_GetLogarithmForIntegersPerformanceTest_WithRandomInput)
@@ -119,10 +123,12 @@ TEST(LogarithmHelpersPerformanceTest, DISABLED_GetLogarithmForIntegersPerformanc
     AlbaSimpleRandomizer randomizer;
     int minValue(2), maxValue(2000);
     for(unsigned int iterations=1; iterations<10000000ULL; iterations++)
-    {        unsigned int base = static_cast<unsigned int>(randomizer.getRandomValueInUniformDistribution(minValue, maxValue));
+    {
+        unsigned int base = static_cast<unsigned int>(randomizer.getRandomValueInUniformDistribution(minValue, maxValue));
         unsigned int exponent = static_cast<unsigned int>(randomizer.getRandomValueInUniformDistribution(minValue, maxValue));
         result = max(result, getLogarithmForIntegers(base, exponent));
-    }    EXPECT_LT(0ULL, result);
+    }
+    EXPECT_LT(0ULL, result);
 }
 
 }

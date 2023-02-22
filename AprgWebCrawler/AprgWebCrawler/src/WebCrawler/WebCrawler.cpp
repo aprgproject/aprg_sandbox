@@ -94,7 +94,7 @@ void WebCrawler::crawl()
     }
     case CrawlMode::Empty:
     case CrawlMode::Unknown:
-        cout<<"WebCrawler::crawl | CrawlMode is still not set."<<endl;
+        cout<<"WebCrawler::crawl | CrawlMode is still not set.\n";
         break;
     }
 }
@@ -160,7 +160,7 @@ string WebCrawler::getNewDirectoryNameFromWeblink(string const& webLink) const
         break;
     case CrawlMode::Empty:
     case CrawlMode::Unknown:
-        cout << "WebCrawler::getNewDirectoryNameFromWeblink | Mode is not set" << endl;
+        cout << "WebCrawler::getNewDirectoryNameFromWeblink | Mode is not set\n";
         break;
     }
     if(title.empty())
@@ -169,7 +169,7 @@ string WebCrawler::getNewDirectoryNameFromWeblink(string const& webLink) const
     }
     title = getStringAndReplaceNonAlphanumericCharactersToUnderScore(title);
     title = getStringWithoutStartingAndTrailingCharacters(title, "_");
-    cout << "WebCrawler::getNewDirectoryNameFromWeblink | title: " << title << endl;
+    cout << "WebCrawler::getNewDirectoryNameFromWeblink | title: " << title << "\n";
     return title;
 }
 
@@ -197,7 +197,7 @@ string WebCrawler::getTemporaryFilePath() const
 {
     if(m_temporaryFilePath.empty())
     {
-        cout<<"TemporaryFilePath is not set! Possible problem in download"<<endl;
+        cout<<"TemporaryFilePath is not set! Possible problem in download\n";
     }
     return m_temporaryFilePath;
 }
@@ -256,13 +256,13 @@ void WebCrawler::saveMemoryCard() const
     ofstream memoryCardStream(m_memoryCardPathHandler.getFullPath());
     if(memoryCardStream.is_open())
     {
-        memoryCardStream << getCrawlModeString() << endl;
-        memoryCardStream << getCrawlStateString() << endl;
+        memoryCardStream << getCrawlModeString() << "\n";
+        memoryCardStream << getCrawlStateString() << "\n";
         for(string const& webLink : m_webLinks)
         {
             if(!webLink.empty())
             {
-                memoryCardStream << webLink << endl;
+                memoryCardStream << webLink << "\n";
             }
         }
     }
@@ -307,7 +307,7 @@ void WebCrawler::saveImportantLink(string const& link) const
     ofstream importantLinkFileStream(m_importantLinksPathHandler.getFullPath(), ofstream::app);
     if(importantLinkFileStream.is_open())
     {
-        importantLinkFileStream<<link<<endl;
+        importantLinkFileStream<<link<<"\n";
     }
 }
 
@@ -315,40 +315,40 @@ void WebCrawler::printStatus() const
 {
     if(!m_downloadDirectoryPathHandler.isFoundInLocalSystem())
     {
-        cout << "Working directory: ["<< m_downloadDirectoryPathHandler.getFullPath() << "] is not found" << endl;
+        cout << "Working directory: ["<< m_downloadDirectoryPathHandler.getFullPath() << "] is not found\n";
     }
     else if(!m_downloadDirectoryPathHandler.isDirectory())
     {
-        cout << "Working directory: ["<< m_downloadDirectoryPathHandler.getFullPath() << "] is not a directory" << endl;
+        cout << "Working directory: ["<< m_downloadDirectoryPathHandler.getFullPath() << "] is not a directory\n";
     }
     else if(!m_memoryCardPathHandler.isFoundInLocalSystem())
     {
-        cout << "Memory card: ["<< m_downloadDirectoryPathHandler.getFullPath() << "] is not found" << endl;
+        cout << "Memory card: ["<< m_downloadDirectoryPathHandler.getFullPath() << "] is not found\n";
     }
     else if(!m_memoryCardPathHandler.isFile())
     {
-        cout << "Memory card: ["<< m_downloadDirectoryPathHandler.getFullPath() << "] is not a file" << endl;
+        cout << "Memory card: ["<< m_downloadDirectoryPathHandler.getFullPath() << "] is not a file\n";
     }
     else if(isWebLinksEmpty())
     {
-        cout << "There are no web links in memory card" << endl;
+        cout << "There are no web links in memory card\n";
     }
     else if(!isWebLinksValid())
     {
-        cout << "Web links are not valid" << endl;
+        cout << "Web links are not valid\n";
         for(string const& webLink : m_webLinks)
         {
             AlbaWebPathHandler webPathHandler(webLink);
-            cout << "Url: ["<< webPathHandler.getFullPath() << "] isEmpty: " << webPathHandler.isEmpty() << " hasProtocol: " << webPathHandler.hasProtocol() << endl;
+            cout << "Url: ["<< webPathHandler.getFullPath() << "] isEmpty: " << webPathHandler.isEmpty() << " hasProtocol: " << webPathHandler.hasProtocol() << "\n";
         }
     }
     else if(isModeUnrecognized())
     {
-        cout << "Mode: ["<< getCrawlModeString() << "] is not a recognized mode" << endl;
+        cout << "Mode: ["<< getCrawlModeString() << "] is not a recognized mode\n";
     }
     else
     {
-        cout << "Status is okay" << endl;
+        cout << "Status is okay\n";
     }
 }
 

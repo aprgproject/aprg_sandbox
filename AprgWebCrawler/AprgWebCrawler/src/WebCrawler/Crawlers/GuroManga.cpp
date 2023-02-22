@@ -21,8 +21,8 @@ void OneDownloadPerPageCrawler::retrieveLinksForGuroManga(AlbaWebPathHandler con
     ifstream htmlFileStream(downloadPathHandler.getFullPath());
     if(!htmlFileStream.is_open())
     {
-        cout << "Cannot open html file." << endl;
-        cout << "File to read:" << downloadPathHandler.getFullPath() << endl;
+        cout << "Cannot open html file.\n";
+        cout << "File to read:" << downloadPathHandler.getFullPath() << "\n";
     }
     else
     {
@@ -45,7 +45,7 @@ void OneDownloadPerPageCrawler::retrieveLinksForGuroManga(AlbaWebPathHandler con
                 m_linkForCurrentFileToDownload = getStringInBetweenTwoStrings(lineInHtmlFile, R"(<img src=")", R"(")");
                 stringHelper::transformReplaceStringIfFound(m_linkForCurrentFileToDownload, R"(&#039;)", R"(')" ); // fix tis
                 isDivClassImage = false;
-                cout << m_linkForCurrentFileToDownload <<endl;
+                cout << m_linkForCurrentFileToDownload <<"\n";
             }
             else if(isDivClassImage && isStringFoundInsideTheOtherStringCaseSensitive(lineInHtmlFile, R"(<title>)"))
             {

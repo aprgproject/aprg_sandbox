@@ -23,7 +23,7 @@ void WebCrawler::crawlOneHtmlAndOneFileToDownload()
 
 void WebCrawler::crawlOneHtmlAndOneFileToDownload(string& webLink)
 {
-    cout << "WebCrawler::crawlPerHtmlAndDownloadImage" << endl;
+    cout << "WebCrawler::crawlPerHtmlAndDownloadImage\n";
 
     CrawlConfiguration configuration(m_mode);
     while(!isCrawlStateInvalid())
@@ -34,7 +34,7 @@ void WebCrawler::crawlOneHtmlAndOneFileToDownload(string& webLink)
         LinksForHtmlAndFileToDownload links;
         if(links.isInvalid())
         {
-            cout << "Links are invalid." << endl;
+            cout << "Links are invalid.\n";
             links.printLinks();
             saveStateToMemoryCard(CrawlState::LinksAreInvalid);
             break;
@@ -43,8 +43,8 @@ void WebCrawler::crawlOneHtmlAndOneFileToDownload(string& webLink)
         fileToDownloadWebPathHandler.gotoLink(links.linkForCurrentFileToDownload);
         if(!fileToDownloadWebPathHandler.isFile())
         {
-            cout << "Link is not to a file." << endl;
-            cout << "Link of file to Download: " << fileToDownloadWebPathHandler.getFullPath() << endl;
+            cout << "Link is not to a file.\n";
+            cout << "Link of file to Download: " << fileToDownloadWebPathHandler.getFullPath() << "\n";
             saveStateToMemoryCard(CrawlState::LinksAreInvalid);
             break;
         }
@@ -53,13 +53,13 @@ void WebCrawler::crawlOneHtmlAndOneFileToDownload(string& webLink)
         downloadBinaryFile(fileToDownloadWebPathHandler, downloadPathHandler);
         if(downloadPathHandler.getFileSizeEstimate() < configuration.getMinimumFileSize())
         {
-            cout << "Download file size is less than "<<configuration.getMinimumFileSize()<<". FileSize = "<< downloadPathHandler.getFileSizeEstimate() <<" Invalid file. Retrying from the start" << endl;
+            cout << "Download file size is less than "<<configuration.getMinimumFileSize()<<". FileSize = "<< downloadPathHandler.getFileSizeEstimate() <<" Invalid file. Retrying from the start\n";
             saveStateToMemoryCard(CrawlState::DownloadedFileSizeIsLessThanExpected);
             continue;
         }
         if(links.linkForNextHtml.empty())
         {
-            cout << "Terminating the because next web link is empty." << endl;
+            cout << "Terminating the because next web link is empty.\n";
             saveStateToMemoryCard(CrawlState::NextLinkIsInvalid);
             break;
         }
@@ -67,7 +67,7 @@ void WebCrawler::crawlOneHtmlAndOneFileToDownload(string& webLink)
         nextWebPathHandler.gotoLink(links.linkForNextHtml);
         if(currentWebLinkPathHandler.getFullPath() == nextWebPathHandler.getFullPath())
         {
-            cout << "Crawler stop because the next web link is the same as previous link." << endl;
+            cout << "Crawler stop because the next web link is the same as previous link.\n";
             saveStateToMemoryCard(CrawlState::NextLinkIsInvalid);
             break;
         }

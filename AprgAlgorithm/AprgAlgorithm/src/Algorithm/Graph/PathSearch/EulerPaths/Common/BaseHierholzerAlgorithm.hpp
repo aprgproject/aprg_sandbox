@@ -25,10 +25,12 @@ public:
     virtual ~BaseHierholzerAlgorithm() = default; // virtual destructor because of virtual functions (vtable exists)
 
     Path getEulerCycle() const override
-    {        Path result;
+    {
+        Path result;
         if(!b_graph.isEmpty() && this->hasEulerCycle()) // this is check is needed because Hierholzer algorithm does not check this
         {
-            searchForEulerPath(result, this->getStartingVertexForEulerCycle());        }
+            searchForEulerPath(result, this->getStartingVertexForEulerCycle());
+        }
         return result;
     }
 

@@ -35,7 +35,9 @@ private:
 
     VariableNameToSolutionSetMap m_variableNameToSolutionSetMap;
 };
+
 using MultipleVariableSolutionSets = std::vector<MultipleVariableSolutionSet>;
 
 }
+
 }

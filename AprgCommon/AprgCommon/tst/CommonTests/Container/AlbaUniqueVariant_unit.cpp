@@ -51,10 +51,12 @@ public:
     ~DestructorClass() override
     {
         s_destructorInvoked = true;
-    }};
+    }
+};
 bool DestructorClass::s_destructorInvoked = false;
 
-TEST(AlbaUniqueVariantTest, AcquiringVariantTypeDifferentThanAlreadyInVariantInvokesDestructor){
+TEST(AlbaUniqueVariantTest, AcquiringVariantTypeDifferentThanAlreadyInVariantInvokesDestructor)
+{
     // Given
     UniqueVariant<DestructorClass, VariantDataType> variant;
 
@@ -82,9 +84,11 @@ TEST(AlbaUniqueVariantTest, PolymorphismIsSupportedByUniqueVariant)
         ~Base() override = default;  // no need for virtual destructor because base destructor is already virtual
 
         virtual int getValue() const
-        {            return m_value;
+        {
+            return m_value;
         }
     };
+
     class Derived : public Base
     {
     public:

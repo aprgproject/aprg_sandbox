@@ -28,12 +28,12 @@ void WebCrawler::crawlForYoutube()
 
 void WebCrawler::crawlForYoutube_old(string & webLink, ofstream& convertedYoutubeLinkStream)
 {
-    cout << "WebCrawler::crawlForYoutube" << endl;
+    cout << "WebCrawler::crawlForYoutube\n";
     while(!isCrawlStateInvalid())
     {
         if(!isStringFoundInsideTheOtherStringNotCaseSensitive(webLink, "youtube"))
         {
-            cout << "Not a youtube link : " << webLink << endl;
+            cout << "Not a youtube link : " << webLink << "\n";
             saveStateToMemoryCard(CrawlState::LinksAreInvalid);
             break;
         }
@@ -41,13 +41,13 @@ void WebCrawler::crawlForYoutube_old(string & webLink, ofstream& convertedYoutub
         stringHelper::transformReplaceStringIfFound(ssYoutubeLink, "ssyoutube", "youtube");
         stringHelper::transformReplaceStringIfFound(ssYoutubeLink, "youtube", "ssyoutube");
         AlbaWebPathHandler ssYoutubeLinkPathHandler(ssYoutubeLink);
-        cout<<"Enter user input(done, retry):"<<endl;
+        cout<<"Enter user input(done, retry):\n";
         //string userInput(getUserInputAfterManuallyUsingMozillaFirefox(ssYoutubeLinkPathHandler));
         if(!stringHelper::isEqualNotCaseSensitive(userInput, "done"))
         {
             continue;
         }
-        convertedYoutubeLinkStream << ssYoutubeLinkPathHandler.getFullPath() << endl << flush;
+        convertedYoutubeLinkStream << ssYoutubeLinkPathHandler.getFullPath() << "\n" << flush;
         webLink.clear();
         setCrawlState(CrawlState::Active);
         saveMemoryCard();
@@ -57,13 +57,13 @@ void WebCrawler::crawlForYoutube_old(string & webLink, ofstream& convertedYoutub
 
 void WebCrawler::crawlForYoutube(string & webLink, ofstream& convertedYoutubeLinkStream)
 {
-    cout << "WebCrawler::crawlForYoutube" << endl;
+    cout << "WebCrawler::crawlForYoutube\n";
     CrawlConfiguration configuration(m_mode);
     while(!isCrawlStateInvalid())
     {
         if(!isStringFoundInsideTheOtherStringNotCaseSensitive(webLink, "youtube"))
         {
-            cout << "Not a youtube link : " << webLink << endl;
+            cout << "Not a youtube link : " << webLink << "\n";
             saveStateToMemoryCard(CrawlState::LinksAreInvalid);
             break;
         }
@@ -71,7 +71,7 @@ void WebCrawler::crawlForYoutube(string & webLink, ofstream& convertedYoutubeLin
         LinksForYoutube links(getLinkForYoutube(webPathHandler));
         if(links.isInvalid())
         {
-            cout << "Links are invalid." << endl;
+            cout << "Links are invalid.\n";
             links.printLinks();
             continue;
         }
@@ -81,11 +81,11 @@ void WebCrawler::crawlForYoutube(string & webLink, ofstream& convertedYoutubeLin
         downloadBinaryFile(videoWebPathHandler, downloadPathHandler);
         if(downloadPathHandler.getFileSizeEstimate() < configuration.getMinimumFileSize())
         {
-            cout << "Video file is less than "<<configuration.getMinimumFileSize()<<". FileSize = "<< downloadPathHandler.getFileSizeEstimate() <<" Invalid file. Retrying from the start" << endl;
+            cout << "Video file is less than "<<configuration.getMinimumFileSize()<<". FileSize = "<< downloadPathHandler.getFileSizeEstimate() <<" Invalid file. Retrying from the start\n";
             saveStateToMemoryCard(CrawlState::DownloadedFileSizeIsLessThanExpected);
             continue;
         }
-        convertedYoutubeLinkStream << links.linkForVideo << endl << flush;
+        convertedYoutubeLinkStream << links.linkForVideo << "\n" << flush;
         webLink.clear();
         setCrawlState(CrawlState::Active);
         saveMemoryCard();
@@ -104,8 +104,8 @@ LinksForYoutube WebCrawler::getLinkForYoutube(AlbaWebPathHandler const& webLinkP
     ifstream htmlFileStream(downloadPathHandler.getFullPath());
     if(!htmlFileStream.is_open())
     {
-        cout << "Cannot open html file." << endl;
-        cout << "File to read:" << downloadPathHandler.getFullPath() << endl;
+        cout << "Cannot open html file.\n";
+        cout << "File to read:" << downloadPathHandler.getFullPath() << "\n";
         return links;
     }
     AlbaFileReader htmlFileReader(htmlFileStream);

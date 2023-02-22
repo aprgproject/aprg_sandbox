@@ -105,7 +105,7 @@ AutomatedFirefoxBrowser::AutomatedFirefoxBrowser()
 void AutomatedFirefoxBrowser::openFirefox() const
 {
     string firefoxCommand(string("start ")+m_firefoxExecutablePath);
-    cout << firefoxCommand << endl;
+    cout << firefoxCommand << "\n";
     system(firefoxCommand.c_str());
     m_userAutomation.sleep(10000);
 }

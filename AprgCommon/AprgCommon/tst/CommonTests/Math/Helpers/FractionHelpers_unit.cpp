@@ -39,9 +39,11 @@ TEST(FractionHelpersTest, ChangeFractionToSimplestFormWorksWithIntAndUnsignedInt
     EXPECT_EQ(-1073741823, numerator5);
     EXPECT_EQ(2147483647U, denominator5);
 }
+
 TEST(FractionHelpersTest, ChangeFractionToSimplestFormForUnsignedWorks)
 {
-    unsigned int numerator1=0; unsigned int denominator1=0;    changeFractionToSimplestFormForUnsigned(numerator1, denominator1);
+    unsigned int numerator1=0; unsigned int denominator1=0;
+    changeFractionToSimplestFormForUnsigned(numerator1, denominator1);
     EXPECT_EQ(0U, numerator1);
     EXPECT_EQ(0U, denominator1);
 

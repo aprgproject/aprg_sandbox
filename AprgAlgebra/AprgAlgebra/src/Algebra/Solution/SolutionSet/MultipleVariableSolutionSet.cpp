@@ -70,6 +70,7 @@ ostream & operator<<(ostream & out, MultipleVariableSolutionSet const& solutionS
     }
     return out;
 }
+
 }
 
 }

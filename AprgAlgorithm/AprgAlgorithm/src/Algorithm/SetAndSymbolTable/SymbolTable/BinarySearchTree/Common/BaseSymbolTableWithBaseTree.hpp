@@ -23,10 +23,12 @@ public:
     virtual ~BaseSymbolTableWithBaseTree() = default; // virtual destructor because of virtual functions (vtable exists)
 
     Value get(Key const& key) const override // overrides in BaseSymbolTable
-    {        return getStartingOnThisNode(b_root, key);
+    {
+        return getStartingOnThisNode(b_root, key);
     }
 
-    void put(Key const& key, Value const& value) override // overrides in BaseSymbolTable    {
+    void put(Key const& key, Value const& value) override // overrides in BaseSymbolTable
+    {
         putStartingOnThisNode(b_root, key, value);
     }
 

@@ -33,9 +33,11 @@ TEST(AlbaGrepFileTest, GrepUpdatesWorks)
         testFile << i << "\n";
     }
     testFile.close();
+
     double capturedPercentage=0;
     AlbaGrepFile grepFile("[0]", [&](double percentage)->void
-    {        capturedPercentage = percentage;
+    {
+        capturedPercentage = percentage;
     });
     EXPECT_FALSE(grepFile.isOutputFileWritten());
     grepFile.processFile(file1ToReadPathHandler.getFullPath(), file2ToReadPathHandler.getFullPath());
@@ -55,9 +57,11 @@ TEST(AlbaGrepFileTest, GrepWorks)
     testFile << R"(As a coder, I know that MARKalba is so cool)" << "\n";
     testFile.close();
 
-    AlbaGrepFile grepFile("[mark]");    EXPECT_FALSE(grepFile.isOutputFileWritten());
+    AlbaGrepFile grepFile("[mark]");
+    EXPECT_FALSE(grepFile.isOutputFileWritten());
     grepFile.processFile(file1ToReadPathHandler.getFullPath(), file2ToReadPathHandler.getFullPath());
     EXPECT_TRUE(grepFile.isOutputFileWritten());
+
     ifstream outputTestFile(file2ToReadPathHandler.getFullPath());
     ASSERT_TRUE(outputTestFile.is_open());
 

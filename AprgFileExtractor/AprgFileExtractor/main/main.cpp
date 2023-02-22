@@ -24,7 +24,8 @@ int main(int argc, char *argv[])
         cout<<"There are must be only 2 arguments.\n";
         return 1;
     }
-    string condition(argv[1]);    string inputPath(argv[2]);
+    string condition(argv[1]);
+    string inputPath(argv[2]);
     AprgFileExtractor fileExtractor(condition);
     fileExtractor.extractAllRelevantFiles(inputPath);
 }

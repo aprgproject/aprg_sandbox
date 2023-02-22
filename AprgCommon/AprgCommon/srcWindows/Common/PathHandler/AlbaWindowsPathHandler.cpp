@@ -60,9 +60,11 @@ double AlbaWindowsPathHandler::getFileSizeEstimate()
     }
     return fileSizeEstimate;
 }
+
 AlbaDateTime AlbaWindowsPathHandler::getFileCreationTime()
 {
-    AlbaDateTime fileCreationTime;    WIN32_FILE_ATTRIBUTE_DATA attributeData;
+    AlbaDateTime fileCreationTime;
+    WIN32_FILE_ATTRIBUTE_DATA attributeData;
     if (GetFileAttributesExW(convertStringToWideString(getFullPath()).c_str(), GetFileExInfoStandard, &attributeData))
     {
         SYSTEMTIME fileCreationTimeInSystemTime;
@@ -76,9 +78,11 @@ AlbaDateTime AlbaWindowsPathHandler::getFileCreationTime()
     }
     return fileCreationTime;
 }
+
 bool AlbaWindowsPathHandler::isFoundInLocalSystem() const
 {
-    return m_foundInLocalSystem;}
+    return m_foundInLocalSystem;
+}
 
 bool AlbaWindowsPathHandler::isRelativePath() const
 {
@@ -100,9 +104,11 @@ void AlbaWindowsPathHandler::setPathToDetectedLocalPath()
         cout<<AlbaWindowsHelper::getLastFormattedErrorMessage()<<"\n";
     }
 }
+
 void AlbaWindowsPathHandler::createDirectoriesForNonExisitingDirectories() const
 {
-    string fullPath(getFullPath());    int index = 0, length = fullPath.length();
+    string fullPath(getFullPath());
+    int index = 0, length = fullPath.length();
     while(index < length)
     {
         int indexWithSlashCharacter = fullPath.find_first_of(m_slashCharacterString, index);
@@ -117,10 +123,12 @@ void AlbaWindowsPathHandler::createDirectoriesForNonExisitingDirectories() const
                 cout<<AlbaWindowsHelper::getLastFormattedErrorMessage()<<"\n";
             }
         }
-        index = indexWithSlashCharacter+1;    }
+        index = indexWithSlashCharacter+1;
+    }
 }
 
-bool AlbaWindowsPathHandler::deleteFile(){
+bool AlbaWindowsPathHandler::deleteFile()
+{
     bool isSuccessful(false);
     if(isFile())
     {
@@ -131,10 +139,12 @@ bool AlbaWindowsPathHandler::deleteFile(){
             cout<<AlbaWindowsHelper::getLastFormattedErrorMessage()<<"\n";
         }
         else
-        {            reInput();
+        {
+            reInput();
         }
     }
-    return isSuccessful;}
+    return isSuccessful;
+}
 
 bool AlbaWindowsPathHandler::deleteDirectoryWithoutFilesAndDirectories()
 {
@@ -148,10 +158,12 @@ bool AlbaWindowsPathHandler::deleteDirectoryWithoutFilesAndDirectories()
             cout<<AlbaWindowsHelper::getLastFormattedErrorMessage()<<"\n";
         }
         else
-        {            reInput();
+        {
+            reInput();
         }
     }
-    return isSuccessful;}
+    return isSuccessful;
+}
 
 void AlbaWindowsPathHandler::deleteFilesInDirectory()
 {
@@ -201,10 +213,12 @@ bool AlbaWindowsPathHandler::copyToNewFile(string const& newFilePath)
             cout<<AlbaWindowsHelper::getLastFormattedErrorMessage()<<"\n";
         }
         else
-        {            reInput();
+        {
+            reInput();
         }
     }
-    return isSuccessful;}
+    return isSuccessful;
+}
 
 bool AlbaWindowsPathHandler::renameFile(string const& newFileName)
 {
@@ -219,10 +233,12 @@ bool AlbaWindowsPathHandler::renameFile(string const& newFileName)
             cout<<AlbaWindowsHelper::getLastFormattedErrorMessage()<<"\n";
         }
         else
-        {            input(newPath);
+        {
+            input(newPath);
         }
     }
-    return isSuccessful;}
+    return isSuccessful;
+}
 
 bool AlbaWindowsPathHandler::renameImmediateDirectory(string const& newDirectoryName)
 {
@@ -239,10 +255,12 @@ bool AlbaWindowsPathHandler::renameImmediateDirectory(string const& newDirectory
             cout<<AlbaWindowsHelper::getLastFormattedErrorMessage()<<"\n";
         }
         else
-        {            input(newPathHandler.getFullPath());
+        {
+            input(newPathHandler.getFullPath());
         }
     }
-    return isSuccessful;}
+    return isSuccessful;
+}
 
 void AlbaWindowsPathHandler::findFilesAndDirectoriesOneDepth(
         string const& wildCardSearch,

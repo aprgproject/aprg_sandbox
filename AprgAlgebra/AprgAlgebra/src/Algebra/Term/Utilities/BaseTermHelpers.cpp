@@ -81,4 +81,5 @@ BaseTerm & getBaseTermReferenceFromUniquePointer(BaseTermUniquePointer const& un
 }
 
 }
+
 }

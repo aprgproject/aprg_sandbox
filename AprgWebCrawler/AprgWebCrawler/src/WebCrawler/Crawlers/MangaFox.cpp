@@ -41,8 +41,8 @@ void OneDownloadPerPageCrawler::retrieveNextLinkAndImageLinkForMangaFox(AlbaWebP
     ifstream htmlFileStream(downloadPathHandler.getFullPath());
     if(!htmlFileStream.is_open())
     {
-        cout << "Cannot open html file." << endl;
-        cout << "File to read:" << downloadPathHandler.getFullPath() << endl;
+        cout << "Cannot open html file.\n";
+        cout << "File to read:" << downloadPathHandler.getFullPath() << "\n";
     }
     else
     {
@@ -73,7 +73,7 @@ void OneDownloadPerPageCrawler::retrieveNextLinkAndImageLinkForMangaFox(AlbaWebP
         }
         if("next_chapter()" == onClickNextPage || "javascript:void(0);" == nextPageLink)
         {
-            cout << "New chapter. NextChapterLink :" << nextChapterLink << endl;
+            cout << "New chapter. NextChapterLink :" << nextChapterLink << "\n";
             m_linkForNextHtml = nextChapterLink;
         }
         else

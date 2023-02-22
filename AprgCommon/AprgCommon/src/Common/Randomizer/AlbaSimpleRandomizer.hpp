@@ -10,4 +10,5 @@ public:
     void resetRandomSeed();
     int getRandomValueInUniformDistribution(int const first, int const second) const;
 };
+
 }//namespace alba

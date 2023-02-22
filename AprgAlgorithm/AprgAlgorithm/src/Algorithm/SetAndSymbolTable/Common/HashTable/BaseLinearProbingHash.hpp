@@ -35,9 +35,11 @@ public:
     {
         deleteAllEntries();
     }
+
     bool isEmpty() const override
     {
-        return m_size == 0;    }
+        return m_size == 0;
+    }
 
     unsigned int getSize() const override
     {

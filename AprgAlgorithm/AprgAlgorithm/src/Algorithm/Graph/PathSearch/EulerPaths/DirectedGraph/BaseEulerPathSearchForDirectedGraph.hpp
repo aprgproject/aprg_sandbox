@@ -28,10 +28,12 @@ public:
     virtual ~BaseEulerPathSearchForDirectedGraph() = default; // virtual destructor because of virtual functions (vtable exists)
 
     bool hasEulerCycle() const
-    {        return hasEulerCycleForDirectedGraph(m_graph);
+    {
+        return hasEulerCycleForDirectedGraph(m_graph);
     }
 
-    bool hasEulerPath() const    {
+    bool hasEulerPath() const
+    {
         return hasEulerPathForDirectedGraph(m_graph);
     }
 

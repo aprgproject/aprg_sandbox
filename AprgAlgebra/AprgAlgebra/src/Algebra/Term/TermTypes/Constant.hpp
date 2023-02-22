@@ -24,9 +24,11 @@ public:
 
     bool operator==(Constant const& second) const;
     bool operator!=(Constant const& second) const;
-    bool operator<(Constant const& second) const;    AlbaNumber const& getNumberConstReference() const;
+    bool operator<(Constant const& second) const;
+    AlbaNumber const& getNumberConstReference() const;
 
     void setNumber(AlbaNumber const& constantValue);
+
 private:
     friend std::ostream & operator<<(std::ostream & out, Constant const& constant);
 

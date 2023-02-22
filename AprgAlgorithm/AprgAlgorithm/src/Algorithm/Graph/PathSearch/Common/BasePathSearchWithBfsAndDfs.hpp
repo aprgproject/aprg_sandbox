@@ -26,10 +26,12 @@ public:
 
     bool hasPathTo(Vertex const& endVertex) const
     {
-        return m_processedVertices.isFound(endVertex);    }
+        return m_processedVertices.isFound(endVertex);
+    }
 
     Path getPathTo(Vertex const& endVertex) const
-    {        Path reversedPath;
+    {
+        Path reversedPath;
         bool shouldAddCurrentVertexAndReverse(m_startVertices.isNotFound(endVertex));
         Vertex currentVertex = endVertex;
         while(m_startVertices.isNotFound(currentVertex))
@@ -80,10 +82,12 @@ protected:
     ~BasePathSearchWithBfsAndDfs() = default;
 
     void clear()
-    {        m_processedVertices.clear();
+    {
+        m_processedVertices.clear();
         m_startVertices.clear();
         m_vertexToPreviousVertexMap.clear();
     }
+
     void initializeWithStartVertices(Vertices const& startVertices)
     {
         m_startVertices.putVertices(startVertices);

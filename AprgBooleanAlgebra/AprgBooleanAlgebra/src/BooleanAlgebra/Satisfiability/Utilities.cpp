@@ -23,9 +23,11 @@ unsigned int getSatisfiabilityLevel(
     }
     return result;
 }
+
 SatisfiabilityTerms getSatisfiabilityTerms(
         Term const& term)
-{    SatisfiabilityTerms result;
+{
+    SatisfiabilityTerms result;
     if(term.isVariableTerm())
     {
         result.emplace_back(SatisfiabilityTerm{term.getVariableTermConstReference()});

@@ -20,7 +20,7 @@ ChiaAnimeCrawler::ChiaAnimeCrawler(WebCrawler & webCrawler)
 
 void ChiaAnimeCrawler::crawl()
 {
-    cout << "ChiaAnimeCrawler::crawl" << endl;
+    cout << "ChiaAnimeCrawler::crawl\n";
     for(unsigned int webLinkIndex=0; webLinkIndex<m_webCrawler.getNumberOfWebLinks(); webLinkIndex++)
     {
         crawl(webLinkIndex);
@@ -57,8 +57,8 @@ void ChiaAnimeCrawler::retrieveLinks(AlbaWebPathHandler const& webLinkPathHandle
     ifstream htmlFileStream(downloadPathHandler.getFullPath());
     if(!htmlFileStream.is_open())
     {
-        cout << "Cannot open html file." << endl;
-        cout << "File to read:" << downloadPathHandler.getFullPath() << endl;
+        cout << "Cannot open html file.\n";
+        cout << "File to read:" << downloadPathHandler.getFullPath() << "\n";
     }
     else
     {
@@ -91,8 +91,8 @@ string ChiaAnimeCrawler::getVideoLink(AlbaWebPathHandler const& webLinkPathHandl
     ifstream htmlFileStream(downloadPathHandler.getFullPath());
     if(!htmlFileStream.is_open())
     {
-        cout << "Cannot open html file." << endl;
-        cout << "File to read:" << downloadPathHandler.getFullPath() << endl;
+        cout << "Cannot open html file.\n";
+        cout << "File to read:" << downloadPathHandler.getFullPath() << "\n";
     }
     else
     {
@@ -103,7 +103,7 @@ string ChiaAnimeCrawler::getVideoLink(AlbaWebPathHandler const& webLinkPathHandl
             if(isStringFoundInsideTheOtherStringCaseSensitive(lineInHtmlFile, R"( target="_blank" )") &&
                     isStringFoundInsideTheOtherStringCaseSensitive(lineInHtmlFile, R"(href=")"))
             {
-                cout << lineInHtmlFile << endl;
+                cout << lineInHtmlFile << "\n";
                 result = getStringInBetweenTwoStrings(lineInHtmlFile, R"(href=")", R"(")");
             }
         }
@@ -116,7 +116,7 @@ bool ChiaAnimeCrawler::checkLinks()
     bool result(true);
     if(areLinksInvalid())
     {
-        cout << "Links are invalid." << endl;
+        cout << "Links are invalid.\n";
         printLinks();
         m_webCrawler.saveStateToMemoryCard(CrawlState::LinksAreInvalid);
         result = false;
@@ -131,8 +131,8 @@ void ChiaAnimeCrawler::downloadVideo(AlbaWebPathHandler const& webLinkPathHandle
     videoWebPathHandler.gotoLink(m_linkForCurrentVideo);
     if(!videoWebPathHandler.isFile())
     {
-        cout << "Video link is not to a file." << endl;
-        cout << "VideoLinkWebPath : " << videoWebPathHandler.getFullPath() << endl;
+        cout << "Video link is not to a file.\n";
+        cout << "VideoLinkWebPath : " << videoWebPathHandler.getFullPath() << "\n";
         m_webCrawler.saveStateToMemoryCard(CrawlState::DownloadedFileIsInvalid);
         return;
     }
@@ -140,13 +140,13 @@ void ChiaAnimeCrawler::downloadVideo(AlbaWebPathHandler const& webLinkPathHandle
     downloadPathHandler.createDirectoriesForNonExisitingDirectories();
     if(!downloadBinaryFile(videoWebPathHandler, downloadPathHandler, m_webCrawler.getCrawlMode()))
     {
-        cout << "Download fails repetitively. Retrying from the start" << endl;
+        cout << "Download fails repetitively. Retrying from the start\n";
         m_webCrawler.saveStateToMemoryCard(CrawlState::DownloadFailsAndRetryIsNeeded);
         return;
     }
     if(downloadPathHandler.getFileSizeEstimate() < m_configuration.getMinimumFileSize())
     {
-        cout << "Video file is less than " << m_configuration.getMinimumFileSize() << ". FileSize = " << downloadPathHandler.getFileSizeEstimate() << " Invalid file. Retrying from the start" << endl;
+        cout << "Video file is less than " << m_configuration.getMinimumFileSize() << ". FileSize = " << downloadPathHandler.getFileSizeEstimate() << " Invalid file. Retrying from the start\n";
         m_webCrawler.saveStateToMemoryCard(CrawlState::DownloadedFileSizeIsLessThanExpected);
         return;
     }
@@ -157,7 +157,7 @@ void ChiaAnimeCrawler::gotoNextLink(AlbaWebPathHandler const& webLinkPathHandler
 {
     if(m_linkForNextHtml.empty())
     {
-        cout << "Terminating the because next web link is empty." << endl;
+        cout << "Terminating the because next web link is empty.\n";
         m_webCrawler.saveStateToMemoryCard(CrawlState::NextLinkIsInvalid);
     }
     else
@@ -166,7 +166,7 @@ void ChiaAnimeCrawler::gotoNextLink(AlbaWebPathHandler const& webLinkPathHandler
         nextWebPathHandler.gotoLink(m_linkForNextHtml);
         if(webLinkPathHandler.getFullPath() == nextWebPathHandler.getFullPath())
         {
-            cout << "Terminating the because next web link is the same as previous link." << endl;
+            cout << "Terminating the because next web link is the same as previous link.\n";
             m_webCrawler.saveStateToMemoryCard(CrawlState::NextLinkIsInvalid);
         }
         else
@@ -191,10 +191,10 @@ bool ChiaAnimeCrawler::areLinksInvalid() const
 
 void ChiaAnimeCrawler::printLinks() const
 {
-    cout << "LinkForNextHtml : " << m_linkForNextHtml << endl;
-    cout << "LinkForDownloadPage : " << m_linkForDownloadPage << endl;
-    cout << "LinkForCurrentVideo : " << m_linkForCurrentVideo << endl;
-    cout << "LocalPathForCurrentVideo : " << m_localPathForCurrentVideo << endl;
+    cout << "LinkForNextHtml : " << m_linkForNextHtml << "\n";
+    cout << "LinkForDownloadPage : " << m_linkForDownloadPage << "\n";
+    cout << "LinkForCurrentVideo : " << m_linkForCurrentVideo << "\n";
+    cout << "LocalPathForCurrentVideo : " << m_localPathForCurrentVideo << "\n";
 }
 
 }

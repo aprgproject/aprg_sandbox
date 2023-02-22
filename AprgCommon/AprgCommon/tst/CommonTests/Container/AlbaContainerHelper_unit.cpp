@@ -390,9 +390,11 @@ TEST(ContainerTest, FetrieveContentsFromStreamWorksForAVectorOfIntegersFromFile)
     outputTestFile.close();
     ifstream inputTestFile(testFilePath.getFullPath());
     ASSERT_TRUE(inputTestFile.is_open());
+
     retrieveContentsFromStream(inputTestFile, temporaryArray);
 
-    ASSERT_EQ(4U, temporaryArray.size());    auto it = temporaryArray.begin();
+    ASSERT_EQ(4U, temporaryArray.size());
+    auto it = temporaryArray.begin();
     EXPECT_EQ(18723, *(it++));
     EXPECT_EQ(-608, *(it++));
     EXPECT_EQ(-43735, *(it++));
@@ -411,9 +413,11 @@ TEST(ContainerTest, FetrieveContentsFromStreamWorksForAnArrayOfIntegersFromFile)
     outputTestFile.close();
     ifstream inputTestFile(testFilePath.getFullPath());
     ASSERT_TRUE(inputTestFile.is_open());
+
     retrieveContentsFromStream(inputTestFile, temporaryVector);
 
-    ASSERT_EQ(4U, temporaryVector.size());    auto it = temporaryVector.begin();
+    ASSERT_EQ(4U, temporaryVector.size());
+    auto it = temporaryVector.begin();
     EXPECT_EQ(18723, *(it++));
     EXPECT_EQ(-608, *(it++));
     EXPECT_EQ(-43735, *(it++));
@@ -432,9 +436,11 @@ TEST(ContainerTest, FetrieveContentsFromStreamWorksForASetOfIntegersFromFile)
     outputTestFile.close();
     ifstream inputTestFile(testFilePath.getFullPath());
     ASSERT_TRUE(inputTestFile.is_open());
+
     retrieveContentsFromStream(inputTestFile, temporarySet);
 
-    ASSERT_EQ(4U, temporarySet.size());    auto it = temporarySet.begin();
+    ASSERT_EQ(4U, temporarySet.size());
+    auto it = temporarySet.begin();
     EXPECT_EQ(-43735, *(it++));
     EXPECT_EQ(-608, *(it++));
     EXPECT_EQ(18723, *(it++));
@@ -453,9 +459,11 @@ TEST(ContainerTest, FetrieveContentsFromStreamWorksForAMapOfIntegersFromFile)
     outputTestFile.close();
     ifstream inputTestFile(testFilePath.getFullPath());
     ASSERT_TRUE(inputTestFile.is_open());
+
     retrieveContentsFromStream(inputTestFile, temporaryMap);
 
-    ASSERT_EQ(2U, temporaryMap.size());    auto it = temporaryMap.begin();
+    ASSERT_EQ(2U, temporaryMap.size());
+    auto it = temporaryMap.begin();
     EXPECT_EQ(1, it->first);
     EXPECT_EQ(2, it->second);
     it++;

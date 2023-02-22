@@ -19,4 +19,5 @@ void AlbaStreamParameterWriter::writeData(string const& data) const
         m_stream << data << "\n";
     }
 }
+
 }//namespace alba

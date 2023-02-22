@@ -25,10 +25,12 @@ public:
 
     bool isEmpty() const override
     {
-        return m_size == 0U;    }
+        return m_size == 0U;
+    }
 
     bool doesContain(Key const& key) const override
-    {        bool result(false);
+    {
+        bool result(false);
         if(!isEmpty())
         {
             unsigned int rank(getRank(key));

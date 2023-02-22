@@ -28,10 +28,12 @@ void AprgGnuPlotBase::setZAxis(string const& zAxisName, string const& configurat
     m_gnuPlot << R"(set ztics font ",15")" << "\n";
 }
 
-void AprgGnuPlotBase::doGraphs(GraphingSteps const& graphingSteps){
+void AprgGnuPlotBase::doGraphs(GraphingSteps const& graphingSteps)
+{
     startGraph();
     graphingSteps();
-    endGraph();}
+    endGraph();
+}
 
 void AprgGnuPlotBase::endGraph()
 {

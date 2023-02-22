@@ -21,10 +21,12 @@ public:
 
     Weight getDistanceTo(Vertex const& endVertex) const
     {
-        Weight result(0);        auto it = m_endVertexToDistanceSumMap.find(endVertex);
+        Weight result(0);
+        auto it = m_endVertexToDistanceSumMap.find(endVertex);
         if(it != m_endVertexToDistanceSumMap.cend())
         {
-            result = it->second;        }
+            result = it->second;
+        }
         return result;
     }
 
@@ -61,8 +63,10 @@ protected:
 
 private:
 
-    EdgeWeightedGraph const& m_graph;    VertexToWeightMap m_endVertexToDistanceSumMap;
+    EdgeWeightedGraph const& m_graph;
+    VertexToWeightMap m_endVertexToDistanceSumMap;
 };
 
 }
+
 }

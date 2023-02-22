@@ -39,6 +39,8 @@ string AlbaWindowsHelper::getLastFormattedErrorMessage()
             lastErrorStream<<"Error from windows: ["<<errorMessageFromWindows<<"] ErrorCode:["<<errorCode<<"]\n";
         }
     }
-    return lastErrorStream.str();}
+    return lastErrorStream.str();
+}
 
 }//namespace alba
+

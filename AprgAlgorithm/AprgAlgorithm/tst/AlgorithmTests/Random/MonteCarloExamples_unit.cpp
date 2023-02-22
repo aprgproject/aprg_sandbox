@@ -3,9 +3,11 @@
 #include <Common/Randomizer/AlbaSimpleRandomizer.hpp>
 
 #include <gtest/gtest.h>
+
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 namespace algorithm
 {
@@ -21,10 +23,12 @@ TEST(MonteCarloTest, VerifyingMatrixExample)
     AlbaSimpleRandomizer randomizer;
     MatrixForTest a(3, 2,
     {1, 2, 3,
-     4, 5, 6});    MatrixForTest b(4, 3,
+     4, 5, 6});
+    MatrixForTest b(4, 3,
     {1, 2, 3, 4,
      5, 6, 7, 8,
-     9, 10, 11, 12});    MatrixForTest c(4, 2,
+     9, 10, 11, 12});
+    MatrixForTest c(4, 2,
     {38, 44, 50, 56,
      83, 98, 113, 128});
     MatrixForTest x;

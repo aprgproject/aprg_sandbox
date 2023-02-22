@@ -87,10 +87,12 @@ void CPlusPlusFileFixer::processFile(string const& path)
     //cout<<"ProcessFile: "<<path<<"\n";
     clear();
     checkFile(path);
-    fix(path);    writeFile(path);
+    fix(path);
+    writeFile(path);
 }
 
-void CPlusPlusFileFixer::clear(){
+void CPlusPlusFileFixer::clear()
+{
     m_linesAfterTheHeader.clear();
     m_headerListFromAngleBrackets.clear();
     m_headerListFromQuotations.clear();
@@ -171,6 +173,7 @@ void CPlusPlusFileFixer::notifyIfThereAreCommentsInHeader(string const& path, st
         cout<<"CHECK THIS: Header comments on:["<<path<<"] in line:["<<line<<"]\n";
     }
 }
+
 void CPlusPlusFileFixer::notifyIfAlbaDebugHeaderExistInProductionCode(string const& path) const
 {
     bool isAlbaDebugHeaderFound = (find(m_headerListFromAngleBrackets.cbegin(), m_headerListFromAngleBrackets.cend(), string("Debug/AlbaDebug.hpp")) != m_headerListFromAngleBrackets.end());
@@ -179,9 +182,11 @@ void CPlusPlusFileFixer::notifyIfAlbaDebugHeaderExistInProductionCode(string con
         cout<<"CHECK THIS: AlbaDebug found in:["<<path<<"].\n";
     }
 }
+
 void CPlusPlusFileFixer::notifyIfIostreamHeaderExistInProductionCode(string const& path) const
 {
-    AlbaLocalPathHandler filePathHandler(path);    bool isIostreamFound = (find(m_headerListFromAngleBrackets.cbegin(), m_headerListFromAngleBrackets.cend(), string("iostream")) != m_headerListFromAngleBrackets.end());
+    AlbaLocalPathHandler filePathHandler(path);
+    bool isIostreamFound = (find(m_headerListFromAngleBrackets.cbegin(), m_headerListFromAngleBrackets.cend(), string("iostream")) != m_headerListFromAngleBrackets.end());
     //bool isCpp = filePathHandler.getExtension() == "cpp";
     bool isUnitTest = isStringFoundInsideTheOtherStringCaseSensitive(filePathHandler.getFile(), "_unit.cpp");
     if(isIostreamFound && !isUnitTest)// && !isCpp) // !isUnitTest)
@@ -189,6 +194,7 @@ void CPlusPlusFileFixer::notifyIfIostreamHeaderExistInProductionCode(string cons
         cout<<"CHECK THIS: iostream found in:["<<path<<"].\n";
     }
 }
+
 void CPlusPlusFileFixer::notifyIfCAssertHeaderExistInProductionCode(string const& path) const
 {
     bool isCAssertFound = (find(m_headerListFromAngleBrackets.cbegin(), m_headerListFromAngleBrackets.cend(), string("cassert")) != m_headerListFromAngleBrackets.end());
@@ -197,9 +203,11 @@ void CPlusPlusFileFixer::notifyIfCAssertHeaderExistInProductionCode(string const
         cout<<"CHECK THIS: cassert found in:["<<path<<"].\n";
     }
 }
+
 void CPlusPlusFileFixer::notifyIfMoreThanLoopsAreCascaded(string const& path) const
 {
-    set<unsigned int> indentionsOfLoops;    for(string const& line : m_linesAfterTheHeader)
+    set<unsigned int> indentionsOfLoops;
+    for(string const& line : m_linesAfterTheHeader)
     {
         if(isLineWithALoopStart(line))
         {
@@ -209,10 +217,12 @@ void CPlusPlusFileFixer::notifyIfMoreThanLoopsAreCascaded(string const& path) co
                 cout<<"CHECK THIS: More than 2 loops found in:["<<path<<"] in line:["<<line<<"].\n";
             }
         }
-        else if(isLineWithALoopEnd(line))        {
+        else if(isLineWithALoopEnd(line))
+        {
             auto it = indentionsOfLoops.find(getStringThatContainsWhiteSpaceIndention(line).size());
             if(it!=indentionsOfLoops.end())
-            {                indentionsOfLoops.erase(it);
+            {
+                indentionsOfLoops.erase(it);
             }
         }
     }
@@ -350,16 +360,19 @@ void CPlusPlusFileFixer::writeFile(string const& path)
         outputLogFileStream<<"\n";
     }
     if(!m_headerListFromQuotations.empty())
-    {        writeHeadersWithQuotations(outputLogFileStream);
+    {
+        writeHeadersWithQuotations(outputLogFileStream);
     }
     if(!m_headerListFromAngleBrackets.empty())
-    {        writeHeadersWithAngleBrackets(outputLogFileStream);
+    {
+        writeHeadersWithAngleBrackets(outputLogFileStream);
     }
     for(string const& line: m_linesAfterTheHeader)
     {
         outputLogFileStream<<line<<"\n";
     }
 }
+
 void CPlusPlusFileFixer::writeHeadersWithQuotations(ofstream & outputLogFileStream) const
 {
     for(string const& header: m_headerListFromQuotations)
@@ -376,7 +389,8 @@ void CPlusPlusFileFixer::writeHeadersWithQuotations(ofstream & outputLogFileStre
     outputLogFileStream<<"\n";
 }
 
-void CPlusPlusFileFixer::writeHeadersWithAngleBrackets(ofstream & outputLogFileStream) const{
+void CPlusPlusFileFixer::writeHeadersWithAngleBrackets(ofstream & outputLogFileStream) const
+{
     for(string const& header: m_headerListFromAngleBrackets)
     {
         if(!header.empty())
@@ -389,9 +403,11 @@ void CPlusPlusFileFixer::writeHeadersWithAngleBrackets(ofstream & outputLogFileS
         }
     }
 }
+
 bool CPlusPlusFileFixer::isLineWithALoopStart(string const& line) const
 {
-    bool result(false);    if(isStringFoundInsideTheOtherStringCaseSensitive(line, "for(") ||
+    bool result(false);
+    if(isStringFoundInsideTheOtherStringCaseSensitive(line, "for(") ||
             isStringFoundInsideTheOtherStringCaseSensitive(line, "while("))
     {
         result=true;

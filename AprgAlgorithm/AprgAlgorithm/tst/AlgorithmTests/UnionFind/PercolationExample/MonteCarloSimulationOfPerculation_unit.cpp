@@ -23,7 +23,8 @@ TEST(MonteCarloSimulationOfPerculationTest, DISABLED_DimensionsByEightExample)
     cout << "Percolation probability: " << simulation.getPercolationProbability() << "\n";
 }
 
-TEST(MonteCarloSimulationOfPerculationTest, DISABLED_DimensionsByTwentyExample){
+TEST(MonteCarloSimulationOfPerculationTest, DISABLED_DimensionsByTwentyExample)
+{
     MonteCarloSimulationOfPerculation<20U> simulation;
 
     simulation.addOpenSitesUntilItPercolates();
@@ -33,7 +34,8 @@ TEST(MonteCarloSimulationOfPerculationTest, DISABLED_DimensionsByTwentyExample){
     cout << "Percolation probability: " << simulation.getPercolationProbability() << "\n";
 }
 
-TEST(MonteCarloSimulationOfPerculationTest, DISABLED_DimensionsByFiftyExample){
+TEST(MonteCarloSimulationOfPerculationTest, DISABLED_DimensionsByFiftyExample)
+{
     MonteCarloSimulationOfPerculation<50U> simulation;
 
     simulation.addOpenSitesUntilItPercolates();
@@ -44,4 +46,5 @@ TEST(MonteCarloSimulationOfPerculationTest, DISABLED_DimensionsByFiftyExample){
 }
 
 }
+
 }

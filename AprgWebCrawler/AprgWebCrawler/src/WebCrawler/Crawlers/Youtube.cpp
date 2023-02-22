@@ -22,7 +22,7 @@ Youtube::Youtube(WebCrawler & webCrawler)
 
 void Youtube::crawl()
 {
-    cout << "Youtube::crawl" << endl;
+    cout << "Youtube::crawl\n";
     for(unsigned int webLinkIndex=0; webLinkIndex<m_webCrawler.getNumberOfWebLinks();)
     {
         crawl(webLinkIndex);
@@ -56,7 +56,7 @@ bool Youtube::isYoutubeLink(AlbaWebPathHandler const& webLinkPathHandler)
     bool result(true);
     if(!isStringFoundInsideTheOtherStringNotCaseSensitive(webLinkPathHandler.getFullPath(), "youtube"))
     {
-        cout << "Not a youtube link : " << webLinkPathHandler.getFullPath() << endl;
+        cout << "Not a youtube link : " << webLinkPathHandler.getFullPath() << "\n";
         m_webCrawler.saveStateToMemoryCard(CrawlState::LinksAreInvalid);
         result = false;
     }
@@ -97,8 +97,8 @@ bool Youtube::areLinksInvalid() const
 
 void Youtube::printLinks() const
 {
-    cout << "m_linkForVideo : " << m_linkForVideo << endl;
-    cout << "m_localPathForCurrentVideo : " << m_localPathForCurrentVideo << endl;
+    cout << "m_linkForVideo : " << m_linkForVideo << "\n";
+    cout << "m_localPathForCurrentVideo : " << m_localPathForCurrentVideo << "\n";
 }
 
 }

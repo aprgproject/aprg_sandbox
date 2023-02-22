@@ -79,10 +79,12 @@ void AprgColorStatistics::saveColorData(string const& path)
             << "luma709" << "\n";
     unsigned int count=0;
     unsigned int size = min(colorIntensitySet.size(),
-                            min(hueDegreesSet.size(),                                min(saturationLightnessSet.size(),
+                            min(hueDegreesSet.size(),
+                                min(saturationLightnessSet.size(),
                                     min(lightnessSet.size(),
                                         min(saturationValueSet.size(),
-                                            min(valueSet.size(),                                                min(luma601Set.size(), luma601Set.size())))))));
+                                            min(valueSet.size(),
+                                                min(luma601Set.size(), luma601Set.size())))))));
     while(count<size)
     {
         colorDataFileStream
@@ -97,9 +99,11 @@ void AprgColorStatistics::saveColorData(string const& path)
         count++;
     }
 }
+
 void AprgColorStatistics::saveColorStatistics(string const& path)
 {
-    ofstream statisticsFileStream(path);    OneDimensionStatistics colorIntensityStatistics(colorIntensitySamples);
+    ofstream statisticsFileStream(path);
+    OneDimensionStatistics colorIntensityStatistics(colorIntensitySamples);
     OneDimensionStatistics saturationLightnessStatistics(saturationLightnessSamples);
     OneDimensionStatistics lightnessStatistics(lightnessSamples);
     OneDimensionStatistics saturationValueStatistics(saturationValueSamples);
@@ -124,4 +128,5 @@ void AprgColorStatistics::saveColorStatistics(string const& path)
 }
 
 }
+
 }

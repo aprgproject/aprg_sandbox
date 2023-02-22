@@ -27,7 +27,8 @@ TermTranslator::TermTranslator(string const& fileName, ListOfTerms& listOfTerms)
     cout<<"TermTranslator::constructor| ReadFile: "<<pathHandler.getFullPath()<<"\n";
     if(pathHandler.isFoundInLocalSystem() && pathHandler.isFile())
     {
-        if(m_fileStream.is_open())        {
+        if(m_fileStream.is_open())
+        {
             m_isFileValid = true;
         }
         else
@@ -42,9 +43,11 @@ TermTranslator::TermTranslator(string const& fileName, ListOfTerms& listOfTerms)
         cout<<"TermTranslator::constructor| File does not exist!"<<"\n";
     }
 }
+
 bool TermTranslator::isFileValid()
 {
-    return m_isFileValid;}
+    return m_isFileValid;
+}
 
 void TermTranslator::printTerms()
 {
@@ -54,9 +57,11 @@ void TermTranslator::printTerms()
         cout<<term<<"\n";
     }
 }
+
 void TermTranslator::readFile()
 {
-    if(m_isFileValid)    {
+    if(m_isFileValid)
+    {
         while(m_fileStream.good())
         {
             string lineString(getLine());
@@ -69,10 +74,12 @@ void TermTranslator::readFile()
                     cout<<"infiniteloop:"<<"| LineString: ["<<lineString<<"] "<<index<<"["<<lineString[index]<<"]"<<"\n";
                 }
                 m_terms.emplace_back(TermType::NewLine);
-            }            else
+            }
+            else
             {
                 m_terms.emplace_back(TermType::NewLine);
             }
+
         }
     }
 }
@@ -109,10 +116,12 @@ bool TermTranslator::getCPlusPlusTerm(string& lineString, int & index)
             cout<<"StringLiteral:["<<stringLiteral<<"]"<<"\n";
         }
         while(slashCharacterIndex>0 && '\\'==stringLiteral[slashCharacterIndex]);
-        m_terms.emplace_back(TermType::Constant, stringLiteral);        return true;
+        m_terms.emplace_back(TermType::Constant, stringLiteral);
+        return true;
     }
     else if(isApostrophe(lineString[index]))
-    {        string stringLiteral("\'");
+    {
+        string stringLiteral("\'");
         int slashCharacterIndex;
         index++;
         do
@@ -208,10 +217,12 @@ string TermTranslator::readAndAccumulateUntilStringIfFound(string & lineString, 
         cout<<"TermTranslator::accumulateUntilStringIfFound| LineString: ["<<lineString<<"]"<<"\n";
         index = lineString.find(stringToFind);
         if(isNotNpos(index))
-        {            int end =  index+stringToFind.length();
+        {
+            int end =  index+stringToFind.length();
             result += lineString.substr(0, end);
             lineString.erase(0, end);
-            index=0;            return result;
+            index=0;
+            return result;
         }
         result += lineString;
         result += "\n";

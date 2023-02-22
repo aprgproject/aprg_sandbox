@@ -31,9 +31,11 @@ TEST(AnimeFilterTest, DISABLED_AnimizeMultipleFilesTest)
         cout << "Finished: " << outputFilePathHandler.getFullPath() << "\n";
     }
 }
+
 TEST(AnimeFilterTest, DISABLED_AnimizeSingleFileTest)
 {
-    AlbaLocalPathHandler bitmapDirectory(APRG_BITMAP_FILTERS_BITMAP_DIRECTORY);    AlbaLocalPathHandler inputFilePathHandler(bitmapDirectory.getDirectory()+R"(NonAnimeBitmaps\GilmoreGirls.bmp)");
+    AlbaLocalPathHandler bitmapDirectory(APRG_BITMAP_FILTERS_BITMAP_DIRECTORY);
+    AlbaLocalPathHandler inputFilePathHandler(bitmapDirectory.getDirectory()+R"(NonAnimeBitmaps\GilmoreGirls.bmp)");
     AlbaLocalPathHandler outputFilePathHandler(bitmapDirectory.getDirectory()+R"(NonAnimeBitmaps\GilmoreGirls_Animized.bmp)");
     animize(inputFilePathHandler.getFullPath(), outputFilePathHandler.getFullPath());
 }

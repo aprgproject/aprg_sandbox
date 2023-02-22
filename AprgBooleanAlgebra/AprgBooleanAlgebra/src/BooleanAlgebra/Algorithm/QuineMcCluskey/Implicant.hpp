@@ -9,8 +9,10 @@
 #include <set>
 #include <sstream>
 #include <string>
+
 namespace alba
 {
+
 namespace booleanAlgebra
 {
 

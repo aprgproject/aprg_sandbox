@@ -21,9 +21,11 @@ void FileDirectoryDatabase::printFilesAndDirectories(ostream& outputStream) cons
         outputStream << "FileDirectoryDatabase | File: [" << file << "]\n";
     }
 }
+
 bool FileDirectoryDatabase::isFileIncluded(string const& baseDirectory, string const& fileName) const
 {
-    string whereItShouldBePath(                getCorrectPathWithoutDoublePeriod<'\\'>(
+    string whereItShouldBePath(
+                getCorrectPathWithoutDoublePeriod<'\\'>(
                     getCorrectPathWithReplacedSlashCharacters<'\\'>(baseDirectory+fileName)));
     for(auto fullPathOfFileFromDatabase : m_files)
     {
@@ -94,9 +96,11 @@ string FileDirectoryDatabase::getFullPathOfFile(string const& baseDirectory, str
     }
     return fullPathOfFirstFileFound;
 }
+
 SetOfFiles& FileDirectoryDatabase::getSetOfFilesReference()
 {
-    return m_files;}
+    return m_files;
+}
 
 SetOfDirectories& FileDirectoryDatabase::getSetOfDirectoriesReference()
 {

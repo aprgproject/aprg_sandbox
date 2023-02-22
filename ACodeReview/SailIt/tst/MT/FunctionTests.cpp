@@ -17,10 +17,12 @@ TEST_F(ModuleTest, MultiLineFunctionDefinitionTest)
     testFile << "}\n";
     testFile.close();
 
-    processFile();    CPlusPlusFunction& myFunction(m_database.getFunctionReference("main"));
+    processFile();
+    CPlusPlusFunction& myFunction(m_database.getFunctionReference("main"));
     auto & signatures = myFunction.getFunctionSignaturesReference();
     ASSERT_EQ(signatures.size(), 1);
-    auto & parameters = signatures[0].getFunctionParametersReference();    ASSERT_EQ(parameters.size(), 2);
+    auto & parameters = signatures[0].getFunctionParametersReference();
+    ASSERT_EQ(parameters.size(), 2);
     EXPECT_EQ(parameters[0].getType(), CPlusPlusType("int", CPlusPlusTypeType::Primitive));
     EXPECT_EQ(parameters[1].getType(), CPlusPlusType("void", CPlusPlusTypeType::Primitive, 2));
 
@@ -48,10 +50,12 @@ TEST_F(ModuleTest, FunctionSignaturesAreCheckedTest)
     testFile << "myFunction(*myDoublePointer, &myDouble);\n";
     testFile.close();
 
-    processFile();    CPlusPlusFunction& myFunction(m_database.getFunctionReference("myFunction"));
+    processFile();
+    CPlusPlusFunction& myFunction(m_database.getFunctionReference("myFunction"));
     auto & signatures = myFunction.getFunctionSignaturesReference();
     ASSERT_EQ(signatures.size(), 1);
-    auto & parameters = signatures[0].getFunctionParametersReference();    ASSERT_EQ(parameters.size(), 2);
+    auto & parameters = signatures[0].getFunctionParametersReference();
+    ASSERT_EQ(parameters.size(), 2);
     EXPECT_EQ(parameters[0].getType(), CPlusPlusType("double", CPlusPlusTypeType::Primitive));
     EXPECT_EQ(parameters[1].getType(), CPlusPlusType("double", CPlusPlusTypeType::Primitive, 1));
 
@@ -80,10 +84,12 @@ TEST_F(ModuleTest, ReturnValuesAreUsed)
     testFile << "int x = myFunction();\n";
     testFile.close();
 
-    processFile();    CPlusPlusFunction& myFunction(m_database.getFunctionReference("myFunction"));
+    processFile();
+    CPlusPlusFunction& myFunction(m_database.getFunctionReference("myFunction"));
     auto & signatures = myFunction.getFunctionSignaturesReference();
     ASSERT_EQ(signatures.size(), 1);
-    auto & parameters = signatures[0].getFunctionParametersReference();    ASSERT_EQ(parameters.size(), 0);
+    auto & parameters = signatures[0].getFunctionParametersReference();
+    ASSERT_EQ(parameters.size(), 0);
 
     ASSERT_EQ(m_terms.size(), 2);
     auto it = m_terms.begin();
@@ -103,10 +109,12 @@ TEST_F(ModuleTest, ComplicatedFunctionTest)
     testFile << "int x = myFunction(myInteger, myInteger, &myInteger, &(&myInteger));\n";
     testFile.close();
 
-    processFile();    CPlusPlusFunction& myFunction(m_database.getFunctionReference("myFunction"));
+    processFile();
+    CPlusPlusFunction& myFunction(m_database.getFunctionReference("myFunction"));
     auto & signatures = myFunction.getFunctionSignaturesReference();
     ASSERT_EQ(signatures.size(), 1);
-    auto & parameters = signatures[0].getFunctionParametersReference();    ASSERT_EQ(parameters.size(), 4);
+    auto & parameters = signatures[0].getFunctionParametersReference();
+    ASSERT_EQ(parameters.size(), 4);
     EXPECT_EQ(parameters[0].getType(), CPlusPlusType("int", CPlusPlusTypeType::Primitive));
     CPlusPlusType integerReference("int", CPlusPlusTypeType::Primitive);
     integerReference.setAsReference();
@@ -135,10 +143,12 @@ TEST_F(ModuleTest, FunctionsCanBeOverloadedTest)
     testFile << "int x = myFunction(5);\n";
     testFile.close();
 
-    processFile();    CPlusPlusFunction& myFunction(m_database.getFunctionReference("myFunction"));
+    processFile();
+    CPlusPlusFunction& myFunction(m_database.getFunctionReference("myFunction"));
     auto & signatures = myFunction.getFunctionSignaturesReference();
     ASSERT_EQ(signatures.size(), 2);
-    EXPECT_EQ(signatures[0].getFunctionParametersReference().size(), 1);    EXPECT_EQ(signatures[1].getFunctionParametersReference().size(), 2);
+    EXPECT_EQ(signatures[0].getFunctionParametersReference().size(), 1);
+    EXPECT_EQ(signatures[1].getFunctionParametersReference().size(), 2);
 
     ASSERT_EQ(m_terms.size(), 3);
     auto it = m_terms.begin();
@@ -169,10 +179,12 @@ TEST_F(ModuleTest, NamesCheckedForFunctionDeclarationAndDefinitionTest)
     testFile << "int z = myFunction3(5);\n";
     testFile.close();
 
-    processFile();    CPlusPlusFunction& myFunction1(m_database.getFunctionReference("myFunction1"));
+    processFile();
+    CPlusPlusFunction& myFunction1(m_database.getFunctionReference("myFunction1"));
     ASSERT_EQ(myFunction1.getFunctionSignaturesReference().size(), 1);
     CPlusPlusFunction& myFunction2(m_database.getFunctionReference("myFunction2"));
-    ASSERT_EQ(myFunction2.getFunctionSignaturesReference().size(), 1);    CPlusPlusFunction& myFunction3(m_database.getFunctionReference("myFunction3"));
+    ASSERT_EQ(myFunction2.getFunctionSignaturesReference().size(), 1);
+    CPlusPlusFunction& myFunction3(m_database.getFunctionReference("myFunction3"));
     ASSERT_EQ(myFunction3.getFunctionSignaturesReference().size(), 1);
 
     ASSERT_EQ(m_terms.size(), 9);

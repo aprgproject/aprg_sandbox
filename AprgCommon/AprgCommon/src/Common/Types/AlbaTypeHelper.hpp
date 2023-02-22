@@ -57,9 +57,11 @@ constexpr bool orOperateValuesInTypes()
 
 
 // Type checks:
+
 template <typename Type>
 constexpr bool isVoidType()
-{    return std::is_void<Type>::value;
+{
+    return std::is_void<Type>::value;
 }
 
 template <typename Type>
@@ -247,8 +249,10 @@ constexpr bool isNoThrowDefaultConstructible()
 
 
 // Get Types
+
 template<typename Type>
 using GetPlainType = typename std::decay<Type>::type;
+
 
 template<typename Type>
 using GetTypeWithLValueReference = typename std::add_lvalue_reference<Type>::type;

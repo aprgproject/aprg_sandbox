@@ -22,7 +22,7 @@ GoogleImages::GoogleImages(WebCrawler & webCrawler)
 
 void GoogleImages::crawl()
 {
-    cout << "GoogleImages::crawl" << endl;
+    cout << "GoogleImages::crawl\n";
     for(unsigned int webLinkIndex=0; webLinkIndex<m_webCrawler.getNumberOfWebLinks();)
     {
         crawl(webLinkIndex);
@@ -61,7 +61,7 @@ bool GoogleImages::checkIfGoogleImagesLink(AlbaWebPathHandler const& webLinkPath
     bool result(true);
     if(!isStringFoundInsideTheOtherStringNotCaseSensitive(webLinkPathHandler.getFullPath(), "youtube"))
     {
-        cout << "Not a youtube link : " << webLinkPathHandler.getFullPath() << endl;
+        cout << "Not a youtube link : " << webLinkPathHandler.getFullPath() << "\n";
         m_webCrawler.saveStateToMemoryCard(CrawlState::LinksAreInvalid);
         result = false;
     }
@@ -80,8 +80,8 @@ void GoogleImages::retrieveLinks(AlbaWebPathHandler const& webLinkPathHandler)
     ifstream htmlFileStream(downloadPathHandler.getFullPath());
     if(!htmlFileStream.is_open())
     {
-        cout << "Cannot open html file." << endl;
-        cout << "File to read:" << downloadPathHandler.getFullPath() << endl;
+        cout << "Cannot open html file.\n";
+        cout << "File to read:" << downloadPathHandler.getFullPath() << "\n";
     }
     else
     {
@@ -110,7 +110,7 @@ bool GoogleImages::checkLinks()
     bool result(true);
     if(areLinksInvalid())
     {
-        cout << "Links are invalid. Retrying to retrieve links" << endl;
+        cout << "Links are invalid. Retrying to retrieve links\n";
         printLinks();
         m_webCrawler.saveStateToMemoryCard(CrawlState::LinksAreInvalid);
         result = false;
@@ -123,8 +123,8 @@ void GoogleImages::downloadFile(AlbaWebPathHandler const& webLinkPathHandler)
     AlbaWebPathHandler videoWebPathHandler(webLinkPathHandler);
     videoWebPathHandler.gotoLink(m_linkForVideo);
     AlbaLocalPathHandler temporaryPath(m_webCrawler.getTemporaryFilePath());
-    AlbaLocalPathHandler::ListOfPaths files;
-    AlbaLocalPathHandler::ListOfPaths directories;
+    ListOfPaths files;
+    ListOfPaths directories;
     temporaryPath.input(temporaryPath.getDirectory());
     temporaryPath.findFilesAndDirectoriesOneDepth("*.*", files, directories);
     unsigned int initialNumberOfFiles(files.size());
@@ -132,7 +132,7 @@ void GoogleImages::downloadFile(AlbaWebPathHandler const& webLinkPathHandler)
     temporaryPath.findFilesAndDirectoriesOneDepth("*.*", files, directories);
     if(initialNumberOfFiles+1 == files.size())
     {
-        cout << "Waiting for download to finish" << endl;
+        cout << "Waiting for download to finish\n";
         bool isNotFinished(true);
         while(isNotFinished)
         {
@@ -164,8 +164,8 @@ bool GoogleImages::areLinksInvalid() const
 
 void GoogleImages::printLinks() const
 {
-    cout << "m_linkForVideo : " << m_linkForVideo << endl;
-    cout << "m_localPathForCurrentVideo : " << m_localPathForCurrentVideo << endl;
+    cout << "m_linkForVideo : " << m_linkForVideo << "\n";
+    cout << "m_localPathForCurrentVideo : " << m_localPathForCurrentVideo << "\n";
 }
 
 }

@@ -64,10 +64,12 @@ TEST(FileReadTest, ReadFromTestFile_ReadLineUsingVariousCharacters)
     testFile << "\n";
     testFile.close();
 
-    ifstream inputTestFile(testFilePath.getFullPath());    ASSERT_TRUE(inputTestFile.is_open());
+    ifstream inputTestFile(testFilePath.getFullPath());
+    ASSERT_TRUE(inputTestFile.is_open());
 
     AlbaFileReader fileReader(inputTestFile);
-    ASSERT_TRUE(inputTestFile.good());    ASSERT_FALSE(inputTestFile.eof());
+    ASSERT_TRUE(inputTestFile.good());
+    ASSERT_FALSE(inputTestFile.eof());
     EXPECT_TRUE(fileReader.isNotFinished());
     EXPECT_EQ("1", fileReader.getLineAndIgnoreWhiteSpaces());
     EXPECT_EQ("12", fileReader.getLineAndIgnoreWhiteSpaces());

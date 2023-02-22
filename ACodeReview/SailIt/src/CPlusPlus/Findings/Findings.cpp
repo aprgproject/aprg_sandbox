@@ -21,6 +21,7 @@ void Findings::printFindings(ostream& outputStream)
         outputStream<<"Finding "<<m_fileName<<"["<<finding.first<<"] -> "<<finding.second<<"\n";
     }
 }
+
 void Findings::printFindings(ostream& outputStream, string const& details)
 {
     for (auto& finding : m_findings)
@@ -31,9 +32,11 @@ void Findings::printFindings(ostream& outputStream, string const& details)
         }
     }
 }
+
 void Findings::addFinding(unsigned int const lineNumber, string const& fileLocator, string const& content)
 {
-    m_findings.emplace(lineNumber, Finding(fileLocator, content));}
+    m_findings.emplace(lineNumber, Finding(fileLocator, content));
+}
 
 void Findings::addFinding(unsigned int const lineNumber, string const& fileLocator, string const& content, string const& locator)
 {

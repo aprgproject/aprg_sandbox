@@ -20,7 +20,7 @@ Y8Crawler::Y8Crawler(WebCrawler & webCrawler)
 
 void Y8Crawler::crawl()
 {
-    cout << "Y8Crawler::crawl" << endl;
+    cout << "Y8Crawler::crawl\n";
     for(unsigned int webLinkIndex=0; webLinkIndex<m_webCrawler.getNumberOfWebLinks();)
     {
         if(!isStringFoundInsideTheOtherStringCaseSensitive(m_webCrawler.getWebLinkAtIndex(webLinkIndex), R"(/games/)"))
@@ -69,14 +69,14 @@ void Y8Crawler::crawl(unsigned int const webLinkIndex)
 void Y8Crawler::addWebLinksIfFound(unsigned int const webLinkIndex)
 {
     AlbaWebPathHandler webLinkPathHandler(m_webCrawler.getWebLinkAtIndex(webLinkIndex));
-    cout << "Y8Crawler::addWebLinksIfFound" << webLinkPathHandler.getFullPath() << endl;
+    cout << "Y8Crawler::addWebLinksIfFound" << webLinkPathHandler.getFullPath() << "\n";
     AlbaLocalPathHandler downloadPathHandler(m_webCrawler.getDownloadDirectory() + R"(\temp.html)");
     downloadFileWithDefaultSettings(webLinkPathHandler, downloadPathHandler);
     ifstream htmlFileStream(downloadPathHandler.getFullPath());
     if(!htmlFileStream.is_open())
     {
-        cout << "Cannot open html file." << endl;
-        cout << "File to read:" << downloadPathHandler.getFullPath() << endl;
+        cout << "Cannot open html file.\n";
+        cout << "File to read:" << downloadPathHandler.getFullPath() << "\n";
     }
     else
     {
@@ -95,7 +95,7 @@ void Y8Crawler::addWebLinksIfFound(unsigned int const webLinkIndex)
                 isInsideVideoBox = false;
                 if(!webLinkFound.empty())
                 {
-                    cout<<"Add webLink:"<<webLinkFound<<endl;
+                    cout<<"Add webLink:"<<webLinkFound<<"\n";
                     m_webCrawler.addWebLink(webLinkFound);
                     webLinkFound.clear();
                 }
@@ -116,8 +116,8 @@ void Y8Crawler::retrieveLinks(AlbaWebPathHandler const& webLinkPathHandler)
     ifstream htmlFileStream(downloadPathHandler.getFullPath());
     if(!htmlFileStream.is_open())
     {
-        cout << "Cannot open html file." << endl;
-        cout << "File to read:" << downloadPathHandler.getFullPath() << endl;
+        cout << "Cannot open html file.\n";
+        cout << "File to read:" << downloadPathHandler.getFullPath() << "\n";
     }
     else
     {
@@ -142,7 +142,7 @@ bool Y8Crawler::checkLinks()
     bool result(true);
     if(areLinksInvalid())
     {
-        cout << "Links are invalid." << endl;
+        cout << "Links are invalid.\n";
         printLinks();
         m_webCrawler.saveStateToMemoryCard(CrawlState::LinksAreInvalid);
         result = false;
@@ -156,8 +156,8 @@ void Y8Crawler::downloadFile(AlbaWebPathHandler const& webLinkPathHandler)
     fileToDownloadWebPathHandler.gotoLink(m_linkForCurrentFileToDownload);
     if(!fileToDownloadWebPathHandler.isFile())
     {
-        cout << "Link is not to a file." << endl;
-        cout << "Link of file to Download: " << fileToDownloadWebPathHandler.getFullPath() << endl;
+        cout << "Link is not to a file.\n";
+        cout << "Link of file to Download: " << fileToDownloadWebPathHandler.getFullPath() << "\n";
         m_webCrawler.saveStateToMemoryCard(CrawlState::LinksAreInvalid);
     }
     else
@@ -167,7 +167,7 @@ void Y8Crawler::downloadFile(AlbaWebPathHandler const& webLinkPathHandler)
         downloadBinaryFile(fileToDownloadWebPathHandler, downloadPathHandler, m_webCrawler.getCrawlMode());
         if(downloadPathHandler.getFileSizeEstimate() < m_configuration.getMinimumFileSize())
         {
-            cout << "Download file size is less than " << m_configuration.getMinimumFileSize() << ". FileSize = " << downloadPathHandler.getFileSizeEstimate() << " Invalid file. Retrying from the start" << endl;
+            cout << "Download file size is less than " << m_configuration.getMinimumFileSize() << ". FileSize = " << downloadPathHandler.getFileSizeEstimate() << " Invalid file. Retrying from the start\n";
             m_webCrawler.saveStateToMemoryCard(CrawlState::DownloadedFileSizeIsLessThanExpected);
         }
         else
@@ -191,9 +191,9 @@ bool Y8Crawler::areLinksInvalid() const
 
 void Y8Crawler::printLinks() const
 {
-    cout << "LinkForNextHtml : " << m_linkForNextHtml << endl;
-    cout << "LinkForCurrentFileToDownload : " << m_linkForCurrentFileToDownload << endl;
-    cout << "LocalPathForCurrentFileToDownload : " << m_localPathForCurrentFileToDownload << endl;
+    cout << "LinkForNextHtml : " << m_linkForNextHtml << "\n";
+    cout << "LinkForCurrentFileToDownload : " << m_linkForCurrentFileToDownload << "\n";
+    cout << "LocalPathForCurrentFileToDownload : " << m_localPathForCurrentFileToDownload << "\n";
 }
 
 }

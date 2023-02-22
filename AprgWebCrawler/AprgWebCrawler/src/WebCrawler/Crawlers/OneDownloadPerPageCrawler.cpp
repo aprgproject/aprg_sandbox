@@ -21,7 +21,7 @@ OneDownloadPerPageCrawler::OneDownloadPerPageCrawler(WebCrawler & webCrawler)
 
 void OneDownloadPerPageCrawler::crawl()
 {
-    cout << "OneDownloadPerPageCrawler::crawl" << endl;
+    cout << "OneDownloadPerPageCrawler::crawl\n";
     for(unsigned int webLinkIndex=0; webLinkIndex<m_webCrawler.getNumberOfWebLinks(); webLinkIndex++)
     {
         crawl(webLinkIndex);
@@ -83,11 +83,11 @@ void OneDownloadPerPageCrawler::retrieveLinks(AlbaWebPathHandler const& webLinkP
     case CrawlMode::DoujinMoe:
     case CrawlMode::Youtube:
     case CrawlMode::Y8:
-        cout << "OneDownloadPerPageCrawler::retrieveLinks | Mode is different" << endl;
+        cout << "OneDownloadPerPageCrawler::retrieveLinks | Mode is different\n";
         break;
     case CrawlMode::Empty:
     case CrawlMode::Unknown:
-        cout << "OneDownloadPerPageCrawler::retrieveLinks | Mode is not set" << endl;
+        cout << "OneDownloadPerPageCrawler::retrieveLinks | Mode is not set\n";
         break;
     }
 }
@@ -97,7 +97,7 @@ bool OneDownloadPerPageCrawler::checkLinks()
     bool result(true);
     if(areLinksInvalid())
     {
-        cout << "Links are invalid." << endl;
+        cout << "Links are invalid.\n";
         printLinks();
         m_webCrawler.saveStateToMemoryCard(CrawlState::LinksAreInvalid);
         result = false;
@@ -111,8 +111,8 @@ void OneDownloadPerPageCrawler::downloadFile(AlbaWebPathHandler const& webLinkPa
     fileToDownloadWebPathHandler.gotoLink(m_linkForCurrentFileToDownload);
     if(!fileToDownloadWebPathHandler.isFile())
     {
-        cout << "Link is not to a file." << endl;
-        cout << "Link of file to Download: " << fileToDownloadWebPathHandler.getFullPath() << endl;
+        cout << "Link is not to a file.\n";
+        cout << "Link of file to Download: " << fileToDownloadWebPathHandler.getFullPath() << "\n";
         m_webCrawler.saveStateToMemoryCard(CrawlState::LinksAreInvalid);
     }
     else
@@ -126,7 +126,7 @@ void OneDownloadPerPageCrawler::downloadFile(AlbaWebPathHandler const& webLinkPa
         }
         else if(downloadPathHandler.getFileSizeEstimate() < m_configuration.getMinimumFileSize())
         {
-            cout << "Download file size is less than " << m_configuration.getMinimumFileSize() << ". FileSize = " << downloadPathHandler.getFileSizeEstimate() << " Invalid file. Retrying from the start" << endl;
+            cout << "Download file size is less than " << m_configuration.getMinimumFileSize() << ". FileSize = " << downloadPathHandler.getFileSizeEstimate() << " Invalid file. Retrying from the start\n";
             m_webCrawler.saveStateToMemoryCard(CrawlState::DownloadedFileSizeIsLessThanExpected);
         }
         else
@@ -140,7 +140,7 @@ void OneDownloadPerPageCrawler::gotoNextLink(AlbaWebPathHandler const& webLinkPa
 {
     if(m_linkForNextHtml.empty())
     {
-        cout << "Terminating the because next web link is empty." << endl;
+        cout << "Terminating the because next web link is empty.\n";
         m_webCrawler.saveStateToMemoryCard(CrawlState::NextLinkIsInvalid);
     }
     else
@@ -149,7 +149,7 @@ void OneDownloadPerPageCrawler::gotoNextLink(AlbaWebPathHandler const& webLinkPa
         nextWebPathHandler.gotoLink(m_linkForNextHtml);
         if(webLinkPathHandler.getFullPath() == nextWebPathHandler.getFullPath())
         {
-            cout << "Crawler stop because the next web link is the same as previous link." << endl;
+            cout << "Crawler stop because the next web link is the same as previous link.\n";
             m_webCrawler.saveStateToMemoryCard(CrawlState::NextLinkIsInvalid);
         }
         else
@@ -173,9 +173,9 @@ bool OneDownloadPerPageCrawler::areLinksInvalid() const
 
 void OneDownloadPerPageCrawler::printLinks() const
 {
-    cout << "LinkForNextHtml : " << m_linkForNextHtml << endl;
-    cout << "LinkForCurrentFileToDownload : " << m_linkForCurrentFileToDownload << endl;
-    cout << "LocalPathForCurrentFileToDownload : " << m_localPathForCurrentFileToDownload << endl;
+    cout << "LinkForNextHtml : " << m_linkForNextHtml << "\n";
+    cout << "LinkForCurrentFileToDownload : " << m_linkForCurrentFileToDownload << "\n";
+    cout << "LocalPathForCurrentFileToDownload : " << m_localPathForCurrentFileToDownload << "\n";
 }
 
 }

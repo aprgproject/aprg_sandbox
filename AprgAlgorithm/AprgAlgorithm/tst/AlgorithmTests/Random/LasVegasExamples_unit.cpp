@@ -3,9 +3,11 @@
 #include <Common/Randomizer/AlbaSimpleRandomizer.hpp>
 
 #include <gtest/gtest.h>
+
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 namespace algorithm
 {
@@ -24,10 +26,12 @@ TEST(LasVegasTest, GraphColoringExample)
     AlbaSimpleRandomizer randomizer;
     Graph graph;
     graph.connect(1U, 2U);
-    graph.connect(1U, 3U);    graph.connect(1U, 4U);
+    graph.connect(1U, 3U);
+    graph.connect(1U, 4U);
     graph.connect(2U, 4U);
     graph.connect(2U, 5U);
-    graph.connect(3U, 4U);    graph.connect(4U, 5U);
+    graph.connect(3U, 4U);
+    graph.connect(4U, 5U);
     map<Vertex, Color> vertexToColorMap;
 
     LasVegasAlgorithm graphColoringAlgorithm = [&]()

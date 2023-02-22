@@ -6,8 +6,10 @@
 
 #include <functional>
 #include <list>
+
 namespace alba
 {
+
 namespace algorithm
 {
 
@@ -37,9 +39,11 @@ public:
     using NodeRoot = NodePointer;
     using NodeRoots = std::list<NodeRoot>;
     using StepCount = unsigned int;
+
     RangeQueryWithPersistentDynamicSegmentTree(
             Values const& valuesToCheck,
-            Function const& functionObject)        : m_maxChildrenIndex(0U)
+            Function const& functionObject)
+        : m_maxChildrenIndex(0U)
         , m_numberOfValues(valuesToCheck.size())
         , m_function(functionObject)
     {
@@ -56,6 +60,7 @@ public:
         }
         return result;
     }
+
     Value getValueOnIntervalOnPreviousTree(Index const start, Index const end, StepCount const numberOfPreviousSteps) const
     {
         // This has log(N) running time
@@ -68,9 +73,11 @@ public:
         }
         return result;
     }
+
     virtual void changeValueAtIndex(Index const index, Value const& newValue)
     {
-        // This has log(N) running time        if(index<m_numberOfValues)
+        // This has log(N) running time
+        if(index<m_numberOfValues)
         {
             NodeRoot & previousTreeRoot(m_roots.back());
             m_roots.emplace_back();
@@ -78,9 +85,11 @@ public:
                         index, newValue, previousTreeRoot, m_roots.back(), 0, m_maxChildrenIndex);
         }
     }
+
 protected:
 
-    Value getValueOnIntervalFromTopToBottom(            Index const startInterval,
+    Value getValueOnIntervalFromTopToBottom(
+            Index const startInterval,
             Index const endInterval,
             NodePointer const& nodePointer,
             Index const baseLeft,
@@ -143,9 +152,11 @@ protected:
             setValuesFromTopToBottom(valuesToCheck, m_roots.back(), 0, m_maxChildrenIndex);
         }
     }
+
     void setValuesFromTopToBottom(
             Values const& values,
-            NodePointer & nodePointer,            Index const baseLeft,
+            NodePointer & nodePointer,
+            Index const baseLeft,
             Index const baseRight)
     {
         // This has log(N) running time

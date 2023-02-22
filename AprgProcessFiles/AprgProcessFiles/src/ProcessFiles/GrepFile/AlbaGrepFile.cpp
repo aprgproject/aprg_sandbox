@@ -45,10 +45,12 @@ void AlbaGrepFile::processFile(string const& inputFilePath, string const& output
             outputFileStream << lineInLogs << "\n";
         }
         if(fileReader.isNotFinished())
-        {            updateAfterOneIteration(fileReader.getCurrentLocation()*100/sizeOfFile);
+        {
+            updateAfterOneIteration(fileReader.getCurrentLocation()*100/sizeOfFile);
         }
     }
-    updateAfterOneIteration(100);}
+    updateAfterOneIteration(100);
+}
 
 AlbaGrepStringEvaluator& AlbaGrepFile::getGrepEvaluator()
 {

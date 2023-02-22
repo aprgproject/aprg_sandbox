@@ -18,9 +18,11 @@ void CPlusPlusFunctionSignature::printSignature() const
     cout<<"\n";
 }
 
-CPlusPlusType& CPlusPlusFunctionSignature::getReturnTypeReference(){
+CPlusPlusType& CPlusPlusFunctionSignature::getReturnTypeReference()
+{
     return m_returnType;
 }
+
 CPlusPlusType CPlusPlusFunctionSignature::getReturnType() const
 {
     return m_returnType;

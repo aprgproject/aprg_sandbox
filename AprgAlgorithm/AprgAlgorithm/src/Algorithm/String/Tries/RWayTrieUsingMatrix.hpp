@@ -4,8 +4,10 @@
 #include <Common/Math/Matrix/AlbaMatrix.hpp>
 
 #include <set>
+
 namespace alba
 {
+
 namespace algorithm
 {
 
@@ -29,9 +31,11 @@ public:
     using NodePointerMatrix = matrix::AlbaMatrix<NodePointer>;
     using Coordinate = std::pair<unsigned int, NodeId>;
     using Coordinates = std::vector<Coordinate>;
+
     RWayTrieUsingMatrix()
         : m_size(0U)
-        , m_nextNodeId(0U)        , m_unusedNodeIds()
+        , m_nextNodeId(0U)
+        , m_unusedNodeIds()
         , m_nodePointerMatrix(RADIX, MAX_NUMBER_NODES)
     {}
 
@@ -92,10 +96,12 @@ public:
                     m_nodePointerMatrix.getEntryConstReference(coordinateOfPrefix.first, coordinateOfPrefix.second));
         if(nodePointerOfPrefix)
         {
-            ValueUniquePointer const& valueUniquePointer(nodePointerOfPrefix->valueUniquePointer);            if(valueUniquePointer)
+            ValueUniquePointer const& valueUniquePointer(nodePointerOfPrefix->valueUniquePointer);
+            if(valueUniquePointer)
             {
                 result.emplace_back(prefix);
-            }            collectAllKeysAtNode(nodePointerOfPrefix->nextNodeId, prefix, result);
+            }
+            collectAllKeysAtNode(nodePointerOfPrefix->nextNodeId, prefix, result);
         }
         return result;
     }
@@ -166,10 +172,12 @@ private:
             NodePointer const& nodePointer(m_nodePointerMatrix.getEntryConstReference(c, nodeId));
             result = result && !nodePointer;
         }
-        return result;    }
+        return result;
+    }
 
     NodeId getNextNodeId()
-    {        NodeId result{};
+    {
+        NodeId result{};
         if(!m_unusedNodeIds.empty())
         {
             auto firstIt = m_unusedNodeIds.cbegin();
@@ -200,10 +208,12 @@ private:
                 NodePointer const& nodePointer(m_nodePointerMatrix.getEntryConstReference(c, currentNodeId));
                 if(nodePointer)
                 {
-                    isNextNodeFound = true;                    if(keyIndex+1 == key.length())
+                    isNextNodeFound = true;
+                    if(keyIndex+1 == key.length())
                     {
                         result = {c, currentNodeId};
-                    }                    currentNodeId = nodePointer->nextNodeId;
+                    }
+                    currentNodeId = nodePointer->nextNodeId;
                 }
             }
             if(!isNextNodeFound)
@@ -230,10 +240,12 @@ private:
                 NodePointer const& nodePointer(m_nodePointerMatrix.getEntryConstReference(c, currentNodeId));
                 if(nodePointer)
                 {
-                    isNextNodeFound = true;                    currentNodeId = nodePointer->nextNodeId;
+                    isNextNodeFound = true;
+                    currentNodeId = nodePointer->nextNodeId;
                     ValueUniquePointer const& valueUniquePointer(nodePointer->valueUniquePointer);
                     if(keyIndex+1 == key.length() && valueUniquePointer)
-                    {                        result = std::make_unique<Value>(*valueUniquePointer);
+                    {
+                        result = std::make_unique<Value>(*valueUniquePointer);
                     }
                 }
             }
@@ -261,10 +273,12 @@ private:
                 NodePointer const& nodePointer(m_nodePointerMatrix.getEntryConstReference(c, currentNodeId));
                 if(nodePointer)
                 {
-                    isNextNodeFound = true;                    currentNodeId = nodePointer->nextNodeId;
+                    isNextNodeFound = true;
+                    currentNodeId = nodePointer->nextNodeId;
                     ValueUniquePointer const& valueUniquePointer(nodePointer->valueUniquePointer);
                     if(valueUniquePointer)
-                    {                        currentLongestLength = keyIndex+1;
+                    {
+                        currentLongestLength = keyIndex+1;
                     }
                 }
             }
@@ -288,10 +302,12 @@ private:
                 NodePointer const& nodePointer(m_nodePointerMatrix.getEntryConstReference(c, nodeId));
                 if(nodePointer)
                 {
-                    Key newPrefix = previousPrefix + static_cast<char>(c);                    ValueUniquePointer const& valueUniquePointer(nodePointer->valueUniquePointer);
+                    Key newPrefix = previousPrefix + static_cast<char>(c);
+                    ValueUniquePointer const& valueUniquePointer(nodePointer->valueUniquePointer);
                     if(valueUniquePointer)
                     {
-                        collectedKeys.emplace_back(newPrefix);                    }
+                        collectedKeys.emplace_back(newPrefix);
+                    }
                     collectAllKeysAtNode(nodePointer->nextNodeId, newPrefix, collectedKeys);
                 }
             }
@@ -317,10 +333,12 @@ private:
                         NodePointer const& nodePointer(m_nodePointerMatrix.getEntryConstReference(c, nodeId));
                         if(nodePointer)
                         {
-                            Key newPrefix = previousPrefix + static_cast<char>(c);                            if(newPrefix.length() == patternToMatch.length())
+                            Key newPrefix = previousPrefix + static_cast<char>(c);
+                            if(newPrefix.length() == patternToMatch.length())
                             {
                                 ValueUniquePointer const& valueUniquePointer(nodePointer->valueUniquePointer);
-                                if(valueUniquePointer)                                {
+                                if(valueUniquePointer)
+                                {
                                     collectedKeys.emplace_back(newPrefix);
                                 }
                             }
@@ -348,10 +366,12 @@ private:
             NodePointer & nodePointer(m_nodePointerMatrix.getEntryReference(c, currentNodeId));
             if(!nodePointer)
             {
-                nodePointer = std::make_unique<Node>();                nodePointer->nextNodeId = INVALID_NODE_ID;
+                nodePointer = std::make_unique<Node>();
+                nodePointer->nextNodeId = INVALID_NODE_ID;
             }
             if(keyIndex+1 == key.length())
-            {                ValueUniquePointer & valueUniquePointer(nodePointer->valueUniquePointer);
+            {
+                ValueUniquePointer & valueUniquePointer(nodePointer->valueUniquePointer);
                 if(valueUniquePointer)
                 {
                     *valueUniquePointer = value;
@@ -388,10 +408,12 @@ private:
                 NodePointer & nodePointer(m_nodePointerMatrix.getEntryReference(c, currentNodeId));
                 traversedCoordinates.emplace_back(Coordinate{c, currentNodeId});
                 if(nodePointer)
-                {                    isNextNodeFound = true;
+                {
+                    isNextNodeFound = true;
                     currentNodeId = nodePointer->nextNodeId;
                     ValueUniquePointer & valueUniquePointer(nodePointer->valueUniquePointer);
-                    if(keyIndex+1 == key.length() && valueUniquePointer)                    {
+                    if(keyIndex+1 == key.length() && valueUniquePointer)
+                    {
                         m_size--;
                         isDeleted = true;
                         valueUniquePointer.reset();
@@ -421,10 +443,12 @@ private:
                     NodePointer & nodePointer(m_nodePointerMatrix.getEntryReference(coordinate.first, coordinate.second));
                     if(nodePointer)
                     {
-                        nodePointer->nextNodeId = INVALID_NODE_ID;                        if(!nodePointer->valueUniquePointer)
+                        nodePointer->nextNodeId = INVALID_NODE_ID;
+                        if(!nodePointer->valueUniquePointer)
                         {
                             nodePointer.reset();
-                        }                    }
+                        }
+                    }
                 }
                 previousNodeId = coordinate.second;
                 isPreviousNodeEmpty = isNodeEmpty(previousNodeId);

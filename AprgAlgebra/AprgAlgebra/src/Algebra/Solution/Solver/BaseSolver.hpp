@@ -22,9 +22,11 @@ protected:
 
     void setAsCompleteSolution();
     void setAsIncompleteSolution();
+
 private:
     bool m_isSolved;
-    bool m_isACompleteSolution;};
+    bool m_isACompleteSolution;
+};
 
 
 }

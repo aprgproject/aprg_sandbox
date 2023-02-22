@@ -5,8 +5,10 @@
 
 namespace alba
 {
+
 namespace algorithm
 {
+
 template <typename Vertex>
 class LongestPathsInTree
 {
@@ -19,9 +21,11 @@ public:
     using VertexToDfs = std::map<Vertex, Dfs>;
 
     LongestPathsInTree(BaseUndirectedGraphWithVertex const& graph)
-        : m_graph(graph)    {
+        : m_graph(graph)
+    {
         initializeIfNeeded();
     }
+
     EndPointPairs const& getEndPointPairsOfLongestPaths() const
     {
         return m_endPointPairsOfLongestPaths;
@@ -134,6 +138,7 @@ private:
             return m_vertexToDfs.at(vertex);
         }
     }
+
     BaseUndirectedGraphWithVertex const& m_graph;
     Vertices m_allVertices;
     Vertices m_startVerticesOfLongestPath;
@@ -142,4 +147,5 @@ private:
 };
 
 }
+
 }

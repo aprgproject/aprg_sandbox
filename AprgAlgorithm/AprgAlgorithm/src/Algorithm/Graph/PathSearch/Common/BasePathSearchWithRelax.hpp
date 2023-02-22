@@ -31,10 +31,12 @@ public:
 
     bool hasPathTo(Vertex const& endVertex) const
     {
-        return m_vertexToEdgeWithBestWeightMap.find(endVertex) != m_vertexToEdgeWithBestWeightMap.cend();    }
+        return m_vertexToEdgeWithBestWeightMap.find(endVertex) != m_vertexToEdgeWithBestWeightMap.cend();
+    }
 
     Path getPathTo(Vertex const& endVertex) const
-    {        Path reversedPath;
+    {
+        Path reversedPath;
         bool shouldAddStartVertexAndReverse(endVertex != m_startVertex);
         Vertex currentVertex = endVertex;
         while(currentVertex != m_startVertex)
@@ -78,10 +80,12 @@ protected:
     ~BasePathSearchWithRelax() = default;
 
     bool hasNoWeightSaved(Vertex const& vertex) const
-    {        return m_vertexToEdgeWithBestWeightMap.find(vertex) == m_vertexToEdgeWithBestWeightMap.cend();
+    {
+        return m_vertexToEdgeWithBestWeightMap.find(vertex) == m_vertexToEdgeWithBestWeightMap.cend();
     }
 
-    Weight getSavedWeightAt(Vertex const& vertex) const    {
+    Weight getSavedWeightAt(Vertex const& vertex) const
+    {
         Weight result{};
         auto it = m_vertexToEdgeWithBestWeightMap.find(vertex);
         if(it != m_vertexToEdgeWithBestWeightMap.cend())

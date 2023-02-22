@@ -31,8 +31,8 @@ void UserInterface::startUi()
 
 void UserInterface::inputTask()
 {
-    cout << endl;
-    cout << "Working directory: [" << m_workingDirectory << "]" << endl;
+    cout << "\n";
+    cout << "Working directory: [" << m_workingDirectory << "]\n";
 
     AlbaUserInterface::Choices<string> choices;
     choices.emplace("WD", "Select a working directory");
@@ -73,7 +73,7 @@ void UserInterface::inputTask()
 
 void UserInterface::inputWorkingDirectory()
 {
-    cout << endl;
+    cout << "\n";
     AlbaUserInterface::Choices<string> choices;
     copyWorkingDirectoriesToChoices(choices);
     choices.emplace("A", "Add a new working directory");
@@ -105,14 +105,14 @@ void UserInterface::inputWorkingDirectory()
     }
     else
     {
-        cout << "Input invalid: " << choice << endl;
+        cout << "Input invalid: " << choice << "\n";
     }
 
 }
 
 void UserInterface::inputDownloadDirectory()
 {
-    cout << endl;
+    cout << "\n";
     AlbaUserInterface::Choices<string> choices;
     copyDownloadDirectoriesToChoices(choices);
     choices.emplace("A", "Add a new download");
@@ -143,19 +143,19 @@ void UserInterface::inputDownloadDirectory()
     }
     else
     {
-        cout << "Input invalid: " << choice << endl;
+        cout << "Input invalid: " << choice << "\n";
     }
 }
 
 void UserInterface::inputDownloadSchedule()
 {
-    cout << endl;
+    cout << "\n";
     showDownloadSchedule();
 }
 
 void UserInterface::inputDownloadDirectoryTask()
 {
-    cout << endl;
+    cout << "\n";
     showDownloadDirectoryDetails();
     AlbaUserInterface::Choices<string> choices;
     choices.emplace("DS", "Add to download schedule");
@@ -178,7 +178,7 @@ void UserInterface::inputDownloadDirectoryTask()
     }
     else
     {
-        cout << "Input invalid: " << choice << endl;
+        cout << "Input invalid: " << choice << "\n";
     }
 }
 
@@ -203,53 +203,53 @@ void UserInterface::copyDownloadDirectoriesToChoices(AlbaUserInterface::Choices<
 
 void UserInterface::showWorkingDirectories() const
 {
-    cout << "Working Directories:" << endl;
+    cout << "Working Directories:\n";
     int index(0);
     for(string const& workingDirectories : m_workingDirectories)
     {
-        cout << "[" << std::setfill(' ') << std::setw(3) << index++ << "] : " << workingDirectories << endl;
+        cout << "[" << std::setfill(' ') << std::setw(3) << index++ << "] : " << workingDirectories << "\n";
     }
 }
 
 void UserInterface::showDownloadDirectories() const
 {
-    cout << "Download Directories:" << endl;
+    cout << "Download Directories:\n";
     int index(0);
     for(DownloadDirectoryDetails const& downloadDirectoryDetails : m_downloadDirectories)
     {
         cout << "[" << std::setfill(' ') << std::setw(3) << index++ << "] : "
              << downloadDirectoryDetails.downloadDirectory << " "
              << downloadDirectoryDetails.modeString << " "
-             << downloadDirectoryDetails.stateString << endl;
+             << downloadDirectoryDetails.stateString << "\n";
     }
 }
 
 void UserInterface::showDownloadSchedule() const
 {
-    cout << "Download Schedule:" << endl;
+    cout << "Download Schedule:\n";
     int index(0);
     for(DownloadDirectoryDetails const& downloadDirectoryDetails : m_downloadSchedule)
     {
-        cout << "[" << std::setfill(' ') << std::setw(3) << index++ << "] : " << downloadDirectoryDetails.downloadDirectory << endl;
+        cout << "[" << std::setfill(' ') << std::setw(3) << index++ << "] : " << downloadDirectoryDetails.downloadDirectory << "\n";
     }
 }
 
 void UserInterface::showNotDownloadDirectories() const
 {
-    cout << "Download Directories:" << endl;
+    cout << "Download Directories:\n";
     int index(0);
     for(string const& notDownloadDirectory : m_notDownloadDirectories)
     {
-        cout << "[" << std::setfill(' ') << std::setw(3) << index++ << "] : " << notDownloadDirectory << endl;
+        cout << "[" << std::setfill(' ') << std::setw(3) << index++ << "] : " << notDownloadDirectory << "\n";
     }
 }
 
 void UserInterface::showDownloadDirectoryDetails() const
 {
-    cout << "Download Directories Details:" << endl;
-    cout << "Download directory: " << m_downloadDirectoryDetails.downloadDirectory << endl;
-    cout << "Mode: " << m_downloadDirectoryDetails.modeString << endl;
-    cout << "State: " << m_downloadDirectoryDetails.stateString << endl;
+    cout << "Download Directories Details:\n";
+    cout << "Download directory: " << m_downloadDirectoryDetails.downloadDirectory << "\n";
+    cout << "Mode: " << m_downloadDirectoryDetails.modeString << "\n";
+    cout << "State: " << m_downloadDirectoryDetails.stateString << "\n";
 }
 
 void UserInterface::addExistingDownloadAndNonDownloadDirectories()
@@ -260,7 +260,7 @@ void UserInterface::addExistingDownloadAndNonDownloadDirectories()
 
 void UserInterface::addExistingDownloadDirectories()
 {
-    cout << "Finding download directories" << endl;
+    cout << "Finding download directories\n";
     m_downloadDirectories.clear();
     AlbaLocalPathHandler workingDirectoryPathHandler(m_workingDirectory);
     set<string> listOfFiles;
@@ -278,7 +278,7 @@ void UserInterface::addExistingDownloadDirectories()
 
 void UserInterface::addExistingNotDownloadDirectories()
 {
-    cout << "Finding not download directories" << endl;
+    cout << "Finding not download directories\n";
     m_notDownloadDirectories.clear();
     AlbaLocalPathHandler workingDirectoryPathHandler(m_workingDirectory);
     set<string> listOfFiles;
@@ -315,19 +315,19 @@ void UserInterface::writeConfigurationFile() const
     ofstream configurationFile(APRG_WEB_CRAWLER_CONFIGURATION_FILE);
     if(configurationFile.is_open())
     {
-        configurationFile<<"WorkingDirectory:"<<endl;
-        configurationFile << m_workingDirectory << endl;
-        configurationFile<<"WorkingDirectories:"<<endl;
+        configurationFile<<"WorkingDirectory:\n";
+        configurationFile << m_workingDirectory << "\n";
+        configurationFile<<"WorkingDirectories:\n";
         for(string const& workingDirectories : m_workingDirectories)
         {
-            configurationFile << workingDirectories << endl;
+            configurationFile << workingDirectories << "\n";
         }
-        configurationFile<<"TemporaryFilePath:"<<endl;
-        configurationFile << m_temporaryFilePath << endl;
-        configurationFile<<"DownloadSchedule:"<<endl;
+        configurationFile<<"TemporaryFilePath:\n";
+        configurationFile << m_temporaryFilePath << "\n";
+        configurationFile<<"DownloadSchedule:\n";
         for(DownloadDirectoryDetails const& downloadDirectoryDetails : m_downloadSchedule)
         {
-            configurationFile << downloadDirectoryDetails.downloadDirectory << endl;
+            configurationFile << downloadDirectoryDetails.downloadDirectory << "\n";
         }
     }
 }
@@ -398,11 +398,11 @@ void UserInterface::renameImmediateDirectoryToTitle(string const& downloadDirect
         WebCrawler crawler(downloadDirectory, m_temporaryFilePath);
         title = crawler.getNewDirectoryName();
     }
-    cout << "WebCrawler::renameImmediateToTitle | downloadDirectory: " << downloadDirectory << " title: " << title << endl;
+    cout << "WebCrawler::renameImmediateToTitle | downloadDirectory: " << downloadDirectory << " title: " << title << "\n";
     if(!title.empty())
     {
         AlbaLocalPathHandler directoryPathHandler(downloadDirectory);
-        cout<<"Directory rename error code is " << directoryPathHandler.renameImmediateDirectory(title) << endl;
+        cout<<"Directory rename error code is " << directoryPathHandler.renameImmediateDirectory(title) << "\n";
     }
 }
 
@@ -433,7 +433,7 @@ void UserInterface::createBatchFile() const
 
             if(directoryPathHandler.getImmediateDirectoryName() != newDirectoryName && !newDirectoryName.empty())
             {
-                batchFile << R"(rename ")" << directory << R"(" ")" << newDirectoryName << R"(")" << endl;
+                batchFile << R"(rename ")" << directory << R"(" ")" << newDirectoryName << R"(")" << "\n";
             }
         }
     }

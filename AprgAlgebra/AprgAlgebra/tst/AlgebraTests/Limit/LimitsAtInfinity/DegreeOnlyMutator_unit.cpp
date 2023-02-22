@@ -41,9 +41,11 @@ TEST(DegreeOnlyMutatorTest, MutateTermWorks)
     {
         return number;
     }));
+
     mutator.mutateTerm(constantTerm);
     mutator.mutateTerm(variableTerm);
-    mutator.mutateTerm(monomialTerm);    mutator.mutateTerm(polynomialTerm);
+    mutator.mutateTerm(monomialTerm);
+    mutator.mutateTerm(polynomialTerm);
     mutator.mutateTerm(expressionTerm);
     mutator.mutateTerm(functionTerm);
 
@@ -58,10 +60,12 @@ TEST(DegreeOnlyMutatorTest, MutateTermWorks)
                 [](AlbaNumber const& number) -> AlbaNumber
     {
         return number;
-    }));    EXPECT_EQ(expectedFunctionTerm, functionTerm);
+    }));
+    EXPECT_EQ(expectedFunctionTerm, functionTerm);
 }
 
-TEST(DegreeOnlyMutatorTest, MutateConstantWorks){
+TEST(DegreeOnlyMutatorTest, MutateConstantWorks)
+{
     DegreeOnlyMutator mutator("x");
     Constant constant(110);
 
@@ -135,6 +139,7 @@ TEST(DegreeOnlyMutatorTest, MutateFunctionWorks)
     {
         return number;
     });
+
     mutator.mutateFunction(functionObject);
 
     Function expectedFunction(
@@ -143,8 +148,10 @@ TEST(DegreeOnlyMutatorTest, MutateFunctionWorks)
                 [](AlbaNumber const& number) -> AlbaNumber
     {
         return number;
-    });    EXPECT_EQ(expectedFunction, functionObject);
+    });
+    EXPECT_EQ(expectedFunction, functionObject);
 }
 
 }
+
 }

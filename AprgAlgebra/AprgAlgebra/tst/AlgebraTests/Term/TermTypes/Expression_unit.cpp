@@ -62,10 +62,12 @@ TEST(ExpressionTest, ExpressionThatIsCopyConstructedHasIsSimplifiedFlagCopied)
     Expression const& expression1(expressionWithSimplifiedNotSet);
     Expression expression2(expressionWithSimplifiedSet);
 
-    EXPECT_FALSE(expression1.isSimplified());    EXPECT_TRUE(expression2.isSimplified());
+    EXPECT_FALSE(expression1.isSimplified());
+    EXPECT_TRUE(expression2.isSimplified());
 }
 
-TEST(ExpressionTest, ExpressionThatIsConstructedWithTermHasIsSimplifiedFlagCopied){
+TEST(ExpressionTest, ExpressionThatIsConstructedWithTermHasIsSimplifiedFlagCopied)
+{
     Term termWithSimplifiedNotSet;
     Term termWithSimplifiedSet;
     termWithSimplifiedSet.setAsSimplified();
@@ -1182,9 +1184,11 @@ TEST(ExpressionTest, PutExpressionWithMultiplicationWorksOnMultiplicationAndDivi
     Expression const& expressionToApply2(subExpression3);
 
     expression1.putExpressionWithMultiplication(expressionToApply1);
-    expression2.putExpressionWithMultiplication(expressionToApply1);    expression3.putExpressionWithMultiplication(expressionToApply1);
+    expression2.putExpressionWithMultiplication(expressionToApply1);
+    expression3.putExpressionWithMultiplication(expressionToApply1);
     expression4.putExpressionWithMultiplication(expressionToApply1);
     expression5.putExpressionWithMultiplication(expressionToApply2);
+
     string stringToExpect1("((x*x)-(y*y))");
     string stringToExpect2("((a*b*x*x)-(a*b*y*y)-(c*d*x*x)+(c*d*y*y))");
     string stringToExpect3("((a*b/c/d*x*x)-(a*b/c/d*y*y))");
@@ -1212,9 +1216,11 @@ TEST(ExpressionTest, PutExpressionWithMultiplicationWorksOnRaiseToPowerExpressio
     Expression const& expressionToApply2(subExpression3);
 
     expression1.putExpressionWithMultiplication(expressionToApply1);
-    expression2.putExpressionWithMultiplication(expressionToApply1);    expression3.putExpressionWithMultiplication(expressionToApply1);
+    expression2.putExpressionWithMultiplication(expressionToApply1);
+    expression3.putExpressionWithMultiplication(expressionToApply1);
     expression4.putExpressionWithMultiplication(expressionToApply1);
     expression5.putExpressionWithMultiplication(expressionToApply2);
+
     string stringToExpect1("((x^x)-(y^y))");
     string stringToExpect2("(((a^b)*(x^x))-((a^b)*(y^y))-((c^d)*(x^x))+((c^d)*(y^y)))");
     string stringToExpect3("(((a^b)/(c^d)*(x^x))-((a^b)/(c^d)*(y^y)))");

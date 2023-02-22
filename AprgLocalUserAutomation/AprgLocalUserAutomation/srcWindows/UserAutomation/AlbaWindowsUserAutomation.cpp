@@ -231,9 +231,11 @@ void AlbaWindowsUserAutomation::setForegroundWindowWithClassName(string const& c
     cout<<AlbaWindowsHelper::getLastFormattedErrorMessage()<<"\n";
     setForegroundWindowWithWindowHandle(windowHandle);
 }
+
 void AlbaWindowsUserAutomation::setForegroundWindowWithWindowName(string const& windowName) const
 {
-    HWND windowHandle = FindWindowEx(nullptr, nullptr, nullptr, windowName.c_str());    setForegroundWindowWithWindowHandle(windowHandle);
+    HWND windowHandle = FindWindowEx(nullptr, nullptr, nullptr, windowName.c_str());
+    setForegroundWindowWithWindowHandle(windowHandle);
 }
 
 void AlbaWindowsUserAutomation::sleepWithRealisticDelay() const
@@ -355,9 +357,11 @@ void AlbaWindowsUserAutomation::setForegroundWindowWithWindowHandle(HWND const w
         cout<<AlbaWindowsHelper::getLastFormattedErrorMessage()<<"\n";
     }
 }
+
 void AlbaWindowsUserAutomation::doOperation(AlbaWindowsUserAutomation::InputFunction const& inputFunction) const
 {
-    INPUT input;    memset(&input, 0, sizeof(INPUT));
+    INPUT input;
+    memset(&input, 0, sizeof(INPUT));
     inputFunction(input);
     SendInput(1, &input, sizeof(INPUT));
 }

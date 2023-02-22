@@ -42,9 +42,11 @@ TEST(NumberOfTermsRetrieverTest, RetrieveFromTermWorks)
     {
         return number;
     });
+
     retriever.retrieveFromTerm(Constant(1.234));
     retriever.retrieveFromTerm(Variable("b"));
-    retriever.retrieveFromTerm(Monomial(34, {{"c", 5}, {"d", 6}}));    retriever.retrieveFromTerm(Polynomial{Monomial(516, {{"e", 7}}), Monomial(643, {{"f", 8}})});
+    retriever.retrieveFromTerm(Monomial(34, {{"c", 5}, {"d", 6}}));
+    retriever.retrieveFromTerm(Polynomial{Monomial(516, {{"e", 7}}), Monomial(643, {{"f", 8}})});
     retriever.retrieveFromTerm(createExpressionIfPossible({678, "+", Monomial(576, {{"g", 9}})}));
     retriever.retrieveFromTerm(functionObject);
 
@@ -106,9 +108,11 @@ TEST(NumberOfTermsRetrieverTest, RetrieveFromFunctionWorks)
     {
         return number;
     });
+
     retriever.retrieveFromFunction(functionObject);
 
-    EXPECT_EQ(4U, retriever.getSavedData());}
+    EXPECT_EQ(4U, retriever.getSavedData());
+}
 
 TEST(NumberOfTermsRetrieverTest, RetrieveFromPolynomialsWorks)
 {

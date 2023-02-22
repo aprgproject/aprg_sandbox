@@ -61,9 +61,11 @@ TEST(AlbaMatrixTest, MatrixConstructor_AlbaMatrixCanBeCreatedWithUniquePointers)
 TEST(AlbaMatrixTest, MatrixConstructor_AlbaMatrixCanBeCreatedWithSizeAndInitialValue)
 {
     AlbaMatrix<unsigned int> matrix(2, 3, 55);
+
     EXPECT_EQ(2U, matrix.getNumberOfColumns());
     EXPECT_EQ(3U, matrix.getNumberOfRows());
-    AlbaMatrix<unsigned int>::MatrixData const& matrixData(                matrix.getMatrixData());
+    AlbaMatrix<unsigned int>::MatrixData const& matrixData(
+                matrix.getMatrixData());
     ASSERT_EQ(6U, matrixData.size());
     EXPECT_EQ(55U, matrixData.at(0));
     EXPECT_EQ(55U, matrixData.at(1));

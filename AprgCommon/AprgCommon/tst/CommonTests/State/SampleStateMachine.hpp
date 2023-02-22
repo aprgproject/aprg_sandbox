@@ -34,10 +34,12 @@ public:
     // no need for virtual destructor because base destructor is virtual (similar to other virtual functions)
 
     void processInput(Action const& action) override;
-private:    void processStateWithNoValue(Action const& action);
+private:
+    void processStateWithNoValue(Action const& action);
     void processState1(Action const& action);
     void processState2(Action const& action);
-    void processState3(Action const& action);    void processState4(Action const& action);
+    void processState3(Action const& action);
+    void processState4(Action const& action);
 };
 
 }

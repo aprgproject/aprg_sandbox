@@ -14,10 +14,12 @@ public:
     // no need for virtual destructor because base destructor is virtual (similar to other virtual functions)
 
     void clear() override;
-    std::string getFullPath() const override;    std::string getDirectory() const override;
+    std::string getFullPath() const override;
+    std::string getDirectory() const override;
     bool hasProtocol() const;
     std::string getProtocol() const;
-    void gotoLink(std::string const& newPath);    void setProtocolWithSymbols(std::string const& protocolWithSymbols);
+    void gotoLink(std::string const& newPath);
+    void setProtocolWithSymbols(std::string const& protocolWithSymbols);
 
 private:
     void save(std::string const& path) override;

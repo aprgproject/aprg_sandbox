@@ -71,9 +71,11 @@ ostream& operator<<(ostream & out, TestObject const& testObject)
     out << testObject.valueString.empty() << "\n";
     if(!testObject.valueString.empty())
     {
-        out << testObject.valueString;    }
+        out << testObject.valueString;
+    }
     return out;
 }
+
 istream& operator>>(istream & in, TestObject& testObject)
 {
     bool isEmpty(true);
@@ -97,10 +99,12 @@ TEST(AlbaLargeSorterTest, ObjectsCanBeSavedAndLoadFromFile)
     outputTestFile<<TestObject(333333, 3.3, 'c', "thirdString")<<"\n";
     outputTestFile.close();
 
-    ifstream inputTestFile(AlbaLocalPathHandler(ALBA_LARGE_SORTER_TEST_FILE).getFullPath());    TestObject testObject;
+    ifstream inputTestFile(AlbaLocalPathHandler(ALBA_LARGE_SORTER_TEST_FILE).getFullPath());
+    TestObject testObject;
 
     inputTestFile>>testObject;
-    EXPECT_EQ(0, testObject.valueInteger);    EXPECT_DOUBLE_EQ(0, testObject.valueDouble);
+    EXPECT_EQ(0, testObject.valueInteger);
+    EXPECT_DOUBLE_EQ(0, testObject.valueDouble);
     EXPECT_EQ('0', testObject.valueCharacter);
     EXPECT_EQ("", testObject.valueString);
 
@@ -274,10 +278,12 @@ TEST(AlbaLargeSorterTest, FileHandlerTest_FileAreWrittenAtTheEndAgainAfterReleas
     fileHandler.getFileDumpStreamReference()<<4<<"\n";
     fileHandler.releaseFileStream();
 
-    AlbaLocalPathHandler inputPathHandler(ALBA_LARGE_SORTER_TEST_FILE);    ASSERT_TRUE(inputPathHandler.isFoundInLocalSystem());
+    AlbaLocalPathHandler inputPathHandler(ALBA_LARGE_SORTER_TEST_FILE);
+    ASSERT_TRUE(inputPathHandler.isFoundInLocalSystem());
     int valueFromFile;
     ifstream inputTestFile(inputPathHandler.getFullPath());
-    ASSERT_TRUE(inputTestFile.is_open());    inputTestFile>>valueFromFile;
+    ASSERT_TRUE(inputTestFile.is_open());
+    inputTestFile>>valueFromFile;
     EXPECT_EQ(1, valueFromFile);
     inputTestFile>>valueFromFile;
     EXPECT_EQ(2, valueFromFile);

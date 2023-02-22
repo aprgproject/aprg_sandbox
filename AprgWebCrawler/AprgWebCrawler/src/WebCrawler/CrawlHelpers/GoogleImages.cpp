@@ -24,15 +24,15 @@ void WebCrawler::saveImageListFromGoogleImages()
     ifstream htmlFileStream(downloadPathHandler.getFullPath());
     if(!htmlFileStream.is_open())
     {
-        cout << "Cannot open html file." << endl;
-        cout << "File to read:" << downloadPathHandler.getFullPath() << endl;
+        cout << "Cannot open html file.\n";
+        cout << "File to read:" << downloadPathHandler.getFullPath() << "\n";
         return;
     }
     ofstream listFileStream(listPathHandler.getFullPath());
     if(!listFileStream.is_open())
     {
-        cout << "Cannot open list file." << endl;
-        cout << "File to write:" << listPathHandler.getFullPath() << endl;
+        cout << "Cannot open list file.\n";
+        cout << "File to write:" << listPathHandler.getFullPath() << "\n";
         return;
     }
     AlbaFileReader htmlFileReader(htmlFileStream);
@@ -52,7 +52,7 @@ void WebCrawler::saveImageListFromGoogleImages()
     }
     for(string const imageLink:listOfImages)
     {
-        listFileStream<<imageLink<<endl;
+        listFileStream<<imageLink<<"\n";
     }
 }
 
@@ -62,8 +62,8 @@ void WebCrawler::downloadGoogleImages() const
     ifstream listFileStream(listPathHandler.getFullPath());
     if(!listFileStream.is_open())
     {
-        cout << "Cannot open html file." << endl;
-        cout << "File to read:" << listPathHandler.getFullPath() << endl;
+        cout << "Cannot open html file.\n";
+        cout << "File to read:" << listPathHandler.getFullPath() << "\n";
         return;
     }
     AlbaFileReader listFileReader(listFileStream);
@@ -80,8 +80,8 @@ void WebCrawler::downloadGoogleImages() const
         AlbaWebPathHandler imageWebPathHandler(listOfImages.front());
         if(!imageWebPathHandler.isFile())
         {
-            cout << "Image link is not to a file." << endl;
-            cout << "ImageLinkWebPath : " << imageWebPathHandler.getFullPath() << endl;
+            cout << "Image link is not to a file.\n";
+            cout << "ImageLinkWebPath : " << imageWebPathHandler.getFullPath() << "\n";
             return;
         }
         //downloadBinaryFileUntilSuccessful(imageWebPathHandler, AlbaLocalPathHandler(m_workingPathHandler.getDirectory() + imageWebPathHandler.getFile()));
@@ -89,13 +89,13 @@ void WebCrawler::downloadGoogleImages() const
         ofstream outListFileStream(listPathHandler.getFullPath());
         if(!outListFileStream.is_open())
         {
-            cout << "Cannot open list file." << endl;
-            cout << "File to write:" << listPathHandler.getFullPath() << endl;
+            cout << "Cannot open list file.\n";
+            cout << "File to write:" << listPathHandler.getFullPath() << "\n";
             return;
         }
         for(string const imageLink:listOfImages)
         {
-            outListFileStream<<imageLink<<endl;
+            outListFileStream<<imageLink<<"\n";
         }
     }
 }

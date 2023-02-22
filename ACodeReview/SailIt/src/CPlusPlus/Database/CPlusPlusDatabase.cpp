@@ -65,9 +65,11 @@ void CPlusPlusDatabase::print(ostream& outputStream)
     outputStream<<"\n";
 }
 
-bool CPlusPlusDatabase::isDatabaseModified() const{
+bool CPlusPlusDatabase::isDatabaseModified() const
+{
     return m_isModified;
 }
+
 bool CPlusPlusDatabase::isClass(string const& className) const
 {
     return m_classes.find(className) != m_classes.end();

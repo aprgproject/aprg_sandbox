@@ -20,7 +20,7 @@ DoujinMoeCrawler::DoujinMoeCrawler(WebCrawler & webCrawler)
 
 void DoujinMoeCrawler::crawl()
 {
-    cout << "DoujinMoeCrawler::crawl" << endl;
+    cout << "DoujinMoeCrawler::crawl\n";
     for(unsigned int webLinkIndex=0; webLinkIndex<m_webCrawler.getNumberOfWebLinks();)
     {
         crawl(webLinkIndex);
@@ -55,7 +55,7 @@ void DoujinMoeCrawler::crawl(unsigned int const webLinkIndex)
         {
             if(!m_innerLinks.empty())
             {
-                cout << "Inner links found, adding to webLinks first" << endl;
+                cout << "Inner links found, adding to webLinks first\n";
                 break;
             }
             downloadImages(webLinkPathHandler);
@@ -79,8 +79,8 @@ void DoujinMoeCrawler::retrieveLinks(AlbaWebPathHandler const& webLinkPathHandle
     ifstream htmlFileStream(downloadPathHandler.getFullPath());
     if(!htmlFileStream.is_open())
     {
-        cout << "Cannot open html file." << endl;
-        cout << "File to read:" << downloadPathHandler.getFullPath() << endl;
+        cout << "Cannot open html file.\n";
+        cout << "File to read:" << downloadPathHandler.getFullPath() << "\n";
     }
     else
     {
@@ -132,7 +132,7 @@ bool DoujinMoeCrawler::checkLinks()
     bool result(true);
     if(areLinksInvalid())
     {
-        cout << "Links are invalid." << endl;
+        cout << "Links are invalid.\n";
         m_webCrawler.saveStateToMemoryCard(CrawlState::LinksAreInvalid);
         result = false;
     }
@@ -149,8 +149,8 @@ void DoujinMoeCrawler::downloadImages(AlbaWebPathHandler const& webLinkPathHandl
         imageWebPathHandler.gotoLink(imageLink);
         if(!imageWebPathHandler.isFile())
         {
-            cout << "Image link is not to a file." << endl;
-            cout << "ImageWebPath : " << imageWebPathHandler.getFullPath() << endl;
+            cout << "Image link is not to a file.\n";
+            cout << "ImageWebPath : " << imageWebPathHandler.getFullPath() << "\n";
             m_webCrawler.saveStateToMemoryCard(CrawlState::DownloadedFileIsInvalid);
             return;
         }
@@ -159,13 +159,13 @@ void DoujinMoeCrawler::downloadImages(AlbaWebPathHandler const& webLinkPathHandl
         downloadPathHandler.createDirectoriesForNonExisitingDirectories();
         if(!downloadBinaryFile(imageWebPathHandler, downloadPathHandler, m_webCrawler.getCrawlMode()))
         {
-            cout << "Download fails repetitively. Retrying from the start" << endl;
+            cout << "Download fails repetitively. Retrying from the start\n";
             m_webCrawler.saveStateToMemoryCard(CrawlState::DownloadFailsAndRetryIsNeeded);
             return;
         }
         if(downloadPathHandler.getFileSizeEstimate() < m_configuration.getMinimumFileSize())
         {
-            cout << "Image file is less than " << m_configuration.getMinimumFileSize() << ". FileSize = " << downloadPathHandler.getFileSizeEstimate() << " Invalid file. Retrying from the start" << endl;
+            cout << "Image file is less than " << m_configuration.getMinimumFileSize() << ". FileSize = " << downloadPathHandler.getFileSizeEstimate() << " Invalid file. Retrying from the start\n";
             m_webCrawler.saveStateToMemoryCard(CrawlState::DownloadedFileSizeIsLessThanExpected);
             return;
         }

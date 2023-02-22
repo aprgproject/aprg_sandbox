@@ -4,10 +4,12 @@
 
 #include <cstdint>
 #include <cstring>
-#include <string>#include <vector>
+#include <string>
+#include <vector>
 
 namespace alba
 {
+
 class AlbaMemoryBuffer
 {
 public:
@@ -34,7 +36,8 @@ public:
         // lets not check if its POD because it works on other cases
         unsigned int objectSize = sizeof(object);
         resize(objectSize);
-        void const* sourcePointer = static_cast<void const*>(&object);        void * destinationVoidPointer = getBufferPointer();
+        void const* sourcePointer = static_cast<void const*>(&object);
+        void * destinationVoidPointer = getBufferPointer();
         memcpy(destinationVoidPointer, sourcePointer, objectSize);
     }
 
@@ -49,9 +52,11 @@ public:
         // lets not check if its POD because it works on other cases
         return *reinterpret_cast<ObjectType *>(getBufferPointer());
     }
+
 private:
 
     friend std::ostream & operator<<(std::ostream & out, AlbaMemoryBuffer const& memoryBuffer);
+
     std::vector<uint8_t> m_buffer;
 };
 

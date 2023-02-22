@@ -146,9 +146,11 @@ template <typename ContentType>
 class AlbaOptional<ContentType &>
 {
 public:
+
 //#warning Please make sure that object still exists in the life time of an optional reference object
 
-    AlbaOptional()        : m_hasContent(false)
+    AlbaOptional()
+        : m_hasContent(false)
         , m_contentPointer(nullptr)
     {}
 

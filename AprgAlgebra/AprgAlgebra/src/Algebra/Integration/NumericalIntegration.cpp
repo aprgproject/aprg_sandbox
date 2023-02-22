@@ -42,10 +42,12 @@ Term getAnApproximateOfDefiniteIntegralUsingTrapezoidalRule(
     return sum * lengthOfInterval / 2 / numberOfSamples;
 }
 
-Term getAnApproximateOfDefiniteIntegralUsingSimpsonRule(        Term const& term,
+Term getAnApproximateOfDefiniteIntegralUsingSimpsonRule(
+        Term const& term,
         DetailsForDefiniteIntegralWithValues const& integralDetails,
         unsigned int const numberOfSamples)
-{    // The Simpson Rule
+{
+    // The Simpson Rule
     AlbaNumber lengthOfInterval(integralDetails.higherEnd-integralDetails.lowerEnd);
     AlbaNumber incrementInX(lengthOfInterval/numberOfSamples);
     SubstitutionOfVariablesToValues substitution;
@@ -71,10 +73,12 @@ Term getAnApproximateOfDefiniteIntegralUsingSimpsonRule(        Term const& term
     return sum * lengthOfInterval / 3 / numberOfSamples;
 }
 
-Term getActualTruncationErrorInTrapezoidalRule(        Term const& term,
+Term getActualTruncationErrorInTrapezoidalRule(
+        Term const& term,
         DetailsForDefiniteIntegralWithValues const& integralDetails,
         unsigned int const numberOfSamples)
-{    Integration integration(integralDetails.variableName);
+{
+    Integration integration(integralDetails.variableName);
     return integration.integrateAtDefiniteValues(term, integralDetails.lowerEnd, integralDetails.higherEnd)
             - getAnApproximateOfDefiniteIntegralUsingTrapezoidalRule(term, integralDetails, numberOfSamples);
 }
@@ -103,10 +107,12 @@ Term getAnApproximateOfTruncationErrorInTrapezoidalRuleAt(
     return termDoublePrimeValue * lengthOfInterval / -12 * (deltaX ^ 2);
 }
 
-Term getAnApproximateOfTruncationErrorInSimpsonRuleAt(        Term const& term,
+Term getAnApproximateOfTruncationErrorInSimpsonRuleAt(
+        Term const& term,
         DetailsForDefiniteIntegralWithValues const& integralDetails,
         AlbaNumber const& valueToCheckAt,
-        AlbaNumber const& deltaX){
+        AlbaNumber const& deltaX)
+{
     Differentiation differentiation(integralDetails.variableName);
     Term termDoublePrime(differentiation.differentiateMultipleTimes(term, 4));
     SubstitutionOfVariablesToValues substitution{{integralDetails.variableName, valueToCheckAt}};
@@ -115,10 +121,12 @@ Term getAnApproximateOfTruncationErrorInSimpsonRuleAt(        Term const& term,
     return termDoublePrimeValue * lengthOfInterval / -180 * (deltaX ^ 2);
 }
 
-AlbaNumber getAnApproximateOfNaturalLogarithmUsingTrapezoidRule(        AlbaNumber const& input,
+AlbaNumber getAnApproximateOfNaturalLogarithmUsingTrapezoidRule(
+        AlbaNumber const& input,
         unsigned int const numberOfSamples)
 {
-    AlbaNumber result;    if(input > 0)
+    AlbaNumber result;
+    if(input > 0)
     {
         Term oneOverX(Monomial(1, {{"x", -1}}));
         Term approximateValue(getAnApproximateOfDefiniteIntegralUsingTrapezoidalRule(oneOverX, {"x", AlbaNumber(1), input}, numberOfSamples));

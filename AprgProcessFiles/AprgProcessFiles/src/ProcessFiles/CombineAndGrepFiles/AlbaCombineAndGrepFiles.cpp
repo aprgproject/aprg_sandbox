@@ -36,13 +36,15 @@ void AlbaCombineAndGrepFiles::processFile(string const& path)
         cout<<"ProcessFile: "<<path<<"\n";
         ifstream inputLogFileStream(filePathHandler.getFullPath());
         AlbaFileReader fileReader(inputLogFileStream);
-        while(fileReader.isNotFinished())        {
+        while(fileReader.isNotFinished())
+        {
             string line(fileReader.getLineAndIgnoreWhiteSpaces());
             if(m_lineEvaluator.evaluate(line))
             {
                 m_outputFileStream<<filePathHandler.getFullPath()<<" ||| "<<line<<"\n";
             }
         }
-    }}
+    }
+}
 
 }

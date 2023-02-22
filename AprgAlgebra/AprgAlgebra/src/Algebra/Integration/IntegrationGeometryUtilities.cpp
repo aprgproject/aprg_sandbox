@@ -186,9 +186,11 @@ TermPair getMomentOfMassOfALamina(
     Term termToIntegrateInX = (term^2) * AlbaNumber::createFraction(1, 2);
     Term termToIntegrateInY = integralDetails.variableName * term;
     TermPair xyPair;
-    xyPair.first = integration.integrateAtDefiniteTerms(termToIntegrateInX, integralDetails.lowerEnd, integralDetails.higherEnd);    xyPair.second = integration.integrateAtDefiniteTerms(termToIntegrateInY, integralDetails.lowerEnd, integralDetails.higherEnd);
+    xyPair.first = integration.integrateAtDefiniteTerms(termToIntegrateInX, integralDetails.lowerEnd, integralDetails.higherEnd);
+    xyPair.second = integration.integrateAtDefiniteTerms(termToIntegrateInY, integralDetails.lowerEnd, integralDetails.higherEnd);
     return xyPair;
 }
+
 TermPair getCenterOfMassOfALamina(
         Term const& term,
         DetailsForDefiniteIntegralWithTerms const& integralDetails)

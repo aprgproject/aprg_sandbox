@@ -25,5 +25,6 @@ ostream & operator<<(ostream & out, Point const& point)
     out << static_cast<PointParent const&>(point); // dont use dynamic_cast here (avoid RTTI)
     return out;
 }
+
 }
 }

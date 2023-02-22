@@ -9,10 +9,12 @@
 #include <cstdint>
 #include <ostream>
 
-namespace alba{
+namespace alba
+{
 
 class AlbaNumber // This is value type.
-{public:
+{
+public:
 
     using ComplexFloat = AlbaComplexNumber<float>;
     static constexpr double ADJUSTMENT_FLOAT_TOLERANCE = 1E-15;
@@ -30,30 +32,36 @@ class AlbaNumber // This is value type.
         uint32_t denominator;
     };
     struct ComplexNumberData
-    {        float realPart;
+    {
+        float realPart;
         float imaginaryPart;
     };
-    union NumberUnionData    {
+    union NumberUnionData
+    {
         constexpr NumberUnionData()
             : intData{}
         {}
         constexpr NumberUnionData(int64_t const integer)
             : intData(integer)
         {}
-        constexpr NumberUnionData(double const doubleValue)            : doubleData(doubleValue)
+        constexpr NumberUnionData(double const doubleValue)
+            : doubleData(doubleValue)
         {}
         constexpr NumberUnionData(FractionData const& fractionData)
-            : fractionData(fractionData)        {}
+            : fractionData(fractionData)
+        {}
         constexpr NumberUnionData(ComplexNumberData const& complexNumberData)
             : complexNumberData(complexNumberData)
         {}
         int64_t intData;
         double doubleData;
         FractionData fractionData;
-        ComplexNumberData complexNumberData;    };
+        ComplexNumberData complexNumberData;
+    };
 
     struct ConfigurationDetails
-    {        double comparisonTolerance;
+    {
+        double comparisonTolerance;
         double floatAdjustmentTolerance;
     };
     class Configuration
@@ -114,20 +122,24 @@ class AlbaNumber // This is value type.
     }
 
     constexpr AlbaNumber(FractionData const& fractionData)
-        : m_type(Type::Fraction)        , m_data(fractionData)
+        : m_type(Type::Fraction)
+        , m_data(fractionData)
     {}
 
-    constexpr AlbaNumber(ComplexNumberData const& complexNumberData)        : m_type(Type::ComplexNumber)
+    constexpr AlbaNumber(ComplexNumberData const& complexNumberData)
+        : m_type(Type::ComplexNumber)
         , m_data(complexNumberData)
     {}
 
     AlbaNumber(char const character) = delete; // remove character to integer conversion (delete any functions is a C++11 feature)
 
     // This should be constexpr as well but a lot of coding is needed
-    bool operator==(AlbaNumber const& second) const;    bool operator!=(AlbaNumber const& second) const;
+    bool operator==(AlbaNumber const& second) const;
+    bool operator!=(AlbaNumber const& second) const;
     bool operator<=(AlbaNumber const& second) const;
     bool operator>=(AlbaNumber const& second) const;
-    bool operator<(AlbaNumber const& second) const;    bool operator>(AlbaNumber const& second) const;
+    bool operator<(AlbaNumber const& second) const;
+    bool operator>(AlbaNumber const& second) const;
     AlbaNumber operator+() const;
     AlbaNumber operator-() const;
     AlbaNumber operator+(AlbaNumber const& second) const;
@@ -141,10 +153,12 @@ class AlbaNumber // This is value type.
     AlbaNumber& operator/=(AlbaNumber const& second);
 
     bool isIntegerType() const;
-    bool isDoubleType() const;    bool isFractionType() const;
+    bool isDoubleType() const;
+    bool isFractionType() const;
     bool isComplexNumberType() const;
     bool isIntegerOrFractionType() const;
-    bool isPositiveInfinity() const;    bool isNegativeInfinity() const;
+    bool isPositiveInfinity() const;
+    bool isNegativeInfinity() const;
     bool isPositiveOrNegativeInfinity() const;
     bool isNotANumber() const;
     bool isAFiniteValue() const;
@@ -158,9 +172,11 @@ class AlbaNumber // This is value type.
 
     void convertToInteger();
     void convertToFraction();
+
 private:
 
-    // static functions    static double getComparisonTolerance();
+    // static functions
+    static double getComparisonTolerance();
     static double getFloatAdjustmentTolerance();
 
     static double adjustFloatValue(float const value);
@@ -240,4 +256,5 @@ constexpr AlbaNumber operator "" _AS_ALBA_NUMBER(long double const value)
 // AlbaNumber operator "" _AS_ALBA_NUMBER(char const value) = delete; // not needed to delete because there is no implicit conversion
 
 template <> AlbaNumber::ConfigurationDetails getDefaultConfigurationDetails<AlbaNumber::ConfigurationDetails>();
+
 }

@@ -28,10 +28,12 @@ using std::string;
     #define DBGPRINT1(...) cout<<__VA_ARGS__<<"\n";
     #define DBGPRINT2(...)
     #define DBGPRINT3(...)
-#else    #define DBGPRINT1(...)
+#else
+    #define DBGPRINT1(...)
     #define DBGPRINT2(...)
     #define DBGPRINT3(...)
 #endif
+
 namespace codeReview
 {
 

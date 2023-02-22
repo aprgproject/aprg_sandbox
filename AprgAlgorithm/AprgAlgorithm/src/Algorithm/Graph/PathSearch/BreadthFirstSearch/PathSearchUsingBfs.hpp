@@ -29,10 +29,12 @@ public:
 
     PathSearchUsingBfs(BaseGraphWithVertex const& graph, Vertex const& startVertex)
         : BaseClass(graph)
-        , b_graph(BaseClass::m_graph)        , b_processedVertices(BaseClass::m_processedVertices)
+        , b_graph(BaseClass::m_graph)
+        , b_processedVertices(BaseClass::m_processedVertices)
         , b_vertexToPreviousVertexMap(BaseClass::m_vertexToPreviousVertexMap)
         , m_initializeDataFunction(getEmptyInitializeDataFunction())
-        , m_updateDataFunction(getEmptyUpdateDataFunction())    {
+        , m_updateDataFunction(getEmptyUpdateDataFunction())
+    {
         reinitializeStartingFrom({startVertex});
     }
 
@@ -64,10 +66,12 @@ public:
 
     Path getShortestPathTo(Vertex const& endVertex) const
     {
-        return this->getPathTo(endVertex);    }
+        return this->getPathTo(endVertex);
+    }
 
     void reinitializeStartingFrom(Vertices const& startVertices)
-    {        clear();
+    {
+        clear();
         initializeWithStartVertices(startVertices);
         m_initializeDataFunction(startVertices);
         traverseUsingBfs(startVertices);
@@ -77,9 +81,11 @@ public:
 private:
     using BaseClass::clear;
     using BaseClass::initializeWithStartVertices;
+
     void traverseUsingBfs(Vertices const& startVertices)
     {
         b_processedVertices.putVertices(startVertices);
+
         std::deque<Vertex> nearestVertices;
         std::copy(startVertices.cbegin(), startVertices.cend(), std::back_inserter(nearestVertices));
         // for multiple-source shortest path so multiple vertices here

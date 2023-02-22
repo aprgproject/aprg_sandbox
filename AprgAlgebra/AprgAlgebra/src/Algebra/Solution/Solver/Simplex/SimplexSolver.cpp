@@ -101,10 +101,12 @@ void SimplexSolver::processConstraints(
                 EquationOperator const& equationOperator(simplifiedEquation.getEquationOperator());
                 bool shouldIncludeConstraint(false);
                 if(equationOperator.isEqual())
-                {                    shouldIncludeConstraint=true;
+                {
+                    shouldIncludeConstraint=true;
                 }
                 else if(equationOperator.isALessThanVariant())
-                {                    indicesWithSlackVariables.emplace(index);
+                {
+                    indicesWithSlackVariables.emplace(index);
                     shouldIncludeConstraint=true;
                 }
                 else if(equationOperator.isAGreaterThanVariant())
