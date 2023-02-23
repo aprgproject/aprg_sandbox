@@ -51,14 +51,12 @@ public:
   
   void receive( std::string msg )
   {
-    std::cout << "Message '" << msg << "' received by Colleague " << id << std::endl;
+    std::cout << "Message '" << msg << "' received by Colleague " << id << "\n";
   }
 };
-
 /*
  * Mediator
- * defines an interface for communicating with Colleague objects
- */
+ * defines an interface for communicating with Colleague objects */
 class Mediator
 {
 public:
@@ -110,15 +108,13 @@ private:
 
 void ConcreteColleague::send( std::string msg )
 {
-  std::cout << "Message '"<< msg << "' sent by Colleague " << id << std::endl;
+  std::cout << "Message '"<< msg << "' sent by Colleague " << id << "\n";
   mediator->distribute( this, msg );
 }
 
-
 int main()
 {
-  Mediator *mediator = new ConcreteMediator();
-  
+  Mediator *mediator = new ConcreteMediator();  
   Colleague *c1 = new ConcreteColleague( mediator, 1 );
   Colleague *c2 = new ConcreteColleague( mediator, 2 );
   Colleague *c3 = new ConcreteColleague( mediator, 3 );

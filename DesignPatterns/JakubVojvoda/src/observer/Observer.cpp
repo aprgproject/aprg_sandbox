@@ -119,28 +119,25 @@ private:
 void ConcreteObserver::update( Subject *subject )
 {
   observer_state = subject->getState();
-  std::cout << "Observer state updated." << std::endl;
+  std::cout << "Observer state updated.\n";
 }
-
 
 int main()
 {
   ConcreteObserver observer1( 1 );
   ConcreteObserver observer2( 2 );
   
-  std::cout << "Observer 1 state: " << observer1.getState() << std::endl;
-  std::cout << "Observer 2 state: " << observer2.getState() << std::endl;
+  std::cout << "Observer 1 state: " << observer1.getState() << "\n";
+  std::cout << "Observer 2 state: " << observer2.getState() << "\n";
   
   Subject *subject = new ConcreteSubject();
-  subject->attach( &observer1 );
-  subject->attach( &observer2 );
+  subject->attach( &observer1 );  subject->attach( &observer2 );
   
   subject->setState( 10 );
   subject->notify();
   
-  std::cout << "Observer 1 state: " << observer1.getState() << std::endl;
-  std::cout << "Observer 2 state: " << observer2.getState() << std::endl;
+  std::cout << "Observer 1 state: " << observer1.getState() << "\n";
+  std::cout << "Observer 2 state: " << observer2.getState() << "\n";
   
   delete subject;
-  return 0;
-}
+  return 0;}

@@ -37,15 +37,13 @@ public:
   
   void tell()
   {
-    std::cout << "This is Singleton." << std::endl;
+    std::cout << "This is Singleton.\n";
     // ...
   }
   // ...
-
 private:
   Singleton() {}
-  static Singleton *instance;
-  // ...
+  static Singleton *instance;  // ...
 };
 
 Singleton* Singleton::instance = nullptr;

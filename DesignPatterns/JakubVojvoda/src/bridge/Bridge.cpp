@@ -34,27 +34,23 @@ public:
   
   void action()
   {
-    std::cout << "Concrete Implementor A" << std::endl;
+    std::cout << "Concrete Implementor A\n";
   }
   // ...
 };
-
 class ConcreteImplementorB : public Implementor
 {
-public:
-  ~ConcreteImplementorB() {}
+public:  ~ConcreteImplementorB() {}
   
   void action()
   {
-    std::cout << "Concrete Implementor B" << std::endl;
+    std::cout << "Concrete Implementor B\n";
   }
   // ...
 };
-
 /*
  * Abstraction
- * defines the abstraction's interface
- */
+ * defines the abstraction's interface */
 class Abstraction
 {
 public:

@@ -46,21 +46,19 @@ public:
   
   void primitiveOperation1()
   {
-    std::cout << "Primitive operation 1" << std::endl;
+    std::cout << "Primitive operation 1\n";
     // ...
   }
   
   void primitiveOperation2()
   {
-    std::cout << "Primitive operation 2" << std::endl;
+    std::cout << "Primitive operation 2\n";
     // ...
   }
-  // ...
-};
+  // ...};
 
 
-int main()
-{
+int main(){
   AbstractClass *tm = new ConcreteClass;
   tm->templateMethod();
   

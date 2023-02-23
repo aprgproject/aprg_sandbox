@@ -156,13 +156,13 @@ int main()
   director.construct();
   
   Product product1 = director.get();
-  std::cout << "1st product parts: " << product1.get() << std::endl;
+  std::cout << "1st product parts: " << product1.get() << "\n";
   
   director.set( new ConcreteBuilderY );
   director.construct();
   
   Product product2 = director.get();
-  std::cout << "2nd product parts: " << product2.get() << std::endl;
+  std::cout << "2nd product parts: " << product2.get() << "\n";
   
   return 0;
 }

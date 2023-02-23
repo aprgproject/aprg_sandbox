@@ -38,15 +38,13 @@ public:
   
   void operation()
   {
-    std::cout << "Unshared Flyweight with state " << state << std::endl;
+    std::cout << "Unshared Flyweight with state " << state << "\n";
   }
   // ...
-  
-private:
+  private:
   int state;
   // ...
 };
-
 /*
  * ConcreteFlyweight
  * implements the Flyweight interface and adds storage
@@ -62,15 +60,13 @@ public:
   
   void operation()
   {
-    std::cout << "Concrete Flyweight with state " << state << std::endl;
+    std::cout << "Concrete Flyweight with state " << state << "\n";
   }
   // ...
-  
-private:
+  private:
   int state;
   // ...
 };
-
 /*
  * FlyweightFactory
  * creates and manages flyweight objects and ensures

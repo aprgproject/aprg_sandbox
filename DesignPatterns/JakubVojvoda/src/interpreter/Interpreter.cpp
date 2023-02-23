@@ -118,8 +118,7 @@ int main()
   context.set( "B", false );
   
   std::cout << context.get( "A" ) << " AND " << context.get( "B" );
-  std::cout << " = " << exp->interpret( &context ) << std::endl;
+  std::cout << " = " << exp->interpret( &context ) << "\n";
   
   delete exp;
-  return 0;
-}
+  return 0;}

@@ -33,39 +33,33 @@ public:
   
   void algorithmInterface()
   {
-    std::cout << "Concrete Strategy A" << std::endl;
+    std::cout << "Concrete Strategy A\n";
   }
   // ...
 };
-
 class ConcreteStrategyB : public Strategy
 {
-public:
-  ~ConcreteStrategyB() { /* ... */ }
+public:  ~ConcreteStrategyB() { /* ... */ }
   
   void algorithmInterface()
   {
-    std::cout << "Concrete Strategy B" << std::endl;
+    std::cout << "Concrete Strategy B\n";
   }
   // ...
 };
-
 class ConcreteStrategyC : public Strategy
 {
-public:
-  ~ConcreteStrategyC() { /* ... */ }
+public:  ~ConcreteStrategyC() { /* ... */ }
   
   void algorithmInterface()
   {
-    std::cout << "Concrete Strategy C" << std::endl;
+    std::cout << "Concrete Strategy C\n";
   }
   // ...
 };
-
 /*
  * Context
- * maintains a reference to a Strategy object
- */
+ * maintains a reference to a Strategy object */
 class Context
 {
 public:

@@ -35,15 +35,13 @@ public:
   
   void specificRequest()
   {
-    std::cout << "specific request" << std::endl;
+    std::cout << "specific request\n";
   }
   // ...
 };
-
 /*
  * Adapter
- * implements the Target interface and lets the Adaptee respond
- * to request on a Target by extending both classes
+ * implements the Target interface and lets the Adaptee respond * to request on a Target by extending both classes
  * ie adapts the interface of Adaptee to the Target interface
  */
 class Adapter : public Target, private Adaptee

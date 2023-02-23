@@ -102,14 +102,13 @@ int main()
   Client::init();
   
   Prototype *prototype1 = Client::make( 0 );
-  std::cout << "Prototype: " << prototype1->type() << std::endl;
+  std::cout << "Prototype: " << prototype1->type() << "\n";
   delete prototype1;
   
   Prototype *prototype2 = Client::make( 1 );
-  std::cout << "Prototype: " << prototype2->type() << std::endl;
+  std::cout << "Prototype: " << prototype2->type() << "\n";
   delete prototype2;
   
-  Client::remove();
-  
+  Client::remove();  
   return 0;
 }

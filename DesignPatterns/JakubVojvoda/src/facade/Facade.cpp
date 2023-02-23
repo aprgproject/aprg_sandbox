@@ -20,37 +20,33 @@ class SubsystemA
 public:
   void suboperation()
   {
-    std::cout << "Subsystem A method" << std::endl;
+    std::cout << "Subsystem A method\n";
     // ...
   }
-  // ...
-};
+  // ...};
 
 class SubsystemB
 {
 public:
   void suboperation()
   {
-    std::cout << "Subsystem B method" << std::endl;
+    std::cout << "Subsystem B method\n";
     // ...
   }
-  // ...
-};
+  // ...};
 
 class SubsystemC
 {
 public:
   void suboperation()
   {
-    std::cout << "Subsystem C method" << std::endl;
+    std::cout << "Subsystem C method\n";
     // ...
   }
-  // ...
-};
+  // ...};
 
 /*
- * Facade
- * delegates client requests to appropriate subsystem object
+ * Facade * delegates client requests to appropriate subsystem object
  * and unified interface that is easier to use
  */
 class Facade

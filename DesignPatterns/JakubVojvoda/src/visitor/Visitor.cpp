@@ -42,37 +42,33 @@ public:
   
   void visitElementA( ConcreteElementA* const )
   {
-    std::cout << "Concrete Visitor 1: Element A visited." << std::endl;
+    std::cout << "Concrete Visitor 1: Element A visited.\n";
   }
   
   void visitElementB( ConcreteElementB* const )
   {
-    std::cout << "Concrete Visitor 1: Element B visited." << std::endl;
+    std::cout << "Concrete Visitor 1: Element B visited.\n";
   }
   // ...
 };
-
 class ConcreteVisitor2 : public Visitor
 {
-public:
-  ~ConcreteVisitor2() {}
+public:  ~ConcreteVisitor2() {}
   
   void visitElementA( ConcreteElementA* const )
   {
-    std::cout << "Concrete Visitor 2: Element A visited." << std::endl;
+    std::cout << "Concrete Visitor 2: Element A visited.\n";
   }
   
   void visitElementB( ConcreteElementB* const )
   {
-    std::cout << "Concrete Visitor 2: Element B visited." << std::endl;
+    std::cout << "Concrete Visitor 2: Element B visited.\n";
   }
   // ...
 };
-
 /*
  * Element
- * defines an accept operation that takes a visitor as an argument
- */
+ * defines an accept operation that takes a visitor as an argument */
 class Element
 {
 public:

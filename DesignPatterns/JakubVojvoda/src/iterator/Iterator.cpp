@@ -143,9 +143,8 @@ int main()
   Iterator *it = list.createIterator();
   for ( ; !it->isDone(); it->next())
   {
-    std::cout << "Item value: " << it->currentItem() << std::endl;
+    std::cout << "Item value: " << it->currentItem() << "\n";
   }
   
-  delete it;
-  return 0;
+  delete it;  return 0;
 }

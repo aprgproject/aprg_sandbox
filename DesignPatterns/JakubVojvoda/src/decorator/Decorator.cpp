@@ -36,15 +36,13 @@ public:
   
   void operation()
   {
-    std::cout << "Concrete Component operation" << std::endl;
+    std::cout << "Concrete Component operation\n";
   }
   // ...
 };
-
 /*
  * Decorator
- * maintains a reference to a Component object and defines an interface
- * that conforms to Component's interface
+ * maintains a reference to a Component object and defines an interface * that conforms to Component's interface
  */
 class Decorator : public Component
 {
@@ -76,29 +74,25 @@ public:
   void operation()
   {
     Decorator::operation();
-    std::cout << "Decorator A" << std::endl;
+    std::cout << "Decorator A\n";
   }
   // ...
 };
-
 class ConcreteDecoratorB : public Decorator
 {
-public:
-  ConcreteDecoratorB( Component *c ) : Decorator( c ) {}
+public:  ConcreteDecoratorB( Component *c ) : Decorator( c ) {}
   
   void operation()
   {
     Decorator::operation();
-    std::cout << "Decorator B" << std::endl;
+    std::cout << "Decorator B\n";
   }
   // ...
 };
 
-
 int main()
 {
-  ConcreteComponent  *cc = new ConcreteComponent();
-  ConcreteDecoratorB *db = new ConcreteDecoratorB( cc );
+  ConcreteComponent  *cc = new ConcreteComponent();  ConcreteDecoratorB *db = new ConcreteDecoratorB( cc );
   ConcreteDecoratorA *da = new ConcreteDecoratorA( db );
   
   Component *component = da;
