@@ -2,15 +2,13 @@
 
 #include <ChessUtilities/Uci/UciUtilities.hpp>
 #include <Common/Macros/AlbaMacros.hpp>
-#include <Common/Time/AlbaLocalTimer.hpp>
 #include <Common/String/AlbaStringHelper.hpp>
+#include <Common/Time/AlbaLocalTimeHelper.hpp>
 
 #include <iostream>
 #include <sstream>
-
 using namespace alba::stringHelper;
 using namespace std;
-
 namespace alba
 {
 
@@ -101,25 +99,21 @@ bool ChessEngineControllerWithUci::waitTillReadyAndReturnIfResetWasPerformed()
     m_waitingForReadyOkay = true;
 
     bool shouldReset(false);
-    AlbaLocalTimer timer;
     unsigned int count(0U);
     while(m_waitingForReadyOkay)
-    {
-        if(count > 10) // 1 second elapsed so engine is stuck, lets reset
+    {        if(count > 10) // 1 second elapsed so engine is stuck, lets reset
         {
             shouldReset = true;
             break;
         }
         count++;
-        timer.sleep(100);
+        sleepFor(100);
     }
 
-    if(shouldReset)
-    {
+    if(shouldReset)    {
         log("Engine is stuck, resetting engine");
         resetEngine();
     }
-
     return shouldReset;
 }
 
@@ -182,15 +176,13 @@ void ChessEngineControllerWithUci::changeState(
     {
         m_logFileStreamOptional.value()
                 << "Changing state from " << getEnumString(m_state)
-                << " to " << getEnumString(state) << endl;
+                << " to " << getEnumString(state) << "\n";
     }
     m_state = state;
 }
-
 void ChessEngineControllerWithUci::proceedToIdleStateAndProcessPendingCommands()
 {
-    changeState(ControllerState::Idle);
-    bool hasGoOnPendingCommand(false);
+    changeState(ControllerState::Idle);    bool hasGoOnPendingCommand(false);
     while(!m_pendingCommands.empty() && !hasGoOnPendingCommand)
     {
         Command pendingCommand(m_pendingCommands.front());
@@ -204,14 +196,12 @@ void ChessEngineControllerWithUci::log(string const& logString)
 {
     if(m_logFileStreamOptional)
     {
-        m_logFileStreamOptional.value() << logString << endl;
+        m_logFileStreamOptional.value() << logString << "\n";
     }
 }
-
 void ChessEngineControllerWithUci::forceSend(
         string const& commandString)
-{
-    m_engineHandler.sendStringToEngine(commandString);
+{    m_engineHandler.sendStringToEngine(commandString);
 }
 
 void ChessEngineControllerWithUci::sendStopIfCalculating()
