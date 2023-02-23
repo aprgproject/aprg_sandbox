@@ -191,14 +191,12 @@ void MapAnalyzer::printResult() const
              << "] JobExp:[" << mapData.jobExperiencePotential
              << "] Annoyance:[" << mapData.annoyanceHp
              << "] MobCount:[" << mapData.mobCount
-             << "]" << endl;
+             << "]\n";
     }
 }
-
 double MapAnalyzer::getPotentialZenyFromMonster(
         Monster const& monster) const
-{
-    double potentialZeny=0;
+{    double potentialZeny=0;
     for(NameAndRate const& dropWithRate : monster.dropsWithRates)
     {
         if(isDropRateAcceptable(dropWithRate.rate))
@@ -215,38 +213,32 @@ void MapAnalyzer::printPotentialZenyFromMonster(
         string const& monsterName) const
 {
     cout.precision(10);
-    cout << endl;
-    cout << "Monster name: [" << monsterName << "]" << endl;
+    cout << "\n";
+    cout << "Monster name: [" << monsterName << "]\n";
     Monster monster(m_ragnarokOnline.getMonster(monsterName));
-    double monsterPotentialZeny=0;
     for(NameAndRate const& dropWithRate : monster.dropsWithRates)
     {
-        if(isDropRateAcceptable(dropWithRate.rate))
-        {
+        if(isDropRateAcceptable(dropWithRate.rate))        {
             Item item(m_ragnarokOnline.getItem(dropWithRate.name));
             string fixedItemName(m_ragnarokOnline.getFixedItemName(item));
             double bestPrice(getBestPrice(item));
             double itemPotentialZeny = bestPrice * getTalonRoDropRate(dropWithRate.rate) / 100;
-            monsterPotentialZeny += itemPotentialZeny;
             cout << "Item name: [" << fixedItemName
                  << "] Item potential zeny: [" << itemPotentialZeny
-                 << "] Talon RO drop rate: [" << getTalonRoDropRate(dropWithRate.rate)
-                 << "] Best price: [" << bestPrice
+                 << "] Talon RO drop rate: [" << getTalonRoDropRate(dropWithRate.rate)                 << "] Best price: [" << bestPrice
                  << "] NPC price: [" << item.sellingPrice
                  << "] TalonRo buying price: [" << m_ragnarokOnline.getTalonRoBuyingPrice(fixedItemName)
                  << "] TalonRo selling price: [" << m_ragnarokOnline.getTalonRoSellingPrice(fixedItemName)
-                 << "]" << endl;
+                 << "]\n";
         }
     }
-    cout << endl;
+    cout << "\n";
 }
 
-double MapAnalyzer::getMultiplierForExperience(
-        string const& mapName)
+double MapAnalyzer::getMultiplierForExperience(        string const& mapName)
 {
     double multiplier(1);
-    if(isStringFoundInsideTheOtherStringCaseSensitive(mapName, "xmas_")
-            || isStringFoundInsideTheOtherStringCaseSensitive(mapName, "man_")
+    if(isStringFoundInsideTheOtherStringCaseSensitive(mapName, "xmas_")            || isStringFoundInsideTheOtherStringCaseSensitive(mapName, "man_")
             || isStringFoundInsideTheOtherStringCaseSensitive(mapName, "dic_"))
     {
         multiplier = 2;
