@@ -306,19 +306,17 @@ void printPoolingResult(BasebandPoolingResult const& poolingResult)
 {
     if(poolingResult.isSuccessful)
     {
-        cout << "Baseband pooling successful" << endl;
+        cout << "Baseband pooling successful\n";
     }
     else
     {
-        cout << "Baseband pooling NOT successful" << endl;
+        cout << "Baseband pooling NOT successful\n";
     }
 
-    DisplayTable table;
-    table.setBorders("-","|");
+    DisplayTable table;    table.setBorders("-","|");
     unsigned int previousNid(0);
     for(KeplerNidToLcgPair const nidToLcgPair : poolingResult.keplerNidToLcgMap)
-    {
-        if((previousNid & 0xFF00) != (nidToLcgPair.first & 0xFF00))
+    {        if((previousNid & 0xFF00) != (nidToLcgPair.first & 0xFF00))
         {
             table.addRow();
         }
@@ -327,15 +325,13 @@ void printPoolingResult(BasebandPoolingResult const& poolingResult)
         table.getLastRow().addCell(ss.str());
         previousNid = nidToLcgPair.first;
     }
-    cout<<table.drawOutput();
+    cout<<table;
 }
 
-TEST(AsilBasebandPoolingTest, PerformBasebandPoolingForAsilIsCorrect)
-{
+TEST(AsilBasebandPoolingTest, PerformBasebandPoolingForAsilIsCorrect){
     AsilBasebandPooling pooling(
     {Lcg(1, 10), Lcg(2, 20), Lcg(3, 30), Lcg(4, 40)},
-    {BasebandCard(0x13, {0x1230, 0x1240, 0x1250, 0x1260}),
-     BasebandCard(0x14, {0x1330, 0x1340, 0x1350, 0x1360}),
+    {BasebandCard(0x13, {0x1230, 0x1240, 0x1250, 0x1260}),     BasebandCard(0x14, {0x1330, 0x1340, 0x1350, 0x1360}),
      BasebandCard(0x15, {0x1430, 0x1440, 0x1450})});
 
     BasebandPoolingResult poolingResult(pooling.performBasebandPoolingForAsil());
