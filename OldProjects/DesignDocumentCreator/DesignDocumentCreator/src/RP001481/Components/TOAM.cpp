@@ -17,15 +17,13 @@ TOAM::TOAM(ComponentName const componentName)
 
 void TOAM::handleMessage1(GenericMessage const& genericMessage)
 {
-    cout<<"handleMessage1()"<<endl;
+    cout<<"handleMessage1()\n";
     Environment & environment(Environment::getInstance());
 
-    SpecificStaticMessage<MessageName::TC_LRM_CONFIGURATION_DATA_IND_MSG> message(convertGenericToSpecificStatic<MessageName::TC_LRM_CONFIGURATION_DATA_IND_MSG>(genericMessage));
-    SLrmConfigurationDataInd& payload(message.getStaticPayloadReference());
+    SpecificStaticMessage<MessageName::TC_LRM_CONFIGURATION_DATA_IND_MSG> message(convertGenericToSpecificStatic<MessageName::TC_LRM_CONFIGURATION_DATA_IND_MSG>(genericMessage));    SLrmConfigurationDataInd& payload(message.getStaticPayloadReference());
     logNoteOnPreviousMessage("Message 1 description.");
     logNoteOnComponent("TOAM will do something.");
 }
-
 void TOAM::handleMessageEvent(GenericMessage const& genericMessage)
 {
     MessageName messageName(genericMessage.getMessageName());
@@ -35,35 +33,32 @@ void TOAM::handleMessageEvent(GenericMessage const& genericMessage)
         handleMessage1(genericMessage);
         break;
     default:
-        cout<<"No handler for messageName: "<<genericMessage.getMessageNameInString()<<" in component: "<<getComponentNameInString()<<endl;
+        cout<<"No handler for messageName: "<<genericMessage.getMessageNameInString()<<" in component: "<<getComponentNameInString()<<"\n";
         break;
     }
 }
-
 void TOAM::handleTimerEvent(Timer const& timer)
 {
     switch(timer.getType())
     {
     //case TimerType::Empty:
-    //    cout<<"Handle Timer, Empty: "<<endl;
+    //    cout<<"Handle Timer, Empty: \n";
     //    break;
     default:
-        cout<<"No handler for timerType: "<<convertToString(timer.getType())<<" timerId:"<<(int)timer.getId()<<". Please create one!"<<endl;
+        cout<<"No handler for timerType: "<<convertToString(timer.getType())<<" timerId:"<<(int)timer.getId()<<". Please create one!\n";
         break;
     }
 }
-
 void TOAM::handleOtherEvent(OtherEvent const& otherEvent)
 {
     switch(otherEvent.getType())
     {
     //case TimerType::Empty:
-    //    cout<<"Handle OtherEvent, Empty: "<<endl;
+    //    cout<<"Handle OtherEvent, Empty: \n";
     //    break;
     default:
-        cout<<"No handler for otherEventType: "<<(int)otherEvent.getType()<<". Please create one!"<<endl;
+        cout<<"No handler for otherEventType: "<<(int)otherEvent.getType()<<". Please create one!\n";
         break;
     }
 }
-
 }

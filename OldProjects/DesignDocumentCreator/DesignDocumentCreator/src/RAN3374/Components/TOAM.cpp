@@ -22,15 +22,15 @@ void TOAM::handleMessageEvent(GenericMessage const& genericMessage)
     switch(messageName)
     {
     case MessageName::TC_LTX_TELECOM_MSG:
-        cout<<"Handle Message, TC_LTX_TELECOM_MSG: "<<endl;
+        cout<<"Handle Message, TC_LTX_TELECOM_MSG: \n";
     default:
-        cout<<"Handle Message, messageName: "<<StringHelpers::genericMessage.getMessageNameInString()<<endl;
+        cout<<"Handle Message, messageName: "<<StringHelpers::genericMessage.getMessageNameInString()<<"\n";
     }
 }
 
 void TOAM::handleTimerEvent(Timer const& timer)
 {
-    cout<<"Handle Timer, timerType: "<<StringHelpers::convertToString(timer.getType())<<" timerId:"<<(int)timer.getId()<<endl;
+    cout<<"Handle Timer, timerType: "<<StringHelpers::convertToString(timer.getType())<<" timerId:"<<(int)timer.getId()<<"\n";
 }
 
 }

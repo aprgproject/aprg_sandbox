@@ -17,9 +17,8 @@ using namespace StringHelpers;
 TEST_F(ModuleTest, SampleScenario)
 {
     UmlLogger& umlLogger(getUmlLogger());
-    TOAM& toam(*dynamic_cast<TOAM*>(getComponentAndActivateAsParticipant(ComponentName::TOAM, "TOAM")));
-    LRM& lrm(*dynamic_cast<LRM*>(getComponentAndActivateAsParticipant(ComponentName::LRM, "LRM")));
+    TOAM& toam(*static_cast<TOAM*>(getComponentAndActivateAsParticipant(ComponentName::TOAM, "TOAM")));
+    LRM& lrm(*static_cast<LRM*>(getComponentAndActivateAsParticipant(ComponentName::LRM, "LRM")));
 
     sendMessage(ComponentName::TOAM, ComponentName::LRM, createLrmConfigurationDataForMoreThan2K2sWithNbic());
-    lrm.handleOneEvent();
-}
+    lrm.handleOneEvent();}

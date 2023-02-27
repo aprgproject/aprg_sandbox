@@ -21,13 +21,13 @@ void TcomCchhRlh::handleMessageEvent(GenericMessage const& genericMessage)
     switch(messageName)
     {
     default:
-        cout<<"No handler for messageName: "<<genericMessage.getMessageNameInString()<<" in component: "<<getComponentNameInString()<<endl;
+        cout<<"No handler for messageName: "<<genericMessage.getMessageNameInString()<<" in component: "<<getComponentNameInString()<<"\n";
     }
 }
 
 void TcomCchhRlh::handleTimerEvent(Timer const& timer)
 {
-    cout<<"Handle Timer, timerType: "<<convertToString(timer.getType())<<" timerId:"<<(int)timer.getId()<<endl;
+    cout<<"Handle Timer, timerType: "<<convertToString(timer.getType())<<" timerId:"<<(int)timer.getId()<<"\n";
 }
 
 }

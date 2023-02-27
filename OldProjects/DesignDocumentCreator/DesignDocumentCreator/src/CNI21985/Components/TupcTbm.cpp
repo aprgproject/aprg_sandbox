@@ -512,26 +512,24 @@ void TupcTbm::handleMessageEvent(GenericMessage const& genericMessage)
         handleTransportConnectionTransferResp(genericMessage);
         break;
     default:
-        cout<<"No handler for messageName: "<<genericMessage.getMessageNameInString()<<" in component: "<<getComponentNameInString()<<endl;
+        cout<<"No handler for messageName: "<<genericMessage.getMessageNameInString()<<" in component: "<<getComponentNameInString()<<"\n";
     }
 }
 
 void TupcTbm::handleTimerEvent(Timer const& timer)
 {
-    cout<<"Handle Timer, timerType: "<<convertToString(timer.getType())<<" timerId:"<<(int)timer.getId()<<endl;
+    cout<<"Handle Timer, timerType: "<<convertToString(timer.getType())<<" timerId:"<<(int)timer.getId()<<"\n";
 }
 
-void TupcTbm::handleOtherEvent(OtherEvent const& otherEvent)
-{
+void TupcTbm::handleOtherEvent(OtherEvent const& otherEvent){
    switch(otherEvent.getType())
    {
    case OtherEventType::MainProcessStartup:
        handleStartup();
        break;
    default:
-       cout<<"No handler for handleOtherEvent "<<endl;
+       cout<<"No handler for handleOtherEvent \n";
        break;
    }
 }
-
 }

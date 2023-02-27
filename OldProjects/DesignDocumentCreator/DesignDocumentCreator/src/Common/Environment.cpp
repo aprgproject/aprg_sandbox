@@ -67,14 +67,13 @@ void Environment::performSend(GenericMessage const& messageToRoute)
     Component* receiverComponent = getComponentPointer(receiver);
     if(nullptr == receiverComponent)
     {
-        cout<<"["<<senderNameString<<"] sends the message ["<<messageToRoute.getMessageNameInString()<<"] to an invalid receiver ["<<receiverNameString<<"]"<<endl;
+        cout<<"["<<senderNameString<<"] sends the message ["<<messageToRoute.getMessageNameInString()<<"] to an invalid receiver ["<<receiverNameString<<"]\n";
     }
     else
     {
-        cout<<"["<<senderNameString<<"] sends the message ["<<messageToRoute.getMessageNameInString()<<"] to ["<<receiverNameString<<"]"<<endl;
+        cout<<"["<<senderNameString<<"] sends the message ["<<messageToRoute.getMessageNameInString()<<"] to ["<<receiverNameString<<"]\n";
         getUmlLogger().logMessage(senderNameString, receiverNameString, messageToRoute.getMessageNameInString());
         receiverComponent->pushBackEvent(Event(messageToRoute));
-    }
-}
+    }}
 
 }

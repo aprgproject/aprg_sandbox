@@ -29,26 +29,24 @@ void TupcIlm::handleMessageEvent(GenericMessage const& genericMessage)
     switch(messageName)
     {
     default:
-        cout<<"No handler for messageName: "<<genericMessage.getMessageNameInString()<<" in component: "<<getComponentNameInString()<<endl;
+        cout<<"No handler for messageName: "<<genericMessage.getMessageNameInString()<<" in component: "<<getComponentNameInString()<<"\n";
     }
 }
 
 void TupcIlm::handleTimerEvent(Timer const& timer)
 {
-    cout<<"Handle Timer, timerType: "<<convertToString(timer.getType())<<" timerId:"<<(int)timer.getId()<<endl;
+    cout<<"Handle Timer, timerType: "<<convertToString(timer.getType())<<" timerId:"<<(int)timer.getId()<<"\n";
 }
 
- void TupcIlm::handleOtherEvent(OtherEvent const& otherEvent)
-{
+ void TupcIlm::handleOtherEvent(OtherEvent const& otherEvent){
     switch(otherEvent.getType())
     {
     case OtherEventType::MainProcessStartup:
         handleStartup();
         break;
     default:
-        cout<<"No handler for handleOtherEvent "<<endl;
+        cout<<"No handler for handleOtherEvent \n";
         break;
     }
 }
-
 }

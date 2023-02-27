@@ -124,17 +124,17 @@ void Component::handleEvent(Event const& event)
 
 void Component::handleMessageEvent(GenericMessage const& genericMessage)
 {
-    cout<<"Message event not handled. MessageName: "<<(int)genericMessage.getMessageName()<<endl;
+    cout<<"Message event not handled. MessageName: "<<(int)genericMessage.getMessageName()<<"\n";
 }
 
 void Component::handleTimerEvent(Timer const& timer)
 {
-    cout<<"Timer event not handled. Type: "<<(int)timer.getType()<<" Id:"<<(int)timer.getId()<<endl;
+    cout<<"Timer event not handled. Type: "<<(int)timer.getType()<<" Id:"<<(int)timer.getId()<<"\n";
 }
 
 void Component::handleOtherEvent(OtherEvent const& otherEvent)
 {
-    cout<<"Timer event not handled. Type: "<<(int)otherEvent.getType()<<endl;
+    cout<<"Timer event not handled. Type: "<<(int)otherEvent.getType()<<"\n";
 }
 
 }
