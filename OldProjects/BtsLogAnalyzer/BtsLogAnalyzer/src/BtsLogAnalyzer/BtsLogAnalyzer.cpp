@@ -27,45 +27,40 @@ BtsLogAnalyzer::BtsLogAnalyzer(string const& pathOfOutputFile)
 {
     if(m_outputStream.is_open())
     {
-        cout<<"OutputStream is opened. Saving to output files"<<endl;
+        cout<<"OutputStream is opened. Saving to output files"<<"\n";
     }
 }
 
 void BtsLogAnalyzer::processFileForToCountUsersWithTracing(string const& filePath)
 {
     AlbaLocalPathHandler filePathHandler(filePath);
-    cout<<"processFile: "<<filePathHandler.getFullPath()<<endl;
+    cout<<"processFile: "<<filePathHandler.getFullPath()<<"\n";
 
     ifstream inputLogFileStream(filePath);
-    AlbaFileReader fileReader(inputLogFileStream);
-    set<int> usersWithTracing;
+    AlbaFileReader fileReader(inputLogFileStream);    set<int> usersWithTracing;
     while(fileReader.isNotFinished())
     {
-        string lineInLogs(fileReader.getLineAndIgnoreWhiteSpaces());
-        if(stringHelper::isStringFoundInsideTheOtherStringCaseSensitive(lineInLogs, "RLH sends BB_UE_TRACING_REPORT_IND_MSG (0x515D)"))
+        string lineInLogs(fileReader.getLineAndIgnoreWhiteSpaces());        if(stringHelper::isStringFoundInsideTheOtherStringCaseSensitive(lineInLogs, "RLH sends BB_UE_TRACING_REPORT_IND_MSG (0x515D)"))
         {
             int msgType = stringHelper::convertHexStringToNumber<int>(getNumberAfterThisString(lineInLogs, "msgType: 0x"));
             int nbccId = stringHelper::convertStringToNumber<int>(getNumberAfterThisString(lineInLogs, "nbccId: "));
             if(msgType == 0x1200)
             {
                 usersWithTracing.emplace(nbccId);
-                cout<<"msgType: "<<msgType<<" nbccId: "<<nbccId<<" number of usersWithTracing: "<<usersWithTracing.size()<<endl;
+                cout<<"msgType: "<<msgType<<" nbccId: "<<nbccId<<" number of usersWithTracing: "<<usersWithTracing.size()<<"\n";
             }
             else if(msgType == 0x1300)
-            {
-                if(usersWithTracing.find(nbccId)!=usersWithTracing.end())
+            {                if(usersWithTracing.find(nbccId)!=usersWithTracing.end())
                 {
                     usersWithTracing.erase(nbccId);
                 }
-                cout<<"msgType: "<<msgType<<" nbccId: "<<nbccId<<" number of usersWithTracing: "<<usersWithTracing.size()<<endl;
+                cout<<"msgType: "<<msgType<<" nbccId: "<<nbccId<<" number of usersWithTracing: "<<usersWithTracing.size()<<"\n";
             }
         }
-    }
-}
+    }}
 
 void BtsLogAnalyzer::processDirectoryForWireSharkDelay(string const& directoryPath)
-{
-    set<string> listOfFiles;
+{    set<string> listOfFiles;
     set<string> listOfDirectories;
     AlbaLocalPathHandler(directoryPath).findFilesAndDirectoriesUnlimitedDepth("*.*", listOfFiles, listOfDirectories);
     for(string const& filePath : listOfFiles)
@@ -77,24 +72,21 @@ void BtsLogAnalyzer::processDirectoryForWireSharkDelay(string const& directoryPa
 void BtsLogAnalyzer::processFileForWireSharkDelay(string const& filePath)
 {
     m_wireSharkDelays.clear();
-    cout<<"processFile: "<<AlbaLocalPathHandler(filePath).getFile()<<endl;
+    cout<<"processFile: "<<AlbaLocalPathHandler(filePath).getFile()<<"\n";
 
     ifstream inputLogFileStream(filePath);
-    AlbaFileReader fileReader(inputLogFileStream);
-    optional<double> startTimeFetchedOptional;
+    AlbaFileReader fileReader(inputLogFileStream);    optional<double> startTimeFetchedOptional;
     optional<double> endTimeFetchedOptional;
 
     if(!inputLogFileStream.is_open())
     {
-        cout<<"Cannot open file: "<<filePath<<endl;
+        cout<<"Cannot open file: "<<filePath<<"\n";
     }
     while(fileReader.isNotFinished())
-    {
-        string lineInLogs(fileReader.getLineAndIgnoreWhiteSpaces());
+    {        string lineInLogs(fileReader.getLineAndIgnoreWhiteSpaces());
         if(stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, R"(id-radioLinkSetup , RadioLinkSetupRequestFDD)"))
         {
-            startTimeFetchedOptional = getWireSharkTime(lineInLogs);
-        }
+            startTimeFetchedOptional = getWireSharkTime(lineInLogs);        }
         else if(stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, R"(id-radioLinkSetup , RadioLinkSetupResponseFDD)"))
         {
             endTimeFetchedOptional = getWireSharkTime(lineInLogs);
@@ -119,31 +111,27 @@ void BtsLogAnalyzer::processFileForWireSharkDelay(string const& filePath)
                 double delay = delayForCrnccId.endTimeOptional.value() - delayForCrnccId.startTimeOptional.value();
                 m_totalDelay += delay;
                 m_count++;
-                m_outputStream<<crnccId<<","<<setw(10)<<delay<<endl;
-                //cout<<"CrnccId: "<<crnccId<<" Delay: "<<delay<<" count: "<<m_count<<" totalDelay: "<<m_totalDelay<<endl;
+                m_outputStream<<crnccId<<","<<setw(10)<<delay<<"\n";
+                //cout<<"CrnccId: "<<crnccId<<" Delay: "<<delay<<" count: "<<m_count<<" totalDelay: "<<m_totalDelay<<"\n";
                 m_wireSharkDelays.erase(crnccId);
             }
-        }
-        else if(stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, R"(No.     Time)"))
+        }        else if(stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, R"(No.     Time)"))
         {
             startTimeFetchedOptional.reset();
-            endTimeFetchedOptional.reset();
-        }
+            endTimeFetchedOptional.reset();        }
     }
 }
 
 void BtsLogAnalyzer::processFileForMsgQueuingTime(string const& filePath)
 {
     AlbaLocalPathHandler filePathHandler(filePath);
-    cout<<"processFile: "<<filePathHandler.getFullPath()<<endl;
+    cout<<"processFile: "<<filePathHandler.getFullPath()<<"\n";
 
     ifstream inputLogFileStream(filePath);
-    AlbaFileReader fileReader(inputLogFileStream);
-    int totalMsgQueuingTime = 0;
+    AlbaFileReader fileReader(inputLogFileStream);    int totalMsgQueuingTime = 0;
     int highestMsgQueuingTime = 0;
     int numberOfPrints=0;
-    while(fileReader.isNotFinished())
-    {
+    while(fileReader.isNotFinished())    {
         string lineInLogs(fileReader.getLineAndIgnoreWhiteSpaces());
         if(stringHelper::isStringFoundInsideTheOtherStringCaseSensitive(lineInLogs, "MSG TIME, start queuing time"))
         {
@@ -153,30 +141,27 @@ void BtsLogAnalyzer::processFileForMsgQueuingTime(string const& filePath)
             {
                 highestMsgQueuingTime = msgQueuingTime;
             }
-            m_outputStream<<msgQueuingTime<<","<<lineInLogs<<endl;
+            m_outputStream<<msgQueuingTime<<","<<lineInLogs<<"\n";
             numberOfPrints++;
         }
     }
-    cout<<"TotalMsgQueuingTime: "<<totalMsgQueuingTime<<" highestMsgQueuingTime: "<<highestMsgQueuingTime<<" AverageMsgQueuingTime: "<<((double)totalMsgQueuingTime)/numberOfPrints<<" numberOfPrints: "<<numberOfPrints<<endl;
+    cout<<"TotalMsgQueuingTime: "<<totalMsgQueuingTime<<" highestMsgQueuingTime: "<<highestMsgQueuingTime<<" AverageMsgQueuingTime: "<<((double)totalMsgQueuingTime)/numberOfPrints<<" numberOfPrints: "<<numberOfPrints<<"\n";
 }
-
 
 void BtsLogAnalyzer::processFileForBtsDelayForRlh(string const& filePath)
 {
     AlbaLocalPathHandler filePathHandler(filePath);
     ifstream inputLogFileStream(filePath);
     AlbaFileReader fileReader(inputLogFileStream);
-    cout<<"processFile: "<<filePathHandler.getFullPath() << " isOpen: " << inputLogFileStream.is_open() << " fileReader: " << fileReader.isNotFinished() <<endl;
+    cout<<"processFile: "<<filePathHandler.getFullPath() << " isOpen: " << inputLogFileStream.is_open() << " fileReader: " << fileReader.isNotFinished() <<"\n";
 
-    m_outputStream<<"crnccId,nbccId,transactionId,delay"<<endl;
+    m_outputStream<<"crnccId,nbccId,transactionId,delay"<<"\n";
     while(fileReader.isNotFinished())
     {
-        string lineInLogs(fileReader.getLineAndIgnoreWhiteSpaces());
-        if(stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, R"(CTRL_RLH_RlSetupReq3G)"))
+        string lineInLogs(fileReader.getLineAndIgnoreWhiteSpaces());        if(stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, R"(CTRL_RLH_RlSetupReq3G)"))
         {
             UniqueId uniqueKey;
-            uniqueKey.crnccId = stringHelper::convertStringToNumber<int>(getNumberAfterThisString(lineInLogs, "crnccId: "));
-            uniqueKey.nbccId = stringHelper::convertStringToNumber<int>(getNumberAfterThisString(lineInLogs, "nbccId: "));
+            uniqueKey.crnccId = stringHelper::convertStringToNumber<int>(getNumberAfterThisString(lineInLogs, "crnccId: "));            uniqueKey.nbccId = stringHelper::convertStringToNumber<int>(getNumberAfterThisString(lineInLogs, "nbccId: "));
             uniqueKey.transactionId = stringHelper::convertStringToNumber<int>(getNumberAfterThisString(lineInLogs, "transactionId: "));
             BtsLogDelay & delayForCrnccId = m_btsLogDelays[uniqueKey];
             BtsLogPrint logPrint(lineInLogs);
@@ -202,30 +187,27 @@ void BtsLogAnalyzer::processFileForBtsDelayForRlh(string const& filePath)
             {
                 BtsLogTime delayTime = delayForCrnccId.endTimeOptional.value() - delayForCrnccId.startTimeOptional.value();
                 int delay = static_cast<int>(delayTime.getMicroSeconds()+delayTime.getSeconds()*1000000);
-                //if(uniqueKey.crnccId == 15167){cout<<"crnccId "<<uniqueKey.crnccId<<"nbccId "<<uniqueKey.nbccId<<"delay "<<delay<<"startTimeOptional "<<delayForCrnccId.startTimeOptional.getReference()<<"endTimeOptional "<<delayForCrnccId.endTimeOptional.getReference()<<endl;}
+                //if(uniqueKey.crnccId == 15167){cout<<"crnccId "<<uniqueKey.crnccId<<"nbccId "<<uniqueKey.nbccId<<"delay "<<delay<<"startTimeOptional "<<delayForCrnccId.startTimeOptional.getReference()<<"endTimeOptional "<<delayForCrnccId.endTimeOptional.getReference()<<"\n";}
                 m_totalDelay += delay;
                 m_count++;
-                m_outputStream<<uniqueKey.crnccId<<","<<uniqueKey.nbccId<<","<<uniqueKey.transactionId<<","<<setw(10)<<delay<<endl;
+                m_outputStream<<uniqueKey.crnccId<<","<<uniqueKey.nbccId<<","<<uniqueKey.transactionId<<","<<setw(10)<<delay<<"\n";
                 m_btsLogDelays.erase(uniqueKey);
             }
-        }
-    }
+        }    }
 }
 
 void BtsLogAnalyzer::processFileForBtsDelayForRlDeletion(string const& filePath)
 {
     AlbaLocalPathHandler filePathHandler(filePath);
-    cout<<"processFile: "<<filePathHandler.getFullPath()<<endl;
+    cout<<"processFile: "<<filePathHandler.getFullPath()<<"\n";
 
-    m_outputStream<<"crnccId,nbccId,transactionId,delay"<<endl;
+    m_outputStream<<"crnccId,nbccId,transactionId,delay"<<"\n";
     ifstream inputLogFileStream(filePath);
     AlbaFileReader fileReader(inputLogFileStream);
-    while(fileReader.isNotFinished())
-    {
+    while(fileReader.isNotFinished())    {
         string lineInLogs(fileReader.getLineAndIgnoreWhiteSpaces());
         if(stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, R"(CTRL_RLH_RlDeletionReq3G)"))
-        {
-            UniqueId uniqueKey;
+        {            UniqueId uniqueKey;
             uniqueKey.crnccId = stringHelper::convertStringToNumber<int>(getNumberAfterThisString(lineInLogs, "crnccId: "));
             uniqueKey.nbccId = stringHelper::convertStringToNumber<int>(getNumberAfterThisString(lineInLogs, "nbccId: "));
             uniqueKey.transactionId = stringHelper::convertStringToNumber<int>(getNumberAfterThisString(lineInLogs, "transactionId: "));
@@ -252,40 +234,36 @@ void BtsLogAnalyzer::processFileForBtsDelayForRlDeletion(string const& filePath)
             {
                 BtsLogTime delayTime = delayForCrnccId.endTimeOptional.value() - delayForCrnccId.startTimeOptional.value();
                 int delay = static_cast<int>(delayTime.getMicroSeconds()+delayTime.getSeconds()*1000000);
-                //if(uniqueKey.crnccId == 15167){cout<<"crnccId "<<uniqueKey.crnccId<<"nbccId "<<uniqueKey.nbccId<<"delay "<<delay<<"startTimeOptional "<<delayForCrnccId.startTimeOptional.getReference()<<"endTimeOptional "<<delayForCrnccId.endTimeOptional.getReference()<<endl;}
+                //if(uniqueKey.crnccId == 15167){cout<<"crnccId "<<uniqueKey.crnccId<<"nbccId "<<uniqueKey.nbccId<<"delay "<<delay<<"startTimeOptional "<<delayForCrnccId.startTimeOptional.getReference()<<"endTimeOptional "<<delayForCrnccId.endTimeOptional.getReference()<<"\n";}
                 m_totalDelay += delay;
                 m_count++;
-                m_outputStream<<uniqueKey.crnccId<<","<<uniqueKey.nbccId<<","<<uniqueKey.transactionId<<","<<setw(10)<<delay<<endl;
+                m_outputStream<<uniqueKey.crnccId<<","<<uniqueKey.nbccId<<","<<uniqueKey.transactionId<<","<<setw(10)<<delay<<"\n";
                 m_btsLogDelays.erase(uniqueKey);
             }
-        }
-    }
+        }    }
 }
 
 void BtsLogAnalyzer::processFileForBtsDelayForMikhailKnife(string const& filePath)
 {
     AlbaLocalPathHandler filePathHandler(filePath);
-    cout<<"processFile: "<<filePathHandler.getFullPath()<<endl;
+    cout<<"processFile: "<<filePathHandler.getFullPath()<<"\n";
 
     ifstream inputLogFileStream(filePath);
     AlbaFileReader fileReader(inputLogFileStream);
-
     ofstream grmFetchFileStream(filePathHandler.getDirectory()+R"(grmFetchFileStream.csv)");
     ofstream grmProcessFileStream(filePathHandler.getDirectory()+R"(grmProcessFileStream.csv)");
     ofstream messageDeliveryFileStream(filePathHandler.getDirectory()+R"(messageDeliveryFileStream.csv)");
     ofstream rlSetupFileStream(filePathHandler.getDirectory()+R"(rlSetupFileStream.csv)");
-    grmFetchFileStream<<"crnccId,"<<"nbccId,"<<"transactionId,"<<"difference"<<endl;
-    grmProcessFileStream<<"crnccId,"<<"nbccId,"<<"transactionId,"<<"delay"<<endl;
-    messageDeliveryFileStream<<"crnccId,"<<"nbccId,"<<"transactionId,"<<"delay"<<endl;
-    rlSetupFileStream<<"crnccId,"<<"nbccId,"<<"transactionId,"<<"delay"<<endl;
+    grmFetchFileStream<<"crnccId,"<<"nbccId,"<<"transactionId,"<<"difference"<<"\n";
+    grmProcessFileStream<<"crnccId,"<<"nbccId,"<<"transactionId,"<<"delay"<<"\n";
+    messageDeliveryFileStream<<"crnccId,"<<"nbccId,"<<"transactionId,"<<"delay"<<"\n";
+    rlSetupFileStream<<"crnccId,"<<"nbccId,"<<"transactionId,"<<"delay"<<"\n";
 
     std::map<UniqueId, BtsLogDelay> grmProcessMap;
-    std::map<UniqueId, BtsLogDelay> messageDeliveryMap;
-    std::map<UniqueId, BtsLogDelay> rlSetupMap;
+    std::map<UniqueId, BtsLogDelay> messageDeliveryMap;    std::map<UniqueId, BtsLogDelay> rlSetupMap;
 
     double grmFetchTotal=0;
-    int grmFetchCount=0;
-    double grmProcessTotal=0;
+    int grmFetchCount=0;    double grmProcessTotal=0;
     int grmProcessCount=0;
     double messageDeliveryTotal=0;
     int messageDeliveryCount=0;
@@ -306,15 +284,13 @@ void BtsLogAnalyzer::processFileForBtsDelayForMikhailKnife(string const& filePat
             {
                 grmFetchTotal += difference*1000;
                 grmFetchCount++;
-                grmFetchFileStream<<crnccId<<","<<nbccId<<","<<transactionId<<","<<setw(10)<<difference<<endl;
+                grmFetchFileStream<<crnccId<<","<<nbccId<<","<<transactionId<<","<<setw(10)<<difference<<"\n";
             }
         }
-        else if(stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, R"(INF/TCOM/G, Received API_TCOM_RNC_MSG)"))
-        {
+        else if(stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, R"(INF/TCOM/G, Received API_TCOM_RNC_MSG)"))        {
             uniqueKey.crnccId = stringHelper::convertStringToNumber<int>(getNumberAfterThisString(lineInLogs, "crnccId: "));
             uniqueKey.nbccId = stringHelper::convertStringToNumber<int>(getNumberAfterThisString(lineInLogs, "nbccId: "));
-            uniqueKey.transactionId = stringHelper::convertStringToNumber<int>(getNumberAfterThisString(lineInLogs, "transactionId: "));
-            BtsLogDelay & processMapInstance = grmProcessMap[uniqueKey];
+            uniqueKey.transactionId = stringHelper::convertStringToNumber<int>(getNumberAfterThisString(lineInLogs, "transactionId: "));            BtsLogDelay & processMapInstance = grmProcessMap[uniqueKey];
             BtsLogPrint logPrint(lineInLogs);
             if(!logPrint.getBtsTime().isStartup())
             {
@@ -371,60 +347,54 @@ void BtsLogAnalyzer::processFileForBtsDelayForMikhailKnife(string const& filePat
                 int delay = static_cast<int>(delayTime.getMicroSeconds()+delayTime.getSeconds()*1000000);
                 grmProcessTotal += delay;
                 grmProcessCount++;
-                grmProcessFileStream<<uniqueKey.crnccId<<","<<uniqueKey.nbccId<<","<<uniqueKey.transactionId<<","<<setw(10)<<delay<<endl;
+                grmProcessFileStream<<uniqueKey.crnccId<<","<<uniqueKey.nbccId<<","<<uniqueKey.transactionId<<","<<setw(10)<<delay<<"\n";
             }
             grmProcessMap.erase(uniqueKey);
         }
-
         BtsLogDelay & messageDeliveryInstance = messageDeliveryMap[uniqueKey];
         if(messageDeliveryInstance.startTimeOptional && messageDeliveryInstance.endTimeOptional)
-        {
-            if(messageDeliveryInstance.startTimeOptional.value() < messageDeliveryInstance.endTimeOptional.value())
+        {            if(messageDeliveryInstance.startTimeOptional.value() < messageDeliveryInstance.endTimeOptional.value())
             {
 
                 BtsLogTime delayTime = messageDeliveryInstance.endTimeOptional.value() - messageDeliveryInstance.startTimeOptional.value();
                 int delay = static_cast<int>(delayTime.getMicroSeconds()+delayTime.getSeconds()*1000000);
                 messageDeliveryTotal += delay;
                 messageDeliveryCount++;
-                messageDeliveryFileStream<<uniqueKey.crnccId<<","<<uniqueKey.nbccId<<","<<uniqueKey.transactionId<<","<<setw(10)<<delay<<endl;
+                messageDeliveryFileStream<<uniqueKey.crnccId<<","<<uniqueKey.nbccId<<","<<uniqueKey.transactionId<<","<<setw(10)<<delay<<"\n";
             }
             messageDeliveryMap.erase(uniqueKey);
         }
-
         BtsLogDelay & rlSetupMapInstance = rlSetupMap[uniqueKey];
         if(rlSetupMapInstance.startTimeOptional && rlSetupMapInstance.endTimeOptional)
-        {
-            if(rlSetupMapInstance.startTimeOptional.value() < rlSetupMapInstance.endTimeOptional.value())
+        {            if(rlSetupMapInstance.startTimeOptional.value() < rlSetupMapInstance.endTimeOptional.value())
             {
                 BtsLogTime delayTime = rlSetupMapInstance.endTimeOptional.value() - rlSetupMapInstance.startTimeOptional.value();
                 int delay = static_cast<int>(delayTime.getMicroSeconds()+delayTime.getSeconds()*1000000);
                 rlSetupTotal += delay;
                 rlSetupCount++;
-                rlSetupFileStream<<uniqueKey.crnccId<<","<<uniqueKey.nbccId<<","<<uniqueKey.transactionId<<","<<setw(10)<<delay<<endl;
+                rlSetupFileStream<<uniqueKey.crnccId<<","<<uniqueKey.nbccId<<","<<uniqueKey.transactionId<<","<<setw(10)<<delay<<"\n";
             }
             rlSetupMap.erase(uniqueKey);
         }
     }
-    cout<<"grmFetchTotal: "<<grmFetchTotal<<" count: "<<grmFetchCount<<" average:"<<grmFetchTotal/grmFetchCount<<endl;
-    cout<<"grmProcessTotal: "<<grmProcessTotal<<" count: "<<grmProcessCount<<" average:"<<grmProcessTotal/grmProcessCount<<endl;
-    cout<<"messageDeliveryTotal: "<<messageDeliveryTotal<<" count: "<<messageDeliveryCount<<" average:"<<messageDeliveryTotal/messageDeliveryCount<<endl;
-    cout<<"rlSetupTotal: "<<rlSetupTotal<<" count: "<<rlSetupCount<<" average:"<<rlSetupTotal/rlSetupCount<<endl;
+    cout<<"grmFetchTotal: "<<grmFetchTotal<<" count: "<<grmFetchCount<<" average:"<<grmFetchTotal/grmFetchCount<<"\n";
+    cout<<"grmProcessTotal: "<<grmProcessTotal<<" count: "<<grmProcessCount<<" average:"<<grmProcessTotal/grmProcessCount<<"\n";
+    cout<<"messageDeliveryTotal: "<<messageDeliveryTotal<<" count: "<<messageDeliveryCount<<" average:"<<messageDeliveryTotal/messageDeliveryCount<<"\n";
+    cout<<"rlSetupTotal: "<<rlSetupTotal<<" count: "<<rlSetupCount<<" average:"<<rlSetupTotal/rlSetupCount<<"\n";
 }
 
 void BtsLogAnalyzer::processFileForBtsDelayForGrm(string const& filePath)
 {
     AlbaLocalPathHandler filePathHandler(filePath);
-    cout<<"processFile: "<<filePathHandler.getFullPath()<<endl;
+    cout<<"processFile: "<<filePathHandler.getFullPath()<<"\n";
 
-    m_outputStream<<"crnccId,nbccId,transactionId,delay"<<endl;
+    m_outputStream<<"crnccId,nbccId,transactionId,delay"<<"\n";
     ifstream inputLogFileStream(filePath);
     AlbaFileReader fileReader(inputLogFileStream);
-    while(fileReader.isNotFinished())
-    {
+    while(fileReader.isNotFinished())    {
         string lineInLogs(fileReader.getLineAndIgnoreWhiteSpaces());
         if(stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, R"(INF/TCOM/G, Received API_TCOM_RNC_MSG)"))
-        {
-            int nbccId = stringHelper::convertStringToNumber<int>(getNumberAfterThisString(lineInLogs, "nbccId: "));
+        {            int nbccId = stringHelper::convertStringToNumber<int>(getNumberAfterThisString(lineInLogs, "nbccId: "));
             BtsLogDelay & delayForCrnccId = m_btsLogDelaysGrm[nbccId];
             BtsLogPrint logPrint(lineInLogs);
             if(!logPrint.getBtsTime().isStartup())
@@ -452,15 +422,13 @@ void BtsLogAnalyzer::processFileForBtsDelayForGrm(string const& filePath)
                 {
                     m_totalDelay += delay;
                     m_count++;
-                    m_outputStream<<crnccId<<","<<nbccId<<","<<transactionId<<","<<setw(10)<<delay<<endl;
+                    m_outputStream<<crnccId<<","<<nbccId<<","<<transactionId<<","<<setw(10)<<delay<<"\n";
                 }
                 m_btsLogDelaysGrm.erase(nbccId);
-            }
-        }
+            }        }
         /*else if(stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, R"(INF/TCOM/R, CTRL_RLH_)")
                 || stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, R"(INF/TCOM/R, RLH_CTRL_)")
-                || stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, R"(LRM_RL_)")
-                || stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, R"(TC_2_RL_SETUP_IND_MSG)")
+                || stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, R"(LRM_RL_)")                || stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, R"(TC_2_RL_SETUP_IND_MSG)")
                 || stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, R"(BB_2_RL_)")
                 )
         {
@@ -500,8 +468,7 @@ string BtsLogAnalyzer::getNumberAfterThisString(string const& mainString, string
 
 double BtsLogAnalyzer::getComputedAverageDelay() const
 {
-    cout<<"totalDelay: "<<m_totalDelay<<" count: "<<m_count<<endl;
+    cout<<"totalDelay: "<<m_totalDelay<<" count: "<<m_count<<"\n";
     return (double)m_totalDelay/m_count;
 }
-
 }//namespace alba
