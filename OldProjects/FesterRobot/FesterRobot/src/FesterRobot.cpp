@@ -26,27 +26,25 @@ FesterRobot::FesterRobot(string const& outputPath)
 
 void FesterRobot::run()
 {
-    cout<<"Press the key 'ctrl' to start."<<endl;
+    cout<<"Press the key 'ctrl' to start.\n";
     while(1)
     {
         exitIfSpecialKeyIsPressed();
         if(m_userAutomation.isLetterPressed(VK_CONTROL))
         {
-            cout<<"Starting robot duties."<<endl;
+            cout<<"Starting robot duties.\n";
             setupFesterEnvironmentInMatlab();
 
             for(int filterBitInteger=63; filterBitInteger>0; )
             {
                 updateExcelFile(static_cast<unsigned int>(filterBitInteger));
-                m_outputStream<<"FREQUENCIES BIT: ["<<std::hex<<filterBitInteger<<std::dec<<"]"<<endl;
+                m_outputStream<<"FREQUENCIES BIT: ["<<std::hex<<filterBitInteger<<std::dec<<"]\n";
                 runFesterFunctionInMatlab();
                 if(!m_retryCurrentFrequencies)
-                {
-                    filterBitInteger--;
+                {                    filterBitInteger--;
                 }
             }
-            break;
-        }
+            break;        }
         m_userAutomation.sleep(POLLING_DELAY_TO_WAIT_FOR_START);
     }
     m_userAutomation.setMousePosition(MousePosition(ORIGIN));
@@ -136,30 +134,26 @@ bool FesterRobot::isRunningFinishedInClipboardData(string const& clipboardData) 
                         stringHelper::getStringAfterThisString(
                             stringHelper::getStringInBetweenTwoStrings(clipboardData, "freqBand", "filCoef"), "="))));
     string frequenciesStringForExcel(getFrequenciesStringForExcel());
-    cout<<"freqBandStringInLog: ["<<freqBandStringInLog<<"]"<<endl;
-    cout<<"frequenciesStringForExcel: ["<<frequenciesStringForExcel<<"]"<<endl;
+    cout<<"freqBandStringInLog: ["<<freqBandStringInLog<<"]\n";
+    cout<<"frequenciesStringForExcel: ["<<frequenciesStringForExcel<<"]\n";
     return freqBandStringInLog == frequenciesStringForExcel;
 }
-
 string FesterRobot::getClipboardFormattedData() const
 {
-    string clipboardData(m_userAutomation.getStringFromClipboard());
-    stringHelper::transformReplaceStringIfFound(clipboardData, "\r", "");
+    string clipboardData(m_userAutomation.getStringFromClipboard());    stringHelper::transformReplaceStringIfFound(clipboardData, "\r", "");
     return clipboardData;
 }
 
 void FesterRobot::saveDataToOutputFile(string const& clipboardData)
 {
-    m_outputStream<<"FREQUENCIES: ["<<getFrequenciesStringForExcel()<<"]"<<endl;
-    m_outputStream<<clipboardData<<endl;
+    m_outputStream<<"FREQUENCIES: ["<<getFrequenciesStringForExcel()<<"]\n";
+    m_outputStream<<clipboardData<<"\n";
 }
 
-string FesterRobot::getFrequenciesStringForExcel() const
-{
+string FesterRobot::getFrequenciesStringForExcel() const{
     stringstream frequencyStream;
     for(int frequency : m_frequencies)
-    {
-        frequencyStream << frequency << " ";
+    {        frequencyStream << frequency << " ";
     }
     string frequencyString(frequencyStream.str());
     if(!frequencyString.empty())
