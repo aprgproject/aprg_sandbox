@@ -90,15 +90,13 @@ void HeartTee::processData()
     for(int i=0; i<m_numberOfBytesLeftInProcessBuffer; i++)
     {
         m_process_isStarted = m_process_isStarted || m_process_isStarting;
-        //cout<<"m_process_isStarting"<<m_process_isStarting<<"m_process_state"<<m_process_state<<"m_sfn"<<m_sfn<<"m_numberOfSamples"<<std::hex<<m_numberOfSamples<<"m_processBuffer[i]"<<std::hex<<(int)m_processBuffer[i]<<endl;
+        //cout<<"m_process_isStarting"<<m_process_isStarting<<"m_process_state"<<m_process_state<<"m_sfn"<<m_sfn<<"m_numberOfSamples"<<std::hex<<m_numberOfSamples<<"m_processBuffer[i]"<<std::hex<<(int)m_processBuffer[i]<<"\n";
         if(m_process_isStarting)
         {
-            if(m_process_state==0)
-            {
+            if(m_process_state==0)            {
                 m_sfn = m_processBuffer[i];
             }
-            else if(m_process_state==1)
-            {
+            else if(m_process_state==1)            {
                 m_sfn = m_processBuffer[i]<<8 | m_sfn;
             }
             else if(m_process_state==2)
@@ -210,25 +208,23 @@ void HeartTee::processData()
                 {
                     if(m_process_currentEcg>0x8000 || m_process_currentPulse>0x8000)
                     {
-                        cout<<"m_readBuffer"<<endl;
+                        cout<<"m_readBuffer\n";
                         for(int j=0; j<m_numberOfBytesRead; j++)
                         {
                             cout<<"["<<std::hex<<(int)m_readBuffer[j]<<"]";
                         }
-                        cout<<"m_processBuffer"<<endl;
+                        cout<<"m_processBuffer\n";
                         for(int j=0; j<m_numberOfBytesLeftInProcessBuffer; j++)
                         {
                             cout<<"["<<std::hex<<(int)m_processBuffer[j]<<"]";
                         }
-                        cout<<"m_process_currentEcg:"<<m_process_currentEcg<<" m_process_currentPulse:"<<m_process_currentPulse<<" i:"<<i<<endl;
+                        cout<<"m_process_currentEcg:"<<m_process_currentEcg<<" m_process_currentPulse:"<<m_process_currentPulse<<" i:"<<i<<"\n";
                         exit(0);
                     }
-                    m_dataPerSecond.emplace_back(m_process_currentEcg, m_process_currentPulse);
-                }
+                    m_dataPerSecond.emplace_back(m_process_currentEcg, m_process_currentPulse);                }
             }
         }
-    }
-    m_numberOfBytesLeftInProcessBuffer=0;
+    }    m_numberOfBytesLeftInProcessBuffer=0;
 }
 
 void HeartTee::printDatabase()
@@ -236,19 +232,17 @@ void HeartTee::printDatabase()
     for(HeartTeeData const& data: m_database)
     {
         tm *ltm = localtime(&data.m_timeDate);
-        cout<<"second:"<<ltm->tm_sec<<" m_milliSecond:"<<std::dec<<data.m_milliSecond<<" ecg:"<<std::hex<<data.m_ecg<<" m_pulse:"<<std::hex<<data.m_pulse<<endl;
+        cout<<"second:"<<ltm->tm_sec<<" m_milliSecond:"<<std::dec<<data.m_milliSecond<<" ecg:"<<std::hex<<data.m_ecg<<" m_pulse:"<<std::hex<<data.m_pulse<<"\n";
     }
     /*for(HeartTeeEcgPulse const& dataPerSecond: m_dataPerSecond)
     {
-        cout<<"ecg:"<<std::hex<<dataPerSecond.m_ecg<<" pulse:"<<std::hex<<dataPerSecond.m_pulse<<endl;
+        cout<<"ecg:"<<std::hex<<dataPerSecond.m_ecg<<" pulse:"<<std::hex<<dataPerSecond.m_pulse<<"\n";
     }*/
 
 }
-
 void HeartTee::saveToSql()
 {
-    const int SQLMAXTABLESIZE=100000;
-    const int HIGH_COUNT_ACCEPTABLE=20;
+    const int SQLMAXTABLESIZE=100000;    const int HIGH_COUNT_ACCEPTABLE=20;
     const int HIGH_VALUE=400;
     if(m_database.size()>0)
     {
@@ -283,20 +277,18 @@ void HeartTee::saveToSql()
             }
             m_pulseCount+=pulseCount;
             int pulsePerMin = (int)((double)m_pulseCount*60/m_pulseTime);
-            cout<<"pulsePerMin:"<<std::dec<<pulsePerMin<<" ecg amplitude:"<<std::dec<<maxValue-minValue<<endl;
+            cout<<"pulsePerMin:"<<std::dec<<pulsePerMin<<" ecg amplitude:"<<std::dec<<maxValue-minValue<<"\n";
             for(HeartTeeData const& database : m_database)
             {
-                m_sqlConnect.write(database.m_timeDate, database.m_milliSecond, database.m_pulse, database.m_ecg, pulsePerMin, 0, maxValue-minValue);
-            }
+                m_sqlConnect.write(database.m_timeDate, database.m_milliSecond, database.m_pulse, database.m_ecg, pulsePerMin, 0, maxValue-minValue);            }
             m_database.clear();
 
         }
         else
         {
-            cout << "SQL is full not saving any data" << endl;
+            cout << "SQL is full not saving any data\n";
         }
     }
 }
-
 
 }
