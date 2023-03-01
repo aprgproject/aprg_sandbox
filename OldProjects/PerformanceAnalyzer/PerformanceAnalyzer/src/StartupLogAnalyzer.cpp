@@ -89,15 +89,13 @@ void StartupLogAnalyzer::saveDataTimeToCsv(ofstream & outputCsvFileStream, strin
     {
         outputCsvFileStream << value << ",";
     }
-    outputCsvFileStream << endl;
+    outputCsvFileStream << "\n";
 }
 
-void StartupLogAnalyzer::processFileWithSortedPrints(std::string const& pathOfBtsSortedLog)
-{
+void StartupLogAnalyzer::processFileWithSortedPrints(std::string const& pathOfBtsSortedLog){
     clear();
 
-    m_btsLogPathHandler.input(pathOfBtsSortedLog);
-    ifstream inputLogFileStream(m_btsLogPathHandler.getFullPath());
+    m_btsLogPathHandler.input(pathOfBtsSortedLog);    ifstream inputLogFileStream(m_btsLogPathHandler.getFullPath());
 
     cout.precision(20);
     AlbaFileReader fileReader(inputLogFileStream);
@@ -123,390 +121,354 @@ void StartupLogAnalyzer::analyzeStartupDelays(string const& lineInLogs, BtsLogTi
                 isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, R"(/WTS/)") &&
                 isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, R"(TC_HW_CONFIGURATION_MSG)"))
         {
-            cout<<"Log: ["<<lineInLogs<<"]"<<endl<<endl;
+            cout<<"Log: ["<<lineInLogs<<"]\n\n";
             previousNotableTime = logTimeInLogs;
             m_firstLogTime = logTimeInLogs;
-            state++;
-        }
+            state++;        }
         else if(state==2 &&
                 (isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, R"(/WTS/)") &&
-//                 isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, R"(PrintHwConfigurationChangeMsg(), hardware: WspUnit)") &&
-                 isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, R"(TC_HW_CONFIGURATION_CHANGE_MSG for dsp)") &&
+//                 isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, R"(PrintHwConfigurationChangeMsg(), hardware: WspUnit)") &&                 isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, R"(TC_HW_CONFIGURATION_CHANGE_MSG for dsp)") &&
                  isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, R"(isUnitAvailable: Available)")))
         {
             double firstDspToBecomeAvailableTime = getTotalSeconds(previousNotableTime, logTimeInLogs);
-            cout<<m_firstDspToBecomeAvailableTimeDescriptionString<<firstDspToBecomeAvailableTime<<endl;
-            cout<<"Log: ["<<lineInLogs<<"]"<<endl<<endl;
+            cout<<m_firstDspToBecomeAvailableTimeDescriptionString<<firstDspToBecomeAvailableTime<<"\n";
+            cout<<"Log: ["<<lineInLogs<<"]\n\n";
             m_firstDspToBecomeAvailableTime.emplace_back(firstDspToBecomeAvailableTime);
             previousNotableTime = logTimeInLogs;
-            state++;
-        }
+            state++;        }
         else if(state==3 &&
                 isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, R"(/TCOM/)") &&
                 isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, R"(Entering state: InitialHWConfiguration)"))
         {
             double allDspsBecomeAvailableTime=getTotalSeconds(previousNotableTime, logTimeInLogs);
-            cout<<m_allDspsBecomeAvailableTimeDescriptionString<<allDspsBecomeAvailableTime<<endl;
-            cout<<"Log: ["<<lineInLogs<<"]"<<endl<<endl;
+            cout<<m_allDspsBecomeAvailableTimeDescriptionString<<allDspsBecomeAvailableTime<<"\n";
+            cout<<"Log: ["<<lineInLogs<<"]\n\n";
             m_allDspsBecomeAvailableTime.emplace_back(allDspsBecomeAvailableTime);
             previousNotableTime = logTimeInLogs;
-            state=6;
-        }/*
+            state=6;        }/*
         else if(state==4 &&
                 isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, R"(/TCOM/)") &&
                 isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, R"(sending API_SET_SRIO_ROUTE_REQ_MSG)"))
         {
             double processingAndMessagingDelay=getTotalSeconds(previousNotableTime, logTimeInLogs);
-            cout<<"Processing and messaging delay time: "<<processingAndMessagingDelay<<endl;
-            cout<<"Log: ["<<lineInLogs<<"]"<<endl<<endl;
+            cout<<"Processing and messaging delay time: "<<processingAndMessagingDelay<<"\n";
+            cout<<"Log: ["<<lineInLogs<<"]\n\n";
             m_processingAndMessagingTotalDelay += getTotalSeconds(previousNotableTime, logTimeInLogs);
             previousNotableTime = logTimeInLogs;
-            state++;
-        }
+            state++;        }
         else if(state==5 &&
                 isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, R"(/TCOM/)") &&
                 (isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, R"(CHwapiSrioServiceAgent, Error: Timeout())")
                  || isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, R"(API_SET_SRIO_ROUTE_RESP_MSG)")))
         {
             double settingSrioRoutesTime=getTotalSeconds(previousNotableTime, logTimeInLogs);
-            cout<<m_settingSrioRoutesTimeDescriptionString<<settingSrioRoutesTime<<endl;
-            cout<<"Log: ["<<lineInLogs<<"]"<<endl<<endl;
+            cout<<m_settingSrioRoutesTimeDescriptionString<<settingSrioRoutesTime<<"\n";
+            cout<<"Log: ["<<lineInLogs<<"]\n\n";
             m_settingSrioRoutesTime.emplace_back(settingSrioRoutesTime);
             previousNotableTime = logTimeInLogs;
-            state++;
-        }*/
+            state++;        }*/
         else if(state==6 &&
                 (isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, R"(/TCOM/)")
                  || isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, R"(/WTS/)")) &&
                 isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, R"(TC_BASEBAND_ALLOCATION_REQ_MSG)"))
         {
             double processingAndMessagingDelay=getTotalSeconds(previousNotableTime, logTimeInLogs);
-            cout<<"Processing and messaging delay time: "<<processingAndMessagingDelay<<endl;
-            cout<<"Log: ["<<lineInLogs<<"]"<<endl<<endl;
+            cout<<"Processing and messaging delay time: "<<processingAndMessagingDelay<<"\n";
+            cout<<"Log: ["<<lineInLogs<<"]\n\n";
             m_processingAndMessagingTotalDelay += getTotalSeconds(previousNotableTime, logTimeInLogs);
             previousNotableTime = logTimeInLogs;
-            state++;
-        }
+            state++;        }
         else if(state==7 &&
                 (isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, R"(/TCOM/)")
                  || isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, R"(/WTS/)")) &&
                 isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, R"(TC_BASEBAND_ALLOCATION_RESP_MSG)"))
         {
             double basebandAllocationRequestResponseTime=getTotalSeconds(previousNotableTime, logTimeInLogs);
-            cout<<m_basebandAllocationRequestResponseTimeDescriptionString<<basebandAllocationRequestResponseTime<<endl;
-            cout<<"Log: ["<<lineInLogs<<"]"<<endl<<endl;
+            cout<<m_basebandAllocationRequestResponseTimeDescriptionString<<basebandAllocationRequestResponseTime<<"\n";
+            cout<<"Log: ["<<lineInLogs<<"]\n\n";
             m_basebandAllocationRequestResponseTime.emplace_back(basebandAllocationRequestResponseTime);
             previousNotableTime = logTimeInLogs;
-            state++;
-        }
+            state++;        }
         else if(state==8 &&
                 isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, R"(/TCOM/)") &&
                 isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, R"(MODE_CHANGE_REQ_MSG)"))
         {
             double firstDspModeChangeFromFirstDspAvailable=getTotalSeconds(previousNotableTime, logTimeInLogs);
-            cout<<m_firstDspModeChangeFromFirstDspAvailableDescriptionString<<firstDspModeChangeFromFirstDspAvailable<<endl;
-            cout<<"Log: ["<<lineInLogs<<"]"<<endl<<endl;
+            cout<<m_firstDspModeChangeFromFirstDspAvailableDescriptionString<<firstDspModeChangeFromFirstDspAvailable<<"\n";
+            cout<<"Log: ["<<lineInLogs<<"]\n\n";
             m_firstDspModeChangeFromFirstDspAvailable.emplace_back(firstDspModeChangeFromFirstDspAvailable);
             previousNotableTime = logTimeInLogs;
-            state++;
-        }
+            state++;        }
         else if(state==9 &&
                 isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, R"(/TCOM/)") &&
                 isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, R"(MODE_CHANGE_RESP_MSG)"))
         {
             double firstModeChangeTime = getTotalSeconds(previousNotableTime, logTimeInLogs);
-            cout<<m_firstModeChangeTimeDescriptionString<<firstModeChangeTime<<endl;
-            cout<<"Log: ["<<lineInLogs<<"]"<<endl<<endl;
+            cout<<m_firstModeChangeTimeDescriptionString<<firstModeChangeTime<<"\n";
+            cout<<"Log: ["<<lineInLogs<<"]\n\n";
             m_firstModeChangeTime.emplace_back(firstModeChangeTime);
             previousNotableTime = logTimeInLogs;
-            state++;
-        }
+            state++;        }
         else if(state==10 &&
                 isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, R"(/TCOM/)") &&
                 isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, R"(TC_STARTUP_ALLOCATION_DONE_IND_MSG)"))
         {
             double startupAllocationTimeAfterModeChange = getTotalSeconds(previousNotableTime, logTimeInLogs);
-            cout<<m_startupAllocationTimeAfterModeChangeDescriptionString<<startupAllocationTimeAfterModeChange<<endl;
-            cout<<"Log: ["<<lineInLogs<<"]"<<endl<<endl;
+            cout<<m_startupAllocationTimeAfterModeChangeDescriptionString<<startupAllocationTimeAfterModeChange<<"\n";
+            cout<<"Log: ["<<lineInLogs<<"]\n\n";
             m_startupAllocationTimeAfterModeChange.emplace_back(startupAllocationTimeAfterModeChange);
             previousNotableTime = logTimeInLogs;
-            state=14;
-        }
+            state=14;        }
         /*else if(state==11 &&
                 isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, R"(/TCOM/)") &&
                 isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, R"(TC_GRM_TOAM_LICENCE_READY_IND_MSG)"))
         {
             double remainingLicenseExchangesTime = getTotalSeconds(previousNotableTime, logTimeInLogs);
-            cout<<m_remainingLicenseExchangesTimeDescriptionString<<remainingLicenseExchangesTime<<endl;
-            cout<<"Log: ["<<lineInLogs<<"]"<<endl<<endl;
+            cout<<m_remainingLicenseExchangesTimeDescriptionString<<remainingLicenseExchangesTime<<"\n";
+            cout<<"Log: ["<<lineInLogs<<"]\n\n";
             m_remainingLicenseExchangesTime.emplace_back(remainingLicenseExchangesTime);
             previousNotableTime = logTimeInLogs;
-            state++;
-        }
+            state++;        }
         else if(state==12 &&
                 isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, R"(/TCOM/)") &&
                 isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, R"(API_TCOM_RNC_CNBAP_MSG 0x1B3A, SendResetRequest())"))
         {
             double processingAndMessagingDelay=getTotalSeconds(previousNotableTime, logTimeInLogs);
-            cout<<"Processing and messaging delay time: "<<processingAndMessagingDelay<<endl;
-            cout<<"Log: ["<<lineInLogs<<"]"<<endl<<endl;
+            cout<<"Processing and messaging delay time: "<<processingAndMessagingDelay<<"\n";
+            cout<<"Log: ["<<lineInLogs<<"]\n\n";
             m_processingAndMessagingTotalDelay += getTotalSeconds(previousNotableTime, logTimeInLogs);
             previousNotableTime = logTimeInLogs;
-            state++;
-        }
+            state++;        }
         else if(state==13 &&
                 isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, R"(/TCOM/)") &&
                 isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, R"(Decoded ResetResponse3G)"))
         {
             double resetRequestResponseWithRncTime = getTotalSeconds(previousNotableTime, logTimeInLogs);
-            cout<<m_resetRequestResponseWithRncTimeDescriptionString<<resetRequestResponseWithRncTime<<endl;
-            cout<<"Log: ["<<lineInLogs<<"]"<<endl<<endl;
+            cout<<m_resetRequestResponseWithRncTimeDescriptionString<<resetRequestResponseWithRncTime<<"\n";
+            cout<<"Log: ["<<lineInLogs<<"]\n\n";
             m_resetRequestResponseWithRncTime.emplace_back(resetRequestResponseWithRncTime);
             previousNotableTime = logTimeInLogs;
-            state++;
-        }*/
+            state++;        }*/
         else if(state==14 &&
                 isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, R"(/TCOM/)") &&
                 isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, R"(CAuditHandler, HandleAuditRequest())"))
         {
             double processingAndMessagingDelay=getTotalSeconds(previousNotableTime, logTimeInLogs);
-            cout<<"Processing and messaging delay time: "<<processingAndMessagingDelay<<endl;
-            cout<<"Log: ["<<lineInLogs<<"]"<<endl<<endl;
+            cout<<"Processing and messaging delay time: "<<processingAndMessagingDelay<<"\n";
+            cout<<"Log: ["<<lineInLogs<<"]\n\n";
             m_processingAndMessagingTotalDelay += getTotalSeconds(previousNotableTime, logTimeInLogs);
             previousNotableTime = logTimeInLogs;
-            state++;
-        }
+            state++;        }
         else if(state==15 &&
                 isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, R"(/TCOM/)") &&
                 isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, R"(API_TCOM_RNC_CNBAP_MSG 0x1B3A, SendAuditResponse())"))
         {
             double auditRequestResponseWithRncTime = getTotalSeconds(previousNotableTime, logTimeInLogs);
-            cout<<m_auditRequestResponseWithRncTimeDescriptionString<<auditRequestResponseWithRncTime<<endl;
-            cout<<"Log: ["<<lineInLogs<<"]"<<endl<<endl;
+            cout<<m_auditRequestResponseWithRncTimeDescriptionString<<auditRequestResponseWithRncTime<<"\n";
+            cout<<"Log: ["<<lineInLogs<<"]\n\n";
             m_auditRequestResponseWithRncTime.emplace_back(auditRequestResponseWithRncTime);
             previousNotableTime = logTimeInLogs;
-            state++;
-        }
+            state++;        }
         else if(state==14 &&
                 isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, R"(/TCOM/)") &&
                 isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, R"(API_TCOM_RNC_CNBAP_MSG 0x1B3A, SendResourceStatusIndicationNF)"))
         {
             double processingAndMessagingDelay=getTotalSeconds(previousNotableTime, logTimeInLogs);
-            cout<<"Processing and messaging delay time: "<<processingAndMessagingDelay<<endl;
-            cout<<"Log: ["<<lineInLogs<<"]"<<endl<<endl;
+            cout<<"Processing and messaging delay time: "<<processingAndMessagingDelay<<"\n";
+            cout<<"Log: ["<<lineInLogs<<"]\n\n";
             m_processingAndMessagingTotalDelay += getTotalSeconds(previousNotableTime, logTimeInLogs);
             previousNotableTime = logTimeInLogs;
-            state++;
-        }
+            state++;        }
         else if(state==15 &&
                 isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, R"(/TCOM/)") &&
                 isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, R"(API_TCOM_RNC_CNBAP_MSG 0x1B3A, SendCapabilityIndication())"))
         {
             double processingAndMessagingDelay=getTotalSeconds(previousNotableTime, logTimeInLogs);
-            cout<<"Processing and messaging delay time: "<<processingAndMessagingDelay<<endl;
-            cout<<"Log: ["<<lineInLogs<<"]"<<endl<<endl;
+            cout<<"Processing and messaging delay time: "<<processingAndMessagingDelay<<"\n";
+            cout<<"Log: ["<<lineInLogs<<"]\n\n";
             m_processingAndMessagingTotalDelay += getTotalSeconds(previousNotableTime, logTimeInLogs);
             previousNotableTime = logTimeInLogs;
-            state++;
-        }
+            state++;        }
         //old stuffs
         else if(state==16 &&
                 isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, R"(/TCOM/)") &&
                 isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, R"(NBAP Procedure code 5,)"))
         {
             double auditToFirstCellSetupTime = getTotalSeconds(previousNotableTime, logTimeInLogs);
-            cout<<m_auditToFirstCellSetupTimeDescriptionString<<auditToFirstCellSetupTime<<endl;
-            cout<<"Log: ["<<lineInLogs<<"]"<<endl<<endl;
+            cout<<m_auditToFirstCellSetupTimeDescriptionString<<auditToFirstCellSetupTime<<"\n";
+            cout<<"Log: ["<<lineInLogs<<"]\n\n";
             m_auditToFirstCellSetupTime.emplace_back(auditToFirstCellSetupTime);
             previousNotableTime = logTimeInLogs;
-            state++;
-        }
+            state++;        }
         else if(state==17 &&
                 isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, R"(/TCOM/)") &&
                 isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, R"(TC_DMGR_CELL_SETUP_REQ_MSG)"))
         {
             double cellAllocationInTelecomTime = getTotalSeconds(previousNotableTime, logTimeInLogs);
-            cout<<m_cellAllocationInTelecomTimeDescriptionString<<cellAllocationInTelecomTime<<endl;
-            cout<<"Log: ["<<lineInLogs<<"]"<<endl<<endl;
+            cout<<m_cellAllocationInTelecomTimeDescriptionString<<cellAllocationInTelecomTime<<"\n";
+            cout<<"Log: ["<<lineInLogs<<"]\n\n";
             m_cellAllocationInTelecomTime.emplace_back(cellAllocationInTelecomTime);
             previousNotableTime = logTimeInLogs;
-            state++;
-        }
+            state++;        }
         else if(state==18 &&
                 isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, R"(/TCOM/)") &&
                 isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, R"(TC_DMGR_CELL_SETUP_RESP_MSG)"))
         {
             double cellSetupInDspTime = getTotalSeconds(previousNotableTime, logTimeInLogs);
-            cout<<m_antennaCarrierSetupRequestResponseTimeDescriptionString<<cellSetupInDspTime<<endl;
-            cout<<"Log: ["<<lineInLogs<<"]"<<endl<<endl;
+            cout<<m_antennaCarrierSetupRequestResponseTimeDescriptionString<<cellSetupInDspTime<<"\n";
+            cout<<"Log: ["<<lineInLogs<<"]\n\n";
             m_cellSetupInDspTime.emplace_back(cellSetupInDspTime);
             previousNotableTime = logTimeInLogs;
-            state++;
-        }
+            state++;        }
         else if(state==19 &&
                 isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, R"(/TCOM/)") &&
                 isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, R"(ANTENNA_CARRIER_SETUP_REQ)"))
         {
             double processingAndMessagingDelay=getTotalSeconds(previousNotableTime, logTimeInLogs);
-            cout<<"Processing and messaging delay time: "<<processingAndMessagingDelay<<endl;
-            cout<<"Log: ["<<lineInLogs<<"]"<<endl<<endl;
+            cout<<"Processing and messaging delay time: "<<processingAndMessagingDelay<<"\n";
+            cout<<"Log: ["<<lineInLogs<<"]\n\n";
             m_processingAndMessagingTotalDelay += getTotalSeconds(previousNotableTime, logTimeInLogs);
             previousNotableTime = logTimeInLogs;
-            state++;
-        }
+            state++;        }
         else if(state==20 &&
                 isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, R"(/TCOM/)") &&
                 isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, R"(ANTENNA_CARRIER_SETUP_REPLY)"))
         {
             double antennaCarrierSetupRequestResponseTime = getTotalSeconds(previousNotableTime, logTimeInLogs);
-            cout<<m_antennaCarrierActivateRequestResponseTimeDescriptionString<<antennaCarrierSetupRequestResponseTime<<endl;
-            cout<<"Log: ["<<lineInLogs<<"]"<<endl<<endl;
+            cout<<m_antennaCarrierActivateRequestResponseTimeDescriptionString<<antennaCarrierSetupRequestResponseTime<<"\n";
+            cout<<"Log: ["<<lineInLogs<<"]\n\n";
             m_antennaCarrierSetupRequestResponseTime.emplace_back(antennaCarrierSetupRequestResponseTime);
             previousNotableTime = logTimeInLogs;
-            state++;
-        }
+            state++;        }
         else if(state==21 &&
                 isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, R"(/TCOM/)") &&
                 isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, R"(ANTENNA_CARRIER_ACTIVATE_REQ)"))
         {
             double processingAndMessagingDelay=getTotalSeconds(previousNotableTime, logTimeInLogs);
-            cout<<m_commonChannelsSetupInDspDescriptionString<<processingAndMessagingDelay<<endl;
-            cout<<"Log: ["<<lineInLogs<<"]"<<endl<<endl;
+            cout<<m_commonChannelsSetupInDspDescriptionString<<processingAndMessagingDelay<<"\n";
+            cout<<"Log: ["<<lineInLogs<<"]\n\n";
             m_processingAndMessagingTotalDelay += getTotalSeconds(previousNotableTime, logTimeInLogs);
             previousNotableTime = logTimeInLogs;
-            state++;
-        }
+            state++;        }
         else if(state==22 &&
                 isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, R"(/TCOM/)") &&
                 isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, R"(ANTENNA_CARRIER_ACTIVATE_REPLY)"))
         {
             double antennaCarrierActivateRequestResponseTime = getTotalSeconds(previousNotableTime, logTimeInLogs);
-            cout<<m_antennaCarrierActivateRequestResponseTimeDescriptionString<<antennaCarrierActivateRequestResponseTime<<endl;
-            cout<<"Log: ["<<lineInLogs<<"]"<<endl<<endl;
+            cout<<m_antennaCarrierActivateRequestResponseTimeDescriptionString<<antennaCarrierActivateRequestResponseTime<<"\n";
+            cout<<"Log: ["<<lineInLogs<<"]\n\n";
             m_antennaCarrierActivateRequestResponseTime.emplace_back(antennaCarrierActivateRequestResponseTime);
             previousNotableTime = logTimeInLogs;
-            state++;
-        }
+            state++;        }
         else if(state==23 &&
                 isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, R"(/TCOM/)") &&
                 isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, R"(TC_DMGR_COMMON_CHANNEL_SETUP_REQ_MSG)"))
         {
             double processingAndMessagingDelay=getTotalSeconds(previousNotableTime, logTimeInLogs);
-            cout<<"Processing and messaging delay time: "<<processingAndMessagingDelay<<endl;
-            cout<<"Log: ["<<lineInLogs<<"]"<<endl<<endl;
+            cout<<"Processing and messaging delay time: "<<processingAndMessagingDelay<<"\n";
+            cout<<"Log: ["<<lineInLogs<<"]\n\n";
             m_processingAndMessagingTotalDelay += getTotalSeconds(previousNotableTime, logTimeInLogs);
             previousNotableTime = logTimeInLogs;
-            state++;
-        }
+            state++;        }
         else if(state==24 &&
                 isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, R"(/TCOM/)") &&
                 isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, R"(TC_DMGR_COMMON_CHANNEL_SETUP_RESP_MSG)"))
         {
             double commonChannelsSetupInDsp = getTotalSeconds(previousNotableTime, logTimeInLogs);
-            cout<<m_commonChannelsSetupInDspDescriptionString<<commonChannelsSetupInDsp<<endl;
-            cout<<"Log: ["<<lineInLogs<<"]"<<endl<<endl;
+            cout<<m_commonChannelsSetupInDspDescriptionString<<commonChannelsSetupInDsp<<"\n";
+            cout<<"Log: ["<<lineInLogs<<"]\n\n";
             m_commonChannelsSetupInDsp.emplace_back(commonChannelsSetupInDsp);
             previousNotableTime = logTimeInLogs;
-            state++;
-        }
+            state++;        }
         else if(state==25 &&
                 isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, R"(/TCOM/)") &&
                 isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, R"(TC_DMGR_COMMON_CHANNEL_ACTIVATION_REQ_MSG)"))
         {
             double processingAndMessagingDelay=getTotalSeconds(previousNotableTime, logTimeInLogs);
-            cout<<"Processing and messaging delay time: "<<processingAndMessagingDelay<<endl;
-            cout<<"Log: ["<<lineInLogs<<"]"<<endl<<endl;
+            cout<<"Processing and messaging delay time: "<<processingAndMessagingDelay<<"\n";
+            cout<<"Log: ["<<lineInLogs<<"]\n\n";
             m_processingAndMessagingTotalDelay += getTotalSeconds(previousNotableTime, logTimeInLogs);
             previousNotableTime = logTimeInLogs;
-            state++;
-        }
+            state++;        }
         else if(state==26 &&
                 isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, R"(/TCOM/)") &&
                 isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, R"(TC_DMGR_COMMON_CHANNEL_ACTIVATION_RESP_MSG)"))
         {
             double commonChannelsActivationInDsp = getTotalSeconds(previousNotableTime, logTimeInLogs);
-            cout<<m_commonChannelsActivationInDspDescriptionString<<commonChannelsActivationInDsp<<endl;
-            cout<<"Log: ["<<lineInLogs<<"]"<<endl<<endl;
+            cout<<m_commonChannelsActivationInDspDescriptionString<<commonChannelsActivationInDsp<<"\n";
+            cout<<"Log: ["<<lineInLogs<<"]\n\n";
             m_commonChannelsActivationInDsp.emplace_back(commonChannelsActivationInDsp);
             previousNotableTime = logTimeInLogs;
-            state++;
-        }
+            state++;        }
         else if(state==27 &&
                 isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, R"(/TCOM/)") &&
                 isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, R"(SendCellSetupResponse())"))
         {
             double commonChannelsActivationToCellSetupResponseTime = getTotalSeconds(previousNotableTime, logTimeInLogs);
-            cout<<m_commonChannelsActivationToCellSetupResponseTimeDescriptionString<<commonChannelsActivationToCellSetupResponseTime<<endl;
-            cout<<"Log: ["<<lineInLogs<<"]"<<endl<<endl;
+            cout<<m_commonChannelsActivationToCellSetupResponseTimeDescriptionString<<commonChannelsActivationToCellSetupResponseTime<<"\n";
+            cout<<"Log: ["<<lineInLogs<<"]\n\n";
             m_commonChannelsActivationToCellSetupResponseTime.emplace_back(commonChannelsActivationToCellSetupResponseTime);
             previousNotableTime = logTimeInLogs;
-            state++;
-        }
+            state++;        }
         else if(state==28 &&
                 isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, R"(/TCOM/)") &&
                 isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, R"(TC_CCHH_CTCH_SETUP_REQ_MSG)"))
         {
             double firstCtchSetupAfterFirstCellSetupTime = getTotalSeconds(previousNotableTime, logTimeInLogs);
-            cout<<m_firstCtchSetupAfterFirstCellSetupTimeDescriptionString<<firstCtchSetupAfterFirstCellSetupTime<<endl;
-            cout<<"Log: ["<<lineInLogs<<"]"<<endl<<endl;
+            cout<<m_firstCtchSetupAfterFirstCellSetupTimeDescriptionString<<firstCtchSetupAfterFirstCellSetupTime<<"\n";
+            cout<<"Log: ["<<lineInLogs<<"]\n\n";
             m_firstCtchSetupAfterFirstCellSetupTime.emplace_back(firstCtchSetupAfterFirstCellSetupTime);
             previousNotableTime = logTimeInLogs;
-            state++;
-        }
+            state++;        }
         else if(state==29 &&
                 isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, R"(/TCOM/)") &&
                 isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, R"(TC_CCHH_CTCH_SETUP_RESP_MSG)"))
         {
             double firstCtchSetupProcedureTime = getTotalSeconds(previousNotableTime, logTimeInLogs);
-            cout<<m_firstCtchSetupProcedureTimeDescriptionString<<firstCtchSetupProcedureTime<<endl;
-            cout<<"Log: ["<<lineInLogs<<"]"<<endl<<endl;
+            cout<<m_firstCtchSetupProcedureTimeDescriptionString<<firstCtchSetupProcedureTime<<"\n";
+            cout<<"Log: ["<<lineInLogs<<"]\n\n";
             m_firstCtchSetupProcedureTime.emplace_back(firstCtchSetupProcedureTime);
             previousNotableTime = logTimeInLogs;
-            state++;
-        }
+            state++;        }
         else if(state==30 &&
                 isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, R"(/TCOM/)") &&
                 isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, R"(TC_CCHH_SYSTEM_INFO_UPDATE_REQ_MSG)"))
         {
             double firstCtchSetupToSiuTime = getTotalSeconds(previousNotableTime, logTimeInLogs);
-            cout<<m_firstCtchSetupToSiuTimeDescriptionString<<firstCtchSetupToSiuTime<<endl;
-            cout<<"Log: ["<<lineInLogs<<"]"<<endl<<endl;
+            cout<<m_firstCtchSetupToSiuTimeDescriptionString<<firstCtchSetupToSiuTime<<"\n";
+            cout<<"Log: ["<<lineInLogs<<"]\n\n";
             m_firstCtchSetupToSiuTime.emplace_back(firstCtchSetupToSiuTime);
             previousNotableTime = logTimeInLogs;
-            state++;
-        }
+            state++;        }
         else if(state==31 &&
                 isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, R"(/TCOM/)") &&
                 isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, R"(TC_CCHH_SYSTEM_INFO_UPDATE_RESP_MSG)"))
         {
             double siuProcedureTime = getTotalSeconds(previousNotableTime, logTimeInLogs);
-            cout<<m_siuProcedureTimeDescriptionString<<siuProcedureTime<<endl;
-            cout<<"Log: ["<<lineInLogs<<"]"<<endl<<endl;
+            cout<<m_siuProcedureTimeDescriptionString<<siuProcedureTime<<"\n";
+            cout<<"Log: ["<<lineInLogs<<"]\n\n";
             m_siuProcedureTime.emplace_back(siuProcedureTime);
             previousNotableTime = logTimeInLogs;
-            state++;
-        }
+            state++;        }
         else if(state==32 &&
                 isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, R"(/TCOM/)") &&
                 isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, R"(TC_CELL_AVAILABILITY_STATE_CHANGE_MSG)"))
         {
             double siuToCellOnAirTime = getTotalSeconds(previousNotableTime, logTimeInLogs);
-            cout<<m_siuToCellOnAirTimeDescriptionString<<siuToCellOnAirTime<<endl;
+            cout<<m_siuToCellOnAirTimeDescriptionString<<siuToCellOnAirTime<<"\n";
             m_siuToCellOnAirTime.emplace_back(siuToCellOnAirTime);
-            cout<<"Log: ["<<lineInLogs<<"]"<<endl<<endl;
+            cout<<"Log: ["<<lineInLogs<<"]\n\n";
 
             //print other stuffs:
 
-            cout<<"Total processing and messaging delay: "<<m_processingAndMessagingTotalDelay<<endl;
+            cout<<"Total processing and messaging delay: "<<m_processingAndMessagingTotalDelay<<"\n";
             m_processingAndMessagingTotalDelays.emplace_back(m_processingAndMessagingTotalDelay);
-            cout<<"Total time from hardware configuration to cell on air: "<<getTotalSeconds(m_firstLogTime, logTimeInLogs)<<endl<<endl;
+            cout<<"Total time from hardware configuration to cell on air: "<<getTotalSeconds(m_firstLogTime, logTimeInLogs)<<"\n\n";
 
             previousNotableTime = logTimeInLogs;
-            state=1;
-        }
+            state=1;        }
     }
 }
-
 double StartupLogAnalyzer::getTotalSeconds(BtsLogTime const& beforeTime, BtsLogTime const& afterTime) const
 {
     BtsLogTime latency = afterTime-beforeTime;

@@ -50,15 +50,13 @@ void LogStatisticsAnalyzer::saveDataToCsv(string const& csvPath)
 
 void LogStatisticsAnalyzer::saveLogDetailsToCsv(ofstream & outputCsvFileStream)
 {
-    outputCsvFileStream << "Log,Count,Percentage" <<endl;
+    outputCsvFileStream << "Log,Count,Percentage" <<"\n";
     map<string, unsigned int> dataToDisplay;
     for (LogDetails const& logDetails : m_logDetailsToCheck)
-    {
-        string stringInCsv;
+    {        string stringInCsv;
         stringHelper::strings const& logStrings(logDetails.logStrings);
         if(!logStrings.empty())
-        {
-            string firstLogStringInCsv(string("[") + logStrings.front() + "]");
+        {            string firstLogStringInCsv(string("[") + logStrings.front() + "]");
             stringInCsv += firstLogStringInCsv;
             for(auto it=logStrings.cbegin()+1; it!=logStrings.cend(); it++)
             {
@@ -71,17 +69,15 @@ void LogStatisticsAnalyzer::saveLogDetailsToCsv(ofstream & outputCsvFileStream)
     }
     for (pair<string, unsigned int> const& data : dataToDisplay)
     {
-        outputCsvFileStream << data.first << "," << data.second << "," << ((double)data.second)/m_totalLines*100 <<endl;
+        outputCsvFileStream << data.first << "," << data.second << "," << ((double)data.second)/m_totalLines*100 <<"\n";
     }
-    outputCsvFileStream << "Total Lines found," << m_totalLinesFound << "," << ((double)m_totalLinesFound)/m_totalLines*100 <<endl;
-    outputCsvFileStream << "Total Lines," << m_totalLines << "," << ((double)m_totalLines)/m_totalLines*100 <<endl;
+    outputCsvFileStream << "Total Lines found," << m_totalLinesFound << "," << ((double)m_totalLinesFound)/m_totalLines*100 <<"\n";
+    outputCsvFileStream << "Total Lines," << m_totalLines << "," << ((double)m_totalLines)/m_totalLines*100 <<"\n";
 }
 
-void LogStatisticsAnalyzer::processFileWithSortedPrints(std::string const& pathOfBtsSortedLog)
-{
+void LogStatisticsAnalyzer::processFileWithSortedPrints(std::string const& pathOfBtsSortedLog){
     m_btsLogPathHandler.input(pathOfBtsSortedLog);
     ifstream inputLogFileStream(m_btsLogPathHandler.getFullPath());
-
     AlbaFileReader fileReader(inputLogFileStream);
     while(fileReader.isNotFinished())
     {
@@ -94,15 +90,13 @@ void LogStatisticsAnalyzer::analyzeLog(std::string const& lineInLogs)
 {
     if(m_totalLines%10000==0)
     {
-        cout << "m_totalLines: [" << m_totalLines << "]" <<endl;
+        cout << "m_totalLines: [" << m_totalLines << "]" <<"\n";
     }
     m_totalLines++;
-    bool areLogStringFoundInTheLine=false;
-    for (LogDetails & logDetails : m_logDetailsToCheck)
+    bool areLogStringFoundInTheLine=false;    for (LogDetails & logDetails : m_logDetailsToCheck)
     {
         bool areLogStringFound=false;
-        bool areLogStringFoundInAllLogDetails=true;
-        for(string const& logString : logDetails.logStrings)
+        bool areLogStringFoundInAllLogDetails=true;        for(string const& logString : logDetails.logStrings)
         {
             if(!stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, logString))
             {
@@ -120,14 +114,12 @@ void LogStatisticsAnalyzer::analyzeLog(std::string const& lineInLogs)
     }
     if(!areLogStringFoundInTheLine)
     {
-        cout << "line not processed: [" << lineInLogs << "]" <<endl;
+        cout << "line not processed: [" << lineInLogs << "]" <<"\n";
     }
     else
-    {
-        m_totalLinesFound++;
+    {        m_totalLinesFound++;
     }
 }
-
 void LogStatisticsAnalyzer::addLogDetailsToCheckInInitialization(strings const& logStrings)
 {
     LogDetails logDetails;

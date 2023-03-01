@@ -69,45 +69,40 @@ void BtsLogAnalyzer::initializeMessageQueueingTimeFileStream()
     ofstream& messageQueueingTimeFileStream(messageQueueingTimeFileStreamOptional.value());
     messageQueueingTimeFileStream.open(messageQueueingTimeFilePathHandler.getFullPath());
     messageQueueingTimeFileStream.precision(20);
-    messageQueueingTimeFileStream<<"QueueingTime,LogPrint"<<endl;
+    messageQueueingTimeFileStream<<"QueueingTime,LogPrint\n";
 }
 
-void BtsLogAnalyzer::initializeRlSetupTimeFileStream()
-{
+void BtsLogAnalyzer::initializeRlSetupTimeFileStream(){
     AlbaLocalPathHandler rlSetupTimeFilePathHandler(m_btsLogPathHandler.getDirectory()+m_btsLogPathHandler.getFilenameOnly()+"_RlSetupTime.csv");
     rlSetupTimeFileStreamOptional.emplace();
     ofstream& rlSetupTimeFileStream(rlSetupTimeFileStreamOptional.value());
     rlSetupTimeFileStream.open(rlSetupTimeFilePathHandler.getFullPath());
     rlSetupTimeFileStream.precision(20);
-    rlSetupTimeFileStream<<"CrnccId,NbccId,TransactionId,Latency(microseconds),BB_2_RL_SETUP_REQ_MSG,BB_2_RL_SETUP_ACK_MSG,TC_TRANSPORT_BEARER_REGISTER_MSG,TC_TRANSPORT_BEARER_REGISTER_RESP_MSG"<<endl;
+    rlSetupTimeFileStream<<"CrnccId,NbccId,TransactionId,Latency(microseconds),BB_2_RL_SETUP_REQ_MSG,BB_2_RL_SETUP_ACK_MSG,TC_TRANSPORT_BEARER_REGISTER_MSG,TC_TRANSPORT_BEARER_REGISTER_RESP_MSG\n";
 }
 
-void BtsLogAnalyzer::initializeRlDeletionTimeFileStream()
-{
+void BtsLogAnalyzer::initializeRlDeletionTimeFileStream(){
     AlbaLocalPathHandler rlDeletionTimeFilePathHandler(m_btsLogPathHandler.getDirectory()+m_btsLogPathHandler.getFilenameOnly()+"_RlDeletionTime.csv");
     rlDeletionTimeFileStreamOptional.emplace();
     ofstream& rlDeletionTimeFileStream(rlDeletionTimeFileStreamOptional.value());
     rlDeletionTimeFileStream.open(rlDeletionTimeFilePathHandler.getFullPath());
     rlDeletionTimeFileStream.precision(20);
-    rlDeletionTimeFileStream<<"CrnccId,NbccId,TransactionId,Latency(microseconds),BB_2_RL_SETUP_REQ_MSG,BB_2_RL_SETUP_ACK_MSG,TC_TRANSPORT_BEARER_REGISTER_MSG,TC_TRANSPORT_BEARER_REGISTER_RESP_MSG"<<endl;
+    rlDeletionTimeFileStream<<"CrnccId,NbccId,TransactionId,Latency(microseconds),BB_2_RL_SETUP_REQ_MSG,BB_2_RL_SETUP_ACK_MSG,TC_TRANSPORT_BEARER_REGISTER_MSG,TC_TRANSPORT_BEARER_REGISTER_RESP_MSG\n";
 }
 
-void BtsLogAnalyzer::initializeRlSetupPerSecondFileStream()
-{
+void BtsLogAnalyzer::initializeRlSetupPerSecondFileStream(){
     AlbaLocalPathHandler rlSetupPerSecondFilePathHandler(m_btsLogPathHandler.getDirectory()+m_btsLogPathHandler.getFilenameOnly()+"_RlSetupPerSecond.csv");
     rlSetupPerSecondFileStreamOptional.emplace();
     ofstream& rlSetupPerSecondFileStream(rlSetupPerSecondFileStreamOptional.value());
     rlSetupPerSecondFileStream.open(rlSetupPerSecondFilePathHandler.getFullPath());
     rlSetupPerSecondFileStream.precision(20);
-    rlSetupPerSecondFileStream<<"Time,Number Of RL setup in a second"<<endl;
+    rlSetupPerSecondFileStream<<"Time,Number Of RL setup in a second\n";
 }
 
-void BtsLogAnalyzer::saveDspCapacityInformationInGrm(string const& lineInLogs)
-{
+void BtsLogAnalyzer::saveDspCapacityInformationInGrm(string const& lineInLogs){
     if(isStringFoundInsideTheOtherStringCaseSensitive(lineInLogs, "INF/TCOM/G, 0x"))
     {
-        BtsLogPrint logPrint(lineInLogs);
-        strings dspCapacitiesPerDsp;
+        BtsLogPrint logPrint(lineInLogs);        strings dspCapacitiesPerDsp;
         splitToStrings<SplitStringType::WithoutDelimeters>(dspCapacitiesPerDsp, lineInLogs, "()");
         unsigned int boardId(convertHexStringToNumber<unsigned int>(getStringInBetweenTwoStrings(lineInLogs, "0x", ",")));
         for(string const& dspCapacityOfOneDsp : dspCapacitiesPerDsp)
@@ -345,50 +340,46 @@ void BtsLogAnalyzer::initializeDataDumpOfOneDsp(string const& fileName)
 {
     AlbaLocalPathHandler dspDataPathHandler(m_btsLogPathHandler.getDirectory()+fileName+".csv");
     ofstream dspDataFileStream(dspDataPathHandler.getFullPath());
-    dspDataFileStream<<"BtsTime"<<",";
-    dspDataFileStream<<"availableUlCEs"<<","<<"availableDlCEs"<<",";
-    dspDataFileStream<<"rakeState"<<","<<"rachHand"<<","<<"rakeLoad"<<",";
-    dspDataFileStream<<"hsupaCFs"<<","<<"hsRachCFs"<<",";
-    dspDataFileStream<<"hsupaUsers"<<","<<"nbrOfEnhHsupaUsers"<<","<<"dchUsers"<<",";
-    dspDataFileStream<<endl;
+    dspDataFileStream<<"BtsTime,";
+    dspDataFileStream<<"availableUlCEs,availableDlCEs,";
+    dspDataFileStream<<"rakeState,rachHand,rakeLoad,";
+    dspDataFileStream<<"hsupaCFs,hsRachCFs,";
+    dspDataFileStream<<"hsupaUsers,nbrOfEnhHsupaUsers,dchUsers,";
+    dspDataFileStream<<"\n";
 }
 
 void BtsLogAnalyzer::initializeTotalUsersAndCfsDump()
 {
     AlbaLocalPathHandler totalUsersAndCfsFileHandler(m_btsLogPathHandler.getDirectory()+"TotalUsersAndCfs.csv");
     ofstream totalUsersAndCfsFileStream(totalUsersAndCfsFileHandler.getFullPath());
-    totalUsersAndCfsFileStream<<"BtsTime"<<",";
-    totalUsersAndCfsFileStream<<"TotalCfs"<<",";
-    totalUsersAndCfsFileStream<<"TotalR99Users"<<",";
-    totalUsersAndCfsFileStream<<"TotalHsupaUsers"<<",";
-    totalUsersAndCfsFileStream<<endl;
+    totalUsersAndCfsFileStream<<"BtsTime,";
+    totalUsersAndCfsFileStream<<"TotalCfs,";
+    totalUsersAndCfsFileStream<<"TotalR99Users,";
+    totalUsersAndCfsFileStream<<"TotalHsupaUsers,";
+    totalUsersAndCfsFileStream<<"\n";
 }
 
 void BtsLogAnalyzer::initializeSaveAllUsersAndCfsDump()
 {
     AlbaLocalPathHandler totalUsersAndCfsFileHandler(m_btsLogPathHandler.getDirectory()+"SaveAllUsersAndCfs.csv");
     ofstream totalUsersAndCfsFileStream(totalUsersAndCfsFileHandler.getFullPath());
-    totalUsersAndCfsFileStream<<"Time,Address,hsupaCFs,totalCfs,dchUsers,hsupaUsers"<<endl;
+    totalUsersAndCfsFileStream<<"Time,Address,hsupaCFs,totalCfs,dchUsers,hsupaUsers\n";
 }
 
-void BtsLogAnalyzer::saveDataDumpOfOneDsp(string const& fileName, DspData const& dspData, BtsLogPrint const& logPrint)
-{
+void BtsLogAnalyzer::saveDataDumpOfOneDsp(string const& fileName, DspData const& dspData, BtsLogPrint const& logPrint){
     AlbaLocalPathHandler dspDataPathHandler(m_btsLogPathHandler.getDirectory()+fileName+".csv");
     ofstream dspDataFileStream(dspDataPathHandler.getFullPath(), std::ios::ate|std::ios::app);
-    dspDataFileStream<<logPrint.getBtsTime().getEquivalentStringBtsTimeFormat()<<",";
-    dspDataFileStream<<dspData.availableUlCEs<<","<<dspData.availableDlCEs<<",";
+    dspDataFileStream<<logPrint.getBtsTime().getEquivalentStringBtsTimeFormat()<<",";    dspDataFileStream<<dspData.availableUlCEs<<","<<dspData.availableDlCEs<<",";
     dspDataFileStream<<dspData.rakeState<<","<<dspData.rachHand<<","<<dspData.rakeLoad<<",";
     dspDataFileStream<<dspData.hsupaCFs<<","<<dspData.hsRachCFs<<",";
     dspDataFileStream<<dspData.hsupaUsers<<","<<dspData.nbrOfEnhHsupaUsers<<","<<dspData.dchUsers<<",";
-    dspDataFileStream<<endl;
+    dspDataFileStream<<"\n";
 }
 
-void BtsLogAnalyzer::saveTotalUsersAndCfs(BtsLogPrint const& logPrint)
-{
+void BtsLogAnalyzer::saveTotalUsersAndCfs(BtsLogPrint const& logPrint){
     AlbaLocalPathHandler dspDataPathHandler(m_btsLogPathHandler.getDirectory()+"TotalUsersAndCfs.csv");
     ofstream totalCfsFileStream(dspDataPathHandler.getFullPath(), std::ios::ate|std::ios::app);
-    unsigned int totalCfs(0);
-    unsigned int totalR99Users(0);
+    unsigned int totalCfs(0);    unsigned int totalR99Users(0);
     unsigned int totalHsupaUsers(0);
     for(DspDataPair const& dspDataPair : m_dspDataMap)
     {
@@ -400,15 +391,13 @@ void BtsLogAnalyzer::saveTotalUsersAndCfs(BtsLogPrint const& logPrint)
     totalCfsFileStream<<totalCfs<<",";
     totalCfsFileStream<<totalR99Users<<",";
     totalCfsFileStream<<totalHsupaUsers<<",";
-    totalCfsFileStream<<endl;
+    totalCfsFileStream<<"\n";
 }
 
-void BtsLogAnalyzer::saveAllUsersAndCfs(BtsLogPrint const& logPrint)
-{
+void BtsLogAnalyzer::saveAllUsersAndCfs(BtsLogPrint const& logPrint){
     AlbaLocalPathHandler dspDataPathHandler(m_btsLogPathHandler.getDirectory()+"SaveAllUsersAndCfs.csv");
     ofstream totalUsersAndCfsFileStream(dspDataPathHandler.getFullPath(), std::ios::ate|std::ios::app);
-    totalUsersAndCfsFileStream<<logPrint.getBtsTime().getEquivalentStringBtsTimeFormat()<<",";
-    unsigned int totalCfs(0);
+    totalUsersAndCfsFileStream<<logPrint.getBtsTime().getEquivalentStringBtsTimeFormat()<<",";    unsigned int totalCfs(0);
     for(DspDataPair const& dspDataPair : m_dspDataMap)
     {
         totalCfs+=dspDataPair.second.hsupaCFs;
@@ -418,14 +407,12 @@ void BtsLogAnalyzer::saveAllUsersAndCfs(BtsLogPrint const& logPrint)
         totalUsersAndCfsFileStream<<dspDataPair.second.dchUsers<<",";
         totalUsersAndCfsFileStream<<dspDataPair.second.hsupaUsers<<",";
     }
-    totalUsersAndCfsFileStream<<endl;
+    totalUsersAndCfsFileStream<<"\n";
 }
 
-void BtsLogAnalyzer::saveDspInformation(unsigned int const dspAddress, DspData const& dspData)
-{
+void BtsLogAnalyzer::saveDspInformation(unsigned int const dspAddress, DspData const& dspData){
     m_dspDataMap[dspAddress] = dspData;
 }
-
 void BtsLogAnalyzer::saveMaxDspInformation(DspData const& dspData)
 {
     if(dspData.availableUlCEs < m_maxDspData.availableUlCEs)
@@ -495,14 +482,12 @@ void BtsLogAnalyzer::saveRlSetupPerSecond(string const& lineInLogs)
             if(rlSetupPerSecondFileStreamOptional)
             {
                 ofstream& rlSetupPerSecondFileStream(rlSetupPerSecondFileStreamOptional.value());
-                rlSetupPerSecondFileStream<<savedSecond.getEquivalentStringBtsTimeFormat()<<","<<numberOfUsersInSecond<<endl;
+                rlSetupPerSecondFileStream<<savedSecond.getEquivalentStringBtsTimeFormat()<<","<<numberOfUsersInSecond<<"\n";
             }
             savedSecond=currentLogTime;
-            numberOfUsersInSecond=0;
-        }
+            numberOfUsersInSecond=0;        }
     }
 }
-
 void BtsLogAnalyzer::saveRlhSetupTime(string const& lineInLogs, LogTimePairs& rlSetupLogTimePairs)
 {
     if(isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, R"(CTRL_RLH_RlSetupReq3G)"))
@@ -584,15 +569,13 @@ void BtsLogAnalyzer::computeRlSetupLatencyAndUpdateIfLogTimePairIsValid(UserIden
             ofstream& rlSetupTimeFileStream(rlSetupTimeFileStreamOptional.value());
             saveUserIndentifierAndLatencyToCsvFile(userIdentifiers, latencyInMicroseconds, rlSetupTimeFileStream);
             savePrintsAvailableToCsvFile(userIdentifiers, rlSetupTimeFileStream);
-            rlSetupTimeFileStream<<endl;
+            rlSetupTimeFileStream<<"\n";
         }
     }
-    logTimePairs.erase(userIdentifiers);
-}
+    logTimePairs.erase(userIdentifiers);}
 
 void BtsLogAnalyzer::computeRLDeletionLatencyAndUpdateIfLogTimePairIsValid(UserIdentifiers const& userIdentifiers, LogTimePairs& logTimePairs)
-{
-    LogTimePair & logTimePairOfTheUser(logTimePairs[userIdentifiers]);
+{    LogTimePair & logTimePairOfTheUser(logTimePairs[userIdentifiers]);
     if(logTimePairOfTheUser.first && logTimePairOfTheUser.second && logTimePairOfTheUser.first->getTotalSeconds() <= logTimePairOfTheUser.second->getTotalSeconds())
     {
         double latencyInMicroseconds(getTotalMicroseconds(logTimePairOfTheUser));
@@ -601,25 +584,22 @@ void BtsLogAnalyzer::computeRLDeletionLatencyAndUpdateIfLogTimePairIsValid(UserI
         {
             ofstream& rlDeletionTimeFileStream(rlDeletionTimeFileStreamOptional.value());
             saveUserIndentifierAndLatencyToCsvFile(userIdentifiers, latencyInMicroseconds, rlDeletionTimeFileStream);
-            rlDeletionTimeFileStream<<endl;
+            rlDeletionTimeFileStream<<"\n";
         }
     }
-    logTimePairs.erase(userIdentifiers);
-}
+    logTimePairs.erase(userIdentifiers);}
 
 void BtsLogAnalyzer::saveMessageQueueingTimeToCsvFile(string const& lineInLogs, unsigned int const messageQueueingTime)
 {
     if(messageQueueingTimeFileStreamOptional)
     {
         ofstream& messageQueueingTimeFileStream(messageQueueingTimeFileStreamOptional.value());
-        messageQueueingTimeFileStream<<messageQueueingTime<<","<<lineInLogs<<endl;
+        messageQueueingTimeFileStream<<messageQueueingTime<<","<<lineInLogs<<"\n";
     }
 }
-
 void BtsLogAnalyzer::saveUserIndentifierAndLatencyToCsvFile(UserIdentifiers const& userIdentifiers, double const latencyInMicroseconds, ofstream& csvFileStream) const
 {
-    csvFileStream<<userIdentifiers.getCrnccId()<<","<<userIdentifiers.getNbccId()<<","<<userIdentifiers.getTransactionId()<<","<<latencyInMicroseconds<<",";
-}
+    csvFileStream<<userIdentifiers.getCrnccId()<<","<<userIdentifiers.getNbccId()<<","<<userIdentifiers.getTransactionId()<<","<<latencyInMicroseconds<<",";}
 
 void BtsLogAnalyzer::savePrintsAvailableToCsvFile(UserIdentifiers const& userIdentifiers, ofstream& csvFileStream)
 {
@@ -651,20 +631,20 @@ double BtsLogAnalyzer::getTotalMicroseconds(BtsLogTime const& btsLogTime) const
 void BtsLogAnalyzer::printAllCollectedData() const
 {
     cout.precision(20);
-    cout<<"Message queueing time minimum: "<<m_messageQueueingTime.getMinimum() << " ms" << endl;
-    cout<<"Message queueing time maximum: "<<m_messageQueueingTime.getMaximum() << " ms" << endl;
-    cout<<"Message queueing time average: "<<m_messageQueueingTime.getAverage() << " ms" << endl;
-    cout<<"Message queueing time samples: "<<m_messageQueueingTime.getCount()<<endl;
+    cout<<"Message queueing time minimum: "<<m_messageQueueingTime.getMinimum() << " ms\n";
+    cout<<"Message queueing time maximum: "<<m_messageQueueingTime.getMaximum() << " ms\n";
+    cout<<"Message queueing time average: "<<m_messageQueueingTime.getAverage() << " ms\n";
+    cout<<"Message queueing time samples: "<<m_messageQueueingTime.getCount()<<"\n";
 
-    cout<<"Rl setup time minimum: "<<m_rlhRlSetupLatency.getMinimum()/1000 << " ms" << endl;
-    cout<<"Rl setup time maximum: "<<m_rlhRlSetupLatency.getMaximum()/1000 << " ms" << endl;
-    cout<<"Rl setup time average: "<<m_rlhRlSetupLatency.getAverage()/1000 << " ms" << endl;
-    cout<<"Rl setup time samples: "<<m_rlhRlSetupLatency.getCount()<<endl;
+    cout<<"Rl setup time minimum: "<<m_rlhRlSetupLatency.getMinimum()/1000 << " ms\n";
+    cout<<"Rl setup time maximum: "<<m_rlhRlSetupLatency.getMaximum()/1000 << " ms\n";
+    cout<<"Rl setup time average: "<<m_rlhRlSetupLatency.getAverage()/1000 << " ms\n";
+    cout<<"Rl setup time samples: "<<m_rlhRlSetupLatency.getCount()<<"\n";
 
-    cout<<"Rl deletion time minimum: "<<m_rlhRlDeletionLatency.getMinimum()/1000 << " ms" << endl;
-    cout<<"Rl deletion time maximum: "<<m_rlhRlDeletionLatency.getMaximum()/1000 << " ms" << endl;
-    cout<<"Rl deletion time average: "<<m_rlhRlDeletionLatency.getAverage()/1000 << " ms" << endl;
-    cout<<"Rl deletion time samples: "<<m_rlhRlDeletionLatency.getCount()<<endl;
+    cout<<"Rl deletion time minimum: "<<m_rlhRlDeletionLatency.getMinimum()/1000 << " ms\n";
+    cout<<"Rl deletion time maximum: "<<m_rlhRlDeletionLatency.getMaximum()/1000 << " ms\n";
+    cout<<"Rl deletion time average: "<<m_rlhRlDeletionLatency.getAverage()/1000 << " ms\n";
+    cout<<"Rl deletion time samples: "<<m_rlhRlDeletionLatency.getCount()<<"\n";
 }
 
 }
