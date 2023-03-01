@@ -280,15 +280,13 @@ void HardwareConfiguration::printDspAllocations(unsigned int const printFlags)
 {
     if(m_sharedLcgId!=0)
     {
-        cout<<"SharedLcg: "<<m_sharedLcgId<<endl;
+        cout<<"SharedLcg: "<<m_sharedLcgId<<"\n";
     }
     DisplayTable table;
-    table.setBorders("-"," | ");
-    table.addRow();
+    table.setBorders("-"," | ");    table.addRow();
     table.getLastRow().addCell(" ");
     for(unsigned int cpu=30; cpu<=80 ;cpu+=10)
-    {
-        stringstream streamTemp;
+    {        stringstream streamTemp;
         streamTemp<<"0x"<<cpu<<" "<<(cpu%20==0 ? "TN" : "N");
         table.getLastRow().addCell(streamTemp.str(), DisplayTableCellMode::center);
     }
@@ -330,15 +328,13 @@ void HardwareConfiguration::printDspAllocations(unsigned int const printFlags)
             }
         }
     }
-    cout<<table.drawOutput();
+    cout<<table;
 }
 
-void HardwareConfiguration::addFsp(unsigned int const fspAddress)
-{
+void HardwareConfiguration::addFsp(unsigned int const fspAddress){
     unsigned int correctFspAddress = fspAddress & 0xFF00;
     FspDetails fspDetails;
-    fspDetails.smType = getSmTypeBasedOnAddress(correctFspAddress);
-    fspDetails.isMasterTcom = correctFspAddress==TCOM_FSP_ADDRESS;
+    fspDetails.smType = getSmTypeBasedOnAddress(correctFspAddress);    fspDetails.isMasterTcom = correctFspAddress==TCOM_FSP_ADDRESS;
     fspDetails.address = correctFspAddress;
     for(unsigned int cpu = 0x30; cpu<=0x80; cpu+=0x10)
     {
