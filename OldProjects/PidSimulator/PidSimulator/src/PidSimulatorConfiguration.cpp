@@ -57,18 +57,17 @@ void PidSimulatorConfiguration::processOneArgumentWithEqualDelimeter(StringToStr
 
 void PidSimulatorConfiguration::print() const
 {
-    cout << "kp:[" << kp << "]" << endl;
-    cout << "ki:[" << ki << "]" << endl;
-    cout << "kd:[" << kd << "]" << endl;
-    cout << "numberOfLoopsOfPeriodicInputDemand:[" << numberOfLoopsOfPeriodicInputDemand << "]" << endl;
-    cout << "amplitudeOfInputDemand:[" << amplitudeOfInputDemand << "]" << endl;
-    cout << "numberOfSamplesOfInputDemandInOnePeriod:[" << numberOfSamplesOfInputDemandInOnePeriod << "]" << endl;
-    cout << "addedOffsetOfInputDemand:[" << addedOffsetOfInputDemand << "]" << endl;
-    cout << "targetInPidCalculation:[" << targetInPidCalculation << "]" << endl;
-    cout << "maxCellTxPower:[" << maxCellTxPower << "]" << endl;
-    cout << "inputType:[" << inputType << "]" << endl;
-    cout << "machsModelType:[" << machsModelType << "]" << endl;
+    cout << "kp:[" << kp << "]\n";
+    cout << "ki:[" << ki << "]\n";
+    cout << "kd:[" << kd << "]\n";
+    cout << "numberOfLoopsOfPeriodicInputDemand:[" << numberOfLoopsOfPeriodicInputDemand << "]\n";
+    cout << "amplitudeOfInputDemand:[" << amplitudeOfInputDemand << "]\n";
+    cout << "numberOfSamplesOfInputDemandInOnePeriod:[" << numberOfSamplesOfInputDemandInOnePeriod << "]\n";
+    cout << "addedOffsetOfInputDemand:[" << addedOffsetOfInputDemand << "]\n";
+    cout << "targetInPidCalculation:[" << targetInPidCalculation << "]\n";
+    cout << "maxCellTxPower:[" << maxCellTxPower << "]\n";
+    cout << "inputType:[" << inputType << "]\n";
+    cout << "machsModelType:[" << machsModelType << "]\n";
 
 }
-
 }
