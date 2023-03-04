@@ -66,15 +66,13 @@ public:
     {
         while(true)
         {
-            unsigned int newOpenSiteIndex(m_randomizer.getRandomValueInUniformDistribution(0, getDimensionsSquared()-1));
+            unsigned int newOpenSiteIndex(m_randomizer.getRandomIntegerInUniformDistribution(0, getDimensionsSquared()-1));
             if(!isSiteOpen(newOpenSiteIndex))
             {
-                m_sites[newOpenSiteIndex] = true;
-                connectNeighboringSitesAt(newOpenSiteIndex);
+                m_sites[newOpenSiteIndex] = true;                connectNeighboringSitesAt(newOpenSiteIndex);
                 connectToVirtualTopOrBottomIfNeeded(newOpenSiteIndex);
                 m_numberOfOpenSites++;
-                break;
-            }
+                break;            }
         }
     }
 

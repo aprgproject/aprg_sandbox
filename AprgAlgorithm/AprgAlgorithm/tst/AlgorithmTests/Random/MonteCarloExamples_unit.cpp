@@ -48,14 +48,12 @@ TEST(MonteCarloTest, VerifyingMatrixExample)
         MatrixForTest x(1, b.getNumberOfColumns());
         for(unsigned int i=0; i<x.getNumberOfRows(); i++)
         {
-            x.setEntry(0, i, static_cast<unsigned int>(randomizer.getRandomValueInUniformDistribution(1, 10)));
+            x.setEntry(0, i, static_cast<unsigned int>(randomizer.getRandomIntegerInUniformDistribution(1, 10)));
         }
         MatrixForTest bx = b*x;
-        MatrixForTest abx = a*bx;
-        MatrixForTest cx = c*x;
+        MatrixForTest abx = a*bx;        MatrixForTest cx = c*x;
         return abx == cx;
     };
-
     performAMonteCarloAlgorithm(verifyingMatrixAlgorithm);
 
     EXPECT_TRUE(isEqual==isEqual); // just to check something

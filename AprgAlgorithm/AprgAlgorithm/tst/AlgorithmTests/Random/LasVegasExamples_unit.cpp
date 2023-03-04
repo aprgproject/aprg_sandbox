@@ -42,15 +42,13 @@ TEST(LasVegasTest, GraphColoringExample)
             vertexToColorMap.clear();
             for(Vertex const& vertex : graph.getVertices())
             {
-                vertexToColorMap[vertex] = static_cast<unsigned int>(randomizer.getRandomValueInUniformDistribution(0, 1));
+                vertexToColorMap[vertex] = static_cast<unsigned int>(randomizer.getRandomIntegerInUniformDistribution(0, 1));
             }
             numberOfEdgesWithDifferentColors = 0;
-            for(Edge const& edge : graph.getEdges())
-            {
+            for(Edge const& edge : graph.getEdges())            {
                 if(vertexToColorMap.at(edge.first) != vertexToColorMap.at(edge.second))
                 {
-                    numberOfEdgesWithDifferentColors++;
-                }
+                    numberOfEdgesWithDifferentColors++;                }
             }
         }
         while(numberOfEdgesWithDifferentColors >= graph.getNumberOfEdges()/2);
