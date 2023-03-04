@@ -44,15 +44,13 @@ void BtsPrintReaderWithRollback::rollBackPrint()
 {
     if(m_isRollbackActivated)
     {
-        cout<<"Double rollback of prints detected, possible print drop, please implement line put back in stream to avoid this."<<endl;
+        cout<<"Double rollback of prints detected, possible print drop, please implement line put back in stream to avoid this.\n";
     }
     m_isRollbackActivated = true;
 }
-
 void BtsPrintReaderWithRollback::openIfNeeded(string const& filePath)
 {
-    if(!m_inputStream.is_open())
-    {
+    if(!m_inputStream.is_open())    {
         m_inputStream.open(filePath);
     }
 }
