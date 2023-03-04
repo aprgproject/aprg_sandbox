@@ -89,82 +89,80 @@ void WcdmaToolsConfiguration::loadDefaultConfigurationFile()
 void WcdmaToolsConfiguration::saveToConfigurationFile() const
 {
     ofstream outputFileStream(configurationFileLocation);
-    outputFileStream << "isExtractStepOn:" << static_cast<int>(isExtractStepOn) << endl;
-    outputFileStream << "isCombineAndSortStepOn:" << static_cast<int>(isCombineAndSortStepOn) << endl;
-    outputFileStream << "isGrepStepOn:" << static_cast<int>(isGrepStepOn) << endl;
-    outputFileStream << "isCropStepOn:" << static_cast<int>(isCropStepOn) << endl;
-    outputFileStream << "isFilterSubStepOn:" << static_cast<int>(isFilterSubStepOn) << endl;
-    outputFileStream << "isGrepTcomEnabled:" << static_cast<int>(isGrepTcomEnabled) << endl;
-    outputFileStream << "isGrepErrEnabled:" << static_cast<int>(isGrepErrEnabled) << endl;
-    outputFileStream << "isGrepErrWrnNoSpamEnabled:" << static_cast<int>(isGrepErrWrnNoSpamEnabled) << endl;
-    outputFileStream << "isGrepBtsStatusEnabled:" << static_cast<int>(isGrepBtsStatusEnabled) << endl;
-    outputFileStream << "isGrepRecoveryEnabled:" << static_cast<int>(isGrepRecoveryEnabled) << endl;
-    outputFileStream << "isGrepAllocationEnabled:" << static_cast<int>(isGrepAllocationEnabled) << endl;
-    outputFileStream << "isGrepFaultEnabled:" << static_cast<int>(isGrepFaultEnabled) << endl;
-    outputFileStream << "isGrepLrmEnabled:" << static_cast<int>(isGrepLrmEnabled) << endl;
-    outputFileStream << "isGrepGrmEnabled:" << static_cast<int>(isGrepGrmEnabled) << endl;
-    outputFileStream << "isGrepToamEnabled:" << static_cast<int>(isGrepToamEnabled) << endl;
-    outputFileStream << "isGrepTupcEnabled:" << static_cast<int>(isGrepTupcEnabled) << endl;
-    outputFileStream << "isGrepRlhEnabled:" << static_cast<int>(isGrepRlhEnabled) << endl;
-    outputFileStream << "isGrepCchhEnabled:" << static_cast<int>(isGrepCchhEnabled) << endl;
-    outputFileStream << "isGrepBchsenderEnabled:" << static_cast<int>(isGrepBchsenderEnabled) << endl;
-    outputFileStream << "isGrepHschEnabled:" << static_cast<int>(isGrepHschEnabled) << endl;
-    outputFileStream << "isGrepDmgrEnabled:" << static_cast<int>(isGrepDmgrEnabled) << endl;
-    outputFileStream << "isGrepCodecEnabled:" << static_cast<int>(isGrepCodecEnabled) << endl;
-    outputFileStream << "isGrepLtcomEnabled:" << static_cast<int>(isGrepLtcomEnabled) << endl;
-    outputFileStream << "isGrepLomEnabled:" << static_cast<int>(isGrepLomEnabled) << endl;
-    outputFileStream << "isGrepRakeEnabled:" << static_cast<int>(isGrepRakeEnabled) << endl;
-    outputFileStream << "isGrepPicEnabled:" << static_cast<int>(isGrepPicEnabled) << endl;
-    outputFileStream << "isGrepHsdpaEnabled:" << static_cast<int>(isGrepHsdpaEnabled) << endl;
-    outputFileStream << "isGrepHsTupEnabled:" << static_cast<int>(isGrepHsTupEnabled) << endl;
-    outputFileStream << "isGrepHsupaL2Enabled:" << static_cast<int>(isGrepHsupaL2Enabled) << endl;
-    outputFileStream << "grepConditionForTcom:" << grepConditionForTcom << endl;
-    outputFileStream << "grepConditionForErr:" << grepConditionForErr << endl;
-    outputFileStream << "grepConditionForErrWrn:" << grepConditionForErrWrn << endl;
-    outputFileStream << "grepConditionForBtsStatus:" << grepConditionForBtsStatus << endl;
-    outputFileStream << "grepConditionForRecovery:" << grepConditionForRecovery << endl;
-    outputFileStream << "grepConditionForAllocation:" << grepConditionForAllocation << endl;
-    outputFileStream << "grepConditionForFault:" << grepConditionForFault << endl;
-    outputFileStream << "grepConditionForLrm:" << grepConditionForLrm << endl;
-    outputFileStream << "grepConditionForGrm:" << grepConditionForGrm << endl;
-    outputFileStream << "grepConditionForToam:" << grepConditionForToam << endl;
-    outputFileStream << "grepConditionForTupc:" << grepConditionForTupc << endl;
-    outputFileStream << "grepConditionForRlh:" << grepConditionForRlh << endl;
-    outputFileStream << "grepConditionForCchh:" << grepConditionForCchh << endl;
-    outputFileStream << "grepConditionForBchsender:" << grepConditionForBchsender << endl;
-    outputFileStream << "grepConditionForHsch:" << grepConditionForHsch << endl;
-    outputFileStream << "grepConditionForDmgr:" << grepConditionForDmgr << endl;
-    outputFileStream << "grepConditionForCodec:" << grepConditionForCodec << endl;
-    outputFileStream << "grepConditionForLtcom:" << grepConditionForLtcom << endl;
-    outputFileStream << "grepConditionForLom:" << grepConditionForLom << endl;
-    outputFileStream << "grepConditionForRake:" << grepConditionForRake << endl;
-    outputFileStream << "grepConditionForPic:" << grepConditionForPic << endl;
-    outputFileStream << "grepConditionForHsdpa:" << grepConditionForHsdpa << endl;
-    outputFileStream << "grepConditionForHsTup:" << grepConditionForHsTup << endl;
-    outputFileStream << "grepConditionForHsupaL2:" << grepConditionForHsupaL2 << endl;
-    outputFileStream << "inputFileOrDirectory:" << inputFileOrDirectory<< endl;
-    outputFileStream << "extractGrepCondition:" << extractGrepCondition<< endl;
-    outputFileStream << "acceptedFilesGrepCondition:" << acceptedFilesGrepCondition<< endl;
-    outputFileStream << "filterGrepCondition:" << filterGrepCondition<< endl;
-    outputFileStream << "otherGrepCondition:" << otherGrepCondition << endl;
-    outputFileStream << "prioritizedLogCondition:" << prioritizedLogCondition<< endl;
-    outputFileStream << "cropSize:" << cropSize << endl;
-    outputFileStream << "btsLogSorterConfiguration.m_configurationWithPcTime.m_minimumNumberOfObjectsPerBlock:" << btsLogSorterConfiguration.m_configurationWithPcTime.m_minimumNumberOfObjectsPerBlock << endl;
-    outputFileStream << "btsLogSorterConfiguration.m_configurationWithPcTime.m_maximumNumberOfObjectsPerBlock:" << btsLogSorterConfiguration.m_configurationWithPcTime.m_maximumNumberOfObjectsPerBlock << endl;
-    outputFileStream << "btsLogSorterConfiguration.m_configurationWithPcTime.m_maximumNumberOfObjectsInMemory:" << btsLogSorterConfiguration.m_configurationWithPcTime.m_maximumNumberOfObjectsInMemory << endl;
-    outputFileStream << "btsLogSorterConfiguration.m_configurationWithPcTime.m_maximumFileStreams:" << btsLogSorterConfiguration.m_configurationWithPcTime.m_maximumFileStreams << endl;
-    outputFileStream << "btsLogSorterConfiguration.m_configurationWithoutPcTime.m_minimumNumberOfObjectsPerBlock:" << btsLogSorterConfiguration.m_configurationWithoutPcTime.m_minimumNumberOfObjectsPerBlock << endl;
-    outputFileStream << "btsLogSorterConfiguration.m_configurationWithoutPcTime.m_maximumNumberOfObjectsPerBlock:" << btsLogSorterConfiguration.m_configurationWithoutPcTime.m_maximumNumberOfObjectsPerBlock << endl;
-    outputFileStream << "btsLogSorterConfiguration.m_configurationWithoutPcTime.m_maximumNumberOfObjectsInMemory:" << btsLogSorterConfiguration.m_configurationWithoutPcTime.m_maximumNumberOfObjectsInMemory << endl;
-    outputFileStream << "btsLogSorterConfiguration.m_configurationWithoutPcTime.m_maximumFileStreams:" << btsLogSorterConfiguration.m_configurationWithoutPcTime.m_maximumFileStreams << endl;
+    outputFileStream << "isExtractStepOn:" << static_cast<int>(isExtractStepOn) << "\n";
+    outputFileStream << "isCombineAndSortStepOn:" << static_cast<int>(isCombineAndSortStepOn) << "\n";
+    outputFileStream << "isGrepStepOn:" << static_cast<int>(isGrepStepOn) << "\n";
+    outputFileStream << "isCropStepOn:" << static_cast<int>(isCropStepOn) << "\n";
+    outputFileStream << "isFilterSubStepOn:" << static_cast<int>(isFilterSubStepOn) << "\n";
+    outputFileStream << "isGrepTcomEnabled:" << static_cast<int>(isGrepTcomEnabled) << "\n";
+    outputFileStream << "isGrepErrEnabled:" << static_cast<int>(isGrepErrEnabled) << "\n";
+    outputFileStream << "isGrepErrWrnNoSpamEnabled:" << static_cast<int>(isGrepErrWrnNoSpamEnabled) << "\n";
+    outputFileStream << "isGrepBtsStatusEnabled:" << static_cast<int>(isGrepBtsStatusEnabled) << "\n";
+    outputFileStream << "isGrepRecoveryEnabled:" << static_cast<int>(isGrepRecoveryEnabled) << "\n";
+    outputFileStream << "isGrepAllocationEnabled:" << static_cast<int>(isGrepAllocationEnabled) << "\n";
+    outputFileStream << "isGrepFaultEnabled:" << static_cast<int>(isGrepFaultEnabled) << "\n";
+    outputFileStream << "isGrepLrmEnabled:" << static_cast<int>(isGrepLrmEnabled) << "\n";
+    outputFileStream << "isGrepGrmEnabled:" << static_cast<int>(isGrepGrmEnabled) << "\n";
+    outputFileStream << "isGrepToamEnabled:" << static_cast<int>(isGrepToamEnabled) << "\n";
+    outputFileStream << "isGrepTupcEnabled:" << static_cast<int>(isGrepTupcEnabled) << "\n";
+    outputFileStream << "isGrepRlhEnabled:" << static_cast<int>(isGrepRlhEnabled) << "\n";
+    outputFileStream << "isGrepCchhEnabled:" << static_cast<int>(isGrepCchhEnabled) << "\n";
+    outputFileStream << "isGrepBchsenderEnabled:" << static_cast<int>(isGrepBchsenderEnabled) << "\n";
+    outputFileStream << "isGrepHschEnabled:" << static_cast<int>(isGrepHschEnabled) << "\n";
+    outputFileStream << "isGrepDmgrEnabled:" << static_cast<int>(isGrepDmgrEnabled) << "\n";
+    outputFileStream << "isGrepCodecEnabled:" << static_cast<int>(isGrepCodecEnabled) << "\n";
+    outputFileStream << "isGrepLtcomEnabled:" << static_cast<int>(isGrepLtcomEnabled) << "\n";
+    outputFileStream << "isGrepLomEnabled:" << static_cast<int>(isGrepLomEnabled) << "\n";
+    outputFileStream << "isGrepRakeEnabled:" << static_cast<int>(isGrepRakeEnabled) << "\n";
+    outputFileStream << "isGrepPicEnabled:" << static_cast<int>(isGrepPicEnabled) << "\n";
+    outputFileStream << "isGrepHsdpaEnabled:" << static_cast<int>(isGrepHsdpaEnabled) << "\n";
+    outputFileStream << "isGrepHsTupEnabled:" << static_cast<int>(isGrepHsTupEnabled) << "\n";
+    outputFileStream << "isGrepHsupaL2Enabled:" << static_cast<int>(isGrepHsupaL2Enabled) << "\n";
+    outputFileStream << "grepConditionForTcom:" << grepConditionForTcom << "\n";
+    outputFileStream << "grepConditionForErr:" << grepConditionForErr << "\n";
+    outputFileStream << "grepConditionForErrWrn:" << grepConditionForErrWrn << "\n";
+    outputFileStream << "grepConditionForBtsStatus:" << grepConditionForBtsStatus << "\n";
+    outputFileStream << "grepConditionForRecovery:" << grepConditionForRecovery << "\n";
+    outputFileStream << "grepConditionForAllocation:" << grepConditionForAllocation << "\n";
+    outputFileStream << "grepConditionForFault:" << grepConditionForFault << "\n";
+    outputFileStream << "grepConditionForLrm:" << grepConditionForLrm << "\n";
+    outputFileStream << "grepConditionForGrm:" << grepConditionForGrm << "\n";
+    outputFileStream << "grepConditionForToam:" << grepConditionForToam << "\n";
+    outputFileStream << "grepConditionForTupc:" << grepConditionForTupc << "\n";
+    outputFileStream << "grepConditionForRlh:" << grepConditionForRlh << "\n";
+    outputFileStream << "grepConditionForCchh:" << grepConditionForCchh << "\n";
+    outputFileStream << "grepConditionForBchsender:" << grepConditionForBchsender << "\n";
+    outputFileStream << "grepConditionForHsch:" << grepConditionForHsch << "\n";
+    outputFileStream << "grepConditionForDmgr:" << grepConditionForDmgr << "\n";
+    outputFileStream << "grepConditionForCodec:" << grepConditionForCodec << "\n";
+    outputFileStream << "grepConditionForLtcom:" << grepConditionForLtcom << "\n";
+    outputFileStream << "grepConditionForLom:" << grepConditionForLom << "\n";
+    outputFileStream << "grepConditionForRake:" << grepConditionForRake << "\n";
+    outputFileStream << "grepConditionForPic:" << grepConditionForPic << "\n";
+    outputFileStream << "grepConditionForHsdpa:" << grepConditionForHsdpa << "\n";
+    outputFileStream << "grepConditionForHsTup:" << grepConditionForHsTup << "\n";
+    outputFileStream << "grepConditionForHsupaL2:" << grepConditionForHsupaL2 << "\n";
+    outputFileStream << "inputFileOrDirectory:" << inputFileOrDirectory<< "\n";
+    outputFileStream << "extractGrepCondition:" << extractGrepCondition<< "\n";
+    outputFileStream << "acceptedFilesGrepCondition:" << acceptedFilesGrepCondition<< "\n";
+    outputFileStream << "filterGrepCondition:" << filterGrepCondition<< "\n";
+    outputFileStream << "otherGrepCondition:" << otherGrepCondition << "\n";
+    outputFileStream << "prioritizedLogCondition:" << prioritizedLogCondition<< "\n";
+    outputFileStream << "cropSize:" << cropSize << "\n";
+    outputFileStream << "btsLogSorterConfiguration.m_configurationWithPcTime.m_minimumNumberOfObjectsPerBlock:" << btsLogSorterConfiguration.m_configurationWithPcTime.m_minimumNumberOfObjectsPerBlock << "\n";
+    outputFileStream << "btsLogSorterConfiguration.m_configurationWithPcTime.m_maximumNumberOfObjectsPerBlock:" << btsLogSorterConfiguration.m_configurationWithPcTime.m_maximumNumberOfObjectsPerBlock << "\n";
+    outputFileStream << "btsLogSorterConfiguration.m_configurationWithPcTime.m_maximumNumberOfObjectsInMemory:" << btsLogSorterConfiguration.m_configurationWithPcTime.m_maximumNumberOfObjectsInMemory << "\n";
+    outputFileStream << "btsLogSorterConfiguration.m_configurationWithPcTime.m_maximumFileStreams:" << btsLogSorterConfiguration.m_configurationWithPcTime.m_maximumFileStreams << "\n";
+    outputFileStream << "btsLogSorterConfiguration.m_configurationWithoutPcTime.m_minimumNumberOfObjectsPerBlock:" << btsLogSorterConfiguration.m_configurationWithoutPcTime.m_minimumNumberOfObjectsPerBlock << "\n";
+    outputFileStream << "btsLogSorterConfiguration.m_configurationWithoutPcTime.m_maximumNumberOfObjectsPerBlock:" << btsLogSorterConfiguration.m_configurationWithoutPcTime.m_maximumNumberOfObjectsPerBlock << "\n";
+    outputFileStream << "btsLogSorterConfiguration.m_configurationWithoutPcTime.m_maximumNumberOfObjectsInMemory:" << btsLogSorterConfiguration.m_configurationWithoutPcTime.m_maximumNumberOfObjectsInMemory << "\n";
+    outputFileStream << "btsLogSorterConfiguration.m_configurationWithoutPcTime.m_maximumFileStreams:" << btsLogSorterConfiguration.m_configurationWithoutPcTime.m_maximumFileStreams << "\n";
 }
 
-string WcdmaToolsConfiguration::getGrepCondition() const
-{
+string WcdmaToolsConfiguration::getGrepCondition() const{
     string condition;
     addConditionIntoGrepCondition(condition, isGrepTcomEnabled, grepConditionForTcom);
-    addConditionIntoGrepCondition(condition, isGrepErrEnabled, grepConditionForErr);
-    addConditionIntoGrepCondition(condition, isGrepErrWrnNoSpamEnabled, grepConditionForErrWrn);
+    addConditionIntoGrepCondition(condition, isGrepErrEnabled, grepConditionForErr);    addConditionIntoGrepCondition(condition, isGrepErrWrnNoSpamEnabled, grepConditionForErrWrn);
     addConditionIntoGrepCondition(condition, isGrepBtsStatusEnabled, grepConditionForBtsStatus);
     addConditionIntoGrepCondition(condition, isGrepRecoveryEnabled, grepConditionForRecovery);
     addConditionIntoGrepCondition(condition, isGrepAllocationEnabled, grepConditionForAllocation);
@@ -269,17 +267,15 @@ void WcdmaToolsConfiguration::determineVariousLocationsBasedOnCurrentLocation()
     btsLogSorterConfiguration.m_pathOfTempFiles = temporaryFilePathHandler.getFullPath();
     temporaryFilePathHandler.createDirectoriesForNonExisitingDirectories();
 
-    cout<<"locationOf7zExecutable: ["<<locationOf7zExecutable<<"]"<<endl;
-    cout<<"configurationFileLocation: ["<<configurationFileLocation<<"]"<<endl;
-    cout<<"btsLogSorterConfiguration.m_pathOfTempFiles: ["<<btsLogSorterConfiguration.m_pathOfTempFiles<<"]"<<endl;
+    cout<<"locationOf7zExecutable: ["<<locationOf7zExecutable<<"]\n";
+    cout<<"configurationFileLocation: ["<<configurationFileLocation<<"]\n";
+    cout<<"btsLogSorterConfiguration.m_pathOfTempFiles: ["<<btsLogSorterConfiguration.m_pathOfTempFiles<<"]\n";
 }
 
-void WcdmaToolsConfiguration::loadConfigurationFromFile(string const& filePath)
-{
+void WcdmaToolsConfiguration::loadConfigurationFromFile(string const& filePath){
     NameToValueMap nameToValueMap;
     copyNamesAndValuesFromFile(nameToValueMap, filePath);
-    loadNamesAndValues(nameToValueMap);
-}
+    loadNamesAndValues(nameToValueMap);}
 
 void WcdmaToolsConfiguration::copyNamesAndValuesFromFile(NameToValueMap & nameToValueMap, string const& filePath)
 {
