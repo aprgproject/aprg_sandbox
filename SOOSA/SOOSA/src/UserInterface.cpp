@@ -26,24 +26,22 @@ void UserInterface::setPath(string const& path)
 
 void UserInterface::askUserForMainDetails()
 {
-    cout <<"Enter area:" << endl;
+    cout <<"Enter area:\n";
     string area(m_userInterface.getUserInput());
 
-    cout <<"Enter period:" <<  endl;
+    cout <<"Enter period:" <<  "\n";
     string period(m_userInterface.getUserInput());
 
-    cout <<"Enter discharge:" << endl;
+    cout <<"Enter discharge:\n";
     double discharge(m_userInterface.getNumberFromInput<double>());
 
-    cout <<"Enter minimum satisfactory score (inclusive):" << endl;
+    cout <<"Enter minimum satisfactory score (inclusive):\n";
     unsigned int minimumSatisfactoryScore(m_userInterface.getNumberFromInput<unsigned int>());
 
-    m_savedConfiguration.setMainParameters(area, period, discharge, minimumSatisfactoryScore);
-}
+    m_savedConfiguration.setMainParameters(area, period, discharge, minimumSatisfactoryScore);}
 
 void UserInterface::askUserForFormDetails()
-{
-    AlbaLocalPathHandler formDetailsDirectoryPath(PathInitialValueSource::DetectedLocalPath);
+{    AlbaLocalPathHandler formDetailsDirectoryPath(PathInitialValueSource::DetectedLocalPath);
     formDetailsDirectoryPath.input(formDetailsDirectoryPath.getDirectory() + "FormDetails/");
     saveFormDetailsFromFormDetailPath(askUserForPathOfFormDetailToRead(formDetailsDirectoryPath.getFullPath()));
 }
@@ -61,19 +59,17 @@ string UserInterface::askUserForPathOfFormDetailToRead(string const& formDetails
 
     for(string const& formDetailsFile: listOfFiles)
     {
-        cout << "Choice " << choice<<" :: " << AlbaLocalPathHandler(formDetailsFile).getFile() << endl;
+        cout << "Choice " << choice<<" :: " << AlbaLocalPathHandler(formDetailsFile).getFile() << "\n";
         choices.emplace(choice++, AlbaLocalPathHandler(formDetailsFile).getFullPath());
     }
     unsigned chosenChoice(m_userInterface.displayQuestionAndChoicesAndGetNumberAnswer("Select formDetails:", choices));
-    cout << "Chosen choice: " << chosenChoice << endl;
+    cout << "Chosen choice: " << chosenChoice << "\n";
 
     return choices[chosenChoice];
 }
-
 void UserInterface::saveFormDetailsFromFormDetailPath(string const& formDetailsFilePath)
 {
-    ifstream formDetailsStream(formDetailsFilePath);
-    AlbaFileReader fileReader(formDetailsStream);
+    ifstream formDetailsStream(formDetailsFilePath);    AlbaFileReader fileReader(formDetailsStream);
 
     m_savedConfiguration.setFormDetailsTitle(fileReader.getLineAndIgnoreWhiteSpaces());
 
