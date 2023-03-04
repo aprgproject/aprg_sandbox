@@ -48,21 +48,12 @@ public:
         return m_implicantsData;
     }
 
-    std::string getDisplayableString() const
-    {
-        std::stringstream ss;
-        ss << *this;
-        return ss.str();
-    }
-
     void addImplicant(ImplicantWithMinterm const& implicant)
     {
-        m_implicantsData.emplace(implicant);
-    }
+        m_implicantsData.emplace(implicant);    }
 
     void addFinalImplicant(ImplicantWithMinterm const& implicant)
-    {
-        bool isAlreadyRepresented(false);
+    {        bool isAlreadyRepresented(false);
         for(ImplicantWithMinterm const& iteratorImplicant : m_implicantsData)
         {
             if(implicant.isSubset(iteratorImplicant))

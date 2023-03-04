@@ -51,14 +51,11 @@ public:
     Operator const& getOperatorConstReference() const;
     Expression const& getExpressionConstReference() const;
     bool getBooleanValue() const;
-    std::string getDisplayableString() const;
     std::string getDebugString() const;
 
-    Constant & getConstantReference();
-    VariableTerm & getVariableTermReference();
+    Constant & getConstantReference();    VariableTerm & getVariableTermReference();
     Operator & getOperatorReference();
     Expression & getExpressionReference();
-
     void clear();
     void simplify();
     void sort();

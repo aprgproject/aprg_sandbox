@@ -1,17 +1,17 @@
 #include <BooleanAlgebra/Simplification/SimplificationOfExpression.hpp>
 #include <BooleanAlgebra/Simplification/SimplificationUtilities.hpp>
 #include <BooleanAlgebra/Term/Utilities/CreateHelpers.hpp>
+#include <Common/String/AlbaStringHelper.hpp>
 
 #include <gtest/gtest.h>
 
+using namespace alba::stringHelper;
 using namespace std;
 
-namespace alba
-{
+namespace alba{
 
 namespace booleanAlgebra
 {
-
 namespace Simplification
 {
 
@@ -26,43 +26,37 @@ TEST(SimplificationUtilitiesTest, SimplifyTermWithOuterOrAndInnerAndWorks)
     simplifyTermWithOuterOrAndInnerAnd(termToTest);
 
     string stringToExpect("((a&b&d&f)|(c&d&f)|(e&f))");
-    EXPECT_EQ(stringToExpect, termToTest.getDisplayableString());
+    EXPECT_EQ(stringToExpect, convertToString(termToTest));
 }
 
-TEST(SimplificationUtilitiesTest, SimplifyTermWithOuterAndAndInnerOrWorks)
-{
+TEST(SimplificationUtilitiesTest, SimplifyTermWithOuterAndAndInnerOrWorks){
     Term subTerm1(createExpressionIfPossible({"a", "&", "b"}));
     Term subTerm2(createExpressionIfPossible({subTerm1, "|", "c"}));
-    Term subTerm3(createExpressionIfPossible({subTerm2, "&", "d"}));
-    Term subTerm4(createExpressionIfPossible({subTerm3, "|", "e"}));
+    Term subTerm3(createExpressionIfPossible({subTerm2, "&", "d"}));    Term subTerm4(createExpressionIfPossible({subTerm3, "|", "e"}));
     Term termToTest(createExpressionIfPossible({subTerm4, "&", "f"}));
 
     simplifyTermWithOuterAndAndInnerOr(termToTest);
 
     string stringToExpect("(f&(a|c|e)&(b|c|e)&(d|e))");
-    EXPECT_EQ(stringToExpect, termToTest.getDisplayableString());
+    EXPECT_EQ(stringToExpect, convertToString(termToTest));
 }
 
-TEST(SimplificationUtilitiesTest, SimplifyByQuineMcKluskeyWorks)
-{
+TEST(SimplificationUtilitiesTest, SimplifyByQuineMcKluskeyWorks){
     Term subTerm1(createExpressionIfPossible({"a", "&", "b"}));
     Term subTerm2(createExpressionIfPossible({subTerm1, "|", "c"}));
-    Term subTerm3(createExpressionIfPossible({subTerm2, "&", "d"}));
-    Term subTerm4(createExpressionIfPossible({subTerm3, "|", "e"}));
+    Term subTerm3(createExpressionIfPossible({subTerm2, "&", "d"}));    Term subTerm4(createExpressionIfPossible({subTerm3, "|", "e"}));
     Term termToTest(createExpressionIfPossible({subTerm4, "&", "f"}));
 
     simplifyByQuineMcKluskey(termToTest);
 
     string stringToExpect("((a&b&d&f)|(c&d&f)|(e&f))");
-    EXPECT_EQ(stringToExpect, termToTest.getDisplayableString());
+    EXPECT_EQ(stringToExpect, convertToString(termToTest));
 }
 
-TEST(SimplificationUtilitiesTest, SimplifyAndCopyTermsAndChangeOperatorLevelIfNeededWorksForOneTerm)
-{
+TEST(SimplificationUtilitiesTest, SimplifyAndCopyTermsAndChangeOperatorLevelIfNeededWorksForOneTerm){
     WrappedTerms inputWrappedTerms{Term("x")};
     OperatorLevel operatorLevel(OperatorLevel::Unknown);
     WrappedTerms outputWrappedTerms;
-
     simplifyAndCopyTermsAndChangeOperatorLevelIfNeeded(outputWrappedTerms, operatorLevel, inputWrappedTerms);
 
     WrappedTerms expectedWrappedTerms{Term("x")};
@@ -156,22 +150,20 @@ TEST(SimplificationUtilitiesTest, CombineTwoTermsByCheckingCommonFactorIfPossibl
     Term termToVerify7(combineTwoTermsByCheckingCommonFactorIfPossible("x", xOrY, OperatorLevel::And));
     Term termToVerify8(combineTwoTermsByCheckingCommonFactorIfPossible("x", xOrY, OperatorLevel::Or));
 
-    EXPECT_EQ("(x&y)", termToVerify1.getDisplayableString());
-    EXPECT_EQ("x", termToVerify2.getDisplayableString());
-    EXPECT_EQ("x", termToVerify3.getDisplayableString());
-    EXPECT_EQ("(x|y)", termToVerify4.getDisplayableString());
-    EXPECT_EQ("(x&y)", termToVerify5.getDisplayableString());
-    EXPECT_EQ("x", termToVerify6.getDisplayableString());
-    EXPECT_EQ("x", termToVerify7.getDisplayableString());
-    EXPECT_EQ("(x|y)", termToVerify8.getDisplayableString());
+    EXPECT_EQ("(x&y)", convertToString(termToVerify1));
+    EXPECT_EQ("x", convertToString(termToVerify2));
+    EXPECT_EQ("x", convertToString(termToVerify3));
+    EXPECT_EQ("(x|y)", convertToString(termToVerify4));
+    EXPECT_EQ("(x&y)", convertToString(termToVerify5));
+    EXPECT_EQ("x", convertToString(termToVerify6));
+    EXPECT_EQ("x", convertToString(termToVerify7));
+    EXPECT_EQ("(x|y)", convertToString(termToVerify8));
 }
 
-TEST(SimplificationUtilitiesTest, DistributeTermsIfNeededWorks)
-{
+TEST(SimplificationUtilitiesTest, DistributeTermsIfNeededWorks){
     SimplificationOfExpression::ConfigurationDetails configurationDetails(
                 SimplificationOfExpression::Configuration::getInstance().getConfigurationDetails());
     SimplificationOfExpression::ScopeObject scopeObject;
-
     Term xAndY(createExpressionIfPossible({"x", "&", "y"}));
     Term xOrY(createExpressionIfPossible({"x", "|", "y"}));
     Term termToTest1("a");
@@ -199,18 +191,16 @@ TEST(SimplificationUtilitiesTest, DistributeTermsIfNeededWorks)
     scopeObject.setInThisScopeThisConfiguration(configurationDetails);
     distributeTermsIfNeeded(termToTest4, {"x", xAndY, xOrY}, OperatorLevel::Or, OperatorLevel::And);
 
-    EXPECT_EQ("(a|(x&x&y&x)|(x&x&y&y))", termToTest1.getDisplayableString());
-    EXPECT_EQ("(b&(x|x|y|x)&(x|x|y|y))", termToTest2.getDisplayableString());
-    EXPECT_EQ("(c|(x&x&y&x)|(x&x&y&y))", termToTest3.getDisplayableString());
-    EXPECT_EQ("(d&(x|x|y|x)&(x|x|y|y))", termToTest4.getDisplayableString());
+    EXPECT_EQ("(a|(x&x&y&x)|(x&x&y&y))", convertToString(termToTest1));
+    EXPECT_EQ("(b&(x|x|y|x)&(x|x|y|y))", convertToString(termToTest2));
+    EXPECT_EQ("(c|(x&x&y&x)|(x&x&y&y))", convertToString(termToTest3));
+    EXPECT_EQ("(d&(x|x|y|x)&(x|x|y|y))", convertToString(termToTest4));
 }
 
-TEST(SimplificationUtilitiesTest, RetrieveTargetOperationsWorks)
-{
+TEST(SimplificationUtilitiesTest, RetrieveTargetOperationsWorks){
     SimplificationOfExpression::ConfigurationDetails configurationDetails(
                 SimplificationOfExpression::Configuration::getInstance().getConfigurationDetails());
     SimplificationOfExpression::ScopeObject scopeObject;
-
     OperatorLevel targetOuter, targetInner;
 
     configurationDetails.shouldSimplifyWithOuterOrAndInnerAnd = false;

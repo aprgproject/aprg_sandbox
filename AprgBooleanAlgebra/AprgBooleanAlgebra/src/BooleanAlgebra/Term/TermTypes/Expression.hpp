@@ -36,14 +36,11 @@ public:
     OperatorLevel getCommonOperatorLevel() const;
     BaseTerm const& getFirstTermConstReference() const;
     WrappedTerms const& getWrappedTerms() const;
-    std::string getDisplayableString() const;
     std::string getDebugString() const;
 
     WrappedTerms & getWrappedTermsReference();
-
     void clear();
     void clearAndPutTermInWrappedTerms(BaseTerm const& baseTerm);
-
     void putTerm(BaseTerm const& baseTerm);
     void putTerm(BaseTerm const& baseTerm, OperatorLevel const operatorLevel);
     void putTermWithAndOperationIfNeeded(BaseTerm const& baseTerm);
