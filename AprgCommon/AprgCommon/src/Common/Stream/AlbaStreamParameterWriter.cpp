@@ -20,4 +20,9 @@ void AlbaStreamParameterWriter::writeData(string const& data) const
     }
 }
 
+void AlbaStreamParameterWriter::flush()
+{
+    m_stream.flush();
+}
+
 }//namespace alba

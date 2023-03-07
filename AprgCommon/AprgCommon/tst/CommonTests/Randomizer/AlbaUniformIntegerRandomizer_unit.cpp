@@ -1,4 +1,4 @@
-#include <Common/Randomizer/AlbaSimpleRandomizer.hpp>
+#include <Common/Randomizer/AlbaUniformIntegerRandomizer.hpp>
 
 #include <gtest/gtest.h>
 
@@ -9,24 +9,29 @@ using namespace std;
 namespace alba
 {
 
-TEST(AlbaSimpleRandomizerTest, GetRandomIntegerInUniformDistributionWorks_WithinMinimumAndMaximumValues)
+namespace
 {
-    AlbaSimpleRandomizer randomizer;
+using RandomizerForTest = AlbaUniformIntegerRandomizer<int>;
+}
+
+TEST(AlbaUniformIntegerRandomizerTest, GetRandomIntegerInUniformDistributionWorks_WithinMinimumAndMaximumValues)
+{
     constexpr int minimumValue(0);
     constexpr int maximumValue(9);
+    RandomizerForTest randomizer(0, 9);
     for(int i=0; i<1000; i++)
     {
-        int random(randomizer.getRandomIntegerInUniformDistribution(minimumValue, maximumValue));
+        int random(randomizer.getRandomInteger());
         ASSERT_GE(random, minimumValue);
         ASSERT_LE(random, maximumValue);
     }
 }
 
-TEST(AlbaSimpleRandomizerTest, GetRandomIntegerInUniformDistributionWorks_AsUniformlyDistributed)
+TEST(AlbaUniformIntegerRandomizerTest, GetRandomIntegerInUniformDistributionWorks_AsUniformlyDistributed)
 {
-    AlbaSimpleRandomizer randomizer;
     constexpr int minimumValue(0);
     constexpr int maximumValue(9);
+    RandomizerForTest randomizer(0, 9);
     int numberOfRandomValues(maximumValue-minimumValue+1);
     int const iterations(1000);
     int const allowedDeviation(static_cast<int>(iterations*0.1));
@@ -34,7 +39,7 @@ TEST(AlbaSimpleRandomizerTest, GetRandomIntegerInUniformDistributionWorks_AsUnif
 
     for(int i=0; i<iterations; i++)
     {
-        int random(randomizer.getRandomIntegerInUniformDistribution(minimumValue, maximumValue));
+        int random(randomizer.getRandomInteger());
         hitsForEachValue[static_cast<unsigned long>(random)]++;
     }
 
@@ -42,19 +47,6 @@ TEST(AlbaSimpleRandomizerTest, GetRandomIntegerInUniformDistributionWorks_AsUnif
     auto minMaxElementResult = std::minmax_element(hitsForEachValue.cbegin(), hitsForEachValue.cend());
     int deviation(*(minMaxElementResult.second) - *(minMaxElementResult.first));
     EXPECT_LE(deviation, allowedDeviation);
-}
-
-TEST(AlbaSimpleRandomizerTest, GetRandomValueInUniformDistributionWorks_WithinMinimumAndMaximumValues)
-{
-    AlbaSimpleRandomizer randomizer;
-    constexpr double minimumValue(-11.5);
-    constexpr double maximumValue(23.25);
-    for(int i=0; i<1000; i++)
-    {
-        double random(randomizer.getRandomFloatingValueInUniformDistribution(minimumValue, maximumValue));
-        ASSERT_GE(random, minimumValue);
-        ASSERT_LE(random, maximumValue);
-    }
 }
 
 }

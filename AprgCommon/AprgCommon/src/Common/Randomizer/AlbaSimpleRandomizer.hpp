@@ -8,7 +8,8 @@ class AlbaSimpleRandomizer
 public:
     AlbaSimpleRandomizer();
     void resetRandomSeed();
-    int getRandomValueInUniformDistribution(int const first, int const second) const;
+    int getRandomIntegerInUniformDistribution(int const minimum, int const maximum) const;
+    double getRandomFloatingValueInUniformDistribution(double const minimum, double const maximum) const;
 };
 
 }//namespace alba

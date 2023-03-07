@@ -17,14 +17,13 @@ public:
     template <typename TypeToWrite> void writeVectorData(std::vector<TypeToWrite> const& vectorOfData) const;
     template <typename TypeToWrite> void writeSetData(std::set<TypeToWrite> const& setOfData) const;
     template <typename TypeToWrite1, typename TypeToWrite2> void writeMapData(std::map<TypeToWrite1, TypeToWrite2> const& mapOfData) const;
+    void flush();
 
 private:
-    std::ostream& m_stream;
-};
+    std::ostream& m_stream;};
 
 template <typename TypeToWrite>
-void AlbaStreamParameterWriter::writeData(TypeToWrite const& data) const
-{
+void AlbaStreamParameterWriter::writeData(TypeToWrite const& data) const{
     m_stream << data << "\n";
 }
 
@@ -61,5 +60,6 @@ void AlbaStreamParameterWriter::writeMapData(std::map<TypeToWrite1, TypeToWrite2
         writeData<TypeToWrite2>(dataPair.second);
     }
 }
+
 
 }//namespace alba
