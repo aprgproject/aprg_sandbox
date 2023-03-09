@@ -151,15 +151,13 @@ void PidSimulator::generateRandomForInput()
     {
         for (unsigned int i = 0; i < m_conf.numberOfSamplesOfInputDemandInOnePeriod; i++)
         {
-            m_inputSample.emplace_back(m_randomizer.getRandomValueInUniformDistribution(0, static_cast<int>(m_conf.amplitudeOfInputDemand)) + m_conf.addedOffsetOfInputDemand);
+            m_inputSample.emplace_back(m_randomizer.getRandomIntegerInUniformDistribution(0, static_cast<int>(m_conf.amplitudeOfInputDemand)) + m_conf.addedOffsetOfInputDemand);
         }
     }
 }
-
 double PidSimulator::computeFromMachsModel(double const inputDemandSample, double const psuedoMaxTxPower, double & adjustedDemand)
 {
-    double result(0);
-    if("MachsModel1" == m_conf.machsModelType)
+    double result(0);    if("MachsModel1" == m_conf.machsModelType)
     {
         result = computeFromMachsModel1(inputDemandSample, psuedoMaxTxPower, adjustedDemand);
     }
