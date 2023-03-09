@@ -23,14 +23,13 @@ void Database::saveDatabaseToFile(string const& path)
     writer.writeMapData(enumNameToEnumDetailsMap);
     writer.writeMapData(typedefNameToTypedefDetailsMap);
     writer.writeSetData(messagesToGenerate);
+    writer.flush();
 }
 
-void Database::loadDatabaseFromFile(string const& path)
-{
+void Database::loadDatabaseFromFile(string const& path){
     ifstream fileStream(path);
     AlbaStreamParameterReader reader(fileStream);
-    reader.readMapData(fileToPathMap);
-    reader.readMapData(constantNameToConstantDetailsMap);
+    reader.readMapData(fileToPathMap);    reader.readMapData(constantNameToConstantDetailsMap);
     reader.readMapData(messageNameToMessageDetailsMap);
     reader.readMapData(structureNameToStructureDetailsMap);
     reader.readMapData(unionNameToUnionDetailsMap);
