@@ -63,9 +63,11 @@ public:
       std::cout << "Cannot be handled by Handler 1\n";
       Handler::handleRequest();
     }
-    // ...  }
+    // ...
+  }
   // ...
 };
+
 class ConcreteHandler2 : public Handler
 {
 public:
@@ -88,10 +90,12 @@ public:
       std::cout << "Cannot be handled by Handler 2\n";
       Handler::handleRequest();
     }
-    // ...  }
+    // ...
+  }
   
   // ...
 };
+
 
 int main()
 {

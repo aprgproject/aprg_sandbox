@@ -51,9 +51,11 @@ public:
   }
   // ...
 };
+
 class ConcreteVisitor2 : public Visitor
 {
-public:  ~ConcreteVisitor2() {}
+public:
+  ~ConcreteVisitor2() {}
   
   void visitElementA( ConcreteElementA* const )
   {
@@ -66,9 +68,11 @@ public:  ~ConcreteVisitor2() {}
   }
   // ...
 };
+
 /*
  * Element
- * defines an accept operation that takes a visitor as an argument */
+ * defines an accept operation that takes a visitor as an argument
+ */
 class Element
 {
 public:

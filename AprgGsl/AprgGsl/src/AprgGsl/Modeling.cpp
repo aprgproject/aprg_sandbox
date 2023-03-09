@@ -5,8 +5,10 @@
 #include <Common/Randomizer/AlbaSimpleRandomizer.hpp>
 #include <Common/String/AlbaStringHelper.hpp>
 #include <gsl/gsl_multifit.h>
+
 #include <algorithm>
 #include <iostream>
+
 using namespace alba::matrix;
 using namespace std;
 
@@ -207,9 +209,11 @@ void Modeling::printValidationData()
     cout<<"ValidationData:\n";
     printData(m_validationDataForX, m_validationDataForY);
 }
+
 void Modeling::printData(MatrixOfDoubles & matrixInX, MatrixOfDoubles & matrixInY)
 {
-    for(unsigned int j=0; j<matrixInY.getNumberOfRows(); j++)    {
+    for(unsigned int j=0; j<matrixInY.getNumberOfRows(); j++)
+    {
         cout<<matrixInY.getEntry(0, j)<<" <- ";
         for(unsigned int i=0; i<matrixInX.getNumberOfColumns(); i++)
         {
@@ -218,9 +222,11 @@ void Modeling::printData(MatrixOfDoubles & matrixInX, MatrixOfDoubles & matrixIn
         cout<<"\n";
     }
 }
+
 void Modeling::copyVectorToMatrix(unsigned int const numberOfColumns, unsigned int const numberOfRows, VectorOfDoubles const& retrievedDataForX, MatrixOfDoubles & matrixOfDoubles)
 {
-    matrixOfDoubles.clearAndResize(numberOfColumns, numberOfRows);    unsigned int x=0, y=0;
+    matrixOfDoubles.clearAndResize(numberOfColumns, numberOfRows);
+    unsigned int x=0, y=0;
     for(double const value : retrievedDataForX)
     {
         matrixOfDoubles.setEntry(x, y, value);
@@ -243,10 +249,12 @@ void Modeling::saveRetrievedDataToMatrixRandomly(MatrixOfDoubles & matrixInX, Ma
         unsigned int randomRow((unsigned int)randomizer.getRandomIntegerInUniformDistribution(0, m_retrievedDataForY.getNumberOfRows()-1));
         matrixInY.setEntry(0, j, m_retrievedDataForY.getEntry(0, randomRow));
         for(unsigned int i=0; i<m_retrievedDataForX.getNumberOfColumns(); i++)
-        {            matrixInX.setEntry(i, j, m_retrievedDataForX.getEntry(i, randomRow));
+        {
+            matrixInX.setEntry(i, j, m_retrievedDataForX.getEntry(i, randomRow));
         }
     }
 }
+
 void Modeling::saveRetrievedDataToMatrix(MatrixOfDoubles & matrixInX, MatrixOfDoubles & matrixInY, unsigned int numberOfSamples)
 {
     matrixInX.clearAndResize(m_retrievedDataForX.getNumberOfColumns(), numberOfSamples);

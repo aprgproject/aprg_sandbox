@@ -121,10 +121,12 @@ public:
 
     std::string getEquivalentString() const
     {
-        return getEquivalentString(getMaxLengthOfEquivalentString());    }
+        return getEquivalentString(getMaxLengthOfEquivalentString());
+    }
 
     std::string getEquivalentString(unsigned int const length) const
-    {        std::string booleanEquivalent;
+    {
+        std::string booleanEquivalent;
         if(!m_minterms.empty() && length>0)
         {
             constexpr unsigned int NUMBER_OF_BITS(AlbaBitValueUtilities<Minterm>::getNumberOfBits());

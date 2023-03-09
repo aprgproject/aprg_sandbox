@@ -238,10 +238,12 @@ bool Term::getBooleanValue() const
 
 string Term::getDebugString() const
 {
-    stringstream ss;    switch (m_type)
+    stringstream ss;
+    switch (m_type)
     {
     case TermType::Empty:
-        ss << "{EmptyTerm}";        break;
+        ss << "{EmptyTerm}";
+        break;
     case TermType::Constant:
         ss << getConstantConstReference();
         break;

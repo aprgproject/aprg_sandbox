@@ -243,9 +243,11 @@ PieceColorAndType ChessPieceRetriever::getBestPieceFromChessCellBitValue(
     }*/
     return result;
 }
+
 ChessPieceRetriever::PieceColorAndTypes ChessPieceRetriever::getBestFitPiecesFromChessCellBitValue(
         uint64_t const chessCellBitValue) const
-{    PieceColorAndTypes result;
+{
+    PieceColorAndTypes result;
     Count minimumDifferenceCount(65U);
     for(auto & pieceAndChessCellBitValuePair : m_piecesToChessCellBitValuesMap)
     {

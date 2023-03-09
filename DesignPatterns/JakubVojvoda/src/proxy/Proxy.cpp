@@ -37,9 +37,11 @@ public:
   }
   // ...
 };
+
 /*
  * Proxy
- * maintains a reference that lets the proxy access the real subject */
+ * maintains a reference that lets the proxy access the real subject
+ */
 class Proxy : public Subject
 {
 public:

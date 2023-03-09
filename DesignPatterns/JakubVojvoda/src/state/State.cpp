@@ -39,9 +39,11 @@ public:
   }
   // ...
 };
+
 class ConcreteStateB : public State
 {
-public:  ~ConcreteStateB() { /* ... */ }
+public:
+  ~ConcreteStateB() { /* ... */ }
   
   void handle()
   {
@@ -49,9 +51,11 @@ public:  ~ConcreteStateB() { /* ... */ }
   }
   // ...
 };
+
 /*
  * Context
- * defines the interface of interest to clients */
+ * defines the interface of interest to clients
+ */
 class Context
 {
 public:

@@ -7,10 +7,12 @@
 using namespace alba::stringHelper;
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 namespace booleanAlgebra
 {
+
 namespace Simplification
 {
 
@@ -293,9 +295,11 @@ TEST(SimplificationOfExpressionTest, SimplifyWorksByWithOuterOrAndInnerAnd)
     string stringToExpect("((x&z)|(x'&y))");
     EXPECT_EQ(stringToExpect, stringToVerify);
 }
+
 TEST(SimplificationOfExpressionTest, SimplifyWorksWithOuterAndAndInnerOr)
 {
-    SimplificationOfExpression::ConfigurationDetails configurationDetails(                SimplificationOfExpression::Configuration::getInstance().getConfigurationDetails());
+    SimplificationOfExpression::ConfigurationDetails configurationDetails(
+                SimplificationOfExpression::Configuration::getInstance().getConfigurationDetails());
     configurationDetails.shouldSimplifyWithOuterAndAndInnerOr = true;
     SimplificationOfExpression::ScopeObject scopeObject;
     scopeObject.setInThisScopeThisConfiguration(configurationDetails);
@@ -311,9 +315,11 @@ TEST(SimplificationOfExpressionTest, SimplifyWorksWithOuterAndAndInnerOr)
     string stringToExpect("((x|z)&(x'|y))");
     EXPECT_EQ(stringToExpect, stringToVerify);
 }
+
 TEST(SimplificationOfExpressionTest, SimplifyWorksByAlternatingAndOperationAndOrOperation_WithDefaultConfiguration)
 {
-    Expression subExpression1(createExpressionIfPossible({"a", "&", "b"}));    Expression subExpression2(createExpressionIfPossible({subExpression1, "|", "c"}));
+    Expression subExpression1(createExpressionIfPossible({"a", "&", "b"}));
+    Expression subExpression2(createExpressionIfPossible({subExpression1, "|", "c"}));
     Expression subExpression3(createExpressionIfPossible({subExpression2, "&", "d"}));
     Expression subExpression4(createExpressionIfPossible({subExpression3, "|", "e"}));
     Expression expressionToTest(createExpressionIfPossible({subExpression4, "&", "f"}));
@@ -325,9 +331,11 @@ TEST(SimplificationOfExpressionTest, SimplifyWorksByAlternatingAndOperationAndOr
     string stringToExpect("((a&b&d&f)|(c&d&f)|(e&f))");
     EXPECT_EQ(stringToExpect, stringToVerify);
 }
+
 TEST(SimplificationOfExpressionTest, SimplifyWorksByAlternatingAndOperationAndOrOperation_WithOuterOrAndInnerAnd)
 {
-    SimplificationOfExpression::ConfigurationDetails configurationDetails(                SimplificationOfExpression::Configuration::getInstance().getConfigurationDetails());
+    SimplificationOfExpression::ConfigurationDetails configurationDetails(
+                SimplificationOfExpression::Configuration::getInstance().getConfigurationDetails());
     configurationDetails.shouldSimplifyWithOuterOrAndInnerAnd = true;
     SimplificationOfExpression::ScopeObject scopeObject;
     scopeObject.setInThisScopeThisConfiguration(configurationDetails);
@@ -345,9 +353,11 @@ TEST(SimplificationOfExpressionTest, SimplifyWorksByAlternatingAndOperationAndOr
     string stringToExpect("((a&b&d&f)|(c&d&f)|(e&f))");
     EXPECT_EQ(stringToExpect, stringToVerify);
 }
+
 TEST(SimplificationOfExpressionTest, SimplifyWorksByAlternatingAndOperationAndOrOperation_WithOuterAndAndInnerOr)
 {
-    SimplificationOfExpression::ConfigurationDetails configurationDetails(                SimplificationOfExpression::Configuration::getInstance().getConfigurationDetails());
+    SimplificationOfExpression::ConfigurationDetails configurationDetails(
+                SimplificationOfExpression::Configuration::getInstance().getConfigurationDetails());
     configurationDetails.shouldSimplifyWithOuterAndAndInnerOr = true;
     SimplificationOfExpression::ScopeObject scopeObject;
     scopeObject.setInThisScopeThisConfiguration(configurationDetails);
@@ -365,9 +375,11 @@ TEST(SimplificationOfExpressionTest, SimplifyWorksByAlternatingAndOperationAndOr
     string stringToExpect("(f&(a|c|e)&(b|c|e)&(d|e))");
     EXPECT_EQ(stringToExpect, stringToVerify);
 }
+
 TEST(SimplificationOfExpressionTest, SimplifyWorksByRemovingNeededTerms_WithOuterOrAndInnerAnd)
 {
-    SimplificationOfExpression::ConfigurationDetails configurationDetails(                SimplificationOfExpression::Configuration::getInstance().getConfigurationDetails());
+    SimplificationOfExpression::ConfigurationDetails configurationDetails(
+                SimplificationOfExpression::Configuration::getInstance().getConfigurationDetails());
     configurationDetails.shouldSimplifyWithOuterOrAndInnerAnd = true;
     SimplificationOfExpression::ScopeObject scopeObject;
     scopeObject.setInThisScopeThisConfiguration(configurationDetails);
@@ -476,9 +488,11 @@ TEST(SimplificationOfExpressionTest, SimplifyWorksOnConsensusTheoremPattern1)
     string stringToExpect("((x&y)|(x'&z))");
     EXPECT_EQ(stringToExpect, stringToVerify);
 }
+
 TEST(SimplificationOfExpressionTest, SimplifyWorksOnConsensusTheoremPattern2)
 {
-    SimplificationOfExpression::ConfigurationDetails configurationDetails(                SimplificationOfExpression::Configuration::getInstance().getConfigurationDetails());
+    SimplificationOfExpression::ConfigurationDetails configurationDetails(
+                SimplificationOfExpression::Configuration::getInstance().getConfigurationDetails());
     configurationDetails.shouldSimplifyWithOuterAndAndInnerOr = true;
     SimplificationOfExpression::ScopeObject scopeObject;
     scopeObject.setInThisScopeThisConfiguration(configurationDetails);
@@ -495,7 +509,9 @@ TEST(SimplificationOfExpressionTest, SimplifyWorksOnConsensusTheoremPattern2)
     string stringToExpect("((x|y)&(x'|z))");
     EXPECT_EQ(stringToExpect, stringToVerify);
 }
+
 }
 
 }
+
 }

@@ -15,9 +15,11 @@ int main(int argc, char *argv[])
     cout<<"APRG_CODE_VERSION: "<<APRG_CODE_VERSION<<"\n";
     QApplication a(argc, argv);
     WcdmaTools w;
-    if(argc==2)    {
+    if(argc==2)
+    {
         w.setInputFileOrDirectory(alba::stringHelper::getStringWithoutCharAtTheEnd(string(argv[1]), '"'));
     }
     w.show();
+
     return a.exec();
 }

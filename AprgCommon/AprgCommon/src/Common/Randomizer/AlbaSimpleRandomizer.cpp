@@ -4,10 +4,12 @@
 
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 AlbaSimpleRandomizer::AlbaSimpleRandomizer()
-{    resetRandomSeed();
+{
+    resetRandomSeed();
 }
 
 void AlbaSimpleRandomizer::resetRandomSeed()
@@ -22,7 +24,8 @@ int AlbaSimpleRandomizer::getRandomIntegerInUniformDistribution(int const minimu
     return static_cast<int>(minimum + randomValue*deltaInclusive); // implicit floor conversion from double to int
 
     // randomValue looks like this:
-    // | 0-value possibility | 1-value possibility | ... | RAND_MAX-1 value possibility | RAND_MAX value possibility |    // randomValue with delta inclusive looks like this:
+    // | 0-value possibility | 1-value possibility | ... | RAND_MAX-1 value possibility | RAND_MAX value possibility |
+    // randomValue with delta inclusive looks like this:
     // | minimum value possibility | minimum+1 value possibility | ... | maximum-1 value possibility | maximum value possibility |
     // so we get the floor to have the final value
 }
@@ -42,7 +45,9 @@ double AlbaSimpleRandomizer::getRandomFloatingValueInUniformDistribution(double 
 
 // Source: https://en.cppreference.com/w/cpp/numeric/random/rand
 // There are no guarantees as to the quality of the random sequence produced.
-// In the past, some implementations of rand() have had serious shortcomings in the randomness,// distribution and period of the sequence produced (in one well-known example,
+// In the past, some implementations of rand() have had serious shortcomings in the randomness,
+// distribution and period of the sequence produced (in one well-known example,
 // the low-order bit simply alternated between 1 and 0 between calls).
 
-// The function rand() is not recommended for serious random-number generation needs.// It is recommended to use C++11's random number generation facilities to replace rand(). (since C++11)
+// The function rand() is not recommended for serious random-number generation needs.
+// It is recommended to use C++11's random number generation facilities to replace rand(). (since C++11)

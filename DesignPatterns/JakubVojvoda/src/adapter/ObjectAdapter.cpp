@@ -38,9 +38,11 @@ public:
   }
   // ...
 };
+
 /*
  * Adapter
- * implements the Target interface and when it gets a method call it * delegates the call to a Adaptee
+ * implements the Target interface and when it gets a method call it
+ * delegates the call to a Adaptee
  */
 class Adapter : public Target
 {

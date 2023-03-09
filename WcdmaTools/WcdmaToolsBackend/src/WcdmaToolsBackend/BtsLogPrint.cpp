@@ -403,9 +403,11 @@ ostream& operator<<(ostream & out, BtsLogPrint const& btsLogPrint)
     writer.flush();
     return out;
 }
+
 istream& operator>>(istream & in, BtsLogPrint& btsLogPrint)
 {
-    AlbaStreamParameterReader reader(in);    btsLogPrint.m_btsTime = reader.readData<BtsLogTime>();
+    AlbaStreamParameterReader reader(in);
+    btsLogPrint.m_btsTime = reader.readData<BtsLogTime>();
     btsLogPrint.m_pcTime = reader.readData<BtsLogTime>();
     btsLogPrint.m_hardwareAddress = reader.readData<string>();
     btsLogPrint.m_print = reader.readData<string>();

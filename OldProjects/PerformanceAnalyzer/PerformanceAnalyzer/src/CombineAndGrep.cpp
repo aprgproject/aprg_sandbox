@@ -24,7 +24,8 @@ void CombineAndGrep::processDirectory(string const& inputDirectoryPath)
     ListOfPaths directories;
     inputDirectoryPathHandler.findFilesAndDirectoriesUnlimitedDepth("*.*", files, directories);
     for(string const& file: files)
-    {        processFile(file);
+    {
+        processFile(file);
     }
 }
 
@@ -34,7 +35,8 @@ void CombineAndGrep::processFile(string const& inputFilePath)
     cout << "processFile() inputFilePath:" << inputFilePath << "\n";
     ifstream inputFileStream(inputFilePathHandler.getFullPath());
     AlbaFileReader fileToRead(inputFileStream);
-    while(fileToRead.isNotFinished())    {
+    while(fileToRead.isNotFinished())
+    {
         string lineFromFile(fileToRead.getLineAndIgnoreWhiteSpaces());
         if(stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(lineFromFile, m_grepString))
         {
@@ -42,4 +44,5 @@ void CombineAndGrep::processFile(string const& inputFilePath)
         }
     }
 }
+
 }

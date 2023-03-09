@@ -41,10 +41,12 @@ void FesterRobot::run()
                 m_outputStream<<"FREQUENCIES BIT: ["<<std::hex<<filterBitInteger<<std::dec<<"]\n";
                 runFesterFunctionInMatlab();
                 if(!m_retryCurrentFrequencies)
-                {                    filterBitInteger--;
+                {
+                    filterBitInteger--;
                 }
             }
-            break;        }
+            break;
+        }
         m_userAutomation.sleep(POLLING_DELAY_TO_WAIT_FOR_START);
     }
     m_userAutomation.setMousePosition(MousePosition(ORIGIN));
@@ -138,9 +140,11 @@ bool FesterRobot::isRunningFinishedInClipboardData(string const& clipboardData) 
     cout<<"frequenciesStringForExcel: ["<<frequenciesStringForExcel<<"]\n";
     return freqBandStringInLog == frequenciesStringForExcel;
 }
+
 string FesterRobot::getClipboardFormattedData() const
 {
-    string clipboardData(m_userAutomation.getStringFromClipboard());    stringHelper::transformReplaceStringIfFound(clipboardData, "\r", "");
+    string clipboardData(m_userAutomation.getStringFromClipboard());
+    stringHelper::transformReplaceStringIfFound(clipboardData, "\r", "");
     return clipboardData;
 }
 
@@ -150,10 +154,12 @@ void FesterRobot::saveDataToOutputFile(string const& clipboardData)
     m_outputStream<<clipboardData<<"\n";
 }
 
-string FesterRobot::getFrequenciesStringForExcel() const{
+string FesterRobot::getFrequenciesStringForExcel() const
+{
     stringstream frequencyStream;
     for(int frequency : m_frequencies)
-    {        frequencyStream << frequency << " ";
+    {
+        frequencyStream << frequency << " ";
     }
     string frequencyString(frequencyStream.str());
     if(!frequencyString.empty())

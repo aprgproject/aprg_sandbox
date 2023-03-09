@@ -174,9 +174,11 @@ void SOOSA::process()
     cout << "NumberOColumns: " << m_inputConfiguration.getNumberOfColumns() << "\n";
 
     AlbaLocalPathHandler pathHandler(m_inputConfiguration.getPath());
+
     saveHeadersToCsvFile();
     if(pathHandler.isDirectory())
-    {        processDirectory(pathHandler.getFullPath());
+    {
+        processDirectory(pathHandler.getFullPath());
     }
     else
     {
@@ -193,10 +195,12 @@ void SOOSA::processDirectory(string const& directoryPath)
     cout << "processDirectory: [" << directoryPath << "]\n";
     AlbaLocalPathHandler directoryPathToBeProcessed(directoryPath);
     set<string> listOfFiles;
-    set<string> listOfDirectories;    directoryPathToBeProcessed.findFilesAndDirectoriesUnlimitedDepth("*.bmp", listOfFiles, listOfDirectories);
+    set<string> listOfDirectories;
+    directoryPathToBeProcessed.findFilesAndDirectoriesUnlimitedDepth("*.bmp", listOfFiles, listOfDirectories);
 
     for(string const& filePath : listOfFiles)
-    {        processFile(filePath);
+    {
+        processFile(filePath);
         saveDataToCsvFile(filePath);
     }
 }
@@ -206,10 +210,12 @@ void SOOSA::processFile(string const& filePath)
     cout << "\nprocessFile: [" << filePath << "]\n";
 
     m_questionToAnswersMap.clear();
-    Bitmap bitmap(filePath);    if(bitmap.getConfiguration().isValid())
+    Bitmap bitmap(filePath);
+    if(bitmap.getConfiguration().isValid())
     {
         processBitmapFile(bitmap);
-    }    else
+    }
+    else
     {
         stringstream ss;
         ss << "File is an invalid bitmap.";
@@ -217,9 +223,11 @@ void SOOSA::processFile(string const& filePath)
         cout << "NOT DETECTED: The file is an invalid bitmap so its ignored.\n";
     }
 }
+
 void SOOSA::processBitmapFile(Bitmap const& bitmap)
 {
     //enableDebugSnippet(bitmap); // debug
+
     Status::getInstance().clearErrors();
     BitmapSnippet globalSnippet(bitmap.getSnippetReadFromFileWholeBitmap());
 
@@ -251,10 +259,12 @@ void SOOSA::processBitmapFile(Bitmap const& bitmap)
         cout << "NOT DETECTED: The lines are invalid.\n";
     }
 
-    //saveDebugSnippet(bitmap); // debug}
+    //saveDebugSnippet(bitmap); // debug
+}
 
 void SOOSA::saveToFrequencyDatabase()
-{    m_numberOfRespondents++;
+{
+    m_numberOfRespondents++;
     for(unsigned int i=0; i<m_inputConfiguration.getNumberOfQuestions(); i++)
     {
         m_frequencyDatabase.addAnswer(i, getAnswerToQuestion(i)-1);
@@ -522,9 +532,11 @@ void SOOSA::processColumn(
         cout << "NOT DETECTED: The questions bars on a column does not match.\n";
     }
 }
+
 void SOOSA::processQuestions(
         unsigned int & questionNumber,
-        BitmapSnippet const& snippet,        QuestionBarCoordinates const& questionBarsOnTheLeft,
+        BitmapSnippet const& snippet,
+        QuestionBarCoordinates const& questionBarsOnTheLeft,
         QuestionBarCoordinates const& questionsBarsOnTheRight,
         unsigned int const columnNumber,
         unsigned int const numberQuestionsInColumn)
@@ -551,10 +563,12 @@ void SOOSA::processQuestions(
                 cout << ".\n";
             }
             stringstream ss;
-            ss << "There is problem locating only one answer in column number: " << columnNumber << ", column question number: " << questionInColumnIndex+1               << ". Answers: ";
+            ss << "There is problem locating only one answer in column number: " << columnNumber << ", column question number: " << questionInColumnIndex+1
+               << ". Answers: ";
             printParameter(ss, answers);
             ss << ".";
-            Status::getInstance().setError(ss.str());        }
+            Status::getInstance().setError(ss.str());
+        }
         questionNumber++;
     }
 }
@@ -1032,10 +1046,12 @@ void SOOSA::removeBarPointsToGetConsistentHeight(
             cout << "Figuring out the correct heights. Please wait.\n";
         }
         countForPrint++;
-    }}
+    }
+}
 
 void SOOSA::addAndRetainBarPointsIfPossible(
-        TwoDimensionKMeans & kMeansForBarPoints,        GroupOfTwoDimensionSamples const& listOfGroupOfBarPoints,
+        TwoDimensionKMeans & kMeansForBarPoints,
+        GroupOfTwoDimensionSamples const& listOfGroupOfBarPoints,
         unsigned int const indexToRemove) const
 {
     for(unsigned int groupIndex=0; groupIndex<listOfGroupOfBarPoints.size(); groupIndex++)
@@ -1152,9 +1168,11 @@ void SOOSA::saveDataToCsvFile(string const& processedFilePath)  const
         outputCsvReportStream<<processedFilePath<<","<<Status::getInstance().getStatusString()<<"\n";
     }
 }
+
 void SOOSA::saveHeadersToCsvFile() const
 {
-    ofstream outputCsvReportStream(getCsvFilePath(m_inputConfiguration.getPath()));    outputCsvReportStream << "FILE,STATUS";
+    ofstream outputCsvReportStream(getCsvFilePath(m_inputConfiguration.getPath()));
+    outputCsvReportStream << "FILE,STATUS";
     for(unsigned int i=0; i<m_inputConfiguration.getNumberOfQuestions(); i++)
     {
         outputCsvReportStream << ",Question_" << i+1;
@@ -1162,10 +1180,12 @@ void SOOSA::saveHeadersToCsvFile() const
     outputCsvReportStream << "\n";
 }
 
-void SOOSA::saveOutputHtmlFile(string const& processedFilePath) const{
+void SOOSA::saveOutputHtmlFile(string const& processedFilePath) const
+{
     AlbaLocalPathHandler basisHtmlPath(PathInitialValueSource::DetectedLocalPath);
     basisHtmlPath.input(basisHtmlPath.getDirectory() + "basis.html");
-    ifstream htmlBasisFileStream(basisHtmlPath.getFullPath());    if(htmlBasisFileStream.is_open())
+    ifstream htmlBasisFileStream(basisHtmlPath.getFullPath());
+    if(htmlBasisFileStream.is_open())
     {
         AlbaFileReader htmlBasisFileReader(htmlBasisFileStream);
         string outputHtmlFilePath = getReportHtmlFilePath(processedFilePath);
@@ -1197,7 +1217,8 @@ void SOOSA::saveOutputHtmlFile(string const& processedFilePath) const{
                         << "</h2>\n";
             }
             else if(line == "@TABLE@")
-            {                saveTableToOutputHtmlFile(reportHtmlFileStream);
+            {
+                saveTableToOutputHtmlFile(reportHtmlFileStream);
             }
             else
             {
@@ -1213,6 +1234,7 @@ void SOOSA::saveOutputHtmlFile(string const& processedFilePath) const{
         cout << "Basis html can be found on local system: [" << basisHtmlPath.isFoundInLocalSystem() << "]\n";
     }
 }
+
 void SOOSA::saveTableToOutputHtmlFile(ofstream & reportHtmlFileStream) const
 {
     for(unsigned int questionIndex=0; questionIndex<m_inputConfiguration.getNumberOfQuestions(); questionIndex++)
@@ -1220,7 +1242,8 @@ void SOOSA::saveTableToOutputHtmlFile(ofstream & reportHtmlFileStream) const
         reportHtmlFileStream<<"<tr>\n";
         FrequencySamples samples;
         for(unsigned int answerIndex=0; answerIndex<m_soosaConfiguration.getNumberOfChoices(); answerIndex++)
-        {            samples[answerIndex+1] = m_frequencyDatabase.getFrequencyOfAnswer(questionIndex, answerIndex);
+        {
+            samples[answerIndex+1] = m_frequencyDatabase.getFrequencyOfAnswer(questionIndex, answerIndex);
         }
         unsigned int numberOfSamplesForQuestion = calculateNumberOfSamples(samples);
         double median = calculateMedian(samples);
@@ -1242,10 +1265,12 @@ void SOOSA::saveTableToOutputHtmlFile(ofstream & reportHtmlFileStream) const
         reportHtmlFileStream<<"<td style=\"text-align:center;padding:3px\">"<<median<<"</td>\n";
 
         unsigned int satisfactoryFrequency(0);
-        for(unsigned int answer=m_soosaConfiguration.getNumberOfChoices(); answer>0; answer--)        {
+        for(unsigned int answer=m_soosaConfiguration.getNumberOfChoices(); answer>0; answer--)
+        {
             if(answer>=m_inputConfiguration.getMinimumSatisfactoryScore())
             {
-                satisfactoryFrequency += m_frequencyDatabase.getFrequencyOfAnswer(questionIndex, answer-1);            }
+                satisfactoryFrequency += m_frequencyDatabase.getFrequencyOfAnswer(questionIndex, answer-1);
+            }
         }
         reportHtmlFileStream << "<td style=\"text-align:center;padding:3px\">"
                              << getPrintableStringForPercentage(satisfactoryFrequency, numberOfSamplesForQuestion)
@@ -1253,9 +1278,11 @@ void SOOSA::saveTableToOutputHtmlFile(ofstream & reportHtmlFileStream) const
         reportHtmlFileStream<<"</tr>\n";
     }
 }
+
 bool SOOSA::isBlackAt(BitmapSnippet const& snippet, BitmapXY const bitmapXy) const
 {
-    using BitColorManip = AlbaBitManipulation<uint32_t>;    uint32_t color = snippet.getColorAt(bitmapXy);
+    using BitColorManip = AlbaBitManipulation<uint32_t>;
+    uint32_t color = snippet.getColorAt(bitmapXy);
     uint32_t minColorIntensity = min(BitColorManip::getByteAt<0>(color), min(BitColorManip::getByteAt<1>(color), BitColorManip::getByteAt<2>(color)));
 
     return minColorIntensity < m_soosaConfiguration.getColorIntensityForWhite();

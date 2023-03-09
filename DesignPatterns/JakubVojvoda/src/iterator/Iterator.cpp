@@ -146,5 +146,6 @@ int main()
     std::cout << "Item value: " << it->currentItem() << "\n";
   }
   
-  delete it;  return 0;
+  delete it;
+  return 0;
 }

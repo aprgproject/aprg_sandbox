@@ -8,10 +8,12 @@
 using namespace alba::stringHelper;
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 namespace booleanAlgebra
 {
+
 namespace Simplification
 {
 
@@ -29,10 +31,12 @@ TEST(SimplificationUtilitiesTest, SimplifyTermWithOuterOrAndInnerAndWorks)
     EXPECT_EQ(stringToExpect, convertToString(termToTest));
 }
 
-TEST(SimplificationUtilitiesTest, SimplifyTermWithOuterAndAndInnerOrWorks){
+TEST(SimplificationUtilitiesTest, SimplifyTermWithOuterAndAndInnerOrWorks)
+{
     Term subTerm1(createExpressionIfPossible({"a", "&", "b"}));
     Term subTerm2(createExpressionIfPossible({subTerm1, "|", "c"}));
-    Term subTerm3(createExpressionIfPossible({subTerm2, "&", "d"}));    Term subTerm4(createExpressionIfPossible({subTerm3, "|", "e"}));
+    Term subTerm3(createExpressionIfPossible({subTerm2, "&", "d"}));
+    Term subTerm4(createExpressionIfPossible({subTerm3, "|", "e"}));
     Term termToTest(createExpressionIfPossible({subTerm4, "&", "f"}));
 
     simplifyTermWithOuterAndAndInnerOr(termToTest);
@@ -41,10 +45,12 @@ TEST(SimplificationUtilitiesTest, SimplifyTermWithOuterAndAndInnerOrWorks){
     EXPECT_EQ(stringToExpect, convertToString(termToTest));
 }
 
-TEST(SimplificationUtilitiesTest, SimplifyByQuineMcKluskeyWorks){
+TEST(SimplificationUtilitiesTest, SimplifyByQuineMcKluskeyWorks)
+{
     Term subTerm1(createExpressionIfPossible({"a", "&", "b"}));
     Term subTerm2(createExpressionIfPossible({subTerm1, "|", "c"}));
-    Term subTerm3(createExpressionIfPossible({subTerm2, "&", "d"}));    Term subTerm4(createExpressionIfPossible({subTerm3, "|", "e"}));
+    Term subTerm3(createExpressionIfPossible({subTerm2, "&", "d"}));
+    Term subTerm4(createExpressionIfPossible({subTerm3, "|", "e"}));
     Term termToTest(createExpressionIfPossible({subTerm4, "&", "f"}));
 
     simplifyByQuineMcKluskey(termToTest);
@@ -53,10 +59,12 @@ TEST(SimplificationUtilitiesTest, SimplifyByQuineMcKluskeyWorks){
     EXPECT_EQ(stringToExpect, convertToString(termToTest));
 }
 
-TEST(SimplificationUtilitiesTest, SimplifyAndCopyTermsAndChangeOperatorLevelIfNeededWorksForOneTerm){
+TEST(SimplificationUtilitiesTest, SimplifyAndCopyTermsAndChangeOperatorLevelIfNeededWorksForOneTerm)
+{
     WrappedTerms inputWrappedTerms{Term("x")};
     OperatorLevel operatorLevel(OperatorLevel::Unknown);
     WrappedTerms outputWrappedTerms;
+
     simplifyAndCopyTermsAndChangeOperatorLevelIfNeeded(outputWrappedTerms, operatorLevel, inputWrappedTerms);
 
     WrappedTerms expectedWrappedTerms{Term("x")};
@@ -160,10 +168,12 @@ TEST(SimplificationUtilitiesTest, CombineTwoTermsByCheckingCommonFactorIfPossibl
     EXPECT_EQ("(x|y)", convertToString(termToVerify8));
 }
 
-TEST(SimplificationUtilitiesTest, DistributeTermsIfNeededWorks){
+TEST(SimplificationUtilitiesTest, DistributeTermsIfNeededWorks)
+{
     SimplificationOfExpression::ConfigurationDetails configurationDetails(
                 SimplificationOfExpression::Configuration::getInstance().getConfigurationDetails());
     SimplificationOfExpression::ScopeObject scopeObject;
+
     Term xAndY(createExpressionIfPossible({"x", "&", "y"}));
     Term xOrY(createExpressionIfPossible({"x", "|", "y"}));
     Term termToTest1("a");
@@ -197,10 +207,12 @@ TEST(SimplificationUtilitiesTest, DistributeTermsIfNeededWorks){
     EXPECT_EQ("(d&(x|x|y|x)&(x|x|y|y))", convertToString(termToTest4));
 }
 
-TEST(SimplificationUtilitiesTest, RetrieveTargetOperationsWorks){
+TEST(SimplificationUtilitiesTest, RetrieveTargetOperationsWorks)
+{
     SimplificationOfExpression::ConfigurationDetails configurationDetails(
                 SimplificationOfExpression::Configuration::getInstance().getConfigurationDetails());
     SimplificationOfExpression::ScopeObject scopeObject;
+
     OperatorLevel targetOuter, targetInner;
 
     configurationDetails.shouldSimplifyWithOuterOrAndInnerAnd = false;

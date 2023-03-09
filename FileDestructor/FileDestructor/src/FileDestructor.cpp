@@ -48,10 +48,12 @@ void FileDestructor::destroyFilesAndDirectories(string const& path) const
     cout<<"Destroying files in: ["<<path<<"]\n";
     AlbaLocalPathHandler pathHandler(path);
     ListOfPaths listOfFiles;
-    ListOfPaths listOfDirectories;    pathHandler.findFilesAndDirectoriesUnlimitedDepth("*.*", listOfFiles, listOfDirectories);
+    ListOfPaths listOfDirectories;
+    pathHandler.findFilesAndDirectoriesUnlimitedDepth("*.*", listOfFiles, listOfDirectories);
     listOfFiles.erase(pathHandler.getFullPath());
     for(string const& filePath : listOfFiles)
-    {        destroyFile(filePath);
+    {
+        destroyFile(filePath);
     }
     for(string const& directoryPath : listOfDirectories)
     {
@@ -65,7 +67,8 @@ void FileDestructor::renameDirectory(string const& directoryPath) const
     cout<<"Renaming directory: ["<<directoryPath<<"]\n";
     AlbaLocalPathHandler directoryPathHandler(directoryPath);
     unsigned int retries=10;
-    bool isNotSuccessful = true;    while(retries>0 && isNotSuccessful)
+    bool isNotSuccessful = true;
+    while(retries>0 && isNotSuccessful)
     {
         isNotSuccessful = !directoryPathHandler.renameImmediateDirectory(stringHelper::getRandomAlphaNumericString(10));
         if(!isNotSuccessful)
@@ -73,7 +76,8 @@ void FileDestructor::renameDirectory(string const& directoryPath) const
             cout<<"Renamed directory: ["<<directoryPathHandler.getFullPath()<<"]\n";
         }
         retries--;
-    }}
+    }
+}
 
 void FileDestructor::destroyFile(string const& filePath) const
 {
@@ -81,7 +85,8 @@ void FileDestructor::destroyFile(string const& filePath) const
     cout<<"Destroying File: ["<<filePath<<"]\n";
     AlbaLocalPathHandler filePathHandler(filePath);
     unsigned int retries=10;
-    bool isNotSuccessful = true;    while(retries>0 && isNotSuccessful)
+    bool isNotSuccessful = true;
+    while(retries>0 && isNotSuccessful)
     {
         if(filePathHandler.getFullPath().length() > MAX_CHARACTERS_ON_PATH)
         {
@@ -97,7 +102,8 @@ void FileDestructor::destroyFile(string const& filePath) const
             cout<<"Destroyed File: ["<<filePathHandler.getFullPath()<<"]\n";
         }
         retries--;
-    }}
+    }
+}
 
 
 }

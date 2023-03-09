@@ -38,10 +38,12 @@ void UserInterface::askUserForMainDetails()
     cout <<"Enter minimum satisfactory score (inclusive):\n";
     unsigned int minimumSatisfactoryScore(m_userInterface.getNumberFromInput<unsigned int>());
 
-    m_savedConfiguration.setMainParameters(area, period, discharge, minimumSatisfactoryScore);}
+    m_savedConfiguration.setMainParameters(area, period, discharge, minimumSatisfactoryScore);
+}
 
 void UserInterface::askUserForFormDetails()
-{    AlbaLocalPathHandler formDetailsDirectoryPath(PathInitialValueSource::DetectedLocalPath);
+{
+    AlbaLocalPathHandler formDetailsDirectoryPath(PathInitialValueSource::DetectedLocalPath);
     formDetailsDirectoryPath.input(formDetailsDirectoryPath.getDirectory() + "FormDetails/");
     saveFormDetailsFromFormDetailPath(askUserForPathOfFormDetailToRead(formDetailsDirectoryPath.getFullPath()));
 }
@@ -67,9 +69,11 @@ string UserInterface::askUserForPathOfFormDetailToRead(string const& formDetails
 
     return choices[chosenChoice];
 }
+
 void UserInterface::saveFormDetailsFromFormDetailPath(string const& formDetailsFilePath)
 {
-    ifstream formDetailsStream(formDetailsFilePath);    AlbaFileReader fileReader(formDetailsStream);
+    ifstream formDetailsStream(formDetailsFilePath);
+    AlbaFileReader fileReader(formDetailsStream);
 
     m_savedConfiguration.setFormDetailsTitle(fileReader.getLineAndIgnoreWhiteSpaces());
 

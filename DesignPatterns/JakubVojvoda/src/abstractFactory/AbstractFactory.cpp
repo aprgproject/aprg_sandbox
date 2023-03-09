@@ -157,8 +157,10 @@ int main()
   std::cout << "Product: " << p2->getName() << "\n";
   
   delete p1;
-  delete p2;  
+  delete p2;
+  
   delete factoryX;
   delete factoryY;
-    return 0;
+  
+  return 0;
 }

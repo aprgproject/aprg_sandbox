@@ -695,6 +695,7 @@ void LRM::handleMessageEvent(GenericMessage const& genericMessage)
         break;
     }
 }
+
 void LRM::handleTimerEvent(Timer const& timer)
 {
     switch(timer.getType())
@@ -707,6 +708,7 @@ void LRM::handleTimerEvent(Timer const& timer)
         break;
     }
 }
+
 void LRM::handleOtherEvent(OtherEvent const& otherEvent)
 {
     switch(otherEvent.getType())
@@ -719,4 +721,5 @@ void LRM::handleOtherEvent(OtherEvent const& otherEvent)
         break;
     }
 }
+
 }

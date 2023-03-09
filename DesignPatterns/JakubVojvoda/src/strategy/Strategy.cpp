@@ -37,9 +37,11 @@ public:
   }
   // ...
 };
+
 class ConcreteStrategyB : public Strategy
 {
-public:  ~ConcreteStrategyB() { /* ... */ }
+public:
+  ~ConcreteStrategyB() { /* ... */ }
   
   void algorithmInterface()
   {
@@ -47,9 +49,11 @@ public:  ~ConcreteStrategyB() { /* ... */ }
   }
   // ...
 };
+
 class ConcreteStrategyC : public Strategy
 {
-public:  ~ConcreteStrategyC() { /* ... */ }
+public:
+  ~ConcreteStrategyC() { /* ... */ }
   
   void algorithmInterface()
   {
@@ -57,9 +61,11 @@ public:  ~ConcreteStrategyC() { /* ... */ }
   }
   // ...
 };
+
 /*
  * Context
- * maintains a reference to a Strategy object */
+ * maintains a reference to a Strategy object
+ */
 class Context
 {
 public:

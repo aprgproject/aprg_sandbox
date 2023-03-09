@@ -25,10 +25,12 @@ TEST_F(ModuleTest, OneTransportBearerRegister)
     Dsp& dsp(*static_cast<Dsp*>(getComponentAndActivateAsParticipant(ComponentName::Dsp, "DSP")));
 
     sendMessage(ComponentName::TcomCchhRlh, ComponentName::TupcTbm, createOneTransportBearerRegisterForCell());
-    tupcTbm.handleOneEvent();    tupcCm.handleOneEvent();
+    tupcTbm.handleOneEvent();
+    tupcCm.handleOneEvent();
     tupcTbm.handleOneEvent();
     dsp.handleOneEvent();
-    tupcTbm.handleOneEvent();}
+    tupcTbm.handleOneEvent();
+}
 
 TEST_F(ModuleTest, OneTransportBearerUnregister)
 {
@@ -39,10 +41,12 @@ TEST_F(ModuleTest, OneTransportBearerUnregister)
     Dsp& dsp(*static_cast<Dsp*>(getComponentAndActivateAsParticipant(ComponentName::Dsp, "DSP")));
 
     sendMessage(ComponentName::TcomCchhRlh, ComponentName::TupcTbm, createOneTransportBearerUnregisterForCell());
-    tupcTbm.handleOneEvent();    tupcCm.handleOneEvent();
+    tupcTbm.handleOneEvent();
+    tupcCm.handleOneEvent();
     tupcTbm.handleOneEvent();
     dsp.handleOneEvent();
-    tupcTbm.handleOneEvent();}
+    tupcTbm.handleOneEvent();
+}
 
 TEST_F(ModuleTest, OneTransportBearerModificationPrepareForUser)
 {
@@ -52,7 +56,8 @@ TEST_F(ModuleTest, OneTransportBearerModificationPrepareForUser)
     Trsw& trsw(*static_cast<Trsw*>(getComponentAndActivateAsParticipant(ComponentName::Trsw, "TRSW/Transport")));
 
     sendMessage(ComponentName::TcomCchhRlh, ComponentName::TupcTbm, createOneTransportBearerModificationPrepareForUser());
-    tupcTbm.handleOneEvent();    tupcCm.handleOneEvent();
+    tupcTbm.handleOneEvent();
+    tupcCm.handleOneEvent();
     tupcTbm.handleOneEvent();
 }
 
@@ -64,7 +69,8 @@ TEST_F(ModuleTest, OneTransportBearerModificationCommitForUser)
     Trsw& trsw(*static_cast<Trsw*>(getComponentAndActivateAsParticipant(ComponentName::Trsw, "TRSW/Transport")));
 
     sendMessage(ComponentName::TcomCchhRlh, ComponentName::TupcTbm, createOneTransportBearerModificationCommitForUser());
-    tupcTbm.handleOneEvent();    tupcCm.handleOneEvent();
+    tupcTbm.handleOneEvent();
+    tupcCm.handleOneEvent();
     tupcTbm.handleOneEvent();
 }
 
@@ -76,7 +82,8 @@ TEST_F(ModuleTest, OneTransportBearerModificationCancelForUser)
     Trsw& trsw(*static_cast<Trsw*>(getComponentAndActivateAsParticipant(ComponentName::Trsw, "TRSW/Transport")));
 
     sendMessage(ComponentName::TcomCchhRlh, ComponentName::TupcTbm, createOneTransportBearerModificationCancelForUser());
-    tupcTbm.handleOneEvent();    tupcCm.handleOneEvent();
+    tupcTbm.handleOneEvent();
+    tupcCm.handleOneEvent();
     tupcTbm.handleOneEvent();
 }
 
@@ -87,7 +94,8 @@ TEST_F(ModuleTest, OneTransportBearerReallocationPrepareForUser)
     Dsp& dsp(*static_cast<Dsp*>(getComponentAndActivateAsParticipant(ComponentName::Dsp, "New DSP")));
 
     sendMessage(ComponentName::TcomCchhRlh, ComponentName::TupcTbm, createOneTransportBearerReallocationPrepareForUser());
-    tupcTbm.handleOneEvent();    dsp.handleOneEvent();
+    tupcTbm.handleOneEvent();
+    dsp.handleOneEvent();
     tupcTbm.handleOneEvent();
 }
 
@@ -99,7 +107,8 @@ TEST_F(ModuleTest, OneTransportBearerReallocationCommitForUser)
     Trsw& trsw(*static_cast<Trsw*>(getComponentAndActivateAsParticipant(ComponentName::Trsw, "TRSW/Transport")));
 
     sendMessage(ComponentName::TcomCchhRlh, ComponentName::TupcTbm, createOneTransportBearerReallocationCommitForUser());
-    tupcTbm.handleOneEvent();    tupcCm.handleOneEvent();
+    tupcTbm.handleOneEvent();
+    tupcCm.handleOneEvent();
     tupcTbm.handleOneEvent();
 }
 
@@ -110,7 +119,8 @@ TEST_F(ModuleTest, OneTransportBearerReallocationCleanupForUser)
     Dsp& dsp(*static_cast<Dsp*>(getComponentAndActivateAsParticipant(ComponentName::Dsp, "Old DSP")));
 
     sendMessage(ComponentName::TcomCchhRlh, ComponentName::TupcTbm, createOneTransportBearerReallocationCleanupForUser());
-    tupcTbm.handleOneEvent();    dsp.handleOneEvent();
+    tupcTbm.handleOneEvent();
+    dsp.handleOneEvent();
     tupcTbm.handleOneEvent();
 }
 
@@ -120,7 +130,8 @@ TEST_F(ModuleTest, OneTransportBearerReallocationCancelForUser)
     TupcTbm& tupcTbm(*static_cast<TupcTbm*>(getComponentAndActivateAsParticipant(ComponentName::TupcTbm, "TUPC/TBM")));
 
     sendMessage(ComponentName::TcomCchhRlh, ComponentName::TupcTbm, createOneTransportBearerReallocationCancelForUser());
-    tupcTbm.handleOneEvent();}
+    tupcTbm.handleOneEvent();
+}
 
 TEST_F(ModuleTest, OneTransportBearerUnexpectedRelFromTransport)
 {
@@ -132,9 +143,11 @@ TEST_F(ModuleTest, OneTransportBearerUnexpectedRelFromTransport)
     Dsp& dsp(*static_cast<Dsp*>(getComponentAndActivateAsParticipant(ComponentName::Dsp, "DSP")));
 
     umlLogger.logNoteOnComponents(ComponentNames{ComponentName::TupcCm, ComponentName::Trsw}, "TupcCm receives REL from TRSW/Transport");
+
     sendMessage(ComponentName::TupcCm, ComponentName::TupcTbm, createOneTransportBearerCmUpdateReleaseFromTransport());
     umlLogger.logNoteOnPreviousMessage("TupcCm sends TUPC_CM_BEARERS_UPDATE_IND_MSG with **ECmBearersUpdateTransactionType_ReleasedFromTransport**");
-    tupcTbm.handleOneEvent();    dsp.handleOneEvent();
+    tupcTbm.handleOneEvent();
+    dsp.handleOneEvent();
     tupcTbm.handleOneEvent();
 }
 
@@ -145,8 +158,10 @@ TEST_F(ModuleTest, OneTransportBearerUnexpectedRelFromTransport)
     TupcCm& tupcCm(*static_cast<TupcCm*>(getComponentAndActivateAsParticipant(ComponentName::TupcCm, "TUPC/CM")));
 
     umlLogger.logNoteOnComponents(ComponentNames{ComponentName::TupcCm, ComponentName::Trsw}, "TupcCm receives REL from TRSW/Transport");
+
     sendMessage(ComponentName::TupcCm, ComponentName::TupcTbm, createOneTransportBearerCmUpdateReleaseFromTransport());
     umlLogger.logNoteOnPreviousMessage("TupcCm sends TUPC_CM_BEARERS_UPDATE_IND_MSG with **ECmBearersUpdateTransactionType_ReleasedFromTransport**");
-    tupcTbm.handleOneEvent();    dsp.handleOneEvent();
+    tupcTbm.handleOneEvent();
+    dsp.handleOneEvent();
     tupcTbm.handleOneEvent();
 }*/

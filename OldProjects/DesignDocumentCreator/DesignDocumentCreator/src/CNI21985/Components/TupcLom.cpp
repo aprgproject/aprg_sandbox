@@ -90,7 +90,8 @@ void TupcLom::handleTimerEvent(Timer const& timer)
     cout<<"Handle Timer, timerType: "<<convertToString(timer.getType())<<" timerId:"<<(int)timer.getId()<<"\n";
 }
 
-void TupcLom::handleOtherEvent(OtherEvent const& otherEvent){
+void TupcLom::handleOtherEvent(OtherEvent const& otherEvent)
+{
    switch(otherEvent.getType())
    {
    case OtherEventType::MainProcessStartup:
@@ -102,9 +103,11 @@ void TupcLom::handleOtherEvent(OtherEvent const& otherEvent){
    }
 }
 
+
 /*
     //TUP_TbmConfigurationCmd //new message for TBM?
-    //rename all of this shit.    //const TMessageId TUP_CmConfigurationCmd_Msg = ATM_MESSAGE_BASE + 0x0118;
+    //rename all of this shit.
+    //const TMessageId TUP_CmConfigurationCmd_Msg = ATM_MESSAGE_BASE + 0x0118;
     //const TMessageId TUP_CmConfigurationResp_Msg = ATM_MESSAGE_BASE + 0x0119;
     //const TMessageId TUP_FspInfoUpdatedInd_Msg = ATM_MESSAGE_BASE + 0x011A;
     //const TMessageId TUP_FspInfoUpdatedIndResp_Msg = ATM_MESSAGE_BASE + 0x011B;

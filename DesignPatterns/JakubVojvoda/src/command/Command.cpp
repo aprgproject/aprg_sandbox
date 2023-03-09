@@ -24,9 +24,11 @@ public:
   }
   // ...
 };
+
 /*
  * Command
- * declares an interface for all commands */
+ * declares an interface for all commands
+ */
 class Command
 {
 public:

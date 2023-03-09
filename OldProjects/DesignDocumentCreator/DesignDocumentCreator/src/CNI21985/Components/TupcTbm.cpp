@@ -521,7 +521,8 @@ void TupcTbm::handleTimerEvent(Timer const& timer)
     cout<<"Handle Timer, timerType: "<<convertToString(timer.getType())<<" timerId:"<<(int)timer.getId()<<"\n";
 }
 
-void TupcTbm::handleOtherEvent(OtherEvent const& otherEvent){
+void TupcTbm::handleOtherEvent(OtherEvent const& otherEvent)
+{
    switch(otherEvent.getType())
    {
    case OtherEventType::MainProcessStartup:
@@ -532,4 +533,5 @@ void TupcTbm::handleOtherEvent(OtherEvent const& otherEvent){
        break;
    }
 }
+
 }

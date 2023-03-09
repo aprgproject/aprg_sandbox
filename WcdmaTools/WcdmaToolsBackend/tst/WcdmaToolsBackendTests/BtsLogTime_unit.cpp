@@ -229,9 +229,11 @@ TEST(BtsLogTimeTest, TheDataCanBeSavedToAndRetrieveFromFile)
         outputStream<<sampleLogTime<<"\n";
     }
     ASSERT_TRUE(testLogTime.isEmpty());
-    {        ifstream inputStream(pathOfTempFile);
+    {
+        ifstream inputStream(pathOfTempFile);
         inputStream>>testLogTime;
     }
-    EXPECT_EQ(sampleLogTime, testLogTime);}
+    EXPECT_EQ(sampleLogTime, testLogTime);
+}
 
 }

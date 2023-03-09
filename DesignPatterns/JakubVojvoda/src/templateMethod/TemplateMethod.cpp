@@ -55,10 +55,12 @@ public:
     std::cout << "Primitive operation 2\n";
     // ...
   }
-  // ...};
+  // ...
+};
 
 
-int main(){
+int main()
+{
   AbstractClass *tm = new ConcreteClass;
   tm->templateMethod();
   

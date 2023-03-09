@@ -38,7 +38,8 @@ void TupcIlm::handleTimerEvent(Timer const& timer)
     cout<<"Handle Timer, timerType: "<<convertToString(timer.getType())<<" timerId:"<<(int)timer.getId()<<"\n";
 }
 
- void TupcIlm::handleOtherEvent(OtherEvent const& otherEvent){
+ void TupcIlm::handleOtherEvent(OtherEvent const& otherEvent)
+{
     switch(otherEvent.getType())
     {
     case OtherEventType::MainProcessStartup:
@@ -49,4 +50,5 @@ void TupcIlm::handleTimerEvent(Timer const& timer)
         break;
     }
 }
+
 }

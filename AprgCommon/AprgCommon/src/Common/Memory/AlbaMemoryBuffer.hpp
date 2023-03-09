@@ -7,10 +7,12 @@
 #include <ostream>
 #include <vector>
 
-namespace alba{
+namespace alba
+{
 
 class AlbaMemoryBuffer
-{public:
+{
+public:
 
     AlbaMemoryBuffer() = default;
     AlbaMemoryBuffer(void const* sourcePointer, unsigned int const size);
@@ -29,10 +31,12 @@ class AlbaMemoryBuffer
     void addData(void const* sourcePointer, unsigned int const size);
 
     template <typename ObjectType> void saveObject(ObjectType const& object)
-    {        // lets not check if its POD because it works on other cases
+    {
+        // lets not check if its POD because it works on other cases
         unsigned int objectSize = sizeof(object);
         resize(objectSize);
-        void const* sourcePointer = static_cast<void const*>(&object);        void * destinationVoidPointer = getBufferPointer();
+        void const* sourcePointer = static_cast<void const*>(&object);
+        void * destinationVoidPointer = getBufferPointer();
         memcpy(destinationVoidPointer, sourcePointer, objectSize);
     }
 

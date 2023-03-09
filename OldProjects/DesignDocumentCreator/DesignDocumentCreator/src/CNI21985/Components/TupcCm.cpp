@@ -157,10 +157,12 @@ void TupcCm::handleTimerEvent(Timer const& timer)
     cout<<"Handle Timer, timerType: "<<convertToString(timer.getType())<<" timerId:"<<(int)timer.getId()<<"\n";
 }
 
-void TupcCm::handleOtherEvent(OtherEvent const& otherEvent){
+void TupcCm::handleOtherEvent(OtherEvent const& otherEvent)
+{
    switch(otherEvent.getType())
    {
-   case OtherEventType::MainProcessStartup:       handleTupcExeStartup();
+   case OtherEventType::MainProcessStartup:
+       handleTupcExeStartup();
        break;
    case OtherEventType::SubProcessStartup:
        handleTupcCmStartup();
@@ -170,4 +172,5 @@ void TupcCm::handleOtherEvent(OtherEvent const& otherEvent){
        break;
    }
 }
+
 }

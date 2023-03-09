@@ -74,6 +74,7 @@ void Environment::performSend(GenericMessage const& messageToRoute)
         cout<<"["<<senderNameString<<"] sends the message ["<<messageToRoute.getMessageNameInString()<<"] to ["<<receiverNameString<<"]\n";
         getUmlLogger().logMessage(senderNameString, receiverNameString, messageToRoute.getMessageNameInString());
         receiverComponent->pushBackEvent(Event(messageToRoute));
-    }}
+    }
+}
 
 }

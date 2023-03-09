@@ -105,9 +105,11 @@ void SerialPort::readSerial(unsigned char* buf, unsigned size)
     cout<<"\n";*/
 }
 
-int SerialPort::getFd(){
+int SerialPort::getFd()
+{
     return m_fd;
 }
+
 int SerialPort::getBytesRead()
 {
     return m_bytesRead;

@@ -159,10 +159,12 @@ void WcdmaToolsConfiguration::saveToConfigurationFile() const
     outputFileStream << "btsLogSorterConfiguration.m_configurationWithoutPcTime.m_maximumFileStreams:" << btsLogSorterConfiguration.m_configurationWithoutPcTime.m_maximumFileStreams << "\n";
 }
 
-string WcdmaToolsConfiguration::getGrepCondition() const{
+string WcdmaToolsConfiguration::getGrepCondition() const
+{
     string condition;
     addConditionIntoGrepCondition(condition, isGrepTcomEnabled, grepConditionForTcom);
-    addConditionIntoGrepCondition(condition, isGrepErrEnabled, grepConditionForErr);    addConditionIntoGrepCondition(condition, isGrepErrWrnNoSpamEnabled, grepConditionForErrWrn);
+    addConditionIntoGrepCondition(condition, isGrepErrEnabled, grepConditionForErr);
+    addConditionIntoGrepCondition(condition, isGrepErrWrnNoSpamEnabled, grepConditionForErrWrn);
     addConditionIntoGrepCondition(condition, isGrepBtsStatusEnabled, grepConditionForBtsStatus);
     addConditionIntoGrepCondition(condition, isGrepRecoveryEnabled, grepConditionForRecovery);
     addConditionIntoGrepCondition(condition, isGrepAllocationEnabled, grepConditionForAllocation);
@@ -272,10 +274,12 @@ void WcdmaToolsConfiguration::determineVariousLocationsBasedOnCurrentLocation()
     cout<<"btsLogSorterConfiguration.m_pathOfTempFiles: ["<<btsLogSorterConfiguration.m_pathOfTempFiles<<"]\n";
 }
 
-void WcdmaToolsConfiguration::loadConfigurationFromFile(string const& filePath){
+void WcdmaToolsConfiguration::loadConfigurationFromFile(string const& filePath)
+{
     NameToValueMap nameToValueMap;
     copyNamesAndValuesFromFile(nameToValueMap, filePath);
-    loadNamesAndValues(nameToValueMap);}
+    loadNamesAndValues(nameToValueMap);
+}
 
 void WcdmaToolsConfiguration::copyNamesAndValuesFromFile(NameToValueMap & nameToValueMap, string const& filePath)
 {

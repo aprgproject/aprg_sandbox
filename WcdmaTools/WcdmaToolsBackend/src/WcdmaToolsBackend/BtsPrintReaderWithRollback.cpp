@@ -48,9 +48,11 @@ void BtsPrintReaderWithRollback::rollBackPrint()
     }
     m_isRollbackActivated = true;
 }
+
 void BtsPrintReaderWithRollback::openIfNeeded(string const& filePath)
 {
-    if(!m_inputStream.is_open())    {
+    if(!m_inputStream.is_open())
+    {
         m_inputStream.open(filePath);
     }
 }

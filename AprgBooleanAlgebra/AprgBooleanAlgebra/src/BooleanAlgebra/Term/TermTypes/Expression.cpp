@@ -122,10 +122,12 @@ WrappedTerms const& Expression::getWrappedTerms() const
 
 string Expression::getDebugString() const
 {
-    stringstream result;    result << "( " << getEnumShortString(m_commonOperatorLevel) << "||";
+    stringstream result;
+    result << "( " << getEnumShortString(m_commonOperatorLevel) << "||";
     for(WrappedTerm const& wrappedTerm : m_wrappedTerms)
     {
-        Term const& term(getTermConstReferenceFromSharedPointer(wrappedTerm.baseTermSharedPointer));        result << getString(m_commonOperatorLevel) << term.getDebugString();
+        Term const& term(getTermConstReferenceFromSharedPointer(wrappedTerm.baseTermSharedPointer));
+        result << getString(m_commonOperatorLevel) << term.getDebugString();
     }
     result << " )";
     return result.str();

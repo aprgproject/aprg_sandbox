@@ -72,7 +72,8 @@ void BtsLogAnalyzer::initializeMessageQueueingTimeFileStream()
     messageQueueingTimeFileStream<<"QueueingTime,LogPrint\n";
 }
 
-void BtsLogAnalyzer::initializeRlSetupTimeFileStream(){
+void BtsLogAnalyzer::initializeRlSetupTimeFileStream()
+{
     AlbaLocalPathHandler rlSetupTimeFilePathHandler(m_btsLogPathHandler.getDirectory()+m_btsLogPathHandler.getFilenameOnly()+"_RlSetupTime.csv");
     rlSetupTimeFileStreamOptional.emplace();
     ofstream& rlSetupTimeFileStream(rlSetupTimeFileStreamOptional.value());
@@ -81,7 +82,8 @@ void BtsLogAnalyzer::initializeRlSetupTimeFileStream(){
     rlSetupTimeFileStream<<"CrnccId,NbccId,TransactionId,Latency(microseconds),BB_2_RL_SETUP_REQ_MSG,BB_2_RL_SETUP_ACK_MSG,TC_TRANSPORT_BEARER_REGISTER_MSG,TC_TRANSPORT_BEARER_REGISTER_RESP_MSG\n";
 }
 
-void BtsLogAnalyzer::initializeRlDeletionTimeFileStream(){
+void BtsLogAnalyzer::initializeRlDeletionTimeFileStream()
+{
     AlbaLocalPathHandler rlDeletionTimeFilePathHandler(m_btsLogPathHandler.getDirectory()+m_btsLogPathHandler.getFilenameOnly()+"_RlDeletionTime.csv");
     rlDeletionTimeFileStreamOptional.emplace();
     ofstream& rlDeletionTimeFileStream(rlDeletionTimeFileStreamOptional.value());
@@ -90,7 +92,8 @@ void BtsLogAnalyzer::initializeRlDeletionTimeFileStream(){
     rlDeletionTimeFileStream<<"CrnccId,NbccId,TransactionId,Latency(microseconds),BB_2_RL_SETUP_REQ_MSG,BB_2_RL_SETUP_ACK_MSG,TC_TRANSPORT_BEARER_REGISTER_MSG,TC_TRANSPORT_BEARER_REGISTER_RESP_MSG\n";
 }
 
-void BtsLogAnalyzer::initializeRlSetupPerSecondFileStream(){
+void BtsLogAnalyzer::initializeRlSetupPerSecondFileStream()
+{
     AlbaLocalPathHandler rlSetupPerSecondFilePathHandler(m_btsLogPathHandler.getDirectory()+m_btsLogPathHandler.getFilenameOnly()+"_RlSetupPerSecond.csv");
     rlSetupPerSecondFileStreamOptional.emplace();
     ofstream& rlSetupPerSecondFileStream(rlSetupPerSecondFileStreamOptional.value());
@@ -99,10 +102,12 @@ void BtsLogAnalyzer::initializeRlSetupPerSecondFileStream(){
     rlSetupPerSecondFileStream<<"Time,Number Of RL setup in a second\n";
 }
 
-void BtsLogAnalyzer::saveDspCapacityInformationInGrm(string const& lineInLogs){
+void BtsLogAnalyzer::saveDspCapacityInformationInGrm(string const& lineInLogs)
+{
     if(isStringFoundInsideTheOtherStringCaseSensitive(lineInLogs, "INF/TCOM/G, 0x"))
     {
-        BtsLogPrint logPrint(lineInLogs);        strings dspCapacitiesPerDsp;
+        BtsLogPrint logPrint(lineInLogs);
+        strings dspCapacitiesPerDsp;
         splitToStrings<SplitStringType::WithoutDelimeters>(dspCapacitiesPerDsp, lineInLogs, "()");
         unsigned int boardId(convertHexStringToNumber<unsigned int>(getStringInBetweenTwoStrings(lineInLogs, "0x", ",")));
         for(string const& dspCapacityOfOneDsp : dspCapacitiesPerDsp)
@@ -366,20 +371,24 @@ void BtsLogAnalyzer::initializeSaveAllUsersAndCfsDump()
     totalUsersAndCfsFileStream<<"Time,Address,hsupaCFs,totalCfs,dchUsers,hsupaUsers\n";
 }
 
-void BtsLogAnalyzer::saveDataDumpOfOneDsp(string const& fileName, DspData const& dspData, BtsLogPrint const& logPrint){
+void BtsLogAnalyzer::saveDataDumpOfOneDsp(string const& fileName, DspData const& dspData, BtsLogPrint const& logPrint)
+{
     AlbaLocalPathHandler dspDataPathHandler(m_btsLogPathHandler.getDirectory()+fileName+".csv");
     ofstream dspDataFileStream(dspDataPathHandler.getFullPath(), std::ios::ate|std::ios::app);
-    dspDataFileStream<<logPrint.getBtsTime().getEquivalentStringBtsTimeFormat()<<",";    dspDataFileStream<<dspData.availableUlCEs<<","<<dspData.availableDlCEs<<",";
+    dspDataFileStream<<logPrint.getBtsTime().getEquivalentStringBtsTimeFormat()<<",";
+    dspDataFileStream<<dspData.availableUlCEs<<","<<dspData.availableDlCEs<<",";
     dspDataFileStream<<dspData.rakeState<<","<<dspData.rachHand<<","<<dspData.rakeLoad<<",";
     dspDataFileStream<<dspData.hsupaCFs<<","<<dspData.hsRachCFs<<",";
     dspDataFileStream<<dspData.hsupaUsers<<","<<dspData.nbrOfEnhHsupaUsers<<","<<dspData.dchUsers<<",";
     dspDataFileStream<<"\n";
 }
 
-void BtsLogAnalyzer::saveTotalUsersAndCfs(BtsLogPrint const& logPrint){
+void BtsLogAnalyzer::saveTotalUsersAndCfs(BtsLogPrint const& logPrint)
+{
     AlbaLocalPathHandler dspDataPathHandler(m_btsLogPathHandler.getDirectory()+"TotalUsersAndCfs.csv");
     ofstream totalCfsFileStream(dspDataPathHandler.getFullPath(), std::ios::ate|std::ios::app);
-    unsigned int totalCfs(0);    unsigned int totalR99Users(0);
+    unsigned int totalCfs(0);
+    unsigned int totalR99Users(0);
     unsigned int totalHsupaUsers(0);
     for(DspDataPair const& dspDataPair : m_dspDataMap)
     {
@@ -394,10 +403,12 @@ void BtsLogAnalyzer::saveTotalUsersAndCfs(BtsLogPrint const& logPrint){
     totalCfsFileStream<<"\n";
 }
 
-void BtsLogAnalyzer::saveAllUsersAndCfs(BtsLogPrint const& logPrint){
+void BtsLogAnalyzer::saveAllUsersAndCfs(BtsLogPrint const& logPrint)
+{
     AlbaLocalPathHandler dspDataPathHandler(m_btsLogPathHandler.getDirectory()+"SaveAllUsersAndCfs.csv");
     ofstream totalUsersAndCfsFileStream(dspDataPathHandler.getFullPath(), std::ios::ate|std::ios::app);
-    totalUsersAndCfsFileStream<<logPrint.getBtsTime().getEquivalentStringBtsTimeFormat()<<",";    unsigned int totalCfs(0);
+    totalUsersAndCfsFileStream<<logPrint.getBtsTime().getEquivalentStringBtsTimeFormat()<<",";
+    unsigned int totalCfs(0);
     for(DspDataPair const& dspDataPair : m_dspDataMap)
     {
         totalCfs+=dspDataPair.second.hsupaCFs;
@@ -410,9 +421,11 @@ void BtsLogAnalyzer::saveAllUsersAndCfs(BtsLogPrint const& logPrint){
     totalUsersAndCfsFileStream<<"\n";
 }
 
-void BtsLogAnalyzer::saveDspInformation(unsigned int const dspAddress, DspData const& dspData){
+void BtsLogAnalyzer::saveDspInformation(unsigned int const dspAddress, DspData const& dspData)
+{
     m_dspDataMap[dspAddress] = dspData;
 }
+
 void BtsLogAnalyzer::saveMaxDspInformation(DspData const& dspData)
 {
     if(dspData.availableUlCEs < m_maxDspData.availableUlCEs)
@@ -485,9 +498,11 @@ void BtsLogAnalyzer::saveRlSetupPerSecond(string const& lineInLogs)
                 rlSetupPerSecondFileStream<<savedSecond.getEquivalentStringBtsTimeFormat()<<","<<numberOfUsersInSecond<<"\n";
             }
             savedSecond=currentLogTime;
-            numberOfUsersInSecond=0;        }
+            numberOfUsersInSecond=0;
+        }
     }
 }
+
 void BtsLogAnalyzer::saveRlhSetupTime(string const& lineInLogs, LogTimePairs& rlSetupLogTimePairs)
 {
     if(isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, R"(CTRL_RLH_RlSetupReq3G)"))
@@ -572,10 +587,12 @@ void BtsLogAnalyzer::computeRlSetupLatencyAndUpdateIfLogTimePairIsValid(UserIden
             rlSetupTimeFileStream<<"\n";
         }
     }
-    logTimePairs.erase(userIdentifiers);}
+    logTimePairs.erase(userIdentifiers);
+}
 
 void BtsLogAnalyzer::computeRLDeletionLatencyAndUpdateIfLogTimePairIsValid(UserIdentifiers const& userIdentifiers, LogTimePairs& logTimePairs)
-{    LogTimePair & logTimePairOfTheUser(logTimePairs[userIdentifiers]);
+{
+    LogTimePair & logTimePairOfTheUser(logTimePairs[userIdentifiers]);
     if(logTimePairOfTheUser.first && logTimePairOfTheUser.second && logTimePairOfTheUser.first->getTotalSeconds() <= logTimePairOfTheUser.second->getTotalSeconds())
     {
         double latencyInMicroseconds(getTotalMicroseconds(logTimePairOfTheUser));
@@ -587,7 +604,8 @@ void BtsLogAnalyzer::computeRLDeletionLatencyAndUpdateIfLogTimePairIsValid(UserI
             rlDeletionTimeFileStream<<"\n";
         }
     }
-    logTimePairs.erase(userIdentifiers);}
+    logTimePairs.erase(userIdentifiers);
+}
 
 void BtsLogAnalyzer::saveMessageQueueingTimeToCsvFile(string const& lineInLogs, unsigned int const messageQueueingTime)
 {
@@ -597,9 +615,11 @@ void BtsLogAnalyzer::saveMessageQueueingTimeToCsvFile(string const& lineInLogs, 
         messageQueueingTimeFileStream<<messageQueueingTime<<","<<lineInLogs<<"\n";
     }
 }
+
 void BtsLogAnalyzer::saveUserIndentifierAndLatencyToCsvFile(UserIdentifiers const& userIdentifiers, double const latencyInMicroseconds, ofstream& csvFileStream) const
 {
-    csvFileStream<<userIdentifiers.getCrnccId()<<","<<userIdentifiers.getNbccId()<<","<<userIdentifiers.getTransactionId()<<","<<latencyInMicroseconds<<",";}
+    csvFileStream<<userIdentifiers.getCrnccId()<<","<<userIdentifiers.getNbccId()<<","<<userIdentifiers.getTransactionId()<<","<<latencyInMicroseconds<<",";
+}
 
 void BtsLogAnalyzer::savePrintsAvailableToCsvFile(UserIdentifiers const& userIdentifiers, ofstream& csvFileStream)
 {

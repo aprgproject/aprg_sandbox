@@ -19,10 +19,12 @@ bool Monster::isAggressive() const
     for(string const& mode : modes)
     {
         if("Aggressive" == mode)
-        {            result = true;
+        {
+            result = true;
             break;
         }
-    }    return result;
+    }
+    return result;
 }
 
 bool Monster::isMvp() const
@@ -31,10 +33,12 @@ bool Monster::isMvp() const
     for(string const& mode : modes)
     {
         if("MVP Boss" == mode)
-        {            result = true;
+        {
+            result = true;
             break;
         }
-    }    return result;
+    }
+    return result;
 }
 
 bool Monster::hasStoneCurseSkill() const
@@ -43,10 +47,12 @@ bool Monster::hasStoneCurseSkill() const
     for(string const& monsterSkill : monsterSkills)
     {
         if(isStringFoundInsideTheOtherStringCaseSensitive(monsterSkill, "Stone Curse"))
-        {            result = true;
+        {
+            result = true;
             break;
         }
-    }    return result;
+    }
+    return result;
 }
 
 RagnarokOnline::RagnarokOnline()
@@ -771,6 +777,7 @@ void RagnarokOnline::buildItemNameToItemId()
         m_itemNameToItemIdMap.emplace(fixedItemName, itemIdItemPair.first);
     }
 }
+
 void RagnarokOnline::buildMonsterNameToMonsterId()
 {
     for(auto const& monsterIdMonsterPair : m_monsterIdToMonsterMap)
@@ -779,9 +786,11 @@ void RagnarokOnline::buildMonsterNameToMonsterId()
         m_monsterNameToMonsterIdMap.emplace(monster.name, monsterIdMonsterPair.first);
     }
 }
+
 ItemIdToItemMap const& RagnarokOnline::getItemIdToItemMap() const
 {
-    return m_itemIdToItemMap;}
+    return m_itemIdToItemMap;
+}
 
 MonsterIdToMonsterMap const& RagnarokOnline::getMonsterIdToMonsterMap() const
 {
@@ -826,9 +835,11 @@ Item RagnarokOnline::getItem(
     }
     return result;
 }
+
 Monster RagnarokOnline::getMonster(
         string const& monsterName) const
-{    Monster result{};
+{
+    Monster result{};
     auto it1 = m_monsterNameToMonsterIdMap.find(monsterName);
     if(it1 != m_monsterNameToMonsterIdMap.cend())
     {
@@ -848,9 +859,11 @@ Monster RagnarokOnline::getMonster(
     }
     return result;
 }
+
 string RagnarokOnline::getFixedItemName(
         Item const& item) const
-{    string result(item.name);
+{
+    string result(item.name);
     if(item.slot != 0)
     {
         stringstream slotStream;
@@ -893,7 +906,8 @@ void RagnarokOnline::saveItemIdToItemMapToFile(
     writer.flush();
 }
 
-void RagnarokOnline::saveMonsterIdToMonsterMapToFile(        string const& outputFilePath) const
+void RagnarokOnline::saveMonsterIdToMonsterMapToFile(
+        string const& outputFilePath) const
 {
     ofstream outputStream(outputFilePath);
     AlbaStreamParameterWriter writer(outputStream);
@@ -901,7 +915,8 @@ void RagnarokOnline::saveMonsterIdToMonsterMapToFile(        string const& outpu
     writer.flush();
 }
 
-void RagnarokOnline::saveMapNameToRoMapToFile(        string const& outputFilePath) const
+void RagnarokOnline::saveMapNameToRoMapToFile(
+        string const& outputFilePath) const
 {
     ofstream outputStream(outputFilePath);
     AlbaStreamParameterWriter writer(outputStream);
@@ -909,7 +924,8 @@ void RagnarokOnline::saveMapNameToRoMapToFile(        string const& outputFilePa
     writer.flush();
 }
 
-void RagnarokOnline::saveBuyingShopItems(        string const& outputFilePath) const
+void RagnarokOnline::saveBuyingShopItems(
+        string const& outputFilePath) const
 {
     ofstream outputStream(outputFilePath);
     AlbaStreamParameterWriter writer(outputStream);
@@ -917,7 +933,8 @@ void RagnarokOnline::saveBuyingShopItems(        string const& outputFilePath) c
     writer.flush();
 }
 
-void RagnarokOnline::saveSellingShopItems(        string const& outputFilePath) const
+void RagnarokOnline::saveSellingShopItems(
+        string const& outputFilePath) const
 {
     ofstream outputStream(outputFilePath);
     AlbaStreamParameterWriter writer(outputStream);
@@ -925,10 +942,12 @@ void RagnarokOnline::saveSellingShopItems(        string const& outputFilePath) 
     writer.flush();
 }
 
-void RagnarokOnline::printItemIdToItemMap() const{
+void RagnarokOnline::printItemIdToItemMap() const
+{
     for(auto const& itemIdItemPair : m_itemIdToItemMap)
     {
-        cout << "Item ID: " << itemIdItemPair.first << "\n";        Item const& item(itemIdItemPair.second);
+        cout << "Item ID: " << itemIdItemPair.first << "\n";
+        Item const& item(itemIdItemPair.second);
         cout << "Item name: " << item.name << "\n";
         cout << "Item type: " << item.type << "\n";
         cout << "Item class: " << item.itemClass << "\n";
@@ -959,6 +978,7 @@ void RagnarokOnline::printItemIdToItemMap() const{
         cout << "}\n";
     }
 }
+
 void RagnarokOnline::printMonsterIdToMonsterMap() const
 {
     for(auto const& monsterIdMonsterPair : m_monsterIdToMonsterMap)
@@ -1029,6 +1049,7 @@ void RagnarokOnline::printMonsterIdToMonsterMap() const
         cout << "}\n";
     }
 }
+
 void RagnarokOnline::printMapNameToRoMap() const
 {
     for(auto const& mapNameToRoMap : m_mapNameToRoMap)
@@ -1038,7 +1059,8 @@ void RagnarokOnline::printMapNameToRoMap() const
         cout << "Map full name: " << roMap.fullName << "\n";
         cout << "Monsters: {";
         for(MonsterDetailsOnRoMap const& monsterDetailsOnMap : roMap.monstersDetailsOnMap)
-        {            cout << "[" << monsterDetailsOnMap.monsterName
+        {
+            cout << "[" << monsterDetailsOnMap.monsterName
                  << "," << monsterDetailsOnMap.spawnCount
                  << "," << monsterDetailsOnMap.spawnRate
                  << "], ";
@@ -1046,6 +1068,7 @@ void RagnarokOnline::printMapNameToRoMap() const
         cout << "}\n";
     }
 }
+
 void RagnarokOnline::printBuyingShopItems() const
 {
     cout.precision(20);
@@ -1057,6 +1080,7 @@ void RagnarokOnline::printBuyingShopItems() const
         cout << "Total number: " << detail.totalNumber << "\n";
     }
 }
+
 void RagnarokOnline::printSellingShopItems() const
 {
     cout.precision(20);
@@ -1068,9 +1092,11 @@ void RagnarokOnline::printSellingShopItems() const
         cout << "Total number: " << detail.totalNumber << "\n";
     }
 }
+
 string RagnarokOnline::fixText(
         string const& text)
-{    string fixedText(text);
+{
+    string fixedText(text);
     transformReplaceStringIfFound(fixedText, "<br>", " ");
     transformReplaceStringIfFound(fixedText, "&amp;", "&");
     transformReplaceStringIfFound(fixedText, "&nbsp;", " ");
@@ -1094,6 +1120,7 @@ ostream & operator<<(ostream & out, NameAndRate const& nameAndRate)
     writer.flush();
     return out;
 }
+
 ostream & operator<<(ostream & out, MonsterDetailsOnRoMap const& monsterDetailsOnRoMap)
 {
     AlbaStreamParameterWriter writer(out);
@@ -1103,9 +1130,11 @@ ostream & operator<<(ostream & out, MonsterDetailsOnRoMap const& monsterDetailsO
     writer.flush();
     return out;
 }
+
 ostream & operator<<(ostream & out, Item const& item)
 {
-    AlbaStreamParameterWriter writer(out);    writer.writeData<unsigned int>(item.itemId);
+    AlbaStreamParameterWriter writer(out);
+    writer.writeData<unsigned int>(item.itemId);
     writer.writeData<string>(item.name);
     writer.writeData<string>(item.type);
     writer.writeData<string>(item.itemClass);
@@ -1127,9 +1156,11 @@ ostream & operator<<(ostream & out, Item const& item)
     writer.flush();
     return out;
 }
+
 ostream & operator<<(ostream & out, Monster const& monster)
 {
-    AlbaStreamParameterWriter writer(out);    writer.writeData<unsigned int>(monster.monsterId);
+    AlbaStreamParameterWriter writer(out);
+    writer.writeData<unsigned int>(monster.monsterId);
     writer.writeData<string>(monster.name);
     writer.writeData<unsigned int>(monster.hp);
     writer.writeData<unsigned int>(monster.level);
@@ -1175,15 +1206,18 @@ ostream & operator<<(ostream & out, Monster const& monster)
     writer.flush();
     return out;
 }
+
 ostream & operator<<(ostream & out, ShopItemDetail const& shopItemDetail)
 {
-    out.precision(20);    AlbaStreamParameterWriter writer(out);
+    out.precision(20);
+    AlbaStreamParameterWriter writer(out);
     writer.writeData<string>(shopItemDetail.itemName);
     writer.writeData<double>(shopItemDetail.averagePrice);
     writer.writeData<unsigned int>(shopItemDetail.totalNumber);
     writer.flush();
     return out;
 }
+
 ostream & operator<<(ostream & out, RoMap const& roMap)
 {
     AlbaStreamParameterWriter writer(out);
@@ -1193,6 +1227,7 @@ ostream & operator<<(ostream & out, RoMap const& roMap)
     writer.flush();
     return out;
 }
+
 ostream & operator<<(ostream & out, ItemIdToItemMap const& itemIdToItemMap)
 {
     AlbaStreamParameterWriter writer(out);
@@ -1200,6 +1235,7 @@ ostream & operator<<(ostream & out, ItemIdToItemMap const& itemIdToItemMap)
     writer.flush();
     return out;
 }
+
 ostream & operator<<(ostream & out, MonsterIdToMonsterMap const& monsterIdToMonsterMap)
 {
     AlbaStreamParameterWriter writer(out);
@@ -1207,6 +1243,7 @@ ostream & operator<<(ostream & out, MonsterIdToMonsterMap const& monsterIdToMons
     writer.flush();
     return out;
 }
+
 ostream & operator<<(ostream & out, MapNameToRoMap const& mapNameToRoMap)
 {
     AlbaStreamParameterWriter writer(out);
@@ -1214,6 +1251,7 @@ ostream & operator<<(ostream & out, MapNameToRoMap const& mapNameToRoMap)
     writer.flush();
     return out;
 }
+
 ostream & operator<<(ostream & out, ItemNameToShopItemDetailMap const& itemNameToShopItemDetailMap)
 {
     AlbaStreamParameterWriter writer(out);
@@ -1221,9 +1259,11 @@ ostream & operator<<(ostream & out, ItemNameToShopItemDetailMap const& itemNameT
     writer.flush();
     return out;
 }
+
 istream & operator>>(istream & in, NameAndRate & nameAndRate)
 {
-    in.precision(20);    AlbaStreamParameterReader reader(in);
+    in.precision(20);
+    AlbaStreamParameterReader reader(in);
     nameAndRate.name = reader.readData<string>();
     nameAndRate.rate = reader.readData<double>();
     return in;

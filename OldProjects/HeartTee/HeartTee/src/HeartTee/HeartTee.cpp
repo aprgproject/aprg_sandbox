@@ -93,10 +93,12 @@ void HeartTee::processData()
         //cout<<"m_process_isStarting"<<m_process_isStarting<<"m_process_state"<<m_process_state<<"m_sfn"<<m_sfn<<"m_numberOfSamples"<<std::hex<<m_numberOfSamples<<"m_processBuffer[i]"<<std::hex<<(int)m_processBuffer[i]<<"\n";
         if(m_process_isStarting)
         {
-            if(m_process_state==0)            {
+            if(m_process_state==0)
+            {
                 m_sfn = m_processBuffer[i];
             }
-            else if(m_process_state==1)            {
+            else if(m_process_state==1)
+            {
                 m_sfn = m_processBuffer[i]<<8 | m_sfn;
             }
             else if(m_process_state==2)
@@ -221,10 +223,12 @@ void HeartTee::processData()
                         cout<<"m_process_currentEcg:"<<m_process_currentEcg<<" m_process_currentPulse:"<<m_process_currentPulse<<" i:"<<i<<"\n";
                         exit(0);
                     }
-                    m_dataPerSecond.emplace_back(m_process_currentEcg, m_process_currentPulse);                }
+                    m_dataPerSecond.emplace_back(m_process_currentEcg, m_process_currentPulse);
+                }
             }
         }
-    }    m_numberOfBytesLeftInProcessBuffer=0;
+    }
+    m_numberOfBytesLeftInProcessBuffer=0;
 }
 
 void HeartTee::printDatabase()
@@ -240,9 +244,11 @@ void HeartTee::printDatabase()
     }*/
 
 }
+
 void HeartTee::saveToSql()
 {
-    const int SQLMAXTABLESIZE=100000;    const int HIGH_COUNT_ACCEPTABLE=20;
+    const int SQLMAXTABLESIZE=100000;
+    const int HIGH_COUNT_ACCEPTABLE=20;
     const int HIGH_VALUE=400;
     if(m_database.size()>0)
     {
@@ -280,7 +286,8 @@ void HeartTee::saveToSql()
             cout<<"pulsePerMin:"<<std::dec<<pulsePerMin<<" ecg amplitude:"<<std::dec<<maxValue-minValue<<"\n";
             for(HeartTeeData const& database : m_database)
             {
-                m_sqlConnect.write(database.m_timeDate, database.m_milliSecond, database.m_pulse, database.m_ecg, pulsePerMin, 0, maxValue-minValue);            }
+                m_sqlConnect.write(database.m_timeDate, database.m_milliSecond, database.m_pulse, database.m_ecg, pulsePerMin, 0, maxValue-minValue);
+            }
             m_database.clear();
 
         }
@@ -290,5 +297,6 @@ void HeartTee::saveToSql()
         }
     }
 }
+
 
 }

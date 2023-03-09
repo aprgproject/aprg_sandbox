@@ -134,10 +134,12 @@ string PerformanceAnalyzer::extract(string const& inputPath) const
     cout<<" (Extract) start | Input path: "<<inputPath<<"\n";
     AprgFileExtractor fileExtractor(m_extractGrepCondition);
     AlbaLocalPathHandler pathHandler(inputPath);
-    string outputPath(inputPath);    if(pathHandler.isDirectory())
+    string outputPath(inputPath);
+    if(pathHandler.isDirectory())
     {
         fileExtractor.extractAllRelevantFiles(pathHandler.getFullPath());
-    }    else if(fileExtractor.isRecognizedCompressedFile(pathHandler.getExtension()))
+    }
+    else if(fileExtractor.isRecognizedCompressedFile(pathHandler.getExtension()))
     {
         fileExtractor.extractAllRelevantFiles(pathHandler.getFullPath());
         pathHandler.input(pathHandler.getDirectory() + R"(\)" + pathHandler.getFilenameOnly());
@@ -156,10 +158,12 @@ string PerformanceAnalyzer::combineAndSort(string const& inputPath) const
     cout<<" (CombineAndSort) start | Input path: "<<inputPath<<"\n";
     AlbaLocalPathHandler pathHandler(inputPath);
     string outputPath(inputPath);
-    if(pathHandler.isDirectory())    {
+    if(pathHandler.isDirectory())
+    {
         wcdmaToolsBackend::BtsLogSorter btsLogSorter(m_sorterConfiguration);
         btsLogSorter.processDirectory(pathHandler.getDirectory());
-        pathHandler.goUp();        pathHandler.input(pathHandler.getDirectory() + R"(\sorted.log)");
+        pathHandler.goUp();
+        pathHandler.input(pathHandler.getDirectory() + R"(\sorted.log)");
         outputPath = pathHandler.getFullPath();
         btsLogSorter.saveLogsToOutputFile(outputPath);
     }
@@ -170,9 +174,11 @@ string PerformanceAnalyzer::combineAndSort(string const& inputPath) const
     cout<<" (CombineAndSort) done | Output path: "<<inputPath<<"\n";
     return outputPath;
 }
+
 void PerformanceAnalyzer::setFileForRawDataDump(string const& rawDataPath)
 {
-    if(m_RawDataFileOptional)    {
+    if(m_RawDataFileOptional)
+    {
         m_RawDataFileOptional.reset();
     }
     m_RawDataFileOptional.emplace();
@@ -190,9 +196,11 @@ void PerformanceAnalyzer::logLineInRawDataFile(string const& line)
         m_RawDataFileOptional.value()<<line<<"\n";
     }
 }
+
 void PerformanceAnalyzer::logStringInRawDataFile(string const& line)
 {
-    if(m_RawDataFileOptional)    {
+    if(m_RawDataFileOptional)
+    {
         m_RawDataFileOptional.value()<<line;
     }
 }
@@ -203,9 +211,11 @@ void PerformanceAnalyzer::processFileForMsgQueueingTime(string const& filePath)
     cout<<"processFile: "<<filePathHandler.getFullPath()<<"\n";
 
     ifstream inputLogFileStream(filePath);
-    AlbaFileReader fileReader(inputLogFileStream);    int totalMsgQueueingTime = 0;
+    AlbaFileReader fileReader(inputLogFileStream);
+    int totalMsgQueueingTime = 0;
     int highestMsgQueueingTime = 0;
     int numberOfInstances=0;
+
     while(fileReader.isNotFinished())
     {
         string lineInLogs(fileReader.getLineAndIgnoreWhiteSpaces());
@@ -224,6 +234,7 @@ void PerformanceAnalyzer::processFileForMsgQueueingTime(string const& filePath)
     cout<<"numberOfPrints: "<<numberOfInstances<<"\n";
 }
 
+
 void PerformanceAnalyzer::processFileForRlSetupDelayInRlh(string const& filePath)
 {
     AlbaLocalPathHandler filePathHandler(filePath);
@@ -233,10 +244,12 @@ void PerformanceAnalyzer::processFileForRlSetupDelayInRlh(string const& filePath
     cout<<"processFile: "<<filePathHandler.getFullPath() << " isOpen: " << inputLogFileStream.is_open() << " fileReader: " << fileReader.isNotFinished() <<"\n";
     logLineInRawDataFile("crnccId,nbccId,transactionId,isSuccessful,delay");
 
-    UniqueUserId userIdForMaxDelay;    double maxDelay = 0;
+    UniqueUserId userIdForMaxDelay;
+    double maxDelay = 0;
     double totalDelay = 0;
     int count = 0;
-    int countFail = 0;    std::map<UniqueUserId, BtsLogDelay> btsLogDelays;
+    int countFail = 0;
+    std::map<UniqueUserId, BtsLogDelay> btsLogDelays;
     BtsLogTime startTest, endTest;
     while(fileReader.isNotFinished())
     {
@@ -282,10 +295,12 @@ void PerformanceAnalyzer::processFileForRlSetupDelayInRlh(string const& filePath
                 ss<<uniqueUserId.crnccId<<","<<uniqueUserId.nbccId<<","<<uniqueUserId.transactionId<<",successful,"<<setw(10)<<delay;
                 logLineInRawDataFile(ss.str());
             }
-            btsLogDelays.erase(uniqueUserId);        }
+            btsLogDelays.erase(uniqueUserId);
+        }
         else if(isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, R"(RLH_CTRL_RlSetupFail3G)"))
         {
-            UniqueUserId uniqueUserId(lineInLogs);            BtsLogDelay & btsLogDelay = btsLogDelays[uniqueUserId];
+            UniqueUserId uniqueUserId(lineInLogs);
+            BtsLogDelay & btsLogDelay = btsLogDelays[uniqueUserId];
             BtsLogPrint logPrint(lineInLogs);
             if(!logPrint.getBtsTime().isStartup())
             {
@@ -312,7 +327,8 @@ void PerformanceAnalyzer::processFileForRlSetupDelayInRlh(string const& filePath
     cout<<"Test Duration: "<<delayTime.getEquivalentStringBtsTimeFormat()<<"\n";
 }
 
-void PerformanceAnalyzer::processFileForRlDeletionDelayInRlh(string const& filePath){
+void PerformanceAnalyzer::processFileForRlDeletionDelayInRlh(string const& filePath)
+{
     AlbaLocalPathHandler filePathHandler(filePath);
     ifstream inputLogFileStream(filePath);
     AlbaFileReader fileReader(inputLogFileStream);
@@ -320,10 +336,12 @@ void PerformanceAnalyzer::processFileForRlDeletionDelayInRlh(string const& fileP
     cout<<"processFile: "<<filePathHandler.getFullPath()<<"\n";
     logLineInRawDataFile("crnccId,nbccId,transactionId,delay");
 
-    double maxDelay = 0;    double totalDelay = 0;
+    double maxDelay = 0;
+    double totalDelay = 0;
     int count = 0;
     std::map<UniqueUserId, BtsLogDelay> btsLogDelays;
-    while(fileReader.isNotFinished())    {
+    while(fileReader.isNotFinished())
+    {
         string lineInLogs(fileReader.getLineAndIgnoreWhiteSpaces());
         if(isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, R"(CTRL_RLH_RlDeletionReq3G)"))
         {
@@ -362,7 +380,8 @@ void PerformanceAnalyzer::processFileForRlDeletionDelayInRlh(string const& fileP
     cout<<"Max Delay(ms): "<<maxDelay/1000<<"\n";
 }
 
-void PerformanceAnalyzer::processFileForPeriodicCpuLogging(string const& filePath){
+void PerformanceAnalyzer::processFileForPeriodicCpuLogging(string const& filePath)
+{
     AlbaLocalPathHandler filePathHandler(filePath);
     ifstream inputLogFileStream(filePath);
     AlbaFileReader fileReader(inputLogFileStream);
@@ -370,10 +389,12 @@ void PerformanceAnalyzer::processFileForPeriodicCpuLogging(string const& filePat
     cout<<"processFile: "<<filePathHandler.getFullPath()<<"\n";
     logLineInRawDataFile("subsystem,inProcess,inSystem,threadCpuTimeSpent");
 
-    while(fileReader.isNotFinished())    {
+    while(fileReader.isNotFinished())
+    {
         string lineInLogs(fileReader.getLineAndIgnoreWhiteSpaces());
         if(isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, R"(Periodic CPU Usage Report)")
-                || isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, R"(printCpuDataCollection)"))        {
+                || isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, R"(printCpuDataCollection)"))
+        {
             string subsystem("Unknown");
             if(isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, R"(TCOM/CM)"))
             {
@@ -418,10 +439,12 @@ void PerformanceAnalyzer::processFileForRlSetupDelayInTupcWithSymonKnife(string 
     cout<<"processFile: "<<filePathHandler.getFullPath() << " isOpen: " << inputLogFileStream.is_open() << " fileReader: " << fileReader.isNotFinished() <<"\n";
     logStringInRawDataFile("crnccId,nbccId,transactionId,totalDelayInRlh,");
 
-    logStringInRawDataFile("rlhRlSetupRequest,");    logStringInRawDataFile("rlhTbRegisterTime,");
+    logStringInRawDataFile("rlhRlSetupRequest,");
+    logStringInRawDataFile("rlhTbRegisterTime,");
     logStringInRawDataFile("tupcTbRegisterTime,");
     logStringInRawDataFile("tupcFirstErqSent,");
-    logStringInRawDataFile("tupcLastEcfReceived,");    logStringInRawDataFile("tupcFirstTransportConnectionSetup,");
+    logStringInRawDataFile("tupcLastEcfReceived,");
+    logStringInRawDataFile("tupcFirstTransportConnectionSetup,");
     logStringInRawDataFile("tupcLastTransportConnectionSetupResponse,");
     logStringInRawDataFile("tupcTbRegisterResponseTime,");
     logStringInRawDataFile("rlhTbRegisterResponseTime,");
@@ -657,7 +680,8 @@ void PerformanceAnalyzer::processFileForRlSetupDelayInTupcWithSymonKnife(string 
     cout<<"User with max delay -> nbccId: "<<userIdForMaxDelay.nbccId<<" crnccId: "<<userIdForMaxDelay.crnccId<<" transactionId: "<<userIdForMaxDelay.transactionId<<"\n";
 }
 
-void PerformanceAnalyzer::processFileForRlSetupDelayInTupcWithSymonKnifeForFtm(string const& filePath){
+void PerformanceAnalyzer::processFileForRlSetupDelayInTupcWithSymonKnifeForFtm(string const& filePath)
+{
     AlbaLocalPathHandler filePathHandler(filePath);
     ifstream inputLogFileStream(filePath);
     AlbaFileReader fileReader(inputLogFileStream);
@@ -665,10 +689,12 @@ void PerformanceAnalyzer::processFileForRlSetupDelayInTupcWithSymonKnifeForFtm(s
     cout<<"processFile: "<<filePathHandler.getFullPath() << " isOpen: " << inputLogFileStream.is_open() << " fileReader: " << fileReader.isNotFinished() <<"\n";
     logStringInRawDataFile("crnccId,nbccId,transactionId,totalDelayInRlh,");
 
-    logStringInRawDataFile("rlhRlSetupRequest,");    logStringInRawDataFile("tupcTbRegisterTime,");
+    logStringInRawDataFile("rlhRlSetupRequest,");
+    logStringInRawDataFile("tupcTbRegisterTime,");
     logStringInRawDataFile("tupcFirstErqSent,");
     logStringInRawDataFile("tupcLastEcfReceived,");
-    logStringInRawDataFile("tupcFirstTransportConnectionSetup,");    logStringInRawDataFile("rlhRlSetupResponse,");
+    logStringInRawDataFile("tupcFirstTransportConnectionSetup,");
+    logStringInRawDataFile("rlhRlSetupResponse,");
 
     logLineInRawDataFile("delayInErqToEcfInFtm,");
 
@@ -824,9 +850,11 @@ void PerformanceAnalyzer::processFileForRlSetupDelayInTupcWithSymonKnifeForFtm(s
     cout<<"User with max delay -> nbccId: "<<userIdForMaxDelay.nbccId<<" crnccId: "<<userIdForMaxDelay.crnccId<<" transactionId: "<<userIdForMaxDelay.transactionId<<"\n";
 }
 
+
 int PerformanceAnalyzer::getDelayTimeInUs(BtsLogTime const& endTime, BtsLogTime const& startTime) const
 {
-    BtsLogTime delayTime = endTime-startTime;    return delayTime.getMicroSeconds()+delayTime.getSeconds()*1000000;
+    BtsLogTime delayTime = endTime-startTime;
+    return delayTime.getMicroSeconds()+delayTime.getSeconds()*1000000;
 }
 
 int PerformanceAnalyzer::getDelayTimeInMinutes(BtsLogTime const& endTime, BtsLogTime const& startTime) const
@@ -844,10 +872,12 @@ void PerformanceAnalyzer::processFileForFtmFcmWireshark(string const& filePath)
     cout<<"processFile: "<<filePathHandler.getFullPath() << " isOpen: " << inputLogFileStream.is_open() << " fileReader: " << fileReader.isNotFinished() <<"\n";
     logLineInRawDataFile("saidKey(hex),erqTime,ecfTime,numberInWiresharkOfStart,numberInWiresharkOfEnd,delay");
 
-    double maxDelay = 0;    double totalDelay = 0;
+    double maxDelay = 0;
+    double totalDelay = 0;
     int count = 0;
     double endWiresharkTime;
-    struct WiresharkLogKey    {
+    struct WiresharkLogKey
+    {
         unsigned int operation;
         unsigned int said;
         bool operator <(WiresharkLogKey const& key) const
@@ -971,7 +1001,8 @@ void PerformanceAnalyzer::processFileForFtmFcmWireshark(string const& filePath)
     cout<<"endWiresharkTime:"<<endWiresharkTime<<"\n";
 }
 
-void PerformanceAnalyzer::processFileForTopLogs(string const& filePath){
+void PerformanceAnalyzer::processFileForTopLogs(string const& filePath)
+{
     AlbaLocalPathHandler filePathHandler(filePath);
     ifstream inputLogFileStream(filePath);
     AlbaFileReader fileReader(inputLogFileStream);
@@ -979,10 +1010,12 @@ void PerformanceAnalyzer::processFileForTopLogs(string const& filePath){
     cout<<"processFile: "<<filePathHandler.getFullPath() << " isOpen: " << inputLogFileStream.is_open() << " fileReader: " << fileReader.isNotFinished() <<"\n";
 
     double maxCpuTcomLrm = 0;
-    double maxCpuTcomGrm = 0;    double maxCpuTcomRlh = 0;
+    double maxCpuTcomGrm = 0;
+    double maxCpuTcomRlh = 0;
     double maxCpuTupcConman = 0;
     double maxCpuTcomAalman = 0;
-    double maxTotalCpu = 0;    double maxTotalCpuFromTop;
+    double maxTotalCpu = 0;
+    double maxTotalCpuFromTop;
     vector<string> processNames;
     vector<double> cpuConsumptions;
     unsigned int state=0;
@@ -1018,10 +1051,12 @@ void PerformanceAnalyzer::processFileForTopLogs(string const& filePath){
             masterStringStream<<totalCpuFromTop<<", "<<totalCpu<<", "<<ss.str()<<"\n";
             maxTotalCpu = std::max(maxTotalCpu, totalCpu);
             totalCpuFromTop=0;
-        }        else if(state==1 && isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, "%Cpu0  :"))
+        }
+        else if(state==1 && isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, "%Cpu0  :"))
         {
             unsigned int bracketCpuIndexInLine(lineInLogs.find("["));
-            totalCpuFromTop = convertStringToNumber<double>(lineInLogs.substr(bracketCpuIndexInLine-3, 3));            maxTotalCpuFromTop = std::max(maxTotalCpuFromTop, totalCpuFromTop);
+            totalCpuFromTop = convertStringToNumber<double>(lineInLogs.substr(bracketCpuIndexInLine-3, 3));
+            maxTotalCpuFromTop = std::max(maxTotalCpuFromTop, totalCpuFromTop);
         }
         if(state==2 && isNotNpos(commmandIndexInLine) && isNotNpos(cpuIndexInLine)
                 && commmandIndexInLine<lineInLogs.length() && cpuIndexInLine+5<lineInLogs.length())
@@ -1082,10 +1117,12 @@ void PerformanceAnalyzer::processFileForTopLogs(string const& filePath){
     cout<<"Max CPU TUP Aalman:"<<maxCpuTcomAalman<<"\n";
 
     stringstream ss;
-    ss<<"totalCpuFromTop, totalCpu, ";    for(int i=0; i<processNames.size(); i++)
+    ss<<"totalCpuFromTop, totalCpu, ";
+    for(int i=0; i<processNames.size(); i++)
     {
         ss<<processNames[i]<<", ";
-    }    logLineInRawDataFile(ss.str());
+    }
+    logLineInRawDataFile(ss.str());
     logLineInRawDataFile(masterStringStream.str());
 }
 
@@ -1098,10 +1135,12 @@ void PerformanceAnalyzer::processFileForTopLogsMem(string const& filePath)
     cout<<"processFile: "<<filePathHandler.getFullPath() << " isOpen: " << inputLogFileStream.is_open() << " fileReader: " << fileReader.isNotFinished() <<"\n";
 
     double maxMemTcomLrm = 0;
-    double maxMemTcomGrm = 0;    double maxMemTupcConman = 0;
+    double maxMemTcomGrm = 0;
+    double maxMemTupcConman = 0;
     double maxMemTcomAalman = 0;
     vector<string> processNames;
-    vector<double> memConsumptions;    unsigned int state=0;
+    vector<double> memConsumptions;
+    unsigned int state=0;
     int memIndexInLine=0;
     int commmandIndexInLine=0;
     stringstream masterStringStream;
@@ -1133,10 +1172,12 @@ void PerformanceAnalyzer::processFileForTopLogsMem(string const& filePath)
             masterStringStream<<totalMem<<", "<<ss.str()<<"\n";
         }
         if(state==2 && isNotNpos(commmandIndexInLine) && isNotNpos(memIndexInLine)
-                && commmandIndexInLine<lineInLogs.length() && memIndexInLine+5<lineInLogs.length())        {
+                && commmandIndexInLine<lineInLogs.length() && memIndexInLine+5<lineInLogs.length())
+        {
             string processName(getStringWithoutStartingAndTrailingWhiteSpace(lineInLogs.substr(commmandIndexInLine)));
             double memLoad = convertStringToNumber<double>(lineInLogs.substr(memIndexInLine-1,4));
-            if(memLoad>0 && processName!="`- top")            {
+            if(memLoad>0 && processName!="`- top")
+            {
                 int i=0;
                 bool isFound(false);
                 for(; i<processNames.size(); i++)
@@ -1182,10 +1223,12 @@ void PerformanceAnalyzer::processFileForTopLogsMem(string const& filePath)
     cout<<"Max MEM TUP Aalman:"<<maxMemTcomAalman<<"\n";
 
     stringstream ss;
-    ss<<"totalMEM, ";    for(int i=0; i<processNames.size(); i++)
+    ss<<"totalMEM, ";
+    for(int i=0; i<processNames.size(); i++)
     {
         ss<<processNames[i]<<", ";
-    }    logLineInRawDataFile(ss.str());
+    }
+    logLineInRawDataFile(ss.str());
     logLineInRawDataFile(masterStringStream.str());
 }
 
@@ -1198,20 +1241,24 @@ void PerformanceAnalyzer::processFileForRlSetupPerSecond(string const& filePath)
     cout<<"processFile: "<<filePathHandler.getFullPath() << " isOpen: " << inputLogFileStream.is_open() << " fileReader: " << fileReader.isNotFinished() <<"\n";
     logLineInRawDataFile("BtsTime,instances");
 
-    int hour = 0, min = 0, sec = 0, instances=0;    BtsLogTime firstLogTime;
+    int hour = 0, min = 0, sec = 0, instances=0;
+    BtsLogTime firstLogTime;
     while(fileReader.isNotFinished())
     {
-        string lineInLogs(fileReader.getLineAndIgnoreWhiteSpaces());        BtsLogPrint logPrint(lineInLogs);
+        string lineInLogs(fileReader.getLineAndIgnoreWhiteSpaces());
+        BtsLogPrint logPrint(lineInLogs);
             BtsLogTime logTime (logPrint.getBtsTime());
 
             int hourOffsetForDay=0;
             //cout<<"hourOffsetForDay"<<hourOffsetForDay<<"D1:"<<firstLogTime.getDays()<<"D1:"<<logTime.getDays()<<"\n";
             if(!logTime.isStartup())
             {
-                if((hour == logTime.getHours()) && (min == logTime.getMinutes()) && (sec == logTime.getSeconds()))                {
+                if((hour == logTime.getHours()) && (min == logTime.getMinutes()) && (sec == logTime.getSeconds()))
+                {
                     instances++;
                 }
-                else                {
+                else
+                {
                     stringstream ss;
                     ss<<hour<<":"<<min<<":"<<sec<<","<<instances;
                     logLineInRawDataFile(ss.str());
@@ -1235,9 +1282,11 @@ void PerformanceAnalyzer::processFileForTraceLog(string const& traceLogPath)
     cout<<"processFile: "<<filePathHandler.getFullPath() << " isOpen: " << inputLogFileStream.is_open() << " fileReader: " << fileReader.isNotFinished() <<"\n";
 
     int hour = 0, min = 0, sec = 0, rlSetups=0;
+
     stringstream ss;
     while(fileReader.isNotFinished())
-    {        string lineInLogs(fileReader.getLineAndIgnoreWhiteSpaces());
+    {
+        string lineInLogs(fileReader.getLineAndIgnoreWhiteSpaces());
         if(isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, R"(START time=)"))
         {
             hour = convertStringToNumber<int>(lineInLogs.substr(22,2));

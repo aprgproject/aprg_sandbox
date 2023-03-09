@@ -83,10 +83,12 @@ void ChessEngineHandler::sendStringToEngine(string const& stringToEngine)
             cout << "Error on sendStringToEngine: " << AlbaWindowsHelper::getLastFormattedErrorMessage() << "\n";
         }
     }
-    while(isSuccessful && remainingLength>0);    log(LogType::ToEngine, stringToEngine);
+    while(isSuccessful && remainingLength>0);
+    log(LogType::ToEngine, stringToEngine);
 }
 
-void ChessEngineHandler::processStringFromEngine(string const& stringFromEngine){
+void ChessEngineHandler::processStringFromEngine(string const& stringFromEngine)
+{
     log(LogType::FromEngine, stringFromEngine);
     if(m_additionalStepsInProcessingAStringFromEngine)
     {
@@ -230,9 +232,11 @@ void ChessEngineHandler::log(LogType const logtype, string const& logString)
     }
 #endif
 }
+
 string ChessEngineHandler::getLogHeader(LogType const logtype) const
 {
-    string result;    switch(logtype)
+    string result;
+    switch(logtype)
     {
     case LogType::FromEngine:
     {

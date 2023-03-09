@@ -46,10 +46,12 @@ void StepHandler::execute(WcdmaToolsConfiguration const& configuration) const
             cout << currentPathHandler.getFullPath() << " is not found in local system\n";
             return;
         }
-        if(1 == step && configuration.isExtractStepOn)        {
+        if(1 == step && configuration.isExtractStepOn)
+        {
             currentPathHandler.input(executeExtractStep(configuration, currentPathHandler.getFullPath()));
         }
-        else if(2 == step && configuration.isCombineAndSortStepOn)        {
+        else if(2 == step && configuration.isCombineAndSortStepOn)
+        {
             currentPathHandler.input(executeCombineAndSortStep(configuration, currentPathHandler.getFullPath()));
         }
         else if(3 == step && configuration.isGrepStepOn)
@@ -78,10 +80,12 @@ string StepHandler::executeExtractStep(WcdmaToolsConfiguration const& configurat
     cout<<" (Extract) Extracting: "<<pathHandler.getFullPath()<<"\n";
     if(pathHandler.isDirectory())
     {
-        fileExtractor.extractAllRelevantFiles(pathHandler.getFullPath());    }
+        fileExtractor.extractAllRelevantFiles(pathHandler.getFullPath());
+    }
     else if(fileExtractor.isRecognizedCompressedFile(pathHandler.getExtension()))
     {
-        fileExtractor.extractAllRelevantFiles(pathHandler.getFullPath());        pathHandler.input(pathHandler.getDirectory() + R"(\)" + pathHandler.getFilenameOnly());
+        fileExtractor.extractAllRelevantFiles(pathHandler.getFullPath());
+        pathHandler.input(pathHandler.getDirectory() + R"(\)" + pathHandler.getFilenameOnly());
         outputPath = pathHandler.getFullPath();
     }
     else
@@ -97,10 +101,12 @@ string StepHandler::executeCombineAndSortStep(WcdmaToolsConfiguration const& con
     cout<<" (CombineAndSort) start | Input path: "<<inputPath<<"\n";
     AlbaLocalPathHandler pathHandler(inputPath);
     string outputPath(inputPath);
-    if(pathHandler.isDirectory())    {
+    if(pathHandler.isDirectory())
+    {
         wcdmaToolsBackend::BtsLogSorterConfiguration sorterConfiguration(configuration.btsLogSorterConfiguration);
         sorterConfiguration.m_isFilterGrepOn = configuration.isFilterSubStepOn;
-        sorterConfiguration.m_acceptedFilesGrepCondition = configuration.acceptedFilesGrepCondition;        sorterConfiguration.m_filterGrepCondition = configuration.filterGrepCondition;
+        sorterConfiguration.m_acceptedFilesGrepCondition = configuration.acceptedFilesGrepCondition;
+        sorterConfiguration.m_filterGrepCondition = configuration.filterGrepCondition;
         wcdmaToolsBackend::BtsLogSorter btsLogSorter(sorterConfiguration);
         btsLogSorter.processDirectory(pathHandler.getDirectory());
         pathHandler.goUp();
@@ -121,7 +127,8 @@ string StepHandler::executeGrepStep(WcdmaToolsConfiguration const& configuration
     cout<<" (Grep) start | Input path: "<<inputPath<<"\n";
     AlbaLocalPathHandler inputPathHandler(inputPath);
     string outputPath(inputPathHandler.getFullPath());
-    AlbaGrepFile::UpdateFunctionWithPercentage grepUpdateFunction = [&](double percentage)->void    {
+    AlbaGrepFile::UpdateFunctionWithPercentage grepUpdateFunction = [&](double percentage)->void
+    {
         ProgressCounters::grepProcessProgress = percentage;
     };
     AlbaGrepFile grepFile(configuration.getGrepCondition(), grepUpdateFunction);
@@ -131,10 +138,12 @@ string StepHandler::executeGrepStep(WcdmaToolsConfiguration const& configuration
         cout << "Grep condition is invalid. Grep condition: " << configuration.getGrepCondition() << " Error message: " << evaluator.getErrorMessage() << "\n";
     }
     else if(inputPathHandler.isFile())
-    {        AlbaLocalPathHandler outputPathHandler(inputPathHandler.getDirectory() + R"(\)" + configuration.getGrepFileName());
+    {
+        AlbaLocalPathHandler outputPathHandler(inputPathHandler.getDirectory() + R"(\)" + configuration.getGrepFileName());
         grepFile.processFile(inputPathHandler.getFullPath(), outputPathHandler.getFullPath());
         if(grepFile.isOutputFileWritten())
-        {            outputPath = outputPathHandler.getFullPath();
+        {
+            outputPath = outputPathHandler.getFullPath();
         }
     }
     else
@@ -150,10 +159,12 @@ string StepHandler::executeCropStep(WcdmaToolsConfiguration const& configuration
     cout<<" (Crop) start | Input path: "<<inputPath<<"\n";
     AlbaLocalPathHandler inputPathHandler(inputPath);
     string outputPath(inputPathHandler.getFullPath());
-    if(inputPathHandler.isFile())    {
+    if(inputPathHandler.isFile())
+    {
         AlbaLocalPathHandler outputPathHandler(inputPathHandler.getDirectory() + R"(\)" + configuration.getCropFileName());
         AlbaGrepFile::UpdateFunctionWithPercentage cropUpdateFunction = [&](double percentage)->void
-        {            ProgressCounters::cropProcessProgress = percentage;
+        {
+            ProgressCounters::cropProcessProgress = percentage;
         };
         AlbaCropFile cropFile(configuration.prioritizedLogCondition, configuration.cropSize*1000000, cropUpdateFunction);
         cropFile.processFile(inputPathHandler.getFullPath(), outputPathHandler.getFullPath());
@@ -169,8 +180,10 @@ string StepHandler::executeCropStep(WcdmaToolsConfiguration const& configuration
     cout<<" (Crop) done | Output path: "<<outputPath<<"\n";
     return outputPath;
 }
+
 string StepHandler::getTempFileFor7zBasedOnLogSorter(WcdmaToolsConfiguration const& configuration) const
 {
-    return configuration.btsLogSorterConfiguration.m_pathOfTempFiles +R"(\)" + stringHelper::getRandomAlphaNumericString(30) + R"(\TempFileFor7z.txt)";}
+    return configuration.btsLogSorterConfiguration.m_pathOfTempFiles +R"(\)" + stringHelper::getRandomAlphaNumericString(30) + R"(\TempFileFor7z.txt)";
+}
 
 }

@@ -109,6 +109,7 @@ int main()
   std::cout << "Prototype: " << prototype2->type() << "\n";
   delete prototype2;
   
-  Client::remove();  
+  Client::remove();
+  
   return 0;
 }

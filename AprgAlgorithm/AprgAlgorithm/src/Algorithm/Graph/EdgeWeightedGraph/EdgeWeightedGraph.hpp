@@ -111,10 +111,12 @@ private:
         out << static_cast<BaseClass const&>(graph) << "Edges with weight: {";
         for(auto const& edgeOrderedByWeight : graph.m_edgeToWeightMap)
         {
-            out << edgeOrderedByWeight.first.first << "<->" << edgeOrderedByWeight.first.second << "("<< edgeOrderedByWeight.second << "), ";        }
+            out << edgeOrderedByWeight.first.first << "<->" << edgeOrderedByWeight.first.second << "("<< edgeOrderedByWeight.second << "), ";
+        }
         out << "}";
         return out;
     }
+
     EdgeToWeightMap m_edgeToWeightMap;
 };
 

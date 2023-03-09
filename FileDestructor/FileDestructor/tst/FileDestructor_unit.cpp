@@ -19,10 +19,12 @@ void createAFileInDirectory(string const& directory)
     outputStream << "some string\n";
 }
 
-void retrieveNumberOfFilesAndDirectoriesFromPath(        AlbaLocalPathHandler & pathHandler,
+void retrieveNumberOfFilesAndDirectoriesFromPath(
+        AlbaLocalPathHandler & pathHandler,
         unsigned int & numberOfFiles,
         unsigned int & numberOfDirectories)
-{    pathHandler.reInput();
+{
+    pathHandler.reInput();
     ListOfPaths files;
     ListOfPaths directories;
     pathHandler.findFilesAndDirectoriesUnlimitedDepth("*.*", files, directories);

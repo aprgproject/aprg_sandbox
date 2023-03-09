@@ -15,9 +15,11 @@ int main(int argc, char *argv[])
     cout << "code version: " << APRG_CODE_REVISION << "\n";
 
     strings argumentsInMain(getArgumentsToStringInMain(argc, argv));
+
     if(argumentsInMain.size()==2)
     {
-        AlbaLocalPathHandler detectedPath(PathInitialValueSource::DetectedLocalPath);        AlbaLocalPathHandler pathToProcess(getStringWithoutCharAtTheEnd(argumentsInMain.at(1), '"'));
+        AlbaLocalPathHandler detectedPath(PathInitialValueSource::DetectedLocalPath);
+        AlbaLocalPathHandler pathToProcess(getStringWithoutCharAtTheEnd(argumentsInMain.at(1), '"'));
 
         UserInterface ui;
         ui.setPath(pathToProcess.getFullPath());
@@ -35,4 +37,5 @@ int main(int argc, char *argv[])
         cout << "Exiting program because the number of input arguments is wrong.\n";
     }
 
-    system("pause");}
+    system("pause");
+}

@@ -230,10 +230,12 @@ void ChessPeek::checkCalculationDetailsFromEngine()
     cout << "\n";
 }
 
-Moves ChessPeek::getCurrentMoves(        string const& bestMoveToDisplay) const
+Moves ChessPeek::getCurrentMoves(
+        string const& bestMoveToDisplay) const
 {
     constexpr unsigned int maxNumberOfCurrentMoves = 3U;
-    Moves result;    result.reserve(maxNumberOfCurrentMoves);
+    Moves result;
+    result.reserve(maxNumberOfCurrentMoves);
 
     strings const& searchingMovesStrings(m_savedCalculationDetails.currentlySearchingMoves);
     for(string const& searchingMoveString : searchingMovesStrings)
@@ -267,10 +269,12 @@ Moves ChessPeek::getFutureMoves() const
     unsigned int maxNumberOfFutureMoves = maxNumberOfFuturePlayerMoves==0 ? 0 : (maxNumberOfFuturePlayerMoves*2U)-1U;
     for(string const& pvMoveString : pvMovesStrings)
     {
-        Move move(m_chessBoard.getMoveFromTwoLetterNumberNotation(pvMoveString));        if(isValidMove(move))
+        Move move(m_chessBoard.getMoveFromTwoLetterNumberNotation(pvMoveString));
+        if(isValidMove(move))
         {
             result.emplace_back(move);
-            if(result.size() >= maxNumberOfFutureMoves)            {
+            if(result.size() >= maxNumberOfFutureMoves)
+            {
                 break;
             }
         }
@@ -325,7 +329,8 @@ void ChessPeek::printCalculationDetails() const
     cout << "\n";
 }
 
-void ChessPeek::printMoveTables(Moves const& currentMoves, Moves const& futureMoves) const{
+void ChessPeek::printMoveTables(Moves const& currentMoves, Moves const& futureMoves) const
+{
     if(!currentMoves.empty())
     {
         putCurrentMovesTable(currentMoves);
@@ -337,9 +342,11 @@ void ChessPeek::printMoveTables(Moves const& currentMoves, Moves const& futureMo
         cout << "\n";
     }
 }
+
 void ChessPeek::putCurrentMovesTable(
         Moves const& currentMoves) const
-{    constexpr unsigned int offsetToNextTable=9U;
+{
+    constexpr unsigned int offsetToNextTable=9U;
     unsigned int numberOfColumns = getNumberOfColumnsOfDisplayTable(currentMoves.size());
     DisplayTable displayTable(numberOfColumns, 8U);
     displayTable.setBorders("-", "|");
@@ -381,9 +388,11 @@ void ChessPeek::putCurrentMovesTable(
     cout << displayTable;
 }
 
+
 void ChessPeek::printFutureMovesTable(
         Moves const& futureMoves) const
-{    constexpr unsigned int offsetToNextTable=9U;
+{
+    constexpr unsigned int offsetToNextTable=9U;
     unsigned int numberOfColumns = getNumberOfColumnsOfDisplayTable((futureMoves.size()+1U)/2U);
     DisplayTable displayTable(numberOfColumns, 8U);
     displayTable.setBorders("-", "|");
@@ -444,10 +453,12 @@ void ChessPeek::printFutureMovesTable(
     cout << displayTable;
 }
 
-string ChessPeek::getChessCellForDisplay(        Piece const& piece,
+string ChessPeek::getChessCellForDisplay(
+        Piece const& piece,
         unsigned int const moveNumber,
         bool const canPreMove) const
-{    string result(3, ' ');
+{
+    string result(3, ' ');
     if(moveNumber != 0)
     {
         char moveNumberCharacter = '0'+ static_cast<char>(moveNumber);
@@ -470,10 +481,12 @@ unsigned int ChessPeek::getNumberOfColumnsOfDisplayTable(unsigned int const numb
     return numberOfChessBoards==0 ? 0U : numberOfChessBoards*8U + numberOfChessBoards-1;
 }
 
-void ChessPeek::initialize(){
+void ChessPeek::initialize()
+{
     m_pieceRetriever.setLogFile(APRG_DIR R"(\Chess\ChessPeek\Files\PieceConverter.log)");
     m_chessEngineHandler.setLogFile(APRG_DIR R"(\Chess\ChessPeek\Files\EngineHandler.log)");
-    m_chessEngineController.setLogFile(APRG_DIR R"(\Chess\ChessPeek\Files\EngineController.log)");    m_chessEngineController.setAdditionalStepsInCalculationMonitoring([&](EngineCalculationDetails const& engineCalculationDetails)
+    m_chessEngineController.setLogFile(APRG_DIR R"(\Chess\ChessPeek\Files\EngineController.log)");
+    m_chessEngineController.setAdditionalStepsInCalculationMonitoring([&](EngineCalculationDetails const& engineCalculationDetails)
     {
         calculationMonitoringCallBackForEngine(engineCalculationDetails);
     });

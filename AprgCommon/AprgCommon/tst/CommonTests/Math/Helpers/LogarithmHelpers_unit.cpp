@@ -112,10 +112,12 @@ TEST(LogarithmHelpersPerformanceTest, DISABLED_GetLogarithmPerformanceTest_WithR
         unsigned int exponent = static_cast<unsigned int>(randomizer.getRandomIntegerInUniformDistribution(minValue, maxValue));
         result = max(result, getLogarithmForIntegers(base, exponent));
     }
-    EXPECT_LT(0ULL, result);}
+    EXPECT_LT(0ULL, result);
+}
 
 TEST(LogarithmHelpersPerformanceTest, DISABLED_GetLogarithmForIntegersPerformanceTest_WithRandomInput)
-{    // Results: ~790ms
+{
+    // Results: ~790ms
 
     unsigned int result(0);
     AlbaSimpleRandomizer randomizer;
@@ -126,7 +128,9 @@ TEST(LogarithmHelpersPerformanceTest, DISABLED_GetLogarithmForIntegersPerformanc
         unsigned int exponent = static_cast<unsigned int>(randomizer.getRandomIntegerInUniformDistribution(minValue, maxValue));
         result = max(result, getLogarithmForIntegers(base, exponent));
     }
-    EXPECT_LT(0ULL, result);}
+    EXPECT_LT(0ULL, result);
+}
 
 }
+
 }

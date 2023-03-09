@@ -115,5 +115,6 @@ int main()
   std::cout << "Product: " << p2->getName() << "\n";
   creator->removeProduct( p2 );
   
-  delete creator;  return 0;
+  delete creator;
+  return 0;
 }

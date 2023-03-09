@@ -8,10 +8,12 @@
 using namespace alba::stringHelper;
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 namespace booleanAlgebra
 {
+
 TEST(TermTest, TermsAsConstantsWorks)
 {
     Term constantTerm1(false);
@@ -377,10 +379,12 @@ TEST(TermTest, GetTermTypeWorks)
 
 TEST(TermTest, GetDebugStringWorks)
 {
-    Term term1;    Term term2(false);
+    Term term1;
+    Term term2(false);
     Term term3(VariableTerm("x"));
     Term term4(Operator("&"));
     Term term5(createExpressionIfPossible({true, "&", "x"}));
+
     EXPECT_EQ("{EmptyTerm}{Empty}", term1.getDebugString());
     EXPECT_EQ("[false]{Constant}", term2.getDebugString());
     EXPECT_EQ("x{VariableTerm}", term3.getDebugString());

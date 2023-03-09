@@ -12,10 +12,12 @@ using namespace alba;
 using namespace alba::stringHelper;
 using namespace std;
 
-namespace wcdmaToolsBackend{
+namespace wcdmaToolsBackend
+{
 
 BtsLogTime::BtsLogTime()
-    : m_dateTime(){}
+    : m_dateTime()
+{}
 
 BtsLogTime::BtsLogTime(BtsLogTimeType logTimeType, string const& timeStampString)
     : m_dateTime()
@@ -57,10 +59,12 @@ void BtsLogTime::setTimeByTimeStamp(BtsLogTimeType logTimeType, string const& ti
         timeValues.push_back(convertStringToNumber<unsigned int>(timeValueString));
     }
 
-    if(BtsLogTimeType::PcTimeStamp == logTimeType)    {
+    if(BtsLogTimeType::PcTimeStamp == logTimeType)
+    {
         if(6 == timeValues.size())
         {
-            months = timeValues[1];            days = timeValues[0];
+            months = timeValues[1];
+            days = timeValues[0];
             hours = timeValues[2];
             minutes = timeValues[3];
             seconds = timeValues[4];
@@ -140,7 +144,8 @@ unsigned int BtsLogTime::getTotalSeconds() const
     return m_dateTime.getHourMinutesSecond().getTotalSeconds();
 }
 
-unsigned int BtsLogTime::getMicroSeconds() const{
+unsigned int BtsLogTime::getMicroSeconds() const
+{
     return m_dateTime.getMicroSeconds();
 }
 
@@ -154,10 +159,12 @@ string BtsLogTime::getPrintableString() const
     return convertToString(m_dateTime.getPrintObject<AlbaDateTime::PrintFormat::Type1>());
 }
 
-string BtsLogTime::getEquivalentStringPcTimeFormat() const{
+string BtsLogTime::getEquivalentStringPcTimeFormat() const
+{
     stringstream ss;
     ss << setw(2) << setfill('0') << getDays() << ".";
-    ss << setw(2) << setfill('0') << getMonths() << " ";    ss << setw(2) << setfill('0') << getHours() << ":";
+    ss << setw(2) << setfill('0') << getMonths() << " ";
+    ss << setw(2) << setfill('0') << getHours() << ":";
     ss << setw(2) << setfill('0') << getMinutes() << ":";
     ss << setw(2) << setfill('0') << getSeconds() << ".";
     ss << setw(6) << setfill('0') << getMicroSeconds();
@@ -223,9 +230,11 @@ ostream& operator<<(ostream & out, BtsLogTime const& btsLogTime)
     writer.flush();
     return out;
 }
+
 istream& operator>>(istream & in, BtsLogTime& btsLogTime)
 {
-    AlbaStreamParameterReader reader(in);    unsigned int years(reader.readData<unsigned int>());
+    AlbaStreamParameterReader reader(in);
+    unsigned int years(reader.readData<unsigned int>());
     unsigned int months(reader.readData<unsigned int>());
     unsigned int days(reader.readData<unsigned int>());
     unsigned int hours(reader.readData<unsigned int>());

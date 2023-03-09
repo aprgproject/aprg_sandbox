@@ -24,7 +24,8 @@ void UmlLogger::logMessage(string const& senderName, string const& receiverName,
     m_umlLogBuffer<<senderName<<" "<<UmlArrow::getArrowBaseFromMessageName(messageName)<<" "<<receiverName<<" : "<<messageName<<"\n";
 }
 
-void UmlLogger::addParticipant(UmlParticipant const& participant){
+void UmlLogger::addParticipant(UmlParticipant const& participant)
+{
     m_participants.emplace_back(participant);
 }
 
@@ -54,10 +55,12 @@ void UmlLogger::logNoteOnComponents(ComponentNames const componentNames, string 
     m_umlLogBuffer<<"end note\n";
 }
 
-void UmlLogger::logNote(string const& note){
+void UmlLogger::logNote(string const& note)
+{
     stringHelper::strings linesInNote;
     stringHelper::strings linesInNoteWithTargetLength;
-    stringHelper::splitToStrings<stringHelper::SplitStringType::WithoutDelimeters>(linesInNote, note, "\n");    unsigned int optimizedTargetLength(getOptimizedTargetLength(linesInNote));
+    stringHelper::splitToStrings<stringHelper::SplitStringType::WithoutDelimeters>(linesInNote, note, "\n");
+    unsigned int optimizedTargetLength(getOptimizedTargetLength(linesInNote));
     for(string const& lineInNote: linesInNote)
     {
         stringHelper::splitLinesToAchieveTargetLength(linesInNoteWithTargetLength, lineInNote, optimizedTargetLength);
@@ -67,6 +70,7 @@ void UmlLogger::logNote(string const& note){
         m_umlLogBuffer<<line<<"\n";
     }
 }
+
 void UmlLogger::saveUmlLogsToFile(string const& filePath)
 {
     AlbaLocalPathHandler pathHandler(filePath);
@@ -80,9 +84,11 @@ void UmlLogger::saveUmlLogsToFile(string const& filePath)
         outputFile<<getUmlLogsForEnd()<<"\n";
     }
 }
+
 unsigned int UmlLogger::getOptimizedTargetLength(stringHelper::strings const& linesInNote)
 {
-    unsigned int targetLengthWithSmallestDifference=20;    unsigned int smallestDifference=50;
+    unsigned int targetLengthWithSmallestDifference=20;
+    unsigned int smallestDifference=50;
     for(unsigned int targetLength=20; targetLength<60; targetLength++)
     {
         unsigned int totalDifference(0);
@@ -110,10 +116,12 @@ string UmlLogger::getUmlLogsForStart() const
     }
     return startStream.str();
 }
+
 string UmlLogger::getUmlLogsForEnd() const
 {
     stringstream endStream;
     endStream<<"@enduml\n";
     return endStream.str();
 }
+
 }

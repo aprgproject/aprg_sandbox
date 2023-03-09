@@ -185,10 +185,12 @@ void RttAnalyzer::saveAllRttDetails(ofstream & collectedRttDetails) const
     collectedRttDetails << "dateTime,pos1,pos2,pos3,pos4,pos5,pos6,pn pos,diffPos1,diffPos2,diffPos3,diffPos4,diffPos5,diffPos6,minDifferencePos,maxDifferencePos\n";
 
     for(RttDetails const& rttDetails : m_allRttDetails)
-    {        collectedRttDetails << rttDetails.dateTime << ", ";
+    {
+        collectedRttDetails << rttDetails.dateTime << ", ";
         unsigned int minPos(rttDetails.multiplePos[0]), maxPos(rttDetails.multiplePos[0]), totalPos(0);
         int differentWithPos[6];
-        int minDifferencePos, maxDifferencePos;        for(unsigned int index=0; index<6; index++)
+        int minDifferencePos, maxDifferencePos;
+        for(unsigned int index=0; index<6; index++)
         {
             unsigned int currentPos(rttDetails.multiplePos[index]);
             minPos = min(minPos, currentPos);
@@ -213,4 +215,5 @@ void RttAnalyzer::saveAllRttDetails(ofstream & collectedRttDetails) const
     }
 }
 */
+
 }

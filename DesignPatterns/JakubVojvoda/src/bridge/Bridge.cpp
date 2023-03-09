@@ -38,9 +38,11 @@ public:
   }
   // ...
 };
+
 class ConcreteImplementorB : public Implementor
 {
-public:  ~ConcreteImplementorB() {}
+public:
+  ~ConcreteImplementorB() {}
   
   void action()
   {
@@ -48,9 +50,11 @@ public:  ~ConcreteImplementorB() {}
   }
   // ...
 };
+
 /*
  * Abstraction
- * defines the abstraction's interface */
+ * defines the abstraction's interface
+ */
 class Abstraction
 {
 public:

@@ -50,9 +50,11 @@ void RttAnalyzer2::saveTitle2()
     m_outputLogStream  << "fileName,dateTime,maxPos,refPos,difference\n";
 }
 
-void RttAnalyzer2::processFile2(string const& file){
+void RttAnalyzer2::processFile2(string const& file)
+{
     AlbaLocalPathHandler pathHandler(file);
     ifstream logStream(pathHandler.getFullPath());
+
     if(logStream.is_open())
     {
         AlbaFileReader logFileReader(logStream);
@@ -80,9 +82,11 @@ void RttAnalyzer2::processLine2(string const& fileName, string const& line)
         m_outputLogStream << fileName <<"," << dateTime << ","<< maxPos << "," << refPos << "," << difference << "\n";
     }
 }
+
 void RttAnalyzer2::processFile3(string const& file)
 {
-    AlbaLocalPathHandler pathHandler(file);    ifstream logStream(pathHandler.getFullPath());
+    AlbaLocalPathHandler pathHandler(file);
+    ifstream logStream(pathHandler.getFullPath());
     ofstream outputLogStream(pathHandler.getDirectory()+"PeakPosCx8FromUeLogs.csv");
     pathHandler.input(pathHandler.getDirectory()+pathHandler.getFilenameOnly()+".csv");
     ofstream collectedRttDetails(pathHandler.getFullPath());
@@ -90,10 +94,12 @@ void RttAnalyzer2::processFile3(string const& file)
     outputLogStream  << "peak_pos_cx8\n";
 
     if(logStream.is_open())
-    {        AlbaFileReader logFileReader(logStream);
+    {
+        AlbaFileReader logFileReader(logStream);
 
         while(logFileReader.isNotFinished())
-        {            string lineInFile(logFileReader.getLineAndIgnoreWhiteSpaces());
+        {
+            string lineInFile(logFileReader.getLineAndIgnoreWhiteSpaces());
             if(isStringFoundInsideTheOtherStringNotCaseSensitive(lineInFile, "peak_pos_cx8"))
             {
                 processLine3(outputLogStream, lineInFile);

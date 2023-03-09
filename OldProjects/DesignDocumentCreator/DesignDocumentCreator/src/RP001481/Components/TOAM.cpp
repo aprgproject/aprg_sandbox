@@ -20,10 +20,12 @@ void TOAM::handleMessage1(GenericMessage const& genericMessage)
     cout<<"handleMessage1()\n";
     Environment & environment(Environment::getInstance());
 
-    SpecificStaticMessage<MessageName::TC_LRM_CONFIGURATION_DATA_IND_MSG> message(convertGenericToSpecificStatic<MessageName::TC_LRM_CONFIGURATION_DATA_IND_MSG>(genericMessage));    SLrmConfigurationDataInd& payload(message.getStaticPayloadReference());
+    SpecificStaticMessage<MessageName::TC_LRM_CONFIGURATION_DATA_IND_MSG> message(convertGenericToSpecificStatic<MessageName::TC_LRM_CONFIGURATION_DATA_IND_MSG>(genericMessage));
+    SLrmConfigurationDataInd& payload(message.getStaticPayloadReference());
     logNoteOnPreviousMessage("Message 1 description.");
     logNoteOnComponent("TOAM will do something.");
 }
+
 void TOAM::handleMessageEvent(GenericMessage const& genericMessage)
 {
     MessageName messageName(genericMessage.getMessageName());
@@ -37,6 +39,7 @@ void TOAM::handleMessageEvent(GenericMessage const& genericMessage)
         break;
     }
 }
+
 void TOAM::handleTimerEvent(Timer const& timer)
 {
     switch(timer.getType())
@@ -49,6 +52,7 @@ void TOAM::handleTimerEvent(Timer const& timer)
         break;
     }
 }
+
 void TOAM::handleOtherEvent(OtherEvent const& otherEvent)
 {
     switch(otherEvent.getType())
@@ -61,4 +65,5 @@ void TOAM::handleOtherEvent(OtherEvent const& otherEvent)
         break;
     }
 }
+
 }

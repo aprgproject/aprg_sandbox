@@ -50,9 +50,11 @@ TEST(SampleTest, CountFromMsbValue)
             cout << "\n";
         }
     }
-    cout << "}";}
+    cout << "}";
+}
 
 /*
+
 TEST(SampleTest, NumeratorAndDenominator)
 {
     long long int numerator = static_cast<long long int>(-946400) * -5547;
@@ -99,9 +101,11 @@ TEST(SampleTest, FindSourceFilesToAdjust_FileList)
     ListOfPaths directories;
     AlbaLocalPathHandler pathHandler(R"(C:\Branches\CP\trunk\SBTS\tcom\C_Application\SC_TCOM)");
     pathHandler.findFilesAndDirectoriesUnlimitedDepth("*.*", files, directories);
+
     ifstream listFileStream(R"(C:\Branches\CP\trunk\diffs\filelist.txt)");
 
-    if(listFileStream.is_open())    {
+    if(listFileStream.is_open())
+    {
         AlbaFileReader listFileReader(listFileStream);
         while(listFileReader.isNotFinished())
         {
@@ -142,9 +146,11 @@ TEST(SampleTest, FindSourceFilesToAdjust_FileList)
     ListOfPaths directories;
     AlbaLocalPathHandler pathHandler(R"(C:\Branches\CP\trunk\SBTS\tcom\C_Application\SC_TCOM)");
     pathHandler.findFilesAndDirectoriesUnlimitedDepth("*.*", files, directories);
+
     ifstream listFileStream(R"(C:\Branches\CP\trunk\diffs\filelist.txt)");
 
-    if(listFileStream.is_open())    {
+    if(listFileStream.is_open())
+    {
         AlbaFileReader listFileReader(listFileStream);
         while(listFileReader.isNotFinished())
         {
@@ -208,9 +214,11 @@ TEST(SampleTest, FindHeaderFilesToAdjust_FileList)
     ListOfPaths directories;
     AlbaLocalPathHandler pathHandler(R"(C:\Branches\CP\trunk\SBTS\tcom\C_Application\SC_TCOM)");
     pathHandler.findFilesAndDirectoriesUnlimitedDepth("*.*", files, directories);
+
     ifstream listFileStream(R"(C:\Branches\CP\trunk\diffs\filelist.txt)");
 
-    if(listFileStream.is_open())    {
+    if(listFileStream.is_open())
+    {
         AlbaFileReader listFileReader(listFileStream);
         while(listFileReader.isNotFinished())
         {
@@ -258,9 +266,11 @@ TEST(SampleTest, FindSourceFilesToAdjust_FromDirectory)
     ListOfPaths directories;
     AlbaLocalPathHandler pathHandler(R"(C:\Branches\CP\trunk\SBTS\tcom\C_Application\SC_TCOM)");
     pathHandler.findFilesAndDirectoriesUnlimitedDepth("*.*", files, directories);
+
     for(string const& file: files)
     {
-        AlbaLocalPathHandler filePathHandler(file);        string extensionInCapitals(stringHelper::getStringWithCapitalLetters(filePathHandler.getExtension()));
+        AlbaLocalPathHandler filePathHandler(file);
+        string extensionInCapitals(stringHelper::getStringWithCapitalLetters(filePathHandler.getExtension()));
         if((extensionInCapitals=="H" || extensionInCapitals=="HPP") &&
                 !(
                     stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(filePathHandler.getFullPath(), "CP_MEAS") ||
@@ -286,7 +296,8 @@ TEST(SampleTest, FindSourceFilesToAdjust_FromDirectory)
                         cout<<"\n";
                         break;
                     }
-                }            }
+                }
+            }
         }
     }
 }
@@ -297,9 +308,11 @@ TEST(SampleTest, FindSourceFilesToAdjust_FromDirectory)
     ListOfPaths directories;
     AlbaLocalPathHandler pathHandler(R"(C:\Branches\CP\trunk\SBTS\tcom\C_Application\SC_TCOM)");
     pathHandler.findFilesAndDirectoriesUnlimitedDepth("*.*", files, directories);
+
     for(string const& file: files)
     {
-        AlbaLocalPathHandler filePathHandler(file);        string extensionInCapitals(stringHelper::getStringWithCapitalLetters(filePathHandler.getExtension()));
+        AlbaLocalPathHandler filePathHandler(file);
+        string extensionInCapitals(stringHelper::getStringWithCapitalLetters(filePathHandler.getExtension()));
         if((extensionInCapitals=="C" || extensionInCapitals=="CPP") &&
                 !(
                     stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(filePathHandler.getFullPath(), "CP_MEAS") ||
@@ -332,7 +345,8 @@ TEST(SampleTest, FindSourceFilesToAdjust_FromDirectory)
                         cout<<"\n";
                         break;
                     }
-                }            }
+                }
+            }
         }
     }
 }
@@ -343,9 +357,11 @@ TEST(SampleTest, FindNearEmptyFiles)
     ListOfPaths directories;
     AlbaLocalPathHandler pathHandler(R"(C:\Branches\CP\trunk\SBTS\tcom\C_Application\SC_TCOM)");
     pathHandler.findFilesAndDirectoriesUnlimitedDepth("*.*", files, directories);
+
     for(string const& file: files)
     {
-        AlbaLocalPathHandler filePathHandler(file);        string extensionInCapitals(stringHelper::getStringWithCapitalLetters(filePathHandler.getExtension()));
+        AlbaLocalPathHandler filePathHandler(file);
+        string extensionInCapitals(stringHelper::getStringWithCapitalLetters(filePathHandler.getExtension()));
         if(extensionInCapitals=="TXT" ||
                 extensionInCapitals=="CMAKE" ||
                 extensionInCapitals=="C" ||
@@ -369,9 +385,11 @@ TEST(SampleTest, FindLongAndShortLogStrings)
     ListOfPaths directories;
     AlbaLocalPathHandler pathHandler(R"(C:\Users\malba\Desktop\Delete\FrameworkLogLengthAnalysis\DMGR_MT_LOGS)");
     pathHandler.findFilesAndDirectoriesUnlimitedDepth("*.*", files, directories);
+
     for(string const& file: files)
     {
-        ifstream logStream(file);        if(logStream.is_open())
+        ifstream logStream(file);
+        if(logStream.is_open())
         {
             AlbaFileReader logFileReader(logStream);
             while(logFileReader.isNotFinished())
@@ -387,7 +405,8 @@ TEST(SampleTest, FindLongAndShortLogStrings)
                     cout << "Line might be short. Length: " << length << " [" << lineInFile << "]\n";
                 }
             }
-        }    }
+        }
+    }
 }
 
 TEST(SampleTest, TuesdayChecklistVideos)
@@ -411,9 +430,11 @@ TEST(SampleTest, ExtractFilesAndCopyLogsForSctTests)
     AlbaLocalPathHandler inputDirectoryPathHandler(R"(C:\ZZZ_SCT_Logs\trunk_fsmr3@120334)");
     AlbaLocalPathHandler outputDirectoryPathHandler(R"(C:\ZZZ_SCT_Logs\trunk_fsmr3@120334_fixed)");
     inputDirectoryPathHandler.findFilesAndDirectoriesOneDepth("*.*", files, directories);
+
     // extract all relevant files at zip files on depth one
     for(string const& file: files)
-    {        AlbaLocalPathHandler filePath(file);
+    {
+        AlbaLocalPathHandler filePath(file);
         if(filePath.getExtension() == "zip")
         {
             ALBA_PRINT1(filePath.getFullPath());
@@ -473,9 +494,11 @@ TEST(SampleTest, LrmDirectoriesToFind)
         cout<<directory<<"\n";
     }
 }
+
 TEST(SampleTest, FormatPrints)
 {
-    AlbaLocalPathHandler pathHandler(R"(C:\ZZZ_Logs\PR400441\LF_DSS_OFF\WholeLogsToAnalyze_NoTimeStamp.log)");    ofstream formattedLogStream(R"(C:\ZZZ_Logs\PR400441\LF_DSS_OFF\WholeLogsToAnalyze_Sorted.log)");
+    AlbaLocalPathHandler pathHandler(R"(C:\ZZZ_Logs\PR400441\LF_DSS_OFF\WholeLogsToAnalyze_NoTimeStamp.log)");
+    ofstream formattedLogStream(R"(C:\ZZZ_Logs\PR400441\LF_DSS_OFF\WholeLogsToAnalyze_Sorted.log)");
     ifstream logStream(pathHandler.getFullPath());
 
     set<string> uniqueAndSortedStrings;
@@ -494,9 +517,11 @@ TEST(SampleTest, FormatPrints)
         formattedLogStream << stringInStrings << "\n";
     }
 }
+
 void saveMaxLengthString(string & finalPrint, unsigned int & maxLength, string const& samplePrint)
 {
-    if(samplePrint.length() > maxLength)    {
+    if(samplePrint.length() > maxLength)
+    {
         finalPrint = samplePrint;
         maxLength = samplePrint.length();
     }
@@ -532,10 +557,12 @@ TEST(SampleTest, FormatPrints)
                 formattedLogStream << finalPrint << "\n";
             }
         }
-    }}
+    }
+}
 
 struct ThreeLogs
-{    string originalLog;
+{
+    string originalLog;
     string log1Log;
     string log2Log;
 };
@@ -619,9 +646,11 @@ TEST(SampleTest, LogComparePrints)
                     scoreToLogsMap.emplace(finalScore, ThreeLogs{lineInOriginal, nearestLineInLog1, nearestLineInLog2});
                 }
             }
+
         }
         lineCount++;
     }
+
     using ThreeLogMapType = map<int, ThreeLogs>;
     using ThreeLogPairType = pair<int, ThreeLogs>;
     for(ThreeLogMapType::reverse_iterator iterator = scoreToLogsMap.rbegin(); iterator!= scoreToLogsMap.rend(); iterator++)
@@ -638,9 +667,11 @@ TEST(SampleTest, LogComparePrints)
     }
 }
 
+
 void saveMaxLengthString(string & finalPrint, unsigned int & maxLength, string const& samplePrint)
 {
-    if(samplePrint.length() > maxLength)    {
+    if(samplePrint.length() > maxLength)
+    {
         finalPrint = samplePrint;
         maxLength = samplePrint.length();
     }
@@ -689,9 +720,11 @@ TEST(SampleTest, LrmDirectoriesToFind)
     }
 }
 
+
 TEST(SampleTest, NSAPCloudPrinting)
 {
-    u8 mark[4];    TTransportLayerAddress nsap{
+    u8 mark[4];
+    TTransportLayerAddress nsap{
         0x35, 0x00, 0x01, 0x0A,
         0x48, 0xED, 0x8D, 0x00,
         0x00, 0x00, 0x00, 0x00,
@@ -704,6 +737,7 @@ TEST(SampleTest, NSAPCloudPrinting)
         cout<<"mark["<<i<<"]: "<<std::dec<<(int)mark[i]<<"\n";
     }
 }
+
 TEST(SampleTest, Shit)
 {
     u32 m_bitContainerForAllocations=1;
@@ -731,9 +765,11 @@ TEST(SampleTest, Shit)
     }
 }
 
+
 TEST(SampleTest, CounterOfCounts)
 {
-    AlbaLocalPathHandler pathHandler(R"(H:\Logs\111_MessagePoolExhaustion\09_09_2018\TC_2_LRM_RL_SETUP_REQ_MSG_queue.log)");    ifstream queueLogStream(pathHandler.getFullPath());
+    AlbaLocalPathHandler pathHandler(R"(H:\Logs\111_MessagePoolExhaustion\09_09_2018\TC_2_LRM_RL_SETUP_REQ_MSG_queue.log)");
+    ifstream queueLogStream(pathHandler.getFullPath());
 
     map<int, string> highestJumpsQueueLengths;
     map<int, string> highestJumpsMsgQueueingTimes;
@@ -795,9 +831,11 @@ TEST(SampleTest, CounterOfCounts)
         cout<<"msgPoolUsageJump: "<<printPair.first<<" Print: ["<<printPair.second<<"]\n";
     }
 }
+
 TEST(SampleTest, MessageIdCounter)
 {
-    AlbaLocalPathHandler pathHandler(R"(H:\Logs\111_MessagePoolExhaustion\09_09_2018\TC_2_LRM_RL_SETUP_REQ_MSG_queue.log)");    ifstream queueLogStream(pathHandler.getFullPath());
+    AlbaLocalPathHandler pathHandler(R"(H:\Logs\111_MessagePoolExhaustion\09_09_2018\TC_2_LRM_RL_SETUP_REQ_MSG_queue.log)");
+    ifstream queueLogStream(pathHandler.getFullPath());
 
     map<unsigned int, unsigned int> lastMsgRcvdToCount;
     map<unsigned int, unsigned int> lastMsgSentToCount;
@@ -858,6 +896,7 @@ TEST(SampleTest, MessageIdCounter)
     }
 }
 
+
 TEST(SampleTest, ConstTest)
 {
     #define GLO_NULL 1
@@ -873,9 +912,11 @@ TEST(SampleTest, ConstTest)
 }
 
 
+
 class UglyDataType
 {
-    public:    unsigned int * uglyPointer; // this is allocated at some point
+    public:
+    unsigned int * uglyPointer; // this is allocated at some point
 };
 void function1(UglyDataType input)
 {
@@ -991,10 +1032,12 @@ TEST(SampleTest, CompareProfileToLogsInStreamRoutingPoC)
                  //cout<<currentRp3NodeAddress<<"   "<<currentRatType<<"\n";
                  ratTypeToAddressMap[currentRp3NodeAddress] = currentRatType;
                  currentRatType="unknown";
-                 currentRp3NodeAddress = 0;             }
+                 currentRp3NodeAddress = 0;
+             }
         }
     }
 }
+
 
 TEST(SampleTest, CompareProfileToLogsInStreamRoutingPoC)
 {
@@ -1053,10 +1096,12 @@ TEST(SampleTest, CompareProfileToLogsInStreamRoutingPoC)
                  //cout<<currentRp3NodeAddress<<"   "<<currentRatType<<"\n";
                  ratTypeToAddressMap[currentRp3NodeAddress] = currentRatType;
                  currentRatType="unknown";
-                 currentRp3NodeAddress = 0;             }
+                 currentRp3NodeAddress = 0;
+             }
         }
     }
-    AlbaLocalPathHandler murrkuLogsPathHandler(R"(D:\userdata\malba\Desktop\StreamPoC\GSM\analyzeMurkkuLogs.txt)");    ifstream murrkuLogsStream(murrkuLogsPathHandler.getFullPath());
+    AlbaLocalPathHandler murrkuLogsPathHandler(R"(D:\userdata\malba\Desktop\StreamPoC\GSM\analyzeMurkkuLogs.txt)");
+    ifstream murrkuLogsStream(murrkuLogsPathHandler.getFullPath());
 
     if(murrkuLogsStream.is_open())
     {
@@ -1071,17 +1116,20 @@ TEST(SampleTest, CompareProfileToLogsInStreamRoutingPoC)
                  cout<<lineInFile<<"   ["<<ratTypeToAddressMap[rp3NodeAddress]<<"]\n";
             }
         }
-    }}
+    }
+}
 
 
-TEST(SampleTest, SaveGetDifferenceFromGreaterMultipleToCsv){
+TEST(SampleTest, SaveGetDifferenceFromGreaterMultipleToCsv)
+{
     AlbaLocalPathHandler pathHandler(R"(C:\APRG\GetDifferenceFromGreaterMultipleGraph.txt)");
     ofstream csvFile(pathHandler.getFullPath());
 
     csvFile<<"size = [\n";
     for(unsigned int multiple = 0; multiple<20; multiple++)
     {
-        for(unsigned int number = 0; number<20; number++)        {
+        for(unsigned int number = 0; number<20; number++)
+        {
             unsigned int size(mathHelper::getDifferenceFromGreaterMultiple(multiple, number)+mathHelper::getNumberOfMultiplesInclusive(multiple, number));
             csvFile<<size<<" ";
         }
@@ -1090,10 +1138,12 @@ TEST(SampleTest, SaveGetDifferenceFromGreaterMultipleToCsv){
     csvFile<<"]\n";
 }
 
-TEST(SampleTest, MessageIds_test){
+TEST(SampleTest, MessageIds_test)
+{
     AlbaLocalPathHandler pathHandler(R"(D:\Branches\trunk\I_Interface\Private\SC_TCOM\Messages\MessageId_TcomTcom.sig)");
     AlbaLocalPathHandler pathHandler2(R"(D:\Branches\trunk\wbts_integration\I_Interface\Application_Env\Wn_Env\Bs_Env\Messages\MessageId_TcomDsp.h)");
     AlbaLocalPathHandler pathHandler3(R"(D:\ZZZ_Logs\PR212221\LRMJairus\MessageHistoryBeforeCorruption.txt)");
+
 
     ifstream tcomTcomFile(pathHandler.getFullPath());
     ifstream tcomDspile(pathHandler2.getFullPath());
@@ -1122,10 +1172,12 @@ TEST(SampleTest, MessageIds_test){
                     //cout<<"isTcomBasePrintVisible"<<isTcomBasePrintVisible<<" messageId: "<<hex<<messageId<<" messageName: "<<dec<<messageName<<"\n";
                     messageIds.emplace(messageId, messageName);
                 }
-            }        }
+            }
+        }
     }
 
-    if(tcomDspile.is_open())    {
+    if(tcomDspile.is_open())
+    {
         AlbaFileReader tcomDspFileReader(tcomDspile);
         while(tcomDspFileReader.isNotFinished())
         {
@@ -1145,10 +1197,12 @@ TEST(SampleTest, MessageIds_test){
                     //cout<<"isTcomBasePrintVisible"<<isTcomBasePrintVisible<<" messageId: "<<hex<<messageId<<" messageName: "<<dec<<messageName<<"\n";
                     messageIds.emplace(messageId, messageName);
                 }
-            }        }
+            }
+        }
     }
 
-    if(messageMapFile.is_open())    {
+    if(messageMapFile.is_open())
+    {
         AlbaFileReader messageMapFileReader(messageMapFile);
         while(messageMapFileReader.isNotFinished())
         {
@@ -1167,10 +1221,12 @@ TEST(SampleTest, MessageIds_test){
                 //cout<<lineInFile<<"\n";
             }
         }
-    }}
+    }
+}
 */
 /*
-bool isLeapYear(unsigned int const year){
+bool isLeapYear(unsigned int const year)
+{
     bool result(true);
     if (year%4 != 0) result = false;
     else if (year%100 != 0) result = true;
@@ -1206,6 +1262,7 @@ int getNumberOfLeapYears(unsigned int const year)
     //cout<<"beforeThisYear"<<(beforeThisYear/4)<<","<<(beforeThisYear/100)<<","<<(beforeThisYear/400)<<","<<(beforeThisYear/4)+(beforeThisYear/100)<<","<<(beforeThisYear/4)+(beforeThisYear/100)+(beforeThisYear/400)<<(beforeThisYear/4)+(beforeThisYear/100)+(beforeThisYear/400)+1<<"\n";
     return (beforeThisYear/4)-(beforeThisYear/100)+(beforeThisYear/400)+1;
 }
+
 TEST(SampleTest, DateTimeAlgorithm)
 {
     AlbaLocalPathHandler pathHandler(R"(C:\APRG\DateMonthStudy2.csv)");
@@ -1220,9 +1277,11 @@ TEST(SampleTest, DateTimeAlgorithm)
         numberOfDays+=getMaximumDaysInAMonth(month,1);
     }
 }
+
 u32 calculateShiftDelayedSfn(u32 const currentSfn, u32 const calculatedSfn)
 {
-    const u32 RADIO_FRAME_CYCLE = 4096;    const u32 MAX_FRAME_NUMBER = 4095;
+    const u32 RADIO_FRAME_CYCLE = 4096;
+    const u32 MAX_FRAME_NUMBER = 4095;
     const u32 MAX_NUM_OF_TTI = 8;
     const u32 SFN_LOW_LIMIT = 12;
     const u32 SFN_HIGH_LIMIT = 220;
@@ -1252,9 +1311,11 @@ u32 calculateShiftDelayedSfn(u32 const currentSfn, u32 const calculatedSfn)
     cout<<"limit"<<limit<<"\n";
     return tempSfn;
 }
+
 u32 calculateShiftDelayedSfnNew(u32 const currentSfn, u32 const calculatedSfn)
 {
-    const u32 RADIO_FRAME_CYCLE = 4096;    const u32 MAX_FRAME_NUMBER = 4095;
+    const u32 RADIO_FRAME_CYCLE = 4096;
+    const u32 MAX_FRAME_NUMBER = 4095;
     const u32 MAX_NUM_OF_TTI = 8;
     const u32 SFN_LOW_LIMIT = 12;
     const u32 SFN_HIGH_LIMIT = 220;
@@ -1305,7 +1366,8 @@ TEST(SampleTest, DISABLED_ComparisonOfResultsOfTwoAlgorithms)
             cout<<"lineInFileInOldAlgo:["<<lineInFileInOldAlgo<<"]\n";
             //break;
         }
-    }}
+    }
+}
 
 TEST(SampleTest, DISABLED_RlhNewLogic)
 {
@@ -1321,6 +1383,7 @@ TEST(SampleTest, DISABLED_RlhNewLogic)
         }
     }
 }
+
 TEST(SampleTest, DISABLED_RlhOldLogic)
 {
     AlbaLocalPathHandler pathHandler(R"(D:\userdata\malba\Desktop\Prontos\PR235148\OldResults.csv)");
@@ -1335,6 +1398,7 @@ TEST(SampleTest, DISABLED_RlhOldLogic)
         }
     }
 }
+
 
 TEST(SampleTest, FilesToFind)
 {
@@ -1352,9 +1416,11 @@ TEST(SampleTest, FilesToFind)
     }
 }
 
+
 TEST(SampleTest, MessageId_TcomTcom_test)
 {
-    AlbaLocalPathHandler pathHandler(R"(D:\Branches\trunk\I_Interface\Private\SC_TCOM\Messages\MessageId_TcomTcom.sig)");    AlbaLocalPathHandler pathHandler2(R"(D:\userdata\malba\Desktop\SCTRoutes\MessageId_TcomTcom_xml_format.txt)");
+    AlbaLocalPathHandler pathHandler(R"(D:\Branches\trunk\I_Interface\Private\SC_TCOM\Messages\MessageId_TcomTcom.sig)");
+    AlbaLocalPathHandler pathHandler2(R"(D:\userdata\malba\Desktop\SCTRoutes\MessageId_TcomTcom_xml_format.txt)");
     AlbaLocalPathHandler pathHandler3(R"(D:\userdata\malba\Desktop\SCTRoutes\Unedited\routeList_VM.xml)");
     AlbaLocalPathHandler pathHandler4(R"(D:\userdata\malba\Desktop\SCTRoutes\MessageId_comparison.csv)");
 
@@ -1366,10 +1432,12 @@ TEST(SampleTest, MessageId_TcomTcom_test)
     xmlFormattedFile<<"<messages>\n";
 
     map<unsigned int, string> tcomTcomMessageIds;
-    set<unsigned int> routeListMessageIds;    if(tcomTcomFile.is_open())
+    set<unsigned int> routeListMessageIds;
+    if(tcomTcomFile.is_open())
     {
         AlbaFileReader tcomTcomFileReader(tcomTcomFile);
-        while(tcomTcomFileReader.isNotFinished())        {
+        while(tcomTcomFileReader.isNotFinished())
+        {
             string lineInFile(tcomTcomFileReader.getLineAndIgnoreWhiteSpaces());
             if(stringHelper::isStringFoundInsideTheOtherStringCaseSensitive(lineInFile, "#define"))
             {
@@ -1397,10 +1465,12 @@ TEST(SampleTest, MessageId_TcomTcom_test)
     messageIdComparisonFile<<"messageId,isExistInRouteList,isExistInTcomTcom,messageName\n";
 
     bool isMessageSpace;
-    if(routeListFile.is_open())    {
+    if(routeListFile.is_open())
+    {
         AlbaFileReader routeListFileReader(routeListFile);
         while(routeListFileReader.isNotFinished())
-        {            string lineInFile(routeListFileReader.getLineAndIgnoreWhiteSpaces());
+        {
+            string lineInFile(routeListFileReader.getLineAndIgnoreWhiteSpaces());
 
             if(stringHelper::isStringFoundInsideTheOtherStringCaseSensitive(lineInFile, "<message>"))
             {
@@ -1418,10 +1488,12 @@ TEST(SampleTest, MessageId_TcomTcom_test)
                 //cout<<"messageId:"<<messageId<<"\n";
             }
 
-            if(stringHelper::isStringFoundInsideTheOtherStringCaseSensitive(lineInFile, "</message>"))            {
+            if(stringHelper::isStringFoundInsideTheOtherStringCaseSensitive(lineInFile, "</message>"))
+            {
                 isMessageSpace=false;
             }
-        }    }
+        }
+    }
     for(unsigned int i=0; i<0xFFFF; i++)
     {
         bool isExistInRouteList = routeListMessageIds.count(i)>0;
@@ -1439,9 +1511,11 @@ TEST(SampleTest, MessageId_TcomTcom_test)
     }
 }
 
+
 TEST(SampleTest, DISABLED_SampleTest1)
 {
-    QuickestWayToProgram entity;}
+    QuickestWayToProgram entity;
+}
 
 TEST(SampleTest, DISABLED_SampleTest2)
 {
@@ -1484,10 +1558,12 @@ TEST(SampleTest, DISABLED_SampleTest2)
                     //cout<<(unsigned int)byteValue<<"\n";
                     wiresharkDumpFileFixed<<byteValue;
                     byteString.clear();
-                    state=0;                }
+                    state=0;
+                }
             }
         }
-    }}
+    }
+}
 
 TEST(SampleTest, DISABLED_WrcTest)
 {
@@ -1498,9 +1574,11 @@ TEST(SampleTest, DISABLED_WrcTest)
 }
 
 void checkTrace();
+
 void checkTrace()
 {
-    AlbaLocalPathHandler pathHandler(R"(D:\W\ZZZ_Useless_Logs\RAN2861_slow\PS NRT\1100_MegaPlexer\Ip_10.68.159.157_41786_544_160706_110531.codec.wtbin)");    ifstream megaplexerStream(pathHandler.getFullPath(), ifstream::binary);
+    AlbaLocalPathHandler pathHandler(R"(D:\W\ZZZ_Useless_Logs\RAN2861_slow\PS NRT\1100_MegaPlexer\Ip_10.68.159.157_41786_544_160706_110531.codec.wtbin)");
+    ifstream megaplexerStream(pathHandler.getFullPath(), ifstream::binary);
     if(megaplexerStream.is_open())
     {
         char fourBytes[4];
@@ -1516,9 +1594,11 @@ void checkTrace()
         cout<<"size"<<size<<"\n";
     }
 }
+
 TEST(SampleTest, DISABLED_ConfirmatoryTest)
 {
-    checkTrace();}
+    checkTrace();
+}
 
 
 
@@ -1550,9 +1630,11 @@ TEST(SampleTest, DISABLED_GenerateSupplementarySacksHpp)
         supplementaryHeaderFile<<"#include <"<<filePath.getFile()<<">\n";
     }
 }
+
 TEST(SampleTest, DISABLED_GenerateFeatureSpecificComponentFiles)
 {
-    AlbaLocalPathHandler currentDirectory(PathInitialValueSource::DetectedLocalPath);    AlbaLocalPathHandler featureSpecificDirectory(currentDirectory.getDirectory());
+    AlbaLocalPathHandler currentDirectory(PathInitialValueSource::DetectedLocalPath);
+    AlbaLocalPathHandler featureSpecificDirectory(currentDirectory.getDirectory());
 
     ifstream componentNameFile(featureSpecificDirectory.getFullPath()+"ComponentName.hpp");
     ofstream addComponentFile(featureSpecificDirectory.getFullPath()+"AddComponent.hpp");
@@ -1572,9 +1654,11 @@ TEST(SampleTest, DISABLED_GenerateFeatureSpecificComponentFiles)
         }
     }
 }
+
 TEST(SampleTest, DISABLED_CloudPrinting)
 {
-    char payloadPtr[40];    int payloadSize=40;
+    char payloadPtr[40];
+    int payloadSize=40;
     std::stringstream line;
             line.str("HEX DUMP: ");
             for(int i=0; i<payloadSize; i++)
@@ -1595,9 +1679,11 @@ TEST(SampleTest, DISABLED_CloudPrinting)
                 line.str("");
             }
 }
+
 TEST(SampleTest, DISABLED_NSAPCloudPrinting)
 {
-    u8 mark[4] = {0xA, 0x45, 0x1A, 0x1A};    TTransportLayerAddress nsap;
+    u8 mark[4] = {0xA, 0x45, 0x1A, 0x1A};
+    TTransportLayerAddress nsap;
     CommonClassLib::CNsapHelper::convertIPv4toNsap(mark, nsap);
 
     for(int i=0; i<20; i++)
@@ -1605,9 +1691,11 @@ TEST(SampleTest, DISABLED_NSAPCloudPrinting)
         cout<<"nsap["<<i<<"]: "<<std::hex<<(int)nsap[i]<<"\n";
     }
 }
+
 TEST(SampleTest, DISABLED_u32toi32)
 {
-    typedef unsigned int   u32;    typedef u32     TCounter;
+    typedef unsigned int   u32;
+    typedef u32     TCounter;
     typedef  i32 TPowerLevel;
 
     TPowerLevel           powerLevel1, powerLevel2;
@@ -1620,7 +1708,8 @@ TEST(SampleTest, DISABLED_u32toi32)
     cout<<"PowerLevel1"<<powerLevel1<<"  PowerLevel2"<<powerLevel2<<"  test"<<test<<"\n";
 }
 
-TEST(SampleTest, DISABLED_RhapsodyShit){
+TEST(SampleTest, DISABLED_RhapsodyShit)
+{
     class OMThread
     {
     public:
@@ -1629,7 +1718,8 @@ TEST(SampleTest, DISABLED_RhapsodyShit){
         virtual int execute(){cout<<"OMThread: execute\n";}
 
     };
-    class CMessageReceiver : public OMThread    {
+    class CMessageReceiver : public OMThread
+    {
     public:
         int m_param1;
         int m_param3;
@@ -1650,10 +1740,12 @@ TEST(SampleTest, DISABLED_RhapsodyShit){
     cout<<"size: "<<size<<"\n";
     void* polyPointerVoid = polyPointer;
     void* ccsPointer = malloc(size);
-    memcpy(ccsPointer, polyPointer, size);    printf("polyPointer: %p\n", polyPointer);
+    memcpy(ccsPointer, polyPointer, size);
+    printf("polyPointer: %p\n", polyPointer);
     printf("ccsPointer: %p\n", ccsPointer);
 
-    OMThread* staticCastPointer = static_cast<OMThread*>(polyPointerVoid);    staticCastPointer->execute();
+    OMThread* staticCastPointer = static_cast<OMThread*>(polyPointerVoid);
+    staticCastPointer->execute();
 }
 
 TEST(SampleTest, FindThoseIpAddresses)
@@ -1674,10 +1766,12 @@ TEST(SampleTest, FindThoseIpAddresses)
             //cout <<"printed:["<<lineFromFile[i]<<","<<ipState<<"]\n";
             if(ipState == 0)
             {
-                if(stringHelper::isNumber(lineFromFile[i]))                {
+                if(stringHelper::isNumber(lineFromFile[i]))
+                {
                     ipState = 1;
                 }
-            }            else if(ipState == 1)
+            }
+            else if(ipState == 1)
             {//100
                 if(stringHelper::isNumber(lineFromFile[i]))
                 {
@@ -1764,7 +1858,8 @@ TEST(SampleTest, FindThoseIpAddresses)
             ipAddressesFile25 << lineFromFile.substr(0,25) << "\n";
         }
     }
-}*/
+}
+*/
 
 
 }

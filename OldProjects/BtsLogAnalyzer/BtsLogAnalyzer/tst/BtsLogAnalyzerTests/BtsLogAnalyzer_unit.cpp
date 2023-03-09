@@ -48,10 +48,12 @@ TEST(BtsLogAnalyzerTestBtsDelay, DISABLED_ProcessFileForBtsDelay2)
     cout<<"Average Delay:"<<reader.getComputedAverageDelay()<<"\n";
 }
 
-TEST(BtsLogAnalyzerTestQueuingTime, DISABLED_GetMsgQueuingTime){
+TEST(BtsLogAnalyzerTestQueuingTime, DISABLED_GetMsgQueuingTime)
+{
     BtsLogAnalyzer reader(R"(D:\ZZZ_Logs\RAN3321Degradation\WBTS17_0000_0242_06\Rel3\GetMsgQueuingTime.csv)");
     reader.processFileForMsgQueuingTime(R"(D:\ZZZ_Logs\RAN3321Degradation\WBTS17_0000_0242_06\Rel3\Tcom.log)");
 }
+
 TEST(BtsLogAnalyzerTestQueuingTime, DISABLED_GetMsgQueuingTime2)
 {
     BtsLogAnalyzer reader(R"(D:\ZZZ_Logs\RAN3321Degradation\WBTS00_0000_2092_00\Rel3\GetMsgQueuingTime.csv)");
@@ -86,9 +88,11 @@ TEST(BtsLogAnalyzerTest, DISABLED_ProcessFileForBtsRlDeletionDelay2)
     cout<<"Average Delay:"<<reader.getComputedAverageDelay()<<"\n";
 }
 
+
 TEST (BtsLogAnalyzerTest, DISABLED_ProcessFileForBtsDelay_RLH_WBTS17Knife)
 {
-    BtsLogAnalyzer reader(R"(D:\W\ZZZ_Useless_Logs\wireshark_challenge\WBTS17Knife\bts_logs\RlhBtsLogTimeResults.csv)");    reader.processFileForBtsDelayForMikhailKnife(R"(D:\W\ZZZ_Useless_Logs\wireshark_challenge\WBTS17Knife\bts_logs\sorted.log)");
+    BtsLogAnalyzer reader(R"(D:\W\ZZZ_Useless_Logs\wireshark_challenge\WBTS17Knife\bts_logs\RlhBtsLogTimeResults.csv)");
+    reader.processFileForBtsDelayForMikhailKnife(R"(D:\W\ZZZ_Useless_Logs\wireshark_challenge\WBTS17Knife\bts_logs\sorted.log)");
 }
 
 TEST (BtsLogAnalyzerTest, DISABLED_ProcessDirectoryWireshark)
@@ -105,10 +109,12 @@ TEST (BtsLogAnalyzerTest, DISABLED_ProcessFileWireshark)
     cout<<"Average Delay:"<<reader.getComputedAverageDelay()<<"\n";
 }
 
-TEST (BtsLogAnalyzerTest, DISABLED_UesWithTracingWithCount){
+TEST (BtsLogAnalyzerTest, DISABLED_UesWithTracingWithCount)
+{
     BtsLogAnalyzer reader(R"(D:\W\ZZZ_Useless_Logs\RAN2861\WBTS17\TRACING_REPORT.csv)");
     reader.processFileForToCountUsersWithTracing(R"(D:\W\ZZZ_Useless_Logs\RAN2861\WBTS17\TRACING_REPORT.log)");
 }
+
 TEST (BtsLogAnalyzerTest, DISABLED_SizeOfTest)
 {
     struct TraceSessionId

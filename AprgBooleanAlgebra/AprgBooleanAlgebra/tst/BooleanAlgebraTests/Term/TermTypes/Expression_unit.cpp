@@ -8,10 +8,12 @@
 using namespace alba::stringHelper;
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 namespace booleanAlgebra
 {
+
 TEST(ExpressionTest, ConstructionWorks)
 {
     WrappedTerm wrappedTerm1(Term(false));
@@ -212,10 +214,12 @@ TEST(ExpressionTest, GetWrappedTermsWorks)
 
 TEST(ExpressionTest, GetDebugStringWorks)
 {
-    Expression expression1;    Expression expression2(createExpressionIfPossible({true, "&", "x", "|", "y"}));
+    Expression expression1;
+    Expression expression2(createExpressionIfPossible({true, "&", "x", "|", "y"}));
     Expression expression3;
     expression3.putTermWithAndOperationIfNeeded(Term(true));
     Expression expression4(createExpressionIfPossible({expression2, "&", "z"}));
+
     EXPECT_EQ("( {?}|| )", expression1.getDebugString());
     EXPECT_EQ("( {|}|||x{VariableTerm}|y{VariableTerm} )", expression2.getDebugString());
     EXPECT_EQ("( {?}||[true]{Constant} )", expression3.getDebugString());
@@ -287,10 +291,12 @@ TEST(ExpressionTest, PutTermWithOperationLevelWorks)
     EXPECT_EQ("(((a|b)&c)|d)", convertToString(expressionToTest));
 }
 
-TEST(ExpressionTest, PutTermWithAndOperationIfNeededUsingNullExpressionWorks){
+TEST(ExpressionTest, PutTermWithAndOperationIfNeededUsingNullExpressionWorks)
+{
     Expression expression1;
     Expression expression2(createOrCopyExpressionFromATerm(false));
-    Expression expression3(createExpressionIfPossible({"~", false}));    Expression expression4(createExpressionIfPossible({true, "&", "x"}));
+    Expression expression3(createExpressionIfPossible({"~", false}));
+    Expression expression4(createExpressionIfPossible({true, "&", "x"}));
     Expression expression5(createExpressionIfPossible({false, "|", "x"}));
 
     Expression nullExpression;
@@ -600,10 +606,12 @@ TEST(ExpressionTest, SetWorks)
     EXPECT_EQ("([true]&[false])", convertToString(expression));
 }
 
-TEST(ExpressionTest, SetTermWorks){
+TEST(ExpressionTest, SetTermWorks)
+{
     Expression expression1(createExpressionIfPossible({true, "&", "x"}));
     Expression expression2(createExpressionIfPossible({true, "&", "x"}));
     Expression expression3(createExpressionIfPossible({true, "&", "x"}));
+
     expression1.setTerm(Term());
     expression2.setTerm(Term(true));
     expression3.setTerm(Term(createExpressionIfPossible({false, "|", "energy"})));

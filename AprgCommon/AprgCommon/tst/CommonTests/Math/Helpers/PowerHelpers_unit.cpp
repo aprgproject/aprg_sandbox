@@ -166,10 +166,12 @@ TEST(PowerHelpersPerformanceTest, DISABLED_GetRaiseToPowerForIntegersPerformance
         unsigned long long exponent = static_cast<unsigned long long>(randomizer.getRandomIntegerInUniformDistribution(minValue, maxValue));
         result = max(result, getRaiseToPowerForIntegers(base, exponent));
     }
-    EXPECT_LT(0ULL, result);}
+    EXPECT_LT(0ULL, result);
+}
 
 TEST(PowerHelpersPerformanceTest, DISABLED_GetRaiseToPowerForIntegersUsingPowPerformanceTest_WithRandomInput)
-{    // Results: ~3.1s
+{
+    // Results: ~3.1s
 
     unsigned long long result(0);
     AlbaSimpleRandomizer randomizer;
@@ -180,7 +182,9 @@ TEST(PowerHelpersPerformanceTest, DISABLED_GetRaiseToPowerForIntegersUsingPowPer
         unsigned long long exponent = static_cast<unsigned long long>(randomizer.getRandomIntegerInUniformDistribution(minValue, maxValue));
         result = max(result, getRaiseToPowerForIntegers(base, exponent));
     }
-    EXPECT_LT(0ULL, result);}
+    EXPECT_LT(0ULL, result);
+}
 
 }
+
 }

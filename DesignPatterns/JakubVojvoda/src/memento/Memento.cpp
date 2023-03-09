@@ -54,10 +54,12 @@ public:
     std::cout << "Set state to " << s << ".\n";
     state = s;
   }
-    // implemented only for printing purpose
+  
+  // implemented only for printing purpose
   int getState()
   {
-    return state;  }
+    return state;
+  }
   
   void setMemento( Memento* const m )
   {
@@ -97,7 +99,8 @@ public:
     std::cout << "Save state.\n";
     history.push_back( originator->createMemento() );
   }
-    void undo()
+  
+  void undo()
   {
     if ( history.empty() )
     {
@@ -110,10 +113,12 @@ public:
     std::cout << "Undo state.\n";
     
     history.pop_back();
-    delete m;  }
+    delete m;
+  }
   // ...
 
-private:  Originator *originator;
+private:
+  Originator *originator;
   std::vector<Memento*> history;
   // ...
 };
@@ -136,6 +141,7 @@ int main()
   std::cout << "Actual state is " << originator->getState() << ".\n";
   
   delete originator;
-  delete caretaker;  
+  delete caretaker;
+  
   return 0;
 }
