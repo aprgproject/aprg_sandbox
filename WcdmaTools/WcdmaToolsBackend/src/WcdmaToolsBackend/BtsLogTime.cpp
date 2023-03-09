@@ -220,13 +220,12 @@ ostream& operator<<(ostream & out, BtsLogTime const& btsLogTime)
     writer.writeData<unsigned int>(btsLogTime.getMinutes());
     writer.writeData<unsigned int>(btsLogTime.getSeconds());
     writer.writeData<unsigned int>(btsLogTime.getMicroSeconds());
+    writer.flush();
     return out;
 }
-
 istream& operator>>(istream & in, BtsLogTime& btsLogTime)
 {
-    AlbaStreamParameterReader reader(in);
-    unsigned int years(reader.readData<unsigned int>());
+    AlbaStreamParameterReader reader(in);    unsigned int years(reader.readData<unsigned int>());
     unsigned int months(reader.readData<unsigned int>());
     unsigned int days(reader.readData<unsigned int>());
     unsigned int hours(reader.readData<unsigned int>());
