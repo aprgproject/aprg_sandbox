@@ -29,3 +29,4 @@ To remove/uninstall previous GSL on msys
 1) Run msys shell (C:\msys\1.0\msys.bat)
 2) In msys shell, go to GSL source
 3) Run "make uninstall"
+

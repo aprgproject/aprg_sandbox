@@ -158,10 +158,12 @@ Modeling::ValidationResult Modeling::validate()
 
     for(unsigned int j=0; j<dataHeight; j++)
     {
-        double yPredicted=0;        for (unsigned int i=0; i < dataWidthForX; i++)
+        double yPredicted=0;
+        for (unsigned int i=0; i < dataWidthForX; i++)
         {
             yPredicted += m_validationDataForX.getEntry(i, j)*m_coefficients.getEntry(i, 0);
-            index++;        }
+            index++;
+        }
         calculationDataBuffer.emplace_back(yPredicted);
     }
 
@@ -303,9 +305,11 @@ void Modeling::calculateCoefficientsUsingLeastSquares()
     cout << "Error status is [" << multifitError << "] which means: [" << gsl_strerror(multifitError) << "]\n";
 
     m_coefficients.clearAndResize(dataWidth, 1);
-    for(unsigned int i=0; i<dataWidth; i++)    {
+    for(unsigned int i=0; i<dataWidth; i++)
+    {
         m_coefficients.setEntry(i, 0, gsl_vector_get(calculatedCoefficients, i));
     }
+
     gsl_multifit_linear_free(work);
     gsl_matrix_free(calculatedCovariance);
     gsl_vector_free(calculatedCoefficients);
