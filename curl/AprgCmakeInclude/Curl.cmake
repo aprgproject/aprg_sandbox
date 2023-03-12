@@ -1,21 +1,17 @@
-#Assign GSL_DIR directory, this needs aprg directory
-set(GSL_DIR ${APRG_DIR}/gsl/)
+#Assign CURL_DIR directory, this needs aprg directory
+set(CURL_DIR ${APRG_DIR}/CURL/)
 
 if(WIN32)
-    #Include GSL files and directories
-    set(GSL_INCLUDE_DIRECTORIES
-        ${GSL_DIR}/include/
-    )
+    #Include CURL files and directories
+    set(CURL_INCLUDE_DIRECTORIES ${CURL_DIR}/include/curl-7.79/)
 
-    include_directories(${GSL_INCLUDE_DIRECTORIES})
+    include_directories(${CURL_INCLUDE_DIRECTORIES})
 
     # add libraries
-    add_library(GSL SHARED IMPORTED)
-    set_property(TARGET GSL PROPERTY IMPORTED_IMPLIB ${GSL_DIR}/lib/gsl2.7/libgsl.a)
-    add_library(GSLCBLAS SHARED IMPORTED)
-    set_property(TARGET GSLCBLAS PROPERTY IMPORTED_IMPLIB ${GSL_DIR}/lib/gsl2.7/libgslcblas.a)
-    set (GSL_LIBRARIES_TO_LINK GSL GSLCBLAS)
+    add_library(CURL SHARED IMPORTED)
+    set_property(TARGET CURL PROPERTY IMPORTED_IMPLIB ${CURL_DIR}/lib/curl-7.79/libcurl.a)
+    set (CURL_LIBRARIES_TO_LINK CURL)
 else()
-    find_package(GSL REQUIRED)
-    set (GSL_LIBRARIES_TO_LINK GSL::gsl GSL::gslcblas)
+    find_package(CURL REQUIRED)
+    set (CURL_LIBRARIES_TO_LINK CURL::CURL)
 endif()
