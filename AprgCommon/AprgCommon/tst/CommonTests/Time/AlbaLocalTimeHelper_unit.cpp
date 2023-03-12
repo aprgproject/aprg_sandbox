@@ -27,15 +27,13 @@ TEST(AlbaLocalTimerHelperTest, DISABLED_SleepUntilWorks) // this is unstable bec
     sleepUntil(inputTime);
 
     timer.stopTimer();
-    EXPECT_EQ(4321U, timer.getElapsedTimeInMilliseconds());
+    EXPECT_EQ(0U, timer.getElapsedTimeInMilliseconds());
 }
 
-TEST(AlbaLocalTimerHelperTest, DISABLED_ConvertSystemTimeToAlbaDateTimeWorks) // this is unstable because time varies
-{
+TEST(AlbaLocalTimerHelperTest, DISABLED_ConvertSystemTimeToAlbaDateTimeWorks) // this is unstable because time varies{
     AlbaDateTime currentTime(convertSystemTimeToAlbaDateTime(getSystemTimeNow()));
 
-    EXPECT_EQ(" 1 * 2021-09-13 02:39:51.893963", convertToString(currentTime));
-}
+    EXPECT_EQ(" 1 * 2021-09-13 02:39:51.893963", convertToString(currentTime));}
 
 TEST(AlbaLocalTimerHelperTest, DISABLED_ConvertSinceEpochTimeToAlbaDateTimeWorksForSystemTime) // this is unstable because time varies
 {
