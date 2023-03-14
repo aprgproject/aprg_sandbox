@@ -1,12 +1,12 @@
 #Include curl library, this needs aprg directory
-include(${APRG_DIR}/curl-7.38.0/AprgCmakeInclude/curl.cmake)
+include(${APRG_DIR}/curl/AprgCmakeInclude/Curl.cmake)
 
-#Assign curlCpp directory, this needs aprg directory
-set(CURL_CPP_DIR ${APRG_DIR}/CurlCpp/CurlCpp/)
+#Assign CurlCpp directory, this needs aprg directory
+set(APRG_CURL_CPP_DIR ${APRG_DIR}/CurlCpp/CurlCpp/)
 
-#Include CURL_CPP_SOURCES
-include(${CURL_CPP_DIR}/CMake/FilesAndDirectories.cmake)
+#Include APRG_CURL_CPP files and directories
+include(${APRG_CURL_CPP_DIR}/cmake/FilesAndDirectories.cmake)
 
-include_directories(${CURL_CPP_INCLUDE_DIRECTORIES})
-add_library(CURL_CPP ${CURL_CPP_SOURCES})
-target_link_libraries(CURL_CPP CURL_LIB)
+include_directories(${APRG_CURL_CPP_INCLUDE_DIRECTORIES})
+add_library(APRG_CURL_CPP ${APRG_CURL_CPP_SOURCES})
+target_link_libraries(APRG_CURL_CPP ${CURL_LIBRARIES_TO_LINK})
