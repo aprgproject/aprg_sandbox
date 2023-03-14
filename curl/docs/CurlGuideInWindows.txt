@@ -1,0 +1,25 @@
+CURL location:
+1) https://curl.se/windows/
+
+Notes:
+1) There is no need to build from source using msys.
+
+Instructions:
+1) Download latest curl from download site.
+2) Extract archive
+3) Copy CURL headers to APRG
+3.1) Check "XXXXXX\curl-7.79.0-win64-mingw\include"
+3.2) Copy all header available
+3.3) And paste it to "XXXXXX\aprg\curl\include\CURL_VERSION\"
+4) Copy CURL libraries to APRG
+4.1) Check "XXXXXX\curl-7.79.0-win64-mingw\lib"
+4.2) Copy "libcurl.a" and "libcurl.dll.a"
+4.3) And paste it to "XXXXXX\aprg\curl\lib\CURL_VERSION\"
+5) Copy CURL DLL to APRG
+5.1) Check "XXXXXX\curl-7.79.0-win64-mingw\bin"
+5.2) Copy "libcurl-x64.dll"
+5.3) And paste it to "XXXXXX\aprg\curl\lib\CURL_VERSION\"
+6) Update cmake with the new CURL_VERSION
+6.1) Location: "XXXXXX\aprg\curl\AprgCmakeInclude\Curl.cmake
+
+
