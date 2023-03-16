@@ -17,16 +17,16 @@ MSYS location:
 4.4) Run "make"
 4.5) Run "make install"
 5) Copy GSL headers to APRG
-5.1) Check "C:\msys\1.0\local\include\gsl" or "usr/local/include/gsl"
+5.1) Check "C:\msys\1.0\local\include\gsl" or "/usr/local/include/gsl"
 5.2) Copy all header available
-5.3) And paste it to "xxxx\aprg\gsl\include\gsl"
+5.3) And paste it to "XXXXXX\aprg\gsl\include\GSL_VERSION\gsl\"
 6) Copy GSL libraries to APRG
-6.1) Check "C:\msys\1.0\local\lib" or "usr/local/lib"
+6.1) Check "C:\msys\1.0\local\lib" or "/usr/local/lib"
 6.2) Copy "libgsl.a" and "libgslcblas.a"
-6.3) And paste it to "xxxx\aprg\gsl\lib"
+6.3) And paste it to "XXXXXX\aprg\gsl\lib\GSL_VERSION\"
+7) Update cmake with the new CURL_VERSION
+7.1) Location: "XXXXXX\aprg\gsl\AprgCmakeInclude\Gsl.cmake
 
 To remove/uninstall previous GSL on msys
-1) Run msys shell (C:\msys\1.0\msys.bat)
-2) In msys shell, go to GSL source
+1) Run msys shell (C:\msys\1.0\msys.bat)2) In msys shell, go to GSL source
 3) Run "make uninstall"
-
