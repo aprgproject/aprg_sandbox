@@ -1,5 +1,5 @@
-#Assign gtest directory, this needs aprg directory
-set(GTEST_DIR ${APRG_DIR}/gtest/gtest/)
+#This needs aprg directory
+include(${APRG_DIR}/gtest/AprgCmakeInclude/SetGTestDirectory.cmake)
 
 set(GOGGLE_MOCK_DIR ${GTEST_DIR}/googlemock)
 

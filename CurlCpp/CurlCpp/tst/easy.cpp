@@ -6,6 +6,7 @@ using namespace std;
 using curl::curl_easy;
 using curl::curl_easy_exception;
 using curl::curlcpp_traceback;
+
 /**
  * This example shows how to make a simple request with curl.
  */
@@ -13,9 +14,11 @@ int main() {
     cout << "CurlCpp is running\n";
     // Easy object to handle the connection.
     curl_easy easy;
+
     // Add some options.
     easy.add<CURLOPT_URL>("http://www.google.it");
     easy.add<CURLOPT_FOLLOWLOCATION>(1L);
+
     try {
         easy.perform();
     } catch (curl_easy_exception &error) {

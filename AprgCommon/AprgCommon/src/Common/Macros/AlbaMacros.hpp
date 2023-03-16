@@ -5,7 +5,8 @@
 // NOTE: BEWARE, if this are used in inlined stuffs, this results in ODR violations.
 #define ALBA_MACROS_GET_FILE __FILE__
 #define ALBA_MACROS_GET_LINE __LINE__
-#define ALBA_MACROS_GET_COMPILATION_DATE __DATE__#define ALBA_MACROS_GET_TIME_OF_TRANSLATION __TIME__
+#define ALBA_MACROS_GET_COMPILATION_DATE __DATE__
+#define ALBA_MACROS_GET_TIME_OF_TRANSLATION __TIME__
 #define ALBA_MACROS_GET_COMPILER_VERSION __cplusplus
 // Note: You can use the compilation date as some sort of version control to display when it was compiled.
 
@@ -32,6 +33,7 @@
 #define ALBA_MACROS_CASE_ENUM_STRING(parameter) \
     case parameter: \
     return ALBA_MACROS_GET_STRING_LITERAL(parameter);
+
 #define ALBA_MACROS_CASE_ENUM_SHORT_STRING(parameter, shortName) \
     case parameter: \
     return shortName;
@@ -53,4 +55,6 @@
     p31,p32,p33,p34,p35,p36,p37,p38,p39,p40,p41,p42,p43,p44,p45,p46,p47,p48,p49,p50,p51,p52,p53,p54,p55,p56,p57,p58,p59,p60,p61,p62,p63,  N, ...) N
 #define ALBA_MACROS_COUNT_IN_REVERSE_SEQUENCE() 63,62,61,60,59,58,57,56,55,54,53,52,51,50,49,48,47,46,45,44,43,42,41,40,39,38,37,36,35,34,33,32,31,30, \
     29,28,27,26,25,24,23,22,21,20,19,18,17,16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1,0
+
+
 

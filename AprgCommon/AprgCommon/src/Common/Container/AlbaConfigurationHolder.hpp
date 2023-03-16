@@ -5,9 +5,11 @@
 
 namespace alba
 {
+
 template <typename ConfigurationDetails>
 ConfigurationDetails getDefaultConfigurationDetails()
-{    static_assert(sizeof(ConfigurationDetails) == -1, "Default configuration is not defined. This is needed in configuration holder.");
+{
+    static_assert(sizeof(ConfigurationDetails) == -1, "Default configuration is not defined. This is needed in configuration holder.");
 }
 
 template <typename ConfigurationDetails>
@@ -56,7 +58,8 @@ public:
 
     void setInThisScopeThisConfiguration(
             ConfigurationDetails const& configurationDetails) const
-    {        AlbaConfigurationHolder<ConfigurationDetails>::getInstance().setConfigurationDetails(configurationDetails);
+    {
+        AlbaConfigurationHolder<ConfigurationDetails>::getInstance().setConfigurationDetails(configurationDetails);
     }
 
 private:

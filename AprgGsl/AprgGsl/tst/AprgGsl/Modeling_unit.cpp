@@ -16,7 +16,8 @@ namespace alba
 TEST(SampleTest, DISABLED_TestForSimpleDataSet)
 {
     AlbaLocalPathHandler testFilePath(ALBA_MODELING_DATA_SET_WITH_FILE_FORMAT1_SIMPLE_DATA_SET);
-    Modeling modeling;    modeling.retrieveDataFromFileWithFileFormat1(testFilePath.getFullPath());
+    Modeling modeling;
+    modeling.retrieveDataFromFileWithFileFormat1(testFilePath.getFullPath());
     modeling.printRetrievedData();
     unsigned int numberOfSamples (modeling.getNumberOfSamples());
     modeling.saveRetrievedDataToModelingData(numberOfSamples);
@@ -26,10 +27,12 @@ TEST(SampleTest, DISABLED_TestForSimpleDataSet)
 
     modeling.printModelingData();
     modeling.printValidationData();
-    Modeling::ValidationResult result =  modeling.validate();    cout<<"totalSquareError: "<<std::setprecision(20)<<result.totalSquareError<<"\n";
+    Modeling::ValidationResult result =  modeling.validate();
+    cout<<"totalSquareError: "<<std::setprecision(20)<<result.totalSquareError<<"\n";
     cout<<"resultSize: "<<std::setprecision(20)<<result.resultSize<<"\n";
     cout<<"meanSquareError: "<<std::setprecision(20)<<result.meanSquareError<<"\n";
     cout<<"rootMeanSquareError: "<<std::setprecision(20)<<result.rootMeanSquareError<<"\n";
+
     Modeling::MatrixOfDoubles coefficients(modeling.getCoefficients());
     cout<<"Coefficients:\n";
     cout<<coefficients<<"\n";
@@ -51,10 +54,12 @@ TEST(SampleTest, DISABLED_TestForFileFormat1)
 
     modeling.printModelingData();
     modeling.printValidationData();
-    Modeling::ValidationResult result =  modeling.validate();    cout<<"totalSquareError: "<<std::setprecision(20)<<result.totalSquareError<<"\n";
+    Modeling::ValidationResult result =  modeling.validate();
+    cout<<"totalSquareError: "<<std::setprecision(20)<<result.totalSquareError<<"\n";
     cout<<"resultSize: "<<std::setprecision(20)<<result.resultSize<<"\n";
     cout<<"meanSquareError: "<<std::setprecision(20)<<result.meanSquareError<<"\n";
     cout<<"rootMeanSquareError: "<<std::setprecision(20)<<result.rootMeanSquareError<<"\n";
+
     Modeling::MatrixOfDoubles coefficients(modeling.getCoefficients());
     cout<<"Coefficients:\n";
     cout<<coefficients<<"\n";
@@ -63,7 +68,8 @@ TEST(SampleTest, DISABLED_TestForFileFormat1)
 TEST(SampleTest, TestForFileFormat2)
 {
     AlbaLocalPathHandler testFilePath(ALBA_MODELING_DATA_SET_WITH_FILE_FORMAT2_FILE3);
-    Modeling modeling;    modeling.retrieveDataFromFileWithFileFormat2(testFilePath.getFullPath());
+    Modeling modeling;
+    modeling.retrieveDataFromFileWithFileFormat2(testFilePath.getFullPath());
     modeling.printRetrievedData();
     unsigned int numberOfSamples (modeling.getNumberOfSamples());
     modeling.saveRetrievedDataToModelingData(numberOfSamples);
@@ -73,10 +79,12 @@ TEST(SampleTest, TestForFileFormat2)
 
     modeling.printModelingData();
     modeling.printValidationData();
-    Modeling::ValidationResult result =  modeling.validate();    cout<<"totalSquareError: "<<std::setprecision(20)<<result.totalSquareError<<"\n";
+    Modeling::ValidationResult result =  modeling.validate();
+    cout<<"totalSquareError: "<<std::setprecision(20)<<result.totalSquareError<<"\n";
     cout<<"resultSize: "<<std::setprecision(20)<<result.resultSize<<"\n";
     cout<<"meanSquareError: "<<std::setprecision(20)<<result.meanSquareError<<"\n";
     cout<<"rootMeanSquareError: "<<std::setprecision(20)<<result.rootMeanSquareError<<"\n";
+
     Modeling::MatrixOfDoubles coefficients(modeling.getCoefficients());
     cout<<"Coefficients:\n";
     cout<<coefficients<<"\n";

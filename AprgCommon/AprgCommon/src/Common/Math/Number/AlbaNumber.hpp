@@ -181,8 +181,10 @@ private:
     static double adjustFloatValue(float const value);
     static ComplexFloat createComplexFloat(ComplexNumberData const& data);
     static void correctPowerResult(double & powerResult, double const base, double const exponent);
+
     template <typename NumberType1, typename NumberType2>
     void constructBasedFromComplexNumberDetails(NumberType1 const realPart, NumberType2 const imaginaryPart);
+
     AlbaNumber addBothIntegersAndReturnNumber(
             int64_t const integerValue1,
             int64_t const integerValue2) const;

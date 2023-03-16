@@ -4,6 +4,7 @@
 
 #include <cstdint>
 #include <memory>
+
 namespace alba
 {
 
@@ -12,9 +13,11 @@ constexpr TypeId EMPTY_TYPE_ID = 0;
 
 namespace detail
 {
+
 // generates unique integer type id, as an address of static method
 template <class T>
-class TypeIdGenerator{
+class TypeIdGenerator
+{
 public:
     static TypeId GetTypeId()
     {

@@ -14,9 +14,11 @@ namespace typeHelper
 
 
 // Type relationships:
+
 template <typename Type1, typename Type2>
 constexpr bool areSameTypes()
-{    return std::is_same<Type1, Type2>::value;
+{
+    return std::is_same<Type1, Type2>::value;
 }
 
 template <typename FromType, typename ToType>
@@ -159,9 +161,11 @@ constexpr bool isAVolatileType()
 // For simple data types use the is_standard_layout function, for trivial data types (such as simple structs) use the is_trivial function.
 
 template <typename Type>
-constexpr bool isATrivialType(){
+constexpr bool isATrivialType()
+{
     return std::is_trivial<Type>::value;
 }
+
 template <typename Type>
 constexpr bool hasStandardLayout()
 {
@@ -257,10 +261,12 @@ constexpr bool isNoThrowDefaultConstructible()
 
 // Get Types
 
-template<typename Type>using GetPlainType = typename std::decay<Type>::type;
+template<typename Type>
+using GetPlainType = typename std::decay<Type>::type;
 
 
-template<typename Type>using GetTypeWithLValueReference = typename std::add_lvalue_reference<Type>::type;
+template<typename Type>
+using GetTypeWithLValueReference = typename std::add_lvalue_reference<Type>::type;
 
 template<typename Type>
 using GetTypeWithRValueReference = typename std::add_rvalue_reference<Type>::type;
@@ -321,8 +327,10 @@ using RemoveAllDimensions = typename std::remove_all_extents<Array>::type;
 
 // Conditional types
 
-template<bool condition, typename TypeIfTrue, typename TypeIfFalse>using ConditionalType = typename std::conditional<condition, TypeIfTrue, TypeIfFalse>::type;
+template<bool condition, typename TypeIfTrue, typename TypeIfFalse>
+using ConditionalType = typename std::conditional<condition, TypeIfTrue, TypeIfFalse>::type;
 
 
 }
+
 } // namespace alba

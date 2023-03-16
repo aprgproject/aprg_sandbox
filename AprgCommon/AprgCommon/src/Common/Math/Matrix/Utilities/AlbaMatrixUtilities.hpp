@@ -197,10 +197,12 @@ void interchangeRows(
     for(unsigned int x=0; x<matrix.getNumberOfColumns(); x++)
     {
         std::swap(matrix.getEntryReference(x, y1), matrix.getEntryReference(x, y2));
-    }}
+    }
+}
 
 template <typename DataType>
-void addTwoRowsAndPutSumInAnotherRow(        AlbaMatrix<DataType> & matrix,
+void addTwoRowsAndPutSumInAnotherRow(
+        AlbaMatrix<DataType> & matrix,
         unsigned int const yInput1,
         unsigned int const yInput2,
         unsigned int const yOutput)
@@ -257,10 +259,12 @@ void traverseWithUnaryOperationForDifferentRows(
     for(unsigned int x=0; x<matrix.getNumberOfColumns(); x++)
     {
         matrix.setEntry(x, yOutput, unaryFunction(matrix.getEntry(x, yInput)));
-    }}
+    }
+}
 
 template <typename DataType>
-void traverseWithBinaryOperationForDifferentRows(        AlbaMatrix<DataType> & matrix,
+void traverseWithBinaryOperationForDifferentRows(
+        AlbaMatrix<DataType> & matrix,
         unsigned int const yInput1,
         unsigned int const yInput2,
         unsigned int const yOutput,
@@ -270,7 +274,9 @@ void traverseWithBinaryOperationForDifferentRows(        AlbaMatrix<DataType> & 
     for(unsigned int x=0; x<matrix.getNumberOfColumns(); x++)
     {
         matrix.setEntry(x, yOutput, binaryFunction(matrix.getEntry(x, yInput1), matrix.getEntry(x, yInput2)));
-    }}
+    }
+}
 
 }
+
 }//namespace alba

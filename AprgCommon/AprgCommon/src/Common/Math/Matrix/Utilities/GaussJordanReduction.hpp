@@ -144,9 +144,11 @@ void multiplyValueInRowAndPutProductInAnotherRow(
     assert((yInput < matrix.getNumberOfRows()) && (yOutput < matrix.getNumberOfRows()));
     traverseWithUnaryOperationForDifferentRows(
                 matrix, yInput, yOutput, UnaryFunction<DataType>([&](DataType const& input)
-    {        return input*multiplierForInput;
+    {
+        return input*multiplierForInput;
     }));
 }
+
 template <typename DataType>
 void subtractRowsWithMultiplierPutDifferenceInAnotherRow(
         AlbaMatrix<DataType> & matrix,
@@ -158,9 +160,11 @@ void subtractRowsWithMultiplierPutDifferenceInAnotherRow(
     assert((yInput1 < matrix.getNumberOfRows()) && (yInput2 < matrix.getNumberOfRows()) && (yOutput < matrix.getNumberOfRows()));
     traverseWithBinaryOperationForDifferentRows(
                 matrix, yInput1, yInput2, yOutput, BinaryFunction<DataType>([&](DataType const& input1, DataType const& input2)
-    {        return input1 - (input2*multiplierForInput2);
+    {
+        return input1 - (input2*multiplierForInput2);
     }));
 }
+
 }
 
 }//namespace alba

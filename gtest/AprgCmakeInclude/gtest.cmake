@@ -1,5 +1,7 @@
-#Assign gtest directory, this needs aprg directory
-set(GTEST_DIR ${APRG_DIR}/gtest/gtest/)
+#This needs aprg directory
+include(${APRG_DIR}/gtest/AprgCmakeInclude/SetGTestDirectory.cmake)
+
+set(GOOGLE_TEST_DIR ${GTEST_DIR}/googletest)
 
 find_package(Threads)
 if (CMAKE_USE_PTHREADS_INIT)  # The pthreads library is available and allowed.
@@ -7,8 +9,6 @@ if (CMAKE_USE_PTHREADS_INIT)  # The pthreads library is available and allowed.
 else()
     set(gtest_disable_pthread ON)
 endif()
-
-set(GOOGLE_TEST_DIR ${GTEST_DIR}/googletest)
 
 set(GTEST_INCLUDE_DIRECTORIES
     ${GOOGLE_TEST_DIR}/include

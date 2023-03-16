@@ -115,7 +115,8 @@ TEST(AlbaMemoryBufferTest, ResizeWorksOnMakingTheBufferSmaller)
     char* bufferPointer = reinterpret_cast<char*>(buffer.getBufferPointer());
     EXPECT_TRUE(buffer);
     EXPECT_TRUE(buffer.hasContent());
-    EXPECT_EQ(3U, buffer.getSize());    EXPECT_EQ(0x78, bufferPointer[0]);
+    EXPECT_EQ(3U, buffer.getSize());
+    EXPECT_EQ(0x78, bufferPointer[0]);
     EXPECT_EQ(0x56, bufferPointer[1]);
     EXPECT_EQ(0x34, bufferPointer[2]);
 }
@@ -149,7 +150,8 @@ TEST(AlbaMemoryBufferTest, ResizeWithAdditionalSizeAndReturnBeginOfAdditionalDat
     EXPECT_EQ(8U, buffer.getSize());
     unsigned char* reader = reinterpret_cast<unsigned char*>(buffer.getBufferPointer());
     EXPECT_EQ(0x12U, reader[0]);
-    EXPECT_EQ(0x34U, reader[1]);    EXPECT_EQ(0x56U, reader[2]);
+    EXPECT_EQ(0x34U, reader[1]);
+    EXPECT_EQ(0x56U, reader[2]);
     EXPECT_EQ(0x78U, reader[3]);
     EXPECT_EQ(0x87U, reader[4]);
     EXPECT_EQ(0x65U, reader[5]);
@@ -174,7 +176,8 @@ TEST(AlbaMemoryBufferTest, AddDataWorksOnPrimitiveTypes)
 TEST(AlbaMemoryBufferTest, AddDataWorksOnPodStructure)
 {
     AlbaMemoryBuffer buffer;
-    struct Sample    {
+    struct Sample
+    {
         bool param1;
         int param2;
         double param3;
@@ -189,7 +192,8 @@ TEST(AlbaMemoryBufferTest, AddDataWorksOnPodStructure)
     Sample output = *reinterpret_cast<Sample *>(buffer.getBufferPointer());
     EXPECT_TRUE(buffer);
     EXPECT_TRUE(buffer.hasContent());
-    EXPECT_EQ(sizeof(Sample), buffer.getSize());    EXPECT_EQ(input.param1, output.param1);
+    EXPECT_EQ(sizeof(Sample), buffer.getSize());
+    EXPECT_EQ(input.param1, output.param1);
     EXPECT_EQ(input.param2, output.param2);
     EXPECT_EQ(input.param3, output.param3);
 }
@@ -209,7 +213,8 @@ TEST(AlbaMemoryBufferTest, SaveObjectWorksOnPrimitiveTypes)
 TEST(AlbaMemoryBufferTest, SaveObjectWorksOnDynamicTypes)
 {
     AlbaMemoryBuffer buffer;
-    struct SampleDynamicClass    {
+    struct SampleDynamicClass
+    {
         vector<int> integers;
     };
     SampleDynamicClass dynamicInput;
@@ -221,10 +226,12 @@ TEST(AlbaMemoryBufferTest, SaveObjectWorksOnDynamicTypes)
     EXPECT_EQ((vector<int>{11, 22, 33, 44, 55}), output.integers);
 }
 
-TEST(AlbaMemoryBufferTest, OutputStreamOperatorWorks){
+TEST(AlbaMemoryBufferTest, OutputStreamOperatorWorks)
+{
     int input = 0x12345678;
     AlbaMemoryBuffer buffer(static_cast<void*>(&input), sizeof(input));
     stringstream ss;
+
     ss<<buffer;
 
     EXPECT_EQ("Decimal values: {120, 86, 52, 18, }\nHexadecimal values: {78, 56, 34, 12, }\n", ss.str());
