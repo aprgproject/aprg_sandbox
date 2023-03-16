@@ -3,14 +3,13 @@
 #include <Common/Time/AlbaDateTimeConstants.hpp>
 #include <Common/Math/Helpers/DivisibilityHelpers.hpp>
 
+#include <array>
 #include <cmath>
 
-using namespace alba::AlbaDateTimeConstants;
-using namespace alba::mathHelper;
+using namespace alba::AlbaDateTimeConstants;using namespace alba::mathHelper;
 using namespace std;
 
-namespace alba
-{
+namespace alba{
 
 bool dateTimeHelper::isLeapYear(uint32_t const year)
 {
@@ -90,111 +89,22 @@ uint32_t dateTimeHelper::getNumberOfDaysInTheYearBeforeThisMonth(uint32_t const 
 
 uint32_t dateTimeHelper::getMonthFromNumberOfDaysInANonLeapYear(uint32_t const numberOfDays)
 {
-    // binary search is much faster
-    uint32_t result(January);
-    if(numberOfDays>334)
-    {
-        result=December;
-    }
-    else if(numberOfDays>304)
-    {
-        result=November;
-    }
-    else if(numberOfDays>273)
-    {
-        result=October;
-    }
-    else if(numberOfDays>243)
-    {
-        result=September;
-    }
-    else if(numberOfDays>212)
-    {
-        result=August;
-    }
-    else if(numberOfDays>181)
-    {
-        result=July;
-    }
-    else if(numberOfDays>151)
-    {
-        result=June;
-    }
-    else if(numberOfDays>120)
-    {
-        result=May;
-    }
-    else if(numberOfDays>90)
-    {
-        result=April;
-    }
-    else if(numberOfDays>59)
-    {
-        result=March;
-    }
-    else if(numberOfDays>31)
-    {
-        result=February;
-    }
-    return result;
+    constexpr array<uint32_t, 11> accumulatedDaysForEachMonth{31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334};
+    auto itMonth = lower_bound(accumulatedDaysForEachMonth.cbegin(), accumulatedDaysForEachMonth.cend(), numberOfDays);
+    return static_cast<uint32_t>(January) + distance(accumulatedDaysForEachMonth.cbegin(), itMonth);
 }
 
 uint32_t dateTimeHelper::getMonthFromNumberOfDaysInALeapYear(uint32_t const numberOfDays)
 {
-    uint32_t result(January);
-    if(numberOfDays>335)
-    {
-        result=December;
-    }
-    else if(numberOfDays>305)
-    {
-        result=November;
-    }
-    else if(numberOfDays>274)
-    {
-        result=October;
-    }
-    else if(numberOfDays>244)
-    {
-        result=September;
-    }
-    else if(numberOfDays>213)
-    {
-        result=August;
-    }
-    else if(numberOfDays>182)
-    {
-        result=July;
-    }
-    else if(numberOfDays>152)
-    {
-        result=June;
-    }
-    else if(numberOfDays>121)
-    {
-        result=May;
-    }
-    else if(numberOfDays>91)
-    {
-        result=April;
-    }
-    else if(numberOfDays>60)
-    {
-        result=March;
-    }
-    else if(numberOfDays>31)
-    {
-        result=February;
-    }
-    return result;
+    constexpr array<uint32_t, 11> accumulatedDaysForEachMonth{31, 60, 91, 121, 152, 182, 213, 244, 274, 305, 335};
+    auto itMonth = lower_bound(accumulatedDaysForEachMonth.cbegin(), accumulatedDaysForEachMonth.cend(), numberOfDays);
+    return static_cast<uint32_t>(January) + distance(accumulatedDaysForEachMonth.cbegin(), itMonth);
 }
 
-uint32_t dateTimeHelper::getMonthFromNumberOfDays(uint32_t const numberOfDays, uint32_t const year)
-{
+uint32_t dateTimeHelper::getMonthFromNumberOfDays(uint32_t const numberOfDays, uint32_t const year){
     uint32_t result(0);
     if(numberOfDays>0)
-    {
-        result = isLeapYear(year) ? getMonthFromNumberOfDaysInALeapYear(numberOfDays)
+    {        result = isLeapYear(year) ? getMonthFromNumberOfDaysInALeapYear(numberOfDays)
                                  : getMonthFromNumberOfDaysInANonLeapYear(numberOfDays);
     }
     return result;

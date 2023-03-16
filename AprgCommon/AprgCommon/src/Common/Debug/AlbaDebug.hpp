@@ -46,4 +46,6 @@ static ofstream debugStream(ALBA_PRINT_OUTPUT_STREAM_FILE_PATH);
 #define ALBA_DEBUG_SCOPE_START {
 #define ALBA_DEBUG_SCOPE_END }
 
+//#define ALBA_DEBUG_COMMENTED_LINE #warning("Uncomment this line after your done debugging.");
+
 }//namespace alba

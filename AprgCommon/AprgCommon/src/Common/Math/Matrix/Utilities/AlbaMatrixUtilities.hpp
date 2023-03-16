@@ -193,18 +193,14 @@ void interchangeRows(
         unsigned int const y1,
         unsigned int const y2)
 {
-    unsigned int numberOfRows(matrix.getNumberOfRows());
-    unsigned int numberOfColumns(matrix.getNumberOfColumns());
-    assert((y1 < numberOfRows) && (y2 < numberOfRows));
-    for(unsigned int x=0; x<numberOfColumns; x++)
+    assert((y1 < matrix.getNumberOfRows()) && (y2 < matrix.getNumberOfRows()));
+    for(unsigned int x=0; x<matrix.getNumberOfColumns(); x++)
     {
         std::swap(matrix.getEntryReference(x, y1), matrix.getEntryReference(x, y2));
-    }
-}
+    }}
 
 template <typename DataType>
-void addTwoRowsAndPutSumInAnotherRow(
-        AlbaMatrix<DataType> & matrix,
+void addTwoRowsAndPutSumInAnotherRow(        AlbaMatrix<DataType> & matrix,
         unsigned int const yInput1,
         unsigned int const yInput2,
         unsigned int const yOutput)
@@ -257,32 +253,24 @@ void traverseWithUnaryOperationForDifferentRows(
         unsigned int const yOutput,
         UnaryFunction<DataType> const& unaryFunction)
 {
-    unsigned int numberOfRows(matrix.getNumberOfRows());
-    unsigned int numberOfColumns(matrix.getNumberOfColumns());
-    assert((yInput < numberOfRows) && (yOutput < numberOfRows));
-    for(unsigned int x=0; x<numberOfColumns; x++)
+    assert((yInput < matrix.getNumberOfRows()) && (yOutput < matrix.getNumberOfRows()));
+    for(unsigned int x=0; x<matrix.getNumberOfColumns(); x++)
     {
         matrix.setEntry(x, yOutput, unaryFunction(matrix.getEntry(x, yInput)));
-    }
-}
+    }}
 
 template <typename DataType>
-void traverseWithBinaryOperationForDifferentRows(
-        AlbaMatrix<DataType> & matrix,
+void traverseWithBinaryOperationForDifferentRows(        AlbaMatrix<DataType> & matrix,
         unsigned int const yInput1,
         unsigned int const yInput2,
         unsigned int const yOutput,
         BinaryFunction<DataType> const& binaryFunction)
 {
-    unsigned int numberOfRows(matrix.getNumberOfRows());
-    unsigned int numberOfColumns(matrix.getNumberOfColumns());
-    assert((yInput1 < numberOfRows) && (yInput2 < numberOfRows) && (yOutput < numberOfRows));
-    for(unsigned int x=0; x<numberOfColumns; x++)
+    assert((yInput1 < matrix.getNumberOfRows()) && (yInput2 < matrix.getNumberOfRows()) && (yOutput < matrix.getNumberOfRows()));
+    for(unsigned int x=0; x<matrix.getNumberOfColumns(); x++)
     {
         matrix.setEntry(x, yOutput, binaryFunction(matrix.getEntry(x, yInput1), matrix.getEntry(x, yInput2)));
-    }
-}
+    }}
 
 }
-
 }//namespace alba

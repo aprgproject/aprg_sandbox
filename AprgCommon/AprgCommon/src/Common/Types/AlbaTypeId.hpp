@@ -1,21 +1,20 @@
 #pragma once
 
+#include <Common/Types/AlbaTypeHelper.hpp>
+
 #include <cstdint>
 #include <memory>
-
 namespace alba
 {
 
 using TypeId = uintptr_t;
-static constexpr TypeId EMPTY_TYPE_ID = 0;
+constexpr TypeId EMPTY_TYPE_ID = 0;
 
 namespace detail
 {
-
 // generates unique integer type id, as an address of static method
 template <class T>
-class TypeIdGenerator
-{
+class TypeIdGenerator{
 public:
     static TypeId GetTypeId()
     {
@@ -28,7 +27,7 @@ public:
 template <class T>
 TypeId GetTypeId()
 {
-    return detail::TypeIdGenerator<T>::GetTypeId();
+    return detail::TypeIdGenerator<typeHelper::GetPlainType<T>>::GetTypeId();
 }
 
 } // namespace alba

@@ -1,14 +1,13 @@
 #pragma once
 
 #include <Common/Container/AlbaSingleton.hpp>
+#include <Common/Utility/AlbaScopeGuard.hpp>
 
 namespace alba
 {
-
 template <typename ConfigurationDetails>
 ConfigurationDetails getDefaultConfigurationDetails()
-{
-    static_assert(sizeof(ConfigurationDetails) == -1, "Default configuration is not defined. This is needed in configuration holder.");
+{    static_assert(sizeof(ConfigurationDetails) == -1, "Default configuration is not defined. This is needed in configuration holder.");
 }
 
 template <typename ConfigurationDetails>
@@ -52,28 +51,23 @@ public:
     AlbaConfigurationScopeObject()
         : m_savedConfigurationDetails(
               AlbaConfigurationHolder<ConfigurationDetails>::getInstance().getConfigurationDetails())
+        , m_scopeGuard([&]() noexcept {setInThisScopeTheValuesBack();})
     {}
-
-    ~AlbaConfigurationScopeObject() noexcept // destructor/cleanup code should not throw an exception
-    {
-        // put a try catch here to ensure that it will not throw? nah, we dont use exceptions anyway
-        setInThisScopeTheValuesBack();
-    }
 
     void setInThisScopeThisConfiguration(
             ConfigurationDetails const& configurationDetails) const
-    {
-        AlbaConfigurationHolder<ConfigurationDetails>::getInstance().setConfigurationDetails(configurationDetails);
+    {        AlbaConfigurationHolder<ConfigurationDetails>::getInstance().setConfigurationDetails(configurationDetails);
     }
 
 private:
 
-    void setInThisScopeTheValuesBack() const
+    void setInThisScopeTheValuesBack() const noexcept // called in scope guard
     {
         AlbaConfigurationHolder<ConfigurationDetails>::getInstance().setConfigurationDetails(m_savedConfigurationDetails);
     }
 
     ConfigurationDetails m_savedConfigurationDetails;
+    AlbaScopeGuard m_scopeGuard; // important to be after configuration details (for order of destruction)
 };
 
 } // namespace alba

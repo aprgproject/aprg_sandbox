@@ -16,46 +16,66 @@ TEST(AlbaAnyTest, DefaultConstructorWorks)
 
 TEST(AlbaAnyTest, CopyConstructorWorks)
 {
-    AlbaAny copiedAnyWithInteger(1234U);
-    AlbaAny copiedAnyWithAny(copiedAnyWithInteger);
+    AlbaAny originalAny(1234U);
 
-    EXPECT_EQ(1234U, copiedAnyWithInteger.getContentAs<unsigned int>());
-    EXPECT_EQ(1234U, copiedAnyWithAny.getContentAs<unsigned int>());
+    AlbaAny copiedAny(originalAny);
+
+    EXPECT_EQ(1234U, originalAny.getContentAs<unsigned int>());
+    EXPECT_EQ(1234U, copiedAny.getContentAs<unsigned int>());
 }
 
 TEST(AlbaAnyTest, CopyAssignmentWorks)
 {
     AlbaAny originalAny(1234U);
-    AlbaAny assignedAny = originalAny;
+
+    AlbaAny copiedAny = originalAny;
 
     EXPECT_EQ(1234U, originalAny.getContentAs<unsigned int>());
+    EXPECT_EQ(1234U, copiedAny.getContentAs<unsigned int>());
+}
+
+TEST(AlbaAnyTest, MoveConstructorWorks)
+{
+    AlbaAny originalAny(1234U);
+
+    AlbaAny movedAny(move(originalAny));
+
+    EXPECT_FALSE(originalAny.hasContent());
+    EXPECT_EQ(1234U, movedAny.getContentAs<unsigned int>());
+}
+
+TEST(AlbaAnyTest, MoveAssignmentWorks)
+{
+    AlbaAny originalAny(1234U);
+
+    AlbaAny assignedAny = move(originalAny);
+
+    EXPECT_FALSE(originalAny.hasContent());
     EXPECT_EQ(1234U, assignedAny.getContentAs<unsigned int>());
 }
 
 TEST(AlbaAnyTest, BoolOperatorWorks)
 {
     AlbaAny emptyAny;
-    AlbaAny assignedAny(1234U);
+    AlbaAny nonEmptyAny(1234U);
 
     EXPECT_FALSE(static_cast<bool>(emptyAny));
-    EXPECT_TRUE(static_cast<bool>(assignedAny));
+    EXPECT_TRUE(static_cast<bool>(nonEmptyAny));
 }
 
 TEST(AlbaAnyTest, HasContentWorks)
 {
     AlbaAny emptyAny;
-    AlbaAny assignedAny(1234U);
+    AlbaAny nonEmptyAny(1234U);
 
     EXPECT_FALSE(emptyAny.hasContent());
-    EXPECT_TRUE(assignedAny.hasContent());
+    EXPECT_TRUE(nonEmptyAny.hasContent());
 }
 
-TEST(AlbaAnyTest, GetContentAsWorks)
-{
+TEST(AlbaAnyTest, GetContentAsWorks){
     AlbaAny any(1234U);
 
-    EXPECT_EQ(1234U, any.getContentAs<unsigned int>());
-}
+    EXPECT_EQ(1234U, any.getContentAs<unsigned int>());}
 
 TEST(AlbaAnyTest, GetContentReferenceAsWorks)
 {

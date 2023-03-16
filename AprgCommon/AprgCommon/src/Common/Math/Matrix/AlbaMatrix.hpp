@@ -155,15 +155,14 @@ public:
 
     AlbaMatrix& operator*=(DataType const& scalarMultiplier)
     {
-        std::function<DataType(DataType const&)> scalarMultiplication = std::bind(std::multiplies<DataType>(), std::placeholders::_1, scalarMultiplier);
+        std::function<DataType(DataType const &)> scalarMultiplication
+            = std::bind(std::multiplies<DataType>(), std::placeholders::_1, scalarMultiplier);
         doUnaryAssignmentOperation(*this, scalarMultiplication);
         return *this;
     }
-
     AlbaMatrix& operator*=(AlbaMatrix const& secondMatrix)
     {
-        AlbaMatrix & self(*this);
-        self = multiplyMatrices(*this, secondMatrix);
+        AlbaMatrix & self(*this);        self = multiplyMatrices(*this, secondMatrix);
         return self;
     }
 

@@ -9,16 +9,14 @@ namespace typeHelper
 {
 
 // Source: https://en.cppreference.com/w/cpp/header/type_traits
-// NOTE: "_v" variant functions are not used in this file to make it more readable.
-
+// NOTE: Value returning meta functions or "TemplateName_v" are not used in this file to make it more readable.
+// NOTE: Type returning meta functions or "TemplateName_t" are not used in this file to make it more readable.
 
 
 // Type relationships:
-
 template <typename Type1, typename Type2>
 constexpr bool areSameTypes()
-{
-    return std::is_same<Type1, Type2>::value;
+{    return std::is_same<Type1, Type2>::value;
 }
 
 template <typename FromType, typename ToType>
@@ -142,18 +140,28 @@ constexpr bool isAVolatileType()
     return std::is_volatile<Type>::value;
 }
 
-template <typename Type>
-constexpr bool isPlainOldData()
-{
-    return std::is_pod<Type>::value;
-}
+// template <typename Type>
+// constexpr bool isPlainOldData()
+// {
+//     return std::is_pod<Type>::value; // deprecated in c++20
+// }
+//
+// is_pod is deprecated because:
+//
+// POD is being replaced with two categories that give more nuances.
+// The c++ standard meeting in november 2017 had this to say about it:
+// Deprecating the notion of “plain old data” (POD).
+// -> It has been replaced with two more nuanced categories of types, “trivial” and “standard-layout”.
+// -> “POD” is equivalent to “trivial and standard layout”,
+// -> but for many code patterns, a narrower restriction to just “trivial” or just “standard layout” is appropriate;
+// -> to encourage such precision, the notion of “POD” was therefore deprecated.
+// -> The library trait is_pod has also been deprecated correspondingly.
+// For simple data types use the is_standard_layout function, for trivial data types (such as simple structs) use the is_trivial function.
 
 template <typename Type>
-constexpr bool isATrivialType()
-{
+constexpr bool isATrivialType(){
     return std::is_trivial<Type>::value;
 }
-
 template <typename Type>
 constexpr bool hasStandardLayout()
 {
@@ -247,15 +255,12 @@ constexpr bool isNoThrowDefaultConstructible()
 
 
 
-
 // Get Types
 
-template<typename Type>
-using GetPlainType = typename std::decay<Type>::type;
+template<typename Type>using GetPlainType = typename std::decay<Type>::type;
 
 
-template<typename Type>
-using GetTypeWithLValueReference = typename std::add_lvalue_reference<Type>::type;
+template<typename Type>using GetTypeWithLValueReference = typename std::add_lvalue_reference<Type>::type;
 
 template<typename Type>
 using GetTypeWithRValueReference = typename std::add_rvalue_reference<Type>::type;
@@ -296,12 +301,28 @@ template<typename Type>
 using GetUnsignedType = typename std::make_unsigned<Type>::type;
 
 
+
+// Arrays
+
+template <typename Array>
+constexpr std::size_t getDimensions()
+{
+    return std::rank<Array>::value;
+}
+
+template<typename Array>
+using RemoveOneDimension = typename std::remove_extent<Array>::type;
+
+template<typename Array>
+using RemoveAllDimensions = typename std::remove_all_extents<Array>::type;
+
+
+
+
 // Conditional types
 
-template<bool condition, typename TypeIfTrue, typename TypeIfFalse>
-using ConditionalType = typename std::conditional<condition, TypeIfTrue, TypeIfFalse>::type;
+template<bool condition, typename TypeIfTrue, typename TypeIfFalse>using ConditionalType = typename std::conditional<condition, TypeIfTrue, TypeIfFalse>::type;
 
 
 }
-
 } // namespace alba
