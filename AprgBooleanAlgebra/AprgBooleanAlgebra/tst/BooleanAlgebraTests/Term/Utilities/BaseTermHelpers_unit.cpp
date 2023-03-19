@@ -8,150 +8,117 @@ namespace alba
 namespace booleanAlgebra
 {
 
-TEST(BaseTermHelpersTest, CreateNewTermAndReturnSharedPointerWorks)
+TEST(BaseTermHelpersTest, CreateBasePointerWorksForLValue)
 {
-    BaseTermSharedPointer sharedPointer(static_cast<BaseTerm*>(new Term(9652)));
+    Term originalTerm(true);
 
-    BaseTermSharedPointer sharedPointerToVerify(createNewTermAndReturnSharedPointer(sharedPointer));
+    BaseTermUniquePointer uniquePointer(createBasePointer(originalTerm));
 
-    Term const& termToVerify(getTermConstReferenceFromSharedPointer(sharedPointerToVerify));
-    EXPECT_EQ(Term(9652), termToVerify);
-    EXPECT_EQ(1, sharedPointerToVerify.use_count());
+    EXPECT_EQ(Term(true), getTermConstReferenceFromUniquePointer(uniquePointer));
 }
 
-TEST(BaseTermHelpersTest, CopyAndCreateNewTermAndReturnSharedPointerWorks)
+TEST(BaseTermHelpersTest, CreateBasePointerWorksForRValue)
 {
-    BaseTermSharedPointer sharedPointerToVerify(copyAndCreateNewTermAndReturnSharedPointer(Term(6415)));
+    BaseTermUniquePointer uniquePointer(createBasePointer(Term(true)));
 
-    Term const& termToVerify(getTermConstReferenceFromSharedPointer(sharedPointerToVerify));
-    EXPECT_EQ(Term(6415), termToVerify);
-    EXPECT_EQ(1, sharedPointerToVerify.use_count());
+    EXPECT_EQ(Term(true), getTermConstReferenceFromUniquePointer(uniquePointer));
+}
+
+TEST(BaseTermHelpersTest, DuplicateUniquePointerWorks)
+{
+    BaseTermUniquePointer originalPointer(createBasePointer(Term(true)));
+
+    BaseTermUniquePointer duplicatedPointer(duplicateUniquePointer(originalPointer));
+
+    EXPECT_EQ(Term(true), getTermConstReferenceFromUniquePointer(duplicatedPointer));
+}
+
+TEST(BaseTermHelpersTest, CreateAUniquePointerFromTermWorks)
+{
+    BaseTermUniquePointer uniquePointerToVerify(createBasePointer(Term(true)));
+
+    Term const& termToVerify(getTermConstReferenceFromUniquePointer(uniquePointerToVerify));
+    EXPECT_EQ(Term(true), termToVerify);
 }
 
 TEST(BaseTermHelpersTest, GetTermConstReferenceFromBaseTermWorks)
 {
-    Term originalTerm(7896);
+    Term originalTerm(true);
 
     Term const& termToVerify(getTermConstReferenceFromBaseTerm(static_cast<BaseTerm const&>(originalTerm)));
 
-    EXPECT_EQ(Term(7896), termToVerify);
-}
-
-TEST(BaseTermHelpersTest, GetTermConstReferenceFromSharedPointerWorks)
-{
-    BaseTermSharedPointer sharedPointer(static_cast<BaseTerm*>(new Term(9541)));
-
-    Term const& termToVerify(getTermConstReferenceFromSharedPointer(sharedPointer));
-
-    EXPECT_EQ(Term(9541), termToVerify);
-    EXPECT_EQ(1, sharedPointer.use_count());
+    EXPECT_EQ(Term(true), termToVerify);
 }
 
 TEST(BaseTermHelpersTest, GetTermConstReferenceFromUniquePointerWorks)
 {
-    BaseTermUniquePointer uniquePointer(static_cast<BaseTerm*>(new Term(9541)));
+    BaseTermUniquePointer uniquePointer(createBasePointer(Term(true)));
 
     Term const& termToVerify(getTermConstReferenceFromUniquePointer(uniquePointer));
 
-    EXPECT_EQ(Term(9541), termToVerify);
+    EXPECT_EQ(Term(true), termToVerify);
 }
 
 TEST(BaseTermHelpersTest, GetTermReferenceFromBaseTermWorks)
 {
-    Term originalTerm(7896);
+    Term originalTerm(true);
 
     Term & termToVerify(getTermReferenceFromBaseTerm(static_cast<BaseTerm &>(originalTerm)));
-    originalTerm = Term(854);
+    originalTerm = Term(true);
 
-    EXPECT_EQ(Term(854), termToVerify);
-}
-
-TEST(BaseTermHelpersTest, GetTermReferenceFromSharedPointerWorks)
-{
-    BaseTermSharedPointer sharedPointer(static_cast<BaseTerm*>(new Term(9652)));
-
-    Term & termToChange(getTermReferenceFromSharedPointer(sharedPointer));
-    termToChange.getConstantReference().setValue(763);
-
-    Term const& termToVerify(getTermConstReferenceFromSharedPointer(sharedPointer));
-    EXPECT_EQ(Term(763), termToVerify);
-    EXPECT_EQ(1, sharedPointer.use_count());
+    EXPECT_EQ(Term(true), termToVerify);
 }
 
 TEST(BaseTermHelpersTest, GetTermReferenceFromUniquePointerWorks)
 {
-    BaseTermUniquePointer uniquePointer(static_cast<BaseTerm*>(new Term(9652)));
+    BaseTermUniquePointer uniquePointer(createBasePointer(Term(true)));
 
     Term & termToChange(getTermReferenceFromUniquePointer(uniquePointer));
     termToChange.getConstantReference().setValue(763);
-
     Term const& termToVerify(getTermConstReferenceFromUniquePointer(uniquePointer));
     EXPECT_EQ(Term(763), termToVerify);
 }
 
 TEST(BaseTermHelpersTest, GetBaseTermConstReferenceFromTermWorks)
 {
-    Term originalTerm(7896);
+    Term originalTerm(true);
 
     BaseTerm const& baseTerm(getBaseTermConstReferenceFromTerm(originalTerm));
 
     Term const& termToVerify(static_cast<Term const&>(baseTerm));
-    EXPECT_EQ(Term(7896), termToVerify);
-}
-
-TEST(BaseTermHelpersTest, GetBaseTermConstReferenceFromSharedPointerWorks)
-{
-    BaseTermSharedPointer sharedPointer(copyAndCreateNewTermAndReturnSharedPointer(Term(6415)));
-
-    BaseTerm const& baseTerm(getBaseTermConstReferenceFromSharedPointer(sharedPointer));
-
-    Term const& termToVerify(static_cast<Term const&>(baseTerm));
-    EXPECT_EQ(Term(6415), termToVerify);
-    EXPECT_EQ(1, sharedPointer.use_count());
+    EXPECT_EQ(Term(true), termToVerify);
 }
 
 TEST(BaseTermHelpersTest, GetBaseTermConstReferenceFromUniquePointerWorks)
 {
-    BaseTermUniquePointer uniquePointer(new Term(6415));
+    BaseTermUniquePointer uniquePointer(createBasePointer(Term(true)));
 
     BaseTerm const& baseTerm(getBaseTermConstReferenceFromUniquePointer(uniquePointer));
 
     Term const& termToVerify(static_cast<Term const&>(baseTerm));
-    EXPECT_EQ(Term(6415), termToVerify);
+    EXPECT_EQ(Term(true), termToVerify);
 }
 
 TEST(BaseTermHelpersTest, GetBaseTermReferenceFromTermWorks)
 {
-    Term originalTerm(7896);
+    Term originalTerm(true);
 
     BaseTerm & baseTerm(getBaseTermReferenceFromTerm(originalTerm));
     Term & termToVerify(static_cast<Term &>(baseTerm));
-    originalTerm = Term(854);
+    originalTerm = Term(true);
 
-    EXPECT_EQ(Term(854), termToVerify);
-}
-
-TEST(BaseTermHelpersTest, GetBaseTermReferenceFromSharedPointerWorks)
-{
-    BaseTermSharedPointer sharedPointer(copyAndCreateNewTermAndReturnSharedPointer(Term(6415)));
-
-    BaseTerm & baseTerm(getBaseTermReferenceFromSharedPointer(sharedPointer));
-
-    Term const& termToVerify(static_cast<Term const&>(baseTerm));
-    EXPECT_EQ(Term(6415), termToVerify);
-    EXPECT_EQ(1, sharedPointer.use_count());
+    EXPECT_EQ(Term(true), termToVerify);
 }
 
 TEST(BaseTermHelpersTest, GetBaseTermReferenceFromUniquePointerWorks)
 {
-    BaseTermUniquePointer uniquePointer(new Term(6415));
+    BaseTermUniquePointer uniquePointer(createBasePointer(Term(true)));
 
     BaseTerm & baseTerm(getBaseTermReferenceFromUniquePointer(uniquePointer));
 
     Term const& termToVerify(static_cast<Term const&>(baseTerm));
-    EXPECT_EQ(Term(6415), termToVerify);
+    EXPECT_EQ(Term(true), termToVerify);
 }
 
 }
-
 }
