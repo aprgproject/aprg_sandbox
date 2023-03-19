@@ -54,9 +54,11 @@ public:
             retrieveFromTerm(getTermConstReferenceFromUniquePointer(wrappedTerm.baseTermPointer));
         }
     }
+
 protected:
 
-    DataType m_savedData;};
+    DataType m_savedData;
+};
 
 }
 

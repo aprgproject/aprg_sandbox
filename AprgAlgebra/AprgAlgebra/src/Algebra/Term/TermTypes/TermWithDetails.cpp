@@ -14,14 +14,14 @@ namespace algebra
 TermWithDetails::TermWithDetails(
         BaseTerm const& baseTerm,
         TermAssociationType const associationParameter)
-    : baseTermPointer(getTermConstReferenceFromBaseTerm(baseTerm).createBasePointerByCopy())
+    : baseTermPointer(createBasePointer(baseTerm))
     , association(associationParameter)
 {}
 
 TermWithDetails::TermWithDetails(
         BaseTerm && baseTerm,
         TermAssociationType const associationParameter)
-    : baseTermPointer(getTermRValueReferenceFromBaseTerm(move(baseTerm)).createBasePointerByMove())
+    : baseTermPointer(createBasePointer(baseTerm))
     , association(associationParameter)
 {}
 
@@ -36,9 +36,11 @@ TermWithDetails & TermWithDetails::operator=(TermWithDetails const& termWithDeta
     association = termWithDetails.association;
     return *this;
 }
+
 bool TermWithDetails::operator==(TermWithDetails const& second) const
 {
-    Term const& term1(getTermConstReferenceFromUniquePointer(baseTermPointer));    Term const& term2(getTermConstReferenceFromUniquePointer(second.baseTermPointer));
+    Term const& term1(getTermConstReferenceFromUniquePointer(baseTermPointer));
+    Term const& term2(getTermConstReferenceFromUniquePointer(second.baseTermPointer));
     return term1 == term2 && association == second.association;
 }
 

@@ -9,6 +9,8 @@ namespace alba
 namespace algebra
 {
 
+BaseTermUniquePointer createBasePointer(BaseTerm const& baseTerm);
+BaseTermUniquePointer createBasePointer(BaseTerm && baseTerm);
 BaseTermUniquePointer duplicateUniquePointer(BaseTermUniquePointer const& uniquePointer);
 Term const& getTermConstReferenceFromBaseTerm(BaseTerm const& baseTerm);
 Term const& getTermConstReferenceFromUniquePointer(BaseTermUniquePointer const& uniquePointer);
@@ -21,4 +23,5 @@ BaseTerm & getBaseTermReferenceFromTerm(Term & term);
 BaseTerm & getBaseTermReferenceFromUniquePointer(BaseTermUniquePointer const& uniquePointer);
 
 }
+
 }

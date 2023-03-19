@@ -23,4 +23,5 @@ BaseTerm & getBaseTermReferenceFromTerm(Term & term);
 BaseTerm & getBaseTermReferenceFromUniquePointer(BaseTermUniquePointer const& uniquePointer);
 
 }
+
 }

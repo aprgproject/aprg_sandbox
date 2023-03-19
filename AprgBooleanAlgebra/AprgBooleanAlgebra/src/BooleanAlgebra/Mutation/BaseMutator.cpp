@@ -37,6 +37,7 @@ void BaseMutator::mutateExpression(Expression & expression)
         mutateTerm(getTermReferenceFromUniquePointer(wrappedTerm.baseTermPointer));
     }
 }
+
 }
 
 }

@@ -31,10 +31,12 @@ Term::Term(TermType const type, bool const isSimplified, BaseTermDataPointer && 
 
 Term::Term(AlbaNumber const& number)
     : m_type(TermType::Constant)
-    , m_isSimplified(false)    , m_baseTermDataPointer(make_unique<Constant>(number))
+    , m_isSimplified(false)
+    , m_baseTermDataPointer(make_unique<Constant>(number))
 {}
 
-Term::Term(char const* const characterString)    : m_type(TermType::Empty)
+Term::Term(char const* const characterString)
+    : m_type(TermType::Empty)
     , m_isSimplified(false)
     , m_baseTermDataPointer(nullptr)
 {
@@ -104,9 +106,11 @@ Term& Term::operator=(Term const& term)
     m_baseTermDataPointer = createANewDataPointerFrom(term);
     return *this;
 }
+
 bool Term::operator==(Term const& second) const
 {
-    bool result(false);    if(m_type==second.m_type)
+    bool result(false);
+    if(m_type==second.m_type)
     {
         if(m_type==TermType::Empty)
         {
@@ -390,11 +394,6 @@ Function & Term::getFunctionReference()
     return *static_cast<Function*>(m_baseTermDataPointer.get());
 }
 
-BaseTermUniquePointer Term::createBasePointerByCopy() const
-{
-    return static_cast<BaseTermUniquePointer>(make_unique<Term>(*this));
-}
-
 BaseTermUniquePointer Term::createBasePointerByMove()
 {
     return static_cast<BaseTermUniquePointer>(make_unique<Term>(m_type, m_isSimplified, move(m_baseTermDataPointer)));
@@ -402,9 +401,11 @@ BaseTermUniquePointer Term::createBasePointerByMove()
 
 void Term::clear()
 {
-    m_type=TermType::Empty;    m_baseTermDataPointer.reset();
+    m_type=TermType::Empty;
+    m_baseTermDataPointer.reset();
     clearSimplifiedFlag();
 }
+
 void Term::simplify()
 {
     if(!m_isSimplified)
@@ -476,10 +477,12 @@ void Term::clearAllInnerSimplifiedFlags()
 Term::BaseTermDataPointer Term::createANewDataPointerFrom(Term const& term)
 {
     BaseTermDataPointer result;
-    switch(term.getTermType())    {
+    switch(term.getTermType())
+    {
     case TermType::Empty:
         break;
-    case TermType::Constant:        result = make_unique<Constant>(term.getConstantConstReference());
+    case TermType::Constant:
+        result = make_unique<Constant>(term.getConstantConstReference());
         break;
     case TermType::Variable:
         result = make_unique<Variable>(term.getVariableConstReference());

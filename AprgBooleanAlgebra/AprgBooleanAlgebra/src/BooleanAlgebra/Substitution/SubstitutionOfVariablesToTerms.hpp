@@ -20,9 +20,11 @@ public:
     SubstitutionOfVariablesToTerms() = default;
     SubstitutionOfVariablesToTerms(std::initializer_list<VariableTermPair> const& variablesWithTerms);
     SubstitutionOfVariablesToTerms(VariablesToTermsMap const& variablesWithTerms);
+
     bool isEmpty() const;
     bool isVariableFound(std::string const& variable) const;
-    unsigned int getSize() const;    Term getTermForVariable(std::string const& variable) const;
+    unsigned int getSize() const;
+    Term getTermForVariable(std::string const& variable) const;
     VariablesToTermsMap const& getVariablesToTermsMap() const;
 
     Term performSubstitutionTo(VariableTerm const& variableTerm) const;

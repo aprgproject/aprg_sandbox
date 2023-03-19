@@ -87,10 +87,12 @@ TEST(TermTest, TermsAsExpressionsWorks)
     EXPECT_EQ(Term("x"), getTermConstReferenceFromUniquePointer(termsToVerify2.at(0).baseTermPointer));
 }
 
-TEST(TermTest, TermsAsConstructedAsStringWorks){
+TEST(TermTest, TermsAsConstructedAsStringWorks)
+{
     Term term1("");
     Term term2("true");
-    Term term3("&");    Term term4("power");
+    Term term3("&");
+    Term term4("power");
     Term term5("x1");
 
     ASSERT_EQ(TermType::Empty, term1.getTermType());

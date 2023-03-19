@@ -38,32 +38,25 @@ Expression::Expression(BaseTerm && baseTerm)
 {}
 
 Expression::Expression(
-        OperatorLevel const operatorLevel,        TermsWithDetails const& termsWithDetails)
-    : m_commonOperatorLevel(operatorLevel)
+        OperatorLevel const operatorLevel,
+        TermsWithDetails const& termsWithDetails)
+    : m_commonOperatorLevel(termsWithDetails.empty() ? OperatorLevel::Unknown : operatorLevel)
     , m_termsWithAssociation(termsWithDetails)
     , m_isSimplified(false)
-{
-    if(m_termsWithAssociation.getTermsWithDetails().empty())
-    {
-        m_commonOperatorLevel = OperatorLevel::Unknown;
-    }
-}
+{}
 
 Expression::Expression(
         OperatorLevel const operatorLevel,
         TermsWithDetails && termsWithDetails)
-    : m_commonOperatorLevel(operatorLevel)
+    : m_commonOperatorLevel(termsWithDetails.empty() ? OperatorLevel::Unknown : operatorLevel)
     , m_termsWithAssociation(move(termsWithDetails))
     , m_isSimplified(false)
-{
-    if(m_termsWithAssociation.getTermsWithDetails().empty())
-    {
-        m_commonOperatorLevel = OperatorLevel::Unknown;
-    }}
+{}
 
 bool Expression::operator==(Expression const& second) const
 {
-    return m_commonOperatorLevel == second.m_commonOperatorLevel            && m_termsWithAssociation==second.m_termsWithAssociation;
+    return m_commonOperatorLevel == second.m_commonOperatorLevel
+            && m_termsWithAssociation==second.m_termsWithAssociation;
 }
 
 bool Expression::operator!=(Expression const& second) const
@@ -164,9 +157,11 @@ void Expression::clearAndPutTermInTermsWithAssociation(BaseTerm const& baseTerm)
     m_termsWithAssociation = TermsWithDetails{{baseTerm, TermAssociationType::Positive}};
     clearSimplifiedFlag();
 }
+
 void Expression::putTermWithAdditionIfNeeded(BaseTerm const& baseTerm)
 {
-    Term const& term(getTermConstReferenceFromBaseTerm(baseTerm));    if(willHaveNoEffectOnAdditionOrSubtraction(term))
+    Term const& term(getTermConstReferenceFromBaseTerm(baseTerm));
+    if(willHaveNoEffectOnAdditionOrSubtraction(term))
     {
         if(isEmpty())
         {

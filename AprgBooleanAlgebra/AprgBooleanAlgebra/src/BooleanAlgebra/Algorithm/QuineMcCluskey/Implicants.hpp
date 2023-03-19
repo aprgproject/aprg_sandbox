@@ -23,10 +23,12 @@ public:
     Implicants()=default;
 
     Implicants(ImplicantWithMintermInitializerList const& implicants)
-        : m_implicantsData(implicants)    {}
+        : m_implicantsData(implicants)
+    {}
 
     bool operator==(Implicants const& second) const
-    {        return m_implicantsData == second.m_implicantsData;
+    {
+        return m_implicantsData == second.m_implicantsData;
     }
 
     bool operator!=(Implicants const& second) const

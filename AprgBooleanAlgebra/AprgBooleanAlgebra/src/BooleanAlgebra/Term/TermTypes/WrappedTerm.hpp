@@ -25,7 +25,8 @@ struct WrappedTerm
 
     bool operator==(WrappedTerm const& second) const;
     bool operator!=(WrappedTerm const& second) const;
-    bool operator<(WrappedTerm const& second) const;    void clear();
+    bool operator<(WrappedTerm const& second) const;
+    void clear();
 
     friend std::ostream & operator<<(std::ostream & out, WrappedTerm const& wrappedTerm);
 
@@ -33,6 +34,7 @@ struct WrappedTerm
 };
 
 using WrappedTerms=std::vector<WrappedTerm>;
+
 }
 
 }

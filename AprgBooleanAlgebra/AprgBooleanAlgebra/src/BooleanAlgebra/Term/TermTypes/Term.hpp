@@ -26,7 +26,8 @@ public:
     Term(TermType const type, bool const isSimplified, BaseTermDataPointer && m_baseTermDataPointer); // for move
     Term(bool const boolValue);
     Term(char const* const characterString);
-    Term(std::string const& stringAsParameter);    Term(Constant const& constant);
+    Term(std::string const& stringAsParameter);
+    Term(Constant const& constant);
     Term(VariableTerm const& variableTerm);
     Term(Operator const& operatorTerm);
     Term(Expression const& expression);
@@ -39,9 +40,11 @@ public:
     Term & operator=(Term && term) = default;
 
     bool operator==(Term const& second) const;
-    bool operator!=(Term const& second) const;    bool operator<(Term const& second) const;
+    bool operator!=(Term const& second) const;
+    bool operator<(Term const& second) const;
 
     Term operator~() const;
+
     bool isEmpty() const;
     bool isConstant() const;
     bool isVariableTerm() const;
@@ -66,7 +69,8 @@ public:
 
     void clear();
     void simplify();
-    void sort();    void negate();
+    void sort();
+    void negate();
 
     void setAsSimplified();
     void clearSimplifiedFlag();
@@ -84,6 +88,7 @@ private:
 };
 
 using Terms = std::vector<Term>;
+
 }
 
 }

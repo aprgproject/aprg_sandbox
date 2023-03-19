@@ -30,10 +30,12 @@ public:
             EvaluationFunction const& evaluationFunction);
 
     // rule of five of six
-    ~Function() = default;    Function(Function const& functionObject);
+    ~Function() = default;
+    Function(Function const& functionObject);
     Function & operator=(Function const& functionObject);
     Function(Function && functionObject) = default;
     Function & operator=(Function && functionObject) = default;
+
     bool operator==(Function const& second) const;
     bool operator!=(Function const& second) const;
     bool operator<(Function const& second) const;

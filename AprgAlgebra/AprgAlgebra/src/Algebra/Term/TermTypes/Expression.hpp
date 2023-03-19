@@ -25,9 +25,11 @@ public:
     Expression(OperatorLevel const operatorLevel, TermsWithDetails && termsWithDetails);
 
     // rule of zero
+
     bool operator==(Expression const& second) const;
     bool operator!=(Expression const& second) const;
-    bool operator<(Expression const& second) const;    bool isEmpty() const;
+    bool operator<(Expression const& second) const;
+    bool isEmpty() const;
     bool containsOnlyOnePositivelyAssociatedTerm() const;
     bool isSimplified() const;
 

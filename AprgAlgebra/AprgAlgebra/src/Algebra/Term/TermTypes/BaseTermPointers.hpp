@@ -14,4 +14,5 @@ namespace algebra
 using BaseTermUniquePointer = std::unique_ptr<BaseTerm>;
 
 }
+
 }

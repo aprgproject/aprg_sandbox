@@ -24,7 +24,7 @@ Function::Function(
         BaseTerm const& baseTerm,
         EvaluationFunction const& evaluationFunction)
     : m_functionName(functionName)
-    , m_inputTermPointer(getTermConstReferenceFromBaseTerm(baseTerm).createBasePointerByCopy())
+    , m_inputTermPointer(createBasePointer(baseTerm))
     , m_evaluationFunction(evaluationFunction)
     , m_isSimplified(false)
 {}
@@ -34,7 +34,7 @@ Function::Function(
         BaseTerm && baseTerm,
         EvaluationFunction const& evaluationFunction)
     : m_functionName(functionName)
-    , m_inputTermPointer(getTermRValueReferenceFromBaseTerm(move(baseTerm)).createBasePointerByMove())
+    , m_inputTermPointer(createBasePointer(baseTerm))
     , m_evaluationFunction(evaluationFunction)
     , m_isSimplified(false)
 {}
@@ -45,16 +45,19 @@ Function::Function(Function const& functionObject)
     , m_evaluationFunction(functionObject.m_evaluationFunction)
     , m_isSimplified(functionObject.m_isSimplified)
 {}
+
 Function& Function::operator=(Function const& functionObject)
 {
     m_functionName = functionObject.m_functionName;
     m_inputTermPointer = duplicateUniquePointer(functionObject.m_inputTermPointer);
     m_evaluationFunction = functionObject.m_evaluationFunction;
     m_isSimplified = functionObject.m_isSimplified;
-    return *this;}
+    return *this;
+}
 
 bool Function::operator==(Function const& second) const
-{    return m_functionName == second.m_functionName
+{
+    return m_functionName == second.m_functionName
             && getTermConstReferenceFromBaseTerm(getInputTermConstReference())
             == getTermConstReferenceFromBaseTerm(second.getInputTermConstReference());
 }

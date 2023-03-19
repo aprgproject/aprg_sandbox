@@ -6,10 +6,12 @@
 
 namespace alba
 {
+
 namespace booleanAlgebra
 {
 
 using BaseTermUniquePointer = std::unique_ptr<BaseTerm>;
 
 }
+
 }
