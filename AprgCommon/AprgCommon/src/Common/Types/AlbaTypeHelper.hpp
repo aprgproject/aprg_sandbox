@@ -169,13 +169,37 @@ constexpr bool isATrivialType()
 template <typename Type>
 constexpr bool hasStandardLayout()
 {
+    // Specifies that a type is standard layout type.
+    // Standard layout types are useful for communicating with code written in other programming languages.
+    // Note: the standard doesn't define a named requirement with this name.
+    // This is a type category defined by the core language.
+    // It is included here as a named requirement only for consistency.
+
+    // Requirements for standard layout:
+    // -> All non-static data members have the same access control
+    // -> Has no virtual functions or virtual base classes
+    // -> Has no non-static data members of reference type
+    // -> All non-static data members and base classes are themselves standard layout types
+    // -> Has no two (possibly indirect) base class subobjects of the same type
+    // -> None of the base class subobjects has the same type as:
+    // ---> for non-union types, as the first non-static data member (see empty base optimization), and, recursively,
+    // the first non-static data member of that data member if it has non-union class type,
+    // or all non-static data members of that data member if it has union type,
+    // or an element of that data member if it has array type, etc.
+    // ---> for union types, as any non-static data members, and, recursively,
+    // the first non-static data member of every member of non-union class type,
+    // and all non-static data members of all members of union type,
+    // and element type of all non-static data members of array type, etc.
+    // ---> for array types, as the type of the array element, and, recursively,
+    // the first non-static data member of the array element if it has non-union class type,
+    // or as any non-static data member of the array element if it has union type,
+    // or as the element type of the array element if it has array type, etc.
+
     return std::is_standard_layout<Type>::value;
 }
-
 template <typename Type>
 constexpr bool isEmpty()
-{
-    return std::is_empty<Type>::value;
+{    return std::is_empty<Type>::value;
 }
 
 template <typename Type>

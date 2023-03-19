@@ -22,14 +22,14 @@ public:
         , m_y(yValue)
     {}
 
+    // rule of zero
+
     bool operator==(AlbaXY const& xy) const
     {
-        return mathHelper::isAlmostEqual(m_x, xy.m_x) && mathHelper::isAlmostEqual(m_y, xy.m_y);
-    }
+        return mathHelper::isAlmostEqual(m_x, xy.m_x) && mathHelper::isAlmostEqual(m_y, xy.m_y);    }
 
     bool operator!=(AlbaXY const& secondXy) const
-    {
-        AlbaXY const& firstXy(*this);
+    {        AlbaXY const& firstXy(*this);
         return !(firstXy==secondXy);
     }
 

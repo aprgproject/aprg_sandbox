@@ -63,15 +63,13 @@ unsigned int DisplayTableRow::getNumberOfColumns() const
 unsigned int DisplayTableRow::getCharacters() const
 {
     return accumulate(m_cells.cbegin(), m_cells.cend(), 0U, [](
-               unsigned int partialSum, DisplayTableCell const & cell)
+               unsigned int partialSum, DisplayTableCell const& cell)
     {
         partialSum+=cell.getText().size();
-        return partialSum;
-    });
+        return partialSum;    });
 }
 
-Cells const& DisplayTableRow::getCells() const
-{
+Cells const& DisplayTableRow::getCells() const{
     return m_cells;
 }
 
@@ -90,20 +88,18 @@ DisplayTableCell& DisplayTableRow::getCellReferenceAt(unsigned int const columnI
     return m_cells[columnIndex];
 }
 
-void DisplayTableRow::addCell(string const & text)
+void DisplayTableRow::addCell(string const& text)
 {
     m_cells.emplace_back(text);
 }
 
-void DisplayTableRow::addCell(string const & text, DisplayTableCellMode const horizontalMode)
+void DisplayTableRow::addCell(string const& text, DisplayTableCellMode const horizontalMode)
 {
     m_cells.emplace_back(text, horizontalMode);
 }
-
 DisplayTable::DisplayTable(
         unsigned int const numberOfColumns,
-        unsigned int const numberOfRows)
-    : m_rows(numberOfRows, numberOfColumns)
+        unsigned int const numberOfRows)    : m_rows(numberOfRows, numberOfColumns)
 {}
 
 unsigned int DisplayTable::getTotalRows() const

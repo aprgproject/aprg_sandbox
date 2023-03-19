@@ -13,14 +13,14 @@ public:
     {}
     virtual ~AlbaBaseStateMachine() = default;  // virtual destructor because of virtual functions (vtable exists)
 
+    // rule of zero
+
     virtual void processInput(Input const&)
     {
-        // This should not be accessed
-        assert(false);
+        // This should not be accessed        assert(false);
     }
 
-    State getState() const
-    {
+    State getState() const    {
         return m_state;
     }
 protected:

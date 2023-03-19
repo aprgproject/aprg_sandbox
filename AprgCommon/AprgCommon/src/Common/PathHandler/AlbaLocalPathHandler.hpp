@@ -32,7 +32,7 @@ class AlbaLocalPathHandler: public AlbaLinuxPathHandler
 public:
     AlbaLocalPathHandler(PathInitialValueSource const initialValueSource);
     AlbaLocalPathHandler(std::string const& path);
+    // rule of zero
     // no need for virtual destructor because base destructor is virtual (similar to other virtual functions)
 };
-
 }//namespace alba

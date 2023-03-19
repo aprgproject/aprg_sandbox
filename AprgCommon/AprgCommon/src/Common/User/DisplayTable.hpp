@@ -28,13 +28,13 @@ public:
     DisplayTableCell(std::string const& displayText);
     DisplayTableCell(std::string const& displayText, DisplayTableCellMode const horizontalMode);
 
+    // rule of zero
+
     std::string getText() const;
     DisplayTableCellMode getHorizontalMode() const;
-
     std::string& getTextReference();
     void setText(std::string const& text);
-    void setHorizontalMode(DisplayTableCellMode const mode);
-private:
+    void setHorizontalMode(DisplayTableCellMode const mode);private:
     std::string m_displayText;
     DisplayTableCellMode m_horizontalMode;
 };
@@ -47,14 +47,14 @@ public:
     DisplayTableRow() = default;
     DisplayTableRow(unsigned int const numberOfCells);
 
+    // rule of zero
+
     unsigned int getNumberOfColumns() const;
     unsigned int getCharacters() const;
-    Cells const& getCells() const;
-    DisplayTableCell const& getCellAt(unsigned int const columnIndex) const;
+    Cells const& getCells() const;    DisplayTableCell const& getCellAt(unsigned int const columnIndex) const;
 
     Cells& getCellsReference();
-    DisplayTableCell& getCellReferenceAt(unsigned int const columnIndex);
-    void addCell(std::string const& text);
+    DisplayTableCell& getCellReferenceAt(unsigned int const columnIndex);    void addCell(std::string const& text);
     void addCell(std::string const & text, DisplayTableCellMode const horizontalMode);
 
 private:
@@ -67,14 +67,14 @@ public:
     DisplayTable() = default;
     DisplayTable(unsigned int const numberOfColumns, unsigned int const numberOfRows);
 
+    // rule of zero
+
     unsigned int getTotalRows() const;
     unsigned int getTotalColumns() const;
-    unsigned int getMaxCharactersInOneRow() const;
-    DisplayTableCell const& getCellAt(unsigned int const columnIndex, unsigned int const rowIndex) const;
+    unsigned int getMaxCharactersInOneRow() const;    DisplayTableCell const& getCellAt(unsigned int const columnIndex, unsigned int const rowIndex) const;
 
     DisplayTableRow& getLastRow();
-    DisplayTableRow& getRowReferenceAt(unsigned int const rowIndex);
-    DisplayTableCell& getCellReferenceAt(unsigned int const columnIndex, unsigned int const rowIndex);
+    DisplayTableRow& getRowReferenceAt(unsigned int const rowIndex);    DisplayTableCell& getCellReferenceAt(unsigned int const columnIndex, unsigned int const rowIndex);
     void addRow();
     void setBorders(std::string const& horizontalBorder, std::string const& verticalBorder);
 

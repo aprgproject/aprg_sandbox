@@ -23,26 +23,25 @@ class AlbaValueRange
 public:
     using TerminationCondition = std::function<bool(DataType,DataType)>;
     using TraverseOperation = std::function<void(DataType)>;
+
     AlbaValueRange()
         : m_startValue(0)
-        , m_endValue(0)
-        , m_intervalMagnitude(0)
+        , m_endValue(0)        , m_intervalMagnitude(0)
     {}
 
-    AlbaValueRange(DataType const startValue, DataType const endValue, DataType const intervalMagnitude)
-        : m_startValue(startValue)
+    AlbaValueRange(DataType const startValue, DataType const endValue, DataType const intervalMagnitude)        : m_startValue(startValue)
         , m_endValue(endValue)
         , m_intervalMagnitude(mathHelper::getAbsoluteValue(intervalMagnitude))
     {}
 
+    // rule of zero
+
     bool isEmpty() const
     {
-        return m_startValue==0 && m_endValue==0 && m_intervalMagnitude==0;
-    }
+        return m_startValue==0 && m_endValue==0 && m_intervalMagnitude==0;    }
 
     bool isValueInsideInclusive(DataType const value) const
-    {
-        return getMinimum() <= value && getMaximum() >= value;
+    {        return getMinimum() <= value && getMaximum() >= value;
     }
 
     bool isValueInsideExclusive(DataType const value) const

@@ -53,14 +53,14 @@ public:
         setEntries(matrixData);
     }
 
+    // rule of zero
+
     bool operator==(AlbaSparseMatrix const& secondMatrix) const
     {
-        bool isEqual(true);
-        if(m_numberOfColumns != secondMatrix.m_numberOfColumns)
+        bool isEqual(true);        if(m_numberOfColumns != secondMatrix.m_numberOfColumns)
         {
             isEqual=false;
-        }
-        else if(m_numberOfRows != secondMatrix.m_numberOfRows)
+        }        else if(m_numberOfRows != secondMatrix.m_numberOfRows)
         {
             isEqual=false;
         }

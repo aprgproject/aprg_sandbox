@@ -17,18 +17,13 @@ public:
     AlbaMemoryBuffer() = default;
     AlbaMemoryBuffer(void const* sourcePointer, unsigned int const size);
 
-    AlbaMemoryBuffer(AlbaMemoryBuffer const&) = default;
-    AlbaMemoryBuffer(AlbaMemoryBuffer && buffer) = default;
-    AlbaMemoryBuffer& operator=(AlbaMemoryBuffer const&) = default;
-    AlbaMemoryBuffer& operator=(AlbaMemoryBuffer && any) = default;
+    // rule of zero
 
     operator bool() const; // not explicit
-    bool hasContent() const;
-    unsigned int getSize() const;
+    bool hasContent() const;    unsigned int getSize() const;
     void const* getConstantBufferPointer() const;
 
-    void* getBufferPointer();
-    void clear();
+    void* getBufferPointer();    void clear();
     void clearAndSetNewData(void* sourcePointer, unsigned int const size);
     void resize(unsigned int const size);
     void resize(unsigned int const size, unsigned char const initialValue);
@@ -37,30 +32,30 @@ public:
 
     template <typename ObjectType> void saveObject(ObjectType const& object)
     {
-        // lets not check if its POD because it works on other cases
+        // Herb Sutter: Dont xray objects. Me: It has standard layout so it can be xray-ed.
+        static_assert(typeHelper::hasStandardLayout<ObjectType>(), "ObjectType needs to have standard layout.");
         unsigned int objectSize = sizeof(object);
         resize(objectSize);
-        void const* sourcePointer = static_cast<void const*>(&object);
-        void * destinationVoidPointer = getBufferPointer();
+        void const* sourcePointer = static_cast<void const*>(&object);        void * destinationVoidPointer = getBufferPointer();
         memcpy(destinationVoidPointer, sourcePointer, objectSize);
     }
 
     template <typename ObjectType> ObjectType retrieveObjectAsConstReference() const
     {
-        // lets not check if its POD because it works on other cases
+        // Herb Sutter: Dont xray objects. Me: It has standard layout so it can be xray-ed.
+        static_assert(typeHelper::hasStandardLayout<ObjectType>(), "ObjectType needs to have standard layout.");
         return *reinterpret_cast<ObjectType const*>(getConstantBufferPointer());
     }
 
     template <typename ObjectType> ObjectType& retrieveObjectAsReference()
     {
-        // lets not check if its POD because it works on other cases
+        // Herb Sutter: Dont xray objects. Me: It has standard layout so it can be xray-ed.
+        static_assert(typeHelper::hasStandardLayout<ObjectType>(), "ObjectType needs to have standard layout.");
         return *reinterpret_cast<ObjectType *>(getBufferPointer());
     }
-
 private:
 
     friend std::ostream & operator<<(std::ostream & out, AlbaMemoryBuffer const& memoryBuffer);
-
     std::vector<uint8_t> m_buffer;
 };
 

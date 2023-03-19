@@ -1,28 +1,31 @@
 #pragma once
 
+#include <Common/Types/AlbaTypeHelper.hpp>
+
 #include <ostream>
 
-namespace alba
-{
+namespace alba{
 
 template <typename DataType>
 class AlbaComplexNumber
 {
 public:
 
+    static_assert(typeHelper::isArithmeticType<DataType>(), "DataType should be an arithmetic type.");
+
     AlbaComplexNumber();
     AlbaComplexNumber(
             DataType const realPart,
             DataType const imaginaryPart);
 
+    // rule of zero
+
     bool operator==(AlbaComplexNumber const& second) const;
     AlbaComplexNumber<DataType> operator+(AlbaComplexNumber<DataType> const& second) const;
-    AlbaComplexNumber<DataType> operator-(AlbaComplexNumber<DataType> const& second) const;
-    AlbaComplexNumber<DataType> operator+() const;
+    AlbaComplexNumber<DataType> operator-(AlbaComplexNumber<DataType> const& second) const;    AlbaComplexNumber<DataType> operator+() const;
     AlbaComplexNumber<DataType> operator-() const;
     AlbaComplexNumber<DataType> operator*(AlbaComplexNumber<DataType> const& second) const;
-    AlbaComplexNumber<DataType> operator/(AlbaComplexNumber<DataType> const& second) const;
-    AlbaComplexNumber<DataType> operator^(DataType const exponent) const;
+    AlbaComplexNumber<DataType> operator/(AlbaComplexNumber<DataType> const& second) const;    AlbaComplexNumber<DataType> operator^(DataType const exponent) const;
     AlbaComplexNumber<DataType>& operator+=(AlbaComplexNumber<DataType> const& second);
     AlbaComplexNumber<DataType>& operator-=(AlbaComplexNumber<DataType> const& second);
     AlbaComplexNumber<DataType>& operator*=(AlbaComplexNumber<DataType> const& second);
