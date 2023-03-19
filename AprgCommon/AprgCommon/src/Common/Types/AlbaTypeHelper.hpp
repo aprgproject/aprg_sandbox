@@ -265,31 +265,118 @@ constexpr bool isAnAggregate()
     return std::is_aggregate<Type>::value;
 }
 
+
+
+// Fundamental operations
+// NOTE: This list does not include all because we are lazy.
+
+// default construction
 template <typename Type>
 constexpr bool isDefaultConstructible()
 {
     return std::is_default_constructible<Type>::value;
 }
-
 template <typename Type>
 constexpr bool isTriviallyDefaultConstructible()
 {
     return std::is_trivially_default_constructible<Type>::value;
 }
-
 template <typename Type>
 constexpr bool isNoThrowDefaultConstructible()
 {
     return std::is_nothrow_default_constructible<Type>::value;
 }
 
+// destructor
+template <typename Type>
+constexpr bool isDestructible()
+{
+    return std::is_destructible<Type>::value;
+}
+template <typename Type>
+constexpr bool isTriviallyDestructible()
+{
+    return std::is_trivially_destructible<Type>::value;
+}
+template <typename Type>
+constexpr bool isNoThrowDestructible()
+{
+    return std::is_nothrow_destructible<Type>::value;
+}
+
+// copy constructor
+template <typename Type>
+constexpr bool isCopyConstructible()
+{
+    return std::is_copy_constructible<Type>::value;
+}
+template <typename Type>
+constexpr bool isTriviallyCopyConstructible()
+{
+    return std::is_trivially_copy_constructible<Type>::value;
+}
+template <typename Type>
+constexpr bool isNoThrowCopyConstructible()
+{
+    return std::is_nothrow_copy_constructible<Type>::value;
+}
+
+// copy assignment
+template <typename Type>
+constexpr bool isCopyAssignable()
+{
+    return std::is_copy_assignable<Type>::value;
+}
+template <typename Type>
+constexpr bool isTriviallyCopyAssignable()
+{
+    return std::is_trivially_copy_assignable<Type>::value;
+}
+template <typename Type>
+constexpr bool isNoThrowCopyAssignable()
+{
+    return std::is_nothrow_copy_assignable<Type>::value;
+}
+
+// move constructor
+template <typename Type>
+constexpr bool isMoveConstructible()
+{
+    return std::is_move_constructible<Type>::value;
+}
+template <typename Type>
+constexpr bool isTriviallyMoveConstructible()
+{
+    return std::is_trivially_move_constructible<Type>::value;
+}
+template <typename Type>
+constexpr bool isNoThrowMoveConstructible()
+{
+    return std::is_nothrow_move_constructible<Type>::value;
+}
+
+// move assignment
+template <typename Type>
+constexpr bool isMoveAssignable()
+{
+    return std::is_move_assignable<Type>::value;
+}
+template <typename Type>
+constexpr bool isTriviallyMoveAssignable()
+{
+    return std::is_trivially_move_assignable<Type>::value;
+}
+template <typename Type>
+constexpr bool isNoThrowMoveAssignable()
+{
+    return std::is_nothrow_move_assignable<Type>::value;
+}
+
 
 
 // Get Types
-
 template<typename Type>
 using GetPlainType = typename std::decay<Type>::type;
-
 
 template<typename Type>
 using GetTypeWithLValueReference = typename std::add_lvalue_reference<Type>::type;

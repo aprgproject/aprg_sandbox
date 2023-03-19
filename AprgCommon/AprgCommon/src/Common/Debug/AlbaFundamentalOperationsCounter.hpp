@@ -1,13 +1,12 @@
 #pragma once
 
 #include <Common/Container/AlbaSingleton.hpp>
+#include <Common/Types/AlbaTypeHelper.hpp>
 
 #include <sstream>
 #include <utility>
-
 namespace alba
 {
-
 template <typename TypeToShadow>
 struct AlbaFundamentalOperationsCounts : public AlbaSingleton<AlbaFundamentalOperationsCounts<TypeToShadow>>
 {
@@ -53,48 +52,50 @@ public:
     AlbaFundamentalOperationsCounter(Params&&... params)
         : TypeToShadow(std::forward<Params>(params)...)
     {
+        // enable_if for isConstructible is not used here, because it still cause compiler error when not used
         ++COUNTS.userConstructionCount;
     }
 
     AlbaFundamentalOperationsCounter()
-        : TypeToShadow()
+        : std::enable_if_t<typeHelper::isDefaultConstructible<TypeToShadow>(), TypeToShadow>()
     {
         ++COUNTS.defaultConstructionCount;
     }
 
     ~AlbaFundamentalOperationsCounter()
     {
+        // enable_if for isConstructible is not used here, because this is just debug tool
         ++COUNTS.destructionCount;
     }
 
     AlbaFundamentalOperationsCounter(AlbaFundamentalOperationsCounter const& parameter)
-        : TypeToShadow(static_cast<TypeToShadow const&>(parameter))
+        : std::enable_if_t<typeHelper::isCopyConstructible<TypeToShadow>(), TypeToShadow>(static_cast<TypeToShadow const&>(parameter))
     {
         ++COUNTS.copyConstructionCount;
     }
 
     AlbaFundamentalOperationsCounter& operator=(AlbaFundamentalOperationsCounter const& parameter)
     {
-        static_cast<TypeToShadow &>(*this) = static_cast<TypeToShadow const&>(parameter);
+        using EnabledTypeToShadow = std::enable_if_t<typeHelper::isCopyAssignable<TypeToShadow>(), TypeToShadow>;
+        static_cast<EnabledTypeToShadow &>(*this) = static_cast<EnabledTypeToShadow const&>(parameter);
         ++COUNTS.copyAssignmentCount;
         return *this;
     }
 
     AlbaFundamentalOperationsCounter(AlbaFundamentalOperationsCounter && parameter)
-        : TypeToShadow(static_cast<TypeToShadow &&>(parameter))
+        : std::enable_if_t<typeHelper::isMoveConstructible<TypeToShadow>(), TypeToShadow>(static_cast<TypeToShadow &&>(parameter))
     {
         ++COUNTS.moveConstructionCount;
     }
 
     AlbaFundamentalOperationsCounter& operator=(AlbaFundamentalOperationsCounter && parameter)
     {
-        static_cast<TypeToShadow &>(*this) = static_cast<TypeToShadow &&>(parameter);
+        using EnabledTypeToShadow = std::enable_if_t<typeHelper::isMoveAssignable<TypeToShadow>(), TypeToShadow>;
+        static_cast<EnabledTypeToShadow &>(*this) = static_cast<EnabledTypeToShadow &&>(parameter);
         ++COUNTS.moveAssignmentCount;
         return *this;
     }
-
 #undef COUNTS
 };
-
 
 } // namespace alba
