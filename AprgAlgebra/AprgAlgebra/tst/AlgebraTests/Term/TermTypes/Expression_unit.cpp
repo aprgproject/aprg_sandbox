@@ -66,27 +66,12 @@ TEST(ExpressionTest, ExpressionThatIsCopyConstructedHasIsSimplifiedFlagCopied)
     EXPECT_TRUE(expression2.isSimplified());
 }
 
-TEST(ExpressionTest, ExpressionThatIsConstructedWithTermHasIsSimplifiedFlagCopied)
-{
-    Term termWithSimplifiedNotSet;
-    Term termWithSimplifiedSet;
-    termWithSimplifiedSet.setAsSimplified();
-
-    Expression expression1(termWithSimplifiedNotSet);
-    Expression expression2(termWithSimplifiedSet);
-
-    EXPECT_FALSE(expression1.isSimplified());
-    EXPECT_TRUE(expression2.isSimplified());
-}
-
 TEST(ExpressionTest, ExpressionThatIsConstructedWithTermsWithDetailsHasIsSimplifiedFlagNotSet)
 {
-    TermWithDetails termWithDetails1(Term(10), TermAssociationType::Positive);
-    TermWithDetails termWithDetails2(Term(20), TermAssociationType::Negative);
+    TermWithDetails termWithDetails1(Term(10), TermAssociationType::Positive);    TermWithDetails termWithDetails2(Term(20), TermAssociationType::Negative);
     Expression expression(OperatorLevel::AdditionAndSubtraction, {termWithDetails1, termWithDetails2});
 
-    EXPECT_FALSE(expression.isSimplified());
-}
+    EXPECT_FALSE(expression.isSimplified());}
 
 TEST(ExpressionTest, EqualityOperatorWorks)
 {

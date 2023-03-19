@@ -24,30 +24,37 @@ Function::Function(
         BaseTerm const& baseTerm,
         EvaluationFunction const& evaluationFunction)
     : m_functionName(functionName)
-    , m_inputTermPointer(make_unique<Term>(getTermConstReferenceFromBaseTerm(baseTerm)))
+    , m_inputTermPointer(getTermConstReferenceFromBaseTerm(baseTerm).createBasePointerByCopy())
     , m_evaluationFunction(evaluationFunction)
-    , m_isSimplified(getTermConstReferenceFromBaseTerm(baseTerm).isSimplified())
+    , m_isSimplified(false)
+{}
+
+Function::Function(
+        string const& functionName,
+        BaseTerm && baseTerm,
+        EvaluationFunction const& evaluationFunction)
+    : m_functionName(functionName)
+    , m_inputTermPointer(getTermRValueReferenceFromBaseTerm(move(baseTerm)).createBasePointerByMove())
+    , m_evaluationFunction(evaluationFunction)
+    , m_isSimplified(false)
 {}
 
 Function::Function(Function const& functionObject)
     : m_functionName(functionObject.m_functionName)
-    , m_inputTermPointer(make_unique<Term>(getTermConstReferenceFromUniquePointer(functionObject.m_inputTermPointer)))
+    , m_inputTermPointer(duplicateUniquePointer(functionObject.m_inputTermPointer))
     , m_evaluationFunction(functionObject.m_evaluationFunction)
     , m_isSimplified(functionObject.m_isSimplified)
 {}
-
 Function& Function::operator=(Function const& functionObject)
 {
     m_functionName = functionObject.m_functionName;
-    m_inputTermPointer = make_unique<Term>(getTermConstReferenceFromBaseTerm(functionObject.getInputTermConstReference()));
+    m_inputTermPointer = duplicateUniquePointer(functionObject.m_inputTermPointer);
     m_evaluationFunction = functionObject.m_evaluationFunction;
     m_isSimplified = functionObject.m_isSimplified;
-    return *this;
-}
+    return *this;}
 
 bool Function::operator==(Function const& second) const
-{
-    return m_functionName == second.m_functionName
+{    return m_functionName == second.m_functionName
             && getTermConstReferenceFromBaseTerm(getInputTermConstReference())
             == getTermConstReferenceFromBaseTerm(second.getInputTermConstReference());
 }

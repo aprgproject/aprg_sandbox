@@ -11,17 +11,18 @@ namespace algebra
 class EquationOperator
 {
 public:
-    EquationOperator();
+
+    EquationOperator() = default;
     EquationOperator(std::string const& operatingString);
+
+    // rule of zero
 
     bool operator==(EquationOperator const& second) const;
     bool operator!=(EquationOperator const& second) const;
     bool operator<(EquationOperator const& second) const;
-
     bool isEqual() const;
     bool isNotEqual() const;
-    bool isLessThan() const;
-    bool isGreaterThan() const;
+    bool isLessThan() const;    bool isGreaterThan() const;
     bool isLessThanOrEqual() const;
     bool isGreaterThanOrEqual() const;
     bool isAnEqualityVariant() const;

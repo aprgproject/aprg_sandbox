@@ -27,29 +27,43 @@ Expression::Expression()
 
 Expression::Expression(BaseTerm const& baseTerm)
     : m_commonOperatorLevel(OperatorLevel::Unknown)
-    , m_termsWithAssociation()
-    , m_isSimplified(getTermConstReferenceFromBaseTerm(baseTerm).isSimplified())
-{
-    m_termsWithAssociation.putTermWithPositiveAssociation(baseTerm);
-}
+    , m_termsWithAssociation(TermsWithDetails{{baseTerm, TermAssociationType::Positive}})
+    , m_isSimplified(false)
+{}
+
+Expression::Expression(BaseTerm && baseTerm)
+    : m_commonOperatorLevel(OperatorLevel::Unknown)
+    , m_termsWithAssociation(TermsWithDetails{{move(baseTerm), TermAssociationType::Positive}})
+    , m_isSimplified(false)
+{}
 
 Expression::Expression(
-        OperatorLevel const operatorLevel,
-        TermsWithDetails const& termsWithDetails)
+        OperatorLevel const operatorLevel,        TermsWithDetails const& termsWithDetails)
     : m_commonOperatorLevel(operatorLevel)
     , m_termsWithAssociation(termsWithDetails)
     , m_isSimplified(false)
 {
-    if(termsWithDetails.empty())
+    if(m_termsWithAssociation.getTermsWithDetails().empty())
     {
         m_commonOperatorLevel = OperatorLevel::Unknown;
     }
 }
 
+Expression::Expression(
+        OperatorLevel const operatorLevel,
+        TermsWithDetails && termsWithDetails)
+    : m_commonOperatorLevel(operatorLevel)
+    , m_termsWithAssociation(move(termsWithDetails))
+    , m_isSimplified(false)
+{
+    if(m_termsWithAssociation.getTermsWithDetails().empty())
+    {
+        m_commonOperatorLevel = OperatorLevel::Unknown;
+    }}
+
 bool Expression::operator==(Expression const& second) const
 {
-    return m_commonOperatorLevel == second.m_commonOperatorLevel
-            && m_termsWithAssociation==second.m_termsWithAssociation;
+    return m_commonOperatorLevel == second.m_commonOperatorLevel            && m_termsWithAssociation==second.m_termsWithAssociation;
 }
 
 bool Expression::operator!=(Expression const& second) const
@@ -139,22 +153,20 @@ TermsWithAssociation & Expression::getTermsWithAssociationReference()
 
 void Expression::clear()
 {
-    m_termsWithAssociation.clear();
     m_commonOperatorLevel = OperatorLevel::Unknown;
+    m_termsWithAssociation.clear();
     clearSimplifiedFlag();
 }
 
 void Expression::clearAndPutTermInTermsWithAssociation(BaseTerm const& baseTerm)
 {
-    clear();
-    m_termsWithAssociation.putTermWithPositiveAssociation(baseTerm);
+    m_commonOperatorLevel = OperatorLevel::Unknown;
+    m_termsWithAssociation = TermsWithDetails{{baseTerm, TermAssociationType::Positive}};
     clearSimplifiedFlag();
 }
-
 void Expression::putTermWithAdditionIfNeeded(BaseTerm const& baseTerm)
 {
-    Term const& term(getTermConstReferenceFromBaseTerm(baseTerm));
-    if(willHaveNoEffectOnAdditionOrSubtraction(term))
+    Term const& term(getTermConstReferenceFromBaseTerm(baseTerm));    if(willHaveNoEffectOnAdditionOrSubtraction(term))
     {
         if(isEmpty())
         {

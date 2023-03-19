@@ -45,31 +45,12 @@ TEST(FunctionTest, FunctionThatIsCopyConstructedHasIsSimplifiedFlagCopied)
     EXPECT_TRUE(functionWithSimplifiedSet.isSimplified());
 }
 
-TEST(FunctionTest, FunctionThatIsConstructedWithTermHasIsSimplifiedFlagCopied)
-{
-    Term termWithSimplifiedNotSet;
-    Term termWithSimplifiedSet;
-    termWithSimplifiedSet.setAsSimplified();
-    Function::EvaluationFunction evaluationFunction =  [](AlbaNumber const& number) -> AlbaNumber
-    {
-        return number;
-    };
-
-    Function function1("functionName", termWithSimplifiedNotSet, evaluationFunction);
-    Function function2("functionName", termWithSimplifiedSet, evaluationFunction);
-
-    EXPECT_FALSE(function1.isSimplified());
-    EXPECT_TRUE(function2.isSimplified());
-}
-
 TEST(FunctionTest, IsSimplifiedWorks)
 {
-    Function function1;
-    Function function2;
+    Function function1;    Function function2;
     function2.setAsSimplified();
 
-    EXPECT_FALSE(function1.isSimplified());
-    EXPECT_TRUE(function2.isSimplified());
+    EXPECT_FALSE(function1.isSimplified());    EXPECT_TRUE(function2.isSimplified());
 }
 
 TEST(FunctionTest, EqualityWorks)
