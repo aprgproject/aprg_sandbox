@@ -13,19 +13,17 @@ class TermsWithAssociation
 public:
     friend class Expression;
 
-    TermsWithAssociation();
-    TermsWithAssociation(TermsWithAssociation const& termsWithAssociation);
-    TermsWithAssociation(std::initializer_list<TermWithDetails> const& termsWithDetails);
+    TermsWithAssociation() = default;
     TermsWithAssociation(TermsWithDetails const& termsWithDetails);
-    ~TermsWithAssociation();
+    TermsWithAssociation(std::initializer_list<TermWithDetails> const& termsWithDetails);
+
+    // rule of zero
 
     bool operator==(TermsWithAssociation const& second) const;
-    bool operator!=(TermsWithAssociation const& second) const;
-    bool operator<(TermsWithAssociation const& second) const;
+    bool operator!=(TermsWithAssociation const& second) const;    bool operator<(TermsWithAssociation const& second) const;
     bool isEmpty() const;
 
-    unsigned int getSize() const;
-    BaseTerm const& getFirstTermConstReference() const;
+    unsigned int getSize() const;    BaseTerm const& getFirstTermConstReference() const;
     TermAssociationType getFirstAssociationType() const;
     TermsWithDetails const& getTermsWithDetails() const;
     TermsWithDetails & getTermsWithDetailsReference();

@@ -19,18 +19,16 @@ class Expression : public BaseTermData
 public:
 
     Expression();
-    Expression(Expression const& expression);
     Expression(BaseTerm const& baseTerm);
     Expression(OperatorLevel const operatorLevel, TermsWithDetails const& termsWithDetails);
-    ~Expression();
+
+    // rule of zero
 
     bool operator==(Expression const& second) const;
-    bool operator!=(Expression const& second) const;
-    bool operator<(Expression const& second) const;
+    bool operator!=(Expression const& second) const;    bool operator<(Expression const& second) const;
     bool isEmpty() const;
     bool containsOnlyOnePositivelyAssociatedTerm() const;
     bool isSimplified() const;
-
     OperatorLevel getCommonOperatorLevel() const;
     BaseTerm const& getFirstTermConstReference() const;
     TermAssociationType getFirstAssociationType() const;

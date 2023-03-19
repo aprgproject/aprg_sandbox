@@ -19,13 +19,13 @@ public:
     Polynomial(Monomials const& monomials);
     Polynomial(std::initializer_list<Monomial> const& monomials);
 
+    // rule of zero
+
     bool operator==(Polynomial const& second) const;
     bool operator!=(Polynomial const& second) const;
-    bool operator<(Polynomial const& second) const;
-    bool isEmpty() const;
+    bool operator<(Polynomial const& second) const;    bool isEmpty() const;
     bool isSimplified() const;
     Monomials const& getMonomialsConstReference() const;
-
     Monomials & getMonomialsReference();
     void clear();
     void simplify();

@@ -25,21 +25,12 @@ Expression::Expression()
     , m_isSimplified(false)
 {}
 
-Expression::Expression(
-        Expression const& expression)
-    : m_commonOperatorLevel(expression.m_commonOperatorLevel)
-    , m_termsWithAssociation(expression.m_termsWithAssociation)
-    , m_isSimplified(expression.m_isSimplified)
-{}
-
 Expression::Expression(BaseTerm const& baseTerm)
     : m_commonOperatorLevel(OperatorLevel::Unknown)
-    , m_termsWithAssociation()
-    , m_isSimplified(getTermConstReferenceFromBaseTerm(baseTerm).isSimplified())
+    , m_termsWithAssociation()    , m_isSimplified(getTermConstReferenceFromBaseTerm(baseTerm).isSimplified())
 {
     m_termsWithAssociation.putTermWithPositiveAssociation(baseTerm);
 }
-
 Expression::Expression(
         OperatorLevel const operatorLevel,
         TermsWithDetails const& termsWithDetails)
@@ -53,17 +44,12 @@ Expression::Expression(
     }
 }
 
-Expression::~Expression()
-{}
-
 bool Expression::operator==(Expression const& second) const
 {
-    return m_commonOperatorLevel == second.m_commonOperatorLevel
-            && m_termsWithAssociation==second.m_termsWithAssociation;
+    return m_commonOperatorLevel == second.m_commonOperatorLevel            && m_termsWithAssociation==second.m_termsWithAssociation;
 }
 
-bool Expression::operator!=(Expression const& second) const
-{
+bool Expression::operator!=(Expression const& second) const{
     return !(operator==(second));
 }
 

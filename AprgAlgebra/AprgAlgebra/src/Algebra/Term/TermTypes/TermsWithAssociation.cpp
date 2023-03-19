@@ -12,37 +12,22 @@ namespace alba
 namespace algebra
 {
 
-
-TermsWithAssociation::TermsWithAssociation()
-{}
-
-TermsWithAssociation::TermsWithAssociation(
-        TermsWithAssociation const& termsWithAssociation)
-    : m_termsWithDetails(termsWithAssociation.getTermsWithDetails())
-{}
-
-TermsWithAssociation::TermsWithAssociation(
-        initializer_list<TermWithDetails> const& termsWithDetails)
-{
-    putTermsWithDetails(termsWithDetails);
-}
-
 TermsWithAssociation::TermsWithAssociation(
         TermsWithDetails const& termsWithDetails)
     : m_termsWithDetails(termsWithDetails)
 {}
 
-TermsWithAssociation::~TermsWithAssociation()
-{}
+TermsWithAssociation::TermsWithAssociation(        initializer_list<TermWithDetails> const& termsWithDetails)
+{
+    putTermsWithDetails(termsWithDetails);
+}
 
 bool TermsWithAssociation::operator==(TermsWithAssociation const& second) const
 {
-    TermsWithDetails const& terms1(m_termsWithDetails);
-    TermsWithDetails const& terms2(second.m_termsWithDetails);
+    TermsWithDetails const& terms1(m_termsWithDetails);    TermsWithDetails const& terms2(second.m_termsWithDetails);
     bool result(false);
     if(terms1.size() == terms2.size())
-    {
-        result=true;
+    {        result=true;
         unsigned int commonSize = terms1.size();
         for(unsigned int i=0; i<commonSize; i++)
         {

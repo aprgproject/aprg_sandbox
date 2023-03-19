@@ -20,21 +20,23 @@ public:
     using EvaluationFunction=std::function<AlbaNumber(AlbaNumber const&)>;
 
     Function();
-    Function(Function const& functionObject);
     Function(
             std::string const& functionName,
             BaseTerm const& baseTerm,
             EvaluationFunction const& evaluationFunction);
 
+    // rule of five of six
+    ~Function() = default;
+    Function(Function const& functionObject);
     Function & operator=(Function const& functionObject);
+    Function(Function && functionObject) = default;
+    Function & operator=(Function && functionObject) = default;
 
     bool operator==(Function const& second) const;
-    bool operator!=(Function const& second) const;
-    bool operator<(Function const& second) const;
+    bool operator!=(Function const& second) const;    bool operator<(Function const& second) const;
     bool isSimplified() const;
 
-    std::string getFunctionName() const;
-    std::string getDebugString() const;
+    std::string getFunctionName() const;    std::string getDebugString() const;
     AlbaNumber performFunctionAndReturnResultIfPossible() const;
     BaseTerm const& getInputTermConstReference() const;
     EvaluationFunction const& getEvaluationFunction() const;
