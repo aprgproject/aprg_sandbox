@@ -30,7 +30,7 @@ TEST(ExpressionTest, ConstructionWorks)
     TermsWithDetails const& termsToVerify2(expression2.getTermsWithAssociation().getTermsWithDetails());
     ASSERT_EQ(1U, termsToVerify2.size());
     EXPECT_EQ(TermAssociationType::Positive, termsToVerify2.at(0).association);
-    Term const& termToVerify(getTermConstReferenceFromSharedPointer(termsToVerify2.at(0).baseTermSharedPointer));
+    Term const& termToVerify(getTermConstReferenceFromUniquePointer(termsToVerify2.at(0).baseTermPointer));
     EXPECT_EQ(Term(12), termToVerify);
     EXPECT_EQ(OperatorLevel::Unknown, expression3.getCommonOperatorLevel());
     TermsWithDetails const& termsToVerify3(expression3.getTermsWithAssociation().getTermsWithDetails());
@@ -39,10 +39,10 @@ TEST(ExpressionTest, ConstructionWorks)
     TermsWithDetails const& termsToVerify4(expression4.getTermsWithAssociation().getTermsWithDetails());
     ASSERT_EQ(2U, termsToVerify4.size());
     EXPECT_EQ(TermAssociationType::Positive, termsToVerify4.at(0).association);
-    Term const& termToVerify2(getTermConstReferenceFromSharedPointer(termsToVerify4.at(0).baseTermSharedPointer));
+    Term const& termToVerify2(getTermConstReferenceFromUniquePointer(termsToVerify4.at(0).baseTermPointer));
     EXPECT_EQ(Term(10), termToVerify2);
     EXPECT_EQ(TermAssociationType::Negative, termsToVerify4.at(1).association);
-    Term const& termToVerify3(getTermConstReferenceFromSharedPointer(termsToVerify4.at(1).baseTermSharedPointer));
+    Term const& termToVerify3(getTermConstReferenceFromUniquePointer(termsToVerify4.at(1).baseTermPointer));
     EXPECT_EQ(Term(20), termToVerify3);
 }
 
@@ -224,11 +224,11 @@ TEST(ExpressionTest, GetTermsWithAssociationWorks)
     TermsWithDetails const& termsWithDetailsToVerify(terms.getTermsWithDetails());
 
     ASSERT_EQ(3U, termsWithDetailsToVerify.size());
-    EXPECT_EQ(Term(695), getTermConstReferenceFromSharedPointer(termsWithDetailsToVerify.at(0).baseTermSharedPointer));
+    EXPECT_EQ(Term(695), getTermConstReferenceFromUniquePointer(termsWithDetailsToVerify.at(0).baseTermPointer));
     EXPECT_EQ(TermAssociationType::Positive, termsWithDetailsToVerify.at(0).association);
-    EXPECT_EQ(Term("interest"), getTermConstReferenceFromSharedPointer(termsWithDetailsToVerify.at(1).baseTermSharedPointer));
+    EXPECT_EQ(Term("interest"), getTermConstReferenceFromUniquePointer(termsWithDetailsToVerify.at(1).baseTermPointer));
     EXPECT_EQ(TermAssociationType::Negative, termsWithDetailsToVerify.at(1).association);
-    EXPECT_EQ(Term("debt"), getTermConstReferenceFromSharedPointer(termsWithDetailsToVerify.at(2).baseTermSharedPointer));
+    EXPECT_EQ(Term("debt"), getTermConstReferenceFromUniquePointer(termsWithDetailsToVerify.at(2).baseTermPointer));
     EXPECT_EQ(TermAssociationType::Positive, termsWithDetailsToVerify.at(2).association);
 }
 
@@ -1246,11 +1246,11 @@ TEST(ExpressionTest, PutTermWithDetailsWorks)
 
     TermsWithDetails termsToVerify(expressionToTest.getTermsWithAssociation().getTermsWithDetails());
     ASSERT_EQ(3U, termsToVerify.size());
-    EXPECT_EQ(Term(10), getTermConstReferenceFromSharedPointer(termsToVerify.at(0).baseTermSharedPointer));
+    EXPECT_EQ(Term(10), getTermConstReferenceFromUniquePointer(termsToVerify.at(0).baseTermPointer));
     EXPECT_EQ(TermAssociationType::Negative, termsToVerify.at(0).association);
-    EXPECT_EQ(Term(20), getTermConstReferenceFromSharedPointer(termsToVerify.at(1).baseTermSharedPointer));
+    EXPECT_EQ(Term(20), getTermConstReferenceFromUniquePointer(termsToVerify.at(1).baseTermPointer));
     EXPECT_EQ(TermAssociationType::Positive, termsToVerify.at(1).association);
-    EXPECT_EQ(Term(30), getTermConstReferenceFromSharedPointer(termsToVerify.at(2).baseTermSharedPointer));
+    EXPECT_EQ(Term(30), getTermConstReferenceFromUniquePointer(termsToVerify.at(2).baseTermPointer));
     EXPECT_EQ(TermAssociationType::Positive, termsToVerify.at(2).association);
 }
 
@@ -1266,11 +1266,11 @@ TEST(ExpressionTest, PutTermsWithDetailsWorks)
 
     TermsWithDetails termsToVerify(expressionToTest.getTermsWithAssociation().getTermsWithDetails());
     ASSERT_EQ(3U, termsToVerify.size());
-    EXPECT_EQ(Term(10), getTermConstReferenceFromSharedPointer(termsToVerify.at(0).baseTermSharedPointer));
+    EXPECT_EQ(Term(10), getTermConstReferenceFromUniquePointer(termsToVerify.at(0).baseTermPointer));
     EXPECT_EQ(TermAssociationType::Negative, termsToVerify.at(0).association);
-    EXPECT_EQ(Term(20), getTermConstReferenceFromSharedPointer(termsToVerify.at(1).baseTermSharedPointer));
+    EXPECT_EQ(Term(20), getTermConstReferenceFromUniquePointer(termsToVerify.at(1).baseTermPointer));
     EXPECT_EQ(TermAssociationType::Positive, termsToVerify.at(1).association);
-    EXPECT_EQ(Term(30), getTermConstReferenceFromSharedPointer(termsToVerify.at(2).baseTermSharedPointer));
+    EXPECT_EQ(Term(30), getTermConstReferenceFromUniquePointer(termsToVerify.at(2).baseTermPointer));
     EXPECT_EQ(TermAssociationType::Positive, termsToVerify.at(2).association);
 }
 
@@ -1284,11 +1284,11 @@ TEST(ExpressionTest, PutTermWorks)
 
     TermsWithDetails termsToVerify(expressionToTest.getTermsWithAssociation().getTermsWithDetails());
     ASSERT_EQ(3U, termsToVerify.size());
-    EXPECT_EQ(Term(10), getTermConstReferenceFromSharedPointer(termsToVerify.at(0).baseTermSharedPointer));
+    EXPECT_EQ(Term(10), getTermConstReferenceFromUniquePointer(termsToVerify.at(0).baseTermPointer));
     EXPECT_EQ(TermAssociationType::Negative, termsToVerify.at(0).association);
-    EXPECT_EQ(Term(20), getTermConstReferenceFromSharedPointer(termsToVerify.at(1).baseTermSharedPointer));
+    EXPECT_EQ(Term(20), getTermConstReferenceFromUniquePointer(termsToVerify.at(1).baseTermPointer));
     EXPECT_EQ(TermAssociationType::Positive, termsToVerify.at(1).association);
-    EXPECT_EQ(Term(30), getTermConstReferenceFromSharedPointer(termsToVerify.at(2).baseTermSharedPointer));
+    EXPECT_EQ(Term(30), getTermConstReferenceFromUniquePointer(termsToVerify.at(2).baseTermPointer));
     EXPECT_EQ(TermAssociationType::Positive, termsToVerify.at(2).association);
 }
 
@@ -1307,7 +1307,7 @@ TEST(ExpressionTest, ReverseTheAssociationOfTheTermsWorks)
     TermsWithDetails const& termsToVerify2(expression2.getTermsWithAssociation().getTermsWithDetails());
     ASSERT_EQ(1U, termsToVerify2.size());
     EXPECT_EQ(TermAssociationType::Negative, termsToVerify2.at(0).association);
-    Term const& termToVerify(getTermConstReferenceFromSharedPointer(termsToVerify2.at(0).baseTermSharedPointer));
+    Term const& termToVerify(getTermConstReferenceFromUniquePointer(termsToVerify2.at(0).baseTermPointer));
     EXPECT_EQ(Term(695), termToVerify);
 }
 

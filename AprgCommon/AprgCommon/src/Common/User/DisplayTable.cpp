@@ -66,10 +66,12 @@ unsigned int DisplayTableRow::getCharacters() const
                unsigned int partialSum, DisplayTableCell const& cell)
     {
         partialSum+=cell.getText().size();
-        return partialSum;    });
+        return partialSum;
+    });
 }
 
-Cells const& DisplayTableRow::getCells() const{
+Cells const& DisplayTableRow::getCells() const
+{
     return m_cells;
 }
 
@@ -97,9 +99,11 @@ void DisplayTableRow::addCell(string const& text, DisplayTableCellMode const hor
 {
     m_cells.emplace_back(text, horizontalMode);
 }
+
 DisplayTable::DisplayTable(
         unsigned int const numberOfColumns,
-        unsigned int const numberOfRows)    : m_rows(numberOfRows, numberOfColumns)
+        unsigned int const numberOfRows)
+    : m_rows(numberOfRows, numberOfColumns)
 {}
 
 unsigned int DisplayTable::getTotalRows() const

@@ -201,7 +201,7 @@ void SubstitutionOfVariablesToValues::performSubstitutionForTermsWithAssociation
 {
     for(TermWithDetails & termWithDetails : termsWithAssociation.getTermsWithDetailsReference())
     {
-        Term & term(getTermReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer));
+        Term & term(getTermReferenceFromUniquePointer(termWithDetails.baseTermPointer));
         term = performSubstitutionTo(term);
     }
 }

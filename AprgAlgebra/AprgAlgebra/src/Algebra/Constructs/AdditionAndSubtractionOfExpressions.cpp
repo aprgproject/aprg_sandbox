@@ -25,7 +25,7 @@ namespace
 ConditionFunctionForTermsWithDetails isCommonPart
 = [](TermWithDetails const& termWithDetails) -> bool
 {
-    Term const& term(getTermConstReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer));
+    Term const& term(getTermConstReferenceFromUniquePointer(termWithDetails.baseTermPointer));
     return termWithDetails.hasNegativeAssociation() || term.isExpression()  || term.isFunction();
 };
 
@@ -103,7 +103,7 @@ void AdditionAndSubtractionOfExpressions::putTermsWithDetails(TermsWithDetails c
     {
         putAsAddOrSubtraction(
                     createOrCopyExpressionFromATerm(
-                        getTermConstReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer)),
+                        getTermConstReferenceFromUniquePointer(termWithDetails.baseTermPointer)),
                     termWithDetails.association);
     }
 }

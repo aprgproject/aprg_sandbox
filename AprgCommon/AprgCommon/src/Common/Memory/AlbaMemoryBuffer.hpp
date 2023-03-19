@@ -20,10 +20,12 @@ public:
     // rule of zero
 
     operator bool() const; // not explicit
-    bool hasContent() const;    unsigned int getSize() const;
+    bool hasContent() const;
+    unsigned int getSize() const;
     void const* getConstantBufferPointer() const;
 
-    void* getBufferPointer();    void clear();
+    void* getBufferPointer();
+    void clear();
     void clearAndSetNewData(void* sourcePointer, unsigned int const size);
     void resize(unsigned int const size);
     void resize(unsigned int const size, unsigned char const initialValue);
@@ -36,7 +38,8 @@ public:
         static_assert(typeHelper::hasStandardLayout<ObjectType>(), "ObjectType needs to have standard layout.");
         unsigned int objectSize = sizeof(object);
         resize(objectSize);
-        void const* sourcePointer = static_cast<void const*>(&object);        void * destinationVoidPointer = getBufferPointer();
+        void const* sourcePointer = static_cast<void const*>(&object);
+        void * destinationVoidPointer = getBufferPointer();
         memcpy(destinationVoidPointer, sourcePointer, objectSize);
     }
 
@@ -53,9 +56,11 @@ public:
         static_assert(typeHelper::hasStandardLayout<ObjectType>(), "ObjectType needs to have standard layout.");
         return *reinterpret_cast<ObjectType *>(getBufferPointer());
     }
+
 private:
 
     friend std::ostream & operator<<(std::ostream & out, AlbaMemoryBuffer const& memoryBuffer);
+
     std::vector<uint8_t> m_buffer;
 };
 

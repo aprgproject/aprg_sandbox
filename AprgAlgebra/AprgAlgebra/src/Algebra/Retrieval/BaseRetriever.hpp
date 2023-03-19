@@ -90,7 +90,7 @@ public:
         for(TermWithDetails const& termWithDetails
             : expression.getTermsWithAssociation().getTermsWithDetails())
         {
-            retrieveFromTerm(getTermConstReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer));
+            retrieveFromTerm(getTermConstReferenceFromUniquePointer(termWithDetails.baseTermPointer));
         }
     }
 

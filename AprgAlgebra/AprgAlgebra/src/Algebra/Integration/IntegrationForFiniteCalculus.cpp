@@ -389,7 +389,7 @@ Term IntegrationForFiniteCalculus::integrateTermsInAdditionOrSubtraction(
     Expression accumulatedExpression(createOrCopyExpressionFromATerm(0));
     for(TermWithDetails const& termWithDetails : termsWithDetails)
     {
-        Term const& currentTerm(getTermConstReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer));
+        Term const& currentTerm(getTermConstReferenceFromUniquePointer(termWithDetails.baseTermPointer));
         Term integratedTerm(integrate(currentTerm));
         if(termWithDetails.hasPositiveAssociation())
         {
@@ -526,7 +526,7 @@ void IntegrationForFiniteCalculus::segregateNonChangingAndChangingTerms(
 {
     for(TermWithDetails const& termToSegregate : termsToSegregate)
     {
-        Term const& term(getTermConstReferenceFromSharedPointer(termToSegregate.baseTermSharedPointer));
+        Term const& term(getTermConstReferenceFromUniquePointer(termToSegregate.baseTermPointer));
         if(isChangingTerm(term))
         {
             changingTerms.emplace_back(termToSegregate);

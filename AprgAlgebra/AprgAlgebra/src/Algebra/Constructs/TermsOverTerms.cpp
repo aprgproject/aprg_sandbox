@@ -484,8 +484,8 @@ void TermsOverTerms::putTermsToRetainAndOnTheOtherSide(
             if(OperatorLevel::RaiseToPower == expression.getCommonOperatorLevel()
                     && termsWithDetails.size() == 2)
             {
-                Term const& base(getTermConstReferenceFromSharedPointer(termsWithDetails.at(0).baseTermSharedPointer));
-                Term const& exponent(getTermConstReferenceFromSharedPointer(termsWithDetails.at(1).baseTermSharedPointer));
+                Term const& base(getTermConstReferenceFromUniquePointer(termsWithDetails.at(0).baseTermPointer));
+                Term const& exponent(getTermConstReferenceFromUniquePointer(termsWithDetails.at(1).baseTermPointer));
                 isNeededToPutOnTheOtherSide = isANegativeTerm(exponent);
                 transformedTermOnTheOtherSide = createExpressionIfPossible({base, "^", negateTerm(exponent)});
             }

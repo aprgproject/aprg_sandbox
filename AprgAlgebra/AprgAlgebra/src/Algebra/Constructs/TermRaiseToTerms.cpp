@@ -72,7 +72,7 @@ bool TermRaiseToTerms::doesEvenExponentCancellationHappen() const
     AlbaNumbers exponentValues;
     for(TermWithDetails const& exponentWithDetails : m_exponents)
     {
-        Term const& exponent(getTermConstReferenceFromSharedPointer(exponentWithDetails.baseTermSharedPointer));
+        Term const& exponent(getTermConstReferenceFromUniquePointer(exponentWithDetails.baseTermPointer));
         AlbaNumber exponentValue(getConstantFactor(exponent));
         if(exponentWithDetails.hasNegativeAssociation())
         {
@@ -296,7 +296,7 @@ void TermRaiseToTerms::simplifyConstantRaiseToMultiplicationAndDivisionExpressio
     for(unsigned int i=0; i<termsWithDetails.size(); i++)
     {
         TermWithDetails const& exponentWithDetails(termsWithDetails.at(i));
-        Term const& exponent(getTermConstReferenceFromSharedPointer(exponentWithDetails.baseTermSharedPointer));
+        Term const& exponent(getTermConstReferenceFromUniquePointer(exponentWithDetails.baseTermPointer));
         if(exponentWithDetails.hasPositiveAssociation() && exponent.isFunction())
         {
             Function const& functionObject(exponent.getFunctionConstReference());
@@ -317,7 +317,7 @@ void TermRaiseToTerms::initializeUsingTermsInRaiseToPowerExpression(
 {
     if(!termsInRaiseToPowerExpression.empty())
     {
-        m_base = getTermConstReferenceFromSharedPointer(termsInRaiseToPowerExpression.at(0).baseTermSharedPointer);
+        m_base = getTermConstReferenceFromUniquePointer(termsInRaiseToPowerExpression.at(0).baseTermPointer);
         m_exponents.reserve(distance(termsInRaiseToPowerExpression.cbegin()+1, termsInRaiseToPowerExpression.cend()));
         copy(termsInRaiseToPowerExpression.cbegin()+1, termsInRaiseToPowerExpression.cend(), back_inserter(m_exponents));
     }

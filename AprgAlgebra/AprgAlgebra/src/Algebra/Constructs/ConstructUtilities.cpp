@@ -41,7 +41,7 @@ PolynomialOverPolynomialOptional createPolynomialOverPolynomialFromTermIfPossibl
             for(TermWithDetails const& termWithDetails
                 : expression.getTermsWithAssociation().getTermsWithDetails())
             {
-                Term const& termInExpression(getTermConstReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer));
+                Term const& termInExpression(getTermConstReferenceFromUniquePointer(termWithDetails.baseTermPointer));
                 if(canBeConvertedToPolynomial(termInExpression))
                 {
                     if(termWithDetails.hasPositiveAssociation())
@@ -159,7 +159,7 @@ void createTermRaiseToANumberFromRaiseToPowerExpression(
     TermsWithDetails raiseToPowerTerms(expression.getTermsWithAssociation().getTermsWithDetails());
     if(raiseToPowerTerms.size() == 1)
     {
-        Term const& base(getTermConstReferenceFromSharedPointer(raiseToPowerTerms.back().baseTermSharedPointer));
+        Term const& base(getTermConstReferenceFromUniquePointer(raiseToPowerTerms.back().baseTermPointer));
         result = TermRaiseToANumber(base, 1);
     }
     else if(raiseToPowerTerms.size() >= 2)
@@ -167,7 +167,7 @@ void createTermRaiseToANumberFromRaiseToPowerExpression(
         AlbaNumber combinedExponentValue(1);
         for(auto it=raiseToPowerTerms.begin()+1; it!=raiseToPowerTerms.end(); it++)
         {
-            Term & exponentTerm(getTermReferenceFromSharedPointer(it->baseTermSharedPointer));
+            Term & exponentTerm(getTermReferenceFromUniquePointer(it->baseTermPointer));
             if(exponentTerm.isConstant())
             {
                 combinedExponentValue = combinedExponentValue * exponentTerm.getConstantValueConstReference();
@@ -183,7 +183,7 @@ void createTermRaiseToANumberFromRaiseToPowerExpression(
                     remove_if(
                         raiseToPowerTerms.begin()+1, raiseToPowerTerms.end(),
                         [&](TermWithDetails const& raiseToPowerTerm){
-                        Term const& exponentTerm(getTermConstReferenceFromSharedPointer(raiseToPowerTerm.baseTermSharedPointer));
+                        Term const& exponentTerm(getTermConstReferenceFromUniquePointer(raiseToPowerTerm.baseTermPointer));
                         return willHaveNoEffectOnMultiplicationOrDivisionOrRaiseToPower(exponentTerm);
                     }), raiseToPowerTerms.end());
 

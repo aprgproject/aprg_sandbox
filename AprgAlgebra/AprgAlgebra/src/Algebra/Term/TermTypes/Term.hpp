@@ -30,10 +30,12 @@ public:
     Term();
     Term(AlbaNumber const& number);
     Term(char const* const characterString);
-    Term(std::string const& stringAsParameter);    Term(Constant const& constant);
+    Term(std::string const& stringAsParameter);
+    Term(Constant const& constant);
     Term(Variable const& variable);
     Term(Operator const& operatorTerm);
-    Term(Monomial const& monomial);    Term(Polynomial const& polynomial);
+    Term(Monomial const& monomial);
+    Term(Polynomial const& polynomial);
     Term(Expression const& expression);
     Term(Function const& function);
 
@@ -50,10 +52,12 @@ public:
     Term & operator=(Term && term) = default;
 
     bool operator==(Term const& second) const;
-    bool operator!=(Term const& second) const;    bool operator<(Term const& second) const;
+    bool operator!=(Term const& second) const;
+    bool operator<(Term const& second) const;
     bool isEmpty() const;
     bool isConstant() const;
-    bool isVariable() const;    bool isOperator() const;
+    bool isVariable() const;
+    bool isOperator() const;
     bool isMonomial() const;
     bool isPolynomial() const;
     bool isExpression() const;
@@ -99,6 +103,7 @@ private:
 };
 
 using Terms = std::vector<Term>;
+
 }
 
 }

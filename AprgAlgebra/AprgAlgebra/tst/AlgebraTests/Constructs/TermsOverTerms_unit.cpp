@@ -57,9 +57,9 @@ TEST(TermsOverTermsTest, GetNumeratorAndDenominatorAsTermWithDetailsWorks)
 
     TermsWithDetails termsWithDetails(termsOverTerms.getNumeratorAndDenominatorAsTermWithDetails());
     ASSERT_EQ(2U, termsWithDetails.size());
-    EXPECT_EQ(Term(5), getTermConstReferenceFromSharedPointer(termsWithDetails.at(0).baseTermSharedPointer));
+    EXPECT_EQ(Term(5), getTermConstReferenceFromUniquePointer(termsWithDetails.at(0).baseTermPointer));
     EXPECT_EQ(TermAssociationType::Positive, termsWithDetails.at(0).association);
-    EXPECT_EQ(Term("x"), getTermConstReferenceFromSharedPointer(termsWithDetails.at(1).baseTermSharedPointer));
+    EXPECT_EQ(Term("x"), getTermConstReferenceFromUniquePointer(termsWithDetails.at(1).baseTermPointer));
     EXPECT_EQ(TermAssociationType::Negative, termsWithDetails.at(1).association);
 }
 

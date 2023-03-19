@@ -85,7 +85,7 @@ TermsRaiseToNumbers factorizeToTermsRaiseToNumbersForMultiplicationAndDivision(
     TermsRaiseToNumbers result;
     for(TermWithDetails const& termWithDetails : expression.getTermsWithAssociation().getTermsWithDetails())
     {
-        Term const& term(getTermConstReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer));
+        Term const& term(getTermConstReferenceFromUniquePointer(termWithDetails.baseTermPointer));
         Terms factorizedTerms(factorizeTerm(term));
         result.putTerms(factorizedTerms, termWithDetails.association);
     }
@@ -121,7 +121,7 @@ void retrieveConstantAndNonConstantFactors(
 {
     for(TermWithDetails const& originalTermWithDetails : originalTermsWithDetails)
     {
-        Term const& term(getTermConstReferenceFromSharedPointer(originalTermWithDetails.baseTermSharedPointer));
+        Term const& term(getTermConstReferenceFromUniquePointer(originalTermWithDetails.baseTermPointer));
         Terms factors(factorizeTerm(term));
 
         AlbaNumber constantFactor(1);

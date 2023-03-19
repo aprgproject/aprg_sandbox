@@ -57,7 +57,7 @@ void segregateMonomialsAndNonMonomials(
 {
     for(TermWithDetails const& termToSegregate : termsToSegregate)
     {
-        Term const& term(getTermConstReferenceFromSharedPointer(termToSegregate.baseTermSharedPointer));
+        Term const& term(getTermConstReferenceFromUniquePointer(termToSegregate.baseTermPointer));
         if(canBeConvertedToMonomial(term))
         {
             monomials.emplace_back(termToSegregate);
@@ -94,7 +94,7 @@ void segregateNonExpressionsAndExpressions(
 {
     for(TermWithDetails const& termToSegregate : termsToSegregate)
     {
-        Term const& term(getTermConstReferenceFromSharedPointer(termToSegregate.baseTermSharedPointer));
+        Term const& term(getTermConstReferenceFromUniquePointer(termToSegregate.baseTermPointer));
         if(term.isExpression())
         {
             termsWithExpressions.emplace_back(termToSegregate);
@@ -132,7 +132,7 @@ void segregateTermsWithAndWithoutVariable(
 {
     for(TermWithDetails const& termToSegregate : termsToSegregate)
     {
-        Term const& term(getTermConstReferenceFromSharedPointer(termToSegregate.baseTermSharedPointer));
+        Term const& term(getTermConstReferenceFromUniquePointer(termToSegregate.baseTermPointer));
         if(isVariableFoundInTerm(term, variableName))
         {
             termsWithVariable.emplace_back(termToSegregate);

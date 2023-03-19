@@ -20,10 +20,12 @@ public:
     // rule of zero
 
     bool operator==(TermsWithAssociation const& second) const;
-    bool operator!=(TermsWithAssociation const& second) const;    bool operator<(TermsWithAssociation const& second) const;
+    bool operator!=(TermsWithAssociation const& second) const;
+    bool operator<(TermsWithAssociation const& second) const;
     bool isEmpty() const;
 
-    unsigned int getSize() const;    BaseTerm const& getFirstTermConstReference() const;
+    unsigned int getSize() const;
+    BaseTerm const& getFirstTermConstReference() const;
     TermAssociationType getFirstAssociationType() const;
     TermsWithDetails const& getTermsWithDetails() const;
     TermsWithDetails & getTermsWithDetailsReference();

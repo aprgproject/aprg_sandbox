@@ -200,8 +200,8 @@ void RationalizeTermOverTerm::retrieveTermsForRationalizationForExpression(
         TermWithDetails const& firstTermWithDetails,
         TermWithDetails const& secondTermWithDetails) const
 {
-    Term const& firstTerm(getTermConstReferenceFromSharedPointer(firstTermWithDetails.baseTermSharedPointer));
-    Term const& secondTerm(getTermConstReferenceFromSharedPointer(secondTermWithDetails.baseTermSharedPointer));
+    Term const& firstTerm(getTermConstReferenceFromUniquePointer(firstTermWithDetails.baseTermPointer));
+    Term const& secondTerm(getTermConstReferenceFromUniquePointer(secondTermWithDetails.baseTermPointer));
     TermRaiseToANumber firstTermRaiseToANumber(createTermRaiseToANumberFromTerm(firstTerm));
     TermRaiseToANumber secondTermRaiseToANumber(createTermRaiseToANumberFromTerm(secondTerm));
 
@@ -236,8 +236,8 @@ void RationalizeTermOverTerm::retrieveTermsForRationalizationForExpressionWhenEx
         TermWithDetails const& firstTermWithDetails,
         TermWithDetails const& secondTermWithDetails) const
 {
-    Term const& firstTerm(getTermConstReferenceFromSharedPointer(firstTermWithDetails.baseTermSharedPointer));
-    Term const& secondTerm(getTermConstReferenceFromSharedPointer(secondTermWithDetails.baseTermSharedPointer));
+    Term const& firstTerm(getTermConstReferenceFromUniquePointer(firstTermWithDetails.baseTermPointer));
+    Term const& secondTerm(getTermConstReferenceFromUniquePointer(secondTermWithDetails.baseTermPointer));
 
     TermWithDetails secondMultiplierTerm(secondTermWithDetails);
     secondMultiplierTerm.association = secondTermWithDetails.hasPositiveAssociation() ?
@@ -259,8 +259,8 @@ void RationalizeTermOverTerm::retrieveTermsForRationalizationForExpressionWhenEx
         TermWithDetails const& firstTermWithDetails,
         TermWithDetails const& secondTermWithDetails) const
 {
-    Term const& firstTerm(getTermConstReferenceFromSharedPointer(firstTermWithDetails.baseTermSharedPointer));
-    Term const& secondTerm(getTermConstReferenceFromSharedPointer(secondTermWithDetails.baseTermSharedPointer));
+    Term const& firstTerm(getTermConstReferenceFromUniquePointer(firstTermWithDetails.baseTermPointer));
+    Term const& secondTerm(getTermConstReferenceFromUniquePointer(secondTermWithDetails.baseTermPointer));
 
     Term firstMultiplierTerm(firstTerm ^ 2);
     Term secondMultiplierTerm(firstTerm * secondTerm);

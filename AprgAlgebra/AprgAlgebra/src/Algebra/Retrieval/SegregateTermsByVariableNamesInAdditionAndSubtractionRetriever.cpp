@@ -94,11 +94,11 @@ void SegregateTermsByVariableNamesInAdditionAndSubtractionRetriever::retrieveFro
         {
             if(termWithDetails.hasPositiveAssociation())
             {
-                retrieveFromTerm(getTermConstReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer));
+                retrieveFromTerm(getTermConstReferenceFromUniquePointer(termWithDetails.baseTermPointer));
             }
             else
             {
-                retrieveFromTerm(negateTerm(getTermConstReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer)));
+                retrieveFromTerm(negateTerm(getTermConstReferenceFromUniquePointer(termWithDetails.baseTermPointer)));
             }
         }
     }

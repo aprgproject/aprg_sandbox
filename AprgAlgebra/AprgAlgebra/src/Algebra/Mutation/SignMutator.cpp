@@ -215,7 +215,7 @@ void SignMutator::mutateExpressionWithMultiplicationAndDivision(
     TermsWithDetails & termsWithDetails(expression.getTermsWithAssociationReference().getTermsWithDetailsReference());
     for(TermWithDetails & termWithDetails : termsWithDetails)
     {
-        Term & term(getTermReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer));
+        Term & term(getTermReferenceFromUniquePointer(termWithDetails.baseTermPointer));
         mutateTerm(term);
     }
     expression.simplify();

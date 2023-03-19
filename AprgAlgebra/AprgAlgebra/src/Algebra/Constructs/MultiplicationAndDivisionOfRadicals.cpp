@@ -105,7 +105,7 @@ void MultiplicationAndDivisionOfRadicals::gatherDetails(
 {
     for(TermWithDetails const& termWithDetails : m_termsWithDetails)
     {
-        Term const& term(getTermConstReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer));
+        Term const& term(getTermConstReferenceFromUniquePointer(termWithDetails.baseTermPointer));
         TermRaiseToANumber termRaiseToANumber(createTermRaiseToANumberFromTerm(term));
 
         if(termRaiseToANumber.isRadical())

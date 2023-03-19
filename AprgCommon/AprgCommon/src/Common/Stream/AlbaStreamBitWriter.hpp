@@ -23,10 +23,12 @@ public:
 
     void writeBoolData(bool const data);
     void writeCharData(char const data);
-    void writeStringData(std::string const& data);    void writeHexDigitData(std::string const& hexDigitsData);
+    void writeStringData(std::string const& data);
+    void writeHexDigitData(std::string const& hexDigitsData);
     template <typename TypeToWrite> void writeNumberData(AlbaStreamBitEndianType const endianType, TypeToWrite const& data);
     template <typename TypeToWrite> void writeBigEndianNumberData(TypeToWrite const& data);
-    template <typename TypeToWrite> void writeLittleEndianNumberData(TypeToWrite const& data);    template <unsigned int BITSET_SIZE> void writeBitsetData(std::bitset<BITSET_SIZE> const& data, unsigned int const startBitsetIndex, unsigned int const endBitsetIndex);
+    template <typename TypeToWrite> void writeLittleEndianNumberData(TypeToWrite const& data);
+    template <unsigned int BITSET_SIZE> void writeBitsetData(std::bitset<BITSET_SIZE> const& data, unsigned int const startBitsetIndex, unsigned int const endBitsetIndex);
 
     std::ostream& getOutputStream();
     void flush();

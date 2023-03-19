@@ -424,7 +424,7 @@ void SimplificationOfExpression::convertPolynomialToPolynomialOverPolynomial(
     TermsWithDetails & termsWithDetails(expression.getTermsWithAssociationReference().getTermsWithDetailsReference());
     for(TermWithDetails & termWithDetails : termsWithDetails)
     {
-        Term & term(getTermReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer));
+        Term & term(getTermReferenceFromUniquePointer(termWithDetails.baseTermPointer));
         convertPolynomialToPolynomialOverPolynomial(term);
     }
 }

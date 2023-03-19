@@ -118,7 +118,7 @@ AlbaNumber getDegree(Term const& term)
             AlbaNumber maxDegree(0);
             for(TermWithDetails const& termWithDetails : termsWithDetails)
             {
-                Term const& term(getTermConstReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer));
+                Term const& term(getTermConstReferenceFromUniquePointer(termWithDetails.baseTermPointer));
                 maxDegree = max(maxDegree, getDegree(term));
             }
             result = maxDegree;
@@ -128,7 +128,7 @@ AlbaNumber getDegree(Term const& term)
             AlbaNumber sumDegree(0);
             for(TermWithDetails const& termWithDetails : termsWithDetails)
             {
-                Term const& term(getTermConstReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer));
+                Term const& term(getTermConstReferenceFromUniquePointer(termWithDetails.baseTermPointer));
                 sumDegree += getDegree(term);
             }
             result = sumDegree;
@@ -221,7 +221,7 @@ Term flipTerm(Term const& term)
 Term negateTermIfHasNegativeAssociation(
         TermWithDetails const& termWithDetails)
 {
-    Term result(getTermConstReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer));
+    Term result(getTermConstReferenceFromUniquePointer(termWithDetails.baseTermPointer));
     if(termWithDetails.hasNegativeAssociation())
     {
         result = negateTerm(result);
@@ -232,7 +232,7 @@ Term negateTermIfHasNegativeAssociation(
 Term flipTermIfHasNegativeAssociation(
         TermWithDetails const& termWithDetails)
 {
-    Term result(getTermConstReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer));
+    Term result(getTermConstReferenceFromUniquePointer(termWithDetails.baseTermPointer));
     if(termWithDetails.hasNegativeAssociation())
     {
         result = 1/result;

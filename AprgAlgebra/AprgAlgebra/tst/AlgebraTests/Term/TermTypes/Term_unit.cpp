@@ -162,10 +162,10 @@ TEST(TermTest, TermsAsExpressionsWorks)
     TermsWithDetails const& termsToVerify2(expression2.getTermsWithAssociation().getTermsWithDetails());
     ASSERT_EQ(2U, termsToVerify2.size());
     EXPECT_EQ(TermAssociationType::Positive, termsToVerify2.at(0).association);
-    Term const& termToVerify1(getTermConstReferenceFromSharedPointer(termsToVerify2.at(0).baseTermSharedPointer));
+    Term const& termToVerify1(getTermConstReferenceFromUniquePointer(termsToVerify2.at(0).baseTermPointer));
     EXPECT_EQ(Term(5), termToVerify1);
     EXPECT_EQ(TermAssociationType::Positive, termsToVerify2.at(1).association);
-    Term const& termToVerify2(getTermConstReferenceFromSharedPointer(termsToVerify2.at(1).baseTermSharedPointer));
+    Term const& termToVerify2(getTermConstReferenceFromUniquePointer(termsToVerify2.at(1).baseTermPointer));
     EXPECT_EQ(Term("interest"), termToVerify2);
 }
 

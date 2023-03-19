@@ -111,7 +111,7 @@ void retrieveTermsFromTermsWithDetails(
     transform(termsWithDetails.cbegin(), termsWithDetails.cend(), back_inserter(terms), []
               (TermWithDetails const& termWithDetails)
     {
-        return getTermConstReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer);
+        return getTermConstReferenceFromUniquePointer(termWithDetails.baseTermPointer);
     });
 }
 

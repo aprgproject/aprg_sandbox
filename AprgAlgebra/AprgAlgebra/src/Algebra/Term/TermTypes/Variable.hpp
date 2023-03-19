@@ -20,9 +20,11 @@ public:
 
     bool operator==(Variable const& second) const;
     bool operator!=(Variable const& second) const;
-    bool operator<(Variable const& second) const;    std::string getVariableName() const;
+    bool operator<(Variable const& second) const;
+    std::string getVariableName() const;
 
     void setVariableName(std::string const& variableName);
+
 private:
     friend std::ostream & operator<<(std::ostream & out, Variable const& variable);
 

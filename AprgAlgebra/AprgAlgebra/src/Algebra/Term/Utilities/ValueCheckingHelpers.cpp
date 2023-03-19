@@ -99,7 +99,7 @@ bool isValueSatisfyTheCondition(
     if(termsWithDetails.size() == 1)
     {
         result = isValueSatisfyTheCondition(
-                    getTermConstReferenceFromSharedPointer(termsWithDetails.front().baseTermSharedPointer),
+                    getTermConstReferenceFromUniquePointer(termsWithDetails.front().baseTermPointer),
                     condition);
     }
     return result;
@@ -169,7 +169,7 @@ bool doAnyNumbersSatisfyTheCondition(
     return any_of(termsWithDetails.cbegin(), termsWithDetails.cend(), [&](TermWithDetails const& termWithDetails)
     {
         return doAnyNumbersSatisfyTheCondition(
-                    getTermConstReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer),
+                    getTermConstReferenceFromUniquePointer(termWithDetails.baseTermPointer),
                     condition);
     });
 }
@@ -267,7 +267,7 @@ bool isTheValue(Expression const& expression, AlbaNumber const& number)
     if(termsWithDetails.size() == 1)
     {
         result = isTheValue(
-                    getTermConstReferenceFromSharedPointer(termsWithDetails.front().baseTermSharedPointer),
+                    getTermConstReferenceFromUniquePointer(termsWithDetails.front().baseTermPointer),
                     number);
     }
     return result;
@@ -374,7 +374,7 @@ bool isANegativeExpression(Expression const& expression)
     {
         if(!termsWithDetails.empty())
         {
-            Term const& firstTerm(getTermConstReferenceFromSharedPointer(termsWithDetails.front().baseTermSharedPointer));
+            Term const& firstTerm(getTermConstReferenceFromUniquePointer(termsWithDetails.front().baseTermPointer));
             result = isANegativeTerm(firstTerm);
         }
     }
@@ -383,7 +383,7 @@ bool isANegativeExpression(Expression const& expression)
         bool isNegative(false);
         for(TermWithDetails const& termWithDetails : termsWithDetails)
         {
-            Term const& term(getTermConstReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer));
+            Term const& term(getTermConstReferenceFromUniquePointer(termWithDetails.baseTermPointer));
             isNegative = isNegative ^ isANegativeTerm(term);
         }
         result = isNegative;

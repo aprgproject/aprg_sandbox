@@ -96,11 +96,11 @@ TEST(AdditionAndSubtractionOfExpressionsTest, GetAsTermsWithDetailsWorks)
     TermsWithDetails termsWithDetails(additionAndSubtraction.getAsTermsWithDetails());
 
     ASSERT_EQ(2U, termsWithDetails.size());
-    Term const& term1(getTermConstReferenceFromSharedPointer(termsWithDetails.at(0).baseTermSharedPointer));
+    Term const& term1(getTermConstReferenceFromUniquePointer(termsWithDetails.at(0).baseTermPointer));
     ASSERT_EQ(TermType::Variable, term1.getTermType());
     EXPECT_EQ("x", term1.getVariableConstReference().getVariableName());
     EXPECT_EQ(TermAssociationType::Positive, termsWithDetails.at(0).association);
-    Term const& term2(getTermConstReferenceFromSharedPointer(termsWithDetails.at(1).baseTermSharedPointer));
+    Term const& term2(getTermConstReferenceFromUniquePointer(termsWithDetails.at(1).baseTermPointer));
     ASSERT_EQ(TermType::Variable, term2.getTermType());
     EXPECT_EQ("y", term2.getVariableConstReference().getVariableName());
     EXPECT_EQ(TermAssociationType::Negative, termsWithDetails.at(1).association);

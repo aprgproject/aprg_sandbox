@@ -55,11 +55,11 @@ TEST(SegregateHelpersTest, SegregateMonomialsAndNonMonomialsWorksForTermsWithDet
 
     ASSERT_EQ(1U, monomialTerms.size());
     TermWithDetails const& termWithDetails1(monomialTerms.at(0));
-    EXPECT_EQ(Term(753), getTermConstReferenceFromSharedPointer(termWithDetails1.baseTermSharedPointer));
+    EXPECT_EQ(Term(753), getTermConstReferenceFromUniquePointer(termWithDetails1.baseTermPointer));
     EXPECT_EQ(TermAssociationType::Negative, termWithDetails1.association);
     ASSERT_EQ(1U, nonMonomialTerms.size());
     TermWithDetails const& termWithDetails2(nonMonomialTerms.at(0));
-    EXPECT_EQ(termExpression, getTermConstReferenceFromSharedPointer(termWithDetails2.baseTermSharedPointer));
+    EXPECT_EQ(termExpression, getTermConstReferenceFromUniquePointer(termWithDetails2.baseTermPointer));
     EXPECT_EQ(TermAssociationType::Positive, termWithDetails2.association);
 }
 
@@ -90,11 +90,11 @@ TEST(SegregateHelpersTest, SegregateNonExpressionsAndExpressionsWorks)
 
     ASSERT_EQ(1U, termsWithNonExpressions.size());
     TermWithDetails const& termWithDetails1(termsWithNonExpressions.at(0));
-    EXPECT_EQ(Term(753), getTermConstReferenceFromSharedPointer(termWithDetails1.baseTermSharedPointer));
+    EXPECT_EQ(Term(753), getTermConstReferenceFromUniquePointer(termWithDetails1.baseTermPointer));
     EXPECT_EQ(TermAssociationType::Negative, termWithDetails1.association);
     ASSERT_EQ(1U, termsWithExpressions.size());
     TermWithDetails const& termWithDetails2(termsWithExpressions.at(0));
-    EXPECT_EQ(termExpression, getTermConstReferenceFromSharedPointer(termWithDetails2.baseTermSharedPointer));
+    EXPECT_EQ(termExpression, getTermConstReferenceFromUniquePointer(termWithDetails2.baseTermPointer));
     EXPECT_EQ(TermAssociationType::Positive, termWithDetails2.association);
 }
 
@@ -110,11 +110,11 @@ TEST(SegregateHelpersTest, SegregateTermsWithPositiveAndNegativeAssociationsWork
 
     ASSERT_EQ(1U, termsInPositive.size());
     TermWithDetails const& termWithDetails1(termsInPositive.at(0));
-    EXPECT_EQ(Term(159), getTermConstReferenceFromSharedPointer(termWithDetails1.baseTermSharedPointer));
+    EXPECT_EQ(Term(159), getTermConstReferenceFromUniquePointer(termWithDetails1.baseTermPointer));
     EXPECT_EQ(TermAssociationType::Positive, termWithDetails1.association);
     ASSERT_EQ(1U, termsInNegative.size());
     TermWithDetails const& termWithDetails2(termsInNegative.at(0));
-    EXPECT_EQ(Term(753), getTermConstReferenceFromSharedPointer(termWithDetails2.baseTermSharedPointer));
+    EXPECT_EQ(Term(753), getTermConstReferenceFromUniquePointer(termWithDetails2.baseTermPointer));
     EXPECT_EQ(TermAssociationType::Negative, termWithDetails2.association);
 }
 

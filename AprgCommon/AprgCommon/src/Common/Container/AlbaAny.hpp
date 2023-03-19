@@ -30,10 +30,12 @@ public:
     // rule of zero
 
     operator bool() const // not explicit
-    {        return hasContent();
+    {
+        return hasContent();
     }
 
-    bool hasContent() const    {
+    bool hasContent() const
+    {
         return m_savedMemory.hasContent();
     }
 

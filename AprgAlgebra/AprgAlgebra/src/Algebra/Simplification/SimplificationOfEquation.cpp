@@ -143,8 +143,8 @@ void SimplificationOfEquation::completeExpressionWithFractionalExponentsIfNeeded
             if(termsWithDetails.size() == 2
                     && areTheSignsOfTwoTermsDifferent(termsWithDetails.at(0), termsWithDetails.at(1)))
             {
-                Term const& firstTerm(getTermConstReferenceFromSharedPointer(termsWithDetails.at(0).baseTermSharedPointer));
-                Term const& secondTerm(getTermConstReferenceFromSharedPointer(termsWithDetails.at(1).baseTermSharedPointer));
+                Term const& firstTerm(getTermConstReferenceFromUniquePointer(termsWithDetails.at(0).baseTermPointer));
+                Term const& secondTerm(getTermConstReferenceFromUniquePointer(termsWithDetails.at(1).baseTermPointer));
                 TermRaiseToANumber termRaiseToANumber1(createTermRaiseToANumberFromTerm(firstTerm));
                 TermRaiseToANumber termRaiseToANumber2(createTermRaiseToANumberFromTerm(secondTerm));
                 AlbaNumber gcfOfExponents = getGreatestCommonFactor(termRaiseToANumber1.getExponent(), termRaiseToANumber2.getExponent());

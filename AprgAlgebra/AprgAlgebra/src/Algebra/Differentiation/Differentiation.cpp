@@ -362,7 +362,7 @@ Term Differentiation::differentiateTermsInAdditionOrSubtraction(
     Expression accumulatedExpression(createOrCopyExpressionFromATerm(0));
     for(TermWithDetails const& termWithDetails : termsWithDetails)
     {
-        Term const& currentTerm(getTermConstReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer));
+        Term const& currentTerm(getTermConstReferenceFromUniquePointer(termWithDetails.baseTermPointer));
         Term differentiatedTerm(differentiate(currentTerm));
         if(termWithDetails.hasPositiveAssociation())
         {
@@ -414,7 +414,7 @@ Term Differentiation::differentiateTermsInMultiplicationOrDivisionTermByTerm(
     if(!termsWithDetails.empty())
     {
         TermWithDetails const& firstTermWithDetails(termsWithDetails.front());
-        Term const& firstTerm(getTermConstReferenceFromSharedPointer(firstTermWithDetails.baseTermSharedPointer));
+        Term const& firstTerm(getTermConstReferenceFromUniquePointer(firstTermWithDetails.baseTermPointer));
         if(firstTermWithDetails.hasPositiveAssociation())
         {
             accumulatedTerm = firstTerm;
@@ -426,7 +426,7 @@ Term Differentiation::differentiateTermsInMultiplicationOrDivisionTermByTerm(
         for(auto it=termsWithDetails.cbegin()+1; it!=termsWithDetails.cend(); it++)
         {
             TermWithDetails const& termWithDetails(*it);
-            Term const& currentTerm(getTermConstReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer));
+            Term const& currentTerm(getTermConstReferenceFromUniquePointer(termWithDetails.baseTermPointer));
             if(termWithDetails.hasPositiveAssociation())
             {
                 accumulatedTerm = differentiateTwoMultipliedTerms(accumulatedTerm, currentTerm);

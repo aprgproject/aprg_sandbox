@@ -143,7 +143,7 @@ TEST(RetrieveHelpersTest, GetTermsWithDetailsThatSatisfiesCondition)
     {return termWithDetails.hasNegativeAssociation();});
 
     ASSERT_EQ(1U, termsWithDetailsToVerify.size());
-    EXPECT_EQ(Term("z"), getTermConstReferenceFromSharedPointer(termsWithDetailsToVerify.at(0).baseTermSharedPointer));
+    EXPECT_EQ(Term("z"), getTermConstReferenceFromUniquePointer(termsWithDetailsToVerify.at(0).baseTermPointer));
     EXPECT_EQ(TermAssociationType::Negative, termsWithDetailsToVerify.at(0).association);
 }
 

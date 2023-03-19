@@ -16,9 +16,9 @@ TEST(TermWithDetailsTest, ConstructionWorks)
     TermWithDetails termWithDetails1(Term(10), TermAssociationType::Negative);
     TermWithDetails termWithDetails2(termWithDetails1);
 
-    EXPECT_EQ(Term(10), getTermConstReferenceFromSharedPointer(termWithDetails1.baseTermSharedPointer));
+    EXPECT_EQ(Term(10), getTermConstReferenceFromUniquePointer(termWithDetails1.baseTermPointer));
     EXPECT_EQ(TermAssociationType::Negative, termWithDetails1.association);
-    EXPECT_EQ(Term(10), getTermConstReferenceFromSharedPointer(termWithDetails2.baseTermSharedPointer));
+    EXPECT_EQ(Term(10), getTermConstReferenceFromUniquePointer(termWithDetails2.baseTermPointer));
     EXPECT_EQ(TermAssociationType::Negative, termWithDetails2.association);
 }
 
@@ -95,7 +95,7 @@ TEST(TermWithDetailsTest, ClearWorks)
 
     termWithDetails.clear();
 
-    EXPECT_EQ(nullptr, termWithDetails.baseTermSharedPointer.get());
+    EXPECT_EQ(nullptr, termWithDetails.baseTermPointer.get());
     EXPECT_EQ(TermAssociationType::Positive, termWithDetails.association);
 }
 

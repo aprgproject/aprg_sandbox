@@ -4,7 +4,8 @@
 
 #include <ostream>
 
-namespace alba{
+namespace alba
+{
 
 template <typename DataType>
 class AlbaComplexNumber
@@ -22,10 +23,12 @@ public:
 
     bool operator==(AlbaComplexNumber const& second) const;
     AlbaComplexNumber<DataType> operator+(AlbaComplexNumber<DataType> const& second) const;
-    AlbaComplexNumber<DataType> operator-(AlbaComplexNumber<DataType> const& second) const;    AlbaComplexNumber<DataType> operator+() const;
+    AlbaComplexNumber<DataType> operator-(AlbaComplexNumber<DataType> const& second) const;
+    AlbaComplexNumber<DataType> operator+() const;
     AlbaComplexNumber<DataType> operator-() const;
     AlbaComplexNumber<DataType> operator*(AlbaComplexNumber<DataType> const& second) const;
-    AlbaComplexNumber<DataType> operator/(AlbaComplexNumber<DataType> const& second) const;    AlbaComplexNumber<DataType> operator^(DataType const exponent) const;
+    AlbaComplexNumber<DataType> operator/(AlbaComplexNumber<DataType> const& second) const;
+    AlbaComplexNumber<DataType> operator^(DataType const exponent) const;
     AlbaComplexNumber<DataType>& operator+=(AlbaComplexNumber<DataType> const& second);
     AlbaComplexNumber<DataType>& operator-=(AlbaComplexNumber<DataType> const& second);
     AlbaComplexNumber<DataType>& operator*=(AlbaComplexNumber<DataType> const& second);

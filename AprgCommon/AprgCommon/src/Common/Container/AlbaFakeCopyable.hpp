@@ -30,10 +30,12 @@ public:
 
     ObjectType const& getObject() const
     {
-        return m_object;    }
+        return m_object;
+    }
 
     ObjectType & getObjectReference()
-    {        return m_object;
+    {
+        return m_object;
     }
 
 private:

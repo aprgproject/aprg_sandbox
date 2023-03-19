@@ -197,9 +197,11 @@ constexpr bool hasStandardLayout()
 
     return std::is_standard_layout<Type>::value;
 }
+
 template <typename Type>
 constexpr bool isEmpty()
-{    return std::is_empty<Type>::value;
+{
+    return std::is_empty<Type>::value;
 }
 
 template <typename Type>

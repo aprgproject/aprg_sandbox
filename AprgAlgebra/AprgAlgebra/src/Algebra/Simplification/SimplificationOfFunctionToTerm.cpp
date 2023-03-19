@@ -102,7 +102,7 @@ Term SimplificationOfFunctionToTerm::simplifyLogarithmicFunctionToExpression(
                 TermsWithDetails newTermsWithDetails(inputExpression.getTermsWithAssociation().getTermsWithDetails());
                 for(TermWithDetails & newTermWithDetails : newTermsWithDetails)
                 {
-                    Term & newTerm(getTermReferenceFromSharedPointer(newTermWithDetails.baseTermSharedPointer));
+                    Term & newTerm(getTermReferenceFromUniquePointer(newTermWithDetails.baseTermPointer));
                     newTerm = getLogarithmicOfTermBasedFromName(newTerm, functionObject.getFunctionName());
                 }
                 resultExpression.set(OperatorLevel::AdditionAndSubtraction, newTermsWithDetails);

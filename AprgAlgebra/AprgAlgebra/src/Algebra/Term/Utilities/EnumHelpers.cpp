@@ -89,10 +89,12 @@ TermAssociationType getReversedAssociationType(TermAssociationType const associa
     else // if(TermAssociationType::Negative == associationType)
     {
         reversedAssociationType = TermAssociationType::Positive;
-    }    return reversedAssociationType;
+    }
+    return reversedAssociationType;
 }
 
-string getEnumShortString(TermType const termType){
+string getEnumShortString(TermType const termType)
+{
     switch(termType)
     {
     ALBA_MACROS_CASE_ENUM_SHORT_STRING(TermType::Empty, "Empty")

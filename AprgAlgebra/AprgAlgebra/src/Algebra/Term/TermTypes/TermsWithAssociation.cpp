@@ -17,17 +17,20 @@ TermsWithAssociation::TermsWithAssociation(
     : m_termsWithDetails(termsWithDetails)
 {}
 
-TermsWithAssociation::TermsWithAssociation(        initializer_list<TermWithDetails> const& termsWithDetails)
+TermsWithAssociation::TermsWithAssociation(
+        initializer_list<TermWithDetails> const& termsWithDetails)
 {
     putTermsWithDetails(termsWithDetails);
 }
 
 bool TermsWithAssociation::operator==(TermsWithAssociation const& second) const
 {
-    TermsWithDetails const& terms1(m_termsWithDetails);    TermsWithDetails const& terms2(second.m_termsWithDetails);
+    TermsWithDetails const& terms1(m_termsWithDetails);
+    TermsWithDetails const& terms2(second.m_termsWithDetails);
     bool result(false);
     if(terms1.size() == terms2.size())
-    {        result=true;
+    {
+        result=true;
         unsigned int commonSize = terms1.size();
         for(unsigned int i=0; i<commonSize; i++)
         {
@@ -84,7 +87,7 @@ unsigned int TermsWithAssociation::getSize() const
 
 BaseTerm const& TermsWithAssociation::getFirstTermConstReference() const
 {
-    return getBaseTermConstReferenceFromSharedPointer(m_termsWithDetails.front().baseTermSharedPointer);
+    return getBaseTermConstReferenceFromUniquePointer(m_termsWithDetails.front().baseTermPointer);
 }
 
 TermAssociationType TermsWithAssociation::getFirstAssociationType() const
@@ -112,7 +115,7 @@ void TermsWithAssociation::sort(
 {
     for(TermWithDetails & termWithDetails : m_termsWithDetails)
     {
-        Term & term(getTermReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer));
+        Term & term(getTermReferenceFromUniquePointer(termWithDetails.baseTermPointer));
         term.sort();
     }
     if(dontSortFirstItem)
@@ -130,7 +133,7 @@ void TermsWithAssociation::sort(
 
 void TermsWithAssociation::putTermWithDetails(TermWithDetails const& termWithDetails)
 {
-    m_termsWithDetails.emplace_back(getBaseTermConstReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer), termWithDetails.association);
+    m_termsWithDetails.emplace_back(getBaseTermConstReferenceFromUniquePointer(termWithDetails.baseTermPointer), termWithDetails.association);
 }
 
 void TermsWithAssociation::putTermsWithDetails(initializer_list<TermWithDetails> const& termsWithDetails)

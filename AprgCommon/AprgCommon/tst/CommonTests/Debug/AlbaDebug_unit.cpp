@@ -16,8 +16,10 @@ std::stringstream s_debugStringStream;
 #include <Common/Debug/AlbaDebug.hpp>
 
 #include <gtest/gtest.h>
+
 #include <map>
 #include <memory>
+
 using namespace std;
 
 namespace alba

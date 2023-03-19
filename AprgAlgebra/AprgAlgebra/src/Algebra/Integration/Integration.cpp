@@ -358,7 +358,7 @@ void Integration::integrateTermsInAdditionOrSubtraction(
     TermsWithDetails const& termsWithDetails(expression.getTermsWithAssociation().getTermsWithDetails());
     for(TermWithDetails const& termWithDetails : termsWithDetails)
     {
-        Term const& currentTerm(getTermConstReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer));
+        Term const& currentTerm(getTermConstReferenceFromUniquePointer(termWithDetails.baseTermPointer));
         Term integratedTerm(integrateInternallyWithPurpose(currentTerm, IntegrationPurpose::NoChange));
         if(termWithDetails.hasPositiveAssociation())
         {
@@ -632,7 +632,7 @@ void Integration::segregateNonChangingAndChangingTerms(
 {
     for(TermWithDetails const& termToSegregate : termsToSegregate)
     {
-        Term const& term(getTermConstReferenceFromSharedPointer(termToSegregate.baseTermSharedPointer));
+        Term const& term(getTermConstReferenceFromUniquePointer(termToSegregate.baseTermPointer));
         if(isChangingTerm(term))
         {
             changingTerms.emplace_back(termToSegregate);

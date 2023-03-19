@@ -13,9 +13,11 @@ namespace algebra
 Operator::Operator(string const& operatingString)
     : m_operatingString(operatingString)
 {}
+
 bool Operator::operator==(Operator const& second) const
 {
-    return m_operatingString == second.m_operatingString;}
+    return m_operatingString == second.m_operatingString;
+}
 
 bool Operator::operator!=(Operator const& second) const
 {

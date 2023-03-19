@@ -32,9 +32,11 @@ public:
 
     std::string getText() const;
     DisplayTableCellMode getHorizontalMode() const;
+
     std::string& getTextReference();
     void setText(std::string const& text);
-    void setHorizontalMode(DisplayTableCellMode const mode);private:
+    void setHorizontalMode(DisplayTableCellMode const mode);
+private:
     std::string m_displayText;
     DisplayTableCellMode m_horizontalMode;
 };
@@ -51,10 +53,12 @@ public:
 
     unsigned int getNumberOfColumns() const;
     unsigned int getCharacters() const;
-    Cells const& getCells() const;    DisplayTableCell const& getCellAt(unsigned int const columnIndex) const;
+    Cells const& getCells() const;
+    DisplayTableCell const& getCellAt(unsigned int const columnIndex) const;
 
     Cells& getCellsReference();
-    DisplayTableCell& getCellReferenceAt(unsigned int const columnIndex);    void addCell(std::string const& text);
+    DisplayTableCell& getCellReferenceAt(unsigned int const columnIndex);
+    void addCell(std::string const& text);
     void addCell(std::string const & text, DisplayTableCellMode const horizontalMode);
 
 private:
@@ -71,10 +75,12 @@ public:
 
     unsigned int getTotalRows() const;
     unsigned int getTotalColumns() const;
-    unsigned int getMaxCharactersInOneRow() const;    DisplayTableCell const& getCellAt(unsigned int const columnIndex, unsigned int const rowIndex) const;
+    unsigned int getMaxCharactersInOneRow() const;
+    DisplayTableCell const& getCellAt(unsigned int const columnIndex, unsigned int const rowIndex) const;
 
     DisplayTableRow& getLastRow();
-    DisplayTableRow& getRowReferenceAt(unsigned int const rowIndex);    DisplayTableCell& getCellReferenceAt(unsigned int const columnIndex, unsigned int const rowIndex);
+    DisplayTableRow& getRowReferenceAt(unsigned int const rowIndex);
+    DisplayTableCell& getCellReferenceAt(unsigned int const columnIndex, unsigned int const rowIndex);
     void addRow();
     void setBorders(std::string const& horizontalBorder, std::string const& verticalBorder);
 

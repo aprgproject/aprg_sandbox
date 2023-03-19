@@ -64,7 +64,7 @@ void BaseMutator::mutateExpression(Expression & expression)
     for(TermWithDetails & termWithDetails
         : expression.getTermsWithAssociationReference().getTermsWithDetailsReference())
     {
-        mutateTerm(getTermReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer));
+        mutateTerm(getTermReferenceFromUniquePointer(termWithDetails.baseTermPointer));
     }
 }
 

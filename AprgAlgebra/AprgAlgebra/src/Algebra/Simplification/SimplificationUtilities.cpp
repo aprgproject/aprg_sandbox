@@ -93,7 +93,7 @@ bool tryToAddSubtractTermsOverTermsAndReturnIfChanged(Expression & addSubtractEx
     bool isAddSubtractExpressionUpdateNeeded(false);
     for(TermWithDetails const& addSubtractTermWithDetails : addSubtractExpression.getTermsWithAssociation().getTermsWithDetails())
     {
-        Term const& addSubtractTerm(getTermConstReferenceFromSharedPointer(addSubtractTermWithDetails.baseTermSharedPointer));
+        Term const& addSubtractTerm(getTermConstReferenceFromUniquePointer(addSubtractTermWithDetails.baseTermPointer));
         TermsOverTerms termsOverTerms(createTermsOverTermsFromTerm(addSubtractTerm));
         if(!termsOverTerms.getDenominators().empty())
         {
@@ -117,7 +117,7 @@ void simplifyTermsWithDetailsInExpressionToACommonDenominator(Expression & expre
         isChanged=false;
         for(TermWithDetails & termWithDetails : expression.getTermsWithAssociationReference().getTermsWithDetailsReference())
         {
-            Term & term(getTermReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer));
+            Term & term(getTermReferenceFromUniquePointer(termWithDetails.baseTermPointer));
             if(term.isExpression())
             {
                 Expression & subExpression(term.getExpressionReference());
@@ -138,7 +138,7 @@ void simplifyAndCopyTermsAndChangeOperatorLevelIfNeeded(
 {
     for(TermWithDetails const& oldTermWithDetails : oldTermsWithDetails)
     {
-        Term const& term(getTermConstReferenceFromSharedPointer(oldTermWithDetails.baseTermSharedPointer));
+        Term const& term(getTermConstReferenceFromUniquePointer(oldTermWithDetails.baseTermPointer));
         if(term.isExpression())
         {
             Expression subExpression(term.getExpressionConstReference());

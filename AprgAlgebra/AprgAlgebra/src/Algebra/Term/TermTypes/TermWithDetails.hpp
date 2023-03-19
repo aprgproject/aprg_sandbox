@@ -25,11 +25,13 @@ struct TermWithDetails
 
     bool operator==(TermWithDetails const& second) const;
     bool operator!=(TermWithDetails const& second) const;
-    bool operator<(TermWithDetails const& second) const;    bool hasPositiveAssociation() const;
+    bool operator<(TermWithDetails const& second) const;
+    bool hasPositiveAssociation() const;
     bool hasNegativeAssociation() const;
     unsigned int getAssociationPriority() const;
-    void clear();    void reverseAssociation();
-    BaseTermSharedPointer baseTermSharedPointer;
+    void clear();
+    void reverseAssociation();
+    BaseTermUniquePointer baseTermPointer;
     TermAssociationType association;
 };
 

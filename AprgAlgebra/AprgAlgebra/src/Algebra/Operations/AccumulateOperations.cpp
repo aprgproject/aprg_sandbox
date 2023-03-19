@@ -21,7 +21,7 @@ void accumulateAndDoOperationOnTermDetails(
         OperatorLevel const operatorLevel,
         TermWithDetails const& termWithDetails)
 {
-    Term const& term(getTermConstReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer));
+    Term const& term(getTermConstReferenceFromUniquePointer(termWithDetails.baseTermPointer));
     switch(operatorLevel)
     {
     case OperatorLevel::AdditionAndSubtraction:
@@ -68,7 +68,7 @@ void accumulateTermsForAdditionAndSubtraction(
     bool isFirst(willHaveNoEffectOnAdditionOrSubtraction(combinedTerm));
     for(TermWithDetails const& termWithDetails : termsToCombine)
     {
-        Term const& term(getTermConstReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer));
+        Term const& term(getTermConstReferenceFromUniquePointer(termWithDetails.baseTermPointer));
         if(isNan(combinedTerm) || isNan(term))
         {
             combinedTerm = ALBA_NUMBER_NOT_A_NUMBER;
@@ -114,7 +114,7 @@ void accumulateTermsForMultiplicationAndDivision(
     {
         for(TermWithDetails const& termWithDetails : termsToCombine)
         {
-            Term const& term(getTermConstReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer));
+            Term const& term(getTermConstReferenceFromUniquePointer(termWithDetails.baseTermPointer));
             if(isTheValue(term, 0) && termWithDetails.hasPositiveAssociation())
             {
                 combinedTerm = 0;
@@ -155,7 +155,7 @@ void accumulateTermsForRaiseToPower(
     bool isFirst(willHaveNoEffectOnMultiplicationOrDivisionOrRaiseToPower(combinedTerm));
     for(TermWithDetails const& termWithDetails : termsToCombine)
     {
-        Term const& term(getTermConstReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer));
+        Term const& term(getTermConstReferenceFromUniquePointer(termWithDetails.baseTermPointer));
         if(willHaveNoEffectOnMultiplicationOrDivisionOrRaiseToPower(term))
         {
             continue;
