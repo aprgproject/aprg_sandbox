@@ -212,17 +212,11 @@ OutputStringType convertToAnotherBasicStringVariant(InputStringType const& input
     return OutputStringType(inputString.cbegin(), inputString.cend());
 }
 
-std::wstring convertStringToWideString(std::string const& stringInput);
-std::string convertWideStringToString(std::wstring const& wstringInput);
-
-
 
 // Alignments
-
 std::string getStringWithJustifyAlignment(std::string const& mainString, unsigned int const targetLength);
 std::string getStringWithCenterAlignment(std::string const& mainString, unsigned int const targetLength);
-std::string getStringWithRightAlignment(std::string const& mainString, unsigned int const targetLength);
-std::string getStringWithLeftAlignment(std::string const& mainString, unsigned int const targetLength);
+std::string getStringWithRightAlignment(std::string const& mainString, unsigned int const targetLength);std::string getStringWithLeftAlignment(std::string const& mainString, unsigned int const targetLength);
 
 
 

@@ -417,12 +417,11 @@ TEST_F(AlbaWindowsPathHandlerTest, FileSizeTest_FileIsExisting)
     EXPECT_DOUBLE_EQ(5000, pathHandler.getFileSizeEstimate());
 }
 
-TEST_F(AlbaWindowsPathHandlerTest, SetCurrentDirectoryFromDetectedLocalPath)
+TEST_F(AlbaWindowsPathHandlerTest, CreatePathWithInitialValueWorks)
 {
-    AlbaWindowsPathHandler pathHandler(PathInitialValueSource::DetectedLocalPath);
+    AlbaWindowsPathHandler pathHandler(AlbaPathHandlerUtility::createPathWithInitialValue<PathInitialValue::CurrentDetectedPath>());
 
     EXPECT_EQ(PathType::File, pathHandler.getPathType());
-    ASSERT_TRUE(pathHandler.isFoundInLocalSystem());
-}
+    ASSERT_TRUE(pathHandler.isFoundInLocalSystem());}
 
 }

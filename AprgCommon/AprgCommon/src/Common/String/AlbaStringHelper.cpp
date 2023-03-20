@@ -819,24 +819,12 @@ void splitToStringsUsingASeriesOfDelimeters(strings & listOfStrings, string cons
     }
 }
 
-wstring convertStringToWideString(string const& stringInput)
-{
-    return wstring(stringInput.begin(), stringInput.end());
-}
-
-string convertWideStringToString(wstring const& wstringInput)
-{
-    return string(wstringInput.begin(), wstringInput.end());
-}
-
 string getStringWithJustifyAlignment(string const& mainString, unsigned int const targetLength)
 {
-    string result;
-    string noRedundantWhiteSpace(getStringWithoutRedundantWhiteSpace(mainString));
+    string result;    string noRedundantWhiteSpace(getStringWithoutRedundantWhiteSpace(mainString));
     string noWhiteSpace(getStringWithoutWhiteSpace(mainString));
     if(mainString.empty())
-    {
-        string gap(targetLength, ' ');
+    {        string gap(targetLength, ' ');
         result = gap;
     }
     else if(noRedundantWhiteSpace.length()>=targetLength)
