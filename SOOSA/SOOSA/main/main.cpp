@@ -18,14 +18,12 @@ int main(int argc, char *argv[])
 
     if(argumentsInMain.size()==2)
     {
-        AlbaLocalPathHandler detectedPath(PathInitialValueSource::DetectedLocalPath);
+        AlbaLocalPathHandler detectedPath(AlbaLocalPathHandler::createPathHandlerForDetectedPath());
         AlbaLocalPathHandler pathToProcess(getStringWithoutCharAtTheEnd(argumentsInMain.at(1), '"'));
 
-        UserInterface ui;
-        ui.setPath(pathToProcess.getFullPath());
+        UserInterface ui;        ui.setPath(pathToProcess.getFullPath());
         ui.askUserForMainDetails();
         ui.askUserForFormDetails();
-
         SoosaConfiguration soosaConfiguration;
         soosaConfiguration.loadConfigurationFromFile(detectedPath.getDirectory() + "SoosaConfiguration.txt");
         SOOSA soosa(soosaConfiguration, ui.getSavedConfiguration());
