@@ -23,17 +23,16 @@ TEST(CoinProblemTest, GetNumberOfFewestCoinsUsingMemoizationDPWorksOnExample1)
     EXPECT_EQ(3U, coinProblem.getNumberOfFewestCoinsUsingMemoizationDP(13U));
 }
 
-TEST(CoinProblemTest, GetNumberOfFewestCoinsTabularDPWorksOnExample1)
+TEST(CoinProblemTest, GetNumberOfFewestCoinsIterativeDPWorksOnExample1)
 {
     CoinProblem coinProblem({1U, 2U, 5U, 10U, 20U, 50U, 100U, 200U});
 
-    EXPECT_EQ(4U, coinProblem.getNumberOfFewestCoinsTabularDP(520U));
-    EXPECT_EQ(6U, coinProblem.getNumberOfFewestCoinsTabularDP(99U));
-    EXPECT_EQ(3U, coinProblem.getNumberOfFewestCoinsTabularDP(13U));
+    EXPECT_EQ(4U, coinProblem.getNumberOfFewestCoinsIterativeDP(520U));
+    EXPECT_EQ(6U, coinProblem.getNumberOfFewestCoinsIterativeDP(99U));
+    EXPECT_EQ(3U, coinProblem.getNumberOfFewestCoinsIterativeDP(13U));
 }
 
-TEST(CoinProblemTest, GetFewestCoinsUsingMemoizationDPWorksOnExample1)
-{
+TEST(CoinProblemTest, GetFewestCoinsUsingMemoizationDPWorksOnExample1){
     CoinProblem coinProblem({1U, 2U, 5U, 10U, 20U, 50U, 100U, 200U});
 
     //EXPECT_EQ((Coins{200U, 200U, 100U, 20U}), coinProblem.getFewestCoinsUsingMemoizationDP(520U));
@@ -50,26 +49,25 @@ TEST(CoinProblemTest, GetFewestCoinsUsingMemoizationDPWorksOnExample2)
     EXPECT_EQ((Coins{4U, 4U, 4U, 4U, 4U}), coinProblem.getFewestCoinsUsingMemoizationDP(20U));
 }
 
-TEST(CoinProblemTest, GetFewestCoinsUsingTabularDPWorksOnExample1)
+TEST(CoinProblemTest, GetFewestCoinsUsingIterativeDPWorksOnExample1)
 {
     CoinProblem coinProblem({1U, 2U, 5U, 10U, 20U, 50U, 100U, 200U});
 
-    EXPECT_EQ((Coins{200U, 200U, 100U, 20U}), coinProblem.getFewestCoinsUsingTabularDP(520U));
-    EXPECT_EQ((Coins{50U, 20U, 20U, 5U, 2U, 2U}), coinProblem.getFewestCoinsUsingTabularDP(99U));
-    EXPECT_EQ((Coins{10U, 2U, 1U}), coinProblem.getFewestCoinsUsingTabularDP(13U));
+    EXPECT_EQ((Coins{200U, 200U, 100U, 20U}), coinProblem.getFewestCoinsUsingIterativeDP(520U));
+    EXPECT_EQ((Coins{50U, 20U, 20U, 5U, 2U, 2U}), coinProblem.getFewestCoinsUsingIterativeDP(99U));
+    EXPECT_EQ((Coins{10U, 2U, 1U}), coinProblem.getFewestCoinsUsingIterativeDP(13U));
 }
 
-TEST(CoinProblemTest, GetFewestCoinsUsingTabularDPWorksOnExample2)
+TEST(CoinProblemTest, GetFewestCoinsUsingIterativeDPWorksOnExample2)
 {
     CoinProblem coinProblem({1U, 3U, 4U});
 
-    EXPECT_EQ((Coins{4U, 1U}), coinProblem.getFewestCoinsUsingTabularDP(5U));
-    EXPECT_EQ((Coins{4U, 3U, 3U}), coinProblem.getFewestCoinsUsingTabularDP(10U));
-    EXPECT_EQ((Coins{4U, 4U, 4U, 4U, 4U}), coinProblem.getFewestCoinsUsingTabularDP(20U));
+    EXPECT_EQ((Coins{4U, 1U}), coinProblem.getFewestCoinsUsingIterativeDP(5U));
+    EXPECT_EQ((Coins{4U, 3U, 3U}), coinProblem.getFewestCoinsUsingIterativeDP(10U));
+    EXPECT_EQ((Coins{4U, 4U, 4U, 4U, 4U}), coinProblem.getFewestCoinsUsingIterativeDP(20U));
 }
 
-TEST(CoinProblemTest, GetNumberOfCoinPermutationsMemoizationDPWorksOnExample1)
-{
+TEST(CoinProblemTest, GetNumberOfCoinPermutationsMemoizationDPWorksOnExample1){
     CoinProblem coinProblem({1U, 3U, 4U});
 
     EXPECT_EQ(1U, coinProblem.getNumberOfCoinPermutationsMemoizationDP(0U)); // null set
@@ -79,19 +77,18 @@ TEST(CoinProblemTest, GetNumberOfCoinPermutationsMemoizationDPWorksOnExample1)
     EXPECT_EQ(7921U, coinProblem.getNumberOfCoinPermutationsMemoizationDP(20U));
 }
 
-TEST(CoinProblemTest, GetNumberOfCoinPermutationsTabularDPWorksOnExample1)
+TEST(CoinProblemTest, GetNumberOfCoinPermutationsIterativeDPWorksOnExample1)
 {
     CoinProblem coinProblem({1U, 3U, 4U});
 
-    EXPECT_EQ(1U, coinProblem.getNumberOfCoinPermutationsTabularDP(0U)); // null set
-    EXPECT_EQ(6U, coinProblem.getNumberOfCoinPermutationsTabularDP(5U));
-    EXPECT_EQ(9U, coinProblem.getNumberOfCoinPermutationsTabularDP(6U));
-    EXPECT_EQ(64U, coinProblem.getNumberOfCoinPermutationsTabularDP(10U));
-    EXPECT_EQ(7921U, coinProblem.getNumberOfCoinPermutationsTabularDP(20U));
+    EXPECT_EQ(1U, coinProblem.getNumberOfCoinPermutationsIterativeDP(0U)); // null set
+    EXPECT_EQ(6U, coinProblem.getNumberOfCoinPermutationsIterativeDP(5U));
+    EXPECT_EQ(9U, coinProblem.getNumberOfCoinPermutationsIterativeDP(6U));
+    EXPECT_EQ(64U, coinProblem.getNumberOfCoinPermutationsIterativeDP(10U));
+    EXPECT_EQ(7921U, coinProblem.getNumberOfCoinPermutationsIterativeDP(20U));
 }
 
-TEST(CoinProblemTest, GetCoinPermutationsUsingMemoizationDPWorksOnExample1)
-{
+TEST(CoinProblemTest, GetCoinPermutationsUsingMemoizationDPWorksOnExample1){
     CoinProblem coinProblem({1U, 3U, 4U});
 
     EXPECT_EQ((CoinPermutations{{1U, 1U, 1U, 1U, 1U}, {1U, 1U, 3U}, {1U, 3U, 1U}, {1U, 4U}, {3U, 1U, 1U}, {4U, 1U}}),
@@ -101,19 +98,18 @@ TEST(CoinProblemTest, GetCoinPermutationsUsingMemoizationDPWorksOnExample1)
               coinProblem.getCoinPermutationsUsingMemoizationDP(6U));
 }
 
-TEST(CoinProblemTest, GetCoinPermutationsUsingTabularDPWorksOnExample1)
+TEST(CoinProblemTest, GetCoinPermutationsUsingIterativeDPWorksOnExample1)
 {
     CoinProblem coinProblem({1U, 3U, 4U});
 
     EXPECT_EQ((CoinPermutations{{1U, 1U, 1U, 1U, 1U}, {1U, 1U, 3U}, {1U, 3U, 1U}, {1U, 4U}, {3U, 1U, 1U}, {4U, 1U}}),
-              coinProblem.getCoinPermutationsUsingTabularDP(5U));
+              coinProblem.getCoinPermutationsUsingIterativeDP(5U));
     EXPECT_EQ((CoinPermutations{{1U, 1U, 1U, 1U, 1U, 1U}, {1U, 1U, 1U, 3U}, {1U, 1U, 3U, 1U}, {1U, 1U, 4U},
                                 {1U, 3U, 1U, 1U}, {1U, 4U, 1U}, {3U, 1U, 1U, 1U}, {3U, 3U}, {4U, 1U, 1U}}),
-              coinProblem.getCoinPermutationsUsingTabularDP(6U));
+              coinProblem.getCoinPermutationsUsingIterativeDP(6U));
 }
 
-TEST(CoinProblemTest, GetNumberOfCoinCombinationsUsingMemoizationDPWorksOnExample1)
-{
+TEST(CoinProblemTest, GetNumberOfCoinCombinationsUsingMemoizationDPWorksOnExample1){
     CoinProblem coinProblem({1U, 3U, 4U});
 
     EXPECT_EQ(1U, coinProblem.getNumberOfCoinCombinationsUsingMemoizationDP(0U)); // null set
@@ -124,32 +120,31 @@ TEST(CoinProblemTest, GetNumberOfCoinCombinationsUsingMemoizationDPWorksOnExampl
     EXPECT_EQ(24U, coinProblem.getNumberOfCoinCombinationsUsingMemoizationDP(20U));
 }
 
-TEST(CoinProblemTest, GetNumberOfCoinCombinationsUsingTabularDPWorksOnExample1)
+TEST(CoinProblemTest, GetNumberOfCoinCombinationsUsingIterativeDPWorksOnExample1)
 {
     CoinProblem coinProblem({1U, 3U, 4U});
 
-    EXPECT_EQ(1U, coinProblem.getNumberOfCoinCombinationsUsingTabularDP(0U)); // null set
-    EXPECT_EQ(2U, coinProblem.getNumberOfCoinCombinationsUsingTabularDP(3U));
-    EXPECT_EQ(3U, coinProblem.getNumberOfCoinCombinationsUsingTabularDP(5U));
-    EXPECT_EQ(5U, coinProblem.getNumberOfCoinCombinationsUsingTabularDP(7U));
-    EXPECT_EQ(6U, coinProblem.getNumberOfCoinCombinationsUsingTabularDP(8U));
-    EXPECT_EQ(24U, coinProblem.getNumberOfCoinCombinationsUsingTabularDP(20U));
+    EXPECT_EQ(1U, coinProblem.getNumberOfCoinCombinationsUsingIterativeDP(0U)); // null set
+    EXPECT_EQ(2U, coinProblem.getNumberOfCoinCombinationsUsingIterativeDP(3U));
+    EXPECT_EQ(3U, coinProblem.getNumberOfCoinCombinationsUsingIterativeDP(5U));
+    EXPECT_EQ(5U, coinProblem.getNumberOfCoinCombinationsUsingIterativeDP(7U));
+    EXPECT_EQ(6U, coinProblem.getNumberOfCoinCombinationsUsingIterativeDP(8U));
+    EXPECT_EQ(24U, coinProblem.getNumberOfCoinCombinationsUsingIterativeDP(20U));
 }
 
-TEST(CoinProblemTest, GetNumberOfCoinCombinationsUsingTabularDPAndSpaceEfficientWorksOnExample1)
+TEST(CoinProblemTest, GetNumberOfCoinCombinationsUsingIterativeDPAndSpaceEfficientWorksOnExample1)
 {
     CoinProblem coinProblem({1U, 3U, 4U});
 
-    EXPECT_EQ(1U, coinProblem.getNumberOfCoinCombinationsUsingTabularDPAndSpaceEfficient(0U)); // null set
-    EXPECT_EQ(2U, coinProblem.getNumberOfCoinCombinationsUsingTabularDPAndSpaceEfficient(3U));
-    EXPECT_EQ(3U, coinProblem.getNumberOfCoinCombinationsUsingTabularDPAndSpaceEfficient(5U));
-    EXPECT_EQ(5U, coinProblem.getNumberOfCoinCombinationsUsingTabularDPAndSpaceEfficient(7U));
-    EXPECT_EQ(6U, coinProblem.getNumberOfCoinCombinationsUsingTabularDPAndSpaceEfficient(8U));
-    EXPECT_EQ(24U, coinProblem.getNumberOfCoinCombinationsUsingTabularDPAndSpaceEfficient(20U));
+    EXPECT_EQ(1U, coinProblem.getNumberOfCoinCombinationsUsingIterativeDPAndSpaceEfficient(0U)); // null set
+    EXPECT_EQ(2U, coinProblem.getNumberOfCoinCombinationsUsingIterativeDPAndSpaceEfficient(3U));
+    EXPECT_EQ(3U, coinProblem.getNumberOfCoinCombinationsUsingIterativeDPAndSpaceEfficient(5U));
+    EXPECT_EQ(5U, coinProblem.getNumberOfCoinCombinationsUsingIterativeDPAndSpaceEfficient(7U));
+    EXPECT_EQ(6U, coinProblem.getNumberOfCoinCombinationsUsingIterativeDPAndSpaceEfficient(8U));
+    EXPECT_EQ(24U, coinProblem.getNumberOfCoinCombinationsUsingIterativeDPAndSpaceEfficient(20U));
 }
 
-TEST(CoinProblemTest, GetCoinCombinationsUsingMemoizationDPWorksOnExample1)
-{
+TEST(CoinProblemTest, GetCoinCombinationsUsingMemoizationDPWorksOnExample1){
     CoinProblem coinProblem({1U, 3U, 4U});
 
     EXPECT_EQ((CoinCombinations{{1U, 1U, 1U, 1U, 1U}, {1U, 1U, 3U}, {1U, 4U}}),
@@ -158,14 +153,14 @@ TEST(CoinProblemTest, GetCoinCombinationsUsingMemoizationDPWorksOnExample1)
               coinProblem.getCoinCombinationsUsingMemoizationDP(7U));
 }
 
-TEST(CoinProblemTest, GetCoinCombinationsUsingTabularDPWorksOnExample1)
+TEST(CoinProblemTest, GetCoinCombinationsUsingIterativeDPWorksOnExample1)
 {
     CoinProblem coinProblem({1U, 3U, 4U});
 
     EXPECT_EQ((CoinCombinations{{1U, 1U, 1U, 1U, 1U}, {1U, 1U, 3U}, {1U, 4U}}),
-              coinProblem.getCoinCombinationsUsingTabularDP(5U));
+              coinProblem.getCoinCombinationsUsingIterativeDP(5U));
     EXPECT_EQ((CoinCombinations{{{1U, 1U, 1U, 1U, 1U, 1U, 1U}, {1U, 1U, 1U, 1U, 3U}, {1U, 1U, 1U, 4U}, {1U, 3U, 3U}, {3U, 4U}}}),
-              coinProblem.getCoinCombinationsUsingTabularDP(7U));
+              coinProblem.getCoinCombinationsUsingIterativeDP(7U));
 }
 
 }

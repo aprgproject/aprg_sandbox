@@ -22,18 +22,17 @@ EggDroppingPuzzle::Count EggDroppingPuzzle::getMinimumNumberOfTrialsUsingNaiveRe
 
 EggDroppingPuzzle::Count EggDroppingPuzzle::getMinimumNumberOfTrialsUsingMemoizationDP() const
 {
-    // Time Complexity: O(n*k^2) (should be same as Tabular DP)
+    // Time Complexity: O(n*k^2) (should be same as Iterative DP)
     // Auxiliary Space: O(n*k)
 
     CountMatrix countMatrix(m_numberOfEggs+1, m_numberOfFloors+1, static_cast<Count>(MAX_COUNT));
     return getMinimumNumberOfTrialsUsingMemoizationDP(countMatrix, m_numberOfEggs, m_numberOfFloors);
 }
 
-EggDroppingPuzzle::Count EggDroppingPuzzle::getMinimumNumberOfTrialsUsingTabularDP() const
+EggDroppingPuzzle::Count EggDroppingPuzzle::getMinimumNumberOfTrialsUsingIterativeDP() const
 {
     // Time Complexity: O(n*k^2).
-    // -> Where ‘n’ is the number of eggs and ‘k’ is the number of floors, as we use a nested for loop ‘k^2’ times for each egg
-    // Auxiliary Space: O(n*k).
+    // -> Where ‘n’ is the number of eggs and ‘k’ is the number of floors, as we use a nested for loop ‘k^2’ times for each egg    // Auxiliary Space: O(n*k).
     // -> As a 2-D array of size ‘n*k’ is used for storing elements.
 
     CountMatrix countMatrix(m_numberOfEggs+1, m_numberOfFloors+1, 0U);

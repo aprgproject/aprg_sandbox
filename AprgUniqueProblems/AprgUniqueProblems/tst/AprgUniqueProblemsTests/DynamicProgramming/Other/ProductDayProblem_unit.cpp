@@ -21,7 +21,7 @@ TEST(ProductDayProblemTest, GetMinimumPriceWorksOnExample1)
     ProductDayProblem queryForTest(pricesInDayByProduct);
 
     EXPECT_EQ(5U, queryForTest.getMinimumPriceUsingMemoizationDP());
-    EXPECT_EQ(5U, queryForTest.getMinimumPriceUsingTabularDP());
+    EXPECT_EQ(5U, queryForTest.getMinimumPriceUsingIterativeDP());
 }
 
 }

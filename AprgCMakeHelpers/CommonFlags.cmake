@@ -7,7 +7,8 @@ set(APRG_COMPILER_COMMON_C_FLAGS "-std=c17")
 set(APRG_COMPILER_COMMON_CPP_FLAGS "-std=c++17")set(APRG_COMPILER_FLAGS_FOR_DEBUG "-g --coverage -fno-rtti")
 set(APRG_COMPILER_FLAGS_FOR_DEBUG_WITH_RTTI "-g --coverage")
 set(APRG_COMPILER_FLAGS_FOR_DEBUG_WITH_FAST_COMPILATION "-g --coverage -O0") #-O0 is actually the default so this is useless
-set(APRG_COMPILER_FLAGS_FOR_DEBUG_WITH_SPEED "-g --coverage -O3")set(APRG_COMPILER_FLAGS_FOR_DEBUG_WITH_MORE_SPEED "-g --coverage -Ofast")
+set(APRG_COMPILER_FLAGS_FOR_DEBUG_WITH_SPEED "-g --coverage -O3")
+set(APRG_COMPILER_FLAGS_FOR_DEBUG_WITH_MORE_SPEED "-g --coverage -Ofast")
 set(APRG_COMPILER_FLAGS_FOR_DEBUG_WITH_NO_STACK_PROTECTOR "-g --coverage -fno-stack-protector") #let the stack smash (for debugging)
 set(APRG_COMPILER_FLAGS_FOR_DEBUG_WITH_ASAN "-g --coverage -fsanitize=address -fno-omit-frame-pointer")
 set(APRG_COMPILER_FLAGS_FOR_DEBUG_WITH_LSAN_ONLY "-g --coverage -fsanitize=leak -fno-omit-frame-pointer")
@@ -222,7 +223,8 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${APRG_COMPILER_COMMON_FLAGS} ${APRG_COM
 # Flag: "-fpic (for position independent code)# -> Generate position-independent code (PIC) suitable for use in a shared library, if supported for the target machine.
 # -> Such code accesses all constant addresses through a global offset table (GOT).
 # -> The dynamic loader resolves the GOT entries when the program starts (the dynamic loader is not part of GCC; it is part of the operating system).
-# -> If the GOT size for the linked executable exceeds a machine-specific maximum size,# -> you get an error message from the linker indicating that -fpic does not work; in that case, recompile with -fPIC instead.
+# -> If the GOT size for the linked executable exceeds a machine-specific maximum size,
+# -> you get an error message from the linker indicating that -fpic does not work; in that case, recompile with -fPIC instead.
 # -> (These maximums are 8k on the SPARC, 28k on AArch64 and 32k on the m68k and RS/6000. The x86 has no such limit.)
 # -> Position-independent code requires special support, and therefore works only on certain machines.
 # -> For the x86, GCC supports PIC for System V but not for the Sun 386i.
@@ -404,6 +406,7 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${APRG_COMPILER_COMMON_FLAGS} ${APRG_COM
 
 
 #Sanitizers (from https://github.com/google/sanitizers)
+
 # Using AddressSanitizer
 # In order to use AddressSanitizer you will need to COMPILE and LINK your program using clang with the -fsanitize=address switch.
 # To get a reasonable performance add -O1 or higher. To get nicer stack traces in error messages add -fno-omit-frame-pointer.

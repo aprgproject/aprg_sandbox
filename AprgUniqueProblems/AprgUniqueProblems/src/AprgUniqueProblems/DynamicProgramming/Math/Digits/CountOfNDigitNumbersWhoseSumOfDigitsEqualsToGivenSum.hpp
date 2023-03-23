@@ -20,12 +20,11 @@ public:
 
     Count getCountUsingNaiveRecursion() const;
     Count getCountUsingMemoizationDP() const;
-    Count getCountUsingTabularDP() const;
-    Count getCountUsingTabularDPAndSpaceEfficient() const;
+    Count getCountUsingIterativeDP() const;
+    Count getCountUsingIterativeDPAndSpaceEfficient() const;
     Count getCountBySearchingValuesWith1And9Increment() const;
 
-private:
-    Count getCountUsingNaiveRecursion(Value const partialSum, Count const digitIndex) const;
+private:    Count getCountUsingNaiveRecursion(Value const partialSum, Count const digitIndex) const;
     Count getCountUsingMemoizationDP(CountMatrix & countMatrix, Value const partialSum, Count const digitIndex) const;
 
     Count const m_numberOfDigits;
@@ -35,53 +34,45 @@ private:
 }
 
 // APPROACH:
-// 1) Naive Recursion /  Dynamic Programming by Memoization:
+// 1) Naive Recursion / Dynamic Programming by Memoization:
 // -> Each "partialSum" and "digit index" has a "count"
-// -> Start recursion at the "targetSumOfDigits" and digit index as 0.
+// -> Start recursion at the "targetSumOfDigits" and "digit index" as 0.
 // -> Each "count" (with inputs "partialSum" and "digit index") can be computed by:
-// ---> If "digit index" > 0 (not last digit):
-// -----> Get count if item is USED:
-// -------> Recursively call "partialSum" - partialSum at "digit index" and increment to next "digit index"
-// -----> Get count if item is SKIPPED:
-// -------> Recursively call "partialSum" and increment to next "digit index"
-// -----> Return max of the two counts
-// ---> Else ("partialSum" < partialSum at "digit index"):
-// -----> Return zero count
+// ---> If "digit index" > 0 (this means NOT the most significant digit):
+// -----> If "partialSum" > 0
+// -------> Accumulate all the counts of all parts of the next digit:
+// ---------> With "digit value" from 0 to 9
+// -----------> Recursively call "partialSum" - "digit value" with "digit index"-1
+// -------> Result is the accumulated count
+// -----> Else:
+// -------> Result is 1 (if partial sum is zero, add one count for zero digit value)
+// ---> Else "partialSum" <= 9 ((this means the most significant digit should be 1 to 9):
+// -----> Result is 1 (if last digit, add one count if possible)
 
-// 2) Dynamic Programming by Tabular method:
-// -> Create an matrix or counts with size of columns as "maximum partialSum" and size of rows as number of input values
+// 2) Dynamic Programming by Iterative method:
+// -> Create an matrix of counts with size of columns as "targetSumOfDigits"+1 and size of rows as "numberOfDigits"
+// -> At the start, because its for the most significant digit, fill the first row with 1 if possible (note the count for zero is 1)
 // -> Thus each "partialSum" and "digit index" has a count.
-// -> Forward traversal for partialSum and reverse traversal for digit index
-// -> Traversal uses previous values to compute for a new value
+// -> Forward traversal for "partialSum" and "digit index" (starting with "digit index" at 1, since first row is filled)
+// -> Traversal uses previous counts to compute for a new count
 // -> The computation of each count (each cell in the matrix) is:
-// ---> Get the current itemWeight and itemProfit.
-// ---> If partialSum >= itemWeight
-// -----> Get count if item is USED:
-// -------> Get entry at "partialSum" - itemWeight and "incremented digit index"
-// -------> Add current itemProfit
-// -----> Get count if item is SKIPPED:
-// -------> Get entry at "partialSum" and "incremented digit index"
-// -----> Return the maximum count of the two counts
-// ---> Else ("partialSum" < itemWeight):
-// -----> Return zero count
+// ---> Accumulate all the counts of all parts from previous counts:
+// -----> With "digit value" from of 0 to 9:
+// -------> Get the previous count by checking the matrix with "partialSum" - "digit value" and "digit index"-1
+// -> The last entry in the matrix (with indices "targetSumOfDigits" and "numberOfDigits"-1) contains the total count.
 
-// 3) Dynamic Programming by Tabular method and space efficient:
-// -> Create an array of counts with size as "maximum partialSum"
+// 3) Dynamic Programming by Iterative method and space efficient:
+// -> Create an array of counts with size as "targetSumOfDigits"+1.
+// -> Initially, because its for the most significant digit, initialize with 1 if possible (note the count for zero is 1)
 // -> Thus each "partialSum" has a count.
 // -> Reverse traversal (from right to left)
 // ---> Reverse traversal so that the changed values wont be changed again in one iteration
-// -> Traversal uses previous values to compute for a new value
-// -> Traverse all input values (this ensures that input values are only used once):
-// ---> Get the current itemWeight and itemProfit.
-// ---> Traverse all the partialSums (from "maximum partialSum" to zero):
-// ---> If partialSum >= itemWeight
-// -----> Get current count:
-// -------> Get entry at "partialSum"
-// -----> Get count if item is USED:
-// -------> Get entry at "partialSum" - itemWeight
-// -------> Add current itemProfit
-// -----> Return the maximum count of the two counts
-
+// -> Traversal uses previous counts to compute for a new count.
+// -> The computation of each next count (each cell in the array) is:
+// ---> Accumulate all the counts of all parts from previous counts:
+// -----> With "digit value" from of 1 to 9 (no need to process zero because the count is 1):
+// -------> Get the previous count by checking the array with "partialSum" - "digit value"
+// -> The last entry in the array (with index "targetSumOfDigits") contains the total count.
 
 
 

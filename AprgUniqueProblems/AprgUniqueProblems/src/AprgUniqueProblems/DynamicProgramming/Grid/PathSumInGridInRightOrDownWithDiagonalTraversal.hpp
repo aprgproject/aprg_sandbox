@@ -29,35 +29,33 @@ public:
 
     Value getBestPathSumUsingNaiveRecursion() const;
     Value getBestPathSumUsingMemoizationDP() const;
-    Value getBestPathSumUsingTabularDP() const;
-    Path getBestPathUsingTabularDP() const;
+    Value getBestPathSumUsingIterativeDP() const;
+    Path getBestPathUsingIterativeDP() const;
 
 private:
     Value getBestPathSumUsingNaiveRecursion(Index const x, Index const y) const;
     Value getBestPathSumUsingNaiveRecursion(Grid & partialSumGrid, Index const x, Index const y) const;
-    Grid getPartialSumGridUsingTabularDP() const;
+    Grid getPartialSumGridUsingIterativeDP() const;
     Value getBestPathSumUsingMemoizationDP(Grid & partialSumGrid, Index const x, Index const y) const;
     void initialize(Type const type);
-    Grid m_inputGrid;
-    CompareFunction m_compareFunction;
+    Grid m_inputGrid;    CompareFunction m_compareFunction;
     MinMaxFunction m_minMaxFunction;
 };
 
 }
 
 // APPROACH:
-// 1) Naive Recursion /  Dynamic Programming by Memoization:
+// 1) Naive Recursion / Dynamic Programming by Memoization:
 // -> Each "cell" has a "partial sum".
 // -> Start recursion at the bottom-right corner.
 // -> Each cell can be computed by:
 // ---> Recursively call the partial sums of the left neighbor, the top neighbor, and the top-left neighbor
 // ---> Return the min/max of partial sums of the neighbors plus the value of this cell
 
-// 2) Dynamic Programming by Tabular method:
+// 2) Dynamic Programming by Iterative method:
 // -> Each "cell" has a "partial sum".
 // -> Forward traversal (from top-left to bottom-right)
-// -> Traversal uses previous values to compute for a new value
-// -> The computation of the "partial sum" of each cell is:
+// -> Traversal uses previous values to compute for a new value// -> The computation of the "partial sum" of each cell is:
 // ---> Get the partial sums of the left neighbor, the top neighbor, and the top-left neighbor
 // ---> Return the min/max of partial sums of the neighbors plus the value of this cell
 

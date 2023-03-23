@@ -31,11 +31,10 @@ bool IsPartialSumPossibleInKnapsack::isPartialSumPossibleUsingNaiveRecursion() c
 
 bool IsPartialSumPossibleInKnapsack::isPartialSumPossibleUsingMemoizationDP() const
 {
-    // Time Complexity: O(sum*n) (same as tabular)
+    // Time Complexity: O(sum*n) (same as iterative)
     // Auxiliary Space: O(sum*n)
 
-    bool result(false);
-    if(!m_inputValues.empty())
+    bool result(false);    if(!m_inputValues.empty())
     {
         StateMatrix stateMatrix(m_targetSum+1, m_inputValues.size()+1, State::Unused);
         for(Index valueIndex=0; valueIndex<stateMatrix.getNumberOfRows(); valueIndex++)
@@ -47,11 +46,10 @@ bool IsPartialSumPossibleInKnapsack::isPartialSumPossibleUsingMemoizationDP() co
     return result;
 }
 
-bool IsPartialSumPossibleInKnapsack::isPartialSumPossibleUsingTabularDP() const
+bool IsPartialSumPossibleInKnapsack::isPartialSumPossibleUsingIterativeDP() const
 {
     // Time Complexity: O(sum*n)
     // Auxiliary Space: O(sum*n)
-
     bool result(false);
     if(!m_inputValues.empty())
     {
@@ -78,11 +76,10 @@ bool IsPartialSumPossibleInKnapsack::isPartialSumPossibleUsingTabularDP() const
     return result;
 }
 
-bool IsPartialSumPossibleInKnapsack::isPartialSumPossibleUsingTabularDPAndSpaceEfficient() const
+bool IsPartialSumPossibleInKnapsack::isPartialSumPossibleUsingIterativeDPAndSpaceEfficient() const
 {
     // Time Complexity: O(sum * n)
     // Auxiliary Space: O(sum)
-
     bool result(false);
     if(!m_inputValues.empty())
     {

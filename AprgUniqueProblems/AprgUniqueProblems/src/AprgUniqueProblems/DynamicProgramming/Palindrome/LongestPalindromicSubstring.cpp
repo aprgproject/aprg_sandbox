@@ -24,11 +24,10 @@ LongestPalindromicSubstring::Index LongestPalindromicSubstring::getLongestLength
 
 LongestPalindromicSubstring::Index LongestPalindromicSubstring::getLongestLengthUsingMemoizationDP() const
 {
-    // Time Complexity: O(n^2) (should be same as Tabular DP)
+    // Time Complexity: O(n^2) (should be same as Iterative DP)
     // Auxiliary Space: O(n^2)
 
-    Index result(0);
-    if(!m_string.empty())
+    Index result(0);    if(!m_string.empty())
     {
         IndexMatrix lengthMatrix(m_string.length(), m_string.length(), static_cast<Index>(MAX_INDEX));
         result =  getLongestLengthUsingMemoizationDP(lengthMatrix, 0, m_string.length()-1);
@@ -36,11 +35,10 @@ LongestPalindromicSubstring::Index LongestPalindromicSubstring::getLongestLength
     return result;
 }
 
-LongestPalindromicSubstring::Index LongestPalindromicSubstring::getLongestLengthUsingTabularDP() const
+LongestPalindromicSubstring::Index LongestPalindromicSubstring::getLongestLengthUsingIterativeDP() const
 {
     // Time complexity: O(n^2).
-    // -> Two nested traversals are needed.
-    // Auxiliary Space: O(n^2).
+    // -> Two nested traversals are needed.    // Auxiliary Space: O(n^2).
     // -> Matrix of size n*n is needed to store the dp array.
 
     Index result(0);
@@ -78,11 +76,10 @@ LongestPalindromicSubstring::Index LongestPalindromicSubstring::getLongestLength
     return result;
 }
 
-LongestPalindromicSubstring::Index LongestPalindromicSubstring::getLongestLengthUsingTabularDPAndSpaceEfficient() const
+LongestPalindromicSubstring::Index LongestPalindromicSubstring::getLongestLengthUsingIterativeDPAndSpaceEfficient() const
 {
     // Time complexity: O(n).
     // Auxiliary Space: O(n).
-
     Index result(0);
     if(!m_string.empty())
     {
@@ -106,11 +103,10 @@ LongestPalindromicSubstring::Index LongestPalindromicSubstring::getLongestLength
     return result;
 }
 
-string LongestPalindromicSubstring::getLongestStringUsingTabularDPAndSpaceEfficient() const
+string LongestPalindromicSubstring::getLongestStringUsingIterativeDPAndSpaceEfficient() const
 {
     // Time complexity: O(n).
     // Auxiliary Space: O(n).
-
     string result;
     if(!m_string.empty())
     {

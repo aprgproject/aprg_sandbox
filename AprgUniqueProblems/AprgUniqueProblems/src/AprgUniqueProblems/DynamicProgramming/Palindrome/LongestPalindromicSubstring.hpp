@@ -21,14 +21,13 @@ public:
 
     Index getLongestLengthUsingNaiveRecursion() const;
     Index getLongestLengthUsingMemoizationDP() const;
-    Index getLongestLengthUsingTabularDP() const;
-    Index getLongestLengthUsingTabularDPAndSpaceEfficient() const;
+    Index getLongestLengthUsingIterativeDP() const;
+    Index getLongestLengthUsingIterativeDPAndSpaceEfficient() const;
 
-    std::string getLongestStringUsingTabularDPAndSpaceEfficient() const;
+    std::string getLongestStringUsingIterativeDPAndSpaceEfficient() const;
 
 private:
-    Index getLongestLengthUsingNaiveRecursion(Index const left, Index const right) const;
-    Index getLongestLengthUsingMemoizationDP(IndexMatrix & lengthMatrix, Index const left, Index const right) const;
+    Index getLongestLengthUsingNaiveRecursion(Index const left, Index const right) const;    Index getLongestLengthUsingMemoizationDP(IndexMatrix & lengthMatrix, Index const left, Index const right) const;
     std::string m_string;
 
 };

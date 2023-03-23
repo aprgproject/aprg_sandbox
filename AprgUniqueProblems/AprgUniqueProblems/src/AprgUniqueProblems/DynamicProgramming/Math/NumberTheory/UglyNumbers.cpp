@@ -12,11 +12,10 @@ UglyNumbers::UglyNumbers(Number const nth)
     : m_nth(nth)
 {}
 
-UglyNumbers::Number UglyNumbers::getNthUglyNumberByCheckingPreviousUglyNumbersUsingTabularDP() const
+UglyNumbers::Number UglyNumbers::getNthUglyNumberByCheckingPreviousUglyNumbersUsingIterativeDP() const
 {
     // Time Complexity: O(n)
-    // Auxiliary Space: O(n)
-    // -> where n is the value of the ugly number
+    // Auxiliary Space: O(n)    // -> where n is the value of the ugly number
 
     Number result(0);
     if(m_nth > 0)
@@ -43,11 +42,10 @@ UglyNumbers::Number UglyNumbers::getNthUglyNumberByCheckingPreviousUglyNumbersUs
     return result;
 }
 
-UglyNumbers::Number UglyNumbers::getNthUglyNumberByMultiplesUsingTabularDP() const
+UglyNumbers::Number UglyNumbers::getNthUglyNumberByMultiplesUsingIterativeDP() const
 {
     // Time Complexity: O(n)
-    // Auxiliary Space: O(n)
-    // -> where n is the value of the count of the ugly number
+    // Auxiliary Space: O(n)    // -> where n is the value of the count of the ugly number
 
     Number result(0);
     if(m_nth > 0)

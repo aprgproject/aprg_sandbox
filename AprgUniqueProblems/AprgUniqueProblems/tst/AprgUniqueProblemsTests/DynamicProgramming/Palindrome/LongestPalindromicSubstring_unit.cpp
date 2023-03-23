@@ -13,20 +13,19 @@ TEST(LongestPalindromicSubstringTest, GetLongestLengthWorksOnExample1)
 
     EXPECT_EQ(10U, queryForTest.getLongestLengthUsingNaiveRecursion());
     EXPECT_EQ(10U, queryForTest.getLongestLengthUsingMemoizationDP());
-    EXPECT_EQ(10U, queryForTest.getLongestLengthUsingTabularDP());
-    EXPECT_EQ(10U, queryForTest.getLongestLengthUsingTabularDPAndSpaceEfficient());
-    EXPECT_EQ("geeksskeeg", queryForTest.getLongestStringUsingTabularDPAndSpaceEfficient());
+    EXPECT_EQ(10U, queryForTest.getLongestLengthUsingIterativeDP());
+    EXPECT_EQ(10U, queryForTest.getLongestLengthUsingIterativeDPAndSpaceEfficient());
+    EXPECT_EQ("geeksskeeg", queryForTest.getLongestStringUsingIterativeDPAndSpaceEfficient());
 }
 
-TEST(LongestPalindromicSubstringTest, GetLongestLengthWorksOnExample2)
-{
+TEST(LongestPalindromicSubstringTest, GetLongestLengthWorksOnExample2){
     LongestPalindromicSubstring queryForTest("Geeks");
 
     EXPECT_EQ(2U, queryForTest.getLongestLengthUsingNaiveRecursion());
     EXPECT_EQ(2U, queryForTest.getLongestLengthUsingMemoizationDP());
-    EXPECT_EQ(2U, queryForTest.getLongestLengthUsingTabularDP());
-    EXPECT_EQ(2U, queryForTest.getLongestLengthUsingTabularDPAndSpaceEfficient());
-    EXPECT_EQ("ee", queryForTest.getLongestStringUsingTabularDPAndSpaceEfficient());
+    EXPECT_EQ(2U, queryForTest.getLongestLengthUsingIterativeDP());
+    EXPECT_EQ(2U, queryForTest.getLongestLengthUsingIterativeDPAndSpaceEfficient());
+    EXPECT_EQ("ee", queryForTest.getLongestStringUsingIterativeDPAndSpaceEfficient());
 }
 
 }

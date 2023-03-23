@@ -18,12 +18,11 @@ TEST(MinimumNumberOfJumpsToReachEndTest, GetMinimumNumberOfJumpsOnExample1)
 
     EXPECT_EQ(3U, queryForTest.getMinimumNumberOfJumpsUsingNaiveRecursion());
     EXPECT_EQ(3U, queryForTest.getMinimumNumberOfJumpsUsingMemoizationDP());
-    EXPECT_EQ(3U, queryForTest.getMinimumNumberOfJumpsUsingTabularDP());
-    EXPECT_EQ(3U, queryForTest.getMinimumNumberOfJumpsUsingTabularDPAndTimeEfficient());
+    EXPECT_EQ(3U, queryForTest.getMinimumNumberOfJumpsUsingIterativeDP());
+    EXPECT_EQ(3U, queryForTest.getMinimumNumberOfJumpsUsingIterativeDPAndTimeEfficient());
 }
 
-TEST(MinimumNumberOfJumpsToReachEndTest, GetPathOfMinimumNumberOfJumpsOnExample1)
-{
+TEST(MinimumNumberOfJumpsToReachEndTest, GetPathOfMinimumNumberOfJumpsOnExample1){
     MinimumNumberOfJumpsToReachEnd queryForTest({1U, 3U, 5U, 8U, 9U, 2U, 6U, 7U, 6U, 8U, 9U});
 
     EXPECT_EQ((Counts{1U, 3U, 8U, 9U}), queryForTest.getPathOfMinimumNumberOfJumps());

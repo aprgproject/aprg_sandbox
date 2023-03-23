@@ -20,11 +20,10 @@ public:
 
     Count getMinimumNumberOfTrialsUsingNaiveRecursion() const;
     Count getMinimumNumberOfTrialsUsingMemoizationDP() const;
-    Count getMinimumNumberOfTrialsUsingTabularDP() const;
+    Count getMinimumNumberOfTrialsUsingIterativeDP() const;
 
 private:
-    Count getMinimumNumberOfTrialsUsingNaiveRecursion(Count const remainingEggs, Count const floorIndexPlusOne) const;
-    Count getMinimumNumberOfTrialsUsingMemoizationDP(CountMatrix & valueMatrix, Count const remainingEggs, Count const floorIndexPlusOne) const;
+    Count getMinimumNumberOfTrialsUsingNaiveRecursion(Count const remainingEggs, Count const floorIndexPlusOne) const;    Count getMinimumNumberOfTrialsUsingMemoizationDP(CountMatrix & valueMatrix, Count const remainingEggs, Count const floorIndexPlusOne) const;
     Count const m_numberOfEggs;
     Count const m_numberOfFloors;
 };

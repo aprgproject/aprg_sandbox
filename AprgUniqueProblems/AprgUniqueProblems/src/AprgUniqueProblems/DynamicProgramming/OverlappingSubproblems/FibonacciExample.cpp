@@ -30,11 +30,10 @@ FibonacciExample::Number FibonacciExample::getNthFibonacciUsingNaiveRecursion(Nu
 
 FibonacciExample::Number FibonacciExample::getNthFibonacciUsingMemoizationDP(Number const number)
 {
-    // Time Complexity: O(n) // same as tabular DP
+    // Time Complexity: O(n) // same as iterative DP
     // Extra Space: O(n)
 
-    // a) Memoization (Top Down):
-    // The memoized program for a problem is similar to the recursive version
+    // a) Memoization (Top Down):    // The memoized program for a problem is similar to the recursive version
     // with a small modification that it looks into a lookup table before computing solutions.
     // We initialize a lookup array with all initial values as UNUSED_VALUE.
     // Whenever we need the solution to a subproblem, we first look into the lookup table.
@@ -48,11 +47,10 @@ FibonacciExample::Number FibonacciExample::getNthFibonacciUsingMemoizationDP(Num
     return getNthFibonacciUsingMemoizationDP(memoizationData, number);
 }
 
-FibonacciExample::Number FibonacciExample::getNthFibonacciUsingTabularDP(Number const number)
+FibonacciExample::Number FibonacciExample::getNthFibonacciUsingIterativeDP(Number const number)
 {
     // Time Complexity: O(n)
     // Extra Space: O(n)
-
     // b) Tabulation (Bottom Up):
     // The tabulated program for a given problem builds a table in bottom up fashion and returns the last entry from table.
     // For example, for the same Fibonacci number, we first calculate fib(0) then fib(1) then fib(2) then fib(3) and so on.
@@ -69,10 +67,9 @@ FibonacciExample::Number FibonacciExample::getNthFibonacciUsingTabularDP(Number 
     return tabulationData.at(number);
 }
 
-FibonacciExample::Number FibonacciExample::getNthFibonacciUsingTabularDPAndSpaceEfficient(Number const number)
+FibonacciExample::Number FibonacciExample::getNthFibonacciUsingIterativeDPAndSpaceEfficient(Number const number)
 {
     // NOTE: Same implementation in AprgMath
-
     // Time Complexity: O(n)
     // Extra Space: O(1)
     // -> We can optimize the space used in method 2 by storing the previous two numbers only
@@ -179,21 +176,19 @@ FibonacciExample::Number FibonacciExample::getNthFibonacciUsingLogarithmicMemoiz
     return getNthFibonacciUsingMemoizationDP(memoizationData, number);
 }
 
-FibonacciExample::Number FibonacciExample::getNthFibonacciUsingLogarithmicTabularDP(Number const number)
+FibonacciExample::Number FibonacciExample::getNthFibonacciUsingLogarithmicIterativeDP(Number const number)
 {
     // Derived using matrix power (check notes at header file)
-
     Number result(number);
     if(result > 1)
     {
         Number size = max(number+1, 2U);
-        Numbers tabularData(size);
-        tabularData[0] = 0;
-        tabularData[1] = 1;
+        Numbers iterativeData(size);
+        iterativeData[0] = 0;
+        iterativeData[1] = 1;
 
         NumberSet logarithmicSteps{number};
-        Number k(number);
-        while(k >= 3)
+        Number k(number);        while(k >= 3)
         {
             k = mathHelper::isOdd(k) ? (k+1)/2 : k/2;
             logarithmicSteps.emplace(k);
@@ -202,27 +197,26 @@ FibonacciExample::Number FibonacciExample::getNthFibonacciUsingLogarithmicTabula
 
         for(Number const step : logarithmicSteps)
         {
-            Number & resultForStep(tabularData[step]);
+            Number & resultForStep(iterativeData[step]);
             if(mathHelper::isOdd(step))
             {
                 Number k = (step+1)/2;
-                Number fibonacciAtK = tabularData.at(k);
-                Number fibonacciAtKMinus1 = tabularData.at(k-1);
+                Number fibonacciAtK = iterativeData.at(k);
+                Number fibonacciAtKMinus1 = iterativeData.at(k-1);
                 resultForStep = fibonacciAtK*fibonacciAtK + fibonacciAtKMinus1*fibonacciAtKMinus1;
             }
             else
             {
                 Number k = step/2;
-                Number fibonacciAtK = tabularData.at(k);
-                Number fibonacciAtKMinus1 = tabularData.at(k-1);
+                Number fibonacciAtK = iterativeData.at(k);
+                Number fibonacciAtKMinus1 = iterativeData.at(k-1);
                 resultForStep = (2*fibonacciAtKMinus1 + fibonacciAtK)*fibonacciAtK;
             }
         }
-        result = tabularData.at(number);
+        result = iterativeData.at(number);
     }
     return result;
 }
-
 FibonacciExample::Number FibonacciExample::getNthFibonacciUsingMemoizationDP(
         Numbers & memoizationData,
         Number const number)

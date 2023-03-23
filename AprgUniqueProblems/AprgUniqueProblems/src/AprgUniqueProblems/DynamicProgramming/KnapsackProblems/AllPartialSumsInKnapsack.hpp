@@ -29,22 +29,20 @@ private:
 
 
 // APPROACH:
-// 1) Dynamic Programming by Tabular method:
+// 1) Dynamic Programming by Iterative method:
 // -> Get the maximum possible partial sum and create an array of booleans ("isPartialSumPossible") with that size
 // -> Thus each "partial sum" has a boolean if its possible.
-// -> Set "partial sum" = 0 as true (0 is possible partial sum)
-// -> Reverse traversal (from right to left)
+// -> Set "partial sum" = 0 as true (0 is possible partial sum)// -> Reverse traversal (from right to left)
 // ---> Reverse traversal so that the changed values wont be changed again in one iteration
 // -> Traversal uses previous values (because it was for a previous item) to compute for a new value
 // -> Traverse all input values (this ensures that input values are only used once):
 // ---> Traverse all the partial sums (from maximum sum to zero):
 // -----> This "partial sum" is possible if "partial sum" >= "input value" and if "partial sum"-"input value" is possible
 
-// 2) Dynamic Programming by Tabular method (by setting future values):
+// 2) Dynamic Programming by Iterative method (by setting future values):
 // -> Get the maximum possible partial sum and create an array of booleans ("isPartialSumPossible") with that size
 // -> Thus each "partial sum" has a boolean if its possible.
-// -> Set "partial sum" = 0 as true (0 is possible partial sum)
-// -> Reverse traversal (from right to left)
+// -> Set "partial sum" = 0 as true (0 is possible partial sum)// -> Reverse traversal (from right to left)
 // ---> Reverse traversal so that the changed values wont be changed again in one iteration
 // -> Traversal uses previous values (because it was for a previous item) to compute for a new value
 // -> Traverse all input values (this ensures that input values are only used once):

@@ -27,12 +27,11 @@ public:
 
     bool isPartialSumPossibleUsingNaiveRecursion() const;
     bool isPartialSumPossibleUsingMemoizationDP() const;
-    bool isPartialSumPossibleUsingTabularDP() const;
-    bool isPartialSumPossibleUsingTabularDPAndSpaceEfficient() const;
+    bool isPartialSumPossibleUsingIterativeDP() const;
+    bool isPartialSumPossibleUsingIterativeDPAndSpaceEfficient() const;
 
 private:
-    bool isPartialSumPossibleUsingNaiveRecursion(Value const partialSum, Index const valueIndex) const;
-    bool isPartialSumPossibleUsingMemoizationDP(StateMatrix & stateMatrix, Value const partialSum, Index const valueIndex) const;
+    bool isPartialSumPossibleUsingNaiveRecursion(Value const partialSum, Index const valueIndex) const;    bool isPartialSumPossibleUsingMemoizationDP(StateMatrix & stateMatrix, Value const partialSum, Index const valueIndex) const;
 
     Value m_targetSum;
     Values m_inputValues;
@@ -41,11 +40,10 @@ private:
 }
 
 // APPROACH:
-// 1) Naive Recursion /  Dynamic Programming by Memoization:
+// 1) Naive Recursion / Dynamic Programming by Memoization:
 // -> Each "partialSum" and "value index" has a boolean "isPartialSum" possible
 // -> Start recursion at the "targetSum" and value index as 0.
-// -> Each "isPartialSum" (with inputs "partialSum" and "value index") can be computed by:
-// ---> If "partialSum" == value at "value index":
+// -> Each "isPartialSum" (with inputs "partialSum" and "value index") can be computed by:// ---> If "partialSum" == value at "value index":
 // -----> Return true
 // ---> Else if "partialSum" > value at "value index":
 // -----> Get "isPossible" if value is USED:
@@ -57,11 +55,10 @@ private:
 // -----> Get "isPossible" if value is SKIPPED:
 // -------> Recursively call "partialSum" and increment to next "value index"
 
-// 2) Dynamic Programming by Tabular method:
+// 2) Dynamic Programming by Iterative method:
 // -> Create an matrix ("isPartialSumPossible") of booleans with size of columns as "targetSum" and size of rows as number of input values
 // -> Thus each "partial sum" and "value index" has a boolean if its possible.
-// -> Partial sums that are equal to input values are possible and set to true.
-// -> Forward traversal (from top-left to bottom-right)
+// -> Partial sums that are equal to input values are possible and set to true.// -> Forward traversal (from top-left to bottom-right)
 // -> Traversal uses previous values to compute for a new value
 // -> The computation of each cell in "isPartialSumPossible" is:
 // ---> Get the previous input value (decrement value index)
@@ -69,11 +66,10 @@ private:
 // ---> If isPossible is false and "partialSum" >= previous input value:
 // -----> Replace "isPossible" if previous input value is USED: Get entry on the matrix if the (partial sum - previous input value) and previous input value is possible
 
-// 3) Dynamic Programming by Tabular method and space efficient:
+// 3) Dynamic Programming by Iterative method and space efficient:
 // -> Create an array of booleans ("isPartialSumPossible") with size as "targetSum"
 // -> Thus each "partial sum" has a boolean if its possible.
-// -> Set "partial sum" = 0 as true (0 is possible partial sum)
-// -> Reverse traversal (from right to left)
+// -> Set "partial sum" = 0 as true (0 is possible partial sum)// -> Reverse traversal (from right to left)
 // ---> Reverse traversal so that the changed values wont be changed again in one iteration
 // -> Traversal uses previous values to compute for a new value
 // -> Traverse all input values (this ensures that input values are only used once):
@@ -112,11 +108,10 @@ private:
 // The problem is in-fact NP-Complete (There is no known polynomial time solution for this problem).
 
 
-// Method 2 (Tabular method):
+// Method 2 (Iterative method):
 // To solve the problem in Pseudo-polynomial time use the Dynamic programming.
 // So we will create a 2D array of size (arr.size() + 1) * (target + 1) of type boolean.
-// The state DP[i][j] will be true if there exists a subset of elements from A[0….i] with sum value = ‘j’.
-// The approach for the problem is:
+// The state DP[i][j] will be true if there exists a subset of elements from A[0….i] with sum value = ‘j’.// The approach for the problem is:
 // -> if (A[i-1] > j)
 // ---> DP[i][j] = DP[i-1][j]
 // -> else
@@ -132,11 +127,10 @@ private:
 // In this matrix we store the value of the previous call value.
 
 
-// Method 4 (Tabular method with less space):
+// Method 4 (Iterative method with less space):
 // To further reduce space complexity, we create a boolean 1D array subset[sum+1].
 // Using bottom up manner we can fill up this table.
-// The idea is that we can check if the sum till position “i” is possible
-// then if the current element in the array at position j is x, then sum i+x is also possible.
+// The idea is that we can check if the sum till position “i” is possible// then if the current element in the array at position j is x, then sum i+x is also possible.
 // We traverse the sum array from back to front so that we don’t count any element twice.
 
 

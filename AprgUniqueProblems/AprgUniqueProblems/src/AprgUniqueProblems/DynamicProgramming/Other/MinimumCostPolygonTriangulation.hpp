@@ -22,11 +22,10 @@ public:
 
     Cost getMinimumNumberOfOperationsUsingNaiveRecursion() const;
     Cost getMinimumNumberOfOperationsUsingMemoizationDP() const;
-    Cost getMinimumNumberOfOperationsUsingTabularDP() const;
+    Cost getMinimumNumberOfOperationsUsingIterativeDP() const;
 
 private:
-    Cost getMinimumNumberOfOperationsUsingNaiveRecursion(Index const left, Index const right) const;
-    Cost getMinimumNumberOfOperationsUsingMemoizationDP(CostMatrix & countMatrix, Index const left, Index const right) const;
+    Cost getMinimumNumberOfOperationsUsingNaiveRecursion(Index const left, Index const right) const;    Cost getMinimumNumberOfOperationsUsingMemoizationDP(CostMatrix & countMatrix, Index const left, Index const right) const;
     Cost getCostOfThreePoints(Index const index1, Index const index2, Index const index3) const;
     TwoDimensions::Points m_vertices;
 };

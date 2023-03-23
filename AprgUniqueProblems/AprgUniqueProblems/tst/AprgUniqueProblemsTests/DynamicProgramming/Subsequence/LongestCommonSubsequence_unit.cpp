@@ -15,8 +15,8 @@ TEST(LongestCommonSubsequenceTest, GetLongestLengthWorksOnExample1)
 
     EXPECT_EQ(3U, queryForTest.getLongestLengthUsingNaiveRecursion());
     EXPECT_EQ(3U, queryForTest.getLongestLengthUsingMemoizationDP());
-    EXPECT_EQ(3U, queryForTest.getLongestLengthUsingTabularDP());
-    EXPECT_EQ(3U, queryForTest.getLongestLengthUsingTabularDPAndSpaceEfficient());
+    EXPECT_EQ(3U, queryForTest.getLongestLengthUsingIterativeDP());
+    EXPECT_EQ(3U, queryForTest.getLongestLengthUsingIterativeDPAndSpaceEfficient());
 }
 
 }

@@ -24,8 +24,8 @@ TEST(MaximumSizeSquareSubMatrixWithAllOnesTest, GetMinimumPriceWorksOnExample1)
     MaximumSizeSquareSubMatrixWithAllOnes queryForTest(booleanMatrix);
 
     EXPECT_EQ(9U, queryForTest.getMaximumSquareAreaUsingMemoizationDP());
-    EXPECT_EQ(9U, queryForTest.getMaximumSquareAreaUsingTabularDP());
-    EXPECT_EQ(9U, queryForTest.getMaximumSquareAreaUsingTabularDPAndTimeEfficient());
+    EXPECT_EQ(9U, queryForTest.getMaximumSquareAreaUsingIterativeDP());
+    EXPECT_EQ(9U, queryForTest.getMaximumSquareAreaUsingIterativeDPAndTimeEfficient());
 }
 
 }

@@ -23,20 +23,51 @@ public:
 
     Count getMinimumNumberOfOperationsUsingNaiveRecursion() const;
     Count getMinimumNumberOfOperationsUsingMemoizationDP() const;
-    Count getMinimumNumberOfOperationsUsingTabularDP() const;
+    Count getMinimumNumberOfOperationsUsingIterativeDP() const;
 
 private:
-    Count getMinimumNumberOfOperationsUsingNaiveRecursion(Index const left, Index const right) const;
-    Count getMinimumNumberOfOperationsUsingMemoizationDP(CountMatrix & countMatrix, Index const left, Index const right) const;
+    Count getMinimumNumberOfOperationsUsingNaiveRecursion(Index const left, Index const right) const;    Count getMinimumNumberOfOperationsUsingMemoizationDP(CountMatrix & countMatrix, Index const left, Index const right) const;
     Dimensions m_dimensions;
 };
 
 }
 
+// APPROACH:
+// 1) Naive Recursion / Dynamic Programming by Memoization:
+// -> Each "leftParenthesis" and "rightParenthesis" has a "count"
+// -> Start recursion at the "leftParenthesis" as 0 and "rightParenthesis" as last index.
+// -> Each "count" (with inputs "rightParenthesis" and "rightParenthesis") can be computed by:
+// ---> If "leftParenthesis"+2 <= "rightParenthesis" (distance should be two for at least three elements):
+// -----> Traverse "inBetween" from "leftParenthesis"+1 to "rightParenthesis"-1 (inclusive)
+// -------> Get minimum of the counts of each "inBetween"
+// ---------> The count of using an "inBetween" is the sum of this three parts:
+// -----------> Recursively call "leftParenthesis" and "inBetween"
+// -----------> Recursively call "inBetween" and "rightParenthesis"
+// -----------> (get dimension at leftParenthesis) * (get dimension at inBetween) * (get dimension at rightParenthesis)
+// -----> Result is minimum of the counts of each "inBetween"
+// ---> Else
+// -----> Result is 0
+
+// 2) Dynamic Programming by Iterative method:
+// -> Create an matrix of counts with size of columns as size of "dimensions" and size of rows as size of "dimensions"
+// -> Thus each "leftParenthesis" and "rightParenthesis" has a count.
+// -> Traverse "length" from 3 to size of "dimensions" (inclusive)
+// ---> Traverse all possible "leftParenthesis"
+// -----> Set "rightParenthesis" based on "leftParenthesis" and "length"
+// -------> Traverse all possible "inBetween"
+// ---------> Get minimum of the counts of each "inBetween"
+// -----------> The count of using an "inBetween" is the sum of this three parts:
+// -------------> Get matrix value at "leftParenthesis" and "inBetween"
+// -------------> Get matrix value at "inBetween" and "rightParenthesis"
+// -------------> (get dimension at leftParenthesis) * (get dimension at inBetween) * (get dimension at rightParenthesis)
+
+
+
+// Matrix Chain Multiplication
+
 // Given a sequence of matrices, find the most efficient way to multiply these matrices together.
 // The problem is not actually to perform the multiplications, but merely to decide in which order to perform the multiplications.
-// We have many options to multiply a chain of matrices because matrix multiplication is associative.
-// In other words, no matter how we parenthesize the product, the result will be the same.
+// We have many options to multiply a chain of matrices because matrix multiplication is associative.// In other words, no matter how we parenthesize the product, the result will be the same.
 
 // For example, if we had four matrices A, B, C, and D, we would have:
 // (ABC)D = (AB)(CD) = A(BCD) = ....

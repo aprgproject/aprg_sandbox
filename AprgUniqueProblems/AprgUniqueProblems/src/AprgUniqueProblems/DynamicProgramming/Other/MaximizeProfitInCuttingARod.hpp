@@ -25,11 +25,10 @@ public:
 
     Profit getBestProfitUsingNaiveRecursion() const;
     Profit getBestProfitUsingMemoizationDP() const;
-    Profit getBestProfitUsingTabularDP() const;
+    Profit getBestProfitUsingIterativeDP() const;
 
 private:
-    Profit getBestProfitUsingNaiveRecursion(Length const remainingLength) const;
-    Profit getBestProfitUsingMemoizationDP(Profits & partialProfits, Length const remainingLength) const;
+    Profit getBestProfitUsingNaiveRecursion(Length const remainingLength) const;    Profit getBestProfitUsingMemoizationDP(Profits & partialProfits, Length const remainingLength) const;
     Length getSmallestItemLength() const;
     Length const m_length;
     Rods const m_rods;

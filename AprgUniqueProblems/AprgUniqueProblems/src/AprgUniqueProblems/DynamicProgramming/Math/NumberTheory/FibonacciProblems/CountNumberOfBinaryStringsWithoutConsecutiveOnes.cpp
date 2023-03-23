@@ -21,11 +21,10 @@ CountNumberOfBinaryStringsWithoutConsecutiveOnes::Count CountNumberOfBinaryStrin
     return getCountUsingNaiveRecursion(false, m_length);
 }
 
-CountNumberOfBinaryStringsWithoutConsecutiveOnes::Count CountNumberOfBinaryStringsWithoutConsecutiveOnes::getCountUsingTabularDP() const
+CountNumberOfBinaryStringsWithoutConsecutiveOnes::Count CountNumberOfBinaryStringsWithoutConsecutiveOnes::getCountUsingIterativeDP() const
 {
     // Time Complexity: O(n)
     // Auxiliary Space: O(n)
-
     Count result(0);
     if(m_length>0)
     {
@@ -44,11 +43,10 @@ CountNumberOfBinaryStringsWithoutConsecutiveOnes::Count CountNumberOfBinaryStrin
     return result;
 }
 
-CountNumberOfBinaryStringsWithoutConsecutiveOnes::Count CountNumberOfBinaryStringsWithoutConsecutiveOnes::getCountUsingTabularDPAndSpaceEfficient() const
+CountNumberOfBinaryStringsWithoutConsecutiveOnes::Count CountNumberOfBinaryStringsWithoutConsecutiveOnes::getCountUsingIterativeDPAndSpaceEfficient() const
 {
     // Time Complexity: O(n)
     // Auxiliary Space: O(1)
-
     Count result(0);
     if(m_length>0)
     {

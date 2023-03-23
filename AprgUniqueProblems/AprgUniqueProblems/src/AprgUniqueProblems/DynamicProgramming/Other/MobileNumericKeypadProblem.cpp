@@ -40,11 +40,10 @@ MobileNumericKeypadProblem::Count MobileNumericKeypadProblem::getCountUsingMemoi
     return result;
 }
 
-MobileNumericKeypadProblem::Count MobileNumericKeypadProblem::getCountUsingTabularDP() const
+MobileNumericKeypadProblem::Count MobileNumericKeypadProblem::getCountUsingIterativeDP() const
 {
     // Time Complexity: O(n*d)
     // Auxiliary Space: O(n*d)
-
     Count result(0);
     if(m_length>0)
     {
@@ -75,11 +74,10 @@ MobileNumericKeypadProblem::Count MobileNumericKeypadProblem::getCountUsingTabul
     return result;
 }
 
-MobileNumericKeypadProblem::Count MobileNumericKeypadProblem::getCountUsingTabularDPAndSpaceEfficient() const
+MobileNumericKeypadProblem::Count MobileNumericKeypadProblem::getCountUsingIterativeDPAndSpaceEfficient() const
 {
     // Time Complexity: O(n*d)
     // Auxiliary Space: O(d)
-
     Count result(0);
     if(m_length>0)
     {

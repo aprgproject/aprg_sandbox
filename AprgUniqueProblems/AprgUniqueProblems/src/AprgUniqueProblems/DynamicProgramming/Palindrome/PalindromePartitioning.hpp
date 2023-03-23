@@ -22,12 +22,11 @@ public:
 
     Count getMinimumNumberOfCutsUsingNaiveRecursion() const;
     Count getMinimumNumberOfCutsUsingMemoizationDP() const;
-    Count getMinimumNumberOfCutsUsingTabularDP() const;
-    Count getMinimumNumberOfCutsUsingTabularDPAndTimeEfficient() const;
+    Count getMinimumNumberOfCutsUsingIterativeDP() const;
+    Count getMinimumNumberOfCutsUsingIterativeDPAndTimeEfficient() const;
 
 private:
-    bool isPalindrome(Index const left, Index const right) const;
-    Count getMinimumNumberOfCutsUsingNaiveRecursion(Index const left, Index const right) const;
+    bool isPalindrome(Index const left, Index const right) const;    Count getMinimumNumberOfCutsUsingNaiveRecursion(Index const left, Index const right) const;
     Count getMinimumNumberOfCutsUsingMemoizationDP(CountMatrix & countMatrix, Index const left, Index const right) const;
     std::string m_string;
 

@@ -30,11 +30,10 @@ CountOfNDigitNumbersWhoseSumOfDigitsEqualsToGivenSum::Count CountOfNDigitNumbers
 
 CountOfNDigitNumbersWhoseSumOfDigitsEqualsToGivenSum::Count CountOfNDigitNumbersWhoseSumOfDigitsEqualsToGivenSum::getCountUsingMemoizationDP() const
 {
-    // Time Complexity: O(numberOfDigits * sumOfDigits * 9) (same as tabular)
+    // Time Complexity: O(numberOfDigits * sumOfDigits * 9) (same as iterative)
     // Auxiliary Space: O(numberOfDigits * sumOfDigits)
 
-    Count result(0);
-    if(m_numberOfDigits>0)
+    Count result(0);    if(m_numberOfDigits>0)
     {
         CountMatrix countMatrix(m_targetSumOfDigits+1, m_numberOfDigits, UNUSED_COUNT);
         result = getCountUsingMemoizationDP(countMatrix, m_targetSumOfDigits, m_numberOfDigits-1);
@@ -42,11 +41,10 @@ CountOfNDigitNumbersWhoseSumOfDigitsEqualsToGivenSum::Count CountOfNDigitNumbers
     return result;
 }
 
-CountOfNDigitNumbersWhoseSumOfDigitsEqualsToGivenSum::Count CountOfNDigitNumbersWhoseSumOfDigitsEqualsToGivenSum::getCountUsingTabularDP() const
+CountOfNDigitNumbersWhoseSumOfDigitsEqualsToGivenSum::Count CountOfNDigitNumbersWhoseSumOfDigitsEqualsToGivenSum::getCountUsingIterativeDP() const
 {
     // Time Complexity: O(numberOfDigits * sumOfDigits * 9)
     // Auxiliary Space: O(numberOfDigits * sumOfDigits)
-
     Count result(0);
     if(m_numberOfDigits>0)
     {
@@ -72,11 +70,10 @@ CountOfNDigitNumbersWhoseSumOfDigitsEqualsToGivenSum::Count CountOfNDigitNumbers
     return result;
 }
 
-CountOfNDigitNumbersWhoseSumOfDigitsEqualsToGivenSum::Count CountOfNDigitNumbersWhoseSumOfDigitsEqualsToGivenSum::getCountUsingTabularDPAndSpaceEfficient() const
+CountOfNDigitNumbersWhoseSumOfDigitsEqualsToGivenSum::Count CountOfNDigitNumbersWhoseSumOfDigitsEqualsToGivenSum::getCountUsingIterativeDPAndSpaceEfficient() const
 {
     // Time Complexity: O(numberOfDigits * sumOfDigits * 9)
     // Auxiliary Space: O(sumOfDigits)
-
     Count result(0);
     if(m_numberOfDigits>0)
     {
@@ -85,15 +82,14 @@ CountOfNDigitNumbersWhoseSumOfDigitsEqualsToGivenSum::Count CountOfNDigitNumbers
         {
             partialSumToCount[digitValue]=1;
         }
-        for(Count digitCount=1; digitCount<m_numberOfDigits; digitCount++)
+        for(Count digitIndex=1; digitIndex<m_numberOfDigits; digitIndex++)
         {
             for(Value partialSum=m_targetSumOfDigits; partialSum>0; partialSum--)
             {
-                for(Value digitValue=1; digitValue<=min(partialSum-1, 9U); digitValue++)
+                for(Value digitValue=1; digitValue<=min(partialSum-1, 9U); digitValue++) // When digitValue==0, the count is 1, so no need to process
                 {
                     partialSumToCount[partialSum] += partialSumToCount.at(partialSum-digitValue);
-                }
-            }
+                }            }
         }
         result = partialSumToCount.back();
     }
@@ -106,11 +102,14 @@ CountOfNDigitNumbersWhoseSumOfDigitsEqualsToGivenSum::Count CountOfNDigitNumbers
     // Auxiliary Space: O(1)
 
     Count result(0);
-    if(m_numberOfDigits>0)
+    if(m_targetSumOfDigits==0)
+    {
+        result = 1;
+    }
+    else if(m_numberOfDigits>0)
     {
         Value start = getRaiseToPowerForIntegers(10U, m_numberOfDigits-1);
         Value end = getRaiseToPowerForIntegers(10U, m_numberOfDigits);
-
         for(Value value=start; value<end; value += (value==m_targetSumOfDigits) ? 9 : 1) // once sum is found just add 9 to find the next one
         {
             Value currentSumOfDigits=0, remainingDigits=value;

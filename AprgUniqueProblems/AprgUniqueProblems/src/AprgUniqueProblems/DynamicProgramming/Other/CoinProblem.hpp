@@ -48,26 +48,25 @@ public:
 
     // fewest coins
     unsigned int getNumberOfFewestCoinsUsingMemoizationDP(Value const total) const;
-    unsigned int getNumberOfFewestCoinsTabularDP(Value const total) const;
+    unsigned int getNumberOfFewestCoinsIterativeDP(Value const total) const;
     Coins getFewestCoinsUsingMemoizationDP(Value const total) const;
-    Coins getFewestCoinsUsingTabularDP(Value const total) const;
+    Coins getFewestCoinsUsingIterativeDP(Value const total) const;
 
     // permutations
     unsigned int getNumberOfCoinPermutationsMemoizationDP(Value const total) const;
-    unsigned int getNumberOfCoinPermutationsTabularDP(Value const total) const;
+    unsigned int getNumberOfCoinPermutationsIterativeDP(Value const total) const;
     CoinPermutations getCoinPermutationsUsingMemoizationDP(Value const total) const;
-    CoinPermutations getCoinPermutationsUsingTabularDP(Value const total) const;
+    CoinPermutations getCoinPermutationsUsingIterativeDP(Value const total) const;
 
     // combinations
     unsigned int getNumberOfCoinCombinationsUsingMemoizationDP(Value const total) const;
-    unsigned int getNumberOfCoinCombinationsUsingTabularDP(Value const total) const;
-    unsigned int getNumberOfCoinCombinationsUsingTabularDPAndSpaceEfficient(Value const total) const;
+    unsigned int getNumberOfCoinCombinationsUsingIterativeDP(Value const total) const;
+    unsigned int getNumberOfCoinCombinationsUsingIterativeDPAndSpaceEfficient(Value const total) const;
     CoinCombinations getCoinCombinationsUsingMemoizationDP(Value const total) const;
-    CoinCombinations getCoinCombinationsUsingTabularDP(Value const total) const;
+    CoinCombinations getCoinCombinationsUsingIterativeDP(Value const total) const;
 
 private:
-    Value getMaxAvailableCoin() const;
-    Value getMaxOfTotalAndMaxCoinPlusOne(Value const total) const;
+    Value getMaxAvailableCoin() const;    Value getMaxOfTotalAndMaxCoinPlusOne(Value const total) const;
 
     // fewest coins
     unsigned int getNumberOfFewestCoinsUsingMemoizationDPInternal(CountPerValue & countPerValue, Value const total) const;

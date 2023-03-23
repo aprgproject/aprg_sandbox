@@ -19,17 +19,16 @@ public:
 
     Number getNthFibonacciUsingNaiveRecursion(Number const number) const;
     Number getNthFibonacciUsingMemoizationDP(Number const number);
-    Number getNthFibonacciUsingTabularDP(Number const number);
-    Number getNthFibonacciUsingTabularDPAndSpaceEfficient(Number const number);
+    Number getNthFibonacciUsingIterativeDP(Number const number);
+    Number getNthFibonacciUsingIterativeDPAndSpaceEfficient(Number const number);
     Number getNthFibonacciNumberUsingBinetsFormula(Number const number);
     Number getNthFibonacciUsingMatrixMultiplication(Number const number);
     Number getNthFibonacciUsingMatrixPowerWithLogarithmicTime(Number const number);
     Number getNthFibonacciUsingLogarithmicMemoizationDP(Number const number);
-    Number getNthFibonacciUsingLogarithmicTabularDP(Number const number);
+    Number getNthFibonacciUsingLogarithmicIterativeDP(Number const number);
 
 private:
-    Number getNthFibonacciUsingMemoizationDP(Numbers & memoizationData, Number const number);
-    Number getNthFibonacciUsingLogarithmicMemoizationDP(Numbers & memoizationData, Number const number);
+    Number getNthFibonacciUsingMemoizationDP(Numbers & memoizationData, Number const number);    Number getNthFibonacciUsingLogarithmicMemoizationDP(Numbers & memoizationData, Number const number);
 };
 
 }

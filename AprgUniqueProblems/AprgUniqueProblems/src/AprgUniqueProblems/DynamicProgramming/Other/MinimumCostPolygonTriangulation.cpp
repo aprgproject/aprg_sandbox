@@ -28,11 +28,10 @@ MinimumCostPolygonTriangulation::Cost MinimumCostPolygonTriangulation::getMinimu
 
 MinimumCostPolygonTriangulation::Cost MinimumCostPolygonTriangulation::getMinimumNumberOfOperationsUsingMemoizationDP() const
 {
-    // Time Complexity: O(n^3) (should be same as Tabular DP)
+    // Time Complexity: O(n^3) (should be same as Iterative DP)
     // Auxiliary Space: O(n^2)
 
-    Cost result(0);
-    if(!m_vertices.empty())
+    Cost result(0);    if(!m_vertices.empty())
     {
         CostMatrix countMatrix(m_vertices.size(), m_vertices.size(), MAX_COUNT);
         result = getMinimumNumberOfOperationsUsingMemoizationDP(countMatrix, 0, m_vertices.size()-1);
@@ -40,11 +39,10 @@ MinimumCostPolygonTriangulation::Cost MinimumCostPolygonTriangulation::getMinimu
     return result;
 }
 
-MinimumCostPolygonTriangulation::Cost MinimumCostPolygonTriangulation::getMinimumNumberOfOperationsUsingTabularDP() const
+MinimumCostPolygonTriangulation::Cost MinimumCostPolygonTriangulation::getMinimumNumberOfOperationsUsingIterativeDP() const
 {
     // Time Complexity: O(n^3)
     // Auxiliary Space: O(n^2)
-
     Cost result(0);
     if(!m_vertices.empty())
     {

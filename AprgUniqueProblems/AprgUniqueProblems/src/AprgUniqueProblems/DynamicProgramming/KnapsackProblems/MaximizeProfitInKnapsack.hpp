@@ -25,12 +25,11 @@ public:
 
     Profit getBestProfitUsingNaiveRecursion() const;
     Profit getBestProfitUsingMemoizationDP() const;
-    Profit getBestProfitUsingTabularDP() const;
-    Profit getBestProfitUsingTabularDPAndSpaceEfficient() const;
+    Profit getBestProfitUsingIterativeDP() const;
+    Profit getBestProfitUsingIterativeDPAndSpaceEfficient() const;
 
 private:
-    Profit getBestProfitUsingNaiveRecursion(Weight const remainingWeight, ItemIndex const itemIndex) const;
-    Profit getBestProfitUsingMemoizationDP(ProfitMatrix & profitMatrix, Weight const remainingWeight, ItemIndex const itemIndex) const;
+    Profit getBestProfitUsingNaiveRecursion(Weight const remainingWeight, ItemIndex const itemIndex) const;    Profit getBestProfitUsingMemoizationDP(ProfitMatrix & profitMatrix, Weight const remainingWeight, ItemIndex const itemIndex) const;
     Weight getSmallestItemWeight() const;
     Weight const m_maximumWeight;
     Items const m_items;
@@ -39,11 +38,10 @@ private:
 }
 
 // APPROACH:
-// 1) Naive Recursion /  Dynamic Programming by Memoization:
+// 1) Naive Recursion / Dynamic Programming by Memoization:
 // -> Each "weight" and "item index" has a "profit" possible
 // -> Start recursion at the "maximum weight" and item index as 0.
-// -> Each "profit" (with inputs "weight" and "item index") can be computed by:
-// ---> If "weight" >= weight at "item index":
+// -> Each "profit" (with inputs "weight" and "item index") can be computed by:// ---> If "weight" >= weight at "item index":
 // -----> Get profit if item is USED:
 // -------> Recursively call "weight" - weight at "item index" and increment to next "item index"
 // -----> Get profit if item is SKIPPED:
@@ -52,11 +50,10 @@ private:
 // ---> Else ("weight" < weight at "item index"):
 // -----> Return zero profit
 
-// 2) Dynamic Programming by Tabular method:
+// 2) Dynamic Programming by Iterative method:
 // -> Create an matrix or profits with size of columns as "maximum weight" and size of rows as number of input values
 // -> Thus each "weight" and "item index" has a profit.
-// -> Forward traversal for weight and reverse traversal for item index
-// -> Traversal uses previous values to compute for a new value
+// -> Forward traversal for weight and reverse traversal for item index// -> Traversal uses previous values to compute for a new value
 // -> The computation of each profit (each cell in the matrix) is:
 // ---> Get the current itemWeight and itemProfit.
 // ---> If weight >= itemWeight
@@ -69,13 +66,12 @@ private:
 // ---> Else ("weight" < itemWeight):
 // -----> Return zero profit
 
-// 3) Dynamic Programming by Tabular method and space efficient:
+// 3) Dynamic Programming by Iterative method and space efficient:
 // -> Create an array of profits with size as "maximum weight"
-// -> Thus each "weight" has a profit.
+// -> Thus each "weight" (actually "remaining weight") has a profit.
 // -> Reverse traversal (from right to left)
 // ---> Reverse traversal so that the changed values wont be changed again in one iteration
-// -> Traversal uses previous values to compute for a new value
-// -> Traverse all input values (this ensures that input values are only used once):
+// -> Traversal uses previous values to compute for a new value// -> Traverse all input values (this ensures that input values are only used once):
 // ---> Get the current itemWeight and itemProfit.
 // ---> Traverse all the weights (from "maximum weight" to zero):
 // ---> If weight >= itemWeight

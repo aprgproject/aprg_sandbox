@@ -30,11 +30,10 @@ LongestPalindromicSubsequence::Count LongestPalindromicSubsequence::getLongestLe
     return result;
 }
 
-LongestPalindromicSubsequence::Count LongestPalindromicSubsequence::getLongestLengthUsingTabularDP() const
+LongestPalindromicSubsequence::Count LongestPalindromicSubsequence::getLongestLengthUsingIterativeDP() const
 {
     // Time Complexity: O(n^2)
     // Auxiliary Space: O(n^2)
-
     Count result(0);
     if(!m_string.empty())
     {
@@ -65,10 +64,9 @@ LongestPalindromicSubsequence::Count LongestPalindromicSubsequence::getLongestLe
     return result;
 }
 
-LongestPalindromicSubsequence::Count LongestPalindromicSubsequence::getLongestLengthUsingTabularDPAndSpaceEfficient() const
+LongestPalindromicSubsequence::Count LongestPalindromicSubsequence::getLongestLengthUsingIterativeDPAndSpaceEfficient() const
 {
     // Note this is same implementation in AlbaStringHelper
-
     // Time Complexity: O(n^2)
     // Auxiliary Space: O(n)
 

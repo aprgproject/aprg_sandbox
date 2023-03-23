@@ -13,7 +13,7 @@ TEST(MinimumCostPolygonTriangulationTest, GetMinimumNumberOfOperationsWorksOnExa
 
     EXPECT_DOUBLE_EQ(15.300563079745769, queryForTest.getMinimumNumberOfOperationsUsingNaiveRecursion());
     EXPECT_DOUBLE_EQ(15.300563079745769, queryForTest.getMinimumNumberOfOperationsUsingMemoizationDP());
-    EXPECT_DOUBLE_EQ(15.300563079745769, queryForTest.getMinimumNumberOfOperationsUsingTabularDP());
+    EXPECT_DOUBLE_EQ(15.300563079745769, queryForTest.getMinimumNumberOfOperationsUsingIterativeDP());
 }
 
 }

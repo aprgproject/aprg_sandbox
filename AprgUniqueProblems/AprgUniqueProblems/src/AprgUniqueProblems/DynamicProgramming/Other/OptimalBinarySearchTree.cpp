@@ -29,11 +29,10 @@ OptimalBinarySearchTree::Cost OptimalBinarySearchTree::getMinimumCostUsingNaiveR
     return result;
 }
 
-OptimalBinarySearchTree::Cost OptimalBinarySearchTree::getMinimumCostUsingTabularDP() const
+OptimalBinarySearchTree::Cost OptimalBinarySearchTree::getMinimumCostUsingIterativeDP() const
 {
     // Time Complexity: O(n^3)
     // Auxiliary Space: O(n^2)
-
     Cost result(0);
     if(!m_valueAndFrequencyPairs.empty())
     {

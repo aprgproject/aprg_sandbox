@@ -24,11 +24,10 @@ MatrixMultiplicationOrder::Count MatrixMultiplicationOrder::getMinimumNumberOfOp
 
 MatrixMultiplicationOrder::Count MatrixMultiplicationOrder::getMinimumNumberOfOperationsUsingMemoizationDP() const
 {
-    // Time Complexity: O(n^3) (should be same as Tabular DP)
+    // Time Complexity: O(n^3) (should be same as Iterative DP)
     // Auxiliary Space: O(n^2)
 
-    Count result(0);
-    if(!m_dimensions.empty())
+    Count result(0);    if(!m_dimensions.empty())
     {
         CountMatrix countMatrix(m_dimensions.size(), m_dimensions.size(), MAX_COUNT);
         result = getMinimumNumberOfOperationsUsingMemoizationDP(countMatrix, 0, m_dimensions.size()-1);
@@ -36,11 +35,10 @@ MatrixMultiplicationOrder::Count MatrixMultiplicationOrder::getMinimumNumberOfOp
     return result;
 }
 
-MatrixMultiplicationOrder::Count MatrixMultiplicationOrder::getMinimumNumberOfOperationsUsingTabularDP() const
+MatrixMultiplicationOrder::Count MatrixMultiplicationOrder::getMinimumNumberOfOperationsUsingIterativeDP() const
 {
     // Time Complexity: O(n^3)
     // Auxiliary Space: O(n^2)
-
     Count result(0);
     if(!m_dimensions.empty())
     {
