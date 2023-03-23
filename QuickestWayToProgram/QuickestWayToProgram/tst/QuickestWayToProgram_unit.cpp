@@ -1619,10 +1619,12 @@ TEST(SampleTest, DISABLED_GenerateSupplementarySacksHpp)
     AlbaLocalPathHandler currentDirectory(AlbaLocalPathHandler::createPathHandlerForDetectedPath());
     AlbaLocalPathHandler supplementaryDirectory(currentDirectory.getDirectory()+R"(\SupplementarySacks\)");
     AlbaLocalPathHandler supplementaryHeaderFilePath(currentDirectory.getDirectory()+R"(\SupplementarySacks.hpp)");
-    ListOfPaths files;    ListOfPaths directories;
+    ListOfPaths files;
+    ListOfPaths directories;
     supplementaryDirectory.findFilesAndDirectoriesUnlimitedDepth("*.*", files, directories);
 
-    ofstream supplementaryHeaderFile(supplementaryHeaderFilePath.getFullPath());    for(string const& file: files)
+    ofstream supplementaryHeaderFile(supplementaryHeaderFilePath.getFullPath());
+    for(string const& file: files)
     {
         AlbaLocalPathHandler filePath(file);
         supplementaryHeaderFile<<"#include <"<<filePath.getFile()<<">\n";
@@ -1634,9 +1636,11 @@ TEST(SampleTest, DISABLED_GenerateFeatureSpecificComponentFiles)
     AlbaLocalPathHandler currentDirectory(AlbaLocalPathHandler::createPathHandlerForDetectedPath());
     AlbaLocalPathHandler featureSpecificDirectory(currentDirectory.getDirectory());
 
-    ifstream componentNameFile(featureSpecificDirectory.getFullPath()+"ComponentName.hpp");    ofstream addComponentFile(featureSpecificDirectory.getFullPath()+"AddComponent.hpp");
+    ifstream componentNameFile(featureSpecificDirectory.getFullPath()+"ComponentName.hpp");
+    ofstream addComponentFile(featureSpecificDirectory.getFullPath()+"AddComponent.hpp");
     ofstream componentsIncludesFile(featureSpecificDirectory.getFullPath()+"ComponentsIncludes.hpp");
     ofstream convertToStringComponentNameFile(featureSpecificDirectory.getFullPath()+"ConvertToStringComponentName.hpp");
+
     AlbaFileReader componentNameFileReader(componentNameFile);
     while(componentNameFileReader.isNotFinished())
     {

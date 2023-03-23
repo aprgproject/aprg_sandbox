@@ -821,10 +821,12 @@ void splitToStringsUsingASeriesOfDelimeters(strings & listOfStrings, string cons
 
 string getStringWithJustifyAlignment(string const& mainString, unsigned int const targetLength)
 {
-    string result;    string noRedundantWhiteSpace(getStringWithoutRedundantWhiteSpace(mainString));
+    string result;
+    string noRedundantWhiteSpace(getStringWithoutRedundantWhiteSpace(mainString));
     string noWhiteSpace(getStringWithoutWhiteSpace(mainString));
     if(mainString.empty())
-    {        string gap(targetLength, ' ');
+    {
+        string gap(targetLength, ' ');
         result = gap;
     }
     else if(noRedundantWhiteSpace.length()>=targetLength)

@@ -58,6 +58,7 @@ public:
         static_assert(sizeof(DataTypeToManipulate) == -1, "This size or type is not supported. Please add a specialization if needed.");
         return 0;
     }
+
     static constexpr inline unsigned int getNumberOfConsecutiveZerosFromMsb(DataTypeToManipulate const)
     {
         // Think about this
@@ -67,6 +68,7 @@ public:
         static_assert(sizeof(DataTypeToManipulate) == -1, "This size or type is not supported. Please add a specialization if needed.");
         return 0;
     }
+
     static constexpr inline unsigned int getNumberOfConsecutiveZerosFromLsb(DataTypeToManipulate const)
     {
         // Think about this
@@ -77,9 +79,11 @@ public:
                       "This size or type is not supported. Please add a specialization if needed.");
         return 0;
     }
+
     static constexpr inline unsigned int getHammingDistance(DataTypeToManipulate const value1, DataTypeToManipulate const value2)
     {
         // The Hamming distance hamming(a,b) between two bitstrings a and b of equal length is the number of positions where the bitstrings differ.
+
         static_assert(typeHelper::isIntegralType<DataTypeToManipulate>(), "DataTypeToManipulate must be an integer");
 
         return getNumberOfOnes(value1 ^ value2);
@@ -98,10 +102,12 @@ public:
         static_assert(sizeof(DataTypeToManipulate) == -1,
                       "This size or type is not supported. Please add a specialization if needed.");
 
-        return 0;    }
+        return 0;
+    }
 
     static constexpr inline DataTypeToManipulate get2ToThePowerOf(DataTypeToManipulate const exponent)
-    {        static_assert(typeHelper::isIntegralType<DataTypeToManipulate>(), "DataTypeToManipulate must be an integer");
+    {
+        static_assert(typeHelper::isIntegralType<DataTypeToManipulate>(), "DataTypeToManipulate must be an integer");
 
         return DataTypeToManipulate(1) << exponent;
     }

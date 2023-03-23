@@ -22,21 +22,17 @@ using namespace std;
 namespace alba
 {
 
-AlbaLinuxPathHandler::AlbaLinuxPathHandler(PathInitialValue const initialValue)
+AlbaLinuxPathHandler::AlbaLinuxPathHandler(string const& path)
     : AlbaPathHandler(R"(/)")
     , m_foundInLocalSystem(false)
     , m_relativePath(false)
 {
-    if(PathInitialValue::DetectedLocalPath == initialValue)
-    {
-        setPathToDetectedLocalPath();
-    }}
-
-AlbaLinuxPathHandler::AlbaLinuxPathHandler(string const& path)
-    : AlbaPathHandler(R"(/)")    , m_foundInLocalSystem(false)
-    , m_relativePath(false)
-{
     save(path);
+}
+
+AlbaLinuxPathHandler AlbaLinuxPathHandler::createPathHandlerForDetectedPath()
+{
+    return AlbaLinuxPathHandler(getCurrentDetectedPath());
 }
 
 void AlbaLinuxPathHandler::clear()
@@ -46,7 +42,17 @@ void AlbaLinuxPathHandler::clear()
     m_relativePath = false;
 }
 
-double AlbaLinuxPathHandler::getFileSizeEstimate()
+bool AlbaLinuxPathHandler::isFoundInLocalSystem() const
+{
+    return m_foundInLocalSystem;
+}
+
+bool AlbaLinuxPathHandler::isRelativePath() const
+{
+    return m_relativePath;
+}
+
+double AlbaLinuxPathHandler::getFileSizeEstimate() const
 {
     struct stat fileStatus{};
     double fileSize(0);
@@ -62,7 +68,7 @@ double AlbaLinuxPathHandler::getFileSizeEstimate()
     return fileSize;
 }
 
-AlbaDateTime AlbaLinuxPathHandler::getFileCreationTime()
+AlbaDateTime AlbaLinuxPathHandler::getFileCreationTime() const
 {
     struct stat fileStatus{};
     AlbaDateTime fileCreationTime;
@@ -78,33 +84,6 @@ AlbaDateTime AlbaLinuxPathHandler::getFileCreationTime()
            <<"] 'stat' errno value:["<<errno<<"] error message:["<<getErrorMessage(errno)<<"]\n";
     }
     return fileCreationTime;
-}
-
-bool AlbaLinuxPathHandler::isFoundInLocalSystem() const
-{
-    return m_foundInLocalSystem;
-}
-
-bool AlbaLinuxPathHandler::isRelativePath() const
-{
-    return m_relativePath;
-}
-
-void AlbaLinuxPathHandler::setPathToDetectedLocalPath()
-{
-    constexpr unsigned int MAX_ARGUMENT_LENGTH = 50;
-    constexpr unsigned int MAX_PATH = 1000;
-    char argument[MAX_ARGUMENT_LENGTH];
-    char detectedLocalPath[MAX_PATH];
-
-    snprintf(argument, MAX_ARGUMENT_LENGTH, "/proc/%d/exe", getpid());
-    unsigned int length = static_cast<unsigned int>(readlink(argument, detectedLocalPath, MAX_PATH));
-    if(length<=0)
-    {
-        length=1;
-    }
-    detectedLocalPath[length] = '\0';
-    input(string(detectedLocalPath));
 }
 
 void AlbaLinuxPathHandler::createDirectoriesForNonExisitingDirectories() const
@@ -302,11 +281,46 @@ void AlbaLinuxPathHandler::findFilesAndDirectoriesUnlimitedDepth(
     findFilesAndDirectoriesWithDepth(m_directory, wildCardSearch, listOfFiles, listOfDirectories, -1);
 }
 
+string AlbaLinuxPathHandler::getCurrentDetectedPath()
+{
+    constexpr unsigned int MAX_ARGUMENT_LENGTH = 50;
+    constexpr unsigned int MAX_PATH = 1000;
+    char argument[MAX_ARGUMENT_LENGTH];
+    char detectedLocalPath[MAX_PATH];
+
+    snprintf(argument, MAX_ARGUMENT_LENGTH, "/proc/%d/exe", getpid());
+    unsigned int length = static_cast<unsigned int>(readlink(argument, detectedLocalPath, MAX_PATH));
+    if(length<=0)
+    {
+        length=1;
+    }
+    detectedLocalPath[length] = '\0';
+    return string(detectedLocalPath);
+}
+
+void AlbaLinuxPathHandler::save(string const& path)
+{
+    string correctPath(getCorrectPathWithoutDoublePeriod(
+                           //getStringWithoutCharAtTheEnd(
+                               getCorrectPathWithReplacedSlashCharacters(
+                                   path , m_slashCharacterString)
+                            //   , m_slashCharacterString[0])
+                       , m_slashCharacterString));
+    if(isSlashNeededAtTheEnd(correctPath, path))
+    {
+        correctPath = getCorrectPathWithoutDoublePeriod(correctPath + m_slashCharacterString, m_slashCharacterString);
+    }
+    setExtensionFromPath(correctPath);
+    setDirectoryAndFileFromPath(correctPath);
+    setFileType();
+    m_foundInLocalSystem = canBeLocated(correctPath);
+}
+
 void AlbaLinuxPathHandler::findFilesAndDirectoriesWithDepth(
         string const& currentDirectory,
         string const& wildCardSearch,
-        set<string>& listOfFiles,
-        set<string>& listOfDirectories,
+        ListOfPaths& listOfFiles,
+        ListOfPaths& listOfDirectories,
         int depth) const
 {
     if(depth==0) {return;}
@@ -366,24 +380,6 @@ void AlbaLinuxPathHandler::loopAllFilesAndDirectoriesInDirectoryStream(
         }
     }
     while(directoryPointer != nullptr);
-}
-
-void AlbaLinuxPathHandler::save(string const& path)
-{
-    string correctPath(getCorrectPathWithoutDoublePeriod(
-                           //getStringWithoutCharAtTheEnd(
-                               getCorrectPathWithReplacedSlashCharacters(
-                                   path , m_slashCharacterString)
-                            //   , m_slashCharacterString[0])
-                       , m_slashCharacterString));
-    if(isSlashNeededAtTheEnd(correctPath, path))
-    {
-        correctPath = getCorrectPathWithoutDoublePeriod(correctPath + m_slashCharacterString, m_slashCharacterString);
-    }
-    setExtensionFromPath(correctPath);
-    setDirectoryAndFileFromPath(correctPath);
-    setFileType();
-    m_foundInLocalSystem = canBeLocated(correctPath);
 }
 
 bool AlbaLinuxPathHandler::isPathADirectory(string const& fileOrDirectoryName) const

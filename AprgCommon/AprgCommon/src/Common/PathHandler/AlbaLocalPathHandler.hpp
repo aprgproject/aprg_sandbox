@@ -28,11 +28,26 @@ class AlbaLocalPathHandler: public AlbaWindowsPathHandler
 #ifdef OS_LINUX
 class AlbaLocalPathHandler: public AlbaLinuxPathHandler
 #endif
+
 {
 public:
-    AlbaLocalPathHandler(PathInitialValue const initialValue);
-    AlbaLocalPathHandler(std::string const& path);
+
+#ifdef OS_WINDOWS
+    template<typename... ArgumentTypes>
+    AlbaLocalPathHandler(ArgumentTypes&&... arguments)
+         : AlbaWindowsPathHandler(std::forward<ArgumentTypes>(arguments)...)
+    {}
+#endif
+
+#ifdef OS_LINUX
+    template<typename... ArgumentTypes>
+    AlbaLocalPathHandler(ArgumentTypes&&... arguments)
+         : AlbaLinuxPathHandler(std::forward<ArgumentTypes>(arguments)...)
+    {}
+#endif
+
     // rule of zero
-    // no need for virtual destructor because base destructor is virtual (similar to other virtual functions)};
+    // no need for virtual destructor because base destructor is virtual (similar to other virtual functions)
+};
 
 }//namespace alba

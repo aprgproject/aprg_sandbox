@@ -259,9 +259,11 @@ string AprgGraph::getBitmapFilePathOfCharacter(char const character) const
     AlbaLocalPathHandler bitmapCharacterFile(detectedPath.getDirectory() + R"(BitmapCharacters/)"+filename);
     return bitmapCharacterFile.getFullPath();
 #endif
+
 #ifdef APRG_DEBUG
     //This is based on APRG (for debug builds), there should be a common for this (on pathhandlers maybe?)
-    return  AlbaLocalPathHandler(string(APRG_DIR)+"/AprgGraph/BitmapCharacters/"+filename).getFullPath();#endif
+    return  AlbaLocalPathHandler(string(APRG_DIR)+"/AprgGraph/BitmapCharacters/"+filename).getFullPath();
+#endif
 }
 
 double AprgGraph::getLowestInterval() const

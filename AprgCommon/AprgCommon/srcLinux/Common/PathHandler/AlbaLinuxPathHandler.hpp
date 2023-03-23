@@ -15,15 +15,18 @@ namespace alba
 class AlbaLinuxPathHandler: public AlbaPathHandler
 {
 public:
-    AlbaLinuxPathHandler(PathInitialValue const initialValue);
     AlbaLinuxPathHandler(std::string const& path);
     // no need for virtual destructor because base destructor is virtual (similar to other virtual functions)
+
+    static AlbaLinuxPathHandler createPathHandlerForDetectedPath();
+	
     void clear() override;
-    double getFileSizeEstimate();
-    AlbaDateTime getFileCreationTime();    bool isFoundInLocalSystem() const;
+    bool isFoundInLocalSystem() const;
     bool isRelativePath() const;
-    void setPathToDetectedLocalPath();
+    double getFileSizeEstimate() const;
+    AlbaDateTime getFileCreationTime() const;
     void createDirectoriesForNonExisitingDirectories() const;
+
     bool deleteFile();
     bool deleteDirectoryWithoutFilesAndDirectories(); //do tests
     void deleteFilesInDirectory(); //do tests
@@ -32,6 +35,7 @@ public:
     bool copyToNewFile(std::string const& newFilePath);
     bool renameFile(std::string const& newFileName);
     bool renameImmediateDirectory(std::string const& newDirectoryName);
+
     void findFilesAndDirectoriesOneDepth(
             std::string const& wildCardSearch,
             ListOfPaths& listOfFiles,
@@ -47,6 +51,7 @@ public:
             ListOfPaths& listOfDirectories) const;
 
 private:
+    static std::string getCurrentDetectedPath();
     void save(std::string const& path) override;
     void findFilesAndDirectoriesWithDepth(
             std::string const& currentDirectory,

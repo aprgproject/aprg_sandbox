@@ -47,9 +47,11 @@ void UserInterface::askUserForFormDetails()
     formDetailsDirectoryPath.input(formDetailsDirectoryPath.getDirectory() + "FormDetails/");
     saveFormDetailsFromFormDetailPath(askUserForPathOfFormDetailToRead(formDetailsDirectoryPath.getFullPath()));
 }
+
 string UserInterface::askUserForPathOfFormDetailToRead(string const& formDetailsDirectoryPath)
 {
     AlbaLocalPathHandler formDetailsPathHandler(formDetailsDirectoryPath);
+
     set<string> listOfFiles;
     set<string> listOfDirectories;
     AlbaUserInterface::Choices<unsigned int> choices;

@@ -5,8 +5,10 @@
 
 #include <sstream>
 #include <utility>
+
 namespace alba
 {
+
 template <typename TypeToShadow>
 struct AlbaFundamentalOperationsCounts : public AlbaSingleton<AlbaFundamentalOperationsCounts<TypeToShadow>>
 {
@@ -95,7 +97,9 @@ public:
         ++COUNTS.moveAssignmentCount;
         return *this;
     }
+
 #undef COUNTS
 };
+
 
 } // namespace alba

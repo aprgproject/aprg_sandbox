@@ -391,9 +391,10 @@ TEST_F(AlbaLinuxPathHandlerTest, FileSizeTest_FileIsExisting)
 
 TEST_F(AlbaLinuxPathHandlerTest, SetCurrentDirectoryFromDetectedLocalPath)
 {
-    AlbaLinuxPathHandler pathHandler(PathInitialValue::DetectedLocalPath);
+    AlbaLinuxPathHandler pathHandler(AlbaLinuxPathHandler::createPathHandlerForDetectedPath());
 
     EXPECT_EQ(PathType::File, pathHandler.getPathType());
-    ASSERT_TRUE(pathHandler.isFoundInLocalSystem());}
+    ASSERT_TRUE(pathHandler.isFoundInLocalSystem());
+}
 
 }
