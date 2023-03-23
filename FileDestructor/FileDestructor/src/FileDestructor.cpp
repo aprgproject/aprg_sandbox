@@ -10,14 +10,12 @@ namespace alba
 {
 
 FileDestructor::FileDestructor()
-    : m_pathToDestroy(PathInitialValueSource::DetectedLocalPath)
+    : m_pathToDestroy(AlbaLocalPathHandler::createPathHandlerForDetectedPath())
 {}
 
-void FileDestructor::destroy() const
-{
+void FileDestructor::destroy() const{
     destroy(m_pathToDestroy.getFullPath());
 }
-
 void FileDestructor::destroy(string const& path) const
 {
     renameDirectoriesUnderneath(path);
