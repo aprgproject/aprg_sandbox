@@ -211,15 +211,13 @@ void PidSimulator::calculateAndGenerateOutputImage()
     updateAllMaxWithBuffer(xLeftMax, xRightMax, yBottomMax, yTopMax);
     cout << "max list:[" << xLeftMax << ", " << xRightMax << ", " << yBottomMax << ", " << yTopMax << "]\n";
 
-    AlbaLocalPathHandler detectedPath(PathInitialValueSource::DetectedLocalPath);
+    AlbaLocalPathHandler detectedPath(AlbaLocalPathHandler::createPathHandlerForDetectedPath());
     AlbaLocalPathHandler defaultFile(detectedPath.getDirectory() + R"(Default24Bit.bmp)");
     cout << "defaultFile:[" << defaultFile.getFullPath() << "]\n";
-    if(defaultFile.isFoundInLocalSystem())
-    {
+    if(defaultFile.isFoundInLocalSystem())    {
         AlbaLocalPathHandler graphOutputFile(defaultFile.getDirectory() + R"(\graph.bmp)");
         cout << "graphOutputFile:[" << graphOutputFile.getFullPath() << "]\n";
-        graphOutputFile.deleteFile();
-        defaultFile.copyToNewFile(graphOutputFile.getFullPath());
+        graphOutputFile.deleteFile();        defaultFile.copyToNewFile(graphOutputFile.getFullPath());
 
         Bitmap bitmap(graphOutputFile.getFullPath());
         BitmapConfiguration configuration(bitmap.getConfiguration());
