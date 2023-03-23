@@ -43,8 +43,8 @@ private:
 // 1) Naive Recursion / Dynamic Programming by Memoization:
 // -> Each "node/vertex" has a "maximum count" and this can be computed by:
 // ---> Get count when vertex is included (recursively call the count of grandchildren and add 1 for this vertex)
-// ---> Get count when vertex is not included (recursively call the count of children)// ---> Return the maximum of the two counts
-
+// ---> Get count when vertex is not included (recursively call the count of children)
+// ---> Return the maximum of the two counts
 
 
 // Given a Binary Tree, find size of the Largest Independent Set(LIS) in it.

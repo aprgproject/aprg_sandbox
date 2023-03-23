@@ -15,11 +15,11 @@ UglyNumbers::UglyNumbers(Number const nth)
 UglyNumbers::Number UglyNumbers::getNthUglyNumberByCheckingPreviousUglyNumbersUsingIterativeDP() const
 {
     // Time Complexity: O(n)
-    // Auxiliary Space: O(n)    // -> where n is the value of the ugly number
+    // Auxiliary Space: O(n)
+    // -> where n is the value of the ugly number
 
     Number result(0);
-    if(m_nth > 0)
-    {
+    if(m_nth > 0)    {
         Booleans isUglyNumber{true};
 
         Number currentNumber=1;
@@ -45,11 +45,11 @@ UglyNumbers::Number UglyNumbers::getNthUglyNumberByCheckingPreviousUglyNumbersUs
 UglyNumbers::Number UglyNumbers::getNthUglyNumberByMultiplesUsingIterativeDP() const
 {
     // Time Complexity: O(n)
-    // Auxiliary Space: O(n)    // -> where n is the value of the count of the ugly number
+    // Auxiliary Space: O(n)
+    // -> where n is the value of the count of the ugly number
 
     Number result(0);
-    if(m_nth > 0)
-    {
+    if(m_nth > 0)    {
         Numbers uglyNumbers{1};
         uglyNumbers.reserve(m_nth);
 

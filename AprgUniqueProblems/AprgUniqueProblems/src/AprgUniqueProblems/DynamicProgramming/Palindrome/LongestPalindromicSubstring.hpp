@@ -27,11 +27,11 @@ public:
     std::string getLongestStringUsingIterativeDPAndSpaceEfficient() const;
 
 private:
-    Index getLongestLengthUsingNaiveRecursion(Index const left, Index const right) const;    Index getLongestLengthUsingMemoizationDP(IndexMatrix & lengthMatrix, Index const left, Index const right) const;
+    Index getLongestLengthUsingNaiveRecursion(Index const left, Index const right) const;
+    Index getLongestLengthUsingMemoizationDP(IndexMatrix & lengthMatrix, Index const left, Index const right) const;
     std::string m_string;
 
 };
-
 }
 
 // Given a string, find the longest substring which is palindrome.

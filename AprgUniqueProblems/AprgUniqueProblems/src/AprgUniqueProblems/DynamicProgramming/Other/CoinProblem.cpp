@@ -25,10 +25,10 @@ unsigned int CoinProblem::getNumberOfFewestCoinsUsingMemoizationDP(Value const t
 unsigned int CoinProblem::getNumberOfFewestCoinsIterativeDP(Value const total) const
 {
     CountPerValue countPerValue(getMaxOfTotalAndMaxCoinPlusOne(total), static_cast<unsigned int>(UNUSED_COUNT));
+
     countPerValue[0] = 1; // null set
     for(Value const availableCoin : m_availableCoins)
-    {
-        countPerValue[availableCoin] = 1U;
+    {        countPerValue[availableCoin] = 1U;
     }
     for(Value partialValue=1; partialValue<=total; partialValue++)
     {
@@ -56,11 +56,11 @@ CoinProblem::Coins CoinProblem::getFewestCoinsUsingMemoizationDP(Value const tot
 CoinProblem::Coins CoinProblem::getFewestCoinsUsingIterativeDP(Value const total) const
 {
     VectorOfCoins fewestCoins(total+1);
-    for(Value partialValue=1; partialValue<=total; partialValue++)    {
+    for(Value partialValue=1; partialValue<=total; partialValue++)
+    {
         Coins & fewestCoinsForValue(fewestCoins[partialValue]);
         for(Value const availableCoin : m_availableCoins)
-        {
-            if(partialValue >= availableCoin
+        {            if(partialValue >= availableCoin
                     && (fewestCoins.at(partialValue).empty() // has no solution
                         || fewestCoins.at(partialValue).size() > fewestCoins.at(partialValue-availableCoin).size()+1)) // is this solution better
             {
@@ -83,11 +83,11 @@ unsigned int CoinProblem::getNumberOfCoinPermutationsMemoizationDP(Value const t
 unsigned int CoinProblem::getNumberOfCoinPermutationsIterativeDP(Value const total) const
 {
     CountPerValue countPerValue(total+1, 0);
-    countPerValue[0] = 1; // null set    for(Value partialValue=1; partialValue<=total; partialValue++)
+    countPerValue[0] = 1; // null set
+    for(Value partialValue=1; partialValue<=total; partialValue++)
     {
         for(Value const availableCoin : m_availableCoins)
-        {
-            if(partialValue >= availableCoin)
+        {            if(partialValue >= availableCoin)
             {
                 countPerValue[partialValue] += countPerValue.at(partialValue-availableCoin);
             }
@@ -105,10 +105,10 @@ CoinProblem::CoinPermutations CoinProblem::getCoinPermutationsUsingMemoizationDP
 CoinProblem::CoinPermutations CoinProblem::getCoinPermutationsUsingIterativeDP(Value const total) const
 {
     CoinPermutationsPerValue coinPermutationsPerValue(getMaxOfTotalAndMaxCoinPlusOne(total));
+
     for(Value const availableCoin : m_availableCoins)
     {
-        coinPermutationsPerValue[availableCoin].emplace(CoinPermutation{availableCoin});
-    }
+        coinPermutationsPerValue[availableCoin].emplace(CoinPermutation{availableCoin});    }
     for(Value partialValue=0; partialValue<coinPermutationsPerValue.size(); partialValue++)
     {
         CoinPermutations & coinPermutations(coinPermutationsPerValue[partialValue]);
@@ -146,10 +146,10 @@ unsigned int CoinProblem::getNumberOfCoinCombinationsUsingMemoizationDP(Value co
 unsigned int CoinProblem::getNumberOfCoinCombinationsUsingIterativeDP(Value const total) const
 {
     // Time Complexity: O(mn)
+
     unsigned int result(0);
     if(!m_availableCoins.empty())
-    {
-        CountMatrix countByValueByCoin(total+1, m_availableCoins.size(), 0);
+    {        CountMatrix countByValueByCoin(total+1, m_availableCoins.size(), 0);
         for(unsigned int coinIndex=0; coinIndex<m_availableCoins.size(); coinIndex++)
         {
             countByValueByCoin.setEntry(0, coinIndex, 1); // null set when partial value is zero
@@ -179,10 +179,10 @@ unsigned int CoinProblem::getNumberOfCoinCombinationsUsingIterativeDPAndSpaceEff
 {
     // Time Complexity: O(mn)
     // The auxiliary space required here is O(n) only.
+
     // Space efficiency analysis:
     // Since accessing the previous partial values requires only one row above,
     // we only really need 1 row (not a matrix) to keep track partial values.
-
     CountPerValue countPerValue(total+1, 0);
     countPerValue[0]=1;
     for(Value const& availableCoin : m_availableCoins)
@@ -204,10 +204,10 @@ CoinProblem::CoinCombinations CoinProblem::getCoinCombinationsUsingMemoizationDP
 CoinProblem::CoinCombinations CoinProblem::getCoinCombinationsUsingIterativeDP(Value const total) const
 {
     CoinCombinationsPerValue coinCombinationsPerValue(getMaxOfTotalAndMaxCoinPlusOne(total));
+
     for(Value const availableCoin : m_availableCoins)
     {
-        if(coinCombinationsPerValue.at(availableCoin).empty())
-        {
+        if(coinCombinationsPerValue.at(availableCoin).empty())        {
             coinCombinationsPerValue[availableCoin].emplace(CoinCombination{availableCoin});
         }
     }

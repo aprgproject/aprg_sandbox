@@ -32,11 +32,11 @@ BooleanParenthesizationProblem::Count BooleanParenthesizationProblem::getNumberO
     // Time Complexity: O(n^3) (should be same as Iterative DP)
     // Auxiliary Space: O(n^2)
 
-    Count result(0);    if(!m_inputValues.empty())
+    Count result(0);
+    if(!m_inputValues.empty())
     {
         CountMatrices countMatrices(2U, CountMatrix(m_inputValues.size(), m_inputValues.size(), UNUSED_COUNT));
-        result = getNumberOfWaysUsingMemoizationDP(countMatrices, true, 0, m_inputValues.size()-1);
-    }
+        result = getNumberOfWaysUsingMemoizationDP(countMatrices, true, 0, m_inputValues.size()-1);    }
     return result;
 }
 
@@ -44,10 +44,10 @@ BooleanParenthesizationProblem::Count BooleanParenthesizationProblem::getNumberO
 {
     // Time Complexity: O(n^3)
     // Auxiliary Space: O(n^2)
+
     Count result(0);
     if(!m_inputValues.empty())
-    {
-        CountMatrix countsForFalse(m_inputValues.size(), m_inputValues.size());
+    {        CountMatrix countsForFalse(m_inputValues.size(), m_inputValues.size());
         CountMatrix countsForTrue(m_inputValues.size(), m_inputValues.size());
 
         for(Index index=0; index<m_inputValues.size(); index++) // for length 1

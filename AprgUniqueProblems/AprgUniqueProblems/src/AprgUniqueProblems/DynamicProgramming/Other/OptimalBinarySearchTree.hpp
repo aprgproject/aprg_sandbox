@@ -28,10 +28,10 @@ public:
 
 private:
     Cost getMinimumCostUsingNaiveRecursion(Cost const depth, Index const left, Index const right) const;
+
     Cost getCost(Cost const depth, Cost const frequency) const;
     void initialize();
-    void sortByValue();
-    ValueAndFrequencyPairs m_valueAndFrequencyPairs;
+    void sortByValue();    ValueAndFrequencyPairs m_valueAndFrequencyPairs;
 };
 
 }
@@ -98,8 +98,8 @@ private:
 // 1) The time complexity of the iterative solution is O(n^3).
 // -> The time complexity is reduced to O(n^3) by pre-calculating sum of frequencies instead of calling sum() again and again.
 // 2) In the above solutions, we have computed optimal cost only.
-// -> The solutions can be easily modified to store the structure of BSTs also.// -> We can create another auxiliary array of size n to store the structure of tree.
+// -> The solutions can be easily modified to store the structure of BSTs also.
+// -> We can create another auxiliary array of size n to store the structure of tree.
 // -> All we need to do is, store the chosen ‘r’ in the innermost loop.
-
 
 

@@ -61,4 +61,5 @@ TEST(CountOfNDigitNumbersWhoseSumOfDigitsEqualsToGivenSumTest, GetCountWorksOnEx
     EXPECT_EQ(21U, queryForTest.getCountUsingIterativeDPAndSpaceEfficient());
     EXPECT_EQ(21U, queryForTest.getCountBySearchingValuesWith1And9Increment());
 }
+
 }

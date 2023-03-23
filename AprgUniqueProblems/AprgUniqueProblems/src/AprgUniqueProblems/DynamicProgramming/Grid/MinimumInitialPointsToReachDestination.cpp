@@ -13,10 +13,10 @@ MinimumInitialPointsToReachDestination::MinimumInitialPointsToReachDestination(
 MinimumInitialPointsToReachDestination::Value MinimumInitialPointsToReachDestination::getMinimalInitialPointsUsingIterativeDP() const
 {
     // Time Complexity of the DP implementation is O(mn) which is much better than Naive Recursive implementation.
+
     Value result(0);
     if(!m_inputGrid.isEmpty())
-    {
-        int lastX = m_inputGrid.getNumberOfColumns()-1;
+    {        int lastX = m_inputGrid.getNumberOfColumns()-1;
         int lastY = m_inputGrid.getNumberOfRows()-1;
         Value lastValue = m_inputGrid.getEntry(lastX, lastY) > 0 ? 1 : m_inputGrid.getEntry(lastX, lastY)*-1 + 1;
 

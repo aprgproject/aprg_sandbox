@@ -22,11 +22,11 @@ TEST(LevenshteinDistanceTest, GetLevenshteinDistanceWorksOnExample1)
     EXPECT_EQ(2U, queryForTest.getLevenshteinDistanceUsingIterativeDPAndSpaceEfficient());
 }
 
-TEST(LevenshteinDistanceTest, GetLevenshteinDistanceWorksOnExample2){
+TEST(LevenshteinDistanceTest, GetLevenshteinDistanceWorksOnExample2)
+{
     LevenshteinDistance queryForTest("This is a statement", "This is not a statement");
 
-    EXPECT_EQ(4U, queryForTest.getLevenshteinDistanceUsingNaiveRecursion());
-    EXPECT_EQ(4U, queryForTest.getLevenshteinDistanceUsingMemoizationDP());
+    EXPECT_EQ(4U, queryForTest.getLevenshteinDistanceUsingNaiveRecursion());    EXPECT_EQ(4U, queryForTest.getLevenshteinDistanceUsingMemoizationDP());
     EXPECT_EQ(4U, queryForTest.getLevenshteinDistanceUsingIterativeDP());
     EXPECT_EQ(4U, queryForTest.getLevenshteinDistanceUsingIterativeDPAndSpaceEfficient());
 }

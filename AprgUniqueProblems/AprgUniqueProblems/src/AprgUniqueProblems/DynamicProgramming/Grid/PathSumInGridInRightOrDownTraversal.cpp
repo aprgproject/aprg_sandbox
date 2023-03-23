@@ -55,11 +55,11 @@ PathSumInGridInRightOrDownTraversal::Path PathSumInGridInRightOrDownTraversal::g
         Grid partialSumGrid(getPartialSumGridUsingIterativeDP());
         Index x=partialSumGrid.getNumberOfColumns()-1, y=partialSumGrid.getNumberOfRows()-1;
         path = {m_inputGrid.getEntry(x, y)};
-        while(true)        {
+        while(true)
+        {
             if(x==0 && y==0)
             {
-                break;
-            }
+                break;            }
             else if(x==0)
             {
                 path.emplace_back(m_inputGrid.getEntry(x, --y));
@@ -140,11 +140,11 @@ PathSumInGridInRightOrDownTraversal::Value PathSumInGridInRightOrDownTraversal::
 PathSumInGridInRightOrDownTraversal::Grid PathSumInGridInRightOrDownTraversal::getPartialSumGridUsingIterativeDP() const
 {
     Grid result(m_inputGrid);
-    for(Index x=1; x<result.getNumberOfColumns(); x++)  // first row has only left neighbors    {
+    for(Index x=1; x<result.getNumberOfColumns(); x++)  // first row has only left neighbors
+    {
         result.getEntryReference(x, 0) += result.getEntry(x-1, 0);
     }
-    for(Index y=1; y<result.getNumberOfRows(); y++) // first column has only up neighbors
-    {
+    for(Index y=1; y<result.getNumberOfRows(); y++) // first column has only up neighbors    {
         result.getEntryReference(0, y) += result.getEntry(0, y-1);
     }
     for(Index x=1; x<result.getNumberOfColumns(); x++) // the rest of the matrix

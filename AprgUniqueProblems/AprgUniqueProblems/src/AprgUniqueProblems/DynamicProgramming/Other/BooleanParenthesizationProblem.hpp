@@ -28,11 +28,11 @@ public:
     Count getNumberOfWaysForTrueUsingIterativeDP() const;
 
 private:
-    Count getNumberOfWaysUsingNaiveRecursion(bool const expectedOutput, Index const left, Index const right) const;    Count getNumberOfWaysUsingMemoizationDP(CountMatrices & countMatrices, bool const expectedOutput, Index const left, Index const right) const;
+    Count getNumberOfWaysUsingNaiveRecursion(bool const expectedOutput, Index const left, Index const right) const;
+    Count getNumberOfWaysUsingMemoizationDP(CountMatrices & countMatrices, bool const expectedOutput, Index const left, Index const right) const;
 
     Count convertBoolToCount(bool const booleanValue) const;
-    bool areSizesCorrect() const;
-    void initialize();
+    bool areSizesCorrect() const;    void initialize();
     Booleans m_inputValues;
     Operators m_operators;
 };
@@ -44,11 +44,11 @@ private:
 
 // Given a boolean expression with following symbols.
 
-// Symbols// -> 'T' ---> true
+// Symbols
+// -> 'T' ---> true
 // -> 'F' ---> false
 
 // And following operators filled between symbols
-
 // Operators
 //     &   ---> boolean AND
 //     |   ---> boolean OR

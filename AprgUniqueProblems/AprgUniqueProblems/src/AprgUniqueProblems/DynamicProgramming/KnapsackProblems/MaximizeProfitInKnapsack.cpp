@@ -39,11 +39,11 @@ MaximizeProfitInKnapsack::Profit MaximizeProfitInKnapsack::getBestProfitUsingMem
 MaximizeProfitInKnapsack::Profit MaximizeProfitInKnapsack::getBestProfitUsingIterativeDP() const
 {
     // Time Complexity: O(N*W).
-    // -> where ‘N’ is the number of weight element and ‘W’ is capacity. As for every weight element we traverse through all weight capacities 1<=w<=W.    // Auxiliary Space: O(N*W).
+    // -> where ‘N’ is the number of weight element and ‘W’ is capacity. As for every weight element we traverse through all weight capacities 1<=w<=W.
+    // Auxiliary Space: O(N*W).
     // -> The use of 2-D array of size ‘N*W’.
 
-    Profit result(0);
-    if(!m_items.empty())
+    Profit result(0);    if(!m_items.empty())
     {
         ProfitMatrix profitMatrix(m_maximumWeight+1, m_items.size()+1, 0);
         Weight smallestItemWeight(getSmallestItemWeight());
@@ -69,11 +69,11 @@ MaximizeProfitInKnapsack::Profit MaximizeProfitInKnapsack::getBestProfitUsingIte
 MaximizeProfitInKnapsack::Profit MaximizeProfitInKnapsack::getBestProfitUsingIterativeDPAndSpaceEfficient() const
 {
     // Complexity Analysis:
-    // Time Complexity: O(N*W). As redundant calculations of states are avoided.    // Auxiliary Space: O(W).  As we are using 1-D array instead of 2-D array.
+    // Time Complexity: O(N*W). As redundant calculations of states are avoided.
+    // Auxiliary Space: O(W).  As we are using 1-D array instead of 2-D array.
 
     // Space efficiency analysis:
-    // Since accessing the previous partial values requires only one row above and previous column is always to the left,
-    // we only really need 1 row (not a matrix) to keep track partial values.
+    // Since accessing the previous partial values requires only one row above and previous column is always to the left,    // we only really need 1 row (not a matrix) to keep track partial values.
 
     Profit result(0);
     if(!m_items.empty())

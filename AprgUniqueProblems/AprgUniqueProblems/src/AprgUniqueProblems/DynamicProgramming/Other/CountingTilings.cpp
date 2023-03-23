@@ -1,9 +1,10 @@
 #include "CountingTilings.hpp"
 
+#include <stack>
+
 using namespace std;
 
-namespace alba
-{
+namespace alba{
 
 CountingTilings::CountingTilings(Count const numberOfColumns, Count const numberOfRows)
     : m_numberOfColumns(numberOfColumns)
@@ -24,11 +25,10 @@ CountingTilings::Count CountingTilings::getNumberOfSolutionsUsingDynamicProgramm
 
     m_numberOfSolutions=0;
 
-    string currentRow(getEmptyRowString(m_numberOfColumns));
+    Row currentRow(getEmptyRow(m_numberOfColumns));
     searchNextRow(0U, currentRow);
 
-    return m_numberOfSolutions;
-}
+    return m_numberOfSolutions;}
 
 CountingTilings::Count CountingTilings::getNumberOfSolutionsUsingCompleteSearch()
 {
@@ -37,90 +37,90 @@ CountingTilings::Count CountingTilings::getNumberOfSolutionsUsingCompleteSearch(
     return m_numberOfSolutions;
 }
 
-string CountingTilings::getEmptyRowString(Count const length) const
+CountingTilings::Row CountingTilings::getEmptyRow(Count const length) const
 {
-    return string(length, ' ');
+    return Row(length, ' ');
 }
 
 void CountingTilings::searchNextRow(
         Count const rowIndex,
-        string const& currentRow)
+        Row const& currentRow)
 {
     if(rowIndex < m_numberOfRows-1)
     {
-        for(NextIterationDetail const& nextIterationDetail : getNextIterationDetails(currentRow))
+        for(Row const& nextRow : getNextRows(currentRow))
         {
-            searchNextRow(rowIndex+1, nextIterationDetail.nextNonFilledRow);
+            searchNextRow(rowIndex+1, nextRow);
         }
     }
     else if(rowIndex == m_numberOfRows-1)
     {
-        string emptyRow(getEmptyRowString(currentRow.length()));
-        for(auto const& detail : getNextIterationDetails(currentRow))
+        Row emptyRow(getEmptyRow(currentRow.length()));
+        for(Row const& nextRow : getNextRows(currentRow))
         {
-            if(emptyRow == detail.nextNonFilledRow)
+            if(emptyRow == nextRow)
             {
                 m_numberOfSolutions++;
-            }
-        }
+            }        }
     }
 }
 
-CountingTilings::NextIterationDetails const& CountingTilings::getNextIterationDetails(string const& currentNonFilledRow)
+CountingTilings::Rows const& CountingTilings::getNextRows(Row const& currentRow)
 {
-    auto it = m_currentToNextDetails.find(currentNonFilledRow);
-    if(it != m_currentToNextDetails.cend())
+    auto it = m_currentRowToNextRows.find(currentRow);
+    if(it != m_currentRowToNextRows.cend())
     {
         return it->second;
     }
     else
     {
-        string rowToBeFilled(currentNonFilledRow);
-        string nextNonFilledRow(getEmptyRowString(currentNonFilledRow.length()));
-        calculateNextIterationDetails(m_currentToNextDetails[currentNonFilledRow], rowToBeFilled, nextNonFilledRow, 0U);
-        return m_currentToNextDetails.at(currentNonFilledRow);
+        m_currentRowToNextRows[currentRow] = calculateNextRows(currentRow);
+        return m_currentRowToNextRows.at(currentRow);
     }
 }
 
-void CountingTilings::calculateNextIterationDetails(
-        NextIterationDetails & nextIterationDetails,
-        string & rowToBeFilled,
-        string & nextNonFilledRow,
-        Count const index)
+CountingTilings::Rows CountingTilings::calculateNextRows(
+        Row const& currentRow)
 {
     // This is not exactly DP but "complete search".
 
-    if(index < rowToBeFilled.length())
+    struct NextDetail
     {
-        if(rowToBeFilled.at(index) == ' ')
+        Row nextRow;
+        Count nextIndex;
+    };
+
+    Rows result;
+    stack<NextDetail> possibleNextDetails;
+    possibleNextDetails.emplace(NextDetail{getEmptyRow(currentRow.length()), 0});
+    while(!possibleNextDetails.empty())
+    {
+        NextDetail const& nextDetail(possibleNextDetails.top());
+        Row nextRow(nextDetail.nextRow);
+        Count nextIndex(nextDetail.nextIndex);
+        possibleNextDetails.pop();
+        if(nextIndex >= currentRow.length()) // if at the end
         {
-            if(index+1 < rowToBeFilled.length() && rowToBeFilled.at(index+1) == ' ')
+            result.emplace_back(nextRow);
+        }
+        else if(currentRow.at(nextIndex) == ' ')
+        {
+            if(nextIndex+1 < currentRow.length() && currentRow.at(nextIndex+1) == ' ')
             {
-                rowToBeFilled[index] = 'H';
-                rowToBeFilled[index+1] = 'H';
-                calculateNextIterationDetails(nextIterationDetails, rowToBeFilled, nextNonFilledRow, index+2);
-                rowToBeFilled[index] = ' ';
-                rowToBeFilled[index+1] = ' ';
+                possibleNextDetails.emplace(NextDetail{nextRow, nextIndex+2});
             }
-            rowToBeFilled[index] = 'V';
-            nextNonFilledRow[index] = 'V';
-            calculateNextIterationDetails(nextIterationDetails, rowToBeFilled, nextNonFilledRow, index+1);
-            rowToBeFilled[index] = ' ';
-            nextNonFilledRow[index] = ' ';
+            nextRow[nextIndex] = 'V';
+            possibleNextDetails.emplace(NextDetail{nextRow, nextIndex+1});
         }
         else
         {
-            calculateNextIterationDetails(nextIterationDetails, rowToBeFilled, nextNonFilledRow, index+1);
+            possibleNextDetails.emplace(NextDetail{nextRow, nextIndex+1});
         }
     }
-    else if(index == rowToBeFilled.length()) // only things that fit will be added
-    {
-        nextIterationDetails.emplace_back(NextIterationDetail{rowToBeFilled, nextNonFilledRow});
-    }
+    return result;
 }
 
-void CountingTilings::startCompleteSearch()
-{
+void CountingTilings::startCompleteSearch(){
     // This is not exactly DP but "complete search".
 
     m_numberOfSolutions=0;

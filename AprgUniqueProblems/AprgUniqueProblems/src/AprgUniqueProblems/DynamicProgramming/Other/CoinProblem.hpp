@@ -66,11 +66,11 @@ public:
     CoinCombinations getCoinCombinationsUsingIterativeDP(Value const total) const;
 
 private:
-    Value getMaxAvailableCoin() const;    Value getMaxOfTotalAndMaxCoinPlusOne(Value const total) const;
+    Value getMaxAvailableCoin() const;
+    Value getMaxOfTotalAndMaxCoinPlusOne(Value const total) const;
 
     // fewest coins
-    unsigned int getNumberOfFewestCoinsUsingMemoizationDPInternal(CountPerValue & countPerValue, Value const total) const;
-    Coins getFewestCoinsUsingMemoizationDPInternal(VectorOfCoins & fewestCoins, Value const total) const;
+    unsigned int getNumberOfFewestCoinsUsingMemoizationDPInternal(CountPerValue & countPerValue, Value const total) const;    Coins getFewestCoinsUsingMemoizationDPInternal(VectorOfCoins & fewestCoins, Value const total) const;
 
     // permutations
     unsigned int getNumberOfCoinPermutationsMemoizationDPInternal(CountPerValue & countPerValue, Value const total) const;

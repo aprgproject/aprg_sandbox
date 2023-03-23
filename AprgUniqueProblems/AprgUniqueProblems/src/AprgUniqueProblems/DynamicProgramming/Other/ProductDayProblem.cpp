@@ -34,10 +34,10 @@ ProductDayProblem::Price ProductDayProblem::getMinimumPriceUsingIterativeDP() co
 {
     // set half max to all entries (half max because theres addition so values might exceed if we use max)
     PriceMatrix minimumPrices(getNumberOfDays(), getNumberOfProductsSubsets(), static_cast<Price>(UNUSED_PRICE));
+
     for(Day day=0; day<getNumberOfDays(); day++) // set zero cost on empty product bits
     {
-        minimumPrices.setEntry(day, 0, 0);
-    }
+        minimumPrices.setEntry(day, 0, 0);    }
 
     for(Product product=0; product<getNumberOfProducts(); product++) // fill up first day
     {

@@ -18,19 +18,19 @@ public:
     Value getMinimalInitialPointsUsingIterativeDP() const;
 
 private:
-    Grid m_inputGrid;};
+    Grid m_inputGrid;
+};
 
 }
-
 // APPROACH:
 // 1) Dynamic Programming by Iterative method:
 // -> Each "cell" has a value of "needed points to make path"
 // -> Reverse traversal (from bottom-right to top-left)
-// -> Traversal uses previous values to compute for a new value// -> The computation of the "needed points to make path" of each cell is:
+// -> Traversal uses previous values to compute for a new value
+// -> The computation of the "needed points to make path" of each cell is:
 // ---> Get the "needed points from neighbors"
 // -----> Get value of bottom neighbor and right neighbor
-// -----> Return minimum value of the two neighbors and subtract the value of this cell
-// ---> Get maximum of "minimum points to move (which is 1)" and "needed points from neighbors"
+// -----> Return minimum value of the two neighbors and subtract the value of this cell// ---> Get maximum of "minimum points to move (which is 1)" and "needed points from neighbors"
 // -> Optimization:
 // ---> Last row has no bottom neighbors and last column has no right neighbors so it will be easier to compute for one neighbor
 

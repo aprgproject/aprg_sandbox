@@ -32,11 +32,11 @@ EggDroppingPuzzle::Count EggDroppingPuzzle::getMinimumNumberOfTrialsUsingMemoiza
 EggDroppingPuzzle::Count EggDroppingPuzzle::getMinimumNumberOfTrialsUsingIterativeDP() const
 {
     // Time Complexity: O(n*k^2).
-    // -> Where ‘n’ is the number of eggs and ‘k’ is the number of floors, as we use a nested for loop ‘k^2’ times for each egg    // Auxiliary Space: O(n*k).
+    // -> Where ‘n’ is the number of eggs and ‘k’ is the number of floors, as we use a nested for loop ‘k^2’ times for each egg
+    // Auxiliary Space: O(n*k).
     // -> As a 2-D array of size ‘n*k’ is used for storing elements.
 
-    CountMatrix countMatrix(m_numberOfEggs+1, m_numberOfFloors+1, 0U);
-    for(Count remainingEggs=1; remainingEggs<=m_numberOfEggs; remainingEggs++)
+    CountMatrix countMatrix(m_numberOfEggs+1, m_numberOfFloors+1, 0U);    for(Count remainingEggs=1; remainingEggs<=m_numberOfEggs; remainingEggs++)
     {
         countMatrix.setEntry(remainingEggs, 1, 1);
     }

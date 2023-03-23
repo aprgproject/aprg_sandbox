@@ -24,11 +24,11 @@ public:
     Count getCountUsingIterativeDPAndSpaceEfficient() const;
     Count getCountBySearchingValuesWith1And9Increment() const;
 
-private:    Count getCountUsingNaiveRecursion(Value const partialSum, Count const digitIndex) const;
+private:
+    Count getCountUsingNaiveRecursion(Value const partialSum, Count const digitIndex) const;
     Count getCountUsingMemoizationDP(CountMatrix & countMatrix, Value const partialSum, Count const digitIndex) const;
 
-    Count const m_numberOfDigits;
-    Value const m_targetSumOfDigits;
+    Count const m_numberOfDigits;    Value const m_targetSumOfDigits;
 };
 
 }
@@ -76,10 +76,10 @@ private:    Count getCountUsingNaiveRecursion(Value const partialSum, Count cons
 
 
 
+
 // Count of n digit numbers whose sum of digits equals to given sum
 
-// Given two integers ‘n’ and ‘sum’, find count of all n digit numbers with sum of digits as ‘sum’. Leading 0’s are not counted as digits.
-// -> 1 <= n <= 100 and
+// Given two integers ‘n’ and ‘sum’, find count of all n digit numbers with sum of digits as ‘sum’. Leading 0’s are not counted as digits.// -> 1 <= n <= 100 and
 // -> 1 <= sum <= 500
 
 // Example:

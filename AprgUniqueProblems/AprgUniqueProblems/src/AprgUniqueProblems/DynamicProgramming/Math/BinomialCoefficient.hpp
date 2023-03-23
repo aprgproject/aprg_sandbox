@@ -24,11 +24,11 @@ public:
     Value getBinomialCoefficientUsingIterativeDPAndSpaceEfficient() const;
     Value getBinomialCoefficientUsingGcf() const;
 
-private:    Value getBinomialCoefficientUsingNaiveRecursion(Value const n, Value const k) const;
+private:
+    Value getBinomialCoefficientUsingNaiveRecursion(Value const n, Value const k) const;
     Value getBinomialCoefficientUsingMemoizationDP(ValueMatrix & valueMatrix, Value const n, Value const k) const;
     Value const m_n;
-    Value const m_k;
-};
+    Value const m_k;};
 
 }
 
@@ -83,11 +83,11 @@ private:    Value getBinomialCoefficientUsingNaiveRecursion(Value const n, Value
 
 // The following are the common definitions of Binomial Coefficients.
 // A binomial coefficient C(n, k) can be defined as the coefficient of x^k in the expansion of (1 + x)^n.
-// A binomial coefficient C(n, k) also gives the number of ways, disregarding order,// that k objects can be chosen from among n objects more formally,
+// A binomial coefficient C(n, k) also gives the number of ways, disregarding order,
+// that k objects can be chosen from among n objects more formally,
 // the number of k-element subsets (or k-combinations) of a n-element set.
 
-// Write a function that takes two parameters n and k and returns the value of Binomial Coefficient C(n, k).
-// For example, your function should return 6 for n = 4 and k = 2, and it should return 10 for n = 5 and k = 2.
+// Write a function that takes two parameters n and k and returns the value of Binomial Coefficient C(n, k).// For example, your function should return 6 for n = 4 and k = 2, and it should return 10 for n = 5 and k = 2.
 
 // 1) Optimal Substructure
 // The value of C(n, k) can be recursively calculated using the following standard formula for Binomial Coefficients.

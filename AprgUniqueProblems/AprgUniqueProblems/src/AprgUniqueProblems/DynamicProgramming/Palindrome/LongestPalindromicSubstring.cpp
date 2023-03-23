@@ -27,22 +27,22 @@ LongestPalindromicSubstring::Index LongestPalindromicSubstring::getLongestLength
     // Time Complexity: O(n^2) (should be same as Iterative DP)
     // Auxiliary Space: O(n^2)
 
-    Index result(0);    if(!m_string.empty())
+    Index result(0);
+    if(!m_string.empty())
     {
         IndexMatrix lengthMatrix(m_string.length(), m_string.length(), static_cast<Index>(MAX_INDEX));
-        result =  getLongestLengthUsingMemoizationDP(lengthMatrix, 0, m_string.length()-1);
-    }
+        result =  getLongestLengthUsingMemoizationDP(lengthMatrix, 0, m_string.length()-1);    }
     return result;
 }
 
 LongestPalindromicSubstring::Index LongestPalindromicSubstring::getLongestLengthUsingIterativeDP() const
 {
     // Time complexity: O(n^2).
-    // -> Two nested traversals are needed.    // Auxiliary Space: O(n^2).
+    // -> Two nested traversals are needed.
+    // Auxiliary Space: O(n^2).
     // -> Matrix of size n*n is needed to store the dp array.
 
-    Index result(0);
-    if(!m_string.empty())
+    Index result(0);    if(!m_string.empty())
     {
         result = 1;
         Index const stringLength = m_string.length();
@@ -80,10 +80,10 @@ LongestPalindromicSubstring::Index LongestPalindromicSubstring::getLongestLength
 {
     // Time complexity: O(n).
     // Auxiliary Space: O(n).
+
     Index result(0);
     if(!m_string.empty())
-    {
-        Index const stringLength = m_string.length();
+    {        Index const stringLength = m_string.length();
         Indices palidromeLengths(stringLength, 1);
         for(Index right=1; right<stringLength; right++)
         {
@@ -107,10 +107,10 @@ string LongestPalindromicSubstring::getLongestStringUsingIterativeDPAndSpaceEffi
 {
     // Time complexity: O(n).
     // Auxiliary Space: O(n).
+
     string result;
     if(!m_string.empty())
-    {
-        Index const stringLength = m_string.length();
+    {        Index const stringLength = m_string.length();
         Indices palidromeLengths(stringLength, 1);
         for(Index right=1; right<stringLength; right++)
         {

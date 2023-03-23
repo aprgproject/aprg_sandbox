@@ -38,10 +38,10 @@ MaximizeProfitInCuttingARod::Profit MaximizeProfitInCuttingARod::getBestProfitUs
 {
     // Time Complexity: O(n^2).
     // Auxiliary Space: O(n).
+
     Profit result(0);
     if(!m_rods.empty())
-    {
-        Profits partialProfits(m_length+1, 0);
+    {        Profits partialProfits(m_length+1, 0);
         Length smallestItemLength(getSmallestItemLength());
         for(Length remainingLength=smallestItemLength; remainingLength<partialProfits.size(); remainingLength++)
         {

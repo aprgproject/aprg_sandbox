@@ -34,11 +34,11 @@ TotalNumberOfNonDecreasingNumbersWithNDigits::Count TotalNumberOfNonDecreasingNu
     // Time Complexity: O(numberOfDigits) (same as iterative)
     // Auxiliary Space: O(numberOfDigits)
 
-    Count result(0);    if(m_numberOfDigits>0)
+    Count result(0);
+    if(m_numberOfDigits>0)
     {
         CountMatrix countMatrix(10U, m_numberOfDigits, UNUSED_COUNT);
-        for(Value digitValue=0; digitValue<=9; digitValue++)
-        {
+        for(Value digitValue=0; digitValue<=9; digitValue++)        {
             result += getCountUsingMemoizationDP(countMatrix, digitValue, m_numberOfDigits-1);
         }
     }
@@ -49,10 +49,10 @@ TotalNumberOfNonDecreasingNumbersWithNDigits::Count TotalNumberOfNonDecreasingNu
 {
     // Time Complexity: O(numberOfDigits)
     // Auxiliary Space: O(numberOfDigits)
+
     Count result(0);
     if(m_numberOfDigits>0)
-    {
-        CountMatrix countMatrix(10, m_numberOfDigits);
+    {        CountMatrix countMatrix(10, m_numberOfDigits);
         for(Value digitValue=0; digitValue<=9; digitValue++)
         {
             countMatrix.setEntry(digitValue, 0, 1);
@@ -82,17 +82,18 @@ TotalNumberOfNonDecreasingNumbersWithNDigits::Count TotalNumberOfNonDecreasingNu
 {
     // Time Complexity: O(numberOfDigits)
     // Auxiliary Space: O(1)
+
     Count result(0);
     if(m_numberOfDigits>0)
     {
         Counts digitValueToCount(10, 1U);
         for(Count digitIndex=1; digitIndex<m_numberOfDigits; digitIndex++)
         {
-            for(int digitValue=9; digitValue>=0; digitValue--)            {
+            for(int digitValue=9; digitValue>=0; digitValue--)
+            {
                 Count entryResult(0);
                 for(Value beforeDigitValue=0; beforeDigitValue<=static_cast<Value>(digitValue); beforeDigitValue++)
-                {
-                    entryResult += digitValueToCount.at(beforeDigitValue);
+                {                    entryResult += digitValueToCount.at(beforeDigitValue);
                 }
                 digitValueToCount[digitValue]=entryResult;
             }

@@ -27,11 +27,11 @@ PalindromePartitioning::Count PalindromePartitioning::getMinimumNumberOfCutsUsin
     // Time Complexity: O(n^3) (should be same as Iterative DP)
     // Auxiliary Space: O(n^2)
 
-    Count result(0);    if(!m_string.empty())
+    Count result(0);
+    if(!m_string.empty())
     {
         CountMatrix countMatrix(m_string.length(), m_string.length(), static_cast<Count>(MAX_COUNT));
-        result =  getMinimumNumberOfCutsUsingMemoizationDP(countMatrix, 0, m_string.length()-1);
-    }
+        result =  getMinimumNumberOfCutsUsingMemoizationDP(countMatrix, 0, m_string.length()-1);    }
     return result;
 }
 
@@ -39,10 +39,10 @@ PalindromePartitioning::Count PalindromePartitioning::getMinimumNumberOfCutsUsin
 {
     // Time Complexity: O(n^3)
     // Auxiliary Space: O(n^2)
+
     Count result(0);
     if(!m_string.empty())
-    {
-        Index stringLength = m_string.length();
+    {        Index stringLength = m_string.length();
         CountMatrix countMatrix(stringLength, stringLength, 0);
 
         for(Index length=1; length<=stringLength; length++)
@@ -74,10 +74,10 @@ PalindromePartitioning::Count PalindromePartitioning::getMinimumNumberOfCutsUsin
 {
     // Time Complexity: O(n^2)
     // Auxiliary Space: O(n^2) (partialCounts is linear, but isSubstrAPalindrome is quadratic)
+
     Count result(0);
     if(!m_string.empty())
-    {
-        Index const stringLength = m_string.length();
+    {        Index const stringLength = m_string.length();
         Counts partialCounts(stringLength, 0);
         BoolMatrix isSubstrAPalindrome(stringLength, stringLength, false);
 

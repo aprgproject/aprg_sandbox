@@ -28,11 +28,11 @@ public:
     Number getNthFibonacciUsingLogarithmicIterativeDP(Number const number);
 
 private:
-    Number getNthFibonacciUsingMemoizationDP(Numbers & memoizationData, Number const number);    Number getNthFibonacciUsingLogarithmicMemoizationDP(Numbers & memoizationData, Number const number);
+    Number getNthFibonacciUsingMemoizationDP(Numbers & memoizationData, Number const number);
+    Number getNthFibonacciUsingLogarithmicMemoizationDP(Numbers & memoizationData, Number const number);
 };
 
 }
-
 // The Fibonacci numbers are the numbers in the following integer sequence.
 // -> 0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, ...
 

@@ -33,10 +33,10 @@ OptimalBinarySearchTree::Cost OptimalBinarySearchTree::getMinimumCostUsingIterat
 {
     // Time Complexity: O(n^3)
     // Auxiliary Space: O(n^2)
+
     Cost result(0);
     if(!m_valueAndFrequencyPairs.empty())
-    {
-        Index numberOfPairs = m_valueAndFrequencyPairs.size();
+    {        Index numberOfPairs = m_valueAndFrequencyPairs.size();
         CostMatrix costMatrix(numberOfPairs, numberOfPairs);
 
         Frequencies frequencies;
