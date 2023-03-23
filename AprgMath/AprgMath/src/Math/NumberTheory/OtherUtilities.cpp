@@ -163,37 +163,34 @@ UnsignedInteger getNthFibonacciUsingLogarithmicTabularDP(UnsignedInteger const n
         tabularData[1] = 1;
 
         SetOfUnsignedIntegers logarithmicSteps{number};
-        UnsignedInteger k(number);
-        while(k >= 3)
+        UnsignedInteger initialValue(number);
+        while(initialValue >= 3)
         {
-            k = mathHelper::isOdd(k) ? (k+1)/2 : k/2;
-            logarithmicSteps.emplace(k);
-            logarithmicSteps.emplace(k-1);
+            initialValue = mathHelper::isOdd(initialValue) ? (initialValue+1)/2 : initialValue/2;
+            logarithmicSteps.emplace(initialValue);
+            logarithmicSteps.emplace(initialValue-1);
         }
 
-        for(UnsignedInteger const step : logarithmicSteps)
-        {
+        for(UnsignedInteger const step : logarithmicSteps)        {
             UnsignedInteger & resultForStep(tabularData[step]);
             if(mathHelper::isOdd(step))
             {
-                UnsignedInteger k = (step+1)/2;
-                UnsignedInteger fibonacciAtK = tabularData.at(k);
-                UnsignedInteger fibonacciAtKMinus1 = tabularData.at(k-1);
+                UnsignedInteger n = (step+1)/2;
+                UnsignedInteger fibonacciAtK = tabularData.at(n);
+                UnsignedInteger fibonacciAtKMinus1 = tabularData.at(n-1);
                 resultForStep = fibonacciAtK*fibonacciAtK + fibonacciAtKMinus1*fibonacciAtKMinus1;
             }
             else
             {
-                UnsignedInteger k = step/2;
-                UnsignedInteger fibonacciAtK = tabularData.at(k);
-                UnsignedInteger fibonacciAtKMinus1 = tabularData.at(k-1);
+                UnsignedInteger n = step/2;
+                UnsignedInteger fibonacciAtK = tabularData.at(n);
+                UnsignedInteger fibonacciAtKMinus1 = tabularData.at(n-1);
                 resultForStep = (2*fibonacciAtKMinus1 + fibonacciAtK)*fibonacciAtK;
             }
-        }
-        result = tabularData.at(number);
+        }        result = tabularData.at(number);
     }
     return result;
 }
-
 UnsignedIntegers getFibonacciNumbersBelowThisNumber(UnsignedInteger const number)
 {
     UnsignedIntegers result;
