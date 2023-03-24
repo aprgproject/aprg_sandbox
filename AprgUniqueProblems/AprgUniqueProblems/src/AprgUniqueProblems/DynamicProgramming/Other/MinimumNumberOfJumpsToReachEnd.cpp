@@ -36,7 +36,8 @@ MinimumNumberOfJumpsToReachEnd::Count MinimumNumberOfJumpsToReachEnd::getMinimum
     if(!m_sequence.empty())
     {
         Counts indexToCountOfJumps(m_sequence.size(), static_cast<Count>(MAX_COUNT));
-        result=getMinimumNumberOfJumpsUsingMemoizationDP(indexToCountOfJumps, 0);    }
+        result=getMinimumNumberOfJumpsUsingMemoizationDP(indexToCountOfJumps, 0);
+    }
     return result;
 }
 
@@ -47,7 +48,8 @@ MinimumNumberOfJumpsToReachEnd::Count MinimumNumberOfJumpsToReachEnd::getMinimum
     // Auxiliary Space: O(n).
     // -> To store the DP array linear space is needed.
 
-    Count result(MAX_COUNT);    if(!m_sequence.empty())
+    Count result(MAX_COUNT);
+    if(!m_sequence.empty())
     {
         Counts indexToCountOfJumps(m_sequence.size(), static_cast<Count>(MAX_COUNT));
         indexToCountOfJumps[0] = 0;
@@ -73,7 +75,8 @@ MinimumNumberOfJumpsToReachEnd::Count MinimumNumberOfJumpsToReachEnd::getMinimum
     // Auxiliary Space: O(1).
     // -> There is no space required.
 
-    Count result(MAX_COUNT);    if(!m_sequence.empty())
+    Count result(MAX_COUNT);
+    if(!m_sequence.empty())
     {
         Count jumpCount(0);
         Count maxIndexAtNextJump(m_sequence.front());

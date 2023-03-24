@@ -27,6 +27,7 @@ private:
     // no memoization because there is no recomputation
     Count const m_length;
 };
+
 }
 
 // APPROACH
@@ -40,7 +41,8 @@ private:
 // -> Input:  N = 2
 // ---> Output: 3
 // ---> The 3 strings are 00, 01, 10
-// -> Input: N = 3// ---> Output: 5
+// -> Input: N = 3
+// ---> Output: 5
 // ---> The 5 strings are 000, 001, 010, 100, 101
 
 // This problem can be solved using Dynamic Programming.

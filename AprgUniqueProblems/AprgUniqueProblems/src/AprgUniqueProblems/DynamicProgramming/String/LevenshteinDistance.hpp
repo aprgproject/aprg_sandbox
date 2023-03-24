@@ -28,6 +28,7 @@ private:
     std::string m_string1;
     std::string m_string2;
 };
+
 }
 // Note this ia dynamic programming solution
 // -> There is an implementation in AlbaStringHelper and it takes less space

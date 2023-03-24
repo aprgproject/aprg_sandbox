@@ -20,6 +20,7 @@ TEST(CountNumberOfBinaryStringsWithoutConsecutiveOnesTest, GetCountWorksOnExampl
 TEST(CountNumberOfBinaryStringsWithoutConsecutiveOnesTest, GetCountWorksOnExample2)
 {
     CountNumberOfBinaryStringsWithoutConsecutiveOnes queryForTest(2U);
+
     EXPECT_EQ(3U, queryForTest.getCountUsingNaiveRecursion());
     EXPECT_EQ(3U, queryForTest.getCountUsingIterativeDP());
     EXPECT_EQ(3U, queryForTest.getCountUsingIterativeDPAndSpaceEfficient());
@@ -29,6 +30,7 @@ TEST(CountNumberOfBinaryStringsWithoutConsecutiveOnesTest, GetCountWorksOnExampl
 TEST(CountNumberOfBinaryStringsWithoutConsecutiveOnesTest, GetCountWorksOnExample3)
 {
     CountNumberOfBinaryStringsWithoutConsecutiveOnes queryForTest(3U);
+
     EXPECT_EQ(5U, queryForTest.getCountUsingNaiveRecursion());
     EXPECT_EQ(5U, queryForTest.getCountUsingIterativeDP());
     EXPECT_EQ(5U, queryForTest.getCountUsingIterativeDPAndSpaceEfficient());
@@ -38,6 +40,7 @@ TEST(CountNumberOfBinaryStringsWithoutConsecutiveOnesTest, GetCountWorksOnExampl
 TEST(CountNumberOfBinaryStringsWithoutConsecutiveOnesTest, GetCountWorksOnExample4)
 {
     CountNumberOfBinaryStringsWithoutConsecutiveOnes queryForTest(10U);
+
     EXPECT_EQ(144U, queryForTest.getCountUsingNaiveRecursion());
     EXPECT_EQ(144U, queryForTest.getCountUsingIterativeDP());
     EXPECT_EQ(144U, queryForTest.getCountUsingIterativeDPAndSpaceEfficient());

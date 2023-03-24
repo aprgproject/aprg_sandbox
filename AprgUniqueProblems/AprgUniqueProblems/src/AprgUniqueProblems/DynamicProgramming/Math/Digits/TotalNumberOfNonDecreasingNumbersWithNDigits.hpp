@@ -28,7 +28,8 @@ private:
     Count getCountUsingNaiveRecursion(Value const digitValue, Count const digitIndex) const;
     Count getCountUsingMemoizationDP(CountMatrix & countMatrix, Value const digitValue, Count const digitIndex) const;
 
-    Count const m_numberOfDigits;};
+    Count const m_numberOfDigits;
+};
 
 }
 

@@ -32,7 +32,8 @@ BinomialCoefficient::Value BinomialCoefficient::getBinomialCoefficientUsingMemoi
     if(m_n>=m_k)
     {
         ValueMatrix valueMatrix(m_n+1, m_k+1, static_cast<Value>(UNUSED_VALUE));
-        result = getBinomialCoefficientUsingMemoizationDP(valueMatrix, m_n, m_k);    }
+        result = getBinomialCoefficientUsingMemoizationDP(valueMatrix, m_n, m_k);
+    }
     return result;
 }
 
@@ -43,7 +44,8 @@ BinomialCoefficient::Value BinomialCoefficient::getBinomialCoefficientUsingItera
 
     Value result(0);
     if(m_n>=m_k)
-    {        ValueMatrix valueMatrix(m_n+1, m_k+1, 0);
+    {
+        ValueMatrix valueMatrix(m_n+1, m_k+1, 0);
         for(Value n=0; n<=m_n; n++)
         {
             valueMatrix.setEntry(n, 0, 1);
@@ -76,6 +78,7 @@ BinomialCoefficient::Value BinomialCoefficient::getBinomialCoefficientUsingItera
     // Space efficiency analysis:
     // Since accessing the previous partial values requires only one row above,
     // we only really need 1 row (not a matrix) to keep track partial values.
+
     // Explanation of the algorithm:
     // 1==========>> n = 0, C(0,0) = 1
     // 1–1========>> n = 1, C(1,0) = 1, C(1,1) = 1
@@ -130,7 +133,8 @@ BinomialCoefficient::Value BinomialCoefficient::getBinomialCoefficientUsingGcf()
         Value accumulatedDenominator=1;
         bool shouldContinue=true;
         while(shouldContinue)
-        {            shouldContinue = false;
+        {
+            shouldContinue = false;
             if(numerator > m_n-m_k)
             {
                 accumulatedNumerator *= numerator--;

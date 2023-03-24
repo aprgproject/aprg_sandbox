@@ -36,7 +36,8 @@ BooleanParenthesizationProblem::Count BooleanParenthesizationProblem::getNumberO
     if(!m_inputValues.empty())
     {
         CountMatrices countMatrices(2U, CountMatrix(m_inputValues.size(), m_inputValues.size(), UNUSED_COUNT));
-        result = getNumberOfWaysUsingMemoizationDP(countMatrices, true, 0, m_inputValues.size()-1);    }
+        result = getNumberOfWaysUsingMemoizationDP(countMatrices, true, 0, m_inputValues.size()-1);
+    }
     return result;
 }
 
@@ -47,7 +48,8 @@ BooleanParenthesizationProblem::Count BooleanParenthesizationProblem::getNumberO
 
     Count result(0);
     if(!m_inputValues.empty())
-    {        CountMatrix countsForFalse(m_inputValues.size(), m_inputValues.size());
+    {
+        CountMatrix countsForFalse(m_inputValues.size(), m_inputValues.size());
         CountMatrix countsForTrue(m_inputValues.size(), m_inputValues.size());
 
         for(Index index=0; index<m_inputValues.size(); index++) // for length 1

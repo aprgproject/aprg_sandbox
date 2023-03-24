@@ -22,6 +22,7 @@ TEST(MaximizeProfitInCuttingARodTest, GetBestProfitWorksOnExample2)
 {
     MaximizeProfitInCuttingARod queryForTest(8U,
     {{1U, 3U}, {2U, 5U}, {3U, 8U}, {4U, 9U}, {5U, 10U}, {6U, 17U}, {7U, 17U}, {8U, 20U}});
+
     EXPECT_EQ(24U, queryForTest.getBestProfitUsingNaiveRecursion());
     EXPECT_EQ(24U, queryForTest.getBestProfitUsingMemoizationDP());
     /*EXPECT_EQ(24U, queryForTest.getBestProfitUsingIterativeDP());

@@ -33,7 +33,8 @@ private:
     Profit getBestProfitUsingMemoizationDP(ProfitMatrix & profitMatrix, Weight const remainingWeight, ItemIndex const itemIndex) const;
     Weight getSmallestItemWeight() const;
     Weight const m_maximumWeight;
-    Items const m_items;};
+    Items const m_items;
+};
 
 }
 
@@ -45,7 +46,8 @@ private:
 // ---> If "weight" >= weight at "item index":
 // -----> Get profit if item is USED:
 // -------> Recursively call "weight" - weight at "item index" and increment to next "item index"
-// -----> Get profit if item is SKIPPED:// -------> Recursively call "weight" and increment to next "item index"
+// -----> Get profit if item is SKIPPED:
+// -------> Recursively call "weight" and increment to next "item index"
 // -----> Return max of the two profits
 // ---> Else ("weight" < weight at "item index"):
 // -----> Return zero profit
@@ -57,7 +59,8 @@ private:
 // -> Traversal uses previous values to compute for a new value
 // -> The computation of each profit (each cell in the matrix) is:
 // ---> Get the current itemWeight and itemProfit.
-// ---> If weight >= itemWeight// -----> Get profit if item is USED:
+// ---> If weight >= itemWeight
+// -----> Get profit if item is USED:
 // -------> Get entry at "weight" - itemWeight and "incremented item index"
 // -------> Add current itemProfit
 // -----> Get profit if item is SKIPPED:
@@ -75,7 +78,8 @@ private:
 // -> Traverse all input values (this ensures that input values are only used once):
 // ---> Get the current itemWeight and itemProfit.
 // ---> Traverse all the weights (from "maximum weight" to zero):
-// ---> If weight >= itemWeight// -----> Get current profit:
+// ---> If weight >= itemWeight
+// -----> Get current profit:
 // -------> Get entry at "weight"
 // -----> Get profit if item is USED:
 // -------> Get entry at "weight" - itemWeight

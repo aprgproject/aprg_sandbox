@@ -19,7 +19,8 @@ UglyNumbers::Number UglyNumbers::getNthUglyNumberByCheckingPreviousUglyNumbersUs
     // -> where n is the value of the ugly number
 
     Number result(0);
-    if(m_nth > 0)    {
+    if(m_nth > 0)
+    {
         Booleans isUglyNumber{true};
 
         Number currentNumber=1;
@@ -49,7 +50,8 @@ UglyNumbers::Number UglyNumbers::getNthUglyNumberByMultiplesUsingIterativeDP() c
     // -> where n is the value of the count of the ugly number
 
     Number result(0);
-    if(m_nth > 0)    {
+    if(m_nth > 0)
+    {
         Numbers uglyNumbers{1};
         uglyNumbers.reserve(m_nth);
 

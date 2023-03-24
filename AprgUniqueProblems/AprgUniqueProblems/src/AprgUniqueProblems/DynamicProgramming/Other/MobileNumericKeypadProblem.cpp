@@ -47,7 +47,8 @@ MobileNumericKeypadProblem::Count MobileNumericKeypadProblem::getCountUsingItera
 
     Count result(0);
     if(m_length>0)
-    {        CountMatrix countMatrix(m_length, 10);
+    {
+        CountMatrix countMatrix(m_length, 10);
         for(NumpadValue numpadValue=0; numpadValue<=9; numpadValue++)
         {
             countMatrix.setEntry(0, numpadValue, 1);
@@ -81,7 +82,8 @@ MobileNumericKeypadProblem::Count MobileNumericKeypadProblem::getCountUsingItera
 
     Count result(0);
     if(m_length>0)
-    {        vector<Counts> previousAndCurrentCounts(2, NumpadValues(10U, 1U));
+    {
+        vector<Counts> previousAndCurrentCounts(2, NumpadValues(10U, 1U));
         for(Count lengthMinus1=1; lengthMinus1<m_length; lengthMinus1++)
         {
             Counts & previousCounts(previousAndCurrentCounts[(lengthMinus1-1)%2]);

@@ -30,6 +30,7 @@ private:
     Count getMinimumNumberOfOperationsUsingMemoizationDP(CountMatrix & countMatrix, Index const left, Index const right) const;
     Dimensions m_dimensions;
 };
+
 }
 
 // APPROACH:
@@ -72,6 +73,7 @@ private:
 
 // For example, if we had four matrices A, B, C, and D, we would have:
 // (ABC)D = (AB)(CD) = A(BCD) = ....
+
 // However, the order in which we parenthesize the product affects
 // the number of simple arithmetic operations needed to compute the product, or the efficiency.
 

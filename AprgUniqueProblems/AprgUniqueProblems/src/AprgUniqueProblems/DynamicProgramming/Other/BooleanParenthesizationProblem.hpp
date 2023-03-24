@@ -32,7 +32,8 @@ private:
     Count getNumberOfWaysUsingMemoizationDP(CountMatrices & countMatrices, bool const expectedOutput, Index const left, Index const right) const;
 
     Count convertBoolToCount(bool const booleanValue) const;
-    bool areSizesCorrect() const;    void initialize();
+    bool areSizesCorrect() const;
+    void initialize();
     Booleans m_inputValues;
     Operators m_operators;
 };
@@ -49,6 +50,7 @@ private:
 // -> 'F' ---> false
 
 // And following operators filled between symbols
+
 // Operators
 //     &   ---> boolean AND
 //     |   ---> boolean OR
@@ -72,3 +74,4 @@ private:
 // -> Output: 4
 // -> The given expression is "T | T & F ^ T", it evaluates true in 4 ways:
 // --->((T|T)&(F^T)), (T|(T&(F^T))), (((T|T)&F)^T)  and (T|((T&F)^T)).
+

@@ -30,6 +30,7 @@ private:
     Cost getCostOfThreePoints(Index const index1, Index const index2, Index const index3) const;
     TwoDimensions::Points m_vertices;
 };
+
 }
 
 // Minimum Cost Polygon Triangulation

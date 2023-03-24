@@ -32,6 +32,7 @@ private:
     std::string m_string;
 
 };
+
 }
 
 // Given a string, find the longest substring which is palindrome.

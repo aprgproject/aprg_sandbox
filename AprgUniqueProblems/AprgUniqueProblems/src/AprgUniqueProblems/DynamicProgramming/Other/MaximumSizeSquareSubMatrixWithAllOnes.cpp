@@ -19,7 +19,8 @@ MaximumSizeSquareSubMatrixWithAllOnes::Unit MaximumSizeSquareSubMatrixWithAllOne
     if(!m_booleanMatrix.isEmpty())
     {
         UnitMatrix sideMatrix(m_booleanMatrix.getNumberOfColumns(), m_booleanMatrix.getNumberOfRows(), UNUSED_UNIT);
-        for(int x=static_cast<int>(sideMatrix.getNumberOfColumns()-1); x>=0; x--)        {
+        for(int x=static_cast<int>(sideMatrix.getNumberOfColumns()-1); x>=0; x--)
+        {
             for(int y=static_cast<int>(sideMatrix.getNumberOfRows()-1); y>=0; y--)
             {
                 getMaximumSideUsingMemoizationDP(sideMatrix, x, y);
@@ -47,7 +48,8 @@ MaximumSizeSquareSubMatrixWithAllOnes::Unit MaximumSizeSquareSubMatrixWithAllOne
 
     Unit result(0);
     if(!m_booleanMatrix.isEmpty())
-    {        UnitMatrix sideMatrix(m_booleanMatrix.getNumberOfColumns(), m_booleanMatrix.getNumberOfRows());
+    {
+        UnitMatrix sideMatrix(m_booleanMatrix.getNumberOfColumns(), m_booleanMatrix.getNumberOfRows());
         sideMatrix.iterateAllThroughYAndThenX([&](Index const x, Index const y)
         {
             Unit entryResult(0);
@@ -97,7 +99,8 @@ MaximumSizeSquareSubMatrixWithAllOnes::Unit MaximumSizeSquareSubMatrixWithAllOne
 
     Unit result(0);
     if(!m_booleanMatrix.isEmpty())
-    {        UnitMatrix sideMatrix(m_booleanMatrix.getNumberOfColumns(), m_booleanMatrix.getNumberOfRows());
+    {
+        UnitMatrix sideMatrix(m_booleanMatrix.getNumberOfColumns(), m_booleanMatrix.getNumberOfRows());
 
         for(Index x=0; x<m_booleanMatrix.getNumberOfColumns(); x++)
         {

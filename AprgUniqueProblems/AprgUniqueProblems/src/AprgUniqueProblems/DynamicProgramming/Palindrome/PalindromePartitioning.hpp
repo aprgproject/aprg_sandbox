@@ -30,6 +30,7 @@ private:
     Count getMinimumNumberOfCutsUsingNaiveRecursion(Index const left, Index const right) const;
     Count getMinimumNumberOfCutsUsingMemoizationDP(CountMatrix & countMatrix, Index const left, Index const right) const;
     std::string m_string;
+
 };
 
 }

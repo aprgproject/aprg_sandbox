@@ -34,7 +34,8 @@ LevenshteinDistance::Count LevenshteinDistance::getLevenshteinDistanceUsingItera
 
     // The allowed editing operations are as follows:
     // -> insert a character (e.g. ABC ! ABCA)
-    // -> remove a character (e.g. ABC ! AC)    // -> modify a character (e.g. ABC ! ADC)
+    // -> remove a character (e.g. ABC ! AC)
+    // -> modify a character (e.g. ABC ! ADC)
     // We can calculate values of distance as follows:
     // -> distance(a,b) = min(distance(a,b-1)+1,
     //                     distance(a-1,b)+1,
@@ -83,6 +84,7 @@ LevenshteinDistance::Count LevenshteinDistance::getLevenshteinDistanceUsingItera
 
     // Time Complexity: O(m x n)
     // Auxiliary Space: O(m)
+
     // Space efficiency analysis:
     // Since accessing the previous partial values requires only one column or one row above,
     // we only really need 2 rows (not a matrix) to keep track partial values.

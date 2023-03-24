@@ -37,7 +37,8 @@ ProductDayProblem::Price ProductDayProblem::getMinimumPriceUsingIterativeDP() co
 
     for(Day day=0; day<getNumberOfDays(); day++) // set zero cost on empty product bits
     {
-        minimumPrices.setEntry(day, 0, 0);    }
+        minimumPrices.setEntry(day, 0, 0);
+    }
 
     for(Product product=0; product<getNumberOfProducts(); product++) // fill up first day
     {

@@ -31,7 +31,8 @@ private:
 
     Cost getCost(Cost const depth, Cost const frequency) const;
     void initialize();
-    void sortByValue();    ValueAndFrequencyPairs m_valueAndFrequencyPairs;
+    void sortByValue();
+    ValueAndFrequencyPairs m_valueAndFrequencyPairs;
 };
 
 }
@@ -101,5 +102,6 @@ private:
 // -> The solutions can be easily modified to store the structure of BSTs also.
 // -> We can create another auxiliary array of size n to store the structure of tree.
 // -> All we need to do is, store the chosen ‘r’ in the innermost loop.
+
 
 

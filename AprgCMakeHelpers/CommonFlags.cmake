@@ -8,7 +8,8 @@ set(APRG_COMPILER_COMMON_CPP_FLAGS "-std=c++17")
 set(APRG_COMPILER_FLAGS_FOR_DEBUG "-g --coverage -fno-rtti")
 set(APRG_COMPILER_FLAGS_FOR_DEBUG_WITH_RTTI "-g --coverage")
 set(APRG_COMPILER_FLAGS_FOR_DEBUG_WITH_FAST_COMPILATION "-g --coverage -O0") #-O0 is actually the default so this is useless
-set(APRG_COMPILER_FLAGS_FOR_DEBUG_WITH_SPEED "-g --coverage -O3")set(APRG_COMPILER_FLAGS_FOR_DEBUG_WITH_MORE_SPEED "-g --coverage -Ofast")
+set(APRG_COMPILER_FLAGS_FOR_DEBUG_WITH_SPEED "-g --coverage -O3")
+set(APRG_COMPILER_FLAGS_FOR_DEBUG_WITH_MORE_SPEED "-g --coverage -Ofast")
 set(APRG_COMPILER_FLAGS_FOR_DEBUG_WITH_NO_STACK_PROTECTOR "-g --coverage -fno-stack-protector") #let the stack smash (for debugging)
 set(APRG_COMPILER_FLAGS_FOR_DEBUG_WITH_ASAN "-g --coverage -fsanitize=address -fno-omit-frame-pointer")
 set(APRG_COMPILER_FLAGS_FOR_DEBUG_WITH_LSAN_ONLY "-g --coverage -fsanitize=leak -fno-omit-frame-pointer")
@@ -95,7 +96,8 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${APRG_COMPILER_COMMON_FLAGS} ${APRG_COM
 
 # Compiler Flags:
 
-# Flag: "std - Specify the C++ version or ISO standard version"# -> -std=c++11 (ISO C++11)
+# Flag: "std - Specify the C++ version or ISO standard version"
+# -> -std=c++11 (ISO C++11)
 # -> -std=c++14 (ISO C++14)
 # -> -std=c++1z (ISO C++17)
 # -> -std=c++20 (C++20 experimental)
@@ -139,7 +141,8 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${APRG_COMPILER_COMMON_FLAGS} ${APRG_COM
 # -fsplit-wide-types, -fssa-backprop, -fssa-phiopt, -ftree-bit-ccp, -ftree-ccp, -ftree-ch, -ftree-coalesce-vars, -ftree-copy-pro, -ftree-dc, -ftree-dominator-opts,
 # -ftree-dse, -ftree-forwprop, -ftree-fre, -ftree-phiprop, -ftree-pta, -ftree-scev-cprop, -ftree-sink, -ftree-slsr, -ftree-sra, -ftree-ter, -funit-at-a-time
 
-# Flag: "-O2"# -> Optimize even more. GCC performs nearly all supported optimizations that do not involve a space-speed tradeoff.
+# Flag: "-O2"
+# -> Optimize even more. GCC performs nearly all supported optimizations that do not involve a space-speed tradeoff.
 # As compared to -O, this option increases both compilation time and the performance of the generated code.
 # -O2 turns on all optimization flags specified by -O1.
 # -> It also turns on the following optimization flags:
@@ -224,7 +227,8 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${APRG_COMPILER_COMMON_FLAGS} ${APRG_COM
 # -> Generate position-independent code (PIC) suitable for use in a shared library, if supported for the target machine.
 # -> Such code accesses all constant addresses through a global offset table (GOT).
 # -> The dynamic loader resolves the GOT entries when the program starts (the dynamic loader is not part of GCC; it is part of the operating system).
-# -> If the GOT size for the linked executable exceeds a machine-specific maximum size,# -> you get an error message from the linker indicating that -fpic does not work; in that case, recompile with -fPIC instead.
+# -> If the GOT size for the linked executable exceeds a machine-specific maximum size,
+# -> you get an error message from the linker indicating that -fpic does not work; in that case, recompile with -fPIC instead.
 # -> (These maximums are 8k on the SPARC, 28k on AArch64 and 32k on the m68k and RS/6000. The x86 has no such limit.)
 # -> Position-independent code requires special support, and therefore works only on certain machines.
 # -> For the x86, GCC supports PIC for System V but not for the Sun 386i.
@@ -300,6 +304,7 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${APRG_COMPILER_COMMON_FLAGS} ${APRG_COM
 # ------> A case where it could make sense to remove the symbols table would be a scenario where you have serious constraints of storage capacity
 # ------> (in that regard, gcc -Os -s or make CXXFLAGS="-Os -s" ... is useful as it will result in a smaller slower binary that is also stripped to reduce size further).
 # ------> I don't think removing the symbols table would result into a speed gain for the reasons commented.
+
 # Flag: "-static"
 # -> On systems that support dynamic linking, this overrides -pie and prevents linking with the shared libraries.
 # -> On other systems, this option has no effect.
@@ -408,7 +413,8 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${APRG_COMPILER_COMMON_FLAGS} ${APRG_COM
 
 #Sanitizers (from https://github.com/google/sanitizers)
 
-# Using AddressSanitizer# In order to use AddressSanitizer you will need to COMPILE and LINK your program using clang with the -fsanitize=address switch.
+# Using AddressSanitizer
+# In order to use AddressSanitizer you will need to COMPILE and LINK your program using clang with the -fsanitize=address switch.
 # To get a reasonable performance add -O1 or higher. To get nicer stack traces in error messages add -fno-omit-frame-pointer.
 # Note: Clang 3.1 release uses another flag syntax.
 

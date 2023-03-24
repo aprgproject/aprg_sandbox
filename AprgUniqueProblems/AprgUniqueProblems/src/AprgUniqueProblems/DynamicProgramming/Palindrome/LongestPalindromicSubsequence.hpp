@@ -30,6 +30,7 @@ private:
     Count getLongestLengthUsingNaiveRecursion(Index const index1, Index const index2) const;
     Count getLongestLengthUsingMemoizationDP(CountMatrix & lengthMatrix, Index const index1, Index const index2) const;
     std::string m_string;
+
 };
 
 }

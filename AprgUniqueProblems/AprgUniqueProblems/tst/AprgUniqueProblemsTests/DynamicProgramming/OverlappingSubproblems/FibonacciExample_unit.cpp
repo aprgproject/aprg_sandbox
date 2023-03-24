@@ -26,7 +26,8 @@ TEST(FibonacciExampleTest, GetNthFibonacciWorksOnExample2)
 {
     FibonacciExample fibonacciExample;
 
-    EXPECT_EQ(2U, fibonacciExample.getNthFibonacciUsingNaiveRecursion(3U));    EXPECT_EQ(2U, fibonacciExample.getNthFibonacciUsingMemoizationDP(3U));
+    EXPECT_EQ(2U, fibonacciExample.getNthFibonacciUsingNaiveRecursion(3U));
+    EXPECT_EQ(2U, fibonacciExample.getNthFibonacciUsingMemoizationDP(3U));
     EXPECT_EQ(2U, fibonacciExample.getNthFibonacciUsingIterativeDP(3U));
     EXPECT_EQ(2U, fibonacciExample.getNthFibonacciUsingIterativeDPAndSpaceEfficient(3U));
     EXPECT_EQ(2U, fibonacciExample.getNthFibonacciNumberUsingBinetsFormula(3U));
@@ -40,7 +41,8 @@ TEST(FibonacciExampleTest, GetNthFibonacciWorksOnExample3)
 {
     FibonacciExample fibonacciExample;
 
-    //EXPECT_EQ(102334155U, fibonacciExample.getNthFibonacciUsingNaiveRecursion(40U)); // takes too long    EXPECT_EQ(102334155U, fibonacciExample.getNthFibonacciUsingMemoizationDP(40U));
+    //EXPECT_EQ(102334155U, fibonacciExample.getNthFibonacciUsingNaiveRecursion(40U)); // takes too long
+    EXPECT_EQ(102334155U, fibonacciExample.getNthFibonacciUsingMemoizationDP(40U));
     EXPECT_EQ(102334155U, fibonacciExample.getNthFibonacciUsingIterativeDP(40U));
     EXPECT_EQ(102334155U, fibonacciExample.getNthFibonacciUsingIterativeDPAndSpaceEfficient(40U));
     EXPECT_EQ(102334155U, fibonacciExample.getNthFibonacciNumberUsingBinetsFormula(40U));

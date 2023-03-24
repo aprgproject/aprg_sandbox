@@ -4,7 +4,8 @@
 
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 CountingTilings::CountingTilings(Count const numberOfColumns, Count const numberOfRows)
     : m_numberOfColumns(numberOfColumns)
@@ -28,7 +29,8 @@ CountingTilings::Count CountingTilings::getNumberOfSolutionsUsingDynamicProgramm
     Row currentRow(getEmptyRow(m_numberOfColumns));
     searchNextRow(0U, currentRow);
 
-    return m_numberOfSolutions;}
+    return m_numberOfSolutions;
+}
 
 CountingTilings::Count CountingTilings::getNumberOfSolutionsUsingCompleteSearch()
 {
@@ -61,7 +63,8 @@ void CountingTilings::searchNextRow(
             if(emptyRow == nextRow)
             {
                 m_numberOfSolutions++;
-            }        }
+            }
+        }
     }
 }
 
@@ -120,7 +123,8 @@ CountingTilings::Rows CountingTilings::calculateNextRows(
     return result;
 }
 
-void CountingTilings::startCompleteSearch(){
+void CountingTilings::startCompleteSearch()
+{
     // This is not exactly DP but "complete search".
 
     m_numberOfSolutions=0;

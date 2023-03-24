@@ -28,7 +28,8 @@ CountNumberOfBinaryStringsWithoutConsecutiveOnes::Count CountNumberOfBinaryStrin
 
     Count result(0);
     if(m_length>0)
-    {        CountMatrix valueMatrix(2, m_length, 0);
+    {
+        CountMatrix valueMatrix(2, m_length, 0);
         valueMatrix.setEntry(0, 0, 1);
         valueMatrix.setEntry(1, 0, 1);
         for(Count index=1; index<m_length; index++)
@@ -50,7 +51,8 @@ CountNumberOfBinaryStringsWithoutConsecutiveOnes::Count CountNumberOfBinaryStrin
 
     Count result(0);
     if(m_length>0)
-    {        Count zeroCount = 1;
+    {
+        Count zeroCount = 1;
         Count oneCount = 1;
         for(Count subLength=1; subLength<m_length; subLength++)
         {

@@ -42,6 +42,7 @@ private:
     CompareFunction m_compareFunction;
     MinMaxFunction m_minMaxFunction;
 };
+
 }
 
 // APPROACH:
@@ -59,6 +60,7 @@ private:
 // -> The computation of the "partial sum" of each cell is:
 // ---> Get the partial sums of the left neighbor, the top neighbor, and the top-left neighbor
 // ---> Return the min/max of partial sums of the neighbors plus the value of this cell
+
 
 
 // Problem statement:

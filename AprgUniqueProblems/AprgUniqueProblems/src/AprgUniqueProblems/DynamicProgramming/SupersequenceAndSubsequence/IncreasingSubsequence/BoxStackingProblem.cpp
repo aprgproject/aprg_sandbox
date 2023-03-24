@@ -6,7 +6,8 @@
 #include <numeric>
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 BoxStackingProblem::BoxStackingProblem(Boxes const& boxes)
     : m_boxes(boxes)

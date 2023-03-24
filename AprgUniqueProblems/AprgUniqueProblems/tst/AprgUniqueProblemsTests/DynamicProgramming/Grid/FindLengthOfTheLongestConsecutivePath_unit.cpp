@@ -19,6 +19,7 @@ TEST(FindLengthOfTheLongestConsecutivePathTest, GetLongestLengthWorksOnExample1)
      'h', 'b', 'e',
      'i', 'g', 'f'});
     FindLengthOfTheLongestConsecutivePath queryForTest(inputGrid);
+
     EXPECT_EQ(9U, queryForTest.getLongestLengthUsingNaiveRecursion());
     EXPECT_EQ(5U, queryForTest.getLongestLengthStartingAtUsingNaiveRecursion(2U, 1U));
     EXPECT_EQ(9U, queryForTest.getLongestLengthUsingMemoizationDP());
@@ -32,6 +33,7 @@ TEST(FindLengthOfTheLongestConsecutivePathTest, GetLongestLengthWorksOnExample2)
      'h', 'd', 'a',
      'i', 'c', 'a'});
     FindLengthOfTheLongestConsecutivePath queryForTest(inputGrid);
+
     EXPECT_EQ(4U, queryForTest.getLongestLengthUsingNaiveRecursion());
     EXPECT_EQ(1U, queryForTest.getLongestLengthStartingAtUsingNaiveRecursion(0U, 0U));
     EXPECT_EQ(4U, queryForTest.getLongestLengthUsingMemoizationDP());

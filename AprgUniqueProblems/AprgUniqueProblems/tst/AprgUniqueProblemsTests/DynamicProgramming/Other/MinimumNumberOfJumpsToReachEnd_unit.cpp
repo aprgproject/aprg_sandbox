@@ -26,6 +26,7 @@ TEST(MinimumNumberOfJumpsToReachEndTest, GetPathOfMinimumNumberOfJumpsOnExample1
 {
     MinimumNumberOfJumpsToReachEnd queryForTest({1U, 3U, 5U, 8U, 9U, 2U, 6U, 7U, 6U, 8U, 9U});
 
-    EXPECT_EQ((Counts{1U, 3U, 8U, 9U}), queryForTest.getPathOfMinimumNumberOfJumps());}
+    EXPECT_EQ((Counts{1U, 3U, 8U, 9U}), queryForTest.getPathOfMinimumNumberOfJumps());
+}
 
 }

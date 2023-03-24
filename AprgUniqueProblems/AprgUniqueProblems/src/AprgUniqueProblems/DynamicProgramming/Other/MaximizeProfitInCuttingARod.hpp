@@ -32,7 +32,8 @@ private:
     Profit getBestProfitUsingMemoizationDP(Profits & partialProfits, Length const remainingLength) const;
     Length getSmallestItemLength() const;
     Length const m_length;
-    Rods const m_rods;};
+    Rods const m_rods;
+};
 
 }
 

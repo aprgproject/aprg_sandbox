@@ -59,7 +59,8 @@ PathSumInGridInRightOrDownWithDiagonalTraversal::Path PathSumInGridInRightOrDown
         {
             if(x==0 && y==0)
             {
-                break;            }
+                break;
+            }
             else if(x==0)
             {
                 path.emplace_back(m_inputGrid.getEntry(x, --y));
@@ -128,7 +129,8 @@ PathSumInGridInRightOrDownWithDiagonalTraversal::Grid PathSumInGridInRightOrDown
     {
         result.getEntryReference(x, 0) += result.getEntry(x-1, 0);
     }
-    for(Index y=1; y<result.getNumberOfRows(); y++) // first column has only up neighbors    {
+    for(Index y=1; y<result.getNumberOfRows(); y++) // first column has only up neighbors
+    {
         result.getEntryReference(0, y) += result.getEntry(0, y-1);
     }
     for(Index x=1; x<result.getNumberOfColumns(); x++) // the rest of the matrix

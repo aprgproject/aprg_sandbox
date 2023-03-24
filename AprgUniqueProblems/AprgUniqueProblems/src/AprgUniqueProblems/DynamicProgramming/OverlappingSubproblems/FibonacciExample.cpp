@@ -37,7 +37,8 @@ FibonacciExample::Number FibonacciExample::getNthFibonacciUsingMemoizationDP(Num
     // The memoized program for a problem is similar to the recursive version
     // with a small modification that it looks into a lookup table before computing solutions.
     // We initialize a lookup array with all initial values as UNUSED_VALUE.
-    // Whenever we need the solution to a subproblem, we first look into the lookup table.    // If the precomputed value is there then we return that value,
+    // Whenever we need the solution to a subproblem, we first look into the lookup table.
+    // If the precomputed value is there then we return that value,
     // otherwise, we calculate the value and put the result in the lookup table so that it can be reused later.
 
     Number size = max(number+1, 2U);
@@ -54,7 +55,8 @@ FibonacciExample::Number FibonacciExample::getNthFibonacciUsingIterativeDP(Numbe
 
     // b) Tabulation (Bottom Up):
     // The tabulated program for a given problem builds a table in bottom up fashion and returns the last entry from table.
-    // For example, for the same Fibonacci number, we first calculate fib(0) then fib(1) then fib(2) then fib(3) and so on.    // So literally, we are building the solutions of subproblems bottom-up.
+    // For example, for the same Fibonacci number, we first calculate fib(0) then fib(1) then fib(2) then fib(3) and so on.
+    // So literally, we are building the solutions of subproblems bottom-up.
 
     Number size = max(number+1, 2U);
     Numbers tabulationData(size);
@@ -73,7 +75,8 @@ FibonacciExample::Number FibonacciExample::getNthFibonacciUsingIterativeDPAndSpa
 
     // Time Complexity: O(n)
     // Extra Space: O(1)
-    // -> We can optimize the space used in method 2 by storing the previous two numbers only    // because that is all we need to get the next Fibonacci number in series.
+    // -> We can optimize the space used in method 2 by storing the previous two numbers only
+    // because that is all we need to get the next Fibonacci number in series.
 
     if(number==0)
     {
@@ -182,7 +185,8 @@ FibonacciExample::Number FibonacciExample::getNthFibonacciUsingLogarithmicIterat
 
     Number result(number);
     if(result > 1)
-    {        Number size = max(number+1, 2U);
+    {
+        Number size = max(number+1, 2U);
         Numbers iterativeData(size);
         iterativeData[0] = 0;
         iterativeData[1] = 1;
@@ -192,7 +196,8 @@ FibonacciExample::Number FibonacciExample::getNthFibonacciUsingLogarithmicIterat
         while(k >= 3)
         {
             k = mathHelper::isOdd(k) ? (k+1)/2 : k/2;
-            logarithmicSteps.emplace(k);            logarithmicSteps.emplace(k-1);
+            logarithmicSteps.emplace(k);
+            logarithmicSteps.emplace(k-1);
         }
 
         for(Number const step : logarithmicSteps)
@@ -220,7 +225,8 @@ FibonacciExample::Number FibonacciExample::getNthFibonacciUsingLogarithmicIterat
 
 FibonacciExample::Number FibonacciExample::getNthFibonacciUsingMemoizationDP(
         Numbers & memoizationData,
-        Number const number){
+        Number const number)
+{
     Number & resultForNumber(memoizationData[number]);
     if(resultForNumber == UNUSED_VALUE)
     {

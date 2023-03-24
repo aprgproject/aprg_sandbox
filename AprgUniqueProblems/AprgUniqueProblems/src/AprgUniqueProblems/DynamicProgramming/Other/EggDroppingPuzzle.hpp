@@ -28,6 +28,7 @@ private:
     Count const m_numberOfEggs;
     Count const m_numberOfFloors;
 };
+
 }
 
 // The following is a description of the instance of this famous puzzle involving n=2 eggs and a building with k=36 floors.

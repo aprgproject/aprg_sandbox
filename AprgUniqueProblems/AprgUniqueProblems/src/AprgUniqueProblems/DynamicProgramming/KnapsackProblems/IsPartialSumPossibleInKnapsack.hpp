@@ -35,7 +35,8 @@ private:
     bool isPartialSumPossibleUsingMemoizationDP(StateMatrix & stateMatrix, Value const partialSum, Index const valueIndex) const;
 
     Value m_targetSum;
-    Values m_inputValues;};
+    Values m_inputValues;
+};
 
 }
 
@@ -47,7 +48,8 @@ private:
 // ---> If "partialSum" == value at "value index":
 // -----> Return true
 // ---> Else if "partialSum" > value at "value index":
-// -----> Get "isPossible" if value is USED:// -------> Recursively call "partialSum" - value at "value index" and increment to next "value index"
+// -----> Get "isPossible" if value is USED:
+// -------> Recursively call "partialSum" - value at "value index" and increment to next "value index"
 // -----> Get "isPossible" if value is SKIPPED:
 // -------> Recursively call "partialSum" and increment to next "value index"
 // -----> Return the OR logic of the two (if one of them is possible then its possible)
@@ -62,7 +64,8 @@ private:
 // -> Forward traversal (from top-left to bottom-right)
 // -> Traversal uses previous values to compute for a new value
 // -> The computation of each cell in "isPartialSumPossible" is:
-// ---> Get the previous input value (decrement value index)// ---> Get initial value of isPossible: Get entry on the matrix if the partial sum and previous input value is possible
+// ---> Get the previous input value (decrement value index)
+// ---> Get initial value of isPossible: Get entry on the matrix if the partial sum and previous input value is possible
 // ---> If isPossible is false and "partialSum" >= previous input value:
 // -----> Replace "isPossible" if previous input value is USED: Get entry on the matrix if the (partial sum - previous input value) and previous input value is possible
 
@@ -73,7 +76,8 @@ private:
 // -> Reverse traversal (from right to left)
 // ---> Reverse traversal so that the changed values wont be changed again in one iteration
 // -> Traversal uses previous values to compute for a new value
-// -> Traverse all input values (this ensures that input values are only used once):// ---> Traverse all the partial sums (from target sum to zero):
+// -> Traverse all input values (this ensures that input values are only used once):
+// ---> Traverse all the partial sums (from target sum to zero):
 // -----> This "partial sum" is possible if "partial sum" >= "input value" and if "partial sum"-"input value" is possible
 
 
@@ -115,7 +119,8 @@ private:
 // The approach for the problem is:
 // -> if (A[i-1] > j)
 // ---> DP[i][j] = DP[i-1][j]
-// -> else// ---> DP[i][j] = DP[i-1][j] OR DP[i-1][j-A[i-1]]
+// -> else
+// ---> DP[i][j] = DP[i-1][j] OR DP[i-1][j-A[i-1]]
 // This means that if current element has value greater than ‘current sum value’ we will copy the answer for previous cases
 // And if the current sum value is greater than the ‘ith’ element we will see if any of previous states have already experienced the sum=’j’ OR any previous states experienced a value ‘j – A[i]’ which will solve our purpose.
 
@@ -133,6 +138,7 @@ private:
 // The idea is that we can check if the sum till position “i” is possible
 // then if the current element in the array at position j is x, then sum i+x is also possible.
 // We traverse the sum array from back to front so that we don’t count any element twice.
+
 
 
 

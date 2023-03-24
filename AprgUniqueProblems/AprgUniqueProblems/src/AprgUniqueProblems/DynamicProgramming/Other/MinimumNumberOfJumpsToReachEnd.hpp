@@ -31,6 +31,7 @@ private:
     Count getMinimumNumberOfJumpsUsingMemoizationDP(Counts & indexToCountOfJumps, Index const startJumpIndex) const;
     Counts m_sequence;
 };
+
 }
 
 // Given an array of integers where each element represents the max number of steps that can be made forward from that element.

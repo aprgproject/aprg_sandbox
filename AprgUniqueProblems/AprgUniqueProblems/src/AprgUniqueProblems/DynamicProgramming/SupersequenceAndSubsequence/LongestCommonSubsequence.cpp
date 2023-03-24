@@ -37,7 +37,8 @@ LongestCommonSubsequence::Count LongestCommonSubsequence::getLongestLengthUsingI
 
     CountMatrix lengthMatrix(m_sequence1.size()+1, m_sequence2.size()+1, 0);
 
-    for(Index index1=1; index1<lengthMatrix.getNumberOfColumns(); index1++)    {
+    for(Index index1=1; index1<lengthMatrix.getNumberOfColumns(); index1++)
+    {
         for(Index index2=1; index2<lengthMatrix.getNumberOfRows(); index2++)
         {
             Count entryResult(0);
@@ -63,6 +64,7 @@ LongestCommonSubsequence::Count LongestCommonSubsequence::getLongestLengthUsingI
 
     // Time Complexity: O(m x n)
     // Auxiliary Space: O(m)
+
     // Space efficiency analysis:
     // Since accessing the previous partial values requires only one column or one row above,
     // we only really need 2 rows (not a matrix) to keep track partial values.
@@ -92,7 +94,8 @@ LongestCommonSubsequence::Count LongestCommonSubsequence::getLongestLengthUsingI
 }
 LongestCommonSubsequence::Count LongestCommonSubsequence::getLongestLengthUsingNaiveRecursion(
         Index const index1,
-        Index const index2) const{
+        Index const index2) const
+{
     if(index1==0 || index2==0)
     {
         return 0;

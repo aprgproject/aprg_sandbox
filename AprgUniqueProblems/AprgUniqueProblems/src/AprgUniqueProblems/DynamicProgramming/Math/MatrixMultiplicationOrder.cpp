@@ -31,7 +31,8 @@ MatrixMultiplicationOrder::Count MatrixMultiplicationOrder::getMinimumNumberOfOp
     if(!m_dimensions.empty())
     {
         CountMatrix countMatrix(m_dimensions.size(), m_dimensions.size(), MAX_COUNT);
-        result = getMinimumNumberOfOperationsUsingMemoizationDP(countMatrix, 0, m_dimensions.size()-1);    }
+        result = getMinimumNumberOfOperationsUsingMemoizationDP(countMatrix, 0, m_dimensions.size()-1);
+    }
     return result;
 }
 
@@ -42,7 +43,8 @@ MatrixMultiplicationOrder::Count MatrixMultiplicationOrder::getMinimumNumberOfOp
 
     Count result(0);
     if(!m_dimensions.empty())
-    {        CountMatrix countMatrix(m_dimensions.size(), m_dimensions.size(), 0U);
+    {
+        CountMatrix countMatrix(m_dimensions.size(), m_dimensions.size(), 0U);
 
         for(Index length=3; length<=m_dimensions.size(); length++)
         {

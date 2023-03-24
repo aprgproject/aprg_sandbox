@@ -30,7 +30,8 @@ private:
 
     Count getLongestLengthUsingNaiveRecursion(Index const index1, Index const index2) const;
     Count getLongestLengthUsingMemoizationDP(CountMatrix & lengthMatrix, Index const index1, Index const index2) const;
-    Values m_sequence1;    Values m_sequence2;
+    Values m_sequence1;
+    Values m_sequence2;
 
 };
 

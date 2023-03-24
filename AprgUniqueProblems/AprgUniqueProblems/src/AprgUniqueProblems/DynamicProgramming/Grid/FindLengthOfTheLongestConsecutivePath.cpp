@@ -10,6 +10,7 @@ namespace
 vector<pair<int, int>> columnOffsets
 {{-1, -1}, {-1, 0}, {-1, 1}, {0, -1}, {0, 0}, {0, 1}, {1, -1}, {1, 0}, {1, 1}};
 }
+
 FindLengthOfTheLongestConsecutivePath::FindLengthOfTheLongestConsecutivePath(
         ValueGrid const& inputGrid)
     : m_inputGrid(inputGrid)
@@ -54,7 +55,8 @@ FindLengthOfTheLongestConsecutivePath::Count FindLengthOfTheLongestConsecutivePa
     for(auto const& neighborOffset : columnOffsets)
     {
         Index neighborX = x+neighborOffset.first, neighborY = y+neighborOffset.second;
-        if(m_inputGrid.isInside(neighborX, neighborY) && m_inputGrid.getEntry(neighborX, neighborY)==nextValue)        {
+        if(m_inputGrid.isInside(neighborX, neighborY) && m_inputGrid.getEntry(neighborX, neighborY)==nextValue)
+        {
             result = max(result, getLongestLengthStartingAtUsingNaiveRecursion(neighborX, neighborY));
         }
     }
@@ -89,7 +91,8 @@ FindLengthOfTheLongestConsecutivePath::Count FindLengthOfTheLongestConsecutivePa
         for(auto const& neighborOffset : columnOffsets)
         {
             Index neighborX = x+neighborOffset.first, neighborY = y+neighborOffset.second;
-            if(m_inputGrid.isInside(neighborX, neighborY) && m_inputGrid.getEntry(neighborX, neighborY)==nextValue)            {
+            if(m_inputGrid.isInside(neighborX, neighborY) && m_inputGrid.getEntry(neighborX, neighborY)==nextValue)
+            {
                 result = max(result, getLongestLengthStartingAtUsingNaiveRecursion(neighborX, neighborY));
             }
         }

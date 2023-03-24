@@ -36,7 +36,8 @@ EggDroppingPuzzle::Count EggDroppingPuzzle::getMinimumNumberOfTrialsUsingIterati
     // Auxiliary Space: O(n*k).
     // -> As a 2-D array of size ‘n*k’ is used for storing elements.
 
-    CountMatrix countMatrix(m_numberOfEggs+1, m_numberOfFloors+1, 0U);    for(Count remainingEggs=1; remainingEggs<=m_numberOfEggs; remainingEggs++)
+    CountMatrix countMatrix(m_numberOfEggs+1, m_numberOfFloors+1, 0U);
+    for(Count remainingEggs=1; remainingEggs<=m_numberOfEggs; remainingEggs++)
     {
         countMatrix.setEntry(remainingEggs, 1, 1);
     }

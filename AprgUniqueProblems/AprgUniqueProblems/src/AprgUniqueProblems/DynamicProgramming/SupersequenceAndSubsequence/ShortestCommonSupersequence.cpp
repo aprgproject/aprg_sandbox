@@ -28,7 +28,8 @@ ShortestCommonSupersequence::Count ShortestCommonSupersequence::getShortestLengt
     lengthMatrix.setEntry(0, 0, 0);    for(Index index1=1; index1<lengthMatrix.getNumberOfColumns(); index1++)
     {
         lengthMatrix.setEntry(index1, 0, index1);
-    }    for(Index index2=1; index2<lengthMatrix.getNumberOfRows(); index2++)
+    }
+    for(Index index2=1; index2<lengthMatrix.getNumberOfRows(); index2++)
     {
         lengthMatrix.setEntry(0, index2, index2);
     }
@@ -78,6 +79,7 @@ ShortestCommonSupersequence::Count ShortestCommonSupersequence::getShortestLengt
     // Space efficiency analysis:
     // Since accessing the previous partial values requires only one column or one row above,
     // we only really need 2 rows (not a matrix) to keep track partial values.
+
     // current and previous are the rows in the dynamic programming solution
     vector<Counts> previousAndCurrentCounts(2, Counts(m_sequence1.size()+1, 0)); // set first row to zero
 

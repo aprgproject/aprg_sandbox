@@ -3,7 +3,8 @@
 #include <gtest/gtest.h>
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 TEST(LongestCommonSubsequenceTest, GetLongestLengthWorksOnExample1)
 {

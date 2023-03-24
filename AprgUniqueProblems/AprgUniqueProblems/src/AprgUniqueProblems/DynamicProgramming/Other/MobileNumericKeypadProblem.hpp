@@ -31,6 +31,7 @@ private:
     // no memoization because there is no recomputation
     Count const m_length;
 };
+
 }
 
 // Mobile Numeric Keypad Problem

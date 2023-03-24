@@ -41,7 +41,8 @@ MaximizeProfitInCuttingARod::Profit MaximizeProfitInCuttingARod::getBestProfitUs
 
     Profit result(0);
     if(!m_rods.empty())
-    {        Profits partialProfits(m_length+1, 0);
+    {
+        Profits partialProfits(m_length+1, 0);
         Length smallestItemLength(getSmallestItemLength());
         for(Length remainingLength=smallestItemLength; remainingLength<partialProfits.size(); remainingLength++)
         {

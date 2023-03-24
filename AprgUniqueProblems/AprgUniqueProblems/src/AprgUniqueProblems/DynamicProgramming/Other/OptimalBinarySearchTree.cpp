@@ -36,7 +36,8 @@ OptimalBinarySearchTree::Cost OptimalBinarySearchTree::getMinimumCostUsingIterat
 
     Cost result(0);
     if(!m_valueAndFrequencyPairs.empty())
-    {        Index numberOfPairs = m_valueAndFrequencyPairs.size();
+    {
+        Index numberOfPairs = m_valueAndFrequencyPairs.size();
         CostMatrix costMatrix(numberOfPairs, numberOfPairs);
 
         Frequencies frequencies;

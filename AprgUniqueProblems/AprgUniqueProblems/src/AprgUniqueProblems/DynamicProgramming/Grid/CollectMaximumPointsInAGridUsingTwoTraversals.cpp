@@ -38,7 +38,8 @@ CollectMaximumPointsInAGridUsingTwoTraversals::Value CollectMaximumPointsInAGrid
     {        ValueGrid initialValueGrid(m_inputGrid.getNumberOfColumns(), m_inputGrid.getNumberOfColumns(), UNUSED_COUNT);
         ValueGrids valueGrids(m_inputGrid.getNumberOfRows(), initialValueGrid);
         result = getMaximumPointsUsingMemoizationDP(valueGrids, 0, 0, m_inputGrid.getNumberOfColumns()-1);
-    }    return result;
+    }
+    return result;
 }
 
 CollectMaximumPointsInAGridUsingTwoTraversals::Value CollectMaximumPointsInAGridUsingTwoTraversals::getMaximumPointsUsingIterativeDP() const
@@ -51,7 +52,8 @@ CollectMaximumPointsInAGridUsingTwoTraversals::Value CollectMaximumPointsInAGrid
     {        ValueGrid initialValueGrid(m_inputGrid.getNumberOfColumns(), m_inputGrid.getNumberOfColumns(), INVALID_COUNT);
         ValueGrids valueGrids(m_inputGrid.getNumberOfRows(), initialValueGrid);
 
-        {            Index columnLeft(0);
+        {
+            Index columnLeft(0);
             Index columnRight(m_inputGrid.getNumberOfColumns()-1);
             Value firstEntryResult = (columnLeft==columnRight)
                     ? m_inputGrid.getEntry(columnLeft, 0)

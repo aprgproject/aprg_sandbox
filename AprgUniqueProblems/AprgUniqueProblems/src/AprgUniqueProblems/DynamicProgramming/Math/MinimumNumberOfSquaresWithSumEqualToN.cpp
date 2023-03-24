@@ -45,7 +45,8 @@ MinimumNumberOfSquaresWithSumEqualToN::Count MinimumNumberOfSquaresWithSumEqualT
         Count entryResult(MAX_COUNT);        for(Count base=1; base*base<=previousSumOfSquares; base++)
         {
             entryResult = min(entryResult, minimumCounts.at(previousSumOfSquares-base*base)); // if difference is zero then its a perfect square
-        }        minimumCounts[previousSumOfSquares] = ++entryResult;
+        }
+        minimumCounts[previousSumOfSquares] = ++entryResult;
     }
     return minimumCounts.back();
 }
@@ -60,7 +61,8 @@ MinimumNumberOfSquaresWithSumEqualToN::Count MinimumNumberOfSquaresWithSumEqualT
     struct NodeDetails    {
         Count sum;
         Count count;
-    };    queue<NodeDetails> immediateNodes;
+    };
+    queue<NodeDetails> immediateNodes;
     immediateNodes.emplace(NodeDetails{m_sumOfSquares, 0});
 
     while(!immediateNodes.empty())
@@ -141,4 +143,5 @@ MinimumNumberOfSquaresWithSumEqualToN::Count MinimumNumberOfSquaresWithSumEqualT
     }
     return result;
 }
+
 }

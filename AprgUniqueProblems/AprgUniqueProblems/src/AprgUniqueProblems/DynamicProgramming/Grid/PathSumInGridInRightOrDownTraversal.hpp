@@ -43,6 +43,7 @@ private:
 };
 
 }
+
 // APPROACH:
 // 1) Naive Recursion / Dynamic Programming by Memoization:
 // -> Each "cell" has a "partial sum".
@@ -58,6 +59,7 @@ private:
 // -> The computation of the "partial sum" of each cell is:
 // ---> Get the partial sums of the left neighbor and the top neighbor
 // ---> Return the min/max of partial sums of the neighbors plus the value of this cell
+
 
 
 // Our next problem is to find a path from the upper-left corner to the lower-right corner of an n X n grid, such that we only move down and right.

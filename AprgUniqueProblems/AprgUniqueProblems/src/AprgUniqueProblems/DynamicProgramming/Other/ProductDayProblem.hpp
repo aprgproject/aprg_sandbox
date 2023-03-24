@@ -32,7 +32,8 @@ private:
 
     bool isProductIncluded(ProductBits const productBits, Product const product) const;
     Product getNumberOfProducts() const;
-    Day getNumberOfDays() const;    ProductBits getNumberOfProductsSubsets() const;
+    Day getNumberOfDays() const;
+    ProductBits getNumberOfProductsSubsets() const;
     ProductBits getProductBitsWithAllProducts() const;
     ProductBits getProductBits(Product const product) const;
     ProductBits addProduct(ProductBits const productBits, Product const product) const;

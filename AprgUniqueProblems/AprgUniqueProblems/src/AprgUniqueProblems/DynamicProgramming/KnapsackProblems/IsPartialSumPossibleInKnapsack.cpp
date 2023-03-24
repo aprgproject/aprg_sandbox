@@ -38,7 +38,8 @@ bool IsPartialSumPossibleInKnapsack::isPartialSumPossibleUsingMemoizationDP() co
     if(!m_inputValues.empty())
     {
         StateMatrix stateMatrix(m_targetSum+1, m_inputValues.size()+1, State::Unused);
-        for(Index valueIndex=0; valueIndex<stateMatrix.getNumberOfRows(); valueIndex++)        {
+        for(Index valueIndex=0; valueIndex<stateMatrix.getNumberOfRows(); valueIndex++)
+        {
             stateMatrix.setEntry(0, valueIndex, State::True);
         }
         result = isPartialSumPossibleUsingMemoizationDP(stateMatrix, m_targetSum, 0);
@@ -53,7 +54,8 @@ bool IsPartialSumPossibleInKnapsack::isPartialSumPossibleUsingIterativeDP() cons
 
     bool result(false);
     if(!m_inputValues.empty())
-    {        BooleanMatrix isPossibleMatrix(m_targetSum+1, m_inputValues.size()+1, false);
+    {
+        BooleanMatrix isPossibleMatrix(m_targetSum+1, m_inputValues.size()+1, false);
         for(Index valueIndex=0; valueIndex<isPossibleMatrix.getNumberOfRows(); valueIndex++)
         {
             isPossibleMatrix.setEntry(0, valueIndex, true);
@@ -83,7 +85,8 @@ bool IsPartialSumPossibleInKnapsack::isPartialSumPossibleUsingIterativeDPAndSpac
 
     bool result(false);
     if(!m_inputValues.empty())
-    {        Booleans isPartialSumPossible(m_targetSum+1, false);
+    {
+        Booleans isPartialSumPossible(m_targetSum+1, false);
         isPartialSumPossible[0] = true;
         for(Value const& inputValue : m_inputValues) // input values are only used values
         {

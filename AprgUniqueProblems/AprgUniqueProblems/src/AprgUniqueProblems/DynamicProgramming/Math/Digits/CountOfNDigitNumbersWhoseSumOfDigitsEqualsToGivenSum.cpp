@@ -37,7 +37,8 @@ CountOfNDigitNumbersWhoseSumOfDigitsEqualsToGivenSum::Count CountOfNDigitNumbers
     if(m_numberOfDigits>0)
     {
         CountMatrix countMatrix(m_targetSumOfDigits+1, m_numberOfDigits, UNUSED_COUNT);
-        result = getCountUsingMemoizationDP(countMatrix, m_targetSumOfDigits, m_numberOfDigits-1);    }
+        result = getCountUsingMemoizationDP(countMatrix, m_targetSumOfDigits, m_numberOfDigits-1);
+    }
     return result;
 }
 
@@ -48,7 +49,8 @@ CountOfNDigitNumbersWhoseSumOfDigitsEqualsToGivenSum::Count CountOfNDigitNumbers
 
     Count result(0);
     if(m_numberOfDigits>0)
-    {        CountMatrix countMatrix(m_targetSumOfDigits+1, m_numberOfDigits, 0U);
+    {
+        CountMatrix countMatrix(m_targetSumOfDigits+1, m_numberOfDigits, 0U);
 
         for(Value digitValue=0; digitValue<=min(m_targetSumOfDigits, 9U); digitValue++)
         {
@@ -77,7 +79,8 @@ CountOfNDigitNumbersWhoseSumOfDigitsEqualsToGivenSum::Count CountOfNDigitNumbers
 
     Count result(0);
     if(m_numberOfDigits>0)
-    {        Counts partialSumToCount(m_targetSumOfDigits+1);
+    {
+        Counts partialSumToCount(m_targetSumOfDigits+1);
         for(Value digitValue=0; digitValue<=min(m_targetSumOfDigits, 9U); digitValue++)
         {
             partialSumToCount[digitValue]=1;
@@ -93,7 +96,8 @@ CountOfNDigitNumbersWhoseSumOfDigitsEqualsToGivenSum::Count CountOfNDigitNumbers
             }
         }
         result = partialSumToCount.back();
-    }    return result;
+    }
+    return result;
 }
 
 CountOfNDigitNumbersWhoseSumOfDigitsEqualsToGivenSum::Count CountOfNDigitNumbersWhoseSumOfDigitsEqualsToGivenSum::getCountBySearchingValuesWith1And9Increment() const
@@ -113,7 +117,8 @@ CountOfNDigitNumbersWhoseSumOfDigitsEqualsToGivenSum::Count CountOfNDigitNumbers
 
         for(Value value=start; value<end; value += (value==m_targetSumOfDigits) ? 9 : 1) // once sum is found just add 9 to find the next one
         {
-            Value currentSumOfDigits=0, remainingDigits=value;            while(remainingDigits != 0)
+            Value currentSumOfDigits=0, remainingDigits=value;
+            while(remainingDigits != 0)
             {
                 currentSumOfDigits += remainingDigits % 10;
                 remainingDigits /= 10;

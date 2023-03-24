@@ -31,7 +31,8 @@ LongestPalindromicSubstring::Index LongestPalindromicSubstring::getLongestLength
     if(!m_string.empty())
     {
         IndexMatrix lengthMatrix(m_string.length(), m_string.length(), static_cast<Index>(MAX_INDEX));
-        result =  getLongestLengthUsingMemoizationDP(lengthMatrix, 0, m_string.length()-1);    }
+        result =  getLongestLengthUsingMemoizationDP(lengthMatrix, 0, m_string.length()-1);
+    }
     return result;
 }
 
@@ -42,7 +43,8 @@ LongestPalindromicSubstring::Index LongestPalindromicSubstring::getLongestLength
     // Auxiliary Space: O(n^2).
     // -> Matrix of size n*n is needed to store the dp array.
 
-    Index result(0);    if(!m_string.empty())
+    Index result(0);
+    if(!m_string.empty())
     {
         result = 1;
         Index const stringLength = m_string.length();
@@ -83,7 +85,8 @@ LongestPalindromicSubstring::Index LongestPalindromicSubstring::getLongestLength
 
     Index result(0);
     if(!m_string.empty())
-    {        Index const stringLength = m_string.length();
+    {
+        Index const stringLength = m_string.length();
         Indices palidromeLengths(stringLength, 1);
         for(Index right=1; right<stringLength; right++)
         {
@@ -110,7 +113,8 @@ string LongestPalindromicSubstring::getLongestStringUsingIterativeDPAndSpaceEffi
 
     string result;
     if(!m_string.empty())
-    {        Index const stringLength = m_string.length();
+    {
+        Index const stringLength = m_string.length();
         Indices palidromeLengths(stringLength, 1);
         for(Index right=1; right<stringLength; right++)
         {
