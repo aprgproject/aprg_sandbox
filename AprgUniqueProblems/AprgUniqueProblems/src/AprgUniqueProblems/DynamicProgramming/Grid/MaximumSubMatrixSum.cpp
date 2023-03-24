@@ -1,12 +1,10 @@
 #include "MaximumSubMatrixSum.hpp"
 
-#include <AprgUniqueProblems/DynamicProgramming/Other/MaximumSubArraySum.hpp>
+#include <AprgUniqueProblems/DynamicProgramming/SubArray/MaximumSubArraySum.hpp>
 
 using namespace std;
-
 namespace alba
 {
-
 MaximumSubMatrixSum::MaximumSubMatrixSum(
         ValueMatrix const& valueMatrix)
     : m_valueMatrix(valueMatrix)
