@@ -14,14 +14,15 @@ MaximumProfitByBuyingAndSellingAShareAtMostTwice::MaximumProfitByBuyingAndSellin
 
 MaximumProfitByBuyingAndSellingAShareAtMostTwice::Value MaximumProfitByBuyingAndSellingAShareAtMostTwice::getMaximumProfitUsingIterativeDP() const
 {
+    // Time Complexity: O(prices)
+    // Auxiliary Space: O(prices)
+
     Value result(0);
     if(!m_prices.empty())
-    {
-        Values profit(m_prices.size(), 0U);
+    {        Values profit(m_prices.size(), 0U);
 
         Value maxPriceAtTheRight = m_prices.back();
-        for (Index right=m_prices.size()-1; right>0; right--)
-        {
+        for (Index right=m_prices.size()-1; right>0; right--)        {
             Index left = right-1;
             if(m_prices.at(left) > maxPriceAtTheRight)
             {
