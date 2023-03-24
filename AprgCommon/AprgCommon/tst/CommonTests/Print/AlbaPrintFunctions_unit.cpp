@@ -3,14 +3,15 @@
 #include <gtest/gtest.h>
 
 #include <deque>
+#include <queue>
 #include <sstream>
 #include <stack>
+#include <unordered_map>
+#include <unordered_set>
 
 using namespace std;
-
 namespace alba
 {
-
 TEST(AlbaPrintFunctionsTest, PrintParameterWithNameWorksWithItemsThatCanPrint)
 {
     stringstream ssToVerify;
@@ -98,14 +99,12 @@ TEST(AlbaPrintFunctionsTest, PrintParameterWithNameWorksWithArray)
 
     printParameterWithName(ssToVerify, "name", vectorToTest);
 
-    EXPECT_EQ("name : [{size: 5 | 500, 501, 502, 503, 504, }]", ssToVerify.str());
+    EXPECT_EQ("name : [{Constant size: 5 | 500, 501, 502, 503, 504, }]", ssToVerify.str());
 }
 
-TEST(AlbaPrintFunctionsTest, PrintParameterWithNameWorksWithVector)
-{
+TEST(AlbaPrintFunctionsTest, PrintParameterWithNameWorksWithVector){
     stringstream ssToVerify;
     vector<unsigned int> vectorToTest{500U, 501U, 502U, 503U, 504U};
-
     printParameterWithName(ssToVerify, "name", vectorToTest);
 
     EXPECT_EQ("name : [{size: 5 | 500, 501, 502, 503, 504, }]", ssToVerify.str());
@@ -141,14 +140,57 @@ TEST(AlbaPrintFunctionsTest, PrintParameterWithNameWorksWithMap)
     EXPECT_EQ("name : [{size: 5 | (500, A), (501, B), (502, C), (503, D), (504, E), }]", ssToVerify.str());
 }
 
+TEST(AlbaPrintFunctionsTest, PrintParameterWithNameWorksWithUnorderedSet)
+{
+    stringstream ssToVerify;
+    unordered_set<unsigned int> vectorToTest{500U, 501U, 502U, 503U, 504U};
+
+    printParameterWithName(ssToVerify, "name", vectorToTest);
+
+    EXPECT_EQ("name : [{size: 5 | 504, 503, 502, 501, 500, }]", ssToVerify.str());
+}
+
+TEST(AlbaPrintFunctionsTest, PrintParameterWithNameWorksWithUnorderedMap)
+{
+    stringstream ssToVerify;
+    unordered_map<unsigned int, char> vectorToTest{{500U, 'A'}, {501U, 'B'}, {502U, 'C'}, {503U, 'D'}, {504U, 'E'}};
+
+    printParameterWithName(ssToVerify, "name", vectorToTest);
+
+    EXPECT_EQ("name : [{size: 5 | (504, E), (503, D), (502, C), (501, B), (500, A), }]", ssToVerify.str());
+}
+
 TEST(AlbaPrintFunctionsTest, PrintParameterWithNameWorksWithStack)
 {
     stringstream ssToVerify;
-    std::stack<unsigned int> adapter({1U, 2U, 3U});
+    stack<unsigned int> adapter({1U, 2U, 3U});
 
     printParameterWithName(ssToVerify, "name", adapter);
 
     EXPECT_EQ("name : [{adapter: {size: 3 | 1, 2, 3, }}]", ssToVerify.str());
+}
+
+TEST(AlbaPrintFunctionsTest, PrintParameterWithNameWorksWithQueue)
+{
+    stringstream ssToVerify;
+    queue<unsigned int> adapter({1U, 2U, 3U});
+
+    printParameterWithName(ssToVerify, "name", adapter);
+
+    EXPECT_EQ("name : [{adapter: {size: 3 | 1, 2, 3, }}]", ssToVerify.str());
+}
+
+TEST(AlbaPrintFunctionsTest, PrintParameterWithNameWorksWithPriorityQueue)
+{
+    stringstream ssToVerify;
+    priority_queue<unsigned int> adapter;
+    adapter.push(1U);
+    adapter.push(2U);
+    adapter.push(3U);
+
+    printParameterWithName(ssToVerify, "name", adapter);
+
+    EXPECT_EQ("name : [{adapter: {size: 3 | 3, 1, 2, }}]", ssToVerify.str());
 }
 
 }

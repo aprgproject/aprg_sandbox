@@ -1,175 +1,148 @@
 #pragma once
 
-#include <Common/Container/AlbaContainerHelper.hpp>
+#include <Common/Types/AlbaTypeHelper.hpp>
 
-#include <deque>
-#include <string>
-#include <tuple>
+#include <memory>
 #include <ostream>
-
-using namespace alba::containerHelper;
+#include <string>
 
 namespace alba
 {
 
 // printParameter declaration
 
+void printParameter(std::ostream & outputStream, std::string const& parameter);
+
 template <typename ParameterType>
 void printParameter(std::ostream & outputStream, ParameterType const& parameter);
-template <typename ValueType1, typename ValueType2>
-void printParameter(std::ostream & outputStream, std::pair<ValueType1, ValueType2> const& parameter);
-template <typename ValueType, size_t SIZE, template <typename, size_t> class Container>
-void printParameter(std::ostream & outputStream, Container<ValueType, SIZE> const& container);
-template <typename ValueType, template <typename, typename = std::allocator<ValueType>> class Container>
-void printParameter(std::ostream & outputStream, Container<ValueType> const& container);
-template <typename ValueType, template <typename, typename = std::less<ValueType>, typename = std::allocator<ValueType>> class Container>
-void printParameter(std::ostream & outputStream, Container<ValueType> const& container);
-template <typename KeyType, typename ValueType, template <typename, typename, typename = std::less<KeyType>, typename = std::allocator<std::pair<KeyType const, ValueType>>> class Container>
-void printParameter(std::ostream & outputStream, Container<KeyType, ValueType> const& container);
-template <typename ValueType, template <typename ContainerValueType, typename Container> class Adapter>
-void printParameter(std::ostream & outputStream, Adapter<ValueType, std::deque<ValueType>> const& adapter);
+template <typename... UnderlyingTypes>
+void printParameter(std::ostream & outputStream, std::pair<UnderlyingTypes...> const& parameter);
+template <typename... UnderlyingTypes>
+void printParameter(std::ostream & outputStream, std::tuple<UnderlyingTypes...> const& parameter);
 
+template <typename ValueType, size_t SIZE, template<typename, size_t> class TemplateType>
+std::enable_if_t<typeHelper::hasBeginAndEnd<TemplateType<ValueType, SIZE>>(), void>
+printParameter(std::ostream & outputStream, TemplateType<ValueType, SIZE> const& parameter);
+
+template <typename... UnderlyingTypes, template<typename...> class TemplateType>
+std::enable_if_t<typeHelper::hasBeginAndEnd<TemplateType<UnderlyingTypes...>>(), void>
+printParameter(std::ostream & outputStream, TemplateType<UnderlyingTypes...> const& parameter);
+
+template <typename... UnderlyingTypes, template<typename...> class TemplateType>
+std::enable_if_t<typeHelper::hasUnderlyingContainer<TemplateType<UnderlyingTypes...>>(), void>
+printParameter(std::ostream & outputStream, TemplateType<UnderlyingTypes...> const& parameter);
 
 
 // printParameterWithName declaration
-
 template <typename ParameterType>
 void printParameterWithName(std::ostream & outputStream, std::string const& parameterName, ParameterType const& parameter);
 template <typename ParameterPointerType>
 void printParameterWithName(std::ostream & outputStream, std::string const& parameterName, ParameterPointerType * parameterPointer);
 template <>
-void printParameterWithName(std::ostream & outputStream, std::string const& , char const*const parameter);
+void printParameterWithName(std::ostream & outputStream, std::string const&, char const*const parameter);
 template <typename ParameterType>
 void printParameterWithName(std::ostream & outputStream, std::string const& parameterName, std::unique_ptr<ParameterType> const& parameterPointer);
 template <typename ParameterType>
 void printParameterWithName(std::ostream & outputStream, std::string const& parameterName, std::shared_ptr<ParameterType> const& parameterPointer);
 template <typename ParameterType>
 void printParameterWithName(std::ostream & outputStream, std::string const& parameterName, std::weak_ptr<ParameterType> const& parameterPointer);
-template <typename ValueType1, typename ValueType2>
-void printParameterWithName(std::ostream & outputStream, std::string const& parameterName, std::pair<ValueType1, ValueType2> const& parameter);
-template <typename ValueType, size_t SIZE, template <typename, size_t> class Container>
-void printParameterWithName(std::ostream & outputStream, std::string const& parameterName, Container<ValueType, SIZE> const& container);
-template <typename ValueType, template <typename, typename = std::allocator<ValueType>> class Container>
-void printParameterWithName(std::ostream & outputStream, std::string const& parameterName, Container<ValueType> const& container);
-template <typename ValueType, template <typename, typename = std::less<ValueType>, typename = std::allocator<ValueType>> class Container>
-void printParameterWithName(std::ostream & outputStream, std::string const& parameterName, Container<ValueType> const& container);
-template <typename KeyType, typename ValueType, template <typename, typename, typename = std::less<KeyType>, typename = std::allocator<std::pair<KeyType const, ValueType>>> class Container>
-void printParameterWithName(std::ostream & outputStream, std::string const& parameterName, Container<KeyType, ValueType> const& container);
-template <typename ValueType, template <typename ContainerValueType, typename Container> class Adapter>
-void printParameterWithName(std::ostream & outputStream, std::string const& parameterName, Adapter<ValueType, std::deque<ValueType>> const& adapter);
-
+template <typename ValueType, size_t SIZE, template<typename, size_t> class TemplateType>
+void printParameterWithName(std::ostream & outputStream, std::string const& parameterName, TemplateType<ValueType, SIZE> const& parameter);
+template <typename... UnderlyingTypes, template<typename...> class TemplateType>
+void printParameterWithName(std::ostream & outputStream, std::string const& parameterName, TemplateType<UnderlyingTypes...> const& parameter);
 
 
 // Utilities
 
 template<unsigned int index, typename... ValueTypes>
 typename std::enable_if<index == sizeof...(ValueTypes), void>::type
-printParametersRecusively(std::ostream &, std::tuple<ValueTypes...> const&)
+printTupleParametersRecusively(std::ostream &, std::tuple<ValueTypes...> const&)
 {}
 
 template<unsigned int index, typename... ValueTypes>
 typename std::enable_if<index != sizeof...(ValueTypes), void>::type
-printParametersRecusively(std::ostream & outputStream, std::tuple<ValueTypes...> const& parameter)
+printTupleParametersRecusively(std::ostream & outputStream, std::tuple<ValueTypes...> const& parameter)
 {
     printParameter(outputStream, std::get<index>(parameter));
     outputStream << ", ";
-    printParametersRecusively<index+1, ValueTypes...>(outputStream, parameter);
+    printTupleParametersRecusively<index+1, ValueTypes...>(outputStream, parameter);
+}
+
+template <typename Adapter>
+typename Adapter::container_type const& getUnderlyingContainerForPrinting(Adapter const& adapter) // copied from parameter to lessen dependencies
+{
+    struct AdapterParent : Adapter
+    {
+        static typename Adapter::container_type const& get(Adapter const& adapterAsParameter)
+        {
+            return adapterAsParameter.*&AdapterParent::c;
+        }
+    };
+    return AdapterParent::get(adapter);
 }
 
 
-
 // printParameter
-
 template <typename ParameterType>
 void printParameter(std::ostream & outputStream, ParameterType const& parameter)
 {
     outputStream << parameter;
 }
 
-template <typename ValueType1, typename ValueType2>
-void printParameter(std::ostream & outputStream, std::pair<ValueType1, ValueType2> const& parameter)
+template <typename... UnderlyingTypes>
+void printParameter(std::ostream & outputStream, std::pair<UnderlyingTypes...> const& parameter)
 {
     outputStream << "(";
-    printParameter(outputStream, parameter.first);
-    outputStream << ", ";
+    printParameter(outputStream, parameter.first);    outputStream << ", ";
     printParameter(outputStream, parameter.second);
     outputStream << ")";
 }
 
-template <typename... ValueTypes>
-void printParameter(std::ostream & outputStream, std::tuple<ValueTypes...> const& parameter)
+template <typename... UnderlyingTypes>
+void printParameter(std::ostream & outputStream, std::tuple<UnderlyingTypes...> const& parameter)
 {
     outputStream << "(";
-    printParametersRecusively<0U, ValueTypes...>(outputStream, parameter);
+    printTupleParametersRecusively<0U, UnderlyingTypes...>(outputStream, parameter);
     outputStream << ")";
 }
 
-template <typename ValueType, size_t SIZE,
-          template <typename, size_t> class Container>
-void printParameter(std::ostream & outputStream, Container<ValueType, SIZE> const& container)
+template <typename ValueType, size_t SIZE, template<typename, size_t> class TemplateType>
+std::enable_if_t<typeHelper::hasBeginAndEnd<TemplateType<ValueType, SIZE>>(), void>
+printParameter(std::ostream & outputStream, TemplateType<ValueType, SIZE> const& parameter)
 {
-    outputStream << "{size: " << container.size() << " | ";
-    for(auto const& content : container)
+    outputStream << "{Constant size: " << SIZE << " | ";
+    for(auto const& content : parameter)
     {
         printParameter(outputStream, content);
-        outputStream << ", ";
-    }
+        outputStream << ", ";    }
     outputStream << "}";
 }
 
-template <typename ValueType,
-          template <typename, typename = std::allocator<ValueType>> class Container>
-void printParameter(std::ostream & outputStream, Container<ValueType> const& container)
+template <typename... UnderlyingTypes, template<typename...> class TemplateType>
+std::enable_if_t<typeHelper::hasBeginAndEnd<TemplateType<UnderlyingTypes...>>(), void>
+printParameter(std::ostream & outputStream, TemplateType<UnderlyingTypes...> const& parameter)
 {
-    outputStream << "{size: " << container.size() << " | ";
-    for(auto const& content : container)
+    outputStream << "{size: " << parameter.size() << " | ";
+    for(auto const& content : parameter)
     {
         printParameter(outputStream, content);
-        outputStream << ", ";
-    }
+        outputStream << ", ";    }
     outputStream << "}";
 }
 
-template <typename ValueType,
-          template <typename, typename = std::less<ValueType>, typename = std::allocator<ValueType>> class Container>
-void printParameter(std::ostream & outputStream, Container<ValueType> const& container)
-{
-    outputStream << "{size: " << container.size() << " | ";
-    for(auto const& content : container)
-    {
-        printParameter(outputStream, content);
-        outputStream << ", ";
-    }
-    outputStream << "}";
-}
-
-template <typename KeyType, typename ValueType,
-          template <typename, typename, typename = std::less<KeyType>, typename = std::allocator<std::pair<KeyType const, ValueType>>> class Container>
-void printParameter(std::ostream & outputStream, Container<KeyType, ValueType> const& container)
-{
-    outputStream << "{size: " << container.size() << " | ";
-    for(auto const& content : container)
-    {
-        printParameter(outputStream, content);
-        outputStream << ", ";
-    }
-    outputStream << "}";
-}
-
-template <typename ValueType, template <typename ContainerValueType, typename Container> class Adapter>
-void printParameter(std::ostream & outputStream, Adapter<ValueType, std::deque<ValueType>> const& adapter)
+template <typename... UnderlyingTypes, template<typename...> class TemplateType>
+std::enable_if_t<typeHelper::hasUnderlyingContainer<TemplateType<UnderlyingTypes...>>(), void>
+printParameter(std::ostream & outputStream, TemplateType<UnderlyingTypes...> const& parameter)
 {
     outputStream << "{adapter: ";
-    printParameter(outputStream, getUnderlyingContainer(adapter));
+    printParameter(outputStream, getUnderlyingContainerForPrinting(parameter));
     outputStream << "}";
 }
-
 
 
 // printParameterWithName
 
-template <typename ParameterType>
-void printParameterWithName(std::ostream & outputStream, std::string const& parameterName, ParameterType const& parameter)
+template <typename ParameterType>void printParameterWithName(std::ostream & outputStream, std::string const& parameterName, ParameterType const& parameter)
 {
     outputStream << parameterName << " : [";
     printParameter(outputStream, parameter);
@@ -212,63 +185,19 @@ void printParameterWithName(std::ostream & outputStream, std::string const& para
     outputStream << parameterName << " has use count: [" << parameterPointer.use_count() << "]";
 }
 
-template <typename ValueType1, typename ValueType2>
-void printParameterWithName(std::ostream & outputStream, std::string const& parameterName, std::pair<ValueType1, ValueType2> const& parameter)
+template <typename ValueType, size_t SIZE, template<typename, size_t> class TemplateType>
+void printParameterWithName(std::ostream & outputStream, std::string const& parameterName, TemplateType<ValueType, SIZE> const& parameter)
 {
     outputStream << parameterName << " : [";
     printParameter(outputStream, parameter);
     outputStream<< "]";
 }
 
-template <typename... ValueTypes>
-void printParameterWithName(std::ostream & outputStream, std::string const& parameterName, std::tuple<ValueTypes...> const& parameter)
+template <typename... UnderlyingTypes, template<typename...> class TemplateType>
+void printParameterWithName(std::ostream & outputStream, std::string const& parameterName, TemplateType<UnderlyingTypes...> const& parameter)
 {
     outputStream << parameterName << " : [";
     printParameter(outputStream, parameter);
-    outputStream<< "]";
-}
-
-template <typename ValueType, size_t SIZE,
-          template <typename, size_t> class Container>
-void printParameterWithName(std::ostream & outputStream, std::string const& parameterName, Container<ValueType, SIZE> const& container)
-{
-    outputStream << parameterName << " : [";
-    printParameter(outputStream, container);
-    outputStream<< "]";
-}
-
-template <typename ValueType,
-          template <typename, typename = std::allocator<ValueType>> class Container>
-void printParameterWithName(std::ostream & outputStream, std::string const& parameterName, Container<ValueType> const& container)
-{
-    outputStream << parameterName << " : [";
-    printParameter(outputStream, container);
-    outputStream<< "]";
-}
-
-template <typename ValueType,
-          template <typename, typename = std::less<ValueType>, typename = std::allocator<ValueType>> class Container>
-void printParameterWithName(std::ostream & outputStream, std::string const& parameterName, Container<ValueType> const& container)
-{
-    outputStream << parameterName << " : [";
-    printParameter(outputStream, container);
-    outputStream<< "]";
-}
-
-template <typename KeyType, typename ValueType,
-          template <typename, typename, typename = std::less<KeyType>, typename = std::allocator<std::pair<KeyType const, ValueType>>> class Container>
-void printParameterWithName(std::ostream & outputStream, std::string const& parameterName, Container<KeyType, ValueType> const& container)
-{
-    outputStream << parameterName << " : [";
-    printParameter(outputStream, container);
-    outputStream<< "]";
-}
-
-template <typename ValueType, template <typename ContainerValueType, typename Container> class Adapter>
-void printParameterWithName(std::ostream & outputStream, std::string const& parameterName, Adapter<ValueType, std::deque<ValueType>> const& adapter)
-{
-    outputStream << parameterName << " : [";
-    printParameter(outputStream, adapter);
     outputStream<< "]";
 }
 

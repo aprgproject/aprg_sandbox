@@ -446,6 +446,63 @@ template<bool condition, typename TypeIfTrue, typename TypeIfFalse>
 using ConditionalType = typename std::conditional<condition, TypeIfTrue, TypeIfFalse>::type;
 
 
+
+// Walter E Brown technique
+
+// IsContainer
+template<typename, typename = void>
+struct IsAContainer : std::false_type {};
+template<typename T>
+struct IsAContainer<T, std::void_t<typename T::value_type>>
+ : std::true_type {};
+
+// HasBegin
+template<typename, typename = void>
+struct HasBegin : std::false_type {};
+template<typename T>
+struct HasBegin<T, std::void_t<decltype(std::declval<T>().begin())>>
+ : std::true_type {};
+
+// HasEnd
+template<typename, typename = void>
+struct HasEnd : std::false_type {};
+template<typename T>
+struct HasEnd<T, std::void_t<decltype(std::declval<T>().end())>>
+ : std::true_type {};
+
+// HasUnderlyingContainer
+// ::c cannot be used because its protected
+// -> template<typename, typename = void>
+// -> struct HasUnderlyingContainer : std::false_type {};
+// -> template<typename T>
+// -> struct HasUnderlyingContainer<T, std::void_t<decltype((void)T::c, void())>>
+// ->  : std::true_type {};
+template<typename, typename = void>
+struct HasUnderlyingContainer : std::false_type {};
+template<typename T>
+struct HasUnderlyingContainer<T, std::void_t<typename T::container_type>>
+ : std::true_type {};
+
+template <typename Type>
+constexpr bool hasBeginAndEnd()
+{
+    return HasBegin<Type>::value && HasEnd<Type>::value;
+}
+
+template <typename Type>
+constexpr bool isAContainer()
+{
+    return IsAContainer<Type>::value;
+}
+
+template <typename Type>
+constexpr bool hasUnderlyingContainer()
+{
+    return HasUnderlyingContainer<Type>::value;
+}
+
+
+
 }
 
 } // namespace alba
