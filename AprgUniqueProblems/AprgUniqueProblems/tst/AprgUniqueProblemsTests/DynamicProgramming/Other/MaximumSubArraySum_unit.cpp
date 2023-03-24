@@ -4,10 +4,12 @@
 
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 namespace
-{using SubArrayDetails = MaximumSubArraySum::SubArrayDetails;
+{
+using SubArrayDetails = MaximumSubArraySum::SubArrayDetails;
 }
 
 TEST(MaximumSubArraySumTest, GetMaximumSubArraySumWorksOnExample1)

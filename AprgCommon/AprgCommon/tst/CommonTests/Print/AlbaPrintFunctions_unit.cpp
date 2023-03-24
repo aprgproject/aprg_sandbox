@@ -10,8 +10,10 @@
 #include <unordered_set>
 
 using namespace std;
+
 namespace alba
 {
+
 TEST(AlbaPrintFunctionsTest, PrintParameterWithNameWorksWithItemsThatCanPrint)
 {
     stringstream ssToVerify;
@@ -102,9 +104,11 @@ TEST(AlbaPrintFunctionsTest, PrintParameterWithNameWorksWithArray)
     EXPECT_EQ("name : [{Constant size: 5 | 500, 501, 502, 503, 504, }]", ssToVerify.str());
 }
 
-TEST(AlbaPrintFunctionsTest, PrintParameterWithNameWorksWithVector){
+TEST(AlbaPrintFunctionsTest, PrintParameterWithNameWorksWithVector)
+{
     stringstream ssToVerify;
     vector<unsigned int> vectorToTest{500U, 501U, 502U, 503U, 504U};
+
     printParameterWithName(ssToVerify, "name", vectorToTest);
 
     EXPECT_EQ("name : [{size: 5 | 500, 501, 502, 503, 504, }]", ssToVerify.str());

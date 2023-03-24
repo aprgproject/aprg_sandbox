@@ -23,7 +23,8 @@ CollectMaximumPointsInAGridUsingTwoTraversals::Value CollectMaximumPointsInAGrid
 
     Value result(0);
     if(!m_inputGrid.isEmpty())
-    {        result = getMaximumPointsUsingNaiveRecursion(0, 0, m_inputGrid.getNumberOfColumns()-1);
+    {
+        result = getMaximumPointsUsingNaiveRecursion(0, 0, m_inputGrid.getNumberOfColumns()-1);
     }
     return result;
 }
@@ -35,7 +36,8 @@ CollectMaximumPointsInAGridUsingTwoTraversals::Value CollectMaximumPointsInAGrid
 
     Value result(0);
     if(!m_inputGrid.isEmpty())
-    {        ValueGrid initialValueGrid(m_inputGrid.getNumberOfColumns(), m_inputGrid.getNumberOfColumns(), UNUSED_COUNT);
+    {
+        ValueGrid initialValueGrid(m_inputGrid.getNumberOfColumns(), m_inputGrid.getNumberOfColumns(), UNUSED_COUNT);
         ValueGrids valueGrids(m_inputGrid.getNumberOfRows(), initialValueGrid);
         result = getMaximumPointsUsingMemoizationDP(valueGrids, 0, 0, m_inputGrid.getNumberOfColumns()-1);
     }
@@ -49,7 +51,8 @@ CollectMaximumPointsInAGridUsingTwoTraversals::Value CollectMaximumPointsInAGrid
 
     Value result(0);
     if(!m_inputGrid.isEmpty())
-    {        ValueGrid initialValueGrid(m_inputGrid.getNumberOfColumns(), m_inputGrid.getNumberOfColumns(), INVALID_COUNT);
+    {
+        ValueGrid initialValueGrid(m_inputGrid.getNumberOfColumns(), m_inputGrid.getNumberOfColumns(), INVALID_COUNT);
         ValueGrids valueGrids(m_inputGrid.getNumberOfRows(), initialValueGrid);
 
         {

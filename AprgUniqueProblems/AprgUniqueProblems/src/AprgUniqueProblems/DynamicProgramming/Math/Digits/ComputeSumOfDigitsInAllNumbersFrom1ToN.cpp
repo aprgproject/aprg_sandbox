@@ -64,7 +64,8 @@ ComputeSumOfDigitsInAllNumbersFrom1ToN::Value ComputeSumOfDigitsInAllNumbersFrom
     // Time Complexity: Even though there are recursion calls the time complexity is O(numberOfDigits)
     // Auxiliary Space: O(numberOfDigits^2)
 
-    Value result(0);    if (number<10)
+    Value result(0);
+    if (number<10)
     {
         result = getSummationFrom1ToN(number);
     }

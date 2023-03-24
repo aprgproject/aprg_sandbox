@@ -42,7 +42,8 @@ MinimumNumberOfSquaresWithSumEqualToN::Count MinimumNumberOfSquaresWithSumEqualT
     minimumCounts[0] = 0;
     for(Count previousSumOfSquares=1; previousSumOfSquares<=m_sumOfSquares; previousSumOfSquares++)
     {
-        Count entryResult(MAX_COUNT);        for(Count base=1; base*base<=previousSumOfSquares; base++)
+        Count entryResult(MAX_COUNT);
+        for(Count base=1; base*base<=previousSumOfSquares; base++)
         {
             entryResult = min(entryResult, minimumCounts.at(previousSumOfSquares-base*base)); // if difference is zero then its a perfect square
         }
@@ -58,7 +59,8 @@ MinimumNumberOfSquaresWithSumEqualToN::Count MinimumNumberOfSquaresWithSumEqualT
 
     Count result(MAX_COUNT);
     vector<bool> isProcessed(m_sumOfSquares+1, false);
-    struct NodeDetails    {
+    struct NodeDetails
+    {
         Count sum;
         Count count;
     };
@@ -139,7 +141,8 @@ MinimumNumberOfSquaresWithSumEqualToN::Count MinimumNumberOfSquaresWithSumEqualT
                 result = min(result, getMinimumCountUsingMemoizationDP(savedMinimumCounts, sumOfSquares - base*base));
             }
             ++result;
-        }        savedMinimumCounts[sumOfSquares] = result;
+        }
+        savedMinimumCounts[sumOfSquares] = result;
     }
     return result;
 }

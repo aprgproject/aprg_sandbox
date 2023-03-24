@@ -2,9 +2,9 @@
 
 #include <Common/Types/AlbaTypeHelper.hpp>
 
-#include <memory>
 #include <ostream>
 #include <string>
+#include <tuple>
 
 namespace alba
 {
@@ -19,37 +19,33 @@ template <typename... UnderlyingTypes>
 void printParameter(std::ostream & outputStream, std::pair<UnderlyingTypes...> const& parameter);
 template <typename... UnderlyingTypes>
 void printParameter(std::ostream & outputStream, std::tuple<UnderlyingTypes...> const& parameter);
-
 template <typename ValueType, size_t SIZE, template<typename, size_t> class TemplateType>
 std::enable_if_t<typeHelper::hasBeginAndEnd<TemplateType<ValueType, SIZE>>(), void>
 printParameter(std::ostream & outputStream, TemplateType<ValueType, SIZE> const& parameter);
-
 template <typename... UnderlyingTypes, template<typename...> class TemplateType>
 std::enable_if_t<typeHelper::hasBeginAndEnd<TemplateType<UnderlyingTypes...>>(), void>
 printParameter(std::ostream & outputStream, TemplateType<UnderlyingTypes...> const& parameter);
-
 template <typename... UnderlyingTypes, template<typename...> class TemplateType>
 std::enable_if_t<typeHelper::hasUnderlyingContainer<TemplateType<UnderlyingTypes...>>(), void>
 printParameter(std::ostream & outputStream, TemplateType<UnderlyingTypes...> const& parameter);
 
 
+
 // printParameterWithName declaration
+
 template <typename ParameterType>
 void printParameterWithName(std::ostream & outputStream, std::string const& parameterName, ParameterType const& parameter);
 template <typename ParameterPointerType>
 void printParameterWithName(std::ostream & outputStream, std::string const& parameterName, ParameterPointerType * parameterPointer);
 template <>
 void printParameterWithName(std::ostream & outputStream, std::string const&, char const*const parameter);
-template <typename ParameterType>
-void printParameterWithName(std::ostream & outputStream, std::string const& parameterName, std::unique_ptr<ParameterType> const& parameterPointer);
-template <typename ParameterType>
-void printParameterWithName(std::ostream & outputStream, std::string const& parameterName, std::shared_ptr<ParameterType> const& parameterPointer);
-template <typename ParameterType>
-void printParameterWithName(std::ostream & outputStream, std::string const& parameterName, std::weak_ptr<ParameterType> const& parameterPointer);
-template <typename ValueType, size_t SIZE, template<typename, size_t> class TemplateType>
-void printParameterWithName(std::ostream & outputStream, std::string const& parameterName, TemplateType<ValueType, SIZE> const& parameter);
 template <typename... UnderlyingTypes, template<typename...> class TemplateType>
-void printParameterWithName(std::ostream & outputStream, std::string const& parameterName, TemplateType<UnderlyingTypes...> const& parameter);
+std::enable_if_t<typeHelper::isRaiiPointerWithDeference<TemplateType<UnderlyingTypes...>>(), void>
+printParameterWithName(std::ostream & outputStream, std::string const& parameterName, TemplateType<UnderlyingTypes...> const& parameter);
+template <typename... UnderlyingTypes, template<typename...> class TemplateType>
+std::enable_if_t<typeHelper::isRaiiPointerWithoutDeference<TemplateType<UnderlyingTypes...>>(), void>
+printParameterWithName(std::ostream & outputStream, std::string const& parameterName, TemplateType<UnderlyingTypes...> const& parameter);
+
 
 
 // Utilities
@@ -82,7 +78,9 @@ typename Adapter::container_type const& getUnderlyingContainerForPrinting(Adapte
 }
 
 
+
 // printParameter
+
 template <typename ParameterType>
 void printParameter(std::ostream & outputStream, ParameterType const& parameter)
 {
@@ -93,7 +91,8 @@ template <typename... UnderlyingTypes>
 void printParameter(std::ostream & outputStream, std::pair<UnderlyingTypes...> const& parameter)
 {
     outputStream << "(";
-    printParameter(outputStream, parameter.first);    outputStream << ", ";
+    printParameter(outputStream, parameter.first);
+    outputStream << ", ";
     printParameter(outputStream, parameter.second);
     outputStream << ")";
 }
@@ -114,7 +113,8 @@ printParameter(std::ostream & outputStream, TemplateType<ValueType, SIZE> const&
     for(auto const& content : parameter)
     {
         printParameter(outputStream, content);
-        outputStream << ", ";    }
+        outputStream << ", ";
+    }
     outputStream << "}";
 }
 
@@ -126,7 +126,8 @@ printParameter(std::ostream & outputStream, TemplateType<UnderlyingTypes...> con
     for(auto const& content : parameter)
     {
         printParameter(outputStream, content);
-        outputStream << ", ";    }
+        outputStream << ", ";
+    }
     outputStream << "}";
 }
 
@@ -140,9 +141,11 @@ printParameter(std::ostream & outputStream, TemplateType<UnderlyingTypes...> con
 }
 
 
+
 // printParameterWithName
 
-template <typename ParameterType>void printParameterWithName(std::ostream & outputStream, std::string const& parameterName, ParameterType const& parameter)
+template <typename ParameterType>
+void printParameterWithName(std::ostream & outputStream, std::string const& parameterName, ParameterType const& parameter)
 {
     outputStream << parameterName << " : [";
     printParameter(outputStream, parameter);
@@ -167,38 +170,18 @@ void printParameterWithName(std::ostream & outputStream, std::string const& para
 template <>
 void printParameterWithName(std::ostream & outputStream, std::string const& , char const*const parameter);
 
-template <typename ParameterType>
-void printParameterWithName(std::ostream & outputStream, std::string const& parameterName, std::unique_ptr<ParameterType> const& parameterPointer)
+template <typename... UnderlyingTypes, template<typename...> class TemplateType>
+std::enable_if_t<typeHelper::isRaiiPointerWithDeference<TemplateType<UnderlyingTypes...>>(), void>
+printParameterWithName(std::ostream & outputStream, std::string const& parameterName, TemplateType<UnderlyingTypes...> const& parameter)
 {
-    printParameterWithName(outputStream, parameterName, parameterPointer.get());
-}
-
-template <typename ParameterType>
-void printParameterWithName(std::ostream & outputStream, std::string const& parameterName, std::shared_ptr<ParameterType> const& parameterPointer)
-{
-    printParameterWithName(outputStream, parameterName, parameterPointer.get());
-}
-
-template <typename ParameterType>
-void printParameterWithName(std::ostream & outputStream, std::string const& parameterName, std::weak_ptr<ParameterType> const& parameterPointer)
-{
-    outputStream << parameterName << " has use count: [" << parameterPointer.use_count() << "]";
-}
-
-template <typename ValueType, size_t SIZE, template<typename, size_t> class TemplateType>
-void printParameterWithName(std::ostream & outputStream, std::string const& parameterName, TemplateType<ValueType, SIZE> const& parameter)
-{
-    outputStream << parameterName << " : [";
-    printParameter(outputStream, parameter);
-    outputStream<< "]";
+    printParameterWithName(outputStream, parameterName, parameter.get());
 }
 
 template <typename... UnderlyingTypes, template<typename...> class TemplateType>
-void printParameterWithName(std::ostream & outputStream, std::string const& parameterName, TemplateType<UnderlyingTypes...> const& parameter)
+std::enable_if_t<typeHelper::isRaiiPointerWithoutDeference<TemplateType<UnderlyingTypes...>>(), void>
+printParameterWithName(std::ostream & outputStream, std::string const& parameterName, TemplateType<UnderlyingTypes...> const& parameter)
 {
-    outputStream << parameterName << " : [";
-    printParameter(outputStream, parameter);
-    outputStream<< "]";
+    outputStream << parameterName << " has use count: [" << parameter.use_count() << "]";
 }
 
 }//namespace alba

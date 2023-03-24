@@ -3,6 +3,7 @@
 #include <Common/Macros/AlbaMacros.hpp>
 #include <Common/Print/AlbaPrintFunctions.hpp>
 
+#include <iostream>
 #include <iomanip>
 
 namespace alba

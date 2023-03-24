@@ -1,6 +1,7 @@
 #include <AprgUniqueProblems/DynamicProgramming/SupersequenceAndSubsequence/IncreasingSubsequence/MaximumLengthChainOfPairs.hpp>
 
 #include <gtest/gtest.h>
+
 using namespace std;
 
 namespace alba

@@ -25,7 +25,8 @@ ShortestCommonSupersequence::Count ShortestCommonSupersequence::getShortestLengt
 
     CountMatrix lengthMatrix(m_sequence1.size()+1, m_sequence2.size()+1, static_cast<Count>(UNUSED_COUNT));
 
-    lengthMatrix.setEntry(0, 0, 0);    for(Index index1=1; index1<lengthMatrix.getNumberOfColumns(); index1++)
+    lengthMatrix.setEntry(0, 0, 0);
+    for(Index index1=1; index1<lengthMatrix.getNumberOfColumns(); index1++)
     {
         lengthMatrix.setEntry(index1, 0, index1);
     }
@@ -76,6 +77,7 @@ ShortestCommonSupersequence::Count ShortestCommonSupersequence::getShortestLengt
 {
     // Time Complexity: O(m x n)
     // Auxiliary Space: O(m)
+
     // Space efficiency analysis:
     // Since accessing the previous partial values requires only one column or one row above,
     // we only really need 2 rows (not a matrix) to keep track partial values.
