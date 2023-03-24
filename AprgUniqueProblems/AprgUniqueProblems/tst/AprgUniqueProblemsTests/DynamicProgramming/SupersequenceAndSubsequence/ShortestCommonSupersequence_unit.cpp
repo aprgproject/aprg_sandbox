@@ -1,11 +1,9 @@
-#include <AprgUniqueProblems/DynamicProgramming/Subsequence/ShortestCommonSupersequence.hpp>
+#include <AprgUniqueProblems/DynamicProgramming/SupersequenceAndSubsequence/ShortestCommonSupersequence.hpp>
 
 #include <gtest/gtest.h>
-
 using namespace std;
 
-namespace alba
-{
+namespace alba{
 
 TEST(ShortestCommonSupersequenceTest, GetLongestLengthWorksOnExample1)
 {

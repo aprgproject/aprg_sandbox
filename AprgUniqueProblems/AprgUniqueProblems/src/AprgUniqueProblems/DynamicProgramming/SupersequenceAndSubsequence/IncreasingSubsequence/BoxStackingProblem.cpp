@@ -1,14 +1,12 @@
 #include "BoxStackingProblem.hpp"
 
-#include <AprgUniqueProblems/DynamicProgramming/Subsequence/IncreasingSubsequence/LongestIncreasingSubsequenceWithLinearithmicTime.hpp>
+#include <AprgUniqueProblems/DynamicProgramming/SupersequenceAndSubsequence/IncreasingSubsequence/LongestIncreasingSubsequenceWithLinearithmicTime.hpp>
 
 #include <algorithm>
 #include <numeric>
-
 using namespace std;
 
-namespace alba
-{
+namespace alba{
 
 BoxStackingProblem::BoxStackingProblem(Boxes const& boxes)
     : m_boxes(boxes)

@@ -18,36 +18,40 @@ CollectMaximumPointsInAGridUsingTwoTraversals::CollectMaximumPointsInAGridUsingT
 
 CollectMaximumPointsInAGridUsingTwoTraversals::Value CollectMaximumPointsInAGridUsingTwoTraversals::getMaximumPointsUsingNaiveRecursion() const
 {
+    // Time Complexity: Exponential -> Since there are nine calls per iteration:  O(9^rows)
+    // Auxiliary Space: Constant
+
     Value result(0);
     if(!m_inputGrid.isEmpty())
-    {
-        result = getMaximumPointsUsingNaiveRecursion(0, 0, m_inputGrid.getNumberOfColumns()-1);
+    {        result = getMaximumPointsUsingNaiveRecursion(0, 0, m_inputGrid.getNumberOfColumns()-1);
     }
     return result;
 }
 
 CollectMaximumPointsInAGridUsingTwoTraversals::Value CollectMaximumPointsInAGridUsingTwoTraversals::getMaximumPointsUsingMemoizationDP() const
 {
+    // Time Complexity: Exponential -> Since there are nine calls per iteration:  O(9^rows)
+    // Auxiliary Space: O(rows*columns*columns)
+
     Value result(0);
     if(!m_inputGrid.isEmpty())
-    {
-        ValueGrid initialValueGrid(m_inputGrid.getNumberOfColumns(), m_inputGrid.getNumberOfColumns(), UNUSED_COUNT);
+    {        ValueGrid initialValueGrid(m_inputGrid.getNumberOfColumns(), m_inputGrid.getNumberOfColumns(), UNUSED_COUNT);
         ValueGrids valueGrids(m_inputGrid.getNumberOfRows(), initialValueGrid);
         result = getMaximumPointsUsingMemoizationDP(valueGrids, 0, 0, m_inputGrid.getNumberOfColumns()-1);
-    }
-    return result;
+    }    return result;
 }
 
 CollectMaximumPointsInAGridUsingTwoTraversals::Value CollectMaximumPointsInAGridUsingTwoTraversals::getMaximumPointsUsingIterativeDP() const
 {
+    // Time Complexity: O(rows*columns*columns)
+    // Auxiliary Space: O(rows*columns*columns)
+
     Value result(0);
     if(!m_inputGrid.isEmpty())
-    {
-        ValueGrid initialValueGrid(m_inputGrid.getNumberOfColumns(), m_inputGrid.getNumberOfColumns(), INVALID_COUNT);
+    {        ValueGrid initialValueGrid(m_inputGrid.getNumberOfColumns(), m_inputGrid.getNumberOfColumns(), INVALID_COUNT);
         ValueGrids valueGrids(m_inputGrid.getNumberOfRows(), initialValueGrid);
 
-        {
-            Index columnLeft(0);
+        {            Index columnLeft(0);
             Index columnRight(m_inputGrid.getNumberOfColumns()-1);
             Value firstEntryResult = (columnLeft==columnRight)
                     ? m_inputGrid.getEntry(columnLeft, 0)

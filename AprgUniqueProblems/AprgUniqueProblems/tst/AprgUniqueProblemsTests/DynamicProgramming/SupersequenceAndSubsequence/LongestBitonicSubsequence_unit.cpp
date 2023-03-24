@@ -1,11 +1,9 @@
-#include <AprgUniqueProblems/DynamicProgramming/Subsequence/LongestBitonicSubsequence.hpp>
+#include <AprgUniqueProblems/DynamicProgramming/SupersequenceAndSubsequence/LongestBitonicSubsequence.hpp>
 
 #include <gtest/gtest.h>
-
 using namespace std;
 
-namespace alba
-{
+namespace alba{
 
 namespace
 {

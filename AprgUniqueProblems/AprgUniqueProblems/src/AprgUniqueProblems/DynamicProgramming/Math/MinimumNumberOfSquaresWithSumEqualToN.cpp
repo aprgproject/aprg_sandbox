@@ -18,42 +18,49 @@ MinimumNumberOfSquaresWithSumEqualToN::MinimumNumberOfSquaresWithSumEqualToN(
 
 MinimumNumberOfSquaresWithSumEqualToN::Count MinimumNumberOfSquaresWithSumEqualToN::getMinimumCountUsingNaiveRecursion() const
 {
+    // Time Complexity: Exponential -> Since there are n calls per iteration:  O(n^n)
+    // Auxiliary Space: Constant
+
     return getMinimumCountUsingNaiveRecursion(m_sumOfSquares);
 }
 
 MinimumNumberOfSquaresWithSumEqualToN::Count MinimumNumberOfSquaresWithSumEqualToN::getMinimumCountUsingMemoizationDP() const
 {
+    // Time Complexity: Exponential -> Since there are n calls per iteration:  O(n^n)
+    // Auxiliary Space: O(n)
+
     Counts savedMinimumCounts(m_sumOfSquares+1, MAX_COUNT); // plus one so no more conversion
     return getMinimumCountUsingMemoizationDP(savedMinimumCounts, m_sumOfSquares);
 }
 
 MinimumNumberOfSquaresWithSumEqualToN::Count MinimumNumberOfSquaresWithSumEqualToN::getMinimumCountUsingIterativeDP() const
 {
+    // Time Complexity: O(n^(3/2))
+    // Auxiliary Space: O(n)
+
     Counts minimumCounts(m_sumOfSquares+1, MAX_COUNT); // plus one so no more conversion
     minimumCounts[0] = 0;
-    minimumCounts[1] = 1;
     for(Count previousSumOfSquares=1; previousSumOfSquares<=m_sumOfSquares; previousSumOfSquares++)
     {
-        Count entryResult(MAX_COUNT);
-        for(Count base=1; base*base<=previousSumOfSquares; base++)
+        Count entryResult(MAX_COUNT);        for(Count base=1; base*base<=previousSumOfSquares; base++)
         {
             entryResult = min(entryResult, minimumCounts.at(previousSumOfSquares-base*base)); // if difference is zero then its a perfect square
-        }
-        minimumCounts[previousSumOfSquares] = ++entryResult;
+        }        minimumCounts[previousSumOfSquares] = ++entryResult;
     }
     return minimumCounts.back();
 }
 
 MinimumNumberOfSquaresWithSumEqualToN::Count MinimumNumberOfSquaresWithSumEqualToN::getMinimumCountUsingBfs() const
 {
+    // Time Complexity: O(n^(3/2))
+    // Auxiliary Space: O(n)
+
     Count result(MAX_COUNT);
     vector<bool> isProcessed(m_sumOfSquares+1, false);
-    struct NodeDetails
-    {
+    struct NodeDetails    {
         Count sum;
         Count count;
-    };
-    queue<NodeDetails> immediateNodes;
+    };    queue<NodeDetails> immediateNodes;
     immediateNodes.emplace(NodeDetails{m_sumOfSquares, 0});
 
     while(!immediateNodes.empty())
@@ -127,13 +134,11 @@ MinimumNumberOfSquaresWithSumEqualToN::Count MinimumNumberOfSquaresWithSumEqualT
         {
             for(Count base=highestBase; base>=1 && result!=1; base--)
             {
-                result = min(result, getMinimumCountUsingNaiveRecursion(sumOfSquares - base*base));
+                result = min(result, getMinimumCountUsingMemoizationDP(savedMinimumCounts, sumOfSquares - base*base));
             }
             ++result;
-        }
-        savedMinimumCounts[sumOfSquares] = result;
+        }        savedMinimumCounts[sumOfSquares] = result;
     }
     return result;
 }
-
 }

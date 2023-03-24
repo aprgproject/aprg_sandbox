@@ -1,11 +1,9 @@
-#include <AprgUniqueProblems/DynamicProgramming/Subsequence/IncreasingSubsequence/BoxStackingProblem.hpp>
+#include <AprgUniqueProblems/DynamicProgramming/SupersequenceAndSubsequence/IncreasingSubsequence/BoxStackingProblem.hpp>
 
 #include <gtest/gtest.h>
-
 using namespace std;
 
-namespace alba
-{
+namespace alba{
 
 namespace
 {

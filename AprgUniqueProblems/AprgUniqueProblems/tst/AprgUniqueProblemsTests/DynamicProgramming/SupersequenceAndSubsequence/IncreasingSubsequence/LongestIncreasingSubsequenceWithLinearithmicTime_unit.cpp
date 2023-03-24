@@ -1,11 +1,9 @@
-#include <AprgUniqueProblems/DynamicProgramming/Subsequence/IncreasingSubsequence/LongestIncreasingSubsequenceWithLinearithmicTime.hpp>
+#include <AprgUniqueProblems/DynamicProgramming/SupersequenceAndSubsequence/IncreasingSubsequence/LongestIncreasingSubsequenceWithLinearithmicTime.hpp>
 
 #include <gtest/gtest.h>
-
 using namespace std;
 
-namespace alba
-{
+namespace alba{
 
 namespace
 {
