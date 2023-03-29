@@ -162,14 +162,43 @@ TEST(CombinationsExamplesTest, BoxesAndBallsExampleScenario3Works_Example2)
     EXPECT_EQ(4U, getNumberOfCombinations(4U, 1U));
 }
 
+TEST(CombinationsExamplesTest, BoxesAndBallsExampleScenario3Works_Example3)
+{
+    // Scenario 3: Each box may contain at most one ball, and in addition, no two adjacent boxes may both contain a ball.
+
+    // This variation gets of count for all balls(so boxes=balls).
+
+    // For example, n=k=3, when n=3(boxes) and k=1..3(balls), there are total of 5 solutions:
+    // If k==0:
+    // | | | |    Positions: {    }    Representation: | | | |    | | | |
+    // If k==1:
+    // |o| | |    Positions: {1   }    Representation: |o| | |    |o| | |
+    // | |o| |    Positions: {2   }    Representation: | |o| |    | |o| |
+    // | | |o|    Positions: {3   }    Representation: | | |o|    | | |o|
+    // If k==2:
+    // |o| |o|    Positions: {1, 3}    Representation: |o|_|o|    |o|o|
+    // If k==3:
+    // No solutions.
+
+    // Solution:
+    // There are Combinations(n-k+1 boxes, k balls)
+    // If k==0: the count is Combinations(4, 0) = 1
+    // If k==1: the count is Combinations(3, 1) = 3
+    // If k==2: the count is Combinations(2, 2) = 1
+    // If k==3: the count is Combinations(1, 3) = 0 (not valid)
+    // Total=5
+    EXPECT_EQ(5U, getNumberOfCombinations(4U, 0U) + getNumberOfCombinations(3U, 1U) + getNumberOfCombinations(2U, 2U));
+
+    // The patterns are the same with the fibonacci numbers.
+    // EXPECT_EQ(5U, getNthFibonacciNumber(n+2));
+}
+
 TEST(CombinationsExamplesTest, CatalanNumbersFormulaWorks)
 {
-    // There are a total of (2n, n) ways to construct a (not necessarily valid)
-    // parenthesis expression that contains n left parentheses and n right parentheses.
+    // There are a total of (2n, n) ways to construct a (not necessarily valid)    // parenthesis expression that contains n left parentheses and n right parentheses.
 
     // This formula is correct because its reduces to boxes and balls formula.
-    // For example when n=3, we can assign balls to left parentheses and boxes to right parentheses, so its 6 taken 3:
-    // ALL:
+    // For example when n=3, we can assign balls to left parentheses and boxes to right parentheses, so its 6 taken 3:    // ALL:
     // ((())) -> |o|o|o| | | |
     // (()()) -> |o|o| |o| | |
     // (())() -> |o|o| | |o| |
