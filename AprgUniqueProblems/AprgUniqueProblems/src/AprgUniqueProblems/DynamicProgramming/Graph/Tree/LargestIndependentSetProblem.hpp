@@ -20,15 +20,13 @@ public:
     using VertexToSetOfVerticesMap = std::map<Vertex, SetOfVertices>;
     static constexpr unsigned int UNUSED_COUNT=std::numeric_limits<unsigned int>::max();
 
-    LargestIndependentSetProblem(Graph const& binaryTreeGraph, Vertex const rootOfTree);
+    LargestIndependentSetProblem(Graph const& nAryTreeGraph, Vertex const rootOfTree);
 
     Count getMaximumCountUsingNaiveRecursion() const;
-    Count getMaximumCountUsingMemoizationDP() const;
-    SetOfVertices getMaximumSetUsingMemoizationDP() const;
+    Count getMaximumCountUsingMemoizationDP() const;    SetOfVertices getMaximumSetUsingMemoizationDP() const;
 
 private:
-    Count getMaximumCountUsingNaiveRecursion(Vertex const vertex) const;
-    Count getMaximumCountUsingMemoizationDP(VertexToCountMap & vertexToCountMap, Vertex const vertex) const;
+    Count getMaximumCountUsingNaiveRecursion(Vertex const vertex) const;    Count getMaximumCountUsingMemoizationDP(VertexToCountMap & vertexToCountMap, Vertex const vertex) const;
     SetOfVertices getMaximumSetUsingMemoizationDP(VertexToSetOfVerticesMap & vertexToMaximumSetMap, Vertex const vertex) const;
 
     Graph m_nAryTreeGraph;
