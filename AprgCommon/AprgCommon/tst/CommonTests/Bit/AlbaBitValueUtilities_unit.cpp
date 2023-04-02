@@ -158,43 +158,4 @@ TEST(AlbaBitValueUtilitiesTest, GetGreatestPowerOf2FactorWorks)
     EXPECT_EQ(2U, AlbaBitValueUtilities<uint64_t>::getGreatestPowerOf2Factor(12345678901234U));
 }
 
-TEST(AlbaBitValueUtilitiesPerformanceTest, DISABLED_GetNumberOfOnesWorks)
-{
-    // Results: ~1300ms
-
-    using BitValueUtilities = AlbaBitValueUtilities<uint64_t>;
-
-    unsigned int result(0);
-    for(uint64_t value=1; value<10000000ULL; value++)
-    {
-        result = max(result, BitValueUtilities::getNumberOfOnes(value));
-    }
-    EXPECT_EQ(23U, result);
-}
-
-TEST(AlbaBitValueUtilitiesPerformanceTest, DISABLED_GetNumberOfOnesManuallyWorks)
-{
-    // Results: ~1700ms
-
-    using BitValueUtilities = AlbaBitValueUtilities<uint64_t>;
-
-    unsigned int result(0);
-    constexpr unsigned int numberOfBits = BitValueUtilities::getNumberOfBits();
-    for(uint64_t value=1; value<10000000ULL; value++)
-    {
-        unsigned int count(0);
-        uint64_t valueForCount(value);
-        for(unsigned int bitIndex=0; bitIndex<numberOfBits; bitIndex++)
-        {
-            if(valueForCount & 1)
-            {
-                count++;
-            }
-            valueForCount >>= 1;
-        }
-        result = max(result, count);
-    }
-    EXPECT_EQ(23U, result);
-}
-
 }
