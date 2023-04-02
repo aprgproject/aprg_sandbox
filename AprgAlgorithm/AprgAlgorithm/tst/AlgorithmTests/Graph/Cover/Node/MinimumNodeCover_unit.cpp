@@ -29,25 +29,22 @@ TEST(MinimumNodeCoverTest, GetMinimumNodeCoverSizeWorksOnExample1)
     graph.connect(3U, 6U);
     graph.connect(3U, 8U);
     graph.connect(4U, 7U);
-    MinimumNodeCoverForTest maximumMatchings(graph);
+    MinimumNodeCoverForTest minimumNodeCover(graph);
 
-    EXPECT_EQ(3U, maximumMatchings.getMinimumNodeCoverSize(newSourceVertex, newSinkVertex));
+    EXPECT_EQ(3U, minimumNodeCover.getMinimumNodeCoverSize(newSourceVertex, newSinkVertex));
 }
 
-TEST(MinimumNodeCoverTest, GetMaximumIndependentSetSizeWorksOnExample1)
-{
+TEST(MinimumNodeCoverTest, GetMaximumIndependentSetSizeWorksOnExample1){
     GraphForTest graph;
     graph.connect(1U, 5U);
-    graph.connect(2U, 7U);
-    graph.connect(3U, 5U);
+    graph.connect(2U, 7U);    graph.connect(3U, 5U);
     graph.connect(3U, 6U);
     graph.connect(3U, 8U);
     graph.connect(4U, 7U);
-    MinimumNodeCoverForTest maximumMatchings(graph);
+    MinimumNodeCoverForTest minimumNodeCover(graph);
 
-    EXPECT_EQ(5U, maximumMatchings.getMaximumIndependentSetSize(newSourceVertex, newSinkVertex));
+    EXPECT_EQ(5U, minimumNodeCover.getMaximumIndependentSetSize(newSourceVertex, newSinkVertex));
 }
 
 }
-
 }
