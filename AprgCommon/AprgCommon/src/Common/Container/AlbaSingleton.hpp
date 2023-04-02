@@ -26,3 +26,11 @@ protected:
 };
 
 } // namespace alba
+
+
+// To use the singleton, you have to use CRTP (curiously recurring template pattern)
+// Example:
+// class ClassForSingleton : public AlbaSingleton<ClassForSingleton>
+// {
+//     // ...
+// };

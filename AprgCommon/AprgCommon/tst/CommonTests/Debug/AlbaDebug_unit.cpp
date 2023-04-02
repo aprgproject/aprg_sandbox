@@ -7,14 +7,12 @@
 #include <sstream>
 namespace
 {
-std::stringstream s_debugStringStream;
+std::stringstream s_debugStringStream; // make this inline if needed on the header file
 }
 #define ALBA_PRINT_EXTERNAL_OUTPUT_STREAM_OBJECT s_debugStringStream
 
-
 // Start of test file
 #include <Common/Debug/AlbaDebug.hpp>
-
 #include <gtest/gtest.h>
 
 #include <map>
@@ -76,6 +74,44 @@ TEST(AlbaDebugTest, ManipulateOutputStreamsWorks)
     ALBA_PRINT_MANIPULATE_OUTPUT(dec);
 
     EXPECT_EQ(R"(ALBA_PRINT in line:  4B in TestBody(...): singleParameter1 : [C] singleParameter2 : [159] singleParameter3 : [1A85])" "\n",
+              s_debugStringStream.str());
+}
+
+namespace
+{
+class SampleClass
+{
+public:
+    SampleClass(unsigned int parameter1, unsigned int parameter2)
+        : m_parameter1(parameter1)
+        , m_parameter2(parameter2)
+    {}
+
+    unsigned int getSum() const
+    {
+        return m_parameter1 + m_parameter2;
+    }
+
+    // Note that "friend" keyword is added here.
+    friend ALBA_DEBUG_CLASS_OUTPUT_OPERATOR_DEFINITION(
+                SampleClass const& object,
+                "(parameter1:" << object.m_parameter1 << ",parameter2:" << object.m_parameter2 << ",sum:" << object.getSum() << ")");
+private:
+    unsigned int m_parameter1;
+    unsigned int m_parameter2;
+};
+}
+
+TEST(AlbaDebugTest, DebugClassOutputOperatorsWorks)
+{
+    s_debugStringStream.str(string());
+    s_debugStringStream.clear();
+
+    SampleClass object(1234U, 7777U);
+
+    ALBA_PRINT1(object);
+
+    EXPECT_EQ(R"(ALBA_PRINT in line: 114 in TestBody(...): object : [(parameter1:1234,parameter2:7777,sum:9011)])" "\n",
               s_debugStringStream.str());
 }
 

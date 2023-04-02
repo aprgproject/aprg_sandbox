@@ -101,5 +101,43 @@ public:
 #undef COUNTS
 };
 
+// Note: CRTP (curiously recurring template pattern) can also be an approach it does not track user defined construction.
+
+// Example:
+//   template <typename T>
+//   struct counter
+//   {
+//       static inline int objects_created = 0;
+//       static inline int objects_alive = 0;
+//
+//       counter()
+//       {
+//           ++objects_created;
+//           ++objects_alive;
+//       }
+//
+//       counter(const counter&)
+//       {
+//           ++objects_created;
+//           ++objects_alive;
+//       }
+//   protected:
+//       ~counter() // objects should never be removed through pointers of this type
+//       {
+//           --objects_alive;
+//       }
+//   };
+//
+//   class X : counter<X>
+//   {
+//       // ...
+//   };
+//
+//   class Y : counter<Y>
+//   {
+//       // ...
+//   };
+// Note: counter<x> and counter<y> have different instances so they have set of different values.
+
 
 } // namespace alba
