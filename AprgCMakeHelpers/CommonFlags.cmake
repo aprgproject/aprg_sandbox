@@ -32,14 +32,17 @@ set(APRG_LINKER_FLAGS_WITH_TSAN "-fsanitize=thread") #Looks like this link flags
 set(APRG_LINKER_FLAGS_WITH_MSAN "-fsanitize=memory") #Looks like this link flags are not needed in linux
 set(APRG_LINKER_FLAGS_WITH_UBSAN "-fsanitize=undefined") #Looks like this link flags are not needed in linux
 
+#Stop at preprocessing
+#Stop after the preprocessing stage; do not run the compiler proper.
+#The output is in the form of preprocessed source code, which is sent to the standard output.
+set(APRG_COMPILER_FLAGS_STOP_AT_PREPROCESSING "-E")
 
 
-#APRG Common flags
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${APRG_COMPILER_COMMON_FLAGS} ${APRG_COMPILER_COMMON_C_FLAGS}")
+
+#APRG Common flagsset(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${APRG_COMPILER_COMMON_FLAGS} ${APRG_COMPILER_COMMON_C_FLAGS}")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${APRG_COMPILER_COMMON_FLAGS} ${APRG_COMPILER_COMMON_CPP_FLAGS}")
 
-# Some notes
-# Sources:
+# Some notes# Sources:
 # -> https://gcc.gnu.org/onlinedocs/gcc/Option-Summary.html
 # -> https://caiorss.github.io/C-Cpp-Notes/compiler-flags-options.html
 
