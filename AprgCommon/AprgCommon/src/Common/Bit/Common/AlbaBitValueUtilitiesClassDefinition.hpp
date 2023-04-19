@@ -5,9 +5,9 @@
 #include <Common/Types/AlbaTypeHelper.hpp>
 
 #include <cmath>
+
 namespace alba
 {
-
 template <typename DataType>
 class AlbaBitValueUtilities
 {
@@ -15,11 +15,11 @@ public:
     static_assert(typeHelper::isIntegralType<DataType>(), "DataType must be an integer");
 
     // rule of five or six
-    AlbaBitValueUtilities() = delete;    ~AlbaBitValueUtilities() = delete; // disallow allocation on stack, only on heap(but no constructor so not possible as well)
+    AlbaBitValueUtilities() = delete;
+    ~AlbaBitValueUtilities() = delete; // disallow allocation on stack, only on heap(but no constructor so not possible as well)
     AlbaBitValueUtilities(AlbaBitValueUtilities const&) = delete;
     AlbaBitValueUtilities & operator= (AlbaBitValueUtilities const&) = delete;
-    AlbaBitValueUtilities(AlbaBitValueUtilities &&) = delete;
-    AlbaBitValueUtilities & operator= (AlbaBitValueUtilities &&) = delete;
+    AlbaBitValueUtilities(AlbaBitValueUtilities &&) = delete;    AlbaBitValueUtilities & operator= (AlbaBitValueUtilities &&) = delete;
 
     static constexpr inline bool isPowerOfTwo(DataType const value)
     {
@@ -110,4 +110,5 @@ public:
         return value & (-value);
     }
 };
+
 }

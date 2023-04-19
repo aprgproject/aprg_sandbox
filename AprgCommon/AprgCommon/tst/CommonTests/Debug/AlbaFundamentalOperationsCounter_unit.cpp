@@ -13,11 +13,11 @@ namespace original // make an original namespace to avoid collision
 {
 class SampleClass
 {
-public:    SampleClass()
+public:
+    SampleClass()
         : m_dataPointer()
     {}
-    SampleClass(int const data)
-        : m_dataPointer(make_unique<int>(data))
+    SampleClass(int const data)        : m_dataPointer(make_unique<int>(data))
     {}
     SampleClass(SampleClass const& parameter)
         : m_dataPointer(make_unique<int>(*parameter.m_dataPointer))

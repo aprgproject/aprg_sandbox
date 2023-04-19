@@ -2,15 +2,15 @@
 //#define FOR_SUBMISSION
 #ifndef FOR_SUBMISSION
 #include "P1_Retype.hpp"
-#include <Common/FakeNames.hpp>
+#include <Fake/FakeNames.hpp>
 //#include <Common/Debug/AlbaDebug.hpp>
 #endif
 // ~~~~~~~~~ DELETE THIS WHEN SUBMITTING END   ~~~~~~~~~
 
-#include <cstdint>#include <iostream>
+#include <cstdint>
+#include <iostream>
 
 using namespace std;
-
 // ~~~~~~~~~ DELETE THIS WHEN SUBMITTING START ~~~~~~~~~
 #ifndef FOR_SUBMISSION
 using namespace alba;
@@ -49,6 +49,7 @@ int main()
     my_cin.tie(nullptr);
 
     runAllTestCases();
+
     return 0;
 }
 

@@ -1,10 +1,10 @@
 #include <AprgUniqueProblems/DynamicProgramming/SubArray/MaximumSubArraySum.hpp>
 
 #include <gtest/gtest.h>
+
 using namespace std;
 
-namespace alba
-{
+namespace alba{
 
 namespace
 {

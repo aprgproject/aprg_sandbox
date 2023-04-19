@@ -104,11 +104,11 @@ public:
 // Note: CRTP (curiously recurring template pattern) can also be an approach it does not track user defined construction.
 // Example:
 //   template <typename T>
-//   struct counter//   {
+//   struct counter
+//   {
 //       static inline int objects_created = 0;
 //       static inline int objects_alive = 0;
-//
-//       counter()
+////       counter()
 //       {
 //           ++objects_created;
 //           ++objects_alive;

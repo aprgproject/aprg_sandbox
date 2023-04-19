@@ -1,9 +1,8 @@
 #include "P2_BoringNumbers.hpp"
 
-#include <Common/FakeObjects.hpp>
+#include <Fake/FakeObjects.hpp>
 
 #include <gtest/gtest.h>
-
 using namespace alba;
 using namespace std;
 
@@ -26,11 +25,11 @@ TEST(P2_BoringNumbersTest, Test1)
     main();
 
     EXPECT_EQ(
-                "Case #1: 6" "\n"                "Case #2: 3" "\n"
+                "Case #1: 6" "\n"
+                "Case #2: 3" "\n"
                 "Case #3: 2" "\n"
                 , outputStringStream.str());
 }
-
 }
 
 /*Problem

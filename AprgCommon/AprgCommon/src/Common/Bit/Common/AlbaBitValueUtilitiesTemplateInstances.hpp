@@ -7,11 +7,11 @@ namespace alba
 
 template <>
 constexpr inline uint8_t AlbaBitValueUtilities<uint8_t>::getAllOnes()
-{    return 0xFFU;
+{
+    return 0xFFU;
 }
 
-template <>
-constexpr inline uint16_t AlbaBitValueUtilities<uint16_t>::getAllOnes()
+template <>constexpr inline uint16_t AlbaBitValueUtilities<uint16_t>::getAllOnes()
 {
     return 0xFFFFU;
 }

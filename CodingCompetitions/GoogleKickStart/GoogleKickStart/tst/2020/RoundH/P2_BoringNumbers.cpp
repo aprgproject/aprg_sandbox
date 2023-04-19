@@ -1,11 +1,11 @@
 // ~~~~~~~~~ DELETE THIS WHEN SUBMITTING START ~~~~~~~~~
 #include "P2_BoringNumbers.hpp"
-#include <Common/FakeNames.hpp>
-//#include <Common/Debug/AlbaDebug.hpp>// ~~~~~~~~~ DELETE THIS WHEN SUBMITTING END   ~~~~~~~~~
+#include <Fake/FakeNames.hpp>
+//#include <Common/Debug/AlbaDebug.hpp>
+// ~~~~~~~~~ DELETE THIS WHEN SUBMITTING END   ~~~~~~~~~
 
 #include <cstdint>
 #include <iostream>
-
 using namespace std;
 
 // ~~~~~~~~~ DELETE THIS WHEN SUBMITTING START ~~~~~~~~~
@@ -25,11 +25,11 @@ void runTestCase(unsigned int const testCaseNumber)
     my_cin >> L >> R;
     ++R;
     bool parity = 0;
-    int64_t coeff = 1;    int64_t ans = 0;
+    int64_t coeff = 1;
+    int64_t ans = 0;
     while (L < R)
     {
-        auto is_good = [&](int64_t v)
-        {
+        auto is_good = [&](int64_t v)        {
             bool d = v % 2;
             while (v > 0) {
                 if (v % 2 != d) return false;
@@ -80,9 +80,9 @@ int main()
     my_cin.tie(nullptr);
 
     runAllTestCases();
+
     return 0;
 }
-
 // ~~~~~~~~~ DELETE THIS WHEN SUBMITTING START ~~~~~~~~~
 }
 // ~~~~~~~~~ DELETE THIS WHEN SUBMITTING END   ~~~~~~~~~

@@ -13,11 +13,11 @@ public:
     static_assert(typeHelper::isIntegralType<DataType>(), "DataType must be an integer");
 
     // rule of five or six
-    AlbaBitManipulation() = delete;    ~AlbaBitManipulation() = delete; // disallow allocation on stack, only on heap(but no constructor so not possible as well)
+    AlbaBitManipulation() = delete;
+    ~AlbaBitManipulation() = delete; // disallow allocation on stack, only on heap(but no constructor so not possible as well)
     AlbaBitManipulation(AlbaBitManipulation const&) = delete;
     AlbaBitManipulation & operator= (AlbaBitManipulation const&) = delete;
-    AlbaBitManipulation(AlbaBitManipulation &&) = delete;
-    AlbaBitManipulation & operator= (AlbaBitManipulation &&) = delete;
+    AlbaBitManipulation(AlbaBitManipulation &&) = delete;    AlbaBitManipulation & operator= (AlbaBitManipulation &&) = delete;
 
 
     template <typename ArgumentType, typename... Arguments>
@@ -221,7 +221,8 @@ private:
     static constexpr inline DataType concatenateNibbles(ArgumentType arg)
     {
         static_assert(sizeof(ArgumentType) == 1, "concatenateNibbles: ArgumentType size is greater than a byte");
-        return arg & AlbaBitConstants::NIBBLE_MASK;    }
+        return arg & AlbaBitConstants::NIBBLE_MASK;
+    }
 };
 
 }
