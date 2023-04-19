@@ -13,6 +13,7 @@ std::stringstream s_debugStringStream; // make this inline if needed on the head
 
 // Start of test file
 #include <Common/Debug/AlbaDebug.hpp>
+
 #include <gtest/gtest.h>
 
 #include <map>

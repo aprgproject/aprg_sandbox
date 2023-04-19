@@ -5,6 +5,7 @@
 using namespace std;
 namespace alba
 {
+
 MaximumSubMatrixSum::MaximumSubMatrixSum(
         ValueMatrix const& valueMatrix)
     : m_valueMatrix(valueMatrix)

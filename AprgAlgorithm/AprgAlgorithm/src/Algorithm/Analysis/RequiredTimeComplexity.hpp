@@ -24,5 +24,6 @@ namespace algorithm
 // For example, if the input size is n = 10^5, it is probably expected that the time complexity of the algorithm is O(n) or O(nlogn).
 // This information makes it easier to design the algorithm, because it rules out approaches that would yield an algorithm with a worse time complexity.
 // Still, it is important to remember that a time complexity is only an estimate of efficiency, because it hides the constant factors.
+
 // For example, an algorithm that runs in O(n) time may perform n/2 or 5n operations.
 // This has an important effect on the actual running time of the algorithm.

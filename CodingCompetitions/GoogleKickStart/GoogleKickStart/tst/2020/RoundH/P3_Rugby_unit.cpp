@@ -27,11 +27,10 @@ TEST(P3_RugbyTest, Test1)
             << "1 3" "\n"
             << endl;
 
-    fake_main();
+    main();
 
     EXPECT_EQ(
-                "Case #1: 5" "\n"
-                "Case #2: 4" "\n"
+                "Case #1: 5" "\n"                "Case #2: 4" "\n"
                 , outputStringStream.str());
 }
 

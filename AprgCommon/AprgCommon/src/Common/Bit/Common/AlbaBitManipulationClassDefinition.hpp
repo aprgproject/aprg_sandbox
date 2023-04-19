@@ -16,7 +16,8 @@ public:
     AlbaBitManipulation() = delete;    ~AlbaBitManipulation() = delete; // disallow allocation on stack, only on heap(but no constructor so not possible as well)
     AlbaBitManipulation(AlbaBitManipulation const&) = delete;
     AlbaBitManipulation & operator= (AlbaBitManipulation const&) = delete;
-    AlbaBitManipulation(AlbaBitManipulation &&) = delete;    AlbaBitManipulation & operator= (AlbaBitManipulation &&) = delete;
+    AlbaBitManipulation(AlbaBitManipulation &&) = delete;
+    AlbaBitManipulation & operator= (AlbaBitManipulation &&) = delete;
 
 
     template <typename ArgumentType, typename... Arguments>

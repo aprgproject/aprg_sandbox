@@ -107,7 +107,8 @@ public:
 //   struct counter//   {
 //       static inline int objects_created = 0;
 //       static inline int objects_alive = 0;
-////       counter()
+//
+//       counter()
 //       {
 //           ++objects_created;
 //           ++objects_alive;

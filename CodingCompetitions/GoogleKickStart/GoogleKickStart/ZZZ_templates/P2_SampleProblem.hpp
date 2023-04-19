@@ -3,8 +3,7 @@
 namespace P2_SampleProblem
 {
 
-int fake_main(); // this is main
+int main(); // this is main
 
 }
-
 

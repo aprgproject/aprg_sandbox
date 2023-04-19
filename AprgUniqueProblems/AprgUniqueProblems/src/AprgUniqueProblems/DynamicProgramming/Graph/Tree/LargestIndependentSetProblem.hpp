@@ -26,7 +26,8 @@ public:
     Count getMaximumCountUsingMemoizationDP() const;    SetOfVertices getMaximumSetUsingMemoizationDP() const;
 
 private:
-    Count getMaximumCountUsingNaiveRecursion(Vertex const vertex) const;    Count getMaximumCountUsingMemoizationDP(VertexToCountMap & vertexToCountMap, Vertex const vertex) const;
+    Count getMaximumCountUsingNaiveRecursion(Vertex const vertex) const;
+    Count getMaximumCountUsingMemoizationDP(VertexToCountMap & vertexToCountMap, Vertex const vertex) const;
     SetOfVertices getMaximumSetUsingMemoizationDP(VertexToSetOfVerticesMap & vertexToMaximumSetMap, Vertex const vertex) const;
 
     Graph m_nAryTreeGraph;
@@ -34,6 +35,7 @@ private:
     ChildrenInTree m_childrenInTree;
 };
 }
+
 
 // APPROACH:
 // 1) Naive Recursion / Dynamic Programming by Memoization:
@@ -50,7 +52,8 @@ private:
 // A subset of all tree nodes is an independent set if there is no edge between any two nodes of the subset.
 // For example, consider the following binary tree. The largest independent set(LIS) is {10, 40, 60, 70, 80} and size of the LIS is 5.
 //       10
-//      |  |//    20   30
+//      |  |
+//    20   30
 //   |  |   |
 //  40  50   60
 //     |  |
@@ -90,5 +93,6 @@ private:
 // 2) The above solution modifies the given tree structure by adding an additional field ‘liss’ to tree nodes.
 // -> Extend the solution so that it doesn’t modify the tree structure.
 // 3) The above solution only returns size of LIS, it doesn’t print elements of LIS.// -> Extend the solution to print all nodes that are part of LIS.
+
 
 

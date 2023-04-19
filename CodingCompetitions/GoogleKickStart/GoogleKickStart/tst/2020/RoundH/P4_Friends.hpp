@@ -3,8 +3,7 @@
 namespace P4_Friends
 {
 
-int fake_main(); // this is main
+int main(); // this is main
 
 }
-
 

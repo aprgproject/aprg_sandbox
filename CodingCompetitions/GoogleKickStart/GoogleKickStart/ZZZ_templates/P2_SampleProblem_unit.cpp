@@ -23,11 +23,10 @@ TEST(P2_SampleProblemTest, Test1)
             << "" "\n"
             << endl;
 
-    fake_main();
+    main();
 
     EXPECT_EQ(
-                "" "\n"
-                "" "\n"
+                "" "\n"                "" "\n"
                 "" "\n"
                 "" "\n"
                 , outputStringStream.str());

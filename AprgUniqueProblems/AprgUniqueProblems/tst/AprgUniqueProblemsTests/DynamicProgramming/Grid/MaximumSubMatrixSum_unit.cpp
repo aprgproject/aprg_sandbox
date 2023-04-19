@@ -3,7 +3,8 @@
 #include <gtest/gtest.h>
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 namespace
 {
@@ -34,7 +35,8 @@ TEST(MaximumSubMatrixSumTest, GetMaximumSubMatrixSumWithDetailsWorksOnExample1)
     SubArrayDetails subArrayDetailsToVerify(queryForTest.getMaximumSubMatrixSumWithDetails());
     EXPECT_EQ(1U, subArrayDetailsToVerify.left);
     EXPECT_EQ(4U, subArrayDetailsToVerify.right);
-    EXPECT_EQ(1U, subArrayDetailsToVerify.up);    EXPECT_EQ(3U, subArrayDetailsToVerify.down);
+    EXPECT_EQ(1U, subArrayDetailsToVerify.up);
+    EXPECT_EQ(3U, subArrayDetailsToVerify.down);
     EXPECT_EQ(29, subArrayDetailsToVerify.sum);
 }
 

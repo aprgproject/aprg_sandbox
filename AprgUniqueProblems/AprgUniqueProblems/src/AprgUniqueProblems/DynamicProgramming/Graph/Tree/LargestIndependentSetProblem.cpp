@@ -16,6 +16,7 @@ LargestIndependentSetProblem::LargestIndependentSetProblem(Graph const& nAryTree
 LargestIndependentSetProblem::Count LargestIndependentSetProblem::getMaximumCountUsingNaiveRecursion() const{
     // Time Complexity: Exponential
     // Auxiliary Space: Constant
+
     Count result(0);
     if(!m_nAryTreeGraph.isEmpty())
     {
@@ -23,7 +24,8 @@ LargestIndependentSetProblem::Count LargestIndependentSetProblem::getMaximumCoun
     }    return result;
 }
 
-LargestIndependentSetProblem::Count LargestIndependentSetProblem::getMaximumCountUsingMemoizationDP() const{
+LargestIndependentSetProblem::Count LargestIndependentSetProblem::getMaximumCountUsingMemoizationDP() const
+{
     // Time Complexity: O(n) where n is the number of nodes in given Binary tree.
     // Auxiliary Space: O(n)
 
@@ -34,6 +36,7 @@ LargestIndependentSetProblem::Count LargestIndependentSetProblem::getMaximumCoun
         result = getMaximumCountUsingMemoizationDP(vertexToCountMap, m_rootOfTree);    }
     return result;
 }
+
 LargestIndependentSetProblem::SetOfVertices LargestIndependentSetProblem::getMaximumSetUsingMemoizationDP() const
 {
     // Time Complexity: O(n) where n is the number of nodes in given Binary tree.
@@ -46,6 +49,7 @@ LargestIndependentSetProblem::SetOfVertices LargestIndependentSetProblem::getMax
         result = getMaximumSetUsingMemoizationDP(vertexToMaximumSetMap, m_rootOfTree);    }
     return result;
 }
+
 LargestIndependentSetProblem::Count LargestIndependentSetProblem::getMaximumCountUsingNaiveRecursion(
         Vertex const vertex) const
 {
@@ -111,7 +115,8 @@ LargestIndependentSetProblem::SetOfVertices LargestIndependentSetProblem::getMax
         if(setIfVertexIsIncluded.size() >= setIfVertexIsNotIncluded.size())        {
             vertexToMaximumSetMap.emplace(vertex, setIfVertexIsIncluded);
             return setIfVertexIsIncluded;
-        }        else
+        }
+        else
         {
             vertexToMaximumSetMap.emplace(vertex, setIfVertexIsNotIncluded);
             return setIfVertexIsNotIncluded;

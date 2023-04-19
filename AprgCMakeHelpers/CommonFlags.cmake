@@ -42,7 +42,8 @@ set(APRG_COMPILER_FLAGS_STOP_AT_PREPROCESSING "-E")
 #APRG Common flagsset(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${APRG_COMPILER_COMMON_FLAGS} ${APRG_COMPILER_COMMON_C_FLAGS}")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${APRG_COMPILER_COMMON_FLAGS} ${APRG_COMPILER_COMMON_CPP_FLAGS}")
 
-# Some notes# Sources:
+# Some notes
+# Sources:
 # -> https://gcc.gnu.org/onlinedocs/gcc/Option-Summary.html
 # -> https://caiorss.github.io/C-Cpp-Notes/compiler-flags-options.html
 

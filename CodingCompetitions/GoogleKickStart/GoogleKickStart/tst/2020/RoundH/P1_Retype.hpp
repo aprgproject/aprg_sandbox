@@ -3,6 +3,6 @@
 namespace P1_Retype
 {
 
-int fake_main(); // this is main
+int main(); // this is main
 
 }

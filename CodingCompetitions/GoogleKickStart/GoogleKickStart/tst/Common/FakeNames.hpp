@@ -2,6 +2,5 @@
 
 #include <Common/FakeObjects.hpp>
 
-#define main fake_main
-#define fake_cin alba::FakeObjects::getInstance().inputStringStream
-#define fake_cout alba::FakeObjects::getInstance().outputStringStream
+#define my_cin alba::FakeObjects::getInstance().inputStringStream
+#define my_cout alba::FakeObjects::getInstance().outputStringStream

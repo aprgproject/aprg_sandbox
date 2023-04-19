@@ -1,9 +1,7 @@
 // ~~~~~~~~~ DELETE THIS WHEN SUBMITTING START ~~~~~~~~~
-// NOTE: Remember to delete "fake_"
 #include "P2_BoringNumbers.hpp"
 #include <Common/FakeNames.hpp>
-//#include <Common/Debug/AlbaDebug.hpp>
-// ~~~~~~~~~ DELETE THIS WHEN SUBMITTING END   ~~~~~~~~~
+//#include <Common/Debug/AlbaDebug.hpp>// ~~~~~~~~~ DELETE THIS WHEN SUBMITTING END   ~~~~~~~~~
 
 #include <cstdint>
 #include <iostream>
@@ -16,14 +14,18 @@ namespace P2_BoringNumbers
 {
 // ~~~~~~~~~ DELETE THIS WHEN SUBMITTING END   ~~~~~~~~~
 
+#ifndef my_cout
+#define my_cout cout
+#define my_cin cin
+#endif
+
 void runTestCase(unsigned int const testCaseNumber)
 {
     int64_t L, R;
-    fake_cin >> L >> R;
+    my_cin >> L >> R;
     ++R;
     bool parity = 0;
-    int64_t coeff = 1;
-    int64_t ans = 0;
+    int64_t coeff = 1;    int64_t ans = 0;
     while (L < R)
     {
         auto is_good = [&](int64_t v)
@@ -59,26 +61,25 @@ void runTestCase(unsigned int const testCaseNumber)
         coeff *= 5;
         parity = !parity;
     }
-    fake_cout << "Case #" << testCaseNumber << ": " << ans << '\n';
+    my_cout << "Case #" << testCaseNumber << ": " << ans << '\n';
 }
 
 void runAllTestCases()
 {
     unsigned int numberOfTestCases;
-    fake_cin >> numberOfTestCases;
+    my_cin >> numberOfTestCases;
     for (unsigned int testCaseNumber = 1; testCaseNumber <= numberOfTestCases; testCaseNumber++)
     {
         runTestCase(testCaseNumber);
     }
 }
 
-int fake_main()
+int main()
 {
     ios_base::sync_with_stdio(false);
-    fake_cin.tie(nullptr);
+    my_cin.tie(nullptr);
 
     runAllTestCases();
-
     return 0;
 }
 
