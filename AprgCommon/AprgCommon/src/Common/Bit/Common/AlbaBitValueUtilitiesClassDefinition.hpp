@@ -8,6 +8,7 @@
 
 namespace alba
 {
+
 template <typename DataType>
 class AlbaBitValueUtilities
 {
@@ -19,7 +20,8 @@ public:
     ~AlbaBitValueUtilities() = delete; // disallow allocation on stack, only on heap(but no constructor so not possible as well)
     AlbaBitValueUtilities(AlbaBitValueUtilities const&) = delete;
     AlbaBitValueUtilities & operator= (AlbaBitValueUtilities const&) = delete;
-    AlbaBitValueUtilities(AlbaBitValueUtilities &&) = delete;    AlbaBitValueUtilities & operator= (AlbaBitValueUtilities &&) = delete;
+    AlbaBitValueUtilities(AlbaBitValueUtilities &&) = delete;
+    AlbaBitValueUtilities & operator= (AlbaBitValueUtilities &&) = delete;
 
     static constexpr inline bool isPowerOfTwo(DataType const value)
     {

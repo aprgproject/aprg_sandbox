@@ -199,7 +199,8 @@ TEST(CombinationsExamplesTest, CatalanNumbersFormulaWorks)
     // parenthesis expression that contains n left parentheses and n right parentheses.
 
     // This formula is correct because its reduces to boxes and balls formula.
-    // For example when n=3, we can assign balls to left parentheses and boxes to right parentheses, so its 6 taken 3:    // ALL:
+    // For example when n=3, we can assign balls to left parentheses and boxes to right parentheses, so its 6 taken 3:
+    // ALL:
     // ((())) -> |o|o|o| | | |
     // (()()) -> |o|o| |o| | |
     // (())() -> |o|o| | |o| |

@@ -27,7 +27,8 @@ public:
     SetOfVertices getMinimumSetUsingMemoizationDP() const;
 
 private:
-    Count getMinimumCountUsingNaiveRecursion(Vertex const vertex) const;    Count getMinimumCountUsingMemoizationDP(VertexToCountMap & vertexToCountMap, Vertex const vertex) const;
+    Count getMinimumCountUsingNaiveRecursion(Vertex const vertex) const;
+    Count getMinimumCountUsingMemoizationDP(VertexToCountMap & vertexToCountMap, Vertex const vertex) const;
     SetOfVertices getMinimumSetUsingMemoizationDP(VertexToSetOfVerticesMap & vertexToMinimumSetMap, Vertex const vertex) const;
 
     Graph m_nAryTreeGraph;

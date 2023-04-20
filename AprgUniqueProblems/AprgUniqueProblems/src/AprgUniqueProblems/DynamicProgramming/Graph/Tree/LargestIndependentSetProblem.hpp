@@ -27,7 +27,8 @@ public:
     SetOfVertices getMaximumSetUsingMemoizationDP() const;
 
 private:
-    Count getMaximumCountUsingNaiveRecursion(Vertex const vertex) const;    Count getMaximumCountUsingMemoizationDP(VertexToCountMap & vertexToCountMap, Vertex const vertex) const;
+    Count getMaximumCountUsingNaiveRecursion(Vertex const vertex) const;
+    Count getMaximumCountUsingMemoizationDP(VertexToCountMap & vertexToCountMap, Vertex const vertex) const;
     SetOfVertices getMaximumSetUsingMemoizationDP(VertexToSetOfVerticesMap & vertexToMaximumSetMap, Vertex const vertex) const;
 
     Graph m_nAryTreeGraph;
@@ -36,6 +37,7 @@ private:
 };
 
 }
+
 
 // APPROACH:
 // 1) Naive Recursion / Dynamic Programming by Memoization:
@@ -53,7 +55,8 @@ private:
 
 // For example, consider the following binary tree. The largest independent set(LIS) is {10, 40, 60, 70, 80} and size of the LIS is 5.
 //       10
-//      |  |//    20   30
+//      |  |
+//    20   30
 //   |  |   |
 //  40  50   60
 //     |  |
@@ -94,5 +97,6 @@ private:
 // -> Extend the solution so that it doesn’t modify the tree structure.
 // 3) The above solution only returns size of LIS, it doesn’t print elements of LIS.
 // -> Extend the solution to print all nodes that are part of LIS.
+
 
 

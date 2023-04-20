@@ -16,7 +16,8 @@ VertexCoverProblem::VertexCoverProblem(Graph const& nAryTreeGraph, Vertex const 
 
 VertexCoverProblem::Count VertexCoverProblem::getMinimumCountUsingNaiveRecursion() const
 {
-    // Time Complexity: Exponential    // Auxiliary Space: Constant
+    // Time Complexity: Exponential
+    // Auxiliary Space: Constant
 
     Count result(0);
     if(!m_nAryTreeGraph.isEmpty())
@@ -95,7 +96,8 @@ VertexCoverProblem::Count VertexCoverProblem::getMinimumCountUsingMemoizationDP(
         }
         Count result = min(countIfVertexIsIncluded, countIfVertexIsNotIncluded);
         vertexToCountMap.emplace(vertex, result);
-        return result;    }
+        return result;
+    }
     else
     {
         return it->second;

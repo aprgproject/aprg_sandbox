@@ -4,7 +4,8 @@
 
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 namespace
 {
@@ -25,7 +26,8 @@ TEST(MaximumSubMatrixSumTest, GetMaximumSubMatrixSumWorksOnExample1)
 }
 
 TEST(MaximumSubMatrixSumTest, GetMaximumSubMatrixSumWithDetailsWorksOnExample1)
-{    ValueMatrix pricesInDayByProduct(5U, 4U,
+{
+    ValueMatrix pricesInDayByProduct(5U, 4U,
     {  1,   2,  -1,  -4, -20,
       -8,  -3,   4,   2,   1,
        3,   8,  10,   1,   3,
@@ -36,7 +38,8 @@ TEST(MaximumSubMatrixSumTest, GetMaximumSubMatrixSumWithDetailsWorksOnExample1)
 
     EXPECT_EQ(1U, subArrayDetailsToVerify.left);
     EXPECT_EQ(4U, subArrayDetailsToVerify.right);
-    EXPECT_EQ(1U, subArrayDetailsToVerify.up);    EXPECT_EQ(3U, subArrayDetailsToVerify.down);
+    EXPECT_EQ(1U, subArrayDetailsToVerify.up);
+    EXPECT_EQ(3U, subArrayDetailsToVerify.down);
     EXPECT_EQ(29, subArrayDetailsToVerify.sum);
 }
 

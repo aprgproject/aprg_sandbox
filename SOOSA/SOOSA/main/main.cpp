@@ -18,7 +18,8 @@ int main(int argc, char *argv[])
 
     if(argumentsInMain.size()==2)
     {
-        AlbaLocalPathHandler detectedPath(AlbaLocalPathHandler::createPathHandlerForDetectedPath());        AlbaLocalPathHandler pathToProcess(getStringWithoutCharAtTheEnd(argumentsInMain.at(1), '"'));
+        AlbaLocalPathHandler detectedPath(AlbaLocalPathHandler::createPathHandlerForDetectedPath());
+        AlbaLocalPathHandler pathToProcess(getStringWithoutCharAtTheEnd(argumentsInMain.at(1), '"'));
 
         UserInterface ui;
         ui.setPath(pathToProcess.getFullPath());
