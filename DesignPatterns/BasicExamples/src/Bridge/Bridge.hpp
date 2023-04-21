@@ -84,14 +84,13 @@ private:
 // Intent:
 // Decouple an abstraction from its implementation so that the two can vary independently.
 // Bridge pattern has structural purpose and applies to objects, so it deals with the composition of objects.
+// NOTE: This is related to "Dependency Inversion Principle".
 
 // When to use (applicability):
-// -> you want to avoid a permanent binding between an abstraction and its implementation
-// -> both the abstractions and their implementations should be extensible by subclassing
+// -> you want to avoid a permanent binding between an abstraction and its implementation// -> both the abstractions and their implementations should be extensible by subclassing
 // -> changes in the implementation of an abstraction should have no impact on clients
 // -> you want to hide the implementation of an abstraction completely from clients
-// -> you have a proliferation of classes (class explosion), and responsibilities needs to extracted
-// -> you want to share an implementation among multiple objects (and it needs to be hidden from the client)
+// -> you have a proliferation of classes (class explosion), and responsibilities needs to extracted// -> you want to share an implementation among multiple objects (and it needs to be hidden from the client)
 
 // Consequences:
 // -> Decoupling interface and implementation.
