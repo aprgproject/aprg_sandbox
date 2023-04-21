@@ -36,15 +36,12 @@ public:
     Integer getAnotherYValue(Integer const muliplier) const;
 
 private:
-    Integer getGcfWithBackTracking(Integer const a, Integer const b, Integer& x, Integer& y);
     void solve(AlbaNumber const& a, AlbaNumber const& b, AlbaNumber const& c);
     SolutionStatus m_solutionStatus;
-    Integer m_x;
-    Integer m_y;
+    Integer m_x;    Integer m_y;
     Integer m_a;
     Integer m_b;
-    Integer m_c;
-    Integer m_gcfOfAAndB;
+    Integer m_c;    Integer m_gcfOfAAndB;
 };
 
 }
