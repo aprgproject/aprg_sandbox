@@ -1,76 +1,18 @@
-/*
- * C++ Design Patterns: Proxy
- * Author: Jakub Vojvoda [github.com/JakubVojvoda]
- * 2016
- *
- * Source code is licensed under MIT License
- * (for more details see LICENSE)
- *
- */
+#include <Proxy/Proxy.hpp>
 
-#include <iostream>
+#include <gtest/gtest.h>
 
-/*
- * Subject
- * defines the common interface for RealSubject and Proxy
- * so that a Proxy can be used anywhere a RealSubject is expected
- */
-class Subject
+using namespace std;
+
+namespace Proxy
 {
-public:
-  virtual ~Subject() { /* ... */ }
 
-  virtual void request() = 0;
-  // ...
-};
-
-/*
- * Real Subject
- * defines the real object that the proxy represents
- */
-class RealSubject : public Subject
+TEST(ProxyTest, Test1)
 {
-public:
-  void request()
-  {
-    std::cout << "Real Subject request\n";
-  }
-  // ...
-};
+    Proxy *proxy = new Proxy();
+    proxy->request();
 
-/*
- * Proxy
- * maintains a reference that lets the proxy access the real subject
- */
-class Proxy : public Subject
-{
-public:
-  Proxy()
-  {
-    subject = new RealSubject();
-  }
-  
-  ~Proxy()
-  {
-    delete subject;
-  }
-  
-  void request()
-  {
-    subject->request();
-  }
-  // ...
+    delete proxy;
+}
 
-private:
-  RealSubject *subject;
-};
-
-
-int main()
-{
-  Proxy *proxy = new Proxy();
-  proxy->request();
-  
-  delete proxy;
-  return 0;
 }

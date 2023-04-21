@@ -1,147 +1,27 @@
-/*
- * C++ Design Patterns: Memento
- * Author: Jakub Vojvoda [github.com/JakubVojvoda]
- * 2016
- *
- * Source code is licensed under MIT License
- * (for more details see LICENSE)
- *
- */
+#include <Memento/Memento.hpp>
 
-#include <iostream>
-#include <vector>
+#include <gtest/gtest.h>
 
-/*
- * Memento
- * stores internal state of the Originator object and protects
- * against access by objects other than the originator
- */
-class Memento
+using namespace std;
+
+namespace Memento
 {
-private:
-  // accessible only to Originator
-  friend class Originator;
-  
-  Memento( const int s ) : state( s ) {}
-  
-  void setState( const int s )
-  {
-    state = s;
-  }
-  
-  int getState()
-  {
-    return state;
-  }
-  // ...
 
-private:
-  int state;
-  // ...
-};
-
-/*
- * Originator
- * creates a memento containing a snapshot of its current internal
- * state and uses the memento to restore its internal state
- */
-class Originator
+TEST(MementoTest, Test1)
 {
-public:
-  // implemented only for printing purpose
-  void setState( const int s )
-  {
-    std::cout << "Set state to " << s << ".\n";
-    state = s;
-  }
-  
-  // implemented only for printing purpose
-  int getState()
-  {
-    return state;
-  }
-  
-  void setMemento( Memento* const m )
-  {
-    state = m->getState();
-  }
-  
-  Memento *createMemento()
-  {
-    return new Memento( state );
-  }
+    CareTaker caretaker;
 
-private:
-  int state;
-  // ...
-};
+    caretaker.save(Originator(1));
+    caretaker.save(Originator(2));
+    caretaker.save(Originator(3));
 
-/*
- * CareTaker
- * is responsible for the memento's safe keeping
- */
-class CareTaker
-{
-public:
-  CareTaker( Originator* const o ) : originator( o ) {}
-  
-  ~CareTaker()
-  {
-    for ( unsigned int i = 0; i < history.size(); i++ )
-    {
-      delete history.at( i );
-    }
-    history.clear();
-  }
-  
-  void save()
-  {
-    std::cout << "Save state.\n";
-    history.push_back( originator->createMemento() );
-  }
-  
-  void undo()
-  {
-    if ( history.empty() )
-    {
-      std::cout << "Unable to undo state.\n";
-      return;
-    }
-    
-    Memento *m = history.back();
-    originator->setMemento( m );
-    std::cout << "Undo state.\n";
-    
-    history.pop_back();
-    delete m;
-  }
-  // ...
+    Originator originator3 = caretaker.undoAndGetLastOriginator();
+    Originator originator2 = caretaker.undoAndGetLastOriginator();
+    Originator originator1 = caretaker.undoAndGetLastOriginator();
 
-private:
-  Originator *originator;
-  std::vector<Memento*> history;
-  // ...
-};
+    caretaker.save(originator3);
+    caretaker.save(originator2);
+    caretaker.save(originator1);
+}
 
-
-int main()
-{
-  Originator *originator = new Originator();
-  CareTaker *caretaker = new CareTaker( originator );
-  
-  originator->setState( 1 );
-  caretaker->save();
-  
-  originator->setState( 2 );
-  caretaker->save();
-  
-  originator->setState( 3 );
-  caretaker->undo();
-  
-  std::cout << "Actual state is " << originator->getState() << ".\n";
-  
-  delete originator;
-  delete caretaker;
-  
-  return 0;
 }

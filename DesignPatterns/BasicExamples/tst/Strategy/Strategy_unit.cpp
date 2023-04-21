@@ -1,97 +1,28 @@
-/*
- * C++ Design Patterns: Strategy
- * Author: Jakub Vojvoda [github.com/JakubVojvoda]
- * 2016
- *
- * Source code is licensed under MIT License
- * (for more details see LICENSE)
- *
- */
+#include <Strategy/Strategy.hpp>
 
-#include <iostream>
+#include <gtest/gtest.h>
 
-/*
- * Strategy
- * declares an interface common to all supported algorithms
- */
-class Strategy
+using namespace std;
+
+namespace Strategy
 {
-public:
-    virtual ~Strategy() { /* ... */ }
-    virtual void algorithmInterface() = 0;
-    // ...
-};
 
-/*
- * Concrete Strategies
- * implement the algorithm using the Strategy interface
- */
-class ConcreteStrategyA : public Strategy
+TEST(StrategyTest, TestForConcreteStrategyA)
 {
-public:
-    ~ConcreteStrategyA() { /* ... */ }
-
-    void algorithmInterface()
-    {
-        std::cout << "Concrete Strategy A\n";
-    }
-    // ...
-};
-
-class ConcreteStrategyB : public Strategy
-{
-public:
-    ~ConcreteStrategyB() { /* ... */ }
-
-    void algorithmInterface()
-    {
-        std::cout << "Concrete Strategy B\n";
-    }
-    // ...
-};
-
-class ConcreteStrategyC : public Strategy
-{
-public:
-    ~ConcreteStrategyC() { /* ... */ }
-
-    void algorithmInterface()
-    {
-        std::cout << "Concrete Strategy C\n";
-    }
-    // ...
-};
-
-/*
- * Context
- * maintains a reference to a Strategy object
- */
-class Context
-{
-public:
-    Context( Strategy* const s ) : strategy( s ) {}
-
-    ~Context()
-    {
-        delete strategy;
-    }
-
-    void contextInterface()
-    {
-        strategy->algorithmInterface();
-    }
-    // ...
-
-private:
-    Strategy *strategy;
-    // ...
-};
-
-
-int main()
-{
-    Context context( new ConcreteStrategyA() );
+    Context context(make_unique<ConcreteStrategyA>());
     context.contextInterface();
+}
 
-    return 0;
+TEST(StrategyTest, TestForConcreteStrategyB)
+{
+    Context context(make_unique<ConcreteStrategyB>());
+    context.contextInterface();
+}
+
+TEST(StrategyTest, TestForConcreteStrategyC)
+{
+    Context context(make_unique<ConcreteStrategyC>());
+    context.contextInterface();
+}
+
 }

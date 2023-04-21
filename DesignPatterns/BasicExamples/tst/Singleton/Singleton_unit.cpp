@@ -1,60 +1,19 @@
-/*
- * C++ Design Patterns: Singleton
- * Author: Jakub Vojvoda [github.com/JakubVojvoda]
- * 2016
- *
- * Source code is licensed under MIT License
- * (for more details see LICENSE)
- *
- */
+#include <Singleton/Singleton.hpp>
 
-#include <iostream>
+#include <gtest/gtest.h>
 
-/*
- * Singleton
- * has private static variable to hold one instance of the class
- * and method which gives us a way to instantiate the class
- */
-class Singleton
+using namespace std;
+
+namespace Singleton
 {
-public:
-  static Singleton* get()
-  {
-    if ( !instance )
-    {
-      instance = new Singleton();
-    }    
-    return instance;
-  }
-  
-  static void restart()
-  {
-    if ( instance )
-    {
-      delete instance;
-    }
-  }
-  
-  void tell()
-  {
-    std::cout << "This is Singleton.\n";
-    // ...
-  }
-  // ...
 
-private:
-  Singleton() {}
-  static Singleton *instance;
-  // ...
-};
-
-Singleton* Singleton::instance = nullptr;
-
-
-int main()
+TEST(SingletonTest, Test1)
 {
-  Singleton::get()->tell();
-  Singleton::restart();
-  
-  return 0;
+    Singleton::getInstance().tellSomething();
+
+    Singleton::restartInstance();
+
+    Singleton::getInstance().tellSomething();
+}
+
 }

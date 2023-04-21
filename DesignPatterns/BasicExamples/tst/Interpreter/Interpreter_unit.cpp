@@ -1,125 +1,27 @@
-/*
- * C++ Design Patterns: Interpreter
- * Author: Jakub Vojvoda [github.com/JakubVojvoda]
- * 2016
- *
- * Source code is licensed under MIT License
- * (for more details see LICENSE)
- *
- */
+#include <Interpreter/Interpreter.hpp>
 
-#include <iostream>
-#include <map>
+#include <gtest/gtest.h>
 
-/*
- * Context
- * contains information that's global to the interpreter
- */
-class Context
+using namespace std;
+
+namespace Interpreter
 {
-public:
-  void set( const std::string& var, const bool value)
-  {
-    vars.insert( std::pair<std::string, bool>( var, value ) );
-  }
-  
-  bool get( const std::string& exp )
-  {
-    return vars[ exp ];
-  }
-  // ...
 
-private:
-  std::map<std::string, bool> vars;
-  // ...
-};
-
-/*
- * Abstract Expression
- * declares an abstract Interpret operation that is common to all nodes
- * in the abstract syntax tree
- */
-class AbstractExpression
+TEST(InterpreterTest, Test1)
 {
-public:
-  virtual ~AbstractExpression() {}
-  
-  virtual bool interpret( Context* const )
-  {
-    return false;
-  }
-  // ...
-};
+    // An example of very simple expression tree
+    // that corresponds to expression (A AND B)
 
-/*
- * Terminal Expression
- * implements an Interpret operation associated with terminal symbols
- * in the grammar (an instance is required for every terminal symbol
- * in a sentence)
- */
-class TerminalExpression : public AbstractExpression
-{
-public:
-  TerminalExpression( const std::string& val ) : value( val ) {}
-  
-  ~TerminalExpression() {}
-  
-  bool interpret( Context* const context )
-  {
-    return context->get( value );
-  }
-  // ...
-  
-private:
-  std::string value;
-  // ...
-};
+    auto a = make_unique<TerminalExpression>("a");
+    auto b = make_unique<TerminalExpression>("b");
+    auto aPlusB = make_unique<NonterminalExpression>(move(a), move(b));
 
-/*
- * Nonterminal Expression
- * implements an Interpret operation for nonterminal symbols
- * in the grammar (one such class is required for every rule in the grammar)
- */
-class NonterminalExpression : public AbstractExpression
-{
-public:
-  NonterminalExpression( AbstractExpression *left, AbstractExpression *right ) : 
-    lop( left ), rop( right ) {}
-  
-  ~NonterminalExpression()
-  {
-    delete lop;
-    delete rop;
-  }
-  
-  bool interpret( Context *const context )
-  {
-    return lop->interpret( context ) && rop->interpret( context );
-  }
-  // ...
-  
-private:
-  AbstractExpression *lop;
-  AbstractExpression *rop;
-  // ...
-};
+    Context context;
+    context.set("a", 100);
+    context.set("b", 20);
 
+    std::cout << context.getValue("a") << " + " << context.getValue("b");
+    std::cout << " = " << aPlusB->interpret(context) << "\n";
+}
 
-int main()
-{
-  // An example of very simple expression tree
-  // that corresponds to expression (A AND B)
-  AbstractExpression *A = new TerminalExpression("A");
-  AbstractExpression *B = new TerminalExpression("B");
-  AbstractExpression *exp = new NonterminalExpression( A, B );
-  
-  Context context;
-  context.set( "A", true );
-  context.set( "B", false );
-  
-  std::cout << context.get( "A" ) << " AND " << context.get( "B" );
-  std::cout << " = " << exp->interpret( &context ) << "\n";
-  
-  delete exp;
-  return 0;
 }

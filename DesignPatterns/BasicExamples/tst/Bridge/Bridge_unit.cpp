@@ -1,107 +1,22 @@
-/*
- * C++ Design Patterns: Bridge
- * Author: Jakub Vojvoda [github.com/JakubVojvoda]
- * 2016
- *
- * Source code is licensed under MIT License
- * (for more details see LICENSE)
- *
- */
+#include <Bridge/Bridge.hpp>
 
-#include <iostream>
+#include <gtest/gtest.h>
 
-/*
- * Implementor
- * defines the interface for implementation classes
- */
-class Implementor
+using namespace std;
+
+namespace Bridge
 {
-public:
-  virtual ~Implementor() {}
-  
-  virtual void action() = 0;
-  // ...
-};
 
-/*
- * Concrete Implementors
- * implement the Implementor interface and define concrete implementations
- */
-class ConcreteImplementorA : public Implementor
+TEST(BridgeTest, Test1)
 {
-public:
-  ~ConcreteImplementorA() {}
-  
-  void action()
-  {
-    std::cout << "Concrete Implementor A\n";
-  }
-  // ...
-};
+    auto implementatorA = std::make_unique<ConcreteImplementorA>();
+    auto implementatorB = std::make_unique<ConcreteImplementorB>();
 
-class ConcreteImplementorB : public Implementor
-{
-public:
-  ~ConcreteImplementorB() {}
-  
-  void action()
-  {
-    std::cout << "Concrete Implementor B\n";
-  }
-  // ...
-};
+    unique_ptr<Abstraction> abstraction1 = std::make_unique<RefinedAbstraction>(move(implementatorA));
+    abstraction1->operation();
 
-/*
- * Abstraction
- * defines the abstraction's interface
- */
-class Abstraction
-{
-public:
-  virtual ~Abstraction() {}
-  
-  virtual void operation() = 0;
-  // ...
-};
+    unique_ptr<Abstraction> abstraction2 = std::make_unique<RefinedAbstraction>(move(implementatorB));
+    abstraction2->operation();
+}
 
-/*
- * RefinedAbstraction
- * extends the interface defined by Abstraction
- */
-class RefinedAbstraction : public Abstraction
-{
-public:
-  ~RefinedAbstraction() {}
-  
-  RefinedAbstraction(Implementor *impl) : implementor(impl) {}
-  
-  void operation()
-  {
-    implementor->action();
-  }
-  // ...
-
-private:
-  Implementor *implementor;
-};
-
-
-int main()
-{
-  Implementor *ia = new ConcreteImplementorA;
-  Implementor *ib = new ConcreteImplementorB;
-  
-  Abstraction *abstract1 = new RefinedAbstraction(ia);
-  abstract1->operation();
-  
-  Abstraction *abstract2 = new RefinedAbstraction(ib);
-  abstract2->operation();
-  
-  delete abstract1;
-  delete abstract2;
-  
-  delete ia;
-  delete ib;
-  
-  return 0;
 }

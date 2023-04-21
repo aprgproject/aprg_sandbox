@@ -1,120 +1,21 @@
-/*
- * C++ Design Patterns: Factory Method
- * Author: Jakub Vojvoda [github.com/JakubVojvoda]
- * 2016
- *
- * Source code is licensed under MIT License
- * (for more details see LICENSE)
- *
- */
+#include <FactoryMethod/FactoryMethod.hpp>
 
-#include <iostream>
+#include <gtest/gtest.h>
 
-/*
- * Product
- * products implement the same interface so that the classes can refer
- * to the interface not the concrete product
- */
-class Product
+using namespace std;
+
+namespace FactoryMethod
 {
-public:
-  virtual ~Product() {}
-  
-  virtual std::string getName() = 0;
-  // ...
-};
 
-/*
- * Concrete Product
- * define product to be created
- */
-class ConcreteProductA : public Product
+TEST(FactoryMethodTest, Test1)
 {
-public:
-  ~ConcreteProductA() {}
-  
-  std::string getName()
-  {
-    return "type A";
-  }
-  // ...
-};
+    unique_ptr<Creator> creator(make_unique<ConcreteCreator>());
 
-/*
- * Concrete Product
- * define product to be created
- */
-class ConcreteProductB : public Product
-{
-public:
-  ~ConcreteProductB() {}
-  
-  std::string getName()
-  {
-    return "type B";
-  }
-  // ...
-};
+    std::unique_ptr<Product> product1 = creator->createProductA();
+    std::cout << "Product: " << product1->getName() << "\n";
 
-/*
- * Creator
- * contains the implementation for all of the methods
- * to manipulate products except for the factory method
- */
-class Creator
-{
-public:
-  virtual ~Creator() {}
-  
-  virtual Product* createProductA() = 0;
-  virtual Product* createProductB() = 0;
-  
-  virtual void removeProduct( Product *product ) = 0;
-  
-  // ...
-};
+    std::unique_ptr<Product> product2 = creator->createProductB();
+    std::cout << "Product: " << product2->getName() << "\n";
+}
 
-/*
- * Concrete Creator
- * implements factory method that is responsible for creating
- * one or more concrete products ie. it is class that has
- * the knowledge of how to create the products
- */
-class ConcreteCreator : public Creator
-{
-public:
-  ~ConcreteCreator() {}
-  
-  Product* createProductA()
-  {
-    return new ConcreteProductA();
-  }
-  
-  Product* createProductB()
-  {
-    return new ConcreteProductB();
-  }
-  
-  void removeProduct( Product *product )
-  {
-    delete product;
-  }
-  // ...
-};
-
-
-int main()
-{
-  Creator *creator = new ConcreteCreator();
-  
-  Product *p1 = creator->createProductA();
-  std::cout << "Product: " << p1->getName() << "\n";
-  creator->removeProduct( p1 );
-  
-  Product *p2 = creator->createProductB();
-  std::cout << "Product: " << p2->getName() << "\n";
-  creator->removeProduct( p2 );
-  
-  delete creator;
-  return 0;
 }

@@ -1,112 +1,20 @@
-/*
- * C++ Design Patterns: Decorator
- * Author: Jakub Vojvoda [github.com/JakubVojvoda]
- * 2016
- *
- * Source code is licensed under MIT License
- * (for more details see LICENSE)
- *
- */
+#include <Decorator/Decorator.hpp>
 
-#include <iostream>
+#include <gtest/gtest.h>
 
-/*
- * Component
- * defines an interface for objects that can have responsibilities
- * added to them dynamically
- */
-class Component
+using namespace std;
+
+namespace Decorator
 {
-public:
-  virtual ~Component() {}
-  
-  virtual void operation() = 0;
-  // ...
-};
 
-/*
- * Concrete Component
- * defines an object to which additional responsibilities
- * can be attached
- */
-class ConcreteComponent : public Component
+TEST(DecoratorTest, Test1)
 {
-public:
-  ~ConcreteComponent() {}
-  
-  void operation()
-  {
-    std::cout << "Concrete Component operation\n";
-  }
-  // ...
-};
+    auto coreComponent = make_unique<ConcreteComponent>();
+    auto coreComponentWithA = make_unique<ConcreteDecoratorA>(move(coreComponent));
+    auto coreComponentWithAAndB = make_unique<ConcreteDecoratorB>(move(coreComponentWithA));
 
-/*
- * Decorator
- * maintains a reference to a Component object and defines an interface
- * that conforms to Component's interface
- */
-class Decorator : public Component
-{
-public:
-  ~Decorator() {}
-  
-  Decorator( Component *c ) : component( c ) {}
-  
-  virtual void operation()
-  {
+    Component * component = coreComponentWithAAndB.get();
     component->operation();
-  }
-  // ...
+}
 
-private:
-  Component *component;
-};
-
-/*
- * Concrete Decorators
- * add responsibilities to the component (can extend the state
- * of the component)
- */
-class ConcreteDecoratorA : public Decorator
-{
-public:
-  ConcreteDecoratorA( Component *c ) : Decorator( c ) {}
-  
-  void operation()
-  {
-    Decorator::operation();
-    std::cout << "Decorator A\n";
-  }
-  // ...
-};
-
-class ConcreteDecoratorB : public Decorator
-{
-public:
-  ConcreteDecoratorB( Component *c ) : Decorator( c ) {}
-  
-  void operation()
-  {
-    Decorator::operation();
-    std::cout << "Decorator B\n";
-  }
-  // ...
-};
-
-
-int main()
-{
-  ConcreteComponent  *cc = new ConcreteComponent();
-  ConcreteDecoratorB *db = new ConcreteDecoratorB( cc );
-  ConcreteDecoratorA *da = new ConcreteDecoratorA( db );
-  
-  Component *component = da;
-  component->operation();
-  
-  delete da;
-  delete db;
-  delete cc;
-  
-  return 0;
 }

@@ -1,109 +1,17 @@
-/*
- * C++ Design Patterns: Chain of Responsibility
- * Author: Jakub Vojvoda [github.com/JakubVojvoda]
- * 2016
- *
- * Source code is licensed under MIT License
- * (for more details see LICENSE)
- *
- */
-#include <iostream>
+#include <ChainOfResponsibility/ChainOfResponsibility.hpp>
 
-/*
- * Handler
- * defines an interface for handling requests and
- * optionally implements the successor link
- */
-class Handler
+#include <gtest/gtest.h>
+
+using namespace std;
+
+namespace ChainOfResponsibility
 {
-public:
-  virtual ~Handler() {}
-  
-  virtual void setHandler( Handler *s )
-  {
-    successor = s;
-  }
-  
-  virtual void handleRequest()
-  {
-    if (successor != 0)
-    {
-      successor->handleRequest();
-    }
-  }
-  // ...
 
-private:
-  Handler *successor;
-};
-
-/*
- * Concrete Handlers
- * handle requests they are responsible for
- */
-class ConcreteHandler1 : public Handler
+TEST(ChainOfResponsibilityTest, Test1)
 {
-public:
-  ~ConcreteHandler1() {}
-  
-  bool canHandle()
-  {
-    // ...
-    return false;
-  }
-  
-  virtual void handleRequest()
-  {
-    if ( canHandle() )
-    {
-      std::cout << "Handled by Concrete Handler 1\n";
-    }
-    else
-    {
-      std::cout << "Cannot be handled by Handler 1\n";
-      Handler::handleRequest();
-    }
-    // ...
-  }
-  // ...
-};
+    ConcreteHandler1 handler1;
+    handler1.setHandler(make_unique<ConcreteHandler2>());
+    handler1.handleRequest();
+}
 
-class ConcreteHandler2 : public Handler
-{
-public:
-  ~ConcreteHandler2() {}
-  
-  bool canHandle()
-  {
-    // ...
-    return true;
-  }
-  
-  virtual void handleRequest()
-  {
-    if ( canHandle() )
-    {
-      std::cout << "Handled by Handler 2\n";
-    }
-    else
-    {
-      std::cout << "Cannot be handled by Handler 2\n";
-      Handler::handleRequest();
-    }
-    // ...
-  }
-  
-  // ...
-};
-
-
-int main()
-{
-  ConcreteHandler1 handler1;
-  ConcreteHandler2 handler2;
-  
-  handler1.setHandler( &handler2 );
-  handler1.handleRequest();
-  
-  return 0;
 }
