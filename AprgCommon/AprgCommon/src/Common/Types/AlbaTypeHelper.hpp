@@ -451,22 +451,31 @@ using ConditionalType = typename std::conditional<condition, TypeIfTrue, TypeIfF
 
 // IsPointer
 template<typename, typename = void>
-struct IsRaiiPointer : std::false_type {};
+struct hasElementType : std::false_type {};
 template<typename T>
-struct IsRaiiPointer<T, std::void_t<typename T::element_type>> : std::true_type {};
+struct hasElementType<T, std::void_t<typename T::element_type>> : std::true_type {};
 
 // IsContainer
 template<typename, typename = void>
-struct IsAContainer : std::false_type {};
+struct hasValueType : std::false_type {};
 template<typename T>
-struct IsAContainer<T, std::void_t<typename T::value_type>> : std::true_type {};
+struct hasValueType<T, std::void_t<typename T::value_type>> : std::true_type {};
+
+// HasContainerType
+// ::c cannot be used because its protected
+// -> template<typename, typename = void>
+// -> struct HasContainerType : std::false_type {};
+// -> template<typename T>
+// -> struct HasContainerType<T, std::void_t<decltype((void)T::c, void())>> : std::true_type {};
+template<typename, typename = void>
+struct HasContainerType : std::false_type {};
+template<typename T>
+struct HasContainerType<T, std::void_t<typename T::container_type>> : std::true_type {};
 
 // HasDeferenceOperator
-template<typename, typename = void>
-struct HasDeferenceOperator : std::false_type {};
+template<typename, typename = void>struct HasDeferenceOperator : std::false_type {};
 template<typename T>
 struct HasDeferenceOperator<T, std::void_t<decltype(*std::declval<T>())>> : std::true_type {};
-
 // HasBegin
 template<typename, typename = void>
 struct HasBegin : std::false_type {};
@@ -479,46 +488,27 @@ struct HasEnd : std::false_type {};
 template<typename T>
 struct HasEnd<T, std::void_t<decltype(std::declval<T>().end())>> : std::true_type {};
 
-// HasUnderlyingContainer
-// ::c cannot be used because its protected
-// -> template<typename, typename = void>
-// -> struct HasUnderlyingContainer : std::false_type {};
-// -> template<typename T>
-// -> struct HasUnderlyingContainer<T, std::void_t<decltype((void)T::c, void())>> : std::true_type {};
-template<typename, typename = void>
-struct HasUnderlyingContainer : std::false_type {};
-template<typename T>
-struct HasUnderlyingContainer<T, std::void_t<typename T::container_type>> : std::true_type {};
-
 template <typename Type>
 constexpr bool isRaiiPointerWithDeference()
 {
-    return IsRaiiPointer<Type>::value && HasDeferenceOperator<Type>::value;
+    return hasElementType<Type>::value && HasDeferenceOperator<Type>::value;
 }
 template <typename Type>
 constexpr bool isRaiiPointerWithoutDeference()
 {
-    return IsRaiiPointer<Type>::value && !HasDeferenceOperator<Type>::value;
+    return hasElementType<Type>::value && !HasDeferenceOperator<Type>::value;
 }
 
-template <typename Type>
-constexpr bool hasBeginAndEnd()
+template <typename Type>constexpr bool hasBeginAndEnd()
 {
     return HasBegin<Type>::value && HasEnd<Type>::value;
 }
 
 template <typename Type>
-constexpr bool isAContainer()
+constexpr bool hasContainerType()
 {
-    return IsAContainer<Type>::value;
+    return HasContainerType<Type>::value;
 }
-
-template <typename Type>
-constexpr bool hasUnderlyingContainer()
-{
-    return HasUnderlyingContainer<Type>::value;
-}
-
 
 
 }

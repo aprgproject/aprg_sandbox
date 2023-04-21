@@ -94,16 +94,14 @@ AlbaNumber AlbaNumber::createFraction(int32_t const numerator, uint32_t const de
 template <typename NumberType>
 AlbaNumber AlbaNumber::createComplexNumber(NumberType const realPart, NumberType const imaginaryPart)
 {
-    double adjustedRealPart = adjustFloatValue(realPart);
-    double adjustedImaginaryPart = adjustFloatValue(imaginaryPart);
+    double adjustedRealPart = adjustFloatValue(static_cast<float>(realPart));
+    double adjustedImaginaryPart = adjustFloatValue(static_cast<float>(imaginaryPart));
     if(isinf(adjustedRealPart)
             || isnan(adjustedRealPart)
-            || isAlmostEqual(adjustedImaginaryPart, 0.0, getComparisonTolerance()))
-    {
+            || isAlmostEqual(adjustedImaginaryPart, 0.0, getComparisonTolerance()))    {
         return createNumberFromDoubleAndRoundIfNeeded(static_cast<double>(adjustedRealPart));
     }
-    else
-    {
+    else    {
         return AlbaNumber(ComplexNumberData{static_cast<float>(adjustedRealPart), static_cast<float>(adjustedImaginaryPart)});
     }
 }

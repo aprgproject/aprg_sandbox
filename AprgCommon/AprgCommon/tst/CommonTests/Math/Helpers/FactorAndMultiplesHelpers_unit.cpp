@@ -59,14 +59,30 @@ TEST(FactorAndMulitplesHelpersTest, GetGreatestCommonFactorWorksForUnsignedInteg
     EXPECT_EQ(1U, getGreatestCommonFactor(3U, 1234567891U));
 }
 
+TEST(FactorAndMulitplesHelpersTest, GetGreatestCommonFactorWithLastValuesWorksForUnsignedInteger)
+{
+    using LastValues = pair<unsigned int, unsigned int>;
+    LastValues lastValues{};
+    EXPECT_EQ(0U, getGreatestCommonFactorWithLastValues(0U, 0U, lastValues.first, lastValues.second));
+    EXPECT_EQ((LastValues{1, 0}), lastValues);
+    EXPECT_EQ(1U, getGreatestCommonFactorWithLastValues(1U, 1U, lastValues.first, lastValues.second));
+    EXPECT_EQ((LastValues{0, 1}), lastValues);
+    EXPECT_EQ(16U, getGreatestCommonFactorWithLastValues(16U, 32U, lastValues.first, lastValues.second));
+    EXPECT_EQ((LastValues{1, 0}), lastValues);
+    EXPECT_EQ(14U, getGreatestCommonFactorWithLastValues(98U, 56U, lastValues.first, lastValues.second));
+    EXPECT_EQ((LastValues{4294967295, 2}), lastValues);
+    EXPECT_EQ(1U, getGreatestCommonFactorWithLastValues(1234567891U, 3U, lastValues.first, lastValues.second));
+    EXPECT_EQ((LastValues{1, 3883444666}), lastValues);
+    EXPECT_EQ(1U, getGreatestCommonFactorWithLastValues(3U, 1234567891U, lastValues.first, lastValues.second));
+    EXPECT_EQ((LastValues{3883444666, 1}), lastValues);
+}
+
 TEST(FactorAndMulitplesHelpersTest, GetGreatestCommonFactorWorksForSignedInteger)
 {
-    EXPECT_EQ(0, getGreatestCommonFactor<int>(0, 0));
-    EXPECT_EQ(8, getGreatestCommonFactor(0, -8));
+    EXPECT_EQ(0, getGreatestCommonFactor<int>(0, 0));    EXPECT_EQ(8, getGreatestCommonFactor(0, -8));
     EXPECT_EQ(8, getGreatestCommonFactor(-8, 0));
     EXPECT_EQ(1, getGreatestCommonFactor(1, -8));
-    EXPECT_EQ(1, getGreatestCommonFactor(-8, 1));
-    EXPECT_EQ(1, getGreatestCommonFactor<int>(1, 1));
+    EXPECT_EQ(1, getGreatestCommonFactor(-8, 1));    EXPECT_EQ(1, getGreatestCommonFactor<int>(1, 1));
     EXPECT_EQ(16, getGreatestCommonFactor(16, -32));
     EXPECT_EQ(16, getGreatestCommonFactor(-16, 32));
     EXPECT_EQ(14, getGreatestCommonFactor(98, -56));

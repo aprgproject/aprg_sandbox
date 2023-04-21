@@ -12,25 +12,22 @@ public:
         : m_state(initialState)
     {}
     virtual ~AlbaBaseStateMachine() = default;  // virtual destructor because of virtual functions (vtable exists)
-
     // rule of zero
 
-    virtual void processInput(Input const&)
-    {
-        // This should not be accessed
-        assert(false);
-    }
+    virtual void processInput(Input const&) = 0;
 
     State getState() const
     {
         return m_state;
     }
+
 protected:
     virtual void saveNextState(State const newState)
-    {
-        m_state = newState;
+    {        m_state = newState;
     }
     State m_state;
 };
+
+// This different from the "State" design pattern.
 
 }//namespace alba

@@ -26,15 +26,13 @@ template <typename... UnderlyingTypes, template<typename...> class TemplateType>
 std::enable_if_t<typeHelper::hasBeginAndEnd<TemplateType<UnderlyingTypes...>>(), void>
 printParameter(std::ostream & outputStream, TemplateType<UnderlyingTypes...> const& parameter);
 template <typename... UnderlyingTypes, template<typename...> class TemplateType>
-std::enable_if_t<typeHelper::hasUnderlyingContainer<TemplateType<UnderlyingTypes...>>(), void>
+std::enable_if_t<typeHelper::hasContainerType<TemplateType<UnderlyingTypes...>>(), void>
 printParameter(std::ostream & outputStream, TemplateType<UnderlyingTypes...> const& parameter);
-
 
 
 // printParameterWithName declaration
 
-template <typename ParameterType>
-void printParameterWithName(std::ostream & outputStream, std::string const& parameterName, ParameterType const& parameter);
+template <typename ParameterType>void printParameterWithName(std::ostream & outputStream, std::string const& parameterName, ParameterType const& parameter);
 template <typename ParameterPointerType>
 void printParameterWithName(std::ostream & outputStream, std::string const& parameterName, ParameterPointerType * parameterPointer);
 template <>
@@ -132,14 +130,12 @@ printParameter(std::ostream & outputStream, TemplateType<UnderlyingTypes...> con
 }
 
 template <typename... UnderlyingTypes, template<typename...> class TemplateType>
-std::enable_if_t<typeHelper::hasUnderlyingContainer<TemplateType<UnderlyingTypes...>>(), void>
+std::enable_if_t<typeHelper::hasContainerType<TemplateType<UnderlyingTypes...>>(), void>
 printParameter(std::ostream & outputStream, TemplateType<UnderlyingTypes...> const& parameter)
 {
-    outputStream << "{adapter: ";
-    printParameter(outputStream, getUnderlyingContainerForPrinting(parameter));
+    outputStream << "{adapter: ";    printParameter(outputStream, getUnderlyingContainerForPrinting(parameter));
     outputStream << "}";
 }
-
 
 
 // printParameterWithName

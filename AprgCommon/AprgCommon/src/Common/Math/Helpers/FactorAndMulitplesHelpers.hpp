@@ -80,13 +80,36 @@ template <typename NumberType> NumberType getGreatestCommonFactor(NumberType con
     return result;
 }
 
-template <typename NumberType> NumberType getLeastCommonMultiple(NumberType const firstNumber, NumberType const secondNumber)
+template <typename NumberType> NumberType getGreatestCommonFactorWithLastValues(
+        NumberType const number1,
+        NumberType const number2,
+        NumberType & lastValue1,
+        NumberType & lastValue2)
 {
     static_assert(typeHelper::isIntegralType<NumberType>(), "Number type must be an integer");
 
+    NumberType result{};
+    if (number2 == 0) // Base Case
+    {
+        lastValue1 = 1;
+        lastValue2 = 0;
+        result = number1;
+    }
+    else
+    {
+        NumberType previous1{}, previous2{};
+        result = getGreatestCommonFactorWithLastValues(number2, number1 % number2, previous1, previous2); // Recursively find the gcf
+        lastValue1 = previous2;
+        lastValue2 = previous1 - (number1 / number2) * previous2;
+    }
+    return result;
+}
+
+template <typename NumberType> NumberType getLeastCommonMultiple(NumberType const firstNumber, NumberType const secondNumber)
+{
+    static_assert(typeHelper::isIntegralType<NumberType>(), "Number type must be an integer");
     // Using Euclid’s algorithm
     // lcm(a,b) = ab/gcd(a,b)
-
     NumberType result(0);
     if(firstNumber!=0 && secondNumber!=0)
     {
