@@ -17,22 +17,23 @@ TEST(KickStart_2019_RoundD_P1_XOrWhatTest, Test1)
     inputStringStream = stringstream();
     outputStringStream = stringstream();
     inputStringStream
-            << "" "\n"
-            << "" "\n"
-            << "" "\n"
-            << "" "\n"
+            << "2            " "\n"
+            << "4 3          " "\n"
+            << "10 21 3 7    " "\n"
+            << "1 13         " "\n"
+            << "0 32         " "\n"
+            << "2 22         " "\n"
+            << "5 1          " "\n"
+            << "14 1 15 20 26" "\n"
+            << "4 26         " "\n"
             << endl;
 
     main();
 
     EXPECT_EQ(
-                "" "\n"
-                "" "\n"
-                "" "\n"
-                "" "\n"
+                "Case #1: 4 3 4" "\n"
+                "Case #2: 4" "\n"
                 , outputStringStream.str());
 }
-
 }
-
 

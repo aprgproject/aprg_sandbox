@@ -42,15 +42,78 @@ vector<int> savedEnergies; // Dynamic Programming
 Stones stones;
 int maxTime;
 
-int getIndex(int const index, int const time)
+/*
+// My solution but its wrong
+int getIndex(int const left, int const right, int const time)
 {
-    return index*maxTime+time;
+    return left*numberOfStones*maxTime + right*maxTime + time;
 }
 
 int getMaxEnergy(
-        int const index,
+        int const left,
+        int const right,
         int const elapsedTime)
 {
+    int & savedEnergy(savedEnergies[getIndex(left, right, elapsedTime)]);
+    if(savedEnergy == INT_MAX)
+    {
+        int maxTotalEnergy=0;
+        for(int i=left; i<=right; i++)
+        {
+            Stone const& stone(stones.at(i));
+            int energyOfStone=0;
+            if(stone.energy > (stone.rateOfLoss*elapsedTime))
+            {
+                energyOfStone = stone.energy - (stone.rateOfLoss*elapsedTime);
+            }
+            int maxNextEnergy=0;
+            if(left<i)
+            {
+                maxNextEnergy = getMaxEnergy(left, i-1, elapsedTime+stone.timeToConsume);
+            }
+            if(i<right)
+            {
+                maxNextEnergy = max(maxNextEnergy, getMaxEnergy(i+1, right, elapsedTime+stone.timeToConsume));
+            }
+            maxTotalEnergy = max(maxTotalEnergy, energyOfStone+maxNextEnergy);
+        }
+        savedEnergy = maxTotalEnergy;
+    }
+    return savedEnergy;
+}
+
+void runTestCase(unsigned int const testCaseNumber)
+{
+    my_cin >> numberOfStones;
+
+    int totalConsumptionTime=0;
+    stones.clear();
+    stones.reserve(numberOfStones);
+    for(int y=0; y<numberOfStones; ++y)
+    {
+        Stone stone;
+        my_cin >> stone.timeToConsume >> stone.energy >> stone.rateOfLoss;
+        totalConsumptionTime += stone.timeToConsume;
+        stones.emplace_back(stone);
+    }
+    maxTime=totalConsumptionTime;
+
+    savedEnergies.assign(numberOfStones*numberOfStones*maxTime, INT_MAX);
+
+    int maxEnergy = getMaxEnergy(0, numberOfStones-1, 0);
+
+    my_cout << "Case #" << testCaseNumber << ": " << maxEnergy << '\n';
+}*/
+
+
+// Solution recommended by kickstart
+int getIndex(int const index, int const time)
+{
+    return index*maxTime+time;}
+
+int getMaxEnergy(
+        int const index,
+        int const elapsedTime){
     if(index<(int)stones.size())
     {
         int & savedEnergy(savedEnergies[getIndex(index, elapsedTime)]);
@@ -86,14 +149,16 @@ void runTestCase(unsigned int const testCaseNumber)
     }
     maxTime=totalConsumptionTime;
 
-    // the magic stuffs
+    // Observe that SiLj is the total loss of energy if i is used first.
+    // Likewise, SjLi is the loss if j is used first.
+    // Thus, if SiLj < SjLi then taking i first leads to a smaller overall loss of energy.
+    // It may not be obvious that we should always take i before j even if it leads to a smaller loss of energy.
+
     sort(stones.begin(), stones.end(), [](Stone const& stone1, Stone const& stone2)
     {
-        return stone2.timeToConsume*stone1.rateOfLoss > stone1.timeToConsume*stone2.rateOfLoss;
-    });
+        return stone2.timeToConsume*stone1.rateOfLoss > stone1.timeToConsume*stone2.rateOfLoss;    });
 
     savedEnergies.assign(numberOfStones*maxTime, INT_MAX);
-
     int maxEnergy = getMaxEnergy(0, 0);
 
     my_cout << "Case #" << testCaseNumber << ": " << maxEnergy << '\n';
