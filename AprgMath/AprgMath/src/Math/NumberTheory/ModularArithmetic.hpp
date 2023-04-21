@@ -17,9 +17,11 @@ bool isFermatTheoremTrue(UnsignedInteger const prime, UnsignedInteger const coPr
 bool isEulerTheoremTrue(UnsignedInteger const coPrime1, UnsignedInteger const coPrime2);
 
 UnsignedInteger getModularExponentiation(UnsignedInteger const number1, UnsignedInteger const exponent, UnsignedInteger const modulo);
-UnsignedInteger getModularInverse(UnsignedInteger const number, UnsignedInteger const modulo);
+UnsignedInteger getModularInverseByIteratingPossibleValues(UnsignedInteger const number, UnsignedInteger const modulo);
+UnsignedInteger getModularInverseByGcfEuclidAlgorithm(UnsignedInteger const number, UnsignedInteger const modulo);
+UnsignedInteger getModularInverseByEulersTheorem(UnsignedInteger const number, UnsignedInteger const modulo);
+UnsignedInteger getModularInverseByFermatsLittleTheorem(UnsignedInteger const number, UnsignedInteger const modulo);
 UnsignedInteger getModularFactorial(UnsignedInteger const number, UnsignedInteger const modulo);
-
 
 }
 

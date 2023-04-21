@@ -54,18 +54,34 @@ TEST(ModularArithmeticTest, GetModularExponentiationWorks)
     EXPECT_EQ(7U, getModularExponentiation(55U, 3U, 12U));
 }
 
-TEST(ModularArithmeticTest, GetModularInverseWorks)
+TEST(ModularArithmeticTest, GetModularInverseByIteratingPossibleValuesWorks)
 {
-    EXPECT_EQ(0U, getModularInverse(2U, 4U));
-    EXPECT_EQ(3U, getModularInverse(6U, 17U));
+    EXPECT_EQ(0U, getModularInverseByIteratingPossibleValues(2U, 4U));
+    EXPECT_EQ(3U, getModularInverseByIteratingPossibleValues(6U, 17U));
 }
 
-TEST(ModularArithmeticTest, GetModularFactorialWorks)
+TEST(ModularArithmeticTest, GetModularInverseByGcfEuclidAlgorithmWorks)
 {
+    EXPECT_EQ(0U, getModularInverseByGcfEuclidAlgorithm(2U, 4U));
+    EXPECT_EQ(3U, getModularInverseByGcfEuclidAlgorithm(6U, 17U));
+}
+
+TEST(ModularArithmeticTest, GetModularInverseByEulersTheoremWorks)
+{
+    EXPECT_EQ(0U, getModularInverseByEulersTheorem(2U, 4U));
+    EXPECT_EQ(3U, getModularInverseByEulersTheorem(6U, 17U));
+}
+
+TEST(ModularArithmeticTest, GetModularInverseByFermatsLittleTheoremWorks)
+{
+    EXPECT_EQ(0U, getModularInverseByFermatsLittleTheorem(2U, 4U));
+    EXPECT_EQ(3U, getModularInverseByFermatsLittleTheorem(6U, 17U));
+}
+
+TEST(ModularArithmeticTest, GetModularFactorialWorks){
     EXPECT_EQ(2U, getModularFactorial(2U, 4U));
     EXPECT_EQ(6U, getModularFactorial(6U, 17U));
 }
-
 }
 
 }
