@@ -17,22 +17,49 @@ TEST(KickStart_2019_RoundB_P1_BuildingPalindromesTest, Test1)
     inputStringStream = stringstream();
     outputStringStream = stringstream();
     inputStringStream
-            << "" "\n"
-            << "" "\n"
-            << "" "\n"
-            << "" "\n"
+            << "2      " "\n"
+            << "7 5    " "\n"
+            << "ABAACCA" "\n"
+            << "3 6    " "\n"
+            << "4 4    " "\n"
+            << "2 5    " "\n"
+            << "6 7    " "\n"
+            << "3 7    " "\n"
+            << "3 5    " "\n"
+            << "XYZ    " "\n"
+            << "1 3    " "\n"
+            << "1 3    " "\n"
+            << "1 3    " "\n"
+            << "1 3    " "\n"
+            << "1 3    " "\n"
             << endl;
 
     main();
 
     EXPECT_EQ(
-                "" "\n"
-                "" "\n"
-                "" "\n"
-                "" "\n"
+                "Case #1: 3" "\n"
+                "Case #2: 0" "\n"
                 , outputStringStream.str());
 }
 
-}
+TEST(KickStart_2019_RoundB_P1_BuildingPalindromesTest, Test2)
+{
+    stringstream & inputStringStream(FakeObjects::getInstance().inputStringStream);
+    stringstream & outputStringStream(FakeObjects::getInstance().outputStringStream);
+    inputStringStream = stringstream();
+    outputStringStream = stringstream();
+    inputStringStream
+            << "1      " "\n"
+            << "7 1    " "\n"
+            << "ABAACCA" "\n"
+            << "5 7    " "\n"
+            << endl;
 
+    main();
+
+    EXPECT_EQ(
+                "Case #1: 1" "\n"
+                , outputStringStream.str());
+}
+}
 

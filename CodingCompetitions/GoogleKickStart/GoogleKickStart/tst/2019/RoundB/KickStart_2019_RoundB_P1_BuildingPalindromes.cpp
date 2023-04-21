@@ -9,13 +9,12 @@
 
 #include <cstdint>
 #include <iostream>
+#include <vector>
 
 using namespace std;
-
 // ~~~~~~~~~ DELETE THIS WHEN SUBMITTING START ~~~~~~~~~
 #ifndef FOR_SUBMISSION
-using namespace alba;
-#endif
+using namespace alba;#endif
 namespace KickStart_2019_RoundB_P1_BuildingPalindromes
 {
 // ~~~~~~~~~ DELETE THIS WHEN SUBMITTING END   ~~~~~~~~~
@@ -25,17 +24,68 @@ namespace KickStart_2019_RoundB_P1_BuildingPalindromes
 #define my_cin cin
 #endif
 
-void runTestCase(unsigned int const testCaseNumber)
+using Question = pair<int, int>;
+using Questions = vector<Question>;
+
+int32_t getPalindromeValue(
+        string const& blocksString,
+        Question const& question)
 {
-    //my_cout << "Case #" << testCaseNumber << ": " << answer << '\n';
+    // this can be faster using dynamic programming
+    int32_t result = 0;
+    for(int i=question.first; i<=question.second; i++)
+    {
+        result ^= 1 << (blocksString.at(i-1)-'A');
+    }
+    return result;
 }
 
-void runAllTestCases()
+bool canPalindrome(
+        string const& blocksString,
+        Question const& question)
 {
+    int length = question.second-question.first + 1;
+    if(length%2 == 0)
+    {
+        return __builtin_popcount(getPalindromeValue(blocksString, question)) == 0;
+    }
+    else
+    {
+        return __builtin_popcount(getPalindromeValue(blocksString, question)) == 1;
+    }
+}
+
+void runTestCase(unsigned int const testCaseNumber)
+{
+    int numberOfBlocks, numberOfQuestions;
+    my_cin >> numberOfBlocks >> numberOfQuestions;
+    string blocksString;
+    my_cin >> blocksString;
+
+    Questions questions;
+    for(int y=0; y<numberOfQuestions; ++y)
+    {
+        int leftIndex, rightIndex;
+        my_cin >> leftIndex >> rightIndex;
+        questions.emplace_back(leftIndex, rightIndex);
+    }
+
+    int numberOfPalindromes=0;
+    for(Question const& question : questions)
+    {
+        if(canPalindrome(blocksString, question))
+        {
+            numberOfPalindromes++;
+        }
+    }
+
+    my_cout << "Case #" << testCaseNumber << ": " << numberOfPalindromes << '\n';
+}
+
+void runAllTestCases(){
     unsigned int numberOfTestCases;
     my_cin >> numberOfTestCases;
-    for (unsigned int testCaseNumber = 1; testCaseNumber <= numberOfTestCases; testCaseNumber++)
-    {
+    for (unsigned int testCaseNumber = 1; testCaseNumber <= numberOfTestCases; testCaseNumber++)    {
         runTestCase(testCaseNumber);
     }
 }
