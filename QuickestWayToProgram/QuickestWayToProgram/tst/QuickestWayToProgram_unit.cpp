@@ -30,13 +30,38 @@ int numberOfFilesAnalyzedForExtraction;
 
 TEST(SampleTest, CountFromMsbValue)
 {
-    cout << "{";
-    for(unsigned int value=0; value<256; value++)
+    vector<pair<int, int>> container{{3,3}, {5,5}};
+    auto itRight = upper_bound(container.cbegin(), container.cend(), 1, [](
+                int const value, pair<int, int> const& intPair)
     {
+        return value < intPair.first;
+    });
+    auto itLeft = prev(itRight, 1);
+    if(itLeft != container.cend())
+    {
+        ALBA_PRINT1(*itLeft);
+    }
+    else
+    {
+        ALBA_PRINT1("itLeft is end");
+    }
+    if(itRight != container.cend())
+    {
+        ALBA_PRINT1(*itRight);
+    }
+    else
+    {
+        ALBA_PRINT1("itRight is end");
+    }
+}
+
+/*TEST(SampleTest, CountFromMsbValue)
+{
+    cout << "{";
+    for(unsigned int value=0; value<256; value++)    {
         unsigned int countFromMsb=0;
         unsigned int valueForMsbBitCount(value);
-        for(unsigned int bitIndex=0; bitIndex<8; bitIndex++)
-        {
+        for(unsigned int bitIndex=0; bitIndex<8; bitIndex++)        {
             if(valueForMsbBitCount & 1)
             {
                 break;
@@ -53,16 +78,12 @@ TEST(SampleTest, CountFromMsbValue)
     cout << "}";
 }
 
-/*
-
 TEST(SampleTest, NumeratorAndDenominator)
 {
-    long long int numerator = static_cast<long long int>(-946400) * -5547;
-    long long int denominator = static_cast<long long int>(-2146689) * -3566000;
+    long long int numerator = static_cast<long long int>(-946400) * -5547;    long long int denominator = static_cast<long long int>(-2146689) * -3566000;
     ALBA_PRINT_PRECISION(30);
     ALBA_PRINT3(numerator, denominator, static_cast<double>(numerator)/denominator);
 }
-
 TEST(SampleTest, KBitAndNegativeK)
 {
     int k=10;
