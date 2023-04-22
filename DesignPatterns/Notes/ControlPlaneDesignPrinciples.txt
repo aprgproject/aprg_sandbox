@@ -1,21 +1,19 @@
 1 Owners
-
     Author - Alba, Mark (Nokia - PH/Quezon City)
-    Co-author -
+
+
 
 2 Processes
+
 2.0 Introduction
 
 The design principles discussed on this page are applicable both to code architecture design, high level design and interface design.
-
 The goal of discussing these design principles is to make the system more understandable, maintainable (reduce dependencies and catch mistakes) and easily introduce features into a system.
-
 
 
 2.1 Single responsibility principle (SRP)
 
-    In simple terms: Each entity should have one defined responsibility.
-    Uncle Bob's Single Responsibility Principle states that: “A class should have one, and only one, reason to change.”
+    In simple terms: Each entity should have one defined responsibility.    Uncle Bob's Single Responsibility Principle states that: “A class should have one, and only one, reason to change.”
         “What defines a reason to change?” -> this responsibility of the designer/programmer
         “Gather together the things that change for the same reasons. Separate those things that change for different reasons.”
     This relates to cohesion and coupling:
@@ -84,15 +82,12 @@ The good examples:
 
 
 
-
 2.3 KISS ("keep it stupid simple") / Simplicity favor regularity
 
-    In simple terms: Keep it simple
-    Big projects/systems tend to have many people and teams
+    In simple terms: Keep it simple    Big projects/systems tend to have many people and teams
         Simple systems are easier to explain to multiple people
         Less misunderstandings and more people can contribute
-    Simple solutions/systems can be easier to maintain (even without complete documentation)
-        Complicated systems tend to be forgotten through time
+    Simple solutions/systems can be easier to maintain (even without complete documentation)        Complicated systems tend to be forgotten through time
     Complicated solutions are harder to test
         This can have edge scenarios which will produce nasty prontos with low reproducibility.
     Simple systems can be reused on other things
@@ -249,24 +244,20 @@ The good examples:
 
     Consider checking data of the input before doing any procedures
         This is would reduce the erroneous scenarios before actually doing the procedure
-    Let i tbe known what should be checked in the component and prevent defensive programming across different subsystems
+    Let it be known what should be checked in the component and prevent defensive programming across different subsystems
 
 Things that can be improved by this concept:
-
     RAN2861 Design
         Since no clear feature activation parameter, there is a lot of logic to know if the feature is activated or not.
             The complicated logic caused a lot of explanations to developers and testers throughout this feature.
-
 The good examples:
 
     RAN3463 Design
         There is a lot scenarios to be considered for feature activation such as: BTS commissioning parameter changes, license activation changes, link state changes, etc.
-        The handling of these features are simiplified because of clear validation of the input first before performing the procedure.
-
+        The handling of these features are simplified because of clear validation of the input first before performing the procedure.
 
 
 2.11 Minimize duplication and bloat
-
     Duplication and bloat would cause more HW resource needed and less maintainability in the future
     This would make it easier if something is changed (instead of doing the changes again and again).
 
@@ -323,363 +314,17 @@ The good examples:
 2.14 Always remember SOLID design principles (in OOP)
 
 Single-responsibility principle
-
     A class should only have a single responsibility, that is, only changes to one part of the software's specification should be able to affect the specification of the class.
 
 Open–closed principle
-
     "Software entities ... should be open for extension, but closed for modification.
 
 "Liskov substitution principle
-
     "Objects in a program should be replaceable with instances of their subtypes without altering the correctness of that program." See also design by contract.
 
 Interface segregation principle
-
     "Many client-specific interfaces are better than one general-purpose interface."
 
 Dependency inversion principle
-
-    One should "depend upon abstractions, [not] concretions."1 Owners
-
-    Author - Alba, Mark (Nokia - PH/Quezon City)
-    Co-author -
-
-2 Processes
-2.0 Introduction
-
-The design principles discussed on this page are applicable both to code architecture design, high level design and interface design.
-
-The goal of discussing these design principles is to make the system more understandable, maintainable (reduce dependencies and catch mistakes) and easily introduce features into a system.
-
-
-
-2.1 Single responsibility principle (SRP)
-
-    In simple terms: Each entity should have one defined responsibility.
-    Uncle Bob's Single Responsibility Principle states that: “A class should have one, and only one, reason to change.”
-        “What defines a reason to change?” -> this responsibility of the designer/programmer
-        “Gather together the things that change for the same reasons. Separate those things that change for different reasons.”
-    This relates to cohesion and coupling:
-        Cohesion refers to the degree to which the entities belong together
-        Coupling refers to the degree to which the different entities depend on each other
-        SRP yields to high cohesion and low coupling between entities
-    Problems are easier to locate if the responsibilities of the entities are defined
-        A description on the case should immediately tell what/where should be investigated.
-        Prontos that take long investigation tend to show that responsibilities are not clear between subsystems
-    Adding features into the system is easier because there are low dependencies between subsystems
-
-Things that can be improved by this concept:
-
-    Master-slave concepts of old Telecom subsystems.
-    Resource and licenses handling in Telecom (LRM and GRM responsibility). "The DSP capacity message problem"
-    HSUPA resource handling (resource mismatch problems with HSUPAL2, RAKE and Telecom)
-
-The good examples :
-
-    Splitting for the CCHH family subsystems
-        CCHH
-        HSCH
-        BCH Sender
-    Responsibility split of messages in CP Framework
-        Message handler
-        Message factory
-        Message backend
-        Message Logger
-            Structure Logger
-        Message object which contains contents and details of the message
-        Platform wrapper which wraps all the Platform APIs
-            If message service is changed, it will be easier to migrate.
-
-
-
-2.2 Prioritize to consider the common cases (make the common case fast)
-
-    Prioritize the common cases when considering the design of a system.
-    Common cases are what majority of our users and customers experience.
-    Over designing tends to happen and its not really needed by user/customer
-
-Things that can be improved by this concept:
-
-    Recovery solutions in WBTS FSMr2 (faraday level recoveries)
-        A lot of prontos in FSMr2 due to recovery
-        Recovery solutions in WBTS FSMr3 an SBTS (SBTS RAT reset) are more simpler
-    Baseband pooling in WCDMA
-        This is more complicated than other RATs
-        Customer only tends to have 1-2 LCGs
-        OAM needs to prepare all DSP to be capable for different LCGs
-    Message builders on DMGR
-        Common case of filling up messages does not need a builder
-        Builder design pattern should be used on things that require multiple build steps (such as PSCR message)
-
-The good examples:
-
-    LRM allocation steps and condition/logic
-        Extra allocation steps are only needed when its configuration complicated
-    Minimizing the overhead on routing of messages in TNR
-        C implementation
-        Limiting the processes and functionalities in TNR
-    Logging optimizations:
-        Focus on logging of RL procedures
-            Most common procedure happening in runtime
-            Telecom tends to dump all information in the logs about each procedure
-
-
-
-
-2.3 KISS ("keep it stupid simple") / Simplicity favor regularity
-
-    In simple terms: Keep it simple
-    Big projects/systems tend to have many people and teams
-        Simple systems are easier to explain to multiple people
-        Less misunderstandings and more people can contribute
-    Simple solutions/systems can be easier to maintain (even without complete documentation)
-        Complicated systems tend to be forgotten through time
-    Complicated solutions are harder to test
-        This can have edge scenarios which will produce nasty prontos with low reproducibility.
-    Simple systems can be reused on other things
-        This reduces additional work and duplication
-
-Things that can be improved by this concept:
-
-    State machine handling in TUPC
-        There can be multiple state machine in one state machine.
-        OnEntry and OnExit functions
-            If I'm going to locate a event where does it happen?
-    Old makefiles in Telecom/old build system
-    Old SDL implementation of TCOM subsystems
-        Majority of the problems were because of complicated implementation in SDL.
-        Other people cannot contribute because it needs familiarity on how code operates.
-
-The good examples:
-
-    Build system on new framework
-        Subsystems have similar looking cmake files and common variables are available in framework.
-        Developers from other subsystems are able to understand all the different subsystems (cross-functional).
-    State handling in CCHH family
-
-
-
-2.4 Good design requires good compromises (flexibility vs restriction)
-
-    When designing systems it should be clear: What should be restricted and what should be flexible?
-        Restrictions should prevent erroneous situations
-        Restrictions force you to make solutions that are aligned with the design pattern
-        Flexibility should make changes in the future to have less effort in the development/implementation.
-    Good restrictions prevents mistakes from future developers
-    Good flexibility prevents additional work in the future
-
-Things that can be improved by this concept:
-
-    State transitions on TUPC and older TCOM subsystems (invalid transitions should be restricted)
-    LRM R3 transactions/state machines are flexible but they tend to be unclear on their purpose
-        This results in different approaches in the implementations
-        Transactions typically have a lot of logic in them or a lot of helper classes.
-
-The good examples:
-
-    In new framework subsystems, invalid state transitions are checked during compilation.
-        Developers from other subsystems are able to understand all the different subsystems (cross-functional)
-    State management in framework
-        This forces to have transaction level each state machine.
-        Avoid problems on multiple transactions and parallel procedures.
-        This restricts/forces the developer to do the changes aligned with this design pattern.
-
-
-
-2.5 Smaller is more maintainable and understandable (extract till you drop and split as you can)
-
-    Smaller functions and smaller modules tend to be easier to understand by several people
-        This relates cognitve and cyclomatic complexity measure of the code
-            Cyclomatic complexity is a measure of the number of splits/branches of the code.
-            Cognitive complexity is a measure on how understandable the code is. There are different scores for coding styles. This is a measure of the readability of the code.
-    Smaller modules tend you to split the responsibilities even more
-
-Things that can be improved by this concept:
-
-    MEAS (CMEAS/DMEAS) long function codes
-    LRM R2 long function codes
-    LRM R3 managers
-        These modules tend to have a lot of codes in them.
-
-The good examples:
-
-    CCHH family code (smaller functions)
-    CCHH family modules (smaller modules)
-
-
-
-2.6 Minimize global and shared data
-
-    Shared or global data increases coupling, which reduces maintainability and often performance.
-    This also makes the modules harder to test
-    This also introduces potential bugs in the system because the shared memory input is not checked.
-
-Things that can be improved by this concept:
-
-    MEAS (CMEAS/DMEAS) global variables and tables
-    Blackboard pattern in OAM subsystems
-
-The good examples:
-
-    Transaction level data on FW
-    LRM R3 database tend to limit the access of its data.
-
-
-
-2.7 Clarity comes first to avoid misunderstandings and implicit meanings
-
-    Clarity first
-        Different people should be able to understand the code
-        There should less pitfalls and inappropriate names of variable and functions
-
-Things that can be improved by this concept:
-
-    Names on old SDL structures
-    Names and functionalities on LRM R2 code
-    Recovery message names
-
-The good examples:
-
-    RLH message names
-    Names in CCHH family subsystems
-
-
-
-
-2.8 Be critical on access control
-
-    Abstraction is really important for the correctness and testability of the SW
-        This includes explicitly defining through what functions and procedure the data changed.
-        This also includes explicitly defining how the data is shared to the components (and the access level between them)
-        This reduces shared data (minimize global and shared data)
-
-Things that can be improved by this concept:
-
-    MEAS (CMEAS/DMEAS) global variables and tables
-    Blackboard pattern in OAM subsystems
-
-The good examples:
-
-    Transaction level data on FW
-    LRM R3 database tend to limit the access of its data.
-
-
-
-2.9 Always consider scalability and extensibility
-
-    There is always a possibility that functionalities and behavior would be extended in the future.
-        A good SW design should consider these possibilities.
-
-Things that can be improved by this concept:
-
-    HW recoveries in TOAM rhapsody
-
-The good examples:
-
-    States/Messages in FW
-        Message factory
-        Message Logger/Structure Logger
-        State machines
-            A new state can be added if some new functionality is needed
-    Internal messaging approach for handling NBAPs in CCHH family
-
-
-
-
-2.10 Always consider input validation
-
-    Consider checking data of the input before doing any procedures
-        This is would reduce the erroneous scenarios before actually doing the procedure
-    Let i tbe known what should be checked in the component and prevent defensive programming across different subsystems
-
-Things that can be improved by this concept:
-
-    RAN2861 Design
-        Since no clear feature activation parameter, there is a lot of logic to know if the feature is activated or not.
-            The complicated logic caused a lot of explanations to developers and testers throughout this feature.
-
-The good examples:
-
-    RAN3463 Design
-        There is a lot scenarios to be considered for feature activation such as: BTS commissioning parameter changes, license activation changes, link state changes, etc.
-        The handling of these features are simiplified because of clear validation of the input first before performing the procedure.
-
-
-
-2.11 Minimize duplication and bloat
-
-    Duplication and bloat would cause more HW resource needed and less maintainability in the future
-    This would make it easier if something is changed (instead of doing the changes again and again).
-
-Things that can be improved by this concept:
-
-    Old build system in TCOM
-    Common utilities in subsystems that should be in framework
-
-The good examples:
-
-    New build system in TCOM with FW
-    Usage of framework utilities
-
-
-
-2.12 Isolate dependencies to external entities (create abstract interfaces to external entities)
-
-    Isolating the dependencies would help identify what are needed if some external entity is changed
-    This would help in testing as well
-        creating the mocked/fake versions
-        testing independently with the external entity
-
-Things that can be improved by this concept:
-
-    HSUPA CF resource handling
-    MEAS/RLH testing approach
-
-The good examples:
-
-    Platform wrapper and Fake ASN.1 in FW
-
-
-
-2.13 Choose meaningful names
-
-    Names are really essential because there are first things the reader encounters in the entity.
-    A good name goes a long way because it would make the code more understandable.
-        Less mistakes and less discussion with the developers
-    Less focus on comments and more focus on understandable names.
-
-Things that can be improved by this concept:
-
-    Old SDL names
-    Recovery names
-    Vague names on old messages (PSCR and HSUPA resources)
-
-The good examples:
-
-    C++ Coding Guidelines#Choosemeaningfulnames
-    C++ Coding Guidelines#Prefermakingthecodemoredescriptiveinsteadofputtingcomments
-
-
-
-2.14 Always remember SOLID design principles (in OOP)
-
-Single-responsibility principle
-
-    A class should only have a single responsibility, that is, only changes to one part of the software's specification should be able to affect the specification of the class.
-
-Open–closed principle
-
-    "Software entities ... should be open for extension, but closed for modification.
-
-"Liskov substitution principle
-
-    "Objects in a program should be replaceable with instances of their subtypes without altering the correctness of that program." See also design by contract.
-
-Interface segregation principle
-
-    "Many client-specific interfaces are better than one general-purpose interface."
-
-Dependency inversion principle
-
     One should "depend upon abstractions, [not] concretions."
+	
