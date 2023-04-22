@@ -1,6 +1,7 @@
 #include "KickStart_2020_RoundE_P4_GoldenStone.hpp"
 
 #include <Fake/FakeObjects.hpp>
+
 #include <gtest/gtest.h>
 
 using namespace alba;
@@ -12,7 +13,8 @@ namespace KickStart_2020_RoundE_P4_GoldenStone
 TEST(KickStart_2020_RoundE_P4_GoldenStoneTest, Test1)
 {
     stringstream & inputStringStream(FakeObjects::getInstance().inputStringStream);
-    stringstream & outputStringStream(FakeObjects::getInstance().outputStringStream);    inputStringStream = stringstream();
+    stringstream & outputStringStream(FakeObjects::getInstance().outputStringStream);
+    inputStringStream = stringstream();
     outputStringStream = stringstream();
     inputStringStream
             << "3        " "\n"

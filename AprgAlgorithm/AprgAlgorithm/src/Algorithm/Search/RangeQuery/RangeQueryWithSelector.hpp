@@ -79,10 +79,12 @@ private:
                     m_selectedValueMatrix.setEntry(index, subExponentOf2+1, selectedValue);
                 }
             }
-        }    }
+        }
+    }
 
     Index getCeilOfLogarithmWithBase2Of(Index const size) const
-    {        return AlbaBitValueUtilities<Index>::getCeilOfLogarithmWithBase2Of(size);
+    {
+        return AlbaBitValueUtilities<Index>::getCeilOfLogarithmWithBase2Of(size);
     }
 
     Index get2ToThePowerOf(Index const exponent) const

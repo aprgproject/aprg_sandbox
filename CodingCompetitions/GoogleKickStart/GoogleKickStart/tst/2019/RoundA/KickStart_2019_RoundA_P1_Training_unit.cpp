@@ -34,5 +34,7 @@ TEST(KickStart_2019_RoundA_P1_TrainingTest, Test1)
                 "Case #3: 6" "\n"
                 , outputStringStream.str());
 }
+
 }
+
 

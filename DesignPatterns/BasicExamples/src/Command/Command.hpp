@@ -155,3 +155,5 @@ private:
 // -> A [Composite] can be used to implement MacroCommands (commands that contain multiple commands).
 // -> A [Memento] can keep the state the command requires to undo its effect.
 // -> A command that must be copied before being place on the history list acts as a [Prototype].
+
+

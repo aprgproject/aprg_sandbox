@@ -85,5 +85,7 @@ TEST(KickStart_2019_RoundA_P3_ContentionTest, Test3)
                 "Case #1: 2" "\n"
                 , outputStringStream.str());
 }
+
 }
+
 

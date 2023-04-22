@@ -1,6 +1,7 @@
 #include "KickStart_2020_RoundF_P1_AtmQueue.hpp"
 
 #include <Fake/FakeObjects.hpp>
+
 #include <gtest/gtest.h>
 
 using namespace alba;
@@ -12,7 +13,8 @@ namespace KickStart_2020_RoundF_P1_AtmQueue
 TEST(KickStart_2020_RoundF_P1_AtmQueueTest, Test1)
 {
     stringstream & inputStringStream(FakeObjects::getInstance().inputStringStream);
-    stringstream & outputStringStream(FakeObjects::getInstance().outputStringStream);    inputStringStream = stringstream();
+    stringstream & outputStringStream(FakeObjects::getInstance().outputStringStream);
+    inputStringStream = stringstream();
     outputStringStream = stringstream();
     inputStringStream
             << "2         " "\n"

@@ -70,9 +70,11 @@ For each test case, output one line containing Case #x: y, where x is the test c
 and y is the maximum beauty score that Thanh can guarantee that he can achieve, as described above.
 Limits
 
-1 ≤ T ≤ 100.Time limit: 20 seconds per test set.
+1 ≤ T ≤ 100.
+Time limit: 20 seconds per test set.
 Memory limit: 1 GB.
 Small dataset (Test set 1 - Visible)
+
 2 ≤ N ≤ 100.
 Large dataset (Test set 2 - Hidden)
 
@@ -83,7 +85,8 @@ Sample
 Input:
 4
 4
-13324
+1332
+4
 9583
 3
 616
@@ -93,7 +96,8 @@ Input:
 Output:
 Case #1: 6
 Case #2: 14
-Case #3: 7Case #4: 31
+Case #3: 7
+Case #4: 31
 
 
 

@@ -40,5 +40,7 @@ TEST(KickStart_2019_RoundA_P2_ParcelsTest, Test1)
                 "Case #3: 2" "\n"
                 , outputStringStream.str());
 }
+
 }
+
 

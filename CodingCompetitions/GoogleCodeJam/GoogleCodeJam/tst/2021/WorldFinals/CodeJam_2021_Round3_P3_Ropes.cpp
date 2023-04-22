@@ -4,7 +4,8 @@
 #include "CodeJam_2021_Round3_P3_Ropes.hpp"
 #include <Fake/FakeNames.hpp>
 //#include <Common/Debug/AlbaDebug.hpp>
-#endif// ~~~~~~~~~ DELETE THIS WHEN SUBMITTING END   ~~~~~~~~~
+#endif
+// ~~~~~~~~~ DELETE THIS WHEN SUBMITTING END   ~~~~~~~~~
 
 #include <cstdint>
 #include <iostream>
@@ -18,6 +19,7 @@ using namespace alba;
 namespace CodeJam_2021_Round3_P3_Ropes
 {
 // ~~~~~~~~~ DELETE THIS WHEN SUBMITTING END   ~~~~~~~~~
+
 #ifndef my_cout
 #define my_cout cout
 #define my_cin cin
@@ -52,5 +54,6 @@ int main()
 }
 #undef FOR_SUBMISSION
 // ~~~~~~~~~ DELETE THIS WHEN SUBMITTING END   ~~~~~~~~~
+
 
 

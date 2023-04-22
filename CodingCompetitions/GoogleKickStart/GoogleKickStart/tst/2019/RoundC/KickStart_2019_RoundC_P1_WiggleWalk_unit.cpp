@@ -53,5 +53,7 @@ TEST(KickStart_2019_RoundC_P1_WiggleWalkTest, Test2)
                 "Case #1: 3 7" "\n"
                 , outputStringStream.str());
 }
+
 }
+
 

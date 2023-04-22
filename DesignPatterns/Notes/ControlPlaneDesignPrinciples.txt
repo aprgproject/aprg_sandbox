@@ -11,9 +11,11 @@ The design principles discussed on this page are applicable both to code archite
 The goal of discussing these design principles is to make the system more understandable, maintainable (reduce dependencies and catch mistakes) and easily introduce features into a system.
 
 
+
 2.1 Single responsibility principle (SRP)
 
-    In simple terms: Each entity should have one defined responsibility.    Uncle Bob's Single Responsibility Principle states that: “A class should have one, and only one, reason to change.”
+    In simple terms: Each entity should have one defined responsibility.
+    Uncle Bob's Single Responsibility Principle states that: “A class should have one, and only one, reason to change.”
         “What defines a reason to change?” -> this responsibility of the designer/programmer
         “Gather together the things that change for the same reasons. Separate those things that change for different reasons.”
     This relates to cohesion and coupling:
@@ -84,10 +86,12 @@ The good examples:
 
 2.3 KISS ("keep it stupid simple") / Simplicity favor regularity
 
-    In simple terms: Keep it simple    Big projects/systems tend to have many people and teams
+    In simple terms: Keep it simple
+    Big projects/systems tend to have many people and teams
         Simple systems are easier to explain to multiple people
         Less misunderstandings and more people can contribute
-    Simple solutions/systems can be easier to maintain (even without complete documentation)        Complicated systems tend to be forgotten through time
+    Simple solutions/systems can be easier to maintain (even without complete documentation)
+        Complicated systems tend to be forgotten through time
     Complicated solutions are harder to test
         This can have edge scenarios which will produce nasty prontos with low reproducibility.
     Simple systems can be reused on other things
@@ -247,9 +251,11 @@ The good examples:
     Let it be known what should be checked in the component and prevent defensive programming across different subsystems
 
 Things that can be improved by this concept:
+
     RAN2861 Design
         Since no clear feature activation parameter, there is a lot of logic to know if the feature is activated or not.
             The complicated logic caused a lot of explanations to developers and testers throughout this feature.
+
 The good examples:
 
     RAN3463 Design
@@ -257,7 +263,9 @@ The good examples:
         The handling of these features are simplified because of clear validation of the input first before performing the procedure.
 
 
+
 2.11 Minimize duplication and bloat
+
     Duplication and bloat would cause more HW resource needed and less maintainability in the future
     This would make it easier if something is changed (instead of doing the changes again and again).
 

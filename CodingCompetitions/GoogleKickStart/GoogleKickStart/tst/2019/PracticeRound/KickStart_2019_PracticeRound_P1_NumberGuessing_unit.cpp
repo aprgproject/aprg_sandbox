@@ -91,10 +91,12 @@ You should not send additional information to the judge after solving all test c
 you will get a Wrong Answer judgment.
 Limits
 
-1 ≤ T ≤ 20.A = 0. N = 30.
+1 ≤ T ≤ 20.
+A = 0. N = 30.
 Time limit: 10 seconds per test set.
 Memory limit: 1GB.
 Test set 1 (Visible)
+
 B = 30.
 Test set 2 (Hidden)
 

@@ -141,9 +141,11 @@ public:
 // NOTE: This is related to "Open Close Principle".
 
 // When to use (applicability):
-// -> a system should be independent of how its products are created, composed, and represented// -> a system should be configured with one of multiple families of products
+// -> a system should be independent of how its products are created, composed, and represented
+// -> a system should be configured with one of multiple families of products
 // -> a family of related product objects is designed to be used together
 // -> you want to provide a class library of products, and you want to reveal just their interfaces, not their implementations
+
 // Consequences:
 // -> It isolates concrete classes
 // ---> Because the factory encapsulates the responsibility and process of creating product objects, it isolates clients from the implementation.
@@ -175,3 +177,5 @@ public:
 // Related Patterns
 // -> [FactoryMethod] or [Prototype]: are often used to implement AbstractFactory.
 // -> [Singleton]: A concrete factory is often a singleton.
+
+

@@ -38,10 +38,12 @@ void SampleStateMachine::processInput(Action const& action)
 void SampleStateMachine::processStateWithNoValue(Action const action)
 {
     switch(action)
-    {    case Action::InitializeTo1:
+    {
+    case Action::InitializeTo1:
         saveNextState(State::State1);
         break;
-    case Action::Increase:        saveNextState(State::StateWithNoValue);
+    case Action::Increase:
+        saveNextState(State::StateWithNoValue);
         break;
     case Action::Decrease:
         saveNextState(State::StateWithNoValue);
@@ -58,10 +60,12 @@ void SampleStateMachine::processStateWithNoValue(Action const action)
 void SampleStateMachine::processState1(Action const action)
 {
     switch(action)
-    {    case Action::InitializeTo1:
+    {
+    case Action::InitializeTo1:
         saveNextState(State::State1);
         break;
-    case Action::Increase:        saveNextState(State::State2);
+    case Action::Increase:
+        saveNextState(State::State2);
         break;
     case Action::Decrease:
         saveNextState(State::StateWithNoValue);
@@ -78,10 +82,12 @@ void SampleStateMachine::processState1(Action const action)
 void SampleStateMachine::processState2(Action const action)
 {
     switch(action)
-    {    case Action::InitializeTo1:
+    {
+    case Action::InitializeTo1:
         saveNextState(State::State1);
         break;
-    case Action::Increase:        saveNextState(State::State3);
+    case Action::Increase:
+        saveNextState(State::State3);
         break;
     case Action::Decrease:
         saveNextState(State::State1);
@@ -98,10 +104,12 @@ void SampleStateMachine::processState2(Action const action)
 void SampleStateMachine::processState3(Action const action)
 {
     switch(action)
-    {    case Action::InitializeTo1:
+    {
+    case Action::InitializeTo1:
         saveNextState(State::State1);
         break;
-    case Action::Increase:        saveNextState(State::State4);
+    case Action::Increase:
+        saveNextState(State::State4);
         break;
     case Action::Decrease:
         saveNextState(State::State2);
@@ -118,10 +126,12 @@ void SampleStateMachine::processState3(Action const action)
 void SampleStateMachine::processState4(Action const action)
 {
     switch(action)
-    {    case Action::InitializeTo1:
+    {
+    case Action::InitializeTo1:
         saveNextState(State::State1);
         break;
-    case Action::Increase:        saveNextState(State::StateWithNoValue);
+    case Action::Increase:
+        saveNextState(State::StateWithNoValue);
         break;
     case Action::Decrease:
         saveNextState(State::State3);

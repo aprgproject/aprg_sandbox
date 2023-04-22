@@ -4,7 +4,8 @@
 #include "KickStart_2020_RoundE_P2_HighBuildings.hpp"
 #include <Fake/FakeNames.hpp>
 //#include <Common/Debug/AlbaDebug.hpp>
-#endif// ~~~~~~~~~ DELETE THIS WHEN SUBMITTING END   ~~~~~~~~~
+#endif
+// ~~~~~~~~~ DELETE THIS WHEN SUBMITTING END   ~~~~~~~~~
 
 #include <cassert>
 #include <cstdint>
@@ -20,6 +21,7 @@ using namespace alba;
 namespace KickStart_2020_RoundE_P2_HighBuildings
 {
 // ~~~~~~~~~ DELETE THIS WHEN SUBMITTING END   ~~~~~~~~~
+
 #ifndef my_cout
 #define my_cout cout
 #define my_cin cin

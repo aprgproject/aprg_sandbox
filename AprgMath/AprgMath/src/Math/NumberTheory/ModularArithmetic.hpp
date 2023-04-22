@@ -23,6 +23,7 @@ UnsignedInteger getModularInverseByEulersTheorem(UnsignedInteger const number, U
 UnsignedInteger getModularInverseByFermatsLittleTheorem(UnsignedInteger const number, UnsignedInteger const modulo);
 UnsignedInteger getModularFactorial(UnsignedInteger const number, UnsignedInteger const modulo);
 
+
 }
 
 }

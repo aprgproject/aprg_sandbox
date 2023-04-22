@@ -4,8 +4,10 @@
 #include <Common/Math/Helpers/FactorAndMulitplesHelpers.hpp>
 
 using namespace alba::mathHelper;
+
 namespace alba
 {
+
 namespace algebra
 {
 
@@ -54,10 +56,12 @@ LinearDiophantineEquationCoefficientSolver::Integer LinearDiophantineEquationCoe
 
 void LinearDiophantineEquationCoefficientSolver::solve(AlbaNumber const& aNumber, AlbaNumber const& bNumber, AlbaNumber const& cNumber)
 {
-    if(aNumber.isIntegerType() && bNumber.isIntegerType() && cNumber.isIntegerType()) // Each number in the equation has to be an integer.    {
+    if(aNumber.isIntegerType() && bNumber.isIntegerType() && cNumber.isIntegerType()) // Each number in the equation has to be an integer.
+    {
         m_a = aNumber.getInteger();
         m_b = bNumber.getInteger();
         m_c = cNumber.getInteger();
+
         if(m_c==0)
         {
             m_solutionStatus = SolutionStatus::InfiniteSolutions;
@@ -73,10 +77,12 @@ void LinearDiophantineEquationCoefficientSolver::solve(AlbaNumber const& aNumber
             m_gcfOfAAndB = getGreatestCommonFactorWithLastValues(m_a, m_b, x, y);
 
             if(isDivisible(m_c, m_gcfOfAAndB))
-            {                m_solutionStatus = SolutionStatus::Solved;
+            {
+                m_solutionStatus = SolutionStatus::Solved;
                 m_x = x * m_c/m_gcfOfAAndB;
                 m_y = y * m_c/m_gcfOfAAndB;
-            }            else
+            }
+            else
             {
                 m_solutionStatus = SolutionStatus::CannotBeSolved;
             }

@@ -12,9 +12,11 @@
 #include <vector>
 
 using namespace std;
+
 // ~~~~~~~~~ DELETE THIS WHEN SUBMITTING START ~~~~~~~~~
 #ifndef FOR_SUBMISSION
-using namespace alba;#endif
+using namespace alba;
+#endif
 namespace KickStart_2019_RoundB_P1_BuildingPalindromes
 {
 // ~~~~~~~~~ DELETE THIS WHEN SUBMITTING END   ~~~~~~~~~
@@ -82,10 +84,12 @@ void runTestCase(unsigned int const testCaseNumber)
     my_cout << "Case #" << testCaseNumber << ": " << numberOfPalindromes << '\n';
 }
 
-void runAllTestCases(){
+void runAllTestCases()
+{
     unsigned int numberOfTestCases;
     my_cin >> numberOfTestCases;
-    for (unsigned int testCaseNumber = 1; testCaseNumber <= numberOfTestCases; testCaseNumber++)    {
+    for (unsigned int testCaseNumber = 1; testCaseNumber <= numberOfTestCases; testCaseNumber++)
+    {
         runTestCase(testCaseNumber);
     }
 }

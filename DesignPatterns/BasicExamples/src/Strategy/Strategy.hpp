@@ -26,7 +26,8 @@ public:
     void algorithmInterface() override
     {
         std::cout << "Concrete Strategy A\n";
-    }    // ...
+    }
+    // ...
 };
 
 class ConcreteStrategyB : public Strategy
@@ -35,7 +36,8 @@ public:
     void algorithmInterface() override
     {
         std::cout << "Concrete Strategy B\n";
-    }    // ...
+    }
+    // ...
 };
 
 class ConcreteStrategyC : public Strategy
@@ -84,10 +86,12 @@ private:
 // NOTE: This is related to "Dependency Inversion Principle".
 
 // When to use (applicability):
-// -> many related classes differ only in their behavior// -> you need different variants of an algorithm
+// -> many related classes differ only in their behavior
+// -> you need different variants of an algorithm
 // -> an algorithm uses data that clients shouldn't know about
 // -> a class defines many behaviors, and these appear as multiple conditional statements in its operations
 // ---> Instead of many conditionals, move related conditional branches into their own Strategy class.
+
 // Consequences:
 // -> Families of related algorithms
 // ---> Hierarchies fo Strategy classes define a family of algorihtms and behaviors for context to reuse.

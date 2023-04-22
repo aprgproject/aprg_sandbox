@@ -14,9 +14,11 @@
 #include <vector>
 
 using namespace std;
+
 // ~~~~~~~~~ DELETE THIS WHEN SUBMITTING START ~~~~~~~~~
 #ifndef FOR_SUBMISSION
-using namespace alba;#endif
+using namespace alba;
+#endif
 namespace KickStart_2019_RoundB_P2_EnergyStones
 {
 // ~~~~~~~~~ DELETE THIS WHEN SUBMITTING END   ~~~~~~~~~
@@ -109,11 +111,13 @@ void runTestCase(unsigned int const testCaseNumber)
 // Solution recommended by kickstart
 int getIndex(int const index, int const time)
 {
-    return index*maxTime+time;}
+    return index*maxTime+time;
+}
 
 int getMaxEnergy(
         int const index,
-        int const elapsedTime){
+        int const elapsedTime)
+{
     if(index<(int)stones.size())
     {
         int & savedEnergy(savedEnergies[getIndex(index, elapsedTime)]);
@@ -156,18 +160,22 @@ void runTestCase(unsigned int const testCaseNumber)
 
     sort(stones.begin(), stones.end(), [](Stone const& stone1, Stone const& stone2)
     {
-        return stone2.timeToConsume*stone1.rateOfLoss > stone1.timeToConsume*stone2.rateOfLoss;    });
+        return stone2.timeToConsume*stone1.rateOfLoss > stone1.timeToConsume*stone2.rateOfLoss;
+    });
 
     savedEnergies.assign(numberOfStones*maxTime, INT_MAX);
+
     int maxEnergy = getMaxEnergy(0, 0);
 
     my_cout << "Case #" << testCaseNumber << ": " << maxEnergy << '\n';
 }
 
-void runAllTestCases(){
+void runAllTestCases()
+{
     unsigned int numberOfTestCases;
     my_cin >> numberOfTestCases;
-    for (unsigned int testCaseNumber = 1; testCaseNumber <= numberOfTestCases; testCaseNumber++)    {
+    for (unsigned int testCaseNumber = 1; testCaseNumber <= numberOfTestCases; testCaseNumber++)
+    {
         runTestCase(testCaseNumber);
     }
 }

@@ -1,6 +1,7 @@
 #include "KickStart_2020_RoundB_P4_WanderingRobot.hpp"
 
 #include <Fake/FakeObjects.hpp>
+
 #include <gtest/gtest.h>
 
 using namespace alba;
@@ -12,7 +13,8 @@ namespace KickStart_2020_RoundB_P4_WanderingRobot
 TEST(KickStart_2020_RoundB_P4_WanderingRobotTest, Test1)
 {
     stringstream & inputStringStream(FakeObjects::getInstance().inputStringStream);
-    stringstream & outputStringStream(FakeObjects::getInstance().outputStringStream);    inputStringStream = stringstream();
+    stringstream & outputStringStream(FakeObjects::getInstance().outputStringStream);
+    inputStringStream = stringstream();
     outputStringStream = stringstream();
     inputStringStream
             << "4           " "\n"

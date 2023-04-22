@@ -1,6 +1,7 @@
 #include "CodeJam_2018_Round1A_P2_BitParty.hpp"
 
 #include <Fake/FakeObjects.hpp>
+
 #include <gtest/gtest.h>
 
 using namespace alba;
@@ -12,7 +13,8 @@ namespace CodeJam_2018_Round1A_P2_BitParty
 TEST(CodeJam_2018_Round1A_P2_BitPartyTest, Test1)
 {
     stringstream & inputStringStream(FakeObjects::getInstance().inputStringStream);
-    stringstream & outputStringStream(FakeObjects::getInstance().outputStringStream);    inputStringStream = stringstream();
+    stringstream & outputStringStream(FakeObjects::getInstance().outputStringStream);
+    inputStringStream = stringstream();
     outputStringStream = stringstream();
     inputStringStream
             << "" "\n"
@@ -32,4 +34,5 @@ TEST(CodeJam_2018_Round1A_P2_BitPartyTest, Test1)
 }
 
 }
+
 

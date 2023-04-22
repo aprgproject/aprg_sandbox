@@ -4,7 +4,8 @@
 #include "KickStart_2020_RoundF_P1_AtmQueue.hpp"
 #include <Fake/FakeNames.hpp>
 //#include <Common/Debug/AlbaDebug.hpp>
-#endif// ~~~~~~~~~ DELETE THIS WHEN SUBMITTING END   ~~~~~~~~~
+#endif
+// ~~~~~~~~~ DELETE THIS WHEN SUBMITTING END   ~~~~~~~~~
 
 #include <algorithm>
 #include <cstdint>
@@ -20,6 +21,7 @@ using namespace alba;
 namespace KickStart_2020_RoundF_P1_AtmQueue
 {
 // ~~~~~~~~~ DELETE THIS WHEN SUBMITTING END   ~~~~~~~~~
+
 #ifndef my_cout
 #define my_cout cout
 #define my_cin cin

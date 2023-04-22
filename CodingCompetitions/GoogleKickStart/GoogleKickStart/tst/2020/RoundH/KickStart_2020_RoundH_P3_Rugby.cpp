@@ -3,6 +3,7 @@
 #include <Fake/FakeNames.hpp>
 //#include <Common/Debug/AlbaDebug.hpp>
 // ~~~~~~~~~ DELETE THIS WHEN SUBMITTING END   ~~~~~~~~~
+
 #include <algorithm>
 #include <cstdint>
 #include <iostream>
@@ -15,6 +16,7 @@ using namespace alba;
 namespace KickStart_2020_RoundH_P3_Rugby
 {
 // ~~~~~~~~~ DELETE THIS WHEN SUBMITTING END   ~~~~~~~~~
+
 #ifndef my_cout
 #define my_cout cout
 #define my_cin cin

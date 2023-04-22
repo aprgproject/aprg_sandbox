@@ -91,10 +91,12 @@ void runTestCase(unsigned int const testCaseNumber)
     my_cout << "Case #" << testCaseNumber << ": " << totalPower << '\n';
 }
 
-void runAllTestCases(){
+void runAllTestCases()
+{
     unsigned int numberOfTestCases;
     my_cin >> numberOfTestCases;
-    for (unsigned int testCaseNumber = 1; testCaseNumber <= numberOfTestCases; testCaseNumber++)    {
+    for (unsigned int testCaseNumber = 1; testCaseNumber <= numberOfTestCases; testCaseNumber++)
+    {
         runTestCase(testCaseNumber);
     }
 }

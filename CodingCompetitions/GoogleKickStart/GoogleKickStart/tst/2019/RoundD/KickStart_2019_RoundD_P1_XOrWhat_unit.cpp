@@ -35,5 +35,7 @@ TEST(KickStart_2019_RoundD_P1_XOrWhatTest, Test1)
                 "Case #2: 4" "\n"
                 , outputStringStream.str());
 }
+
 }
+
 

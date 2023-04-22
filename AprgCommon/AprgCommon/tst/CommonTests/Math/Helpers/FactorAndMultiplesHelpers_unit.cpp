@@ -79,10 +79,12 @@ TEST(FactorAndMulitplesHelpersTest, GetGreatestCommonFactorWithLastValuesWorksFo
 
 TEST(FactorAndMulitplesHelpersTest, GetGreatestCommonFactorWorksForSignedInteger)
 {
-    EXPECT_EQ(0, getGreatestCommonFactor<int>(0, 0));    EXPECT_EQ(8, getGreatestCommonFactor(0, -8));
+    EXPECT_EQ(0, getGreatestCommonFactor<int>(0, 0));
+    EXPECT_EQ(8, getGreatestCommonFactor(0, -8));
     EXPECT_EQ(8, getGreatestCommonFactor(-8, 0));
     EXPECT_EQ(1, getGreatestCommonFactor(1, -8));
-    EXPECT_EQ(1, getGreatestCommonFactor(-8, 1));    EXPECT_EQ(1, getGreatestCommonFactor<int>(1, 1));
+    EXPECT_EQ(1, getGreatestCommonFactor(-8, 1));
+    EXPECT_EQ(1, getGreatestCommonFactor<int>(1, 1));
     EXPECT_EQ(16, getGreatestCommonFactor(16, -32));
     EXPECT_EQ(16, getGreatestCommonFactor(-16, 32));
     EXPECT_EQ(14, getGreatestCommonFactor(98, -56));

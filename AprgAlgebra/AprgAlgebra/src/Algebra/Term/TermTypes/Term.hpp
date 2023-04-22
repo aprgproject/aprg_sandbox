@@ -45,9 +45,11 @@ public:
     Term(ArithmeticType const value)
         : Term(AlbaNumber(value))
     {}
+
     // rule of five or six
     ~Term() = default;
-    Term(Term const& term);    Term & operator=(Term const& term);
+    Term(Term const& term);
+    Term & operator=(Term const& term);
     Term(Term && term) = default;
     Term & operator=(Term && term) = default;
 

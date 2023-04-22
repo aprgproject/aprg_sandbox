@@ -157,3 +157,5 @@ void ConcreteColleague::receive(std::string const& message)
 // ---> Its protocol is unidirectional: Facade objects make request of the subsystem classes but not vice versa.
 // ---> In concrast, Mediator enables cooperative behavior that colleague objects don't or can't provide, and the protocol is multidirectional.
 // -> Colleagues can communicate with the mediator using the [Observer] pattern.
+
+

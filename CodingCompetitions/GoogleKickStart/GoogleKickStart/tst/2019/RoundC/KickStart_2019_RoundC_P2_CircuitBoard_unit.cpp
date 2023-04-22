@@ -68,5 +68,7 @@ TEST(KickStart_2019_RoundC_P2_CircuitBoardTest, Test2)
                 "Case #3: 4" "\n"
                 , outputStringStream.str());
 }
+
 }
+
 

@@ -61,5 +61,7 @@ TEST(KickStart_2019_RoundB_P1_BuildingPalindromesTest, Test2)
                 "Case #1: 1" "\n"
                 , outputStringStream.str());
 }
+
 }
+
 

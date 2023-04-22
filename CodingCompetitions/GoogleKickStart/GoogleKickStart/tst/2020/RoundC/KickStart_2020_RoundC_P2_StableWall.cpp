@@ -4,7 +4,8 @@
 #include "KickStart_2020_RoundC_P2_StableWall.hpp"
 #include <Fake/FakeNames.hpp>
 //#include <Common/Debug/AlbaDebug.hpp>
-#endif// ~~~~~~~~~ DELETE THIS WHEN SUBMITTING END   ~~~~~~~~~
+#endif
+// ~~~~~~~~~ DELETE THIS WHEN SUBMITTING END   ~~~~~~~~~
 
 #include <cstring>
 #include <cstdint>
@@ -21,6 +22,7 @@ using namespace alba;
 namespace KickStart_2020_RoundC_P2_StableWall
 {
 // ~~~~~~~~~ DELETE THIS WHEN SUBMITTING END   ~~~~~~~~~
+
 #ifndef my_cout
 #define my_cout cout
 #define my_cin cin

@@ -23,7 +23,8 @@ public:
 
 protected:
     virtual void saveNextState(State const newState)
-    {        m_state = newState;
+    {
+        m_state = newState;
     }
     State m_state;
 };

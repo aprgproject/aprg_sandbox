@@ -86,3 +86,4 @@ std::unique_ptr<Singleton> Singleton::m_instancePointer; // this still have prob
 // Related Patterns
 // -> [Mediator]: By encapsulating complex update semantics, the ChangeManager acts a mediator between subjects and observers.
 // -> [Singleton]: The ChangeManager may use the Singleton pattern to make it unique and globally accessible
+

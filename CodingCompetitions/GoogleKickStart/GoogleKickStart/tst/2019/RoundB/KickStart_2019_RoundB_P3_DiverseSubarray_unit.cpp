@@ -56,5 +56,7 @@ TEST(KickStart_2019_RoundB_P3_DiverseSubarrayTest, Test2)
                 "Case #1: 4" "\n"
                 , outputStringStream.str());
 }
+
 }
+
 

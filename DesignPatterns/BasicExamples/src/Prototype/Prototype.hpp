@@ -175,3 +175,5 @@ private:
 // -> [Prototype] and [AbstractFactory] are competing patterns in some ways, as we discuss at the end of this chapter.
 // ---> However, they can also be used together, an [AbstractFactory] might store a set of prototypes from which to clone and return products objects.
 // -> Designs that make heavy use of the [Composite] and [Decorator] pattern often can benefit from [Prototype] as well.
+
+

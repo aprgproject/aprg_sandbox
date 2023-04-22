@@ -108,8 +108,10 @@ template <typename NumberType> NumberType getGreatestCommonFactorWithLastValues(
 template <typename NumberType> NumberType getLeastCommonMultiple(NumberType const firstNumber, NumberType const secondNumber)
 {
     static_assert(typeHelper::isIntegralType<NumberType>(), "Number type must be an integer");
+
     // Using Euclid’s algorithm
     // lcm(a,b) = ab/gcd(a,b)
+
     NumberType result(0);
     if(firstNumber!=0 && secondNumber!=0)
     {

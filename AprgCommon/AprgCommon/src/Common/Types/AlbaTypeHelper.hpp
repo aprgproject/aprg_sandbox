@@ -473,9 +473,11 @@ template<typename T>
 struct HasContainerType<T, std::void_t<typename T::container_type>> : std::true_type {};
 
 // HasDeferenceOperator
-template<typename, typename = void>struct HasDeferenceOperator : std::false_type {};
+template<typename, typename = void>
+struct HasDeferenceOperator : std::false_type {};
 template<typename T>
 struct HasDeferenceOperator<T, std::void_t<decltype(*std::declval<T>())>> : std::true_type {};
+
 // HasBegin
 template<typename, typename = void>
 struct HasBegin : std::false_type {};
@@ -499,7 +501,8 @@ constexpr bool isRaiiPointerWithoutDeference()
     return hasElementType<Type>::value && !HasDeferenceOperator<Type>::value;
 }
 
-template <typename Type>constexpr bool hasBeginAndEnd()
+template <typename Type>
+constexpr bool hasBeginAndEnd()
 {
     return HasBegin<Type>::value && HasEnd<Type>::value;
 }

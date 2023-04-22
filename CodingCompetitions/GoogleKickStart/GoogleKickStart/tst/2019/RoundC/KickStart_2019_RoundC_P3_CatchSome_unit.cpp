@@ -57,5 +57,7 @@ TEST(KickStart_2019_RoundC_P3_CatchSomeTest, Test2)
                 "Case #1: 8" "\n"
                 , outputStringStream.str());
 }
+
 }
+
 

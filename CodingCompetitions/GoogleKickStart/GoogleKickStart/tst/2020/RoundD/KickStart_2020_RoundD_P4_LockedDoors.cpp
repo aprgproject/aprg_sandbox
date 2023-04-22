@@ -4,7 +4,8 @@
 #include "KickStart_2020_RoundD_P4_LockedDoors.hpp"
 #include <Fake/FakeNames.hpp>
 //#include <Common/Debug/AlbaDebug.hpp>
-#endif// ~~~~~~~~~ DELETE THIS WHEN SUBMITTING END   ~~~~~~~~~
+#endif
+// ~~~~~~~~~ DELETE THIS WHEN SUBMITTING END   ~~~~~~~~~
 
 #include <algorithm>
 #include <cassert>
@@ -22,6 +23,7 @@ using namespace alba;
 namespace KickStart_2020_RoundD_P4_LockedDoors
 {
 // ~~~~~~~~~ DELETE THIS WHEN SUBMITTING END   ~~~~~~~~~
+
 #ifndef my_cout
 #define my_cout cout
 #define my_cin cin

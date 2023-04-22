@@ -78,10 +78,12 @@ TEST(ModularArithmeticTest, GetModularInverseByFermatsLittleTheoremWorks)
     EXPECT_EQ(3U, getModularInverseByFermatsLittleTheorem(6U, 17U));
 }
 
-TEST(ModularArithmeticTest, GetModularFactorialWorks){
+TEST(ModularArithmeticTest, GetModularFactorialWorks)
+{
     EXPECT_EQ(2U, getModularFactorial(2U, 4U));
     EXPECT_EQ(6U, getModularFactorial(6U, 17U));
 }
+
 }
 
 }

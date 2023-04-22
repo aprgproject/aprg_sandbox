@@ -154,3 +154,5 @@ public:
 // Related Patterns
 // -> Chain of Responsibility is often applied in conjunction with [Composite].
 // ---> This means that a component's parent can act as its successor.
+
+

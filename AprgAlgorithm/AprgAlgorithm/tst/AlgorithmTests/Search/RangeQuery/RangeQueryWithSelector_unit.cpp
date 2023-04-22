@@ -55,11 +55,13 @@ TEST(RangeQueryWithSelectorTest, GetSelectedValueOnIntervalWithMinimumWorksWithT
 
 TEST(RangeQueryWithSelectorTest, GetSelectedValueOnIntervalWithMinimumWorksOnExample1)
 {
-    ValuesForTest values{5U, 9U, 4U, 8U, 6U, 1U, 4U, 2U, 0U};    RangeQueryForTest minimumRangeQuery(values, minimumSelector);
+    ValuesForTest values{5U, 9U, 4U, 8U, 6U, 1U, 4U, 2U, 0U};
+    RangeQueryForTest minimumRangeQuery(values, minimumSelector);
 
     EXPECT_EQ(5U, minimumRangeQuery.getSelectedValueOnInterval(0U, 0U));
     EXPECT_EQ(5U, minimumRangeQuery.getSelectedValueOnInterval(0U, 1U));
-    EXPECT_EQ(4U, minimumRangeQuery.getSelectedValueOnInterval(0U, 2U));    EXPECT_EQ(4U, minimumRangeQuery.getSelectedValueOnInterval(0U, 3U));
+    EXPECT_EQ(4U, minimumRangeQuery.getSelectedValueOnInterval(0U, 2U));
+    EXPECT_EQ(4U, minimumRangeQuery.getSelectedValueOnInterval(0U, 3U));
     EXPECT_EQ(4U, minimumRangeQuery.getSelectedValueOnInterval(0U, 4U));
     EXPECT_EQ(1U, minimumRangeQuery.getSelectedValueOnInterval(0U, 5U));
     EXPECT_EQ(1U, minimumRangeQuery.getSelectedValueOnInterval(0U, 6U));

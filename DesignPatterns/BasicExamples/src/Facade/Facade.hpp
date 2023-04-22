@@ -128,3 +128,4 @@ private:
 // ---> In contrast a [Facade] merely abstracts the interface to subsystem objects to make them easier to use.
 // ---> [Facade] doesnt define new functionality and subsystem classes dont know about it.
 // -> Facade objects are often [Singleton] because usually only one [Facade] object is required.
+

@@ -4,7 +4,8 @@
 #include "KickStart_2020_RoundB_P1_BikeTour.hpp"
 #include <Fake/FakeNames.hpp>
 //#include <Common/Debug/AlbaDebug.hpp>
-#endif// ~~~~~~~~~ DELETE THIS WHEN SUBMITTING END   ~~~~~~~~~
+#endif
+// ~~~~~~~~~ DELETE THIS WHEN SUBMITTING END   ~~~~~~~~~
 
 #include <cstdint>
 #include <iostream>
@@ -19,6 +20,7 @@ using namespace alba;
 namespace KickStart_2020_RoundB_P1_BikeTour
 {
 // ~~~~~~~~~ DELETE THIS WHEN SUBMITTING END   ~~~~~~~~~
+
 #ifndef my_cout
 #define my_cout cout
 #define my_cin cin

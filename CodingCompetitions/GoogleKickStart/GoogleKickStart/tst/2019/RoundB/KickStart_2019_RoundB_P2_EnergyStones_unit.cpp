@@ -40,5 +40,7 @@ TEST(KickStart_2019_RoundB_P2_EnergyStonesTest, Test1)
                 "Case #3: 500" "\n"
                 , outputStringStream.str());
 }
+
 }
+
 
