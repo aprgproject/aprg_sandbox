@@ -25,13 +25,13 @@ Note: This is taken from Martin Fowler's book: [Refactoring: Improving the Desig
 
 ---> Don't publish interfaces prematurely. Modify your code ownership policies to smooth refactoring.
 
+---> Refactoring means you never have to say you're sorry—you just fix it.
+
 ---> Regarding Comments
 ---> When you feel the need to write a comment, first try to refactor the code so that any comment becomes superfluous.
-
 ---> Regarding performance
 -----> Even if you know exactly what is going on in your system, measure performance, don't speculate. 
--------> You'll learn something, and nine times out of ten, it won't be that you were right! 
-------> The secret to fast software, in all but hard real-time contexts, is to write tunable software first and then to tune it for sufficient speed.
+-------> You'll learn something, and nine times out of ten, it won't be that you were right! ------> The secret to fast software, in all but hard real-time contexts, is to write tunable software first and then to tune it for sufficient speed.
 
 ---> Regarding tests
 -----> Make sure all tests are fully automatic and that they check their own results.
@@ -54,15 +54,13 @@ Note: This is taken from Martin Fowler's book: [Refactoring: Improving the Desig
 -----> Thus I need solid tests.
 
 ---> Decomposing and Redistributing the Statement Method
------> My first step is to find a logical clump of code and use Extract Method.
+-----> My first step is to find a logical clump of code and use "Extract Method".
 -----> When I extract a method, as in any refactoring, I need to know what can go wrong. 
 -----> If I do the extraction badly, I could introduce a bug into the program. So before I do the refactoring I need to figure out how to do it safely. 
 -----> I've done this refactoring a few times before, so I've written down the safe steps in the catalog.
-
 ---> Rename if needed
 -----> Is renaming worth the effort? Absolutely. 
------> Good code should communicate what it is doing clearly, and variable names are a key to clear code. 
------> Never be afraid to change the names of things to improve clarity. 
+-----> Good code should communicate what it is doing clearly, and variable names are a key to clear code. -----> Never be afraid to change the names of things to improve clarity. 
 -----> With good find and replace tools, it is usually not difficult. Strong typing and testing will highlight anything you miss.
 
 ---> Communicate the purpose on the code
@@ -330,71 +328,64 @@ Note: This is taken from Martin Fowler's book: [Refactoring: Improving the Desig
 -----> Description: 
 -------> If you see the same code structure in more than one place, you can be sure that your program will be better if you find a way to unify them.
 -----> Solution: 
--------> If you have the same expression in two methods of the same class, use Extract Method then invoke the code from both places.
--------> If you have the same expression in two sibling subclasses, use Pull Up Field.
--------> If the code is similar but not the same, use Extract Method to separate the similar bits from the different bits.
----------> You can also use Form Template Method.
----------> If the methods do the same thing with a different algorithm, you can use Substitute Algorithm.
--------> If you have duplicated code in two unrelated classes, consider using Extract Class in one class and then use the new component in the other
+-------> If you have the same expression in two methods of the same class, use "Extract Method" then invoke the code from both places.
+-------> If you have the same expression in two sibling subclasses, use "Pull Up Field".
+-------> If the code is similar but not the same, use "Extract Method" to separate the similar bits from the different bits.
+---------> You can also use "Form Template Method".
+---------> If the methods do the same thing with a different algorithm, you can use "Substitute Algorithm".
+-------> If you have duplicated code in two unrelated classes, consider using "Extract Class" in one class and then use the new component in the other
 
 ---> Long Method
------> Description: 
--------> The object programs that live best and longest are those with short methods.
+-----> Description: -------> The object programs that live best and longest are those with short methods.
 -------> Since the early days of programming people have realized that the longer a procedure is, the more difficult it is to understand.
 -------> The real key to making it easy to understand small methods is good naming, if you have a good name for a method you don't need to look at the body.
 -------> The net effect is that you should be much more aggressive about decomposing methods (extract till you drop).
 ---------> The key here is not method length but the semantic distance between what the method does and how it does it
 -----> Solution:
--------> Ninety-nine percent of the time, all you have to do to shorten a method is Extract Method.
--------> You can often use Replace Temp with Query to eliminate the temps.
--------> Long lists of parameters can be slimmed down with Introduce Parameter Object and Preserve Whole Object.
--------> If you've tried that, and you still have too many temps and parameters, it's time to get out the heavy artillery: Replace Method with Method Object.
--------> If there are conditionals, use Decompose Conditional to deal with conditional expressions.
+-------> Ninety-nine percent of the time, all you have to do to shorten a method is "Extract Method".
+-------> You can often use "Replace Temp with Query" to eliminate the temps.
+-------> Long lists of parameters can be slimmed down with "Introduce Parameter Object" and "Preserve Whole Object".
+-------> If you've tried that, and you still have too many temps and parameters, it's time to get out the heavy artillery: "Replace Method with Method Object".
+-------> If there are conditionals, use "Decompose Conditional" to deal with conditional expressions.
 ---------> With loops, extract the loop and the code within the loop into its own method.
 -----> Notes:
--------> How do you identify the clumps of code to extract?
----------> A good technique is to look for comments. They often signal this kind of semantic distance.
+-------> How do you identify the clumps of code to extract?---------> A good technique is to look for comments. They often signal this kind of semantic distance.
 ---------> Even a single line is worth extracting if it needs explanation.=
 
----> Large Class
------> Description: 
+---> Large Class-----> Description: 
 -------> When a class is trying to do too much, it often shows up as too many instance variables.
 -------> When a class has too many instance variables, duplicated code cannot be far behind.
 -----> Solution:
--------> You can Extract Class to bundle a number of the variables.
+-------> You can "Extract Class" to bundle a number of the variables.
 ---------> Choose variables to go together in the component that makes sense for each. 
 ---------> More generally, common prefixes or suffixes for some subset of the variables in a class suggest the opportunity for a component.
----------> If the component makes sense as a subclass, you'll find Extract Subclass often is easier.
--------> A useful trick is to determine how clients use the class and to use Extract Interface for each of these uses.
+---------> If the component makes sense as a subclass, you'll find "Extract Subclass" often is easier.
+-------> A useful trick is to determine how clients use the class and to use "Extract Interface" for each of these uses.
 ---------> That may give you ideas on how you can further break up the class.
 -------> If your large class is a GUI class, you may need to move data and behavior to a separate domain object.
 ---------> This may require keeping some duplicate data in both places and keeping the data in sync.
----------> Duplicate Observed Data suggests how to do this.
+---------> "Duplicate Observed Data" suggests how to do this.
 
 ---> Long Parameter List
------> Description: 
--------> In our early programming days we were taught to pass in as parameters everything needed by a routine.
+-----> Description: -------> In our early programming days we were taught to pass in as parameters everything needed by a routine.
 ---------> This was understandable because the alternative was global data, and global data is evil and usually painful.
 -------> Objects change this situation because if you don't have something you need, you can always ask another object to get it for you.
----------> Thus with objects you don't pass in everything the method needs; instead you pass enough so that the method can get to everything it needs.
----------> A lot of what a method needs is available on the method's host class.
+---------> Thus with objects you don't pass in everything the method needs; instead you pass enough so that the method can get to everything it needs.---------> A lot of what a method needs is available on the method's host class.
 ---------> In object-oriented programs parameter lists tend to be much smaller than in traditional programs.
 -------> Long parameter lists are hard to understand:
 ---------> Because they become inconsistent and difficult to use
 ---------> Because you are forever changing them as you need more data
 -------> Most changes are removed by passing objects because you are much more likely to need to make only a couple of requests to get at a new piece of data.
 -----> Solution:
--------> Use Replace Parameter with Method when you can get the data in one parameter by making a request of an object you already know about.
--------> Use Preserve Whole Object to take a bunch of data gleaned from an object and replace it with the object itself.
--------> If you have several data items with no logical object, use Introduce Parameter Object.
+-------> Use "Replace Parameter with Method" when you can get the data in one parameter by making a request of an object you already know about.
+-------> Use "Preserve Whole Object" to take a bunch of data gleaned from an object and replace it with the object itself.
+-------> If you have several data items with no logical object, use "Introduce Parameter Object".
 -----> Notes:
 -------> There is one important exception to making these changes.
----------> This is when you explicitly do not want to create a dependency from the called object to the larger object.
----------> In those cases unpacking data and sending it along as parameters is reasonable, but pay attention to the pain involved.
+---------> This is when you explicitly do not want to create a dependency from the called object to the larger object.---------> In those cases unpacking data and sending it along as parameters is reasonable, but pay attention to the pain involved.
 ---------> If the parameter list is too long or changes too often, you need to rethink your dependency structure.
 
----> Divergent Change
------> Description: 
+---> Divergent Change-----> Description: 
 -------> When we make a change we want to be able to jump to a single clear point in the system and make the change.
 ---------> When you can't do this you are smelling one of two closely related pungencies.
 -------> Divergent change occurs when one class is changed in different ways for a particular cause.
@@ -403,42 +394,38 @@ Note: This is taken from Martin Fowler's book: [Refactoring: Improving the Desig
 -----------> "I have to change these four methods every time there is a new financial instrument" 
 -----------> You are likely in a situation in which two objects are better than one, so that each object is changed only as a result of one kind of change.
 -----> Solution:
--------> To clean this up you identify everything that changes for a particular cause and use Extract Class to put them all together.
+-------> To clean this up you identify everything that changes for a particular cause and use "Extract Class" to put them all together.
 
 ---> Shotgun Surgery
 -----> Description: 
 -------> You whiff this when every time you make a kind of change, you have to make a lot of little changes to a lot of different classes.
 -------> When the changes are all over the place, they are hard to find, and it's easy to miss an important change.
 -----> Solution:
--------> In this case you want to use Move Method and Move Field to put all the changes into a single class.
+-------> In this case you want to use "Move Method" and "Move Field" to put all the changes into a single class.
 ---------> If no current class looks like a good candidate, create one.
--------> Often you can use Inline Class to bring a whole bunch of behavior together.
+-------> Often you can use "Inline Class" to bring a whole bunch of behavior together.
 ---------> You get a small dose of divergent change, but you can easily deal with that.
 -----> Notes:
--------> Shotgun surgery is similar to divergent change but is the opposite.
----------> Divergent change is one class that suffers many kinds of changes, and shotgun surgery is one change that alters many classes.
+-------> Shotgun surgery is similar to divergent change but is the opposite.---------> Divergent change is one class that suffers many kinds of changes, and shotgun surgery is one change that alters many classes.
 -----------> Either way you want to arrange things so that, ideally, there is a one-to-one link between common changes and classes.
 
----> Feature Envy
------> Description: 
+---> Feature Envy-----> Description: 
 -------> The whole point of objects is that they are a technique to package data with the processes used on that data.
 -------> A classic smell is a method that seems more interested in a class other than the one it actually is in.
 ---------> The most common focus of the envy is the data.
 ---------> We've lost count of the times we've seen a method that invokes half-a-dozen getting methods on another object to calculate some value.
 -----> Solution:
--------> When the method clearly wants to be elsewhere, you use Move Method to get it there.
-------->  Sometimes only part of the method suffers from envy; in that case use Extract Method on the jealous bit and Move Method to give it a dream home.
+-------> When the method clearly wants to be elsewhere, you use "Move Method" to get it there.
+------->  Sometimes only part of the method suffers from envy; in that case use "Extract Method" on the jealous bit and "Move Method" to give it a dream home.
 -------> Of course not all cases are cut-and-dried. 
 ---------> Often a method uses features of several classes, so which one should it live with?
 -----------> The heuristic we use is to determine which class has most of the data and put the method with that data. 
------------> This step is often made easier if Extract Method is used to break the method into pieces that go into different places.
+-----------> This step is often made easier if "Extract Method" is used to break the method into pieces that go into different places.
 -----> Notes:
 -------> The fundamental rule of thumb is to put things together that change together.
----------> Data and the behavior that references that data usually change together, but there are exceptions.
----------> When the exceptions occur, we move the behavior to keep changes in one place.
+---------> Data and the behavior that references that data usually change together, but there are exceptions.---------> When the exceptions occur, we move the behavior to keep changes in one place.
 -----------> From the Gang of Four book, Strategy and Visitor immediately leap to mind.
 -----------> Strategy and Visitor allow you to change behavior easily, because they isolate the small amount of behavior that needs to be overridden, at the cost of further indirection.
-
 ---> Data Clumps
 -----> Description: 
 -------> Data items tend to be like children; they enjoy hanging around in groups together.
@@ -446,16 +433,14 @@ Note: This is taken from Martin Fowler's book: [Refactoring: Improving the Desig
 -------> Bunches of data that hang around together really ought to be made into their own object.
 -----> Solution:
 -------> The first step is to look for where the clumps appear as fields.
--------> Use Extract Class on the fields to turn the clumps into an object.
--------> Then turn your attention to method signatures using Introduce Parameter Object or Preserve Whole Object to slim them down.
+-------> Use "Extract Class" on the fields to turn the clumps into an object.
+-------> Then turn your attention to method signatures using "Introduce Parameter Object" or "Preserve Whole Object" to slim them down.
 ---------> The immediate benefit is that you can shrink a lot of parameter lists and simplify method calling.
 -----> Notes:
--------> Don't worry about data clumps that use only some of the fields of the new object.
----------> As long as you are replacing two or more fields with the new object, you'll come out ahead.
+-------> Don't worry about data clumps that use only some of the fields of the new object.---------> As long as you are replacing two or more fields with the new object, you'll come out ahead.
 ---------> A good test is to consider deleting one of the data values: if you did this, would the others make any sense? 
 -----------> If they don't, it's a sure sign that you have an object that's dying to be born.
 -------> Next, you can look for cases of feature envy, which will suggest behavior that can be moved into your new classes.
-
 ---> Primitive Obsession
 -----> Description: 
 -------> Most programming environments have two kinds of data: 
@@ -467,171 +452,156 @@ Note: This is taken from Martin Fowler's book: [Refactoring: Improving the Desig
 ---------> You can easily write little classes that are indistinguishable from the built-in types of the language.
 -------> People new to objects usually are reluctant to use small objects for small tasks.
 -----> Solution:
--------> You can move out of the cave into the centrally heated world of objects by using Replace Data Value with Object on individual data values.
--------> If the data value is a type code, use Replace Type Code with Class if the value does not affect behavior.
--------> If you have conditionals that depend on the type code, use Replace Type Code with Subclasses or Replace Type Code with State/Strategy.
--------> If you have a group of fields that should go together, use Extract Class.
--------> If you see these primitives in parameter lists, try a civilizing dose of Introduce Parameter Object.
--------> If you find yourself picking apart an array, use Replace Array with Object.
+-------> You can move out of the cave into the centrally heated world of objects by using "Replace Data Value with Object" on individual data values.
+-------> If the data value is a type code, use "Replace Type Code with Class" if the value does not affect behavior.
+-------> If you have conditionals that depend on the type code, use "Replace Type Code with Subclasses" or "Replace Type Code with State/Strategy".
+-------> If you have a group of fields that should go together, use "Extract Class".
+-------> If you see these primitives in parameter lists, try a civilizing dose of "Introduce Parameter Object".
+-------> If you find yourself picking apart an array, use "Replace Array with Object".
 
 ---> Switch Statements
------> Description: 
--------> One of the most obvious symptoms of object-oriented code is its comparative lack of switch (or case) statements.
+-----> Description: -------> One of the most obvious symptoms of object-oriented code is its comparative lack of switch (or case) statements.
 -------> The problem with switch statements is essentially that of duplication.
 --------> If you add a new clause to the switch, you have to find all these switch, statements and change them.
 -------> The object-oriented notion of polymorphism gives you an elegant way to deal with this problem.
 -----> Solution:
 -------> Most times you see a switch statement you should consider polymorphism. The issue is where the polymorphism should occur.
----------> Use Extract Method to extract the switch statement and then Move Method to get it onto the class where the polymorphism is needed.
--------> At that point you have to decide whether to Replace Type Code with Subclasses or Replace Type Code with State/Strategy.
--------> When you have set up the inheritance structure, you can use Replace Conditional with Polymorphism.
+---------> Use "Extract Method" to extract the switch statement and then "Move Method" to get it onto the class where the polymorphism is needed.
+-------> At that point you have to decide whether to "Replace Type Code with Subclasses" or "Replace Type Code with State/Strategy".
+-------> When you have set up the inheritance structure, you can use "Replace Conditional with Polymorphism".
 -------> If you only have a few cases that affect a single method, and you don't expect them to change, then polymorphism is overkill.
----------> In this case Replace Parameter with Explicit Methods is a good option.
----------> If one of your conditional cases is a null, try Introduce Null Object.
+---------> In this case "Replace Parameter with Explicit Methods" is a good option.
+---------> If one of your conditional cases is a null, try "Introduce Null Object".
 
 ---> Parallel Inheritance Hierarchies
------> Description: 
--------> Parallel inheritance hierarchies is really a special case of shotgun surgery.
+-----> Description: -------> Parallel inheritance hierarchies is really a special case of shotgun surgery.
 -------> In this case, every time you make a subclass of one class, you also have to make a subclass of another.
 -------> You can recognize this smell because the prefixes of the class names in one hierarchy are the same as the prefixes in another hierarchy.
 -----> Solution:
 -------> The general strategy for eliminating the duplication is to make sure that instances of one hierarchy refer to instances of the other.
--------> If you use Move Method and Move Field, the hierarchy on the referring class disappears.
+-------> If you use "Move Method" and "Move Field", the hierarchy on the referring class disappears.
 
 ---> Lazy Class
------> Description: 
--------> Each class you create costs money to maintain and understand.
+-----> Description: -------> Each class you create costs money to maintain and understand.
 -------> A class that isn't doing enough to pay for itself should be eliminated.
 ---------> Often this might be a class that used to pay its way but has been downsized with refactoring.
 ---------> Or it might be a class that was added because of changes that were planned but not made.
 -----> Solution:
--------> If you have subclasses that aren't doing enough, try to use Collapse Hierarchy. 
--------> Nearly useless components should be subjected to Inline Class.
+-------> If you have subclasses that aren't doing enough, try to use "Collapse Hierarchy". 
+-------> Nearly useless components should be subjected to "Inline Class".
 
 ---> Speculative Generality
------> Description: 
--------> You get it when people say, "Oh, I think we need the ability to this kind of thing someday" 
+-----> Description: -------> You get it when people say, "Oh, I think we need the ability to this kind of thing someday" 
 ---------> and thus want all sorts of hooks and special cases to handle things that aren't required.
 -------> The result often is harder to understand and maintain. 
 ---------> If all this machinery were being used, it would be worth it. But if it isn't, it isn't.
 ---------> The machinery just gets in the way, so get rid of it.
 -------> 
 -----> Solution:
--------> If you have abstract classes that aren't doing much, use Collapse Hierarchy.
--------> Unnecessary delegation can be removed with Inline Class.
--------> Methods with unused parameters should be subject to Remove Parameter.
--------> Methods named with odd abstract names should be brought down to earth with Rename Method.
+-------> If you have abstract classes that aren't doing much, use "Collapse Hierarchy".
+-------> Unnecessary delegation can be removed with "Inline Class".
+-------> Methods with unused parameters should be subject to "Remove Parameter".
+-------> Methods named with odd abstract names should be brought down to earth with "Rename Method".
 -----> Notes:
 -------> Speculative generality can be spotted when the only users of a method or class are test cases.
----------> If you find such a method or class, delete it and the test case that exercises it.
----------> If you have a method or class that is a helper for a test case that exercises legitimate functionality, you have to leave it in, of course.
+---------> If you find such a method or class, delete it and the test case that exercises it.---------> If you have a method or class that is a helper for a test case that exercises legitimate functionality, you have to leave it in, of course.
 
 ---> Temporary Field
------> Description: 
--------> Sometimes you see an object in which an instance variable is set only in certain circumstances.
+-----> Description: -------> Sometimes you see an object in which an instance variable is set only in certain circumstances.
 ---------> Such code is difficult to understand, because you expect an object to need all of its variables.
 ---------> Trying to understand why a variable is there when it doesn't seem to be used can drive you nuts.
 -----> Solution:
--------> Use Extract Class to create a home for the poor orphan variables.
+-------> Use "Extract Class" to create a home for the poor orphan variables.
 ---------> Put all the code that concerns the variables into the component.
--------> You may also be able to eliminate conditional code by using Introduce Null Object to create an alternative component for when the variables aren't valid.
+-------> You may also be able to eliminate conditional code by using "Introduce Null Object" to create an alternative component for when the variables aren't valid.
 -----> Notes:
 -------> A common case of temporary field occurs when a complicated algorithm needs several variables.
 ---------> Because the implementer didn't want to pass around a huge parameter list (who does?), he put them in fields.
 ---------> But the fields are valid only during the algorithm; in other contexts they are just plain confusing.
----------> In this case you can use Extract Class with these variables and the methods that require them.
+---------> In this case you can use "Extract Class" with these variables and the methods that require them.
 
 ---> Message Chains
------> Description: 
--------> You see message chains when a client asks one object for another object, 
+-----> Description: -------> You see message chains when a client asks one object for another object, 
 ---------> which the client then asks for yet another object, 
 ---------> which the client then asks for yet another another object, 
----------> and so on.
--------> You may see these as a long line of getThis methods, or as a sequence of temps.
+---------> and so on.-------> You may see these as a long line of getThis methods, or as a sequence of temps.
 -------> Navigating this way means the client is coupled to the structure of the navigation. 
 -------> Any change to the intermediate relationships causes the client to have to change.
 -----> Solution:
--------> The move to use here is Hide Delegate.
+-------> The move to use here is "Hide Delegate".
 ---------> You can do this at various points in the chain.
 ---------> In principle you can do this to every object in the chain, but doing this often turns every intermediate object into a middle man.
 -------> Often a better alternative is to see what the resulting object is used for.
----------> See whether you can use Extract Method to take a piece of the code that uses it and then Move Method to push it down the chain.
+---------> See whether you can use "Extract Method" to take a piece of the code that uses it and then "Move Method" to push it down the chain.
 ---------> If several clients of one of the objects in the chain want to navigate the rest of the way, add a method to do that.
 
----> Middle Man
------> Description: 
+---> Middle Man-----> Description: 
 -------> One of the prime features of objects is encapsulation—hiding internal details from the rest of the world.
 -------> Encapsulation often comes with delegation. However, this can go too far.
 ---------> You look at a class's interface and find half the methods are delegating to this other class and it more looks like a Middle Man.
 -----> Solution:
--------> Use Remove Middle Man and talk to the object that really knows what's going on.
--------> If only a few methods aren't doing much, use Inline Method to inline them into the caller.
--------> If there is additional behavior, you can use Replace Delegation with Inheritance to turn the middle man into a subclass of the real object.
+-------> Use "Remove Middle Man" and talk to the object that really knows what's going on.
+-------> If only a few methods aren't doing much, use "Inline Method" to inline them into the caller.
+-------> If there is additional behavior, you can use "Replace Delegation with Inheritance" to turn the middle man into a subclass of the real object.
 ---------> That allows you to extend behavior without chasing all that delegation.
 
----> Inappropriate Intimacy
------> Description: 
+---> Inappropriate Intimacy-----> Description: 
 -------> Sometimes classes become far too intimate and spend too much time delving in each others'private parts.
 -------> Overintimate classes need to be broken up as lovers were in ancient days.
 -----> Solution:
--------> Use Move Method and Move Field to separate the pieces to reduce the intimacy.
--------> See whether you can arrange a Change Bidirectional Association to Unidirectional.
--------> If the classes do have common interests, use Extract Class to put the commonality in a safe place and make honest classes of them.
----------> Or use Hide Delegate to let another class act as go-between.
+-------> Use "Move Method" and "Move Field" to separate the pieces to reduce the intimacy.
+-------> See whether you can arrange a "Change Bidirectional Association to Unidirectional".
+-------> If the classes do have common interests, use "Extract Class" to put the commonality in a safe place and make honest classes of them.
+---------> Or use "Hide Delegate" to let another class act as go-between.
 -------> Inheritance often can lead to overintimacy.
 ---------> Subclasses are always going to know more about their parents than their parents would like them to know.
----------> If it's time to leave home, apply Replace Delegation with Inheritance.
+---------> If it's time to leave home, apply "Replace Delegation with Inheritance".
 
 ---> Alternative Classes with Different Interfaces
 -----> Description: 
 -----> Solution:
--------> Use Rename Method on any methods that do the same thing but have different signatures for what they do.
--------> Keep using Move Method to move behavior to the classes until the protocols are the same.
--------> If you have to redundantly move code to accomplish this, you may be able to use Extract Superclass to atone.
+-------> Use "Rename Method" on any methods that do the same thing but have different signatures for what they do.
+-------> Keep using "Move Method" to move behavior to the classes until the protocols are the same.
+-------> If you have to redundantly move code to accomplish this, you may be able to use "Extract Superclass" to atone.
 
 ---> Incomplete Library Class
------> Description: 
--------> Reuse is often touted as the purpose of objects.
+-----> Description: -------> Reuse is often touted as the purpose of objects.
 ---------> We think reuse is overrated (we just use).
 -------> Builders of library classes are rarely omniscient.
 ---------> We don't blame them for that; after all, we can rarely figure out a design until we've mostly built it, so library builders have a really tough job.
----------> This means that tried-and-true tactics such as Move Method lie useless.
+---------> This means that tried-and-true tactics such as "Move Method" lie useless.
 -----> Solution:
--------> If there are just a couple of methods that you wish the library class had, use Introduce Foreign Method.
--------> If there is a whole load of extra behavior, you need Introduce Local Extension.
+-------> If there are just a couple of methods that you wish the library class had, use "Introduce Foreign Method".
+-------> If there is a whole load of extra behavior, you need "Introduce Local Extension".
 
 ---> Data Class
 -----> Description: 
 -------> These are classes that have fields, getting and setting methods for the fields, and nothing else.
 -------> Such classes are dumb data holders and are almost certainly being manipulated in far too much detail by other classes.
 -----> Solution:
--------> In early stages these classes may have public fields, then you should immediately apply Encapsulate Field before anyone notices.
--------> If you have collection fields, check to see whether they are properly encapsulated and apply Encapsulate Collection if they aren't.
--------> Use Remove Setting Method on any field that should not be changed.
--------> Try to use Move Method to move behavior into the data class.
--------> If you can't move a whole method, use Extract Method to create a method that can be moved.
--------> After a while you can start using Hide Method on the getters and setters.
+-------> In early stages these classes may have public fields, then you should immediately apply "Encapsulate Field" before anyone notices.
+-------> If you have collection fields, check to see whether they are properly encapsulated and apply "Encapsulate Collection" if they aren't.
+-------> Use "Remove Setting Method" on any field that should not be changed.
+-------> Try to use "Move Method" to move behavior into the data class.
+-------> If you can't move a whole method, use "Extract Method" to create a method that can be moved.
+-------> After a while you can start using "Hide Method" on the getters and setters.
 -----> Notes:
 -------> Data classes are like children. 
 ---------> They are okay as a starting point, but to participate as a grownup object, they need to take some responsibility.
-
 ---> Refused Bequest
 -----> Description: 
--------> Subclasses get to inherit the methods and data of their parents.
----------> But what if they don't want or need what they are given?
+-------> Subclasses get to inherit the methods and data of their parents.---------> But what if they don't want or need what they are given?
 ---------> They are given all these great gifts and pick just a few to play with.
 ---------> The traditional story is that this means the hierarchy is wrong.
 -----> Solution:
--------> You need to create a new sibling class and use Push Down Method and Push Down Field to push all the unused methods to the sibling.
--------> If the subclass is reusing behavior but does not want to support the interface of the superclass, gut it by applying Replace Inheritance with Delegation.
+-------> You need to create a new sibling class and use "Push Down Method" and "Push Down Field" to push all the unused methods to the sibling.
+-------> If the subclass is reusing behavior but does not want to support the interface of the superclass, gut it by applying "Replace Inheritance with Delegation".
 -----> Notes:
 -------> Often you'll hear advice that all superclasses should be abstract, so the parent holds only what is common.
----------> We aren't going to advise this, at least not all the time.
----------> We do subclassing to reuse a bit of behavior all the time, its a smell, and we can't deny it, but usually it isn't a strong smell.
+---------> We aren't going to advise this, at least not all the time.---------> We do subclassing to reuse a bit of behavior all the time, its a smell, and we can't deny it, but usually it isn't a strong smell.
 
 ---> Comments
------> Description: 
--------> Don't worry, we aren't saying that people shouldn't write comments.
+-----> Description: -------> Don't worry, we aren't saying that people shouldn't write comments.
 -------> In our olfactory analogy, comments aren't a bad smell; indeed they are a sweet smell.
 ---------> The reason we mention comments here is that comments often are used as a deodorant.
 ---------> It's surprising how often you look at thickly commented code and notice that the comments are there because the code is bad.
@@ -639,16 +609,14 @@ Note: This is taken from Martin Fowler's book: [Refactoring: Improving the Desig
 ---------> Our first action is to remove the bad smells by refactoring.
 ---------> When we're finished, we often find that the comments are superfluous.
 -----> Solution:
--------> If you need a comment to explain what a block of code does, try Extract Method.
--------> If the method is already extracted but you still need a comment to explain what it does, use Rename Method.
--------> If you need to state some rules about the required state of the system, use Introduce Assertion.
+-------> If you need a comment to explain what a block of code does, try "Extract Method".
+-------> If the method is already extracted but you still need a comment to explain what it does, use "Rename Method".
+-------> If you need to state some rules about the required state of the system, use "Introduce Assertion".
 -----> Notes:
 -------> When you feel the need to write a comment, first try to refactor the code so that any comment becomes superfluous.
--------> A good time to use a comment is when you don't know what to do.
----------> In addition to describing what is going on, comments can indicate areas in which you aren't sure.
+-------> A good time to use a comment is when you don't know what to do.---------> In addition to describing what is going on, comments can indicate areas in which you aren't sure.
 ---------> A comment is a good place to say why you did something. 
 ---------> This kind of information helps future modifiers, especially forgetful ones.
-
 
 
 -> Chapter 4. Building Tests
@@ -701,15 +669,13 @@ Note: This is taken from Martin Fowler's book: [Refactoring: Improving the Desig
 
 -> Chapter 6. Composing Methods
 
----> Extract Method (extract till you drop)
+---> "Extract Method" (extract till you drop)
 -----> Problem: 
 -------> You have a code fragment that can be grouped together.
------> Solution:
--------> Turn the fragment into a method whose name explains the purpose of the method.
+-----> Solution:-------> Turn the fragment into a method whose name explains the purpose of the method.
 -----> Motivation:
 -------> I look at a method that is too long or look at code that needs a comment to understand its purpose.
----------> I then turn that fragment of code into its own method.
------> Mechanics
+---------> I then turn that fragment of code into its own method.-----> Mechanics
 -------> Create a new method, and name it after the intention of the method (name it by what it does, not by how it does it).
 -------> Copy the extracted code from the source method into the new target method.
 -------> Scan the extracted code for references to any variables that are local in scope to the source method. 
@@ -732,91 +698,84 @@ Note: This is taken from Martin Fowler's book: [Refactoring: Improving the Desig
 -------> If the code you want to extract is very simple, you should extract it if the name of the new method will reveal the intention of the code in a better way. 
 ---------> If you can't come up with a more meaningful name, don't extract the code.
 
----> Inline Method
+---> "Inline Method"
 -----> Problem: 
 -------> A method's body is just as clear as its name.
------> Solution:
--------> Put the method's body into the body of its callers and remove the method.
+-----> Solution:-------> Put the method's body into the body of its callers and remove the method.
 -----> Motivation:
 -------> Sometimes you do come across a method in which the body is as clear as the name.
 ---------> Or you refactor the body of the code into something that is just as clear as the name.
 ---------> When this happens, you should then get rid of the method. Indirection can be helpful, but needless indirection is irritating.
--------> Another time to use Inline Method is when you have a group of methods that seem badly factored.
+-------> Another time to use "Inline Method" is when you have a group of methods that seem badly factored.
 ---------> You can inline them all into one big method and then reextract the methods.
--------> It is often good to do this before using Replace Method with Method Object.
+-------> It is often good to do this before using "Replace Method with Method Object".
 ---------> You inline the various calls made by the method that have behavior you want to have in the method object.
 ---------> It's easier to move one method than to move the method and its called methods.
--------> I commonly use Inline Method when someone is using too much indirection.
+-------> I commonly use "Inline Method" when someone is using too much indirection.
 ---------> It seems that every method does simple delegation to another method, and I get lost in all the delegation.
 ---------> In these cases some of the indirection is worthwhile, but not all of it.
----------> By trying to inline I can flush out the useful ones and eliminate the rest.
------> Mechanics:
+---------> By trying to inline I can flush out the useful ones and eliminate the rest.-----> Mechanics:
 -------> Check that the method is not polymorphic.
 ---------> Don't inline if subclasses override the method; they cannot override a method that isn't there.
--------> Find all calls to the method.
--------> Replace each call with the method body.
+-------> Find all calls to the method.-------> Replace each call with the method body.
 -------> Compile and test.
 -------> Remove the method definition.
 -----> Notes:
--------> Written this way, Inline Method is simple. In general it isn't.
+-------> Written this way, "Inline Method" is simple. In general it isn't.
 ---------> I could write pages on how to handle recursion, multiple return points, inlining into another object when you don't have accessors, and the like.
 ---------> The reason I don't is that if you encounter these complexities, you shouldn't do this refactoring.
 
----> Inline Temp
+---> "Inline Temp"
 -----> Problem: 
 -------> You have a temp that is assigned to once with a simple expression, and the temp is getting in the way of other refactorings.
 -----> Solution:
 -------> Replace all references to that temp with the expression.
 -----> Motivation:
--------> Most of the time Inline Temp is used as part of Replace Temp with Query, so the real motivation is there.
--------> The only time Inline Temp is used on its own is when you find a temp that is assigned the value of a method call.
+-------> Most of the time "Inline Temp" is used as part of "Replace Temp with Query", so the real motivation is there.
+-------> The only time "Inline Temp" is used on its own is when you find a temp that is assigned the value of a method call.
 ---------> Often this temp isn't doing any harm and you can safely leave it there.
 -----> Mechanics:
--------> Declare the temp as final (or constexpr in C++) if it isn't already, and compile.
----------> This checks that the temp is really only assigned to once.
+-------> Declare the temp as final (or constexpr in C++) if it isn't already, and compile.---------> This checks that the temp is really only assigned to once.
 -------> Find all references to the temp and replace them with the right-hand side of the assignment.
 -------> Compile and test after each change.
 -------> Remove the declaration and the assignment of the temp.
 -------> Compile and test.
 
----> Replace Temp with Query
+---> "Replace Temp with Query"
 -----> Problem: 
 -------> You are using a temporary variable to hold the result of an expression.
------> Solution:
--------> Extract the expression into a method. 
+-----> Solution:-------> Extract the expression into a method. 
 -------> Replace all references to the temp with the expression. 
 -------> The new method can then be used in other methods.
 -----> Motivation:
 -------> Temps they tend to encourage longer code, because that's the only way you can reach the temps.
 ---------> By replacing the temp with a query method, any method in the class can get at the information.
--------> Replace Temp with Query often is a vital step before Extract Method.
+-------> "Replace Temp with Query" often is a vital step before "Extract Method".
 ---------> Local variables make it difficult to extract, so replace as many variables as you can with queries.
 -------> The straightforward case is when temps are assigned only once and the assignment expression is free of side effects.
 -----> Mechanics:
 -------> Look for a temporary variable that is assigned to once.
----------> If a temp is set more than once consider Split Temporary Variable.
+---------> If a temp is set more than once consider "Split Temporary Variable".
 -------> Declare the temp as final (or constexpr in C++).
 -------> Compile.
 ---------> This will ensure that the temp is only assigned to once.
 -------> Extract the right-hand side of the assignment into a method.
 ---------> Initially mark the method as private. (You may find more use for it later, but you can easily relax the protection later.)
 ---------> Ensure the extracted method is free of side effects, that is, it does not modify any object. 
----------> If it is not free of side effects, use Separate Query from Modifier.
+---------> If it is not free of side effects, use "Separate Query from Modifier".
 -------> Compile and test.
--------> Use Replace Temp with Query on the temp.
+-------> Use "Replace Temp with Query" on the temp.
 -----> Notes:
--------> You may need to use Split Temporary Variable or Separate Query from Modifier first to make things easier.
+-------> You may need to use "Split Temporary Variable" or "Separate Query from Modifier" first to make things easier.
 -------> If the temp is used to collect a result (such as summing over a loop), you need to copy some logic into the query method.
 
----> Introduce Explaining Variable
+---> "Introduce Explaining Variable"
 -----> Problem: 
 -------> You have a complicated expression.
------> Solution:
--------> Put the result of the expression, or parts of the expression, in a temporary variable with a name that explains the purpose.
+-----> Solution:-------> Put the result of the expression, or parts of the expression, in a temporary variable with a name that explains the purpose.
 -----> Motivation:
 -------> Expressions can become very complex and hard to read. 
-----------> In such situations temporary variables can be helpful to break down the expression into something more manageable.
--------> This is useful on conditional logic so we can take each clause of a condition and explain what the condition means with a well-named temp.
+----------> In such situations temporary variables can be helpful to break down the expression into something more manageable.-------> This is useful on conditional logic so we can take each clause of a condition and explain what the condition means with a well-named temp.
 -------> Another case is a long algorithm, in which each step in the computation can be explained with a temp.
 -----> Mechanics:
 -------> Declare a final temporary variable, and set it to the result of part of the complex expression.
@@ -825,22 +784,20 @@ Note: This is taken from Martin Fowler's book: [Refactoring: Improving the Desig
 -------> Compile and test.
 -------> Repeat for other parts of the expression.
 -----> Notes:
--------> Introduce Explaining Variable is a very common refactoring, but I confess I don't use it that much.
----------> I almost always prefer to use Extract Method if I can.
+-------> "Introduce Explaining Variable" is a very common refactoring, but I confess I don't use it that much.
+---------> I almost always prefer to use "Extract Method" if I can.
 -----------> A temp is useful only within the context of one method. 
 -----------> A method is useable throughout the object and to other objects.
----------> There are times, however, when local variables make it difficult to use Extract Method. 
------------> That's when I use Introduce Explaining Variable.
+---------> There are times, however, when local variables make it difficult to use "Extract Method". 
+-----------> That's when I use "Introduce Explaining Variable".
 
----> Split Temporary Variable
+---> "Split Temporary Variable"
 -----> Problem: 
 -------> You have a temporary variable assigned to more than once, but is not a loop variable nor a collecting temporary variable.
------> Solution:
--------> Make a separate temporary variable for each assignment.
+-----> Solution:-------> Make a separate temporary variable for each assignment.
 -----> Motivation:
 -------> Temporary variables are made for various uses.
----------> Some of these uses naturally lead to the temp's being assigned to several times.
----------> Collecting temporary variables [Beck] collect together some value that is built up during the method.
+---------> Some of these uses naturally lead to the temp's being assigned to several times.---------> Collecting temporary variables [Beck] collect together some value that is built up during the method.
 -------> Many other temporaries are used to hold the result of a long-winded bit of code for easy reference later.
 -------> If they are set more than once its a sign that they have more than one responsibility within the method.
 -------> Any variable with more than one responsibility should be replaced with another temp for each responsibility. 
@@ -855,15 +812,13 @@ Note: This is taken from Martin Fowler's book: [Refactoring: Improving the Desig
 -------> Compile and test.
 -------> Repeat in stages, each stage renaming at the declaration, and changing references until the next assignment.
 
----> Remove Assignments to Parameters
+---> "Remove Assignments to Parameters"
 -----> Problem: 
 -------> The code assigns to a parameter (this are parameters in a function).
------> Solution:
--------> Use a temporary variable instead.
+-----> Solution:-------> Use a temporary variable instead.
 -----> Motivation:
 -------> The reason I don't like this comes down to lack of clarity and to confusion between pass by value and pass by reference.
----------> Its also not clear whether parameter was an input or output of the function.
--------> The other area of confusion is within the body of the code itself.
+---------> Its also not clear whether parameter was an input or output of the function.-------> The other area of confusion is within the body of the code itself.
 ---------> It is much clearer if you use only the parameter to represent what has been passed in, because that is a consistent usage.
 -----> Mechanics:
 -------> Create a temporary variable for the parameter.
@@ -876,40 +831,36 @@ Note: This is taken from Martin Fowler's book: [Refactoring: Improving the Desig
 ---------> Try to pass a single value back as the return value. 
 ---------> If there is more than one, see whether you can turn the data clump into an object, or create separate methods.
 
----> Replace Method with Method Object
+---> "Replace Method with Method Object"
 -----> Problem: 
--------> You have a long method that uses local variables in such a way that you cannot apply Extract Method.
+-------> You have a long method that uses local variables in such a way that you cannot apply "Extract Method".
 -----> Solution:
 -------> Turn the method into its own object so that all the local variables become fields on that object.
 -------> You can then decompose the method into other methods on the same object.
 -----> Motivation:
 -------> The beauty of small methods is that by extracting pieces out of a large method, you make things much more comprehensible.
 -------> The difficulty in decomposing a method lies in local variables, if they are rampant, decomposition can be difficult.
----------> Using Replace Temp with Query helps to reduce this burden, but occasionally you may find you cannot break down a method that needs breaking.
+---------> Using "Replace Temp with Query" helps to reduce this burden, but occasionally you may find you cannot break down a method that needs breaking.
 ---------> In this case you reach deep into the tool bag and get out your method object.
--------> Applying Replace Method with Method Object turns all these local variables into fields on the method object.
----------> You can then use Extract Method on this new object to create additional methods that break down the original method.
+-------> Applying "Replace Method with Method Object" turns all these local variables into fields on the method object.
+---------> You can then use "Extract Method" on this new object to create additional methods that break down the original method.
 -----> Mechanics:
 -------> Create a new class, name it after the method.
--------> Give the new class a final field for the object that hosted the original method (the source object)
----------> and a field for each temporary variable and each parameter in the method.
+-------> Give the new class a final field for the object that hosted the original method (the source object)---------> and a field for each temporary variable and each parameter in the method.
 -------> Give the new class a constructor that takes the source object and each parameter.
 -------> Give the new class a method named "compute."
--------> Copy the body of the original method into compute. 
----------> Use the source object field for any invocations of methods on the original object.
+-------> Copy the body of the original method into compute. ---------> Use the source object field for any invocations of methods on the original object.
 -------> Compile.
 -------> Replace the old method with one that creates the new object and calls compute.
 ---------> Now comes the fun part: Because all the local variables are now fields, you can freely decompose the method without having to pass any parameters.
 
----> Substitute Algorithm
+---> "Substitute Algorithm"
 -----> Problem: 
 -------> You want to replace an algorithm with one that is clearer.
------> Solution:
--------> Replace the body of the method with the new algorithm.
+-----> Solution:-------> Replace the body of the method with the new algorithm.
 -----> Motivation:
 -------> I've never tried to skin a cat. I'm told there are several ways to do it. I'm sure some are easier than others.
----------> Its the same with algorithms, if you find a clearer way to do something, you should replace the complicated way with the clearer way.
--------> Refactoring can break down something complex into simpler pieces, 
+---------> Its the same with algorithms, if you find a clearer way to do something, you should replace the complicated way with the clearer way.-------> Refactoring can break down something complex into simpler pieces, 
 ---------> but sometimes you just reach the point at which you have to remove the whole algorithm and replace it with something simpler.
 ---------> This occurs as you learn more about the problem and realize that there's an easier way to do it.
 ---------> It also happens if you start using a library that supplies features that duplicate your code.
@@ -926,180 +877,1889 @@ Note: This is taken from Martin Fowler's book: [Refactoring: Improving the Desig
 
 
 
-Chapter 7. Moving Features Between Objects
+-> Chapter 7. Moving Features Between Objects
 
----> 
+---> One of the most fundamental, if not the fundamental, decision in object design is deciding where to put responsibilities. 
+---> I've been working with objects for more than a decade, but I still never get it right the first time. 
+---> That used to bother me, but now I realize that I can use refactoring to change my mind in these cases.
+
+---> "Move Method"
 -----> Problem: 
--------> 
+-------> A method is, or will be, using or used by more features of another class than the class on which it is defined.
 -----> Solution:
--------> 
+-------> Create a new method with a similar body in the class it uses most. 
+-------> Either turn the old method into a simple delegation, or remove it altogether.
 -----> Motivation:
--------> 
+-------> I move methods when classes have too much behavior or when classes are collaborating too much and are too highly coupled.
+---------> By moving methods around, I can make the classes simpler and they end up being a more crisp implementation of a set of responsibilities.
+-------> I usually look through the methods on a class to find a method that seems to reference another object more than the object it lives on.
+---------> A good time to do this is after I have moved some fields.
+---------> I assess whether to go ahead on the basis of the object with which the method seems to have more interaction.
+-------> It's not always an easy decision to make.
+---------> If I am not sure whether to move a method, I go on to look at other methods.
+---------> Moving other methods often makes the decision easier.
 -----> Mechanics:
--------> 
+-------> Examine all features used by the source method that are defined on the source class. Consider whether they also should be moved.
+-------> Check the sub and superclasses of the source class for other declarations of the method.
+-------> Declare the method in the target class.
+-------> Copy the code from the source method to the target. Adjust the method to make it work in its new home.
+-------> Compile the target class.
+-------> Determine how to reference the correct target object from the source.
+-------> Turn the source method into a delegating method.
+-------> Compile and test.
+-------> Decide whether to remove the source method or retain it as a delegating method.
+-------> If you remove the source method, replace all the references with references to the target method.
+-------> Compile and test.
+
+---> "Move Field"
+-----> Problem: 
+-------> A field is, or will be, used by another class more than the class on which it is defined.
+-----> Solution:
+-------> Create a new field in the target class, and change all its users.
+-----> Motivation:
+-------> Moving state and behavior between classes is the very essence of refactoring.
+---------> As the system develops, you find the need for new classes and the need to shuffle responsibilities around.
+---------> A design decision that is reasonable and correct one week can become incorrect in another.
+---------> That is not a problem; the only problem is not to do something about it.
+-------> I consider moving a field if I see more methods on another class using the field than the class itself.
+---------> This usage may be indirect, through getting and setting methods. I may choose to move the methods; this decision based on interface.
+---------> But if the methods seem sensible where they are, I move the field.
+-------> Another reason for field moving is when doing "Extract Class". In that case the fields go first and then the methods.
+-----> Mechanics:
+-------> If the field is public, use "Encapsulate Field".
+-------> Compile and test.
+-------> Create a field in the target class with getting and setting methods.
+-------> Compile the target class.
+-------> Determine how to reference the target object from the source.
+-------> Remove the field on the source class.
+-------> Replace all references to the source field with references to the appropriate method on the target.
+-------> Compile and test.
+
+---> "Extract Class"
+-----> Problem: 
+-------> You have one class doing work that should be done by two.
+-----> Solution:
+-------> Create a new class and move the relevant fields and methods from the old class into the new class.
+-----> Motivation:
+-------> A class that is too big to understand easily.
+---------> You need to consider where it can be split, and you split it.
+---------> A good sign is that a subset of the data and a subset of the methods seem to go together.
+---------> Other good signs are subsets of data that usually change together or are particularly dependent on each other.
+-----> Mechanics:
+-------> Decide how to split the responsibilities of the class.
+-------> Create a new class to express the split-off responsibilities.
+-------> Make a link from the old to the new class.
+-------> Use "Move Field" on each field you wish to move.
+-------> Compile and test after each move.
+-------> Use "Move Method" to move methods over from old to new. Start with lower-level methods (called rather than calling) and build to the higher level.
+-------> Compile and test after each move.
+-------> Review and reduce the interfaces of each class.
+-------> Decide whether to expose the new class. If you do expose the class, decide whether to expose it as a reference object or as an immutable value object.
+-----> Notes:
+-------> One sign that often crops up later in development is the way the class is subtyped.
+---------> You may find that subtyping affects only a few features or that some features need to be subtyped one way and other features a different way.
+
+---> "Inline Class"
+-----> Problem: 
+-------> A class isn't doing very much.
+-----> Solution:
+-------> Move all its features into another class and delete it.
+-----> Motivation:
+-------> "Inline Class" is the reverse of "Extract Class". 
+-------> I use "Inline Class" if a class is no longer pulling its weight and shouldn't be around any more. 
+-------> Often this is the result of refactoring that moves other responsibilities out of the class so there is little left. 
+-------> Then I want to fold this class into another class, picking one that seems to use the runt class the most.
+-----> Mechanics:
+-------> Declare the public protocol of the source class onto the absorbing class. Delegate all these methods to the source class.
+-------> Change all references from the source class to the absorbing class.
+-------> Compile and test.
+-------> Use "Move Method" and "Move Field" to move features from the source class to the absorbing class until there is nothing left.
+-------> Hold a short, simple funeral service.
+
+---> "Hide Delegate"
+-----> Problem: 
+-------> A client is calling a delegate class of an object.
+-----> Solution:
+-------> Create methods on the server to hide the delegate.
+-----> Motivation:
+-------> One of the keys, if not the key, to objects is encapsulation.
+---------> Encapsulation means that objects need to know less about other parts of the system.
+---------> Then when things change, fewer objects need to be told about the change—which makes the change easier to make.
+-------> Anyone involved in objects knows that you should hide your fields.
+---------> As you become more sophisticated, you realize there is more you can encapsulate.
+-------> If a client calls a method defined on one of the fields of the server object, the client needs to know about this delegate object. 
+---------> If the delegate changes, the client also may have to change. 
+---------> You can remove this dependency by placing a simple delegating method on the server, which hides the delegate . 
+---------> Changes become limited to the server and don't propagate to the client.
+-----> Mechanics:
+-------> For each method on the delegate, create a simple delegating method on the server.
+-------> Adjust the client to call the server.
+-------> Compile and test after adjusting each method.
+-------> If no client needs to access the delegate anymore, remove the server's accessor for the delegate.
+-------> Compile and test.
+
+---> "Remove Middle Man"
+-----> Problem: 
+-------> A class is doing too much simple delegation.
+-----> Solution:
+-------> Get the client to call the delegate directly.
+-----> Motivation:
+-------> In the motivation for "Hide Delegate", I talked about the advantages of encapsulating the use of a delegated object. 
+---------> There is a price for this. 
+---------> The price is that every time the client wants to use a new feature of the delegate, you have to add a simple delegating method to the server. 
+---------> After adding features for a while, it becomes painful. 
+---------> The server class is just a middle man, and perhaps it's time for the client to call the delegate directly.
+-------> It's hard to figure out what the right amount of hiding is.
+---------> Fortunately, with "Hide Delegate" and "Remove Middle Man" it does not matter so much.
+-----> Mechanics:
+-------> Create an accessor for the delegate.
+-------> For each client use of a delegate method, remove the method from the server and replace the call in the client to call method on the delegate.
+-------> Compile and test after each method.
+-----> Notes:
+-------> You can adjust your system as time goes on.
+-------> As the system changes, the basis for how much you hide also changes. 
+-------> A good encapsulation six months ago may be awkward now. 
+-------> Refactoring means you never have to say you're sorry—you just fix it.
+
+---> "Introduce Foreign Method"
+-----> Problem: 
+-------> A server class you are using needs an additional method, but you can't modify the class.
+-----> Solution:
+-------> Create a method in the client class with an instance of the server class as its first argument.
+-----> Motivation:
+-------> You are using this really nice class that gives you all these great services. 
+---------> Then there is one service it doesn't give you but should. 
+---------> You curse the class, saying, "Why don't you do that?" 
+---------> If you can change the source, you can add in the method. 
+---------> If you can't change the source, you have to code around the lack of the method in the client.
+-------> If you use the method only once in the client class then the extra coding is no big deal and probably wasn't needed on the original class anyway.
+---------> If you use the method several times, however, you have to repeat this coding around.
+---------> Because repetition is the root of all software evil, this repetitive code should be factored into a single method.
+---------> When you do this refactoring, you can clearly signal that this method is really a method that should be on the original by making it a foreign method.
+-----> Mechanics:
+-------> Create a method in the client class that does what you need.
+-------> Make an instance of the server class the first parameter.
+-------> Comment the method as "foreign method; should be in server."
+-----> Notes:
+-------> If you find yourself creating many foreign methods on a server class, or you find many of your classes need the same foreign method, 
+---------> you should use "Introduce Local Extension" instead.
+-------> Don't forget that foreign methods are a work-around. 
+---------> If you can, try to get the methods moved to their proper homes. 
+---------> If code ownership is the issue, send the foreign method to the owner of the server class and ask the owner to implement the method for you
+
+---> "Introduce Local Extension"
+-----> Problem: 
+-------> A server class you are using needs several additional methods, but you can't modify the class.
+-----> Solution:
+-------> Create a new class that contains these extra methods. Make this extension class a subclass or a wrapper of the original.
+-----> Motivation:
+-------> Authors of classes sadly are not omniscient, and they fail to provi de useful methods for you.
+---------> If you can modify the source, often the best thing is to add that method.
+---------> However, you often cannot modify the source. If you need one or two methods, you can use "Introduce Foreign Method".
+-------> Once you get beyond a couple of these methods, however, they get out of hand.
+---------> So you need to group the methods together in a sensible place for them.
+---------> The standard object-oriented techniques of subclassing and wrapping are an obvious way to do this.
+---------> In these circumstances I call the subclass or wrapper a local extension.
+-------> A local extension is a separate class, but it is a subtype of the class it is extending. 
+---------> That means it supports all the things the original can do but also adds the extra features. 
+---------> Instead of using the original class, you instantiate the local extension and use it.
+-----> Mechanics:
+-------> Create an extension class either as a subclass or a wrapper of the original.
+-------> Add converting constructors to the extension.
+-------> Add new features to the extension.
+-------> Replace the original with the extension where needed.
+-------> Move any foreign methods defined for this class onto the extension.
+-----> Notes:
+-------> By using the local extension you keep to the principle that methods and data should be packaged into well-formed units. 
+---------> If you keep putting code in other classes that should lie in the extension, you end up complicating the other classes, and making it harder to reuse these methods.
+-------> In choosing between subclass and wrapper, I usually prefer the subclass because it is less work.
+---------> The biggest roadblock to a subclass is that it needs to apply at object-creation time. 
+---------> If I can take over the creation process that's no problem. 
+---------> The problem occurs if you apply the local extension later. 
+---------> Subclassing forces me to create a new object of that subclass. 
+---------> If other objects refer to the old one, I have two objects with the original's data. 
+---------> If the original is immutable, there is no problem; I can safely take a copy. 
+---------> But if the original can change, there is a problem, because changes in one object won't change the other and I have to use a wrapper. 
+---------> That way changes made through the local extension affect the original object and vice versa.
+
+
+
+-> Chapter 8. Organizing Data
+
+---> "Self Encapsulate Field"
+-----> Problem: 
+-------> You are accessing a field directly, but the coupling to the field is becoming awkward.
+-----> Solution:
+-------> Create getting and setting methods for the field and use only those to access the field.
+-----> Motivation:
+-------> When it comes to accessing fields, there are two schools of thought.
+---------> One is that within the class where the variable is defined, you should access the variable freely (direct variable access).
+------------> The advantage of direct variable access is that the code is easier to read. 
+------------> You don't need to stop and say, "This is just a getting method."
+---------> The other school is that even within the class, you should always use accessors (indirect variable access).
+------------> This allows a subclass to override how to get that information with a method so it supports more flexibility in managing the data.
+--------------> For example, "lazy initialization" could be possible, which initializes the value only when you need to use it.
+-------> The most important case is when you are accessing a field in a superclass but you want to override this variable access with a computed value in the subclass.
+---------> Self-encapsulating the field is the first step.
+---------> After that you can override the getting and setting methods as you need to.
+-----> Mechanics:
+-------> Create a getting and setting method for the field.
+-------> Find all references to the field and replace them with a getting or setting method.
+---------> Replace accesses to the field with a call to the getting method; replace assignments with a call to the setting method.
+---------> You can get the compiler to help you check by temporarily renaming the field.
+-------> Make the field private.
+-------> Double check that you have caught all references.
+-------> Compile and test.
+-----> Notes:
+-------> I'm always of two minds with this choice. I'm usually happy to do what the rest of the team wants to do.
+---------> Left to myself, though, I like to use direct variable access as a first resort, until it gets in the way.
+---------> Once things start becoming awkward, I switch to indirect variable access.
+---------> Refactoring gives you the freedom to change your mind.
+
+---> "Replace Data Value with Object"
+-----> Problem: 
+-------> You have a data item that needs additional data or behavior.
+-----> Solution:
+-------> Turn the data item into an object.
+-----> Motivation:
+-------> Often in early stages of development you make decisions about representing simple facts as simple data items.
+-------> As development proceeds you realize that those simple items aren't so simple anymore
+-------> For one or two items you may put the methods in the owning object, but quickly the code smells of duplication and feature envy.
+---------> When the smell begins, turn the data value into an object.
+-----> Mechanics:
+-------> Create the class for the value. 
+---------> Give it a final field of the same type as the value in the source class. 
+---------> Add a getter and a constructor that takes the field as an argument.
+-------> Compile.
+-------> Change the type of the field in the source class to the new class.
+-------> Change the getter in the source class to call the getter in the new class.
+-------> If the field is mentioned in the source class constructor, assign the field using the constructor of the new class.
+-------> Change the getting method to create a new instance of the new class.
+-------> Compile and test.
+-------> You may now need to use "Change Value to Reference" on the new object.
+
+---> "Change Value to Reference"
+-----> Problem: 
+-------> You have a class with many equal instances that you want to replace with a single object.
+-----> Solution:
+-------> Turn the object into a reference object.
+-----> Motivation:
+-------> You can make a useful classification of objects in many systems: reference objects and value objects.
+-------> Reference objects are things like customer or account.
+---------> Each object stands for one object in the real world, and you use the object identity to test whether they are equal.
+-------> Value objects are things like date or money.
+---------> They are defined entirely through their data values.
+---------> You don't mind that copies exist; you may have hundreds of "1/1/2000" objects around your system.
+---------> You do need to tell whether two of the objects are equal
+-------> The decision between reference and value is not always clear. 
+---------> Sometimes you start with a simple value with a small amount of immutable data. 
+---------> Then you want to give it some changeable data and ensure that the changes ripple to everyone referring to the object. 
+---------> At this point you need to turn it into a reference object.
+-----> Mechanics:
+-------> Use "Replace Constructor with Factory Method".
+-------> Compile and test.
+-------> Decide what object is responsible for providing access to the objects.
+-------> Decide whether the objects are precreated or created on the fly.
+---------> If the objects are precreated and you are retrieving them from memory, you need to ensure they are loaded before they are needed.
+-------> Alter the factory method to return the reference object.
+---------> If the objects are precomputed, you need to decide how to handle errors if someone asks for an object that does not exist.
+---------> You may want to use "Rename Method" on the factory to convey that it returns an existing object.
+-------> Compile and test.
+
+---> "Change Reference to Value"
+-----> Problem: 
+-------> You have a reference object that is small, immutable, and awkward to manage.
+-----> Solution:
+-------> Turn it into a value object.
+-----> Motivation:
+-------> As with "Change Value to Reference", the decision between a reference and a value object is not always clear. It is a decision that often needs reversing.
+---------> The trigger for going from a reference to a value is that working with the reference object becomes awkward. 
+---------> Reference objects have to be controlled in some way. 
+---------> You always need to ask the controller for the appropriate object. 
+---------> The memory links also can be awkward. 
+---------> Value objects are particularly useful for distributed and concurrent systems.
+-------> An important property of value objects is that they should be immutable. 
+---------> Any time you invoke a query on one, you should get the same result. 
+---------> If this is true, there is no problem having many objects represent the same thing. 
+---------> If the value is mutable, you have to ensure that changing any object also updates all the other objects that represent the same thing. 
+---------> That's so much of a pain that the easiest thing to do is to make it a reference object.
+-----> Mechanics:
+-------> Check that the candidate object is immutable or can become immutable.
+---------> If the object isn't currently immutable, use "Remove Setting Method" until it is.
+---------> If the candidate cannot become immutable, you should abandon this refactoring.
+-------> Create an equals method and a hash method.
+-------> Compile and test.
+-------> Consider removing any factory method and making a constructor public.
+-----> Notes:
+-------> It's important to be clear on what immutable means. 
+---------> If you have a money class with a currency and a value, that's usually an immutable value object. 
+---------> That does not mean your salary cannot change. 
+---------> It means that to change your salary, you need to replace the existing money object with a new money object rather than changing the amount on an existing money object. 
+---------> Your relationship can change, but the money object itself does not.
+
+---> "Replace Array with Object"
+-----> Problem: 
+-------> You have an array in which certain elements mean different things.
+-----> Solution:
+-------> Replace the array with an object that has a field for each element.
+-----> Motivation:
+-------> Arrays are a common structure for organizing data. 
+-------> However, they should be used only to contain a collection of similar objects in some order. 
+-------> Sometimes, however, you see them used to contain a number of different things. 
+-------> Conventions such as "the first element on the array is the person's name" are hard to remember. 
+-------> With an object you can use names of fields and methods to convey this information so you don't have to remember it or hope the comments are up to date. 
+-------> You can also encapsulate the information and use "Move Method" to add behavior to it.
+-----> Mechanics:
+-------> Create a new class to represent the information in the array. Give it a public field for the array.
+-------> Change all users of the array to use the new class.
+-------> Compile and test.
+-------> One by one, add getters and setters for each element of the array. 
+---------> Name the accessors after the purpose of the array element. 
+---------> Change the clients to use the accessors. 
+---------> Compile and test after each change.
+-------> When all array accesses are replaced by methods, make the array private.
+-------> Compile.
+-------> For each element of the array, create a field in the class and change the accessors to use the field.
+-------> Compile and test after each element is changed.
+-------> When all elements have been replaced with fields, delete the array.
+
+---> "Duplicate Observed Data"
+-----> Problem: 
+-------> You have domain data available only in a GUI control, and domain methods need access.
+-----> Solution:
+-------> Copy the data to a domain object. Set up an observer to synchronize the two pieces of data.
+-----> Motivation:
+-------> A well-layered system separates code that handles the user interface from code that handles the business logic. This is because:
+---------> You may want several interfaces for similar business logi
+---------> the user interface becomes too complicated if it does both it is easier to maintain
+---------> and evolve domain objects separate from the GUI; or you may have different developers handling the different pieces
+-------> Although the behavior can be separated easily, the data often cannot.
+---------> Data needs to be embedded in GUI control that has the same meaning as data that lives in the domain model.
+---------> User interface frameworks, from model-view-controller (MVC) onward, used a multitiered system to provide mechanisms to allow you to provide this data and keep everything in sync.
+---------> If you come across code that has been developed with a two-tiered approach in which business logic is embedded into the user interface, you need to separate the behaviors. 
+---------> Much of this is about decomposing and moving methods.
+---------> For the data, however, you cannot just move the data, you have to duplicate it and provide the synchronization mechanism.
+-----> Mechanics:
+-------> Make the presentation class an observer of the domain class [Gang of Four].
+-------> Use "Self Encapsulate Field" on the domain data within the GUI class.
+-------> Compile and test.
+-------> Add a call to the setting method in the event handler to update the component with its current value using direct access.
+-------> Compile and test.
+-------> Define the data and accessor methods in the domain class.
+-------> Redirect the accessors to write to the domain field.
+-------> Modify the observer's update method to copy the data from the domain field to the GUI control.
+-------> Compile and test.
+
+---> "Change Unidirectional Association to Bidirectional"
+-----> Problem: 
+-------> You have two classes that need to use each other's features, but there is only a one-way link.
+-----> Solution:
+-------> Add back pointers, and change modifiers to update both sets
+-----> Motivation:
+-------> You may find that you have initially set up two classes so that one class refers to the other. 
+-------> Over time you may find that a client of the referred class needs to get to the objects that refer to it. 
+---------> This effectively means navigating backward along the pointer. 
+---------> Pointers are one-way links, so you can't do this. 
+---------> Often you can get around this problem by finding another route. 
+-----------> This may cost in computation but is reasonable, and you can have a method on the referred class that uses this behavior. 
+---------> Sometimes, however, this is not easy, and you need to set up a two-way reference, sometimes called a back pointer. 
+-----------> If you aren't used to back pointers, it's easy to become tangled up using them. 
+-----> Mechanics:
+-------> Add a field for the back pointer.
+-------> Decide which class will control the association.
+-------> Create a helper method on the noncontrolling side of the association. Name this method to clearly indicate its restricted use.
+-------> If the existing modifier is on the controlling side, modify it to update the back pointers.
+-------> If the existing modifier is on the controlled side, create a controlling method on the controlling side and call it from the existing modifier.
+-----> Notes:
+---------> Once you get used to the idiom, however, it is not too complicated. 
+-----------> The idiom is awkward enough that you should have tests, at least until you are comfortable with the idiom. 
+---------> Because I usually don't bother testing accessors (the risk is not high enough), this is the rare case of a refactoring that adds a test.
+-----------> This refactoring uses back pointers to implement bidirectionality. Other techniques, such as link objects, require other refactorings.
+
+---> "Change Bidirectional Association to Unidirectional"
+-----> Problem: 
+-------> You have a two-way association but one class no longer needs features from the other.
+-----> Solution:
+-------> Drop the unneeded end of the association.
+-----> Motivation:
+-------> Bidirectional associations are useful, but they carry a price. 
+---------> The price is the added complexity of maintaining the two-way links and ensuring that objects are properly created and removed.
+---------> Bidirectional associations are not natural for many programmers, so they often are a source of errors.
+---------> Lots of two-way links also make it easy for mistakes to lead to zombies: objects that should be dead but still hang around because of a reference that was not cleared.
+-------> Bidirectional associations force an interdependency between the two classes. 
+---------> Any change to one class may cause a change to another. 
+---------> If the classes are in separate packages, you get an interdependency between the packages. 
+---------> Many interdependencies lead to a highly coupled system, in which any little change leads to lots of unpredictable ramifications.
+-------> You should use bidirectional associations when you need to but not when you don't. 
+---------> As soon as you see a bidirectional association is no longer pulling its weight, drop the unnecessary end.
+-----> Mechanics:
+-------> Examine all the readers of the field that holds the pointer that you wish to remove to see whether the removal is feasible.
+-------> If clients need to use the getter, use "Self Encapsulate Field", carry out "Substitute Algorithm" on the getter, compile, and test.
+-------> If clients don't need the getter, change each user of the field so that it gets the object in the field another way. Compile and test after each change.
+-------> When no reader is left in the field, remove all updates to the field, and remove the field.
+-------> Compile and test.
 -----> Notes:
 -------> 
 
----> 
+---> "Replace Magic Number with Symbolic Constant"
 -----> Problem: 
--------> 
+-------> You have a literal number with a particular meaning.
 -----> Solution:
--------> 
+-------> Create a constant, name it after the meaning, and replace the number with it.
 -----> Motivation:
--------> 
+-------> Magic numbers are one of oldest ills in computing. 
+---------> They are numbers with special values that usually are not obvious. 
+-------> Magic numbers are really nasty when you need to reference the same logical number in more than one place. 
+---------> If the numbers might ever change, making the change is a nightmare. 
+---------> Even if you don't make a change, you have the difficulty of figuring out what is going on.
+-------> Many languages allow you to declare a constant. 
+---------> There is no cost in performance and there is a great improvement in readability.
+-------> Before you do this refactoring, you should always look for an alternative. 
+---------> If the magic number is a type code, consider "Replace Type Code with Class". 
+---------> If the magic number is the length of an array, use an Array.length instead when you are looping through the array.
 -----> Mechanics:
--------> 
------> Notes:
--------> 
+-------> Declare a constant and set it to the value of the magic number.
+-------> Find all occurrences of the magic number.
+-------> See whether the magic number matches the usage of the constant; if it does, change the magic number to use the constant.
+-------> Compile.
+-------> When all magic numbers are changed, compile and test. At this point all should work as if nothing has been changed.
 
----> 
+---> "Encapsulate Field"
 -----> Problem: 
--------> 
+-------> There is a public field.
 -----> Solution:
--------> 
+-------> Make it private and provide accessors.
 -----> Motivation:
--------> 
+-------> One of the principal tenets of object orientation is encapsulation, or data hiding. 
+---------> This says that you should never make your data public. 
+---------> When you make data public, other objects can change and access data values without the owning object's knowing about it. 
+---------> This separates data from behavior.
+-------> This is seen as a bad thing because it reduces the modularity of the program. 
+---------> When the data and behavior that uses it are clustered together, it is easier to change the code, because the changed code is in one place rather than scattered all over the program.
+-------> "Encapsulate Field" begins the process by hiding the data and adding accessors. 
+---------> But this is only the first step. 
+---------> A class with only accessors is a dumb class that doesn't really take advantage of the opportunities of objects, and an object is terrible thing to waste. 
+---------> Once I've done "Encapsulate Field" I look for methods that use the new methods to see whether they fancy packing their bags and moving to the new object with a quick "Move Method".
 -----> Mechanics:
--------> 
------> Notes:
--------> 
+-------> Create getting and setting methods for the field.
+-------> Find all clients outside the class that reference the field. 
+---------> If the client uses the value, replace the reference with a call to the getting method. 
+---------> If the client changes the value, replace the reference with a call to the setting method.
+-------> Compile and test after each change.
+-------> Once all clients are changed, declare the field as private.
+-------> Compile and test.
 
----> 
+---> "Encapsulate Collection"
 -----> Problem: 
--------> 
+-------> A method returns a collection.
 -----> Solution:
--------> 
+-------> Make it return a read-only view and provide add/remove methods.
 -----> Motivation:
--------> 
+-------> Often a class contains a collection of instances. 
+---------> This collection might be an array, list, set, or vector. 
+---------> Such cases often have the usual getter and setter for the collection.
+-------> However, collections should use a protocol slightly different from that for other kinds of data. 
+---------> The getter should not return the collection object itself, because that allows clients to manipulate the contents of the collection without the owning class's knowing what is going on. 
+---------> It also reveals too much to clients about the object's internal data structures. 
+---------> A getter for a multivalued attribute should return something that prevents manipulation of the collection and hides unnecessary details about its structure. 
+---------> How you do this varies depending on the version of Java you are using.
+-------> In addition there should not be a setter for collection: rather there should be operations to add and remove elements. 
+---------> This gives the owning object control over adding and removing elements from the collection.
+---------> With this protocol the collection is properly encapsulated, which reduces the coupling of the owning class to its clients.
 -----> Mechanics:
--------> 
------> Notes:
--------> 
+-------> Add an add and remove method for the collection.
+-------> Initialize the field to an empty collection.
+-------> Compile.
+-------> Find callers of the setting method. 
+---------> Either modify the setting method to use the add and remove operations or have the clients call those operations instead.
+-------> Compile and test.
+-------> Find all users of the getter that modify the collection. 
+---------> Change them to use the add and remove methods. 
+---------> Compile and test after each change.
+-------> When all uses of the getter that modify have been changed, modify the getter to return a read-only view of the collection.
+-------> Compile and test.
+-------> Find the users of the getter. Look for code that should be on the host object. 
+---------> Use "Extract Method" and "Move Method" to move the code to the host object.
 
----> 
+---> "Replace Record with Data Class"
 -----> Problem: 
--------> 
+-------> You need to interface with a record structure in a traditional programming environment.
 -----> Solution:
--------> 
+-------> Make a dumb data object for the record.
 -----> Motivation:
--------> 
+-------> Record structures are a common feature of programming environments. 
+-------> There are various reasons for bringing them into an object-oriented program. 
+-------> You could be copying a legacy program, or you could be communicating a structured record with a traditional programming API, or a database record. 
+-------> In these cases it is useful to create an interfacing class to deal with this external element. 
+-------> It is simplest to make the class look like the external record. 
+-------> You move other fields and methods into the class later. 
+-------> A less obvious but very compelling case is an array in which the element in each index has a special meaning. 
+-------> In this case you use "Replace Array with Object".
 -----> Mechanics:
--------> 
+-------> Create a class to represent the record.
+-------> Give the class a private field with a getting method and a setting method for each data item.
 -----> Notes:
--------> 
+-------> You now have a dumb data object. 
+---------> It has no behavior yet but further refactoring will explore that issue.
 
----> 
+---> "Replace Type Code with Class"
 -----> Problem: 
--------> 
+-------> A class has a numeric type code that does not affect its behavior.
 -----> Solution:
--------> 
+-------> Replace the number with a new class.
 -----> Motivation:
--------> 
+-------> Numeric type codes, or enumerations, are a common feature of C-based languages. 
+---------> With symbolic names they can be quite readable. The problem is that the symbolic name is only an alias; the compiler still sees the underlying number. 
+---------> The compiler type checks using the number not the symbolic name. 
+---------> Any method that takes the type code as an argument expects a number, and there is nothing to force a symbolic name to be used. 
+---------> This can reduce readability and be a source of bugs.
+-------> If you replace the number with a class, the compiler can type check on the class. 
+---------> By providing factory methods for the class, you can statically check that only valid instances are created and that those instances are passed on to the correct objects.
+-------> Before you do "Replace Type Code with Class", however, you need to consider the other type code replacements. 
+---------> Replace the type code with a class only if the type code is pure data, that is, it does not cause different behavior inside a switch statement. 
+---------> For a start Java can only switch on an integer, not an arbitrary class, so the replacement will fail. 
+---------> More important than that, any switch has to be removed with "Replace Conditional with Polymorphism". 
+---------> In order for that refactoring, the type code first has to be handled with "Replace Type Code with Subclasses" or "Replace Type Code with State/Strategy".
+-------> Even if a type code does not cause different behavior depending on its value, there might be behavior that is better placed in the type code class, 
+---------> so be alert to the value of a "Move Method" or two.
 -----> Mechanics:
--------> 
------> Notes:
--------> 
+-------> Create a new class for the type code.
+-------> Modify the implementation of the source class to use the new class.
+-------> Compile and test.
+-------> One by one, change the clients of the source class so that they use the new interface.
+-------> Compile and test after each client is updated.
+-------> Remove the old interface that uses the codes, and remove the static declarations of the codes.
+-------> Compile and test.
 
----> 
+---> "Replace Type Code with Subclasses"
 -----> Problem: 
--------> 
+-------> You have an immutable type code that affects the behavior of a class.
 -----> Solution:
--------> 
+-------> Replace the type code with subclasses.
 -----> Motivation:
--------> 
+-------> If you have a type code that does not affect behavior, you can use "Replace Type Code with Class". 
+---------> However, if the type code affects behavior, the best thing to do is to use polymorphism to handle the variant behavior.
+-------> This situation usually is indicated by the presence of case-like conditional statements. 
+---------> These may be switches or if-then-else constructs. 
+---------> In either case they test the value of the type code and then execute different code depending on the value of the type code. 
+---------> Such conditionals need to be refactored with "Replace Conditional with Polymorphism". 
+---------> For this refactoring to work, the type code has to be replaced with an inheritance structure that will host the polymorphic behavior.
+---------> Such an inheritance structure has a class with subclasses for each type code.
+-------> The simplest way to establish this structure is "Replace Type Code with Subclasses". 
+---------> You take the class that has the type code and create a subclass for each type code. 
+---------> However, there are cases in which you can't do this. 
+---------> In the first the value of the type code changes after the object is created. 
+---------> In the second the class with the type code is already subclassed for another reason. 
+---------> In either of these cases you need to use "Replace Type Code with State/Strategy".
+-------> "Replace Type Code with Subclasses" is primarily a scaffolding move that enables "Replace Conditional with Polymorphism". 
+---------> The trigger to use "Replace Type Code with Subclasses" is the presence of conditional statements. 
+---------> If there are no conditional statements, "Replace Type Code with Class" is the better and less critical move.
+-------> Another reason to "Replace Type Code with Subclasses" is the presence of features that are relevant only to objects with certain type codes. 
+---------> Once you've done this refactoring, you can use "Push Down Method" and "Push Down Field" to clarify that these features are relevant only in certain cases.
+-------> The advantage of "Replace Type Code with Subclasses" is that it moves knowledge of the variant behavior from clients of the class to the class itself. 
+---------> If I add new variants, all I need to do is add a subclass. 
+---------> Without polymorphism I have to find all the conditionals and change those. 
+---------> So this refactoring is particularly valuable when variants keep changing.
 -----> Mechanics:
--------> 
------> Notes:
--------> 
+-------> Self-encapsulate the type code.
+-------> For each value of the type code, create a subclass. 
+---------> Override the getting method of the type code in the subclass to return the relevant value.
+-------> Compile and test after replacing each type code value with a subclass.
+-------> Remove the type code field from the superclass. 
+---------> Declare the accessors for the type code as abstract.
+-------> Compile and test.
 
----> 
+---> "Replace Type Code with State/Strategy"
 -----> Problem: 
--------> 
+-------> You have a type code that affects the behavior of a class, but you cannot use subclassing.
 -----> Solution:
--------> 
+-------> Replace the type code with a state object.
 -----> Motivation:
--------> 
+-------> This is similar to "Replace Type Code with Subclasses", but can be used if the type code changes during the life of the object or if another reason prevents subclassing. 
+---------> It uses either the state or strategy pattern [Gang of Four].
+-------> State and strategy are very similar, so the refactoring is the same whichever you use, and it doesn't really matter. 
+---------> Choose the pattern that better fits the specific circumstances. 
+---------> If you are trying to simplify a single algorithm with "Replace Conditional with Polymorphism", strategy is the better term. 
+---------> If you are going to move state-specific data and you think of the object as changing state, use the state pattern.
 -----> Mechanics:
--------> 
------> Notes:
--------> 
+-------> Self-encapsulate the type code.
+-------> Create a new class, and name it after the purpose of the type code. This is the state object.
+-------> Add subclasses of the state object, one for each type code.
+-------> Create an abstract query in the state object to return the type code. Create overriding queries of each state object subclass to return the correct type code.
+-------> Compile.
+-------> Create a field in the old class for the new state object.
+-------> Adjust the type code query on the original class to delegate to the state object.
+-------> Adjust the type code setting methods on the original class to assign an instance of the appropriate state object subclass.
+-------> Compile and test.
 
----> 
+---> "Replace Subclass with Fields"
 -----> Problem: 
--------> 
+-------> You have subclasses that vary only in methods that return constant data.
 -----> Solution:
--------> 
+-------> Change the methods to superclass fields and eliminate the subclasses.
 -----> Motivation:
--------> 
+-------> You create subclasses to add features or allow behavior to vary. 
+---------> One form of variant behavior is the constant method [Beck]. 
+---------> A constant method is one that returns a hard-coded value. 
+---------> This can be very useful on subclasses that return different values for an accessor. 
+---------> You define the accessor in the superclass and implement it with different values on the subclass.
+-------> Although constant methods are useful, a subclass that consists only of constant methods is not doing enough to be worth existing. 
+---------> You can remove such subclasses completely by putting fields in the superclass. 
+---------> By doing that you remove the extra complexity of the subclasses.
 -----> Mechanics:
--------> 
------> Notes:
--------> 
+-------> Use "Replace Constructor with Factory Method" on the subclasses.
+-------> If any code refers to the subclasses, replace the reference with one to the superclass.
+-------> Declare final fields for each constant method on the superclass.
+-------> Declare a protected superclass constructor to initialize the fields.
+-------> Add or modify subclass constructors to call the new superclass constructor.
+-------> Compile and test.
+-------> Implement each constant method in the superclass to return the field and remove the method from the subclasses.
+-------> Compile and test after each removal.
+-------> When all the subclass methods have been removed, use "Inline Method" to inline the constructor into the factory method of the superclass.
+-------> Compile and test.
+-------> Remove the subclass.
+-------> Compile and test.
+-------> Repeat inlining the constructor and elminating each subclass until they are all gone.
 
----> 
+
+
+-> Chapter 9. Simplifying Conditional Expressions
+
+---> "Decompose Conditional"
 -----> Problem: 
--------> 
+-------> You have a complicated conditional (if-then-else) statement.
 -----> Solution:
--------> 
+-------> Extract methods from the condition, then part, and else parts.
 -----> Motivation:
--------> 
+-------> One of the most common areas of complexity in a program lies in complex conditional logic. 
+---------> As you write code to test conditions and to do various things depending on various conditions, you quickly end up with a pretty long method. 
+---------> Length of a method is in itself a factor that makes it harder to read, but conditions increase the difficulty. 
+---------> The problem usually lies in the fact that the code, both in the condition checks and in the actions, tells you what happens but can easily obscure why it happens.
+-------> As with any large block of code, you can make your intention clearer by decomposing it and replacing chunks of code with a method call named after the intention of that block of code. 
+---------> With conditions you can receive further benefit by doing this for the conditional part and each of the alternatives. 
+---------> This way you highlight the condition and make it clearly what you are branching on.
+---------> You also highlight the reason for the branching.
 -----> Mechanics:
--------> 
+-------> Extract the condition into its own method.
+-------> Extract the then part and the else part into their own methods
 -----> Notes:
--------> 
+-------> If I find a nested conditional, I usually first look to see whether I should use "Replace Nested Conditional with Guard Clauses". 
+---------> If that does not make sense, I decompose each of the conditionals.
 
----> 
+---> "Consolidate Conditional Expression"
 -----> Problem: 
--------> 
+-------> You have a sequence of conditional tests with the same result.
 -----> Solution:
--------> 
+-------> Combine them into a single conditional expression and extract it.
 -----> Motivation:
--------> 
+-------> Sometimes you see a series of conditional checks in which each check is different yet the resulting action is the same. 
+---------> When you see this, you should use ands and ors to consolidate them into a single conditional check with a single result.
+-------> Consolidating the conditional code is important for two reasons. 
+---------> First, it makes the check clearer by showing that you are really making a single check that's oring the other checks together. 
+---------> The sequence has the same effect, but it communicates carrying out a sequence of separate checks that just happen to be done together. 
+---------> The second reason for this refactoring is that it often sets you up for "Extract Method". 
+---------> Extracting a condition is one of the most useful things you can do to clarify your code. 
+---------> It replaces a statement of what you are doing with why you are doing it.
+-------> The reasons in favor of consolidating conditionals also point to reasons for not doing it. 
+---------> If you think the checks are really independent and shouldn't be thought of as a single check, don't do the refactoring. Your code already communicates your intention.
 -----> Mechanics:
--------> 
+-------> Check that none of the conditionals has side effects.
+-------> Replace the string of conditionals with a single conditional statement using logical operators.
+-------> Compile and test.
+-------> Consider using "Extract Method" on the condition.
+
+---> "Consolidate Duplicate Conditional Fragments"
+-----> Problem: 
+-------> The same fragment of code is in all branches of a conditional expression.
+-----> Solution:
+-------> Move it outside of the expression.
+-----> Motivation:
+-------> Sometimes you find the same code executed in all legs of a conditional. 
+---------> In that case you should move the code to outside the conditional. 
+---------> This makes clearer what varies and what stays the same.
+-----> Mechanics:
+-------> Identify code that is executed the same way regardless of the condition.
+-------> If the common code is at the beginning, move it to before the conditional.
+-------> If the common code is at the end, move it to after the conditional.
+-------> If the common code is in the middle, look to see whether the code before or after it changes anything. 
+---------> If it does, you can move the common code forward or backward to the ends. 
+---------> You can then move it as described for code at the end or the beginning.
+-------> If there is more than a single statement, you should extract that code into a method.
+
+---> "Remove Control Flag"
+-----> Problem: 
+-------> You have a variable that is acting as a control flag for a series of boolean expressions.
+-----> Solution:
+-------> Use a break or return instead.
+-----> Motivation:
+-------> When you have a series of conditional expressions, you often see a control flag used to determine when to stop looking.
+-------> Such control flags are more trouble than they are worth. 
+---------> They come from rules of structured programming that call for routines with one entry and one exit point. 
+---------> I agree with (and modern languages enforce) one entry point, but the one exit point rule leads you to very convoluted conditionals with these awkward flags in the code. 
+---------> This is why languages have break and continue statements to get out of a complex conditional. 
+---------> It is often surprising what you can do when you get rid of a control flag. 
+---------> The real purpose of the conditional becomes so much more clear.
+-----> Mechanics:
+-------> The obvious way to deal with control flags is to use the break or continue statements.
+---------> Find the value of the control flag that gets you out of the logic statement.
+---------> Replace assignments of the break-out value with a break or continue statement.
+---------> Compile and test after each replacement.
+-------> Another approach, also usable in languages without break and continue, is as follows:
+---------> Extract the logic into a method.
+---------> Find the value of the control flag that gets you out of the logic statement.
+---------> Replace assignments of the break-out value with a return.
+---------> Compile and test after each replacement.
 -----> Notes:
--------> 
+-------> Even in languages with a break or continue, I usually prefer use of an extraction and of a return.
+---------> The return clearly signals that no more code in the method is executed. 
+---------> If you have that kind of code, you often need to extract that piece anyway.
+-------> Keep an eye on whether the control flag also indicates result information. 
+---------> If it does, you still need the control flag if you use the break, or you can return the value if you have extracted a method.
+
+---> "Replace Nested Conditional with Guard Clauses"
+-----> Problem: 
+-------> A method has conditional behavior that does not make clear the normal path of execution.
+-----> Solution:
+-------> Use guard clauses for all the special cases.
+-----> Motivation:
+-------> I often find that conditional expressions come in two forms. 
+---------> The first form is a check whether either course is part of the normal behavior. 
+---------> The second form is a situation in which one answer from the conditional indicates normal behavior and the other indicates an unusual condition.
+-------> These kinds of conditionals have different intentions, and these intentions should come through in the code. 
+---------> If both are part of normal behavior, use a condition with an if and an else leg. 
+---------> If the condition is an unusual condition, check the condition and return if the condition is true. 
+---------> This kind of check is often called a guard clause [Beck].
+-------> The key point about "Replace Nested Conditional with Guard Clauses" is one of emphasis. 
+---------> If you are using an if-then-else construct you are giving equal weight to the if leg and the else leg. 
+---------> This communicates to the reader that the legs are equally likely and important. 
+---------> Instead the guard clause says, "This is rare, and if it happens, do something and get out."
+-------> I often find I use "Replace Nested Conditional with Guard Clauses" when I'm working with a programmer who has been taught to have only one entry point and one exit point from a method.
+---------> One entry point is enforced by modern languages, and one exit point is really not a useful rule.
+---------> Clarity is the key principle: if the method is clearer with one exit point, use one exit point; otherwise don't.
+-----> Mechanics:
+-------> For each check put in the guard clause.
+---------> The guard clause either returns, or throws an exception.
+-------> Compile and test after each check is replaced with a guard clause.
+---------> If all guard clauses yield the same result, use "Consolidate Conditional Expression"s.
+
+---> "Replace Conditional with Polymorphism"
+-----> Problem: 
+-------> You have a conditional that chooses different behavior depending on the type of an object.
+-----> Solution:
+-------> Move each leg of the conditional to an overriding method in a subclass. Make the original method abstract.
+-----> Motivation:
+-------> One of the grandest sounding words in object jargon is polymorphism. 
+-------> The essence of polymorphsim is that it allows you to avoid writing an explicit conditional when you have objects whose behavior varies depending on their types.
+-------> As a result you find that switch statements that switch on type codes or if-then-else statements that switch on type strings are much less common in an object-oriented program.
+-------> Polymorphism gives you many advantages. The biggest gain occurs when this same set of conditions appears in many places in the program. 
+-------> If you want to add a new type, you have to find and update all the conditionals. 
+-------> But with subclasses you just create a new subclass and  provide the appropriate methods. 
+-------> Clients of the class don't need to know about the subclasses,
+-------> which reduces the dependencies in your system and makes it easier to update.
+-----> Mechanics:
+-------> If the conditional statement is one part of a larger method, take apart the conditional statement and use "Extract Method".
+-------> If necessary use "Move Method" to place the conditional at the top of the inheritance structure.
+-------> Pick one of the subclasses. Create a subclass method that overrides the conditional statement method. 
+---------> Copy the body of that leg of the conditional statement into the subclass method and adjust it to fit.
+-------> Compile and test.
+-------> Remove the copied leg of the conditional statement.
+-------> Compile and test.
+-------> Repeat with each leg of the conditional statement until all legs are turned into subclass methods.
+-------> Make the superclass method abstract.
+
+---> "Introduce Null Object"
+-----> Problem: 
+-------> You have repeated checks for a null value.
+-----> Solution:
+-------> Replace the null value with a null object.
+-----> Motivation:
+-------> The essence of polymorphism is that instead of asking an object what type it is and then invoking some behavior based on the answer, you just invoke the behavior. 
+-------> The object, depending on its type, does the right thing.
+-----> Mechanics:
+-------> Create a subclass of the source class to act as a null version of the class. 
+---------> Create an isNull operation on the source class and the null class. 
+---------> For the source class it should return false, for the null class it should return true.
+-------> Compile.
+-------> Find all places that can give out a null when asked for a source object. 
+---------> Replace them to give out a null object instead.
+-------> Find all places that compare a variable of the source type with null and replace them with a call isNull.
+-------> Compile and test.
+-------> Look for cases in which clients invoke an operation if not null and do some alternative behavior if null.
+-------> For each of these cases override the operation in the null class with the alternative behavior.
+-------> Remove the condition check for those that use the overriden behavior, compile, and test.
+
+---> "Introduce Assertion"
+-----> Problem: 
+-------> A section of code assumes something about the state of the program.
+-----> Solution:
+-------> Make the assumption explicit with an assertion.
+-----> Motivation:
+-------> Often sections of code work only if certain conditions are true. 
+---------> This may be as simple as a square root calculation's working only on a positive input value. 
+---------> With an object it may be assumed that at least one of a group of fields has a value in it.
+-------> Such assumptions often are not stated but can only be decoded by looking through an algorithm.
+---------> Sometimes the assumptions are stated with a comment. 
+---------> A better technique is to make the assumption explicit by writing an assertion.
+-------> An assertion is a conditional statement that is assumed to be always true. 
+---------> Failure of an assertion indicates programmer error. 
+---------> As such, assertion failures should always result in unchecked exceptions. 
+---------> Assertions should never be used by other parts of the system. 
+---------> Indeed assertions usually are removed for production code. 
+---------> It is therefore important to signal something is an assertion.
+-------> Assertions act as communication and debugging aids. In communication they help the reader
+---------> understand the assumptions the code is making. In debugging, assertions can help catch bugs
+---------> closer to their origin. I've noticed the debugging help is less important when I write self-testing
+---------> code, but I still appreciate the value of assertions in communciation.
+-----> Mechanics:
+-------> Because assertions should not affect the running of a system, adding one is always behavior preserving.
+-------> When you see that a condition is assumed to be true, add an assertion to state it.
+---------> Have an assert class that you can use for assertion behavior.
+-------> Beware of overusing assertions. 
+---------> Don't use assertions to check everything that you think is true for a section of code. 
+---------> Use assertions only to check things that need to be true. 
+---------> Overusing assertions can lead to duplicate logic that is awkward to maintain. 
+---------> Logic that covers an assumption is good because it forces you to rethink the section of the code. 
+---------> If the code works without the assertion, the assertion is confusing rather than helpful and may hinder modification in the future.
+-------> Always ask whether the code still works if an assertion fails. 
+---------> If the code does work, remove the assertion.
+-------> Beware of duplicate code in assertions. 
+---------> Duplicate code smells just as bad in assertion checks as it does anywhere else. 
+---------> Use "Extract Method" liberally to get rid of the duplication.
 
 
------> 
------> 
------> 
------> 
------> 
------> 
------> 
------> 
------> 
------> 
------> 
------> 
------> 
------> 
------> 
------> 
------> 
------> 
------> 
------> 
------> 
------> 
------> 
------> 
------> 
------> 
------> 
------> 
------> 
------> 
------> 
------> 
------> 
------> 
------> 
------> 
------> 
+
+-> Chapter 10. Making Method Calls Simpler
+
+---> "Rename Method"
+-----> Problem: 
+-------> The name of a method does not reveal its purpose.
+-----> Solution:
+-------> Change the name of the method.
+-----> Motivation:
+-------> An important part of the code style I am advocating is small methods to factor complex processes. 
+-------> Done badly, this can lead you on a merry dance to find out what all the little methods do. 
+-------> The key to avoiding this merry dance is naming the methods. Methods should be named in a way that communicates their intention. 
+-------> A good way to do this is to think what the comment for the method would be and turn that comment into the name of the method.
+-------> Life being what it is, you won't get your names right the first time. 
+-------> In this situation you may well be tempted to leave it—after all it's only a name. 
+-------> That is the work of the evil demon Obfuscatis; don't listen to him. 
+-------> If you see a badly named method, it is imperative that you change it. 
+-------> Remember your code is for a human first and a computer second. 
+-------> Humans need good names. 
+-------> Take note of when you have spent ages trying to do something that would have been easier if a couple of methods had been better named. 
+-------> Good naming is a skill that requires practice; improving this skill is the key to being a truly skillful programmer. 
+-------> The same applies to other aspects of the signature.
+-------> If reordering parameters clarifies matters, do it (see "Add Parameter" and "Remove Parameter").
+-----> Mechanics:
+-------> Check to see whether the method signature is implemented by a superclass or subclass. If it is, perform these steps for each implementation.
+-------> Declare a new method with the new name. Copy the old body of code over to the new name and make any alterations to fit.
+-------> Compile.
+-------> Change the body of the old method so that it calls the new one.
+---------> If you only have a few references, you can reasonably skip this step.
+-------> Compile and test.
+-------> Find all references to the old method name and change them to refer to the new one.
+---------> Compile and test after each change.
+-------> Remove the old method.
+---------> If the old method is part of the interface and you cannot remove it, leave it in place and mark it as deprecated.
+-------> Compile and test.
+
+---> "Add Parameter"
+-----> Problem: 
+-------> A method needs more information from its caller.
+-----> Solution:
+-------> Add a parameter for an object that can pass on this information.
+-----> Motivation:
+-------> "Add Parameter" is a very common refactoring, one that you almost certainly have already done.
+-------> The motivation is simple. 
+---------> You have to change a method, and the change requires information that wasn't passed in before, so you add a parameter.
+-------> Actually most of what I have to say is motivation against doing this refactoring. 
+---------> Often you have other alternatives to adding a parameter. 
+---------> If available, these alternatives are better because they don't lead to increasing the length of parameter lists. 
+---------> Long parameter lists smell bad because they are hard to remember and often involve data clumps.
+-------> Look at the existing parameters. 
+---------> Can you ask one of those objects for the information you need?
+---------> If not, would it make sense to give them a method to provide that information? 
+---------> What are you using the information for? 
+---------> Should that behavior be on another object, the one that has the information? 
+---------> Look at the existing parameters and think about them with the new parameter.
+---------> Perhaps you should consider "Introduce Parameter Object".
+-------> I'm not saying that you should never add parameters; I do it frequently, but you need to be aware of the alternatives.
+-----> Mechanics:
+-------> Check to see whether this method signature is implemented by a superclass or subclass.
+---------> If it is, carry out these steps for each implementation.
+-------> Declare a new method with the added parameter. Copy the old body of code over to the new method.
+-------> Compile.
+-------> Change the body of the old method so that it calls the new one.
+-------> Compile and test.
+-------> Find all references to the old method and change them to refer to the new one. 
+---------> Compile and test after each change.
+-------> Remove the old method.
+-------> Compile and test.
+
+---> "Remove Parameter"
+-----> Problem: 
+-------> A parameter is no longer used by the method body.
+-----> Solution:
+-------> Remove it.
+-----> Motivation:
+-------> Programmers often add parameters but are reluctant to remove them. 
+---------> After all, a spurious parameter doesn't cause any problems, and you might need it again later.
+-------> This is the demon Obfuscatis speaking; purge him from your soul! 
+---------> A parameter indicates information that is needed; different values make a difference. 
+---------> Your caller has to worry about what values to pass. 
+---------> By not removing the parameter you are making further work for everyone who uses the method. 
+---------> That's not a good trade-off, especially because removing parameters is an easy refactoring.
+-------> The case to be wary of here is a polymorphic method. 
+---------> In this case you may well find that other implementations of the method do use the parameter. 
+---------> In this case you shouldn't remove the parameter. 
+---------> You might choose to add a separate method that can be used in those cases, but you need to examine how your callers use the method to see whether it is worth doing that. 
+---------> If some callers already know they are dealing with a certain subclass 
+---------> and doing extra work to find the parameter or are using knowledge of the class hierarchy to know they can get away with a null, add an extra method without the parameter. 
+---------> If they do not need to know about which class has which method, the callers should be left in blissful ignorance.
+-----> Mechanics:
+-------> Check to see whether this method signature is implemented by a superclass or subclass.
+---------> Check to see whether the class or superclass uses the parameter. 
+---------> If it does, don't do this refactoring.
+-------> Declare a new method without the parameter. 
+---------> Copy the old body of code to the new method.
+-------> Compile.
+-------> Change the body of the old method so that it calls the new one.
+-------> Compile and test.
+-------> Find all references to the old method and change them to refer to the new one. 
+---------> Compile and test after each change.
+-------> Remove the old method.
+-------> Compile and test.
+
+---> "Separate Query from Modifier"
+-----> Problem: 
+-------> You have a method that returns a value but also changes the state of an object.
+-----> Solution:
+-------> Create two methods, one for the query and one for the modification.
+-----> Motivation:
+---------> When you have a function that gives you a value and has no observable side effects, you have a very valuable thing. 
+-----------> You can call this function as often as you like. 
+-----------> You can move the call to other places in the method. 
+-----------> In short, you have a lot less to worry about.
+---------> It is a good idea to clearly signal the difference between methods with side effects and those without. 
+-----------> A good rule to follow is to say that any method that returns a value should not have observable side effects. 
+-----------> Some programmers treat this as an absolute rule [Meyer].
+-----------> I'm not 100 percent pure on this (as on anything), but I try to follow it most of the time, and it has served me well.
+---------> If you come across a method that returns a value but also has side effects, you should try to separate the query from the modifier.
+---------> You'll note I use the phrase observable side effects.
+-----------> A common optimization is to cache the value of a query in a field so that repeated calls go quicker. 
+-----------> Although this changes the state of the object with the cache, the change is not observable. 
+-----------> Any sequence of queries will always return the same results for each query [Meyer].
+-----> Mechanics:
+-------> Create a query that returns the same value as the original method.
+-------> Modify the original method so that it returns the result of a call to the query.
+-------> Compile and test.
+-------> For each call, replace the single call to the original method with a call to the query. 
+---------> Add a call to the original method before the line that calls the query. 
+---------> Compile and test after each change to a calling method.
+-------> Make the original method have a void return type and remove the return expressions.
+
+---> "Parameterize Method"
+-----> Problem: 
+-------> Several methods do similar things but with different values contained in the method body.
+-----> Solution:
+-------> Create one method that uses a parameter for the different values.
+-----> Motivation:
+-------> You may see a couple of methods that do similar things but vary depending on a few values. 
+---------> In this case you can simplify matters by replacing the separate methods with a single method that handles the variations by parameters. 
+---------> Such a change removes duplicate code and increases flexibility, because you can deal with other variations by adding parameters.
+-----> Mechanics:
+-------> Create a parameterized method that can be substituted for each repetitive method.
+-------> Compile.
+-------> Replace one old method with a call to the new method.
+-------> Compile and test.
+-------> Repeat for all the methods, testing after each one.
+
+---> "Replace Parameter with Explicit Methods"
+-----> Problem: 
+-------> You have a method that runs different code depending on the values of an enumerated parameter.
+-----> Solution:
+-------> Create a separate method for each value of the parameter.
+-----> Motivation:
+-------> "Replace Parameter with Explicit Methods" is the reverse of "Parameterize Method". 
+---------> The usual case for the former is that you have discrete values of a parameter, test for those values in a conditional, and do different things. 
+---------> The caller has to decide what it wants to do by setting the parameter, so you might as well provide different methods and avoid the conditional. 
+---------> You not only avoid the conditional behavior but also gain compile time checking. 
+---------> Furthermore your interface also is clearer. 
+---------> With the parameter, any programmer using the method needs not only to look at the methods on the class but also to determine a valid parameter value. 
+---------> The latter is often poorly documented.
+-------> The clarity of the explicit interface can be worthwhile even when the compile time checking isn't an advantage. 
+---------> Switch.beOn() is a lot clearer than Switch.setState(true), even when all you are doing is setting an internal boolean field.
+-------> You shouldn't use "Replace Parameter with Explicit Methods" when the parameter values are likely to change a lot. 
+---------> If this happens and you are just setting a field to the passed in parameter, use a simple setter. 
+---------> If you need conditional behavior, you need "Replace Conditional with Polymorphism".
+-----> Mechanics:
+-------> Create an explicit method for each value of the parameter.
+-------> For each leg of the conditional, call the appropriate new method.
+-------> Compile and test after changing each leg.
+-------> Replace each caller of the conditional method with a call to the appropriate new method.
+-------> Compile and test.
+-------> When all callers are changed, remove the conditional method.
+
+---> "Preserve Whole Object"
+-----> Problem: 
+-------> You are getting several values from an object and passing these values as parameters in a method call.
+-----> Solution:
+-------> Send the whole object instead.
+-----> Motivation:
+-------> This type of situation arises when an object passes several data values from a single object as parameters in a method call. 
+---------> The problem with this is that if the called object needs new data values later, you have to find and change all the calls to this method. 
+---------> You can avoid this by passing in the whole object from which the data came. 
+---------> The called object then can ask for whatever it wants from the whole object.
+-------> In addition to making the parameter list more robust to changes, "Preserve Whole Object" often makes the code more readable. 
+---------> Long parameter lists can be hard to work with because both caller and callee have to remember which values were there. 
+---------> They also encourage duplicate code because the called object can't take advantage of any other methods on the whole object to calculate intermediate values.
+-------> There is a down side. When you pass in values, the called object has a dependency on the values, but there isn't any dependency to the object from which the values were extracted.
+---------> Passing in the required object causes a dependency between the required object and the called object. 
+---------> If this is going to mess up your dependency structure, don't use "Preserve Whole Object".
+-------> Another reason I have heard for not using "Preserve Whole Object" is that when a calling object need only one value from the required object, 
+---------> it is better to pass in the value than to pass in the whole object. 
+---------> I don't subscribe to that view. One value and one object amount to the same thing when you pass them in, 
+---------> at least for clarity's sake (there may be a performance cost with pass by value parameters). 
+-------> The driving force is the dependency issue.
+---------> That a called method uses lots of values from another object is a signal that the called method should really be defined on the object from which the values come. 
+---------> When you are considering "Preserve Whole Object", consider "Move Method" as an alternative.
+-------> You may not already have the whole object defined. 
+---------> In this case you need "Introduce Parameter Object".
+---------> A common case is that a calling object passes several of its own data values as parameters. 
+---------> In this case you can make the call and pass in this instead of these values, if you have the appropriate getting methods and you don't mind the dependency.
+-----> Mechanics:
+-------> Create a new parameter for the whole object from which the data comes.
+-------> Compile and test.
+-------> Determine which parameters should be obtained from the whole object.
+-------> Take one parameter and replace references to it within the method body by invoking an appropriate method on the whole object parameter.
+-------> Delete the parameter.
+-------> Compile and test.
+-------> Repeat for each parameter that can be got from the whole object.
+-------> Remove the code in the calling method that obtains the deleted parameters.
+-------> Compile and test.
+
+---> "Replace Parameter with Method"
+-----> Problem: 
+-------> An object invokes a method, then passes the result as a parameter for a method. The receiver can also invoke this method.
+-----> Solution:
+-------> Remove the parameter and let the receiver invoke the method.
+-----> Motivation:
+-------> If a method can get a value that is passed in as parameter by another means, it should. 
+---------> Long parameter lists are difficult to understand, and we should reduce them as much as possible.
+-------> One way of reducing parameter lists is to look to see whether the receiving method can make the same calculation. 
+---------> If an object is calling a method on itself, 
+---------> and the calculation for the parameter does not reference any of the parameters of the calling method, 
+---------> you should be able to remove the parameter by turning the calculation into its own method. 
+---------> This is also true if you are calling a method on a different object that has a reference to the calling object.
+-------> You can't remove the parameter if the calculation relies on a parameter of the calling method,
+---------> because that parameter may change with each call (unless, of course, that parameter can be replaced with a method). 
+---------> You also can't remove the parameter if the receiver does not have a
+---------> reference to the sender, and you don't want to give it one.
+-------> In some cases the parameter may be there for a future parameterization of the method. 
+---------> In this case I would still get rid of it. 
+---------> Deal with the parameterization when you need it; you may find out that you don't have the right parameter anyway. 
+---------> I would make an exception to this rule only when the resulting change in the interface would have painful consequences around the whole program, 
+---------> such as a long build or changing of a lot of embedded code. 
+---------> If this worries you, look into how painful such a change would really be. 
+---------> You should also look to see whether you can reduce the dependencies that cause the change to be so painful. 
+---------> Stable interfaces are good, but freezing a poor interface is a problem.
+-----> Mechanics:
+-------> If necessary, extract the calculation of the parameter into a method.
+-------> Replace references to the parameter in method bodies with references to the method.
+-------> Compile and test after each replacement.
+-------> Use "Remove Parameter" on the parameter.
+
+---> "Introduce Parameter Object"
+-----> Problem: 
+-------> You have a group of parameters that naturally go together.
+-----> Solution:
+-------> Replace them with an object.
+-----> Motivation:
+-------> Often you see a particular group of parameters that tend to be passed together. 
+---------> Several methods may use this group, either on one class or in several classes. 
+---------> Such a group of classes is a data clump and can be replaced with an object that carries all of this data. 
+---------> It is worthwhile to turn these parameters into objects just to group the data together. 
+---------> This refactoring is useful because it reduces the size of the parameter lists, and long parameter lists are hard to understand. 
+---------> The defined accessors on the new object also make the code more consistent, which again makes it easier to understand and modify.
+-------> You get a deeper benefit, however, because once you have clumped together the parameters, you soon see behavior that you can also move into the new class. 
+---------> Often the bodies of the methods have common manipulations of the parameter values. 
+---------> By moving this behavior into the new object, you can remove a lot of duplicated code.
+-----> Mechanics:
+-------> Create a new class to represent the group of parameters you are replacing. 
+---------> Make the class immutable.
+-------> Compile.
+-------> Use "Add Parameter" for the new data clump. 
+---------> Use a null for this parameter in all the callers.
+-------> For each parameter in the data clump, remove the parameter from the signature. 
+---------> Modify the callers and method body to use the parameter object for that value.
+-------> Compile and test after you remove each parameter.
+-------> When you have removed the parameters, look for behavior that you can move into the parameter object with "Move Method".
+
+---> "Remove Setting Method"
+-----> Problem: 
+-------> A field should be set at creation time and never altered.
+-----> Solution:
+-------> Remove any setting method for that field.
+-----> Motivation:
+-------> Providing a setting method indicates that a field may be changed. 
+---------> If you don't want that field to change once the object is created, then don't provide a setting method (and make the field final).
+---------> That way your intention is clear and you often remove the very possibility that the field will change.
+-------> This situation often occurs when programmers blindly use indirect variable access [Beck]. 
+---------> Such programmers then use setters even in a constructor. 
+---------> I guess there is an argument for consistency but not compared with the confusion that the setting method will cause later on.
+-----> Mechanics:
+-------> Compile and test.
+-------> Check that the setting method is called only in the constructor, or in a method called by the constructor.
+-------> Modify the constructor to access the variables directly.
+-------> Compile and test.
+-------> Remove the setting method and make the field final.
+-------> Compile.
+
+---> "Hide Method"
+-----> Problem: 
+-------> A method is not used by any other class.
+-----> Solution:
+-------> Make the method private.
+-----> Motivation:
+-------> Refactoring often causes you to change decisions about the visibility of methods. 
+---------> It is easy to spot cases in which you need to make a method more visible: another class needs it and you thus relax the visibility. 
+---------> It is somewhat more difficult to tell when a method is too visible. 
+---------> Ideally a tool should check all methods to see whether they can be hidden. 
+---------> If it doesn't, you should make this check at regular intervals.
+-------> A particularly common case is hiding getting and setting methods as you work up a richer interface that provides more behavior. 
+---------> This case is most common when you are starting with a class that is little more than an encapsulated data holder. 
+---------> As more behavior is built into the class, you may find that many of the getting and setting methods are no longer needed publicly, in which case they can be hidden. 
+---------> If you make a getting or setting method private and you are using direct variable access, you can remove the method.
+-----> Mechanics:
+-------> Check regularly for opportunities to make a method more private.
+-------> Make each method as private as you can.
+-------> Compile after doing a group of hidings.
+
+---> "Replace Constructor with Factory Method"
+-----> Problem: 
+-------> You want to do more than simple construction when you create an object.
+-----> Solution:
+-------> Replace the constructor with a factory method.
+-----> Motivation:
+-------> The most obvious motivation for "Replace Constructor with Factory Method" comes with replacing a type code with subclassing. 
+---------> You have an object that often is created with a type code but now needs subclasses. 
+---------> The exact subclass is based on the type code. 
+---------> However, constructors can only return an instance of the object that is asked for. 
+---------> So you need to replace the constructor with a factory method [Gang of Four].
+-------> You can use factory methods for other situations in which constructors are too limited. 
+---------> Factory methods are essential for "Change Value to Reference". 
+---------> They also can be used to signal different creation behavior that goes beyond the number and types of parameters.
+-----> Mechanics:
+-------> Create a factory method. Make its body a call to the current constructor.
+-------> Replace all calls to the constructor with calls to the factory method.
+-------> Compile and test after each replacement.
+-------> Declare the constructor private.
+-------> Compile.
+
+---> "Encapsulate Downcast"
+-----> Problem: 
+-------> A method returns an object that needs to be downcasted by its callers.
+-----> Solution:
+-------> Move the downcast to within the method.
+-----> Motivation:
+-------> Downcasting is one of the most annoying things you have to do with strongly typed OO languages. 
+---------> It is annoying because it feels unnecessary; you are telling the compiler something it ought to be able to figure out itself. 
+---------> But because the figuring out often is rather complicated, you often have to do it yourself. 
+---------> This is particularly prevalent in Java, in which the lack of templates means that you have to downcast whenever you take an object out of a collection.
+-------> Downcasting may be a necessary evil, but you should do it as little as possible. 
+---------> If you return a value from a method, and you know the type of what is returned is more specialized than what the method signature says, you are putting unnecessary work on your clients. 
+---------> Rather than forcing them to do the downcasting, you should always provide them with the most specific type you can.
+-------> Often you find this situation with methods that return an iterator or collection. 
+---------> Look instead to see what people are using the iterator for and provide the method for that.
+-----> Mechanics:
+-------> Look for cases in which you have to downcast the result from calling a method.
+-------> Move the downcast into the method.
+
+---> "Replace Error Code with Exception"
+-----> Problem: 
+-------> A method returns a special code to indicate an error.
+-----> Solution:
+-------> Throw an exception instead.
+-----> Motivation:
+-------> In computers, as in life, things go wrong occasionally. 
+---------> When things go wrong, you need to do something about it. 
+---------> In the simplest case, you can stop the program with an error code. 
+---------> This is the software equivalent of committing suicide because you miss a flight. (If I did that I wouldn't be alive even if I were a cat.) 
+---------> Despite my glib attempt at humor, there is merit to the software suicide option. 
+---------> If the cost of a program crash is small and the user is tolerant, stopping the program is fine. 
+---------> However, more important programs need more important measures.
+-------> The problem is that the part of a program that spots an error isn't always the part that can figure out what to do about it. 
+---------> When such a routine finds an error, it needs to let its caller know, and the caller may pass the error up the chain. 
+---------> In many languages a special output is used to indicate error. 
+---------> Unix and C-based systems traditionally use a return code to signal success or failure of a routine.
+-------> Java has a better way: exceptions. 
+---------> Exceptions are better because they clearly separate normal processing from error processing. 
+---------> This makes programs easier to understand, and as I hope you now believe, understandability is next to godliness.
+-----> Mechanics:
+-------> Decide whether the exception should be checked or unchecked.
+-------> Create a new method that uses the exception.
+-------> Modify the body of the old method to call the new method.
+-------> Compile and test.
+-------> Adjust each caller of the old method to call the new method. Compile and test after each change.
+-------> Delete the old method.
+
+---> "Replace Exception with Test"
+-----> Problem: 
+-------> You are throwing a checked exception on a condition the caller could have checked first.
+-----> Solution:
+-------> Change the caller to make the test first.
+-----> Motivation:
+-------> Exceptions are an important advance in programming languages. 
+-------> They allow us to avoid complex codes by use of "Replace Error Code with Exception". 
+-------> Like so many pleasures, exceptions can be used to excess, and they cease to be pleasurable.
+-------> Exceptions should be used for exceptional behavior—behavior that is an unexpected error. 
+-------> They should not act as a substitute for conditional tests. 
+-------> If you can reasonably expect the caller to check the condition before calling the operation, you should provide a test, and the caller should use it.
+-----> Mechanics:
+-------> Put a test up front and copy the code from the catch block into the appropriate leg of the if statement.
+-------> Add an assertion to the catch block to notify you whether the catch block is executed.
+-------> Compile and test.
+-------> Remove the catch block and the try block if there are no other catch blocks.
+-------> Compile and test.
 
 
+
+-> Chapter 11. Dealing with Generalization
+
+---> "Pull Up Field"
+-----> Problem: 
+-------> Two subclasses have the same field.
+-----> Solution:
+-------> Move the field to the superclass.
+-----> Motivation:
+-------> If subclasses are developed independently, or combined through refactoring, you often find that they duplicate features. 
+---------> In particular, certain fields can be duplicates. 
+---------> Such fields sometimes have similar names but not always. 
+---------> The only way to determine what is going on is to look at the fields and see how they are used by other methods. 
+---------> If they are being used in a similar way, you can generalize them.
+-------> Doing this reduces duplication in two ways. 
+---------> It removes the duplicate data declaration and allows you to move from the subclasses to the superclass behavior that uses the field.
+-----> Mechanics:
+-------> Inspect all uses of the candidate fields to ensure they are used in the same way.
+-------> If the fields do not have the same name, rename the fields so that they have the name you want to use for the superclass field.
+-------> Compile and test.
+-------> Create a new field in the superclass.
+--------->  If the fields are private, you will need to protect the superclass field so that the subclasses can refer to it.
+-------> Delete the subclass fields.
+-------> Compile and test.
+-------> Consider using "Self Encapsulate Field" on the new field.
+
+---> "Pull Up Method"
+-----> Problem: 
+-------> You have methods with identical results on subclasses.
+-----> Solution:
+-------> Move them to the superclass.
+-----> Motivation:
+-------> Eliminating duplicate behavior is important. 
+---------> Although two duplicate methods work fine as they are, they are nothing more than a breeding ground for bugs in the future. 
+---------> Whenever there is duplication, you face the risk that an alteration to one will not be made to the other. 
+---------> Usually it is difficult to find the duplicates.
+-------> The easiest case of using "Pull Up Method" occurs when the methods have the same body, implying there's been a copy and paste. 
+---------> Of course it's not always as obvious as that. 
+---------> You could just do the refactoring and see if the tests croak, but that puts a lot of reliance on your tests. 
+---------> I usually find it valuable to look for the differences; often they show up behavior that I forgot to test for.
+-------> Often "Pull Up Method" comes after other steps. 
+---------> You see two methods in different classes that can be parameterized in such a way that they end up as essentially the same method. 
+---------> In that case the smallest step is to parameterize each method separately and then generalize them. 
+---------> Do it in one go if you feel confident enough.
+-------> A special case of the need for "Pull Up Method" occurs when you have a subclass method that overrides a superclass method yet does the same thing.
+-------> The most awkward element of "Pull Up Method" is that the body of the methods may refer to features that are on the subclass but not on the superclass. 
+---------> If the feature is a method, you can either generalize the other method or create an abstract method in the superclass. 
+---------> You may need to change a method's signature or create a delegating method to get this to work.
+-------> If you have two methods that are similar but not the same, you may be able to use "Form Template Method".
+-----> Mechanics:
+-------> Inspect the methods to ensure they are identical.
+---------> If the methods look like they do the same thing but are not identical, use algorithm substitution on one of them to make them identical.
+-------> If the methods have different signatures, change the signatures to the one you want to use in the superclass.
+-------> Create a new method in the superclass, copy the body of one of the methods to it, adjust, and compile.
+---------> If you are in a strongly typed language and the method calls another method that is present on both subclasses but not the superclass, declare an abstract method on the superclass.
+---------> If the method uses a subclass field, use "Pull Up Field" or "Self Encapsulate Field" and declare and use an abstract getting method.
+-------> Delete one subclass method.
+-------> Compile and test.
+-------> Keep deleting subclass methods and testing until only the superclass method remains.
+-------> Take a look at the callers of this method to see whether you can change a required type to the superclass.
+
+---> "Pull Up Constructor Body"
+-----> Problem: 
+-------> You have constructors on subclasses with mostly identical bodies.
+-----> Solution:
+-------> Create a superclass constructor; call this from the subclass methods.
+-----> Motivation:
+-------> Constructors are tricky things. 
+---------> They aren't quite normal methods, so you are more restricted in what you can do with them than you are when you use normal methods.
+-------> If you see subclass methods with common behavior, your first thought is to extract the common behavior into a method and pull it up into the superclass. 
+---------> With a constructor, however, the common behavior is often the construction. 
+---------> In this case you need a superclass constructor that is called by subclasses. 
+---------> In many cases this is the whole body of the constructor. 
+---------> You can't use "Pull Up Method" here, because you can't inherit constructors (don't you just hate that?).
+-------> If refactoring becomes complex, you might want to consider "Replace Constructor with Factory Method" instead.
+-----> Mechanics:
+-------> Define a superclass constructor.
+-------> Move the common code at the beginning from the subclass to the superclass constructor.
+---------> This may be all the code.
+---------> Try to move common code to the beginning of the constructor.
+-------> Call the superclass constructor as the first step in the subclass constructor.
+---------> If all the code is common, this will be the only line of the subclass constructor.
+-------> Compile and test.
+---------> If there is any common code later, use "Extract Method" to factor out common code and use "Pull Up Method" to pull it up.
+
+---> "Push Down Method"
+-----> Problem: 
+-------> Behavior on a superclass is relevant only for some of its subclasses.
+-----> Solution:
+-------> Move it to those subclasses.
+-----> Motivation:
+-------> Pull Down Method is the opposite of "Pull Up Method". 
+-------> I use it when I need to move behavior from a superclass to a specific subclass, usually because it makes sense only there. 
+-------> You often do this when you use "Extract Subclass".
+-----> Mechanics:
+-------> Declare a method in all subclasses and copy the body into each subclass.
+---------> You may need to declare fields as protected for the method to access them. 
+---------> Usually you do this if you intend to push down the field later. 
+---------> Otherwise use an accessor on the superclass. 
+---------> If this accessor is not public, you need to declare it as protected.
+-------> Remove method from superclass.
+---------> You may have to change callers to use the subclass in variable and parameter declarations.
+-------> Compile and test.
+-------> Remove the method from each subclass that does not need it.
+-------> Compile and test.
+
+---> "Push Down Field"
+-----> Problem: 
+-------> A field is used only by some subclasses.
+-----> Solution:
+-------> Move the field to those subclasses.
+-----> Motivation:
+-------> "Push Down Field" is the opposite of "Pull Up Field". 
+-------> Use it when you don't need a field in the superclass but only in a subclass.
+-----> Mechanics:
+-------> Declare the field in all subclasses.
+-------> Remove the field from the superclass.
+-------> Compile and test.
+-------> Remove the field from all subclasses that don't need it.
+-------> Compile and test.
+
+---> "Extract Subclass"
+-----> Problem: 
+-------> A class has features that are used only in some instances.
+-----> Solution:
+-------> Create a subclass for that subset of features.
+-----> Motivation:
+-------> The main trigger for use of "Extract Subclass" is the realization that a class has behavior used for some instances of the class and not for others. 
+---------> Sometimes this is signaled by a type code, in which case you can use "Replace Type Code with Subclasses" or "Replace Type Code with State/Strategy". 
+---------> But you don't have to have a type code to suggest the use for a subclass.
+-------> The main alternative to "Extract Subclass" is "Extract Class". 
+---------> This is a choice between delegation and inheritance. "Extract Subclass" is usually simpler to do, but it has limitations. 
+---------> You can't change the class-based behavior of an object once the object is created. 
+---------> You can change the class-based behavior with "Extract Class" simply by plugging in different components. 
+---------> You can also use only subclasses to represent one set of variations. 
+---------> If you want the class to vary in several different ways, you have to use delegation for all but one of them.
+-----> Mechanics:
+-------> Define a new subclass of the source class.
+-------> Provide constructors for the new subclass.
+-------> Find all calls to constructors of the superclass. If they need the subclass, replace with a call to the new constructor.
+-------> One by one use "Push Down Method" and "Push Down Field" to move features onto the subclass.
+-------> Look for any field that designates information now indicated by the hierarchy (usually a boolean or type code). 
+---------> Eliminate it by using "Self Encapsulate Field" and replacing the getter with polymorphic constant methods. 
+---------> All users of this field should be refactored with "Replace Conditional with Polymorphism".
+-------> Compile and test after each push down.
+
+---> "Extract Superclass"
+-----> Problem: 
+-------> You have two classes with similar features.
+-----> Solution:
+-------> Create a superclass and move the common features to the superclass.
+-----> Motivation:
+-------> Duplicate code is one of the principal bad things in systems. 
+---------> If you say things in multiple places, then when it comes time to change what you say, you have more things to change than you should.
+-------> One form of duplicate code is two classes that do similar things in the same way or similar things in different ways. 
+---------> Objects provide a built-in mechanism to simplify this situation with inheritance.
+---------> However, you often don't notice the commonalities until you have created some classes, in which case you need to create the inheritance structure later.
+-------> An alternative is "Extract Class".
+---------> The choice is essentially between inheritance and delegation.
+---------> Inheritance is the simpler choice if the two classes share interface as well as behavior. 
+---------> If you make the wrong choice, you can always use "Replace Inheritance with Delegation" later.
+-----> Mechanics:
+-------> Create a blank abstract superclass; make the original classes subclasses of this superclass.
+-------> One by one, use "Pull Up Field", "Pull Up Method", and "Pull Up Constructor Body" to move common elements to the superclass.
+-------> Compile and test after each pull.
+-------> Examine the methods left on the subclasses. 
+---------> See if there are common parts, if there are you can use "Extract Method" followed by "Pull Up Method" on the common parts. 
+---------> If the overall flow is similar, you may be able to use "Form Template Method".
+-------> After pulling up all the common elements, check each client of the subclasses. 
+---------> If they use only the common interface you can change the required type to the superclass.
+
+---> "Extract Interface"
+-----> Problem: 
+-------> Several clients use the same subset of a class's interface, or two classes have part of their interfaces in common.
+-----> Solution:
+-------> Extract the subset into an interface.
+-----> Motivation:
+-------> Classes use each other in several ways. 
+---------> Use of a class often means ranging over the whole area of responsibilities of a class. 
+---------> Another case is use of only a particular subset of a class's responsibilities by a group of clients. 
+---------> Another is that a class needs to work with any class that can handle certain requests.
+-------> For the second two cases it is often useful to make the subset of responsibilities a thing in its own right, so that it can be made clear in the use of the system. 
+---------> That way it is easier to see how the responsibilities divide. 
+---------> If new classes are needed to support the subset, it is easier to see exactly what fits in the subset.
+-------> In many object-oriented languages, this capability is supported by multiple inheritance. 
+---------> You create a class for each segment of behavior and combine them in an implementation. 
+---------> Java has single inheritance but allows you to state and implement this kind of requirement using interfaces.
+---------> Interfaces have had a big influence on the way programmers design Java programs. 
+---------> Even Smalltalk programmers think interfaces are a step forward!
+-------> There is some similarity between "Extract Superclass" and "Extract Interface". 
+---------> "Extract Interface" can only bring out common interfaces, not common code. 
+---------> Using "Extract Interface" can lead to smelly duplicate code. 
+---------> You can reduce this problem by using "Extract Class" to put the behavior into a component and delegating to it. 
+---------> If there is substantial common behavior "Extract Superclass" is simpler, but you do only get to have one superclass.
+-------> Interfaces are good to use whenever a class has distinct roles in different situations. 
+---------> Use "Extract Interface" for each role. 
+---------> Another useful case is that in which you want to describe the outbound interface of a class, that is, the operations the class makes on its server. 
+---------> If you want to allow other kinds of servers in the future, all they need do is implement the interface.
+-----> Mechanics:
+-------> Create an empty interface.
+-------> Declare the common operations in the interface.
+-------> Declare the relevant class(es) as implementing the interface.
+-------> Adjust client type declarations to use the interface.
+
+---> "Collapse Hierarchy"
+-----> Problem: 
+-------> A superclass and subclass are not very different.
+-----> Solution:
+-------> Merge them together.
+-----> Motivation:
+-------> If you have been working for a while with a class hierarchy, it can easily become too tangled for its own good. 
+-------> Refactoring the hierarchy often involves pushing methods and fields up and down the hierarchy. 
+-------> After you've done this you can well find you have a subclass that isn't adding any value, so you need to merge the classes together.
+-----> Mechanics:
+-------> Choose which class is going to be removed: the superclass or the subclasses.
+-------> Use "Pull Up Field" and "Pull Up Method" or "Push Down Method" and "Push Down Field" to move all the behavior 
+---------> and data of the removed class to the class with which it is being merged.
+-------> Compile and test with each move.
+-------> Adjust references to the class that will be removed to use the merged class. 
+---------> This will affect variable declarations, parameter types, and constructors.
+-------> Remove the empty class.
+-------> Compile and test.
+
+---> "Form Template Method"
+-----> Problem: 
+-------> You have two methods in subclasses that perform similar steps in the same order, yet the steps are different.
+-----> Solution:
+-------> Get the steps into methods with the same signature, so that the original methods become the same. Then you can pull them up.
+-----> Motivation:
+-------> Inheritance is a powerful tool for eliminating duplicate behavior. 
+---------> Whenever we see two similar methods in a subclass, we want to bring them together in a superclass. 
+---------> But what if they are not exactly the same? What do we do then? 
+---------> We still need to eliminate all the duplication we can but keep the essential differences.
+-------> A common case is two methods that seem to carry out broadly similar steps in the same sequence, but the steps are not the same. 
+---------> In this case we can move the sequence to the superclass and allow polymorphism to play its role in ensuring the different steps do their things differently. 
+---------> This kind of method is called a template method [Gang of Four].
+-----> Mechanics:
+-------> Decompose the methods so that all the extracted methods are either identical or completely different.
+-------> Use "Pull Up Method" to pull the identical methods into the superclass.
+-------> For the different methods use "Rename Method" so the signatures for all the methods at each step are the same.
+---------> This makes the original methods the same in that they all issue the same set of method calls, but the subclasses handle the calls differently.
+-------> Compile and test after each signature change.
+-------> Use "Pull Up Method" on one of the original methods. 
+---------> Define the signatures of the different methods as abstract methods on the superclass.
+-------> Compile and test.
+-------> Remove the other methods, compile, and test after each removal.
+
+---> "Replace Inheritance with Delegation"
+-----> Problem: 
+-------> A subclass uses only part of a superclasses interface or does not want to inherit data.
+-----> Solution:
+-------> Create a field for the superclass, adjust methods to delegate to the superclass, and remove the subclassing.
+-----> Motivation:
+-------> Inheritance is a wonderful thing, but sometimes it isn't what you want. 
+---------> Often you start inheriting from a class but then find that many of the superclass operations aren't really true of the subclass. 
+---------> In this case you have an interface that's not a true reflection of what the class does. 
+---------> Or you may find that you are inheriting a whole load of data that is not appropriate for the subclass.
+---------> Or you may find that there are protected superclass methods that don't make much sense with the subclass.
+-------> You can live with the situation and use convention to say that although it is a subclass, it's using only part of the superclass function. 
+---------> But that results in code that says one thing when your intention is something else—a confusion you should remove.
+-------> By using delegation instead, you make it clear that you are making only partial use of the delegated class. 
+---------> You control which aspects of the interface to take and which to ignore. 
+---------> The cost is extra delegating methods that are boring to write but are too simple to go wrong.
+-----> Mechanics:
+-------> Create a field in the subclass that refers to an instance of the superclass. Initialize it to this.
+-------> Change each method defined in the subclass to use the delegate field. Compile and test after changing each method.
+---------> You won't be able to replace any methods that invoke a method on super that is defined on the subclass, or they may get into an infinite recurse. 
+---------> These methods can be replaced only after you have broken the inheritance.
+-------> Remove the subclass declaration and replace the delegate assignment with an assignment to a new object.
+-------> For each superclass method used by a client, add a simple delegating method.
+-------> Compile and test.
+
+---> "Replace Delegation with Inheritance"
+-----> Problem: 
+-------> You're using delegation and are often writing many simple delegations for the entire interface.
+-----> Solution:
+-------> Make the delegating class a subclass of the delegate.
+-----> Motivation:
+-------> This is the flip side of "Replace Delegation with Inheritance". 
+---------> If you find yourself using all the methods of the delegate and are sick of writing all those simple delegating methods, you can switch back to inheritance pretty easily.
+-------> There are a couple of caveats to bear in mind. 
+---------> If you aren't using all the methods of the class to which you are delegating, you shouldn't use "Replace Delegation with Inheritance", 
+-----------> because a subclass should always follow the interface of the superclass. If the delegating methods are tiresome, you have other options. 
+---------> You can let the clients call the delegate themselves with "Remove Middle Man". 
+---------> You can use "Extract Superclass" to separate the common interface and then inherit from the new class. You can use "Extract Interface" in a similar way.
+-------> Another situation to beware of is that in which the delegate is shared by more than one object and is mutable. 
+---------> In this case you can't replace the delegate with inheritance because you'll no longer share the data. 
+---------> Data sharing is a responsibility that cannot be transferred back to inheritance.
+---------> When the object is immutable, data sharing is not a problem, because you can just copy and nobody can tell.
+-----> Mechanics:
+-------> Make the delegating object a subclass of the delegate.
+-------> Compile.
+---------> You may get some method clashes at this point; methods may have the same name but vary in return type, exceptions, or visibility. 
+---------> Use "Rename Method" to fix these.
+-------> Set the delegate field to be the object itself.
+-------> Remove the simple delegation methods.
+-------> Compile and test.
+-------> Replace all other delegations with calls to the object itself.
+-------> Remove the delegate field.
+
+
+
+-> Chapter 12. Big Refactorings
+
+---> The preceding chapters present the individual "moves" of refactoring. 
+-----> What is missing is a sense of the whole "game." 
+-----> You are refactoring to some purpose, not just to avoid making progress (at least usually you are refactoring to some purpose). What does the whole game look like?
+
+---> The Nature of the Game
+-----> One thing you'll surely notice in what follows is that the steps aren't nearly as carefully spelled out as in the previous refactorings. 
+-------> That's because the situations change so much in the big refactorings. 
+-------> We can't tell you exactly what to do, because we don't know exactly what you'll be seeing when you do it. 
+-----> Another thing to realize about these refactorings is that they take time. 
+-------> All the refactorings in Chapters 6 through 11 can be accomplished in a few minutes or an hour at most. 
+-------> We have worked at some of the big refactorings for months or years on running systems. 
+-------> You'll have a hard time persuading managers that they should stop progress for a couple of months while you tidy up.
+-----> Instead, you have to make like Hansel and Gretel and nibble around the edges, a little today, a little more tomorrow.
+-------> As you do this, you should be guided by your need to do something else. 
+-------> Do the refactorings as you need to add function and fix bugs. 
+-------> You don't have to complete the refactoring when you begin. 
+-------> Do as much as you need to achieve your real task. 
+-------> You can always come back tomorrow.
+
+---> Why Big Refactorings Are Important
+-----> If the big refactorings lack so many of the qualities that make the little refactorings valuable (predictability, visible progress, instant satisfaction),
+-------> why are they important enough that we wanted to put them in this book? 
+-------> Because without them you run the risk of investing time and effort into learning to refactor and then actually refactoring and not getting the benefit. 
+-------> That would reflect badly on us. We can't stand that.
+-----> Seriously, you refactor not because it is fun but because there are things you expect to be able to do with your programs if you refactor that you just can't do if you don't refactor.
+-------> Accumulation of half-understood design decisions eventually chokes a program as a water weed chokes a canal. 
+-------> By refactoring you can ensure that your full understanding of how the program should be designed is always reflected in the program. 
+-------> As a water weed quickly spreads its tendrils, partially understood design decisions quickly spread their effects throughout your program. 
+-------> Not one or two or even ten individual actions will be enough to eradicate the problem.
+
+---> Four Big Refactorings
+-----> In this chapter we describe four examples of big refactorings. 
+-------> These are examples of the kind of thing, rather than any attempt to cover the whole ground. 
+-------> Most of the research and practice on refactoring so far has concentrated on the smaller refactorings. 
+-------> Talking about big refactorings in this way is very new and has come primarily out of Kent's experience, which is greater than anyone's with doing this on a large scale.
+-----> "Tease Apart Inheritance" deals with a tangled inheritance hierarchy that seems to combine several variations in a confusing way. 
+-------> "Convert Procedural Design to Objects" helps solve the classic problem of what to do with procedural code. 
+-------> A lot of programmers use object-oriented languages without really knowing about objects, so this is a refactoring you often have to do. 
+-------> If you see code written with the classic two-tier approach to user interfaces and databases, 
+-------> you'll find you need "Separate Domain from Presentation" when you want to isolate business logic from user interface code. 
+-------> Experienced object-oriented developers have learned that this separation is vital to a long-lived and prosperous system. 
+-------> "Extract Hierarchy" simplifies an overly-complex class by turning it into a group of subclasses.
+
+---> "Tease Apart Inheritance"
+-----> Problem: 
+-------> You have an inheritance hierarchy that is doing two jobs at once.
+-----> Solution:
+-------> Create two hierarchies and use delegation to invoke one from the other.
+-----> Motivation:
+-------> Inheritance is great. 
+---------> It helps you write dramatically "compressed" code in subclasses. 
+---------> A single method can take on importance out of proportion with its size because of where it sits in the hierarchy.
+-------> Not surprisingly for such a powerful mechanism, it is easy to misuse inheritance. 
+---------> And the misuse can easily creep up on you. 
+---------> One day you are adding one little subclass to do a little job. 
+---------> The next day you are adding other subclasses to do the same job in other parts of the hierarchy. 
+---------> A week (or month or year) later you are swimming in spaghetti. Without a paddle.
+-------> Tangled inheritance is a problem because it leads to code duplication, the bane of the programmer's existence. 
+---------> It makes changes more difficult, because the strategies for solving a certain kind of problem are spread around. 
+---------> Finally, the resulting code is hard to understand. 
+---------> You can't just say, "This hierarchy here, it computes results." 
+---------> You have to say, "Well, it computes results, and there are subclasses for the tabular versions, and each of those has subclasses for each of the countries."
+-------> You can easily spot a single inheritance hierarchy that is doing two jobs. 
+---------> If every class at a certain level in the hierarchy has subclasses that begin with the same adjective, you probably are doing two jobs with one hierarchy.
+-----> Mechanics:
+-------> Identify the different jobs being done by the hierarchy. 
+---------> Create a two-dimensional grid (or three- or four-dimensional) and label the axes with the different jobs. 
+---------> We assume two or more dimensions require repeated applications of this refactoring (one at a time, of course).
+-------> Decide which job is more important and is to be retained in the current hierarchy and which is to be moved to another hierarchy.
+-------> Use "Extract Class" (Chapter 6) at the common superclass to create an object for the subsidiary job and add an instance variable to hold this object.
+-------> Create subclasses of the extracted object for each of the subclasses in the original hierarchy. 
+---------> Initialize the instance variable created in the previous step to an instance of this subclass.
+-------> Use "Move Method" (Chapter 7) in each of the subclasses to move the behavior in the subclass to the extracted object.
+-------> When the subclass has no more code, eliminate it.
+-------> Continue until all the subclasses are gone. Look at the new hierarchy for possible further refactorings such as "Pull Up Method" or "Pull Up Field" (Chapter 11).
+
+---> "Convert Procedural Design to Objects"
+-----> Problem: 
+-------> You have code written in a procedural style.
+-----> Solution:
+-------> Turn the data records into objects, break up the behavior, and move the behavior to the objects.
+-----> Motivation:
+-------> A client of ours once started a project with two absolute principles the developers had to follow:
+---------> (1) you must use Java, 
+---------> (2) you must not use objects.
+-------> We may laugh, but although Java is an object-oriented language, there is more to using objects than calling a constructor. 
+---------> Using objects well takes time to learn. Often you're faced with the problem of procedure-like code that has to be more object oriented. 
+---------> The typical situation is long procedural methods on a class with little data and dumb data objects with nothing more than accessors. 
+---------> If you are converting from a purely procedural program, you may not even have this, but it's a good place to start.
+-------> We are not saying that you should never have objects with behavior and little or no data. 
+---------> We often use small strategy objects when we need to vary behavior. 
+---------> However, such procedural objects usually are small and are used when we have a particular need for flexibility.
+-----> Mechanics:
+-------> Take each record type and turn it into a dumb data object with accessors.
+---------> If you have a relational database, take each table and turn it into a dumb data object.
+-------> Take all the procedural code and put it into a single class.
+---------> You can either make the class a singleton (for ease of reinitialization) or make the methods static.
+-------> Take each long procedure and apply "Extract Method" and the related refactorings to break it down. 
+---------> As you break down the procedures, use "Move Method" to move each one to the appropriate dumb data class.
+-------> Continue until you've removed all the behavior away from the original class. 
+---------> If the original class was a purely procedural class, it's very gratifying to delete it.
+
+---> "Separate Domain from Presentation"
+-----> Problem: 
+-------> You have GUI classes that contain domain logic.
+-----> Solution:
+-------> Separate the domain logic into separate domain classes
+-----> Motivation:
+-------> Whenever you hear people talking about objects, you hear about model-view-controller (MVC).
+---------> This idea underpinned the relationship between the graphical user interface (GUI) and domain objects in Smalltalk-80.
+-------> The gold at the heart of MVC is the separation between the user interface code (the view, these days often called the presentation) and the domain logic (the model). 
+---------> The presentation classes contain only the logic needed to deal with the user interface. 
+---------> Domain objects contain no visual code but all the business logic. 
+---------> This separates two complicated parts of the program into pieces that are easier to modify. 
+---------> It also allows multiple presentations of the same business logic. 
+---------> Those experienced in working with objects use this separation instinctively, and it has proved its worth.
+-------> But this is not how most people who work with GUIs do their design. 
+---------> Most environments with client-server GUIs use a logical two-tier design: the data sits in the database and the logic sits in the presentation classes. 
+---------> The environment often forces you toward this style of design, making it hard for you to put the logic anywhere else.
+-------> Java is a proper object-oriented environment, so you can create nonvisual domain objects that contain business logic. 
+---------> However, you'll often come across code written in the two-tier style.
+-----> Mechanics:
+-------> Create a domain class for each window.
+-------> If you have a grid, create a class to represent the rows on the grid. Use a collection on the domain class for the window to hold the row domain objects.
+-------> Examine the data on the window. 
+---------> If it is used only for user interface purposes, leave it on the window. 
+---------> If it is used within the domain logic but is not actually displayed on the window, use "Move Method" to move it to the domain object. 
+---------> If it is used by both the user interface and the domain logic, use "Duplicate Observed Data" so that it is in both places and kept in sync.
+-------> Examine the logic in the presentation class. 
+---------> Use "Extract Method" to separate logic about the presentation from domain logic. 
+---------> As you isolate the domain logic, use "Move Method" to move it to the domain object.
+-------> When you are finished, you will have presentation classes that handle the GUI and domain objects that contain all the business logic. 
+---------> The domain objects will not be well factored, but further refactorings will deal with that.
+
+---> "Extract Hierarchy"
+-----> Problem: 
+-------> You have a class that is doing too much work, at least in part through many conditional statements.
+-----> Solution:
+-------> Create a hierarchy of classes in which each subclass represents a special case.
+-----> Motivation:
+-------> In evolutionary design, it is common to think of a class as implementing one idea and come to realize later that it is really implementing two or three or ten. 
+---------> You create the class simply at first. 
+---------> A few days or weeks later you see that if only you add a flag and a couple of tests, you can use it in a new case. 
+---------> A month later you have another such opportunity. 
+---------> A year later you have a real mess: flags and conditional expressions all over the place.
+-------> When you encounter a Swiss-Army-knife class that has grown to open cans, 
+---------> cut down small trees, shine a laser point at reluctant presentation bullet items, 
+---------> and, oh yes, I suppose cut things, you need a strategy for teasing apart the various strands. 
+---------> The strategy here works only if your conditional logic remains static during the life of the object. 
+---------> If not, you may have to use "Extract Class" before you can begin separating the cases from each other.
+-------> Don't be discouraged if "Extract Hierarchy" is a refactoring that you can't finish in a day. 
+---------> It can take weeks or months to untangle a design that has become snarled. 
+---------> Do the steps that are easy and obvious, then take a break. Do some visibly productive work for a few days. 
+---------> When you've learned something, come back and do a few more easy and obvious steps.
+-----> Mechanics:
+-------> We've put in two sets of mechanics. 
+-------> In the first case you aren't sure what the variations should be. In this case you want to take one step at a time, as follows:
+---------> Identify a variation.
+-----------> If the variations can change during the life of the object, use "Extract Class" to pull that aspect into a separate class.
+---------> Create a subclass for that special case and use "Replace Constructor with Factory Method" on the original. 
+-----------> Alter the factory method to return an instance of the subclass where appropriate.
+---------> One at a time, copy methods that contain conditional logic to the subclass, 
+-----------> then simplify the methods given what you can say for certain about instances of the subclass 
+-----------> that you can't say about instances of the superclass.
+-----------> Use "Extract Method" in the superclass if necessary to isolate the conditional parts of methods from the unconditional parts.
+---------> Continue isolating special cases until you can declare the superclass abstract.
+---------> Delete the bodies of methods in the superclass that are overridden in all subclasses and make the superclass declarations abstract.
+-------> When the variations are very clear from the outset, you can use a different strategy, as follows:
+---------> Create a subclass for each variation.
+---------> Use "Replace Constructor with Factory Method" to return the appropriate subclass for each variation.
+-----------> If the variations are marked with a type code, use "Replace Type Code with Subclasses". 
+-----------> If the variations can change within the life of the class, use "Replace Type Code with State/Strategy".
+---------> Take methods that have conditional logic and apply "Replace Conditional with Polymorphism". 
+-----------> If the whole method does not vary, isolate the varying part with "Extract Method".
+
+
+
+-> Chapter 13. Refactoring, Reuse, and Reality
+
+---> A Reality Check
+-----> People just didn't seem to get "refactoring".
+-------> Ralph Johnson taught me an important lesson about research: if someone (a reviewer of a paper, an attendee at a talk) comments, 
+---------> "I don't understand" or just doesn't get it, it's our fault. 
+---------> It is our responsibility to work hard to develop and communicate our ideas.
+-------> The disconnect was caused partly by the newness of object-oriented technology. 
+-------> Those who had worked with it had rarely progressed beyond the initial release and hence had not yet faced the tough evolution problems refactoring can help solve. 
+-------> This was the typical researcher's dilemma—the state of the art was beyond the state of common practice. 
+-------> However, there was another, troubling cause for the disconnect. 
+-------> There were several commonsense reasons developers, even if they bought into the benefits of refactoring, were reluctant to refactor their programs. 
+-------> These concerns had to be addressed before refactoring could be embraced by the development community.
+-----> Making refactoring real requires addressing the real-world concerns of software professionals.
+-----> Four commonly expressed concerns are as follows:
+-------> The programmers might not understand how to refactor.
+-------> If the benefits are long-term, why exert the effort now? In the long term, you might not be with the project to reap the benefits.
+-------> Refactoring code is an overhead activity; programmers are paid to write new features.
+-------> Refactoring might break the existing program.
+-----> The following issues are of concern to some projects:
+-------> What if the code to be refactored is collectively owned by several programmers? 
+-----> In some cases, many of the traditional change management mechanisms are relevant. 
+-----> In other cases, if the software has been well designed and refactored, 
+-------> subsystems will be sufficiently decoupled that many refactorings will affect only a small subset of the code base.
+-------> What if there are multiple versions or lines of code from a code base? 
+-----> In some cases, refactoring may be relevant for all of the versions, in which case all need to be checked for safety before the refactoring is applied. 
+-----> In other cases, the refactorings may be relevant for only some versions, which simplifies the process of checking and refactoring the code. 
+-----> Managing changes to multiple versions often requires applying many of the traditional version-management techniques. 
+-----> Refactoring can be useful in merging variants or versions into an updated code base, which may simplify version management downstream.
+
+---> Why Are Developers Reluctant to Refactor Their Programs?
+-----> Here are four possible reasons:
+-------> 1. You might not understand how to refactor.
+-------> 2. If the benefits are long-term, why exert the effort now? In the long term, you might not be with the project to reap the benefits.
+-------> 3. Refactoring code is an overhead activity; you're paid to write new features.
+-------> 4. Refactoring might break the existing program.
+-------> These are all valid concerns. 
+-----> I have heard them expressed by staff at telecommunication and at high technology companies. 
+-----> Some of these are technical concerns; others are management concerns.
+-----> All must be addressed before developers will consider refactoring their software. 
+-----> Let's deal with each of these issues in turn.
+
+---> Refactoring to Achieve Near-term Benefits
+-----> In many ways, refactoring is like exercise and eating a proper diet. 
+-------> Many of us know that we ought to exercise more and eat a more balanced diet. 
+-------> Some of us live in cultures that highly encourage these habits. 
+-------> Some of us can get by for a while without practicing these good habits, even without visible effects. 
+-------> We can always make excuses, but we are only fooling ourselves if we continue to ignore good behavior.
+-----> Some of us are motivated by the near-term benefits of exercise and eating a proper diet, such as high energy levels, greater flexibility, higher self-esteem, and other benefits.
+-------> Nearly all of us know that these near-term benefits are very real.
+-------> Many but not all of us make at least sporadic efforts in these areas. 
+-------> Others, however, aren't sufficiently motivated to do something until they reach a crisis point.
+-----> Yes, there are cautions that need to be applied; people should consult with an expert before embarking on a program. 
+-------> In the case of exercise and dieting, they should consult with their physician. 
+-------> In the case of refactoring, they should seek resources such as this book and the papers cited elsewhere in this chapter. 
+-------> Staff experienced in refactoring can provide more focused assistance.
+-----> Several people I've met are role models with respect to fitness and refactoring. 
+-------> I admire their energy and their productivity. 
+-------> Negative models show the visible signs of neglect. 
+-------> Their future and the future of the software systems they produce may not be rosy.
+-----> Refactoring can achieve near-term benefits and make the software easier to modify and maintain.
+-------> Refactoring is a means rather than an end. 
+-------> It is part of a broader context of how programmers or programming teams develop and maintain their software.
+
+---> Reducing the Overhead of Refactoring
+-----> "Refactoring is an overhead activity. I'm paid to write new, revenue-generating features." My response, in summary, is this:
+-------> Tools and technologies are available to allow refactoring to be done quickly and relatively painlessly.
+-------> Experiences reported by some object-oriented programmers suggest
+---------> that the overhead of refactoring is more than compensated by reduced efforts and intervals in other phases of program development.
+-------> Although refactoring may seem a bit awkward and an overhead item at first, 
+---------> as it becomes part of a software development regimen, 
+---------> it stops feeling like overhead and starts feeling like an essential.
+-----> My experience suggests that as refactoring becomes part of a routine, it stops feeling like overhead. 
+-------> This statement is easy to make but difficult to substantiate. 
+-------> To the skeptics among you, my advice is just do it, then decide for yourself. 
+-------> Give it time, though.
+
+---> Refactoring Safely
+-----> Safety is a concern, especially for organizations developing and evolving large systems. 
+-------> In many applications, there are compelling financial, legal, and ethical considerations for providing continuous, reliable, and error-free service. 
+-------> Many organizations provide extensive training and attempt to apply disciplined development processes to help ensure the safety of their products.
+-----> Safety is a difficult concept to define. 
+-------> An intuitive definition is that a safe refactoring is one that doesn't break a program. 
+-------> Because a refactoring is intended to restructure a program without changing its behavior, a program should perform the same way after a refactoring as it does before.
+-----> How does one safely refactor? There are several options:
+-------> Trust your coding abilities.
+-------> Trust that your compiler will catch errors that you miss.
+-------> Trust that your test suite will catch errors that you and your compiler miss.
+-------> Trust that code review will catch errors that you, your compiler, and your test suite miss.
+-----> Whereas compilers, test suites, code reviews, and disciplined coding styles all are valuable, there are limits to all of these approaches, as follows:
+-------> Programmers are fallible, even you (I know I am).
+-------> There are subtle and not-so-subtle errors that compilers can't catch, especially scoping errors related to inheritance.
+-------> Unless your test designer is omniscient or pays great attention to detail, there are likely to be cases your test suite won't cover. 
+---------> Testing all possible execution paths in a program is a computationally undecidable problem. 
+---------> In other words, you can't be guaranteed to have caught all of the cases with your test suite.
+-------> Code reviewers, like programmers, are fallible. Furthermore, reviewers may be too busy with their main job to thoroughly review someone else's code.
+
+--->  Implications Regarding Software Reuse and Technology Transfer
+-----> The real-world concerns addressed earlier don't apply to refactoring alone. 
+-----> They apply more broadly to software evolution and reuse.
+-----> The real-world concerns regarding a reuse program are similar to those related to refactoring.
+-------> Technical staff may not understand what to reuse or how to reuse it.
+-------> Technical staff may not be motivated to apply a reuse approach unless short-term benefits can be achieved.
+-------> Overhead, learning curve, and discovery cost issues must be addressed for a reuse approach to be successfully adopted.
+-------> Adopting a reuse approach should not be disruptive to a project; there may be strong pressures to leverage existing assets or implementation albeit with legacy constraints.
+-------> New implementations should interwork or be backward compatible with existing systems.
+
+
+
+-> Chapter 15. Putting It All Together
+
+---> I said this was a learnable skill. How do you learn it?
+-----> Somewhere your code smells bad. 
+-----> Resolve to get rid of the problem. 
+-----> Then march toward that goal. You aren't refactoring to pursue truth and beauty (at least that's not all there is to it). 
+-----> You are trying to make your world easier to understand, to regain control of a program that is flapping loose.
+
+---> Get used to picking a goal.
+-----> As you move toward your goal, a time may come when you can't exactly prove to yourself 
+-------> and others that what you are doing will preserve the semantics of your program. 
+-----> Stop. If the code is already better, go ahead and release your progress. 
+-----> If it isn't, throw away your changes.
+
+---> Backtrack.
+-----> The discipline of refactoring is hard to learn and easy to lose sight of, even if only for a moment. 
+-------> I still lose sight more often than I care to admit. 
+-------> I'll do two or three or four refactorings in a row without rerunning the test cases. 
+-------> Of course I can get away with it. 
+-------> I'm confident. 
+-------> I've practiced.
+-------> Boom! A test fails, and I can't see which of my changes caused the problem.
+-----> Changes should be small so you can easily backtrack.
+
+---> Duets.
+-----> There are many advantages to working in pairs for all kinds of development. 
+-------> The advantages work in spades for refactoring. 
+-------> In refactoring there is a premium on working carefully and methodically. 
+---------> Your partner is there to keep you moving step by step, and you are there for him or her. 
+-------> In refactoring there is a premium on seeing possibly farranging consequences. 
+---------> Your partner is there to see things you don't see and know things you don't know. 
+-------> In refactoring, there is a premium on knowing when to quit. 
+---------> When your partner doesn't understand what you are doing, it is a sure sign that you don't either. 
+-------> Above all, in refactoring there is an absolute premium on quiet confidence. 
+---------> Your partner is there to gently encourage you when you might otherwise stop.
+-----> Another aspect of working with a partner is talking. 
+-------> You want to talk about what you think is about to happen, so the two of you are pointed in the same direction. 
+-------> You want to talk about what you think is happening, so you can spot trouble as soon as possible. 
+-------> You want to talk about what just happened, so you'll know better next time. 
+-------> All that talking cements in your mind exactly where the individual refactorings fit into the rhythm of refactoring.
+-----> Never forget the two hats. 
+-------> When you refactor, you will inevitably discover cases in which the code doesn't work right. 
+-------> You'll be absolutely certain of it. Resist temptation. 
+-------> When you are refactoring, your goal is to leave the code computing exactly the same answers it was when you found it.
+-------> Nothing more, nothing less. 
+-------> Keep a list (I always have an index card beside my computer) of things to change later—test cases to add or change, unrelated refactorings, documents to write, diagrams to draw. 
+-------> That way you won't lose those thoughts, but you won't let them mess up what you are doing now.
 
 
 
