@@ -1,0 +1,251 @@
+Note: This is taken from the book: [Antipatterns - Refactoring Software, Architectures, and Projects in Crisis]
+
+
+-> Software Design−Level Model
+
+If an attempt is made to develop a system on a piecemeal basis without an overall architecture, the system will become increasingly unmanageable as the system evolves due to requirements changes and new technology adoptions.
+One of the key benefits of architecture is the separation of concerns, which means, rather than tackling all of the problems at once, partitioning the problem into solvable elements. 
+In this pattern language, we present the scalability model that separates concerns based upon scale of software solutions. 
+The model clarifies the key levels inherent in software systems and the problems and solutions available at each level.
+
+In a typical small software system, there are two levels of scale. 
+The first is the external model (or application level), which directly addresses the end−user requirements.
+This level includes the user interfaces and associated functionality. 
+The applications are typically driven by interactive user control through graphical user interfaces (GUIs) or user commands. 
+The applications implement the external model of the system that interacts directly with the human organization. 
+The applications contain the software needed to address the functional requirements of the organization.
+
+The second level is the internal model (or system level). 
+The system level comprises the connections between the applications; it does not directly interface with the end users, nor it is readily observable to end users. 
+The system level provides an architecture for the software system. 
+This level is charged with providing an infrastructure for the application level, and generates interoperability, communication, and coordination between applications. 
+Access to data stores, auditing, and the management of interprocess resources also occur at the system level.
+
+A similar partition exists at several other scales of software implementation; for example, when software solutions span multiple systems across organizations. 
+There is another, related set of concerns at the enterprise level. 
+The scalability model explains the differing priorities at each scale, and the pattern language includes a set of possible solutions. 
+This resolves a key guidance challenge: ensuring that appropriate solutions are applied at their correct level so that the chances of developing an effective, maintainable system are maximized.
+
+The pattern language is organized by architectural levels, which define a comprehensive framework in which to examine the patterns and principles of object−oriented architecture.
+Although we have identified seven architectural levels, our focus will be on the larger−scale levels of object−oriented architecture. 
+The smaller−scale levels have been covered, to various extents, by other authors. 
+Specifically, the object level is addressed by the current reusable component libraries and standards such as C++, Smalltalk, the CORBA object model, and CORBAservices. 
+At the micro−architecture level, the Gamma Pattern Language (GPL) and additional design patterns research present the structures necessary to develop component micro−architectures [Gamma 95]. 
+Significant work has also been done at the macro−component (frameworks) level. 
+For example, Taligent Corporation was quite active in developing software and guidelines at the macro−component level in the development of its OO frameworks. 
+Until now, the higher architectural levels have been mostly neglected, 
+and as a result, general interoperability principles across applications, systems, and organizational enterprises have suffered from proprietary solutions and nonreusable, unscalable technological solutions. 
+By defining the scalability model, the field of design patterns can be advanced to apply to larger−scale problems, which before now have absorbed significant resources and resulted in less reusable and extensible solutions.
+
+There are seven architectural levels: global, enterprise, system, application, macro−component, micro−component, and object. 
+
+The global level contains the design issues that are globally applicable across all systems. 
+This level is concerned with coordination across all organizations, which participate in cross−organizational communications and information sharing. 
+The enterprise level is focused upon coordination and communication across a single organization. 
+The organization can be distributed across many locations and heterogeneous hardware and software systems. 
+The system level deals with communications and coordination across applications and sets of applications. 
+The application level is focused upon the organization of applications developed to meet a set of user requirements. 
+The macro−component levels are focused on the organization and development of application frameworks. 
+The micro−component level is centered on the development of software components that solve recurring software problems. 
+Each solution is relatively self−contained and often solves just part of an even larger problem. 
+The object level is concerned with the development of reusable objects and classes. 
+The object level is more concerned with code reuse than design reuse. 
+Each of the levels is discussed in detail along with an overview of the patterns documented at each level.
+
+
+---> Design Reuse versus Code Reuse
+
+Design patterns are focused on providing reusable design guidance for developing large−scale systems.
+The reusability of design itself has a significant effect on the overall development cost of a system, far greater than the reuse of individual software components [Mowbray 95]. 
+To illustrate this, Figure 2.12 shows a system on the left that is able to take advantage of several reusable components at the framework and micro−architectural levels. 
+Note that the overall design of the system still has to occur and that the bulk of the overall tree is in the nodes in the nonleaf node parts of the design. 
+Reducing components does effectively save time in that the prefabricated “leaf nodes” can be plugged into the design rather than custom constructed, but there is still a large outlay required to build the overall system. 
+There can be a system that is able to reuse much of the design of an existing system. 
+Although the system is constrained to the domain of the previously built system, the level of reuse is far greater [Yourdon 93]. 
+By reusing the design, any pieces that are identical to the previous system may be plugged in with minimal modifications. 
+Still, there are many leaf nodes that must be customized to the new base of users to meet their specific requirements. 
+Note that the cost of changing the leaf nodes is far less than the cost of changing the higher−level design. 
+Therefore, optimizing the amount of design that is reused in a system provides a framework for minimizing the overall system costs far more than if the emphasis is on reusing individual components.
+
+
+---> Object Level
+
+The finest−grain level is the object level. 
+Here, a software developer is concerned with the definition and management of object classes and object instances. 
+Decisions made at this level include selection of specific object attributes and proper signatures for each operation.
+At this level, the goal is to build primitive functionality to address application requirements.
+Secondary goals include reuse of existing software and documentation for the decisions used in making the decisions about what is included or excluded from the class description.
+Typically, discussions on the object level are so specific and detailed that they are used only to describe the specifics of a system’s implementation.
+At a business level, an object may represent the behavior and data of an account or customer. 
+At an implementation level, an object may represent the methods and attributes of a Java GUI to edit, validate, and display account or customer data.
+At the object level, in the case of class libraries and programming frameworks, objects and classes are language−dependent. 
+Language independence is possible, for example, when they have their class definitions expressed in OMG IDL. 
+A standard object model defined in CORBA defines the semantics of object interactions. 
+Also, CORBAservices interfaces define basic object−level interfaces for the management and control of objects.
+The CORBAservices are often used as building blocks for larger−scale software components, which may contain policy and rules as to how the services are used by a specific set of components. 
+Language−dependent class definitions are written in a specific programming language, such as C, C++, Smalltalk, ADA, Java, and others, and are usually not sharable by other programming languages. 
+Language−dependent classes may take advantage of shared run−time libraries so that they are capable of use by multiple applications.
+
+
+---> Micro−Architecture Level
+
+The micro−architecture level involves patterns that combine multiple objects or object classes. 
+This might be a collection of cooperating business objects for the purpose of calculating air miles from a month of credit card transactions. 
+At an implementation level, this might be the collection of cooperating objects that provide the GUI screens, business (processing rules), and persistence and query interfaces for a customer or an account object.
+This level is concerned with the development of small designs used to tackle a limited problem with a software application. 
+The distinguishing characteristics of this level are a limited group of cooperating objects whose interrelationships with other objects are well−defined and understood by the implementers of the component. 
+The goal of patterns at the micro−architectural level is to reuse the encapsulation of components so that they are isolated enough to handle future system changes. 
+The Gamma Pattern Language was primarily concerned with the development of effective design patterns for applications at this level.
+
+
+---> Framework Level
+
+The framework level is concerned with the development of design patterns at the macro−component level, involving one or more micro−architectures. 
+This could be a container−based framework used to store information on groups of customers and their accounts. 
+Often, the solution presupposes several architectural issues such as the presence of object request broker (ORB) architecture, or that certain capabilities are available within a system. 
+At the framework level, the goal is to allow the reuse of both software code and the design used in writing the code. 
+Patterns, which are unique to a specific framework model or macro−component architecture, would be included at this level. 
+Effective patterns at this level can reduce the cost of building applications, which share the framework’s domain, and their maintenance costs. 
+Many of the patterns and much of the guidance from Taligent and Siemens are at this level [Buschmann 96]. 
+Frameworks attempt to use large portions of design and software when applied to solve problems within a specialized domain.
+
+
+---> Application Level
+
+The application level is the next scale above frameworks. 
+Applications typically involve numerous object classes, multiple micro−architectures, and one or more frameworks. 
+The application level is concerned with the design patterns used in a single application program.
+Often, a single developer has control over how an application (at this level) is structured, controlled, and managed. 
+At the application level, the primary goal is to implement a specific
+set of functionalities defined by the software requirements. 
+Their functionality must be conformant with performance goals. 
+This level contains diverse arrangements of structure and design techniques. 
+Because the scope is limited to a single program, there is far less risk involved in experimentation at this level than at larger scales (which impact multiple applications, systems, or enterprises). 
+If the higher scales are architected properly, the scope of impact of changes within an application is limited to a single−application program and the data on which it operates.
+
+The application level contains programs that implement the external model of a software system; 
+that is, an operational model of the real world. Specifically, the external requirements of the end user are satisfied at the application level; 
+this includes issues relating to user interface and visible system functionality. 
+Application−level software activities include object wrapping of legacy systems and new application development. 
+Commercial off−the−shelf (COTS) applications reside in the model at this level, as well ”as groups of collaborating frameworks.
+
+Since the finer−grain levels are covered adequately by other works, the pattern language is focused only upon the problem sets that occur at the application and larger scales. 
+The work in design patterns at the application and higher levels has been minimal until now; however, it is precisely at these levels where object−oriented architecture is most important.
+Application patterns cover a diverse set of solutions, and innovation at the application level in COTS software and development support environments is occurring rapidly. 
+The chosen application patterns in the pattern language include libraries, frameworks, interpreters, event−driven, persistence, and others. 
+This comprises a robust set of application patterns that explain the principles behind most application−level architectures.
+
+
+---> System Level
+
+A system comprises several integrated applications, which provide the functionality; the system level adds interoperation between the applications. 
+The system is also responsible for managing life−cycle issues, such as system evolution. 
+The system−level architecture is the enduring structure that survives the modification and replacement of component applications over the life cycle of the system. 
+This could be an insurance system, for example, integrating marine, home, and automobile insurance applications, 
+or a flight system for the centralized control of aircraft systems monitoring, Instrument Landing System (ILS), proximity warning, and autopilot.
+
+The system level is interesting because the forces vary significantly compared to the application level. 
+As we move to larger scales, the impact of change and complexity increase dramatically. 
+Within one application there may be infrequent changes; at the system level, these application−level changes comprise cumulative changes with possible systemwide impacts. 
+For example, if a dozen cooperating applications were upgraded once a year on a staggered schedule, 
+the overall system would experience monthly upgrades, with an associated risk of the required changes to existing software affecting the rest of the applications.
+
+Each application may be a complex program with hundreds of classes and thousands of methods. 
+As we scale to the system level, the system complexity increases faster than that of the individual applications. 
+From one perspective, the system resembles a large program that is the union of the individual applications. 
+Since the applications must communicate, additional software implements application−to−application interconnections. 
+If this complexity is not managed properly, the system with N applications resembles a much larger program with N complex modules and N ¥ N interconnections. 
+Complexity at the system level also includes communications mechanisms and distributed processing.
+
+The apparent complexity also leads to a wide range of diversity in solutions. 
+Many system−level solutions are ad hoc, or uniquely crafted for particular application implementations. 
+Within an enterprise, there may be many software systems with varying software architectures. 
+At the system level, the goal is to provide an infrastructure that applications may easily “plug in” in order to achieve some interoperability benefit. 
+Here, the goal is to reuse architecture so that applications benefit from commonality between systems, which includes interoperability and software reuse.
+
+At the system level, managing change and complexity are the two most important primal forces. 
+Managing functionality and performance have more importance at the application level where they are directly controlled. 
+Managing complexity is achieved through arriving at the right amount of abstraction for system architecture. 
+Management of change is focused on the development of common interfaces. 
+This defines how services are accessed. 
+Common interfaces allow for component replacement of applications and systems. 
+Good architecture is about matching the right amount of abstraction with the appropriate set of common interfaces.
+
+The system level implements the system’s internal model and provides the cohesiveness needed to allow applications to interoperate effectively with one another. 
+Three key principles at this level include horizontal interfaces, vertical interfaces, and metadata. 
+Horizontal interfaces are common interfaces designed for reuse across an organization; for example, horizontal interfaces may contain generic operations for data transfer and access. 
+They can provide mechanisms for reuse, interoperability, and management of applications. 
+Vertical interfaces are customized with respect to domain−specific requirements and vertical forces. 
+Providing functionality to end users and optimizing performance are the key motivations behind vertical interfaces. 
+Metadata is self−descriptive information, which defines services and data available within a system.
+
+Metadata enables system flexibility, with dynamic capabilities for managing change.
+Together, horizontal and vertical interfaces, along with metadata, comprise system−level software architecture.
+Within the system level, patterns are categorized into either a structural or behavioral patterns. 
+Structural patterns are those that possess a specific structure or set of related components. 
+Structural design patterns at the system level include gateways, a repository, and component and domain object−oriented architecture. 
+Behavioral patterns define how a system behaves under various conditions. 
+The behavioral patterns are reuse categories, client/server, multitier, and automation.
+
+
+---> Enterprise Level
+
+The enterprise level is the largest architectural scale within an organization. 
+Enterprise−level software comprises multiple systems, where each system comprises several applications.
+This could be financial services for banking, mortgages, and insurance, or  underground railway systems for ticketing, accounting, signaling, and track control. 
+Unlike the global level, within the enterprise level, an organization has control of its resources and policies. 
+The enterprise is responsible for establishing policies and procedures that are in place throughout an organization. 
+The enterprise−level patterns include guidance for making architectural design decisions that affect the structure, style, and future growth of enterprise software. 
+The patterns help define the necessary policies that need to be in place at the enterprise level, balanced with autonomy at lower levels. 
+The enterprise level is also differentiated from the global level by being limited to a definable scope of influence. 
+The goal of the enterprise level is to provide software access and minimize costs through a consistent set of polices and services usable throughout the organization. 
+By establishing organizational procedure in accordance with the design patterns, many typical enterprise problems in organizations can be minimized. 
+For example, an organization that establishes a policy for particular file formats or network standards can avoid many related problems 
+of procurement flexibility for state−of−the−art products and product incompatibilities without a means of data transfer between them.
+
+At the enterprise level are four categories of software information management to consider: 
+the organizational operating environment, distributed interprocess communications, resource management, and organizational profiles. 
+In addition, certain decisions must be made at this level that are unique for a particular organization type. 
+Some general characteristics of enterprise−level decisions will be presented as a guide toward identifying and applying some of these less common patterns.
+
+Included at the enterprise level are the various organizational models, which direct an organization as to how to utilize various standards, 
+for example, organizational policies, security and data access policies, and organizational infrastructures issues, such as the available communication protocols or the location of shared resources.
+
+
+---> Global Level
+
+The global level is the largest scale of the architectural levels, comprising multiple enterprises. 
+The boundaries of global systems are difficult, if not impossible, to define, and include a mixture of de facto and formal standards that are actively in use by the multitude of organizations throughout the world. 
+The key issues addressed involve the impact of software, which cross enterprise boundaries. 
+The global level includes languages, standards, and policies that affect multiple enterprises. 
+Global systems are those that bridge enterprises, and can be jointly controlled by multiple enterprises. 
+The goals of the global level are the joint goals of multiple enterprises. 
+For example, the global level may provide a set of leveragable standards and protocols that benefit organizations by allowing a general means of interoperability and communicating across different enterprises.
+
+The best example of a global system is the Internet, which is defined through a collection of related standards and policies that exist throughout the world to enable the sharing of information. 
+An important aspect of the Internet is the collection of standards that can be supported by anyone who wishes to share and access information in other organizations.
+The usage is beyond the control of any particular organization and is open to any person or group who wishes to participate.
+Also included at the global level are the software standards. 
+There are four major categories of standards in the computer industry: formal, de jure, de facto, and consortium standards.
+
+1. Formal standards are those advocated by accredited formal standards bodies such as the International Standards Organization (ISO), ANSI, and IEEE.
+2. De jure standards are mandated by law and endorsed by a government authority, including such standards as Ada95 and GOSIP.
+3. De facto standards are those that enjoy the status through popular use. 
+Currently, popular de facto standards include Microsoft Windows and Office, TCP/IP, and the various Internet protocols (IIOP).
+4. Consortium standards are created by a wide variety of groups such as OMG and the Open Group. 
+Typically, formal and de jure standards are specifications only, whereas de facto and consortium standards may also include an implementation.
+
+
+---> Level Summary
+
+A summary of the levels that are the focus of the pattern language. 
+The application level is where the functionality and performance that meet user requirements occurs. 
+At the next larger scale, the system level defines the software interconnections between applications. 
+The development of vertical interfaces and horizontal interfaces for interoperability between applications occurs at the system level. 
+Along with the horizontal and vertical interfaces, metadata is defined for run−time flexibility to allow many types of system modifications without requiring changes to application software. 
+The next larger scale is the enterprise level where organizational level policies, guidelines, and procedures are defined. 
+At this level, the enterprise controls reference models and operating environments and makes choices to further the needs of the organization. 
+At the global level, standards are generated as technology agreements are reached through consensus with other enterprises.
+
+
+

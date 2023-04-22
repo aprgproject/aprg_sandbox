@@ -1,0 +1,1106 @@
+Note: This is taken from Martin Fowler's book: [Refactoring: Improving the Design of Existing Code]
+
+
+-> Tips:
+
+---> When you find you have to add a feature to a program, 
+-----> and the program's code is not structured in a convenient way to add the feature, 
+-----> first refactor the program to make it easy to add the feature, 
+-----> then add the feature.
+
+---> Refactoring changes the programs in small steps. If you make a mistake, it is easy to find the bug.
+
+---> Rename. Any fool can write code that a computer can understand. Good programmers write code that humans can understand.
+
+---> Maintain a rhythm of refactoring: test, small change, test, small change, test, small change. 
+-----> It is that rhythm that allows refactoring to move quickly and safely.
+
+---> Definition of Refactoring
+-----> Refactoring (noun): a change made to the internal structure of software to make it EASIER TO UNDERSTAND and cheaper to modify WITHOUT CHANGING its observable behavior.
+-----> Refactor (verb): to restructure software by applying a series of refactorings WITHOUT CHANGING its observable behavior.
+
+---> Three strikes (three times fiddling the code) and you refactor.
+
+---> If you do get a bug report, it's a sign you need refactoring, because the code was not clear enough for you to see there was a bug.
+
+---> Don't publish interfaces prematurely. Modify your code ownership policies to smooth refactoring.
+
+---> Regarding Comments
+---> When you feel the need to write a comment, first try to refactor the code so that any comment becomes superfluous.
+
+---> Regarding performance
+-----> Even if you know exactly what is going on in your system, measure performance, don't speculate. 
+-------> You'll learn something, and nine times out of ten, it won't be that you were right! 
+------> The secret to fast software, in all but hard real-time contexts, is to write tunable software first and then to tune it for sufficient speed.
+
+---> Regarding tests
+-----> Make sure all tests are fully automatic and that they check their own results.
+-----> A suite of tests is a powerful bug detector that decapitates the time it takes to find bugs.
+-----> Run your tests frequently. Localize tests whenever you compile—every test at least every day.
+-----> When you get a bug report, start by writing a unit test that exposes the bug.
+-----> (Risk Driven Testing) It is better to write and run incomplete tests than not to run complete tests.
+-----> (Risk Driven Testing) Think of the boundary conditions under which things might go wrong and concentrate your tests there.
+-----> Don't forget to test that exceptions are raised when things are expected to go wrong.
+-----> Don't let the fear that testing can't catch all bugs stop you from writing the tests that will catch most bugs.
+
+
+
+-> Chapter 1. Refactoring (a first example)
+
+---> The First Step in Refactoring
+-----> Whenever I do refactoring, the first step is always the same. 
+-----> I need to build a solid set of tests for that section of code. 
+-----> The tests are essential because even though I follow refactorings structured to avoid most of the opportunities for introducing bugs, I'm still human and still make mistakes.
+-----> Thus I need solid tests.
+
+---> Decomposing and Redistributing the Statement Method
+-----> My first step is to find a logical clump of code and use Extract Method.
+-----> When I extract a method, as in any refactoring, I need to know what can go wrong. 
+-----> If I do the extraction badly, I could introduce a bug into the program. So before I do the refactoring I need to figure out how to do it safely. 
+-----> I've done this refactoring a few times before, so I've written down the safe steps in the catalog.
+
+---> Rename if needed
+-----> Is renaming worth the effort? Absolutely. 
+-----> Good code should communicate what it is doing clearly, and variable names are a key to clear code. 
+-----> Never be afraid to change the names of things to improve clarity. 
+-----> With good find and replace tools, it is usually not difficult. Strong typing and testing will highlight anything you miss.
+
+---> Communicate the purpose on the code
+-----> Code that communicates its purpose is very important. 
+-----> I often refactor just when I'm reading some code. 
+-----> That way as I gain understanding about the program, I embed that understanding into the code for later so I don't forget what I learned.
+
+---> Get rid of temporary variables if possible
+-----> I like to get rid of temporary variables such as this as much as possible. 
+-----> Temps are often a problem in that they cause a lot of parameters to be passed around when they don't have to be.
+-----> You can easily lose track of what they are there for. 
+-----> They are particularly insidious in long methods. 
+-----> Of course there is a performance price to pay; here the charge is now calculated twice.
+-----> But it is easy to optimize that in the rental class, and you can optimize much more effectively when the code is properly factored.
+
+---> Replacing the Conditional Logic with Polymorphism
+
+---> Final Thoughts
+-----> The most important lesson from this example is the rhythm of refactoring: test, small change, test, small change, test, small change. 
+-----> It is that rhythm that allows refactoring to move quickly and safely.
+
+
+
+-> Chapter 2. Principles in Refactoring
+
+---> Defining Refactoring
+-----> Refactoring (noun): a change made to the internal structure of software to make it EASIER TO UNDERSTAND and cheaper to modify WITHOUT CHANGING its observable behavior.
+-----> Refactor (verb): to restructure software by applying a series of refactorings WITHOUT CHANGING its observable behavior.
+-----> The purpose of refactoring is to make the software easier to understand and modify.
+-----> A good contrast is performance optimization because the purpose is different.
+-------> Performance optimization often makes code harder to understand, but you need to do it to get the performance you need.
+-----> Refactoring does not change the observable behavior of the software. 
+-------> Any user, whether an end user or another programmer, cannot tell that things have changed.
+
+---> The Two Hats
+-----> Divide your time between two distinct activities: adding function and refactoring
+-------> When you add function, you shouldn't be changing existing code; you are just adding new capabilities.
+-------> When you refactor, you make a point of not adding function; you only restructure the code.
+
+---> Why Should You Refactor?
+-----> Refactoring Improves the Design of Software
+-------> As people make code—changes to realize short-term goals or changes made without a full comprehension of the design of the code, the code loses its structure.
+---------> It becomes harder to see the design by reading the code.
+-------> Poorly designed code usually takes more code to do the same things, often because the code quite literally does the same thing in several places.
+---------> Reducing the amount of code does, however, make a big difference in modification of the code.
+-----> Refactoring Makes Software Easier to Understand
+-------> Someone will try to read your code in a few months' time to make some changes.
+---------> Who cares if the computer takes a few more cycles to compile something? 
+---------> It does matter if it takes a programmer a week to make a change that would have taken only an hour if she had understood your code.
+-------> Often this future developer is me (the same person).
+---------> I never remember things about the code I write. 
+---------> I make a point of trying to put everything I should remember into the code so I don't have to remember it.
+-------> When I look at unfamiliar code, I have to try to understand what it does.
+---------> With refactoring I don't stop at the mental note. 
+---------> I actually change the code to better reflect my understanding, and then I test that understanding by rerunning the code to see if it still works.
+-------> As the code gets clearer, I find I can see things about the design that I could not see before.
+---------> When I'm studying code I find refactoring leads me to higher levels of understanding that otherwise I would miss.
+-----> Refactoring Helps You Find Bugs
+-------> I find that if I refactor code, I work deeply on understanding what the code does, and I put that new understanding right back into the code. 
+-------> By clarifying the structure of the program, I clarify certain assumptions I've made, to the point at which I can't avoid spotting the bugs.
+-----> Refactoring Helps You Program Faster
+------> This sounds counterintuitive.
+--------> I strongly believe that a good design is essential for rapid software development.
+--------> Without a good design, you can progress quickly for a while, but soon the poor design starts to slow you down.
+------> Refactoring helps you develop software more rapidly, because it stops the design of the system from decaying. 
+
+---> When Should You Refactor?
+-----> In almost all cases, I'm opposed to setting aside time for refactoring. 
+-------> In my view refactoring is not an activity you set aside time to do. 
+-------> Refactoring is something you do all the time in little bursts.
+-----> The Rule of Three (guideline from Don Roberts)
+-------> The first time you do something, you just do it. 
+-------> The second time you do something similar, you wince at the duplication, but you do the duplicate thing anyway. 
+-------> The third time you do something similar, you refactor.
+-----> Refactor When You Add Function
+-------> The most common time to refactor is when I want to add a new feature to some software.
+-------> Whenever I have to think to understand what the code is doing, I ask myself if I can refactor the code to make that understanding more immediately apparent.
+-------> The other driver of refactoring is when its harder to add a feature.
+---------> I don't fret over my past misdeeds—I fix them by refactoring.
+-----> Refactor When You Need to Fix a Bug
+-------> In fixing bugs much of the use of refactoring comes from making code more understandable.
+-------> As I look at the code trying to understand it, I refactor to help improve my understanding.
+-------> One way to look at it is that if you do get a bug report, it's a sign you need refactoring, because the code was not clear enough for you to see there was a bug.
+-----> Refactor As You Do a Code Review
+-------> Code reviews help spread knowledge through a development team.
+-------> My code may look clear to me but not to my team.
+-------> Reviews also give the opportunity for more people to suggest useful ideas.
+---------> I can only think of so many good ideas in a week. 
+---------> Having other people contribute makes my life easier, so I always look for many reviews.
+-------> I've found that refactoring helps me review someone else's code.
+---------> I can come up with a second level of ideas that I would never have realized had I not refactored.
+-------> Refactoring also helps the code review have more concrete results.
+---------> Not only are there suggestions, but also many suggestions are implemented there and then.
+
+---> Why Refactoring Works
+-----> Programs have two kinds of value: what they can do for you today and what they can do for you tomorrow.
+-------> If you can get today's work done today, but you do it in such a way that you can't possibly get tomorrow's work done tomorrow, then you lose.
+-------> I know enough to do today's work. I don't know enough to do tomorrow's. But if I only work for today, I won't be able to work tomorrow at all.
+-----> Refactoring is one way out of the bind. 
+-------> When you find that yesterday's decision doesn't make sense today, you change the decision.
+-------> Now you can do today's work. Tomorrow, some of your understanding as of today will seem naive, so you'll change that, too.
+-----> What is it that makes programs hard to work with?
+-------> Programs that are hard to read are hard to modify.
+-------> Programs that have duplicated logic are hard to modify.
+-------> Programs that require additional behavior that requires you to change running code are hard to modify.
+-------> Programs with complex conditional logic are hard to modify.
+-----> Refactoring is the process of taking a running program and adding to its value, not by changing its behavior 
+-------> but by giving it more of these qualities that enable us to continue developing at speed.
+
+---> What Do I Tell My Manager?
+-----> If the manager is technically savvy, introducing the subject may not be that hard.
+-----> If the manager is genuinely quality oriented, then the thing to stress is the quality aspects.
+-------> Tons of studies show that technical reviews are an important way to reduce bugs and thus speed up development.
+-------> Take a look at any book on reviews, inspections, or the software development process for the latest citations.
+-------> These should convince most managers of the value of reviews. 
+---------> It is then a short step to introduce refactoring as a way of getting review comments into the code.
+-----> Of course, many people say they are driven by quality but are more driven by schedule.
+-------> Subversive? I don't think so. 
+-------> Software developers are professionals. 
+-------> Our job is to build effective software as rapidly as we can.
+-------> My experience is that refactoring is a big aid to building software quickly.
+-----> A schedule-driven manager wants me to do things the fastest way I can; how I do it is my business. 
+-------> The fastest way is to refactor; therefore I refactor.
+
+---> Indirection and Refactoring
+-----> "Computer Science is the discipline that believes all problems can be solved with one more layer of indirection." - Dennis DeBruler
+-----> Indirection is a two-edged sword.
+-------> Every time you break one thing into two pieces, you have more things to manage.
+-------> It also can make a program harder to read as an object delegates to an object delegating to an object. 
+---------> So you'd like to minimize indirection? Not so fast, buddy.
+-----> Indirection can pay for itself. Here are some of the ways:
+-------> Indirection enables the sharing of logic.
+---------> For example, a submethod invoked in two different places or a method in a superclass shared by all subclasses.
+-------> Indirection explains intention and implementation separately.
+---------> Choosing the name of each class and the name of each method gives you an opportunity to explain what you intend.
+---------> The internals of the class or method explain how the intention is realized.
+-------> Indirection isolates change.
+---------> Suppose, I use an object in two different places and I want to change the behavior in one of the two cases.
+---------> If I change the object, I risk changing both.
+---------> So I first make a subclass and refer to it in the case that is changing. 
+---------> Now I can modify the subclass without risking an inadvertent change to the other case.
+-------> Indirection encodes conditional logic.
+---------> Objects have a fabulous mechanism, polymorphic messages, to flexibly but clearly express conditional logic.
+---------> By changing explicit conditionals to messages, you can often reduce duplication, add clarity, and increase flexibility all at the same time.
+-----> Here is the refactoring game: How can you make your system more valuable, either by increasing its quality or by reducing its cost?
+-------> The most common variant of the game is to look at your program.
+---------> Identify a place where it is missing one or more of the benefits of indirection.
+---------> Put in that indirection without changing the existing behavior.
+---------> Now you have a more valuable program because it has more qualities that we will appreciate tomorrow.
+-------> Contrast this with careful upfront design.
+---------> Speculative design is an attempt to put all the good qualities into the system before any code is written.
+---------> The code can just be hung on the sturdy skeleton. 
+---------> The problem with this process is that it is too easy to guess wrong.
+---------> With refactoring, you are never in danger of being completely wrong.
+-------> There is a second, rarer refactoring game. Identify indirection that isn't paying for itself and take it out.
+---------> Often this takes the form of intermediate methods that used to serve a purpose but no longer do.
+---------> Or it could be a component that you expected to be shared or polymorphic but turned out to be used in only one place.
+---------> When you find parasitic indirection, take it out.
+
+---> Problems with Refactoring
+-----> Databases
+-------> Most business applications are tightly coupled to the database schema that supports them.
+-------> Another reason is data migration.
+-----> Changing Interfaces
+-------> There is no problem changing the interface if you have access to all the code that calls the interface.
+-------> There is a problem only if the interface is being used by code that you cannot find and change.
+---------> This is called a published interface.
+---------> Once you publish an interface, you can no longer safely change it and just edit the callers. You need a somewhat more complicated process.
+-------> What do you do about refactorings that change published interfaces?
+---------> You have to retain both the old interface and the new one, at least until your users have had a chance to react to the change.
+---------> Try to do this so that the old interface calls the new interface.
+---------> Don't copy the method body — that leads you down the path to damnation by way of duplicated code.
+---------> You should also use the deprecation tools to mark the code as deprecated.
+-------> Protecting interfaces usually is doable, but it is a pain.
+---------> You have to build and maintain these extra methods, at least for a time.
+---------> The methods complicate the interface, making it harder to use. 
+---------> There is an alternative: Don't publish the interface too much.
+
+---> Design Changes That Are Difficult to Refactor
+-----> Can you refactor your way out of any design mistake, or are some design decisions so central that you cannot count on refactoring to change your mind later?
+-------> This is an area in which we have very incomplete data.
+-----> At this stage my approach is to imagine the refactoring.
+-------> As I consider design alternatives, I ask myself how difficult it would be to refactor from one design into another.
+---------> If it seems easy, I don't worry too much about the choice, and I pick the simplest design, even if it does not cover all the potential requirements.
+---------> However, if I cannot see a simple way to refactor, then I put more effort into the design. I do find such situations are in the minority.
+
+---> When Shouldn't You Refactor?
+-----> The principle example is when you should rewrite from scratch instead.
+-------> There are times when the existing code is such a mess that although you could refactor it, it would be easier to start from the beginning.
+-------> A clear sign of the need to rewrite is when the current code just does not work.
+---------> You may discover this only by trying to test it and discovering that the code is so full of bugs that you cannot stablilize it.
+-----> A compromise route is to refactor a large piece of software into components with strong encapsulation.
+-------> Then you can make a refactor-versus-rebuild decision for one component at a time.
+-----> The other time you should avoid refactoring is when you are close to a deadline.
+-------> At that point the productivity gain from refactoring would appear after the deadline and thus be too late.
+-------> Ward Cunningham describes unfinished refactoring as going into debt.
+---------> Debt come interest payments, that is, the extra cost of maintenance and extension caused by overly complex code.
+--------> It is important to manage your debt, paying parts of it off by means of refactoring.
+-----> Not having enough time usually is a sign that you need to do some refactoring.
+
+---> Refactoring and Design
+-----> Many people consider design to be the key piece and programming just mechanics.
+-------> The analogy is design is an engineering drawing and code is the construction work.
+-----> But software is very different from physical machines. It is much more malleable, and it is all about thinking.
+-----> One argument is that refactoring can be an alternative to upfront design.
+-------> In this scenario you don't do any design at all. 
+-------> You just code the first approach that comes into your head, get it working, and then refactor it into shape.
+-------> Actually, this approach works.
+-----> Although doing only refactoring does work, it is not the most efficient way to work.
+-------> Even the extreme programmers do some design first.
+-------> You put more time and effort into the upfront design to avoid the need for a lot of changes.
+-----> Doing the upfront design and some refactoring changes the emphasis of the solution. 
+-------> You don't try to find the perfect solution, all you want is a reasonable solution.
+-------> You know that as you build the solution, as you understand more about the problem.
+-----> An important result of this change in emphasis is a greater movement toward simplicity of design.
+-------> Before I used refactoring, I always looked for flexible solutions.
+---------> Because design changes were expensive, I would look to build a design that would stand up to the changes I could foresee
+---------> The problem with building a flexible solution is that flexibility costs.
+---------> Building flexibility in all these places makes the overall system a lot more complex and expensive to maintain.
+-------> With refactoring you approach the risks of change differently.
+---------> You just implement the simple solution.
+-------> Refactoring can lead to simpler designs without sacrificing flexibility.
+---------> Once you have a broad sense of things that refactor easily, you don't even think of the flexible solutions.
+---------> You have the confidence to refactor if the time comes.
+---------> You build the simplest thing that can possibly work.
+
+---> Refactoring and Performance
+-----> A common concern with refactoring is the effect it has on the performance of a program.
+-------> To make the software easier to understand, you often make changes that will cause the program to run more slowly.
+-------> Refactoring certainly will make software go more slowly, but it also makes the software more amenable to performance tuning.
+-------> The secret to fast software, in all but hard real-time contexts, is to write tunable software first and then to tune it for sufficient speed.
+-----> I've seen three general approaches to writing fast software.
+-------> The first approach is time budgeting, used often in hard real-time systems.
+---------> In this situation, as you decompose the design you give each component a budget for resources - time and footprint.
+---------> Components are not allowed to exceed its budget, although a mechanism for exchanging budgeted times is allowed.
+---------> This technique is overkill for other kinds of systems.
+-------> The second approach is the constant attention approach.
+---------> With this approach every programmer, all the time, does whatever he or she can to keep performance high.
+---------> This is a common approach and has intuitive attraction, but it does not work very well.
+---------> Changes that improve performance usually make the program harder to work with and slows development.
+---------> The performance improvements are spread all around the program, and each improvement is made with a narrow perspective of the program's behavior.
+---------> The interesting thing about performance is that if you analyze most programs, you find that they waste most of their time in a small fraction of the code (bottle necks).
+-----------> If you optimize all the code equally, you end up with 90 percent of the optimizations wasted, because you are optimizing code that isn't run much.
+-----------> The time spent making the program fast, the time lost because of lack of clarity, is all wasted time.
+-------> The third approach to performance improvement takes advantage of this 90 percent statistic.
+---------> You build your program in a well-factored manner with minimal attention to performance until you begin a performance optimization stage, usually fairly late in development.
+-----------> During the performance optimization stage, you follow a specific process to tune the program.
+-----------> You begin by running the program under a profiler that monitors the program and tells you where it is consuming time and space.
+-----------> This way you can find that small part of the program where the performance hot spots lie.
+-----------> Then you focus on those performance hot spots and use the same optimizations you would use if you were using the constant attention approach.
+---------> Having a well-factored program helps with this style of optimization in two ways.
+-----------> First, it gives you time to spend on performance tuning.
+-------------> Because you have well-factored code, you can add function more quickly. This gives you more time to focus on performance.
+-----------> Second, with a well-factored program you have finer granularity for your performance analysis.
+-------------> Your profiler leads you to smaller parts of the code, which are easier to tune. 
+-------------> Because the code is clearer, you have a better understanding of your options and of what kind of tuning will work.
+
+
+
+-> Chapter 3. Code Smell
+
+---> If it stinks, change it.
+
+---> Duplicated Code
+-----> Description: 
+-------> If you see the same code structure in more than one place, you can be sure that your program will be better if you find a way to unify them.
+-----> Solution: 
+-------> If you have the same expression in two methods of the same class, use Extract Method then invoke the code from both places.
+-------> If you have the same expression in two sibling subclasses, use Pull Up Field.
+-------> If the code is similar but not the same, use Extract Method to separate the similar bits from the different bits.
+---------> You can also use Form Template Method.
+---------> If the methods do the same thing with a different algorithm, you can use Substitute Algorithm.
+-------> If you have duplicated code in two unrelated classes, consider using Extract Class in one class and then use the new component in the other
+
+---> Long Method
+-----> Description: 
+-------> The object programs that live best and longest are those with short methods.
+-------> Since the early days of programming people have realized that the longer a procedure is, the more difficult it is to understand.
+-------> The real key to making it easy to understand small methods is good naming, if you have a good name for a method you don't need to look at the body.
+-------> The net effect is that you should be much more aggressive about decomposing methods (extract till you drop).
+---------> The key here is not method length but the semantic distance between what the method does and how it does it
+-----> Solution:
+-------> Ninety-nine percent of the time, all you have to do to shorten a method is Extract Method.
+-------> You can often use Replace Temp with Query to eliminate the temps.
+-------> Long lists of parameters can be slimmed down with Introduce Parameter Object and Preserve Whole Object.
+-------> If you've tried that, and you still have too many temps and parameters, it's time to get out the heavy artillery: Replace Method with Method Object.
+-------> If there are conditionals, use Decompose Conditional to deal with conditional expressions.
+---------> With loops, extract the loop and the code within the loop into its own method.
+-----> Notes:
+-------> How do you identify the clumps of code to extract?
+---------> A good technique is to look for comments. They often signal this kind of semantic distance.
+---------> Even a single line is worth extracting if it needs explanation.=
+
+---> Large Class
+-----> Description: 
+-------> When a class is trying to do too much, it often shows up as too many instance variables.
+-------> When a class has too many instance variables, duplicated code cannot be far behind.
+-----> Solution:
+-------> You can Extract Class to bundle a number of the variables.
+---------> Choose variables to go together in the component that makes sense for each. 
+---------> More generally, common prefixes or suffixes for some subset of the variables in a class suggest the opportunity for a component.
+---------> If the component makes sense as a subclass, you'll find Extract Subclass often is easier.
+-------> A useful trick is to determine how clients use the class and to use Extract Interface for each of these uses.
+---------> That may give you ideas on how you can further break up the class.
+-------> If your large class is a GUI class, you may need to move data and behavior to a separate domain object.
+---------> This may require keeping some duplicate data in both places and keeping the data in sync.
+---------> Duplicate Observed Data suggests how to do this.
+
+---> Long Parameter List
+-----> Description: 
+-------> In our early programming days we were taught to pass in as parameters everything needed by a routine.
+---------> This was understandable because the alternative was global data, and global data is evil and usually painful.
+-------> Objects change this situation because if you don't have something you need, you can always ask another object to get it for you.
+---------> Thus with objects you don't pass in everything the method needs; instead you pass enough so that the method can get to everything it needs.
+---------> A lot of what a method needs is available on the method's host class.
+---------> In object-oriented programs parameter lists tend to be much smaller than in traditional programs.
+-------> Long parameter lists are hard to understand:
+---------> Because they become inconsistent and difficult to use
+---------> Because you are forever changing them as you need more data
+-------> Most changes are removed by passing objects because you are much more likely to need to make only a couple of requests to get at a new piece of data.
+-----> Solution:
+-------> Use Replace Parameter with Method when you can get the data in one parameter by making a request of an object you already know about.
+-------> Use Preserve Whole Object to take a bunch of data gleaned from an object and replace it with the object itself.
+-------> If you have several data items with no logical object, use Introduce Parameter Object.
+-----> Notes:
+-------> There is one important exception to making these changes.
+---------> This is when you explicitly do not want to create a dependency from the called object to the larger object.
+---------> In those cases unpacking data and sending it along as parameters is reasonable, but pay attention to the pain involved.
+---------> If the parameter list is too long or changes too often, you need to rethink your dependency structure.
+
+---> Divergent Change
+-----> Description: 
+-------> When we make a change we want to be able to jump to a single clear point in the system and make the change.
+---------> When you can't do this you are smelling one of two closely related pungencies.
+-------> Divergent change occurs when one class is changed in different ways for a particular cause.
+---------> If you look at a class and say:
+-----------> "Well, I will have to change these three methods every time I get a new database"
+-----------> "I have to change these four methods every time there is a new financial instrument" 
+-----------> You are likely in a situation in which two objects are better than one, so that each object is changed only as a result of one kind of change.
+-----> Solution:
+-------> To clean this up you identify everything that changes for a particular cause and use Extract Class to put them all together.
+
+---> Shotgun Surgery
+-----> Description: 
+-------> You whiff this when every time you make a kind of change, you have to make a lot of little changes to a lot of different classes.
+-------> When the changes are all over the place, they are hard to find, and it's easy to miss an important change.
+-----> Solution:
+-------> In this case you want to use Move Method and Move Field to put all the changes into a single class.
+---------> If no current class looks like a good candidate, create one.
+-------> Often you can use Inline Class to bring a whole bunch of behavior together.
+---------> You get a small dose of divergent change, but you can easily deal with that.
+-----> Notes:
+-------> Shotgun surgery is similar to divergent change but is the opposite.
+---------> Divergent change is one class that suffers many kinds of changes, and shotgun surgery is one change that alters many classes.
+-----------> Either way you want to arrange things so that, ideally, there is a one-to-one link between common changes and classes.
+
+---> Feature Envy
+-----> Description: 
+-------> The whole point of objects is that they are a technique to package data with the processes used on that data.
+-------> A classic smell is a method that seems more interested in a class other than the one it actually is in.
+---------> The most common focus of the envy is the data.
+---------> We've lost count of the times we've seen a method that invokes half-a-dozen getting methods on another object to calculate some value.
+-----> Solution:
+-------> When the method clearly wants to be elsewhere, you use Move Method to get it there.
+------->  Sometimes only part of the method suffers from envy; in that case use Extract Method on the jealous bit and Move Method to give it a dream home.
+-------> Of course not all cases are cut-and-dried. 
+---------> Often a method uses features of several classes, so which one should it live with?
+-----------> The heuristic we use is to determine which class has most of the data and put the method with that data. 
+-----------> This step is often made easier if Extract Method is used to break the method into pieces that go into different places.
+-----> Notes:
+-------> The fundamental rule of thumb is to put things together that change together.
+---------> Data and the behavior that references that data usually change together, but there are exceptions.
+---------> When the exceptions occur, we move the behavior to keep changes in one place.
+-----------> From the Gang of Four book, Strategy and Visitor immediately leap to mind.
+-----------> Strategy and Visitor allow you to change behavior easily, because they isolate the small amount of behavior that needs to be overridden, at the cost of further indirection.
+
+---> Data Clumps
+-----> Description: 
+-------> Data items tend to be like children; they enjoy hanging around in groups together.
+-------> Often you'll see the same three or four data items together in lots of places: fields in a couple of classes, parameters in many method signatures.
+-------> Bunches of data that hang around together really ought to be made into their own object.
+-----> Solution:
+-------> The first step is to look for where the clumps appear as fields.
+-------> Use Extract Class on the fields to turn the clumps into an object.
+-------> Then turn your attention to method signatures using Introduce Parameter Object or Preserve Whole Object to slim them down.
+---------> The immediate benefit is that you can shrink a lot of parameter lists and simplify method calling.
+-----> Notes:
+-------> Don't worry about data clumps that use only some of the fields of the new object.
+---------> As long as you are replacing two or more fields with the new object, you'll come out ahead.
+---------> A good test is to consider deleting one of the data values: if you did this, would the others make any sense? 
+-----------> If they don't, it's a sure sign that you have an object that's dying to be born.
+-------> Next, you can look for cases of feature envy, which will suggest behavior that can be moved into your new classes.
+
+---> Primitive Obsession
+-----> Description: 
+-------> Most programming environments have two kinds of data: 
+---------> (1) Record types allow you to structure data into meaningful groups. 
+-----------> Records always carry a certain amount of overhead. 
+-----------> They may mean tables in a database, or they may be awkward to create when you want them for only one or two things.
+---------> (2) Primitive types are your building blocks.
+-------> One of the valuable things about objects is that they blur or even break the line between primitive and larger classes.
+---------> You can easily write little classes that are indistinguishable from the built-in types of the language.
+-------> People new to objects usually are reluctant to use small objects for small tasks.
+-----> Solution:
+-------> You can move out of the cave into the centrally heated world of objects by using Replace Data Value with Object on individual data values.
+-------> If the data value is a type code, use Replace Type Code with Class if the value does not affect behavior.
+-------> If you have conditionals that depend on the type code, use Replace Type Code with Subclasses or Replace Type Code with State/Strategy.
+-------> If you have a group of fields that should go together, use Extract Class.
+-------> If you see these primitives in parameter lists, try a civilizing dose of Introduce Parameter Object.
+-------> If you find yourself picking apart an array, use Replace Array with Object.
+
+---> Switch Statements
+-----> Description: 
+-------> One of the most obvious symptoms of object-oriented code is its comparative lack of switch (or case) statements.
+-------> The problem with switch statements is essentially that of duplication.
+--------> If you add a new clause to the switch, you have to find all these switch, statements and change them.
+-------> The object-oriented notion of polymorphism gives you an elegant way to deal with this problem.
+-----> Solution:
+-------> Most times you see a switch statement you should consider polymorphism. The issue is where the polymorphism should occur.
+---------> Use Extract Method to extract the switch statement and then Move Method to get it onto the class where the polymorphism is needed.
+-------> At that point you have to decide whether to Replace Type Code with Subclasses or Replace Type Code with State/Strategy.
+-------> When you have set up the inheritance structure, you can use Replace Conditional with Polymorphism.
+-------> If you only have a few cases that affect a single method, and you don't expect them to change, then polymorphism is overkill.
+---------> In this case Replace Parameter with Explicit Methods is a good option.
+---------> If one of your conditional cases is a null, try Introduce Null Object.
+
+---> Parallel Inheritance Hierarchies
+-----> Description: 
+-------> Parallel inheritance hierarchies is really a special case of shotgun surgery.
+-------> In this case, every time you make a subclass of one class, you also have to make a subclass of another.
+-------> You can recognize this smell because the prefixes of the class names in one hierarchy are the same as the prefixes in another hierarchy.
+-----> Solution:
+-------> The general strategy for eliminating the duplication is to make sure that instances of one hierarchy refer to instances of the other.
+-------> If you use Move Method and Move Field, the hierarchy on the referring class disappears.
+
+---> Lazy Class
+-----> Description: 
+-------> Each class you create costs money to maintain and understand.
+-------> A class that isn't doing enough to pay for itself should be eliminated.
+---------> Often this might be a class that used to pay its way but has been downsized with refactoring.
+---------> Or it might be a class that was added because of changes that were planned but not made.
+-----> Solution:
+-------> If you have subclasses that aren't doing enough, try to use Collapse Hierarchy. 
+-------> Nearly useless components should be subjected to Inline Class.
+
+---> Speculative Generality
+-----> Description: 
+-------> You get it when people say, "Oh, I think we need the ability to this kind of thing someday" 
+---------> and thus want all sorts of hooks and special cases to handle things that aren't required.
+-------> The result often is harder to understand and maintain. 
+---------> If all this machinery were being used, it would be worth it. But if it isn't, it isn't.
+---------> The machinery just gets in the way, so get rid of it.
+-------> 
+-----> Solution:
+-------> If you have abstract classes that aren't doing much, use Collapse Hierarchy.
+-------> Unnecessary delegation can be removed with Inline Class.
+-------> Methods with unused parameters should be subject to Remove Parameter.
+-------> Methods named with odd abstract names should be brought down to earth with Rename Method.
+-----> Notes:
+-------> Speculative generality can be spotted when the only users of a method or class are test cases.
+---------> If you find such a method or class, delete it and the test case that exercises it.
+---------> If you have a method or class that is a helper for a test case that exercises legitimate functionality, you have to leave it in, of course.
+
+---> Temporary Field
+-----> Description: 
+-------> Sometimes you see an object in which an instance variable is set only in certain circumstances.
+---------> Such code is difficult to understand, because you expect an object to need all of its variables.
+---------> Trying to understand why a variable is there when it doesn't seem to be used can drive you nuts.
+-----> Solution:
+-------> Use Extract Class to create a home for the poor orphan variables.
+---------> Put all the code that concerns the variables into the component.
+-------> You may also be able to eliminate conditional code by using Introduce Null Object to create an alternative component for when the variables aren't valid.
+-----> Notes:
+-------> A common case of temporary field occurs when a complicated algorithm needs several variables.
+---------> Because the implementer didn't want to pass around a huge parameter list (who does?), he put them in fields.
+---------> But the fields are valid only during the algorithm; in other contexts they are just plain confusing.
+---------> In this case you can use Extract Class with these variables and the methods that require them.
+
+---> Message Chains
+-----> Description: 
+-------> You see message chains when a client asks one object for another object, 
+---------> which the client then asks for yet another object, 
+---------> which the client then asks for yet another another object, 
+---------> and so on.
+-------> You may see these as a long line of getThis methods, or as a sequence of temps.
+-------> Navigating this way means the client is coupled to the structure of the navigation. 
+-------> Any change to the intermediate relationships causes the client to have to change.
+-----> Solution:
+-------> The move to use here is Hide Delegate.
+---------> You can do this at various points in the chain.
+---------> In principle you can do this to every object in the chain, but doing this often turns every intermediate object into a middle man.
+-------> Often a better alternative is to see what the resulting object is used for.
+---------> See whether you can use Extract Method to take a piece of the code that uses it and then Move Method to push it down the chain.
+---------> If several clients of one of the objects in the chain want to navigate the rest of the way, add a method to do that.
+
+---> Middle Man
+-----> Description: 
+-------> One of the prime features of objects is encapsulation—hiding internal details from the rest of the world.
+-------> Encapsulation often comes with delegation. However, this can go too far.
+---------> You look at a class's interface and find half the methods are delegating to this other class and it more looks like a Middle Man.
+-----> Solution:
+-------> Use Remove Middle Man and talk to the object that really knows what's going on.
+-------> If only a few methods aren't doing much, use Inline Method to inline them into the caller.
+-------> If there is additional behavior, you can use Replace Delegation with Inheritance to turn the middle man into a subclass of the real object.
+---------> That allows you to extend behavior without chasing all that delegation.
+
+---> Inappropriate Intimacy
+-----> Description: 
+-------> Sometimes classes become far too intimate and spend too much time delving in each others'private parts.
+-------> Overintimate classes need to be broken up as lovers were in ancient days.
+-----> Solution:
+-------> Use Move Method and Move Field to separate the pieces to reduce the intimacy.
+-------> See whether you can arrange a Change Bidirectional Association to Unidirectional.
+-------> If the classes do have common interests, use Extract Class to put the commonality in a safe place and make honest classes of them.
+---------> Or use Hide Delegate to let another class act as go-between.
+-------> Inheritance often can lead to overintimacy.
+---------> Subclasses are always going to know more about their parents than their parents would like them to know.
+---------> If it's time to leave home, apply Replace Delegation with Inheritance.
+
+---> Alternative Classes with Different Interfaces
+-----> Description: 
+-----> Solution:
+-------> Use Rename Method on any methods that do the same thing but have different signatures for what they do.
+-------> Keep using Move Method to move behavior to the classes until the protocols are the same.
+-------> If you have to redundantly move code to accomplish this, you may be able to use Extract Superclass to atone.
+
+---> Incomplete Library Class
+-----> Description: 
+-------> Reuse is often touted as the purpose of objects.
+---------> We think reuse is overrated (we just use).
+-------> Builders of library classes are rarely omniscient.
+---------> We don't blame them for that; after all, we can rarely figure out a design until we've mostly built it, so library builders have a really tough job.
+---------> This means that tried-and-true tactics such as Move Method lie useless.
+-----> Solution:
+-------> If there are just a couple of methods that you wish the library class had, use Introduce Foreign Method.
+-------> If there is a whole load of extra behavior, you need Introduce Local Extension.
+
+---> Data Class
+-----> Description: 
+-------> These are classes that have fields, getting and setting methods for the fields, and nothing else.
+-------> Such classes are dumb data holders and are almost certainly being manipulated in far too much detail by other classes.
+-----> Solution:
+-------> In early stages these classes may have public fields, then you should immediately apply Encapsulate Field before anyone notices.
+-------> If you have collection fields, check to see whether they are properly encapsulated and apply Encapsulate Collection if they aren't.
+-------> Use Remove Setting Method on any field that should not be changed.
+-------> Try to use Move Method to move behavior into the data class.
+-------> If you can't move a whole method, use Extract Method to create a method that can be moved.
+-------> After a while you can start using Hide Method on the getters and setters.
+-----> Notes:
+-------> Data classes are like children. 
+---------> They are okay as a starting point, but to participate as a grownup object, they need to take some responsibility.
+
+---> Refused Bequest
+-----> Description: 
+-------> Subclasses get to inherit the methods and data of their parents.
+---------> But what if they don't want or need what they are given?
+---------> They are given all these great gifts and pick just a few to play with.
+---------> The traditional story is that this means the hierarchy is wrong.
+-----> Solution:
+-------> You need to create a new sibling class and use Push Down Method and Push Down Field to push all the unused methods to the sibling.
+-------> If the subclass is reusing behavior but does not want to support the interface of the superclass, gut it by applying Replace Inheritance with Delegation.
+-----> Notes:
+-------> Often you'll hear advice that all superclasses should be abstract, so the parent holds only what is common.
+---------> We aren't going to advise this, at least not all the time.
+---------> We do subclassing to reuse a bit of behavior all the time, its a smell, and we can't deny it, but usually it isn't a strong smell.
+
+---> Comments
+-----> Description: 
+-------> Don't worry, we aren't saying that people shouldn't write comments.
+-------> In our olfactory analogy, comments aren't a bad smell; indeed they are a sweet smell.
+---------> The reason we mention comments here is that comments often are used as a deodorant.
+---------> It's surprising how often you look at thickly commented code and notice that the comments are there because the code is bad.
+-------> Comments lead us to bad code that has all the rotten whiffs we've discussed in the rest of this chapter.
+---------> Our first action is to remove the bad smells by refactoring.
+---------> When we're finished, we often find that the comments are superfluous.
+-----> Solution:
+-------> If you need a comment to explain what a block of code does, try Extract Method.
+-------> If the method is already extracted but you still need a comment to explain what it does, use Rename Method.
+-------> If you need to state some rules about the required state of the system, use Introduce Assertion.
+-----> Notes:
+-------> When you feel the need to write a comment, first try to refactor the code so that any comment becomes superfluous.
+-------> A good time to use a comment is when you don't know what to do.
+---------> In addition to describing what is going on, comments can indicate areas in which you aren't sure.
+---------> A comment is a good place to say why you did something. 
+---------> This kind of information helps future modifiers, especially forgetful ones.
+
+
+
+-> Chapter 4. Building Tests
+
+---> If you want to refactor, the essential precondition is having solid tests.
+
+---> The Value of Self-testing Code
+-----> If you look at how most programmers spend their time, you'll find that writing code actually is quite a small fraction. 
+-------> Some time is spent figuring out what ought to be going on, some time is spent designing, but most time is spent debugging.
+-----> Every programmer can tell a story of a bug that took a whole day (or more) to find. 
+-------> Fixing the bug is usually pretty quick, but finding it is a nightmare.
+-----> Writing the tests is a lot of extra code to write. 
+-------> Unless you have actually experienced the way it speeds programming, selftesting does not seem to make sense.
+-------> This is not helped by the fact that many people have never learned to write tests or even to think about tests.
+-----> TDD! In fact, one of the most useful times to write tests is before you start programming. 
+-------> When you need to add a feature, begin by writing the test.
+-------> By writing the test you are asking yourself what needs to be done to add the function.
+-------> Writing the test also concentrates on the interface rather than the implementation (always a good thing).
+-------> It also means you have a clear point at which you are done coding—when the test works.
+
+---> Unit and Functional Tests
+-----> I should mention the difference between unit tests and functional tests.
+-----> The tests I'm talking about are unit tests. 
+-------> I write them to improve my productivity as a programmer.
+-------> Making the quality assurance department happy is just a side effect.
+-------> Unit tests are highly localized.
+-------> Each test class works within a single package.
+-------> It tests the interfaces to other packages, but beyond that it assumes the rest just works.
+-----> Functional tests are a different animal.
+-------> They are written to ensure the software as a whole works.
+-------> They provide quality assurance to the customer and don't care about programmer productivity.
+-------> Functional tests typically treat the whole system as a black box as much as possible.
+-------> In a GUI-based system, they operate through the GUI.
+-------> In a file or database update program, the tests just look at how the data is changed for certain inputs.
+
+---> Adding More Tests
+-----> The style I follow is to look at all the things the class should do and test each one of them for any conditions that might cause the class to fail.
+-------> This is not the same as "test every public method," which some programmers advocate.
+-------> Testing should be risk driven; remember, you are trying to find bugs now or in the future.
+---------> So I don't test accessors that just read and write a field.
+---------> Because they are so simple, I'm not likely to find a bug there.
+-----> Writing too many tests usually leads to not writing enough.
+-------> I've often read books on testing, and my reaction has been to shy away from the mountain of stuff I have to do to test.
+-------> This is counterproductive, because it makes you think that to test you have to do a lot of work.
+-------> You get many benefits from testing even if you do only a little testing.
+-------> The key is to test the areas that you are most worried about going wrong.
+-------> That way you get the most benefit for your testing effort.
+
+
+
+-> Chapter 6. Composing Methods
+
+---> Extract Method (extract till you drop)
+-----> Problem: 
+-------> You have a code fragment that can be grouped together.
+-----> Solution:
+-------> Turn the fragment into a method whose name explains the purpose of the method.
+-----> Motivation:
+-------> I look at a method that is too long or look at code that needs a comment to understand its purpose.
+---------> I then turn that fragment of code into its own method.
+-----> Mechanics
+-------> Create a new method, and name it after the intention of the method (name it by what it does, not by how it does it).
+-------> Copy the extracted code from the source method into the new target method.
+-------> Scan the extracted code for references to any variables that are local in scope to the source method. 
+---------> These are local variables and parameters to the method.
+-------> See whether any temporary variables are used only within this extracted code. 
+---------> If so, declare them in the target method as temporary variables.
+-------> Look to see whether any of these local-scope variables are modified by the extracted code. 
+-------> Pass into the target method as parameters local-scope variables that are read from the extracted code.
+-------> Compile when you have dealt with all the locally-scoped variables.
+-------> Replace the extracted code in the source method with a call to the target method.
+-----> Notes:
+-------> I prefer short, well-named methods for several reasons.
+---------> First, it increases the chances that other methods can use a method when the method is finely grained.
+---------> Second, it allows the higher-level methods to read more like a series of comments.
+-------> It does take a little getting used to if you are used to seeing larger methods.
+---------> And small methods really work only when you have good names, so you need to pay attention to naming.
+---------> People sometimes ask me what length I look for in a method, to me length is not the issue.
+---------> The key is the semantic distance between the method name and the method body.
+---------> If extracting improves clarity, do it, even if the name is longer than the code you have extracted.
+-------> If the code you want to extract is very simple, you should extract it if the name of the new method will reveal the intention of the code in a better way. 
+---------> If you can't come up with a more meaningful name, don't extract the code.
+
+---> Inline Method
+-----> Problem: 
+-------> A method's body is just as clear as its name.
+-----> Solution:
+-------> Put the method's body into the body of its callers and remove the method.
+-----> Motivation:
+-------> Sometimes you do come across a method in which the body is as clear as the name.
+---------> Or you refactor the body of the code into something that is just as clear as the name.
+---------> When this happens, you should then get rid of the method. Indirection can be helpful, but needless indirection is irritating.
+-------> Another time to use Inline Method is when you have a group of methods that seem badly factored.
+---------> You can inline them all into one big method and then reextract the methods.
+-------> It is often good to do this before using Replace Method with Method Object.
+---------> You inline the various calls made by the method that have behavior you want to have in the method object.
+---------> It's easier to move one method than to move the method and its called methods.
+-------> I commonly use Inline Method when someone is using too much indirection.
+---------> It seems that every method does simple delegation to another method, and I get lost in all the delegation.
+---------> In these cases some of the indirection is worthwhile, but not all of it.
+---------> By trying to inline I can flush out the useful ones and eliminate the rest.
+-----> Mechanics:
+-------> Check that the method is not polymorphic.
+---------> Don't inline if subclasses override the method; they cannot override a method that isn't there.
+-------> Find all calls to the method.
+-------> Replace each call with the method body.
+-------> Compile and test.
+-------> Remove the method definition.
+-----> Notes:
+-------> Written this way, Inline Method is simple. In general it isn't.
+---------> I could write pages on how to handle recursion, multiple return points, inlining into another object when you don't have accessors, and the like.
+---------> The reason I don't is that if you encounter these complexities, you shouldn't do this refactoring.
+
+---> Inline Temp
+-----> Problem: 
+-------> You have a temp that is assigned to once with a simple expression, and the temp is getting in the way of other refactorings.
+-----> Solution:
+-------> Replace all references to that temp with the expression.
+-----> Motivation:
+-------> Most of the time Inline Temp is used as part of Replace Temp with Query, so the real motivation is there.
+-------> The only time Inline Temp is used on its own is when you find a temp that is assigned the value of a method call.
+---------> Often this temp isn't doing any harm and you can safely leave it there.
+-----> Mechanics:
+-------> Declare the temp as final (or constexpr in C++) if it isn't already, and compile.
+---------> This checks that the temp is really only assigned to once.
+-------> Find all references to the temp and replace them with the right-hand side of the assignment.
+-------> Compile and test after each change.
+-------> Remove the declaration and the assignment of the temp.
+-------> Compile and test.
+
+---> Replace Temp with Query
+-----> Problem: 
+-------> You are using a temporary variable to hold the result of an expression.
+-----> Solution:
+-------> Extract the expression into a method. 
+-------> Replace all references to the temp with the expression. 
+-------> The new method can then be used in other methods.
+-----> Motivation:
+-------> Temps they tend to encourage longer code, because that's the only way you can reach the temps.
+---------> By replacing the temp with a query method, any method in the class can get at the information.
+-------> Replace Temp with Query often is a vital step before Extract Method.
+---------> Local variables make it difficult to extract, so replace as many variables as you can with queries.
+-------> The straightforward case is when temps are assigned only once and the assignment expression is free of side effects.
+-----> Mechanics:
+-------> Look for a temporary variable that is assigned to once.
+---------> If a temp is set more than once consider Split Temporary Variable.
+-------> Declare the temp as final (or constexpr in C++).
+-------> Compile.
+---------> This will ensure that the temp is only assigned to once.
+-------> Extract the right-hand side of the assignment into a method.
+---------> Initially mark the method as private. (You may find more use for it later, but you can easily relax the protection later.)
+---------> Ensure the extracted method is free of side effects, that is, it does not modify any object. 
+---------> If it is not free of side effects, use Separate Query from Modifier.
+-------> Compile and test.
+-------> Use Replace Temp with Query on the temp.
+-----> Notes:
+-------> You may need to use Split Temporary Variable or Separate Query from Modifier first to make things easier.
+-------> If the temp is used to collect a result (such as summing over a loop), you need to copy some logic into the query method.
+
+---> Introduce Explaining Variable
+-----> Problem: 
+-------> You have a complicated expression.
+-----> Solution:
+-------> Put the result of the expression, or parts of the expression, in a temporary variable with a name that explains the purpose.
+-----> Motivation:
+-------> Expressions can become very complex and hard to read. 
+----------> In such situations temporary variables can be helpful to break down the expression into something more manageable.
+-------> This is useful on conditional logic so we can take each clause of a condition and explain what the condition means with a well-named temp.
+-------> Another case is a long algorithm, in which each step in the computation can be explained with a temp.
+-----> Mechanics:
+-------> Declare a final temporary variable, and set it to the result of part of the complex expression.
+-------> Replace the result part of the expression with the value of the temp.
+---------> If the result part of the expression is repeated, you can replace the repeats one at a time.
+-------> Compile and test.
+-------> Repeat for other parts of the expression.
+-----> Notes:
+-------> Introduce Explaining Variable is a very common refactoring, but I confess I don't use it that much.
+---------> I almost always prefer to use Extract Method if I can.
+-----------> A temp is useful only within the context of one method. 
+-----------> A method is useable throughout the object and to other objects.
+---------> There are times, however, when local variables make it difficult to use Extract Method. 
+-----------> That's when I use Introduce Explaining Variable.
+
+---> Split Temporary Variable
+-----> Problem: 
+-------> You have a temporary variable assigned to more than once, but is not a loop variable nor a collecting temporary variable.
+-----> Solution:
+-------> Make a separate temporary variable for each assignment.
+-----> Motivation:
+-------> Temporary variables are made for various uses.
+---------> Some of these uses naturally lead to the temp's being assigned to several times.
+---------> Collecting temporary variables [Beck] collect together some value that is built up during the method.
+-------> Many other temporaries are used to hold the result of a long-winded bit of code for easy reference later.
+-------> If they are set more than once its a sign that they have more than one responsibility within the method.
+-------> Any variable with more than one responsibility should be replaced with another temp for each responsibility. 
+-------> Using a temp for two different things is very confusing for the reader.
+-----> Mechanics:
+-------> Change the name of a temp at its declaration and its first assignment.
+---------> If the later assignments are of the form i = i + some expression, that indicates that it is a collecting temporary variable, so don't split it. 
+---------> The operator for a collecting temporary variable usually is addition, string concatenation, writing to a stream, or adding to a collection.
+-------> Declare the new temp as final.
+-------> Change all references of the temp up to its second assignment.
+-------> Declare the temp at its second assignment.
+-------> Compile and test.
+-------> Repeat in stages, each stage renaming at the declaration, and changing references until the next assignment.
+
+---> Remove Assignments to Parameters
+-----> Problem: 
+-------> The code assigns to a parameter (this are parameters in a function).
+-----> Solution:
+-------> Use a temporary variable instead.
+-----> Motivation:
+-------> The reason I don't like this comes down to lack of clarity and to confusion between pass by value and pass by reference.
+---------> Its also not clear whether parameter was an input or output of the function.
+-------> The other area of confusion is within the body of the code itself.
+---------> It is much clearer if you use only the parameter to represent what has been passed in, because that is a consistent usage.
+-----> Mechanics:
+-------> Create a temporary variable for the parameter.
+-------> Replace all references to the parameter, made after the assignment, to the temporary variable.
+-------> Change the assignment to assign to the temporary variable.
+-------> Compile and test.
+-----> Notes:
+-------- If the semantics are call by reference, look in the calling method to see whether the parameter is used again afterward. 
+---------> Also see how many call by reference parameters are assigned to and used afterward in this method. 
+---------> Try to pass a single value back as the return value. 
+---------> If there is more than one, see whether you can turn the data clump into an object, or create separate methods.
+
+---> Replace Method with Method Object
+-----> Problem: 
+-------> You have a long method that uses local variables in such a way that you cannot apply Extract Method.
+-----> Solution:
+-------> Turn the method into its own object so that all the local variables become fields on that object.
+-------> You can then decompose the method into other methods on the same object.
+-----> Motivation:
+-------> The beauty of small methods is that by extracting pieces out of a large method, you make things much more comprehensible.
+-------> The difficulty in decomposing a method lies in local variables, if they are rampant, decomposition can be difficult.
+---------> Using Replace Temp with Query helps to reduce this burden, but occasionally you may find you cannot break down a method that needs breaking.
+---------> In this case you reach deep into the tool bag and get out your method object.
+-------> Applying Replace Method with Method Object turns all these local variables into fields on the method object.
+---------> You can then use Extract Method on this new object to create additional methods that break down the original method.
+-----> Mechanics:
+-------> Create a new class, name it after the method.
+-------> Give the new class a final field for the object that hosted the original method (the source object)
+---------> and a field for each temporary variable and each parameter in the method.
+-------> Give the new class a constructor that takes the source object and each parameter.
+-------> Give the new class a method named "compute."
+-------> Copy the body of the original method into compute. 
+---------> Use the source object field for any invocations of methods on the original object.
+-------> Compile.
+-------> Replace the old method with one that creates the new object and calls compute.
+---------> Now comes the fun part: Because all the local variables are now fields, you can freely decompose the method without having to pass any parameters.
+
+---> Substitute Algorithm
+-----> Problem: 
+-------> You want to replace an algorithm with one that is clearer.
+-----> Solution:
+-------> Replace the body of the method with the new algorithm.
+-----> Motivation:
+-------> I've never tried to skin a cat. I'm told there are several ways to do it. I'm sure some are easier than others.
+---------> Its the same with algorithms, if you find a clearer way to do something, you should replace the complicated way with the clearer way.
+-------> Refactoring can break down something complex into simpler pieces, 
+---------> but sometimes you just reach the point at which you have to remove the whole algorithm and replace it with something simpler.
+---------> This occurs as you learn more about the problem and realize that there's an easier way to do it.
+---------> It also happens if you start using a library that supplies features that duplicate your code.
+-------> Sometimes when you want to change it to do something slightly different, it is easier to substitute the algorithm first into something easier for the change you need to make.
+---------> When you have to take this step, make sure you have decomposed the method as much as you can. 
+---------> Substituting a large, complex algorithm is very difficult; only by making it simple can you make the substitution tractable.
+-----> Mechanics:
+-----> Notes:
+-------> Prepare your alternative algorithm. Get it so that it compiles.
+-------> Run the new algorithm against your tests. If the results are the same, you're finished.
+-------> If the results aren't the same, use the old algorithm for comparison in testing and debugging.
+---------> Run each test case with old and new algorithms and watch both results. 
+---------> That will help you see which test cases are causing trouble, and how.
+
+
+
+Chapter 7. Moving Features Between Objects
+
+---> 
+-----> Problem: 
+-------> 
+-----> Solution:
+-------> 
+-----> Motivation:
+-------> 
+-----> Mechanics:
+-------> 
+-----> Notes:
+-------> 
+
+---> 
+-----> Problem: 
+-------> 
+-----> Solution:
+-------> 
+-----> Motivation:
+-------> 
+-----> Mechanics:
+-------> 
+-----> Notes:
+-------> 
+
+---> 
+-----> Problem: 
+-------> 
+-----> Solution:
+-------> 
+-----> Motivation:
+-------> 
+-----> Mechanics:
+-------> 
+-----> Notes:
+-------> 
+
+---> 
+-----> Problem: 
+-------> 
+-----> Solution:
+-------> 
+-----> Motivation:
+-------> 
+-----> Mechanics:
+-------> 
+-----> Notes:
+-------> 
+
+---> 
+-----> Problem: 
+-------> 
+-----> Solution:
+-------> 
+-----> Motivation:
+-------> 
+-----> Mechanics:
+-------> 
+-----> Notes:
+-------> 
+
+---> 
+-----> Problem: 
+-------> 
+-----> Solution:
+-------> 
+-----> Motivation:
+-------> 
+-----> Mechanics:
+-------> 
+-----> Notes:
+-------> 
+
+---> 
+-----> Problem: 
+-------> 
+-----> Solution:
+-------> 
+-----> Motivation:
+-------> 
+-----> Mechanics:
+-------> 
+-----> Notes:
+-------> 
+
+---> 
+-----> Problem: 
+-------> 
+-----> Solution:
+-------> 
+-----> Motivation:
+-------> 
+-----> Mechanics:
+-------> 
+-----> Notes:
+-------> 
+
+---> 
+-----> Problem: 
+-------> 
+-----> Solution:
+-------> 
+-----> Motivation:
+-------> 
+-----> Mechanics:
+-------> 
+-----> Notes:
+-------> 
+
+---> 
+-----> Problem: 
+-------> 
+-----> Solution:
+-------> 
+-----> Motivation:
+-------> 
+-----> Mechanics:
+-------> 
+-----> Notes:
+-------> 
+
+---> 
+-----> Problem: 
+-------> 
+-----> Solution:
+-------> 
+-----> Motivation:
+-------> 
+-----> Mechanics:
+-------> 
+-----> Notes:
+-------> 
+
+
+-----> 
+-----> 
+-----> 
+-----> 
+-----> 
+-----> 
+-----> 
+-----> 
+-----> 
+-----> 
+-----> 
+-----> 
+-----> 
+-----> 
+-----> 
+-----> 
+-----> 
+-----> 
+-----> 
+-----> 
+-----> 
+-----> 
+-----> 
+-----> 
+-----> 
+-----> 
+-----> 
+-----> 
+-----> 
+-----> 
+-----> 
+-----> 
+-----> 
+-----> 
+-----> 
+-----> 
+-----> 
+
+
+
+
+
+

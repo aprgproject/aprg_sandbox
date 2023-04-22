@@ -1,0 +1,1327 @@
+Note: This is taken from the book: [Antipatterns - Refactoring Software, Architectures, and Projects in Crisis]
+
+
+Management AntiPattern Summaries
+
+The following summaries are an overview of the management AntiPatterns. 
+They also include descriptions of management mini−AntiPatterns that are discussed in conjunction with the main AntiPatterns.
+
+-> Blowhard Jamboree 
+---> Description: 
+-----> Industry pundits disseminate marketing information that concerns consumers.
+---> Solution: 
+-----> Assign in−house expertise to separate the facts from the hype.
+---> Notes:
+-----> The opinions of so−called industry experts often influence technology decisions. 
+-----> Controversial reports that criticize particular technologies frequently appear in popular media and private publications. 
+-----> In addition to technical responsibilities, developers spend too much time answering the concerns of managers and decision makers arising from these reports.
+
+-> Analysis Paralysis 
+---> Description: 
+-----> Striving for perfection and completeness in the analysis phase leads to project gridlock.
+---> Solution: 
+-----> Incremental, iterative development processes defer the detailed analysis until the knowledge is available.
+---> Notes:
+-----> Striving for perfection and completeness in the analysis phase often leads to project gridlock and excessive thrashing of requirements/models. 
+-----> The refactored solution includes a description of incremental, iterative development processes that defer detailed analysis until the knowledge is needed.
+
+-> Viewgraph Engineering 
+---> Description: 
+-----> Organizations with limited technical capabilities for system development are taken at face value because they produce substantive documents and polished briefings.
+---> Solution: 
+-----> Verify the development capabilities of the organization and key project staff. 
+-----> Utilize prototyping and mock−ups as part of any system development process.
+---> Notes:
+-----> On some projects, developers become stuck preparing viewgraphs and documents instead of developing software. 
+-----> Management never obtains the proper development tools, and engineers have no alternative but to use office automation software to produce psuedo−technical diagrams and papers.
+
+-> Death by Planning
+---> Description: 
+-----> Excessive preplanning of software projects leads to postponement of development work and useless plans.
+---> Solution: 
+-----> Pursue iterative software development process, which includes modest planning with known facts and incremental replanning
+---> Notes:
+-----> Excessive planning for software projects leads to complex schedules that cause downstream problems. 
+-----> We explain how to plan a reasonable software development process that includes incorporating known facts and incremental replanning.
+
+-> Fear of Success 
+---> Description: 
+-----> People (software developers included) do crazy things when a project is near successful completion.
+---> Solution: 
+-----> When project completion is imminent, make a clear declaration of success.
+---> Notes:
+-----> An interesting phenomenon often occurs when people and projects are on the brink of success. 
+-----> Some people begin to worry obsessively about the kinds of things that can go wrong. 
+-----> Insecurities about professional competence come to the surface.
+
+-> Corncob 
+---> Description: 
+-----> Difficult people obstruct and divert the software development process.
+---> Solution: 
+-----> Address agendas of the individual through various tactical, operational, and strategic organizational actions.
+---> Notes:
+-----> Difficult people frequently obstruct and divert the software development process. 
+-----> Corncobs can be dealt with by addressing their agendas through various tactical, operational, and strategic organizational actions.
+
+-> Intellectual Violence 
+---> Description: 
+-----> People use obscure references to esoteric papers, theories, and standards for intimidation or short−term gain.
+---> Solution: 
+-----> Encourage education and practice mentoring throughout the organization.
+---> Notes: 
+-----> Intellectual violence occurs when someone who understands a theory, technology, or buzzword uses this knowledge to intimidate others in a meeting situation.
+
+-> Irrational Management 
+---> Description: 
+-----> Habitual indecisiveness and other habits result in de-facto decisions and development emergencies.
+---> Solution: 
+-----> Utilize rational decision−making management techniques.
+---> Notes:
+-----> Habitual indecisiveness and other bad management habits lead to de facto decisions and chronic development crises. 
+-----> We explain how to utilize rational management decision−making techniques to improve project resolution and for keeping managers on track.
+
+-> Smoke and Mirrors 
+---> Description: 
+-----> End users mistakenly assume that a brittle demonstration is a capability ready for operational use.
+---> Solution: 
+-----> Practice proper ethics to manage expectations, risk, liabilities, and consequences in computing sales and marketing situations.
+---> Notes:
+-----> Demonstration systems are important sales tools, as they are often interpreted by end users as representational of production−quality capabilities. 
+-----> A management team, eager for new business, sometimes (inadvertently) encourages these misperceptions and makes commitments beyond the capabilities of the organization to deliver operational technology.
+
+-> Project Mismanagement
+---> Description: 
+-----> Inattention to the management of software development process can cause indirection and other symptoms.
+---> Solution: 
+-----> Monitor and control software projects to conduct successful development activities.
+---> Notes:
+-----> Inattention to the management of software development processes can cause directionlessness and other symptoms. 
+-----> Proper monitoring and control of software projects is necessary to successful development activities. 
+-----> Running a product development is as complex an activity as creating the project plan, and developing software is as complex as building skyscrapers, involving as many steps and processes, including checks and balances. 
+-----> Often, key activities are overlooked or minimized.
+
+-> Throw It over the Wall 
+---> Description: 
+-----> Documents are produced and disseminated without any provision for technology transfer.
+-----> Flexible guidelines are mistakenly interpreted as de-facto policies or formal processes.
+---> Solution: 
+-----> Ensure the delivery and dissemination of information to the planned implementation of any new processes or guidelines. 
+-----> Include instructional development, training delivery, and technology transfer kits.
+---> Notes:
+-----> Object−oriented methods, design patterns, and implementation plans intended as flexible guidelines are too often taken literally by the downstream managers and object−oriented developers. 
+-----> As guidelines progress through approval and publication processes, they often are attributed with unfulfilled qualities of completeness, prescriptiveness, and mandated implementation.
+
+-> Fire Drill 
+---> Description: 
+-----> Management waits until the last possible moment to allow developers to proceed with design and implementation; then they want results almost immediately.
+---> Solution: 
+-----> Engage in proactive design and prototyping, even if customers and management staff are not completely on−board.
+---> Notes:
+-----> Airline pilots describe flying as “hours of boredom followed by 15 seconds of sheer terror.” 
+-----> Many software projects resemble this situation: “Months of boredom followed by demands for immediate delivery.” 
+-----> The months of boredom may include protracted requirements analysis, replanning, waiting for funding, waiting for approval, or any number of technopolitical reasons.
+
+-> The Feud 
+---> Description: 
+-----> Managers who engage in protracted conflicts with peers have serious negative impacts on their staffs.
+---> Solution: 
+-----> Use professional facilitation or informal gatherings to resolve differences.
+---> Notes:
+-----> Personality conflicts between managers can dramatically affect the work environment. 
+-----> The employees reporting to these managers often suffer the consequences of their supervisors’ disagreements. 
+-----> Animosity between managers is reflected in the attitudes and actions of their employees.
+
+-> E−mail Is Dangerous 
+---> Description: 
+-----> E−mail is a useful, but volatile, way to communicate.
+---> Solution: 
+-----> Avoid using e−mail for sensitive, controversial, or confrontational messages.
+---> Notes:
+-----> E−mail is an important communication medium for software managers. 
+-----> Unfortunately, it is an inappropriate medium for many topics and sensitive communications.
+
+
+
+
+Management AntiPattern Discussion
+
+
+
+
+-> Blowhard Jamboree
+
+---> AntiPattern Problem
+The opinions of so−called industry experts often influence technology decisions.
+Controversial reports that criticize particular technologies frequently appear in popular media and private publications. 
+In addition to technical responsibilities, developers spend too much time answering the concerns of managers and decision makers arising from such reports. 
+Many of these so−called experts are misinformed; occasionally, they represent biased viewpoints. 
+Often, the information they are reporting is second−hand.
+Rarely is there any hands−on research and experience backing up their conclusions.
+
+---> Refactored Solution
+An in−house expert on each key technology is an invaluable asset to every
+organization. He or she can discriminate between facts, misinformation, and opinions in popular media and other reports. 
+If your organization does not have in−house experts, appoint staff to follow particular technologies
+and develop their expertise through reading, training courses, standards activities, and hands−on experiments, such as prototyping.
+Electronic mailing lists often contribute to the spread of misinformation. 
+Therefore, avoid forwarding press releases to such lists. 
+Press releases are properly called propaganda; they circulate selected information that benefits a particular organization.
+As an alternative, direct an in−house expert to disseminate a factual summary of important announcements.
+
+
+
+
+
+-> Analysis Paralysis
+
+AntiPattern Name: Analysis Paralysis
+Also Known As: Waterfall, Process Mismatch
+Most Frequent Scale: System
+Refactored Solution Name: Iterative−Incremental Development
+Refactored Solution Type: Software
+Root Causes: Pride, Narrow−Mindedness
+Unbalanced Forces: Management of Complexity
+Anecdotal Evidence: 
+“We need to redo this analysis to make it more object−oriented, and use much more inheritance to get lots of reuse.” 
+“We need to complete object−oriented analysis, and design before we can begin any coding.” 
+“Well, what if the user wants to create the employee list based on the fourth and fifth letters of their first name combined with the project they charged the most hours to between T
+hanksgiving and Memorial Day of the preceding four years?” 
+“If you treat each object attribute as an object, you can reuse field formatting between unrelated classes.
+
+---> Background
+Analysis Paralysis is one of the classic AntiPatterns in object−oriented software development. 
+Object−oriented analysis is focused on decomposing a problem into its constituent parts, but there is no obvious method for identifying the exact level of detail necessary for system design [Webster 95]. 
+Frequently, the focus is shifted from decomposing to a level where the problem can be easily understood by the designers to applying the techniques to achieve the mythical “completeness.” 
+Also, system developers often willingly fall prey to Analysis Paralysis, as “designs never fail, only implementations.” 
+By prolonging the analysis and design phases, they avoid risking accountability for results. 
+Of course, this is a losing strategy, because usually there is some point after which a working implementation is expected.
+
+---> General Form
+Analysis Paralysis occurs when the goal is to achieve perfection and completeness of the analysis phase. 
+This AntiPattern is characterized by turnover, revision of the models, and the generation of detailed models that are less than useful to downstream processes.
+Many developers new to object−oriented methods do too much up−front analysis and design.
+Sometimes, they use analysis modeling as an exercise to feel comfortable in the problem domain. 
+One of the benefits of object−oriented methods is developing analysis models with the participation of domain experts. 
+Otherwise, it’s easy to get bogged down in the analysis process when the goal is to create a comprehensive model.
+Analysis Paralysis usually involves waterfall assumptions:
+• Detailed analysis can be successfully completed prior to coding.
+• Everything about the problem is known a priori.
+• The analysis models will not be extended nor revisited during development.
+Object−oriented development is poorly matched to waterfall analysis, design, and implementation processes. 
+Effective object−oriented development is an incremental process during which incremental and iterative results of analysis are validated through design and implementation and used as feedback into later system analysis.
+“Ah! What is man? Wherefore does he why? Whence did he whence? Whither is he withering?” —Dan Leno (George Galvin)
+
+A key indicator of Analysis Paralysis is that the analysis documents no longer make sense to the domain experts. 
+As Analysis Paralysis progresses, the analysis models more frequently cover details that are of no interest to the domain experts. 
+For example, the domain model of a health care system for a hospital should be understandable by the administrators and staff of the hospital. 
+If the domain model defines unexpected software concepts, categories, and specializations, the analysis modeling has probably gone too far. 
+If the meaning of these new classes has to be explained in detail to the people intimately familiar with the current system, it is likely that the problem has been overanalyzed.
+
+---> Symptoms And Consequences
+• There are multiple project restarts and much model rework, due to personnel changes or changes in project direction.
+• Design and implementation issues are continually reintroduced in the analysis phase.
+• Cost of analysis exceeds expectation without a predictable end point.
+• The analysis phase no longer involves user interaction. Much of the analysis performed is speculative.
+• The complexity of the analysis models results in intricate implementations, making the system difficult to develop, document, and test.
+• Design and implementation decisions such as those used in the Gang of Four design patterns are made in the analysis phase.
+
+---> Typical Causes
+• The management process assumes a waterfall progression of phases. 
+In reality, virtually all systems are built incrementally even if not acknowledged in the formal process.
+• Management has more confidence in their ability to analyze and decompose the problem than to design and implement.
+• Management insists on completing all analysis before the design phase begins.
+• Goals in the analysis phase are not well defined.
+• Planning or leadership lapses when moving past the analysis phase.
+• Management is unwilling to make firm decisions about when parts of the domain are sufficiently described.
+• The project vision and focus on the goal/deliverable to customer is diffused. Analysis goes beyond providing meaningful value.
+
+---> Known Exceptions
+There should never be any exceptions to the Analysis Paralysis AntiPattern.
+
+---> Refactored Solution
+Key to the success of object−oriented development is incremental development. 
+Whereas a waterfall process assumes a priori knowledge of the problem, incremental development processes assume that details of the problem and its solution will be learned in the course of the development process. 
+In incremental development, all phases of the object−oriented process occur with each iteration—analysis, design, coding, test, and validation. 
+Initial analysis comprises a high−level review of the system so that the goals and general functionality of the system can be validated with the users. 
+Each increment fully details a part of the system.
+
+There are two kinds of increments: internal and external. 
+An internal increment builds software that is essential to the infrastructure of the implementation. 
+For example, a third−tier database and data−access layer would comprise an internal increment. 
+Internal increments build a common infrastructure that is utilized by multiple use cases. 
+In general, internal increments minimize rework. 
+An external increment comprises user−visible functionality.
+External increments are essential to winning political consensus for the project by showing progress. 
+External increments are also essential for user validation. 
+They usually involve some throwaway coding to simulate missing parts of the infrastructure and back−end tiers.
+It’s the prerogative of the project manager to select the increments that balance the forces of project survival, user validation, and minimal cost. 
+See the Project Mismanagement AntiPattern later in this chapter regarding scheduling of increments with regard to risk.
+Frequently, when performing object−oriented analysis, it’s easier to continue the analysis than to end it and move on to the design of the software. 
+Since many of the analysis techniques are also applied at some level to the design, it’s easy to use the analysis phase to direct the specifics of the overall design. 
+Sometimes, this also results from thinking that minimal analysis is needed concurrently with design, and that design can be started then
+gone back to. Typically, this results in a product that neither resembles a domain model a user can understand nor a desirable design for an implemented system.
+Analysis Paralysis is also applicable at the architectural level and takes on a similar form to the AntiPattern at the developmental level. 
+An architecture can certainly be specified far beyond what is necessary for the developers to adhere to the architectural principles and constructs. 
+For example, specifying the known and allowable subclasses used by an architectural construct designed to operate solely on the object’s base class interface is overkill. 
+Rather, it is preferable to specify the necessary constraints in the base class on which the architectural component operates and trust (and perhaps also verify) the developers to maintain the constraints in their subclasses.
+At the managerial level, Analysis Paralysis is known as micromanagement and occurs when managers overspecify assignments and oversupervise delegated assignments.
+
+
+
+
+
+-> Viewgraph Engineering
+
+AntiPattern Problem
+On some projects, developers become stuck preparing viewgraphs and documents instead of developing software. 
+Management never obtains the proper development tools, and engineers have no alternative but to use office automation software to produce psuedo−technical diagrams and papers. 
+This situation is frustrating to the engineers, it does not use their real talents, and allows their skills to obsolesce.
+---> Refactored Solution
+Many of the developers caught in viewgraph engineering roles should be redirected to construct prototypes. 
+Prototyping, underutilized by many organizations, has many roles in a project beyond the creation of a sales tool. 
+It is a key element of iterative, incremental development processes. 
+Prototypes can answer technical questions that cannot be deduced through paper analyses, and can be used to reduce many types of risks, including those related to technology and user acceptance. 
+Prototyping helps to shorten learning curves for new technologies.
+Two principal kinds of prototypes are: mockups and engineering prototypes. 
+A mockup is a prototype that simulates user−interface appearance and behavior. 
+When mockups are coupled with system usability experiments (with actual end users), requirements issues and user acceptance can be assessed. 
+Engineering prototypes include some operational functionality, such as application services, databases, and integration with legacy systems. 
+Prototyping a system in an alternative language (such as Smalltalk) prior to production system development is a useful exercise. 
+This prototype can help to validate an architecture prior to implementation in a more efficient, but more costly and less flexible technology.
+
+
+
+
+
+-> Death By Planning
+
+AntiPattern Name: Death by Planning
+Also Known As: Glass Case Plan, Detailitis Plan
+Most Frequent Scale: Enterprise
+Refactored Solution Name: Rational Planning
+Refactored Solution Type: Process
+Root Causes: Avarice, Ignorance, Haste
+Unbalanced Forces: Management of Complexity
+Anecdotal Evidence: “We can’t get started until we have a complete program plan.”
+“The plan is the only thing that will ensure our success.” 
+“As long as we follow the plan and don’t diverge from it, we will be successful.” 
+“We have a plan; we just need to follow it!”
+
+---> Background
+In many organizational cultures, detailed planning is an assumed activity for any project. 
+This assumption is appropriate for manufacturing activities and many other types of projects, but not necessarily for many software projects, which contain many unknowns and chaotic activities by their very nature. 
+Death by Planning occurs when detailed plans for software projects are taken too seriously. 
+
+---> General Form
+Many projects fail from over planning. Over planning often occurs as a result of cost tracking
+and staff utilization monitoring. The two types of over planning are known as the Glass Case
+Plan and Detailitis Plan. The Glass Case Plan is a subset of the Detailitis Plan in that (over)
+planning ceases once the project starts. In the Detailitis Plan, over planning continues until
+the project ceases to exist, for a variety of unfulfilling reasons.
+
+-----> Glass Case Plan
+Often, a plan produced at the start of a project is always referenced as if it’s an accurate, current view of the project even if it’s never updated. 
+This practice gives management a “comfortable view” of delivery before the project starts. 
+However, when the plan is never tracked against, nor updated, it becomes increasingly inaccurate as the project progresses.
+This false view is often compounded by the absence of concrete information on progress, which often is known only after a critical deliverable slips its schedule.
+Figure 7.1 shows a project plan created prior to project launch. Management assumes that the plan guarantees delivery automatically—exactly as specified with no intervention (or management) necessary.
+
+-----> Detailitis Plan
+Sometimes the solution to effective delivery is regarded as a high degree of control via a continuous planning exercise that involves most of the senior developers, as well as the managers. 
+This approach often evolves into a hierarchical sequence of plans, which show additional (and unecessary) levels of detail. 
+The ability to define such a high level of detail gives the perception that the project is fully under control.
+
+---> Symptoms And Consequences
+The Glass Case Plan symptoms are the first noticed in both it and the Detailitis Plan.
+
+-----> Glass Case Plan
+The symptoms usually include at least one of the following:
+• Inability to plan at a pragmatic level.
+• Focus on costs rather than delivery.
+• Enough greed to commit to any detail as long as the project is funded.
+The consequences are incremental:
+• Ignorance of the status of the project’s development. 
+The plan has no meaning, and control of delivery lessens as time goes on. 
+The project may be well ahead or behind the intended deliverable state and no one would know.
+• Failure to deliver a critical deliverable (the final consequence).
+Consequences grow incrementally until finally the project overruns, with the usual options of:
+• Further investment.
+• Crisis project management.
+• Cancellation.
+• Possible loss of key staff.
+“Art for Art’s Sake.” —Howard Dietz
+
+-----> Detailitis Plan
+The symptoms are a superset of the Glass Case Plan:
+• Inability to plan at a pragmatic level.
+• Focus on costs rather than delivery.
+• Spending more time planning, detailing progress, and replanning than on delivering software:
+— Project manager plans the project’s activities.
+— Team leaders plan the team’s activities and the developers’ activities.
+• Project developers break down their activities into tasks.
+
+The consequences are intertwined and feed off each other:
+• Each planner has to monitor and capture progress at the level shown by his or her plan, and reestimate.
+• Endless planning and replanning causes further planning and replanning.
+• The objective shifts from delivery of software to delivery of a set of plans.
+Management assumes that because effort and cost are tracked, progress must be equivalent. 
+In fact, there is no direct correlation.
+• Continual delays to software delivery and eventual project failure.
+
+---> Typical Causes
+In both cases, Glass Case Plan and Detailitis Plan the primary cause is lack of a pragmatic, common−sense approach to planning, schedules, and capture of progress.
+
+-----> Glass Case Plan
+• No up−to−date project plan that shows the software component deliverables and their dates.
+• Ignorance of basic project−management principles.
+• Overzealous initial planning to attempt to enforce absolute control of development.
+• A sales aid for contract acquisition.
+
+-----> Detailitis Plan
+• Overzealous continual planning to attempt to enforce absolute control of development.
+• Planning as the primary project activity.
+• Forced customer compliance.
+• Forced executive management compliance.
+
+---> Known Exceptions
+There should never be any exceptions to the Death by Planning AntiPattern.
+
+---> Refactored Solution
+The solution is the same for both the Glass Case and Detailitis Plans. 
+A project plan should show primarily deliverables (regardless of how many teams are working on the project).
+Deliverables should be identified at two levels:
+1. Product(s). Those artifacts sold to a customer, which include the internal corporate lines of business that use them.
+2. Components (within products). Basic technology artifacts required to support a business service.
+
+-----> Deliverables include such things as:
+-------> Business requirements statement
+-------> Technical description
+-------> Measurable acceptance criteria
+-------> Product usage scenarios
+-------> Component use cases
+-------> The plan should be supplemented with validation milestones for each component, as well as the overall product, such as:
+---------> Conceptual design approval
+---------> Specification design approval
+---------> Implementation design approval
+---------> Test plan approval
+
+The deliverable plans should be updated weekly to ensure appropriate planning and controls that reduce project risks. 
+This allows issues, risks, slippages, and early deliveries of defined deliverables to be dealt with by appropriate, timely responses.
+Tracking is done on the estimated level of completeness. 
+This sometimes means regressing the completeness that was input to the plan in a previous time period. 
+Completeness should be gross measurements rather than fine measurements, for example, tracking in 25 percent steps rather than 5 percent steps.
+
+A Gantt chart can be used effectively to visually illustrate deliverables, associated dates, and interdependencies. 
+By tracking against a baseline plan, the following states of deliverables will be immediately obvious:
+• On schedule.
+• Delivered.
+• Early (with estimated new delivery date).
+• Late (with estimated new delivery date).
+It is essential to baseline early and rarely. 
+Otherwise the ability to track changes is lost.
+Furthermore activities/tasks/deliverables should have dependencies set between them where they exist.
+When estimating it is advisable to allow a contingency period for all those inevitable “unknowns,” such as:
+• Requirements increase (creep).
+• Design dead ends.
+• Third−party software workarounds.
+• Defect identification (finding the problem in a set of integrated components).
+• Defect correction (bug fixing).
+It is also important to establish a minimum time frame in which to accomplish any activity.
+This prevents such constraints as two days to code and test a “simple” program.
+
+---> Variations
+The Death by Planning variations are in levels of detail, and can go from identifying major
+milestones, which are usually tied to funding/approval stages, to micro−deliverables within
+the project delivery stages for each team .
+
+These variations are equally applicable to both the Glass Case and Detailitis Plans:
+• Funding variations
+• Micro−deliverables variation
+
+The Glass Case version of the micro−deliverables plan only varies from the Detailitis Plan in that it is never updated. 
+It shows very minor deliverables that cannot be fully understood prior to starting the project. 
+Therefore, any estimates must by definition be incorrect based upon the lack of any real understanding of the software to be built. 
+This type of plan is usually produced by technically gifted amateurs. 
+Although the tasks need to be clearly understood, putting them in a plan results only in unnecessary planning and tracking (in the case of the Detailitis Plan), as opposed to doing.
+
+---> Example
+The examples are based on our own experiences in learning “the hard way.”
+
+-----> Glass Case Plan
+For this example, we’ll say a systems integrator decides to build a middleware component not yet available from any of the major vendors, in spite of international standards issued over a year ago. 
+The systems integrator agrees to a detailed delivery plan in advance of starting any project work in order to obtain a funding source. 
+The plan is based upon estimates from staff who have not yet delivered software “in anger.” 
+The plan is highly specific technically, and the estimates are very optimistic; and it is continually referenced by the project manager, but never updated to reflect any actual effort. 
+This leads to missed delivery dates. 
+There is a general lack of knowledge as to the real progress of the project; the systems integrator is apprised of delivery date failure only after the dates have passed. 
+
+-----> Detailitis Plan
+In an attempt to control development to ensure that full control is established, an end−user company produces a plan that has three levels:
+1. phases of development.
+2. team tasks and effort.
+3. team member tasks and effort.
+
+Detailitis causes an inability to track against the plan without taking considerable focus away from delivering the system. 
+This results in significantly reduced staff productivity. 
+Plan management quickly becomes unrealistic due to complexity.
+The solution is to replace the detailed plan with one that shows key deliverables against dates, with dependencies and constraints. 
+If the deliverable is missed, then something important has occurred. 
+The previous plan attempted to track progress by effort that was unrealistic: Effort = staff x days elapsed. So what? E = MC2, but the formula does not create nuclear power!
+
+---> Related Solutions
+The Analysis Paralysis AntiPattern can exacerbate the consequences of Death by Planning.
+If the analysis phase runs over its allotted schedule, either a schedule must slip or inadequate analysis models are applied to downstream phases.
+
+---> Applicability To Other Viewpoints And Scales
+Death by Planning cannot match the chaotic (white−water) nature of software development, because it creates a significant disparity between the management’s planning models and actual development activities. 
+Architects and developers often have to live double lives: 
+On one hand, they must visibly cooperate with management’s plan for the project; at the same time, they have to confront the actual status of the software, which may not resemble the management model. 
+For example, the plan may be used to pressure developers into
+declaring software modules complete before they are mature. 
+This causes downstream problems in integration and testing.
+
+
+
+
+
+-> Fear of Success
+
+Anecdotal Evidence
+Wayne & Garth: “We are not worthy!”
+The Crazies: “It’s fear of success mate!”
+
+---> AntiPattern Problem
+An interesting phenomenon often occurs when people and projects are on the brink of success. 
+Some people begin to worry obsessively about the kinds of things that can go wrong. 
+Insecurities about professional competence come to the surface. 
+When discussed openly, these worries and insecurities can occupy the minds of the project team members. 
+Irrational decisions may be made and inappropriate actions may be taken to address these concerns. 
+For example, these discussions may generate negative publicity outside the project team that affects how the deliverable is perceived, and may ultimately have a destructive effect on the project outcome.
+Fear of Success is related to termination issues. 
+In general, group dynamics progress through a number of phases, discernable for both one−week projects and efforts of lengthier duration. 
+The first phase addresses group acceptance issues. 
+In the second phase, as relationships are formed, individuals assume various roles in the group, including both formal roles in the organization and informal self−determined roles. 
+This is an important factor in team building. 
+After the roles are established, the work is accomplished (third phase). 
+Many personality issues may arise during this phase. 
+Because project completion may result in dissolution of the group, these issues often emerge as project termination approaches (fourth phase). 
+In the termination phase, concerns about the outcome of the project, its future life cycle, and the group’s subsequent activities are often expressed in indirect ways. 
+In other words, people do crazy things.
+
+---> Refactored Solution
+One important action that management can take near the end of a project is to declare success. 
+Statements by management that support the successful outcome of the project are needed, even if the actual outcome is ambiguous. 
+It is important to help the project team to accept the significance of their achievements and lessons learned.
+Declaring success also helps to mitigate termination issues, maintain the team’s commitment to the organization, and pave the way for future project activities. 
+An award ceremony, complete with the issuance of certificates or plaques, is an appropriate gesture for this purpose. 
+Professional recognition is inexpensive and highly valued by recipients.
+
+---> Variations
+Personal consultation and mentoring is an effective way to cope with the concerns of individuals. 
+Senior staff who have experience on several projects can help others to cope with the stresses of termination issues. 
+Exhibiting patience during the transition to success is important behavior to demonstrate and emulate.
+
+
+
+
+
+-> Corncob
+AntiPattern Name: Corncob
+Also Known As: Corporate Shark, Loose Cannon, Third−World Information Systems Troubles (TWIT)
+Most Frequent Scale: Enterprise
+Refactored Solution Name: Corncob Removal Service
+Refactored Solution Type: Role
+Root Causes: Avarice, Pride, Narrow−Mindedness
+Unbalanced Forces: Management of Resources, Technology Transfer
+Anecdotal Evidence: 
+“Why is Bill so difficult to work with?” 
+“Management always listens to whomever shouts longest and loudest.” 
+“I own development and I have made a decision that you will follow.” 
+“We need to change the build process and accept that we will delay delivery a month or two.”
+
+---> Background
+Corncobs are difficult people who can be prevalent in the software development business.
+This attitude can be due to aspects of individual personality, but often, difficulties arise from personal motivations for recognition or monetary incentives.
+Due to rigorous schedules and budget pressure, software development can become stressful. 
+Corncobs exacerbate these problems and create unnecessary, additional stress, in what may be an already overstressed environment.
+“Corncob” is a slang term frequently used at Object Management Group, a software consortium, to describe difficult people.
+
+---> General Form
+A difficult person (the Corncob) causes problems through destructive behaviors for a software development team or, even worse, throughout an enterprise. 
+This person may be a member of the team or a member of external senior staff (such as a technical architect or development manager) who adversely impacts the team through various means: technical, political, and personal. 
+When dealing with Corncobs, it’s important to remember that politics is the exercise of power, and Corncobs focus much more on politics than technology. 
+They are usually experts at manipulating politics at personal and/or organizational levels.
+Technology−focused people can become unwilling easy victims of the Corncob’s tactics.
+
+---> Symptoms And Consequences
+• A development team or project is unable to make progress because someone disagrees with their key objectives or essential processes and continually tries to change them.
+• One person continually raises objections, under the guise of concern, which are intractable: performance, reliability, technology market share, and so on.
+• The destructive behavior is well known to many people in the enterprise, but it’s tolerated and supported (in some way) by management because they are unaware of, or unwilling to address, the damage it causes.
+• Political forces create an environment where it’s difficult to keep technical discussions on track.
+• Political forces result in frequent changes to the scope or requirements of the system. 
+The project becomes much more reactive than proactive, because everyone is responding to the “endless improvements” from the Corncob.
+• Often, the destructive person is a manager who is not under the direct authority of a senior software development manager or project manager.
+• The company has no defined decision−making process that enables it to resolve issues and move on. 
+This allows a manager to inappropriately interfere beyond his or her area of accountability.
+
+---> Typical Causes
+• Management supports the Corncob’s destructive behavior, by virtue of not acknowledging the impact of the Corncob’s actions. 
+Management’s view of the situation is often supplied from the Corncob.
+• The Corncob has a hidden agenda, which conflicts with the team’s goals.
+• There is a fundamental disagreement between team members that no amount of communication can resolve.
+• Management doesn’t isolate the group from internal and external forces, and has inappropriately allocated roles to staff, who abuse them for their own ends; 
+even worse, management has failed to allocate accountability at all.
+
+---> Known Exceptions
+The Corncob AntiPattern is acceptable when a company or product development manager is willing to live with the actions of the Corncob. 
+This is a subjective judgment of benefits and disadvantages.
+In projects that involve multiple organizations, it’s sometimes useful to have a designated Corncob, whose role is to defend an existing architecture from inappropriate changes. 
+When there are many conflicting technical viewpoints, a dominant personality is often required to enforce the reference architecture.
+
+---> Refactored Solution
+Solutions to the Corncob AntiPattern are applied at several levels of authority, including strategic, operational, and tactical. 
+In all cases, the key action lever is management support for the destructive behaviors. 
+By eliminating management support at the aforementioned levels, the Corncob loses support, and the best interests of the software development team can dominate.
+
+-----> Tactical Solutions
+Tactical solutions are actions employed on the fly, such as in a meeting. 
+They include the following:
+• Transfer the responsibility. 
+Give the naysayer full responsibility for solving the problems they identify within an agreed−on time period. 
+In other words, turn the responsibility for planning and resolution over to the person who raises the concerns.
+• Isolate the issue. 
+Often, the Corncob’s is an isolated opinion. 
+Appealing to the group’s interests is an effective way to defend against an individual’s behavior or isolated concerns. 
+If the Corncob is confrontational, remember to never take anything personally; doing so is always a mistake. 
+Facilitate the group to discuss and frame the key objections, then try to gain consensus to overrule the objector.
+A straw poll is an effective technique for revealing group feeling.
+• Question the question. 
+When the Corncob uses ambiguous or “loaded” words or phrases, ask him or her to clarify their meaning. 
+When he or she uses hearsay evidence to make an assertion, ask him or her to substantiate the claims and to identify his or her personal position.
+
+-----> Operational Solutions
+Operational actions are taken offline, within a limited organizational scope. 
+These include:
+• Corrective interview. 
+Management meets individually with the person causing the problems, and explains the impact of his or her behavior. 
+The purpose of the corrective interview is to raise awareness and reach agreement on how to change the behavior.
+• Friendly outplacement. 
+Recommend a Corncob to employment headhunters to help him or her to exit gracefully a difficult situation in an organization.
+
+-----> Strategic Solutions
+Strategic actions are long term and have a wider enterprise scope, such as:
+• Corncob support group. 
+If there are several Corncobs in an organization, management can transfer them into the same group. 
+In this way, they have to contend with each other’s personalities and behaviors. 
+Often, each will approach management and ask why he or she has to work with such difficult people, giving the manager the opening to explain that the person is him− or herself described as difficult by others. 
+This can result in self−awareness, and perhaps, improvement.
+• Empty department. 
+Managers who are themselves difficult can be transferred to departments in which they are the only employee. 
+These managers usually “get the message” and retire or pursue careers in other companies.
+• Reduction in force. 
+Sometimes there is no other recourse than to eliminate difficult people from the project team or environment.
+
+---> Variations
+Variations on the preceding solutions include:
+• Sidelining. 
+Sidelining entails reassigning the Corncob to minimal duties. 
+That said, we have found sidelining to be an ineffective practice, as it gives the Corncob more time to think and lobby his or her (often hidden) agenda.
+• Third−World Information System Troubles (TWIT). 
+This term was introduced by Randall Oakes, MD, to refer to naysayers who resist IT change, even though the majority of people are experiencing negative consequences under current conditions. 
+The TWIT benefits in some way from the status quo. 
+As Dr. Oakes points out, helping the person manage his or her stress levels can lead to trust, friendship, and more open−mindedness.
+• Corporate Shark. 
+A Corporate Shark is an experienced manager whose career consists of managing relationships rather than his or her technical expertise, which may, as a result, be long neglected. 
+Sharks survive by who they know not what they know. 
+The Corporate Shark knows how to “work the system,” and can easily create difficult political situations for those focused on technical issues. 
+In the working world, everybody needs a friend. 
+The best friend is the influential person in the company who defends you to the hilt when confronted by attacks from Corporate Sharks. 
+The best way to manage a relationship with Corporate Sharks is to avoid them altogether, because the only likely outcomes are negative.
+• Bonus Monster. 
+Someone stands to reap a short−term gain (such as an executive bonus) by cutting corners in the software development process. 
+Bonus monsters are particularly destructive by encouraging internal competition between different departments within an enterprise. 
+The problem is remedied by restructuring or eliminating the bonus system. 
+A Bonus Monster is usually also a Corporate Shark, but a shark with strong motivation to push for bonus−generating outcomes.
+• Firebrand. 
+A Firebrand is a person who deliberately creates a political emergency. 
+For example, the Firebrand might be responsible for the late delivery of a critical piece of software by generating various misdirections and obstructions. 
+His or her purpose is to create an emergency so that later he or she can be recognized as a hero for saving the organization. 
+In order to achieve success, the firebrand extinguishes the fire; that is, he or she removes all the obstructions and readjusts the focus of the developers, as needed, to allow them to succeed.
+• Egomaniac. 
+An Egomaniac is obsessed with his or her image as a key influencer or dominant figure. 
+Egomaniacs are also called Prima Donnas. 
+A remedy for senior managers who are Egomaniacs is to transfer them to an empty department. 
+In meetings, Egomaniacs can be managed by publicly recognizing their expertise and importance.
+However, this sometimes backfires by encouraging their narcissist tendencies.
+• Loose Cannon. 
+Certain people are consistently difficult to deal with due to their extrovert behavior. 
+Their actions can have destructive effects on the project’s image and morale; for example, indiscrete disclosures of information and insensitivity to important organizational relationships. 
+Loose Cannons are easy to detect; during group situations, they quickly make their presence known. 
+The most effective way to deal with Loose Cannons is to alert management, who should conduct a corrective interview.
+• Technology Bigot. 
+A Technology Bigot is a Loose Cannon who promulgates marketing hype and refuses to consider other viewpoints; 
+for example, people who insist that all information technology will become Microsoft−based, or that CORBA is the only true way to implement distributed objects.
+“It’s not enough to succeed. Others must fail.” — Gore Vidal
+• Territorial Corncob. 
+Individuals who attempt to protect organizational or technical turf often exhibit defensive behaviors. 
+They need to defend their territory as a way of quieting underlying insecurities about their competence. 
+Territorial Corncobs often can be placated with flattery and sensitivity to their weaknesses. 
+Avoid appealing to their greed; Territorial Corncobs are particularly difficult to discourage once they sense the potential for new opportunities or power within the scope of their territory.
+• Corncobs out of the Woodwork. 
+When a particularly difficult or stressful situation arises such as serious project problems or impending layoffs, some Corncobs amplify their behavior. 
+In the case of layoffs, if you are a competent person who can obtain another job, consider volunteering for layoff so that others can retain their jobs and salaries that they may desperately need.
+• Saboteur. 
+A Saboteur is someone about to exit the group who begins to manipulate the work environment in favor of their next assignment. 
+For example, Saboteurs often try to make colleagues leave the project through active recruiting, rumors, and negative behaviors. 
+This is a particularly difficult situation to detect and remedy because the Saboteur often conceals his or her intention to depart. 
+One large computer manufacturer gave frequent after−hours parties—complete with large quantities of liquor—at which it encouraged its employees to discuss outside career plans. 
+The Saboteur usually has one or more confidants who know of their plans. Once a Saboteur is discovered, he or she should be precluded from impacting the work environment.
+• Careerist. 
+This is a variation of the Saboteur, a person who influences a technical choice that widens his or her personal expertise and job marketability. 
+For example, a technical architect may choose to use an object database for object persistence, even though an RDBMS with an object API is a more appropriate technical solution.
+• Anachronist. 
+This is a Corncob who resists innovation simply because he or she doesn’t understand it. 
+The Anachronist may be quite knowledgeable about legacy technologies, and resists new technologies arbitrarily. 
+Education of the anachronist is often an effective solution.
+
+---> Examples
+One of the Corporate Sharks that we encountered years ago was recently transferred to a one−person department and then laid off because the consequences of his personality traits outweighed his benefits to the corporation. 
+In our experience, Corncobs eventually self−destruct and leave the organization. 
+The downside to this is that they sometimes come back.
+A friend of ours underwent a dramatic personality change (for the better) when he withdrew from participation in a corporate bonus system. 
+While under the bonus system, our friend engaged in a number of confrontational interventions in various software processes due to his desire for short−term outcomes (executive bonuses).
+Territorial Corncobs can be the most abrasive variation. 
+In particular, if a person or group of people believe they “own” a particular buzzword, such as “architecture,” they may attempt to vigorously suppress anyone who uses it. 
+E−mail is a particularly effective weapon of the Territorial Corncob because it produces tangible evidence. 
+E−mail is also an easily manipulated medium for engaging in emotional confrontations and flaming.
+
+---> Related Solutions
+The technology bigot variation of this AntiPattern is also a form of the Golden Hammer AntiPattern. 
+See the Golden Hammer AntiPattern for a related solution.
+
+---> Applicability To Other Viewpoints And Scales
+The impact of Corncobs on architecture and development is usually to slow down progress.
+Confrontational issues raised by Corncobs tend to decrease the sophistication of the discussion and to instead focus on specific forces. 
+In some sense, Corncob behaviors reverse the intended benefits of design patterns. 
+Instead of making the software process more sophisticated and efficient, Corncobs make it less sophisticated and less efficient.
+Instead of making the process more balanced, by taking into consideration all of the significant forces, the Corncob tends to bias the discussion and decision making toward selected forces, which may not be the most significant.
+
+
+
+
+
+
+-> Intellectual Violence
+
+---> Background
+The Lambda Calculus is a relatively straightforward theory about the mathematics of functions and variable substitutions. 
+It is one of the important theories underlying the Lisp programming language and is taught at selected universities in undergraduate computer science courses. 
+People with this training often assume that everybody knows about Lambda Calculus. 
+This leads to misunderstandings that may be instances of Intellectual Violence. 
+A short chalk−talk (informal tutorial) could clear up any misunderstandings.
+
+---> AntiPattern Problem
+Intellectual Violence occurs when someone who understands a theory, technology, or buzzword uses this knowledge to intimidate others in a meeting situation. 
+This may happen inadvertently due to the normal reticence of technical people to expose their ignorance. 
+In short, Intellectual Violence is a breakdown of communication. 
+When some or most people on a project do not understand a new concept, progress may be stalled indefinitely as they work through their feelings of inferiority or avoid the topic altogether. 
+When Intellectual Violence is pervasive, a defensive culture arises, which inhibits productivity. 
+People control and conceal information instead of sharing it.
+
+---> Refactored Solution
+An alternative organizational culture is based upon mentoring, where people cross−train constantly. 
+It is recognized that everybody has unique talents and knowledge, regardless of their position in the organizational hierarchy. 
+In a mentoring culture, people are encouraged to share their knowledge to promote the overall success of the organization. 
+A mentoring culture is best facilitated through leadership by example. 
+If the principals in the organization actively engage in mentoring, it becomes more socially acceptable at all levels to do so. 
+Encouraging people to share information is an effective way to utilize knowledge resources and limit reinvention.
+
+
+
+
+
+-> Irrational Management
+
+Antipattern Name: Irrational Management
+Also Known As: Pathological Supervisor, Short−Term Thinking, Managing by
+Reaction, Decision Phobia, Managers Playing with Technical Toys
+Most Frequent Scale: Enterprise
+Refactored Solution Name: Rational Decision Making
+Refactored Solution Type: Role and Process
+Root Causes: Responsibility (the universal cause)
+Unbalanced Forces: Management of Resources
+Anecdotal Evidence: 
+“Who’s running this project?” 
+“I wish he’d make up his bloody mind!” “What do we do now?” 
+“We better clear this with management before we get started.” 
+“Don’t bother asking; they’ll just say no.”
+
+---> Background
+Irrational Management covers a range of commonly occurring software project problems that can be traced back to the personalities of the person(s) running the project. 
+For example, the manager may have obsessive interests in some aspect of the technology or personality limitations that cause them to become ineffective or irrational managers. 
+Irrational management can be viewed as a skewed set of priorities where the manager’s personal priorities, no matter how nonsensible, guide the software project in irrational directions.
+
+---> General Form
+The manager (or management team) of one or more development projects cannot make decisions. 
+This may a personality defect or the result of an obsession with details. 
+The details may be personal interests or behaviors of the manager, such as technical “toys” or micromanagement. 
+When faced with a crisis, the manager’s decisions are knee−jerk reactions rather than carefully thought−out strategies or tactical actions. 
+These reactions often cause further problems. 
+The cycle of indecision and reaction can escalate in frequency and severity of consequences.
+The Irrational Management AntiPattern is significantly compounded by a manager’s inability to direct development staff. 
+This is also called a lack of good people−management skills, characterized by the inability to:
+• Recognize staff capabilities, both strengths and weaknesses.
+• Provide clear objectives that are appropriate to staff skills.
+• Communicate effectively with staff.
+
+---> Symptoms And Consequences
+The primary symptom of the Irrational Management AntiPattern is project thrashing, an ongoing debate on a critical topic. 
+A decision must be made to allow development staff to progress. 
+Thrashing has several consequences.
+• Increased staff frustration.
+• Incremental delays to delivery.
+• Exploitation by Corncobs.
+
+---> Typical Causes
+The manager lacks the ability to manage:
+• Development staff.
+• Other managers.
+• Development processes.
+He or she also has no clear vision and strategy, and therefore:
+• Cannot make decisions.
+• Fears success (see the associated Mini−AntiPattern).
+• Is ignorant of the true state of project activities and deliverables.
+
+---> Known Exceptions
+There should never be any exceptions to the Irrational Management AntiPattern. 
+However, a “golden child” who possesses guru−level skills that are completely unique in some manner and provides a major technical advantage should be tolerated, while a better and longer−term solution is planned.
+
+---> Refactored Solution
+Follow these guidelines to resolve the Irrational Management AntiPattern:
+1. Admit you have a problem and get help. 
+When managers suffer from one or more of the typical causes, they must first recognize that they have a problem. 
+Assuming that they are unaware of their situation, the first step is to identify key indicators, the most common of which is that of “finding out the hard way.” 
+For example, rather than technical staff addressing a growing problem and asking for help in dealing with it, the irrational manager finds out only after a problem has reached crisis stage; 
+no one is willing to discuss problems, because doing so never helps. 
+Managers must surround themselves with talented staff (or consultants) who share the complex job of managing and are willing to listen to them.
+2. Understand the development staff. 
+Managers need to understand both the technical skills and the personality traits of their staff members. 
+Awareness of technical skills helps a manager delegate work; awareness of personalities helps a manager designate working relationships.
+3. Provide clear, short−term goals. 
+Easily achievable objectives should be specified for the project. 
+Long−term objectives are necessary, but do not as successfully motivate staff on a daily basis. 
+A manager must ensure that short−term, highly specific objectives are set and that staff understands how they can be achieved.
+4. Share a focus. 
+Project staff must share the purpose of their project to ensure they are all working toward the same goals. 
+The manager must initiate and grow the focus.
+5. Look for process improvement. 
+Recognizing that every project is slightly different from the previous one, a manager must monitor the development processes and improve them where and when necessary. 
+Although these are often small tweaks to make a specific process more pragmatic, they can significantly improve productivity.
+6. Facilitate communication. 
+Whenever a “hot” topic fuels debate, deciding on the way to move forward is best achieved in a facilitated session. To do so:
+• Identify the key players.
+• Collect evidence on the debate.
+• Get clear agreement on the problem(s).
+• Make sure everyone’s voice is heard.
+• Confirm that the solution options are understood by all.
+• Agree to the preferred option.
+• Involve the concerned staff in implementing the solution where possible.
+7. Manage communication mechanisms. 
+E−mail and newsgroups in general are useful communication mechanisms, but both can set people on a winding path of destruction.
+E−mails can quickly get out of hand, and newsgroups can generate arrogant and aggressive debates. 
+The solution is to track e−mails and newsgroup postings daily and identify any miscommunications. 
+Talk directly to the involved parties and tell them to stop the electronic debate. 
+If it’s important to find a solution, then a facilitated meeting is usually faster and far more effective.
+8. Manage by exception. Extremes are always dangerous, and overmanagement is no exception. 
+Daily meetings and weekly reviews that require a manager’s involvement in all threads of a project are examples of over−or micromanagement. 
+Instead, manage by exception; watch, but don’t interfere. 
+Allow problems some time to be resolved by others.
+Step in only when necessary.
+9. Apply effective decision−making techniques. 
+Two rational management techniques from Kepner−Tregoe are particularly effective in software decision making.
+The first is called situation analysis [Kepner 81]. 
+This technique assists in the organization and management of unstructured and chaotic environments. 
+It can be used on an individual or group basis. 
+The second is called decision analysis [Kepner 81]. 
+This technique is essential for making decisions objectively. 
+Subjective biases in decision−making processes can have devastating consequences in software projects. 
+We have often seen these kind of biases result in software disasters. 
+Biases can be generated by friendships, the timing of the sales call, unnecessary platform constraints, and invisible infrastructure constraints.
+These two techniques are explained in some depth in the following subsections.
+
+-----> Situation Analysis
+The purpose of situation analysis is to identify the highest−priority concerns in a complex situation. 
+A tailored version of this technique contains the following steps:
+1. List all of the concerns. These may include known issues, action items, commitments, technology gaps, and other items. 
+In other words, the list may contain virtually anything that affects the project at hand.
+2. Rate the concerns with respect to three criteria: seriousness, urgency, and growth potential. 
+Use three levels: high, medium, and low. 
+For example, if the concern is critical to project success, it is highly serious. 
+If the concern must be resolved immediately for the resolution to be effective, it is rated highly urgent. 
+If the seriousness is expected to increase dramatically in time, it is rated as having high growth potential.
+3. Tabulate scores for each item based upon the ratings. 
+Assign numbers to the rating levels: high = 2, medium = 1, and low = 0. 
+For example, a rating of high/medium/low would score 3 points (2 + 1 + 0).
+4. Prioritize the items in terms of the scores. 
+For all of the concerns that score 6, choose the most important, second important, and so forth. 
+Continue the priority assignment with the items scoring 5 and lower, until the entire list of concerns is assigned a priority number.
+5. Assign the items that can be resolved to the appropriate staff. 
+Some items on the list will be controlled by external forces, and it would be unreasonable to expend energy resolving them until the situation changes. 
+Other items must be resolved before others due to dependencies. 
+For the properly qualified staff, the resolution of most items will be straightforward: 
+Program a necessary object, create an analysis model, reduce risk through testing, and so forth. 
+The manager must make the best match of staff resources to the concerns that must be resolved.
+6. Work on the top−priority items on the list. 
+The situation analysis technique works on the principle of addressing first things first and second things never. 
+Using situation analysis, the manager can effectively address the most important issues from among the confusing list of concerns confronting software projects.
+
+-----> Decision Analysis
+A tailored process for decision analysis contains these steps:
+1. Define the scope of the decision to be addressed. In other words, the process must begin with a written question to resolve.
+2. Identify alternative solutions for resolving the decision. 
+These can include specific concrete alternatives, such as specific software products or categories of solutions that can be evaluated.
+3. Define the decision criteria. 
+Situation analysis can be used to create this list.
+4. Divide the criteria between the essentials and desirables. 
+The essential criteria are characteristics that must be part of the solution in order for it to be acceptable. 
+If any essential criteria are missing from an alternative, the alternative is disqualified. 
+For this reason, the essential criteria should be a carefully chosen, short list. 
+All other criteria are called desirables, and they must be prioritized. 
+Use the priority assignment process from situation analysis for this purpose, then assign the desirable alternatives a weight. 
+For example, if there are seven criteria, the most important has a weight of 7; the next most important has a weight of 6, and so forth.
+5. Determine whether the alternatives satisfy all the essential criteria.
+If not, eliminate the unsatisfactory alternatives.
+6. Perform any fact finding. 
+Research to assess the satisfaction of the criteria by each of the alternatives.
+7. Set up a table that displays the alternatives in columns and the criteria in rows. 
+In the table, rank the alternatives for desirable criteria. 
+For example, if there are five alternatives, the best alternative gets a rank of 5; next best gets a rank of 4, and so forth.
+8. Multiply the weights by the ranks to calculate a score for each position in the matrix. 
+Add up the scores in each column to calculate the score for each alternative. 
+The highest scoring alternative is the rational (or best) choice.
+9. Be aware that the rational choice may not be the choice that managers or customers will accept. 
+An important bias or criteria that was not properly reflected in the decision analysis may cause this, in which case, it is important to evaluate the decision criteria.
+Experiment with the weights on the desirable criteria, and add new criteria until the decision analysis selects the acceptable alternative. 
+Confirm that the resulting criteria and weights match the subjective decision criteria that drive this solution. 
+Perhaps the decision−making authorities will change their criteria to more realistic assumptions when confronted with the actual influence that their biases have on the decision.
+
+---> Variations
+Consultants can be an invaluable resource. 
+They can bring missing knowledge and skills to an organization, and can give advice that is independent of internal politics and detailitis; that is, they can be objective in a charged situation. 
+Consultants can play three key roles in a software project.
+These categories are based on Block’s model for general consulting practice [Block 81]:
+1. Pair of Hands.
+2. Technical Expert.
+3. Management Peer.
+Filling the Pair−of−Hands role, the consultant becomes another software developer, similar to that of an ordinary employee. 
+As a Technical−Expert, the consultant resolves problems in a specific domain. 
+As a Management−Peer, the consultant is an advisor to management, providing a mentoring knowledge transfer from his or her related experience. 
+Although it’s professionally rewarding for the consultant to be in the latter two roles, we have seen outstanding results from the Pair−of−Hands role, particularly in rapid prototyping situations with new technologies.
+
+---> Examples
+A manager we worked with came into a project at the halfway point. 
+He did not have an understanding of the staff’s skills, nor a good background on the project to date. 
+When problems occurred, he reallocated staff. 
+This created more serious problems. 
+Staff members were moved onto projects to which they had no previous exposure. 
+This resulted in diminished effectiveness. 
+The situation was partially resolved when the manager left the company. 
+The new manager was a very strong “people−person” who made sure that employees’ skills matched the necessary activities. 
+Unfortunately, the delays already experienced could not be made up for.
+In another situation, a project architect (a Corncob) voiced his opinions on C++ coding standards via e−mail to all project staff. 
+The project had several guru−level C++ developers who took exception to some of the architect’s statements. 
+This resulted in a two−month e−mail and newsgroup “war.” 
+The eventual solution was that the project manager appointed a “tiger team” to resolve the issue. 
+This was a facilitated solution based upon the run−ahead principle. 
+Unfortunately, no precautions were taken to eliminate similar destructive communications on a variety of other topics. 
+The instance was dealt with rather than the overriding problem.
+
+In a third example, a system’s integrator project had an irrational management team. 
+The individual managers were owners of their part of the process. 
+This created stovepipe processes with neither coherence nor contiguity, as shown in Figure 7.8. 
+This resulted in various ownership wars. One war was based on the entrance criteria to move from one phase of the development to the next. 
+This caused a month of thrashing and disagreement, which then diffused focus on emerging development problems. 
+Corporate management had to step in. 
+And because the resolution was enforced from above, it was not sustainable.
+
+The final solution, after several wars between the owners, was the appointment of a process facilitator whose job was to ensure that:
+• A coherent and contiguous process was produced.
+• The entrance criteria were agreed on for each phase of the development, which supported iterative delivery.
+• Process improvements were implemented across the relevant processes.
+
+
+
+
+
+-> Smoke and Mirrors
+
+---> AntiPattern Problem
+Demonstration systems are important sales tools, as they are often interpreted by end users as representional of production−quality capabilities. 
+A management team, eager for new business, sometimes (inadvertently) encourage these misperceptions and makes commitments beyond the capabilities of the organization to deliver operational technology. 
+This puts developers in a tough situation because they are then pressured to deliver the capabilities promised. 
+The ultimate loser is the end user, who does not receive the expected capability at the promised cost and time; 
+or when the system is delivered, the end user often receives a hastily crafted Stovepipe System that resembles the demonstration environment, but lacks maintainability.
+
+A principal cause of this AntiPattern, also called Vaporware, concerns the management of expections. 
+The end user is led to believe that capabilities can be delivered when in fact they cannot, at least not within the predetermined functionality, budget, and schedule. 
+When the development project fails to deliver, the project is considered unsuccessful, and the development organization loses credibility.
+
+---> Refactored Solution
+The management of end−user expectations is important both for ethical reasons and for continued credibility. 
+A typical rule of software engineering is that a deliverable system costs three times as much as an engineering prototype. 
+A set of reusable software costs up to three times as much as software for a deliverable system. 
+Another rule, supported by survey evidence, is that any software development will take about twice as long and cost twice as much as expected [Johnson 95].
+Managing expectations often means it is better to let people expect less than can be delivered. 
+When the expectations are exceeded, the recipients are pleasantly surprised, and are likely to become repeat customers.
+
+---> Variations
+When the Smoke and Mirrors AntiPattern is a demonstration of a commercial product, effective additional precautions can be taken. 
+One strategy is to have competent engineers attend the vendor’s training course. 
+Usually, training courses are not part of the marketing communications program, and convey unfiltered information about the products. 
+But competent engineers can determine the product’s true capabilities and report back to the development team. 
+A less costly solution is to request a copy of the product’s technical documentation, and conduct a review of these materials by one or more competent engineers. 
+Also, carefully review the installation requirements and software license agreement. 
+The installation requirements may call for operating system versions and product releases that are incompatible with the target environment. 
+Few software licenses guarantee merchantability. 
+In other words, there may be no legal assurance that the product will perform a useful function. 
+Such a guarantee can be added to the purchase agreement, along with extended product support. 
+Such guarantees are commonplace in industries such as telecommunications, where product support is provided for up to 80 years (the full system life cycle).
+
+
+
+
+
+-> Project Mismanagement
+Antipattern Name: Project Mismanagement
+Also Known As: Humpty Dumpty
+Most Frequent Scale: Enterprise
+Refactored Solution Name: Risk Management
+Refactored Solution Type: Process and Role
+Root Causes: Responsibility (the universal cause)
+Unbalanced Forces: Management of Risk (the universal force)
+Anecdotal Evidence: “What went wrong? Everything was fine and then suddenly... KABOOM!”
+
+---> Background
+This AntiPattern concerns the monitoring and controlling of software projects. 
+The timeframe for this occurs after planning activities, and during the actual analysis, design, construction, and testing of the software system. 
+Project mismanagement involves mistakes made in the day to day running of a project, assuming planning errors (such as Death By Planning) have not been made.
+
+---> General Form
+Running a project is as complex an activity as creating the project plan, and developing software is as complex as building skyscrapers, involving as many steps and processes, including checks and balances. 
+Often, key activities are overlooked or minimized. 
+These include technical planning (architecture) and quality−control activities (inspection and test). 
+In particular, basic mistakes include: inadequate architecture definition, insufficient code review (software inspection), and inadequate test coverage. 
+Under the test umbrella, several phases are needed, but often minimized: unit, integration, and system testing. 
+Simple integration testing comprises basic checking of unit−tested components for interoperability. 
+Full integration testing checks all known success paths and error states.
+
+“All you need in this life is ignorance and confidence; then success is sure.” —Mark Twain
+
+Architecture establishes the detailed technology plan for the project, including the criteria for inspection and testing. 
+When an inadequate architecture is defined, there is insufficient basis for checking the design during the inspection and testing phases. 
+When testing is performed, the software modules may be integrated according the architecture, but are not able to interoperate according to the application’s needs.
+
+---> Symptoms And Consequences
+• The design is difficult to implement due to lack of an architectural strategy.
+• Code reviews and inspections happen infrequently and add minimal value.
+• The test design requires extra effort and guesswork because the behavioral guidelines for the system are inadequately defined.
+• In the integration and system testing phases, there is much project “thrashing” due to a large number of defects that should have been eliminated in earlier phases such as architecture, design, inspection, and unit testing.
+• Defect reports escalate toward the end of the development and delivery/acceptance phases.
+Typical Causes
+• An inadequate architecture does not define the technical criteria for inspection, testing, integration, and interoperability.
+• Code reviews and software inspections do not evaluate design defects, which then must be addressed in more expensive phases such as acceptance testing.
+• Insufficient test suites check basic integration needs, but do not address full interoperability needs for the application.
+• All of the preceding factors indicate ineffective risk management, which can be traced to the professional practices of the architect, designers, and management.
+
+---> Known Exceptions
+There should never be any exceptions to the Project Mismanagement AntiPattern.
+
+---> Refactored Solution
+Proper risk management is an effective means of resolving predictable symptoms and consequences of the Project Mismanagement AntiPattern. 
+Risks are categorized in several useful ways: managerial, common project failure points [Moynihan 89], and quality. 
+It’s necessary to understand these categories in order to better qualify the risks.
+
+-----> Managerial
+These risks are primarily caused and resolved by corporate management:
+• Processes. An end−to−end definition of product development.
+• Roles. The specific responsibilities for implementation of the processes..
+
+-----> Common Project Failure Points
+These key project risks are based upon twenty−three risk drivers:
+• Cost overruns.
+• Premature termination of project.
+• Development of the wrong product.
+• Technical failure.
+
+-----> Quality
+• Program and project management. The effectiveness of the planning and control process.
+• Product identification. The accuracy of the problem definition.
+• Architecture definition. The specification of a design and coding strategy.
+• Solution design. The ability to deliver a consistent and optimized code specification that fully supports the solution.
+• Solution implementation (coding). The ability to produce an accurate code implementation
+of the design, which functions in the expected manner.
+• Solution validation (testing). The proof that the implemented solution fully meets the problem requirements.
+• Product support. The ongoing ability to maintain and enhance a released product.
+
+-----> Common Understanding
+Often, a theme of risk management is the absence of a common understanding, resulting in an inconsistent view of development, which leads to the risk of the solution not meeting the scope of the problem requirements. 
+A company must understand its software developments across all sites and all projects. E
+very project must share common knowledge about its development.
+Ideally, all (or most) development staff on a project will have a reasonable, overall comprehension of the problem requirements and the intended solution. 
+
+Unfortunately, often this is not the case, leading to one or more of these failings:
+• Missed functionality. 
+One or more component services were never built because there was no shared view of how all of the components would interact on the delivery platform.
+• Incorrect functionality. 
+Some component does not perform the full functionality required because its use was never shared by developers with users (other developers).
+• Overfunctionality.  
+The requirements were never clearly understood and “the devil in the details” was never extricated. 
+This leads to software development under “good intentions,”
+without any requirement or need ever being clearly established.
+• Code modules will interface but not fully interoperate. 
+There was no definition of the threads of control across system and module boundaries.
+
+The refactored solution entails activities at the architectural and design stages of development.
+At the architecture level, the dependencies between modules must be defined.
+This includes the assignment of responsibilities that define the interdependence between modules and the partitioning of the system’s functionality. 
+At the design level, the threads of control (use cases) across modules must be defined. 
+This includes all of the successful use cases as well as defined error states.
+
+---> Variations
+A formal risk management activity is one way to document and plan for risk mitigation.
+Formal risk management entails the identification and documentation of project risks, usually in a tabular format, which includes columns for risk severity, risk description, and risk mitigation. 
+Risk management plans are often produced with the formal documentation of projects, but are rarely translated into funded project activities. 
+It is important to prioritize the project risks and budget research in risk−mitigation activities that represent critical points of failure.
+
+Another variation, a run−ahead team, is often employed to investigate the capabilities of new products and the compatibility of technologies. 
+The run−ahead team creates prototypes that resemble the target architecture of the system, using the primary technologies or technical backups. 
+The run−ahead team also identifies any technology shortcomings and investigates workaround strategies. 
+The team then educates the rest of the project staff on the new technology, thereby shortening learning curves. 
+Finally, the run−ahead team must precede the main development activity by one to three months. 
+Otherwise, the main project may be delayed waiting for the results of the run−ahead research.
+
+---> Example
+A software development does not manage it’s code delivery. 
+The development teams are left to their own devices as to how to get from design to delivery. 
+This means that they each have to deal with quality and process issues via self−derived mechanisms and manage their own activities. 
+The risk becomes unacceptable code through lack of adherence to:
+• Coding standards (including traceability to the design)
+• Code reviews
+• Test planning
+• Unit testing
+• API testing
+• Integration testing
+• Feature testing
+• Program documentation
+
+The risk manifests itself as poorly documented code that has been largely untested and does not integrate, nor fully meet the requirements.
+The appointment of a new project manager results in quality/process improvements. 
+The improvements are incremental and are actively owned by the teams through a series of facilitated “lookback” sessions to identify problems and issues, 
+and then the creation of emissary groups to address them via incremental process improvements.
+
+Each emissary group consists of a facilitator from product support and a development team owner (for each team) for that part of the process:
+• Design
+• Coding
+• Testing
+• Documentation
+
+Each emissary group team member is responsible for:
+• Refining the specific process.
+• Educating their team.
+• Providing subjective assessment of the team’s implementation of the specific process and the quality of it’s deliverables.
+• Liaising with other emissaries to maintain a consistent standard of process implementation and problem resolution.
+
+Within six months each process had been incrementally refined several times and each team had implemented each process at least once. 
+The improvements were major reductions (over 50%) in:
+• Code defects
+• Documentation defects
+• Untested code
+
+---> Related Solutions
+A variation of the Smoke and Mirrors mini−AntiPattern describes the incorporation of technical backups into the project plan and activities. 
+This is an important complement to risk management, and mitigates key strategic errors introduced by Project Mismanagement.
+Brad Appleton presents an excellent design pattern language for improving software development processes in his paper on process improvement [Appleton 97]. 
+Implementing process improvement is a key element in resolving project mismanagement.
+
+
+
+
+
+Throw It over the Wall
+
+---> Anecdotal Evidence
+The Code is finished (no testing, no documentation).
+
+---> Background
+Rarely is documentation entirely self−explanatory, yet understanding the vision and insight of the authors is an essential part of understanding the documentation. 
+This is especially true of guideline documents, where there is an implicit assumption of independent decision making. 
+This assumption also implies an in−depth knowledge of the authors’ intent.
+By its nature, all human knowledge is personal. 
+Even the most eminent scientists possess a personal insight that drives their discovery and articulation of new information. 
+Understanding this personal insight is essential to understanding their work.
+
+---> AntiPattern Problem
+Object−oriented methods, design patterns, and implementation plans intended as flexible guidelines are too often taken literally by downstream managers and OO developers. 
+As guidelines progress through approval and publication processes, they may be attributed with unfulfilled qualities of completeness, prescriptiveness, and mandated implementation.
+Such literal interpretation of flexible guidelines can lead to unintended results.
+Decisions may be made based upon guidelines that were intended only to inspire careful analysis and locally optimized decision making. 
+For example, effort may be wasted on useless analyses and documentation because it appears mandated, although nobody on the development team understands its purpose. 
+This phenomenon happens in both large and small organizations and may be due to miscommunication between development phases. 
+Another important cause is the desire to satisfy the apparent expectations of management instead of the needs of the system’s end users.
+
+---> Refactored Solution
+In order for technical documentation to be interpreted and implemented as intended, the material must be communicated through several important techniques. 
+One is to deliver the knowledge through a tutorial. 
+Whenever new policies and guidelines are established, there should be a corresponding transfer of information to promulgate the information and communicate the motivations.
+We have found that a one−day training session is usually sufficient for development specifications of up to 100 pages. 
+It may, however, be useful to conduct the session in two parts: a management introduction and a technical briefing for developers, as these two different audiences have substantially different needs. 
+If you combine these groups, the management discussion often extends into the time needed to cover the technical details. 
+Follow−up support, including telephone and electronic mail contacts, is useful to ensure successful technology transfer.
+
+
+
+
+
+-> Fire Drill
+
+---> AntiPattern Problem
+A Fire Drill is a recurring scenario in many software development organizations. 
+A project is initiated, but the staff delays design and development activities for several months while various technopolitical issues are resolved at a management level. 
+(One software developer described strategies for on−the−job software delivery as: “Wait until management is desperate, and they will accept anything you give them.”) 
+Management prevents the development staff from making progress either by telling them to wait or by giving uncertain and conflicting directions. 
+Perhaps most destructive are the externally generated changes in project direction that lead to rework and inhibit progress.
+
+A few months into the project schedule, it becomes clear to management that development must progress immediately. 
+Impending project cancellation is the usual motivator. 
+This situation is announced at an “all hands” Fire Drill launch meeting for development staff, during which management makes ambitious (or unrealistic) demands for software delivery. 
+A typical example is a project that spends six months performing requirements analysis and planning, and then endeavors to design, implement, and demonstrate the software in less than four weeks.
+Because the entire project is pressed for time, compromises are willingly made in software quality and testing. 
+In a perverse way, the emergency situation makes the job easier for some software developers, as management will accept almost any software (or documentation) product with few questions if it is behind schedule. 
+However, conscientious developers who deliver products before their deadlines are often compelled by management to rework their solutions.
+
+---> Refactored Solution
+An effective solution that project management can implement is called sheltering.
+Project management is responsible for delivering a software product, regardless of the unresolved management−level issues. 
+The work environment required for quality software development differs significantly from the Fire Drill environment. 
+In particular, architecture−driven development requires lengthy time frames and long−term commitments. 
+Architecture−driven development is the most effective approach for software success according to Booch (1996) and other authorities. 
+In contrast, Fire Drill environments preclude staff retention, an important issue for software managers today.
+In the sheltering solution, management creates and maintains two alternative project environments: internal and external. 
+The majority of the software development staff operate in the internal environment, where the focus is long term and encourages continual progress toward software delivery. 
+As much as 80 percent of software in systems is not application−specific—the so−called internal model [Mowbray 97c]. 
+The internal project environment can proceed to construct the internal model independent of changes in external technopolitical issues. 
+Building internal increments is also the most efficient use of software development resources in iterative−incremental projects [Korson 97].
+
+The external environment is also called the project’s “public image.” 
+Its purpose is to maintain relationships with outside entities: upper management, customers, and peer projects (with which resource competition and reuse opportunities exist). 
+The external environment staff may need to generate repeated project crises to obtain essential resources. 
+In a Fire Drill culture, emergency scenarios may be seen as the equivalent of assertiveness, when projects compete for management attention and resources. 
+A small number of managers and development staff can maintain the external environment. 
+Their job is to address the changes in the external environment so that the majority of the project staff are sheltered. 
+Some examples of external environment activities include: progress reports, status reviews, procurement, staffing, customer presentations, and marketing demonstrations. 
+Sheltering effectively isolates most staff members from these activities.
+Occasionally, however, emergencies are real, and heroic commitments of development time and effort may be needed. 
+Nevertheless, it is important to limit the frequency of Fire Drills so that development staff members are available to handle the demands of real emergencies.
+
+---> Related Solutions
+The Fire Drill mini−AntiPattern is related to several other key AntiPatterns, including: Analysis Paralysis, Viewgraph Engineering, and Mushroom Management. 
+In Analysis Paralysis, the quest for perfection in analysis modeling leads to a protracted analysis phase, which compresses the development schedule, thus creating a Fire Drill. 
+In Viewgraph Engineering, an organization never makes the transition from paper−based analysis to software development; the work environment is very similar to the situation preceding the Fire Drill launch−meeting. 
+In Mushroom Management, the developers are isolated unnecessarily from the real end users (not the end−user management).
+Developers are unable to obtain clear requirements or feedback on user−interface capabilities. 
+The Mushroom Management solution favors constructive interchanges between operational end users and developers, whereas the Fire Drill solution favors destructive interchanges between developers and end−user management, when
+changes in direction and uncertainties can derail the software process.
+
+
+
+
+
+
+The Feud
+AntiPattern Problem
+Also known as Dueling Corncobs, Territorial Managers, and Turf Wars, the Feud is
+marked by personality conflicts between managers that can dramatically affect the
+work environment. The employees reporting to these managers often suffer the
+consequences of their disagreements, because animosity between managers is
+generally reflected in the attitudes and actions of their employees, which always
+become negative.
+Consequently, software developers suffer from a lack of productive communications,
+and a general lack of cooperation inhibits any form of useful technology transfer.
+Thereafter, the corporate productivity and image can be negatively impacted.
+When the conflict erupts into ballistic verbal exchanges, verbal assassinations are
+carried out against staff to senior management. Such behavior can engage entire
+corporate management organizations, wasting time and energy. E−mail confrontations
+can greatly exacerbate the conflict (see the E−mail Is Dangerous mini−AntiPattern
+sidebar). Management feuds can drag on for years, with chronic recurrences of open
+hostilities, if not addressed promptly.
+Refactored Solution
+Dr. Randall Oakes, veteran of many information technology migrations, has said that
+“there is no problem that a pizza party cannot solve” [Oakes 95]. He means that
+organizational problems can often be resolved during a friendly office gathering.
+We have used the pizza party technique on several occasions with positive outcomes.
+These events are also useful as icebreakers to encourage team building, to facilitate
+formation of friendships, and to foster cross−organizational communications.
+A pizza party may have the most benefits for the financial sponsor. Following a pizza
+party, coworkers may perceive this person in a new light: “He or she is not such an
+ogre after all; he or she bought us pizza, and we had a good time.” Pizza party
+sponsors can thus reform their image.
+
+Variations
+A corporate intervention is a technique for resolving organizational differences.
+Professional meeting facilitators and various psychologists practice these techniques
+[GDSS 94]. Using electronic meeting tools, a two−day off−site intervention can achieve
+significant results. These meetings help organizations to “reinvent the corporation” by
+using the off−site group’s creativity to resolve their differences. The meeting facilitates
+intransigent managers to communicate and form new relationships. Participants
+generate innovative solutions to problems once thought to be intractable.
+
+
+
+
+
+
+E−mail Is Dangerous
+Also Known As
+Blame−Storming
+AntiPattern Problem
+E−mail is an important communication medium for software developers. Unfortunately,
+it is an inappropriate medium for many topics and sensitive communications. For
+example, e−mail is inappropriate for most confrontational discussions. Tempers flair
+and feelings get hurt easily in e−mail debates. Worse, e−mail makes a public event out
+of the disagreement. Productivity and morale of a software project can quickly
+degenerate when other staff members get caught up in lengthy e−mail confrontations.
+Also known as E−mail Flaming, this mini−AntiPattern can cause a variety of negative
+outcomes, some of which are listed here, followed by recommended preventive
+measures:
+• A “confidential” message is likely to end up in the inbox of the person you least want
+to read it. The best advice is to treat every e−mail as if it were going directly to your
+worst enemies and toughest competitors.
+• E−mail can be distributed to large numbers of people instantaneously; for example,
+to entire departments, companies, customer mailing lists, and public Internet forums.
+Treat every e−mail as if it will be printed on the front page of The Washington Post.
+• An e−mail message can become a permanent written record. Treat every e−mail as if
+it could be used as evidence in a court of law.
+E−mail is an inefficient mode of communication for complex topics. Due to the
+technology and other key characteristics of the medium, e−mail is subject to
+misinterpretation, because often large e−mail exchanges reduce the discussion to the
+lowest common denominator. Furthermore, e−mail discussion groups send dozens of
+postings on all kinds of topics, including the trivial and nonessential. These lengthy
+discussions are time−consuming and labor−intensive.
+Refactored Solution
+Use e−mail cautiously, as suggested. Avoid using e−mail for the following types of
+messages: confrontations, criticisms, sensitive information, politically incorrect topics,
+and legally actionable statements. Use other media if there is any doubt about the
+appropriateness of e−mail. Although telephone conversations, fax transmissions, and
+face−to−face discussions are also vulnerable to disclosure, their potential for damage
+is much less imminent.
+
+
+
+
+
+
+
+
+
+
+

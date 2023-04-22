@@ -1,0 +1,290 @@
+Note: This is taken from the book: [Antipatterns - Refactoring Software, Architectures, and Projects in Crisis]
+
+
+
+Primal Forces
+
+Software design involves making choices. 
+For example, some of the key choices that present themselves when designing software architecture include:
+• Which details to expose and which details to abstract.
+• Which features to include and which features to exclude.
+• Which aspects to make flexible and extensible.
+• Which aspects to constrain and guarantee.
+
+Software design choices are often complex, with numerous issues (or forces) to consider, such as security, cost, adaptability, reliability, and so on. 
+In order to make good choices, it’s very important to clarify the context of the decision. 
+Choices are clarified in several ways, such as:
+• Separation of concerns.
+• Establishing priorities.
+
+To separate concerns, we need to limit the scope of each choice. 
+Partitions in a software architecture are used to allocate and delineate the boundaries of concerns. 
+Each partition is responsible for resolving a limited set of issues, which simplify decision making. 
+The architecture represents the union of the partitions and provides coverage of all the relevant issues. 
+This separation of concerns is a fundamental role of architecture.
+
+Decisions are also clarified by an understanding of priorities. 
+If we know what is important and what is not, it’s much easier to choose what to include and what to exclude in a design.
+Decisions are difficult because they include some items and exclude many others, and we must be able to justify such choices. 
+This is another fundamental role of architecture, to explain significant decisions and design choices.
+
+Risk is a force that is always present in software decisions. 
+Software projects are amazingly prone to failure. 
+As noted, approximately one−third of all software projects are canceled, and approximately only one−sixth of software projects are considered successful. 
+The remaining projects are typically over−budget and over−schedule by factors of two or more. 
+The unsuccessful projects are also incapable of delivering the desired features. 
+Once the systems are delivered, there is high risk involved in changing the system. 
+Correction or extensions are likely to cause new software problems.
+
+Considering these statistics, five out of six software projects are destined to fail. 
+These figures are essentially unchanged by new technologies and approaches such as client/server and object orientation. 
+As software professionals, the outlook is grim, unless something significant changes. 
+We believe that significant changes are necessary in the way that software systems are architected and the way that risks are managed.
+
+We see risk as a generalized force, which is an underlying factor in most other forces. 
+To various degrees, management of risk is a universal force that motivates the patterns and solutions described here.
+
+
+
+-> What Is a Primal Force?
+
+Forces are concerns or issues that exist within a decision−making context. 
+In a design solution, forces that are successfully addressed (or resolved) lead to benefits, and forces that are unresolved lead to consequences. 
+For any given software problem, there are a number of forces that can influence a given solution. 
+The application of a design pattern leads to a solution that resolves the forces in a particular way. 
+In the solution, some forces are resolved more completely than others. 
+The choice of a design solution establishes a priority on the forces, to the extent that the highest−priority forces are resolved the most completely.
+
+Some forces are domain−specific. 
+Domain−specific forces (called vertical forces) are unique to a particular situation due to the domain or problem addressed. 
+Since vertical forces are unique (or local) to one software situation, resolution of vertical forces usually results in unique solutions for each software problem.
+
+Another class of forces, horizontal forces, are applicable across multiple domains or problems. 
+Horizontal forces are those that influence design choices across several software modules or components. 
+With horizontal forces, design choices made elsewhere may have a direct or indirect impact on design choices made locally. 
+For example, if the horizontal force is “design consistency,” it is necessary to coordinate software designs across multiple software modules to ensure such consistency.
+
+A certain class of horizontal forces are pervasive in software architecture and development.
+These are the primal forces, and are present in nearly all design situations, and should be considered part of the contextual forces driving most solutions. 
+One role of the primal forces is to keep architecture and development on track. 
+For example, a software decision that seems to be local can have a cumulative impact when there are other software groups making conflicting choices elsewhere in the same enterprise. 
+The primal forces represent the pervasive forces, which arise from the interrelatedness of software decisions.
+The primal forces are an important part of the guidelines presented in this pattern language.
+Each primal force is horizontally applicable across many domains of software architecture and development. 
+The primal forces represent the common−sense basic considerations, which are necessary for successful software architecture and development. 
+Primal forces comprise a fundamental value system for software architects and developers that are independent of particular situational forces.
+
+The primal forces include:
+• Management of functionality: meeting the requirements.
+• Management of performance: meeting required speed of operation.
+• Management of complexity: defining abstractions.
+• Management of change: controlling evolution of software.
+• Management of IT resources: controlling use and implementation of people and IT artifacts.
+• Management of technology transfer: controlling technology change.
+
+The primal forces have different relative importance at different scales. 
+Functionality and performance are critical forces at application−level and finer grains, whereas management of IT resources and technology transfer are enterprise and global in scope. 
+Before we can discuss these fully, we need to define the scales through the scalability model.
+
+This table identifies the degrees of impact of forces at the different levels of scale:
+
+Table: Degrees of Impact
+-------------------------------------------------------------------------
+               |  Global Industry | Enterprise | System    | Application
+-------------------------------------------------------------------------
+Management of  |                  |            |           |
+Functionality  | unimportant      | marginal   | important | critical
+-------------------------------------------------------------------------
+Management of  |                  |            |           |
+Performance    | important        | important  | critical  | critical
+-------------------------------------------------------------------------
+Management of  |                  |            |           |
+Complexity     | important        | critical   | important | marginal
+-------------------------------------------------------------------------
+Management of  |                  |            |           |
+Change         | unimportant      | critical   | critical  | important
+-------------------------------------------------------------------------
+Management of  |                  |            |           |
+IT Resources   | unimportant      | critical   | important | marginal
+-------------------------------------------------------------------------
+Management of  |                  |            |           |
+Technology     |                  |            |           |
+Transfer       | critical         | important  | important | marginal
+-------------------------------------------------------------------------
+
+• Critical. The impact is fundamental, as it affects all of the software.
+• Important. The impact must be seriously considered, as it affects a significant amount of the software.
+• Marginal. The impact can often be ignored, as it affects a minimal portion of the software.
+• Unimportant. The impact should not be considered.
+
+• Management of functionality is a force best addressed at the application level. 
+Developers are better able to effect functionality at its lowest level in response to (functional) requirements.
+
+• Management of performance is best addressed at both the application and the system evels. 
+Frequently, performance at the system level involves performing coarse−grained optimizations within a domain model. 
+The domain model is used by application models, which contain localized, finer−grained optimizations.
+
+• Management of complexity is important at all levels; however, complexity becomes exponentially worse at the higher scalability levels. 
+In any case, it never becomes an unimportant consideration at any level.
+
+• Management of change is critical at the enterprise and system levels, where the rate of change of individual products is moderate.
+Applications and external concerns change quite rapidly, generating new requirements and alterations in existing implementations.
+Therefore, it is important at the system and enterprise levels to plan an adaptable system capable of managing change. 
+While, admittedly, change is even more rapid at the global level, it is less of a concern as there is little an organization can do about it.
+
+• Management of IT resources is critical at the enterprise level because of the need for strategic planning. 
+This includes people, time, hardware and software artifacts.  
+It’s also important at a system level to ensure that major software developments are successful.
+
+• Management of technology transfer is important at the global industry level so as to stay abreast of technology advancements 
+and be able to reuse experience and knowledge across organizational boundaries. 
+It is important at the enterprise level to make the most of the available resources within an organization and at a system level to gain tactical advantages of software advancements.
+
+Table 2.2 identifies the roles in the software development and the level of their responsibility for each scale. 
+Each role has a critical impact because that is the scale where they can be most effective, as Table 2.3 illustrates.
+
+Table: Degrees of Impact
+-------------------------------------------------------------------------
+               |  Global Industry | Enterprise | System    | Application
+-------------------------------------------------------------------------
+CIO            | critical         | critical   | marginal  | unimportant
+-------------------------------------------------------------------------
+Project        |                  |            |           |
+Manager        | unimportant      | critical   | important | marginal
+-------------------------------------------------------------------------
+Architect      | marginal         | important  | critical  | important
+-------------------------------------------------------------------------
+Developer      | unimportant      | marginal   | important | critical
+-------------------------------------------------------------------------
+
+Table: Scale of Effectiveness
+-------------------------------------------------------------------------
+               |  Global Industry | Enterprise | System    | Application
+-------------------------------------------------------------------------
+Management of  |                  |            |           |
+Functionality  |                  |            | Architect | Developer
+-------------------------------------------------------------------------
+Management of  |                  |            |           |
+Performance    |                  |            | Architect | Developer
+-------------------------------------------------------------------------
+Management of  |                  |            |           |
+Complexity     |                  | PM         | Architect |  
+-------------------------------------------------------------------------
+Management of  |                  |            |           |
+Change         |                  | PM         | Architect |  
+-------------------------------------------------------------------------
+Management of  |                  |            |           |
+IT Resources   | CIO              | PM         |           |  
+-------------------------------------------------------------------------
+Management of  |                  |            |           |
+Technology     |                  |            |           |
+Transfer       | CIO              |            |           |  
+-------------------------------------------------------------------------
+
+
+
+A developer is primarily concerned with optimizing functionality and performance. 
+However, if a software project is going to be successful, the primal force of management of change must also be dealt with at this level.
+
+At the architect level, the same concerns are shared as the developer level, with the additional force of managing the complexity of the overall system.
+The architect must design the system such that the system interfaces are manageable, regardless of the complexity of its parts. 
+
+A project manager has to aid the architect in the management of complexity and change and successfully deal with the management of IT resources, such as people, time, and budgets. 
+
+Finally, at the CIO level, a plan must be in place for managing internal IT resources and for managing the technology transfer to and from other organizations in the industry.
+
+
+
+-> Management Of Functionality
+Managing functionality is making sure that software meets end−user requirements. 
+Software provides a mapping from the world of end−user objects to the world of computer technology objects. 
+The functionality of the software provides the mechanism for this mapping and for all of the operations performed on technology objects.
+Interoperability is an important part of management of functionality, comprising the exchange of information and services between software modules. 
+Interoperability enables multiple software modules to collaborate to provide functionality.
+
+
+
+-> Management Of Performance
+The second primal force, and the one sometimes overlooked by software architects, is the management of performance. 
+It is not sufficient for software to meet only its functionality requirements; the system must also meet performance needs. 
+End users have changing perceptions throughout the lifetime of a system, which can impact these needs. 
+A system is implicitly required to perform at least as fast as comparable systems developed using other technologies.
+
+In the case of CORBA, the performance of an ORB product out of the box is only as good as the underlying technologies used to implement it. 
+The ORB’s built−in client−service decoupling enables the astute developer to perform many performance enhancements without changing application software. 
+Because the performance enhancements are transparent to application software, they may be phased in over time, or added as needed as determined by the growth of the system. 
+This results in a high degree of scalability in CORBA systems, which has been proven in the success of companies migrating from prototypes to enterprise wide operational implementations. 
+The best−known performance enhancement supported by CORBA is load balancing. 
+Since CORBA uses dynamic binding to connect clients with services, it is possible to insert algorithms in the binding process to ensure that the services are used optimally. 
+Since many implementations can support an interface, services are often replicated to optimize load balancing.
+
+Managing performance also involves application software optimizations. 
+Application implementations control the details of processing, which is where the greatest amount of flexibility is available to tune the performance of the application. 
+The majority of performance issues involve compute−bound application bottlenecks, not I/O−bound or network−bound performance. 
+Specifically, an application developer controls the application’s data structure selection, algorithms, and often, language implementation. 
+Performance optimization is an expensive and time−consuming activity, and few projects are willing to incur the additional, often considerable, costs associated with application speed−up.
+
+
+
+-> Management Of Complexity (understandability)
+In developing systems, it is important not to lose sight of the value of good software abstractions. 
+Abstraction leads to simpler interfaces, uniform architectures, and improved object models. 
+It is the lack of effective abstractions that results in excessive system complexity. 
+Commonality between components is often not recognized and sufficiently exploited. 
+Without proper design abstraction, needless component differences are created, resulting in redundant software and multiple points of maintenance for fundamentally similar code.
+
+Managing complexity is a matter of analyzing a design and properly identifying the hot spots and problem areas that may be most affected by future changes; 
+for example, the anticipation of changes that have the potential for a performance bottleneck in an implementation. 
+Once hot spots have been correctly identified, a recursive process of redesign revision is appropriate, to provide simplicity and robustness. 
+Developing abstractions that simplify individual interfaces provides cost savings across the overall
+system design. This can result in savings in the internal implementation of a software
+component, and in each of the clients that access the component services.
+
+
+
+-> Management Of Change
+Adaptability is a highly desired but elusive software characteristic. 
+Most organizations would prefer to have adaptable systems, but few realize the full implications of what it means to develop a flexible system. 
+When developing a distributed system, it is not sufficient to simply include adaptability as a goal; 
+rather, the system architect must consider the evolution of the system and decide how and where the system needs to be adaptable. 
+When the system architect designs interface specifications, he or she is making decisions about where the areas of greatest adaptability exist and which are the areas of greatest stability. 
+IDL can be used to define the software boundaries. 
+If properly specified, it is the set of interfaces that provide decoupling between components in the system. 
+A good set of IDL interfaces specifies the exposed functionality of a software component in order to make multiple implementations capable of satisfying the constraints of the interfaces.
+It is in the software interfaces where system stability and adaptability are realized.
+A system that can support component implementation changes and still maintain stability is much more adaptable than one whose interfaces must constantly be modified to support new component implementations. 
+Minimizing the dependency of clients to particular component implementations is the role of the software architect. 
+This is accomplished by abstracting the key functional elements of categories of components and defining them in an implementation−independent manner. 
+IDL is an ideal notation because it is language−independent. 
+With an ORB, the IDL interfaces can support location and platform independence as well.
+Portability is an important aspect of management of change, for it is the ability to migrate application software from one product or platform to another. 
+Many standards reduce risk by facilitating portability. 
+Unfortunately, the portability provided by COTS products is imperfect, as vendors increase and decrease other COTS and platform support.
+
+
+
+-> Management Of IT Resources
+Management of information technology (IT) resources concerns the ability to manage the assets of the enterprise on a large scale. 
+A typical large−scale enterprise would have many different kinds of hardware (hardware heterogeneity), many different software products (software heterogeneity), and multiple releases of each technology. 
+Managing the large volume of machines and software in a changing organization becomes a major issue in its own right. 
+The management of IT resources involves many aspects, such as hardware/software acquisition, inventory, training, maintenance, upgrade, and support.
+The majority of end users are incapable of providing their own technical support, so this support burden falls on the enterprise. 
+If the support burden is unresolved, significant costs are associated with lost time and productivity, estimated by Information Week to be $40,000 per end−user PC per year (April 1996).
+Security is an important aspect of management of IT resources. 
+The secure control of information and services is becoming more important as systems become increasingly networked and interoperable.
+
+
+
+-> Management Of Technology Transfer
+Management of technology transfer comprises some of the key forces at the external boundary of the enterprise. 
+It includes the formal and informal relationships established by the use and transfer of software and other technologies. 
+Management of technology transfer is also an issue impacting many software developers because of the popularity and the availability of the Internet. 
+It is relatively easy to disseminate technology information globally across enterprise boundaries through e−mail, the World Wide Web, and other services.
+These information exchanges impact the control of intellectual property and the changing dependencies of internal systems on external technologies.
+Management of technology transfer also includes the possibility of creating and influencing standards. 
+In essence, standards are technical agreements between enterprises; they represent the minimal technology transfer that occurs between organizations in order to establish commonality and cooperation. 
+CORBA IDL makes the creation of interface specifications accessible to virtually all architects and developers. 
+This same IDL is the accepted notation of the formal standards community and other consortia and alliances. 
+It is now possible for most organizations to create technical agreements for software interfaces as a way to manage the technology transfer environment.
+
+

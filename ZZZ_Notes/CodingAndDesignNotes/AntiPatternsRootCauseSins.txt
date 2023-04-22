@@ -1,0 +1,126 @@
+Note: This is taken from the book: [Antipatterns - Refactoring Software, Architectures, and Projects in Crisis]
+
+
+Root Causes
+
+Root causes are mistakes in software development that result in failed projects, cost overruns, schedule slips, and unfulfilled business needs [Mowbray 97].
+The root causes identified here are pervasive: One−third out of all software projects are canceled; five out of six software projects are unsuccessful [Johnson 95]. 
+Unfortunately, object−oriented technology has not changed this overall prognosis. 
+In fact, each new technology wave (such as client/server) tends to increase software risk and the likelihood of falling prey to these root causes. 
+The root causes are based upon the “seven deadly sins,” a popular analogy that has been used successfully to identify ineffective practices [Bates 96].
+
+
+
+-> Haste
+
+Hasty decisions lead to compromises in software quality. 
+Software projects are often subjected to severe schedule−related stress. 
+At project inception, managers are pressured to trim budgets and schedules to make unrealistic targets. 
+As successive project deadlines are missed, anything that appears to work is considered acceptable, regardless of quality. 
+The usual victim of a slip in project delivery is testing.
+• Unit test coverage for each component.
+• Repeated testing of success paths and error states for integrated components.
+• Regression testing.
+
+In this environment, long−term architectural benefits are sacrificed for expedience.
+
+Quality, object−oriented architecture is the product of careful study, decision making, and experimentation. 
+At a minimum, the object−oriented architecture process includes farming of requirements, architecture mining, and hands−on experience. 
+Ideally, object−oriented architecture comprises a set of high−quality design decisions that provide benefits throughout the life cycle of the system.
+Significant domain experience for the architect is essential as object−oriented architectures are competently defined and defended. 
+With appropriate domain experience and design patterns, quality object−oriented architectures are defined rapidly. 
+However, it’s always a mistake to make object−oriented architectural decisions hastily.
+
+
+
+-> Apathy
+
+Apathy is not caring about solving known problems. 
+That is not to say that all solutions are known or fully achievable, but apathy is a basic unwillingness to attempt a solution (Figure 2.4). 
+Apathy about object−oriented architecture leads to a lack of partitioning. 
+A key aspect of object−oriented architecture is proper partitioning. 
+For example, object−oriented architecture partitions the system into class categories and defines their interfaces and connections.
+
+The critical partitioning decision in OO architecture is between stable reusable design and replaceable design. 
+The stable design remains with the system throughout its life cycle, as individual software modules are modified, replaced, and added. 
+Replaceable design details are best allocated to profiles, vertical specializations, and metadata.
+
+Neglecting the critical partitioning means that the core of the architecture must change in response to subsystem level changes. 
+This means that subsystem−level changes impact all of the modules in the entire system. 
+Thus, the sin of apathy leads to poor support for change.
+In addition, poorly partitioned architectures make application interoperability and reuse difficult.
+
+
+
+-> Narrow−Mindedness
+
+Narrow−mindedness is the refusal to practice solutions that are otherwise widely known to be effective (Figure 2.5). 
+An example of this is the use of metadata in software systems.
+Metadata is self−descriptive information in a software system that enables the system to change dynamically.
+
+Many object−oriented systems are built with virtually no metadata. 
+Without metadata, the application software contains hard−coded bindings, relationships, and assumptions about system configuration. 
+For example, the number of servers or clients and their locations can be made transparently variable with straightforward use of metadata services. 
+CORBA standards include various public metadata services, such as the Naming Service, the Trader Service, and the Interface Repository.
+
+
+
+-> Sloth
+
+Sloth is the “healthy sign” of a lazy developer or manager, who makes poor decisions based upon an “easy answer” (Figure 2.6). 
+Distributed object technology enables application developers to define system−level interfaces quickly using the ISO Interface Definition Language (ISO IDL). 
+Automatically generated interface stubs and skeletons make the task of constructing a distributed system relatively easy. 
+The ease of creating and changing interfaces leads to the deadly sin of sloth—lack of configuration control.
+
+Although sloth is more commonplace in small−scale, object−oriented projects, the habit of frequent interface change is difficult to overcome. 
+The more interfaces change, the more the interface semantics become unclear to developers. 
+Ultimately, developers and maintainers spend more than half of their time performing system discovery—trying to understand how the system works. 
+The system loses any notion of architecture long before this point is reached.
+
+Proper configuration control starts with the first phase of prototyping. 
+Ideally, system−level interfaces are kept stable during active software development and modified only infrequently.
+Stable interfaces enable parallel development, effective documentation, and reduced software obsolescence.
+
+
+
+-> Avarice
+
+Greed can take many forms, but it leads to inappropriate software development decisions.
+Architectural avarice means the modeling of excessive details, which results in excessive complexity due to insufficient abstraction (Figure 2.7).
+Excess complexity leads to many software problems and project challenges. 
+Overly complex systems are expensive to develop, integrate, test, document, maintain, and extend. 
+In some cases, development steps are skipped (such as testing) in order to make up for the lost time and money.
+This can lead very quickly to project failure.
+
+
+
+-> Ignorance
+
+Ignorance is intellectual sloth. 
+It’s the result of failing to seek understanding. 
+It keeps people stupid (Figure 2.8), and eventually leads to long−term software problems. 
+The sin of ignorance (implementation dependency) often occurs in the migration of applications to distributed architectures. 
+In ignorance, one assumes that system−level interfaces are extracted from fine−grain definitions of existing application objects. 
+For example, when an IDL interface is reverse−engineered from existing C++ header files, implementation−dependent interfaces are created and promulgated throughout a system and its subsystems.
+
+If an object’s interface is unique and there are no other implementations that support the same interface, then the interface is implementation−dependent. 
+Every client or object that uses this interface is dependent upon unique implementation details. 
+When this occurs repeatedly on a systemwide scale, a brittle system is created. 
+This sin is also evident when vendor−proprietary interfaces are used without proper layering and wrapping for isolation.
+
+
+
+-> Pride
+
+The sin of pride is the not−invented−here syndrome (Figure 2.9). 
+Object technology supports many reuse opportunities through the integration of commercial packages, freeware, and rappered legacy applications.
+
+Often, developers unnecessarily invent new designs when knowledge from preexisting systems, products, and standards are readily applied through architecture mining.
+Reinvention involves many unnecessary risks and costs. 
+New software must be designed, coded, debugged, tested, and documented. 
+New architecture must be prototyped and evolved before it is proven to provide software benefits.
+
+
+
+
+
