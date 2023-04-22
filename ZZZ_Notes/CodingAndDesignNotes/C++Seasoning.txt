@@ -1,0 +1,173 @@
+// Taken from Sean Parent's talk
+
+Goal 1: No Raw Loops
+-> A raw loop is any loop inside a function where the function serves purpose larger than the algorithm implemented by the loop.
+-> Why No Raw Loops?
+---> Difficult to reason about and difficult to prove post conditions
+---> Error prone and likely to fail under non-obvious conditions
+---> Introduce non-obvious performance problems.
+---> Complicates reasoning about the surrounding code
+-> Alternatives to Raw Loops
+---> Use an existing algorithm 
+-----> Prefer standard algorithms if available
+---> Implement a known algorithm as a general function
+-----> Contribute it to a library
+---> Invent a new algorithm
+-----> Write a paper
+-----> Give talks
+-----> Please dont patent it (joke)
+---> Use a range library (Boost or ASL)
+---> How many variants of simple, common algorithms such as find() and copy()
+---> Look for interface symmetry (be consistent)
+---> Ranged based for loops for for-each and simple transforms
+-----> Use a const auto& for for-each and auto& for transforms
+-----> Keep the body short
+-------> A general guideline is no longer than composition for two functions with an operator
+-------> If the body is longer, factor it out and give it a name
+---> Use lambdas for predicates, comparisons and projections but keep them short.
+---> Use function objects with template member function to simulate polymorphic lambda
+
+Goal 2: No raw synchronization primitives
+-> What are raw synchronization primitives?
+---> Synchonization primitives are basic constructs such as:
+-----> Mutex
+-----> Atomic
+-----> Semaphore
+-----> Memory Fence
+---> Why?
+-----> Because you will likely get it wrong
+-----> Mutexes (organize things so each get their turn) are typically the wrong way to do threading
+-------> Amdahl's Law
+---------> Amdahl's law can be formulated in the following way:
+-----------> s_latency(s) = 1 / (1−p+(p/s))
+-----------> "s_latency" is the theoretical speedup of the execution of the whole task;
+-----------> "s" is the speedup of the part of the task that benefits from improved system resources;
+-----------> "p" is the proportion of execution time that the part benefiting from improved resources originally occupied.
+---------> Furthermore,
+-----------> s_latency(s) ≤ 1/(1−p) 
+-----------> lim s→∞: s_latency(s) = 1/(1−p)
+-----------> shows that the theoretical speedup of the execution of the whole task increases with the improvement of the resources of the system and that regardless of the magnitude of the improvement, the theoretical speedup is always limited by the part of the task that cannot benefit from the improvement.
+---------> Amdahl's law applies only to the cases where the problem size is fixed. 
+-----------> In practice, as more computing resources become available, they tend to get used on larger problems (larger datasets), 
+-----------> and the time spent in the parallelizable part often grows much faster than the inherently serial work. 
+-----------> In this case, Gustafson's law gives a less pessimistic and more realistic assessment of the parallel performance.
+-------> If you want build a systems that scale (scale with number of processors), you are going to avoid synchronization like the plague
+---> A task is a unit of work (a function) which is executed asynchronously
+-----> Tasks are scheduled on ahtread pool to optimize machine utilization
+---> The arguments to the task and the task results are convenient places to communicate with other tasks
+-----> Any function can be packaged into such a task
+---> Unfortunately, we dont yet have a standard async task model
+-----> std::async is currently defined to be based on threads
+-------> This may change in C++14 and Visual C++ 2012 already implements std::async as a task model
+-----> Windows: Window Thread Pool and PPL
+-----> Apple - Grand Central Dispatch (libdispatch)
+-------> Open sourced, runs on Linux and Android
+-----> Intel TBB - many platforms
+---> Blocking on std::future.get has two problems
+-----> One thread resource is consumed, increasing contention
+-----> Any subsequent non-dependent calculations on the task are also blocked
+---> Unfortunately, C++11 doesn't have dependent tasks
+-----> GCD has serialized queues and groups
+-----> PPL has chained tasks
+-----> TBB has flow graphs
+-----> All are able to specify dependent tasks including joins
+---> std::list can be used in a pinch to create thread safe data structures with splice
+---> std::packaged_task can be used to marshall results, including exceptions from tasks
+-----> std::packaged_task is also useful to safely bridge c++ code with exceptions to C code
+
+Goal 3: No raw pointers
+-> This means: A pointer to an object with implied ownership and reference semantics
+---> T* p = new T
+---> unique_ptr<T>
+---> shared_ptr<T>
+-> Why use pointers(heap allocations)?
+---> Runtime variable size
+-----> Runtime polymorphic
+-----> Container 
+---> Satisfy complexity or stability requirements within a container (list vs vector)
+---> Shared storage for asynchronous communication (future, message queue, ...)
+---> Optimization to copy
+-----> Copy deferral (copy on write)
+-----> Immutable item
+-----> Transform copy to move
+---> To separate impelmentation from interface (PIMPL)
+---> For containers we've moved from intrusive to non-intrusive (STL) containers
+-----> Except for hierarchies - but containment hierarchies or non-intrusive hierarchies are both viable options
+---> PIMPL and copy optimizations are trivially wrapped
+---> Runtime Polymorphism has to use pointers (or references)
+---> Changed semantics of copy, assignment and equality of my document
+-----> leads to incidental data structures (shared_ptr)
+-----> thread safety concerns
+---> We define an operation in terms of the operation's semantics
+-----> "Assignment is a procedure taking two objects of the same type that makes the first object equal to the second with modifying the second"
+-----> shared_ptr changes this idea (copy means copying the pointer)
+---> When we consider the whole, the standard syntax for copy and assignment no longer have their regular semantics
+-----> This structure is still copyable and assignable but these operations must be done through other means
+---> The shared structure also breaks our ability to reason locally about the code.
+-> "A shared_ptr is as good as a global variable." - Sean Parent
+---> shared_ptr<const type> is a better alternative
+-> Using make_shared<> to created shared_ptr eliminates an extra heap allocation
+---> Pass sink arguments by value and move into place
+-----> In C++11, about the only place you will need R-value references are in the constructors and assignment operators
+-----> Only use move is when you are sinking the object into place
+---> Come to "Inheritance is the base class of Evil" talk for more on this topic
+
+Recap:
+-> No Raw Loops 
+-> No Raw Synchronization Primitives
+-> No Raw Pointers
+
+Locality of reasoning
+-> Easier to reason about
+-> Composable
+-> General
+-> Correct
+-> Efficient
+-> I don't need to look into my entire system to understand this snippet of code.
+
+
+Taken from CppCon 2015
+
+-> No Incidental Data structures
+
+-> What is a incidental data structure?
+---> What is a data structure?
+-----> Definition: A data structure is a format for organizing and storing data.
+-------> Well not actually store the data.
+-----> What is a structure?
+-------> A structure consists of additional entities that, in some manner, relate to the set, endowing the collection with meaning or significance.
+-------> The problem is Computer Scientists are really bad at relationships :)
+
+->  Whole part relationships and composite objects
+---> Connected
+-----> Able to reach a part from the whole
+---> Non circular
+-----> Something cannot be a part of itself (either directly or indirectly)
+---> Logically disjoint
+-----> If a change an object, it cannot change another object
+---> Owning
+-----> If I copy an object, it copies all the parts
+-----> If I destroy an object, it destroy all the parts
+---> These are the properties that make a composite object behave like a REGULAR type
+---> STL containers are (regular) composite objects
+
+-> The choice of encoding can make a dramatic difference on the performance of operations.
+---> Memory Hierarchy has a huge impact on performance
+-----> On a modern machine, RAM behaves much like a disk drive
+-----> Asymptotic worst case of linear might be better with logarithmic because of locality of the objects
+---> Locality matters - use arrays or vectors
+-----> Parallel Arrays
+-----> Static Lookup tables
+-----> Closed Hash Maps
+-----> Algorithms
+
+-> What is a incidental data structure?
+---> An incidental data structure is a data structure that occurs within a system when there is no object representing the structure as a whole
+---> Structures formed in the absence of a whole/part relationship
+
+-> Why no incidental data structures?
+---> They cause ambiguities and break our ability to reason about code locally.
+-----> Delegates
+-----> Message handlers
+-----> Self-referential interface
+-----> Forest
