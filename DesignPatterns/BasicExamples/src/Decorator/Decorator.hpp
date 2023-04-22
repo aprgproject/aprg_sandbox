@@ -108,15 +108,13 @@ public:
 // -> when extension by subclassing is impractical
 
 // Consequences:
-// -> More flexibility than static inhertance.
+// -> More flexibility than static inheritance.
 // ---> With decorators, responsibilities can be added and removed at runtime simply by attaching and detaching them.
 // ---> Providing different Decorator classes for a specific Component class lets you mix and match responsibilities.
-// ---> Decorators also make it easy to add a property twice.
-// -> Avoids feature-laden classes high up in the hierarchy.
+// ---> Decorators also make it easy to add a property twice.// -> Avoids feature-laden classes high up in the hierarchy.
 // ---> Decorator offers a pay-as-you-go approach to adding responsibilities.
 // ---> Instead of trying to support all foreseeable features in a complex customizable class,
-// ---> you can define a simple class and add functionality incrementally with Decorator objects.
-// ---> Its easy to defined new kinds of decorators independently from classes of objects they extend, even for unforeseen extensions.
+// ---> you can define a simple class and add functionality incrementally with Decorator objects.// ---> Its easy to defined new kinds of decorators independently from classes of objects they extend, even for unforeseen extensions.
 // -> A decorator and its component aren't identical
 // ---> A decorator is a transparent enclosure.
 // ---> But from an object identity point of view, a decorated component is not identical to the component itself (dont rely on object identity)

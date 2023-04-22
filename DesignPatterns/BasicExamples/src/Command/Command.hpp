@@ -110,15 +110,13 @@ private:
 // Command discussion:
 
 // ONE LINE NOTE:
-// -> Encapsulate a REQUEST into a "command object" that can INVOKE different operations (such execute/undo)
+// -> Encapsulate a REQUEST into a "command object" that can INVOKE different operations (such as execute/undo)
 
 // Intent:
-// Command pattern encapsulates a request as an object,
-// thereby letting you parameterize clients with different requests, queue or log requests, and supports undoable operations.
+// Command pattern encapsulates a request as an object,// thereby letting you parameterize clients with different requests, queue or log requests, and supports undoable operations.
 // The pattern has a behavioral purpose and deals with relationships between objects.
 
-// When to use (applicability):
-// -> want to parameterize objects by an action to perform
+// When to use (applicability):// -> want to parameterize objects by an action to perform
 // -> want to specify, queue, and execute requests at different times
 // -> support undo
 // -> support logging changes so that they can be reapplied in case of a system crash
