@@ -15,43 +15,45 @@ TEST(SampleClassWithStaticTest, InitialValuesAreCorrect)
     EXPECT_EQ(200, SampleClassWithStatic::staticData);
     EXPECT_EQ(300, SampleClassWithStatic::staticConstData);
     EXPECT_EQ(400, SampleClassWithStatic::staticInlinedData);
+    EXPECT_EQ("500", SampleClassWithStatic::staticInlinedString);
 }
 
-TEST(SampleClassWithStaticTest, StaticDataCanBeReferedInSeveralWays)
-{
+TEST(SampleClassWithStaticTest, StaticDataCanBeReferedInSeveralWays){
     SampleClassWithStatic object;
 
     EXPECT_EQ(200, SampleClassWithStatic::staticData);
     EXPECT_EQ(300, SampleClassWithStatic::staticConstData);
     EXPECT_EQ(400, SampleClassWithStatic::staticInlinedData);
+    EXPECT_EQ("500", SampleClassWithStatic::staticInlinedString);
 
     EXPECT_EQ(200, object.staticData);
     EXPECT_EQ(300, object.staticConstData);
     EXPECT_EQ(400, object.staticInlinedData);
+    EXPECT_EQ("500", object.staticInlinedString);
+
+    // Pointer dereference "->" works too for pointers
 }
 
-TEST(SampleClassWithStaticTest, ValuesCanBeChanged)
-{
+TEST(SampleClassWithStaticTest, ValuesCanBeChanged){
     SampleClassWithStatic object1;
     SampleClassWithStatic object2;
-
     object1.nonStaticData=101;
     SampleClassWithStatic::staticData=201;
     // SampleClassWithStatic::staticConstData=301; // can't be changed because its const
     SampleClassWithStatic::staticInlinedData=401;
+    SampleClassWithStatic::staticInlinedString="501";
 
     EXPECT_EQ(101, object1.nonStaticData);
     EXPECT_EQ(100, object2.nonStaticData);
     EXPECT_EQ(201, SampleClassWithStatic::staticData);
     EXPECT_EQ(300, SampleClassWithStatic::staticConstData);
     EXPECT_EQ(401, SampleClassWithStatic::staticInlinedData);
+    EXPECT_EQ("501", SampleClassWithStatic::staticInlinedString);
 }
 
-TEST(SampleClassWithStaticTest, ClassDeclaredFunctionsCanCalledWithChangedValues)
-{
+TEST(SampleClassWithStaticTest, ClassDeclaredFunctionsCanCalledWithChangedValues){
     SampleClassWithStatic object1;
     SampleClassWithStatic object2;
-
     object1.nonStaticData=101;
     SampleClassWithStatic::staticData=201;
 

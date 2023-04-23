@@ -1,27 +1,24 @@
 #pragma once
 
+#include <string>
+
 namespace alba
 {
-
 struct SampleClassWithStatic
 {
     int nonStaticData = 100;
 
     //static int staticData = 200; // Error: non-const static data member must be initialized out of line
     static int staticData; // declaration only (incomplete type and must be defined)
-
     constexpr static int staticConstData=300;
-
-    inline static int staticInlinedData=400;
-
+    static inline int staticInlinedData=400; // C++17, this saves the hassle of defining static data
+    static inline std::string staticInlinedString="500";
     // mutable static int staticMutableData; // Static data members cannot be mutable.
 
     int nonStaticFunctionWithClassDeclaration();
-
     static int staticFunctionWithClassDeclaration();
 
-    int nonStaticFunctionWithClassDefinition()
-    {
+    int nonStaticFunctionWithClassDefinition()    {
         return nonStaticData;
     }
 
@@ -39,13 +36,13 @@ struct SampleClassWithStatic
 };
 
 // int SampleClassWithStatic::staticData = 200; // Linker error: multiple definition of `alba::SampleClassWithStatic::staticData'
+// inline int staticInlinedData=400; // Out-of-class definition works too.
+// inline const int myRandomInt = generateRandomInt(); // Calculating a random number at runtime works too!
 
 }
-
 // Notes:
 
-// -> static members
-// ---> Inside a class definition, the keyword static declares members that are not bound to class instances.
+// -> static members// ---> Inside a class definition, the keyword static declares members that are not bound to class instances.
 // ---> Outside a class definition, it has a different meaning: see storage duration.
 // -----> Syntax
 // -----> (1) static data_member
