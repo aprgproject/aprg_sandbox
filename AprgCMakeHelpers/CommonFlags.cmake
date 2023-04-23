@@ -207,14 +207,24 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${APRG_COMPILER_COMMON_FLAGS} ${APRG_COM
 # -> Optmizing for debugging.
 # ->  Enables all optimization that does not conflicts with debugging. It can be used with the (-g) flag for enabling debugging symbols.
 
+# Flag: "-flto"
+# -> This option runs the standard link-time optimizer.
+# -> When invoked with source code, it generates GIMPLE (one of GCC’s internal representations) and writes it to special ELF sections in the object file.
+# -> When the object files are linked together, all the function bodies are instantiated as if they had been part of the same translation unit.
+# -> To use the link-time optimizer, -flto and optimization options should be specified at compile time and during the final link.
+# -> It is recommended that you compile all the files participating in the same link with the same options and also specify those options at link time.
+# -> For example:
+# ---> gcc -c -O2 -flto foo.c
+# ---> gcc -c -O2 -flto bar.c
+# ---> gcc -o myprog -flto -O2 foo.o bar.o
+
+
 # Flag: "-fstack-protector"
 # -> Emit extra code to check for buffer overflows, such as stack smashing attacks.
-# -> This is done by adding a guard variable to functions with vulnerable objects.
-# -> This includes functions that call allocation, and functions with buffers larger than or equal to 8 bytes.
+# -> This is done by adding a guard variable to functions with vulnerable objects.# -> This includes functions that call allocation, and functions with buffers larger than or equal to 8 bytes.
 # -> The guards are initialized when a function is entered and then checked when the function exits.
 # -> If a guard check fails, an error message is printed and the program exits.
 # -> Only variables that are actually allocated on the stack are considered, optimized away variables or variables allocated in registers don’t count.
-
 # Flag:  -fomit-frame-pointer
 # -> This flag (-fno-omit-frame-pointer) is used for performance testing (particularly linux perf tool) to save the information of the function call stack.
 # -> Don't keep the frame pointer in a register for functions that don't need one. 
@@ -455,3 +465,32 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${APRG_COMPILER_COMMON_FLAGS} ${APRG_COM
 # the program will continue execution after signed integer overflows,
 # exit after the first invalid use of a null pointer, and trap after the first use of misaligned pointer.
 
+
+
+#Fuzzers (https://llvm.org/docs/LibFuzzer.html)
+
+# Recent versions of Clang (starting from 6.0) include libFuzzer, and no extra installation is necessary.
+#
+# In order to build your fuzzer binary, use the -fsanitize=fuzzer flag during the compilation and linking.
+# In most cases you may want to combine libFuzzer with AddressSanitizer (ASAN), UndefinedBehaviorSanitizer (UBSAN), or both.
+# You can also build with MemorySanitizer (MSAN), but support is experimental:
+#     clang -g -O1 -fsanitize=fuzzer                         mytarget.c # Builds the fuzz target w/o sanitizers
+#     clang -g -O1 -fsanitize=fuzzer,address                 mytarget.c # Builds the fuzz target with ASAN
+#     clang -g -O1 -fsanitize=fuzzer,signed-integer-overflow mytarget.c # Builds the fuzz target with a part of UBSAN
+#     clang -g -O1 -fsanitize=fuzzer,memory                  mytarget.c # Builds the fuzz target with MSAN
+#
+# This will perform the necessary instrumentation, as well as linking with the libFuzzer library.
+# Note that -fsanitize=fuzzer links in the libFuzzer’s main() symbol.
+#
+# If modifying CFLAGS of a large project, which also compiles executables requiring their own main symbol,
+# it may be desirable to request just the instrumentation without linking:
+#     clang -fsanitize=fuzzer-no-link mytarget.c
+#
+# Then libFuzzer can be linked to the desired driver by passing in -fsanitize=fuzzer during the linking stage.
+
+# Check AFL (American Fuzzy Lop) as well
+# https://github.com/google/AFL
+
+
+
+# Check "Code hardening" by LLVM team as well (such as CFI and SafeStack)
