@@ -1,0 +1,156 @@
+Taken from Titus Winters and Hyrum Wright's talk on "All your tests are terrible."
+
+-> Five properties of Good Tests
+---> Correctness
+-----> Testing that your API is actually behaving correctly
+---> Readability
+-----> A good test should be correct by inspection
+---> Completeness
+-----> Thorough/complete tests on your API and only your API
+---> Demonstrability
+-----> Tests show how your API can be used and it should be without "shortcuts"
+-----> Alternative to documentation
+---> Resilience
+-----> Tests should only fail if the thing your trying to demonstrate becomes false, and should not fail for other reasons
+
+-> Step 0: Write Tests!
+---> First, have tests
+---> This is non negotiable
+
+-> Correctness
+---> Tests must verify the requirements of the system are met.
+---> Tests must verify if known bugs are corrected
+---> Tests must execute actual real scenarios
+-----> Avoid testing the mock implementation
+-----> Avoid testing the library implementation (as is)
+
+-> Readability
+---> Tests should be obvious to the future reader (including yourself)
+-----> Avoid too much boilerplate and other distraction
+-------> Too much boilerplate setup
+-------> Too much noise and very hard for the reader of the test to understand
+-------> Extract code that are not relevant steps of the tests
+-----> Avoid not having enough context in the test
+-------> If you extract too much, you might actually lose the important steps of the test.
+-------> Keep enough context for the reader
+-------> A good test should be correct by inspection
+-----> Gratuitous use of advanced test framework features
+-------> Don't use advanced test framework features when it isn't necessary
+-------> A framework feature should not obfuscate your code.
+---> A test should be like a novel:
+----->  There's a "setup", "action", and "conclusion". And it should all make sense.
+
+-> Completeness
+---> Avoid writing test only for the easy cases
+---> Test for common inputs, corner cases and outlandish cases
+---> Think of the edge cases of your function
+-----> Where the discontinuity of your inputs may lie
+-----> Where the inputs would yield interesting results
+-----> Edge cases of your users which likely to encounter
+---> As programmers, we really want our code to work and its really antithetical to our hopes/dreams to write test to prove that it doesn't work
+-----> Write tests first, so you dont have to be antagonistic about your tests
+---> Write tests for APIs that you are responsible for
+-----> Avoid testing the library implementation (as is)
+-----> If you're testing other stuffs (because you dont trust it), where do you draw the line?
+-------> Are testing the STL? allocators? compilers? OS? even your processor???
+-------> Where do you draw the line, if you not drawing the line on what you implemented?
+-------> Its perfectly reasonable to want to test other stuffs, but putting it with your tests is the wrong place to do that.
+-----> Only test that your API behaves properly while it uses that API
+
+-> Demonstrability
+---> Tests should serve as a demonstration of how the API works
+-----> Avoid reliance on private methods with friends/test-only methods
+-----> Avoid bad usage in unit tests, suggesting a bad API
+-----> Avoid special initialization for tests, that cannot be used in real scenarios
+-------> You are not testing the API on how your users/consumers will use that API 
+
+-> Resilience
+---> Avoid writing tests that fail in all sorts of surprising ways
+-----> (1) Flaky tests
+-------> These are tests that when you re-run them get you different results.
+-------> These are tests that can be re-run with the same build in the same state and flip from passing to failing (or timing out)
+-------> Example: Half a second should be plenty to cover this async operation
+---------> As soon as your operating system starts trashing and the scheduler goes out -> problems
+---------> Fix? Create a synchronization mechanism or identify a reasonable timeout
+-------> Example: Tests that highly depend on your testing environment
+---------> Flaky tests can be actually a symptom of problems on your testing approach
+-----> (2) Brittle tests
+-------> Brittle tests are like balanced stacked spheres on top of each other, if one of them has a minor change, the whole tower goes down.
+-------> Brittle tests depend upon implementation details that you have any control over (or any business depending on).
+-------> These are tests that can fail for changes unrelated to the code under tests.
+-------> Example: In hash functions, a minor change in the algorithm (like optimizations) can change the expected output hash values.
+-------> Example: Don't rely on the ordering of an unordered container. 
+---------> If the implementation changes, your tests will fail.
+-------> Example: A bad code smell is when your capturing the logs in your tests.
+-------> Example: A image compression library that have tests that depend on the output of the image compression.
+---------> If the algorithm is changed, a lot of tests will fail.
+---------> This is done by running the code twice and capturing the output of the code and putting it as expectation.
+-----------> I am not a fan. Dont run the code/test twice (copy the output and set it as expectation)
+---------> A better test is to convert the image into a bitmap and check the bits of the bitmap if its a reasonable output.
+-----> (3) Tests that depend on execution ordering
+-------> These are tests that fail if they aren't run all together or in a particular order.
+---------> Example: Static values on tests. If they aren't run in a specific order, will all the test still pass?
+---------> Example: Changing the system clock.
+---------> Example: Changing the files on the filesystem.
+-------> There are tons of ways to modify global state in your tests.
+-----> (4) Non-hermetic tests
+-------> The Hermetic test pattern is the polar opposite of the Spaghetti pattern; it states that each test should be completely independent and self-sufficient.
+---------> Any dependency on other tests or third-party services that cannot be controlled should be avoided at all costs.
+-------> These are tests that fail if anyone else in the company runs the same test at the same time.
+---------> Dont call APIs to production services.
+---------> Try to avoid actually doing file I/O to disk.
+---------> Try to avoid touching the network in anyway.
+---------> The more you have one and zeros escaping your process, the less likely it is the your tests will survive the future.
+-----> (5) Mocks with deep dependence upon underlying APIs.
+-------> These are tests that fail if anyone refactors those classes.
+---------> Mocks typically heavily depend on the signatures of the mock functions
+-------> The law of implicit interfaces ("Hyrum's law", https://www.hyrumslaw.com/)
+---------> If you have enough users, you're gonna start seeing this.
+---------> The law states that: "Given an implementation and explicit interface (published interface), sooner of later they will start depending upon the implicit guarantees of the implementation."
+-----------> They start to depend be speed, memory consumption, filename and line number, or API call ordering.
+-----------> Pretty soon you will have enough people using your system that the implementation becomes the implicit interface.
+-------------> There is nothing you can change without breaking somebody.
+-------------> Somebody will scream if you change any part of the implementation, this is bad world to be in, unless you've gone deaf to the screams.
+
+-> Recap
+---> (0) Write tests
+---> (1) Write correct tests: tests what you wanted to test
+---> (2) Write readable tests: correct by inspection
+---> (3) Write complete tests: test all the edge cases
+---> (4) Write demonstrative tests: show how to use the API
+---> (5) Write resilient tests: hermetic, only breaks when there is an unacceptable behavior change.
+
+
+
+-> Hyrum's law (https://www.hyrumslaw.com/)
+---> An interface should theoretically provide a clear separation between consumers of a system and its implementers
+---> In practice, this theory breaks down as the use of a system grows and its users starts to rely upon implementation details intentionally exposed through the interface.
+---> Spolsky’s “Law of Leaky Abstractions” embodies consumers’ reliance upon internal implementation details.
+-----> As coined by Joel Spolsky, the Law of Leaky Abstractions states: "All non-trivial abstractions, to some degree, are leaky."
+-------> This statement highlights a particularly problematic cause of software defects: the reliance of the software developer on an abstraction's infallibility. 
+---> Taken to its logical extreme, this leads to the following observation, colloquially referred to as "The Law of Implicit Interfaces".
+---> The law states that: "Given enough use, there is no such thing as a private implementation." 
+-----> That is, if an interface has enough consumers, they will collectively depend on every aspect of the implementation, intentionally or not. 
+-----> This effect serves to constrain changes to the implementation, which must now conform to both the explicitly documented interface, as well as the implicit interface captured by usage. 
+-----> We often refer to this phenomenon as "bug-for-bug compatibility."
+---> The creation of the implicit interface usually happens gradually, and interface consumers generally aren’t aware as it’s happening. 
+-----> For example, an interface may make no guarantees about performance, yet consumers often come to expect a certain level of performance from its implementation. 
+-----> Those expectations become part of the implicit interface to a system, and changes to the system must maintain these performance characteristics to continue functioning for its consumers.
+---> Not all consumers depend upon the same implicit interface, but given enough consumers, the implicit interface will eventually exactly match the implementation. 
+-----> At this point, the interface has evaporated: the implementation has become the interface, and any changes to it will violate consumer expectations. 
+-----> With a bit of luck, widespread, comprehensive, and automated testing can detect these new expectations but not ameliorate them.
+---> Implicit interfaces result from the organic growth of large systems, designers and engineers would be wise to consider it when building and maintaining complex systems. 
+-----> So be aware of how the implicit interface constrains your system design and evolution, and know that for any reasonably popular system, the interface reaches much deeper than you think.
+
+
+
+
+
+
+
+
+
+
+
+
+

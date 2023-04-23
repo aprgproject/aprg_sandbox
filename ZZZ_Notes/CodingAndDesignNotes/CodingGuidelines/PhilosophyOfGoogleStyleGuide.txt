@@ -1,0 +1,159 @@
+
+-> Style Guides -> How do they work?
+
+-> How should we format our code?
+---> This is BORING QUESTION!
+---> Just use clang format!
+-----> There are cases (like matrices) where the human does it better that the robot, but on average the robot is better.
+
+-> What goes in a style guide?
+---> WRONG QUESTION STILL!
+
+-> What is the purpose of a style guide?
+---> Whats the purpose of any rule or set of rules your organization puts out?
+-----> Heavy handed throw-your-weight-around hoop jumping -> WRONG
+-----> Make it harder for people to do "bad" things, but encourage "good" things
+-------> Clearly depends on your organization's goals
+
+-> Two main points
+---> The underpinnings of Google's C++ Style Guide
+---> The contentious rules
+
+-> Context about Google
+---> I dont care if your using Google's Style Guide, because its optimizing for a particular purpose, and it might not fit with your organization
+---> Shared codebase
+-----> Strong testing culture
+---> Good indexer (Kythe)
+-----> This is important because grepping sometimes does not suffice.
+-------> Its not easy to grep for operator==.
+---> Wild variance in C++ background
+---> Good code review policies
+---> We expect well be around for a while and should plan accordingly
+-----> Meaning? Code is going to live a long time and be read many times. We choose to explicitly to optimize for the reader, not the writer.
+
+Philosophy of the Style Guide
+
+-> Philosophy 1: Optimize for the reader not the writer.
+---> We're much more concerned with the experience of code readers.
+-----> The code is gonna be read many-many-many more times than its written.
+-----> You will spend much-much-much more time looking at it than writing it.
+-----> We don't care if its tedious to type it, so long as clear for the viewer.
+
+-> Philosophy 2: Rules should pull their weight
+---> We arent going to list every single thing you shouldn't do.
+---> Rules for dumb stuff should be handled at a higher level (dont be clever).
+---> We dont expect the style guide to be interpreted in lawyerly fashion. 
+-----> Occassionally it happens but were not going to list every action that its illegal.
+
+-> Philosophy 3: Value the standard, but don't idolize it.
+---> Tracking the standard is valuable (cppreference.com, stackoverflow, etc.)
+-----> The more we stick close to the standard, the more that publicly available information helps.
+-----> Not everything in the standard is equally good.
+-------> Not everything in the standard is the solution for all problems
+
+-> Philosophy 4: Be Consistent
+---> Consistency allows easier expert chunking
+-----> Theres a cognitive difference on experts perceive a problem than how novices perceive a problem (like chess)
+-------> If we solve all our problems in the same set of infrastructure, interfaces and we format them in reasonably consistent ways.
+-------> Its much easier for someone to glance a specific code and understand whats its doing.
+---> Consistency allows more tooling
+-----> When everyone is doing the same thing, its much easier to develop tools for it.
+---> Consistency allows us to stop arguing about stuff that don't matter
+-----> All the formatting stuffs dont matter.
+---> Be Consistent on:
+-----> include guard naming/formatting
+-----> parameter ordering (input, then output, unless consistency with other things matters)
+-----> namespaces (naming)
+-----> Declaration order
+-----> 0 and NULL vs nullptr
+-----> Naming
+-----> Formatting
+-----> Don't use streams
+
+-> Philosophy 5: If something unusual is happening, leave explicit evidence for the reader
+---> Example: The design of std::unique_ptr makes it fit perfectly into a codebase with pre-C++-style pointers.
+-----> The fact that it does not have implicit conversion from T*, makes use of unique_ptr to demonstrate ownership transfer clearly.
+-----> At no point you are changing the ownership of the pointer, without leaving a trace that you did so.
+-------> Taken ownership: new from old
+---------> std::unique_ptr<Foo> my_foo(NewFoo());
+-------> old from new
+---------> Foo* myfoo = NewFoo().release();
+-------> new from new
+---------> std::unique_ptr<Foo> my_foo = NewFoo();
+---> It should be clear at the call site and its not neccessary to check other files.
+---> Things that help leave a trace for the reader include:
+-----> "override" or "final"
+-----> Interface classes - Name them with the "Interface suffix"
+-----> Function overloading - If it matters which overload is being called, make it obvious by inspection.
+-------> If it matters and behavior is changed depending on which parameter type was passed in, give it a different name.
+-----> No Exceptions - Error handling is explicit
+
+-> Philosophy 6: Avoid constructs that are dangerous or surprising
+---> Waivers here are probably rare and would require a strong argument.
+-----> Probably you need to put some comments as well to mitigate the chance of copy and paste re-using those patterns unsafely.
+---> Examples include:
+-----> Static and global variables of complex type 
+-------> Static initialization: If there are static variables that depend on each other. Its not possible to set an order on those variables.
+-------> Danger at shutdown: In multi-threaded environment, these objects might have been destructed while some objects are still accessing on it, and then bad things happens.
+-----> Use of override or final (avoid surprise)
+-----> Exceptions (dangerous)
+-------> Can be dangerous on a code base thats not exception-safe.
+
+-> Philosophy 6: Avoid tricky and hard-to-maintain constructs
+---> Most code should avoid the tricky stuff. Waivers may be granted if justified.
+---> Avoid unnecessary complex solutions
+-----> Use the complicated stuffs where it counts (where you have control, where the experts are working), otherwise write simple code.
+---> Tricky things include:
+-----> Macros (non-obvious, complicated)
+-----> Template metaprogramming (complicated, often non-obvious)
+-----> Non-public inheritance (surprising)
+-----> Multiple implementation inheritance (hard to maintain)
+
+-> Philosophy 7: Avoid polluting the global namespace
+---> Waivers here are unlikely except in very extreme cases.
+---> This includes:
+-----> Put your stuff in a namespace
+-----> Don't "using" into the global namespace from a header
+-----> Inside a .cc We don't care much
+-------> Still a distinction between using vs using namespace.
+
+-> Philosophy 8: Concede to optimization and practicalities when necessary
+---> Sometimes we make rulings just to state that an optimization may be healthy and necessary. 
+---> This includes:
+-----> Allowing forward declarations ("optimizing" build times)
+-------> Forward declaring anything with a template in it is a really bad idea.
+-----> Inline functions
+-----> Prefer pre-increment (++i)
+
+-> One of the things I really like on pointing out why we have rules, is because this is the bar that we have to meet if we wanted to change this rule.
+
+-> The Contentious Rules
+---> There are two (very) contentious rules:
+-----> (1) No non-const references as function arguments.
+-------> This is still valid because these three rules apply:
+---------> (1) Consistency (legacy code base already follows this approach)
+---------> (2) Leave a trace/explicitness
+---------> (3) Dangerous/surprising constructs: reference lifetime issues
+-----> (2) No use of exceptions.
+-------> Some rules apply:
+---------> Value the standard, but don't idolize it
+---------> Consistency
+-----------> This stems from old compiler bugs, but once that happened...
+---------> Leave a trace
+-----------> Exceptions don't leave traces (its nice for a reviewer)
+---------> Dangerous/surprising constructs
+---------> Avoid hard to maintain constructs
+-----------> Consider cases where exception types are changed
+---------> Concede to optimization
+-----------> On average, code locality matters.
+-----------> It would be great if there is some profile that shows exceptions does not slow down code.
+
+-> Recap
+---> Use your guide to encourage "good" and discourage "bad".
+---> Re-evaluate.
+-----> Be an engineer not a zealot.
+
+
+
+
+

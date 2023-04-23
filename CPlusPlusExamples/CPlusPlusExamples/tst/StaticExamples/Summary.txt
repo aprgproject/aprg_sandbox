@@ -1,0 +1,84 @@
+
+-> There are three kinds of usage for static keywords:
+---> From cppreference: 
+-----> (1) In translation units: declarations of namespace members with static storage duration and internal linkage
+-----> (2) In classes: declarations of class members not bound to specific instances 
+-----> (2) In functions: definitions of block scope variables with static storage duration and initialized once
+
+
+-> Static and namespace-static
+---> The static keyword can be used to declare variables and functions at -
+-----> global scope — variables and functions
+-----> namespace scope — variables and functions
+-----> class scope — variables and functions
+-----> local scope — variables
+
+-> Static data members/member function/unnamed class/named class/enumeration of a class in namespace scope have same linkage as the enclosing class.
+-> A class template has the linkage of the innermost enclosing class or namespace in which it is declared.
+-> Specializations (explicit or implicit) of a template that has internal linkage are distinct from all specializations in other translation units.
+
+-> Static usage vs anonymous namespace
+---> Static example:
+-----> namespace test
+-----> {
+----->     static int i = 5; // internal linkage, definition is here
+----->                       // And there will be no multiple definition!
+-----> }
+-----> // if you remove static, multiple definition errors would surely come.
+---> Anonymous namespace example:
+-----> namespace 
+-----> {
+----->    int i = 5; // default internal linkage, unreachable from other    
+----->               // translation units.
+----->    class invisible_to_others { };
+-----> }
+
+-> Where anonymous namespaces are superior
+---> (1) namespaces work for everything
+-----> An unnamed namespace is superior than static because of the fact that keyword static applies only to the variables declarations and functions, not to the user-defined types.
+-----> 
+-----> // The following code is valid in C++
+----->    static int sample_function() { /* function body */ }
+----->    static int sample_variable;
+-----> 
+-----> // But this code is NOT valid
+----->    static class sample_class { /* class body */ };
+----->    static struct sample_struct { /* struct body */ };
+-----> 
+-----> // So the solution is, unnamed-namespace, which is this:
+----->    namespace 
+----->    {  
+----->         class sample_class { /* class body */ };
+----->         struct sample_struct { /* struct body */ };
+----->    }
+---> (2) static has too many meanings
+-----> a) namespace-static — internal linkage
+-----> b) local-static — local variable persistence
+-----> c) member-static — class method
+---> (3) Uniformity and consistency
+-----> Namespaces provide a uniform and consistent way of controlling visibility at the global scope. 
+-----> You don’t have to use different tools for the same thing.
+---> (4)  For template arguments
+-----> C++ does not allow types and pointers/references to objects or functions with internal linkage (static) to be used as template parameters.
+
+-> Where static in namespaces pays off
+---> (1) Specialization of templates
+-----> anonymous namespaces can’t specialize templates outside of the namespace block
+-----> static keyword makes every translation unit which includes the interface header that contains namespace declaration has an internal-linkage copy of the static variable/function (consumes space). 
+-----> Hence, no multiple definition error. The same for const with no extern preceding it which defines a variable of internal linkage.
+---> (2) A cleaner Global Symbol Table
+-----> static prevent the name from entering into the global symbol table. 
+-----> This is strictly an optimization, but an important one in practice. 
+-----> This property is not shared by names in the unnamed namespace.
+-----> Functions in unnamed namespaces, however, generally are added to the symbol table but marked as internal or mangled so that they are effectively inaccessible.
+-----> So, in general, a program that uses static for its translation-unit-local namespace-level functions generates less work for the linker and might execute faster than the equivalent program using the unnamed namespace.
+
+
+-> Summary
+---> Avoid working with anonymous namespaces if you’re working with headers. 
+---> Due to default internal linkage, each translation unit will define its own unique instance of members of the unnamed namespace which can cause unexpected results, bloat the resulting executable, or inadvertently trigger undefined behavior due to one-definition rule (ODR) violations.
+---> Stating that variables defined in the anonymous namespaces are implicitly static is wrong and static are not totally useless in namespaces. 
+---> In general, you can go to this guidelines:
+-----> (1) Prefer free functions and types in anonymous namespace (unless in header files, then go for static).
+-----> (2) If needed to specialize class template methods or linker optimizations are a major concern, static is the option to go for.
+---> Unnamed namespaces are designed for protecting locality rather than offering an interface.
