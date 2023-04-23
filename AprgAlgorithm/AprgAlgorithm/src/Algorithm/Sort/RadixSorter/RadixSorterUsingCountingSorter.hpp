@@ -33,16 +33,17 @@ public:
         unsigned int numberOfDigits(m_getNumberOfDigitsFunction(valuesToSort));
         for(unsigned int digitIndex=0; digitIndex<numberOfDigits; digitIndex++) // start at least significant digit
         {
-            auto m_getDigitFunction = std::bind(m_getDigitAtFunction, std::placeholders::_1, digitIndex);
-            CountingSorterUsingNewPositions<Values, MAX_NUMBER_OF_DIGIT_VALUES> countingSorter(m_getDigitFunction);
+            auto getDigitFunction = [&](Value const& value)
+            {
+                return m_getDigitAtFunction(value, digitIndex);
+            };
+            CountingSorterUsingNewPositions<Values, MAX_NUMBER_OF_DIGIT_VALUES> countingSorter(getDigitFunction);
             countingSorter.sort(valuesToSort);
         }
     }
-
 private:
     GetNumberOfDigitsFunction m_getNumberOfDigitsFunction;
-    GetDigitAtFunction m_getDigitAtFunction;
-};
+    GetDigitAtFunction m_getDigitAtFunction;};
 
 }
 

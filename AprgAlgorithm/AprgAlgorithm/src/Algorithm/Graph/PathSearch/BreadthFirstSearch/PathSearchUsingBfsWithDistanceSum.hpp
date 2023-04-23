@@ -30,17 +30,20 @@ private:
 
     InitializeDataFunction getInitializeDataFunction()
     {
-        return std::bind(&BaseDistanceSum::initializeDistances, this, std::placeholders::_1);
-         // scope resolution "::" has the highest precedence
+        return [&](Vertices const& vertices)
+        {
+            BaseDistanceSum::initializeDistances(vertices);
+        };
     }
 
     UpdateDataFunction getUpdateDataFunction()
     {
-        return std::bind(&BaseDistanceSum::updateDistance, this, std::placeholders::_1, std::placeholders::_2);
-        // scope resolution "::" has the highest precedence
+        return [&](Vertex const& vertex1, Vertex const& vertex2)
+        {
+            BaseDistanceSum::updateDistance(vertex1, vertex2);
+        };
     }
 };
-
 }
 
 }
