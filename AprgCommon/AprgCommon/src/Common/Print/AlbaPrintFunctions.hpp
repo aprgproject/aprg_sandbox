@@ -50,26 +50,28 @@ printParameterWithName(std::ostream & outputStream, std::string const& parameter
 
 // Utilities
 
-template<unsigned int index, typename... ValueTypes>
-typename std::enable_if<index == sizeof...(ValueTypes), void>::type
-printTupleParametersRecusively(std::ostream &, std::tuple<ValueTypes...> const&)
-{}
-
-template<unsigned int index, typename... ValueTypes>
-typename std::enable_if<index != sizeof...(ValueTypes), void>::type
-printTupleParametersRecusively(std::ostream & outputStream, std::tuple<ValueTypes...> const& parameter)
+template<typename... ValueTypes>
+void printTupleParameters(std::ostream & outputStream, std::tuple<ValueTypes...> const& parameter)
 {
-    printParameter(outputStream, std::get<index>(parameter));
-    outputStream << ", ";
-    printTupleParametersRecusively<index+1, ValueTypes...>(outputStream, parameter);
+    std::apply // C++17, applies a function by unpacking a tuple to its tupleParameters
+    (
+        [&outputStream](ValueTypes const&... tupleParameters)
+        {
+            std::size_t tupleIndex{0};
+            auto printTupleParameter = [&outputStream](auto && tupleParameter, auto & tupleIndex)
+            {
+                printParameter(outputStream, tupleParameter);
+                outputStream << (++tupleIndex != sizeof...(ValueTypes) ? ", " : "");
+            };
+            (printTupleParameter(tupleParameters, tupleIndex), ...); // Folding expressions in C++17
+        }, parameter
+    );
 }
 
-template <typename Adapter>
-typename Adapter::container_type const& getUnderlyingContainerForPrinting(Adapter const& adapter) // copied from parameter to lessen dependencies
+template <typename Adapter>typename Adapter::container_type const& getUnderlyingContainerForPrinting(Adapter const& adapter) // copied from parameter to lessen dependencies
 {
     struct AdapterParent : Adapter
-    {
-        static typename Adapter::container_type const& get(Adapter const& adapterAsParameter)
+    {        static typename Adapter::container_type const& get(Adapter const& adapterAsParameter)
         {
             return adapterAsParameter.*&AdapterParent::c;
         }
@@ -101,14 +103,12 @@ template <typename... UnderlyingTypes>
 void printParameter(std::ostream & outputStream, std::tuple<UnderlyingTypes...> const& parameter)
 {
     outputStream << "(";
-    printTupleParametersRecusively<0U, UnderlyingTypes...>(outputStream, parameter);
+    printTupleParameters<UnderlyingTypes...>(outputStream, parameter);
     outputStream << ")";
 }
-
 template <typename ValueType, size_t SIZE, template<typename, size_t> class TemplateType>
 std::enable_if_t<typeHelper::hasBeginAndEnd<TemplateType<ValueType, SIZE>>(), void>
-printParameter(std::ostream & outputStream, TemplateType<ValueType, SIZE> const& parameter)
-{
+printParameter(std::ostream & outputStream, TemplateType<ValueType, SIZE> const& parameter){
     outputStream << "{Constant size: " << SIZE << " | ";
     for(auto const& content : parameter)
     {

@@ -27,9 +27,9 @@ TEST(AlbaMacrosForEachTest, AlbaMacrosForEachListWorks)
         return foo+bar+baz;
     };
 
-    EXPECT_EQ(0, sampleSumFunction(0, 0, 0));
-    EXPECT_EQ(3, sampleSumFunction(1, 1, 1));
-    EXPECT_EQ(6, sampleSumFunction(1, 2, 3));
+    EXPECT_EQ(0U, sampleSumFunction(0, 0, 0));
+    EXPECT_EQ(3U, sampleSumFunction(1, 1, 1));
+    EXPECT_EQ(6U, sampleSumFunction(1, 2, 3));
 }
 
 }
