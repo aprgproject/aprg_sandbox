@@ -217,22 +217,58 @@ linear       | N                | min, max median, burrow-wheeler transform
 linearithmic | N log N          | sorting, convex hull, closest pair, farthest pair
 M*N          | ?                | integer multiplication, integer division, integer square, integer square root
 M*M*N        | ?                | matrix multiplication, matrix inversion, determinant, system of linear equations, LU decomposition, Least squares
-NP complete  | Probably not N^b | SAT, IND-SET, ILP
+NP complete  | Probably not N^b | SAT (boolean satisfiability problem), IND-SET(maximum independent set), ILP(Integer linear programming)
 
 Good news: Can put many problems into equivalence classes.
-
 Complexity zoo:
 Complexity class: Set of problems sharing some computational property
 Bad news: Lots of complexity classes.  Mark: There is a lot
 
 
+
+Karp's 21 NP-complete problems (from wikipedia):
+
+In computational complexity theory, Karp's 21 NP-complete problems are a set of computational problems which are NP-complete. 
+In his 1972 paper, "Reducibility Among Combinatorial Problems", Richard Karp used Stephen Cook's 1971 theorem that the boolean satisfiability problem is NP-complete (also called the Cook-Levin theorem) to show that there is a polynomial time many-one reduction from the boolean satisfiability problem to each of 21 combinatorial and graph theoretical computational problems, thereby showing that they are all NP-complete. 
+This was one of the first demonstrations that many natural computational problems occurring throughout computer science are computationally intractable, and it drove interest in the study of NP-completeness and the P versus NP problem. 
+
+Karp's 21 problems are shown below, many with their original names. 
+The nesting indicates the direction of the reductions used. 
+For example, Knapsack was shown to be NP-complete by reducing Exact cover to Knapsack.
+    Satisfiability: the boolean satisfiability problem for formulas in conjunctive normal form (often referred to as SAT)
+        0–1 integer programming (A variation in which only the restrictions must be satisfied, with no optimization)
+        Clique (see also independent set problem)
+            Set packing
+            Vertex cover
+                Set covering
+                Feedback node set
+                Feedback arc set
+                Directed Hamilton circuit (Karp's name, now usually called Directed Hamiltonian cycle)
+                    Undirected Hamilton circuit (Karp's name, now usually called Undirected Hamiltonian cycle)
+        Satisfiability with at most 3 literals per clause (equivalent to 3-SAT)
+            Chromatic number (also called the Graph Coloring Problem)
+                Clique cover
+                Exact cover
+                    Hitting set
+                    Steiner tree
+                    3-dimensional matching
+                    Knapsack (Karp's definition of Knapsack is closer to Subset sum)
+                        Job sequencing
+                        Partition
+                            Max cut
+
+As time went on it was discovered that many of the problems can be solved efficiently if restricted to special cases, or can be solved within any fixed percentage of the optimal result. 
+However, David Zuckerman showed in 1996 that every one of these 21 problems has a constrained optimization version that is impossible to approximate within any constant factor unless P = NP, by showing that Karp's approach to reduction generalizes to a specific type of approximability reduction. 
+Note however that these may be different from the standard optimization versions of the problems, which may have approximation algorithms (as in the case of maximum cut). 
+
+
+
+
 Summary:
 
-Reductions are important in theory to:
--> Design algorithms
+Reductions are important in theory to:-> Design algorithms
 -> Establish lower bounds
 -> Classify problems according to their computational requirements
-
 Reductions are important in practice to:
 -> Design algorithms
 -> Design reusable software modules/data structures
