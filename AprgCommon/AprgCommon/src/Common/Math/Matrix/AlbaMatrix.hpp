@@ -22,25 +22,22 @@ namespace matrix
 // constexpr functions:
 
 template <typename DataType>
-constexpr std::enable_if_t<typeHelper::isArithmeticType<DataType>(), AlbaMatrixData<DataType>>
-getDefaultMatrix(unsigned int const numberOfColumns, unsigned int const numberOfRows)
+constexpr AlbaMatrixData<DataType> getDefaultMatrix(unsigned int const numberOfColumns, unsigned int const numberOfRows)
 {
-    return AlbaMatrixData<DataType>(numberOfColumns*numberOfRows, DataType{}); // if arithmetic type, initialize it to zero
+    if constexpr(typeHelper::isArithmeticType<DataType>())
+    {
+        return AlbaMatrixData<DataType>(numberOfColumns*numberOfRows, DataType{}); // if arithmetic type, initialize it to zero
+    }
+    else
+    {
+        return AlbaMatrixData<DataType>(numberOfColumns*numberOfRows); // if non arithmetic type, default construct it
+    }
 }
 
-template <typename DataType>
-constexpr std::enable_if_t<!typeHelper::isArithmeticType<DataType>(), AlbaMatrixData<DataType>>
-getDefaultMatrix(unsigned int const numberOfColumns, unsigned int const numberOfRows)
-{
-    return AlbaMatrixData<DataType>(numberOfColumns*numberOfRows); // if non arithmetic type, default construct it
-}
-
-template <typename DataType>
-class AlbaMatrix
+template <typename DataType>class AlbaMatrix
 {
 public:
-    using MatrixData = AlbaMatrixData<DataType>;
-    using ListOfMatrixData = ListOfAlbaMatrixData<DataType>;
+    using MatrixData = AlbaMatrixData<DataType>;    using ListOfMatrixData = ListOfAlbaMatrixData<DataType>;
     using LoopFunction = std::function<void(unsigned int const x, unsigned int const y)>;
     using LoopWithValueFunction = std::function<void(unsigned int const x, unsigned int const y, DataType const& value)>;
     using MatrixIndexRange = AlbaValueRange<unsigned int>;
@@ -129,14 +126,15 @@ public:
 
     AlbaMatrix operator*(DataType const& scalarMultiplier) const //scalar multiplication
     {
-        std::function<DataType(DataType const&)> scalarMultiplication = std::bind(std::multiplies<DataType>(), std::placeholders::_1, scalarMultiplier);
+        UnaryFunction<DataType> scalarMultiplication = [&scalarMultiplier](DataType const& value)
+        {
+            return scalarMultiplier*value;
+        };
         return doUnaryOperation(*this, scalarMultiplication);
     }
-
     AlbaMatrix operator*(AlbaMatrix const& secondMatrix) const //matrix multiplication
     {
-        return multiplyMatrices(*this, secondMatrix);
-    }
+        return multiplyMatrices(*this, secondMatrix);    }
 
     AlbaMatrix operator^(DataType const& scalarExponent) const //scalar raise to power
     {
@@ -157,16 +155,16 @@ public:
 
     AlbaMatrix& operator*=(DataType const& scalarMultiplier)
     {
-        std::function<DataType(DataType const&)> scalarMultiplication
-            = std::bind(std::multiplies<DataType>(), std::placeholders::_1, scalarMultiplier);
+        UnaryFunction<DataType> scalarMultiplication = [&scalarMultiplier](DataType const& value)
+        {
+            return scalarMultiplier*value;
+        };
         doUnaryAssignmentOperation(*this, scalarMultiplication);
         return *this;
     }
-
     AlbaMatrix& operator*=(AlbaMatrix const& secondMatrix)
     {
-        AlbaMatrix & self(*this);
-        self = multiplyMatrices(*this, secondMatrix);
+        AlbaMatrix & self(*this);        self = multiplyMatrices(*this, secondMatrix);
         return self;
     }
 

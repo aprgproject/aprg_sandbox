@@ -79,62 +79,64 @@ INLINE_WITH_BUILT_IN namespace BitUtilitiesWithBuiltIn
 {
 #ifdef __has_builtin
     template <typename DataType>
-    constexpr inline std::enable_if_t<sizeof(DataType) <= 4, bool> isEvenParity(DataType const value)
+    constexpr inline bool isEvenParity(DataType const value)
     {
-        return __builtin_parity(value)==0;
+        if constexpr(sizeof(DataType) <= 4)
+        {
+            return __builtin_parity(value)==0;
+        }
+        else
+        {
+            return __builtin_parityll(value)==0;
+        }
     }
     template <typename DataType>
-    constexpr inline std::enable_if_t<4 < sizeof(DataType), bool> isEvenParity(DataType const value)
+    constexpr inline unsigned int getNumberOfOnes(DataType const value)
     {
-        return __builtin_parityll(value)==0;
+        if constexpr(sizeof(DataType) <= 4)
+        {
+            return __builtin_popcount(value);
+        }
+        else
+        {
+            return __builtin_popcountll(value);
+        }
     }
     template <typename DataType>
-    constexpr inline std::enable_if_t<sizeof(DataType) <= 4, unsigned int> getNumberOfOnes(DataType const value)
-    {
-        return __builtin_popcount(value);
-    }
-    template <typename DataType>
-    constexpr inline std::enable_if_t<4 < sizeof(DataType), unsigned int> getNumberOfOnes(DataType const value)
-    {
-        return __builtin_popcountll(value);
-    }
-    template <typename DataType>
-    constexpr inline std::enable_if_t<sizeof(DataType) < 4, unsigned int>  getNumberOfConsecutiveZerosFromMsb(
+    constexpr inline unsigned int getNumberOfConsecutiveZerosFromMsb(
                 DataType const value)
     {
-        static_assert(typeHelper::isUnsignedType<DataType>(), "There might a problem when DataType is signed because of conversion.");
-        return __builtin_clz(value) - ((4-sizeof(DataType))*AlbaBitConstants::BYTE_SIZE_IN_BITS);
+        if constexpr(sizeof(DataType) < 4)
+        {
+            static_assert(typeHelper::isUnsignedType<DataType>(), "There might a problem when DataType is signed because of conversion.");
+            return __builtin_clz(value) - ((4-sizeof(DataType))*AlbaBitConstants::BYTE_SIZE_IN_BITS);
+        }
+        else if constexpr(4 < sizeof(DataType))
+        {
+            return __builtin_clzll(value);
+        }
+        else // if constexpr(sizeof(DataType) == 4)
+        {
+            return __builtin_clz(value);
+        }
     }
     template <typename DataType>
-    constexpr inline std::enable_if_t<sizeof(DataType) == 4, unsigned int>  getNumberOfConsecutiveZerosFromMsb(
+    constexpr inline unsigned int getNumberOfConsecutiveZerosFromLsb(
                 DataType const value)
     {
-        return __builtin_clz(value);
-    }
-    template <typename DataType>
-    constexpr inline std::enable_if_t<4 < sizeof(DataType), unsigned int>  getNumberOfConsecutiveZerosFromMsb(
-                DataType const value)
-    {
-        return __builtin_clzll(value);
-    }
-    template <typename DataType>
-    constexpr inline std::enable_if_t<sizeof(DataType) <= 4, unsigned int>  getNumberOfConsecutiveZerosFromLsb(
-                DataType const value)
-    {
-        return __builtin_ctz(value);
-    }
-    template <typename DataType>
-    constexpr inline std::enable_if_t<4 < sizeof(DataType), unsigned int>  getNumberOfConsecutiveZerosFromLsb(
-                DataType const value)
-    {
-        return __builtin_ctzll(value);
+        if constexpr(sizeof(DataType) <= 4)
+        {
+            return __builtin_ctz(value);
+        }
+        else
+        {
+            return __builtin_ctzll(value);
+        }
     }
 #endif
 }
-
 }
 
-#undef INLINE_WITH_BUILT_IN
-#undef INLINE_WITHOUT_BUILT_IN
+#undef INLINE_WITH_BUILT_IN#undef INLINE_WITHOUT_BUILT_IN
 
 }
