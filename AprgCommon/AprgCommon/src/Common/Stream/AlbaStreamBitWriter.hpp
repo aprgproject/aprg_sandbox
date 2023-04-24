@@ -32,9 +32,11 @@ public:
 
     std::ostream& getOutputStream();
     void flush();
+
 private:
     template <typename TypeToWrite> void putBigEndianNumberDataInBuffer(TypeToWrite const& data);
-    template <typename TypeToWrite> void putLittleEndianNumberDataInBuffer(TypeToWrite const& data);    void putBoolDataToBuffer(bool const boolValue);
+    template <typename TypeToWrite> void putLittleEndianNumberDataInBuffer(TypeToWrite const& data);
+    void putBoolDataToBuffer(bool const boolValue);
     void putCharDataToBuffer(char const data);
     void transferBytesAsMuchAsPossibleToStream();
     void transferAllToStream();
@@ -73,10 +75,12 @@ void AlbaStreamBitWriter::writeLittleEndianNumberData(TypeToWrite const& data)
 template <auto BITSET_SIZE>
 void AlbaStreamBitWriter::writeBitsetData(std::bitset<BITSET_SIZE> const& data, unsigned int const startBitsetIndex, unsigned int const endBitsetIndex)
 {
-    AlbaValueRange<int> bitsetRange(static_cast<int>(startBitsetIndex), static_cast<int>(endBitsetIndex), 1U);    bitsetRange.traverse([&](int const bitsetIndex)
+    AlbaValueRange<int> bitsetRange(static_cast<int>(startBitsetIndex), static_cast<int>(endBitsetIndex), 1U);
+    bitsetRange.traverse([&](int const bitsetIndex)
     {
         m_bitBuffer.emplace_back(data[bitsetIndex]);
-    });    transferBytesAsMuchAsPossibleToStream();
+    });
+    transferBytesAsMuchAsPossibleToStream();
 }
 
 template <typename TypeToWrite>

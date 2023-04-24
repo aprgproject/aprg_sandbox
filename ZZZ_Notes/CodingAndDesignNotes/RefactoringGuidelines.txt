@@ -29,9 +29,11 @@ Note: This is taken from Martin Fowler's book: [Refactoring: Improving the Desig
 
 ---> Regarding Comments
 ---> When you feel the need to write a comment, first try to refactor the code so that any comment becomes superfluous.
+
 ---> Regarding performance
 -----> Even if you know exactly what is going on in your system, measure performance, don't speculate. 
--------> You'll learn something, and nine times out of ten, it won't be that you were right! ------> The secret to fast software, in all but hard real-time contexts, is to write tunable software first and then to tune it for sufficient speed.
+-------> You'll learn something, and nine times out of ten, it won't be that you were right! 
+------> The secret to fast software, in all but hard real-time contexts, is to write tunable software first and then to tune it for sufficient speed.
 
 ---> Regarding tests
 -----> Make sure all tests are fully automatic and that they check their own results.
@@ -58,9 +60,11 @@ Note: This is taken from Martin Fowler's book: [Refactoring: Improving the Desig
 -----> When I extract a method, as in any refactoring, I need to know what can go wrong. 
 -----> If I do the extraction badly, I could introduce a bug into the program. So before I do the refactoring I need to figure out how to do it safely. 
 -----> I've done this refactoring a few times before, so I've written down the safe steps in the catalog.
+
 ---> Rename if needed
 -----> Is renaming worth the effort? Absolutely. 
------> Good code should communicate what it is doing clearly, and variable names are a key to clear code. -----> Never be afraid to change the names of things to improve clarity. 
+-----> Good code should communicate what it is doing clearly, and variable names are a key to clear code. 
+-----> Never be afraid to change the names of things to improve clarity. 
 -----> With good find and replace tools, it is usually not difficult. Strong typing and testing will highlight anything you miss.
 
 ---> Communicate the purpose on the code
@@ -336,7 +340,8 @@ Note: This is taken from Martin Fowler's book: [Refactoring: Improving the Desig
 -------> If you have duplicated code in two unrelated classes, consider using "Extract Class" in one class and then use the new component in the other
 
 ---> Long Method
------> Description: -------> The object programs that live best and longest are those with short methods.
+-----> Description: 
+-------> The object programs that live best and longest are those with short methods.
 -------> Since the early days of programming people have realized that the longer a procedure is, the more difficult it is to understand.
 -------> The real key to making it easy to understand small methods is good naming, if you have a good name for a method you don't need to look at the body.
 -------> The net effect is that you should be much more aggressive about decomposing methods (extract till you drop).
@@ -349,10 +354,12 @@ Note: This is taken from Martin Fowler's book: [Refactoring: Improving the Desig
 -------> If there are conditionals, use "Decompose Conditional" to deal with conditional expressions.
 ---------> With loops, extract the loop and the code within the loop into its own method.
 -----> Notes:
--------> How do you identify the clumps of code to extract?---------> A good technique is to look for comments. They often signal this kind of semantic distance.
+-------> How do you identify the clumps of code to extract?
+---------> A good technique is to look for comments. They often signal this kind of semantic distance.
 ---------> Even a single line is worth extracting if it needs explanation.=
 
----> Large Class-----> Description: 
+---> Large Class
+-----> Description: 
 -------> When a class is trying to do too much, it often shows up as too many instance variables.
 -------> When a class has too many instance variables, duplicated code cannot be far behind.
 -----> Solution:
@@ -367,10 +374,12 @@ Note: This is taken from Martin Fowler's book: [Refactoring: Improving the Desig
 ---------> "Duplicate Observed Data" suggests how to do this.
 
 ---> Long Parameter List
------> Description: -------> In our early programming days we were taught to pass in as parameters everything needed by a routine.
+-----> Description: 
+-------> In our early programming days we were taught to pass in as parameters everything needed by a routine.
 ---------> This was understandable because the alternative was global data, and global data is evil and usually painful.
 -------> Objects change this situation because if you don't have something you need, you can always ask another object to get it for you.
----------> Thus with objects you don't pass in everything the method needs; instead you pass enough so that the method can get to everything it needs.---------> A lot of what a method needs is available on the method's host class.
+---------> Thus with objects you don't pass in everything the method needs; instead you pass enough so that the method can get to everything it needs.
+---------> A lot of what a method needs is available on the method's host class.
 ---------> In object-oriented programs parameter lists tend to be much smaller than in traditional programs.
 -------> Long parameter lists are hard to understand:
 ---------> Because they become inconsistent and difficult to use
@@ -382,10 +391,12 @@ Note: This is taken from Martin Fowler's book: [Refactoring: Improving the Desig
 -------> If you have several data items with no logical object, use "Introduce Parameter Object".
 -----> Notes:
 -------> There is one important exception to making these changes.
----------> This is when you explicitly do not want to create a dependency from the called object to the larger object.---------> In those cases unpacking data and sending it along as parameters is reasonable, but pay attention to the pain involved.
+---------> This is when you explicitly do not want to create a dependency from the called object to the larger object.
+---------> In those cases unpacking data and sending it along as parameters is reasonable, but pay attention to the pain involved.
 ---------> If the parameter list is too long or changes too often, you need to rethink your dependency structure.
 
----> Divergent Change-----> Description: 
+---> Divergent Change
+-----> Description: 
 -------> When we make a change we want to be able to jump to a single clear point in the system and make the change.
 ---------> When you can't do this you are smelling one of two closely related pungencies.
 -------> Divergent change occurs when one class is changed in different ways for a particular cause.
@@ -406,10 +417,12 @@ Note: This is taken from Martin Fowler's book: [Refactoring: Improving the Desig
 -------> Often you can use "Inline Class" to bring a whole bunch of behavior together.
 ---------> You get a small dose of divergent change, but you can easily deal with that.
 -----> Notes:
--------> Shotgun surgery is similar to divergent change but is the opposite.---------> Divergent change is one class that suffers many kinds of changes, and shotgun surgery is one change that alters many classes.
+-------> Shotgun surgery is similar to divergent change but is the opposite.
+---------> Divergent change is one class that suffers many kinds of changes, and shotgun surgery is one change that alters many classes.
 -----------> Either way you want to arrange things so that, ideally, there is a one-to-one link between common changes and classes.
 
----> Feature Envy-----> Description: 
+---> Feature Envy
+-----> Description: 
 -------> The whole point of objects is that they are a technique to package data with the processes used on that data.
 -------> A classic smell is a method that seems more interested in a class other than the one it actually is in.
 ---------> The most common focus of the envy is the data.
@@ -423,9 +436,11 @@ Note: This is taken from Martin Fowler's book: [Refactoring: Improving the Desig
 -----------> This step is often made easier if "Extract Method" is used to break the method into pieces that go into different places.
 -----> Notes:
 -------> The fundamental rule of thumb is to put things together that change together.
----------> Data and the behavior that references that data usually change together, but there are exceptions.---------> When the exceptions occur, we move the behavior to keep changes in one place.
+---------> Data and the behavior that references that data usually change together, but there are exceptions.
+---------> When the exceptions occur, we move the behavior to keep changes in one place.
 -----------> From the Gang of Four book, Strategy and Visitor immediately leap to mind.
 -----------> Strategy and Visitor allow you to change behavior easily, because they isolate the small amount of behavior that needs to be overridden, at the cost of further indirection.
+
 ---> Data Clumps
 -----> Description: 
 -------> Data items tend to be like children; they enjoy hanging around in groups together.
@@ -437,10 +452,12 @@ Note: This is taken from Martin Fowler's book: [Refactoring: Improving the Desig
 -------> Then turn your attention to method signatures using "Introduce Parameter Object" or "Preserve Whole Object" to slim them down.
 ---------> The immediate benefit is that you can shrink a lot of parameter lists and simplify method calling.
 -----> Notes:
--------> Don't worry about data clumps that use only some of the fields of the new object.---------> As long as you are replacing two or more fields with the new object, you'll come out ahead.
+-------> Don't worry about data clumps that use only some of the fields of the new object.
+---------> As long as you are replacing two or more fields with the new object, you'll come out ahead.
 ---------> A good test is to consider deleting one of the data values: if you did this, would the others make any sense? 
 -----------> If they don't, it's a sure sign that you have an object that's dying to be born.
 -------> Next, you can look for cases of feature envy, which will suggest behavior that can be moved into your new classes.
+
 ---> Primitive Obsession
 -----> Description: 
 -------> Most programming environments have two kinds of data: 
@@ -460,7 +477,8 @@ Note: This is taken from Martin Fowler's book: [Refactoring: Improving the Desig
 -------> If you find yourself picking apart an array, use "Replace Array with Object".
 
 ---> Switch Statements
------> Description: -------> One of the most obvious symptoms of object-oriented code is its comparative lack of switch (or case) statements.
+-----> Description: 
+-------> One of the most obvious symptoms of object-oriented code is its comparative lack of switch (or case) statements.
 -------> The problem with switch statements is essentially that of duplication.
 --------> If you add a new clause to the switch, you have to find all these switch, statements and change them.
 -------> The object-oriented notion of polymorphism gives you an elegant way to deal with this problem.
@@ -474,7 +492,8 @@ Note: This is taken from Martin Fowler's book: [Refactoring: Improving the Desig
 ---------> If one of your conditional cases is a null, try "Introduce Null Object".
 
 ---> Parallel Inheritance Hierarchies
------> Description: -------> Parallel inheritance hierarchies is really a special case of shotgun surgery.
+-----> Description: 
+-------> Parallel inheritance hierarchies is really a special case of shotgun surgery.
 -------> In this case, every time you make a subclass of one class, you also have to make a subclass of another.
 -------> You can recognize this smell because the prefixes of the class names in one hierarchy are the same as the prefixes in another hierarchy.
 -----> Solution:
@@ -482,7 +501,8 @@ Note: This is taken from Martin Fowler's book: [Refactoring: Improving the Desig
 -------> If you use "Move Method" and "Move Field", the hierarchy on the referring class disappears.
 
 ---> Lazy Class
------> Description: -------> Each class you create costs money to maintain and understand.
+-----> Description: 
+-------> Each class you create costs money to maintain and understand.
 -------> A class that isn't doing enough to pay for itself should be eliminated.
 ---------> Often this might be a class that used to pay its way but has been downsized with refactoring.
 ---------> Or it might be a class that was added because of changes that were planned but not made.
@@ -491,7 +511,8 @@ Note: This is taken from Martin Fowler's book: [Refactoring: Improving the Desig
 -------> Nearly useless components should be subjected to "Inline Class".
 
 ---> Speculative Generality
------> Description: -------> You get it when people say, "Oh, I think we need the ability to this kind of thing someday" 
+-----> Description: 
+-------> You get it when people say, "Oh, I think we need the ability to this kind of thing someday" 
 ---------> and thus want all sorts of hooks and special cases to handle things that aren't required.
 -------> The result often is harder to understand and maintain. 
 ---------> If all this machinery were being used, it would be worth it. But if it isn't, it isn't.
@@ -504,10 +525,12 @@ Note: This is taken from Martin Fowler's book: [Refactoring: Improving the Desig
 -------> Methods named with odd abstract names should be brought down to earth with "Rename Method".
 -----> Notes:
 -------> Speculative generality can be spotted when the only users of a method or class are test cases.
----------> If you find such a method or class, delete it and the test case that exercises it.---------> If you have a method or class that is a helper for a test case that exercises legitimate functionality, you have to leave it in, of course.
+---------> If you find such a method or class, delete it and the test case that exercises it.
+---------> If you have a method or class that is a helper for a test case that exercises legitimate functionality, you have to leave it in, of course.
 
 ---> Temporary Field
------> Description: -------> Sometimes you see an object in which an instance variable is set only in certain circumstances.
+-----> Description: 
+-------> Sometimes you see an object in which an instance variable is set only in certain circumstances.
 ---------> Such code is difficult to understand, because you expect an object to need all of its variables.
 ---------> Trying to understand why a variable is there when it doesn't seem to be used can drive you nuts.
 -----> Solution:
@@ -521,10 +544,12 @@ Note: This is taken from Martin Fowler's book: [Refactoring: Improving the Desig
 ---------> In this case you can use "Extract Class" with these variables and the methods that require them.
 
 ---> Message Chains
------> Description: -------> You see message chains when a client asks one object for another object, 
+-----> Description: 
+-------> You see message chains when a client asks one object for another object, 
 ---------> which the client then asks for yet another object, 
 ---------> which the client then asks for yet another another object, 
----------> and so on.-------> You may see these as a long line of getThis methods, or as a sequence of temps.
+---------> and so on.
+-------> You may see these as a long line of getThis methods, or as a sequence of temps.
 -------> Navigating this way means the client is coupled to the structure of the navigation. 
 -------> Any change to the intermediate relationships causes the client to have to change.
 -----> Solution:
@@ -535,7 +560,8 @@ Note: This is taken from Martin Fowler's book: [Refactoring: Improving the Desig
 ---------> See whether you can use "Extract Method" to take a piece of the code that uses it and then "Move Method" to push it down the chain.
 ---------> If several clients of one of the objects in the chain want to navigate the rest of the way, add a method to do that.
 
----> Middle Man-----> Description: 
+---> Middle Man
+-----> Description: 
 -------> One of the prime features of objects is encapsulation—hiding internal details from the rest of the world.
 -------> Encapsulation often comes with delegation. However, this can go too far.
 ---------> You look at a class's interface and find half the methods are delegating to this other class and it more looks like a Middle Man.
@@ -545,7 +571,8 @@ Note: This is taken from Martin Fowler's book: [Refactoring: Improving the Desig
 -------> If there is additional behavior, you can use "Replace Delegation with Inheritance" to turn the middle man into a subclass of the real object.
 ---------> That allows you to extend behavior without chasing all that delegation.
 
----> Inappropriate Intimacy-----> Description: 
+---> Inappropriate Intimacy
+-----> Description: 
 -------> Sometimes classes become far too intimate and spend too much time delving in each others'private parts.
 -------> Overintimate classes need to be broken up as lovers were in ancient days.
 -----> Solution:
@@ -565,7 +592,8 @@ Note: This is taken from Martin Fowler's book: [Refactoring: Improving the Desig
 -------> If you have to redundantly move code to accomplish this, you may be able to use "Extract Superclass" to atone.
 
 ---> Incomplete Library Class
------> Description: -------> Reuse is often touted as the purpose of objects.
+-----> Description: 
+-------> Reuse is often touted as the purpose of objects.
 ---------> We think reuse is overrated (we just use).
 -------> Builders of library classes are rarely omniscient.
 ---------> We don't blame them for that; after all, we can rarely figure out a design until we've mostly built it, so library builders have a really tough job.
@@ -588,9 +616,11 @@ Note: This is taken from Martin Fowler's book: [Refactoring: Improving the Desig
 -----> Notes:
 -------> Data classes are like children. 
 ---------> They are okay as a starting point, but to participate as a grownup object, they need to take some responsibility.
+
 ---> Refused Bequest
 -----> Description: 
--------> Subclasses get to inherit the methods and data of their parents.---------> But what if they don't want or need what they are given?
+-------> Subclasses get to inherit the methods and data of their parents.
+---------> But what if they don't want or need what they are given?
 ---------> They are given all these great gifts and pick just a few to play with.
 ---------> The traditional story is that this means the hierarchy is wrong.
 -----> Solution:
@@ -598,10 +628,12 @@ Note: This is taken from Martin Fowler's book: [Refactoring: Improving the Desig
 -------> If the subclass is reusing behavior but does not want to support the interface of the superclass, gut it by applying "Replace Inheritance with Delegation".
 -----> Notes:
 -------> Often you'll hear advice that all superclasses should be abstract, so the parent holds only what is common.
----------> We aren't going to advise this, at least not all the time.---------> We do subclassing to reuse a bit of behavior all the time, its a smell, and we can't deny it, but usually it isn't a strong smell.
+---------> We aren't going to advise this, at least not all the time.
+---------> We do subclassing to reuse a bit of behavior all the time, its a smell, and we can't deny it, but usually it isn't a strong smell.
 
 ---> Comments
------> Description: -------> Don't worry, we aren't saying that people shouldn't write comments.
+-----> Description: 
+-------> Don't worry, we aren't saying that people shouldn't write comments.
 -------> In our olfactory analogy, comments aren't a bad smell; indeed they are a sweet smell.
 ---------> The reason we mention comments here is that comments often are used as a deodorant.
 ---------> It's surprising how often you look at thickly commented code and notice that the comments are there because the code is bad.
@@ -614,9 +646,11 @@ Note: This is taken from Martin Fowler's book: [Refactoring: Improving the Desig
 -------> If you need to state some rules about the required state of the system, use "Introduce Assertion".
 -----> Notes:
 -------> When you feel the need to write a comment, first try to refactor the code so that any comment becomes superfluous.
--------> A good time to use a comment is when you don't know what to do.---------> In addition to describing what is going on, comments can indicate areas in which you aren't sure.
+-------> A good time to use a comment is when you don't know what to do.
+---------> In addition to describing what is going on, comments can indicate areas in which you aren't sure.
 ---------> A comment is a good place to say why you did something. 
 ---------> This kind of information helps future modifiers, especially forgetful ones.
+
 
 
 -> Chapter 4. Building Tests
@@ -672,10 +706,12 @@ Note: This is taken from Martin Fowler's book: [Refactoring: Improving the Desig
 ---> "Extract Method" (extract till you drop)
 -----> Problem: 
 -------> You have a code fragment that can be grouped together.
------> Solution:-------> Turn the fragment into a method whose name explains the purpose of the method.
+-----> Solution:
+-------> Turn the fragment into a method whose name explains the purpose of the method.
 -----> Motivation:
 -------> I look at a method that is too long or look at code that needs a comment to understand its purpose.
----------> I then turn that fragment of code into its own method.-----> Mechanics
+---------> I then turn that fragment of code into its own method.
+-----> Mechanics
 -------> Create a new method, and name it after the intention of the method (name it by what it does, not by how it does it).
 -------> Copy the extracted code from the source method into the new target method.
 -------> Scan the extracted code for references to any variables that are local in scope to the source method. 
@@ -701,7 +737,8 @@ Note: This is taken from Martin Fowler's book: [Refactoring: Improving the Desig
 ---> "Inline Method"
 -----> Problem: 
 -------> A method's body is just as clear as its name.
------> Solution:-------> Put the method's body into the body of its callers and remove the method.
+-----> Solution:
+-------> Put the method's body into the body of its callers and remove the method.
 -----> Motivation:
 -------> Sometimes you do come across a method in which the body is as clear as the name.
 ---------> Or you refactor the body of the code into something that is just as clear as the name.
@@ -714,10 +751,12 @@ Note: This is taken from Martin Fowler's book: [Refactoring: Improving the Desig
 -------> I commonly use "Inline Method" when someone is using too much indirection.
 ---------> It seems that every method does simple delegation to another method, and I get lost in all the delegation.
 ---------> In these cases some of the indirection is worthwhile, but not all of it.
----------> By trying to inline I can flush out the useful ones and eliminate the rest.-----> Mechanics:
+---------> By trying to inline I can flush out the useful ones and eliminate the rest.
+-----> Mechanics:
 -------> Check that the method is not polymorphic.
 ---------> Don't inline if subclasses override the method; they cannot override a method that isn't there.
--------> Find all calls to the method.-------> Replace each call with the method body.
+-------> Find all calls to the method.
+-------> Replace each call with the method body.
 -------> Compile and test.
 -------> Remove the method definition.
 -----> Notes:
@@ -735,7 +774,8 @@ Note: This is taken from Martin Fowler's book: [Refactoring: Improving the Desig
 -------> The only time "Inline Temp" is used on its own is when you find a temp that is assigned the value of a method call.
 ---------> Often this temp isn't doing any harm and you can safely leave it there.
 -----> Mechanics:
--------> Declare the temp as final (or constexpr in C++) if it isn't already, and compile.---------> This checks that the temp is really only assigned to once.
+-------> Declare the temp as final (or constexpr in C++) if it isn't already, and compile.
+---------> This checks that the temp is really only assigned to once.
 -------> Find all references to the temp and replace them with the right-hand side of the assignment.
 -------> Compile and test after each change.
 -------> Remove the declaration and the assignment of the temp.
@@ -744,7 +784,8 @@ Note: This is taken from Martin Fowler's book: [Refactoring: Improving the Desig
 ---> "Replace Temp with Query"
 -----> Problem: 
 -------> You are using a temporary variable to hold the result of an expression.
------> Solution:-------> Extract the expression into a method. 
+-----> Solution:
+-------> Extract the expression into a method. 
 -------> Replace all references to the temp with the expression. 
 -------> The new method can then be used in other methods.
 -----> Motivation:
@@ -772,10 +813,12 @@ Note: This is taken from Martin Fowler's book: [Refactoring: Improving the Desig
 ---> "Introduce Explaining Variable"
 -----> Problem: 
 -------> You have a complicated expression.
------> Solution:-------> Put the result of the expression, or parts of the expression, in a temporary variable with a name that explains the purpose.
+-----> Solution:
+-------> Put the result of the expression, or parts of the expression, in a temporary variable with a name that explains the purpose.
 -----> Motivation:
 -------> Expressions can become very complex and hard to read. 
-----------> In such situations temporary variables can be helpful to break down the expression into something more manageable.-------> This is useful on conditional logic so we can take each clause of a condition and explain what the condition means with a well-named temp.
+----------> In such situations temporary variables can be helpful to break down the expression into something more manageable.
+-------> This is useful on conditional logic so we can take each clause of a condition and explain what the condition means with a well-named temp.
 -------> Another case is a long algorithm, in which each step in the computation can be explained with a temp.
 -----> Mechanics:
 -------> Declare a final temporary variable, and set it to the result of part of the complex expression.
@@ -794,10 +837,12 @@ Note: This is taken from Martin Fowler's book: [Refactoring: Improving the Desig
 ---> "Split Temporary Variable"
 -----> Problem: 
 -------> You have a temporary variable assigned to more than once, but is not a loop variable nor a collecting temporary variable.
------> Solution:-------> Make a separate temporary variable for each assignment.
+-----> Solution:
+-------> Make a separate temporary variable for each assignment.
 -----> Motivation:
 -------> Temporary variables are made for various uses.
----------> Some of these uses naturally lead to the temp's being assigned to several times.---------> Collecting temporary variables [Beck] collect together some value that is built up during the method.
+---------> Some of these uses naturally lead to the temp's being assigned to several times.
+---------> Collecting temporary variables [Beck] collect together some value that is built up during the method.
 -------> Many other temporaries are used to hold the result of a long-winded bit of code for easy reference later.
 -------> If they are set more than once its a sign that they have more than one responsibility within the method.
 -------> Any variable with more than one responsibility should be replaced with another temp for each responsibility. 
@@ -815,10 +860,12 @@ Note: This is taken from Martin Fowler's book: [Refactoring: Improving the Desig
 ---> "Remove Assignments to Parameters"
 -----> Problem: 
 -------> The code assigns to a parameter (this are parameters in a function).
------> Solution:-------> Use a temporary variable instead.
+-----> Solution:
+-------> Use a temporary variable instead.
 -----> Motivation:
 -------> The reason I don't like this comes down to lack of clarity and to confusion between pass by value and pass by reference.
----------> Its also not clear whether parameter was an input or output of the function.-------> The other area of confusion is within the body of the code itself.
+---------> Its also not clear whether parameter was an input or output of the function.
+-------> The other area of confusion is within the body of the code itself.
 ---------> It is much clearer if you use only the parameter to represent what has been passed in, because that is a consistent usage.
 -----> Mechanics:
 -------> Create a temporary variable for the parameter.
@@ -846,10 +893,12 @@ Note: This is taken from Martin Fowler's book: [Refactoring: Improving the Desig
 ---------> You can then use "Extract Method" on this new object to create additional methods that break down the original method.
 -----> Mechanics:
 -------> Create a new class, name it after the method.
--------> Give the new class a final field for the object that hosted the original method (the source object)---------> and a field for each temporary variable and each parameter in the method.
+-------> Give the new class a final field for the object that hosted the original method (the source object)
+---------> and a field for each temporary variable and each parameter in the method.
 -------> Give the new class a constructor that takes the source object and each parameter.
 -------> Give the new class a method named "compute."
--------> Copy the body of the original method into compute. ---------> Use the source object field for any invocations of methods on the original object.
+-------> Copy the body of the original method into compute. 
+---------> Use the source object field for any invocations of methods on the original object.
 -------> Compile.
 -------> Replace the old method with one that creates the new object and calls compute.
 ---------> Now comes the fun part: Because all the local variables are now fields, you can freely decompose the method without having to pass any parameters.
@@ -857,10 +906,12 @@ Note: This is taken from Martin Fowler's book: [Refactoring: Improving the Desig
 ---> "Substitute Algorithm"
 -----> Problem: 
 -------> You want to replace an algorithm with one that is clearer.
------> Solution:-------> Replace the body of the method with the new algorithm.
+-----> Solution:
+-------> Replace the body of the method with the new algorithm.
 -----> Motivation:
 -------> I've never tried to skin a cat. I'm told there are several ways to do it. I'm sure some are easier than others.
----------> Its the same with algorithms, if you find a clearer way to do something, you should replace the complicated way with the clearer way.-------> Refactoring can break down something complex into simpler pieces, 
+---------> Its the same with algorithms, if you find a clearer way to do something, you should replace the complicated way with the clearer way.
+-------> Refactoring can break down something complex into simpler pieces, 
 ---------> but sometimes you just reach the point at which you have to remove the whole algorithm and replace it with something simpler.
 ---------> This occurs as you learn more about the problem and realize that there's an easier way to do it.
 ---------> It also happens if you start using a library that supplies features that duplicate your code.
@@ -2760,6 +2811,8 @@ Note: This is taken from Martin Fowler's book: [Refactoring: Improving the Desig
 -------> Nothing more, nothing less. 
 -------> Keep a list (I always have an index card beside my computer) of things to change later—test cases to add or change, unrelated refactorings, documents to write, diagrams to draw. 
 -------> That way you won't lose those thoughts, but you won't let them mess up what you are doing now.
+
+
 
 
 

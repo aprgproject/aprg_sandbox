@@ -17,6 +17,7 @@ struct Node
 };
 
 std::unique_ptr<Node> reverseALinkedList(std::unique_ptr<Node> parent);
+
 }
 
 }

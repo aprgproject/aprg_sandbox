@@ -54,10 +54,12 @@ public:
 // -> ADAPT a MISMATCHED interface into a matched interface using a class inheritance or object composition
 
 // Intent:
-// Convert the interface of a class into another interface the clients expect.// Adapter lets classes work together that couldn't otherwise because of incompatible interfaces,
+// Convert the interface of a class into another interface the clients expect.
+// Adapter lets classes work together that couldn't otherwise because of incompatible interfaces,
 // ie. allows to use a client with an incompatible interface by an Adapter that does the conversion.
 // Adapter has structural purpose and can be applied on classes and also on object.
-// A class adapter uses multiple inheritance to adapt one interface to another ("is a" approach).// A object adapter uses object composition to combine classes with different interfaces ("has a" approach).
+// A class adapter uses multiple inheritance to adapt one interface to another ("is a" approach).
+// A object adapter uses object composition to combine classes with different interfaces ("has a" approach).
 
 // When to use (applicability):
 // -> you want to use an existing class, and its interface does not match the one you need

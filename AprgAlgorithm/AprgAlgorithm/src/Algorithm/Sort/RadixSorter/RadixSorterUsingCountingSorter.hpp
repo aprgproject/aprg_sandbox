@@ -41,9 +41,11 @@ public:
             countingSorter.sort(valuesToSort);
         }
     }
+
 private:
     GetNumberOfDigitsFunction m_getNumberOfDigitsFunction;
-    GetDigitAtFunction m_getDigitAtFunction;};
+    GetDigitAtFunction m_getDigitAtFunction;
+};
 
 }
 
@@ -108,10 +110,12 @@ private:
 // -----> In comparison for a comparison based algorithm: O(n*lg(n)) = 1000000*lg(1000000) = 1000000*19.931568.... = 19931568.
 // -----> So Radix sort is better.
 
-// Applications of Radix Sort :// -> In a typical computer, which is a sequential random-access machine, where the records are keyed by multiple fields radix sort is used.
+// Applications of Radix Sort :
+// -> In a typical computer, which is a sequential random-access machine, where the records are keyed by multiple fields radix sort is used.
 // ---> For eg., you want to sort on three keys month, day and year.
 // ---> You could compare two records on year, then on a tie on month and finally on the date.
-// ---> Alternatively, sorting the data three times using Radix sort first on the date, then on month, and finally on year could be used.// -> It was used in card sorting machines that had 80 columns, and in each column, the machine could punch a hole only in 12 places.
+// ---> Alternatively, sorting the data three times using Radix sort first on the date, then on month, and finally on year could be used.
+// -> It was used in card sorting machines that had 80 columns, and in each column, the machine could punch a hole only in 12 places.
 // ---> The sorter was then programmed to sort the cards, depending upon which place the card had been punched.
 // ---> This was then used by the operator to collect the cards which had the 1st row punched, followed by the 2nd row, and so on.
 

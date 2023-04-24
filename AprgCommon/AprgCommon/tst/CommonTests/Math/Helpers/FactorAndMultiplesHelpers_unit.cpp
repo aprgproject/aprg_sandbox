@@ -50,7 +50,8 @@ TEST(FactorAndMulitplesHelpersTest, GetGreatestCommonFactorWorks)
     // UnsignedInteger
     EXPECT_EQ(0U, getGreatestCommonFactor(0U, 0U));
     EXPECT_EQ(8U, getGreatestCommonFactor(0U, 8U));
-    EXPECT_EQ(8U, getGreatestCommonFactor(8U, 0U));    EXPECT_EQ(1U, getGreatestCommonFactor(1U, 8U));
+    EXPECT_EQ(8U, getGreatestCommonFactor(8U, 0U));
+    EXPECT_EQ(1U, getGreatestCommonFactor(1U, 8U));
     EXPECT_EQ(1U, getGreatestCommonFactor(8U, 1U));
     EXPECT_EQ(1U, getGreatestCommonFactor(1U, 1U));
     EXPECT_EQ(16U, getGreatestCommonFactor(16U, 32U));
@@ -102,10 +103,12 @@ TEST(FactorAndMulitplesHelpersTest, GetGreatestCommonFactorUsingEuclidAlgorithmW
     EXPECT_EQ(1, getGreatestCommonFactorUsingEuclidAlgorithm(3, -1234567891));
 }
 
-TEST(FactorAndMulitplesHelpersTest, GetGreatestCommonFactorWithLastValuesWorksForUnsignedInteger){
+TEST(FactorAndMulitplesHelpersTest, GetGreatestCommonFactorWithLastValuesWorksForUnsignedInteger)
+{
     using LastValues = pair<unsigned int, unsigned int>;
     LastValues lastValues{};
-    EXPECT_EQ(0U, getGreatestCommonFactorWithLastValues(0U, 0U, lastValues.first, lastValues.second));    EXPECT_EQ((LastValues{1, 0}), lastValues);
+    EXPECT_EQ(0U, getGreatestCommonFactorWithLastValues(0U, 0U, lastValues.first, lastValues.second));
+    EXPECT_EQ((LastValues{1, 0}), lastValues);
     EXPECT_EQ(1U, getGreatestCommonFactorWithLastValues(1U, 1U, lastValues.first, lastValues.second));
     EXPECT_EQ((LastValues{0, 1}), lastValues);
     EXPECT_EQ(16U, getGreatestCommonFactorWithLastValues(16U, 32U, lastValues.first, lastValues.second));
@@ -121,7 +124,8 @@ TEST(FactorAndMulitplesHelpersTest, GetGreatestCommonFactorWithLastValuesWorksFo
 TEST(FactorAndMulitplesHelpersTest, GetLeastCommonMultipleWorks)
 {
     EXPECT_EQ(0U, getLeastCommonMultiple(0U, 0U));
-    EXPECT_EQ(1U, getLeastCommonMultiple(1U, 1U));    EXPECT_EQ(256U, getLeastCommonMultiple(8U, 256U));
+    EXPECT_EQ(1U, getLeastCommonMultiple(1U, 1U));
+    EXPECT_EQ(256U, getLeastCommonMultiple(8U, 256U));
     EXPECT_EQ(60U, getLeastCommonMultiple(15U, 20U));
     EXPECT_EQ(262144U, getLeastCommonMultiple(65536U, 262144U));
 }
@@ -137,11 +141,13 @@ TEST(FactorAndMulitplesHelpersTest, GetLeastCommonMultipleUsingEuclidAlgorithmWo
 
 TEST(FactorAndMulitplesHelpersTest, GetLeastCommonMultipleInDoubleWorks)
 {
-    EXPECT_DOUBLE_EQ(262144, getLeastCommonMultipleInDouble(65536, 262144));}
+    EXPECT_DOUBLE_EQ(262144, getLeastCommonMultipleInDouble(65536, 262144));
+}
 
 TEST(FactorAndMulitplesHelpersTest, GetNumberOfMultiplesInclusiveWorks)
 {
-    EXPECT_EQ(0U, getNumberOfMultiplesInclusive(0U, 0U));    EXPECT_EQ(1U, getNumberOfMultiplesInclusive(10U, 10U));
+    EXPECT_EQ(0U, getNumberOfMultiplesInclusive(0U, 0U));
+    EXPECT_EQ(1U, getNumberOfMultiplesInclusive(10U, 10U));
     EXPECT_EQ(1U, getNumberOfMultiplesInclusive(5U, 9U));
     EXPECT_EQ(2U, getNumberOfMultiplesInclusive(5U, 10U));
     EXPECT_EQ(2U, getNumberOfMultiplesInclusive(5U, 11U));

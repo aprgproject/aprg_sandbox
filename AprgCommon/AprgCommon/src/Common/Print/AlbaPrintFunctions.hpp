@@ -68,10 +68,12 @@ void printTupleParameters(std::ostream & outputStream, std::tuple<ValueTypes...>
     );
 }
 
-template <typename Adapter>typename Adapter::container_type const& getUnderlyingContainerForPrinting(Adapter const& adapter) // copied from parameter to lessen dependencies
+template <typename Adapter>
+typename Adapter::container_type const& getUnderlyingContainerForPrinting(Adapter const& adapter) // copied from parameter to lessen dependencies
 {
     struct AdapterParent : Adapter
-    {        static typename Adapter::container_type const& get(Adapter const& adapterAsParameter)
+    {
+        static typename Adapter::container_type const& get(Adapter const& adapterAsParameter)
         {
             return adapterAsParameter.*&AdapterParent::c;
         }
@@ -106,9 +108,11 @@ void printParameter(std::ostream & outputStream, std::tuple<UnderlyingTypes...> 
     printTupleParameters<UnderlyingTypes...>(outputStream, parameter);
     outputStream << ")";
 }
+
 template <typename ValueType, size_t SIZE, template<typename, size_t> class TemplateType>
 std::enable_if_t<typeHelper::hasBeginAndEnd<TemplateType<ValueType, SIZE>>(), void>
-printParameter(std::ostream & outputStream, TemplateType<ValueType, SIZE> const& parameter){
+printParameter(std::ostream & outputStream, TemplateType<ValueType, SIZE> const& parameter)
+{
     outputStream << "{Constant size: " << SIZE << " | ";
     for(auto const& content : parameter)
     {

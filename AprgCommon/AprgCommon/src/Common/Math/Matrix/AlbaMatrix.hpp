@@ -34,10 +34,12 @@ constexpr AlbaMatrixData<DataType> getDefaultMatrix(unsigned int const numberOfC
     }
 }
 
-template <typename DataType>class AlbaMatrix
+template <typename DataType>
+class AlbaMatrix
 {
 public:
-    using MatrixData = AlbaMatrixData<DataType>;    using ListOfMatrixData = ListOfAlbaMatrixData<DataType>;
+    using MatrixData = AlbaMatrixData<DataType>;
+    using ListOfMatrixData = ListOfAlbaMatrixData<DataType>;
     using LoopFunction = std::function<void(unsigned int const x, unsigned int const y)>;
     using LoopWithValueFunction = std::function<void(unsigned int const x, unsigned int const y, DataType const& value)>;
     using MatrixIndexRange = AlbaValueRange<unsigned int>;
@@ -132,9 +134,11 @@ public:
         };
         return doUnaryOperation(*this, scalarMultiplication);
     }
+
     AlbaMatrix operator*(AlbaMatrix const& secondMatrix) const //matrix multiplication
     {
-        return multiplyMatrices(*this, secondMatrix);    }
+        return multiplyMatrices(*this, secondMatrix);
+    }
 
     AlbaMatrix operator^(DataType const& scalarExponent) const //scalar raise to power
     {
@@ -162,9 +166,11 @@ public:
         doUnaryAssignmentOperation(*this, scalarMultiplication);
         return *this;
     }
+
     AlbaMatrix& operator*=(AlbaMatrix const& secondMatrix)
     {
-        AlbaMatrix & self(*this);        self = multiplyMatrices(*this, secondMatrix);
+        AlbaMatrix & self(*this);
+        self = multiplyMatrices(*this, secondMatrix);
         return self;
     }
 

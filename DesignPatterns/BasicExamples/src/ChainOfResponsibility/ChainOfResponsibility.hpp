@@ -94,10 +94,12 @@ public:
 // -> Have a CHAIN of handlers (with subclassing) that can process a request and ANY handler is RESPONSIBLE on consuming the request
 
 // Intent:
-// Chain of Responsibility pattern avoids coupling the sender of a request to its receiver// by giving more than one object a chance to handle the request.
+// Chain of Responsibility pattern avoids coupling the sender of a request to its receiver
+// by giving more than one object a chance to handle the request.
 // The pattern chains the receiving objects and passes the request along the chain until an object handles it.
 // It has a behavioral purpose and deals with relationships between objects.
 // Note: It both uses the "has a" and "is a" approach.
+
 // When to use (applicability):
 // -> more than one object may handle a request, and the handler should be ascertained automatically
 // -> you want to issue a request to one of several objects without specifying the receiver explicitly

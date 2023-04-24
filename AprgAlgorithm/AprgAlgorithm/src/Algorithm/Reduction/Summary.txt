@@ -220,6 +220,7 @@ M*M*N        | ?                | matrix multiplication, matrix inversion, deter
 NP complete  | Probably not N^b | SAT (boolean satisfiability problem), IND-SET(maximum independent set), ILP(Integer linear programming)
 
 Good news: Can put many problems into equivalence classes.
+
 Complexity zoo:
 Complexity class: Set of problems sharing some computational property
 Bad news: Lots of complexity classes.  Mark: There is a lot
@@ -266,9 +267,11 @@ Note however that these may be different from the standard optimization versions
 
 Summary:
 
-Reductions are important in theory to:-> Design algorithms
+Reductions are important in theory to:
+-> Design algorithms
 -> Establish lower bounds
 -> Classify problems according to their computational requirements
+
 Reductions are important in practice to:
 -> Design algorithms
 -> Design reusable software modules/data structures

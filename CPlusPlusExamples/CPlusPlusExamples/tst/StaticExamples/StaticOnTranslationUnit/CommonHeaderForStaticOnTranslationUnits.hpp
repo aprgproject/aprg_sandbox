@@ -9,10 +9,12 @@ namespace StaticOnTranslationUnits
 constexpr int constInteger=100; // static(internal linkage) by default
 static int staticInteger=200; // explicitly static(internal linkage)
 
-// Linking failure if we include things with external linkage in the header:// -> int integer; // extern(external linkage) by default
+// Linking failure if we include things with external linkage in the header:
+// -> int integer; // extern(external linkage) by default
 // ---> Linking error: multiple definition of `alba::integer'
 // -> extern const int externConstInteger; // explicitly extern(external linkage)
 // ---> Linking error: undefined reference to `alba::externConstInteger'
+
 // same goes for functions (but there are no free const functions)
 int freeFunction(); // extern by default
 static int staticFreeFunction(); // explicitly static
@@ -23,10 +25,12 @@ static int staticFreeFunction(); // explicitly static
 
 struct TranslationUnitValues
 {
-    int constInteger;    int staticInteger;
+    int constInteger;
+    int staticInteger;
     int integer;
     int externInteger;
-    int externConstInteger;};
+    int externConstInteger;
+};
 
 TranslationUnitValues getValuesInTranslationUnit1();
 TranslationUnitValues getValuesInTranslationUnit2();
@@ -37,10 +41,12 @@ TranslationUnitValues getValuesInTranslationUnit2();
 
 // Notes:
 
-// -> Translation Unit// ---> According to standard C++ (wayback machine link)
+// -> Translation Unit
+// ---> According to standard C++ (wayback machine link)
 // -----> A translation unit is the basic unit of compilation in C++.
 // -----> It consists of the contents of a single source file,
-// -------> plus the contents of any header files directly or indirectly included by it,// -------> minus those lines that were ignored using conditional preprocessing statements.
+// -------> plus the contents of any header files directly or indirectly included by it,
+// -------> minus those lines that were ignored using conditional preprocessing statements.
 
 // -> Linkage
 // ---> External linkage refers to things that exist beyond a particular translation unit. In other words, accessible through the whole program.

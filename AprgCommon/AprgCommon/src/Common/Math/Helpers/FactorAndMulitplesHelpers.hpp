@@ -9,8 +9,10 @@
 
 namespace alba
 {
+
 namespace mathHelper
 {
+
 template <typename NumberType> bool isPrime(NumberType const number)
 {
     static_assert(typeHelper::isIntegralType<NumberType>(), "Number type must be an integer");
@@ -62,10 +64,12 @@ template <typename NumberType> NumberType getGreatestCommonFactorUsingEuclidAlgo
 
     // Using Euclid’s algorithm
 
-    // Euclid’s algorithm provides an efficient way to find the greatest common divisor of two numbers.    // The algorithm is based on the following formula:
+    // Euclid’s algorithm provides an efficient way to find the greatest common divisor of two numbers.
+    // The algorithm is based on the following formula:
     // gcd(a, b) =
     // -> if b=0: a
     // -> if b!=0: gcd(b, a%b)
+
     NumberType result(0);
     NumberType temporaryFirst(getAbsoluteValue(firstNumber)); // only consider positive GCF
     NumberType temporarySecond(getAbsoluteValue(secondNumber)); // only consider positive GCF
@@ -125,9 +129,11 @@ template <typename NumberType> NumberType getLeastCommonMultipleUsingEuclidAlgor
 
     // Using Euclid’s algorithm
     // lcm(a,b) = ab/gcd(a,b)
+
     NumberType result(0);
     if(firstNumber!=0 && secondNumber!=0)
-    {        result = firstNumber/getGreatestCommonFactor(firstNumber, secondNumber)*secondNumber;
+    {
+        result = firstNumber/getGreatestCommonFactor(firstNumber, secondNumber)*secondNumber;
     }
     return result;
 }
