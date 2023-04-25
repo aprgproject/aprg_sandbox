@@ -58,19 +58,17 @@ NumberType AlbaUserInterface::displayQuestionAndChoicesAndGetNumberAnswer(string
     table.getLastRow().addCell("Choice", DisplayTableCellMode::right);
     table.getLastRow().addCell("  :  ");
     table.getLastRow().addCell("Description", DisplayTableCellMode::left);
-    for(auto const& choice: choices)
+    for(auto const& [choiceString, descriptionString]: choices)
     {
         table.addRow();
-        table.getLastRow().addCell(string("["+converter.convertToString<NumberType>(choice.first)+"]"), DisplayTableCellMode::right);
+        table.getLastRow().addCell(string("["+converter.convertToString<NumberType>(choiceString)+"]"), DisplayTableCellMode::right);
         table.getLastRow().addCell("  :  ");
-        table.getLastRow().addCell(choice.second, DisplayTableCellMode::left);
+        table.getLastRow().addCell(descriptionString, DisplayTableCellMode::left);
     }
     cout<<table<<"\n";
-
     cout << "Input your answer: ";
     return convertStringToNumber<NumberType>(getUserInput());
-}
-template int AlbaUserInterface::displayQuestionAndChoicesAndGetNumberAnswer(string const& question, Choices<int> const& choices);
+}template int AlbaUserInterface::displayQuestionAndChoicesAndGetNumberAnswer(string const& question, Choices<int> const& choices);
 template unsigned int AlbaUserInterface::displayQuestionAndChoicesAndGetNumberAnswer(string const& question, Choices<unsigned int> const& choices);
 
 
@@ -83,17 +81,15 @@ string AlbaUserInterface::displayQuestionAndChoicesAndGetStringAnswerInAllCapita
     table.getLastRow().addCell("Choice", DisplayTableCellMode::right);
     table.getLastRow().addCell("  :  ");
     table.getLastRow().addCell("Description", DisplayTableCellMode::left);
-    for(auto const& choice: choices)
+    for(auto const& [choiceString, descriptionString]: choices)
     {
         table.addRow();
-        table.getLastRow().addCell(string("["+getStringWithCapitalLetters(choice.first)+"]"), DisplayTableCellMode::right);
+        table.getLastRow().addCell(string("["+getStringWithCapitalLetters(choiceString)+"]"), DisplayTableCellMode::right);
         table.getLastRow().addCell("  :  ");
-        table.getLastRow().addCell(choice.second, DisplayTableCellMode::left);
+        table.getLastRow().addCell(descriptionString, DisplayTableCellMode::left);
     }
     cout<<table<<"\n";
-
     cout << "Input your answer: ";
     return getStringWithCapitalLetters(getUserInput());
 }
-
 }//namespace alba

@@ -59,12 +59,11 @@ template <typename TypeToWrite1, typename TypeToWrite2>
 void AlbaStreamParameterWriter::writeMapData(std::map<TypeToWrite1, TypeToWrite2> const& mapOfData) const
 {
     m_stream << mapOfData.size() << "\n";
-    for(std::pair<TypeToWrite1, TypeToWrite2> const& dataPair : mapOfData)
+    for(auto const& [key, value] : mapOfData)
     {
-        writeData<TypeToWrite1>(dataPair.first);
-        writeData<TypeToWrite2>(dataPair.second);
+        writeData<TypeToWrite1>(key);
+        writeData<TypeToWrite2>(value);
     }
 }
-
 
 }//namespace alba

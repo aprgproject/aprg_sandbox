@@ -59,19 +59,17 @@ public:
 
     bool operator<(AlbaMathVectorType const& second) const // this is added so it can be used in map
     {
-        auto mismatchPair = std::mismatch(m_values.cbegin(), m_values.cend(), second.m_values.cbegin());
         bool result(false);
-        if(mismatchPair.first != m_values.cend())
+        auto && [firstMismatchIt, secondMismatchIt] = std::mismatch(m_values.cbegin(), m_values.cend(), second.m_values.cbegin());
+        if(firstMismatchIt != m_values.cend())
         {
-            result = *(mismatchPair.first) < *(mismatchPair.second);
+            result = *firstMismatchIt < *secondMismatchIt;
         }
         return result;
     }
-
     AlbaMathVectorType operator+(AlbaMathVectorType const& second) const
     {
-        AlbaMathVectorType result;
-        ValuesInArray const& firstValues(m_values);
+        AlbaMathVectorType result;        ValuesInArray const& firstValues(m_values);
         ValuesInArray const& secondValues(second.m_values);
         ValuesInArray & resultValues(result.m_values);
         std::transform(firstValues.begin(), firstValues.end(), secondValues.begin(), resultValues.begin(), std::plus<DataType>());

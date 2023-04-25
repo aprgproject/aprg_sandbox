@@ -163,13 +163,16 @@ constexpr bool isAVolatileType()
 template <typename Type>
 constexpr bool isATrivialType()
 {
+    // If T is TrivialType (that is, a scalar type, a trivially copyable class with a trivial default constructor,
+    // -> or array of such type/class, possibly cv-qualified), provides the member constant value equal to true.
+    // -> For any other type, value is false.
+    // The behavior is undefined if std::remove_all_extents_t<T> is an incomplete type and not (possibly cv-qualified) void.
+    // The behavior of a program that adds specializations for is_trivial or is_trivial_v (since C++17) is undefined.
     return std::is_trivial<Type>::value;
 }
-
 template <typename Type>
 constexpr bool hasStandardLayout()
-{
-    // Specifies that a type is standard layout type.
+{    // Specifies that a type is standard layout type.
     // Standard layout types are useful for communicating with code written in other programming languages.
     // Note: the standard doesn't define a named requirement with this name.
     // This is a type category defined by the core language.
@@ -199,13 +202,17 @@ constexpr bool hasStandardLayout()
 }
 
 template <typename Type>
-constexpr bool isEmpty()
+constexpr bool hasPaddingBits()
 {
-    return std::is_empty<Type>::value;
+    return !(std::has_unique_object_representations<Type>::value);
 }
 
 template <typename Type>
-constexpr bool isAPolymorphicType()
+constexpr bool isEmpty()
+{    return std::is_empty<Type>::value;
+}
+
+template <typename Type>constexpr bool isAPolymorphicType()
 {
     return std::is_polymorphic<Type>::value;
 }
@@ -382,13 +389,14 @@ using GetPlainType = typename std::decay<Type>::type;
 template<typename... Types>
 using GetCommonType = typename std::common_type<Types...>::type;
 
+template<typename FunctorType, typename... ArgumentTypes>
+using GetFunctorResultType = typename std::invoke_result<FunctorType, ArgumentTypes...>::type;
+
 
 template<typename Type>
 using GetTypeWithLValueReference = typename std::add_lvalue_reference<Type>::type;
-
 template<typename Type>
 using GetTypeWithRValueReference = typename std::add_rvalue_reference<Type>::type;
-
 template<typename Type>
 using GetTypeWithPointer = typename std::add_pointer<Type>::type;
 
@@ -396,15 +404,13 @@ template<typename Type>
 using GetTypeWithConstVolatile = typename std::add_cv<Type>::type;
 
 template<typename Type>
-using GetTypeWithConst = typename std::add_const<Type>::type;
+using GetTypeWithConst = typename std::add_const<Type>::type; // you can also use as_const
 
 template<typename Type>
 using GetTypeWithVolatile = typename std::add_volatile<Type>::type;
 
-
 template<typename Type>
 using GetTypeWithoutReference = typename std::remove_reference<Type>::type;
-
 template<typename Type>
 using GetTypeWithoutPointer = typename std::remove_pointer<Type>::type;
 

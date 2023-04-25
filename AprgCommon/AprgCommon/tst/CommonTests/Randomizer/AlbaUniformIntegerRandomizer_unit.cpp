@@ -44,9 +44,8 @@ TEST(AlbaUniformIntegerRandomizerTest, GetRandomIntegerInUniformDistributionWork
     }
 
     ASSERT_FALSE(hitsForEachValue.empty());
-    auto minMaxElementResult = std::minmax_element(hitsForEachValue.cbegin(), hitsForEachValue.cend());
-    int deviation(*(minMaxElementResult.second) - *(minMaxElementResult.first));
+    auto && [maxIterator, minIterator] = std::minmax_element(hitsForEachValue.cbegin(), hitsForEachValue.cend());
+    int deviation(*maxIterator - *minIterator);
     EXPECT_LE(deviation, allowedDeviation);
 }
-
 }

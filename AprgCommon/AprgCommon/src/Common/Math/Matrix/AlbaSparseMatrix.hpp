@@ -7,12 +7,11 @@
 #include <functional>
 #include <set>
 #include <sstream>
+#include <tuple>
 #include <unordered_map>
 #include <vector>
-
 namespace alba
 {
-
 namespace matrix
 {
 
@@ -185,25 +184,23 @@ public:
 
     void negate()
     {
-        for(auto & indexAndValuePair : m_matrixData)
+        for(auto & [index, value] : m_matrixData)
         {
-            indexAndValuePair.second *= -1;
+            value *= -1;
         }
     }
 
     void transpose()
     {
         MatrixData newMatrixData;
-        for(auto & indexAndValuePair : m_matrixData)
+        for(auto const& [index, value] : m_matrixData)
         {
-            newMatrixData.emplace(getTranposeIndex(indexAndValuePair.first), indexAndValuePair.second);
+            newMatrixData.try_emplace(getTranposeIndex(index), value);
         }
         clearAndResize(m_numberOfRows, m_numberOfColumns);
-        m_matrixData = newMatrixData;
-    }
+        m_matrixData = newMatrixData;    }
 
 private:
-
     unsigned int getMatrixIndex(unsigned int const x, unsigned int const y, unsigned int const numberOfColumns) const
     {
         return (y*numberOfColumns)+x;
@@ -228,33 +225,30 @@ private:
     UniqueIndexes getAllIndexes(MatrixData const& data1, MatrixData const& data2) const
     {
         UniqueIndexes result;
-        for(auto const& indexAndValuePair : data1)
+        for(auto const& [index, value] : data1)
         {
-            result.emplace(indexAndValuePair.first);
+            result.emplace(index);
         }
-        for(auto const& indexAndValuePair : data2)
+        for(auto const& [index, value] : data2)
         {
-            result.emplace(indexAndValuePair.second);
+            result.emplace(index);
         }
         return result;
     }
-
     AlbaSparseMatrix doUnaryOperation(
             AlbaSparseMatrix const& inputMatrix,
             UnaryFunction const& unaryFunction) const
     {
         AlbaSparseMatrix resultMatrix(inputMatrix.getNumberOfColumns(), inputMatrix.getNumberOfRows());
-        for(auto const& indexAndValuePair : m_matrixData)
+        for(auto const& [index, value] : m_matrixData)
         {
-            resultMatrix.m_matrixData[indexAndValuePair.first] = unaryFunction(indexAndValuePair.second);
+            resultMatrix.m_matrixData[index] = unaryFunction(value);
         }
         return resultMatrix;
     }
-
     AlbaSparseMatrix doBinaryOperation(
             AlbaSparseMatrix const& firstMatrix,
-            AlbaSparseMatrix const& secondMatrix,
-            BinaryFunction const& binaryFunction) const
+            AlbaSparseMatrix const& secondMatrix,            BinaryFunction const& binaryFunction) const
     {
         assert((firstMatrix.getNumberOfColumns() == secondMatrix.getNumberOfColumns()) &&
                (firstMatrix.getNumberOfRows() == secondMatrix.getNumberOfRows()));

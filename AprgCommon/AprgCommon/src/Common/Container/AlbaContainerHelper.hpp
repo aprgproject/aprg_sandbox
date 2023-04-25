@@ -209,35 +209,26 @@ std::pair<typename ContainerType::const_iterator, typename ContainerType::const_
 getLowerAndUpperConstIteratorsInMap(ContainerType const& container, KeyType const& keyValue)
 {
     using ConstIterator = typename ContainerType::const_iterator;
-    std::pair<ConstIterator, ConstIterator> result;
     ConstIterator itLower(container.lower_bound(keyValue));
     ConstIterator itUpper(container.upper_bound(keyValue));
     adjustLowerAndUpperIteratorsInMap(container, keyValue, itLower, itUpper);
-    result.first = itLower;
-    result.second = itUpper;
-    return result;
+    return std::pair<ConstIterator, ConstIterator> (itLower, itUpper);
 }
 
-template <typename KeyType, typename ContainerType>
-std::pair<typename ContainerType::iterator, typename ContainerType::iterator>
+template <typename KeyType, typename ContainerType>std::pair<typename ContainerType::iterator, typename ContainerType::iterator>
 getLowerAndUpperIteratorsInMap(ContainerType & container, KeyType const& keyValue)
 {
     using Iterator = typename ContainerType::iterator;
-    std::pair<Iterator, Iterator> result;
     Iterator itLower(container.lower_bound(keyValue));
     Iterator itUpper(container.upper_bound(keyValue));
     adjustLowerAndUpperIteratorsInMap(container, keyValue, itLower, itUpper);
-    result.first = itLower;
-    result.second = itUpper;
-    return result;
+    return std::pair<Iterator, Iterator>(itLower, itUpper);
 }
 
-template <typename Adapter>
-typename Adapter::container_type const& getUnderlyingContainer(Adapter const& adapter)
+template <typename Adapter>typename Adapter::container_type const& getUnderlyingContainer(Adapter const& adapter)
 {
     struct AdapterParent : Adapter
-    {
-        static typename Adapter::container_type const& get(Adapter const& adapterAsParameter)
+    {        static typename Adapter::container_type const& get(Adapter const& adapterAsParameter)
         {
             return adapterAsParameter.*&AdapterParent::c;
         }
@@ -301,25 +292,23 @@ void saveContentsToStream(std::ostream & outputStream, Container<KeyType, ValueT
     std::string delimeter(getDelimeterBasedOnFormat(streamFormat));
     if(StreamFormat::String==streamFormat)
     {
-        for(auto const& content : container)
+        for(auto const& [key, value] : container) //C++17, structured bindings
         {
-            outputStream << "{"  << content.first << ":" << content.second << "}" << delimeter;
+            outputStream << "{"  << key << ":" << value << "}" << delimeter;
         }
     }
     else
     {
-        for(auto const& content : container)
+        for(auto const& [key, value]  : container)
         {
-            outputStream << content.first << delimeter;
-            outputStream << content.second << delimeter;
+            outputStream << key << delimeter;
+            outputStream << value << delimeter;
         }
     }
 }
-
 template <typename ValueType,
           template <typename, typename = std::allocator<ValueType>> class Container>
-void saveContentsInDecimalAndHexadecimalFormat(std::ostream & outputStream, Container<ValueType> const& container)
-{
+void saveContentsInDecimalAndHexadecimalFormat(std::ostream & outputStream, Container<ValueType> const& container){
     std::string delimeter = getDelimeterBasedOnFormat(StreamFormat::String);
     std::ostream_iterator<unsigned int> outputIterator(outputStream, delimeter.c_str());
 

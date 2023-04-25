@@ -64,8 +64,7 @@ void AlbaStreamParameterReader::readMapData(std::map<TypeToRetrieve1, TypeToRetr
     {
         TypeToRetrieve1 data1(readData<TypeToRetrieve1>());
         TypeToRetrieve2 data2(readData<TypeToRetrieve2>());
-        mapOfData.emplace(data1, data2);
+        mapOfData.try_emplace(data1, data2);
     }
 }
-
 }//namespace alba

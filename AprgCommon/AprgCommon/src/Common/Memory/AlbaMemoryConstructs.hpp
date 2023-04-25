@@ -27,12 +27,13 @@
 // ->         std::cout << a[i] << ' ';
 // ->     std::cout << "│ i = " << i << '\n';
 // -> }
+//
+// Output:
+// -> 0 1 2 3 4 5 6 7 8 9
+// -> 9 8 7 6 5 4 3 2 1 0
 
 
-
-
-// Source: https://en.cppreference.com/w/cpp/types/offsetof
-// Construct: offsetof
+// Source: https://en.cppreference.com/w/cpp/types/offsetof// Construct: offsetof
 // 
 // The macro offsetof expands to an integral constant expression of type std::size_t, the value of which is the offset, in bytes, 
 // from the beginning of an object of specified type to its specified subobject, including padding if any.
@@ -60,8 +61,12 @@
 // ->         << "offset of short  m2 = " << offsetof(S, m2) << '\n'
 // ->         << "offset of char   m3 = " << offsetof(S, m3) << '\n';
 // -> }
-
-
+//
+// Possible output:
+// -> offset of char   m0 = 0
+// -> offset of double m1 = 8
+// -> offset of short  m2 = 16
+// -> offset of char   m3 = 18
 
 
 // Source: https://en.cppreference.com/w/cpp/language/alignas
@@ -81,20 +86,17 @@
 // 
 // Explanation:
 // The alignas specifier may be applied to:
-// 
-//     the declaration or definition of a class/struct/union or enumeration;
-//     the declaration of a non-bitfield class data member;
-//     the declaration of a variable, except that it cannot be applied to the following:
-//         a function parameter;
-//         the exception parameter of a catch clause. 
+// -> the declaration or definition of a class/struct/union or enumeration;
+// -> the declaration of a non-bitfield class data member;
+// -> the declaration of a variable, except that it cannot be applied to the following:
+// ---> a function parameter;
+// ---> the exception parameter of a catch clause.
 // 
 // The object or the type declared by such a declaration will have its alignment requirement equal to the strictest (largest) non-zero expression
-// of all alignas specifiers used in the declaration, unless it would weaken the natural alignment of the type.
-// 
+// of all alignas specifiers used in the declaration, unless it would weaken the natural alignment of the type.// 
 // If the strictest (largest) alignas on a declaration is weaker than the alignment it would have without any alignas specifiers 
 // (that is, weaker than its natural alignment or weaker than alignas on another declaration of the same object or type), the program is ill-formed:
-// 
-// struct alignas(8) S {};
+// // struct alignas(8) S {};
 // struct alignas(1) U { S s; }; // error: alignment of U would have been 8 without alignas(1)
 // 
 // Invalid non-zero alignments, such as alignas(3) are ill-formed.
@@ -140,12 +142,21 @@
 // ->         << "&y: " << &y << '\n'
 // ->         << "&z: " << &z << '\n';
 // -> }
+//
+// Possible output:
+// -> alignof(struct_float) = 4
+// -> sizeof(sse_t) = 32
+// -> alignof(sse_t) = 32
+// -> alignof(cacheline) = 64
+// -> &a: 0x7fffcec89930
+// -> &b: 0x7fffcec89940
+// -> &c: 0x7fffcec89950
+// -> &x: 0x7fffcec89960
+// -> &y: 0x7fffcec89980
+// -> &z: 0x7fffcec899a0
 
 
-
-
-// Source: https://en.cppreference.com/w/cpp/language/alignof
-// Construct: alignof
+// Source: https://en.cppreference.com/w/cpp/language/alignof// Construct: alignof
 // 
 // alignof operator (since C++11)
 // Queries alignment requirements of a type
@@ -155,15 +166,14 @@
 // Returns a value of type std::size_t.
 // 
 // Explanation:
-// Returns the alignment, in bytes, required for any instance of the type indicated by type-id, which is either complete object type, an array type whose element type is complete, or a reference type to one of those types.
+// Returns the alignment, in bytes, required for any instance of the type indicated by type-id,
+// which is either complete object type, an array type whose element type is complete, or a reference type to one of those types.
 // 
 // If the type is reference type, the operator returns the alignment of referenced type; if the type is array type, alignment requirement of the element type is returned. 
-// 
-// Example:
+// // Example:
 // -> #include <iostream>
 // ->  
-// -> struct Foo {
-// ->     int   i;
+// -> struct Foo {// ->     int   i;
 // ->     float f;
 // ->     char  c;
 // -> };
@@ -188,12 +198,18 @@
 // ->         "- empty class      : " << alignof(Empty)   << "\n"
 // ->         "- alignas(64) Empty: " << alignof(Empty64) << "\n";
 // -> }
+//
+// Possible output:
+// -> Alignment of
+// -> - char             : 1
+// -> - pointer          : 8
+// -> - class Foo        : 4
+// -> - class Foo2       : 16
+// -> - empty class      : 1
+// -> - alignas(64) Empty: 64
 
 
-
-
-// Source: https://en.cppreference.com/w/cpp/types/alignment_of
-// Construct: alignment_of
+// Source: https://en.cppreference.com/w/cpp/types/alignment_of// Construct: alignment_of
 // 
 // std::alignment_of
 // 		
@@ -227,5 +243,40 @@
 // ->     std::cout << std::alignment_of<int>() << ' '; // alt syntax
 // ->     std::cout << std::alignment_of_v<double> << '\n'; // c++17 alt syntax
 // -> }
+//
+// Possible output:
+// -> 1 2 4 8
 
+
+
+// Source: https://en.cppreference.com/w/cpp/thread/hardware_destructive_interference_size
+// Construct: std::hardware_destructive_interference_size, std::hardware_constructive_interference_size
+//
+// std::hardware_destructive_interference_size, std::hardware_constructive_interference_size
+//
+// -> Defined in header <new>
+//
+// (1) inline constexpr std::size_t hardware_destructive_interference_size = /*implementation-defined*/; (since C++17)
+// (2) inline constexpr std::size_t hardware_constructive_interference_size = /*implementation-defined*/; (since C++17)
+//
+// (1) Minimum offset between two objects to avoid false sharing. Guaranteed to be at least alignof(std::max_align_t)
+// -> struct keep_apart {
+// ->   alignas(std::hardware_destructive_interference_size) std::atomic<int> cat;
+// ->   alignas(std::hardware_destructive_interference_size) std::atomic<int> dog;
+// -> };
+//
+// (2) Maximum size of contiguous memory to promote true sharing. Guaranteed to be at least alignof(std::max_align_t)
+// -> struct together {
+// ->   std::atomic<int> dog;
+// ->   int puppy;
+// -> };
+// -> struct kennel {
+// ->   // Other data members...
+// ->   alignas(sizeof(together)) together pack;
+// ->   // Other data members...
+// -> };
+// -> static_assert(sizeof(together) <= std::hardware_constructive_interference_size);
+//
+// Notes
+// -> These constants provide a portable way to access the L1 data cache line size. (L1 DATA CACHE LINE!)
 
