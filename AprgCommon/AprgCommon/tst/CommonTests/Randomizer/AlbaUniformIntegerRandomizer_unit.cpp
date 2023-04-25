@@ -48,4 +48,5 @@ TEST(AlbaUniformIntegerRandomizerTest, GetRandomIntegerInUniformDistributionWork
     int deviation(*maxIterator - *minIterator);
     EXPECT_LE(deviation, allowedDeviation);
 }
+
 }

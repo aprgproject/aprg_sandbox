@@ -15,6 +15,14 @@
 // NOTE: BEWARE, if this are used in inlined stuffs, this results in ODR violations.
 #define ALBA_MACROS_GET_FUNCTION __FUNCTION__
 #define ALBA_MACROS_GET_UNIQUE_COUNTER_VALUE __COUNTER__
+// PRETTY_FUNCTION: Same with __FUNCTION_ and includes signature (with template information) as well
+#if defined(__clang__) || defined(__GNUC__) || defined(__GNUG__)
+#define ALBA_MACROS_GET_PRETTY_FUNCTION __PRETTY_FUNCTION__
+#elif defined(_MSC_VER)
+#define ALBA_MACROS_GET_PRETTY_FUNCTION __FUNCSIG__
+#else
+#define ALBA_MACROS_GET_PRETTY_FUNCTION __FUNCTION__
+#endif
 
 
 // Macro operations

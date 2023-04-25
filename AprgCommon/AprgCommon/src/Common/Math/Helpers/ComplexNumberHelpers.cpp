@@ -4,10 +4,8 @@ using namespace std;
 
 namespace alba
 {
-
 namespace mathHelper
 {
-
 template <typename NumberType>
 AlbaNumber createNumberFromComplexNumber(AlbaComplexNumber<NumberType> const& complexNumber)
 {
@@ -15,13 +13,12 @@ AlbaNumber createNumberFromComplexNumber(AlbaComplexNumber<NumberType> const& co
 }
 template AlbaNumber createNumberFromComplexNumber<double>(AlbaComplexNumber<double> const& value);
 
-
-void saveToComplexNumberData(AlbaNumber::ComplexNumberData & data, AlbaComplexNumber<float> const& number)
+void saveToComplexNumberData(AlbaNumber::ComplexNumberData& data, AlbaComplexNumber<float> const& number)
 {
     data.realPart = number.getRealPart();
     data.imaginaryPart = number.getImaginaryPart();
 }
 
-}//namespace mathHelper
+}  // namespace mathHelper
 
-}//namespace alba
+}  // namespace alba

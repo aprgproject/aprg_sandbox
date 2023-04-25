@@ -59,9 +59,11 @@ template <typename NumberType> inline NumberType clampWithin(NumberType const va
 
 inline AlbaNumber getAverage(AlbaNumber const& value1, AlbaNumber const& value2)  // pass as const reference
 {
-    return (value1+value2)/2;}
+    return (value1+value2)/2;
+}
 
 AlbaNumbers getQuadraticRoots(RootType const rootType, AlbaNumber const& a, AlbaNumber const& b, AlbaNumber const& c);
 
 }//namespace mathHelper
+
 }//namespace alba

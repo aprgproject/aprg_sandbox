@@ -66,9 +66,11 @@ NumberType AlbaUserInterface::displayQuestionAndChoicesAndGetNumberAnswer(string
         table.getLastRow().addCell(descriptionString, DisplayTableCellMode::left);
     }
     cout<<table<<"\n";
+
     cout << "Input your answer: ";
     return convertStringToNumber<NumberType>(getUserInput());
-}template int AlbaUserInterface::displayQuestionAndChoicesAndGetNumberAnswer(string const& question, Choices<int> const& choices);
+}
+template int AlbaUserInterface::displayQuestionAndChoicesAndGetNumberAnswer(string const& question, Choices<int> const& choices);
 template unsigned int AlbaUserInterface::displayQuestionAndChoicesAndGetNumberAnswer(string const& question, Choices<unsigned int> const& choices);
 
 
@@ -89,7 +91,9 @@ string AlbaUserInterface::displayQuestionAndChoicesAndGetStringAnswerInAllCapita
         table.getLastRow().addCell(descriptionString, DisplayTableCellMode::left);
     }
     cout<<table<<"\n";
+
     cout << "Input your answer: ";
     return getStringWithCapitalLetters(getUserInput());
 }
+
 }//namespace alba

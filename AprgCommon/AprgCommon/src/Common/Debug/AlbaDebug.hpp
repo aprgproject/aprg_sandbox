@@ -33,8 +33,9 @@ inline std::ofstream debugStream(ALBA_PRINT_EXTERNAL_OUTPUT_STREAM_FILE_PATH);
 #define Z_ALBA_PRIVATE_PRINT5(parameter, ...)                               Z_ALBA_PRIVATE_PRINT_EXPANSION(Z_ALBA_PRIVATE_PRINT1(parameter), Z_ALBA_PRIVATE_PRINT4(__VA_ARGS__))
 #define Z_ALBA_PRIVATE_PRINT6(parameter, ...)                               Z_ALBA_PRIVATE_PRINT_EXPANSION(Z_ALBA_PRIVATE_PRINT1(parameter), Z_ALBA_PRIVATE_PRINT5(__VA_ARGS__))
 #define Z_ALBA_PRIVATE_PRINT7(parameter, ...)                               Z_ALBA_PRIVATE_PRINT_EXPANSION(Z_ALBA_PRIVATE_PRINT1(parameter), Z_ALBA_PRIVATE_PRINT6(__VA_ARGS__))
-#define Z_ALBA_PRINT_DETAILS ALBA_PRINT_OUTPUT_STREAM << "ALBA_PRINT in line:" << std::setw(4) << __LINE__ << " in " << __FUNCTION__ << "(...): ";
-
+#define Z_ALBA_PRINT_DETAILS ALBA_PRINT_OUTPUT_STREAM << "ALBA_PRINT in line:" << std::setw(4) << ALBA_MACROS_GET_LINE << " in " << ALBA_MACROS_GET_FUNCTION << "(...): ";
+// For PRETTY_FUNCTIONS
+//#define Z_ALBA_PRINT_DETAILS ALBA_PRINT_OUTPUT_STREAM << "ALBA_PRINT in line:" << std::setw(4) << ALBA_MACROS_GET_LINE << " in " << ALBA_MACROS_GET_PRETTY_FUNCTION << ": ";
 
 // Print macros to use
 #define ALBA_PRINT1(...) Z_ALBA_PRINT_DETAILS Z_ALBA_PRIVATE_PRINT1(__VA_ARGS__) ALBA_PRINT_OUTPUT_STREAM << std::endl

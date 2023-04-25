@@ -170,9 +170,11 @@ constexpr bool isATrivialType()
     // The behavior of a program that adds specializations for is_trivial or is_trivial_v (since C++17) is undefined.
     return std::is_trivial<Type>::value;
 }
+
 template <typename Type>
 constexpr bool hasStandardLayout()
-{    // Specifies that a type is standard layout type.
+{
+    // Specifies that a type is standard layout type.
     // Standard layout types are useful for communicating with code written in other programming languages.
     // Note: the standard doesn't define a named requirement with this name.
     // This is a type category defined by the core language.
@@ -209,10 +211,12 @@ constexpr bool hasPaddingBits()
 
 template <typename Type>
 constexpr bool isEmpty()
-{    return std::is_empty<Type>::value;
+{
+    return std::is_empty<Type>::value;
 }
 
-template <typename Type>constexpr bool isAPolymorphicType()
+template <typename Type>
+constexpr bool isAPolymorphicType()
 {
     return std::is_polymorphic<Type>::value;
 }
@@ -395,8 +399,10 @@ using GetFunctorResultType = typename std::invoke_result<FunctorType, ArgumentTy
 
 template<typename Type>
 using GetTypeWithLValueReference = typename std::add_lvalue_reference<Type>::type;
+
 template<typename Type>
 using GetTypeWithRValueReference = typename std::add_rvalue_reference<Type>::type;
+
 template<typename Type>
 using GetTypeWithPointer = typename std::add_pointer<Type>::type;
 
@@ -409,8 +415,10 @@ using GetTypeWithConst = typename std::add_const<Type>::type; // you can also us
 template<typename Type>
 using GetTypeWithVolatile = typename std::add_volatile<Type>::type;
 
+
 template<typename Type>
 using GetTypeWithoutReference = typename std::remove_reference<Type>::type;
+
 template<typename Type>
 using GetTypeWithoutPointer = typename std::remove_pointer<Type>::type;
 

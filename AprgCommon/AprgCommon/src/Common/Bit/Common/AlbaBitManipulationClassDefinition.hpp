@@ -182,7 +182,7 @@ public:
         return shiftBitsToTheRight<position>(value) & AlbaBitConstants::BIT_MASK;
     }
 
-    template <ssize_t size>
+    template <std::size_t size>
     static constexpr inline DataType swapWithBytes(DataType const)
     {
         static_assert(size != size, "This size or type is not supported. Please add a specialization if needed.");

@@ -43,9 +43,11 @@ TEST(AlbaSimpleRandomizerTest, GetRandomIntegerInUniformDistributionWorks_AsUnif
     int deviation(*maxIterator - *minIterator);
     EXPECT_LE(deviation, allowedDeviation);
 }
+
 TEST(AlbaSimpleRandomizerTest, GetRandomValueInUniformDistributionWorks_WithinMinimumAndMaximumValues)
 {
-    AlbaSimpleRandomizer randomizer;    constexpr double minimumValue(-11.5);
+    AlbaSimpleRandomizer randomizer;
+    constexpr double minimumValue(-11.5);
     constexpr double maximumValue(23.25);
     for(int i=0; i<1000; i++)
     {

@@ -67,9 +67,11 @@ public:
         }
         return result;
     }
+
     AlbaMathVectorType operator+(AlbaMathVectorType const& second) const
     {
-        AlbaMathVectorType result;        ValuesInArray const& firstValues(m_values);
+        AlbaMathVectorType result;
+        ValuesInArray const& firstValues(m_values);
         ValuesInArray const& secondValues(second.m_values);
         ValuesInArray & resultValues(result.m_values);
         std::transform(firstValues.begin(), firstValues.end(), secondValues.begin(), resultValues.begin(), std::plus<DataType>());

@@ -33,7 +33,9 @@
 // -> 9 8 7 6 5 4 3 2 1 0
 
 
-// Source: https://en.cppreference.com/w/cpp/types/offsetof// Construct: offsetof
+
+// Source: https://en.cppreference.com/w/cpp/types/offsetof
+// Construct: offsetof
 // 
 // The macro offsetof expands to an integral constant expression of type std::size_t, the value of which is the offset, in bytes, 
 // from the beginning of an object of specified type to its specified subobject, including padding if any.
@@ -69,6 +71,8 @@
 // -> offset of char   m3 = 18
 
 
+
+
 // Source: https://en.cppreference.com/w/cpp/language/alignas
 // Construct: alignas
 // 
@@ -93,10 +97,12 @@
 // ---> the exception parameter of a catch clause.
 // 
 // The object or the type declared by such a declaration will have its alignment requirement equal to the strictest (largest) non-zero expression
-// of all alignas specifiers used in the declaration, unless it would weaken the natural alignment of the type.// 
+// of all alignas specifiers used in the declaration, unless it would weaken the natural alignment of the type.
+// 
 // If the strictest (largest) alignas on a declaration is weaker than the alignment it would have without any alignas specifiers 
 // (that is, weaker than its natural alignment or weaker than alignas on another declaration of the same object or type), the program is ill-formed:
-// // struct alignas(8) S {};
+// 
+// struct alignas(8) S {};
 // struct alignas(1) U { S s; }; // error: alignment of U would have been 8 without alignas(1)
 // 
 // Invalid non-zero alignments, such as alignas(3) are ill-formed.
@@ -156,7 +162,9 @@
 // -> &z: 0x7fffcec899a0
 
 
-// Source: https://en.cppreference.com/w/cpp/language/alignof// Construct: alignof
+
+// Source: https://en.cppreference.com/w/cpp/language/alignof
+// Construct: alignof
 // 
 // alignof operator (since C++11)
 // Queries alignment requirements of a type
@@ -170,10 +178,12 @@
 // which is either complete object type, an array type whose element type is complete, or a reference type to one of those types.
 // 
 // If the type is reference type, the operator returns the alignment of referenced type; if the type is array type, alignment requirement of the element type is returned. 
-// // Example:
+// 
+// Example:
 // -> #include <iostream>
 // ->  
-// -> struct Foo {// ->     int   i;
+// -> struct Foo {
+// ->     int   i;
 // ->     float f;
 // ->     char  c;
 // -> };
@@ -209,7 +219,9 @@
 // -> - alignas(64) Empty: 64
 
 
-// Source: https://en.cppreference.com/w/cpp/types/alignment_of// Construct: alignment_of
+
+// Source: https://en.cppreference.com/w/cpp/types/alignment_of
+// Construct: alignment_of
 // 
 // std::alignment_of
 // 		
@@ -279,4 +291,6 @@
 //
 // Notes
 // -> These constants provide a portable way to access the L1 data cache line size. (L1 DATA CACHE LINE!)
+
+
 

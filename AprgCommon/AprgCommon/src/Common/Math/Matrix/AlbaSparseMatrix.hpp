@@ -10,8 +10,10 @@
 #include <tuple>
 #include <unordered_map>
 #include <vector>
+
 namespace alba
 {
+
 namespace matrix
 {
 
@@ -198,9 +200,11 @@ public:
             newMatrixData.try_emplace(getTranposeIndex(index), value);
         }
         clearAndResize(m_numberOfRows, m_numberOfColumns);
-        m_matrixData = newMatrixData;    }
+        m_matrixData = newMatrixData;
+    }
 
 private:
+
     unsigned int getMatrixIndex(unsigned int const x, unsigned int const y, unsigned int const numberOfColumns) const
     {
         return (y*numberOfColumns)+x;
@@ -235,6 +239,7 @@ private:
         }
         return result;
     }
+
     AlbaSparseMatrix doUnaryOperation(
             AlbaSparseMatrix const& inputMatrix,
             UnaryFunction const& unaryFunction) const
@@ -246,9 +251,11 @@ private:
         }
         return resultMatrix;
     }
+
     AlbaSparseMatrix doBinaryOperation(
             AlbaSparseMatrix const& firstMatrix,
-            AlbaSparseMatrix const& secondMatrix,            BinaryFunction const& binaryFunction) const
+            AlbaSparseMatrix const& secondMatrix,
+            BinaryFunction const& binaryFunction) const
     {
         assert((firstMatrix.getNumberOfColumns() == secondMatrix.getNumberOfColumns()) &&
                (firstMatrix.getNumberOfRows() == secondMatrix.getNumberOfRows()));

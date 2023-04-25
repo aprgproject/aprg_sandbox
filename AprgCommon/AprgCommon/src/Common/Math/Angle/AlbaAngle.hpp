@@ -5,7 +5,6 @@
 
 namespace alba
 {
-
 enum class AngleUnitType
 {
     Radians,
@@ -36,11 +35,11 @@ public:
 private:
     double calculateAngleValueInDegrees(AngleUnitType const angleInputType, double const angleValue) const;
 
-    friend std::ostream & operator<<(std::ostream & out, AlbaAngle const& angle);
+    friend std::ostream& operator<<(std::ostream& out, AlbaAngle const& angle);
 
     double m_angleValueInDegrees;
 };
 
 using AlbaAngles = std::vector<AlbaAngle>;
 
-}
+}  // namespace alba
